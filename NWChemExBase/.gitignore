@@ -1,0 +1,12 @@
+#These are configuration files for QtCreator
+NWChemExBase.config
+NWChemExBase.creator
+NWChemExBase.creator.user
+NWChemExBase.files
+NWChemExBase.includes
+*.autosave
+
+
+#These are my common build directory names
+Debug/
+Release/
