@@ -124,5 +124,44 @@ return_type XYZParser::parse(const std::string &line) const
     return rv;
 }
 
+action_type XYZWikiParser::worth_parsing(const std::string& line)const
+{
+    if(std::regex_search(line,xyz_atom))
+        return action_type::new_atom;
+    return action_type::none;
+}
+
+return_type XYZWikiParser::parse(const std::string &line) const
+{
+    return_type rv;
+    std::stringstream tokenizer(line);
+    if(std::regex_search(line,xyz_cm))
+    {
+        double temp;
+        tokenizer>>temp;
+        rv[data_type::charge].push_back(temp);
+        tokenizer>>temp;
+        rv[data_type::multiplicity].push_back(temp);
+    }
+    else if(std::regex_search(line,xyz_atom))
+    {
+        std::string sym;
+        tokenizer>>sym;
+        //First letter of atomic symbol
+        std::transform(sym.begin(),sym.begin()+1,sym.begin(), ::toupper);
+        //second plus letters
+        std::transform(sym.begin()+1,sym.end(),sym.begin()+1, ::tolower);
+        double temp=detail_::sym2Z_.at(sym);
+        rv[data_type::AtNum].push_back(temp);
+        tokenizer>>temp;
+        rv[data_type::x].push_back(temp);
+        tokenizer>>temp;
+        rv[data_type::y].push_back(temp);
+        tokenizer>>temp;
+        rv[data_type::z].push_back(temp);
+    }
+    return rv;
+}
+
 
 }

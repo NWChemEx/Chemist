@@ -66,6 +66,18 @@ struct XYZParser: public SetOfAtomsFileParser
     parse(const std::string& line)const override;
 };
 
+/** \brief This class implements a SetOfAtomsParser for the xyz format,
+ *         as described at https://en.wikipedia.org/wiki/XYZ_file_format
+ *
+ */
+struct XYZWikiParser: public SetOfAtomsFileParser
+{
+    action_type worth_parsing(const std::string& line)const override;
+    std::map<data_type, std::vector<double> >
+    parse(const std::string& line)const override;
+};
+
+
 /** \brief The function to call to parse a SetOfAtomsFile.
  *
  * \param[in] is An input stream containing a string representation of a
