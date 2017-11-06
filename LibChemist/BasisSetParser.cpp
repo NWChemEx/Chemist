@@ -90,7 +90,7 @@ return_type parse_basis_set_file(std::istream& is,
 
 static const std::regex G94_new_atom("^\\s*\\D{1,2}\\s*0\\s*$");
 static const std::regex G94_new_shell("^\\s*[a-zA-Z]+\\s*\\d+\\s*1.00\\s*$");
-static const std::regex G94_same_shell("^\\s*(?:\\d+.\\d+\\s*)+$");
+static const std::regex G94_same_shell("^\\s*(?:-?\\d+.\\d+\\s*)+$");
 
 action_type G94::worth_parsing(const std::string& line)const
 {
