@@ -31,8 +31,8 @@ int main()
     tester.test("Parsed xyz file",corr==mol);
     return tester.results();
 
-    std::stringstream ss(xyz_example2);
-    SetOfAtoms mol=parse_SetOfAtoms_file(ss,XYZParser());
-    tester.test("Parsed xyz file",corr==mol);
+    std::stringstream ss2(xyz_example2);
+    SetOfAtoms mol2=parse_SetOfAtoms_file(ss2,XYZWikiParser());
+    tester.test("Parsed xyz file",corr==mol2);
     return tester.results();
 }
