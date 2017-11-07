@@ -167,6 +167,18 @@ struct BasisSet {
      */
     size_t size()const;
 
+    /** \brief Returns the total number of basis functions in shell i.
+     *
+     * \note The number of basis functions in a general contraction is summed.
+     * That is to say a general contraction "sp" has 4 functions not 1.
+     *
+     * \param[in] i The shell index.
+     * \returns The number of basis functions in shell i.
+     * \throws Throws std::bad_alloc if a temporary string representation of the
+     *         angular momentum can not be allocated.
+     */
+    size_t shellsize(const size_t i) const;
+
     /** \brief Returns true if this instance is exactly equal to \p rhs.
      *
      *  \param[in] rhs The instance to compare to.
