@@ -5,7 +5,8 @@
 ################################################################################
 
 #
-# Macro for finding a dependency.  It is assumed that whatever name is given
+# Macro for finding a dependency that is presumed built.  It is assumed that
+# whatever name is given
 # to this macro, is a name that can be directly fed to CMake's find_package
 # macro.  Furthermore it is assumed that the result is given back as the
 # standard variables, e.g.
@@ -23,8 +24,8 @@ function(find_dependency __name __include __lib __flags __required)
     find_package(${__name} ${__required})
     string(TOUPPER ${__name} __NAME)
     #Check that variable exists and is set to true
-    if(${__NAME}_FOUND AND ${${__NAME}_FOUND})
-        if(${__NAME}_INCLUDE_DIRS AND ${${__NAME}_INCLUDE_DIRS})
+    if(${__NAME}_FOUND OR ${__name}_FOUND)
+        if(${__NAME}_INCLUDE_DIRS)
             list(APPEND ${__include} ${${__NAME}_INCLUDE_DIRS})
             message(STATUS "${__name} Includes: ${${__NAME}_INCLUDE_DIRS}")
         endif()
@@ -39,5 +40,25 @@ function(find_dependency __name __include __lib __flags __required)
         set(${__include} ${${__include}} PARENT_SCOPE)
         set(${__lib} ${${__lib}} PARENT_SCOPE)
         set(${__flags} ${${__flags}} PARENT_SCOPE)
+    endif()
+endfunction()
+
+#
+# Macro for finding a dependency and building it if it is not found.  Either way
+# a target with the name of the dependency suffixed with "TARGET_SUFFIX" will be
+# added.
+#    - name : The case-sensitive name for the dependency
+#
+function(find_or_build_dependency __name)
+    find_package(${__name} QUIET)
+    string(TOUPPER ${__name} __NAME)
+    if(TARGET ${__name}_External)
+        message(STATUS "${__name} already handled.")
+    elseif(${__name}_FOUND OR ${__NAME}_FOUND)
+        message(STATUS "Suitable ${__name} was located and will not be built.")
+        add_library(${__name}_External INTERFACE)
+    else()
+        message(STATUS "Unable to locate ${__name}.  Building one instead.")
+        include(Build${__name})
     endif()
 endfunction()

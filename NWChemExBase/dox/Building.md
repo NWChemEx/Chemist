@@ -46,6 +46,7 @@ project CMake will warn you).
 | CMAKE_BUILD_TYPE | Debug, Release, or RelWithDebInfo                         |
 | CMAKE_PREFIX_PATH | A list of places CMake will look for dependencies        |
 | CMAKE_INSTALL_PREFIX | The install directory                                 |
+| BUILD_NETLIB_BLAS_LAPACK | Set to ON if you want the cmake build to install Netlib BLAS & LAPACK |
 --------------------------------------------------------------------------------
 
 :memo: It will greatly behoove you to always pass full paths.
