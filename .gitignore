@@ -1,12 +1,19 @@
 #These are configuration files for QtCreator
 LibChemist.config
-LibChemist.creator
-LibChemist.creator.user
 LibChemist.files
 LibChemist.includes
+LibChemist.creator
+LibChemist.creator.user
 *.autosave
 
+#These are configuration files for CLion
+.idea/
 
-#These are my common build directory names
+#This is the documentation build directory
+docs/
+
+#These are common build directory names
 Debug/
 Release/
+cmake-build-debug/
+cmake-build-release/
