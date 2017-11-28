@@ -81,14 +81,15 @@ SetOfAtoms parse_SetOfAtoms_file(std::istream& is,
 
 //charge and multiplicity
 static const std::regex xyz_cm("^\\s*-?\\d+.?\\d*\\s*\\d+.?\\d*\\s*$");
-static const std::regex xyz_atom("^\\s*[a-zA-Z]+\\s*(?:\\d*.?\\d*\\s*){3}$");
+static const std::regex xyz_atom("^\\s*[a-zA-Z]+\\s*(?:-?\\d*.?\\d*\\s*){3}$");
 
 action_type XYZParser::worth_parsing(const std::string& line)const
 {
     if(std::regex_search(line,xyz_cm))
         return action_type::overall_system;
-    else if(std::regex_search(line,xyz_atom))
+    else if(std::regex_search(line,xyz_atom)) {
         return action_type::new_atom;
+    }
     return action_type::none;
 }
 
@@ -126,8 +127,9 @@ return_type XYZParser::parse(const std::string &line) const
 
 action_type XYZWikiParser::worth_parsing(const std::string& line)const
 {
-    if(std::regex_search(line,xyz_atom))
+    if(std::regex_search(line,xyz_atom)) {
         return action_type::new_atom;
+    }
     return action_type::none;
 }
 
@@ -135,15 +137,7 @@ return_type XYZWikiParser::parse(const std::string &line) const
 {
     return_type rv;
     std::stringstream tokenizer(line);
-    if(std::regex_search(line,xyz_cm))
-    {
-        double temp;
-        tokenizer>>temp;
-        rv[data_type::charge].push_back(temp);
-        tokenizer>>temp;
-        rv[data_type::multiplicity].push_back(temp);
-    }
-    else if(std::regex_search(line,xyz_atom))
+    if(std::regex_search(line,xyz_atom))
     {
         std::string sym;
         tokenizer>>sym;

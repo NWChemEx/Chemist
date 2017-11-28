@@ -40,7 +40,10 @@ int main()
     corr.ls=std::vector<int>({2,-1});
     tester.test("Add shell",corr==bs);
     tester.test("Max angular momentum",bs.max_am()==2);
-    tester.test("Number of basis functions",bs.size()==10);
+    tester.test("Number of total basis functions",bs.size()==10);
+    
+    tester.test("Number of basis functions in shell 0",bs.shellsize(0)==6);
+    tester.test("Number of basis functions in shell 1",bs.shellsize(1)==4);
 
     BasisSet Copy(bs);
     tester.test("Copy constructor",Copy==bs && Copy==corr);
