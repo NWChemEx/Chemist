@@ -33,6 +33,10 @@ std::string g94_example=
         "      0.1510000              1.0000000        \n"
         "SP   1   1.00\n"
         "    0.1687144              1.0000000              1.0000000 \n"
+        "SP   3   1.00\n"
+        "    2.9412494             -0.09996723             0.15591627 \n"
+        "    0.6834831              0.39951283             0.60768372 \n"
+        "    0.2222899              0.70011547             0.39195739 \n"
         "****\n"
         "\n"
         "\n"
@@ -65,6 +69,11 @@ int main()
                 BasisShell(ShellType::SphericalGaussian,-1,2,
                            std::vector<double>({0.1687144}),
                            std::vector<double>({1.0000000,1.000000})));
+    g94_corr[6].push_back(
+                BasisShell(ShellType::SphericalGaussian,-1,2,
+                           std::vector<double>({2.9412494,0.6834831,0.2222899}),
+                           std::vector<double>({-0.09996723,0.39951283,0.70011547,
+                                                 0.15591627,0.60768372,0.39195739})));
     std::stringstream ss(g94_example);
     auto rv=parse_basis_set_file(ss,G94());
     tester.test("Gaussian94 parser",rv==g94_corr);

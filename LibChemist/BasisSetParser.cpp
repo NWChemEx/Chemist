@@ -2,6 +2,7 @@
 #include "LibChemist/lut/AtomicInfo.hpp"
 #include "LibChemist/ShellTypes.hpp"
 #include<regex>
+#include<iostream>
 
 namespace LibChemist {
 
@@ -19,7 +20,7 @@ struct shell{
     int l;
     size_t ngen;
     std::vector<double> alphas;
-    std::vector<double> cs;
+    std::map<size_t,std::vector<double>> cs;
 };
 
 //factors out reading of the instance returned by a parser's parse function
@@ -29,8 +30,10 @@ void parse(const parsed_type& data, shell& s)
         s.alphas.push_back(data.at(data_type::exponent)[0]);
     if(data.count(data_type::coefficient))
     {
-        for(auto x: data.at(data_type::coefficient))
-            s.cs.push_back(x);
+        size_t i = 0;
+        for(auto x: data.at(data_type::coefficient)) {
+            s.cs[i++].push_back(x);
+        }
     }
     if(data.count(data_type::angular_momentum))
     {
@@ -42,8 +45,14 @@ void parse(const parsed_type& data, shell& s)
 //Code factorization for adding the shell to our return value
 void commit_shell(shell& s,size_t Z,return_type& rv)
 {
-    if(s.alphas.size()!=0 && Z!=0)
-        rv[Z].push_back(BasisShell(s.type,s.l,s.ngen,s.alphas,s.cs));
+    if(s.alphas.size()!=0 && Z!=0) {
+        // For general contractions put the coefficients into single vector
+        std::vector<double> coefs;
+        for (auto x : s.cs)
+            coefs.insert(coefs.end(), x.second.begin(), x.second.end());
+        //
+        rv[Z].push_back(BasisShell(s.type,s.l,s.ngen,s.alphas,coefs));
+    }
     s=shell();
 }
 
