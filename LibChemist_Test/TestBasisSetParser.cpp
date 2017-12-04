@@ -3,7 +3,7 @@
 
 using namespace LibChemist;
 
-//A shortened g94 entry, parts of this are from aDZ others from 6-31G*
+//A shortened g94 entry, parts of this are from aDZ others from 6-31G* and STO-3G
 std::string g94_example=
         "! Elements                             References\n"
         "! --------                             ----------\n"

@@ -20,7 +20,7 @@ struct shell{
     int l;
     size_t ngen;
     std::vector<double> alphas;
-    std::map<size_t,std::vector<double>> cs;
+    std::vector<std::vector<double>> cs;
 };
 
 //factors out reading of the instance returned by a parser's parse function
@@ -32,6 +32,10 @@ void parse(const parsed_type& data, shell& s)
     {
         size_t i = 0;
         for(auto x: data.at(data_type::coefficient)) {
+            if (s.cs.size() <= i) {
+                std::vector<double> subvec;
+                s.cs.push_back(subvec);
+            }
             s.cs[i++].push_back(x);
         }
     }
@@ -49,7 +53,7 @@ void commit_shell(shell& s,size_t Z,return_type& rv)
         // For general contractions put the coefficients into single vector
         std::vector<double> coefs;
         for (auto x : s.cs)
-            coefs.insert(coefs.end(), x.second.begin(), x.second.end());
+            coefs.insert(coefs.end(), x.begin(), x.end());
         //
         rv[Z].push_back(BasisShell(s.type,s.l,s.ngen,s.alphas,coefs));
     }
