@@ -32,10 +32,8 @@ void parse(const parsed_type& data, shell& s)
     {
         size_t i = 0;
         for(auto x: data.at(data_type::coefficient)) {
-            if (s.cs.size() <= i) {
-                std::vector<double> subvec;
-                s.cs.push_back(subvec);
-            }
+            if (s.cs.size() <= i) 
+                s.cs.push_back(std::vector<double>());
             s.cs[i++].push_back(x);
         }
     }
