@@ -24,4 +24,5 @@ PROJECT_BRIEF          = "Molecule and Basis Set Tools for NWChemEx"
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = /LibChemist
+INPUT                  = . LibChemist LibChemist/lut 
+                           dox/mainpage.md 
