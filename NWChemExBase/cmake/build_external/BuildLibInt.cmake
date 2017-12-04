@@ -14,7 +14,7 @@ else()
     set(LIBINT_TAR ${LIBINT_TAR}.tgz)
 endif()
 
-find_or_build_dependency(Eigen3)
+find_or_build_dependency(Eigen3 was_found)
 ExternalProject_Add(LibInt_External
     URL ${LIBINT_TAR}
     CONFIGURE_COMMAND ./configure --prefix=${CMAKE_INSTALL_PREFIX}

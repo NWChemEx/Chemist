@@ -324,7 +324,7 @@ the same rank as your project (so as to also be included via the
 :memo: `ProjectName` and `ProjectName_Test` are the default folder names 
 derived from the CMake variable `PROJECT_NAME`, which you will set in the 
 top-level `CMakeLists.txt`.  If you don't like these names for some reason, 
-we have provided the advanced options `NWX_SRC_DIRS` and `NWX_TEST_DIRS` which
+we have provided the advanced options `NWX_SRC_DIR` and `NWX_TEST_DIR` which
 can be respectively set to what you decided to call your "source" and test
 directories. 
 
@@ -352,11 +352,11 @@ project(ProjectName VERSION a.b.c LANGUAGES CXX) #Change a.b.c
   
 #This line is considered input to NWChemExBase and tells it a list of external
 #dependencies that your project depends on.  The name of the variable must be
-#the case-sensitive project name supplied above followed by "_LIBRARY_DEPENDS" 
+#the case-sensitive project name supplied above followed by "_DEPENDS" 
 #in that exact case.  The ellipses would then be replaced by a list of external
 #dependencies that your project needs.  The names of which must be valid
 #find_package identifiers (a list is below)
-set(ProjectName_LIBRARY_DEPENDS ...)
+set(ProjectName_DEPENDS ...)
   
 # Turn control over to NWChemExBase
 add_subdirectory(NWChemExBase)

@@ -84,7 +84,26 @@ option_w_default(NWX_SRC_DIR ${SUPER_PROJECT_ROOT}/${PROJECT_NAME})
 option_w_default(NWX_TEST_DIR ${SUPER_PROJECT_ROOT}/${PROJECT_NAME}_Test)
 #Name of variable containing your project's dependencies
 option_w_default(NWX_DEPENDENCIES "${${PROJECT_NAME}_DEPENDS}")
+#Do you want verbose printing on the CMake configuration?
+option_w_default(NWX_DEBUG_CMAKE TRUE)
 
+################################################################################
+#
+# Build the main library
+#
+################################################################################
+include(ExternalProject)
+ExternalProject_Add(${PROJECT_NAME}_External
+        SOURCE_DIR ${NWX_SRC_DIR}
+        CMAKE_ARGS -DSUPER_PROJECT_ROOT=${SUPER_PROJECT_ROOT}
+                   -DNWX_DEBUG_CMAKE=${NWX_DEBUG_CMAKE}
+                   ${CORE_CMAKE_OPTIONS}
+        BUILD_ALWAYS 1
+        INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install DESTDIR=${STAGE_DIR}
+        CMAKE_CACHE_ARGS ${CORE_CMAKE_LISTS}
+                         ${CORE_CMAKE_STRINGS}
+        -DNWX_DEPENDENCIES:STRING=${NWX_DEPENDENCIES}
+)
 
 ################################################################################
 #
@@ -92,42 +111,15 @@ option_w_default(NWX_DEPENDENCIES "${${PROJECT_NAME}_DEPENDS}")
 #
 ################################################################################
 
-include(ExternalProject)
-foreach(depend ${NWX_DEPENDENCIES})
-    find_or_build_dependency(${depend})
-endforeach()
-
-################################################################################
-#                                                                              #
-# The generated ProjectConfig.cmake file will need access to some of the CMake #
-# tools packaged with NWChemExBase.  Rather than installing it under that      #
-# library's cmake folder (and cluttering the install dir since presumably      #
-# other libraries will use NWChemExBase too) we install ourself.               #
-#                                                                              #
-################################################################################
-
-find_or_build_dependency(NWChemExBase)
-
-################################################################################
-#
-# Build the main library
-#
-################################################################################
-ExternalProject_Add(${PROJECT_NAME}_External
-        SOURCE_DIR ${NWX_SRC_DIR}
-        CMAKE_ARGS -DSUPER_PROJECT_ROOT=${SUPER_PROJECT_ROOT}
-                   ${CORE_CMAKE_OPTIONS}
-        BUILD_ALWAYS 1
-        INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install DESTDIR=${STAGE_DIR}
-        CMAKE_CACHE_ARGS ${CORE_CMAKE_LISTS}
-                         ${CORE_CMAKE_STRINGS}
-                         -DNWX_DEPENDENCIES:STRING=${NWX_DEPENDENCIES}
-)
-foreach(depend ${NWX_DEPENDENCIES})
+foreach(depend NWChemExBase ${NWX_DEPENDENCIES})
+    find_or_build_dependency(${depend} was_found)
+    if(was_found)
+        list(APPEND DEPENDS_WE_FOUND ${depend})
+    else()
+        list(APPEND DEPENDS_WERE_BUILDING ${depend})
+    endif()
     add_dependencies(${PROJECT_NAME}_External ${depend}_External)
 endforeach()
-add_dependencies(${PROJECT_NAME}_External NWChemExBase_External)
-
 
 ################################################################################
 #                                                                              #
@@ -139,13 +131,12 @@ if(${BUILD_TESTS})
     ExternalProject_Add(${PROJECT_NAME}_Tests_External
             SOURCE_DIR ${NWX_TEST_DIR}
             CMAKE_ARGS -DSUPER_PROJECT_ROOT=${SUPER_PROJECT_TEST}
+                       -DNWX_DEBUG_CMAKE=${NWX_DEBUG_CMAKE}
                        ${CORE_CMAKE_OPTIONS}
                        ${CORE_CMAKE_STRINGS}
             BUILD_ALWAYS 1
             INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install DESTDIR=${TEST_STAGE_DIR}
-            CMAKE_CACHE_ARGS -DCMAKE_PREFIX_PATH:LIST=${CMAKE_PREFIX_PATH}
-                             -DCMAKE_INSTALL_RPATH:LIST=${CMAKE_INSTALL_RPATH}
-                             -DCMAKE_MODULE_PATH:LIST=${CMAKE_MODULE_PATH}
+            CMAKE_CACHE_ARGS ${CORE_CMAKE_LISTS}
     )
     add_dependencies(${PROJECT_NAME}_Tests_External ${PROJECT_NAME}_External)
 
@@ -160,7 +151,21 @@ endif()
 install(DIRECTORY ${STAGE_INSTALL_DIR}/
         DESTINATION ${CMAKE_INSTALL_PREFIX} USE_SOURCE_PERMISSIONS)
 
-
+################################################################################
+#
+# Let the user know all the settings we worked out
+#
+################################################################################
+message(STATUS
+        "----------------------------------------------------------------------"
+        "--------")
+message(STATUS "Summary of ${PROJECT_NAME} Configuration Settings:")
+message(STATUS
+        "----------------------------------------------------------------------"
+        "--------")
+message(STATUS "CXX Flags: ${CMAKE_CXX_FLAGS}")
+message(STATUS "Found the following dependencies: ${DEPENDS_WE_FOUND}")
+message(STATUS "Will build: ${DEPENDS_WERE_BUILDING}")
 
 #####################
 # uninstall target

@@ -4,6 +4,9 @@
 #
 ################################################################################
 
+include(DebuggingMacros)
+include(UtilityMacros)
+
 #
 # Macro for finding a dependency that is presumed built.  It is assumed that
 # whatever name is given
@@ -18,47 +21,51 @@
 #    - include  : The variable to append the includes on to
 #    - lib      : The variable to append the libraries on to
 #    - flags    : The variable to append the compile-time flags on to
-#    - required : REQUIRED or QUIET will be passed to find_package
 #
-function(find_dependency __name __include __lib __flags __required)
-    find_package(${__name} ${__required})
+function(find_dependency __name _include_dirs _libraries _definitions)
+    find_package(${__name} REQUIRED)
     string(TOUPPER ${__name} __NAME)
-    #Check that variable exists and is set to true
-    if(${__NAME}_FOUND OR ${__name}_FOUND)
-        if(${__NAME}_INCLUDE_DIRS)
-            list(APPEND ${__include} ${${__NAME}_INCLUDE_DIRS})
-            message(STATUS "${__name} Includes: ${${__NAME}_INCLUDE_DIRS}")
-        endif()
-        if(${__NAME}_LIBRARIES)
-            list(APPEND ${__lib} ${${__NAME}_LIBRARIES})
-            message(STATUS "${__name} Libs: ${${__NAME}_LIBRARIES}")
-        endif()
-        if(${__NAME}_DEFINITIONS)
-            list(APPEND ${__flags} ${${__NAME}_DEFINITIONS})
-            message(STATUS "${__name} Defines: ${${__NAME}_DEFINITIONS}")
-        endif()
-        set(${__include} ${${__include}} PARENT_SCOPE)
-        set(${__lib} ${${__lib}} PARENT_SCOPE)
-        set(${__flags} ${${__flags}} PARENT_SCOPE)
+    if(${__name}_FOUND OR ${__NAME}_FOUND)
+        foreach(__VAR_TYPE _INCLUDE_DIRS _LIBRARIES _DEFINITIONS)
+            string(TOLOWER ${__VAR_TYPE} __var_type)
+            set(__var ${__NAME}${__VAR_TYPE})#
+            set(__parent_var ${${__var_type}})
+            is_valid(${__var} has_var)
+            if(has_var)
+                list(APPEND ${__parent_var} ${${__var}})
+                set(${__parent_var} ${${__parent_var}} PARENT_SCOPE)
+            endif()
+        endforeach()
     endif()
 endfunction()
 
 #
 # Macro for finding a dependency and building it if it is not found.  Either way
-# a target with the name of the dependency suffixed with "TARGET_SUFFIX" will be
+# a target with the name of the dependency suffixed with "_External" will be
 # added.
 #    - name : The case-sensitive name for the dependency
+#    - was_found : a variable whose value will be true if name was found
 #
-function(find_or_build_dependency __name)
-    find_package(${__name} QUIET)
-    string(TOUPPER ${__name} __NAME)
+function(find_or_build_dependency __name __was_found)
     if(TARGET ${__name}_External)
-        message(STATUS "${__name} already handled.")
-    elseif(${__name}_FOUND OR ${__NAME}_FOUND)
-        message(STATUS "Suitable ${__name} was located and will not be built.")
-        add_library(${__name}_External INTERFACE)
+        debug_message(STATUS "${__name} already handled.")
     else()
-        message(STATUS "Unable to locate ${__name}.  Building one instead.")
-        include(Build${__name})
+        find_package(${__name} QUIET)
+        string(TOUPPER ${__name} __NAME)
+        if(${__name}_FOUND OR ${__NAME}_FOUND)
+            set(${__was_found} TRUE PARENT_SCOPE)
+            debug_message("Found ${__name}:")
+            foreach(__VAR_TYPE INCLUDE_DIRS LIBRARIES DEFINITIONS)
+                set(__var ${__NAME}_${__VAR_TYPE})
+                is_valid_and_true(${__var} has_var)
+                if(has_var)
+                    debug_message("${__VAR_TYPE}: ${${__var}}")
+                endif()
+            endforeach()
+            add_library(${__name}_External INTERFACE)
+        else()
+            debug_message("Unable to locate ${__name}.  Building one instead.")
+            include(Build${__name})
+        endif()
     endif()
 endfunction()

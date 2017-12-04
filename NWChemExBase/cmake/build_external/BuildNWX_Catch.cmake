@@ -8,16 +8,15 @@
 ################################################################################
 
 set(CATCH_PREFIX ${CMAKE_BINARY_DIR}/catch)
-set(CATCH_HEADER_FILE_INITIAL
-    ${CATCH_PREFIX}/src/NWX_Catch${TARGET_SUFFIX}/single_include/catch.hpp)
+set(CATCH_HEADER_FILE
+        ${CATCH_PREFIX}/src/NWX_Catch_External/single_include/catch.hpp)
 include(ExternalProject)
 ExternalProject_Add(NWX_Catch_External
-                    PREFIX ${CATCH_PREFIX}
-                    GIT_REPOSITORY
-                    https://github.com/philsquared/Catch.git
-                    UPDATE_COMMAND ""
-                    CONFIGURE_COMMAND ""
-                    BUILD_COMMAND ""
-                    INSTALL_COMMAND ""
-                    )
-install(FILES ${CATCH_HEADER_FILE_INITIAL} DESTINATION include/catch/)
+        PREFIX ${CATCH_PREFIX}
+        GIT_REPOSITORY https://github.com/philsquared/Catch.git
+        UPDATE_COMMAND ""
+        CONFIGURE_COMMAND ""
+        BUILD_COMMAND ""
+        INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CATCH_HEADER_FILE}
+            ${STAGE_DIR}/${CMAKE_INSTALL_PREFIX}/include/catch/catch.hpp
+        )

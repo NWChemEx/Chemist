@@ -2,7 +2,7 @@
 # In a pretty meta turn of events, this file will build this project...
 #
 
-find_or_build_dependency(NWX_Catch)
+find_or_build_dependency(NWX_Catch was_found)
 
 ExternalProject_Add(NWChemExBase_External
     SOURCE_DIR ${NWXBASE_ROOT}/NWChemExBase
