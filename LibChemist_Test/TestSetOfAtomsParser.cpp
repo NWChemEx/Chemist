@@ -25,7 +25,6 @@ int main()
     SetOfAtoms corr;
     corr.insert(Hes[0]);
     corr.insert(Hes[1]);
-    corr.insert(Hes[0]);
     corr.charge=-6.7;
     corr.multiplicity=3.0;
 
