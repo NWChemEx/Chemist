@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION ${CMAKE_VERSION})
 project(LibChemist-Test VERSION 0.0.0 LANGUAGES CXX)
 find_package(LibChemist REQUIRED)
 include(TargetMacros)

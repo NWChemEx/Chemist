@@ -50,6 +50,13 @@ size_t BasisSet::size()const
 {
     size_t total=0;
     for(size_t i=0;i<ngens.size();++i)
+        total+=this->shellsize(i);
+    return total;
+}
+
+size_t BasisSet::shellsize(const size_t i)const
+{
+    size_t total=0;
         for(size_t j=0;j<ngens[i];++j)
         {
             const bool is_cart=types[i]==ShellType::CartesianGaussian;

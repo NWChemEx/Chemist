@@ -9,6 +9,14 @@ std::string xyz_example=
 "         He 0.1 .1 0.0    \n"
 " HE 1.1 0.1 0.0\n";
 
+std::string h2o_example=
+"3\n"
+"\n"
+"H    0.000000000000000   1.579252144093028   2.174611055780858\n"
+"O    0.000000000000000   0.000000000000000   0.000000000000000\n"
+"H    0.000000000000000   1.579252144093028  -2.174611055780858\n"
+" \n";
+
 int main()
 {
     Tester tester("Testing set of atoms parsing capabilities");
@@ -23,5 +31,14 @@ int main()
     std::stringstream ss(xyz_example);
     SetOfAtoms mol=parse_SetOfAtoms_file(ss,XYZParser());
     tester.test("Parsed xyz file",corr==mol);
+
+    SetOfAtoms corr_h2o;
+    corr_h2o.insert(create_atom({0.000000000000000,1.579252144093028,2.174611055780858},1));
+    corr_h2o.insert(create_atom({0.000000000000000,0.000000000000000,0.000000000000000},8));
+    corr_h2o.insert(create_atom({0.000000000000000,1.579252144093028,-2.174611055780858},1));
+
+    std::stringstream ss3(h2o_example);
+    SetOfAtoms h2o=parse_SetOfAtoms_file(ss3,XYZParser());
+    tester.test("Parsed xyz file",corr_h2o==h2o);
     return tester.results();
 }

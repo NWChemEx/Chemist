@@ -14,7 +14,8 @@
 #            Debug build for the build type set value to Debug
 #
 function(option_w_default name value)
-    if(${name})
+    is_valid(${name} was_set)
+    if(was_set)
         message(STATUS "Value of ${name} was set by user to : ${${name}}")
     else()
         set(${name} ${value} PARENT_SCOPE)
@@ -34,8 +35,42 @@ endfunction()
 #
 function(bundle_cmake_args __out_var)
     foreach(__arg ${ARGN})
-        if(${${__arg}})
+        if(NOT ${${__arg}} STREQUAL "")
             list(APPEND ${__out_var} -D${__arg}=${${__arg}})
+        endif()
+    endforeach()
+    set(${__out_var} ${${__out_var}} PARENT_SCOPE)
+endfunction()
+
+#
+# Similar to bundle_cmake_args, but bundles them as strings appropriate for
+# passing to an external project's CMAKE_CACHE_ARGS
+#
+# Syntax: bundle_cmake_strings <out_var> <list>
+#     - out_var : the variable that will contain the bundled list
+#     - list    : the variables to bundle
+#
+function(bundle_cmake_strings __out_var)
+    foreach(__arg ${ARGN})
+        if(NOT ${${__arg}} STREQUAL "")
+            list(APPEND ${__out_var} -D${__arg}:STRING=${${__arg}})
+        endif()
+    endforeach()
+    set(${__out_var} ${${__out_var}} PARENT_SCOPE)
+endfunction()
+
+#
+# Similar to bundle_cmake_args, but bundles them as lists appropriate for
+# passing to an external project's CMAKE_CACHE_ARGS
+#
+# Syntax: bundle_cmake_list <out_var> <list>
+#     - out_var : the variable that will contain the bundled list
+#     - list    : the variables to bundle
+#
+function(bundle_cmake_list __out_var)
+    foreach(__arg ${ARGN})
+        if(DEFINED __arg)
+            list(APPEND ${__out_var} -D${__arg}:LIST=${${__arg}})
         endif()
     endforeach()
     set(${__out_var} ${${__out_var}} PARENT_SCOPE)

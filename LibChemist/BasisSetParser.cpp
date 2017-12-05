@@ -2,6 +2,7 @@
 #include "LibChemist/lut/AtomicInfo.hpp"
 #include "LibChemist/ShellTypes.hpp"
 #include<regex>
+#include<iostream>
 
 namespace LibChemist {
 
@@ -19,7 +20,7 @@ struct shell{
     int l;
     size_t ngen;
     std::vector<double> alphas;
-    std::vector<double> cs;
+    std::vector<std::vector<double>> cs;
 };
 
 //factors out reading of the instance returned by a parser's parse function
@@ -29,8 +30,12 @@ void parse(const parsed_type& data, shell& s)
         s.alphas.push_back(data.at(data_type::exponent)[0]);
     if(data.count(data_type::coefficient))
     {
-        for(auto x: data.at(data_type::coefficient))
-            s.cs.push_back(x);
+        size_t i = 0;
+        for(auto x: data.at(data_type::coefficient)) {
+            if (s.cs.size() <= i) 
+                s.cs.push_back(std::vector<double>());
+            s.cs[i++].push_back(x);
+        }
     }
     if(data.count(data_type::angular_momentum))
     {
@@ -42,8 +47,14 @@ void parse(const parsed_type& data, shell& s)
 //Code factorization for adding the shell to our return value
 void commit_shell(shell& s,size_t Z,return_type& rv)
 {
-    if(s.alphas.size()!=0 && Z!=0)
-        rv[Z].push_back(BasisShell(s.type,s.l,s.ngen,s.alphas,s.cs));
+    if(s.alphas.size()!=0 && Z!=0) {
+        // For general contractions put the coefficients into single vector
+        std::vector<double> coefs;
+        for (auto x : s.cs)
+            coefs.insert(coefs.end(), x.begin(), x.end());
+        //
+        rv[Z].push_back(BasisShell(s.type,s.l,s.ngen,s.alphas,coefs));
+    }
     s=shell();
 }
 
@@ -90,7 +101,7 @@ return_type parse_basis_set_file(std::istream& is,
 
 static const std::regex G94_new_atom("^\\s*\\D{1,2}\\s*0\\s*$");
 static const std::regex G94_new_shell("^\\s*[a-zA-Z]+\\s*\\d+\\s*1.00\\s*$");
-static const std::regex G94_same_shell("^\\s*(?:\\d+.\\d+\\s*)+$");
+static const std::regex G94_same_shell("^\\s*(?:-?\\d+.\\d+\\s*)+$");
 
 action_type G94::worth_parsing(const std::string& line)const
 {

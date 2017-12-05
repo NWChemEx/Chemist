@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION ${CMAKE_VERSION})
 project(LibChemist-SRC VERSION 0.0.0 LANGUAGES CXX)
 include(TargetMacros)
 set(LibChemist_SRCS lut/AtomicInfo.cpp
@@ -10,7 +10,6 @@ set(LibChemist_SRCS lut/AtomicInfo.cpp
                     SetOfAtomsParser.cpp
                     ShellTypes.cpp
 )
-
 set(LibChemist_INCLUDES lut/AtomicInfo.hpp
                         Atom.hpp
                         BasisSet.hpp
@@ -21,8 +20,8 @@ set(LibChemist_INCLUDES lut/AtomicInfo.hpp
                         ShellTypes.hpp
                         Utilities.hpp
 )
-
+set(LibChemist_DEFINITIONS "")
 nwchemex_add_library(LibChemist LibChemist_SRCS
-                                LibChemist_INCLUDES
-                                ""
+                                 LibChemist_INCLUDES
+                                 LibChemist_DEFINTIONS
 )

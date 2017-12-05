@@ -81,14 +81,15 @@ SetOfAtoms parse_SetOfAtoms_file(std::istream& is,
 
 //charge and multiplicity
 static const std::regex xyz_cm("^\\s*-?\\d+.?\\d*\\s*\\d+.?\\d*\\s*$");
-static const std::regex xyz_atom("^\\s*[a-zA-Z]+\\s*(?:\\d*.?\\d*\\s*){3}$");
+static const std::regex xyz_atom("^\\s*[a-zA-Z]+\\s*(?:-?\\d*.?\\d*\\s*){3}$");
 
 action_type XYZParser::worth_parsing(const std::string& line)const
 {
     if(std::regex_search(line,xyz_cm))
         return action_type::overall_system;
-    else if(std::regex_search(line,xyz_atom))
+    else if(std::regex_search(line,xyz_atom)) {
         return action_type::new_atom;
+    }
     return action_type::none;
 }
 
