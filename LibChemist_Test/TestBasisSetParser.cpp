@@ -1,5 +1,6 @@
 #include "LibChemist/BasisSetParser.hpp"
-#include "TestHelpers.hpp"
+#define CATCH_CONFIG_MAIN
+#include "catch/catch.hpp"
 
 using namespace LibChemist;
 
@@ -42,9 +43,8 @@ std::string g94_example=
         "\n"
         "\n";
 
-int main()
+TEST_CASE("Basis set parsing capabilities")
 {
-    Tester tester("Testing basis set parsing capabilities");
     std::map<size_t,std::vector<BasisShell>> g94_corr;
     g94_corr[1].push_back(
                 BasisShell(ShellType::SphericalGaussian,0,1,
@@ -76,7 +76,5 @@ int main()
                                                  0.15591627,0.60768372,0.39195739})));
     std::stringstream ss(g94_example);
     auto rv=parse_basis_set_file(ss,G94());
-    tester.test("Gaussian94 parser",rv==g94_corr);
-
-    return tester.results();
+    REQUIRE(rv==g94_corr);
 }

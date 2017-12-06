@@ -1,13 +1,12 @@
 #include "LibChemist/BasisSet.hpp"
-#include "TestHelpers.hpp"
+#define CATCH_CONFIG_MAIN
+#include "catch/catch.hpp"
 
 using namespace LibChemist;
 
 
-int main()
+TEST_CASE("BasisSet class")
 {
-    Tester tester("Testing BasisSet class");
-
     //Make sure we can construct a default BasisSet
     BasisSet bs;
 
@@ -25,7 +24,7 @@ int main()
     bs.add_shell(origin.data(),Pure);
     
     BasisSet corr;
-    tester.test("Default is not equal",corr!=bs);
+    REQUIRE(corr!=bs);
 
     corr.centers=std::vector<double>(6,0.0);
     corr.coefs=std::vector<double>({8.1,2.6,7.1,
@@ -38,24 +37,29 @@ int main()
     corr.types=std::vector<ShellType>({ShellType::CartesianGaussian,
                                        ShellType::SphericalGaussian});
     corr.ls=std::vector<int>({2,-1});
-    tester.test("Add shell",corr==bs);
-    tester.test("Max angular momentum",bs.max_am()==2);
-    tester.test("Number of total basis functions",bs.size()==10);
+    REQUIRE(corr==bs);
+    REQUIRE(bs.max_am()==2);
+    REQUIRE(bs.size()==10);
     
-    tester.test("Number of basis functions in shell 0",bs.shellsize(0)==6);
-    tester.test("Number of basis functions in shell 1",bs.shellsize(1)==4);
+    REQUIRE(bs.shellsize(0)==6);
+    REQUIRE(bs.shellsize(1)==4);
 
     BasisSet Copy(bs);
-    tester.test("Copy constructor",Copy==bs && Copy==corr);
+    REQUIRE(Copy==bs);
+    REQUIRE(Copy==corr);
 
     BasisSet Move(std::move(Copy));
-    tester.test("Move constructor",Move==bs && Move==corr);
+    REQUIRE(Move==bs);
+    REQUIRE(Move==corr);
 
     Copy=std::move(Move);
-    tester.test("Move assignment",Copy==bs && Copy==corr);
+    REQUIRE(Copy==bs);
+    REQUIRE(Copy==corr);
 
     Move=Copy;
-    tester.test("Copy assignment",Copy==Move && Move==bs && Move==corr);
+    REQUIRE(Copy==Move);
+    REQUIRE(Move==bs);
+    REQUIRE(Move==corr);
     
     //Ungeneralize test
     BasisSet corr_ungen;
@@ -72,7 +76,7 @@ int main()
                                        ShellType::SphericalGaussian,
                                        ShellType::SphericalGaussian});
     corr_ungen.ls=std::vector<int>({2,0,1});
-    tester.test("Ungeneralize",corr_ungen==ungeneralize_basis_set(bs));
+    REQUIRE(corr_ungen==ungeneralize_basis_set(bs));
 
     //Concatenation test
     BasisSet corr_concat;
@@ -95,7 +99,5 @@ int main()
                                               ShellType::CartesianGaussian,
                                               ShellType::SphericalGaussian});
     corr_concat.ls=std::vector<int>({2,-1,2,-1});
-    tester.test("Concatenation",corr_concat==basis_set_concatenate(bs,Copy));
-
-    return tester.results();
+    REQUIRE(corr_concat==basis_set_concatenate(bs,Copy));
 }

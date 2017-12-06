@@ -1,5 +1,6 @@
 #include "LibChemist/SetOfAtomsParser.hpp"
-#include "TestHelpers.hpp"
+#define CATCH_CONFIG_MAIN
+#include "catch/catch.hpp"
 
 using namespace LibChemist;
 
@@ -17,9 +18,8 @@ std::string h2o_example=
 "H    0.000000000000000   1.579252144093028  -2.174611055780858\n"
 " \n";
 
-int main()
+TEST_CASE("SetOfAtoms parsing")
 {
-    Tester tester("Testing set of atoms parsing capabilities");
     std::array<double,3> carts1({0.1,0.1,0.0}),carts2({1.1,0.1,0.0});
     std::array<Atom,2> Hes({create_atom(carts1,2),create_atom(carts2,2)});
     SetOfAtoms corr;
@@ -30,7 +30,7 @@ int main()
 
     std::stringstream ss(xyz_example);
     SetOfAtoms mol=parse_SetOfAtoms_file(ss,XYZParser());
-    tester.test("Parsed xyz file",corr==mol);
+    REQUIRE(corr==mol);
 
     SetOfAtoms corr_h2o;
     corr_h2o.insert(create_atom({0.000000000000000,1.579252144093028,2.174611055780858},1));
@@ -39,6 +39,5 @@ int main()
 
     std::stringstream ss3(h2o_example);
     SetOfAtoms h2o=parse_SetOfAtoms_file(ss3,XYZParser());
-    tester.test("Parsed xyz file",corr_h2o==h2o);
-    return tester.results();
+    REQUIRE(corr_h2o==h2o);
 }
