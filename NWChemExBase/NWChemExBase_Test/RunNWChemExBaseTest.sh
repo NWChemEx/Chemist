@@ -7,7 +7,7 @@ set -e
 # files.
 #
 #   ./RunNWChemExBaseTest.sh <test_name> <path_to_folder_with BasicSetup.sh>
-#     <path_to_NWXBase> <path_to_source_file>
+#     <path_to_NWXBase> <path_to_source_file> <cmake_command>
 #
 #   In the build directory, this script will perform the following steps:
 #   1. make a directory called <test_name>_repo_test and change to it
@@ -20,10 +20,12 @@ test_name=${1}
 basic_setup=${2}/bin/BasicSetup.sh
 nwx_base_path=${2}
 path_to_source=${3}
+cmake_command=${4}
 
-if [ $# -lt 3 ];then
-  echo "Recieved $# args: ${1}, ${2}"
-  echo "Usage: RunNWChemExBase.sh <name> <path_to_nwxbase> <path_to_source>"
+if [ $# -lt 4 ];then
+  echo "Recieved $# args: ${1}, ${2}, ${3}"
+  echo "Usage: RunNWChemExBase.sh <name> <path_to_nwxbase> <path_to_source> " \
+       "<path_to_cmake_command"
   exit 1
 fi
 
@@ -38,7 +40,7 @@ mkdir ${test_dir}
 
 #Change to and setup the build directory
 cd ${test_dir}
-ln -s ${nwx_base_path} #Pretend NWChemExBase is a sub-folder
+ln -s ${nwx_base_path} NWChemExBase #Pretend NWChemExBase is a sub-folder
 ${basic_setup} ${test_name}
 
 #Make the header file
@@ -66,6 +68,6 @@ echo "int main(){ ${test_name} temp; temp.run_test(); return 0;}">> ${test_src}
 
 cmake_vars=${path_to_source}/CMakeVars.txt
 
-cmake -C ${cmake_vars} -H. -Bbuild
+${cmake_command} -C ${cmake_vars} -H. -Bbuild
 cd build
-make
+VERBOSE=1 make

@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/NWChemEx-Project/NWChemExBase
 	branch = master
-	commit = 34a35e994f1a308b1cc5c16ba704b244f9e73f7f
-	parent = 4920d1e0e56f4bcac7ea3758b2a27ccdb7322812
+	commit = 0028720a95a2f3602a678d513f3796895191326f
+	parent = ad7414471d13db8d79a2aac9a6faa6be436a651d
 	cmdver = 0.4.0
 	method = merge

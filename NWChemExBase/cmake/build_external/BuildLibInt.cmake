@@ -1,7 +1,7 @@
 set(LIBINT_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 set(LIBINT_MAJOR 2)
 set(LIBINT_MINOR 4)
-set(LIBINT_PATCH 1)
+set(LIBINT_PATCH 2)
 set(LIBINT_VERSION "${LIBINT_MAJOR}.${LIBINT_MINOR}.${LIBINT_PATCH}")
 set(LIBINT_URL https://github.com/evaleev/libint)
 set(LIBINT_TAR ${LIBINT_URL}/releases/download/v${LIBINT_VERSION}/)
