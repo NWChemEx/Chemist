@@ -21,7 +21,9 @@ set(LibChemist_INCLUDES lut/AtomicInfo.hpp
                         Utilities.hpp
 )
 set(LibChemist_DEFINITIONS "")
+set(LibChemist_LINKFLAGS "")
 nwchemex_add_library(LibChemist LibChemist_SRCS
                                  LibChemist_INCLUDES
                                  LibChemist_DEFINTIONS
+                                 LibChemist_LINKFLAGS
 )

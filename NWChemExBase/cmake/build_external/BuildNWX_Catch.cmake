@@ -1,22 +1,18 @@
-################################################################################
 #
-#  Now we build NWX_Catch, which is our installed version of Catch. It
-#  differs from the default one in that we've installed the header and we've
-#  taken the liberty of compiling the main function into a library to help
-#  with compile times.
+# Building Catch is easiest as a superbuild because we have to generate files
+# and then set-up a CMake build for the resulting file.  We do this in the file:
+# NWX_Catch/CMakeLists.txt.  This file simply adds NWX_Catch as an eventual
+# build target
 #
-################################################################################
 
-set(CATCH_PREFIX ${CMAKE_BINARY_DIR}/catch)
-set(CATCH_HEADER_FILE
-        ${CATCH_PREFIX}/src/NWX_Catch_External/single_include/catch.hpp)
-include(ExternalProject)
 ExternalProject_Add(NWX_Catch_External
-        PREFIX ${CATCH_PREFIX}
-        GIT_REPOSITORY https://github.com/philsquared/Catch.git
-        UPDATE_COMMAND ""
-        CONFIGURE_COMMAND ""
-        BUILD_COMMAND ""
-        INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CATCH_HEADER_FILE}
-            ${STAGE_DIR}/${CMAKE_INSTALL_PREFIX}/include/catch/catch.hpp
+        PREFIX ${CMAKE_BINARY_DIR}/NWX_Catch_External
+        SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/NWX_Catch
+        CMAKE_ARGS -DCMAKE_CXX_COMILER=${CMAKE_CXX_COMPILER}
+                   ${CORE_CMAKE_OPTIONS}
+        BUILD_ALWAYS 1
+        BINARY_DIR ${CMAKE_BINARY_DIR}/NWX_Catch_External
+        INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install DESTDIR=${STAGE_DIR}
+        CMAKE_CACHE_ARGS ${CORE_CMAKE_LISTS}
+                         ${CORE_CMAKE_STRINGS}
         )

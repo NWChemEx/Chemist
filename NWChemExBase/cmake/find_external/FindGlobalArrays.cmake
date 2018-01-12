@@ -39,7 +39,7 @@ find_library(GLOBALARRAYS_ARMCI_LIBRARY libarmci${CMAKE_STATIC_LIBRARY_SUFFIX}
              PATHS ${GLOBALARRAYS_ROOT_DIR}
         )
 set(GLOBALARRAYS_LIBRARIES ${GLOBALARRAYS_C_LIBRARY}
-                         ${GLOBALARRAYS_ARMCI_LIBRARY})
+                           ${GLOBALARRAYS_ARMCI_LIBRARY})
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(GlobalArrays DEFAULT_MSG
@@ -47,4 +47,6 @@ find_package_handle_standard_args(GlobalArrays DEFAULT_MSG
                                   GLOBALARRAYS_INCLUDE_DIR
                                   GLOBALARRAYS_CONFIG
 )
+set(GLOBALARRAYS_INCLUDE_DIRS ${GLOBALARRAYS_INCLUDE_DIR})
+set(GLOBALARRAYS_FOUND ${GlobalArrays_FOUND})
 

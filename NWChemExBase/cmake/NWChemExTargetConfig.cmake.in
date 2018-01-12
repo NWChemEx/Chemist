@@ -56,14 +56,10 @@ set(__depends @NWX_DEPENDENCIES@)
 foreach(__depend_i ${__depends})
     find_dependency(${__depend_i} ${__NAME}_INCLUDE_DIRS
                                   ${__NAME}_LIBRARIES
-                                  ${__NAME}_DEFINITIONS)
+                                  ${__NAME}_DEFINITIONS
+                                  ${__NAME}_LINK_FLAGS
+                                  ${__NAME}_FOUND)
 endforeach()
-
-#Make an interface target for use in other files
-add_library(${__name} INTERFACE)
-target_link_libraries(${__name} INTERFACE ${${__NAME}_LIBRARIES})
-target_include_directories(${__name} INTERFACE ${${__NAME}_INCLUDE_DIRS})
-target_compile_definitions(${__name} INTERFACE ${${__NAME}_DEFINITIONS})
 
 #Print our hardwork out
 message(STATUS "Found ${__name} include paths: ${${__NAME}_INCLUDE_DIRS}")

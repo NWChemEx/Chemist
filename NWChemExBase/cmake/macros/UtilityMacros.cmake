@@ -1,33 +1,42 @@
 ################################################################################
 #                                                                              #
 # These are macros useful for performing certain common CMake tasks that don't #
-# really fit into the other Macro files.                                       #
+# really fit into the other Macro files.  See dox/MacroDocumentation.md for    #
+# syntax and usage examples.                                                   #
 #                                                                              #
 ################################################################################
 
-#
-# Given a variable that contains a list of files (paths relative to the
-# directory from which this macro is invoked), this macro will inplace (i.e.
-# overwrite the input variable) convert the relative paths to full paths.
-#
-# Syntax: make_full_paths(<list>)
-#     - list : A variable containing the list of files you want the full paths
-#              for. This is NOT the files themselves, i.e. whatever you provide
-#              must dereference to the list
-#
-function(make_full_paths __list)
-    set(__prefix "${CMAKE_CURRENT_LIST_DIR}")
+function(prefix_paths __prefix __list)
     foreach(__file ${${__list}})
         list(APPEND __temp_list ${__prefix}/${__file})
     endforeach()
     set(${__list} ${__temp_list} PARENT_SCOPE)
 endfunction()
 
-#
-# Checking if a variable is valid (defined and not empty) in CMake is annoying
-# and error-prone.  This function does it for you.
-#
-# Syntax: is_valid(<variable_to_check> <result>)
+function(make_full_paths __list)
+    set(__prefix "${CMAKE_CURRENT_LIST_DIR}")
+    prefix_paths(${__prefix} ${__list})
+endfunction()
+
+function(clean_flags __list __output_list)
+    set(__found_flags)
+    set(__exception_flags)
+    set(__good_flags)
+    foreach(__flag ${${__list}})
+        list(FIND __found_flags ${__flag} __index)
+        if(__index EQUAL -1) #Have we wrote this flag yet?
+            list(APPEND __good_flags "${__flag}")
+            list(FIND __exception_flags ${__flag} __index)
+            if(__index EQUAL -1) #Add to ban-list if we're not allowed multiples
+                list(APPEND __found_flags ${__flag})
+            endif()
+        endif()
+    endforeach()
+    string(REPLACE ";" " " __clean_flags "${__good_flags}")
+    set(${__output_list} "${__clean_flags}" PARENT_SCOPE)
+endfunction()
+
+
 function(is_valid __variable __out)
 set(${__out} FALSE PARENT_SCOPE)
 if(DEFINED ${__variable} AND (NOT "${${__variable}}" STREQUAL ""))
@@ -35,10 +44,6 @@ if(DEFINED ${__variable} AND (NOT "${${__variable}}" STREQUAL ""))
 endif()
 endfunction()
 
-#
-# Checks if a variable is valid and not false
-#
-# Syntax: is_valid(<variable_to_check> <result>)
 function(is_valid_and_true __variable __out)
     is_valid(${__variable} __temp)
     set(${__out} FALSE PARENT_SCOPE)
