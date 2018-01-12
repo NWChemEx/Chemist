@@ -1,5 +1,5 @@
 #include "LibChemist/BasisSetParser.hpp"
-#define CATCH_CONFIG_MAIN
+#include <sstream>
 #include "catch/catch.hpp"
 
 using namespace LibChemist;

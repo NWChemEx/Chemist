@@ -1,5 +1,5 @@
 #include "LibChemist/lut/AtomicInfo.hpp"
-#define CATCH_CONFIG_MAIN
+
 #include "catch/catch.hpp"
 
 using namespace LibChemist::detail_;
