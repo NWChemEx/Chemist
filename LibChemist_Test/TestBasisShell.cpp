@@ -1,13 +1,12 @@
 #include "LibChemist/BasisShell.hpp"
-#include "TestHelpers.hpp"
+#define CATCH_CONFIG_MAIN
+#include "catch/catch.hpp"
 
 using namespace LibChemist;
 
 
-int main()
+TEST_CASE("BasisShell class")
 {
-    Tester tester("Testing BasisShell class");
-
     //Make sure we can construct a default BasisShell
     BasisShell Defaulted;
 
@@ -21,28 +20,26 @@ int main()
     BasisShell CartBS(ShellType::CartesianGaussian,2,1,as,cs);
     BasisShell PureBS(ShellType::SphericalGaussian,-1,2,std::move(as),
                       std::move(gen_cs));
-    tester.test("Cart shell type",CartBS.type==ShellType::CartesianGaussian);
-    tester.test("Pure shell type",PureBS.type==ShellType::SphericalGaussian);
-    tester.test("Angular momentum",CartBS.l==2);
-    tester.test("# contractions",PureBS.ngen==2);
-    tester.test("NPrims",CartBS.nprim==3);
-    tester.test("Cart NFunctions",CartBS.nfunctions(0)==6);
-    tester.test("Pure NFunctions contraction 1",PureBS.nfunctions(0)==1);
-    tester.test("Pure NFunctions contraction 2",PureBS.nfunctions(1)==3);
+    REQUIRE(CartBS.type==ShellType::CartesianGaussian);
+    REQUIRE(PureBS.type==ShellType::SphericalGaussian);
+    REQUIRE(CartBS.l==2);
+    REQUIRE(PureBS.ngen==2);
+    REQUIRE(CartBS.nprim==3);
+    REQUIRE(CartBS.nfunctions(0)==6);
+    REQUIRE(PureBS.nfunctions(0)==1);
+    REQUIRE(PureBS.nfunctions(1)==3);
 
     BasisShell Copy(CartBS);
-    tester.test("Copy constructor",Copy==CartBS);
-    tester.test("Not equal",Copy!=PureBS);
+    REQUIRE(Copy==CartBS);
+    REQUIRE(Copy!=PureBS);
     BasisShell Moved(std::move(Copy));
-    tester.test("Move constructor",Moved==CartBS);
+    REQUIRE(Moved==CartBS);
     Defaulted=std::move(Moved);
-    tester.test("Move assignment",Defaulted==CartBS);
+    REQUIRE(Defaulted==CartBS);
     Moved=Defaulted;
-    tester.test("Assignment",Moved==Defaulted && Moved==CartBS);
-    tester.test("Get exponent",CartBS.alpha(1)==4.5);
-    tester.test("Get coefficient",CartBS.coef(1,0)==2.6);
-    tester.test("General get coef",PureBS.coef(1,1)==5.4);
-
-
-    return tester.results();
+    REQUIRE(Moved==Defaulted);
+    REQUIRE(Moved==CartBS);
+    REQUIRE(CartBS.alpha(1)==4.5);
+    REQUIRE(CartBS.coef(1,0)==2.6);
+    REQUIRE(PureBS.coef(1,1)==5.4);
 }

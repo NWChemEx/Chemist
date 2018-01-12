@@ -1,12 +1,11 @@
 #include "LibChemist/SetOfAtoms.hpp"
-#include "TestHelpers.hpp"
+#define CATCH_CONFIG_MAIN
+#include "catch/catch.hpp"
 
 using namespace LibChemist;
 
-int main()
+TEST_CASE("SetOfAtoms class")
 {
-    Tester tester("Testing SetOfAtoms and Fragment classes");
-
     //A point at the origin
     std::array<double,3> origin({0.0,0.0,0.0});
     //Will be 6 points +/- 3.76 a.u. from the origin with octahedral symmetry
@@ -26,44 +25,45 @@ int main()
 
     //Test default constructor
     SetOfAtoms UF6;
-    tester.test("Default charge",UF6.charge==0.0);
-    tester.test("Defaulted multipliciyt",UF6.multiplicity==1.0);
-    tester.test("Default size",UF6.size()==0);
-    tester.test("Doesn't have elements",!UF6.count(corr_UF6[0]));
+    REQUIRE(UF6.charge==0.0);
+    REQUIRE(UF6.multiplicity==1.0);
+    REQUIRE(UF6.size()==0);
+    REQUIRE_FALSE(UF6.count(corr_UF6[0]));
 
     //Fill the defaulted system
     for(const auto& ai: corr_UF6)
         UF6.insert(ai);
-    tester.test("Filled size",UF6.size()==7);
+    REQUIRE(UF6.size()==7);
 
     //Test the atoms we inserted
     for(size_t i=0;i<7;++i)
     {
         const std::string label="Atom # "+std::to_string(i);
-        tester.test(label+" value",UF6[i]==corr_UF6[i]);
-        tester.test(label+" count",UF6.count(corr_UF6[i]));
+        REQUIRE(UF6[i]==corr_UF6[i]);
+        REQUIRE(UF6.count(corr_UF6[i]));
     }
 
     //Test other constructors and assignments
     SetOfAtoms Copy(UF6);
-    tester.test("Copy constructor",Copy==UF6);
+    REQUIRE(Copy==UF6);
 
     SetOfAtoms Moved(std::move(Copy));
-    tester.test("Move constructor",Moved==UF6);
+    REQUIRE(Moved==UF6);
 
     Copy=std::move(Moved);
-    tester.test("Move assignment",Copy==UF6);
+    REQUIRE(Copy==UF6);
 
     Moved=Copy;
-    tester.test("Copy assignment",Moved==Copy && Moved==UF6);
+    REQUIRE(Moved==Copy);
+    REQUIRE(Moved==UF6);
 
     //Iterators
     size_t counter=0;
     for(const Atom& ai: UF6)
-        tester.test("Iterator",ai==UF6[counter++]);
+        REQUIRE(ai==UF6[counter++]);
     counter=0;
     for(const Atom& ai: const_cast<const SetOfAtoms&>(UF6))
-        tester.test("Const iterators",ai==UF6[counter++]);
+        REQUIRE(ai==UF6[counter++]);
 
     //Basis set stuff
     std::map<size_t,std::vector<BasisShell>> basis;
@@ -75,8 +75,7 @@ int main()
 
     BasisSet corr_bs;
     corr_bs.add_shell(origin.data(),basis[92][0]);
-    tester.test("Get general basis",
-                corr_bs==get_general_basis("PRIMARY",UF6_with_basis));
+    REQUIRE(corr_bs==get_general_basis("PRIMARY",UF6_with_basis));
 
     BasisSet corr_ungen_bs;
     corr_ungen_bs.add_shell(origin.data(),
@@ -87,10 +86,5 @@ int main()
         BasisShell(ShellType::CartesianGaussian,1,1,
                    std::vector<double>({3.0,4.0}),
                    std::vector<double>({7.0,8.0})));
-    tester.test("Get ungeneral basis",
-                corr_ungen_bs==get_basis("PRIMARY",UF6_with_basis));
-
-
-
-    return tester.results();
+    REQUIRE(corr_ungen_bs==get_basis("PRIMARY",UF6_with_basis));
 }
