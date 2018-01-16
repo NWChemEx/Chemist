@@ -21,6 +21,7 @@ TEST_CASE("SetOfAtoms class")
         {
             Fpos[counter][i]=coord;
             corr_UF6[counter+1]=create_atom(Fpos[counter],9);
+            ++counter;
         }
 
     //Test default constructor
