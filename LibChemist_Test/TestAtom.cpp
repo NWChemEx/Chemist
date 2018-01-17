@@ -8,9 +8,17 @@ using namespace LibChemist;
 TEST_CASE("Atom class")
 {
     std::array<double,3> origin({0.0,0.0,0.0});
+    std::unordered_map<AtomProperty,double> props;
+    props[AtomProperty::Z]=92.0;
+    props[AtomProperty::mass]=238.02891;
+    props[AtomProperty::isotope_mass]=238.05079;
+    props[AtomProperty::charge]=0.0;
+    props[AtomProperty::multiplicity]=5.0;
+    props[AtomProperty::nelectrons]=92.0;
+    props[AtomProperty::cov_radius]=3.7038632058973433;
+    props[AtomProperty::vdw_radius]=3.51489059335156;
     //Manually created uranium atom
-    Atom U(origin,92.0,238,238.02891,238.05079,0.0,5.0,
-           92.0,3.7038632058973433,3.51489059335156);
+    Atom U(origin,props);
 
     Atom Defaulted;
     REQUIRE(U!=Defaulted);

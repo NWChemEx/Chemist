@@ -26,7 +26,7 @@ SetOfAtoms apply_basis_set(const std::string& name,
     SetOfAtoms rv(atoms);
     for(Atom& ai:rv)
     {
-        size_t Z=ai.Z;
+        size_t Z=ai.property(AtomProperty::Z);
         if(bs.count(Z))
         {
             for(const BasisShell& si: bs.at(Z))
