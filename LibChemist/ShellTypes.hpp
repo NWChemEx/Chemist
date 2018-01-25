@@ -21,7 +21,7 @@ enum class ShellType
  *  \todo Verify if it is even possible to trip the throw
  *
  */
-inline const char * shelltype_string(ShellType type)
+inline const char* shelltype_string(ShellType type)
 {
     switch(type)
     {
@@ -68,4 +68,4 @@ std::string am_int2str(int am);
  */
 size_t am_2int(int am, size_t i);
 
-} // close namespace
+} // namespace LibChemist

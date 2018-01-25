@@ -13,28 +13,29 @@ namespace LibChemist {
 namespace detail_ {
 
 struct IsotopeData {
-    size_t isonum;           //! Isotope number (Z + number of neutrons)
-    double mass;          //! Mass of the isotope
-    double mass_low;      //! Lower bound of the isotope mass
-    double mass_high;     //! Upper bound of the isotope mass
-    double abund;         //! Natural abundance of the isotope (out of 1)
-    double abund_low;     //! Lower bound on the isotope's abundance
-    double abund_high;    //! Upper bound on the isotope's abundance
+    size_t isonum;     //! Isotope number (Z + number of neutrons)
+    double mass;       //! Mass of the isotope
+    double mass_low;   //! Lower bound of the isotope mass
+    double mass_high;  //! Upper bound of the isotope mass
+    double abund;      //! Natural abundance of the isotope (out of 1)
+    double abund_low;  //! Lower bound on the isotope's abundance
+    double abund_high; //! Upper bound on the isotope's abundance
 };
 
 /*! rief Information about an atom/element */
 struct AtomicData {
-    size_t Z;                //! Atomic Z-number (number of protons)
-    std::string sym;      //! Element's atomic symbol
-    std::string name;     //! Full name of the element
-    int multiplicity;     //! Ground-state multiplicity
-    std::string termsym;  //! Term symbol character
-    double mass;          //! Mass of the element (isotope masses weighted by abundance)
-    double mass_low;      //! Lower bound on the mass of the element
-    double mass_high;     //! Upper bound on the mass of the element
-    double covradius;     //! Covalent radius in a.u.
-    double vdwradius;     //! VDW radius in a.u.
-    std::vector<IsotopeData> isotopes; //!< All isotope information for this atom
+    size_t Z;            //! Atomic Z-number (number of protons)
+    std::string sym;     //! Element's atomic symbol
+    std::string name;    //! Full name of the element
+    int multiplicity;    //! Ground-state multiplicity
+    std::string termsym; //! Term symbol character
+    double mass; //! Mass of the element (isotope masses weighted by abundance)
+    double mass_low;  //! Lower bound on the mass of the element
+    double mass_high; //! Upper bound on the mass of the element
+    double covradius; //! Covalent radius in a.u.
+    double vdwradius; //! VDW radius in a.u.
+    std::vector<IsotopeData>
+        isotopes; //!< All isotope information for this atom
 };
 
 extern const std::unordered_map<size_t, std::string> Z2sym_;
@@ -43,7 +44,8 @@ extern const std::unordered_map<std::string, size_t> sym2Z_;
 
 extern const std::unordered_map<size_t, AtomicData> atomic_data_;
 
-/** \brief Returns the most common isotope number for the atom with atomic number \p Z
+/** \brief Returns the most common isotope number for the atom with atomic
+ * number \p Z
  *
  * \param[in] Z The atomic number for which you want the most common isotope
  * \returns The isotope number (protons+neutrons) of the most common isotope
@@ -61,4 +63,5 @@ size_t most_common_isotope(size_t Z);
  */
 double isotope_mass(size_t Z, size_t isonum);
 
-}}//End namespaces
+} // namespace detail_
+} // namespace LibChemist

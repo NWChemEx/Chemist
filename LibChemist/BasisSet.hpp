@@ -80,7 +80,7 @@ struct BasisSet {
      * negative of the highest angular momentum in the contraction, e.g. -1 is
      * an sp shell.
      */
-    std::vector<int> ls;///< The angular momentum of each shell.
+    std::vector<int> ls; ///< The angular momentum of each shell.
 
     /** \brief Makes an empty BasisSet instance.
      *
@@ -89,14 +89,14 @@ struct BasisSet {
      *
      *  \throws No throw guarantee.
      */
-    BasisSet()noexcept=default;
+    BasisSet() noexcept = default;
 
     /** \brief Frees up the memory associated with the current instance.
      *
      *
      * \throws No throw guarantee.
      */
-    ~BasisSet()noexcept=default;
+    ~BasisSet() noexcept = default;
 
     /** \brief Deep copies another BasisSet instance.
      *
@@ -104,7 +104,7 @@ struct BasisSet {
      *  \throws std::bad_alloc if memory allocation fails.  Strong throw
      *  guarantee.
      */
-    BasisSet(const BasisSet& /*other*/)=default;
+    BasisSet(const BasisSet& /*other*/) = default;
 
     /** \brief Takes ownership of another BasisSet instance.
      *
@@ -112,7 +112,7 @@ struct BasisSet {
      *  \throws No throw guarantee.
      *  \note After this call \p other will be in a valid, but undefined state.
      */
-    BasisSet(BasisSet&& /*other*/)noexcept=default;
+    BasisSet(BasisSet&& /*other*/) noexcept = default;
 
     /** \brief Assigns a deep copy of another BasisSet instance to this.
      *
@@ -121,7 +121,7 @@ struct BasisSet {
      *  \throws std::bad_alloc if memory allocation fails.  Strong throw
      *  guarantee.
      */
-    BasisSet& operator=(const BasisSet& /*other*/)=default;
+    BasisSet& operator=(const BasisSet& /*other*/) = default;
 
     /** \brief Takes ownership of another BasisSet instance via assignment.
      *
@@ -130,8 +130,8 @@ struct BasisSet {
      *  \throws No throw guarantee.
      *  \note After this call \p other will be in a valid, but undefined state.
      */
-    BasisSet& operator=(BasisSet&& /*other*/)noexcept=default;
-    
+    BasisSet& operator=(BasisSet&& /*other*/) noexcept = default;
+
     /** \brief Adds a shell to the current basis set.
      *
      * \param[in] center A pointer to the x, y, and z locations (in a.u.) of
@@ -154,7 +154,7 @@ struct BasisSet {
      * \returns The maximum angular momentum in any shell.
      * \throws No throw guarantee.
      */
-    size_t max_am()const noexcept;
+    size_t max_am() const noexcept;
 
     /** \brief Returns the total number of basis functions in this basis set.
      *
@@ -165,7 +165,7 @@ struct BasisSet {
      * \throws Throws std::bad_alloc if a temporary string representation of the
      *         angular momentum can not be allocated.
      */
-    size_t size()const;
+    size_t size() const;
 
     /** \brief Returns the total number of basis functions in shell i.
      *
@@ -186,7 +186,7 @@ struct BasisSet {
      *  corresponding members of \p rhs.
      * \throws No throw guarantee.
      */
-    bool operator==(const BasisSet& other)const noexcept;
+    bool operator==(const BasisSet& other) const noexcept;
 
     /** \brief Returns true if any member of this instance differs from \p rhs.
      *
@@ -195,9 +195,9 @@ struct BasisSet {
      *  corresponding member of \p rhs.
      * \throws No throw guarantee.
      */
-    bool operator!=(const BasisSet& rhs)const noexcept
+    bool operator!=(const BasisSet& rhs) const noexcept
     {
-        return !((*this)==rhs);
+        return !((*this) == rhs);
     }
 };
 
@@ -212,7 +212,6 @@ struct BasisSet {
  */
 BasisSet ungeneralize_basis_set(const BasisSet& bs);
 
-
 /** \relates BasisSet
  *
  *  \brief Concatenates two basis sets.
@@ -225,7 +224,4 @@ BasisSet ungeneralize_basis_set(const BasisSet& bs);
  */
 BasisSet& basis_set_concatenate(BasisSet& lhs, const BasisSet& rhs);
 
-
-}//End namespace
-
-
+} // namespace LibChemist
