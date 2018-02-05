@@ -46,25 +46,11 @@ namespace LibChemist {
  *  SetOfAtoms file.
  */
 struct SetOfAtomsFileParser {
-    enum class action_type
-    {
-        none,
-        new_atom,
-        same_atom,
-        overall_system
-    };
-    enum class data_type
-    {
-        AtNum,
-        x,
-        y,
-        z,
-        charge,
-        multiplicity
-    };
+    enum class action_type { none, new_atom, same_atom, overall_system };
+    enum class data_type { AtNum, x, y, z, charge, multiplicity };
     virtual action_type worth_parsing(const std::string& line) const = 0;
     virtual std::map<data_type, std::vector<double>> parse(
-        const std::string& line) const = 0;
+      const std::string& line) const = 0;
 };
 
 /** \brief This class implements a SetOfAtomsParser for the xyz format.
@@ -73,7 +59,7 @@ struct SetOfAtomsFileParser {
 struct XYZParser : public SetOfAtomsFileParser {
     action_type worth_parsing(const std::string& line) const override;
     std::map<data_type, std::vector<double>> parse(
-        const std::string& line) const override;
+      const std::string& line) const override;
 };
 
 /** \brief The function to call to parse a SetOfAtomsFile.

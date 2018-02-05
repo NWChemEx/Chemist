@@ -195,8 +195,7 @@ struct BasisSet {
      *  corresponding member of \p rhs.
      * \throws No throw guarantee.
      */
-    bool operator!=(const BasisSet& rhs) const noexcept
-    {
+    bool operator!=(const BasisSet& rhs) const noexcept {
         return !((*this) == rhs);
     }
 };

@@ -14,57 +14,42 @@ struct atom {
     std::array<double, 3> xyz;
 };
 
-void commit_atom(SetOfAtoms& rv, atom& a)
-{
-    if(a.Z != 0.0)
-    {
-        rv.insert(create_atom(a.xyz, a.Z));
-    }
+void commit_atom(SetOfAtoms& rv, atom& a) {
+    if(a.Z != 0.0) { rv.insert(create_atom(a.xyz, a.Z)); }
     a = atom();
 }
 
-void parse(const return_type& data, atom& a)
-{
-    if(data.count(data_type::AtNum))
-        a.Z = data.at(data_type::AtNum)[0];
-    if(data.count(data_type::x))
-        a.xyz[0] = data.at(data_type::x)[0];
-    if(data.count(data_type::y))
-        a.xyz[1] = data.at(data_type::y)[0];
-    if(data.count(data_type::z))
-        a.xyz[2] = data.at(data_type::z)[0];
+void parse(const return_type& data, atom& a) {
+    if(data.count(data_type::AtNum)) a.Z = data.at(data_type::AtNum)[0];
+    if(data.count(data_type::x)) a.xyz[0] = data.at(data_type::x)[0];
+    if(data.count(data_type::y)) a.xyz[1] = data.at(data_type::y)[0];
+    if(data.count(data_type::z)) a.xyz[2] = data.at(data_type::z)[0];
 }
 
 } // end namespace detail_
 
 SetOfAtoms parse_SetOfAtoms_file(std::istream& is,
-                                 const SetOfAtomsFileParser& parser)
-{
+                                 const SetOfAtomsFileParser& parser) {
     SetOfAtoms rv;
     detail_::atom a;
-    while(is)
-    {
+    while(is) {
         std::string line;
         std::getline(is, line);
-        switch(parser.worth_parsing(line))
-        {
+        switch(parser.worth_parsing(line)) {
             case(action_type::none): // Junk line
             {
                 break;
             }
-            case(action_type::new_atom):
-            {
+            case(action_type::new_atom): {
                 detail_::commit_atom(rv, a);
                 // Intentional fall_through
             }
-            case(action_type::same_atom):
-            {
+            case(action_type::same_atom): {
                 auto data = parser.parse(line);
                 detail_::parse(data, a);
                 break;
             }
-            default:
-            {
+            default: {
                 auto data = parser.parse(line);
                 if(data.count(data_type::charge))
                     rv.charge = data.at(data_type::charge)[0];
@@ -82,31 +67,25 @@ SetOfAtoms parse_SetOfAtoms_file(std::istream& is,
 static const std::regex xyz_cm("^\\s*-?\\d+.?\\d*\\s*\\d+.?\\d*\\s*$");
 static const std::regex xyz_atom("^\\s*[a-zA-Z]+\\s*(?:-?\\d*.?\\d*\\s*){3}$");
 
-action_type XYZParser::worth_parsing(const std::string& line) const
-{
+action_type XYZParser::worth_parsing(const std::string& line) const {
     if(std::regex_search(line, xyz_cm))
         return action_type::overall_system;
-    else if(std::regex_search(line, xyz_atom))
-    {
+    else if(std::regex_search(line, xyz_atom)) {
         return action_type::new_atom;
     }
     return action_type::none;
 }
 
-return_type XYZParser::parse(const std::string& line) const
-{
+return_type XYZParser::parse(const std::string& line) const {
     return_type rv;
     std::stringstream tokenizer(line);
-    if(std::regex_search(line, xyz_cm))
-    {
+    if(std::regex_search(line, xyz_cm)) {
         double temp;
         tokenizer >> temp;
         rv[data_type::charge].push_back(temp);
         tokenizer >> temp;
         rv[data_type::multiplicity].push_back(temp);
-    }
-    else if(std::regex_search(line, xyz_atom))
-    {
+    } else if(std::regex_search(line, xyz_atom)) {
         std::string sym;
         tokenizer >> sym;
         // First letter of atomic symbol

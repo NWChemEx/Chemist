@@ -56,9 +56,7 @@ class BasisShell {
      *  \throws std::bad_alloc if memory allocation fails.  Strong throw
      *  guarantee.
      */
-    BasisShell(ShellType type_,
-               int l_,
-               size_t ngen_,
+    BasisShell(ShellType type_, int l_, size_t ngen_,
                const std::vector<double>& alphas,
                const std::vector<double>& coefs) :
       cs_(coefs),
@@ -66,9 +64,7 @@ class BasisShell {
       type(type_),
       l(l_),
       ngen(ngen_),
-      nprim(alphas.size())
-    {
-    }
+      nprim(alphas.size()) {}
 
     /** \brief Constructs a new BasisShell instance by moving the input values.
      *
@@ -81,9 +77,7 @@ class BasisShell {
      *
      *  \throws No throw guarantee.
      */
-    BasisShell(ShellType type_,
-               int l_,
-               size_t ngen_,
+    BasisShell(ShellType type_, int l_, size_t ngen_,
                std::vector<double>&& alphas,
                std::vector<double>&& coefs) noexcept :
       cs_(std::move(coefs)),
@@ -91,9 +85,7 @@ class BasisShell {
       type(type_),
       l(l_),
       ngen(ngen_),
-      nprim(alphas_.size())
-    {
-    }
+      nprim(alphas_.size()) {}
 
     /** \brief Creates a default BasisShell instance.
      *
@@ -156,8 +148,7 @@ class BasisShell {
      *    corresponding member of \p rhs.
      * \throw No throw guarantee.
      */
-    bool operator!=(const BasisShell& rhs) const noexcept
-    {
+    bool operator!=(const BasisShell& rhs) const noexcept {
         return !((*this) == rhs);
     }
 
@@ -176,8 +167,7 @@ class BasisShell {
      *  \returns The requested coefficient
      *  \throw No throw guarantee.
      */
-    double coef(size_t i, size_t j) const noexcept
-    {
+    double coef(size_t i, size_t j) const noexcept {
         return cs_[j * nprim + i];
     }
 

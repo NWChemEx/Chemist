@@ -16,12 +16,9 @@ namespace LibChemist {
  * \tparam The type of the two input integers as well as the output.
  */
 template<typename T>
-T binomial_coefficient(T n, T k)
-{
-    if(k == 0 || k == n)
-        return 1;
-    if(k > n || k < 0 || n < 0)
-        return 0;
+T binomial_coefficient(T n, T k) {
+    if(k == 0 || k == n) return 1;
+    if(k > n || k < 0 || n < 0) return 0;
     return binomial_coefficient(n - 1, k - 1) + binomial_coefficient(n - 1, k);
 }
 
@@ -41,8 +38,7 @@ T binomial_coefficient(T n, T k)
  *
  */
 template<typename T>
-T multinomial_coefficient(T n, T k)
-{
+T multinomial_coefficient(T n, T k) {
     return binomial_coefficient(n + k - 1, k);
 }
 

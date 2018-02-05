@@ -7,8 +7,7 @@
 namespace LibChemist {
 
 /// These are the recognized properties an atom may have
-enum class AtomProperty
-{
+enum class AtomProperty {
     Z,            ///< Atomic number/nuclear charge
     mass,         ///< Atomic mass (abundance-weighted mass)
     isotope_mass, ///< Mass of the selected isotope
@@ -94,9 +93,7 @@ class Atom {
     template<typename map_type>
     Atom(const std::array<double, 3>& xyz, const map_type& props) :
       coord(xyz),
-      properties_(props.begin(), props.end())
-    {
-    }
+      properties_(props.begin(), props.end()) {}
 
     /**
      * @brief Cleans up memory associated with this instance.
@@ -138,8 +135,7 @@ class Atom {
      * @return True if the current instance has @p prop set and false otherwise.
      * @throw None. No throw guarantee.
      */
-    bool count(AtomProperty prop) const noexcept
-    {
+    bool count(AtomProperty prop) const noexcept {
         return properties_.count(prop);
     }
 
@@ -151,10 +147,8 @@ class Atom {
      *     insufficient memory to allocate space for its value.  Strong throw
      *     guarantee.
      */
-    double& property(AtomProperty prop)
-    {
-        if(!count(prop))
-            properties_[prop] = 0.0;
+    double& property(AtomProperty prop) {
+        if(!count(prop)) properties_[prop] = 0.0;
         return properties_[prop];
     }
 
@@ -165,8 +159,7 @@ class Atom {
      * @throws std::out_of_range if the current atom does not have the requested
      *         property.  Strong throw guarantee.
      */
-    const double& property(AtomProperty prop) const
-    {
+    const double& property(AtomProperty prop) const {
         return properties_.at(prop);
     }
 
@@ -184,8 +177,7 @@ class Atom {
      *  concurrently.
      *
      */
-    void add_shell(const std::string& bs_name, const BasisShell& shell)
-    {
+    void add_shell(const std::string& bs_name, const BasisShell& shell) {
         if(!basis_sets_.count(bs_name))
             basis_sets_[bs_name] = std::vector<BasisShell>();
         auto& bs = basis_sets_[bs_name];
@@ -206,11 +198,9 @@ class Atom {
      * \threading Generally thread safe although data races may occur if there
      * are concurrent calls to add_shell.
      */
-    BasisSet get_basis(const std::string& bs_name) const
-    {
+    BasisSet get_basis(const std::string& bs_name) const {
         BasisSet rv;
-        if(!basis_sets_.count(bs_name))
-            return rv;
+        if(!basis_sets_.count(bs_name)) return rv;
         for(const auto& shell : basis_sets_.at(bs_name))
             rv.add_shell(coord.data(), shell);
         return rv;

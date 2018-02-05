@@ -45,24 +45,12 @@ namespace LibChemist {
  *  basis set file.
  */
 struct BasisSetFileParser {
-    enum class action_type
-    {
-        none,
-        new_atom,
-        new_shell,
-        same_shell
-    };
-    enum class data_type
-    {
-        exponent,
-        coefficient,
-        angular_momentum,
-        Z
-    };
+    enum class action_type { none, new_atom, new_shell, same_shell };
+    enum class data_type { exponent, coefficient, angular_momentum, Z };
 
     virtual action_type worth_parsing(const std::string& line) const = 0;
     virtual std::map<data_type, std::vector<double>> parse(
-        const std::string& line) const = 0;
+      const std::string& line) const = 0;
 };
 
 /** \brief This class implements a BasisSetFileParser for the Gaussian94 format.
@@ -71,7 +59,7 @@ struct BasisSetFileParser {
 struct G94 : public BasisSetFileParser {
     action_type worth_parsing(const std::string& line) const override;
     std::map<data_type, std::vector<double>> parse(
-        const std::string& line) const override;
+      const std::string& line) const override;
 };
 
 /** \brief The function to call to parse a BasisSetFile.
@@ -79,7 +67,6 @@ struct G94 : public BasisSetFileParser {
  *
  */
 std::map<size_t, std::vector<BasisShell>> parse_basis_set_file(
-    std::istream& is,
-    const BasisSetFileParser& parser);
+  std::istream& is, const BasisSetFileParser& parser);
 
 } // End namespace LibChemist

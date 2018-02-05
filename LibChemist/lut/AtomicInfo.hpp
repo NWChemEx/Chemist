@@ -35,7 +35,7 @@ struct AtomicData {
     double covradius; //! Covalent radius in a.u.
     double vdwradius; //! VDW radius in a.u.
     std::vector<IsotopeData>
-        isotopes; //!< All isotope information for this atom
+      isotopes; //!< All isotope information for this atom
 };
 
 extern const std::unordered_map<size_t, std::string> Z2sym_;

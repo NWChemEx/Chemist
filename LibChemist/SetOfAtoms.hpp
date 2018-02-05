@@ -61,7 +61,7 @@ class SetOfAtoms {
     using const_iterator = std::vector<Atom>::const_iterator;
 
     double charge =
-        0.0; ///< The charge of this collection of atoms in atomic units
+      0.0; ///< The charge of this collection of atoms in atomic units
     double multiplicity = 1.0; ///< The multiplicity of this collection of atoms
 
     /** \brief Default initializes a SetOfAtoms to an empty set.
@@ -124,8 +124,7 @@ class SetOfAtoms {
      *
      * \throw No throw guarantee.
      */
-    bool count(const Atom& atom) const noexcept
-    {
+    bool count(const Atom& atom) const noexcept {
         return std::find(atoms_.begin(), atoms_.end(), atom) != atoms_.end();
     }
 
@@ -144,10 +143,8 @@ class SetOfAtoms {
      *          `this->size()`-th atom if it is not already present.
      * \throws std::bad_alloc if memory allocation fails
      */
-    SetOfAtoms& insert(const Atom& atom)
-    {
-        if(!count(atom))
-            atoms_.push_back(atom);
+    SetOfAtoms& insert(const Atom& atom) {
+        if(!count(atom)) atoms_.push_back(atom);
         return *this;
     }
 
@@ -179,10 +176,9 @@ class SetOfAtoms {
      *  \throws No throw guarantee.
      *
      */
-    bool operator==(const SetOfAtoms& rhs) const noexcept
-    {
-        return std::tie(charge, multiplicity, atoms_)
-               == std::tie(rhs.charge, rhs.multiplicity, rhs.atoms_);
+    bool operator==(const SetOfAtoms& rhs) const noexcept {
+        return std::tie(charge, multiplicity, atoms_) ==
+               std::tie(rhs.charge, rhs.multiplicity, rhs.atoms_);
     }
 
     /** \brief Returns true if any element of this differs from that of another
@@ -193,8 +189,7 @@ class SetOfAtoms {
      *  corresponding element in \p rhs.
      *  \throws No throw guarantee.
      */
-    bool operator!=(const SetOfAtoms& rhs) const noexcept
-    {
+    bool operator!=(const SetOfAtoms& rhs) const noexcept {
         return !((*this) == rhs);
     }
 
