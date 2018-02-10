@@ -13,8 +13,6 @@ def compile_repo(depend_name, install_root, do_install) {
             build_tests="False"
             make_command="install"
         fi
-        echo "install_root: ${install_root}"
-        ls ${install_root}
         cmake -H. -Bbuild -DBUILD_TESTS=\${build_tests} \
                           -DCMAKE_INSTALL_PREFIX=${install_root}\
                           -DCMAKE_PREFIX_PATH=${install_root}
