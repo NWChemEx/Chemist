@@ -4,12 +4,7 @@
 namespace LibChemist {
 
 /** \brief Type of basis shells */
-enum class ShellType
-{
-    SphericalGaussian,
-    CartesianGaussian,
-    Slater
-};
+enum class ShellType { SphericalGaussian, CartesianGaussian, Slater };
 
 /** \brief Returns a string corresponding to ShellType.
  *
@@ -21,18 +16,12 @@ enum class ShellType
  *  \todo Verify if it is even possible to trip the throw
  *
  */
-inline const char * shelltype_string(ShellType type)
-{
-    switch(type)
-    {
-        case ShellType::SphericalGaussian:
-            return "SphericalGaussian";
-        case ShellType::CartesianGaussian:
-            return "CartesianGaussian";
-        case ShellType::Slater:
-            return "Slater";
-        default:
-            throw std::logic_error("Shell type to string is missing");
+inline const char* shelltype_string(ShellType type) {
+    switch(type) {
+        case ShellType::SphericalGaussian: return "SphericalGaussian";
+        case ShellType::CartesianGaussian: return "CartesianGaussian";
+        case ShellType::Slater: return "Slater";
+        default: throw std::logic_error("Shell type to string is missing");
     }
 }
 
@@ -68,4 +57,4 @@ std::string am_int2str(int am);
  */
 size_t am_2int(int am, size_t i);
 
-} // close namespace
+} // namespace LibChemist

@@ -1,20 +1,21 @@
 #pragma once
+#include "LibChemist/BasisSet.hpp"
+#include "LibChemist/BasisShell.hpp"
 #include <array>
 #include <unordered_map>
-#include "LibChemist/BasisShell.hpp"
-#include "LibChemist/BasisSet.hpp"
 
 namespace LibChemist {
 
-///These are the recognized properties an atom may have
-enum class AtomProperty { Z,    ///< Atomic number/nuclear charge
-                          mass, ///< Atomic mass (abundance-weighted mass)
-                          isotope_mass, ///< Mass of the selected isotope
-                          charge,       ///< Charge on the center
-                          multiplicity, ///< Electronic multiplicity
-                          nelectrons,   ///< Number of assigned electrons
-                          cov_radius,   ///< The covalent radius
-                          vdw_radius   ///< The van der waals radius
+/// These are the recognized properties an atom may have
+enum class AtomProperty {
+    Z,            ///< Atomic number/nuclear charge
+    mass,         ///< Atomic mass (abundance-weighted mass)
+    isotope_mass, ///< Mass of the selected isotope
+    charge,       ///< Charge on the center
+    multiplicity, ///< Electronic multiplicity
+    nelectrons,   ///< Number of assigned electrons
+    cov_radius,   ///< The covalent radius
+    vdw_radius    ///< The van der waals radius
 };
 
 /*! \brief A center in a system
@@ -44,14 +45,14 @@ enum class AtomProperty { Z,    ///< Atomic number/nuclear charge
  *
  */
 class Atom {
-public:
+    public:
     /** \brief Makes an instance where all values are in an unitialized state.
      *
      *   \throws None No throw guarantee.
      *
      *   \threading Thread safe.
      */
-    Atom()noexcept=default;
+    Atom() noexcept = default;
 
     /** \brief Deep copies another Atom instance
      *
@@ -63,7 +64,7 @@ public:
      *  \threading All elements of \p other are accessed and data races may
      *  occur if \p other is concurrently modified.
      */
-    Atom(const Atom& /*other*/)=default;
+    Atom(const Atom& /*other*/) = default;
 
     /** \brief Takes ownership of another Atom instance
      *
@@ -75,7 +76,7 @@ public:
      *
      * \threading All elements of \p other are accessed and modified.
      */
-    Atom(Atom&& /*other*/)noexcept=default;
+    Atom(Atom&& /*other*/) noexcept = default;
 
     /** @brief Makes an Atom with the requested state.
      *
@@ -90,16 +91,16 @@ public:
      *
      */
     template<typename map_type>
-    Atom(const std::array<double,3>& xyz, const map_type& props):
-            coord(xyz),properties_(props.begin(),props.end())
-    {}
+    Atom(const std::array<double, 3>& xyz, const map_type& props) :
+      coord(xyz),
+      properties_(props.begin(), props.end()) {}
 
     /**
      * @brief Cleans up memory associated with this instance.
      *
      * @throw None. No throw guarantee.
      */
-    ~Atom()noexcept =default;
+    ~Atom() noexcept = default;
 
     /** \brief Assigns a deep copy of another Atom instance to this instance
      *
@@ -113,7 +114,7 @@ public:
      *  \threading All members of \p rhs are accessed and data races may occur
      *  if \p rhs is concurrently modified.
      */
-    Atom& operator=(const Atom& /*rhs*/)=default;
+    Atom& operator=(const Atom& /*rhs*/) = default;
 
     /** @brief Assigns another Atom instance's data to this instance.
      *
@@ -126,7 +127,7 @@ public:
      *
      *  @threading All elements of this and @p rhs are accessed and modified.
      */
-    Atom& operator=(Atom&& /*rhs*/)noexcept=default;
+    Atom& operator=(Atom&& /*rhs*/) noexcept = default;
 
     /**
      * @brief Tells you whether a property is defined for the current atom
@@ -134,8 +135,7 @@ public:
      * @return True if the current instance has @p prop set and false otherwise.
      * @throw None. No throw guarantee.
      */
-    bool count(AtomProperty prop)const noexcept
-    {
+    bool count(AtomProperty prop) const noexcept {
         return properties_.count(prop);
     }
 
@@ -147,10 +147,8 @@ public:
      *     insufficient memory to allocate space for its value.  Strong throw
      *     guarantee.
      */
-    double& property(AtomProperty prop)
-    {
-        if(!count(prop))
-            properties_[prop]=0.0;
+    double& property(AtomProperty prop) {
+        if(!count(prop)) properties_[prop] = 0.0;
         return properties_[prop];
     }
 
@@ -161,8 +159,7 @@ public:
      * @throws std::out_of_range if the current atom does not have the requested
      *         property.  Strong throw guarantee.
      */
-    const double& property(AtomProperty prop)const
-    {
+    const double& property(AtomProperty prop) const {
         return properties_.at(prop);
     }
 
@@ -180,11 +177,10 @@ public:
      *  concurrently.
      *
      */
-    void add_shell(const std::string& bs_name, const BasisShell& shell)
-    {
+    void add_shell(const std::string& bs_name, const BasisShell& shell) {
         if(!basis_sets_.count(bs_name))
-            basis_sets_[bs_name]=std::vector<BasisShell>();
-        auto& bs=basis_sets_[bs_name];
+            basis_sets_[bs_name] = std::vector<BasisShell>();
+        auto& bs = basis_sets_[bs_name];
         bs.push_back(shell);
     }
 
@@ -202,13 +198,11 @@ public:
      * \threading Generally thread safe although data races may occur if there
      * are concurrent calls to add_shell.
      */
-    BasisSet get_basis(const std::string& bs_name)const
-    {
+    BasisSet get_basis(const std::string& bs_name) const {
         BasisSet rv;
-        if(!basis_sets_.count(bs_name))
-            return rv;
-        for(const auto& shell: basis_sets_.at(bs_name))
-            rv.add_shell(coord.data(),shell);
+        if(!basis_sets_.count(bs_name)) return rv;
+        for(const auto& shell : basis_sets_.at(bs_name))
+            rv.add_shell(coord.data(), shell);
         return rv;
     }
 
@@ -224,7 +218,7 @@ public:
      * \threading All members of \p rhs are accessed, concurrent modification of
      * \p rhs may result in data races.
      */
-    bool operator==(const Atom& rhs)const noexcept;
+    bool operator==(const Atom& rhs) const noexcept;
 
     /** \brief Returns true if this instance is not exactly equal to another
      *     Atom instance.
@@ -239,18 +233,16 @@ public:
      *  \threading All members of \p rhs are accessed.  Concurrent writes to
      *  \p rhs may result in data races.
      */
-    bool operator!=(const Atom& rhs)const noexcept
-    {
-        return !(*this==rhs);
-    }
+    bool operator!=(const Atom& rhs) const noexcept { return !(*this == rhs); }
 
-    ///The coordinates of the Atom
-    std::array<double,3> coord;
-private:
-    ///The properties of the Atom
-    std::unordered_map<AtomProperty,double> properties_;
+    /// The coordinates of the Atom
+    std::array<double, 3> coord;
 
-    ///A map between basis set names and its shells on this atom
+    private:
+    /// The properties of the Atom
+    std::unordered_map<AtomProperty, double> properties_;
+
+    /// A map between basis set names and its shells on this atom
     std::unordered_map<std::string, std::vector<BasisShell>> basis_sets_;
 };
 
@@ -269,7 +261,7 @@ private:
  * @threading Members of @p xyz are accessed and concurrent modifciation of
  * @p xyz may result in data races.
  */
-Atom create_atom(const std::array<double,3>& xyz, size_t Z);
+Atom create_atom(const std::array<double, 3>& xyz, size_t Z);
 
 /** @relates Atom
  * @brief Create an atom given coordinates, atomic number, and isotope number
@@ -288,7 +280,7 @@ Atom create_atom(const std::array<double,3>& xyz, size_t Z);
  * @threading Members of @p xyz are accessed and concurrent modification of
  * @p xyz may result in data races.
  */
-Atom create_atom(const std::array<double,3>& xyz,size_t Z, size_t isonum);
+Atom create_atom(const std::array<double, 3>& xyz, size_t Z, size_t isonum);
 
 /** @relates Atom
  * @brief Makes a copy of an Atom that is a ghost atom.
@@ -307,7 +299,7 @@ Atom create_atom(const std::array<double,3>& xyz,size_t Z, size_t isonum);
  * @threading All members of @p atom are accessed and data races may result if
  * @p atom is concurrently modified.
  */
-Atom create_ghost(const Atom& atom)noexcept;
+Atom create_ghost(const Atom& atom) noexcept;
 
 /** @relates Atom
  * @brief Returns true if @p atom is a ghost atom.
@@ -325,7 +317,7 @@ Atom create_ghost(const Atom& atom)noexcept;
  * @threading Members of @p atom are accessed and data races may result if
  * @p atom is concurrently modified.
  */
-bool is_ghost_atom(const Atom& atom)noexcept;
+bool is_ghost_atom(const Atom& atom) noexcept;
 
 /** @relates Atom
  * @brief Makes a dummy atom.
@@ -342,7 +334,7 @@ bool is_ghost_atom(const Atom& atom)noexcept;
  * @threading All members of @p xyz are accessed and data races may occur if
  * @p xyz is subsequently modified.
  */
-Atom create_dummy(const std::array<double,3>& xyz)noexcept;
+Atom create_dummy(const std::array<double, 3>& xyz) noexcept;
 
 /** @relates Atom
  * @brief Returns true if @p atom is a dummy atom.
@@ -360,7 +352,7 @@ Atom create_dummy(const std::array<double,3>& xyz)noexcept;
  * @threading Members of @p atom are accessed and data races may result if
  *  @p atom is concurrently modified.
  */
-bool is_dummy_atom(const Atom& atom)noexcept;
+bool is_dummy_atom(const Atom& atom) noexcept;
 
 /** @relates Atom
  * @brief Makes a point charge.
@@ -378,7 +370,7 @@ bool is_dummy_atom(const Atom& atom)noexcept;
  * @threading @p xyz is accessed and concurrent modifications to @p xyz may
  * result in data races.
  */
-Atom create_charge(const std::array<double,3>& xyz,double chg)noexcept;
+Atom create_charge(const std::array<double, 3>& xyz, double chg) noexcept;
 
 /** @relates Atom
  * @brief Returns true if @p atom is a point charge.
@@ -396,7 +388,7 @@ Atom create_charge(const std::array<double,3>& xyz,double chg)noexcept;
  * @threading Members of @p atom are accessed and data races may result if
  * @p atom is concurrently modified.
  */
-bool is_charge(const Atom& atom)noexcept;
+bool is_charge(const Atom& atom) noexcept;
 
 /** @relates Atom
  * @brief Returns true if @p atom is a "real" atom.
@@ -414,6 +406,6 @@ bool is_charge(const Atom& atom)noexcept;
  * @threading Members of @p atom are accessed and data races may result if
  * @p atom is concurrently modified.
  */
-bool is_real_atom(const Atom& atom)noexcept;
+bool is_real_atom(const Atom& atom) noexcept;
 
-} // close namespace
+} // namespace LibChemist

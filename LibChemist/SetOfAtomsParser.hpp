@@ -1,9 +1,9 @@
 #pragma once
-#include <string>
-#include <map>
-#include <vector>
-#include <istream>
 #include "LibChemist/SetOfAtoms.hpp"
+#include <istream>
+#include <map>
+#include <string>
+#include <vector>
 
 /** \file This file contains the machinery for parsing a string representation
  *  of a set of atoms.
@@ -37,9 +37,7 @@
  * - SpaceGroup: which space group the unit cell belongs to.
  */
 
-
 namespace LibChemist {
-
 
 /** \brief This class abstracts away the layout of a string representation of a
  *  SetOfAtoms.
@@ -47,23 +45,21 @@ namespace LibChemist {
  *  This is the base class for all classes specifying the layout of a
  *  SetOfAtoms file.
  */
-struct SetOfAtomsFileParser
-{
-    enum class action_type{none,new_atom,same_atom,overall_system};
-    enum class data_type{AtNum,x,y,z,charge,multiplicity};
-    virtual action_type worth_parsing(const std::string& line)const=0;
-    virtual std::map<data_type,std::vector<double>>
-    parse(const std::string& line)const=0;
+struct SetOfAtomsFileParser {
+    enum class action_type { none, new_atom, same_atom, overall_system };
+    enum class data_type { AtNum, x, y, z, charge, multiplicity };
+    virtual action_type worth_parsing(const std::string& line) const = 0;
+    virtual std::map<data_type, std::vector<double>> parse(
+      const std::string& line) const = 0;
 };
 
 /** \brief This class implements a SetOfAtomsParser for the xyz format.
  *
  */
-struct XYZParser: public SetOfAtomsFileParser
-{
-    action_type worth_parsing(const std::string& line)const override;
-    std::map<data_type, std::vector<double> >
-    parse(const std::string& line)const override;
+struct XYZParser : public SetOfAtomsFileParser {
+    action_type worth_parsing(const std::string& line) const override;
+    std::map<data_type, std::vector<double>> parse(
+      const std::string& line) const override;
 };
 
 /** \brief The function to call to parse a SetOfAtomsFile.
@@ -77,4 +73,4 @@ struct XYZParser: public SetOfAtomsFileParser
 SetOfAtoms parse_SetOfAtoms_file(std::istream& is,
                                  const SetOfAtomsFileParser& parser);
 
-}//End namespace
+} // namespace LibChemist

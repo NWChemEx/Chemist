@@ -1,8 +1,8 @@
 #pragma once
-#include <vector>
 #include "LibChemist/ShellTypes.hpp"
+#include <vector>
 
-namespace LibChemist{
+namespace LibChemist {
 
 /** \brief Class for holding the details of a basis set.
  *
@@ -24,25 +24,24 @@ namespace LibChemist{
  *
  */
 class BasisShell {
-private:
-    ///A ngen_ by nprim_ array of expansion coefficients stored row-major
+    private:
+    /// A ngen_ by nprim_ array of expansion coefficients stored row-major
     std::vector<double> cs_;
 
-    ///A nprim_ long array of primitive exponents
+    /// A nprim_ long array of primitive exponents
     std::vector<double> alphas_;
 
-public:
-
-    ///The type of the shell
+    public:
+    /// The type of the shell
     ShellType type;
 
-    ///The angular momentum of the shell
+    /// The angular momentum of the shell
     int l;
 
-    ///The number of general contractions in this shell
+    /// The number of general contractions in this shell
     size_t ngen;
 
-    ///The number of primitives in this shell
+    /// The number of primitives in this shell
     size_t nprim;
 
     /** \brief Constructs a new BasisShell by copying the input values.
@@ -59,10 +58,13 @@ public:
      */
     BasisShell(ShellType type_, int l_, size_t ngen_,
                const std::vector<double>& alphas,
-               const std::vector<double>& coefs):
-        cs_(coefs),alphas_(alphas),type(type_),l(l_),ngen(ngen_),
-        nprim(alphas.size())
-    {}
+               const std::vector<double>& coefs) :
+      cs_(coefs),
+      alphas_(alphas),
+      type(type_),
+      l(l_),
+      ngen(ngen_),
+      nprim(alphas.size()) {}
 
     /** \brief Constructs a new BasisShell instance by moving the input values.
      *
@@ -76,19 +78,21 @@ public:
      *  \throws No throw guarantee.
      */
     BasisShell(ShellType type_, int l_, size_t ngen_,
-               std::vector<double> &&alphas,
-               std::vector<double> &&coefs)noexcept:
-        cs_(std::move(coefs)),alphas_(std::move(alphas)),
-        type(type_),l(l_),ngen(ngen_),nprim(alphas_.size())
-    {}
+               std::vector<double>&& alphas,
+               std::vector<double>&& coefs) noexcept :
+      cs_(std::move(coefs)),
+      alphas_(std::move(alphas)),
+      type(type_),
+      l(l_),
+      ngen(ngen_),
+      nprim(alphas_.size()) {}
 
     /** \brief Creates a default BasisShell instance.
      *
      *  The resulting instance is unusable aside from being a placeholder.
      *  \throw No throw guarantee.
      */
-    BasisShell()noexcept=default;
-
+    BasisShell() noexcept = default;
 
     /** \brief Constructs a new BasisShell by deep copying.
      *
@@ -97,7 +101,7 @@ public:
      * \throw std::bad_alloc if memory allocation fails.  Strong throw
      * guarantee.
      */
-    BasisShell(const BasisShell& /*other*/)=default;
+    BasisShell(const BasisShell& /*other*/) = default;
 
     /** \brief Takes ownership of another BasisShell instance.
      *
@@ -105,7 +109,7 @@ public:
      *  \throw No throw guarantee.
      *  \note After this function other is in a valid, but undefined state.
      */
-    BasisShell(BasisShell&& /*other*/)noexcept=default;
+    BasisShell(BasisShell&& /*other*/) noexcept = default;
 
     /** \brief Assigns a deep copy of another BasisShell instance to this
      *         instance.
@@ -115,7 +119,7 @@ public:
      * \throw std::bad_alloc if memory allocation fails.  Strong throw
      *  guarantee.
      */
-    BasisShell& operator=(const BasisShell& /*other*/)=default;
+    BasisShell& operator=(const BasisShell& /*other*/) = default;
 
     /** \brief Takes ownership of another BasisShell instance via assignment.
      *
@@ -124,16 +128,16 @@ public:
      * \throw No throw guarantee.
      * \note After this function \p other is in a valid, but undefined state.
      */
-    BasisShell& operator=(BasisShell&& /*other*/)noexcept=default;
+    BasisShell& operator=(BasisShell&& /*other*/) noexcept = default;
 
     /** \brief Returns true if this instance is exactly equal to another
-      *   instance.
-      *
-      *  \param[in] rhs The instance to compare against.
-      *  \returns True if this instance is exactly equal to \p rhs.
-      *  \throw No throw guarantee.
-      *
-      */
+     *   instance.
+     *
+     *  \param[in] rhs The instance to compare against.
+     *  \returns True if this instance is exactly equal to \p rhs.
+     *  \throw No throw guarantee.
+     *
+     */
     bool operator==(const BasisShell& rhs) const noexcept;
 
     /** \brief Returns true if any part of this instance differs from another
@@ -144,8 +148,7 @@ public:
      *    corresponding member of \p rhs.
      * \throw No throw guarantee.
      */
-    bool operator!=(const BasisShell& rhs)const noexcept
-    {
+    bool operator!=(const BasisShell& rhs) const noexcept {
         return !((*this) == rhs);
     }
 
@@ -154,10 +157,7 @@ public:
      *  \returns The requested exponent
      *  \throw No throw guarantee.
      */
-    double alpha(size_t i)const noexcept
-    {
-        return alphas_[i];
-    }
+    double alpha(size_t i) const noexcept { return alphas_[i]; }
 
     /** \brief Returns the i-th coefficient of the j-th contraction
      *  \param[in] i Which coefficientt to return. I in range
@@ -167,9 +167,8 @@ public:
      *  \returns The requested coefficient
      *  \throw No throw guarantee.
      */
-    double coef(size_t i,size_t j)const noexcept
-    {
-        return cs_[j*nprim+i];
+    double coef(size_t i, size_t j) const noexcept {
+        return cs_[j * nprim + i];
     }
 
     /** \brief Returns the number of basis functions in the i-th contraction
@@ -178,7 +177,7 @@ public:
      *  rather 2l+1 for pure/Slater shells and 3 multichoose l for Cartesian
      *  shells.
      */
-    size_t nfunctions(size_t i)const noexcept;
+    size_t nfunctions(size_t i) const noexcept;
 };
 
-} // close namespace
+} // namespace LibChemist

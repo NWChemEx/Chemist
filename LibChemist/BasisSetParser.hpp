@@ -1,9 +1,9 @@
 #pragma once
-#include <string>
-#include <map>
-#include <vector>
-#include <istream>
 #include "LibChemist/BasisShell.hpp"
+#include <istream>
+#include <map>
+#include <string>
+#include <vector>
 
 /** \file This file contains the machinery for parsing a basis set file.
  *
@@ -37,7 +37,6 @@
  * data you obtained from the line.
  */
 
-
 namespace LibChemist {
 
 /** \brief This class abstracts away the layout of the basis set file
@@ -45,31 +44,29 @@ namespace LibChemist {
  *  This is the base class for all classes specifying the layout of a
  *  basis set file.
  */
-struct BasisSetFileParser
-{
-    enum class action_type{none,new_atom,new_shell,same_shell};
-    enum class data_type{exponent,coefficient,angular_momentum,Z};
+struct BasisSetFileParser {
+    enum class action_type { none, new_atom, new_shell, same_shell };
+    enum class data_type { exponent, coefficient, angular_momentum, Z };
 
-    virtual action_type worth_parsing(const std::string& line)const=0;
-    virtual std::map<data_type,std::vector<double>>
-    parse(const std::string& line)const=0;
+    virtual action_type worth_parsing(const std::string& line) const = 0;
+    virtual std::map<data_type, std::vector<double>> parse(
+      const std::string& line) const = 0;
 };
 
 /** \brief This class implements a BasisSetFileParser for the Gaussian94 format.
  *
  */
-struct G94: public BasisSetFileParser
-{
-    action_type worth_parsing(const std::string& line)const override;
-    std::map<data_type, std::vector<double> >
-    parse(const std::string& line)const override;
+struct G94 : public BasisSetFileParser {
+    action_type worth_parsing(const std::string& line) const override;
+    std::map<data_type, std::vector<double>> parse(
+      const std::string& line) const override;
 };
 
 /** \brief The function to call to parse a BasisSetFile.
  *
  *
  */
-std::map<size_t,std::vector<BasisShell>>
-parse_basis_set_file(std::istream& is, const BasisSetFileParser& parser);
+std::map<size_t, std::vector<BasisShell>> parse_basis_set_file(
+  std::istream& is, const BasisSetFileParser& parser);
 
-}//End namespace LibChemist
+} // End namespace LibChemist

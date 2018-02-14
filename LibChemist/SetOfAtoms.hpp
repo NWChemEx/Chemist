@@ -1,9 +1,9 @@
 #pragma once
 #include "LibChemist/Atom.hpp"
 #include "LibChemist/BasisSet.hpp"
-#include <vector>
-#include <map>
 #include <algorithm>
+#include <map>
+#include <vector>
 
 namespace LibChemist {
 
@@ -52,16 +52,17 @@ namespace LibChemist {
  * use std::vector's index operator.
  */
 class SetOfAtoms {
-protected:
-    ///The class that actually handles the Atom lookup semantics
+    protected:
+    /// The class that actually handles the Atom lookup semantics
     std::vector<Atom> atoms_;
-public:
 
-    using iterator=std::vector<Atom>::iterator;
-    using const_iterator=std::vector<Atom>::const_iterator;
+    public:
+    using iterator       = std::vector<Atom>::iterator;
+    using const_iterator = std::vector<Atom>::const_iterator;
 
-    double charge=0.0;///<The charge of this collection of atoms in atomic units
-    double multiplicity=1.0;///<The multiplicity of this collection of atoms
+    double charge =
+      0.0; ///< The charge of this collection of atoms in atomic units
+    double multiplicity = 1.0; ///< The multiplicity of this collection of atoms
 
     /** \brief Default initializes a SetOfAtoms to an empty set.
      *
@@ -70,13 +71,13 @@ public:
      *
      * \throws No throw guarantee.
      */
-    SetOfAtoms()noexcept=default;
+    SetOfAtoms() noexcept = default;
 
     /** \brief Destructor
      *
      *  \throws No throw guarantee.
      */
-    ~SetOfAtoms()noexcept=default;
+    ~SetOfAtoms() noexcept = default;
 
     /** \brief Deep copies a SetOfAtoms instance.
      *
@@ -86,14 +87,14 @@ public:
      * guarantee.
      *
      */
-    SetOfAtoms(const SetOfAtoms& other)=default;
+    SetOfAtoms(const SetOfAtoms& other) = default;
 
     /** \brief Takes ownership of another SetOfAtoms instance
      *
      * \param[in] other The instance to take ownership of.
      * \throws No throw guarantee.
      */
-    SetOfAtoms(SetOfAtoms&& other)noexcept=default;
+    SetOfAtoms(SetOfAtoms&& other) noexcept = default;
 
     /** \brief Assigns a deep copy of another SetOfAtoms instance to this.
      *
@@ -103,14 +104,14 @@ public:
      *  guarantee.
      *
      */
-    SetOfAtoms& operator=(const SetOfAtoms& rhs)=default;
+    SetOfAtoms& operator=(const SetOfAtoms& rhs) = default;
 
     /** \brief Takes ownership of another instance via move assignment.
      *
      * \returns The current instance containing the data of \p rhs.
      * \throws No throw guarantee.
      */
-    SetOfAtoms& operator=(SetOfAtoms&& rhs)noexcept=default;
+    SetOfAtoms& operator=(SetOfAtoms&& rhs) noexcept = default;
 
     /** \brief Returns the number of times \p atom is in the current instance.
      *
@@ -123,9 +124,8 @@ public:
      *
      * \throw No throw guarantee.
      */
-    bool count(const Atom& atom)const noexcept
-    {
-        return std::find(atoms_.begin(),atoms_.end(),atom)!=atoms_.end();
+    bool count(const Atom& atom) const noexcept {
+        return std::find(atoms_.begin(), atoms_.end(), atom) != atoms_.end();
     }
 
     /** \brief Returns the number of Atoms in this instance.
@@ -133,10 +133,7 @@ public:
      * \returns The number of atoms.
      * \throws No throw guarantee.
      */
-    size_t size()const noexcept
-    {
-        return atoms_.size();
-    }
+    size_t size() const noexcept { return atoms_.size(); }
 
     /** \brief Inserts an atom into the current instance.
      *
@@ -146,10 +143,8 @@ public:
      *          `this->size()`-th atom if it is not already present.
      * \throws std::bad_alloc if memory allocation fails
      */
-    SetOfAtoms& insert(const Atom& atom)
-    {
-        if(!count(atom))
-            atoms_.push_back(atom);
+    SetOfAtoms& insert(const Atom& atom) {
+        if(!count(atom)) atoms_.push_back(atom);
         return *this;
     }
 
@@ -160,10 +155,7 @@ public:
      * \returns The requrested atom.
      * \throws No throw guarantee.
      */
-    const Atom& operator[](size_t i)const noexcept
-    {
-        return atoms_[i];
-    }
+    const Atom& operator[](size_t i) const noexcept { return atoms_[i]; }
 
     /** \brief Returns the requested atom fro reading/writing
      *
@@ -172,10 +164,7 @@ public:
      * \returns The requested atom.
      * \throws No throw guarantee.
      */
-    Atom& operator[](size_t i)noexcept
-    {
-        return atoms_[i];
-    }
+    Atom& operator[](size_t i) noexcept { return atoms_[i]; }
 
     /** \brief Returns true if this instance is exactly equal to other.
      *
@@ -187,10 +176,9 @@ public:
      *  \throws No throw guarantee.
      *
      */
-    bool operator==(const SetOfAtoms& rhs)const noexcept
-    {
-        return std::tie(charge,multiplicity,atoms_)==
-               std::tie(rhs.charge,rhs.multiplicity,rhs.atoms_);
+    bool operator==(const SetOfAtoms& rhs) const noexcept {
+        return std::tie(charge, multiplicity, atoms_) ==
+               std::tie(rhs.charge, rhs.multiplicity, rhs.atoms_);
     }
 
     /** \brief Returns true if any element of this differs from that of another
@@ -201,31 +189,17 @@ public:
      *  corresponding element in \p rhs.
      *  \throws No throw guarantee.
      */
-    bool operator!=(const SetOfAtoms& rhs)const noexcept
-    {
-        return !((*this)==rhs);
+    bool operator!=(const SetOfAtoms& rhs) const noexcept {
+        return !((*this) == rhs);
     }
 
+    iterator begin() noexcept { return atoms_.begin(); }
 
-    iterator begin()noexcept
-    {
-        return atoms_.begin();
-    }
+    const_iterator begin() const noexcept { return atoms_.begin(); }
 
-    const_iterator begin()const noexcept
-    {
-        return atoms_.begin();
-    }
+    iterator end() noexcept { return atoms_.end(); }
 
-    iterator end()noexcept
-    {
-        return atoms_.end();
-    }
-
-    const_iterator end()const noexcept
-    {
-        return atoms_.end();
-    }
+    const_iterator end() const noexcept { return atoms_.end(); }
 };
 
 /** \relates SetOfAtoms
@@ -241,7 +215,7 @@ public:
  *
  */
 SetOfAtoms apply_basis_set(const std::string& name,
-                           const std::map<size_t,std::vector<BasisShell>>& bs,
+                           const std::map<size_t, std::vector<BasisShell>>& bs,
                            const SetOfAtoms& atoms);
 
 /** \relates SetOfAtoms
@@ -260,7 +234,6 @@ SetOfAtoms apply_basis_set(const std::string& name,
  */
 BasisSet get_basis(const std::string& name, const SetOfAtoms& atoms);
 
-
 /** \relates SetOfAtoms
  *  \brief Pulls the basis set off of a SetOfAtoms instances and places it
  *  in a more integrals-friendly container.  The resulting basis set still
@@ -277,4 +250,4 @@ BasisSet get_basis(const std::string& name, const SetOfAtoms& atoms);
  */
 BasisSet get_general_basis(const std::string& name, const SetOfAtoms& atoms);
 
-} //End namespace
+} // namespace LibChemist
