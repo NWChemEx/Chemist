@@ -35,11 +35,8 @@ node {
         find . -type f -iname *.h -o -iname *.c -o -iname *.cpp -o -iname *.hpp | xargs clang-format -style=file -i -fallback-style=none
         rm .clang-format
         git diff >clang_format.patch
-        if [ ! -s clang_format.patch]
+        if [ -s clang_format.patch]
         then
-        rm clang_format.patch
-        exit 0
-        else
         gem install gist
         echo '##########################################################'
         echo 'Code Formatting Check Failed!'
@@ -62,7 +59,6 @@ node {
     }
 
     stage('Build Repo') {
-//        checkout scm
         compile_repo("${repo_name}", "${install_root}", "False")
     }
     stage('Test Repo') {
