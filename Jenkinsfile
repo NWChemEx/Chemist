@@ -21,17 +21,6 @@ def compile_repo(depend_name, install_root, do_install) {
 }
 
 node {
-    def install_root="${WORKSPACE}/install"
-    stage('Build Dependencies') {
-        for(int i=0; i<depends.size(); i++) {
-            dir("${depends[i]}"){
-                git credentialsId:'422b0eed-700d-444d-961c-1e58cc75cda2',
-                    url:"https://github.com/NWChemEx-Project/${depends[i]}.git",
-                    branch: 'master'
-                compile_repo("${depends[i]}", "${install_root}", "True")
-            }
-        }
-    }
      stage('Check Code Formatting'){
         sh """
         set +x
@@ -56,6 +45,18 @@ node {
         fi
         """
     }
+    def install_root="${WORKSPACE}/install"
+    stage('Build Dependencies') {
+        for(int i=0; i<depends.size(); i++) {
+            dir("${depends[i]}"){
+                git credentialsId:'422b0eed-700d-444d-961c-1e58cc75cda2',
+                    url:"https://github.com/NWChemEx-Project/${depends[i]}.git",
+                    branch: 'master'
+                compile_repo("${depends[i]}", "${install_root}", "True")
+            }
+        }
+    }
+
     stage('Build Repo') {
         checkout scm
         compile_repo("${repo_name}", "${install_root}", "False")
