@@ -32,6 +32,30 @@ node {
             }
         }
     }
+     stage('Check Code Formatting'){
+        sh """
+        set +x
+        source /etc/profile
+        module load llvm
+        wget https://raw.githubusercontent.com/NWChemEx-Project/NWChemExBase/master/tools/lint/.clang-format?token=AGFCCip7lZqXWoespbaW28yUFtwIf_2Yks5alyA_wA%3D%3D -O .clang-format
+        find . -type f -iname *.h -o -iname *.c -o -iname *.cpp -o -iname *.hpp | xargs clang-format -style=file -i -fallback-style=none
+        rm .clang-format
+        git diff >clang_format.patch
+        if [ ! -s clang_format.patch]
+        then
+        rm clang_format.patch
+        exit 0
+        else
+        gem install gist
+        echo '##########################################################'
+        echo 'Code Formatting Check Failed!'
+        echo 'Please "git apply" the Following Patch File:'
+        ~/bin/gist -p clang_format.patch
+        echo '##########################################################'
+        exit 1
+        fi
+        """
+    }
     stage('Build Repo') {
         checkout scm
         compile_repo("${repo_name}", "${install_root}", "False")
