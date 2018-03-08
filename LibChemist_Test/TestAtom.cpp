@@ -6,7 +6,7 @@ using namespace LibChemist;
 
 TEST_CASE("Atom class") {
     std::array<double, 3> origin({0.0, 0.0, 0.0});
-    std::unordered_map<AtomProperty, double> props;
+    std::map<AtomProperty, double> props;
     props[AtomProperty::Z]            = 92.0;
     props[AtomProperty::mass]         = 238.02891;
     props[AtomProperty::isotope_mass] = 238.05079;

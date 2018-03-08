@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <unordered_map>
+#include <map>
 #include <vector>
 
 /** \file Declares structures containing basic experimental data.
@@ -38,11 +38,11 @@ struct AtomicData {
       isotopes; //!< All isotope information for this atom
 };
 
-extern const std::unordered_map<size_t, std::string> Z2sym_;
+extern const std::map<size_t, std::string> Z2sym_;
 
-extern const std::unordered_map<std::string, size_t> sym2Z_;
+extern const std::map<std::string, size_t> sym2Z_;
 
-extern const std::unordered_map<size_t, AtomicData> atomic_data_;
+extern const std::map<size_t, AtomicData> atomic_data_;
 
 /** \brief Returns the most common isotope number for the atom with atomic
  * number \p Z

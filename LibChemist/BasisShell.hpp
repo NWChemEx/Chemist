@@ -1,5 +1,8 @@
 #pragma once
 #include "LibChemist/ShellTypes.hpp"
+#include <string>
+#include <sstream>
+#include <iostream>
 #include <vector>
 
 namespace LibChemist {
