@@ -2,7 +2,7 @@
 #include "LibChemist/BasisSet.hpp"
 #include "LibChemist/BasisShell.hpp"
 #include <array>
-#include <unordered_map>
+#include <map>
 
 namespace LibChemist {
 
@@ -52,7 +52,7 @@ class Atom {
      *
      *   \threading Thread safe.
      */
-    Atom() noexcept = default;
+    Atom() = default;
 
     /** \brief Deep copies another Atom instance
      *
@@ -76,7 +76,7 @@ class Atom {
      *
      * \threading All elements of \p other are accessed and modified.
      */
-    Atom(Atom&& /*other*/) noexcept = default;
+    Atom(Atom&& /*other*/) = default;
 
     /** @brief Makes an Atom with the requested state.
      *
@@ -100,7 +100,7 @@ class Atom {
      *
      * @throw None. No throw guarantee.
      */
-    ~Atom() noexcept = default;
+    ~Atom() = default;
 
     /** \brief Assigns a deep copy of another Atom instance to this instance
      *
@@ -127,7 +127,7 @@ class Atom {
      *
      *  @threading All elements of this and @p rhs are accessed and modified.
      */
-    Atom& operator=(Atom&& /*rhs*/) noexcept = default;
+    Atom& operator=(Atom&& /*rhs*/) = default;
 
     /**
      * @brief Tells you whether a property is defined for the current atom
@@ -240,10 +240,10 @@ class Atom {
 
     private:
     /// The properties of the Atom
-    std::unordered_map<AtomProperty, double> properties_;
+    std::map<AtomProperty, double> properties_;
 
     /// A map between basis set names and its shells on this atom
-    std::unordered_map<std::string, std::vector<BasisShell>> basis_sets_;
+    std::map<std::string, std::vector<BasisShell>> basis_sets_;
 };
 
 /** @relates Atom

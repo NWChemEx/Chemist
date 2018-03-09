@@ -3,7 +3,7 @@
 
 namespace LibChemist {
 namespace detail_ {
-extern const std::unordered_map<size_t, std::string> Z2sym_{
+extern const std::map<size_t, std::string> Z2sym_{
   {0, "Gho"},    {1, "H"},    {2, "He"},    {3, "Li"},    {4, "Be"},
   {5, "B"},      {6, "C"},    {7, "N"},     {8, "O"},     {9, "F"},
   {10, "Ne"},    {11, "Na"},  {12, "Mg"},   {13, "Al"},   {14, "Si"},
@@ -31,7 +31,7 @@ extern const std::unordered_map<size_t, std::string> Z2sym_{
   {9999, "Dum"},
 }; // close Z2sym_
 
-extern const std::unordered_map<std::string, size_t> sym2Z_{
+extern const std::map<std::string, size_t> sym2Z_{
   {"Gho", 0},    {"H", 1},    {"He", 2},    {"Li", 3},    {"Be", 4},
   {"B", 5},      {"C", 6},    {"N", 7},     {"O", 8},     {"F", 9},
   {"Ne", 10},    {"Na", 11},  {"Mg", 12},   {"Al", 13},   {"Si", 14},
@@ -59,7 +59,7 @@ extern const std::unordered_map<std::string, size_t> sym2Z_{
   {"Dum", 9999},
 }; // close sym2Z_
 
-extern const std::unordered_map<size_t, AtomicData> atomic_data_{
+extern const std::map<size_t, AtomicData> atomic_data_{
   {
     0,
     {

@@ -151,7 +151,7 @@ with open(header_file,'w') as f:
 
     f.write("#pragma once\n")
     f.write("#include <string>\n")
-    f.write("#include <unordered_map>\n")
+    f.write("#include <map>\n")
     f.write("#include <vector>\n")
     f.write(comment+'\n')
     f.write("namespace LibChemist {\n")
@@ -179,9 +179,9 @@ with open(header_file,'w') as f:
     f.write("    double vdwradius;     //! VDW radius in a.u.\n")
     f.write("    std::vector<IsotopeData> isotopes; //!< All isotope information for this atom\n")
     f.write("};\n\n")
-    f.write("extern const std::unordered_map<size_t, std::string> Z2sym_;\n\n")
-    f.write("extern const std::unordered_map<std::string, size_t> sym2Z_;\n\n")
-    f.write("extern const std::unordered_map<size_t, AtomicData> atomic_data_;\n\n")
+    f.write("extern const std::map<size_t, std::string> Z2sym_;\n\n")
+    f.write("extern const std::map<std::string, size_t> sym2Z_;\n\n")
+    f.write("extern const std::map<size_t, AtomicData> atomic_data_;\n\n")
     f.write("/** \\brief Returns the most common isotope number for the atom with atomic number \p Z\n")
     f.write(" *\n")
     f.write(" * \\param[in] Z The atomic number for which you want the most common isotope\n")
@@ -207,19 +207,19 @@ with open(src_file,'w') as f:
     f.write("namespace detail_ {\n")
 
     # First, atomic Z to symbol map
-    f.write("extern const std::unordered_map<size_t, std::string> Z2sym_{\n")
+    f.write("extern const std::map<size_t, std::string> Z2sym_{\n")
     for k,v in sorted(atomicinfo.items()):
         f.write("  {{ {} , \"{}\" }},\n".format(k, v["sym"]))
     f.write("}; // close Z2sym_\n\n\n")
 
     # Next, atomic symbol to Z
-    f.write("extern const std::unordered_map<std::string, size_t> sym2Z_{\n")
+    f.write("extern const std::map<std::string, size_t> sym2Z_{\n")
     for k,v in sorted(atomicinfo.items()):
         f.write("  {{ \"{}\" , {} }},\n".format(v["sym"], k))
     f.write("}; // close sym2Z_\n\n\n")
 
     # Next, full atomic data
-    f.write("extern const std::unordered_map<size_t, AtomicData> atomic_data_{\n")
+    f.write("extern const std::map<size_t, AtomicData> atomic_data_{\n")
     for k,v in sorted(atomicinfo.items()):
         f.write("  {{ {:<4} , {{ {},\n".format(k, k))
         f.write("             \"{}\",\n".format(v["sym"]))

@@ -18,7 +18,7 @@ Atom create_atom(const CoordType& xyz, size_t Z) {
 
 Atom create_atom(const CoordType& xyz, size_t Z, size_t isonum) {
     const auto& ai = detail_::atomic_data_.at(Z);
-    std::unordered_map<AtomProperty, double> props;
+    std::map<AtomProperty, double> props;
     props[AtomProperty::Z]            = Z;
     props[AtomProperty::mass]         = ai.mass;
     props[AtomProperty::isotope_mass] = detail_::isotope_mass(Z, isonum);
