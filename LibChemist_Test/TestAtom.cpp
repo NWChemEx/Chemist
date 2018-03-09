@@ -1,6 +1,5 @@
-#include "LibChemist/Atom.hpp"
-
-#include "catch/catch.hpp"
+#include <LibChemist/Atom.hpp>
+#include <catch/catch.hpp>
 
 using namespace LibChemist;
 
