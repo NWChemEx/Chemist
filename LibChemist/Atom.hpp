@@ -2,7 +2,7 @@
 #include "LibChemist/BasisSet.hpp"
 #include "LibChemist/BasisShell.hpp"
 #include <array>
-#include <unordered_map>
+#include <map>
 
 namespace LibChemist {
 
@@ -240,10 +240,10 @@ class Atom {
 
     private:
     /// The properties of the Atom
-    std::unordered_map<AtomProperty, double> properties_;
+    std::map<AtomProperty, double> properties_;
 
     /// A map between basis set names and its shells on this atom
-    std::unordered_map<std::string, std::vector<BasisShell>> basis_sets_;
+    std::map<std::string, std::vector<BasisShell>> basis_sets_;
 };
 
 /** @relates Atom

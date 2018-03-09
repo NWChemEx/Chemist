@@ -2,6 +2,7 @@
 #include "LibChemist/ShellTypes.hpp"
 #include "LibChemist/lut/AtomicInfo.hpp"
 #include <iostream>
+#include <sstream>
 #include <regex>
 
 namespace LibChemist {
