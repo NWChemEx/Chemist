@@ -1,5 +1,6 @@
 #pragma once
 #include "LibChemist/BasisShell.hpp"
+#include "LibChemist/BasisSet.hpp"
 #include <Utilities/Containers/CaseInsensitiveMap.hpp>
 #include <array>
 #include <map>
@@ -23,7 +24,7 @@ struct Atom {
 
     /// These are the recognized properties an atom may have
     enum class Property {
-        Z,            ///< Atomic number/nuclear charge
+        charge,       ///< charge of particle (typically same as Z)
         mass,         ///< Atomic mass (abundance-weighted mass)
         isotope_mass, ///< Mass of the selected isotope
         cov_radius,   ///< The covalent radius
@@ -34,13 +35,13 @@ struct Atom {
     using xyz_type = std::array<double, 3>;
 
     /// The type of a property descriptor, assumed to be POD-like
-    using atom_property_type = Property;
+    using property_key = Property;
 
     /// The type of a property's value, will be a floating point POD type
     using property_value = double;
 
     /// The type of the properties map, satisfies associative array
-    using properties_map = std::map<atom_property_type, property_value>;
+    using property_map = std::map<property_key, property_value>;
 
     /// The type of the container holding the shells
     using shell_container = std::vector<BasisShell>;
@@ -52,10 +53,23 @@ struct Atom {
     xyz_type coords;
 
     /// The look-up table of properties for the current Atom
-    properties_map properties;
+    property_map properties;
 
     /// A map between basis set names and its shells on this atom
     basis_lut_type bases;
+
+    /**
+     * @brief Returns the requested basis set
+     * @param[in] name The name of the basis set.
+     * @return The requested basis set, or an empty basis set instance if
+     * there is no basis @p name on the current atom.
+     * @throw std::bad_alloc if there is insufficient memory to copy the basis
+     * set.  Strong throw guarantee.
+     * @threading The contents of @p name and the current class are accessed and
+     * data races may result if either @p name or the current instance are
+     * concurrently modified.
+     */
+    BasisSet get_basis(const std::string& name)const;
 
     /**
      *  @brief Used to determine if two Atom instances are exactly identical.

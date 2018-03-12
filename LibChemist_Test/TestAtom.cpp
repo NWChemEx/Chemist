@@ -3,8 +3,8 @@
 
 using namespace LibChemist;
 using xyz_type = typename Atom::xyz_type;
-using Property = typename Atom::atom_property_type;
-using properties_map = typename Atom::properties_map;
+using Property = typename Atom::property_key;
+using properties_map = typename Atom::property_map;
 using shell_container = typename Atom::shell_container;
 using basis_lut_type = typename Atom::basis_lut_type;
 
@@ -21,6 +21,11 @@ void check_state(const Atom& a, const xyz_type& coords,
     REQUIRE(a.bases == bases);
 }
 
+shell_container a_shell{BasisShell(ShellType::CartesianGaussian, -1, 2,
+                                   std::vector<double>({3.0, 4.0}),
+                                   std::vector<double>({5.0, 6.0, 7.0, 8.0}))};
+
+
 TEST_CASE("Empty Atom") {
     Atom empty;
     check_state(empty, {}, {}, {});
@@ -28,15 +33,18 @@ TEST_CASE("Empty Atom") {
 
 TEST_CASE("Aggregate Initialized"){
     xyz_type origin{0.0, 0.0, 0.0};
-    properties_map props{{Property::mass, 238.02891},{Property::Z, 92.0}};
-    properties_map null_map{ {Property::Z, 0.0}, {Property::mass, 0.0},
+    properties_map props{{Property::mass, 238.02891},{Property::charge, 92.0}};
+    properties_map null_map{ {Property::charge, 0.0}, {Property::mass, 0.0},
                              {Property::isotope_mass, 0.0},
                              {Property::cov_radius, 0.0},
                              {Property::vdw_radius, 0.0}};
-    basis_lut_type bases{{"PRIMARY", shell_container{}}};
+    basis_lut_type bases{{"PRIMARY", a_shell}};
     Atom a{origin, props, bases};
     check_state(a, origin, props, bases);
     REQUIRE(is_real_atom(a));
+    BasisSet bs;
+    bs.add_shell(origin.data(), a_shell[0]);
+    REQUIRE(a.get_basis("PRIMARY") == bs);
     SECTION("Copy ctor"){
         Atom b{a};
         REQUIRE(b == a);
@@ -73,7 +81,7 @@ TEST_CASE("Aggregate Initialized"){
     }
     SECTION("Point charge") {
         Atom b = create_charge(a, 3.9);
-        null_map[Property::Z] = 3.9;
+        null_map[Property::charge] = 3.9;
         check_state(b, origin, null_map, {});
         REQUIRE(is_charge(b));
         REQUIRE(!is_charge(a));
