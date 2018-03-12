@@ -1,31 +1,31 @@
 #pragma once
-#include "LibChemist/BasisSet.hpp"
 #include "LibChemist/BasisShell.hpp"
+#include <Utilities/Containers/CaseInsensitiveMap.hpp>
 #include <array>
 #include <map>
 #include <string>
 
 namespace LibChemist {
 
-/*! \brief A center in a system
+/*! \brief A point with some associated properties
  *
- * An atom is basically just a collection of data associated with a point in
- * space.  This class assumes that there is some other routine/class that is
- * capable of instantiating it with its initial state.  When possible properties
- * are computed (e.g. the number of electrons is determined based on the
- * charge and atomic number of the instance).
+ * The majority of computations in electronic structure theory assume that
+ * the nuclei are point-like and the electrons move around in the resulting
+ * field.  The current class aggregates the properties one typically
+ * associates with a nucleus or other point-like object (e.g. ghost atom or
+ * point-charge).  In order to keep the definition of various point-like
+ * objects consistent users are encouraged to use the free functions
+ * create_ghost, create_charge, and create_dummy to turn existing atoms into
+ * ghost, point-charges, and dummy atoms respectively.
  *
- * This class satisfies the concept of aggregate.
  */
 struct Atom {
 
     /// These are the recognized properties an atom may have
-    enum class Properties {
+    enum class Property {
         Z,            ///< Atomic number/nuclear charge
         mass,         ///< Atomic mass (abundance-weighted mass)
         isotope_mass, ///< Mass of the selected isotope
-        charge,       ///< Charge on the center
-        multiplicity, ///< Electronic multiplicity
         cov_radius,   ///< The covalent radius
         vdw_radius    ///< The van der waals radius
     };
@@ -33,20 +33,20 @@ struct Atom {
     /// The type of the Cartesian coordinates, satisfies random-access container
     using xyz_type = std::array<double, 3>;
 
-    /// The type of an atom property descriptor, assumed to be POD-like
-    using atom_property_type = Properties;
+    /// The type of a property descriptor, assumed to be POD-like
+    using atom_property_type = Property;
 
-    /// The type of an atom's property, will be a floating point POD type
+    /// The type of a property's value, will be a floating point POD type
     using property_value = double;
 
     /// The type of the properties map, satisfies associative array
     using properties_map = std::map<atom_property_type, property_value>;
 
-    /// The type of a key to a basis set, assumed to be string-like
-    using basis_key = std::string;
+    /// The type of the container holding the shells
+    using shell_container = std::vector<BasisShell>;
 
     /// The type of the basis sets look-up table, satisfies associative array
-    using basis_lut_type = std::map<basis_key, std::vector<BasisShell>>;
+    using basis_lut_type = Utilities::CaseInsensitiveMap<shell_container>;
 
     ///The atom's current position in a.u.
     xyz_type coords;
@@ -58,28 +58,40 @@ struct Atom {
     basis_lut_type bases;
 
     /**
-     * @brief Returns the number of electrons associated with this atom.
+     *  @brief Used to determine if two Atom instances are exactly identical.
      *
-     * This function assumes that the number of electrons that can be associated
-     * with this particular atom is given by:
-     * @f[
-     *  n_e = Z - q,
-     * @f]
-     * where @f$Z@f$ is the atomic number and @f$q@f$ is the charge of the
-     * current instance.
+     *  Exact equality between two atoms is defined as having the same
+     *  coordinates, properties, and atom-centered basis sets.
      *
-     * @return The number of electrons in the current atom.
+     *  @param[in] rhs The atom to compare to.
+     *  @return True if the two instances are identical and false otherwise.
+     *  @throw None. No throw guarantee.
+     *  @threading The fields of both this and @p rhs are accessed so data races
+     *  may occur if either the current instance or @p rhs are concurrently
+     *  modified.
      *
-     * @throw std::out_of_range if the current instance's atomic number and
-     * charge are not set.  Strong throw guarantee.
-     *
-     * @threading The properties of the current instance will be accessed and
-     * a data-race may occur if another thread modifies the properties
-     * concurrently.
      */
-    property_value nelectrons() const {
-        return properties.at(Properties::Z) - properties.at(Properties::charge);
+    bool operator==(const Atom& rhs)const noexcept;
+
+    /**
+     *  @brief Used to determine if two Atom instances differ.
+     *
+     *  Exact equality between two atoms is defined as having the same
+     *  coordinates, properties, and atom-centered basis sets.
+     *
+     *  @param[in] rhs The atom to compare to.
+     *  @return True if the two instances differ in any manner and false if
+     *  they are exactly equal.
+     *  @throw None. No throw guarantee.
+     *  @threading The fields of both this and @p rhs are accessed so data races
+     *  may occur if either the current instance or @p rhs are concurrently
+     *  modified.
+     *
+     */
+    bool operator!=(const Atom& rhs)const noexcept{
+        return !((*this) == rhs);
     }
+
 }; //End struct Atom
 
 /** @relates Atom
@@ -97,27 +109,29 @@ struct Atom {
  * @throws std::bad_alloc if there is insufficient memory to copy the contents
  * of @p atom.  Strong throw guarantee.
  *
- * @threading All operations occur on a deep copy of @p atom and data of @p
- * atom is accessed via the deep copy, hence this function is thread-safe.
+ * @threading The contents of @p atom are accessed and data races may occur if
+ * @p atom is concurrently modified.
  */
-Atom create_ghost(Atom atom) noexcept;
+Atom create_ghost(const Atom& atom);
 
 /** @relates Atom
  * @brief Returns true if @p atom is a ghost atom.
  *
  * This function is a convenience function for checking if a given
- * atom is a ghost atom.
+ * atom is a ghost atom.  It works by turning @p atom into a ghost
+ * atom and comparing the result to @p atom.
  *
  * @param[in] atom The Atom instance to evaluate for its ghost-ness
  *
  * @returns True if @p atom is a ghost atom.
  *
- * @throws None. No throw guarantee.
+ * @throws std::bad_alloc if there is insufficient memory to form the ghost
+ * version of @p atom to compare against.  Strong throw guarantee.
  *
  * @threading Members of @p atom are accessed and data races may result if
  * @p atom is concurrently modified.
  */
-bool is_ghost_atom(const Atom& atom) noexcept;
+bool is_ghost_atom(const Atom& atom);
 
 /** @relates Atom
  *  @brief Makes a dummy atom.
@@ -125,52 +139,56 @@ bool is_ghost_atom(const Atom& atom) noexcept;
  * Dummy atoms are "atoms" that have no nucleus, electrons, overall charge,
  * or basis functions.  In other words they are points in space.
  *
- * @param[in] xyz Where in space the dummy atom is located.
+ * @param[in] atom An atom instance whose deep copy will be a dummy atom.
  *
  * @returns A new Atom instance that is a dummy atom.
  *
- * @throws None No throw guarantee.
+ * @throws std::bad_alloc if there is insufficient memory to allocate the
+ * copy.  Strong throw guarantee.
  *
- * @threading All members of @p xyz are accessed and data races may occur if
- * @p xyz is subsequently modified.
+ * @threading All members of @p atom are accessed and data races may occur if
+ * @p atom is subsequently modified.
  */
-Atom create_dummy(const std::array<double, 3>& xyz) noexcept;
+Atom create_dummy(const Atom& atom);
 
 /** @relates Atom
  * @brief Returns true if @p atom is a dummy atom.
  *
  * This function can be used to check if a given atom is a dummy atom.  Users
  * should not concern themselves with exactly what details make an atom a
- * dummy atom, but rather rely on this function.
+ * dummy atom, but rather rely on this function.  The check is performed by
+ * creating the dummy version of @p atom and comparing it to @p atom.
  *
  * @param[in] atom The Atom instance to evaluate for its stupidity
  *
  * @returns True if @p atom is a dummy atom.
  *
- * @throws None No throw guarantee.
+ * @throws std::bad_alloc if there is insufficient memory to allocate the dummy
+ * instance.  Strong throw guarantee.
  *
  * @threading Members of @p atom are accessed and data races may result if
  *  @p atom is concurrently modified.
  */
-bool is_dummy_atom(const Atom& atom) noexcept;
+bool is_dummy_atom(const Atom& atom);
 
 /** @relates Atom
  * @brief Makes a point charge.
  *
- * Point charges are "atoms" that have no nucleus, electrons, or basis
+ * Point charges are "atoms" that have no mass, electrons, or basis
  * functions, but have an overall charge.
  *
- * @param[in] xyz Where in space the point charge is located.
+ * @param[in] atom The Atom instance whose deep copy will become a point charge.
  * @param[in] chg The charge (in A.U.) of the point charge
  *
  * @returns A new Atom instance that is a point charge.
  *
- * @throws None No throw guarantee.
+ * @throws std::bad_alloc if there is insufficient memory to allocate the
+ * copy. Strong throw guarantee.
  *
- * @threading @p xyz is accessed and concurrent modifications to @p xyz may
+ * @threading @p atom is accessed and concurrent modifications to @p atom may
  * result in data races.
  */
-Atom create_charge(const std::array<double, 3>& xyz, double chg) noexcept;
+Atom create_charge(const Atom& atom, double chg);
 
 /** @relates Atom
  * @brief Returns true if @p atom is a point charge.
@@ -183,12 +201,13 @@ Atom create_charge(const std::array<double, 3>& xyz, double chg) noexcept;
  *
  * @returns True if @p atom is a point charge.
  *
- * @throws None No throw guarantee.
+ * @throws std::bad_alloc if there is insufficient memory to allocate the charge
+ * to compare against.  Strong throw guarantee.
  *
  * @threading Members of @p atom are accessed and data races may result if
  * @p atom is concurrently modified.
  */
-bool is_charge(const Atom& atom) noexcept;
+bool is_charge(const Atom& atom);
 
 /** @relates Atom
  * @brief Returns true if @p atom is a "real" atom.
@@ -201,11 +220,12 @@ bool is_charge(const Atom& atom) noexcept;
  *
  * @returns True if @p atom is a "real" atom.
  *
- * @throws None No throw guarantee.
+ * @throws std::bad_alloc if there is insufficient memory to copy @p atom.
+ * Strong throw guarantee.
  *
  * @threading Members of @p atom are accessed and data races may result if
  * @p atom is concurrently modified.
  */
-bool is_real_atom(const Atom& atom) noexcept;
+bool is_real_atom(const Atom& atom);
 
 } // namespace LibChemist
