@@ -92,6 +92,12 @@ struct Molecule {
      *
      */
     BasisSet get_basis(const std::string& name, bool ungeneralize = true) const;
+
+    bool operator==(const Molecule& rhs)const noexcept;
+
+    bool operator!=(const Molecule& rhs)const noexcept{
+        return !((*this) == rhs);
+    }
 };
 
 } // end namespace LibChemist

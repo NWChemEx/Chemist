@@ -1,7 +1,12 @@
 #include "LibChemist/Molecule.hpp"
 #include <algorithm>
+#include <tuple>
 
 namespace LibChemist {
+
+bool Molecule::operator==(const Molecule& rhs)const noexcept {
+    return std::tie(properties, atoms) == std::tie(rhs.properties, rhs.atoms);
+}
 
 double Molecule::charge() const {
     double q{-1.0 * nelectrons()};
