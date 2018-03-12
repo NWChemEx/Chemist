@@ -66,6 +66,6 @@ TEST_CASE("Molecule aggregate initialized") {
         REQUIRE(temp.charge() == -1.0);
         //2. Play w/ n electrons
         molecular_h.properties[Property::nalpha] = 0.0;
-        REQUIRE(molecular_h.charge() == -1.0);
+        REQUIRE(molecular_h.charge() == 1.0);
     }
 }
