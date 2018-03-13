@@ -1,24 +1,17 @@
 cmake_minimum_required(VERSION ${CMAKE_VERSION})
 project(LibChemist-SRC VERSION 0.0.0 LANGUAGES CXX)
 include(TargetMacros)
-set(LibChemist_SRCS lut/AtomicInfo.cpp
-                    Atom.cpp
+set(LibChemist_SRCS Atom.cpp
                     BasisSet.cpp
-                    BasisSetParser.cpp
                     BasisShell.cpp
-                    SetOfAtoms.cpp
-                    SetOfAtomsParser.cpp
+                    Molecule.cpp
                     ShellTypes.cpp
 )
-set(LibChemist_INCLUDES lut/AtomicInfo.hpp
-                        Atom.hpp
+set(LibChemist_INCLUDES Atom.hpp
                         BasisSet.hpp
-                        BasisSetParser.hpp
                         BasisShell.hpp
-                        SetOfAtoms.hpp
-                        SetOfAtomsParser.hpp
+                        Molecule.hpp
                         ShellTypes.hpp
-                        Utilities.hpp
 )
 set(LibChemist_DEFINITIONS "")
 set(LibChemist_LINKFLAGS "")
