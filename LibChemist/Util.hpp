@@ -26,19 +26,22 @@ namespace LibChemist {
   }
 
   ///Returns the dot product of two vectors
-  inline double dot(const std::array<double,3>& v1,
-		    const std::array<double,3>& v2){
+  template<typename T>
+  inline double dot(const T& v1,
+		    const T& v2){
     return std::inner_product(v1.begin(),v1.end(),v2.begin(),0.0);
   }
 
   ///Returns the magnitude of a vector
-  inline double mag(const std::array<double,3>& v1){
+  template<typename T>
+  inline double mag(const T& v1){
     return std::sqrt(dot(v1,v1));
   }
 
   ///Returns the angle between two vectors given the vectors \p v1, \p v2)
-  inline double angle(const std::array<double,3>& v1,
-		      const std::array<double,3>& v2){
+  template<typename T>
+  inline double angle(const T& v1,
+		      const T& v2){
     const std::array<double,3> v1crossv2=cross(v1,v2);
     const double v1dotv2=dot(v1,v2);
     const double cosphi=v1dotv2,sinphi=mag(v1crossv2);
