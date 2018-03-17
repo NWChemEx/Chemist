@@ -6,12 +6,16 @@ set(LibChemist_SRCS Atom.cpp
                     BasisShell.cpp
                     Molecule.cpp
                     ShellTypes.cpp
+                    Distance.cpp
 )
 set(LibChemist_INCLUDES Atom.hpp
                         BasisSet.hpp
                         BasisShell.hpp
                         Molecule.hpp
                         ShellTypes.hpp
+                        Distance.hpp
+                        LibChemistDefs.hpp
+                        Util.hpp
 )
 set(LibChemist_DEFINITIONS "")
 set(LibChemist_LINKFLAGS "")
