@@ -1,7 +1,5 @@
 #pragma once
 
-#include <map>
-#include <vector>
 #include <set>
 #include <memory>
 
@@ -17,8 +15,5 @@ namespace LibChemist {
     constexpr auto TORSION="TORSION";///<A torsion
     constexpr auto IMPTORSION="IMPTORSION";///<An improper torsion angle
   }
-
-  ///Type of a quantity we are treating as a mathematical vector
-  using Vector=std::vector<double>;
 
 }//end namespace
