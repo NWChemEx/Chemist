@@ -50,7 +50,7 @@ struct Atom {
     using basis_lut_type = Utilities::CaseInsensitiveMap<shell_container>;
 
     ///The atom's current position in a.u.
-    xyz_type coords;
+    xyz_type coords = {};
 
     /// The look-up table of properties for the current Atom
     property_map properties;

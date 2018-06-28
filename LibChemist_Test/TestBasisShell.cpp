@@ -1,6 +1,5 @@
-#include "LibChemist/BasisShell.hpp"
-
-#include "catch/catch.hpp"
+#include <LibChemist/BasisShell.hpp>
+#include <catch/catch.hpp>
 
 using namespace LibChemist;
 

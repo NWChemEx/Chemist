@@ -1,7 +1,6 @@
-cmake_minimum_required(VERSION ${CMAKE_VERSION})
-project(LibChemist-Test VERSION 0.0.0 LANGUAGES CXX)
-include(TargetMacros)
+set(
+    LIBCHEMIST_TESTS test_main.cpp TestAtom.cpp TestBasisSet.cpp
+                     TestBasisShell.cpp TestMolecule.cpp
+)
 
-foreach(name TestAtom TestBasisShell TestBasisSet  TestMolecule)
-    add_cxx_unit_test(${name})
-endforeach()
+add_catch_cxx_tests(test_libchemist "${LIBCHEMIST_TESTS}" chemist)
