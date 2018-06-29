@@ -1,6 +1,6 @@
 def repoName= "LibChemist"
-def depends = ["CMakeBuild", "Utilities"] as String[]
-def commonModules = "cmake llvm "
+def depends = [] as String[]
+def commonModules = "cmake llvm git "
 def buildModuleMatrix = [
     		   "GCC":(commonModules + "gcc/7.1.0"),
 		   "Intel":(commonModules + "gcc/7.1.0 intel-parallel-studio/cluster.2018.0-tpfbvga")
