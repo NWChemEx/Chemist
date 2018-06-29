@@ -1,10 +1,10 @@
-#include "LibChemist/BasisSet.hpp"
-
-#include "catch/catch.hpp"
+#include <LibChemist/BasisSet.hpp>
+#include <catch/catch.hpp>
 
 using namespace LibChemist;
 
 TEST_CASE("BasisSet class") {
+
     // Make sure we can construct a default BasisSet
     BasisSet bs;
 

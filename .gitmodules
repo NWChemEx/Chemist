@@ -1,0 +1,3 @@
+[submodule "external/Utilities"]
+	path = external/Utilities
+	url = https://d28e8df2f89944f49e7144c747ffe3a114547469@github.com/NWChemEx-Project/Utilities
