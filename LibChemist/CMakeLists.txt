@@ -1,5 +1,6 @@
 set(
-    LIBCHEMIST_HEADERS Atom.hpp BasisSet.hpp Molecule.hpp ShellTypes.hpp
+    LIBCHEMIST_HEADERS Atom.hpp BasisSet.hpp BasisShell.hpp Molecule.hpp
+                       ShellTypes.hpp
 )
 
 set(
