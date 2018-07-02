@@ -1,5 +1,4 @@
 def repoName= "LibChemist"
-def depends = [] as String[]
 def commonModules = "cmake llvm git "
 def buildModuleMatrix = [
     		   "GCC":(commonModules + "gcc/7.1.0"),
@@ -44,10 +43,6 @@ for (int i=0; i<buildTypeList.size(); i++){
 
     stage('Check Code Formatting'){
         nwxJenkins.formatCode()
-    }
-
-    stage('Build Dependencies'){
-        nwxJenkins.buildDependencies(depends, cmakeCommand, credentialsID)
     }
 
     stage('Build Repo'){
