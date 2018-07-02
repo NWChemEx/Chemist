@@ -45,10 +45,6 @@ for (int i=0; i<buildTypeList.size(); i++){
         nwxJenkins.formatCode()
     }
 
-    stage('Build Dependencies'){
-        nwxJenkins.buildDependencies(depends, cmakeCommand, credentialsID)
-    }
-
     stage('Build Repo'){
         nwxJenkins.compileRepo(repoName, "False", cmakeCommand)
     }
