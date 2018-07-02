@@ -1,5 +1,4 @@
 def repoName= "LibChemist"
-def depends = [] as String[]
 def commonModules = "cmake llvm git "
 def buildModuleMatrix = [
     		   "GCC":(commonModules + "gcc/7.1.0"),
