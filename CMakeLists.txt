@@ -17,7 +17,7 @@ option(BUILD_TESTS "Should we build the tests?" ON)
 
 ### Dependencies ####
 hunter_add_package(Utilities)
-find_package(Utilities CONFIG)
+find_package(Utilities CONFIG REQUIRED)
 
 ### Target ###
 add_subdirectory(LibChemist)
