@@ -4,6 +4,6 @@ hunter_config(
         Utilities
         VERSION 0.0.0
         URL "${gh_url}/tarball/master?access_token=${token}"
-        SHA1 "42446742165e643a10778f4a3402a5164728d0bb"
+        SHA1 "e1628322f6d9e30641aca38f1b1bdeab7da8e50c"
         CMAKE_ARGS "BUILD_TESTS=off"
 )
