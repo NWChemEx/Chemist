@@ -8,5 +8,12 @@ set(
                     ShellTypes.cpp
 )
 
-add_nwx_library(chemist "${LIBCHEMIST_SRCS}" "${LIBCHEMIST_HEADERS}")
-target_link_libraries(chemist Utilities::utilities)
+add_nwx_library(
+        NAME chemist
+        SOURCES ${LIBCHEMIST_SRCS}
+        DEPENDS Utilities::utilities
+)
+install_targets(
+        TARGETS chemist
+        INCLUDES ${LIBCHEMIST_HEADERS}
+)

@@ -3,4 +3,8 @@ set(
                      TestBasisShell.cpp TestMolecule.cpp
 )
 
-add_catch_cxx_tests(test_libchemist "${LIBCHEMIST_TESTS}" chemist)
+add_catch_cxx_tests(
+        NAME test_libchemist
+        SOURCES ${LIBCHEMIST_TESTS}
+        DEPENDS chemist
+)
