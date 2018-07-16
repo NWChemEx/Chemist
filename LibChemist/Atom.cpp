@@ -1,74 +1,76 @@
 #include "LibChemist/Atom.hpp"
 #include <tuple>
+#include "LibChemist/Implementations/AtomPIMPL.hpp"
 
 namespace LibChemist {
 
-using xyz_type = typename Atom::xyz_type;
-using Property = typename Atom::property_key;
-using properties_map = typename Atom::property_map;
-using basis_lut_type = typename Atom::basis_lut_type;
+using Property = Atom::Property;
+using property_type = double;
+using size_type = Atom::size_type;
+using coord_type = Atom::coord_type;
+using prop_map_type = std::map<Property, property_type>;
 
-namespace detail_ {
+  namespace detail_ {
+    /// Implements PIMPL that allows Atom to store its own state.
+    class StandAloneAtomPIMPL : public AtomPIMPL {
+    public:
+        StandAloneAtomPIMPL()  = default;
+        StandAloneAtomPIMPL(prop_map_type&& map): props_(std::move(map)){}
 
-///Makes an atom where all properties are zero initialized
-static Atom null_atom(){
-    Atom rv;
-    rv.properties = properties_map{ {Property::charge, 0.0},
-                                    {Property::mass, 0.0},
-                                    {Property::isotope_mass, 0.0},
-                                    {Property::cov_radius, 0.0},
-                                    {Property::vdw_radius, 0.0}};
-    return rv;
+        ~StandAloneAtomPIMPL() override = default;
+
+    protected:
+        StandAloneAtomPIMPL(const StandAloneAtomPIMPL& rhs)        = default;
+        StandAloneAtomPIMPL& operator=(const StandAloneAtomPIMPL&) = default;
+    private:
+        prop_map_type props_;
+
+        coord_type da_coords_={};
+
+        std::unique_ptr<AtomPIMPL> clone_()const override {
+            return std::unique_ptr<AtomPIMPL>(new StandAloneAtomPIMPL(*this));
+        }
+
+        size_type count_(const Property& prop)const noexcept override {
+            return props_.count(prop);
+        }
+
+        property_type& property_(const Property& prop) override {
+            return props_.at(prop);
+        }
+
+        coord_type& coords_() noexcept override { return da_coords_; }
+
+
+    };
 }
 
-} // End namespace detail_
+Atom::Atom() : pimpl_(std::make_unique<detail_::StandAloneAtomPIMPL>()) {}
+Atom::Atom(const Atom& rhs) : pimpl_(rhs.pimpl_->clone()) {}
+Atom::Atom(Atom&& rhs) noexcept : pimpl_(std::move(rhs.pimpl_)) {}
+Atom& Atom::operator=(Atom rhs) noexcept {
+    pimpl_.swap(rhs.pimpl_);
+    return *this;
+}
+Atom& Atom::operator=(Atom&& rhs) noexcept {
+    pimpl_.swap(rhs.pimpl_);
+    return *this;
+}
+Atom::Atom(prop_map_type&& props) :
+  pimpl_(std::make_unique<detail_::StandAloneAtomPIMPL>(std::move(props))){}
 
-bool Atom::operator==(const Atom& rhs) const noexcept {
-    return std::tie(coords, properties, bases) ==
-           std::tie(rhs.coords, rhs.properties, rhs.bases);
+Atom::~Atom(){}
+
+size_type Atom::count(const Property& prop)const noexcept{
+    return pimpl_->count(prop);
 }
 
-BasisSet Atom::get_basis(const std::string& name) const {
-    BasisSet rv;
-    if(!bases.count(name)) return rv;
-    for(const auto& shell : bases.at(name))
-        rv.add_shell(coords.data(), shell);
-    return rv;
+coord_type& Atom::coords() noexcept {
+    return pimpl_->coords();
 }
 
-
-Atom create_ghost(const Atom& atom) {
-    auto rv = create_dummy(atom);
-    rv.bases = atom.bases;
-    return rv;
-}
-
-bool is_ghost_atom(const Atom& atom) {
-    return atom == create_ghost(atom);
-}
-
-Atom create_dummy(const Atom& atom) {
-    auto rv = detail_::null_atom();
-    rv.coords = atom.coords;
-    return rv;
-}
-
-bool is_dummy_atom(const Atom& atom)  {
-    return atom == create_dummy(atom);
-}
-
-Atom create_charge(const Atom& atom, double chg) {
-    auto rv = create_dummy(atom);
-    rv.properties[Property::charge] = chg;
-    return rv;
-}
-
-bool is_charge(const Atom& atom) {
-    return atom == create_charge(atom, atom.properties.at(Property::charge));
-}
-
-bool is_real_atom(const Atom& atom) {
-    return !is_ghost_atom(atom) && !is_dummy_atom(atom) && !is_charge(atom);
+property_type& Atom::property(const Property& prop) {
+    return pimpl_->property(prop);
 }
 
 } // namespace LibChemist

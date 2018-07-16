@@ -1,11 +1,9 @@
 set(
-    LIBCHEMIST_HEADERS Atom.hpp BasisSet.hpp BasisShell.hpp Molecule.hpp
-                       ShellTypes.hpp
+    LIBCHEMIST_HEADERS Implementations/AtomPIMPL.hpp
+        Atom.hpp
 )
-
 set(
-    LIBCHEMIST_SRCS Atom.cpp BasisSet.cpp BasisShell.cpp Molecule.cpp
-                    ShellTypes.cpp
+    LIBCHEMIST_SRCS Atom.cpp
 )
 
 add_nwx_library(
