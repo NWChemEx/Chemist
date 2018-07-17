@@ -11,7 +11,7 @@ TEST_CASE("Atom Class") {
     SECTION("Typedefs") {
         REQUIRE(std::is_same_v<property_type, double>);
         REQUIRE(std::is_same_v<size_type, std::size_t>);
-        REQUIRE(std::is_same_v<coord_type, std::array<double, 3>);
+        REQUIRE(std::is_same_v<coord_type, std::array<double, 3>>);
     }
 } // TEST_CASE("Atom Class")
 
