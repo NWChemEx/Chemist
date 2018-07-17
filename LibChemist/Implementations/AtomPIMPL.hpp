@@ -1,5 +1,6 @@
 #pragma once
 #include "LibChemist/Atom.hpp"
+#include <map>
 
 namespace LibChemist::detail_ {
 
@@ -30,8 +31,6 @@ public:
     /// Type of the coordinates
     using coord_type = typename Atom::coord_type;
 
-    using prop_map_type = typename std::map<Property, property_type>;
-
     /// Does nothing because class has no state
     AtomPIMPL() = default;
 
@@ -50,6 +49,16 @@ public:
      */
     std::unique_ptr<AtomPIMPL> clone() const { return clone_(); }
 
+    /**
+     * @defgroup Atom Member Function Implementations
+     *
+     * @brief Functions that actually do the guts of the Atom's functions.
+     *
+     * The following functions are the public API to the PIMPL's virtual
+     * methods.  Their documentation is the same as the corresponding Atom
+     * member function.
+     */
+    ///@{
     size_type count(const Property& prop) const noexcept {
         return count_(prop);
     }
@@ -58,6 +67,14 @@ public:
 
     property_type& property(const Property& prop) { return property_(prop); }
 
+    std::string& name() noexcept { return name_(); }
+
+    size_type& at_num() noexcept {return at_num_(); }
+
+    void set_property(const Property& prop, property_type value) {
+        set_property_(prop, value);
+    }
+    ///@}
 protected:
     /**
      * @defgroup Copy/Move Functions
@@ -91,6 +108,11 @@ protected:
     ///@}
 
 private:
+    /// The name associated with this atom
+    std::string da_name_;
+
+    size_type Z_;
+
     /**
      * @brief Implemented by derived class to implement clone method
      *
@@ -107,14 +129,22 @@ private:
 
     /// Implemented by derived class to implement coords function
     virtual coord_type& coords_() noexcept = 0;
+
+    /// Optionally can be overriden by derived class to implement name()
+    virtual std::string& name_() noexcept { return da_name_; }
+
+    /// Optionally can be overriden by derived class to implement at_num()
+    virtual size_type& at_num_() noexcept {return Z_; }
+
+    /// Implemented by derived class to implement setting of a property
+    virtual void set_property_(const Property& prop, property_type value) = 0;
 };
 
 /// Implements PIMPL that allows Atom to store its own state.
 class StandAloneAtomPIMPL : public AtomPIMPL {
+    using prop_map_type = typename std::map<Property, property_type>;
 public:
     StandAloneAtomPIMPL() = default;
-    StandAloneAtomPIMPL(prop_map_type&& map) : props_(std::move(map)) {}
-
     ~StandAloneAtomPIMPL() override = default;
 
 protected:
@@ -139,6 +169,10 @@ private:
     }
 
     coord_type& coords_() noexcept override { return da_coords_; }
+
+    void set_property_(const Property& prop, property_type value) override {
+        props_[prop] = value;
+    };
 };
 
 } // namespace LibChemist::detail_
