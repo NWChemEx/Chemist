@@ -1,7 +1,7 @@
 def repoName= "LibChemist"
 def commonModules = "llvm git "
 def buildModuleMatrix = [
-    		   "GCC":(commonModules + "gcc/7.1.0-4 cmake/3.10.2-hin27jk"),
+    		   "GCC":(commonModules + "gcc/7.1.0 cmake/3.10.2-hin27jk"),
 		   "Intel":(commonModules + "gcc/7.1.0 cmake/3.10.2-hin27jk intel-parallel-studio/cluster.2018.0-tpfbvga")
 		  ]
 def cmakeCommandMatrix = [
