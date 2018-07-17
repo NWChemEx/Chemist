@@ -1,8 +1,8 @@
 #pragma once
 #include "LibChemist/ShellTypes.hpp"
-#include <string>
-#include <sstream>
 #include <iostream>
+#include <sstream>
+#include <string>
 #include <vector>
 
 namespace LibChemist {
@@ -27,14 +27,14 @@ namespace LibChemist {
  *
  */
 class BasisShell {
-    private:
+private:
     /// A ngen_ by nprim_ array of expansion coefficients stored row-major
     std::vector<double> cs_;
 
     /// A nprim_ long array of primitive exponents
     std::vector<double> alphas_;
 
-    public:
+public:
     /// The type of the shell
     ShellType type;
 

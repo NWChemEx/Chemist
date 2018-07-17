@@ -30,6 +30,8 @@ public:
     /// Type of the coordinates
     using coord_type = typename Atom::coord_type;
 
+    using prop_map_type = typename std::map<Property, property_type>;
+
     /// Does nothing because class has no state
     AtomPIMPL() = default;
 
@@ -39,16 +41,14 @@ public:
     /**
      * @brief Returns a polymorphic copy of the derived class.
      *
-     * This function returns a deep copy in the same way that an `std::vector`
-     * returns a deep copy, *i.e.*, all value members are deep copied and
-     * pointer members are shallow copied.
+     * This function returns a deep copy of the Atom.
      *
      * @return A copy of the derived class via a pointer to this class.
      *
      * @throw std::bad_alloc if there is insufficient memory to copy the class.
      *        Strong throw guarantee.
      */
-    std::unique_ptr <AtomPIMPL> clone() const { return clone_(); }
+    std::unique_ptr<AtomPIMPL> clone() const { return clone_(); }
 
     size_type count(const Property& prop) const noexcept {
         return count_(prop);
@@ -59,7 +59,6 @@ public:
     property_type& property(const Property& prop) { return property_(prop); }
 
 protected:
-
     /**
      * @defgroup Copy/Move Functions
      *
@@ -92,9 +91,13 @@ protected:
     ///@}
 
 private:
-
-    /// Implemented by derived class to implement clone method
-    virtual std::unique_ptr <AtomPIMPL> clone_() const = 0;
+    /**
+     * @brief Implemented by derived class to implement clone method
+     *
+     * Derived classes are responsible for ensuring that the returned AtomPIMPL
+     * instance is a deep copy of the current instance.
+     */
+    virtual std::unique_ptr<AtomPIMPL> clone_() const = 0;
 
     /// Implemented by derived class to implement count method
     virtual size_type count_(const Property& prop) const noexcept = 0;
@@ -106,5 +109,36 @@ private:
     virtual coord_type& coords_() noexcept = 0;
 };
 
-} // namespace LibChemist::detail_
+/// Implements PIMPL that allows Atom to store its own state.
+class StandAloneAtomPIMPL : public AtomPIMPL {
+public:
+    StandAloneAtomPIMPL() = default;
+    StandAloneAtomPIMPL(prop_map_type&& map) : props_(std::move(map)) {}
 
+    ~StandAloneAtomPIMPL() override = default;
+
+protected:
+    StandAloneAtomPIMPL(const StandAloneAtomPIMPL& rhs) = default;
+    StandAloneAtomPIMPL& operator=(const StandAloneAtomPIMPL&) = default;
+
+private:
+    prop_map_type props_;
+
+    coord_type da_coords_ = {};
+
+    std::unique_ptr<AtomPIMPL> clone_() const override {
+        return std::unique_ptr<AtomPIMPL>(new StandAloneAtomPIMPL(*this));
+    }
+
+    size_type count_(const Property& prop) const noexcept override {
+        return props_.count(prop);
+    }
+
+    property_type& property_(const Property& prop) override {
+        return props_.at(prop);
+    }
+
+    coord_type& coords_() noexcept override { return da_coords_; }
+};
+
+} // namespace LibChemist::detail_

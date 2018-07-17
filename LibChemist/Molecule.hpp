@@ -2,8 +2,8 @@
 #include "LibChemist/Atom.hpp"
 #include "LibChemist/BasisSet.hpp"
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 namespace LibChemist {
 
@@ -20,8 +20,8 @@ struct Molecule {
     /// The possible properties a Molecule instance may have
     enum class Property {
         multiplicity, ///< 2S + 1, where S is the total spin of the molecule
-        nalpha, ///< The number of alpha electrons
-        nbeta, ///< The number of beta electrons
+        nalpha,       ///< The number of alpha electrons
+        nbeta,        ///< The number of beta electrons
     };
 
     /// The type of a Molecule property label is enum-like
@@ -72,7 +72,7 @@ struct Molecule {
      * @return The total computed charge (in a.u.).
      * @throw std::out_of_range if an atom doesn't
      */
-    double charge() const ;
+    double charge() const;
 
     /**
      *  @brief Returns the selected basis set.
@@ -93,9 +93,9 @@ struct Molecule {
      */
     BasisSet get_basis(const std::string& name, bool ungeneralize = true) const;
 
-    bool operator==(const Molecule& rhs)const noexcept;
+    bool operator==(const Molecule& rhs) const noexcept;
 
-    bool operator!=(const Molecule& rhs)const noexcept{
+    bool operator!=(const Molecule& rhs) const noexcept {
         return !((*this) == rhs);
     }
 };

@@ -12,7 +12,7 @@ bool BasisShell::operator==(const BasisShell& rhs) const noexcept {
 size_t BasisShell::nfunctions(size_t i) const noexcept {
     const size_t temp_l = am_2int(l, i);
     if(type != ShellType::CartesianGaussian) return 2 * temp_l + 1;
-    return Utilities::binomial_coefficient<std::size_t>(2ul + temp_l , temp_l);
+    return Utilities::binomial_coefficient<std::size_t>(2ul + temp_l, temp_l);
 }
 
 } // End namespace LibChemist

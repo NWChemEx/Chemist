@@ -4,7 +4,6 @@
 using namespace LibChemist;
 
 TEST_CASE("BasisSet class") {
-
     // Make sure we can construct a default BasisSet
     BasisSet bs;
 

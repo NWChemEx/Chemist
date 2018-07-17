@@ -49,8 +49,9 @@ size_t BasisSet::shellsize(const size_t i) const {
     for(size_t j = 0; j < ngens[i]; ++j) {
         const bool is_cart = types[i] == ShellType::CartesianGaussian;
         const size_t l     = am_2int(ls[i], j);
-        total += (is_cart ? Utilities::binomial_coefficient<size_t>(2ul + l, l)
-                          : 2 * l + 1);
+        total +=
+          (is_cart ? Utilities::binomial_coefficient<size_t>(2ul + l, l) :
+                     2 * l + 1);
     }
     return total;
 }
