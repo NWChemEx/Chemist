@@ -1,6 +1,6 @@
 #pragma once
 #include "LibChemist/Atom.hpp"
-#include <map>
+#include <map> // For the state of StandAloneAtomPIMPL
 
 namespace LibChemist::detail_ {
 

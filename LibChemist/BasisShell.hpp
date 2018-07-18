@@ -1,186 +1,194 @@
 #pragma once
-#include "LibChemist/ShellTypes.hpp"
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <vector>
+#include <memory>
+#include <array>
+#include <type_traits> //For disjunction/is_same
 
 namespace LibChemist {
+namespace detail_ {
+class AOShellPIMPL;
+} // namespace detail_
 
-/** \brief Class for holding the details of a basis set.
+/// Structure mainly used for input to CTor of AOShell
+struct AOPrimitive {
+    /// exponent on primitive
+    double alpha;
+    /// contraction coefficient on primitive
+    double c;
+};
+
+/**
+ * @brief Holds the details of a shell of atomic orbitals (AOs).
  *
- *  This class is meant to hold the information relating to a particular basis
- *  set shell.  It does not hold the center's location, but rather the exponents
- *  and coefficients.  These values live within this class and are thus not
- *  aliases or pointers to a contigious buffer.  When a user requests a BasisSet
- *  instance from a molecule the exponents and coefficients will be put into a
- *  contigious buffer.
+ * This class is part of a hierarchy that strives to be more along the lines of
+ * the traditional view of an atomic basis set.  Specifically it treats all of
+ * the AOs, and primitives, within a shell as one basis function.
  *
- *  \note This class is aware of general contractions.  What this means is
- *  rather than thinking of this as being the exponents and coefficients for
- *  \f$n\f$ contractions where \f$n\f$ is the number of primitive functions this
- *  class is actually \f$n\f$ exponents and \f$m\f$ rows of \f$n\f$ coefficients
- *  where \f$m\f$ is the number of contractions in the instance.  The main place
- *  this will get you is if your basis set has an "sp", "spd", etc. shell.
- *  These are examples of general contractions, but most codes expect the
- *  shells to be uncompressed. That can be done at the molecule level.
- *
+ * For efficiency reasons, the AOShell class guarantees that the alphas and
+ * contraction coefficients are contiguous in memory for all primitives within
+ * the shell.  Thanks to the PIMPL nature of the AOShell class, other classes
+ * (notably the AOBasis class) are free to extend this guarantee if they so
+ * choose.  Documentation for the AOShell class assumes the default PIMPL is
+ * used.  All other PIMPL instances are free to offer additional guarantees, but
+ * they must also satisfy the guarantees listed here.
  */
-class BasisShell {
-private:
-    /// A ngen_ by nprim_ array of expansion coefficients stored row-major
-    std::vector<double> cs_;
-
-    /// A nprim_ long array of primitive exponents
-    std::vector<double> alphas_;
-
+class AOShell {
 public:
-    /// The type of the shell
-    ShellType type;
+    /// A type tag for signaling that the shell is Cartesian
+    struct Cartesian{};
+    /// A type tag for signaling that the shell is Pure
+    struct Spherical{};
 
-    /// The angular momentum of the shell
-    int l;
+    /// The type of a number used for counting
+    using size_type = std::size_t;
 
-    /// The number of general contractions in this shell
-    size_t ngen;
+    /// The type of the object holding the center
+    using coord_type = std::array<double, 3>;
 
-    /// The number of primitives in this shell
-    size_t nprim;
+    AOShell();
+    AOShell(const AOShell& rhs);
+    AOShell(AOShell&& rhs) noexcept;
+    AOShell& operator=(const AOShell& rhs);
+    AOShell& operator=(AOShell&& rhs) noexcept;
+    ~AOShell();
 
-    /** \brief Constructs a new BasisShell by copying the input values.
+    /**
+     * @defgroup State Ctors
      *
-     *  \param[in] type The type (i.e. Cartesian, spherical, or slater) of the
-     *                   shell.
-     *  \param[in] l The angular momentum of the shell.
-     *  \param[in] ngen The number of general contractions in the shell.
-     *  \param[in] alphas The exponents of the primitives.
-     *  \param[in] coefs  The expansion coefficients of the primitives.
+     * @brief The constructors in this section can be used to initialize an
+     * AOShell with a particular state.
      *
-     *  \throws std::bad_alloc if memory allocation fails.  Strong throw
-     *  guarantee.
-     */
-    BasisShell(ShellType type_, int l_, size_t ngen_,
-               const std::vector<double>& alphas,
-               const std::vector<double>& coefs) :
-      cs_(coefs),
-      alphas_(alphas),
-      type(type_),
-      l(l_),
-      ngen(ngen_),
-      nprim(alphas.size()) {}
-
-    /** \brief Constructs a new BasisShell instance by moving the input values.
+     * The signatures for the ctors in this section may look scary, but really
+     * it's just a bit of C++ magic to make the API more friendly.
+     * Specifically, the AOShell class ctor will parse a list of arguments
+     * provided to it.  The following list summarizes the available capture
+     * groups and what they are interpreted as:
      *
-     *  \param[in] type The type (i.e. Cartesian, spherical, or slater) of the
-     *                   shell.
-     *  \param[in] l The angular momentum of the shell.
-     *  \param[in] ngen The number of general contractions in the shell.
-     *  \param[in] alphas The exponents of the primitives.
-     *  \param[in] coefs  The expansion coefficients of the primitives.
+     * - `[std::array<double, 3>]` the coordinates for the center of this shell
+     * - `[size_type]` the angular momentum of this shell
+     * - `[AOPrimitive]` the details of one of the primitives in this shell
+     * - `[Spherical || Cartesian]` signals that the shell is pure/Cartesian
+     *   - These flags are mutually exclusive
      *
-     *  \throws No throw guarantee.
-     */
-    BasisShell(ShellType type_, int l_, size_t ngen_,
-               std::vector<double>&& alphas,
-               std::vector<double>&& coefs) noexcept :
-      cs_(std::move(coefs)),
-      alphas_(std::move(alphas)),
-      type(type_),
-      l(l_),
-      ngen(ngen_),
-      nprim(alphas_.size()) {}
-
-    /** \brief Creates a default BasisShell instance.
+     * With the exception of the `AOPrimitive` capture group, each capture group
+     * can appear only once in the constructor list.  A compiler error will be
+     * raised if this is not the case.
      *
-     *  The resulting instance is unusable aside from being a placeholder.
-     *  \throw No throw guarantee.
-     */
-    BasisShell() noexcept = default;
-
-    /** \brief Constructs a new BasisShell by deep copying.
+     * @param[in] carts The Cartesian coordinate for the point the shell is
+     *            centered on.
+     * @param[in] l The angular momentum of this shell.
+     * @param[in] prim The exponent and coefficient for a primitive
+     * @param[in] args The arguments that have not been parsed yet.
      *
-     * \param[in] other The BasisShell instance to copy.
-     *
-     * \throw std::bad_alloc if memory allocation fails.  Strong throw
-     * guarantee.
-     */
-    BasisShell(const BasisShell& /*other*/) = default;
-
-    /** \brief Takes ownership of another BasisShell instance.
-     *
-     *  \param[in] other The BasisShell instance to take ownership of.
-     *  \throw No throw guarantee.
-     *  \note After this function other is in a valid, but undefined state.
-     */
-    BasisShell(BasisShell&& /*other*/) noexcept = default;
-
-    /** \brief Assigns a deep copy of another BasisShell instance to this
-     *         instance.
-     *
-     * \param[in] other The BasisShell instance to deep copy.
-     * \returns The current instance after the deep copy.
-     * \throw std::bad_alloc if memory allocation fails.  Strong throw
-     *  guarantee.
-     */
-    BasisShell& operator=(const BasisShell& /*other*/) = default;
-
-    /** \brief Takes ownership of another BasisShell instance via assignment.
-     *
-     * \param[in] other The BasisShell instance to take over.
-     * \returns The current instance after taking \p other 's data.
-     * \throw No throw guarantee.
-     * \note After this function \p other is in a valid, but undefined state.
-     */
-    BasisShell& operator=(BasisShell&& /*other*/) noexcept = default;
-
-    /** \brief Returns true if this instance is exactly equal to another
-     *   instance.
-     *
-     *  \param[in] rhs The instance to compare against.
-     *  \returns True if this instance is exactly equal to \p rhs.
-     *  \throw No throw guarantee.
+     * @tparam Args The types of the remaining arguments.
+     * @throw std::bad_alloc if there is insufficient memory to add the value to
+     *        the instance.  Strong throw guarantee.
      *
      */
-    bool operator==(const BasisShell& rhs) const noexcept;
+    ///@{
+    template<typename...Args>
+    AOShell(const coord_type& carts, Args&&...args) :
+      AOShell(std::forward<Args>(args)...){
+        for(size_type i = 0; i<3; ++i) center()[i] = carts[i];
+      }
 
-    /** \brief Returns true if any part of this instance differs from another
-     *     instance.
-     *
-     * \param[in]  rhs The instance to compare against.
-     * \returns True if any member of this instance differs from the
-     *    corresponding member of \p rhs.
-     * \throw No throw guarantee.
-     */
-    bool operator!=(const BasisShell& rhs) const noexcept {
-        return !((*this) == rhs);
+    template<typename...Args>
+    AOShell(size_type l, Args&&...args) :
+      AOShell(std::forward<Args>(args)...){
+        static_assert(std::disjunction_v<std::is_same<Args, size_type>...>,
+          "Please only provide one value of angular momentum");
+        l() = l;
     }
 
-    /** \brief Returns the i-th exponent
-     *  \param[in] i Which exponent to return. I in range [0,number of prims)
-     *  \returns The requested exponent
-     *  \throw No throw guarantee.
-     */
-    double alpha(size_t i) const noexcept { return alphas_[i]; }
-
-    /** \brief Returns the i-th coefficient of the j-th contraction
-     *  \param[in] i Which coefficientt to return. I in range
-     *             [0,number of prims)
-     *  \param[in] j Which contraction to use. J in range
-     *             [0,number of general contractions)
-     *  \returns The requested coefficient
-     *  \throw No throw guarantee.
-     */
-    double coef(size_t i, size_t j) const noexcept {
-        return cs_[j * nprim + i];
+    template<typename...Args>
+    AOShell(const AOPrimitive& prim, Args&&...args):
+      AOShell(std::forward<Args>(args)...){
+        add_prim_(prim.alpha, prim.c);
     }
 
-    /** \brief Returns the number of basis functions in the i-th contraction
+    template<typename...Args>
+    AOShell(Spherical, Args&&...args) : AOShell(std::forward<Args>(args)...) {
+        static_assert(std::disjunction_v<std::is_same<Args, Cartesian>...>,
+          "Please only pass either Spherical or Cartesian");
+        is_pure() = true;
+    }
+
+    template<typename...Args>
+    AOShell(Cartesian, Args&&...args) : AOShell(std::forward<Args>(args)...) {
+        static_assert(std::disjunction_v<std::is_same<Args, Spherical>...>,
+                      "Please only pass either Spherical or Cartesian");
+        is_pure() = false;
+    }
+    ///@}
+
+    /**
+     * @brief Returns the number of AOs within this shell.
      *
-     *  \note This is not the number of primitives in the i-th contraction, but
-     *  rather 2l+1 for pure/Slater shells and 3 multichoose l for Cartesian
-     *  shells.
+     * For an angular momentum of @f$\ell@f$, there are @f$2\ell +1@f$ AOs
+     * in a pure shell and @f$\left( {3 \choose \ell}\right)@f$ AOs in a
+     * Cartesian shell.
+     *
+     * @return The number of AOs within this shell.
+     * @throw std::overflow_error if the angular momentum of this shell is too
+     *         high (@f$\ell \approx 64@f$).  Strong throw guarantee.
      */
-    size_t nfunctions(size_t i) const noexcept;
+    size_type size() const;
+
+    /**
+     * @brief Returns the number of primitives used to form the shell
+     *
+     * @return The number of primitives.
+     * @throw None. No throw guarantee.
+     */
+    size_type nprims() const noexcept;
+
+    /**
+     * @defgroup Getters and Setters
+     *
+     * @brief The public API for getting and setting the state of an AOShell.
+     *
+     * The member functions in this section allow getting/setting data if called
+     * on a non-const instance of this class and only getting if called on a
+     * cont instance.  *N.B.* that once an AOShell instance is made
+     *
+     * @param[in] prim_i The primitive for which information is being requested.
+     *            No bounds checks are made.
+     *
+     * @throw None.  All functions are no throw guarantee.
+     */
+    ///@{
+    bool& pure() noexcept;
+    const bool& pure() const noexcept {
+        return const_cast<AOShell&>(*this).pure();
+    }
+
+    size_type& l() noexcept;
+    const size_type& l() const noexcept {
+        return const_cast<AOShell&>(*this).l();
+    }
+
+    coord_type& center() noexcept;
+    const coord_type& center() const noexcept {
+        return const_cast<AOShell&>(*this).center();
+    }
+
+    double& coef(size_type prim_i) noexcept;
+    const double& coef(size_type prim_i)const noexcept {
+        return const_cast<AOShell&>(*this).coef(prim_i);
+    }
+
+    double& alpha(size_type prim_i) noexcept;
+    const double& alpha(size_type i)const noexcept {
+        return const_cast<AOShell&>(*this).alpha(prim_i);
+    }
+    ///@}
+
+private:
+    ///Used to add a primitive to the shell
+    void add_prim_(double alpha, double c);
+
+    ///The class that actually implements the details of this API.
+    std::unique_ptr<detail_::AOShellPIMPL> pimpl_;
+
 };
 
 } // namespace LibChemist
