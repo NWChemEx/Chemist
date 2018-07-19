@@ -8,7 +8,8 @@ using size_type = typename AOShell::size_type;
 using coord_type = typename AOShell::coord_type;
 using prim_vector = std::vector<AOPrimitive>;
 
-void check_shell(AOShell& shell, const prim_vector& prims, size_type l,
+void check_shell(AOShell& shell, const coord_type& carts,
+                 const prim_vector& prims, size_type l,
                  bool pure, size_type nAOs) {
     const AOShell& const_shell = shell;
 
@@ -20,6 +21,8 @@ void check_shell(AOShell& shell, const prim_vector& prims, size_type l,
     REQUIRE(const_shell.pure() == pure);
     REQUIRE(shell.l() == l);
     REQUIRE(const_shell.l() == l);
+    REQUIRE(shell.center() == carts);
+    REQUIRE(const_shell.center() == carts);
     for(size_type i=0; i < prims.size(); ++i) {
         REQUIRE(shell.coef(i) == prims[i].c);
         REQUIRE(const_shell.coef(i) == prims[i].c);
@@ -37,33 +40,69 @@ TEST_CASE("AOShell Class") {
     }
 
     prim_vector prims{{1.23, 2.34}, {3.45, 4.56}};
-
+    coord_type carts {1.0, 2.0, 3.0};
     SECTION("Default CTor") {
         AOShell shell;
-        check_shell(shell, prim_vector{}, 0, true, 1);
+        check_shell(shell, coord_type{}, prim_vector{}, 0, true, 1);
     }
 
     SECTION("State CTor") {
         SECTION("Two primitives (pure s-shell)") {
             AOShell shell(prims[0], prims[1]);
-            check_shell(shell, prims, 0, true, 1);
+            check_shell(shell, coord_type{}, prims, 0, true, 1);
         }
 
         SECTION("Two primitives d-shell") {
             AOShell shell(prims[0], prims[1], 2);
-            check_shell(shell, prims, 2, true, 5);
+            check_shell(shell, coord_type{}, prims, 2, true, 5);
 
             AOShell shell2(prims[0], 2, prims[1]);
-            check_shell(shell2, prims, 2, true, 5);
+            check_shell(shell2, coord_type{}, prims, 2, true, 5);
 
             AOShell shell3(2, prims[0], prims[1]);
-            check_shell(shell3, prims, 2, true, 5);
+            check_shell(shell3, coord_type{}, prims, 2, true, 5);
         }
 
         SECTION("Two primitives, Cartesian f-shell") {
             AOShell shell(Cartesian{}, prims[0], prims[1], 3);
-            check_shell(shell, prims, 3, false, 10);
+            check_shell(shell, coord_type{}, prims, 3, false, 10);
+
+            AOShell shell2(3, Cartesian{}, prims[0], prims[1]);
+            check_shell(shell2, coord_type{}, prims, 3, false, 10);
+
+            AOShell shell3(prims[0], Cartesian{}, prims[1], 3);
+            check_shell(shell3, coord_type{}, prims, 3, false, 10);
+        }
+
+        SECTION("Primitives, Spherical s-shell, and center") {
+            AOShell shell(carts, prims[0], prims[1]);
+            check_shell(shell, carts, prims, 0, true, 1);
         }
     }
 
+    AOShell shell(prims[0], carts, prims[1]);
+
+    SECTION("Copy CTor") {
+        AOShell shell2(shell);
+        check_shell(shell2, carts, prims, 0, true, 1);
+    }
+
+    SECTION("Copy Assignment Operator") {
+        AOShell shell2;
+        AOShell& pshell = (shell2 = shell);
+        check_shell(shell2, carts, prims, 0, true, 1);
+        REQUIRE(&shell2 == &pshell);
+    }
+
+    SECTION("Move CTor") {
+        AOShell shell2(std::move(shell));
+        check_shell(shell2, carts, prims, 0, true, 1);
+    }
+
+    SECTION("Move Assignment Operator") {
+        AOShell shell2;
+        AOShell& pshell = (shell2 = std::move(shell));
+        check_shell(shell2, carts, prims, 0, true, 1);
+        REQUIRE(&shell2 == &pshell);
+    }
 }

@@ -1,12 +1,8 @@
 set(
-    LIBCHEMIST_HEADERS
-        Implementations/AOShellPIMPL.hpp
-        Implementations/AtomPIMPL.hpp
-        AOShell.hpp
-        Atom.hpp
+    LIBCHEMIST_HEADERS AOBasisSet.hpp AOShell.hpp Atom.hpp
 )
 set(
-    LIBCHEMIST_SRCS AOShell.cpp Atom.cpp
+    LIBCHEMIST_SRCS AOBasisSet.cpp AOShell.cpp Atom.cpp
 )
 
 add_nwx_library(

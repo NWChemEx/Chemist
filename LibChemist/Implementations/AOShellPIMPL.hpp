@@ -26,10 +26,15 @@ public:
      */
     ///@{
     bool& pure() noexcept{ return pure_(); }
-
+    bool pure() const noexcept {
+        return const_cast<AOShellPIMPL&>(*this).pure();
+    }
     size_type size() const { return size_(); }
     size_type nprims() const noexcept {return nprims_(); }
     size_type& l() noexcept { return l_(); }
+    size_type l() const noexcept {
+        return const_cast<AOShellPIMPL&>(*this).l();
+    }
     coord_type& center() noexcept { return center_(); }
     double& coef(size_type i) noexcept { return coef_(i); }
     double& alpha(size_type i) noexcept {return alpha_(i); }
@@ -78,7 +83,7 @@ private:
 
 class StandAloneAOShell : public AOShellPIMPL {
 private:
-    coord_type carts_;
+    coord_type carts_ = {};
     std::deque<double> c_ij_;
     std::deque<double> alphas_;
 
@@ -87,6 +92,7 @@ private:
     }
 
     size_type nprims_() const noexcept { return c_ij_.size(); }
+
     coord_type& center_() noexcept override { return carts_; }
 
     double& coef_(size_type i) noexcept override { return c_ij_[i]; }
@@ -97,6 +103,45 @@ private:
         alphas_.push_front(alpha);
         c_ij_.push_front(c);
     }
+};
+
+class AliasAOShell : public AOShellPIMPL {
+public:
+    AliasAOShell() = delete;
+    AliasAOShell(coord_type* carts, double* c_ij, double* alpha,
+                 size_type nprims) :
+      carts_(carts), c_ij_(c_ij), alphas_(alpha), m_nprims_(nprims) {}
+
+private:
+    coord_type* carts_;
+    double* c_ij_;
+    double* alphas_;
+    size_type m_nprims_;
+
+    std::unique_ptr<AOShellPIMPL> clone_() const override {
+        auto ptr = std::make_unique<StandAloneAOShell>();
+        ptr->pure() = pure();
+        ptr->l() = l();
+        for(size_type i=0; i < 3; ++i) ptr->center()[i] = (*carts_)[i];
+        for(size_type i=0; i < m_nprims_; ++i)
+            ptr->add_prim(alphas_[i], c_ij_[i]);
+        return ptr;
+    }
+
+    size_type nprims_() const noexcept { return m_nprims_; }
+
+    coord_type& center_() noexcept override { return *carts_; }
+
+    double& coef_(size_type i) noexcept override { return c_ij_[i]; }
+
+    double& alpha_(size_type i) noexcept override { return alphas_[i]; }
+
+    void add_prim_(double, double) override {
+        //Add prim is only callable from the AOShell state CTors
+        throw std::logic_error("Should not be using an AliasAOShell in an "
+                               "AOShell CTor");
+    }
+
 };
 
 } // namespace LibChemist::detail_

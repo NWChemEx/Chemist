@@ -8,7 +8,12 @@ namespace detail_ {
 class AOShellPIMPL;
 } // namespace detail_
 
-/// Structure mainly used for input to CTor of AOShell
+/**
+ * @brief Structure mainly used for input to CTor of AOShell
+ *
+ * The AOPrimitive class could be PIMPL-ified, if need be, so that the AOShell
+ * class returns AOPrimitives.
+ */
 struct AOPrimitive {
     /// exponent on primitive
     double alpha;
@@ -135,6 +140,8 @@ public:
                       "Please only pass either Spherical or Cartesian");
         pure() = false;
     }
+
+    AOShell(std::unique_ptr<detail_::AOShellPIMPL>&& pimpl) noexcept;
     ///@}
 
     /**
@@ -208,6 +215,12 @@ private:
      * call to this function is actually the last primitive the user provided.
      * The PIMPL implementation should account for this and ensure that the
      * order is the same as that provided by the user.
+     *
+     * @param[in] alpha The exponent of the primitive.
+     * @param[in] c The contraction coefficient of the primitive
+     *
+     * @throw std::bad_alloc if their is insufficient memory to add the
+     *                       primitive.  Weak throw guarantee.
      */
     void add_prim_(double alpha, double c);
 

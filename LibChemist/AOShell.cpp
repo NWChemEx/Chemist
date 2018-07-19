@@ -25,6 +25,9 @@ AOShell& AOShell::operator=(AOShell&& rhs) noexcept {
 
 AOShell::~AOShell() = default;
 
+AOShell::AOShell(std::unique_ptr<detail_::AOShellPIMPL>&& pimpl) noexcept :
+pimpl_(std::move(pimpl)){}
+
 size_type AOShell::size() const { return pimpl_->size(); }
 size_type AOShell::nprims() const noexcept { return pimpl_->nprims(); }
 bool& AOShell::pure() noexcept { return pimpl_->pure(); }
@@ -35,5 +38,7 @@ double& AOShell::coef(size_type i) noexcept { return pimpl_->coef(i); }
 double& AOShell::alpha(size_type i) noexcept { return pimpl_->alpha(i); }
 
 void AOShell::add_prim_(double alpha, double c) { pimpl_->add_prim(alpha, c); }
+
+
 
 } // End namespace LibChemist
