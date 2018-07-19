@@ -44,11 +44,26 @@ public:
     /// The type of the object holding the center
     using coord_type = std::array<double, 3>;
 
+    /**
+     * @brief Creates an pure s-shell with no primitives.
+     *
+     * This CTor creates a more-or-less placeholder AOShell instance.  That
+     * instance will be a pure, s-like AO with no primitives.  Given that there
+     * is no way to add additional primitives, except *via* the state CTor,
+     * this shell can not be made functional.
+     *
+     * @throw std::bad_alloc if there is insufficient memory to create the PIMPL
+     *        instance.
+     */
     AOShell();
+
+    ///@{
     AOShell(const AOShell& rhs);
     AOShell(AOShell&& rhs) noexcept;
     AOShell& operator=(const AOShell& rhs);
     AOShell& operator=(AOShell&& rhs) noexcept;
+    ///@}
+
     ~AOShell();
 
     /**
@@ -86,37 +101,39 @@ public:
      */
     ///@{
     template<typename...Args>
-    AOShell(const coord_type& carts, Args&&...args) :
+    explicit AOShell(const coord_type& carts, Args&&...args) :
       AOShell(std::forward<Args>(args)...){
         for(size_type i = 0; i<3; ++i) center()[i] = carts[i];
       }
 
     template<typename...Args>
-    AOShell(size_type l, Args&&...args) :
+    explicit AOShell(size_type l_in, Args&&...args) :
       AOShell(std::forward<Args>(args)...){
-        static_assert(std::disjunction_v<std::is_same<Args, size_type>...>,
+        static_assert(!std::disjunction_v<std::is_same<Args, size_type>...>,
           "Please only provide one value of angular momentum");
-        l() = l;
+        l() = l_in;
     }
 
     template<typename...Args>
-    AOShell(const AOPrimitive& prim, Args&&...args):
+    explicit AOShell(const AOPrimitive& prim, Args&&...args):
       AOShell(std::forward<Args>(args)...){
         add_prim_(prim.alpha, prim.c);
     }
 
     template<typename...Args>
-    AOShell(Spherical, Args&&...args) : AOShell(std::forward<Args>(args)...) {
-        static_assert(std::disjunction_v<std::is_same<Args, Cartesian>...>,
+    explicit AOShell(Spherical, Args&&...args) :
+      AOShell(std::forward<Args>(args)...) {
+        static_assert(!std::disjunction_v<std::is_same<Args, Cartesian>...>,
           "Please only pass either Spherical or Cartesian");
-        is_pure() = true;
+        pure() = true;
     }
 
     template<typename...Args>
-    AOShell(Cartesian, Args&&...args) : AOShell(std::forward<Args>(args)...) {
-        static_assert(std::disjunction_v<std::is_same<Args, Spherical>...>,
+    explicit AOShell(Cartesian, Args&&...args) :
+      AOShell(std::forward<Args>(args)...) {
+        static_assert(!std::disjunction_v<std::is_same<Args, Spherical>...>,
                       "Please only pass either Spherical or Cartesian");
-        is_pure() = false;
+        pure() = false;
     }
     ///@}
 
@@ -177,13 +194,21 @@ public:
     }
 
     double& alpha(size_type prim_i) noexcept;
-    const double& alpha(size_type i)const noexcept {
+    const double& alpha(size_type prim_i)const noexcept {
         return const_cast<AOShell&>(*this).alpha(prim_i);
     }
     ///@}
 
 private:
-    ///Used to add a primitive to the shell
+    /**
+     * @brief Used to add a primitive to the shell
+     *
+     * Note that because of the recursive nature of variadic templates this
+     * function will ultimately be called in the reverse order, *i.e.* the first
+     * call to this function is actually the last primitive the user provided.
+     * The PIMPL implementation should account for this and ensure that the
+     * order is the same as that provided by the user.
+     */
     void add_prim_(double alpha, double c);
 
     ///The class that actually implements the details of this API.

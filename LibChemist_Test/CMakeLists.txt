@@ -1,5 +1,5 @@
 set(
-    LIBCHEMIST_TESTS test_main.cpp TestAtom.cpp
+    LIBCHEMIST_TESTS test_main.cpp TestAOShell.cpp TestAtom.cpp
 )
 
 add_catch_cxx_tests(

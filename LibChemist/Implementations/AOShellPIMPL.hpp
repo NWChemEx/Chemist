@@ -1,6 +1,7 @@
 #pragma once
 #include "LibChemist/AOShell.hpp"
 #include <Utilities/Mathematician/Combinatorics.hpp> //For binomial coefficient
+#include <deque>
 
 namespace LibChemist::detail_ {
 
@@ -26,10 +27,8 @@ public:
     ///@{
     bool& pure() noexcept{ return pure_(); }
 
-    size_type size() const {
-        return pure()? 2ul * l() + 1ul :
-               Utilities::binomial_coefficient<size_type>(2ul + l() , l());
-    }
+    size_type size() const { return size_(); }
+    size_type nprims() const noexcept {return nprims_(); }
     size_type& l() noexcept { return l_(); }
     coord_type& center() noexcept { return center_(); }
     double& coef(size_type i) noexcept { return coef_(i); }
@@ -53,11 +52,19 @@ private:
      * in the AOShell class documentation.
      */
     ///@{
-    virtual std::unique_ptr<AOShellPIMPL&> clone_() const = 0;
+    virtual std::unique_ptr<AOShellPIMPL> clone_() const = 0;
 
     virtual bool& pure_() noexcept { return is_pure_; }
 
     virtual size_type& l_() noexcept { return ang_mom_; }
+
+    virtual size_type size_() const {
+        return is_pure_ ? 2ul * ang_mom_ + 1ul :
+               Utilities::binomial_coefficient<size_type>(2ul + ang_mom_ ,
+                                                          ang_mom_);
+    }
+
+    virtual size_type nprims_() const noexcept = 0;
 
     virtual coord_type& center_() noexcept = 0;
 
@@ -72,13 +79,14 @@ private:
 class StandAloneAOShell : public AOShellPIMPL {
 private:
     coord_type carts_;
-    std::vector<double> c_ij_;
-    std::vector<double> alphas_;
+    std::deque<double> c_ij_;
+    std::deque<double> alphas_;
 
     std::unique_ptr<AOShellPIMPL> clone_() const override {
         return std::unique_ptr<AOShellPIMPL>(new StandAloneAOShell(*this));
     }
 
+    size_type nprims_() const noexcept { return c_ij_.size(); }
     coord_type& center_() noexcept override { return carts_; }
 
     double& coef_(size_type i) noexcept override { return c_ij_[i]; }
@@ -86,8 +94,8 @@ private:
     double& alpha_(size_type i) noexcept override { return alphas_[i]; }
 
     void add_prim_(double alpha, double c) override {
-        alphas_.push_back(alpha);
-        c_ij_.push_back(c);
+        alphas_.push_front(alpha);
+        c_ij_.push_front(c);
     }
 };
 
