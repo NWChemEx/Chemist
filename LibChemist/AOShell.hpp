@@ -206,6 +206,10 @@ public:
     }
     ///@}
 
+    bool operator==(const AOShell& rhs)const noexcept;
+    bool operator!=(const AOShell& rhs)const noexcept {
+        return !((*this) == rhs);
+    }
 private:
     /**
      * @brief Used to add a primitive to the shell

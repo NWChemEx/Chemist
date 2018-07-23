@@ -39,6 +39,11 @@ double& AOShell::alpha(size_type i) noexcept { return pimpl_->alpha(i); }
 
 void AOShell::add_prim_(double alpha, double c) { pimpl_->add_prim(alpha, c); }
 
-
+bool AOShell::operator==(const AOShell& rhs) const noexcept {
+    if(nprims() != rhs.nprims() || pure() != rhs.pure()) return false;
+    for(size_type i = 0; i < nprims(); ++i)
+        if(coef(i) != rhs.coef(i) || alpha(i) != rhs.alpha(i)) return false;
+    return true;
+}
 
 } // End namespace LibChemist

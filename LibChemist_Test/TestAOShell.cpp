@@ -44,6 +44,9 @@ TEST_CASE("AOShell Class") {
     SECTION("Default CTor") {
         AOShell shell;
         check_shell(shell, coord_type{}, prim_vector{}, 0, true, 1);
+        AOShell shell2;
+        REQUIRE(shell == shell2);
+        REQUIRE(!(shell != shell2));
     }
 
     SECTION("State CTor") {
@@ -85,6 +88,7 @@ TEST_CASE("AOShell Class") {
     SECTION("Copy CTor") {
         AOShell shell2(shell);
         check_shell(shell2, carts, prims, 0, true, 1);
+        REQUIRE(shell2 == shell);
     }
 
     SECTION("Copy Assignment Operator") {
