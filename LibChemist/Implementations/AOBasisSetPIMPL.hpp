@@ -37,6 +37,8 @@ private:
 
 class StandAloneBasisSet : public AOBasisSetPIMPL {
 private:
+    using coord_type = std::array<double, 3>;
+
     std::vector<double> carts_;
     std::vector<size_type> nprims_;
     std::vector<double> c_ij_;
@@ -45,8 +47,6 @@ private:
     std::vector<AOShell> shells_;
 
     AOShell& shell_(size_type i) override { return shells_[i]; }
-
-    using coord_type = std::array<double, 3>;
 
     size_type size_() const noexcept override { return shells_.size(); }
 

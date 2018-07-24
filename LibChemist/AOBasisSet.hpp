@@ -1,6 +1,6 @@
 #pragma once
 #include "LibChemist/AOShell.hpp"
-#include <vector>
+#include <vector> //Needed for iterators
 
 namespace LibChemist {
 namespace detail_ {
@@ -90,7 +90,7 @@ public:
     explicit AOBasisSet(const AOShell& shell, Args&&...args) :
       AOBasisSet({shell, std::forward<Args>(args)...}) {}
 
-    explicit AOBasisSet(std::initializer_list<AOShell> il);
+    AOBasisSet(std::initializer_list<AOShell> il);
     ///@}
 
     /**
@@ -149,7 +149,9 @@ public:
      *
      * @param[in] i The number of the shell to retrieve.  i should be in the
      *            range [0, size()).  No bounds check is performed.
-     *
+     * @return The requested shell.  Note the shell is a reference to the state
+     *         stored within this class and is only valid for as long as the
+     *         AOBasisSet instance that created it is.
      * @throw None No throw guarantee.
      */
     ///@{

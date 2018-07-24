@@ -98,7 +98,7 @@ public:
      * @param[in] l The angular momentum of this shell.
      * @param[in] prim The exponent and coefficient for a primitive
      * @param[in] args The arguments that have not been parsed yet.
-     *
+     * @param[in] pimpl Allows creating an AOShell with a particular pimpl
      * @tparam Args The types of the remaining arguments.
      * @throw std::bad_alloc if there is insufficient memory to add the value to
      *        the instance.  Strong throw guarantee.
@@ -141,7 +141,7 @@ public:
         pure() = false;
     }
 
-    AOShell(std::unique_ptr<detail_::AOShellPIMPL>&& pimpl) noexcept;
+    explicit AOShell(std::unique_ptr<detail_::AOShellPIMPL>&& pimpl) noexcept;
     ///@}
 
     /**
@@ -172,7 +172,8 @@ public:
      *
      * The member functions in this section allow getting/setting data if called
      * on a non-const instance of this class and only getting if called on a
-     * cont instance.  *N.B.* that once an AOShell instance is made
+     * cont instance.  *N.B.* that once an AOShell instance is made one can not
+     * add any additional primitives.
      *
      * @param[in] prim_i The primitive for which information is being requested.
      *            No bounds checks are made.
