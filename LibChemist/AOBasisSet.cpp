@@ -1,30 +1,30 @@
 #include "LibChemist/AOBasisSet.hpp"
 #include "LibChemist/Implementations/AOBasisSetPIMPL.hpp"
+#include <algorithm> //For max element
 
 namespace LibChemist {
+
 
 using size_type = typename AOBasisSet::size_type;
 using iterator = typename AOBasisSet::iterator;
 using const_iterator = typename AOBasisSet::const_iterator;
 
 AOBasisSet::AOBasisSet() :
-  pimpl_(std::make_unique<detail_::StandAloneBasisSet>()) {}
+  pimpl_(std::make_unique<detail_::ContiguousBasisSet>()) {}
 
 AOBasisSet::AOBasisSet(std::initializer_list<AOShell> il) : AOBasisSet() {
     for(auto& shelli : il)add_shell(shelli);
 }
 
 AOBasisSet::AOBasisSet(const AOBasisSet& rhs) : AOBasisSet() {
-    for(size_type i = 0; i < rhs.size(); ++i)add_shell(rhs[i]);
+    for(size_type i = 0; i < rhs.size(); ++i) add_shell(rhs[i]);
 }
 
 AOBasisSet::AOBasisSet(AOBasisSet&& rhs) noexcept
   : pimpl_(std::move(rhs.pimpl_)){}
 
 AOBasisSet& AOBasisSet::operator=(const AOBasisSet& rhs) {
-    pimpl_ = std::make_unique<detail_::StandAloneBasisSet>();
-    for(size_type i=0; i < rhs.size(); ++i) add_shell(rhs[i]);
-    return *this;
+    return *this = std::move(AOBasisSet(rhs));
 }
 
 AOBasisSet& AOBasisSet::operator=(AOBasisSet && rhs) noexcept {

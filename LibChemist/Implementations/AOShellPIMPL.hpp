@@ -1,19 +1,22 @@
 #pragma once
 #include "LibChemist/AOShell.hpp"
-#include <Utilities/Mathematician/Combinatorics.hpp> //For binomial coefficient
-#include <deque>
+#include "LibChemist/Implementations/AoSFacade.hpp"
+#include <vector>
 
 namespace LibChemist::detail_ {
 
 class AOShellPIMPL {
 public:
+
+    ///@{
     using size_type = typename AOShell::size_type;
     using coord_type = typename AOShell::coord_type;
+    ///@}
 
     AOShellPIMPL() = default;
     virtual ~AOShellPIMPL() = default;
 
-    std::unique_ptr<AOShellPIMPL> clone()const { return clone_(); }
+    std::unique_ptr<AOShellPIMPL> clone() const { return clone_(); }
 
     /**
      * @defgroup Public API for PIMPL implementation functions
@@ -26,15 +29,8 @@ public:
      */
     ///@{
     bool& pure() noexcept{ return pure_(); }
-    bool pure() const noexcept {
-        return const_cast<AOShellPIMPL&>(*this).pure();
-    }
-    size_type size() const { return size_(); }
     size_type nprims() const noexcept {return nprims_(); }
     size_type& l() noexcept { return l_(); }
-    size_type l() const noexcept {
-        return const_cast<AOShellPIMPL&>(*this).l();
-    }
     coord_type& center() noexcept { return center_(); }
     double& coef(size_type i) noexcept { return coef_(i); }
     double& alpha(size_type i) noexcept {return alpha_(i); }
@@ -46,9 +42,6 @@ protected:
     AOShellPIMPL& operator=(const AOShellPIMPL& rhs) = default;
     AOShellPIMPL& operator=(AOShellPIMPL&& rhs) = delete;
 private:
-    bool is_pure_ = true;
-    size_type ang_mom_ = 0;
-
     /**
      * @defgroup Hooks for derived class.
      *
@@ -59,15 +52,9 @@ private:
     ///@{
     virtual std::unique_ptr<AOShellPIMPL> clone_() const = 0;
 
-    virtual bool& pure_() noexcept { return is_pure_; }
+    virtual bool& pure_() noexcept = 0;
 
-    virtual size_type& l_() noexcept { return ang_mom_; }
-
-    virtual size_type size_() const {
-        return is_pure_ ? 2ul * ang_mom_ + 1ul :
-               Utilities::binomial_coefficient<size_type>(2ul + ang_mom_ ,
-                                                          ang_mom_);
-    }
+    virtual size_type& l_() noexcept = 0;
 
     virtual size_type nprims_() const noexcept = 0;
 
@@ -81,67 +68,35 @@ private:
     ///@}
 };
 
-class StandAloneAOShell : public AOShellPIMPL {
-private:
-    coord_type carts_ = {};
-    std::deque<double> c_ij_;
-    std::deque<double> alphas_;
-
-    std::unique_ptr<AOShellPIMPL> clone_() const override {
-        return std::unique_ptr<AOShellPIMPL>(new StandAloneAOShell(*this));
-    }
-
-    size_type nprims_() const noexcept { return c_ij_.size(); }
-
-    coord_type& center_() noexcept override { return carts_; }
-
-    double& coef_(size_type i) noexcept override { return c_ij_[i]; }
-
-    double& alpha_(size_type i) noexcept override { return alphas_[i]; }
-
-    void add_prim_(double alpha, double c) override {
-        alphas_.push_front(alpha);
-        c_ij_.push_front(c);
-    }
-};
-
-class AliasAOShell : public AOShellPIMPL {
+class ContiguousAOShell : public AOShellPIMPL {
 public:
-    AliasAOShell() = delete;
-    AliasAOShell(coord_type* carts, double* c_ij, double* alpha,
-                 size_type nprims) :
-      carts_(carts), c_ij_(c_ij), alphas_(alpha), m_nprims_(nprims) {}
-
+    using AoS_t = AoSElement<coord_type, size_type, double, double>;
+    ContiguousAOShell() : impl_(std::make_shared<AoS_t>()), is_pure_(true) {
+        impl_->insert<0>(coord_type{});
+        impl_->insert<1>(0);
+    }
+    ContiguousAOShell(std::shared_ptr<AoS_t> impl) : impl_(impl) {}
+protected:
+    ContiguousAOShell(const ContiguousAOShell& rhs) :
+      impl_(std::make_shared<AoS_t>(*rhs.impl_)), is_pure_(rhs.is_pure_) {}
 private:
-    coord_type* carts_;
-    double* c_ij_;
-    double* alphas_;
-    size_type m_nprims_;
+
+    std::shared_ptr<AoS_t> impl_;
+    bool is_pure_ = true;
 
     std::unique_ptr<AOShellPIMPL> clone_() const override {
-        auto ptr = std::make_unique<StandAloneAOShell>();
-        ptr->pure() = pure();
-        ptr->l() = l();
-        for(size_type i=0; i < 3; ++i) ptr->center()[i] = (*carts_)[i];
-        for(size_type i=0; i < m_nprims_; ++i)
-            ptr->add_prim(alphas_[i], c_ij_[i]);
-        return ptr;
+        return std::unique_ptr<ContiguousAOShell>(new ContiguousAOShell(*this));
     }
-
-    size_type nprims_() const noexcept { return m_nprims_; }
-
-    coord_type& center_() noexcept override { return *carts_; }
-
-    double& coef_(size_type i) noexcept override { return c_ij_[i]; }
-
-    double& alpha_(size_type i) noexcept override { return alphas_[i]; }
-
-    void add_prim_(double, double) override {
-        //Add prim is only callable from the AOShell state CTors
-        throw std::logic_error("Should not be using an AliasAOShell in an "
-                               "AOShell CTor");
+    size_type nprims_() const noexcept { return impl_->size<2>(); }
+    bool& pure_() noexcept override {return is_pure_; }
+    size_type& l_() noexcept override { return impl_->at<1>(); }
+    coord_type& center_() noexcept override { return impl_->at<0>(); }
+    double& coef_(size_type i) noexcept override { return impl_->at<2>(i); }
+    double& alpha_(size_type i) noexcept override { return impl_->at<3>(i); }
+    void add_prim_(double alpha, double c) override {
+        impl_->insert<3>(alpha);
+        impl_->insert<2>(c);
     }
-
 };
 
 } // namespace LibChemist::detail_

@@ -31,6 +31,13 @@ template<size_type FieldI>
 using const_pointer = typename Shell::const_pointer<FieldI>;
 
 
+using value_type2 = typename AOBasis::value_type;
+using reference2 = typename AOBasis::reference;
+using const_reference2 = typename AOBasis::const_reference;
+using pointer2 = typename AOBasis::pointer;
+using const_pointer2 = typename AOBasis::const_pointer;
+using size_type2 = typename AOBasis::size_type;
+
 void test_AoSElement(Shell& shell_i, const coef_t& cs, const carts_v& carts) {
     const Shell& const_shell = shell_i;
     SECTION("Coefficients") {
@@ -111,22 +118,45 @@ TEST_CASE("AoSElement Class") {
     }
 }
 
-
 void test_AoSFacade(AOBasis& bs, const shell_v& shells){
     const AOBasis& const_bs = bs;
     REQUIRE(bs.size() == shells.size());
-    for(size_type i=0; i < shells.size(); ++i ){
-        REQUIRE(bs.at(i).size<0>() == shells[i].size<0>());
-        for(size_type j=0; j < bs.at(i).size<0>(); ++j){
-
+    if(!bs.size()) return;
+    double* pCoef = bs.at(0).get<0>();
+    const double* pcCoef = const_bs.at(0).get<0>();
+    double* pCarts = &(bs.at(0).at<1>()[0]);
+    const double* pcCarts = &(const_bs.at(0).at<1>()[0]);
+    for(size_type i=0, primi=0, carti=0; i < shells.size(); ++i ){
+        Shell& shell_i = bs.at(i);
+        const Shell& corr_shell = shells[i];
+        const Shell& cshell_i = const_bs.at(i);
+        const size_type nprims = bs.at(i).size<0>();
+        REQUIRE(nprims == corr_shell.size<0>());
+        for(size_type j=0; j < nprims; ++j, ++primi){
+            const double ci = corr_shell.at<0>(j);
+            REQUIRE(shell_i.at<0>(j) == ci);
+            REQUIRE(cshell_i.at<0>(j) == ci);
+            REQUIRE(pCoef[primi] == ci);
+            REQUIRE(pcCoef[primi] == ci);
+        }
+        auto corr_carts = corr_shell.at<1>();
+        REQUIRE(shell_i.at<1>() == corr_carts);
+        REQUIRE(cshell_i.at<1>() == corr_carts);
+        for(size_type j=0; j < 3; ++j, ++carti){
+            REQUIRE(pCarts[carti] == corr_carts[j]);
+            REQUIRE(pcCarts[carti] == corr_carts[j]);
         }
     }
 }
 
 TEST_CASE("AoSFacade Class") {
     SECTION("Typedefs") {
-        REQUIRE(std::is_same_v<typename AOBasis::value_type, Shell>);
-        REQUIRE(std::is_same_v<typename AOBasis::size_type, size_type>);
+        REQUIRE(std::is_same_v<value_type2, Shell>);
+        REQUIRE(std::is_same_v<reference2, Shell&>);
+        REQUIRE(std::is_same_v<const_reference2, const Shell&>);
+        REQUIRE(std::is_same_v<pointer2, std::shared_ptr<Shell>>);
+        REQUIRE(std::is_same_v<const_pointer2, std::shared_ptr<const Shell>>);
+        REQUIRE(std::is_same_v<size_type2, size_type>);
     }
 
     AOBasis bs;
@@ -148,6 +178,32 @@ TEST_CASE("AoSFacade Class") {
 
     SECTION("Filled instance") {
         test_AoSFacade(bs, shells);
+    }
+
+    SECTION("Copy CTor") {
+        AOBasis bs2(bs);
+        test_AoSFacade(bs2, shells);
+        REQUIRE(bs2.at(0).get<0>() != bs.at(0).get<0>());
+    }
+
+    SECTION("Move CTor") {
+        AOBasis bs2(std::move(bs));
+        test_AoSFacade(bs2, shells);
+    }
+
+    SECTION("Copy Assignment") {
+        AOBasis bs2;
+        AOBasis& pbs =(bs2 = bs);
+        test_AoSFacade(bs2, shells);
+        REQUIRE(&pbs == &bs2);
+        REQUIRE(bs2.at(0).get<0>() != bs.at(0).get<0>());
+    }
+
+    SECTION("Move Assignment") {
+        AOBasis bs2;
+        AOBasis& pbs =(bs2 = std::move(bs));
+        test_AoSFacade(bs2, shells);
+        REQUIRE(&pbs == &bs2);
     }
 
 }

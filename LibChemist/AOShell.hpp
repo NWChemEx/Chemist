@@ -46,8 +46,17 @@ public:
     /// The type of a number used for counting
     using size_type = std::size_t;
 
+    /// The type used to store a parameter of the shell
+    using value_type = double;
+
+    /// The type of a reference to a stored value
+    using reference = value_type&;
+
+    /// The type of a read-only reference to a stored value
+    using const_reference = const value_type&;
+
     /// The type of the object holding the center
-    using coord_type = std::array<double, 3>;
+    using coord_type = std::array<value_type, 3>;
 
     /**
      * @brief Creates an pure s-shell with no primitives.
@@ -79,8 +88,8 @@ public:
      *
      * The signatures for the ctors in this section may look scary, but really
      * it's just a bit of C++ magic to make the API more friendly.
-     * Specifically, the AOShell class ctor will parse a list of arguments
-     * provided to it.  The following list summarizes the available capture
+     * Specifically, these AOShell class ctors will parse a list of arguments
+     * provided to them.  The following list summarizes the available capture
      * groups and what they are interpreted as:
      *
      * - `[std::array<double, 3>]` the coordinates for the center of this shell
@@ -91,7 +100,8 @@ public:
      *
      * With the exception of the `AOPrimitive` capture group, each capture group
      * can appear only once in the constructor list.  A compiler error will be
-     * raised if this is not the case.
+     * raised if this is not the case.  The arguments to these constructors can
+     * appear in any order.
      *
      * @param[in] carts The Cartesian coordinate for the point the shell is
      *            centered on.
@@ -108,35 +118,45 @@ public:
     template<typename...Args>
     explicit AOShell(const coord_type& carts, Args&&...args) :
       AOShell(std::forward<Args>(args)...){
+        constexpr bool is_carts =
+          std::disjunction_v<std::is_same<std::decay_t<Args>, coord_type>...>;
+        static_assert(!is_carts,
+                      "Please only pass either Spherical or Cartesian");
         for(size_type i = 0; i<3; ++i) center()[i] = carts[i];
       }
 
     template<typename...Args>
     explicit AOShell(size_type l_in, Args&&...args) :
       AOShell(std::forward<Args>(args)...){
-        static_assert(!std::disjunction_v<std::is_same<Args, size_type>...>,
-          "Please only provide one value of angular momentum");
+        constexpr bool is_am =
+          std::disjunction_v<std::is_same<Args, size_type>...>;
+        static_assert(!is_am,
+                      "Please only provide one value of angular momentum");
         l() = l_in;
     }
 
     template<typename...Args>
     explicit AOShell(const AOPrimitive& prim, Args&&...args):
-      AOShell(std::forward<Args>(args)...){
-        add_prim_(prim.alpha, prim.c);
-    }
+      AOShell(std::forward<Args>(args)..., ColoredPrim{prim}){}
 
     template<typename...Args>
     explicit AOShell(Spherical, Args&&...args) :
       AOShell(std::forward<Args>(args)...) {
-        static_assert(!std::disjunction_v<std::is_same<Args, Cartesian>...>,
-          "Please only pass either Spherical or Cartesian");
+        constexpr bool is_type =
+          std::disjunction_v<std::is_same<Args, Spherical>...,
+                             std::is_same<Args, Cartesian>...>;
+        static_assert(!is_type,
+                      "Please only pass either Spherical or Cartesian");
         pure() = true;
     }
 
     template<typename...Args>
     explicit AOShell(Cartesian, Args&&...args) :
       AOShell(std::forward<Args>(args)...) {
-        static_assert(!std::disjunction_v<std::is_same<Args, Spherical>...>,
+        constexpr bool is_type =
+          std::disjunction_v<std::is_same<Args, Spherical>...,
+                             std::is_same<Args, Cartesian>...>;
+        static_assert(!is_type,
                       "Please only pass either Spherical or Cartesian");
         pure() = false;
     }
@@ -196,13 +216,13 @@ public:
         return const_cast<AOShell&>(*this).center();
     }
 
-    double& coef(size_type prim_i) noexcept;
-    const double& coef(size_type prim_i)const noexcept {
+    reference coef(size_type prim_i) noexcept;
+    const_reference coef(size_type prim_i)const noexcept {
         return const_cast<AOShell&>(*this).coef(prim_i);
     }
 
-    double& alpha(size_type prim_i) noexcept;
-    const double& alpha(size_type prim_i)const noexcept {
+    reference alpha(size_type prim_i) noexcept;
+    const_reference alpha(size_type prim_i)const noexcept {
         return const_cast<AOShell&>(*this).alpha(prim_i);
     }
     ///@}
@@ -212,14 +232,18 @@ public:
         return !((*this) == rhs);
     }
 private:
+    ///Struct used to color primitives we've seen while parsing arguments
+    struct ColoredPrim { AOPrimitive prim; };
+
+    ///End-point for recursion
+    template<typename...Args>
+    AOShell(const ColoredPrim& prim, Args&&...args) : AOShell() {
+        for(auto primi : {prim, args...}) add_prim_(primi.prim.alpha,
+                                                    primi.prim.c);
+    }
+
     /**
      * @brief Used to add a primitive to the shell
-     *
-     * Note that because of the recursive nature of variadic templates this
-     * function will ultimately be called in the reverse order, *i.e.* the first
-     * call to this function is actually the last primitive the user provided.
-     * The PIMPL implementation should account for this and ensure that the
-     * order is the same as that provided by the user.
      *
      * @param[in] alpha The exponent of the primitive.
      * @param[in] c The contraction coefficient of the primitive

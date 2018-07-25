@@ -1,21 +1,19 @@
 #include "LibChemist/AOShell.hpp"
 #include "LibChemist/Implementations/AOShellPIMPL.hpp"
-
+#include <Utilities/Mathematician/Combinatorics.hpp> //For binomial coefficient
 namespace LibChemist {
 
 using size_type = typename AOShell::size_type;
 using coord_type = typename AOShell::coord_type;
 
-AOShell::AOShell() : pimpl_(std::make_unique<detail_::StandAloneAOShell>()) {}
+AOShell::AOShell() : pimpl_(std::make_unique<detail_::ContiguousAOShell>()) {}
 
-AOShell::AOShell(const AOShell& rhs) :
-  pimpl_(rhs.pimpl_->clone()) {}
+AOShell::AOShell(const AOShell& rhs) : pimpl_(rhs.pimpl_->clone()) {}
 
 AOShell::AOShell(AOShell&& rhs) noexcept : pimpl_(std::move(rhs.pimpl_)){}
 
 AOShell& AOShell::operator=(const AOShell& rhs) {
-    rhs.pimpl_->clone().swap(pimpl_);
-    return *this;
+    return *this = std::move(AOShell(rhs));
 }
 
 AOShell& AOShell::operator=(AOShell&& rhs) noexcept {
@@ -26,9 +24,12 @@ AOShell& AOShell::operator=(AOShell&& rhs) noexcept {
 AOShell::~AOShell() = default;
 
 AOShell::AOShell(std::unique_ptr<detail_::AOShellPIMPL>&& pimpl) noexcept :
-pimpl_(std::move(pimpl)){}
+    pimpl_(std::move(pimpl)){}
 
-size_type AOShell::size() const { return pimpl_->size(); }
+size_type AOShell::size() const {
+    return pure() ? 2ul * l() + 1ul :
+           Utilities::binomial_coefficient<size_type>(2ul + l(), l());
+}
 size_type AOShell::nprims() const noexcept { return pimpl_->nprims(); }
 bool& AOShell::pure() noexcept { return pimpl_->pure(); }
 size_type& AOShell::l() noexcept { return pimpl_->l(); }

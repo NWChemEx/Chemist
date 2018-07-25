@@ -3,8 +3,7 @@ set(
         Implementations/AoSFacade.hpp
 )
 set(
-    LIBCHEMIST_SRCS #AOBasisSet.cpp AOShell.cpp
-        Atom.cpp
+    LIBCHEMIST_SRCS AOBasisSet.cpp AOShell.cpp Atom.cpp
 )
 
 add_nwx_library(

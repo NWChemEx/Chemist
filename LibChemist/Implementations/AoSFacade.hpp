@@ -5,22 +5,30 @@
 /**
  * @file AoSFacade.hpp
  *
- * This file contains a class AoSFacade, which aids in implementing an array of
- * structures API when the data is actually stored as a structure of arrays. To
- * do this the AoSFacade must know the types of the member data stored within
- * the elements it holds.  This is done *via* the AoSElement wrapper class which
- * aggregates the types of each member and holds a share pointer to the buffer
- * where its state is actually stored (as well as the begin and end indices for
- * where in the buffer that state exists).  The AoSFacade class then holds a
- * series of AoSElement instances, each set-up so that they know where in the
- * overall buffer their state is.
- *
+ * This file contains a class AoSFacade, which aids in implementing an
+ * API that is array of structures (AoS) like when the data is actually stored
+ * as a structure of arrays (SoA). To this end all data is stored in shared
+ * buffers of which each element and the AoSFacade has a reference to (ensuring
+ * the buffers are not deleted from under any of them).  Elements then store
+ * their offsets in the buffer (as well as their spans) and return their values
+ * by basic pointer arithmetic.
  */
 
 namespace LibChemist::detail_ {
 ///Forward declare the AoSFacade class for friendship reasons
 template<typename T> class AoSFacade;
 
+/**
+ * @brief The class that wraps an element within the AoSFacade
+ *
+ * User declared classes can not be inserted directly into an array with the
+ * guarantee that the members will be contiguous.  This is because the class
+ * is opaque.  The AoSElement is meant to hold the state of the class (the
+ * actual class's accessors then being a thin wrapper over the AoSElement) in a
+ * manner allowing for the fields to be stored contiguously.
+ *
+ * @tparam Fields The types of the fields associated with this element.
+ */
 template<typename...Fields>
 class AoSElement {
     ///The type of this class
@@ -87,7 +95,7 @@ public:
      *         a the state of @p rhs.
      *
      * @throw std::bad_alloc if there is insufficient memory to copy @p rhs.
-     *         Strong throw gurantee.  Move Ctor/assignment are no throw
+     *         Strong throw guarantee.  Move Ctor/assignment are no throw
      *         guarantee.
      */
     ///@{
@@ -185,7 +193,7 @@ public:
     ///@{
     template<size_type FieldI>
     reference<FieldI> at(size_type i=0) noexcept {
-        return std::get<FieldI>(buffer_)->operator[](std::get<FieldI>(me_) + i);
+         std::get<FieldI>(buffer_)->operator[](std::get<FieldI>(me_) + i);
     }
 
     template<size_type FieldI>
@@ -261,6 +269,16 @@ private:
 ///Primary template, only instantiated when T is an AoSElement
 template<typename T> class AoSFacade;
 
+/**
+ * @brief Specialization of AoSFacade to an array of AoSElements.
+ *
+ * The AoSFacade class implements the guts of a class, C, that wants to behave
+ * like an AoS, but have the members of the structures be contiguous.  More
+ * specifically, the AoSFacade holds an array of AoSElements which can be used
+ * as the state of the structures that are to be returned from C.
+ *
+ * @tparam Fields The types of the fields stored within the elements.
+ */
 template<typename...Fields>
 class AoSFacade<AoSElement<Fields...>> {
 private:
@@ -270,29 +288,119 @@ public:
     /// The type of the elements stored in this container
     using value_type  = AoSElement<Fields...>;
 
+    /// The type of a reference to a value
+    using reference = value_type&;
+
+    /// The type of a const reference to a value
+    using const_reference = const value_type&;
+
+    /// The type of a shared_ptr to a value
+    using pointer = std::shared_ptr<value_type>;
+
+    /// The type of a const shared_ptr to a value
+    using const_pointer = std::shared_ptr<const value_type>;
+
     /// The type of a number used for counting
     using size_type = typename value_type::size_type;
 
+    /**
+     * @brief Makes an empty AoSFacade
+     *
+     * The resulting AoSFacade instance is ready to have elements inserted into
+     * it.  This requires allocating the shared pointers that will store the
+     * vectors.  Aside from this no additional memory is allocated.
+     *
+     * @throw std::bad_alloc if there is insufficient memory to allocate the
+     *        buffers.  Strong throw guarantee.
+     */
     AoSFacade() : buffer_(value_type().buffer_){}
 
+    /**
+     * @defgroup Copy/Move CTors and Assignment Operators
+     *
+     * @brief CTors and assignment operators for copying/taking over the state
+     * of another AoSFacade instance.
+     *
+     * Copies of AoSFacade instances are deep copies.
+     *
+     * @param[in] rhs The instance to copy/move.  If @p rhs is moved from it is
+     *            in a valid, but otherwise undefined state.
+     *
+     * @return Assignment operators return the current instance containing @p
+     *         rhs's state
+     *
+     * @throw std::bad_alloc if there is insufficient memory to copy @p rhs.
+     *        Strong throw guarantee.  Move assignment is no throw guarantee.
+     */
+    ///@{
+    AoSFacade(const my_type& rhs) :AoSFacade() {
+        for(const auto& ei : rhs.elements_)insert(*ei);
+    }
+    AoSFacade(my_type&& rhs) = default;
+    AoSFacade& operator=(const my_type& rhs) {
+        return *this = std::move(my_type(rhs));
+    }
+    AoSFacade& operator=(my_type&& rhs) = default;
+    ///@}
+
+    ///Default dtor
+    ~AoSFacade() = default;
+
+    /**
+     * @brief Used to add elements to the array.
+     *
+     *
+     * @param value The value to add.
+     * @throw std::bad_alloc if there is insufficient memory to copy the element
+     *        or to add it to the buffer.  Strong throw guarantee.
+     */
     void insert(const value_type& value) {
-        elements_.push_back(value_type(buffer_));
-        elements_.back().copy_impl<0>(value);
+        value_type copy(buffer_);
+        copy.template copy_impl<0>(value);
+        elements_.push_back(std::make_shared<value_type>(std::move(copy)));
     }
 
+    /**
+     * @brief Returns the number of elements in the current array.
+     *
+     * @return The number of elements in the array
+     * @throw None No throw guarantee.
+     */
     size_type size() const noexcept { return elements_.size(); }
 
-    value_type& at(size_type i) { return elements_[i]; }
+    /**
+     * @defgroup Accessors
+     *
+     * @brief Allow accessing of the elements contained within the array
+     *
+     * These accessors allow retrieval of read/write elements if the current
+     * instance is non-const and read-only elements if the current instance is
+     * const.
+     *
+     * @param[in] i The number of the element to retrieve.  Should be in the
+     *            range [0, size()).
+     *
+     * @return The requested element.
+     *
+     * @warning These operators do not perform bounds checking.
+     * @throw None. No throw guarantee.
+     */
+    ///@{
+    reference at(size_type i) noexcept { return *get(i); }
+    pointer get(size_type i) noexcept {return elements_[i]; }
 
-    const value_type& at(size_type i) const {
-        return const_cast<my_type&>(*this).at(i);
+    const_reference at(size_type i) const noexcept { return *get(i); }
+    const_pointer get(size_type i) const noexcept {
+        return const_cast<my_type&>(*this).get(i);
     }
+    ///@}
 
 private:
+    ///The type of the buffer
     using buffer_type = typename value_type::buffer_type;
 
     ///The actual elements of the array with all pointers set-up already
-    std::vector<value_type> elements_;
+    std::vector<std::shared_ptr<value_type>> elements_;
 
     ///A copy of the buffer to forward to additional elements
     buffer_type buffer_;
