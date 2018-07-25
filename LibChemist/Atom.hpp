@@ -1,5 +1,4 @@
 #pragma once
-#include <Utilities/SmartEnum.hpp>
 #include <array> // For the coordinates
 #include <memory> // For unique pointer
 #include <string> // For name of atom
@@ -8,9 +7,6 @@ namespace LibChemist {
 namespace detail_ {
 class AtomPIMPL;
 }
-
-/// List of properties an Atom may have.
-DECLARE_SmartEnum(AtomProperty, mass, isotope_mass, cov_radius, vdw_radius);
 
 /** @brief A class for holding the details of an atomic unit.
  *
@@ -30,14 +26,11 @@ DECLARE_SmartEnum(AtomProperty, mass, isotope_mass, cov_radius, vdw_radius);
  */
 class Atom {
 public:
-    /// The type of an Atom's Property enum
-    using Property = AtomProperty;
-
-    /// The type the properties are stored as
-    using property_type = double;
-
-    /// The type of a counting number
+    /// The type of a counting number and the atomic number
     using size_type = std::size_t;
+
+    /// The type the mass is stored as
+    using mass_type = double;
 
     /// The type of the atomic coordinates
     using coord_type = std::array<double, 3>;
@@ -110,26 +103,40 @@ public:
      */
     ///@{
     template<typename...Args>
-    Atom(double x, double y, double z, Args&&...args):
-      Atom(std::forward<Args>(args)...) {
-        coords()[0] = x; coords()[1] = y; coords()[2] = z;
+    explicit Atom(const coord_type& coords_in, Args&&...args) :
+      Atom(std::forward<Args>(args)...){
+        constexpr bool is_carts =
+          std::disjunction_v<std::is_same<std::decay_t<Args>, coord_type>...>;
+        static_assert(!is_carts, "Please only provide one set of coordinates");
+        coords() = coords_in;
     }
 
     template<typename...Args>
-    explicit Atom(const coord_type& coords, Args&&...args) :
-      Atom(coords[0], coords[1], coords[2], std::forward<Args>(args)...){}
-
-    template<typename...Args>
-    explicit Atom(const Property& prop, double value, Args&&...args) :
-      Atom(std::forward<Args>(args)...) { set_property(prop, value); }
-
-    template<typename...Args>
     explicit Atom(const name_type& da_name, Args&&...args) :
-      Atom(std::forward<Args>(args)...) { name() = da_name; }
+      Atom(std::forward<Args>(args)...) {
+        constexpr bool is_name =
+          std::disjunction_v<std::is_same<std::decay_t<Args>, name_type>...>;
+        static_assert(!is_name, "Please only provide one name");
+        name() = da_name;
+    }
 
     template<typename...Args>
-    explicit Atom(size_type Z, Args&&...args) :
-      Atom(std::forward<Args>(args)...) { at_num() = Z;}
+    explicit Atom(const mass_type& mass_in, Args&&...args) :
+      Atom(std::forward<Args>(args)...) {
+        constexpr bool is_mass =
+          std::disjunction_v<std::is_same<std::decay_t<Args>, mass_type>...>;
+        static_assert(!is_mass, "Please only provide one mass");
+        mass() = mass_in;
+    }
+
+    template<typename...Args>
+    explicit Atom(size_type Z_in, Args&&...args) :
+      Atom(std::forward<Args>(args)...) {
+        constexpr bool is_Z =
+          std::disjunction_v<std::is_same<std::decay_t<Args>, size_type>...>;
+        static_assert(!is_Z, "Please only provide one atomic number");
+        Z() = Z_in;
+    }
     ///@}
 
 
@@ -154,101 +161,25 @@ public:
     const std::string& name() const noexcept {
         return const_cast<Atom&>(*this).name();
     }
-    size_type& at_num() noexcept;
-    const size_type& at_num() const noexcept{
-        return const_cast<Atom&>(*this).at_num();
-    }
-    ///@}
 
-    /**
-     * @name Coordinate getters/setters
-     *
-     * These functions allow one to access the Atom's coordinates either in a
-     * read/write manner (non-const variants) or in a read-only variant (for
-     * const versions).
-     *
-     * @param[in] i For the `operator[]` component variant returns the @p i -th
-     *            component of the coordinate.  @p i in the range [0, 3) is
-     *            corresponds to the "x", "y", and "z" coordinates respectively.
-     * @warning the `operator[]` form of coordinate retrieval performs no bounds
-     * checking.  This is because whether @p i greater than 2 is valid depends
-     * on the semantics of the backend.
-     *
-     * @throws None No throw guarantee.
-     */
-    ///@{
+    size_type& Z() noexcept;
+    const size_type& Z() const noexcept{ return const_cast<Atom&>(*this).Z(); }
+
     coord_type& coords() noexcept;
     const coord_type& coords() const noexcept {
         return const_cast<Atom&>(*this).coords();
     }
-    typename coord_type::value_type& operator[](size_type i) noexcept {
+    auto& operator[](size_type i) noexcept {
         return coords()[i];
     }
-    const typename coord_type::value_type& operator[](size_type i) const
-      noexcept {
-        return coords()[i];
+    const auto& operator[](size_type i) const noexcept { return coords()[i]; }
+
+    mass_type& mass() noexcept;
+    const mass_type& mass() const noexcept {
+        return const_cast<Atom&>(*this).mass();
     }
     ///@}
-
-    /**
-     * @brief Returns the number of properties with the given name that were
-     *        set for the Atom instance.
-     *
-     *
-     * @param prop The enum for the property of interest.
-     * @return The number of properties with the given name.  Will be in the
-     *         range [0,1].
-     * @throw None No throw guarantee.
-     */
-    size_type count(const Property& prop) const noexcept;
-
-    /**
-     * @name Property getters/setters
-     *
-     * The functions in this group can be used to access the properties of the
-     * atom.  For non-const Atom instances the returned value is read/write,
-     * whereas for const Atom instances it is read-only.  For convenience we
-     * also support a map-like syntax where operator[] is overloaded to return
-     * properties when given an enum.
-     *
-     * @param[in] prop The enumeration of the requested property.
-     *
-     * @return The requested property in a read/write state for non-const
-     * versions or in a read-only state for const versions.
-     *
-     * @throws std::out_of_range if the atom does not contain the requested
-     * property.  Strong throw guarantee.
-     */
-    ///@{
-    property_type& property(const Property& prop);
-    const property_type& property(const Property& prop) const {
-        return const_cast<Atom&>(*this).property(prop);
-    }
-    property_type& operator[](const Property& prop) { return property(prop); }
-    const property_type& operator[](const Property& prop) const {
-        return property(prop);
-    }
-    ///@}
-
 private:
-
-    /**
-     * @brief Allows the creation of new properties
-     *
-     * Generally speaking I don't see a need for user's to define the properties
-     * an Atom has outside of its ctor.  This function is used from the ctor to
-     * set those properties.  The user may change their values through the
-     * public accessors, but will not be able to add a new property (doing so
-     * would throw an `std::out_of_range` exception).
-     *
-     * @param[in] prop The enum for the property to set
-     * @param[in] value The value to set the property to
-     *
-     * @throw std::bad_alloc if there is insufficient memory to add the property
-     *        to the instance.
-     */
-    void set_property(const Property& prop, property_type value);
-
     /// Actual implementation of the Atom class
     std::unique_ptr<detail_::AtomPIMPL> pimpl_;
 

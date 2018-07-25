@@ -1,6 +1,6 @@
 #pragma once
 #include "LibChemist/Atom.hpp"
-#include <map> // For the state of StandAloneAtomPIMPL
+#include "LibChemist/Implementations/AoSFacade.hpp"
 
 namespace LibChemist::detail_ {
 
@@ -12,24 +12,24 @@ namespace LibChemist::detail_ {
  * the molecule in a contigous array, whereas in the latter the molecule stores
  * an array of Atom instances and each atom instance stores its own properties.
  * The goal of the PIMPL class is to isolate the user from these details.  In
- * particular there are two derived versions of AtomPIMPL: StandAloneAtomPIMPL
+ * particular there are two derived versions of AtomPIMPL: ContiguousAtomPIMPL
  * which is in charge of storing its own state and AliasAtomPIMPL which holds
  * pointers to the array stored within the Molecule.  Which of these is powering
  * the Atom class a user is using should not be a concern.
  */
 class AtomPIMPL {
 public:
-    /// Type of Atom's Property enum
-    using Property = typename Atom::Property;
-
-    /// Type of the object holding the property's value
-    using property_type = typename Atom::property_type;
-
     /// Type of a quantity for conveying how many
     using size_type = typename Atom::size_type;
 
+    /// Type of the mass
+    using mass_type = typename Atom::mass_type;
+
     /// Type of the coordinates
     using coord_type = typename Atom::coord_type;
+
+    /// Type of the name
+    using name_type = typename Atom::name_type;
 
     /// Does nothing because class has no state
     AtomPIMPL() = default;
@@ -49,31 +49,13 @@ public:
      */
     std::unique_ptr<AtomPIMPL> clone() const { return clone_(); }
 
-    /**
-     * @defgroup Atom Member Function Implementations
-     *
-     * @brief Functions that actually do the guts of the Atom's functions.
-     *
-     * The following functions are the public API to the PIMPL's virtual
-     * methods.  Their documentation is the same as the corresponding Atom
-     * member function.
-     */
-    ///@{
-    size_type count(const Property& prop) const noexcept {
-        return count_(prop);
-    }
-
     coord_type& coords() noexcept { return coords_(); }
 
-    property_type& property(const Property& prop) { return property_(prop); }
+    name_type& name() noexcept { return name_(); }
 
-    std::string& name() noexcept { return name_(); }
+    size_type& at_num() noexcept { return at_num_(); }
 
-    size_type& at_num() noexcept {return at_num_(); }
-
-    void set_property(const Property& prop, property_type value) {
-        set_property_(prop, value);
-    }
+    mass_type& mass() noexcept {return mass_(); }
     ///@}
 protected:
     /**
@@ -108,10 +90,6 @@ protected:
     ///@}
 
 private:
-    /// The name associated with this atom
-    std::string da_name_;
-
-    size_type Z_;
 
     /**
      * @brief Implemented by derived class to implement clone method
@@ -121,58 +99,50 @@ private:
      */
     virtual std::unique_ptr<AtomPIMPL> clone_() const = 0;
 
-    /// Implemented by derived class to implement count method
-    virtual size_type count_(const Property& prop) const noexcept = 0;
-
-    /// Implemented by derived class to implement property function
-    virtual property_type& property_(const Property& prop) = 0;
-
     /// Implemented by derived class to implement coords function
     virtual coord_type& coords_() noexcept = 0;
 
-    /// Optionally can be overriden by derived class to implement name()
-    virtual std::string& name_() noexcept { return da_name_; }
+    /// Implemented by derived class to implement name()
+    virtual std::string& name_() noexcept = 0;
 
-    /// Optionally can be overriden by derived class to implement at_num()
-    virtual size_type& at_num_() noexcept {return Z_; }
+    /// Implemented by derived class to implement at_num()
+    virtual size_type& at_num_() noexcept = 0;
 
-    /// Implemented by derived class to implement setting of a property
-    virtual void set_property_(const Property& prop, property_type value) = 0;
+    /// Implemented by derived class to implement mass()
+    virtual mass_type& mass_() noexcept = 0;
 };
 
 /// Implements PIMPL that allows Atom to store its own state.
-class StandAloneAtomPIMPL : public AtomPIMPL {
-    using prop_map_type = typename std::map<Property, property_type>;
+class ContiguousAtomPIMPL : public AtomPIMPL {
+    using AoS_t = AoSElement<size_type, mass_type, coord_type>;
 public:
-    StandAloneAtomPIMPL() = default;
-    ~StandAloneAtomPIMPL() override = default;
+    ContiguousAtomPIMPL() : my_name_(), impl_(std::make_shared<AoS_t>()) {
+        impl_->insert<0>(0ul);
+        impl_->insert<1>(0.0);
+        impl_->insert<2>(coord_type{});
+    }
+
+    ~ContiguousAtomPIMPL() override = default;
 
 protected:
-    StandAloneAtomPIMPL(const StandAloneAtomPIMPL& rhs) = default;
-    StandAloneAtomPIMPL& operator=(const StandAloneAtomPIMPL&) = default;
-
+    ContiguousAtomPIMPL(const ContiguousAtomPIMPL& rhs) :
+      my_name_(rhs.my_name_), impl_(std::make_shared<AoS_t>(*rhs.impl_)) {}
 private:
-    prop_map_type props_;
-
-    coord_type da_coords_ = {};
-
+    std::string my_name_;
+    std::shared_ptr<AoS_t> impl_;
+    
     std::unique_ptr<AtomPIMPL> clone_() const override {
-        return std::unique_ptr<AtomPIMPL>(new StandAloneAtomPIMPL(*this));
+        return
+          std::unique_ptr<ContiguousAtomPIMPL>(new ContiguousAtomPIMPL(*this));
     }
 
-    size_type count_(const Property& prop) const noexcept override {
-        return props_.count(prop);
-    }
+    size_type& at_num_() noexcept override { return impl_->at<0>(); }
 
-    property_type& property_(const Property& prop) override {
-        return props_.at(prop);
-    }
+    mass_type& mass_() noexcept  override {return impl_->at<1>(); }
 
-    coord_type& coords_() noexcept override { return da_coords_; }
+    coord_type& coords_() noexcept override { return impl_->at<2>(); }
 
-    void set_property_(const Property& prop, property_type value) override {
-        props_[prop] = value;
-    };
+    name_type& name_() noexcept override {return my_name_; }
 };
 
 } // namespace LibChemist::detail_
