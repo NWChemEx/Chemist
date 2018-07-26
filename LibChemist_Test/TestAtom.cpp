@@ -97,12 +97,18 @@ TEST_CASE("Atom Class") {
     SECTION("Copy Ctor") {
         Atom a2(ai);
         check_atom(a2, carts, Z, m, h);
+        REQUIRE(a2 == ai);
+        REQUIRE(!(a2 != ai));
     }
 
     SECTION("Copy Assignment") {
         Atom a2;
+        REQUIRE(a2 != ai);
+        REQUIRE(! (a2 == ai));
         Atom& pai = (a2 = ai);
         check_atom(a2, carts, Z, m, h);
+        REQUIRE(a2 == ai);
+        REQUIRE(!(a2 != ai));
         REQUIRE(&pai == &a2);
     }
 

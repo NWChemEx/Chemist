@@ -1,5 +1,6 @@
 #include <LibChemist/AOBasisSet.hpp>
 #include <catch/catch.hpp>
+#include <sstream>
 
 using namespace LibChemist;
 
@@ -7,6 +8,9 @@ using prim_vector = std::vector<AOPrimitive>;
 using coord_type = typename AOShell::coord_type;
 using shell_vector = std::vector<AOShell>;
 
+using value_type = typename AOBasisSet::value_type;
+using reference = typename AOBasisSet::reference;
+using const_reference = typename AOBasisSet::const_reference;
 using size_type = typename AOBasisSet::size_type;
 using iterator = typename AOBasisSet::iterator;
 using const_iterator = typename AOBasisSet::const_iterator;
@@ -17,6 +21,8 @@ void check_bs(AOBasisSet& bs, const shell_vector& shells) {
     SECTION("Check State") {
         REQUIRE(bs.size() == shells.size());
         for(size_type i = 0; i < shells.size(); ++i) {
+            REQUIRE(bs.at(i) == shells[i]);
+            REQUIRE(const_bs.at(i) == shells[i]);
             REQUIRE(bs[i] == shells[i]);
             REQUIRE(const_bs[i] == shells[i]);
         }
@@ -29,23 +35,6 @@ void check_bs(AOBasisSet& bs, const shell_vector& shells) {
         for(const auto& shelli : const_bs) {
             REQUIRE(shelli == shells[counter]);
             ++counter;
-        }
-    }
-    SECTION("Get the maximum angular momentum"){
-        auto [l, itr] = max_l(bs);
-        if(!bs.size()) {
-            REQUIRE(bs.end() == itr);
-            REQUIRE(l == 0);
-        }
-        else if(bs.size() == 1) {
-            REQUIRE(bs.begin() == itr);
-            REQUIRE(l == 0);
-        }
-        else {
-            auto corr_itr = bs.begin();
-            ++corr_itr;
-            REQUIRE(corr_itr == itr);
-            REQUIRE(l == 3);
         }
     }
     if(!bs.size())return; //Done with empty bases
@@ -70,6 +59,9 @@ TEST_CASE("AOBasisSet class") {
     SECTION("Typedefs") {
         using corr_itr = typename std::vector<AOShell>::iterator;
         using corr_const_itr = typename std::vector<AOShell>::const_iterator;
+        REQUIRE(std::is_same_v<value_type, AOShell>);
+        REQUIRE(std::is_same_v<reference, AOShell&>);
+        REQUIRE(std::is_same_v<const_reference, const AOShell&>);
         REQUIRE(std::is_same_v<size_type, std::size_t>);
         REQUIRE(std::is_same_v<iterator, corr_itr>);
         REQUIRE(std::is_same_v<const_iterator, corr_const_itr>);
@@ -91,11 +83,20 @@ TEST_CASE("AOBasisSet class") {
         check_bs(bs, shell_vector{shell1});
     }
 
-    bs.add_shell(shell2);
+    bs.push_back(shell2);
 
     SECTION("Two Shells") {
         check_bs(bs, shell_vector{shell1, shell2});
     }
+
+//Assignment for AOShells is not allowed at the moment
+//    SECTION("Assignment doesn't mess buffers up") {
+//        bs[0] = shell2;
+//        check_bs(bs, shell_vector{shell2, shell2});
+//
+//        REQUIRE_THROWS_AS(bs[0] = AOShell(prims[0], prims[0], prims[0]),
+//                          std::logic_error);
+//    }
 
     SECTION("Initializer List") {
         AOBasisSet bs2{shell1, shell2};
@@ -126,4 +127,18 @@ TEST_CASE("AOBasisSet class") {
         REQUIRE(&pbs == &bs2);
     }
 
+    SECTION("Get the maximum angular momentum"){
+        auto [l, itr] = max_l(bs);
+        auto corr_itr = bs.begin();
+        ++corr_itr;
+        REQUIRE(corr_itr == itr);
+        REQUIRE(l == 3);
+    }
+
+    SECTION("Printing") {
+        std::stringstream ss_corr, ss;
+        ss_corr << shell1 << shell2;
+        ss << bs;
+        REQUIRE(ss.str() == ss_corr.str());
+    }
 }

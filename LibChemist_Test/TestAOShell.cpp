@@ -1,5 +1,7 @@
 #include <LibChemist/AOShell.hpp>
 #include <catch/catch.hpp>
+#include <iostream>
+#include <sstream>
 
 using namespace LibChemist;
 using Cartesian = AOShell::Cartesian;
@@ -91,12 +93,12 @@ TEST_CASE("AOShell Class") {
         REQUIRE(shell2 == shell);
     }
 
-    SECTION("Copy Assignment Operator") {
-        AOShell shell2;
-        AOShell& pshell = (shell2 = shell);
-        check_shell(shell2, carts, prims, 0, true, 1);
-        REQUIRE(&shell2 == &pshell);
-    }
+//    SECTION("Copy Assignment Operator") {
+//        AOShell shell2;
+//        AOShell& pshell = (shell2 = shell);
+//        check_shell(shell2, carts, prims, 0, true, 1);
+//        REQUIRE(&shell2 == &pshell);
+//    }
 
     SECTION("Move CTor") {
         AOShell shell2(std::move(shell));
@@ -108,5 +110,15 @@ TEST_CASE("AOShell Class") {
         AOShell& pshell = (shell2 = std::move(shell));
         check_shell(shell2, carts, prims, 0, true, 1);
         REQUIRE(&shell2 == &pshell);
+    }
+
+    SECTION("Printing") {
+        std::string corr =
+          "l: 0 Rx: 1.000000000000000 Ry: 2.000000000000000 Rz: "
+          "3.000000000000000\nc: 2.340000000000000 alpha: 1.230000000000000\n"
+          "c: 4.560000000000000 alpha: 3.450000000000000\n";
+        std::stringstream ss;
+        ss << shell;
+        REQUIRE(ss.str() == corr);
     }
 }

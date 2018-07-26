@@ -4,7 +4,8 @@
 
 namespace LibChemist {
 namespace detail_ {
-class AOBasisSetPIMPL;
+///Forward declare the PIMPL
+template<typename T> class ContainerPIMPL;
 }
 
 /** @brief A class for storing many AOShell instances
@@ -24,14 +25,23 @@ class AOBasisSetPIMPL;
  */
 class AOBasisSet {
 public:
+    ///The type of the elements stored in this container
+    using value_type = AOShell;
+
+    ///The type of a reference to a shell
+    using reference = value_type&;
+
+    ///The type of a const reference to a shell
+    using const_reference = const value_type&;
+
     /// The type of a counting number used by this class
     using size_type = std::size_t;
 
     /// The type of an iterator to this class
-    using iterator = typename std::vector<AOShell>::iterator;
+    using iterator = typename std::vector<value_type>::iterator;
 
     /// The type of a read-only iterator to this class
-    using const_iterator = typename std::vector<AOShell>::const_iterator;
+    using const_iterator = typename std::vector<value_type>::const_iterator;
 
     /**
      * @brief Makes an empty AOBasisSet instance.
@@ -87,10 +97,10 @@ public:
      */
     ///@{
     template<typename...Args>
-    explicit AOBasisSet(const AOShell& shell, Args&&...args) :
+    explicit AOBasisSet(const_reference shell, Args&&...args) :
       AOBasisSet({shell, std::forward<Args>(args)...}) {}
 
-    AOBasisSet(std::initializer_list<AOShell> il);
+    AOBasisSet(std::initializer_list<value_type> il);
     ///@}
 
     /**
@@ -105,7 +115,7 @@ public:
      * @throw std::bad_alloc if there is insufficient memory to perform the
      *        copy. Weak throw guarantee.
      */
-    void add_shell(const AOShell& shell);
+    void push_back(value_type shell);
 
     /**
      * @brief Determines the number of shells in this basis set.
@@ -155,12 +165,12 @@ public:
      * @throw None No throw guarantee.
      */
     ///@{
-    AOShell& shell(size_type i)noexcept;
-    const AOShell& shell(size_type i)const noexcept{
-        return const_cast<AOBasisSet&>(*this).shell(i);
+    reference at(size_type i)noexcept;
+    const_reference at(size_type i)const noexcept{
+        return const_cast<AOBasisSet&>(*this).at(i);
     }
-    AOShell& operator[](size_type i) noexcept { return shell(i); }
-    const AOShell& operator[](size_type i) const noexcept { return shell(i); }
+    reference operator[](size_type i) noexcept { return at(i); }
+    const_reference operator[](size_type i) const noexcept { return at(i); }
     iterator begin() noexcept;
     iterator end() noexcept;
     const_iterator begin() const noexcept;
@@ -171,7 +181,7 @@ public:
 
 private:
     /// The object that actually implements the AOBasisSet class
-    std::unique_ptr<detail_::AOBasisSetPIMPL> pimpl_;
+    std::unique_ptr<detail_::ContainerPIMPL<AOBasisSet>> pimpl_;
 };
 
 /**
@@ -200,3 +210,13 @@ std::pair<typename AOBasisSet::size_type, typename AOBasisSet::const_iterator>
 max_l(const AOBasisSet& bs) noexcept;
 
 } // namespace LibChemist
+
+/**
+ * @brief Allows printing of an AOBasisSet instance
+ *
+ * @param os The stream to print the basis set to.
+ * @param bs The basis set instance to print.
+ * @return The stream containing the text representation of the basis set.
+ * @throw std::ios_base::failure if anything goes wrong.  Weak throw guarantee.
+ */
+std::ostream& operator<<(std::ostream& os, const LibChemist::AOBasisSet& bs);

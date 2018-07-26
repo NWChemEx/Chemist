@@ -1,12 +1,15 @@
 def repoName= "LibChemist"
 def commonModules = "llvm git "
 def buildModuleMatrix = [
-    		   "GCC":(commonModules + "gcc/7.1.0-4bgguyp cmake/3.10.2-hin27jk"),
-		   "Intel":(commonModules + "gcc/7.1.0-4bgguyp cmake/3.10.2-hin27jk intel-parallel-studio/cluster.2018.0-tpfbvga")
+    		   "GCC":(commonModules + "gcc/7.1.0-4bgguyp cmake/3.10.2-hin27jk")
+		   /*,"Intel":(commonModules + "gcc/7.1.0-4bgguyp cmake/3.10.2-hin27jk
+		    * intel-parallel-studio/cluster.2018.0-tpfbvga")
+		    */
 		  ]
 def cmakeCommandMatrix = [
-    		   "GCC":"-DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++",
-		   "Intel":"-DCMAKE_C_COMPILER=icc -DCMAKE_CXX_COMPILER=icpc"
+    		   "GCC":"-DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++"
+    		   /*,"Intel":"-DCMAKE_C_COMPILER=icc -DCMAKE_CXX_COMPILER=icpc"
+    		    */
 		   ]
 
 def credentialsID = "422b0eed-700d-444d-961c-1e58cc75cda2"

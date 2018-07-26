@@ -13,8 +13,8 @@ class AtomPIMPL;
  *  Atoms are considered the first tier of input to a computational chemistry
  *  program.  That is, most types of computational chemistry algorithms need to
  *  know where in space the atoms are located and what their chemical identity
- *  is.  This class holds that information in addition to some basic lookup data
- *  about the atom such as its mass, chemical symbol, etc.
+ *  is.  This class also additionally holds the mass of the atom and a string
+ *  identifier.
  *
  *  Like many of the classes in LibChemist, the Atom class is built using the
  *  PIMPL model.  That is by changing the underlying implementation it is
@@ -58,9 +58,7 @@ public:
      *            @p rhs is in a valid, but otherwise undefined state.
      *
      * @throw std::bad_alloc The copy ctor/assignment operator throws if
-     * thier is insufficent memory to perform the copy.
-     *
-     *
+     * there is insufficient memory to perform the copy.
      */
     ///@{
     Atom(const Atom& rhs);
@@ -137,11 +135,13 @@ public:
         static_assert(!is_Z, "Please only provide one atomic number");
         Z() = Z_in;
     }
+
+    explicit Atom(std::unique_ptr<detail_::AtomPIMPL> pimpl);
     ///@}
 
 
     /// Frees the PIMPL instance
-    ~Atom();
+    ~Atom() noexcept;
 
     /**
      * @defgroup Z/Name setter/getter
@@ -169,9 +169,7 @@ public:
     const coord_type& coords() const noexcept {
         return const_cast<Atom&>(*this).coords();
     }
-    auto& operator[](size_type i) noexcept {
-        return coords()[i];
-    }
+    auto& operator[](size_type i) noexcept { return coords()[i]; }
     const auto& operator[](size_type i) const noexcept { return coords()[i]; }
 
     mass_type& mass() noexcept;
@@ -179,11 +177,36 @@ public:
         return const_cast<Atom&>(*this).mass();
     }
     ///@}
+
 private:
     /// Actual implementation of the Atom class
     std::unique_ptr<detail_::AtomPIMPL> pimpl_;
 
 }; // End Atom
+
+/**
+ * @defgroup Atom comparison operators
+ * @relates Atom
+ * @brief Allows one to compare two atom instances for exact equality.
+ *
+ * Two atom instances are defined as equal if they have the same atomic number,
+ * the same mass, and the same coordinates.  The name field is considered
+ * metadata and is not considered in the comparison.  *N.B* that floating-point
+ * comparisons are bit-wise with zero tolerance for deviation, *i.e.*,
+ * 1.99999999999999 != 2.00000000000000
+ *
+ * @param[in] lhs The Atom instance on the left of the equivalence operation
+ * @param[in] rhs The Atom instance on the right of the equivalence operation
+ * @return Whether the two atoms obey the requested equivalence relation.
+ *
+ * @throw none all comparisons are no throw guarantee.
+ */
+///@{
+bool operator==(const Atom& lhs, const Atom& rhs) noexcept;
+inline bool operator!=(const Atom& lhs, const Atom& rhs) noexcept {
+    return !(lhs == rhs);
+}
+///@}
 
 } // namespace LibChemist
 
@@ -193,5 +216,7 @@ private:
  * @param os The output stream to print to.
  * @param ai The Atom instance to print to the stream.
  * @return The output stream containing the atom instance.
+ * @throws std::ios_base::failure if anything goes wrong while writing.  Weak
+ *         throw guarantee.
  */
 std::ostream& operator<<(std::ostream& os, const LibChemist::Atom& ai);

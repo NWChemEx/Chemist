@@ -303,6 +303,8 @@ public:
     /// The type of a number used for counting
     using size_type = typename value_type::size_type;
 
+    using iterator = typename std::vector<pointer>::iterator;
+
     /**
      * @brief Makes an empty AoSFacade
      *
@@ -354,10 +356,11 @@ public:
      * @throw std::bad_alloc if there is insufficient memory to copy the element
      *        or to add it to the buffer.  Strong throw guarantee.
      */
-    void insert(const value_type& value) {
+    iterator insert(const value_type& value) {
         value_type copy(buffer_);
         copy.template copy_impl<0>(value);
         elements_.push_back(std::make_shared<value_type>(std::move(copy)));
+        return elements_.end() - 1;
     }
 
     /**

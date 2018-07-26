@@ -61,14 +61,12 @@ protected:
     /**
      * @defgroup Copy/Move Functions
      *
-     * The copy and move functions for the AtomPIMPL class. The copy versions
-     * are protected because the state of the `AtomPIMPL` class lives in the
-     * derived class and thus slicing may occur if used from outside the
-     * class.  Moving is deleted because it can not be done in a noexcept manner
-     * from the derived class (base class may not be instances of the same
-     * derived class).  Additionally, moving is not necessary as moving the
-     * pimpl_ member of Atom is sufficient.  Copying rom outside the class
-     * should be done via the `clone` member.
+     * As a polymorphic object copying/moving incorrectly can lead to problems.
+     * We leave it up to the Atom class to implement everything besides deep
+     * copy.  Deep copy can be done by invoking the clone method, which is
+     * most naturally written in terms of the derived class's copy ctor, hence
+     * the reason that the copy ctor of this class is protected (*i.e.* so it
+     * can only be used by the derived class) while all others are deleted.
      *
      * @param[in] rhs The other instance to copy/move.
      *
@@ -84,7 +82,7 @@ protected:
 
     AtomPIMPL(AtomPIMPL&& rhs) = delete;
 
-    AtomPIMPL& operator=(const AtomPIMPL& rhs) = default;
+    AtomPIMPL& operator=(const AtomPIMPL& rhs) = delete;
 
     AtomPIMPL& operator=(AtomPIMPL&& rhs) = delete;
     ///@}
@@ -112,25 +110,34 @@ private:
     virtual mass_type& mass_() noexcept = 0;
 };
 
-/// Implements PIMPL that allows Atom to store its own state.
+/// Implements PIMPL that assumes the atom's state is stored in a SoA
 class ContiguousAtomPIMPL : public AtomPIMPL {
-    using AoS_t = AoSElement<size_type, mass_type, coord_type>;
 public:
+    ///Type of an AoSElement holding an Atom's state
+    using AoS_t = AoSElement<size_type, mass_type, coord_type>;
+    ///Makes a massless atom, with an atomic number of 0, at the origin
     ContiguousAtomPIMPL() : my_name_(), impl_(std::make_shared<AoS_t>()) {
         impl_->insert<0>(0ul);
         impl_->insert<1>(0.0);
         impl_->insert<2>(coord_type{});
     }
-
+    ///Wraps the PIMPL around an already existing AoSElement
+    ContiguousAtomPIMPL(std::shared_ptr<AoS_t> impl) : my_name_(), impl_(impl) {}
+    ///Default dtor
     ~ContiguousAtomPIMPL() override = default;
 
 protected:
+    ///Makes a deep copy of the PIMPL
     ContiguousAtomPIMPL(const ContiguousAtomPIMPL& rhs) :
       my_name_(rhs.my_name_), impl_(std::make_shared<AoS_t>(*rhs.impl_)) {}
 private:
+    ///Holds the name of the atom
     std::string my_name_;
+    ///Holds the remainder of the Atom's state
     std::shared_ptr<AoS_t> impl_;
-    
+
+    ///Functions in this section implement the AtomPIMPL API
+    ///@{
     std::unique_ptr<AtomPIMPL> clone_() const override {
         return
           std::unique_ptr<ContiguousAtomPIMPL>(new ContiguousAtomPIMPL(*this));
@@ -143,6 +150,7 @@ private:
     coord_type& coords_() noexcept override { return impl_->at<2>(); }
 
     name_type& name_() noexcept override {return my_name_; }
+    ///@}
 };
 
 } // namespace LibChemist::detail_

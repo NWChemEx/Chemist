@@ -71,14 +71,36 @@ public:
      */
     AOShell();
 
+    /**
+     * @defgroup Copy/Move CTors and Assignment Operators
+     *
+     * @brief CTors and assignment operators for transferring the state of an
+     *        AOShell instance.
+     *
+     * Behind the scenes the memory semantics of this class are quite
+     * complicated.  While it is possible to make the move ctor/assignment
+     * operator and the copy ctor behave regularly, the fact that two shells
+     * may have different numbers of primitives makes assignment hard as we may
+     * need to reallocate to store the extra shells.  While not too hard for an
+     * isolated AOShell, this becomes tricky if that AOShell is in the middle
+     * of a contiguous chunk of data.  For this reason we have deleted the
+     * assignment operator.
+     *
+     * @param[in] rhs The instance to copy/move.  For move operations
+     *            @p rhs is in a valid, but otherwise undefined state.
+     *
+     * @throw std::bad_alloc Thrown by the copy ctor if there is insufficient
+     *        memory to perform the copy.  Strong throw guarantee.
+     */
     ///@{
     AOShell(const AOShell& rhs);
     AOShell(AOShell&& rhs) noexcept;
-    AOShell& operator=(const AOShell& rhs);
+    AOShell& operator=(const AOShell& rhs) = delete;
     AOShell& operator=(AOShell&& rhs) noexcept;
     ///@}
 
-    ~AOShell();
+    ///Default delete
+    ~AOShell() noexcept;
 
     /**
      * @defgroup State Ctors
@@ -130,8 +152,7 @@ public:
       AOShell(std::forward<Args>(args)...){
         constexpr bool is_am =
           std::disjunction_v<std::is_same<Args, size_type>...>;
-        static_assert(!is_am,
-                      "Please only provide one value of angular momentum");
+        static_assert(!is_am, "Please only provide one set of coordinates.");
         l() = l_in;
     }
 
@@ -226,11 +247,6 @@ public:
         return const_cast<AOShell&>(*this).alpha(prim_i);
     }
     ///@}
-
-    bool operator==(const AOShell& rhs)const noexcept;
-    bool operator!=(const AOShell& rhs)const noexcept {
-        return !((*this) == rhs);
-    }
 private:
     ///Struct used to color primitives we've seen while parsing arguments
     struct ColoredPrim { AOPrimitive prim; };
@@ -258,4 +274,40 @@ private:
 
 };
 
+/**
+ * @defgroup AOShell State Comparison Operators
+ * @relates AOShell
+ * @brief Operators for asserting whether two AOShell instances are identical
+ *
+ * Two AOShell instances are identical if they are centered on the same point in
+ * space, have the same angular momentum, are both pure (or both Cartesian), and
+ * have the same primitives with the same contraction coefficients.  Equality of
+ * floating point values is done bitwise with zero tolerance for variation,
+ * *i.e.*, every bit of the floating point values must be identical, even if
+ * they only differ in the thirteenth significant figure they are not considered
+ * equal.
+ *
+ * @param[in] lhs The AOShell instance on the left side of the operator
+ * @param[in] rhs The AOShell instance on the right side of the operator
+ * @return Whether the two AOShell instances compare true under the requested
+ *         operation.
+ * @throw None no throw guarantee.
+ */
+///@{
+bool operator==(const AOShell& lhs, const AOShell& rhs)noexcept;
+inline bool operator!=(const AOShell& lhs, const AOShell& rhs)noexcept {
+    return !(lhs == rhs);
+}
+///@}
+
 } // namespace LibChemist
+
+/**
+ * @brief Allows an AOShell to be printed
+ *
+ * @param os The ostream to forward the shell to.
+ * @param shell The shell to print.
+ * @return @p os containing the textual representation of @p os
+ * @throw std::ios_base::failure if anything goes wrong.  Weak throw guarantee.
+ */
+std::ostream& operator<<(std::ostream& os, const LibChemist::AOShell& shell);
