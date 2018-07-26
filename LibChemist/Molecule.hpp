@@ -4,35 +4,39 @@
 
 namespace LibChemist {
 namespace detail_ {
-///Forward declaration of class that holds the molecule's implementation
+/// Forward declaration of class that holds the molecule's implementation
 class MolPIMPL;
 } // namespace detail_
 
 class Molecule {
 public:
-    ///Type of an atom contained in this class
+    /// Type of an atom contained in this class
     using value_type = Atom;
 
-    ///Type of a reference to an atom
+    /// Type of a reference to an atom
     using reference = value_type&;
 
-    ///Type of a const reference to an atom
+    /// Type of a const reference to an atom
     using const_reference = const value_type&;
 
-    ///Type of an iterator over the atoms
+    /// Type of an iterator over the atoms
     using iterator = typename std::vector<value_type>::iterator;
 
-    ///Type of a const iterator over the atoms
+    /// Type of a const iterator over the atoms
     using const_iterator = typename std::vector<value_type>::const_iterator;
 
-    ///Type of a number returned by this class
+    /// Type of a number returned by this class
     using size_type = std::size_t;
 
-    ///Wrapper for tagging an input double as a charge
-    struct Charge {double value=0.0;};
+    /// Wrapper for tagging an input double as a charge
+    struct Charge {
+        double value = 0.0;
+    };
 
-    ///Wrapper for tagging an input size_type as a multiplicity
-    struct Multiplicity {size_type value=1ul; };
+    /// Wrapper for tagging an input size_type as a multiplicity
+    struct Multiplicity {
+        size_type value = 1ul;
+    };
 
     /**
      * @brief Makes a molecule with no atoms, no charge, and a multiplicity of 1
@@ -43,9 +47,9 @@ public:
 
     ///@{
     Molecule(const Molecule& rhs);
-    Molecule(Molecule&& rhs)noexcept;
+    Molecule(Molecule&& rhs) noexcept;
     Molecule& operator=(const Molecule& rhs);
-    Molecule& operator=(Molecule&& rhs)noexcept;
+    Molecule& operator=(Molecule&& rhs) noexcept;
     ///@}
 
     /**
@@ -78,8 +82,8 @@ public:
      *
      */
     ///@{
-    template<typename...Args>
-    Molecule(const Multiplicity& mult, Args&&...args) :
+    template<typename... Args>
+    Molecule(const Multiplicity& mult, Args&&... args) :
       Molecule(std::forward<Args>(args)...) {
         constexpr bool is_mult =
           std::disjunction_v<std::is_same<std::decay_t<Args>, Multiplicity>...>;
@@ -87,22 +91,22 @@ public:
         multiplicity() = mult.value;
     }
 
-    template<typename...Args>
-    Molecule(const Charge& c, Args&&...args) :
+    template<typename... Args>
+    Molecule(const Charge& c, Args&&... args) :
       Molecule(std::forward<Args>(args)...) {
-        constexpr bool is_q=
-        std::disjunction_v<std::is_same<std::decay_t<Args>, Charge>...>;
+        constexpr bool is_q =
+          std::disjunction_v<std::is_same<std::decay_t<Args>, Charge>...>;
         static_assert(!is_q, "Please only pass one charge");
         charge() = c.value;
     }
 
-    template<typename...Args>
-    Molecule(const Atom& a, Args&&...args) :
+    template<typename... Args>
+    Molecule(const Atom& a, Args&&... args) :
       Molecule(std::forward<Args>(args)..., ColoredAtom{a}) {}
     ///@}
 
-    ///Default dtor
-    ~Molecule()noexcept;
+    /// Default dtor
+    ~Molecule() noexcept;
 
     /**
      * @brief Function used to add an additional atom to the molecule
@@ -133,7 +137,7 @@ public:
      */
     ///@{
     double& charge() noexcept;
-    const double& charge()const noexcept {
+    const double& charge() const noexcept {
         return const_cast<Molecule&>(*this).charge();
     }
     size_type& multiplicity() noexcept;
@@ -154,12 +158,12 @@ public:
      * @throw None no throw guarantee.
      */
     ///@{
-    reference at(size_type i)noexcept;
-    const_reference at(size_type i)const noexcept {
+    reference at(size_type i) noexcept;
+    const_reference at(size_type i) const noexcept {
         return const_cast<Molecule&>(*this).at(i);
     }
-    reference operator[](size_type i)noexcept { return at(i); }
-    const_reference operator[](size_type i)const noexcept { return at(i); }
+    reference operator[](size_type i) noexcept { return at(i); }
+    const_reference operator[](size_type i) const noexcept { return at(i); }
     ///@}
 
     /**
@@ -174,20 +178,22 @@ public:
      */
     ///@{
     iterator begin() noexcept;
-    const_iterator begin()const noexcept;
+    const_iterator begin() const noexcept;
     iterator end() noexcept;
-    const_iterator end()const noexcept;
+    const_iterator end() const noexcept;
     ///@}
 private:
-    ///Struct for coloring an atom as seen
-    struct ColoredAtom { Atom value; };
+    /// Struct for coloring an atom as seen
+    struct ColoredAtom {
+        Atom value;
+    };
 
-    ///Catches the scenario where a colored atom has made it back to the front
-    template<typename...Args>
-    Molecule(const ColoredAtom& a, Args&&...args) :
-      Molecule({a.value, args.value...})  {}
+    /// Catches the scenario where a colored atom has made it back to the front
+    template<typename... Args>
+    Molecule(const ColoredAtom& a, Args&&... args) :
+      Molecule({a.value, args.value...}) {}
 
-    ///End-point for state ctor
+    /// End-point for state ctor
     Molecule(std::initializer_list<Atom> atoms);
 
     /// The object actually implementing the Molecule class

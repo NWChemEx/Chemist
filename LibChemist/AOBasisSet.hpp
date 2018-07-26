@@ -4,9 +4,10 @@
 
 namespace LibChemist {
 namespace detail_ {
-///Forward declare the PIMPL
-template<typename T> class ContainerPIMPL;
-}
+/// Forward declare the PIMPL
+template<typename T>
+class ContainerPIMPL;
+} // namespace detail_
 
 /** @brief A class for storing many AOShell instances
  *
@@ -25,13 +26,13 @@ template<typename T> class ContainerPIMPL;
  */
 class AOBasisSet {
 public:
-    ///The type of the elements stored in this container
+    /// The type of the elements stored in this container
     using value_type = AOShell;
 
-    ///The type of a reference to a shell
+    /// The type of a reference to a shell
     using reference = value_type&;
 
-    ///The type of a const reference to a shell
+    /// The type of a const reference to a shell
     using const_reference = const value_type&;
 
     /// The type of a counting number used by this class
@@ -64,7 +65,7 @@ public:
      *        guarantee.  The move ctor/assignment operator is no throw
      *        guarantee.
      */
-     ///@{
+    ///@{
     AOBasisSet(const AOBasisSet& rhs);
     AOBasisSet(AOBasisSet&& rhs) noexcept;
     AOBasisSet& operator=(const AOBasisSet& rhs);
@@ -96,8 +97,8 @@ public:
      *        copy.  Strong throw guarantee.
      */
     ///@{
-    template<typename...Args>
-    explicit AOBasisSet(const_reference shell, Args&&...args) :
+    template<typename... Args>
+    explicit AOBasisSet(const_reference shell, Args&&... args) :
       AOBasisSet({shell, std::forward<Args>(args)...}) {}
 
     AOBasisSet(std::initializer_list<value_type> il);
@@ -165,8 +166,8 @@ public:
      * @throw None No throw guarantee.
      */
     ///@{
-    reference at(size_type i)noexcept;
-    const_reference at(size_type i)const noexcept{
+    reference at(size_type i) noexcept;
+    const_reference at(size_type i) const noexcept {
         return const_cast<AOBasisSet&>(*this).at(i);
     }
     reference operator[](size_type i) noexcept { return at(i); }
@@ -196,8 +197,8 @@ private:
  *         past the end of the basis set.
  * @throw None. No throw guarantee.
  */
-std::pair<typename AOBasisSet::size_type, typename AOBasisSet::iterator>
-max_l(AOBasisSet& bs) noexcept;
+std::pair<typename AOBasisSet::size_type, typename AOBasisSet::iterator> max_l(
+  AOBasisSet& bs) noexcept;
 
 /**
  * @brief Returns the maximum angular momentum of a read-only basis set and the

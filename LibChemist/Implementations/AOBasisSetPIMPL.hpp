@@ -1,14 +1,15 @@
 #pragma once
 #include "LibChemist/AOBasisSet.hpp"
-#include "LibChemist/Implementations/ContainerPIMPL.hpp"
 #include "LibChemist/Implementations/AOShellPIMPL.hpp"
+#include "LibChemist/Implementations/ContainerPIMPL.hpp"
 
 namespace LibChemist::detail_ {
 
 class ContiguousBasisSet : public ContainerPIMPL<AOBasisSet> {
 public:
-    ContiguousBasisSet() = default;
+    ContiguousBasisSet()                              = default;
     ContiguousBasisSet(const ContiguousBasisSet& rhs) = default;
+
 private:
     using AoS_t = typename ContiguousAOShell::AoS_t;
 
@@ -24,18 +25,18 @@ private:
         AoS_t si;
         si.insert<0>(shell.center());
         si.insert<1>(shell.l());
-        for(size_type i=0; i <shell.nprims(); ++i) {
+        for(size_type i = 0; i < shell.nprims(); ++i) {
             si.insert<2>(shell.coef(i));
             si.insert<3>(shell.alpha(i));
         }
-        auto ptr = std::make_unique<ContiguousAOShell>(*impl_.insert(si));
+        auto ptr    = std::make_unique<ContiguousAOShell>(*impl_.insert(si));
         ptr->pure() = shell.pure();
         shells_.push_back(value_type(std::move(ptr)));
     }
     iterator begin_() noexcept override { return shells_.begin(); }
-    iterator end_() noexcept override {return shells_.end(); }
+    iterator end_() noexcept override { return shells_.end(); }
     const_iterator begin_() const noexcept override { return shells_.cbegin(); }
-    const_iterator end_() const noexcept override  { return shells_.cend(); }
+    const_iterator end_() const noexcept override { return shells_.cend(); }
 };
 
-} //namespace LibChemist::detail_
+} // namespace LibChemist::detail_

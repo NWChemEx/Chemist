@@ -1,14 +1,14 @@
 #include <LibChemist/Atom.hpp>
 #include <catch/catch.hpp>
-#include <type_traits>
 #include <map>
 #include <sstream>
+#include <type_traits>
 
 using namespace LibChemist;
-using size_type     = typename Atom::size_type;
-using coord_type    = typename Atom::coord_type;
-using mass_type     = typename Atom::mass_type;
-using name_type     = typename Atom::name_type;
+using size_type  = typename Atom::size_type;
+using coord_type = typename Atom::coord_type;
+using mass_type  = typename Atom::mass_type;
+using name_type  = typename Atom::name_type;
 
 void check_atom(Atom& ai, const coord_type& coords, size_type Z, mass_type m,
                 name_type name) {
@@ -16,9 +16,9 @@ void check_atom(Atom& ai, const coord_type& coords, size_type Z, mass_type m,
 
     REQUIRE(ai.coords() == coords);
     REQUIRE(const_ai.coords() == coords);
-    double* pCarts = &ai[0];
+    double* pCarts        = &ai[0];
     const double* pcCarts = &const_ai[0];
-    for(size_type i = 0; i < 3; ++i){
+    for(size_type i = 0; i < 3; ++i) {
         REQUIRE(ai[i] == coords[i]);
         REQUIRE(const_ai[i] == coords[i]);
         REQUIRE(pCarts[i] == coords[i]);
@@ -35,7 +35,6 @@ void check_atom(Atom& ai, const coord_type& coords, size_type Z, mass_type m,
     REQUIRE(const_ai.mass() == m);
 }
 
-
 TEST_CASE("Atom Class") {
     SECTION("Typedefs") {
         REQUIRE(std::is_same_v<size_type, std::size_t>);
@@ -51,11 +50,11 @@ TEST_CASE("Atom Class") {
 
     SECTION("Default Ctor") {
         Atom ai;
-        check_atom( ai, coord_type{}, 0, 0.0, "");
+        check_atom(ai, coord_type{}, 0, 0.0, "");
     }
 
     SECTION("State Ctor") {
-        //I'm not going to test all permuations of this...
+        // I'm not going to test all permuations of this...
 
         SECTION("Mass") {
             Atom ai(m);
@@ -72,19 +71,19 @@ TEST_CASE("Atom Class") {
             check_atom(ai, coord_type{}, Z, 0.0, "");
         }
 
-        SECTION("Name"){
+        SECTION("Name") {
             Atom ai(h);
             check_atom(ai, coord_type{}, 0, 0.0, h);
         }
 
-        SECTION("Z and Carts"){
+        SECTION("Z and Carts") {
             Atom ai(Z, carts);
             check_atom(ai, carts, Z, 0.0, "");
         }
 
         SECTION("Z, Carts, and mass") {
             Atom ai(carts, Z, m);
-            check_atom(ai, carts, Z, m,"");
+            check_atom(ai, carts, Z, m, "");
         }
 
         SECTION("Z, Carts, mass, and name") {
@@ -104,7 +103,7 @@ TEST_CASE("Atom Class") {
     SECTION("Copy Assignment") {
         Atom a2;
         REQUIRE(a2 != ai);
-        REQUIRE(! (a2 == ai));
+        REQUIRE(!(a2 == ai));
         Atom& pai = (a2 = ai);
         check_atom(a2, carts, Z, m, h);
         REQUIRE(a2 == ai);
@@ -131,6 +130,5 @@ TEST_CASE("Atom Class") {
         ss << Atom{h, carts};
         REQUIRE(ss.str() == corr);
     }
-
 
 } // TEST_CASE("Atom Class")

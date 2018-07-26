@@ -4,20 +4,19 @@
 
 using namespace LibChemist;
 
-//Forwad typedefs from the molecule
-using value_type = typename Molecule::value_type;
-using reference = typename Molecule::reference;
+// Forwad typedefs from the molecule
+using value_type      = typename Molecule::value_type;
+using reference       = typename Molecule::reference;
 using const_reference = typename Molecule::const_reference;
-using size_type = typename Molecule::size_type;
-using iterator = typename Molecule::iterator;
-using const_iterator = typename Molecule::const_iterator;
+using size_type       = typename Molecule::size_type;
+using iterator        = typename Molecule::iterator;
+using const_iterator  = typename Molecule::const_iterator;
 
-//Typedefs used for the tests
-using cart_t = std::array<double, 3>;
+// Typedefs used for the tests
+using cart_t      = std::array<double, 3>;
 using vector_type = std::vector<value_type>;
 
-
-void check_state(Molecule& mol, const vector_type& atoms, double charge=0.0,
+void check_state(Molecule& mol, const vector_type& atoms, double charge = 0.0,
                  size_type mult = 1ul) {
     const Molecule& const_mol = mol;
     REQUIRE(mol.charge() == charge);
@@ -26,13 +25,13 @@ void check_state(Molecule& mol, const vector_type& atoms, double charge=0.0,
     REQUIRE(const_mol.multiplicity() == mult);
     REQUIRE(mol.size() == atoms.size());
     if(!mol.size()) return;
-    double* pcarts = &mol.at(0).coords()[0];
-    double* pmass = &mol.at(0).mass();
-    size_type* pZ = &mol.at(0).Z();
+    double* pcarts        = &mol.at(0).coords()[0];
+    double* pmass         = &mol.at(0).mass();
+    size_type* pZ         = &mol.at(0).Z();
     const double* pccarts = &const_mol.at(0).coords()[0];
-    const double* pcmass = &const_mol.at(0).mass();
-    const size_type* pcZ = &const_mol.at(0).Z();
-    for(size_type i=0, carti=0; i < atoms.size(); ++i) {
+    const double* pcmass  = &const_mol.at(0).mass();
+    const size_type* pcZ  = &const_mol.at(0).Z();
+    for(size_type i = 0, carti = 0; i < atoms.size(); ++i) {
         REQUIRE(mol.at(i) == atoms[i]);
         REQUIRE(const_mol.at(i) == atoms[i]);
         REQUIRE(const_mol[i] == atoms[i]);
@@ -41,7 +40,7 @@ void check_state(Molecule& mol, const vector_type& atoms, double charge=0.0,
         REQUIRE(pcmass[i] == atoms[i].mass());
         REQUIRE(pZ[i] == atoms[i].Z());
         REQUIRE(pcZ[i] == atoms[i].Z());
-        for(size_type j=0; j < 3; ++j, ++carti) {
+        for(size_type j = 0; j < 3; ++j, ++carti) {
             REQUIRE(pcarts[carti] == atoms[i].coords()[j]);
             REQUIRE(pcarts[carti] == atoms[i].coords()[j]);
         }
@@ -54,8 +53,8 @@ TEST_CASE("Molecule Class") {
         REQUIRE(std::is_same_v<reference, Atom&>);
         REQUIRE(std::is_same_v<const_reference, const Atom&>);
         REQUIRE(std::is_same_v<iterator, typename vector_type::iterator>);
-        REQUIRE(std::is_same_v<const_iterator,
-                               typename vector_type::const_iterator>);
+        REQUIRE(
+          std::is_same_v<const_iterator, typename vector_type::const_iterator>);
     }
 
     SECTION("Default CTor") {
@@ -63,10 +62,10 @@ TEST_CASE("Molecule Class") {
         check_state(mol, vector_type{});
     }
 
-    vector_type atoms {Atom{"H", 1.0079, cart_t{0.0, 0.0, 0.89}},
-                       Atom{"D", 2.0079, cart_t{0.0, 0.0, 0.0}}};
+    vector_type atoms{Atom{"H", 1.0079, cart_t{0.0, 0.0, 0.89}},
+                      Atom{"D", 2.0079, cart_t{0.0, 0.0, 0.0}}};
 
-    using Charge = Molecule::Charge;
+    using Charge       = Molecule::Charge;
     using Multiplicity = Molecule::Multiplicity;
 
     SECTION("State CTor") {
@@ -126,7 +125,7 @@ TEST_CASE("Molecule Class") {
 
     SECTION("Printing") {
         std::stringstream ss, corr_ss;
-        corr_ss << atoms[0] << std::endl << atoms[1] <<std::endl;
+        corr_ss << atoms[0] << std::endl << atoms[1] << std::endl;
         ss << mol;
         REQUIRE(corr_ss.str() == ss.str());
     }

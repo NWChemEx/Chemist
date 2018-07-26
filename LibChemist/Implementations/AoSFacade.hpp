@@ -1,6 +1,6 @@
 #pragma once
-#include <vector>
 #include <memory>
+#include <vector>
 
 /**
  * @file AoSFacade.hpp
@@ -15,8 +15,9 @@
  */
 
 namespace LibChemist::detail_ {
-///Forward declare the AoSFacade class for friendship reasons
-template<typename T> class AoSFacade;
+/// Forward declare the AoSFacade class for friendship reasons
+template<typename T>
+class AoSFacade;
 
 /**
  * @brief The class that wraps an element within the AoSFacade
@@ -29,41 +30,47 @@ template<typename T> class AoSFacade;
  *
  * @tparam Fields The types of the fields associated with this element.
  */
-template<typename...Fields>
+template<typename... Fields>
 class AoSElement {
-    ///The type of this class
+    /// The type of this class
     using my_type = AoSElement<Fields...>;
 
-    ///The type of a class storing one of the fields contiguously
-    template<typename T> using vector_type = std::vector<T>;
+    /// The type of a class storing one of the fields contiguously
+    template<typename T>
+    using vector_type = std::vector<T>;
 
-    ///The type of a shared_ptr to a contiguous buffer
-    template<typename T> using shared_vector = std::shared_ptr<vector_type<T>>;
+    /// The type of a shared_ptr to a contiguous buffer
+    template<typename T>
+    using shared_vector = std::shared_ptr<vector_type<T>>;
 
-    ///The type of the object holding all the shared buffers
+    /// The type of the object holding all the shared buffers
     using buffer_type = std::tuple<shared_vector<Fields>...>;
+
 public:
-    ///The type of a counting number
+    /// The type of a counting number
     using size_type = std::size_t;
 
-    ///Helper for getting the I -th field's type
+    /// Helper for getting the I -th field's type
     template<size_type FieldI>
     using value_type = std::tuple_element_t<FieldI, std::tuple<Fields...>>;
 
-    ///Helper for getting the the I-th field's type as a reference
-    template<size_type FieldI> using reference = value_type<FieldI>&;
+    /// Helper for getting the the I-th field's type as a reference
+    template<size_type FieldI>
+    using reference = value_type<FieldI>&;
 
-    ///Helper for getting the I-th field's type as a const reference
+    /// Helper for getting the I-th field's type as a const reference
     template<size_type FieldI>
     using const_reference = const value_type<FieldI>&;
 
-    ///Helper for getting the I-th field's type as a pointer
-    template<size_type FieldI> using pointer = value_type<FieldI>*;
+    /// Helper for getting the I-th field's type as a pointer
+    template<size_type FieldI>
+    using pointer = value_type<FieldI>*;
 
-    ///Helper for getting the I-th field's type as a const pointer
-    template<size_type FieldI> using const_pointer = const value_type<FieldI>*;
+    /// Helper for getting the I-th field's type as a const pointer
+    template<size_type FieldI>
+    using const_pointer = const value_type<FieldI>*;
 
-    ///The total number of fields
+    /// The total number of fields
     constexpr static size_type n_fields = sizeof...(Fields);
 
     /**
@@ -99,15 +106,15 @@ public:
      *         guarantee.
      */
     ///@{
-    AoSElement(const AoSElement& rhs) :AoSElement() { copy_impl<0>(rhs); }
+    AoSElement(const AoSElement& rhs) : AoSElement() { copy_impl<0>(rhs); }
     AoSElement(AoSElement&& rhs) = default;
-    AoSElement& operator=(const AoSElement& rhs) {
+    AoSElement& operator         =(const AoSElement& rhs) {
         return *this = std::move(AoSElement(rhs));
     }
     AoSElement& operator=(AoSElement&& rhs) = default;
     ///@}
 
-    ///Default dtor
+    /// Default dtor
     ~AoSElement() = default;
 
     /**
@@ -124,7 +131,9 @@ public:
      * @throw None No throw guarantee.
      */
     explicit AoSElement(buffer_type buffer) noexcept :
-      me_(get_size<0>(buffer)), first_not_me_(me_), buffer_(buffer) {}
+      me_(get_size<0>(buffer)),
+      first_not_me_(me_),
+      buffer_(buffer) {}
 
     /**
      * @brief Adds a value to a particular field.
@@ -192,82 +201,85 @@ public:
      */
     ///@{
     template<size_type FieldI>
-    reference<FieldI> at(size_type i=0) noexcept {
-         std::get<FieldI>(buffer_)->operator[](std::get<FieldI>(me_) + i);
+    reference<FieldI> at(size_type i = 0) noexcept {
+        std::get<FieldI>(buffer_)->operator[](std::get<FieldI>(me_) + i);
     }
 
     template<size_type FieldI>
-    const_reference<FieldI> at(size_type i=0) const noexcept {
+    const_reference<FieldI> at(size_type i = 0) const noexcept {
         return const_cast<my_type&>(*this).at<FieldI>(i);
     }
 
-
     template<size_type FieldI>
-    pointer<FieldI> get(size_type i=0) noexcept {
+    pointer<FieldI> get(size_type i = 0) noexcept {
         const size_type me = std::get<FieldI>(me_);
         return &(std::get<FieldI>(buffer_)->operator[](me + i));
     }
 
     template<size_type FieldI>
-    const_pointer<FieldI> get(size_type i=0) const noexcept {
+    const_pointer<FieldI> get(size_type i = 0) const noexcept {
         return const_cast<my_type&>(*this).get<FieldI>(i);
     }
     ///@}
 private:
-    ///Allows the facade to get the buffer and use the private typedefs
+    /// Allows the facade to get the buffer and use the private typedefs
     friend class AoSFacade<my_type>;
 
-    ///Type of an array holding a number for each field
+    /// Type of an array holding a number for each field
     using size_array = std::array<size_type, n_fields>;
 
-    ///Helper for getting the type of a vector filled with the I-th field's type
+    /// Helper for getting the type of a vector filled with the I-th field's
+    /// type
     template<size_type FieldI>
     using vector_typeI = vector_type<value_type<FieldI>>;
 
-    ///Recursive function for allocating the tuple
+    /// Recursive function for allocating the tuple
     template<size_type I>
-    buffer_type allocate(){
-        if constexpr (I == n_fields) return buffer_type{};
+    buffer_type allocate() {
+        if constexpr(I == n_fields)
+            return buffer_type{};
         else {
-            auto rv = allocate<I + 1>();
+            auto rv         = allocate<I + 1>();
             std::get<I>(rv) = std::make_shared<vector_typeI<I>>();
             return rv;
         }
     }
 
-    ///Recursive function for getting the size of each buffer
+    /// Recursive function for getting the size of each buffer
     template<size_type I>
     size_array get_size(const buffer_type& b) const noexcept {
-        if constexpr(I == n_fields) return size_array{};
+        if constexpr(I == n_fields)
+            return size_array{};
         else {
-            auto rv = get_size<I + 1>(b);
+            auto rv         = get_size<I + 1>(b);
             std::get<I>(rv) = std::get<I>(b)->size();
             return rv;
         }
     }
 
-    ///Recursive function for deep-copying each element of the tuple
+    /// Recursive function for deep-copying each element of the tuple
     template<size_type I>
-    void copy_impl(const my_type& value){
-        if constexpr (I != n_fields) {
+    void copy_impl(const my_type& value) {
+        if constexpr(I != n_fields) {
             for(size_type i = 0; i < value.size<I>(); ++i)
                 insert<I>(value.at<I>(i));
             copy_impl<I + 1>(value);
         }
     }
 
-    ///Stores the index each field begins at
+    /// Stores the index each field begins at
     size_array me_ = {};
 
-    ///Stores the index just past where each field ends
-    size_array first_not_me_= {};
+    /// Stores the index just past where each field ends
+    size_array first_not_me_ = {};
 
-    ///All of the buffers
+    /// All of the buffers
     buffer_type buffer_;
 };
 
-///Primary template, only instantiated when T is an AoSElement
-template<typename T> class AoSFacade;
+/// Primary template, only instantiated when T is an AoSElement
+template<typename T>
+class AoSFacade;
 
 /**
  * @brief Specialization of AoSFacade to an array of AoSElements.
@@ -279,14 +291,15 @@ template<typename T> class AoSFacade;
  *
  * @tparam Fields The types of the fields stored within the elements.
  */
-template<typename...Fields>
+template<typename... Fields>
 class AoSFacade<AoSElement<Fields...>> {
 private:
     /// The type of this container
     using my_type = AoSFacade<AoSElement<Fields...>>;
+
 public:
     /// The type of the elements stored in this container
-    using value_type  = AoSElement<Fields...>;
+    using value_type = AoSElement<Fields...>;
 
     /// The type of a reference to a value
     using reference = value_type&;
@@ -315,7 +328,7 @@ public:
      * @throw std::bad_alloc if there is insufficient memory to allocate the
      *        buffers.  Strong throw guarantee.
      */
-    AoSFacade() : buffer_(value_type().buffer_){}
+    AoSFacade() : buffer_(value_type().buffer_) {}
 
     /**
      * @defgroup Copy/Move CTors and Assignment Operators
@@ -335,17 +348,17 @@ public:
      *        Strong throw guarantee.  Move assignment is no throw guarantee.
      */
     ///@{
-    AoSFacade(const my_type& rhs) :AoSFacade() {
-        for(const auto& ei : rhs.elements_)insert(*ei);
+    AoSFacade(const my_type& rhs) : AoSFacade() {
+        for(const auto& ei : rhs.elements_) insert(*ei);
     }
     AoSFacade(my_type&& rhs) = default;
-    AoSFacade& operator=(const my_type& rhs) {
+    AoSFacade& operator      =(const my_type& rhs) {
         return *this = std::move(my_type(rhs));
     }
     AoSFacade& operator=(my_type&& rhs) = default;
     ///@}
 
-    ///Default dtor
+    /// Default dtor
     ~AoSFacade() = default;
 
     /**
@@ -390,7 +403,7 @@ public:
      */
     ///@{
     reference at(size_type i) noexcept { return *get(i); }
-    pointer get(size_type i) noexcept {return elements_[i]; }
+    pointer get(size_type i) noexcept { return elements_[i]; }
 
     const_reference at(size_type i) const noexcept { return *get(i); }
     const_pointer get(size_type i) const noexcept {
@@ -399,13 +412,13 @@ public:
     ///@}
 
 private:
-    ///The type of the buffer
+    /// The type of the buffer
     using buffer_type = typename value_type::buffer_type;
 
-    ///The actual elements of the array with all pointers set-up already
+    /// The actual elements of the array with all pointers set-up already
     std::vector<std::shared_ptr<value_type>> elements_;
 
-    ///A copy of the buffer to forward to additional elements
+    /// A copy of the buffer to forward to additional elements
     buffer_type buffer_;
 };
 

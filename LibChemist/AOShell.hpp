@@ -1,6 +1,6 @@
 #pragma once
-#include <memory>
 #include <array>
+#include <memory>
 #include <type_traits> //For disjunction/is_same
 
 namespace LibChemist {
@@ -39,9 +39,9 @@ struct AOPrimitive {
 class AOShell {
 public:
     /// A type tag for signaling that the shell is Cartesian
-    struct Cartesian{};
+    struct Cartesian {};
     /// A type tag for signaling that the shell is Pure
-    struct Spherical{};
+    struct Spherical {};
 
     /// The type of a number used for counting
     using size_type = std::size_t;
@@ -96,10 +96,10 @@ public:
     AOShell(const AOShell& rhs);
     AOShell(AOShell&& rhs) noexcept;
     AOShell& operator=(const AOShell& rhs) = delete;
-    AOShell& operator=(AOShell&& rhs) noexcept;
+    AOShell& operator                      =(AOShell&& rhs) noexcept;
     ///@}
 
-    ///Default delete
+    /// Default delete
     ~AOShell() noexcept;
 
     /**
@@ -137,31 +137,31 @@ public:
      *
      */
     ///@{
-    template<typename...Args>
-    explicit AOShell(const coord_type& carts, Args&&...args) :
-      AOShell(std::forward<Args>(args)...){
+    template<typename... Args>
+    explicit AOShell(const coord_type& carts, Args&&... args) :
+      AOShell(std::forward<Args>(args)...) {
         constexpr bool is_carts =
           std::disjunction_v<std::is_same<std::decay_t<Args>, coord_type>...>;
         static_assert(!is_carts,
                       "Please only pass a single set of coordinates");
-        for(size_type i = 0; i<3; ++i) center()[i] = carts[i];
-      }
+        for(size_type i = 0; i < 3; ++i) center()[i] = carts[i];
+    }
 
-    template<typename...Args>
-    explicit AOShell(size_type l_in, Args&&...args) :
-      AOShell(std::forward<Args>(args)...){
+    template<typename... Args>
+    explicit AOShell(size_type l_in, Args&&... args) :
+      AOShell(std::forward<Args>(args)...) {
         constexpr bool is_am =
           std::disjunction_v<std::is_same<Args, size_type>...>;
         static_assert(!is_am, "Please only provide one set of coordinates.");
         l() = l_in;
     }
 
-    template<typename...Args>
-    explicit AOShell(const AOPrimitive& prim, Args&&...args):
-      AOShell(std::forward<Args>(args)..., ColoredPrim{prim}){}
+    template<typename... Args>
+    explicit AOShell(const AOPrimitive& prim, Args&&... args) :
+      AOShell(std::forward<Args>(args)..., ColoredPrim{prim}) {}
 
-    template<typename...Args>
-    explicit AOShell(Spherical, Args&&...args) :
+    template<typename... Args>
+    explicit AOShell(Spherical, Args&&... args) :
       AOShell(std::forward<Args>(args)...) {
         constexpr bool is_type =
           std::disjunction_v<std::is_same<Args, Spherical>...,
@@ -171,8 +171,8 @@ public:
         pure() = true;
     }
 
-    template<typename...Args>
-    explicit AOShell(Cartesian, Args&&...args) :
+    template<typename... Args>
+    explicit AOShell(Cartesian, Args&&... args) :
       AOShell(std::forward<Args>(args)...) {
         constexpr bool is_type =
           std::disjunction_v<std::is_same<Args, Spherical>...,
@@ -238,24 +238,26 @@ public:
     }
 
     reference coef(size_type prim_i) noexcept;
-    const_reference coef(size_type prim_i)const noexcept {
+    const_reference coef(size_type prim_i) const noexcept {
         return const_cast<AOShell&>(*this).coef(prim_i);
     }
 
     reference alpha(size_type prim_i) noexcept;
-    const_reference alpha(size_type prim_i)const noexcept {
+    const_reference alpha(size_type prim_i) const noexcept {
         return const_cast<AOShell&>(*this).alpha(prim_i);
     }
     ///@}
 private:
-    ///Struct used to color primitives we've seen while parsing arguments
-    struct ColoredPrim { AOPrimitive prim; };
+    /// Struct used to color primitives we've seen while parsing arguments
+    struct ColoredPrim {
+        AOPrimitive prim;
+    };
 
-    ///End-point for recursion
-    template<typename...Args>
-    AOShell(const ColoredPrim& prim, Args&&...args) : AOShell() {
-        for(auto primi : {prim, args...}) add_prim_(primi.prim.alpha,
-                                                    primi.prim.c);
+    /// End-point for recursion
+    template<typename... Args>
+    AOShell(const ColoredPrim& prim, Args&&... args) : AOShell() {
+        for(auto primi : {prim, args...})
+            add_prim_(primi.prim.alpha, primi.prim.c);
     }
 
     /**
@@ -269,9 +271,8 @@ private:
      */
     void add_prim_(double alpha, double c);
 
-    ///The class that actually implements the details of this API.
+    /// The class that actually implements the details of this API.
     std::unique_ptr<detail_::AOShellPIMPL> pimpl_;
-
 };
 
 /**
@@ -294,8 +295,8 @@ private:
  * @throw None no throw guarantee.
  */
 ///@{
-bool operator==(const AOShell& lhs, const AOShell& rhs)noexcept;
-inline bool operator!=(const AOShell& lhs, const AOShell& rhs)noexcept {
+bool operator==(const AOShell& lhs, const AOShell& rhs) noexcept;
+inline bool operator!=(const AOShell& lhs, const AOShell& rhs) noexcept {
     return !(lhs == rhs);
 }
 ///@}

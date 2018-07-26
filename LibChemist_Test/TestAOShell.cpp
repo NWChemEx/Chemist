@@ -4,15 +4,15 @@
 #include <sstream>
 
 using namespace LibChemist;
-using Cartesian = AOShell::Cartesian;
-using Spherical = AOShell::Spherical;
-using size_type = typename AOShell::size_type;
-using coord_type = typename AOShell::coord_type;
+using Cartesian   = AOShell::Cartesian;
+using Spherical   = AOShell::Spherical;
+using size_type   = typename AOShell::size_type;
+using coord_type  = typename AOShell::coord_type;
 using prim_vector = std::vector<AOPrimitive>;
 
 void check_shell(AOShell& shell, const coord_type& carts,
-                 const prim_vector& prims, size_type l,
-                 bool pure, size_type nAOs) {
+                 const prim_vector& prims, size_type l, bool pure,
+                 size_type nAOs) {
     const AOShell& const_shell = shell;
 
     REQUIRE(shell.size() == nAOs);
@@ -25,7 +25,7 @@ void check_shell(AOShell& shell, const coord_type& carts,
     REQUIRE(const_shell.l() == l);
     REQUIRE(shell.center() == carts);
     REQUIRE(const_shell.center() == carts);
-    for(size_type i=0; i < prims.size(); ++i) {
+    for(size_type i = 0; i < prims.size(); ++i) {
         REQUIRE(shell.coef(i) == prims[i].c);
         REQUIRE(const_shell.coef(i) == prims[i].c);
         REQUIRE(shell.alpha(i) == prims[i].alpha);
@@ -42,7 +42,7 @@ TEST_CASE("AOShell Class") {
     }
 
     prim_vector prims{{1.23, 2.34}, {3.45, 4.56}};
-    coord_type carts {1.0, 2.0, 3.0};
+    coord_type carts{1.0, 2.0, 3.0};
     SECTION("Default CTor") {
         AOShell shell;
         check_shell(shell, coord_type{}, prim_vector{}, 0, true, 1);
@@ -93,12 +93,12 @@ TEST_CASE("AOShell Class") {
         REQUIRE(shell2 == shell);
     }
 
-//    SECTION("Copy Assignment Operator") {
-//        AOShell shell2;
-//        AOShell& pshell = (shell2 = shell);
-//        check_shell(shell2, carts, prims, 0, true, 1);
-//        REQUIRE(&shell2 == &pshell);
-//    }
+    //    SECTION("Copy Assignment Operator") {
+    //        AOShell shell2;
+    //        AOShell& pshell = (shell2 = shell);
+    //        check_shell(shell2, carts, prims, 0, true, 1);
+    //        REQUIRE(&shell2 == &pshell);
+    //    }
 
     SECTION("Move CTor") {
         AOShell shell2(std::move(shell));

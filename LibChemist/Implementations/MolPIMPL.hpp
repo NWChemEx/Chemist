@@ -1,18 +1,18 @@
 #pragma once
-#include "LibChemist/Molecule.hpp"
 #include "LibChemist/Implementations/AtomPIMPL.hpp"
 #include "LibChemist/Implementations/ContainerPIMPL.hpp"
+#include "LibChemist/Molecule.hpp"
 
 namespace LibChemist::detail_ {
 
 class MolPIMPL : public ContainerPIMPL<Molecule> {
 public:
     ///@{
-    double& charge()noexcept { return charge_(); }
-    size_type& multiplicity() noexcept {return multiplicity_(); }
+    double& charge() noexcept { return charge_(); }
+    size_type& multiplicity() noexcept { return multiplicity_(); }
     ///@}
 private:
-    virtual double& charge_() noexcept = 0;
+    virtual double& charge_() noexcept          = 0;
     virtual size_type& multiplicity_() noexcept = 0;
 };
 
@@ -22,7 +22,7 @@ private:
 
     AoSFacade<AoS_t> impl_;
     std::vector<value_type> atoms_;
-    double my_charge_ = 0.0;
+    double my_charge_  = 0.0;
     size_type my_mult_ = 1ul;
 
     std::unique_ptr<ContainerPIMPL<Molecule>> clone_() const override {
@@ -35,18 +35,17 @@ private:
         ai.insert<0>(atom.Z());
         ai.insert<1>(atom.mass());
         ai.insert<2>(atom.coords());
-        auto ptr = std::make_unique<ContiguousAtomPIMPL>(*impl_.insert(ai));
+        auto ptr    = std::make_unique<ContiguousAtomPIMPL>(*impl_.insert(ai));
         ptr->name() = atom.name();
         atoms_.push_back(Atom(std::move(ptr)));
     }
     iterator begin_() noexcept override { return atoms_.begin(); }
-    iterator end_() noexcept override {return atoms_.end(); }
+    iterator end_() noexcept override { return atoms_.end(); }
     const_iterator begin_() const noexcept override { return atoms_.cbegin(); }
-    const_iterator end_() const noexcept override  { return atoms_.cend(); }
+    const_iterator end_() const noexcept override { return atoms_.cend(); }
 
-    double& charge_() noexcept override {return my_charge_; }
-    size_type& multiplicity_() noexcept override {return my_mult_; }
-
+    double& charge_() noexcept override { return my_charge_; }
+    size_type& multiplicity_() noexcept override { return my_mult_; }
 };
 
-} //namespace LibChemist::detail_
+} // namespace LibChemist::detail_

@@ -4,17 +4,16 @@
 
 using namespace LibChemist;
 
-using prim_vector = std::vector<AOPrimitive>;
-using coord_type = typename AOShell::coord_type;
+using prim_vector  = std::vector<AOPrimitive>;
+using coord_type   = typename AOShell::coord_type;
 using shell_vector = std::vector<AOShell>;
 
-using value_type = typename AOBasisSet::value_type;
-using reference = typename AOBasisSet::reference;
+using value_type      = typename AOBasisSet::value_type;
+using reference       = typename AOBasisSet::reference;
 using const_reference = typename AOBasisSet::const_reference;
-using size_type = typename AOBasisSet::size_type;
-using iterator = typename AOBasisSet::iterator;
-using const_iterator = typename AOBasisSet::const_iterator;
-
+using size_type       = typename AOBasisSet::size_type;
+using iterator        = typename AOBasisSet::iterator;
+using const_iterator  = typename AOBasisSet::const_iterator;
 
 void check_bs(AOBasisSet& bs, const shell_vector& shells) {
     const AOBasisSet& const_bs = bs;
@@ -37,11 +36,11 @@ void check_bs(AOBasisSet& bs, const shell_vector& shells) {
             ++counter;
         }
     }
-    if(!bs.size())return; //Done with empty bases
+    if(!bs.size()) return; // Done with empty bases
 
     SECTION("Check contiguousness") {
-        double* cstart = &(bs[0].coef(0));
-        double* astart = &(bs[0].alpha(0));
+        double* cstart     = &(bs[0].coef(0));
+        double* astart     = &(bs[0].alpha(0));
         double* cart_start = &(bs[0].center()[0]);
 
         for(size_type i = 0; i < bs.size(); ++i) {
@@ -57,7 +56,7 @@ void check_bs(AOBasisSet& bs, const shell_vector& shells) {
 
 TEST_CASE("AOBasisSet class") {
     SECTION("Typedefs") {
-        using corr_itr = typename std::vector<AOShell>::iterator;
+        using corr_itr       = typename std::vector<AOShell>::iterator;
         using corr_const_itr = typename std::vector<AOShell>::const_iterator;
         REQUIRE(std::is_same_v<value_type, AOShell>);
         REQUIRE(std::is_same_v<reference, AOShell&>);
@@ -67,36 +66,31 @@ TEST_CASE("AOBasisSet class") {
         REQUIRE(std::is_same_v<const_iterator, corr_const_itr>);
     }
 
-
     SECTION("Default Ctor") {
         AOBasisSet bs;
         check_bs(bs, shell_vector{});
     }
 
     prim_vector prims{{1.23, 2.34}, {3.45, 4.56}, {5.67, 6.78}, {7.89, 8.90}};
-    coord_type carts {1.0, 2.0, 3.0};
+    coord_type carts{1.0, 2.0, 3.0};
     AOShell shell1(carts, prims[0], prims[1]);
-    AOShell shell2(carts, prims[2], prims[3],3);
+    AOShell shell2(carts, prims[2], prims[3], 3);
     AOBasisSet bs(shell1);
 
-    SECTION("One Shell") {
-        check_bs(bs, shell_vector{shell1});
-    }
+    SECTION("One Shell") { check_bs(bs, shell_vector{shell1}); }
 
     bs.push_back(shell2);
 
-    SECTION("Two Shells") {
-        check_bs(bs, shell_vector{shell1, shell2});
-    }
+    SECTION("Two Shells") { check_bs(bs, shell_vector{shell1, shell2}); }
 
-//Assignment for AOShells is not allowed at the moment
-//    SECTION("Assignment doesn't mess buffers up") {
-//        bs[0] = shell2;
-//        check_bs(bs, shell_vector{shell2, shell2});
-//
-//        REQUIRE_THROWS_AS(bs[0] = AOShell(prims[0], prims[0], prims[0]),
-//                          std::logic_error);
-//    }
+    // Assignment for AOShells is not allowed at the moment
+    //    SECTION("Assignment doesn't mess buffers up") {
+    //        bs[0] = shell2;
+    //        check_bs(bs, shell_vector{shell2, shell2});
+    //
+    //        REQUIRE_THROWS_AS(bs[0] = AOShell(prims[0], prims[0], prims[0]),
+    //                          std::logic_error);
+    //    }
 
     SECTION("Initializer List") {
         AOBasisSet bs2{shell1, shell2};
@@ -127,8 +121,8 @@ TEST_CASE("AOBasisSet class") {
         REQUIRE(&pbs == &bs2);
     }
 
-    SECTION("Get the maximum angular momentum"){
-        auto [l, itr] = max_l(bs);
+    SECTION("Get the maximum angular momentum") {
+        auto[l, itr]  = max_l(bs);
         auto corr_itr = bs.begin();
         ++corr_itr;
         REQUIRE(corr_itr == itr);

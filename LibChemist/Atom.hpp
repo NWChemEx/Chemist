@@ -1,5 +1,5 @@
 #pragma once
-#include <array> // For the coordinates
+#include <array>  // For the coordinates
 #include <memory> // For unique pointer
 #include <string> // For name of atom
 
@@ -100,17 +100,17 @@ public:
      *        property.  Strong throw guarantee.
      */
     ///@{
-    template<typename...Args>
-    explicit Atom(const coord_type& coords_in, Args&&...args) :
-      Atom(std::forward<Args>(args)...){
+    template<typename... Args>
+    explicit Atom(const coord_type& coords_in, Args&&... args) :
+      Atom(std::forward<Args>(args)...) {
         constexpr bool is_carts =
           std::disjunction_v<std::is_same<std::decay_t<Args>, coord_type>...>;
         static_assert(!is_carts, "Please only provide one set of coordinates");
         coords() = coords_in;
     }
 
-    template<typename...Args>
-    explicit Atom(const name_type& da_name, Args&&...args) :
+    template<typename... Args>
+    explicit Atom(const name_type& da_name, Args&&... args) :
       Atom(std::forward<Args>(args)...) {
         constexpr bool is_name =
           std::disjunction_v<std::is_same<std::decay_t<Args>, name_type>...>;
@@ -118,8 +118,8 @@ public:
         name() = da_name;
     }
 
-    template<typename...Args>
-    explicit Atom(const mass_type& mass_in, Args&&...args) :
+    template<typename... Args>
+    explicit Atom(const mass_type& mass_in, Args&&... args) :
       Atom(std::forward<Args>(args)...) {
         constexpr bool is_mass =
           std::disjunction_v<std::is_same<std::decay_t<Args>, mass_type>...>;
@@ -127,8 +127,8 @@ public:
         mass() = mass_in;
     }
 
-    template<typename...Args>
-    explicit Atom(size_type Z_in, Args&&...args) :
+    template<typename... Args>
+    explicit Atom(size_type Z_in, Args&&... args) :
       Atom(std::forward<Args>(args)...) {
         constexpr bool is_Z =
           std::disjunction_v<std::is_same<std::decay_t<Args>, size_type>...>;
@@ -138,7 +138,6 @@ public:
 
     explicit Atom(std::unique_ptr<detail_::AtomPIMPL> pimpl);
     ///@}
-
 
     /// Frees the PIMPL instance
     ~Atom() noexcept;
@@ -157,13 +156,13 @@ public:
      * @throw None. No throw guarantee.
      */
     ///@{
-    std::string& name()noexcept;
+    std::string& name() noexcept;
     const std::string& name() const noexcept {
         return const_cast<Atom&>(*this).name();
     }
 
     size_type& Z() noexcept;
-    const size_type& Z() const noexcept{ return const_cast<Atom&>(*this).Z(); }
+    const size_type& Z() const noexcept { return const_cast<Atom&>(*this).Z(); }
 
     coord_type& coords() noexcept;
     const coord_type& coords() const noexcept {
