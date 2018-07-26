@@ -143,7 +143,7 @@ public:
         constexpr bool is_carts =
           std::disjunction_v<std::is_same<std::decay_t<Args>, coord_type>...>;
         static_assert(!is_carts,
-                      "Please only pass either Spherical or Cartesian");
+                      "Please only pass a single set of coordinates");
         for(size_type i = 0; i<3; ++i) center()[i] = carts[i];
       }
 
