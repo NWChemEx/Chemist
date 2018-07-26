@@ -9,7 +9,7 @@ namespace LibChemist::detail_ {
  *
  * There's two common views of a molecule class: A structure of arrays or an
  * array of structures.  In the former the properties of each atom are stored in
- * the molecule in a contigous array, whereas in the latter the molecule stores
+ * the molecule in a contiguous array, whereas in the latter the molecule stores
  * an array of Atom instances and each atom instance stores its own properties.
  * The goal of the PIMPL class is to isolate the user from these details.  In
  * particular there are two derived versions of AtomPIMPL: ContiguousAtomPIMPL
