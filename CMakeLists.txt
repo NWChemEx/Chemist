@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.8)
 file(
         DOWNLOAD
         https://github.com/NWChemEx-Project/DeveloperTools/raw/master/cmake.tar.gz

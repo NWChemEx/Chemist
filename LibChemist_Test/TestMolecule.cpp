@@ -1,71 +1,132 @@
 #include <LibChemist/Molecule.hpp>
 #include <catch/catch.hpp>
+#include <sstream>
 
 using namespace LibChemist;
 
-using Property = typename Molecule::property_key;
-using property_map = typename Molecule::property_map;
-using atom_container = typename Molecule::atom_container;
+// Forwad typedefs from the molecule
+using value_type      = typename Molecule::value_type;
+using reference       = typename Molecule::reference;
+using const_reference = typename Molecule::const_reference;
+using size_type       = typename Molecule::size_type;
+using iterator        = typename Molecule::iterator;
+using const_iterator  = typename Molecule::const_iterator;
 
-void check_state(const Molecule& mol, const property_map& props,
-                 const atom_container& atoms){
-    REQUIRE(mol.properties == props);
-    REQUIRE(mol.atoms == atoms);
-}
+// Typedefs used for the tests
+using cart_t      = std::array<double, 3>;
+using vector_type = std::vector<value_type>;
 
-static std::vector<BasisShell> a_shell{
-  BasisShell(ShellType::CartesianGaussian, -1, 2,
-             std::vector<double>({3.0, 4.0}),
-             std::vector<double>({5.0, 6.0, 7.0, 8.0}))};
-
-BasisSet corr_basis(bool general=false){
-    std::vector<double> h1(3), h2(3);
-    h2[2] = 0.89;
-    BasisSet H1, H2;
-    H1.add_shell(h1.data(), a_shell[0]);
-    H2.add_shell(h2.data(), a_shell[0]);
-    if(!general){
-        H1 = ungeneralize_basis_set(H1);
-        H2 = ungeneralize_basis_set(H2);
+void check_state(Molecule& mol, const vector_type& atoms, double charge = 0.0,
+                 size_type mult = 1ul) {
+    const Molecule& const_mol = mol;
+    REQUIRE(mol.charge() == charge);
+    REQUIRE(mol.multiplicity() == mult);
+    REQUIRE(const_mol.charge() == charge);
+    REQUIRE(const_mol.multiplicity() == mult);
+    REQUIRE(mol.size() == atoms.size());
+    if(!mol.size()) return;
+    double* pcarts        = &mol.at(0).coords()[0];
+    double* pmass         = &mol.at(0).mass();
+    size_type* pZ         = &mol.at(0).Z();
+    const double* pccarts = &const_mol.at(0).coords()[0];
+    const double* pcmass  = &const_mol.at(0).mass();
+    const size_type* pcZ  = &const_mol.at(0).Z();
+    for(size_type i = 0, carti = 0; i < atoms.size(); ++i) {
+        REQUIRE(mol.at(i) == atoms[i]);
+        REQUIRE(const_mol.at(i) == atoms[i]);
+        REQUIRE(const_mol[i] == atoms[i]);
+        REQUIRE(mol[i] == atoms[i]);
+        REQUIRE(pmass[i] == atoms[i].mass());
+        REQUIRE(pcmass[i] == atoms[i].mass());
+        REQUIRE(pZ[i] == atoms[i].Z());
+        REQUIRE(pcZ[i] == atoms[i].Z());
+        for(size_type j = 0; j < 3; ++j, ++carti) {
+            REQUIRE(pcarts[carti] == atoms[i].coords()[j]);
+            REQUIRE(pcarts[carti] == atoms[i].coords()[j]);
+        }
     }
-    return basis_set_concatenate(H1, H2);
 }
 
 TEST_CASE("Molecule Class") {
-    SECTION("Molecule typedefs") {
-        //We only test non-forwarded typedefs
-        REQUIRE(std::is_same<typename Molecule::property_value, double>::value);
+    SECTION("Typedefs") {
+        REQUIRE(std::is_same_v<value_type, Atom>);
+        REQUIRE(std::is_same_v<reference, Atom&>);
+        REQUIRE(std::is_same_v<const_reference, const Atom&>);
+        REQUIRE(std::is_same_v<iterator, typename vector_type::iterator>);
+        REQUIRE(
+          std::is_same_v<const_iterator, typename vector_type::const_iterator>);
     }
 
-    SECTION("Default Molecule") {
+    SECTION("Default CTor") {
         Molecule mol;
-        check_state(mol, {},  {});
+        check_state(mol, vector_type{});
     }
 
-    SECTION("Molecule aggregate initialized") {
-        property_map props{{Property::nalpha, 1.0}, {Property::nbeta, 1.0},
-                           {Property::multiplicity, 1.0}};
-        Atom H1{{0.0, 0.0 , 0.0}, {{Atom::Property::charge, 1.0},
-                                   {Atom::Property::mass, 1.0079}},
-                {{"PRIMARY", {a_shell}}}};
-        Atom H2{H1};
-        H2.coords[2] = 0.89;
-        atom_container atoms{H1, H2};
-        Molecule molecular_h{props, atoms};
-        check_state(molecular_h, props, atoms);
-        REQUIRE(molecular_h.nelectrons() == 2.0);
-        REQUIRE(molecular_h.charge() == 0.0 );
-        REQUIRE(molecular_h.get_basis("PRIMARY") == corr_basis());
-        REQUIRE(molecular_h.get_basis("PRIMARY", false) == corr_basis(true));
+    vector_type atoms{Atom{"H", 1.0079, cart_t{0.0, 0.0, 0.89}},
+                      Atom{"D", 2.0079, cart_t{0.0, 0.0, 0.0}}};
 
-        SECTION("Charged System"){
-            //Two ways to get charged system 1. Play w/ Z
-            H2.properties[Atom::Property::charge] = 0.0;
-            Molecule temp{props, atom_container{H1, H2}};
-            REQUIRE(temp.charge() == -1.0);
-            //2. Play w/ n electrons
-            molecular_h.properties[Property::nalpha] = 0.0;
-            REQUIRE(molecular_h.charge() == 1.0);
+    using Charge       = Molecule::Charge;
+    using Multiplicity = Molecule::Multiplicity;
+
+    SECTION("State CTor") {
+        SECTION("Charge") {
+            Molecule mol(Charge{2.0});
+            check_state(mol, vector_type{}, 2.0);
         }
+
+        SECTION("Multiplicity") {
+            Molecule mol(Multiplicity{3ul});
+            check_state(mol, vector_type{}, 0.0, 3ul);
+        }
+
+        SECTION("An atom") {
+            Molecule mol(atoms[0]);
+            check_state(mol, vector_type{atoms[0]});
+        }
+
+        SECTION("H-D molecule anion") {
+            Molecule mol(atoms[0], Charge{-1.0}, atoms[1], Multiplicity{2ul});
+            check_state(mol, atoms, -1.0, 2ul);
+        }
+    }
+
+    Molecule mol(atoms[0], atoms[1]);
+
+    SECTION("Assignment doesn't mess buffers up") {
+        mol[0] = atoms[1];
+        check_state(mol, vector_type{atoms[1], atoms[1]});
+    }
+
+    SECTION("Copy CTor") {
+        Molecule mol2(mol);
+        check_state(mol2, atoms);
+        REQUIRE(&mol.at(0).coords()[0] != &mol2.at(0).coords()[0]);
+    }
+
+    SECTION("Copy Assignment") {
+        Molecule mol2;
+        auto& pmol = (mol2 = mol);
+        check_state(mol2, atoms);
+        REQUIRE(&pmol == &mol2);
+        REQUIRE(&mol.at(0).coords()[0] != &mol2.at(0).coords()[0]);
+    }
+
+    SECTION("Move CTor") {
+        Molecule mol2(std::move(mol));
+        check_state(mol2, atoms);
+    }
+
+    SECTION("Move Assignment") {
+        Molecule mol2;
+        auto& pmol = (mol2 = std::move(mol));
+        check_state(mol2, atoms);
+        REQUIRE(&pmol == &mol2);
+    }
+
+    SECTION("Printing") {
+        std::stringstream ss, corr_ss;
+        corr_ss << atoms[0] << std::endl << atoms[1] << std::endl;
+        ss << mol;
+        REQUIRE(corr_ss.str() == ss.str());
     }
 }

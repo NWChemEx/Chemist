@@ -1,74 +1,48 @@
 #include "LibChemist/Atom.hpp"
-#include <tuple>
+#include "LibChemist/Implementations/AtomPIMPL.hpp"
+#include <iomanip> // For precision of floats
 
 namespace LibChemist {
 
-using xyz_type = typename Atom::xyz_type;
-using Property = typename Atom::property_key;
-using properties_map = typename Atom::property_map;
-using basis_lut_type = typename Atom::basis_lut_type;
+using size_type  = typename Atom::size_type;
+using coord_type = typename Atom::coord_type;
+using name_type  = typename Atom::name_type;
+using mass_type  = typename Atom::mass_type;
 
-namespace detail_ {
-
-///Makes an atom where all properties are zero initialized
-static Atom null_atom(){
-    Atom rv;
-    rv.properties = properties_map{ {Property::charge, 0.0},
-                                    {Property::mass, 0.0},
-                                    {Property::isotope_mass, 0.0},
-                                    {Property::cov_radius, 0.0},
-                                    {Property::vdw_radius, 0.0}};
-    return rv;
+Atom::Atom() : pimpl_(std::make_unique<detail_::ContiguousAtomPIMPL>()) {}
+Atom::Atom(const Atom& rhs) : pimpl_(rhs.pimpl_->clone()) {}
+Atom::Atom(Atom&& rhs) noexcept = default;
+Atom& Atom::operator            =(const Atom& rhs) {
+    // Note using the copy ctor would reallocate the buffers, this way we skip
+    // the reallocation
+    name()   = rhs.name();
+    Z()      = rhs.Z();
+    mass()   = rhs.mass();
+    coords() = rhs.coords();
+    return *this;
 }
+Atom& Atom::operator=(Atom&& rhs) noexcept = default;
+Atom::Atom(std::unique_ptr<detail_::AtomPIMPL> pimpl) :
+  pimpl_(std::move(pimpl)) {}
+Atom::~Atom() noexcept = default;
 
-} // End namespace detail_
+name_type& Atom::name() noexcept { return pimpl_->name(); }
 
-bool Atom::operator==(const Atom& rhs) const noexcept {
-    return std::tie(coords, properties, bases) ==
-           std::tie(rhs.coords, rhs.properties, rhs.bases);
-}
+size_type& Atom::Z() noexcept { return pimpl_->at_num(); }
 
-BasisSet Atom::get_basis(const std::string& name) const {
-    BasisSet rv;
-    if(!bases.count(name)) return rv;
-    for(const auto& shell : bases.at(name))
-        rv.add_shell(coords.data(), shell);
-    return rv;
-}
+coord_type& Atom::coords() noexcept { return pimpl_->coords(); }
 
+mass_type& Atom::mass() noexcept { return pimpl_->mass(); }
 
-Atom create_ghost(const Atom& atom) {
-    auto rv = create_dummy(atom);
-    rv.bases = atom.bases;
-    return rv;
-}
-
-bool is_ghost_atom(const Atom& atom) {
-    return atom == create_ghost(atom);
-}
-
-Atom create_dummy(const Atom& atom) {
-    auto rv = detail_::null_atom();
-    rv.coords = atom.coords;
-    return rv;
-}
-
-bool is_dummy_atom(const Atom& atom)  {
-    return atom == create_dummy(atom);
-}
-
-Atom create_charge(const Atom& atom, double chg) {
-    auto rv = create_dummy(atom);
-    rv.properties[Property::charge] = chg;
-    return rv;
-}
-
-bool is_charge(const Atom& atom) {
-    return atom == create_charge(atom, atom.properties.at(Property::charge));
-}
-
-bool is_real_atom(const Atom& atom) {
-    return !is_ghost_atom(atom) && !is_dummy_atom(atom) && !is_charge(atom);
+bool operator==(const Atom& lhs, const Atom& rhs) noexcept {
+    return std::tie(lhs.Z(), lhs.coords(), lhs.mass(), lhs.name()) ==
+           std::tie(rhs.Z(), rhs.coords(), rhs.mass(), rhs.name());
 }
 
 } // namespace LibChemist
+
+std::ostream& operator<<(std::ostream& os, const LibChemist::Atom& ai) {
+    os << ai.name() << std::fixed << std::setprecision(15) << " " << ai[0]
+       << " " << ai[1] << " " << ai[2];
+    return os;
+}
