@@ -1,6 +1,6 @@
 set(
-    LIBCHEMIST_TESTS test_main.cpp TestAtom.cpp TestBasisSet.cpp
-                     TestBasisShell.cpp TestMolecule.cpp
+    LIBCHEMIST_TESTS test_main.cpp TestAOBasisSet.cpp TestAOShell.cpp
+        TestAtom.cpp TestAoSFacade.cpp TestMolecule.cpp
 )
 
 add_catch_cxx_tests(

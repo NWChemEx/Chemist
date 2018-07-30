@@ -6,6 +6,9 @@ LibChemist.creator
 LibChemist.creator.user
 *.autosave
 
+#This is the clang-format script downloaded by the pre-commit hook
+.clang-format
+
 #These are configuration files for CLion
 .idea/
 
