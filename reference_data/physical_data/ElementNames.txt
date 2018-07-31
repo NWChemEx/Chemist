@@ -1,6 +1,4 @@
-999   Chg    Charge
-9999  Dum    Dummy
-0      Gho    Ghost
+0      Ez     ElementZero
 1      H      Hydrogen
 2      He     Helium
 3      Li     Lithium

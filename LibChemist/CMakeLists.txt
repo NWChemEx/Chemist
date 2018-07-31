@@ -1,9 +1,10 @@
 set(
-    LIBCHEMIST_HEADERS AOBasisSet.hpp AOShell.hpp Atom.hpp
-        Implementations/AoSFacade.hpp
+    LIBCHEMIST_HEADERS AOBasisSet.hpp AOShell.hpp Atom.hpp Molecule.hpp
+        PeriodicTable.hpp Implementations/AoSFacade.hpp
 )
 set(
     LIBCHEMIST_SRCS AOBasisSet.cpp AOShell.cpp Atom.cpp Molecule.cpp
+        PeriodicTable.cpp Defaults/NWXPeriodicTablePIMPL.cpp
 )
 
 add_nwx_library(
