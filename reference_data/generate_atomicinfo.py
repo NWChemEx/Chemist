@@ -15,7 +15,7 @@ script:
 
 - Z the atomic number of an atom
 - Sym the atomic symbol of an atom (e.g. H for hydrogen, He for helium)
-
+ 
 """
 
 class AtomicData:
