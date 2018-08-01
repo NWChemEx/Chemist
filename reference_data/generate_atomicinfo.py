@@ -100,6 +100,7 @@ def write_ptable(out_dir, amu2me, atoms):
  */
 
 #include \"{}\"
+#include <algorithm> //For std::transform
         
 namespace LibChemist::detail_ {{
 
@@ -109,7 +110,7 @@ public:
 protected:
     using my_type = NWXPeriodicTablePIMPL;
     NWXPeriodicTablePIMPL(const my_type& rhs) = default;
-private:
+private:    
     std::unique_ptr<PeriodicTablePIMPL> clone_() const override {{
         return std::unique_ptr<my_type>(new my_type(*this));
     }}            
@@ -143,16 +144,18 @@ private:
                 mi = ai.isotope_masses[str(mn)] * amu2me
                 f.write("{}case({}): {{ return Atom(".format(tab*5, mn))
                 f.write("{}ul, {}, \"{}\");}}\n".format(k, mi, ai.sym))
+            f.write("{}default : {{ throw std::out_of_range(\"No isotope "
+                    "data\"); }}\n".format(tab*5))
             f.write("{}}}\n".format(tab*4)) #Close switch 2
             f.write("{}}}\n".format(tab*3)) #Close case 1
         f.write(
-"""            default : { throw std::out_of_range(\"No isotope data\"); }
-        }
-    }
+"""            default : {{ throw std::out_of_range(\"Z > {}\"); }}
+        }}
+    }}
     
-    isotope_list isotopes_(size_type Z) const override {
-        switch(Z) {
-""")
+    isotope_list isotopes_(size_type Z) const override {{
+        switch(Z) {{
+""".format(max_Z))
         for k in sorted_keys:
             f.write("{}case({}) : {{ return {{".format(tab*3, k))
             ai = atoms[str(k)]
@@ -162,14 +165,27 @@ private:
         f.write(
 """            default : {{ throw std::out_of_range(\" Z > {}\"); }}
         }}
-    }}        
+    }}
+    
+    size_type sym_2_Z_(const std::string& sym) const override {{
+        auto ci_sym = sym;
+        std::transform(ci_sym.begin(), ci_sym.end(), ci_sym.begin(), ::tolower);
+        """.format(max_Z))
+        for k in sorted_keys:
+            ai = atoms[str(k)]
+            f.write("if(ci_sym == \"{}\"){{ return {}; }}\n".format(
+                ai.sym.lower(), ai.Z))
+            f.write("        else ")
+        f.write(
+"""{{ throw std::out_of_range(\"Unrecognized atomic symbol\"); }}
+    }}
 }};
         
 std::unique_ptr<PeriodicTablePIMPL> nwx_default_ptable() {{
     return std::make_unique<NWXPeriodicTablePIMPL>();
 }}
 }} // namespace LibChemist::detail_
-""".format(max_Z))
+""".format())
 
 def write_tests(out_dir, amu2me, atoms):
     sorted_keys = sorted([int(x) for x in atoms.keys()])
@@ -195,6 +211,8 @@ void test_ptable(const PeriodicTable& ptable) {{
             ai = atoms[str(Z)]
             f.write("    REQUIRE(ptable.get_atom({}) == Atom{{{}, \"{}\", "
                     "{}ul}});\n".format(Z, ai.mass*amu2me, ai.sym, Z))
+            f.write("    REQUIRE(ptable.sym_2_Z(\"{}\") == {});\n".format(
+                ai.sym, Z))
             f.write("    REQUIRE(ptable.isotopes({}) == isotope_list{{"
                     "".format(Z))
             sorted_mn = sorted([int(mn) for mn in ai.isotopes])

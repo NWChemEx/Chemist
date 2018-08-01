@@ -23,6 +23,7 @@ public:
 
     /// Functions defining the public API of the PeriodicTablePIMPL
     ///@{
+    size_type sym_2_Z(const std::string& sym) const { return sym_2_Z_(sym); }
     size_type max_Z() const noexcept { return max_Z_(); }
     isotope_list isotopes(size_type Z) const { return isotopes_(Z); }
     Atom get_atom(size_type Z) const { return get_atom_(Z); }
@@ -37,6 +38,7 @@ private:
     /// To be implemented by the derived class
     ///@{
     virtual std::unique_ptr<PeriodicTablePIMPL> clone_() const       = 0;
+    virtual size_type sym_2_Z_(const std::string& sym) const         = 0;
     virtual size_type max_Z_() const noexcept                        = 0;
     virtual isotope_list isotopes_(size_type Z) const                = 0;
     virtual Atom get_atom_(size_type Z) const                        = 0;

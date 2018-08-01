@@ -13,6 +13,7 @@ using isotope_list = typename PeriodicTable::isotope_list;
 void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.max_Z() == 118);
     REQUIRE(ptable.get_atom(1) == Atom{1837.4260218693814, "H", 1ul});
+    REQUIRE(ptable.sym_2_Z("H") == 1);
     REQUIRE(ptable.isotopes(1) == isotope_list{
                                     1,
                                     2,
@@ -20,6 +21,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(1, 1) == Atom{1ul, "H", 1837.1526472934618});
     REQUIRE(ptable.get_isotope(1, 2) == Atom{1ul, "H", 3671.4829413173247});
     REQUIRE(ptable.get_atom(2) == Atom{7296.297100609073, "He", 2ul});
+    REQUIRE(ptable.sym_2_Z("He") == 2);
     REQUIRE(ptable.isotopes(2) == isotope_list{
                                     3,
                                     4,
@@ -27,6 +29,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(2, 3) == Atom{2ul, "He", 5497.885121445487});
     REQUIRE(ptable.get_isotope(2, 4) == Atom{2ul, "He", 7296.299386693523});
     REQUIRE(ptable.get_atom(3) == Atom{12700.97552754276, "Li", 3ul});
+    REQUIRE(ptable.sym_2_Z("Li") == 3);
     REQUIRE(ptable.isotopes(3) == isotope_list{
                                     6,
                                     7,
@@ -34,11 +37,13 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(3, 6) == Atom{3ul, "Li", 10964.898253742283});
     REQUIRE(ptable.get_isotope(3, 7) == Atom{3ul, "Li", 12789.391889859466});
     REQUIRE(ptable.get_atom(4) == Atom{16428.204808444127, "Be", 4ul});
+    REQUIRE(ptable.sym_2_Z("Be") == 4);
     REQUIRE(ptable.isotopes(4) == isotope_list{
                                     9,
                                   });
     REQUIRE(ptable.get_isotope(4, 9) == Atom{4ul, "Be", 16428.204808444127});
     REQUIRE(ptable.get_atom(5) == Atom{19711.80464543719, "B", 5ul});
+    REQUIRE(ptable.sym_2_Z("B") == 5);
     REQUIRE(ptable.isotopes(5) == isotope_list{
                                     10,
                                     11,
@@ -48,8 +53,10 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(5, 11) == Atom{5ul, "B", 20068.735325476016});
     REQUIRE(ptable.get_isotope(5, 13) == Atom{5ul, "B", 23703.665810590574});
     REQUIRE(ptable.get_atom(6) == Atom{21893.984452257635, "C", 6ul});
+    REQUIRE(ptable.sym_2_Z("C") == 6);
     REQUIRE(ptable.isotopes(6) == isotope_list{});
     REQUIRE(ptable.get_atom(7) == Atom{25532.934707260847, "N", 7ul});
+    REQUIRE(ptable.sym_2_Z("N") == 7);
     REQUIRE(ptable.isotopes(7) == isotope_list{
                                     14,
                                     15,
@@ -57,6 +64,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(7, 14) == Atom{7ul, "N", 25526.04237318611});
     REQUIRE(ptable.get_isotope(7, 15) == Atom{7ul, "N", 27343.52580361326});
     REQUIRE(ptable.get_atom(8) == Atom{29165.122045980286, "O", 8ul});
+    REQUIRE(ptable.sym_2_Z("O") == 8);
     REQUIRE(ptable.isotopes(8) == isotope_list{
                                     16,
                                     17,
@@ -66,11 +74,13 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(8, 17) == Atom{8ul, "O", 30987.521555096086});
     REQUIRE(ptable.get_isotope(8, 18) == Atom{8ul, "O", 32810.46081966976});
     REQUIRE(ptable.get_atom(9) == Atom{34631.97038186638, "F", 9ul});
+    REQUIRE(ptable.sym_2_Z("F") == 9);
     REQUIRE(ptable.isotopes(9) == isotope_list{
                                     19,
                                   });
     REQUIRE(ptable.get_isotope(9, 19) == Atom{9ul, "F", 34631.97038186638});
     REQUIRE(ptable.get_atom(10) == Atom{36785.3427848087, "Ne", 10ul});
+    REQUIRE(ptable.sym_2_Z("Ne") == 10);
     REQUIRE(ptable.isotopes(10) == isotope_list{
                                      20,
                                      21,
@@ -80,11 +90,13 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(10, 21) == Atom{10ul, "Ne", 38269.44143030991});
     REQUIRE(ptable.get_isotope(10, 22) == Atom{10ul, "Ne", 40087.8426942043});
     REQUIRE(ptable.get_atom(11) == Atom{41907.785720722546, "Na", 11ul});
+    REQUIRE(ptable.sym_2_Z("Na") == 11);
     REQUIRE(ptable.isotopes(11) == isotope_list{
                                      23,
                                    });
     REQUIRE(ptable.get_isotope(11, 23) == Atom{11ul, "Na", 41907.785720722546});
     REQUIRE(ptable.get_atom(12) == Atom{44306.21610113965, "Mg", 12ul});
+    REQUIRE(ptable.sym_2_Z("Mg") == 12);
     REQUIRE(ptable.isotopes(12) == isotope_list{
                                      24,
                                      25,
@@ -94,11 +106,13 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(12, 25) == Atom{12ul, "Mg", 45546.39458517006});
     REQUIRE(ptable.get_isotope(12, 26) == Atom{12ul, "Mg", 47363.36962111286});
     REQUIRE(ptable.get_atom(13) == Atom{49184.335871396164, "Al", 13ul});
+    REQUIRE(ptable.sym_2_Z("Al") == 13);
     REQUIRE(ptable.isotopes(13) == isotope_list{
                                      27,
                                    });
     REQUIRE(ptable.get_isotope(13, 27) == Atom{13ul, "Al", 49184.335871396164});
     REQUIRE(ptable.get_atom(14) == Atom{51195.823134702325, "Si", 14ul});
+    REQUIRE(ptable.sym_2_Z("Si") == 14);
     REQUIRE(ptable.isotopes(14) == isotope_list{
                                      28,
                                      29,
@@ -108,11 +122,13 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(14, 29) == Atom{14ul, "Si", 52820.91849503242});
     REQUIRE(ptable.get_isotope(14, 30) == Atom{14ul, "Si", 54638.84023899607});
     REQUIRE(ptable.get_atom(15) == Atom{56461.71412020552, "P", 15ul});
+    REQUIRE(ptable.sym_2_Z("P") == 15);
     REQUIRE(ptable.isotopes(15) == isotope_list{
                                      31,
                                    });
     REQUIRE(ptable.get_isotope(15, 31) == Atom{15ul, "P", 56461.71412020552});
     REQUIRE(ptable.get_atom(16) == Atom{58455.476530961954, "S", 16ul});
+    REQUIRE(ptable.sym_2_Z("S") == 16);
     REQUIRE(ptable.isotopes(16) == isotope_list{
                                      32,
                                      33,
@@ -124,6 +140,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(16, 34) == Atom{16ul, "S", 61919.63365480119});
     REQUIRE(ptable.get_isotope(16, 36) == Atom{16ul, "S", 65563.97783683505});
     REQUIRE(ptable.get_atom(17) == Atom{64624.13116823568, "Cl", 17ul});
+    REQUIRE(ptable.sym_2_Z("Cl") == 17);
     REQUIRE(ptable.isotopes(17) == isotope_list{
                                      35,
                                      37,
@@ -131,6 +148,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(17, 35) == Atom{17ul, "Cl", 63744.31896217403});
     REQUIRE(ptable.get_isotope(17, 37) == Atom{17ul, "Cl", 67384.71823123492});
     REQUIRE(ptable.get_atom(18) == Atom{72820.74924639802, "Ar", 18ul});
+    REQUIRE(ptable.sym_2_Z("Ar") == 18);
     REQUIRE(ptable.isotopes(18) == isotope_list{
                                      36,
                                      38,
@@ -140,6 +158,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(18, 38) == Atom{18ul, "Ar", 69201.8270671926});
     REQUIRE(ptable.get_isotope(18, 40) == Atom{18ul, "Ar", 72846.96807024154});
     REQUIRE(ptable.get_atom(19) == Atom{71271.84089968068, "K", 19ul});
+    REQUIRE(ptable.sym_2_Z("K") == 19);
     REQUIRE(ptable.isotopes(19) == isotope_list{
                                      39,
                                      40,
@@ -149,6 +168,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(19, 40) == Atom{19ul, "K", 72849.91218097782});
     REQUIRE(ptable.get_isotope(19, 41) == Atom{19ul, "K", 74668.83963986262});
     REQUIRE(ptable.get_atom(20) == Atom{73057.72474960299, "Ca", 20ul});
+    REQUIRE(ptable.sym_2_Z("Ca") == 20);
     REQUIRE(ptable.isotopes(20) == isotope_list{
                                      40,
                                      42,
@@ -164,11 +184,13 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(20, 46) == Atom{20ul, "Ca", 83768.45239903645});
     REQUIRE(ptable.get_isotope(20, 48) == Atom{20ul, "Ca", 87412.10169597936});
     REQUIRE(ptable.get_atom(21) == Atom{81949.60707950682, "Sc", 21ul});
+    REQUIRE(ptable.sym_2_Z("Sc") == 21);
     REQUIRE(ptable.isotopes(21) == isotope_list{
                                      45,
                                    });
     REQUIRE(ptable.get_isotope(21, 45) == Atom{21ul, "Sc", 81949.60707950682});
     REQUIRE(ptable.get_atom(22) == Atom{87256.20316855246, "Ti", 22ul});
+    REQUIRE(ptable.sym_2_Z("Ti") == 22);
     REQUIRE(ptable.isotopes(22) == isotope_list{
                                      46,
                                      47,
@@ -182,6 +204,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(22, 49) == Atom{22ul, "Ti", 89226.50135506886});
     REQUIRE(ptable.get_isotope(22, 50) == Atom{22ul, "Ti", 91043.77716761189});
     REQUIRE(ptable.get_atom(23) == Atom{92860.67381934977, "V", 23ul});
+    REQUIRE(ptable.sym_2_Z("V") == 23);
     REQUIRE(ptable.isotopes(23) == isotope_list{
                                      50,
                                      51,
@@ -189,6 +212,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(23, 50) == Atom{23ul, "V", 91048.09559043567});
     REQUIRE(ptable.get_isotope(23, 51) == Atom{23ul, "V", 92865.15265636034});
     REQUIRE(ptable.get_atom(24) == Atom{94783.09201688785, "Cr", 24ul});
+    REQUIRE(ptable.sym_2_Z("Cr") == 24);
     REQUIRE(ptable.isotopes(24) == isotope_list{
                                      50,
                                      52,
@@ -200,11 +224,13 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(24, 53) == Atom{24ul, "Cr", 96504.89769074354});
     REQUIRE(ptable.get_isotope(24, 54) == Atom{24ul, "Cr", 98324.56148720346});
     REQUIRE(ptable.get_atom(25) == Atom{100145.9278615095, "Mn", 25ul});
+    REQUIRE(ptable.sym_2_Z("Mn") == 25);
     REQUIRE(ptable.isotopes(25) == isotope_list{
                                      55,
                                    });
     REQUIRE(ptable.get_isotope(25, 55) == Atom{25ul, "Mn", 100145.9278615095});
     REQUIRE(ptable.get_atom(26) == Atom{101799.20751139225, "Fe", 26ul});
+    REQUIRE(ptable.sym_2_Z("Fe") == 26);
     REQUIRE(ptable.isotopes(26) == isotope_list{
                                      54,
                                      56,
@@ -216,11 +242,13 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(26, 57) == Atom{26ul, "Fe", 103786.8723565166});
     REQUIRE(ptable.get_isotope(26, 58) == Atom{26ul, "Fe", 105605.89814200635});
     REQUIRE(ptable.get_atom(27) == Atom{107428.64079711946, "Co", 27ul});
+    REQUIRE(ptable.sym_2_Z("Co") == 27);
     REQUIRE(ptable.isotopes(27) == isotope_list{
                                      59,
                                    });
     REQUIRE(ptable.get_isotope(27, 59) == Atom{27ul, "Co", 107428.64079711946});
     REQUIRE(ptable.get_atom(28) == Atom{106991.52307546153, "Ni", 28ul});
+    REQUIRE(ptable.sym_2_Z("Ni") == 28);
     REQUIRE(ptable.isotopes(28) == isotope_list{
                                      58,
                                      60,
@@ -234,6 +262,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(28, 62) == Atom{28ul, "Ni", 112888.46706942591});
     REQUIRE(ptable.get_isotope(28, 64) == Atom{28ul, "Ni", 116533.55498996214});
     REQUIRE(ptable.get_atom(29) == Atom{115837.27174355683, "Cu", 29ul});
+    REQUIRE(ptable.sym_2_Z("Cu") == 29);
     REQUIRE(ptable.isotopes(29) == isotope_list{
                                      63,
                                      65,
@@ -241,6 +270,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(29, 63) == Atom{29ul, "Cu", 114713.63963489111});
     REQUIRE(ptable.get_isotope(29, 65) == Atom{29ul, "Cu", 118356.12082489209});
     REQUIRE(ptable.get_atom(30) == Atom{119180.44922723295, "Zn", 30ul});
+    REQUIRE(ptable.sym_2_Z("Zn") == 30);
     REQUIRE(ptable.isotopes(30) == isotope_list{
                                      64,
                                      66,
@@ -254,6 +284,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(30, 68) == Atom{30ul, "Zn", 123819.41787687625});
     REQUIRE(ptable.get_isotope(30, 70) == Atom{30ul, "Zn", 127466.06072129119});
     REQUIRE(ptable.get_atom(31) == Atom{127097.25392276482, "Ga", 31ul});
+    REQUIRE(ptable.sym_2_Z("Ga") == 31);
     REQUIRE(ptable.isotopes(31) == isotope_list{
                                      69,
                                      71,
@@ -261,6 +292,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(31, 69) == Atom{31ul, "Ga", 125643.63524877468});
     REQUIRE(ptable.get_isotope(31, 71) == Atom{31ul, "Ga", 129287.8244852872});
     REQUIRE(ptable.get_atom(32) == Atom{132396.39075212495, "Ge", 32ul});
+    REQUIRE(ptable.sym_2_Z("Ge") == 32);
     REQUIRE(ptable.isotopes(32) == isotope_list{
                                      70,
                                      72,
@@ -274,11 +306,13 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(32, 74) == Atom{32ul, "Ge", 134750.06382445616});
     REQUIRE(ptable.get_isotope(32, 76) == Atom{32ul, "Ge", 138396.25083737622});
     REQUIRE(ptable.get_atom(33) == Atom{136573.71289264012, "As", 33ul});
+    REQUIRE(ptable.sym_2_Z("As") == 33);
     REQUIRE(ptable.isotopes(33) == isotope_list{
                                      75,
                                    });
     REQUIRE(ptable.get_isotope(33, 75) == Atom{33ul, "As", 136573.71289264012});
     REQUIRE(ptable.get_atom(34) == Atom{143955.32664306843, "Se", 34ul});
+    REQUIRE(ptable.sym_2_Z("Se") == 34);
     REQUIRE(ptable.isotopes(34) == isotope_list{
                                      74,
                                      76,
@@ -294,6 +328,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(34, 80) == Atom{34ul, "Se", 145678.90781030967});
     REQUIRE(ptable.get_isotope(34, 82) == Atom{34ul, "Se", 149325.00925684423});
     REQUIRE(ptable.get_atom(35) == Atom{145656.08160068557, "Br", 35ul});
+    REQUIRE(ptable.sym_2_Z("Br") == 35);
     REQUIRE(ptable.isotopes(35) == isotope_list{
                                      79,
                                      81,
@@ -301,6 +336,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(35, 79) == Atom{35ul, "Br", 143859.3296896086});
     REQUIRE(ptable.get_isotope(35, 81) == Atom{35ul, "Br", 147501.37338637287});
     REQUIRE(ptable.get_atom(36) == Atom{152754.40936591724, "Kr", 36ul});
+    REQUIRE(ptable.sym_2_Z("Kr") == 36);
     REQUIRE(ptable.isotopes(36) == isotope_list{
                                      78,
                                      80,
@@ -316,6 +352,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(36, 84) == Atom{36ul, "Kr", 152961.30307114313});
     REQUIRE(ptable.get_isotope(36, 86) == Atom{36ul, "Kr", 156605.46295915105});
     REQUIRE(ptable.get_atom(37) == Atom{155798.26856016062, "Rb", 37ul});
+    REQUIRE(ptable.sym_2_Z("Rb") == 37);
     REQUIRE(ptable.isotopes(37) == isotope_list{
                                      85,
                                      87,
@@ -323,6 +360,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(37, 85) == Atom{37ul, "Rb", 154784.723859002});
     REQUIRE(ptable.get_isotope(37, 87) == Atom{37ul, "Rb", 158425.74453251893});
     REQUIRE(ptable.get_atom(38) == Atom{159721.48916014304, "Sr", 38ul});
+    REQUIRE(ptable.sym_2_Z("Sr") == 38);
     REQUIRE(ptable.isotopes(38) == isotope_list{
                                      84,
                                      86,
@@ -334,11 +372,13 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(38, 87) == Atom{38ul, "Sr", 158425.19305406522});
     REQUIRE(ptable.get_isotope(38, 88) == Atom{38ul, "Sr", 160242.1298093498});
     REQUIRE(ptable.get_atom(39) == Atom{162065.43209122817, "Y", 39ul});
+    REQUIRE(ptable.sym_2_Z("Y") == 39);
     REQUIRE(ptable.isotopes(39) == isotope_list{
                                      89,
                                    });
     REQUIRE(ptable.get_isotope(39, 89) == Atom{39ul, "Y", 162065.43209122817});
     REQUIRE(ptable.get_atom(40) == Atom{166291.17926437902, "Zr", 40ul});
+    REQUIRE(ptable.sym_2_Z("Zr") == 40);
     REQUIRE(ptable.isotopes(40) == isotope_list{
                                      90,
                                      91,
@@ -352,11 +392,13 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(40, 94) == Atom{40ul, "Zr", 171180.7312797767});
     REQUIRE(ptable.get_isotope(40, 96) == Atom{40ul, "Zr", 174830.08111359362});
     REQUIRE(ptable.get_atom(41) == Atom{169357.95216689384, "Nb", 41ul});
+    REQUIRE(ptable.sym_2_Z("Nb") == 41);
     REQUIRE(ptable.isotopes(41) == isotope_list{
                                      93,
                                    });
     REQUIRE(ptable.get_isotope(41, 93) == Atom{41ul, "Nb", 169357.95216689384});
     REQUIRE(ptable.get_atom(42) == Atom{174906.15025012242, "Mo", 42ul});
+    REQUIRE(ptable.sym_2_Z("Mo") == 42);
     REQUIRE(ptable.isotopes(42) == isotope_list{
                                      92,
                                      94,
@@ -375,11 +417,13 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(42, 100) ==
             Atom{42ul, "Mo", 182120.18039334964});
     REQUIRE(ptable.get_atom(43) == Atom{0.0, "Tc", 43ul});
+    REQUIRE(ptable.sym_2_Z("Tc") == 43);
     REQUIRE(ptable.isotopes(43) == isotope_list{
                                      98,
                                    });
     REQUIRE(ptable.get_isotope(43, 98) == Atom{43ul, "Tc", 178473.92582418225});
     REQUIRE(ptable.get_atom(44) == Atom{184239.33929942542, "Ru", 44ul});
+    REQUIRE(ptable.sym_2_Z("Ru") == 44);
     REQUIRE(ptable.isotopes(44) == isotope_list{
                                      96,
                                      98,
@@ -399,12 +443,14 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(44, 104) ==
             Atom{44ul, "Ru", 189408.01199982883});
     REQUIRE(ptable.get_atom(45) == Atom{187585.25111583088, "Rh", 45ul});
+    REQUIRE(ptable.sym_2_Z("Rh") == 45);
     REQUIRE(ptable.isotopes(45) == isotope_list{
                                      103,
                                    });
     REQUIRE(ptable.get_isotope(45, 103) ==
             Atom{45ul, "Rh", 187585.25111583088});
     REQUIRE(ptable.get_atom(46) == Atom{193991.79270055264, "Pd", 46ul});
+    REQUIRE(ptable.sym_2_Z("Pd") == 46);
     REQUIRE(ptable.isotopes(46) == isotope_list{
                                      102,
                                      104,
@@ -425,6 +471,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(46, 110) ==
             Atom{46ul, "Pd", 200344.87261175137});
     REQUIRE(ptable.get_atom(47) == Atom{196631.6998062559, "Ag", 47ul});
+    REQUIRE(ptable.sym_2_Z("Ag") == 47);
     REQUIRE(ptable.isotopes(47) == isotope_list{
                                      107,
                                      109,
@@ -434,6 +481,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(47, 109) ==
             Atom{47ul, "Ag", 198521.22398106064});
     REQUIRE(ptable.get_atom(48) == Atom{204918.1862867875, "Cd", 48ul});
+    REQUIRE(ptable.sym_2_Z("Cd") == 48);
     REQUIRE(ptable.isotopes(48) == isotope_list{
                                      106,
                                      108,
@@ -459,6 +507,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(48, 116) ==
             Atom{48ul, "Cd", 211281.45796751254});
     REQUIRE(ptable.get_atom(49) == Atom{209300.41020759306, "In", 49ul});
+    REQUIRE(ptable.sym_2_Z("In") == 49);
     REQUIRE(ptable.isotopes(49) == isotope_list{
                                      113,
                                      115,
@@ -467,6 +516,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(49, 115) ==
             Atom{49ul, "In", 209456.95764686327});
     REQUIRE(ptable.get_atom(50) == Atom{216395.0921958523, "Sn", 50ul});
+    REQUIRE(ptable.sym_2_Z("Sn") == 50);
     REQUIRE(ptable.isotopes(50) == isotope_list{
                                      112,
                                      114,
@@ -494,6 +544,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(50, 124) ==
             Atom{50ul, "Sn", 225865.50282173045});
     REQUIRE(ptable.get_atom(51) == Atom{221954.90207873794, "Sb", 51ul});
+    REQUIRE(ptable.sym_2_Z("Sb") == 51);
     REQUIRE(ptable.isotopes(51) == isotope_list{
                                      121,
                                      123,
@@ -501,6 +552,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(51, 121) == Atom{51ul, "Sb", 220394.1631857452});
     REQUIRE(ptable.get_isotope(51, 123) == Atom{51ul, "Sb", 224040.6693135237});
     REQUIRE(ptable.get_atom(52) == Atom{232600.5708380992, "Te", 52ul});
+    REQUIRE(ptable.sym_2_Z("Te") == 52);
     REQUIRE(ptable.isotopes(52) == isotope_list{
                                      120,
                                      122,
@@ -525,11 +577,13 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(52, 128) == Atom{52ul, "Te", 233155.5692894937});
     REQUIRE(ptable.get_isotope(52, 130) == Atom{52ul, "Te", 236804.5577356683});
     REQUIRE(ptable.get_atom(53) == Atom{231332.6972092981, "I", 53ul});
+    REQUIRE(ptable.sym_2_Z("I") == 53);
     REQUIRE(ptable.isotopes(53) == isotope_list{
                                      127,
                                    });
     REQUIRE(ptable.get_isotope(53, 127) == Atom{53ul, "I", 231332.6972092981});
     REQUIRE(ptable.get_atom(54) == Atom{239332.49801760627, "Xe", 54ul});
+    REQUIRE(ptable.sym_2_Z("Xe") == 54);
     REQUIRE(ptable.isotopes(54) == isotope_list{
                                      124,
                                      126,
@@ -556,12 +610,14 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(54, 136) ==
             Atom{54ul, "Xe", 247743.69646601865});
     REQUIRE(ptable.get_atom(55) == Atom{242271.81813002797, "Cs", 55ul});
+    REQUIRE(ptable.sym_2_Z("Cs") == 55);
     REQUIRE(ptable.isotopes(55) == isotope_list{
                                      133,
                                    });
     REQUIRE(ptable.get_isotope(55, 133) ==
             Atom{55ul, "Cs", 242271.81813002797});
     REQUIRE(ptable.get_atom(56) == Atom{250331.80714328878, "Ba", 56ul});
+    REQUIRE(ptable.sym_2_Z("Ba") == 56);
     REQUIRE(ptable.isotopes(56) == isotope_list{
                                      130,
                                      132,
@@ -585,6 +641,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(56, 138) ==
             Atom{56ul, "Ba", 251385.88694176386});
     REQUIRE(ptable.get_atom(57) == Atom{253209.1819320883, "La", 57ul});
+    REQUIRE(ptable.sym_2_Z("La") == 57);
     REQUIRE(ptable.isotopes(57) == isotope_list{
                                      138,
                                      139,
@@ -594,6 +651,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(57, 139) ==
             Atom{57ul, "La", 253210.80430284102});
     REQUIRE(ptable.get_atom(58) == Atom{255415.84313127832, "Ce", 58ul});
+    REQUIRE(ptable.sym_2_Z("Ce") == 58);
     REQUIRE(ptable.isotopes(58) == isotope_list{
                                      136,
                                      138,
@@ -608,12 +666,14 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(58, 142) ==
             Atom{58ul, "Ce", 258684.73790914207});
     REQUIRE(ptable.get_atom(59) == Atom{256858.95103025704, "Pr", 59ul});
+    REQUIRE(ptable.sym_2_Z("Pr") == 59);
     REQUIRE(ptable.isotopes(59) == isotope_list{
                                      141,
                                    });
     REQUIRE(ptable.get_isotope(59, 141) ==
             Atom{59ul, "Pr", 256858.95103025704});
     REQUIRE(ptable.get_atom(60) == Atom{262937.0810253065, "Nd", 60ul});
+    REQUIRE(ptable.sym_2_Z("Nd") == 60);
     REQUIRE(ptable.isotopes(60) == isotope_list{
                                      142,
                                      143,
@@ -634,11 +694,13 @@ void test_ptable(const PeriodicTable& ptable) {
             Atom{60ul, "Nd", 269636.01392321347});
     REQUIRE(ptable.get_isotope(60, 150) == Atom{60ul, "Nd", 273289.0824495422});
     REQUIRE(ptable.get_atom(61) == Atom{0.0, "Pm", 61ul});
+    REQUIRE(ptable.sym_2_Z("Pm") == 61);
     REQUIRE(ptable.isotopes(61) == isotope_list{
                                      145,
                                    });
     REQUIRE(ptable.get_isotope(61, 145) == Atom{61ul, "Pm", 264159.8017063046});
     REQUIRE(ptable.get_atom(62) == Atom{274089.5127838292, "Sm", 62ul});
+    REQUIRE(ptable.sym_2_Z("Sm") == 62);
     REQUIRE(ptable.isotopes(62) == isotope_list{
                                      144,
                                      147,
@@ -660,6 +722,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(62, 154) ==
             Atom{62ul, "Sm", 280583.04260711203});
     REQUIRE(ptable.get_atom(63) == Atom{277013.4259156811, "Eu", 63ul});
+    REQUIRE(ptable.sym_2_Z("Eu") == 63);
     REQUIRE(ptable.isotopes(63) == isotope_list{
                                      151,
                                      153,
@@ -668,6 +731,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(63, 153) ==
             Atom{63ul, "Eu", 278758.36769020354});
     REQUIRE(ptable.get_atom(64) == Atom{286649.214453692, "Gd", 64ul});
+    REQUIRE(ptable.sym_2_Z("Gd") == 64);
     REQUIRE(ptable.isotopes(64) == isotope_list{
                                      152,
                                      154,
@@ -689,11 +753,13 @@ void test_ptable(const PeriodicTable& ptable) {
             Atom{64ul, "Gd", 287878.04181111895});
     REQUIRE(ptable.get_isotope(64, 160) == Atom{64ul, "Gd", 291529.1963045372});
     REQUIRE(ptable.get_atom(65) == Atom{289703.1906790338, "Tb", 65ul});
+    REQUIRE(ptable.sym_2_Z("Tb") == 65);
     REQUIRE(ptable.isotopes(65) == isotope_list{
                                      159,
                                    });
     REQUIRE(ptable.get_isotope(65, 159) == Atom{65ul, "Tb", 289703.1906790338});
     REQUIRE(ptable.get_atom(66) == Atom{296219.3790062, "Dy", 66ul});
+    REQUIRE(ptable.sym_2_Z("Dy") == 66);
     REQUIRE(ptable.isotopes(66) == isotope_list{
                                      156,
                                      158,
@@ -713,11 +779,13 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(66, 163) == Atom{66ul, "Dy", 297000.92421577});
     REQUIRE(ptable.get_isotope(66, 164) == Atom{66ul, "Dy", 298824.6147728959});
     REQUIRE(ptable.get_atom(67) == Atom{300649.599580847, "Ho", 67ul});
+    REQUIRE(ptable.sym_2_Z("Ho") == 67);
     REQUIRE(ptable.isotopes(67) == isotope_list{
                                      165,
                                    });
     REQUIRE(ptable.get_isotope(67, 165) == Atom{67ul, "Ho", 300649.599580847});
     REQUIRE(ptable.get_atom(68) == Atom{304894.5053119877, "Er", 68ul});
+    REQUIRE(ptable.sym_2_Z("Er") == 68);
     REQUIRE(ptable.isotopes(68) == isotope_list{
                                      162,
                                      164,
@@ -735,12 +803,14 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(68, 170) ==
             Atom{68ul, "Er", 309773.41165862605});
     REQUIRE(ptable.get_atom(69) == Atom{307948.24456182634, "Tm", 69ul});
+    REQUIRE(ptable.sym_2_Z("Tm") == 69);
     REQUIRE(ptable.isotopes(69) == isotope_list{
                                      169,
                                    });
     REQUIRE(ptable.get_isotope(69, 169) ==
             Atom{69ul, "Tm", 307948.24456182634});
     REQUIRE(ptable.get_atom(70) == Atom{315441.7380930946, "Yb", 70ul});
+    REQUIRE(ptable.sym_2_Z("Yb") == 70);
     REQUIRE(ptable.isotopes(70) == isotope_list{
                                      168,
                                      170,
@@ -760,6 +830,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(70, 174) == Atom{70ul, "Yb", 317071.1634242471});
     REQUIRE(ptable.get_isotope(70, 176) == Atom{70ul, "Yb", 320723.7033129149});
     REQUIRE(ptable.get_atom(71) == Atom{318944.9651858584, "Lu", 71ul});
+    REQUIRE(ptable.sym_2_Z("Lu") == 71);
     REQUIRE(ptable.isotopes(71) == isotope_list{
                                      175,
                                      176,
@@ -769,6 +840,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(71, 176) ==
             Atom{71ul, "Lu", 320723.90383064834});
     REQUIRE(ptable.get_atom(72) == Atom{325367.3659004101, "Hf", 72ul});
+    REQUIRE(ptable.sym_2_Z("Hf") == 72);
     REQUIRE(ptable.isotopes(72) == isotope_list{
                                      174,
                                      176,
@@ -784,6 +856,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(72, 179) == Atom{72ul, "Hf", 326198.2749301861});
     REQUIRE(ptable.get_isotope(72, 180) == Atom{72ul, "Hf", 328022.5123538579});
     REQUIRE(ptable.get_atom(73) == Atom{329847.80705285165, "Ta", 73ul});
+    REQUIRE(ptable.sym_2_Z("Ta") == 73);
     REQUIRE(ptable.isotopes(73) == isotope_list{
                                      180,
                                      181,
@@ -791,6 +864,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(73, 180) == Atom{73ul, "Ta", 328024.1529534955});
     REQUIRE(ptable.get_isotope(73, 181) == Atom{73ul, "Ta", 329848.02579947});
     REQUIRE(ptable.get_atom(74) == Atom{335119.8193015373, "W", 74ul});
+    REQUIRE(ptable.sym_2_Z("W") == 74);
     REQUIRE(ptable.isotopes(74) == isotope_list{
                                      180,
                                      182,
@@ -804,6 +878,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(74, 184) == Atom{74ul, "W", 335322.03414419905});
     REQUIRE(ptable.get_isotope(74, 186) == Atom{74ul, "W", 338974.06180120225});
     REQUIRE(ptable.get_atom(75) == Atom{339434.5963483537, "Re", 75ul});
+    REQUIRE(ptable.sym_2_Z("Re") == 75);
     REQUIRE(ptable.isotopes(75) == isotope_list{
                                      185,
                                      187,
@@ -812,6 +887,7 @@ void test_ptable(const PeriodicTable& ptable) {
             Atom{75ul, "Re", 337148.61215668713});
     REQUIRE(ptable.get_isotope(75, 187) == Atom{75ul, "Re", 340799.48410239});
     REQUIRE(ptable.get_atom(76) == Atom{346768.07672830415, "Os", 76ul});
+    REQUIRE(ptable.sym_2_Z("Os") == 76);
     REQUIRE(ptable.isotopes(76) == isotope_list{
                                      184,
                                      186,
@@ -832,6 +908,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(76, 192) ==
             Atom{76ul, "Os", 349924.37168437586});
     REQUIRE(ptable.get_atom(77) == Atom{350390.1561503677, "Ir", 77ul});
+    REQUIRE(ptable.sym_2_Z("Ir") == 77);
     REQUIRE(ptable.isotopes(77) == isotope_list{
                                      191,
                                      193,
@@ -839,6 +916,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(77, 191) == Atom{77ul, "Ir", 348099.8608274312});
     REQUIRE(ptable.get_isotope(77, 193) == Atom{77ul, "Ir", 351749.885129988});
     REQUIRE(ptable.get_atom(78) == Atom{355616.37744028016, "Pt", 78ul});
+    REQUIRE(ptable.sym_2_Z("Pt") == 78);
     REQUIRE(ptable.isotopes(78) == isotope_list{
                                      190,
                                      192,
@@ -856,11 +934,13 @@ void test_ptable(const PeriodicTable& ptable) {
             Atom{78ul, "Pt", 357222.25469796796});
     REQUIRE(ptable.get_isotope(78, 198) == Atom{78ul, "Pt", 360873.3873167244});
     REQUIRE(ptable.get_atom(79) == Atom{359048.0907948421, "Au", 79ul});
+    REQUIRE(ptable.sym_2_Z("Au") == 79);
     REQUIRE(ptable.isotopes(79) == isotope_list{
                                      197,
                                    });
     REQUIRE(ptable.get_isotope(79, 197) == Atom{79ul, "Au", 359048.0907948421});
     REQUIRE(ptable.get_atom(80) == Atom{365656.8472222257, "Hg", 80ul});
+    REQUIRE(ptable.sym_2_Z("Hg") == 80);
     REQUIRE(ptable.isotopes(80) == isotope_list{
                                      196,
                                      198,
@@ -883,6 +963,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(80, 204) ==
             Atom{80ul, "Hg", 371820.93370095297});
     REQUIRE(ptable.get_atom(81) == Atom{372568.3289176226, "Tl", 81ul});
+    REQUIRE(ptable.sym_2_Z("Tl") == 81);
     REQUIRE(ptable.isotopes(81) == isotope_list{
                                      203,
                                      205,
@@ -890,6 +971,7 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(81, 203) == Atom{81ul, "Tl", 369995.9507158903});
     REQUIRE(ptable.get_isotope(81, 205) == Atom{81ul, "Tl", 373645.5247649911});
     REQUIRE(ptable.get_atom(82) == Atom{377702.4943389824, "Pb", 82ul});
+    REQUIRE(ptable.sym_2_Z("Pb") == 82);
     REQUIRE(ptable.isotopes(82) == isotope_list{
                                      204,
                                      206,
@@ -903,23 +985,31 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(82, 208) ==
             Atom{82ul, "Pb", 379118.24615044886});
     REQUIRE(ptable.get_atom(83) == Atom{380947.9649997987, "Bi", 83ul});
+    REQUIRE(ptable.sym_2_Z("Bi") == 83);
     REQUIRE(ptable.isotopes(83) == isotope_list{
                                      209,
                                    });
     REQUIRE(ptable.get_isotope(83, 209) == Atom{83ul, "Bi", 380947.9649997987});
     REQUIRE(ptable.get_atom(84) == Atom{0.0, "Po", 84ul});
+    REQUIRE(ptable.sym_2_Z("Po") == 84);
     REQUIRE(ptable.isotopes(84) == isotope_list{});
     REQUIRE(ptable.get_atom(85) == Atom{0.0, "At", 85ul});
+    REQUIRE(ptable.sym_2_Z("At") == 85);
     REQUIRE(ptable.isotopes(85) == isotope_list{});
     REQUIRE(ptable.get_atom(86) == Atom{0.0, "Rn", 86ul});
+    REQUIRE(ptable.sym_2_Z("Rn") == 86);
     REQUIRE(ptable.isotopes(86) == isotope_list{});
     REQUIRE(ptable.get_atom(87) == Atom{0.0, "Fr", 87ul});
+    REQUIRE(ptable.sym_2_Z("Fr") == 87);
     REQUIRE(ptable.isotopes(87) == isotope_list{});
     REQUIRE(ptable.get_atom(88) == Atom{0.0, "Ra", 88ul});
+    REQUIRE(ptable.sym_2_Z("Ra") == 88);
     REQUIRE(ptable.isotopes(88) == isotope_list{});
     REQUIRE(ptable.get_atom(89) == Atom{0.0, "Ac", 89ul});
+    REQUIRE(ptable.sym_2_Z("Ac") == 89);
     REQUIRE(ptable.isotopes(89) == isotope_list{});
     REQUIRE(ptable.get_atom(90) == Atom{422978.85169247346, "Th", 90ul});
+    REQUIRE(ptable.sym_2_Z("Th") == 90);
     REQUIRE(ptable.isotopes(90) == isotope_list{
                                      230,
                                      232,
@@ -928,12 +1018,14 @@ void test_ptable(const PeriodicTable& ptable) {
             Atom{90ul, "Th", 419324.74411970755});
     REQUIRE(ptable.get_isotope(90, 232) == Atom{90ul, "Th", 422979.5079323285});
     REQUIRE(ptable.get_atom(91) == Atom{421152.64554923656, "Pa", 91ul});
+    REQUIRE(ptable.sym_2_Z("Pa") == 91);
     REQUIRE(ptable.isotopes(91) == isotope_list{
                                      231,
                                    });
     REQUIRE(ptable.get_isotope(91, 231) ==
             Atom{91ul, "Pa", 421152.64554923656});
     REQUIRE(ptable.get_atom(92) == Atom{433900.1594198318, "U", 92ul});
+    REQUIRE(ptable.sym_2_Z("U") == 92);
     REQUIRE(ptable.isotopes(92) == isotope_list{
                                      233,
                                      234,
@@ -945,56 +1037,82 @@ void test_ptable(const PeriodicTable& ptable) {
     REQUIRE(ptable.get_isotope(92, 235) == Atom{92ul, "U", 428458.8737463184});
     REQUIRE(ptable.get_isotope(92, 238) == Atom{92ul, "U", 433940.0442199097});
     REQUIRE(ptable.get_atom(93) == Atom{0.0, "Np", 93ul});
+    REQUIRE(ptable.sym_2_Z("Np") == 93);
     REQUIRE(ptable.isotopes(93) == isotope_list{});
     REQUIRE(ptable.get_atom(94) == Atom{0.0, "Pu", 94ul});
+    REQUIRE(ptable.sym_2_Z("Pu") == 94);
     REQUIRE(ptable.isotopes(94) == isotope_list{});
     REQUIRE(ptable.get_atom(95) == Atom{0.0, "Am", 95ul});
+    REQUIRE(ptable.sym_2_Z("Am") == 95);
     REQUIRE(ptable.isotopes(95) == isotope_list{});
     REQUIRE(ptable.get_atom(96) == Atom{0.0, "Cm", 96ul});
+    REQUIRE(ptable.sym_2_Z("Cm") == 96);
     REQUIRE(ptable.isotopes(96) == isotope_list{});
     REQUIRE(ptable.get_atom(97) == Atom{0.0, "Bk", 97ul});
+    REQUIRE(ptable.sym_2_Z("Bk") == 97);
     REQUIRE(ptable.isotopes(97) == isotope_list{});
     REQUIRE(ptable.get_atom(98) == Atom{0.0, "Cf", 98ul});
+    REQUIRE(ptable.sym_2_Z("Cf") == 98);
     REQUIRE(ptable.isotopes(98) == isotope_list{});
     REQUIRE(ptable.get_atom(99) == Atom{0.0, "Es", 99ul});
+    REQUIRE(ptable.sym_2_Z("Es") == 99);
     REQUIRE(ptable.isotopes(99) == isotope_list{});
     REQUIRE(ptable.get_atom(100) == Atom{0.0, "Fm", 100ul});
+    REQUIRE(ptable.sym_2_Z("Fm") == 100);
     REQUIRE(ptable.isotopes(100) == isotope_list{});
     REQUIRE(ptable.get_atom(101) == Atom{0.0, "Md", 101ul});
+    REQUIRE(ptable.sym_2_Z("Md") == 101);
     REQUIRE(ptable.isotopes(101) == isotope_list{});
     REQUIRE(ptable.get_atom(102) == Atom{0.0, "No", 102ul});
+    REQUIRE(ptable.sym_2_Z("No") == 102);
     REQUIRE(ptable.isotopes(102) == isotope_list{});
     REQUIRE(ptable.get_atom(103) == Atom{0.0, "Lr", 103ul});
+    REQUIRE(ptable.sym_2_Z("Lr") == 103);
     REQUIRE(ptable.isotopes(103) == isotope_list{});
     REQUIRE(ptable.get_atom(104) == Atom{0.0, "Rf", 104ul});
+    REQUIRE(ptable.sym_2_Z("Rf") == 104);
     REQUIRE(ptable.isotopes(104) == isotope_list{});
     REQUIRE(ptable.get_atom(105) == Atom{0.0, "Db", 105ul});
+    REQUIRE(ptable.sym_2_Z("Db") == 105);
     REQUIRE(ptable.isotopes(105) == isotope_list{});
     REQUIRE(ptable.get_atom(106) == Atom{0.0, "Sg", 106ul});
+    REQUIRE(ptable.sym_2_Z("Sg") == 106);
     REQUIRE(ptable.isotopes(106) == isotope_list{});
     REQUIRE(ptable.get_atom(107) == Atom{0.0, "Bh", 107ul});
+    REQUIRE(ptable.sym_2_Z("Bh") == 107);
     REQUIRE(ptable.isotopes(107) == isotope_list{});
     REQUIRE(ptable.get_atom(108) == Atom{0.0, "Hs", 108ul});
+    REQUIRE(ptable.sym_2_Z("Hs") == 108);
     REQUIRE(ptable.isotopes(108) == isotope_list{});
     REQUIRE(ptable.get_atom(109) == Atom{0.0, "Mt", 109ul});
+    REQUIRE(ptable.sym_2_Z("Mt") == 109);
     REQUIRE(ptable.isotopes(109) == isotope_list{});
     REQUIRE(ptable.get_atom(110) == Atom{0.0, "Ds", 110ul});
+    REQUIRE(ptable.sym_2_Z("Ds") == 110);
     REQUIRE(ptable.isotopes(110) == isotope_list{});
     REQUIRE(ptable.get_atom(111) == Atom{0.0, "Rg", 111ul});
+    REQUIRE(ptable.sym_2_Z("Rg") == 111);
     REQUIRE(ptable.isotopes(111) == isotope_list{});
     REQUIRE(ptable.get_atom(112) == Atom{0.0, "Cn", 112ul});
+    REQUIRE(ptable.sym_2_Z("Cn") == 112);
     REQUIRE(ptable.isotopes(112) == isotope_list{});
     REQUIRE(ptable.get_atom(113) == Atom{0.0, "Nh", 113ul});
+    REQUIRE(ptable.sym_2_Z("Nh") == 113);
     REQUIRE(ptable.isotopes(113) == isotope_list{});
     REQUIRE(ptable.get_atom(114) == Atom{0.0, "Fl", 114ul});
+    REQUIRE(ptable.sym_2_Z("Fl") == 114);
     REQUIRE(ptable.isotopes(114) == isotope_list{});
     REQUIRE(ptable.get_atom(115) == Atom{0.0, "Mc", 115ul});
+    REQUIRE(ptable.sym_2_Z("Mc") == 115);
     REQUIRE(ptable.isotopes(115) == isotope_list{});
     REQUIRE(ptable.get_atom(116) == Atom{0.0, "Lv", 116ul});
+    REQUIRE(ptable.sym_2_Z("Lv") == 116);
     REQUIRE(ptable.isotopes(116) == isotope_list{});
     REQUIRE(ptable.get_atom(117) == Atom{0.0, "Ts", 117ul});
+    REQUIRE(ptable.sym_2_Z("Ts") == 117);
     REQUIRE(ptable.isotopes(117) == isotope_list{});
     REQUIRE(ptable.get_atom(118) == Atom{0.0, "Og", 118ul});
+    REQUIRE(ptable.sym_2_Z("Og") == 118);
     REQUIRE(ptable.isotopes(118) == isotope_list{});
 }
 

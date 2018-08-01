@@ -1,10 +1,24 @@
 set(
-    LIBCHEMIST_HEADERS AOBasisSet.hpp AOShell.hpp Atom.hpp Molecule.hpp
-        PeriodicTable.hpp Implementations/AoSFacade.hpp
+    LIBCHEMIST_HEADERS AOBasisSet.hpp
+                       AOShell.hpp
+                       Atom.hpp
+                       LibChemist.hpp
+                       Molecule.hpp
+                       MoleculeManager.hpp
+                       PeriodicTable.hpp
+                       Implementations/AoSFacade.hpp
 )
 set(
-    LIBCHEMIST_SRCS AOBasisSet.cpp AOShell.cpp Atom.cpp Molecule.cpp
-        PeriodicTable.cpp Defaults/NWXPeriodicTablePIMPL.cpp
+    LIBCHEMIST_SRCS AOBasisSet.cpp
+                    AOShell.cpp
+                    Atom.cpp
+                    BasisSetManager.cpp
+                    Molecule.cpp
+                    MoleculeManager.cpp
+                    PeriodicTable.cpp
+                    Defaults/NWXBasisSetManagerPIMPL.cpp
+                    Defaults/NWXPeriodicTablePIMPL.cpp
+                    Defaults/NWXMoleculeManagerPIMPL.cpp
 )
 
 add_nwx_library(

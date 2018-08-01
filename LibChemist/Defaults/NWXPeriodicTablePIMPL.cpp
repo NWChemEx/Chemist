@@ -5,6 +5,7 @@
  */
 
 #include "LibChemist/Implementations/PeriodicTablePIMPL.hpp"
+#include <algorithm> //For std::transform
 
 namespace LibChemist::detail_ {
 
@@ -389,7 +390,9 @@ private:
     Atom get_isotope_(size_type Z, size_type mass_num) const override {
         switch(Z) {
             case(0): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(1): {
                 switch(mass_num) {
@@ -399,6 +402,7 @@ private:
                     case(2): {
                         return Atom(1ul, 3671.4829413173247, "H");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(2): {
@@ -409,6 +413,7 @@ private:
                     case(4): {
                         return Atom(2ul, 7296.299386693523, "He");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(3): {
@@ -419,6 +424,7 @@ private:
                     case(7): {
                         return Atom(3ul, 12789.391889859466, "Li");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(4): {
@@ -426,6 +432,7 @@ private:
                     case(9): {
                         return Atom(4ul, 16428.204808444127, "Be");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(5): {
@@ -439,10 +446,13 @@ private:
                     case(13): {
                         return Atom(5ul, 23703.665810590574, "B");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(6): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(7): {
                 switch(mass_num) {
@@ -452,6 +462,7 @@ private:
                     case(15): {
                         return Atom(7ul, 27343.52580361326, "N");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(8): {
@@ -465,6 +476,7 @@ private:
                     case(18): {
                         return Atom(8ul, 32810.46081966976, "O");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(9): {
@@ -472,6 +484,7 @@ private:
                     case(19): {
                         return Atom(9ul, 34631.97038186638, "F");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(10): {
@@ -485,6 +498,7 @@ private:
                     case(22): {
                         return Atom(10ul, 40087.8426942043, "Ne");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(11): {
@@ -492,6 +506,7 @@ private:
                     case(23): {
                         return Atom(11ul, 41907.785720722546, "Na");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(12): {
@@ -505,6 +520,7 @@ private:
                     case(26): {
                         return Atom(12ul, 47363.36962111286, "Mg");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(13): {
@@ -512,6 +528,7 @@ private:
                     case(27): {
                         return Atom(13ul, 49184.335871396164, "Al");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(14): {
@@ -525,6 +542,7 @@ private:
                     case(30): {
                         return Atom(14ul, 54638.84023899607, "Si");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(15): {
@@ -532,6 +550,7 @@ private:
                     case(31): {
                         return Atom(15ul, 56461.71412020552, "P");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(16): {
@@ -548,6 +567,7 @@ private:
                     case(36): {
                         return Atom(16ul, 65563.97783683505, "S");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(17): {
@@ -558,6 +578,7 @@ private:
                     case(37): {
                         return Atom(17ul, 67384.71823123492, "Cl");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(18): {
@@ -571,6 +592,7 @@ private:
                     case(40): {
                         return Atom(18ul, 72846.96807024154, "Ar");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(19): {
@@ -584,6 +606,7 @@ private:
                     case(41): {
                         return Atom(19ul, 74668.83963986262, "K");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(20): {
@@ -606,6 +629,7 @@ private:
                     case(48): {
                         return Atom(20ul, 87412.10169597936, "Ca");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(21): {
@@ -613,6 +637,7 @@ private:
                     case(45): {
                         return Atom(21ul, 81949.60707950682, "Sc");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(22): {
@@ -632,6 +657,7 @@ private:
                     case(50): {
                         return Atom(22ul, 91043.77716761189, "Ti");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(23): {
@@ -642,6 +668,7 @@ private:
                     case(51): {
                         return Atom(23ul, 92865.15265636034, "V");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(24): {
@@ -658,6 +685,7 @@ private:
                     case(54): {
                         return Atom(24ul, 98324.56148720346, "Cr");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(25): {
@@ -665,6 +693,7 @@ private:
                     case(55): {
                         return Atom(25ul, 100145.9278615095, "Mn");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(26): {
@@ -681,6 +710,7 @@ private:
                     case(58): {
                         return Atom(26ul, 105605.89814200635, "Fe");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(27): {
@@ -688,6 +718,7 @@ private:
                     case(59): {
                         return Atom(27ul, 107428.64079711946, "Co");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(28): {
@@ -707,6 +738,7 @@ private:
                     case(64): {
                         return Atom(28ul, 116533.55498996214, "Ni");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(29): {
@@ -717,6 +749,7 @@ private:
                     case(65): {
                         return Atom(29ul, 118356.12082489209, "Cu");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(30): {
@@ -736,6 +769,7 @@ private:
                     case(70): {
                         return Atom(30ul, 127466.06072129119, "Zn");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(31): {
@@ -746,6 +780,7 @@ private:
                     case(71): {
                         return Atom(31ul, 129287.8244852872, "Ga");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(32): {
@@ -765,6 +800,7 @@ private:
                     case(76): {
                         return Atom(32ul, 138396.25083737622, "Ge");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(33): {
@@ -772,6 +808,7 @@ private:
                     case(75): {
                         return Atom(33ul, 136573.71289264012, "As");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(34): {
@@ -794,6 +831,7 @@ private:
                     case(82): {
                         return Atom(34ul, 149325.00925684423, "Se");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(35): {
@@ -804,6 +842,7 @@ private:
                     case(81): {
                         return Atom(35ul, 147501.37338637287, "Br");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(36): {
@@ -826,6 +865,7 @@ private:
                     case(86): {
                         return Atom(36ul, 156605.46295915105, "Kr");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(37): {
@@ -836,6 +876,7 @@ private:
                     case(87): {
                         return Atom(37ul, 158425.74453251893, "Rb");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(38): {
@@ -852,6 +893,7 @@ private:
                     case(88): {
                         return Atom(38ul, 160242.1298093498, "Sr");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(39): {
@@ -859,6 +901,7 @@ private:
                     case(89): {
                         return Atom(39ul, 162065.43209122817, "Y");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(40): {
@@ -878,6 +921,7 @@ private:
                     case(96): {
                         return Atom(40ul, 174830.08111359362, "Zr");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(41): {
@@ -885,6 +929,7 @@ private:
                     case(93): {
                         return Atom(41ul, 169357.95216689384, "Nb");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(42): {
@@ -910,6 +955,7 @@ private:
                     case(100): {
                         return Atom(42ul, 182120.18039334964, "Mo");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(43): {
@@ -917,6 +963,7 @@ private:
                     case(98): {
                         return Atom(43ul, 178473.92582418225, "Tc");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(44): {
@@ -942,6 +989,7 @@ private:
                     case(104): {
                         return Atom(44ul, 189408.01199982883, "Ru");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(45): {
@@ -949,6 +997,7 @@ private:
                     case(103): {
                         return Atom(45ul, 187585.25111583088, "Rh");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(46): {
@@ -971,6 +1020,7 @@ private:
                     case(110): {
                         return Atom(46ul, 200344.87261175137, "Pd");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(47): {
@@ -981,6 +1031,7 @@ private:
                     case(109): {
                         return Atom(47ul, 198521.22398106064, "Ag");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(48): {
@@ -1009,6 +1060,7 @@ private:
                     case(116): {
                         return Atom(48ul, 211281.45796751254, "Cd");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(49): {
@@ -1019,6 +1071,7 @@ private:
                     case(115): {
                         return Atom(49ul, 209456.95764686327, "In");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(50): {
@@ -1053,6 +1106,7 @@ private:
                     case(124): {
                         return Atom(50ul, 225865.50282173045, "Sn");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(51): {
@@ -1063,6 +1117,7 @@ private:
                     case(123): {
                         return Atom(51ul, 224040.6693135237, "Sb");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(52): {
@@ -1091,6 +1146,7 @@ private:
                     case(130): {
                         return Atom(52ul, 236804.5577356683, "Te");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(53): {
@@ -1098,6 +1154,7 @@ private:
                     case(127): {
                         return Atom(53ul, 231332.6972092981, "I");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(54): {
@@ -1129,6 +1186,7 @@ private:
                     case(136): {
                         return Atom(54ul, 247743.69646601865, "Xe");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(55): {
@@ -1136,6 +1194,7 @@ private:
                     case(133): {
                         return Atom(55ul, 242271.81813002797, "Cs");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(56): {
@@ -1161,6 +1220,7 @@ private:
                     case(138): {
                         return Atom(56ul, 251385.88694176386, "Ba");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(57): {
@@ -1171,6 +1231,7 @@ private:
                     case(139): {
                         return Atom(57ul, 253210.80430284102, "La");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(58): {
@@ -1187,6 +1248,7 @@ private:
                     case(142): {
                         return Atom(58ul, 258684.73790914207, "Ce");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(59): {
@@ -1194,6 +1256,7 @@ private:
                     case(141): {
                         return Atom(59ul, 256858.95103025704, "Pr");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(60): {
@@ -1219,6 +1282,7 @@ private:
                     case(150): {
                         return Atom(60ul, 273289.0824495422, "Nd");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(61): {
@@ -1226,6 +1290,7 @@ private:
                     case(145): {
                         return Atom(61ul, 264159.8017063046, "Pm");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(62): {
@@ -1251,6 +1316,7 @@ private:
                     case(154): {
                         return Atom(62ul, 280583.04260711203, "Sm");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(63): {
@@ -1261,6 +1327,7 @@ private:
                     case(153): {
                         return Atom(63ul, 278758.36769020354, "Eu");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(64): {
@@ -1286,6 +1353,7 @@ private:
                     case(160): {
                         return Atom(64ul, 291529.1963045372, "Gd");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(65): {
@@ -1293,6 +1361,7 @@ private:
                     case(159): {
                         return Atom(65ul, 289703.1906790338, "Tb");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(66): {
@@ -1318,6 +1387,7 @@ private:
                     case(164): {
                         return Atom(66ul, 298824.6147728959, "Dy");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(67): {
@@ -1325,6 +1395,7 @@ private:
                     case(165): {
                         return Atom(67ul, 300649.599580847, "Ho");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(68): {
@@ -1347,6 +1418,7 @@ private:
                     case(170): {
                         return Atom(68ul, 309773.41165862605, "Er");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(69): {
@@ -1354,6 +1426,7 @@ private:
                     case(169): {
                         return Atom(69ul, 307948.24456182634, "Tm");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(70): {
@@ -1379,6 +1452,7 @@ private:
                     case(176): {
                         return Atom(70ul, 320723.7033129149, "Yb");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(71): {
@@ -1389,6 +1463,7 @@ private:
                     case(176): {
                         return Atom(71ul, 320723.90383064834, "Lu");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(72): {
@@ -1411,6 +1486,7 @@ private:
                     case(180): {
                         return Atom(72ul, 328022.5123538579, "Hf");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(73): {
@@ -1421,6 +1497,7 @@ private:
                     case(181): {
                         return Atom(73ul, 329848.02579947, "Ta");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(74): {
@@ -1440,6 +1517,7 @@ private:
                     case(186): {
                         return Atom(74ul, 338974.06180120225, "W");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(75): {
@@ -1450,6 +1528,7 @@ private:
                     case(187): {
                         return Atom(75ul, 340799.48410239, "Re");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(76): {
@@ -1475,6 +1554,7 @@ private:
                     case(192): {
                         return Atom(76ul, 349924.37168437586, "Os");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(77): {
@@ -1485,6 +1565,7 @@ private:
                     case(193): {
                         return Atom(77ul, 351749.885129988, "Ir");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(78): {
@@ -1507,6 +1588,7 @@ private:
                     case(198): {
                         return Atom(78ul, 360873.3873167244, "Pt");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(79): {
@@ -1514,6 +1596,7 @@ private:
                     case(197): {
                         return Atom(79ul, 359048.0907948421, "Au");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(80): {
@@ -1539,6 +1622,7 @@ private:
                     case(204): {
                         return Atom(80ul, 371820.93370095297, "Hg");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(81): {
@@ -1549,6 +1633,7 @@ private:
                     case(205): {
                         return Atom(81ul, 373645.5247649911, "Tl");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(82): {
@@ -1565,6 +1650,7 @@ private:
                     case(208): {
                         return Atom(82ul, 379118.24615044886, "Pb");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(83): {
@@ -1572,25 +1658,38 @@ private:
                     case(209): {
                         return Atom(83ul, 380947.9649997987, "Bi");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(84): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(85): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(86): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(87): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(88): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(89): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(90): {
                 switch(mass_num) {
@@ -1600,6 +1699,7 @@ private:
                     case(232): {
                         return Atom(90ul, 422979.5079323285, "Th");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(91): {
@@ -1607,6 +1707,7 @@ private:
                     case(231): {
                         return Atom(91ul, 421152.64554923656, "Pa");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(92): {
@@ -1623,87 +1724,140 @@ private:
                     case(238): {
                         return Atom(92ul, 433940.0442199097, "U");
                     }
+                    default: { throw std::out_of_range("No isotope data"); }
                 }
             }
             case(93): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(94): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(95): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(96): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(97): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(98): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(99): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(100): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(101): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(102): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(103): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(104): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(105): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(106): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(107): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(108): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(109): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(110): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(111): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(112): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(113): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(114): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(115): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(116): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(117): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
             case(118): {
-                switch(mass_num) {}
+                switch(mass_num) {
+                    default: { throw std::out_of_range("No isotope data"); }
+                }
             }
-            default: { throw std::out_of_range("No isotope data"); }
+            default: { throw std::out_of_range("Z > 118"); }
         }
     }
 
@@ -2293,6 +2447,252 @@ private:
                 return {};
             }
             default: { throw std::out_of_range(" Z > 118"); }
+        }
+    }
+
+    size_type sym_2_Z_(const std::string& sym) const override {
+        auto ci_sym = sym;
+        std::transform(ci_sym.begin(), ci_sym.end(), ci_sym.begin(), ::tolower);
+        if(ci_sym == "ez") {
+            return 0;
+        } else if(ci_sym == "h") {
+            return 1;
+        } else if(ci_sym == "he") {
+            return 2;
+        } else if(ci_sym == "li") {
+            return 3;
+        } else if(ci_sym == "be") {
+            return 4;
+        } else if(ci_sym == "b") {
+            return 5;
+        } else if(ci_sym == "c") {
+            return 6;
+        } else if(ci_sym == "n") {
+            return 7;
+        } else if(ci_sym == "o") {
+            return 8;
+        } else if(ci_sym == "f") {
+            return 9;
+        } else if(ci_sym == "ne") {
+            return 10;
+        } else if(ci_sym == "na") {
+            return 11;
+        } else if(ci_sym == "mg") {
+            return 12;
+        } else if(ci_sym == "al") {
+            return 13;
+        } else if(ci_sym == "si") {
+            return 14;
+        } else if(ci_sym == "p") {
+            return 15;
+        } else if(ci_sym == "s") {
+            return 16;
+        } else if(ci_sym == "cl") {
+            return 17;
+        } else if(ci_sym == "ar") {
+            return 18;
+        } else if(ci_sym == "k") {
+            return 19;
+        } else if(ci_sym == "ca") {
+            return 20;
+        } else if(ci_sym == "sc") {
+            return 21;
+        } else if(ci_sym == "ti") {
+            return 22;
+        } else if(ci_sym == "v") {
+            return 23;
+        } else if(ci_sym == "cr") {
+            return 24;
+        } else if(ci_sym == "mn") {
+            return 25;
+        } else if(ci_sym == "fe") {
+            return 26;
+        } else if(ci_sym == "co") {
+            return 27;
+        } else if(ci_sym == "ni") {
+            return 28;
+        } else if(ci_sym == "cu") {
+            return 29;
+        } else if(ci_sym == "zn") {
+            return 30;
+        } else if(ci_sym == "ga") {
+            return 31;
+        } else if(ci_sym == "ge") {
+            return 32;
+        } else if(ci_sym == "as") {
+            return 33;
+        } else if(ci_sym == "se") {
+            return 34;
+        } else if(ci_sym == "br") {
+            return 35;
+        } else if(ci_sym == "kr") {
+            return 36;
+        } else if(ci_sym == "rb") {
+            return 37;
+        } else if(ci_sym == "sr") {
+            return 38;
+        } else if(ci_sym == "y") {
+            return 39;
+        } else if(ci_sym == "zr") {
+            return 40;
+        } else if(ci_sym == "nb") {
+            return 41;
+        } else if(ci_sym == "mo") {
+            return 42;
+        } else if(ci_sym == "tc") {
+            return 43;
+        } else if(ci_sym == "ru") {
+            return 44;
+        } else if(ci_sym == "rh") {
+            return 45;
+        } else if(ci_sym == "pd") {
+            return 46;
+        } else if(ci_sym == "ag") {
+            return 47;
+        } else if(ci_sym == "cd") {
+            return 48;
+        } else if(ci_sym == "in") {
+            return 49;
+        } else if(ci_sym == "sn") {
+            return 50;
+        } else if(ci_sym == "sb") {
+            return 51;
+        } else if(ci_sym == "te") {
+            return 52;
+        } else if(ci_sym == "i") {
+            return 53;
+        } else if(ci_sym == "xe") {
+            return 54;
+        } else if(ci_sym == "cs") {
+            return 55;
+        } else if(ci_sym == "ba") {
+            return 56;
+        } else if(ci_sym == "la") {
+            return 57;
+        } else if(ci_sym == "ce") {
+            return 58;
+        } else if(ci_sym == "pr") {
+            return 59;
+        } else if(ci_sym == "nd") {
+            return 60;
+        } else if(ci_sym == "pm") {
+            return 61;
+        } else if(ci_sym == "sm") {
+            return 62;
+        } else if(ci_sym == "eu") {
+            return 63;
+        } else if(ci_sym == "gd") {
+            return 64;
+        } else if(ci_sym == "tb") {
+            return 65;
+        } else if(ci_sym == "dy") {
+            return 66;
+        } else if(ci_sym == "ho") {
+            return 67;
+        } else if(ci_sym == "er") {
+            return 68;
+        } else if(ci_sym == "tm") {
+            return 69;
+        } else if(ci_sym == "yb") {
+            return 70;
+        } else if(ci_sym == "lu") {
+            return 71;
+        } else if(ci_sym == "hf") {
+            return 72;
+        } else if(ci_sym == "ta") {
+            return 73;
+        } else if(ci_sym == "w") {
+            return 74;
+        } else if(ci_sym == "re") {
+            return 75;
+        } else if(ci_sym == "os") {
+            return 76;
+        } else if(ci_sym == "ir") {
+            return 77;
+        } else if(ci_sym == "pt") {
+            return 78;
+        } else if(ci_sym == "au") {
+            return 79;
+        } else if(ci_sym == "hg") {
+            return 80;
+        } else if(ci_sym == "tl") {
+            return 81;
+        } else if(ci_sym == "pb") {
+            return 82;
+        } else if(ci_sym == "bi") {
+            return 83;
+        } else if(ci_sym == "po") {
+            return 84;
+        } else if(ci_sym == "at") {
+            return 85;
+        } else if(ci_sym == "rn") {
+            return 86;
+        } else if(ci_sym == "fr") {
+            return 87;
+        } else if(ci_sym == "ra") {
+            return 88;
+        } else if(ci_sym == "ac") {
+            return 89;
+        } else if(ci_sym == "th") {
+            return 90;
+        } else if(ci_sym == "pa") {
+            return 91;
+        } else if(ci_sym == "u") {
+            return 92;
+        } else if(ci_sym == "np") {
+            return 93;
+        } else if(ci_sym == "pu") {
+            return 94;
+        } else if(ci_sym == "am") {
+            return 95;
+        } else if(ci_sym == "cm") {
+            return 96;
+        } else if(ci_sym == "bk") {
+            return 97;
+        } else if(ci_sym == "cf") {
+            return 98;
+        } else if(ci_sym == "es") {
+            return 99;
+        } else if(ci_sym == "fm") {
+            return 100;
+        } else if(ci_sym == "md") {
+            return 101;
+        } else if(ci_sym == "no") {
+            return 102;
+        } else if(ci_sym == "lr") {
+            return 103;
+        } else if(ci_sym == "rf") {
+            return 104;
+        } else if(ci_sym == "db") {
+            return 105;
+        } else if(ci_sym == "sg") {
+            return 106;
+        } else if(ci_sym == "bh") {
+            return 107;
+        } else if(ci_sym == "hs") {
+            return 108;
+        } else if(ci_sym == "mt") {
+            return 109;
+        } else if(ci_sym == "ds") {
+            return 110;
+        } else if(ci_sym == "rg") {
+            return 111;
+        } else if(ci_sym == "cn") {
+            return 112;
+        } else if(ci_sym == "nh") {
+            return 113;
+        } else if(ci_sym == "fl") {
+            return 114;
+        } else if(ci_sym == "mc") {
+            return 115;
+        } else if(ci_sym == "lv") {
+            return 116;
+        } else if(ci_sym == "ts") {
+            return 117;
+        } else if(ci_sym == "og") {
+            return 118;
+        } else {
+            throw std::out_of_range("Unrecognized atomic symbol");
         }
     }
 };

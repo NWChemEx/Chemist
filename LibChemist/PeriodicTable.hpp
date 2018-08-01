@@ -14,6 +14,8 @@ class PeriodicTablePIMPL;
  *
  * The main purpose of the PeriodicTable class is to facilitate the creation of
  * new Atom instances, which are populated with the default data for that atom.
+ * The class also serves as a hub for retrieving other atomic data that is not
+ * typically stored with an Atom instance.
  */
 class PeriodicTable {
 public:
@@ -93,6 +95,20 @@ public:
     isotope_list isotopes(size_type Z) const;
 
     /**
+     * @brief Convenience function for converting an atomic
+     *        symbol to an atomic number.
+     *
+     * The reverse (atomic number to atomic symbol) should be done by using the
+     * name of the atom returned by `get_atom(Z)`.
+     *
+     * @param sym The symbol to convert.  Case-insensitive.
+     * @return The atomic number of the requested atom.
+     * @throw std::out_of_range if @p sym is not a recognized
+     *        symbol.  Strong throw guarantee.
+     */
+    size_type sym_2_Z(const std::string& sym) const;
+
+    /**
      * @defgroup Atom Creation Functions
      * @brief Returns an Atom instance pre-loaded with the data for the
      *        specified atomic number.
@@ -103,19 +119,27 @@ public:
      * abundance weighted variant, whereas `get_isotope` returns an Atom
      * whose mass is for a particular isotope.
      *
-     * @param Z The atomic number of the atom to create.  Should be in the range
-     *        [0, max_Z()).
+     * @param[in] Z The atomic number of the atom to create.  Should be in the
+     *            range [1, max_Z()).
+     * @param[in] sym The atomic symbol of the atom to create.  Symbol is
+     *            case-insensitive.
      * @param mass_num The mass number of the isotope to create.
      * @return The requested atom as new instance.
      * @throw std::bad_alloc if there is insufficient memory to make the Atom
      *        instance.  Strong throw guarantee.
-     * @throw std::out_of_range if @p Z is greater than max_Z() or if there is
-     *        no isotope for a particular @p Z @p mass_num pair.  Strong throw
-     *        guarantee.
+     * @throw std::out_of_range if @p Z is not in the range [1, max_Z()), @p
+     *        sym is not a recognized atomic symbol, or no isotope data is
+     *        available.  Strong throw guarantee.
      */
     ///@{
     Atom get_atom(size_type Z) const;
+    Atom get_atom(const std::string& sym) const {
+        return get_atom(sym_2_Z(sym));
+    }
     Atom get_isotope(size_type Z, size_type mass_num) const;
+    Atom get_isotope(const std::string& sym, size_type mass_num) const {
+        return get_isotope(sym_2_Z(sym), mass_num);
+    }
     ///@}
 private:
     /// The instance actually implementing the class.
