@@ -29,8 +29,9 @@ class Molecule:
         f.write("Molecule(\n")
         tab2 = tab + "    "
         for i, ai in enumerate(self.atoms):
-            f.write("{}Atom{{ptable_.get_atom({}).coords() = \n{}{{".format(
-                tab2, ai, tab2 + "    "))
+            f.write(
+"""{}Atom{{ptable_.get_atom({}).mass(), {}ul,
+{}cart_t{{ """.format(tab2, ai, ai, tab2 + "    "))
             for j in range(3):
                 f.write("{}, ".format(self.carts[i*3 + j]))
             f.write("}}")
@@ -77,6 +78,7 @@ private:
     }
     
     value_type at_(const key_type& name) const override {
+        using cart_t = typename Atom::coord_type;
         """)
         for mname, m in mols.items():
             f.write("if(name == \"{}\") {{\n{}return ".format(mname, tab*3))

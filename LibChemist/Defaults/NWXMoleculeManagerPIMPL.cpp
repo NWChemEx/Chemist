@@ -21,20 +21,22 @@ private:
     }
 
     value_type at_(const key_type& name) const override {
+        using cart_t = typename Atom::coord_type;
         if(name == "water") {
-            return Molecule(Atom{ptable_.get_atom(1).coords() =
-                                   {
-                                     0.0,
-                                     2.984338304722454,
-                                     4.109397663896704,
-                                   }},
-                            Atom{ptable_.get_atom(8).coords() =
-                                   {
-                                     0.0,
-                                     0.0,
-                                     0.0,
-                                   }},
-                            Atom{ptable_.get_atom(1).coords() = {
+            return Molecule(Atom{ptable_.get_atom(1).mass(), 1ul,
+                                 cart_t{
+                                   0.0,
+                                   2.984338304722454,
+                                   4.109397663896704,
+                                 }},
+                            Atom{ptable_.get_atom(8).mass(), 8ul,
+                                 cart_t{
+                                   0.0,
+                                   0.0,
+                                   0.0,
+                                 }},
+                            Atom{ptable_.get_atom(1).mass(), 1ul,
+                                 cart_t{
                                    0.0,
                                    2.984338304722454,
                                    -4.109397663896704,

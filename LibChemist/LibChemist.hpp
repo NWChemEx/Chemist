@@ -36,7 +36,7 @@ inline AOBasisSet apply_basis(const std::string& name, const Molecule& mol,
                               const BasisSetManager& man = BasisSetManager()) {
     AOBasisSet rv;
     for(const auto& ai : mol) {
-        for(const auto& si : man.get_basis(name, ai.Z())) {
+        for(auto si : man.get_basis(name, ai.Z())) {
             si.center() = ai.coords();
             rv.push_back(si);
         }
