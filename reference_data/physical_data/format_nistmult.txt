@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+#Author Ben Pritchard
 import sys
 import re
 import mpmath as mp 
