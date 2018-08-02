@@ -24,7 +24,7 @@ set(
 add_nwx_library(
         NAME chemist
         SOURCES ${LIBCHEMIST_SRCS}
-        DEPENDS Utilities::utilities
+        DEPENDS Utilities::utilities SDE::SDE
 )
 install_targets(
         TARGETS chemist
