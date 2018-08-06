@@ -2,6 +2,7 @@ set(
     LIBCHEMIST_HEADERS AOBasisSet.hpp
                        AOShell.hpp
                        Atom.hpp
+                       BasisSetManager.hpp
                        LibChemist.hpp
                        Molecule.hpp
                        MoleculeManager.hpp
