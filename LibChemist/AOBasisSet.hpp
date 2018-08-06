@@ -123,7 +123,12 @@ public:
      * @return The number of shells in this basis set.
      * @throw None No throw guarantee.
      */
-    size_type size() const noexcept;
+    size_type nshells() const noexcept;
+    size_type nbf() const noexcept {
+        size_type total = 0;
+        for(const auto& shelli : *this) total += shelli.size();
+        return total;
+    }
 
     /**
      * @defgroup Accessors
@@ -227,8 +232,8 @@ max_l(const AOBasisSet& bs) noexcept;
 ///@{
 inline bool operator==(const LibChemist::AOBasisSet& lhs,
                        const LibChemist::AOBasisSet& rhs) noexcept {
-    if(lhs.size() != rhs.size()) return false;
-    for(std::size_t i = 0; i < lhs.size(); ++i)
+    if(lhs.nshells() != rhs.nshells()) return false;
+    for(std::size_t i = 0; i < lhs.nshells(); ++i)
         if(lhs[i] != rhs[i]) return false;
     return true;
 }

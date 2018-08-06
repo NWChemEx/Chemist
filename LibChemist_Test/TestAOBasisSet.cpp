@@ -18,7 +18,7 @@ using const_iterator  = typename AOBasisSet::const_iterator;
 void check_bs(AOBasisSet& bs, const shell_vector& shells) {
     const AOBasisSet& const_bs = bs;
     SECTION("Check State") {
-        REQUIRE(bs.size() == shells.size());
+        REQUIRE(bs.nshells() == shells.size());
         for(size_type i = 0; i < shells.size(); ++i) {
             REQUIRE(bs.at(i) == shells[i]);
             REQUIRE(const_bs.at(i) == shells[i]);
@@ -36,14 +36,14 @@ void check_bs(AOBasisSet& bs, const shell_vector& shells) {
             ++counter;
         }
     }
-    if(!bs.size()) return; // Done with empty bases
+    if(!bs.nshells()) return; // Done with empty bases
 
     SECTION("Check contiguousness") {
         double* cstart     = &(bs[0].coef(0));
         double* astart     = &(bs[0].alpha(0));
         double* cart_start = &(bs[0].center()[0]);
 
-        for(size_type i = 0; i < bs.size(); ++i) {
+        for(size_type i = 0; i < bs.nshells(); ++i) {
             for(size_type j = 0; j < 3; ++j, ++cart_start)
                 REQUIRE(cart_start == &(bs[i].center()[j]));
             for(size_type j = 0; j < bs[i].nprims(); ++j, ++cstart, ++astart) {

@@ -4,7 +4,7 @@
 #include <Utilities/Containers/CaseInsensitiveMap.hpp>
 #include <tamm/tamm.hpp>
 
-namespace SDE {
+namespace LibChemist {
 
 /**
  * @brief Class for holding the details related to a particular set of orbitals.
@@ -57,8 +57,8 @@ struct OrbitalSpace {
 template<std::size_t NBases, typename element_type = double>
 struct AOIntegral : ModuleBase {
     using tensor_type      = tamm::Tensor<element_type>;
-    using molecule_type    = LibChemist::Molecule;
-    using basis_set_type   = LibChemist::BasisSet;
+    using molecule_type    = Molecule;
+    using basis_set_type   = AOBasisSet;
     using basis_array_type = std::array<basis_set_type, NBases>;
     using size_type        = std::size_t;
 
