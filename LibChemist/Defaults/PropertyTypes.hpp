@@ -55,7 +55,7 @@ namespace LibChemist {
  * @tparam element_type The type of the element in the tensor
  */
 template<std::size_t NBases, typename element_type = double>
-struct AOIntegral : ModuleBase {
+struct AOIntegral : SDE:: ModuleBase {
     using tensor_type      = tamm::Tensor<element_type>;
     using molecule_type    = Molecule;
     using basis_set_type   = AOBasisSet;
