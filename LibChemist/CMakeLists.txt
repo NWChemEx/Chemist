@@ -7,6 +7,7 @@ set(
                        MoleculeManager.hpp
                        PeriodicTable.hpp
                        Implementations/AoSFacade.hpp
+                       Defaults/PropertyTypes.hpp
 )
 set(
     LIBCHEMIST_SRCS AOBasisSet.cpp
