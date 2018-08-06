@@ -15,10 +15,13 @@ project(LibChemist VERSION 0.0.0 LANGUAGES CXX)
 ### Options ###
 option(BUILD_TESTS "Should we build the tests?" ON)
 ### Dependencies ####
-foreach(depend Utilities bphash cereal pybind11 SDE TAMM)
+foreach(depend Utilities bphash cereal pybind11 SDE)
     hunter_add_package(${depend})
-    find_package(Utilities CONFIG REQUIRED)
+    find_package(${depend} CONFIG REQUIRED)
 endforeach()
+
+#Skip Hunter on TAMM for now
+find_package(tamm CONFIG REQUIRED)
 
 
 ### Target ###

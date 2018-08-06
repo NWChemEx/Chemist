@@ -7,6 +7,7 @@ nwx_depend(
         SKIP_SHA1
         CMAKE_ARGS "BUILD_TESTS=off"
 )
+
 hunter_config(
         bphash
         VERSION 1.1
@@ -20,7 +21,7 @@ nwx_depend(
     VERSION 0.0.0
     URL "${gh_url}/SDE/tarball/master?access_token=${token}"
     SKIP_SHA1
-    CMAKE_ARGS "BUILD_TESTS=off"
+    CMAKE_ARGS "BUILD_TESTS=off;BUILD_PYBINDINGS=FALSE"
 )
 
 nwx_depend(
