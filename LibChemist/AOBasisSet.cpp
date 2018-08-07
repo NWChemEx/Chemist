@@ -66,9 +66,9 @@ std::pair<size_type, const_iterator> max_l(const AOBasisSet& bs) noexcept {
                              std::make_pair(0ul, itr);
 };
 
-} // namespace LibChemist
-
-std::ostream& operator<<(std::ostream& os, const LibChemist::AOBasisSet& bs) {
+std::ostream& operator<<(std::ostream& os, const AOBasisSet& bs) {
     for(const auto& shelli : bs) os << shelli;
     return os;
 }
+
+} // namespace LibChemist

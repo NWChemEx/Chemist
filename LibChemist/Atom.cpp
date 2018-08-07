@@ -39,10 +39,10 @@ bool operator==(const Atom& lhs, const Atom& rhs) noexcept {
            std::tie(rhs.Z(), rhs.coords(), rhs.mass(), rhs.name());
 }
 
-} // namespace LibChemist
-
-std::ostream& operator<<(std::ostream& os, const LibChemist::Atom& ai) {
+std::ostream& operator<<(std::ostream& os, const Atom& ai) {
     os << ai.name() << std::fixed << std::setprecision(15) << " " << ai[0]
        << " " << ai[1] << " " << ai[2];
     return os;
 }
+
+} // namespace LibChemist
