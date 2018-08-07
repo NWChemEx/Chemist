@@ -207,9 +207,8 @@ inline bool operator!=(const Atom& lhs, const Atom& rhs) noexcept {
 }
 ///@}
 
-} // namespace LibChemist
-
 /**
+ * @relates Atom
  * @brief Makes it so the Atom class can be printed out.
  *
  * @param os The output stream to print to.
@@ -218,4 +217,6 @@ inline bool operator!=(const Atom& lhs, const Atom& rhs) noexcept {
  * @throws std::ios_base::failure if anything goes wrong while writing.  Weak
  *         throw guarantee.
  */
-std::ostream& operator<<(std::ostream& os, const LibChemist::Atom& ai);
+std::ostream& operator<<(std::ostream& os, const Atom& ai);
+
+} // namespace LibChemist

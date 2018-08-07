@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
 #include <vector>
+#include <array>
+#include <tuple>
 
 /**
  * @file AoSFacade.hpp

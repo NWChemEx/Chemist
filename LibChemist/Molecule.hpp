@@ -200,9 +200,8 @@ private:
     std::unique_ptr<detail_::MolPIMPL> pimpl_;
 };
 
-} // end namespace LibChemist
-
 /**
+ * @relates Molecule
  * @brief Overloads the stream insertion operator so that molecules can be
  *        printed.
  *
@@ -213,4 +212,6 @@ private:
  * @throws std::ios_base::failure if anything goes wrong while writing.  Weak
  *         throw guarantee.
  */
-std::ostream& operator<<(std::ostream& os, const LibChemist::Molecule& mol);
+std::ostream& operator<<(std::ostream& os, const Molecule& mol);
+
+} // end namespace LibChemist

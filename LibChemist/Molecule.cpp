@@ -41,9 +41,9 @@ const_iterator Molecule::begin() const noexcept { return pimpl_->begin(); }
 iterator Molecule::end() noexcept { return pimpl_->end(); }
 const_iterator Molecule::end() const noexcept { return pimpl_->end(); }
 
-} // namespace LibChemist
-
-std::ostream& operator<<(std::ostream& os, const LibChemist::Molecule& mol) {
+std::ostream& operator<<(std::ostream& os, const Molecule& mol) {
     for(const auto& ai : mol) os << ai << std::endl;
     return os;
 }
+
+} // namespace LibChemist

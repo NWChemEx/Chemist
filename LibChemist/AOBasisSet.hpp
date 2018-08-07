@@ -210,10 +210,9 @@ std::pair<typename AOBasisSet::size_type, typename AOBasisSet::iterator> max_l(
 std::pair<typename AOBasisSet::size_type, typename AOBasisSet::const_iterator>
 max_l(const AOBasisSet& bs) noexcept;
 
-} // namespace LibChemist
-
 /**
  * @defgroup AOBasisSet comparison operators
+ * @relates AOBasisSet
  * @brief Compares two AOBasisSet instances
  *
  * Two AOBasisSet instances are equal if they have the same number of shells,
@@ -225,21 +224,22 @@ max_l(const AOBasisSet& bs) noexcept;
  * @throw None All comparisons are no throw guarantee.
  */
 ///@{
-inline bool operator==(const LibChemist::AOBasisSet& lhs,
-                       const LibChemist::AOBasisSet& rhs) noexcept {
+inline bool operator==(const AOBasisSet& lhs,
+                       const AOBasisSet& rhs) noexcept {
     if(lhs.size() != rhs.size()) return false;
     for(std::size_t i = 0; i < lhs.size(); ++i)
         if(lhs[i] != rhs[i]) return false;
     return true;
 }
 
-inline bool operator!=(const LibChemist::AOBasisSet& lhs,
-                       const LibChemist::AOBasisSet& rhs) noexcept {
+inline bool operator!=(const AOBasisSet& lhs,
+                       const AOBasisSet& rhs) noexcept {
     return !(lhs == rhs);
 }
 ///@}
 
 /**
+ * @relates AOBasisSet
  * @brief Allows printing of an AOBasisSet instance
  *
  * @param os The stream to print the basis set to.
@@ -247,4 +247,6 @@ inline bool operator!=(const LibChemist::AOBasisSet& lhs,
  * @return The stream containing the text representation of the basis set.
  * @throw std::ios_base::failure if anything goes wrong.  Weak throw guarantee.
  */
-std::ostream& operator<<(std::ostream& os, const LibChemist::AOBasisSet& bs);
+std::ostream& operator<<(std::ostream& os, const AOBasisSet& bs);
+
+} // namespace LibChemist
