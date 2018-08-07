@@ -72,8 +72,6 @@ bool operator==(const AOShell& lhs, const AOShell& rhs) noexcept {
     return true;
 }
 
-} // End namespace LibChemist
-
 std::ostream& operator<<(std::ostream& os, const LibChemist::AOShell& shell) {
     os << std::fixed << std::setprecision(15) << "l: " << shell.l()
        << " Rx: " << shell.center()[0] << " Ry: " << shell.center()[1]
@@ -83,3 +81,7 @@ std::ostream& operator<<(std::ostream& os, const LibChemist::AOShell& shell) {
            << std::endl;
     return os;
 }
+
+} // End namespace LibChemist
+
+

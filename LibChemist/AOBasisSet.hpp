@@ -215,7 +215,6 @@ std::pair<typename AOBasisSet::size_type, typename AOBasisSet::iterator> max_l(
 std::pair<typename AOBasisSet::size_type, typename AOBasisSet::const_iterator>
 max_l(const AOBasisSet& bs) noexcept;
 
-} // namespace LibChemist
 
 /**
  * @defgroup AOBasisSet comparison operators
@@ -253,3 +252,5 @@ inline bool operator!=(const LibChemist::AOBasisSet& lhs,
  * @throw std::ios_base::failure if anything goes wrong.  Weak throw guarantee.
  */
 std::ostream& operator<<(std::ostream& os, const LibChemist::AOBasisSet& bs);
+
+} // namespace LibChemist

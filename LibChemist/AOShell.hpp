@@ -301,8 +301,6 @@ inline bool operator!=(const AOShell& lhs, const AOShell& rhs) noexcept {
 }
 ///@}
 
-} // namespace LibChemist
-
 /**
  * @brief Allows an AOShell to be printed
  *
@@ -312,3 +310,5 @@ inline bool operator!=(const AOShell& lhs, const AOShell& rhs) noexcept {
  * @throw std::ios_base::failure if anything goes wrong.  Weak throw guarantee.
  */
 std::ostream& operator<<(std::ostream& os, const LibChemist::AOShell& shell);
+
+} // namespace LibChemist
