@@ -44,7 +44,7 @@ struct OrbitalSpace {
     // Conversion from AO basis to current basis
     tensor_type C;
 
-    void hash(Hasher& h) const { h(basis); }
+    void hash(SDE::Hasher& h) const { h(basis); }
 };
 
 /**
@@ -96,7 +96,6 @@ struct CoreHamiltonian : SDE::ModuleBase {
  */
  template<typename element_type=double>
 struct JKMatrices : SDE::ModuleBase {
-    using element_type   = double;
     using tensor_type    = tamm::Tensor<element_type>;
     using molecule_type  = Molecule;
     using orbital_type   = OrbitalSpace<element_type>;
