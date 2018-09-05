@@ -2,6 +2,7 @@
 #include "LibChemist/Molecule.hpp"
 #include "LibChemist/AOBasisSet.hpp"
 #include <SDE/Module.hpp>
+#include <SDE/Memoization.hpp>
 #include <Utilities/Containers/CaseInsensitiveMap.hpp>
 #include <tamm/tamm.hpp>
 
@@ -74,7 +75,7 @@ struct AOIntegral : SDE:: ModuleBase {
  *
  */
  template<typename element_type=double>
-struct CoreHamiltonian : ModuleBase {
+struct CoreHamiltonian : SDE::ModuleBase {
     using tensor_type    = tamm::Tensor<element_type>;
     using molecule_type  = Molecule;
     using basis_set_type = AOBasisSet;
@@ -94,7 +95,7 @@ struct CoreHamiltonian : ModuleBase {
  *
  */
  template<typename element_type=double>
-struct JKMatrices : ModuleBase {
+struct JKMatrices : SDE::ModuleBase {
     using element_type   = double;
     using tensor_type    = tamm::Tensor<element_type>;
     using molecule_type  = Molecule;
@@ -114,7 +115,7 @@ struct JKMatrices : ModuleBase {
  *
  */
 template<typename element_type = double>
-struct FockBuilder : ModuleBase {
+struct FockBuilder : SDE::ModuleBase {
     using tensor_type    = tamm::Tensor<element_type>;
     using molecule_type  = Molecule;
     using orbital_type   = OrbitalSpace<element_type>;
@@ -128,7 +129,7 @@ struct FockBuilder : ModuleBase {
 };
 
 template<typename element_type = double>
-struct Energy : ModuleBase {
+struct Energy : SDE::ModuleBase {
     using molecule_type = Molecule;
     using tensor_type   = tamm::Tensor<element_type>;
     using size_type     = std::size_t;
