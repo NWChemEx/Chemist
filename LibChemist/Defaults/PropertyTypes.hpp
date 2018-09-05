@@ -25,7 +25,7 @@ namespace LibChemist {
  template<typename element_type=double>
 struct OrbitalSpace {
     using tensor_type = tamm::Tensor<element_type>;
-    using basis_type  = LibChemist::BasisSet;
+    using basis_type  = AOBasisSet;
 
     // AO basis set
     std::shared_ptr<const basis_type> basis;
@@ -75,8 +75,8 @@ struct AOIntegral : SDE:: ModuleBase {
  template<typename element_type=double>
 struct CoreHamiltonian : ModuleBase {
     using tensor_type    = tamm::Tensor<element_type>;
-    using molecule_type  = LibChemist::Molecule;
-    using basis_set_type = LibChemist::BasisSet;
+    using molecule_type  = Molecule;
+    using basis_set_type = AOBasisSet;
     using size_type      = std::size_t;
 
     virtual tensor_type run(const molecule_type&, const basis_set_type& bra,
@@ -96,9 +96,9 @@ struct CoreHamiltonian : ModuleBase {
 struct JKMatrices : ModuleBase {
     using element_type   = double;
     using tensor_type    = tamm::Tensor<element_type>;
-    using molecule_type  = LibChemist::Molecule;
+    using molecule_type  = Molecule;
     using orbital_type   = OrbitalSpace<element_type>;
-    using basis_set_type = LibChemist::BasisSet;
+    using basis_set_type = AOBasisSet;
     using tensor_map     = Utilities::CaseInsensitiveMap<tensor_type>;
     using size_type      = std::size_t;
 
@@ -115,9 +115,9 @@ struct JKMatrices : ModuleBase {
 template<typename element_type = double>
 struct FockBuilder : ModuleBase {
     using tensor_type    = tamm::Tensor<element_type>;
-    using molecule_type  = LibChemist::Molecule;
+    using molecule_type  = Molecule;
     using orbital_type   = OrbitalSpace<element_type>;
-    using basis_set_type = LibChemist::BasisSet;
+    using basis_set_type = AOBasisSet;
     using tensor_map     = Utilities::CaseInsensitiveMap<tensor_type>;
     using size_type      = std::size_t;
 
@@ -128,7 +128,7 @@ struct FockBuilder : ModuleBase {
 
 template<typename element_type = double>
 struct Energy : ModuleBase {
-    using molecule_type = LibChemist::Molecule;
+    using molecule_type = Molecule;
     using tensor_type   = tamm::Tensor<element_type>;
     using size_type     = std::size_t;
 
