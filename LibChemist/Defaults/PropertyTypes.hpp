@@ -1,5 +1,6 @@
 #pragma once
 #include "LibChemist/Molecule.hpp"
+#include "LibChemist/AOBasisSet.hpp"
 #include <SDE/Module.hpp>
 #include <Utilities/Containers/CaseInsensitiveMap.hpp>
 #include <tamm/tamm.hpp>
