@@ -1,5 +1,6 @@
 #pragma once
 #include "LibChemist/Atom.hpp"
+#include <bphash/Hasher_fwd.hpp>
 #include <vector> //For iterators
 
 namespace LibChemist {
@@ -183,6 +184,10 @@ public:
     const_iterator end() const noexcept;
     ///@}
 private:
+    BPHASH_DECLARE_HASHING_FRIENDS
+    void hash(bphash::Hasher& h)const;
+
+
     /// Struct for coloring an atom as seen
     struct ColoredAtom {
         Atom value;

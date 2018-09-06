@@ -1,6 +1,7 @@
 #include <LibChemist/AOBasisSet.hpp>
 #include <catch/catch.hpp>
 #include <sstream>
+#include <bphash/Hasher.hpp>
 
 using namespace LibChemist;
 
@@ -15,6 +16,13 @@ using size_type       = typename AOBasisSet::size_type;
 using iterator        = typename AOBasisSet::iterator;
 using const_iterator  = typename AOBasisSet::const_iterator;
 
+static const std::array<std::string, 3> corr_hash{
+    "9dfd7e5ecea7ee74ac094b43f42d4fb7", //Default CTor
+    "aeb9d98f92cc084ae3d8a15e271e4a7e", //One shell
+    "6709f157a9e3bce71d8802ae992661a3" //Two shells
+};
+
+template<size_type hash>
 void check_bs(AOBasisSet& bs, const shell_vector& shells) {
     const AOBasisSet& const_bs = bs;
     SECTION("Check State") {
@@ -36,6 +44,11 @@ void check_bs(AOBasisSet& bs, const shell_vector& shells) {
             ++counter;
         }
     }
+
+    bphash::Hasher h(bphash::HashType::Hash128);
+    h(bs);
+    REQUIRE(bphash::hash_to_string(h.finalize()) == corr_hash[hash]);
+
     if(!bs.nshells()) return; // Done with empty bases
 
     SECTION("Check contiguousness") {
@@ -52,6 +65,7 @@ void check_bs(AOBasisSet& bs, const shell_vector& shells) {
             }
         }
     }
+
 }
 
 TEST_CASE("AOBasisSet class") {
@@ -68,7 +82,7 @@ TEST_CASE("AOBasisSet class") {
 
     SECTION("Default Ctor") {
         AOBasisSet bs;
-        check_bs(bs, shell_vector{});
+        check_bs<0>(bs, shell_vector{});
     }
 
     prim_vector prims{{1.23, 2.34}, {3.45, 4.56}, {5.67, 6.78}, {7.89, 8.90}};
@@ -77,11 +91,11 @@ TEST_CASE("AOBasisSet class") {
     AOShell shell2(carts, prims[2], prims[3], 3);
     AOBasisSet bs(shell1);
 
-    SECTION("One Shell") { check_bs(bs, shell_vector{shell1}); }
+    SECTION("One Shell") { check_bs<1>(bs, shell_vector{shell1}); }
 
     bs.push_back(shell2);
 
-    SECTION("Two Shells") { check_bs(bs, shell_vector{shell1, shell2}); }
+    SECTION("Two Shells") { check_bs<2>(bs, shell_vector{shell1, shell2}); }
 
     // Assignment for AOShells is not allowed at the moment
     //    SECTION("Assignment doesn't mess buffers up") {
@@ -94,30 +108,30 @@ TEST_CASE("AOBasisSet class") {
 
     SECTION("Initializer List") {
         AOBasisSet bs2{shell1, shell2};
-        check_bs(bs2, shell_vector{shell1, shell2});
+        check_bs<2>(bs2, shell_vector{shell1, shell2});
     }
 
     SECTION("Copy Ctor") {
         AOBasisSet bs2(bs);
-        check_bs(bs2, shell_vector{shell1, shell2});
+        check_bs<2>(bs2, shell_vector{shell1, shell2});
     }
 
     SECTION("Move Ctor") {
         AOBasisSet bs2(std::move(bs));
-        check_bs(bs2, shell_vector{shell1, shell2});
+        check_bs<2>(bs2, shell_vector{shell1, shell2});
     }
 
     SECTION("Copy Assignment") {
         AOBasisSet bs2;
         AOBasisSet& pbs = (bs2 = bs);
-        check_bs(bs2, shell_vector{shell1, shell2});
+        check_bs<2>(bs2, shell_vector{shell1, shell2});
         REQUIRE(&pbs == &bs2);
     }
 
     SECTION("Move Assignment") {
         AOBasisSet bs2;
         AOBasisSet& pbs = (bs2 = std::move(bs));
-        check_bs(bs2, shell_vector{shell1, shell2});
+        check_bs<2>(bs2, shell_vector{shell1, shell2});
         REQUIRE(&pbs == &bs2);
     }
 

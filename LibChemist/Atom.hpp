@@ -2,7 +2,7 @@
 #include <array>  // For the coordinates
 #include <memory> // For unique pointer
 #include <string> // For name of atom
-
+#include <bphash/Hasher_fwd.hpp> //For hashing
 namespace LibChemist {
 namespace detail_ {
 class AtomPIMPL;
@@ -178,6 +178,9 @@ public:
     ///@}
 
 private:
+    BPHASH_DECLARE_HASHING_FRIENDS
+    void hash(bphash::Hasher& h)const;
+
     /// Actual implementation of the Atom class
     std::unique_ptr<detail_::AtomPIMPL> pimpl_;
 

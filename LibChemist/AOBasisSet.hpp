@@ -1,5 +1,6 @@
 #pragma once
 #include "LibChemist/AOShell.hpp"
+#include <bphash/Hasher_fwd.hpp>
 #include <vector> //Needed for iterators
 
 namespace LibChemist {
@@ -186,6 +187,9 @@ public:
     ///@}
 
 private:
+    BPHASH_DECLARE_HASHING_FRIENDS
+    void hash(bphash::Hasher& h)const;
+
     /// The object that actually implements the AOBasisSet class
     std::unique_ptr<detail_::ContainerPIMPL<AOBasisSet>> pimpl_;
 };
