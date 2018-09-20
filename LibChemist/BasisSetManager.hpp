@@ -1,5 +1,6 @@
 #pragma once
 #include "LibChemist/AOBasisSet.hpp"
+#include <string>
 
 namespace LibChemist {
 namespace detail_ {
