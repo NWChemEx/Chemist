@@ -21,21 +21,23 @@ static const std::array<std::string, 7> corr_hash{
     "86951e08965a42313aab98b7068dc987", //Default CTor
     "db61ac3b2cae688d81ae946ea6016a50", //Charge
     "81b850fa0174301d1960b5cecf70e6c4", //Mult
-    "565f443c3a945b1f72487e586cd60efd", //1 atom
-    "900b8664f962cb04411e4656b80eb452", //2 atom anion
-    "6647b7fe18c3d239c6dae4a585272786", //D-D molecule
-    "19b45c7a16f7018ba2939d195b7b8deb" //H-D molecule
+    "5beacbdfcc4e09dfbc5c24f2b20e1752", //1 atom
+    "42dbe60b8068e41c05e90c0bdd508c87", //2 atom anion
+    "acf68ef67589dad2d2ab0a0ad6cad8ff", //D-D molecule
+    "c2013e4113832eacd5e7928bf2eb6cc4" //H-D molecule
 };
 
 template<size_t hash>
-void check_state(Molecule& mol, const vector_type& atoms, double charge = 0.0,
-                 size_type mult = 1ul) {
+void check_state(Molecule& mol, const vector_type& atoms, double charge,
+                 size_type mult , size_type nelecs) {
     const Molecule& const_mol = mol;
     REQUIRE(mol.charge() == charge);
     REQUIRE(mol.multiplicity() == mult);
     REQUIRE(const_mol.charge() == charge);
     REQUIRE(const_mol.multiplicity() == mult);
     REQUIRE(mol.size() == atoms.size());
+    REQUIRE(mol.nelectrons() == nelecs);
+    REQUIRE(const_mol.nelectrons() == nelecs);
 
     bphash::Hasher h(bphash::HashType::Hash128);
     h(mol);
@@ -76,11 +78,11 @@ TEST_CASE("Molecule Class") {
 
     SECTION("Default CTor") {
         Molecule mol;
-        check_state<0>(mol, vector_type{});
+        check_state<0>(mol, vector_type{}, 0.0, 1ul, 0ul);
     }
 
-    vector_type atoms{Atom{"H", 1.0079, cart_t{0.0, 0.0, 0.89}},
-                      Atom{"D", 2.0079, cart_t{0.0, 0.0, 0.0}}};
+    vector_type atoms{Atom{"H", 1ul, 1.0079, cart_t{0.0, 0.0, 0.89}},
+                      Atom{"D", 1ul, 2.0079, cart_t{0.0, 0.0, 0.0}}};
 
     using Charge       = Molecule::Charge;
     using Multiplicity = Molecule::Multiplicity;
@@ -88,22 +90,22 @@ TEST_CASE("Molecule Class") {
     SECTION("State CTor") {
         SECTION("Charge") {
             Molecule mol(Charge{2.0});
-            check_state<1>(mol, vector_type{}, 2.0);
+            check_state<1>(mol, vector_type{}, 2.0, 1ul, 0ul - 2ul);
         }
 
         SECTION("Multiplicity") {
             Molecule mol(Multiplicity{3ul});
-            check_state<2>(mol, vector_type{}, 0.0, 3ul);
+            check_state<2>(mol, vector_type{}, 0.0, 3ul, 0ul);
         }
 
         SECTION("An atom") {
             Molecule mol(atoms[0]);
-            check_state<3>(mol, vector_type{atoms[0]});
+            check_state<3>(mol, vector_type{atoms[0]}, 0.0, 1ul, 1ul);
         }
 
         SECTION("H-D molecule anion") {
             Molecule mol(atoms[0], Charge{-1.0}, atoms[1], Multiplicity{2ul});
-            check_state<4>(mol, atoms, -1.0, 2ul);
+            check_state<4>(mol, atoms, -1.0, 2ul, 3ul);
         }
     }
 
@@ -111,32 +113,32 @@ TEST_CASE("Molecule Class") {
 
     SECTION("Assignment doesn't mess buffers up") {
         mol[0] = atoms[1];
-        check_state<5>(mol, vector_type{atoms[1], atoms[1]});
+        check_state<5>(mol, vector_type{atoms[1], atoms[1]}, 0.0, 1ul, 2ul);
     }
 
     SECTION("Copy CTor") {
         Molecule mol2(mol);
-        check_state<6>(mol2, atoms);
+        check_state<6>(mol2, atoms, 0.0, 1ul, 2ul);
         REQUIRE(&mol.at(0).coords()[0] != &mol2.at(0).coords()[0]);
     }
 
     SECTION("Copy Assignment") {
         Molecule mol2;
         auto& pmol = (mol2 = mol);
-        check_state<6>(mol2, atoms);
+        check_state<6>(mol2, atoms, 0.0, 1ul, 2ul);
         REQUIRE(&pmol == &mol2);
         REQUIRE(&mol.at(0).coords()[0] != &mol2.at(0).coords()[0]);
     }
 
     SECTION("Move CTor") {
         Molecule mol2(std::move(mol));
-        check_state<6>(mol2, atoms);
+        check_state<6>(mol2, atoms, 0.0, 1ul, 2ul);
     }
 
     SECTION("Move Assignment") {
         Molecule mol2;
         auto& pmol = (mol2 = std::move(mol));
-        check_state<6>(mol2, atoms);
+        check_state<6>(mol2, atoms, 0.0, 1ul, 2ul);
         REQUIRE(&pmol == &mol2);
     }
 

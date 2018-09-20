@@ -1,5 +1,5 @@
 set(gh_url "https://api.github.com/repos/NWChemEx-Project")
-set(token "1d2e949031a2d3a61b0f288051eed64980c5590c")
+set(token "a869897b4a98f43589ca5af1cc2b599f973b8619")
 nwx_depend(
         NAME Utilities
         VERSION 0.0.0
