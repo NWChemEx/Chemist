@@ -8,6 +8,7 @@ set(
                        PeriodicTable.hpp
                        Implementations/AoSFacade.hpp
 )
+include(Defaults/bases/AddBasis.cmake)
 set(
     LIBCHEMIST_SRCS AOBasisSet.cpp
                     AOShell.cpp
@@ -19,6 +20,7 @@ set(
                     Defaults/NWXBasisSetManagerPIMPL.cpp
                     Defaults/NWXPeriodicTablePIMPL.cpp
                     Defaults/NWXMoleculeManagerPIMPL.cpp
+                    ${LIBCHEMIST_BASIS_SOURCE}
 )
 
 add_nwx_library(
