@@ -307,12 +307,12 @@ inline bool operator!=(const AOShell& lhs, const AOShell& rhs) noexcept {
 
 /**
  * @brief Allows an AOShell to be printed
- *
+ * @relates AOShell
  * @param os The ostream to forward the shell to.
  * @param shell The shell to print.
  * @return @p os containing the textual representation of @p os
  * @throw std::ios_base::failure if anything goes wrong.  Weak throw guarantee.
  */
-std::ostream& operator<<(std::ostream& os, const LibChemist::AOShell& shell);
+std::ostream& operator<<(std::ostream& os, const AOShell& shell);
 
 } // namespace LibChemist
