@@ -260,5 +260,3 @@ inline bool operator!=(const AOBasisSet& lhs,
 std::ostream& operator<<(std::ostream& os, const AOBasisSet& bs);
 
 } // namespace LibChemist
-
-} // namespace LibChemist
