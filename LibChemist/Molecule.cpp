@@ -1,5 +1,6 @@
 #include "LibChemist/Implementations/MolPIMPL.hpp"
 #include "LibChemist/Molecule.hpp"
+#include <SDE/Memoization.hpp>
 #include <iostream> //For std::endl
 
 namespace LibChemist {
@@ -41,7 +42,12 @@ const_iterator Molecule::begin() const noexcept { return pimpl_->begin(); }
 iterator Molecule::end() noexcept { return pimpl_->end(); }
 const_iterator Molecule::end() const noexcept { return pimpl_->end(); }
 
-std::ostream& operator<<(std::ostream& os, const Molecule& mol) {
+void Molecule::hash(bphash::Hasher &h) const {
+    h(charge(), multiplicity());
+    for(const auto& x : *this) h(x);
+}
+
+std::ostream& operator<<(std::ostream& os, const LibChemist::Molecule& mol) {
     for(const auto& ai : mol) os << ai << std::endl;
     return os;
 }

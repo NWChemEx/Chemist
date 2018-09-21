@@ -1,5 +1,6 @@
 #include "LibChemist/AOBasisSet.hpp"
 #include "LibChemist/Implementations/AOBasisSetPIMPL.hpp"
+#include <SDE/Memoization.hpp>
 #include <algorithm> //For max element
 
 namespace LibChemist {
@@ -19,7 +20,7 @@ AOBasisSet::AOBasisSet(std::initializer_list<value_type> il) : AOBasisSet() {
 }
 
 AOBasisSet::AOBasisSet(const AOBasisSet& rhs) : AOBasisSet() {
-    for(size_type i = 0; i < rhs.size(); ++i) push_back(rhs[i]);
+    for(size_type i = 0; i < rhs.nshells(); ++i) push_back(rhs[i]);
 }
 
 AOBasisSet::AOBasisSet(AOBasisSet&& rhs) noexcept :
@@ -40,13 +41,17 @@ void AOBasisSet::push_back(value_type da_shell) {
     return pimpl_->push_back(std::move(da_shell));
 }
 
-size_type AOBasisSet::size() const noexcept { return pimpl_->size(); }
+size_type AOBasisSet::nshells() const noexcept { return pimpl_->size(); }
 reference AOBasisSet::at(std::size_t i) noexcept { return pimpl_->at(i); }
 
 iterator AOBasisSet::begin() noexcept { return pimpl_->begin(); }
 iterator AOBasisSet::end() noexcept { return pimpl_->end(); }
 const_iterator AOBasisSet::begin() const noexcept { return pimpl_->begin(); }
 const_iterator AOBasisSet::end() const noexcept { return pimpl_->end(); }
+
+void AOBasisSet::hash(bphash::Hasher &h) const {
+    for(const auto& shelli : *this) h(shelli);
+}
 
 std::pair<size_type, iterator> max_l(AOBasisSet& bs) noexcept {
     auto itr = std::max_element(

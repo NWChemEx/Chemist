@@ -1,5 +1,6 @@
 #pragma once
 #include "LibChemist/Atom.hpp"
+#include <bphash/Hasher_fwd.hpp>
 #include <vector> //For iterators
 
 namespace LibChemist {
@@ -144,6 +145,11 @@ public:
     const size_type& multiplicity() const noexcept {
         return const_cast<Molecule&>(*this).multiplicity();
     }
+    size_type nelectrons() const noexcept {
+        size_type n = 0;
+        for(const auto& x: *this) n += x.Z();
+        return n - charge();
+    }
     ///@}
 
     /**
@@ -183,6 +189,10 @@ public:
     const_iterator end() const noexcept;
     ///@}
 private:
+    BPHASH_DECLARE_HASHING_FRIENDS
+    void hash(bphash::Hasher& h)const;
+
+
     /// Struct for coloring an atom as seen
     struct ColoredAtom {
         Atom value;
