@@ -1,15 +1,16 @@
-#include "SDE/MoleculeFileParser.hpp"
+#include "LibChemist/MoleculeFileParser.hpp"
 #include <cmath> //For lround
 #include <regex>
+#include <iostream> //debug
 
-namespace SDE {
+namespace LibChemist {
 
 using action_type = MoleculeFileParser::action_type;
 using data_type   = MoleculeFileParser::data_type;
 using return_type = std::map<data_type, std::vector<double>>;
 using Molecule    = LibChemist::Molecule;
-using MProperty   = typename Molecule::property_key;
-using AProperty   = typename LibChemist::Atom::property_key;
+//using MProperty   = typename Molecule::reference;
+//using AProperty   = typename LibChemist::Atom::property_key;
 
 namespace detail_ {
 struct atom {
@@ -18,11 +19,11 @@ struct atom {
 };
 
 void commit_atom(LibChemist::Molecule& rv, atom& a,
-                 const ChemistryRuntime& crt) {
+                 const LibChemist::PeriodicTable& pt) {
     if(a.Z != 0.0) {
-        auto temp   = crt.periodic_table.at(a.Z);
-        temp.coords = a.xyz;
-        rv.atoms.push_back(temp);
+        auto temp   = pt.get_atom(a.Z);
+        temp.coords() = a.xyz;
+        rv.push_back(temp);
     }
     a = atom();
 }
@@ -37,7 +38,7 @@ void parse(const return_type& data, atom& a) {
 } // end namespace detail_
 
 Molecule parse_molecule_file(std::istream& is, const MoleculeFileParser& parser,
-                             const ChemistryRuntime& crt) {
+                             const LibChemist::PeriodicTable& pt) {
     Molecule rv;
     detail_::atom a;
     double charge{0.0};
@@ -50,16 +51,16 @@ Molecule parse_molecule_file(std::istream& is, const MoleculeFileParser& parser,
                 break;
             } // Junk line
             case(action_type::new_atom): {
-                detail_::commit_atom(rv, a, crt);
+                detail_::commit_atom(rv, a, pt);
                 // Intentional fall_through
             }
             case(action_type::same_atom): {
-                auto data = parser.parse(line, crt);
+                auto data = parser.parse(line, pt);
                 detail_::parse(data, a);
                 break;
             }
             default: {
-                auto data = parser.parse(line, crt);
+                auto data = parser.parse(line, pt);
                 if(data.count(data_type::charge))
                     charge = data.at(data_type::charge)[0];
                 if(data.count(data_type::multiplicity))
@@ -68,13 +69,13 @@ Molecule parse_molecule_file(std::istream& is, const MoleculeFileParser& parser,
             }
         }
     }
-    detail_::commit_atom(rv, a, crt);
-    rv.properties[MProperty::multiplicity] = mult;
+    detail_::commit_atom(rv, a, pt);
+    rv.multiplicity() = mult;
+    rv.charge() = charge;
     long nelectrons                        = -1 * std::lround(charge);
     // Can't use nelectrons() because nalpha/nbeta not set yet.
-    for(const auto& ai : rv.atoms)
-        if(LibChemist::is_real_atom(ai)) //"Charge" only refers to electrons
-            nelectrons += std::lround(ai.properties.at(AProperty::charge));
+    for(const auto& ai : rv)
+        nelectrons += ai.Z();
     const long nopen   = std::lround(mult) - 1;
     const long nclosed = nelectrons - nopen;
     if(nclosed % 2) {
@@ -84,8 +85,8 @@ Molecule parse_molecule_file(std::istream& is, const MoleculeFileParser& parser,
                    " system.";
         throw std::domain_error(msg);
     }
-    rv.properties[MProperty::nbeta]  = nclosed / 2;
-    rv.properties[MProperty::nalpha] = nclosed / 2 + nopen;
+    rv.nalpha() = nclosed / 2 + nopen;
+    rv.nbeta() = nclosed / 2;
     return rv;
 }
 
@@ -103,8 +104,9 @@ action_type XYZParser::worth_parsing(const std::string& line) const {
 }
 
 return_type XYZParser::parse(const std::string& line,
-                             const ChemistryRuntime& crt) const {
+                             const LibChemist::PeriodicTable& pt) const {
     return_type rv;
+
     std::stringstream tokenizer(line);
     if(std::regex_search(line, xyz_cm)) {
         double temp;
@@ -115,7 +117,7 @@ return_type XYZParser::parse(const std::string& line,
     } else if(std::regex_search(line, xyz_atom)) {
         std::string sym;
         tokenizer >> sym;
-        double temp = crt.at_sym_2_Z.at(sym);
+        double temp = pt.sym_2_Z(sym);
         rv[data_type::AtNum].push_back(temp);
         tokenizer >> temp;
         rv[data_type::x].push_back(temp);
@@ -124,7 +126,8 @@ return_type XYZParser::parse(const std::string& line,
         tokenizer >> temp;
         rv[data_type::z].push_back(temp);
     }
+
     return rv;
 }
 
-} // namespace SDE
+} // namespace LibChemist

@@ -31,6 +31,8 @@ Molecule::~Molecule() noexcept = default;
 
 double& Molecule::charge() noexcept { return pimpl_->charge(); }
 size_type& Molecule::multiplicity() noexcept { return pimpl_->multiplicity(); }
+size_type& Molecule::nalpha() noexcept { return pimpl_->nalpha(); }
+size_type& Molecule::nbeta() noexcept { return pimpl_->nbeta(); }  
 size_type Molecule::size() const noexcept { return pimpl_->size(); }
 reference Molecule::at(size_type i) noexcept { return pimpl_->at(i); }
 void Molecule::push_back(value_type atom) {

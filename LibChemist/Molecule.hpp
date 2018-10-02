@@ -39,6 +39,16 @@ public:
         size_type value = 1ul;
     };
 
+    /// Wrapper for tagging an input size_type as a count of alpha electrons
+    struct NAlpha {
+        size_type value = 0ul;
+    };
+
+    /// Wrapper for tagging an input size_type as a count of beta electrons
+    struct NBeta {
+        size_type value = 0ul;
+    };  
+
     /**
      * @brief Makes a molecule with no atoms, no charge, and a multiplicity of 1
      *
@@ -102,6 +112,24 @@ public:
     }
 
     template<typename... Args>
+    Molecule(const NAlpha& na, Args&&... args) :
+      Molecule(std::forward<Args>(args)...) {
+        constexpr bool is_na =
+          std::disjunction_v<std::is_same<std::decay_t<Args>, NAlpha>...>;
+        static_assert(!is_na, "Please only pass one NAlpha");
+        nalpha() = na.value;
+    }
+
+      template<typename... Args>
+    Molecule(const NBeta& nb, Args&&... args) :
+      Molecule(std::forward<Args>(args)...) {
+        constexpr bool is_nb =
+          std::disjunction_v<std::is_same<std::decay_t<Args>, NBeta>...>;
+        static_assert(!is_nb, "Please only pass one NBeta");
+        nbeta() = nb.value;
+    }
+
+    template<typename... Args>
     Molecule(const Atom& a, Args&&... args) :
       Molecule(std::forward<Args>(args)..., ColoredAtom{a}) {}
     ///@}
@@ -145,10 +173,18 @@ public:
     const size_type& multiplicity() const noexcept {
         return const_cast<Molecule&>(*this).multiplicity();
     }
+    size_type& nalpha() noexcept;
+    const size_type& nalpha() const noexcept {
+        return const_cast<Molecule&>(*this).nalpha();
+    }    
+    size_type& nbeta() noexcept;
+    const size_type& nbeta() const noexcept {
+        return const_cast<Molecule&>(*this).nbeta();
+    }
     size_type nelectrons() const noexcept {
-        size_type n = 0;
-        for(const auto& x: *this) n += x.Z();
-        return n - charge();
+      size_type n = 0;
+      for(const auto& x: *this) n += x.Z();
+      return n - charge();
     }
     ///@}
 

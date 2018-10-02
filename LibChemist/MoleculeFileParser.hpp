@@ -1,5 +1,6 @@
 #pragma once
-#include "SDE/ChemistryRuntime.hpp"
+#include "LibChemist/PeriodicTable.hpp"
+#include "LibChemist/Molecule.hpp"
 #include <istream>
 #include <map>
 #include <string>
@@ -37,7 +38,7 @@
  * - SpaceGroup: which space group the unit cell belongs to.
  */
 
-namespace SDE {
+namespace LibChemist {
 
 /** @brief This class abstracts away the layout of a string representation of a
  *  Molecule.
@@ -50,7 +51,7 @@ struct MoleculeFileParser {
     enum class data_type { AtNum, x, y, z, charge, multiplicity };
     virtual action_type worth_parsing(const std::string& line) const = 0;
     virtual std::map<data_type, std::vector<double>> parse(
-      const std::string& line, const ChemistryRuntime& crt) const = 0;
+      const std::string& line, const LibChemist::PeriodicTable& pt) const = 0;
 };
 
 /** @brief This class implements a MoleculeParser for the xyz format.
@@ -59,7 +60,9 @@ struct MoleculeFileParser {
 struct XYZParser : public MoleculeFileParser {
     action_type worth_parsing(const std::string& line) const override;
     std::map<data_type, std::vector<double>> parse(
-      const std::string& line, const ChemistryRuntime& crt) const override;
+      const std::string& line, const LibChemist::PeriodicTable& pt) const override;
+//    XYZParser();
+//    ~XYZParser();
 };
 
 /**
@@ -77,8 +80,8 @@ struct XYZParser : public MoleculeFileParser {
  * molecule. Weak throw guarantee for @p is and strong throw for all other
  * parameters.
  */
-LibChemist::Molecule parse_molecule_file(std::istream& is,
+Molecule parse_molecule_file(std::istream& is,
                                          const MoleculeFileParser& parser,
-                                         const ChemistryRuntime& crt);
+                                         const LibChemist::PeriodicTable& pt);
 
-} // namespace SDE
+} // namespace LibChemist
