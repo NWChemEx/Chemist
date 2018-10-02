@@ -9,8 +9,6 @@ using action_type = MoleculeFileParser::action_type;
 using data_type   = MoleculeFileParser::data_type;
 using return_type = std::map<data_type, std::vector<double>>;
 using Molecule    = LibChemist::Molecule;
-//using MProperty   = typename Molecule::reference;
-//using AProperty   = typename LibChemist::Atom::property_key;
 
 namespace detail_ {
 struct atom {
