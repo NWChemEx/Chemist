@@ -61,8 +61,6 @@ struct XYZParser : public MoleculeFileParser {
     action_type worth_parsing(const std::string& line) const override;
     std::map<data_type, std::vector<double>> parse(
       const std::string& line, const LibChemist::PeriodicTable& pt) const override;
-//    XYZParser();
-//    ~XYZParser();
 };
 
 /**
@@ -71,7 +69,7 @@ struct XYZParser : public MoleculeFileParser {
  * @param[in] is An input stream containing a string representation of a
  *               Molecule instance in a format the parser understands.
  * @param[in] parser The parser to be used to parse the input stream.
- * @param[in] crt The definition of the chemistry runtime we're using
+ * @param[in] pt The definition of the PeriodicTable instance we're using
  * @returns The Molecule instance represented in the input stream.
  * @throws std::domain_error if the charge and multiplicity of the molecule is
  * in consistent.  Weak throw guarantee for @p is and strong throw for all other

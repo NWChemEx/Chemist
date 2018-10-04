@@ -49,6 +49,7 @@ void Molecule::hash(bphash::Hasher &h) const {
     for(const auto& x : *this) h(x);
 }
 
+
 std::ostream& operator<<(std::ostream& os, const LibChemist::Molecule& mol) {
     for(const auto& ai : mol) os << ai << std::endl;
     return os;
