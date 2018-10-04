@@ -11,13 +11,13 @@ public:
     double& charge() noexcept { return charge_(); }
     size_type& multiplicity() noexcept { return multiplicity_(); }
     size_type& nalpha() noexcept { return nalpha_(); }
-    size_type& nbeta() noexcept { return nbeta_(); }  
+    size_type& nbeta() noexcept { return nbeta_(); }
     ///@}
 private:
     virtual double& charge_() noexcept          = 0;
     virtual size_type& multiplicity_() noexcept = 0;
-    virtual size_type& nalpha_() noexcept = 0;
-    virtual size_type& nbeta_() noexcept = 0;  
+    virtual size_type& nalpha_() noexcept       = 0;
+    virtual size_type& nbeta_() noexcept        = 0;
 };
 
 class ContiguousMol : public MolPIMPL {
@@ -26,10 +26,10 @@ private:
 
     AoSFacade<AoS_t> impl_;
     std::vector<value_type> atoms_;
-    double my_charge_  = 0.0;
-    size_type my_mult_ = 1ul;
+    double my_charge_    = 0.0;
+    size_type my_mult_   = 1ul;
     size_type my_nalpha_ = 0ul;
-    size_type my_nbeta_ = 0ul;
+    size_type my_nbeta_  = 0ul;
 
     std::unique_ptr<ContainerPIMPL<Molecule>> clone_() const override {
         return std::make_unique<ContiguousMol>(*this);
@@ -53,7 +53,7 @@ private:
     double& charge_() noexcept override { return my_charge_; }
     size_type& multiplicity_() noexcept override { return my_mult_; }
     size_type& nalpha_() noexcept override { return my_nalpha_; }
-    size_type& nbeta_() noexcept override { return my_nbeta_; }  
+    size_type& nbeta_() noexcept override { return my_nbeta_; }
 };
 
 } // namespace LibChemist::detail_

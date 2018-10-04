@@ -1,8 +1,8 @@
 #pragma once
-#include "LibChemist/Molecule.hpp"
 #include "LibChemist/AOBasisSet.hpp"
-#include <SDE/Module.hpp>
+#include "LibChemist/Molecule.hpp"
 #include <SDE/Memoization.hpp>
+#include <SDE/Module.hpp>
 #include <Utilities/Containers/CaseInsensitiveMap.hpp>
 #include <tamm/tamm.hpp>
 
@@ -24,7 +24,7 @@ namespace LibChemist {
  *
  * @tparam element_type
  */
- template<typename element_type=double>
+template<typename element_type = double>
 struct OrbitalSpace {
     using tensor_type = tamm::Tensor<element_type>;
     using basis_type  = AOBasisSet;
@@ -57,7 +57,7 @@ struct OrbitalSpace {
  * @tparam element_type The type of the element in the tensor
  */
 template<std::size_t NBases, typename element_type = double>
-struct AOIntegral : SDE:: ModuleBase {
+struct AOIntegral : SDE::ModuleBase {
     using tensor_type      = tamm::Tensor<element_type>;
     using molecule_type    = Molecule;
     using basis_set_type   = AOBasisSet;
@@ -74,7 +74,7 @@ struct AOIntegral : SDE:: ModuleBase {
  * basis set.
  *
  */
- template<typename element_type=double>
+template<typename element_type = double>
 struct CoreHamiltonian : SDE::ModuleBase {
     using tensor_type    = tamm::Tensor<element_type>;
     using molecule_type  = Molecule;
@@ -94,7 +94,7 @@ struct CoreHamiltonian : SDE::ModuleBase {
  * series of densities.
  *
  */
- template<typename element_type=double>
+template<typename element_type = double>
 struct JKMatrices : SDE::ModuleBase {
     using tensor_type    = tamm::Tensor<element_type>;
     using molecule_type  = Molecule;
@@ -136,4 +136,4 @@ struct Energy : SDE::ModuleBase {
     virtual tensor_type run(const molecule_type& mol, size_type deriv) = 0;
 };
 
-} // namespace SDE
+} // namespace LibChemist

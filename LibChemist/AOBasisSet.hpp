@@ -188,7 +188,7 @@ public:
 
 private:
     BPHASH_DECLARE_HASHING_FRIENDS
-    void hash(bphash::Hasher& h)const;
+    void hash(bphash::Hasher& h) const;
 
     /// The object that actually implements the AOBasisSet class
     std::unique_ptr<detail_::ContainerPIMPL<AOBasisSet>> pimpl_;
@@ -219,7 +219,6 @@ std::pair<typename AOBasisSet::size_type, typename AOBasisSet::iterator> max_l(
 std::pair<typename AOBasisSet::size_type, typename AOBasisSet::const_iterator>
 max_l(const AOBasisSet& bs) noexcept;
 
-
 /**
  * @defgroup AOBasisSet comparison operators
  * @relates AOBasisSet
@@ -242,8 +241,7 @@ inline bool operator==(const LibChemist::AOBasisSet& lhs,
     return true;
 }
 
-inline bool operator!=(const AOBasisSet& lhs,
-                       const AOBasisSet& rhs) noexcept {
+inline bool operator!=(const AOBasisSet& lhs, const AOBasisSet& rhs) noexcept {
     return !(lhs == rhs);
 }
 ///@}

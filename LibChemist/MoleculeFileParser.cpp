@@ -1,7 +1,7 @@
 #include "LibChemist/MoleculeFileParser.hpp"
-#include <cmath> //For lround
-#include <regex>
+#include <cmath>    //For lround
 #include <iostream> //debug
+#include <regex>
 
 namespace LibChemist {
 
@@ -19,7 +19,7 @@ struct atom {
 void commit_atom(LibChemist::Molecule& rv, atom& a,
                  const LibChemist::PeriodicTable& pt) {
     if(a.Z != 0.0) {
-        auto temp   = pt.get_atom(a.Z);
+        auto temp     = pt.get_atom(a.Z);
         temp.coords() = a.xyz;
         rv.push_back(temp);
     }
@@ -69,11 +69,10 @@ Molecule parse_molecule_file(std::istream& is, const MoleculeFileParser& parser,
     }
     detail_::commit_atom(rv, a, pt);
     rv.multiplicity() = mult;
-    rv.charge() = charge;
-    long nelectrons                        = -1 * std::lround(charge);
+    rv.charge()       = charge;
+    long nelectrons   = -1 * std::lround(charge);
     // Can't use nelectrons() because nalpha/nbeta not set yet.
-    for(const auto& ai : rv)
-        nelectrons += ai.Z();
+    for(const auto& ai : rv) nelectrons += ai.Z();
     const long nopen   = std::lround(mult) - 1;
     const long nclosed = nelectrons - nopen;
     if(nclosed % 2) {
@@ -84,7 +83,7 @@ Molecule parse_molecule_file(std::istream& is, const MoleculeFileParser& parser,
         throw std::domain_error(msg);
     }
     rv.nalpha() = nclosed / 2 + nopen;
-    rv.nbeta() = nclosed / 2;
+    rv.nbeta()  = nclosed / 2;
     return rv;
 }
 

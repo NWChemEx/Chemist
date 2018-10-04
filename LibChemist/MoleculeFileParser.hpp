@@ -1,6 +1,6 @@
 #pragma once
-#include "LibChemist/PeriodicTable.hpp"
 #include "LibChemist/Molecule.hpp"
+#include "LibChemist/PeriodicTable.hpp"
 #include <istream>
 #include <map>
 #include <string>
@@ -60,7 +60,8 @@ struct MoleculeFileParser {
 struct XYZParser : public MoleculeFileParser {
     action_type worth_parsing(const std::string& line) const override;
     std::map<data_type, std::vector<double>> parse(
-      const std::string& line, const LibChemist::PeriodicTable& pt) const override;
+      const std::string& line,
+      const LibChemist::PeriodicTable& pt) const override;
 };
 
 /**
@@ -78,8 +79,7 @@ struct XYZParser : public MoleculeFileParser {
  * molecule. Weak throw guarantee for @p is and strong throw for all other
  * parameters.
  */
-Molecule parse_molecule_file(std::istream& is,
-                                         const MoleculeFileParser& parser,
-                                         const LibChemist::PeriodicTable& pt);
+Molecule parse_molecule_file(std::istream& is, const MoleculeFileParser& parser,
+                             const LibChemist::PeriodicTable& pt);
 
 } // namespace LibChemist

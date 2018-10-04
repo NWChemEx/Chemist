@@ -1,7 +1,7 @@
 #include "LibChemist/AOShell.hpp"
 #include "LibChemist/Implementations/AOShellPIMPL.hpp"
-#include <Utilities/Mathematician/Combinatorics.hpp> //For binomial coefficient
 #include <SDE/Memoization.hpp>                       //For hashing
+#include <Utilities/Mathematician/Combinatorics.hpp> //For binomial coefficient
 #include <iomanip>                                   //for setprecision
 #include <iostream>                                  //For endl
 
@@ -62,11 +62,9 @@ double& AOShell::alpha(size_type i) noexcept { return pimpl_->alpha(i); }
 
 void AOShell::add_prim_(double alpha, double c) { pimpl_->add_prim(alpha, c); }
 
-
 void AOShell::hash(bphash::Hasher& h) const {
     h(pure(), center(), l());
-    for(size_type i = 0; i < nprims(); ++i)
-        h(coef(i), alpha(i));
+    for(size_type i = 0; i < nprims(); ++i) h(coef(i), alpha(i));
 }
 
 bool operator==(const AOShell& lhs, const AOShell& rhs) noexcept {
@@ -91,5 +89,3 @@ std::ostream& operator<<(std::ostream& os, const LibChemist::AOShell& shell) {
 }
 
 } // End namespace LibChemist
-
-

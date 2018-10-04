@@ -47,7 +47,7 @@ public:
     /// Wrapper for tagging an input size_type as a count of beta electrons
     struct NBeta {
         size_type value = 0ul;
-    };  
+    };
 
     /**
      * @brief Makes a molecule with no atoms, no charge, and a multiplicity of 1
@@ -120,7 +120,7 @@ public:
         nalpha() = na.value;
     }
 
-      template<typename... Args>
+    template<typename... Args>
     Molecule(const NBeta& nb, Args&&... args) :
       Molecule(std::forward<Args>(args)...) {
         constexpr bool is_nb =
@@ -176,15 +176,15 @@ public:
     size_type& nalpha() noexcept;
     const size_type& nalpha() const noexcept {
         return const_cast<Molecule&>(*this).nalpha();
-    }    
+    }
     size_type& nbeta() noexcept;
     const size_type& nbeta() const noexcept {
         return const_cast<Molecule&>(*this).nbeta();
     }
     size_type nelectrons() const noexcept {
-      size_type n = 0;
-      for(const auto& x: *this) n += x.Z();
-      return n - charge();
+        size_type n = 0;
+        for(const auto& x : *this) n += x.Z();
+        return n - charge();
     }
     ///@}
 
@@ -226,8 +226,7 @@ public:
     ///@}
 private:
     BPHASH_DECLARE_HASHING_FRIENDS
-    void hash(bphash::Hasher& h)const;
-
+    void hash(bphash::Hasher& h) const;
 
     /// Struct for coloring an atom as seen
     struct ColoredAtom {
