@@ -11,13 +11,12 @@ using size_type   = typename AOShell::size_type;
 using coord_type  = typename AOShell::coord_type;
 using prim_vector = std::vector<AOPrimitive>;
 
-
 static const std::array<std::string, 5> corr_hash{
-    "07568bebb521894716a179b33a93be32", //Default ctor
-    "76c640ac3558a9fc695d2102a8838155", //Two prims, pure S
-    "75df537dfdddf20a4c26cf3111f5a2ca", //Two prims, pure D
-    "8da4da0c217db7309e56e3885b03890c", //Two prims, cart F
-    "f56c4ac02856a8b70cee1a77ee351f08", //Two prims, pure S, and center
+  "07568bebb521894716a179b33a93be32", // Default ctor
+  "76c640ac3558a9fc695d2102a8838155", // Two prims, pure S
+  "75df537dfdddf20a4c26cf3111f5a2ca", // Two prims, pure D
+  "8da4da0c217db7309e56e3885b03890c", // Two prims, cart F
+  "f56c4ac02856a8b70cee1a77ee351f08", // Two prims, pure S, and center
 };
 
 template<size_t hash>

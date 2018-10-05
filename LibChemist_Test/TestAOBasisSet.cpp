@@ -1,7 +1,7 @@
 #include <LibChemist/AOBasisSet.hpp>
+#include <bphash/Hasher.hpp>
 #include <catch/catch.hpp>
 #include <sstream>
-#include <bphash/Hasher.hpp>
 
 using namespace LibChemist;
 
@@ -17,9 +17,9 @@ using iterator        = typename AOBasisSet::iterator;
 using const_iterator  = typename AOBasisSet::const_iterator;
 
 static const std::array<std::string, 3> corr_hash{
-    "9dfd7e5ecea7ee74ac094b43f42d4fb7", //Default CTor
-    "aeb9d98f92cc084ae3d8a15e271e4a7e", //One shell
-    "6709f157a9e3bce71d8802ae992661a3" //Two shells
+  "9dfd7e5ecea7ee74ac094b43f42d4fb7", // Default CTor
+  "aeb9d98f92cc084ae3d8a15e271e4a7e", // One shell
+  "6709f157a9e3bce71d8802ae992661a3"  // Two shells
 };
 
 template<size_type hash>
@@ -65,7 +65,6 @@ void check_bs(AOBasisSet& bs, const shell_vector& shells) {
             }
         }
     }
-
 }
 
 TEST_CASE("AOBasisSet class") {

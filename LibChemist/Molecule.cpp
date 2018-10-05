@@ -35,18 +35,18 @@ size_type Molecule::size() const noexcept { return pimpl_->size(); }
 
 size_type Molecule::nelectrons() const noexcept {
     size_type n = 0;
-    for(const auto& atom: *this) n += atom.Z();
+    for(const auto& atom : *this) n += atom.Z();
     return n - std::lround(charge());
 }
 size_type Molecule::nalpha() const noexcept {
-const size_type nopen = multiplicity() - 1;
-const size_type nclosed = nelectrons() - nopen;
-return nclosed/2 + nopen;
+    const size_type nopen   = multiplicity() - 1;
+    const size_type nclosed = nelectrons() - nopen;
+    return nclosed / 2 + nopen;
 }
 size_type Molecule::nbeta() const noexcept {
-    const size_type nopen = multiplicity() - 1;
+    const size_type nopen   = multiplicity() - 1;
     const size_type nclosed = nelectrons() - nopen;
-    return nclosed/2;
+    return nclosed / 2;
 }
 
 reference Molecule::at(size_type i) noexcept { return pimpl_->at(i); }
@@ -70,14 +70,12 @@ std::ostream& operator<<(std::ostream& os, const LibChemist::Molecule& mol) {
 }
 
 bool operator==(const Molecule& lhs, const Molecule& rhs) noexcept {
-    //Check for equivalent sizes before iterating through all atoms
+    // Check for equivalent sizes before iterating through all atoms
     if(lhs.size() != rhs.size()) return false;
 
     return (std::tie(lhs.charge(), lhs.multiplicity()) ==
-           std::tie(rhs.charge(), rhs.multiplicity()))
-           &&
+            std::tie(rhs.charge(), rhs.multiplicity())) &&
            std::equal(lhs.begin(), lhs.end(), rhs.begin());
-    }
-
+}
 
 } // namespace LibChemist

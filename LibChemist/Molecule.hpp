@@ -130,9 +130,11 @@ public:
     size_type size() const noexcept;
 
     /**
-     * @brief Used to determine the number of electrons/alpha orbitals/beta orbitals within the molecule.
+     * @brief Used to determine the number of electrons/alpha orbitals/beta
+     * orbitals within the molecule.
      *
-     * @return The value of the number of electrons/alpha orbitals/beta orbitals within the molecule.
+     * @return The value of the number of electrons/alpha orbitals/beta orbitals
+     * within the molecule.
      *
      * @throw None. No throw guarantee.
      */
@@ -237,13 +239,14 @@ std::ostream& operator<<(std::ostream& os, const Molecule& mol);
  * @brief Allows one to compare two molecule instances for exact equality.
  *
  * Two molecule instances are defined as equal if they have the same charge,
- * multiplicity, and atoms (w.r.t. atomic number, atomic mass, atomic coordinates,
- * and index within the atom-holding container).
- * *N.B* that floating-point comparisons are bit-wise with zero tolerance for
- * deviation, *i.e.*, 1.99999999999999 != 2.00000000000000
+ * multiplicity, and atoms (w.r.t. atomic number, atomic mass, atomic
+ * coordinates, and index within the atom-holding container). *N.B* that
+ * floating-point comparisons are bit-wise with zero tolerance for deviation,
+ * *i.e.*, 1.99999999999999 != 2.00000000000000
  *
  * @param[in] lhs The Molecule instance on the left of the equivalence operation
- * @param[in] rhs The Molecule instance on the right of the equivalence operation
+ * @param[in] rhs The Molecule instance on the right of the equivalence
+ * operation
  * @return Whether the two molecules obey the requested equivalence relation.
  *
  * @throw none all comparisons are no throw guarantee.

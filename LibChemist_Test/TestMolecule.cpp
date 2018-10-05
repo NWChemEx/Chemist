@@ -18,18 +18,18 @@ using cart_t      = std::array<double, 3>;
 using vector_type = std::vector<value_type>;
 
 static const std::array<std::string, 7> corr_hash{
-    "86951e08965a42313aab98b7068dc987", //Default CTor
-    "db61ac3b2cae688d81ae946ea6016a50", //Charge
-    "81b850fa0174301d1960b5cecf70e6c4", //Mult
-    "5beacbdfcc4e09dfbc5c24f2b20e1752", //1 atom
-    "42dbe60b8068e41c05e90c0bdd508c87", //2 atom anion
-    "acf68ef67589dad2d2ab0a0ad6cad8ff", //D-D molecule
-    "c2013e4113832eacd5e7928bf2eb6cc4" //H-D molecule
+  "86951e08965a42313aab98b7068dc987", // Default CTor
+  "db61ac3b2cae688d81ae946ea6016a50", // Charge
+  "81b850fa0174301d1960b5cecf70e6c4", // Mult
+  "5beacbdfcc4e09dfbc5c24f2b20e1752", // 1 atom
+  "42dbe60b8068e41c05e90c0bdd508c87", // 2 atom anion
+  "acf68ef67589dad2d2ab0a0ad6cad8ff", // D-D molecule
+  "c2013e4113832eacd5e7928bf2eb6cc4"  // H-D molecule
 };
 
 template<size_t hash>
 void check_state(Molecule& mol, const vector_type& atoms, double charge,
-                 size_type mult , size_type nelecs) {
+                 size_type mult, size_type nelecs) {
     const Molecule& const_mol = mol;
     REQUIRE(mol.charge() == charge);
     REQUIRE(mol.multiplicity() == mult);

@@ -11,15 +11,15 @@ using coord_type = typename Atom::coord_type;
 using mass_type  = typename Atom::mass_type;
 using name_type  = typename Atom::name_type;
 
-static const std::array<std::string, 8> corr_hashes {
-    "740775feafb30da90b4f29fd28803456", //Default ctor
-    "bfd80fabafbe1b9784d23174454e6b6f", //Just mass
-    "22572dd5fe879725262f861264c5705f", //Just carts
-    "727645de2864eac9887bdc0a80307e72", //Just Z
-    "8ac2d9a57da49e61a7d0dc388d600d93", //Just name
-    "6a61cb2d39e9762d1c95d9db9c20d5d8", //Z and carts
-    "d7e03da0b70f706330d00f3919766a41", //Z, carts, and mass
-    "6d570f4a88fe71770a4e75868c7d89bc", //Z, carts, mass, and name
+static const std::array<std::string, 8> corr_hashes{
+  "740775feafb30da90b4f29fd28803456", // Default ctor
+  "bfd80fabafbe1b9784d23174454e6b6f", // Just mass
+  "22572dd5fe879725262f861264c5705f", // Just carts
+  "727645de2864eac9887bdc0a80307e72", // Just Z
+  "8ac2d9a57da49e61a7d0dc388d600d93", // Just name
+  "6a61cb2d39e9762d1c95d9db9c20d5d8", // Z and carts
+  "d7e03da0b70f706330d00f3919766a41", // Z, carts, and mass
+  "6d570f4a88fe71770a4e75868c7d89bc", // Z, carts, mass, and name
 };
 
 template<size_t hash>
@@ -46,7 +46,6 @@ void check_atom(Atom& ai, const coord_type& coords, size_type Z, mass_type m,
 
     REQUIRE(ai.mass() == m);
     REQUIRE(const_ai.mass() == m);
-
 
     SDE::Hasher h(SDE::HashType::Hash128);
     h(ai);

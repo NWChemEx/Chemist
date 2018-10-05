@@ -22,8 +22,8 @@ private:
 
     AoSFacade<AoS_t> impl_;
     std::vector<value_type> atoms_;
-    double my_charge_    = 0.0;
-    size_type my_mult_   = 1ul;
+    double my_charge_  = 0.0;
+    size_type my_mult_ = 1ul;
 
     std::unique_ptr<ContainerPIMPL<Molecule>> clone_() const override {
         return std::make_unique<ContiguousMol>(*this);
