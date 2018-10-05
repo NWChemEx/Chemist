@@ -40,12 +40,10 @@ TEST_CASE("Normal XYZ") {
     Atom O{"O", 8ul, c_t{0.000000000000000, 0.000000000000000, 0.000000000000000}, m_t{29165.122045980286}};
     Atom H2{"H", 1ul, c_t{0.000000000000000, 1.579252144093028, -2.174611055780858}, m_t{1837.4260218693814}};
     Molecule ref_h2o(H, O, H2);
-    ref_h2o.nalpha()       = 5.0;
-    ref_h2o.nbeta()        = 5.0;
     ref_h2o.multiplicity() = 1.0;
     std::stringstream ss3(h2o_example);
     Molecule h2o = parse_molecule_file(ss3, XYZParser(), PeriodicTable());
-    check_equality(ref_h2o, h2o);
+    REQUIRE(ref_h2o==h2o);
 }
 
 TEST_CASE("Harder XYZ parsing") {
@@ -63,7 +61,7 @@ TEST_CASE("Harder XYZ parsing") {
 
     std::stringstream ss(xyz_example);
     Molecule mol = parse_molecule_file(ss, XYZParser(), pt);
-    check_equality(ref_mol, mol);
+    REQUIRE(ref_mol==mol);
 }
 
 TEST_CASE("Hardest XYZ parsing") {
@@ -81,6 +79,6 @@ TEST_CASE("Hardest XYZ parsing") {
 
     std::stringstream ss(xyz_example);
     Molecule mol = parse_molecule_file(ss, XYZParser(), pt);
-    check_equality(ref_mol, mol);
+    REQUIRE(ref_mol==mol);
 }
 

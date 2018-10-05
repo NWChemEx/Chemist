@@ -71,7 +71,6 @@ Molecule parse_molecule_file(std::istream& is, const MoleculeFileParser& parser,
     rv.multiplicity() = mult;
     rv.charge()       = charge;
     long nelectrons   = -1 * std::lround(charge);
-    // Can't use nelectrons() because nalpha/nbeta not set yet.
     for(const auto& ai : rv) nelectrons += ai.Z();
     const long nopen   = std::lround(mult) - 1;
     const long nclosed = nelectrons - nopen;
@@ -82,8 +81,6 @@ Molecule parse_molecule_file(std::istream& is, const MoleculeFileParser& parser,
                    " system.";
         throw std::domain_error(msg);
     }
-    rv.nalpha() = nclosed / 2 + nopen;
-    rv.nbeta()  = nclosed / 2;
     return rv;
 }
 

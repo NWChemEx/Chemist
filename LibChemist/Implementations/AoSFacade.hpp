@@ -204,7 +204,7 @@ public:
     ///@{
     template<size_type FieldI>
     reference<FieldI> at(size_type i = 0) noexcept {
-        std::get<FieldI>(buffer_)->operator[](std::get<FieldI>(me_) + i);
+        return std::get<FieldI>(buffer_)->operator[](std::get<FieldI>(me_) + i);
     }
 
     template<size_type FieldI>
