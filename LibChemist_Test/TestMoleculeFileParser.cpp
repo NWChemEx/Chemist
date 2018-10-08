@@ -4,18 +4,6 @@
 
 using namespace LibChemist;
 
-void check_equality(Molecule& lhs, Molecule& rhs) {
-    REQUIRE(lhs.charge() == rhs.charge());
-    REQUIRE(lhs.multiplicity() == rhs.multiplicity());
-    REQUIRE(lhs.size() == rhs.size());
-    for(auto i = 0; i < lhs.size(); ++i) {
-        REQUIRE(lhs.at(i).Z() == rhs.at(i).Z());
-        REQUIRE(lhs.at(i).mass() == rhs.at(i).mass());
-        REQUIRE(lhs.at(i).coords() == rhs.at(i).coords());
-        REQUIRE(lhs.at(i).name() == rhs.at(i).name());
-    }
-}
-
 using c_t = typename Atom::coord_type;
 using m_t = typename Atom::mass_type;
 
