@@ -44,9 +44,9 @@ namespace LibChemist {
  *  Molecule.
  *
  *  This is the base class for all classes specifying the layout of a
- *  Molecule file.
+ *  Molecule stream.
  */
-struct MoleculeFileParser {
+struct MoleculeStreamParser {
     enum class action_type { none, new_atom, same_atom, overall_system };
     enum class data_type { AtNum, x, y, z, charge, multiplicity };
     virtual action_type worth_parsing(const std::string& line) const = 0;
@@ -57,7 +57,7 @@ struct MoleculeFileParser {
 /** @brief This class implements a MoleculeParser for the xyz format.
  *
  */
-struct XYZParser : public MoleculeFileParser {
+struct XYZParser : public MoleculeStreamParser {
     action_type worth_parsing(const std::string& line) const override;
     std::map<data_type, std::vector<double>> parse(
       const std::string& line,
@@ -65,7 +65,7 @@ struct XYZParser : public MoleculeFileParser {
 };
 
 /**
- * @brief The function to call to parse a MoleculeFile.
+ * @brief The function to call to parse a MoleculeStream.
  *
  * @param[in] is An input stream containing a string representation of a
  *               Molecule instance in a format the parser understands.
@@ -79,7 +79,7 @@ struct XYZParser : public MoleculeFileParser {
  * molecule. Weak throw guarantee for @p is and strong throw for all other
  * parameters.
  */
-Molecule parse_molecule_file(std::istream& is, const MoleculeFileParser& parser,
+Molecule parse_molecule_stream(std::istream& is, const MoleculeStreamParser& parser,
                              const LibChemist::PeriodicTable& pt);
 
 } // namespace LibChemist

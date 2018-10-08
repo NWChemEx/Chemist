@@ -1,4 +1,4 @@
-#include <LibChemist/MoleculeFileParser.hpp>
+#include <LibChemist/MoleculeStreamParser.hpp>
 #include <catch/catch.hpp>
 #include <sstream>
 
@@ -29,7 +29,7 @@ TEST_CASE("Normal XYZ") {
     Molecule ref_h2o(H, O, H2);
     ref_h2o.multiplicity() = 1.0;
     std::stringstream ss3(h2o_example);
-    Molecule h2o = parse_molecule_file(ss3, XYZParser(), PeriodicTable());
+    Molecule h2o = parse_molecule_stream(ss3, XYZParser(), PeriodicTable());
     REQUIRE(ref_h2o == h2o);
 }
 
@@ -47,7 +47,7 @@ TEST_CASE("Harder XYZ parsing") {
     ref_mol.multiplicity() = 3.0;
 
     std::stringstream ss(xyz_example);
-    Molecule mol = parse_molecule_file(ss, XYZParser(), pt);
+    Molecule mol = parse_molecule_stream(ss, XYZParser(), pt);
     REQUIRE(ref_mol == mol);
 }
 
@@ -66,6 +66,6 @@ TEST_CASE("Hardest XYZ parsing") {
     ref_mol.multiplicity() = 3.0;
 
     std::stringstream ss(xyz_example);
-    Molecule mol = parse_molecule_file(ss, XYZParser(), pt);
+    Molecule mol = parse_molecule_stream(ss, XYZParser(), pt);
     REQUIRE(ref_mol == mol);
 }

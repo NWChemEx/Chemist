@@ -1,12 +1,12 @@
-#include "LibChemist/MoleculeFileParser.hpp"
+#include "LibChemist/MoleculeStreamParser.hpp"
 #include <cmath>    //For lround
 #include <iostream> //debug
 #include <regex>
 
 namespace LibChemist {
 
-using action_type = MoleculeFileParser::action_type;
-using data_type   = MoleculeFileParser::data_type;
+using action_type = MoleculeStreamParser::action_type;
+using data_type   = MoleculeStreamParser::data_type;
 using return_type = std::map<data_type, std::vector<double>>;
 using Molecule    = LibChemist::Molecule;
 
@@ -35,7 +35,7 @@ void parse(const return_type& data, atom& a) {
 
 } // end namespace detail_
 
-Molecule parse_molecule_file(std::istream& is, const MoleculeFileParser& parser,
+Molecule parse_molecule_stream(std::istream& is, const MoleculeStreamParser& parser,
                              const LibChemist::PeriodicTable& pt) {
     Molecule rv;
     detail_::atom a;

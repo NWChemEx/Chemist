@@ -6,7 +6,7 @@ set(
                      TestAtom.cpp
                      TestLibChemist.cpp
                      TestMolecule.cpp
-		     TestMoleculeFileParser.cpp
+		     TestMoleculeStreamParser.cpp
                      TestPeriodicTable.cpp
 )
 
