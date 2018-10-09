@@ -31,10 +31,16 @@ class Molecule:
         for i, ai in enumerate(self.atoms):
             f.write(
 """{}Atom{{mass_t(ptable_.get_atom({}).mass()), {}ul,
-{}cart_t{{ """.format(tab2, ai, ai, tab2 + "     "))
-            for j in range(2):
-                f.write("{}, ".format(self.carts[i*3 + j]))
-            f.write("\n{}{}".format(tab2+tab+' ', self.carts[i*3+2]))    
+{}cart_t{{""".format(tab2, ai, ai, tab2 + "     "))
+            line = "{}cart_t{{".format(tab2 + "     ")
+            line+="{}, {},".format(self.carts[i*3], self.carts[i*3+1])
+            line +=" {}}},".format(self.carts[i*3+2])            
+            f.write("{}, {},".format(self.carts[i*3], self.carts[i*3+1]))
+            #Write third coordinate on newline to stay under 80 character column limit
+            if(len(line)>80):
+                f.write("\n{}{}".format(tab2+tab, self.carts[i*3+2]))
+            else:
+                f.write(" {}".format(self.carts[i*3+2]))
             f.write("}}")
             if i != len(self.atoms) -1:
                 f.write(",")
