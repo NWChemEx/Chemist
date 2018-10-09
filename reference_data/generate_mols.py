@@ -34,7 +34,7 @@ class Molecule:
 {}cart_t{{ """.format(tab2, ai, ai, tab2 + "     "))
             for j in range(2):
                 f.write("{}, ".format(self.carts[i*3 + j]))
-            f.write("{}".format(self.carts[i*3+2]))    
+            f.write("\n{}{}".format(tab2+tab+' ', self.carts[i*3+2]))    
             f.write("}}")
             if i != len(self.atoms) -1:
                 f.write(",")
@@ -87,8 +87,8 @@ private:
         for mname, m in mols.items():
             f.write("if(name == \"{}\") {{\n{}return ".format(mname, tab*3))
             m.cxxify(tab*3, f)
-            f.write("\n{}}} else\n{}".format(tab*2, tab*2 + '    '))
-        f.write("throw std::out_of_range(\"Unknown molecule name\");\n")
+            f.write("\n{}}} else ".format(tab*2))
+        f.write("\nthrow std::out_of_range(\"Unknown molecule name\");\n")
         f.write(
 """    } // end at_
 };    // end HardCodedMolsPIMPL
