@@ -4,6 +4,7 @@ to make said molecule in a source file
 """
 import os
 import re
+from decimal import Decimal
 from generate_atomicinfo import parse_symbols
 
 class Molecule:
@@ -58,7 +59,12 @@ def parse_file(file_name, sym2Z, ang2au):
             if is_match:
                 (sym, str_carts) = is_match.groups()
                 Z = sym2Z[sym.lower()]
-                mol.add_atom(Z, [float(x)*ang2au for x in str_carts.split()])
+                ang_coords = str_carts.split()
+                au_coords = []
+                for i, ang_coord in enumerate(ang_coords):                
+                    n_decimals = abs(Decimal(ang_coord).as_tuple().exponent)
+                    au_coords.append(round(float(ang_coord)*ang2au, n_decimals))
+                mol.add_atom(Z, au_coords)
     return mol
 
 def print_source(out_dir, mols):
