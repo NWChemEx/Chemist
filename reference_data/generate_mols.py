@@ -26,12 +26,13 @@ class Molecule:
         return rv
 
     def cxxify(self, tab, f):
+        tab2 = tab*2
         f.write("Molecule(\n")
-        tab2 = tab + "    "
         for i, ai in enumerate(self.atoms):
             f.write(
 """{}Atom{{mass_t(ptable_.get_atom({}).mass()), {}ul,
 {}cart_t{{""".format(tab2, ai, ai, tab2 + "     "))
+            line = ""
             line = "{}cart_t{{".format(tab2 + "     ")
             line+="{}, {},".format(self.carts[i*3], self.carts[i*3+1])
             line +=" {}}},".format(self.carts[i*3+2])            
