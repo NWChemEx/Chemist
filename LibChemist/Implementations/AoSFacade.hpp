@@ -1,8 +1,8 @@
 #pragma once
-#include <memory>
-#include <vector>
 #include <array>
+#include <memory>
 #include <tuple>
+#include <vector>
 
 /**
  * @file AoSFacade.hpp
@@ -204,7 +204,7 @@ public:
     ///@{
     template<size_type FieldI>
     reference<FieldI> at(size_type i = 0) noexcept {
-      return std::get<FieldI>(buffer_)->operator[](std::get<FieldI>(me_) + i);
+        return std::get<FieldI>(buffer_)->operator[](std::get<FieldI>(me_) + i);
     }
 
     template<size_type FieldI>

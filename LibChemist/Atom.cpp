@@ -1,7 +1,7 @@
 #include "LibChemist/Atom.hpp"
 #include "LibChemist/Implementations/AtomPIMPL.hpp"
 #include <SDE/Memoization.hpp> //For hashing
-#include <iomanip> // For precision of floats
+#include <iomanip>             // For precision of floats
 
 namespace LibChemist {
 
@@ -35,10 +35,7 @@ coord_type& Atom::coords() noexcept { return pimpl_->coords(); }
 
 mass_type& Atom::mass() noexcept { return pimpl_->mass(); }
 
-void Atom::hash(bphash::Hasher& h) const {
-    h(Z(), coords(), mass(), name());
-}
-
+void Atom::hash(bphash::Hasher& h) const { h(Z(), coords(), mass(), name()); }
 
 bool operator==(const Atom& lhs, const Atom& rhs) noexcept {
     return std::tie(lhs.Z(), lhs.coords(), lhs.mass(), lhs.name()) ==
