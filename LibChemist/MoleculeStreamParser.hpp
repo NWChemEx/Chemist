@@ -79,7 +79,8 @@ struct XYZParser : public MoleculeStreamParser {
  * molecule. Weak throw guarantee for @p is and strong throw for all other
  * parameters.
  */
-Molecule parse_molecule_stream(std::istream& is, const MoleculeStreamParser& parser,
-                             const LibChemist::PeriodicTable& pt);
+Molecule parse_molecule_stream(std::istream& is,
+                               const MoleculeStreamParser& parser,
+                               const LibChemist::PeriodicTable& pt);
 
 } // namespace LibChemist

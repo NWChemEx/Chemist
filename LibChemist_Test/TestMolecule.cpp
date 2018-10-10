@@ -24,7 +24,7 @@ static const std::array<std::string, 7> corr_hash{
   "719b68790237237be78deb08c08080b0", // 1 atom
   "c5b29275253373ffd9225165260a0747", // 2 atom anion
   "f728509ffd3b47daf0e488da2ac1f2c3", // D-D molecule
-  "416a468c5e88f4d6333a6d16654c7f10"  // H-D molecule    
+  "416a468c5e88f4d6333a6d16654c7f10"  // H-D molecule
 };
 
 template<size_t hash>
@@ -149,27 +149,23 @@ TEST_CASE("Molecule Class") {
         REQUIRE(corr_ss.str() == ss.str());
     }
     SECTION("Equality") {
-      using c_t = typename Atom::coord_type;
-      using m_t = typename Atom::mass_type;
-      Atom H{"H", 1ul,
-	     c_t{0.000000000000000, 1.579252144093028, 2.174611055780858},
-	     m_t{1837.4260218693814}};
-      Atom O{"O", 8ul,
-	     c_t{0.000000000000000, 0.000000000000000, 0.000000000000000},
-	     m_t{29165.122045980286}};
-      Atom H2{"H", 1ul,
-	      c_t{0.000000000000000, 1.579252144093028, -2.174611055780858},
-	      m_t{1837.4260218693814}};
-      Molecule h2o_a(H, O, H2);
-      Molecule h2o_b(H, O, H2);
-      SECTION("Molecules are the same")
-	{
-	  REQUIRE(h2o_a == h2o_b);
-	}
-      SECTION("Molecules are different")
-	{
-	  h2o_a.charge() = 1.0;
-	  REQUIRE(h2o_a != h2o_b);
-	}
+        using c_t = typename Atom::coord_type;
+        using m_t = typename Atom::mass_type;
+        Atom H{"H", 1ul,
+               c_t{0.000000000000000, 1.579252144093028, 2.174611055780858},
+               m_t{1837.4260218693814}};
+        Atom O{"O", 8ul,
+               c_t{0.000000000000000, 0.000000000000000, 0.000000000000000},
+               m_t{29165.122045980286}};
+        Atom H2{"H", 1ul,
+                c_t{0.000000000000000, 1.579252144093028, -2.174611055780858},
+                m_t{1837.4260218693814}};
+        Molecule h2o_a(H, O, H2);
+        Molecule h2o_b(H, O, H2);
+        SECTION("Molecules are the same") { REQUIRE(h2o_a == h2o_b); }
+        SECTION("Molecules are different") {
+            h2o_a.charge() = 1.0;
+            REQUIRE(h2o_a != h2o_b);
+        }
     }
 }

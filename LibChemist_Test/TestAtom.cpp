@@ -19,7 +19,7 @@ static const std::array<std::string, 8> corr_hashes{
   "8a5fc30361b938770046df63cdb1b079", // Just name
   "90cb004d31e9ff7972892489da856720", // Z and carts
   "3d3ddb2af0da9ceab35ddf72216a2edc", // Z, carts, and mass
-  "d89b9a76a5bf23161f572a20cee5a325"  // Z, carts, mass, and name  
+  "d89b9a76a5bf23161f572a20cee5a325"  // Z, carts, mass, and name
 };
 
 template<size_t hash>

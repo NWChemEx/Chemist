@@ -35,8 +35,9 @@ void parse(const return_type& data, atom& a) {
 
 } // end namespace detail_
 
-Molecule parse_molecule_stream(std::istream& is, const MoleculeStreamParser& parser,
-                             const LibChemist::PeriodicTable& pt) {
+Molecule parse_molecule_stream(std::istream& is,
+                               const MoleculeStreamParser& parser,
+                               const LibChemist::PeriodicTable& pt) {
     Molecule rv;
     detail_::atom a;
     double charge{0.0};
