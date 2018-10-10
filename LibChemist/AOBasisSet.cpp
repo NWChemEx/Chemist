@@ -49,7 +49,7 @@ iterator AOBasisSet::end() noexcept { return pimpl_->end(); }
 const_iterator AOBasisSet::begin() const noexcept { return pimpl_->begin(); }
 const_iterator AOBasisSet::end() const noexcept { return pimpl_->end(); }
 
-void AOBasisSet::hash(bphash::Hasher &h) const {
+void AOBasisSet::hash(bphash::Hasher& h) const {
     for(const auto& shelli : *this) h(shelli);
 }
 

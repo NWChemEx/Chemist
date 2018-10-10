@@ -1,8 +1,8 @@
 #pragma once
 #include <array>
+#include <bphash/Hasher_fwd.hpp>
 #include <memory>
 #include <type_traits> //For disjunction/is_same
-#include <bphash/Hasher_fwd.hpp>
 
 namespace LibChemist {
 namespace detail_ {
@@ -250,7 +250,7 @@ public:
     ///@}
 private:
     BPHASH_DECLARE_HASHING_FRIENDS
-    void hash(bphash::Hasher& h)const;
+    void hash(bphash::Hasher& h) const;
 
     /// Struct used to color primitives we've seen while parsing arguments
     struct ColoredPrim {

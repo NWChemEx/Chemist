@@ -42,7 +42,7 @@ const_iterator Molecule::begin() const noexcept { return pimpl_->begin(); }
 iterator Molecule::end() noexcept { return pimpl_->end(); }
 const_iterator Molecule::end() const noexcept { return pimpl_->end(); }
 
-void Molecule::hash(bphash::Hasher &h) const {
+void Molecule::hash(bphash::Hasher& h) const {
     h(charge(), multiplicity());
     for(const auto& x : *this) h(x);
 }

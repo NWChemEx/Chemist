@@ -147,7 +147,7 @@ public:
     }
     size_type nelectrons() const noexcept {
         size_type n = 0;
-        for(const auto& x: *this) n += x.Z();
+        for(const auto& x : *this) n += x.Z();
         return n - charge();
     }
     ///@}
@@ -190,8 +190,7 @@ public:
     ///@}
 private:
     BPHASH_DECLARE_HASHING_FRIENDS
-    void hash(bphash::Hasher& h)const;
-
+    void hash(bphash::Hasher& h) const;
 
     /// Struct for coloring an atom as seen
     struct ColoredAtom {
