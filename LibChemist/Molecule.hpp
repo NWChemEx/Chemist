@@ -130,20 +130,6 @@ public:
     size_type size() const noexcept;
 
     /**
-     * @brief Used to determine the number of electrons/alpha orbitals/beta
-     * orbitals within the molecule.
-     *
-     * @return The value of the number of electrons/alpha orbitals/beta orbitals
-     * within the molecule.
-     *
-     * @throw None. No throw guarantee.
-     */
-    ///@{
-    size_type nelectrons() const noexcept;
-    size_type nalpha() const noexcept;
-    size_type nbeta() const noexcept;
-
-    /**
      * @defgroup Property Accessors
      * @brief Functions for getting/setting properties of the molecule.
      *
@@ -163,7 +149,7 @@ public:
         size_type n = 0;
         for(const auto& x : *this) n += x.Z();
         return n - charge();
-    }
+    }  
 
     ///@}
 
