@@ -159,6 +159,11 @@ public:
     const size_type& multiplicity() const noexcept {
         return const_cast<Molecule&>(*this).multiplicity();
     }
+    size_type nelectrons() const noexcept {
+        size_type n = 0;
+        for(const auto& x : *this) n += x.Z();
+        return n - charge();
+    }
 
     ///@}
 
