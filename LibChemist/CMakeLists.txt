@@ -5,6 +5,7 @@ set(
                        BasisSetManager.hpp
                        LibChemist.hpp
                        Molecule.hpp
+		       MoleculeStreamParser.hpp
                        MoleculeManager.hpp
                        PeriodicTable.hpp
                        Implementations/AoSFacade.hpp
@@ -17,6 +18,7 @@ set(
                     Atom.cpp
                     BasisSetManager.cpp
                     Molecule.cpp
+		    MoleculeStreamParser.cpp
                     MoleculeManager.cpp
                     PeriodicTable.cpp
                     Defaults/NWXBasisSetManagerPIMPL.cpp

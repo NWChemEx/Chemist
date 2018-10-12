@@ -21,10 +21,10 @@ static const std::array<std::string, 7> corr_hash{
   "86951e08965a42313aab98b7068dc987", // Default CTor
   "db61ac3b2cae688d81ae946ea6016a50", // Charge
   "81b850fa0174301d1960b5cecf70e6c4", // Mult
-  "5beacbdfcc4e09dfbc5c24f2b20e1752", // 1 atom
-  "42dbe60b8068e41c05e90c0bdd508c87", // 2 atom anion
-  "acf68ef67589dad2d2ab0a0ad6cad8ff", // D-D molecule
-  "c2013e4113832eacd5e7928bf2eb6cc4"  // H-D molecule
+  "719b68790237237be78deb08c08080b0", // 1 atom
+  "c5b29275253373ffd9225165260a0747", // 2 atom anion
+  "f728509ffd3b47daf0e488da2ac1f2c3", // D-D molecule
+  "416a468c5e88f4d6333a6d16654c7f10"  // H-D molecule
 };
 
 template<size_t hash>
@@ -147,5 +147,25 @@ TEST_CASE("Molecule Class") {
         corr_ss << atoms[0] << std::endl << atoms[1] << std::endl;
         ss << mol;
         REQUIRE(corr_ss.str() == ss.str());
+    }
+    SECTION("Equality") {
+        using c_t = typename Atom::coord_type;
+        using m_t = typename Atom::mass_type;
+        Atom H{"H", 1ul,
+               c_t{0.000000000000000, 1.579252144093028, 2.174611055780858},
+               m_t{1837.4260218693814}};
+        Atom O{"O", 8ul,
+               c_t{0.000000000000000, 0.000000000000000, 0.000000000000000},
+               m_t{29165.122045980286}};
+        Atom H2{"H", 1ul,
+                c_t{0.000000000000000, 1.579252144093028, -2.174611055780858},
+                m_t{1837.4260218693814}};
+        Molecule h2o_a(H, O, H2);
+        Molecule h2o_b(H, O, H2);
+        SECTION("Molecules are the same") { REQUIRE(h2o_a == h2o_b); }
+        SECTION("Molecules are different") {
+            h2o_a.charge() = 1.0;
+            REQUIRE(h2o_a != h2o_b);
+        }
     }
 }
