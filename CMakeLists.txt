@@ -1,30 +1,14 @@
 cmake_minimum_required(VERSION 3.8)
-file(
-        DOWNLOAD
-        https://github.com/NWChemEx-Project/DeveloperTools/raw/master/cmake.tar.gz
-        ${CMAKE_BINARY_DIR}/cmake.tar.gz)
-execute_process(
-        COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_BINARY_DIR}/cmake.tar.gz
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-)
-include(${CMAKE_BINARY_DIR}/cmake/Macros.cmake)
-start_hunter(LOCAL) #Must be before project command
-
-project(LibChemist VERSION 0.0.0 LANGUAGES CXX)
-
-### Options ###
-option(BUILD_TESTS "Should we build the tests?" ON)
-### Dependencies ####
-foreach(depend Utilities bphash cereal pybind11 SDE)
-    hunter_add_package(${depend})
-    find_package(${depend} CONFIG REQUIRED)
-endforeach()
-
-#Skip Hunter on TAMM for now
+project(libchemist VERSION 1.0.0)
+set(CPP_NAMESPACE LibChemist)
+find_package(cpp REQUIRED)
+cpp_option(BUILD_TESTS ON)
+cpp_find_or_build_dependency(Catch2 URL github.com/catchorg/Catch2)
+cpp_find_or_build_dependency(sde URL github.com/NWChemEx-Project/SDE PRIVATE
+                             CMAKE_ARGS BUILD_TESTS=OFF)
+#Not on CPP yet
 find_package(tamm CONFIG REQUIRED)
 
-
-### Target ###
 add_subdirectory(LibChemist)
 
 ### Testing ###

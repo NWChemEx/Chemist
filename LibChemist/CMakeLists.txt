@@ -1,11 +1,11 @@
 set(
-    LIBCHEMIST_HEADERS AOBasisSet.hpp
-                       AOShell.hpp
-                       Atom.hpp
+	LIBCHEMIST_HEADERS AOBasisSet.hpp
+	                   AOShell.hpp
+	 				   Atom.hpp
                        BasisSetManager.hpp
                        LibChemist.hpp
                        Molecule.hpp
-		       MoleculeStreamParser.hpp
+	                   MoleculeStreamParser.hpp
                        MoleculeManager.hpp
                        PeriodicTable.hpp
                        Implementations/AoSFacade.hpp
@@ -18,7 +18,7 @@ set(
                     Atom.cpp
                     BasisSetManager.cpp
                     Molecule.cpp
-		    MoleculeStreamParser.cpp
+		            MoleculeStreamParser.cpp
                     MoleculeManager.cpp
                     PeriodicTable.cpp
                     Defaults/NWXBasisSetManagerPIMPL.cpp
@@ -26,13 +26,11 @@ set(
                     Defaults/NWXMoleculeManagerPIMPL.cpp
                     ${LIBCHEMIST_BASIS_SOURCE}
 )
-
-add_nwx_library(
-        NAME chemist
-        SOURCES ${LIBCHEMIST_SRCS}
-        DEPENDS Utilities::utilities SDE::SDE ${TAMM_LIBRARY}
+add_library(tamm INTERFACE IMPORTED ${TAMM_LIBRARY})
+cpp_add_library(
+	chemist
+    SOURCES ${LIBCHEMIST_SRCS}
+	INCLUDES ${LIBCHEMIST_HEADERS}
+    DEPENDS SDE::SDE tamm
 )
-install_targets(
-        TARGETS chemist
-        INCLUDES ${LIBCHEMIST_HEADERS}
-)
+cpp_install(TARGETS chemist)
