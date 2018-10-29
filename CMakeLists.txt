@@ -4,8 +4,6 @@ set(CPP_NAMESPACE LibChemist)
 find_package(cpp REQUIRED)
 cpp_option(BUILD_TESTS ON)
 cpp_find_or_build_dependency(NAME Catch2 URL github.com/catchorg/Catch2)
-cpp_find_or_build_dependency(NAME bphash URL github.com/ryanmrichard/BPHash
-                                         BRANCH cmake_patch)
 cpp_find_or_build_dependency(
         NAME sde
         URL github.com/NWChemEx-Project/SDE

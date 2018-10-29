@@ -33,6 +33,6 @@ cpp_add_library(
 	chemist
     SOURCES ${LIBCHEMIST_SRCS}
 	INCLUDES ${LIBCHEMIST_HEADERS}
-    DEPENDS sde::sde bphash::bphash tamm
+    DEPENDS sde::sde tamm
 )
 cpp_install(TARGETS chemist)
