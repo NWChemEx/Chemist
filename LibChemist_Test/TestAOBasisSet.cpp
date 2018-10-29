@@ -1,6 +1,6 @@
 #include <LibChemist/AOBasisSet.hpp>
 #include <bphash/Hasher.hpp>
-#include <catch/catch.hpp>
+#include <catch2/catch.hpp>
 #include <sstream>
 
 using namespace LibChemist;

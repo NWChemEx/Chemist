@@ -1,6 +1,6 @@
 #include <LibChemist/Atom.hpp>
 #include <SDE/Memoization.hpp>
-#include <catch/catch.hpp>
+#include <catch2/catch.hpp>
 #include <map>
 #include <sstream>
 #include <type_traits>

@@ -1,6 +1,6 @@
 #include <LibChemist/AOShell.hpp>
 #include <SDE/Memoization.hpp>
-#include <catch/catch.hpp>
+#include <catch2/catch.hpp>
 #include <iostream>
 #include <sstream>
 

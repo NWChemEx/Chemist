@@ -1,5 +1,5 @@
 #include <LibChemist/LibChemist.hpp>
-#include <catch/catch.hpp>
+#include <catch2/catch.hpp>
 #include <iostream>
 #include <limits>
 

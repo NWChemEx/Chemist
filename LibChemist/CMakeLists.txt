@@ -26,11 +26,13 @@ set(
                     Defaults/NWXMoleculeManagerPIMPL.cpp
                     ${LIBCHEMIST_BASIS_SOURCE}
 )
-add_library(tamm INTERFACE IMPORTED ${TAMM_LIBRARY})
+add_library(tamm INTERFACE IMPORTED)
+target_link_libraries(tamm INTERFACE ${TAMM_LIBRARIES})
+target_include_directories(tamm INTERFACE ${TAMM_INCLUDE_DIRS})
 cpp_add_library(
 	chemist
     SOURCES ${LIBCHEMIST_SRCS}
 	INCLUDES ${LIBCHEMIST_HEADERS}
-    DEPENDS SDE::SDE tamm
+    DEPENDS sde::sde bphash::bphash tamm
 )
 cpp_install(TARGETS chemist)
