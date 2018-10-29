@@ -1,5 +1,4 @@
-set(
-    LIBCHEMIST_TESTS test_main.cpp
+set(LIBCHEMIST_TESTS test_main.cpp
                      TestAOBasisSet.cpp
                      TestAOShell.cpp
                      TestAoSFacade.cpp

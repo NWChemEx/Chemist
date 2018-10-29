@@ -12,14 +12,14 @@ using mass_type  = typename Atom::mass_type;
 using name_type  = typename Atom::name_type;
 
 static const std::array<std::string, 8> corr_hashes{
-  "a1677191299b2e9bd2bb9c1f2ca7eb14", // Default ctor
-  "0d6b2ee007a680ce2194ee3ee8ae8bcc", // Just mass
-  "4feafab7208c06719cf9736858f7a0fa", // Just carts
-  "d369eaa12dc906e43568a5246d2773e3", // Just Z
-  "8a5fc30361b938770046df63cdb1b079", // Just name
-  "90cb004d31e9ff7972892489da856720", // Z and carts
-  "3d3ddb2af0da9ceab35ddf72216a2edc", // Z, carts, and mass
-  "d89b9a76a5bf23161f572a20cee5a325"  // Z, carts, mass, and name
+  "8d5ed3f73f68108fc7587c5996b37bbb", // Default ctor
+  "4d560ce5281742a03052a074a108d7bb", // Just mass
+  "d51b297301043d31a74eeddc62d870a3", // Just carts
+  "128e8e8a996dd723972514a5415b1fd4", // Just Z
+  "f4876be7266008c661664f448965d578", // Just name
+  "53eb08ad58e7a308cc06da248ea866da", // Z and carts
+  "5a0690ec4e62bdd48eaf022f61ae928c", // Z, carts, and mass
+  "5474a211de755e5a364e4dec13e5c91c"  // Z, carts, mass, and name
 };
 
 template<size_t hash>
