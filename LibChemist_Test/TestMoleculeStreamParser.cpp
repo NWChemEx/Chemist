@@ -1,5 +1,5 @@
 #include <LibChemist/MoleculeStreamParser.hpp>
-#include <catch/catch.hpp>
+#include <catch2/catch.hpp>
 #include <sstream>
 
 using namespace LibChemist;

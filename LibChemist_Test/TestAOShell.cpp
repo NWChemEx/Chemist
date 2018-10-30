@@ -1,6 +1,6 @@
 #include <LibChemist/AOShell.hpp>
 #include <SDE/Memoization.hpp>
-#include <catch/catch.hpp>
+#include <catch2/catch.hpp>
 #include <iostream>
 #include <sstream>
 
@@ -12,11 +12,11 @@ using coord_type  = typename AOShell::coord_type;
 using prim_vector = std::vector<AOPrimitive>;
 
 static const std::array<std::string, 5> corr_hash{
-  "07568bebb521894716a179b33a93be32", // Default ctor
-  "76c640ac3558a9fc695d2102a8838155", // Two prims, pure S
-  "75df537dfdddf20a4c26cf3111f5a2ca", // Two prims, pure D
-  "8da4da0c217db7309e56e3885b03890c", // Two prims, cart F
-  "f56c4ac02856a8b70cee1a77ee351f08", // Two prims, pure S, and center
+  "281913aefaef7007f0dfdd8c1080fb67", // Default ctor
+  "9cc4009ce4fb86b00ec551cd1c9bb657", // Two prims, pure S
+  "7b474c64cbe2c05bcf00672d7d0f87ea", // Two prims, pure D
+  "e7a41ab9c2bbddb4cabeb9d8544362ee", // Two prims, cart F
+  "677572a854c0950b6e4bc78ede97e565", // Two prims, pure S, and center
 };
 
 template<size_t hash>

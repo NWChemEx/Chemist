@@ -20,3 +20,6 @@ Debug/
 Release/
 cmake-build-debug/
 cmake-build-release/
+
+#This is the typical tool
+toolchain.cmake

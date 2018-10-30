@@ -1,5 +1,5 @@
 #include <LibChemist/Implementations/AoSFacade.hpp>
-#include <catch/catch.hpp>
+#include <catch2/catch.hpp>
 
 /*
  * Note that despite the names of the variables in this test, there's nothing

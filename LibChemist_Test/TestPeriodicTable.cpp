@@ -4,7 +4,7 @@
  */
 
 #include <LibChemist/PeriodicTable.hpp>
-#include <catch/catch.hpp>
+#include <catch2/catch.hpp>
 
 using namespace LibChemist;
 using size_type    = typename PeriodicTable::size_type;

@@ -1,6 +1,6 @@
 #include <LibChemist/Molecule.hpp>
 #include <SDE/Memoization.hpp>
-#include <catch/catch.hpp>
+#include <catch2/catch.hpp>
 #include <sstream>
 
 using namespace LibChemist;
@@ -18,13 +18,13 @@ using cart_t      = std::array<double, 3>;
 using vector_type = std::vector<value_type>;
 
 static const std::array<std::string, 7> corr_hash{
-  "86951e08965a42313aab98b7068dc987", // Default CTor
-  "db61ac3b2cae688d81ae946ea6016a50", // Charge
-  "81b850fa0174301d1960b5cecf70e6c4", // Mult
-  "719b68790237237be78deb08c08080b0", // 1 atom
-  "c5b29275253373ffd9225165260a0747", // 2 atom anion
-  "f728509ffd3b47daf0e488da2ac1f2c3", // D-D molecule
-  "416a468c5e88f4d6333a6d16654c7f10"  // H-D molecule
+  "b5bf975551bed42fdad51c5b101e400a", // Default CTor
+  "b40b20f86b442055859a7eba7fcea789", // Charge
+  "8b3108aee65c44e216c4dc87e096746e", // Mult
+  "4b83ba11f9c6e3f9b75b7a190044fa8e", // 1 atom
+  "885a0a137b3eaada1695f8b2115d6b93", // 2 atom anion
+  "0dd6b5583385ad3b5ea2276326b2eef1", // D-D molecule
+  "7793f30bc4ab64eda18c600d13c03330"  // H-D molecule
 };
 
 template<size_t hash>
