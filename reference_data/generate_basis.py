@@ -113,7 +113,9 @@ def print_atom_basis(f, z, atom):
     f.write("{}}}; //End AOBasis\n{}}} //End case\n".format(tab*3, tab*2))
 
 def sanitize_name(bs_name):
-    temp = bs_name.replace("-", "_dash_")
+    temp = bs_name.replace("6-", "six_dash_")
+    temp = temp.replace("3-", "three_dash_")
+    temp = temp.replace("-", "_dash_")
     temp = temp.replace("-", "_dash_")
     temp = temp.replace("+", "_plus_")
     return temp

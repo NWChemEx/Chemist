@@ -7,7 +7,7 @@
  
 namespace LibChemist::detail_ {
  
-AOBasisSet 6_dash_311_plus_g(std::size_t Z) {
+AOBasisSet six_dash_311_plus_g(std::size_t Z) {
     switch(Z) {         
         case(1) : {
             return AOBasisSet{
