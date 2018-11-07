@@ -150,7 +150,7 @@ def write_bases(out_dir, bases):
         print_pimpl_footer(f)
     with open(os.path.join(out_dir,"bases", "AddBasis.cmake"), "w") as f:
         f.write("set(LIBCHEMIST_BASIS_SOURCE\n")
-        for bs_name, bs in bases.items():
+        for bs_name, bs in sorted(bases.items()):
             f.write("    Defaults/bases/{}.cpp\n".format(bs_name))
         f.write(")")
 
