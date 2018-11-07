@@ -132,7 +132,7 @@ def write_bases(out_dir, bases):
         with open(os.path.join(out_dir, "NWXBasisList.hpp"), 'w') as g:
             print_basis_list(g)
             f.write("{}".format(tab*2))
-            for bs_name, bs in bases.items():
+            for bs_name, bs in sorted(bases.items()):
                 s_name = sanitize_name(bs_name)
                 d_name = desanitize_name(bs_name)
                 f.write("if(name == \"{}\") {{ ".format(d_name))
@@ -150,7 +150,7 @@ def write_bases(out_dir, bases):
         print_pimpl_footer(f)
     with open(os.path.join(out_dir,"bases", "AddBasis.cmake"), "w") as f:
         f.write("set(LIBCHEMIST_BASIS_SOURCE\n")
-        for bs_name, bs in bases.items():
+        for bs_name, bs in sorted(bases.items()):
             f.write("    Defaults/bases/{}.cpp\n".format(bs_name))
         f.write(")")
 
