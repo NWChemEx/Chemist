@@ -9,6 +9,30 @@ namespace LibChemist::detail_ {
  
 AOBasisSet six_dash_31g_star(std::size_t Z) {
     switch(Z) {         
+        case(1) : {
+            return AOBasisSet{
+                AOShell{0,
+                    AOPrimitive{18.7311370, 0.03349460},
+                    AOPrimitive{2.8253937, 0.23472695},
+                    AOPrimitive{0.6401217, 0.81375733},
+                },
+                AOShell{0,
+                    AOPrimitive{0.1612778, 1.0000000},
+                },
+            }; //End AOBasis
+        } //End case
+        case(2) : {
+            return AOBasisSet{
+                AOShell{0,
+                    AOPrimitive{38.4216340, 0.0237660},
+                    AOPrimitive{5.7780300, 0.1546790},
+                    AOPrimitive{1.2417740, 0.4696300},
+                },
+                AOShell{0,
+                    AOPrimitive{0.2979640, 1.0000000},
+                },
+            }; //End AOBasis
+        } //End case
         case(3) : {
             return AOBasisSet{
                 AOShell{0,
