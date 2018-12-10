@@ -5,6 +5,7 @@ node{
     def nwxJenkins
     stage('Import Jenkins Commands'){
         sh """
+	   module spider
            rm -rf ~/.cpp_cache
            da_url=https://raw.githubusercontent.com/NWChemEx-Project/
            da_url+=DeveloperTools/master/ci/Jenkins/nwxJenkins.groovy
