@@ -1,5 +1,5 @@
 def buildModuleMatrix = [
-    		   "GCC 7.1.0":("cmake python gcc/7.1.0")
+    		   "GCC 7.3.0":("cmake python gcc-7.3.0-gcc-7.2.0-nup6rxh")
 		  ]
 node{
     def nwxJenkins
