@@ -7,7 +7,7 @@ node{
         sh """
            rm -rf ~/.cpp_cache
            da_url=https://raw.githubusercontent.com/NWChemEx-Project/
-           da_url+=DeveloperTools/master/ci/Jenkins/nwxJenkins.groovy
+           da_url+=DeveloperTools/toolchain/ci/Jenkins/nwxJenkins.groovy
            wget \${da_url}
            """
     	nwxJenkins=load("nwxJenkins.groovy")
