@@ -12,8 +12,8 @@ computer, and you are willing to let LibChemist build all dependencies, then
 the following will suffice to build LibChemist:
 
 ```
-git clone https://github.com/NWChemEx-Project/SDE.git
-cd SDE
+git clone https://github.com/NWChemEx-Project/LibChemist.git
+cd LibChemist
 cmake -H. -Bbuild -DCPP_GITHUB_TOKEN=<your super-secret token> \
                   -DMPI_ROOT=<path/to/your/mpi/installation> \
                   -DCMAKE_PREFIX_PATH=<where/you/installed/CPP> \                  
