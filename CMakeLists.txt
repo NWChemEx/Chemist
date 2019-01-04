@@ -11,7 +11,12 @@ cpp_find_or_build_dependency(
         CMAKE_ARGS BUILD_TESTS=OFF
 )
 
-cpp_find_dependency(NAME tamm REQUIRED)
+cpp_find_or_build_dependency(
+    NAME tamm
+    URL github.com/ryanmrichard/tamm
+    PRIVATE
+    BRANCH cpp
+)
 
 add_subdirectory(LibChemist)
 
