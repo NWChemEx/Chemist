@@ -15,8 +15,7 @@ the following will suffice to build LibChemist:
 git clone https://github.com/NWChemEx-Project/LibChemist.git
 cd LibChemist
 cmake -H. -Bbuild -DCPP_GITHUB_TOKEN=<your super-secret token> \
-                  -DMPI_ROOT=<path/to/your/mpi/installation> \
-                  -DCMAKE_PREFIX_PATH=<where/you/installed/CPP> \                  
+                  -DCMAKE_PREFIX_PATH=<where/you/installed/CPP>;<path/to/your/mpi/installation> \                  
                   -DCMAKE_INSTALL_PREFIX=<where/you/want/to/install/LibChemist>
 cd build
 cmake --build .
@@ -24,7 +23,9 @@ cmake --build .
 cmake --build . --target install  
 ```
 The build process is not capable of building MPI so you will have to provide a
-path to a known installation via the `MPI_ROOT` variable. The GitHub token is
+path to a known installation via the `CMAKE_PREFIX_PATH` variable (Alternatively, one can create a 
+[toolchain file and add the variable](https://cmake.org/cmake/help/v3.13/manual/cmake-toolchains.7.html)
+`-DCMAKE_TOOLCHAIN_FILE` pointing to this file). The GitHub token is
 necessary because, at the moment, TAMM, SDE, and Utilities are private 
 repositories (instructions for generating a token are 
 [here](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)).
