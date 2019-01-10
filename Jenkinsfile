@@ -12,5 +12,5 @@ node{
            """
     	nwxJenkins=load("nwxJenkins.groovy")
     }
-    nwxJenkins.commonSteps(buildModuleMatrix, "SDE")
+    nwxJenkins.commonSteps(buildModuleMatrix, "LibChemist")
 }
