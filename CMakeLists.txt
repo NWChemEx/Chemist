@@ -7,6 +7,7 @@ cpp_option(BUILD_TESTS ON)
 cpp_find_or_build_dependency(
         NAME CMakeBuild
         URL github.com/NWChemEx-Project/CMakeBuild
+        BRANCH ryanmrichard-patch-1
         PRIVATE
 )
 
