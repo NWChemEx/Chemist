@@ -15,9 +15,6 @@ cpp_find_or_build_dependency(
     URL github.com/NWChemEx-Project/TAMM
     PRIVATE
     DEPENDS CMakeBuild
-    CMAKE_ARGS CMAKE_CXX_FLAGS="-fPIC"
-               CMAKE_C_FLAGS="-fPIC"
-               CMAKE_Fortran_FLAGS="-fPIC"
 )
 
 cpp_find_or_build_dependency(
