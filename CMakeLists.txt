@@ -8,6 +8,7 @@ cpp_find_or_build_dependency(
         NAME CMakeBuild
         URL github.com/NWChemEx-Project/CMakeBuild
         PRIVATE
+	CMAKE_ARGS BUILD_TESTS=OFF
 )
 
 cpp_find_or_build_dependency(
