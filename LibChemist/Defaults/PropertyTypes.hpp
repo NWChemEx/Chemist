@@ -57,7 +57,7 @@ struct OrbitalSpace {
  * @tparam element_type The type of the element in the tensor
  */
 template<std::size_t NBases, typename element_type = double>
-struct AOIntegral : SDE::PropertyType<AOIntegral<element_type>> {
+struct AOIntegral : SDE::PropertyType<AOIntegral<NBases, element_type>> {
     using tensor_type      = tamm::Tensor<element_type>;
     using molecule_type    = Molecule;
     using basis_set_type   = AOBasisSet;
