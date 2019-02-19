@@ -1,8 +1,8 @@
 #pragma once
-#include <array>  // For the coordinates
-#include <memory> // For unique pointer
-#include <string> // For name of atom
-
+#include <array>                 // For the coordinates
+#include <bphash/Hasher_fwd.hpp> //For hashing
+#include <memory>                // For unique pointer
+#include <string>                // For name of atom
 namespace LibChemist {
 namespace detail_ {
 class AtomPIMPL;
@@ -178,6 +178,9 @@ public:
     ///@}
 
 private:
+    BPHASH_DECLARE_HASHING_FRIENDS
+    void hash(bphash::Hasher& h) const;
+
     /// Actual implementation of the Atom class
     std::unique_ptr<detail_::AtomPIMPL> pimpl_;
 
@@ -207,9 +210,8 @@ inline bool operator!=(const Atom& lhs, const Atom& rhs) noexcept {
 }
 ///@}
 
-} // namespace LibChemist
-
 /**
+ * @relates Atom
  * @brief Makes it so the Atom class can be printed out.
  *
  * @param os The output stream to print to.
@@ -218,4 +220,6 @@ inline bool operator!=(const Atom& lhs, const Atom& rhs) noexcept {
  * @throws std::ios_base::failure if anything goes wrong while writing.  Weak
  *         throw guarantee.
  */
-std::ostream& operator<<(std::ostream& os, const LibChemist::Atom& ai);
+std::ostream& operator<<(std::ostream& os, const Atom& ai);
+
+} // namespace LibChemist

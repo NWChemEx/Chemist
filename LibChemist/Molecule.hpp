@@ -1,5 +1,6 @@
 #pragma once
 #include "LibChemist/Atom.hpp"
+#include <bphash/Hasher_fwd.hpp>
 #include <vector> //For iterators
 
 namespace LibChemist {
@@ -128,6 +129,20 @@ public:
      */
     size_type size() const noexcept;
 
+    /**		
+     * @brief Used to determine the number of electrons/alpha orbitals/beta		
+     * orbitals within the molecule.		
+     *		
+     * @return The value of the number of electrons/alpha orbitals/beta orbitals		
+     * within the molecule.		
+     *		
+     * @throw None. No throw guarantee.		
+     */		
+    ///@{		
+    size_type nelectrons() const noexcept;		
+    size_type nalpha() const noexcept;		
+    size_type nbeta() const noexcept;		
+
     /**
      * @defgroup Property Accessors
      * @brief Functions for getting/setting properties of the molecule.
@@ -144,6 +159,7 @@ public:
     const size_type& multiplicity() const noexcept {
         return const_cast<Molecule&>(*this).multiplicity();
     }
+
     ///@}
 
     /**
@@ -183,6 +199,9 @@ public:
     const_iterator end() const noexcept;
     ///@}
 private:
+    BPHASH_DECLARE_HASHING_FRIENDS
+    void hash(bphash::Hasher& h) const;
+
     /// Struct for coloring an atom as seen
     struct ColoredAtom {
         Atom value;
@@ -200,9 +219,8 @@ private:
     std::unique_ptr<detail_::MolPIMPL> pimpl_;
 };
 
-} // end namespace LibChemist
-
 /**
+ * @relates Molecule
  * @brief Overloads the stream insertion operator so that molecules can be
  *        printed.
  *
@@ -213,4 +231,31 @@ private:
  * @throws std::ios_base::failure if anything goes wrong while writing.  Weak
  *         throw guarantee.
  */
-std::ostream& operator<<(std::ostream& os, const LibChemist::Molecule& mol);
+std::ostream& operator<<(std::ostream& os, const Molecule& mol);
+
+/**
+ * @defgroup Molecule comparison operators
+ * @relates Molecule
+ * @brief Allows one to compare two molecule instances for exact equality.
+ *
+ * Two molecule instances are defined as equal if they have the same charge,
+ * multiplicity, and atoms (w.r.t. atomic number, atomic mass, atomic
+ * coordinates, and index within the atom-holding container). *N.B* that
+ * floating-point comparisons are bit-wise with zero tolerance for deviation,
+ * *i.e.*, 1.99999999999999 != 2.00000000000000
+ *
+ * @param[in] lhs The Molecule instance on the left of the equivalence operation
+ * @param[in] rhs The Molecule instance on the right of the equivalence
+ * operation
+ * @return Whether the two molecules obey the requested equivalence relation.
+ *
+ * @throw none all comparisons are no throw guarantee.
+ */
+///@{
+bool operator==(const Molecule& lhs, const Molecule& rhs) noexcept;
+inline bool operator!=(const Molecule& lhs, const Molecule& rhs) noexcept {
+    return !(lhs == rhs);
+}
+///@}
+
+} // end namespace LibChemist

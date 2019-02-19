@@ -1,29 +1,36 @@
 cmake_minimum_required(VERSION 3.8)
-file(
-        DOWNLOAD
-        https://github.com/NWChemEx-Project/DeveloperTools/raw/master/cmake.tar.gz
-        ${CMAKE_BINARY_DIR}/cmake.tar.gz)
-execute_process(
-        COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_BINARY_DIR}/cmake.tar.gz
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+project(libchemist VERSION 1.0.0)
+set(CPP_NAMESPACE LibChemist)
+find_package(cpp REQUIRED)
+cpp_option(BUILD_TESTS ON)
+
+cpp_find_or_build_dependency(
+        NAME CMakeBuild
+        URL github.com/NWChemEx-Project/CMakeBuild
+        PRIVATE
+	CMAKE_ARGS BUILD_TESTS=OFF
 )
-include(${CMAKE_BINARY_DIR}/cmake/Macros.cmake)
-start_hunter(LOCAL) #Must be before project command
 
-project(LibChemist VERSION 0.0.0 LANGUAGES CXX)
+cpp_find_or_build_dependency(
+    NAME tamm
+    URL github.com/NWChemEx-Project/TAMM
+    PRIVATE
+    DEPENDS CMakeBuild
+    CMAKE_ARGS BUILD_TESTS=OFF
+)
 
-### Options ###
-option(BUILD_TESTS "Should we build the tests?" ON)
+cpp_find_or_build_dependency(
+    NAME sde
+    URL github.com/NWChemEx-Project/SDE
+    PRIVATE
+    CMAKE_ARGS BUILD_TESTS=OFF
+)
 
-### Dependencies ####
-hunter_add_package(Utilities)
-find_package(Utilities CONFIG REQUIRED)
-
-### Target ###
 add_subdirectory(LibChemist)
 
 ### Testing ###
-if(${BUILD_TESTS})
+if(BUILD_TESTS)
+    cpp_find_or_build_dependency(NAME Catch2 URL github.com/catchorg/Catch2)
     enable_testing()
     add_subdirectory(LibChemist_Test)
 endif()

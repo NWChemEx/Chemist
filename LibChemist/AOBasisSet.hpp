@@ -1,5 +1,6 @@
 #pragma once
 #include "LibChemist/AOShell.hpp"
+#include <bphash/Hasher_fwd.hpp>
 #include <vector> //Needed for iterators
 
 namespace LibChemist {
@@ -123,7 +124,12 @@ public:
      * @return The number of shells in this basis set.
      * @throw None No throw guarantee.
      */
-    size_type size() const noexcept;
+    size_type nshells() const noexcept;
+    size_type nbf() const noexcept {
+        size_type total = 0;
+        for(const auto& shelli : *this) total += shelli.size();
+        return total;
+    }
 
     /**
      * @defgroup Accessors
@@ -181,6 +187,9 @@ public:
     ///@}
 
 private:
+    BPHASH_DECLARE_HASHING_FRIENDS
+    void hash(bphash::Hasher& h) const;
+
     /// The object that actually implements the AOBasisSet class
     std::unique_ptr<detail_::ContainerPIMPL<AOBasisSet>> pimpl_;
 };
@@ -210,10 +219,9 @@ std::pair<typename AOBasisSet::size_type, typename AOBasisSet::iterator> max_l(
 std::pair<typename AOBasisSet::size_type, typename AOBasisSet::const_iterator>
 max_l(const AOBasisSet& bs) noexcept;
 
-} // namespace LibChemist
-
 /**
  * @defgroup AOBasisSet comparison operators
+ * @relates AOBasisSet
  * @brief Compares two AOBasisSet instances
  *
  * Two AOBasisSet instances are equal if they have the same number of shells,
@@ -227,19 +235,19 @@ max_l(const AOBasisSet& bs) noexcept;
 ///@{
 inline bool operator==(const LibChemist::AOBasisSet& lhs,
                        const LibChemist::AOBasisSet& rhs) noexcept {
-    if(lhs.size() != rhs.size()) return false;
-    for(std::size_t i = 0; i < lhs.size(); ++i)
+    if(lhs.nshells() != rhs.nshells()) return false;
+    for(std::size_t i = 0; i < lhs.nshells(); ++i)
         if(lhs[i] != rhs[i]) return false;
     return true;
 }
 
-inline bool operator!=(const LibChemist::AOBasisSet& lhs,
-                       const LibChemist::AOBasisSet& rhs) noexcept {
+inline bool operator!=(const AOBasisSet& lhs, const AOBasisSet& rhs) noexcept {
     return !(lhs == rhs);
 }
 ///@}
 
 /**
+ * @relates AOBasisSet
  * @brief Allows printing of an AOBasisSet instance
  *
  * @param os The stream to print the basis set to.
@@ -247,4 +255,6 @@ inline bool operator!=(const LibChemist::AOBasisSet& lhs,
  * @return The stream containing the text representation of the basis set.
  * @throw std::ios_base::failure if anything goes wrong.  Weak throw guarantee.
  */
-std::ostream& operator<<(std::ostream& os, const LibChemist::AOBasisSet& bs);
+std::ostream& operator<<(std::ostream& os, const AOBasisSet& bs);
+
+} // namespace LibChemist

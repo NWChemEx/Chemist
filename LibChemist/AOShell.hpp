@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+#include <bphash/Hasher_fwd.hpp>
 #include <memory>
 #include <type_traits> //For disjunction/is_same
 
@@ -248,6 +249,9 @@ public:
     }
     ///@}
 private:
+    BPHASH_DECLARE_HASHING_FRIENDS
+    void hash(bphash::Hasher& h) const;
+
     /// Struct used to color primitives we've seen while parsing arguments
     struct ColoredPrim {
         AOPrimitive prim;
@@ -301,14 +305,14 @@ inline bool operator!=(const AOShell& lhs, const AOShell& rhs) noexcept {
 }
 ///@}
 
-} // namespace LibChemist
-
 /**
  * @brief Allows an AOShell to be printed
- *
+ * @relates AOShell
  * @param os The ostream to forward the shell to.
  * @param shell The shell to print.
  * @return @p os containing the textual representation of @p os
  * @throw std::ios_base::failure if anything goes wrong.  Weak throw guarantee.
  */
-std::ostream& operator<<(std::ostream& os, const LibChemist::AOShell& shell);
+std::ostream& operator<<(std::ostream& os, const AOShell& shell);
+
+} // namespace LibChemist
