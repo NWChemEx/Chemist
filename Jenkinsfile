@@ -5,7 +5,6 @@ node{
     def nwxJenkins
     stage('Import Jenkins Commands'){
         sh """
-	   find /tmp/ -user lcrcsvc -exec rm -rf {} \;
            rm -rf ~/.cpp_cache
            da_url=https://raw.githubusercontent.com/NWChemEx-Project/
            da_url+=DeveloperTools/master/ci/Jenkins/nwxJenkins.groovy
