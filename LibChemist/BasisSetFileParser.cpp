@@ -1,4 +1,4 @@
-#include "SDE/BasisSetFileParser.hpp"
+#include "LibChemist/BasisSetFileParser.hpp"
 #include <LibChemist/ShellTypes.hpp>
 #include <regex>
 

@@ -1,6 +1,6 @@
 #include "LibChemist/Atom.hpp"
 #include "LibChemist/Implementations/AtomPIMPL.hpp"
-#include <SDE/Memoization.hpp> //For hashing
+#include <SDE/detail_/Memoization.hpp> //For hashing
 #include <iomanip>             // For precision of floats
 
 namespace LibChemist {
