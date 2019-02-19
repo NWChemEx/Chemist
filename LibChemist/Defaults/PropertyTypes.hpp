@@ -1,7 +1,7 @@
 #pragma once
 #include "LibChemist/AOBasisSet.hpp"
 #include "LibChemist/Molecule.hpp"
-#include <SDE/Memoization.hpp>
+#include <SDE/detail_/Memoization.hpp>
 #include <SDE/Module.hpp>
 #include <Utilities/Containers/CaseInsensitiveMap.hpp>
 #include <tamm/tamm.hpp>
