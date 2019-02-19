@@ -1,6 +1,6 @@
 #include "LibChemist/Implementations/MolPIMPL.hpp"
 #include "LibChemist/Molecule.hpp"
-#include <SDE/Memoization.hpp>
+#include <SDE/detail_/Memoization.hpp>
 #include <iostream> //For std::endl
 
 namespace LibChemist {

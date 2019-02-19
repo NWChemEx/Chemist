@@ -1,4 +1,4 @@
-#include <SDE/BasisSetFileParser.hpp>
+#include <LibChemist/BasisSetFileParser.hpp>
 #include <SDE/NWXDefaults.hpp>
 #include <catch/catch.hpp>
 #include <sstream>

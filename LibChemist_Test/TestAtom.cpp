@@ -1,5 +1,5 @@
 #include <LibChemist/Atom.hpp>
-#include <SDE/Memoization.hpp>
+#include <SDE/detail_/Memoization.hpp>
 #include <catch2/catch.hpp>
 #include <map>
 #include <sstream>
