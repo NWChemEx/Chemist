@@ -10,8 +10,11 @@ set(
                        PeriodicTable.hpp
                        Implementations/AoSFacade.hpp
                        Defaults/PropertyTypes.hpp
+					   Defaults/NWXBasisList.hpp
+		               Defaults/NWXAtomicDensities.hpp
 )
 include(Defaults/bases/AddBasis.cmake)
+include(Defaults/atomic_densities/AddDensity.cmake)
 set(
     LIBCHEMIST_SRCS AOBasisSet.cpp
                     AOShell.cpp
@@ -24,7 +27,9 @@ set(
                     Defaults/NWXBasisSetManagerPIMPL.cpp
                     Defaults/NWXPeriodicTablePIMPL.cpp
                     Defaults/NWXMoleculeManagerPIMPL.cpp
+		            Defaults/NWXAtomicDensities.cpp
                     ${LIBCHEMIST_BASIS_SOURCE}
+					${LIBCHEMIST_DENSITY_SOURCE}
 )
 
 cpp_add_library(
