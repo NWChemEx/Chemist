@@ -1,6 +1,6 @@
 #include "LibChemist/AOBasisSet.hpp"
 #include "LibChemist/Implementations/AOBasisSetPIMPL.hpp"
-#include <SDE/Memoization.hpp>
+#include <SDE/detail_/Memoization.hpp>
 #include <algorithm> //For max element
 
 namespace LibChemist {

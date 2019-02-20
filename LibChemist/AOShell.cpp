@@ -1,6 +1,6 @@
 #include "LibChemist/AOShell.hpp"
 #include "LibChemist/Implementations/AOShellPIMPL.hpp"
-#include <SDE/Memoization.hpp>                       //For hashing
+#include <SDE/detail_/Memoization.hpp>                       //For hashing
 #include <Utilities/Mathematician/Combinatorics.hpp> //For binomial coefficient
 #include <iomanip>                                   //for setprecision
 #include <iostream>                                  //For endl
