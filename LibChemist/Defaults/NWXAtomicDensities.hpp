@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include <vector> 
+#include <vector>
          
 namespace LibChemist::detail_ {
 std::vector<std::vector<double>> six_dash_31g(std::size_t Z);

@@ -14,10 +14,12 @@ def print_pimpl_header(f):
  */
        
 #include \"LibChemist/Defaults/NWXAtomicDensities.hpp\"
+#include <string>
+#include <stdexcept>
 
 namespace LibChemist::detail_ {
             
-    std::vector<std::vector<double>> get_atomic_density_(const std::string& name, size_type Z) const override {         
+    std::vector<std::vector<double>> get_atomic_density_(const std::string& name, std::size_t Z) const override {         
 """)
 
 def print_pimpl_footer(f):
@@ -51,7 +53,7 @@ def print_basis_list(f):
  */
 
 #pragma once
-#include <vector> 
+#include <vector>
          
 namespace LibChemist::detail_ {
 """)
