@@ -4,6 +4,7 @@
  */
  
 #include "LibChemist/Defaults/NWXAtomicDensities.hpp"
+#include <stdexcept>
  
 namespace LibChemist::detail_ {
  

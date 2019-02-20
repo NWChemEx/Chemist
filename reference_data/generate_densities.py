@@ -38,6 +38,7 @@ def print_basis_header(f, bs_name):
  */
  
 #include \"LibChemist/Defaults/NWXAtomicDensities.hpp\"
+#include <stdexcept>
  
 namespace LibChemist::detail_ {{
  
