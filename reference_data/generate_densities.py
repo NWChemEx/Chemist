@@ -2,7 +2,6 @@
 Reads xml files with atomic densities and write to cpp files
 """
 import os
-import fnmatch
 import xml.etree.ElementTree as ET
 from generate_atomicinfo import parse_symbols
 
