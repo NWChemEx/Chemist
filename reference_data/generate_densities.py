@@ -102,8 +102,8 @@ def write_bases(out_dir, bases):
                 s_name = sanitize_name(bs_name)
                 d_name = desanitize_name(bs_name)
                 f.write("if(name == \"{}\") {{ ".format(d_name))
-                f.write("return {}(Z); ".format(s_name))
-                g.write("std::vector<std::vector<double>> {}(std::size_t Z);\n".format(s_name))
+                f.write("return {}_density(Z); ".format(s_name))
+                g.write("std::vector<std::vector<double>> {}_density(std::size_t Z);\n".format(s_name))
                 bs_file_name = "{}.cpp".format(bs_name)
                 bs_path = os.path.join(out_dir,"atomic_densities", bs_file_name)
                 with open(bs_path, 'w') as h:
