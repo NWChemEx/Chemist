@@ -2,7 +2,7 @@
 #include "LibChemist/AOBasisSet.hpp"
 #include "LibChemist/Molecule.hpp"
 #include <SDE/detail_/Memoization.hpp>
-#include <SDE/Module.hpp>
+#include <SDE/PropertyType.hpp>
 #include <Utilities/Containers/CaseInsensitiveMap.hpp>
 #include <tamm/tamm.hpp>
 
@@ -57,7 +57,7 @@ struct OrbitalSpace {
  * @tparam element_type The type of the element in the tensor
  */
 template<std::size_t NBases, typename element_type = double>
-struct AOIntegral : SDE::ModuleBase {
+struct AOIntegral : SDE::PropertyType<AOIntegral<NBases, element_type>> {
     using tensor_type      = tamm::Tensor<element_type>;
     using molecule_type    = Molecule;
     using basis_set_type   = AOBasisSet;
@@ -65,8 +65,26 @@ struct AOIntegral : SDE::ModuleBase {
     using size_type        = std::size_t;
 
     // Multiple tensors for things like dipoles?
-    virtual tensor_type run(const molecule_type&, const basis_array_type&,
-                            size_type deriv) = 0;
+    //virtual tensor_type run(const molecule_type&, const basis_array_type&,
+    //                      size_type deriv) = 0;
+
+    auto inputs_() {
+        auto rv = declare_input()
+                    .add_field<const molecule_type&>("Molecule")
+                    .add_field<const basis_array_type&>("Basis sets")
+                    .add_field<size_type>("Derivative");
+        rv["Molecule"].set_description("The molecule for which the AO integrals are computed");
+        rv["Basis sets"].set_description("The array of basis sets used for the AO integral computation");
+        rv["Derivative"].set_description("The derivative order of AO integrals to be computed");
+        return rv;
+    }
+
+    auto results_() {
+        auto rv = declare_result().add_field<tensor_type>("AO Integrals");
+        rv["AO Integrals"].set_description("The tensor with computed AO integrals");
+        return rv;
+    }
+
 };
 
 /**
@@ -75,14 +93,31 @@ struct AOIntegral : SDE::ModuleBase {
  *
  */
 template<typename element_type = double>
-struct CoreHamiltonian : SDE::ModuleBase {
+struct CoreHamiltonian : SDE::PropertyType<CoreHamiltonian<element_type>> {
     using tensor_type    = tamm::Tensor<element_type>;
     using molecule_type  = Molecule;
     using basis_set_type = AOBasisSet;
     using size_type      = std::size_t;
 
-    virtual tensor_type run(const molecule_type&, const basis_set_type& bra,
-                            const basis_set_type& ket, size_type deriv) = 0;
+    auto inputs_() {
+        auto rv = declare_input()
+                    .add_field<const molecule_type&>("Molecule")
+                    .add_field<const basis_set_type&>("Bra")
+                    .add_field<const basis_set_type&>("Ket")
+                    .add_field<size_type>("Derivative");
+        rv["Molecule"].set_description("The molecule for which the Core Hamiltonian matrix is build");
+        rv["Bra"].set_description("The basis set used for the bra of the Core Hamiltonian matrix");
+        rv["Ket"].set_description("The basis set used for the ket of the Core Hamiltonian matrix");
+        rv["Derivative"].set_description("The derivative order of the Core Hamiltonian matrix");
+        return rv;
+    }
+
+    auto results_() {
+        auto rv = declare_result().add_field<tensor_type>("Core Hamiltonian");
+        rv["Core Hamiltonian"].set_description("The matrix of the computed Core Hamiltonian");
+        return rv;
+    }
+
 };
 
 /**
@@ -95,7 +130,7 @@ struct CoreHamiltonian : SDE::ModuleBase {
  *
  */
 template<typename element_type = double>
-struct JKMatrices : SDE::ModuleBase {
+struct JKMatrices : SDE::PropertyType<JKMatrices<element_type>> {
     using tensor_type    = tamm::Tensor<element_type>;
     using molecule_type  = Molecule;
     using orbital_type   = OrbitalSpace<element_type>;
@@ -103,9 +138,30 @@ struct JKMatrices : SDE::ModuleBase {
     using tensor_map     = Utilities::CaseInsensitiveMap<tensor_type>;
     using size_type      = std::size_t;
 
-    virtual tensor_map run(const molecule_type& mol, const orbital_type& MOs,
-                           const basis_set_type& bra, const basis_set_type& ket,
-                           size_type deriv) = 0;
+    auto inputs_() {
+        auto rv = declare_input()
+                    .add_field<const molecule_type&>("Molecule")
+                    .add_field<const orbital_type&>("Molecular Orbitals")
+                    .add_field<const basis_set_type&>("Bra")
+                    .add_field<const basis_set_type&>("Ket")
+                    .add_field<size_type>("Derivative");
+        rv["Molecule"].set_description("The molecule for which J and K matrices are build in AO basis");
+        rv["Molecular Orbitals"].set_description("The molecular orbitals used to build the J and K matrices");
+        rv["Bra"].set_description("The basis set used for the bra of the matrices and integrals");
+        rv["Ket"].set_description("The basis set used for the ket of the matrices and integrals");
+        rv["Derivative"].set_description("The derivative order of the J and K matrices");
+        return rv;
+    }
+
+    auto results_() {
+        auto rv = declare_result()
+                    .add_field<tensor_map>("J Matrix");
+                    .add_field<tensor_map>("K Matrix");
+        rv["J Matrix"].set_description("The computed J Matrix");
+        rv["K Matrix"].set_description("The computed K Matrix");
+        return rv;
+    }
+
 };
 
 /**
@@ -113,8 +169,9 @@ struct JKMatrices : SDE::ModuleBase {
  * basis set.
  *
  */
+
 template<typename element_type = double>
-struct FockBuilder : SDE::ModuleBase {
+struct FockBuilder : public SDE::PropertyType<FockBuilder<element_type>> {
     using tensor_type    = tamm::Tensor<element_type>;
     using molecule_type  = Molecule;
     using orbital_type   = OrbitalSpace<element_type>;
@@ -122,18 +179,56 @@ struct FockBuilder : SDE::ModuleBase {
     using tensor_map     = Utilities::CaseInsensitiveMap<tensor_type>;
     using size_type      = std::size_t;
 
-    virtual tensor_map run(const molecule_type& mol, const orbital_type& MOs,
-                           const basis_set_type& bra, const basis_set_type& ket,
-                           size_type deriv) = 0;
+    auto inputs_() {
+        auto rv = declare_input()
+                    .add_field<const molecule_type&>("Molecule")
+                    .add_field<const orbital_type&>("Molecular Orbitals")
+                    .add_field<const basis_set_type&>("Bra")
+                    .add_field<const basis_set_type&>("Ket")
+                    .add_field<size_type>("Derivative");
+        rv["Molecule"].set_description("The molecule for which the Fock Matrix is build");
+        rv["Molecular Orbitals"].set_description("The molecular orbitals used to build the Fock Matrix");
+        rv["Bra"].set_description("The basis set used for the bra of the matrices and integrals");
+        rv["Ket"].set_description("The basis set used for the ket of the matrices and integrals");
+        rv["Derivative"].set_description("The derivative order of the Fock Matrix");
+        return rv;
+    }
+
+    auto results_() {
+        auto rv = declare_result().add_field<tensor_map>("Fock Matrix");
+        rv["Fock Matrix"].set_description("The computed Fock Matrix");
+        return rv;
+    }
+
 };
 
+/**
+ * @brief The base class for modules that build energy and energy derivatives
+ *
+ */
+
 template<typename element_type = double>
-struct Energy : SDE::ModuleBase {
+struct Energy : public SDE::PropertyType<Energy<element_type>> {
     using molecule_type = Molecule;
     using tensor_type   = tamm::Tensor<element_type>;
     using size_type     = std::size_t;
 
-    virtual tensor_type run(const molecule_type& mol, size_type deriv) = 0;
+    auto inputs_() {
+        auto rv = declare_input()
+                    .add_field<const molecule_type&>("Molecule")
+                    .add_field<size_type>("Derivative");
+        rv["Molecule"].set_description("The molecule for which the energy is calculated");
+        rv["Derivative"].set_description("The derivative order of the energy");
+        return rv;
+    }
+
+    auto results_() {
+        auto rv = declare_result().add_field<tensor_type>("Energy");
+        rv["Energy"].set_description("The computed energy or derivatives");
+        return rv;
+    }
+};
+
 };
 
 } // namespace LibChemist
