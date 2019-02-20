@@ -23,7 +23,6 @@ namespace LibChemist {
     }
 
     //Given a shell index, returns the range of ao indices corresponding to the shell        
-    //Returns a range of ao indices corresponding to a shell index    
     range shell_to_ao(const size_t idx){
         return s2ao_vec.at(idx);
     }
