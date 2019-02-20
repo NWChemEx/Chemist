@@ -14,7 +14,7 @@ set(
 		               Defaults/NWXAtomicDensities.hpp
 )
 include(Defaults/bases/AddBasis.cmake)
-include(Defaults/bases/AddDensity.cmake)
+include(Defaults/atomic_densities/AddDensity.cmake)
 set(
     LIBCHEMIST_SRCS AOBasisSet.cpp
                     AOShell.cpp

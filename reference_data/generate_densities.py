@@ -13,9 +13,9 @@ def print_pimpl_header(f):
  * this file will be lost next time generate_densities.py is run.
  */
        
-#include \"LibChemist/Defaults/NWXDensityList.hpp\"
+#include \"LibChemist/Defaults/NWXAtomicDensities.hpp\"
             
-    std::vector<std::vector<double>> get_density_(const std::string& name, size_type Z) const override {         
+    std::vector<std::vector<double>> get_atomic_density_(const std::string& name, size_type Z) const override {         
 """)
 
 def print_pimpl_footer(f):
@@ -34,7 +34,7 @@ def print_basis_header(f, bs_name):
  * this file will be lost next time generate_densities.py is run.
  */
  
-#include \"LibChemist/Defaults/NWXDensityList.hpp\"
+#include \"LibChemist/Defaults/NWXAtomicDensities.hpp\"
  
 namespace LibChemist::detail_ {{
  

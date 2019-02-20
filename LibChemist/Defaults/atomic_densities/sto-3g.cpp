@@ -3,7 +3,7 @@
  * this file will be lost next time generate_densities.py is run.
  */
  
-#include "LibChemist/Defaults/NWXDensityList.hpp"
+#include "LibChemist/Defaults/NWXAtomicDensities.hpp"
  
 namespace LibChemist::detail_ {
  

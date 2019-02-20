@@ -4,9 +4,9 @@
  * this file will be lost next time generate_densities.py is run.
  */
        
-#include "LibChemist/Defaults/NWXDensityList.hpp"
+#include "LibChemist/Defaults/NWXAtomicDensities.hpp"
             
-    std::vector<std::vector<double>> get_density_(const std::string& name, size_type Z) const override {         
+    std::vector<std::vector<double>> get_atomic_density_(const std::string& name, size_type Z) const override {         
         if(name == "6-31g") { return six_dash_31g(Z); }
         else if(name == "sto-3g") { return sto_dash_3g(Z); }
         else if(name == "sto-6g") { return sto_dash_6g(Z); }
