@@ -8,7 +8,7 @@
  
 namespace LibChemist::detail_ {
  
-std::vector<std::vector<double>> sto_dash_6g(std::size_t Z) {
+std::vector<std::vector<double>> sto_dash_6g_density(std::size_t Z) {
     switch(Z) {         
         case(1) : {
             return std::vector<std::vector<double>>{

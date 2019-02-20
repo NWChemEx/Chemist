@@ -42,7 +42,7 @@ def print_basis_header(f, bs_name):
  
 namespace LibChemist::detail_ {{
  
-std::vector<std::vector<double>> {}(std::size_t Z) {{
+std::vector<std::vector<double>> {}_density(std::size_t Z) {{
     switch(Z) {{         
 """.format(bs_name))
 
