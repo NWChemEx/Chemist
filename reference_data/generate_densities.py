@@ -19,7 +19,7 @@ def print_pimpl_header(f):
 
 namespace LibChemist::detail_ {
             
-    std::vector<std::vector<double>> get_atomic_density_(const std::string& name, std::size_t Z) const override {         
+    std::vector<std::vector<double>> get_atomic_density_(const std::string& name, std::size_t Z) {         
 """)
 
 def print_pimpl_footer(f):

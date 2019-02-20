@@ -10,7 +10,7 @@
 
 namespace LibChemist::detail_ {
             
-    std::vector<std::vector<double>> get_atomic_density_(const std::string& name, std::size_t Z) const override {         
+    std::vector<std::vector<double>> get_atomic_density_(const std::string& name, std::size_t Z) {         
         if(name == "6-31g") { return six_dash_31g(Z); }
         else if(name == "sto-3g") { return sto_dash_3g(Z); }
         else if(name == "sto-6g") { return sto_dash_6g(Z); }
