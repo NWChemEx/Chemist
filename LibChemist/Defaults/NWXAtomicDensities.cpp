@@ -5,13 +5,14 @@
  */
        
 #include "LibChemist/Defaults/NWXAtomicDensities.hpp"
+
+namespace LibChemist::detail_ {
             
     std::vector<std::vector<double>> get_atomic_density_(const std::string& name, size_type Z) const override {         
         if(name == "6-31g") { return six_dash_31g(Z); }
         else if(name == "sto-3g") { return sto_dash_3g(Z); }
         else if(name == "sto-6g") { return sto_dash_6g(Z); }
         else throw std::out_of_range("Basis not available for SAD guess");
-    }//end get_basis_
-};
+    }//end get_atomic_density_
      
 } // namespace LibChemist::detail_

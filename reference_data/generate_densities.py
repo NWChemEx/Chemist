@@ -14,6 +14,8 @@ def print_pimpl_header(f):
  */
        
 #include \"LibChemist/Defaults/NWXAtomicDensities.hpp\"
+
+namespace LibChemist::detail_ {
             
     std::vector<std::vector<double>> get_atomic_density_(const std::string& name, size_type Z) const override {         
 """)
@@ -21,8 +23,7 @@ def print_pimpl_header(f):
 def print_pimpl_footer(f):
     f.write(
 """throw std::out_of_range(\"Basis not available for SAD guess\");
-    }//end get_basis_
-};
+    }//end get_atomic_density_
      
 } // namespace LibChemist::detail_
 """)
