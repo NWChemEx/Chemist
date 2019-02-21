@@ -4,6 +4,16 @@
 
 using namespace LibChemist;
 using range = typename std::pair<size_t, size_t>;
+using size_type = std::size_t;
+
+void compare_maps( const size_t nAtoms, BasisSetMap& lhs, BasisSetMap& rhs) {
+    for(size_t i=0; i<nAtoms; ++i) {
+      auto lhs_shell_range = lhs.atom_to_shell(i);
+      REQUIRE(lhs_shell_range == rhs.atom_to_shell(i));
+      for(size_t j=lhs_shell_range.first; j<lhs_shell_range.second; ++j)      
+	REQUIRE(lhs.shell_to_ao(j) == rhs.shell_to_ao(j));
+    }
+}
 
 
 TEST_CASE("BasisSetMap Class") {
@@ -33,5 +43,29 @@ TEST_CASE("BasisSetMap Class") {
 	REQUIRE(bsMap.ao_to_shell(j)==i);            
     }
     }
+
+    SECTION("Copy Ctor") {
+      auto bsMap2 = BasisSetMap(bsMap);
+      compare_maps(mol.size(), bsMap, bsMap2);
+    }
+
+    SECTION("Move Ctor") {
+      auto bsMap2(std::move(bsMap));
+      compare_maps(mol.size(), bsMap, bsMap2);
+    }
+
+    SECTION("Copy Assignment") {
+      BasisSetMap bsMap2;
+      auto& pbsm = (bsMap2 = bsMap);
+      compare_maps(mol.size(), bsMap, bsMap2);
+      REQUIRE(&pbsm == &bsMap2);
+    }
+
+    SECTION("Move Assignment") {
+      BasisSetMap bsMap2;
+      auto& pbsm = (bsMap2 = std::move(bsMap));
+      compare_maps(mol.size(), bsMap, bsMap2);
+      REQUIRE(&pbsm == &bsMap2);      
+    }    
   }
 }
