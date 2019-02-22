@@ -101,8 +101,8 @@ struct CoreHamiltonian : public SDE::PropertyType<CoreHamiltonian<element_type>>
     auto inputs_() {
         auto rv = SDE::declare_input().add_field<const molecule_type&>("Molecule")
                                       .add_field<const basis_set_type&>("Bra")
-                                      .template add_field<const basis_set_type&>("Ket")
-                                      .template add_field<size_type>("Derivative");
+                                      .add_field<const basis_set_type&>("Ket")
+                                      .add_field<size_type>("Derivative");
         rv["Molecule"].set_description("The molecule for which the Core Hamiltonian matrix is build");
         rv["Bra"].set_description("The basis set used for the bra of the Core Hamiltonian matrix");
         rv["Ket"].set_description("The basis set used for the ket of the Core Hamiltonian matrix");
