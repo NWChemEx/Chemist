@@ -217,7 +217,7 @@ struct Energy : public SDE::PropertyType<Energy<element_type>> {
     }
 
     auto results_() {
-        auto rv = declare_result().add_field<tensor_type>("Energy");
+        auto rv = SDE::declare_result().add_field<tensor_type>("Energy");
         rv["Energy"].set_description("The computed energy or derivatives");
         return rv;
     }
