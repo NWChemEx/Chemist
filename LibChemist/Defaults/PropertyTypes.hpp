@@ -71,7 +71,7 @@ struct AOIntegral : public SDE::PropertyType<AOIntegral<NBases, element_type>> {
     auto inputs_() {
         auto rv = SDE::declare_input().add_field<const molecule_type&>("Molecule")
                                       .add_field<const basis_array_type&>("Basis Sets")
-                                      .add_field<size_type>("Derivative");
+                                      .template add_field<size_type>("Derivative");
         rv["Molecule"].set_description("The molecule for which the AO integrals are computed");
         rv["Basis Sets"].set_description("The array of basis sets used for the AO integral computation");
         rv["Derivative"].set_description("The derivative order of AO integrals to be computed");
@@ -101,8 +101,8 @@ struct CoreHamiltonian : public SDE::PropertyType<CoreHamiltonian<element_type>>
     auto inputs_() {
         auto rv = SDE::declare_input().add_field<const molecule_type&>("Molecule")
                                       .add_field<const basis_set_type&>("Bra")
-                                      .add_field<const basis_set_type&>("Ket")
-                                      .add_field<size_type>("Derivative");
+                                      .template add_field<const basis_set_type&>("Ket")
+                                      .template add_field<size_type>("Derivative");
         rv["Molecule"].set_description("The molecule for which the Core Hamiltonian matrix is build");
         rv["Bra"].set_description("The basis set used for the bra of the Core Hamiltonian matrix");
         rv["Ket"].set_description("The basis set used for the ket of the Core Hamiltonian matrix");
@@ -139,9 +139,9 @@ struct JKMatrices : public SDE::PropertyType<JKMatrices<element_type>> {
     auto inputs_() {
         auto rv = SDE::declare_input().add_field<const molecule_type&>("Molecule")
                                       .add_field<const orbital_type&>("Molecular Orbitals")
-                                      .add_field<const basis_set_type&>("Bra")
-                                      .add_field<const basis_set_type&>("Ket")
-                                      .add_field<size_type>("Derivative");
+                                      .template add_field<const basis_set_type&>("Bra")
+                                      .template add_field<const basis_set_type&>("Ket")
+                                      .template add_field<size_type>("Derivative");
         rv["Molecule"].set_description("The molecule for which J and K matrices are build in AO basis");
         rv["Molecular Orbitals"].set_description("The molecular orbitals used to build the J and K matrices");
         rv["Bra"].set_description("The basis set used for the bra of the matrices and integrals");
@@ -152,7 +152,7 @@ struct JKMatrices : public SDE::PropertyType<JKMatrices<element_type>> {
 
     auto results_() {
         auto rv = SDE::declare_result().add_field<tensor_map>("J Matrix")
-                                       .add_field<tensor_map>("K Matrix");
+                                       .template add_field<tensor_map>("K Matrix");
         rv["J Matrix"].set_description("The computed J Matrix");
         rv["K Matrix"].set_description("The computed K Matrix");
         return rv;
@@ -178,9 +178,9 @@ struct FockBuilder : public SDE::PropertyType<FockBuilder<element_type>> {
     auto inputs_() {
         auto rv = SDE::declare_input().add_field<const molecule_type&>("Molecule")
                                       .add_field<const orbital_type&>("Molecular Orbitals")
-                                      .add_field<const basis_set_type&>("Bra")
-                                      .add_field<const basis_set_type&>("Ket")
-                                      .add_field<size_type>("Derivative");
+                                      .template add_field<const basis_set_type&>("Bra")
+                                      .template add_field<const basis_set_type&>("Ket")
+                                      .template add_field<size_type>("Derivative");
         rv["Molecule"].set_description("The molecule for which the Fock Matrix is build");
         rv["Molecular Orbitals"].set_description("The molecular orbitals used to build the Fock Matrix");
         rv["Bra"].set_description("The basis set used for the bra of the matrices and integrals");
