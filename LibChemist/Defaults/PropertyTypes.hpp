@@ -133,7 +133,6 @@ struct JKMatrices : public SDE::PropertyType<JKMatrices<element_type>> {
     using molecule_type  = Molecule;
     using orbital_type   = OrbitalSpace<element_type>;
     using basis_set_type = AOBasisSet;
-    using tensor_map     = Utilities::CaseInsensitiveMap<tensor_type>;
     using size_type      = std::size_t;
 
     auto inputs_() {
@@ -151,8 +150,8 @@ struct JKMatrices : public SDE::PropertyType<JKMatrices<element_type>> {
     }
 
     auto results_() {
-        auto rv = SDE::declare_result().add_field<tensor_map>("J Matrix")
-                                       .template add_field<tensor_map>("K Matrix");
+        auto rv = SDE::declare_result().add_field<tensor_type>("J Matrix")
+                                       .template add_field<tensor_type>("K Matrix");
         rv["J Matrix"].set_description("The computed J Matrix");
         rv["K Matrix"].set_description("The computed K Matrix");
         return rv;
@@ -172,7 +171,6 @@ struct FockBuilder : public SDE::PropertyType<FockBuilder<element_type>> {
     using molecule_type  = Molecule;
     using orbital_type   = OrbitalSpace<element_type>;
     using basis_set_type = AOBasisSet;
-    using tensor_map     = Utilities::CaseInsensitiveMap<tensor_type>;
     using size_type      = std::size_t;
 
     auto inputs_() {
@@ -190,7 +188,7 @@ struct FockBuilder : public SDE::PropertyType<FockBuilder<element_type>> {
     }
 
     auto results_() {
-        auto rv = SDE::declare_result().add_field<tensor_map>("Fock Matrix");
+        auto rv = SDE::declare_result().add_field<tensor_type>("Fock Matrix");
         rv["Fock Matrix"].set_description("The computed Fock Matrix");
         return rv;
     }
@@ -224,3 +222,21 @@ struct Energy : public SDE::PropertyType<Energy<element_type>> {
 };
 
 } // namespace LibChemist
+
+// These allow SDEAny to wrap a tamm::Tensor, needed for Cache retrieval
+namespace tamm {
+    template<typename T>
+    bool operator==(const Tensor<T>& lhs, const Tensor<T>& rhs){
+        return false;
+    }
+
+    inline void hash_object(const Tensor<double>& t, SDE::Hasher& h) {
+    }
+}
+
+namespace LibChemist {
+    template<typename T>
+    bool operator==(const OrbitalSpace<T>& lhs, const OrbitalSpace<T>& rhs){
+        return false;
+    }
+}
