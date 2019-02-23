@@ -3,7 +3,6 @@
 #include "LibChemist/Molecule.hpp"
 #include <SDE/detail_/Memoization.hpp>
 #include <SDE/PropertyType.hpp>
-#include <Utilities/Containers/CaseInsensitiveMap.hpp>
 #include <tamm/tamm.hpp>
 
 namespace LibChemist {
