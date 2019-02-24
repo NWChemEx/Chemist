@@ -4,6 +4,7 @@
 #include <SDE/detail_/Memoization.hpp>
 #include <SDE/PropertyType.hpp>
 #include <tamm/tamm.hpp>
+#include <random>
 
 namespace LibChemist {
 
@@ -43,7 +44,7 @@ struct OrbitalSpace {
     // Conversion from AO basis to current basis
     tensor_type C;
 
-    void hash(SDE::Hasher& h) const { h(basis); }
+    void hash(SDE::Hasher& h) const { h(basis,*S,density,C); }
 };
 
 /**
@@ -230,6 +231,10 @@ namespace tamm {
     }
 
     inline void hash_object(const Tensor<double>& t, SDE::Hasher& h) {
+        std::mt19937 rng;
+        rng.seed(std::random_device()());
+        std::uniform_real_distribution<double> dist;
+        h(dist(rng),dist(rng),dist(rng),dist(rng));
     }
 }
 
