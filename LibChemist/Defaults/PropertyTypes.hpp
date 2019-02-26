@@ -3,8 +3,8 @@
 #include "LibChemist/Molecule.hpp"
 #include <SDE/detail_/Memoization.hpp>
 #include <SDE/PropertyType.hpp>
-#include <Utilities/Containers/CaseInsensitiveMap.hpp>
 #include <tamm/tamm.hpp>
+#include <random>
 
 namespace LibChemist {
 
@@ -44,7 +44,7 @@ struct OrbitalSpace {
     // Conversion from AO basis to current basis
     tensor_type C;
 
-    void hash(SDE::Hasher& h) const { h(basis); }
+    void hash(SDE::Hasher& h) const { h(basis,*S,density,C); }
 };
 
 /**
@@ -71,7 +71,7 @@ struct AOIntegral : public SDE::PropertyType<AOIntegral<NBases, element_type>> {
     auto inputs_() {
         auto rv = SDE::declare_input().add_field<const molecule_type&>("Molecule")
                                       .add_field<const basis_array_type&>("Basis Sets")
-                                      .add_field<size_type>("Derivative");
+                                      .template add_field<size_type>("Derivative");
         rv["Molecule"].set_description("The molecule for which the AO integrals are computed");
         rv["Basis Sets"].set_description("The array of basis sets used for the AO integral computation");
         rv["Derivative"].set_description("The derivative order of AO integrals to be computed");
@@ -133,15 +133,14 @@ struct JKMatrices : public SDE::PropertyType<JKMatrices<element_type>> {
     using molecule_type  = Molecule;
     using orbital_type   = OrbitalSpace<element_type>;
     using basis_set_type = AOBasisSet;
-    using tensor_map     = Utilities::CaseInsensitiveMap<tensor_type>;
     using size_type      = std::size_t;
 
     auto inputs_() {
         auto rv = SDE::declare_input().add_field<const molecule_type&>("Molecule")
                                       .add_field<const orbital_type&>("Molecular Orbitals")
-                                      .add_field<const basis_set_type&>("Bra")
-                                      .add_field<const basis_set_type&>("Ket")
-                                      .add_field<size_type>("Derivative");
+                                      .template add_field<const basis_set_type&>("Bra")
+                                      .template add_field<const basis_set_type&>("Ket")
+                                      .template add_field<size_type>("Derivative");
         rv["Molecule"].set_description("The molecule for which J and K matrices are build in AO basis");
         rv["Molecular Orbitals"].set_description("The molecular orbitals used to build the J and K matrices");
         rv["Bra"].set_description("The basis set used for the bra of the matrices and integrals");
@@ -151,8 +150,8 @@ struct JKMatrices : public SDE::PropertyType<JKMatrices<element_type>> {
     }
 
     auto results_() {
-        auto rv = SDE::declare_result().add_field<tensor_map>("J Matrix")
-                                       .add_field<tensor_map>("K Matrix");
+        auto rv = SDE::declare_result().add_field<tensor_type>("J Matrix")
+                                       .template add_field<tensor_type>("K Matrix");
         rv["J Matrix"].set_description("The computed J Matrix");
         rv["K Matrix"].set_description("The computed K Matrix");
         return rv;
@@ -172,15 +171,14 @@ struct FockBuilder : public SDE::PropertyType<FockBuilder<element_type>> {
     using molecule_type  = Molecule;
     using orbital_type   = OrbitalSpace<element_type>;
     using basis_set_type = AOBasisSet;
-    using tensor_map     = Utilities::CaseInsensitiveMap<tensor_type>;
     using size_type      = std::size_t;
 
     auto inputs_() {
         auto rv = SDE::declare_input().add_field<const molecule_type&>("Molecule")
                                       .add_field<const orbital_type&>("Molecular Orbitals")
-                                      .add_field<const basis_set_type&>("Bra")
-                                      .add_field<const basis_set_type&>("Ket")
-                                      .add_field<size_type>("Derivative");
+                                      .template add_field<const basis_set_type&>("Bra")
+                                      .template add_field<const basis_set_type&>("Ket")
+                                      .template add_field<size_type>("Derivative");
         rv["Molecule"].set_description("The molecule for which the Fock Matrix is build");
         rv["Molecular Orbitals"].set_description("The molecular orbitals used to build the Fock Matrix");
         rv["Bra"].set_description("The basis set used for the bra of the matrices and integrals");
@@ -190,7 +188,7 @@ struct FockBuilder : public SDE::PropertyType<FockBuilder<element_type>> {
     }
 
     auto results_() {
-        auto rv = SDE::declare_result().add_field<tensor_map>("Fock Matrix");
+        auto rv = SDE::declare_result().add_field<tensor_type>("Fock Matrix");
         rv["Fock Matrix"].set_description("The computed Fock Matrix");
         return rv;
     }
@@ -224,3 +222,25 @@ struct Energy : public SDE::PropertyType<Energy<element_type>> {
 };
 
 } // namespace LibChemist
+
+// These allow SDEAny to wrap a tamm::Tensor, needed for Cache retrieval
+namespace tamm {
+    template<typename T>
+    bool operator==(const Tensor<T>& lhs, const Tensor<T>& rhs){
+        return false;
+    }
+
+    inline void hash_object(const Tensor<double>& t, SDE::Hasher& h) {
+        std::mt19937 rng;
+        rng.seed(std::random_device()());
+        std::uniform_real_distribution<double> dist;
+        h(dist(rng),dist(rng),dist(rng),dist(rng));
+    }
+}
+
+namespace LibChemist {
+    template<typename T>
+    bool operator==(const OrbitalSpace<T>& lhs, const OrbitalSpace<T>& rhs){
+        return false;
+    }
+}
