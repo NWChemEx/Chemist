@@ -8,8 +8,10 @@ set(
                            Molecule.hpp
       		           MoleculeStreamParser.hpp
                            MoleculeManager.hpp
+                           OrbitalSpace.hpp
                            PeriodicTable.hpp
                            Implementations/AoSFacade.hpp
+                           Defaults/PropertyTypes.hpp
 			   Defaults/NWXBasisList.hpp
 		           Defaults/NWXAtomicDensities.hpp
 )
@@ -40,7 +42,7 @@ cpp_add_library(
 		chemist
 		SOURCES ${LIBCHEMIST_SRCS}
 		INCLUDES ${LIBCHEMIST_HEADERS}
-		DEPENDS sde::sde
+		DEPENDS sde::sde CMakeBuild tamm
 )
 
 cpp_install(TARGETS chemist)
