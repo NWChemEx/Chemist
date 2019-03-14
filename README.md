@@ -26,7 +26,7 @@ The build process is not capable of building MPI so you will have to provide a
 path to a known installation via the `CMAKE_PREFIX_PATH` variable (Alternatively, one can create a 
 [toolchain file and add the variable](https://cmake.org/cmake/help/v3.13/manual/cmake-toolchains.7.html)
 `-DCMAKE_TOOLCHAIN_FILE` pointing to this file). The GitHub token is
-necessary because, at the moment, TAMM, SDE, and Utilities are private 
+necessary because, at the moment, SDE, and Utilities are private 
 repositories (instructions for generating a token are 
 [here](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)).
 
@@ -42,11 +42,4 @@ and note that LibChemist depends on several other projects:
   - [pybind11](https://github.com/pybind/pybind11)
     - Requires a development version of Python
   - [cereal](https://github.com/USCiLab/cereal)
-- [TAMM](https://github.com/NWChemEx-Project/TAMM)
-  - [HPTT](https://github.com/ajaypanyala/hptt)
-  - [MSGSL](https://github.com/Microsoft/GSL)
-  - [LAPACKE](http://www.netlib.org/lapack/)
-  - [Eigen3](https://github.com/eigenteam/eigen-git-mirror)
-  - [GlobalArrays](https://github.com/GlobalArrays/ga)
-  - MPI   
 - (For testing only)[Catch2](https://github.com/catchorg/Catch2)

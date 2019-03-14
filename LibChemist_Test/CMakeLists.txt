@@ -3,12 +3,11 @@ set(LIBCHEMIST_TESTS test_main.cpp
                      TestAOShell.cpp
                      TestAoSFacade.cpp
                      TestAtom.cpp
-		             TestBasisSetMap.cpp
+	             TestBasisSetMap.cpp
                      TestLibChemist.cpp
                      TestMolecule.cpp
-	                 TestMoleculeStreamParser.cpp
+                     TestMoleculeStreamParser.cpp
                      TestPeriodicTable.cpp
-		             TestPropertyTypes.cpp
 )
 
 cpp_add_executable(

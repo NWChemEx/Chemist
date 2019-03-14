@@ -5,21 +5,6 @@ find_package(cpp REQUIRED)
 cpp_option(BUILD_TESTS ON)
 
 cpp_find_or_build_dependency(
-        NAME CMakeBuild
-        URL github.com/NWChemEx-Project/CMakeBuild
-        PRIVATE
-	CMAKE_ARGS BUILD_TESTS=OFF
-)
-
-cpp_find_or_build_dependency(
-    NAME tamm
-    URL github.com/NWChemEx-Project/TAMM
-    PRIVATE
-    DEPENDS CMakeBuild
-    CMAKE_ARGS BUILD_TESTS=OFF
-)
-
-cpp_find_or_build_dependency(
     NAME sde
     URL github.com/NWChemEx-Project/SDE
     PRIVATE
