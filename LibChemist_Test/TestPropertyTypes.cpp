@@ -53,7 +53,7 @@ std::size_t deriv = 0;
         REQUIRE(scalJ == 7.0);
         REQUIRE(scalK == 8.0);
     }
-    SECTION("FockBuilder") {
+    SECTION("OperatorAO") {
         DummyFock dumb;
         auto in = dumb.inputs();
         auto sub = dumb.submods();
@@ -63,7 +63,7 @@ std::size_t deriv = 0;
         in.at("Ket").change(ket);
         in.at("Derivative").change(deriv);
         auto out = dumb.run(in,sub);
-        auto [tensor] = FockBuilder<double>::unwrap_results(out);
+        auto [tensor] = OperatorAO<double>::unwrap_results(out);
         auto scal = tamm::get_scalar(tensor);
         REQUIRE(scal == 7.0);
     }

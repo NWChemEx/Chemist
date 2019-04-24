@@ -80,7 +80,7 @@ private:
 template<typename element_type = double>
 class DummyFock : public SDE::ModuleBase {
 public:
-    using prop_type = LibChemist::FockBuilder<element_type>;
+    using prop_type = LibChemist::OperatorAO<element_type>;
 
     DummyFock() : SDE::ModuleBase(this) {
         satisfies_property_type<prop_type>();
