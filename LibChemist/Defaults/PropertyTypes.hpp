@@ -141,7 +141,7 @@ struct JKMatrices : public SDE::PropertyType<JKMatrices<element_type>> {
                                       .template add_field<const basis_set_type&>("Bra")
                                       .template add_field<const basis_set_type&>("Ket")
                                       .template add_field<size_type>("Derivative");
-        rv["Molecule"].set_description("The molecule for which J and K matrices are build in AO basis");
+        rv["Molecule"].set_description("The molecule for which J and K matrices are built in AO basis");
         rv["Molecular Orbitals"].set_description("The molecular orbitals used to build the J and K matrices");
         rv["Bra"].set_description("The basis set used for the bra of the matrices and integrals");
         rv["Ket"].set_description("The basis set used for the ket of the matrices and integrals");
@@ -178,54 +178,17 @@ struct OperatorAO : public SDE::PropertyType<OperatorAO<element_type>> {
                                       .template add_field<const basis_set_type&>("Bra")
                                       .template add_field<const basis_set_type&>("Ket")
                                       .template add_field<size_type>("Derivative");
-        rv["Molecule"].set_description("The molecule for which the Operator Matrix is build");
-        rv["Molecular Orbitals"].set_description("The molecular orbitals used to build the Operator Matrix");
+        rv["Molecule"].set_description("The molecule for which the Operator matrix is built");
+        rv["Molecular Orbitals"].set_description("The molecular orbitals used to build the Operator matrix");
         rv["Bra"].set_description("The basis set used for the bra of the matrices and integrals");
         rv["Ket"].set_description("The basis set used for the ket of the matrices and integrals");
-        rv["Derivative"].set_description("The derivative order of the Operator Matrix");
+        rv["Derivative"].set_description("The derivative order of the Operator matrix");
         return rv;
     }
 
     auto results_() {
         auto rv = SDE::declare_result().add_field<tensor_type>("Operator Matrix");
-        rv["Operator Matrix"].set_description("The computed Operator Matrix");
-        return rv;
-    }
-
-};
-
-/**
- * @brief The base class for modules that build Operator matrices in the AO
- * basis set, and their expectation value for a given density.
- *
- */
-template<typename element_type = double>
-struct ExpectationValueAO : public SDE::PropertyType<ExpectationValueAO<element_type>> {
-    using tensor_type    = tamm::Tensor<element_type>;
-    using molecule_type  = Molecule;
-    using orbital_type   = OrbitalSpace<element_type>;
-    using basis_set_type = AOBasisSet;
-    using size_type      = std::size_t;
-
-    auto inputs_() {
-        auto rv = SDE::declare_input().add_field<const molecule_type&>("Molecule")
-                .add_field<const orbital_type&>("Molecular Orbitals")
-                .template add_field<const basis_set_type&>("Bra")
-                .template add_field<const basis_set_type&>("Ket")
-                .template add_field<size_type>("Derivative");
-        rv["Molecule"].set_description("The molecule for which the Operator Matrix is build");
-        rv["Molecular Orbitals"].set_description("The molecular orbitals used to build the Operator Matrix");
-        rv["Bra"].set_description("The basis set used for the bra of the matrices and integrals");
-        rv["Ket"].set_description("The basis set used for the ket of the matrices and integrals");
-        rv["Derivative"].set_description("The derivative order of the Operator Matrix");
-        return rv;
-    }
-
-    auto results_() {
-        auto rv = SDE::declare_result().add_field<tensor_type>("Operator Matrix")
-                .template add_field<tensor_type>("Expectation Value");
-        rv["Operator Matrix"].set_description("The computed Operator Matrix");
-        rv["Expectation Value"].set_description("The computed Expectation Value");
+        rv["Operator Matrix"].set_description("The computed Operator matrix");
         return rv;
     }
 
@@ -262,6 +225,42 @@ struct XCQuantities : public SDE::PropertyType<XCQuantities<element_type>> {
                 .template add_field<tensor_type>("EXC Energy");
         rv["VXC Matrix"].set_description("The computed VXC Matrix");
         rv["EXC Energy"].set_description("The computed EXC Energy");
+        return rv;
+    }
+
+};
+
+/**
+ * @brief The base class for modules that build a Fock matrix in the AO basis set
+ * and compute the electronic energy.
+ */
+template<typename element_type = double>
+struct SCFIteration : public SDE::PropertyType<SCFIteration<element_type>> {
+    using tensor_type    = tamm::Tensor<element_type>;
+    using molecule_type  = Molecule;
+    using orbital_type   = OrbitalSpace<element_type>;
+    using basis_set_type = AOBasisSet;
+    using size_type      = std::size_t;
+
+    auto inputs_() {
+        auto rv = SDE::declare_input().template add_field<const molecule_type&>("Molecule")
+                .template add_field<const orbital_type&>("Molecular Orbitals")
+                .template add_field<const basis_set_type&>("Bra")
+                .template add_field<const basis_set_type&>("Ket")
+                .template add_field<size_type>("Derivative");
+        rv["Molecule"].set_description("The molecule for which Fock/energy are computed");
+        rv["Molecular Orbitals"].set_description("The molecular orbitals used to compute Fock/energy");
+        rv["Bra"].set_description("The basis set used for the bra of the matrices and integrals");
+        rv["Ket"].set_description("The basis set used for the ket of the matrices and integrals");
+        rv["Derivative"].set_description("The derivative order of the computed quantities");
+        return rv;
+    }
+
+    auto results_() {
+        auto rv = SDE::declare_result().template add_field<tensor_type>("Fock Matrix")
+                .template add_field<tensor_type>("Electronic Energy");
+        rv["Fock Matrix"].set_description("The computed Fock matrix");
+        rv["Electronic Energy"].set_description("The computed electronic energy");
         return rv;
     }
 
