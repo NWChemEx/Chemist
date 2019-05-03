@@ -8,6 +8,7 @@ set(
                            Molecule.hpp
       		           MoleculeStreamParser.hpp
                            MoleculeManager.hpp
+                           OrbitalSpace.hpp
                            PeriodicTable.hpp
                            Implementations/AoSFacade.hpp
                            Defaults/PropertyTypes.hpp
