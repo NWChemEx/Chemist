@@ -42,7 +42,7 @@ struct OrbitalSpace {
     // Conversion from AO basis to current basis
     tensor_type C;
 
-    void hash(SDE::Hasher& h) const { h(basis, *S, density, C); }
+    void hash(sde::Hasher& h) const { h(basis, *S, density, C); }
 };
 
 } // end namespace libchemist
