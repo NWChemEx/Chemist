@@ -21,7 +21,7 @@ cpp_find_or_build_dependency(
 
 cpp_find_or_build_dependency(
     NAME sde
-    URL github.com/ryanmrichard/sde
+    URL github.com/NWChemEx-Project/sde
     BRANCH formatting
     PRIVATE
     CMAKE_ARGS BUILD_TESTS=OFF
