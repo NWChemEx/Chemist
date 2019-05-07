@@ -10,7 +10,6 @@ set(LIBCHEMIST_HEADERS ao_basis_set.hpp
 					   orbital_space.hpp
 					   periodic_table.hpp
 					   detail_/aos_facade.hpp
-					   defaults/PropertyTypes.hpp
         			   defaults/nwx_basis_list.hpp
 					   defaults/nwx_atomic_densities.hpp
 )
