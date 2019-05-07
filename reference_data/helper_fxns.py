@@ -12,11 +12,11 @@ def write_warning(script_name, f):
     f.write(" * {} and regenerate this file.\n".format(script_name))
     f.write(" */\n")
 
-def write_header(script_name, f, nmspace="LibChemist"):
-    f.write("#include \"LibChemist/NWXDefaults.hpp\"\n")
+def write_header(script_name, f, nmspace="libchemist"):
+    f.write("#include \"libchemist/nwx_defaults.hpp\"\n")
     write_warning(script_name, f)
     f.write("namespace {} {{\n".format(nmspace))
 
-def write_footer(f, nmspace="LibChemist"):
+def write_footer(f, nmspace="libchemist"):
     f.write("    return rv;\n")
     f.write("}}\n}} // End namespace {}\n".format(nmspace))

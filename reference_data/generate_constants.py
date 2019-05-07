@@ -103,10 +103,10 @@ def get_derived(constants):
     return constants
 
 def write_source(my_path, cnsts_):
-    file = os.path.join(os.path.dirname(my_path), "SDE","Defaults")
-    with open(os.path.join(file,"PhysicalConstants.cpp"), 'w') as f:
+    file = os.path.join(os.path.dirname(my_path), "sde","defaults")
+    with open(os.path.join(file,"physical_constants.cpp"), 'w') as f:
         write_header(__file__, f)
-        f.write("using const_t = typename ChemistryRuntime::constant_type;\n")
+        f.write("using const_t = typename chemistry_runtime::constant_type;\n")
         f.write("using return_t = typename "
                 "ChemistryRuntime::constant_lut_type;\n")
         f.write("return_t default_constants(){\n")
@@ -128,8 +128,8 @@ def main():
 
 def write_tests(cnts_, hard_code_, derived_):
     # Print the tests
-    with open("../SDE_Test/TestPhysicalConstants.cpp", 'w') as f:
-        f.write("#include <SDE/PhysicalConstants.hpp>\n\n")
+    with open("../tests/test_physical_constants.cpp", 'w') as f:
+        f.write("#include <sde/physical_constants.hpp>\n\n")
         f.write("#include <catch/catch.hpp>\n\n")
         f.write("/** @file Tests of fundamental physical constants to be used in\n")
         f.write(" *        NWChemEx\n")
