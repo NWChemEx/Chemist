@@ -13,11 +13,11 @@ def print_pimpl_header(f):
  * this file will be lost next time generate_densities.py is run.
  */
        
-#include \"LibChemist/Defaults/NWXAtomicDensities.hpp\"
+#include \"libchemist/defaults/NWXAtomicDensities.hpp\"
 #include <string>
 #include <stdexcept>
 
-namespace LibChemist::detail_ {
+namespace libchemist::detail_ {
             
     std::vector<std::vector<double>> get_atomic_density_(const std::string& name, std::size_t Z) {         
 """)
@@ -27,7 +27,7 @@ def print_pimpl_footer(f):
 """throw std::out_of_range(\"Basis not available for SAD guess\");
     }//end get_atomic_density_
      
-} // namespace LibChemist::detail_
+} // namespace libchemist::detail_
 """)
 
 def print_basis_header(f, bs_name):
@@ -37,10 +37,10 @@ def print_basis_header(f, bs_name):
  * this file will be lost next time generate_densities.py is run.
  */
  
-#include \"LibChemist/Defaults/NWXAtomicDensities.hpp\"
+#include \"libchemist/defaults/NWXAtomicDensities.hpp\"
 #include <stdexcept>
  
-namespace LibChemist::detail_ {{
+namespace libchemist::detail_ {{
  
 std::vector<std::vector<double>> {}_density(std::size_t Z) {{
     switch(Z) {{         
@@ -56,7 +56,7 @@ def print_basis_list(f):
 #pragma once
 #include <vector>
          
-namespace LibChemist::detail_ {
+namespace libchemist::detail_ {
 """)
 
 def print_basis_footer(f):
@@ -66,7 +66,7 @@ def print_basis_footer(f):
 {}throw std::out_of_range(\"Atomic density not available for Z\");
 {}}}\n{}}} // end switch\n
 }} //end function
-}} //end LibChemist::detail_""".format(tab*2, tab*3, tab*2, tab))
+}} //end libchemist::detail_""".format(tab*2, tab*3, tab*2, tab))
 
 def print_atom_basis(f, z, density):
     tab = "    "
@@ -93,9 +93,9 @@ def desanitize_name(bs_name):
 
 def write_bases(out_dir, bases):
     tab = "    "
-    with open(os.path.join(out_dir,"NWXAtomicDensities.cpp"),'w') as f:
+    with open(os.path.join(out_dir,"nwx_atomic_densities.cpp"),'w') as f:
         print_pimpl_header(f)
-        with open(os.path.join(out_dir, "NWXAtomicDensities.hpp"), 'w') as g:
+        with open(os.path.join(out_dir, "nwx_atomic_densities.hpp"), 'w') as g:
             print_basis_list(g)
             f.write("{}".format(tab*2))
             for bs_name, bs in sorted(bases.items()):
@@ -114,10 +114,10 @@ def write_bases(out_dir, bases):
                 f.write("}}\n{}else ".format(tab*2))
             g.write("} //end namespace\n")
         print_pimpl_footer(f)
-    with open(os.path.join(out_dir,"atomic_densities", "AddDensity.cmake"), "w") as f:
+    with open(os.path.join(out_dir,"atomic_densities", "add_density.cmake"), "w") as f:
         f.write("set(LIBCHEMIST_DENSITY_SOURCE\n")
         for bs_name, bs in sorted(bases.items()):
-            f.write("    Defaults/atomic_densities/{}.cpp\n".format(bs_name))
+            f.write("    defaults/atomic_densities/{}.cpp\n".format(bs_name))
         f.write(")")
 
 def parse_bases(basis_sets, sym2Z):
@@ -134,8 +134,8 @@ def main():
 
     basis_sets = [f.replace(".xml","") for f in os.listdir("atomic_densities/default") if os.path.isfile(os.path.join("atomic_densities","default",f))]
     my_dir = os.path.dirname(os.path.realpath(__file__))
-    out_dir = os.path.join(os.path.dirname(my_dir), "LibChemist",
-                           "Defaults")
+    out_dir = os.path.join(os.path.dirname(my_dir), "libchemist",
+                           "defaults")
     atoms = parse_symbols(os.path.join(my_dir, "physical_data",
                                        "ElementNames.txt"), {})
     sym2Z = {ai.sym.lower() : ai.Z for ai in atoms.values()}
