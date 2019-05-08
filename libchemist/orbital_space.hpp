@@ -47,13 +47,13 @@ struct OrbitalSpace {
 };
 
     // Hack until tamm::Tensor == exists
-    template<typename element_type>
-    bool operator==(const OrbitalSpace<element_type>& lhs, const OrbitalSpace<element_type>& rhs) noexcept {
+    template<typename T, typename U>
+    bool operator==(const OrbitalSpace<T>& lhs, const OrbitalSpace<U>& rhs) noexcept {
         return false;
     }
 
     // Can use once tensors have ==
-//    bool operator==(const OrbitalSpace<element_type>& lhs, const OrbitalSpace<element_type>& rhs) noexcept {
+//    bool operator==(const OrbitalSpace<T>& lhs, const OrbitalSpace<U>& rhs) noexcept {
 //        return (lhs.S == rhs.S &&
 //                lhs.basis == rhs.basis &&
 //                std::tie(lhs.density, lhs.Cdagger, lhs.C) ==
