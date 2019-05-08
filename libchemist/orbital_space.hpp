@@ -44,18 +44,20 @@ struct OrbitalSpace {
 
     void hash(sde::Hasher& h) const { h(basis, *S, density, C); }
 
+};
+
     // Hack until tamm::Tensor == exists
-    bool operator==(const OrbitalSpace& rhs) noexcept {
+    template<typename T, typename U>
+    bool operator==(const OrbitalSpace<T>& lhs, const OrbitalSpace<U>& rhs) noexcept {
         return false;
     }
 
     // Can use once tensors have ==
-//    bool operator==(const Molecule& lhs, const Molecule& rhs) noexcept {
+//    bool operator==(const OrbitalSpace<T>& lhs, const OrbitalSpace<U>& rhs) noexcept {
 //        return (lhs.S == rhs.S &&
 //                lhs.basis == rhs.basis &&
 //                std::tie(lhs.density, lhs.Cdagger, lhs.C) ==
 //                std::tie(rhs.density, rhs.Cdagger, rhs.C));
 //    }
-};
 
 } // end namespace libchemist
