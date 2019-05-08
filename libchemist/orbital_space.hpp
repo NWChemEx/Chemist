@@ -45,7 +45,7 @@ struct OrbitalSpace {
     void hash(sde::Hasher& h) const { h(basis, *S, density, C); }
 
     // Hack until tamm::Tensor == exists
-    bool operator==(const OrbitalSpace& lhs, const OrbitalSpace& rhs) noexcept {
+    bool operator==(const OrbitalSpace& rhs) noexcept {
         return false;
     }
 
