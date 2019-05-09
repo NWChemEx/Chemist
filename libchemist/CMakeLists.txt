@@ -1,6 +1,7 @@
 set(LIBCHEMIST_HEADERS ao_basis_set.hpp
 	                   ao_shell.hpp
 					   atom.hpp
+                       basis_set_file_parser.hpp
 					   basis_set_manager.hpp
 					   basis_set_map.hpp
 					   libchemist.hpp
@@ -21,6 +22,7 @@ include(defaults/atomic_densities/add_density.cmake)
 set(LIBCHEMIST_SRCS ao_basis_set.cpp
 	         	    ao_shell.cpp
 					atom.cpp
+                    basis_set_file_parser.cpp
 					basis_set_manager.cpp
 					basis_set_map.cpp
 					molecule.cpp
