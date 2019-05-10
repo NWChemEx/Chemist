@@ -20,6 +20,14 @@ cpp_find_or_build_dependency(
 )
 
 cpp_find_or_build_dependency(
+    NAME utilities
+    URL github.com/ryanmrichard/utilities
+    BRANCH iterator_fix
+    PRIVATE
+    CMAKE_ARGS BUILD_TESTS=OFF
+)
+
+cpp_find_or_build_dependency(
     NAME sde
     URL github.com/NWChemEx-Project/sde
     PRIVATE
