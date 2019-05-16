@@ -10,4 +10,7 @@ using size = std::size_t;
 template<typename T>
 using coord = std::array<T, 3>;
 
+/// Type used to hold the magnitude of the angular momentum
+using angular_momentum = unsigned short;
+
 } // namespace libchemist::type
