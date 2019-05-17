@@ -5,20 +5,19 @@
 
 namespace libchemist::basis_set::detail_ {
 
-template<typename CoefType, typename ExpType, typename CenterType,
-         typename CoefArray = std::vector<CoefType>,
-         typename ExpArray  = std::vector<ExpType>>
-struct GaussianAOTraits {
-    using coef_type      = CoefType;
-    using exp_type       = ExpType;
+template<typename CoefArray, typename ExpArray, typename CenterType>
+struct GaussianAOTraits_ {
     using center_type    = CenterType;
     using coef_container = CoefArray;
     using exp_container  = ExpArray;
 };
 
-template<type::size N, typename CoefType, typename ExpType, typename CenterType>
+template<typename T>
+using GaussianAOTraits =
+  GaussianAOTraits_<std::vector<T>, std::vector<T>, type::coord<T>>;
+
+template<typename T, type::size N>
 using StaticGaussianAOTraits =
-  GaussianAOTraits<CoefType, ExpType, CenterType, std::array<CoefType, N>,
-                   std::array<ExpType, N>>;
+  GaussianAOTraits_<std::array<T, N>, std::array<T, N>, type::coord<T>>;
 
 } // namespace libchemist::basis_set::detail_

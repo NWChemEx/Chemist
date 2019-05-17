@@ -1,64 +1,70 @@
 #pragma once
-#include "libchemist/basis_set/detail_/gaussian_alias_pimpl.hpp"
-#include "libchemist/basis_set/detail_/gaussian_pimpl.hpp"
+#include "libchemist/basis_set/detail_/gaussian_traits.hpp"
+#include "libchemist/basis_set/detail_/holder.hpp"
 #include <tuple>
 
 namespace libchemist::basis_set {
 
-template<typename PIMPLType>
-class Gaussian {
+template<typename Traits>
+class Gaussian_ {
 public:
-    using coef_type   = typename PIMPLType::coef_type;
-    using exp_type    = typename PIMPLType::exp_type;
-    using center_type = typename PIMPLType::center_type;
+    template<typename T, typename U, typename V>
+    constexpr Gaussian_(T&& c, U&& a, V&& r0) noexcept;
 
-    explicit constexpr Gaussian(PIMPLType pimpl) noexcept;
+    constexpr auto& center() noexcept { return *m_center_; }
+    constexpr const auto& center() const noexcept { return *m_center_; }
 
-    constexpr auto& coef() noexcept { return m_pimpl_.coef(); }
-    constexpr const auto& coef() const noexcept { return m_pimpl_.coef(); }
+    constexpr auto& exp() noexcept { return *m_exp_; }
+    constexpr const auto& exp() const noexcept { return *m_exp_; }
 
-    constexpr double& exp() noexcept { return m_pimpl_.exp(); }
-    constexpr const auto& exp() const noexcept { return m_pimpl_.exp(); }
-
-    constexpr auto& center() noexcept { return m_pimpl_.center(); }
-    constexpr const auto& center() const noexcept { return m_pimpl_.center(); }
+    constexpr auto& coef() noexcept { return *m_coef_; }
+    constexpr const auto& coef() const noexcept { return *m_coef_; }
 
 private:
-    PIMPLType m_pimpl_;
+    detail_::holder<typename Traits::coef_type> m_coef_;
+    detail_::holder<typename Traits::exp_type> m_exp_;
+    detail_::holder<typename Traits::center_type> m_center_;
 };
+
+template<typename T>
+using Gaussian = Gaussian_<detail_::GaussianTraits<T>>;
 
 template<typename CoefType, typename ExpType, typename CenterType>
 constexpr auto make_gaussian(CoefType&& c, ExpType&& a,
                              CenterType&& r0) noexcept {
-    return Gaussian(detail_::make_guassian_pimpl(std::forward<CoefType>(c),
-                                                 std::forward<ExpType>(a),
-                                                 std::forward<CenterType>(r0)));
-}
+    using clean_coef   = std::remove_reference_t<CoefType>;
+    using clean_exp    = std::remove_reference_t<ExpType>;
+    using clean_center = std::remove_reference_t<CenterType>;
+    using traits =
+      detail_::GaussianTraits_<clean_coef, clean_exp, clean_center>;
 
-template<typename Traits, typename ParentType>
-constexpr auto make_gaussian_alias(type::size me,
-                                   ParentType&& parent) noexcept {
-    return Gaussian{detail_::make_gaussian_alias_pimpl<Traits>(
-      me, std::forward<ParentType>(parent))};
-}
-
-template<typename Traits1, typename Traits2>
-constexpr bool operator==(const Gaussian<Traits1>& lhs,
-                          const Gaussian<Traits2>& rhs) noexcept {
-    return std::tie(lhs.center()[0], lhs.center()[1], lhs.center()[2],
-                    lhs.exp(), lhs.coef()) ==
-           std::tie(rhs.center()[0], rhs.center()[1], rhs.center()[2],
-                    rhs.exp(), rhs.coef());
+    return Gaussian_<traits>(std::forward<CoefType>(c),
+                             std::forward<ExpType>(a),
+                             std::forward<CenterType>(r0));
 }
 
 template<typename Traits1, typename Traits2>
-constexpr bool operator!=(const Gaussian<Traits1>& lhs,
-                          const Gaussian<Traits2>& rhs) noexcept {
+constexpr auto operator==(const Gaussian_<Traits1>& lhs,
+                          const Gaussian_<Traits2>& rhs) noexcept {
+    return std::tie(lhs.coef(), lhs.exp(), lhs.center()[0], lhs.center()[1],
+                    lhs.center()[2]) ==
+           std::tie(rhs.coef(), rhs.exp(), rhs.center()[0], rhs.center()[1],
+                    rhs.center()[2]);
+}
+
+template<typename Traits1, typename Traits2>
+constexpr auto operator!=(const Gaussian_<Traits1>& lhs,
+                          const Gaussian_<Traits2>& rhs) noexcept {
     return !(lhs == rhs);
 }
 
-template<typename PIMPLType>
-constexpr Gaussian<PIMPLType>::Gaussian(PIMPLType pimpl) noexcept :
-  m_pimpl_(std::move(pimpl)) {}
+//-------------------------------Implementations--------------------------------
+
+template<typename Traits>
+template<typename T, typename U, typename V>
+constexpr Gaussian_<Traits>::Gaussian_(T&& c, U&& a, V&& r0) noexcept :
+  m_coef_(std::forward<T>(c)),
+  m_exp_(std::forward<U>(a)),
+  m_center_(std::forward<V>(r0)) {}
 
 } // namespace libchemist::basis_set

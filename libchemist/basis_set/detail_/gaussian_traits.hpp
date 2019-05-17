@@ -16,7 +16,7 @@ namespace libchemist::basis_set::detail_ {
  *                    type::coord<T>.
  */
 template<typename CoefType, typename ExpType, typename CenterType>
-struct GaussianTraits {
+struct GaussianTraits_ {
     /// Type used to hold the Gaussian's coefficient
     using coef_type = CoefType;
     /// Type used to hold the Gaussian's exponent
@@ -24,5 +24,9 @@ struct GaussianTraits {
     /// Type used to store the Gaussian's center
     using center_type = CenterType;
 };
+
+/// Typedef that makes the traits depend on the precision (e.g. T = double)
+template<typename T>
+using GaussianTraits = GaussianTraits_<T, T, type::coord<T>>;
 
 } // namespace libchemist::basis_set::detail_
