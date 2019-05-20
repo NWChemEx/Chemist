@@ -5,29 +5,234 @@
 
 namespace libchemist::basis_set {
 
+/** @brief Models the radial part of a Gaussian primitive.
+ *
+ *  (The radial part of) a Gaussian primitive is given by the formula:
+ *  @f{equation}{
+ *      c\exp\left(-\alpha r^2\right),
+ *  @f}
+ *  where @f$c@f$ is the contraction coefficient, @f$\alpha@f$ is the exponent,
+ *  and @f$r@f$ is the distance from the origin.
+ *
+ *  Depending on the types inside the type @p Traits, this class may own its
+ *  parameters or alias them. The distinction between owning and aliasing is
+ *  made in the @p Traits type by either using value or pointer types
+ *  respectively. If the instance owns the parameters non-const instances of the
+ *  Gaussian_ class can modify the parameters. If the instance aliases the
+ *  parameters the parameters should only be modifiable if the aliased
+ *  parameters are uniquely associated with this instance (e.g. if the
+ *  parameters are stored in a basis set class, in contiguous memory); ensuring
+ *  the const-ness of aliased parameters is the responsibility of the @p Traits
+ *  type and is done by declaring the type associated with the parameter to be a
+ *  const pointer.
+ *
+ *  This class is capable of being used as a compile-time constant.
+ *
+ *  @note The actual class name contains an underscore because users are
+ *        expected to use the class through typedefs.
+ *
+ * @tparam Traits The type of the GaussianTraits object from which this class
+ *                will determine the types used to hold its state. Must contain
+ *                typedefs: `coef_type`, `exp_type`, and `center_type`, which
+ *                respectively are the types used to hold the contraction
+ *                coefficient, exponent, and Cartesian coordinates of the
+ *                center.
+ */
 template<typename Traits>
 class Gaussian_ {
 public:
-    template<typename T, typename U, typename V>
-    constexpr Gaussian_(T&& c, U&& a, V&& r0) noexcept;
+    /** @brief Constructs a Gaussian_ object with the provided state
+     *
+     *  Users of this class are expected to go through the `make_gaussian`
+     *  factory function. Whether this
+     *
+     *  @tparam CoefType The type of the provided coefficient, must be
+     *                   implicitly convertable to the type `Traits::coef_type`.
+     *  @tparam ExpType The type of the provided exponent, must be
+     *                  implicitly convertable to the type `Traits::exp_type`.
+     *  @tparam CenterType The type of the provided center, must be
+     *                     implicitly convertable to the type
+     *                    `Traits::center_type`.
+     *
+     *  @param[in] c The contraction coefficient for this Gaussian.
+     *  @param[in] a The exponent for this Gaussian
+     *  @param[in] r0 The Cartesian coordinates for this Gaussian.
+     *
+     *  @throw none No throw guarantee.
+     */
+    template<typename CoefType, typename ExpType, typename CenterType>
+    constexpr Gaussian_(CoefType&& c, ExpType&& a, CenterType&& r0) noexcept;
 
-    constexpr auto& center() noexcept { return *m_center_; }
-    constexpr const auto& center() const noexcept { return *m_center_; }
-
-    constexpr auto& exp() noexcept { return *m_exp_; }
-    constexpr const auto& exp() const noexcept { return *m_exp_; }
-
+    /** @brief Provides (possibly) read/write access to the contraction
+     *         coefficient.
+     *
+     *  This member function returns the contraction coefficient of the
+     *  Gaussian. If `Traits::coef_type` is non-const then the coefficient is
+     *  read-/write-able, if it is const then the coefficient is only readable.
+     *
+     * @return The coefficient of the Gaussian.
+     *
+     * @throw none No throw guarantee.
+     */
     constexpr auto& coef() noexcept { return *m_coef_; }
+
+    /** @brief Provides read-only access to the contraction
+     *         coefficient.
+     *
+     *  This member function returns the contraction coefficient of the
+     *  Gaussian. The coefficient is read-only regardless of the type of
+     *  `Traits::coef_type`.
+     *
+     * @return The coefficient of the Gaussian.
+     *
+     * @throw none No throw guarantee.
+     */
     constexpr const auto& coef() const noexcept { return *m_coef_; }
 
-private:
-    detail_::holder<typename Traits::coef_type> m_coef_;
-    detail_::holder<typename Traits::exp_type> m_exp_;
-    detail_::holder<typename Traits::center_type> m_center_;
-};
+    /** @brief Provides (possibly) read/write access to the exponent.
+     *
+     *  This member function returns the exponent of the Gaussian.
+     *  If `Traits::exp_type` is non-const then the exponent is
+     *  read-/write-able, if it is const then the exponent is only readable.
+     *
+     * @return The exponent of the Gaussian.
+     *
+     * @throw none No throw guarantee.
+     */
+    constexpr auto& exp() noexcept { return *m_exp_; }
 
+    /** @brief Provides read-only access to the exponent.
+     *
+     *  This member function returns the exponent of the Gaussian. The exponent
+     *  is read-only regardless of the type of  `Traits::exp_type`.
+     *
+     * @return The exponent of the Gaussian.
+     *
+     * @throw none No throw guarantee.
+     */
+    constexpr const auto& exp() const noexcept { return *m_exp_; }
+
+    /** @brief Provides (possibly) read/write access to the coordinates.
+     *
+     *  This member function returns the Cartesian coordinates of the Gaussian.
+     *  If `Traits::center_type` is non-const then the coordinates are
+     *  read-/write-able, if it is const then the coordinates are only readable.
+     *
+     *
+     * @return The Cartesian coordinates of the Gaussian's center (in a.u.).
+     *
+     * @throw none No throw guarantee.
+     */
+    constexpr auto& center() noexcept { return *m_center_; }
+
+    /** @brief Provides read-only access to the coordinates.
+     *
+     *  This member function returns the Cartesian coordinates of the Gaussian.
+     *  Regardless of the type `Traits::center_type`, the returned coordinates
+     *  are read-only.
+     *
+     * @return The Cartesian coordinates of the Gaussian's center (in a.u.).
+     *
+     * @throw none No throw guarantee.
+     */
+    constexpr const auto& center() const noexcept { return *m_center_; }
+
+private:
+    /// The instance holding the contraction coefficient
+    detail_::holder<typename Traits::coef_type> m_coef_;
+    /// The instance holding the exponent
+    detail_::holder<typename Traits::exp_type> m_exp_;
+    /// The instance holding the Cartesian coordinates
+    detail_::holder<typename Traits::center_type> m_center_;
+}; // class Gaussian_
+
+/// Typedef of Gaussian_ that sets all types off of a floating-point type @p T
 template<typename T>
 using Gaussian = Gaussian_<detail_::GaussianTraits<T>>;
+
+/** @brief Factory function for creating a Gaussian_ instance.
+ *
+ *  @relates Gaussian_
+ *
+ *  This function will analyze the types of the provided arguments and determine
+ *  if the Gaussian should own the values or alias them based on the types of
+ *  the arguments. Specifically, a value will be aliased if it is pointer-like
+ *  and owned if it is value-like. The resulting value/alias will be read-only
+ *  if the provided value is const.
+ *
+ *
+ * @tparam CoefType The type to use to store the coefficient.
+ * @tparam ExpType The type to use to store the exponent
+ * @tparam CenterType The type to use to store the center
+ *
+ * @param[in] c The value of the coefficient
+ * @param[in] a The value of the exponent
+ * @param[in] r0 The value of the center
+ * @return[in] The created Gaussian_ instance
+ *
+ * @throw none No throw guarantee.
+ */
+template<typename CoefType, typename ExpType, typename CenterType>
+constexpr auto make_gaussian(CoefType&& c, ExpType&& a,
+                             CenterType&& r0) noexcept;
+
+/** @brief Compares two Gaussian instances for equality.
+ *
+ *  @relates Gaussian_
+ *
+ *  Two Gaussians are equal if the values of their contraction coefficient,
+ *  exponent, and Cartesian coordinates compare equal. Thus no consideration is
+ *  given to whether or not the Gaussians alias their values.
+ *
+ *  @tparam Traits1 The GaussianTraits_ type associated with the Gaussian_ on
+ *                  the left side of the equality operator.
+ * @tparam Traits2  The GaussianTraits_ type associated with the Gaussian_ on
+ *                  the right side of the equality operator.
+ * @param[in] lhs The Gaussian_ instance on the left side of the equality
+ *                operator.
+ * @param[in] rhs The Gaussian_ instance on the right side of the equality
+ *                operator.
+ * @return True if the two instances compare equal and false otherwise.
+ * @throw none No throw guarantee.
+ */
+template<typename Traits1, typename Traits2>
+constexpr auto operator==(const Gaussian_<Traits1>& lhs,
+                          const Gaussian_<Traits2>& rhs) noexcept;
+
+/** @brief Compares two Gaussian instances for inequality.
+ *
+ *  @relates Gaussian_
+ *
+ *  Two Gaussians are equal if the values of their contraction coefficient,
+ *  exponent, and Cartesian coordinates compare equal. Thus no consideration is
+ *  given to whether or not the Gaussians alias their values.
+ *
+ *  @tparam Traits1 The GaussianTraits_ type associated with the Gaussian_ on
+ *                  the left side of the inequality operator.
+ *  @tparam Traits2 The GaussianTraits_ type associated with the Gaussian_ on
+ *                  the right side of the inequality operator.
+ *  @param[in] lhs  The Gaussian_ instance on the left side of the inequality
+ *                  operator.
+ *  @param[in] rhs  The Gaussian_ instance on the right side of the inequality
+ *                  operator.
+ * @return True if the two instances do not compare equal and false otherwise.
+ * @throw none No throw guarantee.
+ */
+template<typename Traits1, typename Traits2>
+constexpr auto operator!=(const Gaussian_<Traits1>& lhs,
+                          const Gaussian_<Traits2>& rhs) noexcept {
+    return !(lhs == rhs);
+}
+
+//-------------------------------Implementations--------------------------------
+
+template<typename Traits>
+template<typename CoefType, typename ExpType, typename CenterType>
+constexpr Gaussian_<Traits>::Gaussian_(CoefType&& c, ExpType&& a,
+                                       CenterType&& r0) noexcept :
+  m_coef_(std::forward<CoefType>(c)),
+  m_exp_(std::forward<ExpType>(a)),
+  m_center_(std::forward<CenterType>(r0)) {}
 
 template<typename CoefType, typename ExpType, typename CenterType>
 constexpr auto make_gaussian(CoefType&& c, ExpType&& a,
@@ -51,20 +256,5 @@ constexpr auto operator==(const Gaussian_<Traits1>& lhs,
            std::tie(rhs.coef(), rhs.exp(), rhs.center()[0], rhs.center()[1],
                     rhs.center()[2]);
 }
-
-template<typename Traits1, typename Traits2>
-constexpr auto operator!=(const Gaussian_<Traits1>& lhs,
-                          const Gaussian_<Traits2>& rhs) noexcept {
-    return !(lhs == rhs);
-}
-
-//-------------------------------Implementations--------------------------------
-
-template<typename Traits>
-template<typename T, typename U, typename V>
-constexpr Gaussian_<Traits>::Gaussian_(T&& c, U&& a, V&& r0) noexcept :
-  m_coef_(std::forward<T>(c)),
-  m_exp_(std::forward<U>(a)),
-  m_center_(std::forward<V>(r0)) {}
 
 } // namespace libchemist::basis_set

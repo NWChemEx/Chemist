@@ -1,7 +1,6 @@
-#include "libchemist/basis_set/detail_/gaussian_shell_traits.hpp"
+#include "libchemist/basis_set/detail_/gaussian_center_traits.hpp"
 #include "libchemist/basis_set/detail_/holder.hpp"
-#include "libchemist/basis_set/gaussian_ao.hpp"
-#include <utilities/iter_tools/range_container.hpp>
+#include "libchemist/basis_set/gaussian_shell.hpp"
 
 namespace libchemist::basis_set {
 
@@ -24,7 +23,7 @@ public:
     }
 
 private:
-    detail_::holder < typename Traits::shell_array m_cs_;
+    detail_::holder<typename Traits::shell_array> m_cs_;
     detail_::holder<typename Traits::center_type> m_center_;
 };
 
@@ -33,7 +32,7 @@ constexpr auto make_gaussian_center(CenterType&& r0,
                                     ShellArray&& shells) noexcept {
     using clean_center = std::remove_reference_t<CenterType>;
     using clean_shells = std::remove_reference_t<ShellArray>;
-    using traits = detail_::GaussianCenterTraits_<clean_center, clean_shells>;
+    using traits = detail_::GaussianCenterTraits<clean_center, clean_shells>;
     return GaussianCenter_<traits>(std::forward<CenterType>(r0),
                                    std::forward<ShellArray>(shells));
 }

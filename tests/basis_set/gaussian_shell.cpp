@@ -15,9 +15,6 @@ TEST_CASE("constexpr GaussianShell") {
     STATIC_REQUIRE(s.center()[2] == r0[2]);
     STATIC_REQUIRE(s.pure());
 
-    STATIC_REQUIRE(s[0].coef(0) == cs[0]);
-    STATIC_REQUIRE(s[0].exp(0) == as[0]);
-
     //    SECTION("Can change l"){
     //        s.l() = 4;
     //        REQUIRE(s.l() == 4);
