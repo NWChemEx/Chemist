@@ -3,6 +3,7 @@ set(LIBCHEMIST_TESTS test_main.cpp
 					 ao_shell.cpp
 					 aos_facade.cpp
 					 atom.cpp
+		             basis_set/detail_/ao_basis_set_pimpl.cpp
 					 basis_set/gaussian.cpp
 		             basis_set/gaussian_center.cpp
 				     basis_set/gaussian_shell.cpp

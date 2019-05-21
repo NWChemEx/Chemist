@@ -28,16 +28,6 @@ struct GaussianAOTraits_ {
     using exp_type = typename exp_container::value_type;
     /// Type of the Cartesian coordinates
     using center_type = CenterType;
-    /// Traits for a read-/write-able primitive
-    using prim_traits =
-      GaussianTraits_<coef_type*, exp_type*, const center_type*>;
-    /// Traits for a read-only primitive
-    using const_prim_traits =
-      GaussianTraits_<const coef_type*, const exp_type*, const center_type*>;
-    /// Type of non-const primitive
-    using prim_type = Gaussian_<prim_traits>;
-    /// Type of a const primitive
-    using const_prim = Gaussian_<const_prim_traits>;
 };
 
 /// Defines the traits for a GaussianAO_ with a dynamic number of primitives

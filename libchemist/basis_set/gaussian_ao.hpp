@@ -29,20 +29,7 @@ namespace libchemist::basis_set {
  */
 template<typename Traits>
 class GaussianAO_ {
-private:
-    /// Type of this class
-    using my_type = GaussianAO_<Traits>;
-
 public:
-    /// Type of a view to a (possibly) read-/write-able primitive
-    using value_type = typename Traits::prim_type;
-    /// Type of a view to a read-only primitive
-    using const_value = typename Traits::const_prim;
-    /// Type of an iterator over the (possibly) read-/write-able primitives
-    using iterator = detail_::BSIterator<value_type, my_type*>;
-    /// Type of an iterator over the read-only primitives
-    using const_iterator = detail_::BSIterator<const_value, const my_type*>;
-
     /** @brief Constructs an AO that is a linear combination of the Gaussian
      *         primitives described by the provided parameters.
      *
@@ -133,10 +120,12 @@ public:
      */
     constexpr auto operator[](type::size i) const noexcept;
 
-    auto begin() noexcept { return iterator{0, this}; }
-    auto end() noexcept { return iterator{size(), this}; }
-    auto begin() const noexcept { return const_iterator{0, this}; }
-    auto end() const noexcept { return const_iterator{size(), this}; }
+    auto begin() noexcept { return detail_::make_bs_iterator(0, this); }
+    auto end() noexcept { return detail_::make_bs_iterator(size(), this); }
+    auto begin() const noexcept { return detail_::make_bs_iterator(0, this); }
+    auto end() const noexcept {
+        return detail_::make_bs_iterator(size(), this);
+    }
     auto cbegin() const noexcept { return begin(); }
     auto cend() const noexcept { return end(); }
 
@@ -249,6 +238,14 @@ constexpr auto make_gaussian_ao(CoefCont&& cs, ExpCont&& as,
                                std::forward<ExpCont>(as),
                                std::forward<CenterType>(r0));
 }
+
+// template<typename PrimType, typename...Args>
+// constexpr auto make_gaussian_ao(PrimType&& p0, Args&&...ps) noexcept {
+//    std::array cs{p0.coef(), ps.coef()...};
+//    std::array as{p0.exp(), ps.exp()...};
+//    auto r0 = p0.center();
+//    return make_gaussian_ao(cs, as, r0);
+//}
 
 template<typename Traits1, typename Traits2>
 constexpr bool operator==(const GaussianAO_<Traits1>& lhs,

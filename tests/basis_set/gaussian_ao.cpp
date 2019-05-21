@@ -111,3 +111,15 @@ TEST_CASE("GaussianAO") {
         REQUIRE(bf2 == bf3);
     }
 }
+
+// TEST_CASE("make_gaussian_ao"){
+//    constexpr coord<double> r0{1.23, 4.56, 7.89};
+//    constexpr std::array cs{2.34, 3.45, 4.56};
+//    constexpr std::array as{5.67, 6.78, 7.89};
+//    constexpr StaticGaussianAO<double, 3> bf(cs, as, r0);
+//    constexpr Gaussian<double> p1(cs[0], as[0], r0);
+//    constexpr Gaussian<double> p2(cs[1], as[1], r0);
+//    constexpr Gaussian<double> p3(cs[2], as[2], r0);
+//    constexpr auto bf2 = make_gaussian_ao(p1, p2, p3);
+//    STATIC_REQUIRE(bf == bf2);
+//}
