@@ -1,3 +1,3 @@
 #pragma once
 
-namespace {} // End namespace
+namespace libchemist::basis_set {} // namespace libchemist::basis_set

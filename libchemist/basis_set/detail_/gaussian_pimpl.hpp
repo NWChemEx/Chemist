@@ -1,38 +1,15 @@
 #pragma once
-#include "libchemist/basis_set/detail_/gaussian_pimpl.hpp"
+#include "libchemist/basis_set/detail_/gaussian_traits.hpp"
+#include "libchemist/basis_set/detail_/holder.hpp"
+#include <tuple>
 
-namespace libchemist::basis_set {
+namespace libchemist::basis_set::detail_ {
 
-/** @brief Models the radial part of a Gaussian primitive.
- *
- *  (The radial part of) a Gaussian primitive is given by the formula:
- *  @f{equation}{
- *      c\exp\left(-\alpha r^2\right),
- *  @f}
- *  where @f$c@f$ is the contraction coefficient, @f$\alpha@f$ is the exponent,
- *  and @f$r@f$ is the distance from the origin.
- *
- *  Depending on the types inside the type @p Traits, this class may own its
- *  parameters or alias them. The distinction between owning and aliasing is
- *  made in the @p Traits type by either using value or pointer types
- *  respectively. If the instance owns the parameters non-const instances of the
- *  Gaussian_ class can modify the parameters. If the instance aliases the
- *  parameters the parameters should only be modifiable if the aliased
- *  parameters are uniquely associated with this instance (e.g. if the
- *  parameters are stored in a basis set class, in contiguous memory); ensuring
- *  the const-ness of aliased parameters is the responsibility of the @p Traits
- *  type and is done by declaring the type associated with the parameter to be a
- *  const pointer.
- *
- *  This class is capable of being used as a compile-time constant.
- *
- *  @note The actual class name contains an underscore because users are
- *        expected to use the class through typedefs.
- *
- * @tparam PIMPL
+/** @brief Gaussian primitive that assumes a primitive has an exponent, weight,
+ *         and a Cartesian center.
  */
 template<typename Traits>
-class Gaussian_ {
+class GaussianPIMPL {
 public:
     /** @brief Constructs a Gaussian_ object with the provided state
      *
@@ -54,7 +31,8 @@ public:
      *  @throw none No throw guarantee.
      */
     template<typename CoefType, typename ExpType, typename CenterType>
-    constexpr Gaussian_(CoefType&& c, ExpType&& a, CenterType&& r0) noexcept;
+    constexpr GaussianPIMPL(CoefType&& c, ExpType&& a,
+                            CenterType&& r0) noexcept;
 
     template<typename Traits2>
     Gaussian_
@@ -138,10 +116,13 @@ public:
     constexpr const auto& center() const noexcept { return *m_center_; }
 
 private:
+    using coef_holder = detail_::holder<typename Traits::coef_type>;
+    using exp_holder  = detail_::holder<typename Traits::exp_type>;
+
     /// The instance holding the contraction coefficient
-    detail_::holder<typename Traits::coef_type> m_coef_;
+    m_coef_;
     /// The instance holding the exponent
-    detail_::holder<typename Traits::exp_type> m_exp_;
+    m_exp_;
     /// The instance holding the Cartesian coordinates
     detail_::holder<typename Traits::center_type> m_center_;
 }; // class Gaussian_
@@ -257,4 +238,4 @@ constexpr auto operator==(const Gaussian_<Traits1>& lhs,
                     rhs.center()[2]);
 }
 
-} // namespace libchemist::basis_set
+} // namespace libchemist::basis_set::detail_
