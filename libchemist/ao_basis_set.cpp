@@ -1,5 +1,5 @@
 #include "libchemist/ao_basis_set.hpp"
-#include "libchemist/detail_/ao_basis_set_pimpl.hpp"
+#include "libchemist/detail_/utility.hpp"
 #include <algorithm> //For max element
 #include <sde/detail_/memoization.hpp>
 

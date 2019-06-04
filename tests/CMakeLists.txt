@@ -3,9 +3,11 @@ set(LIBCHEMIST_TESTS test_main.cpp
 					 ao_shell.cpp
 					 aos_facade.cpp
 					 atom.cpp
+		             basis_set/detail_/utility.cpp
 					 basis_set/gaussian.cpp
 		             basis_set/gaussian_ao.cpp
-		             basis_set/gaussian_view.cpp
+                     basis_set/gaussian_alias.cpp
+		             basis_set/gaussian_shell.cpp
 					 basis_set_map.cpp
 					 libchemist.cpp
 					 molecule.cpp
