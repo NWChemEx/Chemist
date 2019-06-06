@@ -4,7 +4,7 @@
 using namespace libchemist::basis_set;
 
 struct OneIdx {
-    using index_type   = std::array<std::size_t, 1>;
+    using value_type   = double;
     constexpr OneIdx() = default;
     constexpr auto primitive(std::size_t) const {
         return GaussianAlias{this, std::array{0ul}};

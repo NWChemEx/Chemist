@@ -41,6 +41,9 @@ namespace libchemist::basis_set {
 template<typename T>
 class Gaussian {
 public:
+    /// The floating-point type used to hold the parameters
+    using value_type = T;
+
     /** @brief Makes a Gaussian that is mathematically equal to 0
      *
      *  The Gaussian instance resulting from the default ctor has a contraction
@@ -213,6 +216,15 @@ private:
     /// Where in Cartesian space the Gaussian is centered
     std::optional<type::coord<T>> m_coord_;
 };
+/// Allow no-center ctor to deduce template parameter
+template<typename CoefType, typename ExpType>
+Gaussian(CoefType&&,
+         ExpType&&) noexcept->Gaussian<std::common_type_t<CoefType, ExpType>>;
+
+/// Allow center ctor to deduce template parameter
+template<typename CoefType, typename ExpType, typename CoordType>
+Gaussian(CoefType&&, ExpType&&,
+         CoordType&&) noexcept->Gaussian<std::common_type_t<CoefType, ExpType>>;
 
 /** @brief Determines if a Gaussian instance is the same as another object.
  *  @relates Gaussian

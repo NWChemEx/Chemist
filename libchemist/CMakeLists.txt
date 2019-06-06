@@ -18,7 +18,7 @@ include(defaults/bases/add_basis.cmake)
 
 include(defaults/atomic_densities/add_density.cmake)
 
-set(LIBCHEMIST_SRCS ao_basis_set.cpp
+set(LIBCHEMIST_SRCS gaussian_basis_set.cpp
 		ao_shell.cpp
 					atom.cpp
 					basis_set_manager.cpp

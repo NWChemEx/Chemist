@@ -1,36 +1,12 @@
 #pragma once
-#include "libchemist/types.hpp"
+#include "libchemist/basis_set/gaussian.hpp"
+#include "libchemist/basis_set/gaussian_ao.hpp"
+#include "libchemist/basis_set/gaussian_center.hpp"
+#include "libchemist/basis_set/gaussian_shell.hpp"
 
-struct GaussianCenterAlias {
-public:
-    constexpr auto& coord() noexcept;
-    constexpr const auto& coord() const noexcept;
+#include "libchemist/basis_set/gaussian_alias.hpp"
+#include "libchemist/basis_set/gaussian_ao_alias.hpp"
+#include "libchemist/basis_set/gaussian_center_alias.hpp"
+#include "libchemist/basis_set/gaussian_shell_alias.hpp"
 
-    GaussianShell shell(type::size i);
-    GaussianAO ao(type::size i, type::size j);
-    Gaussian prim(type::size i, type::size j, type::size k);
-
-private:
-    type::size m_index_;
-};
-
-struct GaussianShellAlias {
-public:
-    constexpr const auto& coord() const noexcept;
-
-private:
-    type::size m_coord_;
-    type::size m_index_;
-};
-
-struct GaussianAOView {
-public:
-    constexpr const auto& coord() const noexcept;
-
-private:
-    type::size m_coord_;
-    type::size m_shell_;
-    type::size m_index_;
-};
-}
-; // End namespace
+#include "libchemist/basis_set/gaussian_basis_set.hpp"

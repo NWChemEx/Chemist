@@ -1,5 +1,6 @@
 #pragma once
 #include "libchemist/basis_set/gaussian_alias.hpp"
+#include <numeric>
 
 namespace libchemist::basis_set {
 
@@ -20,9 +21,12 @@ namespace libchemist::basis_set {
  *                       the primitive's exponents and coefficients. Defaults to
  *                       std::vector<T>.
  */
-template<typename T, typename ContainerType = std::vector<T>>
+template<typename ContainerType>
 class GaussianAO {
 public:
+    /// The floating-point type used for the parameters
+    using value_type = typename ContainerType::value_type;
+
     /** @brief Creates an AO with no center and no primitives.
      *
      *  This ctor creates an AO that is mathematically equal to the zero
@@ -34,11 +38,47 @@ public:
      */
     constexpr GaussianAO() = default;
 
+    /** @brief Constructs an AO given a list of primitives
+     *
+     * @tparam PrimType The type of the first primitive. Must satisfy the
+     *                  concept of Gaussian (have a coefficient, exponent,
+     *                  has_center, and center method).
+     * @tparam Args     The types of the remaining primitives.
+     * @param[in] prim1 The first primitive to add to the AO
+     * @param[in] prims The remaining primitives to add to the AO
+     * @throw std::logic_error if some primitives have a center and others
+     *                         don't or if the centers are not the same. Strong
+     *                         throw guarantee.
+     */
+    template<typename PrimType, typename... Args,
+             detail_::enable_if_gaussian_t<std::decay_t<PrimType>> = 0>
+    explicit constexpr GaussianAO(PrimType&& prim1, Args&&... prims);
+
+    /** @brief Creates an AO given the primitive's parameters, but no center.
+     *
+     *
+     *  @tparam CoefsType The type of the container holding the coefficients.
+     *                        Must be implicitly convertable to ContainerType.
+     *  @tparam ExpsType The type of the container holding the exponents.
+     *                   Must be implicitly convertable to ContainerType.
+     *
+     *  @param[in] cs A container of the contraction coefficients for the
+     *                primitives forming this AO. Should be the same length as
+     *                @p as and the coefficients must have the same type as the
+     *                exponents in @p as.
+     *  @param[in] as A container of the exponents for the primitives forming
+     *                this AO. Should be the same length as @p cs and the
+     *                exponents must have the same type as the
+     *                coefficients in @p cs.
+     *
+     * @throw none No throw guarantee.
+     */
+    template<typename CoefsType, typename ExpsType,
+             detail_::disable_if_gaussian_t<std::decay_t<CoefsType>> = 0>
+    constexpr GaussianAO(CoefsType&& cs, ExpsType&& as) noexcept;
+
     /** @brief Creates an AO given the primitive's parameters.
      *
-     *  It is strongly suggested that you create a GaussianAO instance using
-     *  the free-functions. These free functions provide a more user-friendly
-     *  API for calling this ctor given a variety of inputs.
      *
      *  @tparam CoefsType The type of the container holding the coefficients.
      *                    Must be implicitly convertable to ContainerType.
@@ -60,53 +100,9 @@ public:
      *                should be in atomic units.
      * @throw none No throw guarantee.
      */
-    template<typename CoefsType, typename ExpsType, typename CoordType>
+    template<typename CoefsType, typename ExpsType, typename CoordType,
+             detail_::disable_if_gaussian_t<std::decay_t<CoefsType>> = 0>
     constexpr GaussianAO(CoefsType&& cs, ExpsType&& as, CoordType&& r) noexcept;
-
-    /** @brief Adds the primitive to the AO.
-     *
-     *  This function can be used to add an additional primitive to the AO. This
-     *  assumes that @p ContainerType has a `push_back` method. If it does not
-     *  you will get a compile-time error.
-     *
-     * @tparam GaussianType Type of the input primitive. Must define a
-     *                      `coefficient` and `exponent` function which return
-     *                      their namesakes.
-     *
-     * @param[in] g The primitive to add to the AO.
-     *
-     * @throw ??? Throws if the underlying containers' `push_back` method
-     *            throws. Weak throw guarantee.
-     *
-     * @note This function may invalidate references obtained from primitives
-     *       returned from the `primitive` function. The returned primitives
-     *       remain valid.
-     *
-     */
-    template<typename GaussianType>
-    void add_primitive(GaussianType&& g);
-
-    /** @brief Creates a primitive with the provided characteristics and adds it
-     *         to the AO.
-     *
-     *  This function can be used to add an additional primitive to the AO. This
-     *  overload can be used to bypass creating a primitive instance. Like the
-     *  other `add_primitive` overload this function assumes that
-     *  @p ContainerType has a `push_back` method. If it does not you will get a
-     *  compile-time error.
-     *
-     * @param[in] c The contraction coefficient for the primitive.
-     *
-     * @param[in] a The exponent for the primitive.
-     *
-     * @throw ??? Throws if the underlying containers' `push_back` method
-     *            throws. Weak throw guarantee.
-     *
-     * @note This function may invalidate references obtained from primitives
-     *       returned from the `primitive` function. The returned primitives
-     *       remain valid.
-     */
-    void add_primitive(T c, T a);
 
     /** @brief Returns the @p i-th primitive contributing to this AO.
      *
@@ -212,6 +208,51 @@ public:
      */
     constexpr auto& center() const { return m_coord_.value(); }
 
+    /** @brief Adds the primitive to the AO.
+     *
+     *  This function can be used to add an additional primitive to the AO. This
+     *  assumes that @p ContainerType has a `push_back` method. If it does not
+     *  you will get a compile-time error.
+     *
+     * @tparam GaussianType Type of the input primitive. Must define a
+     *                      `coefficient` and `exponent` function which return
+     *                      their namesakes.
+     *
+     * @param[in] g The primitive to add to the AO.
+     *
+     * @throw ??? Throws if the underlying containers' `push_back` method
+     *            throws. Weak throw guarantee.
+     *
+     * @note This function may invalidate references obtained from primitives
+     *       returned from the `primitive` function. The returned primitives
+     *       remain valid.
+     *
+     */
+    template<typename GaussianType>
+    void add_primitive(GaussianType&& g);
+
+    /** @brief Creates a primitive with the provided characteristics and adds it
+     *         to the AO.
+     *
+     *  This function can be used to add an additional primitive to the AO. This
+     *  overload can be used to bypass creating a primitive instance. Like the
+     *  other `add_primitive` overload this function assumes that
+     *  @p ContainerType has a `push_back` method. If it does not you will get a
+     *  compile-time error.
+     *
+     * @param[in] c The contraction coefficient for the primitive.
+     *
+     * @param[in] a The exponent for the primitive.
+     *
+     * @throw ??? Throws if the underlying containers' `push_back` method
+     *            throws. Weak throw guarantee.
+     *
+     * @note This function may invalidate references obtained from primitives
+     *       returned from the `primitive` function. The returned primitives
+     *       remain valid.
+     */
+    void add_primitive(value_type c, value_type a);
+
 private:
     // Ensure views can get the data
     friend class detail_::CallMemberX;
@@ -241,7 +282,7 @@ private:
     ContainerType m_alpha_;
 
     ///(possibly) the Cartesian coordinates of the Gaussian, in atomic units
-    std::optional<type::coord<T>> m_coord_;
+    std::optional<type::coord<value_type>> m_coord_;
 };
 
 /** @brief Determines if a GaussianAO is the same as another object.
@@ -260,9 +301,8 @@ private:
  * @param[in] rhs The AO on the right of the equality operator.
  * @return True if @p lhs and @p rhs are equal and false otherwise.
  */
-template<typename LHST, typename LHSCont, typename RHS>
-constexpr bool operator==(const GaussianAO<LHST, LHSCont>& lhs,
-                          const RHS& rhs) noexcept;
+template<typename LHS, typename RHS>
+constexpr bool operator==(const GaussianAO<LHS>& lhs, const RHS& rhs) noexcept;
 
 /** @brief Determines if a GaussianAO is different from another object.
  *  @relates GaussianAO
@@ -280,162 +320,117 @@ constexpr bool operator==(const GaussianAO<LHST, LHSCont>& lhs,
  * @param[in] rhs The AO on the right of the inequality operator.
  * @return False if @p lhs and @p rhs are equal and true otherwise.
  */
-template<typename LHST, typename LHSCont, typename RHS>
-constexpr bool operator!=(const GaussianAO<LHST, LHSCont>& lhs,
-                          const RHS& rhs) noexcept;
-
-/** @brief Creates an AO given a list of primitives
- *
- *  @note This function only participates in overload resolution if
- *        @p PrimType is a Gaussian or GaussianAlias instance.
- *
- * @tparam PrimType The type of the first primitive
- * @tparam Args The types of the remaining primitives
- * @param[in] prim The first primitive.
- * @param[in] args The remaining primitives
- * @return An AO with the provided primitives.
- */
-template<typename PrimType, typename... Args,
-         detail_::enable_if_gaussian_t<std::decay_t<PrimType>> = 0>
-constexpr auto make_gaussian_ao(PrimType&& prim, Args&&... args);
-
-/** @brief Creates an AO with no center, but the provided primtives
- *
- *  @note This function only participates in overload resolution if
- *        @p Coefype is not a Gaussian or GaussianAlias instance.
- *
- * @tparam CoefType The type of the container holding the coefficients.
- * @tparam ExpType The type of the container holding the exponents.
- *
- * @param[in] cs The coefficients for the primitives forming the AO.
- * @param[in] as The exponents for the primitives forming the AO. Must be the
- *               same number of exponents as coefficients.
- *
- * @return An AO with no center, but the provided primitives.
- * @throw none No throw guarantee.
- */
-template<typename CoefType, typename ExpType,
-         detail_::disable_if_gaussian_t<CoefType> = 0>
-constexpr auto make_gaussian_ao(CoefType&& cs, ExpType&& as) noexcept;
-
-/** @brief Creates an AO with a center and the provided primtives
- *
- *  @note This function only participates in overload resolution if
- *        @p Coefype is not a Gaussian or GaussianAlias instance.
- *
- * @tparam CoefType The type of the container holding the coefficients.
- * @tparam ExpType The type of the container holding the exponents.
- * @tparam CoordType The type of the center's coordinates.
- *
- * @param[in] cs The coefficients for the primitives forming the AO.
- * @param[in] as The exponents for the primitives forming the AO. Must be the
- *               same number of exponents as coefficients.
- * @param[in] r  The Cartesian coordinates of the center, in atomic units.
- *
- * @return An AO with the provided center and primitives.
- * @throw none No throw guarantee.
- */
-template<typename CoefType, typename ExpType, typename CoordType,
-         detail_::disable_if_gaussian_t<CoefType> = 0>
-constexpr auto make_gaussian_ao(CoefType&& cs, ExpType&& as,
-                                CoordType&& r) noexcept;
+template<typename LHS, typename RHS>
+constexpr bool operator!=(const GaussianAO<LHS>& lhs, const RHS& rhs) noexcept;
 
 //----------------------------------Implementations-----------------------------
-#define CLASS_TYPE GaussianAO<T, ContainerType>
+#define CLASS_PARAM template<typename ContainerType>
+#define CLASS_TYPE GaussianAO<ContainerType>
 
-template<typename T, typename ContainerType>
+template<typename PrimType, typename... Prims>
+GaussianAO(PrimType&&, Prims&&...)
+  ->GaussianAO<std::enable_if_t<
+    detail_::is_gaussian_v<std::decay_t<PrimType>>,
+    detail_::ao_container_t<std::decay_t<PrimType>, std::decay_t<Prims>...>>>;
+
+template<typename CoefsType, typename ExpsType>
+GaussianAO(CoefsType&&, ExpsType&&,
+           detail_::disable_if_gaussian_t<std::decay_t<CoefsType>> =
+             0) noexcept->GaussianAO<std::common_type_t<CoefsType, ExpsType>>;
+
 template<typename CoefsType, typename ExpsType, typename CoordType>
+GaussianAO(CoefsType&&, ExpsType&&, CoordType&&,
+           detail_::disable_if_gaussian_t<std::decay_t<CoefsType>> =
+             0) noexcept->GaussianAO<std::common_type_t<CoefsType, ExpsType>>;
+
+CLASS_PARAM
+template<typename PrimType, typename... Args,
+         detail_::enable_if_gaussian_t<std::decay_t<PrimType>>>
+constexpr CLASS_TYPE::GaussianAO(PrimType&& prim0, Args&&... prims) :
+  m_coefs_({prim0.coefficient(), prims.coefficient()...}),
+  m_alpha_({prim0.exponent(), prims.exponent()...}),
+  m_coord_(prim0.has_center() ? std::optional{prim0.center()} : std::nullopt) {
+    std::array<bool, sizeof...(Args)> has_c{prims.has_center()...};
+    for(auto x : has_c)
+        if(x != has_center())
+            throw std::logic_error("Primitives have different centers");
+    if(!has_center()) return;
+    std::array<type::coord<value_type>, sizeof...(Args)> rs{prims.center()...};
+    const auto r0 = std::tie((*m_coord_)[0], (*m_coord_)[1], (*m_coord_)[2]);
+    for(auto x : rs)
+        if(std::tie(x[0], x[1], x[2]) != r0)
+            throw std::logic_error("Primitives have different centers");
+}
+
+CLASS_PARAM
+template<typename CoefsType, typename ExpsType,
+         detail_::disable_if_gaussian_t<std::decay_t<CoefsType>>>
+constexpr CLASS_TYPE::GaussianAO(CoefsType&& cs, ExpsType&& as) noexcept :
+  GaussianAO(std::forward<CoefsType>(cs), std::forward<ExpsType>(as),
+             std::nullopt) {}
+
+CLASS_PARAM
+template<typename CoefsType, typename ExpsType, typename CoordType,
+         detail_::disable_if_gaussian_t<std::decay_t<CoefsType>>>
 constexpr CLASS_TYPE::GaussianAO(CoefsType&& cs, ExpsType&& as,
                                  CoordType&& r) noexcept :
   m_coefs_(std::forward<CoefsType>(cs)),
   m_alpha_(std::forward<ExpsType>(as)),
   m_coord_(std::forward<CoordType>(r)) {}
 
-template<typename T, typename ContainerType>
+CLASS_PARAM
 constexpr auto CLASS_TYPE::primitive(type::size i) {
     if(i >= nprims())
         throw std::out_of_range("Requested primitive is out of range");
     return GaussianAlias{this, std::array{i}};
 }
 
-template<typename T, typename ContainerType>
+CLASS_PARAM
 constexpr auto CLASS_TYPE::primitive(type::size i) const {
     if(i >= nprims())
         throw std::out_of_range("Requested primitive is out of range");
     return GaussianAlias{this, std::array{i}};
 }
 
-template<typename T, typename ContainerType>
+CLASS_PARAM
 template<typename GaussianType>
 void CLASS_TYPE::add_primitive(GaussianType&& g) {
     add_primitive(g.coefficient(), g.exponent());
 }
 
-template<typename T, typename ContainerType>
-void CLASS_TYPE::add_primitive(T c, T a) {
+CLASS_PARAM
+void CLASS_TYPE::add_primitive(typename CLASS_TYPE::value_type c,
+                               typename CLASS_TYPE::value_type a) {
     m_coefs_.push_back(c);
     m_alpha_.push_back(a);
 }
 
-template<typename T, typename ContainerType>
+CLASS_PARAM
 template<typename CoordType>
 void CLASS_TYPE::set_center(CoordType&& r) noexcept {
     m_coord_.emplace(std::forward<CoordType>(r));
 }
 
-template<typename T, typename ContainerType>
+CLASS_PARAM
 constexpr auto& CLASS_TYPE::coefficient(type::size i) const noexcept {
     return m_coefs_[i];
 }
 
-template<typename T, typename ContainerType>
+CLASS_PARAM
 constexpr auto& CLASS_TYPE::exponent(type::size i) const noexcept {
     return m_alpha_[i];
 }
 
-template<typename LHST, typename LHSCont, typename RHS>
-constexpr bool operator==(const GaussianAO<LHST, LHSCont>& lhs,
-                          const RHS& rhs) noexcept {
+template<typename LHS, typename RHS>
+constexpr bool operator==(const GaussianAO<LHS>& lhs, const RHS& rhs) noexcept {
     return detail_::compare_ao(lhs, rhs);
 }
 
-template<typename LHST, typename LHSCont, typename RHS>
-constexpr bool operator!=(const GaussianAO<LHST, LHSCont>& lhs,
-                          const RHS& rhs) noexcept {
+template<typename LHS, typename RHS>
+constexpr bool operator!=(const GaussianAO<LHS>& lhs, const RHS& rhs) noexcept {
     return !(lhs == rhs);
 }
 
-template<typename PrimType, typename... Args,
-         detail_::enable_if_gaussian_t<std::decay_t<PrimType>>>
-constexpr auto make_gaussian_ao(PrimType&& prim, Args&&... args) {
-    std::array cs{prim.coefficient(), args.coefficient()...};
-    std::array as{prim.exponent(), args.exponent()...};
-    return make_gaussian_ao(
-      std::move(cs), std::move(as),
-      prim.has_center() ? std::make_optional(prim.center()) : std::nullopt);
-}
-
-template<typename CoefType, typename ExpType,
-         detail_::disable_if_gaussian_t<CoefType>>
-constexpr auto make_gaussian_ao(CoefType&& c, ExpType&& a) noexcept {
-    return make_gaussian_ao(std::forward<CoefType>(c), std::forward<ExpType>(a),
-                            std::nullopt);
-}
-
-template<typename CoefType, typename ExpType, typename CoordType,
-         detail_::disable_if_gaussian_t<CoefType>>
-constexpr auto make_gaussian_ao(CoefType&& cs, ExpType&& as,
-                                CoordType&& r) noexcept {
-    using clean_coef = std::decay_t<CoefType>;
-    using clean_exp  = std::decay_t<ExpType>;
-    using value_type = typename clean_coef::value_type;
-    static_assert(std::is_same_v<clean_coef, clean_exp>,
-                  "Containers must be same type");
-
-    return GaussianAO<value_type, clean_coef>(std::forward<CoefType>(cs),
-                                              std::forward<ExpType>(as),
-                                              std::forward<CoordType>(r));
-}
-
 #undef CLASS_TYPE
+#undef CLASS_PARAM
 } // namespace libchemist::basis_set

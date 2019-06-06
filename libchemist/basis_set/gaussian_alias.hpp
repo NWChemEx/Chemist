@@ -6,7 +6,13 @@ namespace libchemist::basis_set {
 
 template<typename BasisSetType, typename IndexType>
 class GaussianAlias {
+private:
+    using clean_bs = std::decay_t<std::remove_pointer_t<BasisSetType>>;
+
 public:
+    /// The floating-point type used to hold the parameters
+    using value_type = typename clean_bs::value_type;
+
     explicit constexpr GaussianAlias(BasisSetType bs, IndexType idx) noexcept;
 
     constexpr auto& coefficient() noexcept;

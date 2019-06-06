@@ -1,247 +1,253 @@
-#include "libchemist/basis_set/detail_/gaussian_center_traits.hpp"
-#include "libchemist/basis_set/detail_/holder.hpp"
-#include "libchemist/basis_set/gaussian_shell.hpp"
-#include <utilities/iter_tools/range_container.hpp>
+#pragma once
+#include "libchemist/basis_set/gaussian_shell_alias.hpp"
 
 namespace libchemist::basis_set {
 
-/** @brief A collection of GaussianShell_ instances on the same center.
+/** @brief A collection of Gaussian shells on the same center
  *
- *  It is often advantageous to treat Gaussian shells that are on the same
- *  center together. This class factors out the common center.
- *
- *  @tparam Traits The type of the GaussianCenterTraits_ instance defining the
- *          member types.
+ * @tparam PrimCont The type of th
+ * @tparam ShellCont
  */
-template<typename Traits>
-class GaussianCenter_ {
+template<typename PrimCont, typename ShellCont>
+class GaussianCenter {
+private:
+    using my_type = GaussianCenter<PrimCont, ShellCont>;
+
 public:
-    /** @brief Makes a GaussianCenter_ from an array of shells
-     *
-     *
-     *  @tparam CenterType The type of the Cartesian coefficient
-     *  @tparam AMCont Type of a container holding the angular momentum of each
-     *                 shell
-     *  @tparam PureCont Type of a container holding the purity of each shell
-     *  @tparam NPrimCont Type of a container holding the number of primitives
-     *                    on each center
-     *  @tparam CoefCont Type of a container holding all the coefficients for
-     *                   the shells.
-     *  @tparam ExpCont Type of a container holding all the exponents for the
-     *                  shells.
-     *  @param[in] r0 The Cartesian coordinates for this center.
-     *  @param[in] am A container of the angular momenta of each shell
-     *  @param[in] is_pure A container of whether each shell is pure or not
-     *  @param[in] nprims The number of primitives associated with each shell
-     *  @param[in] cs The contraction coefficients for each primitive
-     *  @param[in] as The exponents for each primitive
-     * @throw none No throw guarantee.
-     */
-    template<typename CenterType, typename AMCont, typename PureCont,
-             typename NPrimCont, typename CoefCont, typename ExpCont>
-    constexpr GaussianCenter_(CenterType&& r0, AMCont&& am, PureCont&& is_pure,
-                              NPrimCont&& nprims, CoefCont&& cs,
-                              ExpCont&& as) noexcept;
+    using value_type = typename PrimCont::value_type;
 
-    /** @brief The number of shells centered on this center.
-     *
-     *  @return the number of shells centered on this center.
-     *  @throw none No throw guarantee.
-     */
-    constexpr type::size size() const noexcept { return m_ls_->size(); }
+    constexpr GaussianCenter() = default;
 
-    /** @brief The Cartesian coordinates of this center in a (possibly)
-     *         read-/write-able state.
-     *
-     *
-     * @return The Cartesian coordinates (in a.u.) of the center
-     * @throw none No throw guarantee.
-     */
-    constexpr auto& center() noexcept { return *m_center_; }
+    template<typename ShellType, typename... Args>
+    explicit constexpr GaussianCenter(ShellType&& s0, Args&&... args);
 
-    /** @brief The Cartesian coordinates of this center in a read-only state.
-     *
-     *
-     * @return The Cartesian coordinates (in a.u.) of the center
-     * @throw none No throw guarantee.
-     */
-    constexpr const auto& center() const noexcept { return *m_center_; }
+    constexpr type::size nshells() const noexcept { return m_nprims_.size(); }
 
-    /** @brief Returns the requested shell in a (possibly) read-/write-able
-     *         state.
-     *
-     * @param[in] i The shell to return. @p i should be in the range [0, size())
-     * @return The requested shell.
-     * @throw ??? If the container throws. Strong throw guarantee.
-     */
-    constexpr auto operator[](type::size i);
+    constexpr auto shell(type::size i);
+    constexpr auto shell(type::size i) const;
 
-    /** @brief Returns the requested shell in a read-only state.
-     *
-     * @param[in] i The shell to return. @p i should be in the range [0, size())
-     * @return The requested shell.
-     * @throw ??? If the container throws. Strong throw guarantee.
-     */
-    constexpr const auto operator[](type::size i) const;
+    template<typename... Idxs>
+    constexpr bool has_center(Idxs&&...) const noexcept;
 
-    auto begin() noexcept { return detail_::make_bs_iterator(0, this); }
-    auto end() noexcept { return detail_::make_bs_iterator(size(), this); }
-    auto begin() const noexcept { return detail_::make_bs_iterator(0, this); }
-    auto end() const noexcept {
-        return detail_::make_bs_iterator(size(), this);
-    }
-    auto cbegin() const noexcept { return begin(); }
-    auto cend() const noexcept { return end(); }
+    template<typename CoordType>
+    constexpr void set_center(CoordType&& r) noexcept;
+
+    constexpr auto& center() { return m_coord_.value(); }
+    constexpr auto& center() const { return m_coord_.value(); }
 
 private:
-    /// The angular momentum of each shell
-    detail_::holder<typename Traits::am_container> m_ls_;
+    /// Allows views to work
+    friend class detail_::CallMemberX;
+
+    ///
+    constexpr auto& pure(type::size i) { return m_pure_[i]; }
+    constexpr auto& pure(type::size i) const { return m_pure_[i]; }
+
+    constexpr auto& l(type::size i) { return m_l_[i]; }
+    constexpr auto& l(type::size i) const { return m_l_[i]; }
+
+    constexpr auto naos(type::size i) const {
+        const auto li = m_l_[i];
+        return m_pure_[i] ? 2 * li + 1 : detail_::bc(li + 2, 2);
+    }
+
+    constexpr auto ao(type::size i, type::size j) const {
+        return GaussianAOAlias{this, std::array{i, j}};
+    }
+
+    constexpr auto nprims(type::size i, type::size) const {
+        return m_nprims_[i];
+    }
+
+    constexpr auto primitive(type::size i, type::size j, type::size k) const {
+        return GaussianAlias{this, std::array{i, j, k}};
+    }
+
+    constexpr auto index_(type::size i, type::size, type::size k) const {
+        return (i != 0 ? m_offsets_[i - 1] : 0) + k;
+    }
+
+    constexpr auto& coefficient(type::size i, type::size j,
+                                type::size k) const {
+        return m_coefs_[index_(i, j, k)];
+    }
+
+    constexpr auto& exponent(type::size i, type::size j, type::size k) const {
+        return m_alpha_[index_(i, j, k)];
+    }
+
+    template<typename... Idxs>
+    constexpr auto& center(type::size, Idxs&&...) const {
+        return m_coord_.value();
+    }
+
+    template<type::size depth, bool off, typename T, typename ShellType,
+             typename... Args>
+    static constexpr auto loop_shell_(T&& rv, const ShellType& s,
+                                      const Args&... args);
+
+    /// Extracts the number of primitives or the offsets form a series of shells
+    template<bool off, typename ShellType, typename... Args>
+    static constexpr auto get_shell_(const ShellType& s, const Args&... args);
+
+    template<type::size depth, bool off, typename T, typename ShellType,
+             typename... Args>
+    static constexpr auto loop_param_(type::size& counter, T&& rv,
+                                      const ShellType& s, const Args&... args);
+
+    /// Extracts the coefficients or exponents from a series of shells
+    template<bool coef, typename ShellType, typename... Args>
+    static constexpr auto get_param_(const ShellType& s, const Args&... args);
+
+    /// The number of primitives in each shell
+    ShellCont m_nprims_;
+
+    /// The @p i-th element is the start of shell i+1
+    ShellCont m_offsets_;
+
     /// The purity of each shell
-    detail_::holder<typename Traits::pure_container> m_pure_;
-    /// element i/i+1 is the offset in cs_/as_ to shell i's first/last prim
-    detail_::holder<typename Traits::nprim_container> m_offs_;
-    detail_::holder<typename Traits::coef_container> m_cs_;
-    detail_::holder<typename Traits::exp_container> m_as_;
-    /// The Cartesian coordinate of the center
-    detail_::holder<typename Traits::center_type> m_center_;
+    ShellCont m_pure_;
+
+    /// The angular_moment of each shell
+    ShellCont m_l_;
+
+    /// The contraction coefficients concatenated by shell
+    PrimCont m_coefs_;
+
+    /// The exponents concatenated by shell
+    PrimCont m_alpha_;
+
+    ///(possibly) where this collection of shells is centered
+    std::optional<type::coord<value_type>> m_coord_;
 };
 
-/** @brief Helper function for making a GaussianCenter_ instance
- *
- * @tparam CenterType The type of the incoming center.
- * @tparam AMCont Type of a container holding the angular momentum of each shell
- * @tparam PureCont Type of a container holding the purity of each shell
- * @tparam NPrimCont Type of a container holding the number of primitives on
- *                   each center
- * @tparam CoefCont Type of a container holding all the coefficients for the
- *                  shells.
- * @tparam ExpCont Type of a container holding all the exponents for the shells.
- * @param[in] r0 The Cartesian coordinates for this center.
- * @param[in] am A container of the angular momenta of each shell
- * @param[in] is_pure A container of whether each shell is pure or not
- * @param[in] nprims The number of primitives associated with each shell
- * @param[in] cs The contraction coefficients for each primitive
- * @param[in] as The exponents for each primitive
- * @return A GaussianCenter_ with the provided parameters
- */
-template<typename CenterType, typename AMCont, typename PureCont,
-         typename NPrimCont, typename CoefCont, typename ExpCont>
-constexpr auto make_gaussian_center(CenterType&& r0, AMCont&& am,
-                                    PureCont&& is_pure, NPrimCont&& nprims,
-                                    CoefCont&& cs, ExpCont&& as) noexcept;
+template<typename LHS1, typename LHS2, typename RHS>
+constexpr bool operator==(const GaussianCenter<LHS1, LHS2>& lhs,
+                          RHS&& rhs) noexcept;
 
-/** @brief Compares two GaussianCenter instances for equality
- *
- *  Two GaussianCenter_ instances are equal if they have the same center, and
- *  the same shells.
- *
- *  @tparam Traits1 The types of the members in @p lhs
- *  @tparam Traits2 The types of the members in @p rhs
- *  @param lhs The instance on the left of the equality operator
- *  @param rhs The instance on the right of the equality operator
- *  @return True if the two instances are equal and false otherwise.
- *  @throw none No throw guarantee.
- */
-template<typename Traits1, typename Traits2>
-constexpr bool operator==(const GaussianCenter_<Traits1>& lhs,
-                          const GaussianCenter_<Traits2>& rhs) noexcept;
+template<typename LHS1, typename LHS2, typename RHS>
+constexpr bool operator!=(const GaussianCenter<LHS1, LHS2>& lhs,
+                          RHS&& rhs) noexcept;
 
-/** @brief Compares two GaussianCenter instances for inequality
- *
- *  Two GaussianCenter_ instances are equal if they have the same center, and
- *  the same shells.
- *
- *  @tparam Traits1 The types of the members in @p lhs
- *  @tparam Traits2 The types of the members in @p rhs
- *  @param lhs The instance on the left of the inequality operator
- *  @param rhs The instance on the right of the inequality operator
- *  @return True if the two instances are not equal and false otherwise.
- *  @throw none No throw guarantee.
- */
-template<typename Traits1, typename Traits2>
-constexpr bool operator!=(const GaussianCenter_<Traits1>& lhs,
-                          const GaussianCenter_<Traits2>& rhs) noexcept;
+//------------------------Implementations---------------------------------------
+#define CLASS_PARAMS template<typename PrimCont, typename ShellCont>
+#define CLASS_TYPE GaussianCenter<PrimCont, ShellCont>
+#define SHELL_PARAMS template<typename ShellType, typename... Args>
 
-//--------------------------------Implementations-------------------------------
-/// makes the type of the center more readable
-#define CENTER_TYPE GaussianCenter_<Traits>
+GaussianCenter()->GaussianCenter<std::vector<double>, std::vector<double>>;
 
-template<typename Traits>
-template<typename CenterType, typename AMCont, typename PureCont,
-         typename NPrimCont, typename CoefCont, typename ExpCont>
-constexpr CENTER_TYPE::GaussianCenter_(CenterType&& r0, AMCont&& am,
-                                       PureCont&& is_pure, NPrimCont&& nprims,
-                                       CoefCont&& cs, ExpCont&& as) noexcept :
-  m_ls_(std::forward<AMCont>(am)),
-  m_pure_(std::forward<PureCont>(is_pure)),
-  m_offs_(std::forward<NPrimCont>(nprims)),
-  m_cs_(std::forward<CoefCont>(cs)),
-  m_as_(std::forward<ExpCont>(as)),
-  m_center_(std::forward<CenterType>(r0)) {}
+SHELL_PARAMS
+explicit GaussianCenter(ShellType&&, Args&&...)
+  ->GaussianCenter<detail_::gaussian_center_container_t<std::decay_t<ShellType>,
+                                                        std::decay_t<Args>...>,
+                   std::array<type::size, 1 + sizeof...(Args)>>;
 
-template<typename Traits>
-constexpr auto CENTER_TYPE::operator[](type::size i) {
-    const auto boff   = (*m_offs_)[i];
-    const auto eoff   = (*m_offs_)[i + 1];
-    const auto nprims = eoff - boff;
-    using namespace utilities::detail_;
-    const auto* r0 = &(*m_center_);
-    return make_gaussian_shell(
-      &(*m_ls_)[i],
-      RangeContainer{m_cs_->cbegin() + boff, m_cs_->cbegin() + eoff, nprims},
-      RangeContainer{m_as_->cbegin() + boff, m_as_->cbegin() + eoff, nprims},
-      r0, (*m_pure_)[i]);
+CLASS_PARAMS
+SHELL_PARAMS
+constexpr CLASS_TYPE::GaussianCenter(ShellType&& s0, Args&&... args) :
+  m_nprims_(my_type::get_shell_<false>(s0, args...)),
+  m_offsets_(my_type::get_shell_<true>(s0, args...)),
+  m_pure_({s0.pure(), args.pure()...}),
+  m_l_({s0.l(), args.l()...}),
+  m_coefs_(my_type::get_param_<true>(s0, args...)),
+  m_alpha_(my_type::get_param_<false>(s0, args...)),
+  m_coord_(s0.has_center() ? std::optional{s0.center()} : std::nullopt) {}
+
+CLASS_PARAMS
+constexpr auto CLASS_TYPE::shell(type::size i) {
+    return GaussianShellAlias{this, std::array{i}};
 }
 
-template<typename Traits>
-constexpr const auto CENTER_TYPE::operator[](type::size i) const {
-    const auto boff   = (*m_offs_)[i];
-    const auto eoff   = (*m_offs_)[i + 1];
-    const auto pure   = (*m_pure_)[i];
-    const auto nprims = eoff - boff;
-    using namespace utilities::detail_;
-    return make_gaussian_shell(
-      &(*m_ls_)[i],
-      RangeContainer{m_cs_->begin() + boff, m_cs_->begin() + eoff, nprims},
-      RangeContainer{m_as_->begin() + boff, m_as_->begin() + eoff, nprims},
-      &(*m_center_), pure);
+CLASS_PARAMS
+constexpr auto CLASS_TYPE::shell(type::size i) const {
+    return GaussianShellAlias{this, std::array{i}};
 }
 
-template<typename CenterType, typename AMCont, typename PureCont,
-         typename NPrimCont, typename CoefCont, typename ExpCont>
-constexpr auto make_gaussian_center(CenterType&& r0, AMCont&& am,
-                                    PureCont&& is_pure, NPrimCont&& nprims,
-                                    CoefCont&& cs, ExpCont&& as) noexcept {
-    using clean_center = std::remove_reference_t<CenterType>;
-    using clean_am     = std::remove_reference_t<AMCont>;
-    using clean_pure   = std::remove_reference_t<PureCont>;
-    using clean_nprim  = std::remove_reference_t<NPrimCont>;
-    using clean_coef   = std::remove_reference_t<CoefCont>;
-    using clean_exp    = std::remove_reference_t<ExpCont>;
-    using traits =
-      detail_::GaussianCenterTraits<clean_center, clean_am, clean_pure,
-                                    clean_nprim, clean_coef, clean_exp>;
-    return GaussianCenter_<traits>{
-      std::forward<CenterType>(r0),    std::forward<AMCont>(am),
-      std::forward<PureCont>(is_pure), std::forward<NPrimCont>(nprims),
-      std::forward<CoefCont>(cs),      std::forward<ExpCont>(as)};
+CLASS_PARAMS
+template<typename... Idxs>
+constexpr bool CLASS_TYPE::has_center(Idxs&&...) const noexcept {
+    return m_coord_.has_value();
 }
 
-template<typename Traits1, typename Traits2>
-constexpr bool operator==(const GaussianCenter_<Traits1>& lhs,
-                          const GaussianCenter_<Traits2>& rhs) noexcept {
-    if(lhs.size() != rhs.size()) return false;
-    for(type::size i = 0; i < lhs.size(); ++i)
-        if(lhs[i] != rhs[i]) return false;
-    return true;
+CLASS_PARAMS
+template<typename CoordType>
+constexpr void CLASS_TYPE::set_center(CoordType&& r) noexcept {
+    m_coord_.emplace(std::forward<CoordType>(r));
 }
 
-template<typename Traits1, typename Traits2>
-constexpr bool operator!=(const GaussianCenter_<Traits1>& lhs,
-                          const GaussianCenter_<Traits2>& rhs) noexcept {
+CLASS_PARAMS
+template<type::size depth, bool off, typename T, typename ShellType,
+         typename... Args>
+constexpr auto CLASS_TYPE::loop_shell_(T&& rv, const ShellType& s,
+                                       const Args&... args) {
+    constexpr bool is_array = detail_::is_array_v<std::decay_t<T>>;
+    const auto& shell_i     = std::get<depth>(std::tie(s, args...));
+    const auto nprim        = shell_i.ao(0).nprims();
+    const auto offi         = depth == 0 ? 0 : rv[depth - 1];
+    const auto ci           = off ? offi + nprim : nprim;
+    if constexpr(is_array)
+        rv[depth] = ci;
+    else
+        rv.push_back(ci);
+    if constexpr(depth == sizeof...(Args))
+        return std::forward<T>(rv);
+    else
+        return loop_shell_<depth + 1, off>(std::forward<T>(rv), s, args...);
+}
+
+CLASS_PARAMS
+template<bool off, typename ShellType, typename... Args>
+constexpr auto CLASS_TYPE::get_shell_(const ShellType& s, const Args&... args) {
+    ShellCont params{};
+    return loop_shell_<0, off>(std::move(params), s, args...);
+}
+
+CLASS_PARAMS
+template<type::size depth, bool coef, typename T, typename ShellType,
+         typename... Args>
+constexpr auto CLASS_TYPE::loop_param_(type::size& counter, T&& rv,
+                                       const ShellType& s,
+                                       const Args&... args) {
+    constexpr bool is_array = detail_::is_array_v<std::decay_t<T>>;
+    const auto& shell_i     = std::get<depth>(std::tie(s, args...));
+    for(type::size prim_i = 0; prim_i < shell_i.ao(0).nprims(); ++prim_i) {
+        const auto ci = coef ? shell_i.ao(0).primitive(prim_i).coefficient() :
+                               shell_i.ao(0).primitive(prim_i).exponent();
+        if constexpr(is_array)
+            rv[counter] = ci;
+        else
+            rv.push_back(ci);
+        ++counter;
+    }
+    if constexpr(depth == sizeof...(Args))
+        return std::forward<T>(rv);
+    else
+        return loop_param_<depth + 1, coef>(counter, std::forward<T>(rv), s,
+                                            args...);
+}
+
+CLASS_PARAMS
+template<bool coef, typename ShellType, typename... Args>
+constexpr auto CLASS_TYPE::get_param_(const ShellType& s, const Args&... args) {
+    PrimCont rv{};
+    type::size counter = 0;
+    return loop_param_<0, coef>(counter, std::move(rv), s, args...);
+}
+
+template<typename LHS1, typename LHS2, typename RHS>
+constexpr bool operator==(const GaussianCenter<LHS1, LHS2>& lhs,
+                          RHS&& rhs) noexcept {
+    return detail_::compare_center(lhs, std::forward<RHS>(rhs));
+}
+
+template<typename LHS1, typename LHS2, typename RHS>
+constexpr bool operator!=(const GaussianCenter<LHS1, LHS2>& lhs,
+                          RHS&& rhs) noexcept {
     return !(lhs == rhs);
 }
 
-#undef SHELL_TYPE
+#undef SHELL_PARAMS
+#undef CLASS_TYPE
+#undef CLASS_PARAMS
 
 } // namespace libchemist::basis_set

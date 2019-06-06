@@ -1,19 +1,21 @@
 #pragma once
-#include "libchemist/basis_set/gaussian_ao.hpp"
+#include "libchemist/basis_set/gaussian_center.hpp"
 
 namespace libchemist::basis_set {
 
-/** @brief An alias of a GaussianAO
+/** @brief An alias of a GaussianShell
+ *
+ *
  */
 template<typename BasisSet, typename IndexType>
-class GaussianAOAlias {
+class GaussianCenterAlias {
 private:
     using clean_bs = std::decay_t<std::remove_pointer_t<BasisSet>>;
 
 public:
     using value_type = typename clean_bs::value_type;
 
-    constexpr GaussianAOAlias(BasisSet bs, IndexType idx) noexcept;
+    constexpr GaussianCenterAlias(BasisSet bs, IndexType idx) noexcept;
 
     /** @brief Returns the @p i-th primitive contributing to this AO.
      *
@@ -32,7 +34,7 @@ public:
      * @throws std::out_of_range If @p i is not in the range [0,nprims()).
      *                           Strong throw guarantee.
      */
-    constexpr auto primitive(type::size i);
+    constexpr auto shell(type::size i);
 
     /** @brief Returns the @p i-th primitive contributing to this AO.
      *
@@ -49,7 +51,7 @@ public:
      * @throws std::out_of_range If @p i is not in the range [0,nprims()).
      *                           Strong throw guarantee.
      */
-    constexpr auto primitive(type::size i) const;
+    constexpr auto shell(type::size i) const;
 
     /** @brief Returns the number of primitives in the AO.
      *
@@ -57,7 +59,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    constexpr auto nprims() const noexcept;
+    constexpr auto nshells() const noexcept;
 
     /** @brief Whether or not each primitive has a center.
      *
@@ -108,8 +110,8 @@ private:
  * @param[in] rhs The AO on the right of the equality operator.
  * @return True if @p lhs and @p rhs are equal and false otherwise.
  */
-template<typename LHST, typename LHSCont, typename RHS>
-constexpr bool operator==(const GaussianAOAlias<LHST, LHSCont>& lhs,
+template<typename LHS, typename LHSIdx, typename RHS>
+constexpr bool operator==(const GaussianCenterAlias<LHS, LHSIdx>& lhs,
                           const RHS& rhs) noexcept;
 
 /** @brief Determines if a GaussianAO is different from another object.
@@ -128,56 +130,58 @@ constexpr bool operator==(const GaussianAOAlias<LHST, LHSCont>& lhs,
  * @param[in] rhs The AO on the right of the inequality operator.
  * @return False if @p lhs and @p rhs are equal and true otherwise.
  */
-template<typename LHST, typename LHSCont, typename RHS>
-constexpr bool operator!=(const GaussianAOAlias<LHST, LHSCont>& lhs,
+template<typename LHS, typename LHSIdx, typename RHS>
+constexpr bool operator!=(const GaussianCenterlAlias<LHS, LHSIdx>& lhs,
                           const RHS& rhs) noexcept;
 
 //----------------------------------Implementations-----------------------------
-#define CLASS_TYPE GaussianAOAlias<BasisSet, IndexType>
+#define CLASS_PARAMS template<typename BasisSet, typename IndexType>
+#define CLASS_TYPE GaussiaCenterAlias<BasisSet, IndexType>
 
-template<typename BasisSet, typename IndexType>
-constexpr CLASS_TYPE::GaussianAOAlias(BasisSet bs, IndexType idx) noexcept :
+CLASS_PARAMS
+constexpr CLASS_TYPE::GaussianCenterAlias(BasisSet bs, IndexType idx) noexcept :
   m_bs_(bs),
   m_index_(idx) {}
 
-template<typename BasisSet, typename IndexType>
-constexpr auto CLASS_TYPE::primitive(type::size i) {
-    return detail_::CallMemberX::primitive(m_bs_,
-                                           detail_::cat_indices(m_index_, i));
+CLASS_PARAMS
+constexpr auto CLASS_TYPE::shell(type::size i) {
+    return detail_::CallMemberX::shell(m_bs_,
+                                       detail_::cat_indices(m_index_, i));
 }
 
-template<typename BasisSet, typename IndexType>
-constexpr auto CLASS_TYPE::primitive(type::size i) const {
-    return detail_::CallMemberX::primitive(m_bs_,
-                                           detail_::cat_indices(m_index_, i));
+CLASS_PARAMS
+constexpr auto CLASS_TYPE::shell(type::size i) const {
+    return detail_::CallMemberX::shell(m_bs_,
+                                       detail_::cat_indices(m_index_, i));
 }
 
-template<typename BasisSet, typename IndexType>
-constexpr auto CLASS_TYPE::nprims() const noexcept {
-    return detail_::CallMemberX::nprims(m_bs_, m_index_);
+CLASS_PARAMS
+constexpr auto CLASS_TYPE::nshells() const noexcept {
+    return detail_::CallMemberX::nshells(m_bs_, m_index_);
 }
 
-template<typename BasisSet, typename IndexType>
+CLASS_PARAMS
 constexpr bool CLASS_TYPE::has_center() const noexcept {
     return detail_::CallMemberX::has_center(m_bs_, m_index_);
 }
 
-template<typename BasisSet, typename IndexType>
+CLASS_PARAMS
 constexpr auto& CLASS_TYPE::center() const {
     return detail_::CallMemberX::center(m_bs_, m_index_);
 }
 
-template<typename LHST, typename LHSCont, typename RHS>
-constexpr bool operator==(const GaussianAOAlias<LHST, LHSCont>& lhs,
+template<typename LHS, typename LHSIdx, typename RHS>
+constexpr bool operator==(const GaussianCenterAlias<LHS, LHSIdx>& lhs,
                           const RHS& rhs) noexcept {
-    return detail_::compare_ao(lhs, rhs);
+    return detail_::compare_center(lhs, rhs);
 }
 
-template<typename LHST, typename LHSCont, typename RHS>
-constexpr bool operator!=(const GaussianAOAlias<LHST, LHSCont>& lhs,
+template<typename LHS, typename LHSIdx, typename RHS>
+constexpr bool operator!=(const GaussianShellAlias<LHS, LHSIdx>& lhs,
                           const RHS& rhs) noexcept {
     return !(lhs == rhs);
 }
 
 #undef CLASS_TYPE
+#undef CLASS_PARAMS
 } // namespace libchemist::basis_set
