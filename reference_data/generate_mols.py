@@ -50,7 +50,7 @@ class Molecule:
 
 
 def parse_file(file_name, sym2Z, ang2au):
-    an_atom = r"^\s*(\S{1,2})((?:\s*\d*.\d+)+)"
+    an_atom = r"^\s*(\S{1,2})((?:\s+\d*.\d+)+)"
     mol = Molecule()
     with open(file_name, 'r') as f:
         for l in f:
