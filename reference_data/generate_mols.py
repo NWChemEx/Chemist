@@ -50,7 +50,7 @@ class Molecule:
 
 
 def parse_file(file_name, sym2Z, ang2au):
-    an_atom = r"^\s*(\S{1,2})((?:\s+\d*.\d+)+)"
+    an_atom = r"^\s*(\S{1,2})((?:\s+-?\d*.\d+)+)"
     mol = Molecule()
     with open(file_name, 'r') as f:
         for l in f:
@@ -70,7 +70,7 @@ def print_source(out_dir, mols):
  * lost the next time it is generated.
  */
 
-#include \"libchemist/detail_/MoleculeManagerPIMPL.hpp\"
+#include \"libchemist/detail_/molecule_manager_pimpl.hpp\"
 
 namespace libchemist::detail_ {
 
