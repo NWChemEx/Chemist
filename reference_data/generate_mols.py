@@ -26,31 +26,27 @@ class Molecule:
         return rv
 
     def cxxify(self, tab, f):
-        tab2 = tab*2
-        f.write("Molecule(\n")
         for i, ai in enumerate(self.atoms):
             f.write(
-"""{}Atom{{mass_t(ptable_.get_atom({}).mass()), {}ul,
-{}cart_t{{""".format(tab2, ai, ai, tab2 + "     "))
+"""{}mol.push_back(Atom{{mass_t(ptable_.get_atom({}).mass()), {}ul,
+{}cart_t{{""".format(tab, ai, ai, tab + "     "))
             line = ""
-            line = "{}cart_t{{".format(tab2 + "     ")
+            line = "{}cart_t{{".format(tab + "     ")
             line+="{}, {},".format(self.carts[i*3], self.carts[i*3+1])
             line +=" {}}},".format(self.carts[i*3+2])            
             f.write("{}, {},".format(self.carts[i*3], self.carts[i*3+1]))
             #Write third coordinate on newline to stay under 80 character column limit
             if(len(line)>80):
-                f.write("\n{}{}".format(tab2+tab, self.carts[i*3+2]))
+                f.write("\n{}{}".format(tab+tab, self.carts[i*3+2]))
             else:
                 f.write(" {}".format(self.carts[i*3+2]))
-            f.write("}}")
+            f.write("}});")
             if i != len(self.atoms) -1:
-                f.write(",")
                 f.write("\n")
-        f.write(");".format(tab))
 
 
 def parse_file(file_name, sym2Z, ang2au):
-    an_atom = r"^\s*(\S{1,2})((?:\s*\d*.\d+)+)"
+    an_atom = r"^\s*(\S{1,2})((?:\s+-?\d*.\d+)+)"
     mol = Molecule()
     with open(file_name, 'r') as f:
         for l in f:
@@ -70,7 +66,7 @@ def print_source(out_dir, mols):
  * lost the next time it is generated.
  */
 
-#include \"libchemist/detail_/MoleculeManagerPIMPL.hpp\"
+#include \"libchemist/detail_/molecule_manager_pimpl.hpp\"
 
 namespace libchemist::detail_ {
 
@@ -91,10 +87,10 @@ private:
         using cart_t = typename Atom::coord_type;
         using mass_t = typename Atom::mass_type;
         """)
-        for mname, m in mols.items():
-            f.write("if(name == \"{}\") {{\n{}return ".format(mname, tab*3))
+        for mname, m in sorted(mols.items()):
+            f.write("if(name == \"{}\") {{\n{}auto mol = Molecule();\n".format(mname, tab*3))
             m.cxxify(tab*3, f)
-            f.write("\n{}}} else ".format(tab*2))
+            f.write("\n{}return mol;\n{}}} else ".format(tab*3,tab*2))
         f.write("\nthrow std::out_of_range(\"Unknown molecule name\");\n")
         f.write(
 """    } // end at_
