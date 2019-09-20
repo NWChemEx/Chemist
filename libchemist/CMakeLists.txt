@@ -1,4 +1,5 @@
-set(LIBCHEMIST_HEADERS ao_basis_set.hpp
+add_subdirectory(point)
+list(APPEND LIBCHEMIST_HEADERS ao_basis_set.hpp
 	                   ao_shell.hpp
 					   atom.hpp
 					   basis_set_manager.hpp
@@ -9,7 +10,6 @@ set(LIBCHEMIST_HEADERS ao_basis_set.hpp
 					   molecule_manager.hpp
 					   orbital_space.hpp
 					   periodic_table.hpp
-		               point.hpp
 					   detail_/aos_facade.hpp
         			   defaults/nwx_basis_list.hpp
 					   defaults/nwx_atomic_densities.hpp
@@ -19,7 +19,7 @@ include(defaults/bases/add_basis.cmake)
 
 include(defaults/atomic_densities/add_density.cmake)
 
-set(LIBCHEMIST_SRCS ao_basis_set.cpp
+list(APPEND LIBCHEMIST_SRCS ao_basis_set.cpp
 	         	    ao_shell.cpp
 					atom.cpp
 					basis_set_manager.cpp
@@ -28,7 +28,6 @@ set(LIBCHEMIST_SRCS ao_basis_set.cpp
 					molecule_stream_parser.cpp
 					molecule_manager.cpp
 					periodic_table.cpp
-	                point.cpp
 					defaults/nwx_basis_set_manager_pimpl.cpp
 					defaults/nwx_periodic_table_pimpl.cpp
 					defaults/nwx_molecule_manager_pimpl.cpp

@@ -4,12 +4,13 @@ set(LIBCHEMIST_TESTS test_main.cpp
 					 aos_facade.cpp
 					 atom.cpp
 					 basis_set_map.cpp
-					 detail_/point_pimpl.cpp
 	                 libchemist.cpp
 					 molecule.cpp
 					 molecule_stream_parser.cpp
     				 periodic_table.cpp
-	                 point.cpp
+		             point/detail_/point_pimpl.cpp
+	                 point/point.cpp
+	                 point/point_view.cpp
 )
 
 cpp_add_executable(

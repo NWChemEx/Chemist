@@ -1,5 +1,5 @@
-#include "libchemist/detail_/point_pimpl.hpp"
-#include "libchemist/point.hpp"
+#include "libchemist/point/detail_/point_pimpl.hpp"
+#include "libchemist/point/point.hpp"
 
 namespace libchemist {
 
@@ -12,10 +12,24 @@ static auto make_pimpl(Args&&... args) {
 }
 
 template<typename T>
-Point<T>::Point() : m_pimpl_(make_pimpl<T>()) {}
+Point<T>::Point() : Point(make_pimpl<T>()) {}
 
 template<typename T>
-Point<T>::Point(T x, T y, T z) : m_pimpl_(make_pimpl<T>(x, y, z)) {}
+Point<T>::Point(Point<T>&& rhs) noexcept = default;
+
+template<typename T>
+Point<T>& Point<T>::operator=(const Point<T>& rhs) noexcept {
+    x() = rhs.x();
+    y() = rhs.y();
+    z() = rhs.z();
+    return *this;
+}
+
+template<typename T>
+Point<T>& Point<T>::operator=(Point<T>&& rhs) noexcept = default;
+
+template<typename T>
+Point<T>::Point(T x, T y, T z) : Point(make_pimpl<T>(x, y, z)) {}
 
 template<typename T>
 Point<T>::~Point<T>() noexcept = default;
@@ -29,6 +43,10 @@ template<typename T>
 typename Point<T>::const_reference Point<T>::coord(size_type i) const {
     return m_pimpl_->coord(i);
 }
+
+template<typename T>
+Point<T>::Point(std::unique_ptr<detail_::PointPIMPL<T>> pimpl) noexcept :
+  m_pimpl_(std::move(pimpl)) {}
 
 template class Point<double>;
 template class Point<float>;

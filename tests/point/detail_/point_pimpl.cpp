@@ -1,4 +1,4 @@
-#include "libchemist/detail_/point_pimpl.hpp"
+#include "libchemist/point/detail_/point_pimpl.hpp"
 #include <catch2/catch.hpp>
 
 using pimpl_t = libchemist::detail_::PointPIMPL<double>;

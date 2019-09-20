@@ -48,6 +48,67 @@ public:
      */
     Point();
 
+    /** @brief Creates a new Point, which is a deep copy of another Point
+     *
+     *  This ctor creates a new Point instance by deep copying the coordinates
+     *  of another Point instance.
+     *
+     *  @param[in] rhs The Point instance to copy the state from.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to create the
+     *         new PIMPL. Strong throw guarantee.
+     */
+    Point(const Point<T>& rhs) : Point(rhs.x(), rhs.y(), rhs.z()) {}
+
+    /** @brief Creates a new Point whose state is taken from @p rhs.
+     *
+     *  Creates a new Point instance which now owns @p rhs's PIMPL. After this
+     *  ctor all references to @p rhs's state remain valid, except that they now
+     *  point to the state of this instance.
+     *
+     *  @param[in,out] rhs The instance whose state is being transferred. After
+     *                 this operation @p rhs has no PIMPL and is thus in an
+     *                 invalid state. The state can be made valid by move
+     *                 assigning to @p rhs.
+     *
+     *  @throw none No throw guarantee
+     */
+    Point(Point<T>&& rhs) noexcept;
+
+    /** @brief Makes the current instance contain a deep copy of another Point
+     *
+     *  This function overwrites the coordinates held within the Point with a
+     *  deep copy of another Point's coordinates. References and pointers to
+     *  the current instance's coordinates remain valid after this operation,
+     *  but will contain @p rhs's values.
+     *
+     *  @param[in] rhs The Point instance to copy the state from.
+     *
+     *  @return The current instance with its components set to deep copys of
+     *          @p rhs's values.
+     *
+     *  @throw none no throw guarantee.
+     */
+    Point<T>& operator=(const Point<T>& rhs) noexcept;
+
+    /** @brief Transfers @p rhs's state to this instance.
+     *
+     *  This function will transfer @p rhs's PIMPL to the current instance.
+     *  After this operation all references to @p rhs's state remain valid,
+     *  except that they now point to the state of this instance. All references
+     *  to this instance's previous state are invalidated by this operation.
+     *
+     *  @param[in,out] rhs The instance whose state is being transferred. After
+     *                 this operation @p rhs has no PIMPL and is thus in an
+     *                 invalid state. The state can be made valid by move
+     *                 assigning to @p rhs.
+     *
+     *  @return The current instance containing @p rhs's state.
+     *
+     *  @throw none No throw guarantee
+     */
+    Point<T>& operator=(Point<T>&& rhs) noexcept;
+
     /** @brief Initializes a new Point instance so that it resides at the
      *         specified coordinate.
      *
@@ -158,6 +219,18 @@ public:
     const_reference z() const noexcept { return coord(2); }
 
 private:
+    template<typename U>
+    friend class PointView;
+
+    /** @brief Ctor for use by PointView.
+     *
+     *  This ctor allows the user to control the PIMPL used for the Point. Right
+     *  now, this use case is limited to the PointView class which needs to have
+     *  the Point it wraps hold an aliases instead of values.
+     *
+     * @param pimpl
+     */
+    Point(std::unique_ptr<detail_::PointPIMPL<T>> pimpl) noexcept;
     /// The instance actually implementing the Point class
     std::unique_ptr<detail_::PointPIMPL<T>> m_pimpl_;
 };

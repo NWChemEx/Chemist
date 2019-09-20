@@ -1,5 +1,5 @@
 #include <catch2/catch.hpp>
-#include <libchemist/point.hpp>
+#include <libchemist/point/point.hpp>
 
 using namespace libchemist;
 
@@ -16,6 +16,54 @@ TEST_CASE("Point<double> : default ctor") {
 TEST_CASE("Point<double> : value ctor") {
     Point<double> p(1.0, 2.0, 3.0);
     check_state(p, std::vector{1.0, 2.0, 3.0});
+}
+
+TEST_CASE("Point<double> : copy ctor") {
+    Point<double> p(1.0, 2.0, 3.0);
+    Point<double> p2(p);
+    check_state(p2, std::vector{1.0, 2.0, 3.0});
+    SECTION("Is deep copy") {
+        for(std::size_t i = 0; i < 3; ++i) REQUIRE(&p2.coord(i) != &p.coord(i));
+    }
+}
+
+TEST_CASE("Point<double> : move ctor") {
+    Point<double> p(1.0, 2.0, 3.0);
+    std::array<double*, 3> ptr{&p.coord(0), &p.coord(1), &p.coord(2)};
+    Point<double> p2(std::move(p));
+    check_state(p2, std::vector{1.0, 2.0, 3.0});
+    SECTION("References remain valid") {
+        for(std::size_t i = 0; i < 3; ++i) REQUIRE(&p2.coord(i) == ptr[i]);
+    }
+}
+
+TEST_CASE("Point<double> : copy assignment") {
+    Point<double> p(1.0, 2.0, 3.0);
+    Point<double> p2;
+    std::array<double*, 3> ptr{&p2.coord(0), &p2.coord(1), &p2.coord(2)};
+    auto pp2 = &(p2 = p);
+    check_state(p2, std::vector{1.0, 2.0, 3.0});
+    SECTION("Returns *this") { REQUIRE(pp2 == &p2); }
+    SECTION("Is deep copy") {
+        for(std::size_t i = 0; i < 3; ++i) REQUIRE(&p2.coord(i) != &p.coord(i));
+    }
+    SECTION("Does not invalidate references") {
+        REQUIRE(*ptr[0] == 1.0);
+        REQUIRE(*ptr[1] == 2.0);
+        REQUIRE(*ptr[2] == 3.0);
+    }
+}
+
+TEST_CASE("Point<double> : move assignment") {
+    Point<double> p(1.0, 2.0, 3.0);
+    std::array<double*, 3> ptr{&p.coord(0), &p.coord(1), &p.coord(2)};
+    Point<double> p2;
+    auto pp2 = &(p2 = std::move(p));
+    check_state(p2, std::vector{1.0, 2.0, 3.0});
+    SECTION("Returns *this") { REQUIRE(pp2 == &p2); }
+    SECTION("Does not invalidate p's references") {
+        for(std::size_t i = 0; i < 3; ++i) REQUIRE(ptr[i] == &p2.coord(i));
+    }
 }
 
 TEST_CASE("Point<double> : coord") {

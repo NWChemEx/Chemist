@@ -5,6 +5,7 @@
  *  thus the API of the PointPIMPL class is subject to change at any time.
  */
 #pragma once
+#include <array>
 #include <utilities/containers/own_or_borrow.hpp>
 
 namespace libchemist::detail_ {
