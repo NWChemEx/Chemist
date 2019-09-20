@@ -1,3 +1,4 @@
+add_subdirectory(basis_set)
 add_subdirectory(point)
 list(APPEND LIBCHEMIST_HEADERS ao_basis_set.hpp
 	                   ao_shell.hpp

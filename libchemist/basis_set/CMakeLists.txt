@@ -1,0 +1,4 @@
+list(APPEND LIBCHEMIST_SRCS basis_set/primitive/primitive.cpp)
+list(APPEND LIBCHEMIST_HEADERS basis_set/primitive/primitive.hpp)
+set(LIBCHEMIST_SRCS "${LIBCHEMIST_SRCS}" PARENT_SCOPE)
+set(LIBCHEMIST_HEADERS "${LIBCHEMIST_HEADERS}" PARENT_SCOPE)

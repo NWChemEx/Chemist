@@ -1,4 +1,5 @@
-set(LIBCHEMIST_TESTS test_main.cpp
+add_subdirectory(basis_set)
+list(APPEND LIBCHEMIST_TESTS test_main.cpp
         			 ao_basis_set.cpp
 					 ao_shell.cpp
 					 aos_facade.cpp
