@@ -48,6 +48,19 @@ public:
      */
     Point();
 
+    /** @brief Ctor which allows users to specify the PIMPL used by the Poin
+     *
+     *  This ctor allows the user to control the PIMPL used for the Point. Right
+     *  now the only use case is for making Points that actually contain
+     *  aliases. This is done by the PointView class as well as the various
+     *  basis set views.
+     *
+     * @param[in] pimpl The object that is actually providing the
+     *            implementation.
+     * @throw none No throw guarantee.
+     */
+    explicit Point(std::unique_ptr<detail_::PointPIMPL<T>> pimpl) noexcept;
+
     /** @brief Creates a new Point, which is a deep copy of another Point
      *
      *  This ctor creates a new Point instance by deep copying the coordinates
@@ -219,18 +232,6 @@ public:
     const_reference z() const noexcept { return coord(2); }
 
 private:
-    template<typename U>
-    friend class PointView;
-
-    /** @brief Ctor for use by PointView.
-     *
-     *  This ctor allows the user to control the PIMPL used for the Point. Right
-     *  now, this use case is limited to the PointView class which needs to have
-     *  the Point it wraps hold an aliases instead of values.
-     *
-     * @param pimpl
-     */
-    Point(std::unique_ptr<detail_::PointPIMPL<T>> pimpl) noexcept;
     /// The instance actually implementing the Point class
     std::unique_ptr<detail_::PointPIMPL<T>> m_pimpl_;
 };
