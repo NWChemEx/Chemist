@@ -1,5 +1,6 @@
 #include "libchemist/basis_set/primitive/detail_/primitive_pimpl.hpp"
 #include "libchemist/basis_set/primitive/primitive.hpp"
+#include "libchemist/point/detail_/point_pimpl.hpp"
 
 namespace libchemist {
 
@@ -28,6 +29,13 @@ Primitive<T>& Primitive<T>::operator=(const Primitive<T>& rhs) noexcept {
 
 template<typename T>
 Primitive<T>& Primitive<T>::operator=(Primitive<T>&& rhs) noexcept = default;
+
+template<typename T>
+Primitive<T>::Primitive(
+  std::unique_ptr<pimpl_t> my_pimpl,
+  std::unique_ptr<detail_::PointPIMPL<T>> point_pimpl) noexcept :
+  m_pimpl_(std::move(my_pimpl)),
+  Point<T>(std::move(point_pimpl)) {}
 
 template<typename T>
 Primitive<T>::~Primitive() noexcept = default;

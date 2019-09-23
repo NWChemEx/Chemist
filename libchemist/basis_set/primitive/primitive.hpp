@@ -124,6 +124,9 @@ public:
      */
     Primitive<T>& operator=(Primitive<T>&& rhs) noexcept;
 
+    Primitive(std::unique_ptr<detail_::PrimitivePIMPL<T>> my_pimpl,
+              std::unique_ptr<detail_::PointPIMPL<T>> point_pimpl) noexcept;
+
     /// Defaulted, no throw dtor
     ~Primitive() noexcept override;
 
