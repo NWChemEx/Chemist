@@ -364,3 +364,73 @@ TEST_CASE("PrimitiveView<const double> : implicit conversion") {
         }
     }
 }
+
+TEST_CASE("PrimitiveView<double> : operator==") {
+    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
+    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
+    Primitive<double> p{1.0, 2.0, 3.0, 4.0, 5.0};
+    SECTION("PrimitiveView<double> == PrimitiveView<double>") {
+        REQUIRE(pv == pv);
+    }
+    SECTION("PrimitiveView<double> == Primitive<double>") { REQUIRE(pv == p); }
+    SECTION("Primitive<double> == PrimitiveView<double>") { REQUIRE(p == pv); }
+}
+
+TEST_CASE("PrimitiveView<const double> : operator==") {
+    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
+    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
+    PrimitiveView<double> pv2(&v[0], &v[1], &v[2], &v[3], &v[4]);
+    Primitive<double> p{1.0, 2.0, 3.0, 4.0, 5.0};
+    SECTION("PrimitiveView<const double> == PrimitiveView<const double>") {
+        REQUIRE(pv == pv);
+    }
+    SECTION("PrimitiveView<const double> == PrimitiveView<double>") {
+        REQUIRE(pv == pv2);
+    }
+    SECTION("PrimitiveView<double> == PrimitiveView<const double>") {
+        REQUIRE(pv2 == pv);
+    }
+    SECTION("PrimitiveView<const double> == Primitive<double>") {
+        REQUIRE(pv == p);
+    }
+    SECTION("Primitive<double> == PrimitiveView<const double>") {
+        REQUIRE(p == pv);
+    }
+}
+
+TEST_CASE("PrimitiveView<double> : operator!=") {
+    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
+    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
+    Primitive<double> p{1.0, 2.0, 3.0, 4.0, 5.0};
+    SECTION("PrimitiveView<double> != PrimitiveView<double>") {
+        REQUIRE_FALSE(pv != pv);
+    }
+    SECTION("PrimitiveView<double> != Primitive<double>") {
+        REQUIRE_FALSE(pv != p);
+    }
+    SECTION("Primitive<double> == PrimitiveView<double>") {
+        REQUIRE_FALSE(p != pv);
+    }
+}
+
+TEST_CASE("PrimitiveView<const double> : operator!=") {
+    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
+    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
+    PrimitiveView<double> pv2(&v[0], &v[1], &v[2], &v[3], &v[4]);
+    Primitive<double> p{1.0, 2.0, 3.0, 4.0, 5.0};
+    SECTION("PrimitiveView<const double> != PrimitiveView<const double>") {
+        REQUIRE_FALSE(pv != pv);
+    }
+    SECTION("PrimitiveView<const double> != PrimitiveView<double>") {
+        REQUIRE_FALSE(pv != pv2);
+    }
+    SECTION("PrimitiveView<double> != PrimitiveView<const double>") {
+        REQUIRE_FALSE(pv2 != pv);
+    }
+    SECTION("PrimitiveView<const double> != Primitive<double>") {
+        REQUIRE_FALSE(pv != p);
+    }
+    SECTION("Primitive<double> != PrimitiveView<const double>") {
+        REQUIRE_FALSE(p != pv);
+    }
+}

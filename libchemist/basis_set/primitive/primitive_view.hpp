@@ -295,6 +295,146 @@ private:
     Primitive<value_type> m_pimpl_;
 };
 
+/** @brief Overloads Primitive<T>::operator== for PrimitiveView instances.
+ *
+ *  @relates PrimitiveView
+ *
+ *  All equality comparisons involving PrimitiveView instances simply cast all
+ *  PrimitiveView instances to Primitive instances and then defer to Primitive's
+ *  operator==.
+ *
+ * @tparam T The template type of the instance on the left side of the operator.
+ * @tparam U The template type of the instance on the right side of the operator
+ * @param[in] lhs The primitive on the left of the operator.
+ * @param[in] rhs The primitive on the right of the operator.
+ *
+ * @return True if @p lhs aliases a primitive that has the same state as @p rhs
+ *         and false otherwise.
+ *
+ * @throw none No throw guarantee.
+ */
+template<typename T, typename U>
+bool operator==(const PrimitiveView<T>& lhs, const Primitive<U>& rhs) noexcept {
+    using value_type = typename PrimitiveView<T>::value_type;
+    return static_cast<const Primitive<value_type>&>(lhs) == rhs;
+}
+
+/** @brief Overloads Primitive<T>::operator== for PrimitiveView instances.
+ *
+ *  @relates PrimitiveView
+ *
+ *  All equality comparisons involving PrimitiveView instances simply cast all
+ *  PrimitiveView instances to Primitive instances and then defer to Primitive's
+ *  operator==.
+ *
+ * @tparam T The template type of the instance on the left side of the operator.
+ * @tparam U The template type of the instance on the right side of the operator
+ * @param[in] lhs The primitive on the left of the operator.
+ * @param[in] rhs The primitive on the right of the operator.
+ *
+ * @return True if @p rhs aliases a primitive that has the same state as @p lhs
+ *         and false otherwise.
+ *
+ * @throw none No throw guarantee.
+ */
+template<typename T, typename U>
+bool operator==(const Primitive<T>& lhs, const PrimitiveView<U>& rhs) noexcept {
+    using value_type = typename PrimitiveView<T>::value_type;
+    return lhs == static_cast<const Primitive<value_type>&>(rhs);
+}
+
+/** @brief Overloads Primitive<T>::operator== for PrimitiveView instances.
+ *
+ *  @relates PrimitiveView
+ *
+ *  All equality comparisons involving PrimitiveView instances simply cast all
+ *  PrimitiveView instances to Primitive instances and then defer to Primitive's
+ *  operator==.
+ *
+ * @tparam T The template type of the instance on the left side of the operator.
+ * @tparam U The template type of the instance on the right side of the operator
+ * @param[in] lhs The primitive on the left of the operator.
+ * @param[in] rhs The primitive on the right of the operator.
+ *
+ * @return True if @p lhs aliases a primitive that has the same state as the
+ *         primitive @p rhs aliases and false otherwise.
+ *
+ * @throw none No throw guarantee.
+ */
+template<typename T, typename U>
+bool operator==(const PrimitiveView<T>& lhs,
+                const PrimitiveView<U>& rhs) noexcept {
+    using value_type = typename PrimitiveView<T>::value_type;
+    return static_cast<const Primitive<value_type>&>(lhs) == rhs;
+}
+
+/** @brief Overloads Primitive<T>::operator!= for PrimitiveView instances.
+ *
+ *  @relates PrimitiveView
+ *
+ *  All inequality operators involving PrimitiveViews simply negate the
+ *  corresponding operator== result.
+ *
+ * @tparam T The template type of the instance on the left side of the operator.
+ * @tparam U The template type of the instance on the right side of the operator
+ * @param[in] lhs The primitive on the left of the operator.
+ * @param[in] rhs The primitive on the right of the operator.
+ *
+ * @return False if @p lhs aliases a primitive that has the same state as
+ *         @p rhs and true otherwise.
+ *
+ * @throw none No throw guarantee.
+ */
+template<typename T, typename U>
+bool operator!=(const PrimitiveView<T>& lhs, const Primitive<U>& rhs) noexcept {
+    return !(lhs == rhs);
+}
+
+/** @brief Overloads Primitive<T>::operator!= for PrimitiveView instances.
+ *
+ *  @relates PrimitiveView
+ *
+ *  All inequality operators involving PrimitiveViews simply negate the
+ *  corresponding operator== result.
+ *
+ * @tparam T The template type of the instance on the left side of the operator.
+ * @tparam U The template type of the instance on the right side of the operator
+ * @param[in] lhs The primitive on the left of the operator.
+ * @param[in] rhs The primitive on the right of the operator.
+ *
+ * @return False if @p lhs has the same state as the primitive @p rhs aliases
+ *         and true otherwise.
+ *
+ * @throw none No throw guarantee.
+ */
+template<typename T, typename U>
+bool operator!=(const Primitive<T>& lhs, const PrimitiveView<U>& rhs) noexcept {
+    return !(lhs == rhs);
+}
+
+/** @brief Overloads Primitive<T>::operator!= for PrimitiveView instances.
+ *
+ *  @relates PrimitiveView
+ *
+ *  All inequality operators involving PrimitiveViews simply negate the
+ *  corresponding operator== result.
+ *
+ * @tparam T The template type of the instance on the left side of the operator.
+ * @tparam U The template type of the instance on the right side of the operator
+ * @param[in] lhs The primitive on the left of the operator.
+ * @param[in] rhs The primitive on the right of the operator.
+ *
+ * @return False if @p lhs aliases a primitive that has the same state as the
+ *         primitive @p rhs aliases and true otherwise.
+ *
+ * @throw none No throw guarantee.
+ */
+template<typename T, typename U>
+bool operator!=(const PrimitiveView<T>& lhs,
+                const PrimitiveView<U>& rhs) noexcept {
+    return !(lhs == rhs);
+}
+
 // ------------------------------------Implemenations--------------------------
 
 template<typename T>
