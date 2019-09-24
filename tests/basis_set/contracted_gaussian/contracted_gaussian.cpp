@@ -1,144 +1,114 @@
 #include <catch2/catch.hpp>
-#include <libchemist/basis_set/primitive/primitive.hpp>
+#include <libchemist/basis_set/contracted_gaussian/contracted_gaussian.hpp>
 
 using namespace libchemist;
+using vector_t = std::vector<double>;
+using prim_t   = Primitive<double>;
 
 template<typename T, typename U>
-static void check_state(T&& prim, U&& corr) {
-    SECTION("Coefficient") { REQUIRE(prim.coefficient() == corr[0]); }
-    SECTION("Exponent") { REQUIRE(prim.exponent() == corr[1]); }
-    SECTION("x-coordinate") { REQUIRE(prim.x() == corr[2]); }
-    SECTION("y-coordinate") { REQUIRE(prim.y() == corr[3]); }
-    SECTION("z-coordinate") { REQUIRE(prim.z() == corr[4]); }
-}
-
-TEST_CASE("Primitive<double> : default ctor") {
-    Primitive<double> p;
-    check_state(p, std::vector<double>(5, 0.0));
-}
-
-TEST_CASE("Primitive<double> : value ctor") {
-    Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    check_state(p, std::vector<double>{1.0, 2.0, 3.0, 4.0, 5.0});
-}
-
-TEST_CASE("Primitive<double> : copy ctor") {
-    Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    Primitive<double> p2(p);
-    check_state(p2, std::vector<double>{1.0, 2.0, 3.0, 4.0, 5.0});
-    SECTION("Deep copy") {
-        REQUIRE(&p2.coefficient() != &p.coefficient());
-        REQUIRE(&p2.exponent() != &p.exponent());
+static void check_state(T&& ao, U&& corr) {
+    SECTION("size") { REQUIRE(ao.size() == corr.size()); }
+    SECTION("primitives") {
+        for(std::size_t i = 0; i < ao.size(); ++i) {
+            REQUIRE(static_cast<const prim_t&>(ao[i]) == corr[i]);
+        }
     }
 }
 
-TEST_CASE("Primitive<double> : move ctor") {
-    Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    std::array<double*, 2> pp{&p.coefficient(), &p.exponent()};
-    Primitive<double> p2(std::move(p));
-    check_state(p2, std::vector<double>{1.0, 2.0, 3.0, 4.0, 5.0});
-    SECTION("References remain valid") {
-        REQUIRE(&p2.coefficient() == pp[0]);
-        REQUIRE(&p2.exponent() == pp[1]);
+static auto make_ctgo() {
+    prim_t p0{1.0, 2.0, 7.0, 8.0, 9.0};
+    prim_t p1{3.0, 4.0, 7.0, 8.0, 9.0};
+    prim_t p2{5.0, 6.0, 7.0, 8.0, 9.0};
+    vector_t cs{1.0, 3.0, 5.0};
+    vector_t es{2.0, 4.0, 6.0};
+    ContractedGaussian<double> g(cs, es, 7.0, 8.0, 9.0);
+    return std::make_pair(std::array{p0, p1, p2}, g);
+}
+
+TEST_CASE("ContractedGaussian<double> : default ctor") {
+    ContractedGaussian<double> g;
+    check_state(g, std::array<prim_t, 0>{});
+}
+
+TEST_CASE("ContractedGaussian<double> : value ctor") {
+    auto[prims, g] = make_ctgo();
+    check_state(g, prims);
+}
+
+TEST_CASE("ContractedGaussian<double> : copy ctor") {
+    auto[prims, g] = make_ctgo();
+    ContractedGaussian<double> g2(g);
+    check_state(g2, prims);
+    SECTION("Is deep copy") {
+        for(std::size_t i = 0; i < g.size(); ++i) {
+            REQUIRE(&g2[i].coefficient() != &g[i].coefficient());
+            REQUIRE(&g2[i].exponent() != &g[i].exponent());
+        }
     }
 }
 
-TEST_CASE("Primitive<double> : copy assignment") {
-    Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    Primitive<double> p2;
-    auto pp2 = &(p2 = p);
-    check_state(p2, std::vector<double>{1.0, 2.0, 3.0, 4.0, 5.0});
-    SECTION("Returns this") { REQUIRE(pp2 == &p2); }
-    SECTION("Deep copy") {
-        REQUIRE(&p2.coefficient() != &p.coefficient());
-        REQUIRE(&p2.exponent() != &p.exponent());
+TEST_CASE("ContractedGaussian<double> : move ctor") {
+    auto[prims, g] = make_ctgo();
+    ContractedGaussian<double> g2(std::move(g));
+    check_state(g2, prims);
+}
+
+TEST_CASE("ContractedGaussian<double> : copy assignment") {
+    auto[prims, g] = make_ctgo();
+    ContractedGaussian<double> g2;
+    auto pg2 = &(g2 = g);
+    check_state(g2, prims);
+    SECTION("Returns this") { REQUIRE(&g2 == pg2); }
+    SECTION("Is deep copy") {
+        for(std::size_t i = 0; i < g.size(); ++i) {
+            REQUIRE(&g2[i].coefficient() != &g[i].coefficient());
+            REQUIRE(&g2[i].exponent() != &g[i].exponent());
+        }
     }
 }
 
-TEST_CASE("Primitive<double> : move assignment") {
-    Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    std::array<double*, 2> pp{&p.coefficient(), &p.exponent()};
-    Primitive<double> p2;
-    auto pp2 = &(p2 = std::move(p));
-    check_state(p2, std::vector<double>{1.0, 2.0, 3.0, 4.0, 5.0});
-    SECTION("Returns this") { REQUIRE(pp2 == &p2); }
-    SECTION("References remain valid") {
-        REQUIRE(&p2.coefficient() == pp[0]);
-        REQUIRE(&p2.exponent() == pp[1]);
+TEST_CASE("ContractedGaussian<double> : move assignment") {
+    auto[prims, g] = make_ctgo();
+    ContractedGaussian<double> g2;
+    auto pg2 = &(g2 = std::move(g));
+    check_state(g2, prims);
+    SECTION("Returns this") { REQUIRE(&g2 == pg2); }
+}
+
+TEST_CASE("ContractedGaussian<double> : size") {
+    auto[prims, g] = make_ctgo();
+    REQUIRE(g.size() == 3);
+}
+
+TEST_CASE("ContractedGaussian<double> : operator[]") {
+    auto[prims, g] = make_ctgo();
+    auto prim0     = g[0];
+    SECTION("State") { REQUIRE(static_cast<const prim_t&>(prim0) == prims[0]); }
+    SECTION("Is read/write-able") {
+        STATIC_REQUIRE(std::is_same_v<double&, decltype(prim0.coefficient())>);
+        STATIC_REQUIRE(std::is_same_v<double&, decltype(prim0.exponent())>);
+    }
+    SECTION("Throws for out of range") {
+        REQUIRE_THROWS_AS(g[9], std::out_of_range);
     }
 }
 
-TEST_CASE("Primitive<double> : coefficient") {
-    Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    REQUIRE(p.coefficient() == 1.0);
-    SECTION("Is read/write") {
-        STATIC_REQUIRE(std::is_same_v<decltype(p.coefficient()), double&>);
-    }
-}
-
-TEST_CASE("Primitive<double> : coefficient const") {
-    const Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    REQUIRE(p.coefficient() == 1.0);
+TEST_CASE("ContractedGaussian<double> : operator[] const") {
+    const auto[prims, g] = make_ctgo();
+    auto prim0           = g[0];
+    SECTION("State") { REQUIRE(static_cast<const prim_t&>(prim0) == prims[0]); }
     SECTION("Is read-only") {
-        STATIC_REQUIRE(
-          std::is_same_v<decltype(p.coefficient()), const double&>);
+        using constd = const double&;
+        STATIC_REQUIRE(std::is_same_v<constd, decltype(prim0.coefficient())>);
+        STATIC_REQUIRE(std::is_same_v<constd, decltype(prim0.exponent())>);
+    }
+    SECTION("Throws for out of range") {
+        REQUIRE_THROWS_AS(g[9], std::out_of_range);
     }
 }
 
-TEST_CASE("Primitive<double> : exponent") {
-    Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    REQUIRE(p.exponent() == 2.0);
-    SECTION("Is read/write") {
-        STATIC_REQUIRE(std::is_same_v<decltype(p.exponent()), double&>);
-    }
-}
-
-TEST_CASE("Primitive<double> : exponent const") {
-    const Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    REQUIRE(p.exponent() == 2.0);
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<decltype(p.exponent()), const double&>);
-    }
-}
-
-TEST_CASE("Primitive<double> : operator==") {
-    Primitive<double> p;
-    SECTION("Same instance") { REQUIRE(p == p); }
-    SECTION("Different instance, same value") {
-        Primitive<double> p2;
-        REQUIRE(p == p2);
-    }
-    SECTION("Different coefficient") {
-        Primitive<double> p2(1.0, 0.0, 0.0, 0.0, 0.0);
-        REQUIRE_FALSE(p == p2);
-    }
-    SECTION("Different exponent") {
-        Primitive<double> p2(0.0, 1.0, 0.0, 0.0, 0.0);
-        REQUIRE_FALSE(p == p2);
-    }
-    SECTION("Different Point") {
-        Primitive<double> p2(0.0, 0.0, 1.0, 2.0, 3.0);
-        REQUIRE_FALSE(p == p2);
-    }
-}
-
-TEST_CASE("Primitive<double> : operator!=") {
-    Primitive<double> p;
-    SECTION("Same instance") { REQUIRE_FALSE(p != p); }
-    SECTION("Different instance, same value") {
-        Primitive<double> p2;
-        REQUIRE_FALSE(p != p2);
-    }
-    SECTION("Different coefficient") {
-        Primitive<double> p2(1.0, 0.0, 0.0, 0.0, 0.0);
-        REQUIRE(p != p2);
-    }
-    SECTION("Different exponent") {
-        Primitive<double> p2(0.0, 1.0, 0.0, 0.0, 0.0);
-        REQUIRE(p != p2);
-    }
-    SECTION("Different Point") {
-        Primitive<double> p2(0.0, 0.0, 1.0, 2.0, 3.0);
-        REQUIRE(p != p2);
-    }
+TEST_CASE("ContractedGaussian<double> : begin") {
+    auto[prims, g] = make_ctgo();
+    auto gbegin    = g.begin();
+    SECTION("Element 0") { REQUIRE(*gbegin == prims[0]); }
 }
