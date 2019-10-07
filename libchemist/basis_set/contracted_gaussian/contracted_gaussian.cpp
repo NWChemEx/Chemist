@@ -10,22 +10,25 @@ using cgto_pimpl = detail_::OwningCGTOPIMPL<T>;
 template<typename T>
 ContractedGaussian<T>::ContractedGaussian() :
   m_pimpl_(std::make_unique<cgto_pimpl<T>>()),
-  Point<T>() {}
+  Point<T>(),
+  utilities::IndexableContainerBase<ContractedGaussian>() {}
 
 template<typename T>
 ContractedGaussian<T>::ContractedGaussian(std::vector<T> coefs,
                                           std::vector<T> exps, T x, T y, T z) :
   m_pimpl_(std::make_unique<cgto_pimpl<T>>(std::move(coefs), std::move(exps))),
-  Point<T>(x, y, z) {}
+  Point<T>(x, y, z),
+  utilities::IndexableContainerBase<ContractedGaussian>() {}
 
 template<typename T>
 ContractedGaussian<T>::ContractedGaussian(
   pimpl_ptr my_pimpl, point_pimpl_ptr point_pimpl) noexcept :
   m_pimpl_(std::move(my_pimpl)),
-  Point<T>(std::move(point_pimpl)) {}
+  Point<T>(std::move(point_pimpl)),
+  utilities::IndexableContainerBase<ContractedGaussian>() {}
 
 template<typename T>
-ContractedGaussian<T>::ContractedGaussian(const ContractedGaussian<T>& rhs) :
+ContractedGaussian<T>::ContractedGaussian(const my_type& rhs) :
   ContractedGaussian(
     [&]() {
         std::vector<T> coefs(rhs.size());
@@ -41,42 +44,41 @@ ContractedGaussian<T>::ContractedGaussian(const ContractedGaussian<T>& rhs) :
     rhs.x(), rhs.y(), rhs.z()) {}
 
 template<typename T>
-ContractedGaussian<T>::ContractedGaussian(
-  ContractedGaussian<T>&& rhs) noexcept = default;
+ContractedGaussian<T>::ContractedGaussian(my_type&& rhs) noexcept = default;
 
 template<typename T>
-ContractedGaussian<T>& ContractedGaussian<T>::operator=(
-  const ContractedGaussian<T>& rhs) {
-    return *this = std::move(ContractedGaussian<T>(rhs));
+ContractedGaussian<T>& ContractedGaussian<T>::operator=(const my_type& rhs) {
+    return *this = std::move(my_type(rhs));
 }
 
 template<typename T>
 ContractedGaussian<T>& ContractedGaussian<T>::operator=(
-  ContractedGaussian<T>&& rhs) noexcept = default;
+  my_type&& rhs) noexcept = default;
 
 template<typename T>
 ContractedGaussian<T>::~ContractedGaussian() noexcept = default;
 
 template<typename T>
-typename ContractedGaussian<T>::size_type ContractedGaussian<T>::size() const
+typename ContractedGaussian<T>::size_type ContractedGaussian<T>::size_() const
   noexcept {
     return m_pimpl_->size();
 }
 
 template<typename T>
-typename ContractedGaussian<T>::reference ContractedGaussian<T>::operator[](
+typename ContractedGaussian<T>::reference ContractedGaussian<T>::at_(
   size_type i) {
     return {&(m_pimpl_->coef(i)), &(m_pimpl_->exp(i)), &(this->x()),
             &(this->y()), &(this->z())};
 }
 
 template<typename T>
-typename ContractedGaussian<T>::const_reference ContractedGaussian<T>::
-operator[](size_type i) const {
+typename ContractedGaussian<T>::const_reference ContractedGaussian<T>::at_(
+  size_type i) const {
     return {&(m_pimpl_->coef(i)), &(m_pimpl_->exp(i)), &(this->x()),
             &(this->y()), &(this->z())};
 }
 
 template class ContractedGaussian<double>;
 template class ContractedGaussian<float>;
+
 } // namespace libchemist

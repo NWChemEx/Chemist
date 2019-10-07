@@ -1,7 +1,7 @@
 #pragma once
 #include "libchemist/basis_set/primitive/primitive_view.hpp"
 #include "libchemist/point/point.hpp"
-#include <utilities/iterators/offset_iterator.hpp>
+#include <utilities/containers/indexable_container_base.hpp>
 #include <vector>
 
 namespace libchemist {
@@ -28,10 +28,14 @@ class CGTOPIMPL;
  * @tparam T The non-cv qualified type of the primitive's parameters.
  */
 template<typename T>
-class ContractedGaussian : public Point<T> {
+class ContractedGaussian
+  : public Point<T>,
+    public utilities::IndexableContainerBase<ContractedGaussian<T>> {
 private:
     /// The type of this class
     using my_type = ContractedGaussian<T>;
+    /// the type of the IndexableContainerBase
+    using container_base = utilities::IndexableContainerBase<my_type>;
     /// The type of the PIMPL implementing this class
     using pimpl_type = detail_::CGTOPIMPL<T>;
     /// The type of a pointer to this class's PIMPL
@@ -44,16 +48,14 @@ private:
 public:
     /// Type of the parameters in this contraction
     using value_type = T;
-    /// Type of a reference to a Primitive stored in this container
+
+    /// Type of an index/offset
+    using size_type = typename container_base::size_type;
+
+    /// Type of a read-/write-able view to a Primitive
     using reference = PrimitiveView<T>;
-    /// Type of a read-only reference to a Primitive stored in this container
+    /// Type of a read-only view to a Primitive
     using const_reference = PrimitiveView<const T>;
-    /// Type used for indexing and offsets
-    using size_type = std::size_t;
-    /// Type of a read/write iterator over this container
-    using iterator = utilities::iterators::OffsetIterator<my_type>;
-    /// Type of a read-only iterator over this container
-    using const_iterator = utilities::iterators::OffsetIterator<const my_type>;
 
     /** @brief Makes a ContractedGaussian with no Primitives.
      *
@@ -171,64 +173,65 @@ public:
     /// Default dtor
     ~ContractedGaussian() noexcept override;
 
-    /** @brief The number of primitives in this orbital.
-     *
-     *  This function computes the number of primitives that are in this
-     *  orbital.
-     *
-     *  @return The number of primitives that comprise this orbital.
-     *
-     *  @throw none No throw guarantee.
-     */
-    size_type size() const noexcept;
-
-    /** @brief Returns the @p i-th primitive contributing to the orbital.
-     *
-     *  This function is used to retrieve the @p i -th primitive that is
-     *  involved in the contraction forming the present orbital. The order of
-     *  the Primitives is the order in which they were inserted into the
-     *  present instance.
-     *
-     *  @param[in] i The index of the requested primitive. Must be in the range
-     *             [0, size()).
-     *
-     *  @return A read/writeable view of the requested primitive.
-     *
-     *  @throw std::out_of_range if the requested index is not in the range
-     *                           [0, size()). Strong throw guarantee.
-     */
-    reference operator[](size_type i);
-
-    /** @brief Returns the @p i-th primitive contributing to the orbital.
-     *
-     *  This function is used to retrieve the @p i -th primitive that is
-     *  involved in the contraction forming the present orbital. The order of
-     *  the Primitives is the order in which they were inserted into the
-     *  present instance.
-     *
-     *  @param[in] i The index of the requested primitive. Must be in the range
-     *             [0, size()).
-     *
-     *  @return A read-only view of the requested primitive.
-     *
-     *  @throw std::out_of_range if the requested index is not in the range
-     *                           [0, size()). Strong throw guarantee.
-     */
-    const_reference operator[](size_type i) const;
-
-    iterator begin() noexcept { return {0, this}; }
-    const_iterator begin() const noexcept { return {0, this}; }
-    const_iterator cbegin() const noexcept { return {0, this}; }
-
-    iterator end() noexcept { return {size(), this}; }
-    const_iterator end() const noexcept { return {size(), this}; }
-    const_iterator cend() const noexcept { return {size(), this}; }
-
 private:
+    /// Allows the IndexableContainerBase to access the implementations
+    friend container_base;
+    /// Implements size()
+    size_type size_() const noexcept;
+    /// Implements operator[]
+    reference at_(size_type index);
+    /// Impelments operator[]const
+    const_reference at_(size_type index) const;
+
     /// The instance actually implementing the class
     std::unique_ptr<pimpl_type> m_pimpl_;
 }; // End class contracted_gaussian
 
+/** @brief Compares two ContractedGaussian instances for equality.
+ *
+ *  Two ContractedGaussian instances are considered equal if they contain the
+ *  same number of primitives and if the i-th primitive of @p lhs is equal to
+ *  the i-th primitive of @p rhs for all i in the range `[0, lhs.size())`.
+ *
+ *  @tparam T The type used to hold the ContractedGaussian's parameters.
+ *
+ *  @param[in] lhs The instance on the left side of the operator.
+ *  @param[in] rhs The instance on the right side of the operator.
+ *
+ *  @return True if the the two instances are equal and false otherwise.
+ *
+ *  @throw std::bad_alloc if there is insufficient memory to make the PIMPL for
+ *         one of the PrimitiveView instances. Strong throw guarantee.
+ */
+template<typename T>
+bool operator==(const ContractedGaussian<T>& lhs,
+                const ContractedGaussian<T>& rhs) {
+    using base_t = utilities::IndexableContainerBase<ContractedGaussian<T>>;
+    return static_cast<const base_t&>(lhs) == static_cast<const base_t&>(rhs);
+}
+
+/** @brief Determines if two ContractedGaussian instances are different.
+ *
+ *  Two ContractedGaussian instances are considered equal if they contain the
+ *  same number of primitives and if the i-th primitive of @p lhs is equal to
+ *  the i-th primitive of @p rhs for all i in the range `[0, lhs.size())`.
+ *  Different is defined as not equal.
+ *
+ *  @tparam T The type used to hold the ContractedGaussian's parameters.
+ *
+ *  @param[in] lhs The instance on the left side of the operator.
+ *  @param[in] rhs The instance on the right side of the operator.
+ *
+ *  @return False if the the two instances are equal and true otherwise.
+ *
+ *  @throw std::bad_alloc if there is insufficient memory to make the PIMPL for
+ *         one of the PrimitiveView instances. Strong throw guarantee.
+ */
+template<typename T>
+bool operator!=(const ContractedGaussian<T>& lhs,
+                const ContractedGaussian<T>& rhs) {
+    return !(lhs == rhs);
+}
 extern template class ContractedGaussian<double>;
 extern template class ContractedGaussian<float>;
 

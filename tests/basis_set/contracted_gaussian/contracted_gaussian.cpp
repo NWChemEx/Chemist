@@ -9,9 +9,7 @@ template<typename T, typename U>
 static void check_state(T&& ao, U&& corr) {
     SECTION("size") { REQUIRE(ao.size() == corr.size()); }
     SECTION("primitives") {
-        for(std::size_t i = 0; i < ao.size(); ++i) {
-            REQUIRE(static_cast<const prim_t&>(ao[i]) == corr[i]);
-        }
+        for(std::size_t i = 0; i < ao.size(); ++i) REQUIRE(ao[i] == corr[i]);
     }
 }
 
@@ -75,12 +73,12 @@ TEST_CASE("ContractedGaussian<double> : move assignment") {
     SECTION("Returns this") { REQUIRE(&g2 == pg2); }
 }
 
-TEST_CASE("ContractedGaussian<double> : size") {
+TEST_CASE("ContractedGaussian<double> : size_") {
     auto[prims, g] = make_ctgo();
     REQUIRE(g.size() == 3);
 }
 
-TEST_CASE("ContractedGaussian<double> : operator[]") {
+TEST_CASE("ContractedGaussian<double> : at_") {
     auto[prims, g] = make_ctgo();
     auto prim0     = g[0];
     SECTION("State") { REQUIRE(static_cast<const prim_t&>(prim0) == prims[0]); }
@@ -93,7 +91,7 @@ TEST_CASE("ContractedGaussian<double> : operator[]") {
     }
 }
 
-TEST_CASE("ContractedGaussian<double> : operator[] const") {
+TEST_CASE("ContractedGaussian<double> : at_() const") {
     const auto[prims, g] = make_ctgo();
     auto prim0           = g[0];
     SECTION("State") { REQUIRE(static_cast<const prim_t&>(prim0) == prims[0]); }
@@ -107,8 +105,19 @@ TEST_CASE("ContractedGaussian<double> : operator[] const") {
     }
 }
 
-TEST_CASE("ContractedGaussian<double> : begin") {
-    auto[prims, g] = make_ctgo();
-    auto gbegin    = g.begin();
-    SECTION("Element 0") { REQUIRE(*gbegin == prims[0]); }
+TEST_CASE("ContractedGaussian<double> : operator==") {
+    const auto[prims, g] = make_ctgo();
+    SECTION("Same") { REQUIRE(g == g); }
+    SECTION("Different primitives") {
+        vector_t cs{1.0, 3.0, 5.0};
+        vector_t es{1.0, 2.0, 3.0};
+        ContractedGaussian<double> g2(cs, es, 7.0, 8.0, 9.0);
+        REQUIRE_FALSE(g == g2);
+    }
+    SECTION("Different center") {
+        vector_t cs{1.0, 3.0, 5.0};
+        vector_t es{2.0, 4.0, 6.0};
+        ContractedGaussian<double> g2(cs, es, 1.0, 2.0, 3.0);
+        REQUIRE_FALSE(g == g2);
+    }
 }

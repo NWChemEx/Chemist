@@ -316,7 +316,8 @@ private:
 template<typename T, typename U>
 bool operator==(const PrimitiveView<T>& lhs, const Primitive<U>& rhs) noexcept {
     using value_type = typename PrimitiveView<T>::value_type;
-    return static_cast<const Primitive<value_type>&>(lhs) == rhs;
+    const Primitive<value_type>& cast_lhs(lhs);
+    return cast_lhs == rhs;
 }
 
 /** @brief Overloads Primitive<T>::operator== for PrimitiveView instances.
@@ -340,7 +341,8 @@ bool operator==(const PrimitiveView<T>& lhs, const Primitive<U>& rhs) noexcept {
 template<typename T, typename U>
 bool operator==(const Primitive<T>& lhs, const PrimitiveView<U>& rhs) noexcept {
     using value_type = typename PrimitiveView<T>::value_type;
-    return lhs == static_cast<const Primitive<value_type>&>(rhs);
+    const Primitive<value_type>& cast_rhs(rhs);
+    return lhs == cast_rhs;
 }
 
 /** @brief Overloads Primitive<T>::operator== for PrimitiveView instances.
@@ -365,7 +367,9 @@ template<typename T, typename U>
 bool operator==(const PrimitiveView<T>& lhs,
                 const PrimitiveView<U>& rhs) noexcept {
     using value_type = typename PrimitiveView<T>::value_type;
-    return static_cast<const Primitive<value_type>&>(lhs) == rhs;
+    const Primitive<value_type>& cast_lhs(lhs);
+    const Primitive<value_type>& cast_rhs(rhs);
+    return cast_lhs == cast_rhs;
 }
 
 /** @brief Overloads Primitive<T>::operator!= for PrimitiveView instances.
