@@ -30,17 +30,29 @@ public:
      *  This ctor is used to create a new CGTOPIMPL instance which
      *  contains no Primitives.
      *
-     *  @throw none No throw guarantee.
+     *  @throw std::bad_alloc if there is insufficient memory to allocate the
+     *         MathSet's PIMPLs. Strong throw guarantee.
      */
-    CGTOPIMPL() noexcept = default;
+    CGTOPIMPL() = default;
 
     CGTOPIMPL(const CGTOPIMPL<T>& rhs) = delete;
     CGTOPIMPL(CGTOPIMPL<T>&& rhs)      = delete;
     CGTOPIMPL<T>& operator=(const CGTOPIMPL<T>& rhs) = delete;
     CGTOPIMPL<T>& operator=(CGTOPIMPL<T>&& rhs) = delete;
 
-    /// Defaulted polymorphic no-throw dtor
-    virtual ~CGTOPIMPL() noexcept = default;
+    /** @brief Creates a new CGTOPIMPL using the provided coefficients and
+     *         exponents.
+     *
+     * @tparam U Assumed to be MathSet<T> or MathSet<T>*
+     * @tparam V Assumed to be MathSet<T> or MathSet<T>*
+     * @param[in] cs The set of coefficients this PIMPL will be associated with.
+     * @param[in] as The set of exponents that this PIMPL will contain.
+     *
+     * @throw none No throw guarantee.
+     */
+    template<typename U, typename V>
+    CGTOPIMPL(U&& cs, V&& as)
+    noexcept;
 
     /** @brief Determines the number of primitives comprising the contraction.
      *
@@ -51,7 +63,7 @@ public:
      *
      *  @throw none no throw guarantee.
      */
-    size_type size() const noexcept { return size_(); }
+    size_type size() const noexcept { return m_cs_.value().size(); }
 
     /** @brief Returns the contraction coefficient of the @p i-th primitive.
      *
@@ -66,7 +78,7 @@ public:
      * @throw std::out_of_range if @p i is not in the range [0, size()). Strong
      *        throw guarantee.
      */
-    reference coef(size_type i) { return coef_(i); }
+    reference coef(size_type i) { return m_cs_.value()[i]; }
 
     /** @brief Returns the contraction coefficient of the @p i-th primitive.
      *
@@ -82,7 +94,7 @@ public:
      * @throw std::out_of_range if @p i is not in the range [0, size()). Strong
      *        throw guarantee.
      */
-    const_reference coef(size_type i) const { return coef_(i); }
+    const_reference coef(size_type i) const { return m_cs_.value()[i]; }
 
     /** @brief Returns the exponent of the @p i-th primitive.
      *
@@ -97,7 +109,7 @@ public:
      * @throw std::out_of_range if @p i is not in the range [0, size()). Strong
      *        throw guarantee.
      */
-    reference exp(size_type i) { return exp_(i); }
+    reference exp(size_type i) { return m_as_.value()[i]; }
 
     /** @brief Returns the exponent of the @p i-th primitive.
      *
@@ -112,105 +124,21 @@ public:
      * @throw std::out_of_range if @p i is not in the range [0, size()). Strong
      *        throw guarantee.
      */
-    const_reference exp(size_type i) const { return exp_(i); }
+    const_reference exp(size_type i) const { return m_as_.value()[i]; }
 
 private:
-    /// Implemented by derived class to implement size
-    virtual size_type size_() const noexcept = 0;
-    /// Implemented by derived class to implement coef()
-    virtual reference coef_(size_type i) = 0;
-    /// Implemented by derived class to implement coef() const
-    virtual const_reference coef_(size_type i) const = 0;
-    /// Implemented by derived class to implement exp()
-    virtual reference exp_(size_type i) = 0;
-    /// Implemented by derived class to implement exp() const
-    virtual const_reference exp_(size_type i) const = 0;
+    /// The contraction coefficients for this CGTO
+    utilities::OwnOrBorrow<utilities::MathSet<T>> m_cs_;
+    /// The exponents of each primitive in this CGTO
+    utilities::OwnOrBorrow<utilities::MathSet<T>> m_as_;
 }; // class CGTOPIMPL
 
-/** @brief Code factorization for the implementation of the CGTOPIMPL
- *
- *  The owning and aliasing versions of the CGTOPIMPL differ by whether they
- *  hold the parameters in a MathSet or a MathSetView. We use type-erasure via
- *  the CGTOPIMPL class to remove that distinction. This derived class
- *  implements the CGTOPIMPL using APIs that are valid regardless of
- *  which container is internally stored.
- *
- *  @tparam T The type used to hold the Primitive's parameters.
- *  @tparam Container The type of the container used to hold the Primitive's
- *          parameters.
- */
-template<typename T, typename Container>
-class CGTOPIMPL_ : public CGTOPIMPL<T> {
-private:
-    /// Type of the base class
-    using base_type = CGTOPIMPL<T>;
+// ------------------------------Implementations--------------------------------
 
-public:
-    /// Type of a read/write reference to a parameter
-    using reference = typename base_type::reference;
-    /// Type of a read-only reference to a parameter
-    using const_reference = typename base_type::const_reference;
-    /// Type of an index or offset
-    using size_type = typename base_type::size_type;
-
-    /** @brief Creates a PIMPL that holds no primitives.
-     *
-     *  The PIMPL that results from this ctor will hold no primitives. At the
-     *  moment there is no way to add more primitives to it and it is
-     *  essentially a placeholder.
-     *
-     *  @throw std::bad_alloc if their is insufficient memory to allocate the
-     *         PIMPLs for the MathSet
-     */
-    CGTOPIMPL_() = default;
-
-    /** @brief Initializes the PIMPL with the provided coefficients and
-     *         exponents.
-     *
-     * @tparam U Should be T if this container owns the values and T* if they
-     *           are being aliased.
-     * @param[in] coefs A vector of coefficients to copy/alias
-     * @param[in] exps A vector of exponents to copy/alias
-     *
-     * @throw std::bad_alloc if there is insufficient memory to allocate the
-     *        PIMPLs for the MathSets. Strong throw guarantee.
-     */
-    template<typename U>
-    CGTOPIMPL_(std::vector<U> coefs, std::vector<U> exps);
-
-private:
-    /// Implements size() for the base class
-    size_type size_() const noexcept override { return m_coefs_.size(); }
-    /// Implements coef() for the base class
-    reference coef_(size_type i) override { return m_coefs_[i]; }
-    /// Implements coef() const for the base class
-    const_reference coef_(size_type i) const override { return m_coefs_[i]; }
-    /// Implements exp() for the base class
-    reference exp_(size_type i) override { return m_exps_[i]; }
-    /// Implements exp() const for the base class
-    const_reference exp_(size_type i) const override { return m_exps_[i]; }
-
-    /// A MathSet or MathSetView of the coefficients
-    Container m_coefs_;
-    /// A MathSet or MathSetView of the exponents
-    Container m_exps_;
-};
-
-/// Typedef for the PIMPL that actually owns its parameters
 template<typename T>
-using OwningCGTOPIMPL = CGTOPIMPL_<T, utilities::MathSet<T>>;
-
-/// Typedef for the PIMPL that aliases its parameters
-template<typename T>
-using AliasingCGTOPIMPL = CGTOPIMPL_<T, utilities::MathSetView<T>>;
-
-// ---------------------------------Implementations-----------------------------
-
-template<typename T, typename Container>
-template<typename U>
-CGTOPIMPL_<T, Container>::CGTOPIMPL_(std::vector<U> coefs,
-                                     std::vector<U> exps) :
-  m_coefs_(coefs.begin(), coefs.end()),
-  m_exps_(exps.begin(), exps.end()) {}
+template<typename U, typename V>
+CGTOPIMPL<T>::CGTOPIMPL(U&& cs, V&& as) noexcept :
+  m_cs_(std::forward<U>(cs)),
+  m_as_(std::forward<V>(as)) {}
 
 } // namespace libchemist::detail_

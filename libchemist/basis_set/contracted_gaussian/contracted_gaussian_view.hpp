@@ -45,8 +45,8 @@ public:
      */
     ContractedGaussianView();
 
-    ContractedGaussianView(std::vector<T*> coefs, std::vector<T*> exps, T* x,
-                           T* y, T* z);
+    ContractedGaussianView(ContractedGaussian<no_cv_t> pimpl);
+
     operator const ContractedGaussian<no_cv_t>&() const { return m_pimpl_; }
 
 private:
@@ -64,6 +64,10 @@ private:
 }; // End class contracted_gaussian
 
 // ---------------------------------Implementations-----------------------------
+template<typename T>
+ContractedGaussianView<T>::ContractedGaussianView(
+  ContractedGaussian<no_cv_t> pimpl) :
+  m_pimpl_(std::move(pimpl)) {}
 
 template<typename T>
 decltype(auto) ContractedGaussianView<T>::at_(size_type i) {

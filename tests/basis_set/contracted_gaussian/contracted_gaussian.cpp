@@ -1,5 +1,17 @@
 #include <catch2/catch.hpp>
 #include <libchemist/basis_set/contracted_gaussian/contracted_gaussian.hpp>
+#include <libchemist/basis_set/contracted_gaussian/detail_/cgto_pimpl.hpp>
+#include <libchemist/point/detail_/point_pimpl.hpp>
+#include <utilities/containers/math_set/math_set.hpp>
+/* Testing Strategy:
+ *
+ * Prior testing of the Point<T> and utilities::IndexableContainerBase classes
+ * ensures that most of the ContractedGaussian's API works. We need to test:
+ *
+ * - the ctors and assignment operators
+ * - size_(), at_() are hooked up correctly, and
+ * - comparisons
+ */
 
 using namespace libchemist;
 using vector_t = std::vector<double>;
@@ -71,6 +83,18 @@ TEST_CASE("ContractedGaussian<double> : move assignment") {
     auto pg2 = &(g2 = std::move(g));
     check_state(g2, prims);
     SECTION("Returns this") { REQUIRE(&g2 == pg2); }
+}
+
+TEST_CASE("ContractedGaussian<double> : pimpl ctor") {
+    utilities::MathSet<double> cs{1.0, 3.0, 5.0};
+    utilities::MathSet<double> as{2.0, 4.0, 6.0};
+    std::array<double, 3> qs{7.0, 8.0, 9.0};
+    auto p1 = std::make_unique<detail_::CGTOPIMPL<double>>(&cs, &as);
+    auto p2 =
+      std::make_unique<detail_::PointPIMPL<double>>(&qs[0], &qs[1], &qs[2]);
+    ContractedGaussian<double> cgto(std::move(p1), std::move(p2));
+    auto[prims, g] = make_ctgo();
+    check_state(cgto, prims);
 }
 
 TEST_CASE("ContractedGaussian<double> : size_") {
