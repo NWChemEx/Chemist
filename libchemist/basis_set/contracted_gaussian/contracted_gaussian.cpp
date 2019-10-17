@@ -5,18 +5,17 @@
 namespace libchemist {
 
 template<typename T>
-using cgto_pimpl = detail_::OwningCGTOPIMPL<T>;
-
-template<typename T>
 ContractedGaussian<T>::ContractedGaussian() :
-  m_pimpl_(std::make_unique<cgto_pimpl<T>>()),
+  m_pimpl_(std::make_unique<pimpl_type>()),
   Point<T>(),
   utilities::IndexableContainerBase<ContractedGaussian>() {}
 
 template<typename T>
 ContractedGaussian<T>::ContractedGaussian(std::vector<T> coefs,
                                           std::vector<T> exps, T x, T y, T z) :
-  m_pimpl_(std::make_unique<cgto_pimpl<T>>(std::move(coefs), std::move(exps))),
+  m_pimpl_(std::make_unique<pimpl_type>(
+    utilities::MathSet<T>(coefs.begin(), coefs.end()),
+    utilities::MathSet<T>(exps.begin(), exps.end()))),
   Point<T>(x, y, z),
   utilities::IndexableContainerBase<ContractedGaussian>() {}
 

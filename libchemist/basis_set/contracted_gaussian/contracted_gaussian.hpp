@@ -232,6 +232,7 @@ bool operator!=(const ContractedGaussian<T>& lhs,
                 const ContractedGaussian<T>& rhs) {
     return !(lhs == rhs);
 }
+
 extern template class ContractedGaussian<double>;
 extern template class ContractedGaussian<float>;
 
