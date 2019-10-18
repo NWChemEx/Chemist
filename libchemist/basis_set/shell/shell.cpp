@@ -74,7 +74,7 @@ typename Shell<T>::reference Shell<T>::at_(size_type index) {
     auto ptr2 =
       std::make_unique<point_pimpl_t>(&(this->x()), &(this->y()), &(this->z()));
     ContractedGaussian<T> temp(std::move(ptr1), std::move(ptr2));
-    return {std::move(temp)};
+    return reference(std::move(temp));
 }
 
 template<typename T>
@@ -84,7 +84,7 @@ typename Shell<T>::const_reference Shell<T>::at_(size_type index) const {
                                                 const_cast<T*>(&(this->y())),
                                                 const_cast<T*>(&(this->z())));
     ContractedGaussian<T> temp(std::move(ptr1), std::move(ptr2));
-    return {std::move(temp)};
+    return const_reference(std::move(temp));
 }
 
 template class Shell<double>;

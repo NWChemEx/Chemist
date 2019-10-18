@@ -47,7 +47,7 @@ private:
 
 public:
     /// Type of the parameters in this contraction
-    using value_type = T;
+    using value_type = Primitive<T>;
 
     /// Type of an index/offset
     using size_type = typename container_base::size_type;
