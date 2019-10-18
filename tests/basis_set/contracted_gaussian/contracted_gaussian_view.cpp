@@ -65,3 +65,19 @@ TEST_CASE("ContractedGaussianView<double> : implicit conversion") {
     const ContractedGaussian<double>& g2(g);
     compare_state(g2, prims);
 }
+
+TEST_CASE("ContractedGaussianView<double> : operator==") {
+    auto[ps, g] = make_ctgo<double>();
+    ContractedGaussian<double> g2;
+    SECTION("View == Value") { REQUIRE_FALSE(g == g2); }
+    SECTION("Value == View") { REQUIRE_FALSE(g2 == g); }
+    SECTION("View == View") { REQUIRE(g == g); }
+}
+
+TEST_CASE("ContractedGaussianView<double> : operator!=") {
+    auto[ps, g] = make_ctgo<double>();
+    ContractedGaussian<double> g2;
+    SECTION("View != Value") { REQUIRE(g != g2); }
+    SECTION("Value != View") { REQUIRE(g2 != g); }
+    SECTION("View != View") { REQUIRE_FALSE(g != g); }
+}

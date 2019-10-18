@@ -30,6 +30,18 @@ public:
      */
     ShellPIMPL() = default;
 
+    /** @brief Creates a new ShellPIMPL instance that is a deep copy of @p rhs.
+     *
+     *  This ctor creates a new ShellPIMPL instance by deep copying an existing
+     *  instance.
+     *
+     *  @param[in] rhs The instance to make a deep copy of.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to copy @p rhs's
+     *                        state. Strong throw guarantee.
+     */
+    ShellPIMPL(const ShellPIMPL<T>& rhs);
+
     /** @brief Creates a new ShellPIMPL instance with the specified state.
      *
      *  This ctor allows the user to set the state of the Shell instance and
@@ -135,7 +147,7 @@ public:
      *  @return A PIMPL that aliases the state of the @p index-th CGTO in this
      *          shell.
      */
-    detail_::CGTOPIMPL<T> at(size_type index) const noexcept;
+    std::unique_ptr<detail_::CGTOPIMPL<T>> at(size_type index) const noexcept;
 
 private:
     /// Whether or not this shell is pure
@@ -149,6 +161,10 @@ private:
 }; // class ShellPIMPL
 
 // --------------------- Implementations ---------------------------------------
+
+template<typename T>
+ShellPIMPL<T>::ShellPIMPL(const ShellPIMPL<T>& rhs) :
+  ShellPIMPL(rhs.purity(), rhs.l(), rhs.m_cs_.value(), rhs.m_es_.value()) {}
 
 template<typename T>
 template<typename U, typename V, typename W, typename X>
@@ -168,10 +184,11 @@ typename ShellPIMPL<T>::size_type ShellPIMPL<T>::size() const noexcept {
 }
 
 template<typename T>
-detail_::CGTOPIMPL<T> ShellPIMPL<T>::at(size_type) const noexcept {
+std::unique_ptr<detail_::CGTOPIMPL<T>> ShellPIMPL<T>::at(size_type) const
+  noexcept {
     auto p_cs = const_cast<utilities::MathSet<T>*>(&m_cs_.value());
     auto p_es = const_cast<utilities::MathSet<T>*>(&m_es_.value());
-    return {p_cs, p_es};
+    return std::make_unique<detail_::CGTOPIMPL<T>>(p_cs, p_es);
 }
 
 } // namespace libchemist::detail_

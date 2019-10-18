@@ -6,5 +6,7 @@ list(APPEND LIBCHEMIST_TESTS
      basis_set/primitive/primitive.cpp
      basis_set/primitive/primitive_view.cpp
      basis_set/shell/detail_/shell_pimpl.cpp
+     basis_set/shell/shell.cpp
+     basis_set/shell/shell_view.cpp
 )
 set(LIBCHEMIST_TESTS "${LIBCHEMIST_TESTS}" PARENT_SCOPE)

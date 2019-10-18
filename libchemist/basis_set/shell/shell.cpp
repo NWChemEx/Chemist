@@ -1,5 +1,6 @@
 #include "libchemist/basis_set/shell/detail_/shell_pimpl.hpp"
 #include "libchemist/basis_set/shell/shell.hpp"
+#include "libchemist/point/detail_/point_pimpl.hpp"
 
 namespace libchemist {
 
@@ -11,8 +12,7 @@ Shell<T>::Shell() :
 
 template<typename T>
 Shell<T>::Shell(const Shell<T>& rhs) :
-  Shell(std::make_unique<pimpl_t>(rhs.pure(), rhs.l(), rhs.m_pimpl_.coefs(0),
-                                  rhs.m_pimpl_.exps(0)),
+  Shell(std::make_unique<pimpl_t>(*rhs.m_pimpl_),
         std::make_unique<point_pimpl_t>(rhs.x(), rhs.y(), rhs.z())) {}
 
 template<typename T>
@@ -24,7 +24,7 @@ Shell<T>& Shell<T>::operator=(const Shell<T>& rhs) {
 }
 
 template<typename T>
-Shell<T>& Shell<T>::operator=(Shell<T>&& rhs) = default;
+Shell<T>& Shell<T>::operator=(Shell<T>&& rhs) noexcept = default;
 
 template<typename T>
 Shell<T>::Shell(bool pure, int l, std::vector<T> coefs, std::vector<T> exps,
@@ -44,22 +44,22 @@ template<typename T>
 Shell<T>::~Shell<T>() noexcept = default;
 
 template<typename T>
-bool& Shell<T>::pure() {
+bool& Shell<T>::pure() noexcept {
     return m_pimpl_->purity();
 }
 
 template<typename T>
-const bool& Shell<T>::pure() const {
+const bool& Shell<T>::pure() const noexcept {
     return m_pimpl_->purity();
 }
 
 template<typename T>
-int& Shell<T>::l() {
+typename Shell<T>::size_type& Shell<T>::l() noexcept {
     return m_pimpl_->l();
 }
 
 template<typename T>
-const int& Shell<T>::l() const {
+const typename Shell<T>::size_type& Shell<T>::l() const noexcept {
     return m_pimpl_->l();
 }
 
@@ -70,18 +70,19 @@ typename Shell<T>::size_type Shell<T>::size_() const noexcept {
 
 template<typename T>
 typename Shell<T>::reference Shell<T>::at_(size_type index) {
-    auto ptr1 = std::make_unique<detail_::CGTOPIMPL<T>>(m_pimpl_->at(index));
-    auto ptr2 = std::make_unique<point_pimpl_t>(&x(), &y(), &z());
+    auto ptr1 = m_pimpl_->at(index);
+    auto ptr2 =
+      std::make_unique<point_pimpl_t>(&(this->x()), &(this->y()), &(this->z()));
     ContractedGaussian<T> temp(std::move(ptr1), std::move(ptr2));
     return {std::move(temp)};
 }
 
 template<typename T>
 typename Shell<T>::const_reference Shell<T>::at_(size_type index) const {
-    auto ptr1 = std::make_unique<detail_::CGTOPIMPL<T>>(m_pimpl_->at(index));
-    auto ptr2 = std::make_unique<point_pimpl_t>(const_cast<double*>(&x()),
-                                                const_cast<double*>(&y()),
-                                                const_cast<double*>(&z()));
+    auto ptr1 = m_pimpl_->at(index);
+    auto ptr2 = std::make_unique<point_pimpl_t>(const_cast<T*>(&(this->x())),
+                                                const_cast<T*>(&(this->y())),
+                                                const_cast<T*>(&(this->z())));
     ContractedGaussian<T> temp(std::move(ptr1), std::move(ptr2));
     return {std::move(temp)};
 }
