@@ -1,6 +1,6 @@
 #pragma once
 #include "libchemist/basis_set/contracted_gaussian/contracted_gaussian.hpp"
-#include "libchemist/basis_set/detail_/view_base.hpp"
+#include "libchemist/basis_set/detail_/ao_basis_view_base.hpp"
 
 namespace libchemist {
 
@@ -15,12 +15,16 @@ namespace libchemist {
  */
 template<typename T>
 class ContractedGaussianView
-  : public detail_::ViewBase<T, ContractedGaussian, ContractedGaussianView<T>> {
+  : public detail_::AOBasisViewBase<T, ContractedGaussian,
+                                    ContractedGaussianView<T>> {
 private:
-    using base_type =
-      detail_::ViewBase<T, ContractedGaussian, ContractedGaussianView<T>>;
+    using no_cv_t   = std::remove_cv_t<T>;
+    using my_type   = ContractedGaussianView<T>;
+    using base_type = detail_::AOBasisViewBase<T, ContractedGaussian, my_type>;
 
 public:
+    using size_type = typename base_type::size_type;
+
     /** @brief Creates a ContractedGaussianView that does not alias a
      *         ContractedGaussian.
      *
@@ -35,8 +39,9 @@ public:
      */
     ContractedGaussianView();
 
-    /// Brings the base's aliasing ctor into scope
-    using base_type::base_type;
+    /// Brings the base's ctors into scope
+    using detail_::AOBasisViewBase<T, ContractedGaussian,
+                                   my_type>::AOBasisViewBase;
 }; // End class contracted_gaussian
 
 extern template class ContractedGaussianView<double>;

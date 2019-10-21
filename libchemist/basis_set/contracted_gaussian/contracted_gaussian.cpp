@@ -13,9 +13,7 @@ ContractedGaussian<T>::ContractedGaussian() :
 template<typename T>
 ContractedGaussian<T>::ContractedGaussian(std::vector<T> coefs,
                                           std::vector<T> exps, T x, T y, T z) :
-  m_pimpl_(std::make_unique<pimpl_type>(
-    utilities::MathSet<T>(coefs.begin(), coefs.end()),
-    utilities::MathSet<T>(exps.begin(), exps.end()))),
+  m_pimpl_(std::make_unique<pimpl_type>(std::move(coefs), std::move(exps))),
   Point<T>(x, y, z),
   utilities::IndexableContainerBase<ContractedGaussian>() {}
 
@@ -28,19 +26,9 @@ ContractedGaussian<T>::ContractedGaussian(
 
 template<typename T>
 ContractedGaussian<T>::ContractedGaussian(const my_type& rhs) :
-  ContractedGaussian(
-    [&]() {
-        std::vector<T> coefs(rhs.size());
-        for(size_type i = 0; i < rhs.size(); ++i)
-            coefs[i] = rhs[i].coefficient();
-        return coefs;
-    }(),
-    [&]() {
-        std::vector<T> exps(rhs.size());
-        for(size_type i = 0; i < rhs.size(); ++i) exps[i] = rhs[i].exponent();
-        return exps;
-    }(),
-    rhs.x(), rhs.y(), rhs.z()) {}
+  m_pimpl_(std::make_unique<pimpl_type>(*rhs.m_pimpl_)),
+  Point<T>(rhs),
+  utilities::IndexableContainerBase<ContractedGaussian>() {}
 
 template<typename T>
 ContractedGaussian<T>::ContractedGaussian(my_type&& rhs) noexcept = default;
@@ -66,15 +54,15 @@ typename ContractedGaussian<T>::size_type ContractedGaussian<T>::size_() const
 template<typename T>
 typename ContractedGaussian<T>::reference ContractedGaussian<T>::at_(
   size_type i) {
-    return {&(m_pimpl_->coef(i)), &(m_pimpl_->exp(i)), &(this->x()),
-            &(this->y()), &(this->z())};
+    return PrimitiveView<T>(
+      Primitive<T>(std::move(m_pimpl_->at(i)), std::move(this->point_alias())));
 }
 
 template<typename T>
 typename ContractedGaussian<T>::const_reference ContractedGaussian<T>::at_(
   size_type i) const {
-    return {&(m_pimpl_->coef(i)), &(m_pimpl_->exp(i)), &(this->x()),
-            &(this->y()), &(this->z())};
+    return PrimitiveView<const T>(
+      Primitive<T>(std::move(m_pimpl_->at(i)), std::move(this->point_alias())));
 }
 
 template class ContractedGaussian<double>;

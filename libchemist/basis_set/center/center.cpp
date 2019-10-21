@@ -18,6 +18,18 @@ template<typename T>
 Center<T>::Center(Center<T>&& rhs) noexcept = default;
 
 template<typename T>
+Center<T>::Center(T x, T y, T z) :
+  Center(std::make_unique<center_pimpl_t>(),
+         std::make_unique<point_pimpl_t>(x, y, z)) {}
+
+template<typename T>
+Center<T>::Center(center_pimpl_ptr_t cpimpl,
+                  point_pimpl_ptr_t ppimpl) noexcept :
+  m_pimpl_(std::move(cpimpl)),
+  Point<T>(std::move(ppimpl)),
+  utilities::IndexableContainerBase<Center<T>>() {}
+
+template<typename T>
 Center<T>& Center<T>::operator=(const Center<T>& rhs) {
     return *this = std::move(Center<T>(rhs));
 }
@@ -26,13 +38,13 @@ template<typename T>
 Center<T>& Center<T>::operator=(Center<T>&& rhs) noexcept = default;
 
 template<typename T>
-Center<T>::Center(center_pimpl_ptr_t cpimpl, point_pimpl_ptr_t ppimpl) :
-  m_pimpl_(std::move(cpimpl)),
-  Point<T>(std::move(ppimpl)),
-  utilities::IndexableContainerBase<T>() {}
+Center<T>::~Center() noexcept = default;
 
 template<typename T>
-Center<T>::~Center() noexcept = default;
+void Center<T>::add_shell(pure_type pure, am_type l, param_set cs,
+                          param_set es) {
+    m_pimpl_->add_shell(pure, l, std::move(cs), std::move(es));
+}
 
 template<typename T>
 typename Center<T>::size_type Center<T>::size_() const noexcept {
@@ -41,17 +53,18 @@ typename Center<T>::size_type Center<T>::size_() const noexcept {
 
 template<typename T>
 typename Center<T>::reference Center<T>::at_(size_type i) {
-    auto ptr1 = m_piml_->at(i);
-    auto ptr2 = std::make_unique<point_pimpl_t>(&x(), &y(), &z());
-    return reference(std::move(ptr1), std::move(ptr2));
+    auto ptr1 = m_pimpl_->at(i);
+    auto ptr2 = this->point_alias();
+    Shell<T> shell(std::move(ptr1), std::move(ptr2));
+    return reference(std::move(shell));
 }
 
 template<typename T>
 typename Center<T>::const_reference Center<T>::at_(size_type i) const {
-    auto ptr1 = m_piml_->at(i);
-    auto ptr2 = std::make_unique<point_pimpl_t>(
-      const_cast<T*>(&x()), const_cast<T*>(&y()), const_cast<T*>(&z()));
-    return const_reference(std::move(ptr1), std::move(ptr2));
+    auto ptr1 = m_pimpl_->at(i);
+    auto ptr2 = this->point_alias();
+    Shell<T> shell(std::move(ptr1), std::move(ptr2));
+    return const_reference(std::move(shell));
 }
 
 template class Center<double>;

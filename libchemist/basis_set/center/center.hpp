@@ -30,14 +30,20 @@ public:
     using reference       = ShellView<T>;
     using const_reference = ShellView<const T>;
     using size_type       = typename container_base::size_type;
+    using pure_type       = ShellType;
+    using am_type         = size_type;
+    using param_set       = std::vector<T>;
 
     Center();
     Center(const Center<T>& rhs);
     Center(Center<T>&& rhs) noexcept;
     Center<T>& operator=(const Center<T>& rhs);
     Center<T>& operator=(Center<T>&& rhs) noexcept;
+    Center(T x, T y, T z);
     Center(center_pimpl_ptr_t cpimpl, point_pimpl_ptr_t ppimpl) noexcept;
     ~Center() noexcept;
+
+    void add_shell(pure_type pure, am_type l, param_set cs, param_set es);
 
 private:
     friend container_base;

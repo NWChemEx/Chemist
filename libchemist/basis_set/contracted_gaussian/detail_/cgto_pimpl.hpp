@@ -1,6 +1,8 @@
 #pragma once
-#include <utilities/containers/math_set/math_set.hpp>
+#include "libchemist/basis_set/primitive/detail_/primitive_pimpl.hpp"
+#include <memory>
 #include <utilities/containers/own_or_borrow.hpp>
+#include <vector>
 
 namespace libchemist::detail_ {
 
@@ -18,12 +20,12 @@ namespace libchemist::detail_ {
 template<typename T>
 class CGTOPIMPL {
 public:
-    /// Type of a read/write reference to a primitive in the CGTO
-    using reference = T&;
-    /// Type of a read-only reference to a primitive in the CGTO
-    using const_reference = const T&;
-    /// Type used for offsets and indices
+    /// Unsigned integral type used for indexing and offsets
     using size_type = std::size_t;
+    /// Type used to store the primitives' parameters
+    using param_type = T;
+    /// Type used to store the parameters for the set of primitives
+    using param_set = std::vector<T>;
 
     /** @brief Creates a new CGTOPIMPL which has no Primitives.
      *
@@ -35,8 +37,8 @@ public:
      */
     CGTOPIMPL() = default;
 
-    CGTOPIMPL(const CGTOPIMPL<T>& rhs) = delete;
-    CGTOPIMPL(CGTOPIMPL<T>&& rhs)      = delete;
+    CGTOPIMPL(const CGTOPIMPL<T>& rhs);
+    CGTOPIMPL(CGTOPIMPL<T>&& rhs) = delete;
     CGTOPIMPL<T>& operator=(const CGTOPIMPL<T>& rhs) = delete;
     CGTOPIMPL<T>& operator=(CGTOPIMPL<T>&& rhs) = delete;
 
@@ -65,72 +67,13 @@ public:
      */
     size_type size() const noexcept { return m_cs_.value().size(); }
 
-    /** @brief Returns the contraction coefficient of the @p i-th primitive.
-     *
-     *  This function is used to retrieve the contraction coefficient for a
-     *  particular primitive involved in the contraction.
-     *
-     *  @param[in] i The  primitive whose contraction coefficient is wanted.
-     *               Must be in the range [0, size()).
-     *
-     * @return The requested contraction coefficient by read/write reference.
-     *
-     * @throw std::out_of_range if @p i is not in the range [0, size()). Strong
-     *        throw guarantee.
-     */
-    reference coef(size_type i) { return m_cs_.value()[i]; }
-
-    /** @brief Returns the contraction coefficient of the @p i-th primitive.
-     *
-     *  This function is used to retrieve the contraction coefficient for a
-     *  particular primitive involved in the contraction. The resulting
-     *  reference is read-only.
-     *
-     *  @param[in] i The  primitive whose contraction coefficient is wanted.
-     *               Must be in the range [0, size()).
-     *
-     * @return The requested contraction coefficient by read-only reference.
-     *
-     * @throw std::out_of_range if @p i is not in the range [0, size()). Strong
-     *        throw guarantee.
-     */
-    const_reference coef(size_type i) const { return m_cs_.value()[i]; }
-
-    /** @brief Returns the exponent of the @p i-th primitive.
-     *
-     *  This function is used to retrieve the exponent for a particular
-     *  primitive involved in the contraction.
-     *
-     *  @param[in] i The  primitive whose exponent is wanted. Must be in the
-     *               range [0, size()).
-     *
-     * @return The requested exponent by read/write reference.
-     *
-     * @throw std::out_of_range if @p i is not in the range [0, size()). Strong
-     *        throw guarantee.
-     */
-    reference exp(size_type i) { return m_as_.value()[i]; }
-
-    /** @brief Returns the exponent of the @p i-th primitive.
-     *
-     *  This function is used to retrieve the exponent for a particular
-     *  primitive involved in the contraction.
-     *
-     *  @param[in] i The  primitive whose exponent is wanted. Must be in the
-     *               range [0, size()).
-     *
-     * @return The requested exponent by read-only reference.
-     *
-     * @throw std::out_of_range if @p i is not in the range [0, size()). Strong
-     *        throw guarantee.
-     */
-    const_reference exp(size_type i) const { return m_as_.value()[i]; }
+    std::unique_ptr<detail_::PrimitivePIMPL<T>> at(size_type i) const;
 
 private:
     /// The contraction coefficients for this CGTO
-    utilities::OwnOrBorrow<utilities::MathSet<T>> m_cs_;
+    utilities::OwnOrBorrow<param_set> m_cs_;
     /// The exponents of each primitive in this CGTO
-    utilities::OwnOrBorrow<utilities::MathSet<T>> m_as_;
+    utilities::OwnOrBorrow<param_set> m_as_;
 }; // class CGTOPIMPL
 
 // ------------------------------Implementations--------------------------------
@@ -140,5 +83,17 @@ template<typename U, typename V>
 CGTOPIMPL<T>::CGTOPIMPL(U&& cs, V&& as) noexcept :
   m_cs_(std::forward<U>(cs)),
   m_as_(std::forward<V>(as)) {}
+
+template<typename T>
+CGTOPIMPL<T>::CGTOPIMPL(const CGTOPIMPL<T>& rhs) :
+  m_cs_(rhs.m_cs_.value()),
+  m_as_(rhs.m_as_.value()) {}
+
+template<typename T>
+std::unique_ptr<detail_::PrimitivePIMPL<T>> CGTOPIMPL<T>::at(
+  size_type i) const {
+    return std::make_unique<detail_::PrimitivePIMPL<T>>(
+      const_cast<T*>(&m_cs_.value()[i]), const_cast<T*>(&m_as_.value()[i]));
+}
 
 } // namespace libchemist::detail_

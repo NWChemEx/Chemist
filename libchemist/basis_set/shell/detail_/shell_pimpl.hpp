@@ -1,5 +1,6 @@
 #pragma once
 #include "libchemist/basis_set/contracted_gaussian/detail_/cgto_pimpl.hpp"
+#include "libchemist/basis_set/shell/shell.hpp"
 #include <utilities/containers/own_or_borrow.hpp>
 
 namespace libchemist::detail_ {
@@ -18,6 +19,15 @@ class ShellPIMPL {
 public:
     /// Type used for indexing and offsets
     using size_type = std::size_t;
+
+    /// Type used for storing the purity of the shell
+    using pure_type = ShellType;
+
+    /// Type used to store the total angular momentum of the shell
+    using am_type = size_type;
+
+    /// Type used to hold the parameters for a CGTO
+    using cgto_set = std::vector<T>;
 
     /** @brief Holds a state that is suitable for use as a placeholder Shell
      *
@@ -79,7 +89,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    bool& purity() noexcept { return m_pure_.value(); }
+    pure_type& purity() noexcept { return m_pure_.value(); }
 
     /** @brief Determines the purity of the shell.
      *
@@ -92,7 +102,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    const bool& purity() const noexcept { return m_pure_.value(); }
+    const pure_type& purity() const noexcept { return m_pure_.value(); }
 
     /** @brief Determines the total angular momentum of the shell.
      *
@@ -105,7 +115,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    size_type& l() noexcept { return m_l_.value(); }
+    am_type& l() noexcept { return m_l_.value(); }
 
     /** @brief Determines the total angular momentum of the shell.
      *
@@ -117,7 +127,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    const size_type& l() const noexcept { return m_l_.value(); }
+    const am_type& l() const noexcept { return m_l_.value(); }
 
     /** @brief Determines the number of AOs in the shell.
      *
@@ -151,13 +161,13 @@ public:
 
 private:
     /// Whether or not this shell is pure
-    utilities::OwnOrBorrow<bool> m_pure_;
+    utilities::OwnOrBorrow<pure_type> m_pure_;
     /// The total angular momentum of the shell
-    utilities::OwnOrBorrow<size_type> m_l_;
+    utilities::OwnOrBorrow<am_type> m_l_;
     /// Contraction coefficients of the CGTOs common to all AOs in this shell
-    utilities::OwnOrBorrow<utilities::MathSet<T>> m_cs_;
+    utilities::OwnOrBorrow<cgto_set> m_cs_;
     /// The exponents of the CGTOs common to all AOs in this shell
-    utilities::OwnOrBorrow<utilities::MathSet<T>> m_es_;
+    utilities::OwnOrBorrow<cgto_set> m_es_;
 }; // class ShellPIMPL
 
 // --------------------- Implementations ---------------------------------------
@@ -186,8 +196,8 @@ typename ShellPIMPL<T>::size_type ShellPIMPL<T>::size() const noexcept {
 template<typename T>
 std::unique_ptr<detail_::CGTOPIMPL<T>> ShellPIMPL<T>::at(size_type) const
   noexcept {
-    auto p_cs = const_cast<utilities::MathSet<T>*>(&m_cs_.value());
-    auto p_es = const_cast<utilities::MathSet<T>*>(&m_es_.value());
+    auto p_cs = const_cast<cgto_set*>(&m_cs_.value());
+    auto p_es = const_cast<cgto_set*>(&m_es_.value());
     return std::make_unique<detail_::CGTOPIMPL<T>>(p_cs, p_es);
 }
 

@@ -6,7 +6,7 @@ namespace libchemist {
 
 template<typename T>
 ContractedGaussianView<T>::ContractedGaussianView() :
-  ContractedGaussianView(ContractedGaussian(
+  ContractedGaussianView(ContractedGaussian<std::remove_cv_t<T>>(
     std::make_unique<detail_::CGTOPIMPL<std::remove_cv_t<T>>>(),
     std::make_unique<detail_::PointPIMPL<std::remove_cv_t<T>>>(nullptr, nullptr,
                                                                nullptr))) {}

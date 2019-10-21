@@ -48,6 +48,12 @@ template<typename T>
 Point<T>::Point(std::unique_ptr<detail_::PointPIMPL<T>> pimpl) noexcept :
   m_pimpl_(std::move(pimpl)) {}
 
+template<typename T>
+std::unique_ptr<detail_::PointPIMPL<T>> Point<T>::point_alias() const {
+    return std::make_unique<detail_::PointPIMPL<T>>(
+      const_cast<T*>(&x()), const_cast<T*>(&y()), const_cast<T*>(&z()));
+}
+
 template class Point<double>;
 template class Point<float>;
 

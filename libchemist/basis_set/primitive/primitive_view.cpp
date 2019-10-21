@@ -17,17 +17,13 @@ using point_pimpl_t = detail_::PointPIMPL<std::remove_const_t<T>>;
 
 template<typename T>
 PrimitiveView<T>::PrimitiveView(T* coef, T* exp, T* x, T* y, T* z) :
-  m_pimpl_(std::make_unique<prim_pimpl_t<value_type>>(
-             const_cast<value_type*>(coef), const_cast<value_type*>(exp)),
-           std::make_unique<point_pimpl_t<value_type>>(
-             const_cast<value_type*>(x), const_cast<value_type*>(y),
-             const_cast<value_type*>(z))) {}
-
-template<typename T>
-PrimitiveView<T>::PrimitiveView(const PrimitiveView<T>& rhs) :
-  PrimitiveView(const_cast<T*>(&rhs.coefficient()),
-                const_cast<T*>(&rhs.exponent()), const_cast<T*>(&rhs.x()),
-                const_cast<T*>(&rhs.y()), const_cast<T*>(&rhs.z())) {}
+  PointViewBase<T, Primitive<std::remove_cv_t<T>>>(Primitive(
+    std::make_unique<prim_pimpl_t<std::remove_cv_t<T>>>(
+      const_cast<std::remove_cv_t<T>*>(coef),
+      const_cast<std::remove_cv_t<T>*>(exp)),
+    std::make_unique<point_pimpl_t<std::remove_cv_t<T>>>(
+      const_cast<std::remove_cv_t<T>*>(x), const_cast<std::remove_cv_t<T>*>(y),
+      const_cast<std::remove_cv_t<T>*>(z)))) {}
 
 template class PrimitiveView<double>;
 template class PrimitiveView<const double>;

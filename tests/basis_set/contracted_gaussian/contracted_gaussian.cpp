@@ -2,7 +2,6 @@
 #include <libchemist/basis_set/contracted_gaussian/contracted_gaussian.hpp>
 #include <libchemist/basis_set/contracted_gaussian/detail_/cgto_pimpl.hpp>
 #include <libchemist/point/detail_/point_pimpl.hpp>
-#include <utilities/containers/math_set/math_set.hpp>
 /* Testing Strategy:
  *
  * Prior testing of the Point<T> and utilities::IndexableContainerBase classes
@@ -86,8 +85,8 @@ TEST_CASE("ContractedGaussian<double> : move assignment") {
 }
 
 TEST_CASE("ContractedGaussian<double> : pimpl ctor") {
-    utilities::MathSet<double> cs{1.0, 3.0, 5.0};
-    utilities::MathSet<double> as{2.0, 4.0, 6.0};
+    vector_t cs{1.0, 3.0, 5.0};
+    vector_t as{2.0, 4.0, 6.0};
     std::array<double, 3> qs{7.0, 8.0, 9.0};
     auto p1 = std::make_unique<detail_::CGTOPIMPL<double>>(&cs, &as);
     auto p2 =

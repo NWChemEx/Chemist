@@ -75,10 +75,8 @@ TEST_CASE("Shell : value ctor") {
 TEST_CASE("Shell : PIMPL ctor") {
     vector_t cs{1.0, 2.0, 3.0};
     vector_t es{4.0, 5.0, 6.0};
-    utilities::MathSet<double> s1(cs.begin(), cs.end());
-    utilities::MathSet<double> s2(es.begin(), es.end());
     auto ptr1 =
-      std::make_unique<detail_::ShellPIMPL<double>>(true, 2, &s1, &s2);
+      std::make_unique<detail_::ShellPIMPL<double>>(true, 2, &cs, &es);
     auto ptr2 = std::make_unique<detail_::PointPIMPL<double>>(7.0, 8.0, 9.0);
     Shell<double> s(std::move(ptr1), std::move(ptr2));
     auto[shell2, cg] = make_shell();

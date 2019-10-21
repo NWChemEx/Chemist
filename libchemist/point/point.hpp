@@ -231,6 +231,10 @@ public:
      */
     const_reference z() const noexcept { return coord(2); }
 
+protected:
+    /// Convenience fxn that makes a PIMPL that aliases this instance's state
+    std::unique_ptr<detail_::PointPIMPL<T>> point_alias() const;
+
 private:
     /// The instance actually implementing the Point class
     std::unique_ptr<detail_::PointPIMPL<T>> m_pimpl_;

@@ -1,14 +1,14 @@
 #pragma once
-#include "libchemist/basis_set/detail_/view_base.hpp"
+#include "libchemist/basis_set/detail_/ao_basis_view_base.hpp"
 #include "libchemist/basis_set/shell/shell.hpp"
 
 namespace libchemist {
 
 template<typename T>
-class ShellView : public detail_::ViewBase<T, Shell, ShellView<T>> {
+class ShellView : public detail_::AOBasisViewBase<T, Shell, ShellView<T>> {
 private:
     /// The type of the class this class derives from
-    using base_type = detail_::ViewBase<T, Shell, ShellView<T>>;
+    using base_type = detail_::AOBasisViewBase<T, Shell, ShellView<T>>;
 
 public:
     /// The type of the elements in this container

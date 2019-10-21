@@ -29,9 +29,7 @@ Shell<T>& Shell<T>::operator=(Shell<T>&& rhs) noexcept = default;
 template<typename T>
 Shell<T>::Shell(bool pure, int l, std::vector<T> coefs, std::vector<T> exps,
                 T x, T y, T z) :
-  Shell(std::make_unique<pimpl_t>(
-          pure, l, utilities::MathSet<T>(coefs.begin(), coefs.end()),
-          utilities::MathSet<T>(exps.begin(), exps.end())),
+  Shell(std::make_unique<pimpl_t>(pure, l, std::move(coefs), std::move(exps)),
         std::make_unique<point_pimpl_t>(x, y, z)) {}
 
 template<typename T>
@@ -71,8 +69,7 @@ typename Shell<T>::size_type Shell<T>::size_() const noexcept {
 template<typename T>
 typename Shell<T>::reference Shell<T>::at_(size_type index) {
     auto ptr1 = m_pimpl_->at(index);
-    auto ptr2 =
-      std::make_unique<point_pimpl_t>(&(this->x()), &(this->y()), &(this->z()));
+    auto ptr2 = this->point_alias();
     ContractedGaussian<T> temp(std::move(ptr1), std::move(ptr2));
     return reference(std::move(temp));
 }
@@ -80,9 +77,7 @@ typename Shell<T>::reference Shell<T>::at_(size_type index) {
 template<typename T>
 typename Shell<T>::const_reference Shell<T>::at_(size_type index) const {
     auto ptr1 = m_pimpl_->at(index);
-    auto ptr2 = std::make_unique<point_pimpl_t>(const_cast<T*>(&(this->x())),
-                                                const_cast<T*>(&(this->y())),
-                                                const_cast<T*>(&(this->z())));
+    auto ptr2 = this->point_alias();
     ContractedGaussian<T> temp(std::move(ptr1), std::move(ptr2));
     return const_reference(std::move(temp));
 }

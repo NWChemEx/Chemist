@@ -9,6 +9,8 @@ template<typename T>
 class ShellPIMPL;
 }
 
+enum ShellType { cartesian = 0, pure = 1 };
+
 /** @brief Models a set of AOs with a common center, total angular momentum, and
  *         CGTOs.
  *
@@ -56,6 +58,9 @@ public:
 
     /// Unsigned integral type used for indexing and offsets
     using size_type = typename container_base::size_type;
+
+    /// Type used to determine if a shell is pure or not
+    using pure_type = ShellType;
 
     /** @brief Creates a new Shell instance.
      *
@@ -148,8 +153,8 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    Shell(bool pure, int l, std::vector<T> coefs, std::vector<T> exps, T x, T y,
-          T z);
+    Shell(ShellType pure, int l, std::vector<T> coefs, std::vector<T> exps, T x,
+          T y, T z);
 
     /** @brief Creates a new Shell instance with the provided PIMPLs.
      *
@@ -177,7 +182,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    bool& pure() noexcept;
+    pure_type& pure() noexcept;
 
     /** @brief Function for determining if the shell is pure.
      *
@@ -188,7 +193,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    const bool& pure() const noexcept;
+    const pure_type& pure() const noexcept;
 
     /** @brief Determines/sets the total angular momentum of the shell.
      *

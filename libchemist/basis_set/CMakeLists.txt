@@ -1,4 +1,5 @@
 list(APPEND LIBCHEMIST_SRCS
+     basis_set/center/center.cpp
      basis_set/contracted_gaussian/contracted_gaussian.cpp
      basis_set/contracted_gaussian/contracted_gaussian_view.cpp
      basis_set/primitive/primitive.cpp
@@ -8,6 +9,7 @@ list(APPEND LIBCHEMIST_SRCS
 )
 
 list(APPEND LIBCHEMIST_HEADERS
+     basis_set/center/center.hpp
      basis_set/contracted_gaussian/contracted_gaussian.hpp
      basis_set/contracted_gaussian/contracted_gaussian_view.hpp
      basis_set/primitive/primitive.hpp
