@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 namespace libchemist::detail_ {
 
@@ -14,6 +15,7 @@ private:
     using other_base = ViewBase<rhs_const, AliasedType>;
 
 public:
+    using aliased_type = AliasedType;
     explicit ViewBase(AliasedType pimpl);
     explicit ViewBase(alias_ptr ppimpl) : m_pimpl_(ppimpl) {}
     ViewBase(const my_type& rhs) = default;

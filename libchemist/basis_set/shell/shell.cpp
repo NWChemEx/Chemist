@@ -27,8 +27,8 @@ template<typename T>
 Shell<T>& Shell<T>::operator=(Shell<T>&& rhs) noexcept = default;
 
 template<typename T>
-Shell<T>::Shell(bool pure, int l, std::vector<T> coefs, std::vector<T> exps,
-                T x, T y, T z) :
+Shell<T>::Shell(ShellType pure, int l, std::vector<T> coefs,
+                std::vector<T> exps, T x, T y, T z) :
   Shell(std::make_unique<pimpl_t>(pure, l, std::move(coefs), std::move(exps)),
         std::make_unique<point_pimpl_t>(x, y, z)) {}
 
@@ -42,12 +42,12 @@ template<typename T>
 Shell<T>::~Shell<T>() noexcept = default;
 
 template<typename T>
-bool& Shell<T>::pure() noexcept {
+typename Shell<T>::pure_type& Shell<T>::pure() noexcept {
     return m_pimpl_->purity();
 }
 
 template<typename T>
-const bool& Shell<T>::pure() const noexcept {
+const typename Shell<T>::pure_type& Shell<T>::pure() const noexcept {
     return m_pimpl_->purity();
 }
 
@@ -59,6 +59,22 @@ typename Shell<T>::size_type& Shell<T>::l() noexcept {
 template<typename T>
 const typename Shell<T>::size_type& Shell<T>::l() const noexcept {
     return m_pimpl_->l();
+}
+
+template<typename T>
+typename Shell<T>::size_type Shell<T>::n_unique_primitives() const noexcept {
+    return at_(0).size();
+}
+
+template<typename T>
+typename Shell<T>::primitive_reference Shell<T>::unique_primitive(size_type i) {
+    return (*this)[0][i];
+}
+
+template<typename T>
+typename Shell<T>::const_primitive_reference Shell<T>::unique_primitive(
+  size_type i) const {
+    return (*this)[0][i];
 }
 
 template<typename T>

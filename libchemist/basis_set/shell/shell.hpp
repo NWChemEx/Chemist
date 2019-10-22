@@ -50,11 +50,20 @@ public:
     /// For all intents and purposes the type of CGTOs comprising the shell
     using value_type = ContractedGaussian<T>;
 
-    /// Type of a read/write reference
+    /// Type of a read/write reference to an AO
     using reference = ContractedGaussianView<T>;
 
-    /// Type of a read-only reference
+    /// Type of a read-only reference to an AO
     using const_reference = ContractedGaussianView<const T>;
+
+    /// Type of a Primitive
+    using primitive_type = typename value_type::value_type;
+
+    /// Type of a read/write reference to a primitive
+    using primitive_reference = typename value_type::reference;
+
+    /// Type of a read-only reference to a primitive
+    using const_primitive_reference = typename value_type::const_reference;
 
     /// Unsigned integral type used for indexing and offsets
     using size_type = typename container_base::size_type;
@@ -217,6 +226,12 @@ public:
      *  @throw none No throw guarantee.
      */
     const size_type& l() const noexcept;
+
+    size_type n_unique_primitives() const noexcept;
+
+    primitive_reference unique_primitive(size_type i);
+
+    const_primitive_reference unique_primitive(size_type i) const;
 
 private:
     /// Allows the IndexableContainerBase to access the implementations

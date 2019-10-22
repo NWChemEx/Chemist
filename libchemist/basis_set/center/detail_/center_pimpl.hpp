@@ -17,7 +17,7 @@ public:
     /// Unsigned integral type used for indexes and offsets
     using size_type = std::size_t;
     /// Type used to store the purity of a shell
-    using pure_type = int;
+    using pure_type = ShellType;
     /// Type used to store the total angular momentum of a shell
     using am_type = size_type;
     /// Type used to hold the purities for a set of shells
@@ -35,7 +35,7 @@ public:
     template<typename U, typename V, typename W, typename X>
     CenterPIMPL(U&& purities, V&& ls, W&& cs, X&& es);
 
-    void add_shell(bool purity, am_type l, param_set cs, param_set es);
+    void add_shell(pure_type purity, am_type l, param_set cs, param_set es);
 
     size_type size() const noexcept { return m_purities_.value().size(); }
 
@@ -68,7 +68,7 @@ CenterPIMPL<T>::CenterPIMPL(U&& purities, V&& ls, W&& cs, X&& es) :
   m_exps_(std::forward<X>(es)) {}
 
 template<typename T>
-void CenterPIMPL<T>::add_shell(bool purity, am_type l, param_set cs,
+void CenterPIMPL<T>::add_shell(pure_type purity, am_type l, param_set cs,
                                param_set es) {
     m_purities_.value().push_back(purity);
     m_ls_.value().push_back(l);

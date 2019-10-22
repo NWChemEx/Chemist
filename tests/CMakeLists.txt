@@ -1,6 +1,8 @@
 add_subdirectory(basis_set)
+add_subdirectory(point)
+add_subdirectory(tutorials)
 list(APPEND LIBCHEMIST_TESTS test_main.cpp
-        			 ao_basis_set.cpp
+	 basis_set.cpp
 					 ao_shell.cpp
 					 aos_facade.cpp
 					 atom.cpp
@@ -9,9 +11,6 @@ list(APPEND LIBCHEMIST_TESTS test_main.cpp
 					 molecule.cpp
 					 molecule_stream_parser.cpp
     				 periodic_table.cpp
-		             point/detail_/point_pimpl.cpp
-	                 point/point.cpp
-	                 point/point_view.cpp
 )
 
 cpp_add_executable(

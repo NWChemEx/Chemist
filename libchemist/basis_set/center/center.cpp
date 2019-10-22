@@ -47,6 +47,70 @@ void Center<T>::add_shell(pure_type pure, am_type l, param_set cs,
 }
 
 template<typename T>
+typename Center<T>::size_type Center<T>::n_aos() const noexcept {
+    size_type counter = 0;
+    for(auto&& shell_i : *this) counter += shell_i.size();
+    return counter;
+}
+
+template<typename T>
+typename Center<T>::ao_reference Center<T>::ao(size_type i) {
+    for(ShellView<T> shell_i : *this) {
+        if(i < shell_i.size())
+            return shell_i[i];
+        else
+            i -= shell_i.size();
+    }
+    throw std::out_of_range("Requested i: " + std::to_string(i) +
+                            " is not in the range [0, naos())");
+}
+
+template<typename T>
+typename Center<T>::const_ao_reference Center<T>::ao(size_type i) const {
+    for(auto&& shell_i : *this) {
+        if(i < shell_i.size())
+            return shell_i[i];
+        else
+            i -= shell_i.size();
+    }
+    throw std::out_of_range("Requested i: " + std::to_string(i) +
+                            " is not in the range [0, naos())");
+}
+
+template<typename T>
+typename Center<T>::size_type Center<T>::n_unique_primitives() const noexcept {
+    size_type counter = 0;
+    for(auto&& shell_i : *this) counter += shell_i.n_unique_primitives();
+    return counter;
+}
+
+template<typename T>
+typename Center<T>::primitive_reference Center<T>::unique_primitive(
+  size_type i) {
+    for(ShellView<T> shell_i : *this) {
+        if(i < shell_i.n_unique_primitives())
+            return shell_i.unique_primitive(i);
+        else
+            i -= shell_i.n_unique_primitives();
+    }
+    throw std::out_of_range("Requested i: " + std::to_string(i) +
+                            " is not in the range [0, n_unique_primitives())");
+}
+
+template<typename T>
+typename Center<T>::const_primitive_reference Center<T>::unique_primitive(
+  size_type i) const {
+    for(auto&& shell_i : *this) {
+        if(i < shell_i.n_unique_primitives())
+            return shell_i.unique_primitive(i);
+        else
+            i -= shell_i.n_unique_primitives();
+    }
+    throw std::out_of_range("Requested i: " + std::to_string(i) +
+                            " is not in the range [0, n_unique_primitives())");
+}
+
+template<typename T>
 typename Center<T>::size_type Center<T>::size_() const noexcept {
     return m_pimpl_->size();
 }

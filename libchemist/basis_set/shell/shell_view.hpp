@@ -14,6 +14,8 @@ public:
     /// The type of the elements in this container
     using value_type = ContractedGaussian<std::remove_cv_t<T>>;
 
+    using size_type = typename base_type::size_type;
+
     /** @brief Creates a ShellView that does not alias any Shell instance
      *
      *  This ctor can be used to create a placeholder ShellView instance. The
@@ -63,7 +65,27 @@ public:
      */
     decltype(auto) l() const noexcept { return this->pimpl().l(); }
 
+    decltype(auto) n_unique_primitives() const noexcept;
+
+    decltype(auto) unique_primitive(size_type i);
+
+    decltype(auto) unique_primitive(size_type i) const;
 }; // ShellView class
+
+template<typename T>
+decltype(auto) ShellView<T>::n_unique_primitives() const noexcept {
+    return this->pimpl().n_unique_primitives();
+}
+
+template<typename T>
+decltype(auto) ShellView<T>::unique_primitive(size_type i) {
+    return this->pimpl().unique_primitive(i);
+}
+
+template<typename T>
+decltype(auto) ShellView<T>::unique_primitive(size_type i) const {
+    return this->pimpl().unique_primitive(i);
+}
 
 extern template class ShellView<double>;
 extern template class ShellView<const double>;

@@ -2,6 +2,7 @@
 #include <libchemist/basis_set/center/detail_/center_pimpl.hpp>
 #include <libchemist/basis_set/shell/shell.hpp>
 
+using libchemist::ShellType;
 using namespace libchemist::detail_;
 
 static inline auto make_center() {

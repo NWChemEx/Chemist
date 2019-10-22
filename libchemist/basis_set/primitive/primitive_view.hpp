@@ -30,11 +30,11 @@ private:
 
 public:
     /// The non-cv qualified type used to hold the parameters
-    using value_type = Primitive<no_cv_t>;
+    using value_type = T;
     /// The type used for indexing and offsets
     using size_type = std::size_t;
 
-    using PointViewBase<T, value_type>::PointViewBase;
+    using PointViewBase<T, Primitive<no_cv_t>>::PointViewBase;
 
     /** @brief Creates a view that is not aliasing any Primitive
      *

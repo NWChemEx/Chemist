@@ -22,7 +22,7 @@ static inline auto make_shell() {
     vector_t cs{1.0, 2.0, 3.0};
     vector_t es{4.0, 5.0, 6.0};
     ContractedGaussian<double> cg(cs, es, 7.0, 8.0, 9.0);
-    Shell<double> s(true, 2, cs, es, 7.0, 8.0, 9.0);
+    Shell<double> s(ShellType::pure, 2, cs, es, 7.0, 8.0, 9.0);
     return std::make_pair(s, cg);
 }
 
@@ -75,8 +75,8 @@ TEST_CASE("Shell : value ctor") {
 TEST_CASE("Shell : PIMPL ctor") {
     vector_t cs{1.0, 2.0, 3.0};
     vector_t es{4.0, 5.0, 6.0};
-    auto ptr1 =
-      std::make_unique<detail_::ShellPIMPL<double>>(true, 2, &cs, &es);
+    auto ptr1 = std::make_unique<detail_::ShellPIMPL<double>>(ShellType::pure,
+                                                              2, &cs, &es);
     auto ptr2 = std::make_unique<detail_::PointPIMPL<double>>(7.0, 8.0, 9.0);
     Shell<double> s(std::move(ptr1), std::move(ptr2));
     auto[shell2, cg] = make_shell();
@@ -87,7 +87,7 @@ TEST_CASE("Shell : pure()") {
     auto[s, cg] = make_shell();
     REQUIRE(s.pure());
     SECTION("Is read-/write-able") {
-        STATIC_REQUIRE(std::is_same_v<bool&, decltype(s.pure())>);
+        STATIC_REQUIRE(std::is_same_v<ShellType&, decltype(s.pure())>);
     }
 }
 
@@ -95,7 +95,7 @@ TEST_CASE("Shell : pure() const") {
     const auto[s, cg] = make_shell();
     REQUIRE(s.pure());
     SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const bool&, decltype(s.pure())>);
+        STATIC_REQUIRE(std::is_same_v<const ShellType&, decltype(s.pure())>);
     }
 }
 
@@ -134,34 +134,34 @@ TEST_CASE("Shell : comparisons") {
     vector_t cs{1.0, 2.0, 3.0};
     vector_t es{4.0, 5.0, 6.0};
     ContractedGaussian<double> cg(cs, es, 7.0, 8.0, 9.0);
-    Shell<double> s(true, 2, cs, es, 7.0, 8.0, 9.0);
+    Shell<double> s(ShellType::pure, 2, cs, es, 7.0, 8.0, 9.0);
 
     SECTION("Same shell") {
         REQUIRE(s == s);
         REQUIRE_FALSE(s != s);
     }
     SECTION("Different purity") {
-        Shell<double> s2(false, 2, cs, es, 7.0, 8.0, 9.0);
+        Shell<double> s2(ShellType::cartesian, 2, cs, es, 7.0, 8.0, 9.0);
         REQUIRE_FALSE(s == s2);
         REQUIRE(s != s2);
     }
     SECTION("Different total angular momentum") {
-        Shell<double> s2(true, 3, cs, es, 7.0, 8.0, 9.0);
+        Shell<double> s2(ShellType::pure, 3, cs, es, 7.0, 8.0, 9.0);
         REQUIRE_FALSE(s == s2);
         REQUIRE(s != s2);
     }
     SECTION("Different contraction coefficients") {
-        Shell<double> s2(true, 2, es, es, 7.0, 8.0, 9.0);
+        Shell<double> s2(ShellType::pure, 2, es, es, 7.0, 8.0, 9.0);
         REQUIRE_FALSE(s == s2);
         REQUIRE(s != s2);
     }
     SECTION("Different exponents") {
-        Shell<double> s2(true, 2, cs, cs, 7.0, 8.0, 9.0);
+        Shell<double> s2(ShellType::pure, 2, cs, cs, 7.0, 8.0, 9.0);
         REQUIRE_FALSE(s == s2);
         REQUIRE(s != s2);
     }
     SECTION("Different center") {
-        Shell<double> s2(true, 2, cs, es, 8.0, 8.0, 9.0);
+        Shell<double> s2(ShellType::pure, 2, cs, es, 8.0, 8.0, 9.0);
         REQUIRE_FALSE(s == s2);
         REQUIRE(s != s2);
     }
