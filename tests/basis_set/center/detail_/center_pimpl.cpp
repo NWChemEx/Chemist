@@ -33,3 +33,36 @@ TEST_CASE("CenterPIMPL : value ctor") {
         REQUIRE(shell->l() == shells[i].l());
     }
 }
+
+TEST_CASE("CenterPIMPL : copy ctor") {
+    auto[p, shells] = make_center();
+    CenterPIMPL<double> c2(p);
+    REQUIRE(c2.size() == shells.size());
+    for(std::size_t i = 0; i < p.size(); ++i) {
+        auto shell = c2.at(i);
+        REQUIRE(shell->purity() == shells[i].purity());
+        REQUIRE(shell->l() == shells[i].l());
+    }
+}
+
+TEST_CASE("CenterPIMPL : add_shell") {
+    CenterPIMPL<double> c;
+    c.add_shell(ShellType::pure, 0, std::vector<double>{},
+                std::vector<double>{});
+    REQUIRE(c.size() == 1);
+    REQUIRE(c.at(0)->purity() == ShellType::pure);
+    REQUIRE(c.at(0)->l() == 0);
+}
+
+TEST_CASE("CenterPIMPL : size") {
+    auto[p, shells] = make_center();
+    REQUIRE(p.size() == shells.size());
+}
+
+TEST_CASE("CenterPIMPL : at") {
+    auto[p, shells] = make_center();
+    for(std::size_t i = 0; i < shells.size(); ++i) {
+        REQUIRE(p.at(i)->purity() == shells[i].purity());
+        REQUIRE(p.at(i)->l() == shells[i].l());
+    }
+}

@@ -11,12 +11,16 @@ class PointPIMPL;
  *
  *  This class is largely intended to be used as a mix-in for code factorization
  *  purposes. More specifically many of the point-centered quantities in
- *  LibChemist such as Gaussians, Shells, and Atoms, have a Cartesian coordinate
- *  associated with them. This class factors the machinery common to those
- *  classes out.
+ *  LibChemist such as `Primitive`s, `Shell`s, and `Atom`s, have a Cartesian
+ *  coordinate associated with them. This class factors the state and member
+ *  functions common to those classes into this class.
  *
- *  The Point class always owns the memory associated with it. Its counterpart,
- *  PointView, on the other hand always aliases the memory associated with it.
+ *  Conceptually a point is nothing more than three floating point values, which
+ *  respectively indicate its Cartesian `x`, `y`, and `z` coordinates. By
+ *  convention these coordinates can also be thought of respectively as the
+ *  0-th, 1-st, and 2-nd components of a three-dimensional vector. The API of
+ *  the Point class allows for both views by aliasing `x()`, `y()` and `z()` to
+ *  `coord(0)`, `coord(1)`, and `coord(2)` respectively.
  *
  *  @note The implementation of this class is contained in point.cpp. Thus to
  *        use this class with a new type one needs to add an explicit template
@@ -28,6 +32,13 @@ class PointPIMPL;
  */
 template<typename T>
 class Point {
+private:
+    /// The type of the PIMPL used to implement this instance
+    using pimpl_type = detail_::PointPIMPL<T>;
+
+    /// The type of a pointer holding the PIMPL
+    using pimpl_ptr = std::unique_ptr<pimpl_type>;
+
 public:
     /// Type of a read/write reference to a component of the point
     using reference = T&;
@@ -59,7 +70,7 @@ public:
      *            implementation.
      * @throw none No throw guarantee.
      */
-    explicit Point(std::unique_ptr<detail_::PointPIMPL<T>> pimpl) noexcept;
+    explicit Point(pimpl_ptr pimpl) noexcept;
 
     /** @brief Creates a new Point, which is a deep copy of another Point
      *
@@ -233,12 +244,12 @@ public:
 
 protected:
     /// Convenience fxn that makes a PIMPL that aliases this instance's state
-    std::unique_ptr<detail_::PointPIMPL<T>> point_alias() const;
+    pimpl_ptr point_alias() const;
 
 private:
     /// The instance actually implementing the Point class
-    std::unique_ptr<detail_::PointPIMPL<T>> m_pimpl_;
-};
+    pimpl_ptr m_pimpl_;
+}; // class Point
 
 /** @brief Compares two Points for equality.
  *

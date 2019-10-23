@@ -115,6 +115,25 @@ TEST_CASE("Shell : l() const") {
     }
 }
 
+TEST_CASE("Shell : n_unique_primitives") {
+    const auto[s, cg] = make_shell();
+    REQUIRE(s.n_unique_primitives() == 3);
+}
+
+TEST_CASE("Shell : unique_primitive") {
+    auto[s, cg] = make_shell();
+    REQUIRE(s.unique_primitive(0) == cg[0]);
+    REQUIRE(s.unique_primitive(1) == cg[1]);
+    REQUIRE(s.unique_primitive(2) == cg[2]);
+}
+
+TEST_CASE("Shell : unique_primitive() const") {
+    const auto[s, cg] = make_shell();
+    REQUIRE(s.unique_primitive(0) == cg[0]);
+    REQUIRE(s.unique_primitive(1) == cg[1]);
+    REQUIRE(s.unique_primitive(2) == cg[2]);
+}
+
 TEST_CASE("Shell : size_()") {
     auto[s, cg] = make_shell();
     REQUIRE(s.size() == 5);

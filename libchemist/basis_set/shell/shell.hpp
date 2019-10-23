@@ -1,5 +1,6 @@
 #pragma once
 #include "libchemist/basis_set/contracted_gaussian/contracted_gaussian_view.hpp"
+
 #include "libchemist/point/point.hpp"
 #include <utilities/containers/indexable_container_base.hpp>
 
@@ -55,15 +56,6 @@ public:
 
     /// Type of a read-only reference to an AO
     using const_reference = ContractedGaussianView<const T>;
-
-    /// Type of a Primitive
-    using primitive_type = typename value_type::value_type;
-
-    /// Type of a read/write reference to a primitive
-    using primitive_reference = typename value_type::reference;
-
-    /// Type of a read-only reference to a primitive
-    using const_primitive_reference = typename value_type::const_reference;
 
     /// Unsigned integral type used for indexing and offsets
     using size_type = typename container_base::size_type;
@@ -227,10 +219,54 @@ public:
      */
     const size_type& l() const noexcept;
 
+    /// Type of a Primitive
+    using primitive_type = typename value_type::value_type;
+
+    /// Type of a read/write reference to a primitive
+    using primitive_reference = typename value_type::reference;
+
+    /// Type of a read-only reference to a primitive
+    using const_primitive_reference = typename value_type::const_reference;
+
+    /** @brief Returns the number of unique primitives in the Shell.
+     *
+     *  The backend of this class only stores the primitives for one CGTO. This
+     *  function can be used to retrieve the number of primitives in that CGTO.
+     *
+     *  @return The number of primitives in the one unique CGTO.
+     *
+     *  @throw None.
+     *
+     *  Complexity: constant
+     */
     size_type n_unique_primitives() const noexcept;
 
+    /** @brief Returns the @p i-th unique primitive in this shell.
+     *
+     *  @param[in] i The index of the requested unique primitive. Must be in the
+     *               range [0, n_unique_primitives()).
+     *
+     *  @return A read-/write-able reference to the requested primitive.
+     *
+     *  @throw std::out_of_range if @p i is not in the range [0,
+     *                           n_unique_primitives()). Strong throw guarantee.
+     *
+     *  Complexity: Constant.
+     */
     primitive_reference unique_primitive(size_type i);
 
+    /** @brief Returns the @p i-th unique primitive in this shell.
+     *
+     *  @param[in] i The index of the requested unique primitive. Must be in the
+     *               range [0, n_unique_primitives()).
+     *
+     *  @return A read-only reference to the requested primitive.
+     *
+     *  @throw std::out_of_range if @p i is not in the range [0,
+     *                           n_unique_primitives()). Strong throw guarantee.
+     *
+     *  Complexity: Constant.
+     */
     const_primitive_reference unique_primitive(size_type i) const;
 
 private:
@@ -243,7 +279,7 @@ private:
     /// Implements operator[]const
     const_reference at_(size_type index) const;
     /// The instance that actually implements this class
-    std::unique_ptr<pimpl_t> m_pimpl_;
+    pimpl_ptr_t m_pimpl_;
 }; // End class Shell
 
 /** @brief Determines if two Shell instances are the same.

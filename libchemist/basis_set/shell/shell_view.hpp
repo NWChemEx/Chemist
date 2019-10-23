@@ -14,6 +14,7 @@ public:
     /// The type of the elements in this container
     using value_type = ContractedGaussian<std::remove_cv_t<T>>;
 
+    /// Unsigned integral type used for indexing and offsets
     using size_type = typename base_type::size_type;
 
     /** @brief Creates a ShellView that does not alias any Shell instance
@@ -65,10 +66,45 @@ public:
      */
     decltype(auto) l() const noexcept { return this->pimpl().l(); }
 
+    /** @brief Returns the number of unique primitives in the ShellView.
+     *
+     *  The backend of this class only stores the primitives for one CGTO. This
+     *  function can be used to retrieve the number of primitives in that CGTO.
+     *
+     *  @return The number of primitives in the one unique CGTO.
+     *
+     *  @throw None.
+     *
+     *  Complexity: constant
+     */
     decltype(auto) n_unique_primitives() const noexcept;
 
+    /** @brief Returns the @p i-th unique primitive in this ShellView.
+     *
+     *  @param[in] i The index of the requested unique primitive. Must be in the
+     *               range [0, n_unique_primitives()).
+     *
+     *  @return A read-/write-able reference to the requested primitive.
+     *
+     *  @throw std::out_of_range if @p i is not in the range [0,
+     *                           n_unique_primitives()). Strong throw guarantee.
+     *
+     *  Complexity: Constant.
+     */
     decltype(auto) unique_primitive(size_type i);
 
+    /** @brief Returns the @p i-th unique primitive in this ShellView.
+     *
+     *  @param[in] i The index of the requested unique primitive. Must be in the
+     *               range [0, n_unique_primitives()).
+     *
+     *  @return A read-only reference to the requested primitive.
+     *
+     *  @throw std::out_of_range if @p i is not in the range [0,
+     *                           n_unique_primitives()). Strong throw guarantee.
+     *
+     *  Complexity: Constant.
+     */
     decltype(auto) unique_primitive(size_type i) const;
 }; // ShellView class
 

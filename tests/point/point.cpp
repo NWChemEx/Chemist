@@ -3,25 +3,24 @@
 
 using namespace libchemist;
 
-template<typename T, typename U>
-static void check_state(T&& point, U&& corr) {
-    for(std::size_t i = 0; i < 3; ++i) REQUIRE(point.coord(i) == corr[i]);
-}
-
 TEST_CASE("Point<double> : default ctor") {
     Point<double> p;
-    check_state(p, std::vector{0.0, 0.0, 0.0});
+    SECTION("x") { REQUIRE(p.x() == 0.0); }
+    SECTION("y") { REQUIRE(p.y() == 0.0); }
+    SECTION("z") { REQUIRE(p.z() == 0.0); }
 }
 
 TEST_CASE("Point<double> : value ctor") {
     Point<double> p(1.0, 2.0, 3.0);
-    check_state(p, std::vector{1.0, 2.0, 3.0});
+    SECTION("x") { REQUIRE(p.x() == 1.0); }
+    SECTION("y") { REQUIRE(p.y() == 2.0); }
+    SECTION("z") { REQUIRE(p.z() == 3.0); }
 }
 
 TEST_CASE("Point<double> : copy ctor") {
     Point<double> p(1.0, 2.0, 3.0);
     Point<double> p2(p);
-    check_state(p2, std::vector{1.0, 2.0, 3.0});
+    SECTION("Value") { REQUIRE(p2 == p); }
     SECTION("Is deep copy") {
         for(std::size_t i = 0; i < 3; ++i) REQUIRE(&p2.coord(i) != &p.coord(i));
     }
@@ -29,11 +28,12 @@ TEST_CASE("Point<double> : copy ctor") {
 
 TEST_CASE("Point<double> : move ctor") {
     Point<double> p(1.0, 2.0, 3.0);
+    Point<double> p2(p);
     std::array<double*, 3> ptr{&p.coord(0), &p.coord(1), &p.coord(2)};
-    Point<double> p2(std::move(p));
-    check_state(p2, std::vector{1.0, 2.0, 3.0});
+    Point<double> p3(std::move(p));
+    SECTION("Value") { REQUIRE(p3 == p2); }
     SECTION("References remain valid") {
-        for(std::size_t i = 0; i < 3; ++i) REQUIRE(&p2.coord(i) == ptr[i]);
+        for(std::size_t i = 0; i < 3; ++i) REQUIRE(&p3.coord(i) == ptr[i]);
     }
 }
 
@@ -42,7 +42,7 @@ TEST_CASE("Point<double> : copy assignment") {
     Point<double> p2;
     std::array<double*, 3> ptr{&p2.coord(0), &p2.coord(1), &p2.coord(2)};
     auto pp2 = &(p2 = p);
-    check_state(p2, std::vector{1.0, 2.0, 3.0});
+    SECTION("Value") { REQUIRE(p2 == p); }
     SECTION("Returns *this") { REQUIRE(pp2 == &p2); }
     SECTION("Is deep copy") {
         for(std::size_t i = 0; i < 3; ++i) REQUIRE(&p2.coord(i) != &p.coord(i));
@@ -56,17 +56,18 @@ TEST_CASE("Point<double> : copy assignment") {
 
 TEST_CASE("Point<double> : move assignment") {
     Point<double> p(1.0, 2.0, 3.0);
+    Point<double> p2(p);
     std::array<double*, 3> ptr{&p.coord(0), &p.coord(1), &p.coord(2)};
-    Point<double> p2;
-    auto pp2 = &(p2 = std::move(p));
-    check_state(p2, std::vector{1.0, 2.0, 3.0});
-    SECTION("Returns *this") { REQUIRE(pp2 == &p2); }
+    Point<double> p3;
+    auto pp3 = &(p3 = std::move(p));
+    SECTION("Value") { REQUIRE(p3 == p2); }
+    SECTION("Returns *this") { REQUIRE(pp3 == &p3); }
     SECTION("Does not invalidate p's references") {
-        for(std::size_t i = 0; i < 3; ++i) REQUIRE(ptr[i] == &p2.coord(i));
+        for(std::size_t i = 0; i < 3; ++i) REQUIRE(ptr[i] == &p3.coord(i));
     }
 }
 
-TEST_CASE("Point<double> : coord") {
+TEST_CASE("Point<double> : coord()") {
     Point<double> p(1.0, 2.0, 3.0);
     REQUIRE(p.coord(1) == 2.0);
     SECTION("Throws if requested index is out of range") {
@@ -77,7 +78,7 @@ TEST_CASE("Point<double> : coord") {
     }
 }
 
-TEST_CASE("Point<double> : coord const") {
+TEST_CASE("Point<double> : coord() const") {
     const Point<double> p(1.0, 2.0, 3.0);
     REQUIRE(p.coord(1) == 2.0);
     SECTION("Throws if requested index is out of range") {
@@ -88,7 +89,7 @@ TEST_CASE("Point<double> : coord const") {
     }
 }
 
-TEST_CASE("Point<double> : x") {
+TEST_CASE("Point<double> : x()") {
     Point<double> p(1.0, 2.0, 3.0);
     REQUIRE(p.x() == 1.0);
     SECTION("Same as calling coord(0)") { REQUIRE(&p.x() == &p.coord(0)); }
@@ -97,7 +98,7 @@ TEST_CASE("Point<double> : x") {
     }
 }
 
-TEST_CASE("Point<double> : x const") {
+TEST_CASE("Point<double> : x() const") {
     const Point<double> p(1.0, 2.0, 3.0);
     REQUIRE(p.x() == 1.0);
     SECTION("Same as calling coord(0)") { REQUIRE(&p.x() == &p.coord(0)); }
@@ -106,7 +107,7 @@ TEST_CASE("Point<double> : x const") {
     }
 }
 
-TEST_CASE("Point<double> : y") {
+TEST_CASE("Point<double> : y()") {
     Point<double> p(1.0, 2.0, 3.0);
     REQUIRE(p.y() == 2.0);
     SECTION("Same as calling coord(1)") { REQUIRE(&p.y() == &p.coord(1)); }
@@ -115,7 +116,7 @@ TEST_CASE("Point<double> : y") {
     }
 }
 
-TEST_CASE("Point<double> : y const") {
+TEST_CASE("Point<double> : y() const") {
     const Point<double> p(1.0, 2.0, 3.0);
     REQUIRE(p.y() == 2.0);
     SECTION("Same as calling coord(1)") { REQUIRE(&p.y() == &p.coord(1)); }
@@ -124,7 +125,7 @@ TEST_CASE("Point<double> : y const") {
     }
 }
 
-TEST_CASE("Point<double> : z") {
+TEST_CASE("Point<double> : z()") {
     Point<double> p(1.0, 2.0, 3.0);
     REQUIRE(p.z() == 3.0);
     SECTION("Same as calling coord(2)") { REQUIRE(&p.z() == &p.coord(2)); }
@@ -133,7 +134,7 @@ TEST_CASE("Point<double> : z") {
     }
 }
 
-TEST_CASE("Point<double> : z const") {
+TEST_CASE("Point<double> : z() const") {
     const Point<double> p(1.0, 2.0, 3.0);
     REQUIRE(p.z() == 3.0);
     SECTION("Same as calling coord(2)") { REQUIRE(&p.z() == &p.coord(2)); }

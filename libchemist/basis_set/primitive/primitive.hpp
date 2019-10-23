@@ -27,6 +27,19 @@ class PrimitivePIMPL;
  */
 template<typename T>
 class Primitive : public Point<T> {
+private:
+    /// Type of this class's PIMPL
+    using my_pimpl = detail_::PrimitivePIMPL<T>;
+
+    /// Type of a pointer to this class's PIMPL
+    using my_pimpl_ptr = std::unique_ptr<my_pimpl>;
+
+    /// Type of a PIMPL for the base class
+    using base_pimpl = detail_::PointPIMPL<T>;
+
+    /// Type of a pointer to Point's PIMPL
+    using base_pimpl_ptr = std::unique_ptr<base_pimpl>;
+
 public:
     /// Type of a read/write reference to a parameter
     using reference = T&;
@@ -124,8 +137,22 @@ public:
      */
     Primitive<T>& operator=(Primitive<T>&& rhs) noexcept;
 
-    Primitive(std::unique_ptr<detail_::PrimitivePIMPL<T>> my_pimpl,
-              std::unique_ptr<detail_::PointPIMPL<T>> point_pimpl) noexcept;
+    /** @brief Constructs a Primitive with specified PIMPL instances.
+     *
+     *  This ctor is primarily meant to be called from classes that are defined
+     *  in terms of Primitives in order to create the Primitive for implementing
+     *  a PrimitiveView instance.
+     *
+     * @param[in] my_pimpl The PIMPL for the Primitive part of the resulting
+     *                     instance.
+     * @param[in] point_pimpl The PIMPL for the Point part of the resulting
+     *                     instance.
+     *
+     * @throw None No throw guarantee.
+     *
+     * Complexity: Constant
+     */
+    Primitive(my_pimpl_ptr my_pimpl, base_pimpl_ptr point_pimpl) noexcept;
 
     /// Defaulted, no throw dtor
     ~Primitive() noexcept override;
@@ -175,10 +202,8 @@ public:
     const_reference exponent() const noexcept;
 
 private:
-    /// Type of the class used to implement the Primitive class
-    using pimpl_t = detail_::PrimitivePIMPL<T>;
     /// The instance in charge of implementing the class
-    std::unique_ptr<pimpl_t> m_pimpl_;
+    my_pimpl_ptr m_pimpl_;
 }; // class Primitive
 
 /** @brief Compares two Primitives for equality.

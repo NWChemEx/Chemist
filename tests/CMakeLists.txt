@@ -1,4 +1,5 @@
 add_subdirectory(basis_set)
+add_subdirectory(detail_)
 add_subdirectory(point)
 add_subdirectory(tutorials)
 list(APPEND LIBCHEMIST_TESTS test_main.cpp

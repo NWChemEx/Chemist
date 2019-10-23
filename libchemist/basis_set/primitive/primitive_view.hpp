@@ -23,7 +23,7 @@ namespace libchemist {
  *         coordinates of the center. Assumed to be a floating-point POD type.
  */
 template<typename T>
-class PrimitiveView : public PointViewBase<T, Primitive<std::remove_cv_t<T>>> {
+class PrimitiveView : public PointView<T, Primitive<std::remove_cv_t<T>>> {
 private:
     using no_cv_t = std::remove_cv_t<T>;
     using my_type = PrimitiveView<T>;
@@ -34,7 +34,7 @@ public:
     /// The type used for indexing and offsets
     using size_type = std::size_t;
 
-    using PointViewBase<T, Primitive<no_cv_t>>::PointViewBase;
+    using PointView<T, Primitive<no_cv_t>>::PointView;
 
     /** @brief Creates a view that is not aliasing any Primitive
      *

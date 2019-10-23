@@ -1,6 +1,7 @@
 #include "libchemist/basis_set/contracted_gaussian/contracted_gaussian.hpp"
 #include "libchemist/basis_set/contracted_gaussian/detail_/cgto_pimpl.hpp"
 #include "libchemist/point/detail_/point_pimpl.hpp"
+#include <cassert>
 
 namespace libchemist {
 
@@ -48,12 +49,14 @@ ContractedGaussian<T>::~ContractedGaussian() noexcept = default;
 template<typename T>
 typename ContractedGaussian<T>::size_type ContractedGaussian<T>::size_() const
   noexcept {
+    assert(m_pimpl_ != nullptr);
     return m_pimpl_->size();
 }
 
 template<typename T>
 typename ContractedGaussian<T>::reference ContractedGaussian<T>::at_(
   size_type i) {
+    assert(m_pimpl_ != nullptr);
     return PrimitiveView<T>(
       Primitive<T>(std::move(m_pimpl_->at(i)), std::move(this->point_alias())));
 }
@@ -61,6 +64,7 @@ typename ContractedGaussian<T>::reference ContractedGaussian<T>::at_(
 template<typename T>
 typename ContractedGaussian<T>::const_reference ContractedGaussian<T>::at_(
   size_type i) const {
+    assert(m_pimpl_ != nullptr);
     return PrimitiveView<const T>(
       Primitive<T>(std::move(m_pimpl_->at(i)), std::move(this->point_alias())));
 }

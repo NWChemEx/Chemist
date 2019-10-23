@@ -18,7 +18,7 @@ template<typename T>
 class ShellPIMPL {
 public:
     /// Type used for indexing and offsets
-    using size_type = std::size_t;
+    using size_type = typename Shell<T>::size_type;
 
     /// Type used for storing the purity of the shell
     using pure_type = ShellType;

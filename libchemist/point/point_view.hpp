@@ -6,49 +6,30 @@ namespace libchemist {
 
 /** @brief Implements reference-like semantics with respect to a Point instance.
  *
- *  This class works by wrapping a Point instance which gets its state from a
- *  PIMPL holding aliases. By holding a Point instance (instead of a PIMPL
- *  directly) we are able to have the PointView be usable, by reference,
- *  anywhere a Point can.
- *
- *  Note that when using PointView, its const-semantics are such that:
- *
- *  @begincode
- *  Point<double> p{1.0, 2.0, 3.0};
- *  const PointView<T> const_pv{p};
- *  PointView<T> non_const_pv{const_pv};
- *  @endcode
- *
- *  which would allow you to bypass the const-ness of `const_pv`. This is
- *  similar to how iterators work in the STL:
- *
- *  @begincode
- *  std::vector<double> v{1.0, 2.0, 3.0};
- *  // The type of a read/write iterator to an std::vector<double>
- *  using iterator = typename std::vector<double>::iterator;
- *  const iterator const_itr = v.begin();
- *  iterator non_const_itr{v};
- *  @endcode
- *
- *  If you want to return a PointView to a Point<double> and you don't want
- *  people modifying the aliased container the `const` needs to go in the
- *  PointView's type, i.e., PointView<const double>.
+ *  This class extends the ViewBase API to include forwarding of the Point API.
  *
  *  @tparam T The type used to hold the coordinates of the aliased Point. Should
  *          be cv-qualified to match the Point instance it is aliasing.
+ *
+ *  @tparam AliasedType The type the derived-most class is a view of.
+ *                      @p AliasedType is assumed to have been derived from
+ *                      Point.
  */
 template<typename T, typename AliasedType>
-class PointViewBase
-  : public detail_::ViewBase<std::is_const_v<T>, AliasedType> {
+class PointView : public detail_::ViewBase<std::is_const_v<T>, AliasedType> {
 private:
-    using no_cv_t                  = std::remove_cv_t<T>;
+    /// Type of @p T w/o cv-qualifiers
+    using no_cv_t = std::remove_cv_t<T>;
+    /// True if @p T is const-qualified
     static constexpr bool is_const = std::is_const_v<T>;
-    using base_type                = detail_::ViewBase<is_const, AliasedType>;
+    /// Type of the base class
+    using base_type = detail_::ViewBase<is_const, AliasedType>;
 
 public:
     /// Unsigned integral type used for indexing/offsets
-    using size_type = std::size_t;
+    using size_type = typename AliasedType::size_type;
 
+    /// Forward the base's ctors
     using detail_::ViewBase<is_const, AliasedType>::ViewBase;
 
     /** @brief Returns the @p q-th coordinate of the aliased Point
@@ -143,14 +124,6 @@ public:
     decltype(auto) z() const noexcept { return coord(2); }
 
     operator const Point<no_cv_t>&() const { return this->pimpl(); }
-};
-
-template<typename T>
-using PointView = PointViewBase<T, Point<std::remove_cv_t<T>>>;
-
-extern template class PointViewBase<double, Point<double>>;
-extern template class PointViewBase<const double, Point<double>>;
-extern template class PointViewBase<float, Point<float>>;
-extern template class PointViewBase<const float, Point<float>>;
+}; // class PointView
 
 } // namespace libchemist

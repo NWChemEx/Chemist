@@ -34,9 +34,8 @@ namespace libchemist::detail_ {
  * @tparam ViewType The type of the class we are implementing
  */
 template<typename T, template<typename> class AliasedType, typename ViewType>
-class AOBasisViewBase
-  : public PointViewBase<T, AliasedType<std::remove_cv_t<T>>>,
-    public utilities::IndexableContainerBase<ViewType> {
+class AOBasisViewBase : public PointView<T, AliasedType<std::remove_cv_t<T>>>,
+                        public utilities::IndexableContainerBase<ViewType> {
 private:
     /// Type of this instance
     using my_type = ViewType;
@@ -45,7 +44,7 @@ private:
     /// Type of the template type parameter with cv-qualifiers removed
     using no_cv_t = std::remove_cv_t<T>;
     /// Type of the PointViewBase
-    using point_base_type = PointViewBase<T, AliasedType<no_cv_t>>;
+    using point_base_type = PointView<T, AliasedType<no_cv_t>>;
     /// Type of another view with (possibly) different cv qualifications
     template<typename U>
     using other_ao_basis_view = AOBasisViewBase<U, AliasedType, ViewType>;
@@ -58,9 +57,9 @@ public:
     /// Type used for indexing/offsets is an unsigned, integral POD type
     using size_type = typename container_base_type::size_type;
 
-    using PointViewBase<T, aliased_type>::PointViewBase;
-    using PointViewBase<T, aliased_type>::operator==;
-    using PointViewBase<T, aliased_type>::operator!=;
+    using PointView<T, aliased_type>::PointView;
+    using PointView<T, aliased_type>::operator==;
+    using PointView<T, aliased_type>::operator!=;
 
     /** @brief Allows the view to be compared to another view
      *

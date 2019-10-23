@@ -3,29 +3,24 @@
 
 using namespace libchemist;
 
-template<typename T, typename U>
-static void check_state(T&& prim, U&& corr) {
-    SECTION("Coefficient") { REQUIRE(prim.coefficient() == corr[0]); }
-    SECTION("Exponent") { REQUIRE(prim.exponent() == corr[1]); }
-    SECTION("x-coordinate") { REQUIRE(prim.x() == corr[2]); }
-    SECTION("y-coordinate") { REQUIRE(prim.y() == corr[3]); }
-    SECTION("z-coordinate") { REQUIRE(prim.z() == corr[4]); }
-}
-
 TEST_CASE("Primitive<double> : default ctor") {
     Primitive<double> p;
-    check_state(p, std::vector<double>(5, 0.0));
+    SECTION("Coefficient") { REQUIRE(p.coefficient() == 0.0); }
+    SECTION("Exponent") { REQUIRE(p.exponent() == 0.0); }
+    SECTION("Point") { REQUIRE(p == Point<double>(0.0, 0.0, 0.0)); }
 }
 
 TEST_CASE("Primitive<double> : value ctor") {
     Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    check_state(p, std::vector<double>{1.0, 2.0, 3.0, 4.0, 5.0});
+    SECTION("Coefficient") { REQUIRE(p.coefficient() == 1.0); }
+    SECTION("Exponent") { REQUIRE(p.exponent() == 2.0); }
+    SECTION("Point") { REQUIRE(p == Point<double>(3.0, 4.0, 5.0)); }
 }
 
 TEST_CASE("Primitive<double> : copy ctor") {
     Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
     Primitive<double> p2(p);
-    check_state(p2, std::vector<double>{1.0, 2.0, 3.0, 4.0, 5.0});
+    SECTION("State") { REQUIRE(p2 == p); }
     SECTION("Deep copy") {
         REQUIRE(&p2.coefficient() != &p.coefficient());
         REQUIRE(&p2.exponent() != &p.exponent());
@@ -34,12 +29,13 @@ TEST_CASE("Primitive<double> : copy ctor") {
 
 TEST_CASE("Primitive<double> : move ctor") {
     Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
+    Primitive<double> p2(p);
     std::array<double*, 2> pp{&p.coefficient(), &p.exponent()};
-    Primitive<double> p2(std::move(p));
-    check_state(p2, std::vector<double>{1.0, 2.0, 3.0, 4.0, 5.0});
+    Primitive<double> p3(std::move(p));
+    SECTION("State") { REQUIRE(p3 == p2); }
     SECTION("References remain valid") {
-        REQUIRE(&p2.coefficient() == pp[0]);
-        REQUIRE(&p2.exponent() == pp[1]);
+        REQUIRE(&p3.coefficient() == pp[0]);
+        REQUIRE(&p3.exponent() == pp[1]);
     }
 }
 
@@ -47,7 +43,7 @@ TEST_CASE("Primitive<double> : copy assignment") {
     Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
     Primitive<double> p2;
     auto pp2 = &(p2 = p);
-    check_state(p2, std::vector<double>{1.0, 2.0, 3.0, 4.0, 5.0});
+    SECTION("State") { REQUIRE(p == p2); }
     SECTION("Returns this") { REQUIRE(pp2 == &p2); }
     SECTION("Deep copy") {
         REQUIRE(&p2.coefficient() != &p.coefficient());
@@ -57,14 +53,15 @@ TEST_CASE("Primitive<double> : copy assignment") {
 
 TEST_CASE("Primitive<double> : move assignment") {
     Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
+    Primitive<double> p2(p);
     std::array<double*, 2> pp{&p.coefficient(), &p.exponent()};
-    Primitive<double> p2;
-    auto pp2 = &(p2 = std::move(p));
-    check_state(p2, std::vector<double>{1.0, 2.0, 3.0, 4.0, 5.0});
-    SECTION("Returns this") { REQUIRE(pp2 == &p2); }
+    Primitive<double> p3;
+    auto pp3 = &(p3 = std::move(p));
+    SECTION("State") { REQUIRE(p3 == p2); }
+    SECTION("Returns this") { REQUIRE(pp3 == &p3); }
     SECTION("References remain valid") {
-        REQUIRE(&p2.coefficient() == pp[0]);
-        REQUIRE(&p2.exponent() == pp[1]);
+        REQUIRE(&p3.coefficient() == pp[0]);
+        REQUIRE(&p3.exponent() == pp[1]);
     }
 }
 

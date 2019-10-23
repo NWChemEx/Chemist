@@ -5,14 +5,16 @@
  *  thus the API of the PointPIMPL class is subject to change at any time.
  */
 #pragma once
+#include "libchemist/point/point.hpp"
 #include <array>
 #include <utilities/containers/own_or_borrow.hpp>
 
 namespace libchemist::detail_ {
 
-/** @brief Implements the Point<T> class.
+/** @brief Holds the Point class's state
  *
- *  This class contains the implementations for the Point class.
+ *  This class is responsible for holding the Point class's state and decoupling
+ *  the storage mechanism from the Point class's API.
  *
  *  @tparam T The type used for holding the point's coordinates. Assumed to be
  *            a non-cv qualified POD of floating-point variety.
@@ -20,14 +22,14 @@ namespace libchemist::detail_ {
 template<typename T>
 class PointPIMPL {
 public:
-    /// Type used to hold the point's coordinates
-    using value_type = T;
+    /// Type of the point this PIMPL is associated with
+    using point_type = Point<T>;
     /// Type of a read/write reference to a coordinate of the point
-    using reference = T&;
+    using reference = typename point_type::reference;
     /// Type of a read-only reference to a coordinate of the point
-    using const_reference = const T&;
+    using const_reference = typename point_type::const_reference;
     /// Type of an index or offset, assumed to be integral and POD-like
-    using size_type = std::size_t;
+    using size_type = typename point_type::size_type;
 
     /** @brief Creates a 3D Cartesian point at the origin.
      *
@@ -36,6 +38,8 @@ public:
      *  reference.
      *
      *  @throw none No throw guarantee.
+     *
+     *  Complexity: constant
      */
     PointPIMPL() noexcept = default;
 
@@ -48,6 +52,8 @@ public:
      *  @param[in] rhs The PointPIMPL to copy the state of.
      *
      *  @throw none No throw guarantee.
+     *
+     *  Complexity: constant
      */
     PointPIMPL(const PointPIMPL<T>& rhs) noexcept;
 
@@ -156,40 +162,52 @@ private:
 
 // -------------------------Implementations-----------------------------------
 
-template<typename T>
+/// Cleans-up the template<typename T> that appears in the following defs
+#define POINT_PIMPL_PARAMS template<typename T>
+/// Cleans-up the PointPIMPL<T> that appears in the following defs
+#define POINT_PIMPL PointPIMPL<T>
+
+POINT_PIMPL_PARAMS
+POINT_PIMPL::PointPIMPL(const POINT_PIMPL& rhs) noexcept :
+  PointPIMPL(rhs.coord(0), rhs.coord(1), rhs.coord(2)) {}
+
+POINT_PIMPL_PARAMS
+POINT_PIMPL& POINT_PIMPL::operator=(const POINT_PIMPL& rhs) noexcept {
+    *this = std::move(PointPIMPL<T>(rhs));
+    return *this;
+}
+
+POINT_PIMPL_PARAMS
 template<typename X, typename Y, typename Z>
-PointPIMPL<T>::PointPIMPL(X&& x, Y&& y, Z&& z) noexcept :
+POINT_PIMPL::PointPIMPL(X&& x, Y&& y, Z&& z) noexcept :
   m_qs_{utilities::OwnOrBorrow<T>{std::forward<X>(x)},
         utilities::OwnOrBorrow<T>{std::forward<Y>(y)},
         utilities::OwnOrBorrow<T>{std::forward<Z>(z)}} {}
 
-template<typename T>
-PointPIMPL<T>::PointPIMPL(const PointPIMPL<T>& rhs) noexcept :
-  PointPIMPL(rhs.coord(0), rhs.coord(1), rhs.coord(2)) {}
+// -------------------------- Accessors-----------------------------------------
 
-template<typename T>
-PointPIMPL<T>& PointPIMPL<T>::operator=(const PointPIMPL<T>& rhs) noexcept {
-    return *this = std::move(PointPIMPL<T>(rhs));
+POINT_PIMPL_PARAMS
+typename POINT_PIMPL::reference POINT_PIMPL::coord(size_type i) {
+    return const_cast<reference>(std::as_const(*this).coord(i));
 }
 
-template<typename T>
-typename PointPIMPL<T>::reference PointPIMPL<T>::coord(size_type i) {
-    const PointPIMPL<T>& const_this = *this;
-    return const_cast<reference>(const_this.coord(i));
-}
-
-template<typename T>
-typename PointPIMPL<T>::const_reference PointPIMPL<T>::coord(
-  size_type i) const {
+POINT_PIMPL_PARAMS
+typename POINT_PIMPL::const_reference POINT_PIMPL::coord(size_type i) const {
     check_index_(i);
     return m_qs_[i].value();
 }
 
-template<typename T>
-void PointPIMPL<T>::check_index_(size_type i) const {
+// -------------------------- Private Fxns -------------------------------------
+
+POINT_PIMPL_PARAMS
+void POINT_PIMPL::check_index_(size_type i) const {
     if(i < 3) return;
     const auto msg = std::string("Index i == ") + std::to_string(i) +
                      " is not in the range [0, 3).";
     throw std::out_of_range(msg);
 }
+
+#undef POINT_PIMPL
+#undef POINT_PIMPL_PARAMS
+
 } // namespace libchemist::detail_

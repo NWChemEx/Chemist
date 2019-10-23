@@ -17,7 +17,7 @@ using point_pimpl_t = detail_::PointPIMPL<std::remove_const_t<T>>;
 
 template<typename T>
 PrimitiveView<T>::PrimitiveView(T* coef, T* exp, T* x, T* y, T* z) :
-  PointViewBase<T, Primitive<std::remove_cv_t<T>>>(Primitive(
+  PointView<T, Primitive<std::remove_cv_t<T>>>(Primitive(
     std::make_unique<prim_pimpl_t<std::remove_cv_t<T>>>(
       const_cast<std::remove_cv_t<T>*>(coef),
       const_cast<std::remove_cv_t<T>*>(exp)),
