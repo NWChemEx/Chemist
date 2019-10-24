@@ -1,6 +1,7 @@
 #include "libchemist/basis_set/shell/detail_/shell_pimpl.hpp"
 #include "libchemist/basis_set/shell/shell.hpp"
 #include "libchemist/point/detail_/point_pimpl.hpp"
+#include <cassert>
 
 namespace libchemist {
 
@@ -43,21 +44,25 @@ Shell<T>::~Shell<T>() noexcept = default;
 
 template<typename T>
 typename Shell<T>::pure_type& Shell<T>::pure() noexcept {
+    assert(m_pimpl_ != nullptr);
     return m_pimpl_->purity();
 }
 
 template<typename T>
 const typename Shell<T>::pure_type& Shell<T>::pure() const noexcept {
+    assert(m_pimpl_ != nullptr);
     return m_pimpl_->purity();
 }
 
 template<typename T>
 typename Shell<T>::size_type& Shell<T>::l() noexcept {
+    assert(m_pimpl_ != nullptr);
     return m_pimpl_->l();
 }
 
 template<typename T>
 const typename Shell<T>::size_type& Shell<T>::l() const noexcept {
+    assert(m_pimpl_ != nullptr);
     return m_pimpl_->l();
 }
 
@@ -79,11 +84,13 @@ typename Shell<T>::const_primitive_reference Shell<T>::unique_primitive(
 
 template<typename T>
 typename Shell<T>::size_type Shell<T>::size_() const noexcept {
+    assert(m_pimpl_ != nullptr);
     return m_pimpl_->size();
 }
 
 template<typename T>
 typename Shell<T>::reference Shell<T>::at_(size_type index) {
+    assert(m_pimpl_ != nullptr);
     auto ptr1 = m_pimpl_->at(index);
     auto ptr2 = this->point_alias();
     ContractedGaussian<T> temp(std::move(ptr1), std::move(ptr2));
@@ -92,6 +99,7 @@ typename Shell<T>::reference Shell<T>::at_(size_type index) {
 
 template<typename T>
 typename Shell<T>::const_reference Shell<T>::at_(size_type index) const {
+    assert(m_pimpl_ != nullptr);
     auto ptr1 = m_pimpl_->at(index);
     auto ptr2 = this->point_alias();
     ContractedGaussian<T> temp(std::move(ptr1), std::move(ptr2));

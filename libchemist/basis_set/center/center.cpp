@@ -1,7 +1,7 @@
 #include "libchemist/basis_set/center/center.hpp"
 #include "libchemist/basis_set/center/detail_/center_pimpl.hpp"
 #include "libchemist/point/detail_/point_pimpl.hpp"
-
+#include <cassert>
 namespace libchemist {
 
 template<typename T>
@@ -43,6 +43,7 @@ Center<T>::~Center() noexcept = default;
 template<typename T>
 void Center<T>::add_shell(pure_type pure, am_type l, param_set cs,
                           param_set es) {
+    assert(m_pimpl_ != nullptr);
     m_pimpl_->add_shell(pure, l, std::move(cs), std::move(es));
 }
 
@@ -112,11 +113,13 @@ typename Center<T>::const_primitive_reference Center<T>::unique_primitive(
 
 template<typename T>
 typename Center<T>::size_type Center<T>::size_() const noexcept {
+    assert(m_pimpl_ != nullptr);
     return m_pimpl_->size();
 }
 
 template<typename T>
 typename Center<T>::reference Center<T>::at_(size_type i) {
+    assert(m_pimpl_ != nullptr);
     auto ptr1 = m_pimpl_->at(i);
     auto ptr2 = this->point_alias();
     Shell<T> shell(std::move(ptr1), std::move(ptr2));
@@ -125,6 +128,7 @@ typename Center<T>::reference Center<T>::at_(size_type i) {
 
 template<typename T>
 typename Center<T>::const_reference Center<T>::at_(size_type i) const {
+    assert(m_pimpl_ != nullptr);
     auto ptr1 = m_pimpl_->at(i);
     auto ptr2 = this->point_alias();
     Shell<T> shell(std::move(ptr1), std::move(ptr2));

@@ -1,5 +1,6 @@
 #include "libchemist/basis_set/ao_basis_set/ao_basis_set.hpp"
 #include "libchemist/basis_set/ao_basis_set/detail_/ao_basis_set_pimpl.hpp"
+#include <cassert>
 
 namespace libchemist {
 
@@ -11,7 +12,7 @@ AO_BS::AOBasisSet() : m_pimpl_(std::make_unique<pimpl_type>()) {}
 
 template<typename T>
 AO_BS::AOBasisSet(const AO_BS& rhs) :
-  m_pimpl_(std::make_unique<pimpl_type>(*m_pimpl_)) {}
+  m_pimpl_(std::make_unique<pimpl_type>(*(rhs.m_pimpl_))) {}
 
 template<typename T>
 AO_BS::AOBasisSet(AO_BS&& rhs) noexcept = default;
@@ -29,6 +30,7 @@ AO_BS::~AOBasisSet() noexcept = default;
 
 template<typename T>
 void AO_BS::add_center(value_type center) {
+    assert(m_pimpl_ != nullptr);
     m_pimpl_->add_center(std::move(center));
 }
 
@@ -74,14 +76,14 @@ typename AO_BS::const_shell_reference AO_BS::shell(size_type i) const {
 }
 
 template<typename T>
-typename AO_BS::flattened_shells AO_BS::shells() {
+typename AO_BS::flattened_shells AO_BS::shells() noexcept {
     return flattened_shells(
       [&]() { return n_shells(); }, [&](size_type i) { return shell(i); },
       [&](size_type i) { return std::as_const(*this).shell(i); });
 }
 
 template<typename T>
-typename AO_BS::const_flattened_shells AO_BS::shells() const {
+typename AO_BS::const_flattened_shells AO_BS::shells() const noexcept {
     return const_flattened_shells([&]() { return n_shells(); },
                                   [&](size_type i) { return shell(i); },
                                   [&](size_type i) { return shell(i); });
@@ -121,14 +123,14 @@ typename AO_BS::const_ao_reference AO_BS::ao(size_type i) const {
 }
 
 template<typename T>
-typename AOBasisSet<T>::flattened_aos AO_BS::aos() {
+typename AOBasisSet<T>::flattened_aos AO_BS::aos() noexcept {
     return flattened_aos(
       [&]() { return n_aos(); }, [&](size_type i) { return ao(i); },
       [&](size_type i) { return std::as_const(*this).ao(i); });
 }
 
 template<typename T>
-typename AOBasisSet<T>::const_flattened_aos AO_BS::aos() const {
+typename AOBasisSet<T>::const_flattened_aos AO_BS::aos() const noexcept {
     return const_flattened_aos([&]() { return n_aos(); },
                                [&](size_type i) { return ao(i); },
                                [&](size_type i) { return ao(i); });
@@ -169,7 +171,8 @@ typename AO_BS::const_primitive_reference AO_BS::unique_primitive(
 }
 
 template<typename T>
-typename AOBasisSet<T>::flattened_primitives AO_BS::unique_primitives() {
+typename AOBasisSet<T>::flattened_primitives
+AO_BS::unique_primitives() noexcept {
     return flattened_primitives(
       [&]() { return n_unique_primitives(); },
       [&](size_type i) { return unique_primitive(i); },
@@ -178,7 +181,7 @@ typename AOBasisSet<T>::flattened_primitives AO_BS::unique_primitives() {
 
 template<typename T>
 typename AOBasisSet<T>::const_flattened_primitives AO_BS::unique_primitives()
-  const {
+  const noexcept {
     return const_flattened_primitives(
       [&]() { return n_unique_primitives(); },
       [&](size_type i) { return unique_primitive(i); },
@@ -188,16 +191,19 @@ typename AOBasisSet<T>::const_flattened_primitives AO_BS::unique_primitives()
 // -------------------------- Private Fxns -------------------------------------
 template<typename T>
 typename AOBasisSet<T>::size_type AO_BS::size_() const noexcept {
+    assert(m_pimpl_ != nullptr);
     return m_pimpl_->size();
 }
 
 template<typename T>
 typename AOBasisSet<T>::reference AO_BS::at_(size_type i) {
+    assert(m_pimpl_ != nullptr);
     return m_pimpl_->at(i);
 }
 
 template<typename T>
 typename AOBasisSet<T>::const_reference AO_BS::at_(size_type i) const {
+    assert(m_pimpl_ != nullptr);
     return m_pimpl_->at(i);
 }
 

@@ -17,7 +17,7 @@ public:
     using size_type = typename base_type::size_type;
 
     template<typename U, typename V, typename W>
-    FlattenedView(U&& size_fxn, V&& at_fxn, W&& const_at_fxn);
+    FlattenedView(U&& size_fxn, V&& at_fxn, W&& const_at_fxn) noexcept;
 
 private:
     friend base_type;
@@ -33,7 +33,7 @@ private:
 template<typename T, typename ConstT>
 template<typename U, typename V, typename W>
 FlattenedView<T, ConstT>::FlattenedView(U&& size_fxn, V&& at_fxn,
-                                        W&& const_at_fxn) :
+                                        W&& const_at_fxn) noexcept :
   m_size_(std::forward<U>(size_fxn)),
   m_at_(std::forward<V>(at_fxn)),
   m_const_at_(std::forward<W>(const_at_fxn)) {}

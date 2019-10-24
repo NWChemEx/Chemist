@@ -1,5 +1,6 @@
 list(APPEND LIBCHEMIST_TESTS
      basis_set/ao_basis_set/detail_/ao_basis_set_pimpl.cpp
+     basis_set/ao_basis_set/ao_basis_set.cpp
      basis_set/center/detail_/center_pimpl.cpp
      basis_set/center/center.cpp
      basis_set/contracted_gaussian/detail_/cgto_pimpl.cpp

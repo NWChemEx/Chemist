@@ -57,7 +57,7 @@ public:
     /// Type used for indexing/offsets is an unsigned, integral POD type
     using size_type = typename container_base_type::size_type;
 
-    using PointView<T, aliased_type>::PointView;
+    AOBasisViewBase(aliased_type) noexcept;
     using PointView<T, aliased_type>::operator==;
     using PointView<T, aliased_type>::operator!=;
 
@@ -166,6 +166,11 @@ bool operator!=(const AliasedType<std::remove_cv_t<T>>& lhs,
                 const VIEW_BASE_TYPE& rhs) noexcept {
     return !(lhs == rhs);
 }
+
+VIEW_BASE_TEMPLATE
+VIEW_BASE_TYPE::AOBasisViewBase(aliased_type pimpl) noexcept :
+  PointView<T, aliased_type>(std::move(pimpl)),
+  utilities::IndexableContainerBase<ViewType>() {}
 
 VIEW_BASE_TEMPLATE
 template<typename U>
