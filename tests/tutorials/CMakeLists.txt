@@ -1,0 +1,5 @@
+list(APPEND LIBCHEMIST_TESTS
+     tutorials/ao_basis_set.cpp
+)
+
+set(LIBCHEMIST_TESTS "${LIBCHEMIST_TESTS}" PARENT_SCOPE)

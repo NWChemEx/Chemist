@@ -1,4 +1,6 @@
-set(LIBCHEMIST_HEADERS ao_basis_set.hpp
+add_subdirectory(basis_set)
+add_subdirectory(point)
+list(APPEND LIBCHEMIST_HEADERS ao_basis_set.hpp
 	                   ao_shell.hpp
 					   atom.hpp
 					   basis_set_manager.hpp
@@ -18,7 +20,7 @@ include(defaults/bases/add_basis.cmake)
 
 include(defaults/atomic_densities/add_density.cmake)
 
-set(LIBCHEMIST_SRCS ao_basis_set.cpp
+list(APPEND LIBCHEMIST_SRCS ao_basis_set.cpp
 	         	    ao_shell.cpp
 					atom.cpp
 					basis_set_manager.cpp
