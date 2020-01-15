@@ -7,32 +7,22 @@
 
 namespace libchemist::detail_ {
 
-AOBasisSet aug_dash_cc_dash_pvtz_dash_nr_diffuse(std::size_t Z) {
+Center<double> aug_dash_cc_dash_pvtz_dash_nr_diffuse(std::size_t Z) {
     switch(Z) {
         case(21): {
-            return AOBasisSet{
-              AOShell{
-                0,
-                AOPrimitive{1.110000e-02, 1.000000e+00},
-              },
-              AOShell{
-                1,
-                AOPrimitive{1.066000e-02, 1.000000e+00},
-              },
-              AOShell{
-                2,
-                AOPrimitive{1.244000e-02, 1.000000e+00},
-              },
-              AOShell{
-                3,
-                AOPrimitive{4.063000e-02, 1.000000e+00},
-              },
-              AOShell{
-                4,
-                AOPrimitive{9.473000e-02, 1.000000e+00},
-              },
-            }; // End AOBasis
-        }      // End case
+            Center<double> rv(0.0, 0.0, 0.0);
+            rv.add_shell(ShellType::pure, 0, std::vector<double>{1.000000e+00},
+                         std::vector<double>{1.110000e-02});
+            rv.add_shell(ShellType::pure, 1, std::vector<double>{1.000000e+00},
+                         std::vector<double>{1.066000e-02});
+            rv.add_shell(ShellType::pure, 2, std::vector<double>{1.000000e+00},
+                         std::vector<double>{1.244000e-02});
+            rv.add_shell(ShellType::pure, 3, std::vector<double>{1.000000e+00},
+                         std::vector<double>{4.063000e-02});
+            rv.add_shell(ShellType::pure, 4, std::vector<double>{1.000000e+00},
+                         std::vector<double>{9.473000e-02});
+            return rv;
+        } // End case
         default: { throw std::out_of_range("Basis not available for Z"); }
     } // end switch
 

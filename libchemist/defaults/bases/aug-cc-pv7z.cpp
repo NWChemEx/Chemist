@@ -7,1358 +7,1000 @@
 
 namespace libchemist::detail_ {
 
-AOBasisSet aug_dash_cc_dash_pv7z(std::size_t Z) {
+Center<double> aug_dash_cc_dash_pv7z(std::size_t Z) {
     switch(Z) {
         case(5): {
-            return AOBasisSet{
-              AOShell{
-                0,
-                AOPrimitive{639096.48000000, 0.000001450000},
-                AOPrimitive{95681.51400000, 0.000011300000},
-                AOPrimitive{21773.08300000, 0.000059490000},
-                AOPrimitive{6167.29350000, 0.000251280000},
-                AOPrimitive{2012.08270000, 0.000915980000},
-                AOPrimitive{726.46850000, 0.002983470000},
-                AOPrimitive{283.44690000, 0.008868880000},
-                AOPrimitive{117.53123000, 0.024146540000},
-                AOPrimitive{51.30763000, 0.059312810000},
-                AOPrimitive{23.34431800, 0.128122550000},
-                AOPrimitive{10.96337500, 0.231005970000},
-                AOPrimitive{5.29336700, 0.317350670000},
-                AOPrimitive{2.62057200, 0.273074850000},
-                AOPrimitive{1.30393200, 0.103059150000},
-                AOPrimitive{0.55166600, 0.007348790000},
-                AOPrimitive{0.25708500, -0.000451400000},
-                AOPrimitive{0.11862700, 0.000357860000},
-                AOPrimitive{0.05444500, -0.000037910000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{639096.48000000, -0.000000290000},
-                AOPrimitive{95681.51400000, -0.000002280000},
-                AOPrimitive{21773.08300000, -0.000012020000},
-                AOPrimitive{6167.29350000, -0.000050710000},
-                AOPrimitive{2012.08270000, -0.000185340000},
-                AOPrimitive{726.46850000, -0.000603290000},
-                AOPrimitive{283.44690000, -0.001806360000},
-                AOPrimitive{117.53123000, -0.004949810000},
-                AOPrimitive{51.30763000, -0.012468970000},
-                AOPrimitive{23.34431800, -0.027937610000},
-                AOPrimitive{10.96337500, -0.055099580000},
-                AOPrimitive{5.29336700, -0.089952160000},
-                AOPrimitive{2.62057200, -0.119472960000},
-                AOPrimitive{1.30393200, -0.068522470000},
-                AOPrimitive{0.55166600, 0.169982010000},
-                AOPrimitive{0.25708500, 0.439594300000},
-                AOPrimitive{0.11862700, 0.426250990000},
-                AOPrimitive{0.05444500, 0.112962800000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{2.62057200, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{1.30393200, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.55166600, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.25708500, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.11862700, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.05444500, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.02498800, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{503.76954000, 0.000025350000},
-                AOPrimitive{119.03181000, 0.000224580000},
-                AOPrimitive{38.64227200, 0.001253390000},
-                AOPrimitive{14.75279300, 0.005098200000},
-                AOPrimitive{6.19078900, 0.016051880000},
-                AOPrimitive{2.75602700, 0.043033150000},
-                AOPrimitive{1.28677300, 0.102015140000},
-                AOPrimitive{0.62256700, 0.197521530000},
-                AOPrimitive{0.30453800, 0.296953620000},
-                AOPrimitive{0.14898700, 0.324693860000},
-                AOPrimitive{0.07287700, 0.206064600000},
-                AOPrimitive{0.03492200, 0.042897480000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{1.28677300, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.62256700, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.30453800, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.14898700, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.07287700, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.03492200, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.01673400, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{3.60597800, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{1.71900300, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.81946500, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.39064600, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.18622500, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.08877500, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.04232000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{2.18086800, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{1.14964200, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.60603300, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.31947000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.16840800, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.08877600, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{2.33466500, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{1.19782800, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{0.61456000, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{0.31530700, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{0.16177200, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{1.88024500, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{0.92980800, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{0.45980300, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{0.22737900, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{1.56820300, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{0.69701100, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{0.30979700, 1.000000000000},
-              },
-              AOShell{
-                8,
-                AOPrimitive{1.29200000, 1.000000000000},
-              },
-              AOShell{
-                8,
-                AOPrimitive{0.57420000, 1.000000000000},
-              },
-            }; // End AOBasis
-        }      // End case
+            Center<double> rv(0.0, 0.0, 0.0);
+            rv.add_shell(
+              ShellType::pure, 0,
+              std::vector<double>{
+                0.000001450000, 0.000011300000, 0.000059490000, 0.000251280000,
+                0.000915980000, 0.002983470000, 0.008868880000, 0.024146540000,
+                0.059312810000, 0.128122550000, 0.231005970000, 0.317350670000,
+                0.273074850000, 0.103059150000, 0.007348790000, -0.000451400000,
+                0.000357860000, -0.000037910000},
+              std::vector<double>{
+                639096.48000000, 95681.51400000, 21773.08300000, 6167.29350000,
+                2012.08270000, 726.46850000, 283.44690000, 117.53123000,
+                51.30763000, 23.34431800, 10.96337500, 5.29336700, 2.62057200,
+                1.30393200, 0.55166600, 0.25708500, 0.11862700, 0.05444500});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{
+                           -0.000000290000, -0.000002280000, -0.000012020000,
+                           -0.000050710000, -0.000185340000, -0.000603290000,
+                           -0.001806360000, -0.004949810000, -0.012468970000,
+                           -0.027937610000, -0.055099580000, -0.089952160000,
+                           -0.119472960000, -0.068522470000, 0.169982010000,
+                           0.439594300000, 0.426250990000, 0.112962800000},
+                         std::vector<double>{
+                           639096.48000000, 95681.51400000, 21773.08300000,
+                           6167.29350000, 2012.08270000, 726.46850000,
+                           283.44690000, 117.53123000, 51.30763000, 23.34431800,
+                           10.96337500, 5.29336700, 2.62057200, 1.30393200,
+                           0.55166600, 0.25708500, 0.11862700, 0.05444500});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.62057200});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.30393200});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.55166600});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.25708500});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.11862700});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.05444500});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.02498800});
+            rv.add_shell(
+              ShellType::pure, 1,
+              std::vector<double>{
+                0.000025350000, 0.000224580000, 0.001253390000, 0.005098200000,
+                0.016051880000, 0.043033150000, 0.102015140000, 0.197521530000,
+                0.296953620000, 0.324693860000, 0.206064600000, 0.042897480000},
+              std::vector<double>{503.76954000, 119.03181000, 38.64227200,
+                                  14.75279300, 6.19078900, 2.75602700,
+                                  1.28677300, 0.62256700, 0.30453800,
+                                  0.14898700, 0.07287700, 0.03492200});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.28677300});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.62256700});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.30453800});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.14898700});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.07287700});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.03492200});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.01673400});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{3.60597800});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.71900300});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.81946500});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.39064600});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.18622500});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.08877500});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.04232000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.18086800});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.14964200});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.60603300});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.31947000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.16840800});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.08877600});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.33466500});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.19782800});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.61456000});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.31530700});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.16177200});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.88024500});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.92980800});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.45980300});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.22737900});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.56820300});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.69701100});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.30979700});
+            rv.add_shell(ShellType::pure, 8,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.29200000});
+            rv.add_shell(ShellType::pure, 8,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.57420000});
+            return rv;
+        } // End case
         case(6): {
-            return AOBasisSet{
-              AOShell{
-                0,
-                AOPrimitive{949028.80000000, 0.000001400000},
-                AOPrimitive{142083.00000000, 0.000011000000},
-                AOPrimitive{32332.47000000, 0.000057800000},
-                AOPrimitive{9158.11700000, 0.000244400000},
-                AOPrimitive{2987.90900000, 0.000891000000},
-                AOPrimitive{1078.78800000, 0.002904000000},
-                AOPrimitive{420.83080000, 0.008631000000},
-                AOPrimitive{174.60030000, 0.023529000000},
-                AOPrimitive{76.18292000, 0.058161000000},
-                AOPrimitive{34.63588000, 0.126624000000},
-                AOPrimitive{16.27076000, 0.230465000000},
-                AOPrimitive{7.85547900, 0.319297000000},
-                AOPrimitive{3.88217200, 0.274295000000},
-                AOPrimitive{1.92833400, 0.102252000000},
-                AOPrimitive{0.83580600, 0.007862000000},
-                AOPrimitive{0.38629100, 0.000006800000},
-                AOPrimitive{0.17686000, 0.000369000000},
-                AOPrimitive{0.08025200, -0.000012400000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{949028.80000000, -0.000000300000},
-                AOPrimitive{142083.00000000, -0.000002300000},
-                AOPrimitive{32332.47000000, -0.000012300000},
-                AOPrimitive{9158.11700000, -0.000052000000},
-                AOPrimitive{2987.90900000, -0.000190000000},
-                AOPrimitive{1078.78800000, -0.000620000000},
-                AOPrimitive{420.83080000, -0.001855000000},
-                AOPrimitive{174.60030000, -0.005092000000},
-                AOPrimitive{76.18292000, -0.012916000000},
-                AOPrimitive{34.63588000, -0.029230000000},
-                AOPrimitive{16.27076000, -0.058414000000},
-                AOPrimitive{7.85547900, -0.096655000000},
-                AOPrimitive{3.88217200, -0.126064000000},
-                AOPrimitive{1.92833400, -0.061722000000},
-                AOPrimitive{0.83580600, 0.188828000000},
-                AOPrimitive{0.38629100, 0.446116000000},
-                AOPrimitive{0.17686000, 0.411335000000},
-                AOPrimitive{0.08025200, 0.106552000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{3.88217200, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{1.92833400, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.83580600, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.38629100, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.17686000, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.08025200, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.03210080, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{765.45530000, 0.000027200000},
-                AOPrimitive{180.86280000, 0.000241000000},
-                AOPrimitive{58.71441000, 0.001357000000},
-                AOPrimitive{22.41625000, 0.005620000000},
-                AOPrimitive{9.40621400, 0.018267000000},
-                AOPrimitive{4.18719800, 0.050019000000},
-                AOPrimitive{1.95587600, 0.116408000000},
-                AOPrimitive{0.94533600, 0.214466000000},
-                AOPrimitive{0.46276300, 0.301168000000},
-                AOPrimitive{0.22679600, 0.308045000000},
-                AOPrimitive{0.11059200, 0.188475000000},
-                AOPrimitive{0.05240000, 0.039622000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{1.95587600, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.94533600, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.46276300, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.22679600, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.11059200, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.05240000, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.01940700, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{5.80319000, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{2.75811000, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{1.31086000, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.62302000, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.29610000, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.14073000, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.05840000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{3.31553000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{1.74776000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.92133000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.48567000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.25602000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.11020000, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{3.62722000, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{1.83501000, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{0.92833000, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{0.46964000, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{0.21720000, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{2.75639000, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{1.36308000, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{0.67407000, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{0.34760000, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{2.37436000, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{1.05532000, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{0.58500000, 1.000000000000},
-              },
-              AOShell{
-                8,
-                AOPrimitive{1.95600000, 1.000000000000},
-              },
-              AOShell{
-                8,
-                AOPrimitive{0.97800000, 1.000000000000},
-              },
-            }; // End AOBasis
-        }      // End case
+            Center<double> rv(0.0, 0.0, 0.0);
+            rv.add_shell(
+              ShellType::pure, 0,
+              std::vector<double>{
+                0.000001400000, 0.000011000000, 0.000057800000, 0.000244400000,
+                0.000891000000, 0.002904000000, 0.008631000000, 0.023529000000,
+                0.058161000000, 0.126624000000, 0.230465000000, 0.319297000000,
+                0.274295000000, 0.102252000000, 0.007862000000, 0.000006800000,
+                0.000369000000, -0.000012400000},
+              std::vector<double>{
+                949028.80000000, 142083.00000000, 32332.47000000, 9158.11700000,
+                2987.90900000, 1078.78800000, 420.83080000, 174.60030000,
+                76.18292000, 34.63588000, 16.27076000, 7.85547900, 3.88217200,
+                1.92833400, 0.83580600, 0.38629100, 0.17686000, 0.08025200});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{
+                           -0.000000300000, -0.000002300000, -0.000012300000,
+                           -0.000052000000, -0.000190000000, -0.000620000000,
+                           -0.001855000000, -0.005092000000, -0.012916000000,
+                           -0.029230000000, -0.058414000000, -0.096655000000,
+                           -0.126064000000, -0.061722000000, 0.188828000000,
+                           0.446116000000, 0.411335000000, 0.106552000000},
+                         std::vector<double>{
+                           949028.80000000, 142083.00000000, 32332.47000000,
+                           9158.11700000, 2987.90900000, 1078.78800000,
+                           420.83080000, 174.60030000, 76.18292000, 34.63588000,
+                           16.27076000, 7.85547900, 3.88217200, 1.92833400,
+                           0.83580600, 0.38629100, 0.17686000, 0.08025200});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{3.88217200});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.92833400});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.83580600});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.38629100});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.17686000});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.08025200});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.03210080});
+            rv.add_shell(
+              ShellType::pure, 1,
+              std::vector<double>{
+                0.000027200000, 0.000241000000, 0.001357000000, 0.005620000000,
+                0.018267000000, 0.050019000000, 0.116408000000, 0.214466000000,
+                0.301168000000, 0.308045000000, 0.188475000000, 0.039622000000},
+              std::vector<double>{765.45530000, 180.86280000, 58.71441000,
+                                  22.41625000, 9.40621400, 4.18719800,
+                                  1.95587600, 0.94533600, 0.46276300,
+                                  0.22679600, 0.11059200, 0.05240000});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.95587600});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.94533600});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.46276300});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.22679600});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.11059200});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.05240000});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.01940700});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{5.80319000});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.75811000});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.31086000});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.62302000});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.29610000});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.14073000});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.05840000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{3.31553000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.74776000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.92133000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.48567000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.25602000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.11020000});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{3.62722000});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.83501000});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.92833000});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.46964000});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.21720000});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.75639000});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.36308000});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.67407000});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.34760000});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.37436000});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.05532000});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.58500000});
+            rv.add_shell(ShellType::pure, 8,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.95600000});
+            rv.add_shell(ShellType::pure, 8,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.97800000});
+            return rv;
+        } // End case
         case(7): {
-            return AOBasisSet{
-              AOShell{
-                0,
-                AOPrimitive{1296296.00000000, 0.000001400000},
-                AOPrimitive{194068.60000000, 0.000011000000},
-                AOPrimitive{44160.57000000, 0.000058000000},
-                AOPrimitive{12507.72000000, 0.000245000000},
-                AOPrimitive{4080.47600000, 0.000893000000},
-                AOPrimitive{1473.14000000, 0.002913000000},
-                AOPrimitive{574.60660000, 0.008664000000},
-                AOPrimitive{238.37000000, 0.023635000000},
-                AOPrimitive{103.99360000, 0.058518000000},
-                AOPrimitive{47.27944000, 0.127728700000},
-                AOPrimitive{22.21871000, 0.232873700000},
-                AOPrimitive{10.73569000, 0.321117000000},
-                AOPrimitive{5.30885600, 0.271316700000},
-                AOPrimitive{2.63917700, 0.098530800000},
-                AOPrimitive{1.16576400, 0.007888600000},
-                AOPrimitive{0.53709100, 0.000312500000},
-                AOPrimitive{0.24490400, 0.000364000000},
-                AOPrimitive{0.11027100, 0.000072700000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{1296296.00000000, -0.000000310000},
-                AOPrimitive{194068.60000000, -0.000002430000},
-                AOPrimitive{44160.57000000, -0.000012790000},
-                AOPrimitive{12507.72000000, -0.000053990000},
-                AOPrimitive{4080.47600000, -0.000197300000},
-                AOPrimitive{1473.14000000, -0.000643200000},
-                AOPrimitive{574.60660000, -0.001926400000},
-                AOPrimitive{238.37000000, -0.005294800000},
-                AOPrimitive{103.99360000, -0.013458800000},
-                AOPrimitive{47.27944000, -0.030612900000},
-                AOPrimitive{22.21871000, -0.061511300000},
-                AOPrimitive{10.73569000, -0.102005500000},
-                AOPrimitive{5.30885600, -0.129501400000},
-                AOPrimitive{2.63917700, -0.053703200000},
-                AOPrimitive{1.16576400, 0.202976500000},
-                AOPrimitive{0.53709100, 0.448574700000},
-                AOPrimitive{0.24490400, 0.400313860000},
-                AOPrimitive{0.11027100, 0.102452920000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{5.30885600, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{2.63917700, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{1.16576400, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.53709100, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.24490400, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.11027100, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.01901220, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{1094.96000000, 0.000027600000},
-                AOPrimitive{258.66110000, 0.000245000000},
-                AOPrimitive{83.85255000, 0.001392000000},
-                AOPrimitive{31.96225000, 0.005859000000},
-                AOPrimitive{13.41121000, 0.019413000000},
-                AOPrimitive{5.98547100, 0.053599800000},
-                AOPrimitive{2.80363000, 0.123195600000},
-                AOPrimitive{1.35573600, 0.221569000000},
-                AOPrimitive{0.66239600, 0.302409500000},
-                AOPrimitive{0.32291200, 0.300986400000},
-                AOPrimitive{0.15592100, 0.181791800000},
-                AOPrimitive{0.07282000, 0.038742000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{2.80363000, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{1.35573600, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.66239600, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.32291200, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.15592100, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.07282000, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.02697040, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{8.59142980, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{4.03353510, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{1.89367850, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.88905090, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.41739480, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.19596000, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.07536920, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{5.73890020, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{2.77241560, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{1.33933120, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.64701990, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.31257000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.12021920, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{5.53680240, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{2.58729080, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{1.20901440, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{0.56496000, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{0.24563480, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{4.21812880, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{2.08714940, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{1.03273000, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{0.51636500, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{3.45000000, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{1.58000000, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{0.79000000, 1.000000000000},
-              },
-              AOShell{
-                8,
-                AOPrimitive{2.37900000, 1.000000000000},
-              },
-              AOShell{
-                8,
-                AOPrimitive{0.97700000, 1.000000000000},
-              },
-            }; // End AOBasis
-        }      // End case
+            Center<double> rv(0.0, 0.0, 0.0);
+            rv.add_shell(
+              ShellType::pure, 0,
+              std::vector<double>{
+                0.000001400000, 0.000011000000, 0.000058000000, 0.000245000000,
+                0.000893000000, 0.002913000000, 0.008664000000, 0.023635000000,
+                0.058518000000, 0.127728700000, 0.232873700000, 0.321117000000,
+                0.271316700000, 0.098530800000, 0.007888600000, 0.000312500000,
+                0.000364000000, 0.000072700000},
+              std::vector<double>{
+                1296296.00000000, 194068.60000000, 44160.57000000,
+                12507.72000000, 4080.47600000, 1473.14000000, 574.60660000,
+                238.37000000, 103.99360000, 47.27944000, 22.21871000,
+                10.73569000, 5.30885600, 2.63917700, 1.16576400, 0.53709100,
+                0.24490400, 0.11027100});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{
+                           -0.000000310000, -0.000002430000, -0.000012790000,
+                           -0.000053990000, -0.000197300000, -0.000643200000,
+                           -0.001926400000, -0.005294800000, -0.013458800000,
+                           -0.030612900000, -0.061511300000, -0.102005500000,
+                           -0.129501400000, -0.053703200000, 0.202976500000,
+                           0.448574700000, 0.400313860000, 0.102452920000},
+                         std::vector<double>{
+                           1296296.00000000, 194068.60000000, 44160.57000000,
+                           12507.72000000, 4080.47600000, 1473.14000000,
+                           574.60660000, 238.37000000, 103.99360000,
+                           47.27944000, 22.21871000, 10.73569000, 5.30885600,
+                           2.63917700, 1.16576400, 0.53709100, 0.24490400,
+                           0.11027100});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{5.30885600});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.63917700});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.16576400});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.53709100});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.24490400});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.11027100});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.01901220});
+            rv.add_shell(
+              ShellType::pure, 1,
+              std::vector<double>{
+                0.000027600000, 0.000245000000, 0.001392000000, 0.005859000000,
+                0.019413000000, 0.053599800000, 0.123195600000, 0.221569000000,
+                0.302409500000, 0.300986400000, 0.181791800000, 0.038742000000},
+              std::vector<double>{1094.96000000, 258.66110000, 83.85255000,
+                                  31.96225000, 13.41121000, 5.98547100,
+                                  2.80363000, 1.35573600, 0.66239600,
+                                  0.32291200, 0.15592100, 0.07282000});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.80363000});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.35573600});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.66239600});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.32291200});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.15592100});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.07282000});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.02697040});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{8.59142980});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{4.03353510});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.89367850});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.88905090});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.41739480});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.19596000});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.07536920});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{5.73890020});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.77241560});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.33933120});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.64701990});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.31257000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.12021920});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{5.53680240});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.58729080});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.20901440});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.56496000});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.24563480});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{4.21812880});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.08714940});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.03273000});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.51636500});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{3.45000000});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.58000000});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.79000000});
+            rv.add_shell(ShellType::pure, 8,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.37900000});
+            rv.add_shell(ShellType::pure, 8,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.97700000});
+            return rv;
+        } // End case
         case(8): {
-            return AOBasisSet{
-              AOShell{
-                0,
-                AOPrimitive{1678789.00000000, 0.000001400000},
-                AOPrimitive{251388.20000000, 0.000011200000},
-                AOPrimitive{57213.73000000, 0.000058900000},
-                AOPrimitive{16207.44000000, 0.000249000000},
-                AOPrimitive{5288.27600000, 0.000907000000},
-                AOPrimitive{1909.47800000, 0.002957000000},
-                AOPrimitive{744.92310000, 0.008791000000},
-                AOPrimitive{309.07550000, 0.023980000000},
-                AOPrimitive{134.86450000, 0.059381000000},
-                AOPrimitive{61.33129000, 0.129650000000},
-                AOPrimitive{28.83796000, 0.236064000000},
-                AOPrimitive{13.94504000, 0.322921000000},
-                AOPrimitive{6.89907700, 0.267395000000},
-                AOPrimitive{3.43157700, 0.093844000000},
-                AOPrimitive{1.53984000, 0.007533000000},
-                AOPrimitive{0.70975100, 0.000632000000},
-                AOPrimitive{0.32304700, 0.000356000000},
-                AOPrimitive{0.14422200, 0.000033000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{1678789.00000000, -0.000000300000},
-                AOPrimitive{251388.20000000, -0.000002500000},
-                AOPrimitive{57213.73000000, -0.000013400000},
-                AOPrimitive{16207.44000000, -0.000056000000},
-                AOPrimitive{5288.27600000, -0.000206000000},
-                AOPrimitive{1909.47800000, -0.000672000000},
-                AOPrimitive{744.92310000, -0.002013000000},
-                AOPrimitive{309.07550000, -0.005535000000},
-                AOPrimitive{134.86450000, -0.014079000000},
-                AOPrimitive{61.33129000, -0.032113000000},
-                AOPrimitive{28.83796000, -0.064676000000},
-                AOPrimitive{13.94504000, -0.107154000000},
-                AOPrimitive{6.89907700, -0.132438000000},
-                AOPrimitive{3.43157700, -0.045655000000},
-                AOPrimitive{1.53984000, 0.218384000000},
-                AOPrimitive{0.70975100, 0.453379000000},
-                AOPrimitive{0.32304700, 0.387353000000},
-                AOPrimitive{0.14422200, 0.095866000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{6.89907700, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{3.43157700, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{1.53984000, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.70975100, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.32304700, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.14422200, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.05547000, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{1349.05900000, 0.000032300000},
-                AOPrimitive{319.45690000, 0.000286000000},
-                AOPrimitive{103.78040000, 0.001616000000},
-                AOPrimitive{39.62821000, 0.006785000000},
-                AOPrimitive{16.66137000, 0.022499000000},
-                AOPrimitive{7.46416600, 0.061674000000},
-                AOPrimitive{3.50932500, 0.136845000000},
-                AOPrimitive{1.69568000, 0.232486000000},
-                AOPrimitive{0.82274200, 0.299821000000},
-                AOPrimitive{0.39573300, 0.288244000000},
-                AOPrimitive{0.18764400, 0.174555000000},
-                AOPrimitive{0.08584100, 0.038727000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{3.50932500, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{1.69568000, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.82274200, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.39573300, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.18764400, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.08584100, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.02861370, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{10.06429300, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{4.84325940, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{2.33073120, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{1.12162230, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.53976050, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.25975000, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.10390000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{6.91170870, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{3.41994490, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{1.69220430, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.83731040, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.41430500, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.17262700, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{7.23799490, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{3.41575980, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{1.61196780, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{0.76072100, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{0.34578200, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{5.73310920, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{2.58248160, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{1.16328000, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{0.58164000, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{4.81300000, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{2.07800000, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{1.03900000, 1.000000000000},
-              },
-              AOShell{
-                8,
-                AOPrimitive{3.12300000, 1.000000000000},
-              },
-              AOShell{
-                8,
-                AOPrimitive{1.23200000, 1.000000000000},
-              },
-            }; // End AOBasis
-        }      // End case
+            Center<double> rv(0.0, 0.0, 0.0);
+            rv.add_shell(
+              ShellType::pure, 0,
+              std::vector<double>{
+                0.000001400000, 0.000011200000, 0.000058900000, 0.000249000000,
+                0.000907000000, 0.002957000000, 0.008791000000, 0.023980000000,
+                0.059381000000, 0.129650000000, 0.236064000000, 0.322921000000,
+                0.267395000000, 0.093844000000, 0.007533000000, 0.000632000000,
+                0.000356000000, 0.000033000000},
+              std::vector<double>{
+                1678789.00000000, 251388.20000000, 57213.73000000,
+                16207.44000000, 5288.27600000, 1909.47800000, 744.92310000,
+                309.07550000, 134.86450000, 61.33129000, 28.83796000,
+                13.94504000, 6.89907700, 3.43157700, 1.53984000, 0.70975100,
+                0.32304700, 0.14422200});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{
+                           -0.000000300000, -0.000002500000, -0.000013400000,
+                           -0.000056000000, -0.000206000000, -0.000672000000,
+                           -0.002013000000, -0.005535000000, -0.014079000000,
+                           -0.032113000000, -0.064676000000, -0.107154000000,
+                           -0.132438000000, -0.045655000000, 0.218384000000,
+                           0.453379000000, 0.387353000000, 0.095866000000},
+                         std::vector<double>{
+                           1678789.00000000, 251388.20000000, 57213.73000000,
+                           16207.44000000, 5288.27600000, 1909.47800000,
+                           744.92310000, 309.07550000, 134.86450000,
+                           61.33129000, 28.83796000, 13.94504000, 6.89907700,
+                           3.43157700, 1.53984000, 0.70975100, 0.32304700,
+                           0.14422200});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{6.89907700});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{3.43157700});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.53984000});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.70975100});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.32304700});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.14422200});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.05547000});
+            rv.add_shell(
+              ShellType::pure, 1,
+              std::vector<double>{
+                0.000032300000, 0.000286000000, 0.001616000000, 0.006785000000,
+                0.022499000000, 0.061674000000, 0.136845000000, 0.232486000000,
+                0.299821000000, 0.288244000000, 0.174555000000, 0.038727000000},
+              std::vector<double>{1349.05900000, 319.45690000, 103.78040000,
+                                  39.62821000, 16.66137000, 7.46416600,
+                                  3.50932500, 1.69568000, 0.82274200,
+                                  0.39573300, 0.18764400, 0.08584100});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{3.50932500});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.69568000});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.82274200});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.39573300});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.18764400});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.08584100});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.02861370});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{10.06429300});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{4.84325940});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.33073120});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.12162230});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.53976050});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.25975000});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.10390000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{6.91170870});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{3.41994490});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.69220430});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.83731040});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.41430500});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.17262700});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{7.23799490});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{3.41575980});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.61196780});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.76072100});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.34578200});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{5.73310920});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.58248160});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.16328000});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.58164000});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{4.81300000});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.07800000});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.03900000});
+            rv.add_shell(ShellType::pure, 8,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{3.12300000});
+            rv.add_shell(ShellType::pure, 8,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.23200000});
+            return rv;
+        } // End case
         case(9): {
-            return AOBasisSet{
-              AOShell{
-                0,
-                AOPrimitive{2115112.00000000, 0.000001500000},
-                AOPrimitive{316699.70000000, 0.000011300000},
-                AOPrimitive{72075.71000000, 0.000059500000},
-                AOPrimitive{20416.83000000, 0.000251400000},
-                AOPrimitive{6661.45800000, 0.000916000000},
-                AOPrimitive{2405.18800000, 0.002986000000},
-                AOPrimitive{938.25950000, 0.008881900000},
-                AOPrimitive{389.27100000, 0.024232100000},
-                AOPrimitive{169.84990000, 0.060030100000},
-                AOPrimitive{77.24367000, 0.131135500000},
-                AOPrimitive{36.32874000, 0.238563200000},
-                AOPrimitive{17.57387000, 0.324307500000},
-                AOPrimitive{8.69353000, 0.264376300000},
-                AOPrimitive{4.32176900, 0.090284300000},
-                AOPrimitive{1.95952000, 0.007258300000},
-                AOPrimitive{0.90318500, 0.000828800000},
-                AOPrimitive{0.41040500, 0.000349600000},
-                AOPrimitive{0.18202400, 0.000049500000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{2115112.00000000, -0.000000340000},
-                AOPrimitive{316699.70000000, -0.000002620000},
-                AOPrimitive{72075.71000000, -0.000013780000},
-                AOPrimitive{20416.83000000, -0.000058170000},
-                AOPrimitive{6661.45800000, -0.000212420000},
-                AOPrimitive{2405.18800000, -0.000692810000},
-                AOPrimitive{938.25950000, -0.002074600000},
-                AOPrimitive{389.27100000, -0.005709740000},
-                AOPrimitive{169.84990000, -0.014535600000},
-                AOPrimitive{77.24367000, -0.033235000000},
-                AOPrimitive{36.32874000, -0.067066200000},
-                AOPrimitive{17.57387000, -0.110984000000},
-                AOPrimitive{8.69353000, -0.134145690000},
-                AOPrimitive{4.32176900, -0.038740900000},
-                AOPrimitive{1.95952000, 0.229726550000},
-                AOPrimitive{0.90318500, 0.455727530000},
-                AOPrimitive{0.41040500, 0.377822220000},
-                AOPrimitive{0.18202400, 0.091345150000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{8.69353000, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{4.32176900, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{1.95952000, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.90318500, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.41040500, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.18202400, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.07000900, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{1687.71800000, 0.000034600000},
-                AOPrimitive{399.65170000, 0.000305800000},
-                AOPrimitive{129.82670000, 0.001731300000},
-                AOPrimitive{49.57826000, 0.007297500000},
-                AOPrimitive{20.86193000, 0.024312600000},
-                AOPrimitive{9.36556400, 0.066434100000},
-                AOPrimitive{4.40997700, 0.144517500000},
-                AOPrimitive{2.12837600, 0.238386700000},
-                AOPrimitive{1.02828800, 0.298533000000},
-                AOPrimitive{0.49075700, 0.281141400000},
-                AOPrimitive{0.23007300, 0.169978100000},
-                AOPrimitive{0.10376600, 0.038581900000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{4.40997700, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{2.12837600, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{1.02828800, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.49075700, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.23007300, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.10376600, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.03458900, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{12.63449500, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{6.11247920, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{2.95717430, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{1.43066000, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.69214320, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.33485400, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.13394200, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{11.64432400, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{5.57144690, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{2.66576410, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{1.27548520, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.61028000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.25428300, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{8.28639530, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{3.91052160, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{1.84545620, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{0.87090900, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{0.39586770, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{7.76269690, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{3.48103000, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{1.56100000, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{0.78050000, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{5.53000000, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{2.16000000, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{1.08000000, 1.000000000000},
-              },
-              AOShell{
-                8,
-                AOPrimitive{4.25600000, 1.000000000000},
-              },
-              AOShell{
-                8,
-                AOPrimitive{1.59700000, 1.000000000000},
-              },
-            }; // End AOBasis
-        }      // End case
+            Center<double> rv(0.0, 0.0, 0.0);
+            rv.add_shell(
+              ShellType::pure, 0,
+              std::vector<double>{
+                0.000001500000, 0.000011300000, 0.000059500000, 0.000251400000,
+                0.000916000000, 0.002986000000, 0.008881900000, 0.024232100000,
+                0.060030100000, 0.131135500000, 0.238563200000, 0.324307500000,
+                0.264376300000, 0.090284300000, 0.007258300000, 0.000828800000,
+                0.000349600000, 0.000049500000},
+              std::vector<double>{
+                2115112.00000000, 316699.70000000, 72075.71000000,
+                20416.83000000, 6661.45800000, 2405.18800000, 938.25950000,
+                389.27100000, 169.84990000, 77.24367000, 36.32874000,
+                17.57387000, 8.69353000, 4.32176900, 1.95952000, 0.90318500,
+                0.41040500, 0.18202400});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{
+                           -0.000000340000, -0.000002620000, -0.000013780000,
+                           -0.000058170000, -0.000212420000, -0.000692810000,
+                           -0.002074600000, -0.005709740000, -0.014535600000,
+                           -0.033235000000, -0.067066200000, -0.110984000000,
+                           -0.134145690000, -0.038740900000, 0.229726550000,
+                           0.455727530000, 0.377822220000, 0.091345150000},
+                         std::vector<double>{
+                           2115112.00000000, 316699.70000000, 72075.71000000,
+                           20416.83000000, 6661.45800000, 2405.18800000,
+                           938.25950000, 389.27100000, 169.84990000,
+                           77.24367000, 36.32874000, 17.57387000, 8.69353000,
+                           4.32176900, 1.95952000, 0.90318500, 0.41040500,
+                           0.18202400});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{8.69353000});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{4.32176900});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.95952000});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.90318500});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.41040500});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.18202400});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.07000900});
+            rv.add_shell(
+              ShellType::pure, 1,
+              std::vector<double>{
+                0.000034600000, 0.000305800000, 0.001731300000, 0.007297500000,
+                0.024312600000, 0.066434100000, 0.144517500000, 0.238386700000,
+                0.298533000000, 0.281141400000, 0.169978100000, 0.038581900000},
+              std::vector<double>{1687.71800000, 399.65170000, 129.82670000,
+                                  49.57826000, 20.86193000, 9.36556400,
+                                  4.40997700, 2.12837600, 1.02828800,
+                                  0.49075700, 0.23007300, 0.10376600});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{4.40997700});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.12837600});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.02828800});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.49075700});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.23007300});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.10376600});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.03458900});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{12.63449500});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{6.11247920});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.95717430});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.43066000});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.69214320});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.33485400});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.13394200});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{11.64432400});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{5.57144690});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.66576410});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.27548520});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.61028000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.25428300});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{8.28639530});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{3.91052160});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.84545620});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.87090900});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.39586770});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{7.76269690});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{3.48103000});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.56100000});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.78050000});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{5.53000000});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.16000000});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.08000000});
+            rv.add_shell(ShellType::pure, 8,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{4.25600000});
+            rv.add_shell(ShellType::pure, 8,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.59700000});
+            return rv;
+        } // End case
         case(10): {
-            return AOBasisSet{
-              AOShell{
-                0,
-                AOPrimitive{2636740.00000000, 0.000001440000},
-                AOPrimitive{394695.00000000, 0.000011220000},
-                AOPrimitive{89814.20000000, 0.000058990000},
-                AOPrimitive{25439.50000000, 0.000249480000},
-                AOPrimitive{8292.48000000, 0.000910340000},
-                AOPrimitive{2991.77000000, 0.002970990000},
-                AOPrimitive{1166.58000000, 0.008836340000},
-                AOPrimitive{483.92700000, 0.024128060000},
-                AOPrimitive{211.04900000, 0.059888510000},
-                AOPrimitive{95.96840000, 0.130974150000},
-                AOPrimitive{45.17840000, 0.238356210000},
-                AOPrimitive{21.88590000, 0.324182820000},
-                AOPrimitive{10.83230000, 0.264520520000},
-                AOPrimitive{5.38014000, 0.090492150000},
-                AOPrimitive{2.43637000, 0.007440550000},
-                AOPrimitive{1.11925000, 0.000920980000},
-                AOPrimitive{0.50669700, 0.000367010000},
-                AOPrimitive{0.22345000, 0.000054930000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{2636740.00000000, -0.000000340000},
-                AOPrimitive{394695.00000000, -0.000002630000},
-                AOPrimitive{89814.20000000, -0.000013860000},
-                AOPrimitive{25439.50000000, -0.000058570000},
-                AOPrimitive{8292.48000000, -0.000214200000},
-                AOPrimitive{2991.77000000, -0.000699200000},
-                AOPrimitive{1166.58000000, -0.002094490000},
-                AOPrimitive{483.92700000, -0.005769250000},
-                AOPrimitive{211.04900000, -0.014722180000},
-                AOPrimitive{95.96840000, -0.033720660000},
-                AOPrimitive{45.17840000, -0.068187320000},
-                AOPrimitive{21.88590000, -0.112897020000},
-                AOPrimitive{10.83230000, -0.135574070000},
-                AOPrimitive{5.38014000, -0.035597710000},
-                AOPrimitive{2.43637000, 0.237542910000},
-                AOPrimitive{1.11925000, 0.458344790000},
-                AOPrimitive{0.50669700, 0.370962150000},
-                AOPrimitive{0.22345000, 0.087667750000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{10.83230000, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{5.38014000, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{2.43637000, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{1.11925000, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.50669700, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.22345000, 1.000000000000},
-              },
-              AOShell{
-                0,
-                AOPrimitive{0.10115800, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{2081.84000000, 0.000035900000},
-                AOPrimitive{494.12400000, 0.000316530000},
-                AOPrimitive{160.70800000, 0.001792150000},
-                AOPrimitive{61.41720000, 0.007579340000},
-                AOPrimitive{25.86760000, 0.025395680000},
-                AOPrimitive{11.61990000, 0.069519430000},
-                AOPrimitive{5.46353000, 0.150087390000},
-                AOPrimitive{2.62574000, 0.243800850000},
-                AOPrimitive{1.26106000, 0.299199320000},
-                AOPrimitive{0.59777800, 0.276037990000},
-                AOPrimitive{0.27813600, 0.164642160000},
-                AOPrimitive{0.12436200, 0.037328710000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{5.46353000, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{2.62574000, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{1.26106000, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.59777800, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.27813600, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.12436200, 1.000000000000},
-              },
-              AOShell{
-                1,
-                AOPrimitive{0.05786400, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{16.27000000, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{7.80882000, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{3.74786000, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{1.79879000, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.86333600, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.41436000, 1.000000000000},
-              },
-              AOShell{
-                2,
-                AOPrimitive{0.18997400, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{17.00780000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{7.96028000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{3.72569000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{1.74376000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.81614000, 1.000000000000},
-              },
-              AOShell{
-                3,
-                AOPrimitive{0.38198400, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{10.10510000, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{4.82848000, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{2.30718000, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{1.10243000, 1.000000000000},
-              },
-              AOShell{
-                4,
-                AOPrimitive{0.52677100, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{9.85490000, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{4.45959000, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{2.01808000, 1.000000000000},
-              },
-              AOShell{
-                5,
-                AOPrimitive{0.91323200, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{7.28237000, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{2.92594000, 1.000000000000},
-              },
-              AOShell{
-                6,
-                AOPrimitive{1.17559600, 1.000000000000},
-              },
-              AOShell{
-                8,
-                AOPrimitive{5.25600000, 1.000000000000},
-              },
-              AOShell{
-                8,
-                AOPrimitive{1.97400000, 1.000000000000},
-              },
-            }; // End AOBasis
-        }      // End case
+            Center<double> rv(0.0, 0.0, 0.0);
+            rv.add_shell(
+              ShellType::pure, 0,
+              std::vector<double>{
+                0.000001440000, 0.000011220000, 0.000058990000, 0.000249480000,
+                0.000910340000, 0.002970990000, 0.008836340000, 0.024128060000,
+                0.059888510000, 0.130974150000, 0.238356210000, 0.324182820000,
+                0.264520520000, 0.090492150000, 0.007440550000, 0.000920980000,
+                0.000367010000, 0.000054930000},
+              std::vector<double>{
+                2636740.00000000, 394695.00000000, 89814.20000000,
+                25439.50000000, 8292.48000000, 2991.77000000, 1166.58000000,
+                483.92700000, 211.04900000, 95.96840000, 45.17840000,
+                21.88590000, 10.83230000, 5.38014000, 2.43637000, 1.11925000,
+                0.50669700, 0.22345000});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{
+                           -0.000000340000, -0.000002630000, -0.000013860000,
+                           -0.000058570000, -0.000214200000, -0.000699200000,
+                           -0.002094490000, -0.005769250000, -0.014722180000,
+                           -0.033720660000, -0.068187320000, -0.112897020000,
+                           -0.135574070000, -0.035597710000, 0.237542910000,
+                           0.458344790000, 0.370962150000, 0.087667750000},
+                         std::vector<double>{
+                           2636740.00000000, 394695.00000000, 89814.20000000,
+                           25439.50000000, 8292.48000000, 2991.77000000,
+                           1166.58000000, 483.92700000, 211.04900000,
+                           95.96840000, 45.17840000, 21.88590000, 10.83230000,
+                           5.38014000, 2.43637000, 1.11925000, 0.50669700,
+                           0.22345000});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{10.83230000});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{5.38014000});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.43637000});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.11925000});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.50669700});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.22345000});
+            rv.add_shell(ShellType::pure, 0,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.10115800});
+            rv.add_shell(
+              ShellType::pure, 1,
+              std::vector<double>{
+                0.000035900000, 0.000316530000, 0.001792150000, 0.007579340000,
+                0.025395680000, 0.069519430000, 0.150087390000, 0.243800850000,
+                0.299199320000, 0.276037990000, 0.164642160000, 0.037328710000},
+              std::vector<double>{2081.84000000, 494.12400000, 160.70800000,
+                                  61.41720000, 25.86760000, 11.61990000,
+                                  5.46353000, 2.62574000, 1.26106000,
+                                  0.59777800, 0.27813600, 0.12436200});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{5.46353000});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.62574000});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.26106000});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.59777800});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.27813600});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.12436200});
+            rv.add_shell(ShellType::pure, 1,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.05786400});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{16.27000000});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{7.80882000});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{3.74786000});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.79879000});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.86333600});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.41436000});
+            rv.add_shell(ShellType::pure, 2,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.18997400});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{17.00780000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{7.96028000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{3.72569000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.74376000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.81614000});
+            rv.add_shell(ShellType::pure, 3,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.38198400});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{10.10510000});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{4.82848000});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.30718000});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.10243000});
+            rv.add_shell(ShellType::pure, 4,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.52677100});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{9.85490000});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{4.45959000});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.01808000});
+            rv.add_shell(ShellType::pure, 5,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{0.91323200});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{7.28237000});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{2.92594000});
+            rv.add_shell(ShellType::pure, 6,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.17559600});
+            rv.add_shell(ShellType::pure, 8,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{5.25600000});
+            rv.add_shell(ShellType::pure, 8,
+                         std::vector<double>{1.000000000000},
+                         std::vector<double>{1.97400000});
+            return rv;
+        } // End case
         default: { throw std::out_of_range("Basis not available for Z"); }
     } // end switch
 

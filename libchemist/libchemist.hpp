@@ -32,14 +32,13 @@ namespace libchemist {
  * @throw std::bad_alloc if there is insufficient memory to create the basis
  *        set.  Strong throw guarantee.
  */
-inline AOBasisSet apply_basis(const std::string& name, const Molecule& mol,
-                              const BasisSetManager& man = BasisSetManager()) {
-    AOBasisSet rv;
+inline auto apply_basis(const std::string& name, const Molecule& mol,
+                        const BasisSetManager& man = BasisSetManager()) {
+    AOBasisSet<double> rv;
     for(const auto& ai : mol) {
-        for(auto si : man.get_basis(name, ai.Z())) {
-            si.center() = ai.coords();
-            rv.push_back(si);
-        }
+        auto ci = man.get_basis(name, ai.Z());
+        for(auto i : {0, 1, 2}) ci.coord(i) = ai.coords()[i];
+        rv.add_center(ci);
     }
     return rv;
 }

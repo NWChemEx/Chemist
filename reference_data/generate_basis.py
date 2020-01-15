@@ -20,15 +20,23 @@ class Shell:
         self.gen = max(len(coefs), self.gen)
     def cxxify(self, tab, f):
         for i in range(self.gen):
-            f.write("{}AOShell{{{},\n".format(tab, self.l[i]))
+            l = self.l[i]
+            f.write("{}rv.add_shell(ShellType::pure, {},\n".format(tab, l))
+            cs = "std::vector<double>{"
+            es = "std::vector<double>{"
             for j,ai in enumerate(self.exp):
                 ci = self.coefs[j][i].replace('D', 'E').replace('E', 'e')
                 ai_f = ai.replace('D', 'E').replace('E', 'e')
-                f.write("{}AOPrimitive{{{}, {}}},\n".format(tab + "    ",
-                                                            ai_f, ci))
-            f.write("{}}}".format(tab))
-            if not i == self.gen -1:
-                f.write(",\n")
+                cs += ci
+                es += ai_f
+                if j < len(self.exp) - 1:
+                    cs += ','
+                    es += ','
+                else:
+                    cs += '}'
+                    es += '}'
+            f.write("{}    {},\n".format(tab, cs))
+            f.write("{}    {});\n".format(tab, es))
 
 def print_pimpl_header(f):
     f.write(
@@ -38,14 +46,15 @@ def print_pimpl_header(f):
  * this file will be lost next time generate_basis.py is run.
  */
        
-#include \"libchemist/detail_/BasisSetManagerPIMPL.hpp\"
-#include \"libchemist/defaults/NWXBasisList.hpp\"
+#include \"libchemist/detail_/basis_set_manager_pimpl.hpp\"
+#include \"libchemist/defaults/nwx_basis_list.hpp\"
         
 namespace libchemist::detail_ {
        
 class HardCodedBSMan : public BasisSetManagerPIMPL {
 public:
     HardCodedBSMan() = default;
+    using ao_basis_type = typename BasisSetManagerPIMPL::ao_basis_type;
 protected:
     HardCodedBSMan(const HardCodedBSMan& rhs) = default;
 private:
@@ -53,7 +62,8 @@ private:
         return std::unique_ptr<HardCodedBSMan>(new HardCodedBSMan(*this));
     }
             
-    AOBasisSet get_basis_(const std::string& name, size_type Z) const override {         
+    ao_basis_type get_basis_(const std::string& name, 
+                             size_type Z) const override {         
 """)
 
 def print_pimpl_footer(f):
@@ -76,11 +86,11 @@ def print_basis_header(f, bs_name):
  * this file will be lost next time generate_basis.py is run.
  */
  
-#include \"libchemist/defaults/NWXBasisList.hpp\"
+#include \"libchemist/defaults/nwx_basis_list.hpp\"
  
 namespace libchemist::detail_ {{
  
-AOBasisSet {}(std::size_t Z) {{
+Center<double> {}(std::size_t Z) {{
     switch(Z) {{         
 """.format(bs_name))
 
@@ -91,7 +101,7 @@ def print_basis_list(f):
  * this file will be lost next time generate_basis.py is run.
  */
          
-#include \"libchemist/AOBasisSet.hpp\"
+#include \"libchemist/basis_set/basis_set.hpp\"
 namespace libchemist::detail_ {
 """)
 
@@ -106,11 +116,12 @@ def print_basis_footer(f):
 
 def print_atom_basis(f, z, atom):
     tab = "    "
-    f.write("{}case({}) : {{\n{}return AOBasisSet{{\n".format(tab*2, z, tab*3))
+    f.write("{}case({}) : {{\n".format(tab*2, z))
+    f.write("{}Center<double> rv(0.0, 0.0, 0.0);\n".format(tab*3))
     for s in atom:
-        s.cxxify(tab*4,f)
-        f.write(",\n")
-    f.write("{}}}; //End AOBasis\n{}}} //End case\n".format(tab*3, tab*2))
+        s.cxxify(tab*3,f)
+    f.write("{}return rv;\n".format(tab*3))
+    f.write("{}}} //End case\n".format(tab*2))
 
 def sanitize_name(bs_name):
     temp = bs_name.replace("6-", "six_dash_")
@@ -137,7 +148,7 @@ def write_bases(out_dir, bases):
                 d_name = desanitize_name(bs_name)
                 f.write("if(name == \"{}\") {{ ".format(d_name))
                 f.write("return {}(Z); ".format(s_name))
-                g.write("AOBasisSet {}(std::size_t Z);\n".format(s_name))
+                g.write("Center<double> {}(std::size_t Z);\n".format(s_name))
                 bs_file_name = "{}.cpp".format(bs_name)
                 bs_path = os.path.join(out_dir,"bases", bs_file_name)
                 with open(bs_path, 'w') as h:
@@ -148,11 +159,6 @@ def write_bases(out_dir, bases):
                 f.write("}}\n{}else ".format(tab*2))
             g.write("} //end namespace\n")
         print_pimpl_footer(f)
-    with open(os.path.join(out_dir,"bases", "add_basis.cmake"), "w") as f:
-        f.write("set(LIBCHEMIST_BASIS_SOURCE\n")
-        for bs_name, bs in sorted(bases.items()):
-            f.write("    defaults/bases/{}.cpp\n".format(bs_name))
-        f.write(")")
 
 def parse_bases(basis_sets, sym2Z, l2num):
     new_atom = re.compile("^\s*\D{1,2}\s*0\s*$")
