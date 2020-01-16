@@ -14,8 +14,7 @@ option(BUILD_PYBINDINGS "Should we build Python3 bindings?" ON)
 
 cpp_find_or_build_dependency(
     sde
-    URL github.com/ryanmrichard/sde
-    VERSION new_cpp
+    URL github.com/NWChemEx-Project/sde
     PRIVATE TRUE
     BUILD_TARGET sde
     CMAKE_ARGS BUILD_TESTING=OFF
