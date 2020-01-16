@@ -3,7 +3,8 @@
 
 namespace libchemist {
 
-using size_type = std::size_t;
+using ao_basis_type = typename BasisSetManager::ao_basis_type;
+using size_type     = typename BasisSetManager::size_type;
 
 BasisSetManager::BasisSetManager() : pimpl_(detail_::nwx_default_bs()) {}
 BasisSetManager::BasisSetManager(const BasisSetManager& rhs) :
@@ -16,8 +17,8 @@ BasisSetManager& BasisSetManager::operator=(BasisSetManager&& rhs) noexcept =
   default;
 BasisSetManager::~BasisSetManager() noexcept = default;
 
-AOBasisSet BasisSetManager::get_basis(const std::string& name,
-                                      size_type Z) const {
+ao_basis_type BasisSetManager::get_basis(const std::string& name,
+                                         size_type Z) const {
     return pimpl_->get_basis(name, Z);
 }
 

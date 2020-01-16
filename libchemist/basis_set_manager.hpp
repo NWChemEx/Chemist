@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/ao_basis_set.hpp"
+#include "libchemist/basis_set/basis_set.hpp"
 #include <string>
 
 namespace libchemist {
@@ -24,6 +24,9 @@ class BasisSetManagerPIMPL;
  */
 class BasisSetManager {
 public:
+    /// The type of an atom's AO basis set
+    using ao_basis_type = Center<double>;
+
     /// The type of an atomic number
     using size_type = std::size_t;
 
@@ -65,7 +68,7 @@ public:
      * @throw std::bad_alloc if there is insufficient memory to make the basis
      *        set.  Strong throw guarantee.
      */
-    AOBasisSet get_basis(const std::string& name, size_type Z) const;
+    ao_basis_type get_basis(const std::string& name, size_type Z) const;
 
 private:
     /// The instance actually responsible for making the class run

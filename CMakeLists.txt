@@ -1,36 +1,51 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.14)
 project(libchemist VERSION 1.0.0)
-set(CPP_NAMESPACE libchemist)
-find_package(cpp REQUIRED)
-cpp_option(BUILD_TESTS ON)
 
-cpp_find_or_build_dependency(
-    NAME CMakeBuild
-    URL github.com/NWChemEx-Project/CMakeBuild
-    PRIVATE
-	CMAKE_ARGS BUILD_TESTS=OFF
+set(
+    CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${PROJECT_SOURCE_DIR}/cmake"
+    CACHE STRING "" FORCE
 )
 
-cpp_find_or_build_dependency(
-    NAME tamm
-    URL github.com/NWChemEx-Project/TAMM
-    PRIVATE
-    DEPENDS CMakeBuild
-    CMAKE_ARGS BUILD_TESTS=OFF
-)
+include(get_cpp)
+
+### Options ###
+option(BUILD_TESTING "Should we build the tests?" OFF)
+option(BUILD_PYBINDINGS "Should we build Python3 bindings?" ON)
 
 cpp_find_or_build_dependency(
-    NAME sde
+    sde
     URL github.com/NWChemEx-Project/sde
-    PRIVATE
-    CMAKE_ARGS BUILD_TESTS=OFF
+    PRIVATE TRUE
+    BUILD_TARGET sde
+    CMAKE_ARGS BUILD_TESTING=OFF
 )
 
-add_subdirectory(libchemist)
+cpp_find_or_build_dependency(
+    tiledarray
+    URL github.com/ValeevGroup/tiledarray
+    BUILD_TARGET tiledarray
+)
 
-### Testing ###
-if(BUILD_TESTS)
-    cpp_find_or_build_dependency(NAME Catch2 URL github.com/catchorg/Catch2)
-    enable_testing()
-    add_subdirectory(tests)
+cpp_add_library(
+    chemist
+    SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/libchemist"
+    INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/libchemist"
+    DEPENDS sde tiledarray
+)
+
+if("${BUILD_TESTING}")
+    cpp_find_or_build_dependency(
+        Catch2
+        URL github.com/catchorg/Catch2
+        BUILD_TARGET Catch2
+        FIND_TARGET Catch2::Catch2
+    )
+    cpp_add_tests(
+        test_chemist
+        SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/tests"
+        INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/libchemist"
+        DEPENDS Catch2 chemist
+    )
 endif()
+
+

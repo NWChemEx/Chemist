@@ -8,7 +8,8 @@ class BasisSetManagerPIMPL {
 public:
     /// Forward typedefs from main class
     ///@{
-    using size_type = typename BasisSetManager::size_type;
+    using ao_basis_type = typename BasisSetManager::ao_basis_type;
+    using size_type     = typename BasisSetManager::size_type;
     ///@}
 
     /// Type of a unique_ptr to this class
@@ -32,7 +33,7 @@ public:
 
     /// Functions comprising the public API of the PIMPL
     ///@{
-    AOBasisSet get_basis(const std::string& name, size_type Z) const {
+    ao_basis_type get_basis(const std::string& name, size_type Z) const {
         return get_basis_(name, Z);
     }
     ///@}
@@ -44,9 +45,9 @@ protected:
 private:
     /// Hooks to be implemented by derived class
     ///@{
-    virtual unique_me clone_() const                 = 0;
-    virtual AOBasisSet get_basis_(const std::string& name,
-                                  size_type Z) const = 0;
+    virtual unique_me clone_() const                    = 0;
+    virtual ao_basis_type get_basis_(const std::string& name,
+                                     size_type Z) const = 0;
     ///@}
 };
 

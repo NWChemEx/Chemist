@@ -11,7 +11,8 @@ namespace libchemist::detail_ {
 
 class HardCodedBSMan : public BasisSetManagerPIMPL {
 public:
-    HardCodedBSMan() = default;
+    HardCodedBSMan()    = default;
+    using ao_basis_type = typename BasisSetManagerPIMPL::ao_basis_type;
 
 protected:
     HardCodedBSMan(const HardCodedBSMan& rhs) = default;
@@ -21,7 +22,8 @@ private:
         return std::unique_ptr<HardCodedBSMan>(new HardCodedBSMan(*this));
     }
 
-    AOBasisSet get_basis_(const std::string& name, size_type Z) const override {
+    ao_basis_type get_basis_(const std::string& name,
+                             size_type Z) const override {
         if(name == "3-21++g") {
             return three_dash_21_plus__plus_g(Z);
         } else if(name == "3-21++g*") {
