@@ -1,8 +1,8 @@
 #pragma once
-#include <libchemist/ao_basis_set.hpp>
+#include <libchemist/basis_set/ao_basis_set/ao_basis_set.hpp>
 #include <libchemist/molecule.hpp>
 #include <sde/detail_/memoization.hpp>
-#include <tamm/tamm.hpp>
+#include <tiledarray.h>
 
 namespace libchemist {
 
@@ -21,11 +21,11 @@ namespace libchemist {
  *
  *
  * @tparam element_type
+ * @tparam tensor_type
  */
-template<typename element_type = double>
+template<typename element_type = double, typename tensor_type = TA::TArray<element_type>>
 struct OrbitalSpace {
-    using tensor_type = tamm::Tensor<element_type>;
-    using basis_type  = AOBasisSet;
+    using basis_type  = AOBasisSet<element_type>;
 
     // AO basis set
     std::shared_ptr<const basis_type> basis;
@@ -47,8 +47,8 @@ struct OrbitalSpace {
 };
 
     // Hack until tamm::Tensor == exists
-    template<typename T, typename U>
-    bool operator==(const OrbitalSpace<T>& lhs, const OrbitalSpace<U>& rhs) noexcept {
+    template<typename E1, typename T1, typename E2, typename T2>
+    bool operator==(const OrbitalSpace<E1, T1>& lhs, const OrbitalSpace<E2, T2>& rhs) noexcept {
         return false;
     }
 
