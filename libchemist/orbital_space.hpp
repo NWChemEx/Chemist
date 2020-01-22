@@ -2,7 +2,7 @@
 #include <libchemist/basis_set/ao_basis_set/ao_basis_set.hpp>
 #include <libchemist/molecule.hpp>
 #include <sde/detail_/memoization.hpp>
-#include <tiledarray.h>
+#include <libchemist/types.hpp>
 
 namespace libchemist {
 
@@ -12,18 +12,10 @@ namespace libchemist {
  * We assume that the orbitals within this class can be expanded as a linear
  * combination of atomic-orbitals
  *
- * Further considerations:
- * - Rely on TAMM for spin or hold alpha and beta versions?
- * - Need identity matrix class (should be such that TAMM skips evaluations
- *   involving it) to allow for the resulting orbitals to be non-orthogonal and
- *   to ensure the AO space can be treated as a special case of this class
- *   (Cdagger == C == 1)
- *
- *
  * @tparam element_type
  * @tparam tensor_type
  */
-template<typename element_type = double, typename tensor_type = TA::TArray<element_type>>
+template<typename element_type = double, typename tensor_type = type::tensor<element_type>>
 struct OrbitalSpace {
     using basis_type  = AOBasisSet<element_type>;
 
