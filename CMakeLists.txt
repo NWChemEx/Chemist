@@ -16,7 +16,9 @@ cpp_find_or_build_dependency(
     sde
     URL github.com/NWChemEx-Project/sde
     PRIVATE TRUE
+    VERSION target_unify
     BUILD_TARGET sde
+    FIND_TARGET nwx::sde
     CMAKE_ARGS BUILD_TESTING=OFF
 )
 
@@ -31,7 +33,7 @@ cpp_add_library(
     chemist
     SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/libchemist"
     INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/libchemist"
-    DEPENDS sde tiledarray
+    DEPENDS nwx::sde tiledarray
 )
 
 if("${BUILD_TESTING}")
@@ -45,7 +47,7 @@ if("${BUILD_TESTING}")
         test_chemist
         SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/tests"
         INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/libchemist"
-        DEPENDS Catch2 chemist
+        DEPENDS Catch2::Catch2 chemist
     )
 endif()
 
