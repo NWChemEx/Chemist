@@ -16,7 +16,6 @@ cpp_find_or_build_dependency(
     sde
     URL github.com/NWChemEx-Project/sde
     PRIVATE TRUE
-    VERSION target_unify
     BUILD_TARGET sde
     FIND_TARGET nwx::sde
     CMAKE_ARGS BUILD_TESTING=OFF
