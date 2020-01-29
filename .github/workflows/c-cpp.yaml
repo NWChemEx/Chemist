@@ -28,8 +28,8 @@ jobs:
             gcov --version
     - name: get-blas-lapack
       run: |
-            apt-cache search blas
-            apt-cache search lapack
+            sudo apt-get install libopenblas-base libopenblas-dev
+            sudo apt-get install liblapack-base liblapack-dev
     - name: get-openmpi
       run: |
             sudo apt-get install openmpi-bin libopenmpi-dev
