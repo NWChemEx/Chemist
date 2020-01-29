@@ -27,9 +27,7 @@ jobs:
             g++  --version
             gcov --version
     - name: get-blas-lapack
-      run: |
-            sudo apt-get install libopenblas-base libopenblas-dev
-            sudo apt-get install liblapack-base liblapack-dev
+      run:  sudo apt-get install libopenblas-base libopenblas-dev
     - name: get-openmpi
       run: |
             sudo apt-get install openmpi-bin libopenmpi-dev
