@@ -1,3 +1,7 @@
+[![Actions](https://github.com/hjjvandam/LibChemist/workflows/C_C++_CI/badge.svg)](https://github.com/NWChemEx-Project/LibChemist)
+
+[![Codecov](https://codecov.io/github/hjjvandam/LibChemist/branch/github-actions/graphs/sunburst.svg?token=GXDQXfurwX)](https://codecov.io/github/NWChemEx-Project/LibChemist/branch/master)
+
 # LibChemist
 
 Molecule and Basis Set Tools for NWChemEx
