@@ -26,6 +26,11 @@ jobs:
             sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 95 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
             g++  --version
             gcov --version
+    - name: get-openmpi
+      run: |
+            sudo apt-get install openmpi-bin libopenmpi-dev
+            mpicc -show
+            mpiexec --version
     - name: get-gcovr
       run:  pip install gcovr
     - name: get-cmake
