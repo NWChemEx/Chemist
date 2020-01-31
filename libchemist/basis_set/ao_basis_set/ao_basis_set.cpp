@@ -1,5 +1,6 @@
 #include "libchemist/basis_set/ao_basis_set/ao_basis_set.hpp"
 #include "libchemist/basis_set/ao_basis_set/detail_/ao_basis_set_pimpl.hpp"
+#include <sde/detail_/memoization.hpp>
 #include <cassert>
 
 namespace libchemist {
@@ -205,6 +206,19 @@ template<typename T>
 typename AOBasisSet<T>::const_reference AO_BS::at_(size_type i) const {
     assert(m_pimpl_ != nullptr);
     return m_pimpl_->at(i);
+}
+
+template<typename T>
+void AOBasisSet<T>::hash(bphash::Hasher &h) const {
+    for (const auto& c : *this) {
+        h(c.x(), c.y(), c.z());
+    }
+    for (const auto&& s : this->shells()) {
+        h(s.pure(), s.l());
+    }
+    for (const auto&& p : this->unique_primitives()) {
+        h(p.coefficient(), p.exponent());
+    }
 }
 
 template class AOBasisSet<double>;
