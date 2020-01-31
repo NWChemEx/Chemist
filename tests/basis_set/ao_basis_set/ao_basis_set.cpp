@@ -1,6 +1,7 @@
 #include <catch2/catch.hpp>
 #include <libchemist/basis_set/ao_basis_set/ao_basis_set.hpp>
 #include <utilities/iter_tools/enumerate.hpp>
+#include <sde/detail_/memoization.hpp>
 
 using bs_t     = libchemist::AOBasisSet<double>;
 using center_t = libchemist::Center<double>;
@@ -19,6 +20,10 @@ static inline auto make_bs() {
 TEST_CASE("AOBasisSet : default ctor") {
     bs_t bs;
     REQUIRE(bs.empty());
+
+    bphash::Hasher h(bphash::HashType::Hash128);
+    h(bs);
+    REQUIRE(bphash::hash_to_string(h.finalize()) == "00000000000000000000000000000000");
 }
 
 TEST_CASE("AOBasisSet : copy ctor") {
@@ -67,6 +72,10 @@ TEST_CASE("AOBasisSet : add_center") {
     bs.add_center(c);
     REQUIRE(bs.size() == 1);
     REQUIRE(bs[0] == c);
+
+    bphash::Hasher h(bphash::HashType::Hash128);
+    h(bs);
+    REQUIRE(bphash::hash_to_string(h.finalize()) == "c7c65e5af263ca28eb7d099cf993f8af");
 }
 
 TEST_CASE("AOBasisSet : max_l") {

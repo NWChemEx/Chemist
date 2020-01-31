@@ -210,8 +210,11 @@ typename AOBasisSet<T>::const_reference AO_BS::at_(size_type i) const {
 
 template<typename T>
 void AOBasisSet<T>::hash(bphash::Hasher &h) const {
+    for (const auto& c : *this) {
+        h(c.x(), c.y(), c.z());
+    }
     for (const auto&& s : this->shells()) {
-        h(s.pure(), s.l(), s.x(), s.y(), s.z());
+        h(s.pure(), s.l());
     }
     for (const auto&& p : this->unique_primitives()) {
         h(p.coefficient(), p.exponent());
