@@ -4,7 +4,7 @@
 /** @file types.hpp
  *
  * Typedefs of fundamental types used in libchemist, just the tensor
- * class currently. 
+ * class currently.
  */
 namespace libchemist {
 namespace type {

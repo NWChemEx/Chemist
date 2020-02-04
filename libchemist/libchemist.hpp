@@ -10,8 +10,8 @@
  */
 #include "libchemist/basis_set_manager.hpp" //Brings in AOBasisSet and AOShell
 #include "libchemist/molecule_manager.hpp"  //Brings in Molecule and Atom
-#include "libchemist/periodic_table.hpp"
 #include "libchemist/orbital_space.hpp"
+#include "libchemist/periodic_table.hpp"
 
 /**
  * @brief The primary namespace for the libchemist library
