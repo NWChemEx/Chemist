@@ -1,9 +1,6 @@
 name: C_C++_CI
 
-on:
-  pull_request:
-    branches:
-      - master
+on: pull_request
 
 jobs:
   build:
