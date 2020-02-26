@@ -1,6 +1,5 @@
 #pragma once
 #include "libchemist/ta_helpers/detail_/reducer.hpp"
-#include "libchemist/ta_helpers/einsum/einsum.hpp"
 #include <tiledarray.h>
 
 namespace libchemist {
@@ -136,8 +135,6 @@ auto reduce_elementwise(const TA::DistArray<TileType, PolicyType>& lhs,
 
   return lhs(idx).reduce(rhs(idx), std::move(r));
 }
-
-//using libchemist::einsum::einsum;
 
 //------------------------------------------------------------------------------
 // Comparisons

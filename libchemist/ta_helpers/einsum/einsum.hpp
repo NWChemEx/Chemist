@@ -14,7 +14,7 @@ inline auto add_tiled_ranges(std::map<types::index, TA::TiledRange1> ranges,
 }
 
 template <typename TileType, typename PolicyType>
-auto einsum_(const types::index& result_idx,
+auto einsum(const types::index& result_idx,
             const types::index& lhs_idx,
             const types::index& rhs_idx,
             const TA::DistArray<TileType, PolicyType> &lhs,

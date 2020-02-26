@@ -1,4 +1,5 @@
 #include <catch2/catch.hpp>
+#include <libchemist/ta_helpers/einsum/einsum.hpp>
 #include <libchemist/ta_helpers/ta_helpers.hpp>
 
 using namespace libchemist::einsum::detail_;
