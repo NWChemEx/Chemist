@@ -42,9 +42,8 @@ size_type Domain::rank() const {
     return m_pimpl_->rank();
 }
 
-size_type Domain::size() const {
-    check_pimpl_();
-    return m_pimpl_->size();
+size_type Domain::size() const noexcept {
+    return m_pimpl_ ? m_pimpl_->size() : 0;
 }
 
 reference Domain::operator[](size_type i) {
@@ -58,7 +57,7 @@ const_reference Domain::operator[](size_type i) const {
 }
 
 void Domain::insert(const_reference idx) {
-    check_pimpl_();
+    if(!m_pimpl_) m_pimpl_ = std::make_unique<detail_::DomainPIMPL>();
     m_pimpl_->insert(idx);
 }
 
@@ -69,6 +68,11 @@ Domain& Domain::operator*=(const Domain& rhs) {
 }
 
 Domain Domain::operator*(const Domain& rhs) const {
+    // Although non-canoncial we presently opt to implement operator*= in terms
+    // of operator*. This is because we have to overwrite the state of the
+    // current instance in order to implement *=. It's thus easier to build the
+    // correct answer from scratch in operator* and swap it with the current
+    // instance in *=
     Domain rv;
     const auto new_rank = rank() + rhs.rank();
     for(auto&& lidx : *this){
@@ -95,8 +99,8 @@ Domain Domain::operator+(const Domain& rhs) const {
 }
 
 bool Domain::operator==(const Domain& rhs) const noexcept {
-    if(!m_pimpl_) return rhs.m_pimpl_? false : true;
-    else if(!rhs.m_pimpl_) return m_pimpl_? false : true;
+    if(!m_pimpl_) return rhs.m_pimpl_ ? false : true;
+    else if(!rhs.m_pimpl_) return m_pimpl_ ? false : true;
     return *m_pimpl_ == *rhs.m_pimpl_;
 }
 

@@ -1,7 +1,7 @@
 #pragma once
-#include <memory>
-#include <sde/sde.hpp>
-#include <utilities/iterators/offset_iterator.hpp>
+#include <memory>                                  // For smart pointers
+#include <sde/sde.hpp>                             // For hashing
+#include <utilities/iterators/offset_iterator.hpp> // For iterator
 
 namespace libchemist::sparse_map {
 namespace detail_ {
@@ -35,7 +35,7 @@ public:
     bool count(const_reference idx) const noexcept;
     bool empty() const noexcept { return begin() == end(); }
     size_type rank() const;
-    size_type size() const;
+    size_type size() const noexcept;
 
     reference operator[](size_type i);
     const_reference operator[](size_type i) const;
@@ -71,16 +71,20 @@ private:
     std::unique_ptr<detail_::DomainPIMPL> m_pimpl_;
 };
 
+inline std::ostream& operator<<(std::ostream& os, const Domain& d){
+    return d.print(os);
+}
+
+//------------------------------------------------------------------------------
+// Inline Implementations
+//------------------------------------------------------------------------------
+
 inline Domain::Domain(std::initializer_list<value_type> il) : Domain() {
     for(auto&& x : il)insert(x);
 }
 
 inline bool Domain::operator!=(const Domain& rhs) const noexcept {
     return !((*this) == rhs);
-}
-
-inline std::ostream& operator<<(std::ostream& os, const Domain& d){
-    return d.print(os);
 }
 
 } // namespace libchemist::sparse_map
