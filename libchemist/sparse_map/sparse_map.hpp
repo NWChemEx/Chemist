@@ -84,7 +84,7 @@ public:
     void add_to_domain(key_type ind, BeginItr first, EndItr last);
 
     SparseMap operator*(const SparseMap& rhs) const;
-    SparseMap operator+(const SparseMap& rhs) const;
+    SparseMap& operator*=(const SparseMap& rhs);
 
     bool operator==(const SparseMap& rhs) const noexcept;
     bool operator!=(const SparseMap& rhs) const noexcept;
@@ -92,7 +92,6 @@ public:
     void hash(sde::Hasher& h) const;
 
     std::ostream& print(std::ostream& os) const;
-
 private:
 
     /** @brief Code factorization for ensuring an input index has the correct
@@ -119,6 +118,8 @@ private:
 inline std::ostream& operator<<(std::ostream& os, const SparseMap& sm) {
     return sm.print(os);
 }
+
+
 
 //------------------------------------------------------------------------------
 // Inline Implementations

@@ -629,7 +629,13 @@ TEST_CASE("SparseMap : add_to_domain(index_type, range)"){
     REQUIRE(sm == corr);
 }
 
-/* We know that the Domain::operator* works
+/* We know that the Domain::operator* works so we really only need to test that
+ * we are properly calling Domain::operator* and that we are saving them
+ * under the appropriate keys. This means we need to ensure that the output
+ * only contains independent indices in the intersection of the two SparseMaps
+ * and that the corresponding domains are the tensor product of the domains. We
+ * also note that operator* is the workhorse with operator*= simply calling it
+ * and swapping the result.
  *
  */
 TEST_CASE("SparseMap : operator*"){
@@ -679,7 +685,7 @@ TEST_CASE("SparseMap : operator*"){
 
             SECTION("rhs * lhs") {
                 SparseMap corr{{index_type{1}, {index_type{2, 1}}}};
-                auto r = lhs * rhs;
+                auto r = rhs * lhs;
                 REQUIRE(r == corr);
             }
         }
@@ -695,7 +701,7 @@ TEST_CASE("SparseMap : operator*"){
 
             SECTION("rhs * lhs") {
                 SparseMap corr{{index_type{1}, {index_type{2, 1}, index_type{3, 1}}}};
-                auto r = lhs * rhs;
+                auto r = rhs * lhs;
                 REQUIRE(r == corr);
             }
         }
@@ -713,6 +719,36 @@ TEST_CASE("SparseMap : operator*"){
                 REQUIRE(r == SparseMap{});
             }
         }
+
+        SECTION("RHS multiple independent"){
+            SparseMap rhs{{index_type{1}, {index_type{2}}},
+                          {index_type{2}, {index_type{2}}}};
+
+            SECTION("lhs * rhs") {
+                auto r = lhs * rhs;
+                SparseMap corr{{index_type{1}, {index_type{1, 2}}}};
+                REQUIRE(r == corr);
+            }
+
+            SECTION("rhs * lhs") {
+                auto r = rhs * lhs;
+                SparseMap corr{{index_type{1}, {index_type{2, 1}}}};
+                REQUIRE(r == corr);
+            }
+        }
+    }
+}
+
+TEST_CASE("SparseMap : operator*="){
+    SparseMap lhs{{index_type{1}, {index_type{1}}}};
+    SparseMap rhs{{index_type{1}, {index_type{2}}},
+                  {index_type{2}, {index_type{2}}}};
+
+    auto plhs = &(lhs *= rhs);
+    SECTION("return *this"){ REQUIRE(plhs == &lhs); }
+    SECTION("value") {
+        SparseMap corr{{index_type{1}, {index_type{1, 2}}}};
+        REQUIRE(lhs == corr);
     }
 }
 

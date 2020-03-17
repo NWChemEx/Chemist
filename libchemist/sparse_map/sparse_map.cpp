@@ -1,6 +1,7 @@
 #include "libchemist/sparse_map/sparse_map.hpp"
 
 namespace libchemist::sparse_map {
+
 using size_type = typename SparseMap::size_type;
 using mapped_type = typename SparseMap::mapped_type;
 using iterator = typename SparseMap::iterator;
@@ -113,17 +114,10 @@ SparseMap SparseMap::operator*(const SparseMap& rhs) const {
     return rv;
 }
 
-SparseMap SparseMap::operator+(const SparseMap& rhs) const {
-    SparseMap ov;
-    for(const auto& [lk, lv] : *this)
-        for(const auto& [rk, rv] : rhs){
-            key_type new_key;
-            new_key.reserve(lk.size() + rk.size());
-            new_key.insert(new_key.end(), lk.begin(), lk.end());
-            new_key.insert(new_key.end(), rk.begin(), rk.end());
-            ov[new_key] = lv + rv;
-        }
-    return ov;
+SparseMap& SparseMap::operator*=(const SparseMap& rhs) {
+    auto temp = (*this) * rhs;
+    swap(temp);
+    return *this;
 }
 
 bool SparseMap::operator==(const SparseMap& rhs) const noexcept {
