@@ -1,42 +1,10 @@
 #pragma once
 #include "libchemist/ta_helpers/detail_/reducer.hpp"
+#include "libchemist/ta_helpers/get_block_idx.hpp"""
 #include "libchemist/sparse_map/sparse_map.hpp"
 #include <tiledarray.h>
 
 namespace libchemist {
-
-inline auto get_block_idx(const TA::TiledRange& trange,
-                          const TA::Range& range) {
-    const auto tidx = trange.element_to_tile(range.lobound());
-    return trange.tiles_range().idx(tidx);
-
-}
-
-template<typename TileType, typename PolicyType>
-auto get_block_idx(const TA::DistArray<TileType, PolicyType>& t,
-                   const TA::Range& range) {
-    return get_block_idx(t.trange(), range);
-}
-
-/** @brief Given the actual tile of a tensor determines the block index
- *
- *  This free-function wraps the process of getting a tile's index in the full
- *  tensor given the full tensor and the tile.
- *
- *  @tparam TileType Type of the tiles in the distributed array. Assumed to
- *                   satisfy TA's concept of a Tile.
- *  @tparam PolicyType Type of the tensor's sparsity policy.
- *
- *  @param[in] t The full tensor from which @p tile was taken.
- *  @param[in] tile The tile we want the block index of.
- *
- *  @return An std::vector containing the index of the tile.
- */
-template<typename TileType, typename PolicyType>
-auto get_block_idx(const TA::DistArray<TileType, PolicyType>& t,
-                   const TileType& tile) {
-    return get_block_idx(t, tile.range());
-}
 
 auto inline add_tiled_dimension(const TA::TiledRange& trange,
                                 const TA::TiledRange1& tr1,
@@ -92,70 +60,7 @@ auto apply_elementwise(const TA::DistArray<TileType, PolicyType>& input,
 }
 
 template<typename TileType, typename PolicyType>
-auto from_sparse_map_(const sparse_map::SparseMap& sm,
-                      const TA::DistArray<TileType, PolicyType>& t,
-                      const TA::TiledRange& trange,
-                      std::size_t mode) {
 
-    using tensor_type = typename TA::DistArray<TileType, PolicyType>;
-    using size_type = typename sparse_map::SparseMap::size_type;
-    using tile_type = typename tensor_type::value_type;
-    using element_type = typename tensor_type::element_type;
-    using index_type = std::vector<size_type>;
-
-    // If t has the same rank as indices in the output tensor, we need the
-    // independent index, otherwise we only need the dependent indices
-    const bool need_ind = t.trange().rank() == trange.rank();
-
-    return TA::make_array<tensor_type>(t.world(), trange,
-      [=](tile_type& tile, const TA::Range& r){
-        auto idx = get_block_idx(trange, r);
-        const index_type ind_idx{idx[mode]};
-
-        // Make sure independent index is in sparse map
-       if(!sm.count(ind_idx)) return element_type{0.0};
-
-       // Make the dependent index by dropping the independent index
-       index_type dep_idx;
-       idx.reserve(idx.size() - 1);
-       for(size_type i = 0; i < idx.size(); ++i)
-          if(i != mode) dep_idx.push_back(idx[i]);
-
-       // Make sure dependent index is in sparse map
-       const auto& domain = sm.at(ind_idx);
-       if(!domain.count(dep_idx)) return element_type{0.0};
-
-       // It's a good index get the tile from t and put it in the result
-       const auto& tidx = need_ind ? idx : dep_idx;
-       auto old_tile = t.find(tidx).get();
-       tile = tile_type(r, old_tile.begin());
-       return tile.norm();
-    });
-}
-
-template<typename TileType, typename PolicyType>
-auto from_sparse_map(const sparse_map::SparseMap& sm,
-                     const TA::DistArray<TileType, PolicyType>& t,
-                     const TA::TiledRange1& tr1,
-                     std::size_t mode = 0) {
-
-    if(sm.dep_rank() != t.trange().rank())
-        throw std::runtime_error("SparseMap dep_rank() != t.rank()");
-
-    auto trange = add_tiled_dimension(t.trange(), tr1);
-    return from_sparse_map_(sm, t, trange, mode);
-}
-
-template<typename TileType, typename PolicyType>
-auto from_sparse_map(const sparse_map::SparseMap& sm,
-                     const TA::DistArray<TileType, PolicyType>& t,
-                     std::size_t mode) {
-
-    if(sm.dep_rank() != t.trange().rank() - 1)
-        throw std::runtime_error("SparseMap dep_rank() != t.rank()");
-
-    return from_sparse_map_(sm, t, t.trange(), mode);
-}
 
 //------------------------------------------------------------------------------
 // Element/Tile Retrieval

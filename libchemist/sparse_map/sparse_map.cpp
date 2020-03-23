@@ -2,10 +2,14 @@
 
 namespace libchemist::sparse_map {
 
+using key_type = typename SparseMap::key_type;
 using size_type = typename SparseMap::size_type;
 using mapped_type = typename SparseMap::mapped_type;
 using iterator = typename SparseMap::iterator;
 using const_iterator = typename SparseMap::const_iterator;
+using index_set = typename SparseMap::index_set;
+using index_set_array = typename SparseMap::index_set_array;
+using index_set_map = typename SparseMap::index_set_map;
 
 namespace detail_ {
 
@@ -75,6 +79,28 @@ size_type SparseMap::dep_rank() const noexcept {
     return m_pimpl_->m_sm.begin()->second.rank();
 }
 
+index_set_map SparseMap::indices() const {
+    index_set_map rv;
+    for(const auto& [k, v] : *this){
+        rv[k] = indices(k);
+    }
+    return rv;
+}
+
+index_set_array SparseMap::indices(key_type ind) const {
+    index_set_array rv;
+    rv.reserve(dep_rank());
+    for(size_type i = 0; i < dep_rank(); ++i)
+        rv.push_back(indices(ind, i));
+    return rv;
+}
+
+index_set SparseMap::indices(key_type ind, size_type mode) const {
+    index_set rv;
+    for(const auto& dep : at(ind))
+        rv.insert(dep[mode]);
+    return rv;
+}
 mapped_type& SparseMap::at(const key_type& ind) {
     return m_pimpl_->m_sm.at(ind);
 }

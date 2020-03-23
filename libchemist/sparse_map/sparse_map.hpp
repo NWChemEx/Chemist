@@ -29,6 +29,9 @@ public:
     using iterator        = typename stl_map_t::iterator;
     using const_iterator  = typename stl_map_t::const_iterator;
     using size_type       = typename mapped_type::size_type;
+    using index_set       = std::set<key_type>;
+    using index_set_array = std::vector<index_set>;
+    using index_set_map   = std::map<key_type, index_set_array>;
 
     SparseMap();
     SparseMap(const SparseMap& rhs);
@@ -45,6 +48,26 @@ public:
     bool count(const key_type& i) const noexcept;
     size_type ind_rank() const noexcept;
     size_type dep_rank() const noexcept;
+
+    index_set_map indices() const;
+    index_set_array indices(key_type ind) const;
+
+    /** @brief Returns the set of indices @p ind maps to for a given mode.
+     *
+     *  Particularly when manipulating the full tensor corresponding to the
+     *  dependent indices we need to know what values a given mode will take.
+     *  For independent index @p ind, this function will return the set of valid
+     *  dependent indices for a given mode.
+     *
+     * @param[in] ind The independent index whose dependent indices will be
+     *                considered.
+     * @param[in] mode the mode of each dependent index to be collected.
+     * @return A set of the non-zero indices along mode @p mode for independent
+     *         index @p ind.
+     */
+    index_set indices(key_type ind, size_type mode) const;
+
+
 
     mapped_type& operator[](const key_type& i);
     const mapped_type& operator[](const key_type& i)const;
