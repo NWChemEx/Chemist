@@ -1,6 +1,6 @@
 #pragma once
 #include "libchemist/ta_helpers/detail_/reducer.hpp"
-#include "libchemist/ta_helpers/get_block_idx.hpp"""
+#include "libchemist/ta_helpers/get_block_idx.hpp"
 #include "libchemist/sparse_map/sparse_map.hpp"
 #include <tiledarray.h>
 
@@ -58,9 +58,6 @@ auto apply_elementwise(const TA::DistArray<TileType, PolicyType>& input,
 
   return TA::DistArray<TileType, PolicyType>(input, std::move(m));
 }
-
-template<typename TileType, typename PolicyType>
-
 
 //------------------------------------------------------------------------------
 // Element/Tile Retrieval

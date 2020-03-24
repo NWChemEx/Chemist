@@ -2,7 +2,11 @@
 #include <libchemist/sparse_map/sparse_map.hpp>
 
 using namespace libchemist::sparse_map;
-using index_type = typename SparseMap::key_type;
+using index_type      = typename SparseMap::key_type;
+using index_set       = typename SparseMap::index_set;
+using index_set_array = typename SparseMap::index_set_array;
+using index_set_map   = typename SparseMap::index_set_map;
+
 
 TEST_CASE("SparseMap : default ctor") {
     SparseMap sm;
@@ -399,6 +403,71 @@ TEST_CASE("SparseMap : dep_rank"){
     SECTION("Matrix"){
         SparseMap sm{{index_type{}, {index_type{1, 2}}}};
         REQUIRE(sm.dep_rank() == 2);
+    }
+}
+
+TEST_CASE("SparseMap : indices()"){
+    SECTION("vector") {
+        SparseMap sm{{index_type{1}, {index_type{0}, index_type{3}}},
+                     {index_type{2}, {index_type{1}, index_type{2}}}};
+        auto result = sm.indices();
+        index_set_map corr{
+          {index_type{1}, index_set_array{index_set{0, 3}}},
+          {index_type{2}, index_set_array{index_set{1, 2}}}
+        };
+        REQUIRE(result == corr);
+    }
+
+    SECTION("matrix") {
+        SparseMap sm{{index_type{1}, {index_type{0, 1}, index_type{3, 2}}},
+                     {index_type{2}, {index_type{2, 0}, index_type{3, 1}}}};
+        auto result = sm.indices();
+        index_set_map corr{
+          {index_type{1}, index_set_array{index_set{0, 3}, index_set{1, 2}}},
+          {index_type{2}, index_set_array{index_set{2, 3}, index_set{0, 1}}}
+        };
+        REQUIRE(result == corr);
+    }
+}
+
+TEST_CASE("SparseMap : indices(key_type)"){
+    SECTION("vector") {
+        SparseMap sm{{index_type{1}, {index_type{0}, index_type{3}}}};
+        auto result = sm.indices(index_type{1});
+        index_set_array corr{index_set{0, 3}};
+        REQUIRE(result == corr);
+    }
+
+    SECTION("matrix") {
+        SparseMap sm{{index_type{1}, {index_type{0, 1}, index_type{3, 2}}}};
+        auto result = sm.indices(index_type{1});
+        index_set_array corr{index_set{0, 3}, index_set{1, 2}};
+        REQUIRE(result == corr);
+    }
+}
+
+TEST_CASE("SparseMap : indices(key_type, size_type)"){
+    SECTION("vector") {
+        SparseMap sm{{index_type{1}, {index_type{0}, index_type{3}}}};
+        auto result = sm.indices(index_type{1}, 0);
+        index_set corr{0, 3};
+        REQUIRE(result == corr);
+    }
+
+    SECTION("matrix") {
+        SparseMap sm{{index_type{1}, {index_type{0, 1}, index_type{3, 2}}}};
+
+        SECTION("mode 0"){
+            auto result = sm.indices(index_type{1}, 0);
+            index_set corr{0, 3};
+            REQUIRE(result == corr);
+        }
+
+        SECTION("mode 1"){
+            auto result = sm.indices(index_type{1}, 1);
+            index_set corr{1, 2};
+            REQUIRE(result == corr);
+        }
     }
 }
 

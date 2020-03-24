@@ -29,7 +29,7 @@ public:
     using iterator        = typename stl_map_t::iterator;
     using const_iterator  = typename stl_map_t::const_iterator;
     using size_type       = typename mapped_type::size_type;
-    using index_set       = std::set<key_type>;
+    using index_set       = std::set<size_type>;
     using index_set_array = std::vector<index_set>;
     using index_set_map   = std::map<key_type, index_set_array>;
 
@@ -50,6 +50,15 @@ public:
     size_type dep_rank() const noexcept;
 
     index_set_map indices() const;
+
+    /** @brief Returns the .
+    *
+    *   This is a convenience function for calling indices(key_type, size_type)
+    *   for each dependent index mode.
+    *
+    *   @result A vector of length dep_rank() such that the i-th element is the
+    *           is the set of non-zero indices for mode i.
+    */
     index_set_array indices(key_type ind) const;
 
     /** @brief Returns the set of indices @p ind maps to for a given mode.
@@ -66,7 +75,6 @@ public:
      *         index @p ind.
      */
     index_set indices(key_type ind, size_type mode) const;
-
 
 
     mapped_type& operator[](const key_type& i);
