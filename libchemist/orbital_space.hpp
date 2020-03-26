@@ -29,16 +29,16 @@ struct OrbitalSpace {
     // Density matrix in the AO basis set
     tensor_type density;
 
-    // Conversion from current orbital basis to AO basis
-    tensor_type Cdagger;
+    // Conversion from AO basis to current occupied orbital basis
+    tensor_type C_occ;
 
-    // Conversion from AO basis to current basis
-    tensor_type C;
+    // Conversion from AO basis to current virtual orbital basis
+    tensor_type C_virt;
 
-    void hash(sde::Hasher& h) const { h(basis, *S, density, C); }
+    void hash(sde::Hasher& h) const { h(basis, *S, density, C_occ, C_virt); }
 };
 
-// Hack until tamm::Tensor == exists
+// Hack until tensor_type == exists
 template<typename E1, typename T1, typename E2, typename T2>
 bool operator==(const OrbitalSpace<E1, T1>& lhs,
                 const OrbitalSpace<E2, T2>& rhs) noexcept {
@@ -50,8 +50,8 @@ bool operator==(const OrbitalSpace<E1, T1>& lhs,
 //    noexcept {
 //        return (lhs.S == rhs.S &&
 //                lhs.basis == rhs.basis &&
-//                std::tie(lhs.density, lhs.Cdagger, lhs.C) ==
-//                std::tie(rhs.density, rhs.Cdagger, rhs.C));
+//                std::tie(lhs.density, lhs.C_occ, lhs.C_virt) ==
+//                std::tie(rhs.density, rhs.C_occ, rhs.C_virt));
 //    }
 
 } // end namespace libchemist
