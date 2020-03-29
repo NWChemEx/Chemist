@@ -11,7 +11,8 @@ TEST_CASE("get_block_idx"){
         TA::TSpArrayD t(world, trange, {0, 1});
         for(std::size_t i = 0; i < 2; ++i){
             auto idx = get_block_idx(t, t.find(i).get());
-            std::vector<std::size_t> corr{i};
+            decltype(idx) corr;
+            corr.push_back(i);
             REQUIRE(idx == corr);
         }
     }
@@ -21,8 +22,8 @@ TEST_CASE("get_block_idx"){
         TA::TSpArrayD t(world, trange, {{0, 1}, {2, 3}});
         for(std::size_t i = 0; i < 2; ++i){
             for(std::size_t j = 0; j < 2; ++j){
-                std::vector<std::size_t> corr{i, j};
-                auto idx = get_block_idx(t, t.find(corr).get());
+                auto idx = get_block_idx(t, t.find({i,j}).get());
+                decltype(idx) corr{i, j};
                 REQUIRE(idx == corr);
             }
         }
@@ -35,8 +36,8 @@ TEST_CASE("get_block_idx"){
         for(std::size_t i = 0; i < 2; ++i){
             for(std::size_t j = 0; j < 2; ++j){
                 for(std::size_t k = 0; k < 2; ++k) {
-                    std::vector<std::size_t> corr{i, j, k};
-                    auto idx = get_block_idx(t, t.find(corr).get());
+                    auto idx = get_block_idx(t, t.find({i, j, k}).get());
+                    decltype(idx) corr{i, j, k};
                     REQUIRE(idx == corr);
                 }
             }

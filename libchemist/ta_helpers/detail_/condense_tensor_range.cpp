@@ -1,4 +1,4 @@
-#include "libchemist/ta_helpers/condense_tensor_range.hpp>
+#include "libchemist/ta_helpers/detail_/condense_tensor_range.hpp"
 
 namespace libchemist::detail_{
 
@@ -7,6 +7,7 @@ using index_set = typename CondenseTensorRangeTypes<>::index_set;
 using range_type = typename CondenseTensorRangeTypes<>::range_type;
 using range_map  = typename CondenseTensorRangeTypes<>::range_map;
 using return1 = typename CondenseTensorRangeTypes<>::return1;
+using return2 = typename CondenseTensorRangeTypes<>::return2;
 
 return1 condense_tensor_range_(const index_set& indices,
                                const TA::TiledRange1& trange) {
@@ -17,9 +18,7 @@ return1 condense_tensor_range_(const index_set& indices,
     for(auto idx : indices){ // Loop over tile indices
 
         // Get the old low and hi bounds for this tile
-        const auto& tile = tr1.tile(idx);
-        const auto lo = tile.lobound(0);
-        const auto hi = tile.upbound(0);
+        const auto& [lo, hi] = trange.tile(idx);
 
         // The shift to make lo equal to offset
         const auto shift = lo - offset;
@@ -34,12 +33,12 @@ return1 condense_tensor_range_(const index_set& indices,
     return std::make_pair(rv, range_type{0, offset});
 }
 
-auto condense_tensor_range_(const std::vector<index_set>& indices,
+return2 condense_tensor_range_(const std::vector<index_set>& indices,
                             const TA::TiledRange& trange,
                             const index_set& ind_modes) {
 
     const auto rank = trange.rank();
-    TA_ASSERT(rank ==indices.size() + ind_modes.size());
+    TA_ASSERT(rank == indices.size() + ind_modes.size());
 
     std::vector<range_type> bounds;
     std::vector<range_map> offsets;
@@ -57,7 +56,7 @@ auto condense_tensor_range_(const std::vector<index_set>& indices,
             ++counter;
         }
         else{
-            range_type r{0, dim.volume()};
+            range_type r{0, dim.extent()};
             bounds.push_back(r);
         }
     }
