@@ -14,16 +14,16 @@ namespace libchemist::detail_ {
         basis_pointer basis_set_; // basis set of the orbital space
         tensor_pointer S_; // overlap matrix of the basis set
         tensor_type C_; // conversion from AO basis to current basis
-        tensor_type Cdagger_; // conversion from current orbital basis to AO basis
-        tensor_type D_; // density of the orbitals
+        mutable tensor_type Cdagger_; // conversion from current orbital basis to AO basis
+        mutable tensor_type D_; // density of the orbitals
 
         /** @brief Initialize Cdagger as the transpose of C */
-        void init_Cdagger_() {
+        void init_Cdagger_() const {
             if (C_.is_initialized()) Cdagger_("a, b") = C_("b, a");
         }
 
         /** @brief Initialize density from C and Cdagger */
-        void init_D_() {
+        void init_D_() const {
             if (!Cdagger_.is_initialized()) init_Cdagger_();
             if (C_.is_initialized()) D_("mu, nu") = C_("mu, i") * Cdagger_("i, nu");
         }
@@ -35,7 +35,7 @@ namespace libchemist::detail_ {
          *
          * @return The indices of the tensor before and after transformation
          */
-        std::pair<std::string, std::string> make_indices(std::size_t n_modes, std::size_t target_mode) {
+        std::pair<std::string, std::string> make_indices(std::size_t n_modes, std::size_t target_mode) const {
             std::string initial;
             std::string transformed;
 
@@ -101,25 +101,25 @@ namespace libchemist::detail_ {
          *
          * @return A reference to the basis set
          */
-        basis_type& basis_set() { return *(basis_set_); }
+        const basis_type& basis_set() const { return *(basis_set_); }
 
         /** @brief Return a reference to the overlap matrix of the space
          *
          * @return A reference to the overlap matrix
          */
-        tensor_type& S() { return *(S_); }
+        const tensor_type& S() const { return *(S_); }
 
         /** @brief Return a reference to the coefficients of the space
          *
          * @return A reference to the coefficients
          */
-        tensor_type& C() { return C_; }
+        const tensor_type& C() const { return C_; }
 
         /** @brief Return a reference to the conjugate coefficients of the space
          *
          * @return A reference to the conjugate coefficients
          */
-        tensor_type& Cdagger() {
+        const tensor_type& Cdagger() const {
             if (!Cdagger_.is_initialized()) init_Cdagger_();
             return Cdagger_;
         }
@@ -128,7 +128,7 @@ namespace libchemist::detail_ {
          *
          * @return A reference to the density
          */
-        tensor_type& density() {
+        const tensor_type& density() const {
             if (!D_.is_initialized()) init_D_();
             return D_;
         }
@@ -140,7 +140,7 @@ namespace libchemist::detail_ {
          *
          * @return The transformed matrix
          */
-        tensor_type transform_from_ao(const tensor_type X, const size_vec& modes) {
+        tensor_type transform_from_ao(const tensor_type X, const size_vec& modes) const {
             tensor_type rv(X);
             auto n_modes = X.range().rank();
             for (const auto& i : modes) {
@@ -157,7 +157,7 @@ namespace libchemist::detail_ {
          *
          * @return The transformed matrix
          */
-        tensor_type transform_to_ao(const tensor_type X, const size_vec& modes) {
+        tensor_type transform_to_ao(const tensor_type X, const size_vec& modes) const {
             tensor_type rv(X);
             auto n_modes = X.range().rank();
             for (const auto& i : modes) {

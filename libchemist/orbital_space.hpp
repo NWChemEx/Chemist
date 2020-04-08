@@ -89,31 +89,31 @@ namespace libchemist {
          *
          * @return A reference to the basis set
          */
-        basis_type& basis_set();
+        const basis_type& basis_set();
 
         /** @brief Return a reference to the overlap matrix of the space
          *
          * @return A reference to the overlap matrix
          */
-        tensor_type& S();
+        const tensor_type& S();
 
         /** @brief Return a reference to the coefficients of the space
          *
          * @return A reference to the coefficients
          */
-        tensor_type& C();
+        const tensor_type& C();
 
         /** @brief Return a reference to the conjugate coefficients of the space
          *
          * @return A reference to the conjugate coefficients
          */
-        tensor_type& Cdagger();
+        const tensor_type& Cdagger();
 
         /** @brief Return a reference to the density of the space
          *
          * @return A reference to the density
          */
-        tensor_type& density();
+        const tensor_type& density();
 
         /** @brief Return the provided matrix with the specified modes transformed from the AO space
          *

@@ -40,27 +40,27 @@ namespace libchemist {
     OrbSpace::~OrbitalSpace() noexcept = default;
 
     template<typename e_type, typename t_type>
-    typename OrbSpace::basis_type& OrbSpace::basis_set() {
+    const typename OrbSpace::basis_type& OrbSpace::basis_set() {
         return m_pimpl_->basis_set();
     }
 
     template<typename e_type, typename t_type>
-    t_type& OrbSpace::S() {
+    const t_type& OrbSpace::S() {
         return m_pimpl_->S();
     }
 
     template<typename e_type, typename t_type>
-    t_type& OrbSpace::C() {
+    const t_type& OrbSpace::C() {
         return m_pimpl_->C();
     }
 
     template<typename e_type, typename t_type>
-    t_type& OrbSpace::Cdagger() {
+    const t_type& OrbSpace::Cdagger() {
         return m_pimpl_->Cdagger();
     }
 
     template<typename e_type, typename t_type>
-    t_type& OrbSpace::density() {
+    const t_type& OrbSpace::density() {
         return m_pimpl_->density();
     }
 
