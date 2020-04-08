@@ -24,6 +24,8 @@ namespace libchemist {
         using pimpl_type = detail_::OrbitalSpacePIMPL<basis_type, tensor_type>; // PIMPL type
         std::unique_ptr<pimpl_type> m_pimpl_; // pointer to implementation
 
+        const pimpl_type& pimpl_() const;
+
     public:
         /** @brief Creates a new OrbitalSpace instance containing empty members. */
         OrbitalSpace();
@@ -89,31 +91,31 @@ namespace libchemist {
          *
          * @return A reference to the basis set
          */
-        const basis_type& basis_set();
+        const basis_type& basis_set() const;
 
         /** @brief Return a reference to the overlap matrix of the space
          *
          * @return A reference to the overlap matrix
          */
-        const tensor_type& S();
+        const tensor_type& S() const;
 
         /** @brief Return a reference to the coefficients of the space
          *
          * @return A reference to the coefficients
          */
-        const tensor_type& C();
+        const tensor_type& C() const;
 
         /** @brief Return a reference to the conjugate coefficients of the space
          *
          * @return A reference to the conjugate coefficients
          */
-        const tensor_type& Cdagger();
+        const tensor_type& Cdagger() const;
 
         /** @brief Return a reference to the density of the space
          *
          * @return A reference to the density
          */
-        const tensor_type& density();
+        const tensor_type& density() const;
 
         /** @brief Return the provided matrix with the specified modes transformed from the AO space
          *
@@ -122,7 +124,7 @@ namespace libchemist {
          *
          * @return The transformed matrix
          */
-        virtual tensor_type transform_from_ao(tensor_type X, const size_vec& modes);
+        virtual tensor_type transform_from_ao(tensor_type X, const size_vec& modes) const;
 
         /** @brief Return the provided matrix with the specified modes transformed to the AO space
          *
@@ -131,7 +133,7 @@ namespace libchemist {
          *
          * @return The transformed matrix
          */
-        virtual tensor_type transform_to_ao(tensor_type X, const size_vec& modes);
+        virtual tensor_type transform_to_ao(tensor_type X, const size_vec& modes) const;
 
         /** @brief Hash the OrbitalSpace
          *
@@ -170,7 +172,7 @@ namespace libchemist {
          *
          * @return The transformed matrix
          */
-        tensor_type transform_from_ao(tensor_type X, const size_vec& modes) override;
+        tensor_type transform_from_ao(tensor_type X, const size_vec& modes) const override;
 
         /** @brief Return the provided matrix with the specified modes transformed to the AO space
          *
@@ -181,7 +183,7 @@ namespace libchemist {
          *
          * @return The transformed matrix
          */
-        tensor_type transform_to_ao(tensor_type X, const size_vec& modes) override;
+        tensor_type transform_to_ao(tensor_type X, const size_vec& modes) const override;
     }; // class AOSpace
 
     extern template class OrbitalSpace<float, type::tensor<float>>;

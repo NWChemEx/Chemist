@@ -7,6 +7,12 @@ namespace libchemist {
 #define OrbSpace OrbitalSpace<e_type, t_type>
 
     template<typename e_type, typename t_type>
+    const typename OrbSpace::pimpl_type& OrbSpace::pimpl_() const {
+        assert(m_pimpl_ != nullptr);
+        return *m_pimpl_;
+    }
+
+    template<typename e_type, typename t_type>
     OrbSpace::OrbitalSpace() : m_pimpl_(std::make_unique<pimpl_type>()) {}
 
     template<typename e_type, typename t_type>
@@ -40,38 +46,38 @@ namespace libchemist {
     OrbSpace::~OrbitalSpace() noexcept = default;
 
     template<typename e_type, typename t_type>
-    const typename OrbSpace::basis_type& OrbSpace::basis_set() {
-        return m_pimpl_->basis_set();
+    const typename OrbSpace::basis_type& OrbSpace::basis_set() const {
+        return pimpl_().basis_set();
     }
 
     template<typename e_type, typename t_type>
-    const t_type& OrbSpace::S() {
-        return m_pimpl_->S();
+    const t_type& OrbSpace::S() const {
+        return pimpl_().S();
     }
 
     template<typename e_type, typename t_type>
-    const t_type& OrbSpace::C() {
-        return m_pimpl_->C();
+    const t_type& OrbSpace::C() const {
+        return pimpl_().C();
     }
 
     template<typename e_type, typename t_type>
-    const t_type& OrbSpace::Cdagger() {
-        return m_pimpl_->Cdagger();
+    const t_type& OrbSpace::Cdagger() const {
+        return pimpl_().Cdagger();
     }
 
     template<typename e_type, typename t_type>
-    const t_type& OrbSpace::density() {
-        return m_pimpl_->density();
+    const t_type& OrbSpace::density() const {
+        return pimpl_().density();
     }
 
     template<typename e_type, typename t_type>
-    t_type OrbSpace::transform_from_ao(const t_type X, const size_vec& modes) {
-        return m_pimpl_->transform_from_ao(X, modes);
+    t_type OrbSpace::transform_from_ao(const t_type X, const size_vec& modes) const {
+        return pimpl_().transform_from_ao(X, modes);
     }
 
     template<typename e_type, typename t_type>
-    t_type OrbSpace::transform_to_ao(const t_type X, const size_vec& modes) {
-        return m_pimpl_->transform_to_ao(X, modes);
+    t_type OrbSpace::transform_to_ao(const t_type X, const size_vec& modes) const {
+        return pimpl_().transform_to_ao(X, modes);
     }
 
     template<typename e_type, typename t_type>
@@ -94,10 +100,10 @@ namespace libchemist {
         S) {}
 
     template<typename e_type, typename t_type>
-    t_type AOS::transform_from_ao(const t_type X, const size_vec& modes) { return X; }
+    t_type AOS::transform_from_ao(const t_type X, const size_vec& modes) const { return X; }
 
     template<typename e_type, typename t_type>
-    t_type AOS::transform_to_ao(const t_type X, const size_vec& modes) { return X; }
+    t_type AOS::transform_to_ao(const t_type X, const size_vec& modes) const { return X; }
 
     template class OrbitalSpace<float, type::tensor<float>>;
     template class OrbitalSpace<float, type::tensor<double>>;
