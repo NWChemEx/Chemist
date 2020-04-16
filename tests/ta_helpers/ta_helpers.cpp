@@ -1,41 +1,107 @@
 #include <catch2/catch.hpp>
 #include <libchemist/ta_helpers/ta_helpers.hpp>
 
-using tensor_type = TA::TSpArrayD;
+using namespace libchemist;
 
 TEST_CASE("allclose") {
-    auto& world = TA::get_default_world();
-    tensor_type one(world,{{1.0,1.0},{1.0,1.0}});
-    tensor_type almost_one(world,{{1.001,1.001},{1.001,1.001}});
-    tensor_type zero(world,{{0.0,0.0},{0.0,0.0}});
-    tensor_type small(world,{{1.0E-20,1.0E-20},{1.0E-20,1.0E-20}});
+    auto &world = TA::get_default_world();
+    SECTION("identical") {
+        TA::TSpArrayD lhs(world, {{0.0, 1.1},
+                                  {2.2, 3.3}});
+        TA::TSpArrayD corr(world, {{0.0, 1.1},
+                                   {2.2, 3.3}});
+        REQUIRE(allclose(lhs, corr));
+    }
 
-    REQUIRE(libchemist::allclose(one,one));
+    SECTION("Absolute difference 0.1") {
+        TA::TSpArrayD lhs(world, {{0.0, 1.1},
+                                  {2.2, 3.3}});
+        TA::TSpArrayD corr(world, {{0.0, 1.2},
+                                   {2.2, 3.3}});
 
-    REQUIRE_FALSE(libchemist::allclose(one,almost_one));
-    REQUIRE(libchemist::allclose(one,almost_one,1.0E-2));
+        SECTION("Close if atol == 0.1") {
+            REQUIRE(allclose(lhs, corr, 0.0, 0.1));
+        }
 
-    REQUIRE(libchemist::allclose(zero,small));
-    REQUIRE_FALSE(libchemist::allclose(zero,small,1.0E-5,1.0E-21));
+        SECTION("Not close if atol < 0.1") {
+            REQUIRE_FALSE(allclose(lhs, corr, 0.0, 0.09));
+        }
+    }
+
+    SECTION("Relative difference 0.1") {
+        TA::TSpArrayD lhs(world, {{0.0, 1.09},
+                                  {2.2, 3.3}});
+        TA::TSpArrayD corr(world, {{0.0, 1.2},
+                                   {2.2, 3.3}});
+
+        SECTION("Close if rtol == 0.1") {
+            REQUIRE(allclose(lhs, corr, 0.1));
+        }
+
+        SECTION("Not close if rtol < 0.1") {
+            REQUIRE_FALSE(allclose(lhs, corr, 0.09));
+        }
+    }
+
+    SECTION("Actual is Sparse Tensor with missing blocks") {
+        TA::TiledRange trange{{0, 2},
+                              {0, 2}};
+
+        auto l = [](TA::TensorD &, const TA::Range &) { return 0.0; };
+        auto lhs = TA::make_array<TA::TSpArrayD>(world, trange, l);
+
+        SECTION("Close to explicitly zero tensor") {
+            TA::TSpArrayD corr(world, {{0.0, 0.0},
+                                       {0.0, 0.0}});
+            REQUIRE(allclose(lhs, corr));
+        }
+
+        SECTION("Not close to non-zero tensor") {
+            TA::TSpArrayD corr(world, {{0.0, 1.1},
+                                       {2.2, 3.3}});
+            REQUIRE_FALSE(allclose(lhs, corr));
+        }
+    }
+
+    SECTION("Correct is Sparse Tensor with missing blocks") {
+        TA::TiledRange trange{{0, 2},
+                              {0, 2}};
+
+        auto l = [](TA::TensorD &, const TA::Range &) { return 0.0; };
+        auto corr = TA::make_array<TA::TSpArrayD>(world, trange, l);
+
+        SECTION("Close to explicitly zero tensor") {
+            TA::TSpArrayD lhs(world, {{0.0, 0.0},
+                                      {0.0, 0.0}});
+            REQUIRE(allclose(lhs, corr));
+        }
+
+        SECTION("Not close to non-zero tensor") {
+            TA::TSpArrayD lhs(world, {{0.0, 1.1},
+                                      {2.2, 3.3}});
+            // TODO: Re-enable after TA #184 is resolved
+            //REQUIRE_FALSE(allclose(lhs, corr));
+        }
+    }
 }
 
 TEST_CASE("Elementwise helpers") {
 
     auto& world = TA::get_default_world();
-    tensor_type matrix(world,{{1.0,2.0},{3.0,4.0}});
-    tensor_type corr(world,{{2.0,4.0},{6.0,8.0}});
+    TA::TSpArrayD matrix(world,{{1.0,2.0},{3.0,4.0}});
+    TA::TSpArrayD corr(world,{{2.0,4.0},{6.0,8.0}});
 
     SECTION("apply_elementwise") {
-        auto doubled = libchemist::apply_elementwise(matrix, [](const double& old) {
+        auto doubled = apply_elementwise(matrix, [](const double& old) {
             return 2*old;
         });
-        REQUIRE(libchemist::allclose(doubled,corr));
+        REQUIRE(allclose(doubled,corr));
     }
 
     SECTION("apply_elementwise_inplace") {
-        libchemist::apply_elementwise_inplace(matrix, [](double& value) {
+        apply_elementwise_inplace(matrix, [](double& value) {
             value *= 2;
         });
-        REQUIRE(libchemist::allclose(matrix,corr));
+        REQUIRE(allclose(matrix,corr));
     }
 }
