@@ -43,6 +43,36 @@ auto apply_elementwise(const TA::DistArray<TileType, PolicyType>& input,
   return TA::DistArray<TileType, PolicyType>(input, std::move(m));
 }
 
+/** @brief Modifies an existing tensor by applying a function elementwise to its
+ *         values.
+ *
+ *  This function is a convenience function for modifying an existing tensor
+ *  by an elementwise in-place operation.
+ *
+ * @tparam TileType The type of the tiles in @p input. Expected to satisfy TA's
+ *                  concept of "Tile".
+ * @tparam PolicyType The type of @p input's policy. Expected to be either
+ *                    DensePolicy or SparsePolicy.
+ * @tparam Op should be a type commensurate with that of a function having
+ *            signature `void(element_type&)` where `element_type` is the
+ *            type of the elements in each tile.
+ *
+ * @param[in] input The tensor supplying the input values to be changed in-place
+ *                  by @p op.
+ * @param[in] op The function to apply to each element of @p input to modify
+ *               the values in-place.
+ */
+template<typename TileType, typename PolicyType, typename Op>
+void apply_elementwise_inplace(TA::DistArray<TileType, PolicyType>& input,
+                       Op&& op) {
+
+    auto m = [op{std::forward<Op>(op)}](TileType& tile) {
+        tile.inplace_unary(op);
+    };
+
+    foreach_inplace(input,std::move(m));
+}
+
 //------------------------------------------------------------------------------
 // Element/Tile Retrieval
 //------------------------------------------------------------------------------
@@ -195,7 +225,7 @@ bool allclose(T&& actual, U&& ref, V&& rtol = 1.0E-5, V&& atol = 1.0E-8) {
   AmB(idx)      = actual(idx) - ref(idx);
 
   auto times_op = [=](V lhs, V rhs) {
-    return lhs <= atol + rtol * std::fabs(rhs);
+    return std::fabs(lhs) <= atol + rtol * std::fabs(rhs);
   };
   std::logical_and<bool> add_op;
   return reduce_elementwise(AmB, ref, add_op, times_op, true).get();
