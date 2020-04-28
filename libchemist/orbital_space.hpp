@@ -24,7 +24,15 @@ namespace libchemist {
         using pimpl_type = detail_::OrbitalSpacePIMPL<basis_type, tensor_type>; // PIMPL type
         std::unique_ptr<pimpl_type> m_pimpl_; // pointer to implementation
 
+    protected:
+        /** @brief Accessor to m_pimpl_. */
         const pimpl_type& pimpl_() const;
+
+        /** @brief Creates a new OrbitalSpace instance with the provided PIMPL.
+         *
+         * @param pimpl Pointer to the implementation instance
+         */
+        OrbitalSpace(std::unique_ptr<pimpl_type> pimpl) : m_pimpl_(std::move(pimpl)) {}
 
     public:
         /** @brief Creates a new OrbitalSpace instance containing empty members. */
