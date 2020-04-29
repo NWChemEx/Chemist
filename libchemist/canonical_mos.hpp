@@ -122,7 +122,7 @@ namespace libchemist {
      * @return true if the instances are not equivalent
      */
     template<typename E1, typename E2, typename T>
-    bool operator!=(CanonicalMO<E1, T> space1, CanonicalMO<E2, T> space2) noexcept {
+    bool operator!=(const CanonicalMO<E1, T>& space1, const CanonicalMO<E2, T>& space2) noexcept {
         return !(space1 == space2);
     }
 
