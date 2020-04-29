@@ -97,6 +97,16 @@ namespace libchemist::detail_ {
         OrbitalSpacePIMPL(basis_type basis_set, tensor_type S, tensor_type C) :
             basis_set_(std::make_shared<basis_type>(basis_set)), S_(std::make_shared<tensor_type>(S)), C_(C) {}
 
+        OrbitalSpacePIMPL(const OrbitalSpacePIMPL&) = delete;
+
+        /** @brief Creates a clone of the OrbitalSpacePIMPL.
+         *
+         * @return A clone of the current OrbitalSpacePIMPL
+         */
+        virtual std::unique_ptr<OrbitalSpacePIMPL> clone() const {
+            return std::make_unique<OrbitalSpacePIMPL>(*basis_set_, *S_, C_, Cdagger_, D_);
+        }
+
         /** @brief Return a reference to the basis set of the space
          *
          * @return A reference to the basis set

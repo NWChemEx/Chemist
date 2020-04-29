@@ -29,7 +29,7 @@ namespace libchemist {
 
     template<typename e_type, typename t_type>
     OrbSpace::OrbitalSpace(const OrbitalSpace<e_type, t_type>& rhs) :
-        m_pimpl_(std::make_unique<pimpl_type>(*(rhs.m_pimpl_))) {}
+        m_pimpl_(rhs.pimpl_().clone()) {}
 
     template<typename e_type, typename t_type>
     OrbSpace::OrbitalSpace(OrbitalSpace<e_type, t_type>&& rhs) noexcept = default;

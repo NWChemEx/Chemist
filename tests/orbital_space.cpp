@@ -1,12 +1,16 @@
 #include <catch2/catch.hpp>
 #include <libchemist/libchemist.hpp>
 #include <libchemist/ta_helpers/ta_helpers.hpp>
+#include <libchemist/orthogonal_space.hpp>
+#include <libchemist/canonical_mos.hpp>
 
-using vector_t  = std::initializer_list<double>;
-using matrix_t  = std::initializer_list<vector_t>;
-using tensor    = libchemist::type::tensor<double>;
-using orbspace  = libchemist::OrbitalSpace<double, tensor>;
-using aospace   = libchemist::AOSpace<double, tensor>;
+using vector_t   = std::initializer_list<double>;
+using matrix_t   = std::initializer_list<vector_t>;
+using tensor     = libchemist::type::tensor<double>;
+using orbspace   = libchemist::OrbitalSpace<double, tensor>;
+using aospace    = libchemist::AOSpace<double, tensor>;
+using orthspace  = libchemist::OrthogonalSpace<double, tensor>;
+using canonspace = libchemist::CanonicalMO<double, tensor>;
 
 static inline auto make_bs() {
     using libchemist::Atom;
@@ -19,7 +23,7 @@ static inline auto make_bs() {
     return libchemist::apply_basis("sto-3g", water);
 }
 
-void require_not_initialized(orbspace space) {
+void require_not_initialized(orbspace& space) {
     REQUIRE(space.basis_set().empty());
     REQUIRE(!space.S().is_initialized());
     REQUIRE(!space.C().is_initialized());
@@ -27,12 +31,24 @@ void require_not_initialized(orbspace space) {
     REQUIRE(!space.density().is_initialized());
 }
 
-void require_match_inputs(orbspace space, libchemist::AOBasisSet<double> bs, tensor A, tensor B, tensor C, tensor D) {
+void require_not_initialized_canon(canonspace& space) {
+    require_not_initialized(space);
+    REQUIRE(!space.mo_energies().is_initialized());
+}
+
+void require_match_inputs(orbspace& space, libchemist::AOBasisSet<double> bs,
+        tensor A, tensor B, tensor C, tensor D) {
     REQUIRE(space.basis_set() == bs);
     REQUIRE(libchemist::allclose(space.S(), A));
     REQUIRE(libchemist::allclose(space.C(), B));
     REQUIRE(libchemist::allclose(space.Cdagger(), C));
     REQUIRE(libchemist::allclose(space.density(), D));
+}
+
+void require_match_inputs_canon(canonspace space, libchemist::AOBasisSet<double> bs,
+        tensor A, tensor B, tensor C, tensor D, tensor E) {
+    require_match_inputs(space, bs, A, B, C, D);
+    REQUIRE(libchemist::allclose(space.mo_energies(), E));
 }
 
 static matrix_t S_il{
@@ -85,6 +101,7 @@ TEST_CASE("Orbital space") {
     auto I_ao = TA::sparse_diagonal_array<double>(world, TA::TiledRange({AO_range, AO_range}));
     auto I_mo = TA::sparse_diagonal_array<double>(world, TA::TiledRange({OCC_range, OCC_range}));
 
+    // Test OrbitalSpace
     orbspace Space0;
     require_not_initialized(Space0);
 
@@ -100,14 +117,11 @@ TEST_CASE("Orbital space") {
 
     orbspace Space4(Space1);
     REQUIRE(Space1 == Space4);
-    REQUIRE(&Space1.C() != &Space4.C());
-    REQUIRE(&Space1.S() == &Space4.S());
 
     orbspace Space5;
     auto pSpace5 = &(Space5 = Space1);
     REQUIRE(pSpace5 == &Space5);
     REQUIRE(&Space1.C() != &Space5.C());
-    REQUIRE(&Space1.S() == &Space5.S());
 
     orbspace Space6(std::move(Space2));
     REQUIRE(Space1 == Space6);
@@ -130,6 +144,7 @@ TEST_CASE("Orbital space") {
     auto G = Space1.transform_to_ao(C, {1});
     REQUIRE(libchemist::allclose(G, D));
 
+    // Test AOSpace
     aospace AO1;
     require_not_initialized(AO1);
 
@@ -141,4 +156,31 @@ TEST_CASE("Orbital space") {
 
     aospace AO2(bs, S);
     require_match_inputs(AO2, bs, S, I_ao, I_ao, S);
+
+    // Test OrthogonalSpace
+    orthspace orth0;
+    orthspace orth1(bs, S, C, Cdagger, D);
+    orthspace orth2(bs, S, C, Cdagger);
+    orthspace orth3(bs, S, C);
+    require_not_initialized(orth0);
+    require_match_inputs(orth1, bs, S, C, Cdagger, D);
+    require_match_inputs(orth3, bs, S, C, Cdagger, D);
+    require_match_inputs(orth3, bs, S, C, Cdagger, D);
+    REQUIRE(orth1 == Space1);
+
+    // Test CanonicalMO
+    // Using whatever is on hand for the mo energies, since the values don't matter
+    canonspace canmo0;
+    canonspace canmo1(bs, S, I_ao, C, Cdagger, D);
+    canonspace canmo2(bs, S, I_ao, C, Cdagger);
+    canonspace canmo3(bs, S, I_ao, C);
+    canonspace canmo4(bs, S, I_mo, C);
+    require_not_initialized_canon(canmo0);
+    require_match_inputs_canon(canmo1, bs, S, C, Cdagger, D, I_ao);
+    require_match_inputs_canon(canmo2, bs, S, C, Cdagger, D, I_ao);
+    require_match_inputs_canon(canmo3, bs, S, C, Cdagger, D, I_ao);
+    REQUIRE(Space1 == canmo1);
+    REQUIRE(orth1  == canmo1);
+    REQUIRE(canmo1 == canmo2);
+    REQUIRE(canmo1 != canmo4);
 }

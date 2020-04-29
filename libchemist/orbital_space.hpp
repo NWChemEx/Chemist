@@ -24,7 +24,15 @@ namespace libchemist {
         using pimpl_type = detail_::OrbitalSpacePIMPL<basis_type, tensor_type>; // PIMPL type
         std::unique_ptr<pimpl_type> m_pimpl_; // pointer to implementation
 
+    protected:
+        /** @brief Accessor to m_pimpl_. */
         const pimpl_type& pimpl_() const;
+
+        /** @brief Creates a new OrbitalSpace instance with the provided PIMPL.
+         *
+         * @param pimpl Pointer to the implementation instance
+         */
+        OrbitalSpace(std::unique_ptr<pimpl_type> pimpl) : m_pimpl_(std::move(pimpl)) {}
 
     public:
         /** @brief Creates a new OrbitalSpace instance containing empty members. */
@@ -204,7 +212,7 @@ namespace libchemist {
      * @return true if the instances are equivalent
      */
     template<typename E1, typename E2, typename T>
-    bool operator==(OrbitalSpace<E1, T> space1, OrbitalSpace<E2, T> space2) noexcept {
+    bool operator==(const OrbitalSpace<E1, T>& space1, const OrbitalSpace<E2, T>& space2) {
         return (space1.basis_set() == space2.basis_set() &&
                 space1.S().trange() == space2.S().trange() &&
                 space1.C().trange() == space2.C().trange() &&
@@ -224,7 +232,7 @@ namespace libchemist {
      * @return true if the instances are not equivalent
      */
     template<typename E1, typename E2, typename T>
-    bool operator!=(OrbitalSpace<E1, T> space1, OrbitalSpace<E2, T> space2) noexcept {
+    bool operator!=(const OrbitalSpace<E1, T>& space1, const OrbitalSpace<E2, T>& space2) {
         return !(space1 == space2);
     }
 } // end namespace libchemist
