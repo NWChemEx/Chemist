@@ -105,3 +105,25 @@ TEST_CASE("Elementwise helpers") {
         REQUIRE(allclose(matrix,corr));
     }
 }
+
+TEST_CASE("Retile") {
+    using vector_t   = std::initializer_list<double>;
+    using matrix_t   = std::initializer_list<vector_t>;
+
+    auto& world = TA::get_default_world();
+
+    matrix_t some_values = {{0.1, 0.2, 0.3, 0.4, 0.5},
+                            {0.6, 0.7, 0.8, 0.9, 1.0},
+                            {1.1, 1.2, 1.3, 1.4, 1.5},
+                            {1.6, 1.7, 1.8, 1.9, 2.0},
+                            {2.1, 2.2, 2.3, 2.4, 2.5}};
+
+    auto range0  = TA::TiledRange1(0, 3, 5);
+    auto trange0 = TA::TiledRange({range0, range0});
+
+    TA::TSpArrayD default_tiling(world, some_values);
+    TA::TSpArrayD specific_tiling(world, trange0, some_values);
+
+    auto result = retile(default_tiling, trange0);
+    REQUIRE(allclose(result, specific_tiling));
+}

@@ -1,5 +1,6 @@
 #pragma once
 #include "libchemist/ta_helpers/detail_/reducer.hpp"
+#include "libchemist/ta_helpers/detail_/contraction_dummy_annotation.hpp"
 #include <tiledarray.h>
 
 namespace libchemist {
@@ -231,4 +232,47 @@ bool allclose(T&& actual, U&& ref, V&& rtol = 1.0E-5, V&& atol = 1.0E-8) {
   return reduce_elementwise(AmB, ref, add_op, times_op, true).get();
 }
 
+//------------------------------------------------------------------------------
+// Retiling
+//------------------------------------------------------------------------------
+
+/** @brief Retiles a tensor
+ *
+ *  This function checks the dimensions of the input tensor's TiledRange
+ *  against the corresponding dimension of the input TiledRange and retiles
+ *  the dimensions that do not match by contracting them with a suitably tiled
+ *  identity matrix.
+ *
+ *  @tparam TileType The type of the tiles in @p input. Expected to satisfy TA's
+ *                   concept of "Tile".
+ *  @tparam PolicyType The type of @p input's policy. Expected to be either
+ *                     DensePolicy or SparsePolicy.
+ *  @param[in] tensor The tensor that is to be retiled
+ *  @param[in] new_trange The desired TiledRange of the output
+ *  @return A tensor with the data of the @p tensor, tiled as @p new_tile
+ */
+
+template<typename TileType, typename PolicyType>
+auto retile(const TA::DistArray<TileType, PolicyType>& tensor, const TA::TiledRange& new_trange) {
+    assert(new_trange.rank() == tensor.trange().rank());
+
+    using tensor_type = TA::DistArray<TileType, PolicyType>;
+    using element_type = typename tensor_type::element_type;
+
+    auto new_tensor = tensor;
+
+    for (auto i = 0; i < new_trange.rank(); ++i) {
+        if (new_trange.dim(i) != tensor.trange().dim(i)) {
+            TA::TiledRange retiler{tensor.trange().dim(i), new_trange.dim(i)};
+            auto I = TA::sparse_diagonal_array<element_type>(tensor.world(), retiler);
+
+            auto [start, finish, change] =
+                    detail_::contraction_dummy_annotations(tensor.trange().rank(), i);
+
+            new_tensor(finish) = new_tensor(start) * I(change);
+        }
+    }
+
+    return new_tensor;
+}
 } // namespace libchemist
