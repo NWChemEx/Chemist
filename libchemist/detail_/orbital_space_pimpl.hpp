@@ -28,34 +28,6 @@ namespace libchemist::detail_ {
             if (C_.is_initialized()) D_("mu, nu") = C_("mu, i") * Cdagger_("i, nu");
         }
 
-        /** @brief Make the indices to transform the selected mode of a tensor
-         *
-         * @param n_modes The number of modes in the tensor
-         * @param target_mode The mode that will be transformed
-         *
-         * @return The indices of the tensor before and after transformation
-         */
-        std::pair<std::string, std::string> make_indices(std::size_t n_modes, std::size_t target_mode) const {
-            std::string initial;
-            std::string transformed;
-
-            for (int i = 0; i < n_modes; ++i) {
-                if (i > 0) {
-                    initial.append(",");
-                    transformed.append(",");
-                }
-                if (i != target_mode) {
-                    initial.append(std::to_string(i));
-                    transformed.append(std::to_string(i));
-                } else {
-                    initial.append("A");
-                    transformed.append("B");
-                }
-            }
-
-            return std::pair<std::string, std::string>(transformed, initial);
-        }
-
     public:
         /** @brief Creates a new OrbitalSpacePIMPL instance containing empty members. */
         OrbitalSpacePIMPL() : basis_set_(std::make_shared<basis_type>(basis_type())),
@@ -154,8 +126,8 @@ namespace libchemist::detail_ {
             tensor_type rv(X);
             auto n_modes = X.range().rank();
             for (const auto& i : modes) {
-                auto indices = make_indices(n_modes, i);
-                rv(indices.first) = rv(indices.second) * C_("A,B");
+                auto [start, finish, change] = detail_::contraction_dummy_annotations(X.trange().rank(), i);
+                rv(finish) = rv(start) * C_(change);
             }
             return rv;
         }
@@ -171,8 +143,8 @@ namespace libchemist::detail_ {
             tensor_type rv(X);
             auto n_modes = X.range().rank();
             for (const auto& i : modes) {
-                auto indices = make_indices(n_modes, i);
-                rv(indices.first) = rv(indices.second) * Cdagger_("A,B");
+                auto [start, finish, change] = detail_::contraction_dummy_annotations(X.trange().rank(), i);
+                rv(finish) = rv(start) * Cdagger_(change);
             }
             return rv;
         }
