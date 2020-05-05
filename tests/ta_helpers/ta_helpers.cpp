@@ -119,11 +119,27 @@ TEST_CASE("Retile") {
                             {2.1, 2.2, 2.3, 2.4, 2.5}};
 
     auto range0  = TA::TiledRange1(0, 3, 5);
+    auto range1  = TA::TiledRange1(0, 5);
     auto trange0 = TA::TiledRange({range0, range0});
+    auto trange1 = TA::TiledRange({range0, range1});
 
-    TA::TSpArrayD default_tiling(world, some_values);
-    TA::TSpArrayD specific_tiling(world, trange0, some_values);
+    TA::TArrayD default_dense(world, some_values);
+    TA::TArrayD specific_dense(world, trange0, some_values);
+    TA::TArrayD another_dense(world, trange1, some_values);
 
-    auto result = retile(default_tiling, trange0);
-    REQUIRE(allclose(result, specific_tiling));
+    TA::TSpArrayD default_sparse(world, some_values);
+    TA::TSpArrayD specific_sparse(world, trange0, some_values);
+    TA::TSpArrayD another_sparse(world, trange1, some_values);
+
+    auto result_dense = retile(default_dense, trange0);
+    REQUIRE(allclose(result_dense, specific_dense));
+
+    result_dense = retile(result_dense, trange1);
+    REQUIRE(allclose(result_dense, another_dense));
+
+    auto result_sparse = retile(default_sparse, trange0);
+    REQUIRE(allclose(result_sparse, specific_sparse));
+
+    result_sparse = retile(result_sparse, trange1);
+    REQUIRE(allclose(result_sparse, another_sparse));
 }

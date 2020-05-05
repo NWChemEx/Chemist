@@ -254,20 +254,22 @@ bool allclose(T&& actual, U&& ref, V&& rtol = 1.0E-5, V&& atol = 1.0E-8) {
 
 template<typename TileType, typename PolicyType>
 auto retile(const TA::DistArray<TileType, PolicyType>& tensor, const TA::TiledRange& new_trange) {
-    assert(new_trange.rank() == tensor.trange().rank());
+    assert((new_trange.rank() == tensor.trange().rank()) && "TiledRanges are of different ranks");
+    auto rank = new_trange.rank();
 
     using tensor_type = TA::DistArray<TileType, PolicyType>;
     using element_type = typename tensor_type::element_type;
 
     auto new_tensor = tensor;
 
-    for (auto i = 0; i < new_trange.rank(); ++i) {
+    for (auto i = 0; i < rank; ++i) {
         if (new_trange.dim(i) != tensor.trange().dim(i)) {
             TA::TiledRange retiler{tensor.trange().dim(i), new_trange.dim(i)};
-            auto I = TA::sparse_diagonal_array<element_type>(tensor.world(), retiler);
+
+            auto I = TA::diagonal_array<element_type, PolicyType>(tensor.world(), retiler);
 
             auto [start, finish, change] =
-                    detail_::contraction_dummy_annotations(tensor.trange().rank(), i);
+                    detail_::contraction_dummy_annotations(rank, i);
 
             new_tensor(finish) = new_tensor(start) * I(change);
         }
