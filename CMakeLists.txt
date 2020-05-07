@@ -24,6 +24,7 @@ cpp_find_or_build_dependency(
 cpp_find_or_build_dependency(
     tiledarray
     URL github.com/ValeevGroup/tiledarray
+    VERSION 15c00b94ad3415e36d8444c399b6b02c7f331270
     BUILD_TARGET tiledarray
     FIND_TARGET tiledarray
 )
