@@ -95,8 +95,8 @@ namespace libchemist {
 
     template<typename e_type, typename t_type>
     AOS::AOSpace(basis_type bs, t_type S) : OrbSpace(bs, S,
-        TA::sparse_diagonal_array<tensor_elems>(S.world(), S.trange()),
-        TA::sparse_diagonal_array<tensor_elems>(S.world(), S.trange()),
+        TA::diagonal_array<t_type, tensor_elems>(S.world(), S.trange()),
+        TA::diagonal_array<t_type, tensor_elems>(S.world(), S.trange()),
         S) {}
 
     template<typename e_type, typename t_type>

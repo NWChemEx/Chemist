@@ -266,7 +266,7 @@ auto retile(const TA::DistArray<TileType, PolicyType>& tensor, const TA::TiledRa
         if (new_trange.dim(i) != tensor.trange().dim(i)) {
             TA::TiledRange retiler{tensor.trange().dim(i), new_trange.dim(i)};
 
-            auto I = TA::diagonal_array<element_type, PolicyType>(tensor.world(), retiler);
+            auto I = TA::diagonal_array<TA::DistArray<TileType, PolicyType>, element_type>(tensor.world(), retiler);
 
             auto [start, finish, change] =
                     detail_::contraction_dummy_annotations(rank, i);
