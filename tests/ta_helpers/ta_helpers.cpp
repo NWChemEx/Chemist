@@ -131,15 +131,15 @@ TEST_CASE("Retile") {
     TA::TSpArrayD specific_sparse(world, trange0, some_values);
     TA::TSpArrayD another_sparse(world, trange1, some_values);
 
-    auto result_dense = retile(default_dense, trange0);
+    auto result_dense = libchemist::retile(default_dense, trange0);
     REQUIRE(allclose(result_dense, specific_dense));
 
-    result_dense = retile(result_dense, trange1);
+    result_dense = libchemist::retile(result_dense, trange1);
     REQUIRE(allclose(result_dense, another_dense));
 
-    auto result_sparse = retile(default_sparse, trange0);
+    auto result_sparse = libchemist::retile(default_sparse, trange0);
     REQUIRE(allclose(result_sparse, specific_sparse));
 
-    result_sparse = retile(result_sparse, trange1);
+    result_sparse = libchemist::retile(result_sparse, trange1);
     REQUIRE(allclose(result_sparse, another_sparse));
 }
