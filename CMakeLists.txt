@@ -23,7 +23,8 @@ cpp_find_or_build_dependency(
 
 cpp_find_or_build_dependency(
     tiledarray
-    URL github.com/ValeevGroup/tiledarray
+    URL github.com/jwaldrop107/tiledarray
+    VERSION retile_function
     BUILD_TARGET tiledarray
     FIND_TARGET tiledarray
 )
