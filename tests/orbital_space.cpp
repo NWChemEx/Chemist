@@ -98,8 +98,8 @@ TEST_CASE("Orbital space") {
     tensor Cdagger;
     Cdagger("i, mu") = C("mu, i");
 
-    auto I_ao = TA::sparse_diagonal_array<double>(world, TA::TiledRange({AO_range, AO_range}));
-    auto I_mo = TA::sparse_diagonal_array<double>(world, TA::TiledRange({OCC_range, OCC_range}));
+    auto I_ao = TA::diagonal_array<tensor,double>(world, TA::TiledRange({AO_range, AO_range}));
+    auto I_mo = TA::diagonal_array<tensor,double>(world, TA::TiledRange({OCC_range, OCC_range}));
 
     // Test OrbitalSpace
     orbspace Space0;
