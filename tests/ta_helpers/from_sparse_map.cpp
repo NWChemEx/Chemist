@@ -1,11 +1,15 @@
-//#include <catch2/catch.hpp>
-//#include <libchemist/ta_helpers/from_sparse_map.hpp>
-//#include <libchemist/ta_helpers/ta_helpers.hpp>
-//
-//using namespace libchemist;
-//using namespace libchemist::sparse_map;
-//
-//
+#include <catch2/catch.hpp>
+#include <libchemist/ta_helpers/from_sparse_map.hpp>
+#include <libchemist/ta_helpers/ta_helpers.hpp>
+
+using namespace libchemist;
+using namespace libchemist::sparse_map;
+
+TEST_CASE("sm2t_index"){
+
+}
+
+
 //TEST_CASE("from_sparse_map(SparseMap, DistArray, TiledRange, size_t)"){
 //    using namespace sparse_map;
 //    using index_type = typename SparseMap::key_type;

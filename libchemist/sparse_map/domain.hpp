@@ -8,12 +8,31 @@ namespace detail_ {
 class DomainPIMPL;
 }
 
+/** @brief A set of tile coordinate indices.
+ *
+ *  Practically speaking, given a dense tensor @f$T@f$ a Domain instance will
+ *  contain a list of tiles (actually the coordinate indices of the tiles) from
+ *  @f$T@f$.
+ *
+ *  @note Nothing about the machinery of the Domain class actually assumes that
+ *        the values in the Domain are coordinate indices of tiles. The Domain
+ *        class simply assumes it is managing indices.
+ */
 class Domain {
 public:
+    /// An unsigned integral type used for offsets and counting
     using size_type = std::size_t;
+
+    /// The type the indices are stored as
     using value_type = std::vector<size_type>;
+
+    /// The type of a reference to an index. Note indices are immutable.
     using reference = const value_type&;
+
+    /// Type of a read-only reference to an index.
     using const_reference = const value_type&;
+
+    /// Type of a bidirectional iterator
     using iterator = utilities::iterators::OffsetIterator<Domain>;
     using const_iterator = utilities::iterators::OffsetIterator<const Domain>;
 
@@ -68,8 +87,9 @@ private:
      */
     void check_pimpl_() const;
 
+    /// The PIMPL which actually contains the data/implements core functionality
     std::unique_ptr<detail_::DomainPIMPL> m_pimpl_;
-};
+}; // class Domain
 
 inline std::ostream& operator<<(std::ostream& os, const Domain& d){
     return d.print(os);

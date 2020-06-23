@@ -1,24 +1,8 @@
 #pragma once
 #include "libchemist/ta_helpers/detail_/reducer.hpp"
-#include "libchemist/ta_helpers/get_block_idx.hpp"
-#include "libchemist/sparse_map/sparse_map.hpp"
 #include <tiledarray.h>
 
 namespace libchemist {
-
-auto inline add_tiled_dimension(const TA::TiledRange& trange,
-                                const TA::TiledRange1& tr1,
-                                std::size_t mode = 0) {
-    std::vector<TA::TiledRange1> tr1s;
-    const auto new_rank = trange.rank() + 1;
-    tr1s.reserve(new_rank);
-    for(std::size_t i = 0; i < new_rank; ++i) {
-        if(i < mode) tr1s.push_back(trange.dim(i));
-        else if(i == mode)tr1s.push_back(tr1);
-        else tr1s.push_back(trange.dim(i - 1));
-    }
-    return TA::TiledRange{tr1s.begin(), tr1s.end()};
-};
 
 //------------------------------------------------------------------------------
 // Tensor Creation
@@ -80,7 +64,7 @@ auto apply_elementwise(const TA::DistArray<TileType, PolicyType>& input,
  */
 template<typename TileType, typename PolicyType, typename Op>
 void apply_elementwise_inplace(TA::DistArray<TileType, PolicyType>& input,
-                       Op&& op) {
+                               Op&& op) {
 
     auto m = [op{std::forward<Op>(op)}](TileType& tile) {
         tile.inplace_unary(op);
@@ -241,7 +225,7 @@ bool allclose(T&& actual, U&& ref, V&& rtol = 1.0E-5, V&& atol = 1.0E-8) {
   AmB(idx)      = actual(idx) - ref(idx);
 
   auto times_op = [=](V lhs, V rhs) {
-    return std::fabs(lhs) <= atol + rtol * std::fabs(rhs);
+    return lhs <= atol + rtol * std::fabs(rhs);
   };
   std::logical_and<bool> add_op;
   return reduce_elementwise(AmB, ref, add_op, times_op, true).get();

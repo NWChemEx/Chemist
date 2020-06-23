@@ -1,6 +1,7 @@
 #pragma once
+#include "libchemist/basis_set/ao_basis_set/ao_basis_set.hpp"
 #include "libchemist/orbital_space.hpp"
-#include <libchemist/basis_set/ao_basis_set/ao_basis_set.hpp>
+#include "libchemist/ta_helpers/detail_/contraction_dummy_annotation.hpp"
 
 namespace libchemist::detail_ {
 

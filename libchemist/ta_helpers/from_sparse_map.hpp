@@ -1,96 +1,65 @@
-//#pragma once
-//#include "libchemist/sparse_map/sparse_map.hpp"
-//#include "libchemist/ta_helpers/get_block_idx.hpp"
-//#include <tiledarray.h>
+#pragma once
+#include "libchemist/sparse_map/sparse_map.hpp"
+#include "libchemist/ta_helpers/get_block_idx.hpp"
+#include <tiledarray.h>
+
+namespace libchemist {
+namespace detail_ {
+
+
+} // namespace detail_
+
+///** @brief Main API for forming a tensor-of-tensors from a SparseMap instance.
+// *
+// *
+// *  @note This function assumes that dependent modes of the sparse map appear in
+// *        the same order in both the sparse map and the tensor. If this is not
+// *        the case it is necessary to permute the tensor in order to make this
+// *        the case.
+// *
+// * @tparam TensorType
+// * @param sm
+// * @param[in] t The tensor we are applying @p sm to.
+// * @param[in] ind_modes
+// * @param[in] dep_modes
+// * @return
+// */
+//template<typename TensorType>
+//auto from_sparse_map(const SparseMap& sm,
+//                     TensorType&& t,
+//                     std::map<std::size_t, TA::TiledRange1> free_ind_ranges,
+//                     const std::map<std::size_t, std::size_t>& ind_sm_modes2t) {
+//    //TODO: Check inputs specifically the following should be true
+//    // ind_modes.size() + free_ind_ranges.size() == sm.dep_rank()
+//    // ind_modes.size() + dep_modes.size() == t.rank()
+//    // dep_modes.size() == sm.dep_rank()
 //
-//namespace libchemist {
-//namespace detail_ {
+//    using clean_tensor  = std::decay_t<TensorType>;
+//    using scalar_type   = typename clean_tensor::numeric_type;
+//    using tot_tile_type = TA::Tensor<TA::Tensor<scalar_type>>;
+//    using policy_type   = typename clean_tensor::policy_type;
+//    using rv_type       = TA::DistArray<tot_tile_type, policy_type>;
 //
-//template<typename TileType, typename PolicyType>
-//auto make_inner_ranges_(const sparse_map::SparseMap& sm,
-//                        const TA::DistArray<TileType, PolicyType>& t,
-//                        std::size_t mode) {
+//    //--------------- Step 1: Assemble TiledRange of output --------------------
 //
-//    // If t's rank is not the same as the rank of the dependent indices then we
-//    // also need the independent indices to retrieve a block
-//    const bool need_ind = t.trange().rank() == sm.dep_rank();
+//    auto rv_trange =
+//      make_tot_trange(t.trange(), ind_sm_modes2t, free_ind_ranges);
 //
-//    const auto& trange = t.trange();
+//    //-------- Step 2: Assemble a lambda which will make the tile
+//    ToTMapper mapper(t.range().rank(), ind_sm_mdoes2t);
+//    auto l = [=](tot_tile_type& tile2init, const TA::Range& r){
+//        // r is the range of the tile we need to make, but what's its index?
+//        auto ind_tile_idx = get_block_idx(rv_trange, r);
+//        if(!sm.count(ind_tile_idx)) return 0.0; // Not in SM means it's zero
 //
-////    for(const auto& [ind, domain] : sm){
-////        std::vector<std::set<std::pair<size_type, size_type>>> ranges;
-////
-////
-////    }
+//        tot_tile_type buffer(r); // buffer will hold the tile as we make it
+//        auto tiles = get_tiles(ind_tile_idx, sm.at(ind_tile_idx), t, mapper);
+//
+//        for(const auto& ind_elem_idx : r){
+//            buffer(ind_elem_idx) = make_inner_tile_(ind_elem_idx, tiles, mapper);
+//        }
+//    };
+//    return TA::make_tensor<rv_type>(t.world(), rv_trange, l)
 //}
-//
-//template<typename TileType, typename PolicyType>
-//auto from_sparse_map_(const sparse_map::SparseMap& sm,
-//                      const TA::DistArray<TileType, PolicyType>& t,
-//                      std::size_t mode) {
-//    // Type of the tiles in the resulting tensor
-//    using tile_type = TA::Tensor<TileType>;
-//
-//    // Type of the resulting tensors
-//    using tensor_type  = typename TA::DistArray<tile_type, PolicyType>;
-//
-//    using size_type    = typename sparse_map::SparseMap::size_type;
-//    using element_type = typename TileType::value_type;
-//    using index_type   = std::vector<size_type>;
-//
-//    // If t's rank is not the same as the rank of the dependent indices then we
-//    // also need the independent indices to retrieve a block
-//    const bool need_ind = t.trange().rank() == sm.dep_rank();
-//
-//
-//
-//
-//    return TA::make_array<tensor_type>(
-//      t.world(), trange, [=](tile_type& tile, const TA::Range& r) {
-//          auto idx = get_block_idx(trange, r);
-//          const index_type ind_idx{idx[mode]};
-//
-//          // Make sure independent index is in sparse map
-//          if(!sm.count(ind_idx)) return element_type{0.0};
-//
-//          // Make the dependent index by dropping the independent index
-//          index_type dep_idx;
-//          idx.reserve(idx.size() - 1);
-//          for(size_type i = 0; i < idx.size(); ++i)
-//              if(i != mode) dep_idx.push_back(idx[i]);
-//
-//          // Make sure dependent index is in sparse map
-//          const auto& domain = sm.at(ind_idx);
-//          if(!domain.count(dep_idx)) return element_type{0.0};
-//
-//          // It's a good index get the tile from t and put it in the result
-//          const auto& tidx = need_ind ? idx : dep_idx;
-//          auto old_tile    = t.find(tidx).get();
-//          tile             = tile_type(r, old_tile.begin());
-//          return tile.norm();
-//      });
-//}
-//} // namespace detail_
-//
-//template<typename TileType, typename PolicyType>
-//auto from_sparse_map(const sparse_map::SparseMap& sm,
-//                     const TA::DistArray<TileType, PolicyType>& t,
-//                     const TA::TiledRange1& tr1, std::size_t mode = 0) {
-//    if(sm.dep_rank() != t.trange().rank())
-//        throw std::runtime_error("SparseMap dep_rank() != t.rank()");
-//
-//    auto trange = add_tiled_dimension(t.trange(), tr1);
-//    return from_sparse_map_(sm, t, trange, mode);
-//}
-//
-//template<typename TileType, typename PolicyType>
-//auto from_sparse_map(const sparse_map::SparseMap& sm,
-//                     const TA::DistArray<TileType, PolicyType>& t,
-//                     std::size_t mode) {
-//    if(sm.dep_rank() != t.trange().rank() - 1)
-//        throw std::runtime_error("SparseMap dep_rank() != t.rank()");
-//
-//    return from_sparse_map_(sm, t, t.trange(), mode);
-//}
-//
-//} // namespace libchemist
+
+} // namespace libchemist

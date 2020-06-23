@@ -7,10 +7,7 @@ namespace detail_ {
 class SparseMapPIMPL;
 }
 
-/** @brief Stores the sparsity relation from one index space to another
- *
- *  The SparseMap class assumes that the modes of a tensor can be classified as
- *  either independent or dependent.
+/** @brief Stores the sparsity relation among indices.
  *
  */
 class SparseMap {
@@ -46,7 +43,18 @@ public:
     size_type size() const noexcept;
     bool empty() const noexcept { return begin() == end(); }
     bool count(const key_type& i) const noexcept;
+    template<typename BeginItr, typename EndItr>
+    bool count(BeginItr&& b, EndItr&& e) {
+        const key_type k(std::forward<BeginItr>(b), std::forward<EndItr>(e));
+        return count(k);
+    }
     size_type ind_rank() const noexcept;
+
+    /** @brief The number of independent modes associated with each Domain.
+     *
+     *  The
+     * @return
+     */
     size_type dep_rank() const noexcept;
 
     index_set_map indices() const;
