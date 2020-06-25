@@ -10,9 +10,9 @@ class DomainPIMPL;
 
 /** @brief A set of tile coordinate indices.
  *
- *  Practically speaking, given a dense tensor @f$T@f$ a Domain instance will
- *  contain a list of tiles (actually the coordinate indices of the tiles) from
- *  @f$T@f$.
+ *  Practically speaking a domain collects the dependent tile indices associated
+ *  with a particular independent element index. The SparseMap class manages
+ *  the mapping of independent element indices to Domain instances.
  *
  *  @note Nothing about the machinery of the Domain class actually assumes that
  *        the values in the Domain are coordinate indices of tiles. The Domain

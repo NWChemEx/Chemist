@@ -101,11 +101,11 @@ index_set SparseMap::indices(key_type ind, size_type mode) const {
         rv.insert(dep[mode]);
     return rv;
 }
-mapped_type& SparseMap::at(const key_type& ind) {
+mapped_type& SparseMap::at_(const key_type& ind) {
     return m_pimpl_->m_sm.at(ind);
 }
 
-const mapped_type& SparseMap::at(const key_type& ind) const {
+const mapped_type& SparseMap::at_(const key_type& ind) const {
     return m_pimpl_->m_sm.at(ind);
 }
 
@@ -157,9 +157,7 @@ void SparseMap::hash(sde::Hasher& h) const {
 }
 
 std::ostream& SparseMap::print(std::ostream& os) const {
-    using namespace utilities::printing;
-    using utilities::printing::operator<<;
-    return os << m_pimpl_->m_sm;
+    return utilities::printing::operator<<(os, m_pimpl_->m_sm);
 }
 
 void SparseMap::check_rank_(size_type idx_rank, bool dep) const {

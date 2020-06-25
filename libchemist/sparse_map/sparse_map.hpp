@@ -18,8 +18,8 @@ private:
 
     using stl_map_t = std::map<std::vector<std::size_t>, Domain>;
 public:
-    using mapped_type     = Domain;
-    using key_type        = typename mapped_type::value_type;
+    using mapped_type = Domain;
+    using key_type    = typename mapped_type::value_type;
     using value_type      = std::pair<const key_type, mapped_type>;
     using reference       = value_type&;
     using const_reference = const value_type&;
@@ -44,7 +44,7 @@ public:
     bool empty() const noexcept { return begin() == end(); }
     bool count(const key_type& i) const noexcept;
     template<typename BeginItr, typename EndItr>
-    bool count(BeginItr&& b, EndItr&& e) {
+    bool count(BeginItr&& b, EndItr&& e) const {
         const key_type k(std::forward<BeginItr>(b), std::forward<EndItr>(e));
         return count(k);
     }
@@ -87,8 +87,12 @@ public:
 
     mapped_type& operator[](const key_type& i);
     const mapped_type& operator[](const key_type& i)const;
-    mapped_type& at(const key_type& i);
-    const mapped_type& at(const key_type& i) const;
+
+    template<typename IndexType>
+    mapped_type& at(IndexType&& idx);
+    template<typename IndexType>
+    const mapped_type& at(IndexType&& idx) const;
+
 
     iterator begin() noexcept;
     const_iterator begin() const noexcept;
@@ -132,6 +136,9 @@ public:
 
     std::ostream& print(std::ostream& os) const;
 private:
+    mapped_type& at_(const key_type& i);
+    const mapped_type& at_(const key_type& i) const;
+
 
     /** @brief Code factorization for ensuring an input index has the correct
      *         rank.
@@ -159,7 +166,6 @@ inline std::ostream& operator<<(std::ostream& os, const SparseMap& sm) {
 }
 
 
-
 //------------------------------------------------------------------------------
 // Inline Implementations
 //------------------------------------------------------------------------------
@@ -176,6 +182,15 @@ typename SparseMap::mapped_type& SparseMap::operator[](const key_type& i) {
 inline const typename SparseMap::mapped_type&
 SparseMap::operator[](const key_type& i) const{
     return at(i);
+}
+
+template<typename IndexType>
+typename SparseMap::mapped_type& SparseMap::at(IndexType&& idx){
+    return at_(key_type{idx.begin(), idx.end()});
+}
+template<typename IndexType>
+const typename SparseMap::mapped_type& SparseMap::at(IndexType&& idx) const {
+    return at_(key_type{idx.begin(), idx.end()});
 }
 
 inline void SparseMap::add_to_domain(size_type ind, size_type dep) {

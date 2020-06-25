@@ -153,7 +153,8 @@ template<typename TileType, typename PolicyType, typename AddOp,
 auto reduce_elementwise(const TA::DistArray<TileType, PolicyType>& lhs,
                         const TA::DistArray<TileType, PolicyType>& rhs,
                         AddOp&& add_op, TimesOp&& times_op,
-                        ResultType&& init) {
+                        ResultType&& init,
+                        std::size_t inner_rank = 0) {
   using tensor_type = TA::DistArray<TileType, PolicyType>;
   using add_type    = std::decay_t<AddOp>;
   using times_type  = std::decay_t<TimesOp>;
@@ -161,7 +162,7 @@ auto reduce_elementwise(const TA::DistArray<TileType, PolicyType>& lhs,
   detail_::Reducer<tensor_type, add_type, times_type> r(
       std::forward<AddOp>(add_op), std::forward<TimesOp>(times_op), init);
 
-  const auto idx = TA::detail::dummy_annotation(lhs.range().rank());
+  const auto idx = TA::detail::dummy_annotation(lhs.range().rank(), inner_rank);
 
   return lhs(idx).reduce(rhs(idx), std::move(r));
 }
@@ -211,24 +212,55 @@ auto reduce_elementwise(const TA::DistArray<TileType, PolicyType>& lhs,
  *  @return True if @p actual is "close" to @p ref and false otherwise.
  */
 template<typename T, typename U,
-    typename V = typename std::decay_t<T>::element_type>
-bool allclose(T&& actual, U&& ref, V&& rtol = 1.0E-5, V&& atol = 1.0E-8) {
+    typename V = typename std::decay_t<T>::scalar_type>
+bool allclose(T&& actual, U&& ref, V&& rtol = 1.0E-5, V&& atol = 1.0E-8,
+              std::size_t inner_rank = 0) {
   using tensor_type = std::decay_t<T>;
+  using tile_type   = typename tensor_type::value_type;
+  using scalar_type = std::decay_t<V>;
   static_assert(std::is_same_v<tensor_type, std::decay_t<U>>,
                 "different tensor types is currently unsupported");
 
+  constexpr bool is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
+
   // Get a dummy string label (something like "i0, i1, i2, ...")
-  const auto idx = TA::detail::dummy_annotation(actual.range().rank());
+  auto idx = TA::detail::dummy_annotation(actual.range().rank(), inner_rank);
 
   // Compute A - B, call result AmB
   tensor_type AmB;
   AmB(idx)      = actual(idx) - ref(idx);
 
-  auto times_op = [=](V lhs, V rhs) {
+  auto times_op = [=](scalar_type lhs, scalar_type rhs) {
     return lhs <= atol + rtol * std::fabs(rhs);
   };
+
   std::logical_and<bool> add_op;
-  return reduce_elementwise(AmB, ref, add_op, times_op, true).get();
+
+  if constexpr (!is_tot) {
+      return reduce_elementwise(AmB, ref, add_op, times_op, true).get();
+  }
+  else{
+    using inner_type  = typename tile_type::value_type;
+    auto inner_times = [=](bool& result, const scalar_type& first,
+                           const scalar_type& second) {
+          result = times_op(first, second);
+      };
+    auto outer_times = [=](inner_type lhs, inner_type rhs) {
+          return lhs.reduce(rhs, inner_times, add_op, true);
+    };
+    return reduce_elementwise(AmB, ref, add_op, outer_times,
+                              true, inner_rank).get();
+  }
+}
+
+/// Reorders the arguments to be more convenient for a ToT
+template<typename T, typename U,
+         typename V = typename std::decay_t<T>::scalar_type>
+bool allclose_tot(T&& actual, U&& ref, std::size_t inner_rank = 0,
+                  V&& rtol = 1.0E-5, V&& atol = 1.0E-8) {
+    return allclose(std::forward<T>(actual),
+                    std::forward<U>(ref),
+                      rtol, atol, inner_rank);
 }
 
 } // namespace libchemist

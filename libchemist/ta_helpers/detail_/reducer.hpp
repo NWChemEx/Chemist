@@ -6,13 +6,12 @@ namespace libchemist::detail_ {
 /// Generic functor satisfying TiledArray's Reducer API
 template<typename TensorType, typename AddOp, typename TimesOp>
 class Reducer {
-  using element_type = typename TensorType::element_type;
   using tile_type    = typename TensorType::value_type;
-
+  using element_type = typename tile_type::value_type;
 public:
   // Required typedefs
   using result_type =
-  std::invoke_result_t<TimesOp, element_type, element_type>;
+    std::invoke_result_t<TimesOp, element_type, element_type>;
   using first_argument_type  = tile_type;
   using second_argument_type = tile_type;
 
