@@ -919,8 +919,6 @@ TEST_CASE("SparseMap : chain"){
         REQUIRE(sm.chain(sm) == sm);
     }
 
-    //TODO: I'm not entirely sure what the behavior ought to be in this case.
-    //      Whether there should be throws or return the empty set.
     SECTION("Empty / Non-empty") {
         SparseMap sm;
         SparseMap sm2{{index_type{1}, {index_type{0}, index_type{3}}},

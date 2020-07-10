@@ -171,4 +171,60 @@ void SparseMap::check_rank_(size_type idx_rank, bool dep) const {
     );
 }
 
+SparseMap SparseMap::inverse() const {
+    SparseMap rv;
+    for (const auto& x : *this) {
+        for (const auto y : x.second) {
+            rv.add_to_domain(y,x.first);
+        }
+    }
+    return rv;
+}
+
+SparseMap SparseMap::chain(const SparseMap& sm) const {
+    if (this->dep_rank() != sm.ind_rank())
+        throw std::runtime_error("Incompatible index ranks between chained maps");
+    SparseMap rv;
+    for (const auto& x : *this) {
+        for (const auto y : x.second) {
+            if (sm.count(y)) {
+                for (const auto z : sm.at(y)) {
+                    rv.add_to_domain(x.first, z);
+                }
+            }
+        }
+    }
+    return rv;
+}
+
+SparseMap SparseMap::map_union(const SparseMap& sm) const {
+    if (!this->empty() && !sm.empty() &&
+        (this->dep_rank() != sm.dep_rank() || this->ind_rank() != sm.ind_rank()))
+        throw std::runtime_error("Incompatible index ranks between maps for union");
+    SparseMap rv = *this;
+    for (const auto& x : sm) {
+        for (const auto y : x.second) {
+            rv.add_to_domain(x.first,y);
+        }
+    }
+    return rv;
+}
+
+SparseMap SparseMap::intersection(const SparseMap& sm) const {
+    if (!this->empty() && !sm.empty() &&
+        (this->dep_rank() != sm.dep_rank() || this->ind_rank() != sm.ind_rank()))
+        throw std::runtime_error("Incompatible index ranks between maps for intersection");
+    SparseMap rv;
+    for (const auto& x : *this) {
+        if (sm.count(x.first)) {
+            for (const auto y : x.second) {
+                if (sm.at(x.first).count(y)) {
+                    rv.add_to_domain(x.first,y);
+                }
+            }
+        }
+    }
+    return rv;
+}
+
 } // namespace libchemist::sparse_map

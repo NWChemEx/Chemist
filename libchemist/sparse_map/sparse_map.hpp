@@ -136,29 +136,64 @@ public:
 
     std::ostream& print(std::ostream& os) const;
 
-    /** @brief
+    /** @brief Constructs the inverse SparseMap.
      *
-     * @return
+     *  Creates a SparseMap which maps from the dependent indices to the
+     *  independent indices of the current map.
+     *
+     *  sparse_map.inverse().inverse() == sparse_map
+     *
+     * @return The inverse of the SparseMap.
+     * @throw none No throw guarantee.
      */
     SparseMap inverse() const;
 
-    /** @brief
+    /** @brief Creates a SparseMap from chaining two maps together.
      *
-     * @return
+     *  Given the SparseMaps sm1(f -> g) and sm2(g -> h),
+     *  the chained map from (f -> h) is formed by mapping each element
+     *  f_i to a set of {g_i} using sm1, and then to any element in h which is mapped to from
+     *  an element of {g_i} by sm2.
+     *
+     *  Requires that the maps share a common set of indices, g, as the dependent and
+     *  independent indices respectively.
+     *
+     * @param[in] sm The SparseMap to chain with this instance.
+     * @return The chained map.
+     * @throw std::runtime_error if the rank of the dependent indices of this instance
+     *                           is not equal to the rank of the independent indices
+     *                           of \p sm.
      */
-    SparseMap chain(const SparseMap&) const;
+    SparseMap chain(const SparseMap& sm) const;
+
+    /** @brief Creates a SparseMap which is the union of two maps.
+     *
+     *  Given two SparseMaps sm1(f -> g) and sm2(f -> g), the union is formed by
+     *  mapping f_i to any element in g which f_i is mapped to by either sm1 or sm2.
+     *
+     *  Requires that either one of the sets is empty or both sets have the same
+     *  rank in independent and dependent indices.
+     *
+     * @param[in] sm The SparseMap to take the union with this instance.
+     * @return The union of the two maps.
+     * @throw std::runtime_error if neither map is empty and the rank of the dependent
+     *                           indices of this instance is not equal to the rank of
+     *                           the independent indices of \p sm.
+     */
+    SparseMap map_union(const SparseMap& sm) const;
 
     /** @brief
      *
-     * @return
-     */
-    SparseMap map_union(const SparseMap&) const;
-
-    /** @brief
+     *  Given two SparseMaps sm1(f -> g) and sm2(f -> g), the intersection is formed by
+     *  mapping f_i to any element in g which f_i is mapped to by both sm1 and sm2.
      *
-     * @return
+     * @param[in] sm The SparseMap to take the intersection with this instance.
+     * @return The intersection of the two maps.
+     * @throw std::runtime_error if neither map is empty and the rank of the dependent
+     *                           indices of this instance is not equal to the rank of
+     *                           the independent indices of \p sm.
      */
-    SparseMap intersection(const SparseMap&) const;
+    SparseMap intersection(const SparseMap& sm) const;
 
 private:
     mapped_type& at_(const key_type& i);
@@ -236,60 +271,4 @@ inline bool SparseMap::operator!=(const SparseMap& rhs) const noexcept {
     return !((*this) == rhs);
 }
 
-inline SparseMap SparseMap::inverse() const {
-    SparseMap rv;
-    for (const auto& x : *this) {
-        for (const auto y : x.second) {
-            rv.add_to_domain(y,x.first);
-        }
-    }
-    return rv;
-}
-
-inline SparseMap SparseMap::chain(const SparseMap& sm) const {
-    if (this->dep_rank() != sm.ind_rank())
-        throw std::runtime_error("Incompatible index ranks between chained maps");
-    SparseMap rv;
-    for (const auto& x : *this) {
-        for (const auto y : x.second) {
-            if (sm.count(y)) {
-                for (const auto z : sm.at(y)) {
-                    rv.add_to_domain(x.first, z);
-                }
-            }
-        }
-    }
-    return rv;
-}
-
-inline SparseMap SparseMap::map_union(const SparseMap& sm) const {
-    if (!this->empty() && !sm.empty() &&
-        (this->dep_rank() != sm.dep_rank() || this->ind_rank() != sm.ind_rank()))
-        throw std::runtime_error("Incompatible index ranks between maps for union");
-    SparseMap rv = *this;
-    for (const auto& x : sm) {
-        for (const auto y : x.second) {
-            rv.add_to_domain(x.first,y);
-        }
-    }
-    return rv;
-}
-
-inline SparseMap SparseMap::intersection(const SparseMap& sm) const {
-    if (!this->empty() && !sm.empty() &&
-        (this->dep_rank() != sm.dep_rank() || this->ind_rank() != sm.ind_rank()))
-        throw std::runtime_error("Incompatible index ranks between maps for intersection");
-    SparseMap rv;
-    for (const auto& x : *this) {
-        if (sm.count(x.first)) {
-            for (const auto y : x.second) {
-                if (sm.at(x.first).count(y)) {
-                    rv.add_to_domain(x.first,y);
-                }
-            }
-        }
-    }
-    return rv;
-}
-
-}
+} // end namespace
