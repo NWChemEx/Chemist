@@ -64,7 +64,7 @@ public:
     *   This is a convenience function for calling indices(key_type, size_type)
     *   for each dependent index mode.
     *
-    *   @result A vector of length dep_rank() such that the i-th element is the
+    *   @result A vector of length dep_rank() such that the i-th element
     *           is the set of non-zero indices for mode i.
     */
     index_set_array indices(key_type ind) const;
@@ -135,6 +135,31 @@ public:
     void hash(sde::Hasher& h) const;
 
     std::ostream& print(std::ostream& os) const;
+
+    /** @brief
+     *
+     * @return
+     */
+    SparseMap inverse() const;
+
+    /** @brief
+     *
+     * @return
+     */
+    SparseMap chain(const SparseMap&) const;
+
+    /** @brief
+     *
+     * @return
+     */
+    SparseMap map_union(const SparseMap&) const;
+
+    /** @brief
+     *
+     * @return
+     */
+    SparseMap intersection(const SparseMap&) const;
+
 private:
     mapped_type& at_(const key_type& i);
     const mapped_type& at_(const key_type& i) const;
@@ -211,4 +236,60 @@ inline bool SparseMap::operator!=(const SparseMap& rhs) const noexcept {
     return !((*this) == rhs);
 }
 
-} // namespace mp2
+inline SparseMap SparseMap::inverse() const {
+    SparseMap rv;
+    for (const auto& x : *this) {
+        for (const auto y : x.second) {
+            rv.add_to_domain(y,x.first);
+        }
+    }
+    return rv;
+}
+
+inline SparseMap SparseMap::chain(const SparseMap& sm) const {
+    if (this->dep_rank() != sm.ind_rank())
+        throw std::runtime_error("Incompatible index ranks between chained maps");
+    SparseMap rv;
+    for (const auto& x : *this) {
+        for (const auto y : x.second) {
+            if (sm.count(y)) {
+                for (const auto z : sm.at(y)) {
+                    rv.add_to_domain(x.first, z);
+                }
+            }
+        }
+    }
+    return rv;
+}
+
+inline SparseMap SparseMap::map_union(const SparseMap& sm) const {
+    if (!this->empty() && !sm.empty() &&
+        (this->dep_rank() != sm.dep_rank() || this->ind_rank() != sm.ind_rank()))
+        throw std::runtime_error("Incompatible index ranks between maps for union");
+    SparseMap rv = *this;
+    for (const auto& x : sm) {
+        for (const auto y : x.second) {
+            rv.add_to_domain(x.first,y);
+        }
+    }
+    return rv;
+}
+
+inline SparseMap SparseMap::intersection(const SparseMap& sm) const {
+    if (!this->empty() && !sm.empty() &&
+        (this->dep_rank() != sm.dep_rank() || this->ind_rank() != sm.ind_rank()))
+        throw std::runtime_error("Incompatible index ranks between maps for intersection");
+    SparseMap rv;
+    for (const auto& x : *this) {
+        if (sm.count(x.first)) {
+            for (const auto y : x.second) {
+                if (sm.at(x.first).count(y)) {
+                    rv.add_to_domain(x.first,y);
+                }
+            }
+        }
+    }
+    return rv;
+}
+
+}

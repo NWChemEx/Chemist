@@ -894,6 +894,124 @@ TEST_CASE("SparseMap : equality"){
     }
 }
 
+TEST_CASE("SparseMap : inverse"){
+    SECTION("Empty"){
+        SparseMap sm;
+        REQUIRE(sm.inverse() == sm);
+    }
+
+    SECTION("Non-empty") {
+        SparseMap sm{{index_type{1}, {index_type{0}, index_type{3}}},
+                     {index_type{2}, {index_type{1}, index_type{2}}}};
+        SparseMap corr;
+        corr.add_to_domain(index_type{0},index_type{1});
+        corr.add_to_domain(index_type{3},index_type{1});
+        corr.add_to_domain(index_type{1},index_type{2});
+        corr.add_to_domain(index_type{2},index_type{2});
+        REQUIRE(sm.inverse() == corr);
+        REQUIRE(sm.inverse().inverse() == sm);
+    }
+}
+
+TEST_CASE("SparseMap : chain"){
+    SECTION("Empty / Empty") {
+        SparseMap sm;
+        REQUIRE(sm.chain(sm) == sm);
+    }
+
+    //TODO: I'm not entirely sure what the behavior ought to be in this case.
+    //      Whether there should be throws or return the empty set.
+    SECTION("Empty / Non-empty") {
+        SparseMap sm;
+        SparseMap sm2{{index_type{1}, {index_type{0}, index_type{3}}},
+                      {index_type{2}, {index_type{1}, index_type{2}}}};
+        REQUIRE_THROWS_AS(sm.chain(sm2), std::runtime_error);
+        REQUIRE_THROWS_AS(sm2.chain(sm), std::runtime_error);
+    }
+
+    SECTION("Non-empty / Non-empty"){
+        SparseMap sm{{index_type{1}, {index_type{0}, index_type{3}}},
+                      {index_type{2}, {index_type{1}, index_type{2}}}};
+        SparseMap sm2{{index_type{0}, {index_type{0}, index_type{3}}},
+                      {index_type{1}, {index_type{1}, index_type{2}}},
+                      {index_type{2}, {index_type{1}, index_type{2}}},
+                      {index_type{3}, {index_type{1}, index_type{2}}}};
+        SparseMap incompatible{{index_type{1,2}, {index_type{0}, index_type{3}}},
+                               {index_type{2,3}, {index_type{1}, index_type{2}}}};
+        SparseMap corr{{index_type{1}, {index_type{0}, index_type{1}, index_type{2}, index_type{3}}},
+                       {index_type{2}, {index_type{1}, index_type{2}}}};
+        REQUIRE(sm.chain(sm2) == corr);
+        REQUIRE_THROWS_AS(sm.chain(incompatible), std::runtime_error);
+    }
+}
+
+TEST_CASE("SparseMap : map_union") {
+    SECTION("Empty / Empty") {
+        SparseMap sm;
+        REQUIRE(sm.map_union(sm) == sm);
+    }
+
+    SECTION("Empty / Non-empty") {
+        SparseMap sm;
+        SparseMap sm2{{index_type{1}, {index_type{0}, index_type{3}}},
+                      {index_type{2}, {index_type{1}, index_type{2}}}};
+        REQUIRE(sm.map_union(sm2) == sm2);
+        REQUIRE(sm2.map_union(sm) == sm2);
+    }
+
+    SECTION("Non-empty / Non-empty"){
+        SparseMap sm{{index_type{1}, {index_type{0}, index_type{3}}},
+                     {index_type{2}, {index_type{1}, index_type{2}}}};
+        SparseMap sm2{{index_type{0}, {index_type{0}, index_type{3}}},
+                      {index_type{1}, {index_type{1}, index_type{2}}},
+                      {index_type{2}, {index_type{1}, index_type{2}}},
+                      {index_type{3}, {index_type{1}, index_type{2}}},
+        };
+        SparseMap incompatible{{index_type{1,2}, {index_type{0}, index_type{3}}},
+                               {index_type{2,3}, {index_type{1}, index_type{2}}}};
+        SparseMap corr{{index_type{0}, {index_type{0}, index_type{3}}},
+                       {index_type{1}, {index_type{0}, index_type{1}, index_type{2}, index_type{3}}},
+                       {index_type{2}, {index_type{1}, index_type{2}}},
+                       {index_type{3}, {index_type{1}, index_type{2}}}};
+        REQUIRE(sm.map_union(sm2) == corr);
+        REQUIRE(sm2.map_union(sm) == corr);
+        REQUIRE(sm.map_union(corr) == corr);
+        REQUIRE_THROWS_AS(sm.map_union(incompatible), std::runtime_error);
+    }
+}
+
+TEST_CASE("SparseMap : intersection"){
+    SECTION("Empty / Empty") {
+        SparseMap sm;
+        REQUIRE(sm.intersection(sm) == sm);
+    }
+
+    SECTION("Empty / Non-empty") {
+        SparseMap sm;
+        SparseMap sm2{{index_type{1}, {index_type{0}, index_type{3}}},
+                      {index_type{2}, {index_type{1}, index_type{2}}}};
+        REQUIRE(sm.intersection(sm2) == sm);
+        REQUIRE(sm2.intersection(sm) == sm);
+    }
+
+    SECTION("Non-empty / Non-empty") {
+        SparseMap sm{{index_type{1}, {index_type{0}, index_type{3}}},
+                     {index_type{2}, {index_type{1}, index_type{2}}}};
+        SparseMap sm2{{index_type{0}, {index_type{0}, index_type{3}}},
+                      {index_type{1}, {index_type{1}, index_type{2}}},
+                      {index_type{2}, {index_type{1}, index_type{2}}},
+                      {index_type{3}, {index_type{1}, index_type{2}}},
+        };
+        SparseMap incompatible{{index_type{1, 2}, {index_type{0}, index_type{3}}},
+                               {index_type{2, 3}, {index_type{1}, index_type{2}}}};
+        SparseMap corr{{index_type{2}, {index_type{1}, index_type{2}}}};
+        REQUIRE(sm.intersection(sm2) == corr);
+        REQUIRE(sm2.intersection(sm) == corr);
+        REQUIRE(sm.intersection(corr) == corr);
+        REQUIRE_THROWS_AS(sm.intersection(incompatible), std::runtime_error);
+    }
+}
+
 TEST_CASE("SparseMap : hash"){
     SECTION("Empty"){
         SparseMap sm;
