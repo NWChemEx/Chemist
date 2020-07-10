@@ -231,7 +231,7 @@ bool allclose(T&& actual, U&& ref, V&& rtol = 1.0E-5, V&& atol = 1.0E-8,
   AmB(idx)      = actual(idx) - ref(idx);
 
   auto times_op = [=](scalar_type lhs, scalar_type rhs) {
-    return lhs <= atol + rtol * std::fabs(rhs);
+    return std::fabs(lhs) <= atol + rtol * std::fabs(rhs);
   };
 
   std::logical_and<bool> add_op;

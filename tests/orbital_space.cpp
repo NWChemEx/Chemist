@@ -83,104 +83,104 @@ static matrix_t D_il{
 
 
 TEST_CASE("Orbital space") {
-//    auto& world = TA::get_default_world();
-//    auto bs = make_bs();
-//
-//    auto AO_range = TA::TiledRange1(0, 5, 6, 7); // atomic tiling
-//    auto OCC_range = TA::TiledRange1(0, 5); // occupied only
-//
-//    auto AO_trange = TA::TiledRange({AO_range, AO_range});
-//    auto MO_trange = TA::TiledRange({AO_range, OCC_range});
-//
-//    tensor S(world, AO_trange, S_il);
-//    tensor C(world, MO_trange, C_il);
-//    tensor D(world, AO_trange, D_il);
-//    tensor Cdagger;
-//    Cdagger("i, mu") = C("mu, i");
-//
-//    auto I_ao = TA::diagonal_array<tensor,double>(world, TA::TiledRange({AO_range, AO_range}));
-//    auto I_mo = TA::diagonal_array<tensor,double>(world, TA::TiledRange({OCC_range, OCC_range}));
-//
-//    // Test OrbitalSpace
-//    orbspace Space0;
-//    require_not_initialized(Space0);
-//
-//    orbspace Space1(bs, S, C, Cdagger, D);
-//    require_match_inputs(Space1, bs, S, C, Cdagger, D);
-//
-//    orbspace Space2(bs, S, C, Cdagger);
-//    require_match_inputs(Space2, bs, S, C, Cdagger, D);
-//    REQUIRE(Space1 == Space2);
-//
-//    orbspace Space3(bs, S, C);
-//    require_match_inputs(Space3, bs, S, C, Cdagger, D);
-//
-//    orbspace Space4(Space1);
-//    REQUIRE(Space1 == Space4);
-//
-//    orbspace Space5;
-//    auto pSpace5 = &(Space5 = Space1);
-//    REQUIRE(pSpace5 == &Space5);
-//    REQUIRE(&Space1.C() != &Space5.C());
-//
-//    orbspace Space6(std::move(Space2));
-//    REQUIRE(Space1 == Space6);
-//
-//    orbspace Space7;
-//    auto pSpace7 = &(Space7 = std::move(Space3));
-//    REQUIRE(pSpace7 == &Space7);
-//    REQUIRE(Space1 == Space7);
-//
-//    orbspace Space8(bs, S, I_ao);
-//    require_match_inputs(Space8, bs, S, I_ao, I_ao, I_ao);
-//    REQUIRE(Space1 != Space8);
-//
-//    auto E = Space1.transform_from_ao(S, {0, 1});
-//    REQUIRE(libchemist::allclose(E, I_mo));
-//
-//    auto F = Space1.transform_to_ao(I_mo, {0, 1});
-//    REQUIRE(libchemist::allclose(F, D));
-//
-//    auto G = Space1.transform_to_ao(C, {1});
-//    REQUIRE(libchemist::allclose(G, D));
-//
-//    // Test AOSpace
-//    aospace AO1;
-//    require_not_initialized(AO1);
-//
-//    auto H = AO1.transform_from_ao(S, {0, 1});
-//    REQUIRE(libchemist::allclose(H, S));
-//
-//    auto I = AO1.transform_to_ao(S, {0, 1});
-//    REQUIRE(libchemist::allclose(I, S));
-//
-//    aospace AO2(bs, S);
-//    require_match_inputs(AO2, bs, S, I_ao, I_ao, S);
-//
-//    // Test OrthogonalSpace
-//    orthspace orth0;
-//    orthspace orth1(bs, S, C, Cdagger, D);
-//    orthspace orth2(bs, S, C, Cdagger);
-//    orthspace orth3(bs, S, C);
-//    require_not_initialized(orth0);
-//    require_match_inputs(orth1, bs, S, C, Cdagger, D);
-//    require_match_inputs(orth3, bs, S, C, Cdagger, D);
-//    require_match_inputs(orth3, bs, S, C, Cdagger, D);
-//    REQUIRE(orth1 == Space1);
-//
-//    // Test CanonicalMO
-//    // Using whatever is on hand for the mo energies, since the values don't matter
-//    canonspace canmo0;
-//    canonspace canmo1(bs, S, I_ao, C, Cdagger, D);
-//    canonspace canmo2(bs, S, I_ao, C, Cdagger);
-//    canonspace canmo3(bs, S, I_ao, C);
-//    canonspace canmo4(bs, S, I_mo, C);
-//    require_not_initialized_canon(canmo0);
-//    require_match_inputs_canon(canmo1, bs, S, C, Cdagger, D, I_ao);
-//    require_match_inputs_canon(canmo2, bs, S, C, Cdagger, D, I_ao);
-//    require_match_inputs_canon(canmo3, bs, S, C, Cdagger, D, I_ao);
-//    REQUIRE(Space1 == canmo1);
-//    REQUIRE(orth1  == canmo1);
-//    REQUIRE(canmo1 == canmo2);
-//    REQUIRE(canmo1 != canmo4);
+    auto& world = TA::get_default_world();
+    auto bs = make_bs();
+
+    auto AO_range = TA::TiledRange1(0, 5, 6, 7); // atomic tiling
+    auto OCC_range = TA::TiledRange1(0, 5); // occupied only
+
+    auto AO_trange = TA::TiledRange({AO_range, AO_range});
+    auto MO_trange = TA::TiledRange({AO_range, OCC_range});
+
+    tensor S(world, AO_trange, S_il);
+    tensor C(world, MO_trange, C_il);
+    tensor D(world, AO_trange, D_il);
+    tensor Cdagger;
+    Cdagger("i, mu") = C("mu, i");
+
+    auto I_ao = TA::diagonal_array<tensor,double>(world, TA::TiledRange({AO_range, AO_range}));
+    auto I_mo = TA::diagonal_array<tensor,double>(world, TA::TiledRange({OCC_range, OCC_range}));
+
+    // Test OrbitalSpace
+    orbspace Space0;
+    require_not_initialized(Space0);
+
+    orbspace Space1(bs, S, C, Cdagger, D);
+    require_match_inputs(Space1, bs, S, C, Cdagger, D);
+
+    orbspace Space2(bs, S, C, Cdagger);
+    require_match_inputs(Space2, bs, S, C, Cdagger, D);
+    REQUIRE(Space1 == Space2);
+
+    orbspace Space3(bs, S, C);
+    require_match_inputs(Space3, bs, S, C, Cdagger, D);
+
+    orbspace Space4(Space1);
+    REQUIRE(Space1 == Space4);
+
+    orbspace Space5;
+    auto pSpace5 = &(Space5 = Space1);
+    REQUIRE(pSpace5 == &Space5);
+    REQUIRE(&Space1.C() != &Space5.C());
+
+    orbspace Space6(std::move(Space2));
+    REQUIRE(Space1 == Space6);
+
+    orbspace Space7;
+    auto pSpace7 = &(Space7 = std::move(Space3));
+    REQUIRE(pSpace7 == &Space7);
+    REQUIRE(Space1 == Space7);
+
+    orbspace Space8(bs, S, I_ao);
+    require_match_inputs(Space8, bs, S, I_ao, I_ao, I_ao);
+    REQUIRE(Space1 != Space8);
+
+    auto E = Space1.transform_from_ao(S, {0, 1});
+    REQUIRE(libchemist::allclose(E, I_mo));
+
+    auto F = Space1.transform_to_ao(I_mo, {0, 1});
+    REQUIRE(libchemist::allclose(F, D));
+
+    auto G = Space1.transform_to_ao(C, {1});
+    REQUIRE(libchemist::allclose(G, D));
+
+    // Test AOSpace
+    aospace AO1;
+    require_not_initialized(AO1);
+
+    auto H = AO1.transform_from_ao(S, {0, 1});
+    REQUIRE(libchemist::allclose(H, S));
+
+    auto I = AO1.transform_to_ao(S, {0, 1});
+    REQUIRE(libchemist::allclose(I, S));
+
+    aospace AO2(bs, S);
+    require_match_inputs(AO2, bs, S, I_ao, I_ao, S);
+
+    // Test OrthogonalSpace
+    orthspace orth0;
+    orthspace orth1(bs, S, C, Cdagger, D);
+    orthspace orth2(bs, S, C, Cdagger);
+    orthspace orth3(bs, S, C);
+    require_not_initialized(orth0);
+    require_match_inputs(orth1, bs, S, C, Cdagger, D);
+    require_match_inputs(orth3, bs, S, C, Cdagger, D);
+    require_match_inputs(orth3, bs, S, C, Cdagger, D);
+    REQUIRE(orth1 == Space1);
+
+    // Test CanonicalMO
+    // Using whatever is on hand for the mo energies, since the values don't matter
+    canonspace canmo0;
+    canonspace canmo1(bs, S, I_ao, C, Cdagger, D);
+    canonspace canmo2(bs, S, I_ao, C, Cdagger);
+    canonspace canmo3(bs, S, I_ao, C);
+    canonspace canmo4(bs, S, I_mo, C);
+    require_not_initialized_canon(canmo0);
+    require_match_inputs_canon(canmo1, bs, S, C, Cdagger, D, I_ao);
+    require_match_inputs_canon(canmo2, bs, S, C, Cdagger, D, I_ao);
+    require_match_inputs_canon(canmo3, bs, S, C, Cdagger, D, I_ao);
+    REQUIRE(Space1 == canmo1);
+    REQUIRE(orth1  == canmo1);
+    REQUIRE(canmo1 == canmo2);
+    REQUIRE(canmo1 != canmo4);
 }
