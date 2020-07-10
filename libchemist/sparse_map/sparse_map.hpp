@@ -144,7 +144,6 @@ public:
      *  sparse_map.inverse().inverse() == sparse_map
      *
      * @return The inverse of the SparseMap.
-     * @throw none No throw guarantee.
      */
     SparseMap inverse() const;
 
