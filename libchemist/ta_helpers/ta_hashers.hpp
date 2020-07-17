@@ -15,11 +15,15 @@ namespace TiledArray {
  * @param[in, out] h bphash::Hasher object.
  */
 inline void hash_object(const TA::Range& R, bphash::Hasher& h) {
+    const char* mytype = "TA::Range";
+    h(mytype); // To create a unique hash for this type with the default
+               // constructor
+    //  h(typeid(tr).hash_code()); // Alternative to above but no guarantee for
+    //  reproducibility
     for(std::size_t i = 0; i < R.rank(); ++i) {
         h(R.dim(i).first);
         h(R.dim(i).second);
     }
-    // h(R.rank());
 }
 
 /** @brief Enables hashing for TA TiledRange1 class.
@@ -30,6 +34,8 @@ inline void hash_object(const TA::Range& R, bphash::Hasher& h) {
  * @param[in, out] h bphash::Hasher object.
  */
 inline void hash_object(const TA::TiledRange1& tr, bphash::Hasher& h) {
+    const char* mytype = "TA::TiledRange1";
+    h(mytype);
     for(const auto& tile : tr) h(tile.first);
     h(tr.extent());
 }
@@ -42,6 +48,8 @@ inline void hash_object(const TA::TiledRange1& tr, bphash::Hasher& h) {
  * @param[in, out] h bphash::Hasher object.
  */
 inline void hash_object(const TiledArray::TiledRange& tr, bphash::Hasher& h) {
+    const char* mytype = "TA::TiledRange";
+    h(mytype);
     for(std::size_t i = 0; i < tr.rank(); ++i) h(tr.dim(i));
 }
 
@@ -53,6 +61,8 @@ inline void hash_object(const TiledArray::TiledRange& tr, bphash::Hasher& h) {
  * @param[in, out] h bphash::Hasher object.
  */
 inline void hash_object(const TiledArray::Pmap& p, bphash::Hasher& h) {
+    const char* mytype = "TA::Pmap";
+    h(mytype);
     h(p.rank());
     h(p.size());
 }
@@ -61,13 +71,17 @@ inline void hash_object(const TiledArray::Pmap& p, bphash::Hasher& h) {
  *
  * Free function to enable hashing with BPHash library.
  *
- * @tparam t1 Value type for the @p A tensor.
- * @tparam t2 Allocator type for the data of @p A.
+ * @tparam ValueType Type of value for the @p A tensor.
+ * @tparam AllocatorType Type of allocator for the @p A tensor.
  * @param[in] A Tensor object
  * @param[in, out] h bphash::Hasher object.
  */
-template<typename t1, typename t2>
-void hash_object(const TA::Tensor<t1, t2>& A, bphash::Hasher& h) {
+template<typename ValueType, typename AllocatorType>
+void hash_object(const TA::Tensor<ValueType, AllocatorType>& A,
+                 bphash::Hasher& h) {
+    const char* mytype    = "TA::Tensor";
+    ValueType myvaluetype = 1; // Relying on type casting 1 into ValueType
+    h(mytype, myvaluetype);
     h(A.range());
     const auto n = A.range().volume();
     for(auto i = 0ul; i < n; ++i) h(A[i]);
@@ -84,8 +98,15 @@ void hash_object(const TA::Tensor<t1, t2>& A, bphash::Hasher& h) {
  * @param[in, out] h bphash::Hasher object.
  */
 template<typename TileType, typename PolicyType>
-void hash_object(const TA::DistArray<TileType, PolicyType>& A,
-                 bphash::Hasher& h) {
+// void hash_object(const TA::DistArray<TileType, PolicyType>& A,
+void hash_object(
+  const TA::DistArray<TA::Tensor<TileType, Eigen::aligned_allocator<TileType>>,
+                      PolicyType>& A,
+  bphash::Hasher& h) {
+    const char* mytype = "TA::DistArray";
+    TileType mytiletype =
+      1; // Relying on type casting for int,long,float,double
+    h(mytype, mytiletype);
     h(A.range());
     h(A.pmap().get());
     for(auto it = A.begin(); it != A.end(); ++it) {
