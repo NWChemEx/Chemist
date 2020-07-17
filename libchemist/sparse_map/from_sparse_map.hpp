@@ -64,7 +64,9 @@ auto from_sparse_map(
         tile2init.swap(buffer);
         return tile2init.norm();
     };
-    return TA::make_array<rv_type>(t.world(), rv_trange, l);
+    auto rv = TA::make_array<rv_type>(t.world(), rv_trange, l);
+    t.world().gop.fence();
+    return rv;
 }
 
 /** @brief Overload of from_sparse_map for case where all independent modes

@@ -157,7 +157,9 @@ void SparseMap::hash(sde::Hasher& h) const {
 }
 
 std::ostream& SparseMap::print(std::ostream& os) const {
-    return utilities::printing::operator<<(os, m_pimpl_->m_sm);
+    using utilities::printing::operator<<;
+    os << m_pimpl_->m_sm;
+    return os;
 }
 
 void SparseMap::check_rank_(size_type idx_rank, bool dep) const {

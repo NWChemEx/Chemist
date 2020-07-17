@@ -40,7 +40,9 @@ auto apply_elementwise(const TA::DistArray<TileType, PolicyType>& input,
     result_tile = input_tile.unary(op);
   };
 
-  return TA::DistArray<TileType, PolicyType>(input, std::move(m));
+  TA::DistArray<TileType, PolicyType> rv(input, std::move(m));
+  input.world().gop.fence();
+  return rv;
 }
 
 /** @brief Modifies an existing tensor by applying a function elementwise to its
