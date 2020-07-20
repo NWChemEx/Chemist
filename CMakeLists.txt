@@ -23,8 +23,8 @@ cpp_find_or_build_dependency(
 
 cpp_find_or_build_dependency(
     tiledarray
-    URL github.com/valeevgroup/tiledarray
-    VERSION master
+    URL github.com/NWChemEx-Project/tiledarray
+    VERSION developer
     BUILD_TARGET tiledarray
     FIND_TARGET tiledarray
 )

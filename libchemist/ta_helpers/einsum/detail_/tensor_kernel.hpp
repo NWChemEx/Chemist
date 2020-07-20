@@ -57,8 +57,7 @@ auto tensor_kernel(const IndexMap& indices,
     auto trange1s     = indices.select_result(ranges);
     TA::TiledRange trange(trange1s.begin(), trange1s.end());
     tensor_type rv(lhs.world(), trange);
-    rv.fill();
-
+    rv.fill(0.0);
     // Get each index's range in terms of blocks
     auto block_ranges = get_block_ranges(ranges);
 
@@ -84,6 +83,8 @@ auto tensor_kernel(const IndexMap& indices,
             auto block_range = get_block_range(block_idx, ranges);
 
             auto&& [oidx, lidx, ridx] = indices.select(block_idx);
+            if(lhs.shape().is_zero(lidx) || rhs.shape().is_zero(ridx))
+                continue;
             auto ltile                = lhs.find(lidx).get();
             auto rtile                = rhs.find(ridx).get();
             auto otile = block_kernel(indices, block_range, ltile, rtile);
@@ -91,6 +92,7 @@ auto tensor_kernel(const IndexMap& indices,
 
         } while(!detail_::increment_index(block_idx, block_ranges));
     }
+    lhs.world().gop.fence();
     return rv;
 }
 } // namespace mp2::einsum::detail_
