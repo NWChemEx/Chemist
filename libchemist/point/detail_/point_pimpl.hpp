@@ -7,6 +7,7 @@
 #pragma once
 #include "libchemist/point/point.hpp"
 #include <array>
+#include <string>
 #include <utilities/containers/own_or_borrow.hpp>
 
 namespace libchemist::detail_ {
