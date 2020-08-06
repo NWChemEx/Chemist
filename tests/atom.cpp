@@ -61,7 +61,7 @@ TEST_CASE("Atom Class") {
     }
 
     coord_type carts{1.0, 2.0, 3.0};
-    size_type Z{1ul};
+    size_type Z{1};
     mass_type m{1.0079};
     name_type h{"H"};
 
@@ -105,6 +105,11 @@ TEST_CASE("Atom Class") {
 
         SECTION("Z, Carts, mass, and name") {
             Atom ai(h, carts, m, Z);
+            check_atom<7>(ai, carts, Z, m, h);
+        }
+ 
+        SECTION("Mass AtomNumber functions") {
+            Atom ai(h, carts, Atom::Mass{1.0079}, Atom::AtomNumber{1});
             check_atom<7>(ai, carts, Z, m, h);
         }
     }
