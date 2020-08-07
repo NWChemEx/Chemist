@@ -29,17 +29,17 @@ public:
     /// The type of a counting number 
     using size_type = std::size_t;
 
+    /// Wrapper for tagging an input size_t as an atomic number
+    struct AtomNumber{
+      size_type a_n = 0;
+    };
+
     /// The type the mass is stored as
     using mass_type = double;
 
-    /// Wrapper for tagging an input size_t as an atomic number
-    struct AtomNumber{
-      std::size_t a_n = 0;
-    };
-
     /// Wrapper for tagging an input double as a mass
     struct Mass{
-      double m_m = 0.0;
+      mass_type m_m = 0.0;
     };
 
     /// The type of the atomic coordinates
