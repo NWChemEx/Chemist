@@ -6,6 +6,7 @@
 
 #include "libchemist/detail_/periodic_table_pimpl.hpp"
 #include <algorithm> //For std::transform
+#include <stdexcept>
 
 namespace libchemist::detail_ {
 
