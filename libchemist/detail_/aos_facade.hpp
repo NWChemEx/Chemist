@@ -3,6 +3,7 @@
 #include <memory>
 #include <tuple>
 #include <vector>
+#include <stdexcept>
 
 /**
  * @file aos_facade.hpp

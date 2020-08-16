@@ -2,6 +2,7 @@
 #include <map>
 #include <set>
 #include <vector>
+#include <stdexcept>
 
 namespace libchemist::sparse_map::detail_ {
 

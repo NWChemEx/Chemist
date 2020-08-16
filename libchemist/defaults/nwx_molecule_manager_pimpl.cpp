@@ -4,6 +4,7 @@
  */
 
 #include "libchemist/detail_/molecule_manager_pimpl.hpp"
+#include <stdexcept>
 
 namespace libchemist::detail_ {
 
