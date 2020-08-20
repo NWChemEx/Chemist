@@ -114,14 +114,14 @@ TEST_CASE("TA Hashers with BPHASH", "[TA],[hash]") {
         REQUIRE(hash_objects(SA3) != hash_objects(SA4));
     }
     SECTION("TA::DistArray and TA::Tensor absolute hash tests") {
-        CHECK(hash_objects(TAD1) == "10111db3db25d77dbebe0d800f0e1f3d");
-        CHECK(hash_objects(TA4) == "f2ad88355ad8d269e69b47fc9c75eccf");
-        CHECK(hash_objects(TA5) == "f1bcbb36b6821547ed60f120324bb4f4");
+        CHECK(hash_objects(TAD1) == "b33ade1959c0ed975bb7ee592c004370");
+        CHECK(hash_objects(TA4) == "d3c827165312d6b40d7a49221ebbd095");
+        CHECK(hash_objects(TA5) == "9c16e8a23796c471fee3a0dfab3c151c");
         CHECK(hash_objects(T1) == "924adbe538e98b94f012ee3ed95c784e");
         CHECK(hash_objects(T3) == "5290869fabee2937ce49fe39812f2663");
         CHECK(hash_objects(T4) == "5022d11a63561f2c90feea810a0812a4");
         CHECK(hash_objects(T5) == "334aba0d1868cfa6d0084ee58c521154");
-        CHECK(hash_objects(SA1) == "9457f8abf99dec9c4a63e698acb2f5eb");
+        CHECK(hash_objects(SA1) == "1e801dd9177b3e19cf8cc09104fcbc0c");
     }
 }
 

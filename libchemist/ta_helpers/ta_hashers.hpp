@@ -1,5 +1,7 @@
 #pragma once
+#include "mpi.h"
 #include <bphash/Hasher.hpp>
+#include <sde/detail_/memoization.hpp>
 #include <tiledarray.h>
 
 namespace TiledArray {
@@ -87,6 +89,62 @@ void hash_object(const TA::Tensor<ValueType, AllocatorType>& A,
     for(auto i = 0ul; i < n; ++i) h(A[i]);
 }
 
+/** @brief Returns a combined hash string for TA::DistArray object.
+ *
+ * Returned string length is equal to number of tiles *
+ * length of each hash string (32 chars)
+ * We can downsample the strings for performance. (not implemented)
+ * Involves all-to-all communication (MPI_Allgather)
+ *
+ * @tparam TileType Type of tiles in @p A.
+ * @tparam PolicyType Type of policy for @p A. Either DensePolicy or
+ * SparsePolicy.
+ * @param[in] A DistArray object
+ * @return std::string representing hash string gathered from all tilles from
+ * all ranks
+ */
+template<typename TileType, typename PolicyType>
+std::string get_tile_hash_str(
+  const TA::DistArray<TA::Tensor<TileType, Eigen::aligned_allocator<TileType>>,
+                      PolicyType>& A) {
+    auto& madworld = TA::get_default_world();
+    auto& mpiworld = madworld.mpi.comm().Get_mpi_comm();
+    int size       = madworld.size();
+    int rank       = madworld.rank();
+    std::string myhash, totalhash;
+
+    for(auto it = A.begin(); it != A.end(); ++it) {
+        auto tile = A.find(it.index()).get();
+        myhash += sde::hash_objects(tile);
+    }
+    int mylen       = myhash.length();
+    int* recvcounts = NULL;
+    recvcounts      = (int*)malloc(size * sizeof(int));
+
+    MPI_Allgather(&mylen, 1, MPI_INT, recvcounts, 1, MPI_INT, MPI_COMM_WORLD);
+    int totlen        = 0;
+    int* displs       = NULL;
+    char* totalstring = NULL;
+
+    displs    = (int*)malloc(size * sizeof(int));
+    displs[0] = 0;
+    totlen += recvcounts[0] + 1;
+
+    for(int i = 1; i < size; i++) {
+        totlen += recvcounts[i];
+        displs[i] = displs[i - 1] + recvcounts[i - 1];
+    }
+
+    totalstring             = (char*)malloc(totlen * sizeof(char));
+    totalstring[totlen - 1] = '\0';
+
+    MPI_Allgatherv(myhash.c_str(), mylen, MPI_CHAR, totalstring, recvcounts,
+                   displs, MPI_CHAR, mpiworld);
+
+    totalhash = std::string(totalstring);
+    return totalhash;
+}
+
 /** @brief Enables hashing for TA DistArray class.
  *
  * Free function to enable hashing with BPHash library.
@@ -104,14 +162,12 @@ void hash_object(
                       PolicyType>& A,
   bphash::Hasher& h) {
     const char* mytype = "TA::DistArray";
-    TileType mytiletype =
-      1; // Relying on type casting for int,long,float,double
+    auto& world        = TA::get_default_world();
+    // Relying on type casting for int,long,float,double
+    TileType mytiletype = 1;
     h(mytype, mytiletype);
     h(A.range());
-    h(A.pmap().get());
-    for(auto it = A.begin(); it != A.end(); ++it) {
-        auto tile = A.find(it.index()).get();
-        h(tile);
-    }
+    auto hashstr = get_tile_hash_str(A);
+    h(hashstr);
 }
 } // namespace TiledArray
