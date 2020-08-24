@@ -118,15 +118,15 @@ std::string get_tile_hash_str(
         myhash += sde::hash_objects(tile);
     }
     int mylen       = myhash.length();
-    int* recvcounts = NULL;
-    recvcounts      = (int*)malloc(size * sizeof(int));
+    int* recvcounts = nullptr;
+    recvcounts      = new int[size];
 
     MPI_Allgather(&mylen, 1, MPI_INT, recvcounts, 1, MPI_INT, MPI_COMM_WORLD);
     int totlen        = 0;
-    int* displs       = NULL;
-    char* totalstring = NULL;
+    int* displs       = nullptr;
+    char* totalstring = nullptr;
 
-    displs    = (int*)malloc(size * sizeof(int));
+    displs    = new int[size];
     displs[0] = 0;
     totlen += recvcounts[0] + 1;
 
@@ -135,13 +135,14 @@ std::string get_tile_hash_str(
         displs[i] = displs[i - 1] + recvcounts[i - 1];
     }
 
-    totalstring             = (char*)malloc(totlen * sizeof(char));
+    totalstring             = new char[totlen];
     totalstring[totlen - 1] = '\0';
 
     MPI_Allgatherv(myhash.c_str(), mylen, MPI_CHAR, totalstring, recvcounts,
                    displs, MPI_CHAR, mpiworld);
 
     totalhash = std::string(totalstring);
+    delete[] recvcounts, displs, totalstring;
     return totalhash;
 }
 
@@ -156,7 +157,6 @@ std::string get_tile_hash_str(
  * @param[in, out] h bphash::Hasher object.
  */
 template<typename TileType, typename PolicyType>
-// void hash_object(const TA::DistArray<TileType, PolicyType>& A,
 void hash_object(
   const TA::DistArray<TA::Tensor<TileType, Eigen::aligned_allocator<TileType>>,
                       PolicyType>& A,
