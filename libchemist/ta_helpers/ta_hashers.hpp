@@ -81,9 +81,7 @@ inline void hash_object(const TiledArray::Pmap& p, bphash::Hasher& h) {
 template<typename ValueType, typename AllocatorType>
 void hash_object(const TA::Tensor<ValueType, AllocatorType>& A,
                  bphash::Hasher& h) {
-    const char* mytype    = "TA::Tensor";
-    ValueType myvaluetype = 1; // Relying on type casting 1 into ValueType
-    h(mytype, myvaluetype);
+    const char* mytype = "TA::Tensor";
     h(A.range());
     const auto n = A.range().volume();
     for(auto i = 0ul; i < n; ++i) h(A[i]);
@@ -163,9 +161,7 @@ void hash_object(
   bphash::Hasher& h) {
     const char* mytype = "TA::DistArray";
     auto& world        = TA::get_default_world();
-    // Relying on type casting for int,long,float,double
-    TileType mytiletype = 1;
-    h(mytype, mytiletype);
+    h(mytype);
     h(A.range());
     auto hashstr = get_tile_hash_str(A);
     h(hashstr);
