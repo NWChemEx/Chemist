@@ -100,10 +100,8 @@ void hash_object(const TA::Tensor<ValueType, AllocatorType>& A,
  * @return std::string representing hash string gathered from all tilles from
  * all ranks
  */
-template<typename TileType, typename PolicyType>
-std::string get_tile_hash_str(
-  const TA::DistArray<TA::Tensor<TileType, Eigen::aligned_allocator<TileType>>,
-                      PolicyType>& A) {
+template<typename TensorType, typename PolicyType>
+std::string get_tile_hash_str(const TA::DistArray<TensorType, PolicyType>& A) {
     auto& madworld = A.world();
     auto& mpiworld = madworld.mpi.comm().Get_mpi_comm();
     int size       = madworld.size();
