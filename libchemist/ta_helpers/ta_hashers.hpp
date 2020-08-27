@@ -108,22 +108,18 @@ std::string get_tile_hash_str(
     auto& mpiworld = madworld.mpi.comm().Get_mpi_comm();
     int size       = madworld.size();
     int rank       = madworld.rank();
-    std::string myhash, totalhash;
+    std::string myhash;
 
     for(auto it = A.begin(); it != A.end(); ++it) {
         auto tile = A.find(it.index()).get();
         myhash += sde::hash_objects(tile);
     }
-    int mylen       = myhash.length();
-    int* recvcounts = nullptr;
-    recvcounts      = new int[size];
+    int mylen = myhash.length();
+    std::vector<int> recvcounts(size);
+    MPI_Allgather(&mylen, 1, MPI_INT, &recvcounts[0], 1, MPI_INT, mpiworld);
 
-    MPI_Allgather(&mylen, 1, MPI_INT, recvcounts, 1, MPI_INT, mpiworld);
-    int totlen        = 0;
-    int* displs       = nullptr;
-    char* totalstring = nullptr;
-
-    displs    = new int[size];
+    int totlen = 0;
+    std::vector<int> displs(size);
     displs[0] = 0;
     totlen += recvcounts[0] + 1;
 
@@ -131,15 +127,11 @@ std::string get_tile_hash_str(
         totlen += recvcounts[i];
         displs[i] = displs[i - 1] + recvcounts[i - 1];
     }
-
-    totalstring             = new char[totlen];
-    totalstring[totlen - 1] = '\0';
-
-    MPI_Allgatherv(myhash.c_str(), mylen, MPI_CHAR, totalstring, recvcounts,
-                   displs, MPI_CHAR, mpiworld);
-
-    totalhash = std::string(totalstring);
-    delete[] recvcounts, displs, totalstring;
+    std::vector<char> charbuffer(totlen);
+    charbuffer[totlen - 1] = '\0';
+    MPI_Allgatherv(myhash.c_str(), mylen, MPI_CHAR, &charbuffer[0],
+                   &recvcounts[0], &displs[0], MPI_CHAR, mpiworld);
+    std::string totalhash(charbuffer.data());
     return totalhash;
 }
 
