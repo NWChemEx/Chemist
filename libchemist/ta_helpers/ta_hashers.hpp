@@ -1,5 +1,6 @@
 #pragma once
 #include <bphash/Hasher.hpp>
+#include <mpi.h>
 #include <sde/detail_/memoization.hpp>
 #include <tiledarray.h>
 
