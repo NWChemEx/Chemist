@@ -61,7 +61,7 @@ TEST_CASE("Atom Class") {
     }
 
     coord_type carts{1.0, 2.0, 3.0};
-    size_type Z{1};
+    size_type Z{1ul};
     mass_type m{1.0079};
     name_type h{"H"};
 
