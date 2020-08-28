@@ -30,7 +30,7 @@ public:
     using size_type = std::size_t;
 
     /// Wrapper for tagging an input size_t as an atomic number
-    struct AtomNumber{
+    struct AtomicNumber{
       size_type a_n = 0;
     };
 
@@ -156,10 +156,10 @@ public:
     }
 
     template<typename... Args>
-    explicit Atom(const AtomNumber& Z_in, Args&&... args) :
+    explicit Atom(const AtomicNumber& Z_in, Args&&... args) :
       Atom(std::forward<Args>(args)...) {
         constexpr bool is_Z =
-          std::disjunction_v<std::is_same<std::decay_t<Args>, AtomNumber>...>;
+          std::disjunction_v<std::is_same<std::decay_t<Args>, AtomicNumber>...>;
         static_assert(!is_Z, "Please only provide one atomic number");
         Z() = Z_in.a_n;
     }
