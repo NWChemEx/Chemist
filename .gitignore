@@ -1,25 +1,27 @@
-#These are configuration files for QtCreator
-LibChemist.config
-LibChemist.files
-LibChemist.includes
-LibChemist.creator
-LibChemist.creator.user
+################################################################################
+#
+# The master .gitignore lives at NWChemEx-Project/DeveloperTools. The .gitignore
+# file contained in all other NWChemEx-Project repositories is a synchronized
+# copy of the master .gitignore. Thus to make changes to the .gitignore file
+# please make them to the master .gitignore file.
+#
+################################################################################
+
+# These are extensions commonly used to denote temporary files
+*.tmp
 *.autosave
+*.bak
 
-#This is the clang-format script downloaded by the pre-commit hook
-.clang-format
-
-#These are configuration files for CLion
+# These are directories used by IDEs for storing settings
 .idea/
 
-#This is the documentation build directory
-docs/
-
-#These are common build directory names
+# These are common build directory names
+docs/build
+docs/doxyoutput
+docs/source/api
+*-build-*/
 Debug/
 Release/
-cmake-build-debug/
-cmake-build-release/
 
-#This is the typical tool
+# Users commonly store their specific CMake settings in a toolchain file
 toolchain.cmake
