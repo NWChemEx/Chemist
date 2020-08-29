@@ -23,8 +23,9 @@ jobs:
       env:
         cmake_version: ${{ matrix.cmake_version }}
         gcc_version: ${{ matrix.gcc_version }}
-      run: | .github/workflows/scripts/get_dependencies.sh gcc gcovr cmake \
-               openblas cblas lapacke boost eigen3 openmpi
+      run: >
+        .github/workflows/scripts/get_dependencies.sh gcc gcovr cmake
+        openblas cblas lapacke boost eigen3 openmpi
     - name: Build and test
       env:
         cmake_version: ${{ matrix.cmake_version }}
