@@ -28,12 +28,13 @@ toolchain_file=`pwd`/toolchain.cmake
 
 #Step 1: Write toolchain.cmake
 echo "set(BUILD_TESTING ON)" > ${toolchain_file}
+echo "set(BUILD_SHARED_LIBS ON)" >> ${toolchain_file}
 echo "set(CATCH_ENABLE_COVERAGE ON)" >> ${toolchain_file}
-echo 'set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")' >> ${toolchain_file}
+echo 'set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -std=c++17")' >> ${toolchain_file}
 echo 'set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage")' >> ${toolchain_file}
 echo 'set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs")' >> ${toolchain_file}
-cat ${toolchain_file}
-
+echo "set(CPP_GITHUB_TOKEN ${CPP_GITHUB_TOKEN})" >> ${toolchain_file}
+echo 'set(CMAKE_BUILD_TYPE Debug)' >> ${toolchain_file}
 
 #Step 2: Configure
 ${cmake_command} -H. -Bbuild -DCMAKE_TOOLCHAIN_FILE="${toolchain_file}"
