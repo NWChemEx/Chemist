@@ -156,7 +156,7 @@ for depend in "$@"; do
     get_cmake "${cmake_version}"
   elif [ "${depend}" = "doxygen" ]; then
     get_doxygen
-  elif [ "${depend}" = "eigen3"]; then
+  elif [ "${depend}" = "eigen3" ]; then
     get_eigen3
   elif [ "${depend}" = "gcc" ]; then
     get_gcc "${gcc_version}"
