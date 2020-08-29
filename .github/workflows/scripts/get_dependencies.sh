@@ -94,7 +94,7 @@ get_gcc() {
 
   sudo add-apt-repository ppa:ubuntu-toolchain-r/test
   sudo apt-get update
-  sudo apt-get install "gcc-${1}" "g++-${1} gfortran-${1}"
+  sudo apt-get install "gcc-${1}" "g++-${1}" "gfortran-${1}"
   sudo update-alternatives --install ${gcc_no_v} gcc ${gcc_v} 95 --slave\
                                      ${gxx_no_v} g++ ${gxx_v} --slave\
                                      ${gfort_no_v} gfortran ${gfort_v} --slave\
