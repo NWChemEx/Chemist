@@ -2,8 +2,7 @@
 
 namespace libchemist::sparse_map::detail_ {
 
-TA::Range extract_dep_range_(const TA::Range& range,
-                             const ToTMapper& mapper) {
+TA::Range extract_dep_range_(const TA::Range& range, const ToTMapper& mapper) {
     using subrange_t = std::decay_t<decltype(range.dim(0))>;
     using size_type  = typename ToTMapper::size_type;
 

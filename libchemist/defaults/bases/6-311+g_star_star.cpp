@@ -722,7 +722,9 @@ Center<double> six_dash_311_plus_g_star_star(std::size_t Z) {
                          std::vector<double>{0.2600000});
             return rv;
         } // End case
-        default: { throw std::out_of_range("Basis not available for Z"); }
+        default: {
+            throw std::out_of_range("Basis not available for Z");
+        }
     } // end switch
 
 } // end function
