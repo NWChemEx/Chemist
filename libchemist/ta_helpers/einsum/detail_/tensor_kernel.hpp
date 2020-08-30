@@ -83,10 +83,9 @@ auto tensor_kernel(const IndexMap& indices,
             auto block_range = get_block_range(block_idx, ranges);
 
             auto&& [oidx, lidx, ridx] = indices.select(block_idx);
-            if(lhs.shape().is_zero(lidx) || rhs.shape().is_zero(ridx))
-                continue;
-            auto ltile                = lhs.find(lidx).get();
-            auto rtile                = rhs.find(ridx).get();
+            if(lhs.shape().is_zero(lidx) || rhs.shape().is_zero(ridx)) continue;
+            auto ltile = lhs.find(lidx).get();
+            auto rtile = rhs.find(ridx).get();
             auto otile = block_kernel(indices, block_range, ltile, rtile);
             rv.find(oidx).get().add_to(otile);
 
@@ -95,4 +94,4 @@ auto tensor_kernel(const IndexMap& indices,
     lhs.world().gop.fence();
     return rv;
 }
-} // namespace mp2::einsum::detail_
+} // namespace libchemist::einsum::detail_

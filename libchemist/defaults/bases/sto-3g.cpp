@@ -1793,7 +1793,9 @@ Center<double> sto_dash_3g(std::size_t Z) {
               std::vector<double>{7.295991196, 2.841021154, 1.250624506});
             return rv;
         } // End case
-        default: { throw std::out_of_range("Basis not available for Z"); }
+        default: {
+            throw std::out_of_range("Basis not available for Z");
+        }
     } // end switch
 
 } // end function
