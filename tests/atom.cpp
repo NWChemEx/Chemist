@@ -107,6 +107,11 @@ TEST_CASE("Atom Class") {
             Atom ai(h, carts, m, Z);
             check_atom<7>(ai, carts, Z, m, h);
         }
+ 
+        SECTION("Mass AtomicNumber functions") {
+            Atom ai(h, carts, Atom::Mass{1.0079}, Atom::AtomicNumber{1});
+            check_atom<7>(ai, carts, Z, m, h);
+        }
     }
 
     Atom ai(h, m, Z, carts);

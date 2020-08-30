@@ -26,11 +26,21 @@ class AtomPIMPL;
  */
 class Atom {
 public:
-    /// The type of a counting number and the atomic number
+    /// The type of a counting number 
     using size_type = std::size_t;
+
+    /// Wrapper for tagging an input size_t as an atomic number
+    struct AtomicNumber{
+      size_type a_n = 0;
+    };
 
     /// The type the mass is stored as
     using mass_type = double;
+
+    /// Wrapper for tagging an input double as a mass
+    struct Mass{
+      mass_type m_m = 0.0;
+    };
 
     /// The type of the atomic coordinates
     using coord_type = std::array<double, 3>;
@@ -128,12 +138,30 @@ public:
     }
 
     template<typename... Args>
+    explicit Atom(const Mass& mass_in, Args&&... args) :
+      Atom(std::forward<Args>(args)...) {
+        constexpr bool is_mass =
+          std::disjunction_v<std::is_same<std::decay_t<Args>, Mass>...>;
+        static_assert(!is_mass, "Please only provide one mass");
+        mass() = mass_in.m_m;
+    }
+
+    template<typename... Args>
     explicit Atom(size_type Z_in, Args&&... args) :
       Atom(std::forward<Args>(args)...) {
         constexpr bool is_Z =
           std::disjunction_v<std::is_same<std::decay_t<Args>, size_type>...>;
         static_assert(!is_Z, "Please only provide one atomic number");
         Z() = Z_in;
+    }
+
+    template<typename... Args>
+    explicit Atom(const AtomicNumber& Z_in, Args&&... args) :
+      Atom(std::forward<Args>(args)...) {
+        constexpr bool is_Z =
+          std::disjunction_v<std::is_same<std::decay_t<Args>, AtomicNumber>...>;
+        static_assert(!is_Z, "Please only provide one atomic number");
+        Z() = Z_in.a_n;
     }
 
     explicit Atom(std::unique_ptr<detail_::AtomPIMPL> pimpl);
