@@ -1,8 +1,8 @@
 #include <catch2/catch.hpp>
 #include <libchemist/libchemist.hpp>
 #include <libchemist/ta_helpers/ta_helpers.hpp>
-#include <libchemist/orthogonal_space.hpp>
-#include <libchemist/canonical_mos.hpp>
+#include <libchemist/orbital_space/orthogonal_space.hpp>
+#include <libchemist/orbital_space/canonical_mos.hpp>
 
 using vector_t   = std::initializer_list<double>;
 using matrix_t   = std::initializer_list<vector_t>;
