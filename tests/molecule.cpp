@@ -94,7 +94,7 @@ TEST_CASE("Molecule Class") {
         }
 
         SECTION("Multiplicity") {
-            Molecule mol(Multiplicity{3ul});
+            Molecule mol(Multiplicity{3});
             check_state<2>(mol, vector_type{}, 0.0, 3ul, 0ul);
         }
 
@@ -104,7 +104,7 @@ TEST_CASE("Molecule Class") {
         }
 
         SECTION("H-D molecule anion") {
-            Molecule mol(atoms[0], Charge{-1.0}, atoms[1], Multiplicity{2ul});
+            Molecule mol(atoms[0], Charge{-1.0}, atoms[1], Multiplicity{2});
             check_state<4>(mol, atoms, -1.0, 2ul, 3ul);
         }
     }
