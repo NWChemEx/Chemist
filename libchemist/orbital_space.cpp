@@ -85,7 +85,7 @@ t_type OrbSpace::transform_to_ao(const t_type X, const size_vec& modes) const {
 
 template<typename e_type, typename t_type>
 void OrbSpace::hash(sde::Hasher& h) const {
-    h(basis_set(), S(), C(), Cdagger(), density());
+    h(basis_set(), S(), C());
 }
 
 #define AOS AOSpace<e_type, t_type>
