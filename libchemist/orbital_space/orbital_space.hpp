@@ -12,3 +12,19 @@
 #include "libchemist/orbital_space/dependent_orbital_space.hpp"
 #include "libchemist/orbital_space/orbital_space_class.hpp"
 #include "libchemist/orbital_space/orthogonal_space.hpp"
+
+namespace libchemist {
+
+template<typename T>
+using DependentOrbitals =
+  DependentOrbitalSpace<OrbitalSpace<T, type::tensor_of_tensors<T>>>;
+
+template<typename T>
+using DependentOrthogonalOrbitals =
+  DependentOrbitalSpace<OrthogonalSpace<T, type::tensor_of_tensors<T>>>;
+
+template<typename T>
+using DependentCanonicalOrbitals =
+  DependentOrbitalSpace<CanonicalMO<T, type::tensor_of_tensors<T>>>;
+
+}

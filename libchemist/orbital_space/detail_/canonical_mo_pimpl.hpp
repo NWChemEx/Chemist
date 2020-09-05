@@ -6,10 +6,11 @@
 namespace libchemist::detail_ {
 
 // Class that implements CanonicalMO
-template<typename basis_type, typename tensor_type>
+template<typename basis_type, typename tensor_type, typename egy_type>
 class CanonicalMOsPIMPL : public OrbitalSpacePIMPL<basis_type, tensor_type> {
+    using my_type    = CanonicalMOsPIMPL<basis_type, tensor_type, egy_type>;
     using base_pimpl = OrbitalSpacePIMPL<basis_type, tensor_type>;
-    tensor_type mo_energies_; // The molecular orbital energies
+    egy_type mo_energies_; // The molecular orbital energies
 
 public:
     /** @brief Creates a new CanonicalMOsPIMPL instance containing empty
@@ -27,7 +28,7 @@ public:
      * @param D The denisty of the MOs
      */
     CanonicalMOsPIMPL(basis_type basis_set, tensor_type S,
-                      tensor_type mo_energies, tensor_type C,
+                      egy_type mo_energies, tensor_type C,
                       tensor_type Cdagger, tensor_type D) :
       base_pimpl(basis_set, S, C, Cdagger, D), mo_energies_(mo_energies){};
 
@@ -43,7 +44,7 @@ public:
      * @param Cdagger The coefficients going from the MO space to the AO space
      */
     CanonicalMOsPIMPL(basis_type basis_set, tensor_type S,
-                      tensor_type mo_energies, tensor_type C,
+                      egy_type mo_energies, tensor_type C,
                       tensor_type Cdagger) :
       base_pimpl(basis_set, S, C, Cdagger), mo_energies_(mo_energies){};
 
@@ -59,7 +60,7 @@ public:
      * @param C The coefficients going from the AO space to the MO space
      */
     CanonicalMOsPIMPL(basis_type basis_set, tensor_type S,
-                      tensor_type mo_energies, tensor_type C) :
+                      egy_type mo_energies, tensor_type C) :
       base_pimpl(basis_set, S, C), mo_energies_(mo_energies){};
 
     /** @brief Creates a clone of the CanonicalMOsPIMPL.
@@ -76,7 +77,7 @@ public:
      *
      * @return A reference to the orbital energies
      */
-    const tensor_type& mo_energies() const { return mo_energies_; }
+    const auto& mo_energies() const { return mo_energies_; }
 
 }; // class CanonicalMOsPIMPL
 

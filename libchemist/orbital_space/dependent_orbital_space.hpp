@@ -1,6 +1,4 @@
 #pragma once
-#include "libchemist/orbital_space/orbital_space_class.hpp"
-#include "libchemist/orbital_space/orthogonal_space.hpp"
 #include "libchemist/sparse_map/sparse_map.hpp"
 
 namespace libchemist {
@@ -23,13 +21,7 @@ private:
     sparse_map::SparseMap m_sm_;
 };
 
-template<typename T>
-using DependentOrbitals =
-  DependentOrbitalSpace<OrbitalSpace<T, type::tensor_of_tensors<T>>>;
 
-template<typename T>
-using DependentOrthogonalSpace =
-  DependentOrbitalSpace<OrthogonalSpace<T, type::tensor_of_tensors<T>>>;
 
 //----------------------------- Implementations --------------------------------
 template<typename BaseSpace>
