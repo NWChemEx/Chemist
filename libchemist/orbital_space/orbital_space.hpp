@@ -1,36 +1,37 @@
 #pragma once
+#include "libchemist/basis_set/basis_set.hpp"
+#include "libchemist/orbital_space/ao_space.hpp"
+#include "libchemist/orbital_space/base_space.hpp"
+#include "libchemist/orbital_space/canonical_space.hpp"
+#include "libchemist/orbital_space/dependent_space.hpp"
+#include "libchemist/orbital_space/derived_space.hpp"
+#include "libchemist/ta_helpers/ta_hashers.hpp"
 
 namespace libchemist::orbital_space {
 
 template<typename T>
-struct SparseTraits {
-    using basis_set_type      = AOBasisSet<T>;
-    using orbital_energy_type = type::tensor_of_tensors<T>;
-    using overlap_type        = type::tensor_of_tensors<T>;
-    using transform_type      = type::tensor_of_tensors<T>;
-};
+using AOSpace = AOSpace_<AOBasisSet<T>, BaseSpace<T>>;
 
 template<typename T>
-struct DenseTraits {
-    using basis_set_type      = AOBasisSet<T>;
-    using orbital_energy_type = type::tensor<T>;
-    using overlap_type        = type::tensor<T>;
-    using transform_type      = type::tensor<T>;
-};
-template<typename T> using BaseSpace = BaseSpace_<DenseTraits<T>>;
-template<typename T> using SparseBase = BaseSpace_<SparseTraits<T>>;
-template<typename T> using AOSpace       = AOSpace_<DenseTraits<T>>;
-template<typename T> using SparseAOSpace = AOSpace_<SparseTraits<T>>;
-template<typename T> using DependentAOSpace = DependentSpace<SparseAOSpace<T>>;
+using SparseAOSpace = AOSpace_<AOBasisSet<T>, SparseDependentBase<T>>;
+
 template<typename T>
-using DerivedSpace = DerivedSpace_<DenseTraits<T>>;
+using DerivedSpace = DerivedSpace_<type::tensor<T>, AOSpace<T>, BaseSpace<T>>;
+
 template<typename T>
-using SparseDerivedSpace = DerivedSpace_<SparseTraits<T>, DependentAOSpace<T>>;
-template<typename T> using Canonical = CanonicalSpace_<DenseTraits<T>>;
-template<typename T> using SparseCanonical = CanonicalSpace_<SparseTraits<T>>;
+using SparseDerivedSpace = DerivedSpace_<type::tensor_of_tensors<T>,
+                                         SparseAOSpace<T>,
+                                         SparseDependentBase<T>>;
 
+template<typename T>
+using CanonicalSpace = CanonicalSpace_<type::tensor<T>, DerivedSpace<T>>;
 
+template<typename T>
+using SparseCanonicalSpace = CanonicalSpace_<type::tensor_of_tensors<T>,
+                                             SparseDerivedSpace<T>>;
 
+// Instantiate some common specializations
+extern template class AOSpace_<type::tensor<double>, BaseSpace<double>>;
+extern template class AOSpace_<type::tensor<float>, BaseSpace<float>>;
 
-
-} // namespace libchemist::orbital_space::detail_
+} // namespace libchemist::orbital_space

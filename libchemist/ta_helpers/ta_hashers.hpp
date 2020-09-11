@@ -80,8 +80,6 @@ template<typename ValueType, typename AllocatorType>
 void hash_object(const TA::Tensor<ValueType, AllocatorType>& A,
                  bphash::Hasher& h) {
     const char* mytype    = "TA::Tensor";
-    ValueType myvaluetype = 1; // Relying on type casting 1 into ValueType
-    h(mytype, myvaluetype);
     h(A.range());
     const auto n = A.range().volume();
     for(auto i = 0ul; i < n; ++i) h(A[i]);
@@ -104,9 +102,6 @@ void hash_object(
                       PolicyType>& A,
   bphash::Hasher& h) {
     const char* mytype = "TA::DistArray";
-    TileType mytiletype =
-      1; // Relying on type casting for int,long,float,double
-    h(mytype, mytiletype);
     h(A.range());
     h(A.pmap().get());
     for(auto it = A.begin(); it != A.end(); ++it) {
