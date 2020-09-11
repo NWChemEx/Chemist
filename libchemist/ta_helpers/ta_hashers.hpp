@@ -104,33 +104,42 @@ void hash_object(const TA::Tensor<ValueType, AllocatorType>& A,
 template<typename TensorType, typename PolicyType>
 std::string get_tile_hash_str(const TA::DistArray<TensorType, PolicyType>& A) {
     auto& madworld = A.world();
-    auto& mpiworld = madworld.mpi.comm().Get_mpi_comm();
+    auto& mpiworld = madworld.mpi.Get_mpi_comm();
     int size       = madworld.size();
     int rank       = madworld.rank();
-    std::string myhash;
 
+    // Note: Without the fence orbital space hash tests hang on parallel runs.
+    madworld.gop.fence();
+
+    std::string myhash;
+    std::string totalhash;
     for(auto it = A.begin(); it != A.end(); ++it) {
         auto tile = A.find(it.index()).get();
         myhash += sde::hash_objects(tile);
     }
-    int mylen = myhash.length();
-    std::vector<int> recvcounts(size);
-    MPI_Allgather(&mylen, 1, MPI_INT, &recvcounts[0], 1, MPI_INT, mpiworld);
+    if(A.pmap().get()->is_replicated()) {
+        totalhash = myhash;
+    } else {
+        int mylen = myhash.length();
+        std::vector<int> recvcounts(size);
+        MPI_Allgather(&mylen, 1, MPI_INT, &recvcounts[0], 1, MPI_INT, mpiworld);
 
-    int totlen = 0;
-    std::vector<int> displs(size);
-    displs[0] = 0;
-    totlen += recvcounts[0] + 1;
+        int totlen = 0;
+        std::vector<int> displs(size);
+        displs[0] = 0;
+        totlen += recvcounts[0] + 1;
 
-    for(int i = 1; i < size; i++) {
-        totlen += recvcounts[i];
-        displs[i] = displs[i - 1] + recvcounts[i - 1];
+        for(int i = 1; i < size; i++) {
+            totlen += recvcounts[i];
+            displs[i] = displs[i - 1] + recvcounts[i - 1];
+        }
+        std::vector<char> charbuffer(totlen);
+        charbuffer[totlen - 1] = '\0';
+        MPI_Allgatherv(myhash.c_str(), mylen, MPI_CHAR, &charbuffer[0],
+                       &recvcounts[0], &displs[0], MPI_CHAR, mpiworld);
+        totalhash = std::string(charbuffer.data());
     }
-    std::vector<char> charbuffer(totlen);
-    charbuffer[totlen - 1] = '\0';
-    MPI_Allgatherv(myhash.c_str(), mylen, MPI_CHAR, &charbuffer[0],
-                   &recvcounts[0], &displs[0], MPI_CHAR, mpiworld);
-    std::string totalhash(charbuffer.data());
+    madworld.gop.fence();
     return totalhash;
 }
 

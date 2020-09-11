@@ -131,17 +131,26 @@ TEMPLATE_TEST_CASE("TA hashing templated tests for tensors",
     TA::TiledRange TR1{{0, 10, 20}, {0, 10, 20}};
     TA::TiledRange TR2{{0, 5, 10}, {0, 5, 10}};
     TA::TiledRange TR3{{0, 15, 30, 40}, {0, 15, 30, 40}};
+    auto replicated_pmap = std::make_shared<TA::detail::ReplicatedPmap>(
+      world, TR3.tiles_range().volume());
+    auto blocked_pmap = std::make_shared<TA::detail::BlockedPmap>(
+      world, TR3.tiles_range().volume());
     TA::TArray<TestType> A0(world, TR1);
     TA::TArray<TestType> A1(world, TR1);
     TA::TArray<TestType> A2(world, TR1);
     TA::TArray<TestType> A3(world, TR2);
     TA::TArray<TestType> A4(world, TR2);
-    TA::TArray<TestType> A5(world, TR3);
+    TA::TArray<TestType> A5(world, TR3, blocked_pmap);
+    TA::TArray<TestType> A5r(world, TR3, replicated_pmap);
+
     A0.fill(0); // If you omit filling, test hangs
     A1.fill(1);
     A2.fill(1);
     A3.fill(1);
     A4.fill(2);
+    A5.fill(3);
+    A5r.fill(3);
+
     TA::Tensor<TestType, Eigen::aligned_allocator<TestType>> T1(
       TR1.tiles_range(), 0.0);
     TA::Tensor<TestType, Eigen::aligned_allocator<TestType>> T2(
@@ -159,11 +168,13 @@ TEMPLATE_TEST_CASE("TA hashing templated tests for tensors",
     TA::TSpArray<TestType> SA0(world, TR1);
     TA::TSpArray<TestType> SA1(world, TR1);
     TA::TSpArray<TestType> SA2(world, TR2);
-    TA::TSpArray<TestType> SA3(world, TR3);
+    TA::TSpArray<TestType> SA3(world, TR3, blocked_pmap);
+    TA::TSpArray<TestType> SA3r(world, TR3, replicated_pmap);
     SA0.fill(0);
     SA1.fill(0);
     SA2.fill(0);
     SA3.fill(1);
+    SA3r.fill(1);
 
     SECTION("TA::DistArray and TA::Tensor relative hash tests") {
         REQUIRE(hash_objects(A0) == hash_objects(A0));
@@ -182,5 +193,10 @@ TEMPLATE_TEST_CASE("TA hashing templated tests for tensors",
         REQUIRE(hash_objects(SA0) == hash_objects(SA1));
         REQUIRE(hash_objects(SA1) != hash_objects(SA2));
         REQUIRE(hash_objects(SA2) != hash_objects(SA3));
+    }
+
+    SECTION("TA::DistArray with blocked vs replicated pmap hashes") {
+        REQUIRE(hash_objects(A5) == hash_objects(A5r));
+        REQUIRE(hash_objects(SA3) == hash_objects(SA3r));
     }
 }
