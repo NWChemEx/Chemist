@@ -807,7 +807,9 @@ Center<double> cc_dash_pwcvtz(std::size_t Z) {
                          std::vector<double>{3.5720000});
             return rv;
         } // End case
-        default: { throw std::out_of_range("Basis not available for Z"); }
+        default: {
+            throw std::out_of_range("Basis not available for Z");
+        }
     } // end switch
 
 } // end function

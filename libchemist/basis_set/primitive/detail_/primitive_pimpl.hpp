@@ -172,7 +172,6 @@ PrimitivePIMPL<T>& PrimitivePIMPL<T>::operator=(
 template<typename T>
 template<typename U, typename V>
 PrimitivePIMPL<T>::PrimitivePIMPL(U&& c, V&& a) noexcept :
-  m_coef_(std::forward<U>(c)),
-  m_exp_(std::forward<V>(a)) {}
+  m_coef_(std::forward<U>(c)), m_exp_(std::forward<V>(a)) {}
 
 } // namespace libchemist::detail_

@@ -1922,7 +1922,9 @@ Center<double> three_dash_21g(std::size_t Z) {
                          std::vector<double>{7.3715780, 2.7248240, 1.0266780});
             return rv;
         } // End case
-        default: { throw std::out_of_range("Basis not available for Z"); }
+        default: {
+            throw std::out_of_range("Basis not available for Z");
+        }
     } // end switch
 
 } // end function

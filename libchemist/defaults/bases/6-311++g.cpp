@@ -672,7 +672,9 @@ Center<double> six_dash_311_plus__plus_g(std::size_t Z) {
                          std::vector<double>{15.0800000, 3.9260000, 1.2330000});
             return rv;
         } // End case
-        default: { throw std::out_of_range("Basis not available for Z"); }
+        default: {
+            throw std::out_of_range("Basis not available for Z");
+        }
     } // end switch
 
 } // end function

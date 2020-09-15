@@ -102,8 +102,7 @@ public:
 protected:
     /// Deep copies the shell
     ContiguousAOShell(const ContiguousAOShell& rhs) :
-      impl_(std::make_shared<AoS_t>(*rhs.impl_)),
-      is_pure_(rhs.is_pure_) {}
+      impl_(std::make_shared<AoS_t>(*rhs.impl_)), is_pure_(rhs.is_pure_) {}
 
 private:
     /// The actual state of the shell

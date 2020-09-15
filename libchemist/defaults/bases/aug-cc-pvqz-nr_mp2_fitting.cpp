@@ -1449,7 +1449,9 @@ Center<double> aug_dash_cc_dash_pvqz_dash_nr_mp2_fitting(std::size_t Z) {
                          std::vector<double>{3.3428200});
             return rv;
         } // End case
-        default: { throw std::out_of_range("Basis not available for Z"); }
+        default: {
+            throw std::out_of_range("Basis not available for Z");
+        }
     } // end switch
 
 } // end function
