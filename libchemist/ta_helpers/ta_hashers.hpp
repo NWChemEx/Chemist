@@ -1,6 +1,6 @@
 #pragma once
 #include <bphash/Hasher.hpp>
-#include <mpi.h>
+#include <madness/world/safempi.h>
 #include <sde/detail_/memoization.hpp>
 #include <tiledarray.h>
 
@@ -87,81 +87,62 @@ void hash_object(const TA::Tensor<ValueType, AllocatorType>& A,
     for(auto i = 0ul; i < n; ++i) h(A[i]);
 }
 
-/** @brief Returns a combined hash string for TA::DistArray object.
+/** @brief Returns a 128 bit hash value for TA::DistArray object.
  *
- * Returned string length is equal to number of tiles *
- * length of each hash string (32 chars)
- * We can downsample the strings for performance. (not implemented)
- * Involves all-to-all communication (MPI_Allgather)
+ * Involves MPI collective operation (MPI_Allreduce)
  *
- * @tparam TileType Type of tiles in @p A.
+ * @tparam TileType Type of tensor for @p A.
  * @tparam PolicyType Type of policy for @p A. Either DensePolicy or
  * SparsePolicy.
  * @param[in] A DistArray object
- * @return std::string representing hash string gathered from all tilles from
- * all ranks
+ * @return bphash::HashValue for TA::DistArray
  */
 template<typename TensorType, typename PolicyType>
-std::string get_tile_hash_str(const TA::DistArray<TensorType, PolicyType>& A) {
+bphash::HashValue get_tile_hash_sum(
+  const TA::DistArray<TensorType, PolicyType>& A) {
     auto& madworld = A.world();
     auto& mpiworld = madworld.mpi.Get_mpi_comm();
-    int size       = madworld.size();
-    int rank       = madworld.rank();
 
     // Note: Without the fence orbital space hash tests hang on parallel runs.
     madworld.gop.fence();
+    bphash::HashValue myhash;
+    bphash::HashValue mytotal(16, 0); // bphash::HashType::Hash128 has 16
+                                      // uint8_t
+    bphash::HashValue hashsum(16, 0);
 
-    std::string myhash;
-    std::string totalhash;
     for(auto it = A.begin(); it != A.end(); ++it) {
         auto tile = A.find(it.index()).get();
-        myhash += sde::hash_objects(tile);
+        myhash    = bphash::make_hash(bphash::HashType::Hash128, tile);
+        for(auto i = 0; i < myhash.size(); i++) { mytotal[i] += myhash[i]; }
     }
-    if(A.pmap().get()->is_replicated()) {
-        totalhash = myhash;
+    if(madworld.size() > 1 && !A.pmap().get()->is_replicated()) {
+        // Note: Using &mytotal, &hashsum gives Seg Fault 11.
+        madworld.mpi.Allreduce(mytotal.data(), hashsum.data(), mytotal.size(),
+                               MPI_UINT8_T, MPI_SUM);
     } else {
-        int mylen = myhash.length();
-        std::vector<int> recvcounts(size);
-        MPI_Allgather(&mylen, 1, MPI_INT, &recvcounts[0], 1, MPI_INT, mpiworld);
-
-        int totlen = 0;
-        std::vector<int> displs(size);
-        displs[0] = 0;
-        totlen += recvcounts[0] + 1;
-
-        for(int i = 1; i < size; i++) {
-            totlen += recvcounts[i];
-            displs[i] = displs[i - 1] + recvcounts[i - 1];
-        }
-        std::vector<char> charbuffer(totlen);
-        charbuffer[totlen - 1] = '\0';
-        MPI_Allgatherv(myhash.c_str(), mylen, MPI_CHAR, &charbuffer[0],
-                       &recvcounts[0], &displs[0], MPI_CHAR, mpiworld);
-        totalhash = std::string(charbuffer.data());
+        hashsum = mytotal;
     }
     madworld.gop.fence();
-    return totalhash;
+    return hashsum;
 }
 
 /** @brief Enables hashing for TA DistArray class.
  *
  * Free function to enable hashing with BPHash library.
  *
- * @tparam TileType Type of tiles in @p A.
+ * @tparam TensorType Type of tensor (TA::DistArray) for @p A.
  * @tparam PolicyType Type of policy for @p A. Either DensePolicy or
  * SparsePolicy.
  * @param[in] A DistArray object
  * @param[in, out] h bphash::Hasher object.
  */
-template<typename TileType, typename PolicyType>
-void hash_object(
-  const TA::DistArray<TA::Tensor<TileType, Eigen::aligned_allocator<TileType>>,
-                      PolicyType>& A,
-  bphash::Hasher& h) {
+
+template<typename TensorType, typename PolicyType>
+void hash_object(const TA::DistArray<TensorType, PolicyType>& A,
+                 bphash::Hasher& h) {
     const char* mytype = "TA::DistArray";
     h(mytype);
     h(A.range());
-    auto hashstr = get_tile_hash_str(A);
-    h(hashstr);
+    h(get_tile_hash_sum(A));
 }
 } // namespace TiledArray
