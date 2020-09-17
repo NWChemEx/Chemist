@@ -21,18 +21,21 @@ public:
     /// The type used to store the overlap matrix
     using overlap_type = OverlapType;
 
+    DependentBaseSpace_() = default;
+
+    DependentBaseSpace_(sparse_map_type sm) : m_sm_(std::move(sm)) {}
+
     /** @brief Creates a new DependentBaseSpace_ with the provided state.
      *
      * @param[in] sm The sparse map detailing which members of this dependent
      *               space are paired with members of the independent space.
-     *               Defaults to a default constructed SparseMap instance.
-     * @param[in] S  The overlap matrix of this orbital space. Defaults to a
-     *               default constructed instance of type `overlap_type`.
+     *
+     * @param[in] S  The overlap matrix of this orbital space.
      *
      * @throw ??? If `overlap_type`'s move ctor throws. Same throw guarantee as
      *            `overlap_type`'s move ctor.
      */
-    DependentBaseSpace_(sparse_map_type sm = {}, overlap_type S = {});
+    DependentBaseSpace_(sparse_map_type sm, overlap_type S);
 
     /** @brief The sparse map from the independent space to this space
      *

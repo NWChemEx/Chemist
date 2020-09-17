@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <TiledArray/expressions/contraction_helpers.h>
 
 namespace libchemist::orbital_space {
 
@@ -22,6 +23,9 @@ private:
     using my_type = DerivedSpace_<TransformType, FromSpace, BaseType>;
 
 public:
+    /// Type of the overlap matrix
+    using overlap_type = typename BaseType::overlap_type;
+
     /// Type of the transformation matrix
     using transform_type  = TransformType;
 
@@ -128,7 +132,13 @@ public:
 protected:
     ///Include the transformation and the from space in the hash
     virtual void hash_(sde::Hasher& h) const override;
+
+    virtual overlap_type& S_() override;
+    virtual const overlap_type& S_() const override;
 private:
+    /// Computes the overlap matrix using the base space's overlap
+    overlap_type compute_overlap_() const;
+
     /// The transformation coefficients to this orbital space
     transform_type m_C_;
 
@@ -180,10 +190,60 @@ DERIVED_SPACE::DerivedSpace_(transform_type C,
                              Args&&...args) :
   BaseType(std::forward<Args>(args)...), m_C_(std::move(C)), m_pbase_(pbase) {}
 
+
+template<typename TransformType, typename FromSpace, typename BaseType>
+typename DERIVED_SPACE::overlap_type& DERIVED_SPACE::S_() {
+    if(!this->has_overlap()) this->set_overlap_(compute_overlap_());
+    return BaseType::S_();
+}
+
+template<typename TransformType, typename FromSpace, typename BaseType>
+const typename DERIVED_SPACE::overlap_type& DERIVED_SPACE::S_() const {
+    if(!this->has_overlap()) this->set_overlap_(compute_overlap_());
+    return BaseType::S_();
+}
+
 template<typename TransformType, typename FromSpace, typename BaseType>
 void DERIVED_SPACE::hash_(sde::Hasher& h) const {
     BaseType::hash_(h);
     h(m_C_, *m_pbase_);
+}
+
+template<typename TransformType, typename FromSpace, typename BaseType>
+typename DERIVED_SPACE::overlap_type DERIVED_SPACE::compute_overlap_() const {
+    auto& S_ao     = from_space().S();
+    auto& C_ao2x  = C();
+    overlap_type S_deriv;
+    using tile_type = typename overlap_type::value_type;
+    if constexpr(TA::detail::is_tensor_of_tensor_v<tile_type>) {
+        auto n_ind = S_ao.trange().rank() / 2;
+        std::string lidx, ridx;
+        for(std::size_t i = 0; i < n_ind; ++i){
+            if(i > 0){
+                lidx += ",";
+                ridx += ",";
+            }
+            lidx += "i_" + std::to_string(i);
+            ridx += "j_" + std::to_string(i);
+        }
+        std::string tot_idx = lidx + "," + ridx;
+
+        auto ij_an = tot_idx + ";a,nu";
+        auto ij_ab = tot_idx + ";a,b";
+        auto ij_mn = tot_idx + ";mu,nu";
+        auto i_ma  = lidx + ";mu,a";
+        auto j_nb  = ridx + ";nu,b";
+
+        overlap_type buffer;
+        TA::expressions::einsum(buffer(ij_an), C_ao2x(i_ma), S_ao(ij_mn));
+        TA::expressions::einsum(S_deriv(ij_ab), buffer(ij_an), C_ao2x(j_nb));
+    }
+    else {
+        overlap_type buffer;
+        buffer("i,nu") = C_ao2x("mu,i") * S_ao("mu,nu");
+        S_deriv("i,j") = buffer("i,nu") * C_ao2x("nu,j");
+    }
+    return S_deriv;
 }
 
 #undef DERIVED_SPACE

@@ -37,6 +37,7 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
     auto& world = TA::get_default_world();
     auto S1 = TensorMaker<tensor_type>::S(world);
     auto S2 = TensorMaker<tensor_type>::S2(world);
+    auto S3 = TensorMaker<tensor_type>::corr_transformed_S(world);
     auto pbs1 = std::make_shared<base_type>(S1);
     base_type bs1(*pbs1), bs2(S2);
 
@@ -114,6 +115,16 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
 
     SECTION("from_space") {
         REQUIRE(st1.from_space() == bs1);
+    }
+
+    SECTION("S()") {
+        space_type st2(S2, bs1);
+        REQUIRE(compare_tensors(st2.S(), S3));
+    }
+
+    SECTION("S() const") {
+        const space_type st2(S2, bs1);
+        REQUIRE(compare_tensors(st2.S(), S3));
     }
 
     SECTION("from_space_data") {

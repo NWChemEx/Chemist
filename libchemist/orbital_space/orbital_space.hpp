@@ -21,7 +21,7 @@ using DerivedSpace = DerivedSpace_<type::tensor<T>, AOSpace<T>, BaseSpace<T>>;
 template<typename T>
 using SparseDerivedSpace = DerivedSpace_<type::tensor_of_tensors<T>,
                                          SparseAOSpace<T>,
-                                         SparseDependentBase<T>>;
+                                         SparseBase<T>>;
 
 template<typename T>
 using CanonicalSpace = CanonicalSpace_<type::tensor<T>, DerivedSpace<T>>;

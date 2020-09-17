@@ -17,11 +17,15 @@ namespace libchemist::test {
 template<typename T>
 struct TensorMaker {
     static auto S(TA::World& world) {
-        return T(world, {1.0, 0.5, 0.5, 1.0});
+        return T(world, {{1.0, 0.5}, {0.5, 1.0}});
     }
 
     static auto S2(TA::World& world) {
-        return T(world, {1.0, 0.25, 0.25, 1.0});
+        return T(world, {{1.0, 0.25}, {0.25, 1.0}});
+    }
+
+    static auto corr_transformed_S(TA::World& world) {
+        return T(world, {{1.3125, 1.03125}, {1.03125, 1.3125}});
     }
 };
 
@@ -32,13 +36,31 @@ struct TensorMaker<type::tensor_of_tensors<T>> {
     using inner_type  = typename tile_type::value_type;
 
     static auto S(TA::World& world) {
-        inner_type t(TA::Range(2, 2), {1.0, 0.5, 0.5, 1.0});
-        return tensor_type(world, {t});
+        inner_type t1(TA::Range(2, 2), {1.0, 0.5, 0.5, 1.0});
+        inner_type t2(TA::Range(2, 3), {0.12, 0.23, 0.34, 0.45, 0.56, 0.67});
+        inner_type t3(TA::Range(3, 2), {0.12, 0.45, 0.23, 0.56, 0.34, 0.67});
+        inner_type t4(TA::Range(3,3), {1.0, 0.12, 0.23, 0.12, 1.0, 0.34, 0.23,
+                                        0.34, 1.0});
+        return tensor_type(world, {{t1, t2}, {t3, t4}});
     }
 
     static auto S2(TA::World& world) {
         inner_type t(TA::Range(2, 2), {1.0, 0.25, 0.25, 1.0});
-        return tensor_type(world, {t});
+        inner_type t2(TA::Range(3,3), {1.0, 0.45, 0.56, 0.45, 1.0, 0.67, 0.56,
+                                       0.67, 1.0});
+        return tensor_type(world, {t, t2});
+    }
+
+    static auto corr_transformed_S(TA::World& world) {
+        inner_type t(TA::Range(2, 2), {1.3125, 1.03125, 1.03125, 1.3125});
+        inner_type t2(TA::Range(2, 3), {0.6832, 0.81465, 0.8856, 1.180675,
+                                        1.33935,  1.437525});
+        inner_type t3(TA::Range(3,2), {0.6832, 1.180675, 0.81465, 1.33935,
+                                       0.8856, 1.437525});
+        inner_type t4(TA::Range(3,3), {2.05306, 1.92447, 2.114836, 1.92447,
+                                       2.35369, 2.377802, 2.114836, 2.377802,
+                                       2.565748});
+        return tensor_type(world, {{t, t2}, {t3, t4}});
     }
 };
 

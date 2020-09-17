@@ -26,6 +26,7 @@ TEMPLATE_PRODUCT_TEST_CASE("BaseSpace", "",
     SECTION("CTors") {
         SECTION("Default") {
             base_space bs;
+            REQUIRE_FALSE(bs.has_overlap());
         }
 
         SECTION("Value") {
@@ -94,17 +95,31 @@ TEMPLATE_PRODUCT_TEST_CASE("BaseSpace", "",
         }
     }
 
-    base_space bs_S(S), bs_S2(S2);
+    base_space bs, bs_S(S), bs_S2(S2);
 
     SECTION("S()") {
+        REQUIRE_THROWS_AS(bs.S(), std::bad_optional_access);
         REQUIRE(test::compare_tensors(bs_S.S(), S));
     }
 
     SECTION("S() const"){
+        REQUIRE_THROWS_AS(std::as_const(bs).S(), std::bad_optional_access);
         REQUIRE(test::compare_tensors(std::as_const(bs_S).S(), S));
     }
 
     SECTION("hash"){
+        SECTION("Both default") {
+            auto hash1 = sde::hash_objects(bs);
+            auto hash2 = sde::hash_objects(base_space());
+            REQUIRE(hash1 == hash2);
+        }
+
+        SECTION("One default and one non-default") {
+            auto hash1 = sde::hash_objects(bs);
+            auto hash2 = sde::hash_objects(bs_S);
+            REQUIRE(hash1 != hash2);
+        }
+
         SECTION("Same overlap matrix") {
             auto hash1 = sde::hash_objects(bs_S);
             auto hash2 = sde::hash_objects(base_space(S));
@@ -119,6 +134,16 @@ TEMPLATE_PRODUCT_TEST_CASE("BaseSpace", "",
     }
 
     SECTION("Comparison operators") {
+        SECTION("Both default"){
+            REQUIRE(bs == base_space());
+            REQUIRE_FALSE(bs != base_space());
+        }
+
+        SECTION("One default and one non-default") {
+            REQUIRE_FALSE(bs == bs_S);
+            REQUIRE(bs != bs_S);
+        }
+
         SECTION("Same overlap matrix") {
             REQUIRE(bs_S == base_space(S));
             REQUIRE_FALSE(bs_S != base_space(S));
