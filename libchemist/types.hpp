@@ -13,5 +13,14 @@ namespace type {
 template<typename T>
 using tensor = TA::TSpArray<T>;
 
+/// Typedef of the tensor of tensors tile
+template<typename T>
+using tot_tile = TA::Tensor<TA::Tensor<T>>;
+
+/// Typedef of the tensor of tensor class
+template<typename T>
+using tensor_of_tensors = TA::DistArray<tot_tile<T>, TA::SparsePolicy>;
+
+
 } // namespace type
 } // namespace libchemist
