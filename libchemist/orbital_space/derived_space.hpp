@@ -214,8 +214,17 @@ typename DERIVED_SPACE::overlap_type DERIVED_SPACE::compute_overlap_() const {
     auto& S_ao     = from_space().S();
     auto& C_ao2x  = C();
     overlap_type S_deriv;
-    using tile_type = typename overlap_type::value_type;
-    if constexpr(TA::detail::is_tensor_of_tensor_v<tile_type>) {
+
+    using tile_type  = typename FromSpace::overlap_type::value_type;
+    constexpr bool tile1_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
+
+    using tile_type2 = typename std::decay_t<decltype(C_ao2x)>::value_type;
+    constexpr bool tile2_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type2>;
+
+    static_assert(tile1_is_tot == tile2_is_tot,
+        "C and S are assumed to either both be tensors or both be ToTs.");
+
+    if constexpr(tile1_is_tot) {
         auto n_ind = S_ao.trange().rank() / 2;
         std::string lidx, ridx;
         for(std::size_t i = 0; i < n_ind; ++i){

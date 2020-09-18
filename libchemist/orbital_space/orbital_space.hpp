@@ -31,7 +31,18 @@ using SparseCanonicalSpace = CanonicalSpace_<type::tensor_of_tensors<T>,
                                              SparseDerivedSpace<T>>;
 
 // Instantiate some common specializations
-extern template class AOSpace_<type::tensor<double>, BaseSpace<double>>;
-extern template class AOSpace_<type::tensor<float>, BaseSpace<float>>;
+extern template class BaseSpace_<type::tensor<double>>;
+extern template class BaseSpace_<type::tensor<float>>;
+extern template class BaseSpace_<type::tensor_of_tensors<double>>;
+extern template class BaseSpace_<type::tensor_of_tensors<float>>;
+
+extern template class DependentBaseSpace_<type::tensor_of_tensors<double>>;
+extern template class DependentBaseSpace_<type::tensor_of_tensors<float>>;
+
+extern template class AOSpace_<AOBasisSet<double>, BaseSpace<double>>;
+extern template class AOSpace_<AOBasisSet<float>, BaseSpace<float>>;
+extern template class AOSpace_<AOBasisSet<double>, SparseDependentBase<double>>;
+extern template class AOSpace_<AOBasisSet<float>, SparseDependentBase<float>>;
+
 
 } // namespace libchemist::orbital_space
