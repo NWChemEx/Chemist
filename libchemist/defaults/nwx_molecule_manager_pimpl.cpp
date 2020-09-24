@@ -7700,6 +7700,78 @@ private:
                                cart_t{9.061774821421823, -4.23286972296761,
                                       23.592237045995695}});
             return mol;
+        } else if(name == "he2") {
+            auto mol = Molecule();
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 0.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 4.0}});
+            return mol;
+        } else if(name == "he4") {
+            auto mol = Molecule();
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 0.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 4.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 8.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 12.0}});
+            return mol;
+        } else if(name == "he6") {
+            auto mol = Molecule();
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 0.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 4.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 8.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 12.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 16.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 20.0}});
+            return mol;
+        } else if(name == "he8") {
+            auto mol = Molecule();
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 0.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 4.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 8.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 12.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 16.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 20.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 24.0}});
+            mol.push_back(
+              Atom{mass_t(ptable_.get_atom(2).mass()), 2ul, 
+              cart_t{0.0, 0.0, 28.0}});
+            return mol;
         } else
             throw std::out_of_range("Unknown molecule name");
     } // end at_
