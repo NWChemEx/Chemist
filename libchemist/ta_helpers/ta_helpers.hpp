@@ -75,6 +75,39 @@ void apply_elementwise_inplace(TA::DistArray<TileType, PolicyType>& input,
     foreach_inplace(input,std::move(m));
 }
 
+/** @brief Returns the diagonal elements of a square matrix.
+ *
+ *  The function requires the matrix to have the same TiledRange1
+ *  in both its dimensions.
+ *
+ * @tparam TensorType the type of the input and returned tensor.
+ * @param t The tensor to extract the diagonal elements from.
+ * @return A new tensor which contains the diagonal elements.
+ */
+template<typename TensorType>
+auto grab_diagonal(TensorType&& t) {
+    auto trange1 = t.trange().dim(0);
+    if(trange1 != t.trange().dim(1))
+        throw std::runtime_error("Expected a square tiling");
+    TA::TiledRange trange{{trange1}};
+    using tensor_type = std::decay_t<TensorType>;
+    using tile_type   = typename tensor_type::value_type;
+    t.world().gop.fence();
+    auto l = [=](tile_type& tile, const TA::Range& r){
+        auto idx = libchemist::get_block_idx(trange, r);
+        auto t_tile = t.find({idx[0], idx[0]}).get();
+        tile = tile_type(r);
+        for(auto i : r) {
+            std::vector<std::size_t> ii{i[0], i[0]};
+            tile[i] = t_tile[ii];
+        }
+        return tile.norm();
+    };
+    auto rv = TA::make_array<tensor_type>(t.world(), trange, l);
+    t.world().gop.fence();
+    return rv;
+}
+
 //------------------------------------------------------------------------------
 // Element/Tile Retrieval
 //------------------------------------------------------------------------------
