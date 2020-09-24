@@ -34,4 +34,6 @@ TEST_CASE("diagonalize_inner_tensors"){
     auto [evals, evecs] = diagonalize_inner_tensors(t);
     REQUIRE(libchemist::allclose_tot(evals, corr_evals, 1));
 //    REQUIRE(libchemist::allclose_tot(evecs, corr_evecs, 2, true));
+    auto linv = cholesky_linv_inner_tensors(t);
+    std::cout << linv << std::endl;
 }
