@@ -3,7 +3,7 @@
 #include <libchemist/types.hpp>
 
 using namespace libchemist;
-using tensor_type type::tensor<double>;
+using tensor_type = type::tensor<double>;
 
 TEST_CASE("allclose") {
     auto &world = TA::get_default_world();
@@ -22,11 +22,11 @@ TEST_CASE("allclose") {
                                    {2.2, 3.3}});
 
         SECTION("Close if atol == 0.1") {
-            REQUIRE(allclose(lhs, corr, 0.0, 0.1));
+            REQUIRE(allclose(lhs, corr, false, 0.0, 0.1));
         }
 
         SECTION("Not close if atol < 0.1") {
-            REQUIRE_FALSE(allclose(lhs, corr, 0.0, 0.09));
+            REQUIRE_FALSE(allclose(lhs, corr, false, 0.0, 0.09));
         }
     }
 
@@ -37,11 +37,11 @@ TEST_CASE("allclose") {
                                    {2.2, 3.3}});
 
         SECTION("Close if rtol == 0.1") {
-            REQUIRE(allclose(lhs, corr, 0.1));
+            REQUIRE(allclose(lhs, corr, false, 0.1));
         }
 
         SECTION("Not close if rtol < 0.1") {
-            REQUIRE_FALSE(allclose(lhs, corr, 0.09));
+            REQUIRE_FALSE(allclose(lhs, corr, false, 0.09));
         }
     }
 

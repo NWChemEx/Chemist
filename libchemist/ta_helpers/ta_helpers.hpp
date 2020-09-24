@@ -249,7 +249,7 @@ auto reduce_elementwise(const TA::DistArray<TileType, PolicyType>& lhs,
  */
 template<typename T, typename U,
     typename V = typename std::decay_t<T>::scalar_type>
-bool allclose(T&& actual, U&& ref, const bool abs = false, V&& rtol = 1.0E-5,
+bool allclose(T&& actual, U&& ref, const bool abs_comp = false, V&& rtol = 1.0E-5,
               V&& atol = 1.0E-8, std::size_t inner_rank = 0) {
   using tensor_type = std::decay_t<T>;
   using tile_type   = typename tensor_type::value_type;
@@ -262,16 +262,20 @@ bool allclose(T&& actual, U&& ref, const bool abs = false, V&& rtol = 1.0E-5,
   // Get a dummy string label (something like "i0, i1, i2, ...")
   auto idx = TA::detail::dummy_annotation(actual.range().rank(), inner_rank);
 
+
   // Compute A - B, call result AmB
   tensor_type AmB;
-  if (abs) {
-      auto abs_lambda = [](const V& val) {return std::fabs(val);};
-      //TODO: There should be some way to do this without forming the intermediate tensors
-      AmB(idx) = apply_elementwise(actual,abs_lambda)(idx) - apply_elementwise(ref,abs_lambda)(idx);
-//      AmB(idx) = actual(idx).unary(abs_lambda) - ref(idx).unary(abs_lambda);
-  } else {
-      AmB(idx) = actual(idx) - ref(idx);
-  }
+//  if (abs_comp) {
+////      auto abs_lambda = [](const V& val) {return std::abs(val);};
+//    auto  = apply_elementwise(actual,[](const V& val){return std::fabs(val);});
+//      //TODO: There should be some way to do this without forming the intermediate tensors
+////      AmB(idx) = apply_elementwise(actual,[](V& val){return std::fabs(val);})(idx);
+////      AmB(idx) = actual(idx).unary(abs_lambda) - ref(idx).unary(abs_lambda);
+//  } else {
+//      AmB(idx) = actual(idx) - ref(idx);
+//  }
+
+  AmB(idx) = actual(idx) - ref(idx);
 
   auto times_op = [=](scalar_type lhs, scalar_type rhs) {
     return std::fabs(lhs) <= atol + rtol * std::fabs(rhs);
@@ -299,10 +303,10 @@ bool allclose(T&& actual, U&& ref, const bool abs = false, V&& rtol = 1.0E-5,
 /// Reorders the arguments to be more convenient for a ToT
 template<typename T, typename U,
          typename V = typename std::decay_t<T>::scalar_type>
-bool allclose_tot(T&& actual, U&& ref, std::size_t inner_rank = 0, const bool abs = false,
+bool allclose_tot(T&& actual, U&& ref, std::size_t inner_rank = 0, const bool abs_comp = false,
                   V&& rtol = 1.0E-5, V&& atol = 1.0E-8) {
     return allclose(std::forward<T>(actual),
-                    std::forward<U>(ref), abs,
+                    std::forward<U>(ref), abs_comp,
                       rtol, atol, inner_rank);
 }
 
