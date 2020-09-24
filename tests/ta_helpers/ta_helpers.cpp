@@ -1,22 +1,24 @@
 #include <catch2/catch.hpp>
 #include <libchemist/ta_helpers/ta_helpers.hpp>
+#include <libchemist/types.hpp>
 
 using namespace libchemist;
+using tensor_type type::tensor<double>;
 
 TEST_CASE("allclose") {
     auto &world = TA::get_default_world();
     SECTION("identical") {
-        TA::TSpArrayD lhs(world, {{0.0, 1.1},
+        tensor_type lhs(world, {{0.0, 1.1},
                                   {2.2, 3.3}});
-        TA::TSpArrayD corr(world, {{0.0, 1.1},
+        tensor_type corr(world, {{0.0, 1.1},
                                    {2.2, 3.3}});
         REQUIRE(allclose(lhs, corr));
     }
 
     SECTION("Absolute difference 0.1") {
-        TA::TSpArrayD lhs(world, {{0.0, 1.1},
+        tensor_type lhs(world, {{0.0, 1.1},
                                   {2.2, 3.3}});
-        TA::TSpArrayD corr(world, {{0.0, 1.2},
+        tensor_type corr(world, {{0.0, 1.2},
                                    {2.2, 3.3}});
 
         SECTION("Close if atol == 0.1") {
@@ -29,9 +31,9 @@ TEST_CASE("allclose") {
     }
 
     SECTION("Relative difference 0.1") {
-        TA::TSpArrayD lhs(world, {{0.0, 1.09},
+        tensor_type lhs(world, {{0.0, 1.09},
                                   {2.2, 3.3}});
-        TA::TSpArrayD corr(world, {{0.0, 1.2},
+        tensor_type corr(world, {{0.0, 1.2},
                                    {2.2, 3.3}});
 
         SECTION("Close if rtol == 0.1") {
@@ -48,16 +50,16 @@ TEST_CASE("allclose") {
                               {0, 2}};
 
         auto l = [](TA::TensorD &, const TA::Range &) { return 0.0; };
-        auto lhs = TA::make_array<TA::TSpArrayD>(world, trange, l);
+        auto lhs = TA::make_array<tensor_type>(world, trange, l);
 
         SECTION("Close to explicitly zero tensor") {
-            TA::TSpArrayD corr(world, {{0.0, 0.0},
+            tensor_type corr(world, {{0.0, 0.0},
                                        {0.0, 0.0}});
             REQUIRE(allclose(lhs, corr));
         }
 
         SECTION("Not close to non-zero tensor") {
-            TA::TSpArrayD corr(world, {{0.0, 1.1},
+            tensor_type corr(world, {{0.0, 1.1},
                                        {2.2, 3.3}});
             REQUIRE_FALSE(allclose(lhs, corr));
         }
@@ -68,16 +70,16 @@ TEST_CASE("allclose") {
                               {0, 2}};
 
         auto l = [](TA::TensorD &, const TA::Range &) { return 0.0; };
-        auto corr = TA::make_array<TA::TSpArrayD>(world, trange, l);
+        auto corr = TA::make_array<tensor_type>(world, trange, l);
 
         SECTION("Close to explicitly zero tensor") {
-            TA::TSpArrayD lhs(world, {{0.0, 0.0},
+            tensor_type lhs(world, {{0.0, 0.0},
                                       {0.0, 0.0}});
             REQUIRE(allclose(lhs, corr));
         }
 
         SECTION("Not close to non-zero tensor") {
-            TA::TSpArrayD lhs(world, {{0.0, 1.1},
+            tensor_type lhs(world, {{0.0, 1.1},
                                       {2.2, 3.3}});
             // TODO: Re-enable after TA #184 is resolved
             //REQUIRE_FALSE(allclose(lhs, corr));
@@ -85,11 +87,11 @@ TEST_CASE("allclose") {
     }
 }
 
-TEST_CASE("Elementwise helpers") {
+TEST_CASE("Tensor Creation") {
 
     auto& world = TA::get_default_world();
-    TA::TSpArrayD matrix(world,{{1.0,2.0},{3.0,4.0}});
-    TA::TSpArrayD corr(world,{{2.0,4.0},{6.0,8.0}});
+    tensor_type matrix(world,{{1.0,2.0},{3.0,4.0}});
+    tensor_type corr(world,{{2.0,4.0},{6.0,8.0}});
 
     SECTION("apply_elementwise") {
         auto doubled = apply_elementwise(matrix, [](const double& old) {
@@ -103,5 +105,11 @@ TEST_CASE("Elementwise helpers") {
             value *= 2;
         });
         REQUIRE(allclose(matrix,corr));
+    }
+
+    SECTION("grag_diagonal") {
+        auto diag = grab_diagonal(matrix);
+        tensor_type corr_diag(world,{1.0,4.0});
+        REQUIRE(allclose(diag,corr_diag));
     }
 }
