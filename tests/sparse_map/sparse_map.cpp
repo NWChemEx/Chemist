@@ -1,5 +1,5 @@
 #include <catch2/catch.hpp>
-#include <libchemist/sparse_map/sparse_map.hpp>
+#include <libchemist/sparse_map/sparse_map_class.hpp>
 
 using namespace libchemist::sparse_map;
 using index_type      = typename SparseMap::key_type;
@@ -13,7 +13,6 @@ TEST_CASE("SparseMap : default ctor") {
     REQUIRE(sm.size() == 0);
     REQUIRE(sm.ind_rank() == 0);
     REQUIRE(sm.dep_rank() == 0);
-    REQUIRE(sde::hash_objects(sm) == "50e20c9ba664054fb322f0499e108b5f");
 }
 
 TEST_CASE("SparseMap : copy ctor"){

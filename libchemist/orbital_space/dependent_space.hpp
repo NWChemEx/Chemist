@@ -1,6 +1,6 @@
 #pragma once
 #include "libchemist/orbital_space/base_space.hpp"
-#include "libchemist/sparse_map/sparse_map.hpp"
+#include "libchemist/sparse_map/sparse_map_class.hpp"
 
 namespace libchemist::orbital_space {
 

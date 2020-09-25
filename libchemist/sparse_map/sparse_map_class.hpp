@@ -4,57 +4,22 @@
 
 namespace libchemist::sparse_map {
 namespace detail_ {
-class SparseMapPIMPL;
+template<typename IndIndex, typename DepIndex> class SparseMapPIMPL;
 }
 
 /** @brief Stores the sparsity relation among indices.
  *
  */
+template<typename IndIndex, typename DepIndex>
 class SparseMap {
 private:
-    template<typename T>
-    using il_type =
-      std::initializer_list<std::pair<T, std::initializer_list<T>>>;
+    using my_type    = SparseMap<IndIndex, DepIndex>;
 
-    using stl_map_t = std::map<std::vector<std::size_t>, Domain>;
-public:
-    using mapped_type = Domain;
-    using key_type    = typename mapped_type::value_type;
-    using value_type      = std::pair<const key_type, mapped_type>;
-    using reference       = value_type&;
-    using const_reference = const value_type&;
-    using iterator        = typename stl_map_t::iterator;
-    using const_iterator  = typename stl_map_t::const_iterator;
-    using size_type       = typename mapped_type::size_type;
-    using index_set       = std::set<size_type>;
-    using index_set_array = std::vector<index_set>;
-    using index_set_map   = std::map<key_type, index_set_array>;
 
-    SparseMap();
-    SparseMap(const SparseMap& rhs);
-    SparseMap(SparseMap&& rhs) noexcept;
-    SparseMap& operator=(const SparseMap& rhs);
-    SparseMap& operator=(SparseMap&& rhs) noexcept;
-    SparseMap(il_type<key_type> il);
-    ~SparseMap() noexcept;
 
-    void swap(SparseMap& rhs) noexcept { m_pimpl_.swap(rhs.m_pimpl_); }
 
-    size_type size() const noexcept;
-    bool empty() const noexcept { return begin() == end(); }
-    bool count(const key_type& i) const noexcept;
-    template<typename BeginItr, typename EndItr>
-    bool count(BeginItr&& b, EndItr&& e) const {
-        const key_type k(std::forward<BeginItr>(b), std::forward<EndItr>(e));
-        return count(k);
-    }
-    size_type ind_rank() const noexcept;
 
-    /** @brief The number of independent modes associated with each Domain.
-     *
-     *  The
-     * @return
-     */
+
     size_type dep_rank() const noexcept;
 
     index_set_map indices() const;
@@ -94,10 +59,7 @@ public:
     const mapped_type& at(IndexType&& idx) const;
 
 
-    iterator begin() noexcept;
-    const_iterator begin() const noexcept;
-    iterator end() noexcept;
-    const_iterator end() const noexcept;
+
 
     /** @brief Adds single rank indices to the domain of a single rank index.
      *

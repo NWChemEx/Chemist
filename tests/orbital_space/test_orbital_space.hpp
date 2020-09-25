@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/sparse_map/sparse_map.hpp"
+#include "libchemist/sparse_map/sparse_map_class.hpp"
 #include "libchemist/ta_helpers/ta_hashers.hpp"
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include "libchemist/types.hpp"
