@@ -26,6 +26,7 @@ private:
 public:
     /// The type the indices are stored as
     using value_type = typename traits_type::value_type;
+    //Pull in base class's ctors
     using detail_::DomainBase<Domain<ElementIndex>, ElementIndex>::DomainBase;
 
 }; // class Domain<IndexType>
@@ -40,18 +41,23 @@ private:
 public:
     /// The type the indices are stored as
     using value_type = typename traits_type::value_type;
-
+    // Pull in base class's ctors
+    using detail_::DomainBase<Domain<TileIndex>, TileIndex>::DomainBase;
 }; // class Domain<TileIndex>
 
 
-template<typename IndexType>
-inline std::ostream& operator<<(std::ostream& os, const Domain<IndexType>& d){
-    return d.print(os);
-}
 
+
+/// Convenience typedef of a Domain filled with ElementIndex instances
 using ElementDomain = Domain<ElementIndex>;
+
+/// Convenience typedef of a Domain filled with TileIndex instances
 using TileDomain    = Domain<TileIndex>;
 
+
+//------------------------------------------------------------------------------
+//             Forward Declaration of Template Instantiations
+//------------------------------------------------------------------------------
 
 extern template class Domain<ElementIndex>;
 extern template class Domain<TileIndex>;

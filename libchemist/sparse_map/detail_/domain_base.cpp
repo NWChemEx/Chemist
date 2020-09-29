@@ -31,12 +31,12 @@ DOMAINBASE::DomainBase(DomainBase&& rhs) noexcept :
 template<typename DerivedType, typename IndexType>
 DOMAINBASE& DOMAINBASE::operator=(const DomainBase& rhs) {
     if(this == &rhs) return *this;
-    m_pimpl_.swap(rhs.pimpl_().clone());
+    rhs.pimpl_().clone().swap(m_pimpl_);
     return *this;
 }
 
 template<typename DerivedType, typename IndexType>
-DOMAINBASE& DOMAINBASE::operator=(DomainBase&& rhs) {
+DOMAINBASE& DOMAINBASE::operator=(DomainBase&& rhs) noexcept {
     if(this == &rhs) return *this;
     m_pimpl_ = std::move(rhs.m_pimpl_);
     return *this;
@@ -45,9 +45,13 @@ DOMAINBASE& DOMAINBASE::operator=(DomainBase&& rhs) {
 template<typename DerivedType, typename IndexType>
 DOMAINBASE::~DomainBase() noexcept = default;
 
+//------------------------------------------------------------------------------
+//                              Accessors
+//------------------------------------------------------------------------------
+
 template<typename DerivedType, typename IndexType>
-typename DOMAINBASE::size_type DOMAINBASE::rank() const {
-    return pimpl_().rank();
+typename DOMAINBASE::size_type DOMAINBASE::rank() const noexcept {
+    return m_pimpl_ ? pimpl_().rank() : 0;
 }
 
 template<typename DerivedType, typename IndexType>
@@ -65,6 +69,10 @@ template<typename DerivedType, typename IndexType>
 typename DOMAINBASE::const_reference DOMAINBASE::operator[](size_type i) const {
     return pimpl_().at(i);
 }
+
+//------------------------------------------------------------------------------
+//                                  Setters
+//------------------------------------------------------------------------------
 
 template<typename DerivedType, typename IndexType>
 void DOMAINBASE::insert(value_type idx) {
@@ -109,6 +117,10 @@ DerivedType DOMAINBASE::operator+(const DerivedType& rhs) const {
     return rv;
 }
 
+//------------------------------------------------------------------------------
+//                                Utilities
+//------------------------------------------------------------------------------
+
 template<typename DerivedType, typename IndexType>
 bool DOMAINBASE::operator==(const DomainBase& rhs) const noexcept {
     if(!(m_pimpl_ || rhs.m_pimpl_)) return true;
@@ -136,6 +148,10 @@ std::ostream& DOMAINBASE::print(std::ostream& os) const {
     return os;
 }
 
+//------------------------------------------------------------------------------
+//                              Private Methods
+//------------------------------------------------------------------------------
+
 template<typename DerivedType, typename IndexType>
 DerivedType& DOMAINBASE::downcast_() noexcept {
     return static_cast<DerivedType&>(*this);
@@ -159,6 +175,10 @@ const typename DOMAINBASE::pimpl_type& DOMAINBASE::pimpl_() const {
 }
 
 #undef DOMAINBASE
+
+//------------------------------------------------------------------------------
+//                           Template Instantiations
+//------------------------------------------------------------------------------
 
 template class DomainBase<Domain<ElementIndex>, ElementIndex>;
 template class DomainBase<Domain<TileIndex>, TileIndex>;

@@ -2,7 +2,7 @@ Sparse Map Library
 ==================
 
 The sparse map component of LibChemist focuses on creating, using, and applying
-spars maps.
+sparse maps.
 
 Design
 ------

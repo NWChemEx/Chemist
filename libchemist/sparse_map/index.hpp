@@ -323,7 +323,9 @@ struct TileIndex : public Index{
     using Index::Index;
 };
 
-// --------------------------- Implementations ---------------------------------
+//------------------------------------------------------------------------------
+//                            Implementations
+//------------------------------------------------------------------------------
 
 template<typename...Args>
 Index::Index(size_type i0, Args&&...args) :

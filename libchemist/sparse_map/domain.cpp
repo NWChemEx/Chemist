@@ -1,6 +1,5 @@
 #include "libchemist/sparse_map/domain.hpp"
 
-
 namespace libchemist::sparse_map {
 
 template class Domain<ElementIndex>;

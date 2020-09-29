@@ -121,6 +121,21 @@ public:
      */
     void insert(value_type idx);
 
+    /** @brief Compares two DomainPIMPL instances for exact equality.
+     *
+     *  Two DomainPIMPL instances are equal if they contain the same set of
+     *  indices, regardless of whether the individual indices are actually
+     *  stored in memory.
+     *
+     *  @param[in] rhs The DomainPIMPL on the right side of the operator.
+     *
+     *  @return True if the two instances contain the same indices and false
+     *          otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool operator==(const my_type& rhs) const noexcept;
+
     /** @brief Computes the hash of the Domain.
      *
      *  @param[in,out] h The object computing the hash. After this call the
@@ -139,34 +154,13 @@ private:
     std::set<value_type> m_domain_;
 }; // class DomainPIMPL
 
-/** @brief Compares two DomainPIMPL instances for exact equality.
- *  @relates DomainPIMPL
- *
- *  Two DomainPIMPL instances are equal if they contain the same set of
- *  indices, regardless of whether the individual indices are actually
- *  stored in memory.
- *
- *  @param[in] lhs The DomainPIMPL on the left side of the operator.
- *  @param[in] rhs The DomainPIMPL on the right side of the operator.
- *
- *  @return True if the two instances contain the same indices and false
- *          otherwise.
- *
- *  @throw None No throw guarantee.
- */
-template<typename LHSType, typename RHSType>
-bool operator==(const DomainPIMPL<LHSType>& lhs,
-                const DomainPIMPL<RHSType>& rhs) {
-    if(lhs.rank() != rhs.rank()) return false;
-    if(lhs.size() != rhs.size()) return false;
-    return std::equal(lhs.begin(), lhs.end(), rhs.begin());
-}
-
 /** @brief Determines if two DomainPIMPL instances are different
  *
  *  Two DomainPIMPL instances are equal if they contain the same set of
  *  indices, regardless of whether the individual indices are actually
  *  stored in memory.
+ *
+ *  @tparam IndexType The type of index in the domain.
  *
  *  @param[in] lhs The DomainPIMPL on the left side of the operator
  *  @param[in] rhs The DomainPIMPL on the right side of the operator
@@ -175,9 +169,9 @@ bool operator==(const DomainPIMPL<LHSType>& lhs,
  *
  *  @throw None No throw guarantee.
  */
-template<typename LHSType, typename RHSType>
-bool operator!=(const DomainPIMPL<LHSType>& lhs,
-                const DomainPIMPL<RHSType>& rhs) {
+template<typename IndexType>
+bool operator!=(const DomainPIMPL<IndexType>& lhs,
+                const DomainPIMPL<IndexType>& rhs) {
     return !(lhs == rhs);
 }
 
@@ -215,6 +209,13 @@ void DOMAINPIMPL::insert(value_type idx) {
           ") != rank of domain ("s + std::to_string(rank()) + ")"s);
     }
     m_domain_.insert(idx);
+}
+
+template<typename IndexType>
+bool DOMAINPIMPL::operator==(const DomainPIMPL& rhs) const noexcept {
+    if(rank() != rhs.rank()) return false;
+    if(size() != rhs.size()) return false;
+    return m_domain_ == rhs.m_domain_;
 }
 
 template<typename IndexType>
