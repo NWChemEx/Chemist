@@ -64,9 +64,9 @@ struct TensorMaker<type::tensor_of_tensors<T>> {
     }
 };
 
-using index_type = typename sparse_map::SparseMap::key_type;
-static sparse_map::SparseMap sm1;
-static sparse_map::SparseMap sm2({{index_type{0ul}, {index_type{0, 1}}}});
+using index_type = sparse_map::ElementIndex;
+static sparse_map::SparseMap<index_type, index_type> sm1;
+static sparse_map::SparseMap<index_type, index_type> sm2({{index_type{0ul}, {index_type{0, 1}}}});
 
 template<typename T, typename U>
 struct CompareTensors{

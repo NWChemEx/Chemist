@@ -16,7 +16,8 @@ TEMPLATE_TEST_CASE("DependentSpace", "", float, double) {
 
     SECTION("Typedefs") {
         SECTION("Sparse map type") {
-          using corr_type       = libchemist::sparse_map::SparseMap;
+          using index_type      = libchemist::sparse_map::ElementIndex;
+          using corr_type       = libchemist::sparse_map::SparseMap<index_type, index_type>;
           using sparse_map_type = typename base_space::sparse_map_type;
           STATIC_REQUIRE(std::is_same_v<sparse_map_type, corr_type>);
         }
