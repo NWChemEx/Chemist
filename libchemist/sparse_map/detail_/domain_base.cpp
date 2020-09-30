@@ -81,8 +81,13 @@ void DOMAINBASE::insert(value_type idx) {
 }
 
 template<typename DerivedType, typename IndexType>
-DOMAINBASE& DOMAINBASE::operator*=(const DomainBase& rhs) {
-    auto new_pimpl = pimpl_().clone();
+DerivedType& DOMAINBASE::operator*=(const DomainBase& rhs) {
+    auto new_pimpl = std::make_unique<pimpl_type>();
+    if(!m_pimpl_ || rhs.empty()){
+        m_pimpl_.swap(new_pimpl);
+        return downcast_();
+    }
+
     const auto new_rank = rank() + rhs.rank();
     using vector_type = typename value_type::index_type;
     for(auto&& lidx : *this)
@@ -94,24 +99,27 @@ DOMAINBASE& DOMAINBASE::operator*=(const DomainBase& rhs) {
             new_pimpl->insert(value_type(std::move(new_index)));
         }
     m_pimpl_.swap(new_pimpl);
-    return *this;
+    return downcast_();
 }
 
 template<typename DerivedType, typename IndexType>
-DerivedType DOMAINBASE::operator*(const DerivedType& rhs) const {
+DerivedType DOMAINBASE::operator*(const DomainBase& rhs) const {
     DerivedType rv(downcast_());
     rv *= rhs;
     return rv;
 }
 
 template<typename DerivedType, typename IndexType>
-DOMAINBASE& DOMAINBASE::operator+=(const DomainBase& rhs) {
-    for(auto&& idx : rhs) insert(idx);
-    return *this;
+DerivedType& DOMAINBASE::operator+=(const DomainBase& rhs) {
+    auto new_pimpl =
+      m_pimpl_ ? pimpl_().clone() : std::make_unique<pimpl_type>();
+    for(auto&& idx : rhs) new_pimpl->insert(idx);
+    m_pimpl_.swap(new_pimpl);
+    return downcast_();
 }
 
 template<typename DerivedType, typename IndexType>
-DerivedType DOMAINBASE::operator+(const DerivedType& rhs) const {
+DerivedType DOMAINBASE::operator+(const DomainBase& rhs) const {
     DerivedType rv(downcast_());
     rv += rhs;
     return rv;
@@ -123,7 +131,8 @@ DerivedType DOMAINBASE::operator+(const DerivedType& rhs) const {
 
 template<typename DerivedType, typename IndexType>
 bool DOMAINBASE::operator==(const DomainBase& rhs) const noexcept {
-    if(!(m_pimpl_ || rhs.m_pimpl_)) return true;
+    if(!m_pimpl_) return !rhs.m_pimpl_;
+    else if(!rhs.m_pimpl_) return false;
     return *m_pimpl_ == *rhs.m_pimpl_;
 }
 

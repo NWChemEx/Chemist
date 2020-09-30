@@ -34,6 +34,8 @@ template<typename T> class DomainPIMPL;
  *  @note This class only implements operations among Domains which store the
  *        same index types. Operations among Domains with different index types
  *        must be implemented in the derived classes.
+ *
+ *  @note Domains without PIMPLs behave as if they are empty.
  */
 template<typename DerivedType, typename IndexType>
 class DomainBase {
@@ -204,28 +206,224 @@ public:
      */
     size_type size() const noexcept;
 
+    /** @brief Returns the number of times an index appears in this Domain
+     *
+     *  Domains are set-like thus a given index can only either be in or not be
+     *  in the Domain (*i.e.*, count can only return 0 or 1).
+     *
+     *  @param[in] idx The index we are looking for.
+     *
+     *  @return True if the index is in this Domain and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
     bool count(const_reference idx) const noexcept;
 
+    /** @brief Returns the @p i-th index in the Domain.
+     *
+     *  Domains are ordered sets, which means that any given moment there is a
+     *  concept of which element is zeroth, first, second, etc. This function
+     *  can be used to retrieve an index by its offset from the beginning of the
+     *  Domain.
+     *
+     *  @param[in] i The offset of the requested index. Must be in the range
+     *               [0, size()).
+     *
+     *  @return A read-only reference to the requested index.
+     *
+     *  @throw std::out_of_range if @p i is not in the range [0, size()). Strong
+     *                           throw guarantee.
+     *  @throw std::runtime_error if there is no PIMPL. Strong throw guarantee.
+     */
     const_reference operator[](size_type i) const;
 
+    /** @brief Adds the index to the Domain.
+     *
+     *  This function is used to add the manually specified index to the domain.
+     *  If the Domain already contains indices the rank of the new index must
+     *  match the rank of the indices already in the Domain. Domains are
+     *  set-like so this function is a no-op if the index is already in the
+     *  Domain.
+     *
+     *  @param[in] idx The index we are adding to the Domain. If the domain
+     *                 already contains indices, @p idx must be the same rank as
+     *                 the already present indices.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to add the index
+     *                        or create the PIMPL (if it is currently null).
+     *                        Strong throw guarantee.
+     *
+     *  @throw std::runtime_error if the Domain already contains indices and
+     *                            @p idx is not the same rank. Strong throw
+     *                            guarantee.
+     */
     void insert(value_type idx);
 
-    DomainBase& operator*=(const DomainBase& rhs);
-    DerivedType operator*(const DerivedType& rhs) const;
-    DomainBase& operator+=(const DomainBase& rhs);
-    DerivedType operator+(const DerivedType& rhs) const;
+    /** @brief Makes this instance the Cartesian product of this Domain and
+     *         the provided Domain.
+     *
+     *  The Cartesian product of a Domain, @f$A@f$, containing rank @f$r_A@f$
+     *  indices and a Domain, @f$B@f$, containing rank @f$r_B@f$ indices is a
+     *  Domain, @f$C@f$ with rank @f$n_C = n_A + n_B@f$ indices, such that:
+     *
+     *  @f[
+     *  C = \left\lbrace(a_i, b_j) \forall a_i\in A
+     *                             \forall b_j in B\right\rbrace,
+     *  @f]
+     *
+     *  where @f$(a_i, b_j)@f$ is the tuple made from concatenating the
+     *  @f$i@f$-th index in @f$A@f$ with the @f$j@f$-th index in @f$B@f$. The
+     *  number of indices in the new domain is equal to the number of indices in
+     *  @f$A@f$ times the number of inidces in @f$B@f$. Note that this means
+     *  that the Cartesian product of any domain with an empty domain is also
+     *  the empty domain.
+     *
+     * @param[in] rhs The Domain we are taking the Cartesian product with.
+     * @return The current Domain with its state set to the Cartesian product of
+     *         its previous state and @p rhs.
+     *
+     * @throw std::bad_alloc if there is insufficient memory to store the new
+     *                       state. Strong throw guarantee.
+     */
+    DerivedType& operator*=(const DomainBase& rhs);
 
+    /** @brief Returns the Cartesian product of this Domain and the provided
+     *         Domain.
+     *
+     *  The Cartesian product of a Domain, @f$A@f$, containing rank @f$r_A@f$
+     *  indices and a Domain, @f$B@f$, containing rank @f$r_B@f$ indices is a
+     *  Domain, @f$C@f$ with rank @f$n_C = n_A + n_B@f$ indices, such that:
+     *
+     *  @f[
+     *  C = \left\lbrace(a_i, b_j) \forall a_i\in A
+     *                             \forall b_j in B\right\rbrace,
+     *  @f]
+     *
+     *  where @f$(a_i, b_j)@f$ is the tuple made from concatenating the
+     *  @f$i@f$-th index in @f$A@f$ with the @f$j@f$-th index in @f$B@f$. The
+     *  number of indices in the new domain is equal to the number of indices in
+     *  @f$A@f$ times the number of inidces in @f$B@f$. Note that this means
+     *  that the Cartesian product of any domain with an empty domain is also
+     *  the empty domain.
+     *
+     * @param[in] rhs The Domain we are taking the Cartesian product with.
+     * @return The Domain resulting from the Cartesian product of this Domain
+     *         and @p rhs.
+     *
+     * @throw std::bad_alloc if there is insufficient memory to store the new
+     *                       state. Strong throw guarantee.
+     */
+    DerivedType operator*(const DomainBase& rhs) const;
+
+    /** @brief Sets this Domain to the union of this Domain the provided Domain.
+     *
+     *  The union of two domains is the a Domain containing all indices which
+     *  appear in at least one of the two domains. More formally, given two
+     *  Domains, @f$A@f$ and @f$B@f$, which both contain indices of rank
+     *  @f$r@f$, the union of @f$A@f$ and @f$B@f$ is another Domain @f$C@f$
+     *  such that:
+     *
+     *  @f[
+     *  C = \left\lbrace c_i : c_i \in A \lor c_i \in B \right\rbrace
+     *  @f]
+     *
+     *  hence the indices in @f$C@f$ are also of rank @f$r@f$.
+     *
+     *
+     *  @param[in] rhs The Domain we are taking the union with. Must be empty or
+     *                 contain indices with the same rank as this Domain.
+     *
+     *  @return The current Domain with its state overwritten by the union of
+     *          its previous state with @p rhs.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to store the new
+     *                        state. Strong throw guarantee.
+     *
+     *  @throw std::runtime_error if the indices in @p rhs do not have the same
+     *                            rank as the indices in this Domain. Strong
+     *                            throw guarantee.
+     */
+    DerivedType& operator+=(const DomainBase& rhs);
+
+    /** @brief Returns the union of this Domain with the provided Domain.
+     *
+     *  The union of two domains is the a Domain containing all indices which
+     *  appear in at least one of the two domains. More formally, given two
+     *  Domains, @f$A@f$ and @f$B@f$, which both contain indices of rank
+     *  @f$r@f$, the union of @f$A@f$ and @f$B@f$ is another Domain @f$C@f$
+     *  such that:
+     *
+     *  @f[
+     *  C = \left\lbrace c_i : c_i \in A \lor c_i \in B \right\rbrace
+     *  @f]
+     *
+     *  hence the indices in @f$C@f$ are also of rank @f$r@f$.
+     *
+     *
+     *  @param[in] rhs The Domain we are taking the union with. Must be empty or
+     *                 contain indices with the same rank as this Domain.
+     *
+     *  @return The Domain resulting from taking the the union of this Domain
+     *          with @p rhs.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to store the new
+     *                        state. Strong throw guarantee.
+     *
+     *  @throw std::runtime_error if the indices in @p rhs do not have the same
+     *                            rank as the indices in this Domain. Strong
+     *                            throw guarantee.
+     */
+    DerivedType operator+(const DomainBase& rhs) const;
+
+    /** @brief Determines if two Domains are the same.
+     *
+     *  Two Domains are equal if they both contain the same number of indices,
+     *  those indices have the same rank, and the contents of the Domains are
+     *  the same.
+     *
+     * @param[in] rhs The domain to compare against.
+     *
+     * @return True if the Domains contain the same indices and false otherwise.
+     *
+     * @throw None No throw guarantee.
+     */
     bool operator==(const DomainBase& rhs) const noexcept;
 
+    /** @brief Adds a hash of the current domain to the provided hashing object.
+     *
+     *  @param[in,out] h The object being used for hashing. After this function
+     *                   the internal state will be updated with a hash of this
+     *                   object.
+     *
+     *  @throws std::runtime_error if the PIMPL is not set. Strong throw
+     *                             guarantee.
+     */
     void hash(sde::Hasher& h) const;
-    std::ostream& print(std::ostream& os) const;
 
+    /** @brief Adds a string representation of this Domain to the provided
+     *         stream.
+     *
+     *  @param[in,out] os The stream we are adding this Domain to. After this
+     *                    call @p os will contain a string representation of
+     *                    this Domain.
+     *
+     *  @return @p os after adding this Domain to it.
+     */
+    std::ostream& print(std::ostream& os) const;
 protected:
+    /// Wraps downcasting this instance to DerivedType
     DerivedType& downcast_() noexcept;
+
+    /// Wraps downcasting this instance to a read-only DerivedType
     const DerivedType& downcast_() const noexcept;
+
+    /// Ensures that the PIMPL is non-Null and returns it
     pimpl_type& pimpl_();
+
+    /// Ensures that the PIMPL is non-Null and returns it
     const pimpl_type& pimpl_() const;
 private:
+    /// The instance actually holding the Domain's data
     pimpl_ptr m_pimpl_;
 }; // class DomainBase
 
@@ -233,12 +431,41 @@ private:
 //                      Related Free Functions
 //------------------------------------------------------------------------------
 
+/** @brief Determines if two Domains are different.
+ *  @relates DomainBase
+ *
+ *  Two Domains are equal if they both contain the same number of indices,
+ *  those indices have the same rank, and the contents of the Domains are
+ *  the same.
+ *
+ *  @tparam DerivedType The type of the class being implemented by DomainBase.
+ *  @tparam IndexType The type used to hold the indices.
+ *
+ *  @param[in] rhs The domain to compare against.
+ *
+ *  @return True if the Domains are different and true otherwise.
+ *
+ *  @throw None No throw guarantee.
+ */
 template<typename DerivedType, typename IndexType>
 bool operator!=(const DomainBase<DerivedType, IndexType>& lhs,
                 const DomainBase<DerivedType, IndexType>& rhs) {
     return !(lhs == rhs);
 }
 
+/** @brief Adds a string representation of this Domain to the provided
+ *         stream.
+ *  @relates DomainBase
+ *
+ *  @tparam DerivedType The type of the class being implemented by DomainBase
+ *  @tparam IndexType The type used to hold the indices.
+ *
+ *  @param[in,out] os The stream we are adding this Domain to. After this
+ *                    call @p os will contain a string representation of
+ *                    this Domain.
+ *  @param[in] d The domain to print.
+ *  @return @p os after adding this Domain to it.
+ */
 template<typename DerivedType, typename IndexType>
 std::ostream& operator<<(std::ostream& os,
                          const DomainBase<DerivedType, IndexType>& d){
