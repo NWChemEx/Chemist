@@ -1,4 +1,5 @@
 #pragma once
+#include "libchemist/sparse_map/detail_/sparse_map_traits.hpp"
 #include "libchemist/sparse_map/domain.hpp"
 #include "libchemist/sparse_map/index.hpp"
 #include <memory>
@@ -20,19 +21,55 @@ private:
     using my_type    = SparseMapBase<DerivedType, IndIndex, DepIndex>;
     using pimpl_type = SparseMapPIMPL<IndIndex, DepIndex>;
     using pimpl_ptr  = std::unique_ptr<pimpl_type>;
-    using stl_set_t  = std::map<IndIndex, Domain<DepIndex>>;
+    using traits_t   = SparseMapTraits<IndIndex, DepIndex>;
     using domain_il  = std::initializer_list<DepIndex>;
     using il_t       = std::initializer_list<std::pair<IndIndex, domain_il>>;
 public:
-    using size_type   = std::size_t;
+    /// Type used for offsets and counting
+    using size_type      = typename traits_t::size_type;
 
-    using key_type    = IndIndex;
-    using mapped_type = Domain<DepIndex>;
-    using iterator    = typename stl_set_t::iterator;
+    /// Type of the independent index
+    using key_type       = typename traits_t::key_type;
 
-    using const_iterator = typename stl_set_t::const_iterator;
+    /// Type of a domain of dependent indices
+    using mapped_type    = typename traits_t::mapped_type;
 
+    /// Type of a read/write iterator to this class
+    using iterator       = typename traits_t::iterator;
+
+    /// Type of a read-only iterator to this class
+    using const_iterator = typename traits_t::const_iterator;
+
+    /** @brief Constructs a new empty SparseMap.
+     *
+     *  This constructor is used to create a new SparseMap which contains no
+     *  independent elements (and thus no dependent elements either).
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to allocate the
+     *                        PIMPL. Strong throw guarantee.
+     */
     SparseMapBase();
+
+    /** @brief Sets the value of
+     *
+     *  This ctor allows you to specify at construction the independent indices
+     *  and the domains they map to. The format is:
+     *
+     *  ```
+     *  {{i0, {d00, d01, ...}}, {i1, {d10, d11, ...}}, ...}
+     *  ```
+     *
+     *  where `i0`, and `i1` are independent indices `d00`, `d01` are the first
+     *  two dependent indices associated with `i0` and `d10` and `d11` are the
+     *  first two dependent indices associated with `i1`. In practice this ctor
+     *  is intended primarily for use with unit testing as that is one of the
+     *  few scenarios where one can just lay out the contents of the sparse map
+     *  to create.
+     *
+     *  @param[in] il The initial state of the sparse map.
+     *  @throw std::bad_alloc if there is insufficient memory to allocate the
+     *                        initial state. Strong throw guarantee.
+     */
     SparseMapBase(il_t il);
     SparseMapBase(const SparseMapBase& rhs);
     SparseMapBase(SparseMapBase&& rhs) noexcept;

@@ -17,6 +17,10 @@ struct SparseMapPIMPL {
     }
 };
 
+//------------------------------------------------------------------------------
+//                            CTors
+//------------------------------------------------------------------------------
+
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 SPARSEMAPBASE::SparseMapBase() : m_pimpl_(std::make_unique<pimpl_type>()) {}
 
@@ -61,7 +65,9 @@ typename SPARSEMAPBASE::size_type SPARSEMAPBASE::ind_rank() const noexcept {
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 typename SPARSEMAPBASE::size_type SPARSEMAPBASE::dep_rank() const noexcept {
     if(!m_pimpl_ || pimpl_().m_sm.empty()) return 0;
-    return pimpl_().m_sm.begin()->second.rank();
+    for(auto [k, v] : pimpl_().m_sm)
+        if(v.rank() > 0) return v.rank();
+    return 0;
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>

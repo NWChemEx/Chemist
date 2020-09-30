@@ -1,20 +1,102 @@
-//#include <catch2/catch.hpp>
-//#include <libchemist/sparse_map/sparse_map_class.hpp>
-//
-//using namespace libchemist::sparse_map;
-//using index_type      = typename SparseMapEE::key_type;
-//using index_set       = typename SparseMapEE::index_set;
-//using index_set_array = typename SparseMapEE::index_set_array;
-//using index_set_map   = typename SparseMapEE::index_set_map;
-//
-//
-//TEST_CASE("SparseMap : default ctor") {
-//    SparseMap sm;
-//    REQUIRE(sm.size() == 0);
-//    REQUIRE(sm.ind_rank() == 0);
-//    REQUIRE(sm.dep_rank() == 0);
-//}
-//
+#include "libchemist/sparse_map/detail_/sparse_map_base.hpp"
+#include <catch2/catch.hpp>
+
+using namespace libchemist::sparse_map;
+using namespace libchemist::sparse_map::detail_;
+
+
+using index_list = std::tuple<std::pair<ElementIndex, ElementIndex>,
+                              std::pair<ElementIndex, TileIndex>,
+                              std::pair<TileIndex, ElementIndex>,
+                              std::pair<TileIndex, TileIndex>>;
+
+TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
+    using ind_idx_t = std::tuple_element_t<0, TestType>;
+    using dep_idx_t = std::tuple_element_t<1, TestType>;
+    using derived_t = SparseMap<ind_idx_t, dep_idx_t>;
+    using base_t    = SparseMapBase<derived_t, ind_idx_t, dep_idx_t>;
+    using domain_t  = Domain<dep_idx_t>;
+
+    ind_idx_t i0{}, i1{1}, i12{2}, i2{1, 2}, i22{2, 3};
+    dep_idx_t d0{}, d1{1}, d12{2}, d2{1, 2}, d22{2, 3};
+    base_t sm, sm0{{i0, {d1, d12}}}, sm1{{i1, {d1}}, {i2, {}}},
+           sm2{{i2, {d2}}, {i22, {d22}}}, mf;
+    base_t temp(std::move(mf));
+
+    SECTION("CTors") {
+        SECTION("Typedefs") {
+            using traits = SparseMapTraits<ind_idx_t, dep_idx_t>;
+
+            SECTION("size_type") {
+                using corr_t = typename traits::size_type;
+                using the_t  = typename base_t::size_type;
+                STATIC_REQUIRE(std::is_same_v<corr_t, the_t>);
+            }
+
+            SECTION("key_type") {
+                using corr_t = typename traits::key_type;
+                using the_t  = typename base_t::key_type;
+                STATIC_REQUIRE(std::is_same_v<corr_t, the_t>);
+            }
+
+            SECTION("mapped_type") {
+                using corr_t = typename traits::mapped_type;
+                using the_t  = typename base_t::mapped_type;
+                STATIC_REQUIRE(std::is_same_v<corr_t, the_t>);
+            }
+
+            SECTION("iterator") {
+                using corr_t = typename traits::iterator;
+                using the_t  = typename base_t::iterator;
+                STATIC_REQUIRE(std::is_same_v<corr_t, the_t>);
+            }
+
+            SECTION("const_iterator") {
+                using corr_t = typename traits::const_iterator;
+                using the_t  = typename base_t::const_iterator;
+                STATIC_REQUIRE(std::is_same_v<corr_t, the_t>);
+            }
+        }
+
+        SECTION("Default Ctor") {
+            REQUIRE(sm.size() == 0);
+            REQUIRE(sm.empty());
+            REQUIRE(sm.ind_rank() == 0);
+            REQUIRE(sm.dep_rank() == 0);
+        }
+
+        SECTION("Initializer list") {
+            SECTION("Empty") {
+                base_t sm_empty({});
+                REQUIRE(sm_empty == sm);
+            }
+
+            SECTION("Ind == rank 0") {
+                REQUIRE(sm0.size() == 1);
+                REQUIRE_FALSE(sm0.empty());
+                REQUIRE(sm0.ind_rank() == 0);
+                REQUIRE(sm0.dep_rank() == 1);
+            }
+
+            SECTION("Ind == rank 1") {
+                REQUIRE(sm1.size() == 2);
+                REQUIRE_FALSE(sm1.empty());
+                REQUIRE(sm1.ind_rank() == 1);
+                REQUIRE(sm1.dep_rank() == 1);
+            }
+
+            SECTION("Ind == rank 2") {
+                REQUIRE(sm2.size() == 2);
+                REQUIRE_FALSE(sm2.empty());
+                REQUIRE(sm2.ind_rank() == 2);
+                REQUIRE(sm2.dep_rank() == 2);
+            }
+        }
+
+
+    } // SECTION("CTORS")
+}
+
 //TEST_CASE("SparseMap : copy ctor"){
 //    SECTION("Empty") {
 //        SparseMap sm1;
