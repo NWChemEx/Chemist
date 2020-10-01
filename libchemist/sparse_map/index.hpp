@@ -337,9 +337,9 @@ Index::Index(BeginItr&& b, EndItr&& e) :
 
 inline std::ostream& Index::print(std::ostream& os) const {
     os << "{";
-    for(const auto& x : m_index){
-        os << x;
-        if(x != m_index.back()) os << ", ";
+    for(std::size_t i = 0; i < m_index.size(); ++i){
+        os << m_index[i];
+        if(i != m_index.size() - 1) os << ", ";
     }
     return os << "}";
 }

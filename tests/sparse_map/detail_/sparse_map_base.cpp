@@ -1,4 +1,4 @@
-#include "libchemist/sparse_map/detail_/sparse_map_base.hpp"
+#include "libchemist/sparse_map/sparse_map_class.hpp"
 #include <catch2/catch.hpp>
 
 using namespace libchemist::sparse_map;
@@ -10,6 +10,15 @@ using index_list = std::tuple<std::pair<ElementIndex, ElementIndex>,
                               std::pair<TileIndex, ElementIndex>,
                               std::pair<TileIndex, TileIndex>>;
 
+/* General notes on testing:
+ *
+ * - We know that the Domain class works from unit testing it. We use a variety
+ *   of Domains in these unit tests, but do not attempt to be exhaustive for
+ *   that reason. For testing, what matters more is the interaction of the
+ *   Domain with the SparseMap class.
+ *
+ */
+
 TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
     using ind_idx_t = std::tuple_element_t<0, TestType>;
     using dep_idx_t = std::tuple_element_t<1, TestType>;
@@ -19,9 +28,13 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
 
     ind_idx_t i0{}, i1{1}, i12{2}, i2{1, 2}, i22{2, 3};
     dep_idx_t d0{}, d1{1}, d12{2}, d2{1, 2}, d22{2, 3};
-    base_t sm, sm0{{i0, {d1, d12}}}, sm1{{i1, {d1}}, {i2, {}}},
-           sm2{{i2, {d2}}, {i22, {d22}}}, mf;
-    base_t temp(std::move(mf));
+
+    std::map<std::string, derived_t> sms;
+    sms["Empty"];
+    sms["Ind == rank 0"] = derived_t{{i0, {d1, d12}}};
+    sms["Ind == rank 1"] = derived_t{{i12, {}}, {i1, {d1}}};
+    sms["Ind == rank 2"] = derived_t{{i2, {d2}}, {i22, {d22}}};
+    derived_t temp(std::move(sms["No PIMPL"]));
 
     SECTION("CTors") {
         SECTION("Typedefs") {
@@ -59,6 +72,7 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
         }
 
         SECTION("Default Ctor") {
+            auto& sm = sms.at("Empty");
             REQUIRE(sm.size() == 0);
             REQUIRE(sm.empty());
             REQUIRE(sm.ind_rank() == 0);
@@ -68,10 +82,11 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
         SECTION("Initializer list") {
             SECTION("Empty") {
                 base_t sm_empty({});
-                REQUIRE(sm_empty == sm);
+                REQUIRE(sm_empty == sms.at("Empty"));
             }
 
             SECTION("Ind == rank 0") {
+                auto& sm0 = sms.at("Ind == rank 0");
                 REQUIRE(sm0.size() == 1);
                 REQUIRE_FALSE(sm0.empty());
                 REQUIRE(sm0.ind_rank() == 0);
@@ -79,6 +94,7 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
             }
 
             SECTION("Ind == rank 1") {
+                auto& sm1 = sms.at("Ind == rank 1");
                 REQUIRE(sm1.size() == 2);
                 REQUIRE_FALSE(sm1.empty());
                 REQUIRE(sm1.ind_rank() == 1);
@@ -86,6 +102,7 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
             }
 
             SECTION("Ind == rank 2") {
+                auto& sm2 = sms.at("Ind == rank 2");
                 REQUIRE(sm2.size() == 2);
                 REQUIRE_FALSE(sm2.empty());
                 REQUIRE(sm2.ind_rank() == 2);
@@ -93,400 +110,502 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
             }
         }
 
+        SECTION("Copy ctor") {
+            for(auto [k, v] : sms) {
+                SECTION(k){
+                    base_t copy(v);
+                    REQUIRE(copy == v);
+                }
+            }
+        }
+
+        SECTION("Move ctor") {
+            for(auto [k, v] : sms) {
+                SECTION(k){
+                    base_t corr(v);
+                    base_t moved2(std::move(v));
+                    REQUIRE(moved2 == corr);
+                }
+            }
+        }
+
+        SECTION("Copy assignment") {
+            for(auto [k, v] : sms) {
+                SECTION(k){
+                    base_t copy;
+                    auto pcopy = &(copy = v);
+                    SECTION("Value") { REQUIRE(copy == v); }
+                    SECTION("Returns *this") { REQUIRE(pcopy == &copy); }
+                }
+            }
+        }
+
+        SECTION("Move ctor") {
+            for(auto [k, v] : sms) {
+                SECTION(k){
+                    base_t corr(v);
+                    base_t moved2;
+                    auto pmoved = &(moved2 = std::move(v));
+                    SECTION("Value") { REQUIRE(moved2 == corr); }
+                    SECTION("Returns *this") { REQUIRE(pmoved == &moved2); }
+                }
+            }
+        }
 
     } // SECTION("CTORS")
+
+    SECTION("swap"){
+        for(auto& [lhs_k, lhs_v] : sms) {
+            for(auto& [rhs_k, rhs_v] : sms){
+                SECTION(lhs_k + " swapped with " + rhs_k){
+                    base_t corr_lhs(rhs_v);
+                    base_t corr_rhs(lhs_v);
+                    lhs_v.swap(rhs_v);
+                    REQUIRE(lhs_v == corr_lhs);
+                    REQUIRE(rhs_v == corr_rhs);
+                }
+            }
+        }
+    }
+
+    SECTION("size") {
+        SECTION("Empty") {
+            REQUIRE(sms.at("Empty").size() == 0);
+        }
+
+        SECTION("Ind == rank 0") {
+            auto& sm0 = sms.at("Ind == rank 0");
+            REQUIRE(sm0.size() == 1);
+        }
+
+        SECTION("Ind == rank 1") {
+            auto& sm1 = sms.at("Ind == rank 1");
+            REQUIRE(sm1.size() == 2);
+        }
+
+        SECTION("Ind == rank 2") {
+            auto& sm2 = sms.at("Ind == rank 2");
+            REQUIRE(sm2.size() == 2);
+        }
+
+        SECTION("No PIMPL") {
+            auto& mf = sms.at("No PIMPL");
+            REQUIRE(mf.size() == 0);
+        }
+    }
+
+    SECTION("empty"){
+        for(auto [k, v] : sms) {
+            SECTION(k){
+                bool is_empty = (v.size() == 0);
+                REQUIRE(v.empty() == is_empty);
+            }
+        }
+    }
+
+    SECTION("count") {
+        SECTION("Empty") { REQUIRE_FALSE(sms.at("Empty").count(i0)); }
+
+        SECTION("Ind == rank 0") {
+            auto& sm0 = sms.at("Ind == rank 0");
+            SECTION("Has index") { REQUIRE(sm0.count(i0)); }
+            SECTION("Doesn't have") { REQUIRE_FALSE(sm0.count(i1)); }
+        }
+
+        SECTION("Ind == rank 1") {
+            auto& sm1 = sms.at("Ind == rank 1");
+            SECTION("Has index") { REQUIRE(sm1.count(i1)); }
+            SECTION("Doesn't have") { REQUIRE_FALSE(sm1.count(i0)); }
+        }
+
+        SECTION("Ind == rank 2") {
+            auto& sm2 = sms.at("Ind == rank 2");
+            SECTION("Has index") { REQUIRE(sm2.count(i2)); }
+            SECTION("Doesn't have") { REQUIRE_FALSE(sm2.count(i0)); }
+        }
+
+        SECTION("No PIMPL") { REQUIRE_FALSE(sms.at("No PIMPL").count(i0)); }
+    }
+
+    SECTION("ind_rank") {
+        SECTION("Empty") {
+            REQUIRE(sms.at("Empty").ind_rank() == 0);
+        }
+
+        SECTION("Ind == rank 0") {
+            auto& sm0 = sms.at("Ind == rank 0");
+            REQUIRE(sm0.ind_rank() == 0);
+        }
+
+        SECTION("Ind == rank 1") {
+            auto& sm1 = sms.at("Ind == rank 1");
+            REQUIRE(sm1.ind_rank() == 1);
+        }
+
+        SECTION("Ind == rank 2") {
+            auto& sm2 = sms.at("Ind == rank 2");
+            REQUIRE(sm2.ind_rank() == 2);
+        }
+
+        SECTION("No PIMPL") {
+            auto& mf = sms.at("No PIMPL");
+            REQUIRE(mf.ind_rank() == 0);
+        }
+    }
+
+    SECTION("dep_rank") {
+        SECTION("Empty") {
+            REQUIRE(sms.at("Empty").dep_rank() == 0);
+        }
+
+        SECTION("Ind == rank 0") {
+            auto& sm0 = sms.at("Ind == rank 0");
+            REQUIRE(sm0.dep_rank() == 1);
+        }
+
+        SECTION("Ind == rank 1") {
+            auto& sm1 = sms.at("Ind == rank 1");
+            REQUIRE(sm1.dep_rank() == 1);
+        }
+
+        SECTION("Ind == rank 2") {
+            auto& sm2 = sms.at("Ind == rank 2");
+            REQUIRE(sm2.dep_rank() == 2);
+        }
+
+        SECTION("No PIMPL") {
+            auto& mf = sms.at("No PIMPL");
+            REQUIRE(mf.dep_rank() == 0);
+        }
+    }
+
+    SECTION("add_to_domain") {
+        SECTION("Empty") {
+            auto& sm = sms.at("Empty");
+            sm.add_to_domain(i0, d0);
+            base_t corr{{i0, {d0}}};
+            REQUIRE(sm == corr);
+        }
+
+        SECTION("Ind == rank 0") {
+            auto& sm0 = sms.at("Ind == rank 0");
+            SECTION("Throws if independent rank is wrong"){
+                REQUIRE_THROWS_AS(sm0.add_to_domain(i1, d1), std::runtime_error);
+            }
+            SECTION("Throws if dependent rank is wrong") {
+                REQUIRE_THROWS_AS(sm0.add_to_domain(i0, d0), std::runtime_error);
+            }
+            SECTION("Add to existing independent index") {
+                sm0.add_to_domain(i0, dep_idx_t{3});
+                base_t corr{{i0, {d1, d12, dep_idx_t{3}}}};
+                REQUIRE(sm0 == corr);
+            }
+        }
+
+        SECTION("Ind == rank 1") {
+            auto& sm1 = sms.at("Ind == rank 1");
+            SECTION("Throws if independent rank is wrong"){
+                REQUIRE_THROWS_AS(sm1.add_to_domain(i0, d1), std::runtime_error);
+            }
+            SECTION("Throws if dependent rank is wrong") {
+                REQUIRE_THROWS_AS(sm1.add_to_domain(i1, d0), std::runtime_error);
+            }
+            SECTION("Add to existing independent index") {
+                sm1.add_to_domain(i12, d12);
+                base_t corr{{i1, {d1}}, {i12, {d12}}};
+                REQUIRE(sm1 == corr);
+            }
+            SECTION("Add to non-existing independent index") {
+                sm1.add_to_domain(ind_idx_t{4}, d12);
+                base_t corr{{i12, {}}, {i1, {d1}}, {ind_idx_t{4}, {d12}}};
+                REQUIRE(sm1 == corr);
+            }
+        }
+
+        SECTION("Ind == rank 2") {
+            auto& sm2 = sms.at("Ind == rank 2");
+            SECTION("Throws if independent rank is wrong"){
+                REQUIRE_THROWS_AS(sm2.add_to_domain(i0, d2), std::runtime_error);
+            }
+            SECTION("Throws if dependent rank is wrong") {
+                REQUIRE_THROWS_AS(sm2.add_to_domain(i2, d0), std::runtime_error);
+            }
+            SECTION("Add to existing independent index") {
+                sm2.add_to_domain(i2, dep_idx_t{3, 4});
+                base_t corr{{i2, {d2, dep_idx_t{3, 4}}}, {i22, {d22}}};
+                REQUIRE(sm2 == corr);
+            }
+            SECTION("Add to non-existing independent index") {
+                sm2.add_to_domain(ind_idx_t{3, 4}, d2);
+                base_t corr{{i2, {d2}}, {i22, {d22}}, {ind_idx_t{3, 4}, {d2}}};
+                REQUIRE(sm2 == corr);
+            }
+        }
+
+        SECTION("No PIMPL") {
+            auto& mf = sms.at("No PIMPL");
+            mf.add_to_domain(i0, d0);
+            REQUIRE(mf == base_t{{i0, {d0}}});
+        }
+    }
+
+    /* To ensure that the returned instance is a read/write reference we grab
+     * the address from one call to operator[] and then call it again. If the
+     * returned object is not by reference the addresses should be different.
+     */
+    SECTION("operator[]") {
+        SECTION("Empty"){
+            auto& sm = sms.at("Empty");
+            auto pdomain = &(sm[i0]);
+            SECTION("Returns read/write") { REQUIRE(pdomain == &(sm[i0])); }
+            SECTION("Value") { REQUIRE(sm[i0] == domain_t{}); }
+        }
+
+        SECTION("Ind == rank 0"){
+            auto& sm = sms.at("Ind == rank 0");
+            auto pdomain = &(sm[i0]);
+            SECTION("Throws if wrong ind rank") {
+                REQUIRE_THROWS_AS(sm[i1], std::runtime_error);
+            }
+            SECTION("Returns read/write") { REQUIRE(pdomain == &(sm[i0])); }
+            SECTION("Value") { REQUIRE(sm[i0] == domain_t{d1, d12}); }
+        }
+
+        SECTION("Ind == rank 1"){
+            auto& sm = sms.at("Ind == rank 1");
+            auto pdomain = &(sm[i1]);
+            SECTION("Throws if wrong ind rank") {
+                REQUIRE_THROWS_AS(sm[i0], std::runtime_error);
+            }
+            SECTION("Returns read/write") { REQUIRE(pdomain == &(sm[i1])); }
+            SECTION("Value") { REQUIRE(sm[i1] == domain_t{d1}); }
+        }
+
+        SECTION("Ind == rank 2"){
+            auto& sm = sms.at("Ind == rank 2");
+            auto pdomain = &(sm[i2]);
+            SECTION("Throws if wrong ind rank") {
+                REQUIRE_THROWS_AS(sm[i1], std::runtime_error);
+            }
+            SECTION("Returns read/write") { REQUIRE(pdomain == &(sm[i2])); }
+            SECTION("Value") { REQUIRE(sm[i2] == domain_t{d2}); }
+        }
+
+        SECTION("No PIMPL"){
+            auto& sm = sms.at("No PIMPL");
+            auto pdomain = &(sm[i0]);
+            SECTION("Returns read/write") { REQUIRE(pdomain == &(sm[i0])); }
+            SECTION("Value") { REQUIRE(sm[i0] == domain_t{}); }
+        }
+    }
+
+    SECTION("operator[] const") {
+        SECTION("Empty"){
+            const auto& sm = sms.at("Empty");
+            REQUIRE_THROWS_AS(sm[i0], std::out_of_range);
+        }
+
+        SECTION("Ind == rank 0"){
+            const auto& sm = sms.at("Ind == rank 0");
+            SECTION("Throws if wrong ind rank") {
+                REQUIRE_THROWS_AS(sm[i1], std::runtime_error);
+            }
+            SECTION("Value") { REQUIRE(sm[i0] == domain_t{d1, d12}); }
+        }
+
+        SECTION("Ind == rank 1"){
+            const auto& sm = sms.at("Ind == rank 1");
+            SECTION("Throws if wrong ind rank") {
+                REQUIRE_THROWS_AS(sm[i0], std::runtime_error);
+            }
+            SECTION("Throws if value is not present") {
+                REQUIRE_THROWS_AS(sm[ind_idx_t{4}], std::out_of_range);
+            }
+            SECTION("Value") { REQUIRE(sm[i1] == domain_t{d1}); }
+        }
+
+        SECTION("Ind == rank 2"){
+            const auto& sm = sms.at("Ind == rank 2");
+            SECTION("Throws if wrong ind rank") {
+                REQUIRE_THROWS_AS(sm[i1], std::runtime_error);
+            }
+            SECTION("Throws if value is not present") {
+                ind_idx_t i23{3, 4};
+                REQUIRE_THROWS_AS(sm[i23], std::out_of_range);
+            }
+            SECTION("Value") { REQUIRE(sm[i2] == domain_t{d2}); }
+        }
+
+        SECTION("No PIMPL"){
+            const auto& sm = sms.at("No PIMPL");
+            REQUIRE_THROWS_AS(sm[i0], std::out_of_range);
+        }
+    } // SECTION("operator[]const")
+
+    SECTION("at() const") {
+        SECTION("Empty"){
+            const auto& sm = sms.at("Empty");
+            REQUIRE_THROWS_AS(sm.at(i0), std::out_of_range);
+        }
+
+        SECTION("Ind == rank 0"){
+            const auto& sm = sms.at("Ind == rank 0");
+            SECTION("Throws if wrong ind rank") {
+                REQUIRE_THROWS_AS(sm.at(i1), std::runtime_error);
+            }
+            SECTION("Value") { REQUIRE(sm.at(i0) == domain_t{d1, d12}); }
+        }
+
+        SECTION("Ind == rank 1"){
+            const auto& sm = sms.at("Ind == rank 1");
+            SECTION("Throws if wrong ind rank") {
+                REQUIRE_THROWS_AS(sm.at(i0), std::runtime_error);
+            }
+            SECTION("Throws if value is not present") {
+                REQUIRE_THROWS_AS(sm.at(ind_idx_t{4}), std::out_of_range);
+            }
+            SECTION("Value") { REQUIRE(sm.at(i1) == domain_t{d1}); }
+        }
+
+        SECTION("Ind == rank 2"){
+            const auto& sm = sms.at("Ind == rank 2");
+            SECTION("Throws if wrong ind rank") {
+                REQUIRE_THROWS_AS(sm.at(i1), std::runtime_error);
+            }
+            SECTION("Throws if value is not present") {
+                ind_idx_t i23{3, 4};
+                REQUIRE_THROWS_AS(sm.at(i23), std::out_of_range);
+            }
+            SECTION("Value") { REQUIRE(sm.at(i2) == domain_t{d2}); }
+        }
+
+        SECTION("No PIMPL"){
+            const auto& sm = sms.at("No PIMPL");
+            REQUIRE_THROWS_AS(sm.at(i0), std::out_of_range);
+        }
+    } // SECTION("operator[]const")
+    
+    SECTION("operator*=") {
+        SECTION("LHS == Empty") {
+            auto& lhs = sms.at("Empty");
+            derived_t corr(lhs);
+
+            for(auto [key, rhs] : sms) {
+                SECTION("RHS == " + key){
+                    auto plhs = &(lhs *= rhs);
+                    SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                    SECTION("Value") { REQUIRE(lhs == corr); }
+                }
+            }
+        }
+
+        SECTION("LHS == rank 0") {
+            auto& lhs = sms.at("Ind == rank 0");
+
+            SECTION("RHS == Empty") {
+                auto& rhs = sms.at("Empty");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") { REQUIRE(lhs == rhs); }
+            }
+
+            SECTION("RHS == Ind == rank 0") {
+                auto& rhs = sms.at("Ind == rank 0");
+                derived_t corr{{i0, {dep_idx_t{1, 1}, dep_idx_t{1, 2}, dep_idx_t{2, 1}, dep_idx_t{2, 2}}}};
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") { REQUIRE(lhs == corr); }
+            }
+
+            SECTION("RHS == Ind == rank 1") {
+                auto& rhs = sms.at("Ind == rank 1");
+                derived_t corr{{i1, {dep_idx_t{1, 1}, dep_idx_t{2, 1}}},
+                               {i12, {}}};
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") { REQUIRE(lhs == corr); }
+            }
+
+            SECTION("RHS == Ind == rank 2") {
+                auto& rhs = sms.at("Ind == rank 2");
+                derived_t corr{{i2, {dep_idx_t{1, 1, 2}, dep_idx_t{2, 1, 2}}},
+                               {i22, {dep_idx_t{1, 2, 3}, dep_idx_t{2, 2, 3}}}};
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") { REQUIRE(lhs == corr); }
+            }
+
+            SECTION("RHS == No PIMPL") {
+                auto& rhs = sms.at("No PIMPL");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") { REQUIRE(lhs == rhs); }
+            }
+        }
+
+        SECTION("LHS == rank 1") {
+            auto& lhs = sms.at("Ind == rank 1");
+
+            SECTION("RHS == empty") {
+                auto& rhs = sms.at("Empty");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") { REQUIRE(lhs == rhs); }
+            }
+
+            SECTION("RHS == Ind == rank 0") {
+                auto& rhs = sms.at("Ind == rank 0");
+                derived_t corr{{i1, {dep_idx_t{1, 1}, dep_idx_t{1, 2}}},
+                               {i12, {}}};
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") { REQUIRE(lhs == corr); }
+            }
+
+            SECTION("RHS == Ind == rank 1") {
+                auto& rhs = sms.at("Ind == rank 1");
+                derived_t corr{{ind_idx_t{1, 1}, {dep_idx_t{1, 1}}},
+                               {i2, {}},{ind_idx_t{2, 1}, {}},
+                               {ind_idx_t{2, 2}, {}}};
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") { REQUIRE(lhs == corr); }
+            }
+
+            SECTION("RHS == Ind == rank 2") {
+                auto& rhs = sms.at("Ind == rank 2");
+                derived_t corr{{ind_idx_t{1, 1, 2}, {dep_idx_t{1, 1, 2}}},
+                               {ind_idx_t{1, 2, 3}, {dep_idx_t{1, 2, 3}}},
+                               {ind_idx_t{2, 1, 2}, {}},
+                               {ind_idx_t{2, 2, 3}, {}}};
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") { REQUIRE(lhs == corr); }
+            }
+
+            SECTION("RHS == No PIMPL") {
+                auto& rhs = sms.at("No PIMPL");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") { REQUIRE(lhs == rhs); }
+            }
+        }
+
+        SECTION("LHS == No PIMPL") {
+            auto& lhs = sms.at("No PIMPL");
+            derived_t corr(lhs);
+
+            for(auto [key, rhs] : sms) {
+                SECTION("RHS == " + key){
+                    auto plhs = &(lhs *= rhs);
+                    SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                    SECTION("Value") { REQUIRE(lhs == corr); }
+                }
+            }
+        }
+    }
 }
 
-//TEST_CASE("SparseMap : copy ctor"){
-//    SECTION("Empty") {
-//        SparseMap sm1;
-//        SparseMap sm2(sm1);
-//        REQUIRE(sm2 == SparseMap{});
-//    }
-//
-//    SECTION("Non-empty"){
-//        SparseMap sm1{{index_type{}, {index_type{}}}};
-//        SparseMap sm2(sm1);
-//        SECTION("Value") { REQUIRE(sm2 == sm1); }
-//    }
-//}
-//
-//TEST_CASE("SparseMap : move ctor"){
-//    SECTION("Empty") {
-//        SparseMap sm1;
-//        SparseMap sm2(std::move(sm1));
-//        REQUIRE(sm2 == SparseMap{});
-//    }
-//
-//    SECTION("Non-empty"){
-//        SparseMap sm1{{index_type{}, {index_type{}}}};
-//        SparseMap sm2(std::move(sm1));
-//        SparseMap corr{{index_type{}, {index_type{}}}};
-//        SECTION("Value") { REQUIRE(sm2 == corr); }
-//    }
-//}
-//
-//TEST_CASE("SparseMap : copy assignment"){
-//    SECTION("Empty") {
-//        SparseMap sm1;
-//        SparseMap sm2;
-//        auto psm2 = &(sm2 = sm1);
-//        SECTION("value") { REQUIRE(sm2 == SparseMap{}); }
-//        SECTION("returns *this") { REQUIRE(psm2 == &sm2); }
-//    }
-//
-//    SECTION("Non-empty"){
-//        SparseMap sm1{{index_type{}, {index_type{}}}};
-//        SparseMap sm2;
-//        auto psm2 = &(sm2 = sm1);
-//        SECTION("Value") { REQUIRE(sm2 == sm1); }
-//        SECTION("Returns *this"){ REQUIRE(psm2 == &sm2); }
-//    }
-//}
-//
-//TEST_CASE("SparseMap : move assignment"){
-//    SECTION("Empty") {
-//        SparseMap sm1;
-//        SparseMap sm2;
-//        auto psm2 = &(sm2 = std::move(sm1));
-//        SECTION("Value"){ REQUIRE(sm2 == SparseMap{}); }
-//        SECTION("Returns *this") { REQUIRE(psm2 == &sm2); }
-//    }
-//
-//    SECTION("Non-empty"){
-//        SparseMap sm1{{index_type{}, {index_type{}}}};
-//        SparseMap sm2;
-//        auto psm2 = &(sm2 = std::move(sm1));
-//        SparseMap corr{{index_type{}, {index_type{}}}};
-//        SECTION("Value") { REQUIRE(sm2 == corr); }
-//        SECTION("Returns *this"){ REQUIRE(psm2 == &sm2); }
-//    }
-//}
-//
-///* The initializer_list ctor unit tests assume that default construction
-// * followed by repeated calls to add_to_domain work in order to produce the
-// * correct state. The tests also assume that equality comparisons work. Assuming
-// * that all aforementioned assumptions are met, we only need to test that we
-// * can use an initializer list to create a SparseMap between indices of
-// * different ranks.
-// */
-//TEST_CASE("SparseMap: initializer_list ctor") {
-//
-//    SECTION("scalar - scalar") {
-//        SparseMap sm{{index_type{}, {index_type{}}}};
-//        SparseMap corr;
-//        corr.add_to_domain(index_type{}, index_type{});
-//        REQUIRE(sm == corr);
-//    }
-//
-//    SECTION("scalar - vector") {
-//        SECTION("Single element domain") {
-//            SparseMap sm{{index_type{}, {index_type{1}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{}, index_type{1});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Multi-element domain") {
-//            SparseMap sm{{index_type{}, {index_type{1}, index_type{2}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{}, index_type{1});
-//            corr.add_to_domain(index_type{}, index_type{2});
-//            REQUIRE(sm == corr);
-//        }
-//    }
-//
-//    SECTION("scalar - matrix") {
-//        SECTION("Single element domain") {
-//            SparseMap sm{{index_type{}, {index_type{1, 2}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{}, index_type{1, 2});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Multi-element domain") {
-//            SparseMap sm{{index_type{}, {index_type{1, 2}, index_type{1, 3}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{}, index_type{1, 2});
-//            corr.add_to_domain(index_type{}, index_type{1, 3});
-//            REQUIRE(sm == corr);
-//        }
-//    }
-//
-//    SECTION("vector - scalar") {
-//        SparseMap sm{{index_type{1}, {index_type{}}}};
-//        SparseMap corr;
-//        corr.add_to_domain(index_type{1}, index_type{});
-//        REQUIRE(sm == corr);
-//    }
-//
-//    SECTION("vector - vector") {
-//        SECTION("Single element domain") {
-//            SparseMap sm{{index_type{1}, {index_type{2}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1}, index_type{2});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Multi element domain") {
-//            SparseMap sm{{index_type{1}, {index_type{2}, index_type{3}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1}, index_type{2});
-//            corr.add_to_domain(index_type{1}, index_type{3});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Multiple independent indices") {
-//            SparseMap sm{{index_type{1}, {index_type{2}}},
-//                         {index_type{2}, {index_type{1}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1}, index_type{2});
-//            corr.add_to_domain(index_type{2}, index_type{1});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Multi everything") {
-//            SparseMap sm{{index_type{1}, {index_type{2}, index_type{3}}},
-//                         {index_type{2}, {index_type{2}, index_type{4}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1}, index_type{2});
-//            corr.add_to_domain(index_type{1}, index_type{3});
-//            corr.add_to_domain(index_type{2}, index_type{2});
-//            corr.add_to_domain(index_type{2}, index_type{4});
-//            REQUIRE(sm == corr);
-//        }
-//    }
-//
-//    SECTION("vector - matrix") {
-//        SECTION("Single element domain") {
-//            SparseMap sm{{index_type{1}, {index_type{1, 2}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1}, index_type{1, 2});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Multi-element domain") {
-//            SparseMap sm{{index_type{1}, {index_type{1, 2}, index_type{1, 3}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1}, index_type{1, 2});
-//            corr.add_to_domain(index_type{1}, index_type{1, 3});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Multi independent indices") {
-//            SparseMap sm{{index_type{1}, {index_type{1, 2}}},
-//                         {index_type{2}, {index_type{2, 3}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1}, index_type{1, 2});
-//            corr.add_to_domain(index_type{2}, index_type{2, 3});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Multi everything") {
-//            SparseMap sm{{index_type{1}, {index_type{1, 2}, index_type{1, 3}}},
-//                         {index_type{2}, {index_type{1, 3}, index_type{2, 4}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1}, index_type{1, 2});
-//            corr.add_to_domain(index_type{1}, index_type{1, 3});
-//            corr.add_to_domain(index_type{2}, index_type{1, 3});
-//            corr.add_to_domain(index_type{2}, index_type{2, 4});
-//            REQUIRE(sm == corr);
-//        }
-//    }
-//
-//    SECTION("matrix - scalar") {
-//        SparseMap sm{{index_type{1, 2}, {index_type{}}}};
-//        SparseMap corr;
-//        corr.add_to_domain(index_type{1, 2}, index_type{});
-//        REQUIRE(sm == corr);
-//    }
-//
-//    SECTION("matrix - vector") {
-//        SECTION("Single element domain") {
-//            SparseMap sm{{index_type{1, 2}, {index_type{1}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1, 2}, index_type{1});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Multi element domain") {
-//            SparseMap sm{{index_type{1, 2}, {index_type{1}, index_type{2}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1, 2}, index_type{1});
-//            corr.add_to_domain(index_type{1, 2}, index_type{2});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Multi independent index") {
-//            SparseMap sm{{index_type{1, 2}, {index_type{1}}},
-//                         {index_type{1, 3}, {index_type{2}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1, 2}, index_type{1});
-//            corr.add_to_domain(index_type{1, 3}, index_type{2});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Multi element domain") {
-//            SparseMap sm{{index_type{1, 2}, {index_type{1}, index_type{2}}},
-//                         {index_type{1, 3}, {index_type{2}, index_type{3}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1, 2}, index_type{1});
-//            corr.add_to_domain(index_type{1, 2}, index_type{2});
-//            corr.add_to_domain(index_type{1, 3}, index_type{2});
-//            corr.add_to_domain(index_type{1, 3}, index_type{3});
-//            REQUIRE(sm == corr);
-//        }
-//    }
-//
-//    SECTION("matrix - matrix") {
-//        SECTION("Single element domain") {
-//            SparseMap sm{{index_type{1, 2}, {index_type{1, 3}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1, 2}, index_type{1, 3});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Multi element domain") {
-//            SparseMap sm{
-//              {index_type{1, 2}, {index_type{1, 3}, index_type{1, 4}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1, 2}, index_type{1, 3});
-//            corr.add_to_domain(index_type{1, 2}, index_type{1, 4});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Multi independent index") {
-//            SparseMap sm{{index_type{1, 2}, {index_type{1, 3}}},
-//                         {index_type{1, 3}, {index_type{1, 4}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1, 2}, index_type{1, 3});
-//            corr.add_to_domain(index_type{1, 3}, index_type{1, 4});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Multi element domain") {
-//            SparseMap sm{
-//              {index_type{1, 2}, {index_type{1, 3}, index_type{1, 4}}},
-//              {index_type{1, 3}, {index_type{1, 4}, index_type{1, 5}}}};
-//            SparseMap corr;
-//            corr.add_to_domain(index_type{1, 2}, index_type{1, 3});
-//            corr.add_to_domain(index_type{1, 2}, index_type{1, 4});
-//            corr.add_to_domain(index_type{1, 3}, index_type{1, 4});
-//            corr.add_to_domain(index_type{1, 3}, index_type{1, 5});
-//            REQUIRE(sm == corr);
-//        }
-//    }
-//}
-//
-//TEST_CASE("SparseMap : swap"){
-//    SECTION("Empty"){
-//        SparseMap sm1, sm2;
-//        sm1.swap(sm2);
-//        REQUIRE(sm1 == SparseMap{});
-//        REQUIRE(sm2 == SparseMap{});
-//    }
-//
-//    SECTION("Empty and non-empty"){
-//        SparseMap sm1, sm2{{index_type{}, {index_type{}}}};
-//        SparseMap corr(sm2);
-//        sm1.swap(sm2);
-//        REQUIRE(sm2 == SparseMap{});
-//        REQUIRE(sm1 == corr);
-//    }
-//
-//    SECTION("Two non-empty"){
-//        SparseMap sm1{{index_type{1}, {index_type{}}}};
-//        SparseMap sm2{{index_type{}, {index_type{}}}};
-//        SparseMap corr1(sm1), corr2(sm2);
-//        sm1.swap(sm2);
-//        REQUIRE(sm2 == corr1);
-//        REQUIRE(sm1 == corr2);
-//    }
-//}
-//
-//TEST_CASE("SparseMap : size"){
-//    SECTION("Empty"){
-//        SparseMap sm;
-//        REQUIRE(sm.size() == 0);
-//    }
-//
-//    SECTION("Single element"){
-//        SparseMap sm{{index_type{}, {index_type{}}}};
-//        REQUIRE(sm.size() == 1);
-//    }
-//
-//    SECTION("Multiple elements"){
-//        SparseMap sm{{index_type{1}, {index_type{1}}},
-//                     {index_type{2}, {index_type{1}}}};
-//        REQUIRE(sm.size() == 2);
-//    }
-//}
-//
-//TEST_CASE("SparseMap : empty") {
-//    SECTION("Empty"){
-//        SparseMap sm;
-//        REQUIRE(sm.empty());
-//    }
-//
-//    SECTION("Non-empty") {
-//        SparseMap sm{{index_type{1}, {index_type{2}}}};
-//        REQUIRE_FALSE(sm.empty());
-//    }
-//}
-//
-//TEST_CASE("SparseMap : count") {
-//    SparseMap sm{{index_type{1}, {index_type{}}}};
-//
-//    SECTION("Has element") { REQUIRE(sm.count(index_type{1})); }
-//    SECTION("Does not have element"){
-//        REQUIRE_FALSE(sm.count(index_type{2}));
-//    }
-//}
-//
-//TEST_CASE("SparseMap : ind_rank"){
-//    SECTION("Empty"){
-//        SparseMap sm;
-//        REQUIRE(sm.ind_rank() == 0);
-//    }
-//
-//    SECTION("Scalar"){
-//        SparseMap sm{{index_type{}, {index_type{}}}};
-//        REQUIRE(sm.ind_rank() == 0);
-//    }
-//
-//    SECTION("Vector"){
-//        SparseMap sm{{index_type{1}, {index_type{}}}};
-//        REQUIRE(sm.ind_rank() == 1);
-//    }
-//
-//    SECTION("Matrix"){
-//        SparseMap sm{{index_type{1, 2}, {index_type{}}}};
-//        REQUIRE(sm.ind_rank() == 2);
-//    }
-//}
-//
-//TEST_CASE("SparseMap : dep_rank"){
-//    SECTION("Empty"){
-//        SparseMap sm;
-//        REQUIRE(sm.dep_rank() == 0);
-//    }
-//
-//    SECTION("Scalar"){
-//        SparseMap sm{{index_type{}, {index_type{}}}};
-//        REQUIRE(sm.dep_rank() == 0);
-//    }
-//
-//    SECTION("Vector"){
-//        SparseMap sm{{index_type{}, {index_type{1}}}};
-//        REQUIRE(sm.dep_rank() == 1);
-//    }
-//
-//    SECTION("Matrix"){
-//        SparseMap sm{{index_type{}, {index_type{1, 2}}}};
-//        REQUIRE(sm.dep_rank() == 2);
-//    }
-//}
-//
 //TEST_CASE("SparseMap : indices()"){
 //    SECTION("vector") {
 //        SparseMap sm{{index_type{1}, {index_type{0}, index_type{3}}},
@@ -552,233 +671,8 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
 //    }
 //}
 //
-//TEST_CASE("SparseMap : operator[]"){
-//    SparseMap sm{{index_type{1}, {index_type{1}}}};
-//    Domain corr{index_type{1}};
-//    REQUIRE(sm[index_type{1}] == corr);
-//}
-//
-//TEST_CASE("SparseMap : operator[] const"){
-//    const SparseMap sm{{index_type{1}, {index_type{1}}}};
-//    Domain corr{index_type{1}};
-//    REQUIRE(sm[index_type{1}] == corr);
-//}
-//
-//TEST_CASE("SparseMap : at"){
-//    SparseMap sm{{index_type{1}, {index_type{1}}}};
-//    Domain corr{index_type{1}};
-//    REQUIRE(sm.at(index_type{1}) == corr);
-//}
-//
-//TEST_CASE("SparseMap : at const"){
-//    const SparseMap sm{{index_type{1}, {index_type{1}}}};
-//    Domain corr{index_type{1}};
-//    REQUIRE(sm.at(index_type{1}) == corr);
-//}
-//
-///* add_to_domain(index_type, index_type) is the work horse of the overloads and
-// * we thus test it the best. The other overloads are simply convenience wrappers
-// * to add_to_domain(index_type, index_type) and thus for testing them it
-// * suffices to ensure arguments are forwarded correctly.
-// */
-//TEST_CASE("SparseMap : add_to_domain(int, int)"){
-//    SparseMap sm;
-//    sm.add_to_domain(0, 0);
-//    SparseMap corr{{index_type{0}, {index_type{0}}}};
-//    REQUIRE(sm == corr);
-//}
-//
-//TEST_CASE("SparseMap : add_to_domain(int, index_type)"){
-//    SparseMap sm;
-//
-//    SECTION("Scalar") {
-//        sm.add_to_domain(0, index_type{});
-//        SparseMap corr{{index_type{0}, {index_type{}}}};
-//        REQUIRE(sm == corr);
-//    }
-//
-//    SECTION("Vector") {
-//        sm.add_to_domain(0, index_type{1});
-//        SparseMap corr{{index_type{0}, {index_type{1}}}};
-//        REQUIRE(sm == corr);
-//    }
-//
-//    SECTION("Matrix") {
-//        sm.add_to_domain(0, index_type{1, 2});
-//        SparseMap corr{{index_type{0}, {index_type{1, 2}}}};
-//        REQUIRE(sm == corr);
-//    }
-//}
-//
-//TEST_CASE("SparseMap : add_to_domain(index_type, index_type)"){
-//    SparseMap sm;
-//
-//    SECTION("Scalar-Scalar") {
-//        sm.add_to_domain(index_type{}, index_type{});
-//        SparseMap corr{{index_type{}, {index_type{}}}};
-//        REQUIRE(sm == corr);
-//    }
-//
-//    SECTION("Scalar-Vector") {
-//        sm.add_to_domain(index_type{}, index_type{1});
-//        SparseMap corr{{index_type{}, {index_type{1}}}};
-//        REQUIRE(sm == corr);
-//
-//        SECTION("Add second element to same domain"){
-//            sm.add_to_domain(index_type{}, index_type{2});
-//            SparseMap corr2{{index_type{}, {index_type{1}}},
-//                            {index_type{}, {index_type{2}}}};
-//            REQUIRE(sm == corr2);
-//        }
-//
-//        SECTION("Add same element to same domain"){
-//            sm.add_to_domain(index_type{}, index_type{1});
-//            REQUIRE(sm == corr);
-//        }
-//    }
-//
-//    SECTION("Scalar-Matrix") {
-//        sm.add_to_domain(index_type{}, index_type{1, 2});
-//        SparseMap corr{{index_type{}, {index_type{1, 2}}}};
-//        REQUIRE(sm == corr);
-//
-//        SECTION("Add second element to same domain"){
-//            sm.add_to_domain(index_type{}, index_type{1, 3});
-//            SparseMap corr2{{index_type{}, {index_type{1, 2}}},
-//                            {index_type{}, {index_type{1, 3}}}};
-//            REQUIRE(sm == corr2);
-//        }
-//
-//        SECTION("Add same element to same domain"){
-//            sm.add_to_domain(index_type{}, index_type{1, 2});
-//            REQUIRE(sm == corr);
-//        }
-//    }
-//
-//    SECTION("Vector-Scalar") {
-//        sm.add_to_domain(index_type{1}, index_type{});
-//        SparseMap corr{{index_type{1}, {index_type{}}}};
-//        REQUIRE(sm == corr);
-//    }
-//
-//    SECTION("Vector-Vector") {
-//        sm.add_to_domain(index_type{1}, index_type{2});
-//        SparseMap corr{{index_type{1}, {index_type{2}}}};
-//        REQUIRE(sm == corr);
-//
-//        SECTION("Add second element to same domain"){
-//            sm.add_to_domain(index_type{1}, index_type{3});
-//            SparseMap corr2{{index_type{1}, {index_type{2}}},
-//                            {index_type{1}, {index_type{3}}}};
-//            REQUIRE(sm == corr2);
-//        }
-//
-//        SECTION("Add same element to same domain"){
-//            sm.add_to_domain(index_type{1}, index_type{2});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Add element to different domain"){
-//            sm.add_to_domain(index_type{2}, index_type{3});
-//            SparseMap corr2{{index_type{1}, {index_type{2}}},
-//                            {index_type{2}, {index_type{3}}}};
-//            REQUIRE(sm == corr2);
-//        }
-//    }
-//
-//    SECTION("Vector-Matrix") {
-//        sm.add_to_domain(index_type{1}, index_type{1, 2});
-//        SparseMap corr{{index_type{1}, {index_type{1, 2}}}};
-//        REQUIRE(sm == corr);
-//
-//        SECTION("Add second element to same domain"){
-//            sm.add_to_domain(index_type{1}, index_type{1, 4});
-//            SparseMap corr2{{index_type{1}, {index_type{1, 2}}},
-//                            {index_type{1}, {index_type{1, 4}}}};
-//            REQUIRE(sm == corr2);
-//        }
-//
-//        SECTION("Add same element to same domain"){
-//            sm.add_to_domain(index_type{1}, index_type{1, 2});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Add element to different domain"){
-//            sm.add_to_domain(index_type{2}, index_type{1, 4});
-//            SparseMap corr2{{index_type{1}, {index_type{1, 2}}},
-//                            {index_type{2}, {index_type{1, 4}}}};
-//            REQUIRE(sm == corr2);
-//        }
-//    }
-//
-//    SECTION("Matrix-Scalar") {
-//        sm.add_to_domain(index_type{1, 2}, index_type{});
-//        SparseMap corr{{index_type{1, 2}, {index_type{}}}};
-//        REQUIRE(sm == corr);
-//    }
-//
-//    SECTION("Matrix-Vector") {
-//        sm.add_to_domain(index_type{1, 2}, index_type{1});
-//        SparseMap corr{{index_type{1, 2}, {index_type{1}}}};
-//        REQUIRE(sm == corr);
-//
-//        SECTION("Add second element to same domain"){
-//            sm.add_to_domain(index_type{1, 2}, index_type{2});
-//            SparseMap corr2{{index_type{1, 2}, {index_type{1}}},
-//                            {index_type{1, 2}, {index_type{2}}}};
-//            REQUIRE(sm == corr2);
-//        }
-//
-//        SECTION("Add same element to same domain"){
-//            sm.add_to_domain(index_type{1, 2}, index_type{1});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Add element to different domain"){
-//            sm.add_to_domain(index_type{1, 3}, index_type{1});
-//            SparseMap corr2{{index_type{1, 2}, {index_type{1}}},
-//                            {index_type{1, 3}, {index_type{1}}}};
-//            REQUIRE(sm == corr2);
-//        }
-//    }
-//
-//    SECTION("Matrix-Matrix") {
-//        sm.add_to_domain(index_type{1, 2}, index_type{1, 3});
-//        SparseMap corr{{index_type{1, 2}, {index_type{1, 3}}}};
-//        REQUIRE(sm == corr);
-//
-//        SECTION("Add second element to same domain"){
-//            sm.add_to_domain(index_type{1, 2}, index_type{1, 4});
-//            SparseMap corr2{{index_type{1, 2}, {index_type{1, 3}}},
-//                            {index_type{1, 2}, {index_type{1, 4}}}};
-//            REQUIRE(sm == corr2);
-//        }
-//
-//        SECTION("Add same element to same domain"){
-//            sm.add_to_domain(index_type{1, 2}, index_type{1, 3});
-//            REQUIRE(sm == corr);
-//        }
-//
-//        SECTION("Add element to different domain"){
-//            sm.add_to_domain(index_type{1, 3}, index_type{1, 4});
-//            SparseMap corr2{{index_type{1, 2}, {index_type{1, 3}}},
-//                            {index_type{1, 3}, {index_type{1, 4}}}};
-//            REQUIRE(sm == corr2);
-//        }
-//
-//    }
-//}
-//
-//TEST_CASE("SparseMap : add_to_domain(index_type, range)"){
-//    SparseMap sm;
-//    Domain d{index_type{1}, index_type{2}};
-//    sm.add_to_domain(index_type{1}, d.begin(), d.end());
-//    SparseMap corr;
-//    corr.add_to_domain(index_type{1}, index_type{1});
-//    corr.add_to_domain(index_type{1}, index_type{2});
-//    REQUIRE(sm == corr);
-//}
-//
+
+
 ///* We know that the Domain::operator* works so we really only need to test that
 // * we are properly calling Domain::operator* and that we are saving them
 // * under the appropriate keys. This means we need to ensure that the output

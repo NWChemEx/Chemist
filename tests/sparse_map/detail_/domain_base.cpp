@@ -32,8 +32,8 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
      * - mf is moved from (and thus has no PIMPL)
      * - temp is used only to make mf
      */
-    base_t d_empty, d0{i0}, d1{i1}, d2{i2}, mf;
-    base_t temp(std::move(mf));
+    derived_t d_empty, d0{i0}, d1{i1}, d2{i2}, mf;
+    derived_t temp(std::move(mf));
 
     SECTION("Typedefs") {
         using traits_t = DomainTraits<TestType>;
@@ -63,149 +63,151 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
         }
     }
 
-    SECTION("Default ctor") {
-        REQUIRE(d_empty.empty());
-        REQUIRE(d_empty.size() == 0);
-        REQUIRE(d_empty.rank() == 0);
-    }
-
-    SECTION("Initializer list ctor") {
-        SECTION("Rank 0") {
-            REQUIRE_FALSE(d0.empty());
-            REQUIRE(d0.size() == 1);
-            REQUIRE(d0.rank() == 0);
+    SECTION("Ctors") {
+        SECTION("Default ctor") {
+            REQUIRE(d_empty.empty());
+            REQUIRE(d_empty.size() == 0);
+            REQUIRE(d_empty.rank() == 0);
         }
 
-        SECTION("Rank 1") {
-            REQUIRE_FALSE(d1.empty());
-            REQUIRE(d1.size() == 1);
-            REQUIRE(d1.rank() == 1);
+        SECTION("Initializer list ctor") {
+            SECTION("Rank 0") {
+                REQUIRE_FALSE(d0.empty());
+                REQUIRE(d0.size() == 1);
+                REQUIRE(d0.rank() == 0);
+            }
+
+            SECTION("Rank 1") {
+                REQUIRE_FALSE(d1.empty());
+                REQUIRE(d1.size() == 1);
+                REQUIRE(d1.rank() == 1);
+            }
+
+            SECTION("Rank 2") {
+                REQUIRE_FALSE(d2.empty());
+                REQUIRE(d2.size() == 1);
+                REQUIRE(d2.rank() == 2);
+            }
+
+            SECTION("Throws if indices have different ranks") {
+                REQUIRE_THROWS_AS(base_t({i0, i1}), std::runtime_error);
+            }
         }
 
-        SECTION("Rank 2") {
-            REQUIRE_FALSE(d2.empty());
-            REQUIRE(d2.size() == 1);
-            REQUIRE(d2.rank() == 2);
+        SECTION("Copy ctor") {
+            SECTION("Default Domain") {
+                base_t copy(d0);
+                REQUIRE(d0 == copy);
+            }
+
+            SECTION("Rank 1 index") {
+                base_t copy(d1);
+                SECTION("value") { REQUIRE(d1 == copy); }
+            }
+
+            SECTION("Rank 2 index") {
+                base_t copy(d2);
+                SECTION("value") { REQUIRE(d2 == copy); }
+            }
+
+            SECTION("Moved-from") {
+                REQUIRE_THROWS_AS(base_t(mf), std::runtime_error);
+            }
         }
 
-        SECTION("Throws if indices have different ranks") {
-            REQUIRE_THROWS_AS(base_t({i0, i1}), std::runtime_error);
-        }
-    }
+        SECTION("Move ctor") {
+            SECTION("Default") {
+                base_t moved2(std::move(d_empty));
+                REQUIRE(moved2 == base_t{});
+            }
 
-    SECTION("Copy ctor") {
-        SECTION("Default Domain") {
-            base_t copy(d0);
-            REQUIRE(d0 == copy);
-        }
+            SECTION("Rank 0") {
+                base_t corr(d0);
+                base_t moved2(std::move(d0));
+                REQUIRE(corr == moved2);
+            }
 
-        SECTION("Rank 1 index") {
-            base_t copy(d1);
-            SECTION("value") { REQUIRE(d1 == copy); }
-        }
+            SECTION("Rank 1") {
+                base_t corr(d1);
+                base_t moved2(std::move(d1));
+                REQUIRE(corr == moved2);
+            }
 
-        SECTION("Rank 2 index") {
-            base_t copy(d2);
-            SECTION("value") { REQUIRE(d2 == copy); }
-        }
+            SECTION("Rank 2") {
+                base_t corr(d2);
+                base_t moved2(std::move(d2));
+                REQUIRE(corr == moved2);
+            }
 
-        SECTION("Moved-from") {
-            REQUIRE_THROWS_AS(base_t(mf), std::runtime_error);
-        }
-    }
-
-    SECTION("Move ctor") {
-        SECTION("Default") {
-            base_t moved2(std::move(d_empty));
-            REQUIRE(moved2 == base_t{});
+            SECTION("Moved-from") {
+                base_t moved2(std::move(mf));
+                REQUIRE(moved2 == mf);
+            }
         }
 
-        SECTION("Rank 0") {
-            base_t corr(d0);
-            base_t moved2(std::move(d0));
-            REQUIRE(corr == moved2);
+        SECTION("Copy assignment") {
+            SECTION("Default Domain") {
+                base_t copy;
+                auto pcopy = &(copy = d0);
+                SECTION("Value") { REQUIRE(d0 == copy); }
+                SECTION("Returns *this") { REQUIRE(pcopy == &copy); }
+            }
+
+            SECTION("Rank 1 index") {
+                base_t copy;
+                auto pcopy = &(copy = d1);
+                SECTION("Value") { REQUIRE(d1 == copy); }
+                SECTION("Returns *this") { REQUIRE(pcopy == &copy); }
+            }
+
+            SECTION("Rank 2 index") {
+                base_t copy;
+                auto pcopy = &(copy = d2);
+                SECTION("Value") { REQUIRE(d2 == copy); }
+                SECTION("Returns *this") { REQUIRE(pcopy == &copy); }
+            }
+
+            SECTION("Moved-from") {
+                base_t copy;
+                REQUIRE_THROWS_AS(copy = mf, std::runtime_error);
+            }
         }
 
-        SECTION("Rank 1") {
-            base_t corr(d1);
-            base_t moved2(std::move(d1));
-            REQUIRE(corr == moved2);
-        }
+        SECTION("Move assignment") {
+            SECTION("Default") {
+                base_t moved2;
+                auto pmoved2 = &(moved2 = std::move(d_empty));
+                SECTION("Value") { REQUIRE(moved2 == base_t{}); }
+                SECTION("Returns *this") { REQUIRE(pmoved2 == &moved2); }
+            }
 
-        SECTION("Rank 2") {
-            base_t corr(d2);
-            base_t moved2(std::move(d2));
-            REQUIRE(corr == moved2);
-        }
+            SECTION("Rank 0") {
+                base_t moved2, corr(d0);
+                auto pmoved2 = &(moved2 = std::move(d0));
+                SECTION("Value") { REQUIRE(moved2 == corr); }
+                SECTION("Returns *this") { REQUIRE(pmoved2 == &moved2); }
+            }
 
-        SECTION("Moved-from") {
-            base_t moved2(std::move(mf));
-            REQUIRE(moved2 == mf);
-        }
-    }
+            SECTION("Rank 1") {
+                base_t moved2, corr(d1);
+                auto pmoved2 = &(moved2 = std::move(d1));
+                SECTION("Value") { REQUIRE(moved2 == corr); }
+                SECTION("Returns *this") { REQUIRE(pmoved2 == &moved2); }
+            }
 
-    SECTION("Copy assignment") {
-        SECTION("Default Domain") {
-            base_t copy;
-            auto pcopy = &(copy = d0);
-            SECTION("Value") { REQUIRE(d0 == copy); }
-            SECTION("Returns *this") { REQUIRE(pcopy == &copy); }
-        }
+            SECTION("Rank 2") {
+                base_t moved2, corr(d2);
+                auto pmoved2 = &(moved2 = std::move(d2));
+                SECTION("Value") { REQUIRE(moved2 == corr); }
+                SECTION("Returns *this") { REQUIRE(pmoved2 == &moved2); }
+            }
 
-        SECTION("Rank 1 index") {
-            base_t copy;
-            auto pcopy = &(copy = d1);
-            SECTION("Value") { REQUIRE(d1 == copy); }
-            SECTION("Returns *this") { REQUIRE(pcopy == &copy); }
-        }
-
-        SECTION("Rank 2 index") {
-            base_t copy;
-            auto pcopy = &(copy = d2);
-            SECTION("Value") { REQUIRE(d2 == copy); }
-            SECTION("Returns *this") { REQUIRE(pcopy == &copy); }
-        }
-
-        SECTION("Moved-from") {
-            base_t copy;
-            REQUIRE_THROWS_AS(copy = mf, std::runtime_error);
-        }
-    }
-
-    SECTION("Move assignment") {
-        SECTION("Default") {
-            base_t moved2;
-            auto pmoved2 = &(moved2 = std::move(d_empty));
-            SECTION("Value") { REQUIRE(moved2 == base_t{}); }
-            SECTION("Returns *this") { REQUIRE(pmoved2 == &moved2); }
-        }
-
-        SECTION("Rank 0") {
-            base_t moved2, corr(d0);
-            auto pmoved2 = &(moved2 = std::move(d0));
-            SECTION("Value") { REQUIRE(moved2 == corr); }
-            SECTION("Returns *this") { REQUIRE(pmoved2 == &moved2); }
-        }
-
-        SECTION("Rank 1") {
-            base_t moved2, corr(d1);
-            auto pmoved2 = &(moved2 = std::move(d1));
-            SECTION("Value") { REQUIRE(moved2 == corr); }
-            SECTION("Returns *this") { REQUIRE(pmoved2 == &moved2); }
-        }
-
-        SECTION("Rank 2") {
-            base_t moved2, corr(d2);
-            auto pmoved2 = &(moved2 = std::move(d2));
-            SECTION("Value") { REQUIRE(moved2 == corr); }
-            SECTION("Returns *this") { REQUIRE(pmoved2 == &moved2); }
-        }
-
-        SECTION("Moved-from") {
-            base_t moved2;
-            auto pmoved2 = &(moved2 = std::move(mf));
-            SECTION("Value") { REQUIRE(moved2 == mf); }
-            SECTION("Returns *this") { REQUIRE(pmoved2 == &moved2); }
+            SECTION("Moved-from") {
+                base_t moved2;
+                auto pmoved2 = &(moved2 = std::move(mf));
+                SECTION("Value") { REQUIRE(moved2 == mf); }
+                SECTION("Returns *this") { REQUIRE(pmoved2 == &moved2); }
+            }
         }
     }
 
@@ -224,8 +226,8 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
             }
 
             SECTION("RHS == moved-from") {
-                base_t corr;
-                temp = std::move(corr);
+                base_t corr, temp1;
+                temp1 = std::move(corr);
                 d_empty.swap(mf);
                 REQUIRE(corr == d_empty);
                 REQUIRE(mf == base_t{});
@@ -861,8 +863,8 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
             }
 
             SECTION("RHS == No PIMPL") {
-                base_t d;
-                temp = std::move(d);
+                base_t d, temp1;
+                temp1 = std::move(d);
                 REQUIRE(mf == d);
                 REQUIRE_FALSE(mf != d);
             }

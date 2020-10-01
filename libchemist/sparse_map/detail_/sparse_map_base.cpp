@@ -22,11 +22,11 @@ struct SparseMapPIMPL {
 //------------------------------------------------------------------------------
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
-SPARSEMAPBASE::SparseMapBase() : m_pimpl_(std::make_unique<pimpl_type>()) {}
+SPARSEMAPBASE::SparseMapBase() : m_pimpl_(new_pimpl_()) {}
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 SPARSEMAPBASE::SparseMapBase(const SparseMapBase& rhs) :
-  m_pimpl_(rhs.pimpl_().clone()) {}
+  m_pimpl_(rhs.m_pimpl_ ? rhs.pimpl_().clone() : new_pimpl_()) {}
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 SPARSEMAPBASE::SparseMapBase(SparseMapBase&&) noexcept = default;
@@ -43,6 +43,10 @@ SPARSEMAPBASE& SPARSEMAPBASE::operator=(SparseMapBase&&) noexcept = default;
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 SPARSEMAPBASE::~SparseMapBase() noexcept = default;
+
+//------------------------------------------------------------------------------
+//                                 Accessors
+//------------------------------------------------------------------------------
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 typename SPARSEMAPBASE::size_type SPARSEMAPBASE::size() const noexcept {
@@ -72,19 +76,33 @@ typename SPARSEMAPBASE::size_type SPARSEMAPBASE::dep_rank() const noexcept {
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 void SPARSEMAPBASE::add_to_domain(const key_type& key, DepIndex value) {
+    check_ind_rank_(key.size());
+    check_dep_rank_(value.size());
+    if(!m_pimpl_) m_pimpl_ = new_pimpl_();
     pimpl_().m_sm[key].insert(std::move(value));
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 typename SPARSEMAPBASE::mapped_type&
 SPARSEMAPBASE::operator[](const key_type& key) {
+    check_ind_rank_(key.size());
+    if(!m_pimpl_) m_pimpl_ = new_pimpl_();
     return pimpl_().m_sm[key];
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 const typename SPARSEMAPBASE::mapped_type&
 SPARSEMAPBASE::operator[](const key_type& key) const {
+    check_ind_rank_(key.size());
+    check_contains_(key);
     return pimpl_().m_sm.at(key);
+}
+
+template<typename DerivedType, typename IndIndex, typename DepIndex>
+typename SPARSEMAPBASE::mapped_type&
+SPARSEMAPBASE::at(const key_type& key) {
+    check_contains_(key);
+    return (*this)[key];
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
@@ -108,16 +126,33 @@ typename SPARSEMAPBASE::const_iterator SPARSEMAPBASE::end() const {
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
-DerivedType SPARSEMAPBASE::operator*(const DerivedType& rhs) const {
+DerivedType SPARSEMAPBASE::operator*(const SparseMapBase& rhs) const {
     DerivedType rv(downcast_());
     rv *= rhs;
     return rv;
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
-SPARSEMAPBASE& SPARSEMAPBASE::operator*=(const SparseMapBase& rhs) {
-    auto new_pimpl = pimpl_().clone();
-    return *this;
+DerivedType& SPARSEMAPBASE::operator*=(const SparseMapBase& rhs) {
+    if(!m_pimpl_ || empty()) return downcast_();
+    if(!rhs.m_pimpl_ || rhs.empty()){
+        m_pimpl_ = new_pimpl_();
+        return downcast_();
+    }
+    auto new_pimpl = new_pimpl_();
+    using vector_type = std::vector<size_type>;
+    auto new_rank = ind_rank() + rhs.ind_rank();
+    for(auto [lkey, lval] : *this){
+        for(const auto& [rkey, rval] : rhs) {
+            vector_type new_index;
+            new_index.reserve(new_rank);
+            new_index.insert(new_index.end(), lkey.begin(), lkey.end());
+            new_index.insert(new_index.end(), rkey.begin(), rkey.end());
+            new_pimpl->m_sm[key_type(new_index)] = lval * rval;
+        }
+    }
+    m_pimpl_.swap(new_pimpl);
+    return downcast_();
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
@@ -183,8 +218,8 @@ SPARSEMAPBASE SPARSEMAPBASE::intersection(const SparseMapBase& sm) const {
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 bool SPARSEMAPBASE::operator==(const SparseMapBase& rhs) const noexcept {
-    if(!m_pimpl_) return !rhs.m_pimpl_;
-    else if(!rhs.m_pimpl_) return false;
+    if(!m_pimpl_) return !rhs.m_pimpl_ || rhs.empty();
+    else if(!rhs.m_pimpl_) return empty();
     return pimpl_().m_sm == rhs.pimpl_().m_sm;
 }
 
@@ -212,15 +247,13 @@ const typename SPARSEMAPBASE::pimpl_type& SPARSEMAPBASE::pimpl_() const {
     throw std::runtime_error("PIMPL not set. Did you move from this instance?");
 }
 
-template<typename DerivedType, typename IndIndex, typename DepIndex>
-typename SPARSEMAPBASE::mapped_type& SPARSEMAPBASE::at_(const key_type& key) {
-    return pimpl_().m_sm.at(key);
-}
+//------------------------------------------------------------------------------
+//                            Private Methods
+//------------------------------------------------------------------------------
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
-const typename SPARSEMAPBASE::mapped_type&
-SPARSEMAPBASE::at_(const key_type& key) const {
-    return pimpl_().m_sm.at(key);
+typename SPARSEMAPBASE::pimpl_ptr SPARSEMAPBASE::new_pimpl_() {
+    return std::make_unique<pimpl_type>();
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
@@ -234,15 +267,39 @@ const DerivedType& SPARSEMAPBASE::downcast_() const {
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
-void SPARSEMAPBASE::check_rank_(size_type idx_rank, bool dep) const {
-    const auto corr_rank = dep ? dep_rank() : ind_rank();
-    if(corr_rank == idx_rank) return;
-    using namespace std::string_literals;
-    const std::string iden = dep ? "Dependent" : "Independent";
+void SPARSEMAPBASE::check_ind_rank_(size_type idx_rank) const {
+    if(empty() || ind_rank() == idx_rank) return;
+    using namespace std::literals;
     throw std::runtime_error(
-      iden + " indices have ranks of "s + std::to_string(corr_rank) +
-      " but idx with rank " + std::to_string(idx_rank) + " was provided."s
-    );
+      "Independent indices have ranks of "s + std::to_string(ind_rank()) +
+      " but provided index has rank " + std::to_string(idx_rank) + "."s);
+}
+
+template<typename DerivedType, typename IndIndex, typename DepIndex>
+void SPARSEMAPBASE::check_dep_rank_(size_type idx_rank) const {
+    if(empty() || dep_rank() == idx_rank) return;
+    // We can also be okay if all the Domains are empty
+    bool all_empty = true;
+    for(auto [k, v] : pimpl_().m_sm){
+        if(!v.empty()){
+            all_empty = false;
+            break;
+        }
+    }
+    if(all_empty) return;
+    using namespace std::literals;
+    throw std::runtime_error(
+      "Dependent indices have ranks of "s + std::to_string(dep_rank()) +
+      " but provided index has rank " + std::to_string(idx_rank) + "."s);
+}
+
+template<typename DerivedType, typename IndIndex, typename DepIndex>
+void SPARSEMAPBASE::check_contains_(const key_type& key) const {
+    if(!m_pimpl_ || !pimpl_().m_sm.count(key)) {
+        std::stringstream ss;
+        ss << key;
+        throw std::out_of_range("SparseMap does not contain key: " + ss.str());
+    }
 }
 
 #undef SPARSEMAPBASE
