@@ -125,6 +125,23 @@ DerivedType DOMAINBASE::operator+(const DomainBase& rhs) const {
     return rv;
 }
 
+template<typename DerivedType, typename IndexType>
+DerivedType& DOMAINBASE::operator^=(const DomainBase& rhs) {
+    auto new_pimpl = std::make_unique<pimpl_type>();
+    for(const auto& ei : *this){
+        if(rhs.count(ei)) new_pimpl->insert(ei);
+    }
+    m_pimpl_.swap(new_pimpl);
+    return downcast_();
+}
+
+template<typename DerivedType, typename IndexType>
+DerivedType DOMAINBASE::operator^(const DomainBase& rhs) const {
+    DerivedType rv(downcast_());
+    rv ^= rhs;
+    return rv;
+}
+
 //------------------------------------------------------------------------------
 //                                Utilities
 //------------------------------------------------------------------------------

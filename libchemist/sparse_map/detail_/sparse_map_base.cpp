@@ -25,6 +25,12 @@ template<typename DerivedType, typename IndIndex, typename DepIndex>
 SPARSEMAPBASE::SparseMapBase() : m_pimpl_(new_pimpl_()) {}
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
+SPARSEMAPBASE::SparseMapBase(il_t il) :
+  SparseMapBase() {
+    for(auto&& [k, v] : il) (*this)[k] = mapped_type(v);
+}
+
+template<typename DerivedType, typename IndIndex, typename DepIndex>
 SPARSEMAPBASE::SparseMapBase(const SparseMapBase& rhs) :
   m_pimpl_(rhs.m_pimpl_ ? rhs.pimpl_().clone() : new_pimpl_()) {}
 
@@ -156,14 +162,33 @@ DerivedType& SPARSEMAPBASE::operator*=(const SparseMapBase& rhs) {
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
-SparseMapBase<DerivedType, DepIndex, IndIndex>
-SPARSEMAPBASE::inverse() const {
-    SparseMapBase<DerivedType, DepIndex, IndIndex> rv;
-    for (const auto& x : *this) {
-        for (const auto y : x.second) {
-            rv.add_to_domain(y,x.first);
-        }
+DerivedType& SPARSEMAPBASE::operator^=(const SparseMapBase& rhs) {
+    if(!m_pimpl_ || empty()) return downcast_();
+    if(!rhs.m_pimpl_ || rhs.empty()){
+        m_pimpl_ = new_pimpl_();
+        return downcast_();
     }
+    auto new_pimpl = new_pimpl_();
+
+    // Check for the same ranks, if they don't have the same rank the
+    // intersection is empty.
+    if(ind_rank() != rhs.ind_rank() || dep_rank() != rhs.dep_rank()){
+        m_pimpl_.swap(new_pimpl);
+        return downcast_();
+    }
+
+    for(const auto& [lind, ldomain] : *this){
+        if(rhs.count(lind)) new_pimpl->m_sm[lind] = ldomain ^ rhs.at(lind);
+    }
+    m_pimpl_.swap(new_pimpl);
+
+    return downcast_();
+}
+
+template<typename DerivedType, typename IndIndex, typename DepIndex>
+DerivedType SPARSEMAPBASE::operator^(const SparseMapBase& rhs) const {
+    DerivedType rv(downcast_());
+    rv ^= rhs;
     return rv;
 }
 
@@ -185,36 +210,51 @@ SPARSEMAPBASE::inverse() const {
 //}
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
-SPARSEMAPBASE SPARSEMAPBASE::map_union(const SparseMapBase& sm) const {
-    if (!this->empty() && !sm.empty() &&
-        (this->dep_rank() != sm.dep_rank() || this->ind_rank() != sm.ind_rank()))
-        throw std::runtime_error("Incompatible index ranks between maps for union");
-    SparseMapBase rv = *this;
-    for (const auto& x : sm) {
-        for (const auto y : x.second) {
-            rv.add_to_domain(x.first,y);
-        }
+DerivedType& SPARSEMAPBASE::operator+=(const SparseMapBase& rhs) {
+    if(empty()){
+        if(!rhs.empty()) rhs.pimpl_().clone().swap(m_pimpl_);
+        return downcast_();
     }
-    return rv;
+    else if(rhs.empty()) return downcast_();
+
+    // We know neither of us are empty, check for compatible indices
+    if(ind_rank() != rhs.ind_rank())
+        throw std::runtime_error("Independent index ranks are not the same");
+    else if(dep_rank() != rhs.dep_rank())
+        throw std::runtime_error("Dependent index ranks are not the same");
+
+    //They're compatible do the union
+    auto new_pimpl = pimpl_().clone();
+    for(const auto& [ind, domain]: rhs) new_pimpl->m_sm[ind] += domain;
+    m_pimpl_.swap(new_pimpl);
+
+    return downcast_();
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
-SPARSEMAPBASE SPARSEMAPBASE::intersection(const SparseMapBase& sm) const {
-    if (!this->empty() && !sm.empty() &&
-        (this->dep_rank() != sm.dep_rank() || this->ind_rank() != sm.ind_rank()))
-        throw std::runtime_error("Incompatible index ranks between maps for intersection");
-    SparseMapBase rv;
-    for (const auto& x : *this) {
-        if (sm.count(x.first)) {
-            for (const auto y : x.second) {
-                if (sm.at(x.first).count(y)) {
-                    rv.add_to_domain(x.first,y);
-                }
-            }
-        }
-    }
+DerivedType SPARSEMAPBASE::operator+(const SparseMapBase& rhs) const {
+    auto rv = DerivedType(downcast_());
+    rv += rhs;
     return rv;
 }
+
+//template<typename DerivedType, typename IndIndex, typename DepIndex>
+//SPARSEMAPBASE SPARSEMAPBASE::intersection(const SparseMapBase& sm) const {
+//    if (!this->empty() && !sm.empty() &&
+//        (this->dep_rank() != sm.dep_rank() || this->ind_rank() != sm.ind_rank()))
+//        throw std::runtime_error("Incompatible index ranks between maps for intersection");
+//    SparseMapBase rv;
+//    for (const auto& x : *this) {
+//        if (sm.count(x.first)) {
+//            for (const auto y : x.second) {
+//                if (sm.at(x.first).count(y)) {
+//                    rv.add_to_domain(x.first,y);
+//                }
+//            }
+//        }
+//    }
+//    return rv;
+//}
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 bool SPARSEMAPBASE::operator==(const SparseMapBase& rhs) const noexcept {
@@ -225,7 +265,8 @@ bool SPARSEMAPBASE::operator==(const SparseMapBase& rhs) const noexcept {
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 void SPARSEMAPBASE::hash(sde::Hasher& h) const {
-    h(pimpl_().m_sm);
+    if(m_pimpl_) h(pimpl_().m_sm);
+    else h(nullptr);
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>

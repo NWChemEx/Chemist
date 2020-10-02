@@ -375,6 +375,10 @@ public:
      */
     DerivedType operator+(const DomainBase& rhs) const;
 
+    DerivedType& operator^=(const DomainBase& rhs);
+
+    DerivedType operator^(const DomainBase& rhs) const;
+
     /** @brief Determines if two Domains are the same.
      *
      *  Two Domains are equal if they both contain the same number of indices,

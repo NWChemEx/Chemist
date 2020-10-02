@@ -36,8 +36,8 @@ extern template class BaseSpace_<type::tensor<float>>;
 extern template class BaseSpace_<type::tensor_of_tensors<double>>;
 extern template class BaseSpace_<type::tensor_of_tensors<float>>;
 
-extern template class DependentBaseSpace_<type::tensor_of_tensors<double>>;
-extern template class DependentBaseSpace_<type::tensor_of_tensors<float>>;
+extern template class DependentBaseSpace_<sparse_map::SparseMapEE, type::tensor_of_tensors<double>>;
+extern template class DependentBaseSpace_<sparse_map::SparseMapEE, type::tensor_of_tensors<float>>;
 
 extern template class AOSpace_<AOBasisSet<double>, BaseSpace<double>>;
 extern template class AOSpace_<AOBasisSet<float>, BaseSpace<float>>;

@@ -314,14 +314,163 @@ public:
      */
     const mapped_type& at(const key_type& key) const { return (*this)[key]; }
 
+    /** @brief Returns an iterator which points to the first
+     *         independent-index-Domain pair.
+     *
+     *  @return An iterator pointing to the first element of this map.
+     *
+     *  @throw std::runtime_error if there is no PIMPL. Strong throw guarantee.
+     */
     iterator begin();
+
+    /** @brief Returns an iterator which points to the first
+     *         independent-index-Domain pair.
+     *
+     *  @return An iterator pointing to the first element of this map. Elements
+     *          of the SparseMap can not be modified through the iterator.
+     *
+     *  @throw std::runtime_error if there is no PIMPL. Strong throw guarantee.
+     */
     const_iterator begin() const;
+
+    /** @brief Returns an iterator just past the end of the SparseMap.
+     *
+     *  @return An iterator pointing to just past the end of the SparseMap.
+     *  @throw std::runtime_error if the map has no PIMPL. Strong throw guarantee.
+     */
     iterator end();
+
+    /** @brief Returns an iterator just past the end of the SparseMap.
+     *
+     *  @return An iterator pointing to just past the end of the SparseMap.
+     *  @throw std::runtime_error if the map has no PIMPL. Strong throw guarantee.
+     */
     const_iterator end() const;
 
-
+    /** @brief Sets this SparseMap to the Cartesian product of this SparseMap
+     *         and another SparseMap.
+     *
+     *  Given a SparseMap @f$A@f$ with @f$i@f$-th element @f$(a_i, \alpha_i)@f$
+     *  (@f$a_i@f$ is the independent index and @f$\alpha_i@f$ is the Domain
+     *  associated with @f$a_i@f$) and a SparseMap @f$B@f$ with @f$i@f$-th
+     *  element @f$(b_i, \beta_i)@f$ the Cartesian product of @f$A@f$ and
+     *  @f$B@f$, @f$C@f$ is given by:
+     *
+     *  @f[
+     *  C = \left\lbrace (a_ib_j, \alpha_i\beta_j) \forall (a_i, \alpha_i) \in A
+     *                                             \forall (b_j, \beta_j) \in B
+     *      \right\rbrace
+     *  @f]
+     *
+     * @param[in] rhs The SparseMap we are taking the Cartesian product with.
+     *
+     * @return This SparseMap with its state set to the Cartesian product of
+     *         this SparseMap's previous state with @p rhs.
+     *
+     * @throw std::bad_alloc if there is not enough memory to store the new
+     *                       state. Strong throw guarantee.
+     */
     DerivedType operator*(const SparseMapBase& rhs) const;
+
+    /** @brief Returns the Cartesian product of this SparseMap and another
+     *         SparseMap.
+     *
+     *  Given a SparseMap @f$A@f$ with @f$i@f$-th element @f$(a_i, \alpha_i)@f$
+     *  (@f$a_i@f$ is the independent index and @f$\alpha_i@f$ is the Domain
+     *  associated with @f$a_i@f$) and a SparseMap @f$B@f$ with @f$i@f$-th
+     *  element @f$(b_i, \beta_i)@f$ the Cartesian product of @f$A@f$ and
+     *  @f$B@f$, @f$C@f$ is given by:
+     *
+     *  @f[
+     *  C = \left\lbrace (a_ib_j, \alpha_i\beta_j) \forall (a_i, \alpha_i) \in A
+     *                                             \forall (b_j, \beta_j) \in B
+     *      \right\rbrace
+     *  @f]
+     *
+     * @param[in] rhs The SparseMap we are taking the Cartesian product with.
+     *
+     * @return The Cartesian product of this SparseMap's state with @p rhs.
+     *
+     * @throw std::bad_alloc if there is not enough memory to store the new
+     *                       state. Strong throw guarantee.
+     */
     DerivedType& operator*=(const SparseMapBase& rhs);
+
+    /** @brief Sets this to the union of this and another map.
+     *
+     *  Given two SparseMaps sm1(f -> g) and sm2(f -> g), the union is formed by
+     *  mapping f_i to any element in g which f_i is mapped to by either sm1 or
+     *  sm2.
+     *
+     *  Requires that either one of the sets is empty or both sets have the same
+     *  rank in independent and dependent indices.
+     *
+     * @param[in] rhs The SparseMap to take the union with this instance.
+     *
+     * @return The current instance set to the union of the two maps.
+     *
+     * @throw std::runtime_error if neither map is empty and the rank of the
+     *                           independent/dependent indices of this instance
+     *                           are not equal to the rank of the independent/
+     *                           dependent indices of @p rhs.
+     */
+    DerivedType& operator+=(const SparseMapBase& rhs);
+
+    /** @brief Creates a SparseMap which is the union of this and another map.
+     *
+     *  Given two SparseMaps sm1(f -> g) and sm2(f -> g), the union is formed by
+     *  mapping f_i to any element in g which f_i is mapped to by either sm1 or
+     *  sm2.
+     *
+     *  Requires that either one of the sets is empty or both sets have the same
+     *  rank in independent and dependent indices.
+     *
+     * @param[in] rhs The SparseMap to take the union with this instance.
+     *
+     * @return The union of the two maps.
+     *
+     * @throw std::runtime_error if neither map is empty and the rank of the
+     *                           independent/dependent indices of this instance
+     *                           are not equal to the rank of the independent/
+     *                           dependent indices of @p rhs.
+     */
+    DerivedType operator+(const SparseMapBase& rhs) const;
+
+    /** @brief Makes this the intersection of this SparseMap and another map.
+     *
+     *  Given two SparseMaps sm1(f -> g) and sm2(f -> g), the intersection is
+     *  formed by mapping f_i to any element in g which f_i is mapped to by both
+     *  sm1 and sm2. Note that if the ranks of the independent indices (or the
+     *  dependent indices) are different between the two maps the intersection
+     *  is empty. Similarly the intersection of any map with an empty map is
+     *  also empty.
+     *
+     * @param[in] sm The SparseMap to take the intersection with this instance.
+     *
+     * @return The current SparseMap set to the intersection of the two maps.
+     *
+     * @throw std::bad_alloc if there is insufficient memory to store the new
+     *                       state. Strong throw guarantee.
+     */
+    DerivedType& operator^=(const SparseMapBase& rhs);
+
+    /** @brief Computes the intersection of this SparseMap and another map.
+     *
+     *  Given two SparseMaps sm1(f -> g) and sm2(f -> g), the intersection is
+     *  formed by mapping f_i to any element in g which f_i is mapped to by both
+     *  sm1 and sm2. Note that if the ranks of the independent indices (or the
+     *  dependent indices) are different between the two maps the intersection
+     *  is empty. Similarly the intersection of any map with an empty map is
+     *  also empty.
+     *
+     * @param[in] sm The SparseMap to take the intersection with this instance.
+     *
+     * @return The intersection of the two maps.
+     *
+     * @throw std::bad_alloc if there is insufficient memory to store the new
+     *                       state. Strong throw guarantee.
+     */
+    DerivedType operator^(const SparseMapBase& rhs) const;
 
     /** @brief Constructs the inverse SparseMap.
      *
@@ -332,7 +481,7 @@ public:
      *
      * @return The inverse of the SparseMap.
      */
-    SparseMapBase<DerivedType, DepIndex, IndIndex> inverse() const;
+    //SparseMapBase<SparseMap<DepIndex, IndIndex>, DepIndex, IndIndex> inverse() const;
 
     /** @brief Creates a SparseMap from chaining two maps together.
      *
@@ -350,39 +499,44 @@ public:
      *                           is not equal to the rank of the independent indices
      *                           of \p sm.
      */
-    //SparseMapBase chain(const SparseMapBase& sm) const;
+    //template<typename DerivedType2, typename NewDepIdx>
+    //SparseMap<IndIndex, NewDepIdx> chain(const SparseMapBase<DerivedType2, DepIndex, NewDepIdx>& sm) const;
 
-    /** @brief Creates a SparseMap which is the union of two maps.
+    /** @brief Determines if two SparseMaps are identical.
      *
-     *  Given two SparseMaps sm1(f -> g) and sm2(f -> g), the union is formed by
-     *  mapping f_i to any element in g which f_i is mapped to by either sm1 or sm2.
+     *  Two SparseMaps are the same if they:
+     *  - map from the same type of independent/dependent index
+     *    - *e.g.* independent indices ar both ElementalIndex and dependent
+     *      indices are both TileIndex
+     *  - contain the same number of independent-indices
+     *  - the set of independent indices is the same, and
+     *  - each independent index maps to the same Domain
      *
-     *  Requires that either one of the sets is empty or both sets have the same
-     *  rank in independent and dependent indices.
+     *  @param[in] rhs The other SparseMap to compare to.
      *
-     * @param[in] sm The SparseMap to take the union with this instance.
-     * @return The union of the two maps.
-     * @throw std::runtime_error if neither map is empty and the rank of the dependent
-     *                           indices of this instance is not equal to the rank of
-     *                           the independent indices of \p sm.
+     *  @return True if this SparseMap is the same as @p rhs and false
+     *          otherwise.
+     *
+     *  @throw None No throw guarantee.
      */
-    SparseMapBase map_union(const SparseMapBase& sm) const;
-
-    /** @brief
-     *
-     *  Given two SparseMaps sm1(f -> g) and sm2(f -> g), the intersection is formed by
-     *  mapping f_i to any element in g which f_i is mapped to by both sm1 and sm2.
-     *
-     * @param[in] sm The SparseMap to take the intersection with this instance.
-     * @return The intersection of the two maps.
-     * @throw std::runtime_error if neither map is empty and the rank of the dependent
-     *                           indices of this instance is not equal to the rank of
-     *                           the independent indices of \p sm.
-     */
-    SparseMapBase intersection(const SparseMapBase& sm) const;
     bool operator==(const SparseMapBase& rhs) const noexcept;
 
+    /** @brief Adds a string representation of the SparseMap to the stream.
+     *
+     * @param[in,out] os The stream we are adding the string representation to.
+     *                   After this call the stream will contain the string
+     *                   representation of the SparseMap.
+     *
+     * @return @p os with this SparseMap added to it.
+     */
     std::ostream& print(std::ostream& os) const;
+
+    /** @brief Adds this SparseMap's state to a hash.
+     *
+     *  @param[in,out] h The object hashing the SparseMap. After this call the
+     *                   internal hash of @p h will be updated to include this
+     *                   SparseMap's state.
+     */
     void hash(sde::Hasher& h) const;
 protected:
     /// Ensures the instance has a PIMPL and returns it
@@ -394,7 +548,10 @@ private:
     /// Code factorization for making a new empty PIMPL
     static pimpl_ptr new_pimpl_() ;
 
+    /// Returns this instance downcasted to the derived class
     DerivedType& downcast_();
+
+    /// Returns this instance as a read-only instance of the derived class
     const DerivedType& downcast_() const;
 
     /// Determines if @p idx_rank is an acceptable rank for an independent index
@@ -406,34 +563,63 @@ private:
     /// Determines if @p key is already in the SparseMap and throws if it's not
     void check_contains_(const key_type& key) const;
 
+    /// The instance holding the SparseMap's state
     pimpl_ptr m_pimpl_;
-};
+}; // class SparseMapBase
 
+//------------------------------------------------------------------------------
+//                               Related Functions
+//------------------------------------------------------------------------------
+
+/** @brief Adds a string representation of the SparseMap to the stream.
+ *  @related SparseMapBase
+ *
+ *  This is a convenience function for calling SparseMapBase::print on a stream.
+ *
+ *  @tparam DerivedType The type of the class being implemented by SparseMapBase
+ *  @tparam IndIndex The type of the independent indices.
+ *  @tparam DepIndex The type of the dependent indices.
+ *
+ *  @param[in,out] os The stream we are adding the string representation to.
+ *                   After this call the stream will contain the string
+ *                   representation of the SparseMap.
+ *  @param[in] smb The SparseMap we are printing.
+ *
+ *  @return @p os with this SparseMap added to it.
+ */
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 std::ostream& operator<<(
   std::ostream& os, const SparseMapBase<DerivedType, IndIndex, DepIndex>& smb) {
     return smb.print(os);
 }
 
+/** @brief Determines if two SparseMaps are different.
+ *  @relates SparseMapBase
+ *
+ *  Two SparseMaps are the same if they:
+ *  - map from the same type of independent/dependent index
+ *    - *e.g.* independent indices ar both ElementalIndex and dependent
+ *      indices are both TileIndex
+ *  - contain the same number of independent-indices
+ *  - the set of independent indices is the same, and
+ *  - each independent index maps to the same Domain
+ *
+ *  @tparam DerivedType Type of the class implemented by the SparseMapBase
+ *  @tparam IndIndex Type of the independent indices
+ *  @tparam DepIndex Type of the dependent indices
+ *
+ *  @param[in] lhs The SparseMap on the right side of the operator
+ *  @param[in] rhs The SparseMap on the left side of the operator
+ *
+ *  @return False if this SparseMap is the same as @p rhs and true otherwise.
+ *
+ *  @throw None No throw guarantee.
+ */
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 bool operator!=(const SparseMapBase<DerivedType, IndIndex, DepIndex>& lhs,
                 const SparseMapBase<DerivedType, IndIndex, DepIndex>& rhs) {
     return !(lhs == rhs);
 }
-
-//------------------------------------------------------------------------------
-//                           Inline Implementations
-//------------------------------------------------------------------------------
-
-#define SPARSEMAPBASE SparseMapBase<DerivedType, IndIndex, DepIndex>
-
-template<typename DerivedType, typename IndIndex, typename DepIndex>
-SPARSEMAPBASE::SparseMapBase(il_t il) :
-  SparseMapBase() {
-    for(auto&& [k, v] : il) (*this)[k] = mapped_type(v);
-}
-
-#undef SPARSEMAPBASE
 
 //------------------------------------------------------------------------------
 //              Forward Declare Template Instantiations

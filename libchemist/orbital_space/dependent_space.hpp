@@ -1,6 +1,6 @@
 #pragma once
 #include "libchemist/orbital_space/base_space.hpp"
-#include "libchemist/sparse_map/sparse_map_class.hpp"
+#include "libchemist/sparse_map/sparse_map.hpp"
 
 namespace libchemist::orbital_space {
 
@@ -10,13 +10,14 @@ namespace libchemist::orbital_space {
  *  depend on another space. That is to say we get a different set of orbitals
  *  for each orbital (or tuple of orbitals) in the independent space.
  *
+ *  @tparam SparseMapType The type of the SparseMap instance.
  *  @tparam OverlapType The type used to store the overlap matrix.
  */
-template<typename OverlapType>
+template<typename SparseMapType, typename OverlapType>
 class DependentBaseSpace_ {
 public:
     /// The type of the sparse map
-    using sparse_map_type = sparse_map::SparseMap;
+    using sparse_map_type = SparseMapType;
 
     /// The type used to store the overlap matrix
     using overlap_type = OverlapType;
@@ -84,28 +85,31 @@ private:
     BaseSpace_<overlap_type> m_space_;
 };
 
-template<typename OverlapType>
-bool operator==(const DependentBaseSpace_<OverlapType>& lhs,
-                const DependentBaseSpace_<OverlapType>& rhs) {
+template<typename SparseMapType, typename OverlapType>
+bool operator==(const DependentBaseSpace_<SparseMapType, OverlapType>& lhs,
+                const DependentBaseSpace_<SparseMapType, OverlapType>& rhs) {
     return (sde::hash_objects(lhs.S()) == sde::hash_objects(rhs.S())) &&
            lhs.sparse_map() == rhs.sparse_map();
 }
 
-template<typename OverlapType>
-bool operator!=(const DependentBaseSpace_<OverlapType>& lhs,
-                const DependentBaseSpace_<OverlapType>& rhs) {
+template<typename SparseMapType, typename OverlapType>
+bool operator!=(const DependentBaseSpace_<SparseMapType, OverlapType>& lhs,
+                const DependentBaseSpace_<SparseMapType, OverlapType>& rhs) {
     return !(lhs == rhs);
 }
 
 /// DependentBaseSpace that uses ToTs for the overlap matrix
 template<typename T>
-using SparseDependentBase = DependentBaseSpace_<type::tensor_of_tensors<T>>;
+using SparseDependentBase =
+  DependentBaseSpace_<
+    sparse_map::SparseMap<sparse_map::ElementIndex, sparse_map::ElementIndex>,
+      type::tensor_of_tensors<T>>;
 
 // -------------------------------- Implementations ----------------------------
 
-template<typename OverlapType>
-DependentBaseSpace_<OverlapType>::DependentBaseSpace_(sparse_map::SparseMap sm,
-                                                      overlap_type S) :
+template<typename SparseMapType, typename OverlapType>
+DependentBaseSpace_<SparseMapType, OverlapType>::DependentBaseSpace_(
+  SparseMapType sm, overlap_type S) :
   m_sm_(std::move(sm)), m_space_(std::move(S)) {}
 
 
