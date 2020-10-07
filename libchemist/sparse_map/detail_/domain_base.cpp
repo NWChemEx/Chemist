@@ -81,6 +81,47 @@ void DOMAINBASE::insert(value_type idx) {
 }
 
 template<typename DerivedType, typename IndexType>
+DerivedType
+DOMAINBASE::inject(const std::map<size_type, size_type>& injections) const {
+    using vector_type = typename IndexType::index_type;
+
+    if(empty()) return downcast_();
+
+    // The rank of the indices in the resulting Domain
+    const auto out_rank = rank() + injections.size();
+
+    // If we have rank r indices and we are given n injections, we will make a
+    // a rank r + n index, hence all modes in the input must be in the range
+    // [0, n].
+    for(const auto& [k, v]: injections){
+        if(k > out_rank){
+            throw std::out_of_range(
+              "Mode " + std::to_string(k) + "  is not in the range [0, " +
+              std::to_string(out_rank) +"]. "
+              );
+        }
+    }
+
+    DerivedType rv;
+
+    for(const auto& idx : *this){
+        vector_type new_idx(out_rank, 0);
+        for(std::size_t i = 0, counter = 0; i < out_rank; ++i){
+
+            if(injections.count(i))
+                new_idx[i] = injections.at(i);
+            else {
+                new_idx[i] = idx[counter];
+                ++counter;
+            }
+        }
+        rv.insert(IndexType(std::move(new_idx)));
+    }
+    return rv;
+}
+
+
+template<typename DerivedType, typename IndexType>
 DerivedType& DOMAINBASE::operator*=(const DomainBase& rhs) {
     auto new_pimpl = std::make_unique<pimpl_type>();
     if(!m_pimpl_ || rhs.empty()){

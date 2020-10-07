@@ -14,7 +14,6 @@ namespace detail_ {
 // Forward declare the SparseMapPIMPL class
 template<typename IndIndex, typename DepIndex> class SparseMapPIMPL;
 
-
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 class SparseMapBase {
 private:
@@ -347,14 +346,15 @@ public:
      */
     const_iterator end() const;
 
-    /** @brief Sets this SparseMap to the Cartesian product of this SparseMap
-     *         and another SparseMap.
+    /** @brief Returns the direct product of this SparseMap and another
+     *         SparseMap.
      *
      *  Given a SparseMap @f$A@f$ with @f$i@f$-th element @f$(a_i, \alpha_i)@f$
      *  (@f$a_i@f$ is the independent index and @f$\alpha_i@f$ is the Domain
-     *  associated with @f$a_i@f$) and a SparseMap @f$B@f$ with @f$i@f$-th
-     *  element @f$(b_i, \beta_i)@f$ the Cartesian product of @f$A@f$ and
-     *  @f$B@f$, @f$C@f$ is given by:
+     *  associated with @f$a_i@f$) and a SparseMap @f$B@f$ with @f$j@f$-th
+     *  element @f$(b_j, \beta_j)@f$ this function computes a new SparseMap
+     *  @f$C@f$ which we say is the direct product of @f$A@f$ with  @f$B@f$.
+     *  @f$C@f$ is given by:
      *
      *  @f[
      *  C = \left\lbrace (a_ib_j, \alpha_i\beta_j) \forall (a_i, \alpha_i) \in A
@@ -362,34 +362,49 @@ public:
      *      \right\rbrace
      *  @f]
      *
+     * @param[in] rhs The SparseMap we are taking the direct product with.
+     *
+     * @return The direct product of this SparseMap's state with @p rhs.
+     *
+     * @throw std::bad_alloc if there is not enough memory to store the new
+     *                       state. Strong throw guarantee.
+     */
+    DerivedType direct_product(const SparseMapBase& rhs) const;
+
+    /** @brief Creates a SparseMap with domains given by the Cartesian product
+     *         of the Domains in this SparseMap with the Domains in @p rhs.
+     *
+     *  Given a SparseMap @f$A@f$ which maps independent index @f$i@f$ to
+     *  @f$a_i@f$ and a SparseMap @f$B@f$ which maps independent index @f$i@f$
+     *  to @f$b_i@f$. This function computes a third SparseMap, @f$C@f$, where
+     *  the Domain @f$c_i@f$-th element is the Cartesian product of @f$a_i@f$
+     *  with @f$b_i@f$.
+     *
      * @param[in] rhs The SparseMap we are taking the Cartesian product with.
      *
-     * @return This SparseMap with its state set to the Cartesian product of
-     *         this SparseMap's previous state with @p rhs.
+     * @return The SparseMap resulting from the Cartesian product of this
+     *         SparseMap's domains with @p rhs's Domains.
      *
      * @throw std::bad_alloc if there is not enough memory to store the new
      *                       state. Strong throw guarantee.
      */
     DerivedType operator*(const SparseMapBase& rhs) const;
 
-    /** @brief Returns the Cartesian product of this SparseMap and another
-     *         SparseMap.
+    /** @brief Sets this SparseMap to the SparseMap with domains given by the
+     *         Cartesian product of the Domains previously in this SparseMap
+     *         with the Domains in @p rhs.
      *
-     *  Given a SparseMap @f$A@f$ with @f$i@f$-th element @f$(a_i, \alpha_i)@f$
-     *  (@f$a_i@f$ is the independent index and @f$\alpha_i@f$ is the Domain
-     *  associated with @f$a_i@f$) and a SparseMap @f$B@f$ with @f$i@f$-th
-     *  element @f$(b_i, \beta_i)@f$ the Cartesian product of @f$A@f$ and
-     *  @f$B@f$, @f$C@f$ is given by:
-     *
-     *  @f[
-     *  C = \left\lbrace (a_ib_j, \alpha_i\beta_j) \forall (a_i, \alpha_i) \in A
-     *                                             \forall (b_j, \beta_j) \in B
-     *      \right\rbrace
-     *  @f]
+     *  Given a SparseMap @f$A@f$ which maps independent index @f$i@f$ to
+     *  @f$a_i@f$ and a SparseMap @f$B@f$ which maps independent index @f$i@f$
+     *  to @f$b_i@f$. This function computes a third SparseMap, @f$C@f$, where
+     *  the Domain @f$c_i@f$-th element is the Cartesian product of @f$a_i@f$
+     *  with @f$b_i@f$.
      *
      * @param[in] rhs The SparseMap we are taking the Cartesian product with.
      *
-     * @return The Cartesian product of this SparseMap's state with @p rhs.
+     * @return The current SparseMap with Domains set to the resultof the
+     *         Cartesian product of this SparseMap's previous domains with
+     *         @p rhs's Domains.
      *
      * @throw std::bad_alloc if there is not enough memory to store the new
      *                       state. Strong throw guarantee.

@@ -1,9 +1,13 @@
 #pragma once
 
 #include "libchemist/sparse_map/domain.hpp"
+#include "libchemist/sparse_map/from_sparse_map.hpp"
 #include "libchemist/sparse_map/index.hpp"
 #include "libchemist/sparse_map/sparse_map_class.hpp"
 
+/** @brief Contains classes and functions related to SparseMap objects.
+ *
+ */
 namespace libchemist::sparse_map {
 
 using SparseMapEE = SparseMap<ElementIndex, ElementIndex>;

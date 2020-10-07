@@ -374,6 +374,186 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
         }
     }
 
+    SECTION("inject") {
+        SECTION("Empty injection") {
+            std::map<std::size_t, std::size_t> injections;
+
+            SECTION("In to empty") {
+                auto r = d_empty.inject(injections);
+                REQUIRE(r == d_empty);
+            }
+
+            SECTION("In to rank 0") {
+                auto r = d0.inject(injections);
+                REQUIRE(r == d0);
+            }
+
+            SECTION("In to rank 1") {
+                auto r = d1.inject(injections);
+                REQUIRE(r == d1);
+            }
+
+            SECTION("In to rank 2") {
+                auto r = d2.inject(injections);
+                REQUIRE(r == d2);
+            }
+        }
+
+        SECTION("Single injection") {
+            SECTION("At mode 0") {
+                std::map<std::size_t, std::size_t> injections{{0, 1}};
+
+                SECTION("In to empty") {
+                    auto r = d_empty.inject(injections);
+                    REQUIRE(r == d_empty);
+                }
+
+                SECTION("In to rank 0") {
+                    auto r = d0.inject(injections);
+                    derived_t corr{TestType{1}};
+                    REQUIRE(r == corr);
+                }
+
+                SECTION("In to rank 1") {
+                    auto r = d1.inject(injections);
+                    derived_t corr{TestType{1, 1}};
+                    REQUIRE(r == corr);
+                }
+
+                SECTION("In to rank 2") {
+                    auto r = d2.inject(injections);
+                    derived_t corr{TestType{1, 1, 2}};
+                    REQUIRE(r == corr);
+                }
+            }
+
+            SECTION("At mode 1") {
+                std::map<std::size_t, std::size_t> injections{{1, 1}};
+
+                SECTION("In to empty") {
+                    auto r = d_empty.inject(injections);
+                    REQUIRE(r == d_empty);
+                }
+
+                SECTION("In to rank 0") {
+                    REQUIRE_THROWS_AS(d0.inject(injections), std::out_of_range);
+                }
+
+                SECTION("In to rank 1") {
+                    auto r = d1.inject(injections);
+                    derived_t corr{TestType{1, 1}};
+                    REQUIRE(r == corr);
+                }
+
+                SECTION("In to rank 2") {
+                    auto r = d2.inject(injections);
+                    derived_t corr{TestType{1, 1, 2}};
+                    REQUIRE(r == corr);
+                }
+            }
+
+            SECTION("At mode 2") {
+                std::map<std::size_t, std::size_t> injections{{2, 1}};
+
+                SECTION("In to empty") {
+                    auto r = d_empty.inject(injections);
+                    REQUIRE(r == d_empty);
+                }
+
+                SECTION("In to rank 0") {
+                    REQUIRE_THROWS_AS(d0.inject(injections), std::out_of_range);
+                }
+
+                SECTION("In to rank 1") {
+                    REQUIRE_THROWS_AS(d1.inject(injections), std::out_of_range);
+                }
+
+                SECTION("In to rank 2") {
+                    auto r = d2.inject(injections);
+                    derived_t corr{TestType{1, 2, 1}};
+                    REQUIRE(r == corr);
+                }
+            }
+        }
+
+        SECTION("Two injections") {
+            SECTION("At mode 0 and 1") {
+                std::map<std::size_t, std::size_t> injections{{0, 1}, {1, 2}};
+
+                SECTION("In to empty") {
+                    auto r = d_empty.inject(injections);
+                    REQUIRE(r == d_empty);
+                }
+
+                SECTION("In to rank 0") {
+                    auto r = d0.inject(injections);
+                    derived_t corr{TestType{1, 2}};
+                    REQUIRE(r == corr);
+                }
+
+                SECTION("In to rank 1") {
+                    auto r = d1.inject(injections);
+                    derived_t corr{TestType{1, 2, 1}};
+                    REQUIRE(r == corr);
+                }
+
+                SECTION("In to rank 2") {
+                    auto r = d2.inject(injections);
+                    derived_t corr{TestType{1, 2, 1, 2}};
+                    REQUIRE(r == corr);
+                }
+            }
+
+            SECTION("At mode 1 and 2") {
+                std::map<std::size_t, std::size_t> injections{{1, 1}, {2, 2}};
+
+                SECTION("In to empty") {
+                    auto r = d_empty.inject(injections);
+                    REQUIRE(r == d_empty);
+                }
+
+                SECTION("In to rank 0") {
+                    REQUIRE_THROWS_AS(d0.inject(injections), std::out_of_range);
+                }
+
+                SECTION("In to rank 1") {
+                    auto r = d1.inject(injections);
+                    derived_t corr{TestType{1, 1, 2}};
+                    REQUIRE(r == corr);
+                }
+
+                SECTION("In to rank 2") {
+                    auto r = d2.inject(injections);
+                    derived_t corr{TestType{1, 1, 2, 2}};
+                    REQUIRE(r == corr);
+                }
+            }
+
+            SECTION("At mode 2 and 3") {
+                std::map<std::size_t, std::size_t> injections{{2, 1}, {3, 2}};
+
+                SECTION("In to empty") {
+                    auto r = d_empty.inject(injections);
+                    REQUIRE(r == d_empty);
+                }
+
+                SECTION("In to rank 0") {
+                    REQUIRE_THROWS_AS(d0.inject(injections), std::out_of_range);
+                }
+
+                SECTION("In to rank 1") {
+                    REQUIRE_THROWS_AS(d1.inject(injections), std::out_of_range);
+                }
+
+                SECTION("In to rank 2") {
+                    auto r = d2.inject(injections);
+                    derived_t corr{TestType{1, 2, 1, 2}};
+                    REQUIRE(r == corr);
+                }
+            }
+        }
+    } // SECTION("inject")
+
     /* operator*= is the work horse of tensor products for the domain class.
      * Thus this unit test is responsible for making sure it works correctly for
      * tensor products between tensors of arbitrary rank and we note that the
@@ -714,6 +894,50 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
         base_t d{TestType{2}};
         auto r = d1 + d;
         REQUIRE(r == base_t{i1, TestType{2}});
+    }
+
+    /* For intersection, operator^= does the heavy lifting so we test it in
+     * depth. operator^ simply calls operator^= on a copy so as long as copying
+     * and operator^= work, operator^ will work.
+     */
+    SECTION("operator^="){
+        SECTION("Empty and empty"){
+            auto plhs = &(d_empty ^= derived_t{});
+            SECTION("Value") { REQUIRE(d_empty == derived_t{}); }
+            SECTION("Returns *this"){ REQUIRE(plhs == &d_empty); }
+        }
+
+        SECTION("Empty and non-empty") {
+            auto plhs = &(d_empty ^= d1);
+            SECTION("Value") { REQUIRE(d_empty == derived_t{}); }
+            SECTION("Returns *this"){ REQUIRE(plhs == &d_empty); }
+        }
+
+        SECTION("Non-empty with same state") {
+            derived_t copy(d1);
+            auto plhs = &(d1 ^= copy);
+            SECTION("Value") { REQUIRE(d1 == copy); }
+            SECTION("Returns *this"){ REQUIRE(plhs == &d1); }
+        }
+
+        SECTION("Non-empty with different rank") {
+            auto plhs = &(d1 ^= d2);
+            SECTION("Value") { REQUIRE(d1 == d_empty); }
+            SECTION("Returns *this") { REQUIRE(plhs == &d1); }
+        }
+
+        SECTION("Non-empty different state") {
+            derived_t copy(d1);
+            d1.insert(TestType{3});
+            auto plhs = &(d1 ^= copy);
+            SECTION("Value") { REQUIRE(d1 == copy); }
+            SECTION("Returns *this") { REQUIRE(plhs == &d1); }
+        }
+    } // SECTION("operator+=")
+
+    SECTION("operator^"){
+        auto r = d1 ^ d2;
+        REQUIRE(r == d_empty);
     }
 
     SECTION("Comparisons") {

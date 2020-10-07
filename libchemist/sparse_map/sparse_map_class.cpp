@@ -2,42 +2,65 @@
 
 namespace libchemist::sparse_map {
 
-//index_set_map SparseMap::indices() const {
-//    index_set_map rv;
-//    for(const auto& [k, v] : *this){
-//        rv[k] = indices(k);
-//    }
-//    return rv;
-//}
-//
-//index_set_array SparseMap::indices(key_type ind) const {
-//    index_set_array rv;
-//    rv.reserve(dep_rank());
-//    for(size_type i = 0; i < dep_rank(); ++i)
-//        rv.push_back(indices(ind, i));
-//    return rv;
-//}
-//
-//index_set SparseMap::indices(key_type ind, size_type mode) const {
-//    index_set rv;
-//    for(const auto& dep : at(ind))
-//        rv.insert(dep.m_index[mode]);
-//    return rv;
-//}
-//
-//void SparseMap::add_to_domain(key_type ind, key_type dep) {
-//    if(m_pimpl_->m_sm.empty()){
-//        m_pimpl_->m_sm.emplace(std::move(ind), Domain{std::move(dep)});
-//        return;
-//    }
-//    check_rank_(ind.size(), false);
-//    check_rank_(dep.size(), true);
-//    m_pimpl_->m_sm[ind].insert(dep);
-//}
+#define SPARSEMAPEE SparseMap<ElementIndex, ElementIndex>
+#define SPARSEMAPET SparseMap<ElementIndex, TileIndex>
+#define SPARSEMAPTE SparseMap<TileIndex, ElementIndex>
+#define SPARSEMAPTT SparseMap<TileIndex, TileIndex>
 
-//------------------------------------------------------------------------------
-//                            Template Instantiations
-//------------------------------------------------------------------------------
+SPARSEMAPEE::SparseMap(const SPARSEMAPET& other) {
+    for(const auto& [oeidx, d] : other){
+        for(const auto& itidx : d){
+            for(const auto& ieidx : d.trange().make_tile_range(itidx)){
+                const ElementIndex temp(ieidx.begin(), ieidx.end());
+                add_to_domain(oeidx, temp);
+            }
+        }
+    }
+}
+
+SPARSEMAPEE::SparseMap(const SPARSEMAPTE& other) {
+    const auto& trange = other.trange();
+    for(const auto& [otidx, d] : other) {
+        for(const auto& oeidx : trange.make_tile_range(otidx)){
+            for(const auto& ieidx : d){
+                const ElementIndex temp(oeidx.begin(), oeidx.end());
+                add_to_domain(temp, ieidx);
+            }
+        }
+    }
+}
+
+SPARSEMAPEE::SparseMap(const SPARSEMAPTT& other) {
+    const auto& trange = other.trange();
+    for(const auto& [otidx, d] : other){
+        for(const auto& oeidx : trange.make_tile_range(otidx)){
+            const ElementIndex otemp(oeidx.begin(), oeidx.end());
+            for(const auto& itidx : d){
+                for(const auto& ieidx : d.trange().make_tile_range(itidx)){
+                    const ElementIndex itemp(ieidx.begin(), ieidx.end());
+                    add_to_domain(otemp, itemp);
+                }
+            }
+        }
+    }
+}
+
+SPARSEMAPTE::SparseMap(const SPARSEMAPTT& other) : m_trange_(other.trange()) {
+    for(const auto& [otidx, d] : other) {
+        const auto& itrange = d.trange();
+        for(const auto& itidx : d) {
+            for(const auto& ieidx : itrange.make_tile_range(itidx)) {
+                ElementIndex new_idx(ieidx.begin(), ieidx.end());
+                add_to_domain(otidx, std::move(new_idx));
+            }
+        }
+    }
+}
+
+#undef SPARSEMAPEE
+#undef SPARSEMAPET
+#undef SPARSEMAPTE
+#undef SPARSEMAPTT
 
 template class SparseMap<ElementIndex, ElementIndex>;
 template class SparseMap<ElementIndex, TileIndex>;

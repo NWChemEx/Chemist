@@ -93,7 +93,7 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
 
             SECTION("Ind == rank 1") {
                 auto& sm1 = sms.at("Ind == rank 1");
-                REQUIRE(sm1.size() == 2);
+                REQUIRE(sm1.size() == 1);
                 REQUIRE_FALSE(sm1.empty());
                 REQUIRE(sm1.ind_rank() == 1);
                 REQUIRE(sm1.dep_rank() == 1);
@@ -176,7 +176,7 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
 
         SECTION("Ind == rank 1") {
             auto& sm1 = sms.at("Ind == rank 1");
-            REQUIRE(sm1.size() == 2);
+            REQUIRE(sm1.size() == 1);
         }
 
         SECTION("Ind == rank 2") {
@@ -483,21 +483,15 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
         }
     } // SECTION("operator[]const")
 
-    /* With respect to direct product operator*= does all the work and
-     * operator* simply calls operator*= on a copy. Therefore we test
-     * operator*= in depth and simply make sure operator* works for one
-     * scenario.
-     */
-    SECTION("operator*=") {
+    SECTION("direct_product") {
         SECTION("LHS == Empty") {
             auto& lhs = sms.at("Empty");
             derived_t corr(lhs);
 
             for(auto [key, rhs] : sms) {
                 SECTION("RHS == " + key) {
-                    auto plhs = &(lhs *= rhs);
-                    SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                    SECTION("Value") { REQUIRE(lhs == corr); }
+                    auto result = lhs.direct_product(rhs);
+                    REQUIRE(result == corr);
                 }
             }
         }
@@ -506,45 +500,39 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
             auto& lhs = sms.at("Ind == rank 0");
 
             SECTION("RHS == Empty") {
-                auto& rhs = sms.at("Empty");
-                auto plhs = &(lhs *= rhs);
-                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                SECTION("Value") { REQUIRE(lhs == rhs); }
+                auto& rhs   = sms.at("Empty");
+                auto result = lhs.direct_product(rhs);
+                REQUIRE(result == rhs);
             }
 
             SECTION("RHS == Ind == rank 0") {
                 auto& rhs = sms.at("Ind == rank 0");
                 derived_t corr{{i0,
-                                {dep_idx_t{1, 1}, dep_idx_t{1, 2},
-                                 dep_idx_t{2, 1}, dep_idx_t{2, 2}}}};
-                auto plhs = &(lhs *= rhs);
-                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                SECTION("Value") { REQUIRE(lhs == corr); }
+                                 {dep_idx_t{1, 1}, dep_idx_t{1, 2},
+                                   dep_idx_t{2, 1}, dep_idx_t{2, 2}}}};
+                auto result = lhs.direct_product(rhs);
+                REQUIRE(result == corr);
             }
 
             SECTION("RHS == Ind == rank 1") {
                 auto& rhs = sms.at("Ind == rank 1");
-                derived_t corr{{i1, {dep_idx_t{1, 1}, dep_idx_t{2, 1}}},
-                               {i12, {}}};
-                auto plhs = &(lhs *= rhs);
-                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                SECTION("Value") { REQUIRE(lhs == corr); }
+                derived_t corr{{i1, {dep_idx_t{1, 1}, dep_idx_t{2, 1}}}};
+                auto result = lhs.direct_product(rhs);
+                REQUIRE(result == corr);
             }
 
             SECTION("RHS == Ind == rank 2") {
                 auto& rhs = sms.at("Ind == rank 2");
                 derived_t corr{{i2, {dep_idx_t{1, 1, 2}, dep_idx_t{2, 1, 2}}},
                                {i22, {dep_idx_t{1, 2, 3}, dep_idx_t{2, 2, 3}}}};
-                auto plhs = &(lhs *= rhs);
-                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                SECTION("Value") { REQUIRE(lhs == corr); }
+                auto result = lhs.direct_product(rhs);
+                REQUIRE(result == corr);
             }
 
             SECTION("RHS == No PIMPL") {
                 auto& rhs = sms.at("No PIMPL");
-                auto plhs = &(lhs *= rhs);
-                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                SECTION("Value") { REQUIRE(lhs == rhs); }
+                auto result = lhs.direct_product(rhs);
+                REQUIRE(result == rhs);
             }
         }
 
@@ -553,29 +541,24 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
 
             SECTION("RHS == empty") {
                 auto& rhs = sms.at("Empty");
-                auto plhs = &(lhs *= rhs);
-                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                SECTION("Value") { REQUIRE(lhs == rhs); }
+                auto result = lhs.direct_product(rhs);
+                REQUIRE(result == rhs);
             }
 
             SECTION("RHS == Ind == rank 0") {
                 auto& rhs = sms.at("Ind == rank 0");
-                derived_t corr{{i1, {dep_idx_t{1, 1}, dep_idx_t{1, 2}}},
-                               {i12, {}}};
-                auto plhs = &(lhs *= rhs);
-                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                SECTION("Value") { REQUIRE(lhs == corr); }
+                derived_t corr{{i1, {dep_idx_t{1, 1}, dep_idx_t{1, 2}}}};
+                auto result = lhs.direct_product(rhs);
+                REQUIRE(result == corr);
             }
 
             SECTION("RHS == Ind == rank 1") {
                 auto& rhs = sms.at("Ind == rank 1");
                 derived_t corr{{ind_idx_t{1, 1}, {dep_idx_t{1, 1}}},
-                               {i2, {}},
                                {ind_idx_t{2, 1}, {}},
                                {ind_idx_t{2, 2}, {}}};
-                auto plhs = &(lhs *= rhs);
-                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                SECTION("Value") { REQUIRE(lhs == corr); }
+                auto result = lhs.direct_product(rhs);
+                REQUIRE(result == corr);
             }
 
             SECTION("RHS == Ind == rank 2") {
@@ -584,16 +567,14 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
                                {ind_idx_t{1, 2, 3}, {dep_idx_t{1, 2, 3}}},
                                {ind_idx_t{2, 1, 2}, {}},
                                {ind_idx_t{2, 2, 3}, {}}};
-                auto plhs = &(lhs *= rhs);
-                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                SECTION("Value") { REQUIRE(lhs == corr); }
+                auto result = lhs.direct_product(rhs);
+                REQUIRE(result == corr);
             }
 
             SECTION("RHS == No PIMPL") {
                 auto& rhs = sms.at("No PIMPL");
-                auto plhs = &(lhs *= rhs);
-                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                SECTION("Value") { REQUIRE(lhs == rhs); }
+                auto result = lhs.direct_product(rhs);
+                REQUIRE(result == rhs);
             }
         }
 
@@ -602,18 +583,16 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
 
             SECTION("RHS == empty") {
                 auto& rhs = sms.at("Empty");
-                auto plhs = &(lhs *= rhs);
-                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                SECTION("Value") { REQUIRE(lhs == rhs); }
+                auto result = lhs.direct_product(rhs);
+                REQUIRE(result == rhs);
             }
 
             SECTION("RHS == Ind == rank 0") {
                 auto& rhs = sms.at("Ind == rank 0");
                 derived_t corr{{i2, {dep_idx_t{1, 2, 1}, dep_idx_t{1, 2, 2}}},
                                {i22, {dep_idx_t{2, 3, 1}, dep_idx_t{2, 3, 2}}}};
-                auto plhs = &(lhs *= rhs);
-                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                SECTION("Value") { REQUIRE(lhs == corr); }
+                auto result = lhs.direct_product(rhs);
+                REQUIRE(result == corr);
             }
 
             SECTION("RHS == Ind == rank 1") {
@@ -622,28 +601,25 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
                                {ind_idx_t{1, 2, 2}, {}},
                                {ind_idx_t{2, 3, 1}, {dep_idx_t{2, 3, 1}}},
                                {ind_idx_t{2, 3, 2}, {}}};
-                auto plhs = &(lhs *= rhs);
-                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                SECTION("Value") { REQUIRE(lhs == corr); }
+                auto result = lhs.direct_product(rhs);
+                REQUIRE(result == corr);
             }
 
             SECTION("RHS == Ind == rank 2") {
                 auto& rhs = sms.at("Ind == rank 2");
                 derived_t corr{
-                  {ind_idx_t{1, 2, 1, 2}, {dep_idx_t{1, 2, 1, 2}}},
-                  {ind_idx_t{1, 2, 2, 3}, {dep_idx_t{1, 2, 2, 3}}},
-                  {ind_idx_t{2, 3, 1, 2}, {dep_idx_t{2, 3, 1, 2}}},
-                  {ind_idx_t{2, 3, 2, 3}, {dep_idx_t{2, 3, 2, 3}}}};
-                auto plhs = &(lhs *= rhs);
-                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                SECTION("Value") { REQUIRE(lhs == corr); }
+                    {ind_idx_t{1, 2, 1, 2}, {dep_idx_t{1, 2, 1, 2}}},
+                    {ind_idx_t{1, 2, 2, 3}, {dep_idx_t{1, 2, 2, 3}}},
+                    {ind_idx_t{2, 3, 1, 2}, {dep_idx_t{2, 3, 1, 2}}},
+                    {ind_idx_t{2, 3, 2, 3}, {dep_idx_t{2, 3, 2, 3}}}};
+                auto result = lhs.direct_product(rhs);
+                REQUIRE(result == corr);
             }
 
             SECTION("RHS == No PIMPL") {
                 auto& rhs = sms.at("No PIMPL");
-                auto plhs = &(lhs *= rhs);
-                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                SECTION("Value") { REQUIRE(lhs == rhs); }
+                auto result = lhs.direct_product(rhs);
+                REQUIRE(result == rhs);
             }
         }
 
@@ -653,21 +629,144 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
 
             for(auto [key, rhs] : sms) {
                 SECTION("RHS == " + key) {
-                    auto plhs = &(lhs *= rhs);
-                    SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
-                    SECTION("Value") { REQUIRE(lhs == corr); }
+                    auto result = lhs.direct_product(rhs);
+                    REQUIRE(result == corr);
                 }
             }
+        }
+    }
+    
+    /* With respect to direct product operator*= does all the work and
+     * operator* simply calls operator*= on a copy. Therefore we test
+     * operator*= in depth and simply make sure operator* works for one
+     * scenario.
+     */
+    SECTION("operator*=") {
+        SECTION("LHS == empty") {
+            auto& lhs = sms.at("Empty");
+
+            SECTION("RHS == empty") {
+                derived_t rhs;
+
+                SECTION("lhs *= rhs") {
+                    auto plhs = &(lhs *= rhs);
+                    SECTION("Value") { REQUIRE(lhs == rhs); }
+                    SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                }
+
+                SECTION("rhs *= lhs") {
+                    auto prhs = &(rhs *= lhs);
+                    SECTION("Value") { REQUIRE(rhs == lhs); }
+                    SECTION("Returns *this") { REQUIRE(prhs == &rhs); }
+                }
+            }
+
+            SECTION("RHS == non-empty") {
+                derived_t rhs{{ind_idx_t{1}, {dep_idx_t{2}}}};
+
+                SECTION("lhs *= rhs") {
+                    auto plhs = &(lhs *= rhs);
+                    SECTION("Value") { REQUIRE(lhs == derived_t{}); }
+                    SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                }
+
+                SECTION("rhs *= lhs") {
+                    auto prhs = &(rhs *= lhs);
+                    SECTION("Value") { REQUIRE(rhs == lhs); }
+                    SECTION("Returns *this") { REQUIRE(prhs == &rhs); }
+                }
+            }
+        }
+
+        SECTION("LHS == non-empty") {
+            derived_t lhs{{ind_idx_t{1}, {dep_idx_t{1}}}};
+
+            SECTION("RHS same independent, single element domain") {
+                derived_t rhs{{ind_idx_t{1}, {dep_idx_t{2}}}};
+
+                SECTION("lhs *= rhs") {
+                    derived_t corr{{ind_idx_t{1}, {dep_idx_t{1, 2}}}};
+                    auto plhs = &(lhs *= rhs);
+                    SECTION("Value") { REQUIRE(lhs == corr); }
+                    SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                }
+
+                SECTION("rhs *= lhs") {
+                    derived_t corr{{ind_idx_t{1}, {dep_idx_t{2, 1}}}};
+                    auto prhs = &(rhs *= lhs);
+                    SECTION("Value") { REQUIRE(rhs == corr); }
+                    SECTION("Returns *this") { REQUIRE(prhs == &rhs); }
+                }
+            }
+
+            SECTION("RHS same independent, two element domain") {
+                derived_t rhs{{ind_idx_t{1}, {dep_idx_t{2}, dep_idx_t{3}}}};
+
+                SECTION("lhs *= rhs") {
+                    derived_t corr{
+                      {ind_idx_t{1}, {dep_idx_t{1, 2}, dep_idx_t{1, 3}}}};
+                    auto plhs = &(lhs *= rhs);
+                    SECTION("Value") { REQUIRE(lhs == corr); }
+                    SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                }
+
+                SECTION("rhs *= lhs") {
+                    derived_t corr{
+                      {ind_idx_t{1}, {dep_idx_t{2, 1}, dep_idx_t{3, 1}}}};
+                    auto prhs = &(rhs *= lhs);
+                    SECTION("Value") { REQUIRE(rhs == corr); }
+                    SECTION("Returns *this") { REQUIRE(prhs == &rhs); }
+                }
+            }
+
+            SECTION("RHS different independent, single element domain") {
+                derived_t rhs{{ind_idx_t{2}, {dep_idx_t{2}}}};
+
+                SECTION("lhs *= rhs") {
+                    auto plhs = &(lhs *= rhs);
+                    SECTION("Value") { REQUIRE(lhs == derived_t{}); }
+                    SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                }
+
+                SECTION("rhs *= lhs") {
+                    auto prhs = &(rhs *= lhs);
+                    SECTION("Value") { REQUIRE(rhs == derived_t{}); }
+                    SECTION("Returns *this") { REQUIRE(prhs == &rhs); }
+                }
+            }
+
+            SECTION("RHS multiple independent") {
+                derived_t rhs{{ind_idx_t{1}, {dep_idx_t{2}}},
+                              {ind_idx_t{2}, {dep_idx_t{2}}}};
+
+                SECTION("lhs * rhs") {
+                    auto plhs = &(lhs *= rhs);
+                    derived_t corr{{ind_idx_t{1}, {dep_idx_t{1, 2}}}};
+                    SECTION("Value") { REQUIRE(lhs == corr); }
+                    SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                }
+
+                SECTION("rhs * lhs") {
+                    auto prhs = &(rhs *= lhs);
+                    derived_t corr{{ind_idx_t{1}, {dep_idx_t{2, 1}}}};
+                    SECTION("Value") { REQUIRE(rhs == corr); }
+                    SECTION("Returns *this") { REQUIRE(prhs == &rhs); }
+                }
+            }
+        }
+
+        SECTION("Incompatible independent indices") {
+            auto& lhs = sms.at("Ind == rank 1");
+            auto& rhs = sms.at("Ind == rank 2");
+            REQUIRE_THROWS_AS(lhs *= rhs, std::runtime_error);
         }
     }
 
     SECTION("operator*") {
         auto& lhs = sms.at("Ind == rank 2");
-        auto& rhs = sms.at("Ind == rank 1");
-        derived_t corr{{ind_idx_t{1, 2, 1}, {dep_idx_t{1, 2, 1}}},
-                       {ind_idx_t{1, 2, 2}, {}},
-                       {ind_idx_t{2, 3, 1}, {dep_idx_t{2, 3, 1}}},
-                       {ind_idx_t{2, 3, 2}, {}}};
+        auto& rhs = sms.at("Ind == rank 2");
+        derived_t corr{{ind_idx_t{1, 2}, {dep_idx_t{1, 2, 1, 2}}},
+                       {ind_idx_t{2, 3}, {dep_idx_t{2, 3, 2, 3}}}};
         auto r = lhs * rhs;
         REQUIRE(r == corr);
     }
@@ -754,6 +853,74 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
         auto& rhs = sms.at("Ind == rank 0");
         auto r = lhs + rhs;
         REQUIRE(r == rhs);
+    }
+
+    SECTION("operator^=") {
+        SECTION("Empty / Empty") {
+            derived_t sm;
+            auto psm = &(sm ^= sm);
+            SECTION("Value") { REQUIRE(sm == derived_t{}); }
+            SECTION("Returns *this") { REQUIRE(psm == &sm); }
+        }
+
+        SECTION("Empty / Non-empty") {
+            derived_t sm;
+            derived_t sm2{{ind_idx_t{1}, {dep_idx_t{0}, dep_idx_t{3}}},
+                          {ind_idx_t{2}, {dep_idx_t{1}, dep_idx_t{2}}}};
+            
+            SECTION("sm ^= sm2") {
+                auto psm = &(sm ^= sm2);
+                SECTION("Value") { REQUIRE(sm == derived_t{}); }
+                SECTION("Returns *this") { REQUIRE(psm == &sm); }
+            }
+
+            SECTION("sm2 ^= sm") {
+                auto psm2 = &(sm2 ^= sm);
+                SECTION("Value") { REQUIRE(sm2 == derived_t{}); }
+                SECTION("Returns *this") { REQUIRE(psm2 == &sm2); }
+            }
+        }
+
+        SECTION("Non-empty / Non-empty") {
+            derived_t sm{{ind_idx_t{1}, {dep_idx_t{0}, dep_idx_t{3}}},
+                         {ind_idx_t{2}, {dep_idx_t{1}, dep_idx_t{2}}}};
+            derived_t sm2{{ind_idx_t{0}, {dep_idx_t{0}, dep_idx_t{3}}},
+                          {ind_idx_t{1}, {dep_idx_t{1}, dep_idx_t{2}}},
+                          {ind_idx_t{2}, {dep_idx_t{1}, dep_idx_t{2}}},
+                          {ind_idx_t{3}, {dep_idx_t{1}, dep_idx_t{2}}}};
+
+            derived_t corr{{ind_idx_t{2}, {dep_idx_t{1}, dep_idx_t{2}}}};
+
+            SECTION("sm ^= sm2"){
+                auto psm = &(sm ^= sm2);
+                SECTION("Value") { REQUIRE(sm == corr); }
+                SECTION("Returns *this"){ REQUIRE(psm == &sm); }
+            }
+
+            SECTION("sm2 ^= sm"){
+                auto psm2 = &(sm2 ^= sm);
+                SECTION("Value") { REQUIRE(sm2 == corr); }
+                SECTION("Returns *this"){ REQUIRE(psm2 == &sm2); }
+            }
+
+            SECTION("sm ^= corr"){
+                auto psm = &(sm ^= corr);
+                SECTION("Value") { REQUIRE(sm == corr); }
+                SECTION("Returns *this"){ REQUIRE(psm == &sm); }
+            }
+
+            SECTION("different ranks") {
+                auto psm = &(sm ^= sms.at("Ind == rank 2"));
+                SECTION("Value") { REQUIRE(sm == derived_t{}); }
+                SECTION("Returns *this") { REQUIRE(psm == &sm); }
+            }
+        }
+    }
+
+    SECTION("operator^"){
+        auto& sm1 = sms.at("Ind == rank 1");
+        auto r = sm1 ^ sm1;
+        REQUIRE(r == sm1);
     }
 
     SECTION("comparisons") {
@@ -1031,39 +1198,7 @@ TEST_CASE("operator<<(std::ostream, SparseMapBase)") {
 //
 
 //
-// TEST_CASE("SparseMap : intersection"){
-//    SECTION("Empty / Empty") {
-//        SparseMap sm;
-//        REQUIRE(sm.intersection(sm) == sm);
-//    }
-//
-//    SECTION("Empty / Non-empty") {
-//        SparseMap sm;
-//        SparseMap sm2{{index_type{1}, {index_type{0}, index_type{3}}},
-//                      {index_type{2}, {index_type{1}, index_type{2}}}};
-//        REQUIRE(sm.intersection(sm2) == sm);
-//        REQUIRE(sm2.intersection(sm) == sm);
-//    }
-//
-//    SECTION("Non-empty / Non-empty") {
-//        SparseMap sm{{index_type{1}, {index_type{0}, index_type{3}}},
-//                     {index_type{2}, {index_type{1}, index_type{2}}}};
-//        SparseMap sm2{{index_type{0}, {index_type{0}, index_type{3}}},
-//                      {index_type{1}, {index_type{1}, index_type{2}}},
-//                      {index_type{2}, {index_type{1}, index_type{2}}},
-//                      {index_type{3}, {index_type{1}, index_type{2}}},
-//        };
-//        SparseMap incompatible{{index_type{1, 2}, {index_type{0},
-//        index_type{3}}},
-//                               {index_type{2, 3}, {index_type{1},
-//                               index_type{2}}}};
-//        SparseMap corr{{index_type{2}, {index_type{1}, index_type{2}}}};
-//        REQUIRE(sm.intersection(sm2) == corr);
-//        REQUIRE(sm2.intersection(sm) == corr);
-//        REQUIRE(sm.intersection(corr) == corr);
-//        REQUIRE_THROWS_AS(sm.intersection(incompatible), std::runtime_error);
-//    }
-//}
+
 //
 // TEST_CASE("SparseMap : hash"){
 //    SECTION("Empty"){

@@ -8,41 +8,63 @@ namespace libchemist::sparse_map {
  *
  */
 template<typename IndIndex, typename DepIndex>
-class SparseMap :
-  public detail_::SparseMapBase<SparseMap<IndIndex, DepIndex>, IndIndex, DepIndex> {
+class SparseMap;
+
+template<>
+class SparseMap<ElementIndex, ElementIndex> :
+  public detail_::SparseMapBase<SparseMap<ElementIndex, ElementIndex>, ElementIndex, ElementIndex> {
 private:
-    using my_type    = SparseMap<IndIndex, DepIndex>;
-    using base_type  = detail_::SparseMapBase<my_type, IndIndex, DepIndex>;
+    using my_type = SparseMap<ElementIndex, ElementIndex>;
 public:
     // Pull in the base class's ctors
-    using detail_::SparseMapBase<my_type, IndIndex, DepIndex>::SparseMapBase;
-//    index_set_map indices() const;
-//
-//    /** @brief Returns the .
-//    *
-//    *   This is a convenience function for calling indices(key_type, size_type)
-//    *   for each dependent index mode.
-//    *
-//    *   @result A vector of length dep_rank() such that the i-th element
-//    *           is the set of non-zero indices for mode i.
-//    */
-//    index_set_array indices(key_type ind) const;
-//
-//    /** @brief Returns the set of indices @p ind maps to for a given mode.
-//     *
-//     *  Particularly when manipulating the full tensor corresponding to the
-//     *  dependent indices we need to know what values a given mode will take.
-//     *  For independent index @p ind, this function will return the set of valid
-//     *  dependent indices for a given mode.
-//     *
-//     * @param[in] ind The independent index whose dependent indices will be
-//     *                considered.
-//     * @param[in] mode the mode of each dependent index to be collected.
-//     * @return A set of the non-zero indices along mode @p mode for independent
-//     *         index @p ind.
-//     */
-//    index_set indices(key_type ind, size_type mode) const;
+    using detail_::SparseMapBase<my_type, ElementIndex, ElementIndex>::SparseMapBase;
 
+    explicit SparseMap(const SparseMap<ElementIndex, TileIndex>& other);
+    explicit SparseMap(const SparseMap<TileIndex, ElementIndex>& other);
+    explicit SparseMap(const SparseMap<TileIndex, TileIndex>& other);
+
+}; // class SparseMap
+
+template<>
+class SparseMap<ElementIndex, TileIndex> :
+  public detail_::SparseMapBase<SparseMap<ElementIndex, TileIndex>, ElementIndex, TileIndex> {
+private:
+    using my_type = SparseMap<ElementIndex, TileIndex>;
+public:
+    // Pull in the base class's ctors
+    using detail_::SparseMapBase<my_type, ElementIndex, TileIndex>::SparseMapBase;
+}; // class SparseMap
+
+template<>
+class SparseMap<TileIndex, ElementIndex> :
+  public detail_::SparseMapBase<SparseMap<TileIndex, ElementIndex>, TileIndex, ElementIndex> {
+private:
+    using my_type    = SparseMap<TileIndex, ElementIndex>;
+public:
+    // Pull in the base class's ctors
+    using detail_::SparseMapBase<my_type, TileIndex, ElementIndex>::SparseMapBase;
+
+    explicit SparseMap(const SparseMap<TileIndex, TileIndex>& other);
+
+    const auto& trange() const { return m_trange_; }
+private:
+    TA::TiledRange m_trange_;
+}; // class SparseMap
+
+template<>
+class SparseMap<TileIndex, TileIndex> :
+  public detail_::SparseMapBase<SparseMap<TileIndex, TileIndex>, TileIndex, TileIndex> {
+private:
+    using my_type    = SparseMap<TileIndex, TileIndex>;
+public:
+    // Pull in the base class's ctors
+    using detail_::SparseMapBase<my_type, TileIndex, TileIndex>::SparseMapBase;
+
+    explicit SparseMap(const TA::TiledRange trange) : m_trange_(trange) {}
+
+    const auto& trange() const { return m_trange_; }
+private:
+    TA::TiledRange m_trange_;
 }; // class SparseMap
 
 extern template class SparseMap<ElementIndex, ElementIndex>;

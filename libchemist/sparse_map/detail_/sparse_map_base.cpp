@@ -27,7 +27,10 @@ SPARSEMAPBASE::SparseMapBase() : m_pimpl_(new_pimpl_()) {}
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 SPARSEMAPBASE::SparseMapBase(il_t il) :
   SparseMapBase() {
-    for(auto&& [k, v] : il) (*this)[k] = mapped_type(v);
+    for(auto&& [k, v] : il) {
+        mapped_type d(v);
+        if(!d.empty()) (*this)[k] = std::move(d);
+    }
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
@@ -132,6 +135,28 @@ typename SPARSEMAPBASE::const_iterator SPARSEMAPBASE::end() const {
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
+DerivedType SPARSEMAPBASE::direct_product(const SparseMapBase& rhs) const {
+    DerivedType rv;
+    if(!m_pimpl_ || empty()) return rv;
+    if(!rhs.m_pimpl_ || rhs.empty()) return rv;
+
+    using vector_type = std::vector<size_type>;
+    auto new_rank = ind_rank() + rhs.ind_rank();
+    for(auto [lkey, lval] : *this){
+        for(const auto& [rkey, rval] : rhs) {
+            vector_type new_index;
+            new_index.reserve(new_rank);
+            new_index.insert(new_index.end(), lkey.begin(), lkey.end());
+            new_index.insert(new_index.end(), rkey.begin(), rkey.end());
+            auto new_domain = lval * rval;
+            key_type key(new_index);
+            for(auto x: new_domain) rv.add_to_domain(key, x);
+        }
+    }
+    return rv;
+}
+
+template<typename DerivedType, typename IndIndex, typename DepIndex>
 DerivedType SPARSEMAPBASE::operator*(const SparseMapBase& rhs) const {
     DerivedType rv(downcast_());
     rv *= rhs;
@@ -145,17 +170,12 @@ DerivedType& SPARSEMAPBASE::operator*=(const SparseMapBase& rhs) {
         m_pimpl_ = new_pimpl_();
         return downcast_();
     }
+    if(ind_rank() != rhs.ind_rank())
+        throw std::runtime_error("Independent ranks do not match");
+
     auto new_pimpl = new_pimpl_();
-    using vector_type = std::vector<size_type>;
-    auto new_rank = ind_rank() + rhs.ind_rank();
     for(auto [lkey, lval] : *this){
-        for(const auto& [rkey, rval] : rhs) {
-            vector_type new_index;
-            new_index.reserve(new_rank);
-            new_index.insert(new_index.end(), lkey.begin(), lkey.end());
-            new_index.insert(new_index.end(), rkey.begin(), rkey.end());
-            new_pimpl->m_sm[key_type(new_index)] = lval * rval;
-        }
+        if(rhs.count(lkey)) new_pimpl->m_sm[lkey] = lval * rhs.at(lkey);
     }
     m_pimpl_.swap(new_pimpl);
     return downcast_();
@@ -177,8 +197,12 @@ DerivedType& SPARSEMAPBASE::operator^=(const SparseMapBase& rhs) {
         return downcast_();
     }
 
-    for(const auto& [lind, ldomain] : *this){
-        if(rhs.count(lind)) new_pimpl->m_sm[lind] = ldomain ^ rhs.at(lind);
+    for(const auto& [lind, ldomain] : *this) {
+        if(rhs.count(lind)) {
+            auto new_domain = ldomain ^ rhs.at(lind);
+            if(!new_domain.empty())
+                new_pimpl->m_sm[lind] = std::move(new_domain);
+        }
     }
     m_pimpl_.swap(new_pimpl);
 

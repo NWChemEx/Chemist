@@ -107,6 +107,8 @@ struct Index{
      */
     auto size() const { return m_index.size(); }
 
+    auto operator[](size_type offset) const { return m_index.at(offset); }
+
     /** @brief Returns an iterator pointing to the first component of the index.
      *
      *  @return A bidirectional iterator pointing the first component of the

@@ -259,6 +259,39 @@ public:
      */
     void insert(value_type idx);
 
+    /** @brief Creates a new domain by injecting a pinned index.
+     *
+     *  Sometimes, when sparsifying tensors, modes of the tensor are actually
+     *  independent indices. In this case the domains contain dependent indices
+     *  corresponding to slices of the tensor. To get a full index for the
+     *  tensor we need to inject one (or more) modes of an independent index
+     *  into each index in the domain. For example, assume the independent index
+     *  0 maps to dependent indices 1, 2, and 3. When sparsifying a rank 2
+     *  tensor where the independent index is mode 1 (0-based) we need to
+     *  extract from the tensor elements (1, 0), (2, 0), and (3, 0), *i.e.*,
+     *  we need to "inject" 0 into each index so that it is value of mode 1.
+     *
+     *  @note Injecting into an empty Domain always results in an empty Domain.
+     *
+     *  @note Since the size of @p injections is partly used to determine the
+     *        rank of the resulting Domain, @p injections can not contain any
+     *        keys outside the rank [0, rank() + injections.size()].
+     *
+     *  @param[in] injections A map such that `injections[i]` is the value of
+     *                        the i-th mode of each index in the resulting
+     *                        Domain.
+     *
+     * @return A Domain containing the indices formed by injecting from
+     *         injections
+     *
+     * @throw std::out_of_range if the Domain is non-empty and any of the keys
+     *                          in @p injections is not in the range [0, rank()
+     *                          + injections.size()]. Strong throw guarantee.
+     * @throw std::bad_alloc   if there is insufficient memory to create the new
+     *                         Domain. Strong throw guarantee.
+     */
+    DerivedType inject(const std::map<size_type, size_type>& injections)const;
+
     /** @brief Makes this instance the Cartesian product of this Domain and
      *         the provided Domain.
      *
@@ -375,8 +408,47 @@ public:
      */
     DerivedType operator+(const DomainBase& rhs) const;
 
+    /** @brief Makes this Domain the intersection of this Domain and @p rhs.
+     *
+     *  Given a Domain, @f$A@f$, and a Domain @f$B@f$, the intersection of
+     *  @f$A@f$ with @f$B@f$ is another Domain @f$C@f$ given by:
+     *
+     *  @f[
+     *  C = \left\lbrace c_i | c_i \in A \land c_i \in B \right\rbrace
+     *  @f]
+     *
+     *  Of note, the intersection of two Domains with indices of different rank
+     *  is the empty domain.
+     *
+     *  @param[in] rhs The Domain we are taking the intersection with.
+     *
+     *  @return The current Domain set to the intersection of its previous state
+     *          with @p rhs.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to allocate the
+     *                        new state. Strong throw guarantee.
+     */
     DerivedType& operator^=(const DomainBase& rhs);
 
+    /** @brief Returns the intersection of this Domain and @p rhs.
+     *
+     *  Given a Domain, @f$A@f$, and a Domain @f$B@f$, the intersection of
+     *  @f$A@f$ with @f$B@f$ is another Domain @f$C@f$ given by:
+     *
+     *  @f[
+     *  C = \left\lbrace c_i | c_i \in A \land c_i \in B \right\rbrace
+     *  @f]
+     *
+     *  Of note, the intersection of two Domains with indices of different rank
+     *  is the empty domain.
+     *
+     *  @param[in] rhs The Domain we are taking the intersection with.
+     *
+     *  @return The intersection of this Domain with @p rhs.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to allocate the
+     *                        new state. Strong throw guarantee.
+     */
     DerivedType operator^(const DomainBase& rhs) const;
 
     /** @brief Determines if two Domains are the same.
@@ -409,8 +481,7 @@ public:
      *
      *  @param[in,out] os The stream we are adding this Domain to. After this
      *                    call @p os will contain a string representation of
-     *                    this Domain.
-     *
+     *                    this Domain.     *
      *  @return @p os after adding this Domain to it.
      */
     std::ostream& print(std::ostream& os) const;

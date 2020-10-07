@@ -1,45 +1,55 @@
-//#include <catch2/catch.hpp>
-//#include <libchemist/sparse_map/from_sparse_map.hpp>
-//#include <libchemist/ta_helpers/ta_helpers.hpp>
-//
-//using namespace libchemist;
-//using namespace libchemist::sparse_map;
-//
-//using index_type      = std::vector<std::size_t>;
-//using inner_tile_type = TA::Tensor<double>;
-//using tot_tile_type   = TA::Tensor<inner_tile_type>;
-//using tot_type        = TA::TSpArray<inner_tile_type>;
-//using free_range_type = std::map<std::size_t, TA::TiledRange1>;
-//
-//TEST_CASE("from_sparse_map main"){
-//    auto& world = TA::get_default_world();
-//
-//    /* Here we apply a sparse map (independent indices are element indices,
-//     * dependent indices are tile indices):
-//     * 0 -> {1, 3}
-//     * 1 -> {1, 2}
-//     * 2 -> {0}
-//     *
-//     * to a vector (lines denote tile boundaries):
-//     *
-//     * [0 1 | 2 3 | 4 5 | 6 7]
-//     *
-//     * This says that our resulting ToT is a vector with three non-zero
-//     * elements. Those elements are also vectors and respectively are:
-//     *
-//     * [2 3 6 7]
-//     * [2 3 4 5]
-//     * [0 1]
-//     *
-//     * Since the independent index does not appear in the tensor, the tiling of
-//     * the ToT, and lengths of the independent mode, are arbitrary aside from
-//     * the fact that the independent tiled range must contain at least three
-//     * elements (if it contains more they are simply zero vectors-of-vectors).
-//     */
+#include "libchemist/sparse_map/from_sparse_map.hpp"
+#include "libchemist/ta_helpers/ta_helpers.hpp"
+#include <catch2/catch.hpp>
+
+using namespace libchemist;
+using namespace libchemist::sparse_map;
+
+using inner_tile_type = TA::Tensor<double>;
+using tot_tile_type   = TA::Tensor<inner_tile_type>;
+using tot_type        = TA::TSpArray<inner_tile_type>;
+using free_range_type = std::map<std::size_t, TA::TiledRange1>;
+
+TEST_CASE("get_mode_map_") {
+
+    SECTION("Empty") {
+        Domain<ElementIndex> d;
+        auto r = sparse_map::detail_::get_mode_map_(d);
+        REQUIRE(r == sparse_map::detail_::mode_map_t{});
+    }
+}
+
+TEST_CASE("from_sparse_map main"){
+    using index_type = ElementIndex;
+    using sm_t       = SparseMap<index_type, index_type>;
+    auto& world      = TA::get_default_world();
+
+    /* Here we apply a sparse map (independent indices are element indices,
+     * dependent indices are tile indices):
+     * 0 -> {1, 3}
+     * 1 -> {1, 2}
+     * 2 -> {0}
+     *
+     * to a vector (lines denote tile boundaries):
+     *
+     * [0 1 | 2 3 | 4 5 | 6 7]
+     *
+     * This says that our resulting ToT is a vector with three non-zero
+     * elements. Those elements are also vectors and respectively are:
+     *
+     * [2 3 6 7]
+     * [2 3 4 5]
+     * [0 1]
+     *
+     * Since the independent index does not appear in the tensor, the tiling of
+     * the ToT, and lengths of the independent mode, are arbitrary aside from
+     * the fact that the independent tiled range must contain at least three
+     * elements (if it contains more they are simply zero vectors-of-vectors).
+     */
 //    SECTION("Vector"){
 //        // Make the sparse map
 //        index_type e0{0}, e1{1}, e2{2}, e3{3};
-//        SparseMap sm({{e0, {e1, e3}}, {e1, {e1, e2}}, {e2, {e0}}});
+//        sm_t sm({{e0, {e1, e3}}, {e1, {e1, e2}}, {e2, {e0}}});
 //
 //        // Make t
 //        TA::TiledRange trange{{0, 2, 4, 6, 8}};
@@ -48,8 +58,6 @@
 //
 //        // Partition the outer vector somewhat arbitrarily into a single tile
 //        TA::TiledRange corr_trange{{0, 3}};
-//        free_range_type idx_map{{0, corr_trange.dim(0)}};
-//
 //
 //        // Make the correct answer
 //        TA::detail::vector_il<inner_tile_type> corr_il{
@@ -59,11 +67,11 @@
 //        };
 //        tot_type corr(world, corr_trange, corr_il);
 //
-//        auto rv = from_sparse_map(sm, t, std::move(idx_map));
+//        auto rv = from_sparse_map(sm, t, corr_trange);
 //        const bool good = allclose_tot(rv, corr, 1);
 //        REQUIRE(good);
 //    }
-//
+
 //    SECTION("Matrix"){
 //
 //        // Make t
@@ -276,4 +284,4 @@
 //            REQUIRE(good);
 //        }
 //    }
-//}
+}
