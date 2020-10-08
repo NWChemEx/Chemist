@@ -8,29 +8,6 @@
 namespace libchemist::sparse_map {
 namespace detail_ {
 
-using mode_map_t = std::vector<std::set<std::size_t>>;
-
-/** @brief Creates an object which can be used to map the modes of the tensor
- *         being sparsified to the
- *
- * @param d
- * @return
- */
-inline auto get_mode_map_(const Domain<ElementIndex>& d) {
-    const auto rank = d.rank();
-    mode_map_t counts(rank);
-    for(const auto& idx : d)
-        for(std::size_t i = 0; i < rank; ++i) counts[i].insert(idx[i]);
-    return counts;
-}
-
-inline auto compute_tile_size_(const mode_map_t& mode_map) {
-    std::vector<std::size_t> sizes(mode_map.size());
-    for(std::size_t i = 0; i < sizes.size(); ++i)
-        sizes[i] = mode_map[i].size();
-    return sizes;
-}
-
 inline auto uninject_index_(const ElementIndex& idx,
                             const std::map<std::size_t, std::size_t>& injections) {
     if(injections.size() == 0) return idx;
@@ -44,19 +21,7 @@ inline auto uninject_index_(const ElementIndex& idx,
     return ElementIndex(std::move(uninjected_idx));
 }
 
-inline auto map_index_(const ElementIndex& idx, const mode_map_t& mode_map) {
-    const auto rank = idx.size();
-    std::vector<std::size_t> rv(rank, 0);
-    for(std::size_t i = 0; i < rank; ++i){
-        const auto& offsets = mode_map[i];
-        const auto value    = idx[i];
-        auto itr            = std::find(offsets.begin(), offsets.end(), value);
-        if(itr == offsets.end())
-            throw std::out_of_range("Index is not in domain");
-        rv[i] = std::distance(offsets.begin(), itr);
-    }
-    return rv;
-}
+
 
 /**
  *
@@ -94,8 +59,7 @@ auto make_tot_tile_(TileType tile,
         }
 
         const auto& d = sm.at(oeidx);   // The elements in the inner tile
-        auto idx_map = get_mode_map_(d); // Maps elements from tensor to tile
-        inner_tile_t buffer(TA::Range(compute_tile_size_(idx_map)));
+        inner_tile_t buffer(TA::Range(d.result_extents()));
 
         // Determine tiles to retrieve using injected domain
         // TODO: This is just a copy of d if do_inj == false
@@ -111,7 +75,7 @@ auto make_tot_tile_(TileType tile,
                     // Remove injected modes
                     auto lhs_idx = uninject_index_(ieidx, injections);
                     // map it to output
-                    buffer[map_index_(lhs_idx, idx_map)] = t[ieidx_raw];
+                    buffer[d.result_index(lhs_idx)] = t[ieidx_raw];
                 }
             }
         }

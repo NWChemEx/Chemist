@@ -37,73 +37,79 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
         }
     } // typedefs
 
-    SECTION("Default Ctor"){
-        SECTION("rank") { REQUIRE(p0.rank() == 0); }
-        SECTION("size") { REQUIRE(p0.size() == 0); }
-    }
-    
-    SECTION("Copy Ctor"){
-        SECTION("Default instance"){
-            DomainPIMPL p0_copy(p0);
-            REQUIRE(p0_copy == p0);
+    SECTION("Ctors") {
+        SECTION("Default Ctor") {
+            SECTION("rank") { REQUIRE(p0.rank() == 0); }
+            SECTION("size") { REQUIRE(p0.size() == 0); }
         }
 
-        SECTION("Rank 1 index"){
-            DomainPIMPL p1_copy(p1);
+        SECTION("Copy Ctor") {
+            SECTION("Default instance") {
+                DomainPIMPL p0_copy(p0);
+                REQUIRE(p0_copy == p0);
+            }
 
-            SECTION("value"){ REQUIRE(p1_copy == p1); }
-            SECTION("is deep copy") { REQUIRE(&p1_copy.at(0) != &p1.at(0)); }
-        }
-    }
+            SECTION("Rank 1 index") {
+                DomainPIMPL p1_copy(p1);
 
-    SECTION("Move Ctor"){
-        SECTION("Default instance"){
-            DomainPIMPL corr;
-            DomainPIMPL p0_move(std::move(p0));
-            REQUIRE(p0_move == corr);
-        }
-
-        SECTION("Non-default"){
-            DomainPIMPL corr(p1);
-            DomainPIMPL p1_move(std::move(p1));
-            REQUIRE(corr == p1);
-        }
-    }
-
-    SECTION("Copy Assignment"){
-        SECTION("Default instance"){
-            DomainPIMPL p0_assign;
-            auto addr = &(p0_assign = p0);
-            SECTION("value") { REQUIRE(p0_assign == p0); }
-            SECTION("returns this") { REQUIRE(addr == &p0_assign); }
+                SECTION("value") { REQUIRE(p1_copy == p1); }
+                SECTION("is deep copy") {
+                    REQUIRE(&p1_copy.at(0) != &p1.at(0));
+                }
+            }
         }
 
-        SECTION("Non-default"){
-            DomainPIMPL p1_assign;
-            auto addr = &(p1_assign = p1);
+        SECTION("Move Ctor") {
+            SECTION("Default instance") {
+                DomainPIMPL corr;
+                DomainPIMPL p0_move(std::move(p0));
+                REQUIRE(p0_move == corr);
+            }
 
-            SECTION("value"){ REQUIRE(p1_assign == p1); }
-            SECTION("is deep copy") { REQUIRE(&p1_assign.at(0) != &p1.at(0)); }
-            SECTION("returns this") { REQUIRE(addr == &p1_assign); }
-        }
-    }
-
-    SECTION("Move Assignment"){
-        SECTION("Default instance"){
-            DomainPIMPL corr, p0_assign;
-            auto addr = &(p0_assign = std::move(p0));
-            SECTION("value") { REQUIRE(p0_assign == corr); }
-            SECTION("returns this") { REQUIRE(addr == &p0_assign); }
+            SECTION("Non-default") {
+                DomainPIMPL corr(p1);
+                DomainPIMPL p1_move(std::move(p1));
+                REQUIRE(corr == p1);
+            }
         }
 
-        SECTION("Non-default"){
-            DomainPIMPL corr(p1), p1_assign;
-            auto addr = &(p1_assign = std::move(p1));
+        SECTION("Copy Assignment") {
+            SECTION("Default instance") {
+                DomainPIMPL p0_assign;
+                auto addr = &(p0_assign = p0);
+                SECTION("value") { REQUIRE(p0_assign == p0); }
+                SECTION("returns this") { REQUIRE(addr == &p0_assign); }
+            }
 
-            SECTION("value"){ REQUIRE(p1_assign == corr); }
-            SECTION("returns this") { REQUIRE(addr == &p1_assign); }
+            SECTION("Non-default") {
+                DomainPIMPL p1_assign;
+                auto addr = &(p1_assign = p1);
+
+                SECTION("value") { REQUIRE(p1_assign == p1); }
+                SECTION("is deep copy") {
+                    REQUIRE(&p1_assign.at(0) != &p1.at(0));
+                }
+                SECTION("returns this") { REQUIRE(addr == &p1_assign); }
+            }
         }
-    }
+
+        SECTION("Move Assignment") {
+            SECTION("Default instance") {
+                DomainPIMPL corr, p0_assign;
+                auto addr = &(p0_assign = std::move(p0));
+                SECTION("value") { REQUIRE(p0_assign == corr); }
+                SECTION("returns this") { REQUIRE(addr == &p0_assign); }
+            }
+
+            SECTION("Non-default") {
+                DomainPIMPL corr(p1), p1_assign;
+                auto addr = &(p1_assign = std::move(p1));
+
+                SECTION("value") { REQUIRE(p1_assign == corr); }
+                SECTION("returns this") { REQUIRE(addr == &p1_assign); }
+            }
+        }
+    } // SECTION("Ctors")
 
     SECTION("clone()"){
         SECTION("Default instance"){
@@ -164,7 +170,26 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
             REQUIRE(p1.size() == 3);
         }
     }
-    
+
+    SECTION("result_extents") {
+        SECTION("Empty") {
+            std::vector<std::size_t> corr;
+            REQUIRE(p0.result_extents() == corr);
+        }
+
+        SECTION("Rank 1") {
+            std::vector<std::size_t> corr{1};
+            REQUIRE(p1.result_extents() == corr);
+        }
+
+        SECTION("Rank 2") {
+            p2.insert(TestType(1, 3));
+            std::vector<std::size_t> corr{1, 2};
+            REQUIRE(p2.result_extents() == corr);
+        }
+
+    }
+
     SECTION("at()") {
         SECTION("Single element"){
             SECTION("Element 0") { REQUIRE(p1.at(0) == TestType{1}); }

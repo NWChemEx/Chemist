@@ -60,6 +60,19 @@ typename DOMAINBASE::size_type DOMAINBASE::size() const noexcept {
 }
 
 template<typename DerivedType, typename IndexType>
+std::vector<typename DOMAINBASE::size_type> DOMAINBASE::result_extents() const {
+    return m_pimpl_ ? pimpl_().result_extents() : std::vector<size_type>{};
+}
+
+template<typename DerivedType, typename IndexType>
+typename DOMAINBASE::value_type
+DOMAINBASE::result_index(const value_type& old) const {
+    if(empty())
+        throw std::runtime_error("Domain is empty");
+    return pimpl_().result_index(old);
+}
+
+template<typename DerivedType, typename IndexType>
 bool DOMAINBASE::count(const_reference idx) const noexcept {
     if(!m_pimpl_) return false;
     return pimpl_().count(idx);

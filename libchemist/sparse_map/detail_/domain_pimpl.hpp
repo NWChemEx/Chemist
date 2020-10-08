@@ -92,6 +92,22 @@ public:
      */
     size_type size() const noexcept { return m_domain_.size(); }
 
+    /** @brief Returns a vector of extents for the tensor that can be formed
+     *         from this Domain.
+     *
+     *  This function will compute the extents (in terms of tiles or elements
+     *  depending on `IndexType`) for the tensor that results from deleting all
+     *  elements besides those in this Domain.
+     *
+     *  @return A vector such that the `i`-th element is the extent of the
+     *          `i`-th mode of the tensor resulting from this Domain.
+     *  @throw std::bad_alloc if there is insufficient memory to create the
+     *                        result. Strong throw guarantee.
+     */
+    std::vector<size_type> result_extents() const;
+
+    value_type result_index(const value_type& old) const;
+
     /** @brief Returns the @p i -th index in the Domain
      *
      *  Domains are ordered meaning that any given time it makes sense to speak
@@ -152,6 +168,9 @@ private:
 
     /// The instance actually holding the state.
     std::set<value_type> m_domain_;
+
+    /// Keeps track of the offsets per mode of the indices in this Domain
+    std::vector<std::set<size_type>> m_mode_map_;
 }; // class DomainPIMPL
 
 /** @brief Determines if two DomainPIMPL instances are different
@@ -193,6 +212,32 @@ typename DOMAINPIMPL::size_type DOMAINPIMPL::rank() const noexcept {
 }
 
 template<typename IndexType>
+std::vector<typename DOMAINPIMPL::size_type>
+DOMAINPIMPL::result_extents() const {
+    std::vector<size_type> rv(rank(), 0);
+    for(size_type i = 0; i < rank(); ++i)
+        rv[i] = m_mode_map_[i].size();
+    return rv;
+
+}
+
+template<typename IndexType>
+typename DOMAINPIMPL::value_type
+DOMAINPIMPL::result_index(const value_type& old) const {
+    const auto rank = old.size();
+    std::vector<size_type> rv(rank, 0);
+    for(std::size_t i = 0; i < rank; ++i){
+        const auto& offsets = m_mode_map_[i];
+        const auto value    = old[i];
+        auto itr            = std::find(offsets.begin(), offsets.end(), value);
+        if(itr == offsets.end())
+            throw std::out_of_range("Index is not in domain");
+        rv[i] = std::distance(offsets.begin(), itr);
+    }
+    return IndexType(rv.begin(), rv.end());
+}
+
+template<typename IndexType>
 typename DOMAINPIMPL::const_reference DOMAINPIMPL::at(size_type i) const {
     bounds_check_(i);
     auto itr = m_domain_.begin();
@@ -208,6 +253,11 @@ void DOMAINPIMPL::insert(value_type idx) {
           "Rank of idx ("s + std::to_string(idx.size()) +
           ") != rank of domain ("s + std::to_string(rank()) + ")"s);
     }
+    if(m_mode_map_.empty()){
+        std::vector<std::set<size_type>>(idx.size()).swap(m_mode_map_);
+    }
+    for(std::size_t i = 0; i < idx.size(); ++i)
+        m_mode_map_[i].insert(idx[i]);
     m_domain_.insert(idx);
 }
 

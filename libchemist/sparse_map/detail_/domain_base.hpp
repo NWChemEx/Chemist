@@ -206,6 +206,22 @@ public:
      */
     size_type size() const noexcept;
 
+    /** @brief Returns a vector of extents for the tensor that can be formed
+     *         from this Domain.
+     *
+     *  This function will compute the extents (in terms of tiles or elements
+     *  depending on `IndexType`) for the tensor that results from deleting all
+     *  elements besides those in this Domain.
+     *
+     *  @return A vector such that the `i`-th element is the extent of the
+     *          `i`-th mode of the tensor resulting from this Domain.
+     *  @throw std::bad_alloc if there is insufficient memory to create the
+     *                        result. Strong throw guarantee.
+     */
+    std::vector<size_type> result_extents() const;
+
+    value_type result_index(const value_type& old) const;
+
     /** @brief Returns the number of times an index appears in this Domain
      *
      *  Domains are set-like thus a given index can only either be in or not be

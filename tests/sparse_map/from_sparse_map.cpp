@@ -4,20 +4,13 @@
 
 using namespace libchemist;
 using namespace libchemist::sparse_map;
+using namespace libchemist::sparse_map::detail_;
 
-using inner_tile_type = TA::Tensor<double>;
-using tot_tile_type   = TA::Tensor<inner_tile_type>;
-using tot_type        = TA::TSpArray<inner_tile_type>;
-using free_range_type = std::map<std::size_t, TA::TiledRange1>;
-
-TEST_CASE("get_mode_map_") {
-
-    SECTION("Empty") {
-        Domain<ElementIndex> d;
-        auto r = sparse_map::detail_::get_mode_map_(d);
-        REQUIRE(r == sparse_map::detail_::mode_map_t{});
-    }
-}
+using tot_type   = type::tensor_of_tensors<double>;
+using tot_tile   = typename tot_type::value_type;
+using inner_tile = typename tot_tile::value_type;
+using ei         = ElementIndex;
+using ti         = TileIndex;
 
 TEST_CASE("from_sparse_map main"){
     using index_type = ElementIndex;

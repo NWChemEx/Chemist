@@ -286,6 +286,30 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
         }
     }
 
+    SECTION("result_extents") {
+        SECTION("Empty") {
+            std::vector<std::size_t> corr;
+            REQUIRE(d_empty.result_extents() == corr);
+        }
+
+        SECTION("Rank 0") {
+            std::vector<std::size_t> corr;
+            REQUIRE(d_empty.result_extents() == corr);
+        }
+
+        SECTION("Rank 1") {
+            std::vector<std::size_t> corr{1};
+            REQUIRE(d1.result_extents() == corr);
+        }
+
+        SECTION("Rank 2") {
+            d2.insert(TestType(1, 3));
+            std::vector<std::size_t> corr{1, 2};
+            REQUIRE(d2.result_extents() == corr);
+        }
+
+    }
+
     SECTION("count") {
         SECTION("Default") { REQUIRE_FALSE(d_empty.count(i1)); }
 
