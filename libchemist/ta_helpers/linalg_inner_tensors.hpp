@@ -29,9 +29,9 @@ auto tensor_from_tile(TA::World& world, TileType&& tile){
  *
  * @tparam TensorType The type of the tensor to diagonalize.
  * @tparam SType The type of the tensor holding the overlap matrix.
- * @param t
- * @param s
- * @return
+ * @param t the input tensor-of-tensor to be diagonalized.
+ * @param s the overlap of the inner tensors for a generalized eigensolve.
+ * @return [evals, evecs] the eigenvalues and eigenvectors, respectively, of the inner tensors.
  */
 template<typename TensorType, typename SType = std::decay_t<TensorType>>
 auto diagonalize_inner_tensors(TensorType&& t, SType&& s = {}) {
@@ -71,8 +71,8 @@ auto diagonalize_inner_tensors(TensorType&& t, SType&& s = {}) {
  *
  * @tparam TensorType The type of the tensor to diagonalize.
  * @tparam SType The type of the tensor holding the overlap matrix.
- * @param t
- * @return
+ * @param t the tensor-of-tensors to Cholesky decompose and invert.
+ * @return linv the Cholesky decomposed and inverted inner tensors.
  */
 template<typename TensorType>
 auto cholesky_linv_inner_tensors(TensorType&& t) {
