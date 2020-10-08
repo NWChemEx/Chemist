@@ -1,6 +1,6 @@
 #include "libchemist/ta_helpers/einsum/detail_/detail_.hpp"
 
-namespace libchemist::einsum::detail_ {
+namespace libchemist::ta_helpers::einsum::detail_ {
 
 bool increment_index(types::assoc_index& idx,
                      const types::assoc_range& ranges) {

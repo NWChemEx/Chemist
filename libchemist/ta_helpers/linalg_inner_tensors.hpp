@@ -2,7 +2,7 @@
 #include <libchemist/ta_helpers/get_block_idx.hpp>
 #include <tiledarray.h>
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 template<typename TileType>
 auto tensor_from_tile(TA::World& world, TileType&& tile){
@@ -45,7 +45,7 @@ auto diagonalize_inner_tensors(TensorType&& t, SType&& s = {}) {
     tensor_type evecs(world, t.trange(), t.shape());
     world.gop.fence();
     for(const tile_type& tile : t){
-        auto tile_idx = libchemist::get_block_idx(t, tile);
+        auto tile_idx = get_block_idx(t, tile);
         const auto& range = tile.range();
         tile_type eval_tile(range), evec_tile(range);
         for(const auto& elem_idx : range) {
@@ -83,7 +83,7 @@ auto cholesky_linv_inner_tensors(TensorType&& t) {
     tensor_type linv(world, t.trange(), t.shape());
     world.gop.fence();
     for(const tile_type& tile : t){
-        auto tile_idx = libchemist::get_block_idx(t, tile);
+        auto tile_idx = get_block_idx(t, tile);
         const auto& range = tile.range();
         tile_type linv_tile(range);
         for(const auto& elem_idx : range) {

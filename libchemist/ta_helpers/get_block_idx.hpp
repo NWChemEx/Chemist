@@ -1,7 +1,7 @@
 #pragma once
 #include <tiledarray.h>
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 inline auto get_block_idx(const TA::TiledRange& trange,
                           const TA::Range& range) {

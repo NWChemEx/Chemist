@@ -218,10 +218,10 @@ namespace libchemist {
                 space1.C().trange() == space2.C().trange() &&
                 space1.Cdagger().trange() == space2.Cdagger().trange() &&
                 space1.density().trange() == space2.density().trange() &&
-                allclose(space1.S(), space2.S()) &&
-                allclose(space1.C(), space2.C()) &&
-                allclose(space1.Cdagger(), space2.Cdagger()) &&
-                allclose(space1.density(), space2.density()) );
+                ta_helpers::allclose(space1.S(), space2.S()) &&
+                ta_helpers::allclose(space1.C(), space2.C()) &&
+                ta_helpers::allclose(space1.Cdagger(), space2.Cdagger()) &&
+                ta_helpers::allclose(space1.density(), space2.density()) );
     }
 
     /** @brief Determine where two OrbitalSpace instances are not equivalent

@@ -3,7 +3,7 @@
 #include "libchemist/ta_helpers/get_block_idx.hpp"
 #include <tiledarray.h>
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 //------------------------------------------------------------------------------
 // Tensor Creation
@@ -95,7 +95,7 @@ auto grab_diagonal(TensorType&& t) {
     using tile_type   = typename tensor_type::value_type;
     t.world().gop.fence();
     auto l = [=](tile_type& tile, const TA::Range& r){
-        auto idx = libchemist::get_block_idx(trange, r);
+        auto idx = get_block_idx(trange, r);
         auto t_tile = t.find({idx[0], idx[0]}).get();
         tile = tile_type(r);
         for(auto i : r) {

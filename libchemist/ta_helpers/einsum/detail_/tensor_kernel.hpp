@@ -4,7 +4,7 @@
 #include "libchemist/ta_helpers/einsum/types.hpp"
 #include <tiledarray.h>
 
-namespace libchemist::einsum::detail_ {
+namespace libchemist::ta_helpers::einsum::detail_ {
 
 /** @brief Extracts the lower- and upper-bounds out of a series of TiledRange1s
  *

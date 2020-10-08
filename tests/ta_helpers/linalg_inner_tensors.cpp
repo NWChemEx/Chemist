@@ -2,7 +2,7 @@
 #include <libchemist/ta_helpers/linalg_inner_tensors.hpp>
 #include <libchemist/ta_helpers/ta_helpers.hpp>
 
-using namespace libchemist;
+using namespace libchemist::ta_helpers;
 
 TEST_CASE("diagonalize_inner_tensors"){
     using inner_tile_type = TA::Tensor<double>;
@@ -32,8 +32,8 @@ TEST_CASE("diagonalize_inner_tensors"){
     tensor_type corr_evecs(world, evec_il);
 
     auto [evals, evecs] = diagonalize_inner_tensors(t);
-    REQUIRE(libchemist::allclose_tot(evals, corr_evals, 1));
-//    REQUIRE(libchemist::allclose_tot(evecs, corr_evecs, 2, true));
+    REQUIRE(libchemist::ta_helpers::allclose_tot(evals, corr_evals, 1));
+//    REQUIRE(libchemist::ta_helpers::allclose_tot(evecs, corr_evecs, 2, true));
     auto linv = cholesky_linv_inner_tensors(t);
     std::cout << linv << std::endl;
 }

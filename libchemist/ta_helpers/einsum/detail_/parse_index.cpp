@@ -3,7 +3,7 @@
 #include <iterator>  // For istream_iterator
 #include <sstream>   // For istringstream
 
-namespace libchemist::einsum::detail_ {
+namespace libchemist::ta_helpers::einsum::detail_ {
 
 types::index_set parse_index(std::string idx) {
     // 1. Remove all existing spaces

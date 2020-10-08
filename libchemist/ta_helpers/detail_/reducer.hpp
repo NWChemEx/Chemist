@@ -1,7 +1,7 @@
 #pragma once
 #include <numeric>
 
-namespace libchemist::detail_ {
+namespace libchemist::ta_helpers::detail_ {
 
 /// Generic functor satisfying TiledArray's Reducer API
 template<typename TensorType, typename AddOp, typename TimesOp>

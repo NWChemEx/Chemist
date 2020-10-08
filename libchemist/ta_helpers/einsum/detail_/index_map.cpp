@@ -2,7 +2,7 @@
 #include "libchemist/ta_helpers/einsum/detail_/index_map.hpp"
 #include <tuple> // for std::tie
 
-namespace libchemist::einsum::detail_ {
+namespace libchemist::ta_helpers::einsum::detail_ {
 
 IndexMap::IndexMap() noexcept = default;
 

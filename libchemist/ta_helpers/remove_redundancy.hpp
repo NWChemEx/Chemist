@@ -3,7 +3,7 @@
 #include <libchemist/ta_helpers/einsum/einsum.hpp>
 #include <TiledArray/expressions/contraction_helpers.h>
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 template<typename T>
 auto remove_redundancy(const T& C, const T& S, double thresh = 1.0E-8) {

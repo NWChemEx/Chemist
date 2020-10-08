@@ -2,8 +2,8 @@
 #include <libchemist/ta_helpers/ta_helpers.hpp>
 #include <libchemist/types.hpp>
 
-using namespace libchemist;
-using tensor_type = type::tensor<double>;
+using namespace libchemist::ta_helpers;
+using tensor_type = libchemist::type::tensor<double>;
 
 TEST_CASE("allclose") {
     auto &world = TA::get_default_world();

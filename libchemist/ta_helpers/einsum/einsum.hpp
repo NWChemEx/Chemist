@@ -3,7 +3,7 @@
 #include "libchemist/ta_helpers/einsum/detail_/tensor_kernel.hpp"
 #include "libchemist/ta_helpers/einsum/types.hpp"
 
-namespace libchemist::einsum {
+namespace libchemist::ta_helpers::einsum {
 
 inline auto add_tiled_ranges(std::map<types::index, TA::TiledRange1> ranges,
                              const types::index_set& vars,

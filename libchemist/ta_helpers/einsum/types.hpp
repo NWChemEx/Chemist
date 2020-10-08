@@ -4,7 +4,7 @@
 #include <utility>
 #include <vector>
 
-namespace libchemist::einsum::types {
+namespace libchemist::ta_helpers::einsum::types {
 
 using size        = std::size_t;
 using range       = std::pair<size, size>;

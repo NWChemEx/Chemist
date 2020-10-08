@@ -1,7 +1,7 @@
 #pragma once
 #include <tiledarray.h>
 
-namespace libchemist::detail_ {
+namespace libchemist::ta_helpers::detail_ {
 
 // Makes indices for the contraction of one dimension of an arbitrarily ranked tensor with a matrix
 inline std::tuple<std::string, std::string, std::string>
