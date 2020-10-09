@@ -8,11 +8,34 @@
 namespace libchemist::sparse_map {
 namespace detail_ {
 
+/** @brief Removes injected me offsets from an index.
+ *
+ *  When dealing with tensors with one or more modes spanned by an independent
+ *  index we need to take slices with the independent mode offsets pinned to
+ *  the index in the outer tensor. This function removes those pinned modes.
+ *
+ *  @param[in] idx The index which contains injected mode offsets.
+ *  @param[in] injections The map from mode number to injected index, *i.e.*,
+ *                        `injections[i]` is the offset to inject as mode `i`.
+ *
+ * @return A copy of @p idx with injected modes removed.
+ *
+ * @throw std::runtime_eror if the modes in @p injections are not consistent
+ *                          with @p idx. Strong throw guarantee.
+ * @throw std::bad_alloc if there is insufficient memory to create the
+ *                       uninjected index. Strong throw guarantee.
+ */
 inline auto uninject_index_(const ElementIndex& idx,
                             const std::map<std::size_t, std::size_t>& injections) {
-    if(injections.size() == 0) return idx;
-    std::vector<std::size_t> uninjected_idx(idx.size() - injections.size());
-    for(std::size_t i = 0, counter = 0; i < idx.size(); ++i){
+    const auto r = idx.size();
+    if(injections.empty()) return idx;
+    for(const auto& [k, v] : injections)
+        if(k >= r)
+            throw std::runtime_error("Mode: " + std::to_string(k) +
+                                     " is not in range [0, " +
+                                     std::to_string(r) + ")");
+    std::vector<std::size_t> uninjected_idx(r - injections.size());
+    for(std::size_t i = 0, counter = 0; i < r; ++i){
         if(!injections.count(i)) {
             uninjected_idx[counter] = idx[i];
             ++counter;
@@ -21,24 +44,26 @@ inline auto uninject_index_(const ElementIndex& idx,
     return ElementIndex(std::move(uninjected_idx));
 }
 
-
-
-/**
+/** @brief Fills in the provided ToT tile.
  *
- * @tparam TileType
- * @tparam T
- * @param tile
- * @param sm
- * @param tensor
+ * @tparam TileType The type of a ToT tile. Assumed to satisfy TA's tile
+ *                  concept.
+ * @tparam T The type of the tensor we are taking elements from. Assumed to be
+ *           some variation of TA::SpArray
+ *
+ * @param[in] tile The initialized tile we are filling in.
+ * @param[in] sm The SparseMap guiding how to fill @p tile from @p tensor.
+ * @param[in] tensor Where the elements for @p tile will be taken from.
  * @param[in] ind2mode Map from modes of an independent index to mode of
- *                     @p tensor.
- * @return
+ *                     @p tensor such that `ind2mode[i]` is the mode of
+ *                     @p tensor that the `i`-th independent mode maps to.
+ * @return The ToT tile after filling it in.
  */
 template<typename TileType, typename T>
 auto make_tot_tile_(TileType tile,
                     const SparseMap<ElementIndex, ElementIndex>& sm,
                     const T& tensor,
-                    const std::map<std::size_t, std::size_t>& ind2mode) {
+                    const std::map<std::size_t, std::size_t>& ind2mode = {}) {
     using inner_tile_t  = typename std::decay_t<TileType>::value_type;
 
     const auto& trange  = tensor.trange();            // Trange of "dense"
@@ -48,6 +73,7 @@ auto make_tot_tile_(TileType tile,
 
     // Move allocations out of loops
     std::map<std::size_t, std::size_t> injections;     // Map for injections
+
 
     for(const auto& oeidx_v : tile.range()){ //Loop over outer-elemental indices
         const ElementIndex oeidx(oeidx_v.begin(), oeidx_v.end());
@@ -69,13 +95,18 @@ auto make_tot_tile_(TileType tile,
 
         for(const auto& itidx : tdomain) { // Loop over inner-tile indices
             inner_tile_t t = tensor.find(itidx);
+
+            // It's not clear to me whether the injection alters the order. If
+            // the indices in injected_d are ordered such that the i-th index
+            // of injected_d is the i-th index of d (with the former containing
+            // the injected modes) then we can loop over injected_d, d zipped
+            // together and avoid the uninjection
             for(const auto& ieidx : injected_d) { // Loop over inner-element
-                const auto& ieidx_raw = ieidx.m_index;
                 if(t.range().includes(ieidx)){ //Is element in tile?
                     // Remove injected modes
                     auto lhs_idx = uninject_index_(ieidx, injections);
                     // map it to output
-                    buffer[d.result_index(lhs_idx)] = t[ieidx_raw];
+                    buffer[d.result_index(lhs_idx)] = t[ieidx];
                 }
             }
         }

@@ -190,6 +190,40 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
 
     }
 
+    SECTION("result_index") {
+        SECTION("Empty domain"){
+            REQUIRE_THROWS_AS(p0.result_index(TestType{}), std::out_of_range);
+        }
+
+        SECTION("rank 1 domain") {
+            SECTION("Good input index") {
+                auto idx = p1.result_index(TestType(1));
+                TestType corr(0);
+                REQUIRE(idx == corr);
+            }
+            SECTION("Invalid input index"){
+                REQUIRE_THROWS_AS(p1.result_index(TestType()), std::out_of_range);
+            }
+        }
+
+        SECTION("rank 2 domain") {
+            p2.insert(TestType(1, 3));
+            SECTION("Good index 0") {
+                auto idx = p2.result_index(TestType(1, 2));
+                TestType corr(0, 0);
+                REQUIRE(idx == corr);
+            }
+            SECTION("Good index 1") {
+                auto idx = p2.result_index(TestType(1, 3));
+                TestType corr(0, 1);
+                REQUIRE(idx == corr);
+            }
+            SECTION("Invalid input index"){
+                REQUIRE_THROWS_AS(p2.result_index(TestType()), std::out_of_range);
+            }
+        }
+    }
+
     SECTION("at()") {
         SECTION("Single element"){
             SECTION("Element 0") { REQUIRE(p1.at(0) == TestType{1}); }

@@ -310,6 +310,48 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
 
     }
 
+    SECTION("result_index") {
+        SECTION("Empty domain"){
+            REQUIRE_THROWS_AS(d_empty.result_index(TestType{}), std::out_of_range);
+        }
+
+        SECTION("Rank 0 domain"){
+            SECTION("Good index"){
+                auto idx = d0.result_index(TestType());
+                TestType corr;
+                REQUIRE(idx == corr);
+            }
+        }
+
+        SECTION("rank 1 domain") {
+            SECTION("Good input index") {
+                auto idx = d1.result_index(TestType(1));
+                TestType corr(0);
+                REQUIRE(idx == corr);
+            }
+            SECTION("Invalid input index"){
+                REQUIRE_THROWS_AS(d1.result_index(TestType()), std::out_of_range);
+            }
+        }
+
+        SECTION("rank 2 domain") {
+            d2.insert(TestType(1, 3));
+            SECTION("Good index 0") {
+                auto idx = d2.result_index(TestType(1, 2));
+                TestType corr(0, 0);
+                REQUIRE(idx == corr);
+            }
+            SECTION("Good index 1") {
+                auto idx = d2.result_index(TestType(1, 3));
+                TestType corr(0, 1);
+                REQUIRE(idx == corr);
+            }
+            SECTION("Invalid input index"){
+                REQUIRE_THROWS_AS(d2.result_index(TestType()), std::out_of_range);
+            }
+        }
+    }
+
     SECTION("count") {
         SECTION("Default") { REQUIRE_FALSE(d_empty.count(i1)); }
 

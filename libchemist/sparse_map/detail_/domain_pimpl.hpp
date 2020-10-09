@@ -106,6 +106,26 @@ public:
      */
     std::vector<size_type> result_extents() const;
 
+    /** @brief Converts an index in the Domain to its equivalent value in the
+     *         inner tensor of the resulting tensor-of-tensors.
+     *
+     * Each domain instance stores the indices which will be extracted into and
+     * made into one of the inner tensors in a tensor-of-tensors. This function
+     * will map the original index of an element to its new index in the
+     * tensor-of-tensors.
+     *
+     * @note adding additional elements to domain will in general invalidate
+     *       previous calls to this function. It is recommended that you
+     *       completely fill the Domain before calling this function.
+     *
+     * @param[in] old The original index.
+     * @return The index in the tensor-of-tensors @p old maps to.
+     *
+     * @throw std::out_of_range if @p old is not in this Domain. Strong throw
+     *                          guarantee.
+     * @throw std::bad_alloc if there is insufficient memory to create the index
+     *                       for the new tensor. Strong throw guarantee.
+     */
     value_type result_index(const value_type& old) const;
 
     /** @brief Returns the @p i -th index in the Domain
@@ -224,9 +244,10 @@ DOMAINPIMPL::result_extents() const {
 template<typename IndexType>
 typename DOMAINPIMPL::value_type
 DOMAINPIMPL::result_index(const value_type& old) const {
-    const auto rank = old.size();
-    std::vector<size_type> rv(rank, 0);
-    for(std::size_t i = 0; i < rank; ++i){
+    if(size() == 0 || old.size() != rank())
+        throw std::out_of_range("Index is not in domain");
+    std::vector<size_type> rv(rank(), 0);
+    for(std::size_t i = 0; i < rank(); ++i){
         const auto& offsets = m_mode_map_[i];
         const auto value    = old[i];
         auto itr            = std::find(offsets.begin(), offsets.end(), value);
