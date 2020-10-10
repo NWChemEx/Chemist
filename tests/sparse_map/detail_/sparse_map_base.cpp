@@ -923,6 +923,68 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
         REQUIRE(r == sm1);
     }
 
+    SECTION("inverse"){
+        SECTION("Empty"){
+            derived_t sm;
+            SparseMap<dep_idx_t, ind_idx_t> corr;
+            REQUIRE(sm.inverse() == corr);
+        }
+
+        SECTION("Non-empty") {
+            derived_t sm{{ind_idx_t{1}, {dep_idx_t{0}, dep_idx_t{3}}},
+                         {ind_idx_t{2}, {dep_idx_t{1}, dep_idx_t{2}}}};
+            SparseMap<dep_idx_t, ind_idx_t> corr{
+              {dep_idx_t{0}, {ind_idx_t{1}}},
+              {dep_idx_t{3}, {ind_idx_t{1}}},
+              {dep_idx_t{1}, {ind_idx_t{2}}},
+              {dep_idx_t{2}, {ind_idx_t{2}}}
+            };
+            REQUIRE(sm.inverse() == corr);
+            REQUIRE(sm.inverse().inverse() == sm);
+        }
+    }
+
+    SECTION("chain") {
+        using new_idx_t = ElementIndex;
+        using rhs_t     = SparseMap<dep_idx_t, new_idx_t>;
+        using result_t  = SparseMap<ind_idx_t, new_idx_t>;
+
+        derived_t lsm1{{ind_idx_t{1}, {dep_idx_t{0}, dep_idx_t{3}}},
+                       {ind_idx_t{2}, {dep_idx_t{1}, dep_idx_t{2}}}};
+        rhs_t rsm1{{dep_idx_t{1}, {new_idx_t{0}, new_idx_t{3}}},
+                   {dep_idx_t{2}, {new_idx_t{1}, new_idx_t{2}}}};
+
+        SECTION("Empty / Empty") {
+            derived_t sm;
+            rhs_t rhs;
+            result_t corr;
+            REQUIRE(sm.chain(rhs) == corr);
+        }
+
+        SECTION("Empty / Non-empty") {
+            derived_t sm;
+            REQUIRE_THROWS_AS(sm.chain(rsm1), std::runtime_error);
+        }
+
+        SECTION("Non-empty / Non-empty") {
+            rhs_t rsm2{{dep_idx_t{0}, {new_idx_t{0}, new_idx_t{3}}},
+                       {dep_idx_t{1}, {new_idx_t{1}, new_idx_t{2}}},
+                       {dep_idx_t{2}, {new_idx_t{1}, new_idx_t{2}}},
+                       {dep_idx_t{3}, {new_idx_t{1}, new_idx_t{2}}}};
+            result_t corr{
+              {ind_idx_t{1},
+               {new_idx_t{0}, new_idx_t{1}, new_idx_t{2}, new_idx_t{3}}},
+              {ind_idx_t{2}, {new_idx_t{1}, new_idx_t{2}}}};
+            REQUIRE(lsm1.chain(rsm2) == corr);
+        }
+
+        SECTION("Non-empty / incompatible") {
+            rhs_t incompatible{{dep_idx_t{1, 2}, {new_idx_t{0}, new_idx_t{3}}},
+                               {dep_idx_t{2, 3}, {new_idx_t{1}, new_idx_t{2}}}};
+            REQUIRE_THROWS_AS(lsm1.chain(incompatible), std::runtime_error);
+        }
+    }
+
     SECTION("comparisons") {
         SECTION("Empty == Empty") {
             REQUIRE(sms.at("Empty") == derived_t{});
@@ -1075,141 +1137,3 @@ TEST_CASE("operator<<(std::ostream, SparseMapBase)") {
     REQUIRE(pss == &ss);
     REQUIRE(ss.str() == "{}");
 }
-
-// TEST_CASE("SparseMap : indices()"){
-//    SECTION("vector") {
-//        SparseMap sm{{index_type{1}, {index_type{0}, index_type{3}}},
-//                     {index_type{2}, {index_type{1}, index_type{2}}}};
-//        auto result = sm.indices();
-//        index_set_map corr{
-//          {index_type{1}, index_set_array{index_set{0, 3}}},
-//          {index_type{2}, index_set_array{index_set{1, 2}}}
-//        };
-//        REQUIRE(result == corr);
-//    }
-//
-//    SECTION("matrix") {
-//        SparseMap sm{{index_type{1}, {index_type{0, 1}, index_type{3, 2}}},
-//                     {index_type{2}, {index_type{2, 0}, index_type{3, 1}}}};
-//        auto result = sm.indices();
-//        index_set_map corr{
-//          {index_type{1}, index_set_array{index_set{0, 3}, index_set{1, 2}}},
-//          {index_type{2}, index_set_array{index_set{2, 3}, index_set{0, 1}}}
-//        };
-//        REQUIRE(result == corr);
-//    }
-//}
-//
-// TEST_CASE("SparseMap : indices(key_type)"){
-//    SECTION("vector") {
-//        SparseMap sm{{index_type{1}, {index_type{0}, index_type{3}}}};
-//        auto result = sm.indices(index_type{1});
-//        index_set_array corr{index_set{0, 3}};
-//        REQUIRE(result == corr);
-//    }
-//
-//    SECTION("matrix") {
-//        SparseMap sm{{index_type{1}, {index_type{0, 1}, index_type{3, 2}}}};
-//        auto result = sm.indices(index_type{1});
-//        index_set_array corr{index_set{0, 3}, index_set{1, 2}};
-//        REQUIRE(result == corr);
-//    }
-//}
-//
-// TEST_CASE("SparseMap : indices(key_type, size_type)"){
-//    SECTION("vector") {
-//        SparseMap sm{{index_type{1}, {index_type{0}, index_type{3}}}};
-//        auto result = sm.indices(index_type{1}, 0);
-//        index_set corr{0, 3};
-//        REQUIRE(result == corr);
-//    }
-//
-//    SECTION("matrix") {
-//        SparseMap sm{{index_type{1}, {index_type{0, 1}, index_type{3, 2}}}};
-//
-//        SECTION("mode 0"){
-//            auto result = sm.indices(index_type{1}, 0);
-//            index_set corr{0, 3};
-//            REQUIRE(result == corr);
-//        }
-//
-//        SECTION("mode 1"){
-//            auto result = sm.indices(index_type{1}, 1);
-//            index_set corr{1, 2};
-//            REQUIRE(result == corr);
-//        }
-//    }
-//}
-//
-
-//}
-//
-// TEST_CASE("SparseMap : inverse"){
-//    SECTION("Empty"){
-//        SparseMap sm;
-//        REQUIRE(sm.inverse() == sm);
-//    }
-//
-//    SECTION("Non-empty") {
-//        SparseMap sm{{index_type{1}, {index_type{0}, index_type{3}}},
-//                     {index_type{2}, {index_type{1}, index_type{2}}}};
-//        SparseMap corr;
-//        corr.add_to_domain(index_type{0},index_type{1});
-//        corr.add_to_domain(index_type{3},index_type{1});
-//        corr.add_to_domain(index_type{1},index_type{2});
-//        corr.add_to_domain(index_type{2},index_type{2});
-//        REQUIRE(sm.inverse() == corr);
-//        REQUIRE(sm.inverse().inverse() == sm);
-//    }
-//}
-//
-// TEST_CASE("SparseMap : chain"){
-//    SECTION("Empty / Empty") {
-//        SparseMap sm;
-//        REQUIRE(sm.chain(sm) == sm);
-//    }
-//
-//    SECTION("Empty / Non-empty") {
-//        SparseMap sm;
-//        SparseMap sm2{{index_type{1}, {index_type{0}, index_type{3}}},
-//                      {index_type{2}, {index_type{1}, index_type{2}}}};
-//        REQUIRE_THROWS_AS(sm.chain(sm2), std::runtime_error);
-//        REQUIRE_THROWS_AS(sm2.chain(sm), std::runtime_error);
-//    }
-//
-//    SECTION("Non-empty / Non-empty"){
-//        SparseMap sm{{index_type{1}, {index_type{0}, index_type{3}}},
-//                      {index_type{2}, {index_type{1}, index_type{2}}}};
-//        SparseMap sm2{{index_type{0}, {index_type{0}, index_type{3}}},
-//                      {index_type{1}, {index_type{1}, index_type{2}}},
-//                      {index_type{2}, {index_type{1}, index_type{2}}},
-//                      {index_type{3}, {index_type{1}, index_type{2}}}};
-//        SparseMap incompatible{{index_type{1,2}, {index_type{0},
-//        index_type{3}}},
-//                               {index_type{2,3}, {index_type{1},
-//                               index_type{2}}}};
-//        SparseMap corr{{index_type{1}, {index_type{0}, index_type{1},
-//        index_type{2}, index_type{3}}},
-//                       {index_type{2}, {index_type{1}, index_type{2}}}};
-//        REQUIRE(sm.chain(sm2) == corr);
-//        REQUIRE_THROWS_AS(sm.chain(incompatible), std::runtime_error);
-//    }
-//}
-//
-
-//
-
-//
-// TEST_CASE("SparseMap : hash"){
-//    SECTION("Empty"){
-//        SparseMap sm;
-//        REQUIRE(sde::hash_objects(sm) == "50e20c9ba664054fb322f0499e108b5f");
-//    }
-//
-//    SECTION("Non-empty"){
-//        SparseMap sm{{index_type{}, {index_type{}}}};
-//        REQUIRE(sde::hash_objects(sm) == "64d6c4b037c182902ce14d4fabe15ce2");
-//    }
-//
-//}
-//

@@ -216,22 +216,15 @@ DerivedType SPARSEMAPBASE::operator^(const SparseMapBase& rhs) const {
     return rv;
 }
 
-//template<typename DerivedType, typename IndIndex, typename DepIndex>
-//SPARSEMAPBASE SPARSEMAPBASE::chain(const SparseMapBase& sm) const {
-//    if (this->dep_rank() != sm.ind_rank())
-//        throw std::runtime_error("Incompatible index ranks between chained maps");
-//    SparseMapBase rv;
-//    for (const auto& x : *this) {
-//        for (const auto y : x.second) {
-//            if (sm.count(y)) {
-//                for (const auto z : sm.at(y)) {
-//                    rv.add_to_domain(x.first, z);
-//                }
-//            }
-//        }
-//    }
-//    return rv;
-//}
+template<typename DerivedType, typename IndIndex, typename DepIndex>
+SparseMap<DepIndex, IndIndex> SPARSEMAPBASE::inverse() const {
+    SparseMap<DepIndex, IndIndex> rv;
+    for(const auto& [ind, domain] : *this){
+        for(const auto& dep : domain)
+            rv.add_to_domain(dep, ind);
+    }
+    return rv;
+}
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 DerivedType& SPARSEMAPBASE::operator+=(const SparseMapBase& rhs) {
@@ -261,24 +254,6 @@ DerivedType SPARSEMAPBASE::operator+(const SparseMapBase& rhs) const {
     rv += rhs;
     return rv;
 }
-
-//template<typename DerivedType, typename IndIndex, typename DepIndex>
-//SPARSEMAPBASE SPARSEMAPBASE::intersection(const SparseMapBase& sm) const {
-//    if (!this->empty() && !sm.empty() &&
-//        (this->dep_rank() != sm.dep_rank() || this->ind_rank() != sm.ind_rank()))
-//        throw std::runtime_error("Incompatible index ranks between maps for intersection");
-//    SparseMapBase rv;
-//    for (const auto& x : *this) {
-//        if (sm.count(x.first)) {
-//            for (const auto y : x.second) {
-//                if (sm.at(x.first).count(y)) {
-//                    rv.add_to_domain(x.first,y);
-//                }
-//            }
-//        }
-//    }
-//    return rv;
-//}
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 bool SPARSEMAPBASE::operator==(const SparseMapBase& rhs) const noexcept {
@@ -315,6 +290,36 @@ const typename SPARSEMAPBASE::pimpl_type& SPARSEMAPBASE::pimpl_() const {
 //------------------------------------------------------------------------------
 //                            Private Methods
 //------------------------------------------------------------------------------
+template<typename IndIndex, typename DepIndex, typename NewDepIndex>
+SparseMap<IndIndex, NewDepIndex> chain_guts(
+  const SparseMap<IndIndex, DepIndex>& lhs,
+  const SparseMap<DepIndex, NewDepIndex>& rhs) {
+    if (lhs.dep_rank() != rhs.ind_rank())
+        throw std::runtime_error("Incompatible index ranks between chained maps");
+    SparseMap<IndIndex, NewDepIndex> rv;
+    for (const auto& [lind, ldom] : lhs) {
+        for (const auto& ldep : ldom) {
+            if (rhs.count(ldep)) {
+                for (const auto& rdep : rhs.at(ldep)) {
+                    rv.add_to_domain(lind, rdep);
+                }
+            }
+        }
+    }
+    return rv;
+}
+
+template<typename DerivedType, typename IndIndex, typename DepIndex>
+SparseMap<IndIndex, ElementIndex>
+SPARSEMAPBASE::chain_(const SparseMap<DepIndex, ElementIndex>& sm) const {
+    return chain_guts(downcast_(), sm);
+}
+
+template<typename DerivedType, typename IndIndex, typename DepIndex>
+SparseMap<IndIndex, TileIndex>
+SPARSEMAPBASE::chain_(const SparseMap<DepIndex, TileIndex>& sm) const {
+    return chain_guts(downcast_(), sm);
+}
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 typename SPARSEMAPBASE::pimpl_ptr SPARSEMAPBASE::new_pimpl_() {

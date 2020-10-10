@@ -117,6 +117,15 @@ auto make_tot_tile_(TileType tile,
 
 } // namespace detail_
 
+/** @brief Sparsifies a tensor according to the provided SparseMap.
+ *
+ * @tparam T The type of the tensor being sparsified, assumed to be either
+ * @param esm
+ * @param tensor
+ * @param outer_trange
+ * @param ind2mode
+ * @return
+ */
 template<typename T>
 auto from_sparse_map(const SparseMap<ElementIndex, ElementIndex>& esm,
                      const T& tensor,

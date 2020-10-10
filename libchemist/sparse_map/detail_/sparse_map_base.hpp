@@ -495,8 +495,11 @@ public:
      *  sparse_map.inverse().inverse() == sparse_map
      *
      * @return The inverse of the SparseMap.
+     *
+     * @throw std::bad_alloc if there is insufficient memory to create the
+     *                       returned value. Strong throw guarantee.
      */
-    //SparseMapBase<SparseMap<DepIndex, IndIndex>, DepIndex, IndIndex> inverse() const;
+    SparseMap<DepIndex, IndIndex> inverse() const;
 
     /** @brief Creates a SparseMap from chaining two maps together.
      *
@@ -514,8 +517,9 @@ public:
      *                           is not equal to the rank of the independent indices
      *                           of \p sm.
      */
-    //template<typename DerivedType2, typename NewDepIdx>
-    //SparseMap<IndIndex, NewDepIdx> chain(const SparseMapBase<DerivedType2, DepIndex, NewDepIdx>& sm) const;
+     template<typename RHSDepIdx>
+    SparseMap<IndIndex, RHSDepIdx>
+    chain(const SparseMap<DepIndex, RHSDepIdx>& sm) const { return chain_(sm); }
 
     /** @brief Determines if two SparseMaps are identical.
      *
@@ -560,6 +564,12 @@ protected:
     /// Ensures the instance has a PIMPL and returns it in a read-only state
     const pimpl_type& pimpl_() const;
 private:
+    /// Implements chain when RHSDepIdx == ElementIndex
+    SparseMap<IndIndex, ElementIndex> chain_(const SparseMap<DepIndex, ElementIndex>& sm) const;
+
+    /// Implements chain when RHSDepIdx == TileIndex
+    SparseMap<IndIndex, TileIndex> chain_(const SparseMap<DepIndex, TileIndex>& sm) const;
+
     /// Code factorization for making a new empty PIMPL
     static pimpl_ptr new_pimpl_() ;
 
@@ -635,6 +645,7 @@ bool operator!=(const SparseMapBase<DerivedType, IndIndex, DepIndex>& lhs,
                 const SparseMapBase<DerivedType, IndIndex, DepIndex>& rhs) {
     return !(lhs == rhs);
 }
+
 
 //------------------------------------------------------------------------------
 //              Forward Declare Template Instantiations
