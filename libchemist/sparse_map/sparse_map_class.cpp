@@ -45,6 +45,21 @@ SPARSEMAPEE::SparseMap(const SPARSEMAPTT& other) {
     }
 }
 
+SPARSEMAPTE::SparseMap(const TA::TiledRange& trange,
+                       const SPARSEMAPEE& other) : m_trange_(trange) {
+    if(trange.rank() != other.ind_rank())
+        throw std::runtime_error("Rank of TiledRange does not equal independent"
+                                 " index rank");
+
+    for(const auto& [oeidx, d] : other){
+        auto otemp = trange.tiles_range().idx(trange.element_to_tile(oeidx));
+        TileIndex otidx(otemp.begin(), otemp.end());
+        for(const auto& ieidx : d){
+            add_to_domain(otidx, ieidx);
+        }
+    }
+}
+
 SPARSEMAPTE::SparseMap(const SPARSEMAPTT& other) : m_trange_(other.trange()) {
     for(const auto& [otidx, d] : other) {
         const auto& itrange = d.trange();

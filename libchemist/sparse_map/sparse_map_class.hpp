@@ -46,8 +46,29 @@ public:
 
     explicit SparseMap(const SparseMap<TileIndex, TileIndex>& other);
 
+    /** @brief Creates a new instance from a SparseMap<ElementIndex, ElementIndex>
+     *
+     *  This ctor uses the provided TiledRange to map the independent element
+     *  indices in the input SparseMap to their respective tile indices. The
+     *  current instance is initialized to the SparseMap which maps from tile
+     *  indices to @p other's element index domains.
+     *
+     * @param[in] trange The TiledRange to use to convert the indices in
+     *                   @p other.
+     * @param[in] other The SparseMap we are converting.
+     *
+     * @throw std::bad_alloc if there is insufficient memory to create this
+     *                       instance. Strong throw guarantee.
+     * @throw std::runtime_error if the rank of @p trange does not match the
+     *                           rank of the independent indices in @p other.
+     *                           Strong throw guarantee.
+     */
+    SparseMap(const TA::TiledRange& trange,
+              const SparseMap<ElementIndex, ElementIndex>& other);
+
     const auto& trange() const { return m_trange_; }
 private:
+    /// The TiledRange associated with the independent tile indices
     TA::TiledRange m_trange_;
 }; // class SparseMap
 

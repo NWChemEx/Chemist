@@ -422,9 +422,9 @@ TEST_CASE("from_sparse_map(SparseMap<ElementIndex, ElementIndex>"){
               inner_tile{TA::Range{{2, 2}}, {0, 0, 0, 7}}};
             tot_type corr(world, corr_trange, corr_il);
 
-            // auto rv = from_sparse_map(sm, t, corr_trange);
-            // const bool good = allclose_tot(rv, corr, 2);
-            // REQUIRE(good);
+            auto rv = from_sparse_map(sm, t, corr_trange);
+             const bool good = allclose_tot(rv, corr, 2);
+             REQUIRE(good);
         }
 
         /* Here we apply a sparse map (independent indices are element indices,
@@ -563,9 +563,9 @@ TEST_CASE("from_sparse_map(SparseMap<ElementIndex, ElementIndex>"){
                           {zero, zero, corr32}};
             tot_type corr(world, corr_trange, corr_il);
 
-            //auto rv = from_sparse_map(sm, t, corr_trange, tot2t);
-            //const bool good = allclose_tot(rv, corr, 1);
-            //REQUIRE(good);
+            auto rv = from_sparse_map(sm, t, corr_trange, tot2t);
+            const bool good = allclose_tot(rv, corr, 1);
+            REQUIRE(good);
         }
     }
 }

@@ -2,6 +2,7 @@
 #include "libchemist/types.hpp"
 #include "libchemist/sparse_map/index.hpp"
 #include "libchemist/sparse_map/sparse_map_class.hpp"
+#include "libchemist/ta_helpers/get_block_idx.hpp"
 #include <algorithm>
 #include <iterator>
 
@@ -138,8 +139,11 @@ auto from_sparse_map(const SparseMap<ElementIndex, ElementIndex>& esm,
     if(esm.dep_rank() + ind2mode.size() != tensor.trange().rank())
         throw std::runtime_error("Ranks don't work out.");
 
+    SparseMap<TileIndex, ElementIndex> tesm(outer_trange, esm);
     auto l =[=](auto& tile, const auto& range) {
         using tile_type = std::decay_t<decltype(tile)>;
+        auto otidx = get_block_idx(outer_trange, range);
+        if(!tesm.count(TileIndex(otidx.begin(), otidx.end()))) return 0.0;
         tile = detail_::make_tot_tile_(tile_type(range), esm, tensor, ind2mode);
         return tile.norm();
     };

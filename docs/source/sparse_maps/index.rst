@@ -6,4 +6,6 @@ Sparse Maps Sublibrary
    :maxdepth: 2
    :caption: Contents
 
+   background
    design
+   from_sparse_map
