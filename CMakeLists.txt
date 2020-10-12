@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
-project(libchemist VERSION 1.0.0)
+file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/version.txt" VERSION)
+project(libchemist VERSION "${VERSION}" LANGUAGES CXX)
 
 set(
     CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${PROJECT_SOURCE_DIR}/cmake"
@@ -7,6 +8,8 @@ set(
 )
 
 include(get_cpp)
+include(nwx_cxx_api_docs)
+nwx_cxx_api_docs("${CMAKE_CURRENT_SOURCE_DIR}/libchemist")
 
 ### Options ###
 option(BUILD_TESTING "Should we build the tests?" OFF)
