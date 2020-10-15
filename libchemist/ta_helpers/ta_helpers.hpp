@@ -262,18 +262,18 @@ bool allclose(T&& actual, U&& ref, const bool abs_comp = false, V&& rtol = 1.0E-
   // Get a dummy string label (something like "i0, i1, i2, ...")
   auto idx = TA::detail::dummy_annotation(actual.range().rank(), inner_rank);
 
-
   // Compute A - B, call result AmB
   tensor_type AmB;
-//  if (abs_comp) {
-////      auto abs_lambda = [](const V& val) {return std::abs(val);};
-//    auto  = apply_elementwise(actual,[](const V& val){return std::fabs(val);});
-//      //TODO: There should be some way to do this without forming the intermediate tensors
-////      AmB(idx) = apply_elementwise(actual,[](V& val){return std::fabs(val);})(idx);
-////      AmB(idx) = actual(idx).unary(abs_lambda) - ref(idx).unary(abs_lambda);
-//  } else {
-//      AmB(idx) = actual(idx) - ref(idx);
-//  }
+  if (abs_comp) {
+      //TODO: There probably is some way to do this without forming the intermediate tensors
+//      AmB(idx) = actual(idx).unary(abs_lambda) - ref(idx).unary(abs_lambda);
+      auto abs_lambda = [](V& val) {return std::fabs(val);};
+      auto abs_actual = apply_elementwise(actual,abs_lambda);
+      auto abs_ref = apply_elementwise(ref,abs_lambda);
+      AmB(idx) = abs_actual(idx) - abs_ref(idx);
+  } else {
+      AmB(idx) = actual(idx) - ref(idx);
+  }
 
   AmB(idx) = actual(idx) - ref(idx);
 
