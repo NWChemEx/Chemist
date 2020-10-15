@@ -1,7 +1,14 @@
 #pragma once
+#include "libchemist/sparse_map/index.hpp"
 #include <tiledarray.h>
 
 namespace libchemist {
+
+inline auto get_block_idx(const TA::TiledRange& trange,
+                          const sparse_map::ElementIndex& idx) {
+    const auto tidx = trange.element_to_tile(idx);
+    return trange.tiles_range().idx(tidx);
+}
 
 inline auto get_block_idx(const TA::TiledRange& trange,
                           const TA::Range& range) {
