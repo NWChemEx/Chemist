@@ -198,16 +198,16 @@ TEST_CASE("Index::operator[]") {
 }
 
 TEST_CASE("Index::begin") {
-    SECTION("Default") { 
+    SECTION("Default") {
         Index i;
         REQUIRE(i.begin() == i.m_index.begin());
     }
-    
+
     SECTION("Rank 1"){
         Index i(1);
         REQUIRE(i.begin() == i.m_index.begin());
     }
-    
+
     SECTION("Rank 2"){
         Index i(1, 2);
         REQUIRE(i.begin() == i.m_index.begin());

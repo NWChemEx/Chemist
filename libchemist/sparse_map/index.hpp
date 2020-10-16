@@ -21,10 +21,14 @@ using disable_if_integral_t = std::enable_if_t<!std::is_integral_v<T>>;
  *  with the wrapped vector, which is accessible via the `m_index` member
  */
 struct Index{
-    /// Type used for the index's offsets
+    /// Type used for sizes
     using size_type  = std::size_t;
+
     /// Type used for the mult-rank index
     using index_type = std::vector<size_type>;
+
+    /// Type used for offsets of the index
+    using value_type = size_type;
 
     /** @brief Creates an empty/rank 0 index.
      *
@@ -116,7 +120,7 @@ struct Index{
      *  @throw std::out_of_range if @p i is not in the range [0, size()). Strong
      *                           throw guarantee.
      */
-    auto operator[](size_type offset) const { return m_index.at(offset); }
+    auto operator[](size_type i) const { return m_index.at(i); }
 
     /** @brief Returns an iterator pointing to the first component of the index.
      *
@@ -340,7 +344,7 @@ struct TileIndex : public Index{
 
 template<typename...Args>
 Index::Index(size_type i0, Args&&...args) :
- Index({i0, size_type(std::forward<Args>(args))...}) {}
+  Index({i0, size_type(std::forward<Args>(args))...}) {}
 
 template<typename BeginItr, typename EndItr, typename>
 Index::Index(BeginItr&& b, EndItr&& e) :
