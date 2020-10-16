@@ -175,6 +175,28 @@ TEST_CASE("Index::size") {
     }
 }
 
+TEST_CASE("Index::operator[]") {
+    SECTION("Default") {
+        Index i;
+        REQUIRE_THROWS_AS(i[0], std::out_of_range);
+    }
+
+    SECTION("Rank 1") {
+        Index i(1);
+        SECTION("Good mode") { REQUIRE(i[0] == 1); }
+        SECTION("Bad mode") { REQUIRE_THROWS_AS(i[1], std::out_of_range); }
+    }
+
+    SECTION("Rank 2") {
+        Index i(1, 2);
+        SECTION("Good mode") {
+            REQUIRE(i[0] == 1);
+            REQUIRE(i[1] == 2);
+        }
+        SECTION("Bad mode") { REQUIRE_THROWS_AS(i[2], std::out_of_range); }
+    }
+}
+
 TEST_CASE("Index::begin") {
     SECTION("Default") { 
         Index i;

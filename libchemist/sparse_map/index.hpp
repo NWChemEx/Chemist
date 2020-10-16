@@ -107,6 +107,15 @@ struct Index{
      */
     auto size() const { return m_index.size(); }
 
+    /** @brief Returns the offset along the specified mode.
+     *
+     *  @param[in] i Which mode's offset do we want
+     *
+     *  @return The offset along mode @p i.
+     *
+     *  @throw std::out_of_range if @p i is not in the range [0, size()). Strong
+     *                           throw guarantee.
+     */
     auto operator[](size_type offset) const { return m_index.at(offset); }
 
     /** @brief Returns an iterator pointing to the first component of the index.

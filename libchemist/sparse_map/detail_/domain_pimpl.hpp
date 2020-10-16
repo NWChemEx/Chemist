@@ -2,37 +2,60 @@
 #include <memory>
 #include <sde/detail_/memoization.hpp>
 #include <set>
+#include <tiledarray.h>
+#include <utilities/iter_tools.hpp>
 
-namespace libchemist::sparse_map::detail_ {
+namespace libchemist::sparse_map {
+
+// Forward declare Domain for template meta-programming purposes
+template<typename IndexType> class Domain;
+
+namespace  detail_ {
 
 /** @brief Class which holds the state of the Domain.
  *
- *  The Domain holds a bunch of indices. There's a variety of ways that a Domain
+ *  The Domain holds a set of indices. There's a variety of ways that a Domain
  *  instance could actually hold these indices and we leave it up to the PIMPL
- *  to choose how this is done.
+ *  to choose how this is done. The DomainPIMPL class assumes that all indices
+ *  are explicitly stored and also serves as the common API for the derived
+ *  classes which implement more advanced storage strategies.
  *
  *  @note Once an index has been inserted into a Domain it can only be retrieved
  *        in a read-only fashion (this permits the Domain to be implemented in
- *        a manner which does not store every index).
+ *        a manner which does not explicitly store every index).
  */
 template<typename IndexType>
 class DomainPIMPL {
 private:
     /// Type of this instance
     using my_type = DomainPIMPL<IndexType>;
-public:
-    /// Type of the traits struct defining the types for the Domain hierarchy
-    using traits_type = DomainTraits<IndexType>;
 
+    /// Type of the Domain this is a PIMPL for
+    using domain_type = Domain<IndexType>;
+
+    /// Type of the traits struct defining the types for the Domain hierarchy
+    using traits_type = DomainTraits<domain_type>;
+
+public:
     /// The type used for offsets and indexing
-    using size_type       = typename traits_type::size_type;
+    using size_type = typename traits_type::size_type;
 
     /// The type used to store an index
-    using value_type      = typename traits_type::value_type;
+    using value_type = typename traits_type::value_type;
 
     /// The type of a read-only reference to an index
     using const_reference = typename traits_type::const_reference;
 
+    /** @brief Makes an empty Domain
+     *
+     *  The default ctor makes a Domain which contains no indices. By convention
+     *  we say it is of rank 0 even though it does not contain rank 0 indices.
+     *
+     *  @throw None No throw guarantee.
+     */
+    DomainPIMPL() = default;
+
+    /// Default polymorphic dtor
     virtual ~DomainPIMPL() noexcept = default;
 
     /** @brief Polymorphic copy constructor.
@@ -139,11 +162,11 @@ public:
      *  @param[in] i The offset of the requested index. @p i must be in the
      *               range [0, size()).
      *
-     *  @return A read-only reference to the @p i-th index.
+     *  @return A copy of the @p i-th index.
      *  @throw std::out_of_range if @p i is not in the range [0, size()). Strong
      *                           throw guarantee.
      */
-    const_reference at(size_type i) const;
+    value_type at(size_type i) const;
 
     /** @brief Adds @p idx to the Domain
      *
@@ -156,6 +179,62 @@ public:
      *                        index. Strong throw guarantee.
      */
     void insert(value_type idx);
+
+    /** @brief Sets this Domain to the union of this Domain the provided Domain.
+     *
+     *  The union of two domains is the Domain containing all indices which
+     *  appear in at least one of the two domains. More formally, given two
+     *  Domains, @f$A@f$ and @f$B@f$, which both contain indices of rank
+     *  @f$r@f$, the union of @f$A@f$ and @f$B@f$ is another Domain @f$C@f$
+     *  such that:
+     *
+     *  @f[
+     *  C = \left\lbrace c_i : c_i \in A \lor c_i \in B \right\rbrace
+     *  @f]
+     *
+     *  hence the indices in @f$C@f$ are also of rank @f$r@f$.
+     *
+     *
+     *  @param[in] rhs The Domain we are taking the union with. Must be empty or
+     *                 contain indices with the same rank as this Domain.
+     *
+     *  @return The current Domain with its state overwritten by the union of
+     *          its previous state with @p rhs.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to store the new
+     *                        state. Strong throw guarantee.
+     *
+     *  @throw std::runtime_error if the indices in @p rhs do not have the same
+     *                            rank as the indices in this Domain. Strong
+     *                            throw guarantee.
+     *
+     *  @note This function is implemented by calling the virtual function
+     *        `union_assign_`. Developers of derived classes should override
+     *        this function so that it behaves correctly for their class.
+     */
+    my_type& operator+=(const my_type& other) { return union_assign_(other); }
+
+    /** @brief Makes this Domain the intersection of this Domain and @p rhs.
+     *
+     *  Given a Domain, @f$A@f$, and a Domain @f$B@f$, the intersection of
+     *  @f$A@f$ with @f$B@f$ is another Domain @f$C@f$ given by:
+     *
+     *  @f[
+     *  C = \left\lbrace c_i | c_i \in A \land c_i \in B \right\rbrace
+     *  @f]
+     *
+     *  Of note, the intersection of two Domains with indices of different rank
+     *  is the empty domain.
+     *
+     *  @param[in] rhs The Domain we are taking the intersection with.
+     *
+     *  @return The current Domain set to the intersection of its previous state
+     *          with @p rhs.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to allocate the
+     *                        new state. Strong throw guarantee.
+     */
+    my_type& operator^=(const my_type& other) { return int_assign_(other); }
 
     /** @brief Compares two DomainPIMPL instances for exact equality.
      *
@@ -179,9 +258,22 @@ public:
      *                   Domain's state.
      */
     void hash(sde::Hasher& h) const { h(m_domain_); }
+
+protected:
+    DomainPIMPL(const DomainPIMPL& other)     = default;
+    DomainPIMPL(DomainPIMPL&& other) noexcept = default;
+    DomainPIMPL& operator=(const my_type& other) = default;
+    DomainPIMPL& operator=(DomainPIMPL&& other) noexcept = default;
+
 private:
     /// Should be overridden by derived class to make a polymorphic clone
     virtual std::unique_ptr<my_type> clone_() const;
+
+    /// Implements operator+=
+    virtual my_type& union_assign_(const my_type& other);
+
+    /// Implements operator^=
+    virtual my_type& int_assign_(const my_type& other);
 
     /// Ensures that @p i is in the range [0, size())
     void bounds_check_(size_type i) const;
@@ -192,6 +284,17 @@ private:
     /// Keeps track of the offsets per mode of the indices in this Domain
     std::vector<std::set<size_type>> m_mode_map_;
 }; // class DomainPIMPL
+
+template<typename IndexType>
+std::ostream& operator<<(std::ostream& os, const DomainPIMPL<IndexType>& p) {
+    os << "{";
+    for(std::size_t i = 0; i < p.size(); ++i) {
+        os << p.at(i);
+        if(i + 1 != p.size())
+            os << ", ";
+    }
+    return os << "}";
+}
 
 /** @brief Determines if two DomainPIMPL instances are different
  *
@@ -232,22 +335,20 @@ typename DOMAINPIMPL::size_type DOMAINPIMPL::rank() const noexcept {
 }
 
 template<typename IndexType>
-std::vector<typename DOMAINPIMPL::size_type>
-DOMAINPIMPL::result_extents() const {
+std::vector<typename DOMAINPIMPL::size_type> DOMAINPIMPL::result_extents()
+  const {
     std::vector<size_type> rv(rank(), 0);
-    for(size_type i = 0; i < rank(); ++i)
-        rv[i] = m_mode_map_[i].size();
+    for(size_type i = 0; i < rank(); ++i) rv[i] = m_mode_map_[i].size();
     return rv;
-
 }
 
 template<typename IndexType>
-typename DOMAINPIMPL::value_type
-DOMAINPIMPL::result_index(const value_type& old) const {
+typename DOMAINPIMPL::value_type DOMAINPIMPL::result_index(
+  const value_type& old) const {
     if(size() == 0 || old.size() != rank())
         throw std::out_of_range("Index is not in domain");
     std::vector<size_type> rv(rank(), 0);
-    for(std::size_t i = 0; i < rank(); ++i){
+    for(std::size_t i = 0; i < rank(); ++i) {
         const auto& offsets = m_mode_map_[i];
         const auto value    = old[i];
         auto itr            = std::find(offsets.begin(), offsets.end(), value);
@@ -259,7 +360,7 @@ DOMAINPIMPL::result_index(const value_type& old) const {
 }
 
 template<typename IndexType>
-typename DOMAINPIMPL::const_reference DOMAINPIMPL::at(size_type i) const {
+typename DOMAINPIMPL::value_type DOMAINPIMPL::at(size_type i) const {
     bounds_check_(i);
     auto itr = m_domain_.begin();
     std::advance(itr, i);
@@ -270,15 +371,14 @@ template<typename IndexType>
 void DOMAINPIMPL::insert(value_type idx) {
     if(!m_domain_.empty() && idx.size() != rank()) {
         using namespace std::string_literals;
-        throw std::runtime_error(
-          "Rank of idx ("s + std::to_string(idx.size()) +
-          ") != rank of domain ("s + std::to_string(rank()) + ")"s);
+        throw std::runtime_error("Rank of idx ("s + std::to_string(idx.size()) +
+                                 ") != rank of domain ("s +
+                                 std::to_string(rank()) + ")"s);
     }
-    if(m_mode_map_.empty()){
+    if(m_mode_map_.empty()) {
         std::vector<std::set<size_type>>(idx.size()).swap(m_mode_map_);
     }
-    for(std::size_t i = 0; i < idx.size(); ++i)
-        m_mode_map_[i].insert(idx[i]);
+    for(std::size_t i = 0; i < idx.size(); ++i) m_mode_map_[i].insert(idx[i]);
     m_domain_.insert(idx);
 }
 
@@ -291,19 +391,64 @@ bool DOMAINPIMPL::operator==(const DomainPIMPL& rhs) const noexcept {
 
 template<typename IndexType>
 std::unique_ptr<DOMAINPIMPL> DOMAINPIMPL::clone_() const {
-    return std::make_unique<my_type>(*this);
+    auto* temp = new DOMAINPIMPL(*this);
+    return std::unique_ptr<DOMAINPIMPL>(temp);
 }
 
 template<typename IndexType>
-void DOMAINPIMPL::bounds_check_(size_type i) const{
+DOMAINPIMPL& DOMAINPIMPL::union_assign_(const my_type& other) {
+    if(other.m_domain_.empty()) return *this;
+    else if(m_domain_.empty()) return (*this) = other;
+
+    // They're not empty so they need to have the same rank
+    if(rank() != other.rank())
+        throw std::runtime_error("Intersection requires ranks to be the same");
+
+    for(const auto& [i, x] : utilities::Enumerate(other.m_mode_map_))
+        m_mode_map_[i].insert(x.begin(), x.end());
+
+    m_domain_.insert(other.m_domain_.begin(), other.m_domain_.end());
+    return *this;
+}
+
+template<typename IndexType>
+DOMAINPIMPL& DOMAINPIMPL::int_assign_(const my_type& other) {
+    const bool is_empty   = m_domain_.empty() || other.m_domain_.empty();
+    const bool diff_ranks = rank() != other.rank();
+
+    if(is_empty || diff_ranks){
+        m_domain_.clear();
+        m_mode_map_.clear();
+        return *this;
+    }
+
+    std::set<value_type> new_domain;
+    std::vector<std::set<size_type>> new_mode_map;
+
+    for(const auto& x : m_domain_){
+        if(other.count(x)){
+            new_domain.insert(x);
+            for(const auto& [i, y] : utilities::Enumerate(x))
+                new_mode_map[i].insert(y.begin(), y.end());
+        }
+    }
+
+    m_domain_.swap(new_domain);
+    m_mode_map_.swap(new_mode_map);
+    return *this;
+}
+
+
+template<typename IndexType>
+void DOMAINPIMPL::bounds_check_(size_type i) const {
     if(i < size()) return;
     using namespace std::string_literals;
-    throw std::out_of_range(
-      "i = "s + std::to_string(i) + " is not in the range [0, "s +
-      std::to_string(size()) + ")."s);
-
+    throw std::out_of_range("i = "s + std::to_string(i) +
+                            " is not in the range [0, "s +
+                            std::to_string(size()) + ")."s);
 }
 
 #undef DOMAINPIMPL
 
-} // namespace libchemist::sparse_map::detail_
+} // namespace detail_
+} // namespace libchemist::sparse_map
