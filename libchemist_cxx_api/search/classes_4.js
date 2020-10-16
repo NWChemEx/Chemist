@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['flattenedview',['FlattenedView',['../classlibchemist_1_1detail___1_1FlattenedView.html',1,'libchemist::detail_']]]
+  ['elementindex',['ElementIndex',['../structlibchemist_1_1sparse__map_1_1ElementIndex.html',1,'libchemist::sparse_map']]]
 ];

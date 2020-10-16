@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['indexmap',['IndexMap',['../classlibchemist_1_1einsum_1_1detail___1_1IndexMap.html',1,'libchemist::einsum::detail_']]]
+  ['hardcodedbsman',['HardCodedBSMan',['../classlibchemist_1_1detail___1_1HardCodedBSMan.html',1,'libchemist::detail_']]],
+  ['hardcodedmolspimpl',['HardCodedMolsPIMPL',['../classlibchemist_1_1detail___1_1HardCodedMolsPIMPL.html',1,'libchemist::detail_']]]
 ];
