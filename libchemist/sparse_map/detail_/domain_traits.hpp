@@ -32,6 +32,8 @@ struct DomainTraits<Domain<IndexType>> {
 
     using const_reference = const IndexType&;
 
+    using extents_type = std::vector<size_type>;
+
     template<typename T>
     using iterator = utilities::iterators::OffsetIterator<T>;
 

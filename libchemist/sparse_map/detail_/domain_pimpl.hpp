@@ -23,6 +23,10 @@ namespace  detail_ {
  *  @note Once an index has been inserted into a Domain it can only be retrieved
  *        in a read-only fashion (this permits the Domain to be implemented in
  *        a manner which does not explicitly store every index).
+ *
+ *  @note For developers. Any method which changes the state of the Domain needs
+ *        to ensure that it also updates the mode map correctly. See the
+ *        `update_mode_map` method for more details.
  */
 template<typename IndexType>
 class DomainPIMPL {
@@ -45,6 +49,9 @@ public:
 
     /// The type of a read-only reference to an index
     using const_reference = typename traits_type::const_reference;
+
+    /// The type returned by result_extents
+    using extents_type = typename traits_type::extents_type;
 
     /** @brief Makes an empty Domain
      *
@@ -176,9 +183,37 @@ public:
      *                            rank of the indices already in the Domain.
      *                            Strong throw guarantee.
      *  @throw std::bad_alloc if there is insufficient memory to store the
-     *                        index. Strong throw guarantee.
+     *                        index. Weak throw guarantee.
      */
     void insert(value_type idx);
+
+    /** @brief Makes this instance the Cartesian product of this Domain and
+     *         the provided Domain.
+     *
+     *  The Cartesian product of a Domain, @f$A@f$, containing rank @f$r_A@f$
+     *  indices and a Domain, @f$B@f$, containing rank @f$r_B@f$ indices is a
+     *  Domain, @f$C@f$ with rank @f$n_C = n_A + n_B@f$ indices, such that:
+     *
+     *  @f[
+     *  C = \left\lbrace(a_i, b_j) \forall a_i\in A
+     *                             \forall b_j in B\right\rbrace,
+     *  @f]
+     *
+     *  where @f$(a_i, b_j)@f$ is the tuple made from concatenating the
+     *  @f$i@f$-th index in @f$A@f$ with the @f$j@f$-th index in @f$B@f$. The
+     *  number of indices in the new domain is equal to the number of indices in
+     *  @f$A@f$ times the number of inidces in @f$B@f$. Note that this means
+     *  that the Cartesian product of any domain with an empty domain is also
+     *  the empty domain.
+     *
+     * @param[in] rhs The Domain we are taking the Cartesian product with.
+     * @return The current Domain with its state set to the Cartesian product of
+     *         its previous state and @p rhs.
+     *
+     * @throw std::bad_alloc if there is insufficient memory to store the new
+     *                       state. Strong throw guarantee.
+     */
+    my_type& operator*=(const my_type& other) { return prod_assign_(other); }
 
     /** @brief Sets this Domain to the union of this Domain the provided Domain.
      *
@@ -265,9 +300,25 @@ protected:
     DomainPIMPL& operator=(const my_type& other) = default;
     DomainPIMPL& operator=(DomainPIMPL&& other) noexcept = default;
 
+    /** @brief Adds the specified index to the mode_map instance.
+     *
+     *  The internal mode map member is used to map from the indices in this
+     *  Domain to the indices in the resulting tensor-of-tensors. It is
+     *  essential that the mode map be updated anytime the contents of the
+     *  Domain change.
+     *
+     * @param[in] idx The index we are adding to mode map.
+     *
+     * @throw std::bad_alloc if there is insufficient memory to add the index.
+     *                       Weak throw guarantee.
+     */
+    void update_mode_map(const_reference idx);
 private:
     /// Should be overridden by derived class to make a polymorphic clone
     virtual std::unique_ptr<my_type> clone_() const;
+
+    /// Implements operator*=
+    virtual my_type& prod_assign_(const my_type& other);
 
     /// Implements operator+=
     virtual my_type& union_assign_(const my_type& other);
@@ -375,10 +426,7 @@ void DOMAINPIMPL::insert(value_type idx) {
                                  ") != rank of domain ("s +
                                  std::to_string(rank()) + ")"s);
     }
-    if(m_mode_map_.empty()) {
-        std::vector<std::set<size_type>>(idx.size()).swap(m_mode_map_);
-    }
-    for(std::size_t i = 0; i < idx.size(); ++i) m_mode_map_[i].insert(idx[i]);
+    update_mode_map(idx);
     m_domain_.insert(idx);
 }
 
@@ -390,9 +438,47 @@ bool DOMAINPIMPL::operator==(const DomainPIMPL& rhs) const noexcept {
 }
 
 template<typename IndexType>
+void DOMAINPIMPL::update_mode_map(const_reference idx) {
+    if(m_mode_map_.empty()) {
+        std::vector<std::set<size_type>>(idx.size()).swap(m_mode_map_);
+    }
+    for(std::size_t i = 0; i < idx.size(); ++i) m_mode_map_[i].insert(idx[i]);
+}
+
+template<typename IndexType>
 std::unique_ptr<DOMAINPIMPL> DOMAINPIMPL::clone_() const {
     auto* temp = new DOMAINPIMPL(*this);
     return std::unique_ptr<DOMAINPIMPL>(temp);
+}
+
+template<typename IndexType>
+DOMAINPIMPL& DOMAINPIMPL::prod_assign_(const my_type& other) {
+    const bool is_empty = m_domain_.empty() || other.m_domain_.empty();
+
+    if(is_empty) {
+        m_domain_.clear();
+        m_mode_map_.clear();
+        return *this;
+    }
+
+    std::set<value_type> new_dom;
+    std::vector<std::set<size_type>> new_modes(m_mode_map_);
+    const auto& other_mm = other.m_mode_map_;
+    new_modes.insert(new_modes.end(), other_mm.begin(), other_mm.end());
+
+    std::vector<size_type> new_idx(rank() + other.rank());
+    for(const auto& x : m_domain_){
+        for(const auto& [i, xi] : utilities::Enumerate(x)) new_idx[i] = xi;
+        for(const auto& y : other.m_domain_){
+            for(const auto& [i, yi] : utilities::Enumerate(y))
+                new_idx[i + rank()] = yi;
+            new_dom.insert(value_type(new_idx));
+        }
+    }
+
+    m_domain_.swap(new_dom);
+    m_mode_map_.swap(new_modes);
+    return *this;
 }
 
 template<typename IndexType>
@@ -404,15 +490,14 @@ DOMAINPIMPL& DOMAINPIMPL::union_assign_(const my_type& other) {
     if(rank() != other.rank())
         throw std::runtime_error("Intersection requires ranks to be the same");
 
-    for(const auto& [i, x] : utilities::Enumerate(other.m_mode_map_))
-        m_mode_map_[i].insert(x.begin(), x.end());
-
-    m_domain_.insert(other.m_domain_.begin(), other.m_domain_.end());
+    for(const auto& x : other.m_domain_) insert(x);
     return *this;
 }
 
 template<typename IndexType>
 DOMAINPIMPL& DOMAINPIMPL::int_assign_(const my_type& other) {
+    if(this == &other) return *this;
+
     const bool is_empty   = m_domain_.empty() || other.m_domain_.empty();
     const bool diff_ranks = rank() != other.rank();
 
@@ -422,22 +507,14 @@ DOMAINPIMPL& DOMAINPIMPL::int_assign_(const my_type& other) {
         return *this;
     }
 
-    std::set<value_type> new_domain;
-    std::vector<std::set<size_type>> new_mode_map;
+    std::set<value_type> old_domain(m_domain_);
+    m_domain_.clear();
+    m_mode_map_.clear();
+    for(const auto& x : old_domain)
+        if(other.count(x)) insert(x);
 
-    for(const auto& x : m_domain_){
-        if(other.count(x)){
-            new_domain.insert(x);
-            for(const auto& [i, y] : utilities::Enumerate(x))
-                new_mode_map[i].insert(y.begin(), y.end());
-        }
-    }
-
-    m_domain_.swap(new_domain);
-    m_mode_map_.swap(new_mode_map);
     return *this;
 }
-
 
 template<typename IndexType>
 void DOMAINPIMPL::bounds_check_(size_type i) const {

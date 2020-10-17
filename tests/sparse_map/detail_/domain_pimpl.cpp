@@ -6,11 +6,23 @@
 using namespace libchemist::sparse_map;
 using index_types = std::tuple<ElementIndex, TileIndex>;
 
+/* Testing notes:
+ *
+ * - The DomainPIMPL class contains the internal m_mode_map_ member which needs
+ *   to be updated any time the contents of the Domain change. This member is an
+ *   implementation detail affecting result_extents/result_index and if it's not
+ *   updated correctly those functions will break. Thus all unit tests which
+ *   change the state of the DomainPIMPL should test that they also correctly
+ *   update result_extents/result_index
+ *
+ */
+
 TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
     using namespace libchemist::sparse_map::detail_;
     using pimpl_type = DomainPIMPL<TestType>;
 
-    TestType e, e1{1}, e12{1, 2}, e2{2}, e23{2, 3};
+    TestType e, e0{0}, e00{0, 0}, e01{0, 1}, e1{1}, e10{1, 0}, e11{1, 1};
+    TestType e12{1, 2}, e2{2}, e21{2, 1}, e22{2, 2}, e23{2, 3};
     
     std::map<std::string, pimpl_type> ps;
     ps["empty"];
@@ -48,6 +60,13 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
             using corr_t  = typename traits::const_reference;
             STATIC_REQUIRE(std::is_same_v<pimpl_t, corr_t>);
         }
+        
+        SECTION("extents_type"){
+            using pimpl_t = typename pimpl_type::extents_type;
+            using corr_t  = typename traits::extents_type;
+            STATIC_REQUIRE(std::is_same_v<pimpl_t, corr_t>);
+        }
+        
     } // typedefs
 
     SECTION("Ctors") {
@@ -222,7 +241,7 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
         SECTION("1 rank 1 index") {
             const auto& p1 = ps.at("1 rank 1 index");
             SECTION("Good input index") {
-                REQUIRE(p1.result_index(e1) == TestType(0));
+                REQUIRE(p1.result_index(e1) == e0);
             }
             SECTION("Invalid input index"){
                 SECTION("Out of bounds") {
@@ -237,7 +256,7 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
         SECTION("2 rank 1 indices") {
             const auto& p1 = ps.at("2 rank 1 indices");
             SECTION("Good input index") {
-                REQUIRE(p1.result_index(e1) == TestType(0));
+                REQUIRE(p1.result_index(e1) == e0);
                 REQUIRE(p1.result_index(e2) == e1);
             }
             SECTION("Invalid input index"){
@@ -354,11 +373,16 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
 
     SECTION("insert"){
         pimpl_type p0;
+        using extents_type = typename pimpl_type::extents_type;
         SECTION("Add scalar index"){
             p0.insert(e);
-            REQUIRE(p0.size() == 1);
-            REQUIRE(p0.rank() == 0);
-            REQUIRE(p0.at(0) == e);
+            SECTION("Correct state") {
+                REQUIRE(p0.size() == 1);
+                REQUIRE(p0.rank() == 0);
+                REQUIRE(p0.at(0) == e);
+                REQUIRE(p0.result_extents().empty());
+                REQUIRE(p0.result_index(e) == e);
+            }
             SECTION("Throws if rank is greater") {
                 REQUIRE_THROWS_AS(p0.insert(e1), std::runtime_error);
             }
@@ -370,6 +394,8 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
             REQUIRE(p0.size() == 1);
             REQUIRE(p0.rank() == 0);
             REQUIRE(p0.at(0) == e);
+            REQUIRE(p0.result_extents().empty());
+            REQUIRE(p0.result_index(e) == e);
         }
 
         auto& p1 = ps.at("1 rank 1 index");
@@ -377,6 +403,8 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
             REQUIRE(p1.size() == 1);
             REQUIRE(p1.rank() == 1);
             REQUIRE(p1.at(0) == e1);
+            REQUIRE(p1.result_extents() == extents_type{1});
+            REQUIRE(p1.result_index(e1) == e0);
             SECTION("Throws if rank is less") {
                 REQUIRE_THROWS_AS(p1.insert(e), std::runtime_error);
             }
@@ -391,6 +419,8 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
             REQUIRE(p1.size() == 1);
             REQUIRE(p1.rank() == 1);
             REQUIRE(p1.at(0) == e1);
+            REQUIRE(p1.result_extents() == extents_type{1});
+            REQUIRE(p1.result_index(e1) == e0);
         }
 
         SECTION("Add two vector indices, lexicographical order"){
@@ -400,6 +430,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
             REQUIRE(p1.rank() == 1);
             REQUIRE(p1.at(0) == e1);
             REQUIRE(p1.at(1) == e2);
+            REQUIRE(p1.result_extents() == extents_type{2});
+            REQUIRE(p1.result_index(e1) == e0);
+            REQUIRE(p1.result_index(e2) == e1);
         }
 
         SECTION("Add two vector indices, reverse-lexicographical order"){
@@ -410,6 +443,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
             REQUIRE(p0.rank() == 1);
             REQUIRE(p0.at(0) == e1);
             REQUIRE(p0.at(1) == e2);
+            REQUIRE(p0.result_extents() == extents_type{2});
+            REQUIRE(p0.result_index(e1) == e0);
+            REQUIRE(p0.result_index(e2) == e1);
         }
 
         auto& p2 = ps.at("1 rank 2 index");
@@ -417,6 +453,8 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
             REQUIRE(p2.size() == 1);
             REQUIRE(p2.rank() == 2);
             REQUIRE(p2.at(0) == e12);
+            REQUIRE(p2.result_extents() == extents_type{1, 1});
+            REQUIRE(p2.result_index(e12) == e00);
         }
 
         SECTION("Repeated addition of matrix index"){
@@ -424,17 +462,22 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
             REQUIRE(p2.size() == 1);
             REQUIRE(p2.rank() == 2);
             REQUIRE(p2.at(0) == e12);
+            REQUIRE(p2.result_extents() == extents_type{1, 1});
+            REQUIRE(p2.result_index(e12) == e00);
         }
 
-        SECTION("Add two vector indices, lexicographical order"){
+        SECTION("Add two matrix indices, lexicographical order"){
             p2.insert(e23);
             REQUIRE(p2.size() == 2);
             REQUIRE(p2.rank() == 2);
             REQUIRE(p2.at(0) == e12);
             REQUIRE(p2.at(1) == e23);
+            REQUIRE(p2.result_extents() == extents_type{2, 2});
+            REQUIRE(p2.result_index(e12) == e00);
+            REQUIRE(p2.result_index(e23) == e11);
         }
 
-        SECTION("Add two vector indices, reverse-lexicographical order"){
+        SECTION("Add two matrix indices, reverse-lexicographical order"){
             p0.insert(e23);
             p0.insert(e12);
 
@@ -442,10 +485,489 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
             REQUIRE(p0.rank() == 2);
             REQUIRE(p0.at(0) == e12);
             REQUIRE(p0.at(1) == e23);
+            REQUIRE(p0.result_extents() == extents_type{2, 2});
+            REQUIRE(p0.result_index(e12) == e00);
+            REQUIRE(p0.result_index(e23) == e11);
+        }
+    }
+
+    SECTION("operator*=") {
+        using extents_type = typename pimpl_type::extents_type;
+        TestType e000{0, 0, 0}, e011{0, 1, 1}, e112{1, 1, 2}, e123{1, 2, 3};
+        TestType e100{1, 0, 0}, e111{1, 1, 1}, e121{1, 2, 1}, e212{2, 1, 2};
+        TestType e001{0, 0, 1}, e122{1, 2, 2}, e223{2, 2, 3}, e231{2, 3, 1};
+        TestType e110{1, 1, 0}, e232{2, 3, 2}, e2323{2, 3, 2, 3};
+        TestType e0000{0, 0, 0, 0}, e1212{1, 2, 1, 2}, e1223{1, 2, 2, 3};
+        TestType e0011{0, 0, 1, 1}, e2312{2, 3, 1, 2}, e1100{1, 1, 0, 0};
+        TestType e1111{1, 1, 1, 1};
+
+        SECTION("lhs == empty") {
+            auto& lhs = ps.at("empty");
+            for(const auto& [k, rhs] : ps){
+                SECTION(k){
+                    auto plhs = &(lhs *= rhs);
+                    SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                    SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                    SECTION("result_extents"){
+                        REQUIRE(lhs.result_extents().empty());
+                    }
+                }
+            }
+        }
+
+        SECTION("lhs == 1 rank 0 index") {
+            auto& lhs = ps.at("1 rank 0 index");
+            for(const auto& [k, rhs] : ps){
+                SECTION(k){
+                    auto plhs = &(lhs *= rhs);
+                    SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                    SECTION("Value") { REQUIRE(lhs == rhs); }
+                    SECTION("result_extents") {
+                        REQUIRE(lhs.result_extents() == rhs.result_extents());
+                    }
+                    SECTION("result_index"){
+                        for(std::size_t i = 0; i < rhs.size(); ++i) {
+                            const auto idx  = rhs.at(i);
+                            const auto lidx = lhs.result_index(idx);
+                            const auto ridx = rhs.result_index(idx);
+                            REQUIRE(lidx == ridx);
+                        }
+                    }
+                }
+            }
+        }
+
+        SECTION("lhs == 1 rank 1 index") {
+            auto& lhs = ps.at("1 rank 1 index");
+            SECTION("rhs == empty"){
+                auto& rhs = ps.at("empty");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") { REQUIRE(lhs == rhs); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
+            }
+
+            SECTION("rhs == 1 rank 0 index"){
+                auto& rhs = ps.at("1 rank 0 index");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e1);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1});
+                }
+                SECTION("result_index"){ REQUIRE(lhs.result_index(e1) == e0); }
+            }
+
+            SECTION("rhs == 1 rank 1 index") {
+                auto& rhs = ps.at("1 rank 1 index");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e11);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1, 1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e11) == e00);
+                }
+            }
+
+            SECTION("rhs == 2 rank 1 indices") {
+                auto& rhs = ps.at("2 rank 1 indices");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e11);
+                    corr.insert(e12);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1, 2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e11) == e00);
+                    REQUIRE(lhs.result_index(e12) == e01);
+                }
+            }
+
+            SECTION("rhs == 1 rank 2 index") {
+                auto& rhs = ps.at("1 rank 2 index");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e112);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1, 1, 1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e112) == e000);
+                }
+            }
+
+            SECTION("rhs == 2 rank 2 indices") {
+                auto& rhs = ps.at("2 rank 2 indices");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e112);
+                    corr.insert(e123);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1, 2, 2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e112) == e000);
+                    REQUIRE(lhs.result_index(e123) == e011);
+                }
+            }
+        }
+
+        SECTION("lhs == 2 rank 1 indices") {
+            auto& lhs = ps.at("2 rank 1 indices");
+            SECTION("rhs == empty"){
+                auto& rhs = ps.at("empty");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") { REQUIRE(lhs == rhs); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
+            }
+
+            SECTION("rhs == 1 rank 0 index"){
+                auto& rhs = ps.at("1 rank 0 index");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e1);
+                    corr.insert(e2);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e1) == e0);
+                    REQUIRE(lhs.result_index(e2) == e1);
+                }
+            }
+
+            SECTION("rhs == 1 rank 1 index") {
+                auto& rhs = ps.at("1 rank 1 index");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e11);
+                    corr.insert(e21);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2, 1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e11) == e00);
+                    REQUIRE(lhs.result_index(e21) == e10);
+                }
+            }
+
+            SECTION("rhs == 2 rank 1 indices") {
+                auto& rhs = ps.at("2 rank 1 indices");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e11);
+                    corr.insert(e12);
+                    corr.insert(e21);
+                    corr.insert(e22);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2, 2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e11) == e00);
+                    REQUIRE(lhs.result_index(e12) == e01);
+                    REQUIRE(lhs.result_index(e21) == e10);
+                    REQUIRE(lhs.result_index(e22) == e11);
+                }
+            }
+
+            SECTION("rhs == 1 rank 2 index") {
+                auto& rhs = ps.at("1 rank 2 index");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e112);
+                    corr.insert(e212);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2, 1, 1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e112) == e000);
+                    REQUIRE(lhs.result_index(e212) == e100);
+                }
+            }
+
+            SECTION("rhs == 2 rank 2 indices") {
+                auto& rhs = ps.at("2 rank 2 indices");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e112);
+                    corr.insert(e123);
+                    corr.insert(e212);
+                    corr.insert(e223);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2, 2, 2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e112) == e000);
+                    REQUIRE(lhs.result_index(e123) == e011);
+                    REQUIRE(lhs.result_index(e212) == e100);
+                    REQUIRE(lhs.result_index(e223) == e111);
+                }
+            }
+        }
+
+        SECTION("lhs == 1 rank 2 index") {
+            auto& lhs = ps.at("1 rank 2 index");
+            SECTION("rhs == empty"){
+                auto& rhs = ps.at("empty");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") { REQUIRE(lhs == rhs); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
+            }
+
+            SECTION("rhs == 1 rank 0 index"){
+                auto& rhs = ps.at("1 rank 0 index");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e12);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1, 1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e12) == e00);
+                }
+            }
+
+            SECTION("rhs == 1 rank 1 index") {
+                auto& rhs = ps.at("1 rank 1 index");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e121);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1, 1, 1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e121) == e000);
+                }
+            }
+
+            SECTION("rhs == 2 rank 1 indices") {
+                auto& rhs = ps.at("2 rank 1 indices");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e121);
+                    corr.insert(e122);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1, 1, 2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e121) == e000);
+                    REQUIRE(lhs.result_index(e122) == e001);
+                }
+            }
+
+            SECTION("rhs == 1 rank 2 index") {
+                auto& rhs = ps.at("1 rank 2 index");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e1212);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1, 1, 1, 1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e1212) == e0000);
+                }
+            }
+
+            SECTION("rhs == 2 rank 2 indices") {
+                auto& rhs = ps.at("2 rank 2 indices");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e1212);
+                    corr.insert(e1223);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1, 1, 2, 2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e1212) == e0000);
+                    REQUIRE(lhs.result_index(e1223) == e0011);
+                }
+            }
+        }
+
+        SECTION("lhs == 2 rank 2 indices") {
+            auto& lhs = ps.at("2 rank 2 indices");
+            SECTION("rhs == empty"){
+                auto& rhs = ps.at("empty");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") { REQUIRE(lhs == rhs); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
+            }
+
+            SECTION("rhs == 1 rank 0 index"){
+                auto& rhs = ps.at("1 rank 0 index");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e12);
+                    corr.insert(e23);
+                    REQUIRE(lhs == corr);
+                }
+            }
+
+            SECTION("rhs == 1 rank 1 index") {
+                auto& rhs = ps.at("1 rank 1 index");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e121);
+                    corr.insert(e231);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2, 2, 1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e121) == e000);
+                    REQUIRE(lhs.result_index(e231) == e110);
+                }
+            }
+
+            SECTION("rhs == 2 rank 1 indices") {
+                auto& rhs = ps.at("2 rank 1 indices");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e121);
+                    corr.insert(e122);
+                    corr.insert(e231);
+                    corr.insert(e232);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2, 2, 2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e121) == e000);
+                    REQUIRE(lhs.result_index(e122) == e001);
+                    REQUIRE(lhs.result_index(e231) == e110);
+                    REQUIRE(lhs.result_index(e232) == e111);
+                }
+            }
+
+            SECTION("rhs == 1 rank 2 index") {
+                auto& rhs = ps.at("1 rank 2 index");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e1212);
+                    corr.insert(e2312);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2, 2, 1, 1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e1212) == e0000);
+                    REQUIRE(lhs.result_index(e2312) == e1100);
+                }
+            }
+
+            SECTION("rhs == 2 rank 2 indices") {
+                auto& rhs = ps.at("2 rank 2 indices");
+                auto plhs = &(lhs *= rhs);
+                SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
+                SECTION("Value") {
+                    pimpl_type corr;
+                    corr.insert(e1212);
+                    corr.insert(e1223);
+                    corr.insert(e2312);
+                    corr.insert(e2323);
+                    REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2, 2, 2, 2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e1212) == e0000);
+                    REQUIRE(lhs.result_index(e1223) == e0011);
+                    REQUIRE(lhs.result_index(e2312) == e1100);
+                    REQUIRE(lhs.result_index(e2323) == e1111);
+                }
+            }
         }
     }
 
     SECTION("operator+=") {
+        using extents_type = typename pimpl_type::extents_type;
+
         SECTION("lhs == empty") {
             auto& lhs = ps.at("empty");
             for(const auto& [k, rhs] : ps) {
@@ -453,6 +975,17 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                     auto plhs = &(lhs += rhs);
                     SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                     SECTION("Value") { REQUIRE(lhs == rhs); }
+                    SECTION("result_extents"){
+                        REQUIRE(lhs.result_extents() == rhs.result_extents());
+                    }
+                    SECTION("result_index"){
+                        for(std::size_t i = 0; i < rhs.size(); ++i){
+                            const auto idx  = rhs.at(i);
+                            const auto lidx = lhs.result_index(idx);
+                            const auto ridx = rhs.result_index(idx);
+                            REQUIRE(lidx == ridx);
+                        }
+                    }
                 }
             }
         }
@@ -467,6 +1000,12 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                     corr.insert(e);
                     REQUIRE(lhs == corr);
                 }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e) == e);
+                }
             }
 
             SECTION("rhs == 1 rank 0 index"){
@@ -475,6 +1014,12 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs += corr);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == corr); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e) == e);
+                }
             }
 
             SECTION("rhs == 1 rank 1 index"){
@@ -504,6 +1049,12 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                     corr.insert(e1);
                     REQUIRE(lhs == corr);
                 }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e1) == e0);
+                }
             }
 
             SECTION("rhs == 1 rank 0 index"){
@@ -518,6 +1069,12 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                     corr.insert(e1);
                     REQUIRE(lhs == corr);
                 }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e1) == e0);
+                }
             }
 
             SECTION("rhs == 2 rank 1 indices"){
@@ -525,6 +1082,13 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs += rhs);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == rhs); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e1) == e0);
+                    REQUIRE(lhs.result_index(e2) == e1);
+                }
             }
 
             SECTION("rhs == 1 rank 2 index"){
@@ -545,6 +1109,13 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs += ps.at("empty"));
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == corr); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e1) == e0);
+                    REQUIRE(lhs.result_index(e2) == e1);
+                }
             }
 
             SECTION("rhs == 1 rank 0 index"){
@@ -555,6 +1126,13 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs += ps.at("1 rank 1 index"));
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == corr); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e1) == e0);
+                    REQUIRE(lhs.result_index(e2) == e1);
+                }
             }
 
             SECTION("rhs == 2 rank 1 indices"){
@@ -562,6 +1140,13 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs += rhs);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == corr); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e1) == e0);
+                    REQUIRE(lhs.result_index(e2) == e1);
+                }
             }
 
             SECTION("rhs == 1 rank 2 index"){
@@ -583,6 +1168,12 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                     corr.insert(e12);
                     REQUIRE(lhs == corr);
                 }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1, 1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e12) == e00);
+                }
             }
 
             SECTION("rhs == 1 rank 0 index"){
@@ -605,6 +1196,12 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                     corr.insert(e12);
                     REQUIRE(lhs == corr);
                 }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1, 1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e12) == e00);
+                }
             }
 
             SECTION("rhs == 2 rank 2 indices"){
@@ -612,6 +1209,13 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs += rhs);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == rhs); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2, 2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e12) == e00);
+                    REQUIRE(lhs.result_index(e23) == e11);
+                }
             }
         }
 
@@ -624,6 +1228,13 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs += ps.at("empty"));
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == corr); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2, 2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e12) == e00);
+                    REQUIRE(lhs.result_index(e23) == e11);
+                }
             }
 
             SECTION("rhs == 1 rank 0 index"){
@@ -642,6 +1253,13 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs += ps.at("1 rank 2 index"));
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == corr); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2, 2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e12) == e00);
+                    REQUIRE(lhs.result_index(e23) == e11);
+                }
             }
 
             SECTION("rhs == 2 rank 2 indices"){
@@ -649,11 +1267,19 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs += rhs);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == corr); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2, 2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e12) == e00);
+                    REQUIRE(lhs.result_index(e23) == e11);
+                }
             }
         }
     }
 
     SECTION("operator^=") {
+        using extents_type = typename pimpl_type::extents_type;
         SECTION("lhs == empty") {
             auto& lhs = ps.at("empty");
             pimpl_type corr;
@@ -662,6 +1288,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                     auto plhs = &(lhs ^= rhs);
                     SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                     SECTION("Value") { REQUIRE(lhs == corr); }
+                    SECTION("result_extents"){
+                        REQUIRE(lhs.result_extents().empty());
+                    }
                 }
             }
         }
@@ -672,6 +1301,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= ps.at("empty"));
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 1 rank 0 index"){
@@ -680,30 +1312,48 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= corr);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == corr); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e) == e);
+                }
             }
 
             SECTION("rhs == 1 rank 1 index"){
                 auto plhs = &(lhs ^= ps.at("1 rank 1 index"));
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 2 rank 1 indices"){
                 auto plhs = &(lhs ^= ps.at("2 rank 1 indices"));
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 1 rank 2 index"){
                 auto plhs = &(lhs ^= ps.at("1 rank 2 index"));
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 2 rank 2 indices"){
-                auto plhs = &(lhs ^= ps.at("2 ran"));
+                auto plhs = &(lhs ^= ps.at("2 rank 2 indices"));
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
         }
 
@@ -713,6 +1363,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= ps.at("empty"));
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 1 rank 0 index"){
@@ -720,6 +1373,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
               auto plhs = &(lhs ^= rhs);
               SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
               SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 1 rank 1 index"){
@@ -729,6 +1385,12 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                     pimpl_type corr;
                     corr.insert(e1);
                     REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e1) == e0);
                 }
             }
 
@@ -741,6 +1403,12 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                     corr.insert(e1);
                     REQUIRE(lhs == corr);
                 }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e1) == e0);
+                }
             }
 
             SECTION("rhs == 1 rank 2 index"){
@@ -748,6 +1416,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= rhs);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 2 rank 2 indices"){
@@ -755,6 +1426,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= rhs);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
         }
 
@@ -764,6 +1438,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= ps.at("empty"));
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 1 rank 0 index"){
@@ -771,6 +1448,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= rhs);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 1 rank 1 index"){
@@ -781,6 +1461,12 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                     corr.insert(e1);
                     REQUIRE(lhs == corr);
                 }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e1) == e0);
+                }
             }
 
             SECTION("rhs == 2 rank 1 indices"){
@@ -790,7 +1476,15 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 SECTION("Value") {
                     pimpl_type corr;
                     corr.insert(e1);
+                    corr.insert(e2);
                     REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e1) == e0);
+                    REQUIRE(lhs.result_index(e2) == e1);
                 }
             }
 
@@ -799,6 +1493,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= rhs);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 2 rank 2 indices"){
@@ -806,6 +1503,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= rhs);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
         }
 
@@ -815,6 +1515,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= ps.at("empty"));
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 1 rank 0 index"){
@@ -822,6 +1525,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= rhs);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 1 rank 1 index"){
@@ -829,6 +1535,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= rhs);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 2 rank 1 indices"){
@@ -836,6 +1545,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= rhs);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 1 rank 2 index"){
@@ -846,6 +1558,12 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                     corr.insert(e12);
                     REQUIRE(lhs == corr);
                 }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1, 1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e12) == e00);
+                }
             }
 
             SECTION("rhs == 2 rank 2 indices"){
@@ -856,6 +1574,12 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                     pimpl_type corr;
                     corr.insert(e12);
                     REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1, 1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e12) == e00);
                 }
             }
         }
@@ -866,6 +1590,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= ps.at("empty"));
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 1 rank 0 index"){
@@ -873,6 +1600,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= rhs);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 1 rank 1 index"){
@@ -880,6 +1610,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= rhs);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 2 rank 1 indices"){
@@ -887,6 +1620,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 auto plhs = &(lhs ^= rhs);
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == pimpl_type{}); }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents().empty());
+                }
             }
 
             SECTION("rhs == 1 rank 2 index"){
@@ -897,6 +1633,12 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                     corr.insert(e12);
                     REQUIRE(lhs == corr);
                 }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{1, 1});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e12) == e00);
+                }
             }
 
             SECTION("rhs == 2 rank 2 indices"){
@@ -906,7 +1648,15 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
                 SECTION("Value") {
                     pimpl_type corr;
                     corr.insert(e12);
+                    corr.insert(e23);
                     REQUIRE(lhs == corr);
+                }
+                SECTION("result_extents"){
+                    REQUIRE(lhs.result_extents() == extents_type{2, 2});
+                }
+                SECTION("result_index"){
+                    REQUIRE(lhs.result_index(e12) == e00);
+                    REQUIRE(lhs.result_index(e23) == e11);
                 }
             }
         }
