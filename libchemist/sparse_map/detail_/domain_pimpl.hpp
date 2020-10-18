@@ -184,8 +184,11 @@ public:
      *                            Strong throw guarantee.
      *  @throw std::bad_alloc if there is insufficient memory to store the
      *                        index. Weak throw guarantee.
+     *
+     *  @note This function is implemented by `insert_`. Derived classes should
+     *        override `insert_` as appropriate.
      */
-    void insert(value_type idx);
+    void insert(value_type idx) { insert_(std::move(idx)); }
 
     /** @brief Makes this instance the Cartesian product of this Domain and
      *         the provided Domain.
@@ -283,8 +286,11 @@ public:
      *          otherwise.
      *
      *  @throw None No throw guarantee.
+     *
+     *  @note This method is implemented by `equal_`. Derived classes should
+     *        override `equal_` as appropriate.
      */
-    bool operator==(const my_type& rhs) const noexcept;
+    bool operator==(const my_type& rhs) const noexcept { return equal_(rhs); }
 
     /** @brief Computes the hash of the Domain.
      *
@@ -317,6 +323,9 @@ private:
     /// Should be overridden by derived class to make a polymorphic clone
     virtual std::unique_ptr<my_type> clone_() const;
 
+    /// Implements insert
+    virtual void insert_(value_type idx);
+
     /// Implements operator*=
     virtual my_type& prod_assign_(const my_type& other);
 
@@ -325,6 +334,9 @@ private:
 
     /// Implements operator^=
     virtual my_type& int_assign_(const my_type& other);
+
+    /// Implements operator==
+    virtual bool equal_(const my_type& other) const noexcept;
 
     /// Ensures that @p i is in the range [0, size())
     void bounds_check_(size_type i) const;
@@ -419,19 +431,7 @@ typename DOMAINPIMPL::value_type DOMAINPIMPL::at(size_type i) const {
 }
 
 template<typename IndexType>
-void DOMAINPIMPL::insert(value_type idx) {
-    if(!m_domain_.empty() && idx.size() != rank()) {
-        using namespace std::string_literals;
-        throw std::runtime_error("Rank of idx ("s + std::to_string(idx.size()) +
-                                 ") != rank of domain ("s +
-                                 std::to_string(rank()) + ")"s);
-    }
-    update_mode_map(idx);
-    m_domain_.insert(idx);
-}
-
-template<typename IndexType>
-bool DOMAINPIMPL::operator==(const DomainPIMPL& rhs) const noexcept {
+bool DOMAINPIMPL::equal_(const DomainPIMPL& rhs) const noexcept {
     if(rank() != rhs.rank()) return false;
     if(size() != rhs.size()) return false;
     return m_domain_ == rhs.m_domain_;
@@ -449,6 +449,18 @@ template<typename IndexType>
 std::unique_ptr<DOMAINPIMPL> DOMAINPIMPL::clone_() const {
     auto* temp = new DOMAINPIMPL(*this);
     return std::unique_ptr<DOMAINPIMPL>(temp);
+}
+
+template<typename IndexType>
+void DOMAINPIMPL::insert_(value_type idx) {
+    if(!m_domain_.empty() && idx.size() != rank()) {
+        using namespace std::string_literals;
+        throw std::runtime_error("Rank of idx ("s + std::to_string(idx.size()) +
+                                 ") != rank of domain ("s +
+                                 std::to_string(rank()) + ")"s);
+    }
+    update_mode_map(idx);
+    m_domain_.insert(idx);
 }
 
 template<typename IndexType>
