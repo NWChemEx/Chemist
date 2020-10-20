@@ -1,4 +1,5 @@
-#include "libchemist/sparse_map/detail_/domain_traits.hpp"
+#pragma once
+#include "libchemist/sparse_map/domain/detail_/domain_traits.hpp"
 #include <memory>
 #include <sde/detail_/memoization.hpp>
 #include <set>
@@ -306,20 +307,6 @@ protected:
     DomainPIMPL& operator=(const my_type& other) = default;
     DomainPIMPL& operator=(DomainPIMPL&& other) noexcept = default;
 
-    /** @brief Adds the specified index to the mode_map instance.
-     *
-     *  The internal mode map member is used to map from the indices in this
-     *  Domain to the indices in the resulting tensor-of-tensors. It is
-     *  essential that the mode map be updated anytime the contents of the
-     *  Domain change.
-     *
-     * @param[in] idx The index we are adding to mode map.
-     *
-     * @throw std::bad_alloc if there is insufficient memory to add the index.
-     *                       Weak throw guarantee.
-     */
-    void update_mode_map(const_reference idx);
-private:
     /// Should be overridden by derived class to make a polymorphic clone
     virtual std::unique_ptr<my_type> clone_() const;
 
@@ -337,6 +324,21 @@ private:
 
     /// Implements operator==
     virtual bool equal_(const my_type& other) const noexcept;
+
+    /** @brief Adds the specified index to the mode_map instance.
+     *
+     *  The internal mode map member is used to map from the indices in this
+     *  Domain to the indices in the resulting tensor-of-tensors. It is
+     *  essential that the mode map be updated anytime the contents of the
+     *  Domain change.
+     *
+     * @param[in] idx The index we are adding to mode map.
+     *
+     * @throw std::bad_alloc if there is insufficient memory to add the index.
+     *                       Weak throw guarantee.
+     */
+    void update_mode_map(const_reference idx);
+private:
 
     /// Ensures that @p i is in the range [0, size())
     void bounds_check_(size_type i) const;

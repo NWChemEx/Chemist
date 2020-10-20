@@ -1,4 +1,4 @@
-#include "libchemist/sparse_map/detail_/domain_pimpl.hpp"
+#include "libchemist/sparse_map/domain/detail_/domain_pimpl.hpp"
 #include "libchemist/sparse_map/index.hpp"
 #include <catch2/catch.hpp>
 #include <tuple>

@@ -149,7 +149,7 @@
 //     *  this SparseMap, which is also the number of Domains and the number of
 //     *  independent-index-domain pairs.
 //     *
-//     *  @return The number of indepenent indices in this SparseMap.
+//     *  @return The number of independent indices in this SparseMap.
 //     *
 //     *  @throw None No throw guarantee.
 //     */

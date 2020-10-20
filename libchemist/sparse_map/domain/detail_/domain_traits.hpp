@@ -26,12 +26,16 @@ template<typename T> struct DomainTraits;
  */
 template<typename IndexType>
 struct DomainTraits<Domain<IndexType>> {
-
+    /// Type used for counts and offsets
     using size_type       = std::size_t;
+
+    /// Type of the indices in the Domain
     using value_type      = IndexType;
 
+    /// A read-only reference to an index
     using const_reference = const IndexType&;
 
+    /// Type used to return the extents of the held indices
     using extents_type = std::vector<size_type>;
 
     template<typename T>
