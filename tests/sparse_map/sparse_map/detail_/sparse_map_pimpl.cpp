@@ -1,4 +1,4 @@
-#include "libchemist/sparse_map/detail_/sparse_map_pimpl.hpp"
+#include "libchemist/sparse_map/sparse_map/detail_/sparse_map_pimpl.hpp"
 #include "libchemist/sparse_map/index.hpp"
 #include <catch2/catch.hpp>
 
@@ -834,65 +834,48 @@ TEMPLATE_LIST_TEST_CASE("SparseMapPIMPL", "", index_list) {
 //        }
 //    }
 //
-//    SECTION("comparisons") {
-//        SECTION("Empty == Empty") {
-//            REQUIRE(sms.at("Empty") == derived_t{});
-//            REQUIRE_FALSE(sms.at("Empty") != derived_t{});
-//        }
-//
-//        SECTION("Empty == No PIMPL") {
-//            REQUIRE(sms.at("Empty") == sms.at("No PIMPL"));
-//            REQUIRE_FALSE(sms.at("Empty") != sms.at("No PIMPL"));
-//        }
-//
-//        SECTION("Empty != non-empty") {
-//            auto& lhs = sms.at("Empty");
-//            for(std::size_t i = 0; i < 3; ++i) {
-//                std::string key = "Ind == rank " + std::to_string(i);
-//                auto& rhs       = sms.at(key);
-//                SECTION(key) {
-//                    REQUIRE_FALSE(lhs == rhs);
-//                    REQUIRE(lhs != rhs);
-//                }
-//            }
-//        }
-//
-//        SECTION("Same non-empty") {
-//            auto& lhs = sms.at("Ind == rank 0");
-//            derived_t copy(lhs);
-//            REQUIRE(lhs == copy);
-//            REQUIRE_FALSE(lhs != copy);
-//        }
-//
-//        SECTION("Domain is subset/superset") {
-//            auto& lhs = sms.at("Ind == rank 0");
-//            derived_t copy(lhs);
-//            copy.add_to_domain(i0, dep_idx_t{3});
-//            REQUIRE_FALSE(lhs == copy);
-//            REQUIRE(lhs != copy);
-//        }
-//
-//        SECTION("Different independent indices") {
-//            auto& lhs = sms.at("Ind == rank 1");
-//            derived_t copy(lhs);
-//            copy.add_to_domain(ind_idx_t{3}, dep_idx_t{3});
-//            REQUIRE_FALSE(lhs == copy);
-//            REQUIRE(lhs != copy);
-//        }
-//
-//        SECTION("No PIMPL != non-empty") {
-//            auto& lhs = sms.at("No PIMPL");
-//            for(std::size_t i = 0; i < 3; ++i) {
-//                std::string key = "Ind == rank " + std::to_string(i);
-//                auto& rhs       = sms.at(key);
-//                SECTION(key) {
-//                    REQUIRE_FALSE(lhs == rhs);
-//                    REQUIRE(lhs != rhs);
-//                }
-//            }
-//        }
-//    }
-//
+    SECTION("comparisons") {
+        SECTION("Empty == Empty") {
+            REQUIRE(sms.at("Empty") == pimpl_t{});
+            REQUIRE_FALSE(sms.at("Empty") != pimpl_t{});
+        }
+
+        SECTION("Empty != non-empty") {
+            auto& lhs = sms.at("Empty");
+            for(std::size_t i = 0; i < 3; ++i) {
+                std::string key = "Ind == rank " + std::to_string(i);
+                auto& rhs       = sms.at(key);
+                SECTION(key) {
+                    REQUIRE_FALSE(lhs == rhs);
+                    REQUIRE(lhs != rhs);
+                }
+            }
+        }
+
+        SECTION("Same non-empty") {
+            auto& lhs = sms.at("Ind == rank 0");
+            auto copy = lhs.clone();
+            REQUIRE(lhs == *copy);
+            REQUIRE_FALSE(lhs != *copy);
+        }
+
+        SECTION("Domain is subset/superset") {
+            auto& lhs = sms.at("Ind == rank 0");
+            auto copy = lhs.clone();
+            copy->add_to_domain(i0, dep_idx_t{3});
+            REQUIRE_FALSE(lhs == *copy);
+            REQUIRE(lhs != *copy);
+        }
+
+        SECTION("Different independent indices") {
+            auto& lhs = sms.at("Ind == rank 1");
+            auto copy = lhs.clone();
+            copy->add_to_domain(ind_idx_t{3}, dep_idx_t{3});
+            REQUIRE_FALSE(lhs == *copy);
+            REQUIRE(lhs != *copy);
+        }
+    }
+
     SECTION("print") {
         std::stringstream ss;
 
@@ -911,78 +894,61 @@ TEMPLATE_LIST_TEST_CASE("SparseMapPIMPL", "", index_list) {
             SECTION("Returns ostream") { REQUIRE(pss == &ss); }
         }
     }
-//
-//    SECTION("hash") {
-//        SECTION("Empty == Empty") {
-//            auto h  = sde::hash_objects(sms.at("Empty"));
-//            auto h2 = sde::hash_objects(derived_t{});
-//            REQUIRE(h == h2);
-//        }
-//
-//        SECTION("Empty == No PIMPL") {
-//            auto h  = sde::hash_objects(sms.at("Empty"));
-//            auto h2 = sde::hash_objects(sms.at("No PIMPL"));
-//            REQUIRE(h == h2);
-//        }
-//
-//        SECTION("Empty != non-empty") {
-//            auto h = sde::hash_objects(sms.at("Empty"));
-//            for(std::size_t i = 0; i < 3; ++i) {
-//                std::string key = "Ind == rank " + std::to_string(i);
-//                auto& rhs       = sms.at(key);
-//                SECTION(key) {
-//                    auto h2 = sde::hash_objects(rhs);
-//                    REQUIRE(h != h2);
-//                }
-//            }
-//        }
-//
-//        SECTION("Same non-empty") {
-//            auto& lhs = sms.at("Ind == rank 0");
-//            auto h    = sde::hash_objects(lhs);
-//            auto h2   = sde::hash_objects(derived_t(lhs));
-//            REQUIRE(h == h2);
-//        }
-//
-//        SECTION("Domain is subset/superset") {
-//            auto& lhs = sms.at("Ind == rank 0");
-//            auto h    = sde::hash_objects(lhs);
-//            derived_t copy(lhs);
-//            copy.add_to_domain(i0, dep_idx_t{3});
-//            auto h2 = sde::hash_objects(copy);
-//            REQUIRE(h != h2);
-//        }
-//
-//        SECTION("Different independent indices") {
-//            auto& lhs = sms.at("Ind == rank 1");
-//            auto h    = sde::hash_objects(lhs);
-//            derived_t copy(lhs);
-//            copy.add_to_domain(ind_idx_t{3}, dep_idx_t{3});
-//            auto h2 = sde::hash_objects(copy);
-//            REQUIRE(h != h2);
-//        }
-//
-//        SECTION("No PIMPL != non-empty") {
-//            auto& lhs = sms.at("No PIMPL");
-//            auto h    = sde::hash_objects(lhs);
-//            for(std::size_t i = 0; i < 3; ++i) {
-//                std::string key = "Ind == rank " + std::to_string(i);
-//                auto& rhs       = sms.at(key);
-//                auto h2         = sde::hash_objects(rhs);
-//                SECTION(key) { REQUIRE(h != h2); }
-//            }
-//        }
-//    }
+
+    SECTION("hash") {
+        SECTION("Empty == Empty") {
+            auto h  = sde::hash_objects(sms.at("Empty"));
+            auto h2 = sde::hash_objects(pimpl_t{});
+            REQUIRE(h == h2);
+        }
+
+        SECTION("Empty != non-empty") {
+            auto h = sde::hash_objects(sms.at("Empty"));
+            for(std::size_t i = 0; i < 3; ++i) {
+                std::string key = "Ind == rank " + std::to_string(i);
+                auto& rhs       = sms.at(key);
+                SECTION(key) {
+                    auto h2 = sde::hash_objects(rhs);
+                    REQUIRE(h != h2);
+                }
+            }
+        }
+
+        SECTION("Same non-empty") {
+            auto& lhs = sms.at("Ind == rank 0");
+            auto h    = sde::hash_objects(lhs);
+            auto h2   = sde::hash_objects(*(lhs.clone()));
+            REQUIRE(h == h2);
+        }
+
+        SECTION("Domain is subset/superset") {
+            auto& lhs = sms.at("Ind == rank 0");
+            auto h    = sde::hash_objects(lhs);
+            auto copy = lhs.clone();
+            copy->add_to_domain(i0, dep_idx_t{3});
+            auto h2 = sde::hash_objects(*copy);
+            REQUIRE(h != h2);
+        }
+
+        SECTION("Different independent indices") {
+            auto& lhs = sms.at("Ind == rank 1");
+            auto h    = sde::hash_objects(lhs);
+            auto copy = lhs.clone();
+            copy->add_to_domain(ind_idx_t{3}, dep_idx_t{3});
+            auto h2 = sde::hash_objects(copy);
+            REQUIRE(h != h2);
+        }
+    }
 }
 
-///* operator<< just calls SparseMap::print. So as long as that works, this will
-// *  work too. We just test an empty SparseMap to make sure it gets forwarded
-// *  correctly and the ostream is returend.
-// */
-//TEST_CASE("operator<<(std::ostream, SparseMapBase)") {
-//    std::stringstream ss;
-//    SparseMap<TileIndex, TileIndex> sm;
-//    auto pss = &(ss << sm);
-//    REQUIRE(pss == &ss);
-//    REQUIRE(ss.str() == "{}");
-//}
+/* operator<< just calls SparseMap::print. So as long as that works, this will
+ *  work too. We just test an empty SparseMap to make sure it gets forwarded
+ *  correctly and the ostream is returend.
+ */
+TEST_CASE("operator<<(std::ostream, SparseMapPIMPL)") {
+    std::stringstream ss;
+    SparseMapPIMPL<TileIndex, TileIndex> sm;
+    auto pss = &(ss << sm);
+    REQUIRE(pss == &ss);
+    REQUIRE(ss.str() == "{}");
+}

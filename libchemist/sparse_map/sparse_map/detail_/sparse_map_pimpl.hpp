@@ -1,14 +1,23 @@
 #pragma once
-#include "libchemist/sparse_map/detail_/sparse_map_traits.hpp"
+#include "libchemist/sparse_map/sparse_map/detail_/sparse_map_traits.hpp"
 #include "libchemist/sparse_map/domain/domain.hpp"
 #include <memory> // unique_ptr
 
 namespace libchemist::sparse_map {
 
+// Forward declare for template metaprogramming purposes
 template<typename IndIndex, typename DepIndex> class SparseMap;
 
 namespace detail_ {
 
+/** @brief Defines the API for SparseMapPIMPL instances.
+ *
+ *  The SparseMapPIMPL is in charge of holding the actual state of the SparseMap
+ *  and performing basic manipulations on it.
+ *
+ *  @tparam IndIndex The type of the independent indices in the SparseMap
+ *  @tparam DepIndex The type of the dependent indices in the SparseMap
+ */
 template<typename IndIndex, typename DepIndex>
 class SparseMapPIMPL {
 private:
@@ -114,8 +123,36 @@ public:
      */
     void add_to_domain(const key_type& ind, const DepIndex& dep);
 
+    /** @brief Returns the @p i-th std::pair<IndIndex, Domain<DepIndex> in the
+     *         SparseMap.
+     *
+     *  The independent-index-domain pairs are stored in an ordered manner. This
+     *  function allows one to retrieve the pair they want by offset. It should
+     *  be noted that the input to this function is **NOT** used as a key.
+     *
+     *  @param[in] i Which independent-domain pair to return. Must be in the
+     *               range [0, size()).
+     *  @return The @p i-th independent-index-domain pair in a read/write state.
+     *
+     *  @throw std::out_of_range if @p i is not in the range [0, size()). Strong
+     *                           throw guarantee.
+     */
     auto& at(size_type i);
 
+    /** @brief Returns the @p i-th std::pair<IndIndex, Domain<DepIndex> in the
+     *         SparseMap.
+     *
+     *  The independent-index-domain pairs are stored in an ordered manner. This
+     *  function allows one to retrieve the pair they want by offset. It should
+     *  be noted that the input to this function is **NOT** used as a key.
+     *
+     *  @param[in] i Which independent-domain pair to return. Must be in the
+     *               range [0, size()).
+     *  @return The @p i-th independent-index-domain pair in a read-only state.
+     *
+     *  @throw std::out_of_range if @p i is not in the range [0, size()). Strong
+     *                           throw guarantee.
+     */
     const auto& at(size_type i) const;
 
     /** @brief Returns the Domain associated with the specified independent
@@ -249,6 +286,14 @@ public:
      * @return @p os with this SparseMap added to it.
      */
     std::ostream& print(std::ostream& os) const;
+
+    /** @brief Adds this SparseMap's state to a hash.
+     *
+     *  @param[in,out] h The object hashing the SparseMap. After this call the
+     *                   internal hash of @p h will be updated to include this
+     *                   SparseMap's state.
+     */
+    void hash(sde::Hasher& h) const { hash_(h); }
 protected:
     SparseMapPIMPL(const SparseMapPIMPL& rhs)            = default;
     SparseMapPIMPL(SparseMapPIMPL&& rhs)                 = default;
@@ -272,6 +317,9 @@ protected:
 
     /// Should be overridden by derived class to implement operator==
     virtual bool equal_(const my_type& rhs) const noexcept;
+
+    /// Should be overridden by derived class to implement hash
+    virtual void hash_(sde::Hasher& h) const { h(m_sm_); }
 private:
     /// Should be overridden by the derived class to make a polymorphic copy
     virtual std::unique_ptr<my_type> clone_() const;
@@ -284,11 +332,10 @@ private:
 }; // class SparseMapPIMPL
 
 /** @brief Adds a string representation of the SparseMap to the stream.
- *  @related SparseMapBase
+ *  @related SparseMapPIMPL
  *
  *  This is a convenience function for calling SparseMapBase::print on a stream.
  *
- *  @tparam DerivedType The type of the class being implemented by SparseMapBase
  *  @tparam IndIndex The type of the independent indices.
  *  @tparam DepIndex The type of the dependent indices.
  *
@@ -305,6 +352,27 @@ std::ostream& operator<<(std::ostream& os,
     return smb.print(os);
 }
 
+/** @brief Determines if two SparseMaps are different.
+ *  @relates SparseMapPIMPL
+ *
+ *  Two SparseMaps are the same if they:
+ *  - map from the same type of independent/dependent index
+ *    - *e.g.* independent indices ar both ElementalIndex and dependent
+ *      indices are both TileIndex
+ *  - contain the same number of independent-indices
+ *  - the set of independent indices is the same, and
+ *  - each independent index maps to the same Domain
+ *
+ *  @tparam IndIndex Type of the independent indices
+ *  @tparam DepIndex Type of the dependent indices
+ *
+ *  @param[in] lhs The SparseMap on the right side of the operator
+ *  @param[in] rhs The SparseMap on the left side of the operator
+ *
+ *  @return False if this SparseMap is the same as @p rhs and true otherwise.
+ *
+ *  @throw None No throw guarantee.
+ */
 template<typename IndIndex, typename DepIndex>
 bool operator!=(const SparseMapPIMPL<IndIndex, DepIndex>& lhs,
                 const SparseMapPIMPL<IndIndex, DepIndex>& rhs) {
@@ -357,12 +425,6 @@ const auto& SMPIMPL::at(const key_type& ind) const {
         throw std::runtime_error("Rank of key does not equal ind_rank()");
     return m_sm_.at(ind);
 }
-
-//template<typename DerivedType, typename IndIndex, typename DepIndex>
-//void SPARSEMAPBASE::hash(sde::Hasher& h) const {
-//    if(m_pimpl_) h(pimpl_().m_sm);
-//    else h(nullptr);
-//}
 
 template<typename IndIndex, typename DepIndex>
 std::ostream& SMPIMPL::print(std::ostream& os) const {
