@@ -112,4 +112,12 @@ TEST_CASE("Tensor Creation") {
         tensor_type corr_diag(world,{1.0,4.0});
         REQUIRE(allclose(diag,corr_diag));
     }
+
+    SECTION("array_from_vec") {
+        std::vector<double> vec{1.0,2.0,3.0};
+        tensor_type corr_vec(world,{1.0,2.0,3.0});
+        auto& trange = corr_vec.trange().dim(0);
+        auto ta_vec = array_from_vec(vec,trange,world);
+        REQUIRE(allclose(ta_vec,corr_vec));
+    }
 }

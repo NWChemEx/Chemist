@@ -110,12 +110,23 @@ auto grab_diagonal(TensorType&& t) {
     return rv;
 }
 
+/** @brief Returns the elements of a std::vector as a 1D TA DistArray.
+ *
+ *  The function requires the matrix to have the same TiledRange1
+ *  in both its dimensions.
+ *
+ * @tparam T the scalar type of the input vector and returned tensor.
+ * @param vec The std::vector to extract the tensor elements from.
+ * @param trange The TiledRange of the returned tensor.
+ * @param world The TA::World to use in the returned tensor.
+ * @return A new 1D tensor which contains the elements of the vector.
+ */
 template<typename T>
-auto array_from_vec(TA::World& world, const TA::TiledRange& trange, const std::vector<T>& vec) {
+auto array_from_vec(const std::vector<T>& vec, const TA::TiledRange1& trange, TA::World& world) {
     using tensor_type = libchemist::type::tensor<T>;
     using tile_type = typename tensor_type::value_type;
 
-    tensor_type rv(world, trange);
+    tensor_type rv(world, TA::TiledRange{trange});
 
     for (auto itr = rv.begin(); itr != rv.end(); ++itr) {
         auto range = rv.trange().make_tile_range(itr.index());
