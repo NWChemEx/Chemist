@@ -1,7 +1,20 @@
 #pragma once
+#include "libchemist/sparse_map/index.hpp"
 #include <tiledarray.h>
 
 namespace libchemist::ta_helpers {
+
+/** @brief Gets the tile index associated with an ElementIndex
+ *
+ *  @param[in] trange The TiledRange the element index is taken from.
+ *  @param[in] idx The index of the element.
+ *  @return The index of the tile the element belongs to.
+ */
+inline auto get_block_idx(const TA::TiledRange& trange,
+                          const sparse_map::ElementIndex& idx) {
+    const auto tidx = trange.element_to_tile(idx);
+    return trange.tiles_range().idx(tidx);
+}
 
 inline auto get_block_idx(const TA::TiledRange& trange,
                           const TA::Range& range) {

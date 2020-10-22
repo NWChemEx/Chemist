@@ -1,4 +1,0 @@
-LibChemist
-----------
-
-To be completed.
