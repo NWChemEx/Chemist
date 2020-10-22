@@ -35,7 +35,7 @@ TEST_CASE("linalg_inner_tensors"){
 
         auto[evals, evecs] = diagonalize_inner_tensors(t);
         REQUIRE(libchemist::ta_helpers::allclose_tot(evals, corr_evals, 1));
-//        REQUIRE(libchemist::ta_helpers::allclose_tot(evecs, corr_evecs, 2, true));
+        REQUIRE(libchemist::ta_helpers::allclose_tot(evecs, corr_evecs, 2, true));
     }
 
     SECTION("cholesky_linv") {

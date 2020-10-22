@@ -270,6 +270,8 @@ auto reduce_elementwise(const TA::DistArray<TileType, PolicyType>& lhs,
  *                    reference value.
  *  @param[in] ref The tensor which @p actual is being compared to. Should
  *                 be "the correct value".
+ *  @param[in] abs_comp a bool which allows the comparison to run over the
+ *                      absolute values of the input tensors.
  *  @param[in] rtol The maximum percent error (as a decimal) allowed for any
  *                  particular value. Assumed to be a positive decimal. Defaults
  *                  to 1.0E-5, *i.e.*, 0.0001%.
@@ -294,18 +296,16 @@ bool allclose(T&& actual, U&& ref, const bool abs_comp = false, V&& rtol = 1.0E-
 
   // Compute A - B, call result AmB
   tensor_type AmB;
-//  if (abs_comp) {
-//      //TODO: There probably is some way to do this without forming the intermediate tensors
-////      AmB(idx) = actual(idx).unary(abs_lambda) - ref(idx).unary(abs_lambda);
-//      auto abs_lambda = [](V& val) {return std::fabs(val);};
-//      auto abs_actual = apply_elementwise(actual,abs_lambda);
-//      auto abs_ref = apply_elementwise(ref,abs_lambda);
-//      AmB(idx) = abs_actual(idx) - abs_ref(idx);
-//  } else {
-//      AmB(idx) = actual(idx) - ref(idx);
-//  }
-
-  AmB(idx) = actual(idx) - ref(idx);
+  if (abs_comp) {
+      //TODO: There probably is some way to do this without forming the intermediate tensors
+//      AmB(idx) = actual(idx).unary(abs_lambda) - ref(idx).unary(abs_lambda);
+      auto abs_lambda = [](const scalar_type& val) {return std::fabs(val);};
+      auto abs_actual = apply_elementwise(actual,abs_lambda);
+      auto abs_ref = apply_elementwise(ref,abs_lambda);
+      AmB(idx) = abs_actual(idx) - abs_ref(idx);
+  } else {
+      AmB(idx) = actual(idx) - ref(idx);
+  }
 
   auto times_op = [=](scalar_type lhs, scalar_type rhs) {
     return std::fabs(lhs) <= atol + rtol * std::fabs(rhs);

@@ -45,6 +45,15 @@ TEST_CASE("allclose") {
         }
     }
 
+    SECTION("Compare absolute values") {
+        tensor_type lhs(world, {{0.0, -1.1},
+                                {2.2, 3.3}});
+        tensor_type corr(world, {{0.0, 1.1},
+                                 {-2.2, 3.3}});
+        REQUIRE(allclose(lhs, corr, true));
+        REQUIRE_FALSE(allclose(lhs, corr, false));
+    }
+
     SECTION("Actual is Sparse Tensor with missing blocks") {
         TA::TiledRange trange{{0, 2},
                               {0, 2}};
