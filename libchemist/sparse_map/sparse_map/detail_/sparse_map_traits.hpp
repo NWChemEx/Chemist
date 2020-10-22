@@ -1,4 +1,5 @@
 #pragma once
+#include <utilities/iterators/offset_iterator.hpp> // For iterator
 #include <map>
 
 namespace libchemist::sparse_map {
@@ -40,16 +41,12 @@ struct SparseMapTraits<SparseMap<IndIndex, DepIndex>> {
 
     /// Type of a key-value pair
     using value_type  = std::pair<const key_type, mapped_type>;
-private:
-    /// Internal type used to store key-value pairs. Needed for iterators.
-    using map_t = std::map<key_type, mapped_type>;
-
 public:
-    /// Type of a read/write iterator over the SparseMap
-    using iterator       = typename map_t::iterator;
+    template<typename T>
+    using iterator = utilities::iterators::OffsetIterator<T>;
 
-    /// Type of a read-only iterator over the SparseMap
-    using const_iterator = typename map_t::const_iterator;
+    template<typename T>
+    using const_iterator = utilities::iterators::OffsetIterator<const T>;
 }; // struct SparseMapTraits
 
 } // namespace detail_

@@ -44,11 +44,9 @@ public:
     /// Type of a domain of dependent indices
     using mapped_type    = typename traits_t::mapped_type;
 
-    /// Type of a read/write iterator to this class
-    using iterator       = typename traits_t::iterator;
-
-    /// Type of a read-only iterator to this class
-    using const_iterator = typename traits_t::const_iterator;
+    /// Type of a bidirectional iterator with read-only access to indices
+    using const_iterator =
+      typename traits_type::template const_iterator<my_type>;
 
     /** @brief Constructs a new empty SparseMap.
      *
@@ -235,26 +233,7 @@ public:
      */
     void add_to_domain(const key_type& key, DepIndex value);
 
-    /** @brief Returns the Domain associated with the provided independent
-     *         index.
-     *
-     *  This function will return the Domain associated with @p key. If @p key
-     *  does not currently have a Domain a new empty Domain will be created
-     *  and returned. Users are responsible for ensuring that any indices added
-     *  to the returned Domain have the same rank as `dep_rank`.
-     *
-     *  @param[in] key The independent index whose Domain we want.
-     *
-     *  @return The Domain associated with @p key in a read/write state.
-     *
-     *  @throw std::bad_alloc if there is insufficient memory to allocate the
-     *                        new Domain (if a Domain does not exist). Strong
-     *                        throw guarantee.
-     *  @throw std::runtime_error if the rank of @p key does not match
-     *                            `ind_rank()` (and this instance is non-empty).
-     *                            Strong throw guarantee.
-     */
-    mapped_type& operator[](const key_type& key);
+    const value_type& operator[](size_type i) const;
 
     /** @brief Returns the Domain associated with the specified independent
      *         index.
@@ -280,25 +259,6 @@ public:
      *         index.
      *
      *  This function can be used to retrieve the Domain associated with a
-     *  independent index. Users are responsible for ensuring any modifications
-     *  to the returned Domain are consistent with `dep_rank`.
-     *
-     * @param[in] key The independent index whose Domain we want. The rank of
-     *                @p key must be equal to `ind_rank()`.
-     *
-     * @return The Domain associated with @p key in a read/write manner.
-     *
-     * @throw std::out_of_range if @p key is not in the SparseMap. Strong throw
-     *                          guarantee.
-     * @throw std::runtime_error if the rank of @p key is not equal to
-     *                           `ind_rank()`. Strong throw guarantee.
-     */
-    mapped_type& at(const key_type& key);
-
-    /** @brief Returns the Domain associated with the specified independent
-     *         index.
-     *
-     *  This function can be used to retrieve the Domain associated with a
      *  independent index.
      *
      * @param[in] key The independent index whose Domain we want. The rank of
@@ -316,35 +276,19 @@ public:
     /** @brief Returns an iterator which points to the first
      *         independent-index-Domain pair.
      *
-     *  @return An iterator pointing to the first element of this map.
-     *
-     *  @throw std::runtime_error if there is no PIMPL. Strong throw guarantee.
-     */
-    iterator begin();
-
-    /** @brief Returns an iterator which points to the first
-     *         independent-index-Domain pair.
-     *
      *  @return An iterator pointing to the first element of this map. Elements
      *          of the SparseMap can not be modified through the iterator.
      *
      *  @throw std::runtime_error if there is no PIMPL. Strong throw guarantee.
      */
-    const_iterator begin() const;
+    const_iterator begin() const { return const_iterator(0, this); }
 
     /** @brief Returns an iterator just past the end of the SparseMap.
      *
      *  @return An iterator pointing to just past the end of the SparseMap.
      *  @throw std::runtime_error if the map has no PIMPL. Strong throw guarantee.
      */
-    iterator end();
-
-    /** @brief Returns an iterator just past the end of the SparseMap.
-     *
-     *  @return An iterator pointing to just past the end of the SparseMap.
-     *  @throw std::runtime_error if the map has no PIMPL. Strong throw guarantee.
-     */
-    const_iterator end() const;
+    const_iterator end() const { return const_iterator(size(), this); }
 
     /** @brief Returns the direct product of this SparseMap and another
      *         SparseMap.
@@ -517,7 +461,7 @@ public:
      *                           is not equal to the rank of the independent indices
      *                           of \p sm.
      */
-     template<typename RHSDepIdx>
+    template<typename RHSDepIdx>
     SparseMap<IndIndex, RHSDepIdx>
     chain(const SparseMap<DepIndex, RHSDepIdx>& sm) const { return chain_(sm); }
 
@@ -570,23 +514,11 @@ private:
     /// Implements chain when RHSDepIdx == TileIndex
     SparseMap<IndIndex, TileIndex> chain_(const SparseMap<DepIndex, TileIndex>& sm) const;
 
-    /// Code factorization for making a new empty PIMPL
-    static pimpl_ptr new_pimpl_() ;
-
     /// Returns this instance downcasted to the derived class
     DerivedType& downcast_();
 
     /// Returns this instance as a read-only instance of the derived class
     const DerivedType& downcast_() const;
-
-    /// Determines if @p idx_rank is an acceptable rank for an independent index
-    void check_ind_rank_(size_type idx_rank) const;
-
-    /// Determines if @p idx_rank is an acceptable rank for a dependent index
-    void check_dep_rank_(size_type idx_rank)const;
-
-    /// Determines if @p key is already in the SparseMap and throws if it's not
-    void check_contains_(const key_type& key) const;
 
     /// The instance holding the SparseMap's state
     pimpl_ptr m_pimpl_;
