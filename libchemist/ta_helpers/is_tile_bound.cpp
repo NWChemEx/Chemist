@@ -2,7 +2,7 @@
 #include "libchemist/ta_helpers/get_block_idx.hpp"
 #include <algorithm> // equal
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 using sparse_map::ElementIndex;
 

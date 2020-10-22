@@ -3,7 +3,7 @@
 #include <cmath>
 #include <tiledarray.h>
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 /** @brief Raises a Hermitian matrix to an arbitrary power.
  *

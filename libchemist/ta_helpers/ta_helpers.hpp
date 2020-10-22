@@ -1,6 +1,7 @@
 #pragma once
 #include "libchemist/ta_helpers/detail_/reducer.hpp"
 #include "libchemist/ta_helpers/get_block_idx.hpp"
+#include "libchemist/types.hpp"
 #include <tiledarray.h>
 
 namespace libchemist::ta_helpers {
@@ -106,6 +107,24 @@ auto grab_diagonal(TensorType&& t) {
     };
     auto rv = TA::make_array<tensor_type>(t.world(), trange, l);
     t.world().gop.fence();
+    return rv;
+}
+
+template<typename T>
+auto array_from_vec(TA::World& world, const TA::TiledRange& trange, const std::vector<T>& vec) {
+    using tensor_type = libchemist::type::tensor<T>;
+    using tile_type = typename tensor_type::value_type;
+
+    tensor_type rv(world, trange);
+
+    for (auto itr = rv.begin(); itr != rv.end(); ++itr) {
+        auto range = rv.trange().make_tile_range(itr.index());
+        tile_type tile(range);
+        for (auto idx : range) {
+            tile(idx) = vec.at(idx[0]);
+        }
+        *itr = tile;
+    }
     return rv;
 }
 
@@ -264,16 +283,16 @@ bool allclose(T&& actual, U&& ref, const bool abs_comp = false, V&& rtol = 1.0E-
 
   // Compute A - B, call result AmB
   tensor_type AmB;
-  if (abs_comp) {
-      //TODO: There probably is some way to do this without forming the intermediate tensors
-//      AmB(idx) = actual(idx).unary(abs_lambda) - ref(idx).unary(abs_lambda);
-      auto abs_lambda = [](V& val) {return std::fabs(val);};
-      auto abs_actual = apply_elementwise(actual,abs_lambda);
-      auto abs_ref = apply_elementwise(ref,abs_lambda);
-      AmB(idx) = abs_actual(idx) - abs_ref(idx);
-  } else {
-      AmB(idx) = actual(idx) - ref(idx);
-  }
+//  if (abs_comp) {
+//      //TODO: There probably is some way to do this without forming the intermediate tensors
+////      AmB(idx) = actual(idx).unary(abs_lambda) - ref(idx).unary(abs_lambda);
+//      auto abs_lambda = [](V& val) {return std::fabs(val);};
+//      auto abs_actual = apply_elementwise(actual,abs_lambda);
+//      auto abs_ref = apply_elementwise(ref,abs_lambda);
+//      AmB(idx) = abs_actual(idx) - abs_ref(idx);
+//  } else {
+//      AmB(idx) = actual(idx) - ref(idx);
+//  }
 
   AmB(idx) = actual(idx) - ref(idx);
 
