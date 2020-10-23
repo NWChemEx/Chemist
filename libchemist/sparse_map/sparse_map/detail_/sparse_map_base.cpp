@@ -1,7 +1,7 @@
 #include "libchemist/sparse_map/sparse_map/detail_/sparse_map_base.hpp"
 #include "libchemist/sparse_map/sparse_map/detail_/sparse_map_pimpl.hpp"
 #include "libchemist/sparse_map/sparse_map/detail_/tiled_sparse_map_pimpl.hpp"
-#include "libchemist/sparse_map/sparse_map/sparse_map_class.hpp"
+#include "libchemist/sparse_map/sparse_map/sparse_map.hpp"
 
 namespace {
 
@@ -90,16 +90,27 @@ void SPARSEMAPBASE::add_to_domain(const key_type& key, DepIndex value) {
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
+const typename SPARSEMAPBASE::value_type&
+SPARSEMAPBASE::operator[](size_type i) const {
+    return pimpl_().at(i);
+}
+
+template<typename DerivedType, typename IndIndex, typename DepIndex>
 const typename SPARSEMAPBASE::mapped_type&
 SPARSEMAPBASE::operator[](const key_type& key) const {
+    if(!m_pimpl_) {
+        std::stringstream ss;
+        ss << "Index: " << key << " is not in range [0, 0)";
+        throw std::out_of_range(ss.str());
+    }
     return pimpl_().at(key);
 }
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 DerivedType SPARSEMAPBASE::direct_product(const SparseMapBase& rhs) const {
-    DerivedType rv;
-    if(!m_pimpl_ || empty()) return rv;
-    if(!rhs.m_pimpl_ || rhs.empty()) return rv;
+    if(!m_pimpl_ || empty()) return DerivedType{};
+    if(!rhs.m_pimpl_ || rhs.empty()) { return DerivedType{}; }
+    DerivedType rv(downcast_());
     rv.pimpl_().direct_product_assign(rhs.pimpl_());
     return rv;
 }
@@ -149,10 +160,11 @@ SparseMap<DepIndex, IndIndex> SPARSEMAPBASE::inverse() const {
     }
     if constexpr(std::is_same_v<IndIndex, TileIndex>) {
         auto tr = downcast_().trange();
-        rv.set_domain_trange(tr);
+        if(tr != TA::TiledRange{}) rv.set_domain_trange(tr);
     }
     if constexpr(std::is_same_v<DepIndex, TileIndex>) {
-        rv.set_trange(begin()->second.trange());
+        auto tr = begin()->second.trange();
+        if(tr != TA::TiledRange{}) rv.set_trange(tr);
     }
     return rv;
 }
@@ -231,7 +243,8 @@ SparseMap<IndIndex, NewDepIndex> chain_guts(
     }
     if(rv.empty()) return rv;
     if constexpr(std::is_same_v<NewDepIndex, TileIndex>) {
-        rv.set_domain_trange(rhs.begin()->second.trange());
+        auto tr = rhs.begin()->second.trange();
+        if(tr != TA::TiledRange{}) rv.set_domain_trange(tr);
     }
     return rv;
 }

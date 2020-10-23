@@ -44,9 +44,12 @@ public:
     /// Type of a domain of dependent indices
     using mapped_type    = typename traits_t::mapped_type;
 
+    /// Type of the independent-index-domain pairs
+    using value_type     = typename traits_t::value_type;
+
     /// Type of a bidirectional iterator with read-only access to indices
     using const_iterator =
-      typename traits_type::template const_iterator<my_type>;
+      typename traits_t::template const_iterator<DerivedType>;
 
     /** @brief Constructs a new empty SparseMap.
      *
@@ -281,14 +284,14 @@ public:
      *
      *  @throw std::runtime_error if there is no PIMPL. Strong throw guarantee.
      */
-    const_iterator begin() const { return const_iterator(0, this); }
+    const_iterator begin() const { return const_iterator(0, &downcast_()); }
 
     /** @brief Returns an iterator just past the end of the SparseMap.
      *
      *  @return An iterator pointing to just past the end of the SparseMap.
      *  @throw std::runtime_error if the map has no PIMPL. Strong throw guarantee.
      */
-    const_iterator end() const { return const_iterator(size(), this); }
+    const_iterator end() const { return const_iterator(size(), &downcast_()); }
 
     /** @brief Returns the direct product of this SparseMap and another
      *         SparseMap.

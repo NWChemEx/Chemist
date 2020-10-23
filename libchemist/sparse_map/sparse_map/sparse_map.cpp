@@ -1,15 +1,32 @@
-#include "libchemist/sparse_map/sparse_map/sparse_map_class.hpp"
 #include "libchemist/sparse_map/sparse_map/detail_/tiled_sparse_map_pimpl.hpp"
+#include "libchemist/sparse_map/sparse_map/sparse_map.hpp"
 
 namespace libchemist::sparse_map {
 
 template<typename DepIndex>
 auto* downcast_pimpl(detail_::SparseMapPIMPL<TileIndex, DepIndex>* ppimpl) {
-    using pimpl_t = detail_::TiledSparseMapPIMPL<DepIndex>;
+    using base_t = detail_::SparseMapPIMPL<TileIndex, DepIndex>;
+    using pimpl_t = detail_::TiledSparseMapPIMPL<base_t>;
     auto p = dynamic_cast<pimpl_t*>(ppimpl);
     if(p == nullptr)
         throw std::runtime_error("PIMPL is not a TiledSparseMapPIMPL");
     return p;
+}
+
+template<typename DepIndex>
+auto* downcast_pimpl(const detail_::SparseMapPIMPL<TileIndex, DepIndex>* ppimpl) {
+    using base_t = detail_::SparseMapPIMPL<TileIndex, DepIndex>;
+    using pimpl_t = detail_::TiledSparseMapPIMPL<base_t>;
+    auto p = dynamic_cast<const pimpl_t*>(ppimpl);
+    if(p == nullptr)
+        throw std::runtime_error("PIMPL is not a TiledSparseMapPIMPL");
+    return p;
+}
+
+inline void check_tr(std::size_t rank, const TA::TiledRange& tr) {
+    const bool is_not_set = tr == TA::TiledRange{};
+    if(rank > 0 && is_not_set)
+        throw std::runtime_error("Input SparseMap's TiledRange is not set");
 }
 
 #define SPARSEMAPEE SparseMap<ElementIndex, ElementIndex>
@@ -20,7 +37,9 @@ auto* downcast_pimpl(detail_::SparseMapPIMPL<TileIndex, DepIndex>* ppimpl) {
 SPARSEMAPEE::SparseMap(const SPARSEMAPET& other) {
     for(const auto& [oeidx, d] : other){
         for(const auto& itidx : d){
-            for(const auto& ieidx : d.trange().make_tile_range(itidx)){
+            const auto tr = d.trange();
+            check_tr(other.dep_rank(), tr);
+            for(const auto& ieidx : tr.make_tile_range(itidx)){
                 const ElementIndex temp(ieidx.begin(), ieidx.end());
                 add_to_domain(oeidx, temp);
             }
@@ -30,6 +49,7 @@ SPARSEMAPEE::SparseMap(const SPARSEMAPET& other) {
 
 SPARSEMAPEE::SparseMap(const SPARSEMAPTE& other) {
     const auto& trange = other.trange();
+    check_tr(other.ind_rank(), trange);
     for(const auto& [otidx, d] : other) {
         for(const auto& oeidx : trange.make_tile_range(otidx)){
             for(const auto& ieidx : d){
@@ -42,10 +62,13 @@ SPARSEMAPEE::SparseMap(const SPARSEMAPTE& other) {
 
 SPARSEMAPEE::SparseMap(const SPARSEMAPTT& other) {
     const auto& trange = other.trange();
+    check_tr(other.ind_rank(), trange);
+
     for(const auto& [otidx, d] : other){
         for(const auto& oeidx : trange.make_tile_range(otidx)){
             const ElementIndex otemp(oeidx.begin(), oeidx.end());
             for(const auto& itidx : d){
+                check_tr(other.dep_rank(), d.trange());
                 for(const auto& ieidx : d.trange().make_tile_range(itidx)){
                     const ElementIndex itemp(ieidx.begin(), ieidx.end());
                     add_to_domain(otemp, itemp);
@@ -58,6 +81,20 @@ SPARSEMAPEE::SparseMap(const SPARSEMAPTT& other) {
 void SPARSEMAPET::set_domain_trange(const TA::TiledRange& tr) {
     for(std::size_t i = 0; i < size(); ++i)
         pimpl_().at(i).second.set_trange(tr);
+}
+
+SPARSEMAPTE::SparseMap(const SPARSEMAPTT& other) {
+    set_trange(other.trange());
+    for(const auto& [otidx, d] : other) {
+        const auto& itrange = d.trange();
+        check_tr(other.dep_rank(), itrange);
+        for(const auto& itidx : d) {
+            for(const auto& ieidx : itrange.make_tile_range(itidx)) {
+                ElementIndex new_idx(ieidx.begin(), ieidx.end());
+                add_to_domain(otidx, std::move(new_idx));
+            }
+        }
+    }
 }
 
 SPARSEMAPTE::SparseMap(const TA::TiledRange& trange,
@@ -75,30 +112,21 @@ SPARSEMAPTE::SparseMap(const TA::TiledRange& trange,
     }
 }
 
-SPARSEMAPTE::SparseMap(const SPARSEMAPTT& other) {
-    set_trange(other.trange());
-    for(const auto& [otidx, d] : other) {
-        const auto& itrange = d.trange();
-        for(const auto& itidx : d) {
-            for(const auto& ieidx : itrange.make_tile_range(itidx)) {
-                ElementIndex new_idx(ieidx.begin(), ieidx.end());
-                add_to_domain(otidx, std::move(new_idx));
-            }
-        }
-    }
-}
-
 void SPARSEMAPTE::set_trange(const TA::TiledRange& trange) {
     downcast_pimpl(&pimpl_())->set_trange(trange);
 }
 
 const TA::TiledRange& SPARSEMAPTE::trange() const {
-    downcast_pimpl(&pimpl_())->trange();
+    return downcast_pimpl(&pimpl_())->trange();
 }
 
 
 void SPARSEMAPTT::set_trange(const TA::TiledRange& trange) {
     downcast_pimpl(&pimpl_())->set_trange(trange);
+}
+
+const TA::TiledRange& SPARSEMAPTT::trange() const {
+    return downcast_pimpl(&pimpl_())->trange();
 }
 
 void SPARSEMAPTT::set_domain_trange(const TA::TiledRange& tr) {

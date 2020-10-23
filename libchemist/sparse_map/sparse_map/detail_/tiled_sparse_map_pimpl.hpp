@@ -3,6 +3,15 @@
 
 namespace libchemist::sparse_map::detail_ {
 
+/** @brief Mix-in for adding a TiledRange to a SparseMapPIMPL.
+ *
+ *  This class is intended to be used as a mix-in to add a TA::TiledRange
+ *  member to a SparseMapPIPL. The TA::TiledRange is associated with the
+ *  independent indices (the Domain<TileIndex> class stores its own instance).
+ *
+ *  @tparam BaseType The class of the SparseMapPIMPL hierarchy that this mix-in
+ *                   should inherit from.
+ */
 template<typename BaseType>
 class TiledSparseMapPIMPL : public BaseType {
 private:

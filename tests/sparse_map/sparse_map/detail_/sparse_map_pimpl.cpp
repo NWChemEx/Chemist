@@ -771,69 +771,6 @@ TEMPLATE_LIST_TEST_CASE("SparseMapPIMPL", "", index_list) {
         }
     }
 
-//
-//    SECTION("inverse"){
-//        SECTION("Empty"){
-//            derived_t sm;
-//            SparseMap<dep_idx_t, ind_idx_t> corr;
-//            REQUIRE(sm.inverse() == corr);
-//        }
-//
-//        SECTION("Non-empty") {
-//            derived_t sm{{ind_idx_t{1}, {dep_idx_t{0}, dep_idx_t{3}}},
-//                         {ind_idx_t{2}, {dep_idx_t{1}, dep_idx_t{2}}}};
-//            SparseMap<dep_idx_t, ind_idx_t> corr{
-//              {dep_idx_t{0}, {ind_idx_t{1}}},
-//              {dep_idx_t{3}, {ind_idx_t{1}}},
-//              {dep_idx_t{1}, {ind_idx_t{2}}},
-//              {dep_idx_t{2}, {ind_idx_t{2}}}
-//            };
-//            REQUIRE(sm.inverse() == corr);
-//            REQUIRE(sm.inverse().inverse() == sm);
-//        }
-//    }
-//
-//    SECTION("chain") {
-//        using new_idx_t = ElementIndex;
-//        using rhs_t     = SparseMap<dep_idx_t, new_idx_t>;
-//        using result_t  = SparseMap<ind_idx_t, new_idx_t>;
-//
-//        derived_t lsm1{{ind_idx_t{1}, {dep_idx_t{0}, dep_idx_t{3}}},
-//                       {ind_idx_t{2}, {dep_idx_t{1}, dep_idx_t{2}}}};
-//        rhs_t rsm1{{dep_idx_t{1}, {new_idx_t{0}, new_idx_t{3}}},
-//                   {dep_idx_t{2}, {new_idx_t{1}, new_idx_t{2}}}};
-//
-//        SECTION("Empty / Empty") {
-//            derived_t sm;
-//            rhs_t rhs;
-//            result_t corr;
-//            REQUIRE(sm.chain(rhs) == corr);
-//        }
-//
-//        SECTION("Empty / Non-empty") {
-//            derived_t sm;
-//            REQUIRE_THROWS_AS(sm.chain(rsm1), std::runtime_error);
-//        }
-//
-//        SECTION("Non-empty / Non-empty") {
-//            rhs_t rsm2{{dep_idx_t{0}, {new_idx_t{0}, new_idx_t{3}}},
-//                       {dep_idx_t{1}, {new_idx_t{1}, new_idx_t{2}}},
-//                       {dep_idx_t{2}, {new_idx_t{1}, new_idx_t{2}}},
-//                       {dep_idx_t{3}, {new_idx_t{1}, new_idx_t{2}}}};
-//            result_t corr{
-//              {ind_idx_t{1},
-//               {new_idx_t{0}, new_idx_t{1}, new_idx_t{2}, new_idx_t{3}}},
-//              {ind_idx_t{2}, {new_idx_t{1}, new_idx_t{2}}}};
-//            REQUIRE(lsm1.chain(rsm2) == corr);
-//        }
-//
-//        SECTION("Non-empty / incompatible") {
-//            rhs_t incompatible{{dep_idx_t{1, 2}, {new_idx_t{0}, new_idx_t{3}}},
-//                               {dep_idx_t{2, 3}, {new_idx_t{1}, new_idx_t{2}}}};
-//            REQUIRE_THROWS_AS(lsm1.chain(incompatible), std::runtime_error);
-//        }
-//    }
-//
     SECTION("comparisons") {
         SECTION("Empty == Empty") {
             REQUIRE(sms.at("Empty") == pimpl_t{});
