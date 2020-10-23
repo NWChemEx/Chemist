@@ -173,7 +173,7 @@ auto from_sparse_map(const SparseMap<TileIndex, TileIndex>& tsm,
                      const T& tensor,
                      const std::map<std::size_t, std::size_t>& ind2mode = {}) {
     SparseMap<ElementIndex, ElementIndex> esm(tsm);
-    return from_sparse_map(esm, tsm.trange(), tensor, ind2mode);
+    return from_sparse_map(esm, tensor, tsm.trange(), ind2mode);
 }
 
 } // namespace libchemist::sparse_map
