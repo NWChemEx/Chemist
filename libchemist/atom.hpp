@@ -120,29 +120,27 @@ public:
      *        property.  Strong throw guarantee.
      */
     ///@{
+
     template<typename... Args>
     explicit Atom(const coord_type& coords_in, Args&&... args) :
       Atom(std::forward<Args>(args)...) {
-        constexpr bool is_carts =
-          std::disjunction_v<std::is_same<std::decay_t<Args>, coord_type>...>;
+        constexpr bool is_carts = only_one<coord_type, Args...>;
         static_assert(!is_carts, "Please only provide one set of coordinates");
         coords() = coords_in;
     }
 
     template<typename... Args>
-    explicit Atom(const name_type& da_name, Args&&... args) :
+    explicit Atom(const name_type& name_in, Args&&... args) :
       Atom(std::forward<Args>(args)...) {
-        constexpr bool is_name =
-          std::disjunction_v<std::is_same<std::decay_t<Args>, name_type>...>;
+        constexpr bool is_name = only_one<name_type, Args...>;
         static_assert(!is_name, "Please only provide one name");
-        name() = da_name;
+        name() = name_in;
     }
 
     template<typename... Args>
     explicit Atom(size_type Z_in, Args&&... args) :
       Atom(std::forward<Args>(args)...) {
-        constexpr bool is_Z =
-          std::disjunction_v<std::is_same<std::decay_t<Args>, size_type>...>;
+        constexpr bool is_Z = only_one<size_type, Args...>;
         static_assert(!is_Z, "Please only provide one atomic number");
         Z() = Z_in;
     }
@@ -150,8 +148,7 @@ public:
     template<typename... Args>
     explicit Atom(const mass_type& mass_in, Args&&... args) :
       Atom(std::forward<Args>(args)...) {
-        constexpr bool is_mass =
-          std::disjunction_v<std::is_same<std::decay_t<Args>, mass_type>...>;
+        constexpr bool is_mass = only_one<mass_type, Args...>;
         static_assert(!is_mass, "Please only provide one mass");
         mass() = mass_in;
     }
@@ -159,8 +156,7 @@ public:
     template<typename... Args>
     explicit Atom(const Coordinates& coords_in, Args&&... args) :
       Atom(std::forward<Args>(args)...) {
-        constexpr bool is_carts =
-          std::disjunction_v<std::is_same<std::decay_t<Args>, coord_type>...>;
+        constexpr bool is_carts = only_one<Coordinates, Args...>;
         static_assert(!is_carts, "Please only provide one set of coordinates");
         coords() = coords_in.c_n;
     }
@@ -168,17 +164,15 @@ public:
     template<typename... Args>
     explicit Atom(const AtomName& name_in, Args&&... args) :
       Atom(std::forward<Args>(args)...) {
-        constexpr bool is_name =
-          std::disjunction_v<std::is_same<std::decay_t<Args>, mass_type>...>;
+        constexpr bool is_name = only_one<AtomName, Args...>;
         static_assert(!is_name, "Please only provide one name");
-        name() = name_in;
+        name() = name_in.n_n;
     }
 
     template<typename... Args>
     explicit Atom(const AtomicNumber& Z_in, Args&&... args) :
       Atom(std::forward<Args>(args)...) {
-        constexpr bool is_Z =
-          std::disjunction_v<std::is_same<std::decay_t<Args>, AtomicNumber>...>;
+        constexpr bool is_Z = only_one<AtomicNumber, Args...>;
         static_assert(!is_Z, "Please only provide one atomic number");
         Z() = Z_in.a_n;
     }
@@ -186,8 +180,7 @@ public:
     template<typename... Args>
     explicit Atom(const Mass& mass_in, Args&&... args) :
       Atom(std::forward<Args>(args)...) {
-        constexpr bool is_mass =
-          std::disjunction_v<std::is_same<std::decay_t<Args>, Mass>...>;
+        constexpr bool is_mass = only_one<Mass, Args...>;
         static_assert(!is_mass, "Please only provide one mass");
         mass() = mass_in.m_m;
     }
@@ -239,6 +232,10 @@ private:
 
     /// Actual implementation of the Atom class
     std::unique_ptr<detail_::AtomPIMPL> pimpl_;
+
+    /// Private member variable for static asserts
+    template<typename T, typename... Args>
+    static constexpr bool only_one = std::disjunction_v<std::is_same<std::decay_t<Args>, T>...>;
 
 }; // End Atom
 
