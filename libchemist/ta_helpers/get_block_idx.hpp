@@ -20,7 +20,6 @@ inline auto get_block_idx(const TA::TiledRange& trange,
                           const TA::Range& range) {
     const auto tidx = trange.element_to_tile(range.lobound());
     return trange.tiles_range().idx(tidx);
-
 }
 
 template<typename TileType, typename PolicyType>

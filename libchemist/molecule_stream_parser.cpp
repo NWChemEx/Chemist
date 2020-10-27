@@ -1,8 +1,8 @@
 #include "libchemist/molecule_stream_parser.hpp"
 #include <cmath>    //For lround
 #include <iostream> //debug
-#include <sstream>
 #include <regex>
+#include <sstream>
 
 namespace libchemist {
 

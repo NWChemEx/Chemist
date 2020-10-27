@@ -1,8 +1,8 @@
 #pragma once
 #include <map>
 #include <set>
-#include <vector>
 #include <stdexcept>
+#include <vector>
 
 namespace libchemist::sparse_map::detail_ {
 
@@ -13,7 +13,9 @@ namespace libchemist::sparse_map::detail_ {
  */
 class ToTMapper {
 private:
-    using il_type = std::initializer_list<std::pair<const std::size_t, std::size_t>>;
+    using il_type =
+      std::initializer_list<std::pair<const std::size_t, std::size_t>>;
+
 public:
     using size_type     = std::size_t;
     using index_type    = std::vector<size_type>;

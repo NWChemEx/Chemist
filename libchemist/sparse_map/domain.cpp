@@ -3,8 +3,8 @@
 
 namespace libchemist::sparse_map {
 
-using size_type = typename Domain::size_type;
-using reference = typename Domain::reference;
+using size_type       = typename Domain::size_type;
+using reference       = typename Domain::reference;
 using const_reference = typename Domain::const_reference;
 
 Domain::Domain() : m_pimpl_(std::make_unique<detail_::DomainPIMPL>()) {}
@@ -14,8 +14,7 @@ Domain::Domain(const Domain& rhs) {
     m_pimpl_ = std::make_unique<detail_::DomainPIMPL>(*rhs.m_pimpl_);
 }
 
-Domain::Domain(Domain&& rhs) noexcept :
-    m_pimpl_(std::move(rhs.m_pimpl_)) {}
+Domain::Domain(Domain&& rhs) noexcept : m_pimpl_(std::move(rhs.m_pimpl_)) {}
 
 Domain& Domain::operator=(const Domain& rhs) {
     if(this == &rhs) return *this;
@@ -62,7 +61,7 @@ void Domain::insert(const_reference idx) {
 }
 
 Domain& Domain::operator*=(const Domain& rhs) {
-    auto temp = (*this)*rhs;
+    auto temp = (*this) * rhs;
     swap(temp);
     return *this;
 }
@@ -75,7 +74,7 @@ Domain Domain::operator*(const Domain& rhs) const {
     // instance in *=
     Domain rv;
     const auto new_rank = rank() + rhs.rank();
-    for(auto&& lidx : *this){
+    for(auto&& lidx : *this) {
         for(auto&& ridx : rhs) {
             value_type new_index;
             new_index.reserve(new_rank);
@@ -99,8 +98,10 @@ Domain Domain::operator+(const Domain& rhs) const {
 }
 
 bool Domain::operator==(const Domain& rhs) const noexcept {
-    if(!m_pimpl_) return rhs.m_pimpl_ ? false : true;
-    else if(!rhs.m_pimpl_) return m_pimpl_ ? false : true;
+    if(!m_pimpl_)
+        return rhs.m_pimpl_ ? false : true;
+    else if(!rhs.m_pimpl_)
+        return m_pimpl_ ? false : true;
     return *m_pimpl_ == *rhs.m_pimpl_;
 }
 
@@ -113,8 +114,8 @@ std::ostream& Domain::print(std::ostream& os) const {
     os << "{";
     using utilities::printing::operator<<;
     auto begin_itr = begin();
-    auto end_itr = end();
-    if(begin_itr != end_itr){
+    auto end_itr   = end();
+    if(begin_itr != end_itr) {
         os << *begin_itr;
         ++begin_itr;
     }

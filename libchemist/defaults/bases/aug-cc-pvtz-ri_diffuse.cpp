@@ -283,7 +283,9 @@ Center<double> aug_dash_cc_dash_pvtz_dash_ri_diffuse(std::size_t Z) {
                          std::vector<double>{0.53594545709});
             return rv;
         } // End case
-        default: { throw std::out_of_range("Basis not available for Z"); }
+        default: {
+            throw std::out_of_range("Basis not available for Z");
+        }
     } // end switch
 
 } // end function
