@@ -12,7 +12,8 @@ var searchData=
   ['aoshellpimpl',['AOShellPIMPL',['../classlibchemist_1_1detail___1_1AOShellPIMPL.html',1,'libchemist::detail_']]],
   ['aospace',['AOSpace',['../classlibchemist_1_1AOSpace.html',1,'libchemist']]],
   ['aospace_5f',['AOSpace_',['../classlibchemist_1_1orbital__space_1_1AOSpace__.html',1,'libchemist::orbital_space']]],
-  ['atom',['Atom',['../classlibchemist_1_1Atom.html',1,'libchemist::Atom'],['../structlibchemist_1_1detail___1_1atom.html',1,'libchemist::detail_::atom']]],
+  ['atom',['atom',['../structlibchemist_1_1detail___1_1atom.html',1,'libchemist::detail_::atom'],['../classlibchemist_1_1Atom.html',1,'libchemist::Atom']]],
   ['atomicnumber',['AtomicNumber',['../structlibchemist_1_1Atom_1_1AtomicNumber.html',1,'libchemist::Atom']]],
+  ['atomname',['AtomName',['../structlibchemist_1_1Atom_1_1AtomName.html',1,'libchemist::Atom']]],
   ['atompimpl',['AtomPIMPL',['../classlibchemist_1_1detail___1_1AtomPIMPL.html',1,'libchemist::detail_']]]
 ];

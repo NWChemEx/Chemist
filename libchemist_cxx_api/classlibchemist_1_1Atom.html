@@ -84,6 +84,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibchemist_1_1Atom_1_1AtomicNumber.html">AtomicNumber</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper for tagging an input size_t as an atomic number.  <a href="structlibchemist_1_1Atom_1_1AtomicNumber.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibchemist_1_1Atom_1_1AtomName.html">AtomName</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper for tagging an input name as an atom name.  <a href="structlibchemist_1_1Atom_1_1AtomName.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibchemist_1_1Atom_1_1Coordinates.html">Coordinates</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper for tagging input array as a set of coordinates.  <a href="structlibchemist_1_1Atom_1_1Coordinates.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibchemist_1_1Atom_1_1Mass.html">Mass</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper for tagging an input double as a mass.  <a href="structlibchemist_1_1Atom_1_1Mass.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,22 +138,30 @@ template&lt;typename... Args&gt; </td></tr>
 template&lt;typename... Args&gt; </td></tr>
 <tr class="memitem:gabf400ec567f7673aba20ffbf0e1c67b5"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="classlibchemist_1_1Atom.html#aeeb232a1eb4497caeb77d67056feb7be">name_type</a> &amp;da_name, Args &amp;&amp;... args)</td></tr>
 <tr class="separator:gabf400ec567f7673aba20ffbf0e1c67b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac0a73e24eca542260a5eb69eb2bb6a90"><td class="memTemplParams" colspan="2">
-template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:gac0a73e24eca542260a5eb69eb2bb6a90"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="classlibchemist_1_1Atom.html#a134dd5819cfad6c6f25afd0907f14243">mass_type</a> &amp;mass_in, Args &amp;&amp;... args)</td></tr>
-<tr class="separator:gac0a73e24eca542260a5eb69eb2bb6a90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf86b447a47559a081e0a9e917d0404f0"><td class="memTemplParams" colspan="2">
-template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:gaf86b447a47559a081e0a9e917d0404f0"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="structlibchemist_1_1Atom_1_1Mass.html">Mass</a> &amp;mass_in, Args &amp;&amp;... args)</td></tr>
-<tr class="separator:gaf86b447a47559a081e0a9e917d0404f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6cef7331b5b42887c7dc52792662992b"><td class="memTemplParams" colspan="2">
 template&lt;typename... Args&gt; </td></tr>
 <tr class="memitem:ga6cef7331b5b42887c7dc52792662992b"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (<a class="el" href="classlibchemist_1_1Atom.html#a1804b8965eed6ec47dc51c90211d3637">size_type</a> Z_in, Args &amp;&amp;... args)</td></tr>
 <tr class="separator:ga6cef7331b5b42887c7dc52792662992b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac0a73e24eca542260a5eb69eb2bb6a90"><td class="memTemplParams" colspan="2">
+template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:gac0a73e24eca542260a5eb69eb2bb6a90"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="classlibchemist_1_1Atom.html#a134dd5819cfad6c6f25afd0907f14243">mass_type</a> &amp;mass_in, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:gac0a73e24eca542260a5eb69eb2bb6a90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac7807a9906a2be3ea0d916fa0736bc9b"><td class="memTemplParams" colspan="2">
+template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:gac7807a9906a2be3ea0d916fa0736bc9b"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="structlibchemist_1_1Atom_1_1Coordinates.html">Coordinates</a> &amp;coords_in, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:gac7807a9906a2be3ea0d916fa0736bc9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaa486ba91138c3f60583ae2269d52431"><td class="memTemplParams" colspan="2">
+template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:gaaa486ba91138c3f60583ae2269d52431"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="structlibchemist_1_1Atom_1_1AtomName.html">AtomName</a> &amp;name_in, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:gaaa486ba91138c3f60583ae2269d52431"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6531db562ff4fdb2edc83aaa627f44c4"><td class="memTemplParams" colspan="2">
 template&lt;typename... Args&gt; </td></tr>
 <tr class="memitem:ga6531db562ff4fdb2edc83aaa627f44c4"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="structlibchemist_1_1Atom_1_1AtomicNumber.html">AtomicNumber</a> &amp;Z_in, Args &amp;&amp;... args)</td></tr>
 <tr class="separator:ga6531db562ff4fdb2edc83aaa627f44c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf86b447a47559a081e0a9e917d0404f0"><td class="memTemplParams" colspan="2">
+template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:gaf86b447a47559a081e0a9e917d0404f0"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="structlibchemist_1_1Atom_1_1Mass.html">Mass</a> &amp;mass_in, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:gaf86b447a47559a081e0a9e917d0404f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga48f6635571593370e3158865122725ae"><td class="memItemLeft" align="right" valign="top">
 &#160;</td><td class="memItemRight" valign="bottom"><b>Atom</b> (std::unique_ptr&lt; <a class="el" href="classlibchemist_1_1detail___1_1AtomPIMPL.html">detail_::AtomPIMPL</a> &gt; pimpl)</td></tr>
 <tr class="separator:ga48f6635571593370e3158865122725ae"><td class="memSeparator" colspan="2">&#160;</td></tr>

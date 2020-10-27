@@ -15,5 +15,6 @@ var searchData=
   ['contiguousbasisset',['ContiguousBasisSet',['../classlibchemist_1_1detail___1_1ContiguousBasisSet.html',1,'libchemist::detail_']]],
   ['contiguousmol',['ContiguousMol',['../classlibchemist_1_1detail___1_1ContiguousMol.html',1,'libchemist::detail_']]],
   ['contractedgaussian',['ContractedGaussian',['../classlibchemist_1_1ContractedGaussian.html',1,'libchemist']]],
-  ['contractedgaussianview',['ContractedGaussianView',['../classlibchemist_1_1ContractedGaussianView.html',1,'libchemist']]]
+  ['contractedgaussianview',['ContractedGaussianView',['../classlibchemist_1_1ContractedGaussianView.html',1,'libchemist']]],
+  ['coordinates',['Coordinates',['../structlibchemist_1_1Atom_1_1Coordinates.html',1,'libchemist::Atom']]]
 ];
