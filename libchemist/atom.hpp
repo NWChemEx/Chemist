@@ -60,7 +60,7 @@ public:
 
     /// Wrapper for tagging an input name as an atom name
     struct AtomName {
-        name_type n_n = '';
+        name_type n_n = "";
     };
 
     /// Wrapper for tagging input array as a set of coordinates
