@@ -34,8 +34,8 @@ public:
      *  @throw ??? If moving `egys` or forwarding `args` throws. Same throw
      *             guarantee.
      */
-    template<typename...Args>
-    CanonicalSpace_(OrbitalEnergyType egys = {}, Args&&...args);
+    template<typename... Args>
+    CanonicalSpace_(OrbitalEnergyType egys = {}, Args&&... args);
 
     /** @brief Returns the energies of the orbitals in this orbital space.
      *
@@ -53,6 +53,7 @@ public:
 protected:
     /// Adds the orbital energies to the hash internal to `h`
     virtual void hash_(sde::Hasher& h) const override;
+
 private:
     /// The energies associated with each orbital
     orbital_energy_type m_egys_;
@@ -80,9 +81,9 @@ bool operator!=(const CanonicalSpace_<TensorType, LHSBase>& lhs,
 //------------------------------- Implementations ------------------------------
 
 template<typename OrbitalEnergyType, typename BaseType>
-template<typename...Args>
+template<typename... Args>
 CanonicalSpace_<OrbitalEnergyType, BaseType>::CanonicalSpace_(
-  OrbitalEnergyType egys, Args&&...args) :
+  OrbitalEnergyType egys, Args&&... args) :
   BaseType(std::forward<Args>(args)...), m_egys_(std::move(egys)) {}
 
 template<typename OrbitalEnergyType, typename BaseType>

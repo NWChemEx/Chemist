@@ -12,8 +12,7 @@ PRIM_TYPE::Primitive() : Primitive(0.0, 0.0, 0.0, 0.0, 0.0) {}
 
 template<typename T>
 PRIM_TYPE::Primitive(T coef, T exp, T x, T y, T z) :
-  m_pimpl_(std::make_unique<my_pimpl>(coef, exp)),
-  Point<T>(x, y, z) {}
+  m_pimpl_(std::make_unique<my_pimpl>(coef, exp)), Point<T>(x, y, z) {}
 
 template<typename T>
 PRIM_TYPE::Primitive(const PRIM_TYPE& rhs) :
@@ -36,8 +35,7 @@ PRIM_TYPE& PRIM_TYPE::operator=(PRIM_TYPE&& rhs) noexcept = default;
 template<typename T>
 PRIM_TYPE::Primitive(my_pimpl_ptr my_pimpl,
                      base_pimpl_ptr point_pimpl) noexcept :
-  m_pimpl_(std::move(my_pimpl)),
-  Point<T>(std::move(point_pimpl)) {}
+  m_pimpl_(std::move(my_pimpl)), Point<T>(std::move(point_pimpl)) {}
 
 template<typename T>
 PRIM_TYPE::~Primitive() noexcept = default;

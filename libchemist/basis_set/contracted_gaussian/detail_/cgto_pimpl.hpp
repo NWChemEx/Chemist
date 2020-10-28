@@ -81,13 +81,11 @@ private:
 template<typename T>
 template<typename U, typename V>
 CGTOPIMPL<T>::CGTOPIMPL(U&& cs, V&& as) noexcept :
-  m_cs_(std::forward<U>(cs)),
-  m_as_(std::forward<V>(as)) {}
+  m_cs_(std::forward<U>(cs)), m_as_(std::forward<V>(as)) {}
 
 template<typename T>
 CGTOPIMPL<T>::CGTOPIMPL(const CGTOPIMPL<T>& rhs) :
-  m_cs_(rhs.m_cs_.value()),
-  m_as_(rhs.m_as_.value()) {}
+  m_cs_(rhs.m_cs_.value()), m_as_(rhs.m_as_.value()) {}
 
 template<typename T>
 std::unique_ptr<detail_::PrimitivePIMPL<T>> CGTOPIMPL<T>::at(
