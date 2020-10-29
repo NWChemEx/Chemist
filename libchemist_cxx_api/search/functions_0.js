@@ -13,7 +13,7 @@ var searchData=
   ['aosfacade',['AoSFacade',['../classlibchemist_1_1detail___1_1AoSFacade_3_01AoSElement_3_01Fields_8_8_8_01_4_01_4.html#a2bdf3975853608be5c17103f1961dee5',1,'libchemist::detail_::AoSFacade&lt; AoSElement&lt; Fields... &gt; &gt;']]],
   ['aoshellpimpl',['AOShellPIMPL',['../classlibchemist_1_1detail___1_1AOShellPIMPL.html#a78939e7a195d7aa74c2938752bd18ae7',1,'libchemist::detail_::AOShellPIMPL']]],
   ['aospace',['AOSpace',['../classlibchemist_1_1AOSpace.html#a208f17f2e30fdd2b314fc22f17aeb503',1,'libchemist::AOSpace::AOSpace()'],['../classlibchemist_1_1AOSpace.html#aa8105375a2ed1b4c74e2f09cb0d36ecd',1,'libchemist::AOSpace::AOSpace(basis_type bs, tensor_type S)']]],
-  ['aospace_5f',['AOSpace_',['../classlibchemist_1_1orbital__space_1_1AOSpace__.html#a1141fb7f0832a4889b9a8c7c18f9ad83',1,'libchemist::orbital_space::AOSpace_']]],
+  ['aospace_5f',['AOSpace_',['../classlibchemist_1_1orbital__space_1_1AOSpace__.html#a950c7d1ef85408bd73afda55facb5863',1,'libchemist::orbital_space::AOSpace_']]],
   ['apply_5fbasis',['apply_basis',['../namespacelibchemist.html#af44ca813ffd794288b494c01dde99adc',1,'libchemist']]],
   ['apply_5felementwise',['apply_elementwise',['../namespacelibchemist.html#ae14c4719366e4a23db052f457d39db97',1,'libchemist']]],
   ['apply_5felementwise_5finplace',['apply_elementwise_inplace',['../namespacelibchemist.html#a585a41c9af95550ac667ec44994aa059',1,'libchemist']]],
