@@ -50,13 +50,17 @@ auto from_sparse_map(
         tot_tile_type buffer(r); // buffer will hold the tile as we make it
         bool is_zero = true;
         for(const auto& ind_elem_idx : r) {
-            const auto has_idx = sm.count(ind_elem_idx.begin(), ind_elem_idx.end());
-            if(is_zero && !has_idx) continue;
+            const auto has_idx =
+              sm.count(ind_elem_idx.begin(), ind_elem_idx.end());
+            if(is_zero && !has_idx)
+                continue;
             else if(!has_idx)
-                throw std::runtime_error("Must provide domains for every independent index of a non-zero tile");
-            is_zero = false;
+                throw std::runtime_error(
+                  "Must provide domains for every independent index of a "
+                  "non-zero tile");
+            is_zero       = false;
             const auto& d = sm.at(ind_elem_idx);
-            auto tiles = get_tiles_(ind_tile_idx, d, t, mapper);
+            auto tiles    = get_tiles_(ind_tile_idx, d, t, mapper);
             buffer(ind_elem_idx) =
               make_inner_tile_(ind_elem_idx, tiles, mapper);
         }
@@ -93,4 +97,4 @@ auto from_sparse_map(const SparseMap& sm, TensorType&& t,
                            std::map<std::size_t, TA::TiledRange1>{},
                            ind_sm_modes2t);
 }
-}
+} // namespace libchemist::sparse_map

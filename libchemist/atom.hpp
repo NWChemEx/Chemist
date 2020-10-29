@@ -235,7 +235,8 @@ private:
 
     /// Private member variable for static asserts
     template<typename T, typename... Args>
-    static constexpr bool only_one = std::disjunction_v<std::is_same<std::decay_t<Args>, T>...>;
+    static constexpr bool only_one =
+      std::disjunction_v<std::is_same<std::decay_t<Args>, T>...>;
 
 }; // End Atom
 

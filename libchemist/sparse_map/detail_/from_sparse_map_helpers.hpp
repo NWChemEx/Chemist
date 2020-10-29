@@ -41,7 +41,7 @@ TA::Range extract_dep_range_(const TA::Range& range, const ToTMapper& mapper);
 template<typename TileType>
 auto extract_dep_range_(const std::vector<TileType>& tiles,
                         const ToTMapper& mapper) {
-    using size_type = typename ToTMapper::size_type;
+    using size_type     = typename ToTMapper::size_type;
     const auto dep_rank = mapper.t_dep_rank();
 
     // TODO: We know the ranges are contiguous stitch them together instead of
@@ -112,7 +112,7 @@ auto get_tiles_(IndexType&& ind_tile_idx, const Domain& d, TensorType&& t,
 template<typename TileType>
 auto make_inner_tile_range_(const std::vector<TileType>& tiles,
                             const ToTMapper& mapper) {
-    using size_type = typename ToTMapper::size_type;
+    using size_type     = typename ToTMapper::size_type;
     const auto elements = extract_dep_range_(tiles, mapper);
     std::vector<size_type> extents;
     extents.reserve(elements.size());
@@ -142,7 +142,8 @@ auto make_inner_tile_range_(const std::vector<TileType>& tiles,
  *                   the tensor to the tensor-of-tensors.
  * @return The tile created by direct summing the provided tiles.
  */
-template<typename IndexType, typename TileType, typename InnerTileType = TileType>
+template<typename IndexType, typename TileType,
+         typename InnerTileType = TileType>
 auto make_inner_tile_(IndexType&& ind_elem_idx,
                       const std::vector<TileType>& tiles,
                       const ToTMapper& mapper) {
@@ -158,9 +159,9 @@ auto make_inner_tile_(IndexType&& ind_elem_idx,
             std::vector<std::size_t> result_idx;
             result_idx.reserve(dep_rank);
             for(size_t i = 0; i < dep_rank; ++i) {
-                const auto ebegin = elements[i].begin();
+                const auto ebegin    = elements[i].begin();
                 const auto dep_i_itr = elements[i].find(dep_idx[i]);
-                const auto n = std::distance(ebegin, dep_i_itr);
+                const auto n         = std::distance(ebegin, dep_i_itr);
                 result_idx.push_back(n);
             }
             rv(result_idx) = tile(full_idx);
@@ -184,7 +185,6 @@ auto make_inner_tile_(IndexType&& ind_elem_idx,
 TA::TiledRange make_tot_trange_(
   const TA::TiledRange& t_trange,
   const std::map<std::size_t, std::size_t>& ind_sm_modes2t,
-  const std::map<std::size_t, TA::TiledRange1>& free_ind_ranges
-);
+  const std::map<std::size_t, TA::TiledRange1>& free_ind_ranges);
 
 } // namespace libchemist::sparse_map::detail_

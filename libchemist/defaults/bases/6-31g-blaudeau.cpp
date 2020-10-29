@@ -77,7 +77,9 @@ Center<double> six_dash_31g_dash_blaudeau(std::size_t Z) {
                          std::vector<double>{10.9700000, 2.7680000, 0.8281000});
             return rv;
         } // End case
-        default: { throw std::out_of_range("Basis not available for Z"); }
+        default: {
+            throw std::out_of_range("Basis not available for Z");
+        }
     } // end switch
 
 } // end function

@@ -11,7 +11,7 @@ TA::TiledRange insert_tile_boundaries(
     // Make the sorted union of the desired boundaries and the current
     // boundaries, asserting all input indices are of the correct rank
     std::set<ElementIndex> bounds2;
-    for(const auto& x : boundaries){
+    for(const auto& x : boundaries) {
         TA_ASSERT(x.size() == rank);
         bounds2.insert(x);
     }
@@ -28,7 +28,7 @@ TA::TiledRange insert_tile_boundaries(
     // modes of the element indices) this is the opposite of what we need for
     // making a TiledRange. Here we "transpose" bounds2
     std::vector<std::set<std::size_t>> new_tiling(rank);
-    for(const auto& x : bounds2){
+    for(const auto& x : bounds2) {
         for(std::size_t i = 0; i < rank; ++i) new_tiling[i].insert(x[i]);
     }
 

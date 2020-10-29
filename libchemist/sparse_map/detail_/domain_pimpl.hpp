@@ -22,11 +22,11 @@ public:
     bool operator!=(const DomainPIMPL& rhs) const noexcept;
 
     void hash(sde::Hasher& h) const { h(m_domain_); }
-private:
 
-    struct VectorLess{
-        bool operator()(const_reference lhs,
-                        const_reference rhs) const noexcept;
+private:
+    struct VectorLess {
+        bool operator()(const_reference lhs, const_reference rhs) const
+          noexcept;
     };
 
     void bounds_check_(size_type i) const;
@@ -53,8 +53,8 @@ inline typename DomainPIMPL::reference DomainPIMPL::at(size_type i) {
     return *itr;
 }
 
-inline typename DomainPIMPL::const_reference
-DomainPIMPL::at(size_type i) const {
+inline typename DomainPIMPL::const_reference DomainPIMPL::at(
+  size_type i) const {
     bounds_check_(i);
     auto itr = m_domain_.begin();
     std::advance(itr, i);
@@ -64,9 +64,9 @@ DomainPIMPL::at(size_type i) const {
 inline void DomainPIMPL::insert(const_reference idx) {
     if(!m_domain_.empty() && idx.size() != rank()) {
         using namespace std::string_literals;
-        throw std::runtime_error(
-          "Rank of idx ("s + std::to_string(idx.size()) +
-          ") != rank of domain ("s + std::to_string(rank()) + ")"s);
+        throw std::runtime_error("Rank of idx ("s + std::to_string(idx.size()) +
+                                 ") != rank of domain ("s +
+                                 std::to_string(rank()) + ")"s);
     }
     m_domain_.insert(idx);
 }
@@ -79,19 +79,18 @@ inline bool DomainPIMPL::operator!=(const DomainPIMPL& rhs) const noexcept {
     return !((*this) == rhs);
 }
 
-inline bool
-DomainPIMPL::VectorLess::operator()(const_reference lhs,
-                                    const_reference rhs) const noexcept {
-    return std::lexicographical_compare(lhs.begin(), lhs.end(),
-                                        rhs.begin(), rhs.end());
+inline bool DomainPIMPL::VectorLess::operator()(const_reference lhs,
+                                                const_reference rhs) const
+  noexcept {
+    return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(),
+                                        rhs.end());
 }
 
-inline void DomainPIMPL::bounds_check_(size_type i) const{
+inline void DomainPIMPL::bounds_check_(size_type i) const {
     if(i < size()) return;
     using namespace std::string_literals;
-    throw std::out_of_range(
-      "i = "s + std::to_string(i) + " is not in the range [0, "s +
-      std::to_string(size()) + ")."s);
-
+    throw std::out_of_range("i = "s + std::to_string(i) +
+                            " is not in the range [0, "s +
+                            std::to_string(size()) + ")."s);
 }
 } // namespace libchemist::sparse_map::detail_

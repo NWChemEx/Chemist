@@ -17,9 +17,10 @@ private:
       std::initializer_list<std::pair<T, std::initializer_list<T>>>;
 
     using stl_map_t = std::map<std::vector<std::size_t>, Domain>;
+
 public:
-    using mapped_type = Domain;
-    using key_type    = typename mapped_type::value_type;
+    using mapped_type     = Domain;
+    using key_type        = typename mapped_type::value_type;
     using value_type      = std::pair<const key_type, mapped_type>;
     using reference       = value_type&;
     using const_reference = const value_type&;
@@ -60,13 +61,13 @@ public:
     index_set_map indices() const;
 
     /** @brief Returns the .
-    *
-    *   This is a convenience function for calling indices(key_type, size_type)
-    *   for each dependent index mode.
-    *
-    *   @result A vector of length dep_rank() such that the i-th element
-    *           is the set of non-zero indices for mode i.
-    */
+     *
+     *   This is a convenience function for calling indices(key_type, size_type)
+     *   for each dependent index mode.
+     *
+     *   @result A vector of length dep_rank() such that the i-th element
+     *           is the set of non-zero indices for mode i.
+     */
     index_set_array indices(key_type ind) const;
 
     /** @brief Returns the set of indices @p ind maps to for a given mode.
@@ -84,15 +85,13 @@ public:
      */
     index_set indices(key_type ind, size_type mode) const;
 
-
     mapped_type& operator[](const key_type& i);
-    const mapped_type& operator[](const key_type& i)const;
+    const mapped_type& operator[](const key_type& i) const;
 
     template<typename IndexType>
     mapped_type& at(IndexType&& idx);
     template<typename IndexType>
     const mapped_type& at(IndexType&& idx) const;
-
 
     iterator begin() noexcept;
     const_iterator begin() const noexcept;
@@ -151,53 +150,53 @@ public:
      *
      *  Given the SparseMaps sm1(f -> g) and sm2(g -> h),
      *  the chained map from (f -> h) is formed by mapping each element
-     *  f_i to a set of {g_i} using sm1, and then to any element in h which is mapped to from
-     *  an element of {g_i} by sm2.
+     *  f_i to a set of {g_i} using sm1, and then to any element in h which is
+     * mapped to from an element of {g_i} by sm2.
      *
-     *  Requires that the maps share a common set of indices, g, as the dependent and
-     *  independent indices respectively.
+     *  Requires that the maps share a common set of indices, g, as the
+     * dependent and independent indices respectively.
      *
      * @param[in] sm The SparseMap to chain with this instance.
      * @return The chained map.
-     * @throw std::runtime_error if the rank of the dependent indices of this instance
-     *                           is not equal to the rank of the independent indices
-     *                           of \p sm.
+     * @throw std::runtime_error if the rank of the dependent indices of this
+     * instance is not equal to the rank of the independent indices of \p sm.
      */
     SparseMap chain(const SparseMap& sm) const;
 
     /** @brief Creates a SparseMap which is the union of two maps.
      *
      *  Given two SparseMaps sm1(f -> g) and sm2(f -> g), the union is formed by
-     *  mapping f_i to any element in g which f_i is mapped to by either sm1 or sm2.
+     *  mapping f_i to any element in g which f_i is mapped to by either sm1 or
+     * sm2.
      *
      *  Requires that either one of the sets is empty or both sets have the same
      *  rank in independent and dependent indices.
      *
      * @param[in] sm The SparseMap to take the union with this instance.
      * @return The union of the two maps.
-     * @throw std::runtime_error if neither map is empty and the rank of the dependent
-     *                           indices of this instance is not equal to the rank of
-     *                           the independent indices of \p sm.
+     * @throw std::runtime_error if neither map is empty and the rank of the
+     * dependent indices of this instance is not equal to the rank of the
+     * independent indices of \p sm.
      */
     SparseMap map_union(const SparseMap& sm) const;
 
     /** @brief
      *
-     *  Given two SparseMaps sm1(f -> g) and sm2(f -> g), the intersection is formed by
-     *  mapping f_i to any element in g which f_i is mapped to by both sm1 and sm2.
+     *  Given two SparseMaps sm1(f -> g) and sm2(f -> g), the intersection is
+     * formed by mapping f_i to any element in g which f_i is mapped to by both
+     * sm1 and sm2.
      *
      * @param[in] sm The SparseMap to take the intersection with this instance.
      * @return The intersection of the two maps.
-     * @throw std::runtime_error if neither map is empty and the rank of the dependent
-     *                           indices of this instance is not equal to the rank of
-     *                           the independent indices of \p sm.
+     * @throw std::runtime_error if neither map is empty and the rank of the
+     * dependent indices of this instance is not equal to the rank of the
+     * independent indices of \p sm.
      */
     SparseMap intersection(const SparseMap& sm) const;
 
 private:
     mapped_type& at_(const key_type& i);
     const mapped_type& at_(const key_type& i) const;
-
 
     /** @brief Code factorization for ensuring an input index has the correct
      *         rank.
@@ -224,7 +223,6 @@ inline std::ostream& operator<<(std::ostream& os, const SparseMap& sm) {
     return sm.print(os);
 }
 
-
 //------------------------------------------------------------------------------
 // Inline Implementations
 //------------------------------------------------------------------------------
@@ -234,17 +232,17 @@ inline SparseMap::SparseMap(il_type<key_type> il) : SparseMap() {
 }
 
 inline
-typename SparseMap::mapped_type& SparseMap::operator[](const key_type& i) {
+  typename SparseMap::mapped_type& SparseMap::operator[](const key_type& i) {
     return at(i);
 }
 
-inline const typename SparseMap::mapped_type&
-SparseMap::operator[](const key_type& i) const{
+inline const typename SparseMap::mapped_type& SparseMap::operator[](
+  const key_type& i) const {
     return at(i);
 }
 
 template<typename IndexType>
-typename SparseMap::mapped_type& SparseMap::at(IndexType&& idx){
+typename SparseMap::mapped_type& SparseMap::at(IndexType&& idx) {
     return at_(key_type{idx.begin(), idx.end()});
 }
 template<typename IndexType>
@@ -256,18 +254,18 @@ inline void SparseMap::add_to_domain(size_type ind, size_type dep) {
     add_to_domain(key_type{ind}, key_type{dep});
 }
 
-inline void SparseMap::add_to_domain(size_type ind, key_type dep){
+inline void SparseMap::add_to_domain(size_type ind, key_type dep) {
     add_to_domain(key_type{ind}, std::move(dep));
 }
 
 template<typename BeginItr, typename EndItr>
-void SparseMap::add_to_domain(key_type ind, BeginItr first, EndItr last){
+void SparseMap::add_to_domain(key_type ind, BeginItr first, EndItr last) {
     if(first == last) throw std::runtime_error("Range can not be empty");
-    std::for_each(first, last, [=](auto&& i){ add_to_domain(ind, i); });
+    std::for_each(first, last, [=](auto&& i) { add_to_domain(ind, i); });
 }
 
 inline bool SparseMap::operator!=(const SparseMap& rhs) const noexcept {
     return !((*this) == rhs);
 }
 
-} // end namespace
+} // namespace libchemist::sparse_map
