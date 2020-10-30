@@ -47,4 +47,4 @@ bool is_tile_upper_bound(const TA::TiledRange& tr, const ElementIndex& elem) {
     return std::equal(hi.begin(), hi.end(), elem.begin());
 }
 
-} // namespace libchemist
+} // namespace libchemist::ta_helpers

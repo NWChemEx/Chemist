@@ -19,4 +19,4 @@ bool IndexMap::operator==(const IndexMap& other) const noexcept {
            std::tie(other.m_result_vars_, other.m_lhs_vars_, other.m_rhs_vars_);
 }
 
-} // namespace libchemist::einsum::detail_
+} // namespace libchemist::ta_helpers::einsum::detail_

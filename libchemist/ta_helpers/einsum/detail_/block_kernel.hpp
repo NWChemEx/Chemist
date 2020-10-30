@@ -67,4 +67,4 @@ auto block_kernel(const IndexMap& indices, const types::assoc_range& ranges,
     return result;
 }
 
-} // namespace libchemist::einsum::detail_
+} // namespace libchemist::ta_helpers::einsum::detail_

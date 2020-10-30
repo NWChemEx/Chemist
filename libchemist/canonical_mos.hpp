@@ -11,16 +11,16 @@ class CanonicalMOsPIMPL;
 
 // A class representing a canonical molecular orbital space
 template<typename element_type = double,
-        typename tensor_type  = type::tensor<element_type>>
+         typename tensor_type  = type::tensor<element_type>>
 class CanonicalMO : public OrthogonalSpace<element_type, tensor_type> {
 public:
     using basis_type =
-    typename CanonicalMO<element_type,
-            tensor_type>::basis_type; // Basis set type
+      typename CanonicalMO<element_type,
+                           tensor_type>::basis_type; // Basis set type
 
 private:
     using pimpl_type =
-    detail_::CanonicalMOsPIMPL<basis_type, tensor_type>; // PIMPL type
+      detail_::CanonicalMOsPIMPL<basis_type, tensor_type>; // PIMPL type
 
     /** @brief Accessor to PIMPL as pimpl_type, over the base PIMPL. */
     const pimpl_type& dpimpl_() const;
@@ -94,7 +94,7 @@ public:
      * @param rhs The CanonicalMO to be copied
      */
     CanonicalMO& operator=(
-            CanonicalMO<element_type, tensor_type>&& rhs) noexcept;
+      CanonicalMO<element_type, tensor_type>&& rhs) noexcept;
 
     ~CanonicalMO() noexcept;
 
@@ -111,12 +111,12 @@ extern template class CanonicalMO<double, type::tensor<float>>;
 extern template class CanonicalMO<double, type::tensor<double>>;
 
 /** @brief Determine where two OrbitalSpace instances are equivalent
-*
-* @param space1 The first instance
-* @param space2 The second instance
-*
-* @return true if the instances are equivalent
-*/
+ *
+ * @param space1 The first instance
+ * @param space2 The second instance
+ *
+ * @return true if the instances are equivalent
+ */
 template<typename E1, typename E2, typename T>
 bool operator==(const CanonicalMO<E1, T>& space1,
                 const CanonicalMO<E2, T>& space2) {
@@ -126,12 +126,12 @@ bool operator==(const CanonicalMO<E1, T>& space1,
 }
 
 /** @brief Determine where two OrbitalSpace instances are not equivalent
-*
-* @param space1 The first instance
-* @param space2 The second instance
-*
-* @return true if the instances are not equivalent
-*/
+ *
+ * @param space1 The first instance
+ * @param space2 The second instance
+ *
+ * @return true if the instances are not equivalent
+ */
 template<typename E1, typename E2, typename T>
 bool operator!=(const CanonicalMO<E1, T>& space1,
                 const CanonicalMO<E2, T>& space2) {

@@ -45,4 +45,4 @@ bool is_tile_lower_bound(const TA::TiledRange& tr,
 bool is_tile_upper_bound(const TA::TiledRange& tr,
                          const sparse_map::ElementIndex& elem);
 
-} // namespace libchemist
+} // namespace libchemist::ta_helpers

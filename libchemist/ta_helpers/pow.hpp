@@ -44,4 +44,4 @@ auto hmatrix_pow(const TensorType& t, double p) {
     return rv;
 }
 
-} // namespace libchemist
+} // namespace libchemist::ta_helpers

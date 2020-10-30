@@ -143,4 +143,4 @@ auto slice(const TensorType& t, const sparse_map::ElementIndex& lo,
     return rv;
 }
 
-} // namespace libchemist
+} // namespace libchemist::ta_helpers

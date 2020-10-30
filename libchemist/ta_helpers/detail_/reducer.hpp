@@ -46,4 +46,4 @@ private:
     result_type m_init_;
 };
 
-} // namespace libchemist::detail_
+} // namespace libchemist::ta_helpers::detail_
