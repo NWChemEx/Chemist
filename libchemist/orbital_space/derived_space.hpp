@@ -1,6 +1,6 @@
 #pragma once
-#include <memory>
 #include <TiledArray/expressions/contraction_helpers.h>
+#include <memory>
 
 namespace libchemist::orbital_space {
 
@@ -27,13 +27,13 @@ public:
     using overlap_type = typename BaseType::overlap_type;
 
     /// Type of the transformation matrix
-    using transform_type  = TransformType;
+    using transform_type = TransformType;
 
     /// Type of the orbital space this space is a transformation of
     using from_space_type = FromSpace;
 
     /// Type of a pointer to the from space
-    using from_space_ptr  = std::shared_ptr<const FromSpace>;
+    using from_space_ptr = std::shared_ptr<const FromSpace>;
 
     /** @brief Creates a new DerivedSpace_ with the specified state.
      *
@@ -58,10 +58,9 @@ public:
      * @throw ??? If moving `C`, moving `from_space`, or fowarding `args`
      *            throws. Same throw guarantee.
      */
-    template<typename...Args>
+    template<typename... Args>
     DerivedSpace_(transform_type C = {}, from_space_type from_space = {},
-                  Args&&...args);
-
+                  Args&&... args);
 
     /** @brief Creates a new DerivedSpace_ with the specified state.
      *
@@ -84,8 +83,8 @@ public:
      * @throw ??? If moving `C` or forwarding `args` throws. Same throw
      *            guarantee.
      */
-    template<typename...Args>
-    DerivedSpace_(transform_type C, from_space_ptr pfrom_space, Args&&...args);
+    template<typename... Args>
+    DerivedSpace_(transform_type C, from_space_ptr pfrom_space, Args&&... args);
 
     /** @brief Returns the transformation coefficients to go from `from_space`
      *         to the current space.
@@ -129,12 +128,14 @@ public:
      *  @return The shared_ptr holding the from space.
      */
     auto from_space_data() const { return m_pbase_; }
+
 protected:
-    ///Include the transformation and the from space in the hash
+    /// Include the transformation and the from space in the hash
     virtual void hash_(sde::Hasher& h) const override;
 
     virtual overlap_type& S_() override;
     virtual const overlap_type& S_() const override;
+
 private:
     /// Computes the overlap matrix using the base space's overlap
     overlap_type compute_overlap_() const;
@@ -154,7 +155,7 @@ bool operator==(
     auto& casted_lhs = static_cast<const LHSBaseType&>(lhs);
     auto& casted_rhs = static_cast<const RHSBaseType&>(rhs);
 
-    //TODO: Actually compare the tensors
+    // TODO: Actually compare the tensors
     const auto lhash = sde::hash_objects(lhs.C());
     const auto rhash = sde::hash_objects(rhs.C());
 
@@ -175,21 +176,18 @@ bool operator!=(
 #define DERIVED_SPACE DerivedSpace_<TransformType, FromSpace, BaseType>
 
 template<typename TransformType, typename FromSpace, typename BaseType>
-template<typename...Args>
-DERIVED_SPACE::DerivedSpace_(transform_type C,
-                            from_space_type base,
-                            Args&&...args) :
+template<typename... Args>
+DERIVED_SPACE::DerivedSpace_(transform_type C, from_space_type base,
+                             Args&&... args) :
   DerivedSpace_(std::move(C),
                 std::make_shared<from_space_type>(std::move(base)),
                 std::forward<Args>(args)...) {}
 
 template<typename TransformType, typename FromSpace, typename BaseType>
-template<typename...Args>
-DERIVED_SPACE::DerivedSpace_(transform_type C,
-                             from_space_ptr pbase,
-                             Args&&...args) :
+template<typename... Args>
+DERIVED_SPACE::DerivedSpace_(transform_type C, from_space_ptr pbase,
+                             Args&&... args) :
   BaseType(std::forward<Args>(args)...), m_C_(std::move(C)), m_pbase_(pbase) {}
-
 
 template<typename TransformType, typename FromSpace, typename BaseType>
 typename DERIVED_SPACE::overlap_type& DERIVED_SPACE::S_() {
@@ -211,24 +209,25 @@ void DERIVED_SPACE::hash_(sde::Hasher& h) const {
 
 template<typename TransformType, typename FromSpace, typename BaseType>
 typename DERIVED_SPACE::overlap_type DERIVED_SPACE::compute_overlap_() const {
-    auto& S_ao     = from_space().S();
-    auto& C_ao2x  = C();
+    auto& S_ao   = from_space().S();
+    auto& C_ao2x = C();
     overlap_type S_deriv;
 
-    using tile_type  = typename FromSpace::overlap_type::value_type;
+    using tile_type             = typename FromSpace::overlap_type::value_type;
     constexpr bool tile1_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
 
     using tile_type2 = typename std::decay_t<decltype(C_ao2x)>::value_type;
     constexpr bool tile2_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type2>;
 
-    static_assert(tile1_is_tot == tile2_is_tot,
-        "C and S are assumed to either both be tensors or both be ToTs.");
+    static_assert(
+      tile1_is_tot == tile2_is_tot,
+      "C and S are assumed to either both be tensors or both be ToTs.");
 
     if constexpr(tile1_is_tot) {
         auto n_ind = S_ao.trange().rank() / 2;
         std::string lidx, ridx;
-        for(std::size_t i = 0; i < n_ind; ++i){
-            if(i > 0){
+        for(std::size_t i = 0; i < n_ind; ++i) {
+            if(i > 0) {
                 lidx += ",";
                 ridx += ",";
             }
@@ -246,8 +245,7 @@ typename DERIVED_SPACE::overlap_type DERIVED_SPACE::compute_overlap_() const {
         overlap_type buffer;
         TA::expressions::einsum(buffer(ij_an), C_ao2x(i_ma), S_ao(ij_mn));
         TA::expressions::einsum(S_deriv(ij_ab), buffer(ij_an), C_ao2x(j_nb));
-    }
-    else {
+    } else {
         overlap_type buffer;
         buffer("i,nu") = C_ao2x("mu,i") * S_ao("mu,nu");
         S_deriv("i,j") = buffer("i,nu") * C_ao2x("nu,j");

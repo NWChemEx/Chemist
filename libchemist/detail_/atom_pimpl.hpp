@@ -122,16 +122,14 @@ public:
     }
     /// Wraps the PIMPL around an already existing AoSElement
     ContiguousAtomPIMPL(std::shared_ptr<AoS_t> impl) :
-      my_name_(),
-      impl_(impl) {}
+      my_name_(), impl_(impl) {}
     /// Default dtor
     ~ContiguousAtomPIMPL() override = default;
 
 protected:
     /// Makes a deep copy of the PIMPL
     ContiguousAtomPIMPL(const ContiguousAtomPIMPL& rhs) :
-      my_name_(rhs.my_name_),
-      impl_(std::make_shared<AoS_t>(*rhs.impl_)) {}
+      my_name_(rhs.my_name_), impl_(std::make_shared<AoS_t>(*rhs.impl_)) {}
 
 private:
     /// Holds the name of the atom

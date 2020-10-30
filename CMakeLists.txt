@@ -46,6 +46,7 @@ if("${BUILD_TESTING}")
         BUILD_TARGET Catch2
         VERSION v2.x
         FIND_TARGET Catch2::Catch2
+        VERSION v2.x
     )
     cpp_add_tests(
         test_chemist

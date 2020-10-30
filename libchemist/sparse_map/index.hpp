@@ -11,8 +11,7 @@ namespace detail_ {
 template<typename T>
 using disable_if_integral_t = std::enable_if_t<!std::is_integral_v<T>>;
 
-} // namesapce detail_
-
+} // namespace detail_
 
 /** @brief Thin wrapper class around a multi-rank index.
  *
@@ -20,9 +19,9 @@ using disable_if_integral_t = std::enable_if_t<!std::is_integral_v<T>>;
  *  that it can be used for strong typing. Users are expected to work directly
  *  with the wrapped vector, which is accessible via the `m_index` member
  */
-struct Index{
+struct Index {
     /// Type used for sizes
-    using size_type  = std::size_t;
+    using size_type = std::size_t;
 
     /// Type used for the mult-rank index
     using index_type = std::vector<size_type>;
@@ -51,8 +50,8 @@ struct Index{
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        indice's state. Strong throw guarantee.
      */
-    template<typename...Args>
-    explicit Index(size_type i0, Args&&...args);
+    template<typename... Args>
+    explicit Index(size_type i0, Args&&... args);
 
     /** @brief Creates a new instance using the provided initializer list.
      *
@@ -97,8 +96,7 @@ struct Index{
      * @throw std::bad_alloc if the index_type's range ctor throws. Strong throw
      *                       guarantee.
      */
-    template<typename BeginItr,
-             typename EndItr,
+    template<typename BeginItr, typename EndItr,
              typename = detail_::disable_if_integral_t<BeginItr>>
     Index(BeginItr&& b, EndItr&& e);
 
@@ -207,8 +205,8 @@ inline bool operator!=(const Index& lhs, const Index& rhs) {
 }
 
 inline bool operator<(const Index& lhs, const Index& rhs) {
-    return std::lexicographical_compare(lhs.begin(), lhs.end(),
-                                        rhs.begin(), rhs.end());
+    return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(),
+                                        rhs.end());
 }
 
 /** @brief Compares an Index instance to a vector.
@@ -334,7 +332,7 @@ struct ElementIndex : public Index {
  *  tuple should be treated as indexing the tile of a tensor and not an element
  *  of a tensor.
  */
-struct TileIndex : public Index{
+struct TileIndex : public Index {
     using Index::Index;
 };
 
@@ -342,8 +340,8 @@ struct TileIndex : public Index{
 //                            Implementations
 //------------------------------------------------------------------------------
 
-template<typename...Args>
-Index::Index(size_type i0, Args&&...args) :
+template<typename... Args>
+Index::Index(size_type i0, Args&&... args) :
   Index({i0, size_type(std::forward<Args>(args))...}) {}
 
 template<typename BeginItr, typename EndItr, typename>
@@ -352,7 +350,7 @@ Index::Index(BeginItr&& b, EndItr&& e) :
 
 inline std::ostream& Index::print(std::ostream& os) const {
     os << "{";
-    for(std::size_t i = 0; i < m_index.size(); ++i){
+    for(std::size_t i = 0; i < m_index.size(); ++i) {
         os << m_index[i];
         if(i != m_index.size() - 1) os << ", ";
     }

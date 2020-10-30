@@ -18,9 +18,9 @@ namespace libchemist::ta_helpers::einsum::detail_ {
 types::index_set parse_index(std::string idx);
 
 inline auto initial_index(const types::assoc_range& ranges) {
-  types::assoc_index index;
-  for(auto&& [k, v] : ranges) index[k] = v.first;
-  return index;
+    types::assoc_index index;
+    for(auto&& [k, v] : ranges) index[k] = v.first;
+    return index;
 }
 
 /** @brief Increments the provided index subject to the provided ranges

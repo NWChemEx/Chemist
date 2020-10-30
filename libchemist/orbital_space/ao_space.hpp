@@ -22,9 +22,10 @@ class AOSpace_ : public BaseType {
 private:
     /// Type of the base class
     using base_type = BaseType;
+
 public:
     /// Type of the object holding the AO basis set parameters
-    using basis_type   = BasisType;
+    using basis_type = BasisType;
 
     /** @brief Creates a new atomic orbital space.
      *
@@ -35,8 +36,8 @@ public:
      * @param[in] bs The parameters of the atomic orbitals.
      * @param[in] args Inputs to forward to the base class's ctor.
      */
-    template<typename...Args>
-    AOSpace_(basis_type bs = {}, Args&&...args);
+    template<typename... Args>
+    AOSpace_(basis_type bs = {}, Args&&... args);
 
     /** @brief Accessor for read/write access to the basis set parameters
      *
@@ -57,6 +58,7 @@ protected:
      *                   AO basis set wil be added to the internal hashed state.
      */
     virtual void hash_(sde::Hasher& h) const override;
+
 private:
     /// The object holding the basis set parameters
     basis_type m_bs_;
@@ -79,8 +81,8 @@ bool operator!=(const AOSpace_<BasisType, LHSBase>& lhs,
 // ---------------------------- Implementations -------------------------------
 
 template<typename BasisType, typename BaseType>
-template<typename...Args>
-AOSpace_<BasisType, BaseType>::AOSpace_(basis_type bs, Args&&...args) :
+template<typename... Args>
+AOSpace_<BasisType, BaseType>::AOSpace_(basis_type bs, Args&&... args) :
   BaseType(std::forward<Args>(args)...), m_bs_(std::move(bs)) {}
 
 template<typename BasisType, typename BaseType>

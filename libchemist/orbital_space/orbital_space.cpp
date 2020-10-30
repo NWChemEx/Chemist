@@ -14,4 +14,4 @@ template class AOSpace_<AOBasisSet<float>, BaseSpace<float>>;
 template class AOSpace_<AOBasisSet<double>, SparseDependentBase<double>>;
 template class AOSpace_<AOBasisSet<float>, SparseDependentBase<float>>;
 
-}
+} // namespace libchemist::orbital_space

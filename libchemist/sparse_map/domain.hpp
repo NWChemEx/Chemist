@@ -33,7 +33,7 @@ public:
     using const_reference = const value_type&;
 
     /// Type of a bidirectional iterator
-    using iterator = utilities::iterators::OffsetIterator<Domain>;
+    using iterator       = utilities::iterators::OffsetIterator<Domain>;
     using const_iterator = utilities::iterators::OffsetIterator<const Domain>;
 
     Domain();
@@ -71,8 +71,8 @@ public:
 
     void hash(sde::Hasher& h) const;
     std::ostream& print(std::ostream& os) const;
-private:
 
+private:
     /** @brief Ensures that the PIMPL is non-null.
      *
      *  For the most part it is not possible for the PIMPL to be null as even
@@ -91,7 +91,7 @@ private:
     std::unique_ptr<detail_::DomainPIMPL> m_pimpl_;
 }; // class Domain
 
-inline std::ostream& operator<<(std::ostream& os, const Domain& d){
+inline std::ostream& operator<<(std::ostream& os, const Domain& d) {
     return d.print(os);
 }
 
@@ -100,7 +100,7 @@ inline std::ostream& operator<<(std::ostream& os, const Domain& d){
 //------------------------------------------------------------------------------
 
 inline Domain::Domain(std::initializer_list<value_type> il) : Domain() {
-    for(auto&& x : il)insert(x);
+    for(auto&& x : il) insert(x);
 }
 
 inline bool Domain::operator!=(const Domain& rhs) const noexcept {
