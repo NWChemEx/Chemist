@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libchemist: libchemist::detail_::Reducer&lt; TensorType, AddOp, TimesOp &gt; Class Template Reference</title>
+<title>libchemist: libchemist::ta_helpers::detail_::Reducer&lt; TensorType, AddOp, TimesOp &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,71 +59,71 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacelibchemist.html">libchemist</a></li><li class="navelem"><b>detail_</b></li><li class="navelem"><a class="el" href="classlibchemist_1_1detail___1_1Reducer.html">Reducer</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacelibchemist.html">libchemist</a></li><li class="navelem"><b>ta_helpers</b></li><li class="navelem"><b>detail_</b></li><li class="navelem"><a class="el" href="classlibchemist_1_1ta__helpers_1_1detail___1_1Reducer.html">Reducer</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classlibchemist_1_1detail___1_1Reducer-members.html">List of all members</a>  </div>
+<a href="classlibchemist_1_1ta__helpers_1_1detail___1_1Reducer-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">libchemist::detail_::Reducer&lt; TensorType, AddOp, TimesOp &gt; Class Template Reference</div>  </div>
+<div class="title">libchemist::ta_helpers::detail_::Reducer&lt; TensorType, AddOp, TimesOp &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Generic functor satisfying TiledArray's <a class="el" href="classlibchemist_1_1detail___1_1Reducer.html" title="Generic functor satisfying TiledArray&#39;s Reducer API. ">Reducer</a> API.  
- <a href="classlibchemist_1_1detail___1_1Reducer.html#details">More...</a></p>
+<p>Generic functor satisfying TiledArray's <a class="el" href="classlibchemist_1_1ta__helpers_1_1detail___1_1Reducer.html" title="Generic functor satisfying TiledArray&#39;s Reducer API. ">Reducer</a> API.  
+ <a href="classlibchemist_1_1ta__helpers_1_1detail___1_1Reducer.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="reducer_8hpp_source.html">reducer.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:aa487d21baa165328f67c59c20b7279ed"><td class="memItemLeft" align="right" valign="top"><a id="aa487d21baa165328f67c59c20b7279ed"></a>
+<tr class="memitem:aed73f12f591f6a6eae7d0a00e21e605e"><td class="memItemLeft" align="right" valign="top"><a id="aed73f12f591f6a6eae7d0a00e21e605e"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>result_type</b> = std::invoke_result_t&lt; TimesOp, element_type, element_type &gt;</td></tr>
-<tr class="separator:aa487d21baa165328f67c59c20b7279ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5c09e3e44f42e55263f69750cee01f2"><td class="memItemLeft" align="right" valign="top"><a id="af5c09e3e44f42e55263f69750cee01f2"></a>
+<tr class="separator:aed73f12f591f6a6eae7d0a00e21e605e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1475436421e49e1236c0953283028aa4"><td class="memItemLeft" align="right" valign="top"><a id="a1475436421e49e1236c0953283028aa4"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>first_argument_type</b> = tile_type</td></tr>
-<tr class="separator:af5c09e3e44f42e55263f69750cee01f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7434ce0e889f4107bbfebceda619dbe8"><td class="memItemLeft" align="right" valign="top"><a id="a7434ce0e889f4107bbfebceda619dbe8"></a>
+<tr class="separator:a1475436421e49e1236c0953283028aa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ab92b46c82f1d281bdd7760ece8b3c8"><td class="memItemLeft" align="right" valign="top"><a id="a8ab92b46c82f1d281bdd7760ece8b3c8"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>second_argument_type</b> = tile_type</td></tr>
-<tr class="separator:a7434ce0e889f4107bbfebceda619dbe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a964989e02f1ad1ea9ced929eb177b518"><td class="memItemLeft" align="right" valign="top"><a id="a964989e02f1ad1ea9ced929eb177b518"></a>
+<tr class="separator:a8ab92b46c82f1d281bdd7760ece8b3c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae087521b1cd32a5a674b8d42d33458fa"><td class="memItemLeft" align="right" valign="top"><a id="ae087521b1cd32a5a674b8d42d33458fa"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>result_ref</b> = result_type &amp;</td></tr>
-<tr class="separator:a964989e02f1ad1ea9ced929eb177b518"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95e5eb97172ede270ba5709ba36ace5f"><td class="memItemLeft" align="right" valign="top"><a id="a95e5eb97172ede270ba5709ba36ace5f"></a>
+<tr class="separator:ae087521b1cd32a5a674b8d42d33458fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e7b98cfbab7ccbd038792162e9ded2c"><td class="memItemLeft" align="right" valign="top"><a id="a0e7b98cfbab7ccbd038792162e9ded2c"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>const_result_ref</b> = const result_type &amp;</td></tr>
-<tr class="separator:a95e5eb97172ede270ba5709ba36ace5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a953afeea1498794b49883d85d0d49103"><td class="memItemLeft" align="right" valign="top"><a id="a953afeea1498794b49883d85d0d49103"></a>
+<tr class="separator:a0e7b98cfbab7ccbd038792162e9ded2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6780d9d26a048402c90a679c28cd406"><td class="memItemLeft" align="right" valign="top"><a id="ad6780d9d26a048402c90a679c28cd406"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>const_arg1_ref</b> = const first_argument_type &amp;</td></tr>
-<tr class="separator:a953afeea1498794b49883d85d0d49103"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a933192082a003b0b4c44af3f95fe601c"><td class="memItemLeft" align="right" valign="top"><a id="a933192082a003b0b4c44af3f95fe601c"></a>
+<tr class="separator:ad6780d9d26a048402c90a679c28cd406"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a7e4df60dfebd6e8c3cc1679841da64"><td class="memItemLeft" align="right" valign="top"><a id="a7a7e4df60dfebd6e8c3cc1679841da64"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>const_arg2_ref</b> = const second_argument_type &amp;</td></tr>
-<tr class="separator:a933192082a003b0b4c44af3f95fe601c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a7a7e4df60dfebd6e8c3cc1679841da64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac75fc103244b1852d74707610327cb7e"><td class="memItemLeft" align="right" valign="top"><a id="ac75fc103244b1852d74707610327cb7e"></a>
+<tr class="memitem:abf5fab9f54b88cef16f67129dc940c05"><td class="memItemLeft" align="right" valign="top"><a id="abf5fab9f54b88cef16f67129dc940c05"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Reducer</b> (AddOp add_op, TimesOp times_op, result_type init)</td></tr>
-<tr class="separator:ac75fc103244b1852d74707610327cb7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49cab2160ebaa33623748ba7c653fcb1"><td class="memItemLeft" align="right" valign="top"><a id="a49cab2160ebaa33623748ba7c653fcb1"></a>
+<tr class="separator:abf5fab9f54b88cef16f67129dc940c05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b09539a20967debc5c0edac75adfcc0"><td class="memItemLeft" align="right" valign="top"><a id="a4b09539a20967debc5c0edac75adfcc0"></a>
 result_type&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> () const</td></tr>
-<tr class="separator:a49cab2160ebaa33623748ba7c653fcb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b6c53e7e9c6c33622abe5a66a759841"><td class="memItemLeft" align="right" valign="top"><a id="a3b6c53e7e9c6c33622abe5a66a759841"></a>
+<tr class="separator:a4b09539a20967debc5c0edac75adfcc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32a66e8d80928dd4b743343208ff04ec"><td class="memItemLeft" align="right" valign="top"><a id="a32a66e8d80928dd4b743343208ff04ec"></a>
 const_result_ref&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (const_result_ref r) const</td></tr>
-<tr class="separator:a3b6c53e7e9c6c33622abe5a66a759841"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8af283be156bfebaae97887b5acc628f"><td class="memItemLeft" align="right" valign="top"><a id="a8af283be156bfebaae97887b5acc628f"></a>
+<tr class="separator:a32a66e8d80928dd4b743343208ff04ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a467b687328405b861ec34d7c9d931a7b"><td class="memItemLeft" align="right" valign="top"><a id="a467b687328405b861ec34d7c9d931a7b"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (result_ref result, const_result_ref arg) const</td></tr>
-<tr class="separator:a8af283be156bfebaae97887b5acc628f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa802e352589671702c7614192aaf37d3"><td class="memItemLeft" align="right" valign="top"><a id="aa802e352589671702c7614192aaf37d3"></a>
+<tr class="separator:a467b687328405b861ec34d7c9d931a7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa82d525ad2e38346cfae24983f01dc71"><td class="memItemLeft" align="right" valign="top"><a id="aa82d525ad2e38346cfae24983f01dc71"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (result_ref result, const_arg1_ref first, const_arg2_ref second) const</td></tr>
-<tr class="separator:aa802e352589671702c7614192aaf37d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:aa82d525ad2e38346cfae24983f01dc71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename TensorType, typename AddOp, typename TimesOp&gt;<br />
-class libchemist::detail_::Reducer&lt; TensorType, AddOp, TimesOp &gt;</h3>
+class libchemist::ta_helpers::detail_::Reducer&lt; TensorType, AddOp, TimesOp &gt;</h3>
 
-<p>Generic functor satisfying TiledArray's <a class="el" href="classlibchemist_1_1detail___1_1Reducer.html" title="Generic functor satisfying TiledArray&#39;s Reducer API. ">Reducer</a> API. </p>
+<p>Generic functor satisfying TiledArray's <a class="el" href="classlibchemist_1_1ta__helpers_1_1detail___1_1Reducer.html" title="Generic functor satisfying TiledArray&#39;s Reducer API. ">Reducer</a> API. </p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>libchemist/ta_helpers/detail_/<a class="el" href="reducer_8hpp_source.html">reducer.hpp</a></li>
 </ul>

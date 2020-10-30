@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['viewbase',['ViewBase',['../classlibchemist_1_1detail___1_1ViewBase.html#aef243320b127600aecea0a5154e80c94',1,'libchemist::detail_::ViewBase::ViewBase(AliasedType pimpl)'],['../classlibchemist_1_1detail___1_1ViewBase.html#a2e050f41d30d52a3e2b540770ee60e13',1,'libchemist::detail_::ViewBase::ViewBase(const my_type &amp;rhs) noexcept=default'],['../classlibchemist_1_1detail___1_1ViewBase.html#a6852c550e0eb68db955639fa06834d3f',1,'libchemist::detail_::ViewBase::ViewBase(my_type &amp;&amp;rhs) noexcept=default']]]
+  ['x',['x',['../classlibchemist_1_1Point.html#a4eaa87d07730f22d1c4f434a8d9e9089',1,'libchemist::Point::x() noexcept'],['../classlibchemist_1_1Point.html#a833bf5ba4d3bf923c47ddea879d403a5',1,'libchemist::Point::x() const noexcept'],['../classlibchemist_1_1PointView.html#ae893a72385c30cd4193db068e131043c',1,'libchemist::PointView::x() noexcept'],['../classlibchemist_1_1PointView.html#a337a0c0bfb1dc3de4596f3b5c2649d93',1,'libchemist::PointView::x() const noexcept']]]
 ];
