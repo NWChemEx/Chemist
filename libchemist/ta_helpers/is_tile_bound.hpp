@@ -2,7 +2,7 @@
 #include "libchemist/sparse_map/index.hpp"
 #include <tiledarray.h>
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 /** @brief Determines if a particular element index is the first element of a
  *         tile.

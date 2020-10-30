@@ -1,8 +1,8 @@
 #include "libchemist/ta_helpers/is_tile_bound.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist;
-using sparse_map::ElementIndex;
+using namespace libchemist::ta_helpers;
+using libchemist::sparse_map::ElementIndex;
 using index_type = typename ElementIndex::index_type;
 
 TEST_CASE("is_tile_lower_bound") {

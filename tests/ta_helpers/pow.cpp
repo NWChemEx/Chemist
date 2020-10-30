@@ -2,7 +2,7 @@
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist;
+using namespace libchemist::ta_helpers;
 
 using scalar_types = std::tuple<float, double>;
 

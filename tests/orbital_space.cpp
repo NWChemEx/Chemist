@@ -41,17 +41,17 @@ void require_not_initialized_canon(canonspace& space) {
 void require_match_inputs(orbspace& space, libchemist::AOBasisSet<double> bs,
                           tensor A, tensor B, tensor C, tensor D) {
     REQUIRE(space.basis_set() == bs);
-    REQUIRE(libchemist::allclose(space.S(), A));
-    REQUIRE(libchemist::allclose(space.C(), B));
-    REQUIRE(libchemist::allclose(space.Cdagger(), C));
-    REQUIRE(libchemist::allclose(space.density(), D));
+    REQUIRE(libchemist::ta_helpers::allclose(space.S(), A));
+    REQUIRE(libchemist::ta_helpers::allclose(space.C(), B));
+    REQUIRE(libchemist::ta_helpers::allclose(space.Cdagger(), C));
+    REQUIRE(libchemist::ta_helpers::allclose(space.density(), D));
 }
 
 void require_match_inputs_canon(canonspace space,
                                 libchemist::AOBasisSet<double> bs, tensor A,
                                 tensor B, tensor C, tensor D, tensor E) {
     require_match_inputs(space, bs, A, B, C, D);
-    REQUIRE(libchemist::allclose(space.mo_energies(), E));
+    REQUIRE(libchemist::ta_helpers::allclose(space.mo_energies(), E));
 }
 
 static matrix_t S_il{
@@ -271,23 +271,23 @@ TEST_CASE("Orbital space") {
     REQUIRE(hash_objects(Space1) != hash_objects(Space8));
 
     auto E = Space1.transform_from_ao(S, {0, 1});
-    REQUIRE(libchemist::allclose(E, I_mo));
+    REQUIRE(libchemist::ta_helpers::allclose(E, I_mo));
 
     auto F = Space1.transform_to_ao(I_mo, {0, 1});
-    REQUIRE(libchemist::allclose(F, D));
+    REQUIRE(libchemist::ta_helpers::allclose(F, D));
 
     auto G = Space1.transform_to_ao(C, {1});
-    REQUIRE(libchemist::allclose(G, D));
+    REQUIRE(libchemist::ta_helpers::allclose(G, D));
 
     // Test AOSpace
     aospace AO1;
     require_not_initialized(AO1);
 
     auto H = AO1.transform_from_ao(S, {0, 1});
-    REQUIRE(libchemist::allclose(H, S));
+    REQUIRE(libchemist::ta_helpers::allclose(H, S));
 
     auto I = AO1.transform_to_ao(S, {0, 1});
-    REQUIRE(libchemist::allclose(I, S));
+    REQUIRE(libchemist::ta_helpers::allclose(I, S));
 
     aospace AO2(bs, S);
     require_match_inputs(AO2, bs, S, I_ao, I_ao, S);

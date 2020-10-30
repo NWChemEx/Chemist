@@ -36,7 +36,7 @@ TEMPLATE_TEST_CASE("DependentSpace", "", float, double) {
         SECTION("Value") {
             base_space bs(sm2, S);
             REQUIRE(bs.sparse_map() == sm2);
-            REQUIRE(libchemist::allclose_tot(bs.S(), S, 2));
+            REQUIRE(libchemist::ta_helpers::allclose_tot(bs.S(), S, 2));
         }
 
         SECTION("Copy") {
@@ -76,11 +76,11 @@ TEMPLATE_TEST_CASE("DependentSpace", "", float, double) {
     }
 
     SECTION("S()") {
-        REQUIRE(libchemist::allclose_tot(bs1.S(), S, 2));
+        REQUIRE(libchemist::ta_helpers::allclose_tot(bs1.S(), S, 2));
     }
 
     SECTION("S() const") {
-        REQUIRE(libchemist::allclose_tot(std::as_const(bs1).S(), S, 2));
+        REQUIRE(libchemist::ta_helpers::allclose_tot(std::as_const(bs1).S(), S, 2));
     }
 
     SECTION("Hash") {

@@ -7,7 +7,7 @@
 #include <tiledarray.h>
 #include <utilities/iter_tools.hpp>
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 namespace detail_ {
 
 /** @brief Wraps determining if a slice is empty.

@@ -2,7 +2,7 @@
 #include "libchemist/ta_helpers/is_tile_bound.hpp"
 #include <algorithm> // equal
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 using sparse_map::ElementIndex;
 

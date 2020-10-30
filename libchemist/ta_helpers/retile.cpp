@@ -1,6 +1,6 @@
 #include "libchemist/ta_helpers/retile.hpp"
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 using sparse_map::ElementIndex;
 

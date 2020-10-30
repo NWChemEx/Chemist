@@ -45,7 +45,7 @@ auto from_sparse_map(
     detail_::ToTMapper mapper(t.range().rank(), ind_sm_modes2t);
     auto l = [=](tot_tile_type& tile2init, const TA::Range& r) {
         // r is the range of the tile we need to make, but what's its index?
-        auto ind_tile_idx = get_block_idx(rv_trange, r);
+        auto ind_tile_idx = libchemist::ta_helpers::get_block_idx(rv_trange, r);
 
         tot_tile_type buffer(r); // buffer will hold the tile as we make it
         bool is_zero = true;

@@ -15,16 +15,16 @@ class OrbitalSpacePIMPL;
 
 // A class representing an orbital space
 template<typename element_type = double,
-         typename tensor_type  = type::tensor<element_type>>
+        typename tensor_type  = type::tensor<element_type>>
 class OrbitalSpace {
 public:
     using basis_type = AOBasisSet<element_type>; // Basis set type
     using size_vec =
-      std::vector<std::size_t>; // Type of list of modes for conversion
+    std::vector<std::size_t>; // Type of list of modes for conversion
 
 private:
     using pimpl_type =
-      detail_::OrbitalSpacePIMPL<basis_type, tensor_type>; // PIMPL type
+    detail_::OrbitalSpacePIMPL<basis_type, tensor_type>; // PIMPL type
     std::unique_ptr<pimpl_type> m_pimpl_; // pointer to implementation
 
 protected:
@@ -36,7 +36,7 @@ protected:
      * @param pimpl Pointer to the implementation instance
      */
     OrbitalSpace(std::unique_ptr<pimpl_type> pimpl) :
-      m_pimpl_(std::move(pimpl)) {}
+            m_pimpl_(std::move(pimpl)) {}
 
 public:
     /** @brief Creates a new OrbitalSpace instance containing empty members. */
@@ -103,7 +103,7 @@ public:
      * @param rhs The OrbitalSpace to be copied
      */
     OrbitalSpace& operator=(
-      OrbitalSpace<element_type, tensor_type>&& rhs) noexcept;
+            OrbitalSpace<element_type, tensor_type>&& rhs) noexcept;
 
     ~OrbitalSpace() noexcept;
 
@@ -169,15 +169,15 @@ public:
 
 // A class representing an AO space
 template<typename element_type = double,
-         typename tensor_type  = type::tensor<element_type>>
+        typename tensor_type  = type::tensor<element_type>>
 class AOSpace : public OrbitalSpace<element_type, tensor_type> {
 public:
     using basis_type = AOBasisSet<element_type>; // Basis set type
     using size_vec =
-      std::vector<std::size_t>; // Type of list of modes for conversion
+    std::vector<std::size_t>; // Type of list of modes for conversion
     using tensor_elems =
-      typename tensor_type::value_type::numeric_type; // type of the tensor
-                                                      // elements
+    typename tensor_type::value_type::numeric_type; // type of the tensor
+    // elements
 
     /** @brief Creates a new AOSpace instance containing empty members. */
     AOSpace();
@@ -230,12 +230,12 @@ extern template class AOSpace<double, type::tensor<float>>;
 extern template class AOSpace<double, type::tensor<double>>;
 
 /** @brief Determine where two OrbitalSpace instances are equivalent
- *
- * @param space1 The first instance
- * @param space2 The second instance
- *
- * @return true if the instances are equivalent
- */
+*
+* @param space1 The first instance
+* @param space2 The second instance
+*
+* @return true if the instances are equivalent
+*/
 template<typename E1, typename E2, typename T>
 bool operator==(const OrbitalSpace<E1, T>& space1,
                 const OrbitalSpace<E2, T>& space2) {
@@ -244,19 +244,19 @@ bool operator==(const OrbitalSpace<E1, T>& space1,
             space1.C().trange() == space2.C().trange() &&
             space1.Cdagger().trange() == space2.Cdagger().trange() &&
             space1.density().trange() == space2.density().trange() &&
-            allclose(space1.S(), space2.S()) &&
-            allclose(space1.C(), space2.C()) &&
-            allclose(space1.Cdagger(), space2.Cdagger()) &&
-            allclose(space1.density(), space2.density()));
+            ta_helpers::allclose(space1.S(), space2.S()) &&
+            ta_helpers::allclose(space1.C(), space2.C()) &&
+            ta_helpers::allclose(space1.Cdagger(), space2.Cdagger()) &&
+            ta_helpers::allclose(space1.density(), space2.density()));
 }
 
 /** @brief Determine where two OrbitalSpace instances are not equivalent
- *
- * @param space1 The first instance
- * @param space2 The second instance
- *
- * @return true if the instances are not equivalent
- */
+*
+* @param space1 The first instance
+* @param space2 The second instance
+*
+* @return true if the instances are not equivalent
+*/
 template<typename E1, typename E2, typename T>
 bool operator!=(const OrbitalSpace<E1, T>& space1,
                 const OrbitalSpace<E2, T>& space2) {

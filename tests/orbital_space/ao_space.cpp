@@ -34,7 +34,7 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
         SECTION("Value") {
             space_type st(bs, S);
             REQUIRE(st.basis_set() == bs);
-            REQUIRE(libchemist::allclose(st.S(), S));
+            REQUIRE(libchemist::ta_helpers::allclose(st.S(), S));
         }
 
         SECTION("Copy") {

@@ -2,7 +2,7 @@
 #include "libchemist/sparse_map/index.hpp"
 #include <tiledarray.h>
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 /** @brief This function retiles a TiledRange so that the provided elements lie
  *         on tile boundaries (if they do not already).

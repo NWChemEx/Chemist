@@ -3,7 +3,7 @@
 #include "libchemist/ta_helpers/einsum/detail_/index_map.hpp"
 #include <tiledarray.h>
 
-namespace libchemist::einsum::detail_ {
+namespace libchemist::ta_helpers::einsum::detail_ {
 
 template<std::size_t... Is>
 auto make_range_(const std::vector<types::range>& ranges,

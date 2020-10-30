@@ -1,8 +1,10 @@
 #pragma once
 #include "libchemist/ta_helpers/detail_/reducer.hpp"
+#include "libchemist/ta_helpers/get_block_idx.hpp"
+#include "libchemist/types.hpp"
 #include <tiledarray.h>
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 //------------------------------------------------------------------------------
 // Tensor Creation
@@ -71,6 +73,68 @@ void apply_elementwise_inplace(TA::DistArray<TileType, PolicyType>& input,
     };
 
     foreach_inplace(input, std::move(m));
+}
+
+/** @brief Returns the diagonal elements of a square matrix.
+ *
+ *  The function requires the matrix to have the same TiledRange1
+ *  in both its dimensions.
+ *
+ * @tparam TensorType the type of the input and returned tensor.
+ * @param t The tensor to extract the diagonal elements from.
+ * @return A new tensor which contains the diagonal elements.
+ */
+template<typename TensorType>
+auto grab_diagonal(TensorType&& t) {
+    auto trange1 = t.trange().dim(0);
+    if(trange1 != t.trange().dim(1))
+        throw std::runtime_error("Expected a square tiling");
+    TA::TiledRange trange{{trange1}};
+    using tensor_type = std::decay_t<TensorType>;
+    using tile_type   = typename tensor_type::value_type;
+    t.world().gop.fence();
+    auto l = [=](tile_type& tile, const TA::Range& r){
+        auto idx = get_block_idx(trange, r);
+        auto t_tile = t.find({idx[0], idx[0]}).get();
+        tile = tile_type(r);
+        for(auto i : r) {
+            std::vector<std::size_t> ii{i[0], i[0]};
+            tile[i] = t_tile[ii];
+        }
+        return tile.norm();
+    };
+    auto rv = TA::make_array<tensor_type>(t.world(), trange, l);
+    t.world().gop.fence();
+    return rv;
+}
+
+/** @brief Returns the elements of a std::vector as a 1D TA DistArray.
+ *
+ *  The function requires the matrix to have the same TiledRange1
+ *  in both its dimensions.
+ *
+ * @tparam T the scalar type of the input vector and returned tensor.
+ * @param vec The std::vector to extract the tensor elements from.
+ * @param trange The TiledRange of the returned tensor.
+ * @param world The TA::World to use in the returned tensor.
+ * @return A new 1D tensor which contains the elements of the vector.
+ */
+template<typename T>
+auto array_from_vec(const std::vector<T>& vec, const TA::TiledRange1& trange, TA::World& world) {
+    using tensor_type = libchemist::type::tensor<T>;
+    using tile_type = typename tensor_type::value_type;
+
+    tensor_type rv(world, TA::TiledRange{trange});
+
+    for (auto itr = rv.begin(); itr != rv.end(); ++itr) {
+        auto range = rv.trange().make_tile_range(itr.index());
+        tile_type tile(range);
+        for (auto idx : range) {
+            tile(idx) = vec.at(idx[0]);
+        }
+        *itr = tile;
+    }
+    return rv;
 }
 
 //------------------------------------------------------------------------------
@@ -204,6 +268,8 @@ auto reduce_elementwise(const TA::DistArray<TileType, PolicyType>& lhs,
  *                    reference value.
  *  @param[in] ref The tensor which @p actual is being compared to. Should
  *                 be "the correct value".
+ *  @param[in] abs_comp a bool which allows the comparison to run over the
+ *                      absolute values of the input tensors.
  *  @param[in] rtol The maximum percent error (as a decimal) allowed for any
  *                  particular value. Assumed to be a positive decimal. Defaults
  *                  to 1.0E-5, *i.e.*, 0.0001%.
@@ -212,9 +278,9 @@ auto reduce_elementwise(const TA::DistArray<TileType, PolicyType>& lhs,
  *  @return True if @p actual is "close" to @p ref and false otherwise.
  */
 template<typename T, typename U,
-         typename V = typename std::decay_t<T>::scalar_type>
-bool allclose(T&& actual, U&& ref, V&& rtol = 1.0E-5, V&& atol = 1.0E-8,
-              std::size_t inner_rank = 0) {
+    typename V = typename std::decay_t<T>::scalar_type>
+bool allclose(T&& actual, U&& ref, const bool abs_comp = false, V&& rtol = 1.0E-5,
+              V&& atol = 1.0E-8, std::size_t inner_rank = 0) {
     using tensor_type = std::decay_t<T>;
     using tile_type   = typename tensor_type::value_type;
     using scalar_type = std::decay_t<V>;
@@ -228,7 +294,15 @@ bool allclose(T&& actual, U&& ref, V&& rtol = 1.0E-5, V&& atol = 1.0E-8,
 
     // Compute A - B, call result AmB
     tensor_type AmB;
-    AmB(idx) = actual(idx) - ref(idx);
+    if (abs_comp) {
+        //TODO: There probably is some way to do this without forming the intermediate tensors
+        auto abs_lambda = [](const scalar_type& val) {return std::fabs(val);};
+        auto abs_actual = apply_elementwise(actual,abs_lambda);
+        auto abs_ref = apply_elementwise(ref,abs_lambda);
+        AmB(idx) = abs_actual(idx) - abs_ref(idx);
+    } else {
+        AmB(idx) = actual(idx) - ref(idx);
+    }
 
     auto times_op = [=](scalar_type lhs, scalar_type rhs) {
         return std::fabs(lhs) <= atol + rtol * std::fabs(rhs);
@@ -256,10 +330,11 @@ bool allclose(T&& actual, U&& ref, V&& rtol = 1.0E-5, V&& atol = 1.0E-8,
 /// Reorders the arguments to be more convenient for a ToT
 template<typename T, typename U,
          typename V = typename std::decay_t<T>::scalar_type>
-bool allclose_tot(T&& actual, U&& ref, std::size_t inner_rank = 0,
+bool allclose_tot(T&& actual, U&& ref, std::size_t inner_rank = 0, const bool abs_comp = false,
                   V&& rtol = 1.0E-5, V&& atol = 1.0E-8) {
-    return allclose(std::forward<T>(actual), std::forward<U>(ref), rtol, atol,
-                    inner_rank);
+    return allclose(std::forward<T>(actual),
+                    std::forward<U>(ref), abs_comp,
+                    rtol, atol, inner_rank);
 }
 
 } // namespace libchemist

@@ -1,7 +1,7 @@
 #pragma once
 #include "libchemist/ta_helpers/einsum/types.hpp"
 
-namespace libchemist::einsum::detail_ {
+namespace libchemist::ta_helpers::einsum::detail_ {
 
 /** @brief Splits a string index on `,` characters.
  *

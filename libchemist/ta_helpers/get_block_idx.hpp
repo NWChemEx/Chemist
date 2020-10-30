@@ -2,7 +2,7 @@
 #include "libchemist/sparse_map/index.hpp"
 #include <tiledarray.h>
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 /** @brief Gets the tile index associated with an ElementIndex
  *

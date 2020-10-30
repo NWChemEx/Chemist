@@ -2,7 +2,8 @@
 #include <libchemist/ta_helpers/einsum/einsum.hpp>
 #include <libchemist/ta_helpers/ta_helpers.hpp>
 
-using namespace libchemist::einsum::detail_;
+using namespace libchemist::ta_helpers::einsum::detail_;
+using ranges_type = libchemist::ta_helpers::einsum::types::assoc_range;
 
 TEST_CASE("block_kernel") {
     SECTION("Vector-vector") {
@@ -10,7 +11,7 @@ TEST_CASE("block_kernel") {
          * i = i * i is the only einsum between two vectors with one index
          */
         SECTION("One index") {
-            libchemist::einsum::types::assoc_range ranges{{"i", {0, 2}}};
+            ranges_type ranges{{"i", {0, 2}}};
 
             IndexMap im("i", "i", "i");
             std::array a_data{2.0, 3.0};
@@ -38,8 +39,7 @@ TEST_CASE("block_kernel") {
          *  ij = j * i (same as ji = i * j)
          */
         SECTION("Two indices") {
-            libchemist::einsum::types::assoc_range ranges{{"i", {0, 2}},
-                                                   {"j", {1, 4}}};
+            ranges_type ranges{{"i", {0, 2}},{"j", {1, 4}}};
 
             SECTION("i = i * j") {
                 IndexMap im("i", "i", "j");
@@ -105,7 +105,7 @@ TEST_CASE("block_kernel") {
 
     SECTION("Vector-matrix") {
         SECTION("One index") {
-            libchemist::einsum::types::assoc_range ranges{{"i", {0, 2}}};
+            ranges_type ranges{{"i", {0, 2}}};
 
             IndexMap im("i", "i", "i, i");
             std::array a_data{2.0, 3.0};
@@ -128,8 +128,7 @@ TEST_CASE("block_kernel") {
          * i = j * ji (same as j = i * ij)
          */
         SECTION("Two indices resulting in vector") {
-            libchemist::einsum::types::assoc_range ranges{{"i", {0, 2}},
-                                                   {"j", {1, 4}}};
+            ranges_type ranges{{"i", {0, 2}},{"j", {1, 4}}};
 
             SECTION("i = i * ij") {
                 IndexMap im("i", "i", "i, j");
@@ -214,8 +213,7 @@ TEST_CASE("block_kernel") {
          * ij = j * ji (same as ji = i * ij)
          */
         SECTION("Two indices resulting in matrix") {
-            libchemist::einsum::types::assoc_range ranges{{"i", {0, 2}},
-                                                   {"j", {1, 4}}};
+            ranges_type ranges{{"i", {0, 2}},{"j", {1, 4}}};
 
             SECTION("ij = i * ij") {
                 IndexMap im("i,j", "i", "i, j");
@@ -294,8 +292,7 @@ TEST_CASE("block_kernel") {
         }
 
         SECTION("Three indices resulting in vector") {
-            libchemist::einsum::types::assoc_range ranges{
-              {"i", {0, 2}}, {"j", {1, 4}}, {"k", {2, 6}}};
+            ranges_type ranges{{"i", {0, 2}}, {"j", {1, 4}}, {"k", {2, 6}}};
 
             SECTION("i = i * jk") {
                 IndexMap im("i", "i", "j, k");
@@ -345,8 +342,7 @@ TEST_CASE("block_kernel") {
         }
 
         SECTION("Three indices resulting in matrix") {
-            libchemist::einsum::types::assoc_range ranges{
-              {"i", {0, 2}}, {"j", {1, 4}}, {"k", {2, 6}}};
+            ranges_type ranges{{"i", {0, 2}}, {"j", {1, 4}}, {"k", {2, 6}}};
 
             SECTION("ij = i * jk") {
                 IndexMap im("i,j", "i", "j, k");
@@ -494,8 +490,7 @@ TEST_CASE("block_kernel") {
         }
 
         SECTION("Three indices resulting in rank 3 tensor") {
-            libchemist::einsum::types::assoc_range ranges{
-              {"i", {0, 2}}, {"j", {1, 4}}, {"k", {2, 6}}};
+            ranges_type ranges{{"i", {0, 2}}, {"j", {1, 4}}, {"k", {2, 6}}};
 
             SECTION("ijk = i * jk") {
                 IndexMap im("i,j, k", "i", "j, k");
