@@ -94,4 +94,4 @@ auto tensor_kernel(const IndexMap& indices,
     lhs.world().gop.fence();
     return rv;
 }
-} // namespace libchemist::einsum::detail_
+} // namespace libchemist::ta_helpers::einsum::detail_

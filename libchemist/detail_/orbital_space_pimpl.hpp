@@ -9,17 +9,17 @@ namespace libchemist::detail_ {
 template<typename basis_type, typename tensor_type>
 class OrbitalSpacePIMPL {
     using size_vec =
-    std::vector<std::size_t>; // Type of list of modes for conversion
+      std::vector<std::size_t>; // Type of list of modes for conversion
     using basis_pointer =
-    std::shared_ptr<basis_type>; // shared pointer to a basis set
+      std::shared_ptr<basis_type>; // shared pointer to a basis set
     using tensor_pointer =
-    std::shared_ptr<tensor_type>; // shared pointer to a tensor
+      std::shared_ptr<tensor_type>; // shared pointer to a tensor
 
     basis_pointer basis_set_; // basis set of the orbital space
     tensor_pointer S_;        // overlap matrix of the basis set
     tensor_type C_;           // conversion from AO basis to current basis
     mutable tensor_type
-            Cdagger_;             // conversion from current orbital basis to AO basis
+      Cdagger_;             // conversion from current orbital basis to AO basis
     mutable tensor_type D_; // density of the orbitals
 
     /** @brief Initialize Cdagger as the transpose of C */
@@ -37,8 +37,8 @@ public:
     /** @brief Creates a new OrbitalSpacePIMPL instance containing empty
      * members. */
     OrbitalSpacePIMPL() :
-            basis_set_(std::make_shared<basis_type>(basis_type())),
-            S_(std::make_shared<tensor_type>(tensor_type())) {}
+      basis_set_(std::make_shared<basis_type>(basis_type())),
+      S_(std::make_shared<tensor_type>(tensor_type())) {}
 
     /** @brief Creates a new OrbitalSpacePIMPL instance with the provided
      * values.
@@ -51,11 +51,11 @@ public:
      */
     OrbitalSpacePIMPL(basis_type basis_set, tensor_type S, tensor_type C,
                       tensor_type Cdagger, tensor_type D) :
-            basis_set_(std::make_shared<basis_type>(basis_set)),
-            S_(std::make_shared<tensor_type>(S)),
-            C_(C),
-            Cdagger_(Cdagger),
-            D_(D) {}
+      basis_set_(std::make_shared<basis_type>(basis_set)),
+      S_(std::make_shared<tensor_type>(S)),
+      C_(C),
+      Cdagger_(Cdagger),
+      D_(D) {}
 
     /** @brief Creates a new OrbitalSpacePIMPL instance with the provided
      * values.
@@ -69,10 +69,10 @@ public:
      */
     OrbitalSpacePIMPL(basis_type basis_set, tensor_type S, tensor_type C,
                       tensor_type Cdagger) :
-            basis_set_(std::make_shared<basis_type>(basis_set)),
-            S_(std::make_shared<tensor_type>(S)),
-            C_(C),
-            Cdagger_(Cdagger) {}
+      basis_set_(std::make_shared<basis_type>(basis_set)),
+      S_(std::make_shared<tensor_type>(S)),
+      C_(C),
+      Cdagger_(Cdagger) {}
 
     /** @brief Creates a new OrbitalSpacePIMPL instance with the provided
      * values.
@@ -85,9 +85,9 @@ public:
      * @param C The coefficients going from the AO space to the MO space
      */
     OrbitalSpacePIMPL(basis_type basis_set, tensor_type S, tensor_type C) :
-            basis_set_(std::make_shared<basis_type>(basis_set)),
-            S_(std::make_shared<tensor_type>(S)),
-            C_(C) {}
+      basis_set_(std::make_shared<basis_type>(basis_set)),
+      S_(std::make_shared<tensor_type>(S)),
+      C_(C) {}
 
     OrbitalSpacePIMPL(const OrbitalSpacePIMPL&) = delete;
 
@@ -150,7 +150,8 @@ public:
         auto n_modes = X.range().rank();
         for(const auto& i : modes) {
             auto [start, finish, change] =
-            ta_helpers::detail_::contraction_dummy_annotations(X.trange().rank(), i);
+              ta_helpers::detail_::contraction_dummy_annotations(
+                X.trange().rank(), i);
             rv(finish) = rv(start) * C_(change);
         }
         return rv;
@@ -170,7 +171,8 @@ public:
         auto n_modes = X.range().rank();
         for(const auto& i : modes) {
             auto [start, finish, change] =
-            ta_helpers::detail_::contraction_dummy_annotations(X.trange().rank(), i);
+              ta_helpers::detail_::contraction_dummy_annotations(
+                X.trange().rank(), i);
             rv(finish) = rv(start) * Cdagger_(change);
         }
         return rv;

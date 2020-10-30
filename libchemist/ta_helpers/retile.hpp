@@ -49,4 +49,4 @@ TA::TiledRange insert_tile_boundaries(const TA::TiledRange& tr,
     return insert_tile_boundaries(tr, boundaries);
 }
 
-} // namespace libchemist
+} // namespace libchemist::ta_helpers

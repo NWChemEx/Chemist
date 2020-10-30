@@ -20,4 +20,4 @@ types::index_set parse_index(std::string idx) {
     return types::index_set(iss_itr(iss), iss_itr{});
 }
 
-} // namespace libchemist::einsum::detail_
+} // namespace libchemist::ta_helpers::einsum::detail_

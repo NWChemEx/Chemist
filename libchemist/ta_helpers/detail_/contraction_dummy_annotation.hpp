@@ -31,4 +31,4 @@ contraction_dummy_annotations(std::size_t dim, std::size_t target_dim) {
     return {beginning, final.str(), switcher.str()};
 }
 
-} // namespace libchemist::detail_
+} // namespace libchemist::ta_helpers::detail_

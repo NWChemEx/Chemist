@@ -38,4 +38,4 @@ auto einsum(const types::index& result_idx, const types::index& lhs_idx,
     return tensor_kernel(im, ranges, lhs, rhs, l);
 }
 
-} // namespace libchemist::einsum
+} // namespace libchemist::ta_helpers::einsum

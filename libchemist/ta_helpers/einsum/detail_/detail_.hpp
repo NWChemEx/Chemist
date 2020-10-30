@@ -42,4 +42,4 @@ inline auto initial_index(const types::assoc_range& ranges) {
  */
 bool increment_index(types::assoc_index& idx, const types::assoc_range& ranges);
 
-} // namespace libchemist::einsum::detail_
+} // namespace libchemist::ta_helpers::einsum::detail_

@@ -48,4 +48,4 @@ auto get_block_idx(const TA::DistArray<TileType, PolicyType>& t,
     return get_block_idx(t, tile.range());
 }
 
-} // namespace libchemist
+} // namespace libchemist::ta_helpers

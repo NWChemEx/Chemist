@@ -71,4 +71,4 @@ auto IndexMap::select_(const types::index_set& indices, T&& quantities) const {
     return rv;
 }
 
-} // namespace libchemist::einsum::detail_
+} // namespace libchemist::ta_helpers::einsum::detail_
