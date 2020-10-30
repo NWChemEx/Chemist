@@ -150,7 +150,7 @@ public:
         auto n_modes = X.range().rank();
         for(const auto& i : modes) {
             auto [start, finish, change] =
-            detail_::contraction_dummy_annotations(X.trange().rank(), i);
+            ta_helpers::detail_::contraction_dummy_annotations(X.trange().rank(), i);
             rv(finish) = rv(start) * C_(change);
         }
         return rv;
@@ -170,7 +170,7 @@ public:
         auto n_modes = X.range().rank();
         for(const auto& i : modes) {
             auto [start, finish, change] =
-            detail_::contraction_dummy_annotations(X.trange().rank(), i);
+            ta_helpers::detail_::contraction_dummy_annotations(X.trange().rank(), i);
             rv(finish) = rv(start) * Cdagger_(change);
         }
         return rv;

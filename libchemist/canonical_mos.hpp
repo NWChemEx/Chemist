@@ -122,7 +122,7 @@ bool operator==(const CanonicalMO<E1, T>& space1,
                 const CanonicalMO<E2, T>& space2) {
     return (OrthogonalSpace<E1, T>(space1) == OrthogonalSpace<E2, T>(space2) &&
             space1.mo_energies().trange() == space2.mo_energies().trange() &&
-            allclose(space1.mo_energies(), space2.mo_energies()));
+            ta_helpers::allclose(space1.mo_energies(), space2.mo_energies()));
 }
 
 /** @brief Determine where two OrbitalSpace instances are not equivalent
