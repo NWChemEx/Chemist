@@ -2,8 +2,8 @@
 #include <libchemist/ta_helpers/einsum/einsum.hpp>
 #include <libchemist/ta_helpers/ta_helpers.hpp>
 
-using namespace libchemist::einsum;
-using namespace libchemist::einsum::detail_;
+using namespace libchemist::ta_helpers::einsum;
+using namespace libchemist::ta_helpers::einsum::detail_;
 
 TEST_CASE("get_block_ranges") {
     using block_map_t = std::map<types::index, TA::TiledRange1>;
@@ -183,7 +183,7 @@ TEST_CASE("tensor_kernel") {
                 TA::TSpArrayD rhs(world, {3.0, 4.0});
                 TA::TSpArrayD corr(world, {3.0, 8.0});
                 auto result = tensor_kernel(im, ranges, lhs, rhs, l);
-                REQUIRE(libchemist::allclose(result, corr));
+                REQUIRE(libchemist::ta_helpers::allclose(result, corr));
             }
 
             SECTION("Summed indices") {
@@ -193,7 +193,7 @@ TEST_CASE("tensor_kernel") {
                 TA::TSpArrayD rhs(world, {3.0, 4.0});
                 TA::TSpArrayD corr(world, {7.0, 14.0});
                 auto result = tensor_kernel(im, ranges, lhs, rhs, l);
-                REQUIRE(libchemist::allclose(result, corr));
+                REQUIRE(libchemist::ta_helpers::allclose(result, corr));
             }
         }
 
@@ -205,7 +205,7 @@ TEST_CASE("tensor_kernel") {
                 TA::TSpArrayD rhs(world, {{3.0, 4.0}, {5.0, 6.0}});
                 TA::TSpArrayD corr(world, {{3.0, 4.0}, {10.0, 12.0}});
                 auto result = tensor_kernel(im, ranges, lhs, rhs, l);
-                REQUIRE(libchemist::allclose(result, corr));
+                REQUIRE(libchemist::ta_helpers::allclose(result, corr));
             }
 
             SECTION("Summed indices") {
@@ -214,7 +214,7 @@ TEST_CASE("tensor_kernel") {
                 TA::TSpArrayD rhs(world, {{3.0, 4.0}, {5.0, 6.0}});
                 TA::TSpArrayD corr(world, {13.0, 16.0});
                 auto result = tensor_kernel(im, ranges, lhs, rhs, l);
-                REQUIRE(libchemist::allclose(result, corr));
+                REQUIRE(libchemist::ta_helpers::allclose(result, corr));
             }
         }
     }
@@ -236,7 +236,7 @@ TEST_CASE("tensor_kernel") {
                 TA::TSpArrayD corr(world, v_trange);
                 corr.fill(6);
                 auto result = tensor_kernel(im, ranges, lhs, rhs, l);
-                REQUIRE(libchemist::allclose(result, corr));
+                REQUIRE(libchemist::ta_helpers::allclose(result, corr));
             }
 
             SECTION("Summed indices") {
@@ -249,7 +249,7 @@ TEST_CASE("tensor_kernel") {
                 TA::TSpArrayD corr(world, v_trange);
                 corr.fill(12);
                 auto result = tensor_kernel(im, ranges, lhs, rhs, l);
-                REQUIRE(libchemist::allclose(result, corr));
+                REQUIRE(libchemist::ta_helpers::allclose(result, corr));
             }
         }
 
@@ -265,7 +265,7 @@ TEST_CASE("tensor_kernel") {
                 TA::TSpArrayD corr(world, m_trange);
                 corr.fill(6);
                 auto result = tensor_kernel(im, ranges, lhs, rhs, l);
-                REQUIRE(libchemist::allclose(result, corr));
+                REQUIRE(libchemist::ta_helpers::allclose(result, corr));
             }
 
             SECTION("Summed indices") {
@@ -277,7 +277,7 @@ TEST_CASE("tensor_kernel") {
                 TA::TSpArrayD corr(world, v_trange);
                 corr.fill(12);
                 auto result = tensor_kernel(im, ranges, lhs, rhs, l);
-                REQUIRE(libchemist::allclose(result, corr));
+                REQUIRE(libchemist::ta_helpers::allclose(result, corr));
             }
         }
 
@@ -293,7 +293,7 @@ TEST_CASE("tensor_kernel") {
                 TA::TSpArrayD corr(world, t_trange);
                 corr.fill(6);
                 auto result = tensor_kernel(im, ranges, lhs, rhs, l);
-                REQUIRE(libchemist::allclose(result, corr));
+                REQUIRE(libchemist::ta_helpers::allclose(result, corr));
             }
 
             SECTION("Summed indices") {
@@ -305,7 +305,7 @@ TEST_CASE("tensor_kernel") {
                 TA::TSpArrayD corr(world, m_trange);
                 corr.fill(12);
                 auto result = tensor_kernel(im, ranges, lhs, rhs, l);
-                REQUIRE(libchemist::allclose(result, corr));
+                REQUIRE(libchemist::ta_helpers::allclose(result, corr));
             }
         }
     }

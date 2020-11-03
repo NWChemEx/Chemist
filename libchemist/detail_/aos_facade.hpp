@@ -1,9 +1,9 @@
 #pragma once
 #include <array>
 #include <memory>
+#include <stdexcept>
 #include <tuple>
 #include <vector>
-#include <stdexcept>
 
 /**
  * @file aos_facade.hpp
@@ -134,9 +134,7 @@ public:
      * @throw None No throw guarantee.
      */
     explicit AoSElement(buffer_type buffer) noexcept :
-      me_(get_size<0>(buffer)),
-      first_not_me_(me_),
-      buffer_(buffer) {}
+      me_(get_size<0>(buffer)), first_not_me_(me_), buffer_(buffer) {}
 
     /**
      * @brief Adds a value to a particular field.

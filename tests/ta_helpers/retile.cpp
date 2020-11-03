@@ -1,8 +1,8 @@
 #include "libchemist/ta_helpers/retile.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist;
-using ei = sparse_map::ElementIndex;
+using namespace libchemist::ta_helpers;
+using ei = libchemist::sparse_map::ElementIndex;
 
 TEST_CASE("insert_tile_boundaries(TiledRange,vector)"){
     using vector_t = std::vector<ei>;

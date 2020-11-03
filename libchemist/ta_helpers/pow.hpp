@@ -3,7 +3,7 @@
 #include <cmath>
 #include <tiledarray.h>
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 /** @brief Raises a Hermitian matrix to an arbitrary power.
  *
@@ -32,7 +32,7 @@ auto hmatrix_pow(const TensorType& t, double p) {
 
     // Step 2: Raise eigenvalues to power p
     using std::pow;
-    std::for_each(evals.begin(), evals.end(), [=](auto& x) { x = pow(x, p);});
+    std::for_each(evals.begin(), evals.end(), [=](auto& x) { x = pow(x, p); });
 
     // Step 3: Turn eigenvalues into a diagonal matrix
     auto evals_tensor =
@@ -44,4 +44,4 @@ auto hmatrix_pow(const TensorType& t, double p) {
     return rv;
 }
 
-} // namespace libchemist
+} // namespace libchemist::ta_helpers

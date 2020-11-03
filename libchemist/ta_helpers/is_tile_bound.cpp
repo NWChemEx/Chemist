@@ -1,8 +1,8 @@
-#include "libchemist/ta_helpers/is_tile_bound.hpp"
 #include "libchemist/ta_helpers/get_block_idx.hpp"
+#include "libchemist/ta_helpers/is_tile_bound.hpp"
 #include <algorithm> // equal
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 using sparse_map::ElementIndex;
 
@@ -13,12 +13,12 @@ bool is_tile_lower_bound(const TA::TiledRange& tr,
     // Make sure the element is actually in the TiledRange
     if(!tr.elements_range().includes(elem)) return false;
 
-    //It is in the range so get the tile it belongs to
+    // It is in the range so get the tile it belongs to
     const auto tidx  = get_block_idx(tr, elem);
     const auto& tile = tr.tile(tidx);
 
     // Now compare to the lower bound of the tile
-    const auto lo    = tile.lobound();
+    const auto lo = tile.lobound();
     return std::equal(lo.begin(), lo.end(), elem.begin());
 }
 
@@ -47,4 +47,4 @@ bool is_tile_upper_bound(const TA::TiledRange& tr, const ElementIndex& elem) {
     return std::equal(hi.begin(), hi.end(), elem.begin());
 }
 
-} // namespace libchemist
+} // namespace libchemist::ta_helpers

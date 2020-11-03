@@ -44,6 +44,7 @@ if("${BUILD_TESTING}")
         Catch2
         URL github.com/catchorg/Catch2
         BUILD_TARGET Catch2
+        VERSION v2.x
         FIND_TARGET Catch2::Catch2
         VERSION v2.x
     )

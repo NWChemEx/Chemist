@@ -11,7 +11,7 @@ namespace libchemist::orbital_space {
  *  information is stored by means of the overlap matrix.
  *
  *  @note This class's name ends in an underscore because we intend for users to
- *        declare instances of it with typdefs. 
+ *        declare instances of it with typdefs.
  *
  *  @tparam OverlapType The type of the tensor holding the overlap matrix.
  */
@@ -59,7 +59,6 @@ public:
      */
     const auto& S() const { return S_(); }
 
-
     /** @brief Returns True if the overlap matrix has been set and false
      *         otherwise.
      *
@@ -78,9 +77,12 @@ public:
      *                   instance.
      */
     virtual void hash(sde::Hasher& h) const { hash_(h); }
+
 protected:
     /// Actually implements hash. Should be overridden by derived classes
-    virtual void hash_(sde::Hasher& h) const { if(has_overlap()) h(S()); }
+    virtual void hash_(sde::Hasher& h) const {
+        if(has_overlap()) h(S());
+    }
 
     /// Can be used by derived classes to set the value of the overlap matrix
     void set_overlap_(overlap_type S) const { m_S_ = std::move(S); }
@@ -90,6 +92,7 @@ protected:
 
     /// Should be overriden by the derived class to return the overlap matrix
     virtual const overlap_type& S_() const { return m_S_.value(); }
+
 private:
     /// The actual instance of the overlap matrix
     mutable std::optional<overlap_type> m_S_;
@@ -99,8 +102,10 @@ template<typename OverlapType>
 bool operator==(const BaseSpace_<OverlapType>& lhs,
                 const BaseSpace_<OverlapType>& rhs) {
     // TODO: Actually compare the tensors
-    if(lhs.has_overlap() != rhs.has_overlap()) return false;
-    else if(!lhs.has_overlap()) return true; //Both don't have an overlap
+    if(lhs.has_overlap() != rhs.has_overlap())
+        return false;
+    else if(!lhs.has_overlap())
+        return true; // Both don't have an overlap
     return sde::hash_objects(lhs) == sde::hash_objects(rhs);
 }
 
@@ -111,9 +116,11 @@ bool operator!=(const BaseSpace_<OverlapType>& lhs,
 }
 
 /// BaseSpace that uses a normal tensor for the overlap matrix
-template<typename T> using BaseSpace  = BaseSpace_<type::tensor<T>>;
+template<typename T>
+using BaseSpace = BaseSpace_<type::tensor<T>>;
 
 /// BaseSpace that uses a tensor-of-tensors for the overlap matrix
-template<typename T> using SparseBase = BaseSpace_<type::tensor_of_tensors<T>>;
+template<typename T>
+using SparseBase = BaseSpace_<type::tensor_of_tensors<T>>;
 
 } // namespace libchemist::orbital_space

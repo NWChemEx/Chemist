@@ -1,22 +1,28 @@
 #pragma once
 #include <tiledarray.h>
 
-namespace libchemist::detail_ {
+namespace libchemist::ta_helpers::detail_ {
 
-// Makes indices for the contraction of one dimension of an arbitrarily ranked tensor with a matrix
+// Makes indices for the contraction of one dimension of an arbitrarily ranked
+// tensor with a matrix
 inline std::tuple<std::string, std::string, std::string>
-        contraction_dummy_annotations(std::size_t dim, std::size_t target_dim) {
-
+contraction_dummy_annotations(std::size_t dim, std::size_t target_dim) {
     auto beginning = TA::detail::dummy_annotation(dim);
 
     std::ostringstream final;
-    if (dim > 0) {
-        if (target_dim == 0) { final << "iX"; }
-        else { final << "i0"; }
+    if(dim > 0) {
+        if(target_dim == 0) {
+            final << "iX";
+        } else {
+            final << "i0";
+        }
     }
-    for (unsigned int d = 1; d < dim; ++d) {
-        if (d == target_dim) { final << ",iX"; }
-        else { final << ",i" << d; }
+    for(unsigned int d = 1; d < dim; ++d) {
+        if(d == target_dim) {
+            final << ",iX";
+        } else {
+            final << ",i" << d;
+        }
     }
 
     std::ostringstream switcher;
@@ -25,4 +31,4 @@ inline std::tuple<std::string, std::string, std::string>
     return {beginning, final.str(), switcher.str()};
 }
 
-} // namespace libchemist::detail_
+} // namespace libchemist::ta_helpers::detail_

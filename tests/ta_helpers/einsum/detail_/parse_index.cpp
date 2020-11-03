@@ -1,8 +1,8 @@
 #include <catch2/catch.hpp>
 #include <libchemist/ta_helpers/einsum/detail_/detail_.hpp>
 
-using libchemist::einsum::detail_::parse_index;
-using idx_vector = libchemist::einsum::types::index_set;
+using libchemist::ta_helpers::einsum::detail_::parse_index;
+using idx_vector = libchemist::ta_helpers::einsum::types::index_set;
 
 TEST_CASE("parse_index") {
     SECTION("No indices") { REQUIRE(parse_index("") == idx_vector{}); }

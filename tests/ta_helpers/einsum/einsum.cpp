@@ -2,7 +2,7 @@
 #include <libchemist/ta_helpers/einsum/einsum.hpp>
 #include <libchemist/ta_helpers/ta_helpers.hpp>
 
-using namespace libchemist::einsum;
+using namespace libchemist::ta_helpers::einsum;
 
 TEST_CASE("einsum"){
 
@@ -47,6 +47,6 @@ TEST_CASE("einsum"){
                                   {{209,260,315,},
                                    {374,437,504,},
                                    {575,650,729,}}});
-      REQUIRE(libchemist::allclose(result, corr));
+      REQUIRE(libchemist::ta_helpers::allclose(result, corr));
     }
 } // einsum

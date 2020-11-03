@@ -1,7 +1,7 @@
 #pragma once
 #include "libchemist/ta_helpers/einsum/types.hpp"
 
-namespace libchemist::einsum::detail_ {
+namespace libchemist::ta_helpers::einsum::detail_ {
 
 /** @brief Splits a string index on `,` characters.
  *
@@ -18,9 +18,9 @@ namespace libchemist::einsum::detail_ {
 types::index_set parse_index(std::string idx);
 
 inline auto initial_index(const types::assoc_range& ranges) {
-  types::assoc_index index;
-  for(auto&& [k, v] : ranges) index[k] = v.first;
-  return index;
+    types::assoc_index index;
+    for(auto&& [k, v] : ranges) index[k] = v.first;
+    return index;
 }
 
 /** @brief Increments the provided index subject to the provided ranges
@@ -42,4 +42,4 @@ inline auto initial_index(const types::assoc_range& ranges) {
  */
 bool increment_index(types::assoc_index& idx, const types::assoc_range& ranges);
 
-} // namespace libchemist::einsum::detail_
+} // namespace libchemist::ta_helpers::einsum::detail_

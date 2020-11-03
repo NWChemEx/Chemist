@@ -1,6 +1,6 @@
 #include "libchemist/ta_helpers/einsum/detail_/detail_.hpp"
 
-namespace libchemist::einsum::detail_ {
+namespace libchemist::ta_helpers::einsum::detail_ {
 
 bool increment_index(types::assoc_index& idx,
                      const types::assoc_range& ranges) {
@@ -19,4 +19,4 @@ bool increment_index(types::assoc_index& idx,
     return true; // We apparently just reset every index, so we're done
 }
 
-} // namespace libchemist::einsum::detail_
+} // namespace libchemist::ta_helpers::einsum::detail_

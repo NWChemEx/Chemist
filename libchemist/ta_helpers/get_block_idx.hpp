@@ -2,7 +2,7 @@
 #include "libchemist/sparse_map/index.hpp"
 #include <tiledarray.h>
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 /** @brief Gets the tile index associated with an ElementIndex
  *
@@ -20,7 +20,6 @@ inline auto get_block_idx(const TA::TiledRange& trange,
                           const TA::Range& range) {
     const auto tidx = trange.element_to_tile(range.lobound());
     return trange.tiles_range().idx(tidx);
-
 }
 
 template<typename TileType, typename PolicyType>
@@ -49,4 +48,4 @@ auto get_block_idx(const TA::DistArray<TileType, PolicyType>& t,
     return get_block_idx(t, tile.range());
 }
 
-} // namespace libchemist
+} // namespace libchemist::ta_helpers

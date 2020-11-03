@@ -2,7 +2,7 @@
 #include "libchemist/sparse_map/index.hpp"
 #include <tiledarray.h>
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 
 /** @brief This function retiles a TiledRange so that the provided elements lie
  *         on tile boundaries (if they do not already).
@@ -49,4 +49,4 @@ TA::TiledRange insert_tile_boundaries(const TA::TiledRange& tr,
     return insert_tile_boundaries(tr, boundaries);
 }
 
-} // namespace libchemist
+} // namespace libchemist::ta_helpers

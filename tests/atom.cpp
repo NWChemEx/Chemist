@@ -112,6 +112,10 @@ TEST_CASE("Atom Class") {
             Atom ai(h, carts, Atom::Mass{1.0079}, Atom::AtomicNumber{1});
             check_atom<7>(ai, carts, Z, m, h);
         }
+        SECTION("Carts Name functions") {
+            Atom ai(Atom::AtomName{"H"}, Atom::Coordinates{1.0,2.0,3.0}, Atom::Mass{1.0079}, Atom::AtomicNumber{1});
+            check_atom<7>(ai, carts, Z, m, h);
+        }
     }
 
     Atom ai(h, m, Z, carts);

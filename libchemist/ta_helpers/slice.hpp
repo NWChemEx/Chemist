@@ -7,7 +7,7 @@
 #include <tiledarray.h>
 #include <utilities/iter_tools.hpp>
 
-namespace libchemist {
+namespace libchemist::ta_helpers {
 namespace detail_ {
 
 /** @brief Wraps determining if a slice is empty.
@@ -35,7 +35,7 @@ inline bool is_empty_slice_(const sparse_map::ElementIndex& lo,
     TA_ASSERT(rank == hi.size());
     // Make sure hi is greater than equal to lo, count modes that are equal
     std::size_t nequal = 0;
-    for(const auto& [l,h] : utilities::Zip(lo, hi)){
+    for(const auto& [l, h] : utilities::Zip(lo, hi)) {
         TA_ASSERT(h >= l);
         if(h == l) ++nequal;
     }
@@ -71,8 +71,8 @@ inline bool is_empty_slice_(const sparse_map::ElementIndex& lo,
 inline auto get_slice_tile_indices_(const TA::TiledRange& tr,
                                     const sparse_map::ElementIndex& lo,
                                     const sparse_map::ElementIndex& hi_m1) {
-    const auto temp    = get_block_idx(tr, lo);
-    const auto thi_m1  = get_block_idx(tr, hi_m1);
+    const auto temp   = get_block_idx(tr, lo);
+    const auto thi_m1 = get_block_idx(tr, hi_m1);
 
     // This is the first tile we don't want
     sparse_map::TileIndex tol(temp.begin(), temp.end());
@@ -102,7 +102,7 @@ inline auto get_slice_tile_indices_(const TA::TiledRange& tr,
  */
 template<typename TensorType>
 auto slice(const TensorType& t, const sparse_map::ElementIndex& lo,
-                                const sparse_map::ElementIndex& hi) {
+           const sparse_map::ElementIndex& hi) {
     const auto& tr        = t.trange();
     const auto rank       = tr.rank();
     const auto annotation = TA::detail::dummy_annotation(rank);
@@ -123,11 +123,11 @@ auto slice(const TensorType& t, const sparse_map::ElementIndex& lo,
 
     // Now we need to determine if lo/hi are the leading/ending elements of
     // their respective tiles
-    const bool lo_good  = is_tile_lower_bound(tr, lo);
-    const bool hi_good  = is_tile_upper_bound(tr, hi);
+    const bool lo_good = is_tile_lower_bound(tr, lo);
+    const bool hi_good = is_tile_upper_bound(tr, hi);
 
     // If we don't have to retile this is easy, just return the slice
-    if(lo_good && hi_good){
+    if(lo_good && hi_good) {
         auto [tlo, thi] = detail_::get_slice_tile_indices_(tr, lo, hi_m1);
         TensorType rv;
         rv(annotation) = t(annotation).block(tlo, thi);
@@ -137,11 +137,10 @@ auto slice(const TensorType& t, const sparse_map::ElementIndex& lo,
     // Getting here means we need to retile before grabbing the block
     auto new_tr            = insert_tile_boundaries(tr, lo, hi);
     const TensorType new_t = TA::retile(t, new_tr);
-    auto [tlo, thi]        = detail_::get_slice_tile_indices_(new_tr, lo, hi_m1);
+    auto [tlo, thi] = detail_::get_slice_tile_indices_(new_tr, lo, hi_m1);
     TensorType rv;
     rv(annotation) = new_t(annotation).block(tlo, thi);
     return rv;
 }
 
-
-} // namespace libchemist
+} // namespace libchemist::ta_helpers

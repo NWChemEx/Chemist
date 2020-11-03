@@ -74,9 +74,11 @@ public:
      *                    sparse map and the overlap matrix.
      */
     void hash(sde::Hasher& h) const { hash_(h); }
+
 protected:
     /// Should be overriden by the derived class to implement hashing
     virtual void hash_(sde::Hasher& h) const { h(m_sm_, m_space_); }
+
 private:
     /// The sparse map between the independent space and this space
     sparse_map_type m_sm_;
@@ -111,6 +113,5 @@ template<typename SparseMapType, typename OverlapType>
 DependentBaseSpace_<SparseMapType, OverlapType>::DependentBaseSpace_(
   SparseMapType sm, overlap_type S) :
   m_sm_(std::move(sm)), m_space_(std::move(S)) {}
-
 
 } // namespace libchemist::orbital_space
