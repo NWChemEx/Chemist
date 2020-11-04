@@ -142,7 +142,7 @@ auto from_sparse_map(const SparseMap<ElementIndex, ElementIndex>& esm,
     SparseMap<TileIndex, ElementIndex> tesm(outer_trange, esm);
     auto l =[=](auto& tile, const auto& range) {
         using tile_type = std::decay_t<decltype(tile)>;
-        auto otidx = get_block_idx(outer_trange, range);
+        auto otidx = ta_helpers::get_block_idx(outer_trange, range);
         if(!tesm.count(TileIndex(otidx.begin(), otidx.end()))) return 0.0;
         tile = detail_::make_tot_tile_(tile_type(range), esm, tensor, ind2mode);
         return tile.norm();

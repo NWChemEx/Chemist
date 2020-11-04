@@ -367,7 +367,7 @@ TEST_CASE("from_sparse_map(SparseMap<ElementIndex, ElementIndex>"){
         tot_type corr(world, corr_trange, corr_il);
 
         auto rv = from_sparse_map(sm, t, corr_trange);
-        const bool good = allclose_tot(rv, corr, 1);
+        const bool good = ta_helpers::allclose_tot(rv, corr, 1);
         REQUIRE(good);
     }
 
@@ -423,7 +423,7 @@ TEST_CASE("from_sparse_map(SparseMap<ElementIndex, ElementIndex>"){
             tot_type corr(world, corr_trange, corr_il);
 
             auto rv = from_sparse_map(sm, t, corr_trange);
-             const bool good = allclose_tot(rv, corr, 2);
+             const bool good = ta_helpers::allclose_tot(rv, corr, 2);
              REQUIRE(good);
         }
 
@@ -466,7 +466,7 @@ TEST_CASE("from_sparse_map(SparseMap<ElementIndex, ElementIndex>"){
             tot_type corr(world, corr_trange, corr_il);
 
             auto rv         = from_sparse_map(sm, t, corr_trange, tot2t);
-            const bool good = allclose_tot(rv, corr, 1);
+            const bool good = ta_helpers::allclose_tot(rv, corr, 1);
             REQUIRE(good);
         }
 
@@ -508,7 +508,7 @@ TEST_CASE("from_sparse_map(SparseMap<ElementIndex, ElementIndex>"){
             tot_type corr(world, corr_trange, corr_il);
 
             auto rv         = from_sparse_map(sm, t, corr_trange, tot2t);
-            const bool good = allclose_tot(rv, corr, 1);
+            const bool good = ta_helpers::allclose_tot(rv, corr, 1);
             REQUIRE(good);
         }
 
@@ -564,7 +564,7 @@ TEST_CASE("from_sparse_map(SparseMap<ElementIndex, ElementIndex>"){
             tot_type corr(world, corr_trange, corr_il);
 
             auto rv = from_sparse_map(sm, t, corr_trange, tot2t);
-            const bool good = allclose_tot(rv, corr, 1);
+            const bool good = ta_helpers::allclose_tot(rv, corr, 1);
             REQUIRE(good);
         }
     }
