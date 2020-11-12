@@ -88,7 +88,7 @@ TEST_CASE("make_tot_tile_") {
         }
 
         SECTION("Tile 1") {
-            TA::Range r{{1}, {2}};
+            TA::Range r{{1, 2}};
             tot_tile tile(r);
             tot_tile corr(r, inner_tile{TA::Range{2}, {1, 2}});
             tile = make_tot_tile_(tile, sm, t);
@@ -96,7 +96,7 @@ TEST_CASE("make_tot_tile_") {
         }
 
         SECTION("Tile 2") {
-            TA::Range r{{2}, {3}};
+            TA::Range r{{2, 3}};
             tot_tile tile(r);
             tot_tile corr(r, inner_tile{TA::Range{1}, {0}});
             tile = make_tot_tile_(tile, sm, t);
@@ -419,7 +419,7 @@ TEST_CASE("from_sparse_map(SparseMap<ElementIndex, ElementIndex>"){
             TA::detail::vector_il<inner_tile> corr_il{
               inner_tile{TA::Range{2, 2}, {1, 0, 0, 8}},
               inner_tile{TA::Range{2, 1}, {2, 8}}, inner_tile{},
-              inner_tile{TA::Range{{2, 2}}, {0, 0, 0, 7}}};
+              inner_tile{TA::Range{2, 2}, {0, 0, 0, 7}}};
             tot_type corr(world, corr_trange, corr_il);
 
             auto rv = from_sparse_map(sm, t, corr_trange);
@@ -460,9 +460,9 @@ TEST_CASE("from_sparse_map(SparseMap<ElementIndex, ElementIndex>"){
             // Make the correct answer
             TA::TiledRange corr_trange{{0, 2, 3}};
             TA::detail::vector_il<inner_tile> corr_il{
-              inner_tile{TA::Range{{2}}, {1, 2}},
-              inner_tile{TA::Range{{2}}, {6, 8}},
-              inner_tile{TA::Range{{2}}, {12, 13}}};
+              inner_tile{TA::Range{2}, {1, 2}},
+              inner_tile{TA::Range{2}, {6, 8}},
+              inner_tile{TA::Range{2}, {12, 13}}};
             tot_type corr(world, corr_trange, corr_il);
 
             auto rv         = from_sparse_map(sm, t, corr_trange, tot2t);
@@ -503,8 +503,9 @@ TEST_CASE("from_sparse_map(SparseMap<ElementIndex, ElementIndex>"){
             // Make the correct answer
             TA::TiledRange corr_trange{{0, 2, 3}};
             TA::detail::vector_il<inner_tile> corr_il{
-              inner_tile{TA::Range{{2}}, {0, 6}},
-              inner_tile{TA::Range{{1}}, {1}}, inner_tile{TA::Range{{1}}, {8}}};
+              inner_tile{TA::Range{2}, {0, 6}},
+              inner_tile{TA::Range{1}, {1}},
+              inner_tile{TA::Range{1}, {8}}};
             tot_type corr(world, corr_trange, corr_il);
 
             auto rv         = from_sparse_map(sm, t, corr_trange, tot2t);
@@ -550,11 +551,11 @@ TEST_CASE("from_sparse_map(SparseMap<ElementIndex, ElementIndex>"){
             std::map<std::size_t, std::size_t> tot2t{{1, 0}};
 
             // Make the correct answer
-            inner_tile corr00{TA::Range{{2}},{1, 2}};
-            inner_tile corr01{TA::Range{{2}}, {7, 8}};
+            inner_tile corr00{TA::Range{2},{1, 2}};
+            inner_tile corr01{TA::Range{2}, {7, 8}};
             inner_tile corr10{TA::Range{2}, {0, 2}};
-            inner_tile corr11{TA::Range{{2}},{6, 8}};
-            inner_tile corr32{TA::Range{{2}}, {12, 13}};
+            inner_tile corr11{TA::Range{2},{6, 8}};
+            inner_tile corr32{TA::Range{2}, {12, 13}};
             inner_tile zero;
             TA::detail::matrix_il<inner_tile> corr_il{
                           {corr00, corr01, zero},

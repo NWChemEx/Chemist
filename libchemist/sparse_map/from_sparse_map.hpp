@@ -120,12 +120,24 @@ auto make_tot_tile_(TileType tile,
 
 /** @brief Sparsifies a tensor according to the provided SparseMap.
  *
- * @tparam T The type of the tensor being sparsified, assumed to be either
- * @param esm
- * @param tensor
- * @param outer_trange
- * @param ind2mode
- * @return
+ *  The most general SparseMap is an element-to-element map. Given such a map,
+ *  and the tilings of the tensors, we can make any other sparse map. This
+ *  overload of from_sparse_map is at the moment the workhorse for all of the
+ *  overloads.
+ *
+ * @tparam T The type of the tensor being sparsified, assumed to be a TiledArray
+ *           tensor.
+ *
+ * @param[in] esm The element-to-element sparse map describing how to sparsify
+ *                the tensor.
+ * @param[in] tensor The tensor we are sparsifying.
+ * @param[in] outer_trange The TiledRange for the outer tensor of the
+ *            tensor-of-tensor this function is creating.
+ * @param[in] ind2mode A map from independent index mode to the mode in
+ *                     @p tensor it maps to.  *i.e.*, `ind2mode[i]` is the mode
+ *                     of @p tensor that the `i`-th mode of an independent index
+ *                     maps to.
+ * @return The tensor-of-tensors resulting from applying @p esm to @p tensor.
  */
 template<typename T>
 auto from_sparse_map(const SparseMap<ElementIndex, ElementIndex>& esm,
@@ -151,6 +163,25 @@ auto from_sparse_map(const SparseMap<ElementIndex, ElementIndex>& esm,
     return TA::make_array<tot_type>(tensor.world(), outer_trange, l);
 }
 
+/** @brief Sparsifies a tensor according to the provided SparseMap.
+ *
+ *  This overload creates an element-to-element sparse map from an
+ *  element-to-tile sparse map and then calls the element-to-element version.
+ *
+ * @tparam T The type of the tensor being sparsified, assumed to be a TiledArray
+ *           tensor.
+ *
+ * @param[in] etsm The element-to-tile sparse map describing how to sparsify
+ *                the tensor.
+ * @param[in] tensor The tensor we are sparsifying.
+ * @param[in] outer_trange The TiledRange for the outer tensor of the
+ *            tensor-of-tensor this function is creating.
+ * @param[in] ind2mode A map from independent index mode to the mode in
+ *                     @p tensor it maps to.  *i.e.*, `ind2mode[i]` is the mode
+ *                     of @p tensor that the `i`-th mode of an independent index
+ *                     maps to.
+ * @return The tensor-of-tensors resulting from applying @p etsm to @p tensor.
+ */
 template<typename T>
 auto from_sparse_map(const SparseMap<ElementIndex, TileIndex>& etsm,
                      const T& tensor,
@@ -160,6 +191,23 @@ auto from_sparse_map(const SparseMap<ElementIndex, TileIndex>& etsm,
     return from_sparse_map(esm, tensor, trange, ind2mode);
 }
 
+/** @brief Sparsifies a tensor according to the provided SparseMap.
+ *
+ *  This overload creates an element-to-element sparse map from an
+ *  tile-to-element sparse map and then calls the element-to-element version.
+ *
+ * @tparam T The type of the tensor being sparsified, assumed to be a TiledArray
+ *           tensor.
+ *
+ * @param[in] tesm The tile-to-element sparse map describing how to sparsify
+ *                 the tensor.
+ * @param[in] tensor The tensor we are sparsifying.
+ * @param[in] ind2mode A map from independent index mode to the mode in
+ *                     @p tensor it maps to.  *i.e.*, `ind2mode[i]` is the mode
+ *                     of @p tensor that the `i`-th mode of an independent index
+ *                     maps to.
+ * @return The tensor-of-tensors resulting from applying @p tesm to @p tensor.
+ */
 template<typename T>
 auto from_sparse_map(const SparseMap<TileIndex, ElementIndex>& tesm,
                      const T& tensor,
@@ -168,6 +216,23 @@ auto from_sparse_map(const SparseMap<TileIndex, ElementIndex>& tesm,
     return from_sparse_map(esm, tensor, tesm.trange(), ind2mode);
 }
 
+/** @brief Sparsifies a tensor according to the provided SparseMap.
+ *
+ *  This overload creates an element-to-element sparse map from an
+ *  tile-to-tile sparse map and then calls the element-to-element version.
+ *
+ * @tparam T The type of the tensor being sparsified, assumed to be a TiledArray
+ *           tensor.
+ *
+ * @param[in] tsm The tile-to-tile sparse map describing how to sparsify
+ *                the tensor.
+ * @param[in] tensor The tensor we are sparsifying.
+ * @param[in] ind2mode A map from independent index mode to the mode in
+ *                     @p tensor it maps to.  *i.e.*, `ind2mode[i]` is the mode
+ *                     of @p tensor that the `i`-th mode of an independent index
+ *                     maps to.
+ * @return The tensor-of-tensors resulting from applying @p tsm to @p tensor.
+ */
 template<typename T>
 auto from_sparse_map(const SparseMap<TileIndex, TileIndex>& tsm,
                      const T& tensor,
