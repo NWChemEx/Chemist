@@ -27,6 +27,13 @@ public:
     /// Type of the object holding the AO basis set parameters
     using basis_type = BasisType;
 
+    /** @brief Creates a new AOSpace. The AOSpace has no AO basis set or overlap
+     *         matrix.
+     *
+     *
+     */
+    AOSpace_() = default;
+
     /** @brief Creates a new atomic orbital space.
      *
      * @tparam Args The types of the arguments which will be forwarded to the
@@ -37,7 +44,7 @@ public:
      * @param[in] args Inputs to forward to the base class's ctor.
      */
     template<typename... Args>
-    AOSpace_(basis_type bs = {}, Args&&... args);
+    AOSpace_(basis_type bs, Args&&... args);
 
     /** @brief Accessor for read/write access to the basis set parameters
      *
