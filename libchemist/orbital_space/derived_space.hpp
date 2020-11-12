@@ -35,6 +35,11 @@ public:
     /// Type of a pointer to the from space
     using from_space_ptr = std::shared_ptr<const FromSpace>;
 
+    /** @brief Creates a new DerivedSpace_ which has no transformation
+     *         or from space.
+     */
+    DerivedSpace_() = default;
+
     /** @brief Creates a new DerivedSpace_ with the specified state.
      *
      *  Of note, this ctor will create an instance which owns the "from space"
@@ -59,8 +64,7 @@ public:
      *            throws. Same throw guarantee.
      */
     template<typename... Args>
-    DerivedSpace_(transform_type C = {}, from_space_type from_space = {},
-                  Args&&... args);
+    DerivedSpace_(transform_type C, from_space_type from_space, Args&&... args);
 
     /** @brief Creates a new DerivedSpace_ with the specified state.
      *
