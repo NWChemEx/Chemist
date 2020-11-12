@@ -21,6 +21,12 @@ public:
     /// Type of the tensor used to store the orbital energies
     using orbital_energy_type = OrbitalEnergyType;
 
+    /** @brief Creates a new CanonicalSpace_ which does not have any orbital
+     *         energies.
+     *
+     */
+    CanonicalSpace_() = default;
+
     /** @brief Creates a CanonicalSpace_ with the provided state.
      *
      *  @tparam Args The types of the arguments which will be forwarded to the
@@ -35,7 +41,7 @@ public:
      *             guarantee.
      */
     template<typename... Args>
-    CanonicalSpace_(OrbitalEnergyType egys = {}, Args&&... args);
+    explicit CanonicalSpace_(OrbitalEnergyType egys, Args&&... args);
 
     /** @brief Returns the energies of the orbitals in this orbital space.
      *
