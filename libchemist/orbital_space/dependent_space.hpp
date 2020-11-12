@@ -21,9 +21,17 @@ public:
     /// The type used to store the overlap matrix
     using overlap_type = OverlapType;
 
+    /** @brief Creates a DependentBaseSpace_ with no SparseMap or overlap
+     *         matrix.
+     */
     DependentBaseSpace_() = default;
 
-    DependentBaseSpace_(sparse_map_type sm) : m_sm_(std::move(sm)) {}
+    /** @brief Creates a DependentBaseSpace_ with a SparseMap, but no overlap
+     *         matrix.
+     *
+     * @param[in] sm The SparseMap to associate with this space.
+     */
+    explicit DependentBaseSpace_(sparse_map_type sm) : m_sm_(std::move(sm)) {}
 
     /** @brief Creates a new DependentBaseSpace_ with the provided state.
      *
