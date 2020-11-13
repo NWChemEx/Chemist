@@ -44,7 +44,7 @@ PIP_COMMAND="pip"
 #   get_boost
 get_boost() {
   ${APT_COMMAND} update
-  ${APT_GET_COMMAND} install libboost-all-dev
+  ${APT_GET_COMMAND} install libboost1.71-all-dev
 }
 
 # Wraps getting CBLAS
