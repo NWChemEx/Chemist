@@ -45,7 +45,7 @@ PIP_COMMAND="pip"
 get_boost() {
   sudo add-apt-repository ppa:mhier/libboost-latest
   ${APT_COMMAND} update
-  ${APT_GET_COMMAND} install libboost-all-dev
+  ${APT_GET_COMMAND} install libboost1.74-dev
 }
 
 # Wraps getting CBLAS
