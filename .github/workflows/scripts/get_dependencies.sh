@@ -43,7 +43,7 @@ PIP_COMMAND="pip"
 # Usage:
 #   get_boost
 get_boost() {
-  sudo add-apt-repository ppa:boost-latest/ppa
+  sudo add-apt-repository ppa:mhier/libboost-latest
   ${APT_COMMAND} update
   ${APT_GET_COMMAND} install libboost-all-dev
 }
