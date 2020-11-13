@@ -38,13 +38,14 @@ PIP_COMMAND="pip"
 #                               Internal Functions                             #
 ################################################################################
 
-# Wraps getting Boost
+# Wraps getting the latest version of Boost
 #
 # Usage:
 #   get_boost
 get_boost() {
+  sudo add-apt-repository ppa:boost-latest/ppa
   ${APT_COMMAND} update
-  ${APT_GET_COMMAND} install libboost1.71-all-dev
+  ${APT_GET_COMMAND} install libboost-all-dev
 }
 
 # Wraps getting CBLAS
