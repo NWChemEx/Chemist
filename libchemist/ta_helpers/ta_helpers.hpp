@@ -98,7 +98,7 @@ auto grab_diagonal(TensorType&& t) {
         auto t_tile = t.find({idx[0], idx[0]}).get();
         tile        = tile_type(r);
         for(auto i : r) {
-            std::vector<std::size_t> ii{i[0], i[0]};
+            std::vector ii{i[0], i[0]};
             tile[i] = t_tile[ii];
         }
         return tile.norm();
