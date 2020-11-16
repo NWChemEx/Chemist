@@ -1,7 +1,7 @@
 var searchData=
 [
   ['m_5findex',['m_index',['../structlibchemist_1_1sparse__map_1_1Index.html#a58ac4a475c9f9a97315da359421de5fd',1,'libchemist::sparse_map::Index']]],
-  ['map_5funion',['map_union',['../classlibchemist_1_1sparse__map_1_1SparseMap.html#aa43864f71f1f71a23869095005773760',1,'libchemist::sparse_map::SparseMap']]],
+  ['mapped_5ftype',['mapped_type',['../classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapBase.html#a42af147e4a367011eb11819ce475ebd9',1,'libchemist::sparse_map::detail_::SparseMapBase::mapped_type()'],['../classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapPIMPL.html#a5abc61a006673874fe1cd54709a44de3',1,'libchemist::sparse_map::detail_::SparseMapPIMPL::mapped_type()'],['../structlibchemist_1_1sparse__map_1_1detail___1_1SparseMapTraits_3_01SparseMap_3_01IndIndex_00_01DepIndex_01_4_01_4.html#a58450ce881c3269033c915ae39192085',1,'libchemist::sparse_map::detail_::SparseMapTraits&lt; SparseMap&lt; IndIndex, DepIndex &gt; &gt;::mapped_type()'],['../classlibchemist_1_1sparse__map_1_1detail___1_1TiledSparseMapPIMPL.html#abcc343bb4ed6461027de2c6a5c5f55a4',1,'libchemist::sparse_map::detail_::TiledSparseMapPIMPL::mapped_type()']]],
   ['mass',['Mass',['../structlibchemist_1_1Atom_1_1Mass.html',1,'libchemist::Atom']]],
   ['mass_5ftype',['mass_type',['../classlibchemist_1_1Atom.html#a134dd5819cfad6c6f25afd0907f14243',1,'libchemist::Atom::mass_type()'],['../classlibchemist_1_1detail___1_1AtomPIMPL.html#a5eb5f38c8ebe6692c394ab1ac68e3b73',1,'libchemist::detail_::AtomPIMPL::mass_type()']]],
   ['max_5fl',['max_l',['../classlibchemist_1_1AOBasisSet.html#a7034aa78c393d02e4c2d1c3858c3476d',1,'libchemist::AOBasisSet']]],
@@ -12,5 +12,6 @@ var searchData=
   ['moleculemanagerpimpl',['MoleculeManagerPIMPL',['../classlibchemist_1_1detail___1_1MoleculeManagerPIMPL.html',1,'libchemist::detail_::MoleculeManagerPIMPL'],['../classlibchemist_1_1detail___1_1MoleculeManagerPIMPL.html#a2d24b6629dd4cb7ff8c58a659085732d',1,'libchemist::detail_::MoleculeManagerPIMPL::MoleculeManagerPIMPL()'],['../classlibchemist_1_1detail___1_1MoleculeManagerPIMPL.html#a40798151af6c5c3417ee7706c4e36be8',1,'libchemist::detail_::MoleculeManagerPIMPL::MoleculeManagerPIMPL(MoleculeManagerPIMPL &amp;&amp;rhs)=delete'],['../classlibchemist_1_1detail___1_1MoleculeManagerPIMPL.html#a91ac9cd250c27cd88d5764737fe0aad3',1,'libchemist::detail_::MoleculeManagerPIMPL::MoleculeManagerPIMPL(const MoleculeManagerPIMPL &amp;rhs)=default']]],
   ['moleculestreamparser',['MoleculeStreamParser',['../structlibchemist_1_1MoleculeStreamParser.html',1,'libchemist']]],
   ['molpimpl',['MolPIMPL',['../classlibchemist_1_1detail___1_1MolPIMPL.html',1,'libchemist::detail_']]],
-  ['multiplicity',['Multiplicity',['../structlibchemist_1_1Molecule_1_1Multiplicity.html',1,'libchemist::Molecule']]]
+  ['multiplicity',['Multiplicity',['../structlibchemist_1_1Molecule_1_1Multiplicity.html',1,'libchemist::Molecule']]],
+  ['my_5ftype',['my_type',['../classlibchemist_1_1sparse__map_1_1detail___1_1TiledDomainPIMPL.html#a93be21b4a61949d6ce343d36983288bc',1,'libchemist::sparse_map::detail_::TiledDomainPIMPL']]]
 ];

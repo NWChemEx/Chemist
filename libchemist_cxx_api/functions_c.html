@@ -93,7 +93,7 @@ $(function() {
 : <a class="el" href="classlibchemist_1_1detail___1_1CGTOPIMPL.html#a6906559976bfc1543bf1e5e3af40b989">libchemist::detail_::CGTOPIMPL&lt; T &gt;</a>
 </li>
 <li>chain()
-: <a class="el" href="classlibchemist_1_1sparse__map_1_1SparseMap.html#a2b63dbf724f29e3f7b4cfd1979fb1d04">libchemist::sparse_map::SparseMap</a>
+: <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapBase.html#a994ce3a3005cc2c19fc9bf07f0b0642e">libchemist::sparse_map::detail_::SparseMapBase&lt; DerivedType, IndIndex, DepIndex &gt;</a>
 </li>
 <li>clone()
 : <a class="el" href="classlibchemist_1_1detail___1_1AOShellPIMPL.html#a5fa6009a2ab5cd491dc6daa2b5acc706">libchemist::detail_::AOShellPIMPL</a>
@@ -104,6 +104,10 @@ $(function() {
 , <a class="el" href="classlibchemist_1_1detail___1_1MoleculeManagerPIMPL.html#ae2711cc654131e541f8d24398c730e26">libchemist::detail_::MoleculeManagerPIMPL</a>
 , <a class="el" href="classlibchemist_1_1detail___1_1OrbitalSpacePIMPL.html#af608cd40a5e59a64f526141c41855e24">libchemist::detail_::OrbitalSpacePIMPL&lt; basis_type, tensor_type &gt;</a>
 , <a class="el" href="classlibchemist_1_1detail___1_1PeriodicTablePIMPL.html#ae2b56e5d98aba085628c013b0f20da1b">libchemist::detail_::PeriodicTablePIMPL</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a65150176987d1b01ce8ec2ad99966f17">libchemist::sparse_map::detail_::DomainPIMPL&lt; IndexType &gt;</a>
+</li>
+<li>clone_()
+: <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#af8368b3d281336923f68db9f94c710f9">libchemist::sparse_map::detail_::DomainPIMPL&lt; IndexType &gt;</a>
 </li>
 <li>coef()
 : <a class="el" href="classlibchemist_1_1detail___1_1PrimitivePIMPL.html#ab3694cd29bd7892aca180cc010995b69">libchemist::detail_::PrimitivePIMPL&lt; T &gt;</a>
@@ -127,6 +131,8 @@ $(function() {
 </li>
 <li>const_iterator
 : <a class="el" href="classlibchemist_1_1Molecule.html#af6cf8f4313ac4507556e9c270b233936">libchemist::Molecule</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainBase.html#aa47d65de6559674dae4201fe459dd608">libchemist::sparse_map::detail_::DomainBase&lt; DerivedType, IndexType &gt;</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapBase.html#af88ced831135e9e4ca956f272ca28df2">libchemist::sparse_map::detail_::SparseMapBase&lt; DerivedType, IndIndex, DepIndex &gt;</a>
 </li>
 <li>const_pointer
 : <a class="el" href="classlibchemist_1_1detail___1_1AoSElement.html#ab27b02baf14ba0b7cd586448c1819f68">libchemist::detail_::AoSElement&lt; Fields &gt;</a>
@@ -150,34 +156,41 @@ $(function() {
 , <a class="el" href="classlibchemist_1_1Point.html#ac989e59ddc403d2048131d2546abc48f">libchemist::Point&lt; T &gt;</a>
 , <a class="el" href="classlibchemist_1_1Primitive.html#a900fa35d6389933289463033972c4432">libchemist::Primitive&lt; T &gt;</a>
 , <a class="el" href="classlibchemist_1_1Shell.html#a017415d759a15312162c8c659bf8334d">libchemist::Shell&lt; T &gt;</a>
-, <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#a38ee986716d30c62a3893261d2fe9a9d">libchemist::sparse_map::Domain</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainBase.html#a29ef9ff11169205a5e8dc46655ce09f0">libchemist::sparse_map::detail_::DomainBase&lt; DerivedType, IndexType &gt;</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#aefd8793c841217d38f9da5add29ca1e6">libchemist::sparse_map::detail_::DomainPIMPL&lt; IndexType &gt;</a>
+, <a class="el" href="structlibchemist_1_1sparse__map_1_1detail___1_1DomainTraits_3_01Domain_3_01IndexType_01_4_01_4.html#a6e0aa67f31b69612a2736c4e57bd59e5">libchemist::sparse_map::detail_::DomainTraits&lt; Domain&lt; IndexType &gt; &gt;</a>
 </li>
 <li>const_shell_reference
 : <a class="el" href="classlibchemist_1_1AOBasisSet.html#a6668607bc1c39e345ba7c96ab907b0c9">libchemist::AOBasisSet&lt; T &gt;</a>
 </li>
 <li>ContainerPIMPL()
-: <a class="el" href="classlibchemist_1_1detail___1_1ContainerPIMPL.html#a7e3c6310992bcf7ae5c347dc60c2f2cd">libchemist::detail_::ContainerPIMPL&lt; T &gt;</a>
+: <a class="el" href="classlibchemist_1_1detail___1_1ContainerPIMPL.html#a51a4257df0c74690b0f950073d24f735">libchemist::detail_::ContainerPIMPL&lt; T &gt;</a>
 </li>
 <li>ContiguousAOShell()
-: <a class="el" href="classlibchemist_1_1detail___1_1ContiguousAOShell.html#a183d61479c3fb308f9be86e3cea534cb">libchemist::detail_::ContiguousAOShell</a>
+: <a class="el" href="classlibchemist_1_1detail___1_1ContiguousAOShell.html#ac574c9f09e2c682cbdbc289f09e0586d">libchemist::detail_::ContiguousAOShell</a>
 </li>
 <li>ContiguousAtomPIMPL()
 : <a class="el" href="classlibchemist_1_1detail___1_1ContiguousAtomPIMPL.html#a5fb87b362c589955c128a6446840c7c4">libchemist::detail_::ContiguousAtomPIMPL</a>
 </li>
 <li>ContractedGaussian()
-: <a class="el" href="classlibchemist_1_1ContractedGaussian.html#a7bfed98fe9421376bd59240b4d495e48">libchemist::ContractedGaussian&lt; T &gt;</a>
+: <a class="el" href="classlibchemist_1_1ContractedGaussian.html#a52808639f986bf07c85ec801a4a13c43">libchemist::ContractedGaussian&lt; T &gt;</a>
 </li>
 <li>ContractedGaussianView()
 : <a class="el" href="classlibchemist_1_1ContractedGaussianView.html#aa19a22d6baa5aaa78d6adfdf2d3ca831">libchemist::ContractedGaussianView&lt; T &gt;</a>
 </li>
 <li>coord()
-: <a class="el" href="classlibchemist_1_1detail___1_1PointPIMPL.html#acdb9fc4ab3b6b74c19e2ebd4935ec1f2">libchemist::detail_::PointPIMPL&lt; T &gt;</a>
+: <a class="el" href="classlibchemist_1_1detail___1_1PointPIMPL.html#adc06451280c23a37b731eb091bf5fe00">libchemist::detail_::PointPIMPL&lt; T &gt;</a>
 , <a class="el" href="classlibchemist_1_1Point.html#a128a1a85813491c51c8eab9a321ed5ae">libchemist::Point&lt; T &gt;</a>
 , <a class="el" href="classlibchemist_1_1PointView.html#a2aa4a21742f61728107d076b998551cd">libchemist::PointView&lt; T, AliasedType &gt;</a>
 </li>
 <li>coord_type
 : <a class="el" href="classlibchemist_1_1Atom.html#a72bfd6e8239cf2f0a9808ec595a67e5f">libchemist::Atom</a>
 , <a class="el" href="classlibchemist_1_1detail___1_1AtomPIMPL.html#add681442dc01bd4c39982cd63ab5ce19">libchemist::detail_::AtomPIMPL</a>
+</li>
+<li>count()
+: <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainBase.html#a19c14e0447c8e751edc333b42241851d">libchemist::sparse_map::detail_::DomainBase&lt; DerivedType, IndexType &gt;</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a616cc513390e59a217e898b4bed2dd89">libchemist::sparse_map::detail_::DomainPIMPL&lt; IndexType &gt;</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapBase.html#a3befc5bf787038bb17c480f9953d222a">libchemist::sparse_map::detail_::SparseMapBase&lt; DerivedType, IndIndex, DepIndex &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->

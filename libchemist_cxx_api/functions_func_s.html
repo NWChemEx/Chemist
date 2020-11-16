@@ -65,20 +65,31 @@ $(function() {
 <li>S()
 : <a class="el" href="classlibchemist_1_1detail___1_1OrbitalSpacePIMPL.html#a54917f6b0137cada3bc3a055b37ca34f">libchemist::detail_::OrbitalSpacePIMPL&lt; basis_type, tensor_type &gt;</a>
 , <a class="el" href="classlibchemist_1_1orbital__space_1_1BaseSpace__.html#adacc85511ffbbf8b98d35ce69afe2362">libchemist::orbital_space::BaseSpace_&lt; OverlapType &gt;</a>
-, <a class="el" href="classlibchemist_1_1orbital__space_1_1DependentBaseSpace__.html#a39631a65ae681e92c41e0652f2bf468b">libchemist::orbital_space::DependentBaseSpace_&lt; OverlapType &gt;</a>
+, <a class="el" href="classlibchemist_1_1orbital__space_1_1DependentBaseSpace__.html#a537fea67205ef8bfca5da216fe389783">libchemist::orbital_space::DependentBaseSpace_&lt; SparseMapType, OverlapType &gt;</a>
 , <a class="el" href="classlibchemist_1_1OrbitalSpace.html#a12893c25da0f0ba093ea5c24348d95b4">libchemist::OrbitalSpace&lt; element_type, tensor_type &gt;</a>
 </li>
 <li>S_()
 : <a class="el" href="classlibchemist_1_1orbital__space_1_1BaseSpace__.html#a2e93823da33819209f209ec78c44d646">libchemist::orbital_space::BaseSpace_&lt; OverlapType &gt;</a>
 </li>
+<li>set_domain_trange()
+: <a class="el" href="classlibchemist_1_1sparse__map_1_1SparseMap_3_01ElementIndex_00_01TileIndex_01_4.html#a6fdd634278de9016fae027b9acc87357">libchemist::sparse_map::SparseMap&lt; ElementIndex, TileIndex &gt;</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1SparseMap_3_01TileIndex_00_01TileIndex_01_4.html#a5dffa23d5c28f939540bc4b33645ad6b">libchemist::sparse_map::SparseMap&lt; TileIndex, TileIndex &gt;</a>
+</li>
 <li>set_overlap_()
 : <a class="el" href="classlibchemist_1_1orbital__space_1_1BaseSpace__.html#ab3e609cf737a8901c06605dc64bea7f9">libchemist::orbital_space::BaseSpace_&lt; OverlapType &gt;</a>
+</li>
+<li>set_trange()
+: <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1TiledDomainPIMPL.html#aadd48fc6d13270dbd7f03a4e482db849">libchemist::sparse_map::detail_::TiledDomainPIMPL&lt; BaseType &gt;</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1TiledSparseMapPIMPL.html#ac0cc84eaa63173fdedf6253ab9706a77">libchemist::sparse_map::detail_::TiledSparseMapPIMPL&lt; BaseType &gt;</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain_3_01TileIndex_01_4.html#a451430a54e9ed8e6b37ca0850eaa2169">libchemist::sparse_map::Domain&lt; TileIndex &gt;</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1SparseMap_3_01TileIndex_00_01ElementIndex_01_4.html#a703e2762d42e1fcca098a831aa620a84">libchemist::sparse_map::SparseMap&lt; TileIndex, ElementIndex &gt;</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1SparseMap_3_01TileIndex_00_01TileIndex_01_4.html#a7ea2902958405791f5bdbf818c8e236d">libchemist::sparse_map::SparseMap&lt; TileIndex, TileIndex &gt;</a>
 </li>
 <li>shell()
 : <a class="el" href="classlibchemist_1_1AOBasisSet.html#a385aaf8963e345a76e187d902f01b9c4">libchemist::AOBasisSet&lt; T &gt;</a>
 </li>
 <li>Shell()
-: <a class="el" href="classlibchemist_1_1Shell.html#ab12aacb927fecac05939364b5d117c5a">libchemist::Shell&lt; T &gt;</a>
+: <a class="el" href="classlibchemist_1_1Shell.html#a2c45d99affe5eb32097ebd16e0704dea">libchemist::Shell&lt; T &gt;</a>
 </li>
 <li>shell_to_ao()
 : <a class="el" href="classlibchemist_1_1BasisSetMap.html#af9c450aa965a72c404354a717563d4f4">libchemist::BasisSetMap&lt; T &gt;</a>
@@ -103,10 +114,28 @@ $(function() {
 , <a class="el" href="classlibchemist_1_1detail___1_1CGTOPIMPL.html#ac640bfd5bdb5a93ec31815525d7e7c86">libchemist::detail_::CGTOPIMPL&lt; T &gt;</a>
 , <a class="el" href="classlibchemist_1_1detail___1_1ShellPIMPL.html#a6240f4d2dc93c3d19a4637fba5fec19d">libchemist::detail_::ShellPIMPL&lt; T &gt;</a>
 , <a class="el" href="classlibchemist_1_1Molecule.html#ac4d15532f37443f648e88356c2c01218">libchemist::Molecule</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainBase.html#a87c3a9634f4add308da96d4d40ba4dbd">libchemist::sparse_map::detail_::DomainBase&lt; DerivedType, IndexType &gt;</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a7d99a36440e2d4a7f7f01df91bb1934c">libchemist::sparse_map::detail_::DomainPIMPL&lt; IndexType &gt;</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapBase.html#afbaece0bbec061f1f73136061ed9c8e7">libchemist::sparse_map::detail_::SparseMapBase&lt; DerivedType, IndIndex, DepIndex &gt;</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapPIMPL.html#a7cd30e45c6dbe9cf21b1517f6edefdd9">libchemist::sparse_map::detail_::SparseMapPIMPL&lt; IndIndex, DepIndex &gt;</a>
 , <a class="el" href="structlibchemist_1_1sparse__map_1_1Index.html#a3bc5cdc83cf88ca01e6ce03c364b0600">libchemist::sparse_map::Index</a>
 </li>
 <li>sparse_map()
-: <a class="el" href="classlibchemist_1_1orbital__space_1_1DependentBaseSpace__.html#a5ffe85a8c619197e712b7448f57e9842">libchemist::orbital_space::DependentBaseSpace_&lt; OverlapType &gt;</a>
+: <a class="el" href="classlibchemist_1_1orbital__space_1_1DependentBaseSpace__.html#ac8eeeaa32340e577531bcbf146c9acfe">libchemist::orbital_space::DependentBaseSpace_&lt; SparseMapType, OverlapType &gt;</a>
+</li>
+<li>SparseMap()
+: <a class="el" href="classlibchemist_1_1sparse__map_1_1SparseMap_3_01ElementIndex_00_01ElementIndex_01_4.html#acf98ca615ceb344a565d7d04abb7b359">libchemist::sparse_map::SparseMap&lt; ElementIndex, ElementIndex &gt;</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1SparseMap_3_01TileIndex_00_01ElementIndex_01_4.html#a396e55a2d69eaae900b1e8604269a298">libchemist::sparse_map::SparseMap&lt; TileIndex, ElementIndex &gt;</a>
+</li>
+<li>SparseMapBase()
+: <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapBase.html#a559cce09480cc64c4134aeee7116332d">libchemist::sparse_map::detail_::SparseMapBase&lt; DerivedType, IndIndex, DepIndex &gt;</a>
+</li>
+<li>SparseMapPIMPL()
+: <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapPIMPL.html#ad618df3cc9da072d85697d25fbc446ef">libchemist::sparse_map::detail_::SparseMapPIMPL&lt; IndIndex, DepIndex &gt;</a>
+</li>
+<li>swap()
+: <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainBase.html#aef0a717cb6293b6b07bd354401740092">libchemist::sparse_map::detail_::DomainBase&lt; DerivedType, IndexType &gt;</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapBase.html#a42b5f483d5edaca577d77df9cbb3b814">libchemist::sparse_map::detail_::SparseMapBase&lt; DerivedType, IndIndex, DepIndex &gt;</a>
 </li>
 <li>sym_2_Z()
 : <a class="el" href="classlibchemist_1_1detail___1_1PeriodicTablePIMPL.html#aaededcdf2a9c76efe3523cac90be7165">libchemist::detail_::PeriodicTablePIMPL</a>

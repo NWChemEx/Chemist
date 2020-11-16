@@ -1,0 +1,312 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Sparsifying a Tensor &mdash; LibChemist 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Sparse Map Library Design" href="design.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> LibChemist
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Sparse Maps Sublibrary</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="background.html">SparseMap Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design.html">Sparse Map Library Design</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Sparsifying a Tensor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#things-to-note">Things to note</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#assumptions">Assumptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#make-tot-tile-algorithm"><code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code> Algorithm</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex-project.github.io/LibChemist/libchemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LibChemist</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Sparse Maps Sublibrary</a> &raquo;</li>
+        
+      <li>Sparsifying a Tensor</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/sparse_maps/from_sparse_map.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sparsifying-a-tensor">
+<h1>Sparsifying a Tensor<a class="headerlink" href="#sparsifying-a-tensor" title="Permalink to this headline">¶</a></h1>
+<p>This page details the algorithms used to create a tensor-of-tensors from a
+SparseMap and a tensor.</p>
+<div class="section" id="things-to-note">
+<h2>Things to note<a class="headerlink" href="#things-to-note" title="Permalink to this headline">¶</a></h2>
+<p>We are creating an object, <code class="docutils literal notranslate"><span class="pre">t</span></code> of type <code class="docutils literal notranslate"><span class="pre">DistArray&lt;Tensor&lt;Tensor&lt;T&gt;&gt;&gt;</span></code> from
+an object <code class="docutils literal notranslate"><span class="pre">T</span></code> of type <code class="docutils literal notranslate"><span class="pre">DistArray&lt;Tensor&lt;T&gt;&gt;</span></code>. Since the tiles are not the
+same type we are going to have to copy data. At best we are going to be able to
+copy full tiles of <code class="docutils literal notranslate"><span class="pre">T</span></code> into <code class="docutils literal notranslate"><span class="pre">t</span></code> at worst we are going to be copying pieces
+of tiles from <code class="docutils literal notranslate"><span class="pre">T</span></code> into <code class="docutils literal notranslate"><span class="pre">t</span></code>. To my knowledge there is no way to alias the
+full tiles and the copy must occur. For this reason the main kernel assumes a
+<code class="docutils literal notranslate"><span class="pre">SparseMap&lt;ElementIndex,</span> <span class="pre">ElementIndex&gt;</span></code> instance is provided as this affords
+us the most flexibility in defining tiles. Specialized kernels may be added at
+a later point for other types of SparseMap instances.</p>
+</div>
+<div class="section" id="assumptions">
+<h2>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this headline">¶</a></h2>
+<p>Assume we are given a <code class="docutils literal notranslate"><span class="pre">SparseMap</span></code> instance, <code class="docutils literal notranslate"><span class="pre">sm</span></code> and a tensor <code class="docutils literal notranslate"><span class="pre">T</span></code>. Our
+present goal is to create a tensor-of-tensors (ToT), <code class="docutils literal notranslate"><span class="pre">t</span></code>,  out of <code class="docutils literal notranslate"><span class="pre">T</span></code>. The
+outer rank of <code class="docutils literal notranslate"><span class="pre">t</span></code> is given by <code class="docutils literal notranslate"><span class="pre">sm.ind_rank()</span></code> and the inner rank of <code class="docutils literal notranslate"><span class="pre">t</span></code> is
+given by <code class="docutils literal notranslate"><span class="pre">sm.dep_rank()</span></code>.</p>
+<p>We start by assuming <code class="docutils literal notranslate"><span class="pre">sm</span></code> is a <code class="docutils literal notranslate"><span class="pre">SparseMap&lt;ElementIndex,</span> <span class="pre">ElementIndex&gt;</span></code>
+instance. Conversions exist to <code class="docutils literal notranslate"><span class="pre">SparseMap&lt;ElementIndex,</span> <span class="pre">ElementIndex&gt;</span></code> for all
+other specializations of the SparseMap class. There are now two scenarios:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sm.dep_rank()</span></code> equals the rank of <code class="docutils literal notranslate"><span class="pre">T</span></code>, or</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sm.dep_rank()</span></code> is less than the rank of <code class="docutils literal notranslate"><span class="pre">T</span></code></p></li>
+</ol>
+<p>In the former scenario we assume that the dependent indices are valid tile
+indices for <code class="docutils literal notranslate"><span class="pre">T</span></code>. To be more concrete, we assume that given the dependent index
+<code class="docutils literal notranslate"><span class="pre">{0,</span> <span class="pre">1}</span></code> we take this to mean that the user wants us to retrieve element
+<code class="docutils literal notranslate"><span class="pre">{0,</span> <span class="pre">1}</span></code> of <code class="docutils literal notranslate"><span class="pre">T</span></code> as opposed to say <code class="docutils literal notranslate"><span class="pre">{1,</span> <span class="pre">0}`</span></code>, <em>i.e.</em>, no offsets or
+permutations are required to convert an index in the domain to an index in
+<code class="docutils literal notranslate"><span class="pre">T</span></code>. In the second scenario we assume that by injecting one or more
+independent index modes into the dependent indices we get a valid index for
+<code class="docutils literal notranslate"><span class="pre">T</span></code>. In other words we assume that the elements of the Domain are indices of
+reduced rank slices of <code class="docutils literal notranslate"><span class="pre">T</span></code>. Slices of the same rank as <code class="docutils literal notranslate"><span class="pre">T</span></code> are formed by
+inserting one (or more) of the modes of the independent mode into the dependent
+indices. These two scenarios are unified by realizing the first results from the
+second if we have no injections. Thus as long as we code up the second scenario
+in such a manner that it works with no injections we cover both scenarios.</p>
+</div>
+<div class="section" id="make-tot-tile-algorithm">
+<h2><code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code> Algorithm<a class="headerlink" href="#make-tot-tile-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>The guts of the <code class="docutils literal notranslate"><span class="pre">from_sparse_tensor</span></code> function are contained in
+<code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code>. <code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code> is more-or-less a lambda which will be
+passed to <code class="docutils literal notranslate"><span class="pre">TA::make_array</span></code> to form the tensor-of-tensors. <code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code>
+works by:</p>
+<ul class="simple">
+<li><p>Given:</p>
+<ul>
+<li><p>the outer tile to fill, <code class="docutils literal notranslate"><span class="pre">tile</span></code>,</p></li>
+<li><p>the SparseMap from independent element indices to dependent element indices,
+<code class="docutils literal notranslate"><span class="pre">sm</span></code>,</p></li>
+<li><p>the tensor to sparsify <code class="docutils literal notranslate"><span class="pre">T</span></code>, and</p></li>
+<li><p>an <code class="docutils literal notranslate"><span class="pre">std::map</span></code>, <code class="docutils literal notranslate"><span class="pre">ind2mode</span></code>, such that <code class="docutils literal notranslate"><span class="pre">ind2mode[i]</span></code> is the mode of
+<code class="docutils literal notranslate"><span class="pre">T</span></code> that the <code class="docutils literal notranslate"><span class="pre">i</span></code>-th mode of the independent indices in <code class="docutils literal notranslate"><span class="pre">sm</span></code> maps to.</p></li>
+</ul>
+</li>
+<li><p>Loop over outer element indices in <code class="docutils literal notranslate"><span class="pre">tile</span></code>, <code class="docutils literal notranslate"><span class="pre">oeidx</span></code></p>
+<ul>
+<li><p>If domain associated with <code class="docutils literal notranslate"><span class="pre">oedix</span></code> is empty move on</p></li>
+<li><p>Otherwise:</p>
+<ol class="arabic simple">
+<li><p>Allocate inner tile, <code class="docutils literal notranslate"><span class="pre">buffer</span></code></p></li>
+<li><p>Create Domain with indices of <code class="docutils literal notranslate"><span class="pre">oeidx</span></code> injected, <code class="docutils literal notranslate"><span class="pre">injected_d</span></code></p></li>
+<li><p>Create Domain with tiles of <code class="docutils literal notranslate"><span class="pre">injected_d</span></code>, <code class="docutils literal notranslate"><span class="pre">tdomain</span></code></p></li>
+<li><p>Loop over tiles in <code class="docutils literal notranslate"><span class="pre">tdomain</span></code>, <code class="docutils literal notranslate"><span class="pre">itidx</span></code></p>
+<ol class="arabic simple">
+<li><p>Get the tile from <code class="docutils literal notranslate"><span class="pre">T</span></code>, <code class="docutils literal notranslate"><span class="pre">t</span></code></p></li>
+<li><p>Loop over elements in <code class="docutils literal notranslate"><span class="pre">injected_d</span></code>, <code class="docutils literal notranslate"><span class="pre">ieidx</span></code></p>
+<ul>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">t[ieidx]</span></code> to <code class="docutils literal notranslate"><span class="pre">buffer</span></code></p></li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">tile[oeidx]</span></code> to <code class="docutils literal notranslate"><span class="pre">buffer</span></code></p></li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>Return <code class="docutils literal notranslate"><span class="pre">tile</span></code></p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="design.html" class="btn btn-neutral float-left" title="Sparse Map Library Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, NWChemEx Team
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

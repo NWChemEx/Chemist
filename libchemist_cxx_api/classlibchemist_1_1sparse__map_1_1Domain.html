@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libchemist: libchemist::sparse_map::Domain Class Reference</title>
+<title>libchemist: libchemist::sparse_map::Domain&lt; T &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,135 +59,33 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacelibchemist.html">libchemist</a></li><li class="navelem"><b>sparse_map</b></li><li class="navelem"><a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacelibchemist.html">libchemist</a></li><li class="navelem"><a class="el" href="namespacelibchemist_1_1sparse__map.html">sparse_map</a></li><li class="navelem"><a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
-  <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classlibchemist_1_1sparse__map_1_1Domain-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">libchemist::sparse_map::Domain Class Reference</div>  </div>
+<div class="title">libchemist::sparse_map::Domain&lt; T &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>A set of tile coordinate indices.  
+<p>A set of element coordinate indices.  
  <a href="classlibchemist_1_1sparse__map_1_1Domain.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="domain_8hpp_source.html">domain.hpp</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:aabc4e764cfcd2456d6b89a1ac358b542"><td class="memItemLeft" align="right" valign="top"><a id="aabc4e764cfcd2456d6b89a1ac358b542"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#aabc4e764cfcd2456d6b89a1ac358b542">size_type</a> = std::size_t</td></tr>
-<tr class="memdesc:aabc4e764cfcd2456d6b89a1ac358b542"><td class="mdescLeft">&#160;</td><td class="mdescRight">An unsigned integral type used for offsets and counting. <br /></td></tr>
-<tr class="separator:aabc4e764cfcd2456d6b89a1ac358b542"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a259a8205d35f3a280ef03d541df4f4b2"><td class="memItemLeft" align="right" valign="top"><a id="a259a8205d35f3a280ef03d541df4f4b2"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#a259a8205d35f3a280ef03d541df4f4b2">value_type</a> = std::vector&lt; <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#aabc4e764cfcd2456d6b89a1ac358b542">size_type</a> &gt;</td></tr>
-<tr class="memdesc:a259a8205d35f3a280ef03d541df4f4b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type the indices are stored as. <br /></td></tr>
-<tr class="separator:a259a8205d35f3a280ef03d541df4f4b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6d09097f4b668d32e3b18f52218c2af"><td class="memItemLeft" align="right" valign="top"><a id="ae6d09097f4b668d32e3b18f52218c2af"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#ae6d09097f4b668d32e3b18f52218c2af">reference</a> = const <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#a259a8205d35f3a280ef03d541df4f4b2">value_type</a> &amp;</td></tr>
-<tr class="memdesc:ae6d09097f4b668d32e3b18f52218c2af"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a reference to an index. Note indices are immutable. <br /></td></tr>
-<tr class="separator:ae6d09097f4b668d32e3b18f52218c2af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38ee986716d30c62a3893261d2fe9a9d"><td class="memItemLeft" align="right" valign="top"><a id="a38ee986716d30c62a3893261d2fe9a9d"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#a38ee986716d30c62a3893261d2fe9a9d">const_reference</a> = const <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#a259a8205d35f3a280ef03d541df4f4b2">value_type</a> &amp;</td></tr>
-<tr class="memdesc:a38ee986716d30c62a3893261d2fe9a9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to an index. <br /></td></tr>
-<tr class="separator:a38ee986716d30c62a3893261d2fe9a9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a358ce6a1fc27e6f28271e738a7c1928f"><td class="memItemLeft" align="right" valign="top"><a id="a358ce6a1fc27e6f28271e738a7c1928f"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#a358ce6a1fc27e6f28271e738a7c1928f">iterator</a> = utilities::iterators::OffsetIterator&lt; <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &gt;</td></tr>
-<tr class="memdesc:a358ce6a1fc27e6f28271e738a7c1928f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a bidirectional iterator. <br /></td></tr>
-<tr class="separator:a358ce6a1fc27e6f28271e738a7c1928f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3fd8e6d73906001dcaecf912fa4c46b6"><td class="memItemLeft" align="right" valign="top"><a id="a3fd8e6d73906001dcaecf912fa4c46b6"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>const_iterator</b> = utilities::iterators::OffsetIterator&lt; const <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &gt;</td></tr>
-<tr class="separator:a3fd8e6d73906001dcaecf912fa4c46b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:acfacb0f2330c435e9eeeb74cf7e0fcbb"><td class="memItemLeft" align="right" valign="top"><a id="acfacb0f2330c435e9eeeb74cf7e0fcbb"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Domain</b> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &amp;rhs)</td></tr>
-<tr class="separator:acfacb0f2330c435e9eeeb74cf7e0fcbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bc83fe812d058c1cdc7b8f397c419e7"><td class="memItemLeft" align="right" valign="top"><a id="a8bc83fe812d058c1cdc7b8f397c419e7"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Domain</b> (<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &amp;&amp;rhs) noexcept</td></tr>
-<tr class="separator:a8bc83fe812d058c1cdc7b8f397c419e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0dd24840118559f7219d0a661e77b78e"><td class="memItemLeft" align="right" valign="top"><a id="a0dd24840118559f7219d0a661e77b78e"></a>
-<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &amp;rhs)</td></tr>
-<tr class="separator:a0dd24840118559f7219d0a661e77b78e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3c18e929a99864ec5c86cb45f4da556"><td class="memItemLeft" align="right" valign="top"><a id="aa3c18e929a99864ec5c86cb45f4da556"></a>
-<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &amp;&amp;rhs) noexcept</td></tr>
-<tr class="separator:aa3c18e929a99864ec5c86cb45f4da556"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81f3a785bbfcd8ca151a6cd0da55e673"><td class="memItemLeft" align="right" valign="top"><a id="a81f3a785bbfcd8ca151a6cd0da55e673"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Domain</b> (std::initializer_list&lt; <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#a259a8205d35f3a280ef03d541df4f4b2">value_type</a> &gt; il)</td></tr>
-<tr class="separator:a81f3a785bbfcd8ca151a6cd0da55e673"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a968a852aae4db4402c8c424623bc79db"><td class="memItemLeft" align="right" valign="top"><a id="a968a852aae4db4402c8c424623bc79db"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>swap</b> (<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &amp;rhs) noexcept</td></tr>
-<tr class="separator:a968a852aae4db4402c8c424623bc79db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a649a525d4ece653f428fb231d5271bd4"><td class="memItemLeft" align="right" valign="top"><a id="a649a525d4ece653f428fb231d5271bd4"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> () noexcept</td></tr>
-<tr class="separator:a649a525d4ece653f428fb231d5271bd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f5bbb42538b57027ae93dd11bdbd751"><td class="memItemLeft" align="right" valign="top"><a id="a0f5bbb42538b57027ae93dd11bdbd751"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> () const noexcept</td></tr>
-<tr class="separator:a0f5bbb42538b57027ae93dd11bdbd751"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4b2d7231acdc4f0d707857b54f50409"><td class="memItemLeft" align="right" valign="top"><a id="ad4b2d7231acdc4f0d707857b54f50409"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>end</b> () noexcept</td></tr>
-<tr class="separator:ad4b2d7231acdc4f0d707857b54f50409"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac449246a8e773e76f0b79a181312291e"><td class="memItemLeft" align="right" valign="top"><a id="ac449246a8e773e76f0b79a181312291e"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>end</b> () const noexcept</td></tr>
-<tr class="separator:ac449246a8e773e76f0b79a181312291e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6807b4687c81586e239f91aaed7b3fb1"><td class="memItemLeft" align="right" valign="top"><a id="a6807b4687c81586e239f91aaed7b3fb1"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>count</b> (<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#a38ee986716d30c62a3893261d2fe9a9d">const_reference</a> idx) const noexcept</td></tr>
-<tr class="separator:a6807b4687c81586e239f91aaed7b3fb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0757a8c9838275720b326423f33f86f3"><td class="memItemLeft" align="right" valign="top"><a id="a0757a8c9838275720b326423f33f86f3"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>empty</b> () const noexcept</td></tr>
-<tr class="separator:a0757a8c9838275720b326423f33f86f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedf7ce3a5f026cebc5d3057031563978"><td class="memItemLeft" align="right" valign="top"><a id="aedf7ce3a5f026cebc5d3057031563978"></a>
-<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#aabc4e764cfcd2456d6b89a1ac358b542">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><b>rank</b> () const</td></tr>
-<tr class="separator:aedf7ce3a5f026cebc5d3057031563978"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8e555e6352cef0fb1e23048b206f80b"><td class="memItemLeft" align="right" valign="top"><a id="ae8e555e6352cef0fb1e23048b206f80b"></a>
-<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#aabc4e764cfcd2456d6b89a1ac358b542">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><b>size</b> () const noexcept</td></tr>
-<tr class="separator:ae8e555e6352cef0fb1e23048b206f80b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cc1ce35fef51628b4902fc32ef6eae3"><td class="memItemLeft" align="right" valign="top"><a id="a9cc1ce35fef51628b4902fc32ef6eae3"></a>
-<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#ae6d09097f4b668d32e3b18f52218c2af">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#aabc4e764cfcd2456d6b89a1ac358b542">size_type</a> i)</td></tr>
-<tr class="separator:a9cc1ce35fef51628b4902fc32ef6eae3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85a65ddaaa2abd25e956045387550dd5"><td class="memItemLeft" align="right" valign="top"><a id="a85a65ddaaa2abd25e956045387550dd5"></a>
-<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#a38ee986716d30c62a3893261d2fe9a9d">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#aabc4e764cfcd2456d6b89a1ac358b542">size_type</a> i) const</td></tr>
-<tr class="separator:a85a65ddaaa2abd25e956045387550dd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a497800977d2e585fa0963fb4257e9bb7"><td class="memItemLeft" align="right" valign="top"><a id="a497800977d2e585fa0963fb4257e9bb7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>insert</b> (<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#a38ee986716d30c62a3893261d2fe9a9d">const_reference</a> idx)</td></tr>
-<tr class="separator:a497800977d2e585fa0963fb4257e9bb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af35f4dc8cb85955bf5b5f7f6b426fb30"><td class="memItemLeft" align="right" valign="top"><a id="af35f4dc8cb85955bf5b5f7f6b426fb30"></a>
-<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator*=</b> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &amp;rhs)</td></tr>
-<tr class="separator:af35f4dc8cb85955bf5b5f7f6b426fb30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e8ddc96305f7dbd99a4676e697c7020"><td class="memItemLeft" align="right" valign="top"><a id="a6e8ddc96305f7dbd99a4676e697c7020"></a>
-<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator*</b> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &amp;rhs) const</td></tr>
-<tr class="separator:a6e8ddc96305f7dbd99a4676e697c7020"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b6fbfd54961783ded110082efdbdd69"><td class="memItemLeft" align="right" valign="top"><a id="a7b6fbfd54961783ded110082efdbdd69"></a>
-<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator+=</b> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &amp;rhs)</td></tr>
-<tr class="separator:a7b6fbfd54961783ded110082efdbdd69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad45f10c8fe6ffa213bcf2fcd686f175d"><td class="memItemLeft" align="right" valign="top"><a id="ad45f10c8fe6ffa213bcf2fcd686f175d"></a>
-<a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator+</b> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &amp;rhs) const</td></tr>
-<tr class="separator:ad45f10c8fe6ffa213bcf2fcd686f175d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85b26109accaa5ffd5941ccebb9f6109"><td class="memItemLeft" align="right" valign="top"><a id="a85b26109accaa5ffd5941ccebb9f6109"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &amp;rhs) const noexcept</td></tr>
-<tr class="separator:a85b26109accaa5ffd5941ccebb9f6109"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8bf555cbb9191430708ddf1e6402a5c"><td class="memItemLeft" align="right" valign="top"><a id="af8bf555cbb9191430708ddf1e6402a5c"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html">Domain</a> &amp;rhs) const noexcept</td></tr>
-<tr class="separator:af8bf555cbb9191430708ddf1e6402a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a173abf6a91b114d79b77170dada23763"><td class="memItemLeft" align="right" valign="top"><a id="a173abf6a91b114d79b77170dada23763"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>hash</b> (sde::Hasher &amp;h) const</td></tr>
-<tr class="separator:a173abf6a91b114d79b77170dada23763"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8e0603874277c05339b7e16fab29645"><td class="memItemLeft" align="right" valign="top"><a id="ae8e0603874277c05339b7e16fab29645"></a>
-std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (std::ostream &amp;os) const</td></tr>
-<tr class="separator:ae8e0603874277c05339b7e16fab29645"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A set of tile coordinate indices. </p>
-<p>Practically speaking a domain collects the dependent tile indices associated with a particular independent element index. The <a class="el" href="classlibchemist_1_1sparse__map_1_1SparseMap.html" title="Stores the sparsity relation among indices. ">SparseMap</a> class manages the mapping of independent element indices to <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of tile coordinate indices. ">Domain</a> instances.</p>
-<dl class="section note"><dt>Note</dt><dd>Nothing about the machinery of the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of tile coordinate indices. ">Domain</a> class actually assumes that the values in the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of tile coordinate indices. ">Domain</a> are coordinate indices of tiles. The <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of tile coordinate indices. ">Domain</a> class simply assumes it is managing indices. </dd></dl>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
-<li>libchemist/sparse_map/<a class="el" href="domain_8hpp_source.html">domain.hpp</a></li>
-<li>libchemist/sparse_map/domain.cpp</li>
+<div class="textblock"><h3>template&lt;typename T&gt;<br />
+class libchemist::sparse_map::Domain&lt; T &gt;</h3>
+
+<p>A set of element coordinate indices. </p>
+<p>Practically speaking a domain collects the dependent element indices associated with a particular independent element index. The <a class="el" href="classlibchemist_1_1sparse__map_1_1SparseMap.html" title="Stores the sparsity relation among indices. ">SparseMap</a> class manages the mapping of independent element indices to <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> instances.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">IndexType</td><td>The type of indices in the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. Either <a class="el" href="structlibchemist_1_1sparse__map_1_1ElementIndex.html" title="Strong type signaling that a tuple of integers should be regarded as the index of an element in the t...">ElementIndex</a> or <a class="el" href="structlibchemist_1_1sparse__map_1_1TileIndex.html" title="Strong type signaling that a tuple of integers should be regarded as the index of a tile in the tenso...">TileIndex</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
+<li>libchemist/sparse_map/domain/detail_/<a class="el" href="domain__base_8hpp_source.html">domain_base.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

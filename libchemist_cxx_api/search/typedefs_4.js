@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['index_5ftype',['index_type',['../structlibchemist_1_1sparse__map_1_1Index.html#a52603be97097a67a603a2c9d94d99f20',1,'libchemist::sparse_map::Index']]],
-  ['isotope_5flist',['isotope_list',['../classlibchemist_1_1PeriodicTable.html#ab555d67a1fa4a5cda77751dd9344722b',1,'libchemist::PeriodicTable']]],
-  ['iterator',['iterator',['../classlibchemist_1_1Molecule.html#ad31d8a2f6717b2dc2aa92fafb8e4f6a2',1,'libchemist::Molecule::iterator()'],['../classlibchemist_1_1sparse__map_1_1Domain.html#a358ce6a1fc27e6f28271e738a7c1928f',1,'libchemist::sparse_map::Domain::iterator()']]]
+  ['elementdomain',['ElementDomain',['../namespacelibchemist_1_1sparse__map.html#a41687de524f9eead51b0ee88f1691d6d',1,'libchemist::sparse_map']]],
+  ['extents_5ftype',['extents_type',['../classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a1158d6034893efcc6b8ecfc80788fe7d',1,'libchemist::sparse_map::detail_::DomainPIMPL::extents_type()'],['../structlibchemist_1_1sparse__map_1_1detail___1_1DomainTraits_3_01Domain_3_01IndexType_01_4_01_4.html#a618e8ef159da45daf82ba819cd534f59',1,'libchemist::sparse_map::detail_::DomainTraits&lt; Domain&lt; IndexType &gt; &gt;::extents_type()']]]
 ];

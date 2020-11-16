@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['mass_5ftype',['mass_type',['../classlibchemist_1_1Atom.html#a134dd5819cfad6c6f25afd0907f14243',1,'libchemist::Atom::mass_type()'],['../classlibchemist_1_1detail___1_1AtomPIMPL.html#a5eb5f38c8ebe6692c394ab1ac68e3b73',1,'libchemist::detail_::AtomPIMPL::mass_type()']]]
+  ['index_5ftype',['index_type',['../structlibchemist_1_1sparse__map_1_1Index.html#a52603be97097a67a603a2c9d94d99f20',1,'libchemist::sparse_map::Index']]],
+  ['isotope_5flist',['isotope_list',['../classlibchemist_1_1PeriodicTable.html#ab555d67a1fa4a5cda77751dd9344722b',1,'libchemist::PeriodicTable']]],
+  ['iterator',['iterator',['../classlibchemist_1_1Molecule.html#ad31d8a2f6717b2dc2aa92fafb8e4f6a2',1,'libchemist::Molecule']]]
 ];

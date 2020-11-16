@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libchemist: libchemist::sparse_map::detail_::DomainPIMPL Class Reference</title>
+<title>libchemist: libchemist::sparse_map::detail_::DomainPIMPL&lt; IndexType &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,67 +59,758 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacelibchemist.html">libchemist</a></li><li class="navelem"><b>sparse_map</b></li><li class="navelem"><b>detail_</b></li><li class="navelem"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">DomainPIMPL</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacelibchemist.html">libchemist</a></li><li class="navelem"><a class="el" href="namespacelibchemist_1_1sparse__map.html">sparse_map</a></li><li class="navelem"><b>detail_</b></li><li class="navelem"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">DomainPIMPL</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">libchemist::sparse_map::detail_::DomainPIMPL Class Reference</div>  </div>
+<div class="title">libchemist::sparse_map::detail_::DomainPIMPL&lt; IndexType &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Class which holds the state of the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>.  
+ <a href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="domain__pimpl_8hpp_source.html">domain_pimpl.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a2270e9ce09aa2841342163268ae7ecc1"><td class="memItemLeft" align="right" valign="top"><a id="a2270e9ce09aa2841342163268ae7ecc1"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>size_type</b> = typename <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#aabc4e764cfcd2456d6b89a1ac358b542">Domain::size_type</a></td></tr>
-<tr class="separator:a2270e9ce09aa2841342163268ae7ecc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a017a65a58e0ceda70abb4446a43634ee"><td class="memItemLeft" align="right" valign="top"><a id="a017a65a58e0ceda70abb4446a43634ee"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>value_type</b> = typename <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#a259a8205d35f3a280ef03d541df4f4b2">Domain::value_type</a></td></tr>
-<tr class="separator:a017a65a58e0ceda70abb4446a43634ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a226b2869338fbd4e3c8b830a7b430978"><td class="memItemLeft" align="right" valign="top"><a id="a226b2869338fbd4e3c8b830a7b430978"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>reference</b> = typename <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#ae6d09097f4b668d32e3b18f52218c2af">Domain::reference</a></td></tr>
-<tr class="separator:a226b2869338fbd4e3c8b830a7b430978"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af98dc2e4c8f3ee144ec5f85eb1daf759"><td class="memItemLeft" align="right" valign="top"><a id="af98dc2e4c8f3ee144ec5f85eb1daf759"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>const_reference</b> = typename <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html#a38ee986716d30c62a3893261d2fe9a9d">Domain::const_reference</a></td></tr>
-<tr class="separator:af98dc2e4c8f3ee144ec5f85eb1daf759"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5992bc0061ac77fe603e3a6e9002a988"><td class="memItemLeft" align="right" valign="top"><a id="a5992bc0061ac77fe603e3a6e9002a988"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a5992bc0061ac77fe603e3a6e9002a988">size_type</a> = typename traits_type::size_type</td></tr>
+<tr class="memdesc:a5992bc0061ac77fe603e3a6e9002a988"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type used for offsets and indexing. <br /></td></tr>
+<tr class="separator:a5992bc0061ac77fe603e3a6e9002a988"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4547b289ebdeb974e2a7d247044fa420"><td class="memItemLeft" align="right" valign="top"><a id="a4547b289ebdeb974e2a7d247044fa420"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a4547b289ebdeb974e2a7d247044fa420">value_type</a> = typename traits_type::value_type</td></tr>
+<tr class="memdesc:a4547b289ebdeb974e2a7d247044fa420"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type used to store an index. <br /></td></tr>
+<tr class="separator:a4547b289ebdeb974e2a7d247044fa420"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefd8793c841217d38f9da5add29ca1e6"><td class="memItemLeft" align="right" valign="top"><a id="aefd8793c841217d38f9da5add29ca1e6"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#aefd8793c841217d38f9da5add29ca1e6">const_reference</a> = typename traits_type::const_reference</td></tr>
+<tr class="memdesc:aefd8793c841217d38f9da5add29ca1e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a read-only reference to an index. <br /></td></tr>
+<tr class="separator:aefd8793c841217d38f9da5add29ca1e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1158d6034893efcc6b8ecfc80788fe7d"><td class="memItemLeft" align="right" valign="top"><a id="a1158d6034893efcc6b8ecfc80788fe7d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a1158d6034893efcc6b8ecfc80788fe7d">extents_type</a> = typename traits_type::extents_type</td></tr>
+<tr class="memdesc:a1158d6034893efcc6b8ecfc80788fe7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type returned by result_extents. <br /></td></tr>
+<tr class="separator:a1158d6034893efcc6b8ecfc80788fe7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a81db2e7ae6c8f1f37680f00d3be4f160"><td class="memItemLeft" align="right" valign="top"><a id="a81db2e7ae6c8f1f37680f00d3be4f160"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>count</b> (const_reference idx) const noexcept</td></tr>
-<tr class="separator:a81db2e7ae6c8f1f37680f00d3be4f160"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca48d015fdb5cc03ce1bd55fd2cfa691"><td class="memItemLeft" align="right" valign="top"><a id="aca48d015fdb5cc03ce1bd55fd2cfa691"></a>
-size_type&#160;</td><td class="memItemRight" valign="bottom"><b>rank</b> () const noexcept</td></tr>
-<tr class="separator:aca48d015fdb5cc03ce1bd55fd2cfa691"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63ca53f494f21a763bbdfae6db1f73cd"><td class="memItemLeft" align="right" valign="top"><a id="a63ca53f494f21a763bbdfae6db1f73cd"></a>
-size_type&#160;</td><td class="memItemRight" valign="bottom"><b>size</b> () const noexcept</td></tr>
-<tr class="separator:a63ca53f494f21a763bbdfae6db1f73cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abeaf4f4a680205f768189ae29c13ff28"><td class="memItemLeft" align="right" valign="top"><a id="abeaf4f4a680205f768189ae29c13ff28"></a>
-reference&#160;</td><td class="memItemRight" valign="bottom"><b>at</b> (size_type i)</td></tr>
-<tr class="separator:abeaf4f4a680205f768189ae29c13ff28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac560349d11b3c001c55f7e9ed17a4aae"><td class="memItemLeft" align="right" valign="top"><a id="ac560349d11b3c001c55f7e9ed17a4aae"></a>
-const_reference&#160;</td><td class="memItemRight" valign="bottom"><b>at</b> (size_type i) const</td></tr>
-<tr class="separator:ac560349d11b3c001c55f7e9ed17a4aae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c522636194288a3cdbafaa54f611095"><td class="memItemLeft" align="right" valign="top"><a id="a4c522636194288a3cdbafaa54f611095"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>insert</b> (const_reference idx)</td></tr>
-<tr class="separator:a4c522636194288a3cdbafaa54f611095"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4452e9999ea95ddf7255d7a03874f7ed"><td class="memItemLeft" align="right" valign="top"><a id="a4452e9999ea95ddf7255d7a03874f7ed"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">DomainPIMPL</a> &amp;rhs) const noexcept</td></tr>
-<tr class="separator:a4452e9999ea95ddf7255d7a03874f7ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7276e420697173d478aba9a6d4bb636"><td class="memItemLeft" align="right" valign="top"><a id="af7276e420697173d478aba9a6d4bb636"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">DomainPIMPL</a> &amp;rhs) const noexcept</td></tr>
-<tr class="separator:af7276e420697173d478aba9a6d4bb636"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95d15f86c805c88305e1e5dd7e60cee9"><td class="memItemLeft" align="right" valign="top"><a id="a95d15f86c805c88305e1e5dd7e60cee9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>hash</b> (sde::Hasher &amp;h) const</td></tr>
-<tr class="separator:a95d15f86c805c88305e1e5dd7e60cee9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74f7082e089dc62cbb0a1c36657efde9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a74f7082e089dc62cbb0a1c36657efde9">DomainPIMPL</a> ()=default</td></tr>
+<tr class="memdesc:a74f7082e089dc62cbb0a1c36657efde9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes an empty <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>.  <a href="#a74f7082e089dc62cbb0a1c36657efde9">More...</a><br /></td></tr>
+<tr class="separator:a74f7082e089dc62cbb0a1c36657efde9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4e3b23b0b4f79a7bcb87dfac6ddf5d2"><td class="memItemLeft" align="right" valign="top"><a id="af4e3b23b0b4f79a7bcb87dfac6ddf5d2"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#af4e3b23b0b4f79a7bcb87dfac6ddf5d2">~DomainPIMPL</a> () noexcept=default</td></tr>
+<tr class="memdesc:af4e3b23b0b4f79a7bcb87dfac6ddf5d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default polymorphic dtor. <br /></td></tr>
+<tr class="separator:af4e3b23b0b4f79a7bcb87dfac6ddf5d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65150176987d1b01ce8ec2ad99966f17"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a65150176987d1b01ce8ec2ad99966f17">clone</a> () const</td></tr>
+<tr class="memdesc:a65150176987d1b01ce8ec2ad99966f17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Polymorphic copy constructor.  <a href="#a65150176987d1b01ce8ec2ad99966f17">More...</a><br /></td></tr>
+<tr class="separator:a65150176987d1b01ce8ec2ad99966f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a616cc513390e59a217e898b4bed2dd89"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a616cc513390e59a217e898b4bed2dd89">count</a> (<a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#aefd8793c841217d38f9da5add29ca1e6">const_reference</a> idx) const noexcept</td></tr>
+<tr class="memdesc:a616cc513390e59a217e898b4bed2dd89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if the specified index is in the domain or not.  <a href="#a616cc513390e59a217e898b4bed2dd89">More...</a><br /></td></tr>
+<tr class="separator:a616cc513390e59a217e898b4bed2dd89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab30fc790b457c782e9810a293f19591"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a5992bc0061ac77fe603e3a6e9002a988">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#aab30fc790b457c782e9810a293f19591">rank</a> () const noexcept</td></tr>
+<tr class="memdesc:aab30fc790b457c782e9810a293f19591"><td class="mdescLeft">&#160;</td><td class="mdescRight">The rank of the indices in the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>.  <a href="#aab30fc790b457c782e9810a293f19591">More...</a><br /></td></tr>
+<tr class="separator:aab30fc790b457c782e9810a293f19591"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d99a36440e2d4a7f7f01df91bb1934c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a5992bc0061ac77fe603e3a6e9002a988">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a7d99a36440e2d4a7f7f01df91bb1934c">size</a> () const noexcept</td></tr>
+<tr class="memdesc:a7d99a36440e2d4a7f7f01df91bb1934c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of indices in the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>.  <a href="#a7d99a36440e2d4a7f7f01df91bb1934c">More...</a><br /></td></tr>
+<tr class="separator:a7d99a36440e2d4a7f7f01df91bb1934c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf94d90f535ae6f98ddff4751e79af35"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a5992bc0061ac77fe603e3a6e9002a988">size_type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#abf94d90f535ae6f98ddff4751e79af35">result_extents</a> () const</td></tr>
+<tr class="memdesc:abf94d90f535ae6f98ddff4751e79af35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a vector of extents for the tensor that can be formed from this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>.  <a href="#abf94d90f535ae6f98ddff4751e79af35">More...</a><br /></td></tr>
+<tr class="separator:abf94d90f535ae6f98ddff4751e79af35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b1a931265f67ed81799de84cabc06d1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a4547b289ebdeb974e2a7d247044fa420">value_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a4b1a931265f67ed81799de84cabc06d1">result_index</a> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a4547b289ebdeb974e2a7d247044fa420">value_type</a> &amp;old) const</td></tr>
+<tr class="memdesc:a4b1a931265f67ed81799de84cabc06d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts an index in the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> to its equivalent value in the inner tensor of the resulting tensor-of-tensors.  <a href="#a4b1a931265f67ed81799de84cabc06d1">More...</a><br /></td></tr>
+<tr class="separator:a4b1a931265f67ed81799de84cabc06d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab213317cba500d2df86ca8b8895b8886"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a4547b289ebdeb974e2a7d247044fa420">value_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#ab213317cba500d2df86ca8b8895b8886">at</a> (<a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a5992bc0061ac77fe603e3a6e9002a988">size_type</a> i) const</td></tr>
+<tr class="memdesc:ab213317cba500d2df86ca8b8895b8886"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <code>i</code> -th index in the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>.  <a href="#ab213317cba500d2df86ca8b8895b8886">More...</a><br /></td></tr>
+<tr class="separator:ab213317cba500d2df86ca8b8895b8886"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53caac505edb53cafbb10b34d44d3e94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a53caac505edb53cafbb10b34d44d3e94">insert</a> (<a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a4547b289ebdeb974e2a7d247044fa420">value_type</a> idx)</td></tr>
+<tr class="memdesc:a53caac505edb53cafbb10b34d44d3e94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds <code>idx</code> to the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>.  <a href="#a53caac505edb53cafbb10b34d44d3e94">More...</a><br /></td></tr>
+<tr class="separator:a53caac505edb53cafbb10b34d44d3e94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c67779cf06ae3464c027263c0c34cfe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a6c67779cf06ae3464c027263c0c34cfe">operator*=</a> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;other)</td></tr>
+<tr class="memdesc:a6c67779cf06ae3464c027263c0c34cfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes this instance the Cartesian product of this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> and the provided <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>.  <a href="#a6c67779cf06ae3464c027263c0c34cfe">More...</a><br /></td></tr>
+<tr class="separator:a6c67779cf06ae3464c027263c0c34cfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add4faf6d32525fc1be7da11d562beffc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#add4faf6d32525fc1be7da11d562beffc">operator+=</a> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;other)</td></tr>
+<tr class="memdesc:add4faf6d32525fc1be7da11d562beffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> to the union of this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> the provided <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>.  <a href="#add4faf6d32525fc1be7da11d562beffc">More...</a><br /></td></tr>
+<tr class="separator:add4faf6d32525fc1be7da11d562beffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57186e26ddeb9d2718cb7ca8c65c9531"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a57186e26ddeb9d2718cb7ca8c65c9531">operator^=</a> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;other)</td></tr>
+<tr class="memdesc:a57186e26ddeb9d2718cb7ca8c65c9531"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> the intersection of this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> and <code>rhs</code>.  <a href="#a57186e26ddeb9d2718cb7ca8c65c9531">More...</a><br /></td></tr>
+<tr class="separator:a57186e26ddeb9d2718cb7ca8c65c9531"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd4778ff4dcae497d54e2c27f98b30df"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#abd4778ff4dcae497d54e2c27f98b30df">operator==</a> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;rhs) const noexcept</td></tr>
+<tr class="memdesc:abd4778ff4dcae497d54e2c27f98b30df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares two <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html" title="Class which holds the state of the Domain. ">DomainPIMPL</a> instances for exact equality.  <a href="#abd4778ff4dcae497d54e2c27f98b30df">More...</a><br /></td></tr>
+<tr class="separator:abd4778ff4dcae497d54e2c27f98b30df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b1bc80903c230a2c2e664176fb28326"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a0b1bc80903c230a2c2e664176fb28326">hash</a> (sde::Hasher &amp;h) const</td></tr>
+<tr class="memdesc:a0b1bc80903c230a2c2e664176fb28326"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the hash of the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>.  <a href="#a0b1bc80903c230a2c2e664176fb28326">More...</a><br /></td></tr>
+<tr class="separator:a0b1bc80903c230a2c2e664176fb28326"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:acbbb0042e3cde63e3416e1535abc4276"><td class="memItemLeft" align="right" valign="top"><a id="acbbb0042e3cde63e3416e1535abc4276"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DomainPIMPL</b> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">DomainPIMPL</a> &amp;other)=default</td></tr>
+<tr class="separator:acbbb0042e3cde63e3416e1535abc4276"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c6956ea92c09a88ac72fb2184cf7328"><td class="memItemLeft" align="right" valign="top"><a id="a3c6956ea92c09a88ac72fb2184cf7328"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DomainPIMPL</b> (<a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">DomainPIMPL</a> &amp;&amp;other) noexcept=default</td></tr>
+<tr class="separator:a3c6956ea92c09a88ac72fb2184cf7328"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa46d0f97d70490878af22379fa0c41e6"><td class="memItemLeft" align="right" valign="top"><a id="aa46d0f97d70490878af22379fa0c41e6"></a>
+<a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">DomainPIMPL</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;other)=default</td></tr>
+<tr class="separator:aa46d0f97d70490878af22379fa0c41e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9471555494005bcb420263b5d943908f"><td class="memItemLeft" align="right" valign="top"><a id="a9471555494005bcb420263b5d943908f"></a>
+<a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">DomainPIMPL</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">DomainPIMPL</a> &amp;&amp;other) noexcept=default</td></tr>
+<tr class="separator:a9471555494005bcb420263b5d943908f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8368b3d281336923f68db9f94c710f9"><td class="memItemLeft" align="right" valign="top"><a id="af8368b3d281336923f68db9f94c710f9"></a>
+virtual std::unique_ptr&lt; <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#af8368b3d281336923f68db9f94c710f9">clone_</a> () const</td></tr>
+<tr class="memdesc:af8368b3d281336923f68db9f94c710f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Should be overridden by derived class to make a polymorphic clone. <br /></td></tr>
+<tr class="separator:af8368b3d281336923f68db9f94c710f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3da03843aada1d9a81a720fe7c4a3d4"><td class="memItemLeft" align="right" valign="top"><a id="aa3da03843aada1d9a81a720fe7c4a3d4"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#aa3da03843aada1d9a81a720fe7c4a3d4">insert_</a> (<a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a4547b289ebdeb974e2a7d247044fa420">value_type</a> idx)</td></tr>
+<tr class="memdesc:aa3da03843aada1d9a81a720fe7c4a3d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements insert. <br /></td></tr>
+<tr class="separator:aa3da03843aada1d9a81a720fe7c4a3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af88d96d823fd8bcb7ccfe8c81740e522"><td class="memItemLeft" align="right" valign="top"><a id="af88d96d823fd8bcb7ccfe8c81740e522"></a>
+virtual <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#af88d96d823fd8bcb7ccfe8c81740e522">prod_assign_</a> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;other)</td></tr>
+<tr class="memdesc:af88d96d823fd8bcb7ccfe8c81740e522"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements operator*=. <br /></td></tr>
+<tr class="separator:af88d96d823fd8bcb7ccfe8c81740e522"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a122b6d37aaff00572c93e73a2aad81db"><td class="memItemLeft" align="right" valign="top"><a id="a122b6d37aaff00572c93e73a2aad81db"></a>
+virtual <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a122b6d37aaff00572c93e73a2aad81db">union_assign_</a> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;other)</td></tr>
+<tr class="memdesc:a122b6d37aaff00572c93e73a2aad81db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements operator+=. <br /></td></tr>
+<tr class="separator:a122b6d37aaff00572c93e73a2aad81db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1cb4d40e0450963353d5e406613c506"><td class="memItemLeft" align="right" valign="top"><a id="af1cb4d40e0450963353d5e406613c506"></a>
+virtual <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#af1cb4d40e0450963353d5e406613c506">int_assign_</a> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;other)</td></tr>
+<tr class="memdesc:af1cb4d40e0450963353d5e406613c506"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements operator^=. <br /></td></tr>
+<tr class="separator:af1cb4d40e0450963353d5e406613c506"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d4eb2d6e4fc52270c338bfded4af15e"><td class="memItemLeft" align="right" valign="top"><a id="a6d4eb2d6e4fc52270c338bfded4af15e"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a6d4eb2d6e4fc52270c338bfded4af15e">equal_</a> (const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;other) const noexcept</td></tr>
+<tr class="memdesc:a6d4eb2d6e4fc52270c338bfded4af15e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements operator==. <br /></td></tr>
+<tr class="separator:a6d4eb2d6e4fc52270c338bfded4af15e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a61a9301334fd62b577a1cea7374e47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a9a61a9301334fd62b577a1cea7374e47">update_mode_map</a> (<a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#aefd8793c841217d38f9da5add29ca1e6">const_reference</a> idx)</td></tr>
+<tr class="memdesc:a9a61a9301334fd62b577a1cea7374e47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds the specified index to the mode_map instance.  <a href="#a9a61a9301334fd62b577a1cea7374e47">More...</a><br /></td></tr>
+<tr class="separator:a9a61a9301334fd62b577a1cea7374e47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>libchemist/sparse_map/detail_/<a class="el" href="domain__pimpl_8hpp_source.html">domain_pimpl.hpp</a></li>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename IndexType&gt;<br />
+class libchemist::sparse_map::detail_::DomainPIMPL&lt; IndexType &gt;</h3>
+
+<p>Class which holds the state of the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. </p>
+<p>The <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> holds a set of indices. There's a variety of ways that a <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> instance could actually hold these indices and we leave it up to the PIMPL to choose how this is done. The <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html" title="Class which holds the state of the Domain. ">DomainPIMPL</a> class assumes that all indices are explicitly stored and also serves as the common API for the derived classes which implement more advanced storage strategies.</p>
+<dl class="section note"><dt>Note</dt><dd>Once an index has been inserted into a <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> it can only be retrieved in a read-only fashion (this permits the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> to be implemented in a manner which does not explicitly store every index).</dd>
+<dd>
+For developers. Any method which changes the state of the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> needs to ensure that it also updates the mode map correctly. See the <code>update_mode_map</code> method for more details. </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a74f7082e089dc62cbb0a1c36657efde9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74f7082e089dc62cbb0a1c36657efde9">&#9670;&nbsp;</a></span>DomainPIMPL()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">libchemist::sparse_map::detail_::DomainPIMPL</a>&lt; IndexType &gt;::<a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">DomainPIMPL</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Makes an empty <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. </p>
+<p>The default ctor makes a <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> which contains no indices. By convention we say it is of rank 0 even though it does not contain rank 0 indices.</p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab213317cba500d2df86ca8b8895b8886"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab213317cba500d2df86ca8b8895b8886">&#9670;&nbsp;</a></span>at()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a4547b289ebdeb974e2a7d247044fa420">value_type</a> <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">libchemist::sparse_map::detail_::DomainPIMPL</a>&lt; IndexType &gt;::at </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a5992bc0061ac77fe603e3a6e9002a988">size_type</a>&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <code>i</code> -th index in the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. </p>
+<p>Domains are ordered meaning that any given time it makes sense to speak of say the zeroth, first, second, etc. index. That said the order can change upon insertion of a new index as the indices are also sorted. This function is used to retrieve a read-only reference to the <code>i</code> -th index.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The offset of the requested index. <code>i</code> must be in the range [0, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a7d99a36440e2d4a7f7f01df91bb1934c" title="Returns the number of indices in the Domain. ">size()</a>).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A copy of the <code>i-th</code> index. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>if <code>i</code> is not in the range [0, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a7d99a36440e2d4a7f7f01df91bb1934c" title="Returns the number of indices in the Domain. ">size()</a>). Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a65150176987d1b01ce8ec2ad99966f17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65150176987d1b01ce8ec2ad99966f17">&#9670;&nbsp;</a></span>clone()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a>&gt; <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">libchemist::sparse_map::detail_::DomainPIMPL</a>&lt; IndexType &gt;::clone </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Polymorphic copy constructor. </p>
+<p>This method can be used to create a copy of the derived class through the base class. When copying a <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html" title="Class which holds the state of the Domain. ">DomainPIMPL</a> instance the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> class should go through this member and not the copy ctor/assignment operator.</p>
+<dl class="section return"><dt>Returns</dt><dd>A unique_ptr with a deep copy of the derived class.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to create the copy. Strong throw guarantee.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Derived classes should override clone_ so that it returns a deep copy of the derived class. </dd></dl>
+
+</div>
+</div>
+<a id="a616cc513390e59a217e898b4bed2dd89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a616cc513390e59a217e898b4bed2dd89">&#9670;&nbsp;</a></span>count()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">libchemist::sparse_map::detail_::DomainPIMPL</a>&lt; IndexType &gt;::count </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#aefd8793c841217d38f9da5add29ca1e6">const_reference</a>&#160;</td>
+          <td class="paramname"><em>idx</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Determines if the specified index is in the domain or not. </p>
+<p>Domains act like sets thus a given index is either in the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> or not. The count function can be used to determine if a specific index is in the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> or not.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">idx</td><td>The index whose membership in the domain is in question.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the index is in the domain and false otherwise.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0b1bc80903c230a2c2e664176fb28326"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b1bc80903c230a2c2e664176fb28326">&#9670;&nbsp;</a></span>hash()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">libchemist::sparse_map::detail_::DomainPIMPL</a>&lt; IndexType &gt;::hash </td>
+          <td>(</td>
+          <td class="paramtype">sde::Hasher &amp;&#160;</td>
+          <td class="paramname"><em>h</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Computes the hash of the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">h</td><td>The object computing the hash. After this call the internal state will be updated with the hash of the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>'s state. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a53caac505edb53cafbb10b34d44d3e94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53caac505edb53cafbb10b34d44d3e94">&#9670;&nbsp;</a></span>insert()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">libchemist::sparse_map::detail_::DomainPIMPL</a>&lt; IndexType &gt;::insert </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a4547b289ebdeb974e2a7d247044fa420">value_type</a>&#160;</td>
+          <td class="paramname"><em>idx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds <code>idx</code> to the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">idx</td><td>The index we are adding to the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Wthrow std::runtime_error If the rank of the index does not match the rank of the indices already in the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. Strong throw guarantee. </p><dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to store the index. Weak throw guarantee.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This function is implemented by <code>insert_</code>. Derived classes should override <code>insert_</code> as appropriate. </dd></dl>
+
+</div>
+</div>
+<a id="a6c67779cf06ae3464c027263c0c34cfe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c67779cf06ae3464c027263c0c34cfe">&#9670;&nbsp;</a></span>operator*=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a>&amp; <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">libchemist::sparse_map::detail_::DomainPIMPL</a>&lt; IndexType &gt;::operator*= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Makes this instance the Cartesian product of this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> and the provided <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. </p>
+<p>The Cartesian product of a <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>, <img class="formulaInl" alt="$A$" src="form_21.png"/>, containing rank <img class="formulaInl" alt="$r_A$" src="form_22.png"/> indices and a <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>, <img class="formulaInl" alt="$B$" src="form_23.png"/>, containing rank <img class="formulaInl" alt="$r_B$" src="form_24.png"/> indices is a <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>, <img class="formulaInl" alt="$C$" src="form_25.png"/> with rank <img class="formulaInl" alt="$n_C = n_A + n_B$" src="form_26.png"/> indices, such that:</p>
+<p class="formulaDsp">
+<img class="formulaDsp" alt="\[ C = \left\lbrace(a_i, b_j) \forall a_i\in A \forall b_j in B\right\rbrace, \]" src="form_27.png"/>
+</p>
+<p>where <img class="formulaInl" alt="$(a_i, b_j)$" src="form_28.png"/> is the tuple made from concatenating the <img class="formulaInl" alt="$i$" src="form_10.png"/>-th index in <img class="formulaInl" alt="$A$" src="form_21.png"/> with the <img class="formulaInl" alt="$j$" src="form_29.png"/>-th index in <img class="formulaInl" alt="$B$" src="form_23.png"/>. The number of indices in the new domain is equal to the number of indices in <img class="formulaInl" alt="$A$" src="form_21.png"/> times the number of inidces in <img class="formulaInl" alt="$B$" src="form_23.png"/>. Note that this means that the Cartesian product of any domain with an empty domain is also the empty domain.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> we are taking the Cartesian product with. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The current <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> with its state set to the Cartesian product of its previous state and <code>rhs</code>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to store the new state. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="add4faf6d32525fc1be7da11d562beffc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add4faf6d32525fc1be7da11d562beffc">&#9670;&nbsp;</a></span>operator+=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a>&amp; <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">libchemist::sparse_map::detail_::DomainPIMPL</a>&lt; IndexType &gt;::operator+= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> to the union of this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> the provided <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. </p>
+<p>The union of two domains is the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> containing all indices which appear in at least one of the two domains. More formally, given two Domains, <img class="formulaInl" alt="$A$" src="form_21.png"/> and <img class="formulaInl" alt="$B$" src="form_23.png"/>, which both contain indices of rank <img class="formulaInl" alt="$r$" src="form_30.png"/>, the union of <img class="formulaInl" alt="$A$" src="form_21.png"/> and <img class="formulaInl" alt="$B$" src="form_23.png"/> is another <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> <img class="formulaInl" alt="$C$" src="form_25.png"/> such that:</p>
+<p class="formulaDsp">
+<img class="formulaDsp" alt="\[ C = \left\lbrace c_i : c_i \in A \lor c_i \in B \right\rbrace \]" src="form_31.png"/>
+</p>
+<p>hence the indices in <img class="formulaInl" alt="$C$" src="form_25.png"/> are also of rank <img class="formulaInl" alt="$r$" src="form_30.png"/>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> we are taking the union with. Must be empty or contain indices with the same rank as this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The current <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> with its state overwritten by the union of its previous state with <code>rhs</code>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to store the new state. Strong throw guarantee.</td></tr>
+    <tr><td class="paramname">std::runtime_error</td><td>if the indices in <code>rhs</code> do not have the same rank as the indices in this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. Strong throw guarantee.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This function is implemented by calling the virtual function <code>union_assign_</code>. Developers of derived classes should override this function so that it behaves correctly for their class. </dd></dl>
+
+</div>
+</div>
+<a id="abd4778ff4dcae497d54e2c27f98b30df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd4778ff4dcae497d54e2c27f98b30df">&#9670;&nbsp;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">libchemist::sparse_map::detail_::DomainPIMPL</a>&lt; IndexType &gt;::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares two <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html" title="Class which holds the state of the Domain. ">DomainPIMPL</a> instances for exact equality. </p>
+<p>Two <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html" title="Class which holds the state of the Domain. ">DomainPIMPL</a> instances are equal if they contain the same set of indices, regardless of whether the individual indices are actually stored in memory.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html" title="Class which holds the state of the Domain. ">DomainPIMPL</a> on the right side of the operator.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the two instances contain the same indices and false otherwise.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This method is implemented by <code>equal_</code>. Derived classes should override <code>equal_</code> as appropriate. </dd></dl>
+
+</div>
+</div>
+<a id="a57186e26ddeb9d2718cb7ca8c65c9531"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57186e26ddeb9d2718cb7ca8c65c9531">&#9670;&nbsp;</a></span>operator^=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a>&amp; <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">libchemist::sparse_map::detail_::DomainPIMPL</a>&lt; IndexType &gt;::operator^= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">my_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Makes this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> the intersection of this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> and <code>rhs</code>. </p>
+<p>Given a <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>, <img class="formulaInl" alt="$A$" src="form_21.png"/>, and a <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> <img class="formulaInl" alt="$B$" src="form_23.png"/>, the intersection of <img class="formulaInl" alt="$A$" src="form_21.png"/> with <img class="formulaInl" alt="$B$" src="form_23.png"/> is another <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> <img class="formulaInl" alt="$C$" src="form_25.png"/> given by:</p>
+<p class="formulaDsp">
+<img class="formulaDsp" alt="\[ C = \left\lbrace c_i | c_i \in A \land c_i \in B \right\rbrace \]" src="form_32.png"/>
+</p>
+<p>Of note, the intersection of two Domains with indices of different rank is the empty domain.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> we are taking the intersection with.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The current <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> set to the intersection of its previous state with <code>rhs</code>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to allocate the new state. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aab30fc790b457c782e9810a293f19591"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab30fc790b457c782e9810a293f19591">&#9670;&nbsp;</a></span>rank()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a5992bc0061ac77fe603e3a6e9002a988">size_type</a> <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">libchemist::sparse_map::detail_::DomainPIMPL</a>&lt; IndexType &gt;::rank </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The rank of the indices in the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. </p>
+<p>Domains are sets of indices. Each index is made up of <img class="formulaInl" alt="$N$" src="form_8.png"/> components where <img class="formulaInl" alt="$N$" src="form_8.png"/> is its rank. All the indices in a <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> must have the same rank. This function can be used to inquire as to what that rank is.</p>
+<dl class="section note"><dt>Note</dt><dd>In order to be no-throw this function will return 0 if there are no indices in the domain. Hence a return of 0 does not necessarily mean that the domain contains a rank 0 index.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The rank of the indices in this domain.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abf94d90f535ae6f98ddff4751e79af35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf94d90f535ae6f98ddff4751e79af35">&#9670;&nbsp;</a></span>result_extents()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a5992bc0061ac77fe603e3a6e9002a988">size_type</a>&gt; <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">libchemist::sparse_map::detail_::DomainPIMPL</a>&lt; IndexType &gt;::result_extents </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a vector of extents for the tensor that can be formed from this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. </p>
+<p>This function will compute the extents (in terms of tiles or elements depending on <code>IndexType</code>) for the tensor that results from deleting all elements besides those in this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>.</p>
+<dl class="section return"><dt>Returns</dt><dd>A vector such that the <code>i</code>-th element is the extent of the <code>i</code>-th mode of the tensor resulting from this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to create the result. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4b1a931265f67ed81799de84cabc06d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b1a931265f67ed81799de84cabc06d1">&#9670;&nbsp;</a></span>result_index()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a4547b289ebdeb974e2a7d247044fa420">value_type</a> <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">libchemist::sparse_map::detail_::DomainPIMPL</a>&lt; IndexType &gt;::result_index </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a4547b289ebdeb974e2a7d247044fa420">value_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>old</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converts an index in the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> to its equivalent value in the inner tensor of the resulting tensor-of-tensors. </p>
+<p>Each domain instance stores the indices which will be extracted into and made into one of the inner tensors in a tensor-of-tensors. This function will map the original index of an element to its new index in the tensor-of-tensors.</p>
+<dl class="section note"><dt>Note</dt><dd>adding additional elements to domain will in general invalidate previous calls to this function. It is recommended that you completely fill the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> before calling this function.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">old</td><td>The original index. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The index in the tensor-of-tensors <code>old</code> maps to.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>if <code>old</code> is not in this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to create the index for the new tensor. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7d99a36440e2d4a7f7f01df91bb1934c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d99a36440e2d4a7f7f01df91bb1934c">&#9670;&nbsp;</a></span>size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a5992bc0061ac77fe603e3a6e9002a988">size_type</a> <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">libchemist::sparse_map::detail_::DomainPIMPL</a>&lt; IndexType &gt;::size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the number of indices in the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. </p>
+<p>This function is used to determine the number of indices in the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>. This is not the size (i.e., rank) of the indices in this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>.</p>
+<dl class="section return"><dt>Returns</dt><dd>The number of indices in this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9a61a9301334fd62b577a1cea7374e47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a61a9301334fd62b577a1cea7374e47">&#9670;&nbsp;</a></span>update_mode_map()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html">libchemist::sparse_map::detail_::DomainPIMPL</a>&lt; IndexType &gt;::update_mode_map </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#aefd8793c841217d38f9da5add29ca1e6">const_reference</a>&#160;</td>
+          <td class="paramname"><em>idx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds the specified index to the mode_map instance. </p>
+<p>The internal mode map member is used to map from the indices in this <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> to the indices in the resulting tensor-of-tensors. It is essential that the mode map be updated anytime the contents of the <a class="el" href="classlibchemist_1_1sparse__map_1_1Domain.html" title="A set of element coordinate indices. ">Domain</a> change.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">idx</td><td>The index we are adding to mode map.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to add the index. Weak throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>libchemist/sparse_map/domain/detail_/<a class="el" href="domain__base_8hpp_source.html">domain_base.hpp</a></li>
+<li>libchemist/sparse_map/domain/detail_/<a class="el" href="domain__pimpl_8hpp_source.html">domain_pimpl.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
