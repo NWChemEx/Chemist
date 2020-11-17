@@ -52,6 +52,25 @@ std::size_t do_which_first(DERIVED_SPACE<T1>& s1, DERIVED_SPACE<T2>& s2,
     return 2;
 }
 
+template<typename T1, typename T2, typename T3, typename T4>
+std::size_t do_which_first(DERIVED_SPACE<T1>& s1, DERIVED_SPACE<T2>& s2,
+                           DERIVED_SPACE<T3>& s3, DERIVED_SPACE<T4>& s4) {
+    auto first = do_which_first(s1, s2, s3);
+    if(first == 0) {
+        const bool s1_before_s4 = do_which_first(s4, s1);
+        if(s1_before_s4) return 0;
+        else return 3;
+    }
+    else if(first == 1) {
+        const bool s2_before_s4 = do_which_first(s4, s2);
+        if(s2_before_s4) return 1;
+        else return 3;
+    }
+    const bool s3_before_s4 = do_which_first(s4, s3);
+    if(s3_before_s4) return 2;
+    return 3;
+}
+
 } // namespace detail_
 
 //------------------------------------------------------------------------------
@@ -354,6 +373,29 @@ auto transform(AO_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2,
         }
         default: {
             auto temp = transform(b1, b2.from_space(), k1.from_space(), k2, t);
+            return transform(b1, b2, k1, k2.from_space(), temp);
+        }
+    }
+}
+
+template<typename T1, typename T2, typename T3, typename T4, typename TensorType>
+auto transform(DERIVED_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2,
+               DERIVED_SPACE<T3>& k1, DERIVED_SPACE<T4>& k2, const TensorType& t) {
+    switch(detail_::do_which_first(b1, b2, k1, k2)){
+        case 0: {
+            auto temp = transform(b1, b2.from_space(), k1.from_space(), k2.from_space(), t);
+            return tranform(b1.from_space(), b2, k1, k2, temp);
+        }
+        case 1: {
+            auto temp = transform(b1.from_space(), b2, k1.from_space(), k2.from_space(), t);
+            return transform(b1, b2.from_space(), k1, k2, temp);
+        }
+        case 2: {
+            auto temp = transform(b1.from_space(), b2.from_space(), k1, k2.from_space(), t);
+            return transform(b1, b2, k1.from_space(), k2, temp);
+        }
+        default: {
+            auto temp = transform(b1.from_space(), b2.from_space(), k1.from_space(), k2, t);
             return transform(b1, b2, k1, k2.from_space(), temp);
         }
     }
