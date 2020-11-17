@@ -222,4 +222,141 @@ auto transform(DERIVED_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2,
     return transform(b1.from_space(), b2, k1, k2, temp);
 }
 
+template<typename T1, typename T2, typename T3, typename T4, typename TensorType>
+auto transform(DERIVED_SPACE<T1>& b1, AO_SPACE<T2>& b2,
+               DERIVED_SPACE<T3>& k1, AO_SPACE<T4>& k2, const TensorType& t) {
+    const bool do_k1_first = detail_::do_which_first(b1, k1);
+    if(do_k1_first){
+        auto temp = transform(b1.from_space(), b2, k1, k2, t);
+        return transform(b1, b2, k1.from_space(), k2, temp);
+    }
+    auto temp = transform(b1, b2, k1.from_space(), k2, t);
+    return transform(b1.from_space(), b2, k1, k2, temp);
+}
+
+template<typename T1, typename T2, typename T3, typename T4, typename TensorType>
+auto transform(DERIVED_SPACE<T1>& b1, AO_SPACE<T2>& b2,
+               AO_SPACE<T3>& k1, DERIVED_SPACE<T4>& k2, const TensorType& t) {
+    const bool do_k2_first = detail_::do_which_first(b1, k2);
+    if(do_k2_first){
+        auto temp = transform(b1.from_space(), b2, k1, k2, t);
+        return transform(b1, b2, k1, k2.from_space(), temp);
+    }
+    auto temp = transform(b1, b2, k1, k2.from_space(), t);
+    return transform(b1.from_space(), b2, k1, k2, temp);
+}
+
+template<typename T1, typename T2, typename T3, typename T4, typename TensorType>
+auto transform(AO_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2,
+               DERIVED_SPACE<T3>& k1, AO_SPACE<T4>& k2, const TensorType& t) {
+    const bool do_k1_first = detail_::do_which_first(b2, k1);
+    if(do_k1_first){
+        auto temp = transform(b1, b2.from_space(), k1, k2, t);
+        return transform(b1, b2, k1.from_space(), k2, temp);
+    }
+    auto temp = transform(b1, b2, k1.from_space(), k2, t);
+    return transform(b1, b2.from_space(), k1, k2, temp);
+}
+
+template<typename T1, typename T2, typename T3, typename T4, typename TensorType>
+auto transform(AO_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2,
+               AO_SPACE<T3>& k1, DERIVED_SPACE<T4>& k2, const TensorType& t) {
+    const bool do_k2_first = detail_::do_which_first(b2, k2);
+    if(do_k2_first){
+        auto temp = transform(b1, b2.from_space(), k1, k2, t);
+        return transform(b1, b2, k1, k2.from_space(), temp);
+    }
+    auto temp = transform(b1, b2, k1, k2.from_space(), t);
+    return transform(b1, b2.from_space(), k1, k2, temp);
+}
+
+template<typename T1, typename T2, typename T3, typename T4, typename TensorType>
+auto transform(AO_SPACE<T1>& b1, AO_SPACE<T2>& b2,
+               DERIVED_SPACE<T3>& k1, DERIVED_SPACE<T4>& k2, const TensorType& t) {
+    const bool do_k2_first = detail_::do_which_first(k1, k2);
+    if(do_k2_first){
+        auto temp = transform(b1, b2, k1.from_space(), k2, t);
+        return transform(b1, b2, k1, k2.from_space(), temp);
+    }
+    auto temp = transform(b1, b2, k1, k2.from_space(), t);
+    return transform(b1, b2, k1.from_space(), k2, temp);
+}
+
+// Three derived
+template<typename T1, typename T2, typename T3, typename T4, typename TensorType>
+auto transform(DERIVED_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2,
+               DERIVED_SPACE<T3>& k1, AO_SPACE<T4>& k2, const TensorType& t) {
+    switch(detail_::do_which_first(b1, b2, k1)){
+        case 0: {
+            auto temp = transform(b1, b2.from_space(), k1.from_space(), k2, t);
+            return tranform(b1.from_space(), b2, k1, k2, temp);
+        }
+        case 1: {
+            auto temp = transform(b1.from_space(), b2, k1.from_space(), k2, t);
+            return transform(b1, b2.from_space(), k1, k2, temp);
+        }
+        default: {
+            auto temp = transform(b1.from_space(), b2.from_space(), k1, k2, t);
+            return transform(b1, b2, k1.from_space(), k2, temp);
+        }
+    }
+}
+
+template<typename T1, typename T2, typename T3, typename T4, typename TensorType>
+auto transform(DERIVED_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2,
+               AO_SPACE<T3>& k1, DERIVED_SPACE<T4>& k2, const TensorType& t) {
+    switch(detail_::do_which_first(b1, b2, k2)){
+        case 0: {
+            auto temp = transform(b1, b2.from_space(), k1, k2.from_space(), t);
+            return tranform(b1.from_space(), b2, k1, k2, temp);
+        }
+        case 1: {
+            auto temp = transform(b1.from_space(), b2, k1, k2.from_space(), t);
+            return transform(b1, b2.from_space(), k1, k2, temp);
+        }
+        default: {
+            auto temp = transform(b1.from_space(), b2.from_space(), k1, k2, t);
+            return transform(b1, b2, k1, k2.from_space(), temp);
+        }
+    }
+}
+
+template<typename T1, typename T2, typename T3, typename T4, typename TensorType>
+auto transform(DERIVED_SPACE<T1>& b1, AO_SPACE<T2>& b2,
+               DERIVED_SPACE<T3>& k1, DERIVED_SPACE<T4>& k2, const TensorType& t) {
+    switch(detail_::do_which_first(b1, k1, k2)){
+        case 0: {
+            auto temp = transform(b1, b2, k1.from_space(), k2.from_space(), t);
+            return tranform(b1.from_space(), b2, k1, k2, temp);
+        }
+        case 1: {
+            auto temp = transform(b1.from_space(), b2, k1, k2.from_space(), t);
+            return transform(b1, b2, k1.from_space(), k2, temp);
+        }
+        default: {
+            auto temp = transform(b1.from_space(), b2, k1.from_space(), k2, t);
+            return transform(b1, b2, k1, k2.from_space(), temp);
+        }
+    }
+}
+
+template<typename T1, typename T2, typename T3, typename T4, typename TensorType>
+auto transform(AO_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2,
+               DERIVED_SPACE<T3>& k1, DERIVED_SPACE<T4>& k2, const TensorType& t) {
+    switch(detail_::do_which_first(b2, k1, k2)){
+        case 0: {
+            auto temp = transform(b1, b2, k1.from_space(), k2.from_space(), t);
+            return tranform(b1, b2.from_space(), k1, k2, temp);
+        }
+        case 1: {
+            auto temp = transform(b1, b2.from_space(), k1, k2.from_space(), t);
+            return transform(b1, b2, k1.from_space(), k2, temp);
+        }
+        default: {
+            auto temp = transform(b1, b2.from_space(), k1.from_space(), k2, t);
+            return transform(b1, b2, k1, k2.from_space(), temp);
+        }
+    }
+}
+
 } // namespace libchemist
