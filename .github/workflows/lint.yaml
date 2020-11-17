@@ -16,7 +16,7 @@ jobs:
       - name: Lint
         run: .github/workflows/scripts/lint.sh libchemist
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v2
+        uses: peter-evans/create-pull-request@v3
         env:
           GITHUB_TOKEN: ${{ secrets.CREATE_PULL_REQUEST_TOKEN }}
 

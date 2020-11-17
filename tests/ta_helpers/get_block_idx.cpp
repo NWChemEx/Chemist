@@ -9,7 +9,7 @@ TEST_CASE("get_block_idx"){
     SECTION("Vector"){
         TA::TiledRange trange{{0, 1, 2}};
         TA::TSpArrayD t(world, trange, {0, 1});
-        for(std::size_t i = 0; i < 2; ++i){
+        for(long i = 0; i < 2; ++i){
             auto idx = get_block_idx(t, t.find(i).get());
             decltype(idx) corr;
             corr.push_back(i);
@@ -20,8 +20,8 @@ TEST_CASE("get_block_idx"){
     SECTION("Matrix"){
         TA::TiledRange trange{{0, 1, 2}, {0, 1, 2}};
         TA::TSpArrayD t(world, trange, {{0, 1}, {2, 3}});
-        for(std::size_t i = 0; i < 2; ++i){
-            for(std::size_t j = 0; j < 2; ++j){
+        for(long i = 0; i < 2; ++i){
+            for(long j = 0; j < 2; ++j){
                 auto idx = get_block_idx(t, t.find({i,j}).get());
                 decltype(idx) corr{i, j};
                 REQUIRE(idx == corr);
@@ -33,9 +33,9 @@ TEST_CASE("get_block_idx"){
         TA::TiledRange trange{{0, 1, 2}, {0, 1, 2}, {0, 1, 2}};
         TA::TSpArrayD t(world, trange, {{{0, 1}, {2, 3}},
                                         {{4, 5}, {6, 7}}});
-        for(std::size_t i = 0; i < 2; ++i){
-            for(std::size_t j = 0; j < 2; ++j){
-                for(std::size_t k = 0; k < 2; ++k) {
+        for(long i = 0; i < 2; ++i){
+            for(long j = 0; j < 2; ++j){
+                for(long k = 0; k < 2; ++k) {
                     auto idx = get_block_idx(t, t.find({i, j, k}).get());
                     decltype(idx) corr{i, j, k};
                     REQUIRE(idx == corr);
