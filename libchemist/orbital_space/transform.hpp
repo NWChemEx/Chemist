@@ -143,11 +143,38 @@ std::size_t do_which_first(DERIVED_SPACE<T1>& s1, DERIVED_SPACE<T2>& s2,
 //                      Matrix Transformations
 //------------------------------------------------------------------------------
 
+/** @brief Transforms a matrix.
+ *
+ *  This overload exists for recursion's sake. It is a no-op and simply returns
+ *  the tensor provided to it.
+ *
+ * @tparam T1 The scalar type of the first transformation
+ * @tparam T2 The scalar type of the second transformation
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t unchanged.
+ */
 template<typename T1, typename T2, typename TensorType>
 auto transform(AO_SPACE<T1>&, AO_SPACE<T2>&, const TensorType& t) {
     return t;
 }
 
+/** @brief Transforms a matrix.
+ *
+ *  This overload applies the transformation found in the first argument to the
+ *  provided tensor.
+ *
+ * @tparam T1 The scalar type of the first transformation
+ * @tparam T2 The scalar type of the second transformation
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] b The transformation to apply to the 0-th mode of @p t.
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with it's 0-th mode transformed by `b.C()`
+ */
 template<typename T1, typename T2, typename TensorType>
 auto transform(DERIVED_SPACE<T1>& b, AO_SPACE<T2>&, const TensorType& t) {
     TensorType rv;
@@ -155,6 +182,20 @@ auto transform(DERIVED_SPACE<T1>& b, AO_SPACE<T2>&, const TensorType& t) {
     return rv;
 }
 
+/** @brief Transforms a matrix.
+ *
+ *  This overload applies the transformation found in the second argument to the
+ *  provided tensor.
+ *
+ * @tparam T1 The scalar type of the first transformation
+ * @tparam T2 The scalar type of the second transformation
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] k The transformation to apply to the 1-st mode of @p t.
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with it's 1-st mode transformed by `k.C()`
+ */
 template<typename T1, typename T2, typename TensorType>
 auto transform(AO_SPACE<T1>&, DERIVED_SPACE<T2>& k, const TensorType& t) {
     TensorType rv;
@@ -162,6 +203,23 @@ auto transform(AO_SPACE<T1>&, DERIVED_SPACE<T2>& k, const TensorType& t) {
     return rv;
 }
 
+/** @brief Transforms a matrix.
+ *
+ *  This overload applies the transformation found in the first argument to the
+ *  0-th mode of the provided tensor and the transformation found in the
+ *  second argument to the 1-st mode of the tensor.
+ *
+ * @tparam T1 The scalar type of the first transformation
+ * @tparam T2 The scalar type of the second transformation
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] b The transformation to apply to the 0-th mode of @p t.
+ * @param[in] k The transformation to apply to the 1-st mode of @p t.
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with it's 0-th mode transformed by `b.C()` and it's 1-st mode
+ *         transformed by `k.C()`.
+ */
 template<typename T1, typename T2, typename TensorType>
 auto transform(DERIVED_SPACE<T1>& b, DERIVED_SPACE<T2>& k,
                const TensorType& t) {

@@ -1,4 +1,5 @@
 #include "libchemist/orbital_space/transform.hpp"
+#include "libchemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
 
 using namespace libchemist;
@@ -152,5 +153,37 @@ TEMPLATE_LIST_TEST_CASE("do_which_first (4 spaces)", "", scalar_types){
         REQUIRE(do_which_first(s24, s25, s23, s22) == 3);
         REQUIRE(do_which_first(s25, s23, s24, s22) == 3);
         REQUIRE(do_which_first(s25, s24, s23, s22) == 3);
+    }
+}
+
+TEMPLATE_LIST_TEST_CASE("transform(matrix)", "", scalar_types) {
+    using T = TestType;
+    using ta_helpers::allclose;
+    auto& world = TA::get_default_world();
+    TA::TSpArray<T> I(world, {{1.0, 2.0}, {3.0, 4.0}});
+
+    auto c23 = make_space23<T>(world);
+    auto c24 = make_space24<T>(world);
+    auto aos = c23.from_space();
+    SECTION("AO AO") { REQUIRE(allclose(I, transform(aos, aos, I))); }
+    SECTION("Derived AO") {
+        auto rv = transform(c23, aos, I);
+        auto corr = TA::TSpArray<T>(world, {{1.8, 2.48},
+                                            {2.24, 3.14},
+                                            {2.79, 4.02}});
+        REQUIRE(allclose(corr, rv));
+    }
+    SECTION("AO Derived") {
+        auto rv = transform(aos, c24, I);
+        auto corr = TA::TSpArray<T>(world, {{1.46, 1.79, 2.23, 2.36},
+                                            {3.04, 3.81, 4.91, 5.28}});
+        REQUIRE(allclose(corr, rv));
+    }
+    SECTION("Derived Derived") {
+        auto rv = transform(c23, c24, I);
+        auto corr = TA::TSpArray<T>(world, {{1.8776, 2.3484, 3.0172, 3.24  },
+                                            {2.3726, 2.9644, 3.8026, 4.0804},
+                                            {3.0282, 3.7773, 4.8333, 5.1804}});
+        REQUIRE(allclose(corr, rv));
     }
 }
