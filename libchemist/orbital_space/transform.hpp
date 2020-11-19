@@ -1,6 +1,22 @@
 #pragma once
 #include "libchemist/orbital_space/orbital_space.hpp"
 
+/** @file transform.hpp
+ *
+ *  This file defines a function `transform` which takes a rank @f$r@f$ tensor
+ *  and up to @f$r@f$ DerivedSpace instances. `transform` will then apply the
+ *  transformations in the DerivedSpace instances to the tensor in the optimal
+ *  order.
+ *
+ *  At the moment the overloads have all been written manually. It wouldn't be
+ *  too hard to auto-generate them with a Python script. In theory it should be
+ *  possible to unify them with some template meta-programming, but assuming we
+ *  only need to transform up to a rank 4 tensor that's probably more work than
+ *  it's worth. The number of overloads for a rank @f$r@f$ tensor is @f$2^r@f$
+ *  so manually writing out the overloads quickly becomes impractical if we have
+ *  to go much higher.
+ */
+
 namespace libchemist {
 namespace detail_ {
 
@@ -474,6 +490,20 @@ auto transform(DERIVED_SPACE<T1>& s0, DERIVED_SPACE<T2>& s1,
 //                       Rank 4 Transformations
 //------------------------------------------------------------------------------
 
+/** @brief Transforms a rank 4 tensor
+ *
+ *  This function is primarily for recursion termination and is a no-op
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t untouched
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(AO_SPACE<T1>&, AO_SPACE<T2>&, AO_SPACE<T3>&, AO_SPACE<T4>&,
@@ -481,7 +511,21 @@ auto transform(AO_SPACE<T1>&, AO_SPACE<T2>&, AO_SPACE<T3>&, AO_SPACE<T4>&,
     return t;
 }
 
-// One Derived
+/** @brief Transforms a rank 4 tensor
+ *
+ *  Applies the provided transformation to the 0-th mode of a tensor.
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] b1 The orbital space to transform mode 0 to
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with the 0-th mode transformed according to @p b1.
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(DERIVED_SPACE<T1>& b1, AO_SPACE<T2>&, AO_SPACE<T3>&,
@@ -491,6 +535,21 @@ auto transform(DERIVED_SPACE<T1>& b1, AO_SPACE<T2>&, AO_SPACE<T3>&,
     return rv;
 }
 
+/** @brief Transforms a rank 4 tensor
+ *
+ *  Applies the provided transformation to the 1-st mode of a tensor.
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] b2 The orbital space to transform mode 1 to
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with the 1-st mode transformed according to @p b2.
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(AO_SPACE<T1>&, DERIVED_SPACE<T2>& b2, AO_SPACE<T3>&,
@@ -500,6 +559,21 @@ auto transform(AO_SPACE<T1>&, DERIVED_SPACE<T2>& b2, AO_SPACE<T3>&,
     return rv;
 }
 
+/** @brief Transforms a rank 4 tensor
+ *
+ *  Applies the provided transformation to the 2-nd mode of a tensor.
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] k1 The orbital space to transform mode 2 to
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with the 2-nd mode transformed according to @p k1.
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(AO_SPACE<T1>&, AO_SPACE<T2>&, DERIVED_SPACE<T3>& k1,
@@ -509,6 +583,21 @@ auto transform(AO_SPACE<T1>&, AO_SPACE<T2>&, DERIVED_SPACE<T3>& k1,
     return rv;
 }
 
+/** @brief Transforms a rank 4 tensor
+ *
+ *  Applies the provided transformation to the 3-rd mode of a tensor.
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] k2 The orbital space to transform mode 0 to
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with the 3-rd mode transformed according to @p k2.
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(AO_SPACE<T1>&, AO_SPACE<T2>&, AO_SPACE<T3>&,
@@ -518,191 +607,422 @@ auto transform(AO_SPACE<T1>&, AO_SPACE<T2>&, AO_SPACE<T3>&,
     return rv;
 }
 
-// Two Derived
+/** @brief Transforms a rank 4 tensor
+ *
+ *  Applies the provided transformations to the 0-th and 1-st modes of a tensor.
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] b1 The orbital space to transform mode 0 to
+ * @param[in] b2 The orbital space to transform mode 1 to
+ * @param[in] k1 The orbital space spanning mode 2
+ * @param[in] k2 The orbital space spanning mode 3
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with the 0-th and 1-st modes transformed according to @p b1 and
+ *         @p b2 respectively.
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(DERIVED_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2, AO_SPACE<T3>& k1,
                AO_SPACE<T4>& k2, const TensorType& t) {
     const bool do_b2_first = detail_::do_which_first(b1, b2);
     if(do_b2_first) {
-        auto temp = transform(b1.from_space(), b2, k1, k2, t);
-        return transform(b1, b2.from_space(), k1, k2, temp);
+        auto temp = libchemist::transform(b1.from_space(), b2, k1, k2, t);
+        return libchemist::transform(b1, b2.from_space(), k1, k2, temp);
     }
-    auto temp = transform(b1, b2.from_space(), k1, k2, t);
-    return transform(b1.from_space(), b2, k1, k2, temp);
+    auto temp = libchemist::transform(b1, b2.from_space(), k1, k2, t);
+    return libchemist::transform(b1.from_space(), b2, k1, k2, temp);
 }
 
+/** @brief Transforms a rank 4 tensor
+ *
+ *  Applies the provided transformations to the 0-th and 2-nd modes of a tensor.
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] b1 The orbital space to transform mode 0 to
+ * @param[in] b2 The orbital space spanning mode 1
+ * @param[in] k1 The orbital space to transform mode 2 to
+ * @param[in] k2 The orbital space spanning mode 3
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with the 0-th and 2-nd modes transformed according to @p b1 and
+ *         @p k1 respectively.
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(DERIVED_SPACE<T1>& b1, AO_SPACE<T2>& b2, DERIVED_SPACE<T3>& k1,
                AO_SPACE<T4>& k2, const TensorType& t) {
     const bool do_k1_first = detail_::do_which_first(b1, k1);
     if(do_k1_first) {
-        auto temp = transform(b1.from_space(), b2, k1, k2, t);
-        return transform(b1, b2, k1.from_space(), k2, temp);
+        auto temp = libchemist::transform(b1.from_space(), b2, k1, k2, t);
+        return libchemist::transform(b1, b2, k1.from_space(), k2, temp);
     }
-    auto temp = transform(b1, b2, k1.from_space(), k2, t);
-    return transform(b1.from_space(), b2, k1, k2, temp);
+    auto temp = libchemist::transform(b1, b2, k1.from_space(), k2, t);
+    return libchemist::transform(b1.from_space(), b2, k1, k2, temp);
 }
 
+/** @brief Transforms a rank 4 tensor
+ *
+ *  Applies the provided transformations to the 0-th and 3-rd modes of a tensor.
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] b1 The orbital space to transform mode 0 to
+ * @param[in] b2 The orbital space spanning mode 1
+ * @param[in] k1 The orbital space spanning mode 2
+ * @param[in] k2 The orbital space to transform mode 3 to
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with the 0-th and 3-red modes transformed according to @p b1 and
+ *         @p k2 respectively.
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(DERIVED_SPACE<T1>& b1, AO_SPACE<T2>& b2, AO_SPACE<T3>& k1,
                DERIVED_SPACE<T4>& k2, const TensorType& t) {
     const bool do_k2_first = detail_::do_which_first(b1, k2);
     if(do_k2_first) {
-        auto temp = transform(b1.from_space(), b2, k1, k2, t);
-        return transform(b1, b2, k1, k2.from_space(), temp);
+        auto temp = libchemist::transform(b1.from_space(), b2, k1, k2, t);
+        return libchemist::transform(b1, b2, k1, k2.from_space(), temp);
     }
-    auto temp = transform(b1, b2, k1, k2.from_space(), t);
-    return transform(b1.from_space(), b2, k1, k2, temp);
+    auto temp = libchemist::transform(b1, b2, k1, k2.from_space(), t);
+    return libchemist::transform(b1.from_space(), b2, k1, k2, temp);
 }
 
+/** @brief Transforms a rank 4 tensor
+ *
+ *  Applies the provided transformations to the 1-st and 2-nd modes of a tensor.
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] b1 The orbital space spanning mode 0
+ * @param[in] b2 The orbital space to transform mode 1 to
+ * @param[in] k1 The orbital space to transform mode 2 to
+ * @param[in] k2 The orbital space spanning mode 3
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with the 1-st and 2-nd modes transformed according to @p b2 and
+ *         @p k1 respectively.
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(AO_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2, DERIVED_SPACE<T3>& k1,
                AO_SPACE<T4>& k2, const TensorType& t) {
     const bool do_k1_first = detail_::do_which_first(b2, k1);
     if(do_k1_first) {
-        auto temp = transform(b1, b2.from_space(), k1, k2, t);
-        return transform(b1, b2, k1.from_space(), k2, temp);
+        auto temp = libchemist::transform(b1, b2.from_space(), k1, k2, t);
+        return libchemist::transform(b1, b2, k1.from_space(), k2, temp);
     }
-    auto temp = transform(b1, b2, k1.from_space(), k2, t);
-    return transform(b1, b2.from_space(), k1, k2, temp);
+    auto temp = libchemist::transform(b1, b2, k1.from_space(), k2, t);
+    return libchemist::transform(b1, b2.from_space(), k1, k2, temp);
 }
 
+/** @brief Transforms a rank 4 tensor
+ *
+ *  Applies the provided transformations to the 1-st and 3-rd modes of a tensor.
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] b1 The orbital space spanning mode 0
+ * @param[in] b2 The orbital space to transform mode 1 to
+ * @param[in] k1 The orbital space spanning mode 2
+ * @param[in] k2 The orbital space to transform mode 3 to
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with the 1-st and 3-rd modes transformed according to @p b2 and
+ *         @p k2 respectively.
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(AO_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2, AO_SPACE<T3>& k1,
                DERIVED_SPACE<T4>& k2, const TensorType& t) {
     const bool do_k2_first = detail_::do_which_first(b2, k2);
     if(do_k2_first) {
-        auto temp = transform(b1, b2.from_space(), k1, k2, t);
-        return transform(b1, b2, k1, k2.from_space(), temp);
+        auto temp = libchemist::transform(b1, b2.from_space(), k1, k2, t);
+        return libchemist::transform(b1, b2, k1, k2.from_space(), temp);
     }
-    auto temp = transform(b1, b2, k1, k2.from_space(), t);
-    return transform(b1, b2.from_space(), k1, k2, temp);
+    auto temp = libchemist::transform(b1, b2, k1, k2.from_space(), t);
+    return libchemist::transform(b1, b2.from_space(), k1, k2, temp);
 }
 
+/** @brief Transforms a rank 4 tensor
+ *
+ *  Applies the provided transformations to the 2-nd and 3-rd modes of a tensor.
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] b1 The orbital space spanning mode 0
+ * @param[in] b2 The orbital space spanning mode 1
+ * @param[in] k1 The orbital space to transform mode 2 to
+ * @param[in] k2 The orbital space to transform mode 3 to
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with the 2-nd and 3-nd modes transformed according to @p k1 and
+ *         @p k2 respectively.
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(AO_SPACE<T1>& b1, AO_SPACE<T2>& b2, DERIVED_SPACE<T3>& k1,
                DERIVED_SPACE<T4>& k2, const TensorType& t) {
     const bool do_k2_first = detail_::do_which_first(k1, k2);
     if(do_k2_first) {
-        auto temp = transform(b1, b2, k1.from_space(), k2, t);
-        return transform(b1, b2, k1, k2.from_space(), temp);
+        auto temp = libchemist::transform(b1, b2, k1.from_space(), k2, t);
+        return libchemist::transform(b1, b2, k1, k2.from_space(), temp);
     }
-    auto temp = transform(b1, b2, k1, k2.from_space(), t);
-    return transform(b1, b2, k1.from_space(), k2, temp);
+    auto temp = libchemist::transform(b1, b2, k1, k2.from_space(), t);
+    return libchemist::transform(b1, b2, k1.from_space(), k2, temp);
 }
 
-// Three derived
+/** @brief Transforms a rank 4 tensor
+ *
+ *  Applies the provided transformations to the 0-th, 1-st, and 2-nd modes of a
+ *  tensor.
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] b1 The orbital space to transform mode 0 to
+ * @param[in] b2 The orbital space to transform mode 1 to
+ * @param[in] k1 The orbital space to transform mode 2 to
+ * @param[in] k2 The orbital space spanning mode 3
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with the 0-th, 1-st, and 2-nd modes transformed according to
+ *         @p b1, @p b2, and @p k1 and respectively.
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(DERIVED_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2,
                DERIVED_SPACE<T3>& k1, AO_SPACE<T4>& k2, const TensorType& t) {
+    const auto& aos0 = b1.from_space();
+    const auto& aos1 = b2.from_space();
+    const auto& aos2 = k1.from_space();
+
     switch(detail_::do_which_first(b1, b2, k1)) {
         case 0: {
-            auto temp = transform(b1, b2.from_space(), k1.from_space(), k2, t);
-            return tranform(b1.from_space(), b2, k1, k2, temp);
+            auto temp = libchemist::transform(b1, aos1, aos2, k2, t);
+            return libchemist::transform(aos0, b2, k1, k2, temp);
         }
         case 1: {
-            auto temp = transform(b1.from_space(), b2, k1.from_space(), k2, t);
-            return transform(b1, b2.from_space(), k1, k2, temp);
+            auto temp = libchemist::transform(aos0, b2, aos2, k2, t);
+            return libchemist::transform(b1, aos1, k1, k2, temp);
         }
         default: {
-            auto temp = transform(b1.from_space(), b2.from_space(), k1, k2, t);
-            return transform(b1, b2, k1.from_space(), k2, temp);
+            auto temp = libchemist::transform(aos0, aos1, k1, k2, t);
+            return libchemist::transform(b1, b2, aos2, k2, temp);
         }
     }
 }
 
+/** @brief Transforms a rank 4 tensor
+ *
+ *  Applies the provided transformations to the 0-th, 1-st, and 3-rd modes of a
+ *  tensor.
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] b1 The orbital space to transform mode 0 to
+ * @param[in] b2 The orbital space to transform mode 1 to
+ * @param[in] k1 The orbital space spanning mode 2
+ * @param[in] k2 The orbital space to transform mode 3 to
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with the 0-th, 1-st, and 3-rd modes transformed according to
+ *         @p b1, @p b2, and @p k2 and respectively.
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(DERIVED_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2, AO_SPACE<T3>& k1,
                DERIVED_SPACE<T4>& k2, const TensorType& t) {
+    const auto& aos0 = b1.from_space();
+    const auto& aos1 = b2.from_space();
+    const auto& aos3 = k2.from_space();
+
     switch(detail_::do_which_first(b1, b2, k2)) {
         case 0: {
-            auto temp = transform(b1, b2.from_space(), k1, k2.from_space(), t);
-            return tranform(b1.from_space(), b2, k1, k2, temp);
+            auto temp = libchemist::transform(b1, aos1, k1, aos3, t);
+            return libchemist::transform(aos0, b2, k1, k2, temp);
         }
         case 1: {
-            auto temp = transform(b1.from_space(), b2, k1, k2.from_space(), t);
-            return transform(b1, b2.from_space(), k1, k2, temp);
+            auto temp = libchemist::transform(aos0, b2, k1, aos3, t);
+            return libchemist::transform(b1, aos1, k1, k2, temp);
         }
         default: {
-            auto temp = transform(b1.from_space(), b2.from_space(), k1, k2, t);
-            return transform(b1, b2, k1, k2.from_space(), temp);
+            auto temp = libchemist::transform(aos0, aos1, k1, k2, t);
+            return libchemist::transform(b1, b2, k1, aos3, temp);
         }
     }
 }
 
+/** @brief Transforms a rank 4 tensor
+ *
+ *  Applies the provided transformations to the 0-th, 2-nd, and 3-rd modes of a
+ *  tensor.
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] b1 The orbital space to transform mode 0 to
+ * @param[in] b2 The orbital space spanning mode 1
+ * @param[in] k1 The orbital space to transform mode 2 to
+ * @param[in] k2 The orbital space to transform mode 3 to
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with the 0-th, 2-nd, and 3-rd modes transformed according to
+ *         @p b1, @p k1, and @p k2 and respectively.
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(DERIVED_SPACE<T1>& b1, AO_SPACE<T2>& b2, DERIVED_SPACE<T3>& k1,
                DERIVED_SPACE<T4>& k2, const TensorType& t) {
+    const auto& aos0 = b1.from_space();
+    const auto& aos2 = k1.from_space();
+    const auto& aos3 = k2.from_space();
+
     switch(detail_::do_which_first(b1, k1, k2)) {
         case 0: {
-            auto temp = transform(b1, b2, k1.from_space(), k2.from_space(), t);
-            return tranform(b1.from_space(), b2, k1, k2, temp);
+            auto temp = libchemist::transform(b1, b2, aos2, aos3, t);
+            return libchemist::transform(aos0, b2, k1, k2, temp);
         }
         case 1: {
-            auto temp = transform(b1.from_space(), b2, k1, k2.from_space(), t);
-            return transform(b1, b2, k1.from_space(), k2, temp);
+            auto temp = libchemist::transform(aos0, b2, k1, aos3, t);
+            return libchemist::transform(b1, b2, aos2, k2, temp);
         }
         default: {
-            auto temp = transform(b1.from_space(), b2, k1.from_space(), k2, t);
-            return transform(b1, b2, k1, k2.from_space(), temp);
+            auto temp = libchemist::transform(aos0, b2, aos2, k2, t);
+            return libchemist::transform(b1, b2, k1, aos3, temp);
         }
     }
 }
 
+/** @brief Transforms a rank 4 tensor
+ *
+ *  Applies the provided transformations to the 1-st, 2-nd, and 3-rd modes of a
+ *  tensor.
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] b1 The orbital space spanning mode 0
+ * @param[in] b2 The orbital space to transform mode 1 to
+ * @param[in] k1 The orbital space to transform mode 2 to
+ * @param[in] k2 The orbital space to transform mode 3 to
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with the 1-st, 2-nd, and 3-rd modes transformed according to
+ *         @p b2, @p k1, and @p k2 and respectively.
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(AO_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2, DERIVED_SPACE<T3>& k1,
                DERIVED_SPACE<T4>& k2, const TensorType& t) {
+
+    const auto& aos1 = b2.from_space();
+    const auto& aos2 = k1.from_space();
+    const auto& aos3 = k2.from_space();
+
     switch(detail_::do_which_first(b2, k1, k2)) {
         case 0: {
-            auto temp = transform(b1, b2, k1.from_space(), k2.from_space(), t);
-            return tranform(b1, b2.from_space(), k1, k2, temp);
+            auto temp = libchemist::transform(b1, b2, aos2, aos3, t);
+            return libchemist::transform(b1, aos1, k1, k2, temp);
         }
         case 1: {
-            auto temp = transform(b1, b2.from_space(), k1, k2.from_space(), t);
-            return transform(b1, b2, k1.from_space(), k2, temp);
+            auto temp = libchemist::transform(b1, aos1, k1, aos3, t);
+            return libchemist::transform(b1, b2, aos2, k2, temp);
         }
         default: {
-            auto temp = transform(b1, b2.from_space(), k1.from_space(), k2, t);
-            return transform(b1, b2, k1, k2.from_space(), temp);
+            auto temp = libchemist::transform(b1, aos1, aos2, k2, t);
+            return libchemist::transform(b1, b2, k1, aos3, temp);
         }
     }
 }
 
+/** @brief Transforms a rank 4 tensor
+ *
+ *  Applies the provided transformations to the 0-th, 1-st, 2-nd, and 3-rd modes
+ *  of a tensor.
+ *
+ * @tparam T1 The scalar type of the transformation for the 0-th mode
+ * @tparam T2 The scalar type of the transformation for the 1-st mode
+ * @tparam T3 The scalar type of the transformation for the 2-nd mode
+ * @tparam T4 The scalar type of the transformation for the 3-rd mode
+ * @tparam TensorType The type of the tensor being transformed
+ *
+ * @param[in] b1 The orbital space to transform mode 0 to
+ * @param[in] b2 The orbital space to transform mode 1 to
+ * @param[in] k1 The orbital space to transform mode 2 to
+ * @param[in] k2 The orbital space to transform mode 3 to
+ * @param[in] t The tensor to transform
+ *
+ * @return @p t with the 0-th, 1-st, 2-nd, and 3-rd modes transformed according
+ *         to @p b1, @p b2, @p k1, and @p k2 and respectively.
+ */
 template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(DERIVED_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2,
                DERIVED_SPACE<T3>& k1, DERIVED_SPACE<T4>& k2,
                const TensorType& t) {
+
+    const auto& aos0 = b1.from_space();
+    const auto& aos1 = b2.from_space();
+    const auto& aos2 = k1.from_space();
+    const auto& aos3 = k2.from_space();
+
     switch(detail_::do_which_first(b1, b2, k1, k2)) {
         case 0: {
-            auto temp = transform(b1, b2.from_space(), k1.from_space(),
-                                  k2.from_space(), t);
-            return tranform(b1.from_space(), b2, k1, k2, temp);
+            auto temp = libchemist::transform(b1, aos1, aos2, aos3, t);
+            return libchemist::transform(aos0, b2, k1, k2, temp);
         }
         case 1: {
-            auto temp = transform(b1.from_space(), b2, k1.from_space(),
-                                  k2.from_space(), t);
-            return transform(b1, b2.from_space(), k1, k2, temp);
+            auto temp = libchemist::transform(aos0, b2, aos2, aos3, t);
+            return libchemist::transform(b1, aos1, k1, k2, temp);
         }
         case 2: {
-            auto temp = transform(b1.from_space(), b2.from_space(), k1,
-                                  k2.from_space(), t);
-            return transform(b1, b2, k1.from_space(), k2, temp);
+            auto temp = libchemist::transform(aos0, aos1, k1, aos3, t);
+            return libchemist::transform(b1, b2, aos2, k2, temp);
         }
         default: {
-            auto temp = transform(b1.from_space(), b2.from_space(),
-                                  k1.from_space(), k2, t);
-            return transform(b1, b2, k1, k2.from_space(), temp);
+            auto temp = libchemist::transform(aos0, aos1, aos2, k2, t);
+            return libchemist::transform(b1, b2, k1, aos3, temp);
         }
     }
 }
