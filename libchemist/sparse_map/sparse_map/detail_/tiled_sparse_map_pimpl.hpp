@@ -17,9 +17,10 @@ class TiledSparseMapPIMPL : public BaseType {
 private:
     /// Type of an instance of this class
     using my_type = TiledSparseMapPIMPL<BaseType>;
+
 public:
     /// Type of the independent indices (should be TileIndex)
-    using key_type    = typename BaseType::key_type;
+    using key_type = typename BaseType::key_type;
 
     /// Type of the Domains the independent indices map to
     using mapped_type = typename BaseType::mapped_type;
@@ -50,13 +51,14 @@ public:
 
 protected:
     /// Type of the dependent indices
-    using dep_index  = typename mapped_type::value_type;
+    using dep_index = typename mapped_type::value_type;
 
     /// Type of the most basic base class in the hierarchy
     using base_pimpl = SparseMapPIMPL<key_type, dep_index>;
 
     /// Wraps BaseType::add_to_domain_ and ensures @p ind is in TiledRange
-    virtual void add_to_domain_(const key_type& ind, const dep_index& dep) override;
+    virtual void add_to_domain_(const key_type& ind,
+                                const dep_index& dep) override;
 
     /** @brief Wraps the BaseType::dp_assign_ to account for TiledRange
      *
@@ -149,7 +151,6 @@ protected:
     virtual bool equal_(const base_pimpl& rhs) const noexcept override;
 
 private:
-
     /// Makes a polymorphic clone of this instance
     std::unique_ptr<base_pimpl> clone_() const override;
 
@@ -175,13 +176,13 @@ void TSMPIMPL::set_trange(const TA::TiledRange& trange) {
     if(nonempty && (trange.rank() != this->ind_rank()))
         throw std::out_of_range("Rank of input TiledRange is not compatible");
     for(std::size_t i = 0; i < this->size(); ++i)
-        in_trange_(trange,this->at(i).first);
+        in_trange_(trange, this->at(i).first);
     m_trange_ = trange;
 }
 
 template<typename BaseType>
 void TSMPIMPL::add_to_domain_(const key_type& ind, const dep_index& dep) {
-    if(has_trange_())in_trange_(m_trange_, ind);
+    if(has_trange_()) in_trange_(m_trange_, ind);
     BaseType::add_to_domain_(ind, dep);
 }
 
@@ -189,35 +190,28 @@ template<typename BaseType>
 typename TSMPIMPL::base_pimpl& TSMPIMPL::dp_assign_(const base_pimpl& rhs) {
     const auto* pother = dynamic_cast<const my_type*>(&rhs);
 
-    if(pother == nullptr){
+    if(pother == nullptr) {
         throw std::runtime_error(
-          "RHS of direct_product is not a TiledSparseMapPIMPL"
-          );
+          "RHS of direct_product is not a TiledSparseMapPIMPL");
     }
     // If both have TiledRanges take the product
-    if(has_trange_() && pother->has_trange_()){
+    if(has_trange_() && pother->has_trange_()) {
         std::vector<TA::TiledRange1> tr1s;
         for(std::size_t i = 0; i < this->ind_rank(); ++i)
             tr1s.push_back(m_trange_.dim(i));
         for(std::size_t i = 0; i < rhs.ind_rank(); ++i)
             tr1s.push_back(pother->m_trange_.dim(i));
         m_trange_ = TA::TiledRange(tr1s.begin(), tr1s.end());
-    }
-    else if(rhs.size() == 0 && rhs.ind_rank() == 0){ // Other is empty
+    } else if(rhs.size() == 0 && rhs.ind_rank() == 0) { // Other is empty
         m_trange_ = TA::TiledRange{};
-    }
-    else if(this->size() ==0 && this->ind_rank() == 0){ // I'm empty
+    } else if(this->size() == 0 && this->ind_rank() == 0) { // I'm empty
         return *this;
-    }
-    else if(has_trange_()) {
+    } else if(has_trange_()) {
         throw std::runtime_error(
-          "LHS of direct_product has TiledRange, but RHS doesn't"
-        );
-    }
-    else if(pother->has_trange_()) {
+          "LHS of direct_product has TiledRange, but RHS doesn't");
+    } else if(pother->has_trange_()) {
         throw std::runtime_error(
-          "RHS of direct_product has TiledRange, but LHS doesn't"
-        );
+          "RHS of direct_product has TiledRange, but LHS doesn't");
     }
 
     return BaseType::dp_assign_(rhs);
@@ -227,15 +221,15 @@ template<typename BaseType>
 typename TSMPIMPL::base_pimpl& TSMPIMPL::prod_assign_(const base_pimpl& rhs) {
     // Make sure other is TiledDomainPIMPL
     const auto* pother = dynamic_cast<const my_type*>(&rhs);
-    if(pother == nullptr){
+    if(pother == nullptr) {
         throw std::runtime_error("RHS of operator*= is not a TiledDomainPIMPL");
     }
 
-    if(this->size() == 0 || rhs.size() == 0) m_trange_ = TA::TiledRange{};
+    if(this->size() == 0 || rhs.size() == 0)
+        m_trange_ = TA::TiledRange{};
     else if(trange() != pother->trange()) {
         throw std::runtime_error(
-          "LHS and RHS of operator*= do not have the same TiledRange"
-        );
+          "LHS and RHS of operator*= do not have the same TiledRange");
     }
 
     BaseType::prod_assign_(rhs);
@@ -246,16 +240,17 @@ template<typename BaseType>
 typename TSMPIMPL::base_pimpl& TSMPIMPL::union_assign_(const base_pimpl& rhs) {
     // Make sure other is TiledDomainPIMPL
     const auto* pother = dynamic_cast<const my_type*>(&rhs);
-    if(pother == nullptr){
+    if(pother == nullptr) {
         throw std::runtime_error("RHS of operator+= is not a TiledDomainPIMPL");
     }
 
-    if(this->size() == 0) m_trange_ = pother->m_trange_;
-    else if(rhs.size() == 0) return *this;
+    if(this->size() == 0)
+        m_trange_ = pother->m_trange_;
+    else if(rhs.size() == 0)
+        return *this;
     else if(trange() != pother->trange()) {
         throw std::runtime_error(
-          "LHS and RHS of operator+= do not have the same TiledRange"
-        );
+          "LHS and RHS of operator+= do not have the same TiledRange");
     }
 
     BaseType::union_assign_(rhs);
@@ -266,15 +261,15 @@ template<typename BaseType>
 typename TSMPIMPL::base_pimpl& TSMPIMPL::int_assign_(const base_pimpl& rhs) {
     // Make sure other is TiledDomainPIMPL
     const auto* pother = dynamic_cast<const my_type*>(&rhs);
-    if(pother == nullptr){
+    if(pother == nullptr) {
         throw std::runtime_error("RHS of operator^= is not a TiledDomainPIMPL");
     }
 
-    if(this->size() == 0 || rhs.size() == 0) m_trange_ = TA::TiledRange{};
+    if(this->size() == 0 || rhs.size() == 0)
+        m_trange_ = TA::TiledRange{};
     else if(trange() != pother->trange()) {
         throw std::runtime_error(
-          "LHS and RHS of operator^= do not have the same TiledRange"
-        );
+          "LHS and RHS of operator^= do not have the same TiledRange");
     }
 
     BaseType::int_assign_(rhs);
@@ -285,8 +280,10 @@ template<typename BaseType>
 bool TSMPIMPL::equal_(const base_pimpl& rhs) const noexcept {
     auto prhs = dynamic_cast<const my_type*>(&rhs);
 
-    if(prhs == nullptr) return false;
-    else if(m_trange_ != prhs->m_trange_) return false;
+    if(prhs == nullptr)
+        return false;
+    else if(m_trange_ != prhs->m_trange_)
+        return false;
 
     return BaseType::equal_(rhs);
 }
@@ -298,7 +295,8 @@ std::unique_ptr<typename TSMPIMPL::base_pimpl> TSMPIMPL::clone_() const {
 }
 
 template<typename BaseType>
-void TSMPIMPL::in_trange_(const TA::TiledRange& tr, const TileIndex& idx) const{
+void TSMPIMPL::in_trange_(const TA::TiledRange& tr,
+                          const TileIndex& idx) const {
     if(!tr.tiles_range().includes(idx)) {
         std::stringstream ss;
         ss << "Index: " << idx << " is not in range: " << tr;
