@@ -15,4 +15,4 @@ using SparseMapET = SparseMap<ElementIndex, TileIndex>;
 using SparseMapTE = SparseMap<TileIndex, ElementIndex>;
 using SparseMapTT = SparseMap<TileIndex, TileIndex>;
 
-}
+} // namespace libchemist::sparse_map

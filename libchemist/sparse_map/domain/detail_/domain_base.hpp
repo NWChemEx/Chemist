@@ -1,19 +1,20 @@
 #pragma once
 #include "libchemist/sparse_map/domain/detail_/domain_traits.hpp"
 #include "libchemist/sparse_map/index.hpp"
-#include <memory>                                  // For smart pointers
-#include <sde/sde.hpp>                             // For hashing
-
+#include <memory>      // For smart pointers
+#include <sde/sde.hpp> // For hashing
 
 namespace libchemist::sparse_map {
 
 // Forward declare the Domain class for template instantiation
-template<typename T> class Domain;
+template<typename T>
+class Domain;
 
-namespace detail_{
+namespace detail_ {
 
 // Forward declare the PIMPL class
-template<typename T> class DomainPIMPL;
+template<typename T>
+class DomainPIMPL;
 
 /** @brief DomainBase contains functionality common to Domain<ElementIndex> and
  *         Domain<TileIndex>.
@@ -42,21 +43,23 @@ class DomainBase {
 public:
     /// The type of indices stored in this Domain
     using value_type = IndexType;
+
 private:
     /// Type of an instance of this class
-    using my_type     = DomainBase<DerivedType, IndexType>;
+    using my_type = DomainBase<DerivedType, IndexType>;
 
     /// Type of a PIMPL containing the data for an instance of this class
-    using pimpl_type  = DomainPIMPL<value_type>;
+    using pimpl_type = DomainPIMPL<value_type>;
 
     /// Type of a pointer to a PIMPL
-    using pimpl_ptr   = std::unique_ptr<pimpl_type>;
+    using pimpl_ptr = std::unique_ptr<pimpl_type>;
 
     /// Type of the struct defining types for this class
     using traits_type = DomainTraits<Domain<value_type>>;
+
 public:
     /// Type used for offset and natural numbers
-    using size_type       = typename traits_type::size_type;
+    using size_type = typename traits_type::size_type;
 
     /// Type of a read-only reference to index in the Domain
     using const_reference = typename traits_type::const_reference;
@@ -326,7 +329,7 @@ public:
      * @throw std::bad_alloc   if there is insufficient memory to create the new
      *                         Domain. Strong throw guarantee.
      */
-    DerivedType inject(const std::map<size_type, size_type>& injections)const;
+    DerivedType inject(const std::map<size_type, size_type>& injections) const;
 
     /** @brief Makes this instance the Cartesian product of this Domain and
      *         the provided Domain.
@@ -521,6 +524,7 @@ public:
      *  @return @p os after adding this Domain to it.
      */
     std::ostream& print(std::ostream& os) const;
+
 protected:
     /// Wraps downcasting this instance to DerivedType
     DerivedType& downcast_() noexcept;
@@ -533,6 +537,7 @@ protected:
 
     /// Ensures that the PIMPL is non-Null and returns it
     const pimpl_type& pimpl_() const;
+
 private:
     /// The instance actually holding the Domain's data
     pimpl_ptr m_pimpl_;
@@ -579,7 +584,7 @@ bool operator!=(const DomainBase<DerivedType, IndexType>& lhs,
  */
 template<typename DerivedType, typename IndexType>
 std::ostream& operator<<(std::ostream& os,
-                         const DomainBase<DerivedType, IndexType>& d){
+                         const DomainBase<DerivedType, IndexType>& d) {
     return d.print(os);
 }
 
@@ -590,4 +595,5 @@ std::ostream& operator<<(std::ostream& os,
 extern template class DomainBase<Domain<ElementIndex>, ElementIndex>;
 extern template class DomainBase<Domain<TileIndex>, TileIndex>;
 
-}} // namespace libhcemist::sparse_map::detail_
+} // namespace detail_
+} // namespace libchemist::sparse_map

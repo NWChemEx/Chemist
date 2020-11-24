@@ -26,8 +26,9 @@ namespace detail_ {
  * @throw std::bad_alloc if there is insufficient memory to create the
  *                       uninjected index. Strong throw guarantee.
  */
-inline auto uninject_index_(const ElementIndex& idx,
-                            const std::map<std::size_t, std::size_t>& injections) {
+inline auto uninject_index_(
+  const ElementIndex& idx,
+  const std::map<std::size_t, std::size_t>& injections) {
     const auto r = idx.size();
     if(injections.empty()) return idx;
     for(const auto& [k, v] : injections)
@@ -36,7 +37,7 @@ inline auto uninject_index_(const ElementIndex& idx,
                                      " is not in range [0, " +
                                      std::to_string(r) + ")");
     std::vector<std::size_t> uninjected_idx(r - injections.size());
-    for(std::size_t i = 0, counter = 0; i < r; ++i){
+    for(std::size_t i = 0, counter = 0; i < r; ++i) {
         if(!injections.count(i)) {
             uninjected_idx[counter] = idx[i];
             ++counter;
@@ -65,7 +66,7 @@ auto make_tot_tile_(TileType tile,
                     const SparseMap<ElementIndex, ElementIndex>& sm,
                     const T& tensor,
                     const std::map<std::size_t, std::size_t>& ind2mode = {}) {
-    using inner_tile_t  = typename std::decay_t<TileType>::value_type;
+    using inner_tile_t = typename std::decay_t<TileType>::value_type;
 
     const auto& trange  = tensor.trange();            // Trange of "dense"
     const auto ind_rank = sm.ind_rank();              // Rank of inner tensor
@@ -73,19 +74,19 @@ auto make_tot_tile_(TileType tile,
     const bool do_inj   = !ind2mode.empty();          // Are we injecting?
 
     // Move allocations out of loops
-    std::map<std::size_t, std::size_t> injections;     // Map for injections
+    std::map<std::size_t, std::size_t> injections; // Map for injections
 
-
-    for(const auto& oeidx_v : tile.range()){ //Loop over outer-elemental indices
+    for(const auto& oeidx_v :
+        tile.range()) { // Loop over outer-elemental indices
         const ElementIndex oeidx(oeidx_v.begin(), oeidx_v.end());
 
-        //Handle scenario where independent index has no domain
+        // Handle scenario where independent index has no domain
         if(!sm.count(oeidx)) {
             tile[oeidx] = inner_tile_t{};
             continue;
         }
 
-        const auto& d = sm.at(oeidx);   // The elements in the inner tile
+        const auto& d = sm.at(oeidx); // The elements in the inner tile
         inner_tile_t buffer(TA::Range(d.result_extents()));
 
         // Determine tiles to retrieve using injected domain
@@ -103,7 +104,7 @@ auto make_tot_tile_(TileType tile,
             // the injected modes) then we can loop over injected_d, d zipped
             // together and avoid the uninjection
             for(const auto& ieidx : injected_d) { // Loop over inner-element
-                if(t.range().includes(ieidx)){ //Is element in tile?
+                if(t.range().includes(ieidx)) {   // Is element in tile?
                     // Remove injected modes
                     auto lhs_idx = uninject_index_(ieidx, injections);
                     // map it to output
@@ -141,10 +142,8 @@ auto make_tot_tile_(TileType tile,
  */
 template<typename T>
 auto from_sparse_map(const SparseMap<ElementIndex, ElementIndex>& esm,
-                     const T& tensor,
-                     const TA::TiledRange outer_trange,
+                     const T& tensor, const TA::TiledRange outer_trange,
                      const std::map<std::size_t, std::size_t>& ind2mode = {}) {
-
     using scalar_type = typename T::scalar_type;
     using tot_type    = type::tensor_of_tensors<scalar_type>;
 
@@ -152,9 +151,9 @@ auto from_sparse_map(const SparseMap<ElementIndex, ElementIndex>& esm,
         throw std::runtime_error("Ranks don't work out.");
 
     SparseMap<TileIndex, ElementIndex> tesm(outer_trange, esm);
-    auto l =[=](auto& tile, const auto& range) {
+    auto l = [=](auto& tile, const auto& range) {
         using tile_type = std::decay_t<decltype(tile)>;
-        auto otidx = ta_helpers::get_block_idx(outer_trange, range);
+        auto otidx      = ta_helpers::get_block_idx(outer_trange, range);
         if(!tesm.count(TileIndex(otidx.begin(), otidx.end()))) return 0.0;
         tile = detail_::make_tot_tile_(tile_type(range), esm, tensor, ind2mode);
         return tile.norm();
@@ -184,8 +183,7 @@ auto from_sparse_map(const SparseMap<ElementIndex, ElementIndex>& esm,
  */
 template<typename T>
 auto from_sparse_map(const SparseMap<ElementIndex, TileIndex>& etsm,
-                     const T& tensor,
-                     const TA::TiledRange& trange,
+                     const T& tensor, const TA::TiledRange& trange,
                      const std::map<std::size_t, std::size_t>& ind2mode = {}) {
     SparseMap<ElementIndex, ElementIndex> esm(etsm);
     return from_sparse_map(esm, tensor, trange, ind2mode);

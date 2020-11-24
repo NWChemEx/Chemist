@@ -110,10 +110,9 @@ bool operator!=(const DependentBaseSpace_<SparseMapType, OverlapType>& lhs,
 
 /// DependentBaseSpace that uses ToTs for the overlap matrix
 template<typename T>
-using SparseDependentBase =
-  DependentBaseSpace_<
-    sparse_map::SparseMap<sparse_map::ElementIndex, sparse_map::ElementIndex>,
-      type::tensor_of_tensors<T>>;
+using SparseDependentBase = DependentBaseSpace_<
+  sparse_map::SparseMap<sparse_map::ElementIndex, sparse_map::ElementIndex>,
+  type::tensor_of_tensors<T>>;
 
 // -------------------------------- Implementations ----------------------------
 
