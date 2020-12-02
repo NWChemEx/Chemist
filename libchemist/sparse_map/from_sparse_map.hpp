@@ -9,7 +9,7 @@
 namespace libchemist::sparse_map {
 namespace detail_ {
 
-/** @brief Removes injected me offsets from an index.
+/** @brief Removes injected mode offsets from an index.
  *
  *  When dealing with tensors with one or more modes spanned by an independent
  *  index we need to take slices with the independent mode offsets pinned to
@@ -239,6 +239,30 @@ auto from_sparse_map(const SparseMap<TileIndex, TileIndex>& tsm,
                      const std::map<std::size_t, std::size_t>& ind2mode = {}) {
     SparseMap<ElementIndex, ElementIndex> esm(tsm);
     return from_sparse_map(esm, tensor, tsm.trange(), ind2mode);
+}
+
+/** @brief
+ *
+ * @tparam T The type of the tensor being sparsified, assumed to be a TiledArray
+ *           tensor.
+ *
+ * @param[in] esm The element-to-element sparse map describing how to sparsify
+ *                the tensor.
+ * @param[in] tensor The tensor we are sparsifying.
+ * @param[in] outer_trange The TiledRange for the outer tensor of the
+ *            tensor-of-tensor this function is creating.
+ * @param[in] ind2mode A map from independent index mode to the mode in
+ *                     @p tensor it maps to.  *i.e.*, `ind2mode[i]` is the mode
+ *                     of @p tensor that the `i`-th mode of an independent index
+ *                     maps to.
+ * @return The tensor-of-tensors resulting from applying @p esm to @p tensor.
+ */
+template<typename T>
+auto kill_tot_sum(const SparseMap<ElementIndex, ElementIndex>& esm,
+                  const T& t_of_t,
+                  const TA::TiledRange trange,
+                  const std::map<std::size_t, std::size_t>& ind2mode = {}) {
+
 }
 
 } // namespace libchemist::sparse_map
