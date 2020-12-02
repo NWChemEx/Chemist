@@ -4,7 +4,7 @@
 
 using namespace libchemist::ta_helpers;
 
-using scalar_types = std::tuple<float, double>;
+using scalar_types = std::tuple<double>;
 
 TEMPLATE_LIST_TEST_CASE("hmatrix_pow", "", scalar_types) {
     using tensor_type = TA::TSpArray<TestType>;
