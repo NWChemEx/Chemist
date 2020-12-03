@@ -218,7 +218,7 @@ get_blis_linalg_stack() {
   git clone https://github.com/flame/blis
   cd blis
   git checkout 0.8.0
-  CC=gcc-${gcc_version} FC=gfortran-${gcc_version} ./configure --enable-blas --enable-cblas --prefix ${PWD}/../install auto
+  CC=gcc-${gcc_version} FC=gfortran-${gcc_version} ./configure --enable-blas --enable-cblas --prefix=${PWD}/../install auto
   make -j2 
   make install
   cd ..
