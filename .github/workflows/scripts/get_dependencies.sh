@@ -224,7 +224,7 @@ get_blis_linalg_stack() {
   cd ..
   git clone https://github.com/Reference-LAPACK/lapack.git
   cd lapack
-  git checkout 3.9.0
+  git checkout v3.9.0
   ${cmake_command} -H. -Bbuild -DBLAS_LIBRARIES=${PWD}/../install/lib/libblis.a -DLAPACKE=ON -DCMAKE_INSTALL_PREFIX=$PWD/../install
   cmake --build build -j 2 --target install
   cd ../..
