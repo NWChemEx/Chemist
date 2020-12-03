@@ -202,6 +202,37 @@ get_sphinx() {
   ${PIP_COMMAND} install sphinx sphinx_rtd_theme
 }
 
+
+# Wraps building and installing BLIS + NETLIB LAPACK(E) + ScaLAPACK
+#
+# Usage:
+#   get_blis_linalg_stack
+#
+# Installs to $PWD/blis_netlib/install
+get_blis_linalg_stack() {
+  arch=Linux-x86_64
+  cmake_root=$(pwd)/cmake-"${cmake_version}"-"${arch}"
+  cmake_command="${cmake_root}/bin/cmake"
+  mkdir ${PWD}/blis_netlib_lapack
+  cd blis_netlib_lapack
+  git clone https://github.com/flame/blis
+  cd blis
+  git checkout 0.8.0
+  CC=gcc-${gcc_version} FC=gfortran-${gcc_version} ./configure --enable-blas --enable-cblas --prefix ${PWD}/../install auto
+  make -j2 
+  make install
+  cd ..
+  git clone https://github.com/Reference-LAPACK/lapack.git
+  cd lapack
+  git checkout 3.9.0
+  ${cmake_command} -H. -Bbuild -DBLAS_LIBRARIES=${PWD}/../install/lib/libblis.a -DLAPACKE=ON -DCMAKE_INSTALL_PREFIX=$PWD/../install
+  cmake --build build -j 2 --target install
+  cd ../..
+  echo "LINALG COMPLETED"
+  ls ${PWD}/blis_netlib/install
+}
+
+
 ################################################################################
 #                               Main Script                                    #
 ################################################################################
@@ -240,6 +271,8 @@ for depend in "$@"; do
     get_scalapack
   elif [ "${depend}" = "sphinx" ]; then
     get_sphinx
+  elif [ "${depend}" = "blis_linalg_stack" ]; then
+    get_blis_linalg_stack
   else
     echo "Unrecognized dependency: ${depend}"
     exit 99
