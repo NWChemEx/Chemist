@@ -229,7 +229,9 @@ get_blis_linalg_stack() {
   cmake --build build -j 2 --target install
   cd ../..
   echo "LINALG COMPLETED"
-  ls ${PWD}/blis_netlib/install
+  ls ${PWD}/blis_netlib_lapack/install
+  ls ${PWD}/blis_netlib_lapack/install/include
+  ls ${PWD}/blis_netlib_lapack/install/lib
 }
 
 
