@@ -43,7 +43,7 @@ echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
   echo "set(CPP_GITHUB_TOKEN ${CPP_GITHUB_TOKEN})"
   echo 'set(CMAKE_BUILD_TYPE Debug)'
   echo 'set(ENABLE_SCALAPACK ON)'
-  echo 'set(LIBDIR $(pwd)/blis_netlib_lapack/install)'
+  echo "set(LIBDIR $(pwd)/blis_netlib_lapack/install)"
   echo 'set(LAPACK_LIBRARIES "-L${LIBDIR} -llapacke -llapack -lblis")'
   echo 'set(SCALAPACK_LIBRARIES  "-L${LIBDIR} -lscalapack ${LAPACK_LIBRARIES} ")'
   echo 'set(blacs_LIBRARIES ${SCALAPACK_LIBRARIES})'
