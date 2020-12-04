@@ -36,7 +36,7 @@ echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
   echo "set(BUILD_SHARED_LIBS ON)"
   echo "set(CATCH_ENABLE_COVERAGE ON)"
   echo "set(LIBDIR $(pwd)/blis_netlib_lapack/install/lib)"
-  echo "set(CMAKE_PREFIX_PATH $(pwd)/install ${LIBDIR})"
+  echo "set(CMAKE_PREFIX_PATH $(pwd)/install $(pwd)/blis_netlib_lapack/install)"
   echo 'set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -std=c++17")'
   echo 'set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DOMPI_SKIP_MPICXX")'
   echo 'set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage")'
