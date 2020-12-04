@@ -53,7 +53,6 @@ echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
 
 #Step 2: Configure
 ${cmake_command} -H. -Bbuild -DCMAKE_TOOLCHAIN_FILE="${toolchain_file}"
-cat build/_deps/tiledarray-build/external/madness-build/CMakeFiles/CMakeError.log
 
 #Step 3: Compile
 ${cmake_command} --build build

@@ -32,6 +32,9 @@ jobs:
         gcc_version: ${{ matrix.gcc_version }}
         CPP_GITHUB_TOKEN: ${{ secrets.CPP_GITHUB_TOKEN }}
       run: .github/workflows/scripts/build_and_test.sh
+    - name: Get Errors
+      if: ${{ failure() }}
+      run: cat build/_deps/tiledarray-build/external/madness-build/CMakeFiles/CMakeError.log
     - uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
