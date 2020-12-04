@@ -45,7 +45,7 @@ echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
   echo 'set(ENABLE_SCALAPACK ON)'
   echo "set(LIBDIR $(pwd)/blis_netlib_lapack/install)"
   echo 'set(LAPACK_LIBRARIES "-L${LIBDIR} -llapacke -llapack -lblis")'
-  echo 'set(SCALAPACK_LIBRARIES  "-L${LIBDIR} -lscalapack ${LAPACK_LIBRARIES} ")'
+  echo 'set(SCALAPACK_LIBRARIES  "-L${LIBDIR} -lscalapack ${LAPACK_LIBRARIES}")'
   echo 'set(blacs_LIBRARIES ${SCALAPACK_LIBRARIES})'
   echo 'set(scalapack_LIBRARIES ${SCALAPACK_LIBRARIES})'
   echo 'set(lapack_LIBRARIES ${LAPACK_LIBRARIES})'
@@ -53,6 +53,7 @@ echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
 
 #Step 2: Configure
 ${cmake_command} -H. -Bbuild -DCMAKE_TOOLCHAIN_FILE="${toolchain_file}"
+cat build/_deps/tiledarray-build/external/madness-build/CMakeFiles/CMakeError.log
 
 #Step 3: Compile
 ${cmake_command} --build build
