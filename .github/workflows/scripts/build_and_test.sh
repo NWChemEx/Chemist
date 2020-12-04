@@ -35,7 +35,8 @@ echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
   echo 'set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)'
   echo "set(BUILD_SHARED_LIBS ON)"
   echo "set(CATCH_ENABLE_COVERAGE ON)"
-  echo "set(CMAKE_PREFIX_PATH $(pwd)/install)"
+  echo "set(LIBDIR $(pwd)/blis_netlib_lapack/install/lib)"
+  echo "set(CMAKE_PREFIX_PATH $(pwd)/install ${LIBDIR})"
   echo 'set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -std=c++17")'
   echo 'set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DOMPI_SKIP_MPICXX")'
   echo 'set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage")'
@@ -43,7 +44,6 @@ echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
   echo "set(CPP_GITHUB_TOKEN ${CPP_GITHUB_TOKEN})"
   echo 'set(CMAKE_BUILD_TYPE Debug)'
   echo 'set(ENABLE_SCALAPACK ON)'
-  echo "set(LIBDIR $(pwd)/blis_netlib_lapack/install/lib)"
   echo 'set(LAPACK_LIBRARIES "-L${LIBDIR} -llapacke -llapack -lblis -lm -lgfortran")'
   echo 'set(CBLAS_LIBRARIES "${LAPACK_LIBRARIES}")'
   echo 'set(LAPACKE_LIBRARIES "${LAPACK_LIBRARIES}")'
