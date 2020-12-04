@@ -45,6 +45,8 @@ echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
   echo 'set(ENABLE_SCALAPACK ON)'
   echo "set(LIBDIR $(pwd)/blis_netlib_lapack/install/lib)"
   echo 'set(LAPACK_LIBRARIES "-L${LIBDIR} -llapacke -llapack -lblis -lm -lgfortran")'
+  echo 'set(CBLAS_LIBRARIES "${LAPACK_LIBRARIES}")'
+  echo 'set(LAPACKE_LIBRARIES "${LAPACK_LIBRARIES}")'
   echo 'set(SCALAPACK_LIBRARIES  "-L${LIBDIR} -lscalapack ${LAPACK_LIBRARIES}")'
   echo 'set(blacs_LIBRARIES ${SCALAPACK_LIBRARIES})'
   echo 'set(scalapack_LIBRARIES ${SCALAPACK_LIBRARIES})'
