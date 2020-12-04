@@ -229,7 +229,7 @@ get_blis_linalg_stack() {
   git clone https://github.com/Reference-LAPACK/lapack.git
   cd lapack
   git checkout v3.9.0
-  ${cmake_command} -H. -Bbuild -DBLAS_LIBRARIES=${PWD}/../install/lib/libblis.a -DLAPACKE=ON -DCMAKE_INSTALL_PREFIX=$PWD/../install
+  ${cmake_command} -H. -Bbuild -DBLAS_LIBRARIES="-L${PWD}/../install/lib -lblis" -DLAPACKE=ON -DCMAKE_INSTALL_PREFIX=$PWD/../install
   cmake --build build -j 2 --target install
   cd ..
 
@@ -239,7 +239,7 @@ get_blis_linalg_stack() {
   git checkout v2.1.0
   which mpicc
   which mpifort
-  ${cmake_command} -H. -Bbuild -DLAPACK_LIBRARIES="-L ${PWD}/../install/lib -llapack -lblis" -DCMAKE_INSTALL_PREFIX=$PWD/../install
+  ${cmake_command} -H. -Bbuild -DLAPACK_LIBRARIES="-L${PWD}/../install/lib -llapack -lblis" -DCMAKE_INSTALL_PREFIX=$PWD/../install
   cmake --build build -j 2 --target install
   cd ..
   
