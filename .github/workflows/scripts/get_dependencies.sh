@@ -215,6 +215,8 @@ get_blis_linalg_stack() {
   cmake_command="${cmake_root}/bin/cmake"
   mkdir ${PWD}/blis_netlib_lapack
   cd blis_netlib_lapack
+
+  # BLIS
   git clone https://github.com/flame/blis
   cd blis
   git checkout 0.8.0
@@ -222,16 +224,27 @@ get_blis_linalg_stack() {
   make -j2 
   make install
   cd ..
+
+  # LAPACK/LAPACKE
   git clone https://github.com/Reference-LAPACK/lapack.git
   cd lapack
   git checkout v3.9.0
   ${cmake_command} -H. -Bbuild -DBLAS_LIBRARIES=${PWD}/../install/lib/libblis.a -DLAPACKE=ON -DCMAKE_INSTALL_PREFIX=$PWD/../install
   cmake --build build -j 2 --target install
-  cd ../..
-  echo "LINALG COMPLETED"
-  ls ${PWD}/blis_netlib_lapack/install
-  ls ${PWD}/blis_netlib_lapack/install/include
-  ls ${PWD}/blis_netlib_lapack/install/lib
+  cd ..
+
+  # ScaLAPACK
+  git clone https://github.com/Reference-ScaLAPACK/scalapack.git
+  cd scalapack
+  git checkout v2.1.0
+  which mpicc
+  which mpifort
+  ${cmake_command} -H. -Bbuild -DLAPACK_LIBRARIES="-L ${PWD}/../install/lib -llapack -lblis" -DCMAKE_INSTALL_PREFIX=$PWD/../install
+  cmake --build build -j 2 --target install
+  cd ..
+  
+  # Reset
+  cd ..
 }
 
 
