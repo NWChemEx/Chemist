@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cmath>
 #include <tiledarray.h>
+#include <TiledArray/algebra/heig.h>
 
 namespace libchemist::ta_helpers {
 
