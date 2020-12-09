@@ -241,6 +241,16 @@ auto from_sparse_map(const SparseMap<TileIndex, TileIndex>& tsm,
     return from_sparse_map(esm, tensor, tsm.trange(), ind2mode);
 }
 
+template<typename TileType, typename T>
+auto make_tensor_tile_(TileType tile,
+                       const SparseMap<ElementIndex, ElementIndex>& sm,
+                       const T& tensor,
+                       const std::map<std::size_t, std::size_t>& ind2mode = {}) {
+
+    return tile;
+}
+
+//TODO: doc
 /** @brief
  *
  * @tparam T The type of the tensor being sparsified, assumed to be a TiledArray
@@ -258,11 +268,20 @@ auto from_sparse_map(const SparseMap<TileIndex, TileIndex>& tsm,
  * @return The tensor-of-tensors resulting from applying @p esm to @p tensor.
  */
 template<typename T>
-auto kill_tot_sum(const SparseMap<ElementIndex, ElementIndex>& esm,
+auto reduce_tot_sum(const SparseMap<ElementIndex, ElementIndex>& esm,
                   const T& t_of_t,
-                  const TA::TiledRange trange,
-                  const std::map<std::size_t, std::size_t>& ind2mode = {}) {
+                  const TA::TiledRange trange) {
 
+    using scalar_type = typename T::scalar_type;
+    using tensor_type    = type::tensor<scalar_type>;
+
+    auto l =[=](auto& tile, const auto& range) {
+        using tile_type = std::decay_t<decltype(tile)>;
+        auto otidx = ta_helpers::get_block_idx(outer_trange, range);
+        if(!tesm.count(TileIndex(otidx.begin(), otidx.end()))) return 0.0;
+        tile = detail_::make_tensor_tile_(tile_type(range), esm, tensor);
+        return tile.norm();
+    };
 }
 
 } // namespace libchemist::sparse_map
