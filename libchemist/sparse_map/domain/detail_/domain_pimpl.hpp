@@ -9,9 +9,10 @@
 namespace libchemist::sparse_map {
 
 // Forward declare Domain for template meta-programming purposes
-template<typename IndexType> class Domain;
+template<typename IndexType>
+class Domain;
 
-namespace  detail_ {
+namespace detail_ {
 
 /** @brief Class which holds the state of the Domain.
  *
@@ -338,8 +339,8 @@ protected:
      *                       Weak throw guarantee.
      */
     void update_mode_map(const_reference idx);
-private:
 
+private:
     /// Ensures that @p i is in the range [0, size())
     void bounds_check_(size_type i) const;
 
@@ -355,8 +356,7 @@ std::ostream& operator<<(std::ostream& os, const DomainPIMPL<IndexType>& p) {
     os << "{";
     for(std::size_t i = 0; i < p.size(); ++i) {
         os << p.at(i);
-        if(i + 1 != p.size())
-            os << ", ";
+        if(i + 1 != p.size()) os << ", ";
     }
     return os << "}";
 }
@@ -481,9 +481,9 @@ DOMAINPIMPL& DOMAINPIMPL::prod_assign_(const my_type& other) {
     new_modes.insert(new_modes.end(), other_mm.begin(), other_mm.end());
 
     std::vector<size_type> new_idx(rank() + other.rank());
-    for(const auto& x : m_domain_){
+    for(const auto& x : m_domain_) {
         for(const auto& [i, xi] : utilities::Enumerate(x)) new_idx[i] = xi;
-        for(const auto& y : other.m_domain_){
+        for(const auto& y : other.m_domain_) {
             for(const auto& [i, yi] : utilities::Enumerate(y))
                 new_idx[i + rank()] = yi;
             new_dom.insert(value_type(new_idx));
@@ -497,8 +497,10 @@ DOMAINPIMPL& DOMAINPIMPL::prod_assign_(const my_type& other) {
 
 template<typename IndexType>
 DOMAINPIMPL& DOMAINPIMPL::union_assign_(const my_type& other) {
-    if(other.m_domain_.empty()) return *this;
-    else if(m_domain_.empty()) return (*this) = other;
+    if(other.m_domain_.empty())
+        return *this;
+    else if(m_domain_.empty())
+        return (*this) = other;
 
     // They're not empty so they need to have the same rank
     if(rank() != other.rank())
@@ -515,7 +517,7 @@ DOMAINPIMPL& DOMAINPIMPL::int_assign_(const my_type& other) {
     const bool is_empty   = m_domain_.empty() || other.m_domain_.empty();
     const bool diff_ranks = rank() != other.rank();
 
-    if(is_empty || diff_ranks){
+    if(is_empty || diff_ranks) {
         m_domain_.clear();
         m_mode_map_.clear();
         return *this;

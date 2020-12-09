@@ -1,12 +1,13 @@
 #pragma once
-#include "libchemist/sparse_map/sparse_map/detail_/sparse_map_traits.hpp"
 #include "libchemist/sparse_map/domain/domain.hpp"
+#include "libchemist/sparse_map/sparse_map/detail_/sparse_map_traits.hpp"
 #include <memory> // unique_ptr
 
 namespace libchemist::sparse_map {
 
 // Forward declare for template metaprogramming purposes
-template<typename IndIndex, typename DepIndex> class SparseMap;
+template<typename IndIndex, typename DepIndex>
+class SparseMap;
 
 namespace detail_ {
 
@@ -22,7 +23,7 @@ template<typename IndIndex, typename DepIndex>
 class SparseMapPIMPL {
 private:
     /// Type of an instance of this PIMPL
-    using my_type     = SparseMapPIMPL<IndIndex, DepIndex>;
+    using my_type = SparseMapPIMPL<IndIndex, DepIndex>;
 
     /// Type of the SparseMap associated with this PIMPL
     using parent_type = SparseMap<IndIndex, DepIndex>;
@@ -32,10 +33,10 @@ private:
 
 public:
     /// Type used for counting and offsets
-    using size_type  = typename traits_type::size_type;
+    using size_type = typename traits_type::size_type;
 
     /// Type of the independent indices stored in this SparseMap
-    using key_type    = typename traits_type::key_type;
+    using key_type = typename traits_type::key_type;
 
     /// Type of the dependent index containing Domains
     using mapped_type = typename traits_type::mapped_type;
@@ -197,7 +198,7 @@ public:
      * @throw std::bad_alloc if there is not enough memory to store the new
      *                       state. Strong throw guarantee.
      */
-    auto& direct_product_assign(const my_type& rhs) { return dp_assign_(rhs);}
+    auto& direct_product_assign(const my_type& rhs) { return dp_assign_(rhs); }
 
     /** @brief Sets this SparseMap to the SparseMap with domains given by the
      *         Cartesian product of the Domains previously in this SparseMap
@@ -294,11 +295,12 @@ public:
      *                   SparseMap's state.
      */
     void hash(sde::Hasher& h) const { hash_(h); }
+
 protected:
-    SparseMapPIMPL(const SparseMapPIMPL& rhs)            = default;
-    SparseMapPIMPL(SparseMapPIMPL&& rhs)                 = default;
+    SparseMapPIMPL(const SparseMapPIMPL& rhs) = default;
+    SparseMapPIMPL(SparseMapPIMPL&& rhs)      = default;
     SparseMapPIMPL& operator=(const SparseMapPIMPL& rhs) = default;
-    SparseMapPIMPL& operator=(SparseMapPIMPL&& rhs)      = default;
+    SparseMapPIMPL& operator=(SparseMapPIMPL&& rhs) = default;
 
     /// Should be overridden by derived class to implement add_to_domain
     virtual void add_to_domain_(const key_type& ind, const DepIndex& dep);
@@ -320,12 +322,13 @@ protected:
 
     /// Should be overridden by derived class to implement hash
     virtual void hash_(sde::Hasher& h) const { h(m_sm_); }
+
 private:
     /// Should be overridden by the derived class to make a polymorphic copy
     virtual std::unique_ptr<my_type> clone_() const;
 
     /// Type of the std::map holding the SparseMap's state
-    using map_type    = std::map<key_type, mapped_type>;
+    using map_type = std::map<key_type, mapped_type>;
 
     /// The actual data in the SparseMap
     map_type m_sm_;
@@ -397,7 +400,7 @@ typename SMPIMPL::size_type SMPIMPL::dep_rank() const noexcept {
 }
 
 template<typename IndIndex, typename DepIndex>
-void SMPIMPL::add_to_domain(const key_type& ind, const DepIndex& dep)  {
+void SMPIMPL::add_to_domain(const key_type& ind, const DepIndex& dep) {
     add_to_domain_(ind, dep);
 }
 
@@ -434,7 +437,7 @@ std::ostream& SMPIMPL::print(std::ostream& os) const {
 }
 
 template<typename IndIndex, typename DepIndex>
-void SMPIMPL::add_to_domain_(const key_type& ind, const DepIndex& dep)  {
+void SMPIMPL::add_to_domain_(const key_type& ind, const DepIndex& dep) {
     if(!m_sm_.empty() && ind_rank() != ind.size())
         throw std::runtime_error("Independent index");
     else if(!m_sm_.empty() && dep_rank() != dep.size())
@@ -452,8 +455,8 @@ SMPIMPL& SMPIMPL::dp_assign_(const my_type& rhs) {
     map_type new_map;
 
     using vector_type = std::vector<size_type>;
-    auto new_rank = ind_rank() + rhs.ind_rank();
-    for(auto [lkey, lval] : m_sm_){
+    auto new_rank     = ind_rank() + rhs.ind_rank();
+    for(auto [lkey, lval] : m_sm_) {
         for(const auto& [rkey, rval] : rhs.m_sm_) {
             vector_type new_index;
             new_index.reserve(new_rank);
@@ -471,7 +474,8 @@ SMPIMPL& SMPIMPL::dp_assign_(const my_type& rhs) {
 
 template<typename IndIndex, typename DepIndex>
 SMPIMPL& SMPIMPL::prod_assign_(const my_type& rhs) {
-    if(m_sm_.empty()) return *this;
+    if(m_sm_.empty())
+        return *this;
     else if(rhs.m_sm_.empty()) {
         m_sm_.clear();
         return *this;
@@ -480,8 +484,8 @@ SMPIMPL& SMPIMPL::prod_assign_(const my_type& rhs) {
         throw std::runtime_error("Independent ranks do not match");
 
     map_type new_map;
-    for(const auto& [lind, ldom] : m_sm_){
-        if(rhs.count(lind)){
+    for(const auto& [lind, ldom] : m_sm_) {
+        if(rhs.count(lind)) {
             auto new_dom = ldom * rhs.at(lind);
             if(new_dom.empty()) continue;
             new_map.emplace(lind, std::move(new_dom));
@@ -493,7 +497,8 @@ SMPIMPL& SMPIMPL::prod_assign_(const my_type& rhs) {
 
 template<typename IndIndex, typename DepIndex>
 SMPIMPL& SMPIMPL::union_assign_(const my_type& rhs) {
-    if(rhs.m_sm_.empty()) return *this;
+    if(rhs.m_sm_.empty())
+        return *this;
     else if(m_sm_.empty()) {
         m_sm_ = rhs.m_sm_;
         return *this;
@@ -502,7 +507,7 @@ SMPIMPL& SMPIMPL::union_assign_(const my_type& rhs) {
     if(ind_rank() != rhs.ind_rank())
         throw std::runtime_error("Independent index ranks do not match");
 
-    for(const auto& [k, v] : rhs.m_sm_){
+    for(const auto& [k, v] : rhs.m_sm_) {
         for(const auto& dep : v) m_sm_[k].insert(dep);
     }
     return *this;
@@ -510,14 +515,15 @@ SMPIMPL& SMPIMPL::union_assign_(const my_type& rhs) {
 
 template<typename IndIndex, typename DepIndex>
 SMPIMPL& SMPIMPL::int_assign_(const my_type& rhs) {
-    if(m_sm_.empty()) return *this;
+    if(m_sm_.empty())
+        return *this;
     else if(rhs.m_sm_.empty() || (ind_rank() != rhs.ind_rank())) {
         m_sm_.clear();
         return *this;
     }
 
     map_type new_map;
-    for(const auto& [lind, ldom] : m_sm_){
+    for(const auto& [lind, ldom] : m_sm_) {
         if(!rhs.count(lind)) continue;
         const auto intersection = ldom ^ rhs.at(lind);
         for(const auto& dep : intersection) new_map[lind].insert(dep);
@@ -540,5 +546,4 @@ std::unique_ptr<SMPIMPL> SMPIMPL::clone_() const {
 #undef SMPIMPL
 
 } // namespace detail_
-} // namespace
-
+} // namespace libchemist::sparse_map

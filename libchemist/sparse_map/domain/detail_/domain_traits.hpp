@@ -2,9 +2,10 @@
 #include <utilities/iterators/offset_iterator.hpp> // For iterator
 #include <vector>
 
-namespace libchemist::sparse_map{
+namespace libchemist::sparse_map {
 
-template<typename IndexType> class Domain;
+template<typename IndexType>
+class Domain;
 
 namespace detail_ {
 
@@ -18,7 +19,8 @@ namespace detail_ {
  *
  *  @tparam T The class this struct defines the types of.
  */
-template<typename T> struct DomainTraits;
+template<typename T>
+struct DomainTraits;
 
 /** @brief Partial specialization of DomainTraits to classes of type Domain<T>
  *
@@ -27,10 +29,10 @@ template<typename T> struct DomainTraits;
 template<typename IndexType>
 struct DomainTraits<Domain<IndexType>> {
     /// Type used for counts and offsets
-    using size_type       = std::size_t;
+    using size_type = std::size_t;
 
     /// Type of the indices in the Domain
-    using value_type      = IndexType;
+    using value_type = IndexType;
 
     /// A read-only reference to an index
     using const_reference = const IndexType&;
@@ -44,7 +46,6 @@ struct DomainTraits<Domain<IndexType>> {
     template<typename T>
     using const_iterator = utilities::iterators::OffsetIterator<const T>;
 }; // struct DomainTraits<Domain<IndexType>>
-
 
 } // namespace detail_
 } // namespace libchemist::sparse_map
