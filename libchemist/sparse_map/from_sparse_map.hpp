@@ -239,6 +239,8 @@ auto from_sparse_map(const SparseMap<TileIndex, TileIndex>& tsm,
     return from_sparse_map(esm, tensor, tsm.trange(), ind2mode);
 }
 
+namespace detail_{
+
 //TODO: doc
 /** @brief
  *
@@ -250,51 +252,52 @@ auto from_sparse_map(const SparseMap<TileIndex, TileIndex>& tsm,
  * @param ind2mode
  * @return
  */
-//template<typename TileType, typename T>
-//auto make_tensor_tile_(TileType tile,
-//                       const SparseMap<ElementIndex, ElementIndex>& esm,
-//                       const T& t_of_t,
-//                       const std::map<std::size_t, std::size_t>& ind2mode = {}) {
-//
-//    SparseMap<TileIndex, ElementIndex> tesm(t_of_t.trange(),esm);
-//    auto inv_tesm = tesm.inverse();
-//    SparseMap<TileIndex, TileIndex> inv_ttsm(trange,tesm);
-//
-//    return tile;
-//}
-//
-////TODO: doc
-///** @brief
-// *
-// * @tparam T The type of the tensor being sparsified, assumed to be a TiledArray
-// *           tensor.
-// *
-// * @param[in] esm The element-to-element sparse map describing how to sparsify
-// *                the tensor.
-// * @param[in] tensor The tensor we are sparsifying.
-// * @param[in] outer_trange The TiledRange for the outer tensor of the
-// *            tensor-of-tensor this function is creating.
-// * @param[in] ind2mode A map from independent index mode to the mode in
-// *                     @p tensor it maps to.  *i.e.*, `ind2mode[i]` is the mode
-// *                     of @p tensor that the `i`-th mode of an independent index
-// *                     maps to.
-// * @return The tensor-of-tensors resulting from applying @p esm to @p tensor.
-// */
-//template<typename T>
-//auto reduce_tot_sum(const SparseMap<ElementIndex, ElementIndex>& esm,
-//                  const T& t_of_t,
-//                  const TA::TiledRange trange) {
-//
-//    using scalar_type = typename T::scalar_type;
-//    using tensor_type    = type::tensor<scalar_type>;
-//
-//    auto l =[=](auto& tile, const auto& range) {
-//        using tile_type = std::decay_t<decltype(tile)>;
-//        auto otidx = ta_helpers::get_block_idx(outer_trange, range);
-//        if(!tesm.count(TileIndex(otidx.begin(), otidx.end()))) return 0.0;
-//        tile = detail_::make_tensor_tile_(tile_type(range), esm, t_of_t);
-//        return tile.norm();
-//    };
-//}
+template<typename TileType, typename T>
+auto make_tensor_tile_(TileType tile,
+                       const SparseMap<ElementIndex, ElementIndex>& esm,
+                       const TA::TiledRange& trange,
+                       const T& t_of_t) {
+
+    SparseMap<TileIndex, ElementIndex> tesm(t_of_t.trange(),esm);
+    auto inv_tesm = tesm.inverse();
+    SparseMap<TileIndex, TileIndex> inv_ttsm(trange,tesm);
+    const auto& range = tile.range();
+//    const auto tile_index = trange.element_to_tile(range)
+
+    return tile;
+}
+}
+
+//TODO: doc
+/** @brief
+ *
+ * @tparam T The type of the tensor being sparsified, assumed to be a TiledArray
+ *           tensor.
+ *
+ * @param[in] esm The element-to-element sparse map describing how to sparsify
+ *                the tensor.
+ * @param[in] tensor The tensor we are sparsifying.
+ * @param[in] outer_trange The TiledRange for the outer tensor of the
+ *            tensor-of-tensor this function is creating.
+ * @param[in] ind2mode A map from independent index mode to the mode in
+ *                     @p tensor it maps to.  *i.e.*, `ind2mode[i]` is the mode
+ *                     of @p tensor that the `i`-th mode of an independent index
+ *                     maps to.
+ * @return The tensor-of-tensors resulting from applying @p esm to @p tensor.
+ */
+template<typename T>
+auto reduce_tot_sum(const SparseMap<ElementIndex, ElementIndex>& esm,
+                  const T& t_of_t,
+                  const TA::TiledRange& trange) {
+
+    using scalar_type = typename T::scalar_type;
+    using tensor_type    = type::tensor<scalar_type>;
+
+    auto l =[=](auto& tile, const auto& range) {
+        using tile_type = std::decay_t<decltype(tile)>;
+        tile = detail_::make_tensor_tile_(tile_type(range), esm, trange, t_of_t);
+        return tile.norm();
+    };
+}
 
 } // namespace libchemist::sparse_map
