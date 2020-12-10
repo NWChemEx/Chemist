@@ -1,9 +1,8 @@
 #pragma once
-#include "libchemist/sparse_map/index.hpp"
 #include "libchemist/sparse_map/domain/detail_/domain_base.hpp"
+#include "libchemist/sparse_map/index.hpp"
 
 #include <tiledarray.h>
-
 
 namespace libchemist::sparse_map {
 
@@ -16,7 +15,8 @@ namespace libchemist::sparse_map {
  *  @tparam IndexType The type of indices in the Domain. Either ElementIndex or
  *                    TileIndex.
  */
-template<typename IndexType> class Domain;
+template<typename IndexType>
+class Domain;
 
 /** @brief Domain containing ElementIndex instances.
  *
@@ -26,18 +26,19 @@ template<typename IndexType> class Domain;
  *  indices.
  */
 template<>
-class Domain<ElementIndex> :
-  public detail_::DomainBase<Domain<ElementIndex>, ElementIndex> {
+class Domain<ElementIndex>
+  : public detail_::DomainBase<Domain<ElementIndex>, ElementIndex> {
 private:
     /// Type of this class
-    using my_type     = Domain<ElementIndex>;
+    using my_type = Domain<ElementIndex>;
 
     /// Type of the traits associated with this class
     using traits_type = detail_::DomainTraits<my_type>;
+
 public:
     /// The type the indices are stored as
     using value_type = typename traits_type::value_type;
-    //Pull in base class's ctors
+    // Pull in base class's ctors
     using detail_::DomainBase<Domain<ElementIndex>, ElementIndex>::DomainBase;
 
     /** @brief Converts a Domain of tile indices into a Domain of element
@@ -64,17 +65,18 @@ public:
  *  @todo insert needs to check that elements are in the TiledRange
  */
 template<>
-class Domain<TileIndex> :
-  public detail_::DomainBase<Domain<TileIndex>, TileIndex> {
+class Domain<TileIndex>
+  : public detail_::DomainBase<Domain<TileIndex>, TileIndex> {
 private:
     /// Type of an instance of this class
-    using my_type     = Domain<TileIndex>;
+    using my_type = Domain<TileIndex>;
 
     /// Type of the base class
-    using base_type   = detail_::DomainBase<Domain<TileIndex>, TileIndex>;
+    using base_type = detail_::DomainBase<Domain<TileIndex>, TileIndex>;
 
     /// Type of the struct holding the types for this class
     using traits_type = detail_::DomainTraits<my_type>;
+
 public:
     /// The type the indices are stored as
     using value_type = typename traits_type::value_type;
@@ -151,7 +153,7 @@ public:
 using ElementDomain = Domain<ElementIndex>;
 
 /// Convenience typedef of a Domain filled with TileIndex instances
-using TileDomain    = Domain<TileIndex>;
+using TileDomain = Domain<TileIndex>;
 
 //------------------------------------------------------------------------------
 //             Forward Declaration of Template Instantiations

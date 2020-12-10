@@ -1,4 +1,5 @@
 #pragma once
+#include <TiledArray/algebra/heig.h>
 #include <TiledArray/expressions/contraction_helpers.h>
 #include <TiledArray/algebra/heig.h>
 #include <libchemist/ta_helpers/einsum/einsum.hpp>

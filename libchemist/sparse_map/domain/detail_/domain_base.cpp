@@ -7,12 +7,12 @@
 namespace {
 
 // Hides decisions affecting which PIMPL the class gets
-template<typename IndexType, typename...Args>
+template<typename IndexType, typename... Args>
 std::unique_ptr<libchemist::sparse_map::detail_::DomainPIMPL<IndexType>>
-new_pimpl(Args&&...args) {
+new_pimpl(Args&&... args) {
     using namespace libchemist::sparse_map;
     using namespace libchemist::sparse_map::detail_;
-    using pimpl_type  = DomainPIMPL<IndexType>;
+    using pimpl_type = DomainPIMPL<IndexType>;
 
     // Note if this changes you'll also have to change it in set_trange's
     // implementation in domain.cpp
@@ -20,8 +20,7 @@ new_pimpl(Args&&...args) {
 
     if constexpr(std::is_same_v<IndexType, TileIndex>) {
         return std::make_unique<tpimpl_type>(std::forward<Args>(args)...);
-    }
-    else {
+    } else {
         return std::make_unique<pimpl_type>(std::forward<Args>(args)...);
     }
 }
@@ -37,8 +36,7 @@ namespace libchemist::sparse_map::detail_ {
 //------------------------------------------------------------------------------
 
 template<typename DerivedType, typename IndexType>
-DOMAINBASE::DomainBase() :
-  m_pimpl_(new_pimpl<IndexType>()) {}
+DOMAINBASE::DomainBase() : m_pimpl_(new_pimpl<IndexType>()) {}
 
 template<typename DerivedType, typename IndexType>
 DOMAINBASE::DomainBase(std::initializer_list<value_type> il) : DomainBase() {
@@ -90,10 +88,9 @@ std::vector<typename DOMAINBASE::size_type> DOMAINBASE::result_extents() const {
 }
 
 template<typename DerivedType, typename IndexType>
-typename DOMAINBASE::value_type
-DOMAINBASE::result_index(const value_type& old) const {
-    if(empty())
-        throw std::out_of_range("Domain is empty");
+typename DOMAINBASE::value_type DOMAINBASE::result_index(
+  const value_type& old) const {
+    if(empty()) throw std::out_of_range("Domain is empty");
     return pimpl_().result_index(old);
 }
 
@@ -119,8 +116,8 @@ void DOMAINBASE::insert(value_type idx) {
 }
 
 template<typename DerivedType, typename IndexType>
-DerivedType
-DOMAINBASE::inject(const std::map<size_type, size_type>& injections) const {
+DerivedType DOMAINBASE::inject(
+  const std::map<size_type, size_type>& injections) const {
     using vector_type = typename IndexType::index_type;
 
     if(empty()) return downcast_();
@@ -131,21 +128,19 @@ DOMAINBASE::inject(const std::map<size_type, size_type>& injections) const {
     // If we have rank r indices and we are given n injections, we will make a
     // a rank r + n index, hence all modes in the input must be in the range
     // [0, n].
-    for(const auto& [k, v]: injections){
-        if(k > out_rank){
-            throw std::out_of_range(
-              "Mode " + std::to_string(k) + "  is not in the range [0, " +
-              std::to_string(out_rank) +"]. "
-              );
+    for(const auto& [k, v] : injections) {
+        if(k > out_rank) {
+            throw std::out_of_range("Mode " + std::to_string(k) +
+                                    "  is not in the range [0, " +
+                                    std::to_string(out_rank) + "]. ");
         }
     }
 
     DerivedType rv;
 
-    for(const auto& idx : *this){
+    for(const auto& idx : *this) {
         vector_type new_idx(out_rank, 0);
-        for(std::size_t i = 0, counter = 0; i < out_rank; ++i){
-
+        for(std::size_t i = 0, counter = 0; i < out_rank; ++i) {
             if(injections.count(i))
                 new_idx[i] = injections.at(i);
             else {
@@ -157,7 +152,6 @@ DOMAINBASE::inject(const std::map<size_type, size_type>& injections) const {
     }
     return rv;
 }
-
 
 template<typename DerivedType, typename IndexType>
 DerivedType& DOMAINBASE::operator*=(const DomainBase& rhs) {
@@ -195,7 +189,7 @@ DerivedType DOMAINBASE::operator+(const DomainBase& rhs) const {
 
 template<typename DerivedType, typename IndexType>
 DerivedType& DOMAINBASE::operator^=(const DomainBase& rhs) {
-    if(!m_pimpl_ || !rhs.m_pimpl_){
+    if(!m_pimpl_ || !rhs.m_pimpl_) {
         m_pimpl_ = new_pimpl<IndexType>();
         return downcast_();
     }
@@ -216,21 +210,25 @@ DerivedType DOMAINBASE::operator^(const DomainBase& rhs) const {
 
 template<typename DerivedType, typename IndexType>
 bool DOMAINBASE::operator==(const DomainBase& rhs) const noexcept {
-    if(!m_pimpl_) return !rhs.m_pimpl_;
-    else if(!rhs.m_pimpl_) return false;
+    if(!m_pimpl_)
+        return !rhs.m_pimpl_;
+    else if(!rhs.m_pimpl_)
+        return false;
     return *m_pimpl_ == *rhs.m_pimpl_;
 }
 
 template<typename DerivedType, typename IndexType>
-void DOMAINBASE::hash(sde::Hasher& h) const { h(pimpl_()); }
+void DOMAINBASE::hash(sde::Hasher& h) const {
+    h(pimpl_());
+}
 
 template<typename DerivedType, typename IndexType>
 std::ostream& DOMAINBASE::print(std::ostream& os) const {
     os << "{";
     using utilities::printing::operator<<;
     auto begin_itr = begin();
-    auto end_itr = end();
-    if(begin_itr != end_itr){
+    auto end_itr   = end();
+    if(begin_itr != end_itr) {
         os << *begin_itr;
         ++begin_itr;
     }
@@ -277,4 +275,4 @@ const typename DOMAINBASE::pimpl_type& DOMAINBASE::pimpl_() const {
 template class DomainBase<Domain<ElementIndex>, ElementIndex>;
 template class DomainBase<Domain<TileIndex>, TileIndex>;
 
-}
+} // namespace libchemist::sparse_map::detail_

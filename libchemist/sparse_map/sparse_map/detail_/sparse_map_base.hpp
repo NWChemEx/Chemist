@@ -1,51 +1,54 @@
 #pragma once
-#include "libchemist/sparse_map/sparse_map/detail_/sparse_map_traits.hpp"
 #include "libchemist/sparse_map/domain/domain.hpp"
 #include "libchemist/sparse_map/index.hpp"
+#include "libchemist/sparse_map/sparse_map/detail_/sparse_map_traits.hpp"
 #include <memory>
 
 namespace libchemist::sparse_map {
 
 // Forward declare SparseMap class (needed for template instantiations)
-template<typename IndIndex, typename DepIndex> class SparseMap;
+template<typename IndIndex, typename DepIndex>
+class SparseMap;
 
 namespace detail_ {
 
 // Forward declare the SparseMapPIMPL class
-template<typename IndIndex, typename DepIndex> class SparseMapPIMPL;
+template<typename IndIndex, typename DepIndex>
+class SparseMapPIMPL;
 
 template<typename DerivedType, typename IndIndex, typename DepIndex>
 class SparseMapBase {
 private:
     /// Type of an instance of this class
-    using my_type    = SparseMapBase<DerivedType, IndIndex, DepIndex>;
+    using my_type = SparseMapBase<DerivedType, IndIndex, DepIndex>;
 
     /// Type of the PIMPL
     using pimpl_type = SparseMapPIMPL<IndIndex, DepIndex>;
 
     /// Type of a pointer to a PIMPL instance
-    using pimpl_ptr  = std::unique_ptr<pimpl_type>;
+    using pimpl_ptr = std::unique_ptr<pimpl_type>;
 
     /// Type of the traits class
-    using traits_t   = SparseMapTraits<DerivedType>;
+    using traits_t = SparseMapTraits<DerivedType>;
 
     /// Type of an initializer list which can be forwarded to a Domain
-    using domain_il  = std::initializer_list<DepIndex>;
+    using domain_il = std::initializer_list<DepIndex>;
 
     /// Type of an initializer list for a SparseMap
-    using il_t       = std::initializer_list<std::pair<IndIndex, domain_il>>;
+    using il_t = std::initializer_list<std::pair<IndIndex, domain_il>>;
+
 public:
     /// Type used for offsets and counting
-    using size_type      = typename traits_t::size_type;
+    using size_type = typename traits_t::size_type;
 
     /// Type of the independent index
-    using key_type       = typename traits_t::key_type;
+    using key_type = typename traits_t::key_type;
 
     /// Type of a domain of dependent indices
-    using mapped_type    = typename traits_t::mapped_type;
+    using mapped_type = typename traits_t::mapped_type;
 
     /// Type of the independent-index-domain pairs
-    using value_type     = typename traits_t::value_type;
+    using value_type = typename traits_t::value_type;
 
     /// Type of a bidirectional iterator with read-only access to indices
     using const_iterator =
@@ -289,7 +292,8 @@ public:
     /** @brief Returns an iterator just past the end of the SparseMap.
      *
      *  @return An iterator pointing to just past the end of the SparseMap.
-     *  @throw std::runtime_error if the map has no PIMPL. Strong throw guarantee.
+     *  @throw std::runtime_error if the map has no PIMPL. Strong throw
+     * guarantee.
      */
     const_iterator end() const { return const_iterator(size(), &downcast_()); }
 
@@ -452,21 +456,22 @@ public:
      *
      *  Given the SparseMaps sm1(f -> g) and sm2(g -> h),
      *  the chained map from (f -> h) is formed by mapping each element
-     *  f_i to a set of {g_i} using sm1, and then to any element in h which is mapped to from
-     *  an element of {g_i} by sm2.
+     *  f_i to a set of {g_i} using sm1, and then to any element in h which is
+     * mapped to from an element of {g_i} by sm2.
      *
-     *  Requires that the maps share a common set of indices, g, as the dependent and
-     *  independent indices respectively.
+     *  Requires that the maps share a common set of indices, g, as the
+     * dependent and independent indices respectively.
      *
      * @param[in] sm The SparseMap to chain with this instance.
      * @return The chained map.
-     * @throw std::runtime_error if the rank of the dependent indices of this instance
-     *                           is not equal to the rank of the independent indices
-     *                           of \p sm.
+     * @throw std::runtime_error if the rank of the dependent indices of this
+     * instance is not equal to the rank of the independent indices of \p sm.
      */
     template<typename RHSDepIdx>
-    SparseMap<IndIndex, RHSDepIdx>
-    chain(const SparseMap<DepIndex, RHSDepIdx>& sm) const { return chain_(sm); }
+    SparseMap<IndIndex, RHSDepIdx> chain(
+      const SparseMap<DepIndex, RHSDepIdx>& sm) const {
+        return chain_(sm);
+    }
 
     /** @brief Determines if two SparseMaps are identical.
      *
@@ -504,18 +509,22 @@ public:
      *                   SparseMap's state.
      */
     void hash(sde::Hasher& h) const;
+
 protected:
     /// Ensures the instance has a PIMPL and returns it
     pimpl_type& pimpl_();
 
     /// Ensures the instance has a PIMPL and returns it in a read-only state
     const pimpl_type& pimpl_() const;
+
 private:
     /// Implements chain when RHSDepIdx == ElementIndex
-    SparseMap<IndIndex, ElementIndex> chain_(const SparseMap<DepIndex, ElementIndex>& sm) const;
+    SparseMap<IndIndex, ElementIndex> chain_(
+      const SparseMap<DepIndex, ElementIndex>& sm) const;
 
     /// Implements chain when RHSDepIdx == TileIndex
-    SparseMap<IndIndex, TileIndex> chain_(const SparseMap<DepIndex, TileIndex>& sm) const;
+    SparseMap<IndIndex, TileIndex> chain_(
+      const SparseMap<DepIndex, TileIndex>& sm) const;
 
     /// Returns this instance downcasted to the derived class
     DerivedType& downcast_();
@@ -581,12 +590,11 @@ bool operator!=(const SparseMapBase<DerivedType, IndIndex, DepIndex>& lhs,
     return !(lhs == rhs);
 }
 
-
 //------------------------------------------------------------------------------
 //              Forward Declare Template Instantiations
 //------------------------------------------------------------------------------
 
-#define EXTERN_DECLARE_SPARSEMAPBASE(IndIndex, DepIndex) \
+#define EXTERN_DECLARE_SPARSEMAPBASE(IndIndex, DepIndex)               \
     extern template class SparseMapBase<SparseMap<IndIndex, DepIndex>, \
                                         IndIndex, DepIndex>
 

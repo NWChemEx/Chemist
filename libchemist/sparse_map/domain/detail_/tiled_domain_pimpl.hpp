@@ -19,6 +19,7 @@ class TiledDomainPIMPL : public BaseType {
 public:
     /// Type of this class
     using my_type = TiledDomainPIMPL<BaseType>;
+
 public:
     /// Type of the elements in this class
     using value_type = typename BaseType::value_type;
@@ -63,7 +64,8 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    const auto& trange() const {return m_trange_; }
+    const auto& trange() const { return m_trange_; }
+
 private:
     /// Type of the most basic base class
     using base_pimpl = DomainPIMPL<value_type>;
@@ -188,7 +190,7 @@ private:
 
 template<typename BaseType>
 TILEDDOMAINPIMPL::TiledDomainPIMPL(const TA::TiledRange& trange) :
-  m_trange_(trange){}
+  m_trange_(trange) {}
 
 template<typename BaseType>
 void TILEDDOMAINPIMPL::set_trange(const TA::TiledRange& tr) {
@@ -198,7 +200,7 @@ void TILEDDOMAINPIMPL::set_trange(const TA::TiledRange& tr) {
 
 template<typename BaseType>
 std::unique_ptr<typename TILEDDOMAINPIMPL::base_pimpl>
-  TILEDDOMAINPIMPL::clone_() const {
+TILEDDOMAINPIMPL::clone_() const {
     return std::make_unique<my_type>(*this);
 }
 
@@ -209,37 +211,31 @@ void TILEDDOMAINPIMPL::insert_(value_type idx) {
 }
 
 template<typename BaseType>
-typename TILEDDOMAINPIMPL::base_pimpl&
-TILEDDOMAINPIMPL::prod_assign_(const base_pimpl& other) {
+typename TILEDDOMAINPIMPL::base_pimpl& TILEDDOMAINPIMPL::prod_assign_(
+  const base_pimpl& other) {
     // Make sure other is TiledDomainPIMPL
     const auto* pother = downcast_(other);
-    if(pother == nullptr){
+    if(pother == nullptr) {
         throw std::runtime_error("RHS of operator*= is not a TiledDomainPIMPL");
     }
     // If both have TiledRanges take the product
-    if(has_trange_() && pother->has_trange_()){
+    if(has_trange_() && pother->has_trange_()) {
         std::vector<TA::TiledRange1> tr1s;
         for(std::size_t i = 0; i < this->rank(); ++i)
             tr1s.push_back(m_trange_.dim(i));
         for(std::size_t i = 0; i < other.rank(); ++i)
             tr1s.push_back(pother->m_trange_.dim(i));
         m_trange_ = TA::TiledRange(tr1s.begin(), tr1s.end());
-    }
-    else if(other.size() == 0 && other.rank() == 0){ // Other is empty
+    } else if(other.size() == 0 && other.rank() == 0) { // Other is empty
         m_trange_ = TA::TiledRange{};
-    }
-    else if(this->size() ==0 && this->rank() == 0){ // I'm empty
+    } else if(this->size() == 0 && this->rank() == 0) { // I'm empty
         return *this;
-    }
-    else if(has_trange_()) {
+    } else if(has_trange_()) {
         throw std::runtime_error(
-          "LHS of operator*= has TiledRange, but RHS doesn't"
-          );
-    }
-    else if(pother->has_trange_()) {
+          "LHS of operator*= has TiledRange, but RHS doesn't");
+    } else if(pother->has_trange_()) {
         throw std::runtime_error(
-          "RHS of operator*= has TiledRange, but LHS doesn't"
-        );
+          "RHS of operator*= has TiledRange, but LHS doesn't");
     }
 
     BaseType::prod_assign_(other);
@@ -247,23 +243,20 @@ TILEDDOMAINPIMPL::prod_assign_(const base_pimpl& other) {
 }
 
 template<typename BaseType>
-typename TILEDDOMAINPIMPL::base_pimpl&
-TILEDDOMAINPIMPL::union_assign_(const base_pimpl& other) {
+typename TILEDDOMAINPIMPL::base_pimpl& TILEDDOMAINPIMPL::union_assign_(
+  const base_pimpl& other) {
     // Make sure other is TiledDomainPIMPL
     const auto* pother = downcast_(other);
-    if(pother == nullptr){
+    if(pother == nullptr) {
         throw std::runtime_error("RHS of operator+= is not a TiledDomainPIMPL");
     }
-    if(this->size() == 0 && this->rank() == 0){
+    if(this->size() == 0 && this->rank() == 0) {
         m_trange_ = pother->m_trange_;
-    }
-    else if(other.size() == 0 && other.rank() == 0){
+    } else if(other.size() == 0 && other.rank() == 0) {
         return *this;
-    }
-    else if(trange() != pother->trange()) {
+    } else if(trange() != pother->trange()) {
         throw std::runtime_error(
-            "LHS and RHS of operator+= do not have the same TiledRange"
-          );
+          "LHS and RHS of operator+= do not have the same TiledRange");
     }
 
     BaseType::union_assign_(other);
@@ -271,23 +264,20 @@ TILEDDOMAINPIMPL::union_assign_(const base_pimpl& other) {
 }
 
 template<typename BaseType>
-typename TILEDDOMAINPIMPL::base_pimpl&
-TILEDDOMAINPIMPL::int_assign_(const base_pimpl& other) {
+typename TILEDDOMAINPIMPL::base_pimpl& TILEDDOMAINPIMPL::int_assign_(
+  const base_pimpl& other) {
     // Make sure other is TiledDomainPIMPL
     const auto* pother = downcast_(other);
-    if(pother == nullptr){
+    if(pother == nullptr) {
         throw std::runtime_error("RHS of operator+= is not a TiledDomainPIMPL");
     }
     if(this->size() == 0 && this->rank() == 0) {
         m_trange_ = TA::TiledRange{};
-    }
-    else if(other.size() == 0 && other.rank() == 0){
+    } else if(other.size() == 0 && other.rank() == 0) {
         m_trange_ = TA::TiledRange{};
-    }
-    else if(trange() != pother->trange()) {
+    } else if(trange() != pother->trange()) {
         throw std::runtime_error(
-          "LHS and RHS of operator+= do not have the same TiledRange"
-        );
+          "LHS and RHS of operator+= do not have the same TiledRange");
     }
 
     BaseType::int_assign_(other);

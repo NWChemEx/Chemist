@@ -246,7 +246,7 @@ typename DERIVED_SPACE::overlap_type DERIVED_SPACE::compute_overlap_() const {
         auto i_ma  = lidx + ";mu,a";
         auto j_nb  = ridx + ";nu,b";
 
-        overlap_type buffer;
+        typename FromSpace::overlap_type buffer;
         TA::expressions::einsum(buffer(ij_an), C_ao2x(i_ma), S_ao(ij_mn));
         TA::expressions::einsum(S_deriv(ij_ab), buffer(ij_an), C_ao2x(j_nb));
     } else {
