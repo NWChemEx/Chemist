@@ -325,6 +325,32 @@ auto reduce_tot_sum(const SparseMap<ElementIndex, ElementIndex>& esm,
         tile = detail_::make_reduced_tile_(tile_type(range,0.0), esm, trange_rv, t_of_t);
         return tile.norm();
     };
+
+    return TA::make_array<tensor_type>(t_of_t.world(), trange_rv, l);
+}
+
+template<typename T>
+auto reduce_tot_sum(const SparseMap<ElementIndex, TileIndex>& etsm,
+                    const T& t_of_t,
+                    const TA::TiledRange& trange_rv) {
+    SparseMap<ElementIndex, ElementIndex> esm(etsm);
+    return from_sparse_map(esm, t_of_t, trange_rv);
+}
+
+template<typename T>
+auto reduce_tot_sum(const SparseMap<TileIndex, ElementIndex>& tesm,
+                    const T& t_of_t,
+                    const TA::TiledRange& trange_rv) {
+    SparseMap<ElementIndex, ElementIndex> esm(tesm);
+    return from_sparse_map(esm, t_of_t, trange_rv);
+}
+
+template<typename T>
+auto reduce_tot_sum(const SparseMap<TileIndex, TileIndex>& tsm,
+                    const T& t_of_t,
+                    const TA::TiledRange& trange_rv) {
+    SparseMap<ElementIndex, ElementIndex> esm(tsm);
+    return from_sparse_map(esm, t_of_t, trange_rv);
 }
 
 } // namespace libchemist::sparse_map
