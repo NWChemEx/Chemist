@@ -253,16 +253,38 @@ namespace detail_{
  * @return
  */
 template<typename TileType, typename T>
-auto make_tensor_tile_(TileType tile,
+auto make_reduced_tile_(TileType tile,
                        const SparseMap<ElementIndex, ElementIndex>& esm,
-                       const TA::TiledRange& trange,
+                       const TA::TiledRange& trange_rv,
                        const T& t_of_t) {
 
+    const auto& range_rv = tile.range();
+
+    //TODO: comment these
+    const auto inv_esm = esm.inverse();
     SparseMap<TileIndex, ElementIndex> tesm(t_of_t.trange(),esm);
-    auto inv_tesm = tesm.inverse();
-    SparseMap<TileIndex, TileIndex> inv_ttsm(trange,tesm);
-    const auto& range = tile.range();
-//    const auto tile_index = trange.element_to_tile(range)
+    const auto inv_tesm = tesm.inverse();
+    SparseMap<TileIndex, TileIndex> inv_tsm(trange_rv,inv_tesm);
+    SparseMap<TileIndex, ElementIndex> inv_etsm(trange_rv,inv_esm);
+    const auto etsm = inv_etsm.inverse();
+
+    const auto tidx_v = ta_helpers::get_block_idx(trange_rv, range_rv);
+    const TileIndex tidx_lhs(tidx_v.begin(), tidx_v.end());
+
+    for (const auto& otidx : inv_tsm.at(tidx_lhs)) {
+        const auto& outer_tile = t_of_t.find(otidx);
+        for (const auto& oeidx_v : outer_tile.range()) {
+            const ElementIndex oeidx(oeidx_v.begin(), oeidx_v.end());
+            if (etsm.at(oeidx).count(tidx_lhs)) {
+                for (const auto& lhs_idx_v : range_rv) {
+                    const ElementIndex eidx_lhs(lhs_idx_v.begin(), lhs_idx_v.end());
+                    if (esm.at(oeidx).count(eidx_lhs)) {
+                        tile[eidx_lhs] += outer_tile[oeidx][esm.at(oeidx).result_index(eidx_lhs)];
+                    }
+                }
+            }
+        }
+    }
 
     return tile;
 }
@@ -288,14 +310,19 @@ auto make_tensor_tile_(TileType tile,
 template<typename T>
 auto reduce_tot_sum(const SparseMap<ElementIndex, ElementIndex>& esm,
                   const T& t_of_t,
-                  const TA::TiledRange& trange) {
+                  const TA::TiledRange& trange_rv) {
 
     using scalar_type = typename T::scalar_type;
     using tensor_type    = type::tensor<scalar_type>;
 
+    auto inv_esm = esm.inverse();
+    SparseMap<TileIndex, ElementIndex> inv_etsm(trange_rv,inv_esm);
+
     auto l =[=](auto& tile, const auto& range) {
         using tile_type = std::decay_t<decltype(tile)>;
-        tile = detail_::make_tensor_tile_(tile_type(range), esm, trange, t_of_t);
+        const auto tidx = ta_helpers::get_block_idx(trange_rv, range);
+        if (!inv_etsm.count(TileIndex(tidx.begin(), tidx.end()))) return 0.0;
+        tile = detail_::make_reduced_tile_(tile_type(range,0.0), esm, trange_rv, t_of_t);
         return tile.norm();
     };
 }
