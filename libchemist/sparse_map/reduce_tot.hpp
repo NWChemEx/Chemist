@@ -37,7 +37,7 @@ auto make_reduced_tile_(TileType tile,
     const TileIndex tidx_lhs(tidx_v.begin(), tidx_v.end());
 
     for (const auto& otidx : inv_tsm.at(tidx_lhs)) {
-        const auto& outer_tile = t_of_t.find(otidx);
+        const TA::Tensor<TileType> outer_tile = t_of_t.find(otidx);
         for (const auto& oeidx_v : outer_tile.range()) {
             const ElementIndex oeidx(oeidx_v.begin(), oeidx_v.end());
             if (etsm.at(oeidx).count(tidx_lhs)) {
@@ -99,7 +99,7 @@ auto reduce_tot_sum(const SparseMap<ElementIndex, TileIndex>& etsm,
                     const T& t_of_t,
                     const TA::TiledRange& trange_rv) {
     SparseMap<ElementIndex, ElementIndex> esm(etsm);
-    return from_sparse_map(esm, t_of_t, trange_rv);
+    return reduce_tot_sum(esm, t_of_t, trange_rv);
 }
 
 template<typename T>
@@ -107,7 +107,7 @@ auto reduce_tot_sum(const SparseMap<TileIndex, ElementIndex>& tesm,
                     const T& t_of_t,
                     const TA::TiledRange& trange_rv) {
     SparseMap<ElementIndex, ElementIndex> esm(tesm);
-    return from_sparse_map(esm, t_of_t, trange_rv);
+    return reduce_tot_sum(esm, t_of_t, trange_rv);
 }
 
 template<typename T>
@@ -115,7 +115,7 @@ auto reduce_tot_sum(const SparseMap<TileIndex, TileIndex>& tsm,
                     const T& t_of_t,
                     const TA::TiledRange& trange_rv) {
     SparseMap<ElementIndex, ElementIndex> esm(tsm);
-    return from_sparse_map(esm, t_of_t, trange_rv);
+    return reduce_tot_sum(esm, t_of_t, trange_rv);
 }
 
 } // namespace libchemist::sparse_map
