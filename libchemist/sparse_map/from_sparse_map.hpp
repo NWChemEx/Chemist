@@ -87,7 +87,7 @@ auto make_tot_tile_(TileType tile,
         }
 
         const auto& d = sm.at(oeidx); // The elements in the inner tile
-        inner_tile_t buffer(TA::Range(d.result_extents()));
+        inner_tile_t buffer(TA::Range(d.result_extents()),0.0);
 
         // Determine tiles to retrieve using injected domain
         // TODO: This is just a copy of d if do_inj == false
@@ -96,19 +96,22 @@ auto make_tot_tile_(TileType tile,
         Domain<TileIndex> tdomain(trange, injected_d);
 
         for(const auto& itidx : tdomain) { // Loop over inner-tile indices
-            inner_tile_t t = tensor.find(itidx);
 
-            // It's not clear to me whether the injection alters the order. If
-            // the indices in injected_d are ordered such that the i-th index
-            // of injected_d is the i-th index of d (with the former containing
-            // the injected modes) then we can loop over injected_d, d zipped
-            // together and avoid the uninjection
-            for(const auto& ieidx : injected_d) { // Loop over inner-element
-                if(t.range().includes(ieidx)) {   // Is element in tile?
-                    // Remove injected modes
-                    auto lhs_idx = uninject_index_(ieidx, injections);
-                    // map it to output
-                    buffer[d.result_index(lhs_idx)] = t[ieidx];
+            if (!tensor.is_zero(itidx)) {
+                inner_tile_t t = tensor.find(itidx);
+
+                // It's not clear to me whether the injection alters the order. If
+                // the indices in injected_d are ordered such that the i-th index
+                // of injected_d is the i-th index of d (with the former containing
+                // the injected modes) then we can loop over injected_d, d zipped
+                // together and avoid the uninjection
+                for (const auto &ieidx : injected_d) { // Loop over inner-element
+                    if (t.range().includes(ieidx)) {   // Is element in tile?
+                        // Remove injected modes
+                        auto lhs_idx = uninject_index_(ieidx, injections);
+                        // map it to output
+                        buffer[d.result_index(lhs_idx)] = t[ieidx];
+                    }
                 }
             }
         }
