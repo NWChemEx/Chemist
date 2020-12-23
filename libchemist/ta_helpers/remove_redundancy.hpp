@@ -1,5 +1,5 @@
 #pragma once
-#include <TiledArray/algebra/heig.h>
+#include <TiledArray/math/linalg/heig.h>
 #include <TiledArray/expressions/contraction_helpers.h>
 #include <libchemist/ta_helpers/einsum/einsum.hpp>
 #include <libchemist/ta_helpers/ta_helpers.hpp>
