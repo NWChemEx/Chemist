@@ -48,16 +48,16 @@ bool do_which_first(DERIVED_SPACE<T1>& s1, DERIVED_SPACE<T2>& s2) {
     // We assume transformations are AOs on rows and MOs on columns and that we
     // are transforming from AOs to MOs (N.B. there's nothing here tied to AOs
     // or MOs)
-    auto s1_extent = s1.C().elements_range().extent();
+    auto s1_extent    = s1.C().elements_range().extent();
     const auto s1_nao = s1_extent[0];
     const auto s1_nmo = s1_extent[1];
 
-    auto s2_extent = s2.C().elements_range().extent();
+    auto s2_extent    = s2.C().elements_range().extent();
     const auto s2_nao = s2_extent[0];
     const auto s2_nmo = s2_extent[1];
 
-    //These transformations can only change the size of two of the modes of the
-    //tensor. When we start the tensor is s1_nao * s2_nao * x elements large
+    // These transformations can only change the size of two of the modes of the
+    // tensor. When we start the tensor is s1_nao * s2_nao * x elements large
     //(x is the product of the extents of the remaining modes). If we apply
     // s1 first the result is s1_nmo * s2_nao * x and if we apply s2 first the
     // result is s1_nao * s2_nmo * x. Assuming all quantities are integral and
@@ -96,15 +96,15 @@ std::size_t do_which_first(DERIVED_SPACE<T1>& s1, DERIVED_SPACE<T2>& s2,
     // This first part is conceptually all the same as the two input overload.
     // See the comments there for more help.
 
-    auto s1_extent = s1.C().elements_range().extent();
+    auto s1_extent    = s1.C().elements_range().extent();
     const auto s1_nao = s1_extent[0];
     const auto s1_nmo = s1_extent[1];
 
-    auto s2_extent = s2.C().elements_range().extent();
+    auto s2_extent    = s2.C().elements_range().extent();
     const auto s2_nao = s2_extent[0];
     const auto s2_nmo = s2_extent[1];
 
-    auto s3_extent = s3.C().elements_range().extent();
+    auto s3_extent    = s3.C().elements_range().extent();
     const auto s3_nao = s3_extent[0];
     const auto s3_nmo = s3_extent[1];
 
@@ -134,13 +134,12 @@ std::size_t do_which_first(DERIVED_SPACE<T1>& s1, DERIVED_SPACE<T2>& s2,
 template<typename T1, typename T2, typename T3, typename T4>
 std::size_t do_which_first(DERIVED_SPACE<T1>& s1, DERIVED_SPACE<T2>& s2,
                            DERIVED_SPACE<T3>& s3, DERIVED_SPACE<T4>& s4) {
-
     auto first = do_which_first(s1, s2, s3);
     if(first == 0) {
         // we know s1 <= s2 && s1 <= s3. If condition is false we also have
         // s1 < s4. If true we have s4 <= s1 <= s2 && s4 <= s1 <= s3.
         const bool s4_before_s1 = do_which_first(s1, s4);
-        return s4_before_s1? 3 : 0;
+        return s4_before_s1 ? 3 : 0;
     } else if(first == 1) {
         // we know s2 < s1  && s2 <= s3. If condition is true we also have
         // s2 <= s4. If false we have s4 < s2 < s1 && s4 < s2 <= s3.
@@ -465,7 +464,6 @@ auto transform(AO_SPACE<T1>& s0, DERIVED_SPACE<T2>& s1, DERIVED_SPACE<T3>& s2,
 template<typename T1, typename T2, typename T3, typename TensorType>
 auto transform(DERIVED_SPACE<T1>& s0, DERIVED_SPACE<T2>& s1,
                DERIVED_SPACE<T3>& s2, const TensorType& t) {
-
     const auto& aos0 = s0.from_space();
     const auto& aos1 = s1.from_space();
     const auto& aos2 = s2.from_space();
@@ -955,7 +953,6 @@ template<typename T1, typename T2, typename T3, typename T4,
          typename TensorType>
 auto transform(AO_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2, DERIVED_SPACE<T3>& k1,
                DERIVED_SPACE<T4>& k2, const TensorType& t) {
-
     const auto& aos1 = b2.from_space();
     const auto& aos2 = k1.from_space();
     const auto& aos3 = k2.from_space();
@@ -1001,7 +998,6 @@ template<typename T1, typename T2, typename T3, typename T4,
 auto transform(DERIVED_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2,
                DERIVED_SPACE<T3>& k1, DERIVED_SPACE<T4>& k2,
                const TensorType& t) {
-
     const auto& aos0 = b1.from_space();
     const auto& aos1 = b2.from_space();
     const auto& aos2 = k1.from_space();
