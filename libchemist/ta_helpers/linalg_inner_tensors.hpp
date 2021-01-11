@@ -1,4 +1,6 @@
 #pragma once
+#include <TiledArray/algebra/cholesky.h>
+#include <TiledArray/algebra/heig.h>
 #include <libchemist/ta_helpers/get_block_idx.hpp>
 #include <tiledarray.h>
 

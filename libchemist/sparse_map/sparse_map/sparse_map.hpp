@@ -28,14 +28,17 @@ class SparseMap;
  *  conversions from other SparseMap types.
  */
 template<>
-class SparseMap<ElementIndex, ElementIndex> :
-  public detail_::SparseMapBase<SparseMap<ElementIndex, ElementIndex>, ElementIndex, ElementIndex> {
+class SparseMap<ElementIndex, ElementIndex>
+  : public detail_::SparseMapBase<SparseMap<ElementIndex, ElementIndex>,
+                                  ElementIndex, ElementIndex> {
 private:
     /// Type of an instance of this class
     using my_type = SparseMap<ElementIndex, ElementIndex>;
+
 public:
     // Pull in the base class's ctors
-    using detail_::SparseMapBase<my_type, ElementIndex, ElementIndex>::SparseMapBase;
+    using detail_::SparseMapBase<my_type, ElementIndex,
+                                 ElementIndex>::SparseMapBase;
 
     /** @brief Creates a new instance by mapping the dependent tile indices in
      *         another instance to their respective element indices.
@@ -93,14 +96,17 @@ public:
  *  to Domains of tile indices.
  */
 template<>
-class SparseMap<ElementIndex, TileIndex> :
-  public detail_::SparseMapBase<SparseMap<ElementIndex, TileIndex>, ElementIndex, TileIndex> {
+class SparseMap<ElementIndex, TileIndex>
+  : public detail_::SparseMapBase<SparseMap<ElementIndex, TileIndex>,
+                                  ElementIndex, TileIndex> {
 private:
     /// Type of an instance of this class
     using my_type = SparseMap<ElementIndex, TileIndex>;
+
 public:
     // Pull in the base class's ctors
-    using detail_::SparseMapBase<my_type, ElementIndex, TileIndex>::SparseMapBase;
+    using detail_::SparseMapBase<my_type, ElementIndex,
+                                 TileIndex>::SparseMapBase;
 
     /** @brief Sets the TiledRange of the Domains
      *
@@ -124,14 +130,17 @@ public:
  *
  */
 template<>
-class SparseMap<TileIndex, ElementIndex> :
-  public detail_::SparseMapBase<SparseMap<TileIndex, ElementIndex>, TileIndex, ElementIndex> {
+class SparseMap<TileIndex, ElementIndex>
+  : public detail_::SparseMapBase<SparseMap<TileIndex, ElementIndex>, TileIndex,
+                                  ElementIndex> {
 private:
     /// Type of an instance of this class
-    using my_type    = SparseMap<TileIndex, ElementIndex>;
+    using my_type = SparseMap<TileIndex, ElementIndex>;
+
 public:
     // Pull in the base class's ctors
-    using detail_::SparseMapBase<my_type, TileIndex, ElementIndex>::SparseMapBase;
+    using detail_::SparseMapBase<my_type, TileIndex,
+                                 ElementIndex>::SparseMapBase;
 
     /** @brief Creates a new tile-to-element SparseMap by expanding the
      *         dependent tile indices in a tile-to-tile SparseMap.
@@ -151,7 +160,8 @@ public:
      */
     explicit SparseMap(const SparseMap<TileIndex, TileIndex>& other);
 
-    /** @brief Creates a new instance from a SparseMap<ElementIndex, ElementIndex>
+    /** @brief Creates a new instance from a SparseMap<ElementIndex,
+     * ElementIndex>
      *
      *  This ctor uses the provided TiledRange to map the independent element
      *  indices in the input SparseMap to their respective tile indices. The
@@ -192,11 +202,13 @@ public:
  *  the dependent indices and for tiles.
  */
 template<>
-class SparseMap<TileIndex, TileIndex> :
-  public detail_::SparseMapBase<SparseMap<TileIndex, TileIndex>, TileIndex, TileIndex> {
+class SparseMap<TileIndex, TileIndex>
+  : public detail_::SparseMapBase<SparseMap<TileIndex, TileIndex>, TileIndex,
+                                  TileIndex> {
 private:
     /// Type of an instance of this class
-    using my_type    = SparseMap<TileIndex, TileIndex>;
+    using my_type = SparseMap<TileIndex, TileIndex>;
+
 public:
     // Pull in the base class's ctors
     using detail_::SparseMapBase<my_type, TileIndex, TileIndex>::SparseMapBase;
