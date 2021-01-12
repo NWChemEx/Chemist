@@ -87,7 +87,7 @@ auto make_tot_tile_(TileType tile,
         }
 
         const auto& d = sm.at(oeidx); // The elements in the inner tile
-        inner_tile_t buffer(TA::Range(d.result_extents()));
+        inner_tile_t buffer(TA::Range(d.result_extents()), 0.0);
 
         // Determine tiles to retrieve using injected domain
         // TODO: This is just a copy of d if do_inj == false

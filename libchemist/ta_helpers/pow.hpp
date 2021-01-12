@@ -1,5 +1,4 @@
 #pragma once
-#include <TiledArray/algebra/heig.h>
 #include <algorithm>
 #include <cmath>
 #include <tiledarray.h>
