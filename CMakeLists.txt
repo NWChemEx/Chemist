@@ -27,7 +27,7 @@ cpp_find_or_build_dependency(
 cpp_find_or_build_dependency(
     tiledarray
     URL github.com/ValeevGroup/tiledarray
-    VERSION asadchev/bugfix/linalg-compilation
+    VERSION master
     BUILD_TARGET tiledarray
     FIND_TARGET tiledarray
 )
