@@ -96,6 +96,7 @@ auto make_tot_tile_(TileType tile,
         Domain<TileIndex> tdomain(trange, injected_d);
 
         for(const auto& itidx : tdomain) { // Loop over inner-tile indices
+            if(tensor.is_zero(itidx)) continue;
             inner_tile_t t = tensor.find(itidx);
 
             // It's not clear to me whether the injection alters the order. If
