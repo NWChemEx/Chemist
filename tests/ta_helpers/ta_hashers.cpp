@@ -121,14 +121,14 @@ TEST_CASE("TA Hashers with BPHASH", "[TA],[hash]") {
         REQUIRE(hash_objects(SA3) != hash_objects(SA4));
     }
 
-    SECTION("Direct TA:DistArray and TA::Tensor comparisons"){
-      REQUIRE(TAD1 == TAD1);
-      REQUIRE(TAD1 != TAF1);
-      REQUIRE(TAI1 != TAL1);
-      REQUIRE(TAD1 == TA2);
-      REQUIRE(TA2 != TA3);
-      REQUIRE(TA3 != TA4);
-      REQUIRE(SA2 != SA3);
+    SECTION("Direct TA:DistArray and TA::Tensor comparisons") {
+        REQUIRE(TAD1 == TAD1);
+        REQUIRE(TAD1 != TAF1);
+        REQUIRE(TAI1 != TAL1);
+        REQUIRE(TAD1 == TA2);
+        REQUIRE(TA2 != TA3);
+        REQUIRE(TA3 != TA4);
+        REQUIRE(SA2 != SA3);
     }
 
     SECTION("TA::DistArray and TA::Tensor absolute hash tests") {
@@ -233,7 +233,7 @@ TEMPLATE_TEST_CASE("TA hashing templated tests for tensors",
         REQUIRE(hash_objects(SA3) == hash_objects(SA3c));
     }
 
-    SECTION("Direct TA:DistArray and TA::Tensor comparisons"){
+    SECTION("Direct TA:DistArray and TA::Tensor comparisons") {
         REQUIRE(A0 != A1);
         REQUIRE(A1 == A2);
         REQUIRE(A3 != A4);
