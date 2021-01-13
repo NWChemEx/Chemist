@@ -87,7 +87,7 @@ auto make_tot_tile_(TileType tile,
         }
 
         const auto& d = sm.at(oeidx); // The elements in the inner tile
-        inner_tile_t buffer(TA::Range(d.result_extents()));
+        inner_tile_t buffer(TA::Range(d.result_extents()), 0.0);
 
         // Determine tiles to retrieve using injected domain
         // TODO: This is just a copy of d if do_inj == false
@@ -96,6 +96,7 @@ auto make_tot_tile_(TileType tile,
         Domain<TileIndex> tdomain(trange, injected_d);
 
         for(const auto& itidx : tdomain) { // Loop over inner-tile indices
+            if(tensor.is_zero(itidx)) continue;
             inner_tile_t t = tensor.find(itidx);
 
             // It's not clear to me whether the injection alters the order. If
