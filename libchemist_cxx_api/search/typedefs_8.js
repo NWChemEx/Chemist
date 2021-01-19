@@ -1,6 +1,0 @@
-var searchData=
-[
-  ['mapped_5ftype',['mapped_type',['../classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapBase.html#a42af147e4a367011eb11819ce475ebd9',1,'libchemist::sparse_map::detail_::SparseMapBase::mapped_type()'],['../classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapPIMPL.html#a5abc61a006673874fe1cd54709a44de3',1,'libchemist::sparse_map::detail_::SparseMapPIMPL::mapped_type()'],['../structlibchemist_1_1sparse__map_1_1detail___1_1SparseMapTraits_3_01SparseMap_3_01IndIndex_00_01DepIndex_01_4_01_4.html#a58450ce881c3269033c915ae39192085',1,'libchemist::sparse_map::detail_::SparseMapTraits&lt; SparseMap&lt; IndIndex, DepIndex &gt; &gt;::mapped_type()'],['../classlibchemist_1_1sparse__map_1_1detail___1_1TiledSparseMapPIMPL.html#abcc343bb4ed6461027de2c6a5c5f55a4',1,'libchemist::sparse_map::detail_::TiledSparseMapPIMPL::mapped_type()']]],
-  ['mass_5ftype',['mass_type',['../classlibchemist_1_1Atom.html#a134dd5819cfad6c6f25afd0907f14243',1,'libchemist::Atom::mass_type()'],['../classlibchemist_1_1detail___1_1AtomPIMPL.html#a5eb5f38c8ebe6692c394ab1ac68e3b73',1,'libchemist::detail_::AtomPIMPL::mass_type()']]],
-  ['my_5ftype',['my_type',['../classlibchemist_1_1sparse__map_1_1detail___1_1TiledDomainPIMPL.html#a93be21b4a61949d6ce343d36983288bc',1,'libchemist::sparse_map::detail_::TiledDomainPIMPL']]]
-];
