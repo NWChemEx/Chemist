@@ -1,6 +1,6 @@
 #include <catch2/catch.hpp>
-#include <libchemist/types.hpp>
-#include <libchemist/ta_helpers/remove_redundancy.hpp>
+#include "libchemist/types.hpp"
+#include "libchemist/ta_helpers/remove_redundancy.hpp"
 
 using namespace libchemist::ta_helpers;
 

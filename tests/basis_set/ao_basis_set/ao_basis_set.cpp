@@ -1,7 +1,7 @@
+#include "libchemist/basis_set/ao_basis_set.hpp"
 #include <catch2/catch.hpp>
-#include <libchemist/basis_set/ao_basis_set/ao_basis_set.hpp>
-#include <utilities/iter_tools/enumerate.hpp>
 #include <sde/detail_/memoization.hpp>
+#include <utilities/iter_tools/enumerate.hpp>
 
 using bs_t     = libchemist::AOBasisSet<double>;
 using center_t = libchemist::Center<double>;
@@ -23,7 +23,8 @@ TEST_CASE("AOBasisSet : default ctor") {
 
     bphash::Hasher h(bphash::HashType::Hash128);
     h(bs);
-    REQUIRE(bphash::hash_to_string(h.finalize()) == "00000000000000000000000000000000");
+    REQUIRE(bphash::hash_to_string(h.finalize()) ==
+            "00000000000000000000000000000000");
 }
 
 TEST_CASE("AOBasisSet : copy ctor") {
@@ -75,21 +76,22 @@ TEST_CASE("AOBasisSet : add_center") {
 
     bphash::Hasher h(bphash::HashType::Hash128);
     h(bs);
-    REQUIRE(bphash::hash_to_string(h.finalize()) == "c7c65e5af263ca28eb7d099cf993f8af");
+    REQUIRE(bphash::hash_to_string(h.finalize()) ==
+            "c7c65e5af263ca28eb7d099cf993f8af");
 }
 
 TEST_CASE("AOBasisSet : max_l") {
-    auto[bs, c] = make_bs();
+    auto [bs, c] = make_bs();
     REQUIRE(bs.max_l() == 2);
 }
 
 TEST_CASE("AOBasisSet : n_shells") {
-    auto[bs, c] = make_bs();
+    auto [bs, c] = make_bs();
     REQUIRE(bs.n_shells() == 2);
 }
 
 TEST_CASE("AOBasisSet : shell()") {
-    auto[bs, c] = make_bs();
+    auto [bs, c] = make_bs();
     SECTION("Values") {
         REQUIRE(bs.shell(0) == c[0]);
         REQUIRE(bs.shell(1) == c[1]);
@@ -100,7 +102,7 @@ TEST_CASE("AOBasisSet : shell()") {
 }
 
 TEST_CASE("AOBasisSet : shell() const") {
-    const auto[bs, c] = make_bs();
+    const auto [bs, c] = make_bs();
     SECTION("Values") {
         REQUIRE(bs.shell(0) == c[0]);
         REQUIRE(bs.shell(1) == c[1]);
@@ -111,28 +113,28 @@ TEST_CASE("AOBasisSet : shell() const") {
 }
 
 TEST_CASE("AOBasisSet : shells()") {
-    auto[bs, c] = make_bs();
+    auto [bs, c] = make_bs();
     std::array corr{c[0], c[1]};
-    for(auto && [i, shell_i] : utilities::Enumerate(bs.shells())) {
+    for(auto&& [i, shell_i] : utilities::Enumerate(bs.shells())) {
         REQUIRE(shell_i == corr[i]);
     }
 }
 
 TEST_CASE("AOBasisSet : shells() const") {
-    const auto[bs, c] = make_bs();
+    const auto [bs, c] = make_bs();
     std::array corr{c[0], c[1]};
-    for(auto && [i, shell_i] : utilities::Enumerate(bs.shells())) {
+    for(auto&& [i, shell_i] : utilities::Enumerate(bs.shells())) {
         REQUIRE(shell_i == corr[i]);
     }
 }
 
 TEST_CASE("AOBasisSet : n_aos()") {
-    auto[bs, c] = make_bs();
+    auto [bs, c] = make_bs();
     REQUIRE(bs.n_aos() == 6);
 }
 
 TEST_CASE("AOBasisSet : ao()") {
-    auto[bs, c] = make_bs();
+    auto [bs, c] = make_bs();
     SECTION("Values") {
         REQUIRE(bs.ao(0) == c[0][0]);
         REQUIRE(bs.ao(1) == c[1][0]);
@@ -147,7 +149,7 @@ TEST_CASE("AOBasisSet : ao()") {
 }
 
 TEST_CASE("AOBasisSet : ao() const") {
-    const auto[bs, c] = make_bs();
+    const auto [bs, c] = make_bs();
     SECTION("Values") {
         REQUIRE(bs.ao(0) == c[0][0]);
         REQUIRE(bs.ao(1) == c[1][0]);
@@ -162,28 +164,28 @@ TEST_CASE("AOBasisSet : ao() const") {
 }
 
 TEST_CASE("AOBasisSet : aos()") {
-    auto[bs, c] = make_bs();
+    auto [bs, c] = make_bs();
     std::array corr{c[0][0], c[1][0], c[1][1], c[1][2], c[1][3], c[1][4]};
-    for(auto && [i, ao_i] : utilities::Enumerate(bs.aos())) {
+    for(auto&& [i, ao_i] : utilities::Enumerate(bs.aos())) {
         REQUIRE(ao_i == corr[i]);
     }
 }
 
 TEST_CASE("AOBasisSet : aos() const") {
-    const auto[bs, c] = make_bs();
+    const auto [bs, c] = make_bs();
     std::array corr{c[0][0], c[1][0], c[1][1], c[1][2], c[1][3], c[1][4]};
-    for(auto && [i, ao_i] : utilities::Enumerate(bs.aos())) {
+    for(auto&& [i, ao_i] : utilities::Enumerate(bs.aos())) {
         REQUIRE(ao_i == corr[i]);
     }
 }
 
 TEST_CASE("AOBasisSet : n_unique_primitives()") {
-    auto[bs, c] = make_bs();
+    auto [bs, c] = make_bs();
     REQUIRE(bs.n_unique_primitives() == 2);
 }
 
 TEST_CASE("AOBasisSet : unique_primitive()") {
-    auto[bs, c] = make_bs();
+    auto [bs, c] = make_bs();
     SECTION("Values") {
         REQUIRE(bs.unique_primitive(0) == c[0][0][0]);
         REQUIRE(bs.unique_primitive(1) == c[1][0][0]);
@@ -191,7 +193,7 @@ TEST_CASE("AOBasisSet : unique_primitive()") {
 }
 
 TEST_CASE("AOBasisSet : unique_primitive() const") {
-    const auto[bs, c] = make_bs();
+    const auto [bs, c] = make_bs();
     SECTION("Values") {
         REQUIRE(bs.unique_primitive(0) == c[0][0][0]);
         REQUIRE(bs.unique_primitive(1) == c[1][0][0]);
@@ -199,17 +201,17 @@ TEST_CASE("AOBasisSet : unique_primitive() const") {
 }
 
 TEST_CASE("AOBasisSet : unique_primitives()") {
-    auto[bs, c] = make_bs();
+    auto [bs, c] = make_bs();
     std::array corr{c[0][0][0], c[1][0][0]};
-    for(auto && [i, prim_i] : utilities::Enumerate(bs.unique_primitives())) {
+    for(auto&& [i, prim_i] : utilities::Enumerate(bs.unique_primitives())) {
         REQUIRE(prim_i == corr[i]);
     }
 }
 
 TEST_CASE("AOBasisSet : unique_primitives() const") {
-    const auto[bs, c] = make_bs();
+    const auto [bs, c] = make_bs();
     std::array corr{c[0][0][0], c[1][0][0]};
-    for(auto && [i, prim_i] : utilities::Enumerate(bs.unique_primitives())) {
+    for(auto&& [i, prim_i] : utilities::Enumerate(bs.unique_primitives())) {
         REQUIRE(prim_i == corr[i]);
     }
 }

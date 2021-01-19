@@ -1,6 +1,6 @@
 #include <catch2/catch.hpp>
-#include <libchemist/basis_set_map.hpp>
-#include <libchemist/libchemist.hpp>
+#include "libchemist/basis_set_map.hpp"
+#include "libchemist/libchemist.hpp"
 #include <utilities/iter_tools/enumerate.hpp>
 
 using namespace libchemist;

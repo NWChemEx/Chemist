@@ -1,5 +1,5 @@
 #include <catch2/catch.hpp>
-#include <libchemist/ta_helpers/ta_hashers.hpp>
+#include "libchemist/ta_helpers/ta_hashers.hpp"
 #include <sde/detail_/memoization.hpp>
 
 using sde::hash_objects;
