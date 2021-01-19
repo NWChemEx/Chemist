@@ -1,5 +1,5 @@
+#include "libchemist/basis_set/contracted_gaussian_view.hpp"
 #include <catch2/catch.hpp>
-#include <libchemist/basis_set/contracted_gaussian/contracted_gaussian_view.hpp>
 
 using namespace libchemist;
 using prim_t = Primitive<double>;
@@ -45,7 +45,7 @@ TEST_CASE("ContractedGaussianView<double> : default ctor") {
 }
 
 TEST_CASE("ContractedGaussianView<double> : value ctor") {
-    auto && [prims, g] = make_ctgo<double>();
+    auto&& [prims, g] = make_ctgo<double>();
     compare_state(prims, g);
     SECTION("Is read-/write-able") {
         STATIC_REQUIRE(std::is_same_v<PrimitiveView<double>, decltype(g[0])>);
@@ -53,7 +53,7 @@ TEST_CASE("ContractedGaussianView<double> : value ctor") {
 }
 
 TEST_CASE("ContractedGaussianView<const double> : alias ctor") {
-    auto && [prims, g] = make_ctgo<double>();
+    auto&& [prims, g] = make_ctgo<double>();
     compare_state(prims, g);
     SECTION("Is read-/write-able") {
         STATIC_REQUIRE(std::is_same_v<PrimitiveView<double>, decltype(g[0])>);
@@ -61,13 +61,13 @@ TEST_CASE("ContractedGaussianView<const double> : alias ctor") {
 }
 
 TEST_CASE("ContractedGaussianView<double> : implicit conversion") {
-    auto && [prims, g] = make_ctgo<double>();
+    auto&& [prims, g] = make_ctgo<double>();
     const ContractedGaussian<double>& g2(g);
     compare_state(g2, prims);
 }
 
 TEST_CASE("ContractedGaussianView<double> : operator==") {
-    auto[ps, g] = make_ctgo<double>();
+    auto [ps, g] = make_ctgo<double>();
     ContractedGaussian<double> g2;
     SECTION("View == Value") { REQUIRE_FALSE(g == g2); }
     SECTION("Value == View") { REQUIRE_FALSE(g2 == g); }
@@ -75,7 +75,7 @@ TEST_CASE("ContractedGaussianView<double> : operator==") {
 }
 
 TEST_CASE("ContractedGaussianView<double> : operator!=") {
-    auto[ps, g] = make_ctgo<double>();
+    auto [ps, g] = make_ctgo<double>();
     ContractedGaussian<double> g2;
     SECTION("View != Value") { REQUIRE(g != g2); }
     SECTION("Value != View") { REQUIRE(g2 != g); }

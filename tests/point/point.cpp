@@ -1,5 +1,5 @@
 #include <catch2/catch.hpp>
-#include <libchemist/point/point.hpp>
+#include "libchemist/point/point.hpp"
 
 using namespace libchemist;
 

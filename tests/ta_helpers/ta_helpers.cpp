@@ -1,6 +1,6 @@
 #include <catch2/catch.hpp>
-#include <libchemist/ta_helpers/ta_helpers.hpp>
-#include <libchemist/types.hpp>
+#include "libchemist/ta_helpers/ta_helpers.hpp"
+#include "libchemist/types.hpp"
 
 using namespace libchemist::ta_helpers;
 using tensor_type = libchemist::type::tensor<double>;

@@ -1,5 +1,0 @@
-list(APPEND LIBCHEMIST_TESTS
-     detail_/view_base.cpp
-)
-
-set(LIBCHEMIST_TESTS "${LIBCHEMIST_TESTS}" PARENT_SCOPE)
