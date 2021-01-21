@@ -133,6 +133,11 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
         REQUIRE(st3.from_space_data() == pbs1);
     }
 
+    SECTION("density()") {
+        space_type st2(S2, bs1);
+        std::cout << st2.density() << std::endl;
+    }
+
     SECTION("Hash"){
 
         auto hash1 = sde::hash_objects(st1);

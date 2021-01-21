@@ -143,9 +143,9 @@ public:
      *
      * @return A reference to the density matrix.
      */
-    const auto& density() {
-        if (!m_rho_.has_value()) m_rho_ = compute_density_();
-        return m_rho_;
+    const auto& density() const {
+        if (!m_rho_.has_value()) m_rho_ = std::move(compute_density_());
+        return m_rho_.value();
     }
 
 protected:
@@ -166,7 +166,7 @@ private:
     from_space_ptr m_pbase_;
 
     /// The density matrix in the from space basis set
-    transform_type m_rho_;
+    mutable std::optional<transform_type> m_rho_;
 
     /// Computes the density matrix in the from space basis set
     transform_type compute_density_() const;
@@ -234,8 +234,8 @@ void DERIVED_SPACE::hash_(sde::Hasher& h) const {
 
 template<typename TransformType, typename FromSpace, typename BaseType>
 typename DERIVED_SPACE::overlap_type DERIVED_SPACE::compute_overlap_() const {
-    auto& S_ao   = from_space().S();
-    auto& C_ao2x = C();
+    const auto& S_ao   = from_space().S();
+    const auto& C_ao2x = C();
     overlap_type S_deriv;
 
     using tile_type             = typename FromSpace::overlap_type::value_type;
@@ -280,19 +280,17 @@ typename DERIVED_SPACE::overlap_type DERIVED_SPACE::compute_overlap_() const {
 
 template<typename TransformType, typename FromSpace, typename BaseType>
 typename DERIVED_SPACE::transform_type DERIVED_SPACE::compute_density_() const {
-    auto& C = C();
+    const auto& C_ao2x = C();
     transform_type rho;
 
     using tile_type             = typename transform_type::value_type;
     constexpr bool tile_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
 
-    static_assert(tile_is_tot, "Can't compute density for ToT case");
-
-//    if constexpr(tile_is_tot) {
-//
-//    } else {
-        rho("mu,nu") = C("mu,i") * C("nu,i");
-//    }
+    if constexpr(tile_is_tot) {
+        throw std::runtime_error("Can't compute density for ToT case");
+    } else {
+        rho("mu,nu") = C_ao2x("mu,i") * C_ao2x("nu,i");
+    }
     return rho;
 }
 
