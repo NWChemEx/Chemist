@@ -38,6 +38,7 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
     auto S1 = TensorMaker<tensor_type>::S(world);
     auto S2 = TensorMaker<tensor_type>::S2(world);
     auto S3 = TensorMaker<tensor_type>::corr_transformed_S(world);
+    auto rho = TensorMaker<tensor_type>::corr_rho(world);
     auto pbs1 = std::make_shared<base_type>(S1);
     base_type bs1(*pbs1), bs2(S2);
 
@@ -135,7 +136,13 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
 
     SECTION("density()") {
         space_type st2(S2, bs1);
-        std::cout << st2.density() << std::endl;
+        using tile_type             = typename tensor_type::value_type;
+        constexpr bool tile_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
+        if (tile_is_tot) {
+            REQUIRE_THROWS_AS(st2.density(), std::runtime_error);
+        } else {
+            REQUIRE(compare_tensors(st2.density(), rho));
+        }
     }
 
     SECTION("Hash"){
