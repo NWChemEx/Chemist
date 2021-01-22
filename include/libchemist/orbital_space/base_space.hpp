@@ -78,6 +78,10 @@ public:
      */
     virtual void hash(sde::Hasher& h) const { hash_(h); }
 
+    virtual overlap_type transform(const overlap_type& t, const std::vector<std::size_t>&) const {
+        return t;
+    }
+
 protected:
     /// Actually implements hash. Should be overridden by derived classes
     virtual void hash_(sde::Hasher& h) const {

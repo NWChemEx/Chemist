@@ -1,4 +1,5 @@
 #pragma once
+#include "libchemist/ta_helpers/detail_/contraction_dummy_annotation.hpp"
 #include <TiledArray/expressions/contraction_helpers.h>
 #include <memory>
 
@@ -148,6 +149,8 @@ public:
         return m_rho_.value();
     }
 
+    overlap_type transform(const overlap_type& t, const std::vector<std::size_t>& modes) const override;
+
 protected:
     /// Include the transformation and the from space in the hash
     virtual void hash_(sde::Hasher& h) const override;
@@ -292,6 +295,29 @@ typename DERIVED_SPACE::transform_type DERIVED_SPACE::compute_density_() const {
         rho("mu,nu") = C_ao2x("mu,i") * C_ao2x("nu,i");
     }
     return rho;
+}
+
+template<typename TransformType, typename FromSpace, typename BaseType>
+typename DERIVED_SPACE::overlap_type DERIVED_SPACE::transform(const overlap_type& t,
+                               const std::vector<std::size_t>& modes) const {
+
+    using tile_type             = typename transform_type::value_type;
+    constexpr bool tile_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
+
+    overlap_type rv(t);
+    const auto& C_ao2x = C();
+
+    if constexpr(tile_is_tot) {
+        throw std::runtime_error("Can't use transform() for ToT case");
+    } else {
+        auto n_modes = rv.range().rank();
+        for(const auto& i : modes) {
+            auto[start, finish, change] =
+               ta_helpers::detail_::contraction_dummy_annotations(rv.trange().rank(), i);
+            rv(finish) = rv(start) * C_ao2x(change);
+        }
+    }
+    return rv;
 }
 
 #undef DERIVED_SPACE
