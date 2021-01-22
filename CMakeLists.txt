@@ -27,15 +27,15 @@ cpp_find_or_build_dependency(
 cpp_find_or_build_dependency(
     tiledarray
     URL github.com/ValeevGroup/tiledarray
-    VERSION master
+    VERSION ba3bef6d8abb4d00d500593585e0f23ad72b980d
     BUILD_TARGET tiledarray
     FIND_TARGET tiledarray
 )
 
 cpp_add_library(
     chemist
-    SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/libchemist"
-    INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/libchemist"
+    SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/libchemist"
+    INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/include/libchemist"
     DEPENDS nwx::sde tiledarray
 )
 
@@ -51,7 +51,7 @@ if("${BUILD_TESTING}")
     cpp_add_tests(
         test_chemist
         SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/tests"
-        INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/libchemist"
+        INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/libchemist"
         DEPENDS Catch2::Catch2 chemist
     )
 endif()

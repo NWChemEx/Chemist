@@ -1,6 +1,6 @@
 #include <catch2/catch.hpp>
 #include <iostream>
-#include <libchemist/libchemist.hpp>
+#include "libchemist/libchemist.hpp"
 #include <limits>
 
 using namespace libchemist;

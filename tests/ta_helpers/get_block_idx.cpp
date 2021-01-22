@@ -1,6 +1,6 @@
 #include <catch2/catch.hpp>
-#include <libchemist/ta_helpers/get_block_idx.hpp>
-#include <libchemist/ta_helpers/ta_helpers.hpp>
+#include "libchemist/ta_helpers/get_block_idx.hpp"
+#include "libchemist/ta_helpers/ta_helpers.hpp"
 
 using namespace libchemist::ta_helpers;
 

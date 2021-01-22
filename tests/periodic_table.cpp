@@ -3,8 +3,8 @@
  * to it will be lost next time generate_atomicinfo.py is run.
  */
 
+#include "libchemist/managers/periodic_table.hpp"
 #include <catch2/catch.hpp>
-#include <libchemist/periodic_table.hpp>
 
 using namespace libchemist;
 using size_type    = typename PeriodicTable::size_type;
