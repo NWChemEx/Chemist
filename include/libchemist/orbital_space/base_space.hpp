@@ -78,7 +78,7 @@ public:
      */
     virtual void hash(sde::Hasher& h) const { hash_(h); }
 
-    virtual overlap_type transform(const overlap_type& t, const std::vector<std::size_t>&) const {
+    virtual overlap_type transform(const overlap_type& t, const std::vector<std::size_t>& = {}) const {
         return t;
     }
 
