@@ -70,7 +70,7 @@ public:
     /** @brief Creates a new DerivedSpace_ with the specified state.
      *
      *  This ctor is designed to be used when the "from space" instance has
-     *  already been created and is in use by another "to space". For exmaple
+     *  already been created and is in use by another "to space". For example
      *  one would use this ctor to construct the virtual MO space using the AO
      *  space stored in the already constructed occupied MO space. Note that if
      *  the "from space" is modified elsewhere the instance aliased within this
@@ -90,6 +90,57 @@ public:
      */
     template<typename... Args>
     DerivedSpace_(transform_type C, from_space_ptr pfrom_space, Args&&... args);
+
+    /** @brief Creates a new DerivedSpace_ with the specified state.
+     *
+     *  Of note, this ctor will create an instance which owns the "from space"
+     *  associated with it. Other spaces can alias this space if desired, but
+     *  use of this ctor guarantees that the "from space" will not change for
+     *  the duration of this instance.
+     *
+     * @tparam Args The types of the arguments which will be forwarded to the
+     *              the base class's ctor.
+     *
+     * @param[in] C The transformation coefficients that take you from the
+     *              orbital space `from_space` to this instance's orbital space.
+     *              Default value is a default constructed instance of type
+     *              `TransformType`.
+     * @param[in] D The density of the orbital space in the `*pfrom_space` basis.
+     * @param[in] from_space The orbital space in terms of which this space is
+     *                       defined.
+     * @param[in] args The arguments which will be forwarded to the base class's
+     *                 ctor.
+     *
+     * @throw ??? If moving `C`, moving `D`, moving `from_space`, or fowarding `args`
+     *            throws. Same throw guarantee.
+     */
+    template<typename... Args>
+    DerivedSpace_(transform_type C, transform_type D, from_space_type from_space, Args&&... args);
+
+    /** @brief Creates a new DerivedSpace_ with the specified state.
+     *
+     *  This ctor is designed to be used when the "from space" instance has
+     *  already been created and is in use by another "to space". For example
+     *  one would use this ctor to construct the virtual MO space using the AO
+     *  space stored in the already constructed occupied MO space. Note that if
+     *  the "from space" is modified elsewhere the instance aliased within this
+     *  class will reflect those changes.
+     *
+     * @tparam Args The types of the inputs which will be forwarded to the base
+     *              class's ctor.
+     * @param[in] C The transformation from the orbital space `*pfrom_space` to
+     *              the current orbital space.
+     * @param[in] D The density of the orbital space in the `*pfrom_space` basis.
+     * @param[in] pfrom_space A shared pointer to the "from space". The object
+     *                        pointed at is read-only.
+     * @param[in] args The arguments which will be forwarded to the base class's
+     *                 ctor.
+     *
+     * @throw ??? If moving `C`, moving `D`, or forwarding `args` throws. Same throw
+     *            guarantee.
+     */
+    template<typename... Args>
+    DerivedSpace_(transform_type C, transform_type D, from_space_ptr pfrom_space, Args&&... args);
 
     /** @brief Returns the transformation coefficients to go from `from_space`
      *         to the current space.
@@ -218,6 +269,21 @@ DERIVED_SPACE::DerivedSpace_(transform_type C, from_space_ptr pbase,
   BaseType(std::forward<Args>(args)...), m_C_(std::move(C)), m_pbase_(pbase) {}
 
 template<typename TransformType, typename FromSpace, typename BaseType>
+template<typename... Args>
+DERIVED_SPACE::DerivedSpace_(transform_type C, transform_type D, from_space_type base,
+                             Args&&... args) :
+        DerivedSpace_(std::move(C),
+                      std::move(D),
+                      std::make_shared<from_space_type>(std::move(base)),
+                      std::forward<Args>(args)...) {}
+
+template<typename TransformType, typename FromSpace, typename BaseType>
+template<typename... Args>
+DERIVED_SPACE::DerivedSpace_(transform_type C, transform_type D, from_space_ptr pbase,
+                             Args&&... args) :
+        BaseType(std::forward<Args>(args)...), m_C_(std::move(C)), m_rho_(std::move(D)), m_pbase_(pbase) {}
+
+template<typename TransformType, typename FromSpace, typename BaseType>
 typename DERIVED_SPACE::overlap_type& DERIVED_SPACE::S_() {
     if(!this->has_overlap()) this->set_overlap_(compute_overlap_());
     return BaseType::S_();
@@ -313,7 +379,7 @@ typename DERIVED_SPACE::overlap_type DERIVED_SPACE::transform(const overlap_type
         auto n_modes = rv.range().rank();
         for(const auto& i : modes) {
             auto[start, finish, change] =
-               ta_helpers::detail_::contraction_dummy_annotations(rv.trange().rank(), i);
+                ta_helpers::detail_::contraction_dummy_annotations(rv.trange().rank(), i);
             rv(finish) = rv(start) * C_ao2x(change);
         }
     }
