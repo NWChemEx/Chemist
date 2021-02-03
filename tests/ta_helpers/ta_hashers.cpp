@@ -1,5 +1,5 @@
-#include <catch2/catch.hpp>
 #include "libchemist/ta_helpers/ta_hashers.hpp"
+#include <catch2/catch.hpp>
 #include <sde/detail_/memoization.hpp>
 
 using sde::hash_objects;
@@ -206,6 +206,15 @@ TEMPLATE_TEST_CASE("TA hashing templated tests for tensors",
     SA3.fill(1);
     SA3r.fill(1);
     SA3c.fill(1);
+
+    SECTION("Hash for uninitialized TA objects") {
+        TA::TArray<TestType> UA1;
+        TA::TArray<TestType> UA2;
+        TA::TSpArray<TestType> US1;
+        TA::TSpArray<TestType> US2;
+        REQUIRE(hash_objects(UA1) == hash_objects(UA2));
+        REQUIRE(hash_objects(US1) == hash_objects(US2));
+    }
 
     SECTION("TA::DistArray and TA::Tensor relative hash tests") {
         REQUIRE(hash_objects(A0) == hash_objects(A0));
