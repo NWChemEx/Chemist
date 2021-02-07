@@ -1,22 +1,29 @@
 #include "libchemist/orbital_space/base_space.hpp"
 #include "test_orbital_space.hpp"
 #include <catch2/catch.hpp>
+#include <madness/world/text_fstream_archive.h>
 
 using namespace libchemist;
 using namespace libchemist::orbital_space;
-
 // TODO: Test the default instance when/if default tensors are usable
 
 TEMPLATE_PRODUCT_TEST_CASE("BaseSpace", "",
                            (type::tensor, type::tensor_of_tensors),
                            (float, double)) {
     // Determine the types for this unit test
-    using base_space      = BaseSpace_<TestType>;
-    using tensor_type     = typename base_space::overlap_type;
+    using base_space  = BaseSpace_<TestType>;
+    using tensor_type = typename base_space::overlap_type;
 
     auto& world = TA::get_default_world();
-    auto S  = test::TensorMaker<tensor_type>::S(world);
-    auto S2 = test::TensorMaker<tensor_type>::S2(world);
+    auto S      = test::TensorMaker<tensor_type>::S(world);
+    auto S2     = test::TensorMaker<tensor_type>::S2(world);
+
+    SECTION("Serialization") {
+        const char* file = "archive.dat";
+        madness::archive::TextFstreamOutputArchive archive(file);
+        base_space bs(S);
+        archive& bs;
+    }
 
     SECTION("Typedefs") {
         using overlap_type = typename base_space::overlap_type;
@@ -102,12 +109,12 @@ TEMPLATE_PRODUCT_TEST_CASE("BaseSpace", "",
         REQUIRE(test::compare_tensors(bs_S.S(), S));
     }
 
-    SECTION("S() const"){
+    SECTION("S() const") {
         REQUIRE_THROWS_AS(std::as_const(bs).S(), std::bad_optional_access);
         REQUIRE(test::compare_tensors(std::as_const(bs_S).S(), S));
     }
 
-    SECTION("hash"){
+    SECTION("hash") {
         SECTION("Both default") {
             auto hash1 = sde::hash_objects(bs);
             auto hash2 = sde::hash_objects(base_space());
@@ -134,7 +141,7 @@ TEMPLATE_PRODUCT_TEST_CASE("BaseSpace", "",
     }
 
     SECTION("Comparison operators") {
-        SECTION("Both default"){
+        SECTION("Both default") {
             REQUIRE(bs == base_space());
             REQUIRE_FALSE(bs != base_space());
         }

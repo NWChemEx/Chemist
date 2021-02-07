@@ -2,6 +2,7 @@
 #include "libchemist/basis_set/center.hpp"
 #include "libchemist/basis_set/detail_/flattened_view.hpp"
 #include <bphash/Hasher_fwd.hpp>
+#include <madness/world/parallel_archive.h>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace libchemist {
@@ -419,6 +420,18 @@ public:
      *  @throw None No throw guarantee.
      */
     const_flattened_primitives unique_primitives() const noexcept;
+
+    /** @brief Serialize AOBasisSet instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive,
+             typename = std::enable_if_t<
+               !Archive::is_parallel_archive &&
+               madness::archive::is_output_archive<Archive>::value>>
+    void serialize(Archive& ar) {
+        for(const auto& c : *this) { ar& c.x() & c.y() & c.z(); }
+    }
 
 private:
     /// Allows the base class to implement container API

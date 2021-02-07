@@ -1,5 +1,6 @@
 #include "libchemist/basis_set/ao_basis_set.hpp"
 #include <catch2/catch.hpp>
+#include <madness/world/text_fstream_archive.h>
 #include <sde/detail_/memoization.hpp>
 #include <utilities/iter_tools/enumerate.hpp>
 
@@ -214,4 +215,11 @@ TEST_CASE("AOBasisSet : unique_primitives() const") {
     for(auto&& [i, prim_i] : utilities::Enumerate(bs.unique_primitives())) {
         REQUIRE(prim_i == corr[i]);
     }
+}
+
+TEST_CASE("Serialization") {
+    const auto [bs, c] = make_bs();
+    const char* file   = "archive.dat";
+    madness::archive::TextFstreamOutputArchive archive(file);
+    archive& bs;
 }
