@@ -142,8 +142,10 @@ void hash_object(const TA::DistArray<TensorType, PolicyType>& A,
                  bphash::Hasher& h) {
     const char* mytype = "TA::DistArray";
     h(mytype);
-    h(A.range());
-    h(get_tile_hash_sum(A));
+    if(A.is_initialized()) {
+        h(A.range());
+        h(get_tile_hash_sum(A));
+    }
 }
 
 /** @brief Enables comparison between TA DistArray objects
