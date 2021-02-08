@@ -27,6 +27,9 @@ public:
     /// Type of the object holding the AO basis set parameters
     using basis_type = BasisType;
 
+    /// Type used for indexing and offsets
+    using size_type = typename BaseType::size_type;
+
     /** @brief Creates a new AOSpace. The AOSpace has no AO basis set or overlap
      *         matrix.
      *
@@ -65,6 +68,13 @@ protected:
      *                   AO basis set wil be added to the internal hashed state.
      */
     virtual void hash_(sde::Hasher& h) const override;
+
+    /** @brief Overrides the size member so that it returns the number of AOs.
+     *
+     *  This function simply calls the `size()` member of the AO basis set and
+     *  returns the result.
+     */
+    virtual size_type size_() const noexcept override { return m_bs_.size(); }
 
 private:
     /// The object holding the basis set parameters

@@ -11,16 +11,22 @@ TEMPLATE_PRODUCT_TEST_CASE("BaseSpace", "",
                            (type::tensor, type::tensor_of_tensors),
                            (float, double)) {
     // Determine the types for this unit test
-    using base_space      = BaseSpace_<TestType>;
-    using tensor_type     = typename base_space::overlap_type;
+    using base_space  = BaseSpace_<TestType>;
+    using tensor_type = typename base_space::overlap_type;
 
     auto& world = TA::get_default_world();
-    auto S  = test::TensorMaker<tensor_type>::S(world);
-    auto S2 = test::TensorMaker<tensor_type>::S2(world);
+    auto S      = test::TensorMaker<tensor_type>::S(world);
+    auto S2     = test::TensorMaker<tensor_type>::S2(world);
 
     SECTION("Typedefs") {
-        using overlap_type = typename base_space::overlap_type;
-        STATIC_REQUIRE(std::is_same_v<overlap_type, TestType>);
+        SECTION("overlap_type") {
+            using overlap_type = typename base_space::overlap_type;
+            STATIC_REQUIRE(std::is_same_v<overlap_type, TestType>);
+        }
+        SECTION("size_type") {
+            using size_type = typename base_space::size_type;
+            STATIC_REQUIRE(std::is_same_v<size_type, std::size_t>);
+        }
     }
 
     SECTION("CTors") {
@@ -102,12 +108,12 @@ TEMPLATE_PRODUCT_TEST_CASE("BaseSpace", "",
         REQUIRE(test::compare_tensors(bs_S.S(), S));
     }
 
-    SECTION("S() const"){
+    SECTION("S() const") {
         REQUIRE_THROWS_AS(std::as_const(bs).S(), std::bad_optional_access);
         REQUIRE(test::compare_tensors(std::as_const(bs_S).S(), S));
     }
 
-    SECTION("hash"){
+    SECTION("hash") {
         SECTION("Both default") {
             auto hash1 = sde::hash_objects(bs);
             auto hash2 = sde::hash_objects(base_space());
@@ -133,13 +139,15 @@ TEMPLATE_PRODUCT_TEST_CASE("BaseSpace", "",
         }
     }
 
+    SECTION("size()") { REQUIRE(bs.size() == 0); }
+
     SECTION("transform()") {
         base_space bs;
-        REQUIRE(test::compare_tensors(bs.transform(S),S));
+        REQUIRE(test::compare_tensors(bs.transform(S), S));
     }
 
     SECTION("Comparison operators") {
-        SECTION("Both default"){
+        SECTION("Both default") {
             REQUIRE(bs == base_space());
             REQUIRE_FALSE(bs != base_space());
         }

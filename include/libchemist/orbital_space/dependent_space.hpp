@@ -22,6 +22,9 @@ public:
     /// The type used to store the overlap matrix
     using overlap_type = OverlapType;
 
+    /// The type used for indexing and offsets
+    using size_type = std::size_t;
+
     /** @brief Creates a DependentBaseSpace_ with no SparseMap or overlap
      *         matrix.
      */
@@ -83,9 +86,18 @@ public:
      */
     void hash(sde::Hasher& h) const { hash_(h); }
 
+    /** @brief Returns the number of independent indices in the space.
+     *
+     *
+     */
+    size_type size() const noexcept { return size_(); }
+
 protected:
     /// Should be overriden by the derived class to implement hashing
     virtual void hash_(sde::Hasher& h) const { h(m_sm_, m_space_); }
+
+    /// Should be overrident by the derived class to implement size
+    virtual size_type size_() const noexcept { return m_sm_.size(); }
 
 private:
     /// The sparse map between the independent space and this space

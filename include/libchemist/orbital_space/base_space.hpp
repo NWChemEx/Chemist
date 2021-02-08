@@ -21,6 +21,9 @@ public:
     /// Type of the tensor holding the overlap matrix
     using overlap_type = OverlapType;
 
+    /// Type used to index offsets
+    using size_type = std::size_t;
+
     /** @brief Creates a BaseSpace with no overlap matrix.
      *
      *  This ctor creates a
@@ -76,9 +79,12 @@ public:
      *                   includes state information about this BaseSpace_
      *                   instance.
      */
-    virtual void hash(sde::Hasher& h) const { hash_(h); }
+    void hash(sde::Hasher& h) const { hash_(h); }
 
-    virtual overlap_type transform(const overlap_type& t, const std::vector<std::size_t>& = {}) const {
+    size_type size() const noexcept { return size_(); }
+
+    virtual overlap_type transform(const overlap_type& t,
+                                   const std::vector<std::size_t>& = {}) const {
         return t;
     }
 
@@ -87,6 +93,9 @@ protected:
     virtual void hash_(sde::Hasher& h) const {
         if(has_overlap()) h(S());
     }
+
+    /// Actually implements size. Should be overridden by derived class
+    virtual size_type size_() const noexcept { return 0; }
 
     /// Can be used by derived classes to set the value of the overlap matrix
     void set_overlap_(overlap_type S) const { m_S_ = std::move(S); }

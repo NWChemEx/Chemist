@@ -3,7 +3,6 @@
 #include "test_orbital_space.hpp"
 #include <catch2/catch.hpp>
 
-
 /* For testing purposes we assume:
  *
  * - The actual identity/state of the from space does not impact the
@@ -33,15 +32,13 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
     using base_type   = BaseSpace_<tensor_type>;
     using space_type  = DerivedSpace_<tensor_type, from_space, base_type>;
 
-
     auto& world = TA::get_default_world();
-    auto S1 = TensorMaker<tensor_type>::S(world);
-    auto S2 = TensorMaker<tensor_type>::S2(world);
-    auto S3 = TensorMaker<tensor_type>::corr_transformed_S(world);
-    auto rho = TensorMaker<tensor_type>::corr_rho(world);
-    auto pbs1 = std::make_shared<base_type>(S1);
+    auto S1     = TensorMaker<tensor_type>::S(world);
+    auto S2     = TensorMaker<tensor_type>::S2(world);
+    auto S3     = TensorMaker<tensor_type>::corr_transformed_S(world);
+    auto rho    = TensorMaker<tensor_type>::corr_rho(world);
+    auto pbs1   = std::make_shared<base_type>(S1);
     base_type bs1(*pbs1), bs2(S2);
-
 
     SECTION("Typedefs") {
         SECTION("transform_type") {
@@ -54,18 +51,21 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
             STATIC_REQUIRE(std::is_same_v<the_type, from_space>);
         }
 
-        SECTION("from_space_ptr"){
-            using corr_t = std::shared_ptr<const from_space>;
+        SECTION("from_space_ptr") {
+            using corr_t   = std::shared_ptr<const from_space>;
             using the_type = typename space_type::from_space_ptr;
             STATIC_REQUIRE(std::is_same_v<the_type, corr_t>);
+        }
+
+        SECTION("size_type") {
+            using size_t = typename space_type::size_type;
+            using corr_t = typename base_type::size_type;
+            STATIC_REQUIRE(std::is_same_v<size_t, corr_t>);
         }
     }
 
     SECTION("CTors") {
-
-        SECTION("Default") {
-          space_type st;
-        }
+        SECTION("Default") { space_type st; }
 
         SECTION("All value") {
             space_type st(S2, bs1, S1);
@@ -114,9 +114,7 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
         REQUIRE(compare_tensors(std::as_const(st1).C(), S2));
     }
 
-    SECTION("from_space") {
-        REQUIRE(st1.from_space() == bs1);
-    }
+    SECTION("from_space") { REQUIRE(st1.from_space() == bs1); }
 
     SECTION("S()") {
         space_type st2(S2, bs1);
@@ -136,25 +134,22 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
 
     SECTION("density()") {
         space_type st2(S2, bs1);
-        using tile_type             = typename tensor_type::value_type;
-        constexpr bool tile_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
-        if (tile_is_tot) {
+        using tile_type = typename tensor_type::value_type;
+        constexpr bool tile_is_tot =
+          TA::detail::is_tensor_of_tensor_v<tile_type>;
+        if(tile_is_tot) {
             REQUIRE_THROWS_AS(st2.density(), std::runtime_error);
         } else {
             REQUIRE(compare_tensors(st2.density(), rho));
         }
     }
 
-    SECTION("transform()") {
-        
-    }
+    SECTION("transform()") {}
 
-    SECTION("Hash"){
-
+    SECTION("Hash") {
         auto hash1 = sde::hash_objects(st1);
 
-        SECTION("Same State"){
-
+        SECTION("Same State") {
             SECTION("Same from_space instances") {
                 auto hash2 = sde::hash_objects(space_type(S2, pbs1, S1));
                 auto hash3 = sde::hash_objects(space_type(S2, pbs1, S1));
@@ -183,9 +178,24 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
         }
     }
 
-    SECTION("Comparisons"){
-        SECTION("Same State"){
+    SECTION("size()") {
+        SECTION("empty") {
+            space_type st;
+            REQUIRE(st.size() == 0);
+        }
+        SECTION("non-empty") {
+            using tile_type = typename tensor_type::value_type;
+            constexpr bool tile_is_tot =
+              TA::detail::is_tensor_of_tensor_v<tile_type>;
+            if constexpr(tile_is_tot) {
+            } else {
+                REQUIRE(st1.size() == S2.trange().dim(1).extent());
+            }
+        }
+    }
 
+    SECTION("Comparisons") {
+        SECTION("Same State") {
             SECTION("Same from_space instances") {
                 space_type st2(S2, pbs1, S1), st3(S2, pbs1, S1);
                 REQUIRE(st2 == st3);
