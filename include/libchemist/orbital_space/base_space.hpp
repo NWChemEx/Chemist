@@ -35,7 +35,7 @@ public:
      *  @throw ??? if moving `s` throws. Same exception guarantee as
      *             overlap_type's move ctor.
      */
-    BaseSpace_(overlap_type s) : m_S_(std::move(s)) {}
+    explicit BaseSpace_(overlap_type s) : m_S_(std::move(s)) {}
 
     /** @brief The overlap matrix in read/write format
      *
