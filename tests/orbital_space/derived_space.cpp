@@ -74,9 +74,13 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
         }
 
         SECTION("All value w/ density") {
-            space_type st(S2, S2, bs1, S1);
+            space_type st(S2, rho, bs1, S1);
             SECTION("C") { REQUIRE(compare_tensors(st.C(), S2)); }
-            SECTION("density") { REQUIRE(compare_tensors(st.density(), rho)); }
+            SECTION("density") {
+                using tile_type             = typename tensor_type::value_type;
+                constexpr bool tile_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
+                if (!tile_is_tot) REQUIRE(compare_tensors(st.density(), rho));
+            }
             SECTION("from_space") { REQUIRE(st.from_space() == bs1); }
         }
 
@@ -89,7 +93,11 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
         SECTION("Base space by pointer w/ density") {
             space_type st(S2, rho, pbs1, S1);
             SECTION("C") { REQUIRE(compare_tensors(st.C(), S2)); }
-            SECTION("density") { REQUIRE(compare_tensors(st.density(), rho)); }
+            SECTION("density") {
+                using tile_type             = typename tensor_type::value_type;
+                constexpr bool tile_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
+                if (!tile_is_tot) REQUIRE(compare_tensors(st.density(), rho));
+            }
             SECTION("from_space") { REQUIRE(st.from_space_data() == pbs1); }
         }
 
