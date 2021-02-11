@@ -200,6 +200,18 @@ public:
         return m_rho_.value();
     }
 
+    /** @brief Return the provided matrix with the specified modes transformed
+     * from the "from space".
+     *
+     * Uses the transformation coefficients, C(), to change some
+     * modes of an input tensor from the "from space" to the DerivedSpace basis.
+     * ex: R(i,nu) = X(mu,nu) * C(mu,i)
+     *
+     * @param X The tensor to be transformed
+     * @param modes The list of modes of X that should be transformed
+     *
+     * @return The transformed matrix
+     */
     overlap_type transform(const overlap_type& t, const std::vector<std::size_t>& modes) const override;
 
 protected:
@@ -367,7 +379,13 @@ template<typename TransformType, typename FromSpace, typename BaseType>
 typename DERIVED_SPACE::overlap_type DERIVED_SPACE::transform(const overlap_type& t,
                                const std::vector<std::size_t>& modes) const {
 
-    using tile_type             = typename transform_type::value_type;
+    for(const auto& i : modes) {
+        if (i >= t.trange().rank()) {
+            throw std::runtime_error("Modes to be transformed incompatible with input tensor");
+        }
+    }
+
+    using tile_type             = typename overlap_type::value_type;
     constexpr bool tile_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
 
     overlap_type rv(t);
