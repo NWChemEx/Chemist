@@ -38,7 +38,7 @@ public:
      *  @throw ??? if moving `s` throws. Same exception guarantee as
      *             overlap_type's move ctor.
      */
-    BaseSpace_(overlap_type s) : m_S_(std::move(s)) {}
+    explicit BaseSpace_(overlap_type s) : m_S_(std::move(s)) {}
 
     /** @brief The overlap matrix in read/write format
      *
@@ -85,6 +85,20 @@ public:
 
     virtual overlap_type transform(const overlap_type& t,
                                    const std::vector<std::size_t>& = {}) const {
+        return t;
+    }
+
+    /** @brief In BaseSpace, this function simply returns its input.
+     *
+     * Derived classes may implenent an actual transformation of the input
+     * tensor, i.e. a change of basis for a DerivedSpace.
+     *
+     * @param X The tensor to be transformed
+     * @param modes The list of modes of X that should be transformed
+     *
+     * @return The input matrix unchanged.
+     */
+    virtual overlap_type transform(const overlap_type& t, const std::vector<std::size_t>& = {}) const {
         return t;
     }
 

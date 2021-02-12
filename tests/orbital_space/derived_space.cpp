@@ -1,6 +1,7 @@
 #include "libchemist/orbital_space/base_space.hpp"
 #include "libchemist/orbital_space/derived_space.hpp"
 #include "test_orbital_space.hpp"
+#include "transform_data.hpp"
 #include <catch2/catch.hpp>
 
 /* For testing purposes we assume:
@@ -74,9 +75,14 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
         }
 
         SECTION("All value w/ density") {
-            space_type st(S2, S2, bs1, S1);
+            space_type st(S2, rho, bs1, S1);
             SECTION("C") { REQUIRE(compare_tensors(st.C(), S2)); }
-            SECTION("density") { REQUIRE(compare_tensors(st.density(), rho)); }
+            SECTION("density") {
+                using tile_type = typename tensor_type::value_type;
+                constexpr bool tile_is_tot =
+                  TA::detail::is_tensor_of_tensor_v<tile_type>;
+                if(!tile_is_tot) REQUIRE(compare_tensors(st.density(), rho));
+            }
             SECTION("from_space") { REQUIRE(st.from_space() == bs1); }
         }
 
@@ -89,7 +95,12 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
         SECTION("Base space by pointer w/ density") {
             space_type st(S2, rho, pbs1, S1);
             SECTION("C") { REQUIRE(compare_tensors(st.C(), S2)); }
-            SECTION("density") { REQUIRE(compare_tensors(st.density(), rho)); }
+            SECTION("density") {
+                using tile_type = typename tensor_type::value_type;
+                constexpr bool tile_is_tot =
+                  TA::detail::is_tensor_of_tensor_v<tile_type>;
+                if(!tile_is_tot) REQUIRE(compare_tensors(st.density(), rho));
+            }
             SECTION("from_space") { REQUIRE(st.from_space_data() == pbs1); }
         }
 
@@ -159,96 +170,142 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
     }
 
     SECTION("transform()") {
-        space_type st2(S2, bs1);
-        using tile_type = typename tensor_type::value_type;
+        using tile_type   = typename tensor_type::value_type;
+        using scalar_type = typename tensor_type::scalar_type;
         constexpr bool tile_is_tot =
           TA::detail::is_tensor_of_tensor_v<tile_type>;
+        auto& world = TA::get_default_world();
+
         if(tile_is_tot) {
-            REQUIRE_THROWS_AS(st2.density(), std::runtime_error);
+            space_type st(S2, bs1, S1);
+            REQUIRE_THROWS_AS(st.transform(S1, {}), std::runtime_error);
         } else {
-            REQUIRE(compare_tensors(st2.density(), rho));
+            SECTION("Matrix") {
+                TA::TSpArray<scalar_type> I(world, {{1.0, 2.0}, {3.0, 4.0}});
+                auto c23 = make_space23<scalar_type>(world);
+                auto c24 = make_space24<scalar_type>(world);
+
+                SECTION("modes{}") {
+                    REQUIRE(compare_tensors(c23.transform(I, {}), I));
+                }
+                SECTION("modes{0}") {
+                    auto corr = TA::TSpArray<scalar_type>(
+                      world, {{1.8, 2.48}, {2.24, 3.14}, {2.79, 4.02}});
+                    REQUIRE(compare_tensors(c23.transform(I, {0}), corr));
+                }
+                SECTION("modes{1}") {
+                    auto corr = TA::TSpArray<scalar_type>(
+                      world,
+                      {{1.46, 1.79, 2.23, 2.36}, {3.04, 3.81, 4.91, 5.28}});
+                    REQUIRE(compare_tensors(c24.transform(I, {1}), corr));
+                }
+                SECTION("modes{0,1}") {
+                    auto corr = TA::TSpArray<scalar_type>(
+                      world, {{1.6048, 2.0756, 2.7444},
+                              {2.0272, 2.619, 3.4572},
+                              {2.586, 3.3351, 4.3911}});
+                    REQUIRE(compare_tensors(c23.transform(I, {0, 1}), corr));
+                }
+                SECTION("modes{0,2}") {
+                    REQUIRE_THROWS_AS(c23.transform(I, {0, 2}),
+                                      std::runtime_error);
+                }
+            }
         }
     }
 
     SECTION("Hash") {
-        auto hash1 = sde::hash_objects(st1);
-
-        SECTION("Same State") {
-            SECTION("Same from_space instances") {
-                auto hash2 = sde::hash_objects(space_type(S2, pbs1, S1));
-                auto hash3 = sde::hash_objects(space_type(S2, pbs1, S1));
-                REQUIRE(hash2 == hash3);
-            }
-
-            SECTION("Doesn't need to be same aliased space instances") {
-                auto hash2 = sde::hash_objects(space_type(S2, bs1, S1));
-                REQUIRE(hash1 == hash2);
-            }
-        }
-
-        SECTION("Different transformation") {
-            auto hash2 = sde::hash_objects(space_type(S1, bs1, S1));
-            REQUIRE(hash1 != hash2);
-        }
-
-        SECTION("Different from space") {
-            auto hash2 = sde::hash_objects(space_type(S2, bs2, S1));
-            REQUIRE(hash1 != hash2);
-        }
-
-        SECTION("Different base spaces") {
-            auto hash2 = sde::hash_objects(space_type(S2, bs1, S2));
-            REQUIRE(hash1 != hash2);
-        }
-    }
-
-    SECTION("size()") {
-        SECTION("empty") {
-            space_type st;
-            REQUIRE(st.size() == 0);
-        }
-        SECTION("non-empty") {
+        SECTION("transform()") {
+            space_type st2(S2, bs1);
             using tile_type = typename tensor_type::value_type;
             constexpr bool tile_is_tot =
               TA::detail::is_tensor_of_tensor_v<tile_type>;
-            if constexpr(tile_is_tot) {
+            if(tile_is_tot) {
+                REQUIRE_THROWS_AS(st2.density(), std::runtime_error);
             } else {
-                REQUIRE(st1.size() == S2.trange().dim(1).extent());
+                REQUIRE(compare_tensors(st2.density(), rho));
+            }
+        }
+
+        SECTION("Hash") {
+            auto hash1 = sde::hash_objects(st1);
+
+            SECTION("Same State") {
+                SECTION("Same from_space instances") {
+                    auto hash2 = sde::hash_objects(space_type(S2, pbs1, S1));
+                    auto hash3 = sde::hash_objects(space_type(S2, pbs1, S1));
+                    REQUIRE(hash2 == hash3);
+                }
+
+                SECTION("Doesn't need to be same aliased space instances") {
+                    auto hash2 = sde::hash_objects(space_type(S2, bs1, S1));
+                    REQUIRE(hash1 == hash2);
+                }
+            }
+
+            SECTION("Different transformation") {
+                auto hash2 = sde::hash_objects(space_type(S1, bs1, S1));
+                REQUIRE(hash1 != hash2);
+            }
+
+            SECTION("Different from space") {
+                auto hash2 = sde::hash_objects(space_type(S2, bs2, S1));
+                REQUIRE(hash1 != hash2);
+            }
+
+            SECTION("Different base spaces") {
+                auto hash2 = sde::hash_objects(space_type(S2, bs1, S2));
+                REQUIRE(hash1 != hash2);
+            }
+        }
+
+        SECTION("size()") {
+            SECTION("empty") {
+                space_type st;
+                REQUIRE(st.size() == 0);
+            }
+            SECTION("non-empty") {
+                using tile_type = typename tensor_type::value_type;
+                constexpr bool tile_is_tot =
+                  TA::detail::is_tensor_of_tensor_v<tile_type>;
+                if constexpr(tile_is_tot) {
+                } else {
+                    REQUIRE(st1.size() == S2.trange().dim(1).extent());
+                }
+            }
+        }
+
+        SECTION("Comparisons") {
+            SECTION("Same State") {
+                SECTION("Same from_space instances") {
+                    space_type st2(S2, pbs1, S1), st3(S2, pbs1, S1);
+                    REQUIRE(st2 == st3);
+                    REQUIRE_FALSE(st2 != st3);
+                }
+
+                SECTION("Doesn't need to be same aliased space instances") {
+                    space_type st2(S2, bs1, S1);
+                    REQUIRE(st1 == st2);
+                    REQUIRE_FALSE(st1 != st2);
+                }
+            }
+
+            SECTION("Different transformation") {
+                space_type st2(S1, bs1, S1);
+                REQUIRE_FALSE(st1 == st2);
+                REQUIRE(st1 != st2);
+            }
+
+            SECTION("Different from space") {
+                space_type st2(S2, bs2, S1);
+                REQUIRE_FALSE(st1 == st2);
+                REQUIRE(st1 != st2);
+            }
+
+            SECTION("Different base spaces") {
+                space_type st2(S2, bs2, S2);
+                REQUIRE_FALSE(st1 == st2);
+                REQUIRE(st1 != st2);
             }
         }
     }
-
-    SECTION("Comparisons") {
-        SECTION("Same State") {
-            SECTION("Same from_space instances") {
-                space_type st2(S2, pbs1, S1), st3(S2, pbs1, S1);
-                REQUIRE(st2 == st3);
-                REQUIRE_FALSE(st2 != st3);
-            }
-
-            SECTION("Doesn't need to be same aliased space instances") {
-                space_type st2(S2, bs1, S1);
-                REQUIRE(st1 == st2);
-                REQUIRE_FALSE(st1 != st2);
-            }
-        }
-
-        SECTION("Different transformation") {
-            space_type st2(S1, bs1, S1);
-            REQUIRE_FALSE(st1 == st2);
-            REQUIRE(st1 != st2);
-        }
-
-        SECTION("Different from space") {
-            space_type st2(S2, bs2, S1);
-            REQUIRE_FALSE(st1 == st2);
-            REQUIRE(st1 != st2);
-        }
-
-        SECTION("Different base spaces") {
-            space_type st2(S2, bs2, S2);
-            REQUIRE_FALSE(st1 == st2);
-            REQUIRE(st1 != st2);
-        }
-    }
-}
