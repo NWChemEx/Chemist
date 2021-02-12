@@ -65,10 +65,13 @@ private:
     orbital_energy_type m_egys_;
 };
 
-template<typename TensorType, typename LHSBase, typename RHSBase>
+template<typename TensorType, typename LHSBase, typename OtherType>
 bool operator==(const CanonicalSpace_<TensorType, LHSBase>& lhs,
-                const CanonicalSpace_<TensorType, RHSBase>& rhs) {
-    auto& cast_lhs = static_cast<const LHSBase&>(lhs);
+                OtherType&& rhs) {
+    using clean_lhs_t = std::decay_t<decltype(lhs)>;
+    using clean_rhs_t = std::decay_t<decltype(rhs)>;
+    if constexpr(std::is_same_v < clean_lhs_t)
+        auto& cast_lhs = static_cast<const LHSBase&>(lhs);
     auto& cast_rhs = static_cast<const RHSBase&>(rhs);
 
     // TODO: Actually compare the tensors

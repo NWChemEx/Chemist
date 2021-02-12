@@ -111,15 +111,18 @@ private:
     mutable std::optional<overlap_type> m_S_;
 };
 
-template<typename OverlapType>
-bool operator==(const BaseSpace_<OverlapType>& lhs,
-                const BaseSpace_<OverlapType>& rhs) {
-    // TODO: Actually compare the tensors
-    if(lhs.has_overlap() != rhs.has_overlap())
-        return false;
-    else if(!lhs.has_overlap())
-        return true; // Both don't have an overlap
-    return sde::hash_objects(lhs) == sde::hash_objects(rhs);
+template<typename OverlapType, typename OtherType>
+bool operator==(const BaseSpace_<OverlapType>& lhs, OtherType&& rhs) {
+    using clean_lhs_t = std::decay_t<decltype(lhs)>;
+    using clean_rhs_t = std::decay_t<decltype(rhs)>;
+    if constexpr(std::is_same_v<clean_lhs_t, clean_rhs_t>) {
+        // TODO: Actually compare the tensors
+        if(lhs.has_overlap() != rhs.has_overlap())
+            return false;
+        else if(!lhs.has_overlap())
+            return true; // Both don't have an overlap
+        return sde::hash_objects(lhs) == sde::hash_objects(rhs);
+    } else
 }
 
 template<typename OverlapType>

@@ -81,18 +81,22 @@ private:
     basis_type m_bs_;
 };
 
-template<typename BasisType, typename LHSBase, typename RHSBase>
-bool operator==(const AOSpace_<BasisType, LHSBase>& lhs,
-                const AOSpace_<BasisType, RHSBase>& rhs) {
-    const auto& cast_lhs = static_cast<const LHSBase&>(lhs);
-    const auto& cast_rhs = static_cast<const RHSBase&>(rhs);
-    return (cast_lhs == cast_rhs) && (lhs.basis_set() == rhs.basis_set());
+template<typename BasisType, typename LHSBase, typename OtherType>
+bool operator==(const AOSpace_<BasisType, LHSBase>& lhs, OtherType&& rhs) {
+    using clean_lhs_t = std::decay_t<decltype(lhs)>;
+    using clean_rhs_t = std::decay_t<decltype(rhs)>;
+    if constexpr(std::is_same_v<clean_lhs_t, clean_rhs_t>) {
+        const auto& cast_lhs = static_cast<const LHSBase&>(lhs);
+        const auto& cast_rhs = static_cast<const LHSBase&>(rhs);
+        return (cast_lhs == cast_rhs) && (lhs.basis_set() == rhs.basis_set());
+    } else {
+        return false;
+    }
 }
 
-template<typename BasisType, typename LHSBase, typename RHSBase>
-bool operator!=(const AOSpace_<BasisType, LHSBase>& lhs,
-                const AOSpace_<BasisType, RHSBase>& rhs) {
-    return !(lhs == rhs);
+template<typename BasisType, typename LHSBase, typename OtherType>
+bool operator!=(const AOSpace_<BasisType, LHSBase>& lhs, OtherType&& rhs) {
+    return !(lhs == std::forward<OtherType>(rhs));
 }
 
 // ---------------------------- Implementations -------------------------------
