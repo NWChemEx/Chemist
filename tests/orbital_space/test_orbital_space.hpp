@@ -27,6 +27,10 @@ struct TensorMaker {
     static auto corr_transformed_S(TA::World& world) {
         return T(world, {{1.3125, 1.03125}, {1.03125, 1.3125}});
     }
+
+    static auto corr_rho(TA::World& world) {
+        return T(world, {{1.0625, 0.5}, {0.5, 1.0625}});
+    }
 };
 
 template<typename T>
@@ -61,6 +65,12 @@ struct TensorMaker<type::tensor_of_tensors<T>> {
                                        2.35369, 2.377802, 2.114836, 2.377802,
                                        2.565748});
         return tensor_type(world, {{t, t2}, {t3, t4}});
+    }
+
+    // placeholder until density() works for ToT case
+    static auto corr_rho(TA::World& world) {
+        tensor_type rv;
+        return rv;
     }
 };
 

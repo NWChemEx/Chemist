@@ -1,4 +1,5 @@
 #pragma once
+#include "libchemist/ta_helpers/detail_/contraction_dummy_annotation.hpp"
 #include <TiledArray/expressions/contraction_helpers.h>
 #include <memory>
 
@@ -69,7 +70,7 @@ public:
     /** @brief Creates a new DerivedSpace_ with the specified state.
      *
      *  This ctor is designed to be used when the "from space" instance has
-     *  already been created and is in use by another "to space". For exmaple
+     *  already been created and is in use by another "to space". For example
      *  one would use this ctor to construct the virtual MO space using the AO
      *  space stored in the already constructed occupied MO space. Note that if
      *  the "from space" is modified elsewhere the instance aliased within this
@@ -89,6 +90,57 @@ public:
      */
     template<typename... Args>
     DerivedSpace_(transform_type C, from_space_ptr pfrom_space, Args&&... args);
+
+    /** @brief Creates a new DerivedSpace_ with the specified state.
+     *
+     *  Of note, this ctor will create an instance which owns the "from space"
+     *  associated with it. Other spaces can alias this space if desired, but
+     *  use of this ctor guarantees that the "from space" will not change for
+     *  the duration of this instance.
+     *
+     * @tparam Args The types of the arguments which will be forwarded to the
+     *              the base class's ctor.
+     *
+     * @param[in] C The transformation coefficients that take you from the
+     *              orbital space `from_space` to this instance's orbital space.
+     *              Default value is a default constructed instance of type
+     *              `TransformType`.
+     * @param[in] D The density of the orbital space in the `*pfrom_space` basis.
+     * @param[in] from_space The orbital space in terms of which this space is
+     *                       defined.
+     * @param[in] args The arguments which will be forwarded to the base class's
+     *                 ctor.
+     *
+     * @throw ??? If moving `C`, moving `D`, moving `from_space`, or fowarding `args`
+     *            throws. Same throw guarantee.
+     */
+    template<typename... Args>
+    DerivedSpace_(transform_type C, transform_type D, from_space_type from_space, Args&&... args);
+
+    /** @brief Creates a new DerivedSpace_ with the specified state.
+     *
+     *  This ctor is designed to be used when the "from space" instance has
+     *  already been created and is in use by another "to space". For example
+     *  one would use this ctor to construct the virtual MO space using the AO
+     *  space stored in the already constructed occupied MO space. Note that if
+     *  the "from space" is modified elsewhere the instance aliased within this
+     *  class will reflect those changes.
+     *
+     * @tparam Args The types of the inputs which will be forwarded to the base
+     *              class's ctor.
+     * @param[in] C The transformation from the orbital space `*pfrom_space` to
+     *              the current orbital space.
+     * @param[in] D The density of the orbital space in the `*pfrom_space` basis.
+     * @param[in] pfrom_space A shared pointer to the "from space". The object
+     *                        pointed at is read-only.
+     * @param[in] args The arguments which will be forwarded to the base class's
+     *                 ctor.
+     *
+     * @throw ??? If moving `C`, moving `D`, or forwarding `args` throws. Same throw
+     *            guarantee.
+     */
+    template<typename... Args>
+    DerivedSpace_(transform_type C, transform_type D, from_space_ptr pfrom_space, Args&&... args);
 
     /** @brief Returns the transformation coefficients to go from `from_space`
      *         to the current space.
@@ -133,6 +185,35 @@ public:
      */
     auto from_space_data() const { return m_pbase_; }
 
+    /** @brief Returns a read-only reference to the density of the space
+     *
+     *  Returns the density matrix of the DerivedSpace in the basis set
+     *  of the space it is derived from. Computes the density on the first call
+     *  and stores it for later calls.
+     *
+     *  density(mu,nu) = C(mu,i) * Cdagger(i,nu)
+     *
+     * @return A reference to the density matrix.
+     */
+    const auto& density() const {
+        if (!m_rho_.has_value()) m_rho_ = std::move(compute_density_());
+        return m_rho_.value();
+    }
+
+    /** @brief Return the provided matrix with the specified modes transformed
+     * from the "from space".
+     *
+     * Uses the transformation coefficients, C(), to change some
+     * modes of an input tensor from the "from space" to the DerivedSpace basis.
+     * ex: R(i,nu) = X(mu,nu) * C(mu,i)
+     *
+     * @param X The tensor to be transformed
+     * @param modes The list of modes of X that should be transformed
+     *
+     * @return The transformed matrix
+     */
+    overlap_type transform(const overlap_type& t, const std::vector<std::size_t>& modes) const override;
+
 protected:
     /// Include the transformation and the from space in the hash
     virtual void hash_(sde::Hasher& h) const override;
@@ -149,6 +230,12 @@ private:
 
     /// The basis set that this space is defined in terms of
     from_space_ptr m_pbase_;
+
+    /// The density matrix in the from space basis set
+    mutable std::optional<transform_type> m_rho_;
+
+    /// Computes the density matrix in the from space basis set
+    transform_type compute_density_() const;
 };
 
 template<typename LHSTransformType, typename LHSFromSpace, typename LHSBaseType,
@@ -194,6 +281,21 @@ DERIVED_SPACE::DerivedSpace_(transform_type C, from_space_ptr pbase,
   BaseType(std::forward<Args>(args)...), m_C_(std::move(C)), m_pbase_(pbase) {}
 
 template<typename TransformType, typename FromSpace, typename BaseType>
+template<typename... Args>
+DERIVED_SPACE::DerivedSpace_(transform_type C, transform_type D, from_space_type base,
+                             Args&&... args) :
+        DerivedSpace_(std::move(C),
+                      std::move(D),
+                      std::make_shared<from_space_type>(std::move(base)),
+                      std::forward<Args>(args)...) {}
+
+template<typename TransformType, typename FromSpace, typename BaseType>
+template<typename... Args>
+DERIVED_SPACE::DerivedSpace_(transform_type C, transform_type D, from_space_ptr pbase,
+                             Args&&... args) :
+        BaseType(std::forward<Args>(args)...), m_C_(std::move(C)), m_rho_(std::move(D)), m_pbase_(pbase) {}
+
+template<typename TransformType, typename FromSpace, typename BaseType>
 typename DERIVED_SPACE::overlap_type& DERIVED_SPACE::S_() {
     if(!this->has_overlap()) this->set_overlap_(compute_overlap_());
     return BaseType::S_();
@@ -213,8 +315,8 @@ void DERIVED_SPACE::hash_(sde::Hasher& h) const {
 
 template<typename TransformType, typename FromSpace, typename BaseType>
 typename DERIVED_SPACE::overlap_type DERIVED_SPACE::compute_overlap_() const {
-    auto& S_ao   = from_space().S();
-    auto& C_ao2x = C();
+    const auto& S_ao   = from_space().S();
+    const auto& C_ao2x = C();
     overlap_type S_deriv;
 
     using tile_type             = typename FromSpace::overlap_type::value_type;
@@ -255,6 +357,51 @@ typename DERIVED_SPACE::overlap_type DERIVED_SPACE::compute_overlap_() const {
         S_deriv("i,j") = buffer("i,nu") * C_ao2x("nu,j");
     }
     return S_deriv;
+}
+
+template<typename TransformType, typename FromSpace, typename BaseType>
+typename DERIVED_SPACE::transform_type DERIVED_SPACE::compute_density_() const {
+    const auto& C_ao2x = C();
+    transform_type rho;
+
+    using tile_type             = typename transform_type::value_type;
+    constexpr bool tile_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
+
+    if constexpr(tile_is_tot) {
+        throw std::runtime_error("Can't compute density for ToT case");
+    } else {
+        rho("mu,nu") = C_ao2x("mu,i") * C_ao2x("nu,i");
+    }
+    return rho;
+}
+
+template<typename TransformType, typename FromSpace, typename BaseType>
+typename DERIVED_SPACE::overlap_type DERIVED_SPACE::transform(const overlap_type& t,
+                               const std::vector<std::size_t>& modes) const {
+
+    for(const auto& i : modes) {
+        if (i >= t.trange().rank()) {
+            throw std::runtime_error("Modes to be transformed incompatible with input tensor");
+        }
+    }
+
+    using tile_type             = typename overlap_type::value_type;
+    constexpr bool tile_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
+
+    overlap_type rv(t);
+    const auto& C_ao2x = C();
+
+    if constexpr(tile_is_tot) {
+        throw std::runtime_error("Can't use transform() for ToT case");
+    } else {
+        auto n_modes = rv.range().rank();
+        for(const auto& i : modes) {
+            auto[start, finish, change] =
+                ta_helpers::detail_::contraction_dummy_annotations(rv.trange().rank(), i);
+            rv(finish) = rv(start) * C_ao2x(change);
+        }
+    }
+    return rv;
 }
 
 #undef DERIVED_SPACE

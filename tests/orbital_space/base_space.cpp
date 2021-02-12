@@ -133,6 +133,11 @@ TEMPLATE_PRODUCT_TEST_CASE("BaseSpace", "",
         }
     }
 
+    SECTION("transform()") {
+        base_space bs;
+        REQUIRE(test::compare_tensors(bs.transform(S),S));
+    }
+
     SECTION("Comparison operators") {
         SECTION("Both default"){
             REQUIRE(bs == base_space());
