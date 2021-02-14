@@ -107,16 +107,23 @@ private:
     BaseSpace_<overlap_type> m_space_;
 };
 
-template<typename SparseMapType, typename OverlapType>
+template<typename SparseMapType, typename OverlapType, typename RHSMapType,
+         typename RHSOverlapType>
 bool operator==(const DependentBaseSpace_<SparseMapType, OverlapType>& lhs,
-                const DependentBaseSpace_<SparseMapType, OverlapType>& rhs) {
-    return (sde::hash_objects(lhs.S()) == sde::hash_objects(rhs.S())) &&
-           lhs.sparse_map() == rhs.sparse_map();
+                const DependentBaseSpace_<RHSMapType, RHSOverlapType>& rhs) {
+    using clean_lhs_t = std::decay_t<decltype(lhs)>;
+    using clean_rhs_t = std::decay_t<decltype(rhs)>;
+    if constexpr(std::is_same_v<clean_rhs_t, clean_lhs_t>) {
+        return sde::hash_objects(lhs) == sde::hash_objects(rhs);
+    } else {
+        return false;
+    }
 }
 
-template<typename SparseMapType, typename OverlapType>
+template<typename SparseMapType, typename OverlapType, typename RHSMapType,
+         typename RHSOverlapType>
 bool operator!=(const DependentBaseSpace_<SparseMapType, OverlapType>& lhs,
-                const DependentBaseSpace_<SparseMapType, OverlapType>& rhs) {
+                const DependentBaseSpace_<RHSMapType, RHSOverlapType>& rhs) {
     return !(lhs == rhs);
 }
 

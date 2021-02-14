@@ -249,30 +249,6 @@ private:
     transform_type compute_density_() const;
 };
 
-template<typename LHSTransformType, typename LHSFromSpace, typename LHSBaseType,
-         typename RHSTransformType, typename RHSFromSpace, typename RHSBaseType>
-bool operator==(
-  const DerivedSpace_<LHSTransformType, LHSFromSpace, LHSBaseType>& lhs,
-  const DerivedSpace_<RHSTransformType, RHSFromSpace, RHSBaseType>& rhs) {
-    auto& casted_lhs = static_cast<const LHSBaseType&>(lhs);
-    auto& casted_rhs = static_cast<const RHSBaseType&>(rhs);
-
-    // TODO: Actually compare the tensors
-    const auto lhash = sde::hash_objects(lhs.C());
-    const auto rhash = sde::hash_objects(rhs.C());
-
-    return std::tie(casted_lhs, lhash, lhs.from_space()) ==
-           std::tie(casted_rhs, rhash, rhs.from_space());
-}
-
-template<typename LHSTransformType, typename LHSFromSpace, typename LHSBaseType,
-         typename RHSTransformType, typename RHSFromSpace, typename RHSBaseType>
-bool operator!=(
-  const DerivedSpace_<LHSTransformType, LHSFromSpace, LHSBaseType>& lhs,
-  const DerivedSpace_<RHSTransformType, RHSFromSpace, RHSBaseType>& rhs) {
-    return !(lhs == rhs);
-}
-
 // --------------------------- Implementations ---------------------------------
 
 #define DERIVED_SPACE DerivedSpace_<TransformType, FromSpace, BaseType>

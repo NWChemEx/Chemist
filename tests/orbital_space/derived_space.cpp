@@ -309,3 +309,4 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
             }
         }
     }
+}

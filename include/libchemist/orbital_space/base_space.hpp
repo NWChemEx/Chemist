@@ -83,11 +83,6 @@ public:
 
     size_type size() const noexcept { return size_(); }
 
-    virtual overlap_type transform(const overlap_type& t,
-                                   const std::vector<std::size_t>& = {}) const {
-        return t;
-    }
-
     /** @brief In BaseSpace, this function simply returns its input.
      *
      * Derived classes may implenent an actual transformation of the input
@@ -98,7 +93,8 @@ public:
      *
      * @return The input matrix unchanged.
      */
-    virtual overlap_type transform(const overlap_type& t, const std::vector<std::size_t>& = {}) const {
+    virtual overlap_type transform(const overlap_type& t,
+                                   const std::vector<std::size_t>& = {}) const {
         return t;
     }
 
@@ -125,23 +121,28 @@ private:
     mutable std::optional<overlap_type> m_S_;
 };
 
+/** @brief Compares two OrbitalSpaces
+ *
+ *  The actual comparison relies on hashing, which is polymorphic.
+ *
+ *  @return True if the two spaces hash equal and false otherwise.
+ *
+ */
 template<typename OverlapType, typename OtherType>
-bool operator==(const BaseSpace_<OverlapType>& lhs, OtherType&& rhs) {
-    using clean_lhs_t = std::decay_t<decltype(lhs)>;
-    using clean_rhs_t = std::decay_t<decltype(rhs)>;
-    if constexpr(std::is_same_v<clean_lhs_t, clean_rhs_t>) {
-        // TODO: Actually compare the tensors
-        if(lhs.has_overlap() != rhs.has_overlap())
-            return false;
-        else if(!lhs.has_overlap())
-            return true; // Both don't have an overlap
+bool operator==(const BaseSpace_<OverlapType>& lhs,
+                const BaseSpace_<OtherType>& rhs) {
+    using clean_lhs_t = std::decay_t<OverlapType>;
+    using clean_rhs_t = std::decay_t<OtherType>;
+    if constexpr(std::is_same_v<clean_rhs_t, clean_lhs_t>) {
         return sde::hash_objects(lhs) == sde::hash_objects(rhs);
-    } else
+    } else {
+        return false;
+    }
 }
 
-template<typename OverlapType>
+template<typename OverlapType, typename OtherType>
 bool operator!=(const BaseSpace_<OverlapType>& lhs,
-                const BaseSpace_<OverlapType>& rhs) {
+                const BaseSpace_<OtherType>& rhs) {
     return !(lhs == rhs);
 }
 
