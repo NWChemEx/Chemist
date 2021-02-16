@@ -1,5 +1,6 @@
 #pragma once
 #include "libchemist/point/point.hpp"
+#include <madness/world/parallel_archive.h>
 #include <memory>
 
 namespace libchemist {
@@ -200,6 +201,16 @@ public:
      *  @throw none No throw guarantee.
      */
     const_reference exponent() const noexcept;
+
+    /** @brief Serialize/deserialize for Primitive instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void serialize(Archive& ar) {
+        ar& coefficient() & exponent() & this->coord(0) & this->coord(1) &
+          this->coord(2);
+    }
 
 private:
     /// The instance in charge of implementing the class

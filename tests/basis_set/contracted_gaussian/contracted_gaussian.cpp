@@ -2,6 +2,7 @@
 #include "libchemist/basis_set/contracted_gaussian/cgto_pimpl.hpp"
 #include "libchemist/point/point_pimpl.hpp"
 #include <catch2/catch.hpp>
+#include <madness/world/text_fstream_archive.h>
 
 /* Testing Strategy:
  *
@@ -144,4 +145,17 @@ TEST_CASE("ContractedGaussian<double> : operator==") {
         ContractedGaussian<double> g2(cs, es, 1.0, 2.0, 3.0);
         REQUIRE_FALSE(g == g2);
     }
+}
+
+TEST_CASE("ContractedGaussian serialization") {
+    auto [prims, g]  = make_ctgo();
+    const char* file = "archive.dat";
+    madness::archive::TextFstreamOutputArchive oarchive(file);
+    oarchive& g;
+    oarchive.close();
+    ContractedGaussian<double> g2;
+    madness::archive::TextFstreamInputArchive iarchive(file);
+    iarchive& g2;
+    iarchive.close();
+    REQUIRE(g == g2);
 }
