@@ -1,5 +1,6 @@
-#include <catch2/catch.hpp>
 #include "libchemist/point/point.hpp"
+#include <catch2/catch.hpp>
+#include <madness/world/text_fstream_archive.h>
 
 using namespace libchemist;
 
@@ -167,4 +168,17 @@ TEST_CASE("Point<double> : operator!=") {
         Point<double> p2{2.0, 3.0, 4.0};
         REQUIRE(p2 != p);
     }
+}
+
+TEST_CASE("Point serialization") {
+    Point<double> p{1.0, 2.0, 3.0};
+    const char* file = "archive.dat";
+    madness::archive::TextFstreamOutputArchive oarchive(file);
+    oarchive& p;
+    oarchive.close();
+    Point<double> p2;
+    madness::archive::TextFstreamInputArchive iarchive(file);
+    iarchive& p2;
+    iarchive.close();
+    REQUIRE(p == p2);
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include <madness/world/parallel_archive.h>
 #include <memory>
 
 namespace libchemist {
@@ -241,6 +242,15 @@ public:
      *  @throw none No throw guarantee.
      */
     const_reference z() const noexcept { return coord(2); }
+
+    /** @brief Serialize/deserialize for Point instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void serialize(Archive& ar) {
+        ar& coord(0) & coord(1) & coord(2);
+    }
 
 protected:
     /// Convenience fxn that makes a PIMPL that aliases this instance's state
