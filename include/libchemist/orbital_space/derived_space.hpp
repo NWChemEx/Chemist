@@ -384,7 +384,7 @@ typename DERIVED_SPACE::overlap_type DERIVED_SPACE::transform(
         }
     }
 
-    using tile_type            = typename overlap_type::value_type;
+    using tile_type            = typename TransformType::value_type;
     constexpr bool tile_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
 
     overlap_type rv(t);
