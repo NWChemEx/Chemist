@@ -427,10 +427,27 @@ public:
      */
     template<typename Archive,
              typename = std::enable_if_t<
-               !Archive::is_parallel_archive &&
                madness::archive::is_output_archive<Archive>::value>>
+    void serialize(Archive& ar) const {
+        ar & this->size();
+        for(const auto& c : *this) { ar& c; }
+    }
+
+    /** @brief Deserialize for AOBasisSet instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive,
+             typename = std::enable_if_t<
+               madness::archive::is_input_archive<Archive>::value>>
     void serialize(Archive& ar) {
-        for(const auto& c : *this) { ar& c.x() & c.y() & c.z(); }
+        size_type nc;
+        ar& nc;
+        libchemist::Center<T> c;
+        for(int ci = 0; ci < nc; ++ci) {
+            ar& c;
+            this->add_center(std::move(c));
+        }
     }
 
 private:

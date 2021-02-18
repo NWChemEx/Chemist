@@ -1,5 +1,7 @@
 #pragma once
+#include <madness/world/parallel_archive.h>
 #include <memory>
+
 namespace libchemist::detail_ {
 
 /** @brief Code factorization for implementing a view of an object
@@ -256,6 +258,15 @@ public:
      */
     template<bool rhs_const>
     bool operator!=(const other_base<rhs_const>& rhs) const;
+
+    /** @brief Serialize/deserialize for ViewBase instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void serialize(Archive& ar) {
+        ar& pimpl();
+    }
 
 protected:
     /** @brief Returns a (possibly) read-/write-able reference to the wrapped

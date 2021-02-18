@@ -1,6 +1,7 @@
 #pragma once
 #include "libchemist/basis_set/shell_view.hpp"
 #include "libchemist/point/point.hpp"
+#include <madness/world/parallel_archive.h>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace libchemist {
@@ -272,6 +273,43 @@ public:
      */
     const_primitive_reference unique_primitive(size_type i) const;
 
+    /** @brief Serialize Center instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive,
+             typename = std::enable_if_t<
+               madness::archive::is_output_archive<Archive>::value>>
+    void serialize(Archive& ar) const {
+        ar& n_aos() & n_unique_primitives() & this->size() & this->coord(0) &
+          this->coord(1) & this->coord(2);
+        for(const auto& s : *this) {
+            ar& bool(s.pure()) & s.l() & s.size() & s[0].size();
+            for(const auto& p : s[0]) { ar& p.coefficient() & p.exponent(); }
+        }
+    }
+    /** @brief Deserialize for Center instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive,
+             typename = std::enable_if_t<
+               madness::archive::is_input_archive<Archive>::value>>
+    void serialize(Archive& ar) {
+        size_type np, ns, nc;
+        bool ispure;
+        am_type myl;
+        ar& n_aos() & n_unique_primitives() & ns & this->coord(0) &
+          this->coord(1) & this->coord(2);
+        for(int si = 0; si < ns; ++si) {
+            ar& ispure& myl& nc& np;
+            std::vector<T> cs(np, 0);
+            std::vector<T> es(np, 0);
+            for(int pi = 0; pi < np; ++pi) { ar& cs[pi] & es[pi]; }
+            add_shell(pure_type(ispure), myl, cs, es);
+        }
+    }
+
 private:
     /// Allows the IndexableContainerBase to access implementations
     friend container_base;
@@ -283,7 +321,7 @@ private:
     const_reference at_(size_type i) const;
     /// The instance that actually implements this class
     center_pimpl_ptr_t m_pimpl_;
-};
+}; // namespace libchemist
 
 /** @brief Compares two Center instances for equality.
  *
@@ -298,8 +336,8 @@ private:
  *
  *  @return True if the the two instances are equal and false otherwise.
  *
- *  @throw std::bad_alloc if there is insufficient memory to make the PIMPL for
- *         one of the ShellView instances. Strong throw guarantee.
+ *  @throw std::bad_alloc if there is insufficient memory to make the PIMPL
+ * for one of the ShellView instances. Strong throw guarantee.
  */
 template<typename T>
 bool operator==(const Center<T>& lhs, const Center<T>& rhs) {
@@ -321,8 +359,8 @@ bool operator==(const Center<T>& lhs, const Center<T>& rhs) {
  *
  *  @return False if the the two instances are equal and true otherwise.
  *
- *  @throw std::bad_alloc if there is insufficient memory to make the PIMPL for
- *         one of the ShellView instances. Strong throw guarantee.
+ *  @throw std::bad_alloc if there is insufficient memory to make the PIMPL
+ * for one of the ShellView instances. Strong throw guarantee.
  */
 template<typename T>
 bool operator!=(const Center<T>& lhs, const Center<T>& rhs) {
