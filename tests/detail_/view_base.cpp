@@ -1,5 +1,6 @@
 #include "libchemist/detail_/view_base.hpp"
 #include <catch2/catch.hpp>
+#include <madness/world/text_fstream_archive.h>
 
 /* Testing Strategy:
  *
@@ -221,4 +222,17 @@ TEST_CASE("const ViewBase : pimpl() const") {
         STATIC_REQUIRE(std::is_same_v<type, const vector_t&>);
     }
     SECTION("Value") { REQUIRE(pv == view.check_pimpl().data()); }
+}
+
+TEST_CASE("ViewBase serialization") {
+    vector_t v{1, 2, 3};
+    const const_view_t view(std::move(v));
+    const char* file = "archive.dat";
+    madness::archive::TextFstreamOutputArchive oarchive(file);
+    oarchive& view;
+    oarchive.close();
+    vector_t v2;
+    madness::archive::TextFstreamInputArchive iarchive(file);
+    iarchive& v2;
+    REQUIRE(v == v2);
 }

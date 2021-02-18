@@ -1,5 +1,6 @@
 #include "libchemist/basis_set/center.hpp"
 #include <catch2/catch.hpp>
+#include <madness/world/text_fstream_archive.h>
 
 using namespace libchemist;
 
@@ -128,4 +129,17 @@ TEST_CASE("Center : at() const") {
     const auto [c, s] = make_center();
     REQUIRE(c[0] == s);
     REQUIRE(c[1] == s);
+}
+
+TEST_CASE("Center serialization") {
+    auto [c, s]      = make_center();
+    const char* file = "archive.dat";
+    madness::archive::TextFstreamOutputArchive oarchive(file);
+    oarchive& c;
+    oarchive.close();
+    Center<double> c2;
+    madness::archive::TextFstreamInputArchive iarchive(file);
+    iarchive& c2;
+    iarchive.close();
+    REQUIRE(c == c2);
 }
