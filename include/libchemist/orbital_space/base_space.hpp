@@ -21,6 +21,9 @@ public:
     /// Type of the tensor holding the overlap matrix
     using overlap_type = OverlapType;
 
+    /// Type used to index offsets
+    using size_type = std::size_t;
+
     /** @brief Creates a BaseSpace with no overlap matrix.
      *
      *  This ctor creates a
@@ -76,7 +79,9 @@ public:
      *                   includes state information about this BaseSpace_
      *                   instance.
      */
-    virtual void hash(sde::Hasher& h) const { hash_(h); }
+    void hash(sde::Hasher& h) const { hash_(h); }
+
+    size_type size() const noexcept { return size_(); }
 
     /** @brief In BaseSpace, this function simply returns its input.
      *
@@ -88,7 +93,8 @@ public:
      *
      * @return The input matrix unchanged.
      */
-    virtual overlap_type transform(const overlap_type& t, const std::vector<std::size_t>& = {}) const {
+    virtual overlap_type transform(const overlap_type& t,
+                                   const std::vector<std::size_t>& = {}) const {
         return t;
     }
 
@@ -97,6 +103,9 @@ protected:
     virtual void hash_(sde::Hasher& h) const {
         if(has_overlap()) h(S());
     }
+
+    /// Actually implements size. Should be overridden by derived class
+    virtual size_type size_() const noexcept { return 0; }
 
     /// Can be used by derived classes to set the value of the overlap matrix
     void set_overlap_(overlap_type S) const { m_S_ = std::move(S); }
@@ -112,20 +121,28 @@ private:
     mutable std::optional<overlap_type> m_S_;
 };
 
-template<typename OverlapType>
+/** @brief Compares two OrbitalSpaces
+ *
+ *  The actual comparison relies on hashing, which is polymorphic.
+ *
+ *  @return True if the two spaces hash equal and false otherwise.
+ *
+ */
+template<typename OverlapType, typename OtherType>
 bool operator==(const BaseSpace_<OverlapType>& lhs,
-                const BaseSpace_<OverlapType>& rhs) {
-    // TODO: Actually compare the tensors
-    if(lhs.has_overlap() != rhs.has_overlap())
+                const BaseSpace_<OtherType>& rhs) {
+    using clean_lhs_t = std::decay_t<OverlapType>;
+    using clean_rhs_t = std::decay_t<OtherType>;
+    if constexpr(std::is_same_v<clean_rhs_t, clean_lhs_t>) {
+        return sde::hash_objects(lhs) == sde::hash_objects(rhs);
+    } else {
         return false;
-    else if(!lhs.has_overlap())
-        return true; // Both don't have an overlap
-    return sde::hash_objects(lhs) == sde::hash_objects(rhs);
+    }
 }
 
-template<typename OverlapType>
+template<typename OverlapType, typename OtherType>
 bool operator!=(const BaseSpace_<OverlapType>& lhs,
-                const BaseSpace_<OverlapType>& rhs) {
+                const BaseSpace_<OtherType>& rhs) {
     return !(lhs == rhs);
 }
 

@@ -36,6 +36,9 @@ public:
     /// Type of a pointer to the from space
     using from_space_ptr = std::shared_ptr<const FromSpace>;
 
+    /// Type of an offset or index
+    using size_type = typename BaseType::size_type;
+
     /** @brief Creates a new DerivedSpace_ which has no transformation
      *         or from space.
      */
@@ -105,17 +108,19 @@ public:
      *              orbital space `from_space` to this instance's orbital space.
      *              Default value is a default constructed instance of type
      *              `TransformType`.
-     * @param[in] D The density of the orbital space in the `*pfrom_space` basis.
+     * @param[in] D The density of the orbital space in the `*pfrom_space`
+     * basis.
      * @param[in] from_space The orbital space in terms of which this space is
      *                       defined.
      * @param[in] args The arguments which will be forwarded to the base class's
      *                 ctor.
      *
-     * @throw ??? If moving `C`, moving `D`, moving `from_space`, or fowarding `args`
-     *            throws. Same throw guarantee.
+     * @throw ??? If moving `C`, moving `D`, moving `from_space`, or fowarding
+     * `args` throws. Same throw guarantee.
      */
     template<typename... Args>
-    DerivedSpace_(transform_type C, transform_type D, from_space_type from_space, Args&&... args);
+    DerivedSpace_(transform_type C, transform_type D,
+                  from_space_type from_space, Args&&... args);
 
     /** @brief Creates a new DerivedSpace_ with the specified state.
      *
@@ -130,17 +135,19 @@ public:
      *              class's ctor.
      * @param[in] C The transformation from the orbital space `*pfrom_space` to
      *              the current orbital space.
-     * @param[in] D The density of the orbital space in the `*pfrom_space` basis.
+     * @param[in] D The density of the orbital space in the `*pfrom_space`
+     * basis.
      * @param[in] pfrom_space A shared pointer to the "from space". The object
      *                        pointed at is read-only.
      * @param[in] args The arguments which will be forwarded to the base class's
      *                 ctor.
      *
-     * @throw ??? If moving `C`, moving `D`, or forwarding `args` throws. Same throw
-     *            guarantee.
+     * @throw ??? If moving `C`, moving `D`, or forwarding `args` throws. Same
+     * throw guarantee.
      */
     template<typename... Args>
-    DerivedSpace_(transform_type C, transform_type D, from_space_ptr pfrom_space, Args&&... args);
+    DerivedSpace_(transform_type C, transform_type D,
+                  from_space_ptr pfrom_space, Args&&... args);
 
     /** @brief Returns the transformation coefficients to go from `from_space`
      *         to the current space.
@@ -196,7 +203,7 @@ public:
      * @return A reference to the density matrix.
      */
     const auto& density() const {
-        if (!m_rho_.has_value()) m_rho_ = std::move(compute_density_());
+        if(!m_rho_.has_value()) m_rho_ = std::move(compute_density_());
         return m_rho_.value();
     }
 
@@ -212,11 +219,15 @@ public:
      *
      * @return The transformed matrix
      */
-    overlap_type transform(const overlap_type& t, const std::vector<std::size_t>& modes) const override;
+    overlap_type transform(
+      const overlap_type& t,
+      const std::vector<std::size_t>& modes) const override;
 
 protected:
     /// Include the transformation and the from space in the hash
     virtual void hash_(sde::Hasher& h) const override;
+
+    virtual size_type size_() const noexcept override;
 
     virtual overlap_type& S_() override;
     virtual const overlap_type& S_() const override;
@@ -238,30 +249,6 @@ private:
     transform_type compute_density_() const;
 };
 
-template<typename LHSTransformType, typename LHSFromSpace, typename LHSBaseType,
-         typename RHSTransformType, typename RHSFromSpace, typename RHSBaseType>
-bool operator==(
-  const DerivedSpace_<LHSTransformType, LHSFromSpace, LHSBaseType>& lhs,
-  const DerivedSpace_<RHSTransformType, RHSFromSpace, RHSBaseType>& rhs) {
-    auto& casted_lhs = static_cast<const LHSBaseType&>(lhs);
-    auto& casted_rhs = static_cast<const RHSBaseType&>(rhs);
-
-    // TODO: Actually compare the tensors
-    const auto lhash = sde::hash_objects(lhs.C());
-    const auto rhash = sde::hash_objects(rhs.C());
-
-    return std::tie(casted_lhs, lhash, lhs.from_space()) ==
-           std::tie(casted_rhs, rhash, rhs.from_space());
-}
-
-template<typename LHSTransformType, typename LHSFromSpace, typename LHSBaseType,
-         typename RHSTransformType, typename RHSFromSpace, typename RHSBaseType>
-bool operator!=(
-  const DerivedSpace_<LHSTransformType, LHSFromSpace, LHSBaseType>& lhs,
-  const DerivedSpace_<RHSTransformType, RHSFromSpace, RHSBaseType>& rhs) {
-    return !(lhs == rhs);
-}
-
 // --------------------------- Implementations ---------------------------------
 
 #define DERIVED_SPACE DerivedSpace_<TransformType, FromSpace, BaseType>
@@ -282,18 +269,20 @@ DERIVED_SPACE::DerivedSpace_(transform_type C, from_space_ptr pbase,
 
 template<typename TransformType, typename FromSpace, typename BaseType>
 template<typename... Args>
-DERIVED_SPACE::DerivedSpace_(transform_type C, transform_type D, from_space_type base,
-                             Args&&... args) :
-        DerivedSpace_(std::move(C),
-                      std::move(D),
-                      std::make_shared<from_space_type>(std::move(base)),
-                      std::forward<Args>(args)...) {}
+DERIVED_SPACE::DerivedSpace_(transform_type C, transform_type D,
+                             from_space_type base, Args&&... args) :
+  DerivedSpace_(std::move(C), std::move(D),
+                std::make_shared<from_space_type>(std::move(base)),
+                std::forward<Args>(args)...) {}
 
 template<typename TransformType, typename FromSpace, typename BaseType>
 template<typename... Args>
-DERIVED_SPACE::DerivedSpace_(transform_type C, transform_type D, from_space_ptr pbase,
-                             Args&&... args) :
-        BaseType(std::forward<Args>(args)...), m_C_(std::move(C)), m_rho_(std::move(D)), m_pbase_(pbase) {}
+DERIVED_SPACE::DerivedSpace_(transform_type C, transform_type D,
+                             from_space_ptr pbase, Args&&... args) :
+  BaseType(std::forward<Args>(args)...),
+  m_C_(std::move(C)),
+  m_rho_(std::move(D)),
+  m_pbase_(pbase) {}
 
 template<typename TransformType, typename FromSpace, typename BaseType>
 typename DERIVED_SPACE::overlap_type& DERIVED_SPACE::S_() {
@@ -311,6 +300,17 @@ template<typename TransformType, typename FromSpace, typename BaseType>
 void DERIVED_SPACE::hash_(sde::Hasher& h) const {
     BaseType::hash_(h);
     h(m_C_, *m_pbase_);
+}
+
+template<typename TransformType, typename FromSpace, typename BaseType>
+typename DERIVED_SPACE::size_type DERIVED_SPACE::size_() const noexcept {
+    if constexpr(TA::detail::is_tensor_of_tensor_v<transform_type>) {
+        return BaseType::size_();
+    } else {
+        const bool init = m_C_.is_initialized();
+        // Assumes columns are the orbitals
+        return init ? m_C_.trange().dim(1).extent() : 0;
+    }
 }
 
 template<typename TransformType, typename FromSpace, typename BaseType>
@@ -363,8 +363,7 @@ template<typename TransformType, typename FromSpace, typename BaseType>
 typename DERIVED_SPACE::transform_type DERIVED_SPACE::compute_density_() const {
     const auto& C_ao2x = C();
     transform_type rho;
-
-    using tile_type             = typename transform_type::value_type;
+    using tile_type            = typename transform_type::value_type;
     constexpr bool tile_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
 
     if constexpr(tile_is_tot) {
@@ -376,16 +375,16 @@ typename DERIVED_SPACE::transform_type DERIVED_SPACE::compute_density_() const {
 }
 
 template<typename TransformType, typename FromSpace, typename BaseType>
-typename DERIVED_SPACE::overlap_type DERIVED_SPACE::transform(const overlap_type& t,
-                               const std::vector<std::size_t>& modes) const {
-
+typename DERIVED_SPACE::overlap_type DERIVED_SPACE::transform(
+  const overlap_type& t, const std::vector<std::size_t>& modes) const {
     for(const auto& i : modes) {
-        if (i >= t.trange().rank()) {
-            throw std::runtime_error("Modes to be transformed incompatible with input tensor");
+        if(i >= t.trange().rank()) {
+            throw std::runtime_error(
+              "Modes to be transformed incompatible with input tensor");
         }
     }
 
-    using tile_type             = typename overlap_type::value_type;
+    using tile_type            = typename TransformType::value_type;
     constexpr bool tile_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
 
     overlap_type rv(t);
@@ -396,8 +395,9 @@ typename DERIVED_SPACE::overlap_type DERIVED_SPACE::transform(const overlap_type
     } else {
         auto n_modes = rv.range().rank();
         for(const auto& i : modes) {
-            auto[start, finish, change] =
-                ta_helpers::detail_::contraction_dummy_annotations(rv.trange().rank(), i);
+            auto [start, finish, change] =
+              ta_helpers::detail_::contraction_dummy_annotations(
+                rv.trange().rank(), i);
             rv(finish) = rv(start) * C_ao2x(change);
         }
     }
