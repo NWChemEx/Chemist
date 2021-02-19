@@ -1,8 +1,9 @@
 #pragma once
 #include <array>                 // For the coordinates
 #include <bphash/Hasher_fwd.hpp> //For hashing
-#include <memory>                // For unique pointer
-#include <string>                // For name of atom
+#include <madness/world/parallel_archive.h>
+#include <memory> // For unique pointer
+#include <string> // For name of atom
 
 namespace libchemist {
 namespace detail_ {
@@ -227,6 +228,15 @@ public:
     }
     ///@}
 
+    /** @brief Serialize/deserialize for Atom instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void serialize(Archive& ar) {
+        ar& Z() & coords() & mass() & name();
+    }
+
 private:
     BPHASH_DECLARE_HASHING_FRIENDS
     void hash(bphash::Hasher& h) const;
@@ -246,14 +256,15 @@ private:
  * @relates Atom
  * @brief Allows one to compare two atom instances for exact equality.
  *
- * Two atom instances are defined as equal if they have the same atomic number,
- * the same mass, and the same coordinates.  The name field is considered
- * metadata and is not considered in the comparison.  *N.B* that floating-point
- * comparisons are bit-wise with zero tolerance for deviation, *i.e.*,
- * 1.99999999999999 != 2.00000000000000
+ * Two atom instances are defined as equal if they have the same atomic
+ * number, the same mass, and the same coordinates.  The name field is
+ * considered metadata and is not considered in the comparison.  *N.B* that
+ * floating-point comparisons are bit-wise with zero tolerance for
+ * deviation, *i.e.*, 1.99999999999999 != 2.00000000000000
  *
  * @param[in] lhs The Atom instance on the left of the equivalence operation
- * @param[in] rhs The Atom instance on the right of the equivalence operation
+ * @param[in] rhs The Atom instance on the right of the equivalence
+ * operation
  * @return Whether the two atoms obey the requested equivalence relation.
  *
  * @throw none all comparisons are no throw guarantee.
@@ -272,7 +283,7 @@ inline bool operator!=(const Atom& lhs, const Atom& rhs) noexcept {
  * @param os The output stream to print to.
  * @param ai The Atom instance to print to the stream.
  * @return The output stream containing the atom instance.
- * @throws std::ios_base::failure if anything goes wrong while writing.  Weak
+ * @throws std::ios_base::failure if anything goes wrong while writing. Weak
  *         throw guarantee.
  */
 std::ostream& operator<<(std::ostream& os, const Atom& ai);

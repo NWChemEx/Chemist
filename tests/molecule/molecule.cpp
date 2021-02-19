@@ -1,5 +1,6 @@
-#include <catch2/catch.hpp>
 #include "libchemist/molecule/molecule.hpp"
+#include <catch2/catch.hpp>
+#include <madness/world/text_fstream_archive.h>
 #include <sde/detail_/memoization.hpp>
 #include <sstream>
 
@@ -168,4 +169,33 @@ TEST_CASE("Molecule Class") {
             REQUIRE(h2o_a != h2o_b);
         }
     }
+}
+
+TEST_CASE("Molecule serialization") {
+    Atom C(Atom::AtomName{"C"}, Atom::Coordinates{0.0, 0.0, 1.0},
+           Atom::Mass{12.0107}, Atom::AtomicNumber{1});
+    Atom O(Atom::AtomName{"O"}, Atom::Coordinates{0.0, 0.0, 0.0},
+           Atom::Mass{15.999}, Atom::AtomicNumber{1});
+    Atom C2(Atom::AtomName{"C"}, Atom::Coordinates{0.0, 0.0, -1.0},
+            Atom::Mass{12.0107}, Atom::AtomicNumber{1});
+    Molecule mol(C, O, C2);
+    const char* file = "mol_archive.dat";
+    madness::archive::TextFstreamOutputArchive oarchive(file);
+    mol.charge()       = 2;
+    mol.multiplicity() = 3;
+    oarchive& mol;
+    oarchive.close();
+    madness::archive::TextFstreamInputArchive iarchive(file);
+    Molecule mol2;
+    iarchive& mol2;
+    iarchive.close();
+    REQUIRE(mol[0] == mol2[0]);
+    REQUIRE(mol[1] == mol2[1]);
+    REQUIRE(mol[2] == mol2[2]);
+
+    REQUIRE(mol.charge() == mol2.charge());
+    REQUIRE(mol.size() == mol2.size());
+    REQUIRE(mol.multiplicity() == mol2.multiplicity());
+    REQUIRE(mol.nelectrons() == mol2.nelectrons());
+    REQUIRE(mol == mol2);
 }
