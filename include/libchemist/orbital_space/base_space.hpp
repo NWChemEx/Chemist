@@ -85,10 +85,27 @@ public:
      */
     template<typename Archive,
              typename = std::enable_if_t<
-               !Archive::is_parallel_archive &&
                madness::archive::is_output_archive<Archive>::value>>
-    void serialize(Archive& ar) {
+    void serialize(Archive& ar) const {
+        ar& has_overlap();
         if(has_overlap()) ar& S();
+    }
+
+    /** @brief Deserialize for BaseSpace instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive,
+             typename = std::enable_if_t<
+               madness::archive::is_input_archive<Archive>::value>>
+    void serialize(Archive& ar) {
+        bool check_overlap;
+        ar& check_overlap;
+        if(check_overlap) {
+            overlap_type mys;
+            ar& mys;
+            set_overlap_(std::move(mys));
+        }
     }
 
 protected:

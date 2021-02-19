@@ -1,7 +1,7 @@
 #include "libchemist/orbital_space/base_space.hpp"
 #include "test_orbital_space.hpp"
 #include <catch2/catch.hpp>
-#include <madness/world/text_fstream_archive.h>
+#include <madness/world/binary_fstream_archive.h>
 
 using namespace libchemist;
 using namespace libchemist::orbital_space;
@@ -17,13 +17,6 @@ TEMPLATE_PRODUCT_TEST_CASE("BaseSpace", "",
     auto& world = TA::get_default_world();
     auto S      = test::TensorMaker<tensor_type>::S(world);
     auto S2     = test::TensorMaker<tensor_type>::S2(world);
-
-    SECTION("Serialization") {
-        const char* file = "archive.dat";
-        madness::archive::TextFstreamOutputArchive archive(file);
-        base_space bs(S);
-        archive& bs;
-    }
 
     SECTION("Typedefs") {
         using overlap_type = typename base_space::overlap_type;
@@ -161,4 +154,24 @@ TEMPLATE_PRODUCT_TEST_CASE("BaseSpace", "",
             REQUIRE(bs_S != bs_S2);
         }
     }
+}
+
+TEST_CASE("BaseSpace serialization") {
+    using base_space  = BaseSpace_<type::tensor<float>>;
+    using tensor_type = typename base_space::overlap_type;
+
+    auto& world      = TA::get_default_world();
+    auto S           = test::TensorMaker<tensor_type>::S(world);
+    const char* file = "archive.dat";
+    madness::archive::BinaryFstreamOutputArchive oarchive(file);
+
+    base_space bs(S);
+    oarchive& bs;
+    oarchive.close();
+    base_space bs2;
+    madness::archive::BinaryFstreamInputArchive iarchive(file);
+
+    iarchive& bs2;
+    iarchive.close();
+    REQUIRE(bs == bs2);
 }
