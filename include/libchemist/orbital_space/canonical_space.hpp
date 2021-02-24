@@ -65,25 +65,6 @@ private:
     orbital_energy_type m_egys_;
 };
 
-template<typename TensorType, typename LHSBase, typename RHSBase>
-bool operator==(const CanonicalSpace_<TensorType, LHSBase>& lhs,
-                const CanonicalSpace_<TensorType, RHSBase>& rhs) {
-    auto& cast_lhs = static_cast<const LHSBase&>(lhs);
-    auto& cast_rhs = static_cast<const RHSBase&>(rhs);
-
-    // TODO: Actually compare the tensors
-    auto lhash = sde::hash_objects(lhs.orbital_energies());
-    auto rhash = sde::hash_objects(rhs.orbital_energies());
-
-    return std::tie(cast_lhs, lhash) == std::tie(cast_rhs, rhash);
-}
-
-template<typename TensorType, typename LHSBase, typename RHSBase>
-bool operator!=(const CanonicalSpace_<TensorType, LHSBase>& lhs,
-                const CanonicalSpace_<TensorType, RHSBase>& rhs) {
-    return !(lhs == rhs);
-}
-
 //------------------------------- Implementations ------------------------------
 
 template<typename OrbitalEnergyType, typename BaseType>

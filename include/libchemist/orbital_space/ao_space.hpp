@@ -20,12 +20,15 @@ namespace libchemist::orbital_space {
 template<typename BasisType, typename BaseType>
 class AOSpace_ : public BaseType {
 private:
-    /// Type of the base class
-    using base_type = BaseType;
+    /// Type of this instance
+    using my_type = AOSpace_<BasisType, BaseType>;
 
 public:
     /// Type of the object holding the AO basis set parameters
     using basis_type = BasisType;
+
+    /// Type used for indexing and offsets
+    using size_type = typename BaseType::size_type;
 
     /** @brief Creates a new AOSpace. The AOSpace has no AO basis set or overlap
      *         matrix.
@@ -66,24 +69,17 @@ protected:
      */
     virtual void hash_(sde::Hasher& h) const override;
 
+    /** @brief Overrides the size member so that it returns the number of AOs.
+     *
+     *  This function simply calls the `size()` member of the AO basis set and
+     *  returns the result.
+     */
+    virtual size_type size_() const noexcept override { return m_bs_.size(); }
+
 private:
     /// The object holding the basis set parameters
     basis_type m_bs_;
 };
-
-template<typename BasisType, typename LHSBase, typename RHSBase>
-bool operator==(const AOSpace_<BasisType, LHSBase>& lhs,
-                const AOSpace_<BasisType, RHSBase>& rhs) {
-    const auto& cast_lhs = static_cast<const LHSBase&>(lhs);
-    const auto& cast_rhs = static_cast<const RHSBase&>(rhs);
-    return (cast_lhs == cast_rhs) && (lhs.basis_set() == rhs.basis_set());
-}
-
-template<typename BasisType, typename LHSBase, typename RHSBase>
-bool operator!=(const AOSpace_<BasisType, LHSBase>& lhs,
-                const AOSpace_<BasisType, RHSBase>& rhs) {
-    return !(lhs == rhs);
-}
 
 // ---------------------------- Implementations -------------------------------
 

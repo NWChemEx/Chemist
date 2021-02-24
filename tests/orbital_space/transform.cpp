@@ -1,5 +1,6 @@
 #include "libchemist/orbital_space/transform.hpp"
 #include "libchemist/ta_helpers/ta_helpers.hpp"
+#include "transform_data.hpp"
 #include <catch2/catch.hpp>
 
 using namespace libchemist;
@@ -17,51 +18,6 @@ using namespace libchemist::detail_;
  * can not determine if we really have done the requested transformation in the
  * cheapest way possible.
  */
-
-namespace {
-
-template<typename T>
-auto make_space22(TA::World& world) {
-    TA::TSpArray<T> c(world, {{0.12, 0.23}, {0.34, 0.45}});
-    return orbital_space::DerivedSpace<T>(c, orbital_space::AOSpace<T>{});
-}
-
-template<typename T>
-auto make_space23(TA::World& world) {
-    TA::TSpArray<T> c(world, {{0.12, 0.23, 0.45}, {0.56, 0.67, 0.78}});
-    return orbital_space::DerivedSpace<T>(c, orbital_space::AOSpace<T>{});
-}
-
-template<typename T>
-auto make_space32(TA::World& world) {
-    TA::TSpArray<T> c(world, {{0.12, 0.23}, {0.45, 0.56}, {0.67, 0.78}});
-    return orbital_space::DerivedSpace<T>(c, orbital_space::AOSpace<T>{});
-}
-
-template<typename T>
-auto make_space24(TA::World& world) {
-    TA::TSpArray<T> c(world,
-                      {{0.12, 0.23, 0.45, 0.56}, {0.67, 0.78, 0.89, 0.90}});
-    return orbital_space::DerivedSpace<T>(c, orbital_space::AOSpace<T>{});
-}
-
-template<typename T>
-auto make_space43(TA::World& world) {
-    TA::TSpArray<T> c(world, {{0.12, 0.23, 0.45},
-                              {0.56, 0.67, 0.78},
-                              {0.89, 0.90, 0.01},
-                              {0.12, 0.23, 0.34}});
-    return orbital_space::DerivedSpace<T>(c, orbital_space::AOSpace<T>{});
-}
-
-template<typename T>
-auto make_space25(TA::World& world) {
-    TA::TSpArray<T> c(
-      world, {{0.12, 0.23, 0.45, 0.56, 0.67}, {0.67, 0.78, 0.89, 0.90, 0.01}});
-    return orbital_space::DerivedSpace<T>(c, orbital_space::AOSpace<T>{});
-}
-
-} // namespace
 
 using ta_helpers::allclose;
 using scalar_types = std::tuple<float, double>;
