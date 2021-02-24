@@ -1,6 +1,5 @@
 #pragma once
 #include "libchemist/types.hpp"
-#include <madness/world/parallel_archive.h>
 #include <sde/detail_/memoization.hpp>
 
 namespace libchemist::orbital_space {
@@ -78,35 +77,6 @@ public:
      *                   instance.
      */
     virtual void hash(sde::Hasher& h) const { hash_(h); }
-
-    /** @brief Serialize BaseSpace instance
-     *
-     * @param ar The archive object
-     */
-    template<typename Archive,
-             typename = std::enable_if_t<
-               madness::archive::is_output_archive<Archive>::value>>
-    void serialize(Archive& ar) const {
-        ar& has_overlap();
-        if(has_overlap()) ar& S();
-    }
-
-    /** @brief Deserialize for BaseSpace instance
-     *
-     * @param ar The archive object
-     */
-    template<typename Archive,
-             typename = std::enable_if_t<
-               madness::archive::is_input_archive<Archive>::value>>
-    void serialize(Archive& ar) {
-        bool check_overlap;
-        ar& check_overlap;
-        if(check_overlap) {
-            overlap_type mys;
-            ar& mys;
-            set_overlap_(std::move(mys));
-        }
-    }
 
 protected:
     /// Actually implements hash. Should be overridden by derived classes
