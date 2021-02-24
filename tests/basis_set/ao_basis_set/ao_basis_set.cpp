@@ -1,8 +1,8 @@
 #include "libchemist/basis_set/ao_basis_set.hpp"
 #include <catch2/catch.hpp>
-#include <madness/world/binary_fstream_archive.h>
-#include <madness/world/text_fstream_archive.h>
+#include <cereal/archives/binary.hpp>
 #include <sde/detail_/memoization.hpp>
+#include <sstream>
 #include <utilities/iter_tools/enumerate.hpp>
 
 using bs_t     = libchemist::AOBasisSet<double>;
@@ -220,13 +220,15 @@ TEST_CASE("AOBasisSet : unique_primitives() const") {
 
 TEST_CASE("AOBasisSet serialization") {
     const auto [bs, c] = make_bs();
-    const char* file   = "archive.dat";
-    auto bs0           = bs[0];
-    madness::archive::TextFstreamOutputArchive oarchive(file);
-    oarchive& bs;
-    oarchive.close();
     bs_t bs2;
-    madness::archive::TextFstreamInputArchive iarchive(file);
-    iarchive& bs2;
+    std::stringstream ss;
+    {
+        cereal::BinaryOutputArchive oarchive(ss);
+        oarchive(bs);
+    }
+    {
+        cereal::BinaryInputArchive iarchive(ss);
+        iarchive(bs2);
+    }
     REQUIRE(bs == bs2);
 }

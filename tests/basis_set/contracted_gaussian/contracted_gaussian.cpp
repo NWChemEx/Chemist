@@ -2,7 +2,8 @@
 #include "libchemist/basis_set/contracted_gaussian/cgto_pimpl.hpp"
 #include "libchemist/point/point_pimpl.hpp"
 #include <catch2/catch.hpp>
-#include <madness/world/text_fstream_archive.h>
+#include <cereal/archives/binary.hpp>
+#include <sstream>
 
 /* Testing Strategy:
  *
@@ -148,14 +149,16 @@ TEST_CASE("ContractedGaussian<double> : operator==") {
 }
 
 TEST_CASE("ContractedGaussian serialization") {
-    auto [prims, g]  = make_ctgo();
-    const char* file = "archive.dat";
-    madness::archive::TextFstreamOutputArchive oarchive(file);
-    oarchive& g;
-    oarchive.close();
+    auto [prims, g] = make_ctgo();
     ContractedGaussian<double> g2;
-    madness::archive::TextFstreamInputArchive iarchive(file);
-    iarchive& g2;
-    iarchive.close();
+    std::stringstream ss;
+    {
+        cereal::BinaryOutputArchive oarchive(ss);
+        oarchive(g);
+    }
+    {
+        cereal::BinaryInputArchive iarchive(ss);
+        iarchive(g2);
+    }
     REQUIRE(g == g2);
 }

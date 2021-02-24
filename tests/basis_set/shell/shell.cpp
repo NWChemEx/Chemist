@@ -2,8 +2,8 @@
 #include "libchemist/basis_set/shell/shell_pimpl.hpp"
 #include "libchemist/point/point_pimpl.hpp"
 #include <catch2/catch.hpp>
-#include <madness/world/binary_fstream_archive.h>
-#include <madness/world/text_fstream_archive.h>
+#include <cereal/archives/binary.hpp>
+#include <sstream>
 
 /* Testing Strategy:
  *
@@ -189,14 +189,16 @@ TEST_CASE("Shell : comparisons") {
 }
 
 TEST_CASE("Shell serialization") {
-    auto [s, cg]     = make_shell();
-    const char* file = "archive.dat";
-    madness::archive::TextFstreamOutputArchive oarchive(file);
-    oarchive& s;
-    oarchive.close();
+    auto [s, cg] = make_shell();
     Shell<double> s2;
-    madness::archive::TextFstreamInputArchive iarchive(file);
-    iarchive& s2;
-    iarchive.close();
+    std::stringstream ss;
+    {
+        cereal::BinaryOutputArchive oarchive(ss);
+        oarchive(s);
+    }
+    {
+        cereal::BinaryInputArchive iarchive(ss);
+        iarchive(s2);
+    }
     REQUIRE(s == s2);
 }

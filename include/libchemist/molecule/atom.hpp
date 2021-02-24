@@ -1,7 +1,8 @@
 #pragma once
 #include <array>                 // For the coordinates
-#include <bphash/Hasher_fwd.hpp> //For hashing
-#include <madness/world/parallel_archive.h>
+#include <bphash/Hasher_fwd.hpp> // For hashing
+#include <cereal/types/array.hpp>
+#include <cereal/types/string.hpp>
 #include <memory> // For unique pointer
 #include <string> // For name of atom
 

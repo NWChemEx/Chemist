@@ -1,7 +1,6 @@
 #pragma once
 #include "libchemist/basis_set/shell_view.hpp"
 #include "libchemist/point/point.hpp"
-#include <madness/world/parallel_archive.h>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace libchemist {
@@ -277,10 +276,8 @@ public:
      *
      * @param ar The archive object
      */
-    template<typename Archive,
-             typename = std::enable_if_t<
-               madness::archive::is_output_archive<Archive>::value>>
-    void serialize(Archive& ar) const {
+    template<typename Archive>
+    void save(Archive& ar) const {
         ar& n_aos() & n_unique_primitives() & this->size() & this->coord(0) &
           this->coord(1) & this->coord(2);
         for(const auto& s : *this) {
@@ -288,14 +285,13 @@ public:
             for(const auto& p : s[0]) { ar& p.coefficient() & p.exponent(); }
         }
     }
+
     /** @brief Deserialize for Center instance
      *
      * @param ar The archive object
      */
-    template<typename Archive,
-             typename = std::enable_if_t<
-               madness::archive::is_input_archive<Archive>::value>>
-    void serialize(Archive& ar) {
+    template<typename Archive>
+    void load(Archive& ar) {
         size_type np, ns, nc;
         bool ispure;
         am_type myl;
@@ -321,7 +317,7 @@ private:
     const_reference at_(size_type i) const;
     /// The instance that actually implements this class
     center_pimpl_ptr_t m_pimpl_;
-}; // namespace libchemist
+};
 
 /** @brief Compares two Center instances for equality.
  *

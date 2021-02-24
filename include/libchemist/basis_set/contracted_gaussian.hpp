@@ -1,7 +1,6 @@
 #pragma once
 #include "libchemist/basis_set/primitive_view.hpp"
 #include "libchemist/point/point.hpp"
-#include <madness/world/parallel_archive.h>
 #include <utilities/containers/indexable_container_base.hpp>
 #include <vector>
 
@@ -178,10 +177,8 @@ public:
      *
      * @param ar The archive object
      */
-    template<typename Archive,
-             typename = std::enable_if_t<
-               madness::archive::is_output_archive<Archive>::value>>
-    void serialize(Archive& ar) const {
+    template<typename Archive>
+    void save(Archive& ar) const {
         ar & this->size() & this->coord(0) & this->coord(1) & this->coord(2);
         for(const auto& p : *this) { ar& p.coefficient() & p.exponent(); }
     }
@@ -190,10 +187,8 @@ public:
      *
      * @param ar The archive object
      */
-    template<typename Archive,
-             typename = std::enable_if_t<
-               madness::archive::is_input_archive<Archive>::value>>
-    void serialize(Archive& ar) {
+    template<typename Archive>
+    void load(Archive& ar) {
         size_type mysize;
         T myx, myy, myz;
         ar& mysize& myx& myy& myz;

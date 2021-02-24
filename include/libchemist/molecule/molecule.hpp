@@ -1,7 +1,6 @@
 #pragma once
 #include "libchemist/molecule/atom.hpp"
 #include <bphash/Hasher_fwd.hpp>
-#include <madness/world/parallel_archive.h>
 #include <vector> //For iterators
 
 namespace libchemist {
@@ -203,11 +202,8 @@ public:
      *
      * @param ar The archive object
      */
-    template<typename Archive,
-             typename = std::enable_if_t<
-               !Archive::is_parallel_archive &&
-               madness::archive::is_output_archive<Archive>::value>>
-    void serialize(Archive& ar) const {
+    template<typename Archive>
+    void save(Archive& ar) const {
         ar& size();
         for(const auto& x : *this) ar& x;
         ar& charge() & multiplicity();
@@ -217,11 +213,8 @@ public:
      *
      * @param ar The archive object
      */
-    template<typename Archive,
-             typename = std::enable_if_t<
-               !Archive::is_parallel_archive &&
-               madness::archive::is_input_archive<Archive>::value>>
-    void serialize(Archive& ar) {
+    template<typename Archive>
+    void load(Archive& ar) {
         size_type s;
         ar& s;
         for(int i = 0; i < s; ++i) {

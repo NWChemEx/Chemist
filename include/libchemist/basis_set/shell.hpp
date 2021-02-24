@@ -1,7 +1,6 @@
 #pragma once
 #include "libchemist/basis_set/contracted_gaussian_view.hpp"
 #include "libchemist/point/point.hpp"
-#include <madness/world/parallel_archive.h>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace libchemist {
@@ -273,10 +272,8 @@ public:
      *
      * @param ar The archive object
      */
-    template<typename Archive,
-             typename = std::enable_if_t<
-               madness::archive::is_output_archive<Archive>::value>>
-    void serialize(Archive& ar) const {
+    template<typename Archive>
+    void save(Archive& ar) const {
         ar& n_unique_primitives() & bool(pure()) & l() & this->coord(0) &
           this->coord(1) & this->coord(2);
         for(int i = 0; i < n_unique_primitives(); ++i) {
@@ -284,14 +281,13 @@ public:
               unique_primitive(i).exponent();
         }
     }
+
     /** @brief Deserialize for Shell instance
      *
      * @param ar The archive object
      */
-    template<typename Archive,
-             typename = std::enable_if_t<
-               madness::archive::is_input_archive<Archive>::value>>
-    void serialize(Archive& ar) {
+    template<typename Archive>
+    void load(Archive& ar) {
         size_type n;
         bool ispure;
         ar& n& ispure& l() & this->coord(0) & this->coord(1) & this->coord(2);
@@ -313,7 +309,7 @@ private:
     const_reference at_(size_type index) const;
     /// The instance that actually implements this class
     pimpl_ptr_t m_pimpl_;
-}; // namespace libchemist
+}; // End class Shell
 
 /** @brief Determines if two Shell instances are the same.
  *

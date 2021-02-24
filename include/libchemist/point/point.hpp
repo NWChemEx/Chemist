@@ -1,5 +1,4 @@
 #pragma once
-#include <madness/world/parallel_archive.h>
 #include <memory>
 
 namespace libchemist {
@@ -243,13 +242,22 @@ public:
      */
     const_reference z() const noexcept { return coord(2); }
 
-    /** @brief Serialize/deserialize for Point instance
+    /** @brief Serialize Point instance
      *
      * @param ar The archive object
      */
     template<typename Archive>
-    void serialize(Archive& ar) {
-        ar& coord(0) & coord(1) & coord(2);
+    void save(Archive& ar) const {
+        ar& x() & y() & z();
+    }
+
+    /** @brief Deserialize for Point instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void load(Archive& ar) {
+        ar& x() & y() & z();
     }
 
 protected:

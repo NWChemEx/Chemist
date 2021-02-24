@@ -1,6 +1,7 @@
 #include "libchemist/basis_set/center.hpp"
 #include <catch2/catch.hpp>
-#include <madness/world/text_fstream_archive.h>
+#include <cereal/archives/binary.hpp>
+#include <sstream>
 
 using namespace libchemist;
 
@@ -132,14 +133,16 @@ TEST_CASE("Center : at() const") {
 }
 
 TEST_CASE("Center serialization") {
-    auto [c, s]      = make_center();
-    const char* file = "archive.dat";
-    madness::archive::TextFstreamOutputArchive oarchive(file);
-    oarchive& c;
-    oarchive.close();
+    auto [c, s] = make_center();
     Center<double> c2;
-    madness::archive::TextFstreamInputArchive iarchive(file);
-    iarchive& c2;
-    iarchive.close();
+    std::stringstream ss;
+    {
+        cereal::BinaryOutputArchive oarchive(ss);
+        oarchive(c);
+    }
+    {
+        cereal::BinaryInputArchive iarchive(ss);
+        iarchive(c2);
+    }
     REQUIRE(c == c2);
 }

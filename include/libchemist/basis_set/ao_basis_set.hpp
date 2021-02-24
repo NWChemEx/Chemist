@@ -2,7 +2,6 @@
 #include "libchemist/basis_set/center.hpp"
 #include "libchemist/basis_set/detail_/flattened_view.hpp"
 #include <bphash/Hasher_fwd.hpp>
-#include <madness/world/parallel_archive.h>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace libchemist {
@@ -425,10 +424,8 @@ public:
      *
      * @param ar The archive object
      */
-    template<typename Archive,
-             typename = std::enable_if_t<
-               madness::archive::is_output_archive<Archive>::value>>
-    void serialize(Archive& ar) const {
+    template<typename Archive>
+    void save(Archive& ar) const {
         ar & this->size();
         for(const auto& c : *this) { ar& c; }
     }
@@ -437,10 +434,8 @@ public:
      *
      * @param ar The archive object
      */
-    template<typename Archive,
-             typename = std::enable_if_t<
-               madness::archive::is_input_archive<Archive>::value>>
-    void serialize(Archive& ar) {
+    template<typename Archive>
+    void load(Archive& ar) {
         size_type nc;
         ar& nc;
         libchemist::Center<T> c;

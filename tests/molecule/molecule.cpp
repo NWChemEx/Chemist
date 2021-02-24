@@ -1,6 +1,6 @@
 #include "libchemist/molecule/molecule.hpp"
 #include <catch2/catch.hpp>
-#include <madness/world/text_fstream_archive.h>
+#include <cereal/archives/binary.hpp>
 #include <sde/detail_/memoization.hpp>
 #include <sstream>
 
@@ -179,23 +179,15 @@ TEST_CASE("Molecule serialization") {
     Atom C2(Atom::AtomName{"C"}, Atom::Coordinates{0.0, 0.0, -1.0},
             Atom::Mass{12.0107}, Atom::AtomicNumber{1});
     Molecule mol(C, O, C2);
-    const char* file = "mol_archive.dat";
-    madness::archive::TextFstreamOutputArchive oarchive(file);
-    mol.charge()       = 2;
-    mol.multiplicity() = 3;
-    oarchive& mol;
-    oarchive.close();
-    madness::archive::TextFstreamInputArchive iarchive(file);
     Molecule mol2;
-    iarchive& mol2;
-    iarchive.close();
-    REQUIRE(mol[0] == mol2[0]);
-    REQUIRE(mol[1] == mol2[1]);
-    REQUIRE(mol[2] == mol2[2]);
-
-    REQUIRE(mol.charge() == mol2.charge());
-    REQUIRE(mol.size() == mol2.size());
-    REQUIRE(mol.multiplicity() == mol2.multiplicity());
-    REQUIRE(mol.nelectrons() == mol2.nelectrons());
+    std::stringstream ss;
+    {
+        cereal::BinaryOutputArchive oarchive(ss);
+        oarchive(mol);
+    }
+    {
+        cereal::BinaryInputArchive iarchive(ss);
+        iarchive(mol2);
+    }
     REQUIRE(mol == mol2);
 }

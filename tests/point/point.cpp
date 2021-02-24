@@ -1,6 +1,7 @@
 #include "libchemist/point/point.hpp"
 #include <catch2/catch.hpp>
-#include <madness/world/text_fstream_archive.h>
+#include <cereal/archives/binary.hpp>
+#include <sstream>
 
 using namespace libchemist;
 
@@ -172,13 +173,15 @@ TEST_CASE("Point<double> : operator!=") {
 
 TEST_CASE("Point serialization") {
     Point<double> p{1.0, 2.0, 3.0};
-    const char* file = "archive.dat";
-    madness::archive::TextFstreamOutputArchive oarchive(file);
-    oarchive& p;
-    oarchive.close();
     Point<double> p2;
-    madness::archive::TextFstreamInputArchive iarchive(file);
-    iarchive& p2;
-    iarchive.close();
+    std::stringstream ss;
+    {
+        cereal::BinaryOutputArchive oarchive(ss);
+        oarchive(p);
+    }
+    {
+        cereal::BinaryInputArchive iarchive(ss);
+        iarchive(p2);
+    }
     REQUIRE(p == p2);
 }
