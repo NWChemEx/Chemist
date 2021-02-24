@@ -2,6 +2,8 @@
 #include "libchemist/basis_set/contracted_gaussian/cgto_pimpl.hpp"
 #include "libchemist/point/point_pimpl.hpp"
 #include <catch2/catch.hpp>
+#include <cereal/archives/binary.hpp>
+#include <sstream>
 
 /* Testing Strategy:
  *
@@ -144,4 +146,19 @@ TEST_CASE("ContractedGaussian<double> : operator==") {
         ContractedGaussian<double> g2(cs, es, 1.0, 2.0, 3.0);
         REQUIRE_FALSE(g == g2);
     }
+}
+
+TEST_CASE("ContractedGaussian serialization") {
+    auto [prims, g] = make_ctgo();
+    ContractedGaussian<double> g2;
+    std::stringstream ss;
+    {
+        cereal::BinaryOutputArchive oarchive(ss);
+        oarchive(g);
+    }
+    {
+        cereal::BinaryInputArchive iarchive(ss);
+        iarchive(g2);
+    }
+    REQUIRE(g == g2);
 }

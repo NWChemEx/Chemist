@@ -197,6 +197,33 @@ public:
     const_iterator begin() const noexcept;
     iterator end() noexcept;
     const_iterator end() const noexcept;
+
+    /** @brief Serialize Molecule instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void save(Archive& ar) const {
+        ar& size();
+        for(const auto& x : *this) ar& x;
+        ar& charge() & multiplicity();
+    }
+
+    /** @brief Deserialize for Molecule instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void load(Archive& ar) {
+        size_type s;
+        ar& s;
+        for(int i = 0; i < s; ++i) {
+            Atom a;
+            ar& a;
+            this->push_back(std::move(a));
+        }
+        ar& charge() & multiplicity();
+    }
     ///@}
 private:
     BPHASH_DECLARE_HASHING_FRIENDS

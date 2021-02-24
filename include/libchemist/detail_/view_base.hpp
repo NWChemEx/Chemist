@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+
 namespace libchemist::detail_ {
 
 /** @brief Code factorization for implementing a view of an object

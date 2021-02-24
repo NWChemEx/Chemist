@@ -1,5 +1,6 @@
-#include <catch2/catch.hpp>
 #include "libchemist/molecule/atom.hpp"
+#include <catch2/catch.hpp>
+#include <cereal/archives/binary.hpp>
 #include <map>
 #include <sde/detail_/memoization.hpp>
 #include <sstream>
@@ -113,7 +114,8 @@ TEST_CASE("Atom Class") {
             check_atom<7>(ai, carts, Z, m, h);
         }
         SECTION("Carts Name functions") {
-            Atom ai(Atom::AtomName{"H"}, Atom::Coordinates{1.0,2.0,3.0}, Atom::Mass{1.0079}, Atom::AtomicNumber{1});
+            Atom ai(Atom::AtomName{"H"}, Atom::Coordinates{1.0, 2.0, 3.0},
+                    Atom::Mass{1.0079}, Atom::AtomicNumber{1});
             check_atom<7>(ai, carts, Z, m, h);
         }
     }
@@ -158,3 +160,19 @@ TEST_CASE("Atom Class") {
     }
 
 } // TEST_CASE("Atom Class")
+
+TEST_CASE("Atom serialization") {
+    Atom a(Atom::AtomName{"H"}, Atom::Coordinates{1.0, 2.0, 3.0},
+           Atom::Mass{1.0079}, Atom::AtomicNumber{1});
+    Atom a2;
+    std::stringstream ss;
+    {
+        cereal::BinaryOutputArchive oarchive(ss);
+        oarchive(a);
+    }
+    {
+        cereal::BinaryInputArchive iarchive(ss);
+        iarchive(a2);
+    }
+    REQUIRE(a == a2);
+}

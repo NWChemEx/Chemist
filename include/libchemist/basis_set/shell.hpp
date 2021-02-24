@@ -268,6 +268,36 @@ public:
      */
     const_primitive_reference unique_primitive(size_type i) const;
 
+    /** @brief Serialize Shell instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void save(Archive& ar) const {
+        ar& n_unique_primitives() & bool(pure()) & l() & this->coord(0) &
+          this->coord(1) & this->coord(2);
+        for(int i = 0; i < n_unique_primitives(); ++i) {
+            ar& unique_primitive(i).coefficient() &
+              unique_primitive(i).exponent();
+        }
+    }
+
+    /** @brief Deserialize for Shell instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void load(Archive& ar) {
+        size_type n;
+        bool ispure;
+        ar& n& ispure& l() & this->coord(0) & this->coord(1) & this->coord(2);
+        pure() = pure_type(ispure);
+        std::vector<T> cs(n, 0);
+        std::vector<T> es(n, 0);
+        for(int i = 0; i < n; ++i) { ar& cs[i] & es[i]; }
+        m_pimpl_.reset(new pimpl_t(pure(), l(), cs, es));
+    }
+
 private:
     /// Allows the IndexableContainerBase to access the implementations
     friend container_base;

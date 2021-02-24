@@ -173,6 +173,34 @@ public:
     /// Default dtor
     ~ContractedGaussian() noexcept override;
 
+    /** @brief Serialize ContractedGaussian instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void save(Archive& ar) const {
+        ar & this->size() & this->coord(0) & this->coord(1) & this->coord(2);
+        for(const auto& p : *this) { ar& p.coefficient() & p.exponent(); }
+    }
+
+    /** @brief Deserialize for ContractedGaussian instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void load(Archive& ar) {
+        size_type mysize;
+        T myx, myy, myz;
+        ar& mysize& myx& myy& myz;
+        std::vector<T> cs(mysize, 0);
+        std::vector<T> es(mysize, 0);
+        for(int i = 0; i < mysize; ++i) { ar& cs[i] & es[i]; }
+        m_pimpl_.reset(new pimpl_type(cs, es));
+        this->coord(0) = myx;
+        this->coord(1) = myy;
+        this->coord(2) = myz;
+    }
+
 private:
     /// Allows the IndexableContainerBase to access the implementations
     friend container_base;

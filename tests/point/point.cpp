@@ -1,5 +1,7 @@
-#include <catch2/catch.hpp>
 #include "libchemist/point/point.hpp"
+#include <catch2/catch.hpp>
+#include <cereal/archives/binary.hpp>
+#include <sstream>
 
 using namespace libchemist;
 
@@ -167,4 +169,19 @@ TEST_CASE("Point<double> : operator!=") {
         Point<double> p2{2.0, 3.0, 4.0};
         REQUIRE(p2 != p);
     }
+}
+
+TEST_CASE("Point serialization") {
+    Point<double> p{1.0, 2.0, 3.0};
+    Point<double> p2;
+    std::stringstream ss;
+    {
+        cereal::BinaryOutputArchive oarchive(ss);
+        oarchive(p);
+    }
+    {
+        cereal::BinaryInputArchive iarchive(ss);
+        iarchive(p2);
+    }
+    REQUIRE(p == p2);
 }

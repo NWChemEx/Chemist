@@ -201,6 +201,26 @@ public:
      */
     const_reference exponent() const noexcept;
 
+    /** @brief Serialize Primitive instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void save(Archive& ar) const {
+        ar& coefficient() & exponent() & this->coord(0) & this->coord(1) &
+          this->coord(2);
+    }
+
+    /** @brief Deserialize for Primitive instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void load(Archive& ar) {
+        ar& coefficient() & exponent() & this->coord(0) & this->coord(1) &
+          this->coord(2);
+    }
+
 private:
     /// The instance in charge of implementing the class
     my_pimpl_ptr m_pimpl_;

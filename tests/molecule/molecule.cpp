@@ -1,5 +1,6 @@
-#include <catch2/catch.hpp>
 #include "libchemist/molecule/molecule.hpp"
+#include <catch2/catch.hpp>
+#include <cereal/archives/binary.hpp>
 #include <sde/detail_/memoization.hpp>
 #include <sstream>
 
@@ -168,4 +169,25 @@ TEST_CASE("Molecule Class") {
             REQUIRE(h2o_a != h2o_b);
         }
     }
+}
+
+TEST_CASE("Molecule serialization") {
+    Atom C(Atom::AtomName{"C"}, Atom::Coordinates{0.0, 0.0, 1.0},
+           Atom::Mass{12.0107}, Atom::AtomicNumber{1});
+    Atom O(Atom::AtomName{"O"}, Atom::Coordinates{0.0, 0.0, 0.0},
+           Atom::Mass{15.999}, Atom::AtomicNumber{1});
+    Atom C2(Atom::AtomName{"C"}, Atom::Coordinates{0.0, 0.0, -1.0},
+            Atom::Mass{12.0107}, Atom::AtomicNumber{1});
+    Molecule mol(C, O, C2);
+    Molecule mol2;
+    std::stringstream ss;
+    {
+        cereal::BinaryOutputArchive oarchive(ss);
+        oarchive(mol);
+    }
+    {
+        cereal::BinaryInputArchive iarchive(ss);
+        iarchive(mol2);
+    }
+    REQUIRE(mol == mol2);
 }

@@ -2,6 +2,8 @@
 #include "libchemist/basis_set/shell/shell_pimpl.hpp"
 #include "libchemist/point/point_pimpl.hpp"
 #include <catch2/catch.hpp>
+#include <cereal/archives/binary.hpp>
+#include <sstream>
 
 /* Testing Strategy:
  *
@@ -184,4 +186,19 @@ TEST_CASE("Shell : comparisons") {
         REQUIRE_FALSE(s == s2);
         REQUIRE(s != s2);
     }
+}
+
+TEST_CASE("Shell serialization") {
+    auto [s, cg] = make_shell();
+    Shell<double> s2;
+    std::stringstream ss;
+    {
+        cereal::BinaryOutputArchive oarchive(ss);
+        oarchive(s);
+    }
+    {
+        cereal::BinaryInputArchive iarchive(ss);
+        iarchive(s2);
+    }
+    REQUIRE(s == s2);
 }

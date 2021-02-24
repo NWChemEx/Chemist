@@ -1,6 +1,8 @@
 #include "libchemist/basis_set/ao_basis_set.hpp"
 #include <catch2/catch.hpp>
+#include <cereal/archives/binary.hpp>
 #include <sde/detail_/memoization.hpp>
+#include <sstream>
 #include <utilities/iter_tools/enumerate.hpp>
 
 using bs_t     = libchemist::AOBasisSet<double>;
@@ -214,4 +216,19 @@ TEST_CASE("AOBasisSet : unique_primitives() const") {
     for(auto&& [i, prim_i] : utilities::Enumerate(bs.unique_primitives())) {
         REQUIRE(prim_i == corr[i]);
     }
+}
+
+TEST_CASE("AOBasisSet serialization") {
+    const auto [bs, c] = make_bs();
+    bs_t bs2;
+    std::stringstream ss;
+    {
+        cereal::BinaryOutputArchive oarchive(ss);
+        oarchive(bs);
+    }
+    {
+        cereal::BinaryInputArchive iarchive(ss);
+        iarchive(bs2);
+    }
+    REQUIRE(bs == bs2);
 }

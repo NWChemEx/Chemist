@@ -420,6 +420,31 @@ public:
      */
     const_flattened_primitives unique_primitives() const noexcept;
 
+    /** @brief Serialize AOBasisSet instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void save(Archive& ar) const {
+        ar & this->size();
+        for(const auto& c : *this) { ar& c; }
+    }
+
+    /** @brief Deserialize for AOBasisSet instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void load(Archive& ar) {
+        size_type nc;
+        ar& nc;
+        libchemist::Center<T> c;
+        for(int ci = 0; ci < nc; ++ci) {
+            ar& c;
+            this->add_center(std::move(c));
+        }
+    }
+
 private:
     /// Allows the base class to implement container API
     friend base_type;

@@ -242,6 +242,24 @@ public:
      */
     const_reference z() const noexcept { return coord(2); }
 
+    /** @brief Serialize Point instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void save(Archive& ar) const {
+        ar& x() & y() & z();
+    }
+
+    /** @brief Deserialize for Point instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void load(Archive& ar) {
+        ar& x() & y() & z();
+    }
+
 protected:
     /// Convenience fxn that makes a PIMPL that aliases this instance's state
     pimpl_ptr point_alias() const;

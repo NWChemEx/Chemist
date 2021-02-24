@@ -1,5 +1,7 @@
 #include "libchemist/basis_set/center.hpp"
 #include <catch2/catch.hpp>
+#include <cereal/archives/binary.hpp>
+#include <sstream>
 
 using namespace libchemist;
 
@@ -128,4 +130,19 @@ TEST_CASE("Center : at() const") {
     const auto [c, s] = make_center();
     REQUIRE(c[0] == s);
     REQUIRE(c[1] == s);
+}
+
+TEST_CASE("Center serialization") {
+    auto [c, s] = make_center();
+    Center<double> c2;
+    std::stringstream ss;
+    {
+        cereal::BinaryOutputArchive oarchive(ss);
+        oarchive(c);
+    }
+    {
+        cereal::BinaryInputArchive iarchive(ss);
+        iarchive(c2);
+    }
+    REQUIRE(c == c2);
 }
