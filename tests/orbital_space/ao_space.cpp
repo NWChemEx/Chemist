@@ -15,14 +15,21 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
     using space_type     = AOSpace_<basis_set_type, base_type>;
 
     auto& world = TA::get_default_world();
-    auto S  = libchemist::test::TensorMaker<tensor_type>::S(world);
-    auto S2 = libchemist::test::TensorMaker<tensor_type>::S2(world);
+    auto S      = libchemist::test::TensorMaker<tensor_type>::S(world);
+    auto S2     = libchemist::test::TensorMaker<tensor_type>::S2(world);
     basis_set_type bs;
     bs.add_center(libchemist::Center<TestType>(1.0, 2.0, 3.0));
 
     SECTION("Typedefs") {
-        using basis_t = typename space_type::basis_type;
-        STATIC_REQUIRE(std::is_same_v<basis_t, basis_set_type>);
+        SECTION("basis_type") {
+            using basis_t = typename space_type::basis_type;
+            STATIC_REQUIRE(std::is_same_v<basis_t, basis_set_type>);
+        }
+        SECTION("size_type") {
+            using size_t = typename space_type::size_type;
+            using corr_t = typename base_type::size_type;
+            STATIC_REQUIRE(std::is_same_v<size_t, corr_t>);
+        }
     }
 
     SECTION("Ctors") {
@@ -60,7 +67,7 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
             space_type st1(bs, S), st2(bs, S), st3;
             auto pst3 = &(st3 = std::move(st2));
             SECTION("Value") { REQUIRE(st1 == st3); }
-            SECTION("Returns this") { REQUIRE(pst3 == & st3); }
+            SECTION("Returns this") { REQUIRE(pst3 == &st3); }
         }
     }
 
@@ -91,15 +98,23 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
                 REQUIRE(hash1 != hash2);
             }
 
-            SECTION("All different"){
-                auto hash2 = sde::hash_objects(space_type(basis_set_type{}, S2));
+            SECTION("All different") {
+                auto hash2 =
+                  sde::hash_objects(space_type(basis_set_type{}, S2));
                 REQUIRE(hash1 != hash2);
             }
         }
     }
 
-    SECTION("Comparisons") {
+    SECTION("size()") {
+        SECTION("empty") {
+            space_type st;
+            REQUIRE(st.size() == 0);
+        }
+        SECTION("Non-empty") { REQUIRE(st1.size() == bs.size()); }
+    }
 
+    SECTION("Comparisons") {
         SECTION("Same state") {
             REQUIRE(st1 == space_type(bs, S));
             REQUIRE_FALSE(st1 != space_type(bs, S));
@@ -116,7 +131,7 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
                 REQUIRE(st1 != space_type(bs, S2));
             }
 
-            SECTION("All different"){
+            SECTION("All different") {
                 space_type st2(basis_set_type{}, S2);
                 REQUIRE_FALSE(st1 == st2);
                 REQUIRE(st1 != st2);

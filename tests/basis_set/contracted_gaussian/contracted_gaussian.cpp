@@ -1,7 +1,10 @@
+#include "libchemist/basis_set/contracted_gaussian.hpp"
+#include "libchemist/basis_set/contracted_gaussian/cgto_pimpl.hpp"
+#include "libchemist/point/point_pimpl.hpp"
 #include <catch2/catch.hpp>
-#include <libchemist/basis_set/contracted_gaussian/contracted_gaussian.hpp>
-#include <libchemist/basis_set/contracted_gaussian/detail_/cgto_pimpl.hpp>
-#include <libchemist/point/detail_/point_pimpl.hpp>
+#include <cereal/archives/binary.hpp>
+#include <sstream>
+
 /* Testing Strategy:
  *
  * Prior testing of the Point<T> and utilities::IndexableContainerBase classes
@@ -40,12 +43,12 @@ TEST_CASE("ContractedGaussian<double> : default ctor") {
 }
 
 TEST_CASE("ContractedGaussian<double> : value ctor") {
-    auto[prims, g] = make_ctgo();
+    auto [prims, g] = make_ctgo();
     check_state(g, prims);
 }
 
 TEST_CASE("ContractedGaussian<double> : copy ctor") {
-    auto[prims, g] = make_ctgo();
+    auto [prims, g] = make_ctgo();
     ContractedGaussian<double> g2(g);
     check_state(g2, prims);
     SECTION("Is deep copy") {
@@ -57,13 +60,13 @@ TEST_CASE("ContractedGaussian<double> : copy ctor") {
 }
 
 TEST_CASE("ContractedGaussian<double> : move ctor") {
-    auto[prims, g] = make_ctgo();
+    auto [prims, g] = make_ctgo();
     ContractedGaussian<double> g2(std::move(g));
     check_state(g2, prims);
 }
 
 TEST_CASE("ContractedGaussian<double> : copy assignment") {
-    auto[prims, g] = make_ctgo();
+    auto [prims, g] = make_ctgo();
     ContractedGaussian<double> g2;
     auto pg2 = &(g2 = g);
     check_state(g2, prims);
@@ -77,7 +80,7 @@ TEST_CASE("ContractedGaussian<double> : copy assignment") {
 }
 
 TEST_CASE("ContractedGaussian<double> : move assignment") {
-    auto[prims, g] = make_ctgo();
+    auto [prims, g] = make_ctgo();
     ContractedGaussian<double> g2;
     auto pg2 = &(g2 = std::move(g));
     check_state(g2, prims);
@@ -92,18 +95,18 @@ TEST_CASE("ContractedGaussian<double> : pimpl ctor") {
     auto p2 =
       std::make_unique<detail_::PointPIMPL<double>>(&qs[0], &qs[1], &qs[2]);
     ContractedGaussian<double> cgto(std::move(p1), std::move(p2));
-    auto[prims, g] = make_ctgo();
+    auto [prims, g] = make_ctgo();
     check_state(cgto, prims);
 }
 
 TEST_CASE("ContractedGaussian<double> : size_") {
-    auto[prims, g] = make_ctgo();
+    auto [prims, g] = make_ctgo();
     REQUIRE(g.size() == 3);
 }
 
 TEST_CASE("ContractedGaussian<double> : at_") {
-    auto[prims, g] = make_ctgo();
-    auto prim0     = g[0];
+    auto [prims, g] = make_ctgo();
+    auto prim0      = g[0];
     SECTION("State") { REQUIRE(static_cast<const prim_t&>(prim0) == prims[0]); }
     SECTION("Is read/write-able") {
         STATIC_REQUIRE(std::is_same_v<double&, decltype(prim0.coefficient())>);
@@ -115,8 +118,8 @@ TEST_CASE("ContractedGaussian<double> : at_") {
 }
 
 TEST_CASE("ContractedGaussian<double> : at_() const") {
-    const auto[prims, g] = make_ctgo();
-    auto prim0           = g[0];
+    const auto [prims, g] = make_ctgo();
+    auto prim0            = g[0];
     SECTION("State") { REQUIRE(static_cast<const prim_t&>(prim0) == prims[0]); }
     SECTION("Is read-only") {
         using constd = const double&;
@@ -129,7 +132,7 @@ TEST_CASE("ContractedGaussian<double> : at_() const") {
 }
 
 TEST_CASE("ContractedGaussian<double> : operator==") {
-    const auto[prims, g] = make_ctgo();
+    const auto [prims, g] = make_ctgo();
     SECTION("Same") { REQUIRE(g == g); }
     SECTION("Different primitives") {
         vector_t cs{1.0, 3.0, 5.0};
@@ -143,4 +146,19 @@ TEST_CASE("ContractedGaussian<double> : operator==") {
         ContractedGaussian<double> g2(cs, es, 1.0, 2.0, 3.0);
         REQUIRE_FALSE(g == g2);
     }
+}
+
+TEST_CASE("ContractedGaussian serialization") {
+    auto [prims, g] = make_ctgo();
+    ContractedGaussian<double> g2;
+    std::stringstream ss;
+    {
+        cereal::BinaryOutputArchive oarchive(ss);
+        oarchive(g);
+    }
+    {
+        cereal::BinaryInputArchive iarchive(ss);
+        iarchive(g2);
+    }
+    REQUIRE(g == g2);
 }

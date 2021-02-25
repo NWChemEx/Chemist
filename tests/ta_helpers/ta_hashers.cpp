@@ -1,5 +1,5 @@
+#include "libchemist/ta_helpers/ta_hashers.hpp"
 #include <catch2/catch.hpp>
-#include <libchemist/ta_helpers/ta_hashers.hpp>
 #include <sde/detail_/memoization.hpp>
 
 using sde::hash_objects;
@@ -120,6 +120,17 @@ TEST_CASE("TA Hashers with BPHASH", "[TA],[hash]") {
         REQUIRE(hash_objects(SA2) != hash_objects(SA4));
         REQUIRE(hash_objects(SA3) != hash_objects(SA4));
     }
+
+    SECTION("Direct TA:DistArray and TA::Tensor comparisons") {
+        REQUIRE(TAD1 == TAD1);
+        REQUIRE(TAD1 != TAF1);
+        REQUIRE(TAI1 != TAL1);
+        REQUIRE(TAD1 == TA2);
+        REQUIRE(TA2 != TA3);
+        REQUIRE(TA3 != TA4);
+        REQUIRE(SA2 != SA3);
+    }
+
     SECTION("TA::DistArray and TA::Tensor absolute hash tests") {
         CHECK(hash_objects(TAD1) == "4d80f034b616bdf6e8af17f2df6e3abd");
         CHECK(hash_objects(TA4) == "dfbfaeab72b41561a2c8eee1130efbf7");
@@ -196,6 +207,15 @@ TEMPLATE_TEST_CASE("TA hashing templated tests for tensors",
     SA3r.fill(1);
     SA3c.fill(1);
 
+    SECTION("Hash for uninitialized TA objects") {
+        TA::TArray<TestType> UA1;
+        TA::TArray<TestType> UA2;
+        TA::TSpArray<TestType> US1;
+        TA::TSpArray<TestType> US2;
+        REQUIRE(hash_objects(UA1) == hash_objects(UA2));
+        REQUIRE(hash_objects(US1) == hash_objects(US2));
+    }
+
     SECTION("TA::DistArray and TA::Tensor relative hash tests") {
         REQUIRE(hash_objects(A0) == hash_objects(A0));
         REQUIRE(hash_objects(A0) != hash_objects(A1));
@@ -220,5 +240,17 @@ TEMPLATE_TEST_CASE("TA hashing templated tests for tensors",
         REQUIRE(hash_objects(A5) == hash_objects(A5c));
         REQUIRE(hash_objects(SA3) == hash_objects(SA3r));
         REQUIRE(hash_objects(SA3) == hash_objects(SA3c));
+    }
+
+    SECTION("Direct TA:DistArray and TA::Tensor comparisons") {
+        REQUIRE(A0 != A1);
+        REQUIRE(A1 == A2);
+        REQUIRE(A3 != A4);
+        REQUIRE(T1 == T2);
+        REQUIRE(T3 != T4);
+        REQUIRE(T5 == T6);
+        REQUIRE(T6 != T7);
+        REQUIRE(SA0 == SA1);
+        REQUIRE(SA2 != SA3);
     }
 }

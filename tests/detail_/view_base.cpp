@@ -1,5 +1,5 @@
+#include "libchemist/detail_/view_base.hpp"
 #include <catch2/catch.hpp>
-#include <libchemist/detail_/view_base.hpp>
 
 /* Testing Strategy:
  *

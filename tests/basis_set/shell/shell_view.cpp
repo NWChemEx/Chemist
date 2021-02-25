@@ -1,5 +1,5 @@
+#include "libchemist/basis_set/shell_view.hpp"
 #include <catch2/catch.hpp>
-#include <libchemist/basis_set/shell/shell_view.hpp>
 
 using namespace libchemist;
 

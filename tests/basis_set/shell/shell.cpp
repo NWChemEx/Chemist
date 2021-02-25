@@ -1,7 +1,9 @@
+#include "libchemist/basis_set/shell.hpp"
+#include "libchemist/basis_set/shell/shell_pimpl.hpp"
+#include "libchemist/point/point_pimpl.hpp"
 #include <catch2/catch.hpp>
-#include <libchemist/basis_set/shell/detail_/shell_pimpl.hpp>
-#include <libchemist/basis_set/shell/shell.hpp>
-#include <libchemist/point/detail_/point_pimpl.hpp>
+#include <cereal/archives/binary.hpp>
+#include <sstream>
 
 /* Testing Strategy:
  *
@@ -40,19 +42,19 @@ TEST_CASE("Shell : default ctor") {
 }
 
 TEST_CASE("Shell : copy ctor") {
-    auto[s, cg] = make_shell();
+    auto [s, cg] = make_shell();
     Shell<double> s2(s);
     check_state(s2, true, 2, cg);
 }
 
 TEST_CASE("Shell : move ctor") {
-    auto[s, cg] = make_shell();
+    auto [s, cg] = make_shell();
     Shell<double> s2(std::move(s));
     check_state(s2, true, 2, cg);
 }
 
 TEST_CASE("Shell : copy assignment") {
-    auto[s, cg] = make_shell();
+    auto [s, cg] = make_shell();
     Shell<double> s2;
     auto ps2 = &(s2 = s);
     check_state(s2, true, 2, cg);
@@ -60,7 +62,7 @@ TEST_CASE("Shell : copy assignment") {
 }
 
 TEST_CASE("Shell : move assignment") {
-    auto[s, cg] = make_shell();
+    auto [s, cg] = make_shell();
     Shell<double> s2;
     auto ps2 = &(s2 = std::move(s));
     check_state(s2, true, 2, cg);
@@ -68,7 +70,7 @@ TEST_CASE("Shell : move assignment") {
 }
 
 TEST_CASE("Shell : value ctor") {
-    auto[s, cg] = make_shell();
+    auto [s, cg] = make_shell();
     check_state(s, true, 2, cg);
 }
 
@@ -79,12 +81,12 @@ TEST_CASE("Shell : PIMPL ctor") {
                                                               2, &cs, &es);
     auto ptr2 = std::make_unique<detail_::PointPIMPL<double>>(7.0, 8.0, 9.0);
     Shell<double> s(std::move(ptr1), std::move(ptr2));
-    auto[shell2, cg] = make_shell();
+    auto [shell2, cg] = make_shell();
     check_state(s, true, 2, cg);
 }
 
 TEST_CASE("Shell : pure()") {
-    auto[s, cg] = make_shell();
+    auto [s, cg] = make_shell();
     REQUIRE(s.pure());
     SECTION("Is read-/write-able") {
         STATIC_REQUIRE(std::is_same_v<ShellType&, decltype(s.pure())>);
@@ -92,7 +94,7 @@ TEST_CASE("Shell : pure()") {
 }
 
 TEST_CASE("Shell : pure() const") {
-    const auto[s, cg] = make_shell();
+    const auto [s, cg] = make_shell();
     REQUIRE(s.pure());
     SECTION("Is read-only") {
         STATIC_REQUIRE(std::is_same_v<const ShellType&, decltype(s.pure())>);
@@ -100,7 +102,7 @@ TEST_CASE("Shell : pure() const") {
 }
 
 TEST_CASE("Shell : l()") {
-    auto[s, cg] = make_shell();
+    auto [s, cg] = make_shell();
     REQUIRE(s.l() == 2);
     SECTION("Is read-/write-able") {
         STATIC_REQUIRE(std::is_same_v<std::size_t&, decltype(s.l())>);
@@ -108,7 +110,7 @@ TEST_CASE("Shell : l()") {
 }
 
 TEST_CASE("Shell : l() const") {
-    const auto[s, cg] = make_shell();
+    const auto [s, cg] = make_shell();
     REQUIRE(s.l() == 2);
     SECTION("Is read-only") {
         STATIC_REQUIRE(std::is_same_v<const std::size_t&, decltype(s.l())>);
@@ -116,36 +118,36 @@ TEST_CASE("Shell : l() const") {
 }
 
 TEST_CASE("Shell : n_unique_primitives") {
-    const auto[s, cg] = make_shell();
+    const auto [s, cg] = make_shell();
     REQUIRE(s.n_unique_primitives() == 3);
 }
 
 TEST_CASE("Shell : unique_primitive") {
-    auto[s, cg] = make_shell();
+    auto [s, cg] = make_shell();
     REQUIRE(s.unique_primitive(0) == cg[0]);
     REQUIRE(s.unique_primitive(1) == cg[1]);
     REQUIRE(s.unique_primitive(2) == cg[2]);
 }
 
 TEST_CASE("Shell : unique_primitive() const") {
-    const auto[s, cg] = make_shell();
+    const auto [s, cg] = make_shell();
     REQUIRE(s.unique_primitive(0) == cg[0]);
     REQUIRE(s.unique_primitive(1) == cg[1]);
     REQUIRE(s.unique_primitive(2) == cg[2]);
 }
 
 TEST_CASE("Shell : size_()") {
-    auto[s, cg] = make_shell();
+    auto [s, cg] = make_shell();
     REQUIRE(s.size() == 5);
 }
 
 TEST_CASE("Shell : at_()") {
-    auto[s, cg] = make_shell();
+    auto [s, cg] = make_shell();
     REQUIRE(s[0] == cg);
 }
 
 TEST_CASE("Shell : at_() const") {
-    const auto[s, cg] = make_shell();
+    const auto [s, cg] = make_shell();
     REQUIRE(s[0] == cg);
 }
 
@@ -184,4 +186,19 @@ TEST_CASE("Shell : comparisons") {
         REQUIRE_FALSE(s == s2);
         REQUIRE(s != s2);
     }
+}
+
+TEST_CASE("Shell serialization") {
+    auto [s, cg] = make_shell();
+    Shell<double> s2;
+    std::stringstream ss;
+    {
+        cereal::BinaryOutputArchive oarchive(ss);
+        oarchive(s);
+    }
+    {
+        cereal::BinaryInputArchive iarchive(ss);
+        iarchive(s2);
+    }
+    REQUIRE(s == s2);
 }
