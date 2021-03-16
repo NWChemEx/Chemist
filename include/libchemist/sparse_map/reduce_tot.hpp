@@ -6,16 +6,20 @@
 
 namespace libchemist::sparse_map {
 namespace detail_ {
-//TODO: doc
-/** @brief
+
+/** @brief Fills in the provided tile with the appropriate sum of elements from the tensor-of-tensor
  *
- * @tparam TileType
- * @tparam T
- * @param tile
- * @param sm
- * @param tensor
- * @param ind2mode
- * @return
+ *  The sparse map is used to obtain the correct "corresponding" elements from the inner indices
+ *  of the tensor-of-tensor.
+ *
+ * @tparam TileType The type of the tile to be filled.
+ * @tparam T The type of the tensor from which elements are being pulled and summed, assumed to be
+ *           a tensor-of-tensor.
+ * @param[in] tile The initialized tile to be filled in.
+ * @param[in] esm  The sparse map which was used to create the tensor-of-tensor.
+ * @param[in] trange_rv The TiledRange which @p tile will match.
+ * @param[in] t_of_t The tensor-of-tensor providing the elements to sum.
+ * @return  The filled in tile.
  */
 template<typename TileType, typename T>
 auto make_reduced_tile_(TileType tile,
@@ -50,27 +54,26 @@ auto make_reduced_tile_(TileType tile,
             }
         }
     }
-
     return tile;
 }
+
 } // namespace detail_
 
-//TODO: doc
-/** @brief
+/** @brief Reduces a tensor-of-tensors to a regular tensor by summing over "corresponding" elements
  *
- * @tparam T The type of the tensor being sparsified, assumed to be a TiledArray
- *           tensor.
+ *  Reduces the outer indices of a tensor-of-tensor by summing the elements.
+ *  In Einsten notation:
+ *  A(j,k) = B(i;j,k)
+ *  The inner indices of B are now tiled indices in A.
  *
- * @param[in] esm The element-to-element sparse map describing how to sparsify
+ * @tparam T The type of the tensor being reduced, assumed to be a TiledArray
+ *           tensor-of-tensors.
+ *
+ * @param[in] esm The element-to-element sparse map which was used to sparsify
  *                the tensor.
- * @param[in] tensor The tensor we are sparsifying.
- * @param[in] outer_trange The TiledRange for the outer tensor of the
- *            tensor-of-tensor this function is creating.
- * @param[in] ind2mode A map from independent index mode to the mode in
- *                     @p tensor it maps to.  *i.e.*, `ind2mode[i]` is the mode
- *                     of @p tensor that the `i`-th mode of an independent index
- *                     maps to.
- * @return The tensor-of-tensors resulting from applying @p esm to @p tensor.
+ * @param[in] t_of_t The tensor-of-tensors we are reducing.
+ * @param[in] trange_rv The TiledRange for the output tensor (tiles the inner indices of @p t_of_t).
+ * @return The tensor resulting from applying @p esm to @p tensor.
  */
 template<typename T>
 auto reduce_tot_sum(const SparseMap<ElementIndex, ElementIndex>& esm,
@@ -94,6 +97,19 @@ auto reduce_tot_sum(const SparseMap<ElementIndex, ElementIndex>& esm,
     return TA::make_array<tensor_type>(t_of_t.world(), trange_rv, l);
 }
 
+/** @brief Reduces a tensor-of-tensors to a regular tensor by summing over "corresponding" elements
+ *
+ *  An overload which takes an element-to-tile sparse map.
+ *
+ * @tparam T The type of the tensor being reduced, assumed to be a TiledArray
+ *           tensor-of-tensors.
+ *
+ * @param[in] etsm The element-to-tile sparse map which was used to sparsify
+ *                the tensor.
+ * @param[in] t_of_t The tensor-of-tensors we are reducing.
+ * @param[in] trange_rv The TiledRange for the output tensor (tiles the inner indices of @p t_of_t).
+ * @return The tensor resulting from applying @p esm to @p tensor.
+ */
 template<typename T>
 auto reduce_tot_sum(const SparseMap<ElementIndex, TileIndex>& etsm,
                     const T& t_of_t,
@@ -102,6 +118,19 @@ auto reduce_tot_sum(const SparseMap<ElementIndex, TileIndex>& etsm,
     return reduce_tot_sum(esm, t_of_t, trange_rv);
 }
 
+/** @brief Reduces a tensor-of-tensors to a regular tensor by summing over "corresponding" elements
+ *
+ *  An overload which takes a tile-to-element sparse map.
+ *
+ * @tparam T The type of the tensor being reduced, assumed to be a TiledArray
+ *           tensor-of-tensors.
+ *
+ * @param[in] tesm The tile-to-element sparse map which was used to sparsify
+ *                the tensor.
+ * @param[in] t_of_t The tensor-of-tensors we are reducing.
+ * @param[in] trange_rv The TiledRange for the output tensor (tiles the inner indices of @p t_of_t).
+ * @return The tensor resulting from applying @p esm to @p tensor.
+ */
 template<typename T>
 auto reduce_tot_sum(const SparseMap<TileIndex, ElementIndex>& tesm,
                     const T& t_of_t,
@@ -110,6 +139,19 @@ auto reduce_tot_sum(const SparseMap<TileIndex, ElementIndex>& tesm,
     return reduce_tot_sum(esm, t_of_t, trange_rv);
 }
 
+/** @brief Reduces a tensor-of-tensors to a regular tensor by summing over "corresponding" elements
+ *
+ *  An overload which takes a tile-to-tile sparse map.
+ *
+ * @tparam T The type of the tensor being reduced, assumed to be a TiledArray
+ *           tensor-of-tensors.
+ *
+ * @param[in] tsm The tile-to-tile sparse map which was used to sparsify
+ *                the tensor.
+ * @param[in] t_of_t The tensor-of-tensors we are reducing.
+ * @param[in] trange_rv The TiledRange for the output tensor (tiles the inner indices of @p t_of_t).
+ * @return The tensor resulting from applying @p esm to @p tensor.
+ */
 template<typename T>
 auto reduce_tot_sum(const SparseMap<TileIndex, TileIndex>& tsm,
                     const T& t_of_t,
