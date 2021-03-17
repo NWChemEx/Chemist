@@ -83,7 +83,7 @@ auto reduce_tot_sum(const SparseMap<ElementIndex, ElementIndex>& esm,
                     const T& t_of_t,
                     const TA::TiledRange& trange_rv) {
 
-    if (t_of_t.trange().rank() != esm.ind_rank) {
+    if (t_of_t.trange().rank() != esm.ind_rank()) {
         throw std::runtime_error("Sparse map and tensor-of-tensor independent ranks do not match");
     }
 
