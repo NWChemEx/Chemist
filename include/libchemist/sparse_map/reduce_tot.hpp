@@ -45,7 +45,7 @@ auto make_reduced_tile_(TileType tile,
         for (const auto& oeidx_v : outer_tile.range()) {
             const ElementIndex oeidx(oeidx_v.begin(), oeidx_v.end());
             if (outer_tile[oeidx].range().rank() != esm.dep_rank()) {
-                throw std::runtime_error("Sparse map and tensor-of-tensor dependent ranks do not match");
+                throw std::runtime_error("SparseMap and tensor-of-tensor dependent ranks do not match");
             }
             if (etsm.at(oeidx).count(tidx_lhs)) {
                 for (const auto& lhs_idx_v : range_rv) {
@@ -83,8 +83,12 @@ auto reduce_tot_sum(const SparseMap<ElementIndex, ElementIndex>& esm,
                     const T& t_of_t,
                     const TA::TiledRange& trange_rv) {
 
+    if (trange_rv.rank() != esm.dep_rank()) {
+        throw std::runtime_error("Input TiledRange rank and SparseMap dependent rank do not match");
+    }
+
     if (t_of_t.trange().rank() != esm.ind_rank()) {
-        throw std::runtime_error("Sparse map and tensor-of-tensor independent ranks do not match");
+        throw std::runtime_error("SparseMap and tensor-of-tensor independent ranks do not match");
     }
 
     using scalar_type = typename T::scalar_type;
