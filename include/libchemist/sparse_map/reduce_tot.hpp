@@ -44,6 +44,9 @@ auto make_reduced_tile_(TileType tile,
         const TA::Tensor<TileType> outer_tile = t_of_t.find(otidx);
         for (const auto& oeidx_v : outer_tile.range()) {
             const ElementIndex oeidx(oeidx_v.begin(), oeidx_v.end());
+            if (outer_tile[oeidx].range().rank() != esm.dep_rank()) {
+                throw std::runtime_error("Sparse map and tensor-of-tensor dependent ranks do not match");
+            }
             if (etsm.at(oeidx).count(tidx_lhs)) {
                 for (const auto& lhs_idx_v : range_rv) {
                     const ElementIndex eidx_lhs(lhs_idx_v.begin(), lhs_idx_v.end());
@@ -62,8 +65,8 @@ auto make_reduced_tile_(TileType tile,
 /** @brief Reduces a tensor-of-tensors to a regular tensor by summing over "corresponding" elements
  *
  *  Reduces the outer indices of a tensor-of-tensor by summing the elements.
- *  In Einsten notation:
- *  A(j,k) = B(i;j,k)
+ *  In einsum notation:
+ *  A(j,k;) = B(i;j,k)
  *  The inner indices of B are now tiled indices in A.
  *
  * @tparam T The type of the tensor being reduced, assumed to be a TiledArray
@@ -79,6 +82,10 @@ template<typename T>
 auto reduce_tot_sum(const SparseMap<ElementIndex, ElementIndex>& esm,
                     const T& t_of_t,
                     const TA::TiledRange& trange_rv) {
+
+    if (t_of_t.trange().rank() != esm.ind_rank) {
+        throw std::runtime_error("Sparse map and tensor-of-tensor independent ranks do not match");
+    }
 
     using scalar_type = typename T::scalar_type;
     using tensor_type    = type::tensor<scalar_type>;
