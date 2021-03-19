@@ -47,7 +47,7 @@ public:
      * @param[in] args Inputs to forward to the base class's ctor.
      */
     template<typename... Args>
-    AOSpace_(basis_type bs, Args&&... args);
+    explicit AOSpace_(basis_type bs, Args&&... args);
 
     /** @brief Accessor for read/write access to the basis set parameters
      *

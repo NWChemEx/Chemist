@@ -11,8 +11,8 @@
 #include "libchemist/managers/managers.hpp"
 #include "libchemist/orbital_space/orbital_space.hpp"
 
-#include "libchemist/molecule/molecule.hpp"
 #include "libchemist/molecule/atom.hpp"
+#include "libchemist/molecule/molecule.hpp"
 /**
  * @brief The primary namespace for the libchemist library
  *
@@ -35,13 +35,13 @@ namespace libchemist {
  */
 inline auto apply_basis(const std::string& name, const Molecule& mol,
                         const BasisSetManager& man = BasisSetManager()) {
-    AOBasisSet<double> rv;
+    AOBasisSet<double> aos;
     for(const auto& ai : mol) {
         auto ci = man.get_basis(name, ai.Z());
         for(auto i : {0, 1, 2}) ci.coord(i) = ai.coords()[i];
-        rv.add_center(ci);
+        aos.add_center(ci);
     }
-    return rv;
+    return orbital_space::AOSpace<double>(aos);
 }
 
 } // namespace libchemist
