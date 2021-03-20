@@ -25,12 +25,25 @@ public:
     /// Type used to store point charges
     using charge_type = PointCharge<scalar_type>;
 
+    /** @brief Adds a point charge to the electric field.
+     *
+     *  This function is used to add a point charge to the electric field. No
+     *  attempts are made to ensure that the the charge is unique or doesn't
+     *  overlap with an already existing charge.
+     *
+     *  @param[in] q The charge to add to field.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to hold the new
+     *                        charge. Strong throw guarantee.
+     */
     void add_charge(charge_type q) { m_charges_.emplace_back(std::move(q)); }
+
     auto& charge(size_type i) { return m_charges_.at(i); }
     const auto& charge(size_type i) const { return m_charges_.at(i); }
     size_type ncharges() const noexcept { return m_charges_.size(); }
 
 private:
+    /// The point charges contributing to the electric field
     std::vector<charge_type> m_charges_;
 };
 
