@@ -1,4 +1,4 @@
-#include "libchemist/point/point_charge.hpp"
+#include "libchemist/point_charge/point_charge.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
 #include <sstream>
@@ -22,15 +22,101 @@ TEMPLATE_TEST_CASE("PointCharge", "", double, float) {
 
     SECTION("Copy ctor") {
         SECTION("other is defaulted") {
-            point_charge other;
-            point_charge q(other);
+            point_charge_t other;
+            point_charge_t q(other);
             REQUIRE(q == other);
         }
 
         SECTION("other is non-default") {
-            point_charge other(1.0, 2.0, 3.0, 4.0);
-            point_charge q(other);
+            point_charge_t other(1.0, 2.0, 3.0, 4.0);
+            point_charge_t q(other);
             REQUIRE(q == other);
+        }
+    }
+
+    SECTION("Move ctor") {
+        SECTION("other is defaulted") {
+            point_charge_t other, corr;
+            point_charge_t q(std::move(other));
+            REQUIRE(q == corr);
+        }
+
+        SECTION("other is non-default") {
+            point_charge_t other(1.0, 2.0, 3.0, 4.0);
+            point_charge_t corr(1.0, 2.0, 3.0, 4.0);
+            point_charge_t q(std::move(other));
+            REQUIRE(q == corr);
+        }
+    }
+
+    SECTION("Value ctor") {
+        point_charge_t q(1.0, 2.0, 3.0, 4.0);
+        REQUIRE(q.charge() == 1.0);
+        REQUIRE(q.coord(0) == 2.0);
+        REQUIRE(q.coord(1) == 3.0);
+        REQUIRE(q.coord(2) == 4.0);
+    }
+
+    SECTION("Copy assignment") {
+        SECTION("other is defaulted") {
+            point_charge_t other, q;
+            auto pq = &(q = other);
+            REQUIRE(pq == &q);
+            REQUIRE(q == other);
+        }
+
+        SECTION("other is non-default") {
+            point_charge_t q, other(1.0, 2.0, 3.0, 4.0);
+            auto pq = &(q = other);
+            REQUIRE(pq == &q);
+            REQUIRE(q == other);
+        }
+    }
+
+    SECTION("Move assignment") {
+        SECTION("other is defaulted") {
+            point_charge_t other, q, corr;
+            auto pq = &(q = std::move(other));
+            REQUIRE(pq == &q);
+            REQUIRE(q == corr);
+        }
+
+        SECTION("other is non-default") {
+            point_charge_t other(1.0, 2.0, 3.0, 4.0), q;
+            point_charge_t corr(1.0, 2.0, 3.0, 4.0);
+            auto pq = &(q = std::move(other));
+            REQUIRE(pq == &q);
+            REQUIRE(q == corr);
+        }
+    }
+
+    SECTION("charge()") {
+        SECTION("Defaulted") {
+            point_charge_t q;
+            REQUIRE(q.charge() == 0.0);
+        }
+
+        SECTION("Non-defaulted") {
+            point_charge_t q(1.0, 2.0, 3.0, 4.0);
+            REQUIRE(q.charge() == 1.0);
+        }
+
+        SECTION("Is read/writeable") {
+            point_charge_t q;
+            q.charge() = 1.0;
+            REQUIRE(q.charge() == 1.0);
+        }
+    }
+
+    SECTION("charge() const") {
+        SECTION("Defaulted") {
+            const point_charge_t q;
+            REQUIRE(q.charge() == 0.0);
+        }
+
+        SECTION("Non-defaulted") {
+            const point_charge_t q(1.0, 2.0, 3.0, 4.0);
+            REQUIRE(q.charge() == 1.0);
         }
     }
 }
@@ -71,8 +157,9 @@ TEMPLATE_TEST_CASE("PointCharge comparisons", "", double, float) {
     }
 
     SECTION("different type") {
-        using rhs_t =
-          std::conditional_t<std::is_same_v<TestType, float>, double, float>;
+        constexpr bool test_type_is_float = std::is_same_v<TestType, float>;
+        using rhs_t = std::conditional_t<test_type_is_float, double, float>;
+
         point_charge_t lhs;
         libchemist::PointCharge<rhs_t> rhs;
         REQUIRE_FALSE(lhs == rhs);

@@ -1,6 +1,10 @@
 #include "chemical_system_pimpl.hpp"
 #include <stdexcept>
+
 namespace libchemist {
+
+using pimpl_t    = typename ChemicalSystem::pimpl_t;
+using molecule_t = typename ChemicalSystem::molecule_t;
 
 ChemicalSystem::ChemicalSystem() : m_pimpl_(std::make_unique<pimpl_t>()) {}
 
@@ -13,10 +17,10 @@ ChemicalSystem::ChemicalSystem(ChemicalSystem&& other) noexcept = default;
 ChemicalSystem::ChemicalSystem(molecule_t mol) :
   m_pimpl_(std::make_unique<pimpl_t>(std::move(mol))) {}
 
-ChemicalSystem::~ChemicalSystem() nocexcept = default;
+ChemicalSystem::~ChemicalSystem() noexcept = default;
 
 ChemicalSystem& ChemicalSystem::operator=(const ChemicalSystem& rhs) {
-    if(&rhs == *this) return *this;
+    if(&rhs == this) return *this;
     if(rhs.m_pimpl_)
         rhs.m_pimpl_->clone().swap(m_pimpl_);
     else

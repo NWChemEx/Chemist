@@ -1,23 +1,8 @@
 #pragma once
-#include "libchemist/point/point.hpp"
+#include "libchemist/point_charge/point_charge.hpp"
+#include <vector>
 
 namespace libchemist::field {
-
-template<typename ScalarType = double>
-class PointCharge : public Point<ScalarType> {
-public:
-    using scalar_type = double;
-
-    PointCharge(scalar_type q, scalar_type x, scalar_type y, scalar_type z) :
-      Point(x, y, z), m_q_(q) {}
-
-    scalar_type& charge() { return m_q_; }
-    const scalar_type& charge() const { return m_q_; }
-
-private:
-    /// The charge associated with this point charge
-    scalar_type m_q_;
-};
 
 /** @brief Class that models an electric field.
  *
@@ -31,14 +16,19 @@ private:
  */
 class Electric {
 public:
+    /// Type used to store scalar components of the electric field
     using scalar_type = double;
-    using size_type   = std::size_t;
+
+    /// Type used for indexing and offsets
+    using size_type = std::size_t;
+
+    /// Type used to store point charges
     using charge_type = PointCharge<scalar_type>;
 
     void add_charge(charge_type q) { m_charges_.emplace_back(std::move(q)); }
     auto& charge(size_type i) { return m_charges_.at(i); }
-    const auto& charge(size_type i) const { return m_charges_at(i); }
-    size_type ncharges() const noexcept { return m_charges_; }
+    const auto& charge(size_type i) const { return m_charges_.at(i); }
+    size_type ncharges() const noexcept { return m_charges_.size(); }
 
 private:
     std::vector<charge_type> m_charges_;
