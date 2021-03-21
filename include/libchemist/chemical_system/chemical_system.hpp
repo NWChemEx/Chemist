@@ -1,6 +1,6 @@
 #pragma once
-#include "libchemist/fields/electric_field.hpp"
 #include "libchemist/molecule/molecule.hpp"
+#include "libchemist/potentials/electrostatic.hpp"
 #include <memory>
 
 namespace libchemist {
@@ -21,6 +21,9 @@ public:
     /// The type of the PIMPL which implements this class
     using pimpl_t = detail_::ChemicalSystemPIMPL;
 
+    /// The type of the pointer storing the PIMPL
+    using pimpl_ptr_t = std::unique_ptr<pimpl_t>;
+
     /// The type of the object describing the set of atoms
     using molecule_t = Molecule;
 
@@ -30,14 +33,14 @@ public:
     /// A read-only reference to the object describing the set of atoms
     using const_mol_ref_t = const molecule_t&;
 
-    /// The type used to model the electric field
-    using electric_field_t = field::Electric;
+    /// The type used to model the external electrostatic potential
+    using epot_t = potentials::Electrostatic;
 
-    /// A read/write reference to the electric field
-    using efield_ref_t = electric_field_t&;
+    /// A read/write reference to the external electrostatic potential
+    using epot_ref_t = epot_t&;
 
-    /// A read-only reference to the electric field
-    using const_efield_ref_t = const electric_field_t&;
+    /// A read-only reference to the electrostatic potential
+    using const_epot_ref_t = const epot_t&;
 
     /** @brief Creates a new ChemicalSystem with default constructed members.
      *
@@ -104,9 +107,9 @@ public:
      */
     const_mol_ref_t molecule() const;
 
-    efield_ref_t efield();
+    epot_ref_t external_electrostatic_potential();
 
-    const_efield_ref_t efield() const;
+    const_epot_ref_t external_electrostatic_potential() const;
 
 private:
     /** @brief Returns the PIMPL in a read/write state.
@@ -135,7 +138,7 @@ private:
     const pimpl_t& pimpl_() const;
 
     /// The object actually implementing this class
-    std::unique_ptr<pimpl_t> m_pimpl_;
+    pimpl_ptr_t m_pimpl_;
 };
 
 } // namespace libchemist
