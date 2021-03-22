@@ -1,21 +1,25 @@
-#include <catch2/catch.hpp>
 #include "libchemist/basis_set_map.hpp"
 #include "libchemist/libchemist.hpp"
+#include <catch2/catch.hpp>
 #include <utilities/iter_tools/enumerate.hpp>
 
 using namespace libchemist;
 using range     = typename std::pair<size_t, size_t>;
 using size_type = std::size_t;
 
-static const std::vector<size_type> s2a_corr{0,0,0,1,2};
-static const std::vector<size_type> ao2s_corr{0,1,2,2,2,3,4};
-static const std::vector<size_type> ao2a_corr{0,0,0,0,0,1,2};
-static const std::vector<range> a2s_corr{std::make_pair(0,3),std::make_pair(3,4),std::make_pair(4,5)};
-static const std::vector<range> s2ao_corr{std::make_pair(0,1),std::make_pair(1,2),
-                                          std::make_pair(2,5),std::make_pair(5,6),std::make_pair(6,7)};
-static const std::vector<range> a2ao_corr{std::make_pair(0,5),std::make_pair(5,6),std::make_pair(6,7)};
+static const std::vector<size_type> s2a_corr{0, 0, 0, 1, 2};
+static const std::vector<size_type> ao2s_corr{0, 1, 2, 2, 2, 3, 4};
+static const std::vector<size_type> ao2a_corr{0, 0, 0, 0, 0, 1, 2};
+static const std::vector<range> a2s_corr{
+  std::make_pair(0, 3), std::make_pair(3, 4), std::make_pair(4, 5)};
+static const std::vector<range> s2ao_corr{
+  std::make_pair(0, 1), std::make_pair(1, 2), std::make_pair(2, 5),
+  std::make_pair(5, 6), std::make_pair(6, 7)};
+static const std::vector<range> a2ao_corr{
+  std::make_pair(0, 5), std::make_pair(5, 6), std::make_pair(6, 7)};
 
-void compare_maps(const size_t nAtoms, BasisSetMap<double>& lhs, BasisSetMap<double>& rhs) {
+void compare_maps(const size_t nAtoms, BasisSetMap<double>& lhs,
+                  BasisSetMap<double>& rhs) {
     for(size_t i = 0; i < nAtoms; ++i) {
         auto lhs_shell_range = lhs.atom_to_shell(i);
         REQUIRE(lhs_shell_range == rhs.atom_to_shell(i));
@@ -26,7 +30,8 @@ void compare_maps(const size_t nAtoms, BasisSetMap<double>& lhs, BasisSetMap<dou
 
 TEST_CASE("BasisSetMap<double> Class") {
     auto mol   = MoleculeManager().at("water");
-    auto bs    = apply_basis("sto-3g", mol);
+    auto aos   = apply_basis("sto-3g", mol);
+    auto bs    = aos.basis_set();
     auto bsMap = BasisSetMap<double>(bs);
 
     SECTION("Atom<->AO") {
@@ -40,10 +45,10 @@ TEST_CASE("BasisSetMap<double> Class") {
 
     SECTION("Atom<->Shell") {
         for(size_t i = 0; i < bs.size(); ++i) {
-           REQUIRE(bsMap.atom_to_shell(i) == a2s_corr.at(i));
+            REQUIRE(bsMap.atom_to_shell(i) == a2s_corr.at(i));
         }
         for(size_t i = 0; i < bs.n_shells(); ++i) {
-          REQUIRE(bsMap.shell_to_atom(i) == s2a_corr.at(i));
+            REQUIRE(bsMap.shell_to_atom(i) == s2a_corr.at(i));
         }
     }
 
