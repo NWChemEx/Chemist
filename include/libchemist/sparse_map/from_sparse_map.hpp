@@ -9,7 +9,7 @@
 namespace libchemist::sparse_map {
 namespace detail_ {
 
-/** @brief Removes injected me offsets from an index.
+/** @brief Removes injected mode offsets from an index.
  *
  *  When dealing with tensors with one or more modes spanned by an independent
  *  index we need to take slices with the independent mode offsets pinned to

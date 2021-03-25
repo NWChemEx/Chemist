@@ -199,7 +199,7 @@ public:
  *         domains of dependent tile indices.
  *
  *  This specialization covers the case when both the independent indices and
- *  the dependent indices and for tiles.
+ *  the dependent indices are for tiles.
  */
 template<>
 class SparseMap<TileIndex, TileIndex>
@@ -212,6 +212,26 @@ private:
 public:
     // Pull in the base class's ctors
     using detail_::SparseMapBase<my_type, TileIndex, TileIndex>::SparseMapBase;
+
+    /** @brief Creates a new instance from a SparseMap<ElementIndex, TileIndex>
+     *
+     *  This ctor uses the provided TiledRange to map the independent element
+     *  indices in the input SparseMap to their respective tile indices. The
+     *  current instance is initialized to the SparseMap which maps from tile
+     *  indices to @p other's tile index domains.
+     *
+     * @param[in] trange The TiledRange to use to convert the indices in
+     *                   @p other.
+     * @param[in] other The SparseMap we are converting.
+     *
+     * @throw std::bad_alloc if there is insufficient memory to create this
+     *                       instance. Strong throw guarantee.
+     * @throw std::runtime_error if the rank of @p trange does not match the
+     *                           rank of the independent indices in @p other.
+     *                           Strong throw guarantee.
+     */
+    SparseMap(const TA::TiledRange& trange,
+              const SparseMap<ElementIndex, TileIndex>& other);
 
     /** @brief Sets the TiledRange associated with the independent indices.
      *
