@@ -33,4 +33,9 @@ auto remove_redundancy(const T& C, const T& S, double thresh = 1.0E-8) {
     return NewC;
 }
 
+template<typename T>
+auto sparse_remove_redundancy(const T& C, const T& S, double thresh = 1.0E-8) {
+    auto [evals, evecs] = diagonalize_inner_tensors(S);
+}
+
 } // namespace libchemist::ta_helpers

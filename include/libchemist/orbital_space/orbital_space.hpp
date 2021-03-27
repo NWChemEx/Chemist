@@ -18,6 +18,20 @@ using SparseAOSpace = AOSpace_<AOBasisSet<T>, SparseDependentBase<T>>;
 template<typename T>
 using DerivedSpace = DerivedSpace_<type::tensor<T>, AOSpace<T>, BaseSpace<T>>;
 
+/** @brief Type of the independent space driving a sparse computation.
+ *
+ *  In many of the sparse methods dependent indices are constrained by the
+ *  localized molecular orbitals (or tuples of them). The LMOs are the
+ *  independent space in this scenario. Generally speaking the transformation
+ *  from AOs to the LMOs will be sparse. The sparse map for this is stored in
+ *  the SparseAOSpace "from space". Since the LMOs (or tuples of them) span the
+ *  independent space there is no sparse map from them to the independent space
+ *  and the base space for the LMOs is dense.
+ */
+template<typename T>
+using SparseIndependentSpace =
+  DerivedSpace_<type::tensor_of_tensors<T>, SparseAOSpace<T>, BaseSpace<T>>;
+
 template<typename T>
 using SparseDerivedSpace =
   DerivedSpace_<type::tensor_of_tensors<T>, SparseAOSpace<T>, SparseBase<T>>;
