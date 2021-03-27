@@ -98,6 +98,26 @@ public:
         return t;
     }
 
+    /** @brief Convenience overload for applying a transform to a single mode.
+     *
+     *  This overload takes the index of the mode, wraps it in a vector, and
+     *  calls the other `transform` member function. This serves as a
+     *  convenience function for when you only need to apply a transformation to
+     *  one mode of a tensor.
+     *
+     *  @param[in] t The tensor to be transformed.
+     *  @param[in] mode The index of the mode to be transformed by this orbital
+     *                  space. @p mode must be in the range [0, rank()) where
+     *                  `rank()` is the rank of @p t.
+     *
+     *  @return @p t after calling
+     *          `transform(t, std::vector<std::size_t>{mode})` on it. The exact
+     *          result depends on the actual type of this instance.
+     */
+    overlap_type transform(const overlap_type& t, std::size_t mode) const {
+        return transform(t, std::vector<std::size_t>{mode});
+    }
+
 protected:
     /// Actually implements hash. Should be overridden by derived classes
     virtual void hash_(sde::Hasher& h) const {

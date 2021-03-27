@@ -183,6 +183,22 @@ TEST_CASE("SparseMap<TileIndex, TileIndex>") {
     ElementIndex e0{0}, e1{1}, e2{2}, e3{3};
     TileIndex t0{0}, t1{1}, t2{2};
 
+    SECTION("From SparseMap<ElementIndex, TileIndex>") {
+        SparseMap<ElementIndex, TileIndex> sm;
+        SECTION("Good indices") {
+            sm.add_to_domain(e0, t1);
+            sm_t sm2(tr, sm);
+            sm_t corr;
+            corr.set_trange(tr);
+            corr.add_to_domain(t0, t1);
+            REQUIRE(sm2 == corr);
+        }
+        SECTION("TiledRange rank does not match independent rank") {
+            sm.add_to_domain(ElementIndex{1, 1}, t0);
+            REQUIRE_THROWS_AS(sm_t(tr, sm), std::runtime_error);
+        }
+    }
+
     SECTION("set_trange") {
         sm_t sm;
         sm.set_trange(tr);

@@ -1,6 +1,6 @@
+#include "libchemist/libchemist.hpp"
 #include <catch2/catch.hpp>
 #include <iostream>
-#include "libchemist/libchemist.hpp"
 #include <limits>
 
 using namespace libchemist;
@@ -36,6 +36,6 @@ TEST_CASE("Convenience Functions") {
     SECTION("apply_basis") {
         std::cout.precision(std::numeric_limits<double>::max_digits10);
         Molecule water = MoleculeManager().at("water");
-        REQUIRE(apply_basis("sto-3g", water) == corr_bs());
+        REQUIRE(apply_basis("sto-3g", water).basis_set() == corr_bs());
     }
 }
