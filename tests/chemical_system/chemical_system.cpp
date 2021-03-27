@@ -178,6 +178,33 @@ TEST_CASE("ChemicalSystem") {
         }
     }
 
+    SECTION("hash") {
+        SECTION("LHS is default") {
+            ChemicalSystem lhs;
+            auto lhs_hash = sde::hash_objects(lhs);
+
+            SECTION("RHS is default") {
+                ChemicalSystem rhs;
+                REQUIRE(lhs_hash == sde::hash_objects(rhs));
+            }
+
+            SECTION("RHS has different molecule") {
+                ChemicalSystem rhs(h);
+                REQUIRE(lhs_hash != sde::hash_objects(rhs));
+            }
+
+            SECTION("RHS has different potential") {
+                ChemicalSystem rhs(Molecule(), v);
+                REQUIRE(lhs_hash != sde::hash_objects(rhs));
+            }
+
+            SECTION("RHS is completely different") {
+                ChemicalSystem rhs(h, v);
+                REQUIRE(lhs_hash != sde::hash_objects(rhs));
+            }
+        }
+    }
+
     SECTION("comparisons") {
         SECTION("LHS is default") {
             ChemicalSystem lhs;
