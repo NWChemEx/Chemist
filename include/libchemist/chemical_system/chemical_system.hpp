@@ -76,19 +76,45 @@ public:
      */
     ChemicalSystem(ChemicalSystem&& other) noexcept;
 
-    /** @brief Creates a new ChemicalSystem with the provided molecule instance.
+    /** @brief Creates a new ChemicalSystem with the provided state.
+     *
+     *  @param[in] mol The molecular system to add to this system.
+     *  @param[in] v   The external electrostatic potential that the system
+     *                 lives in. Defaults to no potential.
      *
      *  @throw std::bad_alloc if there is error while allocating the PIMPL.
      *                        Strong throw guarantee.
      */
-    explicit ChemicalSystem(molecule_t mol);
+    explicit ChemicalSystem(molecule_t mol, epot_t v = {});
 
     /// Default destructor, voids all references to member data
     ~ChemicalSystem() noexcept;
 
+    /** @brief Overwrites this system's state with a deep copy of @p rhs's
+     *         state.
+     *
+     *  @param[in] rhs The ChemicalSystem whose state will be deep copied.
+     *
+     *  @return The current ChemicalSystem after setting its state to a deep
+     *          copy of @p rhs's state.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to copy the state
+     *                        strong throw guarantee.
+     */
     ChemicalSystem& operator=(const ChemicalSystem& rhs);
 
+    /** @brief Overwrites this system's state with @p rhs's state.
+     *
+     *  @param[in,out] rhs The system whose state is being taken. After this
+     *                     operation @p rhs will be in a null state.
+     *
+     *  @return The current ChemicalSystem after it takes ownership of @p rhs's
+     *          state.
+     *
+     *  @throw None No throw gurantee.
+     */
     ChemicalSystem& operator=(ChemicalSystem&& rhs) noexcept;
+
     //--------------------------- Accessors -----------------------------------
 
     /** @brief Returns the molecular system associated with this system.
@@ -107,9 +133,50 @@ public:
      */
     const_mol_ref_t molecule() const;
 
+    /** @brief Returns the external electrostatic potential in a read/write
+     *         state.
+     *
+     *  @return The electrostatic potential that the molecule is embedded in.
+     *
+     *  @throws std::bad_alloc if the class has no PIMPL and an error arise
+     *                         while allocating one. Strong throw guarantee.
+     *
+     */
     epot_ref_t external_electrostatic_potential();
 
+    /** @brief Returns the external electrostatic potential in a read-only
+     *         state.
+     *
+     *  @returns The electrostatic potential that the molecule is embedded in.
+     *
+     *  @throws std::runtime_error if the class has no PIMPL. Strong throw
+     *                             guarantee.
+     */
     const_epot_ref_t external_electrostatic_potential() const;
+
+    /** @brief Determines if two ChemicalSystem instances are the same.
+     *
+     *
+     *  Two ChemicalSystem instances are equal if all of their members compare
+     *  equal. It is worth noting that since these members contain
+     * floating-point data this implies exact floating-point comparisons,
+     * i.e. 1.0000 != 1.0001.
+     *
+     *  @param[in] rhs The ChemicalSystem on the right of the equality operator.
+     *
+     *  @return True if this and @p rhs are the same and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool operator==(const ChemicalSystem& rhs) const noexcept;
+
+    /** @brief Computes a hash of the ChemicalSystem.
+     *
+     *  @param[in,out] h The object used to hash the state. After this call @p h
+     *                   will have been modified to include a hash of this
+     *                   object's state.
+     */
+    void hash(bphash::Hasher& h) const;
 
 private:
     /** @brief Returns the PIMPL in a read/write state.
@@ -140,5 +207,25 @@ private:
     /// The object actually implementing this class
     pimpl_ptr_t m_pimpl_;
 };
+
+/** @brief Determines if two ChemicalSystem instances are different.
+ *
+ *  @relates ChemicalSystem
+ *
+ *  Two ChemicalSystem instances are equal if all of their members compare
+ *  equal. It is worth noting that since these members contain floating-point
+ *  data this implies exact floating-point comparisons, i.e. 1.0000 != 1.0001.
+ *
+ *  @param[in] lhs The ChemicalSystem on the left of the inequality operator.
+ *  @param[in] rhs The ChemicalSystem on the right of the inequality operator.
+ *
+ *  @return True if @p lhs and @p rhs are different and false otherwise.
+ *
+ *  @throw None No throw guarantee.
+ */
+inline bool operator!=(const ChemicalSystem& lhs,
+                       const ChemicalSystem& rhs) noexcept {
+    return !(lhs == rhs);
+}
 
 } // namespace libchemist

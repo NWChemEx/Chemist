@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <sde/detail_/memoization.hpp>
 
 namespace libchemist {
 namespace detail_ {
@@ -259,6 +260,14 @@ public:
     void load(Archive& ar) {
         ar& x() & y() & z();
     }
+
+    /** @brief Computes a hash of the Point.
+     *
+     *  @param[in,out] h The object used to hash the state. After this call @p h
+     *                   will have been modified to include a hash of this
+     *                   object's state.
+     */
+    void hash(bphash::Hasher& h) const { h(x(), y(), z()); }
 
 protected:
     /// Convenience fxn that makes a PIMPL that aliases this instance's state

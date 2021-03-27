@@ -127,6 +127,36 @@ public:
      */
     bool operator==(const ChemicalSystemPIMPL& rhs) const noexcept;
 
+    /** @brief Serializes the ChemicalSystemPIMPL.
+     *
+     *  @param[in,out] ar The archive instance being used for serialization.
+     *                    After this call @p ar will contain this instance's
+     *                    serialized state.
+     */
+    template<typename Archive>
+    void save(Archive& ar) const {
+        ar& m_mol_& m_epot_;
+    }
+
+    /** @brief Deserializes the ChemicalSystemPIMPL
+     *
+     *  @param[in,out] ar The archive instance which contains the serialized
+     *                    state for this instance. After this call @p ar will
+     *                    no longer contain this instance's serialized state.
+     */
+    template<typename Archive>
+    void load(Archive& ar) {
+        ar& m_mol_& m_epot_;
+    }
+
+    /** @brief Computes a hash of the ChemicalSystemPIMPL.
+     *
+     *  @param[in,out] h The object used to hash the state. After this call @p h
+     *                   will have been modified to include a hash of this
+     *                   object's state.
+     */
+    void hash(bphash::Hasher& h) const { h(m_mol_, m_epot_); }
+
 protected:
     /// Implements polymorphic copy, should be overriden by derived classes
     virtual pimpl_ptr_t clone_() const;

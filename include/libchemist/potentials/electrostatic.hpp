@@ -90,6 +90,32 @@ public:
      */
     bool operator==(const Electrostatic& rhs) const noexcept;
 
+    /** @brief Serializes the electrostatic potential.
+     *
+     *  @param[in,out] ar The archive instance being used for serialization.
+     *                    After this call @p ar will contain this instance's
+     *                    serialized state.
+     */
+    template<typename Archive>
+    void save(Archive& ar) const;
+
+    /** @brief Deserializes the electrostatic potential
+     *
+     *  @param[in,out] ar The archive instance which contains the serialized
+     *                    state for this instance. After this call @p ar will
+     *                    no longer contain this instance's serialized state.
+     */
+    template<typename Archive>
+    void load(Archive& ar);
+
+    /** @brief Computes a hash of the electrostatic potential.
+     *
+     *  @param[in,out] h The object used to hash the state. After this call @p h
+     *                   will have been modified to include a hash of this
+     *                   object's state.
+     */
+    void hash(bphash::Hasher& h) const { h(m_charges_); }
+
 private:
     /** @brief Checks that a charge index is in bounds
      *
@@ -139,6 +165,16 @@ inline typename Electrostatic::const_charge_reference Electrostatic::charge(
 
 inline bool Electrostatic::operator==(const Electrostatic& rhs) const noexcept {
     return std::tie(m_charges_) == std::tie(rhs.m_charges_);
+}
+
+template<typename Archive>
+void Electrostatic::save(Archive& ar) const {
+    ar& m_charges_;
+}
+
+template<typename Archive>
+void Electrostatic::load(Archive& ar) {
+    ar& m_charges_;
 }
 
 inline void Electrostatic::charge_bound_(size_type i) const {

@@ -15,6 +15,9 @@ namespace libchemist {
  */
 template<typename ScalarType = double>
 class PointCharge : public Point<ScalarType> {
+private:
+    using base_type = Point<ScalarType>;
+
 public:
     /// The type used to model the charge and the coordinates
     using scalar_type = ScalarType;
@@ -107,6 +110,32 @@ public:
      */
     const scalar_type& charge() const noexcept { return m_q_; }
 
+    /** @brief Serializes the point charge.
+     *
+     *  @param[in,out] ar The archive instance being used for serialization.
+     *                    After this call @p ar will contain this instance's
+     *                    serialized state.
+     */
+    template<typename Archive>
+    void save(Archive& ar) const;
+
+    /** @brief Deserializes the point charge.
+     *
+     *  @param[in,out] ar The archive instance which contains the serialized
+     *                    state for this instance. After this call @p ar will
+     *                    no longer contain this instance's serialized state.
+     */
+    template<typename Archive>
+    void load(Archive& ar);
+
+    /** @brief Computes a hash of the PointCharge.
+     *
+     *  @param[in,out] h The object used to hash the state. After this call @p h
+     *                   will have been modified to include a hash of this
+     *                   object's state.
+     */
+    void hash(bphash::Hasher& h) const;
+
 private:
     /// The charge associated with this point charge
     scalar_type m_q_ = 0.0;
@@ -176,6 +205,26 @@ template<typename T>
 PointCharge<T>::PointCharge(scalar_type q, scalar_type x, scalar_type y,
                             scalar_type z) :
   Point<T>(x, y, z), m_q_(q) {}
+
+template<typename T>
+template<typename Archive>
+void PointCharge<T>::save(Archive& ar) const {
+    base_type::save(ar);
+    ar& m_q_;
+}
+
+template<typename T>
+template<typename Archive>
+void PointCharge<T>::load(Archive& ar) {
+    base_type::load(ar);
+    ar& m_q_;
+}
+
+template<typename T>
+void PointCharge<T>::hash(bphash::Hasher& h) const {
+    base_type::hash(h);
+    h(m_q_);
+}
 
 extern template class PointCharge<double>;
 extern template class PointCharge<float>;
