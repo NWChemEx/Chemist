@@ -1,5 +1,6 @@
 #pragma once
 #include "libchemist/ta_helpers/einsum/einsum.hpp"
+#include "libchemist/ta_helpers/linalg_inner_tensors.hpp"
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include <TiledArray/expressions/contraction_helpers.h>
 
@@ -35,7 +36,25 @@ auto remove_redundancy(const T& C, const T& S, double thresh = 1.0E-8) {
 
 template<typename T>
 auto sparse_remove_redundancy(const T& C, const T& S, double thresh = 1.0E-8) {
+    using tensor_type     = std::decay_t<T>;
+    using outer_tile_type = typename tensor_type::value_type;
+    using inner_tile_type = typename outer_tile_type::value_type;
+
     auto [evals, evecs] = diagonalize_inner_tensors(S);
+
+    // Zero-out redundant eigenvalues, compute S**-1/2 for non-redundant
+    for(outer_tile_type outer_tile : evals) {
+        for(inner_tile_type inner_tile : outer_tile) {
+            for(auto& x : inner_tile)
+                x = x >= thresh ? 1.0 / std::sqrt(x) : 0.0;
+        }
+    }
+    C.world().gop.fence();
+    tensor_type evecs_bar, NewC;
+    using TA::expressions::einsum;
+    einsum(evecs_bar("i;b,a"), evals("i;a"), evecs("i;b,a"));
+    einsum(NewC("i;mu,a"), C("i;mu,b"), evecs_bar("i;b,a"));
+    return NewC;
 }
 
 } // namespace libchemist::ta_helpers
