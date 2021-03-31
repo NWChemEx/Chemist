@@ -26,7 +26,8 @@ using DerivedSpace = DerivedSpace_<type::tensor<T>, AOSpace<T>, BaseSpace<T>>;
  *  from AOs to the LMOs will be sparse. The sparse map for this is stored in
  *  the SparseAOSpace "from space". Since the LMOs (or tuples of them) span the
  *  independent space there is no sparse map from them to the independent space
- *  and the base space for the LMOs is dense.
+ *  (well there is, but it's trivial i->i mapping) so we define the base space
+ *  for the SparseIndependentSpace to be BaseSpace instead of SparseBase.
  */
 template<typename T>
 using SparseIndependentSpace =
@@ -42,6 +43,10 @@ using CanonicalSpace = CanonicalSpace_<type::tensor<T>, DerivedSpace<T>>;
 template<typename T>
 using SparseCanonicalSpace =
   CanonicalSpace_<type::tensor_of_tensors<T>, SparseDerivedSpace<T>>;
+
+template<typename T>
+using SparseIndependentCanonicalSpace =
+  CanonicalSpace_<type::tensor_of_tensors<T>, SparseIndependentSpace<T>>;
 
 // Instantiate some common specializations
 extern template class BaseSpace_<type::tensor<double>>;
