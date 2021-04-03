@@ -3,7 +3,8 @@ Types of Orbital Spaces
 ***********************
 
 Libchemist supports a lot of different types of orbital spaces. This page walks
-through those spaces and compares and contrasts them.
+through those spaces and compares and contrasts them. TODO: Graphic to summarize
+this all.
 
 .. note::
 
@@ -84,8 +85,11 @@ Sparse Versions
 
 Sparse orbital spaces have at least one tensorial quantity which is of type
 ``type::tensor_of_tensors``. They may derive from either ``BaseSpace`` or
-``DependentBaseSpace``. This section assumes you are familiar with the sparse 
-map concept in the context of sparsity (TODO: link to concept).
+``DependentBaseSpace``. There are a lot more sparse orbital spaces simply
+because of the fact that we need different combinations of sparse and dense
+tensors depending on which parts of the space have been sparsified. This section 
+assumes you are familiar with the sparse map concept in the context of 
+sparsity (TODO: link to concept).
 
 DependentBaseSpace
 ------------------
@@ -120,6 +124,12 @@ not of type ``type::tensor``. The mapping from an independent orbital to its
 AO domain is stored in the ``SparseAOSpace`` member. This space is typically
 used to model spaces spanned by localized molecular orbitals (LMOs).
 
+.. note::
+
+   The layout of the coefficients is a little odd in that there is one (or more)
+   independent indices, but only one dependent index. This is because the index
+   for the derived orbitals is actually an independent index. 
+
 SparseDerivedSpace
 ------------------
 
@@ -144,8 +154,48 @@ SparseIndependentCanonicalSpace
 -------------------------------
 
 The ``SparseIndependentCanonicalSpace`` derives from ``SparseIndependentSpace``
-and additionally associates "energies" with the independent orbitals.
+and additionally associates "energies" with the independent orbitals. In the
+typical usage these are simply the diagonal elements of the Fock matrix (which
+itself is not diagonal, hence they are not strictly energies). The energies are
+stored in an object of type ``type::tensor`` because they are not sparse (even
+if the transformation of the Fock matrix to the independent basis used 
+sparsity).
+
+SparseCanonicalSpace
+--------------------
+
+The ``SparseCanonicalSpace`` class derives from ``SparseDerivedSpace`` and
+additionally associates energies with each of the dependent derived orbital
+spaces in the ``SparseDerivedSpace`` base class. In other words, the energies
+of the orbitals are dependent on the independent orbital index and are stored in 
+an object of type ``type::tensor_of_tensors``. Like the ``SparseDerivedSpace``
+base class ``SparseCanonicalSpace`` instances contain sparse maps from the
+independent orbitals to canonical orbitals. At the moment this class is only
+here for completion, in practice we usually need the 
+``SparseQuasiCanonicalSpace``...
 
 
+SparseQuasiCanonicalSpace
+-------------------------
 
+The ``SparseQuasiCanonicalSpace`` somewhat confusingly derives from the
+``SparseIndependentSpace``, but they are not an independent space (the
+derivation is an artifact of ``SparseIndependentSpace`` being a typedef). Like a
+``SparseIndependentSpace`` (or a ``SparseIndependentCanonicalSpace``) the
+``SparseQuasiCanonicalSpace`` instances do not have a map from the independent 
+space to the orbitals in the ``SparseQuasiCanonicalSpace``. In the case of the 
+``SparseQuasiCanonicalSpace`` class this is because in general a given 
+independent index :math:`i` (:math:`i` possibly being a tuple) will map to a 
+set of orbitals :math:`S_i` which is disjoint from the set :math:`S_j` (for all
+:math:`i\neq j`). In turn the sparse map is trivial because each orbital only
+appears in the domain of one independent index. Unlike the 
+``SparseIndependentCanonicalSpace``, instances of the 
+``SparseQuasiCanonicalSpace`` do have sparse energies, *i.e.* the energies of
+each orbital are stored in an object of type ``type::tensor_of_tensor``. 
+``SparseQuasiCanonicalSpace`` instances also differ from 
+``SparseIndependentSpace`` instances in that the transformations for the
+``SparseQuasiCanonicalSpace`` contain two dependent indices whereas those of the
+``SparseIndependentSpace`` only contain one. 
 
+An example of a ``SparseQuasiCanonicalSpace`` is the set of quasi-canonical PAOs
+formed by using PAOs of type ``SparseDerivedSpace``.
