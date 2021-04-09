@@ -67,13 +67,24 @@ public:
      *
      *  @return The overlap matrix in a read/write format.
      */
-    auto& S() { return m_space_.S(); }
+    auto& S() { return S_(); }
 
     /** @brief The overlap matrix of this space.
      *
      *  @return The overlap matrix in a read-only format.
      */
-    const auto& S() const { return m_space_.S(); }
+    const auto& S() const { return S_(); }
+
+    bool has_overlap() const noexcept { return m_space_.has_overlap(); }
+
+    overlap_type transform(const overlap_type& t, std::size_t mode) const {
+        return transform(t, std::vector<std::size_t>{mode});
+    }
+
+    virtual overlap_type transform(const overlap_type& t,
+                                   const std::vector<std::size_t>& = {}) const {
+        return t;
+    }
 
     /** @brief Returns a hash of this orbital space's state.
      *
@@ -95,6 +106,12 @@ public:
 protected:
     /// Should be overriden by the derived class to implement hashing
     virtual void hash_(sde::Hasher& h) const { h(m_sm_, m_space_); }
+
+    virtual overlap_type& S_() { return m_space_.S(); }
+
+    virtual const overlap_type& S_() const { return m_space_.S(); }
+
+    void set_overlap_(overlap_type S) const {}
 
     /// Should be overrident by the derived class to implement size
     virtual size_type size_() const noexcept { return m_sm_.size(); }
