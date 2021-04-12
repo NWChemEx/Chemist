@@ -43,6 +43,10 @@ using SparseIndependentCanonicalSpace =
   CanonicalSpace_<type::tensor<T>, SparseIndependentSpace<T>>;
 
 template<typename T>
+using SparseIndependentTupleCanonicalSpace =
+  CanonicalSpace_<type::tensor<T>, SparseDerivedSpace<T>>;
+
+template<typename T>
 using SparseQuasiCanonicalSpace =
   CanonicalSpace_<type::tensor_of_tensors<T>, SparseIndependentSpace<T>>;
 

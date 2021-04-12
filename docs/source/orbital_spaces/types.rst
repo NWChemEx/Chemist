@@ -161,6 +161,27 @@ stored in an object of type ``type::tensor`` because they are not sparse (even
 if the transformation of the Fock matrix to the independent basis used 
 sparsity).
 
+SparseIndependentTupleCanonicalSpace
+------------------------------------
+
+(yes I'm grasping at straws for names). The 
+``SparseIndependentTupleCanonicalSpace`` is similar to the 
+``SparseIndependentCanonicalSpace`` class, but it also includes a sparse map
+for the independent orbitals. This sparse map is not the trivial one present in
+the ``SparseIndependentSpace`` and is used to determine which tuples of 
+independent orbitals are present. The orbital energies are still stored in a
+normal tensor because there is still only one energy per tuple. 
+
+.. note::
+
+   The layout of the coefficients is even more odd than it was for the 
+   ``SparseIndependentSpace``. We now have an independent tuple mapping to 
+   vectors. The first index of the tuple controls which independent orbital it
+   is, for example given the tuple "ij" the resulting vector of coefficients is
+   the transformation for the "i"-th independent orbital using the union of the
+   basis sets of "i" and "j". In particular note that in general the vector for
+   tuple "ij" will not be the same as the vector for tuple "ji".
+
 SparseCanonicalSpace
 --------------------
 
