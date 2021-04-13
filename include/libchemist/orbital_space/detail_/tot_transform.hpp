@@ -10,10 +10,13 @@ auto tot_transform(SpaceType&& orbs, TensorType&& t,
     using tile_type = typename std::decay_t<TensorType>::value_type;
     using ta_helpers::detail_::contraction_dummy_annotations;
 
+    if(modes.empty()) return t;
+
     const auto& C   = orbs.C();
     auto ind_rank   = t.range().rank();
     auto C_ind_rank = C.range().rank();
-    TA_ASSERT(C_ind_rank == ind_rank && "Must have same independent ranks");
+    if(C_ind_rank != ind_rank)
+        throw std::runtime_error("Must have same independent ranks");
 
     // Get a tile of each tensor to determine the inner rank
     auto C_tile      = C.find(0).get();
@@ -27,18 +30,18 @@ auto tot_transform(SpaceType&& orbs, TensorType&& t,
 
     // Make sure the modes the user picked are in bounds
     for(const auto& i : modes) {
-        TA_ASSERT(i < t_dep_rank &&
-                  "Mode to transform can't be >= number of dependent modes");
+        if(i >= t_dep_rank)
+            throw std::runtime_error("Mode to transform can't be >= number of "
+                                     "dependent modes");
     }
 
     // Return type would be a normal tensor if we're transforming all modes to
     // the independent space. We don't know the ranks at compile time, so we
     // can't use template metaprogramming to switch the return types, and thus
     // you can't use this function to do said transformation...
-    if(is_independent) {
-        TA_ASSERT(t_dep_rank > modes.size() &&
-                  "tot_transform can't be used to transform all dependent"
-                  "modes to independent modes.");
+    if(is_independent && (t_dep_rank == modes.size())) {
+        throw std::runtime_error("tot_transform can't be used to transform all "
+                                 "dependent modes to independent modes.");
     }
 
     // Make the independent part of the index
@@ -68,7 +71,40 @@ auto tot_transform(SpaceType&& orbs, TensorType&& t,
         // something like t("i,j;mu,nu,d"), and getting something like
         // rv("i,j;nu,d")
 
-        throw std::runtime_error("Can't use transform() for ToT case");
+        // N.B. T's dependent rank decreases everytime we do a transform which
+        //      complicates the bookkeeping. For now we error if the user wants
+        //      more than one mode transformed.
+        if(modes.size() > 1)
+            throw std::runtime_error("Can only transform 1 independent mode per"
+                                     " call");
+        auto mode        = modes[0];
+        auto rv_idx      = prefix;
+        auto t_idx       = prefix;
+        const auto c_idx = prefix + "X";
+
+        // For t_idx, with the exception of the 0-th index, we print a comma
+        // before prepending the new index. For rv_idx we print a comma if i > 0
+        // and i!= mode (if it equals the mode we're not appending an index). We
+        // also need to avoid printing a comma if i == 1 and mode == 0
+        int tm1      = int(t_dep_rank) - 1;
+        int last_idx = mode != tm1 ? tm1 : tm1 - 1;
+
+        for(std::size_t i = 0; i < t_dep_rank; ++i) {
+            if(i > 0) t_idx += ",";
+
+            if(mode == 0 && i > 1)
+                rv_idx += ",";
+            else if(mode != 0 && i > 0 && i != mode)
+                rv_idx += ",";
+
+            if(i == mode)
+                t_idx += "X";
+            else {
+                t_idx += "inner_idx_" + std::to_string(i);
+                rv_idx += "inner_idx_" + std::to_string(i);
+            }
+        }
+        TA::expressions::einsum(rv(rv_idx), rv(t_idx), C(c_idx));
     }
     return rv;
 }
