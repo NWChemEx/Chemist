@@ -13,14 +13,11 @@ namespace libchemist::orbital_space {
  *  @tparam SparseMapType The type of the SparseMap instance.
  *  @tparam OverlapType The type used to store the overlap matrix.
  */
-template<typename SparseMapType, typename OverlapType>
-class DependentBaseSpace_ {
+template<typename SparseMapType, typename BaseType>
+class DependentBaseSpace_ : public BaseType {
 public:
     /// The type of the sparse map
     using sparse_map_type = SparseMapType;
-
-    /// The type used to store the overlap matrix
-    using overlap_type = OverlapType;
 
     /// The type used for indexing and offsets
     using size_type = std::size_t;
@@ -42,12 +39,13 @@ public:
      * @param[in] sm The sparse map detailing which members of this dependent
      *               space are paired with members of the independent space.
      *
-     * @param[in] S  The overlap matrix of this orbital space.
+     * @param[in] args  The arguments to forward to the base class's ctor
      *
      * @throw ??? If `overlap_type`'s move ctor throws. Same throw guarantee as
      *            `overlap_type`'s move ctor.
      */
-    DependentBaseSpace_(sparse_map_type sm, overlap_type S);
+    template<typename... Args>
+    explicit DependentBaseSpace_(sparse_map_type sm, Args&&... args);
 
     /** @brief The sparse map from the independent space to this space
      *
@@ -63,55 +61,12 @@ public:
      */
     const auto& sparse_map() const { return m_sm_; }
 
-    /** @brief The overlap matrix of this space.
-     *
-     *  @return The overlap matrix in a read/write format.
-     */
-    auto& S() { return S_(); }
-
-    /** @brief The overlap matrix of this space.
-     *
-     *  @return The overlap matrix in a read-only format.
-     */
-    const auto& S() const { return S_(); }
-
-    bool has_overlap() const noexcept { return m_space_.has_overlap(); }
-
-    overlap_type transform(const overlap_type& t, std::size_t mode) const {
-        return transform(t, std::vector<std::size_t>{mode});
-    }
-
-    virtual overlap_type transform(const overlap_type& t,
-                                   const std::vector<std::size_t>& = {}) const {
-        return t;
-    }
-
-    /** @brief Returns a hash of this orbital space's state.
-     *
-     *  It should be noted that the hash also takes into account all of the
-     *  derived class's state (if any).
-     *
-     *  @param[in, out] h The instance hashing the state. After this call its
-     *                    internal hash will be updated with the state of the
-     *                    sparse map and the overlap matrix.
-     */
-    void hash(sde::Hasher& h) const { hash_(h); }
-
-    /** @brief Returns the number of independent indices in the space.
-     *
-     *
-     */
-    size_type size() const noexcept { return size_(); }
-
 protected:
     /// Should be overriden by the derived class to implement hashing
-    virtual void hash_(sde::Hasher& h) const { h(m_sm_, m_space_); }
-
-    virtual overlap_type& S_() { return m_space_.S(); }
-
-    virtual const overlap_type& S_() const { return m_space_.S(); }
-
-    void set_overlap_(overlap_type S) const {}
+    virtual void hash_(sde::Hasher& h) const {
+        h(m_sm_);
+        BaseType::hash_(h);
+    }
 
     /// Should be overrident by the derived class to implement size
     virtual size_type size_() const noexcept { return m_sm_.size(); }
@@ -119,15 +74,12 @@ protected:
 private:
     /// The sparse map between the independent space and this space
     sparse_map_type m_sm_;
-
-    /// The instance managing the orbital space part of this space
-    BaseSpace_<overlap_type> m_space_;
 };
 
-template<typename SparseMapType, typename OverlapType, typename RHSMapType,
-         typename RHSOverlapType>
-bool operator==(const DependentBaseSpace_<SparseMapType, OverlapType>& lhs,
-                const DependentBaseSpace_<RHSMapType, RHSOverlapType>& rhs) {
+template<typename SparseMapType, typename BaseType, typename RHSMapType,
+         typename RHSBaseType>
+bool operator==(const DependentBaseSpace_<SparseMapType, BaseType>& lhs,
+                const DependentBaseSpace_<RHSMapType, RHSBaseType>& rhs) {
     using clean_lhs_t = std::decay_t<decltype(lhs)>;
     using clean_rhs_t = std::decay_t<decltype(rhs)>;
     if constexpr(std::is_same_v<clean_rhs_t, clean_lhs_t>) {
@@ -137,10 +89,10 @@ bool operator==(const DependentBaseSpace_<SparseMapType, OverlapType>& lhs,
     }
 }
 
-template<typename SparseMapType, typename OverlapType, typename RHSMapType,
-         typename RHSOverlapType>
-bool operator!=(const DependentBaseSpace_<SparseMapType, OverlapType>& lhs,
-                const DependentBaseSpace_<RHSMapType, RHSOverlapType>& rhs) {
+template<typename SparseMapType, typename BaseType, typename RHSMapType,
+         typename RHSBaseType>
+bool operator!=(const DependentBaseSpace_<SparseMapType, BaseType>& lhs,
+                const DependentBaseSpace_<RHSMapType, RHSBaseType>& rhs) {
     return !(lhs == rhs);
 }
 
@@ -148,13 +100,14 @@ bool operator!=(const DependentBaseSpace_<SparseMapType, OverlapType>& lhs,
 template<typename T>
 using SparseDependentBase = DependentBaseSpace_<
   sparse_map::SparseMap<sparse_map::ElementIndex, sparse_map::ElementIndex>,
-  type::tensor_of_tensors<T>>;
+  SparseBase<T>>;
 
 // -------------------------------- Implementations ----------------------------
 
-template<typename SparseMapType, typename OverlapType>
-DependentBaseSpace_<SparseMapType, OverlapType>::DependentBaseSpace_(
-  SparseMapType sm, overlap_type S) :
-  m_sm_(std::move(sm)), m_space_(std::move(S)) {}
+template<typename SparseMapType, typename BaseType>
+template<typename... Args>
+DependentBaseSpace_<SparseMapType, BaseType>::DependentBaseSpace_(
+  SparseMapType sm, Args&&... args) :
+  BaseType(std::forward<Args>(args)...), m_sm_(std::move(sm)) {}
 
 } // namespace libchemist::orbital_space
