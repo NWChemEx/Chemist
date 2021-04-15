@@ -1,5 +1,5 @@
-#include "libchemist/sparse_map/sparse_map/sparse_map.hpp"
 #include "libchemist/sparse_map/index.hpp"
+#include "libchemist/sparse_map/sparse_map/sparse_map.hpp"
 #include <catch2/catch.hpp>
 
 using namespace libchemist::sparse_map;
@@ -87,10 +87,24 @@ TEST_CASE("SparseMap<ElementIndex, TileIndex>") {
     using sm_t = SparseMap<ElementIndex, TileIndex>;
     ElementIndex e0{0}, e1{1}, e2{2}, e3{3};
     TileIndex t0{0}, t1{1}, t2{2};
+    TA::TiledRange tr{{0, 2, 4}};
+    SECTION("From SparseMap<ElementIndex, ElementIndex") {
+        SparseMap<ElementIndex, ElementIndex> sm_ee;
+        sm_ee.add_to_domain(e0, e0);
+        sm_ee.add_to_domain(e1, e2);
+
+        sm_t sm_et(tr, sm_ee);
+
+        sm_t corr;
+        corr.add_to_domain(e0, t0);
+        corr.add_to_domain(e1, t1);
+        corr.set_domain_trange(tr);
+        REQUIRE(sm_et == corr);
+    }
 
     SECTION("set_domain_trange") {
         sm_t sm;
-        TA::TiledRange tr{{0, 2, 4}};
+
         sm.add_to_domain(e0, t0);
         sm.add_to_domain(e1, t1);
         sm.set_domain_trange(tr);
@@ -163,7 +177,7 @@ TEST_CASE("SparseMap<TileIndex, ElementIndex>") {
         REQUIRE(sm.trange() == tr);
     }
 
-    SECTION("trange"){
+    SECTION("trange") {
         SECTION("No trange") {
             sm_t sm;
             REQUIRE(sm.trange() == TA::TiledRange());
@@ -208,9 +222,7 @@ TEST_CASE("SparseMap<TileIndex, TileIndex>") {
     SECTION("trange") {
         sm_t sm;
 
-        SECTION("No trange") {
-            REQUIRE(sm.trange() == TA::TiledRange{});
-        }
+        SECTION("No trange") { REQUIRE(sm.trange() == TA::TiledRange{}); }
 
         SECTION("Has a trange") {
             sm.set_trange(tr);

@@ -240,6 +240,11 @@ protected:
     /// Include the transformation and the from space in the hash
     virtual void hash_(sde::Hasher& h) const override;
 
+    virtual overlap_type transform_(const std::string& rv_idx,
+                                    const std::string& c_idx,
+                                    const std::string& t_idx,
+                                    const overlap_type& t) const override;
+
     virtual size_type size_() const noexcept override;
 
     virtual overlap_type& S_() override;
@@ -385,6 +390,22 @@ typename DERIVED_SPACE::transform_type DERIVED_SPACE::compute_density_() const {
         rho("mu,nu") = C_ao2x("mu,i") * C_ao2x("nu,i");
     }
     return rho;
+}
+
+template<typename TransformType, typename FromSpace, typename BaseType>
+typename DERIVED_SPACE::overlap_type DERIVED_SPACE::transform_(
+  const std::string& rv_idx, const std::string& c_idx, const std::string& t_idx,
+  const overlap_type& t) const {
+    using tile_type            = typename TransformType::value_type;
+    constexpr bool tile_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
+
+    TransformType rv;
+    if constexpr(tile_is_tot) {
+        TA::expressions::einsum(rv(rv_idx), C()(c_idx), t(t_idx));
+    } else {
+        rv(rv_idx) = C()(c_idx) * t(t_idx);
+    }
+    return rv;
 }
 
 template<typename TransformType, typename FromSpace, typename BaseType>

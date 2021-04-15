@@ -82,10 +82,7 @@ auto make_tot_tile_(TileType tile,
 
         // Handle scenario where independent index has no domain
         if(!sm.count(oeidx)) {
-            using size_type = TA::Range::index1_type;
-            std::vector<size_type> init;
-            for(auto x : oeidx) init.push_back(1);
-            tile[oeidx] = inner_tile_t(TA::Range(init), {0.0});
+            tile[oeidx] = inner_tile_t{};
             continue;
         }
 

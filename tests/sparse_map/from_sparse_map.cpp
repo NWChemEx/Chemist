@@ -135,7 +135,7 @@ TEST_CASE("make_tot_tile_") {
             SECTION("Tile 2") {
                 TA::Range r({2}, {3});
                 tot_tile tile(r);
-                tot_tile corr(r, inner_tile{TA::Range({1}), {0}});
+                tot_tile corr(r, inner_tile{});
                 tile = make_tot_tile_(tile, sm, t);
                 REQUIRE(tile == corr);
             }
@@ -242,7 +242,7 @@ TEST_CASE("make_tot_tile_") {
                 SECTION("Tile 0, 2") {
                     TA::Range r({0, 2}, {1, 3});
                     tot_tile tile(r);
-                    tot_tile corr(r, inner_tile{TA::Range({1, 1}), {0}});
+                    tot_tile corr(r, inner_tile{});
                     tile = make_tot_tile_(tile, sm, t, tot2t);
                     REQUIRE(tile == corr);
                 }
@@ -266,7 +266,7 @@ TEST_CASE("make_tot_tile_") {
                 SECTION("Tile 1, 2") {
                     TA::Range r({1, 2}, {2, 3});
                     tot_tile tile(r);
-                    tot_tile corr(r, inner_tile{TA::Range({1, 1}), {0}});
+                    tot_tile corr(r, inner_tile{});
                     tile = make_tot_tile_(tile, sm, t, tot2t);
                     REQUIRE(tile == corr);
                 }
@@ -274,7 +274,7 @@ TEST_CASE("make_tot_tile_") {
                 SECTION("Tile 2, 0") {
                     TA::Range r({2, 0}, {3, 1});
                     tot_tile tile(r);
-                    tot_tile corr(r, inner_tile{TA::Range({1, 1}), {0}});
+                    tot_tile corr(r, inner_tile{});
                     tile = make_tot_tile_(tile, sm, t, tot2t);
                     REQUIRE(tile == corr);
                 }
@@ -282,7 +282,7 @@ TEST_CASE("make_tot_tile_") {
                 SECTION("Tile 2, 1") {
                     TA::Range r({2, 1}, {3, 2});
                     tot_tile tile(r);
-                    tot_tile corr(r, inner_tile{TA::Range({1, 1}), {0}});
+                    tot_tile corr(r, inner_tile{});
                     tile = make_tot_tile_(tile, sm, t, tot2t);
                     REQUIRE(tile == corr);
                 }
@@ -290,7 +290,7 @@ TEST_CASE("make_tot_tile_") {
                 SECTION("Tile 2, 2") {
                     TA::Range r({2, 2}, {3, 3});
                     tot_tile tile(r);
-                    tot_tile corr(r, inner_tile{TA::Range({1, 1}), {0.0}});
+                    tot_tile corr(r, inner_tile{});
                     tile = make_tot_tile_(tile, sm, t, tot2t);
                     REQUIRE(tile == corr);
                 }
@@ -298,7 +298,7 @@ TEST_CASE("make_tot_tile_") {
                 SECTION("Tile 3, 0") {
                     TA::Range r({3, 0}, {4, 1});
                     tot_tile tile(r);
-                    tot_tile corr(r, inner_tile{TA::Range({1, 1}), {0.0}});
+                    tot_tile corr(r, inner_tile{});
                     tile = make_tot_tile_(tile, sm, t, tot2t);
                     REQUIRE(tile == corr);
                 }
@@ -306,7 +306,7 @@ TEST_CASE("make_tot_tile_") {
                 SECTION("Tile 3, 1") {
                     TA::Range r({3, 1}, {4, 2});
                     tot_tile tile(r);
-                    tot_tile corr(r, inner_tile{TA::Range({1, 1}), {0.0}});
+                    tot_tile corr(r, inner_tile{});
                     tile = make_tot_tile_(tile, sm, t, tot2t);
                     REQUIRE(tile == corr);
                 }
