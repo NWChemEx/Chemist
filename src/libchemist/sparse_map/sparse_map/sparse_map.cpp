@@ -130,11 +130,14 @@ SPARSEMAPTT::SparseMap(const TA::TiledRange& trange, const SPARSEMAPET& other) {
         throw std::runtime_error("Rank of TiledRange does not equal independent"
                                  " index rank");
     set_trange(trange);
+    std::optional<TA::TiledRange> dom_tr;
     for(const auto& [oeidx, d] : other) {
+        if(!dom_tr.has_value() && d.trange().rank()) dom_tr = d.trange();
         auto otemp = trange.tiles_range().idx(trange.element_to_tile(oeidx));
         TileIndex otidx(otemp.begin(), otemp.end());
         for(const auto& ieidx : d) { add_to_domain(otidx, ieidx); }
     }
+    if(dom_tr.has_value()) set_domain_trange(dom_tr.value());
 }
 
 void SPARSEMAPTT::set_trange(const TA::TiledRange& trange) {
