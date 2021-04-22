@@ -30,6 +30,7 @@ cpp_find_or_build_dependency(
     VERSION 5ea311f670f1240d700187354373d5869903b5dd
     BUILD_TARGET tiledarray
     FIND_TARGET tiledarray
+    CMAKE_ARGS TA_BUILD_UNITTEST=OFF
 )
 
 cpp_add_library(
