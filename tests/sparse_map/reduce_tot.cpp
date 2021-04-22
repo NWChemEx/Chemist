@@ -34,7 +34,7 @@ TEST_CASE("make_reduced_tile_") {
         TA::TiledRange trange{{0, 2, 4}};
 
         SECTION("Tile 0") {
-            tile_type tile(TA::Range{1});
+            tile_type tile(TA::Range{1}, 0);
             tile_type corr(TA::Range{1}, {5,2});
             tile = make_reduced_tile_(tile, sm, trange, t_of_t);
             REQUIRE(tile == corr);
@@ -42,7 +42,7 @@ TEST_CASE("make_reduced_tile_") {
 
         SECTION("Tile 1") {
             TA::Range r{{1, 2}};
-            tile_type tile(r);
+            tile_type tile(r, 0);
             tile_type corr(r, {2,3});
             tile = make_reduced_tile_(tile, sm, trange, t_of_t);
             REQUIRE(tile == corr);
