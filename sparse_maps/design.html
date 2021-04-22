@@ -4,8 +4,7 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Sparse Map Library Design &mdash; LibChemist 1.0.0 documentation</title>
@@ -89,7 +88,7 @@
               
             
             
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../orbital_spaces/index.html">Orbital Space Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Sparse Maps Sublibrary</a><ul class="current">
@@ -173,17 +172,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="sparse-map-library-design">
+  <div class="section" id="sparse-map-library-design">
 <h1>Sparse Map Library Design<a class="headerlink" href="#sparse-map-library-design" title="Permalink to this headline">¶</a></h1>
-<section id="key-considerations">
+<div class="section" id="key-considerations">
 <h2>Key Considerations<a class="headerlink" href="#key-considerations" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Tile vs. Element sparsity</p></li>
 <li><p>Storage concerns (e.g. store range, store elements, etc.)</p></li>
 <li><p>Encapsulate basic SparseMap/Domain operations (e.g. union, intersection, etc.)</p></li>
 </ul>
-</section>
-<section id="domain-class-hierarchy">
+</div>
+<div class="section" id="domain-class-hierarchy">
 <h2>Domain Class Hierarchy<a class="headerlink" href="#domain-class-hierarchy" title="Permalink to this headline">¶</a></h2>
 <p>The series of classes involved in the Domain class hierarchy:</p>
 <ul class="simple">
@@ -204,8 +203,8 @@ from how the data is stored we can refactor later without changing the API. The
 tile indices or element indices). Specializations exist for each index type.
 Normally this would would require us to redefine all common functions; instead
 we factor these common functions out into the <code class="docutils literal notranslate"><span class="pre">DomainBase</span></code> class.</p>
-</section>
-<section id="sparsemap-class-hierarchy">
+</div>
+<div class="section" id="sparsemap-class-hierarchy">
 <h2>SparseMap Class Hierarchy<a class="headerlink" href="#sparsemap-class-hierarchy" title="Permalink to this headline">¶</a></h2>
 <p>The SparseMap class hierarchy mirrors the Domain class hierarchy for the same
 reasons. Of note we have four specializations of SparseMap:</p>
@@ -215,8 +214,8 @@ reasons. Of note we have four specializations of SparseMap:</p>
 <li><p>SparseMap&lt;TileIndex, ElementIndex&gt;</p></li>
 <li><p>SparseMap&lt;TileIndex, TileIndex&gt;</p></li>
 </ul>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
