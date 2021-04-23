@@ -118,8 +118,17 @@ public:
         return transform(t, std::vector<std::size_t>{mode});
     }
 
-    overlap_type transform(const std::string& rv_idx,
-                           const std::string& c_idx,
+    /** @brief Applies the transformation
+     *
+     *
+     *  @param[in] rv_idx The annotation for the resulting tensor.
+     *  @param[in] c_idx  The annotation for the transformation tensor.
+     *  @param[in] t_idx  The annotation for the tensor being transformed
+     *  @param[in] t      The tensor being transformed.
+     *
+     *  @return The transformed tensor.
+     */
+    overlap_type transform(const std::string& rv_idx, const std::string& c_idx,
                            const std::string& t_idx,
                            const overlap_type& t) const {
         return transform_(rv_idx, c_idx, t_idx, t);
@@ -131,9 +140,9 @@ protected:
         if(has_overlap()) h(S());
     }
 
-    virtual overlap_type transform_(const std::string&,
-    const std::string&, const std::string&,
-    const overlap_type& t) const {
+    virtual overlap_type transform_(const std::string&, const std::string&,
+                                    const std::string&,
+                                    const overlap_type& t) const {
         throw std::runtime_error("NYI");
     }
 
