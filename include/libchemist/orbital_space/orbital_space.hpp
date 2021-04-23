@@ -27,7 +27,7 @@ using SparseAOSpace = AOSpace_<AOBasisSet<T>, SparseDependentBase<T>>;
 
 template<typename T>
 using SparseIndependentSpace =
-  DerivedSpace_<type::tensor_of_tensors<T>, SparseAOSpace<T>, BaseSpace<T>>;
+  DerivedSpace_<type::tensor_of_tensors<T>, SparseAOSpace<T>, SparseBase<T>>;
 
 template<typename T>
 using SparseDerivedSpace =
@@ -41,6 +41,10 @@ using SparseCanonicalSpace =
 template<typename T>
 using SparseIndependentCanonicalSpace =
   CanonicalSpace_<type::tensor<T>, SparseIndependentSpace<T>>;
+
+template<typename T>
+using SparseIndependentTupleCanonicalSpace =
+  CanonicalSpace_<type::tensor<T>, SparseDerivedSpace<T>>;
 
 template<typename T>
 using SparseQuasiCanonicalSpace =

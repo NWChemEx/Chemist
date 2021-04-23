@@ -1,5 +1,6 @@
 #pragma once
-#include "libchemist/ta_helpers/detail_/contraction_dummy_annotation.hpp"
+#include "libchemist/orbital_space/detail_/tensor_transform.hpp"
+#include "libchemist/orbital_space/detail_/tot_transform.hpp"
 #include <TiledArray/expressions/contraction_helpers.h>
 #include <memory>
 
@@ -212,10 +213,22 @@ public:
      *
      * Uses the transformation coefficients, C(), to change some
      * modes of an input tensor from the "from space" to the DerivedSpace basis.
-     * ex: R(i,nu) = X(mu,nu) * C(mu,i)
+     * ex: R(i,nu) = X(mu,nu) * C(mu,i).
+     *
+     * This function works with ToTs with some caveats:
+     * - the independent modes must be the same for the transformation and the
+     *   the tensor to transform, i.e. R(i,j;a) = X(i,j;nu) * C(i,j;nu,a) is ok
+     *   R(i,j;a) = X(i,j;nu) * C(i;nu,a) is not.
+     * - This function can't be used to fully transform a tensor to the
+     *   independent space because that changes the return type from a ToT to a
+     *   normal tensor (and we can't know at compiletime that you're trying to
+     *   do that) i.e. R(i,j) = X(i,j;nu) * C(i,j;nu) is not valid, but
+     *   R(i,j;nu) = X("i,j;mu,nu") * C(i,j;mu) is.
+     * - The transformation is applied to the dependent modes.
      *
      * @param X The tensor to be transformed
-     * @param modes The list of modes of X that should be transformed
+     * @param modes The list of modes of X that should be transformed. For ToTs,
+     *              these are dependent mode offsets.
      *
      * @return The transformed matrix
      */
@@ -226,6 +239,11 @@ public:
 protected:
     /// Include the transformation and the from space in the hash
     virtual void hash_(sde::Hasher& h) const override;
+
+    virtual overlap_type transform_(const std::string& rv_idx,
+                                    const std::string& c_idx,
+                                    const std::string& t_idx,
+                                    const overlap_type& t) const override;
 
     virtual size_type size_() const noexcept override;
 
@@ -375,33 +393,32 @@ typename DERIVED_SPACE::transform_type DERIVED_SPACE::compute_density_() const {
 }
 
 template<typename TransformType, typename FromSpace, typename BaseType>
-typename DERIVED_SPACE::overlap_type DERIVED_SPACE::transform(
-  const overlap_type& t, const std::vector<std::size_t>& modes) const {
-    for(const auto& i : modes) {
-        if(i >= t.trange().rank()) {
-            throw std::runtime_error(
-              "Modes to be transformed incompatible with input tensor");
-        }
-    }
-
+typename DERIVED_SPACE::overlap_type DERIVED_SPACE::transform_(
+  const std::string& rv_idx, const std::string& c_idx, const std::string& t_idx,
+  const overlap_type& t) const {
     using tile_type            = typename TransformType::value_type;
     constexpr bool tile_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
 
-    overlap_type rv(t);
-    const auto& C_ao2x = C();
-
+    TransformType rv;
     if constexpr(tile_is_tot) {
-        throw std::runtime_error("Can't use transform() for ToT case");
+        TA::expressions::einsum(rv(rv_idx), C()(c_idx), t(t_idx));
     } else {
-        auto n_modes = rv.range().rank();
-        for(const auto& i : modes) {
-            auto [start, finish, change] =
-              ta_helpers::detail_::contraction_dummy_annotations(
-                rv.trange().rank(), i);
-            rv(finish) = rv(start) * C_ao2x(change);
-        }
+        rv(rv_idx) = C()(c_idx) * t(t_idx);
     }
     return rv;
+}
+
+template<typename TransformType, typename FromSpace, typename BaseType>
+typename DERIVED_SPACE::overlap_type DERIVED_SPACE::transform(
+  const overlap_type& t, const std::vector<std::size_t>& modes) const {
+    using tile_type            = typename TransformType::value_type;
+    constexpr bool tile_is_tot = TA::detail::is_tensor_of_tensor_v<tile_type>;
+
+    if constexpr(tile_is_tot) {
+        return detail_::tot_transform(*this, t, modes);
+    } else {
+        return detail_::tensor_transform(*this, t, modes);
+    }
 }
 
 #undef DERIVED_SPACE

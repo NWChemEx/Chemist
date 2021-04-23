@@ -176,41 +176,14 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
           TA::detail::is_tensor_of_tensor_v<tile_type>;
         auto& world = TA::get_default_world();
 
-        if(tile_is_tot) {
-            space_type st(S2, bs1, S1);
-            REQUIRE_THROWS_AS(st.transform(S1, {}), std::runtime_error);
+        // Transform is tested elsewhere, here we just make sure it dispatches
+        // correctly
+        if constexpr(tile_is_tot) {
         } else {
-            SECTION("Matrix") {
-                TA::TSpArray<scalar_type> I(world, {{1.0, 2.0}, {3.0, 4.0}});
-                auto c23 = make_space23<scalar_type>(world);
-                auto c24 = make_space24<scalar_type>(world);
-
-                SECTION("modes{}") {
-                    REQUIRE(compare_tensors(c23.transform(I, {}), I));
-                }
-                SECTION("modes{0}") {
-                    auto corr = TA::TSpArray<scalar_type>(
-                      world, {{1.8, 2.48}, {2.24, 3.14}, {2.79, 4.02}});
-                    REQUIRE(compare_tensors(c23.transform(I, {0}), corr));
-                }
-                SECTION("modes{1}") {
-                    auto corr = TA::TSpArray<scalar_type>(
-                      world,
-                      {{1.46, 1.79, 2.23, 2.36}, {3.04, 3.81, 4.91, 5.28}});
-                    REQUIRE(compare_tensors(c24.transform(I, {1}), corr));
-                }
-                SECTION("modes{0,1}") {
-                    auto corr = TA::TSpArray<scalar_type>(
-                      world, {{1.6048, 2.0756, 2.7444},
-                              {2.0272, 2.619, 3.4572},
-                              {2.586, 3.3351, 4.3911}});
-                    REQUIRE(compare_tensors(c23.transform(I, {0, 1}), corr));
-                }
-                SECTION("modes{0,2}") {
-                    REQUIRE_THROWS_AS(c23.transform(I, {0, 2}),
-                                      std::runtime_error);
-                }
-            }
+            tensor_type I(world, {{1.0, 2.0}, {3.0, 4.0}});
+            auto c23 = make_space23<scalar_type>(world);
+            tensor_type corr(world, {{1.8, 2.48}, {2.24, 3.14}, {2.79, 4.02}});
+            REQUIRE(compare_tensors(c23.transform(I, {0}), corr));
         }
     }
 

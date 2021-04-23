@@ -79,6 +79,13 @@ SPARSEMAPEE::SparseMap(const SPARSEMAPTT& other) {
     }
 }
 
+SPARSEMAPET::SparseMap(const TA::TiledRange& tr, const SPARSEMAPEE& other) {
+    for(const auto& [ind, dep] : other) {
+        for(auto tidx : TileDomain(tr, dep)) add_to_domain(ind, tidx);
+    }
+    set_domain_trange(tr);
+}
+
 void SPARSEMAPET::set_domain_trange(const TA::TiledRange& tr) {
     for(std::size_t i = 0; i < size(); ++i)
         pimpl_().at(i).second.set_trange(tr);
@@ -118,19 +125,19 @@ const TA::TiledRange& SPARSEMAPTE::trange() const {
     return downcast_pimpl(&pimpl_())->trange();
 }
 
-SPARSEMAPTT::SparseMap(const TA::TiledRange& trange,
-                       const SPARSEMAPET& other) {
+SPARSEMAPTT::SparseMap(const TA::TiledRange& trange, const SPARSEMAPET& other) {
     if(trange.rank() != other.ind_rank())
         throw std::runtime_error("Rank of TiledRange does not equal independent"
                                  " index rank");
     set_trange(trange);
-    for(const auto& [oeidx, d] : other){
+    std::optional<TA::TiledRange> dom_tr;
+    for(const auto& [oeidx, d] : other) {
+        if(!dom_tr.has_value() && d.trange().rank()) dom_tr = d.trange();
         auto otemp = trange.tiles_range().idx(trange.element_to_tile(oeidx));
         TileIndex otidx(otemp.begin(), otemp.end());
-        for(const auto& ieidx : d){
-            add_to_domain(otidx, ieidx);
-        }
+        for(const auto& ieidx : d) { add_to_domain(otidx, ieidx); }
     }
+    if(dom_tr.has_value()) set_domain_trange(dom_tr.value());
 }
 
 void SPARSEMAPTT::set_trange(const TA::TiledRange& trange) {

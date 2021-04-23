@@ -108,6 +108,9 @@ public:
     using detail_::SparseMapBase<my_type, ElementIndex,
                                  TileIndex>::SparseMapBase;
 
+    SparseMap(const TA::TiledRange& tr,
+              const SparseMap<ElementIndex, ElementIndex>& other);
+
     /** @brief Sets the TiledRange of the Domains
      *
      *  Since each Domain is a subspace of the same space, they all have the

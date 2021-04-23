@@ -17,7 +17,9 @@ auto tensor_from_tile(TA::World& world, TileType&& tile) {
         return out_tile.norm();
     };
     using tile_type   = std::decay_t<TileType>;
-    using tensor_type = TA::DistArray<tile_type, TA::SparsePolicy>;
+    // We use a dense tensor b/c we know the tile wasn't screened out previously
+    // and we want to avoid accidentally screening it out here
+    using tensor_type = TA::DistArray<tile_type, TA::DensePolicy>;
     return TA::make_array<tensor_type>(world, trange, l);
 }
 
