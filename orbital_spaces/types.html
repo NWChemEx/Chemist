@@ -107,6 +107,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#sparseindependentspace">SparseIndependentSpace</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sparsederivedspace">SparseDerivedSpace</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sparseindependentcanonicalspace">SparseIndependentCanonicalSpace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sparseindependenttuplecanonicalspace">SparseIndependentTupleCanonicalSpace</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sparsecanonicalspace">SparseCanonicalSpace</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sparsequasicanonicalspace">SparseQuasiCanonicalSpace</a></li>
 </ul>
@@ -332,6 +333,26 @@ itself is not diagonal, hence they are not strictly energies). The energies are
 stored in an object of type <code class="docutils literal notranslate"><span class="pre">type::tensor</span></code> because they are not sparse (even
 if the transformation of the Fock matrix to the independent basis used
 sparsity).</p>
+</div>
+<div class="section" id="sparseindependenttuplecanonicalspace">
+<h3>SparseIndependentTupleCanonicalSpace<a class="headerlink" href="#sparseindependenttuplecanonicalspace" title="Permalink to this headline">¶</a></h3>
+<p>(yes I’m grasping at straws for names). The
+<code class="docutils literal notranslate"><span class="pre">SparseIndependentTupleCanonicalSpace</span></code> is similar to the
+<code class="docutils literal notranslate"><span class="pre">SparseIndependentCanonicalSpace</span></code> class, but it also includes a sparse map
+for the independent orbitals. This sparse map is not the trivial one present in
+the <code class="docutils literal notranslate"><span class="pre">SparseIndependentSpace</span></code> and is used to determine which tuples of
+independent orbitals are present. The orbital energies are still stored in a
+normal tensor because there is still only one energy per tuple.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The layout of the coefficients is even more odd than it was for the
+<code class="docutils literal notranslate"><span class="pre">SparseIndependentSpace</span></code>. We now have an independent tuple mapping to
+vectors. The first index of the tuple controls which independent orbital it
+is, for example given the tuple “ij” the resulting vector of coefficients is
+the transformation for the “i”-th independent orbital using the union of the
+basis sets of “i” and “j”. In particular note that in general the vector for
+tuple “ij” will not be the same as the vector for tuple “ji”.</p>
+</div>
 </div>
 <div class="section" id="sparsecanonicalspace">
 <h3>SparseCanonicalSpace<a class="headerlink" href="#sparsecanonicalspace" title="Permalink to this headline">¶</a></h3>
