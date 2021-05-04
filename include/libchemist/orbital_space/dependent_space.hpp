@@ -69,7 +69,7 @@ protected:
     }
 
     /// Should be overrident by the derived class to implement size
-    virtual size_type size_() const noexcept { return m_sm_.size(); }
+    virtual size_type size_() const noexcept override { return m_sm_.size(); }
 
 private:
     /// The sparse map between the independent space and this space
