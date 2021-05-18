@@ -1,10 +1,19 @@
 #pragma once
 #include "libchemist/sparse_map/domain/detail_/domain_traits.hpp"
+#include <boost/container/flat_set.hpp>
 #include <memory>
 #include <sde/detail_/memoization.hpp>
 #include <set>
 #include <tiledarray.h>
 #include <utilities/iter_tools.hpp>
+
+namespace boost::container {
+template<typename ElementType>
+void hash_object(const boost::container::flat_set<ElementType>& v,
+                 bphash::Hasher& h) {
+    for(const auto& x : v) h(x);
+}
+} // namespace boost::container
 
 namespace libchemist::sparse_map {
 
@@ -344,11 +353,8 @@ private:
     /// Ensures that @p i is in the range [0, size())
     void bounds_check_(size_type i) const;
 
-    ///
-    std::set<value_type> m_ordered_domain_;
-
     /// The instance actually holding the state.
-    std::vector<value_type> m_domain_;
+    boost::container::flat_set<value_type> m_domain_;
 
     /// Keeps track of the offsets per mode of the indices in this Domain
     std::vector<std::set<size_type>> m_mode_map_;
@@ -394,7 +400,7 @@ bool operator!=(const DomainPIMPL<IndexType>& lhs,
 
 template<typename IndexType>
 bool DOMAINPIMPL::count(const_reference idx) const noexcept {
-    return m_ordered_domain_.count(idx);
+    return m_domain_.count(idx);
 }
 
 template<typename IndexType>
@@ -430,7 +436,7 @@ typename DOMAINPIMPL::value_type DOMAINPIMPL::result_index(
 template<typename IndexType>
 typename DOMAINPIMPL::value_type DOMAINPIMPL::at(size_type i) const {
     bounds_check_(i);
-    return m_domain_[i];
+    return *(m_domain_.begin() + i);
 }
 
 template<typename IndexType>
@@ -464,8 +470,7 @@ void DOMAINPIMPL::insert_(value_type idx) {
     }
     if(count(idx)) return;
     update_mode_map(idx);
-    m_ordered_domain_.insert(idx);
-    m_domain_.push_back(idx);
+    m_domain_.insert(idx);
 }
 
 template<typename IndexType>
@@ -473,13 +478,12 @@ DOMAINPIMPL& DOMAINPIMPL::prod_assign_(const my_type& other) {
     const bool is_empty = m_domain_.empty() || other.m_domain_.empty();
 
     if(is_empty) {
-        m_ordered_domain_.clear();
         m_domain_.clear();
         m_mode_map_.clear();
         return *this;
     }
 
-    std::set<value_type> buffer;
+    boost::container::flat_set<value_type> buffer;
     std::vector<std::set<size_type>> new_modes(m_mode_map_);
     const auto& other_mm = other.m_mode_map_;
     new_modes.insert(new_modes.end(), other_mm.begin(), other_mm.end());
@@ -493,9 +497,7 @@ DOMAINPIMPL& DOMAINPIMPL::prod_assign_(const my_type& other) {
             buffer.insert(value_type(new_idx));
         }
     }
-    std::vector<value_type> new_dom(buffer.begin(), buffer.end());
-    m_domain_.swap(new_dom);
-    m_ordered_domain_.swap(buffer);
+    m_domain_.swap(buffer);
     m_mode_map_.swap(new_modes);
     return *this;
 }
@@ -528,7 +530,7 @@ DOMAINPIMPL& DOMAINPIMPL::int_assign_(const my_type& other) {
         return *this;
     }
 
-    std::vector<value_type> old_domain(m_domain_);
+    boost::container::flat_set<value_type> old_domain(m_domain_);
     m_domain_.clear();
     m_mode_map_.clear();
     for(const auto& x : old_domain)
