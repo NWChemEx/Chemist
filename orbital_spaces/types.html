@@ -4,7 +4,8 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Types of Orbital Spaces &mdash; LibChemist 1.0.0 documentation</title>
@@ -13,6 +14,8 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,10 +32,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -187,7 +191,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="types-of-orbital-spaces">
+  <section id="types-of-orbital-spaces">
 <h1>Types of Orbital Spaces<a class="headerlink" href="#types-of-orbital-spaces" title="Permalink to this headline">¶</a></h1>
 <p>Libchemist supports a lot of different types of orbital spaces. This page walks
 through those spaces and compares and contrasts them. TODO: Graphic to summarize
@@ -199,7 +203,7 @@ classes. This point is an implementation detail. Readers are encouraged to
 think of them as true classes as it makes things conceptually easier than
 disecting very heavily templated types (C++ concepts where are you?)</p>
 </div>
-<div class="section" id="why-not-a-single-class">
+<section id="why-not-a-single-class">
 <h2>Why Not a Single Class?<a class="headerlink" href="#why-not-a-single-class" title="Permalink to this headline">¶</a></h2>
 <p>At first it may be tempting to try to unify the various orbital space types into
 a single type just to simplify things. However, the slight differences among the
@@ -218,8 +222,8 @@ a single orbital space class, the alternative would be to add a member function
 <code class="docutils literal notranslate"><span class="pre">has_orbital_energies()</span></code> (or the like) and throw if the result is false. In
 general we always prefer compile-time errors to runtime errors because the
 latter waste time (you have to run the program to learn you made a mistake).</p>
-</div>
-<div class="section" id="dense-versions">
+</section>
+<section id="dense-versions">
 <h2>Dense Versions<a class="headerlink" href="#dense-versions" title="Permalink to this headline">¶</a></h2>
 <p>This section looks at the “dense” orbital spaces. Strictly speaking dense
 orbital spaces can have sparsity, but that sparsity is restricted to being
@@ -227,18 +231,18 @@ block sparse. Dense orbital spaces use <code class="docutils literal notranslate
 quantities. This should be contrasted with the sparse orbital spaces which have
 at least one <code class="docutils literal notranslate"><span class="pre">type::tensor_of_tensors</span></code> tensorial quantity. Sparse orbital
 spaces are signicantly more involved and are covered in the next section.</p>
-<div class="section" id="basespace">
+<section id="basespace">
 <h3>BaseSpace<a class="headerlink" href="#basespace" title="Permalink to this headline">¶</a></h3>
 <p>This is the base class common to all orbital spaces. It is basically an abstract
 base class which defines some methods common to all orbital spaces.</p>
-</div>
-<div class="section" id="aospace">
+</section>
+<section id="aospace">
 <h3>AOSpace<a class="headerlink" href="#aospace" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">AOSpace</span></code> instances tend to be the most fundamental spaces. In addition to
 being <code class="docutils literal notranslate"><span class="pre">BaseSpace</span></code> instances they also contain the parameters for the atomic
 orbitals.</p>
-</div>
-<div class="section" id="derivedspace">
+</section>
+<section id="derivedspace">
 <h3>DerivedSpace<a class="headerlink" href="#derivedspace" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">DerivedSpace</span></code> instances are linear combinations of orbitals in another space.
 The <code class="docutils literal notranslate"><span class="pre">DerivedSpace</span></code> class is actually templated on the type of this other
@@ -250,17 +254,17 @@ having a <code class="docutils literal notranslate"><span class="pre">DerivedSpa
 your algorithm’s design depends on the intermediate <code class="docutils literal notranslate"><span class="pre">DerivedSpace</span></code> being
 present then you’ll get a compile time error if the user folded the two
 transformations together since that results in a different type.</p>
-</div>
-<div class="section" id="canonicalspace">
+</section>
+<section id="canonicalspace">
 <h3>CanonicalSpace<a class="headerlink" href="#canonicalspace" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">CanonicalSpace</span></code> instaces are subclasses of <code class="docutils literal notranslate"><span class="pre">DerivedSpace</span></code> instances (we
 ignore the possibility that the <code class="docutils literal notranslate"><span class="pre">AOSpace</span></code> can be a canonical space, which is
 only possible for hydrogenic atoms). In addition to being linear combinations of
 another orbital space, the <code class="docutils literal notranslate"><span class="pre">CanonicalSpace</span></code> also diagonalizes the Fock matrix
 and thus we can associate orbital energies with each orbital.</p>
-</div>
-</div>
-<div class="section" id="sparse-versions">
+</section>
+</section>
+<section id="sparse-versions">
 <h2>Sparse Versions<a class="headerlink" href="#sparse-versions" title="Permalink to this headline">¶</a></h2>
 <p>Sparse orbital spaces have at least one tensorial quantity which is of type
 <code class="docutils literal notranslate"><span class="pre">type::tensor_of_tensors</span></code>. They may derive from either <code class="docutils literal notranslate"><span class="pre">BaseSpace</span></code> or
@@ -269,7 +273,7 @@ because of the fact that we need different combinations of sparse and dense
 tensors depending on which parts of the space have been sparsified. This section
 assumes you are familiar with the sparse map concept in the context of
 sparsity (TODO: link to concept).</p>
-<div class="section" id="dependentbasespace">
+<section id="dependentbasespace">
 <h3>DependentBaseSpace<a class="headerlink" href="#dependentbasespace" title="Permalink to this headline">¶</a></h3>
 <p>This is the equivalent of <code class="docutils literal notranslate"><span class="pre">BaseSpace</span></code> for any orbital space which also has a
 sparse map from its orbitals to the independent space. The decision to have
@@ -279,14 +283,14 @@ actually behave like a set of orbital sets (<em>i.e.</em>, it contains many sets
 orbitals) and not a single set. Thus questions like “how many orbitals?” become
 fuzzy since you have to also specify which of the orbital sets you are
 referring to.</p>
-</div>
-<div class="section" id="sparseaospace">
+</section>
+<section id="sparseaospace">
 <h3>SparseAOSpace<a class="headerlink" href="#sparseaospace" title="Permalink to this headline">¶</a></h3>
 <p>Same as the <code class="docutils literal notranslate"><span class="pre">AOSpace</span></code> class except that it inherits from
 <code class="docutils literal notranslate"><span class="pre">DependentBaseSpace</span></code> instead of <code class="docutils literal notranslate"><span class="pre">BaseSpace</span></code>. The result is that this class
 describes domains of AOs associated with an independent space.</p>
-</div>
-<div class="section" id="sparseindependentspace">
+</section>
+<section id="sparseindependentspace">
 <h3>SparseIndependentSpace<a class="headerlink" href="#sparseindependentspace" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">SparseIndependentSpace</span></code> inherits from <code class="docutils literal notranslate"><span class="pre">BaseSpace</span></code> (<em>i.e.</em> it does not
 include a sparse map from itself to the independent space since it is the
@@ -304,8 +308,8 @@ used to model spaces spanned by localized molecular orbitals (LMOs).</p>
 independent indices, but only one dependent index. This is because the index
 for the derived orbitals is actually an independent index.</p>
 </div>
-</div>
-<div class="section" id="sparsederivedspace">
+</section>
+<section id="sparsederivedspace">
 <h3>SparseDerivedSpace<a class="headerlink" href="#sparsederivedspace" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">SparseDerivedSpace</span></code> is similar to the <code class="docutils literal notranslate"><span class="pre">SparseIndependentSpace</span></code> except
 that it inherits from <code class="docutils literal notranslate"><span class="pre">DependentBaseSpace</span></code>. This means that
@@ -323,8 +327,8 @@ case for most (all?) linear-scaling theories.</p>
 needed (strictly speaking it would just be a typedef that uses <code class="docutils literal notranslate"><span class="pre">AOSpace</span></code>
 instead of <code class="docutils literal notranslate"><span class="pre">SparseAOSpace</span></code>).</p>
 </div>
-</div>
-<div class="section" id="sparseindependentcanonicalspace">
+</section>
+<section id="sparseindependentcanonicalspace">
 <h3>SparseIndependentCanonicalSpace<a class="headerlink" href="#sparseindependentcanonicalspace" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">SparseIndependentCanonicalSpace</span></code> derives from <code class="docutils literal notranslate"><span class="pre">SparseIndependentSpace</span></code>
 and additionally associates “energies” with the independent orbitals. In the
@@ -333,8 +337,8 @@ itself is not diagonal, hence they are not strictly energies). The energies are
 stored in an object of type <code class="docutils literal notranslate"><span class="pre">type::tensor</span></code> because they are not sparse (even
 if the transformation of the Fock matrix to the independent basis used
 sparsity).</p>
-</div>
-<div class="section" id="sparseindependenttuplecanonicalspace">
+</section>
+<section id="sparseindependenttuplecanonicalspace">
 <h3>SparseIndependentTupleCanonicalSpace<a class="headerlink" href="#sparseindependenttuplecanonicalspace" title="Permalink to this headline">¶</a></h3>
 <p>(yes I’m grasping at straws for names). The
 <code class="docutils literal notranslate"><span class="pre">SparseIndependentTupleCanonicalSpace</span></code> is similar to the
@@ -353,8 +357,8 @@ the transformation for the “i”-th independent orbital using the union of the
 basis sets of “i” and “j”. In particular note that in general the vector for
 tuple “ij” will not be the same as the vector for tuple “ji”.</p>
 </div>
-</div>
-<div class="section" id="sparsecanonicalspace">
+</section>
+<section id="sparsecanonicalspace">
 <h3>SparseCanonicalSpace<a class="headerlink" href="#sparsecanonicalspace" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">SparseCanonicalSpace</span></code> class derives from <code class="docutils literal notranslate"><span class="pre">SparseDerivedSpace</span></code> and
 additionally associates energies with each of the dependent derived orbital
@@ -365,8 +369,8 @@ base class <code class="docutils literal notranslate"><span class="pre">SparseCa
 independent orbitals to canonical orbitals. At the moment this class is only
 here for completion, in practice we usually need the
 <code class="docutils literal notranslate"><span class="pre">SparseQuasiCanonicalSpace</span></code>…</p>
-</div>
-<div class="section" id="sparsequasicanonicalspace">
+</section>
+<section id="sparsequasicanonicalspace">
 <h3>SparseQuasiCanonicalSpace<a class="headerlink" href="#sparsequasicanonicalspace" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">SparseQuasiCanonicalSpace</span></code> somewhat confusingly derives from the
 <code class="docutils literal notranslate"><span class="pre">SparseIndependentSpace</span></code>, but they are not an independent space (the
@@ -388,9 +392,9 @@ each orbital are stored in an object of type <code class="docutils literal notra
 <code class="docutils literal notranslate"><span class="pre">SparseIndependentSpace</span></code> only contain one.</p>
 <p>An example of a <code class="docutils literal notranslate"><span class="pre">SparseQuasiCanonicalSpace</span></code> is the set of quasi-canonical PAOs
 formed by using PAOs of type <code class="docutils literal notranslate"><span class="pre">SparseDerivedSpace</span></code>.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>

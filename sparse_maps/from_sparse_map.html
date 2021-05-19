@@ -4,7 +4,8 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Sparsifying a Tensor &mdash; LibChemist 1.0.0 documentation</title>
@@ -13,6 +14,8 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +32,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
@@ -171,11 +175,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="sparsifying-a-tensor">
+  <section id="sparsifying-a-tensor">
 <h1>Sparsifying a Tensor<a class="headerlink" href="#sparsifying-a-tensor" title="Permalink to this headline">¶</a></h1>
 <p>This page details the algorithms used to create a tensor-of-tensors from a
 SparseMap and a tensor.</p>
-<div class="section" id="things-to-note">
+<section id="things-to-note">
 <h2>Things to note<a class="headerlink" href="#things-to-note" title="Permalink to this headline">¶</a></h2>
 <p>We are creating an object, <code class="docutils literal notranslate"><span class="pre">t</span></code> of type <code class="docutils literal notranslate"><span class="pre">DistArray&lt;Tensor&lt;Tensor&lt;T&gt;&gt;&gt;</span></code> from
 an object <code class="docutils literal notranslate"><span class="pre">T</span></code> of type <code class="docutils literal notranslate"><span class="pre">DistArray&lt;Tensor&lt;T&gt;&gt;</span></code>. Since the tiles are not the
@@ -186,8 +190,8 @@ full tiles and the copy must occur. For this reason the main kernel assumes a
 <code class="docutils literal notranslate"><span class="pre">SparseMap&lt;ElementIndex,</span> <span class="pre">ElementIndex&gt;</span></code> instance is provided as this affords
 us the most flexibility in defining tiles. Specialized kernels may be added at
 a later point for other types of SparseMap instances.</p>
-</div>
-<div class="section" id="assumptions">
+</section>
+<section id="assumptions">
 <h2>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this headline">¶</a></h2>
 <p>Assume we are given a <code class="docutils literal notranslate"><span class="pre">SparseMap</span></code> instance, <code class="docutils literal notranslate"><span class="pre">sm</span></code> and a tensor <code class="docutils literal notranslate"><span class="pre">T</span></code>. Our
 present goal is to create a tensor-of-tensors (ToT), <code class="docutils literal notranslate"><span class="pre">t</span></code>,  out of <code class="docutils literal notranslate"><span class="pre">T</span></code>. The
@@ -213,8 +217,8 @@ inserting one (or more) of the modes of the independent mode into the dependent
 indices. These two scenarios are unified by realizing the first results from the
 second if we have no injections. Thus as long as we code up the second scenario
 in such a manner that it works with no injections we cover both scenarios.</p>
-</div>
-<div class="section" id="make-tot-tile-algorithm">
+</section>
+<section id="make-tot-tile-algorithm">
 <h2><code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code> Algorithm<a class="headerlink" href="#make-tot-tile-algorithm" title="Permalink to this headline">¶</a></h2>
 <p>The guts of the <code class="docutils literal notranslate"><span class="pre">from_sparse_tensor</span></code> function are contained in
 <code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code>. <code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code> is more-or-less a lambda which will be
@@ -256,8 +260,8 @@ works by:</p>
 </li>
 <li><p>Return <code class="docutils literal notranslate"><span class="pre">tile</span></code></p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
