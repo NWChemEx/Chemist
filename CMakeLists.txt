@@ -33,11 +33,13 @@ cpp_find_or_build_dependency(
     CMAKE_ARGS TA_BUILD_UNITTEST=OFF
 )
 
+find_package(Boost REQUIRED COMPONENTS container)
+
 cpp_add_library(
     chemist
     SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/libchemist"
     INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/include/libchemist"
-    DEPENDS nwx::sde tiledarray
+    DEPENDS nwx::sde tiledarray Boost::container
 )
 
 if("${BUILD_TESTING}")
