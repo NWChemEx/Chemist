@@ -111,7 +111,7 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
             space_type st;
             REQUIRE(st.size() == 0);
         }
-        SECTION("Non-empty") { REQUIRE(st1.size() == bs.size()); }
+        SECTION("Non-empty") { REQUIRE(st1.size() == bs.n_aos()); }
     }
 
     SECTION("Comparisons") {

@@ -74,7 +74,7 @@ protected:
      *  This function simply calls the `size()` member of the AO basis set and
      *  returns the result.
      */
-    virtual size_type size_() const noexcept override { return m_bs_.size(); }
+    virtual size_type size_() const noexcept override { return m_bs_.n_aos(); }
 
 private:
     /// The object holding the basis set parameters
