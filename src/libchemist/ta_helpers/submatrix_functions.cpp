@@ -6,8 +6,8 @@ using size = std::size_t;
 using block_index = std::initializer_list<size>;
 
 template<typename T>
-tensor_type<T> submatrix(const tensor_type<T> full_matrix,
-                         const mask_type mask) {
+type::tensor<T> submatrix(const type::tensor<T>& full_matrix,
+                          const TA::Tensor<float>& mask) {
     // Some typedefs
     using bounds_type = std::vector<size>;
     using bool_vec    = std::vector<bool>;
@@ -56,7 +56,7 @@ tensor_type<T> submatrix(const tensor_type<T> full_matrix,
     TA::TiledRange compressed_trange{cdim0, cdim1};
 
     // Make and fill compressed submatrix
-    tensor_type<T> submatrix{full_matrix.world(), compressed_trange};
+    type::tensor<T> submatrix{full_matrix.world(), compressed_trange};
     size a = 0, b = 0; // Track submatrix blocks
     for(size i = 0; i < n0; ++i) {
         if(!cdim0_has[i]) continue;
@@ -91,9 +91,9 @@ tensor_type<T> submatrix(const tensor_type<T> full_matrix,
 }
 
 template<typename T>
-tensor_type<T> expand_submatrix(const tensor_type<T> submatrix,
-                                const trange_type full_trange,
-                                const mask_type mask) {
+type::tensor<T> expand_submatrix(const type::tensor<T>& submatrix,
+                                 const TA::TiledRange& full_trange,
+                                 const TA::Tensor<float>& mask) {
     // Get dimensions and tile extents
     const auto& dim0  = full_trange.dim(0);
     const auto& dim1  = full_trange.dim(1);
@@ -103,7 +103,7 @@ tensor_type<T> expand_submatrix(const tensor_type<T> submatrix,
     const auto& cdim1 = submatrix.trange().dim(1);
 
     // Make and fill full sized matrix
-    tensor_type<T> full_matrix{submatrix.world(), full_trange};
+    type::tensor<T> full_matrix{submatrix.world(), full_trange};
 
     size a = 0, b = 0; // Track submatrix blocks
     for(size i = 0; i < n0; ++i) {
@@ -145,10 +145,10 @@ tensor_type<T> expand_submatrix(const tensor_type<T> submatrix,
     return full_matrix;
 }
 
-template tensor_type<double> submatrix(const tensor_type<double>,
-                                       const mask_type);
-template tensor_type<double> expand_submatrix(const tensor_type<double>,
-                                              const trange_type,
-                                              const mask_type);
+template type::tensor<double> submatrix(const type::tensor<double>&,
+                                        const TA::Tensor<float>&);
+template type::tensor<double> expand_submatrix(const type::tensor<double>&,
+                                               const TA::TiledRange&,
+                                               const TA::Tensor<float>&);
 
 } // libchemist::ta_helpers

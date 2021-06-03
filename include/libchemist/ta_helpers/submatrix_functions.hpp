@@ -4,11 +4,6 @@
 
 namespace libchemist::ta_helpers {
 
-template<typename T>
-using tensor_type = type::tensor<T>;
-using mask_type   = TA::Tensor<float>;
-using trange_type = TA::TiledRange;
-
 /** @brief Creates a new tensor that from selected tiles of another tensor.
  *
  * @tparam T The type of the tile elements in @p full_matrix.
@@ -20,8 +15,8 @@ using trange_type = TA::TiledRange;
  *         some tiles set to zero based on the masking.
  */
 template<typename T>
-tensor_type<T> submatrix(const tensor_type<T> full_matrix,
-                         const mask_type mask);
+type::tensor<T> submatrix(const type::tensor<T>& full_matrix,
+                          const TA::Tensor<float>& mask);
 
 /** @brief Expands the non-zero tiles of a tensor into a new tensor with a
  *         different TiledRange.
@@ -36,15 +31,15 @@ tensor_type<T> submatrix(const tensor_type<T> full_matrix,
  *         are either zero or copied from the submatrix.
  */
 template<typename T>
-tensor_type<T> expand_submatrix(const tensor_type<T> submatrix,
-                                const trange_type full_trange,
-                                const mask_type mask);
+type::tensor<T> expand_submatrix(const type::tensor<T>& submatrix,
+                                 const TA::TiledRange& full_trange,
+                                 const TA::Tensor<float>& mask);
 
-extern template tensor_type<double> submatrix(const tensor_type<double>,
-                                              const mask_type);
+extern template type::tensor<double> submatrix(const type::tensor<double>&,
+                                               const TA::Tensor<float>&);
 
-extern template tensor_type<double> expand_submatrix(const tensor_type<double>,
-                                                     const trange_type,
-                                                     const mask_type);
+extern template type::tensor<double> expand_submatrix(const type::tensor<double>&,
+                                                      const TA::TiledRange&,
+                                                      const TA::Tensor<float>&);
 
 } // libchemist::ta_helpers
