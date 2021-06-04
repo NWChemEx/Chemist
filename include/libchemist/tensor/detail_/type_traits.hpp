@@ -42,6 +42,14 @@ struct labeled_variant<std::variant<Args...>> {
     using type = std::variant<labeled_tensor_t<Args>...>;
 };
 
+template<typename T>
+struct const_labeled_variant;
+
+template<typename... Args>
+struct const_labeled_variant<std::variant<Args...>> {
+    using type = std::variant<labeled_tensor_t<const Args>...>;
+};
+
 } // namespace detail_
 
 /** @brief Public API for getting a variant of labeled tensors
@@ -56,6 +64,10 @@ struct labeled_variant<std::variant<Args...>> {
 template<typename TensorVariant>
 using labeled_variant_t =
   typename detail_::labeled_variant<TensorVariant>::type;
+
+template<typename TensorVariant>
+using const_labeled_variant_t =
+  typename detail_::const_labeled_variant<TensorVariant>::type;
 
 /** @brief Determines the type that results from adding two tensors together.
  *
@@ -93,7 +105,8 @@ using mult_expr_t = decltype(std::declval<LType>() * std::declval<RType>());
  *  @tparam RType The variant on the right-side of the addition sign.
  */
 template<typename LType, typename RType>
-using add_variant_t = utilities::variant_prod_t<add_expr_t, LType, RType>;
+using add_variant_t =
+  utilities::type_traits::variant::product_t<add_expr_t, LType, RType>;
 
 /** @brief Typedef of a variant resulting from subtracting two variants.
  *
@@ -106,7 +119,8 @@ using add_variant_t = utilities::variant_prod_t<add_expr_t, LType, RType>;
  *  @tparam RType The variant on the right-side of the minus sign.
  */
 template<typename LType, typename RType>
-using subt_variant_t = utilities::variant_prod_t<subt_expr_t, LType, RType>;
+using subt_variant_t =
+  utilities::type_traits::variant::product_t<subt_expr_t, LType, RType>;
 
 /** @brief Typedef of a variant resulting from multiplying two variants
  *         together.
@@ -120,6 +134,7 @@ using subt_variant_t = utilities::variant_prod_t<subt_expr_t, LType, RType>;
  *  @tparam RType The variant on the right-side of the multiplication sign.
  */
 template<typename LType, typename RType>
-using mult_variant_t = utilities::variant_prod_t<mult_expr_t, LType, RType>;
+using mult_variant_t =
+  utilities::type_traits::variant::product_t<mult_expr_t, LType, RType>;
 
 } // namespace libchemist::tensor

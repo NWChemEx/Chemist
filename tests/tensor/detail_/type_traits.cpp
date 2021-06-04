@@ -12,22 +12,18 @@ TEMPLATE_LIST_TEST_CASE("labeled_tensor_t", "", tensor_variant_t) {
 }
 
 TEST_CASE("labeled_variant") {
-    using t0        = labeled_tensor_t<tensor_t<double>>;
-    using t1        = labeled_tensor_t<tensor_of_tensors_t<double>>;
-    using t2        = labeled_tensor_t<tensor_t<float>>;
-    using t3        = labeled_tensor_t<tensor_of_tensors_t<float>>;
+    using t0 = labeled_tensor_t<tensor_t<double>>;
+    // using t2        = labeled_tensor_t<tensor_t<float>>;
     using type      = typename detail_::labeled_variant<tensor_variant_t>::type;
-    using corr_type = std::variant<t0, t1, t2, t3>;
+    using corr_type = std::variant<t0>; //, t2>;
     STATIC_REQUIRE(std::is_same_v<type, corr_type>);
 }
 
 TEST_CASE("labeled_variant_t") {
     using t0        = labeled_tensor_t<tensor_t<double>>;
-    using t1        = labeled_tensor_t<tensor_of_tensors_t<double>>;
     using t2        = labeled_tensor_t<tensor_t<float>>;
-    using t3        = labeled_tensor_t<tensor_of_tensors_t<float>>;
     using type      = labeled_variant_t<tensor_variant_t>;
-    using corr_type = std::variant<t0, t1, t2, t3>;
+    using corr_type = std::variant<t0>; //, t2>;
     STATIC_REQUIRE(std::is_same_v<type, corr_type>);
 }
 
