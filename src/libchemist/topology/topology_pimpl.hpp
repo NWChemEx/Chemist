@@ -8,6 +8,6 @@ struct TopologyPIMPL {
     using distance_type = typename Topology::distance_type;
 
     std::map<pair_type, distance_type> m_distances;
-}
+};
 
-} // namespace ghostfragment::topology::detail_
+} // namespace libchemist::topology::detail_

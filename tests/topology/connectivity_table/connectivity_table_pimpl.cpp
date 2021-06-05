@@ -9,7 +9,6 @@ using bond_list_type = typename ConnectivityTablePIMPL::bond_list_type;
 
 TEST_CASE("ConnectivityTablePIMPL") {
     ConnectivityTablePIMPL defaulted;
-    libchemist
 
     SECTION("Typedefs") {
         using ct_t = libchemist::topology::ConnectivityTable;
