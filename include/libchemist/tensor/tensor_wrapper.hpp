@@ -59,6 +59,16 @@ public:
 
     auto rank() const;
 
+    template<typename TensorType>
+    auto& get() {
+        return std::get<TensorType>(m_tensor_);
+    }
+
+    template<typename TensorType>
+    const auto& get() const {
+        return std::get<TensorType>(m_tensor_);
+    }
+
     std::ostream& print(std::ostream& os) const;
 
 private:

@@ -14,7 +14,7 @@ using tot_tile_t = TA::Tensor<TA::Tensor<T>>;
 
 /// Base type of a TA tensor
 template<typename TileType, typename PolicyType>
-using ta_tensor_t = TA::DistArray<T, PolicyType>;
+using ta_tensor_t = TA::DistArray<TileType, PolicyType>;
 
 /// Type of a tensor which is block-sparse
 template<typename T>

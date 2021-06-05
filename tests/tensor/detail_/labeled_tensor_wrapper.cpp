@@ -1,3 +1,4 @@
+#include "libchemist/ta_helpers/ta_helpers.hpp"
 #include "libchemist/tensor/detail_/labeled_tensor_wrapper.hpp"
 #include "libchemist/tensor/tensor_wrapper.hpp"
 #include "libchemist/tensor/types.hpp"
@@ -16,15 +17,17 @@ TEMPLATE_LIST_TEST_CASE("LabeledTensorWrapper", "", tensor_variant_t) {
       t_type(world, {{{1.0, 2.0}, {3.0, 4.0}}, {{5.0, 6.0}, {7.0, 8.0}}}));
 
     auto lvec = vec("i");
-
-    t_type result;
-    TWrapper wrapped_result(result);
-
-    SECTION("operator=") {}
-
+    TWrapper result(t_type{});
     SECTION("operator+") {
-        wrapped_result("i") = lvec + lvec;
+        result("i") = lvec + lvec;
+        auto& rv    = result.get<t_type>();
         t_type corr(world, {2.0, 4.0, 6.0});
-        std::cout << wrapped_result << std::endl;
+        REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+    }
+
+    SECTION("operator*") {
+        result("i") = lvec * lvec;
+        t_type corr(world, {1.0, 4.0, 9.0});
+        std::cout << result << std::endl;
     }
 }

@@ -1,5 +1,6 @@
 #pragma once
-#include "libchemist/ta"
+#include "libchemist/tensor/detail_/type_traits.hpp"
+#include "libchemist/tensor/types.hpp"
 #include <utility>
 
 namespace libchemist::tensor::detail_ {
@@ -24,8 +25,6 @@ public:
 private:
     variant_type m_tensor_;
 };
-
-template<typename TileType, typename PolicyType>
 
 template<typename VariantType>
 template<typename TileType, typename PolicyType>
