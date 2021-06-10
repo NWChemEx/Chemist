@@ -11,7 +11,8 @@ using namespace libchemist::tensor;
  * OpWrapper is a base class for LabeledTensorWrapper.Creating an OpWrapper is
  * easiest through the LabeledTensorWrapper class and so we opt to use it for
  * our LHS instances. For the RHS instances we test both LabeledTensorWrapper
- * and other OpWrapper instances.
+ * and other OpWrapper instances. These unit tests thus test both
+ * LabeledTensorWrapper and OpWrapper.
  */
 
 TEMPLATE_LIST_TEST_CASE("OpWrapper", "", tensor_variant_t) {

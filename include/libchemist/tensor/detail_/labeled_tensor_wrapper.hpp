@@ -22,11 +22,30 @@ public:
     /// Type of the variant
     using variant_type = VariantType;
 
+    /** @brief Creates a LabeledTensorWrapper given a std::variant wrapping a
+     *         labeled TensorWrapper.
+     *
+     *  @param[in] v The std::variant which contains the labeled tensor.
+     */
     LabeledTensorWrapper(variant_type v);
 
+    /** @brief Evaluates the expression given to the assignment operator.
+     *
+     *  @tparam RHSType The type of the expression. Can be either a
+     *                  LabeledTensorWrapper specialization or an OpWrapper
+     *                  specialization.
+     *
+     *  @param[in] rhs The expression we are assigning to the labeled tensor we
+     *                 are wrapping.
+     *
+     *  @return The current LabeledTensorWrapper instance, after assigning
+     *          @p rhs to it for operator chaining purposes.
+     */
     template<typename RHSType>
     auto operator=(RHSType&& rhs);
 };
+
+// -------------------------------- Implementations ----------------------------
 
 template<typename VariantType>
 LabeledTensorWrapper<VariantType>::LabeledTensorWrapper(variant_type v) :
