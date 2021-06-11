@@ -11,17 +11,15 @@ namespace libchemist::orbital_space {
  *  - the number of orbitals via `size()`
  *  - transforming a tensor to the space `transform()`
  *  - hashing the orbital space `hash()`
- *  - comparing the orbital spaces `operator==` and `operator!=`
+ *  - polymorphically comparing the orbital spaces `equal()` and `not_equal()`
  */
 class BaseSpace {
 public:
-    /** @brief Creates a BaseSpace
-     *
-     *  BaseSpace is an abstract class with no state so this ctor is a no-op.
-     *
-     *  @throw None no throw guarantee.
-     */
-    BaseSpace() = default;
+    /// Type used for indexing and offsets
+    using size_type = type::size;
+
+    /// Default polymorphic dtor
+    virtual ~BaseSpace() noexcept = default;
 
     /** @brief Returns the number of orbitals in this space.
      *
@@ -31,7 +29,7 @@ public:
      *  @throw ??? Throws if the derived class's implementation of size_ throws.
      *             Same throw guarantee.
      */
-    type::size size() const { return size_(); }
+    auto size() const { return size_(); }
 
     /** @brief Transforms the specified modes of a tensor to the orbital space.
      *
@@ -125,6 +123,38 @@ protected:
     /// Type of a container of mode indices
     using mode_container = std::vector<type::size>;
 
+    /** @brief Creates a BaseSpace
+     *
+     *  Users will never directly create a BaseSpace instance because it is an
+     *  abstract class. The ctor is made protected to make this more clear.
+     *  BaseSpace has no state so this ctor is a no-op.
+     *
+     *  @throw None no throw guarantee.
+     */
+    BaseSpace() = default;
+
+    /** @brief Makes this `BaseSpace` instance by copying @p rhs.
+     *
+     *  The copy ctor is protected to avoid accidental slicing. `BaseSpace` has
+     *  no state so the copy ctor is a no-op.
+     *
+     *  @param[in] rhs The instance being copied.
+     *
+     *  @throw None No throw gurantee.
+     */
+    BaseSpace(const BaseSpace& rhs) = default;
+
+    /** @brief Makes this `BaseSpace` instance by taking state from @p rhs.
+     *
+     *  The move ctor is protected to avoid accidental slicing. `BaseSpace` has
+     *  no state so the move ctor is a no-op.
+     *
+     *  @param[in,out] rhs The instance being moved from.
+     *
+     *  @throw None No throw gurantee.
+     */
+    BaseSpace(BaseSpace&& rhs) = default;
+
     /** @brief Implements polymorphic comparisons of orbital spaces.
      *
      *  `equal_common` takes care of:
@@ -167,7 +197,7 @@ private:
      *  @throw ??? Throws if the derived implementation throws. Same throw
      *             guarantee as the derived implementation.
      */
-    virtual type::size size_() const = 0;
+    virtual size_type size_() const = 0;
 
     /** @brief To be overridden by the derived class to implement transform().
      *
@@ -212,7 +242,7 @@ private:
      *
      *  @throw None No throw guarantee.
      */
-    bool equal_(const BaseSpace& rhs) const noexcept = 0;
+    virtual bool equal_(const BaseSpace& rhs) const noexcept = 0;
 };
 
 //------------------------- Implementations -----------------------------------
