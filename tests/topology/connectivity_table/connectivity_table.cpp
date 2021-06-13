@@ -68,10 +68,18 @@ TEST_CASE("ConnectivityTable") {
     }
 
     SECTION("Copy CTor") {
-        ConnectivityTable CopyOft3(t3);
-        REQUIRE(CopyOft3.natoms() == 3);
-        REQUIRE(CopyOft3.nbonds() == 0);
-        REQUIRE(CopyOft3.bonds() == bond_list_type{});
+        SECTION("Is defaulted") {
+            ConnectivityTable CopyOft(t);
+            REQUIRE(CopyOft.natoms() == 0);
+            REQUIRE(CopyOft.nbonds() == 0);
+            REQUIRE(CopyOft.bonds() == bond_list_type{});
+        }
+        SECTION("Has state") {
+            ConnectivityTable CopyOft3(t3);
+            REQUIRE(CopyOft3.natoms() == 3);
+            REQUIRE(CopyOft3.nbonds() == 0);
+            REQUIRE(CopyOft3.bonds() == bond_list_type{});
+        }
     }
 
     SECTION("Move CTor") {
