@@ -115,7 +115,7 @@ inline bool operator!=(const Distance& lhs, const Distance& rhs) noexcept {
  *              when adding @p d to @p os. If an error occurs the bad bit of
  *              @p os will be set.
  */
-std::ostream& operator<<(std::ostream& os, const Distance& d) {
+inline std::ostream& operator<<(std::ostream& os, const Distance& d) {
     return os << std::fixed << std::setprecision(16) << d.value() << " (a.u.)";
 }
 
