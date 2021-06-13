@@ -20,6 +20,23 @@ ConnectivityTable::ConnectivityTable(const ConnectivityTable& other) :
 ConnectivityTable::ConnectivityTable(ConnectivityTable&& other) noexcept :
   m_pimpl_(std::move(other.m_pimpl_)) {}
 
+ConnectivityTable& ConnectivityTable::operator=(const ConnectivityTable& rhs) {
+    if(this == &rhs) return *this;
+    if(!rhs.m_pimpl_) {
+        m_pimpl_.reset();
+        return *this;
+    }
+    m_pimpl_ = std::make_unique<pimpl_type>(*rhs.m_pimpl_);
+    return *this;
+}
+
+ConnectivityTable& ConnectivityTable::operator=(
+  ConnectivityTable&& rhs) noexcept {
+    if(this == &rhs) return *this;
+    m_pimpl_ = std::move(rhs.m_pimpl_);
+    return *this;
+}
+
 ConnectivityTable::~ConnectivityTable() noexcept = default;
 
 void ConnectivityTable::set_n_atoms(size_type natoms) {
