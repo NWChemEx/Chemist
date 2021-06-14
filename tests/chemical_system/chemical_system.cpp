@@ -35,6 +35,24 @@ TEST_CASE("ChemicalSystem") {
             STATIC_REQUIRE(std::is_same_v<const_mol_ref_t, corr_t>);
         }
 
+        SECTION("ao_basis_t") {
+            using basis_t = typename ChemicalSystem::ao_basis_t;
+            using corr_t     = AOBasisSet<double>;
+            STATIC_REQUIRE(std::is_same_v<basis_t, corr_t>);
+        }
+
+        SECTION("ao_basis_ref_t") {
+            using ao_basis_ref_t = typename ChemicalSystem::ao_basis_ref_t;
+            using corr_t    = AOBasisSet<double>&;
+            STATIC_REQUIRE(std::is_same_v<ao_basis_ref_t, corr_t>);
+        }
+
+        SECTION("const_ao_basis_ref_t") {
+            using basis_t = typename ChemicalSystem::const_ao_basis_ref_t;
+            using corr_t          = const AOBasisSet<double>&;
+            STATIC_REQUIRE(std::is_same_v<basis_t, corr_t>);
+        }
+
         SECTION("epot_t") {
             using epot_t = typename ChemicalSystem::epot_t;
             using corr_t = potentials::Electrostatic;
@@ -54,64 +72,77 @@ TEST_CASE("ChemicalSystem") {
         }
     }
 
-    SECTION("Default ctor") {
-        ChemicalSystem sys;
-        REQUIRE(sys.molecule() == Molecule{});
-        potentials::Electrostatic corr_v;
-        REQUIRE(sys.external_electrostatic_potential() == corr_v);
-    }
+    libchemist::Molecule default_mol, h(libchemist::Atom(1ul));
 
-    libchemist::Molecule h(libchemist::Atom(1ul));
+    libchemist::AOBasisSet<double> default_aos, aos;
+    aos.add_center(libchemist::Center<double>(1.0, 2.0, 3.0));
 
-    libchemist::potentials::Electrostatic v;
+    libchemist::potentials::Electrostatic default_v, v;
     v.add_charge(libchemist::PointCharge<double>());
 
+    SECTION("Default ctor") {
+        ChemicalSystem sys;
+        REQUIRE(sys.molecule() == default_mol);
+        REQUIRE(sys.external_electrostatic_potential() == default_v);
+    }
+
     SECTION("Copy ctor") {
-        ChemicalSystem sys(h, v);
+        ChemicalSystem sys(h, aos, v);
         ChemicalSystem copy(sys);
         REQUIRE(sys == copy);
         REQUIRE(copy.molecule() == h);
+        REQUIRE(copy.basis_set() == aos);
         REQUIRE(copy.external_electrostatic_potential() == v);
     }
 
     SECTION("Move ctor") {
-        ChemicalSystem sys(h, v);
+        ChemicalSystem sys(h, aos, v);
         ChemicalSystem moved(std::move(sys));
         REQUIRE(moved.molecule() == h);
+        REQUIRE(moved.basis_set() == aos);
         REQUIRE(moved.external_electrostatic_potential() == v);
     }
 
     SECTION("value ctor") {
-        SECTION("Default potential") {
+        SECTION("Default aos and potential") {
             ChemicalSystem sys(h);
             REQUIRE(sys.molecule() == h);
-            potentials::Electrostatic corr_v;
-            REQUIRE(sys.external_electrostatic_potential() == corr_v);
+            REQUIRE(sys.basis_set() == default_aos);
+            REQUIRE(sys.external_electrostatic_potential() == v);
+        }
+        SECTION("Default potential") {
+            ChemicalSystem sys(h, aos);
+            REQUIRE(sys.molecule() == h);
+            REQUIRE(sys.basis_set() == aos);
+            REQUIRE(sys.external_electrostatic_potential() == default_v);
         }
 
-        SECTION("Set both") {
-            ChemicalSystem sys(h, v);
+        SECTION("Set all") {
+            ChemicalSystem sys(h, aos, v);
             REQUIRE(sys.molecule() == h);
+            REQUIRE(sys.basis_set() == aos);
             REQUIRE(sys.external_electrostatic_potential() == v);
         }
     }
 
     SECTION("copy assignment") {
-        ChemicalSystem sys(h, v);
+        ChemicalSystem sys(h, aos, v);
         ChemicalSystem copy;
         auto pcopy = &(copy = sys);
         REQUIRE(sys == copy);
         REQUIRE(pcopy == &copy);
         REQUIRE(copy.molecule() == h);
+        REQUIRE(copy.basis_set() == aos);
         REQUIRE(copy.external_electrostatic_potential() == v);
     }
 
     SECTION("move assignment") {
-        ChemicalSystem sys(h, v);
+        ChemicalSystem sys(h, aos, v);
         ChemicalSystem moved;
         auto pmoved = &(moved = std::move(sys));
         REQUIRE(pmoved == &moved);
         REQUIRE(moved.molecule() == h);
+        REQUIRE(moved.basis_set() == aos);
         REQUIRE(moved.external_electrostatic_potential() == v);
     }
 
@@ -140,6 +171,34 @@ TEST_CASE("ChemicalSystem") {
             ChemicalSystem buffer(std::move(sys));
             const auto& csys = sys;
             REQUIRE_THROWS_AS(csys.molecule(), std::runtime_error);
+        }
+    }
+
+    SECTION("basis_set()") {
+        ChemicalSystem sys(h, aos);
+
+        SECTION("value") { REQUIRE(sys.basis_set() == aos); }
+
+        SECTION("is read/write") {
+            sys.basis_set() = default_aos;
+            REQUIRE(sys.basis_set() == default_aos);
+        }
+
+        SECTION("Allocates new PIMPL if no PIMPL") {
+            ChemicalSystem buffer(std::move(sys));
+            REQUIRE(sys.basis_set() == default_aos);
+        }
+    }
+
+    SECTION("basis_set() const") {
+        ChemicalSystem sys(h, aos);
+
+        SECTION("value") { REQUIRE(std::as_const(sys).basis_set() == aos); }
+
+        SECTION("Throws if no PIMPL") {
+            ChemicalSystem buffer(std::move(sys));
+            const auto& csys = sys;
+            REQUIRE_THROWS_AS(csys.basis_set(), std::runtime_error);
         }
     }
 
@@ -193,13 +252,18 @@ TEST_CASE("ChemicalSystem") {
                 REQUIRE(lhs_hash != sde::hash_objects(rhs));
             }
 
+            SECTION("RHS has different aos") {
+                ChemicalSystem rhs(default_mol, aos);
+                REQURIE(lhs_hash != sde::hash_objects(rhs));
+            }
+
             SECTION("RHS has different potential") {
-                ChemicalSystem rhs(Molecule(), v);
+                ChemicalSystem rhs(default_mol, default_aos, v);
                 REQUIRE(lhs_hash != sde::hash_objects(rhs));
             }
 
             SECTION("RHS is completely different") {
-                ChemicalSystem rhs(h, v);
+                ChemicalSystem rhs(h, aos, v);
                 REQUIRE(lhs_hash != sde::hash_objects(rhs));
             }
         }
@@ -221,14 +285,20 @@ TEST_CASE("ChemicalSystem") {
                 REQUIRE(lhs != rhs);
             }
 
+            SECTION("RHS has different aos") {
+                ChemicalSystem rhs(default_mol, aos);
+                REQUIRE_FALSE(lhs == rhs);
+                REQURIE(lhs != rhs);
+            }
+
             SECTION("RHS has different potential") {
-                ChemicalSystem rhs(Molecule(), v);
+                ChemicalSystem rhs(default_mol, default_aos, v);
                 REQUIRE_FALSE(lhs == rhs);
                 REQUIRE(lhs != rhs);
             }
 
             SECTION("RHS is completely different") {
-                ChemicalSystem rhs(h, v);
+                ChemicalSystem rhs(h, aos, v);
                 REQUIRE_FALSE(lhs == rhs);
                 REQUIRE(lhs != rhs);
             }

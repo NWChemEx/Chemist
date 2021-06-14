@@ -20,6 +20,15 @@ public:
     /// A read-only reference to the object describing the set of atoms
     using const_mol_ref_t = typename chem_sys_t::const_mol_ref_t;
 
+    /// The type of the AO basis set
+    using ao_basis_t = typename chem_sys_t::ao_basis_t;
+
+    /// The type of a read/write AO basis set
+    using ao_basis_ref_t = typename chem_sys_t::ao_basis_ref_t;
+
+    /// The type of a read-only AO basis set
+    using const_ao_basis_ref_t = typename chem_sys_t::const_ao_basis_ref_t;
+
     /// The type used to model the external electrostatic potential
     using epot_t = typename chem_sys_t::epot_t;
 
@@ -40,12 +49,13 @@ public:
     /** @brief Creates a PIMPL with the provided state.
      *
      *  @param[in] mol The nuclear framework in the system.
+     *  @param[in] basis The AO basis functions for the system.
      *  @param[in] epot The external electrostatic potential. Defaults to an
      *                  empty potential.
      *
      *  @throw None No throw guarantee.
      */
-    explicit ChemicalSystemPIMPL(molecule_t mol, epot_t epot = {}) noexcept;
+    explicit ChemicalSystemPIMPL(molecule_t mol, ao_basis_t basis = {}, epot_t epot = {}) noexcept;
 
     /// Standard defaulted polymorphic dtor
     virtual ~ChemicalSystemPIMPL() noexcept = default;
@@ -96,6 +106,22 @@ public:
      *  @throw None No throw guarantee.
      */
     const auto& molecule() const noexcept { return m_mol_; }
+
+    /** @brief Accessor for the contained AOBasis set
+     *
+     *  @return The AOBasis set associated with this system.
+     *
+     *  @throw None No throw guarantee
+     */
+    auto& basis_set() noexcept { return m_basis_; }
+
+    /** @brief Accessor for the contained AOBasis set
+     *
+     *  @return The AOBasis set associated with this system in a read-only state
+     *
+     *  @throw None No throw guarantee
+     */
+    const auto& basis_set() const noexcept { return m_basis_; }
 
     /** @brief Accessor for the contained electrostatic potential.
      *
@@ -155,7 +181,7 @@ public:
      *                   will have been modified to include a hash of this
      *                   object's state.
      */
-    void hash(bphash::Hasher& h) const { h(m_mol_, m_epot_); }
+    void hash(bphash::Hasher& h) const { h(m_mol_, m_basis_, m_epot_); }
 
 protected:
     /// Implements polymorphic copy, should be overriden by derived classes
@@ -171,15 +197,18 @@ private:
     /// The molecular framework
     molecule_t m_mol_;
 
+    /// The AO basis set associated with the molecule
+    ao_basis_t m_basis_;
+
     /// The electrostatic potential external to the molecular framework
     epot_t m_epot_;
 };
 
 // ------------------- Out-of-line inline definitions --------------------------
 
-inline ChemicalSystemPIMPL::ChemicalSystemPIMPL(molecule_t mol,
+inline ChemicalSystemPIMPL::ChemicalSystemPIMPL(molecule_t mol, ao_basis_t aos,
                                                 epot_t epot) noexcept :
-  m_mol_(std::move(mol)), m_epot_(std::move(epot)) {}
+  m_mol_(std::move(mol)), m_basis_(std::move(aos)), m_epot_(std::move(epot)) {}
 
 inline bool ChemicalSystemPIMPL::operator==(
   const ChemicalSystemPIMPL& rhs) const noexcept {
@@ -194,7 +223,7 @@ inline typename ChemicalSystemPIMPL::pimpl_ptr_t ChemicalSystemPIMPL::clone_()
 
 inline bool ChemicalSystemPIMPL::are_equal_(
   const ChemicalSystemPIMPL& rhs) const noexcept {
-    return std::tie(m_mol_, m_epot_) == std::tie(rhs.m_mol_, rhs.m_epot_);
+    return std::tie(m_mol_, m_basis_, m_epot_) == std::tie(rhs.m_mol_, rhs.m_basis_, rhs.m_epot_);
 }
 
 } // namespace libchemist::detail_
