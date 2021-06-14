@@ -61,6 +61,32 @@ public:
      */
     ConnectivityTable(ConnectivityTable&& other) noexcept;
 
+    /** @brief Replaces the current instance's state with a deep copy of another
+     *         ConnectivityTable instance's state.
+     *
+     *  @param[in] rhs The instance to copy.
+     *
+     *  @return The current instance, with it's state set to a deep copy of
+     *          @p rhs's state, to support operator chaining.
+     *
+     *  @throw std::bad_alloc if there is a problem copying @p other. Strong
+     *                        throw guarantee.
+     */
+    ConnectivityTable& operator=(const ConnectivityTable& rhs);
+
+    /** @brief Replaces the current ConnectivityTables' state by taking
+     *         ownership of another ConnectivityTable instance.
+     *
+     *  @param[in,out] rhs The instance whose state will be transferred. After
+     *                     the move @p rhs will be in a default state.
+     *
+     *  @return The current instance, after taking ownership of @p rhs, to
+     *          facilitate operator chaining.
+     *
+     *  @throw None no throw guarantee.
+     */
+    ConnectivityTable& operator=(ConnectivityTable&& rhs) noexcept;
+
     /// Default no-throw dtor
     ~ConnectivityTable() noexcept;
 

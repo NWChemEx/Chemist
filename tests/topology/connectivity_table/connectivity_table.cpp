@@ -68,10 +68,18 @@ TEST_CASE("ConnectivityTable") {
     }
 
     SECTION("Copy CTor") {
-        ConnectivityTable CopyOft3(t3);
-        REQUIRE(CopyOft3.natoms() == 3);
-        REQUIRE(CopyOft3.nbonds() == 0);
-        REQUIRE(CopyOft3.bonds() == bond_list_type{});
+        SECTION("Is defaulted") {
+            ConnectivityTable CopyOft(t);
+            REQUIRE(CopyOft.natoms() == 0);
+            REQUIRE(CopyOft.nbonds() == 0);
+            REQUIRE(CopyOft.bonds() == bond_list_type{});
+        }
+        SECTION("Has state") {
+            ConnectivityTable CopyOft3(t3);
+            REQUIRE(CopyOft3.natoms() == 3);
+            REQUIRE(CopyOft3.nbonds() == 0);
+            REQUIRE(CopyOft3.bonds() == bond_list_type{});
+        }
     }
 
     SECTION("Move CTor") {
@@ -82,6 +90,50 @@ TEST_CASE("ConnectivityTable") {
         REQUIRE(t3.natoms() == 0);
         REQUIRE(t3.nbonds() == 0);
         REQUIRE(t3.bonds() == bond_list_type{});
+    }
+
+    SECTION("Copy Assignment") {
+        SECTION("Self-assignment") {
+            ConnectivityTable CopyOft3(t3);
+            auto pCopyOft3 = &(CopyOft3 = CopyOft3);
+            REQUIRE(pCopyOft3 == &CopyOft3);
+            REQUIRE(CopyOft3 == t3);
+        }
+        SECTION("Default copy") {
+            ConnectivityTable CopyOft3(t3);
+            auto pCopyOft3 = &(CopyOft3 = ConnectivityTable{});
+            REQUIRE(pCopyOft3 == &CopyOft3);
+            REQUIRE(CopyOft3 == t);
+        }
+        SECTION("Normal Copy") {
+            ConnectivityTable CopyOft3;
+            auto pCopyOft3 = &(CopyOft3 = t3);
+            REQUIRE(pCopyOft3 == &CopyOft3);
+            REQUIRE(CopyOft3 == t3);
+        }
+    }
+
+    SECTION("Move Assignment") {
+        SECTION("Self-assignment") {
+            ConnectivityTable lhs(t3);
+            auto plhs = &(lhs = std::move(lhs));
+            REQUIRE(plhs == &lhs);
+            REQUIRE(lhs == t3);
+        }
+        SECTION("Default move") {
+            ConnectivityTable CopyOft3(t3);
+            auto pCopyOft3 = &(CopyOft3 = std::move(t));
+            REQUIRE(pCopyOft3 == &CopyOft3);
+            REQUIRE(CopyOft3 == ConnectivityTable{});
+        }
+        SECTION("Normal move") {
+            ConnectivityTable CopyOft3(t3);
+            ConnectivityTable lhs;
+            auto plhs = &(lhs = std::move(CopyOft3));
+            REQUIRE(plhs == &lhs);
+            REQUIRE(lhs == t3);
+            REQUIRE(CopyOft3 == t);
+        }
     }
 
     SECTION("set_n_atoms/natoms") {

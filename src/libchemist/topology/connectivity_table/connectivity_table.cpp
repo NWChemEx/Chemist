@@ -15,10 +15,28 @@ ConnectivityTable::ConnectivityTable(size_type natoms) :
   m_pimpl_(std::make_unique<pimpl_type>(natoms)) {}
 
 ConnectivityTable::ConnectivityTable(const ConnectivityTable& other) :
-  m_pimpl_(std::make_unique<pimpl_type>(*other.m_pimpl_)) {}
+  m_pimpl_(std::make_unique<pimpl_type>(other.m_pimpl_ ? *other.m_pimpl_ :
+                                                         pimpl_type{})) {}
 
 ConnectivityTable::ConnectivityTable(ConnectivityTable&& other) noexcept :
   m_pimpl_(std::move(other.m_pimpl_)) {}
+
+ConnectivityTable& ConnectivityTable::operator=(const ConnectivityTable& rhs) {
+    if(this == &rhs) return *this;
+    if(!rhs.m_pimpl_) {
+        m_pimpl_.reset();
+        return *this;
+    }
+    m_pimpl_ = std::make_unique<pimpl_type>(*rhs.m_pimpl_);
+    return *this;
+}
+
+ConnectivityTable& ConnectivityTable::operator=(
+  ConnectivityTable&& rhs) noexcept {
+    if(this == &rhs) return *this;
+    m_pimpl_ = std::move(rhs.m_pimpl_);
+    return *this;
+}
 
 ConnectivityTable::~ConnectivityTable() noexcept = default;
 
