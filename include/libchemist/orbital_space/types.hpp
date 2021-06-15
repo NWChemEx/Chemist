@@ -1,6 +1,7 @@
 #pragma once
 #include "libchemist/sparse_map/sparse_map.hpp"
 #include "libchemist/tensor/tensor.hpp"
+#include "libchemist/types.hpp"
 
 /** @file libchemist/orbital_space/types.hpp
  *
@@ -9,8 +10,7 @@
  */
 namespace libchemist::orbital_space::type {
 
-/// Type used for indexing and offsets
-using size = std::size_t;
+using namespace libchemist::type;
 
 /** @brief Type of a wrapped tensor.
  *
@@ -18,7 +18,7 @@ using size = std::size_t;
  *   because the function/algorithm works with any tensor. If it does not we
  *   explicitly specialize for each tensor type that it does work for.
  */
-using tensor_wrapper = tensor::UnieversalTensorWrapper;
+using tensor_wrapper = libchemist::tensor::UniversalTensorWrapper;
 
 /** @brief Type of the sparse affiliated with dependent spaces.
  *

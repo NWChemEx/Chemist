@@ -5,9 +5,9 @@
 
 using namespace libchemist::tensor;
 
-TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", tensor_variant_t) {
+TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
     auto& world    = TA::get_default_world();
-    using TWrapper = TensorWrapper<tensor_variant_t>;
+    using TWrapper = TensorWrapper<type::tensor_variant>;
     using t_type   = TestType;
 
     t_type vec_data(world, {1.0, 2.0, 3.0});
@@ -95,9 +95,9 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", tensor_variant_t) {
     }
 }
 
-TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", tot_variant_t) {
+TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tot_variant) {
     auto& world      = TA::get_default_world();
-    using TWrapper   = TensorWrapper<tot_variant_t>;
+    using TWrapper   = TensorWrapper<type::tot_variant>;
     using t_type     = TestType;
     using tile_type  = typename TestType::value_type;
     using inner_tile = typename tile_type::value_type;

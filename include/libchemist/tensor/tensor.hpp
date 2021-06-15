@@ -5,10 +5,10 @@
 #include <variant>
 namespace libchemist::tensor {
 
-using UniversalTensorWrapper = TensorWrapper<all_tensor_variant_t>;
+using UniversalTensorWrapper = TensorWrapper<type::all_tensor_variant>;
 
-using SparseTensorWrapper = TensorWrapper<tensor_variant_t>;
+using SparseTensorWrapper = TensorWrapper<type::tensor_variant>;
 
-using ToTWrapper = TensorWrapper<tot_variant_t>;
+using ToTWrapper = TensorWrapper<type::tot_variant>;
 
 } // namespace libchemist::tensor
