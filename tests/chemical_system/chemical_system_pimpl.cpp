@@ -57,8 +57,8 @@ TEST_CASE("ChemicalSystemPIMPL") {
         }
 
         SECTION("const_ao_basis_ref_t") {
-            using t    = typename chem_sys_pimpl_t::const_ao_basis_t;
-            using corr = typename chem_sys_t::const_ao_basis_t;
+            using t    = typename chem_sys_pimpl_t::const_ao_basis_ref_t;
+            using corr = typename chem_sys_t::const_ao_basis_ref_t;
             STATIC_REQUIRE(std::is_same_v<t, corr>);
         }
 
@@ -122,7 +122,7 @@ TEST_CASE("ChemicalSystemPIMPL") {
         }
 
         SECTION("Non-default") {
-            chem_sys_pimpl_t pimpl(h, bs, v);
+            chem_sys_pimpl_t pimpl(h, aos, v);
             auto copy = pimpl.clone();
             REQUIRE(*copy == pimpl);
         }
@@ -197,7 +197,7 @@ TEST_CASE("ChemicalSystemPIMPL") {
         }
 
         SECTION("Has value") {
-            chem_sys_pimpl_t pimpl(h, v);
+            chem_sys_pimpl_t pimpl(h, aos, v);
             REQUIRE(pimpl.external_electrostatic_potential() == v);
         }
 
@@ -216,7 +216,7 @@ TEST_CASE("ChemicalSystemPIMPL") {
         }
 
         SECTION("Has value") {
-            const chem_sys_pimpl_t pimpl(h, v);
+            const chem_sys_pimpl_t pimpl(h, aos, v);
             REQUIRE(pimpl.external_electrostatic_potential() == v);
         }
     }
@@ -293,7 +293,7 @@ TEST_CASE("ChemicalSystemPIMPL") {
             }
 
             SECTION("RHS has a different potential") {
-                chem_sys_pimpl_t rhs(default_mol, v);
+                chem_sys_pimpl_t rhs(default_mol, default_aos, v);
                 REQUIRE_FALSE(lhs == rhs);
             }
 
@@ -318,8 +318,7 @@ TEST_CASE("ChemicalSystemPIMPL") {
             }
 
             SECTION("RHS has a different potential") {
-                chem_sys_pimpl_t rhs(h,
-                                     default_v);
+                chem_sys_pimpl_t rhs(h, aos, default_v);
                 REQUIRE_FALSE(lhs == rhs);
             }
         }

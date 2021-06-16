@@ -108,7 +108,7 @@ TEST_CASE("ChemicalSystem") {
             ChemicalSystem sys(h);
             REQUIRE(sys.molecule() == h);
             REQUIRE(sys.basis_set() == default_aos);
-            REQUIRE(sys.external_electrostatic_potential() == v);
+            REQUIRE(sys.external_electrostatic_potential() == default_v);
         }
         SECTION("Default potential") {
             ChemicalSystem sys(h, aos);
@@ -203,7 +203,7 @@ TEST_CASE("ChemicalSystem") {
     }
 
     SECTION("external_electrostatic_potential()") {
-        ChemicalSystem sys(h, v);
+        ChemicalSystem sys(h, aos, v);
 
         SECTION("value") {
             REQUIRE(sys.external_electrostatic_potential() == v);
@@ -223,7 +223,7 @@ TEST_CASE("ChemicalSystem") {
     }
 
     SECTION("external_electrostatic_potential() const") {
-        ChemicalSystem sys(h, v);
+        ChemicalSystem sys(h, aos, v);
 
         SECTION("value") {
             REQUIRE(std::as_const(sys).external_electrostatic_potential() == v);
@@ -254,7 +254,7 @@ TEST_CASE("ChemicalSystem") {
 
             SECTION("RHS has different aos") {
                 ChemicalSystem rhs(default_mol, aos);
-                REQURIE(lhs_hash != sde::hash_objects(rhs));
+                REQUIRE(lhs_hash != sde::hash_objects(rhs));
             }
 
             SECTION("RHS has different potential") {
@@ -288,7 +288,7 @@ TEST_CASE("ChemicalSystem") {
             SECTION("RHS has different aos") {
                 ChemicalSystem rhs(default_mol, aos);
                 REQUIRE_FALSE(lhs == rhs);
-                REQURIE(lhs != rhs);
+                REQUIRE(lhs != rhs);
             }
 
             SECTION("RHS has different potential") {
