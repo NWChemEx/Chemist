@@ -27,7 +27,6 @@ jobs:
       run: >
         .github/workflows/scripts/get_dependencies.sh gcc gcovr
         openblas cblas lapacke scalapack boost eigen3 openmpi
-    - name: Look
     - name: Build and test
       env:
         cmake_version: ${{ matrix.cmake_version }}
