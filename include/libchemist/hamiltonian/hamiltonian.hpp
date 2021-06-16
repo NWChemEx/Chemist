@@ -29,14 +29,12 @@ private:
 public:
 
 
-#if 0
   template <typename... Args,
     typename = std::enable_if_t< detail_::all_are_operator_v<Args...> > 
   >
-  Hamiltonian( Args&&... args ) {
+  Hamiltonian( Args&&... args ) : Hamiltonian() {
     (add_term(args),...);
   }
-#endif
 
   Hamiltonian();
   Hamiltonian( const Hamiltonian& other );
