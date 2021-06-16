@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        cmake_version: [3.17]
+        cmake_version: [3.20.4]
         gcc_version: [9]
 
     steps:
