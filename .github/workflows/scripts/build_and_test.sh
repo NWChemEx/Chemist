@@ -26,9 +26,6 @@ cmake_command=cmake #"${cmake_root}/bin/cmake"
 ctest_command=ctest #"${cmake_root}/bin/ctest"
 toolchain_file=$(pwd)/toolchain.cmake
 
-which cmake
-cmake --version
-
 #Step 1: Write toolchain.cmake
 # TODO: Do we really need all this? I Just took what was in all the old files
 #       and combined it here.
