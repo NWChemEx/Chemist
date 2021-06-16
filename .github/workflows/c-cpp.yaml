@@ -19,13 +19,15 @@ jobs:
     - uses: actions/setup-python@v1
       with:
          python-version: '3.x'
+    - uses: lukka/get-cmake@v3.20.4
     - name: Get dependencies
       env:
         cmake_version: ${{ matrix.cmake_version }}
         gcc_version: ${{ matrix.gcc_version }}
       run: >
-        .github/workflows/scripts/get_dependencies.sh gcc gcovr cmake
+        .github/workflows/scripts/get_dependencies.sh gcc gcovr
         openblas cblas lapacke scalapack boost eigen3 openmpi
+    - name: Look
     - name: Build and test
       env:
         cmake_version: ${{ matrix.cmake_version }}
