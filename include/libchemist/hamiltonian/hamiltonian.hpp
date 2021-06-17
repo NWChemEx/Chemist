@@ -23,7 +23,7 @@ public:
     typename = std::enable_if_t< detail_::all_are_operator_v<Args...> > 
   >
   Hamiltonian( Args&&... args ) : Hamiltonian() {
-    (add_term(args),...);
+    add_terms( std::forward<Args>(args)... );
   }
 
   Hamiltonian() noexcept;
@@ -39,13 +39,17 @@ public:
   template <typename OpType>
   detail_::enable_if_operator_t< OpType, Hamiltonian& > 
     add_term( const OpType& op ) {
-    static_assert( detail_::is_density_independent_operator_v<OpType>,
-      "Hamiltonian Only Takes Density Independent Operators, For Density "
-      "Dependent Operators, See Fock");
 
     constexpr auto NBODY = OpType::n_body;
     add_term_<NBODY>( typeid(OpType).hash_code(), std::make_shared<OpType>(op) );
 
+    return *this;
+  }
+
+  template <typename... Ops>
+  std::enable_if_t< detail_::all_are_operator_v<Ops...>, Hamiltonian& >
+    add_terms( Ops&&... ops ) {
+    (add_term( std::forward<Ops>(ops) ),...);
     return *this;
   }
 
