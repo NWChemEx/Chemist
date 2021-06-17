@@ -1,7 +1,7 @@
 #pragma once
 #include <cstddef>
 #include <typeinfo>
-#include <bphash/Hasher.hpp>
+#include <sde/detail_/memoization.hpp>
 
 namespace libchemist {
 
@@ -11,8 +11,7 @@ struct Operator {
   inline static constexpr std::size_t n_body = N;
 
   /// Hash function
-  BPHASH_DECLARE_HASHING_FRIENDS
-  inline void hash(bphash::Hasher& h) const { hash_impl(h); }
+  inline void hash(sde::Hasher& h) const { hash_impl(h); }
 
   template <typename OpType>
   inline bool compare( const OpType& other ) const noexcept {
@@ -24,7 +23,7 @@ struct Operator {
 
 protected:
 
-  virtual void hash_impl( bphash::Hasher& h ) const = 0;
+  virtual void hash_impl( sde::Hasher& h ) const = 0;
   virtual bool compare_impl( std::size_t hash ) const noexcept = 0;
 
 };
@@ -47,7 +46,7 @@ struct DensityDependentOperator : public Operator<N> { };
 
 #define REGISTER_OPERATOR(NAME,OpType)           \
   struct NAME : public OpType {                  \
-    void hash_impl( bphash::Hasher& h )          \
+    void hash_impl( sde::Hasher& h )             \
       const override { return h(*this); }        \
     bool compare_impl( std::size_t hash )        \
       const noexcept override {                  \
