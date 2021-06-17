@@ -1,6 +1,6 @@
 #pragma once
 #include <cstddef>
-#include <typeinfo>
+#include <typeindex>
 #include <sde/detail_/memoization.hpp>
 
 namespace libchemist {
@@ -16,7 +16,7 @@ struct Operator {
   template <typename OpType>
   inline bool compare( const OpType& other ) const noexcept {
     if constexpr (OpType::n_body != N) return false;
-    else return compare_impl( typeid(OpType).hash_code() );
+    else return compare_impl( typeid(OpType) );
   }
 
   virtual ~Operator() noexcept = default;
@@ -24,7 +24,7 @@ struct Operator {
 protected:
 
   virtual void hash_impl( sde::Hasher& h ) const = 0;
-  virtual bool compare_impl( std::size_t hash ) const noexcept = 0;
+  virtual bool compare_impl( std::type_index index ) const noexcept = 0;
 
 };
 
@@ -44,14 +44,14 @@ template <std::size_t N>
 struct DensityDependentOperator : public Operator<N> { };
 
 
-#define REGISTER_OPERATOR(NAME,OpType)           \
-  struct NAME : public OpType {                  \
-    void hash_impl( sde::Hasher& h )             \
-      const override { return h(*this); }        \
-    bool compare_impl( std::size_t hash )        \
-      const noexcept override {                  \
-      return hash == typeid(NAME).hash_code();   \
-    }                                            \
+#define REGISTER_OPERATOR(NAME,OpType)                 \
+  struct NAME : public OpType {                        \
+    void hash_impl( sde::Hasher& h )                   \
+      const override { return h(*this); }              \
+    bool compare_impl( std::type_index index )         \
+      const noexcept override {                        \
+      return index == std::type_index(typeid(NAME));   \
+    }                                                  \
   };
 
 REGISTER_OPERATOR( ElectronKinetic,         Operator<1> );

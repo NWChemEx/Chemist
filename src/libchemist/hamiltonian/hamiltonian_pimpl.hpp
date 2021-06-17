@@ -23,7 +23,7 @@ class HamiltonianPIMPL {
 
   template <typename OpType>
   using term_container_type = 
-    std::multimap< std::size_t, std::shared_ptr<OpType> >;
+    std::multimap< std::type_index, std::shared_ptr<OpType> >;
 
   template <std::size_t N>
   using nbody_container = term_container_type<Operator<N>>;
@@ -40,8 +40,8 @@ public:
 
 
   template <std::size_t N>
-  void add_term( std::size_t hash, std::shared_ptr<Operator<N>>&& op ) {
-    std::get<N-1>(terms_).insert( {hash, std::move(op)} );
+  void add_term( std::type_index index, std::shared_ptr<Operator<N>>&& op ) {
+    std::get<N-1>(terms_).insert( {index, std::move(op)} );
   }
 
 
@@ -49,8 +49,8 @@ public:
   using get_return_type = Hamiltonian::get_return_type<OpType>;
 
   template <std::size_t N>
-  get_return_type<Operator<N>> get_terms( std::size_t hash ) const {
-    auto [b,e] = std::get<N-1>(terms_).equal_range( hash );
+  get_return_type<Operator<N>> get_terms( std::type_index index ) const {
+    auto [b,e] = std::get<N-1>(terms_).equal_range( index );
     const std::size_t n_terms = std::distance(b,e);
     get_return_type<Operator<N>> ret_terms; ret_terms.reserve(n_terms);
     for( auto it = b; it != e; ++it )
@@ -59,8 +59,8 @@ public:
   }
 
   template <std::size_t N>
-  bool has_term( std::size_t hash ) const noexcept {
-    return std::get<N-1>(terms_).count(hash);
+  bool has_term( std::type_index index ) const noexcept {
+    return std::get<N-1>(terms_).count(index);
   }
 
 
