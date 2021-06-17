@@ -44,6 +44,7 @@ public:
     std::get<N-1>(terms_).insert( {hash, std::move(op)} );
   }
 
+#if 0
   template <std::size_t N>
   inline const nbody_container<N>& terms() const {
     return std::get<N-1>(terms_);
@@ -51,6 +52,20 @@ public:
   template <std::size_t N>
   inline nbody_container<N>& terms() {
     return std::get<N-1>(terms_);
+  }
+#endif
+
+  template <typename OpType>
+  using get_return_type = Hamiltonian::get_return_type<OpType>;
+
+  template <std::size_t N>
+  get_return_type<Operator<N>> get_terms( std::size_t hash ) {
+    auto [b,e] = std::get<N-1>(terms_).equal_range( hash );
+    const std::size_t n_terms = std::distance(b,e);
+    get_return_type<Operator<N>> ret_terms; ret_terms.reserve(n_terms);
+    for( auto it = b; it != e; ++it )
+      ret_terms.emplace_back(it->second);
+    return ret_terms;
   }
 
 

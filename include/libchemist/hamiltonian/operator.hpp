@@ -17,6 +17,7 @@ struct Operator {
   BPHASH_DECLARE_HASHING_FRIENDS
   inline void hash(bphash::Hasher& h) const { h(type_hash_); }
 
+  virtual ~Operator() noexcept = default;
 protected:
 
   std::size_t type_hash_ = 0;
@@ -25,6 +26,11 @@ protected:
 template <std::size_t N>
 bool operator==( const Operator<N>& lhs, const Operator<N>& rhs ) {
   return lhs.type_hash() == rhs.type_hash();
+}
+
+template <std::size_t N, std::size_t M>
+std::enable_if_t<N!=M,bool> operator==( const Operator<N>& lhs, const Operator<M>& rhs) {
+  return false;
 }
 
 
