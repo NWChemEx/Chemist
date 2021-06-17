@@ -44,16 +44,6 @@ public:
     std::get<N-1>(terms_).insert( {hash, std::move(op)} );
   }
 
-#if 0
-  template <std::size_t N>
-  inline const nbody_container<N>& terms() const {
-    return std::get<N-1>(terms_);
-  }
-  template <std::size_t N>
-  inline nbody_container<N>& terms() {
-    return std::get<N-1>(terms_);
-  }
-#endif
 
   template <typename OpType>
   using get_return_type = Hamiltonian::get_return_type<OpType>;

@@ -18,18 +18,6 @@ public:
 
   static constexpr std::size_t max_nbody = 2;
 
-private:
-
-
-  template <typename OpType>
-  using term_container_type = 
-    std::multimap< std::size_t, std::shared_ptr<OpType> >;
-
-  template <std::size_t N>
-  using nbody_container = term_container_type<Operator<N>>;
-
-public:
-
 
   template <typename... Args,
     typename = std::enable_if_t< detail_::all_are_operator_v<Args...> > 
@@ -62,10 +50,6 @@ public:
     return *this;
   }
 
-#if 0
-  template <std::size_t N> const nbody_container<N>& terms() const; 
-  template <std::size_t N> nbody_container<N>& terms(); 
-#else
   template <typename OpType>
   using get_return_type = typename std::vector<std::shared_ptr<OpType>>;
 
@@ -78,7 +62,6 @@ public:
       ret_terms.begin(), [](auto ptr){ return std::dynamic_pointer_cast<OpType>(ptr); } );
     return ret_terms;
   }
-#endif
 
 private:
 
@@ -92,12 +75,6 @@ private:
 
 };
 
-#if 0
-extern template const Hamiltonian::nbody_container<1>& Hamiltonian::terms<1>() const;
-extern template const Hamiltonian::nbody_container<2>& Hamiltonian::terms<2>() const;
-extern template Hamiltonian::nbody_container<1>& Hamiltonian::terms<1>();
-extern template Hamiltonian::nbody_container<2>& Hamiltonian::terms<2>();
-#endif
 
 extern template void Hamiltonian::add_term_<1>(std::size_t,std::shared_ptr<Operator<1>>&&);
 extern template void Hamiltonian::add_term_<2>(std::size_t,std::shared_ptr<Operator<2>>&&);
