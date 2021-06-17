@@ -47,5 +47,14 @@ template <typename... Ops>
 inline constexpr bool all_are_density_independent_operator_v = 
   std::conjunction_v< is_density_independent_operator<Ops>... >;
 
+
+template <typename OpType, typename U = void>
+struct enable_if_operator {
+  using type = std::enable_if_t< is_operator_v<OpType>, U >;
+};
+
+template <typename OpType, typename U = void>
+using enable_if_operator_t = typename enable_if_operator<OpType,U>::type;
+
 }
 }

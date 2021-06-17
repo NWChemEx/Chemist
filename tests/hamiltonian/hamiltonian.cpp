@@ -12,6 +12,7 @@ TEST_CASE("Hamiltonian Class") {
 
   SECTION("One Operator Construction") {
     Hamiltonian ham( ElectronKinetic{} );
+    CHECK( ham.has_term<ElectronKinetic>() );
     CHECK( ham.get_terms<ElectronKinetic>().size() == 1 );
   }
 

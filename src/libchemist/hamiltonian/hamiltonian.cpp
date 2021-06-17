@@ -29,8 +29,13 @@ void Hamiltonian::add_term_( std::size_t hash, std::shared_ptr<Operator<N>>&& op
 }
 
 template <std::size_t N>
-Hamiltonian::get_return_type<Operator<N>> Hamiltonian::get_terms_( std::size_t hash ) {
+Hamiltonian::get_return_type<Operator<N>> Hamiltonian::get_terms_( std::size_t hash ) const {
   return pimpl_->get_terms<N>(hash);
+}
+
+template <std::size_t N>
+bool Hamiltonian::has_term_( std::size_t hash ) const noexcept {
+  return pimpl_->has_term<N>(hash);
 }
 
 
@@ -38,7 +43,10 @@ Hamiltonian::get_return_type<Operator<N>> Hamiltonian::get_terms_( std::size_t h
 template void Hamiltonian::add_term_<1>(std::size_t,std::shared_ptr<Operator<1>>&&);
 template void Hamiltonian::add_term_<2>(std::size_t,std::shared_ptr<Operator<2>>&&);
 
-template Hamiltonian::get_return_type<Operator<1>> Hamiltonian::get_terms_<1>(std::size_t);
-template Hamiltonian::get_return_type<Operator<2>> Hamiltonian::get_terms_<2>(std::size_t);
+template Hamiltonian::get_return_type<Operator<1>> Hamiltonian::get_terms_<1>(std::size_t) const;
+template Hamiltonian::get_return_type<Operator<2>> Hamiltonian::get_terms_<2>(std::size_t) const;
+
+template bool Hamiltonian::has_term_<1>(std::size_t) const noexcept;
+template bool Hamiltonian::has_term_<2>(std::size_t) const noexcept;
 
 }
