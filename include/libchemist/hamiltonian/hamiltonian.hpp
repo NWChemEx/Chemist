@@ -26,7 +26,7 @@ public:
     (add_term(args),...);
   }
 
-  Hamiltonian();
+  Hamiltonian() noexcept;
   Hamiltonian( const Hamiltonian& other );
   Hamiltonian( Hamiltonian&& other ) noexcept;
   ~Hamiltonian() noexcept;
