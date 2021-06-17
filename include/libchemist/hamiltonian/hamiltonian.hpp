@@ -44,8 +44,7 @@ public:
       "Dependent Operators, See Fock");
 
     constexpr auto NBODY = OpType::n_body;
-    add_term_<NBODY>( typeid(OpType).hash_code(), 
-      std::make_shared<Operator<NBODY>>(op) );
+    add_term_<NBODY>( typeid(OpType).hash_code(), std::make_shared<OpType>(op) );
 
     return *this;
   }
