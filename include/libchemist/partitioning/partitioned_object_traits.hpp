@@ -1,5 +1,5 @@
 #pragma once
-
+#include <stdexcept>
 namespace libchemist::partitioning {
 
 template<typename T>
@@ -17,21 +17,66 @@ class Partition;
  *    the object.
  *  - member `operator[](size_type)` which can be used to retrieve the an
  *    element of the object by offset
+ *  - type `value_type` is comparable via `operator==`.
  *
  *  If any of the above is not true then using an object of type `Obj2Partition`
  *  with the Partition/Partitioning classes requires specializing
  *  `PartitionedObjectTraits` for type `Obj2Partition`.
+ *
+ *  @tparam Obj2Partition The type of the object being partitioned. To use the
+ *                        primary template @p Obj2Partition must satisfy the
+ *                        criteria listed in the description. Otherwise use of
+ *                        Partitioning and Partition with @p Obj2Partition
+ *                        requires specializing PartitionedObjectTraits.
  */
 template<typename Obj2Partition>
 struct PartitionedObjectTraits {
-    using size_type       = typename Obj2Partition::size_type;
-    using value_type      = typename Obj2Partition::value_type;
-    using reference_type  = value_type&;
-    using const_reference = const value_type&;
-    using partition_type  = Partition<Obj2Partition>;
+    /// Type that @p Obj2Partition uses for indexing and offsets
+    using size_type = typename Obj2Partition::size_type;
 
+    /// Unqualified type of the elements in a container of type @p Obj2Partition
+    using value_type = typename Obj2Partition::value_type;
+
+    /// Type of a read/write reference to an element in @p Obj2Partition
+    using reference_type = value_type&;
+
+    /// Type of a read-only reference to an element in @p Obj2Partition
+    using const_reference = const value_type&;
+
+    /// Type of each partition in the partitioning
+    using partition_type = Partition<Obj2Partition>;
+
+    /** @brief Defines the API so Partition/Partitioning can get the number of
+     *         elements in the object.
+     *
+     *  The primary template assumes that @p Obj2Partition defines a member
+     *  function `size`. This function simply calls that member and returns the
+     *  result.
+     *
+     *  @param[in] obj The object that we want to know the size of.
+     *
+     *  @return The number of elements in @p obj
+     *
+     *  @throw ??? Throws if @p Obj2Partition throws. Same throw guarantee.
+     */
     static size_type size(const Obj2Partition& obj) { return obj.size(); }
 
+    /** @brief Defines the API for getting the i-th element in @p obj
+     *
+     *  This function checks that @p i is less than `size(obj)`, throwing if it
+     *  is not, and then defers to @p Obj2Partition 's operator[].
+     *
+     *  @param[in] obj The object we are retrieving an element from.
+     *  @param[in] i The offset of the desired element. @p i should be in the
+     *               range [0, size(obj)).
+     *
+     *  @return A read-only reference to the i-th element in @p obj.
+     *
+     *  @throws std::out_of_range if @p i is not in the range [0,size(obj)).
+     *                            Strong throw guarantee.
+     *  @throws ??? if @p Obj2Partition 's operator[] throws or if size(obj)
+     *              throws. In either case, same throw guarantee.
+     */
     static const_reference get_elem_i(const Obj2Partition& obj, size_type i) {
         if(i < size(obj)) return obj[i];
 
@@ -40,6 +85,22 @@ struct PartitionedObjectTraits {
                                 std::to_string(size(obj)) + " elements");
     }
 
+    /** @brief Defines the API for getting the offset of an element @p elem.
+     *
+     *  This function loops over the elements in @p obj, using `get_elem_i`, and
+     *  compares the elements to @p elem. If a match is found the index of the
+     *  match is returned. If no match is found an exception is raised.
+     *
+     *  @param[in] obj The object we are looking for @p elem in.
+     *  @param[in] elem The object we are searching @p obj for.
+     *
+     *  @return The index of @p elem in @p obj.
+     *
+     *  @throw std::out_of_range if @p elem is not in @p obj. Strong throw
+     *                           guarantee.
+     *  @throw ??? if `size(obj)`, `get_elem_i(obj,n)` (n less than `size(obj)`,
+     *             or the `value_type::operator==` throws. Same throw guarantee.
+     */
     static size_type get_index(const Obj2Partition& obj, const_reference elem) {
         for(size_type i = 0; i < size(obj); ++i)
             if(get_elem_i(obj, i) == elem) return i;
