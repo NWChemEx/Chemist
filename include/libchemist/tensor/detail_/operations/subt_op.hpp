@@ -10,7 +10,7 @@ public:
     SubtOp(LHSType& lhs, RHSType& rhs) : m_lhs_(lhs), m_rhs_(rhs) {}
 
     template<typename ResultType>
-    auto evaluate(ResultType&& r);
+    auto variant(ResultType&& r);
 
 private:
     LHSType& m_lhs_;
@@ -24,9 +24,9 @@ auto operator-(OpLayer<LHSType>& lhs, OpLayer<RHSType>& rhs) {
 
 template<typename LHSType, typename RHSType>
 template<typename ResultType>
-auto SubtOp<LHSType, RHSType>::evaluate(ResultType&& r) {
-    auto lhs_variant     = m_lhs_.evaluate(r);
-    auto rhs_variant     = m_rhs_.evaluate(r);
+auto SubtOp<LHSType, RHSType>::variant(ResultType&& r) {
+    auto lhs_variant     = m_lhs_.variant(r);
+    auto rhs_variant     = m_rhs_.variant(r);
     using lhs_variant_t  = std::decay_t<decltype(lhs_variant)>;
     using rhs_variant_t  = std::decay_t<decltype(rhs_variant)>;
     using result_variant = subt_variant_t<lhs_variant_t, rhs_variant_t>;

@@ -61,15 +61,15 @@ public:
     /// Type of the variant this wrapper is templated on
     using variant_type = VariantType;
 
-    /// String-like type used to annotate a tensor.
-    using annotation_type = std::string;
-
     /// Type of a wrapper around a labeled tensor
     using labeled_tensor_type = detail_::LabeledTensorWrapper<my_type>;
 
     /// Type of a wrapper around a read-only labeled tensor
     using const_labeled_tensor_type =
       detail_::LabeledTensorWrapper<const my_type>;
+
+    /// String-like type used to annotate a tensor.
+    using annotation_type = typename labeled_tensor_type::annotation_type;
 
     /** @brief Default CTor
      *
@@ -218,8 +218,33 @@ public:
      */
     std::ostream& print(std::ostream& os) const;
 
-    variant_type& tensor() { return m_tensor_; }
-    const variant_type& tensor() const { return m_tensor_; }
+protected:
+    friend labeled_tensor_type;
+    friend const_labeled_tensor_type;
+
+    /** @brief Returns the wrapped variant.
+     *
+     *  This function is used by LabeledTensorWrapper to get the variant. In
+     *  general users of the TensorWrapper class shouldn't be working with the
+     *  variant, which is why the function is not part of the public API.
+     *
+     *  @return A modifiable reference to the wrapped variant.
+     *
+     *  @throw None No throw guarantee.
+     */
+    variant_type& variant() { return m_tensor_; }
+
+    /** @brief Returns the wrapped variant.
+     *
+     *  This function is used by LabeledTensorWrapper to get the variant. In
+     *  general users of the TensorWrapper class shouldn't be working with the
+     *  variant, which is why the function is not part of the public API.
+     *
+     *  @return A read-only reference to the wrapped variant.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const variant_type& variant() const { return m_tensor_; }
 
 private:
     /** @brief Determines if we're wrapping a Tensor-of-tensors or not.

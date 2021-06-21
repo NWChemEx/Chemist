@@ -169,49 +169,49 @@ TEMPLATE_LIST_TEST_CASE("OpWrapper", "", tensor_variant_t) {
     //     }
     // }
 
-    // SECTION("operator*(double)") {
-    //     SECTION("vector") {
-    //         result("i") = lvec * 3.0;
-    //         t_type corr(world, {3.0, 6.0, 9.0});
-    //         auto& rv = result.get<t_type>();
-    //         REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
-    //     }
-    //     SECTION("matrix") {
-    //         result("i,j") = lmat * 3.0;
-    //         t_type corr(world, {{3.0, 6.0}, {9.0, 12.0}});
-    //         auto& rv = result.get<t_type>();
-    //         REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
-    //     }
-    //     SECTION("rank-3 tensor") {
-    //         result("i,j,k") = lt3 * 3.0;
-    //         t_type corr(
-    //           world, {{{3.0, 6.0}, {9.0, 12.0}}, {{15.0, 18.0},
-    //           {21.0, 24.0}}});
-    //         auto& rv = result.get<t_type>();
-    //         REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
-    //     }
-    // }
+    SECTION("operator*(double)") {
+        SECTION("vector") {
+            result("i") = lvec * 3.0;
+            t_type corr(world, {3.0, 6.0, 9.0});
+            auto& rv = result.get<t_type>();
+            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+        }
+        SECTION("matrix") {
+            result("i,j") = lmat * 3.0;
+            t_type corr(world, {{3.0, 6.0}, {9.0, 12.0}});
+            auto& rv = result.get<t_type>();
+            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+        }
+        SECTION("rank-3 tensor") {
+            result("i,j,k") = lt3 * 3.0;
+            t_type corr(
+              world, {{{3.0, 6.0}, {9.0, 12.0}}, {{15.0, 18.0},
+              {21.0, 24.0}}});
+            auto& rv = result.get<t_type>();
+            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+        }
+    }
 
-    // SECTION("double * OpWrapper") {
-    //     SECTION("vector") {
-    //         result("i") = 3.0 * lvec;
-    //         t_type corr(world, {3.0, 6.0, 9.0});
-    //         auto& rv = result.get<t_type>();
-    //         REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
-    //     }
-    //     SECTION("matrix") {
-    //         result("i,j") = 3.0 * lmat;
-    //         t_type corr(world, {{3.0, 6.0}, {9.0, 12.0}});
-    //         auto& rv = result.get<t_type>();
-    //         REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
-    //     }
-    //     SECTION("rank-3 tensor") {
-    //         result("i,j,k") = 3.0 * lt3;
-    //         t_type corr(
-    //           world, {{{3.0, 6.0}, {9.0, 12.0}}, {{15.0, 18.0},
-    //           {21.0, 24.0}}});
-    //         auto& rv = result.get<t_type>();
-    //         REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
-    //     }
-    // }
+    SECTION("double * OpWrapper") {
+        SECTION("vector") {
+            result("i") = 3.0 * lvec;
+            t_type corr(world, {3.0, 6.0, 9.0});
+            auto& rv = result.get<t_type>();
+            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+        }
+        SECTION("matrix") {
+            result("i,j") = 3.0 * lmat;
+            t_type corr(world, {{3.0, 6.0}, {9.0, 12.0}});
+            auto& rv = result.get<t_type>();
+            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+        }
+        SECTION("rank-3 tensor") {
+            result("i,j,k") = 3.0 * lt3;
+            t_type corr(
+              world, {{{3.0, 6.0}, {9.0, 12.0}}, {{15.0, 18.0},
+              {21.0, 24.0}}});
+            auto& rv = result.get<t_type>();
+            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+        }
+    }
 }

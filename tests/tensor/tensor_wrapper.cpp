@@ -18,6 +18,29 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", tensor_variant_t) {
     TWrapper mat(mat_data);
     TWrapper t3(t3_data);
 
+    SECTION("Typedefs") {
+        SECTION("variant_type") {
+            using type = typename TWrapper::variant_type;
+            using corr = tensor_variant_t;
+            STATIC_REQUIRE(std::is_same_v<type, corr>);
+        }
+        SECTION("annotation_type"){
+            using type = typename TWrapper::annotation_type;
+            using corr = std::string;
+            STATIC_REQUIRE(std::is_same_v<type, corr>);
+        }
+        SECTION("labeled_tensor_type") {
+            using type = typename TWrapper::labeled_tensor_type;
+            using corr = detail_::LabeledTensorWrapper<TWrapper>;
+            STATIC_REQUIRE(std::is_same_v<type, corr>);
+        }
+        SECTION("const_labeled_tensor_type") {
+            using type = typename TWrapper::const_labeled_tensor_type;
+            using corr = detail_::LabeledTensorWrapper<const TWrapper>;
+            STATIC_REQUIRE(std::is_same_v<type, corr>);
+        }
+    }
+
     SECTION("Wrapping CTor") {
         REQUIRE(vec.rank() == 1);
         REQUIRE(mat.rank() == 2);
@@ -113,6 +136,29 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", tot_variant_t) {
     TWrapper mat(mat_data);
     TWrapper t3(t3_data);
     TWrapper t3_2(t3_2_data);
+
+    SECTION("Typedefs") {
+        SECTION("variant_type") {
+            using type = typename TWrapper::variant_type;
+            using corr = tot_variant_t;
+            STATIC_REQUIRE(std::is_same_v<type, corr>);
+        }
+        SECTION("annotation_type"){
+            using type = typename TWrapper::annotation_type;
+            using corr = std::string;
+            STATIC_REQUIRE(std::is_same_v<type, corr>);
+        }
+        SECTION("labeled_tensor_type") {
+            using type = typename TWrapper::labeled_tensor_type;
+            using corr = detail_::LabeledTensorWrapper<TWrapper>;
+            STATIC_REQUIRE(std::is_same_v<type, corr>);
+        }
+        SECTION("const_labeled_tensor_type") {
+            using type = typename TWrapper::const_labeled_tensor_type;
+            using corr = detail_::LabeledTensorWrapper<const TWrapper>;
+            STATIC_REQUIRE(std::is_same_v<type, corr>);
+        }
+    }
 
     SECTION("Wrapping CTor") {
         REQUIRE(mat.rank() == 2);

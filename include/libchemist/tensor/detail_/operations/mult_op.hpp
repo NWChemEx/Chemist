@@ -12,7 +12,7 @@ public:
     MultOp(LHSType& lhs, RHSType& rhs) : m_lhs_(lhs), m_rhs_(rhs) {}
 
     template<typename ResultType>
-    auto evaluate(ResultType&& r);
+    auto variant(ResultType&& r);
 
 private:
     LHSType& m_lhs_;
@@ -26,10 +26,10 @@ auto operator*(OpLayer<LHSType>& lhs, OpLayer<RHSType>& rhs) {
 
 template<typename LHSType, typename RHSType>
 template<typename ResultType>
-auto MultOp<LHSType, RHSType>::evaluate(ResultType&& r) {
-    auto lhs_variant    = m_lhs_.evaluate(r);
-    auto rhs_variant    = m_rhs_.evaluate(r);
-    auto result_variant = r.evaluate(r);
+auto MultOp<LHSType, RHSType>::variant(ResultType&& r) {
+    auto lhs_variant    = m_lhs_.variant(r);
+    auto rhs_variant    = m_rhs_.variant(r);
+    auto result_variant = r.variant(r);
     // TODO ensure LHSType and RHSType are LabeledTensorWrapper instances
     using result_variant_t = std::decay_t<decltype(result_variant)>;
     auto l                 = [&](auto&& result) {

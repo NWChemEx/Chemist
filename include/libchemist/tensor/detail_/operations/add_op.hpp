@@ -4,17 +4,29 @@
 
 namespace libchemist::tensor::detail_ {
 
+/** @brief Implements operator+ for the operation layer.
+ *
+ *  This class is charged with determining what:
+ *  ```
+ *  <expr> + <expr>
+ *  ```
+ *  works out to. More specifically given two pieces of an expression this class
+ *  is charged with adding the variants contained in those pieces.
+ *
+ *  @tparam LHSType The type of the object on the left side of operator+
+ *  @tparam RHSType The type of the object on the right side of operator+
+ */
 template<typename LHSType, typename RHSType>
 class AddOp : public OpLayer<AddOp<LHSType, RHSType>> {
 public:
-    AddOp(LHSType& lhs, RHSType& rhs) : m_lhs_(lhs), m_rhs_(rhs) {}
+    AddOp(LHSType lhs, RHSType rhs) : m_lhs_(lhs), m_rhs_(rhs) {}
 
     template<typename ResultType>
-    auto evaluate(ResultType&& r);
+    auto variant(ResultType&& r);
 
 private:
-    LHSType& m_lhs_;
-    RHSType& m_rhs_;
+    LHSType m_lhs_;
+    RHSType m_rhs_;
 };
 
 template<typename LHSType, typename RHSType>
@@ -22,11 +34,13 @@ auto operator+(OpLayer<LHSType>& lhs, OpLayer<RHSType>& rhs) {
     return AddOp<LHSType, RHSType>(lhs.downcast(), rhs.downcast());
 }
 
+// ----------------------- Implementations -------------------------------------
+
 template<typename LHSType, typename RHSType>
 template<typename ResultType>
-auto AddOp<LHSType, RHSType>::evaluate(ResultType&& r) {
-    auto lhs_variant     = m_lhs_.evaluate(r);
-    auto rhs_variant     = m_rhs_.evaluate(r);
+auto AddOp<LHSType, RHSType>::variant(ResultType&& r) {
+    auto lhs_variant     = m_lhs_.variant(r);
+    auto rhs_variant     = m_rhs_.variant(r);
     using lhs_variant_t  = std::decay_t<decltype(lhs_variant)>;
     using rhs_variant_t  = std::decay_t<decltype(rhs_variant)>;
     using result_variant = add_variant_t<lhs_variant_t, rhs_variant_t>;
