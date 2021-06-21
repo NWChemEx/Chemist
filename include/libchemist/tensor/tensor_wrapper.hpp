@@ -22,6 +22,9 @@ namespace libchemist::tensor {
 template<typename VariantType>
 class TensorWrapper {
 private:
+    /// Type of this instance
+    using my_type = TensorWrapper<VariantType>;
+
     /** @brief Used to enable a function if @p TensorType is in @p VariantType.
      *
      *  This type allows the TensorWrapper class to selectively enable overloads
@@ -58,16 +61,15 @@ public:
     /// Type of the variant this wrapper is templated on
     using variant_type = VariantType;
 
-    /// String-like type used to annotate a tensor.
-    using annotation_type = std::string;
-
     /// Type of a wrapper around a labeled tensor
-    using labeled_tensor_type =
-      detail_::LabeledTensorWrapper<labeled_variant_type>;
+    using labeled_tensor_type = detail_::LabeledTensorWrapper<my_type>;
 
     /// Type of a wrapper around a read-only labeled tensor
     using const_labeled_tensor_type =
-      detail_::LabeledTensorWrapper<const_labeled_variant_type>;
+      detail_::LabeledTensorWrapper<const my_type>;
+
+    /// String-like type used to annotate a tensor.
+    using annotation_type = typename labeled_tensor_type::annotation_type;
 
     /** @brief Default CTor
      *
@@ -216,6 +218,34 @@ public:
      */
     std::ostream& print(std::ostream& os) const;
 
+protected:
+    friend labeled_tensor_type;
+    friend const_labeled_tensor_type;
+
+    /** @brief Returns the wrapped variant.
+     *
+     *  This function is used by LabeledTensorWrapper to get the variant. In
+     *  general users of the TensorWrapper class shouldn't be working with the
+     *  variant, which is why the function is not part of the public API.
+     *
+     *  @return A modifiable reference to the wrapped variant.
+     *
+     *  @throw None No throw guarantee.
+     */
+    variant_type& variant() { return m_tensor_; }
+
+    /** @brief Returns the wrapped variant.
+     *
+     *  This function is used by LabeledTensorWrapper to get the variant. In
+     *  general users of the TensorWrapper class shouldn't be working with the
+     *  variant, which is why the function is not part of the public API.
+     *
+     *  @return A read-only reference to the wrapped variant.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const variant_type& variant() const { return m_tensor_; }
+
 private:
     /** @brief Determines if we're wrapping a Tensor-of-tensors or not.
      *
@@ -278,16 +308,12 @@ std::ostream& operator<<(std::ostream& os, const TensorWrapper<VType>& t) {
 
 template<typename VariantType>
 auto TENSOR_WRAPPER::operator()(const annotation_type& annotation) {
-    auto l = [=](auto&& arg) { return labeled_variant_type(arg(annotation)); };
-    return labeled_tensor_type(std::visit(l, m_tensor_));
+    return labeled_tensor_type(annotation, *this);
 }
 
 template<typename VariantType>
 auto TENSOR_WRAPPER::operator()(const annotation_type& annotation) const {
-    auto l = [=](auto&& arg) {
-        return const_labeled_variant_type(arg(annotation));
-    };
-    return const_labeled_tensor_type(std::visit(l, m_tensor_));
+    return const_labeled_tensor_type(annotation, *this);
 }
 
 template<typename VariantType>

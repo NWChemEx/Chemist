@@ -22,8 +22,8 @@ set -e # Exit with error if any command fails
 
 arch=Linux-x86_64
 cmake_root=$(pwd)/cmake-"${cmake_version}"-"${arch}"
-cmake_command="${cmake_root}/bin/cmake"
-ctest_command="${cmake_root}/bin/ctest"
+cmake_command=cmake #"${cmake_root}/bin/cmake"
+ctest_command=ctest #"${cmake_root}/bin/ctest"
 toolchain_file=$(pwd)/toolchain.cmake
 
 #Step 1: Write toolchain.cmake

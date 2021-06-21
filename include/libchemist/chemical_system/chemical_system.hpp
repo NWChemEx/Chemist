@@ -1,4 +1,5 @@
 #pragma once
+#include "libchemist/basis_set/ao_basis_set.hpp"
 #include "libchemist/molecule/molecule.hpp"
 #include "libchemist/potentials/electrostatic.hpp"
 #include <memory>
@@ -32,6 +33,15 @@ public:
 
     /// A read-only reference to the object describing the set of atoms
     using const_mol_ref_t = const molecule_t&;
+
+    /// The type of the AO basis set
+    using ao_basis_t = AOBasisSet<double>;
+
+    /// The type of a read/write AO basis set
+    using ao_basis_ref_t = ao_basis_t&;
+
+    /// The type of a read-only AO basis set
+    using const_ao_basis_ref_t = const ao_basis_t&;
 
     /// The type used to model the external electrostatic potential
     using epot_t = potentials::Electrostatic;
@@ -79,13 +89,14 @@ public:
     /** @brief Creates a new ChemicalSystem with the provided state.
      *
      *  @param[in] mol The molecular system to add to this system.
+     *  @param[in] aos The AO basis set for the system
      *  @param[in] v   The external electrostatic potential that the system
      *                 lives in. Defaults to no potential.
      *
      *  @throw std::bad_alloc if there is error while allocating the PIMPL.
      *                        Strong throw guarantee.
      */
-    explicit ChemicalSystem(molecule_t mol, epot_t v = {});
+    explicit ChemicalSystem(molecule_t mol, ao_basis_t aos = {}, epot_t v = {});
 
     /// Default destructor, voids all references to member data
     ~ChemicalSystem() noexcept;
@@ -132,6 +143,24 @@ public:
      *                             gurantee.
      */
     const_mol_ref_t molecule() const;
+
+    /** @brief Returns the AO basis set associated with this system.
+     *
+     *  @return A read/write reference to the AOBasisSet.
+     *
+     *  @throws std::bad_alloc if the class has no PIMPL and an error arises
+     *                         while allocating. Strong throw guarantee.
+     */
+    ao_basis_ref_t basis_set();
+
+    /** @brief Returns the AO basis set associated with this system.
+     *
+     *  @return A read-only reference to the AOBasisSet.
+     *
+     *  @throws std::runtime_error if the class has no PIMPL. Strong throw
+     *                             gurantee.
+     */
+    const_ao_basis_ref_t basis_set() const;
 
     /** @brief Returns the external electrostatic potential in a read/write
      *         state.

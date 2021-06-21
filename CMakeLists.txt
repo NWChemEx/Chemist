@@ -27,7 +27,7 @@ cpp_find_or_build_dependency(
 cpp_find_or_build_dependency(
     tiledarray
     URL github.com/ValeevGroup/tiledarray
-    VERSION 5ea311f670f1240d700187354373d5869903b5dd
+    VERSION a42104ce22db297e018c4f1203b4938c08e4a2df
     BUILD_TARGET tiledarray
     FIND_TARGET tiledarray
     CMAKE_ARGS TA_BUILD_UNITTEST=OFF
@@ -58,5 +58,3 @@ if("${BUILD_TESTING}")
         DEPENDS Catch2::Catch2 chemist
     )
 endif()
-
-
