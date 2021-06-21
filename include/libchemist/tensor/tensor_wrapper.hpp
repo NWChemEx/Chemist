@@ -22,6 +22,9 @@ namespace libchemist::tensor {
 template<typename VariantType>
 class TensorWrapper {
 private:
+    /// Type of this instance
+    using my_type = TensorWrapper<VariantType>;
+
     /** @brief Used to enable a function if @p TensorType is in @p VariantType.
      *
      *  This type allows the TensorWrapper class to selectively enable overloads
@@ -62,12 +65,11 @@ public:
     using annotation_type = std::string;
 
     /// Type of a wrapper around a labeled tensor
-    using labeled_tensor_type =
-      detail_::LabeledTensorWrapper<labeled_variant_type>;
+    using labeled_tensor_type = detail_::LabeledTensorWrapper<my_type>;
 
     /// Type of a wrapper around a read-only labeled tensor
     using const_labeled_tensor_type =
-      detail_::LabeledTensorWrapper<const_labeled_variant_type>;
+      detail_::LabeledTensorWrapper<const my_type>;
 
     /** @brief Default CTor
      *
@@ -216,6 +218,9 @@ public:
      */
     std::ostream& print(std::ostream& os) const;
 
+    variant_type& tensor() { return m_tensor_; }
+    const variant_type& tensor() const { return m_tensor_; }
+
 private:
     /** @brief Determines if we're wrapping a Tensor-of-tensors or not.
      *
@@ -278,16 +283,12 @@ std::ostream& operator<<(std::ostream& os, const TensorWrapper<VType>& t) {
 
 template<typename VariantType>
 auto TENSOR_WRAPPER::operator()(const annotation_type& annotation) {
-    auto l = [=](auto&& arg) { return labeled_variant_type(arg(annotation)); };
-    return labeled_tensor_type(std::visit(l, m_tensor_));
+    return labeled_tensor_type(annotation, *this);
 }
 
 template<typename VariantType>
 auto TENSOR_WRAPPER::operator()(const annotation_type& annotation) const {
-    auto l = [=](auto&& arg) {
-        return const_labeled_variant_type(arg(annotation));
-    };
-    return const_labeled_tensor_type(std::visit(l, m_tensor_));
+    return const_labeled_tensor_type(annotation, *this);
 }
 
 template<typename VariantType>
