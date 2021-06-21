@@ -59,11 +59,11 @@ public:
     const auto& sparse_map() const { return m_sm_; }
 
 protected:
-    /// Adds the hash of the sparse map to the provided hasher.
-    virtual void hash_(sde::Hasher& h) const override { h(m_sm_); }
-
     /// Returns the number of dependent orbitals in this space
     virtual size_type size_() const noexcept override;
+
+    /// Adds the hash of the sparse map to the provided hasher.
+    virtual void hash_(sde::Hasher& h) const override { h(m_sm_); }
 
     /// Returnst true if the spaces have the same sparse map
     virtual bool equal_(const BaseSpace& rhs) const noexcept override;
@@ -73,23 +73,58 @@ private:
     sparse_map_type m_sm_;
 };
 
+/** @brief Compares two DependentSpaces for equality.
+ *
+ *  @relates DependentSpace
+ *
+ *  Two DependentSpace instances are the same if they possess the same sparse
+ *  map.
+ *
+ *  @param[in] lhs The dependent space on the left-side of the equality operator
+ *  @param[in] rhs The dependent space on the right-side of the equality
+ *                 operator.
+ *
+ *  @return True if @p lhs and @p rhs have sparse maps that are equal and false
+ *          otherwise.
+ *
+ *  @throw None No throw guarantee.
+ */
 inline bool operator==(const DependentSpace& lhs, const DependentSpace& rhs) {
     return lhs.sparse_map() == rhs.sparse_map();
 }
 
+/** @brief Determines if two DependentSpaces are different.
+ *
+ *  @relates DependentSpace
+ *
+ *  Two DependentSpace instances are the same if they possess the same sparse
+ *  map.
+ *
+ *  @param[in] lhs The dependent space on the left-side of the inequality
+ *                 operator.
+ *  @param[in] rhs The dependent space on the right-side of the inequality
+ *                 operator.
+ *
+ *  @return False if @p lhs and @p rhs have sparse maps that are equal and true
+ *          otherwise.
+ *
+ *  @throw None No throw guarantee.
+ */
 inline bool operator!=(const DependentSpace& lhs, const DependentSpace& rhs) {
     return !(lhs == rhs);
 }
+
 // -------------------------------- Implementations ----------------------------
 
-typename DependentSpace::size_type DependentSpace::size_() const noexcept {
+inline typename DependentSpace::size_type DependentSpace::size_()
+  const noexcept {
     size_type n = 0;
     // This only works b/c m_sm_ is element2element
     for(const auto& [i_idx, domain] : m_sm_) n += domain.size();
     return n;
 }
 
-bool DependentSpace::equal_(const BaseSpace& rhs) const noexcept {
+inline bool DependentSpace::equal_(const BaseSpace& rhs) const noexcept {
     return equal_common(*this, rhs);
 }
 

@@ -1,4 +1,6 @@
 #pragma once
+#include "libchemist/orbital_space/derived_space.hpp"
+#include "libchemist/orbital_space/types.hpp"
 #include <sde/detail_/memoization.hpp>
 
 namespace libchemist::orbital_space {
@@ -16,7 +18,7 @@ namespace libchemist::orbital_space {
  *  @tparam BaseType Type of the class from which this orbital space inherits.
  */
 template<typename OrbitalEnergyType, typename BaseType>
-class CanonicalSpace_ : public BaseType {
+class CanonicalSpace : public BaseType {
 public:
     /// Type of the tensor used to store the orbital energies
     using orbital_energy_type = OrbitalEnergyType;
@@ -25,7 +27,7 @@ public:
      *         energies.
      *
      */
-    CanonicalSpace_() = default;
+    CanonicalSpace() = default;
 
     /** @brief Creates a CanonicalSpace_ with the provided state.
      *
@@ -41,7 +43,7 @@ public:
      *             guarantee.
      */
     template<typename... Args>
-    explicit CanonicalSpace_(OrbitalEnergyType egys, Args&&... args);
+    explicit CanonicalSpace(OrbitalEnergyType egys, Args&&... args);
 
     /** @brief Returns the energies of the orbitals in this orbital space.
      *
@@ -60,23 +62,47 @@ protected:
     /// Adds the orbital energies to the hash internal to `h`
     virtual void hash_(sde::Hasher& h) const override;
 
+    /// Also compares the orbital energies
+    virtual bool equal_(const BaseSpace& rhs) const noexcept override;
+
 private:
     /// The energies associated with each orbital
     orbital_energy_type m_egys_;
 };
 
-//------------------------------- Implementations ------------------------------
-
-template<typename OrbitalEnergyType, typename BaseType>
-template<typename... Args>
-CanonicalSpace_<OrbitalEnergyType, BaseType>::CanonicalSpace_(
-  OrbitalEnergyType egys, Args&&... args) :
-  BaseType(std::forward<Args>(args)...), m_egys_(std::move(egys)) {}
-
-template<typename OrbitalEnergyType, typename BaseType>
-void CanonicalSpace_<OrbitalEnergyType, BaseType>::hash_(sde::Hasher& h) const {
-    BaseType::hash_(h);
-    h(m_egys_);
+template<typename LOrbitalEnergyType, typename LBaseType,
+         typename ROrbitalEnergyType, typename RBaseType>
+bool operator==(const CanonicalSpace<LOrbitalEnergyType, LBaseType>& lhs,
+                const CanonicalSpace<ROrbitalEnergyType, RBaseType>& rhs) {
+    if constexpr(!std::is_same_v<decltype(lhs), decltype(rhs)>)
+        return false;
+    else {
+        if(lhs.orbital_energies() != rhs.orbital_energies()) return false;
+        const LBaseType& lbase = lhs;
+        const RBaseType& rbase = rhs;
+        return lhs == rhs;
+    }
 }
+
+template<typename LOrbitalEnergyType, typename LBaseType,
+         typename ROrbitalEnergyType, typename RBaseType>
+bool operator!=(const CanonicalSpace<LOrbitalEnergyType, LBaseType>& lhs,
+                const CanonicalSpace<ROrbitalEnergyType, RBaseType>& rhs) {
+    return !(lhs == rhs);
+}
+
+using CanonicalSpaceD = CanonicalSpace<type::tensor<double>, DerivedSpaceD>;
+using CanonicalIndSpaceD =
+  CanonicalSpace<type::tensor<double>, IndDerivedSpaceD>;
+
+using CanonicalDepSpaceD =
+  CanonicalSpace<type::tensor_of_tensors<double>, DepDerivedSpaceD>;
+
+extern template class CanonicalSpace<type::tensor<double>, DerivedSpaceD>;
+extern template class CanonicalSpace<type::tensor<double>, IndDerivedSpaceD>;
+extern template class CanonicalSpace<type::tensor_of_tensors<double>,
+                                     DepDerivedSpaceD>;
+
+//------------------------------- Implementations ------------------------------
 
 } // namespace libchemist::orbital_space

@@ -14,9 +14,9 @@ using namespace libchemist::tensor;
  * LabeledTensorWrapper and OpWrapper.
  */
 
-TEMPLATE_LIST_TEST_CASE("OpWrapper", "", tensor_variant_t) {
+TEMPLATE_LIST_TEST_CASE("OpWrapper", "", type::tensor_variant) {
     auto& world    = TA::get_default_world();
-    using TWrapper = TensorWrapper<tensor_variant_t>;
+    using TWrapper = TensorWrapper<type::tensor_variant>;
     using t_type   = TestType;
 
     TWrapper vec(t_type(world, {1.0, 2.0, 3.0}));

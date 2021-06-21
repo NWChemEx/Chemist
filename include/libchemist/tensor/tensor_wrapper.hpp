@@ -359,10 +359,11 @@ auto TENSOR_WRAPPER::outer_rank_() const noexcept {
 
 template<typename VariantType>
 auto TENSOR_WRAPPER::inner_rank_() const {
-    auto l = [](auto&& arg) {
+    using rtype = decltype(this->outer_rank_());
+    auto l      = [](auto&& arg) {
         using clean_t = std::decay_t<decltype(arg)>;
         if constexpr(!is_tot_v<clean_t>)
-            return 0;
+            return rtype{0};
         else {
             const auto& tile0 = arg.begin()->get();
             return tile0[0].range().rank();

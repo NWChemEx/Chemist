@@ -41,7 +41,7 @@ inline auto apply_basis(const std::string& name, const Molecule& mol,
         for(auto i : {0, 1, 2}) ci.coord(i) = ai.coords()[i];
         aos.add_center(ci);
     }
-    return orbital_space::AOSpace<double>(aos);
+    return orbital_space::AOSpaceD(aos);
 }
 
 } // namespace libchemist

@@ -26,8 +26,7 @@ public:
      *  The size of an orbital space is the total number of orbitals in that
      *  space.
      *
-     *  @throw ??? Throws if the derived class's implementation of size_ throws.
-     *             Same throw guarantee.
+     *  @throw None No throw guarantee.
      */
     auto size() const { return size_(); }
 
@@ -180,7 +179,6 @@ protected:
     bool equal_common(const DerivedType& lhs,
                       const BaseSpace& rhs) const noexcept;
 
-private:
     /** @brief To be overridden by the derived class to implement size().
      *
      *  The derived class is responsible for ensuring this function returns the
@@ -194,10 +192,9 @@ private:
      *
      *  @return The number of orbitals in the space.
      *
-     *  @throw ??? Throws if the derived implementation throws. Same throw
-     *             guarantee as the derived implementation.
+     *  @throw None No throw guarantee.
      */
-    virtual size_type size_() const = 0;
+    virtual size_type size_() const noexcept = 0;
 
     /** @brief To be overridden by the derived class to implement transform().
      *
@@ -218,7 +215,7 @@ private:
       const type::tensor_wrapper& t, const mode_container& modes) const = 0;
 
     /// Actually implements hash. Should be overridden by derived classes
-    virtual void hash_(sde::Hasher& h) const = 0;
+    virtual void hash_(sde::Hasher& h) const {};
 
     /** @brief To be overridden by the derived class to implement `equal`
      *
@@ -245,23 +242,65 @@ private:
     virtual bool equal_(const BaseSpace& rhs) const noexcept = 0;
 };
 
+/** @brief Compares two BaseSpace instances for equality.
+ *
+ *  @relates BaseSpace
+ *
+ *  This comparison is not done polymorphically (use `BaseSpace::equal` for
+ *  that), rather it compares the state unique to the BaseSpace part of the
+ *  class hierarchy. Since there is no state unique in the BaseSpace part this
+ *  function always returns true.
+ *
+ *  @note This function is defined so that derived classes do not need to worry
+ *        about whether they derive directly from BaseSpace.
+ *
+ *  @param[in] <anonymous> The instance on the left of the equality operator.
+ *  @param[in] <anonymous> The instance on the right of the equality operator.
+ *
+ *  @return True for all BaseSpace instances.
+ *
+ *  @throw None No throw guarantee.
+ */
+inline bool operator==(const BaseSpace&, const BaseSpace&) { return true; }
+
+/** @brief Determines if two BaseSpace instances are different.
+ *
+ *  @relates BaseSpace
+ *
+ *  This comparison is not done polymorphically (use `BaseSpace::equal` for
+ *  that), rather it compares the state unique to the BaseSpace part of the
+ *  class hierarchy. Since there is no state unique in the BaseSpace part this
+ *  function always returns false.
+ *
+ *  @note This function is defined so that derived classes do not need to worry
+ *        about whether they derive directly from BaseSpace.
+ *
+ *  @param[in] <anonymous> The instance on the left of the inequality operator.
+ *  @param[in] <anonymous> The instance on the right of the inequality operator.
+ *
+ *  @return False for all BaseSpace instances.
+ *
+ *  @throw None No throw guarantee.
+ */
+inline bool operator!=(const BaseSpace&, const BaseSpace&) { return false; }
+
 //------------------------- Implementations -----------------------------------
 template<typename... ModeTypes>
 type::tensor_wrapper BaseSpace::transform(const type::tensor_wrapper& t,
-                                          ModeTypes... modes) const {
+                                          ModeTypes&&... modes) const {
     constexpr bool do_transform = sizeof...(ModeTypes);
-    std::vector<type::size> mode_v{modes...};
+    std::vector<type::size> mode_v{std::forward<ModeTypes>(modes)...};
     return do_transform ? transform_(t, mode_v) : t;
 }
 
-bool BaseSpace::equal(const BaseSpace& rhs) const noexcept {
-    return equal_(rhs) && rhs == *this;
+inline bool BaseSpace::equal(const BaseSpace& rhs) const noexcept {
+    return equal_(rhs) && rhs.equal(*this);
 }
 
 template<typename DerivedType>
 bool BaseSpace::equal_common(const DerivedType& lhs,
                              const BaseSpace& rhs) const noexcept {
-    auto prhs = dynamic_cast<const DerivedType*>(rhs);
+    auto prhs = dynamic_cast<const DerivedType*>(&rhs);
     return prhs == nullptr ? false : lhs == *(prhs);
 }
 

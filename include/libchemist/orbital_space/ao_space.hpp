@@ -36,6 +36,8 @@ public:
      */
     AOSpace() = default;
 
+    AOSpace(const AOSpace& rhs) = default;
+
     /** @brief Creates a new atomic orbital space.
      *
      * @tparam Args The types of the arguments which will be forwarded to the
@@ -61,6 +63,36 @@ public:
     const auto& basis_set() const { return m_bs_; }
 
 protected:
+    /// Get the type of the container holding the mode offsets from the base
+    using mode_container = typename BaseType::mode_container;
+
+    /** @brief Overrides the size member so that it returns the number of AOs.
+     *
+     *  This function returns the number of AOs in the basis set unless it
+     *  inherits from `DerivedSpace`, in which case it returns the total number
+     *  of AOs for each independent tuple.
+     *
+     *  @return The number of orbitals in this space.
+     *
+     *  @throw None No throw guarantee.
+     */
+    virtual size_type size_() const noexcept override;
+
+    /** @brief Implements transform for an AOSpace
+     *
+     *  We presently assume that the integral is computed using the current
+     *  AOSpace (we do not verify this assumption) and simply return the tensor
+     *  we were provided.
+     *
+     *  @param[in] t The tensor to transform.
+     *  @param[in] modes The modes of @p t to transform to this orbital space.
+     *
+     *  @return A copy of @p t.
+     */
+    virtual type::tensor_wrapper transform_(
+      const type::tensor_wrapper& t,
+      const mode_container& modes) const override;
+
     /** @brief Overrides hashing to account for the basis set
      *
      *  @param[in,out] h The hasher instance being used. After this call the
@@ -68,13 +100,14 @@ protected:
      */
     virtual void hash_(sde::Hasher& h) const override;
 
-    /** @brief Overrides the size member so that it returns the number of AOs.
+    /** @brief Overrides polymorphic comparison to account for basis set.
      *
-     *  This function simply calls the `size()` member of the AO basis set and
-     *  returns the result.
+     *  @param[in] rhs The orbital space we are comparing to.
+     *
+     *  @return True if @p rhs is the same as this instance and false otherwise.
+     *
+     *  @throw None No throw guarantee.
      */
-    virtual size_type size_() const noexcept override;
-
     virtual bool equal_(const BaseSpace& rhs) const noexcept override;
 
 private:
@@ -86,18 +119,12 @@ template<typename LHSAO, typename LHSBase, typename RHSAO, typename RHSBase>
 inline bool operator==(const AOSpace<LHSAO, LHSBase>& lhs,
                        const AOSpace<RHSAO, RHSBase>& rhs) {
     // Must be same type
-    if constexpr(!std::is_same_v<LHSAO, RHSAO>)
+    if constexpr(!std::is_same_v<decltype(lhs), decltype(rhs)>)
         return false;
-    else if constexpr(!std::is_same_v<LHSBase, RHSBase>)
-        return false;
+    else {
+        // Compare the basis sets
+        if(lhs.basis_set() != rhs.basis_set()) return false;
 
-    // Compare the basis sets
-    if(lhs.basis_set() != rhs.basis_set()) return false;
-
-    // If derived directly from BaseSpace no BaseType::operator== to call
-    if constexpr(std::is_same_v<LHSBase, BaseSpace>)
-        return true;
-    else { // call operator== for BaseType
         const LHSBase& lbase = lhs;
         const RHSBase& rbase = rhs;
         return lhs == rhs;
@@ -110,36 +137,22 @@ inline bool operator!=(const AOSpace<LHSAO, LHSBase>& lhs,
     return !(lhs == rhs);
 }
 
-using AOSpaceD          = AOSpace<AOBasisSetD, BaseSpace>;
-using AOSpaceF          = AOSpace<AOBasisSetF, BaseSpace>;
-using DependentAOSpaceD = AOSpace<AOBasisSetD, DependentSpace>;
-using DependentAOSpaceF = AOSpace<AOBasisSetF, DependentSpace>;
+// ------------------------------ Typedefs -------------------------------------
+using AOSpaceD    = AOSpace<AOBasisSetD, BaseSpace>;
+using AOSpaceF    = AOSpace<AOBasisSetF, BaseSpace>;
+using DepAOSpaceD = AOSpace<AOBasisSetD, DependentSpace>;
+using DepAOSpaceF = AOSpace<AOBasisSetF, DependentSpace>;
 
-// ---------------------------- Implementations -------------------------------
+// ----------------- Forward Declare Explicit Instantiations -------------------
+extern template class AOSpace<AOBasisSetD, BaseSpace>;
+extern template class AOSpace<AOBasisSetF, BaseSpace>;
+extern template class AOSpace<AOBasisSetD, DependentSpace>;
+extern template class AOSpace<AOBasisSetF, DependentSpace>;
 
+// ------------------- Inline Implementations ----------------------------------
 template<typename BasisType, typename BaseType>
 template<typename... Args>
 AOSpace<BasisType, BaseType>::AOSpace(basis_type bs, Args&&... args) :
   BaseType(std::forward<Args>(args)...), m_bs_(std::move(bs)) {}
-
-template<typename BasisType, typename BaseType>
-void AOSpace<BasisType, BaseType>::hash_(sde::Hasher& h) const {
-    if constexpr(std::is_same_v<BaseType, DerivedSpace>) { BaseType::hash_(h); }
-    h(m_bs_);
-}
-
-template<typename BasisType, typename BaseType>
-void AOSpace<BasisType, BaseType>::size_(sde::Hasher& h) const noexcept {
-    if constexpr(std::is_same_v<BaseType, BaseSpace>) {
-        return m_bs_.size();
-    } else {
-        return BaseType::size_();
-    }
-}
-
-template<typename BasisType, typename BaseType>
-bool AOSpace<BasisType, BaseType>::equal_(const BaseSpace& rhs) const noexcept {
-    return this->equal_common(*this, rhs);
-}
 
 } // namespace libchemist::orbital_space
