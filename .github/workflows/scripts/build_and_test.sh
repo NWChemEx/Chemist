@@ -44,11 +44,12 @@ echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
   echo 'set(CMAKE_BUILD_TYPE Debug)'
   echo 'set(ENABLE_SCALAPACK ON)'
   echo 'set(LIBDIR "/usr/lib/x86_64-linux-gnu")'
-  echo 'set(LAPACK_LIBRARIES "-L${LIBDIR} -lblas -llapack")'
-  echo 'set(SCALAPACK_LIBRARIES  "-L${LIBDIR} -lscalapack-openmpi")'
-  echo 'set(blacs_LIBRARIES ${SCALAPACK_LIBRARIES})'
-  echo 'set(scalapack_LIBRARIES ${SCALAPACK_LIBRARIES})'
-  echo 'set(lapack_LIBRARIES ${LAPACK_LIBRARIES})'
+  echo 'set(BLAS_LIBRARIES   "-L${LIBDIR} -lopenblas")'
+  echo 'set(LAPACK_LIBRARIES "-L${LIBDIR} -llapack ${BLAS_LIBRARIES}")'
+  echo 'set(ScaLAPACK_LIBRARIES  "-L${LIBDIR} -lscalapack-openmpi ${LAPACK_LIBRARIES}")'
+  #echo 'set(blacs_LIBRARIES ${SCALAPACK_LIBRARIES})'
+  #echo 'set(scalapack_LIBRARIES ${SCALAPACK_LIBRARIES})'
+  #echo 'set(lapack_LIBRARIES ${LAPACK_LIBRARIES})'
 } >> "${toolchain_file}"
 
 #Step 2: Configure
