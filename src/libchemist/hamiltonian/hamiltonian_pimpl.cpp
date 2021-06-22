@@ -1,4 +1,5 @@
 #include "hamiltonian_pimpl.hpp"
+#include <algorithm>
 
 namespace libchemist::detail_ {
 
@@ -22,6 +23,24 @@ HamiltonianPIMPL& HamiltonianPIMPL::operator=( HamiltonianPIMPL&& other ) noexce
   return *this;
 }
 
+void HamiltonianPIMPL::add_term( std::type_index index, 
+  std::shared_ptr<Operator>&& op ) {
+  terms_.insert( {index, std::move(op)} );
+}
+
+HamiltonianPIMPL::get_return_type HamiltonianPIMPL::get_terms( 
+  std::type_index index ) const {
+  auto [b,e] = terms_.equal_range( index );
+  const std::size_t n_terms = std::distance(b,e);
+  get_return_type ret_terms; ret_terms.reserve(n_terms);
+  for( auto it = b; it != e; ++it )
+    ret_terms.emplace_back(it->second);
+  return ret_terms;
+}
+
+bool HamiltonianPIMPL::has_term( std::type_index index ) const noexcept {
+  return terms_.count(index);
+}
 
 std::unique_ptr<HamiltonianPIMPL> HamiltonianPIMPL::clone() const {
   return std::make_unique<HamiltonianPIMPL>(*this);

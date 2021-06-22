@@ -43,19 +43,5 @@ bool Hamiltonian::has_term_( std::type_index index ) const noexcept {
 
 
 
-#if 0
-#define IMPL_HAM_FUNCTIONS(NMAX,NE,NN)                            \
-  template void Hamiltonian::add_term_<NE,NN>( std::type_index,   \
-    std::shared_ptr<Operator<NE,NN>>&& );                         \
-  template Hamiltonian::get_return_type<Operator<NE,NN>>          \
-    Hamiltonian::get_terms_<NE,NN>( std::type_index ) const;      \
-  template bool Hamiltonian::has_term_<NE,NN>(                    \
-    std::type_index ) const noexcept;
-
-IMPL_HAM_FUNCTIONS(2,1,0)
-IMPL_HAM_FUNCTIONS(2,1,1)
-IMPL_HAM_FUNCTIONS(2,2,0)
-IMPL_HAM_FUNCTIONS(2,0,2)
-#endif
 
 }
