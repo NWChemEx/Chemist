@@ -24,6 +24,8 @@ cpp_find_or_build_dependency(
     CMAKE_ARGS BUILD_TESTING=OFF
 )
 
+# N.B. If you update the TA version, you may need to update the MADNESS version
+#      in the runtime repo.
 cpp_find_or_build_dependency(
     tiledarray
     URL github.com/ValeevGroup/tiledarray

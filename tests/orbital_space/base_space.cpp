@@ -23,7 +23,7 @@ using namespace libchemist::orbital_space;
 TEST_CASE("BaseSpace") {
     using space_type  = AOSpaceD;
     using basis_type  = typename AOSpaceD::basis_type;
-    using center_type = typename AOSpaceD::value_type;
+    using center_type = typename basis_type::value_type;
 
     SECTION("size_type") {
         using type = typename BaseSpace::size_type;

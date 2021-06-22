@@ -154,6 +154,33 @@ protected:
      */
     BaseSpace(BaseSpace&& rhs) = default;
 
+    /** @brief Replaces this instance's state with a copy of the state in
+     *         @p rhs.
+     *
+     *  The copy assignment operator is protected to avoid accidental slicing.
+     *  `BaseSpace` has no state so the move assignment is a no-op.
+     *
+     *  @param[in] rhs The instance being copied from.
+     *
+     *  @return The current instance, unchanged.
+     *
+     *  @throw None No throw gurantee.
+     */
+    BaseSpace& operator=(const BaseSpace& rhs) = default;
+
+    /** @brief Replaces this instance's state by taking state from @p rhs.
+     *
+     *  The move assignment operator is protected to avoid accidental slicing.
+     *  `BaseSpace` has no state so the move assignment is a no-op.
+     *
+     *  @param[in,out] rhs The instance being moved from.
+     *
+     *  @return The current instance, unchanged.
+     *
+     *  @throw None No throw gurantee.
+     */
+    BaseSpace& operator=(BaseSpace&& rhs) = default;
+
     /** @brief Implements polymorphic comparisons of orbital spaces.
      *
      *  `equal_common` takes care of:

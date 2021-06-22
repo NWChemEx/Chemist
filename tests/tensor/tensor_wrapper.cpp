@@ -1,5 +1,5 @@
 #include "libchemist/ta_helpers/ta_helpers.hpp"
-#include "libchemist/tensor/tensor_wrapper.hpp"
+#include "libchemist/tensor/tensor.hpp"
 #include "libchemist/tensor/types.hpp"
 #include <catch2/catch.hpp>
 
@@ -20,11 +20,11 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
 
     SECTION("Typedefs") {
         SECTION("variant_type") {
-            using type = typename TWrapper::variant_type;
-            using corr = tensor_variant_t;
-            STATIC_REQUIRE(std::is_same_v<type, corr>);
+            using vtype = typename TWrapper::variant_type;
+            using corr  = type::tensor_variant;
+            STATIC_REQUIRE(std::is_same_v<vtype, corr>);
         }
-        SECTION("annotation_type"){
+        SECTION("annotation_type") {
             using type = typename TWrapper::annotation_type;
             using corr = std::string;
             STATIC_REQUIRE(std::is_same_v<type, corr>);
@@ -139,11 +139,11 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tot_variant) {
 
     SECTION("Typedefs") {
         SECTION("variant_type") {
+            using corr = type::tot_variant;
             using type = typename TWrapper::variant_type;
-            using corr = tot_variant_t;
             STATIC_REQUIRE(std::is_same_v<type, corr>);
         }
-        SECTION("annotation_type"){
+        SECTION("annotation_type") {
             using type = typename TWrapper::annotation_type;
             using corr = std::string;
             STATIC_REQUIRE(std::is_same_v<type, corr>);

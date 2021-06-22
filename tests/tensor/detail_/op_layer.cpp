@@ -16,16 +16,16 @@ TEST_CASE("OpLayer") {
     using base_type      = detail_::OpLayer<labeled_tensor>;
 
     auto& world = TA::get_default_world();
-    tensor t(tensor_t<double>(world, {1, 2, 3}));
+    tensor t(libchemist::type::tensor<double>(world, {1, 2, 3}));
     labeled_tensor lt("i", t);
 
-    SECTION("downcast"){
+    SECTION("downcast") {
         base_type& as_base(lt);
         labeled_tensor& as_derived = as_base.downcast();
         REQUIRE(&lt == &as_derived);
     }
 
-    SECTION("downcast const"){
+    SECTION("downcast const") {
         const base_type& as_base(lt);
         const labeled_tensor& as_derived = as_base.downcast();
         REQUIRE(&lt == &as_derived);

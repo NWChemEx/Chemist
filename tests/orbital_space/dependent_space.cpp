@@ -13,7 +13,7 @@
  * - operator== / operator!=
  *
  * Like BaseSpace we test by making an instance of AOSpace and testing the
- * publically accessible functionality.
+ * publically accessible functionality added by the DependentSpace class.
  */
 
 using namespace libchemist::orbital_space;
@@ -21,7 +21,8 @@ using namespace libchemist::orbital_space;
 TEST_CASE("DependentSpace") {
     using sparse_map_type = type::sparse_map;
     using index_type      = typename sparse_map_type::key_type;
-    using value_type      = typename sparse_map_type::mapped_type;
+    using basis_type      = typename AOSpaceD::basis_type;
+    using center_type     = typename basis_type::value_type;
 
     SECTION("Typedefs") {
         SECTION("size_type") {
@@ -31,8 +32,8 @@ TEST_CASE("DependentSpace") {
         }
 
         SECTION("sparse_map_type") {
-            using type = typename DependentSpace::sparse_map_type;
             using corr = type::sparse_map;
+            using type = typename DependentSpace::sparse_map_type;
             STATIC_REQUIRE(std::is_same_v<type, corr>);
         }
     }
@@ -42,95 +43,80 @@ TEST_CASE("DependentSpace") {
         REQUIRE(defaulted.sparse_map() == sparse_map_type{});
     }
 
-    sparse_map_type sm0{index_type{0}, value_type{index_type{0}}};
-    DepAOSpaceD nondefault(sm0);
+    sparse_map_type sm0{{index_type{0}, {index_type{0}}}};
+    DepAOSpaceD nondefault_sm(basis_type{}, sm0);
 
-    SECTION("Value ctor") { REQUIRE(nondefault.sparse_map() == sm0); }
+    SECTION("Value ctor") { REQUIRE(nondefault_sm.sparse_map() == sm0); }
+
+    SECTION("Copy ctor") {
+        DepAOSpaceD copy(nondefault_sm);
+        REQUIRE(copy.sparse_map() == sm0);
+    }
+
+    SECTION("Move ctor") {
+        DepAOSpaceD moved(std::move(nondefault_sm));
+        REQUIRE(moved.sparse_map() == sm0);
+    }
+
+    SECTION("Copy assignment") {
+        DepAOSpaceD copy;
+        auto pcopy = &(copy = nondefault_sm);
+        REQUIRE(pcopy == &copy);
+        REQUIRE(copy.sparse_map() == sm0);
+    }
+
+    SECTION("Move assignment") {
+        DepAOSpaceD moved;
+        auto pmove = &(moved = std::move(nondefault_sm));
+        REQUIRE(pmove == &moved);
+        REQUIRE(moved.sparse_map() == sm0);
+    }
+
+    SECTION("sparse_map") { REQUIRE(nondefault_sm.sparse_map() == sm0); }
+
+    SECTION("sparse_map const") {
+        const DependentSpace& const_nondefault_sm = nondefault_sm;
+        REQUIRE(const_nondefault_sm.sparse_map() == sm0);
+    }
+
+    SECTION("hash") {
+        SECTION("Same") {
+            DepAOSpaceD copy(nondefault_sm);
+            REQUIRE(sde::hash_objects(nondefault_sm) ==
+                    sde::hash_objects(copy));
+        }
+
+        SECTION("Different") {
+            DepAOSpaceD copy(nondefault_sm);
+            REQUIRE(sde::hash_objects(defaulted) !=
+                    sde::hash_objects(nondefault_sm));
+        }
+    }
+
+    SECTION("comparisons") {
+        SECTION("LHS == Default") {
+            const DependentSpace& lhs = defaulted;
+            SECTION("RHS == default") {
+                DepAOSpaceD other;
+                const DependentSpace& rhs = other;
+                REQUIRE(lhs == rhs);
+                REQUIRE_FALSE(lhs != rhs);
+            }
+
+            SECTION("RHS has different sparse map") {
+                const DependentSpace& rhs = nondefault_sm;
+                REQUIRE_FALSE(lhs == rhs);
+                REQUIRE(lhs != rhs);
+            }
+
+            SECTION("RHS has different derived state") {
+                basis_type non_empty;
+                non_empty.add_center(center_type{});
+                DepAOSpaceD nondefault_bs(non_empty);
+                const DependentSpace& rhs = nondefault_bs;
+                REQUIRE(lhs == rhs);
+                REQUIRE_FALSE(lhs != rhs);
+            }
+        }
+    }
 }
-
-//         SECTION("Copy") {
-//             base_space bs(sm2, S);
-//             REQUIRE(bs == base_space(bs));
-//         }
-
-//         SECTION("Move") {
-//             base_space bs(sm2, S), bs2(sm2, S);
-//             base_space bs3(std::move(bs));
-//             REQUIRE(bs2 == bs3);
-//         }
-
-//         SECTION("Copy Assignment") {
-//             base_space bs(sm2, S), bs2;
-//             auto pbs2 = & (bs2 = bs);
-//             SECTION("Value") { REQUIRE(bs == bs2); }
-//             SECTION("Returns this") { REQUIRE(pbs2 == &bs2); }
-//         }
-
-//         SECTION("Move Assignment") {
-//             base_space bs(sm2, S), bs2(sm2, S), bs3;
-//             auto pbs3 = &(bs3 = std::move(bs));
-//             SECTION("Value") { REQUIRE(bs2 == bs3); }
-//             SECTION("Returns this") { REQUIRE(pbs3 == &bs3); }
-//         }
-//     }
-
-//     base_space bs1(sm1, S), bs2(sm2, S2);
-
-//     SECTION("sparse_map()")  {
-//         REQUIRE(bs1.sparse_map() == sm1);
-//     }
-
-//     SECTION("sparse_map() const") {
-//         REQUIRE(std::as_const(bs1).sparse_map() == sm1);
-//     }
-
-//     SECTION("S()") {
-//         REQUIRE(libchemist::ta_helpers::allclose_tot(bs1.S(), S,
-//         2));
-//     }
-
-//     SECTION("S() const") {
-//         REQUIRE(libchemist::ta_helpers::allclose_tot(std::as_const(bs1).S(),
-//         S, 2));
-//     }
-
-//     SECTION("Hash") {
-//         SECTION("Same state") {
-//             base_space bs3(sm1, S);
-//             REQUIRE(sde::hash_objects(bs1) ==
-//             sde::hash_objects(bs3));
-//         }
-
-//         SECTION("Different sparse map") {
-//             base_space bs3(sm2, S);
-//             REQUIRE(sde::hash_objects(bs1) !=
-//             sde::hash_objects(bs3));
-//         }
-
-//         SECTION("Different overlap matrix") {
-//             base_space bs3(sm1, S2);
-//             REQUIRE(sde::hash_objects(bs1) !=
-//             sde::hash_objects(bs3));
-//         }
-//     }
-
-//     SECTION("Comparison") {
-//         SECTION("Same state") {
-//             base_space bs3(sm1, S);
-//             REQUIRE(bs1 == bs3);
-//             REQUIRE_FALSE(bs1 != bs3);
-//         }
-
-//         SECTION("Different sparse map") {
-//             base_space bs3(sm2, S);
-//             REQUIRE_FALSE(bs1 == bs3);
-//             REQUIRE(bs1 != bs3);
-//         }
-
-//         SECTION("Different overlap matrix") {
-//             base_space bs3(sm1, S2);
-//             REQUIRE_FALSE(bs1 == bs3);
-//             REQUIRE(bs1 != bs3);
-//         }
-//     }
-// }

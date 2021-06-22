@@ -4,11 +4,11 @@
 using namespace libchemist::tensor;
 
 TEST_CASE("LabeledTensorWrapper") {
-    using tensor = SparseTensorWrapper;
+    using tensor         = SparseTensorWrapper;
     using labeled_tensor = detail_::LabeledTensorWrapper<tensor>;
 
     auto& world = TA::get_default_world();
-    tensor_t<double> ta_tensor(world, {1, 2, 3});
+    libchemist::type::tensor<double> ta_tensor(world, {1, 2, 3});
     tensor t(ta_tensor);
     labeled_tensor lt("i", t);
 

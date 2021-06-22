@@ -34,16 +34,6 @@ public:
     /// The type of the sparse map stored in this instance
     using sparse_map_type = type::sparse_map;
 
-    /** @brief Creates a DependentSpace with an empty SparseMap.
-     */
-    DependentSpace() = default;
-
-    /** @brief Creates a DependentSpace with a SparseMap
-     *
-     * @param[in] sm The SparseMap to associate with this space.
-     */
-    explicit DependentSpace(sparse_map_type sm) : m_sm_(std::move(sm)) {}
-
     /** @brief The sparse map from the independent space to this space
      *
      *  @return The internal SparseMap instance in a read/write format.
@@ -59,6 +49,74 @@ public:
     const auto& sparse_map() const { return m_sm_; }
 
 protected:
+    /** @brief Creates a DependentSpace with an empty SparseMap.
+     */
+    DependentSpace() = default;
+
+    /** @brief Creates a DependentSpace with a SparseMap
+     *
+     * @param[in] sm The SparseMap to associate with this space.
+     */
+    explicit DependentSpace(sparse_map_type sm) : m_sm_(std::move(sm)) {}
+
+    /** @brief Default copy constructor.
+     *
+     *  The copy constructor is protected to help avoid slicing. This ctor will
+     *  make a new DependentSpace instance which contains a deep copy of
+     *  @p other 's sparse map.
+     *
+     *  @param[in] other The DependentSpace instance being copied.
+     *
+     *  @throw std::bad_alloc if allocating the new SparseMap fails. Strong
+     *                        throw guarantee.
+     */
+    DependentSpace(const DependentSpace& other) = default;
+
+    /** @brief Default move constructor.
+     *
+     *  The move constructor is protected to help avoid slicing. This ctor will
+     *  take ownership of the sparse map contained in @p other.
+     *
+     *  @param[in,out] other The DependentSpace instance whose state is being
+     *                       taken. After this operation @p other is in a valid,
+     *                       but otherwise undefined state.
+     *
+     *  @throw None No throw guarantee.
+     */
+    DependentSpace(DependentSpace&& other) = default;
+
+    /** @brief Default copy assignment.
+     *
+     *  Copy assignment is protected to help avoid slicing. This function will
+     *  make replace the current sparse map with a deep copy of the sparse map
+     *  in @p other.
+     *
+     *  @param[in] other The DependentSpace instance being copied.
+     *
+     *  @return The current instance with a copy of the sparse map in @p other.
+     *
+     *  @throw std::bad_alloc if allocating the new SparseMap fails. Strong
+     *                        throw guarantee.
+     */
+    DependentSpace& operator=(const DependentSpace& other) = default;
+
+    /** @brief Default move assignment.
+     *
+     *  The move constructor is protected to help avoid slicing. This operation
+     *  will replace this instance's sparse map with the sparse map contained in
+     *  @p other.
+     *
+     *  @param[in,out] other The DependentSpace instance whose state is being
+     *                       taken. After this operation @p other is in a valid,
+     *                       but otherwise undefined state.
+     *
+     *  @returns The current DependentSpace instance, after taking ownership of
+     *           @p other's sparse map.
+     *
+     *  @throw None No throw guarantee.
+     */
+    DependentSpace& operator=(DependentSpace&& other) = default;
+
     /// Returns the number of dependent orbitals in this space
     virtual size_type size_() const noexcept override;
 
