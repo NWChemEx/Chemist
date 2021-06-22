@@ -1,45 +1,52 @@
-// #include "libchemist/orbital_space/dependent_space.hpp"
-// #include "test_orbital_space.hpp"
-// #include <catch2/catch.hpp>
+#include "libchemist/orbital_space/ao_space.hpp"
+#include "libchemist/orbital_space/dependent_space.hpp"
+#include <catch2/catch.hpp>
 
-// using namespace libchemist::orbital_space;
+/* Testing Strategy:
+ *
+ * DependentSpace is an abstract class because it still does not implement the
+ * transform method from BaseSpace. Compared to BaseSpace DependentSpace adds:
+ * - sparse_map_type
+ * - a sparse map to the state
+ * - implementations for size, hash, and equal
+ *   - These implementations are only accessible from derived classes
+ * - operator== / operator!=
+ *
+ * Like BaseSpace we test by making an instance of AOSpace and testing the
+ * publically accessible functionality.
+ */
 
-// TEMPLATE_TEST_CASE("DependentSpace", "", float, double) {
-//     using base_space = SparseDependentBase<TestType>;
-//     using tensor_type = typename base_space::overlap_type;
+using namespace libchemist::orbital_space;
 
-//     auto& world = TA::get_default_world();
-//     auto S      = libchemist::test::TensorMaker<tensor_type>::S(world);
-//     auto S2     = libchemist::test::TensorMaker<tensor_type>::S2(world);
-//     auto sm1    = libchemist::test::sm1;
-//     auto sm2    = libchemist::test::sm2;
+TEST_CASE("DependentSpace") {
+    using sparse_map_type = type::sparse_map;
+    using index_type      = typename sparse_map_type::key_type;
+    using value_type      = typename sparse_map_type::mapped_type;
 
-//     SECTION("Typedefs") {
-//         SECTION("Sparse map type") {
-//           using index_type      = libchemist::sparse_map::ElementIndex;
-//           using corr_type       =
-//           libchemist::sparse_map::SparseMap<index_type, index_type>; using
-//           sparse_map_type = typename base_space::sparse_map_type;
-//           STATIC_REQUIRE(std::is_same_v<sparse_map_type, corr_type>);
-//         }
+    SECTION("Typedefs") {
+        SECTION("size_type") {
+            using type = typename DependentSpace::size_type;
+            using corr = typename BaseSpace::size_type;
+            STATIC_REQUIRE(std::is_same_v<type, corr>);
+        }
 
-//         SECTION("Overlap type") {
-//             using overlap_type = typename base_space::overlap_type;
-//             STATIC_REQUIRE(std::is_same_v<overlap_type, tensor_type>);
-//         }
-//     }
+        SECTION("sparse_map_type") {
+            using type = typename DependentSpace::sparse_map_type;
+            using corr = type::sparse_map;
+            STATIC_REQUIRE(std::is_same_v<type, corr>);
+        }
+    }
 
-//     SECTION("CTors") {
-//         SECTION("Default") {
-//             base_space bs;
-//             REQUIRE(bs.sparse_map() == sm1);
-//         }
+    DepAOSpaceD defaulted;
+    SECTION("Default ctor") {
+        REQUIRE(defaulted.sparse_map() == sparse_map_type{});
+    }
 
-//         SECTION("Value") {
-//             base_space bs(sm2, S);
-//             REQUIRE(bs.sparse_map() == sm2);
-//             REQUIRE(libchemist::ta_helpers::allclose_tot(bs.S(), S, 2));
-//         }
+    sparse_map_type sm0{index_type{0}, value_type{index_type{0}}};
+    DepAOSpaceD nondefault(sm0);
+
+    SECTION("Value ctor") { REQUIRE(nondefault.sparse_map() == sm0); }
+}
 
 //         SECTION("Copy") {
 //             base_space bs(sm2, S);
@@ -78,7 +85,8 @@
 //     }
 
 //     SECTION("S()") {
-//         REQUIRE(libchemist::ta_helpers::allclose_tot(bs1.S(), S, 2));
+//         REQUIRE(libchemist::ta_helpers::allclose_tot(bs1.S(), S,
+//         2));
 //     }
 
 //     SECTION("S() const") {
@@ -89,17 +97,20 @@
 //     SECTION("Hash") {
 //         SECTION("Same state") {
 //             base_space bs3(sm1, S);
-//             REQUIRE(sde::hash_objects(bs1) == sde::hash_objects(bs3));
+//             REQUIRE(sde::hash_objects(bs1) ==
+//             sde::hash_objects(bs3));
 //         }
 
 //         SECTION("Different sparse map") {
 //             base_space bs3(sm2, S);
-//             REQUIRE(sde::hash_objects(bs1) != sde::hash_objects(bs3));
+//             REQUIRE(sde::hash_objects(bs1) !=
+//             sde::hash_objects(bs3));
 //         }
 
 //         SECTION("Different overlap matrix") {
 //             base_space bs3(sm1, S2);
-//             REQUIRE(sde::hash_objects(bs1) != sde::hash_objects(bs3));
+//             REQUIRE(sde::hash_objects(bs1) !=
+//             sde::hash_objects(bs3));
 //         }
 //     }
 
