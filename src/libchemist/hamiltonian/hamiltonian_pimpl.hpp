@@ -4,6 +4,7 @@
 
 namespace libchemist::detail_ {
 
+#if 0
 template <template <std::size_t...> typename T, std::size_t M, std::size_t... Ns>
 auto make_indexed_tuple_container_row( std::index_sequence<Ns...> ) {
   return std::tuple< T<M,Ns> ... >();
@@ -44,19 +45,14 @@ template <size_t I, size_t J, template <std::size_t...> typename T, size_t M, si
 const auto& get( const indexed_tuple_container<T,M,N>& t ){
   return std::get<I*N + J>( t.data );
 }
+#endif
 
 
 
 class HamiltonianPIMPL {
 
-  static constexpr std::size_t max_nbody = Hamiltonian::max_nbody;
-
-  template <typename OpType>
-  using term_container_type = 
-    std::multimap< std::type_index, std::shared_ptr<OpType> >;
-
-  template <std::size_t NE, std::size_t NN>
-  using nbody_container = term_container_type<Operator<NE,NN>>;
+  using operator_container_type = 
+    std::multimap< std::type_index, std::shared_ptr<Operator> >;
 
 public:
 
@@ -69,28 +65,24 @@ public:
   HamiltonianPIMPL& operator=( HamiltonianPIMPL&& other ) noexcept;
 
 
-  template <std::size_t NE, std::size_t NN>
-  void add_term( std::type_index index, std::shared_ptr<Operator<NE,NN>>&& op ) {
-    get<NE,NN>(terms_).insert( {index, std::move(op)} );
+  inline void add_term( std::type_index index, std::shared_ptr<Operator>&& op ) {
+    terms_.insert( {index, std::move(op)} );
   }
 
 
-  template <typename OpType>
-  using get_return_type = Hamiltonian::get_return_type<OpType>;
+  using get_return_type = Hamiltonian::get_return_type<Operator>;
 
-  template <std::size_t NE, std::size_t NN>
-  get_return_type<Operator<NE,NN>> get_terms( std::type_index index ) const {
-    auto [b,e] = get<NE,NN>(terms_).equal_range( index );
+  inline get_return_type get_terms( std::type_index index ) const {
+    auto [b,e] = terms_.equal_range( index );
     const std::size_t n_terms = std::distance(b,e);
-    get_return_type<Operator<NE,NN>> ret_terms; ret_terms.reserve(n_terms);
+    get_return_type ret_terms; ret_terms.reserve(n_terms);
     for( auto it = b; it != e; ++it )
       ret_terms.emplace_back(it->second);
     return ret_terms;
   }
 
-  template <std::size_t NE, std::size_t NN>
-  bool has_term( std::type_index index ) const noexcept {
-    return get<NE,NN>(terms_).count(index);
+  inline bool has_term( std::type_index index ) const noexcept {
+    return terms_.count(index);
   }
 
 
@@ -98,7 +90,7 @@ public:
 
 private:
 
-  detail_::indexed_tuple_container<nbody_container,max_nbody+1,max_nbody+1> terms_;
+  operator_container_type terms_;
 
 };
 

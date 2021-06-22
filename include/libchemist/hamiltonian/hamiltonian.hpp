@@ -14,8 +14,6 @@ class HamiltonianPIMPL;
 class Hamiltonian {
 
 public:
-  /// Max number particle number for supported operators
-  static constexpr std::size_t max_nbody = 2;
 
   /** @brief Creates a new Hamiltonian instance containing no operators.
    *
@@ -77,8 +75,7 @@ public:
   template <typename OpType>
   detail_::enable_if_operator_t< OpType, Hamiltonian& > 
     add_term( const OpType& op ) {
-    add_term_<OpType::n_elec,OpType::n_nuc>( typeid(OpType), 
-      std::make_shared<OpType>(op) );
+    add_term_( typeid(OpType), std::make_shared<OpType>(op) );
     return *this;
   }
 
@@ -95,28 +92,23 @@ public:
   template <typename OpType>
   detail_::enable_if_operator_t< OpType, get_return_type<OpType> > 
     get_terms() const {
-    auto type_erased_terms = 
-      get_terms_<OpType::n_elec,OpType::n_nuc>( typeid(OpType) );
+    auto type_erased_terms = get_terms_( typeid(OpType) );
     get_return_type<OpType> ret_terms( type_erased_terms.size() );
     std::transform( type_erased_terms.begin(), type_erased_terms.end(),
-      ret_terms.begin(), 
-      std::dynamic_pointer_cast<OpType,Operator<OpType::n_elec,OpType::n_nuc>> );
+      ret_terms.begin(), std::dynamic_pointer_cast<OpType,Operator> );
     return ret_terms;
   }
 
   template <typename OpType>
   detail_::enable_if_operator_t< OpType, bool > has_term() const noexcept {
-    return has_term_<OpType::n_elec,OpType::n_nuc>( typeid(OpType) );
+    return has_term_( typeid(OpType) );
   }
 private:
 
-  template <std::size_t NE, std::size_t NN>
-  void add_term_( std::type_index index, std::shared_ptr<Operator<NE,NN>>&& );
+  void add_term_( std::type_index index, std::shared_ptr<Operator>&& );
 
-  template <std::size_t NE, std::size_t NN>
-  get_return_type<Operator<NE,NN>> get_terms_( std::type_index index ) const;
+  get_return_type<Operator> get_terms_( std::type_index index ) const;
 
-  template <std::size_t NE, std::size_t NN>
   bool has_term_( std::type_index index ) const noexcept;
 
   std::unique_ptr<detail_::HamiltonianPIMPL> pimpl_;
@@ -124,6 +116,7 @@ private:
 };
 
 
+#if 0
 #define EXTERN_DECL_HAM_FUNCTIONS(NMAX,NE,NN)                          \
   extern template void Hamiltonian::add_term_<NE,NN>( std::type_index, \
     std::shared_ptr<Operator<NE,NN>>&& );                              \
@@ -133,22 +126,11 @@ private:
     std::type_index ) const noexcept;
 
 
-#if 0
-extern template void Hamiltonian::add_term_<1>(std::type_index,std::shared_ptr<Operator<1>>&&);
-extern template void Hamiltonian::add_term_<2>(std::type_index,std::shared_ptr<Operator<2>>&&);
-
-extern template Hamiltonian::get_return_type<Operator<1>> Hamiltonian::get_terms_<1>(std::type_index) const;
-extern template Hamiltonian::get_return_type<Operator<2>> Hamiltonian::get_terms_<2>(std::type_index) const;
-
-extern template bool Hamiltonian::has_term_<1>(std::type_index) const noexcept;
-extern template bool Hamiltonian::has_term_<2>(std::type_index) const noexcept;
-#else
 
 EXTERN_DECL_HAM_FUNCTIONS(2,1,0)
 EXTERN_DECL_HAM_FUNCTIONS(2,1,1)
 EXTERN_DECL_HAM_FUNCTIONS(2,2,0)
 EXTERN_DECL_HAM_FUNCTIONS(2,0,2)
-
 #endif
 
 } // namespace libchemist

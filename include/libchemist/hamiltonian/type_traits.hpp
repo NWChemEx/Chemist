@@ -9,13 +9,13 @@ namespace detail_ {
 template <typename OpType>
 struct is_operator {
   static inline constexpr bool value = 
-    std::is_base_of_v<Operator<OpType::n_elec,OpType::n_nuc>,OpType>;
+    std::is_base_of_v<Operator,OpType>;
 };
 
 template <typename OpType>
 struct is_density_dependent_operator {
   static inline constexpr bool value = 
-    std::is_base_of_v<DensityDependentOperator<OpType::n_elec,OpType::n_nuc>,OpType>;
+    std::is_base_of_v<DensityDependentOperator,OpType>;
 };
 
 template <typename OpType>
