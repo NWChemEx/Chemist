@@ -59,13 +59,19 @@ struct DensityDependentOperator : public Operator { };
 
 
 /// Strong type representing an electron.
-struct Electron{};
+struct Electron {};
 /// Strong type representing a nucleus.
-struct Nucleus{};
+struct Nucleus {};
 /// Strong type representing a point charge.
-struct PointCharge{};
+struct PointCharge {};
 /// Strong type representing a nucleus with a point charge distribution.
 struct PointNucleus : public Nucleus, public PointCharge {};
+/// Strong type representing a dipole field.
+struct DipoleField {};
+/// Strong type representing a quadrupole field.
+struct QuadrupoleField {};
+/// Strong type representing a octupole field.
+struct OctupoleField {};
 
 namespace detail_ {
 
@@ -143,12 +149,23 @@ REGISTER_OPERATOR( Kinetic, Operator, ParticleType );
 template <typename P1, typename P2>
 REGISTER_OPERATOR( CoulombInteraction, Operator, P1, P2 );
 
+/// Classical Electron-Field interaction operator type
+template <typename FieldType>
+REGISTER_OPERATOR( ClassicalFieldInteraction, Operator, Electron, FieldType );
+
 /// Electron-Kinetic energy operator type
 using ElectronKinetic         = Kinetic<Electron>;
 /// Electron-Nuclear Coulomb attraction operator type
 using ElectronNuclearCoulomb  = CoulombInteraction< Electron, PointNucleus >;
 /// Electron-Electron Coulomb repulsion operator type
 using ElectronElectronCoulomb = CoulombInteraction< Electron, Electron >;
+
+/// Classical Electron-Dipole field interaction operator type
+using ClassicalElectronDipoleField     = ClassicalFieldInteraction<DipoleField>;
+/// Classical Electron-Quadrupole field interaction operator type
+using ClassicalElectronQuadrupoleField = ClassicalFieldInteraction<QuadrupoleField>;
+/// Classical Electron-Octupole field interaction operator type
+using ClassicalElectronOctupoleField   = ClassicalFieldInteraction<OctupoleField>;
 
 
 /// Mean-field Coulomb operator type
