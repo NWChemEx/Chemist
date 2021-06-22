@@ -9,6 +9,19 @@ class HamiltonianPIMPL;
 } // namespace detail_
 
 
+/** @brief A class to store an manipulate molecular Hamiltonians.
+ *
+ *  This class provides a set of public APIs for the storage and
+ *  manipulations of molecular Hamiltonians representing some 
+ *  physical state of affairs. Hamiltonian instances are comprised
+ *  of a collection of Operators which represent physical interactions
+ *  between the particles of the system.
+ *
+ *  Example usage (Born-Oppenheimer Hamiltonian):
+ *      Hamilton bo_hamiltonian( ElectronKinetic{}, ElectronNuclearCoulomb{} );
+ *      bo_hamiltonian.add_term( ElectronElectronCoulomb{} );
+ *      bo_hamiltonian.add_term( NuclearNuclearCoulomb{} );
+ */
 class Hamiltonian {
 
 public:
