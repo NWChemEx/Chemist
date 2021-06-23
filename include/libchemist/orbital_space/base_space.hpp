@@ -30,6 +30,14 @@ public:
      */
     auto size() const { return size_(); }
 
+    template<typename T, typename... ModeTypes>
+    type::tensor_wrapper transform(const type::tensor<T>& t,
+                                   ModeTypes&&... modes) const;
+
+    template<typename T, typename... ModeTypes>
+    type::tensor_wrapper transform(const type::tensor_of_tensors<T>& t,
+                                   ModeTypes&&... modes) const;
+
     /** @brief Transforms the specified modes of a tensor to the orbital space.
      *
      *  This function takes an input tensor @p t and a list of mode indices,
@@ -312,16 +320,30 @@ inline bool operator==(const BaseSpace&, const BaseSpace&) { return true; }
 inline bool operator!=(const BaseSpace&, const BaseSpace&) { return false; }
 
 //------------------------- Implementations -----------------------------------
+template<typename T, typename... ModeTypes>
+type::tensor_wrapper BaseSpace::transform(const type::tensor<T>& t,
+                                          ModeTypes&&... modes) const {
+    return transform(type::tensor_wrapper(t),
+                     std::forward<ModeTypes>(modes)...);
+}
+
+template<typename T, typename... ModeTypes>
+type::tensor_wrapper BaseSpace::transform(const type::tensor_of_tensors<T>& t,
+                                          ModeTypes&&... modes) const {
+    return transform(type::tensor_wrapper(t),
+                     std::forward<ModeTypes>(modes)...);
+}
+
 template<typename... ModeTypes>
 type::tensor_wrapper BaseSpace::transform(const type::tensor_wrapper& t,
                                           ModeTypes&&... modes) const {
     constexpr bool do_transform = sizeof...(ModeTypes);
-    std::vector<type::size> mode_v{std::forward<ModeTypes>(modes)...};
+    std::vector mode_v{type::size{std::forward<ModeTypes>(modes)}...};
     return do_transform ? transform_(t, mode_v) : t;
 }
 
 inline bool BaseSpace::equal(const BaseSpace& rhs) const noexcept {
-    return equal_(rhs) && rhs.equal(*this);
+    return equal_(rhs) && rhs.equal_(*this);
 }
 
 template<typename DerivedType>

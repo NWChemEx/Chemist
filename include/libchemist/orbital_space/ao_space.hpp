@@ -32,11 +32,77 @@ public:
     /** @brief Creates a new AOSpace. The AOSpace has no AO basis set and the
      *         base class is also default initialized.
      *
-     *
+     *  @throw ??? Throws if initialization of the base class throws. Same throw
+     *             gurantee.
      */
     AOSpace() = default;
 
+    /** @brief Creates a new AOSpace which is a deep copy of @p rhs.
+     *
+     *  This ctor creates a new AOSpace instance by deep copying the AOSpace
+     *  part of the polymorphic object @p rhs. Note that the "AOSpace part"
+     *  includes the class AOSpace derives from.
+     *
+     *  @param[in] rhs The AOSpace we are copying.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the memory for
+     *                        the new state. Strong throw guarantee.
+     *
+     */
     AOSpace(const AOSpace& rhs) = default;
+
+    /** @brief Creates a new AOSpace by taking ownership of @p rhs.
+     *
+     *  This ctor creates a new AOSpace instance by taking ownerhip of the
+     *  state inside the AOSpace part of the polymorphic object @p rhs. Note
+     *  that the "AOSpace part" includes the class AOSpace derives from and that
+     *  if the most derived type of @p rhs is not AOSpace, this will cause a
+     *  slice to happen.
+     *
+     *  @param[in,out] rhs The AOSpace we are taking the state from. After this
+     *                     operation AOSpace will be in a valid but otherwise
+     *                     undefined state.
+     *
+     *  @throw ??? If moving the base class throws the move ctor will throw.
+     *             Same throw guarantee as the base class.
+     */
+    AOSpace(AOSpace&& rhs) = default;
+
+    /** @brief Replaces the current AOSpace's state with a deep copy of @p rhs.
+     *
+     *  The copy assignment operator replaces this AOSpace instance's state with
+     *  the state inside the AOSpace part of the polymorphic object @p rhs. Note
+     *  that the "AOSpace part" includes the class AOSpace derives from and that
+     *  if the most derived type of @p rhs is not AOSpace, this will cause a
+     *  slice to happen.
+     *
+     *  @param[in] rhs The AOSpace we are copying the state from.
+     *
+     *  @return The current instance with its state replaced by that of @p rhs.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the memory for
+     *                        the new state. Strong throw guarantee.
+     */
+    AOSpace& operator=(const AOSpace& rhs) = default;
+
+    /** @brief Replaces the current AOSpace's state with that of @p rhs.
+     *
+     *  The move assignment operator replaces this AOSpace instance's state with
+     *  the state inside the AOSpace part of the polymorphic object @p rhs. Note
+     *  that the "AOSpace part" includes the class AOSpace derives from and that
+     *  if the most derived type of @p rhs is not AOSpace, this will cause a
+     *  slice to happen.
+     *
+     *  @param[in,out] rhs The AOSpace we are taking the state from. After this
+     *                     operation AOSpace will be in a valid but otherwise
+     *                     undefined state.
+     *
+     *  @return The current instance with its state replace by that of @p rhs.
+     *
+     *  @throw ??? If moving the base class throws the move assignment operator
+     *             will throw. Same throw guarantee as the base class.
+     */
+    AOSpace& operator=(AOSpace&& rhs) = default;
 
     /** @brief Creates a new atomic orbital space.
      *
@@ -115,6 +181,31 @@ private:
     basis_type m_bs_;
 };
 
+/** @brief Comapres two AOSpace instances for equality.
+ *
+ *  Two AOSpace instances are equal if the AOBasisSet instances they contain are
+ *  the same and if the state of the base classes are the same. In particular
+ *  this means that both @p lhs and @p rhs must have the same type to be
+ *  considered equal.
+ *
+ *  @tparam LHSAO The type of the AO basis set in @p lhs. Assumed to be an
+ *                 instantiation of `libchemist::AOBasisSet`.
+ *  @tparam LHSBase The class AOSpace inherits from. Assumed to be either
+ *                  `libchemist::BaseSpace` or `libchemist::DependentSpace`.
+ *  @tparam RHSAO The type of the AO basis set in @p rhs. Assumed to be an
+ *                 instantiation of `libchemist::AOBasisSet`.
+ *  @tparam RHSBase The class AOSpace inherits from. Assumed to be either
+ *                  `libchemist::BaseSpace` or `libchemist::DependentSpace`.
+ *
+ *  @param[in] lhs The instance on the left of the equality.
+ *  @param[in] rhs The instance on the right of the equality.
+ *
+ *  @return True if the AOSpace part of @p lhs compares equal to the AOSpace
+ *          part of @p rhs. False otherwise.
+ *
+ *  @throw ??? Throws if comparing the base classes throws. Same throw
+ *             guarantee.
+ */
 template<typename LHSAO, typename LHSBase, typename RHSAO, typename RHSBase>
 inline bool operator==(const AOSpace<LHSAO, LHSBase>& lhs,
                        const AOSpace<RHSAO, RHSBase>& rhs) {
@@ -127,10 +218,35 @@ inline bool operator==(const AOSpace<LHSAO, LHSBase>& lhs,
 
         const LHSBase& lbase = lhs;
         const RHSBase& rbase = rhs;
-        return lhs == rhs;
+        return lbase == rbase;
     }
 }
 
+/** @brief Determines if two AOSpace instances are different.
+ *
+ *  Two AOSpace instances are equal if the AOBasisSet instances they contain are
+ *  the same and if the state of the base classes are the same. In particular
+ *  this means that both @p lhs and @p rhs must have the same type to be
+ *  considered equal.
+ *
+ *  @tparam LHSAO The type of the AO basis set in @p lhs. Assumed to be an
+ *                 instantiation of `libchemist::AOBasisSet`.
+ *  @tparam LHSBase The class AOSpace inherits from. Assumed to be either
+ *                  `libchemist::BaseSpace` or `libchemist::DependentSpace`.
+ *  @tparam RHSAO The type of the AO basis set in @p rhs. Assumed to be an
+ *                 instantiation of `libchemist::AOBasisSet`.
+ *  @tparam RHSBase The class AOSpace inherits from. Assumed to be either
+ *                  `libchemist::BaseSpace` or `libchemist::DependentSpace`.
+ *
+ *  @param[in] lhs The instance on the left of the inequality.
+ *  @param[in] rhs The instance on the right of the inequality.
+ *
+ *  @return False if the AOSpace part of @p lhs compares equal to the AOSpace
+ *          part of @p rhs. True otherwise.
+ *
+ *  @throw ??? Throws if comparing the base classes throws. Same throw
+ *             guarantee.
+ */
 template<typename LHSAO, typename LHSBase, typename RHSAO, typename RHSBase>
 inline bool operator!=(const AOSpace<LHSAO, LHSBase>& lhs,
                        const AOSpace<RHSAO, RHSBase>& rhs) {
