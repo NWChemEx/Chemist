@@ -1,23 +1,10 @@
+#include "detail_/make_indices.hpp"
 #include "libchemist/orbital_space/derived_space.hpp"
 #include "libchemist/ta_helpers/ta_hashers.hpp"
-#include "detail_/make_indices.hpp"
 
 namespace libchemist::orbital_space {
 
 #define DERIVED_SPACE DerivedSpace<TransformType, FromSpace, BaseType>
-
-template<typename TransformType, typename FromSpace, typename BaseType>
-template<typename... Args>
-DERIVED_SPACE::DerivedSpace(transform_type C, from_space_type base,
-                            Args&&... args) :
-  DerivedSpace(std::move(C), std::make_shared<from_space_type>(std::move(base)),
-               std::forward<Args>(args)...) {}
-
-template<typename TransformType, typename FromSpace, typename BaseType>
-template<typename... Args>
-DERIVED_SPACE::DerivedSpace(transform_type C, from_space_ptr pbase,
-                            Args&&... args) :
-  BaseType(std::forward<Args>(args)...), m_C_(std::move(C)), m_pbase_(pbase) {}
 
 template<typename TransformType, typename FromSpace, typename BaseType>
 typename DERIVED_SPACE::size_type DERIVED_SPACE::size_() const noexcept {

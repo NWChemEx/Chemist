@@ -37,8 +37,14 @@ public:
     /// Type of an offset or index
     using size_type = typename BaseType::size_type;
 
-    /** @brief Creates a new DerivedSpace_ which has no transformation
+    /** @brief Creates a new DerivedSpace which has no transformation
      *         or from space.
+     *
+     *  The instance created by this ctor is simply a placeholder. It will not
+     *  have a transformation or a from space. The only way to make the
+     *  resulting instance valid is to assign to it.
+     *
+     *  @throw None No throw guarantee
      */
     DerivedSpace() = default;
 
@@ -62,20 +68,28 @@ public:
      * @param[in] args The arguments which will be forwarded to the base class's
      *                 ctor.
      *
-     * @throw ??? If moving `C`, moving `from_space`, or fowarding `args`
-     *            throws. Same throw guarantee.
+     * @throw ??? If fowarding `args` throws. Same throw guarantee.
      */
     template<typename... Args>
     DerivedSpace(transform_type C, from_space_type from_space, Args&&... args);
 
-    /** @brief Creates a new DerivedSpace_ with the specified state.
+    /** @brief Creates a new DerivedSpace with the specified state.
      *
      *  This ctor is designed to be used when the "from space" instance has
-     *  already been created and is in use by another "to space". For example
-     *  one would use this ctor to construct the virtual MO space using the AO
-     *  space stored in the already constructed occupied MO space. Note that if
-     *  the "from space" is modified elsewhere the instance aliased within this
-     *  class will reflect those changes.
+     *  already been created and lives in  another "to space". For example one
+     *  could use this ctor to construct the virtual MO space using the AO space
+     *  stored in the already constructed occupied MO space. Since this ctor is
+     *  public there's nothing stopping you from doing:
+     *
+     *  @code
+     *  auto pfrom = std::make_shared<from_space_type>();
+     *  DerivedSpace derive(C, pfrom);
+     *  @endcode
+     *
+     *  The above code violates the assumption that the original from space
+     *  resides in another DerivedSpace and allows you to modify the from space.
+     *  Modifying the from space after it has been set is undefined behavior.
+     *
      *
      * @tparam Args The types of the inputs which will be forwarded to the base
      *              class's ctor.
@@ -86,11 +100,84 @@ public:
      * @param[in] args The arguments which will be forwarded to the base class's
      *                 ctor.
      *
-     * @throw ??? If moving `C` or forwarding `args` throws. Same throw
-     *            guarantee.
+     * @throw ??? If forwarding `args` throws. Same throw guarantee.
      */
     template<typename... Args>
     DerivedSpace(transform_type C, from_space_ptr pfrom_space, Args&&... args);
+
+    /** @brief Initializes this instance by copying another DerivedSpace
+     *
+     *  This copy is a mix of shallow and deep. The transformation coefficients
+     *  are deep copied, whereas the from space is shallow copied. The
+     *  motivation is that by copying a DerivedSpace instance the user is
+     *  rotating the orbitals (so same from space, different to space). Since
+     *  under normal circumstances the from space is read-only there's no
+     *  reason to copy it and we simply alias it.
+     *
+     *  @note This constructor is not polymorphic, i.e. the resulting instance
+     *        may slice @p other.
+     *
+     *  @param[in] other The DerivedSpace instance we are copying
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the new
+     *                        transformation. Strong throw guarantee.
+     */
+    DerivedSpace(const DerivedSpace& other) = default;
+
+    /** @brief Initializes this instance by taking the state of @p other.
+     *
+     *  The move ctor is a standard move ctor. After this call the new instance
+     *  will contain the same transformation as @p other and alias the same
+     *  from space as @p other.
+     *
+     *  @param[in,out] other The DerivedSpace instance that we are taking the
+     *                       state of. After this call @p other will be in a
+     *                       valid, but otherwise undefined state.
+     *  @throw ??? Throws if the moving the base class throws. Same throw
+     *             guarantee.
+     */
+    DerivedSpace(DerivedSpace&& other) = default;
+
+    /** @brief Replaces the internal state with a copy of another DerivedSpace
+     *         instance's state.
+     *
+     *  This copy is a mix of shallow and deep. The transformation coefficients
+     *  are deep copied, whereas the from space is shallow copied. The
+     *  motivation is that by copying a DerivedSpace instance the user is
+     *  rotating the orbitals (so same from space, different to space). Since
+     *  under normal circumstances the from space is read-only there's no
+     *  reason to copy it and we simply alias it.
+     *
+     *  @note This operator is not polymorphic, i.e. the resulting instance
+     *        may slice @p other.
+     *
+     *  @param[in] rhs The DerivedSpace instance we are copying
+     *
+     *  @return The current instance, after replacing its state with a copy of
+     *          the state in @p rhs.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the new
+     *                        transformation. Strong throw guarantee.
+     */
+    DerivedSpace& operator=(const DerivedSpace& rhs) = default;
+
+    /** @brief Replaces this instance's state with that of @p other.
+     *
+     *  This move assignment is the default move assignment. After this call the
+     *  new instance will contain the same transformation as @p other and alias
+     *  the same from space as @p other.
+     *
+     *  @param[in,out] other The DerivedSpace instance that we are taking the
+     *                       state of. After this call @p other will be in a
+     *                       valid, but otherwise undefined state.
+     *
+     *  @return The current instance, after taking ownership of the state in
+     *          @p rhs.
+     *
+     *  @throw ??? Throws if the moving the base class throws. Same throw
+     *             guarantee.
+     */
+    DerivedSpace& operator=(DerivedSpace&& rhs) = default;
 
     /** @brief Returns the transformation coefficients to go from `from_space`
      *         to the current space.
@@ -103,7 +190,6 @@ public:
      *
      *  @return The transformation coefficients to go from `from_space` to this
      *          space in a read/write format.
-     *
      */
     auto& C() { return m_C_; }
 
@@ -126,12 +212,23 @@ public:
      *
      *  @return The orbital space that this space is defined in terms of in a
      *          read-only manner.
+     *
+     *  @throw std::runtime_error if this instance does not contain a from
+     *                            space. Strong throw guarantee.
      */
-    const auto& from_space() const { return *m_pbase_; }
+    const auto& from_space() const;
 
-    /** @brief Returns the shared_ptr holding the from space
+    /** @brief Returns the shared_ptr holding the from-space
+     *
+     *  Spaces derived from the same from-space can hold shared pointers to that
+     *  space for optimization purposes (users are also deep copy the
+     *  from-space too). Regardless of whether this instance holds the original
+     *  from-space instance or an alias to it, this function can be used to get
+     *  a shared pointer to a read-only version of the from-space.
      *
      *  @return The shared_ptr holding the from space.
+     *
+     *  @throw None No throw guarantee.
      */
     auto from_space_data() const { return m_pbase_; }
 
@@ -180,11 +277,38 @@ bool operator!=(
     return !(lhs == rhs);
 }
 
+// ------------------------- Typedefs ------------------------------------------
+
 using DerivedSpaceD = DerivedSpace<type::tensor<double>, AOSpaceD, BaseSpace>;
 using IndDerivedSpaceD =
   DerivedSpace<type::tensor<double>, DepAOSpaceD, BaseSpace>;
 using DepDerivedSpaceD =
   DerivedSpace<type::tensor_of_tensors<double>, DepAOSpaceD, DependentSpace>;
+
+// ----------------------- Inline Implementations ------------------------------
+
+template<typename TransformType, typename FromSpace, typename BaseType>
+template<typename... Args>
+DerivedSpace<TransformType, FromSpace, BaseType>::DerivedSpace(
+  transform_type C, from_space_type base, Args&&... args) :
+  DerivedSpace(std::move(C), std::make_shared<from_space_type>(std::move(base)),
+               std::forward<Args>(args)...) {}
+
+template<typename TransformType, typename FromSpace, typename BaseType>
+template<typename... Args>
+DerivedSpace<TransformType, FromSpace, BaseType>::DerivedSpace(
+  transform_type C, from_space_ptr pbase, Args&&... args) :
+  BaseType(std::forward<Args>(args)...), m_C_(std::move(C)), m_pbase_(pbase) {}
+
+template<typename TransformType, typename FromSpace, typename BaseType>
+const auto& DerivedSpace<TransformType, FromSpace, BaseType>::from_space()
+  const {
+    if(m_pbase_) return *m_pbase_;
+    throw std::runtime_error("No from space set. Was this instance default "
+                             "initialized or moved from?");
+}
+
+// ---------------- Explicit Template Instantiations ---------------------------
 
 extern template class DerivedSpace<type::tensor<double>, AOSpaceD, BaseSpace>;
 extern template class DerivedSpace<type::tensor<double>, DepAOSpaceD,
