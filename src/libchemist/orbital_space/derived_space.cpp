@@ -41,7 +41,6 @@ type::tensor_wrapper DERIVED_SPACE::transform_(
     // for(const auto& modei : modes) {
     //     auto [r_idx, rhs_idx] = detail_::make_indices(c_idx, t_idx, modei);
     //     rv(r_idx)             = c(c_idx) * t(rhs_idx);
-    //     t_idx                 = r_idx;
     // }
     return rv;
 }
