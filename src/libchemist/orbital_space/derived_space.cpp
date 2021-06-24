@@ -1,7 +1,6 @@
 #include "libchemist/orbital_space/derived_space.hpp"
 #include "libchemist/ta_helpers/ta_hashers.hpp"
-
-#include "make_indices.hpp"
+#include "detail_/make_indices.hpp"
 
 namespace libchemist::orbital_space {
 
