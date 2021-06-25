@@ -5,6 +5,12 @@ namespace libchemist::set_theory {
 template<typename SetType>
 class FamilyOfSets;
 
+/** @brief View of a set which includes a subset of that set's members.
+ *
+ *
+ *
+ *  @tparam SetType Type of the parent set this Subset instance is a subset of.
+ */
 template<typename SetType>
 class Subset {
 private:
@@ -20,12 +26,24 @@ public:
     using obj_reference   = object_type&;
     using const_obj_ref   = const object_type&;
 
-    explicit Subset(parent_type& parent) : m_parent_(parent) {}
+    /** @brief Creates a new, empty, subset of @p parent
+     *
+     *  This ctor creates a new subset of @p parent. The subset will be empty.
+     *  Elements can be added by calling `insert`.
+     *
+     *  @param[in] parent The set that this is a subset of.
+     */
+    explicit Subset(const parent_type& parent) : m_parent_(parent) {}
 
     /** @brief The number of elements in this Subset.
      *
+     *  This function will compute the cardinality (number of elements) of the
+     *  subset.
+     *
      *  @note This is in general **not** the same as the number or elements in
      *        the Subseted object!!!
+     *
+     *  @throw None No throw guarantee.
      */
     size_type size() const noexcept { return m_members_.size(); }
     bool empty() const noexcept { return m_members_.empty(); }
@@ -46,7 +64,9 @@ private:
     void obj_bounds_check_(size_type i) const;
     void set_bounds_check_(size_type i) const;
     boost::container::flat_set<size_type> m_members_;
-    parent_type& m_parent_;
+
+    /// The set we are a subset of
+    const parent_type& m_parent_;
 };
 
 // ---------------------------- Implementations --------------------------------

@@ -1,31 +1,5 @@
-#include "libchemist/molecule/molecule.hpp"
 #include "libchemist/set_theory/family_of_sets.hpp"
-#include <catch2/catch.hpp>
-#include <tuple>
-#include <vector>
-
-using namespace libchemist;
-using namespace libchemist::set_theory;
-using container_types = std::tuple<std::vector<int>, Molecule>;
-
-namespace {
-
-// Makes a non-default object of the specified type that we can partition
-template<typename T>
-auto make_object() {
-    if constexpr(std::is_same_v<T, std::vector<int>>) {
-        return T{1, 2, 3};
-    } else if constexpr(std::is_same_v<T, libchemist::Molecule>) {
-        using value_type = typename Molecule::value_type;
-        using cart_type  = typename value_type::coord_type;
-        value_type O{8ul, cart_type{0.0, 0.0, 0.0}};
-        value_type H0{1ul, cart_type{0.0, 0.0, 0.5}};
-        value_type H1{1ul, cart_type{0.0, 0.5, 0.0}};
-        return T{O, H0, H1};
-    }
-}
-
-} // namespace
+#include "test_set_theory.hpp"
 
 TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
     using parent_type = TestType;
@@ -36,6 +10,39 @@ TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
         SECTION("value_type") {
             using corr = Subset<parent_type>;
             STATIC_REQUIRE(std::is_same_v<value_type, corr>);
+        }
+
+        SECTION("reference_type") {
+            using reference_type = typename family_type::reference_type;
+            using corr           = value_type&;
+            STATIC_REQUIRE(std::is_same_v<reference_type, corr>);
+        }
+
+        SECTION("const_reference") {
+            using const_reference = typename family_type::const_reference;
+            using corr            = const value_type&;
+            STATIC_REQUIRE(std::is_same_v<const_reference, corr>);
+        }
+    }
+
+    TestType default_obj;
+    auto non_default_obj = testing::make_object<TestType>();
+
+    family_type non_default(non_default_obj);
+    family_type defaulted(default_obj);
+
+    SECTION("CTors/Assignment") {
+        SECTION("Value Ctor") {
+            REQUIRE(defaulted.object() == default_obj);
+            REQUIRE(non_default.object() == non_default_obj);
+        }
+
+        SECTION("Copy Ctor") {
+            family_type copy(non_default);
+            SECTION("value") { REQUIRE(copy.object() == non_default_obj); }
+            SECTION("Is a deep-copy") {
+                REQUIRE(&(copy.object()) != &(non_default.object()));
+            }
         }
     }
 }
