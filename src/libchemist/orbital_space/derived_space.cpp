@@ -35,7 +35,7 @@ type::tensor_wrapper DERIVED_SPACE::transform_(
 template<typename TransformType, typename FromSpace, typename BaseType>
 void DERIVED_SPACE::hash_(sde::Hasher& h) const {
     BaseType::hash_(h);
-    h(m_C_, *m_pbase_);
+    h(m_C_, m_pbase_);
 }
 
 template<typename TransformType, typename FromSpace, typename BaseType>

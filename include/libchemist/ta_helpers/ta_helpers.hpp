@@ -364,6 +364,21 @@ bool allclose_tot(T&& actual, U&& ref, std::size_t inner_rank = 0,
 
 } // namespace libchemist::ta_helpers
 
+namespace TiledArray {
+
+/** @brief Enables comparison between TA DistArray objects
+ *
+ * Free function to enable comparison between TA DistArray objects.
+ *
+ * @tparam TensorType Type of tensor (TA::DistArray) for @p A.
+ * @tparam PolicyType Type of policy for @p A. Either DensePolicy or
+ * SparsePolicy.
+ * @tparam TensorType Type of tensor (TA::DistArray) for @p B.
+ * @tparam PolicyType Type of policy for @p B. Either DensePolicy or
+ * SparsePolicy.
+ * @param[in] lhs DistArray object
+ * @param[in] rhs DistArray object
+ */
 template<typename LHSTileType, typename LHSPolicyType, typename RHSTileType,
          typename RHSPolicyType>
 bool operator==(const TA::DistArray<LHSTileType, LHSPolicyType>& lhs,
@@ -373,6 +388,7 @@ bool operator==(const TA::DistArray<LHSTileType, LHSPolicyType>& lhs,
     else {
         if(lhs.is_initialized() != rhs.is_initialized()) return false;
         if(!lhs.is_initialized()) return true;
+        if(lhs.trange() != rhs.trange()) return false;
 
         using scalar_type = typename LHSTileType::scalar_type;
         using namespace libchemist::ta_helpers;
@@ -392,3 +408,5 @@ bool operator!=(const TA::DistArray<LHSTileType, LHSPolicyType>& lhs,
                 const TA::DistArray<RHSTileType, RHSPolicyType>& rhs) {
     return !(lhs == rhs);
 }
+
+} // namespace TiledArray

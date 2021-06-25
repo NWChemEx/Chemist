@@ -2,6 +2,7 @@
 #include "libchemist/orbital_space/ao_space.hpp"
 #include "libchemist/orbital_space/base_space.hpp"
 #include "libchemist/orbital_space/dependent_space.hpp"
+#include "libchemist/ta_helpers/ta_helpers.hpp" // For equality
 #include <memory>
 
 namespace libchemist::orbital_space {
@@ -233,7 +234,23 @@ public:
     auto from_space_data() const { return m_pbase_; }
 
 protected:
+    /// Type of the container used for passing multiple modes to transform
     using mode_container = typename BaseType::mode_container;
+
+    /** @brief Implements size() using the transformation coefficients stored in
+     *         this instane.
+     *
+     *  Exactly how size() behaves depends on how the coefficients in this class
+     *  are stored. If the transformation uses a normal tensor (i.e., not a
+     *  ToT) the return is the number of columns (transformation is assumed to
+     *  be from-space on the rows, to-space on the columns), noting that an
+     *  uninitialized tensor has zero columns. If the transformation is a ToT
+     *  this function returns the sum of the domain sizes.
+     *
+     *  @return The number of orbitals in this space.
+     *
+     *  @throw None No throw guarantee.
+     */
     virtual size_type size_() const noexcept override;
     virtual type::tensor_wrapper transform_(const type::tensor_wrapper& t,
                                             const mode_container& modes) const;
@@ -263,9 +280,16 @@ bool operator==(
         const LBaseType& lbase = lhs;
         const LBaseType& rbase = rhs;
         if(lbase != rbase) return false;
-        auto lstate = std::tie(lhs.C(), lhs.from_space());
-        auto rstate = std::tie(rhs.C(), rhs.from_space());
-        return lstate == rstate;
+        auto plhs = lhs.from_space_data();
+        auto prhs = rhs.from_space_data();
+        if(plhs && prhs) { // Both have from_spaces
+            if(lhs.from_space() != rhs.from_space()) return false;
+        } else if(plhs && !prhs)
+            return false; // LHS has from, RHS doesn't
+        else if(!plhs && prhs)
+            return false; // RHS has from, LHS doesn't
+        // else is both don't have from-space
+        return lhs.C() == rhs.C();
     }
 }
 

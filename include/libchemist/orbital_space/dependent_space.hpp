@@ -177,7 +177,8 @@ inline bool operator!=(const DependentSpace& lhs, const DependentSpace& rhs) {
 inline typename DependentSpace::size_type DependentSpace::size_()
   const noexcept {
     size_type n = 0;
-    // This only works b/c m_sm_ is element2element
+    // This only works b/c m_sm_ is element2element and b/c the domains are not
+    // products
     for(const auto& [i_idx, domain] : m_sm_) n += domain.size();
     return n;
 }
