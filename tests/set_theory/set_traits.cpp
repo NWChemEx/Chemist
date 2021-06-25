@@ -1,12 +1,12 @@
 #include "libchemist/molecule/molecule.hpp"
-#include "libchemist/partitioning/partitioned_object_traits.hpp"
+#include "libchemist/set_theory/set_traits.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::partitioning;
+using namespace libchemist::set_theory;
 
-TEST_CASE("PartitionedObjectTraits<Molecule>") {
+TEST_CASE("SetTraits<Molecule>") {
     using obj_type = libchemist::Molecule;
-    using traits   = PartitionedObjectTraits<obj_type>;
+    using traits   = SetTraits<obj_type>;
 
     SECTION("size_type") {
         using corr = typename obj_type::size_type;
@@ -32,9 +32,9 @@ TEST_CASE("PartitionedObjectTraits<Molecule>") {
         STATIC_REQUIRE(std::is_same_v<corr, T>);
     }
 
-    SECTION("partition_type") {
-        using corr = Partition<obj_type>;
-        using T    = typename traits::partition_type;
+    SECTION("subset_type") {
+        using corr = Subset<obj_type>;
+        using T    = typename traits::subset_type;
         STATIC_REQUIRE(std::is_same_v<corr, T>);
     }
     // Linear water
