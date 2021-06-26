@@ -223,4 +223,113 @@ TEMPLATE_LIST_TEST_CASE("Subset", "", container_types) {
             REQUIRE(&(e0[0]) == &(non_default.object()[0]));
         }
     }
+
+    SECTION("operator+=") {
+        SECTION("empty += filled") {
+            auto p = &(empty_non_defaulted += e0);
+            REQUIRE(p == &empty_non_defaulted);
+            REQUIRE(empty_non_defaulted == e0);
+        }
+        SECTION("filled += empty") {
+            subset_type corr(e0);
+            auto p = &(e0 += empty_non_defaulted);
+            REQUIRE(p == &e0);
+            REQUIRE(e0 == corr);
+        }
+        SECTION("e0 += e0") {
+            subset_type corr(e0);
+            auto p = &(e0 += e0);
+            REQUIRE(p == &e0);
+            REQUIRE(e0 == corr);
+        }
+        SECTION("e0 += e2") {
+            subset_type corr(non_default, {0ul, 2ul});
+            auto p = &(e0 += e2);
+            REQUIRE(e0 == corr);
+        }
+        SECTION("e2 += e0") {
+            subset_type corr(non_default, {0ul, 2ul});
+            auto p = &(e2 += e0);
+            REQUIRE(e2 == corr);
+        }
+        SECTION("Throws if sets have different parent sets") {
+            REQUIRE_THROWS_AS(empty_defaulted += e0, std::runtime_error);
+        }
+    }
+
+    SECTION("operator+") {
+        SECTION("empty + filled") {
+            auto r = empty_non_defaulted + e0;
+            REQUIRE(r == e0);
+        }
+        SECTION("filled + empty") {
+            auto r = e0 + empty_non_defaulted;
+            REQUIRE(r == e0);
+        }
+        SECTION("e0 + e0") {
+            auto r = e0 + e0;
+            REQUIRE(r == e0);
+        }
+        SECTION("e0 + e2") {
+            subset_type corr(non_default, {0ul, 2ul});
+            auto r = e0 + e2;
+            REQUIRE(r == corr);
+        }
+        SECTION("e2 + e0") {
+            subset_type corr(non_default, {0ul, 2ul});
+            auto r = e2 + e0;
+            REQUIRE(r == corr);
+        }
+        SECTION("Throws if sets have different parent sets") {
+            REQUIRE_THROWS_AS(empty_defaulted + e0, std::runtime_error);
+        }
+    }
+
+    SECTION("Comparisons") {
+        SECTION("Different types") {
+            using parent_type = std::vector<double>;
+            FamilyOfSets<parent_type> f(parent_type{1, 2, 3});
+            Subset<parent_type> f_subset(f);
+            REQUIRE_FALSE(f_subset == empty_defaulted);
+            REQUIRE(f_subset != empty_defaulted);
+        }
+        SECTION("Different parent objects") {
+            REQUIRE_FALSE(empty_defaulted == empty_non_defaulted);
+            REQUIRE(empty_defaulted != empty_non_defaulted);
+        }
+        SECTION("Different family of sets, but otherwise equal") {
+            family_type f(non_default_obj);
+            subset_type s(f);
+            REQUIRE(s == empty_non_defaulted);
+            REQUIRE_FALSE(s != empty_non_defaulted);
+        }
+        SECTION("Empty sets are equal") {
+            SECTION("Empty parent set") {
+                subset_type s(defaulted);
+                REQUIRE(s == empty_defaulted);
+                REQUIRE_FALSE(s != empty_defaulted);
+            }
+
+            SECTION("Non-empty parent set") {
+                subset_type s(non_default);
+                REQUIRE(s == empty_non_defaulted);
+                REQUIRE_FALSE(s != empty_non_defaulted);
+            }
+        }
+        SECTION("Different number of elements") {
+            REQUIRE_FALSE(e0 == e01);
+            REQUIRE(e0 != e01);
+        }
+
+        SECTION("Different elements") {
+            REQUIRE_FALSE(e0 == e2);
+            REQUIRE(e0 != e2);
+        }
+
+        SECTION("Same elements") {
+            subset_type s(non_default, {0ul});
+            REQUIRE(s == e0);
+            REQUIRE_FALSE(s != e0);
+        }
+    }
 }

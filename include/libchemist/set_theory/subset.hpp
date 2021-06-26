@@ -208,7 +208,24 @@ public:
      */
     void insert(const_reference elem);
 
-    // my_type operator+(const my_type& rhs) const;
+    /** @brief Makes this instance the union of itself and @p rhs.
+     *
+     *  @param[in] rhs The Subset we are taking a union with.
+     *
+     *  @return The current instance after taking the union with @p rhs.
+     *
+     *  @throws std::runtime_error if @p rhs has a different parent set. Strong
+     *                             throw guarantee.
+     */
+    my_type& operator+=(const my_type& rhs);
+
+    /** @brief Returns the union of this instance with @p rhs.
+     *
+     *  @param[in] rhs The instance we are taking the union with.
+     *
+     *  @return The union of this instance with @p rhs.
+     */
+    my_type operator+(const my_type& rhs) const;
     // my_type operator^(const my_type& rhs) const;
     // my_type operator-(const my_type& rhs) const;
 
@@ -226,7 +243,63 @@ private:
     const parent_type* m_parent_;
 };
 
-// ---------------------------- Implementations --------------------------------
+/** @brief Compares two Subset instances for equality.
+ *
+ *  @relates Subset
+ *
+ *  Two Subset instances are equal if they are subsets of the same set and if
+ *  they contain the same elements. In particular this does not place any
+ *  restriction on what family of sets they belong to.
+ *
+ *  @tparam LHSSetType The type of the set @p lhs is drawn from.
+ *  @tparam RHSSetType The type of the set @p rhs is drawn from.
+ *
+ *  @param[in] lhs The set on the left side of the equality operator.
+ *  @param[in] rhs The set on the right side of the equality operator.
+ *
+ *  @return True if @p lhs is equal to @p rhs and false otherwise.
+ *
+ *  @throw None No throw guarantee.
+ */
+template<typename LHSSetType, typename RHSSetType>
+bool operator==(const Subset<LHSSetType>& lhs, const Subset<RHSSetType>& rhs) {
+    if constexpr(!std::is_same_v<decltype(lhs), decltype(rhs)>) {
+        return false;
+    } else {
+        if(lhs.object() != rhs.object()) return false;
+        if(lhs.size() != rhs.size()) return false;
+        using size_type = typename Subset<LHSSetType>::size_type;
+        for(size_type i = 0; i < lhs.size(); ++i)
+            if(lhs[i] != rhs[i]) return false;
+        return true;
+    }
+}
+
+/** @brief Determines if two Subset instances are different.
+ *
+ *  @relates Subset
+ *
+ *  Two Subset instances are equal if they are subsets of the same set and
+ * if they contain the same elements. In particular this does not place any
+ *  restriction on what family of sets they belong to.
+ *
+ *  @tparam LHSSetType The type of the set @p lhs is drawn from.
+ *  @tparam RHSSetType The type of the set @p rhs is drawn from.
+ *
+ *  @param[in] lhs The instance on the left side of the not-equal operator
+ *  @param[in] rhs The instance on the right side of the not-equal operator
+ *
+ *  @return False if @p lhs is equal to @p rhs and true otherwise.
+ *
+ *  @throw None No throw guarantee.
+ */
+template<typename LHSSetType, typename RHSSetType>
+bool operator!=(const Subset<LHSSetType>& lhs, const Subset<RHSSetType>& rhs) {
+    return !(lhs == rhs);
+}
+
+// ---------------------------- Implementations
+// --------------------------------
 
 #define SUBSET Subset<SetType>
 
@@ -266,6 +339,19 @@ bool SUBSET::count(const_reference elem) const {
     for(size_type i = 0; i < size(); ++i)
         if((*this)[i] == elem) return true;
     return false;
+}
+
+template<typename SetType>
+SUBSET& SUBSET::operator+=(const Subset& rhs) {
+    if(object() != rhs.object())
+        throw std::runtime_error("Subsets are not part of the same universe");
+    m_members_.insert(rhs.m_members_.begin(), rhs.m_members_.end());
+    return *this;
+}
+
+template<typename SetType>
+SUBSET SUBSET::operator+(const Subset& rhs) const {
+    return Subset(*this) += rhs;
 }
 
 template<typename SetType>
