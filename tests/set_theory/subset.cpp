@@ -87,6 +87,45 @@ TEMPLATE_LIST_TEST_CASE("Subset", "", container_types) {
                     REQUIRE_THROWS_AS(subset_type(non_default_ptr, {3ul}),
                                       std::out_of_range);
                 }
+
+                SECTION("Throws if pointer is null") {
+                    typename subset_type::object_ptr null_ptr;
+                    using except_t = std::runtime_error;
+                    REQUIRE_THROWS_AS(subset_type(null_ptr, {0ul}), except_t);
+                }
+            }
+
+            SECTION("Range Ctor") {
+                SECTION("Insert by index") {
+                    std::vector elems{0ul, 2ul};
+                    subset_type e02(non_default_ptr, elems.begin(),
+                                    elems.end());
+                    REQUIRE(e02.size() == 2);
+                    REQUIRE(e02[0] == (*non_default_ptr)[0]);
+                    REQUIRE(e02[1] == (*non_default_ptr)[2]);
+                }
+                SECTION("Insert by value") {
+                    std::vector elems{(*non_default_ptr)[0],
+                                      (*non_default_ptr)[2]};
+                    subset_type e02(non_default_ptr, elems.begin(),
+                                    elems.end());
+                    REQUIRE(e02.size() == 2);
+                    REQUIRE(e02[0] == (*non_default_ptr)[0]);
+                    REQUIRE(e02[1] == (*non_default_ptr)[2]);
+                }
+
+                SECTION("Throws if pointer is null") {
+                    typename subset_type::object_ptr null_ptr;
+                    using except_t = std::runtime_error;
+                    REQUIRE_THROWS_AS(subset_type(null_ptr, {0ul}), except_t);
+                }
+
+                SECTION("Throws if invalid index") {
+                    std::vector<unsigned long> idxs{3ul};
+                    REQUIRE_THROWS_AS(
+                      subset_type(non_default_ptr, idxs.begin(), idxs.end()),
+                      std::out_of_range);
+                }
             }
 
             SECTION("Copy CTor") {

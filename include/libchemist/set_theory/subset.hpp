@@ -24,9 +24,6 @@ class FamilyOfSets;
  *  members are in the proxy and the ability to iterate over the members of the
  *  proxy).
  *
- *  @note Using a Subset instance after the parent FamilyOfSets goes out of
- *        scope is undefined behavior and will likely result in a segfault.
- *
  *  @tparam SetType Type of the parent set this Subset instance is a subset of.
  */
 template<typename SetType>
@@ -72,6 +69,8 @@ public:
      *  @param[in] il The elements to populate the subset with. Defaults to an
      *                empty list, which in turn creates an empty subset.
      *
+     *  @throw std::runtime_error if @p parent is a null pointer. Strong throw
+     *                            guarantee.
      *  @throw std::out_of_range if any of the elements in @p il are not in
      *                           @p parent. Weak throw guarantee.
      */
@@ -84,7 +83,8 @@ public:
      *  specified by two iterators.
      *
      *  @tparam BeginItr Type of the iterator pointing to the first element to
-     *                   be added.
+     *                   be added. Can dereference to either an offset or the
+     *                   actual element.
      *  @tparam EndItr   Type of the iterator pointing to just past the last
      *                   element to be added.
      *  @param[in] parent The superset this set is a subset of.
@@ -93,6 +93,11 @@ public:
      *  @param[in] e The iterator pointing to just past the last element to
      *               include in this subset. It is undefined behavior if @p e is
      *               not reachable by incrementing @p b.
+     *
+     *  @throw std::runtime_error if @p parent is a null pointer. Strong throw
+     *                            guarantee.
+     *  @throw std::out_of_range if any of the elements in the provided range
+     *                           are not in @p parent. Weak throw guarantee.
      */
     template<typename BeginItr, typename EndItr>
     Subset(object_ptr parent, BeginItr&& b, EndItr&& e);
@@ -467,6 +472,8 @@ template<typename SetType>
 template<typename ElemType>
 SUBSET::Subset(object_ptr parent, std::initializer_list<ElemType> il) :
   m_parent_(parent) {
+    if(!m_parent_)
+        throw std::runtime_error("Attempting to initialize with null ptr");
     for(const auto& i : il) insert(i);
 }
 
@@ -474,6 +481,8 @@ template<typename SetType>
 template<typename BeginItr, typename EndItr>
 SUBSET::Subset(object_ptr parent, BeginItr&& b, EndItr&& e) :
   m_parent_(parent) {
+    if(!m_parent_)
+        throw std::runtime_error("Attempting to initialize with null ptr");
     while(b != e) {
         insert(*b);
         ++b;

@@ -96,6 +96,10 @@ public:
 
     /** @brief Returns a shared pointer to the superset.
      *
+     *  The superset is stored in a shared pointer, a copy of which lives in
+     *  this FamilyOfSets and in each Subset object. This function allows you
+     *  to retrieve the shared_ptr, primarily for creating new Subsets.
+     *
      *  @return A shared pointer to the superset.
      *
      *  @throw None no throw guarantee.
@@ -135,10 +139,49 @@ public:
      */
     const_reference at(size_type i) const;
 
+    /** @brief Returns an iterator to the first subset.
+     *
+     *  @return An iterator pointing to the first subset in the family.
+     *
+     *  @throw None no throw guarantee.
+     */
+    auto begin() const noexcept { return m_subsets_.begin(); }
+
+    /** @brief Returns an iterator to just past the last subset in the family.
+     *
+     *  @return An iterator pointing to just past the last subset in the family.
+     *
+     *  @throw None No throw guarantee.
+     */
+    auto end() const noexcept { return m_subsets_.end(); }
+
+    /** @brief Inserts a new subset into the family of subsets.
+     *
+     *  This function is used to insert a new subset into the family of sets. If
+     *  the family already contains @p elem nothing happens.
+     *
+     *  @param[in] elem The subset to insert.
+     *
+     *  @throw std::runtime_error if the Subset is not defined in terms of the
+     *                            same superset. Strong throw guarantee.
+     */
     void insert(value_type elem);
 
-    // bool disjoint() const noexcept;
+    /** @brief Determines if all of the subsets are disjoint.
+     *
+     *  Two sets are disjoint if their intersection is empty. This function will
+     *  determine if all of the sets in this family are disjoint with one
+     *  another.
+     *
+     *  @return True if all pair-wise intersections are empty and false
+     *          otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool disjoint() const noexcept;
+
 private:
+    /// Checks that @p i is a valid offset
     void bounds_check_(size_type i) const;
 
     /// The actual subsets
@@ -148,6 +191,54 @@ private:
     ptr_type m_obj_;
 };
 
+/** @brief Compares two FamilyOfSet instances for equality.
+ *
+ *  @relates FamilyOfSets
+ *
+ *  Two family of sets are equal if they have the same superset, contain the
+ *  same number of subsets, and `lhs[i] == rhs[i]` for all i.
+ *
+ *  @param[in] lhs The FamilyOfSets on the left of the equality.
+ *  @param[in] rhs The FamilyOfSets on the right of the equality.
+ *
+ *  @return True if the families are equal and false otherwise.
+ *
+ *  @throw None No throw guarantee.
+ */
+template<typename LHSSetType, typename RHSSetType>
+bool operator==(const FamilyOfSets<LHSSetType>& lhs,
+                const FamilyOfSets<RHSSetType>& rhs) {
+    if constexpr(!std::is_same_v<decltype(lhs), decltype(rhs)>) {
+        return false;
+    } else {
+        if(lhs.object() != rhs.object()) return false;
+        if(lhs.size() != rhs.size()) return false;
+        using size_type = typename FamilyOfSets<LHSSetType>::size_type;
+        for(size_type i = 0; i < lhs.size(); ++i)
+            if(lhs[i] != rhs[i]) return false;
+        return true;
+    }
+}
+
+/** @brief Determines if two FamilyOfSet instances are different
+ *
+ *  Two family of sets are equal if they have the same superset, contain the
+ *  same number of subsets, and `lhs[i] == rhs[i]` for all i.
+ *
+ *  @param[in] lhs The FamilyOfSets on the left of the not equal operator.
+ *  @param[in] rhs The FamilyOfSets on the right of the not equal operator.
+ *
+ *  @return False if the families are equal and true otherwise.
+ *
+ *  @throw None No throw guarantee.
+ */
+template<typename LHSSetType, typename RHSSetType>
+bool operator!=(const FamilyOfSets<LHSSetType>& lhs,
+                const FamilyOfSets<RHSSetType>& rhs) {
+    return !(lhs == rhs);
+}
+
+// -------------------------- Implementations ---------------------------------
 #define FAMILYOFSETS FamilyOfSets<SetType>
 
 template<typename SetType>
@@ -174,6 +265,20 @@ void FAMILYOFSETS::insert(value_type elem) {
         throw std::runtime_error("Subset is not part of this family");
 
     m_subsets_.emplace(std::move(elem));
+}
+
+template<typename SetType>
+bool FAMILYOFSETS::disjoint() const noexcept {
+    auto e = end();
+    for(auto lhs = begin(); lhs != e; ++lhs) {
+        auto rhs = lhs;
+        ++rhs;
+        for(; rhs != e; ++rhs) {
+            auto intersection = (*lhs) ^ (*rhs);
+            if(!intersection.empty()) return false;
+        }
+    }
+    return true;
 }
 
 template<typename SetType>

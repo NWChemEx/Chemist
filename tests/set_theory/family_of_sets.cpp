@@ -156,6 +156,12 @@ TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
             REQUIRE(monomers.object() == non_default_obj);
             REQUIRE(dimers.object() == non_default_obj);
         }
+        SECTION("data") {
+            REQUIRE(&(*defaulted.data()) == &(defaulted.object()));
+            REQUIRE(&(*non_default.data()) == &(non_default.object()));
+            REQUIRE(&(*monomers.data()) == &(monomers.object()));
+            REQUIRE(&(*dimers.data()) == &(dimers.object()));
+        }
         SECTION("empty") {
             REQUIRE(defaulted.empty());
             REQUIRE(non_default.empty());
@@ -188,6 +194,84 @@ TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
             SECTION("Throws if out of bounds") {
                 REQUIRE_THROWS_AS(dimers.at(3), std::out_of_range);
             }
+        }
+    }
+
+    SECTION("iterators") {
+        SECTION("Empty") { REQUIRE(non_default.begin() == non_default.end()); }
+        SECTION("Non-empty") {
+            auto b = monomers.begin();
+            REQUIRE(b != monomers.end());
+            REQUIRE(*b == m0);
+            ++b;
+            REQUIRE(*b == m1);
+            ++b;
+            REQUIRE(*b == m2);
+            ++b;
+            REQUIRE(b == monomers.end());
+        }
+    }
+
+    SECTION("insert") {
+        SECTION("New value") {
+            value_type new_val(monomers.data(), {0ul, 2ul});
+            monomers.insert(new_val);
+            REQUIRE(monomers.size() == 4);
+            REQUIRE(monomers[0] == m0);
+            REQUIRE(monomers[1] == new_val);
+            REQUIRE(monomers[2] == m1);
+            REQUIRE(monomers[3] == m2);
+        }
+        SECTION("Existing value") {
+            monomers.insert(m2);
+            REQUIRE(monomers.size() == 3);
+            REQUIRE(monomers[0] == m0);
+            REQUIRE(monomers[1] == m1);
+            REQUIRE(monomers[2] == m2);
+        }
+
+        SECTION("Throws if different superset") {
+            value_type bad_subset(defaulted.data());
+            using except_t = std::runtime_error;
+            REQUIRE_THROWS_AS(monomers.insert(bad_subset), except_t);
+        }
+    }
+
+    SECTION("disjoint") {
+        REQUIRE(monomers.disjoint());
+        REQUIRE_FALSE(dimers.disjoint());
+    }
+
+    SECTION("Comparisons") {
+        SECTION("Both empty") {
+            family_type rhs(default_obj);
+            REQUIRE(defaulted == rhs);
+            REQUIRE_FALSE(defaulted != rhs);
+        }
+        SECTION("Different supersets") {
+            REQUIRE_FALSE(defaulted == non_default);
+            REQUIRE(defaulted != non_default);
+        }
+        SECTION("Same non-empty") {
+            family_type rhs(non_default_obj, {{0ul}, {1ul}, {2ul}});
+            REQUIRE(monomers == rhs);
+            REQUIRE_FALSE(monomers != rhs);
+        }
+        SECTION("Different non-empty size") {
+            family_type rhs(non_default_obj, {{0ul}, {1ul}});
+            REQUIRE_FALSE(monomers == rhs);
+            REQUIRE(monomers != rhs);
+        }
+        SECTION("Different non-empty subset") {
+            family_type rhs(non_default_obj, {{0ul}, {1ul}, {0ul, 1ul}});
+            REQUIRE_FALSE(monomers == rhs);
+            REQUIRE(monomers != rhs);
+        }
+        SECTION("Different types") {
+            using set_type = std::vector<char>;
+            FamilyOfSets<set_type> rhs(set_type{});
+            REQUIRE_FALSE(defaulted == rhs);
+            REQUIRE(defaulted != rhs);
         }
     }
 }
