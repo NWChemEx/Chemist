@@ -2,9 +2,11 @@
 #include "test_set_theory.hpp"
 
 TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
-    using parent_type = TestType;
-    using family_type = FamilyOfSets<TestType>;
-    using value_type  = typename family_type::value_type;
+    // Types we will need
+    using parent_type    = TestType;
+    using family_type    = FamilyOfSets<TestType>;
+    using value_type     = typename family_type::value_type;
+    using container_type = boost::container::flat_set<value_type>;
 
     SECTION("typedefs") {
         SECTION("value_type") {
@@ -23,25 +25,168 @@ TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
             using corr            = const value_type&;
             STATIC_REQUIRE(std::is_same_v<const_reference, corr>);
         }
+
+        SECTION("size_type") {
+            using size_type = typename family_type::size_type;
+            using corr      = typename container_type::size_type;
+            STATIC_REQUIRE(std::is_same_v<size_type, corr>);
+        }
     }
 
+    // Make a default and a non-default parent set
     TestType default_obj;
     auto non_default_obj = testing::make_object<TestType>();
 
+    // Make family of sets for the empty and non-empty parent sets
     family_type non_default(non_default_obj);
     family_type defaulted(default_obj);
 
+    // Families containg subsets
+    family_type monomers(non_default_obj, {{0ul}, {1ul}, {2ul}});
+    family_type dimers(non_default_obj, {{0ul, 1ul}, {0ul, 2ul}, {1ul, 2ul}});
+
+    // For convenience the subsets in the above families
+    value_type m0(monomers.data(), {0ul}), m1(monomers.data(), {1ul});
+    value_type m2(monomers.data(), {2ul}), d01(dimers.data(), {0ul, 1ul});
+    value_type d02(dimers.data(), {0ul, 2ul}), d12(dimers.data(), {1ul, 2ul});
+
     SECTION("CTors/Assignment") {
         SECTION("Value Ctor") {
-            REQUIRE(defaulted.object() == default_obj);
-            REQUIRE(non_default.object() == non_default_obj);
+            SECTION("Empty family, empty superset") {
+                REQUIRE(defaulted.object() == default_obj);
+                REQUIRE(defaulted.size() == 0);
+            }
+            SECTION("Empty family, non-empty superset") {
+                REQUIRE(non_default.object() == non_default_obj);
+                REQUIRE(non_default.size() == 0);
+            }
+            SECTION("Disjoint family") {
+                REQUIRE(monomers.object() == non_default_obj);
+                REQUIRE(monomers.size() == 3);
+                REQUIRE(monomers[0] == m0);
+                REQUIRE(monomers[1] == m1);
+                REQUIRE(monomers[2] == m2);
+            }
+            SECTION("Intersecting family") {
+                REQUIRE(dimers.object() == non_default_obj);
+                REQUIRE(dimers.size() == 3);
+                REQUIRE(dimers[0] == d01);
+                REQUIRE(dimers[1] == d02);
+                REQUIRE(dimers[2] == d12);
+            }
         }
 
         SECTION("Copy Ctor") {
-            family_type copy(non_default);
-            SECTION("value") { REQUIRE(copy.object() == non_default_obj); }
-            SECTION("Is a deep-copy") {
-                REQUIRE(&(copy.object()) != &(non_default.object()));
+            SECTION("Empty") {
+                family_type copy(non_default);
+                SECTION("value") { REQUIRE(copy.object() == non_default_obj); }
+            }
+            SECTION("Non-empty") {
+                family_type copy(monomers);
+                SECTION("value") {
+                    REQUIRE(copy.object() == non_default_obj);
+                    REQUIRE(copy.size() == 3);
+                    REQUIRE(copy[0] == m0);
+                    REQUIRE(copy[1] == m1);
+                    REQUIRE(copy[2] == m2);
+                }
+            }
+        }
+
+        SECTION("Move Ctor") {
+            SECTION("Empty") {
+                family_type moved(std::move(non_default));
+                REQUIRE(moved.object() == non_default_obj);
+            }
+            SECTION("Non-empty") {
+                family_type moved(std::move(monomers));
+                REQUIRE(moved.object() == non_default_obj);
+                REQUIRE(moved.size() == 3);
+                REQUIRE(moved[0] == m0);
+                REQUIRE(moved[1] == m1);
+                REQUIRE(moved[2] == m2);
+            }
+        }
+
+        SECTION("Copy Assignment") {
+            SECTION("Empty") {
+                family_type copy(defaulted);
+                auto p = &(copy = non_default);
+                REQUIRE(p == &copy);
+                SECTION("value") { REQUIRE(copy.object() == non_default_obj); }
+            }
+            SECTION("Non-empty") {
+                family_type copy(defaulted);
+                auto p = &(copy = monomers);
+                REQUIRE(p == &copy);
+                SECTION("value") {
+                    REQUIRE(copy.object() == non_default_obj);
+                    REQUIRE(copy.size() == 3);
+                    REQUIRE(copy[0] == m0);
+                    REQUIRE(copy[1] == m1);
+                    REQUIRE(copy[2] == m2);
+                }
+            }
+        }
+
+        SECTION("Move Assignment") {
+            SECTION("Empty") {
+                family_type moved(defaulted);
+                auto p = &(moved = std::move(non_default));
+                REQUIRE(p == &moved);
+                REQUIRE(moved.object() == non_default_obj);
+            }
+            SECTION("Non-empty") {
+                family_type moved(defaulted);
+                auto p = &(moved = std::move(monomers));
+                REQUIRE(p == &moved);
+                REQUIRE(moved.object() == non_default_obj);
+                REQUIRE(moved.size() == 3);
+                REQUIRE(moved[0] == m0);
+                REQUIRE(moved[1] == m1);
+                REQUIRE(moved[2] == m2);
+            }
+        }
+    }
+
+    SECTION("Accessors") {
+        SECTION("object") {
+            REQUIRE(defaulted.object() == default_obj);
+            REQUIRE(non_default.object() == non_default_obj);
+            REQUIRE(monomers.object() == non_default_obj);
+            REQUIRE(dimers.object() == non_default_obj);
+        }
+        SECTION("empty") {
+            REQUIRE(defaulted.empty());
+            REQUIRE(non_default.empty());
+            REQUIRE_FALSE(monomers.empty());
+            REQUIRE_FALSE(dimers.empty());
+        }
+        SECTION("size") {
+            REQUIRE(defaulted.size() == 0);
+            REQUIRE(non_default.size() == 0);
+            REQUIRE(monomers.size() == 3);
+            REQUIRE(dimers.size() == 3);
+        }
+        SECTION("operator[]") {
+            REQUIRE(monomers[0] == m0);
+            REQUIRE(monomers[1] == m1);
+            REQUIRE(monomers[2] == m2);
+            REQUIRE(dimers[0] == d01);
+            REQUIRE(dimers[1] == d02);
+            REQUIRE(dimers[2] == d12);
+        }
+        SECTION("at()") {
+            SECTION("In bounds") {
+                REQUIRE(monomers.at(0) == m0);
+                REQUIRE(monomers.at(1) == m1);
+                REQUIRE(monomers.at(2) == m2);
+                REQUIRE(dimers.at(0) == d01);
+                REQUIRE(dimers.at(1) == d02);
+                REQUIRE(dimers.at(2) == d12);
+            }
+            SECTION("Throws if out of bounds") {
+                REQUIRE_THROWS_AS(dimers.at(3), std::out_of_range);
             }
         }
     }

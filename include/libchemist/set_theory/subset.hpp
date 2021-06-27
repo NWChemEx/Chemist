@@ -1,6 +1,10 @@
 #pragma once
 #include "libchemist/set_theory/set_traits.hpp"
+#include <algorithm>
 #include <boost/container/flat_set.hpp>
+#include <iterator>
+#include <memory>
+
 namespace libchemist::set_theory {
 template<typename SetType>
 class FamilyOfSets;
@@ -35,9 +39,6 @@ private:
     using traits_type = SetTraits<SetType>;
 
 public:
-    /// Type of the object which this is a view/subset of
-    using parent_type = FamilyOfSets<SetType>;
-
     /// Type of the elements in SetType
     using value_type = typename traits_type::value_type;
 
@@ -50,10 +51,14 @@ public:
     /// Type of the object this is a view of
     using object_type = SetType;
 
+    /// Type of a pointer to the object this is a view of
+    using object_ptr = std::shared_ptr<const object_type>;
+
     /// Type of a read-only reference to the object this is a view of
     using const_obj_ref = const object_type&;
 
-    /** @brief Creates a new, empty, subset of @p parent
+    /** @brief Creates a new subset of @p parent with the elements specified in
+     *         the provided initializer list.
      *
      *  This ctor creates a new subset of @p parent. The subset will be empty if
      *  no initializer list is provided. Additional elements can be added by
@@ -71,8 +76,26 @@ public:
      *                           @p parent. Weak throw guarantee.
      */
     template<typename ElemType = size_type>
-    explicit Subset(const parent_type& parent,
-                    std::initializer_list<ElemType> il = {});
+    explicit Subset(object_ptr parent, std::initializer_list<ElemType> il = {});
+
+    /** @brief Creates a new subset initialized by the provided iterators.
+     *
+     *  This ctor is used to initialize the subset given a range of elements
+     *  specified by two iterators.
+     *
+     *  @tparam BeginItr Type of the iterator pointing to the first element to
+     *                   be added.
+     *  @tparam EndItr   Type of the iterator pointing to just past the last
+     *                   element to be added.
+     *  @param[in] parent The superset this set is a subset of.
+     *  @param[in] b The iterator pointing to the first element to include in
+     *               this subset.
+     *  @param[in] e The iterator pointing to just past the last element to
+     *               include in this subset. It is undefined behavior if @p e is
+     *               not reachable by incrementing @p b.
+     */
+    template<typename BeginItr, typename EndItr>
+    Subset(object_ptr parent, BeginItr&& b, EndItr&& e);
 
     /** @brief The number of elements in this Subset.
      *
@@ -96,6 +119,34 @@ public:
      *  @throw None No throw gurantee.
      */
     bool empty() const noexcept { return m_members_.empty(); }
+
+    /** @brief Returns a read-only iterator pointing to the index of the first
+     *         element in the subset.
+     *
+     *  For computational efficiency the iterators over the subset class run
+     *  over the indices of the elements in the subset and not the elements
+     *  themselves.
+     *
+     *  @return An interator pointing to the index of the first element in this
+     *          subset.
+     *
+     *  @throw None No throw guarantee.
+     */
+    auto begin() const noexcept { return m_members_.begin(); }
+
+    /** @brief Returns a read-only iterator pointing to just past the index of
+     *         the last element in the subset.
+     *
+     *  For computational efficiency the iterators over the subset class run
+     *  over the indices of the elements in the subset and not the elements
+     *  themselves.
+     *
+     *  @return An interator pointing to just past the index of the last element
+     *          in this subset.
+     *
+     *  @throw None No throw guarantee.
+     */
+    auto end() const noexcept { return m_members_.end(); }
 
     /** @brief Returns an element of this subset by offset.
      *
@@ -155,7 +206,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    const_obj_ref object() const { return m_parent_->object(); }
+    const_obj_ref object() const { return *m_parent_; }
 
     /** @brief Inserts an element by offset in the parent set.
      *
@@ -210,26 +261,136 @@ public:
 
     /** @brief Makes this instance the union of itself and @p rhs.
      *
+     *  The union of two sets @f$A@f$ and @f$B@f$ is a set @f$C@f$ such that
+     *  every element in @f$A@f$ and @f$B@f$ is also in @f$C@f$. This function
+     *  will overwrite the current subset's state with the union of itself and
+     *  @p rhs.
+     *
      *  @param[in] rhs The Subset we are taking a union with.
      *
      *  @return The current instance after taking the union with @p rhs.
      *
      *  @throws std::runtime_error if @p rhs has a different parent set. Strong
      *                             throw guarantee.
+     *  @throws std::bad_alloc if memory allocation fails. Weak throw guarantee.
      */
     my_type& operator+=(const my_type& rhs);
 
     /** @brief Returns the union of this instance with @p rhs.
      *
+     *  The union of two sets @f$A@f$ and @f$B@f$ is a set @f$C@f$ such that
+     *  every element in @f$A@f$ and @f$B@f$ is also in @f$C@f$. This function
+     *  will compute the union of the current subset with @p rhs and return it.
+     *
      *  @param[in] rhs The instance we are taking the union with.
      *
      *  @return The union of this instance with @p rhs.
+     *
+     *  @throw std::runtime_error if @p rhs has a different parent set than the
+     *                            current instance. Strong throw guarantee.
+     *  @throw std::bad_alloc if there is a problem allocating memory. Weak
+     *                        throw guarantee.
      */
     my_type operator+(const my_type& rhs) const;
-    // my_type operator^(const my_type& rhs) const;
-    // my_type operator-(const my_type& rhs) const;
+
+    /** @brief Removes @p rhs from the current set.
+     *
+     *  The set difference of two sets, @f$A@f$ and @f$B@f$, is a set @f$C@f$
+     *  which contains all of the elements in @f$A@f$ that are not in @f$B@f$.
+     *  This function will set the current instance to the set difference of
+     *  itself with @p rhs.
+     *
+     *  @return The current subset after setting it to the set difference with
+     *          @p rhs.
+     *
+     *  @param[in] rhs The set we are taking the set difference with.
+     *
+     *  @throw std::runtime_error if @p rhs has a different parent set. Strong
+     *                            throw guarantee.
+     *  @throw std::bad_alloc if there is a problem allocating memory. Strong
+     *                        throw guarantee.
+     */
+    my_type& operator-=(const my_type& rhs);
+
+    /** @brief Returns the set difference of this with @p rhs.
+     *
+     *  The set difference of two sets, @f$A@f$ and @f$B@f$, is a set @f$C@f$
+     *  which contains all of the elements in @f$A@f$ that are not in @f$B@f$.
+     *  This function will return the set difference of the current instance
+     *  with @p rhs.
+     *
+     *  @return The current subset after setting it to the set difference with
+     *          @p rhs.
+     *
+     *  @param[in] rhs The set we are taking the set difference with.
+     *
+     *  @throw std::runtime_error if @p rhs has a different parent set. Strong
+     *                            throw guarantee.
+     *  @throw std::bad_alloc if a memory allocation problem occurs. Strong
+     *                        throw guarantee.
+     */
+    my_type operator-(const my_type& rhs) const;
+
+    /** @brief Sets this to the intersection of itself with @p rhs.
+     *
+     *  The intersction of two sets, @f$A@f$ and @f$B@f$, is the set @f$C@f$
+     *  containing all elements that appear in both @f$A@f$ and @f$B@f$. This
+     *  function will set the current instance to the intersection of itself
+     *  with @p rhs.
+     *
+     *  @param[in] rhs The set we are taking the intersection with.
+     *
+     *  @return The current instance after setting it to the intersection of
+     *          itself with @p rhs.
+     *
+     *  @throw std::runtime_error if @p rhs has a different parent set. Strong
+     *                            throw guarantee.
+     *  @throw std::bad_alloc if a memory allocation problem occurs. Strong
+     *                        throw guarantee.
+     */
+    my_type& operator^=(const my_type& rhs);
+
+    /** @brief Returns the intersection of this with @p rhs.
+     *
+     *  The intersction of two sets, @f$A@f$ and @f$B@f$, is the set @f$C@f$
+     *  containing all elements that appear in both @f$A@f$ and @f$B@f$. This
+     *  function will return the intersection of itself with @p rhs.
+     *
+     *  @param[in] rhs The set we are taking the intersection with.
+     *
+     *  @return The intersection of this with @p rhs.
+     *
+     *  @throw std::runtime_error if @p rhs has a different parent set. Strong
+     *                            throw guarantee.
+     *  @throw std::bad_alloc if a memory allocation problem occurs. Strong
+     *                        throw guarantee.
+     */
+    my_type operator^(const my_type& rhs) const;
+
+    /** @brief Determines if this Subset comes before @p rhs lexicographically.
+     *
+     *  This function will compare the current subset to @p rhs and determine
+     *  if it comes before it. The comparison is done on the element's offsets
+     *  and not the elements themselves. That is to say the set `{0, 1}` comes
+     *  before the set `{0, 2}` even if the `object()[1]` comes after
+     *  `object()[2]` when sorting the objects.
+     *
+     *  In order to be no-throw this function assumes that the Subset instances
+     *  are subsets of the same superset.
+     *
+     *  @param[in] rhs The instance we are comparing to.
+     *
+     *  @return True if this instance is lexicographically ordered before @p rhs
+     *          and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool operator<(const my_type& rhs) const noexcept;
 
 private:
+    /// Type of the container holding the set
+    using set_type = boost::container::flat_set<size_type>;
+
     /// Verifies that the size of object() is greater than @p i
     void obj_bounds_check_(size_type i) const;
 
@@ -237,10 +398,10 @@ private:
     void set_bounds_check_(size_type i) const;
 
     /// The indices of the elements of object() in this subset
-    boost::container::flat_set<size_type> m_members_;
+    set_type m_members_;
 
     /// Pointer to the family of sets we belong to
-    const parent_type* m_parent_;
+    object_ptr m_parent_;
 };
 
 /** @brief Compares two Subset instances for equality.
@@ -298,16 +459,25 @@ bool operator!=(const Subset<LHSSetType>& lhs, const Subset<RHSSetType>& rhs) {
     return !(lhs == rhs);
 }
 
-// ---------------------------- Implementations
-// --------------------------------
+// ---------------------------- Implementations --------------------------------
 
 #define SUBSET Subset<SetType>
 
 template<typename SetType>
 template<typename ElemType>
-SUBSET::Subset(const parent_type& parent, std::initializer_list<ElemType> il) :
-  m_parent_(&parent) {
+SUBSET::Subset(object_ptr parent, std::initializer_list<ElemType> il) :
+  m_parent_(parent) {
     for(const auto& i : il) insert(i);
+}
+
+template<typename SetType>
+template<typename BeginItr, typename EndItr>
+SUBSET::Subset(object_ptr parent, BeginItr&& b, EndItr&& e) :
+  m_parent_(parent) {
+    while(b != e) {
+        insert(*b);
+        ++b;
+    }
 }
 
 template<typename SetType>
@@ -344,7 +514,7 @@ bool SUBSET::count(const_reference elem) const {
 template<typename SetType>
 SUBSET& SUBSET::operator+=(const Subset& rhs) {
     if(object() != rhs.object())
-        throw std::runtime_error("Subsets are not part of the same universe");
+        throw std::runtime_error("Subsets are not part of the same superset.");
     m_members_.insert(rhs.m_members_.begin(), rhs.m_members_.end());
     return *this;
 }
@@ -352,6 +522,53 @@ SUBSET& SUBSET::operator+=(const Subset& rhs) {
 template<typename SetType>
 SUBSET SUBSET::operator+(const Subset& rhs) const {
     return Subset(*this) += rhs;
+}
+
+template<typename SetType>
+SUBSET& SUBSET::operator-=(const Subset& rhs) {
+    if(object() != rhs.object())
+        throw std::runtime_error("Subsets are not part of the same superset.");
+
+    auto lbegin = m_members_.begin();
+    auto lend   = m_members_.end();
+    auto rbegin = rhs.m_members_.begin();
+    auto rend   = rhs.m_members_.end();
+    set_type result;
+    std::insert_iterator<set_type> out_itr(result, result.begin());
+    std::set_difference(lbegin, lend, rbegin, rend, out_itr);
+    m_members_.swap(result);
+    return *this;
+}
+
+template<typename SetType>
+SUBSET SUBSET::operator-(const Subset& rhs) const {
+    return Subset(*this) -= rhs;
+}
+
+template<typename SetType>
+SUBSET& SUBSET::operator^=(const Subset& rhs) {
+    if(object() != rhs.object())
+        throw std::runtime_error("Subsets are not part of the same superset.");
+
+    auto lbegin = m_members_.begin();
+    auto lend   = m_members_.end();
+    auto rbegin = rhs.m_members_.begin();
+    auto rend   = rhs.m_members_.end();
+    set_type result;
+    std::insert_iterator<set_type> out_itr(result, result.begin());
+    std::set_intersection(lbegin, lend, rbegin, rend, out_itr);
+    m_members_.swap(result);
+    return *this;
+}
+
+template<typename SetType>
+SUBSET SUBSET::operator^(const Subset& rhs) const {
+    return Subset(*this) ^= rhs;
+}
+
+template<typename SetType>
+bool SUBSET::operator<(const Subset& rhs) const noexcept {
+    return m_members_ < rhs.m_members_;
 }
 
 template<typename SetType>
