@@ -103,8 +103,11 @@ auto LABELED_TENSOR_WRAPPER::operator=(RHSType&& rhs_tensor) {
 template<typename TensorWrapperType>
 template<typename ResultType>
 auto LABELED_TENSOR_WRAPPER::variant(LabeledTensorWrapper<ResultType>&) {
+    constexpr bool is_const_wrapper = std::is_const_v<TensorWrapperType>;
     using variant     = typename TensorWrapperType::variant_type;
-    using new_variant = labeled_variant_t<variant>;
+    using const_variant = typename TensorWrapperType::const_variant_type;
+    using v_t = std::conditional_t<is_const_wrapper, const_variant, variant>;
+    using new_variant = labeled_variant_t<v_t>;
     auto l            = [&](auto&& t) { return new_variant{t(m_annotation_)}; };
     return std::visit(l, m_tensor_.variant());
 }
