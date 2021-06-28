@@ -19,7 +19,8 @@ namespace libchemist::tensor::detail_ {
 template<typename LHSType, typename RHSType>
 class AddOp : public OpLayer<AddOp<LHSType, RHSType>> {
 public:
-    AddOp(LHSType lhs, RHSType rhs) : m_lhs_(lhs), m_rhs_(rhs) {}
+    AddOp(LHSType lhs, RHSType rhs) :
+        m_lhs_(std::move(lhs)), m_rhs_(std::move(rhs)) {}
 
     template<typename ResultType>
     auto variant(ResultType&& r);
@@ -29,9 +30,14 @@ private:
     RHSType m_rhs_;
 };
 
-template<typename LHSType, typename RHSType>
-auto operator+(const OpLayer<LHSType>& lhs, const OpLayer<RHSType>& rhs) {
-    return AddOp<LHSType, RHSType>(lhs.downcast(), rhs.downcast());
+template<typename LHSType, typename RHSType,
+         typename=enable_if_expression_t<std::decay_t<LHSType>>,
+         typename=enable_if_expression_t<std::decay_t<RHSType>>>
+auto operator+(LHSType&& lhs, RHSType&& rhs) {
+    using clean_lhs_t = std::decay_t<LHSType>;
+    using clean_rhs_t = std::decay_t<RHSType>;
+    using return_t = AddOp<clean_lhs_t, clean_rhs_t>;
+    return return_t(std::forward<LHSType>(lhs), std::forward<RHSType>(rhs));
 }
 
 // ----------------------- Implementations -------------------------------------

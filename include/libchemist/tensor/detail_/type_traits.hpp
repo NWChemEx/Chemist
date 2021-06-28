@@ -3,10 +3,50 @@
 #include <utilities/type_traits/variant/variant_product.hpp>
 
 namespace libchemist::tensor {
+namespace detail_ {
+template<typename T>
+class OpLayer;
+}
 
+template<typename T>
+static constexpr bool is_expression_v =
+  std::is_base_of_v<detail_::OpLayer<T>, T>;
+
+template<typename T>
+using enable_if_expression_t = std::enable_if_t<is_expression_v<T>>;
+
+/** @brief Determines if a TA::DistArray type is a tensor-of-tensors
+ *
+ *  This type trait determines if @p T is a tensor-of-tensors. It simply
+ *  wraps the call to the respective type trait in TiledArray.
+ *
+ *  @tparam T Assumed to be a specialization of TA::DistArray.
+ */
 template<typename T>
 static constexpr bool is_tot_v =
   TA::detail::is_tensor_of_tensor_v<typename T::value_type>;
+
+template<typename T>
+struct ConstVariant;
+
+template<typename...Args>
+struct ConstVariant<std::variant<Args...>> {
+  using type = std::variant<const std::decay_t<Args>...>;
+};
+
+template<typename T>
+using const_variant_t = typename ConstVariant<T>::type;
+
+template<typename T>
+struct CleanVariant;
+
+template<typename...Args>
+struct CleanVariant<std::variant<Args...>> {
+  using type = std::variant<std::decay_t<Args>...>;
+};
+
+template<typename T>
+using clean_variant_t = typename CleanVariant<T>::type;
 
 /** @brief Type resulting from labeling/annotating a tensor with string indices
  *
