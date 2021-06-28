@@ -14,7 +14,6 @@ using namespace libchemist::tensor;
 TEMPLATE_LIST_TEST_CASE("TensorWrapper DSL", "", tensor_variant_t) {
     auto& world    = TA::get_default_world();
     using TWrapper = TensorWrapper<tensor_variant_t>;
-    using ConstTWrapper = ConstTensorWrapper<tensor_variant_t>;
     using t_type   = TestType;
 
     // Declare the TA tensors
@@ -27,10 +26,10 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper DSL", "", tensor_variant_t) {
     TWrapper mat(ta_matrix);
     TWrapper t3(ta_tensor);
 
-    // Delcare const wrappers
-    ConstTWrapper const_vec(ta_vec);
-    ConstTWrapper const_mat(ta_matrix);
-    ConstTWrapper const_t3(ta_tensor);
+    // Declare const wrappers
+    const TWrapper const_vec(ta_vec);
+    const TWrapper const_mat(ta_matrix);
+    const TWrapper const_t3(ta_tensor);
 
     // Get LabeledTensorWrappers
     auto lvec = vec("i");
@@ -65,6 +64,7 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper DSL", "", tensor_variant_t) {
     }
     SECTION("operator+(const other labeled tensor)const") {
         SECTION("vector") {
+
             result("i") = lvec + const_lvec;
             auto& rv    = result.get<t_type>();
             t_type corr(world, {2.0, 4.0, 6.0});

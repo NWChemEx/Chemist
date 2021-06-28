@@ -46,6 +46,8 @@ public:
     /// Type of the variant this wrapper is templated on
     using variant_type = VariantType;
 
+    using const_variant_type = const_variant_t<variant_type>;
+
     /// Type of a wrapper around a labeled tensor
     using labeled_tensor_type = detail_::LabeledTensorWrapper<my_type>;
 
@@ -286,10 +288,6 @@ template<typename VType>
 std::ostream& operator<<(std::ostream& os, const TensorWrapper<VType>& t) {
     return t.print(os);
 }
-
-/// Type of a variant which holds a read-only tensor
-template<typename VariantType>
-using ConstTensorWrapper = TensorWrapper<const_variant_t<VariantType>>;
 
 // ------------------------------- Implementations -----------------------------
 
