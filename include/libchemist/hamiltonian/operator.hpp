@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <typeindex>
 #include <sde/detail_/memoization.hpp>
+#include <utilities/type_traits/parameter_pack_traits.hpp>
 
 namespace libchemist {
 
@@ -74,55 +75,13 @@ struct QuadrupoleField {};
 struct OctupoleField {};
 
 namespace detail_ {
-
-template <typename ParticleType, typename = void>
-struct is_nucleus_particle : public std::false_type {};
-template <typename ParticleType>
-struct is_nucleus_particle< ParticleType,
-  std::enable_if_t<std::is_base_of_v<Nucleus,ParticleType>> > :
-  public std::true_type {};
-
-
-template <typename ParticleType>
-inline static constexpr bool is_nucleus_particle_v =
-  is_nucleus_particle<ParticleType>::value;
-
-template <typename ParticleType, typename = void>
-struct NElectrons : public std::integral_constant<std::size_t,0> {};
-template <typename ParticleType, typename = void>
-struct NNuclei : public std::integral_constant<std::size_t,0> {};
-
-template <>
-struct NElectrons<Electron> : public std::integral_constant<std::size_t,1> {};
-template <typename ParticleType> 
-struct NNuclei< ParticleType,
-  std::enable_if_t< is_nucleus_particle_v<ParticleType>> > : 
-  public std::integral_constant<std::size_t,1> {};
-
-
-template <typename Head, typename... Tail>
-struct CountElectrons : public std::integral_constant< std::size_t, 
-  NElectrons<Head>::value + CountElectrons<Tail...>::value > {};
-template <typename ParticleType>
-struct CountElectrons<ParticleType> : public std::integral_constant< std::size_t,
-  NElectrons<ParticleType>::value > {};
-
-template <typename Head, typename... Tail>
-struct CountNuclei : public std::integral_constant< std::size_t, 
-  NNuclei<Head>::value + CountNuclei<Tail...>::value > {};
-template <typename ParticleType>
-struct CountNuclei<ParticleType> : public std::integral_constant< std::size_t,
-  NNuclei<ParticleType>::value > {};
-
-
-template <typename... Particles>
-inline static constexpr auto n_electrons_v =
-  CountElectrons<Particles...>::value;
-template <typename... Particles>
-inline static constexpr auto n_nuclei_v =
-  CountNuclei<Particles...>::value;
-} // namespace detail_
-
+  template <typename... Particles>
+  inline static constexpr std::size_t n_electrons_v =
+    utilities::type_traits::parameter_pack_count_derived_type_v<Electron,Particles...>;
+  template <typename... Particles>
+  inline static constexpr std::size_t n_nuclei_v =
+    utilities::type_traits::parameter_pack_count_derived_type_v<Nucleus,Particles...>;
+}
 
 
 
