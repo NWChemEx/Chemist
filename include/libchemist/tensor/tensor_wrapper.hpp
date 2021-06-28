@@ -25,37 +25,22 @@ private:
     /// Type of this instance
     using my_type = TensorWrapper<VariantType>;
 
-    /** @brief Used to enable a function if @p TensorType is in @p VariantType.
+    /// Type of the variant with all unqualified types in it
+    using clean_variant = clean_variant_t<VariantType>;
+
+    /** @brief Used to enable a function if @p T is in @p clean_variant.
      *
      *  This type allows the TensorWrapper class to selectively enable overloads
      *  of functions by using SFINAE. More specifically the function will
-     *  participate in overload resolution if @p TensorType is one of the types
-     *  in @p VariantType.
+     *  participate in overload resolution if @p T is one of the types in
+     *  `clean_variant`.
      *
-     *  @tparam TensorType The type of the tensor which must appear in
-     *                     @p VariantType.
-     */
-    template<typename TensorType>
-    using eif_has_type =
-      utilities::type_traits::variant::enable_if_has_type_t<TensorType,
-                                                            VariantType>;
-
-    /// Type resulting from labeling the read/write types in VariantType
-    using labeled_variant_type = labeled_variant_t<VariantType>;
-
-    /// Type resulting from labeling the read-only types in VariantType
-    using const_labeled_variant_type = const_labeled_variant_t<VariantType>;
-
-    /** @brief Determines if a TA::DistArray type is a tensor-of-tensors
-     *
-     *  This type trait determines if @p T is a tensor-of-tensors. It simply
-     *  wraps the call to the respective type trait in TiledArray.
-     *
-     *  @tparam T Assumed to be a specialization of TA::DistArray.
+     *  @tparam T The type of the tensor which must appear in clean_variant. T
+     *            is expected to be an unqualfied type.
      */
     template<typename T>
-    static constexpr bool is_tot_v =
-      TA::detail::is_tensor_of_tensor<typename T::value_type>::value;
+    using eif_has_type =
+      utilities::type_traits::variant::enable_if_has_type_t<T, clean_variant>;
 
 public:
     /// Type of the variant this wrapper is templated on
@@ -179,12 +164,12 @@ public:
      *  TensorWrapper class) suggests that your function may be better off being
      *  specialized for a particular tensor type.
      *
-     *  @tparam TensorType The non-qualified type of the tensor to retrieve.
+     *  @tparam TensorType The cv-qualified type of the tensor to retrieve.
      *
      *  @return A read/write reference to the wrapped tensor.
      */
     template<typename TensorType>
-    auto& get() {
+    TensorType& get() {
         return std::get<TensorType>(m_tensor_);
     }
 
@@ -198,12 +183,12 @@ public:
      *  TensorWrapper class) suggests that your function may be better off being
      *  specialized for a particular tensor type.
      *
-     *  @tparam TensorType The non-qualified type of the tensor to retrieve.
+     *  @tparam TensorType The cv-qualified type of the tensor to retrieve.
      *
      *  @return A read-only reference to the wrapped tensor.
      */
     template<typename TensorType>
-    const auto& get() const {
+    const TensorType& get() const {
         return std::get<TensorType>(m_tensor_);
     }
 
@@ -301,6 +286,10 @@ template<typename VType>
 std::ostream& operator<<(std::ostream& os, const TensorWrapper<VType>& t) {
     return t.print(os);
 }
+
+/// Type of a variant which holds a read-only tensor
+template<typename VariantType>
+using ConstTensorWrapper = TensorWrapper<const_variant_t<VariantType>>;
 
 // ------------------------------- Implementations -----------------------------
 

@@ -55,7 +55,7 @@ public:
      *  @return The current LabeledTensorWrapper instance, after assigning
      *          @p rhs to it for operator chaining purposes.
      */
-    template<typename RHSType>
+    template<typename RHSType, typename = enable_if_expression_t<std::decay_t<RHSType>>>
     auto operator=(RHSType&& rhs);
 
     /** @brief Returns a variant containing the result of annotating the wrapped
@@ -88,7 +88,7 @@ private:
 #define LABELED_TENSOR_WRAPPER LabeledTensorWrapper<TensorWrapperType>
 
 template<typename TensorWrapperType>
-template<typename RHSType>
+template<typename RHSType, typename>
 auto LABELED_TENSOR_WRAPPER::operator=(RHSType&& rhs_tensor) {
     auto rhs_variant = rhs_tensor.variant(*this);
     auto my_variant  = variant(*this);
