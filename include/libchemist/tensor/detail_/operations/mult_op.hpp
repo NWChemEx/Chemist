@@ -9,18 +9,18 @@ namespace libchemist::tensor::detail_ {
 template<typename LHSType, typename RHSType>
 class MultOp : public OpLayer<MultOp<LHSType, RHSType>> {
 public:
-    MultOp(LHSType& lhs, RHSType& rhs) : m_lhs_(lhs), m_rhs_(rhs) {}
+    MultOp(LHSType lhs, RHSType rhs) : m_lhs_(std::move(lhs)), m_rhs_(std::move(rhs)) {}
 
     template<typename ResultType>
     auto variant(ResultType&& r);
 
 private:
-    LHSType& m_lhs_;
-    RHSType& m_rhs_;
+    LHSType m_lhs_;
+    RHSType m_rhs_;
 };
 
 template<typename LHSType, typename RHSType>
-auto operator*(OpLayer<LHSType>& lhs, OpLayer<RHSType>& rhs) {
+auto operator*(const OpLayer<LHSType>& lhs, const OpLayer<RHSType>& rhs) {
     return MultOp<LHSType, RHSType>(lhs.downcast(), rhs.downcast());
 }
 

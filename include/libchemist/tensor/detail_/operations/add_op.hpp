@@ -30,7 +30,7 @@ private:
 };
 
 template<typename LHSType, typename RHSType>
-auto operator+(OpLayer<LHSType>& lhs, OpLayer<RHSType>& rhs) {
+auto operator+(const OpLayer<LHSType>& lhs, const OpLayer<RHSType>& rhs) {
     return AddOp<LHSType, RHSType>(lhs.downcast(), rhs.downcast());
 }
 

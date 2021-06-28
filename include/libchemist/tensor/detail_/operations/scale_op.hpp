@@ -19,13 +19,13 @@ private:
 
 template<typename FloatType, typename TensorType,
 typename = std::enable_if_t<std::is_floating_point_v<FloatType>>>
-auto operator*(FloatType c, OpLayer<TensorType>& rhs) {
+auto operator*(FloatType c, const OpLayer<TensorType>& rhs) {
     return ScaleOp<FloatType, TensorType>(c, rhs.downcast());
 }
 
 template<typename FloatType, typename TensorType,
 typename = std::enable_if_t<std::is_floating_point_v<FloatType>>>
-auto operator*(OpLayer<TensorType>& lhs, FloatType c) {
+auto operator*(const OpLayer<TensorType>& lhs, FloatType c) {
     return ScaleOp<FloatType, TensorType>(c, lhs.downcast());
 }
 

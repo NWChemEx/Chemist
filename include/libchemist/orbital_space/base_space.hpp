@@ -30,13 +30,10 @@ public:
      */
     auto size() const { return size_(); }
 
-    template<typename T, typename... ModeTypes>
-    type::tensor_wrapper transform(const type::tensor<T>& t,
-                                   ModeTypes&&... modes) const;
+    template<typename TileType, typename PolicyType, typename... ModeTypes>
+    auto transform(const TA::DistArray<TileType, PolicyType>& t,
+                    ModeTypes&&... modes) const;
 
-    template<typename T, typename... ModeTypes>
-    type::tensor_wrapper transform(const type::tensor_of_tensors<T>& t,
-                                   ModeTypes&&... modes) const;
 
     /** @brief Transforms the specified modes of a tensor to the orbital space.
      *
@@ -320,18 +317,17 @@ inline bool operator==(const BaseSpace&, const BaseSpace&) { return true; }
 inline bool operator!=(const BaseSpace&, const BaseSpace&) { return false; }
 
 //------------------------- Implementations -----------------------------------
-template<typename T, typename... ModeTypes>
-type::tensor_wrapper BaseSpace::transform(const type::tensor<T>& t,
-                                          ModeTypes&&... modes) const {
-    return transform(type::tensor_wrapper(t),
-                     std::forward<ModeTypes>(modes)...);
-}
-
-template<typename T, typename... ModeTypes>
-type::tensor_wrapper BaseSpace::transform(const type::tensor_of_tensors<T>& t,
-                                          ModeTypes&&... modes) const {
-    return transform(type::tensor_wrapper(t),
-                     std::forward<ModeTypes>(modes)...);
+template<typename TileType, typename PolicyType, typename... ModeTypes>
+auto BaseSpace::transform(const TA::DistArray<TileType, PolicyType>& t,
+                         ModeTypes&&... modes) const {
+    type::tensor_wrapper wrapped(t);
+    auto rv = transform(std::move(wrapped), std::forward<ModeTypes>(modes)...);
+    using scalar_type = typename TileType::scalar_type;
+    if constexpr(TA::detail::is_tensor_of_tensor_v<TileType>) {
+        return rv.template get<type::tensor_of_tensors<scalar_type>>();
+    } else {
+        return rv.template get<type::tensor<scalar_type>>();
+    }
 }
 
 template<typename... ModeTypes>
