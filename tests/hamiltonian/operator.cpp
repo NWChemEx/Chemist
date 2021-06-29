@@ -14,8 +14,14 @@ void check_operator_particle_count() {
 template <typename OpType>
 void check_stateless_operator_equality() {
   OpType lhs, rhs;
+  auto& lhs_as_operator = static_cast<const Operator&>(lhs);
+  auto& rhs_as_operator = static_cast<const Operator&>(rhs);
   REQUIRE( lhs == rhs );
-  REQUIRE( static_cast<const Operator&>(lhs) == static_cast<const Operator&>(rhs) );
+  REQUIRE( lhs_as_operator == rhs_as_operator ); // Trivially true
+  REQUIRE( lhs_as_operator.is_equal(rhs) );
+  REQUIRE( lhs_as_operator.is_equal(rhs_as_operator) );
+  REQUIRE( lhs.is_equal(rhs) );
+  REQUIRE( lhs.is_equal(rhs_as_operator) );
 }
 
 TEST_CASE("Operator Sanity") {
@@ -44,10 +50,10 @@ TEST_CASE("Operator Sanity") {
 
     SECTION("Electron-Nuclear Coulomb Comparison") {
         ElectronNuclearCoulomb lhs, rhs;
-        lhs.potential().add_charge( PointCharge<double>(-1., 0., 0., 0.) );
-        lhs.potential().add_charge( PointCharge<double>(-1., 0., 0., 2.) );
-        rhs.potential().add_charge( PointCharge<double>(-2., 0., 0., 0.) );
-        rhs.potential().add_charge( PointCharge<double>(-2., 0., 0., 2.) );
+        lhs.add_charge( PointCharge<double>(-1., 0., 0., 0.) );
+        lhs.add_charge( PointCharge<double>(-1., 0., 0., 2.) );
+        rhs.add_charge( PointCharge<double>(-2., 0., 0., 0.) );
+        rhs.add_charge( PointCharge<double>(-2., 0., 0., 2.) );
 
         REQUIRE( lhs == lhs );
         REQUIRE( rhs == rhs );
@@ -56,9 +62,31 @@ TEST_CASE("Operator Sanity") {
         const auto& lhs_as_operator = static_cast<const Operator&>(lhs);
         const auto& rhs_as_operator = static_cast<const Operator&>(rhs);
 
+        // These are trivial
         REQUIRE( lhs_as_operator == lhs_as_operator );
         REQUIRE( rhs_as_operator == rhs_as_operator );
-        REQUIRE( lhs_as_operator != rhs_as_operator );
+        REQUIRE( lhs_as_operator == rhs_as_operator );
+
+        // These are not
+        REQUIRE( lhs.is_equal(lhs) );
+        REQUIRE( lhs_as_operator.is_equal(lhs) );
+        REQUIRE( lhs_as_operator.is_equal(lhs_as_operator) );
+        REQUIRE( lhs.is_equal(lhs_as_operator) );
+
+        REQUIRE( rhs.is_equal(rhs) );
+        REQUIRE( rhs_as_operator.is_equal(rhs) );
+        REQUIRE( rhs_as_operator.is_equal(rhs_as_operator) );
+        REQUIRE( rhs.is_equal(rhs_as_operator) );
+
+        REQUIRE( !lhs.is_equal(rhs) );
+        REQUIRE( !lhs_as_operator.is_equal(rhs) );
+        REQUIRE( !lhs_as_operator.is_equal(rhs_as_operator) );
+        REQUIRE( !lhs.is_equal(rhs_as_operator) );
+
+        REQUIRE( !rhs.is_equal(lhs) );
+        REQUIRE( !rhs_as_operator.is_equal(lhs) );
+        REQUIRE( !rhs_as_operator.is_equal(lhs_as_operator) );
+        REQUIRE( !rhs.is_equal(lhs_as_operator) );
     }
 }
 
