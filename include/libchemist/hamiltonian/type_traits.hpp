@@ -48,5 +48,39 @@ struct enable_if_operator {
 template <typename OpType, typename U = void>
 using enable_if_operator_t = typename enable_if_operator<OpType,U>::type;
 
+
+
+
+
+template <std::size_t N, typename OpType>
+struct is_n_electron_operator {
+    static constexpr bool value = 
+      is_operator_v<OpType> and OpType::n_electrons == N;
+};
+
+template <std::size_t N, typename... Ops>
+inline constexpr bool are_n_electron_operators_v =
+  std::conjunction_v< is_n_electron_operator<N,Ops>... >;
+
+template <typename OpType>
+inline constexpr bool is_one_electron_operator_v =
+  is_n_electron_operator<1,OpType>::value;
+
+template <typename... Ops>
+inline constexpr bool are_one_electron_operators_v =
+  are_n_electron_operators_v<1,Ops...>;
+
+
+template <typename OpType, typename U = void>
+struct enable_if_one_electron_operator {
+  using type = std::enable_if_t<is_one_electron_operator_v<OpType>,U>;
+};
+
+template <typename OpType, typename U = void>
+using enable_if_one_electron_operator_t =
+  typename enable_if_one_electron_operator<OpType,U>::type;
+
+
+
 }
 }

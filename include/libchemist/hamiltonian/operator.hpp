@@ -201,6 +201,7 @@ using ElectronElectronCoulomb = CoulombInteraction< Electron, Electron >;
 /// Electron-Nuclear Coulomb accraction operator type
 class ElectronNuclearCoulomb : public CoulombInteraction<Electron,Nucleus> {
     using base_type = CoulombInteraction<Electron,Nucleus>;
+
 public:
     static constexpr std::size_t n_electrons = 1;
     static constexpr std::size_t n_nuclei    = 1;

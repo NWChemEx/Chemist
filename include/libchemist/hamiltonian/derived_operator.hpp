@@ -9,20 +9,6 @@ class DerivedOperatorPIMPL;
 } // namespace detail_
 
 
-/** @brief A class to store an manipulate molecular Hamiltonians.
- *
- *  This class provides a set of public APIs for the storage and
- *  manipulations of molecular Hamiltonians representing some 
- *  physical state of affairs. Hamiltonian instances are comprised
- *  of a collection of Operators which represent physical interactions
- *  between the particles of the system.
- *
- *  Example usage (Born-Oppenheimer Hamiltonian):
- *      Hamilton bo_hamiltonian( ElectronKinetic{}, ElectronNuclearCoulomb{} );
- *      bo_hamiltonian.add_term( ElectronElectronCoulomb{} );
- *      bo_hamiltonian.add_term( NuclearNuclearCoulomb{} );
- */
-
 /** @brief A class to store an manipulate operators which are 
  *         collections of other operators
  *
@@ -83,7 +69,7 @@ public:
     DerivedOperator( DerivedOperator&& other ) noexcept;
 
     /// Defaulted no-throw dtor
-    ~DerivedOperator() noexcept;
+    virtual ~DerivedOperator() noexcept;
 
     
     /** @brief Deep copy the state of another DerivedOperator instance to the
@@ -135,7 +121,8 @@ public:
      *  @tparam Args Parameter pack of passed Operator types, must all
      *               be derived from Operator.
      *  
-     *  @param[in] args Operator instances from which to construct the DerivedOperator.
+     *  @param[in] args Operator instances from which to construct the 
+     *                  DerivedOperator.
      *
      *  @throw std::bad_alloc if there is insufficient memory either to create the
      *                        PIMPL or to store the internal state of any Operator
@@ -154,13 +141,14 @@ public:
 
     /** @brief Add an additonal operator to the DerivedOperator.
      *
-     *  This function adds an operator to this DerivedOperator. If the DerivedOperator
-     *  is in a PIMPL-less state, this function will generate a PIMPL instance. 
+     *  This function adds an operator to this DerivedOperator by copy. If the 
+     *  DerivedOperator is in a PIMPL-less state, this function will 
+     *  generate a PIMPL instance. 
      *
      *  @tparam OpType The strong type of the operator to add to the 
      *                 DerivedOperator. Must be derived from Operator.
      *
-     *  @param[in] op The operator to add to this DerivedOperator.
+     *  @param[in] op The operator to add to this DerivedOperator by copy.
      *
      *  @return A reference to the current DerivedOperator instance.
      *
@@ -177,10 +165,37 @@ public:
         return *this;
     }
 
+    /** @brief Add an additonal operator to the DerivedOperator.
+     *
+     *  This function adds an operator to this DerivedOperator by move. If the 
+     *  DerivedOperator is in a PIMPL-less state, this function will 
+     *  generate a PIMPL instance. 
+     *
+     *  @tparam OpType The strong type of the operator to add to the 
+     *                 DerivedOperator. Must be derived from Operator.
+     *
+     *  @param[in] op The operator to add to this DerivedOperator by move.
+     *
+     *  @return A reference to the current DerivedOperator instance.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory either to create the
+     *                        PIMPL or to store the internal state of the Operator
+     *                        instance. Basic exception gurantee.
+     *
+     *  Complexity: Constant
+     */
+    template <typename OpType>
+    detail_::enable_if_operator_t< OpType, DerivedOperator& > 
+      add_term( OpType&& op ) {
+        add_term_( typeid(OpType), std::make_shared<OpType>(std::move(op)) );
+        return *this;
+    }
+
     /** @brief Add several additonal operators to the DerivedOperator.
      *
-     *  This function adds several operators to this DerivedOperator. If the DerivedOperator
-     *  is in a PIMPL-less state, this function will generate a PIMPL instance. 
+     *  This function adds several operators to this DerivedOperator. If the 
+     *  DerivedOperator is in a PIMPL-less state, this function will 
+     *  generate a PIMPL instance. 
      *
      *  @tparam Ops The strong types of the operators to add to the 
      *              DerivedOperator. All must be derived from Operator.
@@ -236,11 +251,12 @@ public:
         return ret_terms;
     }
 
-    /** @brief Return whether an Operator type is represented in this DerivedOperator.
+    /** @brief Return whether an Operator type is represented in this 
+     *         DerivedOperator.
      *  
      *  Return a boolean which indicates whether or not a particlar Operator type
-     *  is represented in this DerivedOperator. If this DerivedOperator is in a PIMPL-less
-     *  state, `false` is returned.
+     *  is represented in this DerivedOperator. If this DerivedOperator is in 
+     *  a PIMPL-less state, `false` is returned.
      *
      *  @tparam OpType The Operator type from which to query the DerivedOperator
      *
