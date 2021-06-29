@@ -13,12 +13,12 @@ public:
     auto variant(ResultType&& r);
 
 private:
-    LHSType m_lhs_;
-    RHSType m_rhs_;
+    LHSType& m_lhs_;
+    RHSType& m_rhs_;
 };
 
 template<typename LHSType, typename RHSType>
-auto operator-(const OpLayer<LHSType>& lhs, const OpLayer<RHSType>& rhs) {
+auto operator-(OpLayer<LHSType>& lhs, OpLayer<RHSType>& rhs) {
     return SubtOp<LHSType, RHSType>(lhs.downcast(), rhs.downcast());
 }
 

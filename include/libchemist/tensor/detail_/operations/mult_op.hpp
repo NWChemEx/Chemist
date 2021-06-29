@@ -21,8 +21,8 @@ private:
 };
 
 template<typename LHSType, typename RHSType,
-         typename=enable_if_expression_t<std::decay_t<LHSType>>,
-         typename=enable_if_expression_t<std::decay_t<RHSType>>>
+typename=enable_if_expression_t<std::decay_t<LHSType>>,
+typename= enable_if_expression_t<std::decay_t<RHSType>>>
 auto operator*(LHSType&& lhs, RHSType&& rhs) {
     using clean_lhs_t = std::decay_t<LHSType>;
     using clean_rhs_t = std::decay_t<RHSType>;
@@ -39,13 +39,13 @@ auto MultOp<LHSType, RHSType>::variant(ResultType&& r) {
     // TODO ensure LHSType and RHSType are LabeledTensorWrapper instances
     using result_variant_t = std::decay_t<decltype(result_variant)>;
     auto l                 = [&](auto&& result) {
+        using r_t               = std::decay_t<decltype(result.array())>;
+        constexpr bool r_is_tot = is_tot_v<r_t>;
         auto m                  = [&](auto&& lhs) {
+            using l_t               = std::decay_t<decltype(lhs.array())>;
+            constexpr bool l_is_tot = is_tot_v<l_t>;
             auto n                  = [&](auto&& rhs) {
-                using rhs_t             = std::decay_t<decltype(rhs.array())>;
-                using r_t               = std::decay_t<decltype(result.array())>;
-                using l_t               = std::decay_t<decltype(lhs.array())>;
-                constexpr bool r_is_tot = is_tot_v<r_t>;
-                constexpr bool l_is_tot = is_tot_v<l_t>;
+                using rhs_t               = std::decay_t<decltype(rhs.array())>;
                 constexpr bool rhs_is_tot = is_tot_v<rhs_t>;
                 if constexpr(!r_is_tot && !l_is_tot && !rhs_is_tot) {
                     result = lhs * rhs;
