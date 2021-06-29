@@ -137,13 +137,15 @@ REGISTER_OPERATOR( KohnShamExchangeCorrelation,    DensityDependentOperator, Ele
 #else
 
 
-#define REGISTER_BASE_OPERATOR(NAME,BASE,...)                                \
+#define REGISTER_BASE_OPERATOR(NAME,BASE,...)                                 \
 struct NAME : public BASE {                                                   \
+    friend struct Operator;                                                   \
     static constexpr auto n_electrons = detail_::n_electrons_v<__VA_ARGS__>;  \
     static constexpr auto n_nuclei    = detail_::n_nuclei_v<__VA_ARGS__>;     \
     /* Base operators are stateless */                                        \
     inline bool operator==( const NAME& other ) const { return true; }        \
     inline bool operator!=( const NAME& other ) const { return false; }       \
+protected:                                                                    \
     virtual inline void hash_impl( sde::Hasher& h ) const override            \
       { return h(*this); }                                                    \
     virtual inline bool is_equal_impl( const Operator& other ) const noexcept \
@@ -197,6 +199,9 @@ using ElectronElectronCoulomb = CoulombInteraction< Electron, Electron >;
 class ElectronNuclearCoulomb : public CoulombInteraction<Electron,Nucleus> {
     using base_type = CoulombInteraction<Electron,Nucleus>;
 
+    friend struct Operator;
+    friend struct CoulombInteraction<Electron,Nucleus>;
+
 public:
     static constexpr std::size_t n_electrons = 1;
     static constexpr std::size_t n_nuclei    = 1;
@@ -218,6 +223,7 @@ public:
       potential_.add_charge( std::move(q) );
     }
 
+protected:
     inline void hash_impl( sde::Hasher& h ) const override {
         return h(potential_);
     }

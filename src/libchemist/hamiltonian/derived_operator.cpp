@@ -23,6 +23,26 @@ DerivedOperator& DerivedOperator::operator=( DerivedOperator&& other ) noexcept 
     return *this;
 }
 
+
+bool DerivedOperator::operator==( const DerivedOperator& other ) const {
+    if( pimpl_ == other.pimpl_ ) {
+        // This handles the case when both are null or the same object
+        return true; 
+    } else if( (pimpl_ and not other.pimpl_) or (not pimpl_ and other.pimpl_) ) {
+        // This handles the case when one has a PIMPL and the other doesnt
+        return false;
+    } else {
+        // This does the actual comparisons for distinct objects
+        return *pimpl_ == *other.pimpl_;
+    }
+}
+
+bool DerivedOperator::operator!=( const DerivedOperator& other ) const {
+    return !(*this == other);
+}
+
+
+
 void DerivedOperator::add_term_( std::type_index index, 
   std::shared_ptr<Operator>&& op ) {
     // Create PIMPL on addition of first term

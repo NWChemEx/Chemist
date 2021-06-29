@@ -71,6 +71,10 @@ public:
      */
     std::unique_ptr<DerivedOperatorPIMPL> clone() const;
 
+
+    bool operator==( const DerivedOperatorPIMPL& other) const;
+    bool operator!=( const DerivedOperatorPIMPL& other) const;
+
 private:
 
     /// Internal storage of operator instances which comprise this DerivedOperator

@@ -209,6 +209,11 @@ struct Hamiltonian : public DerivedOperator {
         return *this;
     }
 
+
+protected:
+    friend class DerivedOperator;
+    virtual bool is_equal_impl( const DerivedOperator& other ) const noexcept override;
+
 }; // class Hamiltonian
 
 } // namespace libchemist

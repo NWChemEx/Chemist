@@ -207,6 +207,10 @@ struct FockOperator : public DerivedOperator {
         return *this;
     }
 
+protected:
+    friend class DerivedOperator;
+    virtual bool is_equal_impl( const DerivedOperator& other ) const noexcept override;
+
 }; // class FockOperator
 
 }

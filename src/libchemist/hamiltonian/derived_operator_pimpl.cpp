@@ -23,6 +23,15 @@ DerivedOperatorPIMPL& DerivedOperatorPIMPL::operator=( DerivedOperatorPIMPL&& ot
     return *this;
 }
 
+
+bool DerivedOperatorPIMPL::operator==( const DerivedOperatorPIMPL& other) const {
+    return terms_ == other.terms_;
+}
+
+bool DerivedOperatorPIMPL::operator!=( const DerivedOperatorPIMPL& other) const {
+    return !(*this == other);
+}
+
 void DerivedOperatorPIMPL::add_term( std::type_index index, 
   std::shared_ptr<Operator>&& op ) {
     terms_.insert( {index, std::move(op)} );

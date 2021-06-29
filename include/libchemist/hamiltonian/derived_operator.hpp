@@ -272,6 +272,19 @@ public:
     detail_::enable_if_operator_t< OpType, bool > has_term() const noexcept {
         return has_term_( typeid(OpType) );
     }
+
+
+    bool operator==( const DerivedOperator& other ) const;
+    bool operator!=( const DerivedOperator& other ) const;
+
+    template <typename DerivedOpType>
+    inline bool is_equal( const DerivedOpType& other ) const noexcept {
+      return is_equal_impl(other) and other.is_equal_impl(*this);
+    }
+
+protected:
+    virtual bool is_equal_impl( const DerivedOperator& other ) const noexcept = 0;
+
 private:
 
     /// Type erased private API for `add_term` which delegates to 
@@ -286,8 +299,10 @@ private:
     /// HamiltonanPIMPL::has_term
     bool has_term_( std::type_index index ) const noexcept;
 
+
     /// The instance actually implementing the API
     std::unique_ptr<detail_::DerivedOperatorPIMPL> pimpl_;
+
 
 }; // class DerivedOperator
 

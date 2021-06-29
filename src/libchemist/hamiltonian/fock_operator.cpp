@@ -22,4 +22,10 @@ FockOperator& FockOperator::operator=( FockOperator&& other ) noexcept {
     return *this;
 }
 
+bool FockOperator::is_equal_impl( const DerivedOperator& other ) const noexcept {
+    auto ptr = dynamic_cast<const FockOperator*>(&other);
+    if( !ptr ) return false;
+    return *this == *ptr;
+}
+
 }
