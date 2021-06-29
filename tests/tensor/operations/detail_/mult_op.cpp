@@ -12,46 +12,47 @@ using namespace libchemist;
  *
  * Actual correctness of the `variant` member is tested later
  */
-TEMPLATE_LIST_TEST_CASE("MultOp: CTor", "", tensor::all_tensor_variant_t) {
-    using lhs_t = TestType;
-    using tensor_wrapper = tensor::TensorWrapper<tensor::all_tensor_variant_t>;
-    constexpr bool is_tot = tensor::is_tot_v<lhs_t>;
-    auto lhs_tensors = testing::get_tensors<lhs_t>();
-    auto rhs_tensors = testing::get_tensors<type::tensor<double>>();
-    auto rhs_tots    = testing::get_tensors<type::tensor_of_tensors<double>>();
+// TEMPLATE_LIST_TEST_CASE("MultOp: CTor", "", tensor::all_tensor_variant_t) {
+//     using lhs_t = TestType;
+//     using tensor_wrapper =
+//     tensor::TensorWrapper<tensor::all_tensor_variant_t>; constexpr bool
+//     is_tot = tensor::is_tot_v<lhs_t>; auto lhs_tensors =
+//     testing::get_tensors<lhs_t>(); auto rhs_tensors =
+//     testing::get_tensors<type::tensor<double>>(); auto rhs_tots    =
+//     testing::get_tensors<type::tensor_of_tensors<double>>();
 
-    SECTION("Construction") {
+//     SECTION("Construction") {
 
-    // LHS is non-const
-    for(auto& [lhs_desc, lhs]: lhs_tensors) {
-        tensor_wrapper wrapped_lhs(lhs);
-        auto labeled_lhs = wrapped_lhs(wrapped_lhs.make_annotation());
-        // RHS is non-const normal tensor
-        for(auto& [rhs_desc, rhs] : rhs_tensors){
-            tensor_wrapper wrapped_rhs(rhs);
-            auto labeled_rhs = wrapped_rhs(wrapped_rhs.make_annotation());
-            SECTION(lhs_desc + " times " + rhs_desc){
-                REQUIRE_NOTHROW(labeled_lhs * labeled_rhs);
-            }
-        }
+//     // LHS is non-const
+//     for(auto& [lhs_desc, lhs]: lhs_tensors) {
+//         tensor_wrapper wrapped_lhs(lhs);
+//         auto labeled_lhs = wrapped_lhs(wrapped_lhs.make_annotation());
+//         // RHS is non-const normal tensor
+//         for(auto& [rhs_desc, rhs] : rhs_tensors){
+//             tensor_wrapper wrapped_rhs(rhs);
+//             auto labeled_rhs = wrapped_rhs(wrapped_rhs.make_annotation());
+//             SECTION(lhs_desc + " times " + rhs_desc){
+//                 REQUIRE_NOTHROW(labeled_lhs * labeled_rhs);
+//             }
+//         }
 
-        // RHS is non-const tensor-of-tensors
-        for(auto& [rhs_desc, rhs] : rhs_tots){
-            tensor_wrapper wrapped_rhs(rhs);
-            auto labeled_rhs = wrapped_rhs(wrapped_rhs.make_annotation());
-            SECTION(lhs_desc + "times " + rhs_desc){
-                REQUIRE_NOTHROW(labeled_lhs * labeled_rhs);
-            }
-        }
-    }
-    }
-}
+//         // RHS is non-const tensor-of-tensors
+//         for(auto& [rhs_desc, rhs] : rhs_tots){
+//             tensor_wrapper wrapped_rhs(rhs);
+//             auto labeled_rhs = wrapped_rhs(wrapped_rhs.make_annotation());
+//             SECTION(lhs_desc + "times " + rhs_desc){
+//                 REQUIRE_NOTHROW(labeled_lhs * labeled_rhs);
+//             }
+//         }
+//     }
+//     }
+// }
 
 TEST_CASE("Tensor = Tensor * Tensor") {
-    using result_t = type::tensor<double>;
-    using lhs_t    = type::tensor<double>;
-    using rhs_t    = type::tensor<double>;
-    using tensor_wrapper = tensor::UniversalTensorWrapper;
+    using result_t       = type::tensor<double>;
+    using lhs_t          = type::tensor<double>;
+    using rhs_t          = type::tensor<double>;
+    using tensor_wrapper = tensor::SparseTensorWrapper;
 
     auto lhs = testing::get_tensors<lhs_t>().at("vector");
     auto rhs = testing::get_tensors<rhs_t>().at("vector");
@@ -59,7 +60,7 @@ TEST_CASE("Tensor = Tensor * Tensor") {
     auto& world = TA::get_default_world();
     result_t corr(world, {{1.0, 2.0, 3.0}, {2.0, 4.0, 6.0}, {3.0, 6.0, 9.0}});
 
-    SECTION("all non-const"){
+    SECTION("all non-const") {
         tensor_wrapper wrapped_lhs(lhs);
         tensor_wrapper wrapped_rhs(rhs);
         tensor_wrapper result(result_t{});
