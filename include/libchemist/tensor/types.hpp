@@ -38,12 +38,6 @@ using tensor_variant_t = std::variant<tensor_t<double>>; //, tensor_t<float>>;
 using tot_variant_t =
   std::variant<tensor_of_tensors_t<double>>; //, tensor_of_tensors_t<float>>;
 
-/// Type of a variant with all possible tensor types in it
-using all_tensor_variant_t =
-  utilities::type_traits::variant::cat_t<tensor_variant_t, tot_variant_t>;
-
-using UniversalTensorWrapper = TensorWrapper<all_tensor_variant_t>;
-
 using SparseTensorWrapper = TensorWrapper<tensor_variant_t>;
 
 using ToTWrapper = TensorWrapper<tot_variant_t>;

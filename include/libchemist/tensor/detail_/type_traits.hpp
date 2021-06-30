@@ -1,4 +1,6 @@
 #pragma once
+#include "libchemist/tensor/type_traits/is_expression.hpp"
+#include "libchemist/tensor/type_traits/variant_type.hpp"
 #include <tiledarray.h>
 #include <utilities/type_traits/variant/variant_product.hpp>
 
@@ -6,28 +8,6 @@ namespace libchemist::tensor {
 template<typename VariantType>
 class TensorWrapper;
 
-template<typename T>
-struct VariantType;
-
-template<typename T>
-struct VariantType<TensorWrapper<T>> {
-  using type = T;
-};
-
-template<typename T>
-using variant_type_t = typename VariantType<T>::type;
-
-namespace detail_ {
-template<typename T>
-class OpLayer;
-}
-
-template<typename T>
-static constexpr bool is_expression_v =
-  std::is_base_of_v<detail_::OpLayer<T>, T>;
-
-template<typename T>
-using enable_if_expression_t = std::enable_if_t<is_expression_v<T>>;
 
 /** @brief Determines if a TA::DistArray type is a tensor-of-tensors
  *

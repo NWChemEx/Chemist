@@ -4,10 +4,18 @@
 #pragma once
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include "libchemist/tensor/tensor.hpp"
+#include "libchemist/types.hpp"
 #include <catch2/catch.hpp>
 
 namespace testing {
 
+/// Type of a variant with all possible tensor types in it
+using all_tensor_variant_t =
+  utilities::type_traits::variant::cat_t<
+  libchemist::tensor::tensor_variant_t, libchemist::tensor::tot_variant_t
+>;
+
+/// Function which generates some dummy tensors for a given type
 template<typename TensorType>
 auto get_tensors() {
     auto& world = TA::get_default_world();
