@@ -4,6 +4,9 @@
 #include <variant>
 
 namespace libchemist::tensor {
+template<typename VariantType>
+class TensorWrapper;
+
 namespace detail_ {
 
 /// Type of a tile in a tensor of tensors
@@ -38,5 +41,11 @@ using tot_variant_t =
 /// Type of a variant with all possible tensor types in it
 using all_tensor_variant_t =
   utilities::type_traits::variant::cat_t<tensor_variant_t, tot_variant_t>;
+
+using UniversalTensorWrapper = TensorWrapper<all_tensor_variant_t>;
+
+using SparseTensorWrapper = TensorWrapper<tensor_variant_t>;
+
+using ToTWrapper = TensorWrapper<tot_variant_t>;
 
 } // namespace libchemist::tensor

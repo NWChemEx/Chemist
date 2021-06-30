@@ -348,11 +348,12 @@ template<typename VariantType>
 auto TENSOR_WRAPPER::inner_rank_() const {
     auto l = [](auto&& arg) {
         using clean_t = std::decay_t<decltype(arg)>;
+        using size_type = decltype(std::declval<clean_t>().range().rank());
         if constexpr(!is_tot_v<clean_t>)
-            return 0;
+            return size_type{0};
         else {
             const auto& tile0 = arg.begin()->get();
-            return tile0[0].range().rank();
+            return size_type{tile0[0].range().rank()};
         }
     };
     return std::visit(l, m_tensor_);

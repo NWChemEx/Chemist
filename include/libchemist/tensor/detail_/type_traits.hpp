@@ -3,6 +3,20 @@
 #include <utilities/type_traits/variant/variant_product.hpp>
 
 namespace libchemist::tensor {
+template<typename VariantType>
+class TensorWrapper;
+
+template<typename T>
+struct VariantType;
+
+template<typename T>
+struct VariantType<TensorWrapper<T>> {
+  using type = T;
+};
+
+template<typename T>
+using variant_type_t = typename VariantType<T>::type;
+
 namespace detail_ {
 template<typename T>
 class OpLayer;
