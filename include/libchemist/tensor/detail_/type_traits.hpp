@@ -4,6 +4,10 @@
 
 namespace libchemist::tensor {
 
+template<typename T>
+static constexpr bool is_tot_v =
+  TA::detail::is_tensor_of_tensor_v<typename T::value_type>;
+
 /** @brief Type resulting from labeling/annotating a tensor with string indices
  *
  *  This type trait is used to get the type resulting from labeling/annotating a
