@@ -69,7 +69,7 @@ public:
      *
      *  @throw None no throw guarantee.
      */
-    size_type nbonds() const noexcept;
+    auto nbonds() const noexcept;
 
     /** @brief Adds a bond between atoms @p i and @p j.
      *
