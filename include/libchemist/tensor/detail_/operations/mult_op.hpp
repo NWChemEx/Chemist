@@ -34,12 +34,12 @@ auto MultOp<LHSType, RHSType>::evaluate(ResultType&& r) {
     using result_variant_t = std::decay_t<decltype(result_variant)>;
     auto l                 = [&](auto&& result) {
         using r_t               = std::decay_t<decltype(result.array())>;
-        constexpr bool r_is_tot = is_tot_v<r_t>;
         auto m                  = [&](auto&& lhs) {
             using l_t               = std::decay_t<decltype(lhs.array())>;
-            constexpr bool l_is_tot = is_tot_v<l_t>;
             auto n                  = [&](auto&& rhs) {
                 using rhs_t               = std::decay_t<decltype(rhs.array())>;
+                constexpr bool r_is_tot   = is_tot_v<r_t>;
+                constexpr bool l_is_tot   = is_tot_v<l_t>;
                 constexpr bool rhs_is_tot = is_tot_v<rhs_t>;
                 if constexpr(!r_is_tot && !l_is_tot && !rhs_is_tot) {
                     result = lhs * rhs;
