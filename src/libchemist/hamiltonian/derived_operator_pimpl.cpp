@@ -25,7 +25,14 @@ DerivedOperatorPIMPL& DerivedOperatorPIMPL::operator=( DerivedOperatorPIMPL&& ot
 
 
 bool DerivedOperatorPIMPL::operator==( const DerivedOperatorPIMPL& other) const {
-    return terms_ == other.terms_;
+    // Implement comparison with polymorphic checks on operator instances 
+    if( terms_.size() != other.terms_.size() )  return false;
+    for( const auto& [key, val] : terms_ ) {
+        auto it = other.terms_.find(key);
+        if( it == other.terms_.end() )       return false; // Key not in other
+        if( not it->second->is_equal(*val) ) return false; // Unequal Operators
+    }
+    return true;
 }
 
 bool DerivedOperatorPIMPL::operator!=( const DerivedOperatorPIMPL& other) const {

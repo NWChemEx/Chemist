@@ -130,44 +130,16 @@ struct Hamiltonian : public DerivedOperator {
     Hamiltonian( Args&&... args ) : 
       DerivedOperator( std::forward<Args>(args)... ) {}
 
-
-
     /** @brief Add an additonal operator to the Hamiltonian.
      *
-     *  This function adds an operator to this Hamiltonian by copy. If the 
+     *  This function adds an operator to this Hamiltonian. If the 
      *  Hamiltonian is in a PIMPL-less state, this function will 
      *  generate a PIMPL instance. 
      *
      *  @tparam OpType The strong type of the operator to add to the 
      *                 Hamiltonian. Must be derived from Operator.
      *
-     *  @param[in] op The operator to add to this Hamiltonian by copy.
-     *
-     *  @return A reference to the current Hamiltonian instance.
-     *
-     *  @throw std::bad_alloc if there is insufficient memory either to create the
-     *                        PIMPL or to store the internal state of the Operator
-     *                        instance. Basic exception gurantee.
-     *
-     *  Complexity: Constant
-     */
-    template <typename OpType>
-    detail_::enable_if_operator_t< OpType, Hamiltonian& > 
-      add_term( const OpType& op ) {
-        DerivedOperator::add_term(op);
-        return *this;
-    }
-
-    /** @brief Add an additonal operator to the Hamiltonian.
-     *
-     *  This function adds an operator to this Hamiltonian by move. If the 
-     *  Hamiltonian is in a PIMPL-less state, this function will 
-     *  generate a PIMPL instance. 
-     *
-     *  @tparam OpType The strong type of the operator to add to the 
-     *                 Hamiltonian. Must be derived from Operator.
-     *
-     *  @param[in] op The operator to add to this Hamiltonian by move.
+     *  @param[in] op The operator to add to this Hamiltonian.
      *
      *  @return A reference to the current Hamiltonian instance.
      *
@@ -180,7 +152,7 @@ struct Hamiltonian : public DerivedOperator {
     template <typename OpType>
     detail_::enable_if_operator_t< OpType, Hamiltonian& > 
       add_term( OpType&& op ) {
-        DerivedOperator::add_term(std::move(op));
+        DerivedOperator::add_term(std::forward<OpType>(op));
         return *this;
     }
 

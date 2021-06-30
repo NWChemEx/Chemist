@@ -50,10 +50,10 @@ TEST_CASE("Operator Sanity") {
 
     SECTION("Electron-Nuclear Coulomb Comparison") {
         ElectronNuclearCoulomb lhs, rhs;
-        lhs.add_charge( PointCharge<double>(-1., 0., 0., 0.) );
-        lhs.add_charge( PointCharge<double>(-1., 0., 0., 2.) );
-        rhs.add_charge( PointCharge<double>(-2., 0., 0., 0.) );
-        rhs.add_charge( PointCharge<double>(-2., 0., 0., 2.) );
+        lhs.add_charge( -1., 0., 0., 0. );
+        lhs.add_charge( -1., 0., 0., 2. );
+        rhs.add_charge( -2., 0., 0., 0. );
+        rhs.add_charge( -2., 0., 0., 2. );
 
         REQUIRE( lhs == lhs );
         REQUIRE( rhs == rhs );

@@ -141,40 +141,14 @@ public:
 
     /** @brief Add an additonal operator to the DerivedOperator.
      *
-     *  This function adds an operator to this DerivedOperator by copy. If the 
+     *  This function adds an operator to this DerivedOperator. If the 
      *  DerivedOperator is in a PIMPL-less state, this function will 
      *  generate a PIMPL instance. 
      *
      *  @tparam OpType The strong type of the operator to add to the 
      *                 DerivedOperator. Must be derived from Operator.
      *
-     *  @param[in] op The operator to add to this DerivedOperator by copy.
-     *
-     *  @return A reference to the current DerivedOperator instance.
-     *
-     *  @throw std::bad_alloc if there is insufficient memory either to create the
-     *                        PIMPL or to store the internal state of the Operator
-     *                        instance. Basic exception gurantee.
-     *
-     *  Complexity: Constant
-     */
-    template <typename OpType>
-    detail_::enable_if_operator_t< OpType, DerivedOperator& > 
-      add_term( const OpType& op ) {
-        add_term_( typeid(OpType), std::make_shared<OpType>(op) );
-        return *this;
-    }
-
-    /** @brief Add an additonal operator to the DerivedOperator.
-     *
-     *  This function adds an operator to this DerivedOperator by move. If the 
-     *  DerivedOperator is in a PIMPL-less state, this function will 
-     *  generate a PIMPL instance. 
-     *
-     *  @tparam OpType The strong type of the operator to add to the 
-     *                 DerivedOperator. Must be derived from Operator.
-     *
-     *  @param[in] op The operator to add to this DerivedOperator by move.
+     *  @param[in] op The operator to add to this DerivedOperator.
      *
      *  @return A reference to the current DerivedOperator instance.
      *
@@ -187,7 +161,7 @@ public:
     template <typename OpType>
     detail_::enable_if_operator_t< OpType, DerivedOperator& > 
       add_term( OpType&& op ) {
-        add_term_( typeid(OpType), std::make_shared<OpType>(std::move(op)) );
+        add_term_( typeid(OpType), std::make_shared<std::decay_t<OpType>>(std::forward<OpType>(op)) );
         return *this;
     }
 
@@ -274,15 +248,44 @@ public:
     }
 
 
+    /** @brief Non-polymorphic equality comparison of DerivedOperator instances
+     *
+     *  Compare DerivedOperator instances without reference to their
+     *  polymorphic instantiations - DerivedOperator instances which
+     *  contain the same set of operators (with the same state) will
+     *  be considered equal. PIMPL-less instances will also be consdered
+     *  equal.
+     *
+     *  @param[in] other DerivedOperator instance we want to compare to
+     *  @return `true` if this instance has an identical operator collection 
+     *           to @p other, `false` otherwise.
+     */
     bool operator==( const DerivedOperator& other ) const;
+
+    /** Negation of `operator==`
+     *
+     *  @param[in] other DerivedOperator instance we want to compare to
+     *  @return `false` if this instance has an identical operator collection 
+     *           to @p other, `true` otherwise.
+     */
     bool operator!=( const DerivedOperator& other ) const;
 
+    /** @brief Polymorphic equality comparison of DerivedOperator instances
+     *  Compare DerivedOperator instances with reference to their
+     *  polymorphic instantiations.
+     *
+     *  @param[in] other DerivedOperator instance we want to compare to
+     *  @return `true` if this instance is identical to @p other, `false` otherwise.
+     */
     template <typename DerivedOpType>
     inline bool is_equal( const DerivedOpType& other ) const noexcept {
-      return is_equal_impl(other) and other.is_equal_impl(*this);
+      auto& other_as_base = static_cast<const DerivedOperator&>(other);
+      return is_equal_impl(other_as_base) and other.is_equal_impl(*this);
     }
 
 protected:
+
+    /// Derived implementation of polymorphic equality comparison
     virtual bool is_equal_impl( const DerivedOperator& other ) const noexcept = 0;
 
 private:

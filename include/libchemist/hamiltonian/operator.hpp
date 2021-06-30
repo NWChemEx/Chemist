@@ -27,16 +27,29 @@ struct Operator {
              other.is_equal_impl(*this);
     }
 
-    /** @brief Non-polymorphic comparison of Operator instances
+    /** @brief Non-polymorphic equality comparison of Operator instances
      *
      *  @param[in] other Operator instance to compare
      *  @return    true (stateless base class)
      */
-    inline bool operator==( const Operator& ) const { return true; }
-    inline bool operator!=( const Operator& ) const { return false; }
+    inline bool operator==( const Operator& other ) const { return true; }
+
+    /** @brief Non-polymorphic inequality comparison of Operator instances
+     *
+     *  @param[in] other Operator instance to compare
+     *  @return    false (stateless base class)
+     */
+    inline bool operator!=( const Operator& other ) const { return false; }
 
     /// Defaulted no-throw dtor
     virtual ~Operator() noexcept = default;
+
+    /// Defaulted default noexcept ctor
+    Operator() noexcept = default;
+    /// Defaulted copy ctor
+    Operator( const Operator& ) noexcept = default;
+    /// Defaulted move ctor
+    Operator( Operator&& ) noexcept = default;
 
 protected:
     /// Derived implementation of Hash function.
@@ -81,60 +94,6 @@ namespace detail_ {
 }
 
 
-#if 0
-
-#define REGISTER_OPERATOR(NAME,OpType,...)             \
-  struct NAME : public OpType {                        \
-    inline static constexpr std::size_t n_electrons =  \
-      detail_::n_electrons_v<__VA_ARGS__>;             \
-    inline static constexpr std::size_t n_nuclei =     \
-      detail_::n_nuclei_v<__VA_ARGS__>;                \
-    inline void hash_impl( sde::Hasher& h )            \
-      const override { return h(*this); }              \
-    inline bool is_equal_impl( std::type_index index )  \
-      const noexcept override {                        \
-      return index == std::type_index(typeid(NAME));   \
-    }                                                  \
-  };
-
-
-/// Kinetic energy operator type
-template <typename ParticleType>
-REGISTER_OPERATOR( Kinetic, Operator, ParticleType );
-
-/// Coulomb interaction operator type
-template <typename P1, typename P2>
-REGISTER_OPERATOR( CoulombInteraction, Operator, P1, P2 );
-
-/// Classical Electron-Field interaction operator type
-template <typename FieldType>
-REGISTER_OPERATOR( ClassicalFieldInteraction, Operator, Electron, FieldType );
-
-/// Electron-Kinetic energy operator type
-using ElectronKinetic         = Kinetic<Electron>;
-/// Electron-Nuclear Coulomb attraction operator type
-using ElectronNuclearCoulomb  = CoulombInteraction< Electron, PointNucleus >;
-/// Electron-Electron Coulomb repulsion operator type
-using ElectronElectronCoulomb = CoulombInteraction< Electron, Electron >;
-
-/// Classical Electron-Dipole field interaction operator type
-using ClassicalElectronDipoleField     = ClassicalFieldInteraction<DipoleField>;
-/// Classical Electron-Quadrupole field interaction operator type
-using ClassicalElectronQuadrupoleField = ClassicalFieldInteraction<QuadrupoleField>;
-/// Classical Electron-Octupole field interaction operator type
-using ClassicalElectronOctupoleField   = ClassicalFieldInteraction<OctupoleField>;
-
-
-/// Mean-field Coulomb operator type
-REGISTER_OPERATOR( MeanFieldElectronCoulomb,       DensityDependentOperator, Electron );
-/// Mean-field exact (Hartree-Fock) exchange operator type
-REGISTER_OPERATOR( MeanFieldElectronExactExchange, DensityDependentOperator, Electron );
-/// Kohn-Sham exchange correlation (XC) operator type
-REGISTER_OPERATOR( KohnShamExchangeCorrelation,    DensityDependentOperator, Electron );
-
-#undef REGISTER_OPERATOR
-
-#else
 
 
 #define REGISTER_BASE_OPERATOR(NAME,BASE,...)                                 \
@@ -145,6 +104,9 @@ struct NAME : public BASE {                                                   \
     /* Base operators are stateless */                                        \
     inline bool operator==( const NAME& other ) const { return true; }        \
     inline bool operator!=( const NAME& other ) const { return false; }       \
+    NAME() noexcept = default;                                                \
+    NAME(const NAME&) noexcept = default;                                     \
+    NAME(NAME&&) noexcept = default;                                          \
 protected:                                                                    \
     virtual inline void hash_impl( sde::Hasher& h ) const override            \
       { return h(*this); }                                                    \
@@ -183,6 +145,9 @@ REGISTER_BASE_OPERATOR( MeanFieldElectronExactExchange, DensityDependentOperator
 /// Kohn-Sham exchange correlation (XC) operator type
 REGISTER_BASE_OPERATOR( KohnShamExchangeCorrelation,    DensityDependentOperator, Electron );
 
+
+#undef REGISTER_BASE_OPERATOR
+
 // Typedef'd stateless operators
 
 /// Electron-Kinetic energy operator type
@@ -198,9 +163,7 @@ using ElectronElectronCoulomb = CoulombInteraction< Electron, Electron >;
 /// Electron-Nuclear Coulomb accraction operator type
 class ElectronNuclearCoulomb : public CoulombInteraction<Electron,Nucleus> {
     using base_type = CoulombInteraction<Electron,Nucleus>;
-
     friend struct Operator;
-    friend struct CoulombInteraction<Electron,Nucleus>;
 
 public:
     static constexpr std::size_t n_electrons = 1;
@@ -218,9 +181,32 @@ public:
     inline const auto& potential() const { return potential_; }
     inline auto&       potential()       { return potential_; }
 
-    template <typename ChargeType>
-    inline void add_charge( ChargeType q ) {
-      potential_.add_charge( std::move(q) );
+    template <typename... Args>
+    inline void add_charge( Args&&... args ) {
+        potential_.add_charge( 
+          potentials::Electrostatic::charge_type(std::forward<Args>(args)...)
+        );
+    }
+
+    inline ElectronNuclearCoulomb() = default;
+
+    inline ElectronNuclearCoulomb& operator=(const ElectronNuclearCoulomb& other) {
+        potential_ = other.potential_;
+        return *this;
+    }
+
+    inline ElectronNuclearCoulomb& operator=(ElectronNuclearCoulomb&& other) 
+      noexcept {
+        potential_ = std::move(other.potential_);
+        return *this;
+    }
+
+    inline ElectronNuclearCoulomb( const ElectronNuclearCoulomb& other ) {
+      *this = other;
+    }
+
+    inline ElectronNuclearCoulomb( ElectronNuclearCoulomb&& other ) noexcept {
+      *this = std::move(other);
     }
 
 protected:
@@ -230,7 +216,7 @@ protected:
 
     inline bool is_equal_impl( const Operator& other ) const noexcept override {
         auto ptr = dynamic_cast<const ElectronNuclearCoulomb*>(&other);
-        if( !ptr ) return false;                     
+        if( !ptr ) return false;
         return *this == *ptr;                        
     }
 
@@ -240,5 +226,4 @@ private:
     // TODO: Need to generalize Electrostatic to take differing charge models
 };
 
-#endif
 }

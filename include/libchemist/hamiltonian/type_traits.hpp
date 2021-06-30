@@ -8,10 +8,10 @@ namespace detail_ {
 
 template <typename OpType>
 struct is_operator : 
-  public std::is_base_of<Operator,OpType> {};
+  public std::is_base_of<Operator,std::decay_t<OpType>> {};
 template <typename OpType>
 struct is_density_dependent_operator : 
-  public std::is_base_of<DensityDependentOperator,OpType> {};
+  public std::is_base_of<DensityDependentOperator,std::decay_t<OpType>> {};
 template <typename OpType>
 struct is_density_independent_operator :
   public std::integral_constant<bool,
@@ -55,7 +55,7 @@ using enable_if_operator_t = typename enable_if_operator<OpType,U>::type;
 template <std::size_t N, typename OpType>
 struct is_n_electron_operator {
     static constexpr bool value = 
-      is_operator_v<OpType> and OpType::n_electrons == N;
+      is_operator_v<OpType> and std::decay_t<OpType>::n_electrons == N;
 };
 
 template <std::size_t N, typename... Ops>

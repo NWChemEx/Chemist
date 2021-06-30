@@ -132,14 +132,14 @@ struct FockOperator : public DerivedOperator {
 
     /** @brief Add an additonal operator to the FockOperator.
      *
-     *  This function adds an operator to this FockOperator by copy. If the 
+     *  This function adds an operator to this FockOperator. If the 
      *  FockOperator is in a PIMPL-less state, this function will 
      *  generate a PIMPL instance. 
      *
      *  @tparam OpType The strong type of the operator to add to the 
      *                 FockOperator. Must be derived from Operator.
      *
-     *  @param[in] op The operator to add to this FockOperator by copy.
+     *  @param[in] op The operator to add to this FockOperator.
      *
      *  @return A reference to the current FockOperator instance.
      *
@@ -150,35 +150,9 @@ struct FockOperator : public DerivedOperator {
      *  Complexity: Constant
      */
     template <typename OpType>
-    detail_::enable_if_one_electron_operator_t< OpType, FockOperator& > 
-      add_term( const OpType& op ) {
-        DerivedOperator::add_term(op);
-        return *this;
-    }
-
-    /** @brief Add an additonal operator to the FockOperator.
-     *
-     *  This function adds an operator to this FockOperator by move. If the 
-     *  FockOperator is in a PIMPL-less state, this function will 
-     *  generate a PIMPL instance. 
-     *
-     *  @tparam OpType The strong type of the operator to add to the 
-     *                 FockOperator. Must be derived from Operator.
-     *
-     *  @param[in] op The operator to add to this FockOperator by move.
-     *
-     *  @return A reference to the current FockOperator instance.
-     *
-     *  @throw std::bad_alloc if there is insufficient memory either to create the
-     *                        PIMPL or to store the internal state of the Operator
-     *                        instance. Basic exception gurantee.
-     *
-     *  Complexity: Constant
-     */
-    template <typename OpType>
-    detail_::enable_if_one_electron_operator_t< OpType, FockOperator& > 
+    detail_::enable_if_operator_t< OpType, FockOperator& > 
       add_term( OpType&& op ) {
-        DerivedOperator::add_term(std::move(op));
+        DerivedOperator::add_term(std::forward<OpType>(op));
         return *this;
     }
 
