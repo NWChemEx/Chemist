@@ -159,6 +159,10 @@ protected:
       const type::tensor_wrapper& t,
       const mode_container& modes) const override;
 
+    virtual type::tot_wrapper transform_(
+      const type::tot_wrapper& t,
+      const mode_container& modes) const override;
+
     /** @brief Overrides hashing to account for the basis set
      *
      *  @param[in,out] h The hasher instance being used. After this call the

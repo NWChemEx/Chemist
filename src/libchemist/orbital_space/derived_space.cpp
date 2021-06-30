@@ -20,8 +20,31 @@ typename DERIVED_SPACE::size_type DERIVED_SPACE::size_() const noexcept {
 template<typename TransformType, typename FromSpace, typename BaseType>
 type::tensor_wrapper DERIVED_SPACE::transform_(
   const type::tensor_wrapper& t, const mode_container& modes) const {
+    constexpr bool is_tot = libchemist::tensor::is_tot_v<TransformType>;
     type::tensor_wrapper rv(t);
-    type::tensor_wrapper c(m_C_);
+    if constexpr(is_tot) {
+        throw std::runtime_error("Can't transform a tensor by a ToT");
+    } else{
+        type::tensor_wrapper c(m_C_);
+        auto c_idx = c.make_annotation();
+        auto t_idx = t.make_annotation("j");
+
+        for(const auto& modei : modes) {
+            auto [r_idx, rhs_idx] = detail_::make_indices(c_idx, t_idx, modei);
+            rv(r_idx)             = c(c_idx) * t(rhs_idx);
+        }
+    }
+    return rv;
+}
+
+template<typename TransformType, typename FromSpace, typename BaseType>
+type::tot_wrapper DERIVED_SPACE::transform_(
+  const type::tot_wrapper& t, const mode_container& modes) const {
+    type::tot_wrapper rv(t);
+    constexpr bool is_tot = libchemist::tensor::is_tot_v<TransformType>;
+    using wrapper_t =
+        std::conditional_t<is_tot, type::tot_wrapper, type::tensor_wrapper>;
+    wrapper_t c(m_C_);
     auto c_idx = c.make_annotation();
     auto t_idx = t.make_annotation("j");
 

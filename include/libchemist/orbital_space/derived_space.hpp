@@ -255,6 +255,9 @@ protected:
     virtual type::tensor_wrapper transform_(const type::tensor_wrapper& t,
                                             const mode_container& modes) const;
 
+    virtual type::tot_wrapper transform_(const type::tot_wrapper& t,
+                                         const mode_container& modes) const;
+
     /// Include the transformation and the from space in the hash
     virtual void hash_(sde::Hasher& h) const override;
 

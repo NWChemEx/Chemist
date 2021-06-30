@@ -34,31 +34,6 @@ public:
     auto transform(const TA::DistArray<TileType, PolicyType>& t,
                     ModeTypes&&... modes) const;
 
-
-    /** @brief Transforms the specified modes of a tensor to the orbital space.
-     *
-     *  This function takes an input tensor @p t and a list of mode indices,
-     *  @p modes. For each index in @p modes, it will transform the
-     *  corresponding mode of @p t to the orbital space described by this
-     *  instance.
-     *
-     *  @tparam ModeTypes A template parameter pack consisting of 0 or more
-     *                    integral types. Each type in @p ModeTypes must be
-     *                    implicitly convertible to `orbital_space::type::size`.
-     *
-     *  @param t The tensor to be transformed
-     *  @param modes The modes of @p t to transform.
-     *
-     *  @return @p t after transforming the modes specified by the list
-     *          @p modes.
-     *
-     *  @throw ??? Throws if the derived class's implmentation of transform_
-     *             throws. Same throw guarantee.
-     */
-    template<typename... ModeTypes>
-    type::tensor_wrapper transform(const type::tensor_wrapper& t,
-                                   ModeTypes&&... modes) const;
-
     /** @brief Hashes the current instance.
      *
      *  @param[in,out] h The hasher instance to use for hashing. The internal
@@ -246,6 +221,9 @@ protected:
     virtual type::tensor_wrapper transform_(
       const type::tensor_wrapper& t, const mode_container& modes) const = 0;
 
+    virtual type::tot_wrapper transform_(
+    const type::tot_wrapper& t, const mode_container& modes) const = 0;
+
     /// Actually implements hash. Should be overridden by derived classes
     virtual void hash_(sde::Hasher& h) const {};
 
@@ -320,22 +298,24 @@ inline bool operator!=(const BaseSpace&, const BaseSpace&) { return false; }
 template<typename TileType, typename PolicyType, typename... ModeTypes>
 auto BaseSpace::transform(const TA::DistArray<TileType, PolicyType>& t,
                          ModeTypes&&... modes) const {
-    type::tensor_wrapper wrapped(t);
-    auto rv = transform(std::move(wrapped), std::forward<ModeTypes>(modes)...);
-    using scalar_type = typename TileType::scalar_type;
-    if constexpr(TA::detail::is_tensor_of_tensor_v<TileType>) {
+    constexpr bool do_transform = sizeof...(ModeTypes);
+    if constexpr (do_transform == 0) {
+        return t;
+    } else {
+        using scalar_type = typename TileType::scalar_type;
+        constexpr bool is_tot = TA::detail::is_tensor_of_tensor_v<TileType>;
+        using wrapper_t =
+            std::conditional_t<is_tot, type::tot_wrapper, type::tensor_wrapper>;
+
+        wrapper_t wrapped(t);
+        std::vector mode_v{type::size{std::forward<ModeTypes>(modes)}...};
+        auto rv = transform_(std::move(wrapped), std::move(mode_v));
+    if constexpr(is_tot) {
         return rv.template get<type::tensor_of_tensors<scalar_type>>();
     } else {
         return rv.template get<type::tensor<scalar_type>>();
     }
-}
-
-template<typename... ModeTypes>
-type::tensor_wrapper BaseSpace::transform(const type::tensor_wrapper& t,
-                                          ModeTypes&&... modes) const {
-    constexpr bool do_transform = sizeof...(ModeTypes);
-    std::vector mode_v{type::size{std::forward<ModeTypes>(modes)}...};
-    return do_transform ? transform_(t, mode_v) : t;
+    }
 }
 
 inline bool BaseSpace::equal(const BaseSpace& rhs) const noexcept {

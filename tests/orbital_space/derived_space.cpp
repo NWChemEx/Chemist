@@ -145,18 +145,14 @@ TEST_CASE("DerivedSpace") {
           world,
           {{{{10.0, 11.0}, {12.0, 13.0}}, {{14.0, 15.0}, {16.0, 17.0}}},
            {{{18.0, 19.0}, {20.0, 21.0}}, {{22.0, 23.0}, {24.0, 25.0}}}});
+        tensor_type corr;
         SECTION("Mode 0") {
-            tensor_type corr(world,
-            {{{{64.0, 68.0}, {72.0, 76.0}}, {{80.0, 84.0}, {88.0, 92.0}}},
-             {{{92.0, 98.0}, {104.0, 110.0}}, {{116.0, 122.0}, {128.0, 134.0}}}});
+            corr("i,j,k,l") = C("mu,i") * t("mu,j,k,l");
             auto result = non_default.transform(t, 0ul);
-            //std::cout << result << std::endl;
             REQUIRE(ta_helpers::allclose(corr, result));
         }
         SECTION("Mode 1"){
-            tensor_type corr(world,
-            {{{{28.0, 30.0}, {32.0, 34.0}}, {{108.0, 114.0}, {120.0, 126.0}}},
-             {{{56.0, 60.0}, {64.0, 68.0}}, {{144.0, 152.0}, {160.0, 168.0}}}});
+            corr("i,j,k,l") = C("mu,j") * t("i,mu,k,l");
              auto result = non_default.transform(t, 1ul);
              REQUIRE(ta_helpers::allclose(corr, result));
         }
@@ -372,6 +368,17 @@ TEST_CASE("IndDerivedSpace") {
         inner_type t10(TA::Range({2, 2}), {18.0, 19.0, 20.0, 21.0});
         inner_type t11(TA::Range({2, 2}), {22.0, 23.0, 24.0, 25.0});
         tot_type t(world, {{t00, t01}, {t10, t11}});
+        tot_type corr;
+        SECTION("Mode 0") {
+            TA::expressions::einsum(corr("i,j;k,l"), C("mu,i"), t("mu,j;k,l"));
+            auto result = non_default.transform(t, 0ul);
+            REQUIRE(ta_helpers::allclose_tot(corr, result, 2));
+        }
+        SECTION("Mode 1"){
+            TA::expressions::einsum(corr("i,j;k,l"), C("mu,j"), t("i,mu;k,l"));
+            auto result = non_default.transform(t, 1ul);
+            REQUIRE(ta_helpers::allclose_tot(corr, result, 2));
+        }
     }
 
     space_type non_default_aos(tensor_type{}, aos);
@@ -616,6 +623,18 @@ TEST_CASE("DepDerivedSpace") {
         inner_type t10(TA::Range({2, 2}), {18.0, 19.0, 20.0, 21.0});
         inner_type t11(TA::Range({2, 2}), {22.0, 23.0, 24.0, 25.0});
         tensor_type t(world, {{t00, t01}, {t10, t11}});
+
+        tensor_type corr;
+        SECTION("Mode 2") {
+            TA::expressions::einsum(corr("i,j;a,b"), C("i,j;mu,a"), t("i,j;mu,b"));
+            auto result = non_default.transform(t, 2ul);
+            REQUIRE(ta_helpers::allclose_tot(corr, result, 2));
+        }
+        SECTION("Mode 3"){
+            TA::expressions::einsum(corr("i,j;a,b"), C("i,j;mu,b"), t("i,j;a,mu"));
+            auto result = non_default.transform(t, 3ul);
+            REQUIRE(ta_helpers::allclose_tot(corr, result, 2));
+        }
     }
 
     space_type non_default_aos(tensor_type{}, aos);

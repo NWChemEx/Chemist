@@ -20,6 +20,12 @@ type::tensor_wrapper AOSPACE::transform_(const type::tensor_wrapper& t,
 }
 
 template<typename BasisType, typename BaseType>
+type::tot_wrapper AOSPACE::transform_(const type::tot_wrapper& t,
+                                      const mode_container&) const {
+    return t;
+}
+
+template<typename BasisType, typename BaseType>
 void AOSPACE::hash_(sde::Hasher& h) const {
     BaseType::hash_(h);
     h(m_bs_);

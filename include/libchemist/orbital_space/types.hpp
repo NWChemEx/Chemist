@@ -12,13 +12,11 @@ namespace libchemist::orbital_space::type {
 
 using namespace libchemist::type;
 
-/** @brief Type of a wrapped tensor.
- *
- *   When we use tensor wrappers in the orbital space components we use them
- *   because the function/algorithm works with any tensor. If it does not we
- *   explicitly specialize for each tensor type that it does work for.
- */
-using tensor_wrapper = libchemist::tensor::UniversalTensorWrapper;
+/// Type of a wrapped, non-hierarchical tensor
+using tensor_wrapper = libchemist::tensor::SparseTensorWrapper;
+
+/// Type of a wrapped, hierarchical tensor
+using tot_wrapper = libchemist::tensor::ToTWrapper;
 
 /** @brief Type of the sparse affiliated with dependent spaces.
  *
