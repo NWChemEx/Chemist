@@ -29,7 +29,7 @@ public:
     /// Type used for annotation
     using annotation_type = std::string;
 
-    /// Type of the tensor wrapper
+    /// Type of the tensor wrapper, w/o qualifiers
     using tensor_wrapper_type = std::decay_t<TensorWrapperType>;
 
     /** @brief Creates a LabeledTensorWrapper given a std::variant wrapping a
@@ -37,7 +37,7 @@ public:
      *
      *  @param[in] v The std::variant which contains the labeled tensor.
      */
-    LabeledTensorWrapper(annotation_type annotation, const TensorWrapperType& t) :
+    LabeledTensorWrapper(annotation_type annotation, TensorWrapperType& t) :
       m_annotation_(std::move(annotation)), m_tensor_(t) {}
 
     /** @brief Evaluates the expression given to the assignment operator.
@@ -76,14 +76,14 @@ public:
     auto variant(LabeledTensorWrapper<ResultType>&) const;
 
     //template<typename ResultType>
-    //auto variant(LabeledTensorWrapper<ResultType>&)const;
+    // auto variant(LabeledTensorWrapper<ResultType>&);
 
 private:
     /// The annotation associated with the tensor
     std::string m_annotation_;
 
     /// The tensor associated with the annotation
-    const TensorWrapperType& m_tensor_;
+    TensorWrapperType& m_tensor_;
 };
 
 // -------------------------------- Implementations ----------------------------
@@ -108,9 +108,9 @@ template<typename ResultType>
 auto LABELED_TENSOR_WRAPPER::variant(LabeledTensorWrapper<ResultType>&) const {
     constexpr bool is_const_wrapper = std::is_const_v<TensorWrapperType>;
     using variant     = typename tensor_wrapper_type::variant_type;
-    //using const_variant = typename clean_wrapper::const_variant_type;
-    //using v_t = std::conditional_t<is_const_wrapper, const_variant, variant>;
-    using new_variant = labeled_variant_t<variant>;
+    using const_variant = typename tensor_wrapper_type::const_variant_type;
+    using v_t = std::conditional_t<is_const_wrapper, const_variant, variant>;
+    using new_variant = labeled_variant_t<v_t>;
     auto l            = [&](auto&& t) { return new_variant{t(m_annotation_)}; };
     return std::visit(l, m_tensor_.variant());
 }

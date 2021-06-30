@@ -1,31 +1,13 @@
 #pragma once
 #include "libchemist/tensor/detail_/op_layer.hpp"
 #include "libchemist/tensor/detail_/type_traits.hpp"
+#include "libchemist/tensor/detail_/operations/mult_kernels.hpp"
 #include "libchemist/tensor/types.hpp"
 #include <TiledArray/expressions/contraction_helpers.h>
 
 namespace libchemist::tensor::detail_ {
 template<typename T>
 class LabeledTensorWrapper;
-
-
-template<typename ResultType, typename LHSType, typename RHSType>
-struct MultKernel;
-
-#define REGISTER_MULT_KERNEL(Result, LHS, RHS)\
-template<>\
-struct MultKernel<Result, LHS, RHS> {\
-    using labeled_result = LabeledTensorWrapper<Result> &;\
-    using labeled_lhs    = const LabeledTensorWrapper<LHS>&;\
-    using labeled_rhs    = const LabeledTensorWrapper<RHS>&;\
-    using return_type    = labeled_variant_t<variant_type_t<Result>>;\
-    static return_type eval(labeled_result, labeled_lhs, labeled_rhs);\
-};\
-extern template class MultKernel<Result, LHS, RHS>
-
-REGISTER_MULT_KERNEL(SparseTensorWrapper, SparseTensorWrapper, SparseTensorWrapper);
-
-#undef REGISTER_MULT_KERNEL
 
 template<typename LHSType, typename RHSType>
 class MultOp : public OpLayer<MultOp<LHSType, RHSType>> {
