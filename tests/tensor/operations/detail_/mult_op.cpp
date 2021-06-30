@@ -58,11 +58,36 @@ TEST_CASE("Tensor = Tensor * Tensor") {
     auto rhs = testing::get_tensors<rhs_t>().at("vector");
 
     auto& world = TA::get_default_world();
-    result_t corr(world, {{1.0, 2.0, 3.0}, {2.0, 4.0, 6.0}, {3.0, 6.0, 9.0}});
+    result_t corr;
+    corr("i,j") = lhs("i") * rhs("j");
 
     SECTION("all non-const") {
         tensor_wrapper wrapped_lhs(lhs);
         tensor_wrapper wrapped_rhs(rhs);
+        tensor_wrapper result(result_t{});
+        result("i,j") = wrapped_lhs("i") * wrapped_rhs("j");
+        REQUIRE(ta_helpers::allclose(result.get<result_t>(), corr));
+    }
+
+    SECTION("LHS is const") {
+        const tensor_wrapper wrapped_lhs(lhs);
+        tensor_wrapper wrapped_rhs(rhs);
+        tensor_wrapper result(result_t{});
+        result("i,j") = wrapped_lhs("i") * wrapped_rhs("j");
+        REQUIRE(ta_helpers::allclose(result.get<result_t>(), corr));
+    }
+
+    SECTION("RHS is const") {
+        tensor_wrapper wrapped_lhs(lhs);
+        const tensor_wrapper wrapped_rhs(rhs);
+        tensor_wrapper result(result_t{});
+        result("i,j") = wrapped_lhs("i") * wrapped_rhs("j");
+        REQUIRE(ta_helpers::allclose(result.get<result_t>(), corr));
+    }
+
+    SECTION("All are const") {
+        const tensor_wrapper wrapped_lhs(lhs);
+        const tensor_wrapper wrapped_rhs(rhs);
         tensor_wrapper result(result_t{});
         result("i,j") = wrapped_lhs("i") * wrapped_rhs("j");
         REQUIRE(ta_helpers::allclose(result.get<result_t>(), corr));

@@ -5,6 +5,7 @@
 
 namespace libchemist::tensor {
 
+
 /** @brief Fundamental type for wrapping tensors.
  *
  *  The TensorWrapper class is designed to provide a single type which can hold
@@ -46,14 +47,8 @@ public:
     /// Type of the variant this wrapper is templated on
     using variant_type = VariantType;
 
-    using const_variant_type = const_variant_t<variant_type>;
-
     /// Type of a wrapper around a labeled tensor
     using labeled_tensor_type = detail_::LabeledTensorWrapper<my_type>;
-
-    /// Type of a wrapper around a read-only labeled tensor
-    using const_labeled_tensor_type =
-      detail_::LabeledTensorWrapper<const my_type>;
 
     /// String-like type used to annotate a tensor.
     using annotation_type = typename labeled_tensor_type::annotation_type;
@@ -96,7 +91,7 @@ public:
      *
      *  @return A labeled read/write tensor.
      */
-    auto operator()(const annotation_type& annotation);
+    //auto operator()(const annotation_type& annotation);
 
     /** @brief Annotates the modes of the wrapped index with the provided
      *         labels.
@@ -207,7 +202,6 @@ public:
 
 protected:
     friend labeled_tensor_type;
-    friend const_labeled_tensor_type;
 
     /** @brief Returns the wrapped variant.
      *
@@ -219,7 +213,7 @@ protected:
      *
      *  @throw None No throw guarantee.
      */
-    variant_type& variant() { return m_tensor_; }
+    //variant_type& variant() { return m_tensor_; }
 
     /** @brief Returns the wrapped variant.
      *
@@ -294,13 +288,8 @@ std::ostream& operator<<(std::ostream& os, const TensorWrapper<VType>& t) {
 #define TENSOR_WRAPPER TensorWrapper<VariantType>
 
 template<typename VariantType>
-auto TENSOR_WRAPPER::operator()(const annotation_type& annotation) {
-    return labeled_tensor_type(annotation, *this);
-}
-
-template<typename VariantType>
 auto TENSOR_WRAPPER::operator()(const annotation_type& annotation) const {
-    return const_labeled_tensor_type(annotation, *this);
+    return labeled_tensor_type(annotation, *this);
 }
 
 template<typename VariantType>
