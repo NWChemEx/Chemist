@@ -1,4 +1,4 @@
-#include "libchemist/hamiltonian/operator.hpp"
+#include "libchemist/operator/operator.hpp"
 #include <catch2/catch.hpp>
 #include <iostream>
 

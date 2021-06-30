@@ -1,6 +1,6 @@
 #pragma once
-#include "libchemist/hamiltonian/operator.hpp"
-#include "libchemist/hamiltonian/type_traits.hpp"
+#include "libchemist/operator/operator.hpp"
+#include "libchemist/operator/type_traits.hpp"
 #include <memory>
 
 namespace libchemist {

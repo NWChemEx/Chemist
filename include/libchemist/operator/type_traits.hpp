@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/hamiltonian/operator.hpp"
+#include "libchemist/operator/operator.hpp"
 #include <type_traits>
 #include <memory>
 

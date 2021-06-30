@@ -1,4 +1,4 @@
-#include "libchemist/hamiltonian/fock_operator.hpp"
+#include "libchemist/operator/fock_operator.hpp"
 #include <catch2/catch.hpp>
 #include <iostream>
 

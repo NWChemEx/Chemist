@@ -1,4 +1,4 @@
-#include "libchemist/hamiltonian/hamiltonian.hpp"
+#include "libchemist/operator/hamiltonian.hpp"
 
 namespace libchemist {
 

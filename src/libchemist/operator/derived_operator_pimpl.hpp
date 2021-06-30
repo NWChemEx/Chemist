@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/hamiltonian/derived_operator.hpp"
+#include "libchemist/operator/derived_operator.hpp"
 #include <map>
 
 namespace libchemist::detail_ {
