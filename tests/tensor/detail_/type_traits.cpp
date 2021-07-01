@@ -4,28 +4,8 @@
 
 using namespace libchemist::tensor;
 
-TEMPLATE_LIST_TEST_CASE("labeled_tensor_t", "", tensor_variant_t) {
-    using tensor_type  = TestType;
-    using corr_type    = decltype(std::declval<TestType>()("i,j"));
-    using labeled_type = labeled_tensor_t<tensor_type>;
-    STATIC_REQUIRE(std::is_same_v<labeled_type, corr_type>);
-}
-
-TEST_CASE("labeled_variant") {
-    using t0 = labeled_tensor_t<tensor_t<double>>;
-    // using t2        = labeled_tensor_t<tensor_t<float>>;
-    using type      = typename detail_::labeled_variant<tensor_variant_t>::type;
-    using corr_type = std::variant<t0>; //, t2>;
-    STATIC_REQUIRE(std::is_same_v<type, corr_type>);
-}
-
-TEST_CASE("labeled_variant_t") {
-    using t0        = labeled_tensor_t<tensor_t<double>>;
-    using t2        = labeled_tensor_t<tensor_t<float>>;
-    using type      = labeled_variant_t<tensor_variant_t>;
-    using corr_type = std::variant<t0>; //, t2>;
-    STATIC_REQUIRE(std::is_same_v<type, corr_type>);
-}
+template<typename T>
+using labeled_tensor_t = typename TensorTraits<T>::labeled_tensor_type;
 
 TEMPLATE_LIST_TEST_CASE("add_expr_t", "", tensor_variant_t) {
     using lhs_type = labeled_tensor_t<TestType>;

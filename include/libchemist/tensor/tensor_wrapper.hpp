@@ -1,6 +1,8 @@
 #pragma once
 #include "libchemist/tensor/detail_/labeled_tensor_wrapper.hpp"
 #include "libchemist/tensor/detail_/type_traits.hpp"
+#include <utilities/type_traits/variant/add_const.hpp>
+#include <utilities/type_traits/variant/decay.hpp>
 #include <utilities/type_traits/variant/has_type.hpp>
 
 namespace libchemist::tensor {
@@ -26,7 +28,7 @@ private:
     using my_type = TensorWrapper<VariantType>;
 
     /// Type of the variant with all unqualified types in it
-    using clean_variant = clean_variant_t<VariantType>;
+    using clean_variant = utilities::type_traits::variant::decay_t<VariantType>;
 
     /** @brief Used to enable a function if @p T is in @p clean_variant.
      *
@@ -46,7 +48,8 @@ public:
     /// Type of the variant this wrapper is templated on
     using variant_type = VariantType;
 
-    using const_variant_type = const_variant_t<variant_type>;
+    using const_variant_type =
+        utilities::type_traits::variant::add_const_t<variant_type>;
 
     /// Type of a wrapper around a labeled tensor
     using labeled_tensor_type = detail_::LabeledTensorWrapper<my_type>;
@@ -333,7 +336,7 @@ template<typename VariantType>
 bool TENSOR_WRAPPER::is_tot_() const noexcept {
     auto l = [](auto&& arg) {
         using clean_t = std::decay_t<decltype(arg)>;
-        return is_tot_v<clean_t>;
+        return TensorTraits<clean_t>::is_tot;
     };
     return std::visit(l, m_tensor_);
 }
@@ -349,7 +352,8 @@ auto TENSOR_WRAPPER::inner_rank_() const {
     auto l = [](auto&& arg) {
         using clean_t = std::decay_t<decltype(arg)>;
         using size_type = decltype(std::declval<clean_t>().range().rank());
-        if constexpr(!is_tot_v<clean_t>)
+        constexpr bool is_tot = TensorTraits<clean_t>::is_tot;
+        if constexpr(!is_tot)
             return size_type{0};
         else {
             const auto& tile0 = arg.begin()->get();

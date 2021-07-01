@@ -20,7 +20,7 @@ template<typename TensorType>
 auto get_tensors() {
     auto& world = TA::get_default_world();
     std::map<std::string, TensorType> rv;
-    if constexpr (!libchemist::tensor::is_tot_v<TensorType>) {
+    if constexpr (!libchemist::tensor::TensorTraits<TensorType>::is_tot) {
         rv["vector"] = TensorType(world, {1.0, 2.0, 3.0});
         rv["matrix"] = TensorType(world, {{1.0, 2.0}, {3.0, 4.0}});
         rv["tensor"] = TensorType(world, {{{1.0, 2.0}, {3.0, 4.0}},
