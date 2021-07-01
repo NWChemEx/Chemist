@@ -1,6 +1,5 @@
 #pragma once
 #include "libchemist/topology/connectivity_table.hpp"
-#include <algorithm> // for max, min
 
 namespace libchemist::topology::detail_ {
 
@@ -62,7 +61,7 @@ public:
      *
      *  @throw None no throw guarantee.
      */
-    auto natoms() const noexcept { return m_natoms_; }
+    inline size_type natoms() const noexcept { return m_natoms_; }
 
     /** @brief The total number of bonds in this table.
      *
