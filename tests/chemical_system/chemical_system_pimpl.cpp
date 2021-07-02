@@ -167,52 +167,52 @@ TEST_CASE("ChemicalSystemPIMPL") {
     SECTION("hash") {
         SECTION("LHS is default") {
             chem_sys_pimpl_t lhs;
-            auto lhs_hash = sde::hash_objects(lhs);
+            auto lhs_hash = runtime::hash_objects(lhs);
 
             SECTION("RHS is default") {
                 chem_sys_pimpl_t rhs;
-                REQUIRE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE(lhs_hash == runtime::hash_objects(rhs));
             }
 
             SECTION("RHS has a different molecule") {
                 chem_sys_pimpl_t rhs(h);
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == runtime::hash_objects(rhs));
             }
 
             SECTION("RHS has a different potential") {
                 chem_sys_pimpl_t rhs(libchemist::Molecule(), v);
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == runtime::hash_objects(rhs));
             }
 
             SECTION("RHS has a different molecule and potential") {
                 chem_sys_pimpl_t rhs(h, v);
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == runtime::hash_objects(rhs));
             }
         }
 
         SECTION("LHS has values") {
             chem_sys_pimpl_t lhs(h, v);
-            auto lhs_hash = sde::hash_objects(lhs);
+            auto lhs_hash = runtime::hash_objects(lhs);
 
             SECTION("RHS is default") {
                 chem_sys_pimpl_t rhs;
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == runtime::hash_objects(rhs));
             }
 
             SECTION("RHS has a different molecule") {
                 chem_sys_pimpl_t rhs(libchemist::Molecule(), v);
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == runtime::hash_objects(rhs));
             }
 
             SECTION("RHS has a different potential") {
                 chem_sys_pimpl_t rhs(h,
                                      libchemist::potentials::Electrostatic());
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == runtime::hash_objects(rhs));
             }
 
             SECTION("RHS has same molecule and potential") {
                 chem_sys_pimpl_t rhs(h, v);
-                REQUIRE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE(lhs_hash == runtime::hash_objects(rhs));
             }
         }
     }

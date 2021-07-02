@@ -458,7 +458,7 @@ private:
     std::unique_ptr<detail_::AOBasisSetPIMPL<T>> m_pimpl_;
     /// Hash function
     BPHASH_DECLARE_HASHING_FRIENDS
-    void hash(bphash::Hasher& h) const;
+    void hash(runtime::Hasher& h) const;
 }; // class AOBasisSet
 
 extern template class AOBasisSet<double>;

@@ -227,7 +227,7 @@ public:
     ///@}
 private:
     BPHASH_DECLARE_HASHING_FRIENDS
-    void hash(bphash::Hasher& h) const;
+    void hash(runtime::Hasher& h) const;
 
     /// Struct for coloring an atom as seen
     struct ColoredAtom {

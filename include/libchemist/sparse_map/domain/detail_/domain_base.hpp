@@ -513,7 +513,7 @@ public:
      *  @throws std::runtime_error if the PIMPL is not set. Strong throw
      *                             guarantee.
      */
-    void hash(sde::Hasher& h) const;
+    void hash(runtime::Hasher& h) const;
 
     /** @brief Adds a string representation of this Domain to the provided
      *         stream.

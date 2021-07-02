@@ -4,7 +4,7 @@
 
 using namespace libchemist::sparse_map;
 
-//Types commonly used as integers
+// Types commonly used as integers
 using integral_types = std::tuple<int, unsigned int, std::size_t>;
 
 using index_type = typename Index::index_type;
@@ -34,23 +34,23 @@ TEST_CASE("Index::default ctor") {
     REQUIRE(i == corr);
 }
 
-TEMPLATE_LIST_TEST_CASE("Index::value ctor", "", integral_types){
+TEMPLATE_LIST_TEST_CASE("Index::value ctor", "", integral_types) {
     TestType one{1}, two{2}, three{3};
     index_type corr{1, 2, 3};
     Index i(one, two, three);
     REQUIRE(i == corr);
 }
 
-TEST_CASE("Index::initializer_list ctor"){
+TEST_CASE("Index::initializer_list ctor") {
     index_type corr{1, 2, 3};
     Index i({1, 2, 3});
     REQUIRE(i == corr);
 }
 
-TEST_CASE("Index::vector ctor"){
+TEST_CASE("Index::vector ctor") {
     index_type corr{1, 2, 3};
 
-    SECTION("By copy"){
+    SECTION("By copy") {
         Index i(corr);
         REQUIRE(i == corr);
     }
@@ -203,12 +203,12 @@ TEST_CASE("Index::begin") {
         REQUIRE(i.begin() == i.m_index.begin());
     }
 
-    SECTION("Rank 1"){
+    SECTION("Rank 1") {
         Index i(1);
         REQUIRE(i.begin() == i.m_index.begin());
     }
 
-    SECTION("Rank 2"){
+    SECTION("Rank 2") {
         Index i(1, 2);
         REQUIRE(i.begin() == i.m_index.begin());
     }
@@ -220,12 +220,12 @@ TEST_CASE("Index::begin const") {
         REQUIRE(i.begin() == i.m_index.begin());
     }
 
-    SECTION("Rank 1"){
+    SECTION("Rank 1") {
         const Index i(1);
         REQUIRE(i.begin() == i.m_index.begin());
     }
 
-    SECTION("Rank 2"){
+    SECTION("Rank 2") {
         const Index i(1, 2);
         REQUIRE(i.begin() == i.m_index.begin());
     }
@@ -237,12 +237,12 @@ TEST_CASE("Index::end") {
         REQUIRE(i.end() == i.m_index.end());
     }
 
-    SECTION("Rank 1"){
+    SECTION("Rank 1") {
         Index i(1);
         REQUIRE(i.end() == i.m_index.end());
     }
 
-    SECTION("Rank 2"){
+    SECTION("Rank 2") {
         Index i(1, 2);
         REQUIRE(i.end() == i.m_index.end());
     }
@@ -254,85 +254,85 @@ TEST_CASE("Index::end const") {
         REQUIRE(i.end() == i.m_index.end());
     }
 
-    SECTION("Rank 1"){
+    SECTION("Rank 1") {
         const Index i(1);
         REQUIRE(i.end() == i.m_index.end());
     }
 
-    SECTION("Rank 2"){
+    SECTION("Rank 2") {
         const Index i(1, 2);
         REQUIRE(i.end() == i.m_index.end());
     }
 }
 
-TEST_CASE("Index::hash"){
-    SECTION("Default Index"){
+TEST_CASE("Index::hash") {
+    SECTION("Default Index") {
         Index i;
-        auto hi = sde::hash_objects(i);
+        auto hi = runtime::hash_objects(i);
 
         SECTION("Default Index") {
             Index j;
-            REQUIRE(hi == sde::hash_objects(j));
+            REQUIRE(hi == runtime::hash_objects(j));
         }
 
         SECTION("Rank 1 Index") {
             Index j{1};
-            REQUIRE(hi != sde::hash_objects(j));
+            REQUIRE(hi != runtime::hash_objects(j));
         }
 
         SECTION("Rank 2 Index") {
             Index j{1, 2};
-            REQUIRE(hi != sde::hash_objects(j));
+            REQUIRE(hi != runtime::hash_objects(j));
         }
     }
 
-    SECTION("Rank 1 Index"){
+    SECTION("Rank 1 Index") {
         Index i{1};
-        auto hi = sde::hash_objects(i);
+        auto hi = runtime::hash_objects(i);
 
         SECTION("Default Index") {
             Index j;
-            REQUIRE(hi != sde::hash_objects(j));
+            REQUIRE(hi != runtime::hash_objects(j));
         }
 
         SECTION("Same Rank 1 Index") {
             Index j{1};
-            REQUIRE(hi == sde::hash_objects(j));
+            REQUIRE(hi == runtime::hash_objects(j));
         }
 
         SECTION("Different Rank 1 Index") {
             Index j{2};
-            REQUIRE(hi != sde::hash_objects(j));
+            REQUIRE(hi != runtime::hash_objects(j));
         }
 
         SECTION("Rank 2 Index") {
             Index j{1, 2};
-            REQUIRE(hi != sde::hash_objects(j));
+            REQUIRE(hi != runtime::hash_objects(j));
         }
     }
 
-    SECTION("Rank 2 Index"){
+    SECTION("Rank 2 Index") {
         Index i{1, 2};
-        auto hi = sde::hash_objects(i);
+        auto hi = runtime::hash_objects(i);
 
         SECTION("Default Index") {
             Index j;
-            REQUIRE(hi != sde::hash_objects(j));
+            REQUIRE(hi != runtime::hash_objects(j));
         }
 
         SECTION("Rank 1 Index") {
             Index j{1};
-            REQUIRE(hi != sde::hash_objects(j));
+            REQUIRE(hi != runtime::hash_objects(j));
         }
 
         SECTION("Same Rank 2 Index") {
             Index j{1, 2};
-            REQUIRE(hi == sde::hash_objects(j));
+            REQUIRE(hi == runtime::hash_objects(j));
         }
 
         SECTION("Different Rank 2 Index") {
             Index j{2, 1};
-            REQUIRE(hi != sde::hash_objects(j));
+            REQUIRE(hi != runtime::hash_objects(j));
         }
     }
 }
@@ -373,8 +373,8 @@ TEST_CASE("Index::print") {
     }
 }
 
-TEST_CASE("Comparisons among Index instances"){
-    SECTION("Default Index"){
+TEST_CASE("Comparisons among Index instances") {
+    SECTION("Default Index") {
         Index i;
 
         SECTION("Default Index") {
@@ -396,7 +396,7 @@ TEST_CASE("Comparisons among Index instances"){
         }
     }
 
-    SECTION("Rank 1 Index"){
+    SECTION("Rank 1 Index") {
         Index i{1};
 
         SECTION("Default Index") {
@@ -424,7 +424,7 @@ TEST_CASE("Comparisons among Index instances"){
         }
     }
 
-    SECTION("Rank 2 Index"){
+    SECTION("Rank 2 Index") {
         Index i{1, 2};
 
         SECTION("Default Index") {
@@ -457,7 +457,7 @@ TEST_CASE("Comparisons between index and std::vector") {
     SECTION("Default Index") {
         Index i;
 
-        SECTION("Default std::vector"){
+        SECTION("Default std::vector") {
             index_type v;
             REQUIRE(i == v);
             REQUIRE(v == i);
@@ -465,7 +465,7 @@ TEST_CASE("Comparisons between index and std::vector") {
             REQUIRE_FALSE(v != i);
         }
 
-        SECTION("Single element std::vector"){
+        SECTION("Single element std::vector") {
             index_type v{1};
             REQUIRE_FALSE(i == v);
             REQUIRE_FALSE(v == i);
@@ -473,7 +473,7 @@ TEST_CASE("Comparisons between index and std::vector") {
             REQUIRE(v != i);
         }
 
-        SECTION("Two element std::vector"){
+        SECTION("Two element std::vector") {
             index_type v{1, 2};
             REQUIRE_FALSE(i == v);
             REQUIRE_FALSE(v == i);
@@ -485,7 +485,7 @@ TEST_CASE("Comparisons between index and std::vector") {
     SECTION("Rank 1 index") {
         Index i(1);
 
-        SECTION("Default std::vector"){
+        SECTION("Default std::vector") {
             index_type v;
             REQUIRE_FALSE(i == v);
             REQUIRE_FALSE(v == i);
@@ -493,7 +493,7 @@ TEST_CASE("Comparisons between index and std::vector") {
             REQUIRE(v != i);
         }
 
-        SECTION("Same valued std::vector"){
+        SECTION("Same valued std::vector") {
             index_type v{1};
             REQUIRE(i == v);
             REQUIRE(v == i);
@@ -501,7 +501,7 @@ TEST_CASE("Comparisons between index and std::vector") {
             REQUIRE_FALSE(v != i);
         }
 
-        SECTION("Different element std::vector"){
+        SECTION("Different element std::vector") {
             index_type v{2};
             REQUIRE_FALSE(i == v);
             REQUIRE_FALSE(v == i);
@@ -509,7 +509,7 @@ TEST_CASE("Comparisons between index and std::vector") {
             REQUIRE(v != i);
         }
 
-        SECTION("Two element std::vector"){
+        SECTION("Two element std::vector") {
             index_type v{1, 2};
             REQUIRE_FALSE(i == v);
             REQUIRE_FALSE(v == i);
@@ -521,7 +521,7 @@ TEST_CASE("Comparisons between index and std::vector") {
     SECTION("Rank 2 index") {
         Index i(1, 2);
 
-        SECTION("Default std::vector"){
+        SECTION("Default std::vector") {
             index_type v;
             REQUIRE_FALSE(i == v);
             REQUIRE_FALSE(v == i);
@@ -529,7 +529,7 @@ TEST_CASE("Comparisons between index and std::vector") {
             REQUIRE(v != i);
         }
 
-        SECTION("Single element std::vector"){
+        SECTION("Single element std::vector") {
             index_type v{1};
             REQUIRE_FALSE(i == v);
             REQUIRE_FALSE(v == i);
@@ -537,7 +537,7 @@ TEST_CASE("Comparisons between index and std::vector") {
             REQUIRE(v != i);
         }
 
-        SECTION("Same value, two-element std::vector"){
+        SECTION("Same value, two-element std::vector") {
             index_type v{1, 2};
             REQUIRE(i == v);
             REQUIRE(v == i);
@@ -545,7 +545,7 @@ TEST_CASE("Comparisons between index and std::vector") {
             REQUIRE_FALSE(v != i);
         }
 
-        SECTION("Different value, two element std::vector"){
+        SECTION("Different value, two element std::vector") {
             index_type v{2, 1};
             REQUIRE_FALSE(i == v);
             REQUIRE_FALSE(v == i);

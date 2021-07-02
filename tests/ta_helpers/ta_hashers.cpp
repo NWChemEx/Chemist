@@ -1,12 +1,12 @@
 #include "libchemist/ta_helpers/ta_hashers.hpp"
 #include <catch2/catch.hpp>
-#include <sde/detail_/memoization.hpp>
+#include <runtime/hasher.hpp>
 
-using sde::hash_objects;
-/* Alternative to sde::hash_objects
+using runtime::hash_objects;
+/* Alternative to runtime::hash_objects
 auto hash_string = [](auto a) {
     return bphash::hash_to_string(
-        bphash::make_hash(bphash::HashType::Hash128, a));
+        bphash::make_hash(runtime::HashType::Hash128, a));
 };
 */
 

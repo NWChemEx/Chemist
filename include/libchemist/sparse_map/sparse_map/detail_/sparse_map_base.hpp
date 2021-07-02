@@ -508,7 +508,7 @@ public:
      *                   internal hash of @p h will be updated to include this
      *                   SparseMap's state.
      */
-    void hash(sde::Hasher& h) const;
+    void hash(runtime::Hasher& h) const;
 
 protected:
     /// Ensures the instance has a PIMPL and returns it

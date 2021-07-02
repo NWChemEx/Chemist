@@ -201,33 +201,35 @@ TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
         }
 
         SECTION("Hash") {
-            auto hash1 = sde::hash_objects(st1);
+            auto hash1 = runtime::hash_objects(st1);
 
             SECTION("Same State") {
                 SECTION("Same from_space instances") {
-                    auto hash2 = sde::hash_objects(space_type(S2, pbs1, S1));
-                    auto hash3 = sde::hash_objects(space_type(S2, pbs1, S1));
+                    auto hash2 =
+                      runtime::hash_objects(space_type(S2, pbs1, S1));
+                    auto hash3 =
+                      runtime::hash_objects(space_type(S2, pbs1, S1));
                     REQUIRE(hash2 == hash3);
                 }
 
                 SECTION("Doesn't need to be same aliased space instances") {
-                    auto hash2 = sde::hash_objects(space_type(S2, bs1, S1));
+                    auto hash2 = runtime::hash_objects(space_type(S2, bs1, S1));
                     REQUIRE(hash1 == hash2);
                 }
             }
 
             SECTION("Different transformation") {
-                auto hash2 = sde::hash_objects(space_type(S1, bs1, S1));
+                auto hash2 = runtime::hash_objects(space_type(S1, bs1, S1));
                 REQUIRE(hash1 != hash2);
             }
 
             SECTION("Different from space") {
-                auto hash2 = sde::hash_objects(space_type(S2, bs2, S1));
+                auto hash2 = runtime::hash_objects(space_type(S2, bs2, S1));
                 REQUIRE(hash1 != hash2);
             }
 
             SECTION("Different base spaces") {
-                auto hash2 = sde::hash_objects(space_type(S2, bs1, S2));
+                auto hash2 = runtime::hash_objects(space_type(S2, bs1, S2));
                 REQUIRE(hash1 != hash2);
             }
         }

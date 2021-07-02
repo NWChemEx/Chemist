@@ -63,7 +63,7 @@ public:
 
 protected:
     /// Should be overriden by the derived class to implement hashing
-    virtual void hash_(sde::Hasher& h) const {
+    virtual void hash_(runtime::Hasher& h) const {
         h(m_sm_);
         BaseType::hash_(h);
     }
@@ -83,7 +83,7 @@ bool operator==(const DependentBaseSpace_<SparseMapType, BaseType>& lhs,
     using clean_lhs_t = std::decay_t<decltype(lhs)>;
     using clean_rhs_t = std::decay_t<decltype(rhs)>;
     if constexpr(std::is_same_v<clean_rhs_t, clean_lhs_t>) {
-        return sde::hash_objects(lhs) == sde::hash_objects(rhs);
+        return runtime::hash_objects(lhs) == runtime::hash_objects(rhs);
     } else {
         return false;
     }

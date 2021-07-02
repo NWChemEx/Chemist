@@ -1,5 +1,5 @@
 #pragma once
-#include <sde/detail_/memoization.hpp>
+#include <runtime/hasher.hpp>
 
 namespace libchemist::orbital_space {
 
@@ -58,7 +58,7 @@ public:
 
 protected:
     /// Adds the orbital energies to the hash internal to `h`
-    virtual void hash_(sde::Hasher& h) const override;
+    virtual void hash_(runtime::Hasher& h) const override;
 
 private:
     /// The energies associated with each orbital
@@ -74,7 +74,8 @@ CanonicalSpace_<OrbitalEnergyType, BaseType>::CanonicalSpace_(
   BaseType(std::forward<Args>(args)...), m_egys_(std::move(egys)) {}
 
 template<typename OrbitalEnergyType, typename BaseType>
-void CanonicalSpace_<OrbitalEnergyType, BaseType>::hash_(sde::Hasher& h) const {
+void CanonicalSpace_<OrbitalEnergyType, BaseType>::hash_(
+  runtime::Hasher& h) const {
     BaseType::hash_(h);
     h(m_egys_);
 }

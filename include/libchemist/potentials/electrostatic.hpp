@@ -114,7 +114,7 @@ public:
      *                   will have been modified to include a hash of this
      *                   object's state.
      */
-    void hash(bphash::Hasher& h) const { h(m_charges_); }
+    void hash(runtime::Hasher& h) const { h(m_charges_); }
 
 private:
     /** @brief Checks that a charge index is in bounds

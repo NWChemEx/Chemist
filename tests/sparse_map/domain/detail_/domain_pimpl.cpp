@@ -1658,16 +1658,16 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
     }
 
     SECTION("hash") {
-        auto h1 = sde::hash_objects(ps.at("empty"));
+        auto h1 = runtime::hash_objects(ps.at("empty"));
 
-        SECTION("Empty") { REQUIRE(h1 == sde::hash_objects(pimpl_type{})); }
+        SECTION("Empty") { REQUIRE(h1 == runtime::hash_objects(pimpl_type{})); }
 
         SECTION("Single element") {
-            REQUIRE(h1 != sde::hash_objects(ps.at("1 rank 1 index")));
+            REQUIRE(h1 != runtime::hash_objects(ps.at("1 rank 1 index")));
         }
 
         SECTION("Two elements") {
-            REQUIRE(h1 != sde::hash_objects(ps.at("2 rank 2 indices")));
+            REQUIRE(h1 != runtime::hash_objects(ps.at("2 rank 2 indices")));
         }
     }
 }

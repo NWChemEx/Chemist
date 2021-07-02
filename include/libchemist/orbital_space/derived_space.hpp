@@ -238,7 +238,7 @@ public:
 
 protected:
     /// Include the transformation and the from space in the hash
-    virtual void hash_(sde::Hasher& h) const override;
+    virtual void hash_(runtime::Hasher& h) const override;
 
     virtual overlap_type transform_(const std::string& rv_idx,
                                     const std::string& c_idx,
@@ -315,7 +315,7 @@ const typename DERIVED_SPACE::overlap_type& DERIVED_SPACE::S_() const {
 }
 
 template<typename TransformType, typename FromSpace, typename BaseType>
-void DERIVED_SPACE::hash_(sde::Hasher& h) const {
+void DERIVED_SPACE::hash_(runtime::Hasher& h) const {
     BaseType::hash_(h);
     h(m_C_, *m_pbase_);
 }

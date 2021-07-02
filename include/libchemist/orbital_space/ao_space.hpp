@@ -1,5 +1,5 @@
 #pragma once
-#include <sde/detail_/memoization.hpp>
+#include <runtime/hasher.hpp>
 
 namespace libchemist::orbital_space {
 
@@ -67,7 +67,7 @@ protected:
      *  @param[in,out] h The hasher instance being used. After this call the
      *                   AO basis set wil be added to the internal hashed state.
      */
-    virtual void hash_(sde::Hasher& h) const override;
+    virtual void hash_(runtime::Hasher& h) const override;
 
     /** @brief Overrides the size member so that it returns the number of AOs.
      *
@@ -89,7 +89,7 @@ AOSpace_<BasisType, BaseType>::AOSpace_(basis_type bs, Args&&... args) :
   BaseType(std::forward<Args>(args)...), m_bs_(std::move(bs)) {}
 
 template<typename BasisType, typename BaseType>
-void AOSpace_<BasisType, BaseType>::hash_(sde::Hasher& h) const {
+void AOSpace_<BasisType, BaseType>::hash_(runtime::Hasher& h) const {
     BaseType::hash_(h);
     h(m_bs_);
 }

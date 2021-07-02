@@ -22,7 +22,6 @@ using namespace libchemist::test;
 TEMPLATE_PRODUCT_TEST_CASE("CanonicalSpace", "",
                            (type::tensor, type::tensor_of_tensors),
                            (float, double)) {
-
     // Assemble types needed for this unit test
     using tensor_type = TestType;
     using base_type   = BaseSpace_<tensor_type>;
@@ -30,8 +29,8 @@ TEMPLATE_PRODUCT_TEST_CASE("CanonicalSpace", "",
 
     // Some basic objects used many times throughout the unit test
     auto& world = TA::get_default_world();
-    auto S1 = TensorMaker<tensor_type>::S(world);
-    auto S2 = TensorMaker<tensor_type>::S2(world);
+    auto S1     = TensorMaker<tensor_type>::S(world);
+    auto S2     = TensorMaker<tensor_type>::S2(world);
     base_type bs1(S1), bs2(S2);
 
     space_type st1(S1, S2);
@@ -80,27 +79,25 @@ TEMPLATE_PRODUCT_TEST_CASE("CanonicalSpace", "",
     }
 
     SECTION("hash") {
-
-        auto hash1 = sde::hash_objects(st1);
+        auto hash1 = runtime::hash_objects(st1);
 
         SECTION("Same value") {
-            auto hash2 = sde::hash_objects(space_type(S1, S2));
+            auto hash2 = runtime::hash_objects(space_type(S1, S2));
             REQUIRE(hash1 == hash2);
         }
 
         SECTION("Different orbital energies") {
-            auto hash2 = sde::hash_objects(space_type(S2, S2));
+            auto hash2 = runtime::hash_objects(space_type(S2, S2));
             REQUIRE(hash1 != hash2);
         }
 
         SECTION("Different base instances") {
-            auto hash2 = sde::hash_objects(space_type(S1, S1));
+            auto hash2 = runtime::hash_objects(space_type(S1, S1));
             REQUIRE(hash1 != hash2);
         }
     }
 
     SECTION("Comparisons") {
-
         SECTION("Same value") {
             space_type st2(S1, S2);
             REQUIRE(st1 == st2);

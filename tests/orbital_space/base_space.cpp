@@ -115,26 +115,26 @@ TEMPLATE_PRODUCT_TEST_CASE("BaseSpace", "",
 
     SECTION("hash") {
         SECTION("Both default") {
-            auto hash1 = sde::hash_objects(bs);
-            auto hash2 = sde::hash_objects(base_space());
+            auto hash1 = runtime::hash_objects(bs);
+            auto hash2 = runtime::hash_objects(base_space());
             REQUIRE(hash1 == hash2);
         }
 
         SECTION("One default and one non-default") {
-            auto hash1 = sde::hash_objects(bs);
-            auto hash2 = sde::hash_objects(bs_S);
+            auto hash1 = runtime::hash_objects(bs);
+            auto hash2 = runtime::hash_objects(bs_S);
             REQUIRE(hash1 != hash2);
         }
 
         SECTION("Same overlap matrix") {
-            auto hash1 = sde::hash_objects(bs_S);
-            auto hash2 = sde::hash_objects(base_space(S));
+            auto hash1 = runtime::hash_objects(bs_S);
+            auto hash2 = runtime::hash_objects(base_space(S));
             REQUIRE(hash1 == hash2);
         }
 
         SECTION("Different overlap matrix") {
-            auto hash1 = sde::hash_objects(bs_S);
-            auto hash2 = sde::hash_objects(bs_S2);
+            auto hash1 = runtime::hash_objects(bs_S);
+            auto hash2 = runtime::hash_objects(bs_S2);
             REQUIRE(hash1 != hash2);
         }
     }

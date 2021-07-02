@@ -2,7 +2,7 @@
 #include <array>
 #include <iostream>
 #include <memory>
-#include <sde/detail_/memoization.hpp>
+#include <runtime/hasher.hpp>
 #include <vector>
 
 namespace libchemist::topology {
@@ -164,7 +164,7 @@ public:
      *                   After the call @p h will contain a hash of this
      *                   instance.
      */
-    void hash(sde::Hasher& h) const;
+    void hash(runtime::Hasher& h) const;
 
 private:
     /** @brief Returns the PIMPL in a read/write state, making a PIMPL if the

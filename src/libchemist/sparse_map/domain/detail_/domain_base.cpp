@@ -218,7 +218,7 @@ bool DOMAINBASE::operator==(const DomainBase& rhs) const noexcept {
 }
 
 template<typename DerivedType, typename IndexType>
-void DOMAINBASE::hash(sde::Hasher& h) const {
+void DOMAINBASE::hash(runtime::Hasher& h) const {
     h(pimpl_());
 }
 

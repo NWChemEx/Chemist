@@ -176,7 +176,7 @@ public:
      *                   will have been modified to include a hash of this
      *                   object's state.
      */
-    void hash(bphash::Hasher& h) const;
+    void hash(runtime::Hasher& h) const;
 
 private:
     /** @brief Returns the PIMPL in a read/write state.

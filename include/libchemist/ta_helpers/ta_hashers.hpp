@@ -1,7 +1,7 @@
 #pragma once
 #include <bphash/Hasher.hpp>
 #include <madness/world/safempi.h>
-#include <sde/detail_/memoization.hpp>
+#include <runtime/hasher.hpp>
 #include <tiledarray.h>
 
 namespace TiledArray {
@@ -14,9 +14,9 @@ namespace TiledArray {
  * Free function to enable hashing with BPHash library.
  *
  * @param[in] R Range object
- * @param[in, out] h bphash::Hasher object.
+ * @param[in, out] h runtime::Hasher object.
  */
-inline void hash_object(const TA::Range& R, bphash::Hasher& h) {
+inline void hash_object(const TA::Range& R, runtime::Hasher& h) {
     // To create a unique hash for this type with the default constructor
     const char* mytype = "TA::Range";
     h(mytype);
@@ -33,9 +33,9 @@ inline void hash_object(const TA::Range& R, bphash::Hasher& h) {
  * Free function to enable hashing with BPHash library.
  *
  * @param[in] tr TiledRange1 object
- * @param[in, out] h bphash::Hasher object.
+ * @param[in, out] h runtime::Hasher object.
  */
-inline void hash_object(const TA::TiledRange1& tr, bphash::Hasher& h) {
+inline void hash_object(const TA::TiledRange1& tr, runtime::Hasher& h) {
     const char* mytype = "TA::TiledRange1";
     h(mytype);
     for(const auto& tile : tr) h(tile.first);
@@ -47,9 +47,9 @@ inline void hash_object(const TA::TiledRange1& tr, bphash::Hasher& h) {
  * Free function to enable hashing with BPHash library.
  *
  * @param[in] tr TiledRange object
- * @param[in, out] h bphash::Hasher object.
+ * @param[in, out] h runtime::Hasher object.
  */
-inline void hash_object(const TiledArray::TiledRange& tr, bphash::Hasher& h) {
+inline void hash_object(const TiledArray::TiledRange& tr, runtime::Hasher& h) {
     const char* mytype = "TA::TiledRange";
     h(mytype);
     for(std::size_t i = 0; i < tr.rank(); ++i) h(tr.dim(i));
@@ -60,9 +60,9 @@ inline void hash_object(const TiledArray::TiledRange& tr, bphash::Hasher& h) {
  * Free function to enable hashing with BPHash library.
  *
  * @param[in] p Pmap object
- * @param[in, out] h bphash::Hasher object.
+ * @param[in, out] h runtime::Hasher object.
  */
-inline void hash_object(const TiledArray::Pmap& p, bphash::Hasher& h) {
+inline void hash_object(const TiledArray::Pmap& p, runtime::Hasher& h) {
     const char* mytype = "TA::Pmap";
     h(mytype);
     h(p.rank());
@@ -76,11 +76,11 @@ inline void hash_object(const TiledArray::Pmap& p, bphash::Hasher& h) {
  * @tparam ValueType Type of value for the @p A tensor.
  * @tparam AllocatorType Type of allocator for the @p A tensor.
  * @param[in] A Tensor object
- * @param[in, out] h bphash::Hasher object.
+ * @param[in, out] h runtime::Hasher object.
  */
 template<typename ValueType, typename AllocatorType>
 void hash_object(const TA::Tensor<ValueType, AllocatorType>& A,
-                 bphash::Hasher& h) {
+                 runtime::Hasher& h) {
     const char* mytype = "TA::Tensor";
     h(A.range());
     const auto n = A.range().volume();
@@ -95,24 +95,24 @@ void hash_object(const TA::Tensor<ValueType, AllocatorType>& A,
  * @tparam PolicyType Type of policy for @p A. Either DensePolicy or
  * SparsePolicy.
  * @param[in] A DistArray object
- * @return bphash::HashValue for TA::DistArray
+ * @return runtime::HashValue for TA::DistArray
  */
 template<typename TensorType, typename PolicyType>
-bphash::HashValue get_tile_hash_sum(
+runtime::HashValue get_tile_hash_sum(
   const TA::DistArray<TensorType, PolicyType>& A) {
     auto& madworld = A.world();
     auto& mpiworld = madworld.mpi.Get_mpi_comm();
 
     // Note: Without the fence orbital space hash tests hang on parallel runs.
     madworld.gop.fence();
-    bphash::HashValue myhash;
-    bphash::HashValue mytotal(16, 0); // bphash::HashType::Hash128 has 16
-                                      // uint8_t
-    bphash::HashValue hashsum(16, 0);
+    runtime::HashValue myhash;
+    runtime::HashValue mytotal(16, 0); // runtime::HashType::Hash128 has 16
+                                       // uint8_t
+    runtime::HashValue hashsum(16, 0);
 
     for(auto it = A.begin(); it != A.end(); ++it) {
         auto tile = A.find(it.index()).get();
-        myhash    = bphash::make_hash(bphash::HashType::Hash128, tile);
+        myhash    = runtime::make_hash(tile);
         for(auto i = 0; i < myhash.size(); i++) { mytotal[i] += myhash[i]; }
     }
     if(madworld.size() > 1 && !A.pmap().get()->is_replicated()) {
@@ -134,12 +134,12 @@ bphash::HashValue get_tile_hash_sum(
  * @tparam PolicyType Type of policy for @p A. Either DensePolicy or
  * SparsePolicy.
  * @param[in] A DistArray object
- * @param[in, out] h bphash::Hasher object.
+ * @param[in, out] h runtime::Hasher object.
  */
 
 template<typename TensorType, typename PolicyType>
 void hash_object(const TA::DistArray<TensorType, PolicyType>& A,
-                 bphash::Hasher& h) {
+                 runtime::Hasher& h) {
     const char* mytype = "TA::DistArray";
     h(mytype);
     if(A.is_initialized()) {
@@ -166,7 +166,7 @@ template<typename TensorTypeA, typename TensorTypeB, typename PolicyTypeA,
          typename PolicyTypeB>
 bool operator==(const TA::DistArray<TensorTypeA, PolicyTypeA>& A,
                 const TA::DistArray<TensorTypeB, PolicyTypeB>& B) {
-    return sde::hash_objects(A) == sde::hash_objects(B);
+    return runtime::hash_objects(A) == runtime::hash_objects(B);
 }
 
 /** @brief Enables comparison between TA DistArray objects
@@ -205,7 +205,7 @@ template<typename ValueTypeA, typename AllocatorTypeA, typename ValueTypeB,
          typename AllocatorTypeB>
 bool operator==(const TA::Tensor<ValueTypeA, AllocatorTypeA>& A,
                 const TA::Tensor<ValueTypeB, AllocatorTypeB>& B) {
-    return sde::hash_objects(A) == sde::hash_objects(B);
+    return runtime::hash_objects(A) == runtime::hash_objects(B);
 }
 
 /** @brief Enables comparison between TA tensor objects

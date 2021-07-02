@@ -29,8 +29,9 @@ TEST_CASE("Distance") {
     }
 
     SECTION("hash") {
-        REQUIRE(sde::hash_objects(d) == sde::hash_objects(Distance{1.23}));
-        REQUIRE(sde::hash_objects(d) != sde::hash_objects(Distance{}));
+        REQUIRE(runtime::hash_objects(d) ==
+                runtime::hash_objects(Distance{1.23}));
+        REQUIRE(runtime::hash_objects(d) != runtime::hash_objects(Distance{}));
     }
 
     SECTION("Comparisons") {

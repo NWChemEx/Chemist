@@ -155,7 +155,7 @@ public:
      *                   will have been modified to include a hash of this
      *                   object's state.
      */
-    void hash(bphash::Hasher& h) const { h(m_mol_, m_epot_); }
+    void hash(runtime::Hasher& h) const { h(m_mol_, m_epot_); }
 
 protected:
     /// Implements polymorphic copy, should be overriden by derived classes

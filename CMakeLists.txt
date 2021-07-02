@@ -19,6 +19,7 @@ cpp_find_or_build_dependency(
     sde
     URL github.com/NWChemEx-Project/sde
     PRIVATE TRUE
+    VERSION runtime
     BUILD_TARGET sde
     FIND_TARGET nwx::sde
     CMAKE_ARGS BUILD_TESTING=OFF
@@ -31,6 +32,8 @@ cpp_find_or_build_dependency(
     BUILD_TARGET tiledarray
     FIND_TARGET tiledarray
     CMAKE_ARGS TA_BUILD_UNITTEST=OFF
+		MADNESS_ROOT_DIR=${CMAKE_BINARY_DIR}/_deps/madness-build/
+	        MADNESS_ENABLE_CEREAL=ON
 )
 
 find_package(Boost REQUIRED COMPONENTS container)
@@ -58,5 +61,4 @@ if("${BUILD_TESTING}")
         DEPENDS Catch2::Catch2 chemist
     )
 endif()
-
 

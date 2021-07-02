@@ -1,7 +1,7 @@
 #include "libchemist/basis_set/ao_basis_set.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
-#include <sde/detail_/memoization.hpp>
+#include <runtime/hasher.hpp>
 #include <sstream>
 #include <utilities/iter_tools/enumerate.hpp>
 
@@ -23,7 +23,7 @@ TEST_CASE("AOBasisSet : default ctor") {
     bs_t bs;
     REQUIRE(bs.empty());
 
-    bphash::Hasher h(bphash::HashType::Hash128);
+    runtime::Hasher h(runtime::HashType::Hash128);
     h(bs);
     REQUIRE(bphash::hash_to_string(h.finalize()) ==
             "00000000000000000000000000000000");
@@ -76,7 +76,7 @@ TEST_CASE("AOBasisSet : add_center") {
     REQUIRE(bs.size() == 1);
     REQUIRE(bs[0] == c);
 
-    bphash::Hasher h(bphash::HashType::Hash128);
+    runtime::Hasher h(runtime::HashType::Hash128);
     h(bs);
     REQUIRE(bphash::hash_to_string(h.finalize()) ==
             "c7c65e5af263ca28eb7d099cf993f8af");

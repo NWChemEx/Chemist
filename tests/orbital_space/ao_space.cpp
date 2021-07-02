@@ -80,27 +80,28 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
     }
 
     SECTION("hash") {
-        auto hash1 = sde::hash_objects(st1);
+        auto hash1 = runtime::hash_objects(st1);
 
         SECTION("Same state") {
-            auto hash2 = sde::hash_objects(space_type(bs, S));
+            auto hash2 = runtime::hash_objects(space_type(bs, S));
             REQUIRE(hash1 == hash2);
         }
 
         SECTION("Different state") {
             SECTION("Different basis set") {
-                auto hash2 = sde::hash_objects(space_type(basis_set_type{}, S));
+                auto hash2 =
+                  runtime::hash_objects(space_type(basis_set_type{}, S));
                 REQUIRE(hash1 != hash2);
             }
 
             SECTION("Different S") {
-                auto hash2 = sde::hash_objects(space_type(bs, S2));
+                auto hash2 = runtime::hash_objects(space_type(bs, S2));
                 REQUIRE(hash1 != hash2);
             }
 
             SECTION("All different") {
                 auto hash2 =
-                  sde::hash_objects(space_type(basis_set_type{}, S2));
+                  runtime::hash_objects(space_type(basis_set_type{}, S2));
                 REQUIRE(hash1 != hash2);
             }
         }

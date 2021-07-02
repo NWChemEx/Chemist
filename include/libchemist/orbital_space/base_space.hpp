@@ -1,6 +1,6 @@
 #pragma once
 #include "libchemist/types.hpp"
-#include <sde/detail_/memoization.hpp>
+#include <runtime/hasher.hpp>
 
 namespace libchemist::orbital_space {
 
@@ -79,7 +79,7 @@ public:
      *                   includes state information about this BaseSpace_
      *                   instance.
      */
-    void hash(sde::Hasher& h) const { hash_(h); }
+    void hash(runtime::Hasher& h) const { hash_(h); }
 
     size_type size() const noexcept { return size_(); }
 
@@ -136,7 +136,7 @@ public:
 
 protected:
     /// Actually implements hash. Should be overridden by derived classes
-    virtual void hash_(sde::Hasher& h) const {
+    virtual void hash_(runtime::Hasher& h) const {
         if(has_overlap()) h(S());
     }
 
@@ -176,7 +176,7 @@ bool operator==(const BaseSpace_<OverlapType>& lhs,
     using clean_lhs_t = std::decay_t<OverlapType>;
     using clean_rhs_t = std::decay_t<OtherType>;
     if constexpr(std::is_same_v<clean_rhs_t, clean_lhs_t>) {
-        return sde::hash_objects(lhs) == sde::hash_objects(rhs);
+        return runtime::hash_objects(lhs) == runtime::hash_objects(rhs);
     } else {
         return false;
     }

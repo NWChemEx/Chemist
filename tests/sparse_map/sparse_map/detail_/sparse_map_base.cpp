@@ -57,8 +57,9 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
             }
 
             SECTION("const_iterator") {
-                using corr_t = typename traits:: template const_iterator<derived_t>;
-                using the_t  = typename base_t::const_iterator;
+                using corr_t =
+                  typename traits::template const_iterator<derived_t>;
+                using the_t = typename base_t::const_iterator;
                 STATIC_REQUIRE(std::is_same_v<corr_t, the_t>);
             }
         }
@@ -452,8 +453,8 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
             SECTION("RHS == Ind == rank 0") {
                 auto& rhs = sms.at("Ind == rank 0");
                 derived_t corr{{i0,
-                                 {dep_idx_t{1, 1}, dep_idx_t{1, 2},
-                                   dep_idx_t{2, 1}, dep_idx_t{2, 2}}}};
+                                {dep_idx_t{1, 1}, dep_idx_t{1, 2},
+                                 dep_idx_t{2, 1}, dep_idx_t{2, 2}}}};
                 auto result = lhs.direct_product(rhs);
                 REQUIRE(result == corr);
             }
@@ -474,7 +475,7 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
             }
 
             SECTION("RHS == No PIMPL") {
-                auto& rhs = sms.at("No PIMPL");
+                auto& rhs   = sms.at("No PIMPL");
                 auto result = lhs.direct_product(rhs);
                 REQUIRE(result == rhs);
             }
@@ -484,7 +485,7 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
             auto& lhs = sms.at("Ind == rank 1");
 
             SECTION("RHS == empty") {
-                auto& rhs = sms.at("Empty");
+                auto& rhs   = sms.at("Empty");
                 auto result = lhs.direct_product(rhs);
                 REQUIRE(result == rhs);
             }
@@ -516,7 +517,7 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
             }
 
             SECTION("RHS == No PIMPL") {
-                auto& rhs = sms.at("No PIMPL");
+                auto& rhs   = sms.at("No PIMPL");
                 auto result = lhs.direct_product(rhs);
                 REQUIRE(result == rhs);
             }
@@ -526,7 +527,7 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
             auto& lhs = sms.at("Ind == rank 2");
 
             SECTION("RHS == empty") {
-                auto& rhs = sms.at("Empty");
+                auto& rhs   = sms.at("Empty");
                 auto result = lhs.direct_product(rhs);
                 REQUIRE(result == rhs);
             }
@@ -552,16 +553,16 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
             SECTION("RHS == Ind == rank 2") {
                 auto& rhs = sms.at("Ind == rank 2");
                 derived_t corr{
-                    {ind_idx_t{1, 2, 1, 2}, {dep_idx_t{1, 2, 1, 2}}},
-                    {ind_idx_t{1, 2, 2, 3}, {dep_idx_t{1, 2, 2, 3}}},
-                    {ind_idx_t{2, 3, 1, 2}, {dep_idx_t{2, 3, 1, 2}}},
-                    {ind_idx_t{2, 3, 2, 3}, {dep_idx_t{2, 3, 2, 3}}}};
+                  {ind_idx_t{1, 2, 1, 2}, {dep_idx_t{1, 2, 1, 2}}},
+                  {ind_idx_t{1, 2, 2, 3}, {dep_idx_t{1, 2, 2, 3}}},
+                  {ind_idx_t{2, 3, 1, 2}, {dep_idx_t{2, 3, 1, 2}}},
+                  {ind_idx_t{2, 3, 2, 3}, {dep_idx_t{2, 3, 2, 3}}}};
                 auto result = lhs.direct_product(rhs);
                 REQUIRE(result == corr);
             }
 
             SECTION("RHS == No PIMPL") {
-                auto& rhs = sms.at("No PIMPL");
+                auto& rhs   = sms.at("No PIMPL");
                 auto result = lhs.direct_product(rhs);
                 REQUIRE(result == rhs);
             }
@@ -780,7 +781,7 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
                 derived_t incompatible{
                   {ind_idx_t{1, 2}, {dep_idx_t{0}, dep_idx_t{3}}},
                   {ind_idx_t{2, 3}, {dep_idx_t{1}, dep_idx_t{2}}}};
-                REQUIRE_THROWS_AS(sm += incompatible,std::runtime_error);
+                REQUIRE_THROWS_AS(sm += incompatible, std::runtime_error);
             }
 
             SECTION("Incompatible dependent indices") {
@@ -792,10 +793,10 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
         }
     }
 
-    SECTION("operator+"){
+    SECTION("operator+") {
         auto& lhs = sms.at("Empty");
         auto& rhs = sms.at("Ind == rank 0");
-        auto r = lhs + rhs;
+        auto r    = lhs + rhs;
         REQUIRE(r == rhs);
     }
 
@@ -835,22 +836,22 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
 
             derived_t corr{{ind_idx_t{2}, {dep_idx_t{1}, dep_idx_t{2}}}};
 
-            SECTION("sm ^= sm2"){
+            SECTION("sm ^= sm2") {
                 auto psm = &(sm ^= sm2);
                 SECTION("Value") { REQUIRE(sm == corr); }
-                SECTION("Returns *this"){ REQUIRE(psm == &sm); }
+                SECTION("Returns *this") { REQUIRE(psm == &sm); }
             }
 
-            SECTION("sm2 ^= sm"){
+            SECTION("sm2 ^= sm") {
                 auto psm2 = &(sm2 ^= sm);
                 SECTION("Value") { REQUIRE(sm2 == corr); }
-                SECTION("Returns *this"){ REQUIRE(psm2 == &sm2); }
+                SECTION("Returns *this") { REQUIRE(psm2 == &sm2); }
             }
 
-            SECTION("sm ^= corr"){
+            SECTION("sm ^= corr") {
                 auto psm = &(sm ^= corr);
                 SECTION("Value") { REQUIRE(sm == corr); }
-                SECTION("Returns *this"){ REQUIRE(psm == &sm); }
+                SECTION("Returns *this") { REQUIRE(psm == &sm); }
             }
 
             SECTION("different ranks") {
@@ -861,14 +862,14 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
         }
     }
 
-    SECTION("operator^"){
+    SECTION("operator^") {
         auto& sm1 = sms.at("Ind == rank 1");
-        auto r = sm1 ^ sm1;
+        auto r    = sm1 ^ sm1;
         REQUIRE(r == sm1);
     }
 
-    SECTION("inverse"){
-        SECTION("Empty"){
+    SECTION("inverse") {
+        SECTION("Empty") {
             derived_t sm;
             SparseMap<dep_idx_t, ind_idx_t> corr;
             REQUIRE(sm.inverse() == corr);
@@ -881,8 +882,7 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
               {dep_idx_t{0}, {ind_idx_t{1}}},
               {dep_idx_t{3}, {ind_idx_t{1}}},
               {dep_idx_t{1}, {ind_idx_t{2}}},
-              {dep_idx_t{2}, {ind_idx_t{2}}}
-            };
+              {dep_idx_t{2}, {ind_idx_t{2}}}};
             REQUIRE(sm.inverse() == corr);
             REQUIRE(sm.inverse().inverse() == sm);
         }
@@ -1009,24 +1009,24 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
 
     SECTION("hash") {
         SECTION("Empty == Empty") {
-            auto h  = sde::hash_objects(sms.at("Empty"));
-            auto h2 = sde::hash_objects(derived_t{});
+            auto h  = runtime::hash_objects(sms.at("Empty"));
+            auto h2 = runtime::hash_objects(derived_t{});
             REQUIRE(h == h2);
         }
 
         SECTION("Empty == No PIMPL") {
-            auto h  = sde::hash_objects(sms.at("Empty"));
-            auto h2 = sde::hash_objects(sms.at("No PIMPL"));
+            auto h  = runtime::hash_objects(sms.at("Empty"));
+            auto h2 = runtime::hash_objects(sms.at("No PIMPL"));
             REQUIRE(h == h2);
         }
 
         SECTION("Empty != non-empty") {
-            auto h = sde::hash_objects(sms.at("Empty"));
+            auto h = runtime::hash_objects(sms.at("Empty"));
             for(std::size_t i = 0; i < 3; ++i) {
                 std::string key = "Ind == rank " + std::to_string(i);
                 auto& rhs       = sms.at(key);
                 SECTION(key) {
-                    auto h2 = sde::hash_objects(rhs);
+                    auto h2 = runtime::hash_objects(rhs);
                     REQUIRE(h != h2);
                 }
             }
@@ -1034,36 +1034,36 @@ TEMPLATE_LIST_TEST_CASE("SparseMapBase", "", index_list) {
 
         SECTION("Same non-empty") {
             auto& lhs = sms.at("Ind == rank 0");
-            auto h    = sde::hash_objects(lhs);
-            auto h2   = sde::hash_objects(derived_t(lhs));
+            auto h    = runtime::hash_objects(lhs);
+            auto h2   = runtime::hash_objects(derived_t(lhs));
             REQUIRE(h == h2);
         }
 
         SECTION("Domain is subset/superset") {
             auto& lhs = sms.at("Ind == rank 0");
-            auto h    = sde::hash_objects(lhs);
+            auto h    = runtime::hash_objects(lhs);
             derived_t copy(lhs);
             copy.add_to_domain(i0, dep_idx_t{3});
-            auto h2 = sde::hash_objects(copy);
+            auto h2 = runtime::hash_objects(copy);
             REQUIRE(h != h2);
         }
 
         SECTION("Different independent indices") {
             auto& lhs = sms.at("Ind == rank 1");
-            auto h    = sde::hash_objects(lhs);
+            auto h    = runtime::hash_objects(lhs);
             derived_t copy(lhs);
             copy.add_to_domain(ind_idx_t{3}, dep_idx_t{3});
-            auto h2 = sde::hash_objects(copy);
+            auto h2 = runtime::hash_objects(copy);
             REQUIRE(h != h2);
         }
 
         SECTION("No PIMPL != non-empty") {
             auto& lhs = sms.at("No PIMPL");
-            auto h    = sde::hash_objects(lhs);
+            auto h    = runtime::hash_objects(lhs);
             for(std::size_t i = 0; i < 3; ++i) {
                 std::string key = "Ind == rank " + std::to_string(i);
                 auto& rhs       = sms.at(key);
-                auto h2         = sde::hash_objects(rhs);
+                auto h2         = runtime::hash_objects(rhs);
                 SECTION(key) { REQUIRE(h != h2); }
             }
         }

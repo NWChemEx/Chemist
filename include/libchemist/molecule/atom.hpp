@@ -4,6 +4,7 @@
 #include <cereal/types/array.hpp>
 #include <cereal/types/string.hpp>
 #include <memory> // For unique pointer
+#include <runtime/hasher.hpp>
 #include <string> // For name of atom
 
 namespace libchemist {
@@ -240,7 +241,7 @@ public:
 
 private:
     BPHASH_DECLARE_HASHING_FRIENDS
-    void hash(bphash::Hasher& h) const;
+    void hash(runtime::Hasher& h) const;
 
     /// Actual implementation of the Atom class
     std::unique_ptr<detail_::AtomPIMPL> pimpl_;
