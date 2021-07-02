@@ -1,5 +1,5 @@
+#pragma once
 #include "libchemist/topology/connectivity_table.hpp"
-#include <algorithm> // for max, min
 
 namespace libchemist::topology::detail_ {
 
@@ -61,7 +61,7 @@ public:
      *
      *  @throw None no throw guarantee.
      */
-    auto natoms() const noexcept { return m_natoms_; }
+    inline size_type natoms() const noexcept { return m_natoms_; }
 
     /** @brief The total number of bonds in this table.
      *
@@ -151,17 +151,17 @@ private:
 
 // ---------------------------- Implementations --------------------------------
 
-ConnectivityTablePIMPL::ConnectivityTablePIMPL(size_type natoms) :
+inline ConnectivityTablePIMPL::ConnectivityTablePIMPL(size_type natoms) :
   m_natoms_(natoms), m_connections_(natoms * natoms, false) {}
 
-void ConnectivityTablePIMPL::set_natoms(size_type natoms) {
+inline void ConnectivityTablePIMPL::set_natoms(size_type natoms) {
     if(natoms == m_natoms_) return;
     std::vector<bool> temp(natoms * natoms, false);
     m_connections_.swap(temp);
     m_natoms_ = natoms;
 }
 
-auto ConnectivityTablePIMPL::nbonds() const noexcept {
+inline auto ConnectivityTablePIMPL::nbonds() const noexcept {
     size_type n_bonds = 0;
     for(size_type i = 0; i < m_natoms_; ++i)
         for(size_type j = i + 1; j < m_natoms_; ++j)
@@ -169,17 +169,17 @@ auto ConnectivityTablePIMPL::nbonds() const noexcept {
     return n_bonds;
 }
 
-bool ConnectivityTablePIMPL::are_bonded(size_type i, size_type j) const {
+inline bool ConnectivityTablePIMPL::are_bonded(size_type i, size_type j) const {
     auto [min, max] = sanitize_indices_(i, j);
     return m_connections_[min * m_natoms_ + max];
 }
 
-void ConnectivityTablePIMPL::add_bond(size_type i, size_type j) {
+inline void ConnectivityTablePIMPL::add_bond(size_type i, size_type j) {
     auto [min, max]                       = sanitize_indices_(i, j);
     m_connections_[min * m_natoms_ + max] = true;
 }
 
-typename ConnectivityTablePIMPL::bond_list_type ConnectivityTablePIMPL::bonds()
+inline typename ConnectivityTablePIMPL::bond_list_type ConnectivityTablePIMPL::bonds()
   const {
     const auto n_bonds = nbonds();
     bond_list_type rv(n_bonds);
@@ -196,7 +196,7 @@ typename ConnectivityTablePIMPL::bond_list_type ConnectivityTablePIMPL::bonds()
     return rv;
 }
 
-void ConnectivityTablePIMPL::bounds_check_(size_type atom_i) const {
+inline void ConnectivityTablePIMPL::bounds_check_(size_type atom_i) const {
     if(atom_i < m_natoms_) return;
 
     const auto msg = std::to_string(atom_i) + " is greater than the number " +
@@ -204,7 +204,7 @@ void ConnectivityTablePIMPL::bounds_check_(size_type atom_i) const {
     throw std::out_of_range(msg);
 }
 
-typename ConnectivityTablePIMPL::pair_type
+inline typename ConnectivityTablePIMPL::pair_type
 ConnectivityTablePIMPL::sanitize_indices_(size_type i, size_type j) const {
     auto min = std::min(i, j);
     auto max = std::max(i, j);
