@@ -19,6 +19,14 @@ namespace libchemist::tensor {
 template<typename TensorType>
 struct TensorTraits;
 
+/** @brief Specializes TensorTraits for a TiledArray tensor.
+ *
+ *  This partial specialization of TensorTraits is instantiated when the
+ *  template type parameter is a non-const TiledArray tensor.
+ *
+ *  @tparam TileType The type of the tiles in the TiledArray tensor.
+ *  @tparam PolicyType the type of the policy used by the TiledArray tensor.
+ */
 template<typename TileType, typename PolicyType>
 struct TensorTraits<TA::DistArray<TileType, PolicyType>> {
 public:
@@ -42,6 +50,14 @@ public:
     using labeled_tensor_type = decltype(std::declval<tensor_type>()("i,j"));
 }; // TensorTraits
 
+/** @brief Specializes TensorTraits for a TiledArray tensor.
+ *
+ *  This partial specialization of TensorTraits is instantiated when the
+ *  template type parameter is a const TiledArray tensor.
+ *
+ *  @tparam TileType The type of the tiles in the TiledArray tensor.
+ *  @tparam PolicyType the type of the policy used by the TiledArray tensor.
+ */
 template<typename TileType, typename PolicyType>
 struct TensorTraits<const TA::DistArray<TileType, PolicyType>> {
 public:

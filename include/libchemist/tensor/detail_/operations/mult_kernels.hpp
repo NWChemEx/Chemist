@@ -34,10 +34,10 @@ struct MultKernel;
  *  simply dispatches to TA's operator*.
  */
 template<>
-struct MultKernel<SparseTensorWrapper, SparseTensorWrapper,
-                  SparseTensorWrapper> {
+struct MultKernel<type::SparseTensorWrapper, type::SparseTensorWrapper,
+                  type::SparseTensorWrapper> {
     /// Type of the resulting tensor wrapper
-    using result_type = SparseTensorWrapper;
+    using result_type = type::SparseTensorWrapper;
 
     /// Type of a variant containing labeled results
     using return_type = labeled_variant_t<variant_type_t<result_type>>;
@@ -96,9 +96,10 @@ struct MultKernel<SparseTensorWrapper, SparseTensorWrapper,
  *  einsum.
  */
 template<>
-struct MultKernel<SparseTensorWrapper, ToTWrapper, ToTWrapper> {
+struct MultKernel<type::SparseTensorWrapper, type::ToTWrapper,
+                  type::ToTWrapper> {
     /// Type of the wrapped tensor resulting from the product
-    using result_type = SparseTensorWrapper;
+    using result_type = type::SparseTensorWrapper;
 
     /// Type of the variant containing the labeled result
     using return_type = labeled_variant_t<variant_type_t<result_type>>;
@@ -156,9 +157,10 @@ struct MultKernel<SparseTensorWrapper, ToTWrapper, ToTWrapper> {
  *  dispatches to TA's einsum.
  */
 template<>
-struct MultKernel<ToTWrapper, SparseTensorWrapper, ToTWrapper> {
+struct MultKernel<type::ToTWrapper, type::SparseTensorWrapper,
+                  type::ToTWrapper> {
     /// Type of the tensor wrapper associated with the result
-    using result_type = ToTWrapper;
+    using result_type = type::ToTWrapper;
 
     /// Type of the labeled variant containing the result
     using return_type = labeled_variant_t<variant_type_t<result_type>>;
@@ -216,9 +218,10 @@ struct MultKernel<ToTWrapper, SparseTensorWrapper, ToTWrapper> {
  *  to TA's einsum.
  */
 template<>
-struct MultKernel<ToTWrapper, ToTWrapper, SparseTensorWrapper> {
+struct MultKernel<type::ToTWrapper, type::ToTWrapper,
+                  type::SparseTensorWrapper> {
     /// Type of the tensor wrapper associated with the result
-    using result_type = ToTWrapper;
+    using result_type = type::ToTWrapper;
 
     /// Type of the variant holding the labeled result
     using return_type = labeled_variant_t<variant_type_t<result_type>>;
@@ -275,9 +278,9 @@ struct MultKernel<ToTWrapper, ToTWrapper, SparseTensorWrapper> {
  *  two ToTs together, resulting in a third ToT. It dispatches to TA's einsum.
  */
 template<>
-struct MultKernel<ToTWrapper, ToTWrapper, ToTWrapper> {
+struct MultKernel<type::ToTWrapper, type::ToTWrapper, type::ToTWrapper> {
     /// Type of the tensor wrapper associated with the result
-    using result_type = ToTWrapper;
+    using result_type = type::ToTWrapper;
 
     /// Type of the variant holding the annotated result
     using return_type = labeled_variant_t<variant_type_t<result_type>>;

@@ -1,7 +1,7 @@
 #pragma once
 #include "libchemist/tensor/detail_/op_layer.hpp"
 #include "libchemist/tensor/detail_/operations/operations.hpp"
-#include "libchemist/tensor/detail_/type_traits.hpp"
+#include "libchemist/tensor/type_traits/type_traits.hpp"
 #include <type_traits>
 #include <utilities/type_traits/variant/add_const.hpp>
 #include <variant>
@@ -76,9 +76,6 @@ public:
      */
     template<typename ResultType>
     auto variant(LabeledTensorWrapper<ResultType>&) const;
-
-    // template<typename ResultType>
-    // auto variant(LabeledTensorWrapper<ResultType>&);
 
 private:
     /// The annotation associated with the tensor

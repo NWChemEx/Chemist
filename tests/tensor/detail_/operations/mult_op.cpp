@@ -20,7 +20,7 @@ TEST_CASE("Tensor = Tensor * Tensor") {
     using result_t       = type::tensor<double>;
     using lhs_t          = type::tensor<double>;
     using rhs_t          = type::tensor<double>;
-    using tensor_wrapper = tensor::SparseTensorWrapper;
+    using tensor_wrapper = tensor::type::SparseTensorWrapper;
 
     auto lhs = testing::get_tensors<lhs_t>().at("vector");
     auto rhs = testing::get_tensors<rhs_t>().at("vector");
@@ -66,8 +66,8 @@ TEST_CASE("Tensor = ToT * ToT") {
     using result_t       = type::tensor<double>;
     using lhs_t          = type::tensor_of_tensors<double>;
     using rhs_t          = type::tensor_of_tensors<double>;
-    using tensor_wrapper = tensor::SparseTensorWrapper;
-    using tot_wrapper    = tensor::ToTWrapper;
+    using tensor_wrapper = tensor::type::SparseTensorWrapper;
+    using tot_wrapper    = tensor::type::ToTWrapper;
 
     auto lhs = testing::get_tensors<lhs_t>().at("vector-of-vectors");
     auto rhs = testing::get_tensors<rhs_t>().at("vector-of-vectors");
@@ -110,12 +110,12 @@ TEST_CASE("Tensor = ToT * ToT") {
 }
 
 TEST_CASE("ToT = Tensor * ToT") {
-    using result_t       = type::tensor_of_tensors<double>;
-    using lhs_t          = type::tensor<double>;
-    using rhs_t          = type::tensor_of_tensors<double>;
-    using wrapped_result_t = tensor::ToTWrapper;
-    using wrapped_lhs_t    = tensor::SparseTensorWrapper;
-    using wrapped_rhs_t    = tensor::ToTWrapper;
+    using result_t         = type::tensor_of_tensors<double>;
+    using lhs_t            = type::tensor<double>;
+    using rhs_t            = type::tensor_of_tensors<double>;
+    using wrapped_result_t = tensor::type::ToTWrapper;
+    using wrapped_lhs_t    = tensor::type::SparseTensorWrapper;
+    using wrapped_rhs_t    = tensor::type::ToTWrapper;
 
     auto lhs = testing::get_tensors<lhs_t>().at("matrix");
     auto rhs = testing::get_tensors<rhs_t>().at("matrix-of-vectors");
@@ -158,16 +158,15 @@ TEST_CASE("ToT = Tensor * ToT") {
         result(result_idx) = wrapped_lhs(lhs_idx) * wrapped_rhs(rhs_idx);
         REQUIRE(ta_helpers::allclose_tot(result.get<result_t>(), corr, 1));
     }
-
 }
 
 TEST_CASE("ToT = ToT * Tensor") {
-    using result_t       = type::tensor_of_tensors<double>;
-    using lhs_t          = type::tensor_of_tensors<double>;
-    using rhs_t          = type::tensor<double>;
-    using wrapped_result_t = tensor::ToTWrapper;
-    using wrapped_lhs_t    = tensor::ToTWrapper;
-    using wrapped_rhs_t    = tensor::SparseTensorWrapper;
+    using result_t         = type::tensor_of_tensors<double>;
+    using lhs_t            = type::tensor_of_tensors<double>;
+    using rhs_t            = type::tensor<double>;
+    using wrapped_result_t = tensor::type::ToTWrapper;
+    using wrapped_lhs_t    = tensor::type::ToTWrapper;
+    using wrapped_rhs_t    = tensor::type::SparseTensorWrapper;
 
     auto lhs = testing::get_tensors<lhs_t>().at("matrix-of-vectors");
     auto rhs = testing::get_tensors<rhs_t>().at("matrix");
@@ -213,12 +212,12 @@ TEST_CASE("ToT = ToT * Tensor") {
 }
 
 TEST_CASE("ToT = ToT * ToT") {
-    using result_t       = type::tensor_of_tensors<double>;
-    using lhs_t          = type::tensor_of_tensors<double>;
-    using rhs_t          = type::tensor_of_tensors<double>;
-    using wrapped_result_t = tensor::ToTWrapper;
-    using wrapped_lhs_t    = tensor::ToTWrapper;
-    using wrapped_rhs_t    = tensor::ToTWrapper;
+    using result_t         = type::tensor_of_tensors<double>;
+    using lhs_t            = type::tensor_of_tensors<double>;
+    using rhs_t            = type::tensor_of_tensors<double>;
+    using wrapped_result_t = tensor::type::ToTWrapper;
+    using wrapped_lhs_t    = tensor::type::ToTWrapper;
+    using wrapped_rhs_t    = tensor::type::ToTWrapper;
 
     auto lhs = testing::get_tensors<lhs_t>().at("matrix-of-vectors");
     auto rhs = testing::get_tensors<rhs_t>().at("matrix-of-vectors");

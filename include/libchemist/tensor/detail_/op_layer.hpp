@@ -52,6 +52,7 @@ public:
      *  @throw None No throw guarantee.
      */
     DerivedType& downcast() noexcept;
+
 protected:
     /** @brief  Defaulted default ctor
      *
@@ -98,7 +99,7 @@ protected:
      *  @param[in] other The OpLayer object being copied.
      *
      *  @return The current instance after assigning a copy of @p other to it.
-     * 
+     *
      *  @throw None No throw gurantee.
      */
     OpLayer& operator=(const OpLayer& rhs) = default;
