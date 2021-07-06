@@ -1,5 +1,4 @@
 #include "libchemist/tensor/tensor.hpp"
-#include "libchemist/types.hpp"
 #include <catch2/catch.hpp>
 
 /* Testing strategy:
