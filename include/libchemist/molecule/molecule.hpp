@@ -29,16 +29,6 @@ public:
     /// Type of a number returned by this class
     using size_type = std::size_t;
 
-    /// Wrapper for tagging an input double as a charge
-    struct Charge {
-        double value = 0.0;
-    };
-
-    /// Wrapper for tagging an input size_type as a multiplicity
-    struct Multiplicity {
-        size_type value = 1ul;
-    };
-
     /**
      * @brief Makes a molecule with no atoms, no charge, and a multiplicity of 1
      *
@@ -83,24 +73,6 @@ public:
      *
      */
     ///@{
-    template<typename... Args>
-    Molecule(const Multiplicity& mult, Args&&... args) :
-      Molecule(std::forward<Args>(args)...) {
-        constexpr bool is_mult =
-          std::disjunction_v<std::is_same<std::decay_t<Args>, Multiplicity>...>;
-        static_assert(!is_mult, "Please only pass one multiplicity");
-        multiplicity() = mult.value;
-    }
-
-    template<typename... Args>
-    Molecule(const Charge& c, Args&&... args) :
-      Molecule(std::forward<Args>(args)...) {
-        constexpr bool is_q =
-          std::disjunction_v<std::is_same<std::decay_t<Args>, Charge>...>;
-        static_assert(!is_q, "Please only pass one charge");
-        charge() = c.value;
-    }
-
     template<typename... Args>
     Molecule(const Atom& a, Args&&... args) :
       Molecule(std::forward<Args>(args)..., ColoredAtom{a}) {}
