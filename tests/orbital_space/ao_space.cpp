@@ -1,22 +1,18 @@
-#include "libchemist/basis_set/basis_set.hpp"
 #include "libchemist/orbital_space/ao_space.hpp"
-#include "libchemist/orbital_space/base_space.hpp"
-#include "libchemist/orbital_space/dependent_space.hpp"
-#include "test_orbital_space.hpp"
+#include "libchemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
 
+using namespace libchemist;
 using namespace libchemist::orbital_space;
 
 TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
     // Determine the types for this unit test
-    using base_type      = BaseSpace<TestType>;
+
+    using base_space     = BaseSpace;
     using basis_set_type = libchemist::AOBasisSet<TestType>;
-    using tensor_type    = typename base_type::overlap_type;
-    using space_type     = AOSpace_<basis_set_type, base_type>;
+    using space_type     = AOSpace<basis_set_type, base_space>;
 
     auto& world = TA::get_default_world();
-    auto S      = libchemist::test::TensorMaker<tensor_type>::S(world);
-    auto S2     = libchemist::test::TensorMaker<tensor_type>::S2(world);
     basis_set_type bs;
     bs.add_center(libchemist::Center<TestType>(1.0, 2.0, 3.0));
 
@@ -25,117 +21,307 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
             using basis_t = typename space_type::basis_type;
             STATIC_REQUIRE(std::is_same_v<basis_t, basis_set_type>);
         }
+
         SECTION("size_type") {
             using size_t = typename space_type::size_type;
-            using corr_t = typename base_type::size_type;
+            using corr_t = typename base_space::size_type;
             STATIC_REQUIRE(std::is_same_v<size_t, corr_t>);
         }
     }
 
-    SECTION("Ctors") {
-        SECTION("Default") {
-            space_type st;
-            REQUIRE(st.basis_set() == basis_set_type{});
-        }
+    space_type defaulted;
 
-        SECTION("Value") {
-            space_type st(bs, S);
-            REQUIRE(st.basis_set() == bs);
-            REQUIRE(libchemist::ta_helpers::allclose(st.S(), S));
-        }
-
-        SECTION("Copy") {
-            space_type st1(bs, S);
-            space_type st2(st1);
-            REQUIRE(st1 == st2);
-        }
-
-        SECTION("Move") {
-            space_type st1(bs, S), st2(bs, S);
-            space_type st3(std::move(st2));
-            REQUIRE(st1 == st3);
-        }
-
-        SECTION("Copy Assignment") {
-            space_type st1(bs, S), st2;
-            auto pst2 = &(st2 = st1);
-            SECTION("Value") { REQUIRE(st1 == st2); }
-            SECTION("Returns this") { REQUIRE(pst2 == &st2); }
-        }
-
-        SECTION("Move Assignment") {
-            space_type st1(bs, S), st2(bs, S), st3;
-            auto pst3 = &(st3 = std::move(st2));
-            SECTION("Value") { REQUIRE(st1 == st3); }
-            SECTION("Returns this") { REQUIRE(pst3 == &st3); }
-        }
+    SECTION("Default Ctor") {
+        REQUIRE(defaulted.size() == 0);
+        REQUIRE(defaulted.basis_set() == basis_set_type{});
     }
 
-    space_type st1(bs, S);
+    space_type non_default_bs(bs);
 
-    SECTION("basis_set()") { REQUIRE(st1.basis_set() == bs); }
+    SECTION("Value Ctor") {
+        REQUIRE(non_default_bs.size() == 1);
+        REQUIRE(non_default_bs.basis_set() == bs);
+    }
+
+    SECTION("Copy Ctor") {
+        space_type copy(non_default_bs);
+        REQUIRE(copy.basis_set() == bs);
+    }
+
+    SECTION("Move") {
+        space_type moved(std::move(non_default_bs));
+        REQUIRE(moved.basis_set() == bs);
+    }
+
+    SECTION("Copy Assignment") {
+        space_type copy;
+        auto pcopy = &(copy = non_default_bs);
+        REQUIRE(pcopy == &copy);
+        REQUIRE(copy.basis_set() == bs);
+    }
+
+    SECTION("Move Assignment") {
+        space_type moved;
+        auto pmoved = &(moved = std::move(non_default_bs));
+        REQUIRE(pmoved == &moved);
+        REQUIRE(moved.basis_set() == bs);
+    }
+
+    SECTION("basis_set") { REQUIRE(non_default_bs.basis_set() == bs); }
 
     SECTION("basis_set() const") {
-        REQUIRE(std::as_const(st1).basis_set() == bs);
+        REQUIRE(std::as_const(non_default_bs).basis_set() == bs);
+    }
+
+    SECTION("size") {
+        REQUIRE(defaulted.size() == 0);
+        REQUIRE(non_default_bs.size() == 1);
+    }
+
+    SECTION("transform") {
+        using tensor_type = libchemist::type::tensor<double>;
+        tensor_type t(world, {1.0, 2.0, 3.0});
+        auto rv = non_default_bs.transform(t, 0);
+        REQUIRE(ta_helpers::allclose(t, rv));
     }
 
     SECTION("hash") {
-        auto hash1 = sde::hash_objects(st1);
+        SECTION("LHS == default") {
+            auto lhs = sde::hash_objects(defaulted);
 
-        SECTION("Same state") {
-            auto hash2 = sde::hash_objects(space_type(bs, S));
-            REQUIRE(hash1 == hash2);
+            SECTION("RHS == defaulted") {
+                auto rhs = sde::hash_objects(space_type{});
+                REQUIRE(lhs == rhs);
+            }
+
+            SECTION("RHS == non-default") {
+                auto rhs = sde::hash_objects(non_default_bs);
+                REQUIRE(lhs != rhs);
+            }
         }
 
-        SECTION("Different state") {
-            SECTION("Different basis set") {
-                auto hash2 = sde::hash_objects(space_type(basis_set_type{}, S));
-                REQUIRE(hash1 != hash2);
-            }
-
-            SECTION("Different S") {
-                auto hash2 = sde::hash_objects(space_type(bs, S2));
-                REQUIRE(hash1 != hash2);
-            }
-
-            SECTION("All different") {
-                auto hash2 =
-                  sde::hash_objects(space_type(basis_set_type{}, S2));
-                REQUIRE(hash1 != hash2);
-            }
+        SECTION("LHS == non-default && RHS == non-default") {
+            auto lhs = sde::hash_objects(non_default_bs);
+            auto rhs = sde::hash_objects(space_type{bs});
+            REQUIRE(lhs == rhs);
         }
     }
 
-    SECTION("size()") {
-        SECTION("empty") {
-            space_type st;
-            REQUIRE(st.size() == 0);
+    SECTION("equal") {
+        SECTION("LHS == default") {
+            SECTION("RHS == defaulted") {
+                REQUIRE(defaulted.equal(space_type{}));
+            }
+
+            SECTION("RHS == non-default") {
+                REQUIRE_FALSE(defaulted.equal(non_default_bs));
+            }
         }
-        SECTION("Non-empty") { REQUIRE(st1.size() == bs.n_aos()); }
+
+        SECTION("LHS == non-default && RHS == non-default") {
+            REQUIRE(non_default_bs.equal(space_type{bs}));
+        }
     }
 
-    SECTION("Comparisons") {
-        SECTION("Same state") {
-            REQUIRE(st1 == space_type(bs, S));
-            REQUIRE_FALSE(st1 != space_type(bs, S));
+    SECTION("comparisons") {
+        SECTION("Different types") {
+            if constexpr(std::is_same_v<TestType, double>) {
+                AOSpace<AOBasisSetF, BaseSpace> other;
+                REQUIRE_FALSE(defaulted == other);
+                REQUIRE(defaulted != other);
+            } else {
+                AOSpace<AOBasisSetD, BaseSpace> other;
+                REQUIRE_FALSE(defaulted == other);
+                REQUIRE(defaulted != other);
+            }
         }
 
-        SECTION("Different state") {
-            SECTION("Different basis set") {
-                REQUIRE_FALSE(st1 == space_type(basis_set_type{}, S));
-                REQUIRE(st1 != space_type(basis_set_type{}, S));
+        SECTION("LHS == default") {
+            SECTION("RHS == defaulted") {
+                space_type rhs;
+                REQUIRE(defaulted == rhs);
+                REQUIRE_FALSE(defaulted != rhs);
             }
 
-            SECTION("Different S") {
-                REQUIRE_FALSE(st1 == space_type(bs, S2));
-                REQUIRE(st1 != space_type(bs, S2));
+            SECTION("RHS == non-default") {
+                REQUIRE(defaulted != non_default_bs);
+                REQUIRE_FALSE(defaulted == non_default_bs);
+            }
+        }
+
+        SECTION("LHS == non-default && RHS == non-default") {
+            space_type rhs{bs};
+            REQUIRE(non_default_bs == rhs);
+            REQUIRE_FALSE(non_default_bs != rhs);
+        }
+    }
+}
+
+TEMPLATE_TEST_CASE("DepAOSpace", "", float, double) {
+    // Determine the types for this unit test
+
+    using base_space      = DependentSpace;
+    using basis_set_type  = libchemist::AOBasisSet<TestType>;
+    using space_type      = AOSpace<basis_set_type, base_space>;
+    using sparse_map_type = typename base_space::sparse_map_type;
+    using index_type      = typename sparse_map_type::key_type;
+
+    auto& world = TA::get_default_world();
+    basis_set_type bs;
+    bs.add_center(libchemist::Center<TestType>(1.0, 2.0, 3.0));
+
+    sparse_map_type sm0{{index_type{0}, {index_type{0}}}};
+
+    SECTION("Typedefs") {
+        SECTION("basis_type") {
+            using basis_t = typename space_type::basis_type;
+            STATIC_REQUIRE(std::is_same_v<basis_t, basis_set_type>);
+        }
+
+        SECTION("size_type") {
+            using size_t = typename space_type::size_type;
+            using corr_t = typename base_space::size_type;
+            STATIC_REQUIRE(std::is_same_v<size_t, corr_t>);
+        }
+    }
+
+    space_type defaulted;
+
+    SECTION("Default Ctor") {
+        REQUIRE(defaulted.basis_set() == basis_set_type{});
+        REQUIRE(defaulted.sparse_map() == sparse_map_type{});
+    }
+
+    space_type non_default_bs(bs);
+    space_type non_default_sm(basis_set_type{}, sm0);
+    space_type non_default(bs, sm0);
+
+    SECTION("Value Ctor") {
+        REQUIRE(non_default_bs.basis_set() == bs);
+        REQUIRE(non_default_bs.sparse_map() == sparse_map_type{});
+        REQUIRE(non_default.basis_set() == bs);
+        REQUIRE(non_default.sparse_map() == sm0);
+    }
+
+    SECTION("Copy Ctor") {
+        space_type copy(non_default);
+        REQUIRE(copy.basis_set() == bs);
+        REQUIRE(copy.sparse_map() == sm0);
+    }
+
+    SECTION("Move") {
+        space_type moved(std::move(non_default));
+        REQUIRE(moved.basis_set() == bs);
+        REQUIRE(moved.sparse_map() == sm0);
+    }
+
+    SECTION("Copy Assignment") {
+        space_type copy;
+        auto pcopy = &(copy = non_default);
+        REQUIRE(pcopy == &copy);
+        REQUIRE(copy.basis_set() == bs);
+        REQUIRE(copy.sparse_map() == sm0);
+    }
+
+    SECTION("Move Assignment") {
+        space_type moved;
+        auto pmoved = &(moved = std::move(non_default));
+        REQUIRE(pmoved == &moved);
+        REQUIRE(moved.basis_set() == bs);
+        REQUIRE(moved.sparse_map() == sm0);
+    }
+
+    SECTION("basis_set") {
+        REQUIRE(non_default_bs.basis_set() == bs);
+        REQUIRE(non_default.basis_set() == bs);
+    }
+
+    SECTION("basis_set() const") {
+        REQUIRE(std::as_const(non_default_bs).basis_set() == bs);
+        REQUIRE(std::as_const(non_default).basis_set() == bs);
+    }
+
+    SECTION("size") {
+        REQUIRE(defaulted.size() == 0);
+        REQUIRE(non_default_bs.size() == 0);
+        REQUIRE(non_default.size() == 1);
+    }
+
+    SECTION("transform") {
+        using tensor_type = libchemist::type::tensor<double>;
+        tensor_type t(world, {1.0, 2.0, 3.0});
+        auto rv = non_default_bs.transform(t, 0);
+        REQUIRE(ta_helpers::allclose(t, rv));
+    }
+
+    SECTION("hash") {
+        SECTION("LHS == default") {
+            auto lhs = sde::hash_objects(defaulted);
+
+            SECTION("RHS == defaulted") {
+                auto rhs = sde::hash_objects(space_type{});
+                REQUIRE(lhs == rhs);
             }
 
-            SECTION("All different") {
-                space_type st2(basis_set_type{}, S2);
-                REQUIRE_FALSE(st1 == st2);
-                REQUIRE(st1 != st2);
+            SECTION("RHS == non-default") {
+                auto rhs = sde::hash_objects(non_default_bs);
+                REQUIRE(lhs != rhs);
             }
+        }
+
+        SECTION("LHS == non-default && RHS == non-default") {
+            auto lhs = sde::hash_objects(non_default_bs);
+            auto rhs = sde::hash_objects(space_type{bs});
+            REQUIRE(lhs == rhs);
+        }
+    }
+
+    SECTION("equal") {
+        SECTION("LHS == default") {
+            SECTION("RHS == defaulted") {
+                REQUIRE(defaulted.equal(space_type{}));
+            }
+
+            SECTION("RHS == non-default") {
+                REQUIRE_FALSE(defaulted.equal(non_default_bs));
+            }
+        }
+
+        SECTION("LHS == non-default && RHS == non-default") {
+            REQUIRE(non_default_bs.equal(space_type{bs}));
+        }
+    }
+
+    SECTION("comparisons") {
+        SECTION("Different types") {
+            if constexpr(std::is_same_v<TestType, double>) {
+                AOSpace<AOBasisSetF, DependentSpace> other;
+                REQUIRE_FALSE(defaulted == other);
+                REQUIRE(defaulted != other);
+            } else {
+                AOSpace<AOBasisSetD, DependentSpace> other;
+                REQUIRE_FALSE(defaulted == other);
+                REQUIRE(defaulted != other);
+            }
+        }
+
+        SECTION("LHS == default") {
+            SECTION("RHS == defaulted") {
+                space_type rhs;
+                REQUIRE(defaulted == rhs);
+                REQUIRE_FALSE(defaulted != rhs);
+            }
+
+            SECTION("RHS == non-default") {
+                REQUIRE(defaulted != non_default_bs);
+                REQUIRE_FALSE(defaulted == non_default_bs);
+            }
+        }
+
+        SECTION("LHS == non-default && RHS == non-default") {
+            space_type rhs{bs};
+            REQUIRE(non_default_bs == rhs);
+            REQUIRE_FALSE(non_default_bs != rhs);
         }
     }
 }

@@ -4,48 +4,35 @@
 
 namespace libchemist::orbital_space {
 
-/** @brief Base class for orbital spaces that are dependent on another space.
+/** @brief An orbital spaces that is dependent on another space.
  *
- *  Particularly in linear scaling theories we often get orbital spaces that
- *  depend on another space. That is to say we get a different set of orbitals
- *  for each orbital (or tuple of orbitals) in the independent space.
+ *  Particularly in linear scaling theories we have sparsity relations
+ *  associated with spaces. The DependentSpace class is the base class (it's
+ *  conceptually a mix-in, except that it derives from `BaseSpace` for single
+ *  inheritance purposes) for spaces with sparse maps associated with them. It
+ *  adds a SparseMap instance to the orbital space's state. The independent
+ *  indices of the sparse map index orbitals in the independent space whereas
+ *  the dependent indices index orbitals in the orbital space which derives from
+ *  DependentSpace. For example given an `AOSpace` derived from a DependentSpace
+ *  the dependent indices index the AOs associated with a particular tuple of
+ *  independent orbitals, whereas a `DerivedSpace` derived from a
+ *  `DependentSpace` has dependent indices which index the orbitals in the
+ *  `DerivedSpace` and not the "from" space.
  *
- *  @tparam SparseMapType The type of the SparseMap instance.
- *  @tparam OverlapType The type used to store the overlap matrix.
+ *  @note For any pair of orbital spaces it is always possible to define a
+ *        sparse map, but the resulting sparse map will be trivial (every
+ *        independent tuple maps to every dependent index) unless there is
+ *        enforced sparsity. The prescence of the `DependentSpace` class means
+ *        that, the orbital space has a (in general) non-trivial sparse map
+ *        associated with it and the user expects you to account for it.
  */
-template<typename SparseMapType, typename BaseType>
-class DependentBaseSpace_ : public BaseType {
+class DependentSpace : public BaseSpace {
 public:
-    /// The type of the sparse map
-    using sparse_map_type = SparseMapType;
-
     /// The type used for indexing and offsets
-    using size_type = std::size_t;
+    using size_type = typename BaseSpace::size_type;
 
-    /** @brief Creates a DependentBaseSpace_ with no SparseMap or overlap
-     *         matrix.
-     */
-    DependentBaseSpace_() = default;
-
-    /** @brief Creates a DependentBaseSpace_ with a SparseMap, but no overlap
-     *         matrix.
-     *
-     * @param[in] sm The SparseMap to associate with this space.
-     */
-    explicit DependentBaseSpace_(sparse_map_type sm) : m_sm_(std::move(sm)) {}
-
-    /** @brief Creates a new DependentBaseSpace_ with the provided state.
-     *
-     * @param[in] sm The sparse map detailing which members of this dependent
-     *               space are paired with members of the independent space.
-     *
-     * @param[in] args  The arguments to forward to the base class's ctor
-     *
-     * @throw ??? If `overlap_type`'s move ctor throws. Same throw guarantee as
-     *            `overlap_type`'s move ctor.
-     */
-    template<typename... Args>
-    explicit DependentBaseSpace_(sparse_map_type sm, Args&&... args);
+    /// The type of the sparse map stored in this instance
+    using sparse_map_type = type::sparse_map;
 
     /** @brief The sparse map from the independent space to this space
      *
@@ -62,52 +49,142 @@ public:
     const auto& sparse_map() const { return m_sm_; }
 
 protected:
-    /// Should be overriden by the derived class to implement hashing
-    virtual void hash_(sde::Hasher& h) const {
-        h(m_sm_);
-        BaseType::hash_(h);
-    }
+    /** @brief Creates a DependentSpace with an empty SparseMap.
+     */
+    DependentSpace() = default;
 
-    /// Should be overrident by the derived class to implement size
-    virtual size_type size_() const noexcept override { return m_sm_.size(); }
+    /** @brief Creates a DependentSpace with a SparseMap
+     *
+     * @param[in] sm The SparseMap to associate with this space.
+     */
+    explicit DependentSpace(sparse_map_type sm) : m_sm_(std::move(sm)) {}
+
+    /** @brief Default copy constructor.
+     *
+     *  The copy constructor is protected to help avoid slicing. This ctor will
+     *  make a new DependentSpace instance which contains a deep copy of
+     *  @p other 's sparse map.
+     *
+     *  @param[in] other The DependentSpace instance being copied.
+     *
+     *  @throw std::bad_alloc if allocating the new SparseMap fails. Strong
+     *                        throw guarantee.
+     */
+    DependentSpace(const DependentSpace& other) = default;
+
+    /** @brief Default move constructor.
+     *
+     *  The move constructor is protected to help avoid slicing. This ctor will
+     *  take ownership of the sparse map contained in @p other.
+     *
+     *  @param[in,out] other The DependentSpace instance whose state is being
+     *                       taken. After this operation @p other is in a valid,
+     *                       but otherwise undefined state.
+     *
+     *  @throw None No throw guarantee.
+     */
+    DependentSpace(DependentSpace&& other) = default;
+
+    /** @brief Default copy assignment.
+     *
+     *  Copy assignment is protected to help avoid slicing. This function will
+     *  make replace the current sparse map with a deep copy of the sparse map
+     *  in @p other.
+     *
+     *  @param[in] other The DependentSpace instance being copied.
+     *
+     *  @return The current instance with a copy of the sparse map in @p other.
+     *
+     *  @throw std::bad_alloc if allocating the new SparseMap fails. Strong
+     *                        throw guarantee.
+     */
+    DependentSpace& operator=(const DependentSpace& other) = default;
+
+    /** @brief Default move assignment.
+     *
+     *  The move constructor is protected to help avoid slicing. This operation
+     *  will replace this instance's sparse map with the sparse map contained in
+     *  @p other.
+     *
+     *  @param[in,out] other The DependentSpace instance whose state is being
+     *                       taken. After this operation @p other is in a valid,
+     *                       but otherwise undefined state.
+     *
+     *  @returns The current DependentSpace instance, after taking ownership of
+     *           @p other's sparse map.
+     *
+     *  @throw None No throw guarantee.
+     */
+    DependentSpace& operator=(DependentSpace&& other) = default;
+
+    /// Returns the number of dependent orbitals in this space
+    virtual size_type size_() const noexcept override;
+
+    /// Adds the hash of the sparse map to the provided hasher.
+    virtual void hash_(sde::Hasher& h) const override { h(m_sm_); }
+
+    /// Returnst true if the spaces have the same sparse map
+    virtual bool equal_(const BaseSpace& rhs) const noexcept override;
 
 private:
     /// The sparse map between the independent space and this space
     sparse_map_type m_sm_;
 };
 
-template<typename SparseMapType, typename BaseType, typename RHSMapType,
-         typename RHSBaseType>
-bool operator==(const DependentBaseSpace_<SparseMapType, BaseType>& lhs,
-                const DependentBaseSpace_<RHSMapType, RHSBaseType>& rhs) {
-    using clean_lhs_t = std::decay_t<decltype(lhs)>;
-    using clean_rhs_t = std::decay_t<decltype(rhs)>;
-    if constexpr(std::is_same_v<clean_rhs_t, clean_lhs_t>) {
-        return sde::hash_objects(lhs) == sde::hash_objects(rhs);
-    } else {
-        return false;
-    }
+/** @brief Compares two DependentSpaces for equality.
+ *
+ *  @relates DependentSpace
+ *
+ *  Two DependentSpace instances are the same if they possess the same sparse
+ *  map.
+ *
+ *  @param[in] lhs The dependent space on the left-side of the equality operator
+ *  @param[in] rhs The dependent space on the right-side of the equality
+ *                 operator.
+ *
+ *  @return True if @p lhs and @p rhs have sparse maps that are equal and false
+ *          otherwise.
+ *
+ *  @throw None No throw guarantee.
+ */
+inline bool operator==(const DependentSpace& lhs, const DependentSpace& rhs) {
+    return lhs.sparse_map() == rhs.sparse_map();
 }
 
-template<typename SparseMapType, typename BaseType, typename RHSMapType,
-         typename RHSBaseType>
-bool operator!=(const DependentBaseSpace_<SparseMapType, BaseType>& lhs,
-                const DependentBaseSpace_<RHSMapType, RHSBaseType>& rhs) {
+/** @brief Determines if two DependentSpaces are different.
+ *
+ *  @relates DependentSpace
+ *
+ *  Two DependentSpace instances are the same if they possess the same sparse
+ *  map.
+ *
+ *  @param[in] lhs The dependent space on the left-side of the inequality
+ *                 operator.
+ *  @param[in] rhs The dependent space on the right-side of the inequality
+ *                 operator.
+ *
+ *  @return False if @p lhs and @p rhs have sparse maps that are equal and true
+ *          otherwise.
+ *
+ *  @throw None No throw guarantee.
+ */
+inline bool operator!=(const DependentSpace& lhs, const DependentSpace& rhs) {
     return !(lhs == rhs);
 }
 
-/// DependentBaseSpace that uses ToTs for the overlap matrix
-template<typename T>
-using SparseDependentBase = DependentBaseSpace_<
-  sparse_map::SparseMap<sparse_map::ElementIndex, sparse_map::ElementIndex>,
-  SparseBase<T>>;
-
 // -------------------------------- Implementations ----------------------------
 
-template<typename SparseMapType, typename BaseType>
-template<typename... Args>
-DependentBaseSpace_<SparseMapType, BaseType>::DependentBaseSpace_(
-  SparseMapType sm, Args&&... args) :
-  BaseType(std::forward<Args>(args)...), m_sm_(std::move(sm)) {}
+inline typename DependentSpace::size_type DependentSpace::size_()
+  const noexcept {
+    size_type n = 0;
+    // This only works b/c m_sm_ is element2element and b/c the domains are not
+    // products
+    for(const auto& [i_idx, domain] : m_sm_) n += domain.size();
+    return n;
+}
+
+inline bool DependentSpace::equal_(const BaseSpace& rhs) const noexcept {
+    return equal_common(*this, rhs);
+}
 
 } // namespace libchemist::orbital_space

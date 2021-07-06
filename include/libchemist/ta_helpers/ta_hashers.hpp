@@ -148,48 +148,6 @@ void hash_object(const TA::DistArray<TensorType, PolicyType>& A,
     }
 }
 
-/** @brief Enables comparison between TA DistArray objects
- *
- * Free function to enable comparison between TA DistArray objects.
- *
- * @tparam TensorType Type of tensor (TA::DistArray) for @p A.
- * @tparam PolicyType Type of policy for @p A. Either DensePolicy or
- * SparsePolicy.
- * @tparam TensorType Type of tensor (TA::DistArray) for @p B.
- * @tparam PolicyType Type of policy for @p B. Either DensePolicy or
- * SparsePolicy.
- * @param[in] A DistArray object
- * @param[in] B DistArray object
- */
-
-template<typename TensorTypeA, typename TensorTypeB, typename PolicyTypeA,
-         typename PolicyTypeB>
-bool operator==(const TA::DistArray<TensorTypeA, PolicyTypeA>& A,
-                const TA::DistArray<TensorTypeB, PolicyTypeB>& B) {
-    return sde::hash_objects(A) == sde::hash_objects(B);
-}
-
-/** @brief Enables comparison between TA DistArray objects
- *
- * Free function to enable comparison between TA DistArray objects.
- *
- * @tparam TensorType Type of tensor (TA::DistArray) for @p A.
- * @tparam PolicyType Type of policy for @p A. Either DensePolicy or
- * SparsePolicy.
- * @tparam TensorType Type of tensor (TA::DistArray) for @p B.
- * @tparam PolicyType Type of policy for @p B. Either DensePolicy or
- * SparsePolicy.
- * @param[in] A DistArray object
- * @param[in] B DistArray object
- */
-
-template<typename TensorTypeA, typename TensorTypeB, typename PolicyTypeA,
-         typename PolicyTypeB>
-bool operator!=(const TA::DistArray<TensorTypeA, PolicyTypeA>& A,
-                const TA::DistArray<TensorTypeB, PolicyTypeB>& B) {
-    return !(A == B);
-}
-
 /** @brief Enables comparison between TA tensor objects
  *
  * Free function to enable comparison between TA tensor objects.

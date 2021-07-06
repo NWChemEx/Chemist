@@ -1,8 +1,13 @@
 #include "libchemist/tensor/type_traits/type_traits.hpp"
 #include "libchemist/tensor/types.hpp"
+#include "libchemist/types.hpp"
 #include <catch2/catch.hpp>
 
 using namespace libchemist::tensor;
+using TensorD = libchemist::type::tensor<double>;
+using TensorF = libchemist::type::tensor<float>;
+using ToTD    = libchemist::type::tensor_of_tensors<double>;
+using ToTF    = libchemist::type::tensor_of_tensors<float>;
 
 template<typename T>
 using labeled_tensor_t = typename TensorTraits<T>::labeled_tensor_type;

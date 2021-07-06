@@ -1,6 +1,7 @@
 #include "libchemist/ta_helpers/ta_helpers.hpp"
-#include "libchemist/tensor/tensor_wrapper.hpp"
+#include "libchemist/tensor/tensor.hpp"
 #include "libchemist/tensor/types.hpp"
+#include "libchemist/types.hpp"
 #include <catch2/catch.hpp>
 
 using namespace libchemist::tensor;

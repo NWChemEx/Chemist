@@ -231,6 +231,30 @@ auto reduce_elementwise(const TA::DistArray<TileType, PolicyType>& lhs,
     return lhs(idx).reduce(rhs(idx), std::move(r));
 }
 
+template<typename TileType, typename PolicyType, typename AddOp,
+         typename TimesOp, typename ResultType>
+auto reduce_tot_elementwise(const TA::DistArray<TileType, PolicyType>& lhs,
+                            const TA::DistArray<TileType, PolicyType>& rhs,
+                            AddOp&& add_op, TimesOp&& times_op,
+                            ResultType&& init) {
+    using inner_type  = typename TileType::value_type;
+    using scalar_type = typename TileType::scalar_type;
+    auto inner_times  = [times_op{std::forward<TimesOp>(times_op)}](
+                         ResultType& result, const scalar_type& first,
+                         const scalar_type& second) {
+        result = times_op(first, second);
+    };
+    auto outer_times =
+      [=, inner_times{std::move(inner_times)}](inner_type lhs, inner_type rhs) {
+          return lhs.reduce(rhs, inner_times, add_op, init);
+      };
+    const auto& tile0 = lhs.begin()->get();
+    auto ir           = tile0[0].range().rank();
+    return reduce_elementwise(lhs, rhs, std::forward<AddOp>(add_op),
+                              outer_times, init, ir)
+      .get();
+}
+
 //------------------------------------------------------------------------------
 // Comparisons
 //------------------------------------------------------------------------------
@@ -340,3 +364,50 @@ bool allclose_tot(T&& actual, U&& ref, std::size_t inner_rank = 0,
 }
 
 } // namespace libchemist::ta_helpers
+
+namespace TiledArray {
+
+/** @brief Enables comparison between TA DistArray objects
+ *
+ * Free function to enable comparison between TA DistArray objects.
+ *
+ * @tparam TensorType Type of tensor (TA::DistArray) for @p A.
+ * @tparam PolicyType Type of policy for @p A. Either DensePolicy or
+ * SparsePolicy.
+ * @tparam TensorType Type of tensor (TA::DistArray) for @p B.
+ * @tparam PolicyType Type of policy for @p B. Either DensePolicy or
+ * SparsePolicy.
+ * @param[in] lhs DistArray object
+ * @param[in] rhs DistArray object
+ */
+template<typename LHSTileType, typename LHSPolicyType, typename RHSTileType,
+         typename RHSPolicyType>
+bool operator==(const TA::DistArray<LHSTileType, LHSPolicyType>& lhs,
+                const TA::DistArray<RHSTileType, RHSPolicyType>& rhs) {
+    if constexpr(!std::is_same_v<decltype(lhs), decltype(rhs)>)
+        return false;
+    else {
+        if(lhs.is_initialized() != rhs.is_initialized()) return false;
+        if(!lhs.is_initialized()) return true;
+        if(lhs.trange() != rhs.trange()) return false;
+
+        using scalar_type = typename LHSTileType::scalar_type;
+        using namespace libchemist::ta_helpers;
+        std::logical_and<bool> add_op;
+        std::equal_to<scalar_type> times_op;
+        if constexpr(!TA::detail::is_tensor_of_tensor_v<LHSTileType>) {
+            return reduce_elementwise(lhs, rhs, add_op, times_op, true);
+        } else {
+            return reduce_tot_elementwise(lhs, rhs, add_op, times_op, true);
+        }
+    }
+}
+
+template<typename LHSTileType, typename LHSPolicyType, typename RHSTileType,
+         typename RHSPolicyType>
+bool operator!=(const TA::DistArray<LHSTileType, LHSPolicyType>& lhs,
+                const TA::DistArray<RHSTileType, RHSPolicyType>& rhs) {
+    return !(lhs == rhs);
+}
+
+} // namespace TiledArray

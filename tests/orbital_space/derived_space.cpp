@@ -1,285 +1,762 @@
-#include "libchemist/orbital_space/base_space.hpp"
+#include "libchemist/basis_set/basis_set.hpp"
 #include "libchemist/orbital_space/derived_space.hpp"
-#include "test_orbital_space.hpp"
-#include "transform_data.hpp"
 #include <catch2/catch.hpp>
 
 /* For testing purposes we assume:
  *
  * - The actual identity/state of the from space does not impact the
- *   DerivedSpace_ class aside from needing to have a slot in the ctor and be
- *   accessible through the DerivedSpace_ members. i.e. as long as that type is
+ *   DerivedSpace class aside from needing to have a slot in the ctor and be
+ *   accessible through the DerivedSpace members. i.e. as long as that type is
  *   tested it'll work here too.
  *
- * - The base class more-or-less passes through the DerivedSpace_ class. i.e.,
- *   if the base class works, it'll work when used with DerivedSpace_ too.
+ * - The base class more-or-less passes through the DerivedSpace class. i.e.,
+ *   if the base class works, it'll work when used with DerivedSpace too.
  *
  *   - The caveats are that we need to make sure it's accounted for in the ctor,
  *     hash, and comparison operations.
- *
- *  - We assume that the overlap matrices returned by TensorMaker are suitable
- *    for use as transformation coefficients.
  */
 
 using namespace libchemist;
 using namespace libchemist::orbital_space;
-using namespace libchemist::test;
 
-TEMPLATE_PRODUCT_TEST_CASE("DerivedSpace", "",
-                           (type::tensor, type::tensor_of_tensors),
-                           (float, double)) {
-    using tensor_type = TestType;
-    using from_space  = BaseSpace_<tensor_type>;
-    using base_type   = BaseSpace_<tensor_type>;
-    using space_type  = DerivedSpace_<tensor_type, from_space, base_type>;
-
-    auto& world = TA::get_default_world();
-    auto S1     = TensorMaker<tensor_type>::S(world);
-    auto S2     = TensorMaker<tensor_type>::S2(world);
-    auto S3     = TensorMaker<tensor_type>::corr_transformed_S(world);
-    auto rho    = TensorMaker<tensor_type>::corr_rho(world);
-    auto pbs1   = std::make_shared<base_type>(S1);
-    base_type bs1(*pbs1), bs2(S2);
+TEST_CASE("DerivedSpace") {
+    // Work out types we will need
+    using scalar_type = double;
+    using space_type  = DerivedSpaceD;
+    using tensor_type = libchemist::type::tensor<scalar_type>;
+    using from_space  = AOSpaceD;
+    using base_space  = BaseSpace;
 
     SECTION("Typedefs") {
         SECTION("transform_type") {
             using transform_type = typename space_type::transform_type;
             STATIC_REQUIRE(std::is_same_v<transform_type, tensor_type>);
         }
-
         SECTION("from_space_type") {
-            using the_type = typename space_type::from_space_type;
-            STATIC_REQUIRE(std::is_same_v<the_type, from_space>);
+            using from_space_type = typename space_type::from_space_type;
+            using corr            = from_space;
+            STATIC_REQUIRE(std::is_same_v<from_space_type, corr>);
         }
-
         SECTION("from_space_ptr") {
-            using corr_t   = std::shared_ptr<const from_space>;
-            using the_type = typename space_type::from_space_ptr;
-            STATIC_REQUIRE(std::is_same_v<the_type, corr_t>);
+            using from_space_ptr = typename space_type::from_space_ptr;
+            using corr           = std::shared_ptr<const from_space>;
+            STATIC_REQUIRE(std::is_same_v<from_space_ptr, corr>);
         }
-
         SECTION("size_type") {
-            using size_t = typename space_type::size_type;
-            using corr_t = typename base_type::size_type;
-            STATIC_REQUIRE(std::is_same_v<size_t, corr_t>);
+            using size_type = typename space_type::size_type;
+            using corr      = typename base_space::size_type;
+            STATIC_REQUIRE(std::is_same_v<size_type, corr>);
         }
     }
 
-    SECTION("CTors") {
-        SECTION("Default") { space_type st; }
+    auto& world = TA::get_default_world();
+    tensor_type C(world, {{1.0, 2.0}, {3.0, 4.0}});
 
-        SECTION("All value") {
-            space_type st(S2, bs1, S1);
-            SECTION("C") { REQUIRE(compare_tensors(st.C(), S2)); }
-            SECTION("from_space") { REQUIRE(st.from_space() == bs1); }
+    space_type default_ao(C, from_space{});
+    AOBasisSetD bs;
+    bs.add_center(libchemist::Center<scalar_type>(1.0, 2.0, 3.0));
+    from_space aos(std::move(bs));
+    space_type non_default_aos(tensor_type{}, aos);
+    space_type non_default(C, aos);
+
+    SECTION("CTors/Assignment") {
+        SECTION("Default Ctor") {
+            space_type s;
+            REQUIRE(s.C() == tensor_type{});
         }
 
-        SECTION("All value w/ density") {
-            space_type st(S2, rho, bs1, S1);
-            SECTION("C") { REQUIRE(compare_tensors(st.C(), S2)); }
-            SECTION("density") {
-                using tile_type = typename tensor_type::value_type;
-                constexpr bool tile_is_tot =
-                  TA::detail::is_tensor_of_tensor_v<tile_type>;
-                if(!tile_is_tot) REQUIRE(compare_tensors(st.density(), rho));
-            }
-            SECTION("from_space") { REQUIRE(st.from_space() == bs1); }
+        SECTION("Value Ctor") {
+            REQUIRE(default_ao.C() == C);
+            REQUIRE(default_ao.from_space() == from_space{});
+            REQUIRE(non_default.C() == C);
+            REQUIRE(non_default.from_space() == aos);
         }
 
-        SECTION("Base space by pointer") {
-            space_type st(S2, pbs1, S1);
-            SECTION("C") { REQUIRE(compare_tensors(st.C(), S2)); }
-            SECTION("from_space") { REQUIRE(st.from_space_data() == pbs1); }
+        SECTION("Aliasing Ctor") {
+            space_type alias(C, default_ao.from_space_data());
+            REQUIRE(alias.C() == C);
+            REQUIRE(alias.from_space_data() == default_ao.from_space_data());
         }
 
-        SECTION("Base space by pointer w/ density") {
-            space_type st(S2, rho, pbs1, S1);
-            SECTION("C") { REQUIRE(compare_tensors(st.C(), S2)); }
-            SECTION("density") {
-                using tile_type = typename tensor_type::value_type;
-                constexpr bool tile_is_tot =
-                  TA::detail::is_tensor_of_tensor_v<tile_type>;
-                if(!tile_is_tot) REQUIRE(compare_tensors(st.density(), rho));
-            }
-            SECTION("from_space") { REQUIRE(st.from_space_data() == pbs1); }
+        SECTION("Copy Ctor") {
+            space_type copy(non_default);
+            REQUIRE(copy.C() == C);
+            REQUIRE(copy.from_space_data() == non_default.from_space_data());
         }
 
-        SECTION("Copy") {
-            space_type st(S2, bs1, S1);
-            space_type st2(st);
-            REQUIRE(st == st2);
+        SECTION("Move Ctor") {
+            space_type moved(std::move(non_default));
+            REQUIRE(moved.C() == C);
+            REQUIRE(moved.from_space() == aos);
         }
 
-        SECTION("Move") {
-            space_type st(S2, bs1, S1), st2(S2, bs1, S1);
-            space_type st3(std::move(st));
-            REQUIRE(st3 == st2);
+        SECTION("Copy assignment") {
+            space_type copy;
+            auto pcopy = &(copy = non_default);
+            REQUIRE(pcopy == &copy);
+            REQUIRE(copy.C() == C);
+            REQUIRE(copy.from_space_data() == non_default.from_space_data());
         }
 
-        SECTION("Copy Assignment") {
-            space_type st(S2, bs1, S1), st2;
-            auto pst2 = &(st2 = st);
-            SECTION("Value") { REQUIRE(st == st2); }
-            SECTION("Returns this") { REQUIRE(pst2 == &st2); }
-        }
-
-        SECTION("Move") {
-            space_type st(S2, bs1, S1), st2(S2, bs1, S1), st3;
-            auto pst3 = &(st3 = std::move(st));
-            SECTION("Value") { REQUIRE(st3 == st2); }
-            SECTION("Returns this") { REQUIRE(pst3 == &st3); }
+        SECTION("Move assignment") {
+            space_type moved;
+            auto pmoved = &(moved = std::move(non_default));
+            REQUIRE(pmoved == &moved);
+            REQUIRE(moved.C() == C);
+            REQUIRE(moved.from_space() == aos);
         }
     }
 
-    space_type st1(S2, bs1, S1);
+    SECTION("Accessors") {
+        SECTION("C") {
+            REQUIRE(non_default.C() == C);
 
-    SECTION("C()") { REQUIRE(compare_tensors(st1.C(), S2)); }
-
-    SECTION("C() const") {
-        REQUIRE(compare_tensors(std::as_const(st1).C(), S2));
-    }
-
-    SECTION("from_space") { REQUIRE(st1.from_space() == bs1); }
-
-    SECTION("S()") {
-        space_type st2(S2, bs1);
-        REQUIRE(compare_tensors(st2.S(), S3));
-    }
-
-    SECTION("S() const") {
-        const space_type st2(S2, bs1);
-        REQUIRE(compare_tensors(st2.S(), S3));
-    }
-
-    SECTION("from_space_data") {
-        auto pbs1 = std::make_shared<const from_space>(bs1);
-        space_type st3(S2, pbs1, S1);
-        REQUIRE(st3.from_space_data() == pbs1);
-    }
-
-    SECTION("density()") {
-        space_type st2(S2, bs1);
-        using tile_type = typename tensor_type::value_type;
-        constexpr bool tile_is_tot =
-          TA::detail::is_tensor_of_tensor_v<tile_type>;
-        if(tile_is_tot) {
-            REQUIRE_THROWS_AS(st2.density(), std::runtime_error);
-        } else {
-            REQUIRE(compare_tensors(st2.density(), rho));
-        }
-    }
-
-    SECTION("transform()") {
-        using tile_type   = typename tensor_type::value_type;
-        using scalar_type = typename tensor_type::scalar_type;
-        constexpr bool tile_is_tot =
-          TA::detail::is_tensor_of_tensor_v<tile_type>;
-        auto& world = TA::get_default_world();
-
-        // Transform is tested elsewhere, here we just make sure it dispatches
-        // correctly
-        if constexpr(tile_is_tot) {
-        } else {
-            tensor_type I(world, {{1.0, 2.0}, {3.0, 4.0}});
-            auto c23 = make_space23<scalar_type>(world);
-            tensor_type corr(world, {{1.8, 2.48}, {2.24, 3.14}, {2.79, 4.02}});
-            REQUIRE(compare_tensors(c23.transform(I, {0}), corr));
-        }
-    }
-
-    SECTION("Hash") {
-        SECTION("transform()") {
-            space_type st2(S2, bs1);
-            using tile_type = typename tensor_type::value_type;
-            constexpr bool tile_is_tot =
-              TA::detail::is_tensor_of_tensor_v<tile_type>;
-            if(tile_is_tot) {
-                REQUIRE_THROWS_AS(st2.density(), std::runtime_error);
-            } else {
-                REQUIRE(compare_tensors(st2.density(), rho));
+            SECTION("Is writeable") {
+                tensor_type new_C;
+                non_default.C() = new_C;
+                REQUIRE(non_default.C() == new_C);
             }
         }
 
-        SECTION("Hash") {
-            auto hash1 = sde::hash_objects(st1);
+        SECTION("C() const") { REQUIRE(std::as_const(non_default).C() == C); }
 
-            SECTION("Same State") {
-                SECTION("Same from_space instances") {
-                    auto hash2 = sde::hash_objects(space_type(S2, pbs1, S1));
-                    auto hash3 = sde::hash_objects(space_type(S2, pbs1, S1));
-                    REQUIRE(hash2 == hash3);
-                }
+        SECTION("from_space()") {
+            REQUIRE(non_default.from_space() == aos);
 
-                SECTION("Doesn't need to be same aliased space instances") {
-                    auto hash2 = sde::hash_objects(space_type(S2, bs1, S1));
-                    REQUIRE(hash1 == hash2);
-                }
-            }
-
-            SECTION("Different transformation") {
-                auto hash2 = sde::hash_objects(space_type(S1, bs1, S1));
-                REQUIRE(hash1 != hash2);
-            }
-
-            SECTION("Different from space") {
-                auto hash2 = sde::hash_objects(space_type(S2, bs2, S1));
-                REQUIRE(hash1 != hash2);
-            }
-
-            SECTION("Different base spaces") {
-                auto hash2 = sde::hash_objects(space_type(S2, bs1, S2));
-                REQUIRE(hash1 != hash2);
+            SECTION("Throws if no space") {
+                space_type s;
+                REQUIRE_THROWS_AS(s.from_space(), std::runtime_error);
             }
         }
 
-        SECTION("size()") {
-            SECTION("empty") {
-                space_type st;
-                REQUIRE(st.size() == 0);
+        SECTION("from_space_data()") {
+            auto paos = &(non_default.from_space());
+            REQUIRE(non_default.from_space_data().get() == paos);
+        }
+
+        SECTION("size") {
+            REQUIRE(space_type{}.size() == 0);
+            REQUIRE(non_default.size() == 2);
+        }
+    }
+
+    SECTION("Transform") {
+        tensor_type t(
+          world,
+          {{{{10.0, 11.0}, {12.0, 13.0}}, {{14.0, 15.0}, {16.0, 17.0}}},
+           {{{18.0, 19.0}, {20.0, 21.0}}, {{22.0, 23.0}, {24.0, 25.0}}}});
+        tensor_type corr;
+        SECTION("Mode 0") {
+            corr("i,j,k,l") = C("mu,i") * t("mu,j,k,l");
+            auto result = non_default.transform(t, 0ul);
+            REQUIRE(ta_helpers::allclose(corr, result));
+        }
+        SECTION("Mode 1"){
+            corr("i,j,k,l") = C("mu,j") * t("i,mu,k,l");
+             auto result = non_default.transform(t, 1ul);
+             REQUIRE(ta_helpers::allclose(corr, result));
+        }
+    }
+
+    SECTION("hash") {
+        SECTION("LHS == default") {
+            const auto lhs = sde::hash_objects(space_type{});
+
+            SECTION("RHS == default") {
+                const space_type rhs;
+                REQUIRE(lhs == sde::hash_objects(rhs));
             }
-            SECTION("non-empty") {
-                using tile_type = typename tensor_type::value_type;
-                constexpr bool tile_is_tot =
-                  TA::detail::is_tensor_of_tensor_v<tile_type>;
-                if constexpr(tile_is_tot) {
-                } else {
-                    REQUIRE(st1.size() == S2.trange().dim(1).extent());
-                }
+
+            SECTION("RHS == non-default C") {
+                REQUIRE(lhs != sde::hash_objects(default_ao));
+            }
+
+            SECTION("RHS == non-default from-space") {
+                REQUIRE(lhs != sde::hash_objects(non_default_aos));
             }
         }
 
-        SECTION("Comparisons") {
-            SECTION("Same State") {
-                SECTION("Same from_space instances") {
-                    space_type st2(S2, pbs1, S1), st3(S2, pbs1, S1);
-                    REQUIRE(st2 == st3);
-                    REQUIRE_FALSE(st2 != st3);
-                }
+        SECTION("LHS == non-default C") {
+            const auto lhs = sde::hash_objects(default_ao);
+            SECTION("RHS == non-default C") {
+                REQUIRE(lhs == sde::hash_objects(space_type(C, from_space{})));
+            }
+            SECTION("RHS == non-default from-space") {
+                REQUIRE(lhs != sde::hash_objects(non_default_aos));
+            }
+        }
 
-                SECTION("Doesn't need to be same aliased space instances") {
-                    space_type st2(S2, bs1, S1);
-                    REQUIRE(st1 == st2);
-                    REQUIRE_FALSE(st1 != st2);
-                }
+        SECTION("Non-default from-space") {
+            const auto lhs = sde::hash_objects(non_default_aos);
+            const auto rhs = sde::hash_objects(space_type{tensor_type{}, aos});
+            REQUIRE(lhs == rhs);
+        }
+    }
+
+    SECTION("comparisons") {
+        SECTION("LHS == default") {
+            const space_type lhs;
+            SECTION("RHS == default") {
+                const space_type rhs;
+                REQUIRE(lhs == rhs);
+                REQUIRE_FALSE(lhs != rhs);
             }
 
-            SECTION("Different transformation") {
-                space_type st2(S1, bs1, S1);
-                REQUIRE_FALSE(st1 == st2);
-                REQUIRE(st1 != st2);
+            SECTION("RHS == non-default C") {
+                REQUIRE_FALSE(lhs == default_ao);
+                REQUIRE(lhs != default_ao);
             }
 
-            SECTION("Different from space") {
-                space_type st2(S2, bs2, S1);
-                REQUIRE_FALSE(st1 == st2);
-                REQUIRE(st1 != st2);
+            SECTION("RHS == non-default from-space") {
+                REQUIRE_FALSE(lhs == non_default_aos);
+                REQUIRE(lhs != non_default_aos);
+            }
+        }
+
+        SECTION("LHS == non-default C") {
+            SECTION("RHS == non-default C") {
+                const space_type rhs(C, from_space{});
+                REQUIRE(default_ao == rhs);
+                REQUIRE_FALSE(default_ao != rhs);
+            }
+            SECTION("RHS == non-default from-space") {
+                REQUIRE_FALSE(default_ao == non_default_aos);
+                REQUIRE(default_ao != non_default_aos);
+                ;
+            }
+        }
+
+        SECTION("Non-default from-space") {
+            const auto rhs = space_type{tensor_type{}, aos};
+            REQUIRE(non_default_aos == rhs);
+            REQUIRE_FALSE(non_default_aos != rhs);
+        }
+
+        SECTION("Different from-space types") {
+            REQUIRE_FALSE(space_type{} == IndDerivedSpaceD{});
+            REQUIRE(space_type{} != IndDerivedSpaceD{});
+        }
+    }
+}
+
+TEST_CASE("IndDerivedSpace") {
+    using scalar_type = double;
+    using space_type  = IndDerivedSpaceD;
+    using tensor_type = libchemist::type::tensor<scalar_type>;
+    using tot_type    = libchemist::type::tensor_of_tensors<scalar_type>;
+    using tile_type   = typename tot_type::value_type;
+    using inner_type  = typename tile_type::value_type;
+    using from_space  = DepAOSpaceD;
+    using base_space  = BaseSpace;
+
+    SECTION("Typedefs") {
+        SECTION("transform_type") {
+            using transform_type = typename space_type::transform_type;
+            STATIC_REQUIRE(std::is_same_v<transform_type, tensor_type>);
+        }
+        SECTION("from_space_type") {
+            using from_space_type = typename space_type::from_space_type;
+            using corr            = from_space;
+            STATIC_REQUIRE(std::is_same_v<from_space_type, corr>);
+        }
+        SECTION("from_space_ptr") {
+            using from_space_ptr = typename space_type::from_space_ptr;
+            using corr           = std::shared_ptr<const from_space>;
+            STATIC_REQUIRE(std::is_same_v<from_space_ptr, corr>);
+        }
+        SECTION("size_type") {
+            using size_type = typename space_type::size_type;
+            using corr      = typename base_space::size_type;
+            STATIC_REQUIRE(std::is_same_v<size_type, corr>);
+        }
+    }
+
+    // Build non-default transformation
+    auto& world = TA::get_default_world();
+    tensor_type C(world, {{1.0, 2.0}, {3.0, 4.0}});
+
+    space_type default_ao(C, from_space{});
+    AOBasisSetD bs;
+    bs.add_center(libchemist::Center<scalar_type>(1.0, 2.0, 3.0));
+    from_space aos(std::move(bs));
+    space_type non_default(C, aos);
+
+    SECTION("CTors/Assignment") {
+        SECTION("Default Ctor") {
+            space_type s;
+            REQUIRE(s.C() == tensor_type{});
+        }
+
+        SECTION("Value Ctor") {
+            REQUIRE(default_ao.C() == C);
+            REQUIRE(default_ao.from_space() == from_space{});
+            REQUIRE(non_default.C() == C);
+            REQUIRE(non_default.from_space() == aos);
+        }
+
+        SECTION("Aliasing Ctor") {
+            space_type alias(C, default_ao.from_space_data());
+            REQUIRE(alias.C() == C);
+            REQUIRE(alias.from_space_data() == default_ao.from_space_data());
+        }
+
+        SECTION("Copy Ctor") {
+            space_type copy(non_default);
+            REQUIRE(copy.C() == C);
+            REQUIRE(copy.from_space_data() == non_default.from_space_data());
+        }
+
+        SECTION("Move Ctor") {
+            space_type moved(std::move(non_default));
+            REQUIRE(moved.C() == C);
+            REQUIRE(moved.from_space() == aos);
+        }
+
+        SECTION("Copy assignment") {
+            space_type copy;
+            auto pcopy = &(copy = non_default);
+            REQUIRE(pcopy == &copy);
+            REQUIRE(copy.C() == C);
+            REQUIRE(copy.from_space_data() == non_default.from_space_data());
+        }
+
+        SECTION("Move assignment") {
+            space_type moved;
+            auto pmoved = &(moved = std::move(non_default));
+            REQUIRE(pmoved == &moved);
+            REQUIRE(moved.C() == C);
+            REQUIRE(moved.from_space() == aos);
+        }
+    }
+
+    SECTION("Accessors") {
+        SECTION("C") {
+            REQUIRE(non_default.C() == C);
+
+            SECTION("Is writeable") {
+                tensor_type new_C;
+                non_default.C() = new_C;
+                REQUIRE(non_default.C() == new_C);
+            }
+        }
+
+        SECTION("C() const") { REQUIRE(std::as_const(non_default).C() == C); }
+
+        SECTION("from_space()") {
+            REQUIRE(non_default.from_space() == aos);
+
+            SECTION("Throws if no space") {
+                space_type s;
+                REQUIRE_THROWS_AS(s.from_space(), std::runtime_error);
+            }
+        }
+
+        SECTION("from_space_data()") {
+            auto paos = &(non_default.from_space());
+            REQUIRE(non_default.from_space_data().get() == paos);
+        }
+
+        SECTION("size") {
+            REQUIRE(space_type{}.size() == 0);
+            REQUIRE(non_default.size() == 2);
+        }
+    }
+
+    SECTION("Transform") {
+        inner_type t00(TA::Range({2, 2}), {10.0, 11.0, 12.0, 13.0});
+        inner_type t01(TA::Range({2, 2}), {14.0, 15.0, 16.0, 17.0});
+        inner_type t10(TA::Range({2, 2}), {18.0, 19.0, 20.0, 21.0});
+        inner_type t11(TA::Range({2, 2}), {22.0, 23.0, 24.0, 25.0});
+        tot_type t(world, {{t00, t01}, {t10, t11}});
+        tot_type corr;
+        SECTION("Mode 0") {
+            TA::expressions::einsum(corr("i,j;k,l"), C("mu,i"), t("mu,j;k,l"));
+            auto result = non_default.transform(t, 0ul);
+            REQUIRE(ta_helpers::allclose_tot(corr, result, 2));
+        }
+        SECTION("Mode 1"){
+            TA::expressions::einsum(corr("i,j;k,l"), C("mu,j"), t("i,mu;k,l"));
+            auto result = non_default.transform(t, 1ul);
+            REQUIRE(ta_helpers::allclose_tot(corr, result, 2));
+        }
+    }
+
+    space_type non_default_aos(tensor_type{}, aos);
+
+    SECTION("hash") {
+        SECTION("LHS == default") {
+            const auto lhs = sde::hash_objects(space_type{});
+
+            SECTION("RHS == default") {
+                const space_type rhs;
+                REQUIRE(lhs == sde::hash_objects(rhs));
             }
 
-            SECTION("Different base spaces") {
-                space_type st2(S2, bs2, S2);
-                REQUIRE_FALSE(st1 == st2);
-                REQUIRE(st1 != st2);
+            SECTION("RHS == non-default C") {
+                REQUIRE(lhs != sde::hash_objects(default_ao));
             }
+
+            SECTION("RHS == non-default from-space") {
+                REQUIRE(lhs != sde::hash_objects(non_default_aos));
+            }
+        }
+
+        SECTION("LHS == non-default C") {
+            const auto lhs = sde::hash_objects(default_ao);
+            SECTION("RHS == non-default C") {
+                REQUIRE(lhs == sde::hash_objects(space_type(C, from_space{})));
+            }
+            SECTION("RHS == non-default from-space") {
+                REQUIRE(lhs != sde::hash_objects(non_default_aos));
+            }
+        }
+
+        SECTION("Non-default from-space") {
+            const auto lhs = sde::hash_objects(non_default_aos);
+            const auto rhs = sde::hash_objects(space_type{tensor_type{}, aos});
+            REQUIRE(lhs == rhs);
+        }
+    }
+
+    SECTION("comparisons") {
+        SECTION("LHS == default") {
+            const space_type lhs;
+            SECTION("RHS == default") {
+                const space_type rhs;
+                REQUIRE(lhs == rhs);
+                REQUIRE_FALSE(lhs != rhs);
+            }
+
+            SECTION("RHS == non-default C") {
+                REQUIRE_FALSE(lhs == default_ao);
+                REQUIRE(lhs != default_ao);
+            }
+
+            SECTION("RHS == non-default from-space") {
+                REQUIRE_FALSE(lhs == non_default_aos);
+                REQUIRE(lhs != non_default_aos);
+            }
+        }
+
+        SECTION("LHS == non-default C") {
+            SECTION("RHS == non-default C") {
+                const space_type rhs(C, from_space{});
+                REQUIRE(default_ao == rhs);
+                REQUIRE_FALSE(default_ao != rhs);
+            }
+            SECTION("RHS == non-default from-space") {
+                REQUIRE_FALSE(default_ao == non_default_aos);
+                REQUIRE(default_ao != non_default_aos);
+                ;
+            }
+        }
+
+        SECTION("Non-default from-space") {
+            const auto rhs = space_type{tensor_type{}, aos};
+            REQUIRE(non_default_aos == rhs);
+            REQUIRE_FALSE(non_default_aos != rhs);
+        }
+
+        SECTION("Different from-space types") {
+            REQUIRE_FALSE(space_type{} == DerivedSpaceD{});
+            REQUIRE(space_type{} != DerivedSpaceD{});
+        }
+    }
+}
+
+TEST_CASE("DepDerivedSpace") {
+    // Work out types we need for unit tests
+    using scalar_type = double;
+    using space_type  = DepDerivedSpaceD;
+    using tensor_type = libchemist::type::tensor_of_tensors<scalar_type>;
+    using tile_type   = typename tensor_type::value_type;
+    using inner_type  = typename tile_type::value_type;
+    using from_space  = DepAOSpaceD;
+    using base_space  = DependentSpace;
+    using sparse_map  = typename base_space::sparse_map_type;
+    using index_type  = typename sparse_map::key_type;
+
+    SECTION("Typedefs") {
+        SECTION("transform_type") {
+            using transform_type = typename space_type::transform_type;
+            STATIC_REQUIRE(std::is_same_v<transform_type, tensor_type>);
+        }
+        SECTION("from_space_type") {
+            using from_space_type = typename space_type::from_space_type;
+            using corr            = from_space;
+            STATIC_REQUIRE(std::is_same_v<from_space_type, corr>);
+        }
+        SECTION("from_space_ptr") {
+            using from_space_ptr = typename space_type::from_space_ptr;
+            using corr           = std::shared_ptr<const from_space>;
+            STATIC_REQUIRE(std::is_same_v<from_space_ptr, corr>);
+        }
+        SECTION("size_type") {
+            using size_type = typename space_type::size_type;
+            using corr      = typename base_space::size_type;
+            STATIC_REQUIRE(std::is_same_v<size_type, corr>);
+        }
+    }
+
+    // Build a non-default transformation
+    auto& world = TA::get_default_world();
+    inner_type c00(TA::Range({2, 2}), {1.0, 2.0, 3.0, 4.0});
+    inner_type c01(TA::Range({2, 2}), {5.0, 6.0, 7.0, 8.0});
+    inner_type c10(TA::Range({2, 2}), {9.0, 1.0, 2.0, 3.0});
+    inner_type c11(TA::Range({2, 2}), {4.0, 5.0, 6.0, 7.0});
+    tensor_type C(world, {{c00, c01}, {c10, c11}});
+
+    // object that is all default except transformation
+    space_type non_default_c(C, from_space{});
+
+    // Build a non-default basis set
+    AOBasisSetD bs;
+    bs.add_center(libchemist::Center<scalar_type>(1.0, 2.0, 3.0));
+    from_space aos(std::move(bs));
+
+    // object that is all default except from-space
+    space_type non_default_bs(C, aos);
+
+    // build a non-default sparse map
+    index_type i00{0, 0}, i01{0, 1}, i10{1, 0}, i11{1, 1};
+    std::initializer_list domain{index_type{0}, index_type{1}};
+    sparse_map sm{{i00, domain}, {i01, domain}, {i10, domain}, {i11, domain}};
+
+    // object that is completely non-default
+    space_type non_default(C, aos, sm);
+
+    SECTION("CTors/Assignment") {
+        SECTION("Default Ctor") {
+            space_type s;
+            REQUIRE(s.C() == tensor_type{});
+            REQUIRE(s.sparse_map() == sparse_map{});
+        }
+
+        SECTION("Value Ctor") {
+            REQUIRE(non_default_c.C() == C);
+            REQUIRE(non_default_c.from_space() == from_space{});
+            REQUIRE(non_default_c.sparse_map() == sparse_map{});
+            REQUIRE(non_default_bs.C() == C);
+            REQUIRE(non_default_bs.from_space() == aos);
+            REQUIRE(non_default_bs.sparse_map() == sparse_map{});
+            REQUIRE(non_default.C() == C);
+            REQUIRE(non_default.from_space() == aos);
+            REQUIRE(non_default.sparse_map() == sm);
+        }
+
+        SECTION("Aliasing Ctor") {
+            space_type alias(C, non_default.from_space_data(), sm);
+            REQUIRE(alias.C() == C);
+            REQUIRE(alias.from_space_data() == non_default.from_space_data());
+            REQUIRE(alias.sparse_map() == sm);
+        }
+
+        SECTION("Copy Ctor") {
+            space_type copy(non_default);
+            REQUIRE(copy.C() == C);
+            REQUIRE(copy.from_space_data() == non_default.from_space_data());
+            REQUIRE(copy.sparse_map() == sm);
+        }
+
+        SECTION("Move Ctor") {
+            space_type moved(std::move(non_default));
+            REQUIRE(moved.C() == C);
+            REQUIRE(moved.from_space() == aos);
+            REQUIRE(moved.sparse_map() == sm);
+        }
+
+        SECTION("Copy assignment") {
+            space_type copy;
+            auto pcopy = &(copy = non_default);
+            REQUIRE(pcopy == &copy);
+            REQUIRE(copy.C() == C);
+            REQUIRE(copy.from_space_data() == non_default.from_space_data());
+            REQUIRE(copy.sparse_map() == sm);
+        }
+
+        SECTION("Move assignment") {
+            space_type moved;
+            auto pmoved = &(moved = std::move(non_default));
+            REQUIRE(pmoved == &moved);
+            REQUIRE(moved.C() == C);
+            REQUIRE(moved.from_space() == aos);
+            REQUIRE(moved.sparse_map() == sm);
+        }
+    }
+
+    SECTION("Accessors") {
+        SECTION("C") {
+            REQUIRE(non_default.C() == C);
+
+            SECTION("Is writeable") {
+                tensor_type new_C;
+                non_default.C() = new_C;
+                REQUIRE(non_default.C() == new_C);
+            }
+        }
+
+        SECTION("C() const") { REQUIRE(std::as_const(non_default).C() == C); }
+
+        SECTION("from_space()") {
+            REQUIRE(non_default.from_space() == aos);
+
+            SECTION("Throws if no space") {
+                space_type s;
+                REQUIRE_THROWS_AS(s.from_space(), std::runtime_error);
+            }
+        }
+
+        SECTION("from_space_data()") {
+            auto paos = &(non_default.from_space());
+            REQUIRE(non_default.from_space_data().get() == paos);
+        }
+
+        SECTION("size") {
+            REQUIRE(space_type{}.size() == 0);
+            REQUIRE(non_default.size() == 8);
+        }
+    }
+
+    SECTION("Transform") {
+        inner_type t00(TA::Range({2, 2}), {10.0, 11.0, 12.0, 13.0});
+        inner_type t01(TA::Range({2, 2}), {14.0, 15.0, 16.0, 17.0});
+        inner_type t10(TA::Range({2, 2}), {18.0, 19.0, 20.0, 21.0});
+        inner_type t11(TA::Range({2, 2}), {22.0, 23.0, 24.0, 25.0});
+        tensor_type t(world, {{t00, t01}, {t10, t11}});
+
+        tensor_type corr;
+        SECTION("Mode 2") {
+            TA::expressions::einsum(corr("i,j;a,b"), C("i,j;mu,a"), t("i,j;mu,b"));
+            auto result = non_default.transform(t, 2ul);
+            REQUIRE(ta_helpers::allclose_tot(corr, result, 2));
+        }
+        SECTION("Mode 3"){
+            TA::expressions::einsum(corr("i,j;a,b"), C("i,j;mu,b"), t("i,j;a,mu"));
+            auto result = non_default.transform(t, 3ul);
+            REQUIRE(ta_helpers::allclose_tot(corr, result, 2));
+        }
+    }
+
+    space_type non_default_aos(tensor_type{}, aos);
+    space_type non_default_sm(tensor_type{}, from_space{}, sm);
+    SECTION("hash") {
+        SECTION("LHS == default") {
+            const auto lhs = sde::hash_objects(space_type{});
+
+            SECTION("RHS == default") {
+                const space_type rhs;
+                REQUIRE(lhs == sde::hash_objects(rhs));
+            }
+
+            SECTION("RHS == non-default C") {
+                REQUIRE(lhs != sde::hash_objects(non_default_c));
+            }
+
+            SECTION("RHS == non-default from-space") {
+                REQUIRE(lhs != sde::hash_objects(non_default_aos));
+            }
+
+            SECTION("RHS == non-default sparse map") {
+                REQUIRE(lhs != sde::hash_objects(non_default_sm));
+            }
+        }
+
+        SECTION("LHS == non-default C") {
+            const auto lhs = sde::hash_objects(non_default_c);
+            SECTION("RHS == non-default C") {
+                REQUIRE(lhs == sde::hash_objects(space_type(C, from_space{})));
+            }
+            SECTION("RHS == non-default from-space") {
+                REQUIRE(lhs != sde::hash_objects(non_default_aos));
+            }
+            SECTION("RHS == non-default sparse map") {
+                REQUIRE(lhs != sde::hash_objects(non_default_sm));
+            }
+        }
+
+        SECTION("LHS == non-default from-space") {
+            const auto lhs = sde::hash_objects(non_default_aos);
+            SECTION("RHS == non-default from-space") {
+                const auto rhs =
+                  sde::hash_objects(space_type{tensor_type{}, aos});
+                REQUIRE(lhs == rhs);
+            }
+            SECTION("RHS == non-default sparse map") {
+                const auto rhs = sde::hash_objects(non_default_sm);
+                REQUIRE(lhs != rhs);
+            }
+        }
+
+        SECTION("non-default from-space") {
+            const auto lhs = sde::hash_objects(non_default_sm);
+            const auto rhs =
+              sde::hash_objects(space_type{tensor_type{}, from_space{}, sm});
+            REQUIRE(lhs == rhs);
+        }
+    }
+
+    SECTION("comparisons") {
+        SECTION("LHS == default") {
+            const space_type lhs;
+            SECTION("RHS == default") {
+                const space_type rhs;
+                REQUIRE(lhs == rhs);
+                REQUIRE_FALSE(lhs != rhs);
+            }
+
+            SECTION("RHS == non-default C") {
+                REQUIRE_FALSE(lhs == non_default_c);
+                REQUIRE(lhs != non_default_c);
+            }
+
+            SECTION("RHS == non-default from-space") {
+                REQUIRE_FALSE(lhs == non_default_aos);
+                REQUIRE(lhs != non_default_aos);
+            }
+
+            SECTION("RHS == non-default sparse map") {
+                REQUIRE_FALSE(lhs == non_default_sm);
+                REQUIRE(lhs != non_default_sm);
+            }
+        }
+
+        SECTION("LHS == non-default C") {
+            SECTION("RHS == non-default C") {
+                const space_type rhs(C, from_space{});
+                REQUIRE(non_default_c == rhs);
+                REQUIRE_FALSE(non_default_c != rhs);
+            }
+            SECTION("RHS == non-default from-space") {
+                REQUIRE_FALSE(non_default_c == non_default_aos);
+                REQUIRE(non_default_c != non_default_aos);
+            }
+            SECTION("RHS == non-default sparse map") {
+                REQUIRE_FALSE(non_default_c == non_default_sm);
+                REQUIRE(non_default_c != non_default_sm);
+            }
+        }
+
+        SECTION("LHS == Non-default from-space") {
+            SECTION("RHS == Non-default from-space") {
+                const auto rhs = space_type{tensor_type{}, aos};
+                REQUIRE(non_default_aos == rhs);
+                REQUIRE_FALSE(non_default_aos != rhs);
+            }
+            SECTION("RHS == non-default sparse map") {
+                REQUIRE_FALSE(non_default_aos == non_default_sm);
+                REQUIRE(non_default_aos != non_default_sm);
+            }
+        }
+
+        SECTION("non-default sparse map") {
+            const space_type rhs{tensor_type{}, from_space{}, sm};
+            REQUIRE(non_default_sm == rhs);
+            REQUIRE_FALSE(non_default_sm != rhs);
+        }
+
+        SECTION("Different types") {
+            REQUIRE_FALSE(space_type{} == DerivedSpaceD{});
+            REQUIRE(space_type{} != DerivedSpaceD{});
         }
     }
 }
