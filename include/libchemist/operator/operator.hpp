@@ -1,7 +1,7 @@
 #pragma once
 #include <cstddef>
 #include <typeindex>
-#include <sde/detail_/memoization.hpp>
+#include <runtime/hasher.hpp>
 #include <utilities/type_traits/parameter_pack_traits.hpp>
 #include "libchemist/potentials/electrostatic.hpp"
 
@@ -18,7 +18,7 @@ namespace libchemist {
  */
 struct Operator {
     /// Hash function
-    inline void hash(sde::Hasher& h) const { hash_impl(h); }
+    inline void hash(runtime::Hasher& h) const { hash_impl(h); }
 
     /// Polymorphic comparison of this Operator instance with another
     template <typename OpType>
@@ -53,7 +53,7 @@ struct Operator {
 
 protected:
     /// Derived implementation of Hash function.
-    virtual void hash_impl( sde::Hasher& h ) const = 0;
+    virtual void hash_impl( runtime::Hasher& h ) const = 0;
     /// Derived implementation of comparison function.
     //virtual bool is_equal_impl( std::type_index index ) const noexcept = 0;
     virtual bool is_equal_impl( const Operator& ) const noexcept = 0;
@@ -108,7 +108,7 @@ struct NAME : public BASE {                                                   \
     NAME(const NAME&) noexcept = default;                                     \
     NAME(NAME&&) noexcept = default;                                          \
 protected:                                                                    \
-    virtual inline void hash_impl( sde::Hasher& h ) const override            \
+    virtual inline void hash_impl( runtime::Hasher& h ) const override            \
       { return h(*this); }                                                    \
     virtual inline bool is_equal_impl( const Operator& other ) const noexcept \
       override {                                                              \
@@ -210,7 +210,7 @@ public:
     }
 
 protected:
-    inline void hash_impl( sde::Hasher& h ) const override {
+    inline void hash_impl( runtime::Hasher& h ) const override {
         return h(potential_);
     }
 
