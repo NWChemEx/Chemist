@@ -23,9 +23,14 @@ public:
     /// Type of the tensor used to store the orbital energies
     using orbital_energy_type = OrbitalEnergyType;
 
-    /** @brief Creates a new CanonicalSpace_ which does not have any orbital
+    /** @brief Creates a new CanonicalSpace which does not have any orbital
      *         energies.
      *
+     *  This ctor will initialize a completely defaulted CanonicalSpace
+     *  instance. This includes the CanonicalSpace part of the object as well as
+     *  the base class part.
+     *
+     *  @throw None No throw guarantee.
      */
     CanonicalSpace() = default;
 
@@ -70,6 +75,27 @@ private:
     orbital_energy_type m_egys_;
 };
 
+/** @brief Compares two CanonicalSpace instances for equality.
+ *  @relates CanonicalSpace
+ *
+ *  Two CanonicalSpace instances are equal if they have: the same type, the
+ *  same orbital energies, and the base class part of the objects compare equal.
+ *
+ *  @tparam LOrbitalEnergyType The type of the tensor storing the orbital
+ *                             energies in @p lhs.
+ *  @tparam LBaseType The type that @p lhs 's CanonicalSpace inherits from.
+ *  @tparam ROrbitalEnergyType The type of the tensor storing the orbital
+ *                             energies in @p rhs.
+ *  @tparam RBaseType The type that @p rhs's CanonicalSpace inherits from.
+ *
+ *  @param[in] lhs The instance on the left side of the equality operator.
+ *  @param[in] rhs The instance on the right side of the equality operator.
+ *
+ *  @return True if @p lhs is equal to @p rhs and false otherwise.
+ *
+ *  @throw ??? Throws if comparing the orbital energies throws or if the base
+ *             comparison throws. Same throw guarantee.
+ */
 template<typename LOrbitalEnergyType, typename LBaseType,
          typename ROrbitalEnergyType, typename RBaseType>
 bool operator==(const CanonicalSpace<LOrbitalEnergyType, LBaseType>& lhs,
@@ -80,10 +106,31 @@ bool operator==(const CanonicalSpace<LOrbitalEnergyType, LBaseType>& lhs,
         if(lhs.orbital_energies() != rhs.orbital_energies()) return false;
         const LBaseType& lbase = lhs;
         const RBaseType& rbase = rhs;
-        return lhs == rhs;
+        return lbase == rbase;
     }
 }
 
+/** @brief Determines if two CanonicalSpace instances are different.
+ *  @relates CanonicalSpace
+ *
+ *  Two CanonicalSpace instances are equal if they have: the same type, the
+ *  same orbital energies, and the base class part of the objects compare equal.
+ *
+ *  @tparam LOrbitalEnergyType The type of the tensor storing the orbital
+ *                             energies in @p lhs.
+ *  @tparam LBaseType The type that @p lhs 's CanonicalSpace inherits from.
+ *  @tparam ROrbitalEnergyType The type of the tensor storing the orbital
+ *                             energies in @p rhs.
+ *  @tparam RBaseType The type that @p rhs's CanonicalSpace inherits from.
+ *
+ *  @param[in] lhs The instance on the left side of the not equal operator.
+ *  @param[in] rhs The instance on the right side of the not equal operator.
+ *
+ *  @return False if @p lhs is equal to @p rhs and true otherwise.
+ *
+ *  @throw ??? Throws if comparing the orbital energies throws or if the base
+ *             comparison throws. Same throw guarantee.
+ */
 template<typename LOrbitalEnergyType, typename LBaseType,
          typename ROrbitalEnergyType, typename RBaseType>
 bool operator!=(const CanonicalSpace<LOrbitalEnergyType, LBaseType>& lhs,
@@ -91,18 +138,29 @@ bool operator!=(const CanonicalSpace<LOrbitalEnergyType, LBaseType>& lhs,
     return !(lhs == rhs);
 }
 
+/// CanonicalSpace which inherits from DerivedSpaceD
 using CanonicalSpaceD = CanonicalSpace<type::tensor<double>, DerivedSpaceD>;
+
+/// CanonicalSpace which inherits from IndDerivedSpaceD
 using CanonicalIndSpaceD =
   CanonicalSpace<type::tensor<double>, IndDerivedSpaceD>;
 
+/// CanonicalSpace which inherits from DepDerivedSpaceD
 using CanonicalDepSpaceD =
   CanonicalSpace<type::tensor_of_tensors<double>, DepDerivedSpaceD>;
+
 
 extern template class CanonicalSpace<type::tensor<double>, DerivedSpaceD>;
 extern template class CanonicalSpace<type::tensor<double>, IndDerivedSpaceD>;
 extern template class CanonicalSpace<type::tensor_of_tensors<double>,
                                      DepDerivedSpaceD>;
 
-//------------------------------- Implementations ------------------------------
+// ----------------------------- Implementations -------------------------------
+
+template<typename OrbitalEnergyType, typename BaseType>
+template<typename... Args>
+CanonicalSpace<OrbitalEnergyType, BaseType>::CanonicalSpace(
+    OrbitalEnergyType egys, Args&&... args) :
+  BaseType(std::forward<Args>(args)...), m_egys_(std::move(egys)) {}
 
 } // namespace libchemist::orbital_space

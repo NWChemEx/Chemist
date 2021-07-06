@@ -1,124 +1,135 @@
-// #include "libchemist/orbital_space/base_space.hpp"
-// #include "libchemist/orbital_space/canonical_space.hpp"
-// #include "test_orbital_space.hpp"
-// #include <catch2/catch.hpp>
+#include "libchemist/orbital_space/canonical_space.hpp"
+#include <catch2/catch.hpp>
 
-// /* For testing purposes we assume:
-//  *
-//  * - The base class more-or-less passes through the CanonicalSpace_ class.
-//  i.e.,
-//  *   if the base class works, it'll work when used with CanonicalSpace_ too.
-//  *
-//  *   - The caveats are that we need to make sure it's accounted for in the
-//  ctor,
-//  *     hash, and comparison operations.
-//  *
-//  * - The overlap matrices provided by TensorMaker are suitable for use as
-//  *   orbital energies.
-//  */
+using namespace libchemist::orbital_space;
 
-// using namespace libchemist;
-// using namespace libchemist::orbital_space;
-// using namespace libchemist::test;
+using tuple = std::tuple<CanonicalSpaceD, CanonicalIndSpaceD,
+                         CanonicalDepSpaceD>;
 
-// TEMPLATE_PRODUCT_TEST_CASE("CanonicalSpace", "",
-//                            (type::tensor, type::tensor_of_tensors),
-//                            (float, double)) {
+/* For testing purposes we assume:
+ *
+ * - The base class more-or-less passes through the CanonicalSpace class. i.e.,
+ *   if the base class works, it'll work when used with CanonicalSpace too.
+ *
+ *   - The caveats are that we need to make sure it's accounted for in the ctor,
+ *     hash, and comparison operations.
+ */
 
-//     // Assemble types needed for this unit test
-//     using tensor_type = TestType;
-//     using base_type   = BaseSpace_<tensor_type>;
-//     using space_type  = CanonicalSpace_<tensor_type, base_type>;
+TEST_CASE("CanonicalSpaceD") {
+    using space_type = CanonicalSpaceD;
+    using tensor_type = libchemist::type::tensor<double>;
+    using from_space  = AOSpaceD;
 
-//     // Some basic objects used many times throughout the unit test
-//     auto& world = TA::get_default_world();
-//     auto S1 = TensorMaker<tensor_type>::S(world);
-//     auto S2 = TensorMaker<tensor_type>::S2(world);
-//     base_type bs1(S1), bs2(S2);
+    auto& world = TA::get_default_world();
+    tensor_type ei(world, {1.0, 2.0, 3.0});
+    tensor_type c(world, {{1.0, 2.0}, {3.0, 4.0}});
 
-//     space_type st1(S1, S2);
+    space_type defaulted;
+    space_type only_ev(ei);
+    space_type ev_and_c(ei, c, from_space{});
 
-//     SECTION("Typedefs") {
-//         using orb_egy_type = typename space_type::orbital_energy_type;
-//         STATIC_REQUIRE(std::is_same_v<orb_egy_type, tensor_type>);
-//     }
+    SECTION("Typedefs") {
+        using orb_egy_type = typename space_type::orbital_energy_type;
+        STATIC_REQUIRE(std::is_same_v<orb_egy_type, tensor_type>);
+    }
 
-//     SECTION("CTors") {
-//         SECTION("Value") {
-//             REQUIRE(compare_tensors(st1.orbital_energies(), S1));
-//         }
+    SECTION("CTors") {
+        SECTION("Default") {
+            REQUIRE(defaulted.orbital_energies() == tensor_type{});
+            REQUIRE(defaulted.C() == tensor_type{});
+        }
+        SECTION("Value") {
+            REQUIRE(only_ev.orbital_energies() == ei);
+            REQUIRE(ev_and_c.orbital_energies() == ei);
+            REQUIRE(ev_and_c.C() == c);
+            REQUIRE(ev_and_c.from_space() == from_space{});
+        }
 
-//         SECTION("Copy") {
-//             space_type st2(st1);
-//             REQUIRE(st2 == st1);
-//         }
+        SECTION("Copy") {
+            space_type copy(ev_and_c);
+            REQUIRE(copy.orbital_energies() == ei);
+            REQUIRE(copy.C() == c);
+            REQUIRE(copy.from_space() == from_space{});
+        }
 
-//         SECTION("Move") {
-//             space_type st2(S1, S2), st3(std::move(st1));
-//             REQUIRE(st2 == st3);
-//         }
+        SECTION("Move") {
+            space_type moved(std::move(ev_and_c));
+            REQUIRE(moved.orbital_energies() == ei);
+            REQUIRE(moved.C() == c);
+            REQUIRE(moved.from_space() == from_space{});
+        }
+        SECTION("Copy assignment") {
+            space_type copy;
+            auto pcopy = &(copy = ev_and_c);
+            REQUIRE(pcopy == &copy);
+            REQUIRE(copy.orbital_energies() == ei);
+            REQUIRE(copy.C() == c);
+            REQUIRE(copy.from_space() == from_space{});
+        }
 
-//         SECTION("Copy Assignment") {
-//             space_type st2;
-//             auto pst2 = &(st2 = st1);
-//             SECTION("Value") { REQUIRE(st2 == st1); }
-//             SECTION("Returns this") { REQUIRE(pst2 == &st2); }
-//         }
+        SECTION("Move assignment") {
+            space_type moved;
+            auto pmoved = &(moved = std::move(ev_and_c));
+            REQUIRE(pmoved == &moved);
+            REQUIRE(moved.orbital_energies() == ei);
+            REQUIRE(moved.C() == c);
+            REQUIRE(moved.from_space() == from_space{});
+        }
+    }
 
-//         SECTION("Move") {
-//             space_type st2(S1, S2), st3;
-//             auto pst3 = &(st3 = std::move(st1));
-//             SECTION("Value") { REQUIRE(st2 == st3); }
-//             SECTION("Returns this") { REQUIRE(pst3 == &st3); }
-//         }
-//     }
+    SECTION("orbital_energies()") {
+        REQUIRE(ev_and_c.orbital_energies() == ei);
 
-//     SECTION("orbital_energies()") {
-//         REQUIRE(compare_tensors(st1.orbital_energies(), S1));
-//     }
+        SECTION("Are writeable") {
+            ev_and_c.orbital_energies() = c;
+            REQUIRE(ev_and_c.orbital_energies() == c);
+        }
+    }
 
-//     SECTION("orbital_energies() const") {
-//         REQUIRE(compare_tensors(std::as_const(st1).orbital_energies(), S1));
-//     }
+    SECTION("orbital_energies() const") {
+        REQUIRE(std::as_const(ev_and_c).orbital_energies() == ei);
+    }
 
-//     SECTION("hash") {
+    SECTION("hash") {
+        SECTION("LHS is default"){
+            auto hash1 = sde::hash_objects(defaulted);
 
-//         auto hash1 = sde::hash_objects(st1);
+            SECTION("Same value") {
+                auto hash2 = sde::hash_objects(space_type{});
+                REQUIRE(hash1 == hash2);
+            }
 
-//         SECTION("Same value") {
-//             auto hash2 = sde::hash_objects(space_type(S1, S2));
-//             REQUIRE(hash1 == hash2);
-//         }
+            SECTION("Different orbital energies") {
+                auto hash2 = sde::hash_objects(only_ev);
+                REQUIRE(hash1 != hash2);
+            }
 
-//         SECTION("Different orbital energies") {
-//             auto hash2 = sde::hash_objects(space_type(S2, S2));
-//             REQUIRE(hash1 != hash2);
-//         }
+            SECTION("Different base instances") {
+                space_type rhs(tensor_type{}, c, from_space{});
+                auto hash2 = sde::hash_objects(rhs);
+                REQUIRE(hash1 != hash2);
+            }
+        }
+    }
 
-//         SECTION("Different base instances") {
-//             auto hash2 = sde::hash_objects(space_type(S1, S1));
-//             REQUIRE(hash1 != hash2);
-//         }
-//     }
+    SECTION("Comparisons") {
+        SECTION("LHS is default"){
+            SECTION("Same value") {
+                space_type rhs;
+                REQUIRE(defaulted == rhs);
+                REQUIRE_FALSE(defaulted != rhs);
+            }
 
-//     SECTION("Comparisons") {
+            SECTION("Different orbital energies") {
+                REQUIRE(defaulted != only_ev);
+                REQUIRE_FALSE(defaulted == only_ev);
+            }
 
-//         SECTION("Same value") {
-//             space_type st2(S1, S2);
-//             REQUIRE(st1 == st2);
-//             REQUIRE_FALSE(st1 != st2);
-//         }
-
-//         SECTION("Different orbital energies") {
-//             space_type st2(S2, S2);
-//             REQUIRE_FALSE(st1 == st2);
-//             REQUIRE(st1 != st2);
-//         }
-
-//         SECTION("Different base instances") {
-//             space_type st2(S1, S1);
-//             REQUIRE_FALSE(st1 == st2);
-//             REQUIRE(st1 != st2);
-//         }
-//     }
-// }
+            SECTION("Different base instances") {
+                space_type rhs(tensor_type{}, c, from_space{});
+                REQUIRE(defaulted != rhs);
+                REQUIRE_FALSE(defaulted == rhs);
+            }
+        }
+    }
+}
