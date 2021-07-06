@@ -20,7 +20,8 @@ typename DERIVED_SPACE::size_type DERIVED_SPACE::size_() const noexcept {
 template<typename TransformType, typename FromSpace, typename BaseType>
 type::tensor_wrapper DERIVED_SPACE::transform_(
   const type::tensor_wrapper& t, const mode_container& modes) const {
-    constexpr bool is_tot = libchemist::tensor::is_tot_v<TransformType>;
+    using traits_type = libchemist::tensor::TensorTraits<TransformType>;
+    constexpr bool is_tot = traits_type::is_tot;
     type::tensor_wrapper rv(t);
     if constexpr(is_tot) {
         throw std::runtime_error("Can't transform a tensor by a ToT");
@@ -41,7 +42,8 @@ template<typename TransformType, typename FromSpace, typename BaseType>
 type::tot_wrapper DERIVED_SPACE::transform_(
   const type::tot_wrapper& t, const mode_container& modes) const {
     type::tot_wrapper rv(t);
-    constexpr bool is_tot = libchemist::tensor::is_tot_v<TransformType>;
+    using traits_type = libchemist::tensor::TensorTraits<TransformType>;
+    constexpr bool is_tot = traits_type::is_tot;
     using wrapper_t =
         std::conditional_t<is_tot, type::tot_wrapper, type::tensor_wrapper>;
     wrapper_t c(m_C_);
