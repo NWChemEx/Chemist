@@ -9,6 +9,10 @@ TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
     using container_type = boost::container::flat_set<value_type>;
 
     SECTION("typedefs") {
+        SECTION("superset_type") {
+            using superset_type = typename family_type::superset_type;
+            STATIC_REQUIRE(std::is_same_v<superset_type, parent_type>);
+        }
         SECTION("value_type") {
             using corr = Subset<parent_type>;
             STATIC_REQUIRE(std::is_same_v<value_type, corr>);
@@ -240,6 +244,31 @@ TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
     SECTION("disjoint") {
         REQUIRE(monomers.disjoint());
         REQUIRE_FALSE(dimers.disjoint());
+    }
+
+    SECTION("hash") {
+        SECTION("Both empty") {
+            auto lhs = sde::hash_objects(defaulted);
+            family_type other(default_obj);
+            auto rhs = sde::hash_objects(other);
+            REQUIRE(lhs == rhs);
+        }
+        SECTION("Different supersets") {
+            auto lhs = sde::hash_objects(defaulted);
+            REQUIRE(lhs != sde::hash_objects(non_default));
+        }
+        SECTION("Same non-empty") {
+            family_type rhs(non_default_obj, {{0ul}, {1ul}, {2ul}});
+            REQUIRE(sde::hash_objects(monomers) == sde::hash_objects(rhs));
+        }
+        SECTION("Different non-empty size") {
+            family_type rhs(non_default_obj, {{0ul}, {1ul}});
+            REQUIRE(sde::hash_objects(monomers) != sde::hash_objects(rhs));
+        }
+        SECTION("Different non-empty subset") {
+            family_type rhs(non_default_obj, {{0ul}, {1ul}, {0ul, 1ul}});
+            REQUIRE(sde::hash_objects(monomers) != sde::hash_objects(rhs));
+        }
     }
 
     SECTION("Comparisons") {

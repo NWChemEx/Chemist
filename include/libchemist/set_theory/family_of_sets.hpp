@@ -26,8 +26,11 @@ namespace libchemist::set_theory {
 template<typename SetType>
 class FamilyOfSets {
 public:
+    /// Type of the set we are dividing up
+    using superset_type = SetType;
+
     /// Type of the subsets in this family of sets
-    using value_type = Subset<SetType>;
+    using value_type = Subset<superset_type>;
 
     /// Type of a read/write-reference to a subset
     using reference_type = value_type&;
@@ -36,7 +39,7 @@ public:
     using const_reference = const value_type&;
 
     /// Type of the pointer holding the superset
-    using ptr_type = std::shared_ptr<const SetType>;
+    using ptr_type = std::shared_ptr<const superset_type>;
 
 private:
     /// Type of the container holding the subsets
@@ -180,6 +183,14 @@ public:
      */
     bool disjoint() const noexcept;
 
+    /** @brief Hashes the FamilyOfSets.
+     *
+     *  @param[in,out] h The Hasher instance to use for hashing the
+     *                   FamilyOfSets. After this call the internal hash of @p h
+     *                   will be updated to include the hash of this instance.
+     */
+    void hash(sde::Hasher& h) const;
+
 private:
     /// Checks that @p i is a valid offset
     void bounds_check_(size_type i) const;
@@ -279,6 +290,12 @@ bool FAMILYOFSETS::disjoint() const noexcept {
         }
     }
     return true;
+}
+
+template<typename SetType>
+void FAMILYOFSETS::hash(sde::Hasher& h) const {
+    for(const auto& x : m_subsets_) h(x);
+    h(*m_obj_);
 }
 
 template<typename SetType>
