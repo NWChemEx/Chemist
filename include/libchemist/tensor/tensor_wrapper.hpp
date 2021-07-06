@@ -1,6 +1,10 @@
 #pragma once
+#include "libchemist/ta_helpers/ta_helpers.hpp"
 #include "libchemist/tensor/detail_/labeled_tensor_wrapper.hpp"
-#include "libchemist/tensor/detail_/type_traits.hpp"
+#include "libchemist/tensor/type_traits/type_traits.hpp"
+#include <sde/detail_/memoization.hpp>
+#include <utilities/type_traits/variant/add_const.hpp>
+#include <utilities/type_traits/variant/decay.hpp>
 #include <utilities/type_traits/variant/has_type.hpp>
 
 namespace libchemist::tensor {
@@ -26,7 +30,7 @@ private:
     using my_type = TensorWrapper<VariantType>;
 
     /// Type of the variant with all unqualified types in it
-    using clean_variant = clean_variant_t<VariantType>;
+    using clean_variant = utilities::type_traits::variant::decay_t<VariantType>;
 
     /** @brief Used to enable a function if @p T is in @p clean_variant.
      *
@@ -46,7 +50,8 @@ public:
     /// Type of the variant this wrapper is templated on
     using variant_type = VariantType;
 
-    using const_variant_type = const_variant_t<variant_type>;
+    using const_variant_type =
+      utilities::type_traits::variant::add_const_t<variant_type>;
 
     /// Type of a wrapper around a labeled tensor
     using labeled_tensor_type = detail_::LabeledTensorWrapper<my_type>;
@@ -205,7 +210,30 @@ public:
      */
     std::ostream& print(std::ostream& os) const;
 
+    /** @brief Adds the hash of the wrapped tensor to the provided Hasher.
+     *
+     *  @param[in] h The hasher we are adding the wrapped tensor to.
+     */
+    void hash(sde::Hasher& h) const;
+
+    /** @brief Determines if two TensorWrappers wrap identical tensors.
+     *
+     *  This comparison determines if the two wrapped tensors are identical
+     *  elementwise.
+     *
+     *  @tparam RHSType the type of the variant used by @p rhs.
+     *
+     *  @param[in] rhs The wrapped tensor we are comparing to.
+     *
+     *  @return True if the wrapped tensor compares equal to @p rhs and false
+     *          otherwise.
+     */
+    template<typename RHSType>
+    bool operator==(const TensorWrapper<RHSType>& rhs) const;
+
 protected:
+    template<typename OtherType>
+    friend class TensorWrapper;
     friend labeled_tensor_type;
     friend const_labeled_tensor_type;
 
@@ -289,6 +317,24 @@ std::ostream& operator<<(std::ostream& os, const TensorWrapper<VType>& t) {
     return t.print(os);
 }
 
+/** @brief Determiens if the wrapped tensor instances are different.
+ *
+ *  @relates TensorWrapper
+ *
+ *  @tparam LHSType The type of the variant in the left tensor wrapper.
+ *  @tparam RHSType The type of the variant in the right tensor wrapper.
+ *
+ *  @param[in] lhs The wrapped tensor on the left of the not equal operator.
+ *  @param[in] rhs The wrapped tensor on the right of the not equal operator.
+ *
+ *  @return False if @p lhs is equal to @p rhs and true otherwise.
+ */
+template<typename LHSType, typename RHSType>
+bool operator!=(const TensorWrapper<LHSType>& lhs,
+                const TensorWrapper<RHSType>& rhs) {
+    return !(lhs == rhs);
+}
+
 // ------------------------------- Implementations -----------------------------
 
 #define TENSOR_WRAPPER TensorWrapper<VariantType>
@@ -330,10 +376,26 @@ std::ostream& TENSOR_WRAPPER::print(std::ostream& os) const {
 }
 
 template<typename VariantType>
+void TENSOR_WRAPPER::hash(sde::Hasher& h) const {
+    auto l = [&](auto&& arg) { h(arg); };
+    std::visit(l, m_tensor_);
+}
+
+template<typename VariantType>
+template<typename RHSType>
+bool TENSOR_WRAPPER::operator==(const TensorWrapper<RHSType>& rhs) const {
+    auto l = [&](auto&& lhs) {
+        auto m = [&](auto&& rhs) { return lhs == rhs; };
+        return std::visit(m, rhs.m_tensor_);
+    };
+    return std::visit(l, m_tensor_);
+}
+
+template<typename VariantType>
 bool TENSOR_WRAPPER::is_tot_() const noexcept {
     auto l = [](auto&& arg) {
         using clean_t = std::decay_t<decltype(arg)>;
-        return is_tot_v<clean_t>;
+        return TensorTraits<clean_t>::is_tot;
     };
     return std::visit(l, m_tensor_);
 }
@@ -347,9 +409,10 @@ auto TENSOR_WRAPPER::outer_rank_() const noexcept {
 template<typename VariantType>
 auto TENSOR_WRAPPER::inner_rank_() const {
     auto l = [](auto&& arg) {
-        using clean_t = std::decay_t<decltype(arg)>;
+        using clean_t   = std::decay_t<decltype(arg)>;
         using size_type = decltype(std::declval<clean_t>().range().rank());
-        if constexpr(!is_tot_v<clean_t>)
+        constexpr bool is_tot = TensorTraits<clean_t>::is_tot;
+        if constexpr(!is_tot)
             return size_type{0};
         else {
             const auto& tile0 = arg.begin()->get();

@@ -12,7 +12,7 @@
 using namespace libchemist::tensor;
 
 TEST_CASE("OpLayer") {
-    using tensor         = SparseTensorWrapper;
+    using tensor         = type::SparseTensorWrapper;
     using labeled_tensor = detail_::LabeledTensorWrapper<tensor>;
     using base_type      = detail_::OpLayer<labeled_tensor>;
 

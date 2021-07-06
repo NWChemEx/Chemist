@@ -5,7 +5,7 @@
 using namespace libchemist::tensor;
 
 TEST_CASE("LabeledTensorWrapper") {
-    using tensor         = SparseTensorWrapper;
+    using tensor         = type::SparseTensorWrapper;
     using labeled_tensor = detail_::LabeledTensorWrapper<tensor>;
 
     auto& world = TA::get_default_world();

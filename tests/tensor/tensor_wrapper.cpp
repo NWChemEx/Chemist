@@ -6,9 +6,9 @@
 
 using namespace libchemist::tensor;
 
-TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", tensor_variant_t) {
+TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
     auto& world    = TA::get_default_world();
-    using TWrapper = TensorWrapper<tensor_variant_t>;
+    using TWrapper = TensorWrapper<type::tensor_variant>;
     using t_type   = TestType;
 
     t_type vec_data(world, {1.0, 2.0, 3.0});
@@ -21,9 +21,9 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", tensor_variant_t) {
 
     SECTION("Typedefs") {
         SECTION("variant_type") {
-            using vtype = typename TWrapper::variant_type;
-            using corr  = tensor_variant_t;
-            STATIC_REQUIRE(std::is_same_v<vtype, corr>);
+            using type = typename TWrapper::variant_type;
+            using corr = libchemist::tensor::type::tensor_variant;
+            STATIC_REQUIRE(std::is_same_v<type, corr>);
         }
         SECTION("annotation_type") {
             using type = typename TWrapper::annotation_type;
@@ -117,14 +117,33 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", tensor_variant_t) {
             REQUIRE(corr == ss.str());
         }
     }
+
+    SECTION("hash") {
+        TWrapper other_vec(vec_data);
+        REQUIRE(sde::hash_objects(other_vec) == sde::hash_objects(vec));
+        REQUIRE(sde::hash_objects(vec) != sde::hash_objects(mat));
+    }
+
+    SECTION("comparisons") {
+        SECTION("Are same") {
+            TWrapper other_vec(vec_data);
+            REQUIRE(vec == other_vec);
+            REQUIRE_FALSE(vec != other_vec);
+        }
+        SECTION("Different") {
+            REQUIRE_FALSE(vec == mat);
+            REQUIRE(vec != mat);
+        }
+    }
 }
 
-TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", tot_variant_t) {
-    auto& world      = TA::get_default_world();
-    using TWrapper   = TensorWrapper<tot_variant_t>;
-    using t_type     = TestType;
-    using tile_type  = typename TestType::value_type;
-    using inner_tile = typename tile_type::value_type;
+TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tot_variant) {
+    auto& world        = TA::get_default_world();
+    using variant_type = type::tot_variant;
+    using TWrapper     = TensorWrapper<type::tot_variant>;
+    using t_type       = TestType;
+    using tile_type    = typename TestType::value_type;
+    using inner_tile   = typename tile_type::value_type;
 
     inner_tile vec0(TA::Range({0}, {2}), {1.0, 2.0});
     inner_tile vec1(TA::Range({0}, {3}), {3.0, 4.0, 5.0});
@@ -140,8 +159,8 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", tot_variant_t) {
 
     SECTION("Typedefs") {
         SECTION("variant_type") {
-            using corr = tot_variant_t;
             using type = typename TWrapper::variant_type;
+            using corr = variant_type;
             STATIC_REQUIRE(std::is_same_v<type, corr>);
         }
         SECTION("annotation_type") {

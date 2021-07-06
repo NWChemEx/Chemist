@@ -1,6 +1,7 @@
 #pragma once
 #include "libchemist/ta_helpers/detail_/reducer.hpp"
 #include "libchemist/ta_helpers/get_block_idx.hpp"
+#include "libchemist/ta_helpers/ta_hashers.hpp"
 #include "libchemist/types.hpp"
 #include <tiledarray.h>
 

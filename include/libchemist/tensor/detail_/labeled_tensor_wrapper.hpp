@@ -1,9 +1,10 @@
 #pragma once
 #include "libchemist/tensor/detail_/op_layer.hpp"
 #include "libchemist/tensor/detail_/operations/operations.hpp"
-#include "libchemist/tensor/detail_/type_traits.hpp"
-#include <utility> // for std::move
-#include <variant> // for std::visit
+#include "libchemist/tensor/type_traits/type_traits.hpp"
+#include <type_traits>
+#include <utilities/type_traits/variant/add_const.hpp>
+#include <variant>
 
 namespace libchemist::tensor::detail_ {
 
@@ -55,7 +56,8 @@ public:
      *  @return The current LabeledTensorWrapper instance, after assigning
      *          @p rhs to it for operator chaining purposes.
      */
-    template<typename RHSType, typename = enable_if_expression_t<std::decay_t<RHSType>>>
+    template<typename RHSType,
+             typename = enable_if_expression_t<std::decay_t<RHSType>>>
     auto operator=(RHSType&& rhs);
 
     /** @brief Returns a variant containing the result of annotating the wrapped
@@ -74,9 +76,6 @@ public:
      */
     template<typename ResultType>
     auto variant(LabeledTensorWrapper<ResultType>&) const;
-
-    //template<typename ResultType>
-    // auto variant(LabeledTensorWrapper<ResultType>&);
 
 private:
     /// The annotation associated with the tensor
@@ -106,25 +105,16 @@ auto LABELED_TENSOR_WRAPPER::operator=(RHSType&& rhs_tensor) {
 template<typename TensorWrapperType>
 template<typename ResultType>
 auto LABELED_TENSOR_WRAPPER::variant(LabeledTensorWrapper<ResultType>&) const {
-    constexpr bool is_const_wrapper = std::is_const_v<TensorWrapperType>;
-    using variant     = typename tensor_wrapper_type::variant_type;
+    using namespace utilities::type_traits::variant;
+
+    using variant       = typename tensor_wrapper_type::variant_type;
     using const_variant = typename tensor_wrapper_type::const_variant_type;
+    constexpr bool is_const_wrapper = std::is_const_v<TensorWrapperType>;
     using v_t = std::conditional_t<is_const_wrapper, const_variant, variant>;
     using new_variant = labeled_variant_t<v_t>;
-    auto l            = [&](auto&& t) { return new_variant{t(m_annotation_)}; };
+    auto l            = [&](auto&& t) { return new_variant(t(m_annotation_)); };
     return std::visit(l, m_tensor_.variant());
 }
-
-// template<typename TensorWrapperType>
-// template<typename ResultType>
-// auto LABELED_TENSOR_WRAPPER::variant(LabeledTensorWrapper<ResultType>&) const {
-//     constexpr bool is_const
-//     using clean_wrapper = std::decay_t<TensorWrapperType>;
-//     using const_variant = typename clean_wrapper::const_variant_type;
-//     using labeled_variant = labeled_variant_t<const_variant>;
-//     auto l            = [&](auto&& t) { return labeled_variant(t(m_annotation_)); };
-//     return std::visit(l, m_tensor_.variant());
-// }
 
 #undef LABELED_TENSOR_WRAPPER
 

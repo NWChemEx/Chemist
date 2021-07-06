@@ -1,6 +1,6 @@
 #pragma once
 #include "libchemist/tensor/detail_/op_layer.hpp"
-#include "libchemist/tensor/detail_/type_traits.hpp"
+#include "libchemist/tensor/type_traits/type_traits.hpp"
 
 namespace libchemist::tensor::detail_ {
 
@@ -19,24 +19,53 @@ namespace libchemist::tensor::detail_ {
 template<typename LHSType, typename RHSType>
 class AddOp : public OpLayer<AddOp<LHSType, RHSType>> {
 public:
+    /** @brief Creates a new AddOp by wraping the incoming expressions
+     *
+     *  @tparam[in] lhs The expression on the left of the addition operator.
+     *  @tparam[in] rhs The expression on the right of the addition operator.
+     */
     AddOp(LHSType lhs, RHSType rhs) :
-        m_lhs_(std::move(lhs)), m_rhs_(std::move(rhs)) {}
+      m_lhs_(std::move(lhs)), m_rhs_(std::move(rhs)) {}
 
+    /** @brief Evaluates the wrapped expression.
+     *
+     *  @tparam ResultType The type of the expression this expression is being
+     *                     evaluated into. Assumed to be an instantiation of
+     *                     LabeledTensorWrapper.
+     *  @param[in] r The tensor we are evaluating the expression into.
+     *
+     *  @return The result of adding @p lhs to @p rhs.
+     */
     template<typename ResultType>
     auto variant(ResultType&& r);
 
 private:
+    /// The expression appearing on the left of the addition sign
     LHSType m_lhs_;
+    /// The expression appearing on the right of the addition sign
     RHSType m_rhs_;
 };
 
+/** @brief Syntactic sugar for creating an AddOp instance.
+ *
+ *  @relates AddOp
+ *
+ *  @tparam LHSType the expression type on the left of the addition operator.
+ *  @tparam RHSType the expression type on the right of the addition operator.
+ *  @tparam <anonymous> Used to disable this overload if LHSType is not part of
+ *                      the expresssion layer.
+ *  @tparam <anonymous> Used to disable this overload if RHSType is not part of
+ *                      the expression layer.
+ *  @param[in] lhs The expression on the left of the addition sign.
+ *  @param[in] rhs The expression on the right of the addition sign.
+ */
 template<typename LHSType, typename RHSType,
-         typename=enable_if_expression_t<std::decay_t<LHSType>>,
-         typename=enable_if_expression_t<std::decay_t<RHSType>>>
+         typename = enable_if_expression_t<std::decay_t<LHSType>>,
+         typename = enable_if_expression_t<std::decay_t<RHSType>>>
 auto operator+(LHSType&& lhs, RHSType&& rhs) {
     using clean_lhs_t = std::decay_t<LHSType>;
     using clean_rhs_t = std::decay_t<RHSType>;
-    using return_t = AddOp<clean_lhs_t, clean_rhs_t>;
+    using return_t    = AddOp<clean_lhs_t, clean_rhs_t>;
     return return_t(std::forward<LHSType>(lhs), std::forward<RHSType>(rhs));
 }
 
