@@ -58,5 +58,3 @@ if("${BUILD_TESTING}")
         DEPENDS Catch2::Catch2 chemist
     )
 endif()
-
-

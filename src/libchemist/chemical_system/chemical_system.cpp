@@ -5,6 +5,7 @@ namespace libchemist {
 
 using pimpl_t    = typename ChemicalSystem::pimpl_t;
 using molecule_t = typename ChemicalSystem::molecule_t;
+using basis_t    = typename ChemicalSystem::ao_basis_t;
 using epot_t     = typename ChemicalSystem::epot_t;
 
 ChemicalSystem::ChemicalSystem() : m_pimpl_(std::make_unique<pimpl_t>()) {}
@@ -15,8 +16,8 @@ ChemicalSystem::ChemicalSystem(const ChemicalSystem& other) :
 
 ChemicalSystem::ChemicalSystem(ChemicalSystem&& other) noexcept = default;
 
-ChemicalSystem::ChemicalSystem(molecule_t mol, epot_t v) :
-  m_pimpl_(std::make_unique<pimpl_t>(std::move(mol), std::move(v))) {}
+ChemicalSystem::ChemicalSystem(molecule_t mol, ao_basis_t aos, epot_t v) :
+  m_pimpl_(std::make_unique<pimpl_t>(std::move(mol), std::move(aos), std::move(v))) {}
 
 ChemicalSystem::~ChemicalSystem() noexcept = default;
 
@@ -39,6 +40,10 @@ molecule_t& ChemicalSystem::molecule() { return pimpl_().molecule(); }
 const molecule_t& ChemicalSystem::molecule() const {
     return pimpl_().molecule();
 }
+
+basis_t& ChemicalSystem::basis_set() { return pimpl_().basis_set(); }
+
+const basis_t& ChemicalSystem::basis_set() const { return pimpl_().basis_set(); }
 
 epot_t& ChemicalSystem::external_electrostatic_potential() {
     return pimpl_().external_electrostatic_potential();

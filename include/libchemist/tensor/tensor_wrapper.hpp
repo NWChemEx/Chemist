@@ -1,6 +1,10 @@
 #pragma once
+#include "libchemist/ta_helpers/ta_helpers.hpp"
 #include "libchemist/tensor/detail_/labeled_tensor_wrapper.hpp"
-#include "libchemist/tensor/detail_/type_traits.hpp"
+#include "libchemist/tensor/type_traits/type_traits.hpp"
+#include <sde/detail_/memoization.hpp>
+#include <utilities/type_traits/variant/add_const.hpp>
+#include <utilities/type_traits/variant/decay.hpp>
 #include <utilities/type_traits/variant/has_type.hpp>
 
 namespace libchemist::tensor {
@@ -25,44 +29,29 @@ private:
     /// Type of this instance
     using my_type = TensorWrapper<VariantType>;
 
-    /** @brief Used to enable a function if @p TensorType is in @p VariantType.
+    /// Type of the variant with all unqualified types in it
+    using clean_variant = utilities::type_traits::variant::decay_t<VariantType>;
+
+    /** @brief Used to enable a function if @p T is in @p clean_variant.
      *
      *  This type allows the TensorWrapper class to selectively enable overloads
      *  of functions by using SFINAE. More specifically the function will
-     *  participate in overload resolution if @p TensorType is one of the types
-     *  in @p VariantType.
+     *  participate in overload resolution if @p T is one of the types in
+     *  `clean_variant`.
      *
-     *  @tparam TensorType The type of the tensor which must appear in
-     *                     @p VariantType.
-     */
-    template<typename TensorType>
-    using eif_has_type =
-      utilities::type_traits::variant::enable_if_has_type_t<TensorType,
-                                                            VariantType>;
-
-    /// Type resulting from labeling the read/write types in VariantType
-    using labeled_variant_type = labeled_variant_t<VariantType>;
-
-    /// Type resulting from labeling the read-only types in VariantType
-    using const_labeled_variant_type = const_labeled_variant_t<VariantType>;
-
-    /** @brief Determines if a TA::DistArray type is a tensor-of-tensors
-     *
-     *  This type trait determines if @p T is a tensor-of-tensors. It simply
-     *  wraps the call to the respective type trait in TiledArray.
-     *
-     *  @tparam T Assumed to be a specialization of TA::DistArray.
+     *  @tparam T The type of the tensor which must appear in clean_variant. T
+     *            is expected to be an unqualfied type.
      */
     template<typename T>
-    static constexpr bool is_tot_v =
-      TA::detail::is_tensor_of_tensor<typename T::value_type>::value;
+    using eif_has_type =
+      utilities::type_traits::variant::enable_if_has_type_t<T, clean_variant>;
 
 public:
     /// Type of the variant this wrapper is templated on
     using variant_type = VariantType;
 
-    /// String-like type used to annotate a tensor.
-    using annotation_type = std::string;
+    using const_variant_type =
+      utilities::type_traits::variant::add_const_t<variant_type>;
 
     /// Type of a wrapper around a labeled tensor
     using labeled_tensor_type = detail_::LabeledTensorWrapper<my_type>;
@@ -70,6 +59,9 @@ public:
     /// Type of a wrapper around a read-only labeled tensor
     using const_labeled_tensor_type =
       detail_::LabeledTensorWrapper<const my_type>;
+
+    /// String-like type used to annotate a tensor.
+    using annotation_type = typename labeled_tensor_type::annotation_type;
 
     /** @brief Default CTor
      *
@@ -179,12 +171,12 @@ public:
      *  TensorWrapper class) suggests that your function may be better off being
      *  specialized for a particular tensor type.
      *
-     *  @tparam TensorType The non-qualified type of the tensor to retrieve.
+     *  @tparam TensorType The cv-qualified type of the tensor to retrieve.
      *
      *  @return A read/write reference to the wrapped tensor.
      */
     template<typename TensorType>
-    auto& get() {
+    TensorType& get() {
         return std::get<TensorType>(m_tensor_);
     }
 
@@ -198,12 +190,12 @@ public:
      *  TensorWrapper class) suggests that your function may be better off being
      *  specialized for a particular tensor type.
      *
-     *  @tparam TensorType The non-qualified type of the tensor to retrieve.
+     *  @tparam TensorType The cv-qualified type of the tensor to retrieve.
      *
      *  @return A read-only reference to the wrapped tensor.
      */
     template<typename TensorType>
-    const auto& get() const {
+    const TensorType& get() const {
         return std::get<TensorType>(m_tensor_);
     }
 
@@ -218,8 +210,56 @@ public:
      */
     std::ostream& print(std::ostream& os) const;
 
-    variant_type& tensor() { return m_tensor_; }
-    const variant_type& tensor() const { return m_tensor_; }
+    /** @brief Adds the hash of the wrapped tensor to the provided Hasher.
+     *
+     *  @param[in] h The hasher we are adding the wrapped tensor to.
+     */
+    void hash(sde::Hasher& h) const;
+
+    /** @brief Determines if two TensorWrappers wrap identical tensors.
+     *
+     *  This comparison determines if the two wrapped tensors are identical
+     *  elementwise.
+     *
+     *  @tparam RHSType the type of the variant used by @p rhs.
+     *
+     *  @param[in] rhs The wrapped tensor we are comparing to.
+     *
+     *  @return True if the wrapped tensor compares equal to @p rhs and false
+     *          otherwise.
+     */
+    template<typename RHSType>
+    bool operator==(const TensorWrapper<RHSType>& rhs) const;
+
+protected:
+    template<typename OtherType>
+    friend class TensorWrapper;
+    friend labeled_tensor_type;
+    friend const_labeled_tensor_type;
+
+    /** @brief Returns the wrapped variant.
+     *
+     *  This function is used by LabeledTensorWrapper to get the variant. In
+     *  general users of the TensorWrapper class shouldn't be working with the
+     *  variant, which is why the function is not part of the public API.
+     *
+     *  @return A modifiable reference to the wrapped variant.
+     *
+     *  @throw None No throw guarantee.
+     */
+    variant_type& variant() { return m_tensor_; }
+
+    /** @brief Returns the wrapped variant.
+     *
+     *  This function is used by LabeledTensorWrapper to get the variant. In
+     *  general users of the TensorWrapper class shouldn't be working with the
+     *  variant, which is why the function is not part of the public API.
+     *
+     *  @return A read-only reference to the wrapped variant.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const variant_type& variant() const { return m_tensor_; }
 
 private:
     /** @brief Determines if we're wrapping a Tensor-of-tensors or not.
@@ -277,6 +317,24 @@ std::ostream& operator<<(std::ostream& os, const TensorWrapper<VType>& t) {
     return t.print(os);
 }
 
+/** @brief Determiens if the wrapped tensor instances are different.
+ *
+ *  @relates TensorWrapper
+ *
+ *  @tparam LHSType The type of the variant in the left tensor wrapper.
+ *  @tparam RHSType The type of the variant in the right tensor wrapper.
+ *
+ *  @param[in] lhs The wrapped tensor on the left of the not equal operator.
+ *  @param[in] rhs The wrapped tensor on the right of the not equal operator.
+ *
+ *  @return False if @p lhs is equal to @p rhs and true otherwise.
+ */
+template<typename LHSType, typename RHSType>
+bool operator!=(const TensorWrapper<LHSType>& lhs,
+                const TensorWrapper<RHSType>& rhs) {
+    return !(lhs == rhs);
+}
+
 // ------------------------------- Implementations -----------------------------
 
 #define TENSOR_WRAPPER TensorWrapper<VariantType>
@@ -318,10 +376,26 @@ std::ostream& TENSOR_WRAPPER::print(std::ostream& os) const {
 }
 
 template<typename VariantType>
+void TENSOR_WRAPPER::hash(sde::Hasher& h) const {
+    auto l = [&](auto&& arg) { h(arg); };
+    std::visit(l, m_tensor_);
+}
+
+template<typename VariantType>
+template<typename RHSType>
+bool TENSOR_WRAPPER::operator==(const TensorWrapper<RHSType>& rhs) const {
+    auto l = [&](auto&& lhs) {
+        auto m = [&](auto&& rhs) { return lhs == rhs; };
+        return std::visit(m, rhs.m_tensor_);
+    };
+    return std::visit(l, m_tensor_);
+}
+
+template<typename VariantType>
 bool TENSOR_WRAPPER::is_tot_() const noexcept {
     auto l = [](auto&& arg) {
         using clean_t = std::decay_t<decltype(arg)>;
-        return is_tot_v<clean_t>;
+        return TensorTraits<clean_t>::is_tot;
     };
     return std::visit(l, m_tensor_);
 }
@@ -335,12 +409,14 @@ auto TENSOR_WRAPPER::outer_rank_() const noexcept {
 template<typename VariantType>
 auto TENSOR_WRAPPER::inner_rank_() const {
     auto l = [](auto&& arg) {
-        using clean_t = std::decay_t<decltype(arg)>;
-        if constexpr(!is_tot_v<clean_t>)
-            return 0;
+        using clean_t   = std::decay_t<decltype(arg)>;
+        using size_type = decltype(std::declval<clean_t>().range().rank());
+        constexpr bool is_tot = TensorTraits<clean_t>::is_tot;
+        if constexpr(!is_tot)
+            return size_type{0};
         else {
             const auto& tile0 = arg.begin()->get();
-            return tile0[0].range().rank();
+            return size_type{tile0[0].range().rank()};
         }
     };
     return std::visit(l, m_tensor_);

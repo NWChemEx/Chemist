@@ -1,77 +1,12 @@
 #pragma once
+#include "libchemist/tensor/type_traits/is_expression.hpp"
+#include "libchemist/tensor/type_traits/labeled_variant.hpp"
+#include "libchemist/tensor/type_traits/tensor_traits.hpp"
+#include "libchemist/tensor/type_traits/variant_type.hpp"
 #include <tiledarray.h>
 #include <utilities/type_traits/variant/variant_product.hpp>
 
 namespace libchemist::tensor {
-
-template<typename T>
-static constexpr bool is_tot_v =
-  TA::detail::is_tensor_of_tensor_v<typename T::value_type>;
-
-/** @brief Type resulting from labeling/annotating a tensor with string indices
- *
- *  This type trait is used to get the type resulting from labeling/annotating a
- *  tensor with string indices.
- *
- *  @tparam TensorType The type of the tensor we are labeling.
- */
-template<typename TensorType>
-using labeled_tensor_t = decltype(std::declval<TensorType>()("i,j"));
-
-namespace detail_ {
-
-/** @brief Primary template for deducing the type of a std::variant resulting
- *         from labeling/annotating the tensors in the input variant type.
- *
- *  The primary template is chosen when @p T is not an std::variant and will
- *  lead to a compilation error because it is not defined.
- *
- *  @param T When this template is selected @p T will be a type other than
- *           std::variant.
- */
-template<typename T>
-struct labeled_variant;
-
-/** @brief Specializes labeled_variant for std::variant.
- *
- *  This specialization determines the type that results from
- *  labeling/annotating every tensor in the input variant. The resulting variant
- *  type is stored as the member type `type`.
- *
- *  @tparam Args The types in the std::variant. The types are assumed to be
- *               TA::DistArray instantiations.
- */
-template<typename... Args>
-struct labeled_variant<std::variant<Args...>> {
-    using type = std::variant<labeled_tensor_t<Args>...>;
-};
-
-template<typename T>
-struct const_labeled_variant;
-
-template<typename... Args>
-struct const_labeled_variant<std::variant<Args...>> {
-    using type = std::variant<labeled_tensor_t<const Args>...>;
-};
-
-} // namespace detail_
-
-/** @brief Public API for getting a variant of labeled tensors
- *
- *  This is the public API for turning a variant of tensors into a variant of
- *  labeled tensors. For the i-th type in @p TensorVariant the i-th type in the
- *  resulting variant will be the type which results from calling
- *  `operator()(std::string)` on a tensor of that type.
- *
- *  @tparam TensorVariant A variant of tensors.
- */
-template<typename TensorVariant>
-using labeled_variant_t =
-  typename detail_::labeled_variant<TensorVariant>::type;
-
-template<typename TensorVariant>
-using const_labeled_variant_t =
-  typename detail_::const_labeled_variant<TensorVariant>::type;
 
 /** @brief Determines the type that results from adding two tensors together.
  *
