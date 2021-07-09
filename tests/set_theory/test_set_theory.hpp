@@ -26,7 +26,7 @@ auto make_object() {
         value_type O{8ul, cart_type{0.0, 0.0, 0.0}};
         value_type H0{1ul, cart_type{0.0, 0.0, 0.5}};
         value_type H1{1ul, cart_type{0.0, 0.5, 0.0}};
-        return T(O, H0, H1);
+        return T{O, H0, H1};
     }
 }
 

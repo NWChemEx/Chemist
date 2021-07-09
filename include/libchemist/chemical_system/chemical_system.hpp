@@ -1,5 +1,4 @@
 #pragma once
-#include "libchemist/basis_set/ao_basis_set.hpp"
 #include "libchemist/molecule/molecule.hpp"
 #include "libchemist/potentials/electrostatic.hpp"
 #include <memory>
@@ -36,6 +35,9 @@ public:
 
     /// Type of the system's overall charge
     using charge_type = double;
+
+    /// Type of the system's multiplicity
+    using multiplicity_type = unsigned int;
 
     /// The type used to model the external electrostatic potential
     using epot_t = potentials::Electrostatic;
@@ -83,6 +85,7 @@ public:
     /** @brief Creates a new ChemicalSystem with the provided state.
      *
      *  @param[in] mol    The molecular system to add to this system.
+     *  @param[in] mult   The overall multiplicity of the
      *  @param[in] charge The overall molecular charge of the system. Defaults
      *                    to 0.0.
      *  @param[in] v      The external electrostatic potential that the system
@@ -91,7 +94,10 @@ public:
      *  @throw std::bad_alloc if there is error while allocating the PIMPL.
      *                        Strong throw guarantee.
      */
-    explicit ChemicalSystem(molecule_t mol, charge_type charge =0.0, epot_t v = {});
+    explicit ChemicalSystem(molecule_t mol,
+                            multiplicity_type mult = 1.0,
+                            charge_type charge =0.0,
+                            epot_t v = {});
 
     /// Default destructor, voids all references to member data
     ~ChemicalSystem() noexcept;
@@ -142,6 +148,9 @@ public:
     charge_type& charge();
 
     charge_type charge()const;
+
+    multiplicity_type& multiplicity();
+    multiplicity_type multiplicity() const;
 
     /** @brief Returns the external electrostatic potential in a read/write
      *         state.

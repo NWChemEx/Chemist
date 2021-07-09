@@ -20,14 +20,11 @@ public:
     /// A read-only reference to the object describing the set of atoms
     using const_mol_ref_t = typename chem_sys_t::const_mol_ref_t;
 
-    /// The type of the AO basis set
-    using ao_basis_t = typename chem_sys_t::ao_basis_t;
+    /// Type used for the system's overall charge
+    using charge_type = typename chem_sys_t::charge_type;
 
-    /// The type of a read/write AO basis set
-    using ao_basis_ref_t = typename chem_sys_t::ao_basis_ref_t;
-
-    /// The type of a read-only AO basis set
-    using const_ao_basis_ref_t = typename chem_sys_t::const_ao_basis_ref_t;
+    /// Type used for the system's multiplicity
+    using multiplicity_type = typename chem_sys_t::multiplicity_type;
 
     /// The type used to model the external electrostatic potential
     using epot_t = typename chem_sys_t::epot_t;
@@ -49,13 +46,15 @@ public:
     /** @brief Creates a PIMPL with the provided state.
      *
      *  @param[in] mol The nuclear framework in the system.
-     *  @param[in] basis The AO basis functions for the system.
+     *  @param[in] mult The multiplicity of the system. Defaults to 1.0.
+     *  @param[in] charge The overall charge of the system. Defaults to 0.0.
      *  @param[in] epot The external electrostatic potential. Defaults to an
      *                  empty potential.
      *
      *  @throw None No throw guarantee.
      */
-    explicit ChemicalSystemPIMPL(molecule_t mol, ao_basis_t basis = {}, epot_t epot = {}) noexcept;
+    explicit ChemicalSystemPIMPL(molecule_t mol, multiplicity_type mult = 1.0,
+    charge_type charge = 0.0, epot_t epot = {}) noexcept;
 
     /// Standard defaulted polymorphic dtor
     virtual ~ChemicalSystemPIMPL() noexcept = default;
@@ -107,21 +106,37 @@ public:
      */
     const auto& molecule() const noexcept { return m_mol_; }
 
-    /** @brief Accessor for the contained AOBasis set
+    /** @brief Accessor for the charge of the system
      *
-     *  @return The AOBasis set associated with this system.
+     *  @return The charge associated with this system.
      *
      *  @throw None No throw guarantee
      */
-    auto& basis_set() noexcept { return m_basis_; }
+    auto& charge() noexcept { return m_charge_; }
 
-    /** @brief Accessor for the contained AOBasis set
+    /** @brief Accessor for the charge of the system
      *
-     *  @return The AOBasis set associated with this system in a read-only state
+     *  @return The charge of the system in a read-only state
      *
      *  @throw None No throw guarantee
      */
-    const auto& basis_set() const noexcept { return m_basis_; }
+    auto charge() const noexcept { return m_charge_; }
+
+    /** @brief Accessor for the multiplicity of the system
+     *
+     *  @return The multiplicity associated with this system.
+     *
+     *  @throw None No throw guarantee
+     */
+    auto& multiplicity() noexcept { return m_multiplicity_; }
+
+    /** @brief Accessor for the multiplicity of the system
+     *
+     *  @return The multiplicity of the system in a read-only state
+     *
+     *  @throw None No throw guarantee
+     */
+    auto multiplicity() const noexcept { return m_multiplicity_; }
 
     /** @brief Accessor for the contained electrostatic potential.
      *
@@ -161,7 +176,7 @@ public:
      */
     template<typename Archive>
     void save(Archive& ar) const {
-        ar& m_mol_& m_epot_;
+        ar& m_mol_& m_multiplicity_ & m_charge_ & m_epot_;
     }
 
     /** @brief Deserializes the ChemicalSystemPIMPL
@@ -172,7 +187,7 @@ public:
      */
     template<typename Archive>
     void load(Archive& ar) {
-        ar& m_mol_& m_epot_;
+        ar& m_mol_& m_multiplicity_ & m_charge_ & m_epot_;
     }
 
     /** @brief Computes a hash of the ChemicalSystemPIMPL.
@@ -181,7 +196,7 @@ public:
      *                   will have been modified to include a hash of this
      *                   object's state.
      */
-    void hash(bphash::Hasher& h) const { h(m_mol_, m_basis_, m_epot_); }
+    void hash(bphash::Hasher& h) const;
 
 protected:
     /// Implements polymorphic copy, should be overriden by derived classes
@@ -194,11 +209,14 @@ protected:
     ChemicalSystemPIMPL(const ChemicalSystemPIMPL&) = default;
 
 private:
-    /// The molecular framework
+    /// The nuclear framework
     molecule_t m_mol_;
 
-    /// The AO basis set associated with the molecule
-    ao_basis_t m_basis_;
+    /// The multiplicity of the system
+    multiplicity_type m_multiplicity_ = 1;
+
+    /// The charge of the system
+    charge_type m_charge_ = 0.0;
 
     /// The electrostatic potential external to the molecular framework
     epot_t m_epot_;
@@ -206,13 +224,19 @@ private:
 
 // ------------------- Out-of-line inline definitions --------------------------
 
-inline ChemicalSystemPIMPL::ChemicalSystemPIMPL(molecule_t mol, ao_basis_t aos,
+inline ChemicalSystemPIMPL::ChemicalSystemPIMPL(molecule_t mol,
+multiplicity_type mult, charge_type charge,
                                                 epot_t epot) noexcept :
-  m_mol_(std::move(mol)), m_basis_(std::move(aos)), m_epot_(std::move(epot)) {}
+  m_mol_(std::move(mol)), m_multiplicity_(mult), m_charge_(charge),
+  m_epot_(std::move(epot)) {}
 
 inline bool ChemicalSystemPIMPL::operator==(
   const ChemicalSystemPIMPL& rhs) const noexcept {
     return are_equal_(rhs);
+}
+
+inline void ChemicalSystemPIMPL::hash(bphash::Hasher& h) const {
+  h(m_mol_, m_charge_, m_multiplicity_, m_epot_);
 }
 
 inline typename ChemicalSystemPIMPL::pimpl_ptr_t ChemicalSystemPIMPL::clone_()
@@ -223,7 +247,8 @@ inline typename ChemicalSystemPIMPL::pimpl_ptr_t ChemicalSystemPIMPL::clone_()
 
 inline bool ChemicalSystemPIMPL::are_equal_(
   const ChemicalSystemPIMPL& rhs) const noexcept {
-    return std::tie(m_mol_, m_basis_, m_epot_) == std::tie(rhs.m_mol_, rhs.m_basis_, rhs.m_epot_);
+    return std::tie(m_mol_, m_multiplicity_, m_charge_, m_epot_) ==
+           std::tie(rhs.m_mol_, rhs.m_multiplicity_, rhs.m_charge_, rhs.m_epot_);
 }
 
 } // namespace libchemist::detail_
