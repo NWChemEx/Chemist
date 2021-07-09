@@ -35,15 +35,9 @@ TEST_CASE("ChemicalSystem") {
             STATIC_REQUIRE(std::is_same_v<const_mol_ref_t, corr_t>);
         }
 
-        SECTION("charge_type") {
-            using t = typename ChemicalSystem::charge_type;
-            using corr = double;
-            STATIC_REQUIRE(std::is_same_v<t, corr>);
-        }
-
-        SECTION("multiplicity_type") {
-            using t = typename ChemicalSystem::multiplicity_type;
-            using corr = unsigned int;
+        SECTION("size_type") {
+            using t = typename ChemicalSystem::size_type;
+            using corr = std::size_t;
             STATIC_REQUIRE(std::is_same_v<t, corr>);
         }
 
@@ -74,83 +68,67 @@ TEST_CASE("ChemicalSystem") {
     SECTION("Default ctor") {
         ChemicalSystem sys;
         REQUIRE(sys.molecule() == default_mol);
-        REQUIRE(sys.multiplicity() == 1);
-        REQUIRE(sys.charge() == 0.0);
+        REQUIRE(sys.nelectrons() == 0);
         REQUIRE(sys.external_electrostatic_potential() == default_v);
     }
 
     SECTION("Copy ctor") {
-        ChemicalSystem sys(h, 2, -2, v);
+        ChemicalSystem sys(h, 2, v);
         ChemicalSystem copy(sys);
         REQUIRE(sys == copy);
         REQUIRE(copy.molecule() == h);
-        REQUIRE(copy.multiplicity() == 2);
-        REQUIRE(copy.charge() == -2);
+        REQUIRE(copy.nelectrons() == 2);
         REQUIRE(copy.external_electrostatic_potential() == v);
     }
 
     SECTION("Move ctor") {
-        ChemicalSystem sys(h, 2, -2, v);
+        ChemicalSystem sys(h, 2, v);
         ChemicalSystem moved(std::move(sys));
         REQUIRE(moved.molecule() == h);
-        REQUIRE(moved.multiplicity() == 2);
-        REQUIRE(moved.charge() == -2);
+        REQUIRE(moved.nelectrons() == 2);
         REQUIRE(moved.external_electrostatic_potential() == v);
     }
 
-    SECTION("value ctor") {
-        SECTION("Default multiplicity,charge, and potential") {
+    SECTION("value ctors") {
+        SECTION("Default nelectrons and potential") {
             ChemicalSystem sys(h);
             REQUIRE(sys.molecule() == h);
-            REQUIRE(sys.multiplicity() == 1);
-            REQUIRE(sys.charge() == 0.0);
+            REQUIRE(sys.nelectrons() == 1);
             REQUIRE(sys.external_electrostatic_potential() == default_v);
         }
-        SECTION("Default charge and potential"){
+        SECTION("Default potential"){
             ChemicalSystem sys(h, 2);
             REQUIRE(sys.molecule() == h);
-            REQUIRE(sys.multiplicity() == 2);
-            REQUIRE(sys.charge() == 0.0);
-            REQUIRE(sys.external_electrostatic_potential() == default_v);
-        }
-
-        SECTION("Default potential") {
-            ChemicalSystem sys(h, 2, -2);
-            REQUIRE(sys.molecule() == h);
-            REQUIRE(sys.multiplicity() == 2);
-            REQUIRE(sys.charge() == -2);
+            REQUIRE(sys.nelectrons() == 2);
             REQUIRE(sys.external_electrostatic_potential() == default_v);
         }
 
         SECTION("Set all") {
-            ChemicalSystem sys(h, 2, -2, v);
+            ChemicalSystem sys(h, 2, v);
             REQUIRE(sys.molecule() == h);
-            REQUIRE(sys.multiplicity() == 2);
-            REQUIRE(sys.charge() == -2);
+            REQUIRE(sys.nelectrons() == 2);
             REQUIRE(sys.external_electrostatic_potential() == v);
         }
     }
 
     SECTION("copy assignment") {
-        ChemicalSystem sys(h, 2, -2, v);
+        ChemicalSystem sys(h, 2, v);
         ChemicalSystem copy;
         auto pcopy = &(copy = sys);
         REQUIRE(sys == copy);
         REQUIRE(pcopy == &copy);
         REQUIRE(copy.molecule() == h);
-        REQUIRE(copy.multiplicity() == 2);
-        REQUIRE(copy.charge() == -2);
+        REQUIRE(copy.nelectrons() == 2);
         REQUIRE(copy.external_electrostatic_potential() == v);
     }
 
     SECTION("move assignment") {
-        ChemicalSystem sys(h, 2, -2, v);
+        ChemicalSystem sys(h, 2, v);
         ChemicalSystem moved;
         auto pmoved = &(moved = std::move(sys));
         REQUIRE(pmoved == &moved);
         REQUIRE(moved.molecule() == h);
-        REQUIRE(moved.multiplicity() == 2);
-        REQUIRE(moved.charge() == -2);
+        REQUIRE(moved.nelectrons() == 2);
         REQUIRE(moved.external_electrostatic_potential() == v);
     }
 
@@ -182,64 +160,36 @@ TEST_CASE("ChemicalSystem") {
         }
     }
 
-    SECTION("multiplicity()") {
+    SECTION("nelectrons()") {
         ChemicalSystem sys(h, 2);
 
-        SECTION("value") { REQUIRE(sys.multiplicity() == 2); }
+        SECTION("value") { REQUIRE(sys.nelectrons() == 2); }
 
         SECTION("is read/write") {
-            sys.multiplicity() = 3;
-            REQUIRE(sys.multiplicity() == 3);
+            sys.nelectrons() = 3;
+            REQUIRE(sys.nelectrons() == 3);
         }
 
         SECTION("Allocates new PIMPL if no PIMPL") {
             ChemicalSystem buffer(std::move(sys));
-            REQUIRE(sys.multiplicity() == 1);
+            REQUIRE(sys.nelectrons() == 0);
         }
     }
 
-    SECTION("multiplicity() const") {
+    SECTION("nelectrons() const") {
         ChemicalSystem sys(h, 2);
 
-        SECTION("value") { REQUIRE(std::as_const(sys).multiplicity() == 2); }
+        SECTION("value") { REQUIRE(std::as_const(sys).nelectrons() == 2); }
 
         SECTION("Throws if no PIMPL") {
             ChemicalSystem buffer(std::move(sys));
             const auto& csys = sys;
-            REQUIRE_THROWS_AS(csys.multiplicity(), std::runtime_error);
-        }
-    }
-
-    SECTION("charge()") {
-        ChemicalSystem sys(h, 2, -2);
-
-        SECTION("value") { REQUIRE(sys.charge() == -2); }
-
-        SECTION("is read/write") {
-            sys.charge() = 1;
-            REQUIRE(sys.charge() == 1);
-        }
-
-        SECTION("Allocates new PIMPL if no PIMPL") {
-            ChemicalSystem buffer(std::move(sys));
-            REQUIRE(sys.charge() == 0.0);
-        }
-    }
-
-    SECTION("charge() const") {
-        ChemicalSystem sys(h, 2, -2);
-
-        SECTION("value") { REQUIRE(std::as_const(sys).charge() == -2); }
-
-        SECTION("Throws if no PIMPL") {
-            ChemicalSystem buffer(std::move(sys));
-            const auto& csys = sys;
-            REQUIRE_THROWS_AS(csys.charge(), std::runtime_error);
+            REQUIRE_THROWS_AS(csys.nelectrons(), std::runtime_error);
         }
     }
 
     SECTION("external_electrostatic_potential()") {
-        ChemicalSystem sys(h, 2, -2, v);
+        ChemicalSystem sys(h, 2, v);
 
         SECTION("value") {
             REQUIRE(sys.external_electrostatic_potential() == v);
@@ -259,7 +209,7 @@ TEST_CASE("ChemicalSystem") {
     }
 
     SECTION("external_electrostatic_potential() const") {
-        ChemicalSystem sys(h, 2, -2, v);
+        ChemicalSystem sys(h, 2, v);
 
         SECTION("value") {
             REQUIRE(std::as_const(sys).external_electrostatic_potential() == v);
@@ -288,47 +238,13 @@ TEST_CASE("ChemicalSystem") {
                 REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
             }
 
-            SECTION("RHS has a different multiplicity") {
+            SECTION("RHS has a different number of electrons") {
                 ChemicalSystem rhs(default_mol, 2);
                 REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
             }
 
-            SECTION("RHS has a different charge") {
-                ChemicalSystem rhs(default_mol, 1, -3.2);
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
-            }
-
             SECTION("RHS has a different potential") {
-                ChemicalSystem rhs(default_mol, 1, 0.0, v);
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
-            }
-        }
-
-        SECTION("LHS has values") {
-            ChemicalSystem lhs(h, 2, -3.2, v);
-            auto lhs_hash = sde::hash_objects(lhs);
-
-            SECTION("RHS is default") {
-                ChemicalSystem rhs;
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
-            }
-
-            SECTION("RHS has a different molecule") {
-                ChemicalSystem rhs(default_mol, 2, -3.2, v);
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
-            }
-
-            SECTION("RHS has a different multiplicity") {
-                ChemicalSystem rhs(h, 1, -3.2, v);
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
-            }
-
-            SECTION("RHS has a different charge") {
-                ChemicalSystem rhs(h, 2, 0.0, v);
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
-            }
-            SECTION("RHS has a different potential") {
-                ChemicalSystem rhs(h, 2, -3.2, default_v);
+                ChemicalSystem rhs(default_mol, 1, v);
                 REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
             }
         }
@@ -348,49 +264,16 @@ TEST_CASE("ChemicalSystem") {
                 REQUIRE_FALSE(lhs == rhs);
             }
 
-            SECTION("RHS has a different multiplity"){
+            SECTION("RHS has a different number of electrons"){
                 ChemicalSystem rhs(default_mol, 2);
                 REQUIRE_FALSE(lhs == rhs);
             }
 
-            SECTION("RHS has a differnt charge") {
-                ChemicalSystem rhs(default_mol, 1, -3.2);
-            }
-
             SECTION("RHS has a different potential") {
-                ChemicalSystem rhs(default_mol, 1, 0.0, v);
+                ChemicalSystem rhs(default_mol, 1, v);
                 REQUIRE_FALSE(lhs == rhs);
             }
 
-        }
-
-        SECTION("LHS has values") {
-            ChemicalSystem lhs(h, 2, -3.2, v);
-
-            SECTION("RHS is default") {
-                ChemicalSystem rhs;
-                REQUIRE_FALSE(lhs == rhs);
-            }
-
-            SECTION("RHS has a different molecule") {
-                ChemicalSystem rhs(default_mol, 2, -3.2, v);
-                REQUIRE_FALSE(lhs == rhs);
-            }
-
-            SECTION("RHS has different multiplicity"){
-                ChemicalSystem rhs(h, 1, -3.2, v);
-                REQUIRE_FALSE(lhs == rhs);
-            }
-
-            SECTION("RHS has different charge") {
-                ChemicalSystem rhs(h, 2, 0.0, v);
-                REQUIRE_FALSE(lhs == rhs);
-            }
-
-            SECTION("RHS has a different potential") {
-                ChemicalSystem rhs(h, 2, -3.2, default_v);
-                REQUIRE_FALSE(lhs == rhs);
-            }
         }
     }
 }

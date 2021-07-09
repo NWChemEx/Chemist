@@ -3,11 +3,18 @@
 
 namespace libchemist {
 
-using pimpl_t    = typename ChemicalSystem::pimpl_t;
-using molecule_t = typename ChemicalSystem::molecule_t;
-using charge_type = typename ChemicalSystem::charge_type;
-using mult_type = typename ChemicalSystem::multiplicity_type;
-using epot_t     = typename ChemicalSystem::epot_t;
+using pimpl_t     = typename ChemicalSystem::pimpl_t;
+using molecule_t  = typename ChemicalSystem::molecule_t;
+using epot_t      = typename ChemicalSystem::epot_t;
+using size_type   = typename ChemicalSystem::size_type;
+
+namespace {
+    auto sum_z(const Molecule& mol) {
+        size_type n = 0;
+        for(const auto& atom : mol) n += atom.Z();
+        return n;
+    }
+}
 
 ChemicalSystem::ChemicalSystem() : m_pimpl_(std::make_unique<pimpl_t>()) {}
 
@@ -17,11 +24,16 @@ ChemicalSystem::ChemicalSystem(const ChemicalSystem& other) :
 
 ChemicalSystem::ChemicalSystem(ChemicalSystem&& other) noexcept = default;
 
+ChemicalSystem::ChemicalSystem(molecule_t mol, epot_t v):
+    ChemicalSystem(std::move(mol), 0, std::move(v)) {
+    nelectrons() = sum_z(molecule());
+}
+
 ChemicalSystem::ChemicalSystem(molecule_t mol,
-                               mult_type mult,
-                               charge_type charge,
+                               size_type nelectrons,
                                epot_t v) :
-  m_pimpl_(std::make_unique<pimpl_t>(std::move(mol), mult, charge, std::move(v))) {}
+  m_pimpl_(std::make_unique<pimpl_t>(std::move(mol), nelectrons, std::move(v))) {
+  }
 
 ChemicalSystem::~ChemicalSystem() noexcept = default;
 
@@ -45,29 +57,9 @@ const molecule_t& ChemicalSystem::molecule() const {
     return pimpl_().molecule();
 }
 
-mult_type& ChemicalSystem::multiplicity() { return pimpl_().multiplicity(); }
+size_type& ChemicalSystem::nelectrons() { return pimpl_().nelectrons(); }
 
-mult_type ChemicalSystem::multiplicity() const { return pimpl_().multiplicity(); }
-
-charge_type& ChemicalSystem::charge() { return pimpl_().charge(); }
-
-charge_type ChemicalSystem::charge() const { return pimpl_().charge(); }
-
-// size_type Molecule::nelectrons() const noexcept {
-//     size_type n = 0;
-//     for(const auto& atom : *this) n += atom.Z();
-//     return n - std::lround(charge());
-// }
-// size_type Molecule::nalpha() const noexcept {
-//     const size_type nopen   = multiplicity() - 1;
-//     const size_type nclosed = nelectrons() - nopen;
-//     return nclosed / 2 + nopen;
-// }
-// size_type Molecule::nbeta() const noexcept {
-//     const size_type nopen   = multiplicity() - 1;
-//     const size_type nclosed = nelectrons() - nopen;
-//     return nclosed / 2;
-// }
+size_type ChemicalSystem::nelectrons() const { return pimpl_().nelectrons(); }
 
 
 epot_t& ChemicalSystem::external_electrostatic_potential() {
