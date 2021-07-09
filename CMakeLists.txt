@@ -16,24 +16,22 @@ option(BUILD_TESTING "Should we build the tests?" OFF)
 option(BUILD_PYBINDINGS "Should we build Python3 bindings?" ON)
 
 cpp_find_or_build_dependency(
-    sde
-    URL github.com/NWChemEx-Project/sde
-    PRIVATE TRUE
-    VERSION runtime
-    BUILD_TARGET sde
-    FIND_TARGET nwx::sde
-    CMAKE_ARGS BUILD_TESTING=OFF
-)
-
-cpp_find_or_build_dependency(
     tiledarray
     URL github.com/ValeevGroup/tiledarray
     VERSION a7b866739a01f797afa39c68a1f4263152f9d550
     BUILD_TARGET tiledarray
     FIND_TARGET tiledarray
     CMAKE_ARGS TA_BUILD_UNITTEST=OFF
-		MADNESS_ROOT_DIR=${CMAKE_BINARY_DIR}/_deps/madness-build/
-	        MADNESS_ENABLE_CEREAL=ON
+               MADNESS_ENABLE_CEREAL=ON
+)
+
+cpp_find_or_build_dependency(
+    sde
+    URL github.com/NWChemEx-Project/sde
+    PRIVATE TRUE
+    BUILD_TARGET sde
+    FIND_TARGET nwx::sde
+    CMAKE_ARGS BUILD_TESTING=OFF
 )
 
 find_package(Boost REQUIRED COMPONENTS container)
