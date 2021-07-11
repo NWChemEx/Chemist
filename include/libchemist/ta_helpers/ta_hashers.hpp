@@ -1,5 +1,4 @@
 #pragma once
-#include <bphash/Hasher.hpp>
 #include <madness/world/safempi.h>
 #include <runtime/hasher.hpp>
 #include <tiledarray.h>
@@ -11,7 +10,7 @@ namespace TiledArray {
 
 /** @brief Enables hashing for TA Range class.
  *
- * Free function to enable hashing with BPHash library.
+ * Free function to enable hashing.
  *
  * @param[in] R Range object
  * @param[in, out] h runtime::Hasher object.
@@ -30,7 +29,7 @@ inline void hash_object(const TA::Range& R, runtime::Hasher& h) {
 
 /** @brief Enables hashing for TA TiledRange1 class.
  *
- * Free function to enable hashing with BPHash library.
+ * Free function to enable hashing.
  *
  * @param[in] tr TiledRange1 object
  * @param[in, out] h runtime::Hasher object.

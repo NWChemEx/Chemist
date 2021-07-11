@@ -1,6 +1,5 @@
 #pragma once
 #include "libchemist/molecule/atom.hpp"
-#include <bphash/Hasher_fwd.hpp>
 #include <vector> //For iterators
 
 namespace libchemist {
@@ -224,10 +223,14 @@ public:
         }
         ar& charge() & multiplicity();
     }
+
+    /** @brief Hash Molecule instance
+     *
+     * @param h Hasher object
+     */
+    void hash(runtime::Hasher& h) const;
     ///@}
 private:
-    BPHASH_DECLARE_HASHING_FRIENDS
-    void hash(runtime::Hasher& h) const;
 
     /// Struct for coloring an atom as seen
     struct ColoredAtom {
