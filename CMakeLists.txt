@@ -18,6 +18,7 @@ option(BUILD_PYBINDINGS "Should we build Python3 bindings?" ON)
 cpp_find_or_build_dependency(
     sde
     URL github.com/NWChemEx-Project/sde
+    VERSION 47ce428c2a2d84b4f18dcb9e62d650871d9262c1
     PRIVATE TRUE
     BUILD_TARGET sde
     FIND_TARGET nwx::sde
