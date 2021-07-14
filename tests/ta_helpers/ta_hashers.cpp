@@ -18,7 +18,7 @@ int get_largest_factor(const int n) {
     return largest_factor;
 }
 
-TEST_CASE("TA Hashers with BPHASH", "[TA],[hash]") {
+TEST_CASE("TA Hashers", "[TA],[hash]") {
     auto& world = TA::get_default_world();
     // NOTE: hashing Range R0() fails, requires R0({})
     TA::Range R0({});

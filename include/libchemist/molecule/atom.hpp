@@ -238,10 +238,13 @@ public:
         ar& Z() & coords() & mass() & name();
     }
 
-private:
-    BPHASH_DECLARE_HASHING_FRIENDS
+    /** @brief Hash Atom instance
+     *
+     * @param h Hasher object
+     */
     void hash(sde::Hasher& h) const;
 
+private:
     /// Actual implementation of the Atom class
     std::unique_ptr<detail_::AtomPIMPL> pimpl_;
 

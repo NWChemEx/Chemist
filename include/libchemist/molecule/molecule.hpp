@@ -197,6 +197,7 @@ public:
     const_iterator begin() const noexcept;
     iterator end() noexcept;
     const_iterator end() const noexcept;
+    ///@}
 
     /** @brief Serialize Molecule instance
      *
@@ -224,11 +225,14 @@ public:
         }
         ar& charge() & multiplicity();
     }
-    ///@}
-private:
-    BPHASH_DECLARE_HASHING_FRIENDS
+
+    /** @brief Hash Atom instance
+     *
+     * @param h Hasher object
+     */
     void hash(sde::Hasher& h) const;
 
+private:
     /// Struct for coloring an atom as seen
     struct ColoredAtom {
         Atom value;
