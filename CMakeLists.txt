@@ -24,6 +24,7 @@ cpp_find_or_build_dependency(
     BUILD_TARGET tiledarray
     FIND_TARGET tiledarray
     CMAKE_ARGS TA_BUILD_UNITTEST=OFF
+               BLAS_THREAD_LAYER=sequential
                MADNESS_ENABLE_CEREAL=ON
 )
 

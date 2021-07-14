@@ -137,6 +137,13 @@ public:
         }
     }
 
+    /** @brief Hash Atom instance
+     *
+     * @param h Hasher object
+     */
+    void hash(sde::Hasher& h) const;
+
+private:
     /// The object actually implementing the Molecule class
     std::unique_ptr<detail_::MolPIMPL> pimpl_;
 };
