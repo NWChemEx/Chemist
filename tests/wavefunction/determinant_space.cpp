@@ -114,4 +114,40 @@ TEMPLATE_LIST_TEST_CASE("DeterminantSpace", "", tuple_type) {
         REQUIRE(defaulted.virtual_orbitals() == virt_space_t{});
         REQUIRE(nondefault.virtual_orbitals() == virt);
     }
+
+    SECTION("hash") {
+        SECTION("LHS is default") {
+            const auto lhs = sde::hash_objects(defaulted);
+            SECTION("Same value") {
+                REQUIRE(lhs == sde::hash_objects(space_t{}));
+            }
+            SECTION("Different occupied") {
+                space_t rhs(occ, virt_space_t{});
+                REQUIRE(lhs != sde::hash_objects(rhs));
+            }
+            SECTION("Different virtual") {
+                space_t rhs(occ_space_t{}, virt);
+                REQUIRE(lhs != sde::hash_objects(rhs));
+            }
+        }
+    }
+
+    SECTION("comparisons") {
+        SECTION("LHS is default") {
+            SECTION("Same value") {
+                REQUIRE(defaulted == space_t{});
+                REQUIRE_FALSE(defaulted != space_t{});
+            }
+            SECTION("Different occupied") {
+                space_t rhs(occ, virt_space_t{});
+                REQUIRE(defaulted != rhs);
+                REQUIRE_FALSE(defaulted == rhs);
+            }
+            SECTION("Different virtual") {
+                space_t rhs(occ_space_t{}, virt);
+                REQUIRE(defaulted != rhs);
+                REQUIRE_FALSE(defaulted == rhs);
+            }
+        }
+    }
 }

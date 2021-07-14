@@ -58,11 +58,38 @@ public:
     DeterminantSpace(occupied_orbital_type occ, virtual_orbital_type virt);
     //, fock_operator_type fock);
 
+    /** @brief The orbitals occupied in the reference determinant.
+     *
+     *  @return The orbitals which are occupied in the reference determinant.
+     *
+     *  @throw None No throw guarantee.
+     */
     const auto& occupied_orbitals() const noexcept { return m_occ_; }
 
+    /** @brief The orbitals which are unoccupied in the reference determinant
+     *
+     *  @return The orbitals which are unoccupied in the reference determinant
+     *
+     *  @throw None No throw guarantee.
+     */
     const auto& virtual_orbitals() const noexcept { return m_virt_; }
 
+    /** @brief The Fock operator which generated these orbitals.
+     *
+     *  @return The Fock operator which generated the orbitals.
+     *
+     *  @throw None No throw guarantee.
+     */
     // const auto& fock_operator() const noexcept { return m_fock_; }
+
+    /** @brief Updates a hasher with the state of this determinant space.
+     *
+     *  @param[in,out] h The hasher to hash the DeterminantSpace with. After
+     *                   this call the internal state of @p h will have been
+     *                   updated with hashes of this instance's state.
+     *
+     */
+    void hash(sde::Hasher& h) const;
 
 private:
     /// The occupied orbitals
@@ -75,11 +102,43 @@ private:
     // fock_operator_type m_fock_;
 };
 
+/** @brief Compares two DeterminantSpace instances for equality.
+ *  @relates DeterminantSpace
+ *
+ *  Two DeterminantSpace instances are equal if their occupied, virtual, and
+ *  Fock operators compare equal.
+ *
+ *  @tparam LHSOccSpace the type of the occupied space in @p lhs.
+ *  @tparam LHSVirtSpace the type of the virtual space in @p lhs.
+ *  @tparam RHSOccSpace the type of the occupied space in @p rhs.
+ *  @tparam RHSVirtSpace the type of the virtual space in @p rhs.
+ *
+ *  @param[in] lhs The DeterminantSpace on the left of the equality.
+ *  @param[in] rhs The DeterminantSpace on the right of the equality.
+ *
+ *  @return True if @p lhs is equal to @p rhs and false otherwise.
+ */
 template<typename LHSOccSpace, typename LHSVirtSpace, typename RHSOccSpace,
          typename RHSVirtSpace>
 bool operator==(const DeterminantSpace<LHSOccSpace, LHSVirtSpace>& lhs,
                 const DeterminantSpace<RHSOccSpace, RHSVirtSpace>& rhs);
 
+/** @brief Determiness if two DeterminantSpace instances are different.
+ *  @relates DeterminantSpace
+ *
+ *  Two DeterminantSpace instances are equal if their occupied, virtual, and
+ *  Fock operators compare equal. They are different if they are not equal.
+ *
+ *  @tparam LHSOccSpace the type of the occupied space in @p lhs.
+ *  @tparam LHSVirtSpace the type of the virtual space in @p lhs.
+ *  @tparam RHSOccSpace the type of the occupied space in @p rhs.
+ *  @tparam RHSVirtSpace the type of the virtual space in @p rhs.
+ *
+ *  @param[in] lhs The DeterminantSpace on the left of the not equal operator.
+ *  @param[in] rhs The DeterminantSpace on the right of the non equal operator.
+ *
+ *  @return False if @p lhs is equal to @p rhs and true otherwise.
+ */
 template<typename LHSOccSpace, typename LHSVirtSpace, typename RHSOccSpace,
          typename RHSVirtSpace>
 bool operator!=(const DeterminantSpace<LHSOccSpace, LHSVirtSpace>& lhs,
@@ -87,11 +146,17 @@ bool operator!=(const DeterminantSpace<LHSOccSpace, LHSVirtSpace>& lhs,
     return !(lhs == rhs);
 }
 
-using DeterminantD          = DeterminantSpace<orbital_space::DerivedSpaceD>;
+/// Type of a determinant space which uses derived orbitals
+using DeterminantD = DeterminantSpace<orbital_space::DerivedSpaceD>;
+
+/// Type of a determinant space which uses canonical MOs
 using CanonicalDeterminantD = DeterminantSpace<orbital_space::CanonicalSpaceD>;
 
+/// Type of a determinant space which uses local orbitals
 using LocalDeterminantD = DeterminantSpace<orbital_space::IndDerivedSpaceD,
                                            orbital_space::DepDerivedSpaceD>;
+
+/// Type of a determinant space which uses quasicanonical local orbitals
 using CanonicalLocalDeterminantD =
   DeterminantSpace<orbital_space::CanonicalIndSpaceD,
                    orbital_space::CanonicalDepSpaceD>;
