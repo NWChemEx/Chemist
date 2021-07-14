@@ -2,7 +2,7 @@
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
 #include <map>
-#include <sde/detail_/memoization.hpp>
+#include <sde/hasher.hpp>
 #include <sstream>
 #include <type_traits>
 
@@ -50,7 +50,7 @@ void check_atom(Atom& ai, const coord_type& coords, size_type Z, mass_type m,
 
     sde::Hasher h(sde::HashType::Hash128);
     h(ai);
-    REQUIRE(bphash::hash_to_string(h.finalize()) == corr_hashes[hash]);
+    REQUIRE(sde::hash_to_string(h.finalize()) == corr_hashes[hash]);
 }
 
 TEST_CASE("Atom Class") {

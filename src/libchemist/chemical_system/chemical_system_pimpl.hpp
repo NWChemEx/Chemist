@@ -48,7 +48,8 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    explicit ChemicalSystemPIMPL(molecule_t mol, size_type nelectrons, epot_t epot = {}) noexcept;
+    explicit ChemicalSystemPIMPL(molecule_t mol, size_type nelectrons,
+                                 epot_t epot = {}) noexcept;
 
     /// Standard defaulted polymorphic dtor
     virtual ~ChemicalSystemPIMPL() noexcept = default;
@@ -154,7 +155,7 @@ public:
      */
     template<typename Archive>
     void save(Archive& ar) const {
-        ar& m_mol_& m_nelectrons_ & m_epot_;
+        ar& m_mol_& m_nelectrons_& m_epot_;
     }
 
     /** @brief Deserializes the ChemicalSystemPIMPL
@@ -165,7 +166,7 @@ public:
      */
     template<typename Archive>
     void load(Archive& ar) {
-        ar& m_mol_& m_nelectrons_ & m_epot_;
+        ar& m_mol_& m_nelectrons_& m_epot_;
     }
 
     /** @brief Computes a hash of the ChemicalSystemPIMPL.
@@ -210,7 +211,7 @@ inline bool ChemicalSystemPIMPL::operator==(
 }
 
 inline void ChemicalSystemPIMPL::hash(bphash::Hasher& h) const {
-  h(m_mol_, m_nelectrons_, m_epot_);
+    h(m_mol_, m_nelectrons_, m_epot_);
 }
 
 inline typename ChemicalSystemPIMPL::pimpl_ptr_t ChemicalSystemPIMPL::clone_()

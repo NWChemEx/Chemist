@@ -15,15 +15,6 @@ nwx_cxx_api_docs("${CMAKE_CURRENT_SOURCE_DIR}/libchemist")
 option(BUILD_TESTING "Should we build the tests?" OFF)
 option(BUILD_PYBINDINGS "Should we build Python3 bindings?" ON)
 
-cpp_find_or_build_dependency(
-    sde
-    URL github.com/NWChemEx-Project/sde
-    PRIVATE TRUE
-    BUILD_TARGET sde
-    FIND_TARGET nwx::sde
-    CMAKE_ARGS BUILD_TESTING=OFF
-)
-
 # N.B. If you update the TA version, you may need to update the MADNESS version
 #      in the runtime repo.
 cpp_find_or_build_dependency(
@@ -33,6 +24,16 @@ cpp_find_or_build_dependency(
     BUILD_TARGET tiledarray
     FIND_TARGET tiledarray
     CMAKE_ARGS TA_BUILD_UNITTEST=OFF
+               MADNESS_ENABLE_CEREAL=ON
+)
+
+cpp_find_or_build_dependency(
+    sde
+    URL github.com/NWChemEx-Project/sde
+    PRIVATE TRUE
+    BUILD_TARGET sde
+    FIND_TARGET nwx::sde
+    CMAKE_ARGS BUILD_TESTING=OFF
 )
 
 find_package(Boost REQUIRED COMPONENTS container)

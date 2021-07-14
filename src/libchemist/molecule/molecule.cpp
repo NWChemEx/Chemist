@@ -1,7 +1,7 @@
-#include "mol_pimpl.hpp"
 #include "libchemist/molecule/molecule.hpp"
+#include "mol_pimpl.hpp"
 #include <iostream> //For std::endl
-#include <sde/detail_/memoization.hpp>
+#include <sde/hasher.hpp>
 
 namespace libchemist {
 
@@ -20,7 +20,7 @@ Molecule::Molecule(const Molecule& rhs) : Molecule() {
 
 Molecule::Molecule(Molecule&& rhs) noexcept = default;
 
-Molecule& Molecule::operator                =(const Molecule& rhs) {
+Molecule& Molecule::operator=(const Molecule& rhs) {
     return *this = std::move(Molecule(rhs));
 }
 
@@ -48,7 +48,7 @@ iterator Molecule::end() noexcept { return pimpl_->end(); }
 
 const_iterator Molecule::end() const noexcept { return pimpl_->end(); }
 
-void Molecule::hash(bphash::Hasher& h) const {
+void Molecule::hash(sde::Hasher& h) const {
     for(const auto& x : *this) h(x);
 }
 

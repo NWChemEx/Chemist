@@ -1,6 +1,6 @@
 #pragma once
 #include "libchemist/molecule/atom.hpp"
-#include <bphash/Hasher_fwd.hpp>
+#include <sde/hasher.hpp>
 #include <vector> //For iterators
 
 namespace libchemist {
@@ -91,7 +91,7 @@ public:
     }
 
     reference operator[](size_type i) noexcept { return at(i); }
-    
+
     const_reference operator[](size_type i) const noexcept { return at(i); }
     ///@}
 
@@ -110,6 +110,7 @@ public:
     const_iterator begin() const noexcept;
     iterator end() noexcept;
     const_iterator end() const noexcept;
+    ///@}
 
     /** @brief Serialize Molecule instance
      *
@@ -135,10 +136,6 @@ public:
             this->push_back(std::move(a));
         }
     }
-    ///@}
-private:
-    BPHASH_DECLARE_HASHING_FRIENDS
-    void hash(bphash::Hasher& h) const;
 
     /// The object actually implementing the Molecule class
     std::unique_ptr<detail_::MolPIMPL> pimpl_;

@@ -1,13 +1,13 @@
 #include "libchemist/ta_helpers/ta_hashers.hpp"
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
-#include <sde/detail_/memoization.hpp>
+#include <sde/hasher.hpp>
 
 using sde::hash_objects;
 /* Alternative to sde::hash_objects
 auto hash_string = [](auto a) {
-    return bphash::hash_to_string(
-        bphash::make_hash(bphash::HashType::Hash128, a));
+    return sde::hash_to_string(
+        sde::make_hash(sde::HashType::Hash128, a));
 };
 */
 
@@ -18,7 +18,7 @@ int get_largest_factor(const int n) {
     return largest_factor;
 }
 
-TEST_CASE("TA Hashers with BPHASH", "[TA],[hash]") {
+TEST_CASE("TA Hashers", "[TA],[hash]") {
     auto& world = TA::get_default_world();
     // NOTE: hashing Range R0() fails, requires R0({})
     TA::Range R0({});
@@ -133,14 +133,14 @@ TEST_CASE("TA Hashers with BPHASH", "[TA],[hash]") {
     }
 
     SECTION("TA::DistArray and TA::Tensor absolute hash tests") {
-        CHECK(hash_objects(TAD1) == "4d80f034b616bdf6e8af17f2df6e3abd");
-        CHECK(hash_objects(TA4) == "dfbfaeab72b41561a2c8eee1130efbf7");
-        CHECK(hash_objects(TA5) == "3950d8a33d565b40a774cecc5720edb7");
+        CHECK(hash_objects(TAD1) == "664c65f3cb54d763a1c273ad2f41d523");
+        CHECK(hash_objects(TA4) == "2b37ca4c5071ef24a64f67e911485699");
+        CHECK(hash_objects(TA5) == "0bc0e4449c08461ab99e0fbed0bdb44d");
         CHECK(hash_objects(T1) == "95b4179d186d2b0e4afeb3cda95a4a26");
         CHECK(hash_objects(T3) == "eda495a3050cff2974a762ec3a51d846");
         CHECK(hash_objects(T4) == "3a95aebea8dfe5db41302f6d5c5098f1");
         CHECK(hash_objects(T5) == "a5a2cbcce9d9e8f03b5cdfefba138ada");
-        CHECK(hash_objects(SA1) == "ab43af56b03f85e12cd0c1374f902b47");
+        CHECK(hash_objects(SA1) == "7349ed990d4aad3ad68777480836abb5");
     }
 }
 

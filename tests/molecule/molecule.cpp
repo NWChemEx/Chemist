@@ -1,7 +1,7 @@
 #include "libchemist/molecule/molecule.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
-#include <sde/detail_/memoization.hpp>
+#include <sde/hasher.hpp>
 #include <sstream>
 
 using namespace libchemist;

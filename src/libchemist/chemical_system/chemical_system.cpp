@@ -3,18 +3,18 @@
 
 namespace libchemist {
 
-using pimpl_t     = typename ChemicalSystem::pimpl_t;
-using molecule_t  = typename ChemicalSystem::molecule_t;
-using epot_t      = typename ChemicalSystem::epot_t;
-using size_type   = typename ChemicalSystem::size_type;
+using pimpl_t    = typename ChemicalSystem::pimpl_t;
+using molecule_t = typename ChemicalSystem::molecule_t;
+using epot_t     = typename ChemicalSystem::epot_t;
+using size_type  = typename ChemicalSystem::size_type;
 
 namespace {
-    auto sum_z(const Molecule& mol) {
-        size_type n = 0;
-        for(const auto& atom : mol) n += atom.Z();
-        return n;
-    }
+auto sum_z(const Molecule& mol) {
+    size_type n = 0;
+    for(const auto& atom : mol) n += atom.Z();
+    return n;
 }
+} // namespace
 
 ChemicalSystem::ChemicalSystem() : m_pimpl_(std::make_unique<pimpl_t>()) {}
 
@@ -24,16 +24,14 @@ ChemicalSystem::ChemicalSystem(const ChemicalSystem& other) :
 
 ChemicalSystem::ChemicalSystem(ChemicalSystem&& other) noexcept = default;
 
-ChemicalSystem::ChemicalSystem(molecule_t mol, epot_t v):
-    ChemicalSystem(std::move(mol), 0, std::move(v)) {
+ChemicalSystem::ChemicalSystem(molecule_t mol, epot_t v) :
+  ChemicalSystem(std::move(mol), 0, std::move(v)) {
     nelectrons() = sum_z(molecule());
 }
 
-ChemicalSystem::ChemicalSystem(molecule_t mol,
-                               size_type nelectrons,
-                               epot_t v) :
-  m_pimpl_(std::make_unique<pimpl_t>(std::move(mol), nelectrons, std::move(v))) {
-  }
+ChemicalSystem::ChemicalSystem(molecule_t mol, size_type nelectrons, epot_t v) :
+  m_pimpl_(
+    std::make_unique<pimpl_t>(std::move(mol), nelectrons, std::move(v))) {}
 
 ChemicalSystem::~ChemicalSystem() noexcept = default;
 
@@ -61,7 +59,6 @@ size_type& ChemicalSystem::nelectrons() { return pimpl_().nelectrons(); }
 
 size_type ChemicalSystem::nelectrons() const { return pimpl_().nelectrons(); }
 
-
 epot_t& ChemicalSystem::external_electrostatic_potential() {
     return pimpl_().external_electrostatic_potential();
 }
@@ -78,7 +75,7 @@ bool ChemicalSystem::operator==(const ChemicalSystem& rhs) const noexcept {
     return (*m_pimpl_) == (*rhs.m_pimpl_);
 }
 
-void ChemicalSystem::hash(bphash::Hasher& h) const { h(m_pimpl_); }
+void ChemicalSystem::hash(sde::Hasher& h) const { h(m_pimpl_); }
 
 // ---------------------- Private Member Functions -----------------------------
 

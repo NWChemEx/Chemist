@@ -1,21 +1,21 @@
 #pragma once
 #include "libchemist/orbital_space/derived_space.hpp"
 #include "libchemist/orbital_space/types.hpp"
-#include <sde/detail_/memoization.hpp>
+#include <sde/hasher.hpp>
 
 namespace libchemist::orbital_space {
-
 /** @brief Models an orbital space in which the Fock matrix is diagonal.
  *
  *  For orbital spaces which diagonalize the Fock matrix we can associate an
  *  energy with each orbital (specifically the eigenvalue of the Fock matrix
  *  associated with that orbital). This class models an orbital space that
- *  diagonalizes the Fock matrix in addition to the properties bestowed on the
- *  space by `BaseType`.
+ *  diagonalizes the Fock matrix in addition to the properties bestowed on
+ * the space by `BaseType`.
  *
  *  @tparam OrbitalEnergyType Type of the tensor used to hold the orbital
  *                            energies.
- *  @tparam BaseType Type of the class from which this orbital space inherits.
+ *  @tparam BaseType Type of the class from which this orbital space
+ * inherits.
  */
 template<typename OrbitalEnergyType, typename BaseType>
 class CanonicalSpace : public BaseType {
@@ -27,8 +27,8 @@ public:
      *         energies.
      *
      *  This ctor will initialize a completely defaulted CanonicalSpace
-     *  instance. This includes the CanonicalSpace part of the object as well as
-     *  the base class part.
+     *  instance. This includes the CanonicalSpace part of the object as
+     * well as the base class part.
      *
      *  @throw None No throw guarantee.
      */
@@ -36,8 +36,8 @@ public:
 
     /** @brief Creates a CanonicalSpace_ with the provided state.
      *
-     *  @tparam Args The types of the arguments which will be forwarded to the
-     *               base class.
+     *  @tparam Args The types of the arguments which will be forwarded to
+     * the base class.
      *
      *  @param[in] egys The energies of the orbitals. Defaults to a default
      *                  initialized orbital_energy_type instance.
@@ -59,7 +59,8 @@ public:
 
     /** @brief Returns the energies of the orbitals in this orbital space.
      *
-     *  @return The tensor containing the orbital energies in a read-only state.
+     *  @return The tensor containing the orbital energies in a read-only
+     * state.
      */
     const auto& orbital_energies() const { return m_egys_; }
 
@@ -79,7 +80,8 @@ private:
  *  @relates CanonicalSpace
  *
  *  Two CanonicalSpace instances are equal if they have: the same type, the
- *  same orbital energies, and the base class part of the objects compare equal.
+ *  same orbital energies, and the base class part of the objects compare
+ * equal.
  *
  *  @tparam LOrbitalEnergyType The type of the tensor storing the orbital
  *                             energies in @p lhs.
@@ -93,8 +95,8 @@ private:
  *
  *  @return True if @p lhs is equal to @p rhs and false otherwise.
  *
- *  @throw ??? Throws if comparing the orbital energies throws or if the base
- *             comparison throws. Same throw guarantee.
+ *  @throw ??? Throws if comparing the orbital energies throws or if the
+ * base comparison throws. Same throw guarantee.
  */
 template<typename LOrbitalEnergyType, typename LBaseType,
          typename ROrbitalEnergyType, typename RBaseType>
@@ -114,7 +116,8 @@ bool operator==(const CanonicalSpace<LOrbitalEnergyType, LBaseType>& lhs,
  *  @relates CanonicalSpace
  *
  *  Two CanonicalSpace instances are equal if they have: the same type, the
- *  same orbital energies, and the base class part of the objects compare equal.
+ *  same orbital energies, and the base class part of the objects compare
+ * equal.
  *
  *  @tparam LOrbitalEnergyType The type of the tensor storing the orbital
  *                             energies in @p lhs.
@@ -128,8 +131,8 @@ bool operator==(const CanonicalSpace<LOrbitalEnergyType, LBaseType>& lhs,
  *
  *  @return False if @p lhs is equal to @p rhs and true otherwise.
  *
- *  @throw ??? Throws if comparing the orbital energies throws or if the base
- *             comparison throws. Same throw guarantee.
+ *  @throw ??? Throws if comparing the orbital energies throws or if the
+ * base comparison throws. Same throw guarantee.
  */
 template<typename LOrbitalEnergyType, typename LBaseType,
          typename ROrbitalEnergyType, typename RBaseType>
@@ -149,7 +152,6 @@ using CanonicalIndSpaceD =
 using CanonicalDepSpaceD =
   CanonicalSpace<type::tensor_of_tensors<double>, DepDerivedSpaceD>;
 
-
 extern template class CanonicalSpace<type::tensor<double>, DerivedSpaceD>;
 extern template class CanonicalSpace<type::tensor<double>, IndDerivedSpaceD>;
 extern template class CanonicalSpace<type::tensor_of_tensors<double>,
@@ -160,7 +162,7 @@ extern template class CanonicalSpace<type::tensor_of_tensors<double>,
 template<typename OrbitalEnergyType, typename BaseType>
 template<typename... Args>
 CanonicalSpace<OrbitalEnergyType, BaseType>::CanonicalSpace(
-    OrbitalEnergyType egys, Args&&... args) :
+  OrbitalEnergyType egys, Args&&... args) :
   BaseType(std::forward<Args>(args)...), m_egys_(std::move(egys)) {}
 
 } // namespace libchemist::orbital_space
