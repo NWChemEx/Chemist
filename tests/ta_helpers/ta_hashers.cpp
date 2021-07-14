@@ -1,13 +1,13 @@
 #include "libchemist/ta_helpers/ta_hashers.hpp"
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
-#include <sde/sde/hasher.hpp>
+#include <sde/hasher.hpp>
 
 using sde::hash_objects;
 /* Alternative to sde::hash_objects
 auto hash_string = [](auto a) {
-    return bphash::hash_to_string(
-        bphash::make_hash(bphash::HashType::Hash128, a));
+    return sde::hash_to_string(
+        sde::make_hash(sde::HashType::Hash128, a));
 };
 */
 

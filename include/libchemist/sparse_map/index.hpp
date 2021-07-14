@@ -1,7 +1,7 @@
 #pragma once
 #include <algorithm> // lexicographic_compare
 #include <iostream>
-#include <sde/sde/hasher.hpp>
+#include <sde/hasher.hpp>
 #include <vector>
 
 namespace libchemist::sparse_map {

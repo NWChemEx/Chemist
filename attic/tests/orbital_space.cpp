@@ -3,7 +3,7 @@
 #include <libchemist/libchemist.hpp>
 #include <libchemist/orthogonal_space.hpp>
 #include <libchemist/ta_helpers/ta_helpers.hpp>
-#include <sde/sde/hasher.hpp>
+#include <sde/hasher.hpp>
 
 using sde::hash_objects;
 using vector_t   = std::initializer_list<double>;

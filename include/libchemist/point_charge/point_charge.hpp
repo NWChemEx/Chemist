@@ -134,7 +134,7 @@ public:
      *                   will have been modified to include a hash of this
      *                   object's state.
      */
-    void hash(bphash::Hasher& h) const;
+    void hash(sde::Hasher& h) const;
 
 private:
     /// The charge associated with this point charge
@@ -221,7 +221,7 @@ void PointCharge<T>::load(Archive& ar) {
 }
 
 template<typename T>
-void PointCharge<T>::hash(bphash::Hasher& h) const {
+void PointCharge<T>::hash(sde::Hasher& h) const {
     base_type::hash(h);
     h(m_q_);
 }

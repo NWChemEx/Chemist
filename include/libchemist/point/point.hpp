@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include <sde/sde/hasher.hpp>
+#include <sde/hasher.hpp>
 
 namespace libchemist {
 namespace detail_ {
@@ -267,7 +267,7 @@ public:
      *                   will have been modified to include a hash of this
      *                   object's state.
      */
-    void hash(bphash::Hasher& h) const { h(x(), y(), z()); }
+    void hash(sde::Hasher& h) const { h(x(), y(), z()); }
 
 protected:
     /// Convenience fxn that makes a PIMPL that aliases this instance's state

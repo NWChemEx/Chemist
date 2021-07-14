@@ -1,7 +1,7 @@
 #pragma once
 #include <iomanip>
 #include <iostream>
-#include <sde/sde/hasher.hpp>
+#include <sde/hasher.hpp>
 
 namespace libchemist::topology {
 

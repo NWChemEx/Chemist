@@ -1,7 +1,7 @@
 #include "libchemist/molecule/molecule.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
-#include <sde/sde/hasher.hpp>
+#include <sde/hasher.hpp>
 #include <sstream>
 
 using namespace libchemist;
@@ -40,9 +40,9 @@ void check_state(Molecule& mol, const vector_type& atoms, double charge,
     REQUIRE(mol.nelectrons() == nelecs);
     REQUIRE(const_mol.nelectrons() == nelecs);
 
-    bphash::Hasher h(bphash::HashType::Hash128);
+    sde::Hasher h(sde::HashType::Hash128);
     h(mol);
-    REQUIRE(bphash::hash_to_string(h.finalize()) == corr_hash[hash]);
+    REQUIRE(sde::hash_to_string(h.finalize()) == corr_hash[hash]);
 
     if(!mol.size()) return;
     double* pcarts        = &mol.at(0).coords()[0];

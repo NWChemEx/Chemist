@@ -1,10 +1,10 @@
 #pragma once
-#include <array>                 // For the coordinates
-#include <bphash/Hasher_fwd.hpp> // For hashing
+#include <array> // For the coordinates
 #include <cereal/types/array.hpp>
 #include <cereal/types/string.hpp>
-#include <memory> // For unique pointer
-#include <string> // For name of atom
+#include <memory>         // For unique pointer
+#include <sde/hasher.hpp> // For hashing
+#include <string>         // For name of atom
 
 namespace libchemist {
 namespace detail_ {
@@ -240,7 +240,7 @@ public:
 
 private:
     BPHASH_DECLARE_HASHING_FRIENDS
-    void hash(bphash::Hasher& h) const;
+    void hash(sde::Hasher& h) const;
 
     /// Actual implementation of the Atom class
     std::unique_ptr<detail_::AtomPIMPL> pimpl_;

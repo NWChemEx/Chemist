@@ -1,7 +1,7 @@
 #pragma once
 #include "libchemist/orbital_space/derived_space.hpp"
 #include "libchemist/orbital_space/types.hpp"
-#include <sde/sde/hasher.hpp>
+#include <sde/hasher.hpp>
 
 namespace libchemist::orbital_space {
 
@@ -149,7 +149,6 @@ using CanonicalIndSpaceD =
 using CanonicalDepSpaceD =
   CanonicalSpace<type::tensor_of_tensors<double>, DepDerivedSpaceD>;
 
-
 extern template class CanonicalSpace<type::tensor<double>, DerivedSpaceD>;
 extern template class CanonicalSpace<type::tensor<double>, IndDerivedSpaceD>;
 extern template class CanonicalSpace<type::tensor_of_tensors<double>,
@@ -160,7 +159,7 @@ extern template class CanonicalSpace<type::tensor_of_tensors<double>,
 template<typename OrbitalEnergyType, typename BaseType>
 template<typename... Args>
 CanonicalSpace<OrbitalEnergyType, BaseType>::CanonicalSpace(
-    OrbitalEnergyType egys, Args&&... args) :
+  OrbitalEnergyType egys, Args&&... args) :
   BaseType(std::forward<Args>(args)...), m_egys_(std::move(egys)) {}
 
 } // namespace libchemist::orbital_space
