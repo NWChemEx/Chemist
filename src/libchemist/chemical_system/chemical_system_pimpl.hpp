@@ -55,7 +55,8 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    explicit ChemicalSystemPIMPL(molecule_t mol, ao_basis_t basis = {}, epot_t epot = {}) noexcept;
+    explicit ChemicalSystemPIMPL(molecule_t mol, ao_basis_t basis = {},
+                                 epot_t epot = {}) noexcept;
 
     /// Standard defaulted polymorphic dtor
     virtual ~ChemicalSystemPIMPL() noexcept = default;
@@ -181,7 +182,7 @@ public:
      *                   will have been modified to include a hash of this
      *                   object's state.
      */
-    void hash(bphash::Hasher& h) const { h(m_mol_, m_basis_, m_epot_); }
+    void hash(sde::Hasher& h) const { h(m_mol_, m_basis_, m_epot_); }
 
 protected:
     /// Implements polymorphic copy, should be overriden by derived classes
@@ -223,7 +224,8 @@ inline typename ChemicalSystemPIMPL::pimpl_ptr_t ChemicalSystemPIMPL::clone_()
 
 inline bool ChemicalSystemPIMPL::are_equal_(
   const ChemicalSystemPIMPL& rhs) const noexcept {
-    return std::tie(m_mol_, m_basis_, m_epot_) == std::tie(rhs.m_mol_, rhs.m_basis_, rhs.m_epot_);
+    return std::tie(m_mol_, m_basis_, m_epot_) ==
+           std::tie(rhs.m_mol_, rhs.m_basis_, rhs.m_epot_);
 }
 
 } // namespace libchemist::detail_

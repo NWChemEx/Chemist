@@ -2,7 +2,7 @@
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include "libchemist/tensor/detail_/labeled_tensor_wrapper.hpp"
 #include "libchemist/tensor/type_traits/type_traits.hpp"
-#include <sde/detail_/memoization.hpp>
+#include <sde/hasher.hpp>
 #include <utilities/type_traits/variant/add_const.hpp>
 #include <utilities/type_traits/variant/decay.hpp>
 #include <utilities/type_traits/variant/has_type.hpp>

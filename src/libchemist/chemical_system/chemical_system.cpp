@@ -17,7 +17,8 @@ ChemicalSystem::ChemicalSystem(const ChemicalSystem& other) :
 ChemicalSystem::ChemicalSystem(ChemicalSystem&& other) noexcept = default;
 
 ChemicalSystem::ChemicalSystem(molecule_t mol, ao_basis_t aos, epot_t v) :
-  m_pimpl_(std::make_unique<pimpl_t>(std::move(mol), std::move(aos), std::move(v))) {}
+  m_pimpl_(
+    std::make_unique<pimpl_t>(std::move(mol), std::move(aos), std::move(v))) {}
 
 ChemicalSystem::~ChemicalSystem() noexcept = default;
 
@@ -43,7 +44,9 @@ const molecule_t& ChemicalSystem::molecule() const {
 
 basis_t& ChemicalSystem::basis_set() { return pimpl_().basis_set(); }
 
-const basis_t& ChemicalSystem::basis_set() const { return pimpl_().basis_set(); }
+const basis_t& ChemicalSystem::basis_set() const {
+    return pimpl_().basis_set();
+}
 
 epot_t& ChemicalSystem::external_electrostatic_potential() {
     return pimpl_().external_electrostatic_potential();
@@ -61,7 +64,7 @@ bool ChemicalSystem::operator==(const ChemicalSystem& rhs) const noexcept {
     return (*m_pimpl_) == (*rhs.m_pimpl_);
 }
 
-void ChemicalSystem::hash(bphash::Hasher& h) const { h(m_pimpl_); }
+void ChemicalSystem::hash(sde::Hasher& h) const { h(m_pimpl_); }
 
 // ---------------------- Private Member Functions -----------------------------
 
