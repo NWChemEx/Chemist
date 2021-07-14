@@ -35,5 +35,45 @@ TEST_CASE("Hamiltonian Class") {
         CHECK( ham.get_terms<ElectronKinetic>().size()        == 1 );
         CHECK( ham.get_terms<ElectronNuclearCoulomb>().size() == 1 );
     }
+
+    SECTION("Copy CTor") {
+        Hamiltonian ham( ElectronKinetic{}, ElectronNuclearCoulomb{} );
+
+        Hamiltonian copy(ham);
+
+        CHECK( copy == ham );
+    }
+
+    SECTION("Move CTor") {
+        Hamiltonian ref( ElectronKinetic{}, ElectronNuclearCoulomb{} );
+        Hamiltonian ham_1(ref);
+
+        Hamiltonian ham_2(std::move(ham_1));
+
+        CHECK( ham_2 == ref );
+        CHECK( ham_1.get_terms<ElectronKinetic>().size() == 0 );
+    }
+
+    SECTION("Copy Assignment") {
+        Hamiltonian ref( ElectronKinetic{}, ElectronNuclearCoulomb{} );
+        Hamiltonian ham( ElectronElectronCoulomb{} );
+
+        ham = ref;
+
+        CHECK( ham == ref );
+        CHECK( ham.get_terms<ElectronElectronCoulomb>().size() == 0 );
+    }
+
+    SECTION("Move Assignment") {
+        Hamiltonian ref( ElectronKinetic{}, ElectronNuclearCoulomb{} );
+        Hamiltonian ham_1(ref);
+        Hamiltonian ham_2(ElectronElectronCoulomb{});
+
+        ham_2 = std::move(ham_1);
+
+        CHECK( ham_2 == ref );
+        CHECK( ham_1.get_terms<ElectronKinetic>().size() == 0 );
+        CHECK( ham_2.get_terms<ElectronElectronCoulomb>().size() == 0 );
+    }
 }
 
