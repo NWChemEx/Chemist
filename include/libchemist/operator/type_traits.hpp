@@ -46,16 +46,30 @@ struct enable_if_operator {
 };
 
 template <typename OpType, typename U = void>
+struct enable_if_not_operator {
+  using type = std::enable_if_t< not is_operator_v<OpType>, U >;
+};
+
+template <typename OpType, typename U = void>
 using enable_if_operator_t = typename enable_if_operator<OpType,U>::type;
 
+template <typename OpType, typename U = void>
+using enable_if_not_operator_t = typename enable_if_not_operator<OpType,U>::type;
 
 
 
+
+
+template <std::size_t N, typename OpType, typename = void>
+struct is_n_electron_operator;
 
 template <std::size_t N, typename OpType>
-struct is_n_electron_operator {
-    static constexpr bool value = 
-      is_operator_v<OpType> and std::decay_t<OpType>::n_electrons == N;
+struct is_n_electron_operator<N,OpType,enable_if_not_operator_t<OpType>> : 
+  public std::false_type {};
+
+template <std::size_t N, typename OpType>
+struct is_n_electron_operator<N,OpType,enable_if_operator_t<OpType>> {
+    static constexpr bool value = std::decay_t<OpType>::n_electrons == N;
 };
 
 template <std::size_t N, typename... Ops>
