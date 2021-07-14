@@ -64,11 +64,11 @@ template <std::size_t N, typename OpType, typename = void>
 struct is_n_electron_operator;
 
 template <std::size_t N, typename OpType>
-struct is_n_electron_operator<N,OpType,enable_if_not_operator_t<OpType>> : 
+struct is_n_electron_operator<N,OpType,typename std::enable_if<not is_operator_v<OpType>>::type> : 
   public std::false_type {};
 
 template <std::size_t N, typename OpType>
-struct is_n_electron_operator<N,OpType,enable_if_operator_t<OpType>> {
+struct is_n_electron_operator<N,OpType,typename std::enable_if<is_operator_v<OpType>>::type> { 
     static constexpr bool value = std::decay_t<OpType>::n_electrons == N;
 };
 
