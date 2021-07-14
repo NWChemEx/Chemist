@@ -1,7 +1,7 @@
 #include "mol_pimpl.hpp"
 #include "libchemist/molecule/molecule.hpp"
 #include <iostream> //For std::endl
-#include <sde/detail_/memoization.hpp>
+#include <sde/sde/hasher.hpp>
 
 namespace libchemist {
 

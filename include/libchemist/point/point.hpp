@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include <sde/detail_/memoization.hpp>
+#include <sde/sde/hasher.hpp>
 
 namespace libchemist {
 namespace detail_ {

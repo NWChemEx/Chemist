@@ -1,7 +1,7 @@
 #pragma once
 #include <bphash/Hasher.hpp>
 #include <madness/world/safempi.h>
-#include <sde/detail_/memoization.hpp>
+#include <sde/sde/hasher.hpp>
 #include <tiledarray.h>
 
 namespace TiledArray {

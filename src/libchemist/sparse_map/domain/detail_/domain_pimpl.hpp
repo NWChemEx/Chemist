@@ -2,7 +2,7 @@
 #include "libchemist/sparse_map/domain/detail_/domain_traits.hpp"
 #include <boost/container/flat_set.hpp>
 #include <memory>
-#include <sde/detail_/memoization.hpp>
+#include <sde/sde/hasher.hpp>
 #include <set>
 #include <tiledarray.h>
 #include <utilities/iter_tools.hpp>

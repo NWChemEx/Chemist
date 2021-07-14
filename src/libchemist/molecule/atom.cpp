@@ -1,7 +1,7 @@
 #include "atom_pimpl.hpp"
 #include "libchemist/molecule/atom.hpp"
 #include <iomanip>                     // For precision of floats
-#include <sde/detail_/memoization.hpp> //For hashing
+#include <sde/sde/hasher.hpp> //For hashing
 
 namespace libchemist {
 

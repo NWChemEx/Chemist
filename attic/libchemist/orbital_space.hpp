@@ -3,7 +3,7 @@
 #include <libchemist/molecule.hpp>
 #include <libchemist/ta_helpers/ta_helpers.hpp>
 #include <libchemist/types.hpp>
-#include <sde/detail_/memoization.hpp>
+#include <sde/sde/hasher.hpp>
 
 namespace libchemist {
 

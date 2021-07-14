@@ -2,7 +2,7 @@
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
 #include <map>
-#include <sde/detail_/memoization.hpp>
+#include <sde/sde/hasher.hpp>
 #include <sstream>
 #include <type_traits>
 

@@ -1,7 +1,7 @@
 #include "libchemist/ta_helpers/ta_hashers.hpp"
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
-#include <sde/detail_/memoization.hpp>
+#include <sde/sde/hasher.hpp>
 
 using sde::hash_objects;
 /* Alternative to sde::hash_objects

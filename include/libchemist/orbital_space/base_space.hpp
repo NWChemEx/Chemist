@@ -1,6 +1,6 @@
 #pragma once
 #include "libchemist/orbital_space/types.hpp"
-#include <sde/detail_/memoization.hpp>
+#include <sde/sde/hasher.hpp>
 
 namespace libchemist::orbital_space {
 

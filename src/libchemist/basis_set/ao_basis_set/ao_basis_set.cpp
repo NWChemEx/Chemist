@@ -1,7 +1,7 @@
 #include "ao_basis_set_pimpl.hpp"
 #include "libchemist/basis_set/ao_basis_set.hpp"
 #include <cassert>
-#include <sde/detail_/memoization.hpp>
+#include <sde/sde/hasher.hpp>
 
 namespace libchemist {
 

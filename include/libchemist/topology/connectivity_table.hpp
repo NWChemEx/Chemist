@@ -2,7 +2,7 @@
 #include <array>
 #include <iostream>
 #include <memory>
-#include <sde/detail_/memoization.hpp>
+#include <sde/sde/hasher.hpp>
 #include <vector>
 
 namespace libchemist::topology {

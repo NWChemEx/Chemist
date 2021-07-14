@@ -4,7 +4,7 @@
 #include <boost/container/flat_set.hpp>
 #include <iterator>
 #include <memory>
-#include <sde/detail_/memoization.hpp>
+#include <sde/sde/hasher.hpp>
 
 namespace libchemist::set_theory {
 template<typename SetType>

@@ -1,7 +1,7 @@
 #pragma once
 #include <cstddef>
 #include <typeindex>
-#include <sde/detail_/memoization.hpp>
+#include <sde/sde/hasher.hpp>
 #include <utilities/type_traits/parameter_pack_traits.hpp>
 #include "libchemist/potentials/electrostatic.hpp"
 

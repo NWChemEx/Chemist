@@ -1,7 +1,7 @@
 #include "libchemist/basis_set/ao_basis_set.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
-#include <sde/detail_/memoization.hpp>
+#include <sde/sde/hasher.hpp>
 #include <sstream>
 #include <utilities/iter_tools/enumerate.hpp>
 
