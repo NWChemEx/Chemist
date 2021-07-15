@@ -1,42 +1,10 @@
-#include "libchemist/orbital_space/type_traits.hpp"
 #include "libchemist/wavefunction/determinant_space.hpp"
-#include <catch2/catch.hpp>
+#include "test_wavefunction.hpp"
 
 using namespace libchemist::wavefunction;
 
 using tuple_type = std::tuple<DeterminantD, CanonicalDeterminantD,
                               LocalDeterminantD, CanonicalLocalDeterminantD>;
-
-namespace {
-
-// Makes dummy tensors
-template<typename TensorType>
-auto make_tensor(double seed = 1.0) {
-    using value_type = typename TensorType::value_type;
-
-    auto& world = TA::get_default_world();
-    if constexpr(TA::detail::is_tensor_of_tensor_v<value_type>) {
-        using inner_type = typename value_type::value_type;
-        inner_type inner(TA::Range{2, 1}, {seed, seed + 1.0});
-        return TensorType(world, {inner, inner});
-    } else {
-        return TensorType(world, {seed, seed + 1.0});
-    }
-}
-
-// Makes dummy spaces
-template<typename space>
-auto make_space(double seed = 1.0) {
-    using transform_type  = typename space::transform_type;
-    using from_space_type = typename space::from_space_type;
-
-    if constexpr(libchemist::orbital_space::is_canonical_space_v<space>) {
-        return space(make_tensor<transform_type>(seed));
-    } else {
-        return space(make_tensor<transform_type>(seed), from_space_type{});
-    }
-}
-} // namespace
 
 /* Testing strategy:
  *
@@ -60,8 +28,8 @@ TEMPLATE_LIST_TEST_CASE("DeterminantSpace", "", tuple_type) {
     space_t defaulted;
 
     // Makes a non-default DeterminantSpace
-    auto occ  = make_space<occ_space_t>(1.0);
-    auto virt = make_space<virt_space_t>(2.0);
+    auto occ  = testing::make_space<occ_space_t>(1.0);
+    auto virt = testing::make_space<virt_space_t>(2.0);
     space_t nondefault(occ, virt);
 
     SECTION("CTors") {
