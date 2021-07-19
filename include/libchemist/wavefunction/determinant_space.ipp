@@ -13,17 +13,13 @@ namespace libchemist::wavefunction {
 
 template<typename OccupiedSpaceType, typename VirtualSpaceType>
 DETERMINANT_SPACE::DeterminantSpace(occupied_orbital_type occ,
-                                    virtual_orbital_type virt
-                                    // fock_operator_type fock
-                                    ) :
-  m_occ_(std::move(occ)),
-  m_virt_(std::move(virt))
-//, m_fock_(std::move(fock))
-{}
+                                    virtual_orbital_type virt,
+                                    fock_operator_type fock) :
+  m_occ_(std::move(occ)), m_virt_(std::move(virt)), m_fock_(std::move(fock)) {}
 
 template<typename OccupiedSpaceType, typename VirtualSpaceType>
 void DETERMINANT_SPACE::hash(sde::Hasher& h) const {
-    h(m_occ_, m_virt_); // , m_fock_)
+    h(m_occ_, m_virt_); //, m_fock_);
 }
 
 #undef DETERMINANT_SPACE
@@ -39,14 +35,14 @@ bool operator==(const DeterminantSpace<LHSOccSpace, LHSVirtSpace>& lhs,
     } else {
         const auto& lhs_occ  = lhs.occupied_orbitals();
         const auto& lhs_virt = lhs.virtual_orbitals();
-        // const auto& lhs_fock = lhs.fock_operator();
+        const auto& lhs_fock = lhs.fock_operator();
 
         const auto& rhs_occ  = rhs.occupied_orbitals();
         const auto& rhs_virt = rhs.virtual_orbitals();
-        // const auto& rhs_fock = rhs.fock_operator();
+        const auto& rhs_fock = rhs.fock_operator();
 
-        return std::tie(lhs_occ, lhs_virt) == //, lhs_fock) ==
-               std::tie(rhs_occ, rhs_virt);   //, rhs_fock);
+        return std::tie(lhs_occ, lhs_virt, lhs_fock) ==
+               std::tie(rhs_occ, rhs_virt, rhs_fock);
     }
 }
 

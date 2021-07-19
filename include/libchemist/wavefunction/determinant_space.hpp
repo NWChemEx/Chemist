@@ -55,8 +55,8 @@ public:
      *
      *  @throw None No throw gurantee
      */
-    DeterminantSpace(occupied_orbital_type occ, virtual_orbital_type virt);
-    //, fock_operator_type fock);
+    DeterminantSpace(occupied_orbital_type occ, virtual_orbital_type virt,
+                     fock_operator_type fock);
 
     /** @brief The orbitals occupied in the reference determinant.
      *
@@ -80,7 +80,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    // const auto& fock_operator() const noexcept { return m_fock_; }
+    const auto& fock_operator() const noexcept { return m_fock_; }
 
     /** @brief Updates a hasher with the state of this determinant space.
      *
@@ -99,7 +99,7 @@ private:
     virtual_orbital_type m_virt_;
 
     /// The fock operator
-    // fock_operator_type m_fock_;
+    fock_operator_type m_fock_;
 };
 
 /** @brief Compares two DeterminantSpace instances for equality.
