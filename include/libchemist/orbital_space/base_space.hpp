@@ -33,7 +33,6 @@ public:
     template<typename TileType, typename PolicyType, typename... ModeTypes>
     auto transform(const TA::DistArray<TileType, PolicyType>& t,
                    ModeTypes&&... modes) const;
-
     /** @brief Hashes the current instance.
      *
      *  @param[in,out] h The hasher instance to use for hashing. The internal

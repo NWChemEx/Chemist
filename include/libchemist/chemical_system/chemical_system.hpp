@@ -1,5 +1,4 @@
 #pragma once
-#include "libchemist/basis_set/ao_basis_set.hpp"
 #include "libchemist/molecule/molecule.hpp"
 #include "libchemist/potentials/electrostatic.hpp"
 #include <memory>
@@ -34,15 +33,6 @@ public:
     /// A read-only reference to the object describing the set of atoms
     using const_mol_ref_t = const molecule_t&;
 
-    /// The type of the AO basis set
-    using ao_basis_t = AOBasisSet<double>;
-
-    /// The type of a read/write AO basis set
-    using ao_basis_ref_t = ao_basis_t&;
-
-    /// The type of a read-only AO basis set
-    using const_ao_basis_ref_t = const ao_basis_t&;
-
     /// The type used to model the external electrostatic potential
     using epot_t = potentials::Electrostatic;
 
@@ -51,6 +41,9 @@ public:
 
     /// A read-only reference to the electrostatic potential
     using const_epot_ref_t = const epot_t&;
+
+    /// Type used for counting/indexing
+    using size_type = std::size_t;
 
     /** @brief Creates a new ChemicalSystem with default constructed members.
      *
@@ -88,15 +81,32 @@ public:
 
     /** @brief Creates a new ChemicalSystem with the provided state.
      *
-     *  @param[in] mol The molecular system to add to this system.
-     *  @param[in] aos The AO basis set for the system
-     *  @param[in] v   The external electrostatic potential that the system
-     *                 lives in. Defaults to no potential.
+     *  The resulting ChemicalSystem will contain the provided molecule and
+     *  external potential. The number of electrons will be determined by
+     *  summing up the atomic numbers of the atoms in @p mol.
+     *
+     *  @param[in] mol    The molecular system to add to this system.
+     *  @param[in] v      The external electrostatic potential that the system
+     *                    lives in. Defaults to no potential.
      *
      *  @throw std::bad_alloc if there is error while allocating the PIMPL.
      *                        Strong throw guarantee.
      */
-    explicit ChemicalSystem(molecule_t mol, ao_basis_t aos = {}, epot_t v = {});
+    explicit ChemicalSystem(molecule_t mol, epot_t v = {});
+
+    /** @brief Creates a new ChemicalSystem with the provided state.
+     *
+     *  The resulting ChemicalSystem will contain the provided molecule, number
+     * of
+     *  @param[in] mol    The molecular system to add to this system.
+     *  @param[in] v      The external electrostatic potential that the system
+     *                    lives in. Defaults to no potential.
+     *
+     *  @throw std::bad_alloc if there is error while allocating the PIMPL.
+     *                        Strong throw guarantee.
+     */
+
+    ChemicalSystem(molecule_t mol, size_type nelectrons, epot_t v = {});
 
     /// Default destructor, voids all references to member data
     ~ChemicalSystem() noexcept;
@@ -144,23 +154,23 @@ public:
      */
     const_mol_ref_t molecule() const;
 
-    /** @brief Returns the AO basis set associated with this system.
+    /** @brief Returns the number of electrons in the system.
      *
-     *  @return A read/write reference to the AOBasisSet.
+     *  @return A read/write reference to the number of electrons in the system.
      *
-     *  @throws std::bad_alloc if the class has no PIMPL and an error arises
-     *                         while allocating. Strong throw guarantee.
+     *  @throw std::bad_alloc if the class has no PIMPL and there's a problem
+     *                        allocating one. Strong throw guarantee.
      */
-    ao_basis_ref_t basis_set();
+    size_type& nelectrons();
 
-    /** @brief Returns the AO basis set associated with this system.
+    /** @brief Returns the number of electrons in the system.
      *
-     *  @return A read-only reference to the AOBasisSet.
+     *  @return The number of electrons in the system.
      *
-     *  @throws std::runtime_error if the class has no PIMPL. Strong throw
-     *                             gurantee.
+     *  @throw std::runtime_error if the class has no PIMPL. Strong throw
+     *         guarantee.
      */
-    const_ao_basis_ref_t basis_set() const;
+    size_type nelectrons() const;
 
     /** @brief Returns the external electrostatic potential in a read/write
      *         state.

@@ -42,7 +42,7 @@ TEST_CASE("SetTraits<Molecule>") {
     libchemist::Atom H0(1ul, coord_type{0.0, 0.0, 1.0});
     libchemist::Atom H1(1ul, coord_type{0.0, 0.0, -1.0});
     libchemist::Atom O(8ul);
-    libchemist::Molecule mol(O, H0, H1);
+    libchemist::Molecule mol{O, H0, H1};
 
     SECTION("size") { REQUIRE(traits::size(mol) == 3); }
 

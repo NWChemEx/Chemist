@@ -29,16 +29,6 @@ public:
     /// Type of a number returned by this class
     using size_type = std::size_t;
 
-    /// Wrapper for tagging an input double as a charge
-    struct Charge {
-        double value = 0.0;
-    };
-
-    /// Wrapper for tagging an input size_type as a multiplicity
-    struct Multiplicity {
-        size_type value = 1ul;
-    };
-
     /**
      * @brief Makes a molecule with no atoms, no charge, and a multiplicity of 1
      *
@@ -53,58 +43,11 @@ public:
     Molecule& operator=(Molecule&& rhs) noexcept;
     ///@}
 
-    /**
-     * @defgroup State CTors
-     * @brief The CTors in this section can be used to create a Molecule
-     * initialized with a particular state.
+    /** @brief Initializes the Molecule with the provided atoms.
      *
-     * The Ctors in this section use look for a particular capture group.  The
-     * available capture groups are:
-     *
-     * - [Multiplicity] denotes that the wrapped value should be regarded as the
-     *   multiplicity of the molecule
-     * - [Charge] denotes that the wrapped value should be utilized as the
-     *   charge of the molecule
-     * - [Atom] provides an atom for the molecule
-     *
-     * With the exception of Atom instances, a user may not supply more than one
-     * of any other instance; attempting to provide multiple charges or
-     * multiplicities will result in a compile error.  The order of the capture
-     * groups is irrelevant.
-     *
-     * @param[in] mult The value to set the multiplicity of the molecule to.
-     * @param[in] c The value to set the charge of the molecule to.
-     * @param[in] a One of the atoms in the molecule.
-     * @param[in] args The remaining unparsed arguments
-     * @tparam Args The types of the remaining unparsed arguments.
-     *
-     * @throw std::bad_alloc if there is insufficient memory to add an Atom to
-     *        the molecule.  Strong throw guarantee.
-     *
+     *  @param[in] atoms The initial atoms to occupy this molecule.
      */
-    ///@{
-    template<typename... Args>
-    Molecule(const Multiplicity& mult, Args&&... args) :
-      Molecule(std::forward<Args>(args)...) {
-        constexpr bool is_mult =
-          std::disjunction_v<std::is_same<std::decay_t<Args>, Multiplicity>...>;
-        static_assert(!is_mult, "Please only pass one multiplicity");
-        multiplicity() = mult.value;
-    }
-
-    template<typename... Args>
-    Molecule(const Charge& c, Args&&... args) :
-      Molecule(std::forward<Args>(args)...) {
-        constexpr bool is_q =
-          std::disjunction_v<std::is_same<std::decay_t<Args>, Charge>...>;
-        static_assert(!is_q, "Please only pass one charge");
-        charge() = c.value;
-    }
-
-    template<typename... Args>
-    Molecule(const Atom& a, Args&&... args) :
-      Molecule(std::forward<Args>(args)..., ColoredAtom{a}) {}
-    ///@}
+    Molecule(std::initializer_list<value_type> atoms);
 
     /// Default dtor
     ~Molecule() noexcept;
@@ -130,39 +73,6 @@ public:
     size_type size() const noexcept;
 
     /**
-     * @brief Used to determine the number of electrons/alpha orbitals/beta
-     * orbitals within the molecule.
-     *
-     * @return The value of the number of electrons/alpha orbitals/beta orbitals
-     * within the molecule.
-     *
-     * @throw None. No throw guarantee.
-     */
-    ///@{
-    size_type nelectrons() const noexcept;
-    size_type nalpha() const noexcept;
-    size_type nbeta() const noexcept;
-
-    /**
-     * @defgroup Property Accessors
-     * @brief Functions for getting/setting properties of the molecule.
-     *
-     * @return The requested property.
-     * @throw none no throw guarantee.
-     */
-    ///@{
-    double& charge() noexcept;
-    const double& charge() const noexcept {
-        return const_cast<Molecule&>(*this).charge();
-    }
-    size_type& multiplicity() noexcept;
-    const size_type& multiplicity() const noexcept {
-        return const_cast<Molecule&>(*this).multiplicity();
-    }
-
-    ///@}
-
-    /**
      * @defgroup Atom Accessors
      * @brief Functions in this group can be used to set/get an individual atom.
      *
@@ -175,10 +85,13 @@ public:
      */
     ///@{
     reference at(size_type i) noexcept;
+
     const_reference at(size_type i) const noexcept {
         return const_cast<Molecule&>(*this).at(i);
     }
+
     reference operator[](size_type i) noexcept { return at(i); }
+
     const_reference operator[](size_type i) const noexcept { return at(i); }
     ///@}
 
@@ -207,7 +120,6 @@ public:
     void save(Archive& ar) const {
         ar& size();
         for(const auto& x : *this) ar& x;
-        ar& charge() & multiplicity();
     }
 
     /** @brief Deserialize for Molecule instance
@@ -223,7 +135,6 @@ public:
             ar& a;
             this->push_back(std::move(a));
         }
-        ar& charge() & multiplicity();
     }
 
     /** @brief Hash Atom instance
@@ -233,19 +144,6 @@ public:
     void hash(sde::Hasher& h) const;
 
 private:
-    /// Struct for coloring an atom as seen
-    struct ColoredAtom {
-        Atom value;
-    };
-
-    /// Catches the scenario where a colored atom has made it back to the front
-    template<typename... Args>
-    Molecule(const ColoredAtom& a, Args&&... args) :
-      Molecule({a.value, args.value...}) {}
-
-    /// End-point for state ctor
-    Molecule(std::initializer_list<Atom> atoms);
-
     /// The object actually implementing the Molecule class
     std::unique_ptr<detail_::MolPIMPL> pimpl_;
 };
