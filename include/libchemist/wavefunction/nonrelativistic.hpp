@@ -159,18 +159,6 @@ bool operator!=(const Nonrelativistic<LHSRefType>& lhs,
     return !(lhs == rhs);
 }
 
-/// Type of a wavefunction built from MOs
-using Reference = Nonrelativistic<DeterminantD>;
-
-/// Type of a wavefunction built from canonical MOs
-using CanonicalReference = Nonrelativistic<CanonicalDeterminantD>;
-
-/// Type of a wavefunction built from local MOs
-using LocalReference = Nonrelativistic<LocalDeterminantD>;
-
-/// Type of a wavefunction built frorm quasi-canonical local MOs
-using CanonicalLocalReference = Nonrelativistic<CanonicalLocalDeterminantD>;
-
 } // namespace libchemist::wavefunction
 
 #include "nonrelativistic.ipp"
