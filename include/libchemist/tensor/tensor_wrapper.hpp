@@ -63,12 +63,15 @@ public:
     /// String-like type used to annotate a tensor.
     using annotation_type = typename labeled_tensor_type::annotation_type;
 
+    /// Type used for indexing and offsets
+    using size_type = std::size_t;
+
     /** @brief Default CTor
      *
      *  TensorWrapper instances should always be wrapping an existing tensor. To
      *  help ensure that this is the case we have deleted the default ctor.
      */
-    TensorWrapper() = delete;
+    TensorWrapper() = default;
 
     /** @brief Wrapping CTor
      *
@@ -160,6 +163,8 @@ public:
      *  @return The number of modes in the tensor.
      */
     auto rank() const;
+
+    auto extents() const;
 
     /** @brief Used to get the wrapped tensor back.
      *
@@ -366,6 +371,19 @@ auto TENSOR_WRAPPER::make_annotation(const annotation_type& letter) const {
 template<typename VariantType>
 auto TENSOR_WRAPPER::rank() const {
     return outer_rank_() + inner_rank_();
+}
+
+template<typename VariantType>
+auto TENSOR_WRAPPER::extents() const {
+    auto l = [&](auto&& arg) {
+        std::vector<size_type> rv;
+        if(!arg.is_initialized()) return rv;
+        const auto& tr = arg.trange();
+        for(size_type i = 0; i < tr.rank(); ++i)
+            rv.push_back(tr.dim(i).extent());
+        return rv;
+    };
+    return std::visit(l, m_tensor_);
 }
 
 template<typename VariantType>

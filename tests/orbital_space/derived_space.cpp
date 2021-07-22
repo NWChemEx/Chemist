@@ -23,7 +23,8 @@ TEST_CASE("DerivedSpace") {
     // Work out types we will need
     using scalar_type = double;
     using space_type  = DerivedSpaceD;
-    using tensor_type = libchemist::type::tensor<scalar_type>;
+    using ta_tensor = TA::DistArray<TA::Tensor<scalar_type>, TA::SparsePolicy>;
+    using tensor_type = type::tensor;
     using from_space  = AOSpaceD;
     using base_space  = BaseSpace;
 
@@ -50,7 +51,7 @@ TEST_CASE("DerivedSpace") {
     }
 
     auto& world = TA::get_default_world();
-    tensor_type C(world, {{1.0, 2.0}, {3.0, 4.0}});
+    tensor_type C(ta_tensor(world, {{1.0, 2.0}, {3.0, 4.0}}));
 
     space_type default_ao(C, from_space{});
     AOBasisSetD bs;
@@ -137,24 +138,6 @@ TEST_CASE("DerivedSpace") {
         SECTION("size") {
             REQUIRE(space_type{}.size() == 0);
             REQUIRE(non_default.size() == 2);
-        }
-    }
-
-    SECTION("Transform") {
-        tensor_type t(
-          world,
-          {{{{10.0, 11.0}, {12.0, 13.0}}, {{14.0, 15.0}, {16.0, 17.0}}},
-           {{{18.0, 19.0}, {20.0, 21.0}}, {{22.0, 23.0}, {24.0, 25.0}}}});
-        tensor_type corr;
-        SECTION("Mode 0") {
-            corr("i,j,k,l") = C("mu,i") * t("mu,j,k,l");
-            auto result = non_default.transform(t, 0ul);
-            REQUIRE(ta_helpers::allclose(corr, result));
-        }
-        SECTION("Mode 1"){
-            corr("i,j,k,l") = C("mu,j") * t("i,mu,k,l");
-             auto result = non_default.transform(t, 1ul);
-             REQUIRE(ta_helpers::allclose(corr, result));
         }
     }
 
@@ -241,13 +224,17 @@ TEST_CASE("DerivedSpace") {
 
 TEST_CASE("IndDerivedSpace") {
     using scalar_type = double;
-    using space_type  = IndDerivedSpaceD;
-    using tensor_type = libchemist::type::tensor<scalar_type>;
-    using tot_type    = libchemist::type::tensor_of_tensors<scalar_type>;
-    using tile_type   = typename tot_type::value_type;
-    using inner_type  = typename tile_type::value_type;
-    using from_space  = DepAOSpaceD;
-    using base_space  = BaseSpace;
+    using space_type  = IndDerivedSpace;
+    using tensor_type = libchemist::tensor::type::tensor;
+    using ta_tensor_type =
+      TA::DistArray<TA::Tensor<scalar_type>, TA::SparsePolicy>;
+    using tot_type = libchemist::tensor::type::tensor_of_tensors;
+    using ta_tot_type =
+      TA::DistArray<TA::Tensor<TA::Tensor<scalar_type>>, TA::SparsePolicy>;
+    using tile_type  = typename tot_type::value_type;
+    using inner_type = typename tile_type::value_type;
+    using from_space = DepAOSpaceD;
+    using base_space = BaseSpace;
 
     SECTION("Typedefs") {
         SECTION("transform_type") {
@@ -273,7 +260,7 @@ TEST_CASE("IndDerivedSpace") {
 
     // Build non-default transformation
     auto& world = TA::get_default_world();
-    tensor_type C(world, {{1.0, 2.0}, {3.0, 4.0}});
+    tensor_type C(ta_tensor(world, {{1.0, 2.0}, {3.0, 4.0}}));
 
     space_type default_ao(C, from_space{});
     AOBasisSetD bs;
@@ -362,25 +349,6 @@ TEST_CASE("IndDerivedSpace") {
         }
     }
 
-    SECTION("Transform") {
-        inner_type t00(TA::Range({2, 2}), {10.0, 11.0, 12.0, 13.0});
-        inner_type t01(TA::Range({2, 2}), {14.0, 15.0, 16.0, 17.0});
-        inner_type t10(TA::Range({2, 2}), {18.0, 19.0, 20.0, 21.0});
-        inner_type t11(TA::Range({2, 2}), {22.0, 23.0, 24.0, 25.0});
-        tot_type t(world, {{t00, t01}, {t10, t11}});
-        tot_type corr;
-        SECTION("Mode 0") {
-            TA::expressions::einsum(corr("i,j;k,l"), C("mu,i"), t("mu,j;k,l"));
-            auto result = non_default.transform(t, 0ul);
-            REQUIRE(ta_helpers::allclose_tot(corr, result, 2));
-        }
-        SECTION("Mode 1"){
-            TA::expressions::einsum(corr("i,j;k,l"), C("mu,j"), t("i,mu;k,l"));
-            auto result = non_default.transform(t, 1ul);
-            REQUIRE(ta_helpers::allclose_tot(corr, result, 2));
-        }
-    }
-
     space_type non_default_aos(tensor_type{}, aos);
 
     SECTION("hash") {
@@ -458,7 +426,7 @@ TEST_CASE("IndDerivedSpace") {
         }
 
         SECTION("Different from-space types") {
-            REQUIRE_FALSE(space_type{} == DerivedSpaceD{});
+            REQUIRE_FALSE(space_type{} == DerivedSpace{});
             REQUIRE(space_type{} != DerivedSpaceD{});
         }
     }
@@ -467,14 +435,16 @@ TEST_CASE("IndDerivedSpace") {
 TEST_CASE("DepDerivedSpace") {
     // Work out types we need for unit tests
     using scalar_type = double;
-    using space_type  = DepDerivedSpaceD;
-    using tensor_type = libchemist::type::tensor_of_tensors<scalar_type>;
-    using tile_type   = typename tensor_type::value_type;
-    using inner_type  = typename tile_type::value_type;
-    using from_space  = DepAOSpaceD;
-    using base_space  = DependentSpace;
-    using sparse_map  = typename base_space::sparse_map_type;
-    using index_type  = typename sparse_map::key_type;
+    using space_type  = DepDerivedSpace;
+    using tensor_type = libchemist::type::tensor_of_tensors;
+    using ta_tot_type =
+      TA::DistArray<TA::Tensor<TA::Tensor<scalar_type>>, TA::SparsePolicy>;
+    using tile_type  = typename ta_tot_type::value_type;
+    using inner_type = typename tile_type::value_type;
+    using from_space = DepAOSpaceD;
+    using base_space = DependentSpace;
+    using sparse_map = typename base_space::sparse_map_type;
+    using index_type = typename sparse_map::key_type;
 
     SECTION("Typedefs") {
         SECTION("transform_type") {
@@ -504,7 +474,7 @@ TEST_CASE("DepDerivedSpace") {
     inner_type c01(TA::Range({2, 2}), {5.0, 6.0, 7.0, 8.0});
     inner_type c10(TA::Range({2, 2}), {9.0, 1.0, 2.0, 3.0});
     inner_type c11(TA::Range({2, 2}), {4.0, 5.0, 6.0, 7.0});
-    tensor_type C(world, {{c00, c01}, {c10, c11}});
+    tensor_type C(ta_tot_type(world, {{c00, c01}, {c10, c11}}));
 
     // object that is all default except transformation
     space_type non_default_c(C, from_space{});
@@ -614,26 +584,6 @@ TEST_CASE("DepDerivedSpace") {
         SECTION("size") {
             REQUIRE(space_type{}.size() == 0);
             REQUIRE(non_default.size() == 8);
-        }
-    }
-
-    SECTION("Transform") {
-        inner_type t00(TA::Range({2, 2}), {10.0, 11.0, 12.0, 13.0});
-        inner_type t01(TA::Range({2, 2}), {14.0, 15.0, 16.0, 17.0});
-        inner_type t10(TA::Range({2, 2}), {18.0, 19.0, 20.0, 21.0});
-        inner_type t11(TA::Range({2, 2}), {22.0, 23.0, 24.0, 25.0});
-        tensor_type t(world, {{t00, t01}, {t10, t11}});
-
-        tensor_type corr;
-        SECTION("Mode 2") {
-            TA::expressions::einsum(corr("i,j;a,b"), C("i,j;mu,a"), t("i,j;mu,b"));
-            auto result = non_default.transform(t, 2ul);
-            REQUIRE(ta_helpers::allclose_tot(corr, result, 2));
-        }
-        SECTION("Mode 3"){
-            TA::expressions::einsum(corr("i,j;a,b"), C("i,j;mu,b"), t("i,j;a,mu"));
-            auto result = non_default.transform(t, 3ul);
-            REQUIRE(ta_helpers::allclose_tot(corr, result, 2));
         }
     }
 

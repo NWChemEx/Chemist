@@ -2,9 +2,9 @@
 
 namespace libchemist::wavefunction {
 
-template class Nonrelativistic<DeterminantD>;
-template class Nonrelativistic<CanonicalDeterminantD>;
-template class Nonrelativistic<LocalDeterminantD>;
-template class Nonrelativistic<CanonicalLocalDeterminantD>;
+template class Nonrelativistic<Determinant>;
+template class Nonrelativistic<CanonicalDeterminant>;
+template class Nonrelativistic<LocalDeterminant>;
+template class Nonrelativistic<CanonicalLocalDeterminant>;
 
-}
+} // namespace libchemist::wavefunction

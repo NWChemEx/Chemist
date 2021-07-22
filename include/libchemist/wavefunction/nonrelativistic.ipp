@@ -40,9 +40,9 @@ bool operator==(const Nonrelativistic<LHSRefType>& lhs,
     }
 }
 
-extern template class Nonrelativistic<DeterminantD>;
-extern template class Nonrelativistic<CanonicalDeterminantD>;
-extern template class Nonrelativistic<LocalDeterminantD>;
-extern template class Nonrelativistic<CanonicalLocalDeterminantD>;
+extern template class Nonrelativistic<Determinant>;
+extern template class Nonrelativistic<CanonicalDeterminant>;
+extern template class Nonrelativistic<LocalDeterminant>;
+extern template class Nonrelativistic<CanonicalLocalDeterminant>;
 
 } // namespace libchemist::wavefunction

@@ -1,26 +1,34 @@
 #pragma once
-#include "libchemist/wavefunction/type_traits.hpp"
+#include "libchemist/wavefunction/nonrelativistic.hpp"
 
 namespace libchemist::wavefunction {
 
-template<typename ReferenceType, typename ElementType = double>
+template<typename ReferenceType, typename TensorType>
 class Perturbative {
-private:
-    using t_type   = type::tensor<ElementType>;
-    using tot_type = type::tensor_of_tensors<ElementType>;
-
 public:
-    constexpr bool is_local = is_local_v<ReferenceType>;
-    using element_type      = ElementType;
-    using tensor_type       = std::conditional_t<is_local, tot_type, t_type>;
+    using reference_wf_type = ReferenceType;
+    using tensor_type       = TensorType;
 
-    Perturbative(ReferenceType ref, tensor_type t2, tensor_type t1 = {});
+    Perturbative() = default;
+    Perturbative(reference_wf_type ref, tensor_type t2, tensor_type t1 = {});
 
 private:
-    ReferenceType m_ref_;
+    reference_wf_type m_ref_;
     tensor_type m_t1_;
     tensor_type m_t2_;
 };
+
+/// Type of a perturbative correlated wavefunction, using MOs
+using Perturbative = Perturbative<Reference>;
+
+/// Type of a perturbative correlated wavefunction, using canonical MOs
+using CanonicalPerturbative = Perturbative<CanonicalReference>;
+
+/// Type of a perturbative correlated wavefunction built from local MOs
+using LocalPerturbative = Perturbative<LocalReference>;
+
+/// Type of a wavefunction built frorm quasi-canonical local MOs
+using CanonicalLocalPertrubative = Perturbative<CanonicalLocalReference>;
 
 } // namespace libchemist::wavefunction
 

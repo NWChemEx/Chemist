@@ -3,8 +3,7 @@
 
 using namespace libchemist::orbital_space;
 
-using tuple = std::tuple<CanonicalSpaceD, CanonicalIndSpaceD,
-                         CanonicalDepSpaceD>;
+using tuple = std::tuple<CanonicalSpaceD, CanonicalIndSpace, CanonicalDepSpace>;
 
 /* For testing purposes we assume:
  *
@@ -16,8 +15,8 @@ using tuple = std::tuple<CanonicalSpaceD, CanonicalIndSpaceD,
  */
 
 TEST_CASE("CanonicalSpaceD") {
-    using space_type = CanonicalSpaceD;
-    using tensor_type = libchemist::type::tensor<double>;
+    using space_type  = CanonicalSpaceD;
+    using tensor_type = TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>;
     using from_space  = AOSpaceD;
 
     auto& world = TA::get_default_world();
@@ -91,7 +90,7 @@ TEST_CASE("CanonicalSpaceD") {
     }
 
     SECTION("hash") {
-        SECTION("LHS is default"){
+        SECTION("LHS is default") {
             auto hash1 = sde::hash_objects(defaulted);
 
             SECTION("Same value") {
@@ -113,7 +112,7 @@ TEST_CASE("CanonicalSpaceD") {
     }
 
     SECTION("Comparisons") {
-        SECTION("LHS is default"){
+        SECTION("LHS is default") {
             SECTION("Same value") {
                 space_type rhs;
                 REQUIRE(defaulted == rhs);

@@ -144,25 +144,6 @@ protected:
      */
     virtual size_type size_() const noexcept override;
 
-    /** @brief Implements transform for an AOSpace
-     *
-     *  We presently assume that the integral is computed using the current
-     *  AOSpace (we do not verify this assumption) and simply return the tensor
-     *  we were provided.
-     *
-     *  @param[in] t The tensor to transform.
-     *  @param[in] modes The modes of @p t to transform to this orbital space.
-     *
-     *  @return A copy of @p t.
-     */
-    virtual type::tensor_wrapper transform_(
-      const type::tensor_wrapper& t,
-      const mode_container& modes) const override;
-
-    virtual type::tot_wrapper transform_(
-      const type::tot_wrapper& t,
-      const mode_container& modes) const override;
-
     /** @brief Overrides hashing to account for the basis set
      *
      *  @param[in,out] h The hasher instance being used. After this call the

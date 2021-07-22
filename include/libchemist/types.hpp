@@ -1,5 +1,5 @@
 #pragma once
-#include <tiledarray.h>
+#include "libchemist/tensor/tensor.hpp"
 
 /** @file types.hpp
  *
@@ -14,23 +14,14 @@
  * should be defined in that component's `types.hpp` file.
  */
 namespace libchemist::type {
-namespace detail_ {
-
-/// Typedef of the tensor of tensors tile
-template<typename T>
-using tot_tile = TA::Tensor<TA::Tensor<T>>;
-
-} // namespace detail_
 
 /// Type used for offsets and indexing
 using size = std::size_t;
 
-/// Typedef of the tensor class
-template<typename T>
-using tensor = TA::TSpArray<T>;
+/// Type used for non-hierarchical tensors
+using tensor = libchemist::tensor::type::SparseTensorWrapper;
 
-/// Typedef of the tensor of tensor class
-template<typename T>
-using tensor_of_tensors = TA::DistArray<detail_::tot_tile<T>, TA::SparsePolicy>;
+/// Type used for hierarchical (i.e. ToTs) tensors
+using tensor_of_tensors = libchemist::tensor::type::ToTWrapper;
 
 } // namespace libchemist::type

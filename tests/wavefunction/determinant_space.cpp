@@ -3,8 +3,8 @@
 
 using namespace libchemist::wavefunction;
 
-using tuple_type = std::tuple<DeterminantD, CanonicalDeterminantD,
-                              LocalDeterminantD, CanonicalLocalDeterminantD>;
+using tuple_type = std::tuple<Determinant, CanonicalDeterminant,
+                              LocalDeterminant, CanonicalLocalDeterminant>;
 
 /* Testing strategy:
  *

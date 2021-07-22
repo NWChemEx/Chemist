@@ -1,3 +1,9 @@
+/** @brief perturbative.ipp
+ *
+ *  Implementations of the wavefunction::Perturbative class. This file should
+ *  not be included from any file except for
+ *  libchemist/wavefunction/perturbative.hpp
+ */
 #pragma once
 
 namespace libchemist::wavefunction {

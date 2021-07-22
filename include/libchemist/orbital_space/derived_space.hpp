@@ -252,11 +252,13 @@ protected:
      *  @throw None No throw guarantee.
      */
     virtual size_type size_() const noexcept override;
-    virtual type::tensor_wrapper transform_(const type::tensor_wrapper& t,
-                                            const mode_container& modes) const;
 
-    virtual type::tot_wrapper transform_(const type::tot_wrapper& t,
-                                         const mode_container& modes) const;
+    // virtual type::tensor_wrapper transform_(const type::tensor_wrapper& t,
+    //                                         const mode_container& modes)
+    //                                         const;
+
+    // virtual type::tot_wrapper transform_(const type::tot_wrapper& t,
+    //                                      const mode_container& modes) const;
 
     /// Include the transformation and the from space in the hash
     virtual void hash_(sde::Hasher& h) const override;
@@ -292,7 +294,9 @@ bool operator==(
         else if(!plhs && prhs)
             return false; // RHS has from, LHS doesn't
         // else is both don't have from-space
-        return lhs.C() == rhs.C();
+
+        if(lhs.size() != rhs.size()) return false;
+        return lhs.size() ? lhs.C() == rhs.C() : true;
     }
 }
 
@@ -306,11 +310,10 @@ bool operator!=(
 
 // ------------------------- Typedefs ------------------------------------------
 
-using DerivedSpaceD = DerivedSpace<type::tensor<double>, AOSpaceD, BaseSpace>;
-using IndDerivedSpaceD =
-  DerivedSpace<type::tensor<double>, DepAOSpaceD, BaseSpace>;
-using DepDerivedSpaceD =
-  DerivedSpace<type::tensor_of_tensors<double>, DepAOSpaceD, DependentSpace>;
+using DerivedSpaceD   = DerivedSpace<type::tensor, AOSpaceD, BaseSpace>;
+using IndDerivedSpace = DerivedSpace<type::tensor, DepAOSpaceD, BaseSpace>;
+using DepDerivedSpace =
+  DerivedSpace<type::tensor_of_tensors, DepAOSpaceD, DependentSpace>;
 
 // ----------------------- Inline Implementations ------------------------------
 
@@ -337,10 +340,9 @@ const auto& DerivedSpace<TransformType, FromSpace, BaseType>::from_space()
 
 // ---------------- Explicit Template Instantiations ---------------------------
 
-extern template class DerivedSpace<type::tensor<double>, AOSpaceD, BaseSpace>;
-extern template class DerivedSpace<type::tensor<double>, DepAOSpaceD,
-                                   BaseSpace>;
-extern template class DerivedSpace<type::tensor_of_tensors<double>, DepAOSpaceD,
+extern template class DerivedSpace<type::tensor, AOSpaceD, BaseSpace>;
+extern template class DerivedSpace<type::tensor, DepAOSpaceD, BaseSpace>;
+extern template class DerivedSpace<type::tensor_of_tensors, DepAOSpaceD,
                                    DependentSpace>;
 
 } // namespace libchemist::orbital_space

@@ -6,8 +6,10 @@ using namespace libchemist;
 using namespace libchemist::tensor;
 
 using tensor_types =
-  std::tuple<type::tensor<double>, type::tensor<float>,
-             type::tensor_of_tensors<double>, type::tensor_of_tensors<float>>;
+  std::tuple<libchemist::tensor::type::detail_::tensor<double>,
+             libchemist::tensor::type::detail_::tensor<float>,
+             libchemist::tensor::type::detail_::tensor_of_tensors<double>,
+             libchemist::tensor::type::detail_::tensor_of_tensors<float>>;
 
 TEMPLATE_LIST_TEST_CASE("TA TensorTraits", "", tensor_types) {
     using tensor_type = TestType;

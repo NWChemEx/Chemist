@@ -146,6 +146,21 @@ bool operator!=(const DeterminantSpace<LHSOccSpace, LHSVirtSpace>& lhs,
     return !(lhs == rhs);
 }
 
+/// Type of a determinant space which uses derived orbitals
+using Determinant = DeterminantSpace<orbital_space::DerivedSpaceD>;
+
+/// Type of a determinant space which uses canonical MOs
+using CanonicalDeterminant = DeterminantSpace<orbital_space::CanonicalSpaceD>;
+
+/// Type of a determinant space which uses local orbitals
+using LocalDeterminant = DeterminantSpace<orbital_space::IndDerivedSpace,
+                                          orbital_space::DepDerivedSpace>;
+
+/// Type of a determinant space which uses quasicanonical local orbitals
+using CanonicalLocalDeterminant =
+  DeterminantSpace<orbital_space::CanonicalIndSpace,
+                   orbital_space::CanonicalDepSpace>;
+
 } // namespace libchemist::wavefunction
 
 #include "determinant_space.ipp"
