@@ -5,6 +5,11 @@
 
 namespace libchemist::detail_ {
 
+template <typename Enum>
+constexpr std::underlying_type_t<Enum> to_underlying_type( Enum e ) {
+    return static_cast<std::underlying_type_t<Enum>>(e);
+}
+
 /** @brief Implements the Shell class
  *
  *  In electronic structure theory a "shell" is a set of AOs which have the same
@@ -190,7 +195,7 @@ typename ShellPIMPL<T>::size_type ShellPIMPL<T>::size() const noexcept {
     const auto p_val = 2ul * L + 1ul;
     // closed form for 2+L choose 2
     const auto c_val = (L * L + 3ul * L + 2ul) / 2ul;
-    return m_pure_.value() ? p_val : c_val;
+    return to_underlying_type(m_pure_.value()) ? p_val : c_val;
 }
 
 template<typename T>

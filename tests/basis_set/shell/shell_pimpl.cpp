@@ -6,7 +6,7 @@ using namespace libchemist;
 using vector_t = std::vector<double>;
 
 template<typename T, typename U, typename V>
-static void check_state(T&& pimpl, bool p, int l, std::size_t size, U&& cs,
+static void check_state(T&& pimpl, ShellType p, int l, std::size_t size, U&& cs,
                         V&& es) {
     SECTION("Purity") { REQUIRE(pimpl.purity() == p); }
     SECTION("Angular momentum") { REQUIRE(pimpl.l() == l); }
@@ -24,7 +24,7 @@ static void check_state(T&& pimpl, bool p, int l, std::size_t size, U&& cs,
 
 TEST_CASE("ShellPIMPL : default ctor") {
     ShellPIMPL<double> p;
-    check_state(p, false, 0, 1, vector_t{}, vector_t{});
+    check_state(p, ShellType::cartesian, 0, 1, vector_t{}, vector_t{});
 }
 
 TEST_CASE("ShellPIMPL : copy ctor") {
@@ -44,7 +44,7 @@ TEST_CASE("ShellPIMPL : copy ctor") {
 TEST_CASE("ShellPIMPL : value ctor") {
     vector_t cs{1.0, 2.0, 3.0};
     vector_t es{4.0, 5.0, 6.0};
-    ShellType pure = cartesian;
+    ShellType pure = ShellType::cartesian;
     std::size_t l  = 1;
     SECTION("Copy version") {
         ShellPIMPL<double> p(pure, l, cs, es);
@@ -69,14 +69,14 @@ TEST_CASE("ShellPIMPL : value ctor") {
 TEST_CASE("ShellPIMPL : purity()") {
     SECTION("Cartesian") {
         ShellPIMPL<double> p(ShellType::cartesian, 0, vector_t{}, vector_t{});
-        SECTION("Value") { REQUIRE_FALSE(p.purity()); }
+        SECTION("Value") { REQUIRE_FALSE(static_cast<bool>(p.purity())); }
         SECTION("Is read/write-able") {
             STATIC_REQUIRE(std::is_same_v<ShellType&, decltype(p.purity())>);
         }
     }
     SECTION("Spherical") {
         ShellPIMPL<double> p(ShellType::pure, 0, vector_t{}, vector_t{});
-        SECTION("Value") { REQUIRE(p.purity()); }
+        SECTION("Value") { REQUIRE(static_cast<bool>(p.purity())); }
         SECTION("Is read/write-able") {
             STATIC_REQUIRE(std::is_same_v<ShellType&, decltype(p.purity())>);
         }
@@ -87,7 +87,7 @@ TEST_CASE("ShellPIMPL : purity() const") {
     SECTION("Cartesian") {
         const ShellPIMPL<double> p(ShellType::cartesian, 0, vector_t{},
                                    vector_t{});
-        SECTION("Value") { REQUIRE_FALSE(p.purity()); }
+        SECTION("Value") { REQUIRE_FALSE(static_cast<bool>(p.purity())); }
         SECTION("Is read-only") {
             STATIC_REQUIRE(
               std::is_same_v<const ShellType&, decltype(p.purity())>);
@@ -95,7 +95,7 @@ TEST_CASE("ShellPIMPL : purity() const") {
     }
     SECTION("Spherical") {
         const ShellPIMPL<double> p(ShellType::pure, 0, vector_t{}, vector_t{});
-        SECTION("Value") { REQUIRE(p.purity()); }
+        SECTION("Value") { REQUIRE(static_cast<bool>(p.purity())); }
         SECTION("Is read-only") {
             STATIC_REQUIRE(
               std::is_same_v<const ShellType&, decltype(p.purity())>);

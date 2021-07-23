@@ -29,7 +29,7 @@ static inline auto make_shell() {
 }
 
 template<typename T1, typename T2>
-static void check_state(T1&& s, bool pure, std::size_t l, T2&& corr) {
+static void check_state(T1&& s, ShellType pure, std::size_t l, T2&& corr) {
     SECTION("Purity") { REQUIRE(s.pure() == pure); }
     SECTION("Angular Momentum") { REQUIRE(s.l() == l); }
     SECTION("CGTO") { REQUIRE(s[0] == corr); }
@@ -38,26 +38,26 @@ static void check_state(T1&& s, bool pure, std::size_t l, T2&& corr) {
 TEST_CASE("Shell : default ctor") {
     Shell<double> s;
     ContractedGaussian<double> cg(vector_t{}, vector_t{}, 0.0, 0.0, 0.0);
-    check_state(s, false, 0, cg);
+    check_state(s, ShellType::cartesian, 0, cg);
 }
 
 TEST_CASE("Shell : copy ctor") {
     auto [s, cg] = make_shell();
     Shell<double> s2(s);
-    check_state(s2, true, 2, cg);
+    check_state(s2, ShellType::pure, 2, cg);
 }
 
 TEST_CASE("Shell : move ctor") {
     auto [s, cg] = make_shell();
     Shell<double> s2(std::move(s));
-    check_state(s2, true, 2, cg);
+    check_state(s2, ShellType::pure, 2, cg);
 }
 
 TEST_CASE("Shell : copy assignment") {
     auto [s, cg] = make_shell();
     Shell<double> s2;
     auto ps2 = &(s2 = s);
-    check_state(s2, true, 2, cg);
+    check_state(s2, ShellType::pure, 2, cg);
     SECTION("Returns this") { REQUIRE(ps2 == &s2); }
 }
 
@@ -65,13 +65,13 @@ TEST_CASE("Shell : move assignment") {
     auto [s, cg] = make_shell();
     Shell<double> s2;
     auto ps2 = &(s2 = std::move(s));
-    check_state(s2, true, 2, cg);
+    check_state(s2, ShellType::pure, 2, cg);
     SECTION("Returns this") { REQUIRE(ps2 == &s2); }
 }
 
 TEST_CASE("Shell : value ctor") {
     auto [s, cg] = make_shell();
-    check_state(s, true, 2, cg);
+    check_state(s, ShellType::pure, 2, cg);
 }
 
 TEST_CASE("Shell : PIMPL ctor") {
@@ -82,12 +82,12 @@ TEST_CASE("Shell : PIMPL ctor") {
     auto ptr2 = std::make_unique<detail_::PointPIMPL<double>>(7.0, 8.0, 9.0);
     Shell<double> s(std::move(ptr1), std::move(ptr2));
     auto [shell2, cg] = make_shell();
-    check_state(s, true, 2, cg);
+    check_state(s, ShellType::pure, 2, cg);
 }
 
 TEST_CASE("Shell : pure()") {
     auto [s, cg] = make_shell();
-    REQUIRE(s.pure());
+    REQUIRE(s.pure() == ShellType::pure);
     SECTION("Is read-/write-able") {
         STATIC_REQUIRE(std::is_same_v<ShellType&, decltype(s.pure())>);
     }
@@ -95,7 +95,7 @@ TEST_CASE("Shell : pure()") {
 
 TEST_CASE("Shell : pure() const") {
     const auto [s, cg] = make_shell();
-    REQUIRE(s.pure());
+    REQUIRE(s.pure() == ShellType::pure);
     SECTION("Is read-only") {
         STATIC_REQUIRE(std::is_same_v<const ShellType&, decltype(s.pure())>);
     }

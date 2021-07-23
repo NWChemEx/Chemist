@@ -42,7 +42,12 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to hold the new
      *                        charge. Strong throw guarantee.
      */
-    void add_charge(charge_type q) { m_charges_.emplace_back(std::move(q)); }
+    //void add_charge(charge_type q) { m_charges_.emplace_back(std::move(q)); }
+
+    template <typename... Args>
+    void add_charge( Args&&... args ) {
+      m_charges_.emplace_back( std::forward<Args>(args)... );
+    }
 
     /** @brief Returns the i-th point charge in the potential in a modifiable
      *         state.

@@ -8,8 +8,11 @@ using namespace libchemist;
 inline constexpr const auto& as_derived_operator( const DerivedOperator& op ) { return op; }
 
 TEST_CASE("Derived Operator") {
-    ElectronNuclearCoulomb V1; V1.add_charge( -1., 0,0,0 );
-    ElectronNuclearCoulomb V2; V2.add_charge( -2., 0,0,0 );
+    ElectronNuclearCoulomb V1; 
+    V1.potential().add_charge( PointCharge<double>(-1., 0,0,0) );
+
+    ElectronNuclearCoulomb V2; 
+    V2.potential().add_charge( PointCharge<double>(-2., 0,0,0) );
 
     Hamiltonian  h_default, h_v1(V1), h_v2(V2); 
     FockOperator f_default, f_v1(V1), f_v2(V2); 
