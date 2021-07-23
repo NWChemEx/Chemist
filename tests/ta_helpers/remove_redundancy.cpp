@@ -4,7 +4,7 @@
 
 using namespace libchemist::ta_helpers;
 
-using tensor_type = libchemist::type::tensor<double>;
+using tensor_type = TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>;
 using vector_t    = std::initializer_list<double>;
 using matrix_t    = std::initializer_list<vector_t>;
 

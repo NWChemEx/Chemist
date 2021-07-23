@@ -15,13 +15,14 @@ using tuple = std::tuple<CanonicalSpaceD, CanonicalIndSpace, CanonicalDepSpace>;
  */
 
 TEST_CASE("CanonicalSpaceD") {
-    using space_type  = CanonicalSpaceD;
-    using tensor_type = TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>;
-    using from_space  = AOSpaceD;
+    using space_type     = CanonicalSpaceD;
+    using ta_tensor_type = TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>;
+    using tensor_type    = type::tensor;
+    using from_space     = AOSpaceD;
 
     auto& world = TA::get_default_world();
-    tensor_type ei(world, {1.0, 2.0, 3.0});
-    tensor_type c(world, {{1.0, 2.0}, {3.0, 4.0}});
+    tensor_type ei(ta_tensor_type(world, {1.0, 2.0, 3.0}));
+    tensor_type c(ta_tensor_type(world, {{1.0, 2.0}, {3.0, 4.0}}));
 
     space_type defaulted;
     space_type only_ev(ei);

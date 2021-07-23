@@ -1,5 +1,6 @@
 #pragma once
 #include "libchemist/orbital_space/type_traits.hpp"
+#include "libchemist/tensor/types.hpp"
 #include <catch2/catch.hpp>
 
 /* This file contains functions which are useful for testing classes in the
@@ -11,15 +12,21 @@ namespace testing {
 // Makes dummy tensors of type "TensorType" with elements seeded from "seed"
 template<typename TensorType>
 auto make_tensor(double seed = 1.0) {
-    using value_type = typename TensorType::value_type;
+    constexpr bool is_tot =
+      std::is_same_v<TensorType, libchemist::type::tensor_of_tensors>;
 
     auto& world = TA::get_default_world();
-    if constexpr(TA::detail::is_tensor_of_tensor_v<value_type>) {
+    if constexpr(is_tot) {
+        using ta_tot =
+          libchemist::tensor::type::detail_::tensor_of_tensors<double>;
+        using value_type = typename ta_tot::value_type;
         using inner_type = typename value_type::value_type;
         inner_type inner(TA::Range{2, 1}, {seed, seed + 1.0});
-        return TensorType(world, {inner, inner});
+        return TensorType(ta_tot(world, {inner, inner}));
     } else {
-        return TensorType(world, {seed, seed + 1.0});
+        using value_type = TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>;
+        value_type t(world, {{seed}, {seed + 1.0}});
+        return TensorType(t);
     }
 }
 

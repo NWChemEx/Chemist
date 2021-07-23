@@ -6,7 +6,8 @@ using namespace libchemist;
 using namespace libchemist::sparse_map;
 using namespace libchemist::sparse_map::detail_;
 
-using tot_type   = type::tensor_of_tensors<double>;
+using tot_type =
+  TA::DistArray<TA::Tensor<TA::Tensor<double>>, TA::SparsePolicy>;
 using tot_tile   = typename tot_type::value_type;
 using inner_tile = typename tot_tile::value_type;
 using ei         = ElementIndex;

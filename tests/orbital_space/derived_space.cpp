@@ -24,7 +24,7 @@ TEST_CASE("DerivedSpace") {
     using scalar_type = double;
     using space_type  = DerivedSpaceD;
     using ta_tensor = TA::DistArray<TA::Tensor<scalar_type>, TA::SparsePolicy>;
-    using tensor_type = type::tensor;
+    using tensor_type = libchemist::type::tensor;
     using from_space  = AOSpaceD;
     using base_space  = BaseSpace;
 
@@ -216,8 +216,8 @@ TEST_CASE("DerivedSpace") {
         }
 
         SECTION("Different from-space types") {
-            REQUIRE_FALSE(space_type{} == IndDerivedSpaceD{});
-            REQUIRE(space_type{} != IndDerivedSpaceD{});
+            REQUIRE_FALSE(space_type{} == IndDerivedSpace{});
+            REQUIRE(space_type{} != IndDerivedSpace{});
         }
     }
 }
@@ -225,13 +225,13 @@ TEST_CASE("DerivedSpace") {
 TEST_CASE("IndDerivedSpace") {
     using scalar_type = double;
     using space_type  = IndDerivedSpace;
-    using tensor_type = libchemist::tensor::type::tensor;
+    using tensor_type = libchemist::type::tensor;
     using ta_tensor_type =
       TA::DistArray<TA::Tensor<scalar_type>, TA::SparsePolicy>;
-    using tot_type = libchemist::tensor::type::tensor_of_tensors;
+    using tot_type = libchemist::type::tensor_of_tensors;
     using ta_tot_type =
       TA::DistArray<TA::Tensor<TA::Tensor<scalar_type>>, TA::SparsePolicy>;
-    using tile_type  = typename tot_type::value_type;
+    using tile_type  = typename ta_tot_type::value_type;
     using inner_type = typename tile_type::value_type;
     using from_space = DepAOSpaceD;
     using base_space = BaseSpace;
@@ -260,7 +260,7 @@ TEST_CASE("IndDerivedSpace") {
 
     // Build non-default transformation
     auto& world = TA::get_default_world();
-    tensor_type C(ta_tensor(world, {{1.0, 2.0}, {3.0, 4.0}}));
+    tensor_type C(ta_tensor_type(world, {{1.0, 2.0}, {3.0, 4.0}}));
 
     space_type default_ao(C, from_space{});
     AOBasisSetD bs;
@@ -426,7 +426,7 @@ TEST_CASE("IndDerivedSpace") {
         }
 
         SECTION("Different from-space types") {
-            REQUIRE_FALSE(space_type{} == DerivedSpace{});
+            REQUIRE_FALSE(space_type{} == DerivedSpaceD{});
             REQUIRE(space_type{} != DerivedSpaceD{});
         }
     }

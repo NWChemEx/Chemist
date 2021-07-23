@@ -10,10 +10,13 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
     auto& world    = TA::get_default_world();
     using TWrapper = TensorWrapper<type::tensor_variant>;
     using t_type   = TestType;
+    using extents  = typename TWrapper::extents_type;
 
     t_type vec_data(world, {1.0, 2.0, 3.0});
     t_type mat_data(world, {{1.0, 2.0}, {3.0, 4.0}});
     t_type t3_data(world, {{{1.0, 2.0}, {3.0, 4.0}}, {{5.0, 6.0}, {7.0, 8.0}}});
+
+    TWrapper defaulted;
 
     TWrapper vec(vec_data);
     TWrapper mat(mat_data);
@@ -40,24 +43,80 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
             using corr = detail_::LabeledTensorWrapper<const TWrapper>;
             STATIC_REQUIRE(std::is_same_v<type, corr>);
         }
+        SECTION("size_type") {
+            using type = typename TWrapper::size_type;
+            using corr = std::size_t;
+            STATIC_REQUIRE(std::is_same_v<type, corr>);
+        }
+        SECTION("extents_type") {
+            using corr = std::vector<std::size_t>;
+            STATIC_REQUIRE(std::is_same_v<extents, corr>);
+        }
     }
 
-    SECTION("Wrapping CTor") {
-        REQUIRE(vec.rank() == 1);
-        REQUIRE(mat.rank() == 2);
-        REQUIRE(t3.rank() == 3);
+    SECTION("CTors") {
+        SECTION("Default") {
+            REQUIRE(defaulted.rank() == 0);
+            REQUIRE(defaulted.extents() == extents{});
+        }
+
+        SECTION("Wrapping CTor") {
+            REQUIRE(vec.rank() == 1);
+            REQUIRE(vec.extents() == extents{3});
+            REQUIRE(mat.rank() == 2);
+            REQUIRE(mat.extents() == extents{2, 2});
+            REQUIRE(t3.rank() == 3);
+            REQUIRE(t3.extents() == extents{2, 2, 2});
+        }
+
+        SECTION("Copy") {
+            TWrapper copied(vec);
+            REQUIRE(copied.rank() == 1);
+            REQUIRE(copied.extents() == extents{3});
+        }
+
+        SECTION("Move") {
+            TWrapper moved(std::move(vec));
+            REQUIRE(moved.rank() == 1);
+            REQUIRE(moved.extents() == extents{3});
+        }
+
+        SECTION("Copy assignment") {
+            TWrapper copied;
+            auto pcopied = &(copied = vec);
+            REQUIRE(pcopied == &copied);
+            REQUIRE(copied.rank() == 1);
+            REQUIRE(copied.extents() == extents{3});
+        }
+
+        SECTION("Move assignment") {
+            TWrapper moved;
+            auto pmoved = &(moved = std::move(vec));
+            REQUIRE(pmoved == &moved);
+            REQUIRE(moved.rank() == 1);
+            REQUIRE(moved.extents() == extents{3});
+        }
     }
 
     SECTION("make_annotation") {
+        REQUIRE(defaulted.make_annotation() == "");
         REQUIRE(vec.make_annotation() == "i0");
         REQUIRE(mat.make_annotation("j") == "j0,j1");
         REQUIRE(t3.make_annotation() == "i0,i1,i2");
     }
 
     SECTION("rank()") {
+        REQUIRE(defaulted.rank() == 0);
         REQUIRE(vec.rank() == 1);
         REQUIRE(mat.rank() == 2);
         REQUIRE(t3.rank() == 3);
+    }
+
+    SECTION("extents()") {
+        REQUIRE(defaulted.extents() == extents{});
+        REQUIRE(vec.extents() == extents{3});
+        REQUIRE(mat.extents() == extents{2, 2});
+        REQUIRE(t3.extents() == extents{2, 2, 2});
     }
 
     SECTION("operator()") {

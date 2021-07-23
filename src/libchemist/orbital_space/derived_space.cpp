@@ -12,8 +12,12 @@ typename DERIVED_SPACE::size_type DERIVED_SPACE::size_() const noexcept {
         return BaseType::size_();
     } else {
         const auto extents = C().extents();
+        if(extents.empty())
+            return 0;
+        else if(extents.size() != 2)
+            throw std::runtime_error("Assuming column vectors");
         // Assumes columns are the orbitals
-        return !extents.empty() ? extents[1] : 0;
+        return extents[1];
     }
 }
 

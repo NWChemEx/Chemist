@@ -5,9 +5,9 @@
 using namespace libchemist::orbital_space;
 
 using non_canonical_tuple =
-  std::tuple<DerivedSpaceD, IndDerivedSpaceD, DepDerivedSpaceD>;
+  std::tuple<DerivedSpaceD, IndDerivedSpace, DepDerivedSpace>;
 using canonical_tuple =
-  std::tuple<CanonicalSpaceD, CanonicalIndSpaceD, CanonicalDepSpaceD>;
+  std::tuple<CanonicalSpaceD, CanonicalIndSpace, CanonicalDepSpace>;
 
 TEMPLATE_LIST_TEST_CASE("IsCanonicalSpace (false)", "", non_canonical_tuple) {
     STATIC_REQUIRE_FALSE(detail_::IsCanonicalSpace<TestType>::value);

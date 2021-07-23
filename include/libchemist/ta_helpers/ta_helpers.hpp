@@ -122,7 +122,7 @@ auto grab_diagonal(TensorType&& t) {
 template<typename T>
 auto array_from_vec(const std::vector<T>& vec, const TA::TiledRange1& trange,
                     TA::World& world) {
-    using tensor_type = TA::DistArray<T, TA::SparsePolicy>;
+    using tensor_type = TA::DistArray<TA::Tensor<T>, TA::SparsePolicy>;
     using tile_type   = typename tensor_type::value_type;
 
     tensor_type rv(world, TA::TiledRange{trange});

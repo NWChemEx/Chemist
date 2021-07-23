@@ -1,14 +1,14 @@
-#include "libchemist/wavefunction/perturbative.hpp"
-
+#include "libchemist/wavefunction/many_body.hpp"
+#include "test_wavefunction.hpp"
 using namespace libchemist::wavefunction;
 
 using tuple_type = std::tuple<Reference, CanonicalReference, LocalReference,
                               CanonicalLocalReference>;
 
-TEMPLATE_LIST_TEST_CASE("Perturbative", "", tuple_type) {
+TEMPLATE_LIST_TEST_CASE("ManyBody", "", tuple_type) {
     using reference_t = TestType;
     using basis_t     = typename reference_t::basis_set_type;
-    using wf_t = Perturbative<reference_t, libchemist::type::tensor<double>>;
+    using wf_t        = ManyBody<reference_t, libchemist::type::tensor>;
     using tensor_type = typename wf_t::tensor_type;
 
     wf_t defaulted;
@@ -26,6 +26,20 @@ TEMPLATE_LIST_TEST_CASE("Perturbative", "", tuple_type) {
             REQUIRE(defaulted.reference_wavefunction() == reference_t{});
             REQUIRE(defaulted.t1() == tensor_type{});
             REQUIRE(defaulted.t2() == tensor_type{});
+        }
+
+        SECTION("Value") {
+            REQUIRE(non_default_ref.reference_wavefunction() == spin1);
+            REQUIRE(non_default_ref.t1() == tensor_type{});
+            REQUIRE(non_default_ref.t2() == tensor_type{});
+
+            REQUIRE(non_default_t2.reference_wavefunction() == reference_t{});
+            REQUIRE(non_default_t2.t1() == tensor_type{});
+            REQUIRE(non_default_t2.t2() == t2);
+
+            REQUIRE(non_default_t1.reference_wavefunction() == reference_t{});
+            REQUIRE(non_default_t1.t1() == t1);
+            REQUIRE(non_default_t1.t2() == tensor_type{});
         }
     }
 }
