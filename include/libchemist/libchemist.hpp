@@ -16,6 +16,7 @@
 #include "libchemist/operator/operator.hpp"
 #include "libchemist/orbital_space/orbital_space.hpp"
 #include "libchemist/tensor/tensor.hpp"
+#include "libchemist/topology/topology.hpp"
 
 /**
  * @brief The primary namespace for the libchemist library
