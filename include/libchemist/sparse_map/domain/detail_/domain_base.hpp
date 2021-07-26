@@ -1,8 +1,8 @@
 #pragma once
 #include "libchemist/sparse_map/domain/detail_/domain_traits.hpp"
 #include "libchemist/sparse_map/index.hpp"
-#include <memory>      // For smart pointers
-#include <sde/sde.hpp> // For hashing
+#include <memory>                    // For smart pointers
+#include <pluginplay/pluginplay.hpp> // For hashing
 
 namespace libchemist::sparse_map {
 
@@ -513,7 +513,7 @@ public:
      *  @throws std::runtime_error if the PIMPL is not set. Strong throw
      *                             guarantee.
      */
-    void hash(sde::Hasher& h) const;
+    void hash(pluginplay::Hasher& h) const;
 
     /** @brief Adds a string representation of this Domain to the provided
      *         stream.

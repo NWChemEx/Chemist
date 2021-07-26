@@ -1,7 +1,7 @@
 #pragma once
 #include <algorithm> // lexicographic_compare
 #include <iostream>
-#include <sde/hasher.hpp>
+#include <pluginplay/hasher.hpp>
 #include <vector>
 
 namespace libchemist::sparse_map {
@@ -157,7 +157,7 @@ struct Index {
      *                   running hash of @p h will include the state of this
      *                   Index instance.
      */
-    void hash(sde::Hasher& h) const { h(m_index); }
+    void hash(pluginplay::Hasher& h) const { h(m_index); }
 
     /** @brief Prints the Index to the provided std::ostream
      *

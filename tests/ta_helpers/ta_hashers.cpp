@@ -1,13 +1,13 @@
 #include "libchemist/ta_helpers/ta_hashers.hpp"
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
-#include <sde/hasher.hpp>
+#include <pluginplay/hasher.hpp>
 
-using sde::hash_objects;
-/* Alternative to sde::hash_objects
+using pluginplay::hash_objects;
+/* Alternative to pluginplay::hash_objects
 auto hash_string = [](auto a) {
-    return sde::hash_to_string(
-        sde::make_hash(sde::HashType::Hash128, a));
+    return pluginplay::hash_to_string(
+        pluginplay::make_hash(pluginplay::HashType::Hash128, a));
 };
 */
 

@@ -82,14 +82,14 @@ TEST_CASE("DependentSpace") {
     SECTION("hash") {
         SECTION("Same") {
             DepAOSpaceD copy(nondefault_sm);
-            REQUIRE(sde::hash_objects(nondefault_sm) ==
-                    sde::hash_objects(copy));
+            REQUIRE(pluginplay::hash_objects(nondefault_sm) ==
+                    pluginplay::hash_objects(copy));
         }
 
         SECTION("Different") {
             DepAOSpaceD copy(nondefault_sm);
-            REQUIRE(sde::hash_objects(defaulted) !=
-                    sde::hash_objects(nondefault_sm));
+            REQUIRE(pluginplay::hash_objects(defaulted) !=
+                    pluginplay::hash_objects(nondefault_sm));
         }
     }
 

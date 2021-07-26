@@ -2,7 +2,7 @@
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include "libchemist/tensor/detail_/labeled_tensor_wrapper.hpp"
 #include "libchemist/tensor/type_traits/type_traits.hpp"
-#include <sde/hasher.hpp>
+#include <pluginplay/hasher.hpp>
 #include <utilities/type_traits/variant/add_const.hpp>
 #include <utilities/type_traits/variant/decay.hpp>
 #include <utilities/type_traits/variant/has_type.hpp>
@@ -230,7 +230,7 @@ public:
      *
      *  @param[in] h The hasher we are adding the wrapped tensor to.
      */
-    void hash(sde::Hasher& h) const;
+    void hash(pluginplay::Hasher& h) const;
 
     /** @brief Determines if two TensorWrappers wrap identical tensors.
      *

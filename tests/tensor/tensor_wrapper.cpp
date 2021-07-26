@@ -179,8 +179,9 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
 
     SECTION("hash") {
         TWrapper other_vec(vec_data);
-        REQUIRE(sde::hash_objects(other_vec) == sde::hash_objects(vec));
-        REQUIRE(sde::hash_objects(vec) != sde::hash_objects(mat));
+        REQUIRE(pluginplay::hash_objects(other_vec) ==
+                pluginplay::hash_objects(vec));
+        REQUIRE(pluginplay::hash_objects(vec) != pluginplay::hash_objects(mat));
     }
 
     SECTION("comparisons") {

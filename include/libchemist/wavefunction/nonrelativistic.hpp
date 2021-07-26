@@ -81,7 +81,7 @@ public:
      *  @param[in,out] h The instance to use for hashing. After this call @p h
      *                   will contain a hash of this wavefunction.
      */
-    void hash(sde::Hasher& h) const { h(m_spin_, m_basis_); }
+    void hash(pluginplay::Hasher& h) const { h(m_spin_, m_basis_); }
 
 private:
     /// The total spin of the wavefunction

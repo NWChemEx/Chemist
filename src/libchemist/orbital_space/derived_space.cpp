@@ -60,7 +60,7 @@ typename DERIVED_SPACE::size_type DERIVED_SPACE::size_() const noexcept {
 // }
 
 template<typename TransformType, typename FromSpace, typename BaseType>
-void DERIVED_SPACE::hash_(sde::Hasher& h) const {
+void DERIVED_SPACE::hash_(pluginplay::Hasher& h) const {
     BaseType::hash_(h);
     h(m_C_, m_pbase_);
 }

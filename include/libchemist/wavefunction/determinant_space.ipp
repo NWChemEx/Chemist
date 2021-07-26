@@ -18,7 +18,7 @@ DETERMINANT_SPACE::DeterminantSpace(occupied_orbital_type occ,
   m_occ_(std::move(occ)), m_virt_(std::move(virt)), m_fock_(std::move(fock)) {}
 
 template<typename OccupiedSpaceType, typename VirtualSpaceType>
-void DETERMINANT_SPACE::hash(sde::Hasher& h) const {
+void DETERMINANT_SPACE::hash(pluginplay::Hasher& h) const {
     h(m_occ_, m_virt_); //, m_fock_);
 }
 

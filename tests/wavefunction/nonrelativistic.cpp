@@ -84,20 +84,20 @@ TEMPLATE_LIST_TEST_CASE("Nonrelativistic", "", tuple_type) {
 
     // SECTION("hash") {
     //     SECTION("LHS == default") {
-    //         auto lhs = sde::hash_objects(defaulted);
+    //         auto lhs = pluginplay::hash_objects(defaulted);
 
     //         SECTION("RHS == default") {
     //             wf_t rhs;
-    //             REQUIRE(lhs == sde::hash_objects(rhs));
+    //             REQUIRE(lhs == pluginplay::hash_objects(rhs));
     //         }
 
     //         SECTION("different space") {
-    //             REQUIRE(lhs != sde::hash_objects(non_default_space));
+    //             REQUIRE(lhs != pluginplay::hash_objects(non_default_space));
     //         }
 
     //         SECTION("different spin") {
     //             wf_t rhs(basis_set_t{}, 1);
-    //             REQUIRE(lhs != sde::hash_objects(rhs));
+    //             REQUIRE(lhs != pluginplay::hash_objects(rhs));
     //         }
     //     }
     // }

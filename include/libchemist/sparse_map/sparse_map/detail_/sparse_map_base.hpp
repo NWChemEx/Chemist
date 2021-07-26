@@ -467,9 +467,9 @@ public:
      * @throw std::runtime_error if the rank of the dependent indices of this
      * instance is not equal to the rank of the independent indices of \p sm.
      */
-    template<typename RHSDepIdx>
-    SparseMap<IndIndex, RHSDepIdx> chain(
-      const SparseMap<DepIndex, RHSDepIdx>& sm) const {
+    template<typename RHpluginplaypIdx>
+    SparseMap<IndIndex, RHpluginplaypIdx> chain(
+      const SparseMap<DepIndex, RHpluginplaypIdx>& sm) const {
         return chain_(sm);
     }
 
@@ -508,7 +508,7 @@ public:
      *                   internal hash of @p h will be updated to include this
      *                   SparseMap's state.
      */
-    void hash(sde::Hasher& h) const;
+    void hash(pluginplay::Hasher& h) const;
 
 protected:
     /// Ensures the instance has a PIMPL and returns it
@@ -518,11 +518,11 @@ protected:
     const pimpl_type& pimpl_() const;
 
 private:
-    /// Implements chain when RHSDepIdx == ElementIndex
+    /// Implements chain when RHpluginplaypIdx == ElementIndex
     SparseMap<IndIndex, ElementIndex> chain_(
       const SparseMap<DepIndex, ElementIndex>& sm) const;
 
-    /// Implements chain when RHSDepIdx == TileIndex
+    /// Implements chain when RHpluginplaypIdx == TileIndex
     SparseMap<IndIndex, TileIndex> chain_(
       const SparseMap<DepIndex, TileIndex>& sm) const;
 

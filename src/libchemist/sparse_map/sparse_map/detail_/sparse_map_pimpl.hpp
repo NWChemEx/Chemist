@@ -294,7 +294,7 @@ public:
      *                   internal hash of @p h will be updated to include this
      *                   SparseMap's state.
      */
-    void hash(sde::Hasher& h) const { hash_(h); }
+    void hash(pluginplay::Hasher& h) const { hash_(h); }
 
 protected:
     SparseMapPIMPL(const SparseMapPIMPL& rhs) = default;
@@ -321,7 +321,7 @@ protected:
     virtual bool equal_(const my_type& rhs) const noexcept;
 
     /// Should be overridden by derived class to implement hash
-    virtual void hash_(sde::Hasher& h) const { h(m_sm_); }
+    virtual void hash_(pluginplay::Hasher& h) const { h(m_sm_); }
 
 private:
     /// Should be overridden by the derived class to make a polymorphic copy

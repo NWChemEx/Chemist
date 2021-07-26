@@ -247,7 +247,7 @@ public:
      *  Compare DerivedOperator instances without reference to their
      *  polymorphic instantiations - DerivedOperator instances which
      *  contain the same set of operators (with the same state) will
-     *  be considered equal. PIMPL-less instances will also be consdered
+     *  be considered equal. PIMPL-less instances will also be conpluginplayred
      *  equal.
      *
      *  @param[in] other DerivedOperator instance we want to compare to

@@ -6,7 +6,7 @@ namespace libchemist::orbital_space {
 #define CANONICAL_SPACE CanonicalSpace<OrbitalEnergyType, BaseType>
 
 template<typename OrbitalEnergyType, typename BaseType>
-void CANONICAL_SPACE::hash_(sde::Hasher& h) const {
+void CANONICAL_SPACE::hash_(pluginplay::Hasher& h) const {
     BaseType::hash_(h);
     h(m_egys_);
 }

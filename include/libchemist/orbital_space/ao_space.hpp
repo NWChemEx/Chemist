@@ -149,7 +149,7 @@ protected:
      *  @param[in,out] h The hasher instance being used. After this call the
      *                   AO basis set wil be added to the internal hashed state.
      */
-    virtual void hash_(sde::Hasher& h) const override;
+    virtual void hash_(pluginplay::Hasher& h) const override;
 
     /** @brief Overrides polymorphic comparison to account for basis set.
      *

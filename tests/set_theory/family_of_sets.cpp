@@ -248,26 +248,29 @@ TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
 
     SECTION("hash") {
         SECTION("Both empty") {
-            auto lhs = sde::hash_objects(defaulted);
+            auto lhs = pluginplay::hash_objects(defaulted);
             family_type other(default_obj);
-            auto rhs = sde::hash_objects(other);
+            auto rhs = pluginplay::hash_objects(other);
             REQUIRE(lhs == rhs);
         }
         SECTION("Different supersets") {
-            auto lhs = sde::hash_objects(defaulted);
-            REQUIRE(lhs != sde::hash_objects(non_default));
+            auto lhs = pluginplay::hash_objects(defaulted);
+            REQUIRE(lhs != pluginplay::hash_objects(non_default));
         }
         SECTION("Same non-empty") {
             family_type rhs(non_default_obj, {{0ul}, {1ul}, {2ul}});
-            REQUIRE(sde::hash_objects(monomers) == sde::hash_objects(rhs));
+            REQUIRE(pluginplay::hash_objects(monomers) ==
+                    pluginplay::hash_objects(rhs));
         }
         SECTION("Different non-empty size") {
             family_type rhs(non_default_obj, {{0ul}, {1ul}});
-            REQUIRE(sde::hash_objects(monomers) != sde::hash_objects(rhs));
+            REQUIRE(pluginplay::hash_objects(monomers) !=
+                    pluginplay::hash_objects(rhs));
         }
         SECTION("Different non-empty subset") {
             family_type rhs(non_default_obj, {{0ul}, {1ul}, {0ul, 1ul}});
-            REQUIRE(sde::hash_objects(monomers) != sde::hash_objects(rhs));
+            REQUIRE(pluginplay::hash_objects(monomers) !=
+                    pluginplay::hash_objects(rhs));
         }
     }
 

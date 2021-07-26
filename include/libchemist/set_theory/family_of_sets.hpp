@@ -189,7 +189,7 @@ public:
      *                   FamilyOfSets. After this call the internal hash of @p h
      *                   will be updated to include the hash of this instance.
      */
-    void hash(sde::Hasher& h) const;
+    void hash(pluginplay::Hasher& h) const;
 
 private:
     /// Checks that @p i is a valid offset
@@ -293,7 +293,7 @@ bool FAMILYOFSETS::disjoint() const noexcept {
 }
 
 template<typename SetType>
-void FAMILYOFSETS::hash(sde::Hasher& h) const {
+void FAMILYOFSETS::hash(pluginplay::Hasher& h) const {
     for(const auto& x : m_subsets_) h(x);
     h(*m_obj_);
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "libchemist/molecule/atom.hpp"
-#include <sde/hasher.hpp>
+#include <pluginplay/hasher.hpp>
 #include <vector> //For iterators
 
 namespace libchemist {
@@ -141,7 +141,7 @@ public:
      *
      * @param h Hasher object
      */
-    void hash(sde::Hasher& h) const;
+    void hash(pluginplay::Hasher& h) const;
 
 private:
     /// The object actually implementing the Molecule class

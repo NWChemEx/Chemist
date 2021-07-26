@@ -1,5 +1,5 @@
-#include "libchemist/sparse_map/sparse_map/detail_/sparse_map_pimpl.hpp"
 #include "libchemist/sparse_map/index.hpp"
+#include "libchemist/sparse_map/sparse_map/detail_/sparse_map_pimpl.hpp"
 #include <catch2/catch.hpp>
 
 using namespace libchemist::sparse_map;
@@ -58,7 +58,6 @@ TEMPLATE_LIST_TEST_CASE("SparseMapPIMPL", "", index_list) {
     }
 
     SECTION("CTors") {
-
         SECTION("Default Ctor") {
             auto& sm = sms.at("Empty");
             REQUIRE(sm.size() == 0);
@@ -228,12 +227,12 @@ TEMPLATE_LIST_TEST_CASE("SparseMapPIMPL", "", index_list) {
             }
             SECTION("Add to existing independent index") {
                 sm2.add_to_domain(i2, dep_idx_t{3, 4});
-                REQUIRE(sm2.size()       == 2);
-                REQUIRE(sm2.ind_rank()   == 2);
-                REQUIRE(sm2.dep_rank()   == 2);
-                REQUIRE(sm2.at(0).first  == i2);
+                REQUIRE(sm2.size() == 2);
+                REQUIRE(sm2.ind_rank() == 2);
+                REQUIRE(sm2.dep_rank() == 2);
+                REQUIRE(sm2.at(0).first == i2);
                 REQUIRE(sm2.at(0).second == domain_t{d2, dep_idx_t{3, 4}});
-                REQUIRE(sm2.at(1).first  == i22);
+                REQUIRE(sm2.at(1).first == i22);
                 REQUIRE(sm2.at(1).second == domain_t{d22});
             }
             SECTION("Add to non-existing independent index") {
@@ -247,7 +246,7 @@ TEMPLATE_LIST_TEST_CASE("SparseMapPIMPL", "", index_list) {
                 REQUIRE(sm2.dep_rank() == 2);
                 REQUIRE(sm2.at(0).first == i2);
                 REQUIRE(sm2.at(0).second == domain_t{d2});
-                REQUIRE(sm2.at(1).first  == i22);
+                REQUIRE(sm2.at(1).first == i22);
                 REQUIRE(sm2.at(1).second == domain_t{d22});
                 REQUIRE(sm2.at(2).first == ind_idx_t{3, 4});
                 REQUIRE(sm2.at(2).second == domain_t{d2});
@@ -312,8 +311,8 @@ TEMPLATE_LIST_TEST_CASE("SparseMapPIMPL", "", index_list) {
             auto& lhs = sms.at("Ind == rank 0");
 
             SECTION("RHS == Empty") {
-                auto& rhs   = sms.at("Empty");
-                auto plhs   = &(lhs.direct_product_assign(rhs));
+                auto& rhs = sms.at("Empty");
+                auto plhs = &(lhs.direct_product_assign(rhs));
                 SECTION("Returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("Value") { REQUIRE(lhs == rhs); }
             }
@@ -447,15 +446,18 @@ TEMPLATE_LIST_TEST_CASE("SparseMapPIMPL", "", index_list) {
                 SECTION("returns *this") { REQUIRE(plhs == &lhs); }
                 SECTION("value") {
                     pimpl_t corr;
-                    corr.add_to_domain(ind_idx_t{1, 2, 1, 2}, dep_idx_t{1, 2, 1, 2});
-                    corr.add_to_domain(ind_idx_t{1, 2, 2, 3}, dep_idx_t{1, 2, 2, 3});
-                    corr.add_to_domain(ind_idx_t{2, 3, 1, 2}, dep_idx_t{2, 3, 1, 2});
-                    corr.add_to_domain(ind_idx_t{2, 3, 2, 3}, dep_idx_t{2, 3, 2, 3});
+                    corr.add_to_domain(ind_idx_t{1, 2, 1, 2},
+                                       dep_idx_t{1, 2, 1, 2});
+                    corr.add_to_domain(ind_idx_t{1, 2, 2, 3},
+                                       dep_idx_t{1, 2, 2, 3});
+                    corr.add_to_domain(ind_idx_t{2, 3, 1, 2},
+                                       dep_idx_t{2, 3, 1, 2});
+                    corr.add_to_domain(ind_idx_t{2, 3, 2, 3},
+                                       dep_idx_t{2, 3, 2, 3});
                     REQUIRE(lhs == corr);
                 }
             }
         }
-
     }
 
     /* With respect to direct product operator*= does all the work and
@@ -597,7 +599,6 @@ TEMPLATE_LIST_TEST_CASE("SparseMapPIMPL", "", index_list) {
         }
     }
 
-
     /* With respect to union operator+= does all the work and operator+
      * simply calls operator+= on a copy. Therefore we test operator+= in depth
      * and make sure operator+ works for one scenario.
@@ -682,7 +683,7 @@ TEMPLATE_LIST_TEST_CASE("SparseMapPIMPL", "", index_list) {
                 incompatible.add_to_domain(ind_idx_t{1, 2}, dep_idx_t{3});
                 incompatible.add_to_domain(ind_idx_t{2, 3}, dep_idx_t{1});
                 incompatible.add_to_domain(ind_idx_t{2, 3}, dep_idx_t{2});
-                REQUIRE_THROWS_AS(sm += incompatible,std::runtime_error);
+                REQUIRE_THROWS_AS(sm += incompatible, std::runtime_error);
             }
 
             SECTION("Incompatible dependent indices") {
@@ -745,22 +746,22 @@ TEMPLATE_LIST_TEST_CASE("SparseMapPIMPL", "", index_list) {
             corr.add_to_domain(ind_idx_t{2}, dep_idx_t{1});
             corr.add_to_domain(ind_idx_t{2}, dep_idx_t{2});
 
-            SECTION("sm ^= sm2"){
+            SECTION("sm ^= sm2") {
                 auto psm = &(sm ^= sm2);
                 SECTION("Value") { REQUIRE(sm == corr); }
-                SECTION("Returns *this"){ REQUIRE(psm == &sm); }
+                SECTION("Returns *this") { REQUIRE(psm == &sm); }
             }
 
-            SECTION("sm2 ^= sm"){
+            SECTION("sm2 ^= sm") {
                 auto psm2 = &(sm2 ^= sm);
                 SECTION("Value") { REQUIRE(sm2 == corr); }
-                SECTION("Returns *this"){ REQUIRE(psm2 == &sm2); }
+                SECTION("Returns *this") { REQUIRE(psm2 == &sm2); }
             }
 
-            SECTION("sm ^= corr"){
+            SECTION("sm ^= corr") {
                 auto psm = &(sm ^= corr);
                 SECTION("Value") { REQUIRE(sm == corr); }
-                SECTION("Returns *this"){ REQUIRE(psm == &sm); }
+                SECTION("Returns *this") { REQUIRE(psm == &sm); }
             }
 
             SECTION("different ranks") {
@@ -834,18 +835,18 @@ TEMPLATE_LIST_TEST_CASE("SparseMapPIMPL", "", index_list) {
 
     SECTION("hash") {
         SECTION("Empty == Empty") {
-            auto h  = sde::hash_objects(sms.at("Empty"));
-            auto h2 = sde::hash_objects(pimpl_t{});
+            auto h  = pluginplay::hash_objects(sms.at("Empty"));
+            auto h2 = pluginplay::hash_objects(pimpl_t{});
             REQUIRE(h == h2);
         }
 
         SECTION("Empty != non-empty") {
-            auto h = sde::hash_objects(sms.at("Empty"));
+            auto h = pluginplay::hash_objects(sms.at("Empty"));
             for(std::size_t i = 0; i < 3; ++i) {
                 std::string key = "Ind == rank " + std::to_string(i);
                 auto& rhs       = sms.at(key);
                 SECTION(key) {
-                    auto h2 = sde::hash_objects(rhs);
+                    auto h2 = pluginplay::hash_objects(rhs);
                     REQUIRE(h != h2);
                 }
             }
@@ -853,26 +854,26 @@ TEMPLATE_LIST_TEST_CASE("SparseMapPIMPL", "", index_list) {
 
         SECTION("Same non-empty") {
             auto& lhs = sms.at("Ind == rank 0");
-            auto h    = sde::hash_objects(lhs);
-            auto h2   = sde::hash_objects(*(lhs.clone()));
+            auto h    = pluginplay::hash_objects(lhs);
+            auto h2   = pluginplay::hash_objects(*(lhs.clone()));
             REQUIRE(h == h2);
         }
 
         SECTION("Domain is subset/superset") {
             auto& lhs = sms.at("Ind == rank 0");
-            auto h    = sde::hash_objects(lhs);
+            auto h    = pluginplay::hash_objects(lhs);
             auto copy = lhs.clone();
             copy->add_to_domain(i0, dep_idx_t{3});
-            auto h2 = sde::hash_objects(*copy);
+            auto h2 = pluginplay::hash_objects(*copy);
             REQUIRE(h != h2);
         }
 
         SECTION("Different independent indices") {
             auto& lhs = sms.at("Ind == rank 1");
-            auto h    = sde::hash_objects(lhs);
+            auto h    = pluginplay::hash_objects(lhs);
             auto copy = lhs.clone();
             copy->add_to_domain(ind_idx_t{3}, dep_idx_t{3});
-            auto h2 = sde::hash_objects(copy);
+            auto h2 = pluginplay::hash_objects(copy);
             REQUIRE(h != h2);
         }
     }

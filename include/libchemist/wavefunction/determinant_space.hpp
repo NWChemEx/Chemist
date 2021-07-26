@@ -89,7 +89,7 @@ public:
      *                   updated with hashes of this instance's state.
      *
      */
-    void hash(sde::Hasher& h) const;
+    void hash(pluginplay::Hasher& h) const;
 
 private:
     /// The occupied orbitals

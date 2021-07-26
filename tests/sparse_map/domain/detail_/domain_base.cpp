@@ -307,16 +307,16 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
             std::vector<std::size_t> corr{1, 2};
             REQUIRE(d2.result_extents() == corr);
         }
-
     }
 
     SECTION("result_index") {
-        SECTION("Empty domain"){
-            REQUIRE_THROWS_AS(d_empty.result_index(TestType{}), std::out_of_range);
+        SECTION("Empty domain") {
+            REQUIRE_THROWS_AS(d_empty.result_index(TestType{}),
+                              std::out_of_range);
         }
 
-        SECTION("Rank 0 domain"){
-            SECTION("Good index"){
+        SECTION("Rank 0 domain") {
+            SECTION("Good index") {
                 auto idx = d0.result_index(TestType());
                 TestType corr;
                 REQUIRE(idx == corr);
@@ -329,8 +329,9 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
                 TestType corr(0);
                 REQUIRE(idx == corr);
             }
-            SECTION("Invalid input index"){
-                REQUIRE_THROWS_AS(d1.result_index(TestType()), std::out_of_range);
+            SECTION("Invalid input index") {
+                REQUIRE_THROWS_AS(d1.result_index(TestType()),
+                                  std::out_of_range);
             }
         }
 
@@ -346,8 +347,9 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
                 TestType corr(0, 1);
                 REQUIRE(idx == corr);
             }
-            SECTION("Invalid input index"){
-                REQUIRE_THROWS_AS(d2.result_index(TestType()), std::out_of_range);
+            SECTION("Invalid input index") {
+                REQUIRE_THROWS_AS(d2.result_index(TestType()),
+                                  std::out_of_range);
             }
         }
     }
@@ -743,7 +745,9 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
 
             SECTION("RHS is rank 2") {
                 auto plhs = &(d2 *= d2);
-                SECTION("Value") { REQUIRE(d2 == base_t{TestType{1, 2, 1, 2}}); }
+                SECTION("Value") {
+                    REQUIRE(d2 == base_t{TestType{1, 2, 1, 2}});
+                }
                 SECTION("Returns *this") { REQUIRE(&d2 == plhs); }
             }
 
@@ -798,16 +802,16 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
      * of tensors because operator*= works.
      */
     SECTION("operator*") {
-       auto r = d1 * d2;
-       REQUIRE(r == base_t{TestType{1, 1, 2}});
+        auto r = d1 * d2;
+        REQUIRE(r == base_t{TestType{1, 1, 2}});
     }
 
-    /* For operator+ and operator+=, operator+= is the work horse. operator+ simply
-     * wraps a copy and a call to operator+=. Thus if operator+= and the copy ctor
-     * work, operator+ will work too.
+    /* For operator+ and operator+=, operator+= is the work horse. operator+
+     * simply wraps a copy and a call to operator+=. Thus if operator+= and the
+     * copy ctor work, operator+ will work too.
      */
-    SECTION("operator+="){
-        SECTION("LHS == empty"){
+    SECTION("operator+=") {
+        SECTION("LHS == empty") {
             SECTION("RHS == empty") {
                 auto plhs = &(d_empty += d_empty);
                 SECTION("Value") { REQUIRE(d_empty == base_t{}); }
@@ -839,7 +843,7 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
             }
         }
 
-        SECTION("LHS == rank 0"){
+        SECTION("LHS == rank 0") {
             SECTION("RHS == empty") {
                 auto plhs = &(d0 += d_empty);
                 SECTION("Value") { REQUIRE(d0 == base_t{i0}); }
@@ -867,7 +871,7 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
             }
         }
 
-        SECTION("LHS == rank 1"){
+        SECTION("LHS == rank 1") {
             SECTION("RHS == empty") {
                 auto plhs = &(d1 += d_empty);
                 SECTION("Value") { REQUIRE(d1 == base_t{i1}); }
@@ -895,7 +899,7 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
             }
         }
 
-        SECTION("LHS == rank 2"){
+        SECTION("LHS == rank 2") {
             SECTION("RHS == empty") {
                 auto plhs = &(d2 += d_empty);
                 SECTION("Value") { REQUIRE(d2 == base_t{i2}); }
@@ -923,7 +927,7 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
             }
         }
 
-        SECTION("LHS == No PIMPL"){
+        SECTION("LHS == No PIMPL") {
             SECTION("RHS == empty") {
                 auto plhs = &(mf += d_empty);
                 SECTION("Value") { REQUIRE(mf == d_empty); }
@@ -956,7 +960,7 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
         }
     } // SECTION("operator+=")
 
-    SECTION("operator+"){
+    SECTION("operator+") {
         base_t d{TestType{2}};
         auto r = d1 + d;
         REQUIRE(r == base_t{i1, TestType{2}});
@@ -966,24 +970,24 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
      * depth. operator^ simply calls operator^= on a copy so as long as copying
      * and operator^= work, operator^ will work.
      */
-    SECTION("operator^="){
-        SECTION("Empty and empty"){
+    SECTION("operator^=") {
+        SECTION("Empty and empty") {
             auto plhs = &(d_empty ^= derived_t{});
             SECTION("Value") { REQUIRE(d_empty == derived_t{}); }
-            SECTION("Returns *this"){ REQUIRE(plhs == &d_empty); }
+            SECTION("Returns *this") { REQUIRE(plhs == &d_empty); }
         }
 
         SECTION("Empty and non-empty") {
             auto plhs = &(d_empty ^= d1);
             SECTION("Value") { REQUIRE(d_empty == derived_t{}); }
-            SECTION("Returns *this"){ REQUIRE(plhs == &d_empty); }
+            SECTION("Returns *this") { REQUIRE(plhs == &d_empty); }
         }
 
         SECTION("Non-empty with same state") {
             derived_t copy(d1);
             auto plhs = &(d1 ^= copy);
             SECTION("Value") { REQUIRE(d1 == copy); }
-            SECTION("Returns *this"){ REQUIRE(plhs == &d1); }
+            SECTION("Returns *this") { REQUIRE(plhs == &d1); }
         }
 
         SECTION("Non-empty with different rank") {
@@ -1001,7 +1005,7 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
         }
     } // SECTION("operator+=")
 
-    SECTION("operator^"){
+    SECTION("operator^") {
         auto r = d1 ^ d2;
         REQUIRE(r == d_empty);
     }
@@ -1078,7 +1082,7 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
                     REQUIRE_FALSE(d1 != base_t{i1});
                 }
 
-                SECTION("Different values"){
+                SECTION("Different values") {
                     base_t d{TestType{2}};
                     REQUIRE_FALSE(d1 == d);
                     REQUIRE(d1 != d);
@@ -1118,7 +1122,7 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
                     REQUIRE_FALSE(d2 != base_t{i2});
                 }
 
-                SECTION("Different values"){
+                SECTION("Different values") {
                     base_t d{TestType{2, 1}};
                     REQUIRE_FALSE(d2 == d);
                     REQUIRE(d2 != d);
@@ -1163,60 +1167,83 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
 
     SECTION("hash") {
         SECTION("LHS == empty") {
-            auto h = sde::hash_objects(d_empty);
+            auto h = pluginplay::hash_objects(d_empty);
             SECTION("RHS == empty") {
-                REQUIRE(h == sde::hash_objects(base_t{}));
+                REQUIRE(h == pluginplay::hash_objects(base_t{}));
             }
 
-            SECTION("RHS == rank 0") { REQUIRE(h != sde::hash_objects(d0)); }
-            SECTION("RHS == rank 1") { REQUIRE(h != sde::hash_objects(d1)); }
-            SECTION("RHS == rank 2") { REQUIRE(h != sde::hash_objects(d2)); }
+            SECTION("RHS == rank 0") {
+                REQUIRE(h != pluginplay::hash_objects(d0));
+            }
+            SECTION("RHS == rank 1") {
+                REQUIRE(h != pluginplay::hash_objects(d1));
+            }
+            SECTION("RHS == rank 2") {
+                REQUIRE(h != pluginplay::hash_objects(d2));
+            }
         }
 
         SECTION("LHS == rank 0") {
-            auto h = sde::hash_objects(d0);
+            auto h = pluginplay::hash_objects(d0);
             SECTION("RHS == empty") {
-                REQUIRE(h != sde::hash_objects(d_empty));
+                REQUIRE(h != pluginplay::hash_objects(d_empty));
             }
             SECTION("RHS == rank 0") {
-                REQUIRE(h == sde::hash_objects(base_t{i0}));
+                REQUIRE(h == pluginplay::hash_objects(base_t{i0}));
             }
-            SECTION("RHS == rank 1") { REQUIRE(h != sde::hash_objects(d1)); }
-            SECTION("RHS == rank 2") { REQUIRE(h != sde::hash_objects(d2)); }
+            SECTION("RHS == rank 1") {
+                REQUIRE(h != pluginplay::hash_objects(d1));
+            }
+            SECTION("RHS == rank 2") {
+                REQUIRE(h != pluginplay::hash_objects(d2));
+            }
         }
 
         SECTION("LHS == rank 1") {
-            auto h = sde::hash_objects(d1);
+            auto h = pluginplay::hash_objects(d1);
             SECTION("RHS == empty") {
-                REQUIRE(h != sde::hash_objects(d_empty));
+                REQUIRE(h != pluginplay::hash_objects(d_empty));
             }
-            SECTION("RHS == rank 0") { REQUIRE(h != sde::hash_objects(d0)); }
+            SECTION("RHS == rank 0") {
+                REQUIRE(h != pluginplay::hash_objects(d0));
+            }
             SECTION("RHS == rank 1") {
-                SECTION("Same") { REQUIRE(h == sde::hash_objects(base_t{i1})); }
+                SECTION("Same") {
+                    REQUIRE(h == pluginplay::hash_objects(base_t{i1}));
+                }
                 SECTION("Different") {
-                    REQUIRE(h != sde::hash_objects(base_t{TestType{2}}));
+                    REQUIRE(h != pluginplay::hash_objects(base_t{TestType{2}}));
                 }
             }
-            SECTION("RHS == rank 2") { REQUIRE(h != sde::hash_objects(d2)); }
+            SECTION("RHS == rank 2") {
+                REQUIRE(h != pluginplay::hash_objects(d2));
+            }
         }
 
         SECTION("LHS == rank 2") {
-            auto h = sde::hash_objects(d2);
+            auto h = pluginplay::hash_objects(d2);
             SECTION("RHS == empty") {
-                REQUIRE(h != sde::hash_objects(d_empty));
+                REQUIRE(h != pluginplay::hash_objects(d_empty));
             }
-            SECTION("RHS == rank 0") { REQUIRE(h != sde::hash_objects(d0)); }
-            SECTION("RHS == rank 1") { REQUIRE(h != sde::hash_objects(d1)); }
+            SECTION("RHS == rank 0") {
+                REQUIRE(h != pluginplay::hash_objects(d0));
+            }
+            SECTION("RHS == rank 1") {
+                REQUIRE(h != pluginplay::hash_objects(d1));
+            }
             SECTION("RHS == rank 2") {
-                SECTION("Same") { REQUIRE(h == sde::hash_objects(base_t{i2})); }
+                SECTION("Same") {
+                    REQUIRE(h == pluginplay::hash_objects(base_t{i2}));
+                }
                 SECTION("Different") {
-                    REQUIRE(h != sde::hash_objects(base_t{TestType{2, 1}}));
+                    REQUIRE(h !=
+                            pluginplay::hash_objects(base_t{TestType{2, 1}}));
                 }
             }
         }
 
         SECTION("LHS == No PIMPL") {
-            REQUIRE_THROWS_AS(sde::hash_objects(mf), std::runtime_error);
+            REQUIRE_THROWS_AS(pluginplay::hash_objects(mf), std::runtime_error);
         }
     } // SECTION("hash")
 
@@ -1254,14 +1281,11 @@ TEMPLATE_LIST_TEST_CASE("DomainBase", "", index_types) {
         }
     }
 
-    //operator<< just calls print, so if print works operator<< will work too
-    SECTION("ostream::operator<<(Domain)"){
+    // operator<< just calls print, so if print works operator<< will work too
+    SECTION("ostream::operator<<(Domain)") {
         std::stringstream ss;
         auto pss = &(ss << d_empty);
         SECTION("Value") { REQUIRE(ss.str() == "{}"); }
         SECTION("Returns os") { REQUIRE(pss == &ss); }
     }
 } // TEMPLATE_LIST_TEST_CASE("DomainBase")
-
-
-
