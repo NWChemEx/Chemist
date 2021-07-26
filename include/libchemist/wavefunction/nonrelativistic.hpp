@@ -160,16 +160,16 @@ bool operator!=(const Nonrelativistic<LHSRefType>& lhs,
 }
 
 /// Type of a wavefunction built from MOs
-using Reference = Nonrelativistic<DeterminantD>;
+using Reference = Nonrelativistic<Determinant>;
 
 /// Type of a wavefunction built from canonical MOs
-using CanonicalReference = Nonrelativistic<CanonicalDeterminantD>;
+using CanonicalReference = Nonrelativistic<CanonicalDeterminant>;
 
 /// Type of a wavefunction built from local MOs
-using LocalReference = Nonrelativistic<LocalDeterminantD>;
+using LocalReference = Nonrelativistic<LocalDeterminant>;
 
 /// Type of a wavefunction built frorm quasi-canonical local MOs
-using CanonicalLocalReference = Nonrelativistic<CanonicalLocalDeterminantD>;
+using CanonicalLocalReference = Nonrelativistic<CanonicalLocalDeterminant>;
 
 } // namespace libchemist::wavefunction
 

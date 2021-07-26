@@ -47,11 +47,11 @@ bool operator==(const DeterminantSpace<LHSOccSpace, LHSVirtSpace>& lhs,
 }
 
 extern template class DeterminantSpace<orbital_space::DerivedSpaceD>;
-extern template class DeterminantSpace<orbital_space::IndDerivedSpaceD,
-                                       orbital_space::DepDerivedSpaceD>;
+extern template class DeterminantSpace<orbital_space::IndDerivedSpace,
+                                       orbital_space::DepDerivedSpace>;
 
 extern template class DeterminantSpace<orbital_space::CanonicalSpaceD>;
-extern template class DeterminantSpace<orbital_space::CanonicalIndSpaceD,
-                                       orbital_space::CanonicalDepSpaceD>;
+extern template class DeterminantSpace<orbital_space::CanonicalIndSpace,
+                                       orbital_space::CanonicalDepSpace>;
 
 } // namespace libchemist::wavefunction

@@ -2,12 +2,13 @@
 
 namespace libchemist::ta_helpers {
 
-using size = std::size_t;
+using size        = std::size_t;
 using block_index = std::initializer_list<size>;
 
 template<typename T>
-type::tensor<T> submatrix(const type::tensor<T>& full_matrix,
-                          const TA::Tensor<float>& mask) {
+TA::DistArray<TA::Tensor<T>, TA::SparsePolicy> submatrix(
+  const TA::DistArray<TA::Tensor<T>, TA::SparsePolicy>& full_matrix,
+  const TA::Tensor<float>& mask) {
     // Some typedefs
     using bounds_type = std::vector<size>;
     using bool_vec    = std::vector<bool>;
@@ -56,7 +57,8 @@ type::tensor<T> submatrix(const type::tensor<T>& full_matrix,
     TA::TiledRange compressed_trange{cdim0, cdim1};
 
     // Make and fill compressed submatrix
-    type::tensor<T> submatrix{full_matrix.world(), compressed_trange};
+    TA::DistArray<TA::Tensor<T>, TA::SparsePolicy> submatrix{
+      full_matrix.world(), compressed_trange};
     size a = 0, b = 0; // Track submatrix blocks
     for(size i = 0; i < n0; ++i) {
         if(!cdim0_has[i]) continue;
@@ -91,9 +93,9 @@ type::tensor<T> submatrix(const type::tensor<T>& full_matrix,
 }
 
 template<typename T>
-type::tensor<T> expand_submatrix(const type::tensor<T>& submatrix,
-                                 const TA::TiledRange& full_trange,
-                                 const TA::Tensor<float>& mask) {
+TA::DistArray<TA::Tensor<T>, TA::SparsePolicy> expand_submatrix(
+  const TA::DistArray<TA::Tensor<T>, TA::SparsePolicy>& submatrix,
+  const TA::TiledRange& full_trange, const TA::Tensor<float>& mask) {
     // Get dimensions and tile extents
     const auto& dim0  = full_trange.dim(0);
     const auto& dim1  = full_trange.dim(1);
@@ -103,7 +105,8 @@ type::tensor<T> expand_submatrix(const type::tensor<T>& submatrix,
     const auto& cdim1 = submatrix.trange().dim(1);
 
     // Make and fill full sized matrix
-    type::tensor<T> full_matrix{submatrix.world(), full_trange};
+    TA::DistArray<TA::Tensor<T>, TA::SparsePolicy> full_matrix{
+      submatrix.world(), full_trange};
 
     size a = 0, b = 0; // Track submatrix blocks
     for(size i = 0; i < n0; ++i) {
@@ -145,10 +148,11 @@ type::tensor<T> expand_submatrix(const type::tensor<T>& submatrix,
     return full_matrix;
 }
 
-template type::tensor<double> submatrix(const type::tensor<double>&,
-                                        const TA::Tensor<float>&);
-template type::tensor<double> expand_submatrix(const type::tensor<double>&,
-                                               const TA::TiledRange&,
-                                               const TA::Tensor<float>&);
+template TA::DistArray<TA::Tensor<double>, TA::SparsePolicy> submatrix(
+  const TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>&,
+  const TA::Tensor<float>&);
+template TA::DistArray<TA::Tensor<double>, TA::SparsePolicy> expand_submatrix(
+  const TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>&,
+  const TA::TiledRange&, const TA::Tensor<float>&);
 
-} // libchemist::ta_helpers
+} // namespace libchemist::ta_helpers

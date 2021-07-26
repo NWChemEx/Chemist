@@ -3,10 +3,10 @@
 #include <libchemist/ta_helpers/ta_helpers.hpp>
 #include <libchemist/types.hpp>
 
-using tensor_type = libchemist::type::tensor<double>;
+using tensor_type = TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>;
 using libchemist::ta_helpers::allclose;
-using libchemist::ta_helpers::submatrix;
 using libchemist::ta_helpers::expand_submatrix;
+using libchemist::ta_helpers::submatrix;
 
 TEST_CASE("Submatrix Functions") {
     auto& world = TA::get_default_world();

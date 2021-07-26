@@ -8,11 +8,17 @@
  * source file, or test (the exception being Testlibchemist, which tests the
  * functions defined in this header file).
  */
-#include "libchemist/managers/managers.hpp"
-#include "libchemist/orbital_space/orbital_space.hpp"
 
-#include "libchemist/molecule/atom.hpp"
+#include "libchemist/basis_set/basis_set.hpp"
+#include "libchemist/chemical_system/chemical_system.hpp"
+#include "libchemist/managers/managers.hpp"
 #include "libchemist/molecule/molecule.hpp"
+#include "libchemist/operator/operator.hpp"
+#include "libchemist/orbital_space/orbital_space.hpp"
+#include "libchemist/tensor/tensor.hpp"
+#include "libchemist/topology/topology.hpp"
+#include "libchemist/wavefunction/wavefunction.hpp"
+
 /**
  * @brief The primary namespace for the libchemist library
  *

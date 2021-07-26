@@ -63,12 +63,18 @@ public:
     /// String-like type used to annotate a tensor.
     using annotation_type = typename labeled_tensor_type::annotation_type;
 
+    /// Type used for indexing and offsets
+    using size_type = std::size_t;
+
+    /// Type used for returning the extents
+    using extents_type = std::vector<size_type>;
+
     /** @brief Default CTor
      *
      *  TensorWrapper instances should always be wrapping an existing tensor. To
      *  help ensure that this is the case we have deleted the default ctor.
      */
-    TensorWrapper() = delete;
+    TensorWrapper() = default;
 
     /** @brief Wrapping CTor
      *
@@ -160,6 +166,16 @@ public:
      *  @return The number of modes in the tensor.
      */
     auto rank() const;
+
+    /** @brief Returns the shape of the tensor.
+     *
+     *  The shape of a rank @f$r@f$ tensor, also known as its extents, is a
+     *  @f$r@f$ element array such that the @f$i@f$-th element is the length of
+     *  the @f$i@f-th mode.
+     *
+     *  @return An array-like object containing the shape of the tensor.
+     */
+    auto extents() const;
 
     /** @brief Used to get the wrapped tensor back.
      *
@@ -335,93 +351,6 @@ bool operator!=(const TensorWrapper<LHSType>& lhs,
     return !(lhs == rhs);
 }
 
-// ------------------------------- Implementations -----------------------------
-
-#define TENSOR_WRAPPER TensorWrapper<VariantType>
-
-template<typename VariantType>
-auto TENSOR_WRAPPER::operator()(const annotation_type& annotation) {
-    return labeled_tensor_type(annotation, *this);
-}
-
-template<typename VariantType>
-auto TENSOR_WRAPPER::operator()(const annotation_type& annotation) const {
-    return const_labeled_tensor_type(annotation, *this);
-}
-
-template<typename VariantType>
-auto TENSOR_WRAPPER::make_annotation(const annotation_type& letter) const {
-    auto r          = rank();
-    auto outer_rank = (is_tot_() ? outer_rank_() : r);
-    annotation_type x;
-    if(r == 0) return x;
-    for(decltype(r) i = 0; i < r - 1; ++i) {
-        x += letter + std::to_string(i);
-        x += (i + 1 == outer_rank ? ";" : ",");
-    }
-    x += letter + std::to_string(r - 1);
-    return x;
-}
-
-template<typename VariantType>
-auto TENSOR_WRAPPER::rank() const {
-    return outer_rank_() + inner_rank_();
-}
-
-template<typename VariantType>
-std::ostream& TENSOR_WRAPPER::print(std::ostream& os) const {
-    auto l = [&](auto&& arg) { os << arg; };
-    std::visit(l, m_tensor_);
-    return os;
-}
-
-template<typename VariantType>
-void TENSOR_WRAPPER::hash(sde::Hasher& h) const {
-    auto l = [&](auto&& arg) { h(arg); };
-    std::visit(l, m_tensor_);
-}
-
-template<typename VariantType>
-template<typename RHSType>
-bool TENSOR_WRAPPER::operator==(const TensorWrapper<RHSType>& rhs) const {
-    auto l = [&](auto&& lhs) {
-        auto m = [&](auto&& rhs) { return lhs == rhs; };
-        return std::visit(m, rhs.m_tensor_);
-    };
-    return std::visit(l, m_tensor_);
-}
-
-template<typename VariantType>
-bool TENSOR_WRAPPER::is_tot_() const noexcept {
-    auto l = [](auto&& arg) {
-        using clean_t = std::decay_t<decltype(arg)>;
-        return TensorTraits<clean_t>::is_tot;
-    };
-    return std::visit(l, m_tensor_);
-}
-
-template<typename VariantType>
-auto TENSOR_WRAPPER::outer_rank_() const noexcept {
-    auto l = [](auto&& arg) { return TA::rank(arg); };
-    return std::visit(l, m_tensor_);
-}
-
-template<typename VariantType>
-auto TENSOR_WRAPPER::inner_rank_() const {
-    auto l = [](auto&& arg) {
-        using clean_t   = std::decay_t<decltype(arg)>;
-        using size_type = decltype(std::declval<clean_t>().range().rank());
-        constexpr bool is_tot = TensorTraits<clean_t>::is_tot;
-        if constexpr(!is_tot)
-            return size_type{0};
-        else {
-            const auto& tile0 = arg.begin()->get();
-            return size_type{tile0[0].range().rank()};
-        }
-    };
-    return std::visit(l, m_tensor_);
-}
-
-#undef TENSOR_WRAPPER
-
 } // namespace libchemist::tensor
+
+#include "tensor_wrapper.ipp"

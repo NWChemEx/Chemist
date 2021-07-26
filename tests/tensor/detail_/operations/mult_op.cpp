@@ -17,9 +17,9 @@ using namespace libchemist;
  * be used to get the correct result.
  */
 TEST_CASE("Tensor = Tensor * Tensor") {
-    using result_t       = type::tensor<double>;
-    using lhs_t          = type::tensor<double>;
-    using rhs_t          = type::tensor<double>;
+    using result_t       = tensor::type::detail_::tensor<double>;
+    using lhs_t          = tensor::type::detail_::tensor<double>;
+    using rhs_t          = tensor::type::detail_::tensor<double>;
     using tensor_wrapper = tensor::type::SparseTensorWrapper;
 
     auto lhs = testing::get_tensors<lhs_t>().at("vector");
@@ -63,9 +63,9 @@ TEST_CASE("Tensor = Tensor * Tensor") {
 }
 
 TEST_CASE("Tensor = ToT * ToT") {
-    using result_t       = type::tensor<double>;
-    using lhs_t          = type::tensor_of_tensors<double>;
-    using rhs_t          = type::tensor_of_tensors<double>;
+    using result_t       = tensor::type::detail_::tensor<double>;
+    using lhs_t          = tensor::type::detail_::tensor_of_tensors<double>;
+    using rhs_t          = tensor::type::detail_::tensor_of_tensors<double>;
     using tensor_wrapper = tensor::type::SparseTensorWrapper;
     using tot_wrapper    = tensor::type::ToTWrapper;
 
@@ -110,9 +110,9 @@ TEST_CASE("Tensor = ToT * ToT") {
 }
 
 TEST_CASE("ToT = Tensor * ToT") {
-    using result_t         = type::tensor_of_tensors<double>;
-    using lhs_t            = type::tensor<double>;
-    using rhs_t            = type::tensor_of_tensors<double>;
+    using result_t         = tensor::type::detail_::tensor_of_tensors<double>;
+    using lhs_t            = tensor::type::detail_::tensor<double>;
+    using rhs_t            = tensor::type::detail_::tensor_of_tensors<double>;
     using wrapped_result_t = tensor::type::ToTWrapper;
     using wrapped_lhs_t    = tensor::type::SparseTensorWrapper;
     using wrapped_rhs_t    = tensor::type::ToTWrapper;
@@ -161,9 +161,9 @@ TEST_CASE("ToT = Tensor * ToT") {
 }
 
 TEST_CASE("ToT = ToT * Tensor") {
-    using result_t         = type::tensor_of_tensors<double>;
-    using lhs_t            = type::tensor_of_tensors<double>;
-    using rhs_t            = type::tensor<double>;
+    using result_t         = tensor::type::detail_::tensor_of_tensors<double>;
+    using lhs_t            = tensor::type::detail_::tensor_of_tensors<double>;
+    using rhs_t            = tensor::type::detail_::tensor<double>;
     using wrapped_result_t = tensor::type::ToTWrapper;
     using wrapped_lhs_t    = tensor::type::ToTWrapper;
     using wrapped_rhs_t    = tensor::type::SparseTensorWrapper;
@@ -212,9 +212,9 @@ TEST_CASE("ToT = ToT * Tensor") {
 }
 
 TEST_CASE("ToT = ToT * ToT") {
-    using result_t         = type::tensor_of_tensors<double>;
-    using lhs_t            = type::tensor_of_tensors<double>;
-    using rhs_t            = type::tensor_of_tensors<double>;
+    using result_t         = tensor::type::detail_::tensor_of_tensors<double>;
+    using lhs_t            = tensor::type::detail_::tensor_of_tensors<double>;
+    using rhs_t            = tensor::type::detail_::tensor_of_tensors<double>;
     using wrapped_result_t = tensor::type::ToTWrapper;
     using wrapped_lhs_t    = tensor::type::ToTWrapper;
     using wrapped_rhs_t    = tensor::type::ToTWrapper;

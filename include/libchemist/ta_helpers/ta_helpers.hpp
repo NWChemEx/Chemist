@@ -2,7 +2,6 @@
 #include "libchemist/ta_helpers/detail_/reducer.hpp"
 #include "libchemist/ta_helpers/get_block_idx.hpp"
 #include "libchemist/ta_helpers/ta_hashers.hpp"
-#include "libchemist/types.hpp"
 #include <tiledarray.h>
 
 namespace libchemist::ta_helpers {
@@ -123,7 +122,7 @@ auto grab_diagonal(TensorType&& t) {
 template<typename T>
 auto array_from_vec(const std::vector<T>& vec, const TA::TiledRange1& trange,
                     TA::World& world) {
-    using tensor_type = libchemist::type::tensor<T>;
+    using tensor_type = TA::DistArray<TA::Tensor<T>, TA::SparsePolicy>;
     using tile_type   = typename tensor_type::value_type;
 
     tensor_type rv(world, TA::TiledRange{trange});

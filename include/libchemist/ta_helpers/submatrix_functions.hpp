@@ -1,6 +1,6 @@
 #pragma once
-#include "libchemist/types.hpp"
 #include "libchemist/sparse_map/sparse_map.hpp"
+#include "libchemist/types.hpp"
 
 namespace libchemist::ta_helpers {
 
@@ -15,8 +15,9 @@ namespace libchemist::ta_helpers {
  *         some tiles set to zero based on the masking.
  */
 template<typename T>
-type::tensor<T> submatrix(const type::tensor<T>& full_matrix,
-                          const TA::Tensor<float>& mask);
+TA::DistArray<TA::Tensor<T>, TA::SparsePolicy> submatrix(
+  const TA::DistArray<TA::Tensor<T>, TA::SparsePolicy>& full_matrix,
+  const TA::Tensor<float>& mask);
 
 /** @brief Expands the non-zero tiles of a tensor into a new tensor with a
  *         different TiledRange.
@@ -31,15 +32,14 @@ type::tensor<T> submatrix(const type::tensor<T>& full_matrix,
  *         are either zero or copied from the submatrix.
  */
 template<typename T>
-type::tensor<T> expand_submatrix(const type::tensor<T>& submatrix,
-                                 const TA::TiledRange& full_trange,
-                                 const TA::Tensor<float>& mask);
+TA::DistArray<TA::Tensor<T>, TA::SparsePolicy> expand_submatrix(
+  const TA::DistArray<TA::Tensor<T>, TA::SparsePolicy>& submatrix,
+  const TA::TiledRange& full_trange, const TA::Tensor<float>& mask);
 
-extern template type::tensor<double> submatrix(const type::tensor<double>&,
+extern template TA::DistArray<TA::Tensor<double>, TA::SparsePolicy> submatrix(const TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>&,
                                                const TA::Tensor<float>&);
 
-extern template type::tensor<double> expand_submatrix(const type::tensor<double>&,
-                                                      const TA::TiledRange&,
-                                                      const TA::Tensor<float>&);
+extern template TA::DistArray<TA::Tensor<double>, TA::SparsePolicy> expand_submatrix(
+  const TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>&, const TA::TiledRange&, const TA::Tensor<float>&);
 
-} // libchemist::ta_helpers
+} // namespace libchemist::ta_helpers

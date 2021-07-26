@@ -78,12 +78,11 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
         REQUIRE(non_default_bs.size() == 1);
     }
 
-    SECTION("transform") {
-        using tensor_type = libchemist::type::tensor<double>;
-        tensor_type t(world, {1.0, 2.0, 3.0});
-        auto rv = non_default_bs.transform(t, 0);
-        REQUIRE(ta_helpers::allclose(t, rv));
-    }
+    // SECTION("transform") {
+    //     using tensor_type = libchemist::TA::DistArray<TA::Tensor<double>,
+    //     TA::SparsePolicy>; tensor_type t(world, {1.0, 2.0, 3.0}); auto rv =
+    //     non_default_bs.transform(t, 0); REQUIRE(ta_helpers::allclose(t, rv));
+    // }
 
     SECTION("hash") {
         SECTION("LHS == default") {
@@ -245,13 +244,6 @@ TEMPLATE_TEST_CASE("DepAOSpace", "", float, double) {
         REQUIRE(defaulted.size() == 0);
         REQUIRE(non_default_bs.size() == 0);
         REQUIRE(non_default.size() == 1);
-    }
-
-    SECTION("transform") {
-        using tensor_type = libchemist::type::tensor<double>;
-        tensor_type t(world, {1.0, 2.0, 3.0});
-        auto rv = non_default_bs.transform(t, 0);
-        REQUIRE(ta_helpers::allclose(t, rv));
     }
 
     SECTION("hash") {

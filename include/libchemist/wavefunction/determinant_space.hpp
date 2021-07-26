@@ -147,19 +147,19 @@ bool operator!=(const DeterminantSpace<LHSOccSpace, LHSVirtSpace>& lhs,
 }
 
 /// Type of a determinant space which uses derived orbitals
-using DeterminantD = DeterminantSpace<orbital_space::DerivedSpaceD>;
+using Determinant = DeterminantSpace<orbital_space::DerivedSpaceD>;
 
 /// Type of a determinant space which uses canonical MOs
-using CanonicalDeterminantD = DeterminantSpace<orbital_space::CanonicalSpaceD>;
+using CanonicalDeterminant = DeterminantSpace<orbital_space::CanonicalSpaceD>;
 
 /// Type of a determinant space which uses local orbitals
-using LocalDeterminantD = DeterminantSpace<orbital_space::IndDerivedSpaceD,
-                                           orbital_space::DepDerivedSpaceD>;
+using LocalDeterminant = DeterminantSpace<orbital_space::IndDerivedSpace,
+                                          orbital_space::DepDerivedSpace>;
 
 /// Type of a determinant space which uses quasicanonical local orbitals
-using CanonicalLocalDeterminantD =
-  DeterminantSpace<orbital_space::CanonicalIndSpaceD,
-                   orbital_space::CanonicalDepSpaceD>;
+using CanonicalLocalDeterminant =
+  DeterminantSpace<orbital_space::CanonicalIndSpace,
+                   orbital_space::CanonicalDepSpace>;
 
 } // namespace libchemist::wavefunction
 

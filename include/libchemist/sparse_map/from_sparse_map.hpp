@@ -146,7 +146,8 @@ auto from_sparse_map(const SparseMap<ElementIndex, ElementIndex>& esm,
                      const T& tensor, const TA::TiledRange outer_trange,
                      const std::map<std::size_t, std::size_t>& ind2mode = {}) {
     using scalar_type = typename T::scalar_type;
-    using tot_type    = type::tensor_of_tensors<scalar_type>;
+    using tot_type =
+      TA::DistArray<TA::Tensor<TA::Tensor<scalar_type>>, TA::SparsePolicy>;
 
     if(esm.dep_rank() + ind2mode.size() != tensor.trange().rank())
         throw std::runtime_error("Ranks don't work out.");

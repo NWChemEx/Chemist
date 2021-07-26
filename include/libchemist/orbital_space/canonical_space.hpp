@@ -141,21 +141,19 @@ bool operator!=(const CanonicalSpace<LOrbitalEnergyType, LBaseType>& lhs,
     return !(lhs == rhs);
 }
 
-/// CanonicalSpace which inherits from DerivedSpaceD
-using CanonicalSpaceD = CanonicalSpace<type::tensor<double>, DerivedSpaceD>;
+/// CanonicalSpace which inherits from DerivedSpace
+using CanonicalSpaceD = CanonicalSpace<type::tensor, DerivedSpaceD>;
 
-/// CanonicalSpace which inherits from IndDerivedSpaceD
-using CanonicalIndSpaceD =
-  CanonicalSpace<type::tensor<double>, IndDerivedSpaceD>;
+/// CanonicalSpace which inherits from IndDerivedSpace
+using CanonicalIndSpace = CanonicalSpace<type::tensor, IndDerivedSpace>;
 
-/// CanonicalSpace which inherits from DepDerivedSpaceD
-using CanonicalDepSpaceD =
-  CanonicalSpace<type::tensor_of_tensors<double>, DepDerivedSpaceD>;
+/// CanonicalSpace which inherits from DepDerivedSpace
+using CanonicalDepSpace =
+  CanonicalSpace<type::tensor_of_tensors, DepDerivedSpace>;
 
-extern template class CanonicalSpace<type::tensor<double>, DerivedSpaceD>;
-extern template class CanonicalSpace<type::tensor<double>, IndDerivedSpaceD>;
-extern template class CanonicalSpace<type::tensor_of_tensors<double>,
-                                     DepDerivedSpaceD>;
+extern template class CanonicalSpace<type::tensor, DerivedSpaceD>;
+extern template class CanonicalSpace<type::tensor, IndDerivedSpace>;
+extern template class CanonicalSpace<type::tensor_of_tensors, DepDerivedSpace>;
 
 // ----------------------------- Implementations -------------------------------
 
