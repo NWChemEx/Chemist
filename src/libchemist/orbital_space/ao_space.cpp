@@ -14,7 +14,7 @@ typename AOSPACE::size_type AOSPACE::size_() const noexcept {
 }
 
 template<typename BasisType, typename BaseType>
-void AOSPACE::hash_(sde::Hasher& h) const {
+void AOSPACE::hash_(pluginplay::Hasher& h) const {
     BaseType::hash_(h);
     h(m_bs_);
 }

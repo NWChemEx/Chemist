@@ -59,7 +59,7 @@ std::ostream& TENSOR_WRAPPER::print(std::ostream& os) const {
 }
 
 template<typename VariantType>
-void TENSOR_WRAPPER::hash(sde::Hasher& h) const {
+void TENSOR_WRAPPER::hash(pluginplay::Hasher& h) const {
     auto l = [&](auto&& arg) { h(arg); };
     std::visit(l, m_tensor_);
 }

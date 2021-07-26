@@ -1,7 +1,7 @@
 #pragma once
 #include "libchemist/potentials/electrostatic.hpp"
 #include <cstddef>
-#include <sde/hasher.hpp>
+#include <pluginplay/hasher.hpp>
 #include <typeindex>
 #include <utilities/type_traits/parameter_pack_traits.hpp>
 
@@ -10,7 +10,7 @@ namespace libchemist {
 /** @brief An abstract base class for Operator types
  *
  *  This class provides the basic API specifications for
- *  Operator types to satisfy `SDEAny` type requirements
+ *  Operator types to satisfy `pluginplayAny` type requirements
  *  and to allow for their identification and manipulation
  *  in a type-erased manner
  *
@@ -18,7 +18,7 @@ namespace libchemist {
  */
 struct Operator {
     /// Hash function
-    inline void hash(sde::Hasher& h) const { hash_impl(h); }
+    inline void hash(pluginplay::Hasher& h) const { hash_impl(h); }
 
     /// Polymorphic comparison of this Operator instance with another
     template<typename OpType>
@@ -53,7 +53,7 @@ struct Operator {
 
 protected:
     /// Derived implementation of Hash function.
-    virtual void hash_impl(sde::Hasher& h) const = 0;
+    virtual void hash_impl(pluginplay::Hasher& h) const = 0;
     /// Derived implementation of comparison function.
     // virtual bool is_equal_impl( std::type_index index ) const noexcept = 0;
     virtual bool is_equal_impl(const Operator&) const noexcept = 0;
@@ -92,29 +92,29 @@ inline static constexpr std::size_t n_nuclei_v =
                                                               Particles...>;
 } // namespace detail_
 
-#define REGISTER_BASE_OPERATOR(NAME, BASE, ...)                            \
-    struct NAME : public BASE {                                            \
-        friend struct Operator;                                            \
-        static constexpr auto n_electrons =                                \
-          detail_::n_electrons_v<__VA_ARGS__>;                             \
-        static constexpr auto n_nuclei = detail_::n_nuclei_v<__VA_ARGS__>; \
-        /* Base operators are stateless */                                 \
-        inline bool operator==(const NAME& other) const { return true; }   \
-        inline bool operator!=(const NAME& other) const { return false; }  \
-        NAME() noexcept            = default;                              \
-        NAME(const NAME&) noexcept = default;                              \
-        NAME(NAME&&) noexcept      = default;                              \
-                                                                           \
-    protected:                                                             \
-        virtual inline void hash_impl(sde::Hasher& h) const override {     \
-            return h(*this);                                               \
-        }                                                                  \
-        virtual inline bool is_equal_impl(                                 \
-          const Operator& other) const noexcept override {                 \
-            auto ptr = dynamic_cast<const NAME*>(&other);                  \
-            if(!ptr) return false;                                         \
-            return *this == *ptr;                                          \
-        }                                                                  \
+#define REGISTER_BASE_OPERATOR(NAME, BASE, ...)                               \
+    struct NAME : public BASE {                                               \
+        friend struct Operator;                                               \
+        static constexpr auto n_electrons =                                   \
+          detail_::n_electrons_v<__VA_ARGS__>;                                \
+        static constexpr auto n_nuclei = detail_::n_nuclei_v<__VA_ARGS__>;    \
+        /* Base operators are stateless */                                    \
+        inline bool operator==(const NAME& other) const { return true; }      \
+        inline bool operator!=(const NAME& other) const { return false; }     \
+        NAME() noexcept            = default;                                 \
+        NAME(const NAME&) noexcept = default;                                 \
+        NAME(NAME&&) noexcept      = default;                                 \
+                                                                              \
+    protected:                                                                \
+        virtual inline void hash_impl(pluginplay::Hasher& h) const override { \
+            return h(*this);                                                  \
+        }                                                                     \
+        virtual inline bool is_equal_impl(                                    \
+          const Operator& other) const noexcept override {                    \
+            auto ptr = dynamic_cast<const NAME*>(&other);                     \
+            if(!ptr) return false;                                            \
+            return *this == *ptr;                                             \
+        }                                                                     \
     };
 
 /// Kinetic energy operator type
@@ -210,7 +210,7 @@ public:
     }
 
 protected:
-    inline void hash_impl(sde::Hasher& h) const override {
+    inline void hash_impl(pluginplay::Hasher& h) const override {
         return h(potential_);
     }
 

@@ -143,35 +143,37 @@ TEST_CASE("DerivedSpace") {
 
     SECTION("hash") {
         SECTION("LHS == default") {
-            const auto lhs = sde::hash_objects(space_type{});
+            const auto lhs = pluginplay::hash_objects(space_type{});
 
             SECTION("RHS == default") {
                 const space_type rhs;
-                REQUIRE(lhs == sde::hash_objects(rhs));
+                REQUIRE(lhs == pluginplay::hash_objects(rhs));
             }
 
             SECTION("RHS == non-default C") {
-                REQUIRE(lhs != sde::hash_objects(default_ao));
+                REQUIRE(lhs != pluginplay::hash_objects(default_ao));
             }
 
             SECTION("RHS == non-default from-space") {
-                REQUIRE(lhs != sde::hash_objects(non_default_aos));
+                REQUIRE(lhs != pluginplay::hash_objects(non_default_aos));
             }
         }
 
         SECTION("LHS == non-default C") {
-            const auto lhs = sde::hash_objects(default_ao);
+            const auto lhs = pluginplay::hash_objects(default_ao);
             SECTION("RHS == non-default C") {
-                REQUIRE(lhs == sde::hash_objects(space_type(C, from_space{})));
+                REQUIRE(lhs ==
+                        pluginplay::hash_objects(space_type(C, from_space{})));
             }
             SECTION("RHS == non-default from-space") {
-                REQUIRE(lhs != sde::hash_objects(non_default_aos));
+                REQUIRE(lhs != pluginplay::hash_objects(non_default_aos));
             }
         }
 
         SECTION("Non-default from-space") {
-            const auto lhs = sde::hash_objects(non_default_aos);
-            const auto rhs = sde::hash_objects(space_type{tensor_type{}, aos});
+            const auto lhs = pluginplay::hash_objects(non_default_aos);
+            const auto rhs =
+              pluginplay::hash_objects(space_type{tensor_type{}, aos});
             REQUIRE(lhs == rhs);
         }
     }
@@ -353,35 +355,37 @@ TEST_CASE("IndDerivedSpace") {
 
     SECTION("hash") {
         SECTION("LHS == default") {
-            const auto lhs = sde::hash_objects(space_type{});
+            const auto lhs = pluginplay::hash_objects(space_type{});
 
             SECTION("RHS == default") {
                 const space_type rhs;
-                REQUIRE(lhs == sde::hash_objects(rhs));
+                REQUIRE(lhs == pluginplay::hash_objects(rhs));
             }
 
             SECTION("RHS == non-default C") {
-                REQUIRE(lhs != sde::hash_objects(default_ao));
+                REQUIRE(lhs != pluginplay::hash_objects(default_ao));
             }
 
             SECTION("RHS == non-default from-space") {
-                REQUIRE(lhs != sde::hash_objects(non_default_aos));
+                REQUIRE(lhs != pluginplay::hash_objects(non_default_aos));
             }
         }
 
         SECTION("LHS == non-default C") {
-            const auto lhs = sde::hash_objects(default_ao);
+            const auto lhs = pluginplay::hash_objects(default_ao);
             SECTION("RHS == non-default C") {
-                REQUIRE(lhs == sde::hash_objects(space_type(C, from_space{})));
+                REQUIRE(lhs ==
+                        pluginplay::hash_objects(space_type(C, from_space{})));
             }
             SECTION("RHS == non-default from-space") {
-                REQUIRE(lhs != sde::hash_objects(non_default_aos));
+                REQUIRE(lhs != pluginplay::hash_objects(non_default_aos));
             }
         }
 
         SECTION("Non-default from-space") {
-            const auto lhs = sde::hash_objects(non_default_aos);
-            const auto rhs = sde::hash_objects(space_type{tensor_type{}, aos});
+            const auto lhs = pluginplay::hash_objects(non_default_aos);
+            const auto rhs =
+              pluginplay::hash_objects(space_type{tensor_type{}, aos});
             REQUIRE(lhs == rhs);
         }
     }
@@ -591,56 +595,57 @@ TEST_CASE("DepDerivedSpace") {
     space_type non_default_sm(tensor_type{}, from_space{}, sm);
     SECTION("hash") {
         SECTION("LHS == default") {
-            const auto lhs = sde::hash_objects(space_type{});
+            const auto lhs = pluginplay::hash_objects(space_type{});
 
             SECTION("RHS == default") {
                 const space_type rhs;
-                REQUIRE(lhs == sde::hash_objects(rhs));
+                REQUIRE(lhs == pluginplay::hash_objects(rhs));
             }
 
             SECTION("RHS == non-default C") {
-                REQUIRE(lhs != sde::hash_objects(non_default_c));
+                REQUIRE(lhs != pluginplay::hash_objects(non_default_c));
             }
 
             SECTION("RHS == non-default from-space") {
-                REQUIRE(lhs != sde::hash_objects(non_default_aos));
+                REQUIRE(lhs != pluginplay::hash_objects(non_default_aos));
             }
 
             SECTION("RHS == non-default sparse map") {
-                REQUIRE(lhs != sde::hash_objects(non_default_sm));
+                REQUIRE(lhs != pluginplay::hash_objects(non_default_sm));
             }
         }
 
         SECTION("LHS == non-default C") {
-            const auto lhs = sde::hash_objects(non_default_c);
+            const auto lhs = pluginplay::hash_objects(non_default_c);
             SECTION("RHS == non-default C") {
-                REQUIRE(lhs == sde::hash_objects(space_type(C, from_space{})));
+                REQUIRE(lhs ==
+                        pluginplay::hash_objects(space_type(C, from_space{})));
             }
             SECTION("RHS == non-default from-space") {
-                REQUIRE(lhs != sde::hash_objects(non_default_aos));
+                REQUIRE(lhs != pluginplay::hash_objects(non_default_aos));
             }
             SECTION("RHS == non-default sparse map") {
-                REQUIRE(lhs != sde::hash_objects(non_default_sm));
+                REQUIRE(lhs != pluginplay::hash_objects(non_default_sm));
             }
         }
 
         SECTION("LHS == non-default from-space") {
-            const auto lhs = sde::hash_objects(non_default_aos);
+            const auto lhs = pluginplay::hash_objects(non_default_aos);
             SECTION("RHS == non-default from-space") {
                 const auto rhs =
-                  sde::hash_objects(space_type{tensor_type{}, aos});
+                  pluginplay::hash_objects(space_type{tensor_type{}, aos});
                 REQUIRE(lhs == rhs);
             }
             SECTION("RHS == non-default sparse map") {
-                const auto rhs = sde::hash_objects(non_default_sm);
+                const auto rhs = pluginplay::hash_objects(non_default_sm);
                 REQUIRE(lhs != rhs);
             }
         }
 
         SECTION("non-default from-space") {
-            const auto lhs = sde::hash_objects(non_default_sm);
-            const auto rhs =
-              sde::hash_objects(space_type{tensor_type{}, from_space{}, sm});
+            const auto lhs = pluginplay::hash_objects(non_default_sm);
+            const auto rhs = pluginplay::hash_objects(
+              space_type{tensor_type{}, from_space{}, sm});
             REQUIRE(lhs == rhs);
         }
     }

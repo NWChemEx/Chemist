@@ -96,21 +96,21 @@ TEMPLATE_LIST_TEST_CASE("DeterminantSpace", "", tuple_type) {
 
     // SECTION("hash") {
     //     SECTION("LHS is default") {
-    //         const auto lhs = sde::hash_objects(defaulted);
+    //         const auto lhs = pluginplay::hash_objects(defaulted);
     //         SECTION("Same value") {
-    //             REQUIRE(lhs == sde::hash_objects(space_t{}));
+    //             REQUIRE(lhs == pluginplay::hash_objects(space_t{}));
     //         }
     //         SECTION("Different occupied") {
     //             space_t rhs(occ, virt_space_t{}, fock_op_t{});
-    //             REQUIRE(lhs != sde::hash_objects(rhs));
+    //             REQUIRE(lhs != pluginplay::hash_objects(rhs));
     //         }
     //         SECTION("Different virtual") {
     //             space_t rhs(occ_space_t{}, virt, fock_op_t{});
-    //             REQUIRE(lhs != sde::hash_objects(rhs));
+    //             REQUIRE(lhs != pluginplay::hash_objects(rhs));
     //         }
     //         SECTION("Different fock operators") {
     //             space_t rhs(occ_space_t{}, virt_space_t{}, fock);
-    //             REQUIRE(lhs != sde::hash_objects(rhs));
+    //             REQUIRE(lhs != pluginplay::hash_objects(rhs));
     //         }
     //     }
     // }

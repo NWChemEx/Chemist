@@ -121,7 +121,7 @@ protected:
     virtual size_type size_() const noexcept override;
 
     /// Adds the hash of the sparse map to the provided hasher.
-    virtual void hash_(sde::Hasher& h) const override { h(m_sm_); }
+    virtual void hash_(pluginplay::Hasher& h) const override { h(m_sm_); }
 
     /// Returnst true if the spaces have the same sparse map
     virtual bool equal_(const BaseSpace& rhs) const noexcept override;

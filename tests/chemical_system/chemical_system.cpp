@@ -36,7 +36,7 @@ TEST_CASE("ChemicalSystem") {
         }
 
         SECTION("size_type") {
-            using t = typename ChemicalSystem::size_type;
+            using t    = typename ChemicalSystem::size_type;
             using corr = std::size_t;
             STATIC_REQUIRE(std::is_same_v<t, corr>);
         }
@@ -96,7 +96,7 @@ TEST_CASE("ChemicalSystem") {
             REQUIRE(sys.nelectrons() == 1);
             REQUIRE(sys.external_electrostatic_potential() == default_v);
         }
-        SECTION("Default potential"){
+        SECTION("Default potential") {
             ChemicalSystem sys(h, 2);
             REQUIRE(sys.molecule() == h);
             REQUIRE(sys.nelectrons() == 2);
@@ -226,26 +226,26 @@ TEST_CASE("ChemicalSystem") {
     SECTION("hash") {
         SECTION("LHS is default") {
             ChemicalSystem lhs;
-            auto lhs_hash = sde::hash_objects(lhs);
+            auto lhs_hash = pluginplay::hash_objects(lhs);
 
             SECTION("RHS is default") {
                 ChemicalSystem rhs;
-                REQUIRE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE(lhs_hash == pluginplay::hash_objects(rhs));
             }
 
             SECTION("RHS has a different molecule") {
                 ChemicalSystem rhs(h);
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == pluginplay::hash_objects(rhs));
             }
 
             SECTION("RHS has a different number of electrons") {
                 ChemicalSystem rhs(default_mol, 2);
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == pluginplay::hash_objects(rhs));
             }
 
             SECTION("RHS has a different potential") {
                 ChemicalSystem rhs(default_mol, 1, v);
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == pluginplay::hash_objects(rhs));
             }
         }
     }
@@ -264,7 +264,7 @@ TEST_CASE("ChemicalSystem") {
                 REQUIRE_FALSE(lhs == rhs);
             }
 
-            SECTION("RHS has a different number of electrons"){
+            SECTION("RHS has a different number of electrons") {
                 ChemicalSystem rhs(default_mol, 2);
                 REQUIRE_FALSE(lhs == rhs);
             }
@@ -273,7 +273,6 @@ TEST_CASE("ChemicalSystem") {
                 ChemicalSystem rhs(default_mol, 1, v);
                 REQUIRE_FALSE(lhs == rhs);
             }
-
         }
     }
 }

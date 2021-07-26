@@ -153,7 +153,7 @@ TEST_CASE("ConnectivityTable") {
     }
 
     SECTION("hash") {
-        using sde::hash_objects;
+        using pluginplay::hash_objects;
         SECTION("LHS == default") {
             SECTION("RHS == default") {
                 REQUIRE(hash_objects(t) == hash_objects(ConnectivityTable{}));

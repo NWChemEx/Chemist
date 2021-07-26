@@ -2,7 +2,7 @@
 #include "libchemist/sparse_map/domain/detail_/domain_traits.hpp"
 #include <boost/container/flat_set.hpp>
 #include <memory>
-#include <sde/hasher.hpp>
+#include <pluginplay/hasher.hpp>
 #include <set>
 #include <tiledarray.h>
 #include <utilities/iter_tools.hpp>
@@ -10,7 +10,7 @@
 namespace boost::container {
 template<typename ElementType>
 void hash_object(const boost::container::flat_set<ElementType>& v,
-                 sde::Hasher& h) {
+                 pluginplay::Hasher& h) {
     for(const auto& x : v) h(x);
 }
 } // namespace boost::container
@@ -309,7 +309,7 @@ public:
      *                   internal state will be updated with the hash of the
      *                   Domain's state.
      */
-    void hash(sde::Hasher& h) const { h(m_domain_); }
+    void hash(pluginplay::Hasher& h) const { h(m_domain_); }
 
 protected:
     DomainPIMPL(const DomainPIMPL& other)     = default;

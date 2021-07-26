@@ -42,7 +42,7 @@ TEST_CASE("ChemicalSystemPIMPL") {
         }
 
         SECTION("size_type") {
-            using t = typename chem_sys_pimpl_t::size_type;
+            using t    = typename chem_sys_pimpl_t::size_type;
             using corr = typename chem_sys_t::size_type;
             STATIC_REQUIRE(std::is_same_v<t, corr>);
         }
@@ -70,15 +70,14 @@ TEST_CASE("ChemicalSystemPIMPL") {
         chem_sys_pimpl_t pimpl;
         REQUIRE(pimpl.molecule() == default_mol);
         REQUIRE(pimpl.nelectrons() == 0);
-        REQUIRE(pimpl.external_electrostatic_potential() ==
-                default_v);
+        REQUIRE(pimpl.external_electrostatic_potential() == default_v);
     }
 
     SECTION("Value ctor") {
-            chem_sys_pimpl_t pimpl(h, 2, v);
-            REQUIRE(pimpl.molecule() == h);
-            REQUIRE(pimpl.nelectrons() == 2);
-            REQUIRE(pimpl.external_electrostatic_potential() == v);
+        chem_sys_pimpl_t pimpl(h, 2, v);
+        REQUIRE(pimpl.molecule() == h);
+        REQUIRE(pimpl.nelectrons() == 2);
+        REQUIRE(pimpl.external_electrostatic_potential() == v);
     }
 
     SECTION("clone") {
@@ -170,26 +169,26 @@ TEST_CASE("ChemicalSystemPIMPL") {
     SECTION("hash") {
         SECTION("LHS is default") {
             chem_sys_pimpl_t lhs;
-            auto lhs_hash = sde::hash_objects(lhs);
+            auto lhs_hash = pluginplay::hash_objects(lhs);
 
             SECTION("RHS is default") {
                 chem_sys_pimpl_t rhs;
-                REQUIRE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE(lhs_hash == pluginplay::hash_objects(rhs));
             }
 
             SECTION("RHS has a different molecule") {
                 chem_sys_pimpl_t rhs(h, 0, default_v);
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == pluginplay::hash_objects(rhs));
             }
 
             SECTION("RHS has a different number of electrons") {
                 chem_sys_pimpl_t rhs(default_mol, 2, default_v);
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == pluginplay::hash_objects(rhs));
             }
 
             SECTION("RHS has a different potential") {
                 chem_sys_pimpl_t rhs(default_mol, 0, v);
-                REQUIRE_FALSE(lhs_hash == sde::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == pluginplay::hash_objects(rhs));
             }
         }
     }
@@ -208,7 +207,7 @@ TEST_CASE("ChemicalSystemPIMPL") {
                 REQUIRE_FALSE(lhs == rhs);
             }
 
-            SECTION("RHS has a different number of electrons"){
+            SECTION("RHS has a different number of electrons") {
                 chem_sys_pimpl_t rhs(default_mol, 2, default_v);
                 REQUIRE_FALSE(lhs == rhs);
             }
@@ -217,7 +216,6 @@ TEST_CASE("ChemicalSystemPIMPL") {
                 chem_sys_pimpl_t rhs(default_mol, 1, v);
                 REQUIRE_FALSE(lhs == rhs);
             }
-
         }
     }
 }

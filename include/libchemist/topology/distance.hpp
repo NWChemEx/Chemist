@@ -1,7 +1,7 @@
 #pragma once
 #include <iomanip>
 #include <iostream>
-#include <sde/hasher.hpp>
+#include <pluginplay/hasher.hpp>
 
 namespace libchemist::topology {
 
@@ -51,7 +51,7 @@ public:
      *  @param[in,out] h The Hasher instance to use for the hashing. After this
      *                   call @p h will contain the hash of this instance.
      */
-    void hash(sde::Hasher& h) const { h(m_distance_); }
+    void hash(pluginplay::Hasher& h) const { h(m_distance_); }
 
 private:
     /// The actual value of the distance.

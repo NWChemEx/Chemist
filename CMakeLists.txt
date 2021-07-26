@@ -29,11 +29,11 @@ cpp_find_or_build_dependency(
 )
 
 cpp_find_or_build_dependency(
-    sde
-    URL github.com/NWChemEx-Project/sde
+    pluginplay
+    URL github.com/NWChemEx-Project/PluginPlay
     PRIVATE TRUE
-    BUILD_TARGET sde
-    FIND_TARGET nwx::sde
+    BUILD_TARGET pluginplay
+    FIND_TARGET nwx::pluginplay
     CMAKE_ARGS BUILD_TESTING=OFF
 )
 
@@ -43,7 +43,7 @@ cpp_add_library(
     chemist
     SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/libchemist"
     INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/include/libchemist"
-    DEPENDS nwx::sde tiledarray Boost::container
+    DEPENDS nwx::pluginplay tiledarray Boost::container
 )
 
 if("${BUILD_TESTING}")
