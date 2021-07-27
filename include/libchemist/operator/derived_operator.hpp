@@ -1,6 +1,6 @@
 #pragma once
 #include "libchemist/operator/operator_class.hpp"
-#include "libchemist/operator/type_traits.hpp"
+#include "libchemist/operator/type_traits/type_traits.hpp"
 #include <memory>
 
 namespace libchemist {
@@ -128,7 +128,7 @@ public:
      *  Complexity: Linear in the size of @p args
      */
     template<typename... Args,
-             typename = std::enable_if_t<detail_::all_are_operator_v<Args...>>>
+             typename = std::enable_if_t<all_are_operator_v<Args...>>>
     DerivedOperator(Args&&... args) : DerivedOperator() {
         add_terms(std::forward<Args>(args)...);
     }
@@ -153,8 +153,7 @@ public:
      *  Complexity: Constant
      */
     template<typename OpType>
-    detail_::enable_if_operator_t<OpType, DerivedOperator&> add_term(
-      OpType&& op) {
+    enable_if_operator_t<OpType, DerivedOperator&> add_term(OpType&& op) {
         add_term_(typeid(OpType), std::make_shared<std::decay_t<OpType>>(
                                     std::forward<OpType>(op)));
         return *this;
@@ -180,8 +179,8 @@ public:
      *  Complexity: Linear in the size of @p ops.
      */
     template<typename... Ops>
-    std::enable_if_t<detail_::all_are_operator_v<Ops...>, DerivedOperator&>
-    add_terms(Ops&&... ops) {
+    std::enable_if_t<all_are_operator_v<Ops...>, DerivedOperator&> add_terms(
+      Ops&&... ops) {
         (add_term(std::forward<Ops>(ops)), ...);
         return *this;
     }
@@ -210,8 +209,7 @@ public:
      *              DerivedOperator.
      */
     template<typename OpType>
-    detail_::enable_if_operator_t<OpType, get_return_type<OpType>> get_terms()
-      const {
+    enable_if_operator_t<OpType, get_return_type<OpType>> get_terms() const {
         auto type_erased_terms = get_terms_(typeid(OpType));
         get_return_type<OpType> ret_terms(type_erased_terms.size());
         std::transform(type_erased_terms.begin(), type_erased_terms.end(),
@@ -238,7 +236,7 @@ public:
      *              DerivedOperator.
      */
     template<typename OpType>
-    detail_::enable_if_operator_t<OpType, bool> has_term() const noexcept {
+    enable_if_operator_t<OpType, bool> has_term() const noexcept {
         return has_term_(typeid(OpType));
     }
 
