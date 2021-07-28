@@ -189,8 +189,9 @@ typename ShellPIMPL<T>::size_type ShellPIMPL<T>::size() const noexcept {
     const auto L     = m_l_.value();
     const auto p_val = 2ul * L + 1ul;
     // closed form for 2+L choose 2
-    const auto c_val = (L * L + 3ul * L + 2ul) / 2ul;
-    return m_pure_.value() ? p_val : c_val;
+    const auto c_val   = (L * L + 3ul * L + 2ul) / 2ul;
+    const bool is_pure = m_pure_.value() == ShellType::pure;
+    return is_pure ? p_val : c_val;
 }
 
 template<typename T>
