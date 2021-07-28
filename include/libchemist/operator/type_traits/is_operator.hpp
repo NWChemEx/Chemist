@@ -1,8 +1,10 @@
 #pragma once
-#include "libchemist/operator/operator_class.hpp"
 #include <type_traits>
 
 namespace libchemist {
+
+class OperatorBase;
+
 namespace detail_ {
 
 /** Type trait to determine if a type is an operator type at compile-time
@@ -13,7 +15,8 @@ namespace detail_ {
  * Operator, `false`, otherwise.
  */
 template<typename OpType>
-struct is_operator : public std::is_base_of<Operator, std::decay_t<OpType>> {};
+struct is_operator
+  : public std::is_base_of<OperatorBase, std::decay_t<OpType>> {};
 } // namespace detail_
 
 /// Alias to is_operator<OpType>::value
