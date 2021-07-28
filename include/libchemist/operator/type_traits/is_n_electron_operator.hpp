@@ -1,5 +1,4 @@
 #pragma once
-#include "libchemist/operator/operator_class.hpp"
 #include "libchemist/operator/type_traits/is_operator.hpp"
 #include <type_traits>
 

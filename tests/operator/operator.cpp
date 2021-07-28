@@ -1,4 +1,8 @@
-#include "libchemist/operator/operator_class.hpp"
+#include "libchemist/operator/coulomb.hpp"
+#include "libchemist/operator/exchange.hpp"
+#include "libchemist/operator/exchange_correlation.hpp"
+#include "libchemist/operator/kinetic.hpp"
+#include "libchemist/operator/operator_base.hpp"
 #include <catch2/catch.hpp>
 #include <iostream>
 
@@ -13,8 +17,8 @@ void check_operator_particle_count() {
 template<typename OpType>
 void check_stateless_operator_equality() {
     OpType lhs, rhs;
-    auto& lhs_as_operator = static_cast<const Operator&>(lhs);
-    auto& rhs_as_operator = static_cast<const Operator&>(rhs);
+    auto& lhs_as_operator = static_cast<const OperatorBase&>(lhs);
+    auto& rhs_as_operator = static_cast<const OperatorBase&>(rhs);
     REQUIRE(lhs == rhs);
     REQUIRE(lhs_as_operator == rhs_as_operator); // Trivially true
     REQUIRE(lhs_as_operator.is_equal(rhs));
@@ -29,37 +33,40 @@ TEST_CASE("Operator Sanity") {
         check_operator_particle_count<ElectronNuclearCoulomb, 1, 1>();
         check_operator_particle_count<ElectronElectronCoulomb, 2, 0>();
 
-        check_operator_particle_count<MeanFieldElectronCoulomb, 1, 0>();
-        check_operator_particle_count<MeanFieldElectronExactExchange, 1, 0>();
-        check_operator_particle_count<KohnShamExchangeCorrelation, 1, 0>();
+        check_operator_particle_count<ElectronEDensityCoulomb, 1, 0>();
+        check_operator_particle_count<ElectronEDensityExchange, 1, 0>();
+        check_operator_particle_count<MeanFieldKohnShamExchangeCorrelation, 1,
+                                      0>();
 
         // check_operator_particle_count< ClassicalElectronDipoleField,     1,
-        // 0>(); check_operator_particle_count< ClassicalElectronQuadrupoleField,
-        // 1, 0>(); check_operator_particle_count<
-        // ClassicalElectronOctupoleField,   1, 0>();
+        // 0>(); check_operator_particle_count<
+        // ClassicalElectronQuadrupoleField, 1, 0>();
+        // check_operator_particle_count< ClassicalElectronOctupoleField,   1,
+        // 0>();
     }
 
     SECTION("Stateless Operator Comparison") {
         check_stateless_operator_equality<ElectronKinetic>();
         check_stateless_operator_equality<ElectronElectronCoulomb>();
-        check_stateless_operator_equality<MeanFieldElectronCoulomb>();
-        check_stateless_operator_equality<MeanFieldElectronExactExchange>();
-        check_stateless_operator_equality<KohnShamExchangeCorrelation>();
+        check_stateless_operator_equality<ElectronEDensityCoulomb>();
+        check_stateless_operator_equality<ElectronEDensityExchange>();
+        check_stateless_operator_equality<
+          MeanFieldKohnShamExchangeCorrelation>();
     }
 
     SECTION("Electron-Nuclear Coulomb Comparison") {
-        ElectronNuclearCoulomb lhs, rhs;
-        lhs.add_charge(-1., 0., 0., 0.);
-        lhs.add_charge(-1., 0., 0., 2.);
-        rhs.add_charge(-2., 0., 0., 0.);
-        rhs.add_charge(-2., 0., 0., 2.);
+        Molecule a{Atom(1ul, std::array<double, 3>{0.0, 0.0, 0.0}),
+                   Atom(1ul, std::array<double, 3>{0.0, 0.0, 2.0})};
+        Molecule b{Atom(2ul, std::array<double, 3>{0.0, 0.0, 0.0}),
+                   Atom(2ul, std::array<double, 3>{0.0, 0.0, 2.0})};
+        ElectronNuclearCoulomb lhs(Electron{}, a), rhs(Electron{}, b);
 
         REQUIRE(lhs == lhs);
         REQUIRE(rhs == rhs);
         REQUIRE(lhs != rhs);
 
-        const auto& lhs_as_operator = static_cast<const Operator&>(lhs);
-        const auto& rhs_as_operator = static_cast<const Operator&>(rhs);
+        const auto& lhs_as_operator = static_cast<const OperatorBase&>(lhs);
+        const auto& rhs_as_operator = static_cast<const OperatorBase&>(rhs);
 
         // These are trivial
         REQUIRE(lhs_as_operator == lhs_as_operator);

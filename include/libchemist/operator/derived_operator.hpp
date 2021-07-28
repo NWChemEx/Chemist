@@ -214,7 +214,7 @@ public:
         get_return_type<OpType> ret_terms(type_erased_terms.size());
         std::transform(type_erased_terms.begin(), type_erased_terms.end(),
                        ret_terms.begin(),
-                       std::dynamic_pointer_cast<OpType, Operator>);
+                       std::dynamic_pointer_cast<OpType, OperatorBase>);
         return ret_terms;
     }
 
@@ -283,11 +283,11 @@ protected:
 private:
     /// Type erased private API for `add_term` which delegates to
     /// HamiltonanPIMPL::add_term
-    void add_term_(std::type_index index, std::shared_ptr<Operator>&&);
+    void add_term_(std::type_index index, std::shared_ptr<OperatorBase>&&);
 
     /// Type erased private API for `get_terms` which delegates to
     /// HamiltonanPIMPL::get_terms
-    get_return_type<Operator> get_terms_(std::type_index index) const;
+    get_return_type<OperatorBase> get_terms_(std::type_index index) const;
 
     /// Type erased private API for `has_term` which delegates to
     /// HamiltonanPIMPL::has_term

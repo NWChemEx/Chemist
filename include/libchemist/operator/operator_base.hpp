@@ -50,7 +50,7 @@ protected:
     /// Derived implementation of Hash function.
     virtual void hash_impl(pluginplay::Hasher& h) const = 0;
     /// Derived implementation of comparison function.
-    virtual bool is_equal_impl(const OperatorBAse&) const noexcept = 0;
+    virtual bool is_equal_impl(const OperatorBase&) const noexcept = 0;
 };
 
 inline bool OperatorBase::is_equal(const OperatorBase& other) const noexcept {

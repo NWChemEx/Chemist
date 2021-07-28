@@ -6,51 +6,52 @@ namespace libchemist::detail_ {
 
 /// Implementation of the public DerivedOperator API
 class DerivedOperatorPIMPL {
-
-    using operator_container_type = 
-      std::multimap< std::type_index, std::shared_ptr<Operator> >;
+    using operator_container_type =
+      std::multimap<std::type_index, std::shared_ptr<OperatorBase>>;
 
 public:
-
     /// Defaulted default ctor
     DerivedOperatorPIMPL();
     /// Copy ctor
-    DerivedOperatorPIMPL( const DerivedOperatorPIMPL& other );
+    DerivedOperatorPIMPL(const DerivedOperatorPIMPL& other);
     /// Move ctor
-    DerivedOperatorPIMPL( DerivedOperatorPIMPL&& other ) noexcept;
+    DerivedOperatorPIMPL(DerivedOperatorPIMPL&& other) noexcept;
     /// Defaulted noexcept dtor
     ~DerivedOperatorPIMPL() noexcept;
 
     /// Copy assignment
-    DerivedOperatorPIMPL& operator=( const DerivedOperatorPIMPL& other );
+    DerivedOperatorPIMPL& operator=(const DerivedOperatorPIMPL& other);
     /// Move assignment
-    DerivedOperatorPIMPL& operator=( DerivedOperatorPIMPL&& other ) noexcept;
-
+    DerivedOperatorPIMPL& operator=(DerivedOperatorPIMPL&& other) noexcept;
 
     /** @brief Add a term to the DerivedOperator state
      *
      *  Implements the type-erased backend for `DerivedOperator::add_term`
      *
-     *  @param[in] index RTTI of the strong type associated with the Operator instance
-     *  @param[in] op    `shared_ptr` containing the state of the Operator instance
+     *  @param[in] index RTTI of the strong type associated with the Operator
+     * instance
+     *  @param[in] op    `shared_ptr` containing the state of the Operator
+     * instance
      */
-    void add_term( std::type_index index, std::shared_ptr<Operator>&& op ); 
+    void add_term(std::type_index index, std::shared_ptr<OperatorBase>&& op);
 
-    using get_return_type = DerivedOperator::get_return_type<Operator>;
+    using get_return_type = DerivedOperator::get_return_type<OperatorBase>;
 
-    /** @brief Return the collection of operators with a particular RTTI specifier
+    /** @brief Return the collection of operators with a particular RTTI
+     * specifier
      *
      *  Implements the type-erased backend for `DerivedOperator::get_terms`
      *
-     *  @param[in] index RTTI specifier of the Operator type from which to select
-     *                   the stored operator instances of the DerivedOperator
+     *  @param[in] index RTTI specifier of the Operator type from which to
+     * select the stored operator instances of the DerivedOperator
      *
-     *  @return A `vector` of Operators instances which match the passed RTTI specifier 
-     *          in @p index.
+     *  @return A `vector` of Operators instances which match the passed RTTI
+     * specifier in @p index.
      */
-    get_return_type get_terms( std::type_index index ) const; 
+    get_return_type get_terms(std::type_index index) const;
 
-    /** @brief Check whether this DerivedOperator contains a certain operator type
+    /** @brief Check whether this DerivedOperator contains a certain operator
+     * type
      *
      *  Implements the type-erased backend for `DerivedOperator::has_term`
      *
@@ -59,8 +60,7 @@ public:
      *  @return `true` if this DerivedOperator contains an Operatoer with RTTI
      *          matching @p index, `false` otherwise.
      */
-    bool has_term( std::type_index index ) const noexcept; 
-
+    bool has_term(std::type_index index) const noexcept;
 
     /** @brief Clone this DerivedOperator instance
      *
@@ -71,15 +71,13 @@ public:
      */
     std::unique_ptr<DerivedOperatorPIMPL> clone() const;
 
-
-    bool operator==( const DerivedOperatorPIMPL& other) const;
-    bool operator!=( const DerivedOperatorPIMPL& other) const;
+    bool operator==(const DerivedOperatorPIMPL& other) const;
+    bool operator!=(const DerivedOperatorPIMPL& other) const;
 
 private:
-
-    /// Internal storage of operator instances which comprise this DerivedOperator
+    /// Internal storage of operator instances which comprise this
+    /// DerivedOperator
     operator_container_type terms_;
-
 };
 
-}
+} // namespace libchemist::detail_
