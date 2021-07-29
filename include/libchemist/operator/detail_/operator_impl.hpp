@@ -11,40 +11,50 @@ namespace detail_ {
  *
  *  Many of the operators are more-or-less strong types aside from the
  *  parameters associated with the "particles" involved in the term. This class
- *  provides code factorization for those
+ *  provides code factorization for comparing the "particles" in the term.
  *
  *  @note Here we use the term "particles" very loosely and include traditional
- *  particles like electrons and nuclei, but also things like electrostatic
+ *  particles like Electrons and nuclei, but also things like electrostatic
  *  fields. Basically particles are the entities which are interacting in the
  *  operator.
+ *
+ *  @tparam DerivedClass The name of the operator which derives from this class
+ *                       and is being implemented by it. DerivedClass may be
+ *                       templated on zero or more types
  */
 template<template<typename...> typename DerivedClass, typename... Particles>
 class OperatorImpl : public OperatorBase {
 private:
-    using Nuclei       = Molecule;
+    /// Type of the object which holds a collection of Nuclei
+    using Nuclei = Molecule;
+
+    /// Type of the class which derives from this class
     using derived_type = DerivedClass<Particles...>;
 
+    /// Counts the number of times @P appears in Particles.
     template<typename P>
     static constexpr auto count_particle_v =
       utilities::type_traits::parameter_pack_count_derived_type_v<P,
                                                                   Particles...>;
 
 public:
-    static constexpr auto n_electrons = count_particle_v<Electron>;
+    /// Type of a tuple filled with the Particles' types
+    using particle_type = std::tuple<Particles...>;
 
+    /// The total number of particles involved in this operator
+    static constexpr auto n_body = sizeof...(Particles);
+
+    /// The total number of Electrons involved in this interaction
+    static constexpr auto n_Electrons = count_particle_v<Electron>;
+
+    /// The total number of nuclei involved in this interaction
     static constexpr auto n_nuclei = count_particle_v<Nuclei>;
 
-    OperatorImpl() = default;
+    template<template<typename...> typename OtherDerived, typename... OtherPs>
+    bool operator==(const OperatorImpl<OtherDerived, OtherPs...>& rhs) const;
 
-    template<typename... Inputs>
-    OperatorImpl(Inputs&&... inputs) :
-      m_particles_(std::make_tuple(std::forward<Inputs>(inputs)...)) {}
-
-    template<typename... OtherParticles>
-    bool operator==(const DerivedClass<OtherParticles...>& rhs) const;
-
-    template<typename... OtherParticles>
-    bool operator!=(const DerivedClass<OtherParticles...>& other) const;
+    template<template<typename...> typename OtherDerived, typename... OtherPs>
+    bool operator!=(const OperatorImpl<OtherDerived, OtherPs...>& rhs) const;
 
     template<std::size_t N>
     const auto& at() const {
@@ -52,6 +62,12 @@ public:
     }
 
 protected:
+    OperatorImpl() = default;
+
+    template<typename... Inputs>
+    OperatorImpl(Inputs&&... inputs) :
+      m_particles_(std::make_tuple(std::forward<Inputs>(inputs)...)) {}
+
     virtual bool is_equal_impl(const OperatorBase& rhs) const noexcept override;
     virtual void hash_impl(pluginplay::Hasher&) const override {}
 
@@ -62,9 +78,9 @@ private:
 #define OPERATOR_IMPL OperatorImpl<DerivedClass, Particles...>
 
 template<template<typename...> typename DerivedClass, typename... Particles>
-template<typename... OtherParticles>
+template<template<typename...> typename OtherDerived, typename... OtherPs>
 bool OPERATOR_IMPL::operator==(
-  const DerivedClass<OtherParticles...>& rhs) const {
+  const OperatorImpl<OtherDerived, OtherPs...>& rhs) const {
     if constexpr(!std::is_same_v<decltype(*this), decltype(rhs)>) {
         return false;
     } else {
@@ -73,9 +89,9 @@ bool OPERATOR_IMPL::operator==(
 }
 
 template<template<typename...> typename DerivedClass, typename... Particles>
-template<typename... OtherParticles>
+template<template<typename...> typename OtherDerived, typename... OtherPs>
 bool OPERATOR_IMPL::operator!=(
-  const DerivedClass<OtherParticles...>& rhs) const {
+  const OperatorImpl<OtherDerived, OtherPs...>& rhs) const {
     return !((*this) == rhs);
 }
 

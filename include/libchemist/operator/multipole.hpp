@@ -14,7 +14,7 @@ private:
 public:
     using point_type = Point<double>;
 
-    static constexpr auto n_electrons = detail_::n_electrons_v<ParticleType>;
+    static constexpr auto n_Electrons = detail_::n_Electrons_v<ParticleType>;
     static constexpr auto n_nuclei    = detail_::n_nuclei_v<ParticleType>;
 
     // static constexpr std:size_t op_size =
@@ -56,10 +56,10 @@ private:
 };
 
 /// Electric dipole operator type
-using ElectricDipoleOperator = Multipole<1, Electron>;
+using ElectricDipole = Multipole<1, Electron>;
 /// Electric quadrupole operator type
-using ElectricQuadrupoleOperator = Multipole<2, Electron>;
+using ElectricQuadrupole = Multipole<2, Electron>;
 /// Electric octupole operator type
-using ElectricOctupoleOperator = Multipole<3, Electron>;
+using ElectricOctupole = Multipole<3, Electron>;
 
 } // namespace libchemist

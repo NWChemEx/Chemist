@@ -1,17 +1,16 @@
 #pragma once
 #include "libchemist/molecule/molecule.hpp"
+#include "libchemist/operator/Electron.hpp"
 #include "libchemist/operator/density.hpp"
 #include "libchemist/operator/detail_/operator_impl.hpp"
-#include "libchemist/operator/electron.hpp"
 
 namespace libchemist {
 
-template<typename Particle1, typename Particle2>
+template<typename... Particles>
 class CoulombInteraction
-  : public detail_::OperatorImpl<CoulombInteraction, Particle1, Particle2> {
+  : public detail_::OperatorImpl<CoulombInteraction, Particles...> {
 private:
-    using base_type =
-      detail_::OperatorImpl<CoulombInteraction, Particle1, Particle2>;
+    using base_type = detail_::OperatorImpl<CoulombInteraction, Particles...>;
 
 public:
     using base_type::OperatorImpl;

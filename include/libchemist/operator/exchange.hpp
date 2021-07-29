@@ -1,7 +1,7 @@
 #pragma once
+#include "libchemist/operator/Electron.hpp"
 #include "libchemist/operator/density.hpp"
 #include "libchemist/operator/detail_/operator_impl.hpp"
-#include "libchemist/operator/electron.hpp"
 
 namespace libchemist {
 

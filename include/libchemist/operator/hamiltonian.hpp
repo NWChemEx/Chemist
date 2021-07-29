@@ -12,8 +12,8 @@ namespace libchemist {
  *  between the particles of the system.
  *
  *  Example usage (Born-Oppenheimer Hamiltonian):
- *      Hamilton bo_hamiltonian( ElectronKinetic{}, ElectronNuclearCoulomb{} );
- *      bo_hamiltonian.add_term( ElectronElectronCoulomb{} );
+ *      Hamilton bo_hamiltonian( ElectronKinetic{}, ElectronNuclearCoulomb{}
+ * ); bo_hamiltonian.add_term( ElectronElectronCoulomb{} );
  *      bo_hamiltonian.add_term( NuclearNuclearCoulomb{} );
  */
 struct Hamiltonian : public DerivedOperator {

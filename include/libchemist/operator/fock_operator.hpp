@@ -8,10 +8,10 @@ namespace libchemist {
  *  This class provides a set of public APIs for the storage and
  *  manipulations of generic Fock operators resulting from molecular
  *  Hamiltonians representing some physical state of affairs.
- *  FockOperator instances are comprised of a collection of one electron
+ *  FockOperator instances are comprised of a collection of one Electron
  *  Operators which represent either physical interactions of the particles
  *  of the system or mean-field potentials arising from the interactions of
- *  individual electrons with the average bevhaviour of the other electrons.
+ *  individual Electrons with the average bevhaviour of the other Electrons.
  *
  */
 struct FockOperator : public DerivedOperator {
@@ -121,7 +121,7 @@ struct FockOperator : public DerivedOperator {
      *  Complexity: Linear in the size of @p args
      */
     template<typename... Args,
-             typename = std::enable_if_t<are_one_electron_operators_v<Args...>>>
+             typename = std::enable_if_t<are_one_Electron_operators_v<Args...>>>
     FockOperator(Args&&... args) :
       DerivedOperator(std::forward<Args>(args)...) {}
 
@@ -170,7 +170,7 @@ struct FockOperator : public DerivedOperator {
      *  Complexity: Linear in the size of @p ops.
      */
     template<typename... Ops>
-    std::enable_if_t<are_one_electron_operators_v<Ops...>, FockOperator&>
+    std::enable_if_t<are_one_Electron_operators_v<Ops...>, FockOperator&>
     add_terms(Ops&&... ops) {
         DerivedOperator::add_terms(std::forward<Ops>(ops)...);
         return *this;

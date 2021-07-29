@@ -3,22 +3,22 @@
 namespace libchemist {
 
 struct SlaterTypeGeminal {
-    using coeffficient_type = double;
-    using exponent_type     = double;
+    using coefficient_type = double;
+    using exponent_type    = double;
 
-    explicit SlaterTypeGeminal(exponent_type gamma = 1.2,
-                               coefficient_type c  = -1.0 / gamma);
+    explicit SlaterTypeGeminal(exponent_type exp  = 1.2,
+                               coefficient_type c = -1.0 / exp);
 
     SlaterTypeGeminal& operator*=(const SlaterTypeGeminal& rhs);
-    SlaterTypeGeminal operator*(cosnt SlaterTypeGeminal& rhs) const;
+    SlaterTypeGeminal operator*(const SlaterTypeGeminal& rhs) const;
 
     double coefficient;
     double exponent;
 };
 
-inline SlaterTypeGeminal::SlaterTypeGeminal(exponent_type gamma,
+inline SlaterTypeGeminal::SlaterTypeGeminal(exponent_type exp,
                                             coefficient_type c) :
-  exponent(gamma), coefficient(c) {}
+  exponent(exp), coefficient(c) {}
 
 inline SlaterTypeGeminal& SlaterTypeGeminal::operator*=(
   const SlaterTypeGeminal& rhs) {

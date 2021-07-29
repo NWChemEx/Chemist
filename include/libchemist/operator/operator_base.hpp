@@ -8,14 +8,14 @@ namespace libchemist {
 
 /** @brief An abstract base class for Operator types
  *
- *  This class provides the basic API specifications for
- *  Operator types to satisfy `pluginplayAny` type requirements
- *  and to allow for their identification and manipulation
- *  in a type-erased manner
+ *  This class provides the basic API specifications for operator types to
+ *  satisfy `Any` type requirements and to allow for their identification and
+ *  manipulation in a type-erased manner.
  *
  *  All Operator types are to be derived from this class.
  */
-struct OperatorBase {
+class OperatorBase {
+public:
     /// Hash function
     inline void hash(pluginplay::Hasher& h) const { hash_impl(h); }
 
@@ -26,6 +26,8 @@ struct OperatorBase {
      *
      *  @param[in] other Operator instance to compare
      *  @return    true (stateless base class)
+     *
+     *  @throw None No throw guarantee.
      */
     inline bool operator==(const OperatorBase& other) const { return true; }
 
@@ -33,12 +35,15 @@ struct OperatorBase {
      *
      *  @param[in] other Operator instance to compare
      *  @return    false (stateless base class)
+     *
+     *  @throw None No throw guarantee.
      */
     inline bool operator!=(const OperatorBase& other) const { return false; }
 
-    /// Defaulted no-throw dtor
+    /// Polymorphic defaulted no-throw dtor
     virtual ~OperatorBase() noexcept = default;
 
+protected:
     /// Defaulted default noexcept ctor
     OperatorBase() noexcept = default;
     /// Defaulted copy ctor
@@ -46,7 +51,6 @@ struct OperatorBase {
     /// Defaulted move ctor
     OperatorBase(OperatorBase&&) noexcept = default;
 
-protected:
     /// Derived implementation of Hash function.
     virtual void hash_impl(pluginplay::Hasher& h) const = 0;
     /// Derived implementation of comparison function.
@@ -56,7 +60,5 @@ protected:
 inline bool OperatorBase::is_equal(const OperatorBase& other) const noexcept {
     return is_equal_impl(other) and other.is_equal_impl(*this);
 }
-
-// Stateful operators
 
 } // namespace libchemist
