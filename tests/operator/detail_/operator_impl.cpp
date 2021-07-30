@@ -10,12 +10,15 @@
  */
 
 using namespace utilities::type_traits;
-
+using namespace libchemist;
 namespace {
 
-struct FacadeOperator : OperatorImpl
+// This is some bogus operator, which has a type different than all operators we
+// are actually testing.
+template<typename T>
+struct BogusOperator : detail_::OperatorImpl<BogusOperator, T> {};
 
-}
+} // namespace
 
 TEMPLATE_LIST_TEST_CASE("OperatorImpl", "", testing::all_operators) {
     using derived_type   = TestType;
@@ -38,11 +41,12 @@ TEMPLATE_LIST_TEST_CASE("OperatorImpl", "", testing::all_operators) {
         }
     }
 
+    derived_type defaulted;
+
     SECTION("Non-polymorphic comparisons") {
         SECTION("Types are different") {
-            // Abuse the fact that DerivedClass can be pretty much any type
-            using other_impl = OperatorImpl<int>;
-            REQUIRE(other_impl)
+            REQUIRE(defaulted != BogusOperator<int>{});
+            REQUIRE_FALSE(defaulted == BogusOperator<int>{});
         }
     }
 }

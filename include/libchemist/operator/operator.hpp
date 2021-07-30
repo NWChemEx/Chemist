@@ -1,10 +1,11 @@
 #pragma once
 
-#include "libchemist/operator/Electron.hpp"
+#include "libchemist/operator/correlation_factor.hpp"
 #include "libchemist/operator/coulomb.hpp"
 #include "libchemist/operator/derived_operator.hpp"
 #include "libchemist/operator/detail_/operator_impl.hpp"
 #include "libchemist/operator/dirac_delta.hpp"
+#include "libchemist/operator/electron.hpp"
 #include "libchemist/operator/exchange.hpp"
 #include "libchemist/operator/exchange_correlation.hpp"
 #include "libchemist/operator/f12_commutator.hpp"

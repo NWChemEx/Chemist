@@ -28,7 +28,7 @@ struct is_n_Electron_operator : public std::false_type {};
 template<std::size_t N, typename OpType>
 struct is_n_Electron_operator<
   N, OpType, typename std::enable_if<is_operator_v<OpType>>::type>
-  : std::integral_constant<bool, std::decay_t<OpType>::n_Electrons == N> {};
+  : std::integral_constant<bool, std::decay_t<OpType>::n_electrons == N> {};
 
 } // namespace detail_
 

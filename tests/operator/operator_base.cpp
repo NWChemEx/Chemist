@@ -8,8 +8,7 @@ using namespace libchemist;
  * OperatorBase is an abstract class, so we can't make instances of it. Instead
  * we loop over instances of the derived classes, which get used in practice.
  * For each of these derived classes we cast them down to OperatorBase and test
- * the non-virtual members (virtual members are tested in OperatorImpl where
- * they are implemented).
+ * the non-virtual members (virtual members are tested in the derived classes).
  */
 
 TEMPLATE_LIST_TEST_CASE("OperatorBase", "", testing::all_operators) {

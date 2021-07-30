@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/operator/Electron.hpp"
+#include "libchemist/operator/electron.hpp"
 #include "libchemist/types.hpp"
 
 namespace libchemist {

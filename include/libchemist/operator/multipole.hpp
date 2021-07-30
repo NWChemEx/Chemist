@@ -14,9 +14,6 @@ private:
 public:
     using point_type = Point<double>;
 
-    static constexpr auto n_Electrons = detail_::n_Electrons_v<ParticleType>;
-    static constexpr auto n_nuclei    = detail_::n_nuclei_v<ParticleType>;
-
     // static constexpr std:size_t op_size =
     //  Basis == ShellType::cartesian ? ((L+1)*(L+2)/2) : (2*L+1);
 
@@ -40,7 +37,7 @@ public:
     inline auto& gauge_origin() { return gauge_origin_; }
 
 protected:
-    inline void hash_impl(sde::Hasher& h) const override {
+    inline void hash_impl(pluginplay::Hasher& h) const override {
         return h(gauge_origin);
     }
 

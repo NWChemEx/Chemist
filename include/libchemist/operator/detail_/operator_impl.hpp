@@ -45,7 +45,7 @@ public:
     static constexpr auto n_body = sizeof...(Particles);
 
     /// The total number of Electrons involved in this interaction
-    static constexpr auto n_Electrons = count_particle_v<Electron>;
+    static constexpr auto n_electrons = count_particle_v<Electron>;
 
     /// The total number of nuclei involved in this interaction
     static constexpr auto n_nuclei = count_particle_v<Nuclei>;
@@ -69,7 +69,7 @@ protected:
       m_particles_(std::make_tuple(std::forward<Inputs>(inputs)...)) {}
 
     virtual bool is_equal_impl(const OperatorBase& rhs) const noexcept override;
-    virtual void hash_impl(pluginplay::Hasher&) const override {}
+    virtual void hash_impl(pluginplay::Hasher& h) const override;
 
 private:
     std::tuple<Particles...> m_particles_;
@@ -99,6 +99,11 @@ template<template<typename...> typename DerivedClass, typename... Particles>
 bool OPERATOR_IMPL::is_equal_impl(const OperatorBase& rhs) const noexcept {
     auto ptr = dynamic_cast<const derived_type*>(&rhs);
     return ptr ? (*this == *ptr) : false;
+}
+
+template<template<typename...> typename DerivedClass, typename... Particles>
+void OPERATOR_IMPL::hash_impl(pluginplay::Hasher& h) const {
+    h(m_particles_);
 }
 
 #undef OPERATOR_IMPL

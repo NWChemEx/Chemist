@@ -10,11 +10,12 @@ using all_operators = std::tuple<
   libchemist::ElectronEDensityCoulomb, libchemist::ElectronElectronDelta,
   libchemist::MeanFieldKohnShamExchangeCorrelation,
   libchemist::ElectronEDensityExchange,
-  libchemist::ElectronElectronF12Commutator, libchemist::Identity,
-  libchemist::ElectronKinetic, libchemist::ElectricDipole,
-  libchemist::ElectricQuadrupole, libchemist::ElectricOctupole,
+  libchemist::ElectronElectronF12Commutator, libchemist::ElectronIdentity,
+  libchemist::ElectronKinetic,
+  // libchemist::ElectricDipole,
+  // libchemist::ElectricQuadrupole, libchemist::ElectricOctupole,
   libchemist::ElectronElectronYukawa>;
 
-using derived_operators = std::tuple<FockOperator, Hamiltonian>;
+// using derived_operators = std::tuple<FockOperator, Hamiltonian>;
 
 } // namespace testing
