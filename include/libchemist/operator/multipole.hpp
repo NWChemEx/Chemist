@@ -14,9 +14,6 @@ private:
 public:
     using point_type = Point<double>;
 
-    // static constexpr std:size_t op_size =
-    //  Basis == ShellType::cartesian ? ((L+1)*(L+2)/2) : (2*L+1);
-
     inline bool operator==(const Multipole& other) const {
         return gauge_origin_ == other.gauge_origin_;
     }
@@ -24,12 +21,10 @@ public:
         return not(*this == other);
     }
 
-    Multipole(point_type p) : gauge_origin_(p) {}
-    Multipole() : Multipole(point_type(0., 0., 0.)) {}
+    Multipole(point_type p = point_type(0., 0., 0.)) : gauge_origin_(p) {}
 
-    Multipole(const Multipole& other) : gauge_origin_(other.gauge_origin_) {}
-    Multipole(Multipole&& other) noexcept :
-      gauge_origin_(std::move(other.gauge_origin_)) {}
+    Multipole(const Multipole& other)     = default;
+    Multipole(Multipole&& other) noexcept = default;
 
     ~Multipole() noexcept = default;
 
@@ -38,7 +33,7 @@ public:
 
 protected:
     inline void hash_impl(pluginplay::Hasher& h) const override {
-        return h(gauge_origin);
+        return h(gauge_origin_);
     }
 
     inline bool is_equal_impl(

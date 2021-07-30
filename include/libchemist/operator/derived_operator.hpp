@@ -20,7 +20,8 @@ class DerivedOperatorPIMPL;
  */
 class DerivedOperator {
 public:
-    /** @brief Creates a new DerivedOperator instance containing no operators.
+    /** @brief Creates a new DerivedOperator instance containing no
+    operators.
      *
      *  This ctor can be used to create a new DerivedOperator instance which
      *  contains no operators. Operators may be added by calling `add_term`
@@ -44,18 +45,21 @@ public:
      *                        DerivedOperator instance. Strong exception
      * gurantee.
      *
-     *  Complexity: Linear in the number of operators which comprise @p other.
+     *  Complexity: Linear in the number of operators which comprise @p
+     other.
      */
     DerivedOperator(const DerivedOperator& other);
 
     /** @brief Creates a new DerivedOperator instance by taking ownership of
      *         another instance's state.
      *
-     *  This ctor will create a new DerivedOperator instance by taking ownership
+     *  This ctor will create a new DerivedOperator instance by taking
+     ownership
      * of
      *  @p other's state.
      *
-     *  @param[in,out] other The instance whose state will be transferred to the
+     *  @param[in,out] other The instance whose state will be transferred to
+     the
      *                       resulting instance. After the operation @p other
      * will not contain a PIMPL and will thus not be usable until another
      * PIMPL-containing DerivedOperator instance is assigned to it.
@@ -73,18 +77,21 @@ public:
      *         current instance.
      *
      *  This function will deep copy the state of @p other to the current
-     *  instance. The state previously held by this instance will be released.
+     *  instance. The state previously held by this instance will be
+     released.
      *
      *  @param[in] other The DerivedOperator instance to deep copy.
      *
-     *  @return A reference to the current instance which contains a deep copy
+     *  @return A reference to the current instance which contains a deep
+     copy
      *          of @p other.
      *
      *  @throw std::bad_alloc if there is insufficient memory to copy the
      *                        DerivedOperator instance @p other. Strong
      * exception gurantee.
      *
-     *  Complexity: Linear in the number of operators which comprise @p other.
+     *  Complexity: Linear in the number of operators which comprise @p
+     other.
      */
     DerivedOperator& operator=(const DerivedOperator& other);
 
@@ -95,12 +102,14 @@ public:
      *  current instance. The state previously held by this instance will
      *  be released.
      *
-     *  @param[in,out] other The DerivedOperator instance whose state is to be
+     *  @param[in,out] other The DerivedOperator instance whose state is to
+     be
      *                       taken. @p other will no longer contain a valid
      *                       PIMPL and will need to be reassigned prior to
      *                       future usage.
      *
-     *  @return The current instance after taking ownership of @p other's state.
+     *  @return The current instance after taking ownership of @p other's
+     state.
      *
      *  @throw None No throw guarantee.
      *
@@ -121,8 +130,10 @@ public:
      *  @param[in] args Operator instances from which to construct the
      *                  DerivedOperator.
      *
-     *  @throw std::bad_alloc if there is insufficient memory either to create
-     * the PIMPL or to store the internal state of any Operator instance. Basic
+     *  @throw std::bad_alloc if there is insufficient memory either to
+     create
+     * the PIMPL or to store the internal state of any Operator instance.
+     Basic
      * exception gurantee.
      *
      *  Complexity: Linear in the size of @p args
@@ -146,8 +157,10 @@ public:
      *
      *  @return A reference to the current DerivedOperator instance.
      *
-     *  @throw std::bad_alloc if there is insufficient memory either to create
-     * the PIMPL or to store the internal state of the Operator instance. Basic
+     *  @throw std::bad_alloc if there is insufficient memory either to
+     create
+     * the PIMPL or to store the internal state of the Operator instance.
+     Basic
      * exception gurantee.
      *
      *  Complexity: Constant
@@ -172,8 +185,10 @@ public:
      *
      *  @return A reference to the current DerivedOperator instance.
      *
-     *  @throw std::bad_alloc if there is insufficient memory either to create
-     * the PIMPL or to store the internal state of any Operator instance. Basic
+     *  @throw std::bad_alloc if there is insufficient memory either to
+     create
+     * the PIMPL or to store the internal state of any Operator instance.
+     Basic
      * exception gurantee.
      *
      *  Complexity: Linear in the size of @p ops.
@@ -192,12 +207,15 @@ public:
      *         operator type contained in this DerivedOperator.
      *
      *  Obtains the unique collection of operator terms contained in the
-     *  current DerivedOperator instance which match a specific Operator strong
-     *  type. If the Operator is not represented in this DerivedOperator or if
+     *  current DerivedOperator instance which match a specific Operator
+     strong
+     *  type. If the Operator is not represented in this DerivedOperator or
+     if
      *  the DerivedOperator is in a PIMPL-less state, an empty collection is
      *  returned.
      *
-     *  @tparam OpType The Operator type from which to query the DerivedOperator
+     *  @tparam OpType The Operator type from which to query the
+     DerivedOperator
      *
      *  @returns A vector of shared_ptr<OpType> which contains all of the
      *           operators in this DerivedOperator that match OpType.
@@ -222,10 +240,12 @@ public:
      *         DerivedOperator.
      *
      *  Return a boolean which indicates whether or not a particlar Operator
-     * type is represented in this DerivedOperator. If this DerivedOperator is
+     * type is represented in this DerivedOperator. If this DerivedOperator
+     is
      * in a PIMPL-less state, `false` is returned.
      *
-     *  @tparam OpType The Operator type from which to query the DerivedOperator
+     *  @tparam OpType The Operator type from which to query the
+     DerivedOperator
      *
      *  @returns `true` if `OpType` is represented in this DerivedOperator,
      * `false` otherwise.
@@ -240,12 +260,14 @@ public:
         return has_term_(typeid(OpType));
     }
 
-    /** @brief Non-polymorphic equality comparison of DerivedOperator instances
+    /** @brief Non-polymorphic equality comparison of DerivedOperator
+    instances
      *
      *  Compare DerivedOperator instances without reference to their
      *  polymorphic instantiations - DerivedOperator instances which
      *  contain the same set of operators (with the same state) will
-     *  be considered equal. PIMPL-less instances will also be conpluginplayred
+     *  be considered equal. PIMPL-less instances will also be
+     conpluginplayred
      *  equal.
      *
      *  @param[in] other DerivedOperator instance we want to compare to

@@ -121,7 +121,7 @@ struct FockOperator : public DerivedOperator {
      *  Complexity: Linear in the size of @p args
      */
     template<typename... Args,
-             typename = std::enable_if_t<are_one_Electron_operators_v<Args...>>>
+             typename = std::enable_if_t<all_are_operator_v<Args...>>>
     FockOperator(Args&&... args) :
       DerivedOperator(std::forward<Args>(args)...) {}
 
@@ -170,8 +170,8 @@ struct FockOperator : public DerivedOperator {
      *  Complexity: Linear in the size of @p ops.
      */
     template<typename... Ops>
-    std::enable_if_t<are_one_Electron_operators_v<Ops...>, FockOperator&>
-    add_terms(Ops&&... ops) {
+    std::enable_if_t<all_are_operator_v<Ops...>, FockOperator&> add_terms(
+      Ops&&... ops) {
         DerivedOperator::add_terms(std::forward<Ops>(ops)...);
         return *this;
     }

@@ -38,19 +38,23 @@ struct Hamiltonian : public DerivedOperator {
      *  @param[in] other Hamiltonian instance to copy
      *
      *  @throw std::bad_alloc if there is insufficient memory to copy the
-     *                        Hamiltonian instance. Strong exception gurantee.
+     *                        Hamiltonian instance. Strong exception
+     gurantee.
      *
-     *  Complexity: Linear in the number of operators which comprise @p other.
+     *  Complexity: Linear in the number of operators which comprise @p
+     other.
      */
     Hamiltonian(const Hamiltonian& other);
 
     /** @brief Creates a new Hamiltonian instance by taking ownership of
      *         another instance's state.
      *
-     *  This ctor will create a new Hamiltonian instance by taking ownership of
+     *  This ctor will create a new Hamiltonian instance by taking ownership
+     of
      *  @p other's state.
      *
-     *  @param[in,out] other The instance whose state will be transferred to the
+     *  @param[in,out] other The instance whose state will be transferred to
+     the
      *                       resulting instance. After the operation @p other
      * will not contain a PIMPL and will thus not be usable until another
      * PIMPL-containing Hamiltonian instance is assigned to it.
@@ -68,18 +72,21 @@ struct Hamiltonian : public DerivedOperator {
      *         current instance.
      *
      *  This function will deep copy the state of @p other to the current
-     *  instance. The state previously held by this instance will be released.
+     *  instance. The state previously held by this instance will be
+     released.
      *
      *  @param[in] other The Hamiltonian instance to deep copy.
      *
-     *  @return A reference to the current instance which contains a deep copy
+     *  @return A reference to the current instance which contains a deep
+     copy
      *          of @p other.
      *
      *  @throw std::bad_alloc if there is insufficient memory to copy the
      *                        Hamiltonian instance @p other. Strong exception
      *                        gurantee.
      *
-     *  Complexity: Linear in the number of operators which comprise @p other.
+     *  Complexity: Linear in the number of operators which comprise @p
+     other.
      */
     Hamiltonian& operator=(const Hamiltonian& other);
 
@@ -95,7 +102,8 @@ struct Hamiltonian : public DerivedOperator {
      *                       PIMPL and will need to be reassigned prior to
      *                       future usage.
      *
-     *  @return The current instance after taking ownership of @p other's state.
+     *  @return The current instance after taking ownership of @p other's
+     state.
      *
      *  @throw None No throw guarantee.
      *
@@ -116,8 +124,10 @@ struct Hamiltonian : public DerivedOperator {
      *  @param[in] args Operator instances from which to construct the
      * Hamiltonian.
      *
-     *  @throw std::bad_alloc if there is insufficient memory either to create
-     * the PIMPL or to store the internal state of any Operator instance. Basic
+     *  @throw std::bad_alloc if there is insufficient memory either to
+     create
+     * the PIMPL or to store the internal state of any Operator instance.
+     Basic
      * exception gurantee.
      *
      *  Complexity: Linear in the size of @p args
@@ -140,8 +150,10 @@ struct Hamiltonian : public DerivedOperator {
      *
      *  @return A reference to the current Hamiltonian instance.
      *
-     *  @throw std::bad_alloc if there is insufficient memory either to create
-     * the PIMPL or to store the internal state of the Operator instance. Basic
+     *  @throw std::bad_alloc if there is insufficient memory either to
+     create
+     * the PIMPL or to store the internal state of the Operator instance.
+     Basic
      * exception gurantee.
      *
      *  Complexity: Constant
@@ -155,7 +167,8 @@ struct Hamiltonian : public DerivedOperator {
     /** @brief Add several additonal operators to the Hamiltonian.
      *
      *  This function adds several operators to this Hamiltonian. If the
-     * Hamiltonian is in a PIMPL-less state, this function will generate a PIMPL
+     * Hamiltonian is in a PIMPL-less state, this function will generate a
+     PIMPL
      * instance.
      *
      *  @tparam Ops The strong types of the operators to add to the
@@ -165,8 +178,10 @@ struct Hamiltonian : public DerivedOperator {
      *
      *  @return A reference to the current Hamiltonian instance.
      *
-     *  @throw std::bad_alloc if there is insufficient memory either to create
-     * the PIMPL or to store the internal state of any Operator instance. Basic
+     *  @throw std::bad_alloc if there is insufficient memory either to
+     create
+     * the PIMPL or to store the internal state of any Operator instance.
+     Basic
      * exception gurantee.
      *
      *  Complexity: Linear in the size of @p ops.

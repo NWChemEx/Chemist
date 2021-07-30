@@ -20,33 +20,46 @@ struct BogusOperator : detail_::OperatorImpl<BogusOperator, T> {};
 
 } // namespace
 
-TEMPLATE_LIST_TEST_CASE("OperatorImpl", "", testing::all_operators) {
-    using derived_type   = TestType;
-    using particle_types = typename derived_type::particle_type;
-
-    SECTION("Typedefs / static values") {
-        SECTION("n_body") {
-            constexpr auto corr = std::tuple_size<particle_types>();
-            STATIC_REQUIRE(derived_type::n_body == corr);
-        }
-
-        SECTION("n_electrons") {
-            constexpr auto corr = tuple::count_type_v<Electron, particle_types>;
-            STATIC_REQUIRE(derived_type::n_electrons == corr);
-        }
-
-        SECTION("n_nuclei") {
-            constexpr auto corr = tuple::count_type_v<Nuclei, particle_types>;
-            STATIC_REQUIRE(derived_type::n_nuclei == corr);
-        }
-    }
+TEMPLATE_LIST_TEST_CASE("OperatorImpl", "", testing::all_operator_impls) {
+    using derived_type    = TestType;
+    using particle_types  = typename derived_type::particle_type;
+    constexpr auto n_body = std::tuple_size<particle_types>();
 
     derived_type defaulted;
 
+    SECTION("at") {
+        particle_types default_particles;
+        if constexpr(n_body > 0) {
+            const auto& p = defaulted.template at<0>();
+            REQUIRE(p == std::get<0>(default_particles));
+        }
+        if constexpr(n_body > 1) {
+            const auto& p = defaulted.template at<1>();
+            REQUIRE(p == std::get<1>(default_particles));
+        }
+        if constexpr(n_body > 2) {
+            const auto& p = defaulted.template at<2>();
+            REQUIRE(p == std::get<2>(default_particles));
+        }
+        static_assert(n_body <= 3, "Please increment add more bodies to test");
+    }
+
     SECTION("Non-polymorphic comparisons") {
+        // Should technically upcast to the OperatorImpl base, but that's a
+        // royal pain...
+
         SECTION("Types are different") {
             REQUIRE(defaulted != BogusOperator<int>{});
             REQUIRE_FALSE(defaulted == BogusOperator<int>{});
         }
+
+        SECTION("Both default") {
+            derived_type rhs;
+            REQUIRE(defaulted == rhs);
+            REQUIRE_FALSE(defaulted != rhs);
+        }
+
+        // w/o extensive TMP it's hard to test for different instances so will
+        // that in the derived class tests
     }
 }

@@ -12,7 +12,9 @@ namespace detail_ {
  *  @tparam OpType The type to check
  *
  *  Creates a bool_constant which is `true` if `OpType` is derived from
- * Operator, `false`, otherwise.
+ *  OperatorBase, `false`, otherwise.
+ *
+ *  @note this trait only works if the operator inherits from OperatorBase.
  */
 template<typename OpType>
 struct is_operator

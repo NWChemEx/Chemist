@@ -19,8 +19,13 @@ namespace detail_ {
  *  operator.
  *
  *  @tparam DerivedClass The name of the operator which derives from this class
- *                       and is being implemented by it. DerivedClass may be
- *                       templated on zero or more types
+ *                       and is being implemented by it. DerivedClass must be
+ *                       templated on one or more types.
+ *  @tparam Particles    The types of the physical objects which are interacting
+ *                       in this operator. These are the template type
+ *                       parameters which will be provided to DerivedClass and
+ *                       are expected to be types like: Electron, ManyElectrons,
+ *                       ElectronDensity, Nuclei, etc.
  */
 template<template<typename...> typename DerivedClass, typename... Particles>
 class OperatorImpl : public OperatorBase {
@@ -31,24 +36,18 @@ private:
     /// Type of the class which derives from this class
     using derived_type = DerivedClass<Particles...>;
 
-    /// Counts the number of times @P appears in Particles.
-    template<typename P>
-    static constexpr auto count_particle_v =
-      utilities::type_traits::parameter_pack_count_derived_type_v<P,
-                                                                  Particles...>;
-
 public:
     /// Type of a tuple filled with the Particles' types
     using particle_type = std::tuple<Particles...>;
 
-    /// The total number of particles involved in this operator
-    static constexpr auto n_body = sizeof...(Particles);
+    // /// The total number of particles involved in this operator
+    // static constexpr auto n_body = sizeof...(Particles);
 
-    /// The total number of Electrons involved in this interaction
-    static constexpr auto n_electrons = count_particle_v<Electron>;
+    // /// The total number of Electrons involved in this interaction
+    // static constexpr auto n_electrons = count_particle_v<Electron>;
 
-    /// The total number of nuclei involved in this interaction
-    static constexpr auto n_nuclei = count_particle_v<Nuclei>;
+    // /// The total number of nuclei involved in this interaction
+    // static constexpr auto n_nuclei = count_particle_v<Nuclei>;
 
     template<template<typename...> typename OtherDerived, typename... OtherPs>
     bool operator==(const OperatorImpl<OtherDerived, OtherPs...>& rhs) const;
@@ -56,22 +55,33 @@ public:
     template<template<typename...> typename OtherDerived, typename... OtherPs>
     bool operator!=(const OperatorImpl<OtherDerived, OtherPs...>& rhs) const;
 
+    /** @brief Returns the @p N-th particle in the interaction.
+     *
+     *  @tparam N Which particle to retrieve. @p N must be in the range
+     *            [0, n_body).
+     *
+     *  @return A read-only reference to the @p N-th particle stored in the
+     *          operator.
+     *
+     *  @throw None No throw guarantee.
+     */
     template<std::size_t N>
     const auto& at() const {
         return std::get<N>(m_particles_);
     }
 
-protected:
     OperatorImpl() = default;
 
     template<typename... Inputs>
     OperatorImpl(Inputs&&... inputs) :
       m_particles_(std::make_tuple(std::forward<Inputs>(inputs)...)) {}
 
+protected:
     virtual bool is_equal_impl(const OperatorBase& rhs) const noexcept override;
     virtual void hash_impl(pluginplay::Hasher& h) const override;
 
 private:
+    /// The particle instances involved in this operator
     std::tuple<Particles...> m_particles_;
 };
 
