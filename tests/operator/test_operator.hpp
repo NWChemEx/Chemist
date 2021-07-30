@@ -9,8 +9,7 @@ using all_operator_impls = std::tuple<
   libchemist::ElectronElectronSTG, libchemist::ElectronElectronCoulomb,
   libchemist::NuclearNuclearCoulomb, libchemist::ElectronNuclearCoulomb,
   libchemist::ElectronEDensityCoulomb, libchemist::ElectronElectronDelta,
-  libchemist::MeanFieldKohnShamExchangeCorrelation,
-  libchemist::ElectronEDensityExchange,
+  libchemist::ExchangeCorrelation, libchemist::ElectronEDensityExchange,
   libchemist::ElectronElectronF12Commutator, libchemist::ElectronIdentity,
   libchemist::ElectronKinetic, libchemist::ElectronElectronYukawa>;
 

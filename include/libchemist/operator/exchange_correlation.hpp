@@ -8,7 +8,6 @@ template<typename Particle>
 class KohnShamExchangeCorrelation
   : public detail_::OperatorImpl<KohnShamExchangeCorrelation, Particle> {};
 
-using MeanFieldKohnShamExchangeCorrelation =
-  KohnShamExchangeCorrelation<Electron>;
+using ExchangeCorrelation = KohnShamExchangeCorrelation<Electron>;
 
 } // namespace libchemist
