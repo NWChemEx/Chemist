@@ -22,7 +22,8 @@ Hamiltonian& Hamiltonian::operator=( Hamiltonian&& other ) noexcept {
     return *this;
 }
 
-bool Hamiltonian::is_equal_impl( const DerivedOperator& other ) const noexcept {
+bool Hamiltonian::is_equal_impl( const DerivedOperator& other ) const
+noexcept {
     auto ptr = dynamic_cast<const Hamiltonian*>(&other);
     if( !ptr ) return false;
     return *this == *ptr;

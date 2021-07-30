@@ -9,7 +9,7 @@ TEST_CASE("ShellView : default ctor") {
 
 TEST_CASE("ShellView<double> : pure()") {
     ShellView<double> s;
-    SECTION("Value") { REQUIRE_FALSE(s.pure()); }
+    SECTION("Value") { REQUIRE(s.pure() == ShellType::cartesian); }
     SECTION("Is read-/write-able") {
         STATIC_REQUIRE(std::is_same_v<ShellType&, decltype(s.pure())>);
     }
@@ -17,7 +17,7 @@ TEST_CASE("ShellView<double> : pure()") {
 
 TEST_CASE("ShellView<const double> : pure()") {
     ShellView<const double> s;
-    SECTION("Value") { REQUIRE_FALSE(s.pure()); }
+    SECTION("Value") { REQUIRE(s.pure() == ShellType::cartesian); }
     SECTION("Is read-only") {
         STATIC_REQUIRE(std::is_same_v<const ShellType&, decltype(s.pure())>);
     }
@@ -25,7 +25,7 @@ TEST_CASE("ShellView<const double> : pure()") {
 
 TEST_CASE("ShellView : pure() const") {
     const ShellView<double> s;
-    SECTION("Value") { REQUIRE_FALSE(s.pure()); }
+    SECTION("Value") { REQUIRE(s.pure() == ShellType::cartesian); }
     SECTION("Is read-only") {
         STATIC_REQUIRE(std::is_same_v<const ShellType&, decltype(s.pure())>);
     }

@@ -6,16 +6,15 @@ namespace libchemist {
 /** @brief A class to store and manipulate Fock operators.
  *
  *  This class provides a set of public APIs for the storage and
- *  manipulations of generic Fock operators resulting from molecular 
- *  Hamiltonians representing some physical state of affairs. 
- *  FockOperator instances are comprised of a collection of one electron
+ *  manipulations of generic Fock operators resulting from molecular
+ *  Hamiltonians representing some physical state of affairs.
+ *  FockOperator instances are comprised of a collection of one Electron
  *  Operators which represent either physical interactions of the particles
  *  of the system or mean-field potentials arising from the interactions of
- *  individual electrons with the average bevhaviour of the other electrons.
+ *  individual Electrons with the average bevhaviour of the other Electrons.
  *
  */
 struct FockOperator : public DerivedOperator {
-
     /** @brief Creates a new FockOperator instance containing no operators.
      *
      *  This ctor can be used to create a new FockOperator instance which
@@ -41,7 +40,7 @@ struct FockOperator : public DerivedOperator {
      *
      *  Complexity: Linear in the number of operators which comprise @p other.
      */
-    FockOperator( const FockOperator& other );
+    FockOperator(const FockOperator& other);
 
     /** @brief Creates a new FockOperator instance by taking ownership of
      *         another instance's state.
@@ -50,21 +49,19 @@ struct FockOperator : public DerivedOperator {
      *  @p other's state.
      *
      *  @param[in,out] other The instance whose state will be transferred to the
-     *                       resulting instance. After the operation @p other will
-     *                       not contain a PIMPL and will thus not be usable until
-     *                       another PIMPL-containing FockOperator instance is
-     *                       assigned to it.
+     *                       resulting instance. After the operation @p other
+     * will not contain a PIMPL and will thus not be usable until another
+     * PIMPL-containing FockOperator instance is assigned to it.
      *
      *  @throw None No throw guarantee.
      *
      *  Complexity: Constant.
      */
-    FockOperator( FockOperator&& other ) noexcept;
+    FockOperator(FockOperator&& other) noexcept;
 
     /// Defaulted no-throw dtor
     virtual ~FockOperator() noexcept;
 
-    
     /** @brief Deep copy the state of another FockOperator instance to the
      *         current instance.
      *
@@ -73,25 +70,25 @@ struct FockOperator : public DerivedOperator {
      *
      *  @param[in] other The FockOperator instance to deep copy.
      *
-     *  @return A reference to the current instance which contains a deep copy 
+     *  @return A reference to the current instance which contains a deep copy
      *          of @p other.
      *
      *  @throw std::bad_alloc if there is insufficient memory to copy the
-     *                        FockOperator instance @p other. Strong exception 
+     *                        FockOperator instance @p other. Strong exception
      *                        gurantee.
      *
      *  Complexity: Linear in the number of operators which comprise @p other.
      */
-    FockOperator& operator=( const FockOperator& other );
+    FockOperator& operator=(const FockOperator& other);
 
     /** @brief Transfer the ownership of the state of another FockOperator
      *         instance to the current instance.
      *
      *  This function will transfer ownership of @p other's state to the
-     *  current instance. The state previously held by this instance will 
+     *  current instance. The state previously held by this instance will
      *  be released.
      *
-     *  @param[in,out] other The FockOperator instance whose state is to be 
+     *  @param[in,out] other The FockOperator instance whose state is to be
      *                       taken. @p other will no longer contain a valid
      *                       PIMPL and will need to be reassigned prior to
      *                       future usage.
@@ -102,9 +99,9 @@ struct FockOperator : public DerivedOperator {
      *
      *  Complexity: Constant.
      */
-    FockOperator& operator=( FockOperator&& other ) noexcept;
+    FockOperator& operator=(FockOperator&& other) noexcept;
 
-    /** @brief Creates a new FockOperator instance from a collection of 
+    /** @brief Creates a new FockOperator instance from a collection of
      *  Operator instances.
      *
      *  This ctor can be used to create a FockOperator instance from
@@ -113,78 +110,77 @@ struct FockOperator : public DerivedOperator {
      *
      *  @tparam Args Parameter pack of passed Operator types, must all
      *               be derived from Operator.
-     *  
-     *  @param[in] args Operator instances from which to construct the FockOperator.
      *
-     *  @throw std::bad_alloc if there is insufficient memory either to create the
-     *                        PIMPL or to store the internal state of any Operator
-     *                        instance. Basic exception gurantee.
+     *  @param[in] args Operator instances from which to construct the
+     * FockOperator.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory either to create
+     * the PIMPL or to store the internal state of any Operator instance. Basic
+     * exception gurantee.
      *
      *  Complexity: Linear in the size of @p args
      */
-    template <typename... Args,
-      typename = std::enable_if_t< detail_::are_one_electron_operators_v<Args...>> 
-    >
-    FockOperator( Args&&... args ) : 
-      DerivedOperator( std::forward<Args>(args)... ) {}
-
-
+    template<typename... Args,
+             typename = std::enable_if_t<all_are_operator_v<Args...>>>
+    FockOperator(Args&&... args) :
+      DerivedOperator(std::forward<Args>(args)...) {}
 
     /** @brief Add an additonal operator to the FockOperator.
      *
-     *  This function adds an operator to this FockOperator. If the 
-     *  FockOperator is in a PIMPL-less state, this function will 
-     *  generate a PIMPL instance. 
+     *  This function adds an operator to this FockOperator. If the
+     *  FockOperator is in a PIMPL-less state, this function will
+     *  generate a PIMPL instance.
      *
-     *  @tparam OpType The strong type of the operator to add to the 
+     *  @tparam OpType The strong type of the operator to add to the
      *                 FockOperator. Must be derived from Operator.
      *
      *  @param[in] op The operator to add to this FockOperator.
      *
      *  @return A reference to the current FockOperator instance.
      *
-     *  @throw std::bad_alloc if there is insufficient memory either to create the
-     *                        PIMPL or to store the internal state of the Operator
-     *                        instance. Basic exception gurantee.
+     *  @throw std::bad_alloc if there is insufficient memory either to create
+     * the PIMPL or to store the internal state of the Operator instance. Basic
+     * exception gurantee.
      *
      *  Complexity: Constant
      */
-    template <typename OpType>
-    detail_::enable_if_operator_t< OpType, FockOperator& > 
-      add_term( OpType&& op ) {
+    template<typename OpType>
+    enable_if_operator_t<OpType, FockOperator&> add_term(OpType&& op) {
         DerivedOperator::add_term(std::forward<OpType>(op));
         return *this;
     }
 
     /** @brief Add several additonal operators to the FockOperator.
      *
-     *  This function adds several operators to this FockOperator. If the FockOperator
-     *  is in a PIMPL-less state, this function will generate a PIMPL instance. 
+     *  This function adds several operators to this FockOperator. If the
+     * FockOperator is in a PIMPL-less state, this function will generate a
+     * PIMPL instance.
      *
-     *  @tparam Ops The strong types of the operators to add to the 
+     *  @tparam Ops The strong types of the operators to add to the
      *              FockOperator. All must be derived from Operator.
      *
      *  @param[in] ops The operators to add to this FockOperator.
      *
      *  @return A reference to the current FockOperator instance.
      *
-     *  @throw std::bad_alloc if there is insufficient memory either to create the
-     *                        PIMPL or to store the internal state of any Operator
-     *                        instance. Basic exception gurantee.
+     *  @throw std::bad_alloc if there is insufficient memory either to create
+     * the PIMPL or to store the internal state of any Operator instance. Basic
+     * exception gurantee.
      *
      *  Complexity: Linear in the size of @p ops.
      */
-    template <typename... Ops>
-    std::enable_if_t< detail_::are_one_electron_operators_v<Ops...>, FockOperator& >
-      add_terms( Ops&&... ops ) {
-        DerivedOperator::add_terms( std::forward<Ops>(ops)... );
+    template<typename... Ops>
+    std::enable_if_t<all_are_operator_v<Ops...>, FockOperator&> add_terms(
+      Ops&&... ops) {
+        DerivedOperator::add_terms(std::forward<Ops>(ops)...);
         return *this;
     }
 
 protected:
     friend class DerivedOperator;
-    virtual bool is_equal_impl( const DerivedOperator& other ) const noexcept override;
+    virtual bool is_equal_impl(
+      const DerivedOperator& other) const noexcept override;
 
 }; // class FockOperator
 
-}
+} // namespace libchemist

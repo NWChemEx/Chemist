@@ -1,5 +1,6 @@
 #pragma once
 #include "libchemist/basis_set/contracted_gaussian_view.hpp"
+#include "libchemist/enums.hpp"
 #include "libchemist/point/point.hpp"
 #include <utilities/containers/indexable_container_base.hpp>
 
@@ -8,8 +9,6 @@ namespace detail_ {
 template<typename T>
 class ShellPIMPL;
 }
-
-enum ShellType { cartesian = 0, pure = 1 };
 
 /** @brief Models a set of AOs with a common center, total angular momentum, and
  *         CGTOs.

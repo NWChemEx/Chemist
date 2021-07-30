@@ -187,4 +187,7 @@ inline bool operator!=(const Molecule& lhs, const Molecule& rhs) noexcept {
 }
 ///@}
 
+// TODO: Change Molecule class to Nuclei and remove typedef
+using Nuclei = Molecule;
+
 } // end namespace libchemist

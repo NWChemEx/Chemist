@@ -41,7 +41,7 @@ bool DerivedOperatorPIMPL::operator!=(const DerivedOperatorPIMPL& other) const {
 }
 
 void DerivedOperatorPIMPL::add_term(std::type_index index,
-                                    std::shared_ptr<Operator>&& op) {
+                                    std::shared_ptr<OperatorBase>&& op) {
     terms_.insert({index, std::move(op)});
 }
 
