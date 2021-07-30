@@ -35,7 +35,6 @@ CORRELATION_FACTOR CORRELATION_FACTOR::operator*(
 
 #undef CORRELATION_FACTOR
 
-using ElectronElectronSTG =
-  CorrelationFactor<SlaterTypeGeminal, Electron, Electron>;
+using ElectronElectronSTG = CorrelationFactor<STG, Electron, Electron>;
 
 } // namespace libchemist
