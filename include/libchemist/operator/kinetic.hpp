@@ -10,7 +10,7 @@ private:
     using base_type = detail_::OperatorImpl<Kinetic, Particle>;
 
 public:
-    using base_type::OperatorImpl;
+    using base_type::base_type;
 };
 
 using ElectronKinetic = Kinetic<Electron>;

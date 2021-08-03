@@ -10,7 +10,7 @@ private:
     using base_type = detail_::OperatorImpl<Identity, Particles...>;
 
 public:
-    using base_type::OperatorImpl;
+    using base_type::base_type;
 };
 
 using ElectronIdentity = Identity<Electron>;
