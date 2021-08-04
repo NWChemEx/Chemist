@@ -16,6 +16,6 @@ public:
     using base_type::base_type;
 };
 
-using ElectronElectronYukawa = Yukawa<SlaterTypeGeminal, Electron, Electron>;
+using ElectronElectronYukawa = Yukawa<STG, Electron, Electron>;
 
 } // namespace libchemist

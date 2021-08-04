@@ -40,6 +40,8 @@ public:
      */
     inline bool operator!=(const OperatorBase& other) const { return false; }
 
+    std::string as_string() const { return as_string_impl(); }
+
     /// Polymorphic defaulted no-throw dtor
     virtual ~OperatorBase() noexcept = default;
 
@@ -55,6 +57,8 @@ protected:
     virtual void hash_impl(pluginplay::Hasher& h) const = 0;
     /// Derived implementation of comparison function.
     virtual bool is_equal_impl(const OperatorBase&) const noexcept = 0;
+
+    virtual std::string as_string_impl() const = 0;
 };
 
 inline bool OperatorBase::is_equal(const OperatorBase& other) const noexcept {
