@@ -1,5 +1,6 @@
 #include "libchemist/operator/correlation_factor.hpp"
 #include <catch2/catch.hpp>
+#include <iostream>
 
 using namespace libchemist;
 
@@ -26,4 +27,6 @@ TEMPLATE_LIST_TEST_CASE("CorrelationFactor", "", type_list) {
             REQUIRE(non_default.template at<2>() == e);
         }
     }
+
+    SECTION("as_string") { std::cout << f12.as_string() << std::endl; }
 }

@@ -79,6 +79,7 @@ public:
 protected:
     virtual bool is_equal_impl(const OperatorBase& rhs) const noexcept override;
     virtual void hash_impl(pluginplay::Hasher& h) const override;
+    virtual std::string as_string_impl() const override;
 
 private:
     /// The particle instances involved in this operator
@@ -114,6 +115,11 @@ bool OPERATOR_IMPL::is_equal_impl(const OperatorBase& rhs) const noexcept {
 template<template<typename...> typename DerivedClass, typename... Particles>
 void OPERATOR_IMPL::hash_impl(pluginplay::Hasher& h) const {
     h(m_particles_);
+}
+
+template<template<typename...> typename DerivedClass, typename... Particles>
+std::string OPERATOR_IMPL::as_string_impl() const {
+    return "O\u0302";
 }
 
 #undef OPERATOR_IMPL
