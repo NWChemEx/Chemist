@@ -16,7 +16,6 @@ public:
     using base_type::base_type;
 };
 
-using ElectronElectronF12Commutator =
-  F12Commutator<SlaterTypeGeminal, Electron, Electron>;
+using ElectronElectronF12Commutator = F12Commutator<STG, Electron, Electron>;
 
 } // namespace libchemist

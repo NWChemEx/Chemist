@@ -42,6 +42,17 @@ protected:
         return (ptr) ? *this == *ptr : false;
     }
 
+    std::string as_string_impl() const {
+        if constexpr(L == 1) {
+            return "r";
+        } else if constexpr(L == 2) {
+            return "r²";
+        } else if constexpr(L == 3) {
+            return "r³";
+        } else
+            return OperatorBase::as_string_impl();
+    }
+
 private:
     /// Gauge origin for the multipole operator
     point_type gauge_origin_;

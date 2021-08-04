@@ -11,6 +11,9 @@ private:
 
 public:
     using base_type::base_type;
+
+protected:
+    std::string as_string_impl() const { return "I\u0302"; }
 };
 
 using ElectronIdentity = Identity<Electron>;

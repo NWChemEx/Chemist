@@ -3,10 +3,11 @@
 
 /* Testing Strategy:
  *
- * OperatorImpl actually implements the majority of the operators via CRTP. All
- * constructors of OperatorImpl are protected so instances of OperatorImpl can
- * only be created by making derived class instances. Here we test the
- * non-polymorphic operations.
+ * OperatorImpl actually implements the majority of the operators via CRTP.
+ * While it is technically possible to create instances of OperatorImpl
+ * directly, users are expected to actually create OperatorImpl instances via
+ * derived classes. Here we test the non-polymorphic operations of OperatorImpl
+ * and leave testing of the polymorphic functions for the derived classes.
  */
 
 using namespace utilities::type_traits;
