@@ -11,7 +11,7 @@ private:
     using base_type = detail_::OperatorImpl<DiracDelta, Particle1, Particle2>;
 
 public:
-    using base_type::OperatorImpl;
+    using base_type::base_type;
 };
 
 using ElectronElectronDelta = DiracDelta<Electron, Electron>;

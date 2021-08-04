@@ -13,7 +13,7 @@ private:
     using base_type = detail_::OperatorImpl<CoulombInteraction, Particles...>;
 
 public:
-    using base_type::OperatorImpl;
+    using base_type::base_type;
 };
 
 using ElectronElectronCoulomb = CoulombInteraction<Electron, Electron>;
