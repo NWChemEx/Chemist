@@ -13,7 +13,7 @@ private:
       detail_::OperatorImpl<Yukawa, Geminal, Particle1, Particle2>;
 
 public:
-    using base_type::OperatorImpl;
+    using base_type::base_type;
 };
 
 using ElectronElectronYukawa = Yukawa<SlaterTypeGeminal, Electron, Electron>;
