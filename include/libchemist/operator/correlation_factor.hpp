@@ -15,7 +15,7 @@ private:
     using my_type = CorrelationFactor<Geminal, Particle1, Particle2>;
 
 public:
-    using base_type::OperatorImpl;
+    using base_type::base_type;
 
     my_type operator*(const my_type& rhs) const;
 };

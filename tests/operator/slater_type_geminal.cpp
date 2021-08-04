@@ -41,13 +41,13 @@ TEMPLATE_LIST_TEST_CASE("SlaterTypeGeminal", "", stg_types) {
         auto pstg = &(stg *= stg);
         REQUIRE(pstg == &stg);
         REQUIRE(stg.coefficient == (1.0 / 1.2) * (1.0 / 1.2));
-        REQURIE(stg.exponent == 2.4);
+        REQUIRE(stg.exponent == 2.4);
     }
 
     SECTION("operator*=") {
         auto rv = stg * stg;
         REQUIRE(rv.coefficient == (1.0 / 1.2) * (1.0 / 1.2));
-        REQURIE(rv.exponent == 2.4);
+        REQUIRE(rv.exponent == 2.4);
     }
 
     SECTION("hash") {
@@ -74,13 +74,13 @@ TEMPLATE_LIST_TEST_CASE("SlaterTypeGeminal", "", stg_types) {
                 REQUIRE_FALSE(stg != rhs);
             }
             SECTION("RHS different exponent") {
-                REQUIRE(lhs != diff_exponent);
-                REQUIRE_FALSE(lhs == diff_exponent);
+                REQUIRE(stg != diff_exponent);
+                REQUIRE_FALSE(stg == diff_exponent);
             }
             SECTION("RHS different coefficient") {
                 stg_type rhs(1.2, -1.0 / 3.1);
-                REQUIRE(lhs != rhs);
-                REQUIRE_FALSE(lhs == rhs);
+                REQUIRE(stg != rhs);
+                REQUIRE_FALSE(stg == rhs);
             }
         }
     }
