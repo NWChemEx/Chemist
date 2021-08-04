@@ -74,6 +74,8 @@ public:
     bool operator==(const DerivedOperatorPIMPL& other) const;
     bool operator!=(const DerivedOperatorPIMPL& other) const;
 
+    void hash(pluginplay::Hasher& h) const;
+
 private:
     /// Internal storage of operator instances which comprise this
     /// DerivedOperator

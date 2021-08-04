@@ -63,4 +63,10 @@ std::unique_ptr<DerivedOperatorPIMPL> DerivedOperatorPIMPL::clone() const {
     return std::make_unique<DerivedOperatorPIMPL>(*this);
 }
 
+void DerivedOperatorPIMPL::hash(pluginplay::Hasher& h) const {
+    for(const auto& [key, val] : terms_) {
+        h(val);
+    }
+}
+
 } // namespace libchemist::detail_

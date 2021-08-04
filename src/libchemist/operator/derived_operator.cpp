@@ -64,4 +64,8 @@ bool DerivedOperator::has_term_(std::type_index index) const noexcept {
     return false;
 }
 
+void DerivedOperator::hash(pluginplay::Hasher& h) const {
+    if(pimpl_) return pimpl_->hash(h);
+}
+
 } // namespace libchemist
