@@ -2,6 +2,7 @@
 #include "libchemist/molecule/molecule.hpp"
 #include "libchemist/operator/density.hpp"
 #include "libchemist/operator/detail_/operator_impl.hpp"
+#include "libchemist/operator/many_electrons.hpp"
 #include "libchemist/operator/electron.hpp"
 
 namespace libchemist {
@@ -21,5 +22,9 @@ using NuclearRepulsion       = CoulombInteraction<Nuclei>;
 using ElectronNuclearCoulomb = CoulombInteraction<Electron, Nuclei>;
 using ElectronEDensityCoulomb =
   CoulombInteraction<Electron, OneElectronDensity>;
+using NElectronNElectronCoulomb =
+  CoulombInteraction<ManyElectrons, ManyElectrons>;
+using NElectronNuclearCoulomb  =
+  CoulombInteraction<ManyElectrons, Nuclei>;
 
 } // namespace libchemist

@@ -1,5 +1,6 @@
 #pragma once
 #include "libchemist/operator/detail_/operator_impl.hpp"
+#include "libchemist/operator/many_electrons.hpp"
 #include "libchemist/operator/electron.hpp"
 
 namespace libchemist {
@@ -14,5 +15,6 @@ public:
 };
 
 using ElectronKinetic = Kinetic<Electron>;
+using NElectronKinetic = Kinetic<ManyElectrons>;
 
 } // namespace libchemist
