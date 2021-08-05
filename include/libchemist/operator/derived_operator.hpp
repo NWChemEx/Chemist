@@ -298,6 +298,8 @@ public:
         return is_equal_impl(other_as_base) and other.is_equal_impl(*this);
     }
 
+    void hash(pluginplay::Hasher& h) const;
+
 protected:
     /// Derived implementation of polymorphic equality comparison
     virtual bool is_equal_impl(const DerivedOperator& other) const noexcept = 0;
