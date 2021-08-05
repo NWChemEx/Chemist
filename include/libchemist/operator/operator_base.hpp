@@ -40,6 +40,17 @@ public:
      */
     inline bool operator!=(const OperatorBase& other) const { return false; }
 
+    /** @brief Returns a string containing the operator as a symbol.
+     *
+     *  This function creates a string representation of the present operator.
+     *  The string is suitable for use in math expressions and is not a string
+     *  representation of the operator's state.
+     *
+     *  @return A symbol representing the operator.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the memory for
+     *                        the resulting string. Strong throw guarantee.
+     */
     std::string as_string() const { return as_string_impl(); }
 
     /// Polymorphic defaulted no-throw dtor
@@ -48,18 +59,26 @@ public:
 protected:
     /// Defaulted default noexcept ctor
     OperatorBase() noexcept = default;
-    /// Defaulted copy ctor
+    /// Defaulted copy ctor, protected to avoid slicing
     OperatorBase(const OperatorBase&) noexcept = default;
-    /// Defaulted move ctor
+    /// Defaulted move ctor, protected to avoid slicing
     OperatorBase(OperatorBase&&) noexcept = default;
+    /// Defaulted copy assignment, protected to avoid slicing
+    OperatorBase& operator=(const OperatorBase&) = default;
+    /// Defaulted move assignment, protected to avoid slicing
+    OperatorBase& operator=(OperatorBase&&) = default;
 
     /// Derived implementation of Hash function.
     virtual void hash_impl(pluginplay::Hasher& h) const = 0;
     /// Derived implementation of comparison function.
     virtual bool is_equal_impl(const OperatorBase&) const noexcept = 0;
-
+    /// Derived implementation of as_string
     virtual std::string as_string_impl() const = 0;
 };
+
+// -----------------------------------------------------------------------------
+// -------------------------- Inline Implementations ---------------------------
+// -----------------------------------------------------------------------------
 
 inline bool OperatorBase::is_equal(const OperatorBase& other) const noexcept {
     return is_equal_impl(other) and other.is_equal_impl(*this);

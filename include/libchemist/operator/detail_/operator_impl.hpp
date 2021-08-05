@@ -70,11 +70,15 @@ public:
         return std::get<N>(m_particles_);
     }
 
-    OperatorImpl() = default;
+    OperatorImpl()                        = default;
+    OperatorImpl(const OperatorImpl& rhs) = default;
+    OperatorImpl(OperatorImpl&& rhs)      = default;
 
-    template<typename... Inputs>
-    OperatorImpl(Inputs&&... inputs) :
-      m_particles_(std::make_tuple(std::forward<Inputs>(inputs)...)) {}
+    OperatorImpl& operator=(const OperatorImpl&) = default;
+    OperatorImpl& operator=(OperatorImpl&&) = default;
+
+    OperatorImpl(Particles... inputs) :
+      m_particles_(std::make_tuple(std::move(inputs)...)) {}
 
 protected:
     virtual bool is_equal_impl(const OperatorBase& rhs) const noexcept override;

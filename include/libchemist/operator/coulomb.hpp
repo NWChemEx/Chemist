@@ -16,9 +16,9 @@ public:
     using base_type::base_type;
 };
 
-using ElectronElectronCoulomb = CoulombInteraction<Electron, Electron>;
-using NuclearNuclearCoulomb   = CoulombInteraction<Nuclei, Nuclei>;
-using ElectronNuclearCoulomb  = CoulombInteraction<Electron, Nuclei>;
+using ElectronRepulsion      = CoulombInteraction<Electron, Electron>;
+using NuclearRepulsion       = CoulombInteraction<Nuclei>;
+using ElectronNuclearCoulomb = CoulombInteraction<Electron, Nuclei>;
 using ElectronEDensityCoulomb =
   CoulombInteraction<Electron, OneElectronDensity>;
 
