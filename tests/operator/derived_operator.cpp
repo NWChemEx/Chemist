@@ -14,8 +14,8 @@ TEST_CASE("Derived Operator") {
     Molecule a{Atom(1ul, std::array<double, 3>{0.0, 0.0, 0.0})};
     Molecule b{Atom(2ul, std::array<double, 3>{0.0, 0.0, 0.0})};
 
-    ElectronNuclearCoulomb V1(Electron{}, a);
-    ElectronNuclearCoulomb V2(Electron{}, b);
+    ElectronNuclearAttraction V1(Electron{}, a);
+    ElectronNuclearAttraction V2(Electron{}, b);
 
     Hamiltonian h_default, h_v1(V1), h_v2(V2);
     FockOperator f_default, f_v1(V1), f_v2(V2);

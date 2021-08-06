@@ -19,9 +19,9 @@ TEST_CASE("FockOperator Class") {
     }
 
     SECTION("Two Operator Construction") {
-        FockOperator ham(ElectronKinetic{}, ElectronNuclearCoulomb{});
+        FockOperator ham(ElectronKinetic{}, ElectronNuclearAttraction{});
         CHECK(ham.get_terms<ElectronKinetic>().size() == 1);
-        CHECK(ham.get_terms<ElectronNuclearCoulomb>().size() == 1);
+        CHECK(ham.get_terms<ElectronNuclearAttraction>().size() == 1);
     }
 
     SECTION("Single Term Add") {
@@ -32,13 +32,13 @@ TEST_CASE("FockOperator Class") {
 
     SECTION("Term Add Chain") {
         FockOperator ham;
-        ham.add_term(ElectronKinetic{}).add_term(ElectronNuclearCoulomb{});
+        ham.add_term(ElectronKinetic{}).add_term(ElectronNuclearAttraction{});
         CHECK(ham.get_terms<ElectronKinetic>().size() == 1);
-        CHECK(ham.get_terms<ElectronNuclearCoulomb>().size() == 1);
+        CHECK(ham.get_terms<ElectronNuclearAttraction>().size() == 1);
     }
 
     SECTION("Copy CTor") {
-        FockOperator ham(ElectronKinetic{}, ElectronNuclearCoulomb{});
+        FockOperator ham(ElectronKinetic{}, ElectronNuclearAttraction{});
 
         FockOperator copy(ham);
 
@@ -46,7 +46,7 @@ TEST_CASE("FockOperator Class") {
     }
 
     SECTION("Move CTor") {
-        FockOperator ref(ElectronKinetic{}, ElectronNuclearCoulomb{});
+        FockOperator ref(ElectronKinetic{}, ElectronNuclearAttraction{});
         FockOperator ham_1(ref);
 
         FockOperator ham_2(std::move(ham_1));
@@ -56,8 +56,8 @@ TEST_CASE("FockOperator Class") {
     }
 
     SECTION("Copy Assignment") {
-        FockOperator ref(ElectronKinetic{}, ElectronNuclearCoulomb{});
-        FockOperator ham(ElectronNuclearCoulomb{});
+        FockOperator ref(ElectronKinetic{}, ElectronNuclearAttraction{});
+        FockOperator ham(ElectronNuclearAttraction{});
 
         ham = ref;
 
@@ -65,9 +65,9 @@ TEST_CASE("FockOperator Class") {
     }
 
     SECTION("Move Assignment") {
-        FockOperator ref(ElectronKinetic{}, ElectronNuclearCoulomb{});
+        FockOperator ref(ElectronKinetic{}, ElectronNuclearAttraction{});
         FockOperator ham_1(ref);
-        FockOperator ham_2(ElectronNuclearCoulomb{});
+        FockOperator ham_2(ElectronNuclearAttraction{});
 
         ham_2 = std::move(ham_1);
 

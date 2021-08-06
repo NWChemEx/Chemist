@@ -76,7 +76,5 @@ TEMPLATE_LIST_TEST_CASE("CorrelationFactor", "", type_list) {
         }
     }
 
-    SECTION("as_string") {
-        REQUIRE(f12.as_string() == "f̂₁₂";
-    }
+    SECTION("as_string") { REQUIRE(f12.as_string() == "f̂₁₂"); }
 }

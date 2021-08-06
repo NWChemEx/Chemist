@@ -40,15 +40,6 @@ public:
     /// Type of a tuple filled with the Particles' types
     using particle_type = std::tuple<Particles...>;
 
-    // /// The total number of particles involved in this operator
-    // static constexpr auto n_body = sizeof...(Particles);
-
-    // /// The total number of Electrons involved in this interaction
-    // static constexpr auto n_electrons = count_particle_v<Electron>;
-
-    // /// The total number of nuclei involved in this interaction
-    // static constexpr auto n_nuclei = count_particle_v<Nuclei>;
-
     template<template<typename...> typename OtherDerived, typename... OtherPs>
     bool operator==(const OperatorImpl<OtherDerived, OtherPs...>& rhs) const;
 
