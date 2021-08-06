@@ -61,6 +61,7 @@ public:
         return std::get<N>(m_particles_);
     }
 
+protected:
     OperatorImpl()                        = default;
     OperatorImpl(const OperatorImpl& rhs) = default;
     OperatorImpl(OperatorImpl&& rhs)      = default;
@@ -71,7 +72,6 @@ public:
     OperatorImpl(Particles... inputs) :
       m_particles_(std::make_tuple(std::move(inputs)...)) {}
 
-protected:
     virtual bool is_equal_impl(const OperatorBase& rhs) const noexcept override;
     virtual void hash_impl(pluginplay::Hasher& h) const override;
     virtual std::string as_string_impl() const override;

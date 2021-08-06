@@ -10,7 +10,12 @@ private:
     using base_type = detail_::OperatorImpl<Identity, Particles...>;
 
 public:
-    using base_type::base_type;
+    Identity()                = default;
+    Identity(const Identity&) = default;
+    Identity(Identity&&)      = default;
+    Identity(Particles... ps) : base_type(std::move(ps)...) {}
+    Identity& operator=(const Identity&) = default;
+    Identity& operator=(Identity&&) = default;
 
 protected:
     std::string as_string_impl() const { return "I\u0302"; }

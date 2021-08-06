@@ -6,7 +6,21 @@ namespace libchemist {
 
 template<typename Particle>
 class KohnShamExchangeCorrelation
-  : public detail_::OperatorImpl<KohnShamExchangeCorrelation, Particle> {};
+  : public detail_::OperatorImpl<KohnShamExchangeCorrelation, Particle> {
+private:
+    using base_type =
+      detail_::OperatorImpl<KohnShamExchangeCorrelation, Particle>;
+
+public:
+    KohnShamExchangeCorrelation()                                   = default;
+    KohnShamExchangeCorrelation(const KohnShamExchangeCorrelation&) = default;
+    KohnShamExchangeCorrelation(KohnShamExchangeCorrelation&&)      = default;
+    KohnShamExchangeCorrelation(Particle p) : base_type(std::move(p)) {}
+    KohnShamExchangeCorrelation& operator=(const KohnShamExchangeCorrelation&) =
+      default;
+    KohnShamExchangeCorrelation& operator=(KohnShamExchangeCorrelation&&) =
+      default;
+};
 
 using ExchangeCorrelation = KohnShamExchangeCorrelation<Electron>;
 
