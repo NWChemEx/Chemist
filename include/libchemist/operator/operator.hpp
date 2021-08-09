@@ -15,6 +15,7 @@
 #include "libchemist/operator/identity.hpp"
 #include "libchemist/operator/kinetic.hpp"
 #include "libchemist/operator/multipole.hpp"
+#include "libchemist/operator/many_electrons.hpp"
 #include "libchemist/operator/operator_base.hpp"
 #include "libchemist/operator/slater_type_geminal.hpp"
 #include "libchemist/operator/type_traits/type_traits.hpp"
