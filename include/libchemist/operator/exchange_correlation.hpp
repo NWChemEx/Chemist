@@ -4,10 +4,16 @@
 
 namespace libchemist {
 
+/** @brief Kohn-Sham Exchange-Correlation operator
+ *
+ *  @tparam Particle The type of particle.
+ *
+ */
 template<typename Particle>
 class KohnShamExchangeCorrelation
   : public detail_::OperatorImpl<KohnShamExchangeCorrelation, Particle> {
 private:
+    /// Type of the object this class inherits from
     using base_type =
       detail_::OperatorImpl<KohnShamExchangeCorrelation, Particle>;
 
