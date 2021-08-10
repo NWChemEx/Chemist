@@ -1,6 +1,8 @@
 #pragma once
 #include "libchemist/enums.hpp"
+#include "libchemist/operator/electron.hpp"
 #include "libchemist/operator/operator_base.hpp"
+
 namespace libchemist {
 
 /// Multipole operator
@@ -25,6 +27,8 @@ public:
 
     Multipole(const Multipole& other)     = default;
     Multipole(Multipole&& other) noexcept = default;
+    Multipole& operator=(const Multipole&) = default;
+    Multipole& operator=(Multipole&&) = default;
 
     ~Multipole() noexcept = default;
 

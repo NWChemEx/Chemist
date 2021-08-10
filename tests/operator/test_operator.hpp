@@ -20,6 +20,8 @@ auto non_default_parameter() {
     } else if constexpr(std::is_same_v<T, libchemist::Nuclei>) {
         libchemist::Atom H(1ul);
         return libchemist::Nuclei{H, H};
+    } else if constexpr(std::is_same_v<T, libchemist::Point<double>>) {
+        return libchemist::Point<double>(1., 2., 3.);
     } else {
         static_assert(std::is_same_v<T, libchemist::Electron>,
                       "Particle not coded");
