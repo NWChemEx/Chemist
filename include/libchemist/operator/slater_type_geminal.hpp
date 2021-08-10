@@ -3,7 +3,7 @@
 #include <pluginplay/hasher.hpp>
 #include <tuple> // for std::tie
 
-namespace libchemist {
+namespace libchemist::operators {
 
 /** @brief Object describing a geminal, which is modeled by a Slater function.
  *
@@ -127,4 +127,4 @@ auto SLATER_TYPE_GEMINAL::operator*(const SlaterTypeGeminal& rhs) const {
 /// Type of a SlaterTypeGeminal correlating two electrons
 using STG = SlaterTypeGeminal<Electron, Electron>;
 
-} // namespace libchemist
+} // namespace libchemist::operators

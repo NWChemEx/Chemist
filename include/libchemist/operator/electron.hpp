@@ -1,7 +1,7 @@
 #pragma once
 #include <pluginplay/hasher.hpp>
 
-namespace libchemist {
+namespace libchemist::operators {
 
 /** @brief Class representing a single Electron
  *
@@ -49,4 +49,4 @@ inline bool operator==(const Electron&, const Electron&) { return true; }
  */
 inline bool operator!=(const Electron&, const Electron&) { return false; }
 
-} // namespace libchemist
+} // namespace libchemist::operators

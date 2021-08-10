@@ -11,7 +11,7 @@
  */
 
 using namespace utilities::type_traits;
-using namespace libchemist;
+using namespace libchemist::operators;
 namespace {
 
 // This is some bogus operator, which has a type different than all operators we

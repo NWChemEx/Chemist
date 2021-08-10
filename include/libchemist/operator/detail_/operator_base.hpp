@@ -4,7 +4,7 @@
 #include <pluginplay/hasher.hpp>
 #include <typeindex>
 
-namespace libchemist {
+namespace libchemist::operators::detail_ {
 
 /** @brief An abstract base class for Operator types
  *
@@ -16,29 +16,46 @@ namespace libchemist {
  */
 class OperatorBase {
 public:
+    /// Type of the scalar multiplying the operator
+    using scalar_type = double;
+
+    std::unique_ptr<OperatorBase> clone() const { return clone_impl(); }
+
+    scalar_type& coefficient() noexcept { return m_c_; }
+
+    scalar_type coefficient() const noexcept { return m_c_; }
+
     /// Hash function
     inline void hash(pluginplay::Hasher& h) const { hash_impl(h); }
 
     /// Polymorphic comparison of this Operator instance with another
     inline bool is_equal(const OperatorBase& other) const noexcept;
 
-    /** @brief Non-polymorphic equality comparison of Operator instances
+    /** @brief Non-polymorphic equality comparison of OperatorBase instances
+     *
+     *  Two OperatorBase instances are equal if they contain the same exact
+     *  scale factor.
      *
      *  @param[in] other Operator instance to compare
-     *  @return    true (stateless base class)
+     *  @return    True if the OperatorBase instances are equal and false
+     *             otherwise.
      *
      *  @throw None No throw guarantee.
      */
-    inline bool operator==(const OperatorBase& other) const { return true; }
+    bool operator==(const OperatorBase& other) const;
 
     /** @brief Non-polymorphic inequality comparison of Operator instances
      *
+     *  Two OperatorBase instances are different if they contain different
+     *  scale factors.
+     *
      *  @param[in] other Operator instance to compare
-     *  @return    false (stateless base class)
+     *  @return    False if the OperatorBase instances are equal and true
+     *             otherwise.
      *
      *  @throw None No throw guarantee.
      */
-    inline bool operator!=(const OperatorBase& other) const { return false; }
+    bool operator!=(const OperatorBase& other) const;
 
     /** @brief Returns a string containing the operator as a symbol.
      *
@@ -63,6 +80,8 @@ protected:
     OperatorBase(const OperatorBase&) noexcept = default;
     /// Defaulted move ctor, protected to avoid slicing
     OperatorBase(OperatorBase&&) noexcept = default;
+    ///
+    explicit OperatorBase(scalar_type c) : m_c_(c){};
     /// Defaulted copy assignment, protected to avoid slicing
     OperatorBase& operator=(const OperatorBase&) = default;
     /// Defaulted move assignment, protected to avoid slicing
@@ -72,16 +91,29 @@ protected:
     virtual void hash_impl(pluginplay::Hasher& h) const = 0;
     /// Derived implementation of comparison function.
     virtual bool is_equal_impl(const OperatorBase&) const noexcept = 0;
+    /// Derived implementation of polymorphic copy
+    virtual std::unique_ptr<OperatorBase> clone_impl() const = 0;
     /// Derived implementation of as_string
     virtual std::string as_string_impl() const = 0;
+
+private:
+    scalar_type m_c_ = 1.0;
 };
 
 // -----------------------------------------------------------------------------
 // -------------------------- Inline Implementations ---------------------------
 // -----------------------------------------------------------------------------
 
+inline bool OperatorBase::operator==(const OperatorBase& other) const {
+    return m_c_ == other.m_c_;
+}
+
+inline bool OperatorBase::operator!=(const OperatorBase& other) const {
+    return !((*this) == other);
+}
+
 inline bool OperatorBase::is_equal(const OperatorBase& other) const noexcept {
     return is_equal_impl(other) and other.is_equal_impl(*this);
 }
 
-} // namespace libchemist
+} // namespace libchemist::operators::detail_

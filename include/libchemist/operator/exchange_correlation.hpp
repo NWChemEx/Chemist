@@ -2,7 +2,7 @@
 #include "libchemist/operator/detail_/operator_impl.hpp"
 #include "libchemist/operator/electron.hpp"
 
-namespace libchemist {
+namespace libchemist::operators {
 
 /** @brief Kohn-Sham Exchange-Correlation operator
  *
@@ -30,4 +30,4 @@ public:
 
 using ExchangeCorrelation = KohnShamExchangeCorrelation<Electron>;
 
-} // namespace libchemist
+} // namespace libchemist::operators

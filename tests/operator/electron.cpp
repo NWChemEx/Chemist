@@ -2,7 +2,7 @@
 #include <catch2/catch.hpp>
 
 TEST_CASE("Electron") {
-    libchemist::Electron i, j;
+    libchemist::operators::Electron i, j;
 
     SECTION("hash") {
         REQUIRE(pluginplay::hash_objects(i) == pluginplay::hash_objects(j));

@@ -19,7 +19,7 @@ NONRELATIVISTIC::Nonrelativistic(basis_set_type ref, spin_type spin) :
 // ----------------------------- Related Functions -----------------------------
 
 template<typename OccType, typename VirtType>
-auto make_wavefunction(OccType&& occ, VirtType&& virt, FockOperator fock,
+auto make_wavefunction(OccType&& occ, VirtType&& virt, operators::Fock fock,
                        unsigned int spin) {
     using clean_occ  = std::decay_t<OccType>;
     using clean_virt = std::decay_t<VirtType>;

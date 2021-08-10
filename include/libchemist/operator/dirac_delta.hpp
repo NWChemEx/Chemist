@@ -2,7 +2,7 @@
 #include "libchemist/operator/detail_/operator_impl.hpp"
 #include "libchemist/operator/electron.hpp"
 
-namespace libchemist {
+namespace libchemist::operators {
 
 /** @brief Models a Dirac Delta function.
  *
@@ -34,4 +34,4 @@ protected:
 /// Type of an electronic Dirac Delta
 using ElectronElectronDelta = DiracDelta<Electron, Electron>;
 
-} // namespace libchemist
+} // namespace libchemist::operators

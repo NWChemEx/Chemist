@@ -1,9 +1,7 @@
 #include "libchemist/operator/slater_type_geminal.hpp"
-#include <catch2/catch.hpp>
+#include "test_operator.hpp"
 
-using stg_types = std::tuple<libchemist::STG>;
-
-TEMPLATE_LIST_TEST_CASE("SlaterTypeGeminal", "", stg_types) {
+TEMPLATE_LIST_TEST_CASE("SlaterTypeGeminal", "", testing::stg_types) {
     using stg_type      = TestType;
     using coef_type     = typename stg_type::coefficient_type;
     using exponent_type = typename stg_type::exponent_type;

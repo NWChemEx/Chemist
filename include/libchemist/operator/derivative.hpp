@@ -1,7 +1,7 @@
 #pragma once
 #include "libchemist/operator/detail_/operator_impl.hpp"
 
-namespace libchemist {
+namespace libchemist::operators {
 
 template<typename Numerator, typename... Denominators>
 class Derivative
@@ -14,4 +14,4 @@ public:
     using base_type::base_type;
 };
 
-} // namespace libchemist
+} // namespace libchemist::operators

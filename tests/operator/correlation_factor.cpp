@@ -1,21 +1,20 @@
 #include "libchemist/operator/correlation_factor.hpp"
-#include <catch2/catch.hpp>
+#include "test_operator.hpp"
 
-using namespace libchemist;
+using namespace libchemist::operators;
 
-using type_list = std::tuple<libchemist::ElectronElectronSTG>;
-
-TEMPLATE_LIST_TEST_CASE("CorrelationFactor", "", type_list) {
+TEMPLATE_LIST_TEST_CASE("CorrelationFactor", "",
+                        testing::correlation_factor_types) {
     using f12_type = TestType;
 
     f12_type f12;
 
-    libchemist::STG stg(1.2, 2.3);
+    libchemist::operators::STG stg(1.2, 2.3);
     f12_type non_default(stg);
 
     SECTION("Ctors") {
         SECTION("Default") {
-            REQUIRE(f12.template at<0>() == libchemist::STG{});
+            REQUIRE(f12.template at<0>() == libchemist::operators::STG{});
         }
         SECTION("Value") { REQUIRE(non_default.template at<0>() == stg); }
         SECTION("Copy") {

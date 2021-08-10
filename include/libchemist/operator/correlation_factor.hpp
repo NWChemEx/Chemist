@@ -3,7 +3,7 @@
 #include "libchemist/operator/electron.hpp"
 #include "libchemist/operator/slater_type_geminal.hpp"
 
-namespace libchemist {
+namespace libchemist::operators {
 
 /** @brief Models the correlation factor in F12 theories.
  *
@@ -74,4 +74,4 @@ CORRELATION_FACTOR CORRELATION_FACTOR::operator*(
 
 extern template class CorrelationFactor<STG>;
 
-} // namespace libchemist
+} // namespace libchemist::operators

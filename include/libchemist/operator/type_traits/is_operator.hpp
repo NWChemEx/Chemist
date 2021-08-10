@@ -1,7 +1,7 @@
 #pragma once
 #include <type_traits>
 
-namespace libchemist {
+namespace libchemist::operators {
 
 class OperatorBase;
 
@@ -34,4 +34,4 @@ inline constexpr bool all_are_operator_v =
 template<typename OpType, typename U = void>
 using enable_if_operator_t = std::enable_if_t<is_operator_v<OpType>, U>;
 
-} // namespace libchemist
+} // namespace libchemist::operators

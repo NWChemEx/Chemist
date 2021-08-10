@@ -3,7 +3,7 @@
 #include "libchemist/operator/electron.hpp"
 #include "libchemist/operator/slater_type_geminal.hpp"
 
-namespace libchemist {
+namespace libchemist::operators {
 
 template<typename Geminal, typename Particle1, typename Particle2>
 class Yukawa

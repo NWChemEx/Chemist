@@ -103,7 +103,7 @@ private:
  *  @return The determinant-based wavefunction.
  */
 template<typename OccType, typename VirtType>
-auto make_wavefunction(OccType&& occ, VirtType&& virt, FockOperator fock,
+auto make_wavefunction(OccType&& occ, VirtType&& virt, operators::Fock fock,
                        unsigned int spin = 0);
 
 /** @brief Compares two non-relativistic wavefunctions for equality.

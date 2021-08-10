@@ -2,7 +2,7 @@
 #include "libchemist/operator/detail_/operator_impl.hpp"
 #include "libchemist/operator/electron.hpp"
 
-namespace libchemist {
+namespace libchemist::operators {
 
 template<typename... Particles>
 class Identity : public detail_::OperatorImpl<Identity, Particles...> {
@@ -23,4 +23,4 @@ protected:
 
 using ElectronIdentity = Identity<Electron>;
 
-} // namespace libchemist
+} // namespace libchemist::operators

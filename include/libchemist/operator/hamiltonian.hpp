@@ -1,7 +1,7 @@
 #pragma once
-#include "libchemist/operator/derived_operator.hpp"
+#include "libchemist/operator/detail_/operator_container.hpp"
 
-namespace libchemist {
+namespace libchemist::operators {
 
 /** @brief A class to store an manipulate molecular Hamiltonians.
  *
@@ -16,7 +16,17 @@ namespace libchemist {
  * ); bo_hamiltonian.add_term( ElectronElectronCoulomb{} );
  *      bo_hamiltonian.add_term( NuclearNuclearCoulomb{} );
  */
-struct Hamiltonian : public DerivedOperator {
+class Hamiltonian : public detail_::OperatorContainer {
+private:
+    using base_type = detail_::OperatorContainer;
+
+    template<typename T>
+    static constexpr bool is_me_v = std::is_same_v<Hamiltonian, T>;
+
+    template<typename T>
+    using disable_if_me_t = std::enable_if_t<!is_me_v<T>>;
+
+public:
     /** @brief Creates a new Hamiltonian instance containing no operators.
      *
      *  This ctor can be used to create a new Hamiltonian instance which
@@ -132,72 +142,17 @@ struct Hamiltonian : public DerivedOperator {
      *
      *  Complexity: Linear in the size of @p args
      */
-    template<typename... Args,
-             typename = std::enable_if_t<all_are_operator_v<Args...>>>
-    Hamiltonian(Args&&... args) :
-      DerivedOperator(std::forward<Args>(args)...) {}
-
-    /** @brief Add an additonal operator to the Hamiltonian.
-     *
-     *  This function adds an operator to this Hamiltonian. If the
-     *  Hamiltonian is in a PIMPL-less state, this function will
-     *  generate a PIMPL instance.
-     *
-     *  @tparam OpType The strong type of the operator to add to the
-     *                 Hamiltonian. Must be derived from Operator.
-     *
-     *  @param[in] op The operator to add to this Hamiltonian.
-     *
-     *  @return A reference to the current Hamiltonian instance.
-     *
-     *  @throw std::bad_alloc if there is insufficient memory either to
-     create
-     * the PIMPL or to store the internal state of the Operator instance.
-     Basic
-     * exception gurantee.
-     *
-     *  Complexity: Constant
-     */
-    template<typename OpType>
-    enable_if_operator_t<OpType, Hamiltonian&> add_term(OpType&& op) {
-        DerivedOperator::add_term(std::forward<OpType>(op));
-        return *this;
-    }
-
-    /** @brief Add several additonal operators to the Hamiltonian.
-     *
-     *  This function adds several operators to this Hamiltonian. If the
-     * Hamiltonian is in a PIMPL-less state, this function will generate a
-     PIMPL
-     * instance.
-     *
-     *  @tparam Ops The strong types of the operators to add to the
-     *              Hamiltonian. All must be derived from Operator.
-     *
-     *  @param[in] ops The operators to add to this Hamiltonian.
-     *
-     *  @return A reference to the current Hamiltonian instance.
-     *
-     *  @throw std::bad_alloc if there is insufficient memory either to
-     create
-     * the PIMPL or to store the internal state of any Operator instance.
-     Basic
-     * exception gurantee.
-     *
-     *  Complexity: Linear in the size of @p ops.
-     */
-    template<typename... Ops>
-    std::enable_if_t<all_are_operator_v<Ops...>, Hamiltonian&> add_terms(
-      Ops&&... ops) {
-        DerivedOperator::add_terms(std::forward<Ops>(ops)...);
-        return *this;
-    }
+    template<typename OpType, typename... Args,
+             typename = disable_if_me_t<std::decay_t<OpType>>>
+    explicit Hamiltonian(OpType&& op0, Args&&... args);
 
 protected:
-    friend class DerivedOperator;
-    virtual bool is_equal_impl(
-      const DerivedOperator& other) const noexcept override;
-
+    bool is_equal_impl(const OperatorBase& other) const noexcept override;
+    std::unique_ptr<OperatorBase> clone_impl() const override;
 }; // class Hamiltonian
 
-} // namespace libchemist
+template<typename OpType, typename... Args, typename>
+Hamiltonian::Hamiltonian(OpType&& op0, Args&&... args) :
+  base_type(std::forward<OpType>(op0), std::forward<Args>(args)...) {}
+
+} // namespace libchemist::operators
