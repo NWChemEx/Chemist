@@ -20,6 +20,12 @@ class Hamiltonian : public detail_::OperatorContainer {
 private:
     using base_type = detail_::OperatorContainer;
 
+    template<typename T>
+    static constexpr bool is_me_v = std::is_same_v<Hamiltonian, T>;
+
+    template<typename T>
+    using disable_if_me_t = std::enable_if_t<!is_me_v<T>>;
+
 public:
     /** @brief Creates a new Hamiltonian instance containing no operators.
      *
@@ -136,12 +142,17 @@ public:
      *
      *  Complexity: Linear in the size of @p args
      */
-    template<typename... Args>
-    Hamiltonian(Args&&... args) : base_type(std::forward<Args>(args)...) {}
+    template<typename OpType, typename... Args,
+             typename = disable_if_me_t<std::decay_t<OpType>>>
+    explicit Hamiltonian(OpType&& op0, Args&&... args);
 
 protected:
     bool is_equal_impl(const OperatorBase& other) const noexcept override;
     std::unique_ptr<OperatorBase> clone_impl() const override;
 }; // class Hamiltonian
+
+template<typename OpType, typename... Args, typename>
+Hamiltonian::Hamiltonian(OpType&& op0, Args&&... args) :
+  base_type(std::forward<OpType>(op0), std::forward<Args>(args)...) {}
 
 } // namespace libchemist::operators

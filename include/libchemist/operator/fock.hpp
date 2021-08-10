@@ -18,6 +18,12 @@ class Fock : public detail_::OperatorContainer {
 private:
     using base_type = detail_::OperatorContainer;
 
+    template<typename T>
+    constexpr static bool is_me_v = std::is_same_v<Fock, T>;
+
+    template<typename T>
+    using disable_if_me_t = std::enable_if_t<!is_me_v<T>>;
+
 public:
     /** @brief Creates a new Fock instance containing no operators.
      *
@@ -124,12 +130,17 @@ public:
      *
      *  Complexity: Linear in the size of @p args
      */
-    template<typename... Args>
-    Fock(Args&&... args) : base_type(std::forward<Args>(args)...) {}
+    template<typename OpType, typename... Args,
+             typename = disable_if_me_t<std::decay_t<OpType>>>
+    explicit Fock(OpType&& op0, Args&&... args);
 
 protected:
     bool is_equal_impl(const OperatorBase& other) const noexcept override;
     std::unique_ptr<OperatorBase> clone_impl() const override;
 }; // class Fock
+
+template<typename OpType, typename... Args, typename>
+Fock::Fock(OpType&& op0, Args&&... args) :
+  base_type(std::forward<OpType>(op0), std::forward<Args>(args)...) {}
 
 } // namespace libchemist::operators
