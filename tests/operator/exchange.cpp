@@ -6,16 +6,16 @@ using namespace libchemist;
 using type_list = std::tuple<ElectronEDensityExchange>;
 
 TEMPLATE_LIST_TEST_CASE("Exchange", "", type_list) {
-    using delta_type     = TestType;
-    using particle_types = typename delta_type::particle_type;
+    using exchange_type     = TestType;
+    using particle_types = typename exchange_type::particle_type;
     using particle0_type = std::tuple_element_t<0, particle_types>;
     using particle1_type = std::tuple_element_t<1, particle_types>;
 
-    delta_type defaulted;
+    exchange_type defaulted;
 
     auto p0 = testing::non_default_parameter<particle0_type>();
     auto p1 = testing::non_default_parameter<particle1_type>();
-    delta_type non_default(p0, p1);
+    exchange_type non_default(p0, p1);
 
     SECTION("Ctors") {
         SECTION("Default") {
@@ -27,24 +27,24 @@ TEMPLATE_LIST_TEST_CASE("Exchange", "", type_list) {
             REQUIRE(non_default.template at<1>() == p1);
         }
         SECTION("Copy") {
-            delta_type other(non_default);
+            exchange_type other(non_default);
             REQUIRE(other.template at<0>() == p0);
             REQUIRE(other.template at<1>() == p1);
         }
         SECTION("Move") {
-            delta_type other(std::move(non_default));
+            exchange_type other(std::move(non_default));
             REQUIRE(other.template at<0>() == p0);
             REQUIRE(other.template at<1>() == p1);
         }
         SECTION("Copy assignment") {
-            delta_type copy;
+            exchange_type copy;
             auto pcopy = &(copy = non_default);
             REQUIRE(pcopy == &copy);
             REQUIRE(copy.template at<0>() == p0);
             REQUIRE(copy.template at<1>() == p1);
         }
         SECTION("Move assignment") {
-            delta_type copy;
+            exchange_type copy;
             auto pcopy = &(copy = std::move(non_default));
             REQUIRE(pcopy == &copy);
             REQUIRE(copy.template at<0>() == p0);
@@ -57,7 +57,7 @@ TEMPLATE_LIST_TEST_CASE("Exchange", "", type_list) {
             auto lhs = pluginplay::hash_objects(defaulted);
 
             SECTION("LHS == RHS") {
-                delta_type rhs;
+                exchange_type rhs;
                 REQUIRE(lhs == pluginplay::hash_objects(rhs));
             }
 
@@ -70,7 +70,7 @@ TEMPLATE_LIST_TEST_CASE("Exchange", "", type_list) {
     SECTION("comparisons") {
         SECTION("LHS == default") {
             SECTION("LHS == RHS") {
-                delta_type rhs;
+                exchange_type rhs;
                 REQUIRE(defaulted == rhs);
                 REQUIRE_FALSE(defaulted != rhs);
             }

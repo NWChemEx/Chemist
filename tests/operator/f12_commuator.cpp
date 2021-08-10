@@ -6,18 +6,18 @@ using namespace libchemist;
 using type_list = std::tuple<ElectronElectronF12Commutator>;
 
 TEMPLATE_LIST_TEST_CASE("F12Commutator", "", type_list) {
-    using delta_type     = TestType;
-    using particle_types = typename delta_type::particle_type;
+    using comm_type     = TestType;
+    using particle_types = typename comm_type::particle_type;
     using particle0_type = std::tuple_element_t<0, particle_types>;
     using particle1_type = std::tuple_element_t<1, particle_types>;
     using particle2_type = std::tuple_element_t<2, particle_types>;
 
-    delta_type defaulted;
+    comm_type defaulted;
 
     auto p0 = testing::non_default_parameter<particle0_type>();
     auto p1 = testing::non_default_parameter<particle1_type>();
     auto p2 = testing::non_default_parameter<particle2_type>();
-    delta_type non_default(p0, p1, p2);
+    comm_type non_default(p0, p1, p2);
 
     SECTION("Ctors") {
         SECTION("Default") {
@@ -31,19 +31,19 @@ TEMPLATE_LIST_TEST_CASE("F12Commutator", "", type_list) {
             REQUIRE(non_default.template at<2>() == p2);
         }
         SECTION("Copy") {
-            delta_type other(non_default);
+            comm_type other(non_default);
             REQUIRE(other.template at<0>() == p0);
             REQUIRE(other.template at<1>() == p1);
             REQUIRE(other.template at<2>() == p2);
         }
         SECTION("Move") {
-            delta_type other(std::move(non_default));
+            comm_type other(std::move(non_default));
             REQUIRE(other.template at<0>() == p0);
             REQUIRE(other.template at<1>() == p1);
             REQUIRE(other.template at<2>() == p2);
         }
         SECTION("Copy assignment") {
-            delta_type copy;
+            comm_type copy;
             auto pcopy = &(copy = non_default);
             REQUIRE(pcopy == &copy);
             REQUIRE(copy.template at<0>() == p0);
@@ -51,7 +51,7 @@ TEMPLATE_LIST_TEST_CASE("F12Commutator", "", type_list) {
             REQUIRE(copy.template at<2>() == p2);
         }
         SECTION("Move assignment") {
-            delta_type copy;
+            comm_type copy;
             auto pcopy = &(copy = std::move(non_default));
             REQUIRE(pcopy == &copy);
             REQUIRE(copy.template at<0>() == p0);
@@ -65,7 +65,7 @@ TEMPLATE_LIST_TEST_CASE("F12Commutator", "", type_list) {
             auto lhs = pluginplay::hash_objects(defaulted);
 
             SECTION("LHS == RHS") {
-                delta_type rhs;
+                comm_type rhs;
                 REQUIRE(lhs == pluginplay::hash_objects(rhs));
             }
 
@@ -78,7 +78,7 @@ TEMPLATE_LIST_TEST_CASE("F12Commutator", "", type_list) {
     SECTION("comparisons") {
         SECTION("LHS == default") {
             SECTION("LHS == RHS") {
-                delta_type rhs;
+                comm_type rhs;
                 REQUIRE(defaulted == rhs);
                 REQUIRE_FALSE(defaulted != rhs);
             }

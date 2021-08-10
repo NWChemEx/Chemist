@@ -1,7 +1,6 @@
 #include "../test_libchemist.hpp"
 #include "libchemist/operator/density.hpp"
 
-// Tuple containing the known
 using type_tuple = std::tuple<libchemist::OneElectronDensity>;
 
 TEMPLATE_LIST_TEST_CASE("Density", "", type_tuple) {
