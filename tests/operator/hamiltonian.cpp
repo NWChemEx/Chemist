@@ -4,7 +4,7 @@
 #include <catch2/catch.hpp>
 #include <iostream>
 
-using namespace libchemist;
+using namespace libchemist::operators;
 
 TEST_CASE("Hamiltonian Class") {
     SECTION("Default CTor") {

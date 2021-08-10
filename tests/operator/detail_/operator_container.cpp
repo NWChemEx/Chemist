@@ -1,24 +1,26 @@
 #include "libchemist/operator/coulomb.hpp"
-#include "libchemist/operator/fock_operator.hpp"
+#include "libchemist/operator/fock.hpp"
 #include "libchemist/operator/hamiltonian.hpp"
 #include <catch2/catch.hpp>
 #include <iostream>
 
-using namespace libchemist;
+using namespace libchemist::operators;
+using namespace libchemist::operators::detail_;
 
-inline constexpr const auto& as_derived_operator(const DerivedOperator& op) {
+inline constexpr const auto& as_derived_operator(const OperatorContainer& op) {
     return op;
 }
 
-TEST_CASE("Derived Operator") {
-    Molecule a{Atom(1ul, std::array<double, 3>{0.0, 0.0, 0.0})};
-    Molecule b{Atom(2ul, std::array<double, 3>{0.0, 0.0, 0.0})};
+TEST_CASE("OperatorContainer") {
+    using libchemist::Atom;
+    libchemist::Nuclei a{Atom(1ul, std::array<double, 3>{0.0, 0.0, 0.0})};
+    libchemist::Nuclei b{Atom(2ul, std::array<double, 3>{0.0, 0.0, 0.0})};
 
     ElectronNuclearAttraction V1(Electron{}, a);
     ElectronNuclearAttraction V2(Electron{}, b);
 
     Hamiltonian h_default, h_v1(V1), h_v2(V2);
-    FockOperator f_default, f_v1(V1), f_v2(V2);
+    Fock f_default, f_v1(V1), f_v2(V2);
 
     SECTION("Default Comparisons: Nonpolymorphic") {
         Hamiltonian h_compare;

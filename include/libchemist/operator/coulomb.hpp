@@ -5,7 +5,7 @@
 #include "libchemist/operator/electron.hpp"
 #include "libchemist/operator/many_electrons.hpp"
 
-namespace libchemist {
+namespace libchemist::operators {
 
 /** @brief Describes the electrostatic interaction among particles.
  *
@@ -58,4 +58,4 @@ using NElectronRepulsion = CoulombInteraction<ManyElectrons>;
 /// Type of the many-electron, nuclei attraction operator
 using NElectronNuclearAttraction = CoulombInteraction<ManyElectrons, Nuclei>;
 
-} // namespace libchemist
+} // namespace libchemist::operators

@@ -3,7 +3,7 @@
 #include "libchemist/operator/electron.hpp"
 #include "libchemist/operator/slater_type_geminal.hpp"
 
-namespace libchemist {
+namespace libchemist::operators {
 
 template<typename Geminal, typename Particle1, typename Particle2>
 class F12Commutator
@@ -29,4 +29,4 @@ F12Commutator<Geminal, Particle1, Particle2>::F12Commutator(Geminal g,
                                                             Particle2 p2) :
   base_type(std::move(g), std::move(p1), std::move(p2)) {}
 
-} // namespace libchemist
+} // namespace libchemist::operators

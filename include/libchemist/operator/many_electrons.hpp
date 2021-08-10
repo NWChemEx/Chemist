@@ -1,7 +1,7 @@
 #pragma once
 #include <pluginplay/hasher.hpp>
 
-namespace libchemist {
+namespace libchemist::operators {
 
 /** @brief Class representing an indeterminate number of electrons.
  *
@@ -33,4 +33,4 @@ inline bool operator!=(const ManyElectrons& lhs, const ManyElectrons& rhs) {
     return !(lhs == rhs);
 }
 
-} // namespace libchemist
+} // namespace libchemist::operators

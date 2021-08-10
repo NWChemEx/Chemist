@@ -3,7 +3,7 @@
 #include "libchemist/operator/detail_/operator_impl.hpp"
 #include "libchemist/operator/electron.hpp"
 
-namespace libchemist {
+namespace libchemist::operators {
 
 /** @brief Exchange operator
  *
@@ -33,4 +33,4 @@ template<typename Particle1, typename Particle2>
 Exchange<Particle1, Particle2>::Exchange(Particle1 p1, Particle2 p2) :
   base_type(std::move(p1), std::move(p2)) {}
 
-} // namespace libchemist
+} // namespace libchemist::operators

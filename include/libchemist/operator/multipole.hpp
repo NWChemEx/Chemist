@@ -1,13 +1,14 @@
 #pragma once
 #include "libchemist/enums.hpp"
-#include "libchemist/operator/operator_base.hpp"
-namespace libchemist {
+#include "libchemist/operator/detail_/operator_base.hpp"
+
+namespace libchemist::operators {
 
 /// Multipole operator
 template<std::size_t L, typename ParticleType,
          ShellType Basis = ShellType::cartesian,
          GaugeType Gauge = GaugeType::length>
-class Multipole : public OperatorBase {
+class Multipole : public detail_::OperatorBase {
 private:
     using my_type = Multipole<L, ParticleType, Basis, Gauge>;
 
@@ -42,6 +43,10 @@ protected:
         return (ptr) ? *this == *ptr : false;
     }
 
+    std::unique_ptr<OperatorBase> clone_impl() const {
+        return std::make_unique<my_type>(*this);
+    }
+
     std::string as_string_impl() const {
         if constexpr(L == 1) {
             return "r";
@@ -65,4 +70,4 @@ using ElectricQuadrupole = Multipole<2, Electron>;
 /// Electric octupole operator type
 using ElectricOctupole = Multipole<3, Electron>;
 
-} // namespace libchemist
+} // namespace libchemist::operators

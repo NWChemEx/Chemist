@@ -2,7 +2,7 @@
 #include "libchemist/operator/detail_/operator_impl.hpp"
 #include "libchemist/operator/electron.hpp"
 
-namespace libchemist {
+namespace libchemist::operators {
 
 template<typename Particle>
 class KohnShamExchangeCorrelation
@@ -24,4 +24,4 @@ public:
 
 using ExchangeCorrelation = KohnShamExchangeCorrelation<Electron>;
 
-} // namespace libchemist
+} // namespace libchemist::operators

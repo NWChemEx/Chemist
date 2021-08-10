@@ -3,7 +3,7 @@
 // #include "libchemist/operator/type_traits/is_operator.hpp"
 // #include <type_traits>
 
-// namespace libchemist {
+// namespace libchemist::operators {
 // namespace detail_ {
 
 // /** Type trait to determine if a type is an density independent operator type

@@ -2,7 +2,7 @@
 #include "libchemist/operator/detail_/operator_impl.hpp"
 #include "libchemist/operator/electron.hpp"
 
-namespace libchemist {
+namespace libchemist::operators {
 
 template<typename Particle1, typename Particle2>
 class DiracDelta
@@ -28,4 +28,4 @@ DiracDelta<Particle1, Particle2>::DiracDelta(Particle1 p1, Particle2 p2) :
 
 using ElectronElectronDelta = DiracDelta<Electron, Electron>;
 
-} // namespace libchemist
+} // namespace libchemist::operators

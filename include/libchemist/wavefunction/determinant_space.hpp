@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/operator/fock_operator.hpp"
+#include "libchemist/operator/fock.hpp"
 #include "libchemist/orbital_space/orbital_space.hpp"
 
 namespace libchemist::wavefunction {
@@ -33,7 +33,7 @@ public:
     using virtual_orbital_type = VirtualSpaceType;
 
     /// Type of the Fock operator which generated these orbitals
-    using fock_operator_type = FockOperator;
+    using fock_operator_type = operators::Fock;
 
     /** @brief Creates a determinant space with all default-initialized membes.
      *

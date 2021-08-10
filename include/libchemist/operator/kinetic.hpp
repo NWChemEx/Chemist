@@ -3,7 +3,7 @@
 #include "libchemist/operator/electron.hpp"
 #include "libchemist/operator/many_electrons.hpp"
 
-namespace libchemist {
+namespace libchemist::operators {
 
 template<typename Particle>
 class Kinetic : public detail_::OperatorImpl<Kinetic, Particle> {
@@ -22,4 +22,4 @@ public:
 using ElectronKinetic  = Kinetic<Electron>;
 using NElectronKinetic = Kinetic<ManyElectrons>;
 
-} // namespace libchemist
+} // namespace libchemist::operators

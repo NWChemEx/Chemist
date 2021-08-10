@@ -8,42 +8,58 @@ namespace testing {
 
 template<typename T>
 auto non_default_parameter() {
-    if constexpr(std::is_same_v<T, libchemist::Electron>) {
-        return libchemist::Electron{};
-    } else if constexpr(std::is_same_v<T, libchemist::STG>) {
-        return libchemist::STG(1.2, 2.3);
-    } else if constexpr(std::is_same_v<T, libchemist::ManyElectrons>) {
-        return libchemist::ManyElectrons{2};
-    } else if constexpr(std::is_same_v<T, libchemist::OneElectronDensity>) {
+    if constexpr(std::is_same_v<T, libchemist::operators::Electron>) {
+        return libchemist::operators::Electron{};
+    } else if constexpr(std::is_same_v<T, libchemist::operators::STG>) {
+        return libchemist::operators::STG(1.2, 2.3);
+    } else if constexpr(std::is_same_v<T,
+                                       libchemist::operators::ManyElectrons>) {
+        return libchemist::operators::ManyElectrons{2};
+    } else if constexpr(std::is_same_v<
+                          T, libchemist::operators::OneElectronDensity>) {
         auto a_tensor = testing::generate_tensor(2);
-        return libchemist::OneElectronDensity(a_tensor);
+        return libchemist::operators::OneElectronDensity(a_tensor);
     } else if constexpr(std::is_same_v<T, libchemist::Nuclei>) {
         libchemist::Atom H(1ul);
         return libchemist::Nuclei{H, H};
     } else {
-        static_assert(std::is_same_v<T, libchemist::Electron>,
+        static_assert(std::is_same_v<T, libchemist::operators::Electron>,
                       "Particle not coded");
     }
 }
 
-using all_coulomb = std::tuple<
-  libchemist::ElectronRepulsion, libchemist::NuclearRepulsion,
-  libchemist::ElectronNuclearAttraction, libchemist::ElectronEDensityCoulomb,
-  libchemist::NElectronRepulsion, libchemist::NElectronNuclearAttraction>;
+// Tuple containing the known densities
+using density_types = std::tuple<libchemist::operators::OneElectronDensity>;
 
-using all_operator_impls = std::tuple<
-  libchemist::ElectronElectronSTG, libchemist::ElectronElectronDelta,
-  libchemist::ExchangeCorrelation, libchemist::ElectronEDensityExchange,
-  libchemist::ElectronElectronF12Commutator, libchemist::ElectronIdentity,
-  libchemist::ElectronKinetic, libchemist::ElectronElectronYukawa>;
+// Tuple containing known Slater-type geminal types
+using stg_types = std::tuple<libchemist::operators::STG>;
 
-using all_multipoles =
-  std::tuple<libchemist::ElectricDipole, libchemist::ElectricQuadrupole,
-             libchemist::ElectricOctupole>;
+using correlation_factor_types =
+  std::tuple<libchemist::operators::ElectronElectronSTG>;
 
-using all_operators =
-  utilities::type_traits::tuple::tuple_cat_t<all_operator_impls, all_coulomb,
-                                             all_multipoles>;
+using all_coulomb =
+  std::tuple<libchemist::operators::ElectronRepulsion,
+             libchemist::operators::NuclearRepulsion,
+             libchemist::operators::ElectronNuclearAttraction,
+             libchemist::operators::ElectronEDensityCoulomb,
+             libchemist::operators::NElectronRepulsion,
+             libchemist::operators::NElectronNuclearAttraction>;
+
+using all_operator_impls =
+  std::tuple<libchemist::operators::ElectronElectronDelta,
+             libchemist::operators::ExchangeCorrelation,
+             libchemist::operators::ElectronEDensityExchange,
+             libchemist::operators::ElectronElectronF12Commutator,
+             libchemist::operators::ElectronIdentity,
+             libchemist::operators::ElectronKinetic,
+             libchemist::operators::ElectronElectronYukawa>;
+
+using all_multipoles = std::tuple<libchemist::operators::ElectricDipole,
+                                  libchemist::operators::ElectricQuadrupole,
+                                  libchemist::operators::ElectricOctupole>;
+
+using all_operators = utilities::type_traits::tuple::tuple_cat_t<
+  correlation_factor_types, all_operator_impls, all_coulomb, all_multipoles>;
 
 // using derived_operators = std::tuple<FockOperator, Hamiltonian>;
 

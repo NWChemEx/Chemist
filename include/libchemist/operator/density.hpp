@@ -2,7 +2,7 @@
 #include "libchemist/operator/electron.hpp"
 #include "libchemist/types.hpp"
 
-namespace libchemist {
+namespace libchemist::operators {
 
 /** @brief Class describing a density.
  *
@@ -93,4 +93,4 @@ bool operator!=(const Density<LHSParticles...>& lhs,
 /// Type of the one-Electron density
 using OneElectronDensity = Density<Electron>;
 
-} // namespace libchemist
+} // namespace libchemist::operators

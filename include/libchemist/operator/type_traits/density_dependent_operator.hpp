@@ -1,7 +1,7 @@
 // #pragma once
 // #include <type_traits>
 
-// namespace libchemist {
+// namespace libchemist::operators {
 
 // template<typename Particle>
 // class Density;

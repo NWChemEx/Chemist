@@ -1,8 +1,8 @@
 #pragma once
-#include "libchemist/operator/operator_base.hpp"
+#include "libchemist/operator/detail_/operator_base.hpp"
 #include <utilities/type_traits/parameter_pack_traits.hpp>
 
-namespace libchemist {
+namespace libchemist::operators {
 class Electron;
 class Molecule;
 namespace detail_ {
@@ -72,9 +72,10 @@ protected:
     OperatorImpl(Particles... inputs) :
       m_particles_(std::make_tuple(std::move(inputs)...)) {}
 
-    virtual bool is_equal_impl(const OperatorBase& rhs) const noexcept override;
-    virtual void hash_impl(pluginplay::Hasher& h) const override;
-    virtual std::string as_string_impl() const override;
+    bool is_equal_impl(const OperatorBase& rhs) const noexcept override;
+    std::unique_ptr<OperatorBase> clone_impl() const override;
+    void hash_impl(pluginplay::Hasher& h) const override;
+    std::string as_string_impl() const override;
 
 private:
     /// The particle instances involved in this operator
@@ -108,6 +109,12 @@ bool OPERATOR_IMPL::is_equal_impl(const OperatorBase& rhs) const noexcept {
 }
 
 template<template<typename...> typename DerivedClass, typename... Particles>
+std::unique_ptr<OperatorBase> OPERATOR_IMPL::clone_impl() const {
+    const auto& derived = static_cast<const derived_type&>(*this);
+    return std::make_unique<derived_type>(derived);
+}
+
+template<template<typename...> typename DerivedClass, typename... Particles>
 void OPERATOR_IMPL::hash_impl(pluginplay::Hasher& h) const {
     h(m_particles_);
 }
@@ -121,4 +128,4 @@ std::string OPERATOR_IMPL::as_string_impl() const {
 
 } // namespace detail_
 
-} // namespace libchemist
+} // namespace libchemist::operators
