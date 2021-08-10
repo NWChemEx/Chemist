@@ -1,7 +1,7 @@
 #include "libchemist/operator/exchange.hpp"
 #include "test_operator.hpp"
 
-using namespace libchemist;
+using namespace libchemist::operators;
 
 using type_list = std::tuple<ElectronEDensityExchange>;
 

@@ -5,6 +5,12 @@
 
 namespace libchemist::operators {
 
+/** @brief Models an F12 Commutator
+ *
+ *  @tparam Geminal The type of the geminal relating the two particles.
+ *  @tparam Particle1 The type of the first particle.
+ *  @tparam Particle2 The type of the second particle.
+ */
 template<typename Geminal, typename Particle1, typename Particle2>
 class F12Commutator
   : public detail_::OperatorImpl<F12Commutator, Geminal, Particle1, Particle2> {
@@ -23,6 +29,7 @@ public:
     F12Commutator& operator=(F12Commutator&&) = default;
 };
 
+/// Type of a Slater Type Geminal Commutator
 using ElectronElectronF12Commutator = F12Commutator<STG, Electron, Electron>;
 
 } // namespace libchemist

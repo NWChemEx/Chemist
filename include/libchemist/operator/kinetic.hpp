@@ -5,6 +5,10 @@
 
 namespace libchemist::operators {
 
+/** @brief Models the kinetic energy operator of a particle
+ *
+ *  @tparam Particle The type of the particle.
+ */
 template<typename Particle>
 class Kinetic : public detail_::OperatorImpl<Kinetic, Particle> {
 private:
@@ -19,7 +23,10 @@ public:
     Kinetic& operator=(Kinetic&&) = default;
 };
 
+/// Type of the electronic kinetic energy operator
 using ElectronKinetic  = Kinetic<Electron>;
+
+/// Type of the many electron kinetic energy operator
 using NElectronKinetic = Kinetic<ManyElectrons>;
 
 } // namespace libchemist::operators

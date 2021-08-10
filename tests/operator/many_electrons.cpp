@@ -2,7 +2,7 @@
 #include <catch2/catch.hpp>
 
 TEST_CASE("ManyElectrons") {
-    using libchemist::ManyElectrons;
+    using libchemist::operators::ManyElectrons;
     ManyElectrons i, j{2};
 
     SECTION("Size"){
@@ -27,7 +27,7 @@ TEST_CASE("ManyElectrons") {
     }
 
     SECTION("Comparisons") {
-        REQUIRE(i == libchemist::ManyElectrons{});
+        REQUIRE(i == libchemist::operators::ManyElectrons{});
         REQUIRE(i != j);
     }
 }

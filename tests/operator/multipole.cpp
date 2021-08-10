@@ -2,20 +2,22 @@
 #include <libchemist/operator/multipole.hpp>
 #include <libchemist/point/point.hpp>
 
+using namespace libchemist::operators;
+
 // Tuple containing the known
-using type_tuple = std::tuple<libchemist::ElectricDipole,
-                              libchemist::ElectricQuadrupole,
-                              libchemist::ElectricOctupole>;
+using type_tuple = std::tuple<ElectricDipole,
+                              ElectricQuadrupole,
+                              ElectricOctupole>;
 
 namespace {
 
 template<typename T>
 void check_string(const T& multipole) {
-    if constexpr(std::is_same_v<T, libchemist::ElectricDipole>){
+    if constexpr(std::is_same_v<T, ElectricDipole>){
         REQUIRE(multipole.as_string() == "r");
-    } else if constexpr(std::is_same_v<T, libchemist::ElectricQuadrupole>){
+    } else if constexpr(std::is_same_v<T, ElectricQuadrupole>){
         REQUIRE(multipole.as_string() == "r²");
-    } else if constexpr(std::is_same_v<T, libchemist::ElectricOctupole>){
+    } else if constexpr(std::is_same_v<T, ElectricOctupole>){
         REQUIRE(multipole.as_string() == "r³");
     }
 }

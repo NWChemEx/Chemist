@@ -7,7 +7,6 @@ namespace libchemist::operators {
 /** @brief Kohn-Sham Exchange-Correlation operator
  *
  *  @tparam Particle The type of particle.
- *
  */
 template<typename Particle>
 class KohnShamExchangeCorrelation
@@ -28,6 +27,7 @@ public:
       default;
 };
 
+/// Type of Kohn-Sham Exchange-Correlation operator
 using ExchangeCorrelation = KohnShamExchangeCorrelation<Electron>;
 
 } // namespace libchemist::operators

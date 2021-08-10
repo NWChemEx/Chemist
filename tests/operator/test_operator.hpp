@@ -54,7 +54,8 @@ using all_operator_impls =
              libchemist::operators::ElectronElectronF12Commutator,
              libchemist::operators::ElectronIdentity,
              libchemist::operators::ElectronKinetic,
-             libchemist::operators::ElectronElectronYukawa>;
+             libchemist::operators::ElectronElectronYukawa,
+             libchemist::operators::ElectronIdentity_Nuclear>;
 
 using all_multipoles = std::tuple<libchemist::operators::ElectricDipole,
                                   libchemist::operators::ElectricQuadrupole,

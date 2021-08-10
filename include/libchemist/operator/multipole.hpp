@@ -4,7 +4,13 @@
 
 namespace libchemist::operators {
 
-/// Multipole operator
+/** @brief Models a multipole/
+ *
+ *  @tparam L The
+ *  @tparam ParticleType The type of the particle.
+ *  @tparam Basis The type of the basis set shell type.
+ *  @tparam Gauge The type of the gauge.
+ */
 template<std::size_t L, typename ParticleType,
          ShellType Basis = ShellType::cartesian,
          GaugeType Gauge = GaugeType::length>
@@ -13,6 +19,7 @@ private:
     using my_type = Multipole<L, ParticleType, Basis, Gauge>;
 
 public:
+    /// Type of a point in 3-dimensional space
     using point_type = Point<double>;
 
     inline bool operator==(const Multipole& other) const {
@@ -31,7 +38,20 @@ public:
 
     ~Multipole() noexcept = default;
 
+    /** @brief Returns the gauge origin of the multipole.
+     *
+     *  @return A read-only reference to the origin.
+     *
+     *  @throw None No throw guarantee.
+     */
     inline const auto& gauge_origin() const { return gauge_origin_; }
+
+    /** @brief Returns the gauge origin of the multipole.
+     *
+     *  @return A read/write reference to the origin.
+     *
+     *  @throw None No throw guarantee.
+     */
     inline auto& gauge_origin() { return gauge_origin_; }
 
 protected:
@@ -49,6 +69,7 @@ protected:
         return std::make_unique<my_type>(*this);
     }
 
+    /// Gives a more traditional representation than the default implementation
     std::string as_string_impl() const {
         if constexpr(L == 1) {
             return "r";

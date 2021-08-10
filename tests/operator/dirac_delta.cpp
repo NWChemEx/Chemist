@@ -2,6 +2,7 @@
 #include "test_operator.hpp"
 
 using namespace libchemist;
+using namespace libchemist::operators;
 
 // Using Nuclei and ManyElectrons for distinguishability in != cases
 using type_list = std::tuple<DiracDelta<Nuclei, ManyElectrons>>;

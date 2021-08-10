@@ -90,9 +90,9 @@ TEST_CASE("OperatorContainer") {
         auto d_f1_hash = pluginplay::hash_objects(d_f1);
 
         REQUIRE(h_hash == pluginplay::hash_objects(Hamiltonian{}));
-        REQUIRE(f_hash == pluginplay::hash_objects(FockOperator{}));
+        REQUIRE(f_hash == pluginplay::hash_objects(Fock{}));
         REQUIRE(h1_hash == pluginplay::hash_objects(Hamiltonian{V1}));
-        REQUIRE(f1_hash == pluginplay::hash_objects(FockOperator{V1}));
+        REQUIRE(f1_hash == pluginplay::hash_objects(Fock{V1}));
         REQUIRE(h_hash == f_hash);
         REQUIRE(h1_hash == f1_hash);
         REQUIRE(d_h_hash == h_hash);
