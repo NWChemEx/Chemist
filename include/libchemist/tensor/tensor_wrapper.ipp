@@ -5,6 +5,7 @@
  */
 
 #pragma once
+#include "libchemist/ta_helpers/slice.hpp"
 
 namespace libchemist::tensor {
 #define TENSOR_WRAPPER TensorWrapper<VariantType>
@@ -49,6 +50,25 @@ auto TENSOR_WRAPPER::extents() const {
         return rv;
     };
     return std::visit(l, m_tensor_);
+}
+
+template<typename VariantType>
+TENSOR_WRAPPER TENSOR_WRAPPER::slice(
+  const std::initializer_list<size_t>& lo,
+  const std::initializer_list<size_t>& hi) const {
+    sparse_map::ElementIndex low(lo), high(hi);
+    auto l = [=](auto&& arg) {
+        using clean_t         = std::decay_t<decltype(arg)>;
+        constexpr bool is_tot = TensorTraits<clean_t>::is_tot;
+        clean_t rv;
+        if constexpr(is_tot) {
+            throw std::runtime_error("Can't slice a ToT.");
+        } else {
+            rv = ta_helpers::slice(arg, low, high);
+        }
+        return rv;
+    };
+    return TENSOR_WRAPPER(std::visit(l, m_tensor_));
 }
 
 template<typename VariantType>
