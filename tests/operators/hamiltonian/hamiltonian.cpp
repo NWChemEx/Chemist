@@ -10,12 +10,14 @@ TEST_CASE("Hamiltonian Class") {
     SECTION("Default CTor") {
         Hamiltonian ham;
         CHECK(ham.get_terms<ElectronKinetic>().size() == 0);
+        CHECK(ham.nelectrons() == 0);
     }
 
     SECTION("One Operator Construction") {
-        Hamiltonian ham(ElectronKinetic{});
-        CHECK(ham.has_term<ElectronKinetic>());
-        CHECK(ham.get_terms<ElectronKinetic>().size() == 1);
+        Hamiltonian ham(NElectronKinetic{ManyElectrons{2}});
+        CHECK(ham.has_term<NElectronKinetic>());
+        CHECK(ham.get_terms<NElectronKinetic>().size() == 1);
+        CHECK(ham.nelectrons() == 2);
     }
 
     SECTION("Two Operator Construction") {
