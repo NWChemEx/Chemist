@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/types.hpp"
+#include "libchemist/tensor/types.hpp"
 
 namespace libchemist::tensor {
 
@@ -39,23 +39,21 @@ namespace libchemist::tensor {
  *                  positive decimal less than 1.0. Defaults to 1.0E-8.
  *  @return True if @p actual is "close" to @p ref and false otherwise.
  */
-bool allclose(const libchemist::type::tensor& actual,
-              const libchemist::type::tensor& ref, double rtol = 1.0E-5,
+bool allclose(const type::SparseTensorWrapper& actual,
+              const type::SparseTensorWrapper& ref, double rtol = 1.0E-5,
               double atol = 1.0E-8);
 
 /// Same as allclose except that the tensors are hierarchical
-bool allclose(const libchemist::type::tensor_of_tensors& actual,
-              const libchemist::type::tensor_of_tensors& ref,
+bool allclose(const type::ToTWrapper& actual, const type::ToTWrapper& ref,
               double rtol = 1.0E-5, double atol = 1.0E-8);
 
 /// Same as allclose, except comparisons are done with unsigned elements
-bool abs_allclose(const libchemist::type::tensor& actual,
-                  const libchemist::type::tensor& ref, double rtol = 1.0E-5,
+bool abs_allclose(const type::SparseTensorWrapper& actual,
+                  const type::SparseTensorWrapper& ref, double rtol = 1.0E-5,
                   double atol = 1.0E-8);
 
 /// Same as allclose except comparisons are done with unsigned elements
-bool abs_allclose(const libchemist::type::tensor_of_tensors& actual,
-                  const libchemist::type::tensor_of_tensors& ref,
+bool abs_allclose(const type::ToTWrapper& actual, const type::ToTWrapper& ref,
                   double rtol = 1.0E-5, double atol = 1.0E-8);
 
 } // namespace libchemist::tensor
