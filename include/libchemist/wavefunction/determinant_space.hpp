@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/operator/fock.hpp"
+#include "libchemist/operators/fock.hpp"
 #include "libchemist/orbital_space/orbital_space.hpp"
 
 namespace libchemist::wavefunction {

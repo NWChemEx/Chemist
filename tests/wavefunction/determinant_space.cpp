@@ -1,4 +1,4 @@
-#include "libchemist/operator/kinetic.hpp"
+#include "libchemist/operators/kinetic.hpp"
 #include "libchemist/wavefunction/determinant_space.hpp"
 #include "test_wavefunction.hpp"
 

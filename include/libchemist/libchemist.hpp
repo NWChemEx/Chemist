@@ -13,7 +13,7 @@
 #include "libchemist/chemical_system/chemical_system.hpp"
 #include "libchemist/managers/managers.hpp"
 #include "libchemist/molecule/molecule.hpp"
-#include "libchemist/operator/operator.hpp"
+#include "libchemist/operators/operators.hpp"
 #include "libchemist/orbital_space/orbital_space.hpp"
 #include "libchemist/tensor/tensor.hpp"
 #include "libchemist/topology/topology.hpp"
