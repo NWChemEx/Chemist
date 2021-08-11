@@ -119,6 +119,24 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
         REQUIRE(t3.extents() == extents{2, 2, 2});
     }
 
+    SECTION("slice()") {
+        SECTION("Vector") {
+            TWrapper corr(t_type(world, {1.0, 2.0}));
+            auto slice = vec.slice({0ul}, {2ul});
+            REQUIRE(slice == corr);
+        }
+        SECTION("Matrix") {
+            TWrapper corr(t_type(world, {{2.0}}));
+            auto slice = mat.slice({0ul, 1ul}, {1ul, 2ul});
+            REQUIRE(slice == corr);
+        }
+        SECTION("Tensor") {
+            TWrapper corr(t_type(world, {{{2.0}, {4.0}}, {{6.0}, {8.0}}}));
+            auto slice = t3.slice({0ul, 0ul, 1ul}, {2ul, 2ul, 2ul});
+            REQUIRE(slice == corr);
+        }
+    }
+
     SECTION("operator()") {
         // Basically just testing that it compiles, real test happens in
         // labeled_tensor_wrapper.cpp

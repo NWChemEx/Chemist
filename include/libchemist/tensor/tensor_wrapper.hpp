@@ -177,6 +177,9 @@ public:
      */
     auto extents() const;
 
+    TensorWrapper slice(const std::initializer_list<size_type>& lo,
+                        const std::initializer_list<size_type>& hi) const;
+
     /** @brief Used to get the wrapped tensor back.
      *
      *  This function should really only be called by the creator of the tensor
