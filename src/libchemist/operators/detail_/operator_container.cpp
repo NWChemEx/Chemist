@@ -47,6 +47,10 @@ bool OperatorContainer::operator!=(const OperatorContainer& other) const {
     return !(*this == other);
 }
 
+OperatorContainer::size_type OperatorContainer::size() const noexcept {
+    return m_pimpl_ ? pimpl_().size() : 0;
+}
+
 bool OperatorContainer::is_equal_impl(
   const OperatorBase& other) const noexcept {
     auto pother = dynamic_cast<const OperatorContainer*>(&other);

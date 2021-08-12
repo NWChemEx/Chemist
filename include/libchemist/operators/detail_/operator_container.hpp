@@ -45,8 +45,13 @@ public:
     /// Type used to store RTTI
     using rtti_type = std::type_index;
 
+    /// Type used for sizes, indexing, and offsets
+    using size_type = std::size_t;
+
     /// Defaulted no-throw dtor
     virtual ~OperatorContainer() noexcept;
+
+    size_type size() const noexcept;
 
     /** @brief Add an additonal operator to the OperatorContainer.
      *

@@ -15,6 +15,8 @@ public:
     using get_const_return_type =
       typename OperatorContainer::const_type_erased_vector;
 
+    using size_type = typename OperatorContainer::size_type;
+
     /// Defaulted default ctor
     OperatorContainerPIMPL();
     /// Copy ctor
@@ -28,6 +30,8 @@ public:
     OperatorContainerPIMPL& operator=(const OperatorContainerPIMPL& other);
     /// Move assignment
     OperatorContainerPIMPL& operator=(OperatorContainerPIMPL&& other) noexcept;
+
+    size_type size() const noexcept { return terms_.size(); }
 
     /** @brief Add a term to the OperatorContainer state
      *

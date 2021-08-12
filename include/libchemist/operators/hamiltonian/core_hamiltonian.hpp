@@ -11,6 +11,13 @@ namespace libchemist::operators {
  *  core Hamiltonian.
  */
 class CoreHamiltonian : public ElectronicHamiltonian {
+private:
+    template<typename T>
+    static constexpr bool is_hamiltonian_v = std::is_base_of_v<Hamiltonian, T>;
+
+    template<typename T>
+    using disable_if_hamiltonian_t = std::enable_if_t<!is_hamiltonian_v<T>>;
+
 public:
     CoreHamiltonian()                       = default;
     CoreHamiltonian(const CoreHamiltonian&) = default;
@@ -18,6 +25,19 @@ public:
     CoreHamiltonian& operator=(const CoreHamiltonian&) = default;
     CoreHamiltonian& operator=(CoreHamiltonian&&) = default;
     explicit CoreHamiltonian(const ElectronicHamiltonian&);
+
+    template<typename OpType, typename... Args,
+             typename = disable_if_hamiltonian_t<std::decay_t<OpType>>>
+    explicit CoreHamiltonian(OpType&& op0, Args&&... args);
 };
+
+// -----------------------------------------------------------------------------
+// ----------------------- Inline Implementations ------------------------------
+// -----------------------------------------------------------------------------
+
+template<typename OpType, typename... Args, typename>
+CoreHamiltonian::CoreHamiltonian(OpType&& op0, Args&&... args) :
+  ElectronicHamiltonian(std::forward<OpType>(op0),
+                        std::forward<Args>(args)...) {}
 
 } // namespace libchemist::operators
