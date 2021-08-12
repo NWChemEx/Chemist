@@ -1,5 +1,5 @@
-#include "libchemist/operators/hamiltonian/core_hamiltonian.hpp"
 #include "../test_operator.hpp"
+#include "libchemist/operators/hamiltonian/core_hamiltonian.hpp"
 
 using namespace libchemist;
 using namespace libchemist::operators;
@@ -16,43 +16,42 @@ TEST_CASE("Core Hamiltonian") {
     auto t = ElectronKinetic{};
     auto v = ElectronNuclearAttraction{Electron{}, nuclei};
 
-    ElectronicHamiltonian h_e;
-    h_e.add_terms(T, V, G);
+    ElectronicHamiltonian h_e{T, V, G};
 
-    CoreHamiltonian corr, from_elec_ham{h_e};
-    corr.add_terms(t, v);
+    CoreHamiltonian non_default{t, v}, from_elec_ham{h_e};
 
     SECTION("Ctors") {
-        SECTION("Default") {
-            REQUIRE(defaulted == ElectronicHamiltonian{});
+        SECTION("Default") { REQUIRE(defaulted == ElectronicHamiltonian{}); }
+        SECTION("With Values") {
+            REQUIRE(non_default == CoreHamiltonian{t, v});
         }
-        SECTION("From Hamiltonian") {
+        SECTION("From ElectronicHamiltonian") {
             REQUIRE(from_elec_ham.has_term<ElectronKinetic>());
             REQUIRE(from_elec_ham.has_term<ElectronNuclearAttraction>());
             REQUIRE_FALSE(from_elec_ham.has_term<NElectronKinetic>());
             REQUIRE_FALSE(from_elec_ham.has_term<NElectronNuclearAttraction>());
             REQUIRE_FALSE(from_elec_ham.has_term<NElectronRepulsion>());
-            REQUIRE(from_elec_ham == corr);
+            REQUIRE(from_elec_ham == non_default);
         }
         SECTION("Copy") {
             CoreHamiltonian other(from_elec_ham);
-            REQUIRE(other == corr);
+            REQUIRE(other == non_default);
         }
         SECTION("Move") {
             CoreHamiltonian other(std::move(from_elec_ham));
-            REQUIRE(other == corr);
+            REQUIRE(other == non_default);
         }
         SECTION("Copy assignment") {
             CoreHamiltonian copy;
             auto pcopy = &(copy = from_elec_ham);
             REQUIRE(pcopy == &copy);
-            REQUIRE(copy == corr);
+            REQUIRE(copy == non_default);
         }
         SECTION("Move assignment") {
             CoreHamiltonian copy;
             auto pcopy = &(copy = std::move(from_elec_ham));
             REQUIRE(pcopy == &copy);
-            REQUIRE(copy == corr);
+            REQUIRE(copy == non_default);
         }
     }
 
@@ -87,4 +86,9 @@ TEST_CASE("Core Hamiltonian") {
     }
 
     SECTION("as_string") { REQUIRE(defaulted.as_string() == "Ô"); }
+
+    SECTION("size") {
+        REQUIRE(defaulted.size() == 0);
+        REQUIRE(non_default.size() == 2);
+    }
 }

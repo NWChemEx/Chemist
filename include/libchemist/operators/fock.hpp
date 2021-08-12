@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/operators/detail_/operator_container.hpp"
+#include "libchemist/operators/detail_/linear_combination.hpp"
 
 namespace libchemist::operators {
 
@@ -14,9 +14,9 @@ namespace libchemist::operators {
  *  individual Electrons with the average bevhaviour of the other Electrons.
  *
  */
-class Fock : public detail_::OperatorContainer {
+class Fock : public detail_::LinearCombination {
 private:
-    using base_type = detail_::OperatorContainer;
+    using base_type = detail_::LinearCombination;
 
     template<typename T>
     constexpr static bool is_me_v = std::is_same_v<Fock, T>;

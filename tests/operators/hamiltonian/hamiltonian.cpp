@@ -1,15 +1,16 @@
+#include "../test_operator.hpp"
 #include "libchemist/operators/coulomb.hpp"
 #include "libchemist/operators/hamiltonian/hamiltonian.hpp"
 #include "libchemist/operators/kinetic.hpp"
-#include <catch2/catch.hpp>
-#include <iostream>
 
+using namespace libchemist;
 using namespace libchemist::operators;
 
 TEST_CASE("Hamiltonian Class") {
     SECTION("Default CTor") {
         Hamiltonian ham;
         CHECK(ham.get_terms<ElectronKinetic>().size() == 0);
+        CHECK(ham.size() == 0);
         CHECK(ham.nelectrons() == 0);
     }
 
@@ -17,6 +18,7 @@ TEST_CASE("Hamiltonian Class") {
         Hamiltonian ham(NElectronKinetic{ManyElectrons{2}});
         CHECK(ham.has_term<NElectronKinetic>());
         CHECK(ham.get_terms<NElectronKinetic>().size() == 1);
+        CHECK(ham.size() == 1);
         CHECK(ham.nelectrons() == 2);
     }
 
@@ -24,12 +26,14 @@ TEST_CASE("Hamiltonian Class") {
         Hamiltonian ham(ElectronKinetic{}, ElectronNuclearAttraction{});
         CHECK(ham.get_terms<ElectronKinetic>().size() == 1);
         CHECK(ham.get_terms<ElectronNuclearAttraction>().size() == 1);
+        CHECK(ham.size() == 2);
     }
 
     SECTION("Single Term Add") {
         Hamiltonian ham;
         ham.add_term(ElectronKinetic{});
         CHECK(ham.get_terms<ElectronKinetic>().size() == 1);
+        CHECK(ham.size() == 1);
     }
 
     SECTION("Term Add Chain") {
@@ -37,6 +41,7 @@ TEST_CASE("Hamiltonian Class") {
         ham.add_term(ElectronKinetic{}).add_term(ElectronNuclearAttraction{});
         CHECK(ham.get_terms<ElectronKinetic>().size() == 1);
         CHECK(ham.get_terms<ElectronNuclearAttraction>().size() == 1);
+        CHECK(ham.size() == 2);
     }
 
     SECTION("Copy CTor") {

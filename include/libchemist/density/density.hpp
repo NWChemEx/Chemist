@@ -1,14 +1,14 @@
 #pragma once
-#include "libchemist/operators/electron.hpp"
+#include "libchemist/electrons/electrons.hpp"
 #include "libchemist/types.hpp"
 
-namespace libchemist::operators {
+namespace libchemist {
 
 /** @brief Class describing a density.
  *
  *  In Electronic structure theory we place a lot of emphasis on the
  *  one-Electron density; however, there are many other densities. This class
- * is templated on the types and number of particles that the density describes.
+ *  is templated on the types and number of particles that the density describes.
  *  In turn this allows for this class to model densities involving an
  *  arbitrary number of arbitrary particles.
  *
@@ -93,4 +93,4 @@ bool operator!=(const Density<LHSParticles...>& lhs,
 /// Type of the one-Electron density
 using OneElectronDensity = Density<Electron>;
 
-} // namespace libchemist::operators
+} // namespace libchemist

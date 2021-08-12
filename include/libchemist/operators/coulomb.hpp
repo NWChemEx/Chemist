@@ -1,9 +1,8 @@
 #pragma once
+#include "libchemist/density/density.hpp"
+#include "libchemist/electrons/electrons.hpp"
 #include "libchemist/molecule/molecule.hpp"
-#include "libchemist/operators/density.hpp"
 #include "libchemist/operators/detail_/operator_impl.hpp"
-#include "libchemist/operators/electron.hpp"
-#include "libchemist/operators/many_electrons.hpp"
 
 namespace libchemist::operators {
 
@@ -40,22 +39,25 @@ protected:
 };
 
 /// Type of the two-electron repulsion operator
-using ElectronRepulsion = CoulombInteraction<Electron, Electron>;
+using ElectronRepulsion =
+  CoulombInteraction<libchemist::Electron, libchemist::Electron>;
 
 /// Type of the nuclei-nuclei repulsion operator
-using NuclearRepulsion = CoulombInteraction<Nuclei>;
+using NuclearRepulsion = CoulombInteraction<libchemist::Nuclei>;
 
 /// Type of the electron-nuclei attraction operator
-using ElectronNuclearAttraction = CoulombInteraction<Electron, Nuclei>;
+using ElectronNuclearAttraction =
+  CoulombInteraction<libchemist::Electron, libchemist::Nuclei>;
 
 /// Type of a one-electron Coulomb interaction with a one-electron density
 using ElectronEDensityCoulomb =
-  CoulombInteraction<Electron, OneElectronDensity>;
+  CoulombInteraction<libchemist::Electron, libchemist::OneElectronDensity>;
 
 /// Type of the many-electron repulsion operator
-using NElectronRepulsion = CoulombInteraction<ManyElectrons>;
+using NElectronRepulsion = CoulombInteraction<libchemist::ManyElectrons>;
 
 /// Type of the many-electron, nuclei attraction operator
-using NElectronNuclearAttraction = CoulombInteraction<ManyElectrons, Nuclei>;
+using NElectronNuclearAttraction =
+  CoulombInteraction<libchemist::ManyElectrons, libchemist::Nuclei>;
 
 } // namespace libchemist::operators

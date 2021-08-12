@@ -1,6 +1,6 @@
 #pragma once
+#include "libchemist/electrons/electrons.hpp"
 #include "libchemist/operators/detail_/operator_impl.hpp"
-#include "libchemist/operators/electron.hpp"
 #include "libchemist/operators/slater_type_geminal.hpp"
 
 namespace libchemist::operators {
@@ -29,6 +29,7 @@ public:
 };
 
 /// Type of the Electronic Yukawa operator
-using ElectronElectronYukawa = Yukawa<STG, Electron, Electron>;
+using ElectronElectronYukawa =
+  Yukawa<STG, libchemist::Electron, libchemist::Electron>;
 
 } // namespace libchemist::operators

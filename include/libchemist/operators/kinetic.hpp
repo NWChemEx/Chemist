@@ -1,7 +1,6 @@
 #pragma once
+#include "libchemist/electrons/electrons.hpp"
 #include "libchemist/operators/detail_/operator_impl.hpp"
-#include "libchemist/operators/electron.hpp"
-#include "libchemist/operators/many_electrons.hpp"
 
 namespace libchemist::operators {
 
@@ -24,9 +23,9 @@ public:
 };
 
 /// Type of the electronic kinetic energy operator
-using ElectronKinetic = Kinetic<Electron>;
+using ElectronKinetic = Kinetic<libchemist::Electron>;
 
 /// Type of the many electron kinetic energy operator
-using NElectronKinetic = Kinetic<ManyElectrons>;
+using NElectronKinetic = Kinetic<libchemist::ManyElectrons>;
 
 } // namespace libchemist::operators

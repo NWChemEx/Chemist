@@ -1,6 +1,6 @@
 #pragma once
+#include "libchemist/electrons/electrons.hpp"
 #include "libchemist/operators/detail_/operator_impl.hpp"
-#include "libchemist/operators/electron.hpp"
 
 namespace libchemist::operators {
 
@@ -28,6 +28,6 @@ public:
 };
 
 /// Type of Kohn-Sham Exchange-Correlation operator
-using ExchangeCorrelation = KohnShamExchangeCorrelation<Electron>;
+using ExchangeCorrelation = KohnShamExchangeCorrelation<libchemist::Electron>;
 
 } // namespace libchemist::operators

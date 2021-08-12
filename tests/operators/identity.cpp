@@ -1,6 +1,7 @@
 #include "libchemist/operators/identity.hpp"
 #include "test_operator.hpp"
 
+using namespace libchemist;
 using namespace libchemist::operators;
 
 // Using ManyElectrons for distinguishability in != cases

@@ -1,7 +1,10 @@
-#include "libchemist/operators/density.hpp"
-#include "test_operator.hpp"
+#include "../test_libchemist.hpp"
+#include "libchemist/density/density.hpp"
 
-TEMPLATE_LIST_TEST_CASE("Density", "", testing::density_types) {
+// Tuple containing the known densities
+using density_types = std::tuple<libchemist::OneElectronDensity>;
+
+TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
     using density_type = TestType;
     using value_type   = typename density_type::value_type;
 

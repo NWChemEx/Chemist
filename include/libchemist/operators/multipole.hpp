@@ -1,4 +1,5 @@
 #pragma once
+#include "libchemist/electrons/electrons.hpp"
 #include "libchemist/enums.hpp"
 #include "libchemist/operators/detail_/operator_base.hpp"
 
@@ -87,10 +88,10 @@ private:
 };
 
 /// Electric dipole operator type
-using ElectricDipole = Multipole<1, Electron>;
+using ElectricDipole = Multipole<1, libchemist::Electron>;
 /// Electric quadrupole operator type
-using ElectricQuadrupole = Multipole<2, Electron>;
+using ElectricQuadrupole = Multipole<2, libchemist::Electron>;
 /// Electric octupole operator type
-using ElectricOctupole = Multipole<3, Electron>;
+using ElectricOctupole = Multipole<3, libchemist::Electron>;
 
 } // namespace libchemist::operators

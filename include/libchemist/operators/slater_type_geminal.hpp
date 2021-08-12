@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/operators/electron.hpp"
+#include "libchemist/electrons/electrons.hpp"
 #include <pluginplay/hasher.hpp>
 #include <tuple> // for std::tie
 
@@ -125,6 +125,6 @@ auto SLATER_TYPE_GEMINAL::operator*(const SlaterTypeGeminal& rhs) const {
 #undef SLATER_TYPE_GEMIAL
 
 /// Type of a SlaterTypeGeminal correlating two electrons
-using STG = SlaterTypeGeminal<Electron, Electron>;
+using STG = SlaterTypeGeminal<libchemist::Electron, libchemist::Electron>;
 
 } // namespace libchemist::operators

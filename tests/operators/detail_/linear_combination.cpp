@@ -4,14 +4,15 @@
 #include <catch2/catch.hpp>
 #include <iostream>
 
+using namespace libchemist;
 using namespace libchemist::operators;
 using namespace libchemist::operators::detail_;
 
-inline constexpr const auto& as_derived_operator(const OperatorContainer& op) {
+inline constexpr const auto& as_derived_operator(const LinearCombination& op) {
     return op;
 }
 
-TEST_CASE("OperatorContainer") {
+TEST_CASE("LinearCombination") {
     using libchemist::Atom;
     libchemist::Nuclei a{Atom(1ul, std::array<double, 3>{0.0, 0.0, 0.0})};
     libchemist::Nuclei b{Atom(2ul, std::array<double, 3>{0.0, 0.0, 0.0})};

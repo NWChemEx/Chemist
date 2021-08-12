@@ -2,10 +2,11 @@
 #include "libchemist/operators/detail_/operator_base.hpp"
 #include <utilities/type_traits/parameter_pack_traits.hpp>
 
-namespace libchemist::operators {
-class Electron;
+namespace libchemist {
 class Molecule;
-namespace detail_ {
+}
+
+namespace libchemist::operators::detail_ {
 
 /** @brief Code factorization for implementing an operator.
  *
@@ -126,6 +127,4 @@ std::string OPERATOR_IMPL::as_string_impl() const {
 
 #undef OPERATOR_IMPL
 
-} // namespace detail_
-
-} // namespace libchemist::operators
+} // namespace libchemist::operators::detail_

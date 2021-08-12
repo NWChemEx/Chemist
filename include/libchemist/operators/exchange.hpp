@@ -1,7 +1,7 @@
 #pragma once
-#include "libchemist/operators/density.hpp"
+#include "libchemist/density/density.hpp"
+#include "libchemist/electrons/electrons.hpp"
 #include "libchemist/operators/detail_/operator_impl.hpp"
-#include "libchemist/operators/electron.hpp"
 
 namespace libchemist::operators {
 
@@ -35,6 +35,7 @@ protected:
 };
 
 /// Type of Hartree-Fock Exchange
-using ElectronEDensityExchange = Exchange<Electron, OneElectronDensity>;
+using ElectronEDensityExchange =
+  Exchange<libchemist::Electron, libchemist::OneElectronDensity>;
 
 } // namespace libchemist::operators

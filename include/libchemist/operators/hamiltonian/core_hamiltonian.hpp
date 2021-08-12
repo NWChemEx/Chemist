@@ -24,7 +24,21 @@ public:
     CoreHamiltonian(CoreHamiltonian&&)      = default;
     CoreHamiltonian& operator=(const CoreHamiltonian&) = default;
     CoreHamiltonian& operator=(CoreHamiltonian&&) = default;
-    explicit CoreHamiltonian(const ElectronicHamiltonian&);
+
+    /** @brief Convenience ctor for creating a CoreHamiltonian from the
+     *         ElectronicHamiltonian.
+     *
+     *  This function will initialize and add an ElectronKinetic operator
+     *  if an NElectronKinetic operator is present in @p He, then loop over
+     *  the NElectronNuclearAttraction operators in @p He and initialize and
+     *  add corresponding ElectronNuclearAttraction operators for each.
+     *
+     *  @param[in] He The ElectronicHamiltonian we are converting.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating memory for the
+     *                        new instance. Strong throw guarantee.
+     */
+    explicit CoreHamiltonian(const ElectronicHamiltonian& He);
 
     template<typename OpType, typename... Args,
              typename = disable_if_hamiltonian_t<std::decay_t<OpType>>>

@@ -1,5 +1,6 @@
 #pragma once
 #include "../test_libchemist.hpp"
+#include "libchemist/electrons/electrons.hpp"
 #include "libchemist/operators/operators.hpp"
 #include <catch2/catch.hpp>
 #include <utilities/type_traits/tuple/tuple_cat.hpp>
@@ -8,30 +9,25 @@ namespace testing {
 
 template<typename T>
 auto non_default_parameter() {
-    if constexpr(std::is_same_v<T, libchemist::operators::Electron>) {
-        return libchemist::operators::Electron{};
+    if constexpr(std::is_same_v<T, libchemist::Electron>) {
+        return libchemist::Electron{};
     } else if constexpr(std::is_same_v<T, libchemist::operators::STG>) {
         return libchemist::operators::STG(1.2, 2.3);
-    } else if constexpr(std::is_same_v<T,
-                                       libchemist::operators::ManyElectrons>) {
-        return libchemist::operators::ManyElectrons{2};
-    } else if constexpr(std::is_same_v<
-                          T, libchemist::operators::OneElectronDensity>) {
+    } else if constexpr(std::is_same_v<T, libchemist::ManyElectrons>) {
+        return libchemist::ManyElectrons{2};
+    } else if constexpr(std::is_same_v<T, libchemist::OneElectronDensity>) {
         auto a_tensor = testing::generate_tensor(2);
-        return libchemist::operators::OneElectronDensity(a_tensor);
+        return libchemist::OneElectronDensity(a_tensor);
     } else if constexpr(std::is_same_v<T, libchemist::Nuclei>) {
         libchemist::Atom H(1ul);
         return libchemist::Nuclei{H, H};
     } else if constexpr(std::is_same_v<T, libchemist::Point<double>>) {
         return libchemist::Point<double>(1., 2., 3.);
     } else {
-        static_assert(std::is_same_v<T, libchemist::operators::Electron>,
+        static_assert(std::is_same_v<T, libchemist::Electron>,
                       "Particle not coded");
     }
 }
-
-// Tuple containing the known densities
-using density_types = std::tuple<libchemist::operators::OneElectronDensity>;
 
 // Tuple containing known Slater-type geminal types
 using stg_types = std::tuple<libchemist::operators::STG>;

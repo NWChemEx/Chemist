@@ -1,6 +1,6 @@
 #pragma once
+#include "libchemist/electrons/electrons.hpp"
 #include "libchemist/operators/detail_/operator_impl.hpp"
-#include "libchemist/operators/electron.hpp"
 
 namespace libchemist::operators {
 
@@ -27,6 +27,6 @@ protected:
 };
 
 /// The type of the electronic identity function
-using ElectronIdentity = Identity<Electron>;
+using ElectronIdentity = Identity<libchemist::Electron>;
 
 } // namespace libchemist::operators

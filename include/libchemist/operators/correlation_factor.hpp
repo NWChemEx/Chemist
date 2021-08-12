@@ -1,6 +1,5 @@
 #pragma once
 #include "libchemist/operators/detail_/operator_impl.hpp"
-#include "libchemist/operators/electron.hpp"
 #include "libchemist/operators/slater_type_geminal.hpp"
 
 namespace libchemist::operators {

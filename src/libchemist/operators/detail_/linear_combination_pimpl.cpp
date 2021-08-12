@@ -1,21 +1,21 @@
-#include "operator_container_pimpl.hpp"
+#include "linear_combination_pimpl.hpp"
 #include <algorithm>
 
 namespace libchemist::operators::detail_ {
 
-OperatorContainerPIMPL::OperatorContainerPIMPL()           = default;
-OperatorContainerPIMPL::~OperatorContainerPIMPL() noexcept = default;
+LinearCombinationPIMPL::LinearCombinationPIMPL()           = default;
+LinearCombinationPIMPL::~LinearCombinationPIMPL() noexcept = default;
 
-OperatorContainerPIMPL::OperatorContainerPIMPL(
-  const OperatorContainerPIMPL& other) {
+LinearCombinationPIMPL::LinearCombinationPIMPL(
+  const LinearCombinationPIMPL& other) {
     *this = other;
 }
 
-OperatorContainerPIMPL::OperatorContainerPIMPL(
-  OperatorContainerPIMPL&& other) noexcept = default;
+LinearCombinationPIMPL::LinearCombinationPIMPL(
+  LinearCombinationPIMPL&& other) noexcept = default;
 
-OperatorContainerPIMPL& OperatorContainerPIMPL::operator=(
-  const OperatorContainerPIMPL& other) {
+LinearCombinationPIMPL& LinearCombinationPIMPL::operator=(
+  const LinearCombinationPIMPL& other) {
     if(this == &other) return *this;
 
     operator_container_type buffer;
@@ -24,11 +24,11 @@ OperatorContainerPIMPL& OperatorContainerPIMPL::operator=(
     return *this;
 }
 
-OperatorContainerPIMPL& OperatorContainerPIMPL::operator=(
-  OperatorContainerPIMPL&& other) noexcept = default;
+LinearCombinationPIMPL& LinearCombinationPIMPL::operator=(
+  LinearCombinationPIMPL&& other) noexcept = default;
 
-bool OperatorContainerPIMPL::operator==(
-  const OperatorContainerPIMPL& other) const {
+bool LinearCombinationPIMPL::operator==(
+  const LinearCombinationPIMPL& other) const {
     // Implement comparison with polymorphic checks on operator instances
     if(terms_.size() != other.terms_.size()) return false;
     for(const auto& [key, val] : terms_) {
@@ -39,16 +39,16 @@ bool OperatorContainerPIMPL::operator==(
     return true;
 }
 
-bool OperatorContainerPIMPL::operator!=(
-  const OperatorContainerPIMPL& other) const {
+bool LinearCombinationPIMPL::operator!=(
+  const LinearCombinationPIMPL& other) const {
     return !(*this == other);
 }
 
-void OperatorContainerPIMPL::add_term(rtti_type index, type_erased_pointer op) {
+void LinearCombinationPIMPL::add_term(rtti_type index, type_erased_pointer op) {
     terms_.insert({index, std::move(op)});
 }
 
-OperatorContainerPIMPL::get_return_type OperatorContainerPIMPL::get_terms(
+LinearCombinationPIMPL::get_return_type LinearCombinationPIMPL::get_terms(
   std::type_index index) {
     auto [b, e]               = terms_.equal_range(index);
     const std::size_t n_terms = std::distance(b, e);
@@ -58,7 +58,7 @@ OperatorContainerPIMPL::get_return_type OperatorContainerPIMPL::get_terms(
     return ret_terms;
 }
 
-OperatorContainerPIMPL::get_const_return_type OperatorContainerPIMPL::get_terms(
+LinearCombinationPIMPL::get_const_return_type LinearCombinationPIMPL::get_terms(
   std::type_index index) const {
     auto [b, e]               = terms_.equal_range(index);
     const std::size_t n_terms = std::distance(b, e);
@@ -68,15 +68,15 @@ OperatorContainerPIMPL::get_const_return_type OperatorContainerPIMPL::get_terms(
     return ret_terms;
 }
 
-bool OperatorContainerPIMPL::has_term(rtti_type index) const noexcept {
+bool LinearCombinationPIMPL::has_term(rtti_type index) const noexcept {
     return terms_.count(index);
 }
 
-std::unique_ptr<OperatorContainerPIMPL> OperatorContainerPIMPL::clone() const {
-    return std::make_unique<OperatorContainerPIMPL>(*this);
+std::unique_ptr<LinearCombinationPIMPL> LinearCombinationPIMPL::clone() const {
+    return std::make_unique<LinearCombinationPIMPL>(*this);
 }
 
-void OperatorContainerPIMPL::hash(pluginplay::Hasher& h) const {
+void LinearCombinationPIMPL::hash(pluginplay::Hasher& h) const {
     for(const auto& [key, val] : terms_) { h(val); }
 }
 

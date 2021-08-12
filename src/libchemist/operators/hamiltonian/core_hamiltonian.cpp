@@ -12,7 +12,7 @@ CoreHamiltonian::CoreHamiltonian(const ElectronicHamiltonian& He) {
 
     if(He.has_term<T_type>()) add_term(t_type{});
     for(const auto& V : He.get_terms<V_type>())
-        add_terms(v_type{Electron{}, V->at<1>()});
+        add_terms(v_type{libchemist::Electron{}, V->at<1>()});
 }
 
 } // namespace libchemist::operators

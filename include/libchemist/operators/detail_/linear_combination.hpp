@@ -4,17 +4,17 @@
 #include <memory>
 
 namespace libchemist::operators::detail_ {
-class OperatorContainerPIMPL;
+class LinearCombinationPIMPL;
 
 /** @brief Code factorization for a container filled with operators
  *
- *  OperatorContainer stores a series of operators in a type-erased manner. This
+ *  LinearCombination stores a series of operators in a type-erased manner. This
  *  is accomplished by storing them as pointers to the OperatorBase instances.
- *  As a first pass we are going to make the OperatorContainer own the operators
+ *  As a first pass we are going to make the LinearCombination own the operators
  *  it is given. This means it will copy them in unless you move them in.
  *
  */
-class OperatorContainer : public OperatorBase {
+class LinearCombination : public OperatorBase {
 public:
     /// Pointer type used when referring to an operator through OperatorBase
     template<typename OpType>
@@ -49,23 +49,23 @@ public:
     using size_type = std::size_t;
 
     /// Defaulted no-throw dtor
-    virtual ~OperatorContainer() noexcept;
+    virtual ~LinearCombination() noexcept;
 
     size_type size() const noexcept;
 
-    /** @brief Add an additonal operator to the OperatorContainer.
+    /** @brief Add an additonal operator to the LinearCombination.
      *
-     *  This function adds an operator to the OperatorContainer. The weight of
+     *  This function adds an operator to the LinearCombination. The weight of
      *  the operation in the linear combination is part of the operator's state.
-     *  If the OperatorContainer is in a PIMPL-less state, this function will
+     *  If the LinearCombination is in a PIMPL-less state, this function will
      *  generate a PIMPL instance.
      *
-     *  @tparam OpType The type of the operator to add to the OperatorContainer.
+     *  @tparam OpType The type of the operator to add to the LinearCombination.
      *                 Must be derived from OperatorBase.
      *
-     *  @param[in] op The operator to add to this OperatorContainer.
+     *  @param[in] op The operator to add to this LinearCombination.
      *
-     *  @return A reference to the current OperatorContainer instance, after
+     *  @return A reference to the current LinearCombination instance, after
      *          @p op has been added.
      *
      *  @throw std::bad_alloc if there is insufficient memory either to create
@@ -74,21 +74,21 @@ public:
      *
      */
     template<typename OpType>
-    OperatorContainer& add_term(OpType&& op);
+    LinearCombination& add_term(OpType&& op);
 
-    /** @brief Add one or more operators to the OperatorContainer.
+    /** @brief Add one or more operators to the LinearCombination.
      *
      *  This function adds one or more operators to the current
-     *  OperatorContainer. If the OperatorContainer is in a PIMPL-less state,
+     *  LinearCombination. If the LinearCombination is in a PIMPL-less state,
      *  this function will generate a PIMPL instance.
      *
      *  @tparam Ops A parameter pack containing the types of the operators to
-     *              add to the OperatorContainer. All types in @p Ops must be
+     *              add to the LinearCombination. All types in @p Ops must be
      *              derived from OperatorBase.
      *
-     *  @param[in] ops The operators to add to this OperatorContainer.
+     *  @param[in] ops The operators to add to this LinearCombination.
      *
-     *  @return A reference to the current OperatorContainer instance after the
+     *  @return A reference to the current LinearCombination instance after the
      *          operators have been added to it.
      *
      *  @throw std::bad_alloc if there is insufficient memory either to create
@@ -96,21 +96,21 @@ public:
      *                        exception gurantee.
      */
     template<typename... Ops>
-    OperatorContainer& add_terms(Ops&&... ops);
+    LinearCombination& add_terms(Ops&&... ops);
 
     /** @brief Returns the collection of operator terms matching a specific
-     *         operator type contained in this OperatorContainer.
+     *         operator type contained in this LinearCombination.
      *
      *  Obtains the unique collection of operator terms contained in the
-     *  current OperatorContainer instance which match a specific type. If the
-     *  Operator is not represented in this OperatorContainer or if
-     *  the OperatorContainer is in a PIMPL-less state, an empty collection is
+     *  current LinearCombination instance which match a specific type. If the
+     *  Operator is not represented in this LinearCombination or if
+     *  the LinearCombination is in a PIMPL-less state, an empty collection is
      *  returned.
      *
-     *  @tparam OpType The type from which to query the OperatorContainer
+     *  @tparam OpType The type from which to query the LinearCombination
      *
      *  @returns A vector of shared_ptr<OpType> which contains all of the
-     *           operators in this OperatorContainer that match OpType.
+     *           operators in this LinearCombination that match OpType.
      *
      *  @throw std::bad_alloc if there is insufficient memroy to allocate
      *                        the return value
@@ -122,15 +122,15 @@ public:
     get_const_return_type<OpType> get_terms() const;
 
     /** @brief Return whether an Operator type is represented in this
-     *         OperatorContainer.
+     *         LinearCombination.
      *
      *  Return a boolean which indicates whether an instance of OpType is
-     *  contained in this OperatorContainer. If this OperatorContainer is
+     *  contained in this LinearCombination. If this LinearCombination is
      *  in a PIMPL-less state, `false` is returned.
      *
-     *  @tparam OpType The type we are looking for in this OperatorContainer
+     *  @tparam OpType The type we are looking for in this LinearCombination
      *
-     *  @returns `true` if `OpType` is represented in this OperatorContainer,
+     *  @returns `true` if `OpType` is represented in this LinearCombination,
      *           `false` otherwise.
      *
      *  @throw None No throw gurantee
@@ -141,34 +141,33 @@ public:
         return has_term_(typeid(OpType));
     }
 
-    /** @brief Non-polymorphic equality comparison of OperatorContainer
+    /** @brief Non-polymorphic equality comparison of LinearCombination
      *         instances
      *
-     *  Compare OperatorContainer instances without reference to their
-     *  polymorphic instantiations - OperatorContainer instances which
+     *  Compare LinearCombination instances without reference to their
+     *  polymorphic instantiations - LinearCombination instances which
      *  contain the same set of operators (with the same state) will
-     *  be considered equal. PIMPL-less instances will also be
-     conpluginplayred
+     *  be considered equal. PIMPL-less instances will also be considered
      *  equal.
      *
-     *  @param[in] other OperatorContainer instance we want to compare to
+     *  @param[in] other LinearCombination instance we want to compare to
      *  @return `true` if this instance has an identical operator collection
      *           to @p other, `false` otherwise.
      */
-    bool operator==(const OperatorContainer& other) const;
+    bool operator==(const LinearCombination& other) const;
 
     /** Negation of `operator==`
      *
-     *  @param[in] other OperatorContainer instance we want to compare to
+     *  @param[in] other LinearCombination instance we want to compare to
      *  @return `false` if this instance has an identical operator collection
      *           to @p other, `true` otherwise.
      */
-    bool operator!=(const OperatorContainer& other) const;
+    bool operator!=(const LinearCombination& other) const;
 
 protected:
-    /** @brief Creates a new OperatorContainer instance containing no operators.
+    /** @brief Creates a new LinearCombination instance containing no operators.
      *
-     *  This ctor can be used to create a new OperatorContainer instance which
+     *  This ctor can be used to create a new LinearCombination instance which
      *  contains no operators. Operators may be added by calling `add_term`
      *  or `add_terms`.
      *
@@ -176,69 +175,69 @@ protected:
      *
      *  Complexity: Constant
      */
-    OperatorContainer() noexcept;
+    LinearCombination() noexcept;
 
-    /** @brief Creates a new OperatorContainer instance by deep copying another
+    /** @brief Creates a new LinearCombination instance by deep copying another
      *         instance.
      *
-     *  This ctor can be used to create a new OperatorContainer instance which
+     *  This ctor can be used to create a new LinearCombination instance which
      *  contains a deep copy of @p other
      *
-     *  @param[in] other OperatorContainer instance to copy
+     *  @param[in] other LinearCombination instance to copy
      *
      *  @throw std::bad_alloc if there is insufficient memory to copy the
-     *                        OperatorContainer instance. Strong exception
+     *                        LinearCombination instance. Strong exception
      *                        gurantee.
      *
      *  Complexity: Linear in the number of operators which comprise @p other.
      */
-    OperatorContainer(const OperatorContainer& other);
+    LinearCombination(const LinearCombination& other);
 
-    /** @brief Creates a new OperatorContainer instance by taking ownership of
+    /** @brief Creates a new LinearCombination instance by taking ownership of
      *         another instance's state.
      *
-     *  This ctor will create a new OperatorContainer instance by taking
+     *  This ctor will create a new LinearCombination instance by taking
      *  ownership of @p other's state.
      *
      *  @param[in,out] other The instance whose state will be transferred to
      *                       the resulting instance. After the operation
      *                       @p other will not contain a PIMPL and will thus not
      *                       be usable until another PIMPL-containing
-     *                       OperatorContainer instance is assigned to it.
+     *                       LinearCombination instance is assigned to it.
      *
      *  @throw None No throw guarantee.
      *
      *  Complexity: Constant.
      */
-    OperatorContainer(OperatorContainer&& other) noexcept;
+    LinearCombination(LinearCombination&& other) noexcept;
 
-    /** @brief Deep copy the state of another OperatorContainer instance to the
+    /** @brief Deep copy the state of another LinearCombination instance to the
      *         current instance.
      *
      *  This function will deep copy the state of @p other to the current
      *  instance. The state previously held by this instance will be released.
      *
-     *  @param[in] other The OperatorContainer instance to deep copy.
+     *  @param[in] other The LinearCombination instance to deep copy.
      *
      *  @return A reference to the current instance which contains a deep copy
      *          of @p other.
      *
      *  @throw std::bad_alloc if there is insufficient memory to copy the
-     *                        OperatorContainer instance @p other. Strong
+     *                        LinearCombination instance @p other. Strong
      *                        exception gurantee.
      *
      *  Complexity: Linear in the number of operators which comprise @p other.
      */
-    OperatorContainer& operator=(const OperatorContainer& other);
+    LinearCombination& operator=(const LinearCombination& other);
 
-    /** @brief Transfer the ownership of the state of another OperatorContainer
+    /** @brief Transfer the ownership of the state of another LinearCombination
      *         instance to the current instance.
      *
      *  This function will transfer ownership of @p other's state to the
      *  current instance. The state previously held by this instance will
      *  be released.
      *
-     *  @param[in,out] other The OperatorContainer instance whose state is to be
+     *  @param[in,out] other The LinearCombination instance whose state is to be
      *                       taken. @p other will no longer contain a valid
      *                       PIMPL and will need to be reassigned prior to
      *                       future usage.
@@ -249,7 +248,7 @@ protected:
      *
      *  Complexity: Constant.
      */
-    OperatorContainer& operator=(OperatorContainer&& other) noexcept;
+    LinearCombination& operator=(LinearCombination&& other) noexcept;
 
     /// Derived implementation of polymorphic equality comparison
     bool is_equal_impl(const OperatorBase& other) const noexcept override;
@@ -258,8 +257,8 @@ protected:
     std::string as_string_impl() const override;
 
 private:
-    OperatorContainerPIMPL& pimpl_();
-    const OperatorContainerPIMPL& pimpl_() const;
+    LinearCombinationPIMPL& pimpl_();
+    const LinearCombinationPIMPL& pimpl_() const;
 
     /// Type erased private API for `add_term` which delegates to
     /// HamiltonanPIMPL::add_term
@@ -276,16 +275,16 @@ private:
     bool has_term_(rtti_type index) const noexcept;
 
     /// The instance actually implementing the API
-    std::unique_ptr<OperatorContainerPIMPL> m_pimpl_;
+    std::unique_ptr<LinearCombinationPIMPL> m_pimpl_;
 
-}; // class OperatorContainer
+}; // class LinearCombination
 
 // -----------------------------------------------------------------------------
 // ------------------------ Inline Implementations -----------------------------
 // -----------------------------------------------------------------------------
 
 template<typename OpType>
-OperatorContainer& OperatorContainer::add_term(OpType&& op) {
+LinearCombination& LinearCombination::add_term(OpType&& op) {
     using clean_t = std::decay_t<OpType>;
     static_assert(is_operator_v<clean_t>, "Argument must be an operator.");
     const auto& rtti = typeid(clean_t);
@@ -294,7 +293,7 @@ OperatorContainer& OperatorContainer::add_term(OpType&& op) {
 }
 
 template<typename... OpTypes>
-OperatorContainer& OperatorContainer::add_terms(OpTypes&&... ops) {
+LinearCombination& LinearCombination::add_terms(OpTypes&&... ops) {
     if constexpr(sizeof...(OpTypes) > 0) {
         (add_term(std::forward<OpTypes>(ops)), ...);
     }
@@ -302,8 +301,8 @@ OperatorContainer& OperatorContainer::add_terms(OpTypes&&... ops) {
 }
 
 template<typename OpType>
-typename OperatorContainer::get_const_return_type<OpType>
-OperatorContainer::get_terms() const {
+typename LinearCombination::get_const_return_type<OpType>
+LinearCombination::get_terms() const {
     static_assert(is_operator_v<OpType>, "OpType must be an operator.");
     auto type_erased_terms = get_terms_(typeid(OpType));
     get_const_return_type<OpType> ret_terms(type_erased_terms.size());
@@ -314,8 +313,8 @@ OperatorContainer::get_terms() const {
 }
 
 template<typename OpType>
-typename OperatorContainer::get_return_type<OpType>
-OperatorContainer::get_terms() {
+typename LinearCombination::get_return_type<OpType>
+LinearCombination::get_terms() {
     static_assert(is_operator_v<OpType>, "OpType must be an operator.");
     auto type_erased_terms = get_terms_(typeid(OpType));
     get_return_type<OpType> ret_terms(type_erased_terms.size());

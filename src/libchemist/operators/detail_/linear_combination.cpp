@@ -1,20 +1,20 @@
-#include "operator_container_pimpl.hpp"
+#include "linear_combination_pimpl.hpp"
 
 namespace libchemist::operators::detail_ {
 
-OperatorContainer::OperatorContainer() noexcept = default;
+LinearCombination::LinearCombination() noexcept = default;
 
-OperatorContainer::~OperatorContainer() noexcept = default;
+LinearCombination::~LinearCombination() noexcept = default;
 
-OperatorContainer::OperatorContainer(const OperatorContainer& other) {
+LinearCombination::LinearCombination(const LinearCombination& other) {
     *this = other;
 }
-OperatorContainer::OperatorContainer(OperatorContainer&& other) noexcept {
+LinearCombination::LinearCombination(LinearCombination&& other) noexcept {
     *this = std::move(other);
 }
 
-OperatorContainer& OperatorContainer::operator=(
-  const OperatorContainer& other) {
+LinearCombination& LinearCombination::operator=(
+  const LinearCombination& other) {
     if(other.m_pimpl_)
         this->m_pimpl_ = other.pimpl_().clone();
     else {
@@ -23,13 +23,13 @@ OperatorContainer& OperatorContainer::operator=(
     }
     return *this;
 }
-OperatorContainer& OperatorContainer::operator=(
-  OperatorContainer&& other) noexcept {
+LinearCombination& LinearCombination::operator=(
+  LinearCombination&& other) noexcept {
     this->m_pimpl_ = std::move(other.m_pimpl_);
     return *this;
 }
 
-bool OperatorContainer::operator==(const OperatorContainer& other) const {
+bool LinearCombination::operator==(const LinearCombination& other) const {
     const bool lhs_pimpl = static_cast<bool>(m_pimpl_);
     const bool rhs_pimpl = static_cast<bool>(other.m_pimpl_);
 
@@ -43,42 +43,42 @@ bool OperatorContainer::operator==(const OperatorContainer& other) const {
     return pimpl_() == other.pimpl_();
 }
 
-bool OperatorContainer::operator!=(const OperatorContainer& other) const {
+bool LinearCombination::operator!=(const LinearCombination& other) const {
     return !(*this == other);
 }
 
-OperatorContainer::size_type OperatorContainer::size() const noexcept {
+LinearCombination::size_type LinearCombination::size() const noexcept {
     return m_pimpl_ ? pimpl_().size() : 0;
 }
 
-bool OperatorContainer::is_equal_impl(
+bool LinearCombination::is_equal_impl(
   const OperatorBase& other) const noexcept {
-    auto pother = dynamic_cast<const OperatorContainer*>(&other);
+    auto pother = dynamic_cast<const LinearCombination*>(&other);
     return pother ? (*this) == (*pother) : false;
 }
 
-void OperatorContainer::hash_impl(pluginplay::Hasher& h) const {
+void LinearCombination::hash_impl(pluginplay::Hasher& h) const {
     if(m_pimpl_) return h(pimpl_());
 }
 
-std::string OperatorContainer::as_string_impl() const { return "O\u0302"; }
+std::string LinearCombination::as_string_impl() const { return "O\u0302"; }
 
-OperatorContainerPIMPL& OperatorContainer::pimpl_() {
-    if(!m_pimpl_) m_pimpl_ = std::make_unique<OperatorContainerPIMPL>();
+LinearCombinationPIMPL& LinearCombination::pimpl_() {
+    if(!m_pimpl_) m_pimpl_ = std::make_unique<LinearCombinationPIMPL>();
     return *m_pimpl_;
 }
 
-const OperatorContainerPIMPL& OperatorContainer::pimpl_() const {
-    if(!m_pimpl_) throw std::runtime_error("OperatorContainer has no PIMPL!!!");
+const LinearCombinationPIMPL& LinearCombination::pimpl_() const {
+    if(!m_pimpl_) throw std::runtime_error("LinearCombination has no PIMPL!!!");
     return *m_pimpl_;
 }
 
-void OperatorContainer::add_term_(rtti_type index,
+void LinearCombination::add_term_(rtti_type index,
                                   operator_pointer<OperatorBase> op) {
     pimpl_().add_term(index, std::move(op));
 }
 
-OperatorContainer::const_type_erased_vector OperatorContainer::get_terms_(
+LinearCombination::const_type_erased_vector LinearCombination::get_terms_(
   rtti_type index) const {
     if(m_pimpl_)
         return pimpl_().get_terms(index);
@@ -86,7 +86,7 @@ OperatorContainer::const_type_erased_vector OperatorContainer::get_terms_(
         return const_type_erased_vector();
 }
 
-OperatorContainer::type_erased_vector OperatorContainer::get_terms_(
+LinearCombination::type_erased_vector LinearCombination::get_terms_(
   rtti_type index) {
     if(m_pimpl_)
         return pimpl_().get_terms(index);
@@ -94,7 +94,7 @@ OperatorContainer::type_erased_vector OperatorContainer::get_terms_(
         return type_erased_vector();
 }
 
-bool OperatorContainer::has_term_(rtti_type index) const noexcept {
+bool LinearCombination::has_term_(rtti_type index) const noexcept {
     if(m_pimpl_) return pimpl_().has_term(index);
     return false;
 }

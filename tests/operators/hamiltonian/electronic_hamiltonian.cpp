@@ -1,5 +1,5 @@
-#include "libchemist/operators/hamiltonian/electronic_hamiltonian.hpp"
 #include "../test_operator.hpp"
+#include "libchemist/operators/hamiltonian/electronic_hamiltonian.hpp"
 
 using namespace libchemist;
 using namespace libchemist::operators;
@@ -15,42 +15,42 @@ TEST_CASE("Electronic Hamiltonian") {
     auto G   = NElectronRepulsion{nelec};
     auto V_n = NuclearRepulsion{nuclei};
 
-    ElectronicHamiltonian corr;
-    corr.add_terms(T, V, G);
+    ElectronicHamiltonian non_default{T, V, G};
 
     Hamiltonian ham_input{T, V, G, V_n};
     ElectronicHamiltonian from_ham{ham_input};
 
     SECTION("Ctors") {
-        SECTION("Default") {
-            REQUIRE(defaulted == ElectronicHamiltonian{});
+        SECTION("Default") { REQUIRE(defaulted == ElectronicHamiltonian{}); }
+        SECTION("With Values") {
+            REQUIRE(non_default == ElectronicHamiltonian{T, V, G});
         }
         SECTION("From Hamiltonian") {
             REQUIRE(from_ham.has_term<NElectronKinetic>());
             REQUIRE(from_ham.has_term<NElectronNuclearAttraction>());
             REQUIRE(from_ham.has_term<NElectronRepulsion>());
             REQUIRE_FALSE(from_ham.has_term<NuclearRepulsion>());
-            REQUIRE(from_ham == corr);
+            REQUIRE(from_ham == non_default);
         }
         SECTION("Copy") {
             ElectronicHamiltonian other(from_ham);
-            REQUIRE(other == corr);
+            REQUIRE(other == non_default);
         }
         SECTION("Move") {
             ElectronicHamiltonian other(std::move(from_ham));
-            REQUIRE(other == corr);
+            REQUIRE(other == non_default);
         }
         SECTION("Copy assignment") {
             ElectronicHamiltonian copy;
             auto pcopy = &(copy = from_ham);
             REQUIRE(pcopy == &copy);
-            REQUIRE(copy == corr);
+            REQUIRE(copy == non_default);
         }
         SECTION("Move assignment") {
             ElectronicHamiltonian copy;
             auto pcopy = &(copy = std::move(from_ham));
             REQUIRE(pcopy == &copy);
-            REQUIRE(copy == corr);
+            REQUIRE(copy == non_default);
         }
     }
 
@@ -85,4 +85,9 @@ TEST_CASE("Electronic Hamiltonian") {
     }
 
     SECTION("as_string") { REQUIRE(defaulted.as_string() == "Ô"); }
+
+    SECTION("size") {
+        REQUIRE(defaulted.size() == 0);
+        REQUIRE(non_default.size() == 3);
+    }
 }

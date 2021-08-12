@@ -21,7 +21,5 @@ TEMPLATE_LIST_TEST_CASE("OperatorBase", "", testing::all_operators) {
         REQUIRE_FALSE(derived_type{} != defaulted);
     }
 
-    SECTION("coefficient") {
-        REQUIRE(defaulted.coefficient() == 1.0);
-    }
+    SECTION("coefficient") { REQUIRE(defaulted.coefficient() == 1.0); }
 }

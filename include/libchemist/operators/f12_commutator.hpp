@@ -1,6 +1,6 @@
 #pragma once
+#include "libchemist/electrons/electrons.hpp"
 #include "libchemist/operators/detail_/operator_impl.hpp"
-#include "libchemist/operators/electron.hpp"
 #include "libchemist/operators/slater_type_geminal.hpp"
 
 namespace libchemist::operators {
@@ -30,6 +30,7 @@ public:
 };
 
 /// Type of a Slater Type Geminal Commutator
-using ElectronElectronF12Commutator = F12Commutator<STG, Electron, Electron>;
+using ElectronElectronF12Commutator =
+  F12Commutator<STG, libchemist::Electron, libchemist::Electron>;
 
 } // namespace libchemist::operators

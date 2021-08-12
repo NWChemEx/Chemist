@@ -1,14 +1,14 @@
 #pragma once
-#include "libchemist/operators/detail_/operator_container.hpp"
+#include "libchemist/operators/detail_/linear_combination.hpp"
 namespace libchemist::operators {
 
 /** @brief A class to store and manipulate molecular Hamiltonians.
  *
  *  The
  */
-class Hamiltonian : public detail_::OperatorContainer {
+class Hamiltonian : public detail_::LinearCombination {
 private:
-    using base_type = detail_::OperatorContainer;
+    using base_type = detail_::LinearCombination;
 
     template<typename T>
     static constexpr bool is_me_v = std::is_same_v<Hamiltonian, T>;
