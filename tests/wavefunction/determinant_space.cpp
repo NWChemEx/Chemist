@@ -1,4 +1,4 @@
-#include "libchemist/operator/kinetic.hpp"
+#include "libchemist/operators/kinetic.hpp"
 #include "libchemist/wavefunction/determinant_space.hpp"
 #include "test_wavefunction.hpp"
 
@@ -31,7 +31,7 @@ TEMPLATE_LIST_TEST_CASE("DeterminantSpace", "", tuple_type) {
     // Makes a non-default DeterminantSpace
     auto occ  = testing::make_space<occ_space_t>(1.0);
     auto virt = testing::make_space<virt_space_t>(2.0);
-    fock_op_t fock(libchemist::ElectronKinetic{});
+    fock_op_t fock(libchemist::operators::ElectronKinetic{});
     space_t nondefault(occ, virt, fock);
 
     SECTION("CTors") {
