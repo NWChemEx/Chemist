@@ -43,6 +43,11 @@ public:
     template<typename OpType, typename... Args,
              typename = disable_if_hamiltonian_t<std::decay_t<OpType>>>
     explicit CoreHamiltonian(OpType&& op0, Args&&... args);
+
+protected:
+    std::unique_ptr<OperatorBase> clone_impl() const override {
+        return std::make_unique<CoreHamiltonian>(*this);
+    }
 };
 
 // -----------------------------------------------------------------------------
