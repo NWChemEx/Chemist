@@ -26,9 +26,9 @@ TEST_CASE("BaseSpace") {
     using center_type = typename basis_type::value_type;
 
     SECTION("size_type") {
-        using type = typename BaseSpace::size_type;
+        using size_type = typename BaseSpace::size_type;
         using corr = type::size;
-        STATIC_REQUIRE(std::is_same_v<type, corr>);
+        STATIC_REQUIRE(std::is_same_v<size_type, corr>);
     }
 
     // Make a non-empty basis to distinguish the two instances at the AOSpace
