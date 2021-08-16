@@ -210,134 +210,137 @@ TEMPLATE_LIST_TEST_CASE("slice", "", scalar_types) {
 
     SECTION("Lower index is on boundary") {
         SECTION("one tile vector") {
+	    using vector_il = TA::detail::vector_il<int>;
             const auto& t = vs.at("one tile vector");
             SECTION("[0, 1)") {
                 auto r = slice(t, idx_type{0}, idx_type{1});
-                tensor_type corr(world, {1});
+                tensor_type corr(world, vector_il{1});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[0, 2)") {
                 auto r = slice(t, idx_type{0}, idx_type{2});
-                tensor_type corr(world, {1, 2});
+                tensor_type corr(world, vector_il{1, 2});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[0, 3)") {
                 auto r = slice(t, idx_type{0}, idx_type{3});
-                tensor_type corr(world, {1, 2, 3});
+                tensor_type corr(world, vector_il{1, 2, 3});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[0, 4)") {
                 auto r = slice(t, idx_type{0}, idx_type{4});
-                tensor_type corr(world, {1, 2, 3, 4});
+                tensor_type corr(world, vector_il{1, 2, 3, 4});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[0, 5)") {
                 auto r = slice(t, idx_type{0}, idx_type{5});
-                tensor_type corr(world, {1, 2, 3, 4, 5});
+                tensor_type corr(world, vector_il{1, 2, 3, 4, 5});
                 REQUIRE(allclose(r, corr));
             }
         }
 
         SECTION("one tile matrix") {
+	    using vector_il = TA::detail::vector_il<int>;
+	    using matrix_il = TA::detail::matrix_il<int>;
             const auto& t = ms.at("one tile matrix");
             SECTION("[(0,0), (1,1))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{1, 1});
-                tensor_type corr(world, {{1}});
+                tensor_type corr(world, matrix_il{vector_il{1}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,0), (1,2))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{1, 2});
-                tensor_type corr(world, {{1, 2}});
+                tensor_type corr(world, matrix_il{vector_il{1, 2}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,0), (1,3))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{1, 3});
-                tensor_type corr(world, {{1, 2, 3}});
+                tensor_type corr(world, matrix_il{vector_il{1, 2, 3}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,0), (1,4))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{1, 4});
-                tensor_type corr(world, {{1, 2, 3, 4}});
+                tensor_type corr(world, matrix_il{vector_il{1, 2, 3, 4}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,0), (1,5))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{1, 5});
-                tensor_type corr(world, {{1, 2, 3, 4, 5}});
+                tensor_type corr(world, matrix_il{vector_il{1, 2, 3, 4, 5}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,0), (1,6))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{1, 6});
-                tensor_type corr(world, {{1, 2, 3, 4, 5, 6}});
+                tensor_type corr(world, matrix_il{vector_il{1, 2, 3, 4, 5, 6}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,0), (2,1))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{2, 1});
-                tensor_type corr(world, {{1}, {7}});
+                tensor_type corr(world, matrix_il{vector_il{1}, vector_il{7}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,0), (2,2))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{2, 2});
-                tensor_type corr(world, {{1, 2}, {7, 8}});
+                tensor_type corr(world, matrix_il{vector_il{1, 2}, vector_il{7, 8}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,0), (2,3))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{2, 3});
-                tensor_type corr(world, {{1, 2, 3}, {7, 8, 9}});
+                tensor_type corr(world, matrix_il{vector_il{1, 2, 3}, vector_il{7, 8, 9}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,0), (2,4))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{2, 4});
-                tensor_type corr(world, {{1, 2, 3, 4}, {7, 8, 9, 10}});
+                tensor_type corr(world, matrix_il{vector_il{1, 2, 3, 4}, vector_il{7, 8, 9, 10}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,0), (2,5))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{2, 5});
-                tensor_type corr(world, {{1, 2, 3, 4, 5}, {7, 8, 9, 10, 11}});
+                tensor_type corr(world, matrix_il{vector_il{1, 2, 3, 4, 5}, vector_il{7, 8, 9, 10, 11}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,0), (2,6))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{2, 6});
-                tensor_type corr(world, {{1, 2, 3, 4, 5, 6}, {7, 8, 9, 10, 11, 12}});
+                tensor_type corr(world, matrix_il{vector_il{1, 2, 3, 4, 5, 6}, vector_il{7, 8, 9, 10, 11, 12}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,0), (3,1))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{3, 1});
-                tensor_type corr(world, {{1}, {7}, {13}});
+                tensor_type corr(world, matrix_il{vector_il{1}, vector_il{7}, vector_il{13}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,0), (3,2))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{3, 2});
-                tensor_type corr(world, {{1, 2}, {7, 8}, {13, 14}});
+                tensor_type corr(world, matrix_il{vector_il{1, 2}, vector_il{7, 8}, vector_il{13, 14}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,0), (3,3))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{3, 3});
-                tensor_type corr(world, {{1, 2, 3}, {7, 8, 9}, {13, 14, 15}});
+                tensor_type corr(world, matrix_il{vector_il{1, 2, 3}, vector_il{7, 8, 9}, vector_il{13, 14, 15}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,0), (3,4))") {
                 auto r = slice(t, idx_type{0, 0}, idx_type{3, 4});
                 tensor_type corr(
-                  world, {{1, 2, 3, 4}, {7, 8, 9, 10}, {13, 14, 15, 16}});
+                  world, matrix_il{vector_il{1, 2, 3, 4}, vector_il{7, 8, 9, 10}, vector_il{13, 14, 15, 16}});
                 REQUIRE(allclose(r, corr));
             }
 
@@ -345,7 +348,7 @@ TEMPLATE_LIST_TEST_CASE("slice", "", scalar_types) {
                 auto r = slice(t, idx_type{0, 0}, idx_type{3, 5});
                 tensor_type corr(
                   world,
-                  {{1, 2, 3, 4, 5}, {7, 8, 9, 10, 11}, {13, 14, 15, 16, 17}});
+                  matrix_il{vector_il{1, 2, 3, 4, 5}, vector_il{7, 8, 9, 10, 11}, vector_il{13, 14, 15, 16, 17}});
                 REQUIRE(allclose(r, corr));
             }
 
@@ -353,7 +356,7 @@ TEMPLATE_LIST_TEST_CASE("slice", "", scalar_types) {
                 auto r = slice(t, idx_type{0, 0}, idx_type{3, 6});
                 tensor_type corr(
                   world,
-                  {{1, 2, 3, 4, 5, 6}, {7, 8, 9, 10, 11, 12}, {13, 14, 15, 16, 17, 18}});
+                  matrix_il{vector_il{1, 2, 3, 4, 5, 6}, vector_il{7, 8, 9, 10, 11, 12}, vector_il{13, 14, 15, 16, 17, 18}});
                 REQUIRE(allclose(r, corr));
             }
 
@@ -361,7 +364,7 @@ TEMPLATE_LIST_TEST_CASE("slice", "", scalar_types) {
                 auto r = slice(t, idx_type{0, 0}, idx_type{4, 1});
                 tensor_type corr(
                   world,
-                  {{1}, {7}, {13}, {19}});
+                  matrix_il{vector_il{1}, vector_il{7}, vector_il{13}, vector_il{19}});
                 REQUIRE(allclose(r, corr));
             }
 
@@ -369,7 +372,7 @@ TEMPLATE_LIST_TEST_CASE("slice", "", scalar_types) {
                 auto r = slice(t, idx_type{0, 0}, idx_type{4, 2});
                 tensor_type corr(
                   world,
-                  {{1, 2}, {7, 8}, {13, 14}, {19, 20}});
+                  matrix_il{vector_il{1, 2}, vector_il{7, 8}, vector_il{13, 14}, vector_il{19, 20}});
                 REQUIRE(allclose(r, corr));
             }
 
@@ -377,7 +380,7 @@ TEMPLATE_LIST_TEST_CASE("slice", "", scalar_types) {
                 auto r = slice(t, idx_type{0, 0}, idx_type{4, 3});
                 tensor_type corr(
                   world,
-                  {{1, 2, 3}, {7, 8, 9}, {13, 14, 15}, {19, 20, 21}});
+                  matrix_il{vector_il{1, 2, 3}, vector_il{7, 8, 9}, vector_il{13, 14, 15}, vector_il{19, 20, 21}});
                 REQUIRE(allclose(r, corr));
             }
 
@@ -385,7 +388,7 @@ TEMPLATE_LIST_TEST_CASE("slice", "", scalar_types) {
                 auto r = slice(t, idx_type{0, 0}, idx_type{4, 4});
                 tensor_type corr(
                   world,
-                  {{1, 2, 3, 4}, {7, 8 , 9, 10}, {13, 14, 15, 16}, {19, 20, 21, 22}});
+                  matrix_il{vector_il{1, 2, 3, 4}, vector_il{7, 8 , 9, 10}, vector_il{13, 14, 15, 16}, vector_il{19, 20, 21, 22}});
                 REQUIRE(allclose(r, corr));
             }
 
@@ -393,347 +396,353 @@ TEMPLATE_LIST_TEST_CASE("slice", "", scalar_types) {
                 auto r = slice(t, idx_type{0, 0}, idx_type{4, 5});
                 tensor_type corr(
                   world,
-                  {{1, 2, 3, 4, 5}, {7, 8 , 9, 10, 11}, {13, 14, 15, 16, 17}, {19, 20, 21, 22, 23}});
+                  matrix_il{vector_il{1, 2, 3, 4, 5}, vector_il{7, 8 , 9, 10, 11}, vector_il{13, 14, 15, 16, 17}, vector_il{19, 20, 21, 22, 23}});
                 REQUIRE(allclose(r, corr));
             }
         }
     }
 
     SECTION("Upper index is on boundary") {
+	using vector_il = TA::detail::vector_il<int>;
         SECTION("one tile vector") {
             const auto& t = vs.at("one tile vector");
             SECTION("[1, 6)") {
                 auto r = slice(t, idx_type{1}, idx_type{6});
-                tensor_type corr(world, {2, 3, 4, 5, 6});
+                tensor_type corr(world, vector_il{2, 3, 4, 5, 6});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[3, 6)") {
                 auto r = slice(t, idx_type{3}, idx_type{6});
-                tensor_type corr(world, {4, 5, 6});
+                tensor_type corr(world, vector_il{4, 5, 6});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[5, 6)") {
                 auto r = slice(t, idx_type{5}, idx_type{6});
-                tensor_type corr(world, {6});
+                tensor_type corr(world, vector_il{6});
                 REQUIRE(allclose(r, corr));
             }
         }
 
         SECTION("one tile matrix") {
+	    using vector_il = TA::detail::vector_il<int>;
+	    using matrix_il = TA::detail::matrix_il<int>;
             const auto& t = ms.at("one tile matrix");
             SECTION("[(0,1), (4,6))") {
                 auto r = slice(t, idx_type{0, 1}, idx_type{4, 6});
-                tensor_type corr(world, {{2, 3, 4, 5, 6}, {8, 9, 10, 11, 12}, {14, 15, 16, 17, 18}, {20, 21, 22, 23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{2, 3, 4, 5, 6}, vector_il{8, 9, 10, 11, 12}, vector_il{14, 15, 16, 17, 18}, vector_il{20, 21, 22, 23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,2), (4,6))") {
                 auto r = slice(t, idx_type{0, 2}, idx_type{4, 6});
-                tensor_type corr(world, {{3, 4, 5, 6}, {9, 10, 11, 12}, {15, 16, 17, 18}, {21, 22, 23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{3, 4, 5, 6}, vector_il{9, 10, 11, 12}, vector_il{15, 16, 17, 18}, vector_il{21, 22, 23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,3), (4,6))") {
                 auto r = slice(t, idx_type{0, 3}, idx_type{4, 6});
-                tensor_type corr(world, {{4, 5, 6}, {10, 11, 12}, {16, 17, 18}, {22, 23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{4, 5, 6}, vector_il{10, 11, 12}, vector_il{16, 17, 18}, vector_il{22, 23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,4), (4,6))") {
                 auto r = slice(t, idx_type{0, 4}, idx_type{4, 6});
-                tensor_type corr(world, {{5, 6}, {11, 12}, {17, 18}, {23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{5, 6}, vector_il{11, 12}, vector_il{17, 18}, vector_il{23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,5), (4,6))") {
                 auto r = slice(t, idx_type{0, 5}, idx_type{4, 6});
-                tensor_type corr(world, {{6}, {12}, {18}, {24}});
+                tensor_type corr(world, matrix_il{vector_il{6}, vector_il{12}, vector_il{18}, vector_il{24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(1,1), (4,6))") {
                 auto r = slice(t, idx_type{1, 1}, idx_type{4, 6});
-                tensor_type corr(world, {{8, 9, 10, 11, 12}, {14, 15, 16, 17, 18}, {20, 21, 22, 23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{8, 9, 10, 11, 12}, vector_il{14, 15, 16, 17, 18}, vector_il{20, 21, 22, 23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(1,2), (4,6))") {
                 auto r = slice(t, idx_type{1, 2}, idx_type{4, 6});
-                tensor_type corr(world, {{9, 10, 11, 12}, {15, 16, 17, 18}, {21, 22, 23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{9, 10, 11, 12}, vector_il{15, 16, 17, 18}, vector_il{21, 22, 23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(1,3), (4,6))") {
                 auto r = slice(t, idx_type{1, 3}, idx_type{4, 6});
-                tensor_type corr(world, {{10, 11, 12}, {16, 17, 18}, {22, 23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{10, 11, 12}, vector_il{16, 17, 18}, vector_il{22, 23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(1,4), (4,6))") {
                 auto r = slice(t, idx_type{1, 4}, idx_type{4, 6});
-                tensor_type corr(world, {{11, 12}, {17, 18}, {23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{11, 12}, vector_il{17, 18}, vector_il{23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(1,5), (4,6))") {
                 auto r = slice(t, idx_type{1, 5}, idx_type{4, 6});
-                tensor_type corr(world, {{12}, {18}, {24}});
+                tensor_type corr(world, matrix_il{vector_il{12}, vector_il{18}, vector_il{24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(2,1), (4,6))") {
                 auto r = slice(t, idx_type{2, 1}, idx_type{4, 6});
-                tensor_type corr(world, {{14, 15, 16, 17, 18}, {20, 21, 22, 23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{14, 15, 16, 17, 18}, vector_il{20, 21, 22, 23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(2,2), (4,6))") {
                 auto r = slice(t, idx_type{2, 2}, idx_type{4, 6});
-                tensor_type corr(world, {{15, 16, 17, 18}, {21, 22, 23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{15, 16, 17, 18}, vector_il{21, 22, 23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(2,3), (4,6))") {
                 auto r = slice(t, idx_type{2, 3}, idx_type{4, 6});
-                tensor_type corr(world, {{16, 17, 18}, {22, 23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{16, 17, 18}, vector_il{22, 23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(2,4), (4,6))") {
                 auto r = slice(t, idx_type{2, 4}, idx_type{4, 6});
-                tensor_type corr(world, {{17, 18}, {23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{17, 18}, vector_il{23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(2,5), (4,6))") {
                 auto r = slice(t, idx_type{2, 5}, idx_type{4, 6});
-                tensor_type corr(world, {{18}, {24}});
+                tensor_type corr(world, matrix_il{vector_il{18}, vector_il{24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(3,1), (4,6))") {
                 auto r = slice(t, idx_type{3, 1}, idx_type{4, 6});
-                tensor_type corr(world, {{20, 21, 22, 23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{20, 21, 22, 23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(3,2), (4,6))") {
                 auto r = slice(t, idx_type{3, 2}, idx_type{4, 6});
-                tensor_type corr(world, {{21, 22, 23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{21, 22, 23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(3,3), (4,6))") {
                 auto r = slice(t, idx_type{3, 3}, idx_type{4, 6});
-                tensor_type corr(world, {{22, 23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{22, 23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(3,4), (4,6))") {
                 auto r = slice(t, idx_type{3, 4}, idx_type{4, 6});
-                tensor_type corr(world, {{23, 24}});
+                tensor_type corr(world, matrix_il{vector_il{23, 24}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(3,5), (4,6))") {
                 auto r = slice(t, idx_type{3, 5}, idx_type{4, 6});
-                tensor_type corr(world, {{24}});
+                tensor_type corr(world, matrix_il{vector_il{24}});
                 REQUIRE(allclose(r, corr));
             }
         }
     }
 
     SECTION("Neither index is on boundary") {
+	using vector_il = TA::detail::vector_il<int>;
         SECTION("one tile vector") {
             const auto& t = vs.at("one tile vector");
             SECTION("[1, 3)") {
                 auto r = slice(t, idx_type{1}, idx_type{3});
-                tensor_type corr(world, {2, 3});
+                tensor_type corr(world, vector_il{2, 3});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[1, 5)") {
                 auto r = slice(t, idx_type{1}, idx_type{5});
-                tensor_type corr(world, {2, 3, 4, 5});
+                tensor_type corr(world, vector_il{2, 3, 4, 5});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[3, 5)") {
                 auto r = slice(t, idx_type{3}, idx_type{5});
-                tensor_type corr(world, {4, 5});
+                tensor_type corr(world, vector_il{4, 5});
                 REQUIRE(allclose(r, corr));
             }
         }
 
         SECTION("one tile matrix") {
+            using vector_il = TA::detail::vector_il<int>;
+	    using matrix_il = TA::detail::matrix_il<int>;
             const auto& t = ms.at("one tile matrix");
             SECTION("[(0,1), (4,5))") {
                 auto r = slice(t, idx_type{0, 1}, idx_type{4, 5});
-                tensor_type corr(world, {{2, 3, 4, 5}, {8, 9, 10, 11}, {14, 15, 16, 17}, {20, 21, 22, 23}});
+                tensor_type corr(world, matrix_il{vector_il{2, 3, 4, 5}, vector_il{8, 9, 10, 11}, vector_il{14, 15, 16, 17}, vector_il{20, 21, 22, 23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,2), (4,5))") {
                 auto r = slice(t, idx_type{0, 2}, idx_type{4, 5});
-                tensor_type corr(world, {{3, 4, 5}, {9, 10, 11}, {15, 16, 17}, {21, 22, 23}});
+                tensor_type corr(world, matrix_il{vector_il{3, 4, 5}, vector_il{9, 10, 11}, vector_il{15, 16, 17}, vector_il{21, 22, 23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,3), (4,5))") {
                 auto r = slice(t, idx_type{0, 3}, idx_type{4, 5});
-                tensor_type corr(world, {{4, 5}, {10, 11}, {16, 17}, {22, 23}});
+                tensor_type corr(world, matrix_il{vector_il{4, 5}, vector_il{10, 11}, vector_il{16, 17}, vector_il{22, 23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,4), (4,5))") {
                 auto r = slice(t, idx_type{0, 4}, idx_type{4, 5});
-                tensor_type corr(world, {{5}, {11}, {17}, {23}});
+                tensor_type corr(world, matrix_il{vector_il{5}, vector_il{11}, vector_il{17}, vector_il{23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(1,1), (4,5))") {
                 auto r = slice(t, idx_type{1, 1}, idx_type{4, 5});
-                tensor_type corr(world, {{8, 9, 10, 11}, {14, 15, 16, 17}, {20, 21, 22, 23}});
+                tensor_type corr(world, matrix_il{vector_il{8, 9, 10, 11}, vector_il{14, 15, 16, 17}, vector_il{20, 21, 22, 23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(1,2), (4,5))") {
                 auto r = slice(t, idx_type{1, 2}, idx_type{4, 5});
-                tensor_type corr(world, {{9, 10, 11}, {15, 16, 17}, {21, 22, 23}});
+                tensor_type corr(world, matrix_il{vector_il{9, 10, 11}, vector_il{15, 16, 17}, vector_il{21, 22, 23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(1,3), (4,5))") {
                 auto r = slice(t, idx_type{1, 3}, idx_type{4, 5});
-                tensor_type corr(world, {{10, 11}, {16, 17}, {22, 23}});
+                tensor_type corr(world, matrix_il{vector_il{10, 11}, vector_il{16, 17}, vector_il{22, 23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(1,4), (4,5))") {
                 auto r = slice(t, idx_type{1, 4}, idx_type{4, 5});
-                tensor_type corr(world, {{11}, {17}, {23}});
+                tensor_type corr(world, matrix_il{vector_il{11}, vector_il{17}, vector_il{23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(2,1), (4,5))") {
                 auto r = slice(t, idx_type{2, 1}, idx_type{4, 5});
-                tensor_type corr(world, {{14, 15, 16, 17}, {20, 21, 22, 23}});
+                tensor_type corr(world, matrix_il{vector_il{14, 15, 16, 17}, vector_il{20, 21, 22, 23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(2,2), (4,5))") {
                 auto r = slice(t, idx_type{2, 2}, idx_type{4, 5});
-                tensor_type corr(world, {{15, 16, 17}, {21, 22, 23}});
+                tensor_type corr(world, matrix_il{vector_il{15, 16, 17}, vector_il{21, 22, 23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(2,3), (4,5))") {
                 auto r = slice(t, idx_type{2, 3}, idx_type{4, 5});
-                tensor_type corr(world, {{16, 17}, {22, 23}});
+                tensor_type corr(world, matrix_il{vector_il{16, 17}, vector_il{22, 23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(2,4), (4,5))") {
                 auto r = slice(t, idx_type{2, 4}, idx_type{4, 5});
-                tensor_type corr(world, {{17}, {23}});
+                tensor_type corr(world, matrix_il{vector_il{17}, vector_il{23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(3,1), (4,5))") {
                 auto r = slice(t, idx_type{3, 1}, idx_type{4, 5});
-                tensor_type corr(world, {{20, 21, 22, 23}});
+                tensor_type corr(world, matrix_il{vector_il{20, 21, 22, 23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(3,2), (4,5))") {
                 auto r = slice(t, idx_type{3, 2}, idx_type{4, 5});
-                tensor_type corr(world, {{21, 22, 23}});
+                tensor_type corr(world, matrix_il{vector_il{21, 22, 23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(3,3), (4,5))") {
                 auto r = slice(t, idx_type{3, 3}, idx_type{4, 5});
-                tensor_type corr(world, {{22, 23}});
+                tensor_type corr(world, matrix_il{vector_il{22, 23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(3,4), (4,5))") {
                 auto r = slice(t, idx_type{3, 4}, idx_type{4, 5});
-                tensor_type corr(world, {{23}});
+                tensor_type corr(world, matrix_il{vector_il{23}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,1), (4,4))") {
                 auto r = slice(t, idx_type{0, 1}, idx_type{4, 4});
-                tensor_type corr(world, {{2, 3, 4}, {8, 9, 10}, {14, 15, 16}, {20, 21, 22}});
+                tensor_type corr(world, matrix_il{vector_il{2, 3, 4}, vector_il{8, 9, 10}, vector_il{14, 15, 16}, vector_il{20, 21, 22}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,2), (4,4))") {
                 auto r = slice(t, idx_type{0, 2}, idx_type{4, 4});
-                tensor_type corr(world, {{3, 4}, {9, 10}, {15, 16}, {21, 22}});
+                tensor_type corr(world, matrix_il{vector_il{3, 4}, vector_il{9, 10}, vector_il{15, 16}, vector_il{21, 22}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(0,3), (4,4))") {
                 auto r = slice(t, idx_type{0, 3}, idx_type{4, 4});
-                tensor_type corr(world, {{4}, {10}, {16}, {22}});
+                tensor_type corr(world, matrix_il{vector_il{4}, vector_il{10}, vector_il{16}, vector_il{22}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(1,1), (4,4))") {
                 auto r = slice(t, idx_type{1, 1}, idx_type{4, 4});
-                tensor_type corr(world, {{8, 9, 10}, {14, 15, 16}, {20, 21, 22}});
+                tensor_type corr(world, matrix_il{vector_il{8, 9, 10}, vector_il{14, 15, 16}, vector_il{20, 21, 22}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(1,2), (4,4))") {
                 auto r = slice(t, idx_type{1, 2}, idx_type{4, 4});
-                tensor_type corr(world, {{9, 10}, {15, 16}, {21, 22}});
+                tensor_type corr(world, matrix_il{vector_il{9, 10}, vector_il{15, 16}, vector_il{21, 22}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(1,3), (4,4))") {
                 auto r = slice(t, idx_type{1, 3}, idx_type{4, 4});
-                tensor_type corr(world, {{10}, {16}, {22}});
+                tensor_type corr(world, matrix_il{vector_il{10}, vector_il{16}, vector_il{22}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(2,1), (4,4))") {
                 auto r = slice(t, idx_type{2, 1}, idx_type{4, 4});
-                tensor_type corr(world, {{14, 15, 16}, {20, 21, 22}});
+                tensor_type corr(world, matrix_il{vector_il{14, 15, 16}, vector_il{20, 21, 22}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(2,2), (4,4))") {
                 auto r = slice(t, idx_type{2, 2}, idx_type{4, 4});
-                tensor_type corr(world, {{15, 16}, {21, 22}});
+                tensor_type corr(world, matrix_il{vector_il{15, 16}, vector_il{21, 22}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(2,3), (4,4))") {
                 auto r = slice(t, idx_type{2, 3}, idx_type{4, 4});
-                tensor_type corr(world, {{16}, {22}});
+                tensor_type corr(world, matrix_il{vector_il{16}, vector_il{22}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(3,1), (4,4))") {
                 auto r = slice(t, idx_type{3, 1}, idx_type{4, 4});
-                tensor_type corr(world, {{20, 21, 22}});
+                tensor_type corr(world, matrix_il{vector_il{20, 21, 22}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(3,2), (4,4))") {
                 auto r = slice(t, idx_type{3, 2}, idx_type{4, 4});
-                tensor_type corr(world, {{21, 22}});
+                tensor_type corr(world, matrix_il{vector_il{21, 22}});
                 REQUIRE(allclose(r, corr));
             }
 
             SECTION("[(3,3), (4,4))") {
                 auto r = slice(t, idx_type{3, 3}, idx_type{4, 4});
-                tensor_type corr(world, {{22}});
+                tensor_type corr(world, matrix_il{vector_il{22}});
                 REQUIRE(allclose(r, corr));
             }
 
