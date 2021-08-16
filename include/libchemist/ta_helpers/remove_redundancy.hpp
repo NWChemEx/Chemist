@@ -13,7 +13,7 @@ auto remove_redundancy(const T& C, const T& S, double thresh = 1.0E-8) {
     for(auto& x : evals) x = x >= thresh ? 1.0 / std::sqrt(x) : 0.0;
     using tensor_type = std::decay_t<decltype(evecs)>;
 
-    auto l = [=](auto& tile, const auto& range) {
+    auto l = [evals = evals](auto& tile, const auto& range) {
         tile = std::decay_t<decltype(tile)>(range);
         for(auto i : range) tile(i) = evals[i[0]];
         return tile.norm();

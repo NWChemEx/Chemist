@@ -493,7 +493,7 @@ TEST_CASE("DepDerivedSpace") {
 
     // build a non-default sparse map
     index_type i00{0, 0}, i01{0, 1}, i10{1, 0}, i11{1, 1};
-    std::initializer_list domain{index_type{0}, index_type{1}};
+    std::initializer_list<index_type> domain{index_type{0}, index_type{1}};
     sparse_map sm{{i00, domain}, {i01, domain}, {i10, domain}, {i11, domain}};
 
     // object that is completely non-default
