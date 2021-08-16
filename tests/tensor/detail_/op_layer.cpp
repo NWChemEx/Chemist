@@ -15,9 +15,10 @@ TEST_CASE("OpLayer") {
     using ta_tensor      = libchemist::tensor::type::detail_::tensor<double>;
     using labeled_tensor = detail_::LabeledTensorWrapper<tensor>;
     using base_type      = detail_::OpLayer<labeled_tensor>;
+    using vector_il      = TA::detail::vector_il<int>;
 
     auto& world = TA::get_default_world();
-    tensor t(ta_tensor(world, {1, 2, 3}));
+    tensor t(ta_tensor(world, vector_il{1, 2, 3}));
     labeled_tensor lt("i", t);
 
     SECTION("downcast") {

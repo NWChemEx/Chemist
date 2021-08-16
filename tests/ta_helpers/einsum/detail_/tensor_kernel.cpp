@@ -177,21 +177,23 @@ TEST_CASE("tensor_kernel") {
 
         SECTION("vector-vector") {
             SECTION("No summed indices") {
+		using vector_il = TA::detail::vector_il<double>;
                 IndexMap im("i", "i", "i");
                 range_t ranges{{"i", tr1}};
-                TA::TSpArrayD lhs(world, {1.0, 2.0});
-                TA::TSpArrayD rhs(world, {3.0, 4.0});
-                TA::TSpArrayD corr(world, {3.0, 8.0});
+                TA::TSpArrayD lhs(world, vector_il{1.0, 2.0});
+                TA::TSpArrayD rhs(world, vector_il{3.0, 4.0});
+                TA::TSpArrayD corr(world, vector_il{3.0, 8.0});
                 auto result = tensor_kernel(im, ranges, lhs, rhs, l);
                 REQUIRE(libchemist::ta_helpers::allclose(result, corr));
             }
 
             SECTION("Summed indices") {
+		using vector_il = TA::detail::vector_il<double>;
                 IndexMap im("i", "i", "j");
                 range_t ranges{{"i", tr1}, {"j", tr1}};
-                TA::TSpArrayD lhs(world, {1.0, 2.0});
-                TA::TSpArrayD rhs(world, {3.0, 4.0});
-                TA::TSpArrayD corr(world, {7.0, 14.0});
+                TA::TSpArrayD lhs(world, vector_il{1.0, 2.0});
+                TA::TSpArrayD rhs(world, vector_il{3.0, 4.0});
+                TA::TSpArrayD corr(world, vector_il{7.0, 14.0});
                 auto result = tensor_kernel(im, ranges, lhs, rhs, l);
                 REQUIRE(libchemist::ta_helpers::allclose(result, corr));
             }
@@ -200,19 +202,23 @@ TEST_CASE("tensor_kernel") {
         SECTION("vector-matrix") {
             range_t ranges{{"i", tr1}, {"j", tr1}};
             SECTION("No summed indices") {
+		using vector_il = TA::detail::vector_il<double>;
+		using matrix_il = TA::detail::matrix_il<double>;
                 IndexMap im("i,j", "i", "i,j");
-                TA::TSpArrayD lhs(world, {1.0, 2.0});
-                TA::TSpArrayD rhs(world, {{3.0, 4.0}, {5.0, 6.0}});
-                TA::TSpArrayD corr(world, {{3.0, 4.0}, {10.0, 12.0}});
+                TA::TSpArrayD lhs(world, vector_il{1.0, 2.0});
+                TA::TSpArrayD rhs(world, matrix_il{vector_il{3.0, 4.0}, vector_il{5.0, 6.0}});
+                TA::TSpArrayD corr(world, matrix_il{vector_il{3.0, 4.0}, vector_il{10.0, 12.0}});
                 auto result = tensor_kernel(im, ranges, lhs, rhs, l);
                 REQUIRE(libchemist::ta_helpers::allclose(result, corr));
             }
 
             SECTION("Summed indices") {
+		using vector_il = TA::detail::vector_il<double>;
+		using matrix_il = TA::detail::matrix_il<double>;
                 IndexMap im("i", "j", "j, i");
-                TA::TSpArrayD lhs(world, {1.0, 2.0});
-                TA::TSpArrayD rhs(world, {{3.0, 4.0}, {5.0, 6.0}});
-                TA::TSpArrayD corr(world, {13.0, 16.0});
+                TA::TSpArrayD lhs(world, vector_il{1.0, 2.0});
+                TA::TSpArrayD rhs(world, matrix_il{vector_il{3.0, 4.0}, vector_il{5.0, 6.0}});
+                TA::TSpArrayD corr(world, vector_il{13.0, 16.0});
                 auto result = tensor_kernel(im, ranges, lhs, rhs, l);
                 REQUIRE(libchemist::ta_helpers::allclose(result, corr));
             }

@@ -7,6 +7,8 @@ using namespace libchemist::ta_helpers;
 using tensor_type = TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>;
 using vector_t    = std::initializer_list<double>;
 using matrix_t    = std::initializer_list<vector_t>;
+using vector_il   = TA::detail::vector_il<double>;
+using matrix_il   = TA::detail::matrix_il<double>;
 
 namespace {
 
@@ -39,7 +41,7 @@ TEST_CASE("remove_redundancy") {
         auto NRC = remove_redundancy(CTilde_corr, STilde_corr, 0.1);
         // Note this differs from NRC_corr_data by the second column being 0
         tensor_type NRC_corr(
-          world, {{0.0, -0.8093539841320377}, {0.0, 0.8093539841320377}});
+          world, matrix_il{vector_il{0.0, -0.8093539841320377}, vector_il{0.0, 0.8093539841320377}});
         REQUIRE(allclose(NRC, NRC_corr));
     }
 }
@@ -48,18 +50,19 @@ TEST_CASE("sparse_remove_redundancy") {
     using tile_type   = TA::TensorD;
     using tensor_type = TA::DistArray<TA::Tensor<tile_type>>;
     auto& world       = TA::get_default_world();
+    using tvector_il  = TA::detail::vector_il<tile_type>;
 
     TA::Range r(std::vector<int>{2, 2});
     tile_type S0(r, {0.41629351, -0.34700249, -0.34700249, 0.41629351});
-    tensor_type S(world, {S0, S0});
+    tensor_type S(world, tvector_il{S0, S0});
     tile_type C0(r, {0.381648, -0.618352, -0.618352, 0.381648});
-    tensor_type C(world, {C0, C0});
+    tensor_type C(world, tvector_il{C0, C0});
 
     SECTION("No redundancy") {
         auto NRC = sparse_remove_redundancy(C, S);
-        tile_type corr_tile(r, {0.6358462574920218, -0.8093539841320376,
-                                0.6358462574920218, 0.8093539841320376});
-        tensor_type corr(world, {corr_tile, corr_tile});
+        tile_type corr_tile(r, vector_il{0.6358462574920218, -0.8093539841320376,
+                                         0.6358462574920218, 0.8093539841320376});
+        tensor_type corr(world, tvector_il{corr_tile, corr_tile});
         REQUIRE(allclose_tot(NRC, corr, 2));
     }
 
@@ -67,7 +70,7 @@ TEST_CASE("sparse_remove_redundancy") {
         auto NRC = sparse_remove_redundancy(C, S, 0.1);
         tile_type corr_tile(
           r, {0.0, -0.8093539841320376, 0.0, 0.8093539841320376});
-        tensor_type corr(world, {corr_tile, corr_tile});
+        tensor_type corr(world, tvector_il{corr_tile, corr_tile});
         REQUIRE(allclose_tot(NRC, corr, 2));
     }
 }
