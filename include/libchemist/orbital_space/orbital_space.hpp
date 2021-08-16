@@ -15,3 +15,4 @@
 #include "libchemist/orbital_space/canonical_space.hpp"
 #include "libchemist/orbital_space/dependent_space.hpp"
 #include "libchemist/orbital_space/derived_space.hpp"
+#include "libchemist/orbital_space/type_traits/type_traits.hpp"
