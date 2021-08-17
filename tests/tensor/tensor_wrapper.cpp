@@ -11,10 +11,13 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
     using TWrapper = TensorWrapper<type::tensor_variant>;
     using t_type   = TestType;
     using extents  = typename TWrapper::extents_type;
+    using vector_il = TA::detail::vector_il<double>;
+    using matrix_il = TA::detail::matrix_il<double>;
+    using tensor_il = TA::detail::tensor3_il<double>;
 
-    t_type vec_data(world, {1.0, 2.0, 3.0});
-    t_type mat_data(world, {{1.0, 2.0}, {3.0, 4.0}});
-    t_type t3_data(world, {{{1.0, 2.0}, {3.0, 4.0}}, {{5.0, 6.0}, {7.0, 8.0}}});
+    t_type vec_data(world, vector_il{1.0, 2.0, 3.0});
+    t_type mat_data(world, matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}});
+    t_type t3_data(world, tensor_il{matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}}, matrix_il{vector_il{5.0, 6.0}, vector_il{7.0, 8.0}}});
 
     TWrapper defaulted;
 
@@ -121,17 +124,17 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
 
     SECTION("slice()") {
         SECTION("Vector") {
-            TWrapper corr(t_type(world, {1.0, 2.0}));
+            TWrapper corr(t_type(world, vector_il{1.0, 2.0}));
             auto slice = vec.slice({0ul}, {2ul});
             REQUIRE(slice == corr);
         }
         SECTION("Matrix") {
-            TWrapper corr(t_type(world, {{2.0}}));
+            TWrapper corr(t_type(world, matrix_il{vector_il{2.0}}));
             auto slice = mat.slice({0ul, 1ul}, {1ul, 2ul});
             REQUIRE(slice == corr);
         }
         SECTION("Tensor") {
-            TWrapper corr(t_type(world, {{{2.0}, {4.0}}, {{6.0}, {8.0}}}));
+            TWrapper corr(t_type(world, tensor_il{matrix_il{vector_il{2.0}, vector_il{4.0}}, matrix_il{vector_il{6.0}, vector_il{8.0}}}));
             auto slice = t3.slice({0ul, 0ul, 1ul}, {2ul, 2ul, 2ul});
             REQUIRE(slice == corr);
         }
@@ -222,14 +225,16 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tot_variant) {
     using t_type       = TestType;
     using tile_type    = typename TestType::value_type;
     using inner_tile   = typename tile_type::value_type;
+    using vector_il    = TA::detail::vector_il<inner_tile>;
+    using matrix_il    = TA::detail::matrix_il<inner_tile>;
 
     inner_tile vec0(TA::Range({0}, {2}), {1.0, 2.0});
     inner_tile vec1(TA::Range({0}, {3}), {3.0, 4.0, 5.0});
     inner_tile mat0(TA::Range({0, 0}, {2, 3}), {1.0, 2.0, 3.0, 4.0, 5.0, 6.0});
 
-    t_type mat_data(world, {vec0, vec1});
-    t_type t3_data(world, {{vec0, vec1}, {vec0, vec1}});
-    t_type t3_2_data(world, {mat0, mat0});
+    t_type mat_data(world, vector_il{vec0, vec1});
+    t_type t3_data(world, matrix_il{vector_il{vec0, vec1}, vector_il{vec0, vec1}});
+    t_type t3_2_data(world, vector_il{mat0, mat0});
 
     TWrapper mat(mat_data);
     TWrapper t3(t3_data);
@@ -309,13 +314,13 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tot_variant) {
         using libchemist::ta_helpers::allclose_tot;
         using std::as_const;
         SECTION("Matrix") {
-            REQUIRE(allclose_tot(as_const(mat).get<t_type>(), mat_data, 1));
+            REQUIRE(allclose_tot(as_const(mat).template get<t_type>(), mat_data, 1));
         }
         SECTION("Rank 3 Tensor") {
-            REQUIRE(allclose_tot(as_const(t3).get<t_type>(), t3_data, 2));
+            REQUIRE(allclose_tot(as_const(t3).template get<t_type>(), t3_data, 2));
         }
         SECTION("Rank 3 Tensor - 2") {
-            REQUIRE(allclose_tot(as_const(t3_2).get<t_type>(), t3_2_data, 1));
+            REQUIRE(allclose_tot(as_const(t3_2).template get<t_type>(), t3_2_data, 1));
         }
     }
 
