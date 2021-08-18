@@ -34,4 +34,15 @@ std::pair<TWrapper, TWrapper> eigen_solve(const TWrapper& X,
     return std::make_pair(EVals, EVecs);
 }
 
+TWrapper cholesky_linv(const TWrapper& M) {
+    using tensor_type = tensor::type::detail_::tensor<double>;
+
+    const auto& m = M.get<tensor_type>();
+
+    auto linv = TA::math::linalg::cholesky_linv(m);
+    TWrapper Linv(std::move(linv));
+
+    return Linv;
+}
+
 } // namespace libchemist::tensor
