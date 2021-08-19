@@ -45,4 +45,10 @@ TWrapper cholesky_linv(const TWrapper& M) {
     return Linv;
 }
 
+TWrapper hmatrix_pow(const TWrapper& S, double pow) {
+    const auto s = S.get<tensor::type::detail_::tensor<double>>();
+    auto s_out   = libchemist::ta_helpers::hmatrix_pow(s, pow);
+    return TWrapper(s_out);
+}
+
 } // namespace libchemist::tensor
