@@ -31,11 +31,32 @@ public:
 
     const auto& t2() const { return m_t2_; }
 
+    void hash(pluginplay::Hasher& h) const;
+
 private:
     reference_wf_type m_ref_;
     tensor_type m_t1_;
     tensor_type m_t2_;
 };
+
+template<typename LHSReferenceType, typename LHSTensorType,
+         typename RHSReferenceType, typename RHSTensorType>
+bool operator==(const ManyBody<LHSReferenceType, LHSTensorType>& lhs,
+                const ManyBody<RHSReferenceType, RHSTensorType>& rhs) {
+    if constexpr(!std::is_same_v<decltype(lhs), decltype(rhs)>) {
+        return false;
+    } else {
+        return std::tie(lhs.reference_wavefunction(), lhs.t1(), lhs.t2()) ==
+               std::tie(rhs.reference_wavefunction(), rhs.t1(), rhs.t2());
+    }
+}
+
+template<typename LHSReferenceType, typename LHSTensorType,
+         typename RHSReferenceType, typename RHSTensorType>
+bool operator!=(const ManyBody<LHSReferenceType, LHSTensorType>& lhs,
+                const ManyBody<RHSReferenceType, RHSTensorType>& rhs) {
+    return !(lhs == rhs);
+}
 
 /// Type of a ManyBody correlated wavefunction, using MOs
 using ManyBodyWf = ManyBody<Reference, type::tensor>;
