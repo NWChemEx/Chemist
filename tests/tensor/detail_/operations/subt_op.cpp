@@ -3,18 +3,20 @@
 using namespace libchemist::tensor;
 
 TEMPLATE_LIST_TEST_CASE("SubtOp", "", type::tensor_variant) {
-    auto& world    = TA::get_default_world();
-    using TWrapper = TensorWrapper<type::tensor_variant>;
-    using t_type   = TestType;
+    auto& world     = TA::get_default_world();
+    using TWrapper  = TensorWrapper<type::tensor_variant>;
+    using t_type    = TestType;
     using vector_il = TA::detail::vector_il<double>;
     using matrix_il = TA::detail::matrix_il<double>;
     using tensor_il = TA::detail::tensor3_il<double>;
 
     // Declare the TA tensors
     t_type ta_vec(world, vector_il{1.0, 2.0, 3.0});
-    t_type ta_matrix(world, matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}});
-    t_type ta_tensor(world,
-                     tensor_il{matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}}, matrix_il{vector_il{5.0, 6.0}, vector_il{7.0, 8.0}}});
+    t_type ta_matrix(world,
+                     matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}});
+    t_type ta_tensor(
+      world, tensor_il{matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}},
+                       matrix_il{vector_il{5.0, 6.0}, vector_il{7.0, 8.0}}});
 
     // Declare non-const wrappers
     TWrapper vec(ta_vec);
@@ -46,14 +48,17 @@ TEMPLATE_LIST_TEST_CASE("SubtOp", "", type::tensor_variant) {
         SECTION("matrix") {
             result("i,j") = lmat - lmat;
             auto& rv      = result.get<t_type>();
-            t_type corr(world, matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}});
+            t_type corr(world,
+                        matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}});
             REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
         }
         SECTION("rank-3 tensor") {
             result("i,j,k") = lt3 - lt3;
             auto& rv        = result.get<t_type>();
-            t_type corr(world,
-                        tensor_il{matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}}, matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}}});
+            t_type corr(
+              world,
+              tensor_il{matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}},
+                        matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}}});
             REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
         }
     }

@@ -3,10 +3,10 @@
 #include <tiledarray.h>
 
 int main(int argc, char* argv[]) {
-  auto& world = TA::initialize(argc, argv);
+    auto& world = TA::initialize(argc, argv);
 
-  int res = Catch::Session().run(argc, argv);
+    int res = Catch::Session().run(argc, argv);
 
-  TA::finalize();
-  return res;
+    TA::finalize();
+    return res;
 }

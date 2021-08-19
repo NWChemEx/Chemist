@@ -21,7 +21,7 @@ int get_largest_factor(const int n) {
 TEST_CASE("TA Hashers", "[TA],[hash]") {
     using vector_il = TA::detail::vector_il<double>;
     using matrix_il = TA::detail::matrix_il<double>;
-    auto& world = TA::get_default_world();
+    auto& world     = TA::get_default_world();
     // NOTE: hashing Range R0() fails, requires R0({})
     TA::Range R0({});
     TA::Range R1({0, 0}, {10, 10});
@@ -99,7 +99,8 @@ TEST_CASE("TA Hashers", "[TA],[hash]") {
     TA::TensorD T5 = TAD1.find({0, 0}).get();
     TA::TensorD T6 = TAD1.find({0, 0}).get();
     TA::TensorD T7 = TA3.find({0, 0}).get();
-    TA::TSpArrayD SA1(world, matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}});
+    TA::TSpArrayD SA1(world,
+                      matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}});
     TA::TSpArrayD SA2(world, TR1);
     TA::TSpArrayD SA3(world, TR1);
     TA::TSpArrayD SA4(world, TR3);

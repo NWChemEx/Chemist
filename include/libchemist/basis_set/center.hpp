@@ -295,7 +295,7 @@ public:
         size_type np, ns, nc;
         bool ispure;
         am_type myl;
-        ar& n_aos() & n_unique_primitives() & ns & this->coord(0) &
+        ar& n_aos() & n_unique_primitives() & ns& this->coord(0) &
           this->coord(1) & this->coord(2);
         for(int si = 0; si < ns; ++si) {
             ar& ispure& myl& nc& np;

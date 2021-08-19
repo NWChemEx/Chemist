@@ -13,10 +13,10 @@ inline auto make_tensor_tensor_indices(const std::string& lhs,
 
     // Check mode is valid for rhs
     const auto rhs_rank = split_string(rhs, ",").size();
-    if(rhs_rank <= mode){
+    if(rhs_rank <= mode) {
         throw std::out_of_range("Can not transform zero-based mode " +
-            std::to_string(mode) + " of a tensor with ;" +
-            std::to_string(rhs_rank) + "modes.");
+                                std::to_string(mode) + " of a tensor with ;" +
+                                std::to_string(rhs_rank) + "modes.");
     }
 
     // Check that lhs is a matrix

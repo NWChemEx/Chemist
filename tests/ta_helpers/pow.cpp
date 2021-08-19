@@ -2,11 +2,11 @@
 //#include "libchemist/ta_helpers/ta_helpers.hpp"
 //#include <catch2/catch.hpp>
 //
-//using namespace libchemist::ta_helpers;
+// using namespace libchemist::ta_helpers;
 //
-//using scalar_types = std::tuple<double>;
+// using scalar_types = std::tuple<double>;
 //
-//TEMPLATE_LIST_TEST_CASE("hmatrix_pow", "", scalar_types) {
+// TEMPLATE_LIST_TEST_CASE("hmatrix_pow", "", scalar_types) {
 //    using tensor_type = TA::TSpArray<TestType>;
 //    using il_type     = TA::detail::matrix_il<TestType>;
 //    auto& world       = TA::get_default_world();
@@ -19,10 +19,11 @@
 //    tensor_type t0(world, t0_il);
 //    SECTION("Integer power") {
 //        il_type corr_il{
-//          {1.0560286045074463, 0.47340795397758484, 1.5678980209093575e-17, 0},
-//          {0.47340795397758484, 1.0560286045074463, 1.8556332932942957e-18, 0},
-//          {1.5678980209093575e-17, 1.8556332932942957e-18, 1, 0},
-//          {0, 0, 0, 1}};
+//          {1.0560286045074463, 0.47340795397758484, 1.5678980209093575e-17,
+//          0},
+//          {0.47340795397758484, 1.0560286045074463, 1.8556332932942957e-18,
+//          0}, {1.5678980209093575e-17, 1.8556332932942957e-18, 1, 0}, {0, 0,
+//          0, 1}};
 //        tensor_type corr(world, corr_il);
 //        auto r = hmatrix_pow(t0, 2);
 //        REQUIRE(allclose(r, corr));

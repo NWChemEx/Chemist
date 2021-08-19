@@ -174,16 +174,16 @@ VIEW_BASE_TYPE::AOBasisViewBase(aliased_type pimpl) noexcept :
 
 VIEW_BASE_TEMPLATE
 template<typename U>
-bool VIEW_BASE_TYPE::operator==(const other_ao_basis_view<U>& rhs) const
-  noexcept {
+bool VIEW_BASE_TYPE::operator==(
+  const other_ao_basis_view<U>& rhs) const noexcept {
     const aliased_type& alias = *this;
     return rhs == alias;
 }
 
 VIEW_BASE_TEMPLATE
 template<typename U>
-bool VIEW_BASE_TYPE::operator!=(const other_ao_basis_view<U>& rhs) const
-  noexcept {
+bool VIEW_BASE_TYPE::operator!=(
+  const other_ao_basis_view<U>& rhs) const noexcept {
     return !(*this == rhs);
 }
 

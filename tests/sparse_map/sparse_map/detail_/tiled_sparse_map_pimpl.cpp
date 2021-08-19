@@ -1,5 +1,5 @@
-#include "libchemist/sparse_map/sparse_map/detail_/tiled_sparse_map_pimpl.hpp"
 #include "libchemist/sparse_map/index.hpp"
+#include "libchemist/sparse_map/sparse_map/detail_/tiled_sparse_map_pimpl.hpp"
 #include <catch2/catch.hpp>
 
 using namespace libchemist::sparse_map;
@@ -13,9 +13,9 @@ TEMPLATE_LIST_TEST_CASE("TiledSparseMapPIMPL", "", index_types) {
     using domain_t   = typename pimpl_t::mapped_type;
 
     TileIndex i1{1}, i11{1, 1}, i12{1, 2}, i1212{1, 2, 1, 2}, i1223{1, 2, 2, 3},
-              i2{2}, i23{2, 3}, i2312{2, 3, 1, 2}, i2323{2, 3, 2, 3};
+      i2{2}, i23{2, 3}, i2312{2, 3, 1, 2}, i2323{2, 3, 2, 3};
     TestType d1{1}, d11{1, 1}, d12{1, 2}, d23{2, 3}, d1212{1, 2, 1, 2},
-             d1223{1, 2, 2, 3}, d2312{2, 3, 1, 2}, d2323{2, 3, 2, 3};
+      d1223{1, 2, 2, 3}, d2312{2, 3, 1, 2}, d2323{2, 3, 2, 3};
 
     TA::TiledRange empty;
     TA::TiledRange tr2{{0, 2, 4, 6}, {0, 2, 4, 6, 8}};
@@ -35,7 +35,7 @@ TEMPLATE_LIST_TEST_CASE("TiledSparseMapPIMPL", "", index_types) {
 
         SECTION("clone") {
             for(const auto& [k, v] : sms) {
-                SECTION(k){
+                SECTION(k) {
                     auto copy = v.clone();
                     REQUIRE(*copy == v);
                 }
@@ -50,7 +50,7 @@ TEMPLATE_LIST_TEST_CASE("TiledSparseMapPIMPL", "", index_types) {
     }
 
     SECTION("set_trange") {
-        SECTION("empty"){
+        SECTION("empty") {
             auto& sm = sms.at("empty");
             sm.set_trange(tr2);
             REQUIRE(sm.trange() == tr2);
@@ -85,7 +85,8 @@ TEMPLATE_LIST_TEST_CASE("TiledSparseMapPIMPL", "", index_types) {
                 REQUIRE(sm.at(0).second == Domain<TestType>{d12, d23});
             }
             SECTION("Bad index") {
-                REQUIRE_THROWS_AS(sm.add_to_domain(TileIndex{9, 9}, d23), std::out_of_range);
+                REQUIRE_THROWS_AS(sm.add_to_domain(TileIndex{9, 9}, d23),
+                                  std::out_of_range);
             }
         }
     } // SECTION("add_to_domain")
@@ -94,9 +95,7 @@ TEMPLATE_LIST_TEST_CASE("TiledSparseMapPIMPL", "", index_types) {
         SECTION("Both don't have TiledRange") {
             auto& sm = sms.at("Ind == rank 1");
             auto psm = &(sm.direct_product_assign(sm));
-            SECTION("Returns *this") {
-                REQUIRE(psm == &sm);
-            }
+            SECTION("Returns *this") { REQUIRE(psm == &sm); }
             SECTION("Value") {
                 pimpl_t corr;
                 corr.add_to_domain(i11, d11);
@@ -107,9 +106,7 @@ TEMPLATE_LIST_TEST_CASE("TiledSparseMapPIMPL", "", index_types) {
         SECTION("Both have TiledRange") {
             auto& sm = sms.at("Ind == rank 2");
             auto psm = &(sm.direct_product_assign(sm));
-            SECTION("Returns *this") {
-                REQUIRE(psm == &sm);
-            }
+            SECTION("Returns *this") { REQUIRE(psm == &sm); }
             SECTION("Value") {
                 TA::TiledRange tr4{
                   {0, 2, 4, 6}, {0, 2, 4, 6, 8}, {0, 2, 4, 6}, {0, 2, 4, 6, 8}};
@@ -128,7 +125,8 @@ TEMPLATE_LIST_TEST_CASE("TiledSparseMapPIMPL", "", index_types) {
             pimpl_t rhs;
             rhs.add_to_domain(i12, d12);
             rhs.add_to_domain(i23, d23);
-            REQUIRE_THROWS_AS(lhs.direct_product_assign(rhs), std::runtime_error);
+            REQUIRE_THROWS_AS(lhs.direct_product_assign(rhs),
+                              std::runtime_error);
         }
 
         SECTION("RHS has TiledRange, LHS doesn't") {
@@ -136,13 +134,15 @@ TEMPLATE_LIST_TEST_CASE("TiledSparseMapPIMPL", "", index_types) {
             pimpl_t lhs;
             lhs.add_to_domain(i12, d12);
             lhs.add_to_domain(i23, d23);
-            REQUIRE_THROWS_AS(lhs.direct_product_assign(rhs), std::runtime_error);
+            REQUIRE_THROWS_AS(lhs.direct_product_assign(rhs),
+                              std::runtime_error);
         }
 
         SECTION("RHS isn't TiledSparseMapPIMPL") {
             auto& lhs = sms.at("Ind == rank 2");
             base_pimpl rhs;
-            REQUIRE_THROWS_AS(lhs.direct_product_assign(rhs), std::runtime_error);
+            REQUIRE_THROWS_AS(lhs.direct_product_assign(rhs),
+                              std::runtime_error);
         }
     } // SECTION("direct_product_assign")
 
@@ -357,9 +357,7 @@ TEMPLATE_LIST_TEST_CASE("TiledSparseMapPIMPL", "", index_types) {
         SECTION("LHS does not have a TiledRange") {
             const auto& sm = sms.at("empty");
 
-            SECTION("RHS is also empty") {
-                REQUIRE(sm == pimpl_t{});
-            }
+            SECTION("RHS is also empty") { REQUIRE(sm == pimpl_t{}); }
 
             SECTION("RHS has a TiledRange") {
                 pimpl_t p;

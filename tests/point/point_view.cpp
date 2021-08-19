@@ -1,5 +1,5 @@
-#include <catch2/catch.hpp>
 #include "libchemist/point/point_view.hpp"
+#include <catch2/catch.hpp>
 
 /* Testing Strategy:
  *

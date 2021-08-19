@@ -179,7 +179,7 @@ public:
      */
     template<typename Archive>
     void save(Archive& ar) const {
-        ar & this->size() & this->coord(0) & this->coord(1) & this->coord(2);
+        ar& this->size() & this->coord(0) & this->coord(1) & this->coord(2);
         for(const auto& p : *this) { ar& p.coefficient() & p.exponent(); }
     }
 

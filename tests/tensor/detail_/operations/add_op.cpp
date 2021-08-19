@@ -3,18 +3,20 @@
 using namespace libchemist::tensor;
 
 TEMPLATE_LIST_TEST_CASE("AddOp", "", type::tensor_variant) {
-    auto& world    = TA::get_default_world();
-    using TWrapper = TensorWrapper<type::tensor_variant>;
-    using t_type   = TestType;
+    auto& world     = TA::get_default_world();
+    using TWrapper  = TensorWrapper<type::tensor_variant>;
+    using t_type    = TestType;
     using vector_il = TA::detail::vector_il<double>;
     using matrix_il = TA::detail::matrix_il<double>;
     using tensor_il = TA::detail::tensor3_il<double>;
 
     // Declare the TA tensors
     t_type ta_vec(world, vector_il{1.0, 2.0, 3.0});
-    t_type ta_matrix(world, matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}});
-    t_type ta_tensor(world,
-                     tensor_il{matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}}, matrix_il{vector_il{5.0, 6.0}, vector_il{7.0, 8.0}}});
+    t_type ta_matrix(world,
+                     matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}});
+    t_type ta_tensor(
+      world, tensor_il{matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}},
+                       matrix_il{vector_il{5.0, 6.0}, vector_il{7.0, 8.0}}});
 
     // Declare non-const wrappers
     TWrapper vec(ta_vec);
@@ -46,14 +48,17 @@ TEMPLATE_LIST_TEST_CASE("AddOp", "", type::tensor_variant) {
             SECTION("matrix") {
                 result("i,j") = lmat + lmat;
                 auto& rv      = result.get<t_type>();
-                t_type corr(world, matrix_il{vector_il{2.0, 4.0}, vector_il{6.0, 8.0}});
+                t_type corr(
+                  world, matrix_il{vector_il{2.0, 4.0}, vector_il{6.0, 8.0}});
                 REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
             }
             SECTION("rank-3 tensor") {
                 result("i,j,k") = lt3 + lt3;
                 auto& rv        = result.get<t_type>();
-                t_type corr(world, tensor_il{matrix_il{vector_il{2.0, 4.0}, vector_il{6.0, 8.0}},
-                                             matrix_il{vector_il{10.0, 12.0}, vector_il{14.0, 16.0}}});
+                t_type corr(world, tensor_il{matrix_il{vector_il{2.0, 4.0},
+                                                       vector_il{6.0, 8.0}},
+                                             matrix_il{vector_il{10.0, 12.0},
+                                                       vector_il{14.0, 16.0}}});
                 REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
             }
         }
@@ -67,14 +72,17 @@ TEMPLATE_LIST_TEST_CASE("AddOp", "", type::tensor_variant) {
             SECTION("matrix") {
                 result("i,j") = lmat + const_lmat;
                 auto& rv      = result.get<t_type>();
-                t_type corr(world, matrix_il{vector_il{2.0, 4.0}, vector_il{6.0, 8.0}});
+                t_type corr(
+                  world, matrix_il{vector_il{2.0, 4.0}, vector_il{6.0, 8.0}});
                 REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
             }
             SECTION("rank-3 tensor") {
                 result("i,j,k") = lt3 + const_lt3;
                 auto& rv        = result.get<t_type>();
-                t_type corr(world, tensor_il{matrix_il{vector_il{2.0, 4.0}, vector_il{6.0, 8.0}},
-                                             matrix_il{vector_il{10.0, 12.0}, vector_il{14.0, 16.0}}});
+                t_type corr(world, tensor_il{matrix_il{vector_il{2.0, 4.0},
+                                                       vector_il{6.0, 8.0}},
+                                             matrix_il{vector_il{10.0, 12.0},
+                                                       vector_il{14.0, 16.0}}});
                 REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
             }
         }
@@ -88,14 +96,17 @@ TEMPLATE_LIST_TEST_CASE("AddOp", "", type::tensor_variant) {
             SECTION("matrix") {
                 result("i,j") = const_lmat + lmat;
                 auto& rv      = result.get<t_type>();
-                t_type corr(world, matrix_il{vector_il{2.0, 4.0}, vector_il{6.0, 8.0}});
+                t_type corr(
+                  world, matrix_il{vector_il{2.0, 4.0}, vector_il{6.0, 8.0}});
                 REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
             }
             SECTION("rank-3 tensor") {
                 result("i,j,k") = const_lt3 + lt3;
                 auto& rv        = result.get<t_type>();
-                t_type corr(world, tensor_il{matrix_il{vector_il{2.0, 4.0}, vector_il{6.0, 8.0}},
-                                             matrix_il{vector_il{10.0, 12.0}, vector_il{14.0, 16.0}}});
+                t_type corr(world, tensor_il{matrix_il{vector_il{2.0, 4.0},
+                                                       vector_il{6.0, 8.0}},
+                                             matrix_il{vector_il{10.0, 12.0},
+                                                       vector_il{14.0, 16.0}}});
                 REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
             }
         }
@@ -109,14 +120,17 @@ TEMPLATE_LIST_TEST_CASE("AddOp", "", type::tensor_variant) {
             SECTION("matrix") {
                 result("i,j") = const_lmat + const_lmat;
                 auto& rv      = result.get<t_type>();
-                t_type corr(world, matrix_il{vector_il{2.0, 4.0}, vector_il{6.0, 8.0}});
+                t_type corr(
+                  world, matrix_il{vector_il{2.0, 4.0}, vector_il{6.0, 8.0}});
                 REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
             }
             SECTION("rank-3 tensor") {
                 result("i,j,k") = const_lt3 + const_lt3;
                 auto& rv        = result.get<t_type>();
-                t_type corr(world, tensor_il{matrix_il{vector_il{2.0, 4.0}, vector_il{6.0, 8.0}},
-                                             matrix_il{vector_il{10.0, 12.0}, vector_il{14.0, 16.0}}});
+                t_type corr(world, tensor_il{matrix_il{vector_il{2.0, 4.0},
+                                                       vector_il{6.0, 8.0}},
+                                             matrix_il{vector_il{10.0, 12.0},
+                                                       vector_il{14.0, 16.0}}});
                 REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
             }
         }
@@ -132,15 +146,18 @@ TEMPLATE_LIST_TEST_CASE("AddOp", "", type::tensor_variant) {
                 auto op       = lmat + lmat;
                 result("i,j") = lmat + op;
                 auto& rv      = result.get<t_type>();
-                t_type corr(world, matrix_il{vector_il{3.0, 6.0}, vector_il{9.0, 12.0}});
+                t_type corr(
+                  world, matrix_il{vector_il{3.0, 6.0}, vector_il{9.0, 12.0}});
                 REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
             }
             SECTION("rank-3 tensor") {
                 auto op         = lt3 + lt3;
                 result("i,j,k") = lt3 + op;
                 auto& rv        = result.get<t_type>();
-                t_type corr(world, tensor_il{matrix_il{vector_il{3.0, 6.0}, vector_il{9.0, 12.0}},
-                                             matrix_il{vector_il{15.0, 18.0}, vector_il{21.0, 24.0}}});
+                t_type corr(world, tensor_il{matrix_il{vector_il{3.0, 6.0},
+                                                       vector_il{9.0, 12.0}},
+                                             matrix_il{vector_il{15.0, 18.0},
+                                                       vector_il{21.0, 24.0}}});
                 REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
             }
         }

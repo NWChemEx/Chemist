@@ -36,10 +36,12 @@ TA::DistArray<TA::Tensor<T>, TA::SparsePolicy> expand_submatrix(
   const TA::DistArray<TA::Tensor<T>, TA::SparsePolicy>& submatrix,
   const TA::TiledRange& full_trange, const TA::Tensor<float>& mask);
 
-extern template TA::DistArray<TA::Tensor<double>, TA::SparsePolicy> submatrix(const TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>&,
-                                               const TA::Tensor<float>&);
+extern template TA::DistArray<TA::Tensor<double>, TA::SparsePolicy> submatrix(
+  const TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>&,
+  const TA::Tensor<float>&);
 
-extern template TA::DistArray<TA::Tensor<double>, TA::SparsePolicy> expand_submatrix(
-  const TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>&, const TA::TiledRange&, const TA::Tensor<float>&);
+extern template TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>
+expand_submatrix(const TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>&,
+                 const TA::TiledRange&, const TA::Tensor<float>&);
 
 } // namespace libchemist::ta_helpers

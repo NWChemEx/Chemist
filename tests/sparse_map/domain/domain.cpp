@@ -4,7 +4,7 @@
 using namespace libchemist::sparse_map;
 
 TEST_CASE("Domain<ElementIndex>") {
-    SECTION("Conversion from Domain<TileIndex>"){
+    SECTION("Conversion from Domain<TileIndex>") {
         SECTION("Empty TileDomain") {
             Domain<TileIndex> td;
             Domain<ElementIndex> ed(td);
@@ -39,16 +39,15 @@ TEST_CASE("Domain<TileIndex>") {
       {"Default", domain_t{}},
       {"TiledRange", domain_t(empty)},
       {"Init list", domain_t(nonempty, {TileIndex{0, 0}, TileIndex{1, 0}})},
-      {"Element domain", domain_t(nonempty, ElementDomain{ElementIndex{1, 1}})}
-    };
+      {"Element domain",
+       domain_t(nonempty, ElementDomain{ElementIndex{1, 1}})}};
 
     SECTION("Ctors") {
-
         SECTION("TA::TiledRange") {
             REQUIRE(ds.at("TiledRange").trange() == empty);
         }
 
-        SECTION("TA::TiledRange, std::initializer_list"){
+        SECTION("TA::TiledRange, std::initializer_list") {
             SECTION("All good indices") {
                 const auto& d = ds.at("Init list");
                 REQUIRE(d.trange() == nonempty);
@@ -79,19 +78,19 @@ TEST_CASE("Domain<TileIndex>") {
 
     SECTION("set_trange") {
         SECTION("Good trange") {
-          domain_t d{TileIndex{0,0}};
-          d.set_trange(nonempty);
-          REQUIRE(d.trange() == nonempty);
+            domain_t d{TileIndex{0, 0}};
+            d.set_trange(nonempty);
+            REQUIRE(d.trange() == nonempty);
         }
 
         SECTION("Bad trange") {
-            domain_t d{TileIndex{5,5}};
+            domain_t d{TileIndex{5, 5}};
             REQUIRE_THROWS_AS(d.set_trange(nonempty), std::out_of_range);
         }
     }
 
     SECTION("trange") {
-        SECTION("No trange"){
+        SECTION("No trange") {
             const domain_t& d = ds.at("Default");
             REQUIRE(d.trange() == empty);
         }
@@ -104,5 +103,4 @@ TEST_CASE("Domain<TileIndex>") {
             REQUIRE(ds.at("Init list").trange() == nonempty);
         }
     }
-
 }

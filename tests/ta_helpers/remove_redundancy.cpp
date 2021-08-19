@@ -40,8 +40,9 @@ TEST_CASE("remove_redundancy") {
     SECTION("One redundancy") {
         auto NRC = remove_redundancy(CTilde_corr, STilde_corr, 0.1);
         // Note this differs from NRC_corr_data by the second column being 0
-        tensor_type NRC_corr(
-          world, matrix_il{vector_il{0.0, -0.8093539841320377}, vector_il{0.0, 0.8093539841320377}});
+        tensor_type NRC_corr(world,
+                             matrix_il{vector_il{0.0, -0.8093539841320377},
+                                       vector_il{0.0, 0.8093539841320377}});
         REQUIRE(allclose(NRC, NRC_corr));
     }
 }
@@ -60,8 +61,9 @@ TEST_CASE("sparse_remove_redundancy") {
 
     SECTION("No redundancy") {
         auto NRC = sparse_remove_redundancy(C, S);
-        tile_type corr_tile(r, vector_il{0.6358462574920218, -0.8093539841320376,
-                                         0.6358462574920218, 0.8093539841320376});
+        tile_type corr_tile(r,
+                            vector_il{0.6358462574920218, -0.8093539841320376,
+                                      0.6358462574920218, 0.8093539841320376});
         tensor_type corr(world, tvector_il{corr_tile, corr_tile});
         REQUIRE(allclose_tot(NRC, corr, 2));
     }

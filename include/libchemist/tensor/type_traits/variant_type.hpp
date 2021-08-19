@@ -3,7 +3,8 @@
 namespace libchemist::tensor {
 
 /// Forward declare TensorWrapper
-template<typename VariantType> class TensorWrapper;
+template<typename VariantType>
+class TensorWrapper;
 
 namespace detail_ {
 
