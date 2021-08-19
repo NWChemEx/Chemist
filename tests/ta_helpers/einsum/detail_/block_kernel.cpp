@@ -1,6 +1,6 @@
-#include <catch2/catch.hpp>
 #include "libchemist/ta_helpers/einsum/einsum.hpp"
 #include "libchemist/ta_helpers/ta_helpers.hpp"
+#include <catch2/catch.hpp>
 
 using namespace libchemist::ta_helpers::einsum::detail_;
 using ranges_type = libchemist::ta_helpers::einsum::types::assoc_range;
@@ -39,7 +39,7 @@ TEST_CASE("block_kernel") {
          *  ij = j * i (same as ji = i * j)
          */
         SECTION("Two indices") {
-            ranges_type ranges{{"i", {0, 2}},{"j", {1, 4}}};
+            ranges_type ranges{{"i", {0, 2}}, {"j", {1, 4}}};
 
             SECTION("i = i * j") {
                 IndexMap im("i", "i", "j");
@@ -128,7 +128,7 @@ TEST_CASE("block_kernel") {
          * i = j * ji (same as j = i * ij)
          */
         SECTION("Two indices resulting in vector") {
-            ranges_type ranges{{"i", {0, 2}},{"j", {1, 4}}};
+            ranges_type ranges{{"i", {0, 2}}, {"j", {1, 4}}};
 
             SECTION("i = i * ij") {
                 IndexMap im("i", "i", "i, j");
@@ -213,7 +213,7 @@ TEST_CASE("block_kernel") {
          * ij = j * ji (same as ji = i * ij)
          */
         SECTION("Two indices resulting in matrix") {
-            ranges_type ranges{{"i", {0, 2}},{"j", {1, 4}}};
+            ranges_type ranges{{"i", {0, 2}}, {"j", {1, 4}}};
 
             SECTION("ij = i * ij") {
                 IndexMap im("i,j", "i", "i, j");

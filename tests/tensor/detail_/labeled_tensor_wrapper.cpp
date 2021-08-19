@@ -9,8 +9,8 @@ TEST_CASE("LabeledTensorWrapper") {
     using vector_il      = TA::detail::vector_il<int>;
 
     auto& world = TA::get_default_world();
-    libchemist::tensor::type::detail_::tensor<double> ta_tensor(world,
-                                                                vector_il{1, 2, 3});
+    libchemist::tensor::type::detail_::tensor<double> ta_tensor(
+      world, vector_il{1, 2, 3});
     tensor t(ta_tensor);
     labeled_tensor lt("i", t);
 

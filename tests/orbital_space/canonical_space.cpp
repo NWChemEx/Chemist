@@ -24,7 +24,8 @@ TEST_CASE("CanonicalSpaceD") {
 
     auto& world = TA::get_default_world();
     tensor_type ei(ta_tensor_type(world, vector_il{1.0, 2.0, 3.0}));
-    tensor_type c(ta_tensor_type(world, matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}}));
+    tensor_type c(ta_tensor_type(
+      world, matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}}));
 
     space_type defaulted;
     space_type only_ev(ei);

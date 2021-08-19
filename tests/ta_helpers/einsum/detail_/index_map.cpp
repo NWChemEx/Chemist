@@ -1,5 +1,5 @@
-#include <catch2/catch.hpp>
 #include "libchemist/ta_helpers/einsum/detail_/index_map.hpp"
+#include <catch2/catch.hpp>
 
 using namespace libchemist::ta_helpers::einsum;
 using libchemist::ta_helpers::einsum::detail_::IndexMap;

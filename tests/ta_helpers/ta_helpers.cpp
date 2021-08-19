@@ -10,14 +10,18 @@ using matrix_il   = TA::detail::matrix_il<double>;
 TEST_CASE("allclose") {
     auto& world = TA::get_default_world();
     SECTION("identical") {
-        tensor_type lhs(world, matrix_il{vector_il{0.0, 1.1}, vector_il{2.2, 3.3}});
-        tensor_type corr(world, matrix_il{vector_il{0.0, 1.1}, vector_il{2.2, 3.3}});
+        tensor_type lhs(world,
+                        matrix_il{vector_il{0.0, 1.1}, vector_il{2.2, 3.3}});
+        tensor_type corr(world,
+                         matrix_il{vector_il{0.0, 1.1}, vector_il{2.2, 3.3}});
         REQUIRE(allclose(lhs, corr));
     }
 
     SECTION("Absolute difference 0.1") {
-        tensor_type lhs(world, matrix_il{vector_il{0.0, 1.1}, vector_il{2.2, 3.3}});
-        tensor_type corr(world, matrix_il{vector_il{0.0, 1.2}, vector_il{2.2, 3.3}});
+        tensor_type lhs(world,
+                        matrix_il{vector_il{0.0, 1.1}, vector_il{2.2, 3.3}});
+        tensor_type corr(world,
+                         matrix_il{vector_il{0.0, 1.2}, vector_il{2.2, 3.3}});
 
         SECTION("Close if atol == 0.1") {
             REQUIRE(allclose(lhs, corr, false, 0.0, 0.1));
@@ -29,8 +33,10 @@ TEST_CASE("allclose") {
     }
 
     SECTION("Relative difference 0.1") {
-        tensor_type lhs(world, matrix_il{vector_il{0.0, 1.09}, vector_il{2.2, 3.3}});
-        tensor_type corr(world, matrix_il{vector_il{0.0, 1.2}, vector_il{2.2, 3.3}});
+        tensor_type lhs(world,
+                        matrix_il{vector_il{0.0, 1.09}, vector_il{2.2, 3.3}});
+        tensor_type corr(world,
+                         matrix_il{vector_il{0.0, 1.2}, vector_il{2.2, 3.3}});
 
         SECTION("Close if rtol == 0.1") {
             REQUIRE(allclose(lhs, corr, false, 0.1));
@@ -42,8 +48,10 @@ TEST_CASE("allclose") {
     }
 
     SECTION("Compare absolute values") {
-        tensor_type lhs(world, matrix_il{vector_il{0.0, -1.1}, vector_il{2.2, 3.3}});
-        tensor_type corr(world, matrix_il{vector_il{0.0, 1.1}, vector_il{-2.2, 3.3}});
+        tensor_type lhs(world,
+                        matrix_il{vector_il{0.0, -1.1}, vector_il{2.2, 3.3}});
+        tensor_type corr(world,
+                         matrix_il{vector_il{0.0, 1.1}, vector_il{-2.2, 3.3}});
         REQUIRE(allclose(lhs, corr, true));
         REQUIRE_FALSE(allclose(lhs, corr, false));
     }
@@ -55,12 +63,14 @@ TEST_CASE("allclose") {
         auto lhs = TA::make_array<tensor_type>(world, trange, l);
 
         SECTION("Close to explicitly zero tensor") {
-            tensor_type corr(world, matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}});
+            tensor_type corr(
+              world, matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}});
             REQUIRE(allclose(lhs, corr));
         }
 
         SECTION("Not close to non-zero tensor") {
-            tensor_type corr(world, matrix_il{vector_il{0.0, 1.1}, vector_il{2.2, 3.3}});
+            tensor_type corr(
+              world, matrix_il{vector_il{0.0, 1.1}, vector_il{2.2, 3.3}});
             REQUIRE_FALSE(allclose(lhs, corr));
         }
     }
@@ -72,12 +82,14 @@ TEST_CASE("allclose") {
         auto corr = TA::make_array<tensor_type>(world, trange, l);
 
         SECTION("Close to explicitly zero tensor") {
-            tensor_type lhs(world, matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}});
+            tensor_type lhs(
+              world, matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}});
             REQUIRE(allclose(lhs, corr));
         }
 
         SECTION("Not close to non-zero tensor") {
-            tensor_type lhs(world, matrix_il{vector_il{0.0, 1.1}, vector_il{2.2, 3.3}});
+            tensor_type lhs(
+              world, matrix_il{vector_il{0.0, 1.1}, vector_il{2.2, 3.3}});
             // TODO: Re-enable after TA #184 is resolved
             // REQUIRE_FALSE(allclose(lhs, corr));
         }
@@ -86,8 +98,10 @@ TEST_CASE("allclose") {
 
 TEST_CASE("Tensor Creation") {
     auto& world = TA::get_default_world();
-    tensor_type matrix(world, matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}});
-    tensor_type corr(world, matrix_il{vector_il{2.0, 4.0}, vector_il{6.0, 8.0}});
+    tensor_type matrix(world,
+                       matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}});
+    tensor_type corr(world,
+                     matrix_il{vector_il{2.0, 4.0}, vector_il{6.0, 8.0}});
 
     SECTION("apply_elementwise") {
         auto doubled =

@@ -27,7 +27,7 @@ TEST_CASE("BaseSpace") {
 
     SECTION("size_type") {
         using size_type = typename BaseSpace::size_type;
-        using corr = type::size;
+        using corr      = type::size;
         STATIC_REQUIRE(std::is_same_v<size_type, corr>);
     }
 

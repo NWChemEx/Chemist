@@ -23,7 +23,7 @@ class OpLayer;
  */
 template<typename T>
 static constexpr bool is_expression_v =
-    std::is_base_of_v<detail_::OpLayer<T>, T>;
+  std::is_base_of_v<detail_::OpLayer<T>, T>;
 
 /** @brief Used to enable a function via SFINAE when @p T is part of the
  *         expression layer.

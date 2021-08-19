@@ -4,7 +4,7 @@
 using namespace libchemist::ta_helpers;
 using ei = libchemist::sparse_map::ElementIndex;
 
-TEST_CASE("insert_tile_boundaries(TiledRange,vector)"){
+TEST_CASE("insert_tile_boundaries(TiledRange,vector)") {
     using vector_t = std::vector<ei>;
     TA::TiledRange tr0{{0, 2, 4, 6, 8, 10}};
     TA::TiledRange tr1{{0, 2, 4}, {0, 3, 9}};

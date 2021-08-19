@@ -426,7 +426,7 @@ public:
      */
     template<typename Archive>
     void save(Archive& ar) const {
-        ar & this->size();
+        ar& this->size();
         for(const auto& c : *this) { ar& c; }
     }
 

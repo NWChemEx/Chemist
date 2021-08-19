@@ -13,7 +13,7 @@ using namespace libchemist::sparse_map::detail_;
  *   - Since TA doesn't support rank 0 tensors, we test this behavior with an
  *     Domain instance holding a rank 0 index
  */
-TEST_CASE("TiledDomainPIMPL"){
+TEST_CASE("TiledDomainPIMPL") {
     using pimpl_type = TiledDomainPIMPL<DomainPIMPL<TileIndex>>;
 
     TileIndex e, e0{0}, e1{1}, e11{1, 1};
@@ -33,21 +33,21 @@ TEST_CASE("TiledDomainPIMPL"){
     SECTION("Ctors") {
         SECTION("Default") {
             auto& p = ps.at("empty");
-            REQUIRE(p.size()   == 0);
-            REQUIRE(p.rank()   == 0);
+            REQUIRE(p.size() == 0);
+            REQUIRE(p.rank() == 0);
             REQUIRE(p.trange() == TA::TiledRange{});
         }
 
-        SECTION("value"){
+        SECTION("value") {
             auto& p = ps.at("1 rank 1 index");
             REQUIRE(p.size() == 1);
             REQUIRE(p.rank() == 1);
             REQUIRE(p.trange() == tr1);
         }
 
-        SECTION("clone"){
-            for(const auto& [k, v] : ps){
-                SECTION(k){ REQUIRE(*v.clone() == v); }
+        SECTION("clone") {
+            for(const auto& [k, v] : ps) {
+                SECTION(k) { REQUIRE(*v.clone() == v); }
             }
         }
     }
@@ -295,9 +295,7 @@ TEST_CASE("TiledDomainPIMPL"){
     SECTION("operator==") {
         SECTION("empty") {
             auto& p = ps.at("empty");
-            SECTION("both no TiledRange") {
-                REQUIRE(p == pimpl_type{});
-            }
+            SECTION("both no TiledRange") { REQUIRE(p == pimpl_type{}); }
 
             SECTION("one has TiledRange, one doesn't") {
                 pimpl_type p2(tr1);
@@ -338,7 +336,7 @@ TEST_CASE("TiledDomainPIMPL"){
             REQUIRE(p.trange() == tr1);
         }
 
-        SECTION("bad trange"){
+        SECTION("bad trange") {
             auto& p = ps.at("1 rank 0 index");
             REQUIRE_THROWS_AS(p.set_trange(tr1), std::out_of_range);
         }

@@ -8,8 +8,8 @@ namespace libchemist {
  *
  *  In Electronic structure theory we place a lot of emphasis on the
  *  one-Electron density; however, there are many other densities. This class
- *  is templated on the types and number of particles that the density describes.
- *  In turn this allows for this class to model densities involving an
+ *  is templated on the types and number of particles that the density
+ * describes. In turn this allows for this class to model densities involving an
  *  arbitrary number of arbitrary particles.
  *
  *  @note At the moment this class is basically a strong type which wraps a

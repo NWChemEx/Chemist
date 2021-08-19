@@ -53,7 +53,8 @@ TEST_CASE("DerivedSpace") {
     }
 
     auto& world = TA::get_default_world();
-    tensor_type C(ta_tensor(world, matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}}));
+    tensor_type C(
+      ta_tensor(world, matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}}));
 
     space_type default_ao(C, from_space{});
     AOBasisSetD bs;
@@ -239,8 +240,8 @@ TEST_CASE("IndDerivedSpace") {
     using inner_type = typename tile_type::value_type;
     using from_space = DepAOSpaceD;
     using base_space = BaseSpace;
-    using vector_il = TA::detail::vector_il<double>;
-    using matrix_il = TA::detail::matrix_il<double>;
+    using vector_il  = TA::detail::vector_il<double>;
+    using matrix_il  = TA::detail::matrix_il<double>;
 
     SECTION("Typedefs") {
         SECTION("transform_type") {
@@ -266,7 +267,8 @@ TEST_CASE("IndDerivedSpace") {
 
     // Build non-default transformation
     auto& world = TA::get_default_world();
-    tensor_type C(ta_tensor_type(world, matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}}));
+    tensor_type C(ta_tensor_type(
+      world, matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}}));
 
     space_type default_ao(C, from_space{});
     AOBasisSetD bs;
@@ -456,7 +458,6 @@ TEST_CASE("DepDerivedSpace") {
     using vector_il  = TA::detail::vector_il<inner_type>;
     using matrix_il  = TA::detail::matrix_il<inner_type>;
 
-
     SECTION("Typedefs") {
         SECTION("transform_type") {
             using transform_type = typename space_type::transform_type;
@@ -485,7 +486,8 @@ TEST_CASE("DepDerivedSpace") {
     inner_type c01(TA::Range({2, 2}), {5.0, 6.0, 7.0, 8.0});
     inner_type c10(TA::Range({2, 2}), {9.0, 1.0, 2.0, 3.0});
     inner_type c11(TA::Range({2, 2}), {4.0, 5.0, 6.0, 7.0});
-    tensor_type C(ta_tot_type(world, matrix_il{vector_il{c00, c01}, vector_il{c10, c11}}));
+    tensor_type C(
+      ta_tot_type(world, matrix_il{vector_il{c00, c01}, vector_il{c10, c11}}));
 
     // object that is all default except transformation
     space_type non_default_c(C, from_space{});

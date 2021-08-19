@@ -179,8 +179,8 @@ inline void ConnectivityTablePIMPL::add_bond(size_type i, size_type j) {
     m_connections_[min * m_natoms_ + max] = true;
 }
 
-inline typename ConnectivityTablePIMPL::bond_list_type ConnectivityTablePIMPL::bonds()
-  const {
+inline typename ConnectivityTablePIMPL::bond_list_type
+ConnectivityTablePIMPL::bonds() const {
     const auto n_bonds = nbonds();
     bond_list_type rv(n_bonds);
 
