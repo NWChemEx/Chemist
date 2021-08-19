@@ -426,7 +426,7 @@ public:
      */
     template<typename Archive>
     void save(Archive& ar) const {
-        ar& this->size();
+        ar & this->size();
         for(const auto& c : *this) { ar& c; }
     }
 
@@ -451,6 +451,36 @@ public:
      */
     void hash(pluginplay::Hasher& h) const;
 
+    /** @brief Makes this AOBasisSet the union of this set and @p rhs.
+     *
+     *  Strictly speaking, this function will concatenate the basis functions in
+     *  the present basis set with those in @p rhs. It's only a union if the
+     *  basis sets are disjoint.
+     *
+     *  @param[in] rhs The basis we are taking the union with.
+     *
+     *  @return The current basis set, after adding @p rhs to it.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating memory for the
+     *                        new basis functions. Weak throw guarantee.
+     */
+    AOBasisSet<T>& operator+=(const AOBasisSet<T>& rhs);
+
+    /** @brief Computes the AOBasisSet which is the union of this and @p rhs.
+     *
+     *  Strictly speaking, this function will concatenate the basis functions in
+     *  the present basis set with those in @p rhs. It's only a union if the
+     *  basis sets are disjoint.
+     *
+     *  @param[in] rhs The basis we are taking the union with.
+     *
+     *  @return The basis set resulting from the union of this with @p rhs.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating memory for the
+     *                        new basis functions. Strong throw guarantee.
+     */
+    AOBasisSet<T> operator+(const AOBasisSet<T>& rhs) const;
+
 private:
     /// Allows the base class to implement container API
     friend base_type;
@@ -463,6 +493,18 @@ private:
     /// The instance actually implementing the API
     std::unique_ptr<detail_::AOBasisSetPIMPL<T>> m_pimpl_;
 }; // class AOBasisSet
+
+template<typename T>
+AOBasisSet<T>& AOBasisSet<T>::operator+=(const AOBasisSet<T>& rhs) {
+    for(const auto& ci : rhs) add_center(ci);
+    return *this;
+}
+
+template<typename T>
+AOBasisSet<T> AOBasisSet<T>::operator+(const AOBasisSet<T>& rhs) const {
+    AOBasisSet<T> rv(*this);
+    return rv += rhs;
+}
 
 extern template class AOBasisSet<double>;
 extern template class AOBasisSet<float>;
