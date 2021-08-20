@@ -1,3 +1,4 @@
+#include "libchemist/ta_helpers/pow.hpp"
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include "libchemist/tensor/linear_algebra.hpp"
 #include "libchemist/tensor/tensor.hpp"
