@@ -74,13 +74,6 @@ public:
      */
     const auto& virtual_orbitals() const noexcept { return m_virt_; }
 
-    /** @brief The entire set of orbitals, this is the union of all partitions.
-     *
-     *
-     *  @return The union of the occupied and virtual spaces.
-     */
-    auto orbitals() const noexcept { return m_occ_ + m_virt; }
-
     /** @brief The Fock operator which generated these orbitals.
      *
      *  @return The Fock operator which generated the orbitals.
