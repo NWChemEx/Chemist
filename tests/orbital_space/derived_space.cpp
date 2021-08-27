@@ -144,6 +144,17 @@ TEST_CASE("DerivedSpace") {
         }
     }
 
+    SECTION("operator+") {
+        SECTION("Throws if different from space") {
+            REQUIRE_THROWS_AS(non_default + default_ao, std::runtime_error);
+        }
+
+        auto new_C = tensor::concatenate(non_default.C(), non_default.C(), 1);
+        space_type corr(new_C, non_default.from_space_data());
+        auto rv = non_default + non_default;
+        REQUIRE(corr == rv);
+    }
+
     SECTION("hash") {
         SECTION("LHS == default") {
             const auto lhs = pluginplay::hash_objects(space_type{});
