@@ -17,7 +17,8 @@ namespace {
 // This is some bogus operator, which has a type different than all operators we
 // are actually testing.
 template<typename T>
-struct BogusOperator : detail_::OperatorImpl<BogusOperator, T> {};
+struct BogusOperator
+  : libchemist::operators::detail_::OperatorImpl<BogusOperator, T> {};
 
 } // namespace
 
