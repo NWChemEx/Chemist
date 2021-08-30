@@ -1,12 +1,13 @@
 #include "libchemist/managers/basis_set_manager.hpp"
-#include "libchemist/managers/detail_/basis_set_manager_pimpl.hpp"
+#include "detail_/basis_set_manager_pimpl.hpp"
 
 namespace libchemist {
 
-using ao_basis_type = typename BasisSetManager::ao_basis_type;
-using size_type     = typename BasisSetManager::size_type;
+using ao_basis_type       = typename BasisSetManager::ao_basis_type;
+using size_type           = typename BasisSetManager::size_type;
+using ao_basis_getter_ptr = typename BasisSetManager::ao_basis_getter_ptr;
 
-BasisSetManager::BasisSetManager() : pimpl_(detail_::nwx_default_bs()) {}
+BasisSetManager::BasisSetManager() : pimpl_() {}
 BasisSetManager::BasisSetManager(const BasisSetManager& rhs) :
   pimpl_(rhs.pimpl_->clone()) {}
 BasisSetManager::BasisSetManager(BasisSetManager&& rhs) noexcept = default;
@@ -20,6 +21,11 @@ BasisSetManager::~BasisSetManager() noexcept = default;
 ao_basis_type BasisSetManager::get_basis(const std::string& name,
                                          size_type Z) const {
     return pimpl_->get_basis(name, Z);
+}
+
+void BasisSetManager::insert(const std::string& name,
+                             ao_basis_getter_ptr ao_basis_getter) {
+    pimpl_->insert(name, ao_basis_getter);
 }
 
 size_type l_converter(char l) {

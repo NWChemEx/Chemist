@@ -5,7 +5,7 @@
 namespace libchemist {
 namespace detail_ {
 /// Forward declare PIMPL
-class BasisSetManagerPIMPL;
+struct BasisSetManagerPIMPL;
 } // namespace detail_
 
 /**
@@ -29,6 +29,9 @@ public:
 
     /// The type of an atomic number
     using size_type = std::size_t;
+
+    /// AO basis set retrieval function pointer
+    using ao_basis_getter_ptr = ao_basis_type (*)(size_type);
 
     /**
      * @brief Makes a basis set manager that relies on hard-coded basis sets.
@@ -69,6 +72,19 @@ public:
      *        set.  Strong throw guarantee.
      */
     ao_basis_type get_basis(const std::string& name, size_type Z) const;
+
+    /**
+     * @brief Adds a new basis set name and generation function.
+     *
+     * Adds a new basis set name and function to generate the basis set for a
+     * particular element.
+     *
+     * @param name The name of the new basis set
+     * @param ao_basis_getter The function to generate the basis set for a
+     *                        particular element
+     * @throw ??? I'm not sure how to determine this. Ask Ryan.
+     */
+    void insert(const std::string& name, ao_basis_getter_ptr ao_basis_getter);
 
 private:
     /// The instance actually responsible for making the class run
