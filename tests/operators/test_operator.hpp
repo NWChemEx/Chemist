@@ -17,7 +17,8 @@ auto non_default_parameter() {
         return libchemist::ManyElectrons{2};
     } else if constexpr(std::is_same_v<T, libchemist::OneElectronDensity>) {
         auto a_tensor = testing::generate_tensor(2);
-        return libchemist::OneElectronDensity(a_tensor);
+        return libchemist::OneElectronDensity(
+          a_tensor, libchemist::orbital_space::AOSpaceD{});
     } else if constexpr(std::is_same_v<T, libchemist::Nuclei>) {
         libchemist::Atom H(1ul);
         return libchemist::Nuclei{H, H};
