@@ -68,8 +68,8 @@ public:
      * @param name The name of the basis set
      * @param Z The atomic number.
      * @return The shells for an atom of atomic number @p Z.
-     * @throw std::bad_alloc if there is insufficient memory to make the basis
-     *        set.  Strong throw guarantee.
+     * @throw std::bad_alloc If there is insufficient memory to make the basis
+     *                       set. Strong throw guarantee.
      */
     ao_basis_type get_basis(const std::string& name, size_type Z) const;
 
@@ -82,7 +82,9 @@ public:
      * @param name The name of the new basis set
      * @param ao_basis_getter The function to generate the basis set for a
      *                        particular element
-     * @throw ??? I'm not sure how to determine this. Ask Ryan.
+     * 
+     * @throws ??? An exception is thrown in std::map::emplace. Strong throw
+     *             guarantee.
      */
     void insert(const std::string& name, ao_basis_getter_ptr ao_basis_getter);
 
