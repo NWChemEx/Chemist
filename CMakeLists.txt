@@ -37,6 +37,7 @@ cpp_find_or_build_dependency(
                BUILD_TESTING=OFF 
                BLAS_THREAD_LAYER=sequential
                MADNESS_ENABLE_CEREAL=ON
+           DEPENDS pluginplay
 )
 
 find_package(Boost REQUIRED COMPONENTS container)
