@@ -3,7 +3,11 @@
 
 using namespace libchemist::operators;
 
-using type_list = std::tuple<ElectronIdentity_Nuclear>;
+using type_list = std::tuple<ElectronIdentity_Nuclear,
+                             ElectronKinetic_Nuclear,
+                             ElectronRepulsion_Nuclear,
+                             NuclearRepulsion_Nuclear,
+                             ElectronNuclearAttraction_Nuclear>;
 
 TEMPLATE_LIST_TEST_CASE("Derivative", "", type_list) {
     using kinetic_type   = TestType;

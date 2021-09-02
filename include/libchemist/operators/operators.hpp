@@ -28,4 +28,6 @@ using ElectronNuclearAttraction_Nuclear = Derivative<ElectronNuclearAttraction, 
 
 using ElectronRepulsion_Nuclear = Derivative<ElectronRepulsion, Nuclei>;
 
+using NuclearRepulsion_Nuclear = Derivative<NuclearRepulsion, Nuclei>;
+
 }
