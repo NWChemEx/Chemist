@@ -41,6 +41,9 @@ private:
 
 /** @brief Syntactic sugar for generating a SubtOp instance.
  *
+ *  These four overloads of operator- allow you to subtract tensor wrappers of
+ *  different const-ness via the expression layer.
+ *
  *  @relates SubtOp
  *
  *  @tparam LHSType The type of the expression on the left of the minus sign.
@@ -53,10 +56,27 @@ private:
  *
  *  @return A SubtOp object describing the subtraction to perform.
  */
+///@{
 template<typename LHSType, typename RHSType>
 auto operator-(OpLayer<LHSType>& lhs, OpLayer<RHSType>& rhs) {
     return SubtOp<LHSType, RHSType>(lhs.downcast(), rhs.downcast());
 }
+
+template<typename LHSType, typename RHSType>
+auto operator-(const OpLayer<LHSType>& lhs, OpLayer<RHSType>& rhs) {
+    return SubtOp<LHSType, RHSType>(lhs.downcast(), rhs.downcast());
+}
+
+template<typename LHSType, typename RHSType>
+auto operator-(OpLayer<LHSType>& lhs, const OpLayer<RHSType>& rhs) {
+    return SubtOp<LHSType, RHSType>(lhs.downcast(), rhs.downcast());
+}
+
+template<typename LHSType, typename RHSType>
+auto operator-(const OpLayer<LHSType>& lhs, const OpLayer<RHSType>& rhs) {
+    return SubtOp<LHSType, RHSType>(lhs.downcast(), rhs.downcast());
+}
+///@}
 
 // ------------------------ Implementations ------------------------------------
 
