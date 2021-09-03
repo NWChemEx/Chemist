@@ -44,6 +44,7 @@ using TensorD = type::tensor;
 using ToTD    = type::tensor_of_tensors;
 template class DerivedSpace<TensorD, AOSpaceD, BaseSpace>;
 template class DerivedSpace<TensorD, DepAOSpaceD, BaseSpace>;
+template class DerivedSpace<TensorD, DepAOSpaceD, DependentSpace>;
 template class DerivedSpace<ToTD, DepAOSpaceD, DependentSpace>;
 
 } // namespace libchemist::orbital_space

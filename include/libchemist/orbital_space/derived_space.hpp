@@ -327,7 +327,8 @@ bool operator!=(
 
 using DerivedSpaceD   = DerivedSpace<type::tensor, AOSpaceD, BaseSpace>;
 using IndDerivedSpace = DerivedSpace<type::tensor, DepAOSpaceD, BaseSpace>;
-using DepDerivedSpace =
+using DepDerivedSpace = DerivedSpace<type::tensor, DepAOSpaceD, DependentSpace>;
+using IndSpecificDerivedSpace =
   DerivedSpace<type::tensor_of_tensors, DepAOSpaceD, DependentSpace>;
 
 // ----------------------- Inline Implementations ------------------------------
@@ -357,6 +358,7 @@ const auto& DerivedSpace<TransformType, FromSpace, BaseType>::from_space()
 
 extern template class DerivedSpace<type::tensor, AOSpaceD, BaseSpace>;
 extern template class DerivedSpace<type::tensor, DepAOSpaceD, BaseSpace>;
+extern template class DerivedSpace<type::tensor, DepAOSpaceD, DependentSpace>;
 extern template class DerivedSpace<type::tensor_of_tensors, DepAOSpaceD,
                                    DependentSpace>;
 
