@@ -1,6 +1,8 @@
 #pragma once
 #include "libchemist/tensor/allclose.hpp"
+#include "libchemist/tensor/creation.hpp"
 #include "libchemist/tensor/linear_algebra.hpp"
+#include "libchemist/tensor/remove_redundancy.hpp"
 #include "libchemist/tensor/tensor_wrapper.hpp"
 #include "libchemist/tensor/types.hpp"
 #include <tiledarray.h>

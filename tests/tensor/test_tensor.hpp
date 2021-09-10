@@ -7,6 +7,7 @@
 #include "libchemist/types.hpp"
 #include <catch2/catch.hpp>
 #include <utilities/type_traits/variant/cat.hpp>
+
 namespace testing {
 
 /// Type of a variant with all possible tensor types in it

@@ -38,7 +38,7 @@ TEMPLATE_LIST_TEST_CASE("SubtOp", "", type::tensor_variant) {
 
     TWrapper result(t_type{});
 
-    SECTION("operator-(other labeled tensor)") {
+    SECTION("operator-(labeled tensor, labeled tensor)") {
         SECTION("vector") {
             result("i") = lvec - lvec;
             auto& rv    = result.get<t_type>();
@@ -54,6 +54,81 @@ TEMPLATE_LIST_TEST_CASE("SubtOp", "", type::tensor_variant) {
         }
         SECTION("rank-3 tensor") {
             result("i,j,k") = lt3 - lt3;
+            auto& rv        = result.get<t_type>();
+            t_type corr(
+              world,
+              tensor_il{matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}},
+                        matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}}});
+            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+        }
+    }
+
+    SECTION("operator-(labeled tensor, const labeled tensor)") {
+        SECTION("vector") {
+            result("i") = lvec - std::as_const(lvec);
+            auto& rv    = result.get<t_type>();
+            t_type corr(world, vector_il{0.0, 0.0, 0.0});
+            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+        }
+        SECTION("matrix") {
+            result("i,j") = lmat - std::as_const(lmat);
+            auto& rv      = result.get<t_type>();
+            t_type corr(world,
+                        matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}});
+            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+        }
+        SECTION("rank-3 tensor") {
+            result("i,j,k") = lt3 - std::as_const(lt3);
+            auto& rv        = result.get<t_type>();
+            t_type corr(
+              world,
+              tensor_il{matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}},
+                        matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}}});
+            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+        }
+    }
+
+    SECTION("operator-(const labeled tensor, labeled tensor)") {
+        SECTION("vector") {
+            result("i") = std::as_const(lvec) - lvec;
+            auto& rv    = result.get<t_type>();
+            t_type corr(world, vector_il{0.0, 0.0, 0.0});
+            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+        }
+        SECTION("matrix") {
+            result("i,j") = std::as_const(lmat) - lmat;
+            auto& rv      = result.get<t_type>();
+            t_type corr(world,
+                        matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}});
+            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+        }
+        SECTION("rank-3 tensor") {
+            result("i,j,k") = std::as_const(lt3) - lt3;
+            auto& rv        = result.get<t_type>();
+            t_type corr(
+              world,
+              tensor_il{matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}},
+                        matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}}});
+            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+        }
+    }
+
+    SECTION("operator-(const labeled tensor, const labeled tensor)") {
+        SECTION("vector") {
+            result("i") = std::as_const(lvec) - std::as_const(lvec);
+            auto& rv    = result.get<t_type>();
+            t_type corr(world, vector_il{0.0, 0.0, 0.0});
+            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+        }
+        SECTION("matrix") {
+            result("i,j") = std::as_const(lmat) - std::as_const(lmat);
+            auto& rv      = result.get<t_type>();
+            t_type corr(world,
+                        matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}});
+            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+        }
+        SECTION("rank-3 tensor") {
+            result("i,j,k") = std::as_const(lt3) - std::as_const(lt3);
             auto& rv        = result.get<t_type>();
             t_type corr(
               world,

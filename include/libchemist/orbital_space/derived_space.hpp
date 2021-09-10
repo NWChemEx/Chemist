@@ -233,6 +233,28 @@ public:
      */
     auto from_space_data() const { return m_pbase_; }
 
+    /** @brief Non-polymorphically takes the union of this space and another
+     *         derived space.
+     *
+     *  This function will take the union of this space with @p rhs. The
+     *  union is done non-polymorphically, meaning state in derived classes is
+     *  not considered.
+     *
+     *  @note Strictly speaking this is simply a concatenation of the two
+     *        spaces. As long as the spaces are different this will be a union.
+     *        However, no attempt to remove redundant basis functions is made.
+     *
+     *  @param[in] rhs The space we are taking the union with.
+     *
+     *  @return A new basis set which is the union of this space and that of
+     *          @p rhs. The basis functions will be ordered this space's
+     *          functions followed by @p rhs's functions.
+     *
+     *  @throw std::runtime_error if this space has a from space that differs
+     *                            from that of @p rhs. Strong throw guarantee.
+     */
+    DerivedSpace operator+(const DerivedSpace& rhs) const;
+
 protected:
     /// Type of the container used for passing multiple modes to transform
     using mode_container = typename BaseType::mode_container;

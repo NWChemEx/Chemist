@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
+
 file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/version.txt" VERSION)
 project(libchemist VERSION "${VERSION}" LANGUAGES CXX)
 
@@ -15,19 +16,6 @@ nwx_cxx_api_docs("${CMAKE_CURRENT_SOURCE_DIR}/libchemist")
 option(BUILD_TESTING "Should we build the tests?" OFF)
 option(BUILD_PYBINDINGS "Should we build Python3 bindings?" ON)
 
-# N.B. If you update the TA version, you may need to update the MADNESS version
-#      in the runtime repo.
-cpp_find_or_build_dependency(
-    tiledarray
-    URL github.com/ValeevGroup/tiledarray
-    VERSION a7b866739a01f797afa39c68a1f4263152f9d550
-    BUILD_TARGET tiledarray
-    FIND_TARGET tiledarray
-    CMAKE_ARGS TA_BUILD_UNITTEST=OFF
-               BLAS_THREAD_LAYER=sequential
-               MADNESS_ENABLE_CEREAL=ON
-)
-
 cpp_find_or_build_dependency(
     pluginplay
     URL github.com/NWChemEx-Project/PluginPlay
@@ -35,6 +23,20 @@ cpp_find_or_build_dependency(
     BUILD_TARGET pluginplay
     FIND_TARGET nwx::pluginplay
     CMAKE_ARGS BUILD_TESTING=OFF
+)
+
+# N.B. If you update the TA version, you may also need to update 
+#      the MADNESS version in the ParallelZone repo.
+cpp_find_or_build_dependency(
+    tiledarray
+    URL github.com/ValeevGroup/tiledarray
+    VERSION 1b7e2e3da438344a11c848724f3041b2d2b5c30b
+    BUILD_TARGET tiledarray
+    FIND_TARGET tiledarray
+    CMAKE_ARGS TA_BUILD_UNITTEST=OFF
+               BUILD_TESTING=OFF 
+               BLAS_THREAD_LAYER=sequential
+               MADNESS_ENABLE_CEREAL=ON
 )
 
 find_package(Boost REQUIRED COMPONENTS container)

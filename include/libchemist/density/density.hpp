@@ -1,5 +1,6 @@
 #pragma once
 #include "libchemist/electrons/electrons.hpp"
+#include "libchemist/orbital_space/ao_space.hpp"
 #include "libchemist/types.hpp"
 
 namespace libchemist {
@@ -19,7 +20,6 @@ namespace libchemist {
  *                    the moment the types are used purely for strong typing
  *                    purposes. Expected to be unqualified types.
  *
- *  @todo Should the density be its own libchemist component?
  */
 template<typename... Particles>
 class Density {
@@ -27,13 +27,31 @@ public:
     /// Type used to represent the numeric form of the density
     using value_type = type::tensor;
 
-    explicit Density(value_type rho = {}) : m_density_(std::move(rho)) {}
+    /// Type of the basis set
+    using ao_space = orbital_space::AOSpaceD;
+
+    explicit Density() = default;
+
+    Density(value_type rho, ao_space aos) :
+      m_orbs_(std::move(aos)), m_density_(std::move(rho)) {}
+
+    /** @brief Provides read-only access to the orbital basis set used to define
+     *         the density matrix.
+     *
+     *  @return The orbital basis the density is formed in.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const auto& basis_set() const { return m_orbs_; }
 
     const auto& value() const noexcept { return m_density_; }
 
-    void hash(pluginplay::Hasher& h) const { h(m_density_); }
+    void hash(pluginplay::Hasher& h) const { h(m_orbs_, m_density_); }
 
 private:
+    /// The orbital space used to make the density
+    ao_space m_orbs_;
+
     /// The density tensor
     value_type m_density_;
 };
@@ -60,7 +78,8 @@ template<typename... LHSParticles, typename... RHSParticles>
 bool operator==(const Density<LHSParticles...>& lhs,
                 const Density<RHSParticles...>& rhs) {
     if constexpr(std::is_same_v<decltype(lhs), decltype(rhs)>) {
-        return lhs.value() == rhs.value();
+        return std::tie(lhs.basis_set(), lhs.value()) ==
+               std::tie(rhs.basis_set(), rhs.value());
     } else {
         return false;
     }

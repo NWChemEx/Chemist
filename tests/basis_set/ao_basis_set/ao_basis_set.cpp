@@ -218,6 +218,29 @@ TEST_CASE("AOBasisSet : unique_primitives() const") {
     }
 }
 
+TEST_CASE("AOBasisSet : operator+=") {
+    auto [bs, c] = make_bs();
+    bs_t rhs;
+    center_t c2(4.0, 5.0, 6.0);
+    rhs.add_center(c2);
+    auto pbs = &(bs += rhs);
+    REQUIRE(pbs == &bs);
+    REQUIRE(bs.size() == 2);
+    REQUIRE(bs[0] == c);
+    REQUIRE(bs[1] == c2);
+}
+
+TEST_CASE("AOBasisSet : operator+") {
+    const auto [bs, c] = make_bs();
+    bs_t rhs;
+    center_t c2(4.0, 5.0, 6.0);
+    rhs.add_center(c2);
+    auto rv = bs + rhs;
+    REQUIRE(rv.size() == 2);
+    REQUIRE(rv[0] == c);
+    REQUIRE(rv[1] == c2);
+}
+
 TEST_CASE("AOBasisSet serialization") {
     const auto [bs, c] = make_bs();
     bs_t bs2;
