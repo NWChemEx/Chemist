@@ -307,3 +307,37 @@ TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
         }
     }
 }
+
+// TEST_CASE("FamilyOfSets<tuple>") {
+//     using set0_t = FamilyOfSets<std::vector<int>>;
+//     using set1_t = FamilyOfSets<std::vector<char>>;
+
+//     std::vector<int> set0_v{0, 1, 2, 3, 4, 5};
+//     std::vector<char> set1_v{'a', 'b', 'c', 'd'};
+//     set0_t set0(set0_v, {{0, 1}, {2, 3}, {4, 5}});
+//     set1_t set1(set1_v, {{'a', 'b'}, {'c', 'd'}});
+
+//     std::tuple<set0_t, set1_t> the_sets(std::move(set0), std::move(set1));
+
+//     using set_t      = std::tuple<set0_t, set1_t>;
+//     using value_type = typename
+
+//       FamilyOfSets<set_t>
+//         defaulted;
+//     FamilyOfSets<set_t> s0(the_sets, {{{0, 1}, {1}}});
+//     FamilyOfSets<set_t> s1(the_sets, {{{0}, {0}}, {{2}, {1}}});
+
+//     SECTION("CTors") {
+//         SECTION("Empty") {
+//             REQUIRE(empty.empty());
+//             REQUIRE(empty.size() == 0);
+//             REQUIRE(empty.object() == the_sets);
+//         }
+
+//         SECTION("Initializer list") {
+//             REQUIRE_FALSE(s0.empty());
+//             REQUIRE(s0.size() == 1);
+//             REQUIRE(s0.object() == set_t{});
+//         }
+//     }
+// }

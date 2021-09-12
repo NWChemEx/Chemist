@@ -1,4 +1,5 @@
 #pragma once
+#include "libchemist/set_theory/family_of_sets_traits.hpp"
 #include "libchemist/set_theory/subset.hpp"
 #include <vector>
 
@@ -26,17 +27,19 @@ namespace libchemist::set_theory {
 template<typename SetType>
 class FamilyOfSets {
 public:
+    using traits_type = FamilyOfSetsTraits<SetType>;
+
     /// Type of the set we are dividing up
     using superset_type = SetType;
 
     /// Type of the subsets in this family of sets
-    using value_type = Subset<superset_type>;
+    using value_type = typename traits_type::value_type;
 
     /// Type of a read/write-reference to a subset
-    using reference_type = value_type&;
+    using reference_type = typename traits_type::reference_type;
 
     /// Type of a read-only reference to a subset
-    using const_reference = const value_type&;
+    using const_reference = typename traits_type::const_reference;
 
     /// Type of the pointer holding the superset
     using ptr_type = std::shared_ptr<const superset_type>;
@@ -49,21 +52,21 @@ public:
     /// Type used for indexing and offsets
     using size_type = typename subset_container::size_type;
 
-private:
-    /// Type of an initializer list of offsets
-    using offset_il = std::initializer_list<size_type>;
+    /** @brief Type of an initializer list which can be used for initialization
+     *         by offset.
+     */
+    using il_type = typename traits_type::template il_type<size_type>;
 
-    /// Type of an initializer list of offset_il
-    using offset_il_il = std::initializer_list<offset_il>;
-
-public:
     /** @brief Creates a new FamilyOfSets instance using @p obj as the parent
      *         set.
      *
      *  @param[in] obj The parent set from which all of the subsets will be
      *                 taken.
+     *  @param[in] il An initializer list containing the subsets to populate the
+     *                instance with. Default value is an empty list, which will
+     *                create an empty FamilyOfSets.
      */
-    explicit FamilyOfSets(SetType obj, offset_il_il il = {});
+    explicit FamilyOfSets(SetType obj, il_type il = {});
 
     /** @brief Used to determine if the current family is empty.
      *
@@ -253,8 +256,8 @@ bool operator!=(const FamilyOfSets<LHSSetType>& lhs,
 #define FAMILYOFSETS FamilyOfSets<SetType>
 
 template<typename SetType>
-FAMILYOFSETS::FamilyOfSets(SetType obj, offset_il_il il) :
-  m_obj_(std::make_shared<SetType>(std::move(obj))) {
+FAMILYOFSETS::FamilyOfSets(SetType obj, il_type il) :
+  m_obj_(traits_type::make_pointer(std::move(obj))) {
     for(auto x : il) insert(value_type(m_obj_, x));
 }
 
