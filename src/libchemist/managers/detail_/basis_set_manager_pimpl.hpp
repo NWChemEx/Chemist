@@ -12,13 +12,13 @@ namespace libchemist::detail_ {
 struct BasisSetManagerPIMPL {
     /// Forward typedefs from main class
     ///@{
-    using ao_basis_type       = typename BasisSetManager::ao_basis_type;
-    using size_type           = typename BasisSetManager::size_type;
-    using ao_basis_getter_ptr = typename BasisSetManager::ao_basis_getter_ptr;
+    using ao_basis_type = typename BasisSetManager::ao_basis_type;
+    using size_type     = typename BasisSetManager::size_type;
+    using ao_basis_map  = typename BasisSetManager::ao_basis_map;
     ///@}
 
-    /// The type of the basis set map
-    using ao_basis_map = utilities::CaseInsensitiveMap<ao_basis_getter_ptr>;
+    /// The type of the basis set map, mapping names to AO basis maps
+    using basis_set_map = utilities::CaseInsensitiveMap<ao_basis_map>;
 
     /** @name BasisSetManagerPIMPL Public API
      *
@@ -39,24 +39,21 @@ struct BasisSetManagerPIMPL {
      *
      * @throws std::out_of_range @p name is not a valid basis set name.
      *                           Strong throw guarantee.
-     * @throw std::bad_alloc If there is insufficient memory to make the basis
-     *                       set. Strong throw guarantee.
      */
     ao_basis_type get_basis(const std::string& name, size_type Z) const {
-        return m_basis_sets.at(name)(Z);
+        return m_basis_sets.at(name).at(Z);
     }
 
     /** @brief Add a basis set name/getter function pair
      *
      * @param name Basis set name
-     * @param ao_basis_getter Basis set getter function to get the basis for a
-     *                        requested atomic number
+     * @param ao_basis AO basis object
      *
      * @throws ??? An exception is thrown in std::map::emplace. Strong throw
      *             guarantee.
      */
-    void insert(const std::string& name, ao_basis_getter_ptr ao_basis_getter) {
-        m_basis_sets.emplace(name, ao_basis_getter);
+    void insert(const std::string& name, ao_basis_map ao_basis) {
+        m_basis_sets.emplace(name, ao_basis);
     }
     ///@}
 
@@ -68,17 +65,27 @@ struct BasisSetManagerPIMPL {
      */
     bool operator==(const BasisSetManagerPIMPL& rhs) const {
         // Quick size check
-        if(m_basis_sets.size() == rhs.m_basis_sets.size()) { return false; }
+        if(m_basis_sets.size() != rhs.m_basis_sets.size()) { return false; }
 
-        // Check contents of maps
-        for(const auto& [k, v] : rhs.m_basis_sets) {
+        // Check contents of each basis set map
+        for(const auto& [name, basis_map] : rhs.m_basis_sets) {
             // Check if key exists
-            if(!m_basis_sets.count(k)) { return false; }
+            if(m_basis_sets.count(name) == 0) { return false; }
 
-            // Compare values. Function pointers should be pointing to the
-            // same address if they have the same signature. Lambda functions
-            // will not appear equivalent!
-            if(*m_basis_sets.at(k) != *v) { return false; }
+            // Compare the AO basis maps
+            // Start with another quick size check
+            if(m_basis_sets.at(name).size() != basis_map.size()) {
+                return false;
+            }
+
+            // Compare the AO bases in the map
+            for(const auto& [Z, ao_basis] : basis_map) {
+                // Check if key exists
+                if(m_basis_sets.at(name).count(Z) == 0) { return false; }
+
+                // Compare the AO bases themselves
+                if(m_basis_sets.at(name).at(Z) != ao_basis) { return false; }
+            }
         }
 
         return true;
@@ -96,7 +103,7 @@ struct BasisSetManagerPIMPL {
     ///@{
     /// Map of basis set names to the getter function for each atom supported
     /// by the basis set
-    ao_basis_map m_basis_sets;
+    basis_set_map m_basis_sets;
     ///@}
 };
 

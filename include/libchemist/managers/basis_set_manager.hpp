@@ -30,11 +30,11 @@ public:
     /// The type of an atomic number
     using size_type = std::size_t;
 
-    /// AO basis set retrieval function pointer
-    using ao_basis_getter_ptr = ao_basis_type (*)(size_type);
+    /// The type of a basis set, mapping atomic numbers to AO basis sets
+    using ao_basis_map = std::map<size_type, ao_basis_type>;
 
     /**
-     * @brief Makes a basis set manager that relies on hard-coded basis sets.
+     * @brief Makes a basis set manager which can have basis set maps inserted.
      *
      * @throw std::bad_alloc if there is insufficient memory to allocate the
      *        PIMPL.  Strong throw guarantee.
@@ -68,10 +68,11 @@ public:
      * @param name The name of the basis set
      * @param Z The atomic number.
      * @return The shells for an atom of atomic number @p Z.
-     * @throw std::bad_alloc If there is insufficient memory to make the basis
-     *                       set. Strong throw guarantee.
+     *
+     * @throws std::out_of_range @p name is not a valid basis set name.
+     *                           Strong throw guarantee.
      */
-    ao_basis_type get_basis(const std::string& name, size_type Z) const;
+    ao_basis_type get_basis(const std::string& name, const size_type& Z) const;
 
     /**
      * @brief Adds a new basis set name and generation function.
@@ -80,17 +81,53 @@ public:
      * particular element.
      *
      * @param name The name of the new basis set
-     * @param ao_basis_getter The function to generate the basis set for a
-     *                        particular element
-     * 
+     * @param basis_set The basis set mapping from atomic number to AO basis
+     *
      * @throws ??? An exception is thrown in std::map::emplace. Strong throw
      *             guarantee.
      */
-    void insert(const std::string& name, ao_basis_getter_ptr ao_basis_getter);
+    void insert(const std::string& name, const ao_basis_map& basis_set);
+
+    /**
+     * @defgroup Comparison Operators
+     *
+     * @param rhs BasisSetManager on the right-hand side of the operator
+     * @returns Truth of comparison operator
+     */
+    ///@{
+    bool operator==(const BasisSetManager& rhs) const;
+    bool operator!=(const BasisSetManager& rhs) const;
+    ///@}
 
 private:
     /// The instance actually responsible for making the class run
-    std::unique_ptr<detail_::BasisSetManagerPIMPL> pimpl_;
+    std::unique_ptr<detail_::BasisSetManagerPIMPL> m_pimpl_;
+
+    /**
+     * @defgroup PIMPL Interaction
+     * @brief Methods used to interact with the PIMPL
+     *
+     * @return detail_::BasisSetManagerPIMPL&
+     */
+    ///@{
+    /**
+     * @brief Returns the PIMPL instance, creating it if it does not exist.
+     *
+     * @returns Existing PIMPL or newly created PIMPL if one did not exist yet.
+     * @throws std::bad_alloc There was not enough memory to create the new
+     *                        PIMPL. Strong throw guarantee.
+     */
+    detail_::BasisSetManagerPIMPL& pimpl_();
+
+    /**
+     * @brief Returns the PIMPL instance, but throws if it does not exist.
+     *
+     * @return const detail_::BasisSetManagerPIMPL&
+     * @throws std::runtime_error A PIMPL does not exist. Strong throw
+     *                            guarantee.
+     */
+    const detail_::BasisSetManagerPIMPL& pimpl_() const;
+    ///@}
 };
 
 /**
