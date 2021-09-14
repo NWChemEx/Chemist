@@ -12,4 +12,10 @@ tensor apply_elementwise(const tensor& input,
     return tensor(libchemist::ta_helpers::apply_elementwise(t, fxn));
 }
 
+void apply_elementwise_inplace(tensor& input,
+                               const std::function<void(double&)>& fxn) {
+    auto& t = input.get<TA::TSpArrayD>();
+    libchemist::ta_helpers::apply_elementwise_inplace(t, fxn);
+}
+
 } // namespace libchemist::tensor
