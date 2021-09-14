@@ -60,6 +60,17 @@ TEST_CASE("Tensor = Tensor * Tensor") {
         result("i,j") = wrapped_lhs("i") * wrapped_rhs("j");
         REQUIRE(ta_helpers::allclose(result.get<result_t>(), corr));
     }
+
+    SECTION("Mixed Hadamard and Contraction") {
+        auto lhs2 = testing::get_tensors<lhs_t>().at("matrix");
+        auto rhs2 = testing::get_tensors<rhs_t>().at("matrix");
+        const tensor_wrapper wrapped_lhs(lhs2);
+        const tensor_wrapper wrapped_rhs(rhs2);
+        tensor_wrapper result(result_t{});
+        result("i") = wrapped_lhs("i,mu") * wrapped_rhs("mu,i");
+        TA::TSpArrayD corr(world, {7, 22});
+        REQUIRE(ta_helpers::allclose(result.get<result_t>(), corr));
+    }
 }
 
 TEST_CASE("Tensor = ToT * ToT") {

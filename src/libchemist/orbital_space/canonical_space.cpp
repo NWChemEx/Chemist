@@ -20,6 +20,7 @@ bool CANONICAL_SPACE::equal_(const BaseSpace& rhs) const noexcept {
 
 template class CanonicalSpace<type::tensor, DerivedSpaceD>;
 template class CanonicalSpace<type::tensor, IndDerivedSpace>;
-template class CanonicalSpace<type::tensor_of_tensors, DepDerivedSpace>;
+template class CanonicalSpace<type::tensor, DepDerivedSpace>;
+template class CanonicalSpace<type::tensor_of_tensors, IndSpecificDerivedSpace>;
 
 } // namespace libchemist::orbital_space

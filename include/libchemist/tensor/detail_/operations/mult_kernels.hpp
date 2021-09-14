@@ -1,9 +1,11 @@
 #pragma once
+#include "libchemist/ta_helpers/einsum/einsum.hpp"
 #include "libchemist/tensor/type_traits/labeled_variant.hpp"
 #include "libchemist/tensor/type_traits/variant_type.hpp"
 #include "libchemist/tensor/types.hpp"
 #include <TiledArray/expressions/contraction_helpers.h>
 #include <type_traits>
+#include <utilities/strings/string_tools.hpp>
 #include <variant>
 
 namespace libchemist::tensor::detail_ {
@@ -36,6 +38,32 @@ struct MultKernel;
 template<>
 struct MultKernel<type::SparseTensorWrapper, type::SparseTensorWrapper,
                   type::SparseTensorWrapper> {
+private:
+    template<typename Result, typename LHS, typename RHS>
+    static auto use_einsum_(Result& result, const LHS& lhs, const RHS& rhs) {
+        using utilities::strings::split_string;
+        const auto& lidx = split_string(lhs.annotation(), ",");
+        const auto& ridx = split_string(rhs.annotation(), ",");
+        const auto& oidx = split_string(result.annotation(), ",");
+
+        for(const auto& x : oidx) {
+            const auto l_count = std::count(lidx.begin(), lidx.end(), x);
+            const auto r_count = std::count(ridx.begin(), ridx.end(), x);
+            if(l_count == 1 && r_count == 1) {
+                const auto& ostr = result.annotation();
+                const auto& lstr = lhs.annotation();
+                const auto& rstr = rhs.annotation();
+                auto& lt         = lhs.array();
+                auto& rt         = rhs.array();
+                auto& ot         = result.array();
+                ot = ta_helpers::einsum::einsum(ostr, lstr, rstr, lt, rt);
+                return std::make_pair(true, result);
+            }
+        }
+        return std::make_pair(false, result);
+    }
+
+public:
     /// Type of the resulting tensor wrapper
     using result_type = type::SparseTensorWrapper;
 
@@ -76,6 +104,8 @@ struct MultKernel<type::SparseTensorWrapper, type::SparseTensorWrapper,
         auto l                 = [&](auto&& result) {
             auto m = [&](auto&& lhs) {
                 auto n = [&](auto&& rhs) {
+                    auto [done, temp] = use_einsum_(result, lhs, rhs);
+                    if(done) return result_variant_t(temp);
                     result = lhs * rhs;
                     return result_variant_t(result);
                 };
