@@ -177,6 +177,8 @@ public:
      */
     auto extents() const;
 
+    size_type size() const;
+
     TensorWrapper slice(const std::initializer_list<size_type>& lo,
                         const std::initializer_list<size_type>& hi) const;
 
