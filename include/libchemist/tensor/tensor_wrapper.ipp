@@ -72,6 +72,12 @@ TENSOR_WRAPPER TENSOR_WRAPPER::slice(
 }
 
 template<typename VariantType>
+TA::TiledRange TENSOR_WRAPPER::trange() const {
+    auto l = [&](auto&& arg) { return arg.trange(); };
+    return std::visit(l, m_tensor_);
+}
+
+template<typename VariantType>
 std::ostream& TENSOR_WRAPPER::print(std::ostream& os) const {
     auto l = [&](auto&& arg) { os << arg; };
     std::visit(l, m_tensor_);
