@@ -12,14 +12,18 @@ BasisSetManager::BasisSetManager() : m_pimpl_() {}
 BasisSetManager::BasisSetManager(const BasisSetManager& rhs) :
   m_pimpl_(rhs.pimpl_().clone()) {}
 
-BasisSetManager::BasisSetManager(BasisSetManager&& rhs) noexcept = default;
+BasisSetManager::BasisSetManager(BasisSetManager&& rhs) noexcept :
+  m_pimpl_(std::move(rhs.m_pimpl_)) {}
 
 BasisSetManager& BasisSetManager::operator=(const BasisSetManager& rhs) {
-    return *this = std::move(BasisSetManager(rhs));
+    return *this = BasisSetManager(rhs);
 }
 
-BasisSetManager& BasisSetManager::operator=(BasisSetManager&& rhs) noexcept =
-  default;
+BasisSetManager& BasisSetManager::operator=(BasisSetManager&& rhs) noexcept {
+    m_pimpl_ = std::move(rhs.m_pimpl_);
+    
+    return *this;
+}
 
 BasisSetManager::~BasisSetManager() noexcept = default;
 
