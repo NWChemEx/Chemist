@@ -40,6 +40,14 @@ auto TENSOR_WRAPPER::rank() const {
 }
 
 template<typename VariantType>
+typename TENSOR_WRAPPER::size_type TENSOR_WRAPPER::size() const {
+    auto dims = extents();
+    if(dims.empty()) return 0;
+    std::multiplies<size_type> fxn;
+    return std::accumulate(dims.begin(), dims.end(), size_type{1}, fxn);
+}
+
+template<typename VariantType>
 auto TENSOR_WRAPPER::extents() const {
     auto l = [&](auto&& arg) {
         extents_type rv;
