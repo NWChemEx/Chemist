@@ -177,8 +177,29 @@ public:
      */
     auto extents() const;
 
+    /** @brief Returns the number of elements in this tensor.
+     *
+     *  This function returns the total number of elements in the tensor, which
+     *  is sometimes also known as the volume. The volume is computed as the
+     *  product of the extents. An empty tensor has a volume of zero.
+     *
+     *  @return The number of elements in the wrapped tensor.
+     */
     size_type size() const;
 
+    /** @brief Returns a slice of the wrapped tensor.
+     *
+     *  This function can be used to extract a slice of the underlying tensor.
+     *  The slice is assumed to contiguous along each mode, and have the same
+     *  rank as the underlying tensor. For mode `i` the slice will contain the
+     *  elements in the range [`lo[i]`, `hi[i]`).
+     *
+     *  @param[in] lo The index of the first element to include in the slice.
+     *  @param[in] hi The index of the first element, which is just outside the
+     *                slice.
+     *
+     *  @return The requested slice.
+     */
     TensorWrapper slice(const std::initializer_list<size_type>& lo,
                         const std::initializer_list<size_type>& hi) const;
 
