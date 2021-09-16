@@ -111,4 +111,11 @@ type::ToTWrapper concatenate(const type::ToTWrapper& lhs,
     //     l); return mp2::type::sparse_derived<double>(Corb,
     //     occ.from_space());
 }
+
+type::SparseTensorWrapper grab_diagonal(const type::SparseTensorWrapper& t) {
+    const auto& t_ta = t.get<TA::TSpArrayD>();
+
+    return type::SparseTensorWrapper(ta_helpers::grab_diagona(t_ta));
+}
+
 } // namespace libchemist::tensor
