@@ -115,7 +115,7 @@ type::ToTWrapper concatenate(const type::ToTWrapper& lhs,
 type::SparseTensorWrapper grab_diagonal(const type::SparseTensorWrapper& t) {
     const auto& t_ta = t.get<TA::TSpArrayD>();
 
-    return type::SparseTensorWrapper(ta_helpers::grab_diagona(t_ta));
+    return type::SparseTensorWrapper(ta_helpers::grab_diagonal(t_ta));
 }
 
 } // namespace libchemist::tensor
