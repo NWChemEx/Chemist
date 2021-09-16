@@ -53,7 +53,7 @@ struct BasisSetManagerPIMPL {
      *             guarantee.
      */
     void insert(const std::string& name, ao_basis_map ao_basis) {
-        m_basis_sets.emplace(name, ao_basis);
+        m_basis_sets.emplace(name, std::move(ao_basis));
     }
     ///@}
 
