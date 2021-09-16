@@ -41,6 +41,10 @@ struct BasisSetManagerPIMPL {
      *                           Strong throw guarantee.
      */
     ao_basis_type get_basis(const std::string& name, size_type Z) const {
+        if(!m_basis_sets.count(name))
+            throw std::out_of_range("No basis set named " + name);
+         if(!m_basis_sets.at(name).count(Z))
+             throw std::out_of_range("Basis set " + name + "  does not contains AOs for atomic number " + std::to_string(Z));
         return m_basis_sets.at(name).at(Z);
     }
 
