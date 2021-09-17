@@ -72,31 +72,7 @@ struct BasisSetManagerPIMPL {
      * @returns
      */
     bool operator==(const BasisSetManagerPIMPL& rhs) const {
-        // Quick size check
-        if(m_basis_sets.size() != rhs.m_basis_sets.size()) { return false; }
-
-        // Check contents of each basis set map
-        for(const auto& [name, basis_map] : rhs.m_basis_sets) {
-            // Check if key exists
-            if(m_basis_sets.count(name) == 0) { return false; }
-
-            // Compare the AO basis maps
-            // Start with another quick size check
-            if(m_basis_sets.at(name).size() != basis_map.size()) {
-                return false;
-            }
-
-            // Compare the AO bases in the map
-            for(const auto& [Z, ao_basis] : basis_map) {
-                // Check if key exists
-                if(m_basis_sets.at(name).count(Z) == 0) { return false; }
-
-                // Compare the AO bases themselves
-                if(m_basis_sets.at(name).at(Z) != ao_basis) { return false; }
-            }
-        }
-
-        return true;
+        return m_basis_sets == rhs.m_basis_sets;
     }
 
     bool operator!=(const BasisSetManagerPIMPL& rhs) const {
