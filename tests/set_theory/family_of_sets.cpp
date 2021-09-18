@@ -308,36 +308,33 @@ TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
     }
 }
 
-// TEST_CASE("FamilyOfSets<tuple>") {
-//     using set0_t = FamilyOfSets<std::vector<int>>;
-//     using set1_t = FamilyOfSets<std::vector<char>>;
+TEST_CASE("FamilyOfSets<tuple>") {
+    using set0_t = std::tuple_element_t<0, container_types>;
+    using set1_t = std::tuple_element_t<1, container_types>;
+    using set_t  = std::tuple<set0_t, set1_t>;
 
-//     std::vector<int> set0_v{0, 1, 2, 3, 4, 5};
-//     std::vector<char> set1_v{'a', 'b', 'c', 'd'};
-//     set0_t set0(set0_v, {{0, 1}, {2, 3}, {4, 5}});
-//     set1_t set1(set1_v, {{'a', 'b'}, {'c', 'd'}});
+    auto set0 = testing::make_object<set0_t>();
+    auto set1 = testing::make_object<set1_t>();
 
-//     std::tuple<set0_t, set1_t> the_sets(std::move(set0), std::move(set1));
+    set_t the_sets(std::move(set0), std::move(set1));
 
-//     using set_t      = std::tuple<set0_t, set1_t>;
-//     using value_type = typename
+    std::size_t zero{0}, one{1}, two{2};
+    FamilyOfSets<set_t> empty(the_sets);
+    FamilyOfSets<set_t> s0(the_sets, {{{zero, two}, {1, 2}}});
+    FamilyOfSets<set_t> s1(the_sets,
+                           {{{zero, two}, {1, 2}}, {{zero, one}, {0, 1}}});
 
-//       FamilyOfSets<set_t>
-//         defaulted;
-//     FamilyOfSets<set_t> s0(the_sets, {{{0, 1}, {1}}});
-//     FamilyOfSets<set_t> s1(the_sets, {{{0}, {0}}, {{2}, {1}}});
+    SECTION("CTors") {
+        SECTION("Empty") {
+            REQUIRE(empty.empty());
+            REQUIRE(empty.size() == 0);
+            // REQUIRE(empty.object() == the_sets);
+        }
 
-//     SECTION("CTors") {
-//         SECTION("Empty") {
-//             REQUIRE(empty.empty());
-//             REQUIRE(empty.size() == 0);
-//             REQUIRE(empty.object() == the_sets);
-//         }
-
-//         SECTION("Initializer list") {
-//             REQUIRE_FALSE(s0.empty());
-//             REQUIRE(s0.size() == 1);
-//             REQUIRE(s0.object() == set_t{});
-//         }
-//     }
-// }
+        SECTION("Initializer list") {
+            REQUIRE_FALSE(s0.empty());
+            REQUIRE(s0.size() == 1);
+            // REQUIRE(s0.object() == the_sets);
+        }
+    }
+}

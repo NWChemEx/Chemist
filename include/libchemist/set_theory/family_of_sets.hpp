@@ -32,6 +32,9 @@ public:
     /// Type of the set we are dividing up
     using superset_type = SetType;
 
+    using const_superset_reference =
+      typename traits_type::const_parent_reference;
+
     /// Type of the subsets in this family of sets
     using value_type = typename traits_type::value_type;
 
@@ -42,7 +45,7 @@ public:
     using const_reference = typename traits_type::const_reference;
 
     /// Type of the pointer holding the superset
-    using ptr_type = std::shared_ptr<const superset_type>;
+    using ptr_type = typename traits_type::ptr_type;
 
 private:
     /// Type of the container holding the subsets
@@ -52,10 +55,12 @@ public:
     /// Type used for indexing and offsets
     using size_type = typename subset_container::size_type;
 
+    using subset_il_type = typename traits_type::subset_il_type;
+
     /** @brief Type of an initializer list which can be used for initialization
      *         by offset.
      */
-    using il_type = typename traits_type::template il_type<size_type>;
+    using il_type = typename traits_type::il_type;
 
     /** @brief Creates a new FamilyOfSets instance using @p obj as the parent
      *         set.
@@ -98,7 +103,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    const auto& object() const noexcept { return *m_obj_; }
+    const_superset_reference object() const noexcept;
 
     /** @brief Returns a shared pointer to the superset.
      *
@@ -128,6 +133,24 @@ public:
      *  @throw None No throw guarantee.
      */
     const_reference operator[](size_type i) const noexcept;
+
+    /** @brief Convience function for creating an empty subset.
+     *
+     *  This function wraps the construction of a new subset. If this instance
+     *  already contains the subset this is a no-op.
+     *
+     *  @tparam ElemType The type of the elements in the initializer list.
+     *                   Expected to be implicitly convertible to either
+     *                   size_type or the type of the elements in the parent
+     *                   set.
+     *
+     *  @param[in] il An initializer list of either the offsets for the subset's
+     *                values or the values themselves.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the memory for
+     *                        the new set. Strong throw guarantee.
+     */
+    void emplace(subset_il_type il);
 
     /** @brief Returns the i-th subset in the family.
      *
@@ -258,7 +281,12 @@ bool operator!=(const FamilyOfSets<LHSSetType>& lhs,
 template<typename SetType>
 FAMILYOFSETS::FamilyOfSets(SetType obj, il_type il) :
   m_obj_(traits_type::make_pointer(std::move(obj))) {
-    for(auto x : il) insert(value_type(m_obj_, x));
+    for(auto x : il) emplace(x);
+}
+
+template<typename SetType>
+void FAMILYOFSETS::emplace(subset_il_type il) {
+    insert(traits_type::new_subset(data(), il));
 }
 
 template<typename SetType>
@@ -274,8 +302,14 @@ typename FAMILYOFSETS::const_reference FAMILYOFSETS::at(size_type i) const {
 }
 
 template<typename SetType>
+typename FAMILYOFSETS::const_superset_reference FAMILYOFSETS::object()
+  const noexcept {
+    return traits_type::dereference_object(m_obj_);
+}
+
+template<typename SetType>
 void FAMILYOFSETS::insert(value_type elem) {
-    if(&(elem.object()) != &object())
+    if(!traits_type::is_subset(elem, data()))
         throw std::runtime_error("Subset is not part of this family");
 
     m_subsets_.emplace(std::move(elem));
