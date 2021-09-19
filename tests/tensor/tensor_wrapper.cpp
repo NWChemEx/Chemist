@@ -63,15 +63,19 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
         SECTION("Default") {
             REQUIRE(defaulted.rank() == 0);
             REQUIRE(defaulted.extents() == extents{});
+            REQUIRE(defaulted.size() == 0);
         }
 
         SECTION("Wrapping CTor") {
             REQUIRE(vec.rank() == 1);
             REQUIRE(vec.extents() == extents{3});
+            REQUIRE(vec.size() == 3);
             REQUIRE(mat.rank() == 2);
             REQUIRE(mat.extents() == extents{2, 2});
+            REQUIRE(mat.size() == 4);
             REQUIRE(t3.rank() == 3);
             REQUIRE(t3.extents() == extents{2, 2, 2});
+            REQUIRE(t3.size() == 8);
         }
 
         SECTION("Copy") {

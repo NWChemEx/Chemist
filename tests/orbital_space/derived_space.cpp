@@ -453,10 +453,10 @@ TEST_CASE("IndDerivedSpace") {
     }
 }
 
-TEST_CASE("DepDerivedSpace") {
+TEST_CASE("IndSpecificDerivedSpace") {
     // Work out types we need for unit tests
     using scalar_type = double;
-    using space_type  = DepDerivedSpace;
+    using space_type  = IndSpecificDerivedSpace;
     using tensor_type = libchemist::type::tensor_of_tensors;
     using ta_tot_type =
       TA::DistArray<TA::Tensor<TA::Tensor<scalar_type>>, TA::SparsePolicy>;
