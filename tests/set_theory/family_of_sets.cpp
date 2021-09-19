@@ -1,6 +1,8 @@
 #include "libchemist/set_theory/family_of_sets.hpp"
 #include "test_set_theory.hpp"
 
+using namespace libchemist::set_theory;
+
 TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
     // Types we will need
     using parent_type    = TestType;
@@ -312,6 +314,7 @@ TEST_CASE("FamilyOfSets<tuple>") {
     using set0_t = std::tuple_element_t<0, container_types>;
     using set1_t = std::tuple_element_t<1, container_types>;
     using set_t  = std::tuple<set0_t, set1_t>;
+    using fos_t  = FamilyOfSets<set_t>;
 
     auto set0 = testing::make_object<set0_t>();
     auto set1 = testing::make_object<set1_t>();
@@ -319,22 +322,140 @@ TEST_CASE("FamilyOfSets<tuple>") {
     set_t the_sets(std::move(set0), std::move(set1));
 
     std::size_t zero{0}, one{1}, two{2};
-    FamilyOfSets<set_t> empty(the_sets);
-    FamilyOfSets<set_t> s0(the_sets, {{{zero, two}, {1, 2}}});
-    FamilyOfSets<set_t> s1(the_sets,
-                           {{{zero, two}, {1, 2}}, {{zero, one}, {0, 1}}});
+    fos_t empty(the_sets);
+    fos_t s0(the_sets, {{{zero, two}, {1, 2}}});
+    fos_t s1(the_sets, {{{zero, two}, {1, 2}}, {{zero, one}, {0, 1}}});
+
+    using value_type = typename fos_t::value_type;
+    Subset<set0_t> s000(std::get<0>(s0.data()), {zero, two});
+    Subset<set1_t> s001(std::get<1>(s0.data()), {1, 2});
+    value_type s00(s000, s001);
+
+    Subset<set0_t> s100(std::get<0>(s1.data()), {zero, two});
+    Subset<set1_t> s101(std::get<1>(s1.data()), {1, 2});
+    value_type s10(s100, s101);
+    Subset<set0_t> s110(std::get<0>(s1.data()), {zero, one});
+    Subset<set1_t> s111(std::get<1>(s1.data()), {0, 1});
+    value_type s11(s110, s111);
 
     SECTION("CTors") {
         SECTION("Empty") {
             REQUIRE(empty.empty());
             REQUIRE(empty.size() == 0);
-            // REQUIRE(empty.object() == the_sets);
+            REQUIRE(std::get<0>(empty.object()) == std::get<0>(the_sets));
+            REQUIRE(std::get<1>(empty.object()) == std::get<1>(the_sets));
         }
 
         SECTION("Initializer list") {
             REQUIRE_FALSE(s0.empty());
             REQUIRE(s0.size() == 1);
-            // REQUIRE(s0.object() == the_sets);
+            REQUIRE(std::get<0>(s0.object()) == std::get<0>(the_sets));
+            REQUIRE(std::get<1>(s0.object()) == std::get<1>(the_sets));
+            REQUIRE(s0[0] == s00);
+
+            REQUIRE_FALSE(s1.empty());
+            REQUIRE(s1.size() == 2);
+            REQUIRE(std::get<0>(s1.object()) == std::get<0>(the_sets));
+            REQUIRE(std::get<1>(s1.object()) == std::get<1>(the_sets));
+
+            // N.B. They actually get sorted in the opposite order we declared
+            //      them.
+            REQUIRE(s1[1] == s10);
+            REQUIRE(s1[0] == s11);
         }
+
+        SECTION("Copy CTor") {
+            fos_t a_copy(s0);
+            REQUIRE(a_copy == s0);
+        }
+
+        SECTION("Move CTor") {
+            fos_t corr(s0);
+            fos_t moved(std::move(s0));
+            REQUIRE(corr == moved);
+        }
+
+        SECTION("Copy Assignment") {
+            fos_t a_copy(s0);
+            auto ptr = &(a_copy = s1);
+            REQUIRE(ptr == &a_copy);
+            REQUIRE(a_copy == s1);
+        }
+
+        SECTION("Move Assignment") {
+            fos_t moved(s0);
+            fos_t corr(s1);
+            auto ptr = &(moved = std::move(s1));
+            REQUIRE(ptr == &moved);
+            REQUIRE(moved == corr);
+        }
+    }
+
+    SECTION("empty") {
+        REQUIRE(empty.empty());
+        REQUIRE_FALSE(s0.empty());
+        REQUIRE_FALSE(s1.empty());
+    }
+
+    SECTION("size") {
+        REQUIRE(empty.size() == 0);
+        REQUIRE(s0.size() == 1);
+        REQUIRE(s1.size() == 2);
+    }
+
+    SECTION("object") {
+        REQUIRE(std::get<0>(s0.object()) == std::get<0>(the_sets));
+        REQUIRE(std::get<1>(s0.object()) == std::get<1>(the_sets));
+    }
+
+    SECTION("data") {
+        REQUIRE(*std::get<0>(s0.data()) == std::get<0>(the_sets));
+        REQUIRE(*std::get<1>(s0.data()) == std::get<1>(the_sets));
+    }
+
+    SECTION("operator[]") { REQUIRE(s0[0] == s00); }
+
+    SECTION("emplace") {
+        s0.emplace({{zero, one}, {0, 1}});
+        REQUIRE(s0.size() == 2);
+        Subset<set0_t> corr0(std::get<0>(s0.data()), {zero, one});
+        Subset<set1_t> corr1(std::get<1>(s0.data()), {0, 1});
+        value_type corr(corr0, corr1);
+        REQUIRE(s0[0] == corr);
+        REQUIRE(s1[1] == s00);
+    }
+
+    SECTION("at()") {
+        REQUIRE(s0.at(0) == s00);
+        REQUIRE_THROWS_AS(s0.at(1), std::out_of_range);
+    }
+
+    SECTION("insert") {
+        Subset<set0_t> corr0(std::get<0>(s0.data()), {zero, one});
+        Subset<set1_t> corr1(std::get<1>(s0.data()), {0, 1});
+        value_type corr(corr0, corr1);
+        s0.insert(corr);
+        REQUIRE(s0.size() == 2);
+        REQUIRE(s0[0] == corr);
+        REQUIRE(s1[1] == s00);
+    }
+
+    SECTION("disjoint") {
+        REQUIRE(empty.disjoint());
+        REQUIRE(s0.disjoint());
+        REQUIRE_FALSE(s1.disjoint());
+    }
+
+    SECTION("Hash") {
+        auto h = pluginplay::hash_objects(empty);
+        REQUIRE(h != pluginplay::hash_objects(s0));
+        REQUIRE(h == pluginplay::hash_objects(fos_t(the_sets)));
+    }
+
+    SECTION("Comparisons") {
+        REQUIRE(empty != s0);
+        REQUIRE_FALSE(empty == s0);
+        REQUIRE(empty == fos_t(the_sets));
+        REQUIRE_FALSE(empty != fos_t(the_sets));
     }
 }

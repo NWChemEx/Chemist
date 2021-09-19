@@ -1,7 +1,27 @@
 #pragma once
-#include "libchemist/set_theory/family_of_sets_traits.hpp"
 #include "libchemist/set_theory/subset.hpp"
+#include "libchemist/set_theory/traits/traits.hpp"
 #include <vector>
+
+/// TODO: Roll our own reference wrapper with these operations defined
+namespace std {
+
+template<typename T0, typename T1>
+bool operator==(const reference_wrapper<T0>& lhs,
+                const reference_wrapper<T1>& rhs) {
+    return static_cast<const T0&>(lhs) == static_cast<const T1&>(rhs);
+}
+
+template<typename T0, typename T1>
+bool operator==(const reference_wrapper<T0>& lhs, const T1& rhs) {
+    if constexpr(!std::is_convertible_v<T0, const T1&>) {
+        return false;
+    } else {
+        return lhs.get() == rhs;
+    }
+}
+
+} // namespace std
 
 namespace libchemist::set_theory {
 
@@ -32,6 +52,7 @@ public:
     /// Type of the set we are dividing up
     using superset_type = SetType;
 
+    /// Type of a read-only reference to the superset
     using const_superset_reference =
       typename traits_type::const_parent_reference;
 
@@ -55,6 +76,7 @@ public:
     /// Type used for indexing and offsets
     using size_type = typename subset_container::size_type;
 
+    /// Type of the initializer list expected by the subset ctor
     using subset_il_type = typename traits_type::subset_il_type;
 
     /** @brief Type of an initializer list which can be used for initialization
@@ -322,8 +344,7 @@ bool FAMILYOFSETS::disjoint() const noexcept {
         auto rhs = lhs;
         ++rhs;
         for(; rhs != e; ++rhs) {
-            auto intersection = (*lhs) ^ (*rhs);
-            if(!intersection.empty()) return false;
+            if(!traits_type::disjoint(*lhs, *rhs)) return false;
         }
     }
     return true;
@@ -332,7 +353,7 @@ bool FAMILYOFSETS::disjoint() const noexcept {
 template<typename SetType>
 void FAMILYOFSETS::hash(pluginplay::Hasher& h) const {
     for(const auto& x : m_subsets_) h(x);
-    h(*m_obj_);
+    h(m_obj_);
 }
 
 template<typename SetType>
