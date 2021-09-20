@@ -158,7 +158,7 @@ using LocalDeterminant = DeterminantSpace<orbital_space::IndDerivedSpace,
 
 /// Type of a determinant space which uses quasicanonical local orbitals
 using CanonicalLocalDeterminant =
-  DeterminantSpace<orbital_space::CanonicalIndSpace,
+  DeterminantSpace<orbital_space::CanonicalDepSpace,
                    orbital_space::CanonicalDepSpace>;
 
 } // namespace libchemist::wavefunction
