@@ -152,6 +152,7 @@ using Determinant = DeterminantSpace<orbital_space::DerivedSpaceD>;
 /// Type of a determinant space which uses canonical MOs
 using CanonicalDeterminant = DeterminantSpace<orbital_space::CanonicalSpaceD>;
 
+/// Type of a determinant which uses sparse maps
 using SparseDeterminant = DeterminantSpace<orbital_space::CanonicalIndSpace>;
 
 } // namespace libchemist::wavefunction
