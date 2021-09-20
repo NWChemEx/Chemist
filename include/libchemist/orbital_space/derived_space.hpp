@@ -1,7 +1,6 @@
 #pragma once
 #include "libchemist/orbital_space/ao_space.hpp"
 #include "libchemist/orbital_space/base_space.hpp"
-#include "libchemist/orbital_space/dependent_space.hpp"
 #include "libchemist/ta_helpers/ta_helpers.hpp" // For equality
 #include <memory>
 
@@ -19,11 +18,11 @@ namespace libchemist::orbital_space {
  *                    Must be default constructable.
  *  @tparam BaseType  Type of the class from which this class is derived.
  */
-template<typename TransformType, typename FromSpace, typename BaseType>
-class DerivedSpace : public BaseType {
+template<typename TransformType, typename FromSpace>
+class DerivedSpace : public BaseSpace {
 private:
     /// Type of an instance of this class
-    using my_type = DerivedSpace<TransformType, FromSpace, BaseType>;
+    using my_type = DerivedSpace<TransformType, FromSpace>;
 
 public:
     /// Type of the transformation matrix
@@ -36,7 +35,7 @@ public:
     using from_space_ptr = std::shared_ptr<const FromSpace>;
 
     /// Type of an offset or index
-    using size_type = typename BaseType::size_type;
+    using size_type = typename BaseSpace::size_type;
 
     /** @brief Creates a new DerivedSpace which has no transformation
      *         or from space.
@@ -56,9 +55,6 @@ public:
      *  use of this ctor guarantees that the "from space" will not change for
      *  the duration of this instance.
      *
-     * @tparam Args The types of the arguments which will be forwarded to the
-     *              the base class's ctor.
-     *
      * @param[in] C The transformation coefficients that take you from the
      *              orbital space `from_space` to this instance's orbital space.
      *              Default value is a default constructed instance of type
@@ -66,13 +62,10 @@ public:
      *
      * @param[in] from_space The orbital space in terms of which this space is
      *                       defined.
-     * @param[in] args The arguments which will be forwarded to the base class's
-     *                 ctor.
      *
-     * @throw ??? If fowarding `args` throws. Same throw guarantee.
+     * @throw None No throw guarantee.
      */
-    template<typename... Args>
-    DerivedSpace(transform_type C, from_space_type from_space, Args&&... args);
+    DerivedSpace(transform_type C, from_space_type from_space);
 
     /** @brief Creates a new DerivedSpace with the specified state.
      *
@@ -103,8 +96,7 @@ public:
      *
      * @throw ??? If forwarding `args` throws. Same throw guarantee.
      */
-    template<typename... Args>
-    DerivedSpace(transform_type C, from_space_ptr pfrom_space, Args&&... args);
+    DerivedSpace(transform_type C, from_space_ptr pfrom_space);
 
     /** @brief Initializes this instance by copying another DerivedSpace
      *
@@ -257,7 +249,7 @@ public:
 
 protected:
     /// Type of the container used for passing multiple modes to transform
-    using mode_container = typename BaseType::mode_container;
+    using mode_container = typename BaseSpace::mode_container;
 
     /** @brief Implements size() using the transformation coefficients stored in
      *         this instane.
@@ -289,17 +281,13 @@ private:
     from_space_ptr m_pbase_;
 };
 
-template<typename LTransformType, typename LFromSpace, typename LBaseType,
-         typename RTransformType, typename RFromSpace, typename RBaseType>
-bool operator==(
-  const DerivedSpace<LTransformType, LFromSpace, LBaseType>& lhs,
-  const DerivedSpace<RTransformType, RFromSpace, RBaseType>& rhs) {
+template<typename LTransformType, typename LFromSpace, typename RTransformType,
+         typename RFromSpace>
+bool operator==(const DerivedSpace<LTransformType, LFromSpace>& lhs,
+                const DerivedSpace<RTransformType, RFromSpace>& rhs) {
     if constexpr(!std::is_same_v<decltype(lhs), decltype(rhs)>)
         return false;
     else {
-        const LBaseType& lbase = lhs;
-        const LBaseType& rbase = rhs;
-        if(lbase != rbase) return false;
         auto plhs = lhs.from_space_data();
         auto prhs = rhs.from_space_data();
         if(plhs && prhs) { // Both have from_spaces
@@ -315,40 +303,33 @@ bool operator==(
     }
 }
 
-template<typename LTransformType, typename LFromSpace, typename LBaseType,
-         typename RTransformType, typename RFromSpace, typename RBaseType>
-bool operator!=(
-  const DerivedSpace<LTransformType, LFromSpace, LBaseType>& lhs,
-  const DerivedSpace<RTransformType, RFromSpace, RBaseType>& rhs) {
+template<typename LTransformType, typename LFromSpace, typename RTransformType,
+         typename RFromSpace>
+bool operator!=(const DerivedSpace<LTransformType, LFromSpace>& lhs,
+                const DerivedSpace<RTransformType, RFromSpace>& rhs) {
     return !(lhs == rhs);
 }
 
 // ------------------------- Typedefs ------------------------------------------
 
-using DerivedSpaceD   = DerivedSpace<type::tensor, AOSpaceD, BaseSpace>;
-using IndDerivedSpace = DerivedSpace<type::tensor, DepAOSpaceD, BaseSpace>;
-using DepDerivedSpace = DerivedSpace<type::tensor, DepAOSpaceD, DependentSpace>;
-using IndSpecificDerivedSpace =
-  DerivedSpace<type::tensor_of_tensors, DepAOSpaceD, DependentSpace>;
+using DerivedSpaceD   = DerivedSpace<type::tensor, AOSpaceD>;
+using ToTDerivedSpace = DerivedSpace<type::tensor_of_tensors, AOSpaceD>;
 
 // ----------------------- Inline Implementations ------------------------------
 
-template<typename TransformType, typename FromSpace, typename BaseType>
-template<typename... Args>
-DerivedSpace<TransformType, FromSpace, BaseType>::DerivedSpace(
-  transform_type C, from_space_type base, Args&&... args) :
-  DerivedSpace(std::move(C), std::make_shared<from_space_type>(std::move(base)),
-               std::forward<Args>(args)...) {}
+template<typename TransformType, typename FromSpace>
+DerivedSpace<TransformType, FromSpace>::DerivedSpace(transform_type C,
+                                                     from_space_type base) :
+  DerivedSpace(std::move(C),
+               std::make_shared<from_space_type>(std::move(base))) {}
 
-template<typename TransformType, typename FromSpace, typename BaseType>
-template<typename... Args>
-DerivedSpace<TransformType, FromSpace, BaseType>::DerivedSpace(
-  transform_type C, from_space_ptr pbase, Args&&... args) :
-  BaseType(std::forward<Args>(args)...), m_C_(std::move(C)), m_pbase_(pbase) {}
+template<typename TransformType, typename FromSpace>
+DerivedSpace<TransformType, FromSpace>::DerivedSpace(transform_type C,
+                                                     from_space_ptr pbase) :
+  m_C_(std::move(C)), m_pbase_(pbase) {}
 
-template<typename TransformType, typename FromSpace, typename BaseType>
-const auto& DerivedSpace<TransformType, FromSpace, BaseType>::from_space()
-  const {
+template<typename TransformType, typename FromSpace>
+const auto& DerivedSpace<TransformType, FromSpace>::from_space() const {
     if(m_pbase_) return *m_pbase_;
     throw std::runtime_error("No from space set. Was this instance default "
                              "initialized or moved from?");
@@ -356,10 +337,6 @@ const auto& DerivedSpace<TransformType, FromSpace, BaseType>::from_space()
 
 // ---------------- Explicit Template Instantiations ---------------------------
 
-extern template class DerivedSpace<type::tensor, AOSpaceD, BaseSpace>;
-extern template class DerivedSpace<type::tensor, DepAOSpaceD, BaseSpace>;
-extern template class DerivedSpace<type::tensor, DepAOSpaceD, DependentSpace>;
-extern template class DerivedSpace<type::tensor_of_tensors, DepAOSpaceD,
-                                   DependentSpace>;
-
+extern template class DerivedSpace<type::tensor, AOSpaceD>;
+extern template class DerivedSpace<type::tensor_of_tensors, AOSpaceD>;
 } // namespace libchemist::orbital_space

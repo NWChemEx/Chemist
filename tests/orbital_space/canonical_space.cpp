@@ -3,8 +3,6 @@
 
 using namespace libchemist::orbital_space;
 
-using tuple = std::tuple<CanonicalSpaceD, CanonicalIndSpace, CanonicalDepSpace>;
-
 /* For testing purposes we assume:
  *
  * - The base class more-or-less passes through the CanonicalSpace class. i.e.,
