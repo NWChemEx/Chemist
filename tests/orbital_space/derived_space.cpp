@@ -8,12 +8,6 @@
  *   DerivedSpace class aside from needing to have a slot in the ctor and be
  *   accessible through the DerivedSpace members. i.e. as long as that type is
  *   tested it'll work here too.
- *
- * - The base class more-or-less passes through the DerivedSpace class. i.e.,
- *   if the base class works, it'll work when used with DerivedSpace too.
- *
- *   - The caveats are that we need to make sure it's accounted for in the ctor,
- *     hash, and comparison operations.
  */
 
 using namespace libchemist;
@@ -66,7 +60,7 @@ TEST_CASE("DerivedSpace") {
     SECTION("CTors/Assignment") {
         SECTION("Default Ctor") {
             space_type s;
-            REQUIRE(s.C() == tensor_type{});
+            REQUIRE(s.size() == 0);
         }
 
         SECTION("Value Ctor") {
@@ -112,17 +106,14 @@ TEST_CASE("DerivedSpace") {
     }
 
     SECTION("Accessors") {
-        SECTION("C") {
+        SECTION("C()") {
             REQUIRE(non_default.C() == C);
 
-            SECTION("Is writeable") {
-                tensor_type new_C;
-                non_default.C() = new_C;
-                REQUIRE(non_default.C() == new_C);
+            SECTION("Throws if no transformation") {
+                space_type s;
+                REQUIRE_THROWS_AS(s.C(), std::runtime_error);
             }
         }
-
-        SECTION("C() const") { REQUIRE(std::as_const(non_default).C() == C); }
 
         SECTION("from_space()") {
             REQUIRE(non_default.from_space() == aos);
@@ -131,6 +122,11 @@ TEST_CASE("DerivedSpace") {
                 space_type s;
                 REQUIRE_THROWS_AS(s.from_space(), std::runtime_error);
             }
+        }
+
+        SECTION("C_data") {
+            auto pC = &(non_default.C());
+            REQUIRE(non_default.C_data().get() == pC);
         }
 
         SECTION("from_space_data()") {
