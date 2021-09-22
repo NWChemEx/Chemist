@@ -1,7 +1,6 @@
 #pragma once
 #include "libchemist/basis_set/basis_set.hpp"
 #include "libchemist/orbital_space/base_space.hpp"
-#include "libchemist/orbital_space/dependent_space.hpp"
 
 namespace libchemist::orbital_space {
 
@@ -13,21 +12,19 @@ namespace libchemist::orbital_space {
  *  derived spaces.
  *
  *  @tparam BasisType The type of the object holding the basis set parameters.
- *  @tparam BaseType  The type of the class this class derives from. It is
- *                    assumed to be either BaseSpace or DependentSpace.
  */
-template<typename BasisType, typename BaseType>
-class AOSpace : public BaseType {
+template<typename BasisType>
+class AOSpace : public BaseSpace {
 private:
     /// Type of this instance
-    using my_type = AOSpace<BasisType, BaseType>;
+    using my_type = AOSpace<BasisType>;
 
 public:
     /// Type of the object holding the AO basis set parameters
     using basis_type = BasisType;
 
     /// Type used for indexing and offsets
-    using size_type = typename BaseType::size_type;
+    using size_type = typename BaseSpace::size_type;
 
     /** @brief Creates a new AOSpace. The AOSpace has no AO basis set and the
      *         base class is also default initialized.
@@ -106,15 +103,9 @@ public:
 
     /** @brief Creates a new atomic orbital space.
      *
-     * @tparam Args The types of the arguments which will be forwarded to the
-     *              base class's ctor. These types will be deduced automatically
-     *              and the user should not have to specify them.
-     *
      * @param[in] bs The parameters of the atomic orbitals.
-     * @param[in] args Inputs to forward to the base class's ctor.
      */
-    template<typename... Args>
-    explicit AOSpace(basis_type bs, Args&&... args);
+    explicit AOSpace(basis_type bs) : m_bs_(std::move(bs)) {}
 
     /** @brief Accessor for read/write access to the basis set parameters
      *
@@ -130,7 +121,7 @@ public:
 
 protected:
     /// Get the type of the container holding the mode offsets from the base
-    using mode_container = typename BaseType::mode_container;
+    using mode_container = typename BaseSpace::mode_container;
 
     /** @brief Overrides the size member so that it returns the number of AOs.
      *
@@ -142,14 +133,14 @@ protected:
      *
      *  @throw None No throw guarantee.
      */
-    virtual size_type size_() const noexcept override;
+    virtual size_type size_() const noexcept override { return m_bs_.size(); }
 
     /** @brief Overrides hashing to account for the basis set
      *
      *  @param[in,out] h The hasher instance being used. After this call the
      *                   AO basis set wil be added to the internal hashed state.
      */
-    virtual void hash_(pluginplay::Hasher& h) const override;
+    virtual void hash_(pluginplay::Hasher& h) const override { h(m_bs_); }
 
     /** @brief Overrides polymorphic comparison to account for basis set.
      *
@@ -175,12 +166,8 @@ private:
  *
  *  @tparam LHSAO The type of the AO basis set in @p lhs. Assumed to be an
  *                 instantiation of `libchemist::AOBasisSet`.
- *  @tparam LHSBase The class AOSpace inherits from. Assumed to be either
- *                  `libchemist::BaseSpace` or `libchemist::DependentSpace`.
  *  @tparam RHSAO The type of the AO basis set in @p rhs. Assumed to be an
  *                 instantiation of `libchemist::AOBasisSet`.
- *  @tparam RHSBase The class AOSpace inherits from. Assumed to be either
- *                  `libchemist::BaseSpace` or `libchemist::DependentSpace`.
  *
  *  @param[in] lhs The instance on the left of the equality.
  *  @param[in] rhs The instance on the right of the equality.
@@ -191,19 +178,14 @@ private:
  *  @throw ??? Throws if comparing the base classes throws. Same throw
  *             guarantee.
  */
-template<typename LHSAO, typename LHSBase, typename RHSAO, typename RHSBase>
-inline bool operator==(const AOSpace<LHSAO, LHSBase>& lhs,
-                       const AOSpace<RHSAO, RHSBase>& rhs) {
+template<typename LHSAO, typename RHSAO>
+inline bool operator==(const AOSpace<LHSAO>& lhs, const AOSpace<RHSAO>& rhs) {
     // Must be same type
     if constexpr(!std::is_same_v<decltype(lhs), decltype(rhs)>)
         return false;
     else {
         // Compare the basis sets
-        if(lhs.basis_set() != rhs.basis_set()) return false;
-
-        const LHSBase& lbase = lhs;
-        const RHSBase& rbase = rhs;
-        return lbase == rbase;
+        return lhs.basis_set() == rhs.basis_set();
     }
 }
 
@@ -216,12 +198,8 @@ inline bool operator==(const AOSpace<LHSAO, LHSBase>& lhs,
  *
  *  @tparam LHSAO The type of the AO basis set in @p lhs. Assumed to be an
  *                 instantiation of `libchemist::AOBasisSet`.
- *  @tparam LHSBase The class AOSpace inherits from. Assumed to be either
- *                  `libchemist::BaseSpace` or `libchemist::DependentSpace`.
  *  @tparam RHSAO The type of the AO basis set in @p rhs. Assumed to be an
  *                 instantiation of `libchemist::AOBasisSet`.
- *  @tparam RHSBase The class AOSpace inherits from. Assumed to be either
- *                  `libchemist::BaseSpace` or `libchemist::DependentSpace`.
  *
  *  @param[in] lhs The instance on the left of the inequality.
  *  @param[in] rhs The instance on the right of the inequality.
@@ -232,28 +210,17 @@ inline bool operator==(const AOSpace<LHSAO, LHSBase>& lhs,
  *  @throw ??? Throws if comparing the base classes throws. Same throw
  *             guarantee.
  */
-template<typename LHSAO, typename LHSBase, typename RHSAO, typename RHSBase>
-inline bool operator!=(const AOSpace<LHSAO, LHSBase>& lhs,
-                       const AOSpace<RHSAO, RHSBase>& rhs) {
+template<typename LHSAO, typename RHSAO>
+inline bool operator!=(const AOSpace<LHSAO>& lhs, const AOSpace<RHSAO>& rhs) {
     return !(lhs == rhs);
 }
 
 // ------------------------------ Typedefs -------------------------------------
-using AOSpaceD    = AOSpace<AOBasisSetD, BaseSpace>;
-using AOSpaceF    = AOSpace<AOBasisSetF, BaseSpace>;
-using DepAOSpaceD = AOSpace<AOBasisSetD, DependentSpace>;
-using DepAOSpaceF = AOSpace<AOBasisSetF, DependentSpace>;
+using AOSpaceD = AOSpace<AOBasisSetD>;
+using AOSpaceF = AOSpace<AOBasisSetF>;
 
 // ----------------- Forward Declare Explicit Instantiations -------------------
-extern template class AOSpace<AOBasisSetD, BaseSpace>;
-extern template class AOSpace<AOBasisSetF, BaseSpace>;
-extern template class AOSpace<AOBasisSetD, DependentSpace>;
-extern template class AOSpace<AOBasisSetF, DependentSpace>;
-
-// ------------------- Inline Implementations ----------------------------------
-template<typename BasisType, typename BaseType>
-template<typename... Args>
-AOSpace<BasisType, BaseType>::AOSpace(basis_type bs, Args&&... args) :
-  BaseType(std::forward<Args>(args)...), m_bs_(std::move(bs)) {}
+extern template class AOSpace<AOBasisSetD>;
+extern template class AOSpace<AOBasisSetF>;
 
 } // namespace libchemist::orbital_space

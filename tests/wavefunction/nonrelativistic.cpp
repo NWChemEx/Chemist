@@ -3,8 +3,7 @@
 
 using namespace libchemist::wavefunction;
 
-using tuple_type = std::tuple<Reference, CanonicalReference, LocalReference,
-                              CanonicalLocalReference>;
+using tuple_type = std::tuple<Reference, CanonicalReference>;
 
 TEMPLATE_LIST_TEST_CASE("Nonrelativistic", "", tuple_type) {
     using wf_t         = TestType;

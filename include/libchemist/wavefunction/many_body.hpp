@@ -64,12 +64,7 @@ using ManyBodyWf = ManyBody<Reference, type::tensor>;
 /// Type of a ManyBody correlated wavefunction, using canonical MOs
 using CanonicalManyBodyWf = ManyBody<CanonicalReference, type::tensor>;
 
-/// Type of a ManyBody correlated wavefunction built from local MOs
-using LocalManyBodyWf = ManyBody<LocalReference, type::tensor_of_tensors>;
-
-/// Type of a wavefunction built frorm quasi-canonical local MOs
-using CanonicalLocalManyBodyWf =
-  ManyBody<CanonicalLocalReference, type::tensor_of_tensors>;
+using SparseManyBodyWf = ManyBody<SparseReference, type::tensor>;
 
 } // namespace libchemist::wavefunction
 
