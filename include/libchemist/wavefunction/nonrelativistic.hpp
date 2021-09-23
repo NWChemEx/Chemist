@@ -165,11 +165,7 @@ using Reference = Nonrelativistic<Determinant>;
 /// Type of a wavefunction built from canonical MOs
 using CanonicalReference = Nonrelativistic<CanonicalDeterminant>;
 
-/// Type of a wavefunction built from local MOs
-using LocalReference = Nonrelativistic<LocalDeterminant>;
-
-/// Type of a wavefunction built frorm quasi-canonical local MOs
-using CanonicalLocalReference = Nonrelativistic<CanonicalLocalDeterminant>;
+using SparseReference = Nonrelativistic<SparseDeterminant>;
 
 } // namespace libchemist::wavefunction
 

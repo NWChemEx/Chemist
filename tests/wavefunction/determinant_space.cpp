@@ -4,8 +4,7 @@
 
 using namespace libchemist::wavefunction;
 
-using tuple_type = std::tuple<Determinant, CanonicalDeterminant,
-                              LocalDeterminant, CanonicalLocalDeterminant>;
+using tuple_type = std::tuple<Determinant, CanonicalDeterminant>;
 
 /* Testing strategy:
  *

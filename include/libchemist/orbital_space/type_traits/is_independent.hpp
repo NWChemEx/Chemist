@@ -1,19 +1,29 @@
 #pragma once
-#include "libchemist/orbital_space/derived_space.hpp"
-#include <type_traits>
+#include <type_traits> // for std::true_type, std::false_type
 
 namespace libchemist::orbital_space {
 
-/** @brief Determines if @p T is or derives from IndDerivedSpace.
+/// Forward declare for TMP purposes
+template<typename SpaceType>
+class IndependentSpace;
+
+namespace detail_ {
+
+/** @brief Primary template for determining if a type is an IndependentSpace
  *
- * Independent spaces are paired with dependent spaces. This trait can be used
- * to determine if @p T is the type of an orbital space upon which another
- * orbital space may depend. If @p T is an independent space this global
- * variable will be set to true, otherwise it is false.
+ *  @tparam T The type whose IndependentSpace-ness is in question.
  *
- *  @tparam T The type we are inspecting.
  */
 template<typename T>
-constexpr auto is_independent_v = std::is_base_of_v<IndDerivedSpace, T>;
+struct IsIndependentSpace : std::false_type {};
+
+template<typename T>
+struct IsIndependentSpace<IndependentSpace<T>> : std::true_type {};
+
+} // namespace detail_
+
+template<typename T>
+static constexpr auto is_independent_space_v =
+  detail_::IsIndependentSpace<T>::value;
 
 } // namespace libchemist::orbital_space
