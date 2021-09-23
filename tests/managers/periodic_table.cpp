@@ -96,7 +96,7 @@ TEST_CASE("PeriodicTable Comparison") {
         load_elements(pt);
         load_elements(pt2);
 
-        // Filled BasisSetManagers; same object
+        // Filled PeriodicTables; same object
         REQUIRE(pt == pt);
         REQUIRE(pt2 == pt2);
 
