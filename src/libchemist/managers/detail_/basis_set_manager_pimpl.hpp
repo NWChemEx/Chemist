@@ -4,7 +4,8 @@
 
 namespace libchemist::detail_ {
 
-/** @brief PIMPL to hide details of the BasisSetManager state
+/** 
+ * @brief PIMPL to hide details of the BasisSetManager state
  *
  * Basis sets should be added to the BasisSetManager through the API defined
  * by the BasisSetManager class. That API redirects calls to this struct.
@@ -20,7 +21,8 @@ struct BasisSetManagerPIMPL {
     /// The type of the basis set map, mapping names to AO basis maps
     using basis_set_map = utilities::CaseInsensitiveMap<ao_basis_map>;
 
-    /** @name BasisSetManagerPIMPL Public API
+    /** 
+     * @name BasisSetManagerPIMPL Public API
      *
      * @brief Functions comprising the public API of the PIMPL
      */
@@ -30,15 +32,16 @@ struct BasisSetManagerPIMPL {
         return std::make_unique<BasisSetManagerPIMPL>(*this);
     }
 
-    /** @brief Gets the basis for the given atomic number from a basis set
+    /** 
+     * @brief Gets the basis for the given atomic number from a basis set
      *
      * @param name Name of the basis set
      * @param Z Atomic number
      *
-     * @returns Basis for the requested atomic number from the basis set
+     * @return Basis for the requested atomic number from the basis set
      *
-     * @throws std::out_of_range @p name is not a valid basis set name.
-     *                           Strong throw guarantee.
+     * @throw std::out_of_range @p name is not a valid basis set name.
+     *                          Strong throw guarantee.
      */
     ao_basis_type get_basis(const std::string& name, size_type Z) const;
 
@@ -47,20 +50,21 @@ struct BasisSetManagerPIMPL {
      * @param name Basis set name
      * @param ao_basis AO basis object
      *
-     * @throws ??? An exception is thrown in std::map::emplace. Strong throw
-     *             guarantee.
+     * @throw ??? An exception is thrown in std::map::emplace. Strong throw
+     *            guarantee.
      */
     void insert(const std::string& name, ao_basis_map ao_basis) {
         m_basis_sets.emplace(name, std::move(ao_basis));
     }
     ///@}
 
-    ///@{
-    /** @name Comparison Operators
+    /** 
+     * @name Comparison Operators
      *
      * @param rhs BasisSetManagerPIMPL on the right-hand side of the operator
-     * @returns
+     * @return Truth of comparison operator
      */
+    ///@{
     bool operator==(const BasisSetManagerPIMPL& rhs) const {
         return m_basis_sets == rhs.m_basis_sets;
     }
@@ -70,7 +74,8 @@ struct BasisSetManagerPIMPL {
     }
     ///@}
 
-    /** @name BasisSetManager State
+    /** 
+     * @name BasisSetManager State
      *
      * @brief This section defines the state of the BasisSetManager class.
      */

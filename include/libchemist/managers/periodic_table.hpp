@@ -39,19 +39,22 @@ public:
     PeriodicTable();
 
     /**
-     * @name Copy/Move CTors and Assignment Ops
-     * @brief Functions for setting the state of the current PeriodicTable
-     *        instance off of another instance.
+     * @name Copy/Move CTors and Assignment Operators
+     * @brief Functions for replicating the state of another PeriodicTable
+     *        instance.
+     * 
+     * Copy operations are deep copies and do not alias.
      *
-     * All copies are deep copies.
-     *
-     * @param[in] rhs The instance to copy/move from. For move operations
-     *                @p rhs is in a valid, but otherwise undefined state.
-     *
-     * @throw std::bad_alloc if the copy ctor/assignment operator has
-     *                       insufficient memory to complete the operation.
+     * @param[in] rhs The instance to copy/move from. If moved, @p rhs will be
+     *                in a valid, but otherwise undefined state after the move.
+     * 
+     * @return Copy/Move assignment operators return the current instance, but
+     *         with its new state.
+     * 
+     * @throw std::bad_alloc Copy ctor/assignment operators throw if there is
+     *                       insufficient memory to allocate the new state. 
      *                       Strong throw guarantee.
-     * @throw None All move operations are no throw guarantee.
+     * @throw None All move functions are no throw guarantee.
      */
     ///@{
     PeriodicTable(const PeriodicTable& rhs);
@@ -63,7 +66,9 @@ public:
     /// Default dtor
     ~PeriodicTable() noexcept;
 
-    /** @name Insertion Methods
+    /** 
+     * @name Insertion Methods
+     * 
      * Methods to insert new Atom instances into the PeriodicTable.
      */
     ///@{
@@ -75,9 +80,9 @@ public:
      * @param[in] atom Atom object
      *
      * @throw std::runtime_error if element already exists with the given
-     *                            atomic number. Strong throw guarantee.
+     *                           atomic number. Strong throw guarantee.
      * @throw ??? if std::map::emplace throws an exception. Strong throw
-     *             guarantee.
+     *            guarantee.
      */
     void insert(size_type Z, const Atom& atom);
 
@@ -88,15 +93,34 @@ public:
      * @param[in] mass_number Mass number of the isotope
      * @param[in] isotope Atom object for the isotope
      *
-     * @throw ??? if std::map::emplace throws an exception. Strong throw
-     *            guarantee.
      * @throw std::out_of_range if an element with the given atomic number
      *                          does not exist. Strong throw guarantee.
      * @throw std::runtime_error Isotope with the given mass number already
      *                           exists. Strong throw guarantee.
+     * @throw ??? if std::map::emplace throws an exception. Strong throw
+     *            guarantee.
      */
     void add_isotope(size_type Z, size_type mass_number, const Atom& isotope);
     ///@}
+
+    /**
+     * @brief Returns a list of available mass numbers for a particular atom
+     *
+     * @param[in] Z The atomic number of the atom, for which mass numbers are
+     *              wanted. Should be in range [0, max_Z()).
+     * 
+     * @return A list of available mass numbers for the requested atom. If no
+     *         isotope data is available for the particular value of @p Z then
+     *         the list is empty.
+     *
+     * @throw std::bad_alloc if there is insufficient memory to allocate the
+     *                       list. Strong throw guarantee.
+     * @throw std::out_of_range if @p Z is not in the range [0, max_Z()).
+     *                          Strong throw guarantee.
+     * @throw ??? If an exception occurs in std::vector::push_back. Strong
+     *            throw guarantee.
+     */
+    isotope_list isotopes(size_type Z) const;
 
     /**
      * @brief Returns the maximum atomic number for which an Atom instance can
@@ -116,22 +140,6 @@ public:
     size_type max_Z() const noexcept;
 
     /**
-     * @brief Returns a list of available mass numbers for a particular atom
-     *
-     * @param[in] Z The atomic number of the atom, for which mass numbers are
-     *              wanted. Should be in range [0, max_Z()).
-     * @return A list of available mass numbers for the requested atom. If no
-     *         isotope data is available for the particular value of @p Z then
-     *         the list is empty.
-     *
-     * @throw std::bad_alloc if there is insufficient memory to allocate the
-     *                       list. Strong throw guarantee.
-     * @throw std::out_of_range if @p Z is not in the range [0, max_Z()).
-     *                          Strong throw guarantee.
-     */
-    isotope_list isotopes(size_type Z) const;
-
-    /**
      * @brief Convenience function for converting an atomic
      *        symbol to an atomic number.
      *
@@ -139,6 +147,7 @@ public:
      * name of the atom returned by `get_atom(Z)`.
      *
      * @param[in] sym The symbol to convert (case-insensitive)
+     * 
      * @return The atomic number of the requested atom
      *
      * @throw std::out_of_range if @p sym is not a recognized symbol. Strong
@@ -161,7 +170,8 @@ public:
      *              range [1, max_Z()).
      * @param[in] sym The atomic symbol of the atom to create. Symbol is
      *                case-insensitive.
-     * @param mass_num The mass number of the isotope to create.
+     * @param[in] mass_num The mass number of the isotope to create.
+     * 
      * @return The requested Atom
      *
      * @throw std::out_of_range if @p Z is not in the range [1, max_Z()), @p
@@ -184,7 +194,7 @@ public:
      * @name Comparison Operators
      *
      * @param rhs PeriodicTable on the right-hand side of the operator
-     * @returns Truth of comparison operator
+     * @return Truth of comparison operator
      */
     ///@{
     bool operator==(const PeriodicTable& rhs) const;
@@ -193,7 +203,7 @@ public:
 
 private:
     /**
-     * @defgroup PIMPL Interaction
+     * @name PIMPL Interaction
      * @brief Methods used to interact with the PIMPL
      *
      * @return detail_::PeriodicTablePIMPL&

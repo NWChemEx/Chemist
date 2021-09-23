@@ -36,15 +36,15 @@ void PeriodicTable::add_isotope(size_type Z, size_type mass_number,
     pimpl_().add_isotope(Z, mass_number, isotope);
 }
 
+isotope_list PeriodicTable::isotopes(size_type Z) const {
+    return pimpl_().isotopes(Z);
+}
+
 size_type PeriodicTable::sym_2_Z(const std::string& sym) const {
     return pimpl_().sym_2_Z(sym);
 }
 
 size_type PeriodicTable::max_Z() const noexcept { return pimpl_().max_Z(); }
-
-isotope_list PeriodicTable::isotopes(size_type Z) const {
-    return pimpl_().isotopes(Z);
-}
 
 Atom PeriodicTable::get_atom(size_type Z) const { return pimpl_().get_atom(Z); }
 Atom PeriodicTable::get_isotope(size_type Z, size_type mass_num) const {

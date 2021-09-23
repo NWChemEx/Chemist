@@ -12,15 +12,8 @@ struct BasisSetManagerPIMPL;
  * @brief A class for managing the available basis sets.
  *
  * To a large extent this class is envisioned as nothing more than a glorified
- * map from string names of basis sets to the parameters.  How those basis sets
- * are stored and/or accessed is a detail left up to the PIMPL backend.
- *
- * As it stands now, there's not a whole lot of reason to justify making this
- * a class versus a free function; however, it's reasonable to down the line
- * add the ability to say interact with this class as if it really does have
- * state.  For example, one can envision inquiring into whether or not a
- * basis set is defined for an atom, or adding additional basis sets
- * dynamically.
+ * map from string names of basis sets to the parameters. Basis sets are added
+ * using the @ref insert method.
  */
 class BasisSetManager {
 public:
@@ -42,15 +35,22 @@ public:
     BasisSetManager();
 
     /**
-     * @defgroup Copy/Move CTors and Assignment Operators
-     * @brief Can be used to construct BasisSetManagers with state obtained
-     *        from another instance.
+     * @name Copy/Move CTors and Assignment Operators
+     * @brief Functions for replicating the state of another BasisSetManager
+     *        instance.
+     * 
+     * Copy operations are deep copies and do not alias.
      *
-     * @param[in] rhs The instance to copy/move.  If moved @p rhs is in a valid,
-     *            but otherwise undefined state.
-     * @throw std::bad_alloc copy ctor/assignment operators throw if there is
-     *        insufficient memory to allocate the new state.  Strong throw
-     *        guarantee.  All move functions are no throw guarantee.
+     * @param[in] rhs The instance to copy/move from. If moved, @p rhs will be
+     *                in a valid, but otherwise undefined state after the move.
+     * 
+     * @return Copy/Move assignment operators return the current instance, but
+     *         with its new state.
+     * 
+     * @throw std::bad_alloc Copy ctor/assignment operators throw if there is
+     *                       insufficient memory to allocate the new state. 
+     *                       Strong throw guarantee.
+     * @throw None All move functions are no throw guarantee.
      */
     ///@{
     BasisSetManager(const BasisSetManager& rhs);
@@ -63,14 +63,19 @@ public:
     ~BasisSetManager() noexcept;
 
     /**
+     * @name Getter/Setters
+     */
+    ///@{
+    /**
      * @brief Returns the requested basis set for a particular atom.
      *
      * @param name The name of the basis set
      * @param Z The atomic number.
+     * 
      * @return The shells for an atom of atomic number @p Z.
      *
-     * @throws std::out_of_range @p name is not a valid basis set name.
-     *                           Strong throw guarantee.
+     * @throw std::out_of_range @p name is not a valid basis set name.
+     *                          Strong throw guarantee.
      */
     ao_basis_type get_basis(const std::string& name, const size_type& Z) const;
 
@@ -87,12 +92,13 @@ public:
      *             guarantee.
      */
     void insert(const std::string& name, const ao_basis_map& basis_set);
+    ///@}
 
     /**
-     * @defgroup Comparison Operators
+     * @name Comparison Operators
      *
      * @param rhs BasisSetManager on the right-hand side of the operator
-     * @returns Truth of comparison operator
+     * @return Truth of comparison operator
      */
     ///@{
     bool operator==(const BasisSetManager& rhs) const;
@@ -101,7 +107,7 @@ public:
 
 private:
     /**
-     * @defgroup PIMPL Interaction
+     * @name PIMPL Interaction
      * @brief Methods used to interact with the PIMPL
      *
      * @return detail_::BasisSetManagerPIMPL&
@@ -111,8 +117,9 @@ private:
      * @brief Returns the PIMPL instance, creating it if it does not exist.
      *
      * @returns Existing PIMPL or newly created PIMPL if one did not exist yet.
-     * @throws std::bad_alloc There was not enough memory to create the new
-     *                        PIMPL. Strong throw guarantee.
+     * 
+     * @throw std::bad_alloc There was not enough memory to create the new
+     *                       PIMPL. Strong throw guarantee.
      */
     detail_::BasisSetManagerPIMPL& pimpl_();
 
@@ -120,8 +127,9 @@ private:
      * @brief Returns the PIMPL instance, but throws if it does not exist.
      *
      * @return const detail_::BasisSetManagerPIMPL&
-     * @throws std::runtime_error A PIMPL does not exist. Strong throw
-     *                            guarantee.
+     * 
+     * @throw std::runtime_error A PIMPL does not exist. Strong throw
+     *                           guarantee.
      */
     const detail_::BasisSetManagerPIMPL& pimpl_() const;
     ///@}
@@ -144,12 +152,14 @@ private:
  *
  *
  * @param[in] l The string representation of the orbital angular momentum.
- *            It is assumed to be a single character, *i.e.*, l > 25 is not
- *            supported.
+ *              It is assumed to be a single character, *i.e.*, l > 25 is not
+ *              supported.
+ * 
  * @return The numerical value of the orbital angular momentum in atomic
  *         units.
+ * 
  * @throw std::logic_error if @p l is not a letter of the English alphabet.
- *        Strong throw guarantee.
+ *                         Strong throw guarantee.
  */
 std::size_t l_converter(char l);
 

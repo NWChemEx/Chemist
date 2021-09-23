@@ -70,6 +70,32 @@ struct PeriodicTablePIMPL {
     void add_isotope(size_type Z, size_type mass_number, const Atom& isotope);
 
     /**
+     * @brief Retrieves a list of mass numbers for isotopes of the element
+     *
+     * @param[in] Z Atomic number
+     *
+     * @return List of mass numbers for isotopes of the element specified by
+     *         the given atomic number.
+     *
+     * @throw std::bad_alloc if there is insufficient memory to allocate the
+     *                       list. Strong throw guarantee.
+     * @throw std::out_of_range if element with given atomic number does not
+     *                          exist. Strong throw guarantee.
+     * @throw ??? If an exception occurs in std::vector::push_back. Strong
+     *            throw guarantee.
+     */
+    isotope_list isotopes(size_type Z) const;
+
+    /**
+     * @brief Get the highest atomic number in this instance.
+     *
+     * @return Highest atomic number in this instance
+     *
+     * @throw None No throw guarantee.
+     */
+    size_type max_Z() const noexcept { return m_max_Z; }
+
+    /**
      * @brief Converts a given atomic symbol to an atomic number
      *
      * @param[in] sym Atomic symbol (case insensitive)
@@ -82,15 +108,6 @@ struct PeriodicTablePIMPL {
     size_type sym_2_Z(const std::string& sym) const;
 
     /**
-     * @brief Get the highest atomic number in this instance.
-     *
-     * @return Highest atomic number in this instance
-     *
-     * @throw None No throw guarantee.
-     */
-    size_type max_Z() const noexcept { return m_max_Z; }
-
-    /**
      * @brief Retrieves a list of atomic numbers for elements loaded in the
      *        instance.
      *
@@ -99,21 +116,6 @@ struct PeriodicTablePIMPL {
      * @throw None No throw guarantee.
      */
     Z_list atoms() const noexcept;
-
-    /**
-     * @brief Retrieves a list of mass numbers for isotopes of the element
-     *
-     * @param[in] Z Atomic number
-     *
-     * @return List of mass numbers for isotopes of the element specified by
-     *         the given atomic number.
-     *
-     * @throw std::bad_alloc if there is insufficient memory to allocate the
-     *                       list. Strong throw guarantee.
-     * @throw std::out_of_range if element with given atomic number does not
-     *                          exist. Strong throw guarantee.
-     */
-    isotope_list isotopes(size_type Z) const;
 
     /**
      * @brief Get an Atom of the element specified
@@ -132,8 +134,8 @@ struct PeriodicTablePIMPL {
      *
      * @return Atom object for specified Z and mass number
      *
-     * @throws std::out_of_range if Atom with atomic number (Z) or mass number
-     *                           is not present. Strong throw guarantee.
+     * @throw std::out_of_range if Atom with atomic number (Z) or mass number
+     *                          is not present. Strong throw guarantee.
      */
     Atom get_isotope(size_type Z, size_type mass_num) const;
     ///@}
@@ -142,7 +144,7 @@ struct PeriodicTablePIMPL {
      * @name Comparison Operators
      *
      * @param[in] rhs PeriodicTablePIMPL on the right-hand side of the operator
-     * @returns Truth of comparison operator
+     * @return Truth of comparison operator
      */
     ///@{
     bool operator==(const PeriodicTablePIMPL& rhs) const;
@@ -198,14 +200,6 @@ inline void PeriodicTablePIMPL::add_isotope(size_type Z, size_type mass_number,
     m_isotopes.at(Z).emplace(mass_number, std::move(isotope));
 }
 
-inline typename PeriodicTablePIMPL::size_type PeriodicTablePIMPL::sym_2_Z(
-  const std::string& sym) const {
-    if(!m_sym_2_Z.count(sym))
-        throw std::out_of_range("Unrecognized atomic symbol: " + sym);
-
-    return m_sym_2_Z.at(sym);
-}
-
 inline typename PeriodicTablePIMPL::isotope_list PeriodicTablePIMPL::isotopes(
   size_type Z) const {
     if(!m_isotopes.count(Z))
@@ -219,6 +213,14 @@ inline typename PeriodicTablePIMPL::isotope_list PeriodicTablePIMPL::isotopes(
     }
 
     return list;
+}
+
+inline typename PeriodicTablePIMPL::size_type PeriodicTablePIMPL::sym_2_Z(
+  const std::string& sym) const {
+    if(!m_sym_2_Z.count(sym))
+        throw std::out_of_range("Unrecognized atomic symbol: " + sym);
+
+    return m_sym_2_Z.at(sym);
 }
 
 inline Atom PeriodicTablePIMPL::get_atom(size_type Z) const {

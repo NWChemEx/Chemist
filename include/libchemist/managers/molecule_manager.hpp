@@ -39,20 +39,22 @@ public:
     MoleculeManager();
 
     /**
-     * @defgroup Copy/Move Ctors and Assignment Operators
+     * @name Copy/Move Ctors and Assignment Operators
      * @brief Functions for replicating the state of another MoleculeManager
      *        instance.
      *
      * Copy operations are deep copies and do not alias.
      *
-     * @param[in] rhs The instance to copy/move from. If moved from, @p rhs
-     *                will be in a valid, but otherwise undefined state after
-     *                the move.
+     * @param[in] rhs The instance to copy/move from. If moved, @p rhs will be
+     *                in a valid, but otherwise undefined state after the move.
+     *
      * @return Copy/Move assignment operators return the current instance, but
      *         with its new state.
-     * @throw std::bad_alloc if there is insufficient memory to copy the
-     *                       state of @p rhs. Strong throw guarantee.
-     *                       All move operations are no throw guarantee.
+     *
+     * @throw std::bad_alloc Copy ctor/assignment operators throw if there is
+     *                       insufficient memory to allocate the new state.
+     *                       Strong throw guarantee.
+     * @throw None All move functions are no throw guarantee.
      */
     ///@{
     MoleculeManager(const MoleculeManager& rhs);
@@ -65,17 +67,21 @@ public:
     ~MoleculeManager() noexcept;
 
     /**
+     * @name Getter/Setters
+     */
+    ///@{
+    /**
      * @brief Returns the requested molecule
      *
      * This member function can be used to retrieve molecules from the
      * database.
      *
-     * @param name The name of the molecule one wants
+     * @param[in] name The name of the molecule one wants
+     *
      * @return A Molecule instance containing the requested molecule
      *
      * @throw std::bad_alloc if there is insufficient memory to create the
      *                       return value. Strong throw guarantee.
-     *
      * @throw std::out_of_range if there is no molecule within this
      *                          instance under the @p name. Strong throw
      *                          guarantee.
@@ -85,19 +91,22 @@ public:
     /**
      * @brief Inserts a new molecule into the molecule manager
      *
-     * @param name The name of the molecule being inserted
-     * @param molecule The molecule object being inserted
+     * @param[in] name The name of the molecule being inserted
+     * @param[in] molecule The molecule object being inserted
      *
+     * @throw std::runtime_error if molecule with the given name already
+     *                           exists. Strong throw guarantee.
      * @throw ??? An exception is thrown in std::map::emplace. Strong throw
      *             guarantee
      */
     void insert(const key_type& name, const value_type& molecule);
+    ///@}
 
     /**
      * @name Comparison Operators
      *
-     * @param rhs MoleculeManager on the right-hand side of the operator
-     * @returns Truth of comparison operator
+     * @param[in] rhs MoleculeManager on the right-hand side of the operator
+     * @return Truth of comparison operator
      */
     ///@{
     bool operator==(const MoleculeManager& rhs) const;
@@ -106,7 +115,7 @@ public:
 
 private:
     /**
-     * @defgroup PIMPL Interaction
+     * @name PIMPL Interaction
      * @brief Methods used to interact with the PIMPL
      *
      * @return detail_::MoleculeManagerPIMPL&
@@ -116,6 +125,7 @@ private:
      * @brief Returns the PIMPL instance, creating it if it does not exist.
      *
      * @return Existing PIMPL or newly created PIMPL if one did not exist yet.
+     *
      * @throw std::bad_alloc There was not enough memory to create the new
      *                        PIMPL. Strong throw guarantee.
      */
@@ -125,6 +135,7 @@ private:
      * @brief Returns the PIMPL instance, but throws if it does not exist.
      *
      * @return const detail_::MoleculeManagerPIMPL&
+     *
      * @throw std::runtime_error A PIMPL does not exist. Strong throw
      *                            guarantee.
      */

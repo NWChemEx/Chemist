@@ -50,6 +50,8 @@ public:
      * @param name Name of molecule to add
      * @param molecule Molecule to add
      *
+     * @throw std::runtime_error if molecule with the given name already
+     *                           exists. Strong throw guarantee.
      * @throws ??? An exception is thrown in std::map::emplace. Strong throw
      *             guarantee.
      */
@@ -60,7 +62,7 @@ public:
      * @name Comparison Operators
      *
      * @param rhs MoleculeManagerPIMPL on the right-hand side of the operator
-     * @returns Truth of comparison operator
+     * @return Truth of comparison operator
      */
     ///@{
     bool operator==(const MoleculeManagerPIMPL& rhs) const;
