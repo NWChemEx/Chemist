@@ -25,15 +25,54 @@ namespace libchemist::wavefunction {
 template<typename OccupiedSpaceType,
          typename VirtualSpaceType = OccupiedSpaceType>
 class DeterminantSpace {
+    /// True if OccupiedSpaceType can be implicitly cast to @p T
+    template<typename T>
+    static constexpr bool occ_implicit_convert_v =
+      std::is_convertible_v<OccupiedSpaceType, T>;
+
+    /// True if VirtualSpaceType can be implicitly cast to @p T
+    template<typename T>
+    static constexpr bool vir_implicit_convert_v =
+      std::is_convertible_v<VirtualSpaceType, T>;
+
+    /// True if OccupiedSpaceType can be implicitly cast to @p T and
+    /// VirtualSpaceType can be implicitly cast to @p U
+    template<typename T, typename U>
+    static constexpr bool is_implicit_convertible_v =
+      occ_implicit_convert_v<T>&& vir_implicit_convert_v<U>;
+
+    /// Enables a function if is_implicit_convertible_v is true
+    template<typename T, typename U>
+    using enable_if_convertible_t =
+      std::enable_if_t<is_implicit_convertible_v<T, U>>;
+
 public:
     /// Type of the occupied molecular orbitals
     using occupied_orbital_type = OccupiedSpaceType;
 
+    /// Type of a read-only reference to the occupied orbitals
+    using const_occupied_reference = const occupied_orbital_type&;
+
+    /// Type of a read-only pointer to the occupied orbitals
+    using const_occupied_pointer = std::shared_ptr<const occupied_orbital_type>;
+
     /// Type of the virtual molecular orbitals
     using virtual_orbital_type = VirtualSpaceType;
 
+    /// Type of a read-only reference to the virtual orbitals
+    using const_virtual_reference = const virtual_orbital_type&;
+
+    /// Type of a rad-only pointer to the virtual orbitals
+    using const_virtual_pointer = std::shared_ptr<const virtual_orbital_type>;
+
     /// Type of the Fock operator which generated these orbitals
     using fock_operator_type = operators::Fock;
+
+    /// Type of a read-only reference to the Fock operator
+    using const_fock_reference = const fock_operator_type&;
+
+    /// Type of a read-only pointer to the Fock operator
+    using const_fock_pointer = std::shared_ptr<const fock_operator_type>;
 
     /** @brief Creates a determinant space with all default-initialized membes.
      *
@@ -58,29 +97,48 @@ public:
     DeterminantSpace(occupied_orbital_type occ, virtual_orbital_type virt,
                      fock_operator_type fock);
 
+    /** @brief Creates a determinant space by aliasing the provided state.
+     *
+     *
+     *  @param[in] pocc  The occupied orbitals to alias.
+     *  @param[in] pvirt The virtual orbitals to alias.
+     *  @param[in] pfock The Fock operator to alias
+     *
+     *  @throw None No throw guarantee.
+     */
+    DeterminantSpace(const_occupied_pointer pocc, const_virtual_pointer pvirt,
+                     const_fock_pointer pfock);
+
     /** @brief The orbitals occupied in the reference determinant.
      *
      *  @return The orbitals which are occupied in the reference determinant.
      *
-     *  @throw None No throw guarantee.
+     *  @throw std::runtime_error if the occupied orbitals have not been set.
      */
-    const auto& occupied_orbitals() const noexcept { return m_occ_; }
+    const_occupied_reference occupied_orbitals() const;
 
     /** @brief The orbitals which are unoccupied in the reference determinant
      *
      *  @return The orbitals which are unoccupied in the reference determinant
      *
-     *  @throw None No throw guarantee.
+     *  @throw std::runtime_error if the virtual orbitals have not been set.
      */
-    const auto& virtual_orbitals() const noexcept { return m_virt_; }
+    const_virtual_reference virtual_orbitals() const;
 
     /** @brief The Fock operator which generated these orbitals.
      *
      *  @return The Fock operator which generated the orbitals.
      *
-     *  @throw None No throw guarantee.
+     *  @throw std::runtime_error if the fock operator has not been set
      */
-    const auto& fock_operator() const noexcept { return m_fock_; }
+    const_fock_reference fock_operator() const;
+
+    template<typename T, typename U, typename = enable_if_convertible_t<T, U>>
+    operator DeterminantSpace<T, U>() const {
+        return DeterminantSpace<T, U>(m_pocc_, m_pvirt_, m_pfock_);
+    }
+
+    bool operator==(const DeterminantSpace& rhs) const;
 
     /** @brief Updates a hasher with the state of this determinant space.
      *
@@ -93,13 +151,13 @@ public:
 
 private:
     /// The occupied orbitals
-    occupied_orbital_type m_occ_;
+    const_occupied_pointer m_pocc_;
 
     /// The virtual orbitals
-    virtual_orbital_type m_virt_;
+    const_virtual_pointer m_pvirt_;
 
     /// The fock operator
-    fock_operator_type m_fock_;
+    const_fock_pointer m_pfock_;
 };
 
 /** @brief Compares two DeterminantSpace instances for equality.
@@ -121,7 +179,13 @@ private:
 template<typename LHSOccSpace, typename LHSVirtSpace, typename RHSOccSpace,
          typename RHSVirtSpace>
 bool operator==(const DeterminantSpace<LHSOccSpace, LHSVirtSpace>& lhs,
-                const DeterminantSpace<RHSOccSpace, RHSVirtSpace>& rhs);
+                const DeterminantSpace<RHSOccSpace, RHSVirtSpace>& rhs) {
+    if constexpr(!std::is_convertible_v<decltype(rhs), decltype(lhs)>) {
+        return false;
+    } else {
+        return lhs.operator==(rhs);
+    }
+}
 
 /** @brief Determiness if two DeterminantSpace instances are different.
  *  @relates DeterminantSpace
@@ -155,6 +219,15 @@ using CanonicalDeterminant = DeterminantSpace<orbital_space::CanonicalSpaceD>;
 /// Type of a determinant which uses sparse maps
 using SparseDeterminant = DeterminantSpace<orbital_space::CanonicalIndSpace>;
 
-} // namespace libchemist::wavefunction
+/// Type of a determinant with ToT for the virtuals
+using SparseToTDeterminant =
+  DeterminantSpace<orbital_space::CanonicalIndSpace,
+                   orbital_space::CanonicalIndToTSpace>;
 
-#include "determinant_space.ipp"
+extern template class DeterminantSpace<orbital_space::DerivedSpaceD>;
+extern template class DeterminantSpace<orbital_space::CanonicalSpaceD>;
+extern template class DeterminantSpace<orbital_space::CanonicalIndSpace>;
+extern template class DeterminantSpace<orbital_space::CanonicalIndSpace,
+                                       orbital_space::CanonicalIndToTSpace>;
+
+} // namespace libchemist::wavefunction

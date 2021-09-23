@@ -27,6 +27,9 @@ namespace libchemist::orbital_space {
 template<typename BaseType>
 class IndependentSpace : public BaseType {
 public:
+    /// Type of the base space
+    using base_space_type = BaseType;
+
     /// The type used for indexing and offsets
     using size_type = typename BaseType::size_type;
 
@@ -35,6 +38,8 @@ public:
 
     /// How the sparse maps are differentiated
     using sparse_map_register = std::map<std::string, sparse_map_type>;
+
+    IndependentSpace() = default;
 
     /** @brief Creates a new IndependentSpace by associating the provided space
      *         with a set of sparse maps.
@@ -158,7 +163,8 @@ private:
     sparse_map_register m_sm_;
 };
 
-using CanonicalIndSpace = IndependentSpace<CanonicalSpaceD>;
+using CanonicalIndSpace    = IndependentSpace<CanonicalSpaceD>;
+using CanonicalIndToTSpace = IndependentSpace<CanonicalToTSpace>;
 
 /** @brief Compares two DependentSpaces for equality.
  *
