@@ -190,11 +190,8 @@ public:
     bool operator==(const PeriodicTable& rhs) const;
     bool operator!=(const PeriodicTable& rhs) const;
     ///@}
-    
-private:
-    /// The instance actually implementing the class.
-    std::unique_ptr<detail_::PeriodicTablePIMPL> m_pimpl_;
 
+private:
     /**
      * @defgroup PIMPL Interaction
      * @brief Methods used to interact with the PIMPL
@@ -222,6 +219,9 @@ private:
      */
     const detail_::PeriodicTablePIMPL& pimpl_() const;
     ///@}
+
+    /// The instance actually implementing the class.
+    std::unique_ptr<detail_::PeriodicTablePIMPL> m_pimpl_;
 };
 
 } // namespace libchemist

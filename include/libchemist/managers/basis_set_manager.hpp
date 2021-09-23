@@ -100,9 +100,6 @@ public:
     ///@}
 
 private:
-    /// The instance actually responsible for making the class run
-    std::unique_ptr<detail_::BasisSetManagerPIMPL> m_pimpl_;
-
     /**
      * @defgroup PIMPL Interaction
      * @brief Methods used to interact with the PIMPL
@@ -128,6 +125,9 @@ private:
      */
     const detail_::BasisSetManagerPIMPL& pimpl_() const;
     ///@}
+    
+    /// The instance actually responsible for making the class run
+    std::unique_ptr<detail_::BasisSetManagerPIMPL> m_pimpl_;
 };
 
 /**
