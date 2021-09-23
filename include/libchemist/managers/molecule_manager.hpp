@@ -1,20 +1,21 @@
 #pragma once
 
+#include "libchemist/managers/periodic_table.hpp"
 #include "libchemist/molecule/molecule.hpp"
 
 namespace libchemist {
 namespace detail_ {
 /// Forward declare PIMPL
-class MoleculeManagerPIMPL;
+struct MoleculeManagerPIMPL;
 } // namespace detail_
 
 /**
  * @brief A class for storing a list of pre-built molecules.
  *
  * This class is largely intended to serve as a glorified map between
- * molecule names and geometries.  How the molecules are obtained can be
- * controlled by changing out the PIMPL.  The default PIMPL simply contains a
- * hard-coded list of molecules.
+ * molecule names and geometries. Molecules must be added to the manager using
+ * the MoleculeManager::insert method, since the loaded molecules are no longer
+ * controlled by changing out the PIMPL.
  *
  * As it currently stands there is little to justify making this a class, but
  * conceptually one can envision interacting with this class as a sort of
@@ -30,10 +31,10 @@ public:
     using value_type = Molecule;
 
     /**
-     * @brief Initializes the instance with a pre-defined set of molecules
+     * @brief Initializes the instance with no molecules
      *
      * @throw std::bad_alloc if there is insufficient memory to allocate the
-     *        PIMPL.  Strong throw guarantee.
+     *                       PIMPL. Strong throw guarantee.
      */
     MoleculeManager();
 
@@ -44,13 +45,14 @@ public:
      *
      * Copy operations are deep copies and do not alias.
      *
-     * @param[in] rhs The instance to copy/move from.  If moved from, @p rhs
-     * will be in a valid, but otherwise undefined state after the move.
+     * @param[in] rhs The instance to copy/move from. If moved from, @p rhs
+     *                will be in a valid, but otherwise undefined state after
+     *                the move.
      * @return Copy/Move assignment operators return the current instance, but
      *         with its new state.
      * @throw std::bad_alloc if there is insufficient memory to copy the
-     *        state of @p rhs.  Strong throw guarantee.  All move operations
-     *        are no throw guarantee.
+     *                       state of @p rhs. Strong throw guarantee.
+     *                       All move operations are no throw guarantee.
      */
     ///@{
     MoleculeManager(const MoleculeManager& rhs);
@@ -70,17 +72,67 @@ public:
      *
      * @param name The name of the molecule one wants
      * @return A Molecule instance containing the requested molecule
-     * @throw std::bad_alloc if there is insufficient memory to create the
-     * return value.  Strong throw guarantee.
-     * @throw std::out_of_range if there is no molecule within this
-     *        instance under the @p name.  Strong throw guarantee.
      *
+     * @throw std::bad_alloc if there is insufficient memory to create the
+     *                       return value. Strong throw guarantee.
+     *
+     * @throw std::out_of_range if there is no molecule within this
+     *                          instance under the @p name. Strong throw
+     *                          guarantee.
      */
     value_type at(const key_type& name) const;
 
+    /**
+     * @brief Inserts a new molecule into the molecule manager
+     *
+     * @param name The name of the molecule being inserted
+     * @param molecule The molecule object being inserted
+     *
+     * @throw ??? An exception is thrown in std::map::emplace. Strong throw
+     *             guarantee
+     */
+    void insert(const key_type& name, const value_type& molecule);
+
+    /**
+     * @name Comparison Operators
+     *
+     * @param rhs MoleculeManager on the right-hand side of the operator
+     * @returns Truth of comparison operator
+     */
+    ///@{
+    bool operator==(const MoleculeManager& rhs) const;
+    bool operator!=(const MoleculeManager& rhs) const;
+    ///@}
+
 private:
-    /// The object actually implementing the class
-    std::unique_ptr<detail_::MoleculeManagerPIMPL> pimpl_;
+    /**
+     * @defgroup PIMPL Interaction
+     * @brief Methods used to interact with the PIMPL
+     *
+     * @return detail_::MoleculeManagerPIMPL&
+     */
+    ///@{
+    /**
+     * @brief Returns the PIMPL instance, creating it if it does not exist.
+     *
+     * @return Existing PIMPL or newly created PIMPL if one did not exist yet.
+     * @throw std::bad_alloc There was not enough memory to create the new
+     *                        PIMPL. Strong throw guarantee.
+     */
+    detail_::MoleculeManagerPIMPL& pimpl_();
+
+    /**
+     * @brief Returns the PIMPL instance, but throws if it does not exist.
+     *
+     * @return const detail_::MoleculeManagerPIMPL&
+     * @throw std::runtime_error A PIMPL does not exist. Strong throw
+     *                            guarantee.
+     */
+    const detail_::MoleculeManagerPIMPL& pimpl_() const;
+    ///@}
+
+    /// The object managing the state of the class
+    std::unique_ptr<detail_::MoleculeManagerPIMPL> m_pimpl_;
 };
 
 } // namespace libchemist
