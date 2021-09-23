@@ -40,17 +40,7 @@ struct BasisSetManagerPIMPL {
      * @throws std::out_of_range @p name is not a valid basis set name.
      *                           Strong throw guarantee.
      */
-    ao_basis_type get_basis(const std::string& name, size_type Z) const {
-        if(!m_basis_sets.count(name))
-            throw std::out_of_range("No basis set named " + name);
-
-        if(!m_basis_sets.at(name).count(Z))
-            throw std::out_of_range(
-              "Basis set " + name +
-              " does not contain AOs for atomic number " + std::to_string(Z));
-
-        return m_basis_sets.at(name).at(Z);
-    }
+    ao_basis_type get_basis(const std::string& name, size_type Z) const;
 
     /** @brief Add a basis set name/getter function pair
      *
@@ -90,5 +80,18 @@ struct BasisSetManagerPIMPL {
     basis_set_map m_basis_sets;
     ///@}
 };
+
+inline typename BasisSetManagerPIMPL::ao_basis_type
+BasisSetManagerPIMPL::get_basis(const std::string& name, size_type Z) const {
+    if(!m_basis_sets.count(name))
+        throw std::out_of_range("No basis set named " + name);
+
+    if(!m_basis_sets.at(name).count(Z))
+        throw std::out_of_range("Basis set " + name +
+                                " does not contain AOs for atomic number " +
+                                std::to_string(Z));
+
+    return m_basis_sets.at(name).at(Z);
+}
 
 } // namespace libchemist::detail_
