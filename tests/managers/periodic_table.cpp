@@ -6,7 +6,7 @@ using namespace libchemist;
 
 using Catch::Matchers::Message;
 
-void load_elements(PeriodicTable& pt) {
+inline void load_elements(PeriodicTable& pt) {
     pt.insert(0, Atom(0ul, 0.0, "Ez"));
 
     pt.insert(1, Atom(1ul, 1837.4260218693814, "H"));
