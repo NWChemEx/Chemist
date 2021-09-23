@@ -27,9 +27,9 @@ struct PeriodicTablePIMPL {
     /// Symbol to atomic number map
     using sym_map = utilities::CaseInsensitiveMap<size_type>;
 
-    /** 
+    /**
      * @name PeriodicTablePIMPL Public API
-     * 
+     *
      * @brief Functions comprising the public API of the PIMPL
      */
     ///@{
@@ -151,13 +151,13 @@ struct PeriodicTablePIMPL {
 
     /**
      * @name PeriodicTable State
-     * 
+     *
      * @brief This section defines the state of the PeriodicTable class.
      */
     ///@{
     /// Map of atomic symbols to atomic numbers
     sym_map m_sym_2_Z;
-    
+
     /// Map of atomic numbers to an abundance-weighted Atom
     atom_map m_atoms;
 
@@ -169,7 +169,7 @@ struct PeriodicTablePIMPL {
     ///@}
 };
 
-void PeriodicTablePIMPL::insert(size_type Z, const Atom& atom) {
+inline void PeriodicTablePIMPL::insert(size_type Z, const Atom& atom) {
     if(m_atoms.count(Z))
         throw std::runtime_error("Element already exists with Z = " +
                                  std::to_string(Z));
@@ -182,8 +182,8 @@ void PeriodicTablePIMPL::insert(size_type Z, const Atom& atom) {
     m_sym_2_Z.emplace(atom.name(), Z);
 }
 
-void PeriodicTablePIMPL::add_isotope(size_type Z, size_type mass_number,
-                                     const Atom& isotope) {
+inline void PeriodicTablePIMPL::add_isotope(size_type Z, size_type mass_number,
+                                            const Atom& isotope) {
     // Check for valid element
     if(!m_isotopes.count(Z))
         throw std::runtime_error("Element does not exist with Z = " +
@@ -198,7 +198,7 @@ void PeriodicTablePIMPL::add_isotope(size_type Z, size_type mass_number,
     m_isotopes.at(Z).emplace(mass_number, std::move(isotope));
 }
 
-PeriodicTablePIMPL::size_type PeriodicTablePIMPL::sym_2_Z(
+inline typename PeriodicTablePIMPL::size_type PeriodicTablePIMPL::sym_2_Z(
   const std::string& sym) const {
     if(!m_sym_2_Z.count(sym))
         throw std::out_of_range("Unrecognized atomic symbol: " + sym);
@@ -206,7 +206,7 @@ PeriodicTablePIMPL::size_type PeriodicTablePIMPL::sym_2_Z(
     return m_sym_2_Z.at(sym);
 }
 
-PeriodicTablePIMPL::isotope_list PeriodicTablePIMPL::isotopes(
+inline typename PeriodicTablePIMPL::isotope_list PeriodicTablePIMPL::isotopes(
   size_type Z) const {
     if(!m_isotopes.count(Z))
         throw std::out_of_range("Element does not exist with Z = " +
@@ -221,7 +221,7 @@ PeriodicTablePIMPL::isotope_list PeriodicTablePIMPL::isotopes(
     return list;
 }
 
-Atom PeriodicTablePIMPL::get_atom(size_type Z) const {
+inline Atom PeriodicTablePIMPL::get_atom(size_type Z) const {
     if(!m_atoms.count(Z))
         throw std::out_of_range("Element does not exist with Z = " +
                                 std::to_string(Z));
@@ -229,7 +229,8 @@ Atom PeriodicTablePIMPL::get_atom(size_type Z) const {
     return m_atoms.at(Z);
 }
 
-Atom PeriodicTablePIMPL::get_isotope(size_type Z, size_type mass_num) const {
+inline Atom PeriodicTablePIMPL::get_isotope(size_type Z,
+                                            size_type mass_num) const {
     if(!m_isotopes.count(Z))
         throw std::out_of_range("Element does not exist with Z = " +
                                 std::to_string(Z));
@@ -241,12 +242,14 @@ Atom PeriodicTablePIMPL::get_isotope(size_type Z, size_type mass_num) const {
     return m_isotopes.at(Z).at(mass_num);
 }
 
-bool PeriodicTablePIMPL::operator==(const PeriodicTablePIMPL& rhs) const {
+inline bool PeriodicTablePIMPL::operator==(
+  const PeriodicTablePIMPL& rhs) const {
     return m_sym_2_Z == rhs.m_sym_2_Z && m_atoms == rhs.m_atoms &&
            m_isotopes == rhs.m_isotopes;
 }
 
-bool PeriodicTablePIMPL::operator!=(const PeriodicTablePIMPL& rhs) const {
+inline bool PeriodicTablePIMPL::operator!=(
+  const PeriodicTablePIMPL& rhs) const {
     return !(*this == rhs);
 }
 
