@@ -4,7 +4,7 @@
 
 namespace libchemist::detail_ {
 
-/** 
+/**
  * @brief PIMPL to hide details of the BasisSetManager state
  *
  * Basis sets should be added to the BasisSetManager through the API defined
@@ -21,7 +21,7 @@ struct BasisSetManagerPIMPL {
     /// The type of the basis set map, mapping names to AO basis maps
     using basis_set_map = utilities::CaseInsensitiveMap<ao_basis_map>;
 
-    /** 
+    /**
      * @name BasisSetManagerPIMPL Public API
      *
      * @brief Functions comprising the public API of the PIMPL
@@ -32,7 +32,7 @@ struct BasisSetManagerPIMPL {
         return std::make_unique<BasisSetManagerPIMPL>(*this);
     }
 
-    /** 
+    /**
      * @brief Gets the basis for the given atomic number from a basis set
      *
      * @param name Name of the basis set
@@ -45,20 +45,21 @@ struct BasisSetManagerPIMPL {
      */
     ao_basis_type get_basis(const std::string& name, size_type Z) const;
 
-    /** @brief Add a basis set name/getter function pair
+    /** 
+     * @brief Add a basis set name/getter function pair
      *
      * @param name Basis set name
      * @param ao_basis AO basis object
      *
+     * @throw std::runtime_error if basis set with the given name already
+     *                           exists. Strong throw guarantee.
      * @throw ??? An exception is thrown in std::map::emplace. Strong throw
      *            guarantee.
      */
-    void insert(const std::string& name, ao_basis_map ao_basis) {
-        m_basis_sets.emplace(name, std::move(ao_basis));
-    }
+    void insert(const std::string& name, const ao_basis_map& ao_basis);
     ///@}
 
-    /** 
+    /**
      * @name Comparison Operators
      *
      * @param rhs BasisSetManagerPIMPL on the right-hand side of the operator
@@ -74,7 +75,7 @@ struct BasisSetManagerPIMPL {
     }
     ///@}
 
-    /** 
+    /**
      * @name BasisSetManager State
      *
      * @brief This section defines the state of the BasisSetManager class.
@@ -97,6 +98,14 @@ BasisSetManagerPIMPL::get_basis(const std::string& name, size_type Z) const {
                                 std::to_string(Z));
 
     return m_basis_sets.at(name).at(Z);
+}
+
+inline void BasisSetManagerPIMPL::insert(const std::string& name,
+                                         const ao_basis_map& ao_basis) {
+    if(m_basis_sets.count(name))
+        throw std::runtime_error("Basis set already exists named " + name);
+
+    m_basis_sets.emplace(name, std::move(ao_basis));
 }
 
 } // namespace libchemist::detail_

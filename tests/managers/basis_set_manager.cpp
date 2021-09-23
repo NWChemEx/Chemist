@@ -124,7 +124,19 @@ TEST_CASE("BasisSetManager Comparisons") {
     }
 }
 
-TEST_CASE("BasisSetManager Get/Set Bases") {
+TEST_CASE("BasisSetManager::insert") {
+    BasisSetManager bsm;
+
+    SECTION("Repeat basis set") {
+        load_basis(bsm);
+        std::string msg = "Basis set already exists named test_basis";
+
+        REQUIRE_THROWS_MATCHES(load_basis(bsm), std::runtime_error,
+                               Message(msg));
+    }
+}
+
+TEST_CASE("BasisSetManager::get_basis") {
     BasisSetManager bsm;
 
     SECTION("Empty BasisSetManager") {

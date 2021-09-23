@@ -88,6 +88,8 @@ public:
      * @param name The name of the new basis set
      * @param basis_set The basis set mapping from atomic number to AO basis
      *
+     * @throw std::runtime_error if basis set with the given name already
+     *                           exists. Strong throw guarantee.
      * @throws ??? An exception is thrown in std::map::emplace. Strong throw
      *             guarantee.
      */
