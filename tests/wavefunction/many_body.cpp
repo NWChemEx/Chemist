@@ -2,8 +2,7 @@
 #include "test_wavefunction.hpp"
 using namespace libchemist::wavefunction;
 
-using tuple_type = std::tuple<Reference, CanonicalReference, LocalReference,
-                              CanonicalLocalReference>;
+using tuple_type = std::tuple<Reference, CanonicalReference>;
 
 TEMPLATE_LIST_TEST_CASE("ManyBody", "", tuple_type) {
     using reference_t = TestType;
