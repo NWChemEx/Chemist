@@ -108,16 +108,6 @@ struct PeriodicTablePIMPL {
     size_type sym_2_Z(const std::string& sym) const;
 
     /**
-     * @brief Retrieves a list of atomic numbers for elements loaded in the
-     *        instance.
-     *
-     * @return List of atomic numbers for elements loaded
-     *
-     * @throw None No throw guarantee.
-     */
-    Z_list atoms() const noexcept;
-
-    /**
      * @brief Get an Atom of the element specified
      *
      * @param[in] Z Atomic number
