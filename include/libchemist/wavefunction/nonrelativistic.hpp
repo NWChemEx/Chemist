@@ -14,6 +14,15 @@ namespace libchemist::wavefunction {
  */
 template<typename BasisType>
 class Nonrelativistic {
+    /// Determines if BasisType is implicitly convertible to @p T
+    template<typename T>
+    static constexpr bool bs_is_convertible_v =
+      std::is_convertible_v<BasisType, T>;
+
+    /// Enables a function if @p T is implicitly convertible to BasisType
+    template<typename T>
+    using enable_if_convertible_t = std::enable_if_t<bs_is_convertible_v<T>>;
+
 public:
     /// Type of the total spin
     using spin_type = float;
@@ -24,20 +33,29 @@ public:
     /// Type of the basis_set
     using basis_set_type = BasisType;
 
+    /// Type of a read-only reference to the basis set
+    using const_basis_set_reference = const basis_set_type&;
+
+    /// Type of a read-only pointer to the basis set
+    using const_basis_set_pointer = std::shared_ptr<const basis_set_type>;
+
+    Nonrelativistic() = default;
+
     /** @brief Makes a non-relativistic wavefunction with the specified state.
      *
-     *  This constructor serves as both the default ctor (making a wavefunction
-     *  with no basis set and no spin) as well as the value ctor. The only way
-     *  to change the state of a wavefunction after creation is by assigning to
-     *  it.
+     *  This constructor will create a wavefunction with the specified state.
+     *  The only way to change the state of the wavefunction after creation is
+     *  by assigning to it.
      *
-     *  @param[in] ref The basis set for the wavefunction. Default is an empty
-     *                 set.
+     *  @param[in] ref The basis set for the wavefunction.
      *  @param[in] spin The total spin of the wavefunction. Default is zero.
      *
-     *  @throw None No throw guarantee.
+     *  @throw std::bad_alloc if allocating the poitner for @p ref fails. Strong
+     *                        throw guarantee
      */
-    explicit Nonrelativistic(basis_set_type ref = {}, spin_type spin = 0);
+    explicit Nonrelativistic(basis_set_type ref, spin_type spin = 0);
+
+    Nonrelativistic(const_basis_set_pointer pref, spin_type spin);
 
     /** @brief The multiplicity of the wavefunction.
      *
@@ -71,7 +89,24 @@ public:
      *
      *  @return The basis_set used to construct this wavefunction.
      */
-    const auto& basis_set() const noexcept { return m_basis_; }
+    const_basis_set_reference basis_set() const;
+
+    /** @brief Adds implicit conversions among various Nonrelativistic
+     *         wavefunctions.
+     *
+     *  @tparam T The type of the basis set we are attempting to convert to.
+     *  @tparam <Anonymous> Used to disable the conversion when BasisType can
+     *                      not be implicitly converted to @p T.
+     *
+     *  @return The current wavefunction casted to a wavefunction of type
+     *          Nonrelativistic<T>.
+     */
+    template<typename T, typename = enable_if_convertible_t<T>>
+    operator Nonrelativistic<T>() const {
+        return Nonrelativistic<T>(T(*m_pbasis_), m_spin_);
+    }
+
+    bool operator==(const Nonrelativistic& rhs) const;
 
     /** @brief Hashes the wavefunction.
      *
@@ -81,14 +116,14 @@ public:
      *  @param[in,out] h The instance to use for hashing. After this call @p h
      *                   will contain a hash of this wavefunction.
      */
-    void hash(pluginplay::Hasher& h) const { h(m_spin_, m_basis_); }
+    void hash(pluginplay::Hasher& h) const { h(m_spin_, m_pbasis_); }
 
 private:
     /// The total spin of the wavefunction
-    spin_type m_spin_;
+    spin_type m_spin_ = 0;
 
     /// The basis_set
-    basis_set_type m_basis_;
+    const_basis_set_pointer m_pbasis_;
 };
 
 /** @brief Convenience function for making a wavefunction from occupied and
@@ -104,7 +139,14 @@ private:
  */
 template<typename OccType, typename VirtType>
 auto make_wavefunction(OccType&& occ, VirtType&& virt, operators::Fock fock,
-                       unsigned int spin = 0);
+                       unsigned int spin = 0) {
+    using clean_occ  = std::decay_t<OccType>;
+    using clean_virt = std::decay_t<VirtType>;
+    using det_type   = DeterminantSpace<clean_occ, clean_virt>;
+    det_type det(std::forward<OccType>(occ), std::forward<VirtType>(virt),
+                 std::move(fock));
+    return Nonrelativistic<det_type>(std::move(det), spin);
+}
 
 /** @brief Compares two non-relativistic wavefunctions for equality.
  *
@@ -129,7 +171,13 @@ auto make_wavefunction(OccType&& occ, VirtType&& virt, operators::Fock fock,
  */
 template<typename LHSRefType, typename RHSRefType>
 bool operator==(const Nonrelativistic<LHSRefType>& lhs,
-                const Nonrelativistic<RHSRefType>& rhs);
+                const Nonrelativistic<RHSRefType>& rhs) {
+    if constexpr(!std::is_convertible_v<RHSRefType, LHSRefType>) {
+        return false;
+    } else {
+        return lhs.operator==(rhs);
+    }
+}
 
 /** @brief Determines if two non-relativistic wavefunctions are different.
  *
@@ -165,8 +213,11 @@ using Reference = Nonrelativistic<Determinant>;
 /// Type of a wavefunction built from canonical MOs
 using CanonicalReference = Nonrelativistic<CanonicalDeterminant>;
 
+/// Type of a wavefunction built from MOs with a sparsity relationship
 using SparseReference = Nonrelativistic<SparseDeterminant>;
 
-} // namespace libchemist::wavefunction
+extern template class Nonrelativistic<Determinant>;
+extern template class Nonrelativistic<CanonicalDeterminant>;
+extern template class Nonrelativistic<SparseDeterminant>;
 
-#include "nonrelativistic.ipp"
+} // namespace libchemist::wavefunction

@@ -133,11 +133,43 @@ public:
      */
     const_fock_reference fock_operator() const;
 
+    /** @brief Enables implicit upcasting of the orbital spaces in a determinant
+     *         space.
+     *
+     *  The orbital spaces in a DeterminantSpace are polymorphic. It sometimes
+     *  occurs that we have an instance of type  `DeterminantSpace<X, Y>` and
+     *  we want to pass it as if it was of type `DeterminantSpace<T, U>` (where
+     *  `X` derives from `T` and `Y` derives from `U`). This function makes it
+     *  so such conversions happen automagically.
+     *
+     *  @tparam T The type we want to cast `OccupiedSpaceType` to.
+     *  @tparam U The type we want to cast `VirtualSpaceType` to.
+     *  @tparam <anonymous> Ensurse via SFINAE that this conversion only
+     *                      participates in overload resolution when
+     *                      `OccupiedSpaceType` is implicitly convertible to
+     *                      @p T, and `VirtualSpaceType` is implicitly
+     *                      convertible to @p U.
+     *
+     *
+     *  @return The current instance casted to a `DeterminantSpace<T, U>`
+     *          instance.
+     *
+     *  @throw None No throw guarantee.
+     */
     template<typename T, typename U, typename = enable_if_convertible_t<T, U>>
     operator DeterminantSpace<T, U>() const {
         return DeterminantSpace<T, U>(m_pocc_, m_pvirt_, m_pfock_);
     }
 
+    /** @brief Determines if this instance is equal to another
+     *
+     *  Two DeterminantSpace instances are equal if their occupied, virtual, and
+     *  Fock operators compare equal.
+     *
+     *  @param[in] rhs The instance we are comparing to.
+     *
+     *  @return True if this instance is equal to @p rhs and false otherwise.
+     */
     bool operator==(const DeterminantSpace& rhs) const;
 
     /** @brief Updates a hasher with the state of this determinant space.
