@@ -103,7 +103,7 @@ public:
      */
     template<typename T, typename = enable_if_convertible_t<T>>
     operator Nonrelativistic<T>() const {
-        return Nonrelativistic<T>(T(*m_pbasis_), m_spin_);
+        return Nonrelativistic<T>(m_pbasis_ ? T(*m_pbasis_) : T(), m_spin_);
     }
 
     bool operator==(const Nonrelativistic& rhs) const;
