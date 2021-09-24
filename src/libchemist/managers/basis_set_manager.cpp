@@ -1,25 +1,64 @@
+#include "detail_/basis_set_manager_pimpl.hpp"
 #include "libchemist/managers/basis_set_manager.hpp"
-#include "libchemist/managers/detail_/basis_set_manager_pimpl.hpp"
 
 namespace libchemist {
 
 using ao_basis_type = typename BasisSetManager::ao_basis_type;
 using size_type     = typename BasisSetManager::size_type;
+using ao_basis_map  = typename BasisSetManager::ao_basis_map;
 
-BasisSetManager::BasisSetManager() : pimpl_(detail_::nwx_default_bs()) {}
+BasisSetManager::BasisSetManager() : m_pimpl_() {}
+
 BasisSetManager::BasisSetManager(const BasisSetManager& rhs) :
-  pimpl_(rhs.pimpl_->clone()) {}
-BasisSetManager::BasisSetManager(BasisSetManager&& rhs) noexcept = default;
+  m_pimpl_(rhs.pimpl_().clone()) {}
+
+BasisSetManager::BasisSetManager(BasisSetManager&& rhs) noexcept :
+  m_pimpl_(std::move(rhs.m_pimpl_)) {}
+
 BasisSetManager& BasisSetManager::operator=(const BasisSetManager& rhs) {
-    return *this = std::move(BasisSetManager(rhs));
+    return *this = BasisSetManager(rhs);
 }
-BasisSetManager& BasisSetManager::operator=(BasisSetManager&& rhs) noexcept =
-  default;
+
+BasisSetManager& BasisSetManager::operator=(BasisSetManager&& rhs) noexcept {
+    m_pimpl_ = std::move(rhs.m_pimpl_);
+    
+    return *this;
+}
+
 BasisSetManager::~BasisSetManager() noexcept = default;
 
 ao_basis_type BasisSetManager::get_basis(const std::string& name,
-                                         size_type Z) const {
-    return pimpl_->get_basis(name, Z);
+                                         const size_type& Z) const {
+    return pimpl_().get_basis(name, Z);
+}
+
+void BasisSetManager::insert(const std::string& name,
+                             const ao_basis_map& basis_set) {
+    pimpl_().insert(name, basis_set);
+}
+
+detail_::BasisSetManagerPIMPL& BasisSetManager::pimpl_() {
+    // Create a new pimpl if one does not exist
+    if(!this->m_pimpl_) {
+        this->m_pimpl_ = std::make_unique<detail_::BasisSetManagerPIMPL>();
+    }
+
+    return (*this->m_pimpl_);
+}
+
+const detail_::BasisSetManagerPIMPL& BasisSetManager::pimpl_() const {
+    // Throw if pimpl does not exist
+    if(!this->m_pimpl_) { throw std::runtime_error("PIMPL is not set"); }
+
+    return (*this->m_pimpl_);
+}
+
+bool BasisSetManager::operator==(const BasisSetManager& rhs) const {
+    return pimpl_() == rhs.pimpl_();
+}
+
+bool BasisSetManager::operator!=(const BasisSetManager& rhs) const {
+    return !((*this) == rhs);
 }
 
 size_type l_converter(char l) {
