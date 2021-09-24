@@ -43,4 +43,6 @@ type::SparseTensorWrapper concatenate(const type::SparseTensorWrapper& lhs,
 type::ToTWrapper concatenate(const type::ToTWrapper& lhs,
                              const type::ToTWrapper& rhs, std::size_t dim);
 
+type::SparseTensorWrapper grab_diagonal(const type::SparseTensorWrapper& t);
+
 } // namespace libchemist::tensor

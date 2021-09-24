@@ -23,6 +23,12 @@ public:
     /// Type of the tensor used to store the orbital energies
     using orbital_energy_type = OrbitalEnergyType;
 
+    /// Type of a pointer to the orbital energies
+    using orbital_energy_ptr = std::shared_ptr<const OrbitalEnergyType>;
+
+    /// Type of a read-only reference to the orbital energies
+    using const_energy_reference = const orbital_energy_type&;
+
     /** @brief Creates a new CanonicalSpace which does not have any orbital
      *         energies.
      *
@@ -50,19 +56,34 @@ public:
     template<typename... Args>
     explicit CanonicalSpace(OrbitalEnergyType egys, Args&&... args);
 
-    /** @brief Returns the energies of the orbitals in this orbital space.
-     *
-     *  @return The tensor containing the orbital energies in a read/write
-     *          fashion.
-     */
-    auto& orbital_energies() { return m_egys_; }
+    template<typename... Args>
+    explicit CanonicalSpace(orbital_energy_ptr pegys, Args&&... args);
 
     /** @brief Returns the energies of the orbitals in this orbital space.
      *
      *  @return The tensor containing the orbital energies in a read-only
-     * state.
+     *          state.
+     *
+     *  @throw std::runtime_error if the instance does not contain any orbital
+     *                            energies. Strong throw guarantee.
      */
-    const auto& orbital_energies() const { return m_egys_; }
+    const_energy_reference orbital_energies() const;
+
+    /** @brief Returns the pointer holding the orbital energies
+     *
+     *  @throw None No throw guarantee.
+     */
+    orbital_energy_ptr orbital_energies_data() const { return m_pegys_; }
+
+    /** @brief Determines if this space is the same as @p rhs.
+     *
+     *  @param[in] rhs The space we are comparing to.
+     *
+     *  @return True if this space is equal to @p rhs and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool operator==(const CanonicalSpace& rhs) const noexcept;
 
 protected:
     /// Adds the orbital energies to the hash internal to `h`
@@ -73,7 +94,7 @@ protected:
 
 private:
     /// The energies associated with each orbital
-    orbital_energy_type m_egys_;
+    orbital_energy_ptr m_pegys_;
 };
 
 /** @brief Compares two CanonicalSpace instances for equality.
@@ -105,10 +126,7 @@ bool operator==(const CanonicalSpace<LOrbitalEnergyType, LBaseType>& lhs,
     if constexpr(!std::is_same_v<decltype(lhs), decltype(rhs)>)
         return false;
     else {
-        if(lhs.orbital_energies() != rhs.orbital_energies()) return false;
-        const LBaseType& lbase = lhs;
-        const RBaseType& rbase = rhs;
-        return lbase == rbase;
+        lhs.operator==(rhs);
     }
 }
 
@@ -145,22 +163,26 @@ bool operator!=(const CanonicalSpace<LOrbitalEnergyType, LBaseType>& lhs,
 using CanonicalSpaceD = CanonicalSpace<type::tensor, DerivedSpaceD>;
 
 /// CanonicalSpace which inherits from IndDerivedSpace
-using CanonicalIndSpace = CanonicalSpace<type::tensor, IndDerivedSpace>;
-
-/// CanonicalSpace which inherits from DepDerivedSpace
-using CanonicalDepSpace =
-  CanonicalSpace<type::tensor_of_tensors, DepDerivedSpace>;
+using CanonicalToTSpace =
+  CanonicalSpace<type::tensor_of_tensors, ToTDerivedSpace>;
 
 extern template class CanonicalSpace<type::tensor, DerivedSpaceD>;
-extern template class CanonicalSpace<type::tensor, IndDerivedSpace>;
-extern template class CanonicalSpace<type::tensor_of_tensors, DepDerivedSpace>;
+extern template class CanonicalSpace<type::tensor_of_tensors, ToTDerivedSpace>;
 
-// ----------------------------- Implementations -------------------------------
+// ----------------------------- Implementations
+// -------------------------------
 
 template<typename OrbitalEnergyType, typename BaseType>
 template<typename... Args>
 CanonicalSpace<OrbitalEnergyType, BaseType>::CanonicalSpace(
   OrbitalEnergyType egys, Args&&... args) :
-  BaseType(std::forward<Args>(args)...), m_egys_(std::move(egys)) {}
+  CanonicalSpace(std::make_shared<OrbitalEnergyType>(std::move(egys)),
+                 std::forward<Args>(args)...) {}
+
+template<typename OrbitalEnergyType, typename BaseType>
+template<typename... Args>
+CanonicalSpace<OrbitalEnergyType, BaseType>::CanonicalSpace(
+  orbital_energy_ptr pegys, Args&&... args) :
+  m_pegys_(pegys), BaseType(std::forward<Args>(args)...) {}
 
 } // namespace libchemist::orbital_space

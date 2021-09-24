@@ -4,6 +4,7 @@
 #include "libchemist/sparse_map/from_sparse_map.hpp"
 #include "libchemist/sparse_map/index.hpp"
 #include "libchemist/sparse_map/sparse_map/sparse_map.hpp"
+#include "libchemist/sparse_map/sparsify.hpp"
 
 /** @brief Contains classes and functions related to SparseMap objects.
  *

@@ -70,6 +70,12 @@ auto operator*(FloatType c, OpLayer<TensorType>& rhs) {
     return ScaleOp<FloatType, TensorType>(c, rhs.downcast());
 }
 
+template<typename FloatType, typename TensorType,
+         typename = std::enable_if_t<std::is_floating_point_v<FloatType>>>
+auto operator*(FloatType c, const OpLayer<TensorType>& rhs) {
+    return ScaleOp<FloatType, TensorType>(c, rhs.downcast());
+}
+
 /** @brief Syntactic sugar for scaling a tensor from the right.
  *  @relates ScaleOp
  *
@@ -87,6 +93,12 @@ auto operator*(FloatType c, OpLayer<TensorType>& rhs) {
 template<typename FloatType, typename TensorType,
          typename = std::enable_if_t<std::is_floating_point_v<FloatType>>>
 auto operator*(OpLayer<TensorType>& lhs, FloatType c) {
+    return ScaleOp<FloatType, TensorType>(c, lhs.downcast());
+}
+
+template<typename FloatType, typename TensorType,
+         typename = std::enable_if_t<std::is_floating_point_v<FloatType>>>
+auto operator*(const OpLayer<TensorType>& lhs, FloatType c) {
     return ScaleOp<FloatType, TensorType>(c, lhs.downcast());
 }
 
