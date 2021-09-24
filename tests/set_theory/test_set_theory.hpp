@@ -11,7 +11,6 @@
 #include <vector>
 
 using namespace libchemist;
-using namespace libchemist::set_theory;
 using container_types = std::tuple<std::vector<int>, Molecule>;
 
 namespace testing {

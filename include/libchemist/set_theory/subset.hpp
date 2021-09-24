@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/set_theory/set_traits.hpp"
+#include "libchemist/set_theory/traits/set_traits.hpp"
 #include <algorithm>
 #include <boost/container/flat_set.hpp>
 #include <iterator>
@@ -471,6 +471,13 @@ bool operator==(const Subset<LHSSetType>& lhs, const Subset<RHSSetType>& rhs) {
 template<typename LHSSetType, typename RHSSetType>
 bool operator!=(const Subset<LHSSetType>& lhs, const Subset<RHSSetType>& rhs) {
     return !(lhs == rhs);
+}
+
+template<typename SetType>
+std::ostream& operator<<(std::ostream& os, const Subset<SetType>& ss) {
+    os << "{";
+    for(const auto& x : ss) os << x << " ";
+    return os << "}";
 }
 
 // ---------------------------- Implementations --------------------------------
