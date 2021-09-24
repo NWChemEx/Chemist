@@ -28,6 +28,7 @@
  */
 namespace libchemist {
 
+
 /**
  * @brief Convenience function for applying a basis set to a molecule
  *
@@ -39,6 +40,8 @@ namespace libchemist {
  * @throw std::bad_alloc if there is insufficient memory to create the basis
  *        set.  Strong throw guarantee.
  */
+/* NOTE: With the creation of the ChemCache repository, this function should
+         be moved to the NWChemEx repository.
 inline auto apply_basis(const std::string& name, const Molecule& mol,
                         const BasisSetManager& man = BasisSetManager()) {
     AOBasisSet<double> aos;
@@ -48,6 +51,6 @@ inline auto apply_basis(const std::string& name, const Molecule& mol,
         aos.add_center(ci);
     }
     return orbital_space::AOSpaceD(aos);
-}
+}*/
 
 } // namespace libchemist
