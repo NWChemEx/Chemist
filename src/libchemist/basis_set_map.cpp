@@ -2,7 +2,7 @@
 #include <utilities/iter_tools/enumerate.hpp>
 
 namespace libchemist {
-
+/*
 using size_type = std::size_t;
 
 template<typename T>
@@ -64,5 +64,5 @@ BasisSetMap<T>::BasisSetMap(const AOBasisSet<T>& bs) {
 
 template class BasisSetMap<double>;
 template class BasisSetMap<float>;
-
+*/
 } // namespace libchemist
