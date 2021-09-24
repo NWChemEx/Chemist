@@ -1,5 +1,5 @@
 #include "libchemist/molecule/molecule.hpp"
-#include "libchemist/set_theory/set_traits.hpp"
+#include "libchemist/set_theory/traits/set_traits.hpp"
 #include <catch2/catch.hpp>
 
 using namespace libchemist::set_theory;

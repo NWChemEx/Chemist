@@ -1,6 +1,27 @@
 #pragma once
 #include "libchemist/set_theory/subset.hpp"
+#include "libchemist/set_theory/traits/traits.hpp"
 #include <vector>
+
+/// TODO: Roll our own reference wrapper with these operations defined
+namespace std {
+
+template<typename T0, typename T1>
+bool operator==(const reference_wrapper<T0>& lhs,
+                const reference_wrapper<T1>& rhs) {
+    return static_cast<const T0&>(lhs) == static_cast<const T1&>(rhs);
+}
+
+template<typename T0, typename T1>
+bool operator==(const reference_wrapper<T0>& lhs, const T1& rhs) {
+    if constexpr(!std::is_convertible_v<T0, const T1&>) {
+        return false;
+    } else {
+        return lhs.get() == rhs;
+    }
+}
+
+} // namespace std
 
 namespace libchemist::set_theory {
 
@@ -26,20 +47,26 @@ namespace libchemist::set_theory {
 template<typename SetType>
 class FamilyOfSets {
 public:
+    using traits_type = FamilyOfSetsTraits<SetType>;
+
     /// Type of the set we are dividing up
     using superset_type = SetType;
 
+    /// Type of a read-only reference to the superset
+    using const_superset_reference =
+      typename traits_type::const_parent_reference;
+
     /// Type of the subsets in this family of sets
-    using value_type = Subset<superset_type>;
+    using value_type = typename traits_type::value_type;
 
     /// Type of a read/write-reference to a subset
-    using reference_type = value_type&;
+    using reference_type = typename traits_type::reference_type;
 
     /// Type of a read-only reference to a subset
-    using const_reference = const value_type&;
+    using const_reference = typename traits_type::const_reference;
 
     /// Type of the pointer holding the superset
-    using ptr_type = std::shared_ptr<const superset_type>;
+    using ptr_type = typename traits_type::ptr_type;
 
 private:
     /// Type of the container holding the subsets
@@ -49,21 +76,24 @@ public:
     /// Type used for indexing and offsets
     using size_type = typename subset_container::size_type;
 
-private:
-    /// Type of an initializer list of offsets
-    using offset_il = std::initializer_list<size_type>;
+    /// Type of the initializer list expected by the subset ctor
+    using subset_il_type = typename traits_type::subset_il_type;
 
-    /// Type of an initializer list of offset_il
-    using offset_il_il = std::initializer_list<offset_il>;
+    /** @brief Type of an initializer list which can be used for initialization
+     *         by offset.
+     */
+    using il_type = typename traits_type::il_type;
 
-public:
     /** @brief Creates a new FamilyOfSets instance using @p obj as the parent
      *         set.
      *
      *  @param[in] obj The parent set from which all of the subsets will be
      *                 taken.
+     *  @param[in] il An initializer list containing the subsets to populate the
+     *                instance with. Default value is an empty list, which will
+     *                create an empty FamilyOfSets.
      */
-    explicit FamilyOfSets(SetType obj, offset_il_il il = {});
+    explicit FamilyOfSets(SetType obj, il_type il = {});
 
     /** @brief Used to determine if the current family is empty.
      *
@@ -95,7 +125,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    const auto& object() const noexcept { return *m_obj_; }
+    const_superset_reference object() const noexcept;
 
     /** @brief Returns a shared pointer to the superset.
      *
@@ -125,6 +155,24 @@ public:
      *  @throw None No throw guarantee.
      */
     const_reference operator[](size_type i) const noexcept;
+
+    /** @brief Convience function for creating an empty subset.
+     *
+     *  This function wraps the construction of a new subset. If this instance
+     *  already contains the subset this is a no-op.
+     *
+     *  @tparam ElemType The type of the elements in the initializer list.
+     *                   Expected to be implicitly convertible to either
+     *                   size_type or the type of the elements in the parent
+     *                   set.
+     *
+     *  @param[in] il An initializer list of either the offsets for the subset's
+     *                values or the values themselves.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the memory for
+     *                        the new set. Strong throw guarantee.
+     */
+    void emplace(subset_il_type il);
 
     /** @brief Returns the i-th subset in the family.
      *
@@ -253,9 +301,14 @@ bool operator!=(const FamilyOfSets<LHSSetType>& lhs,
 #define FAMILYOFSETS FamilyOfSets<SetType>
 
 template<typename SetType>
-FAMILYOFSETS::FamilyOfSets(SetType obj, offset_il_il il) :
-  m_obj_(std::make_shared<SetType>(std::move(obj))) {
-    for(auto x : il) insert(value_type(m_obj_, x));
+FAMILYOFSETS::FamilyOfSets(SetType obj, il_type il) :
+  m_obj_(traits_type::make_pointer(std::move(obj))) {
+    for(auto x : il) emplace(x);
+}
+
+template<typename SetType>
+void FAMILYOFSETS::emplace(subset_il_type il) {
+    insert(traits_type::new_subset(data(), il));
 }
 
 template<typename SetType>
@@ -271,8 +324,14 @@ typename FAMILYOFSETS::const_reference FAMILYOFSETS::at(size_type i) const {
 }
 
 template<typename SetType>
+typename FAMILYOFSETS::const_superset_reference FAMILYOFSETS::object()
+  const noexcept {
+    return traits_type::dereference_object(m_obj_);
+}
+
+template<typename SetType>
 void FAMILYOFSETS::insert(value_type elem) {
-    if(&(elem.object()) != &object())
+    if(!traits_type::is_subset(elem, data()))
         throw std::runtime_error("Subset is not part of this family");
 
     m_subsets_.emplace(std::move(elem));
@@ -285,8 +344,7 @@ bool FAMILYOFSETS::disjoint() const noexcept {
         auto rhs = lhs;
         ++rhs;
         for(; rhs != e; ++rhs) {
-            auto intersection = (*lhs) ^ (*rhs);
-            if(!intersection.empty()) return false;
+            if(!traits_type::disjoint(*lhs, *rhs)) return false;
         }
     }
     return true;
@@ -295,7 +353,7 @@ bool FAMILYOFSETS::disjoint() const noexcept {
 template<typename SetType>
 void FAMILYOFSETS::hash(pluginplay::Hasher& h) const {
     for(const auto& x : m_subsets_) h(x);
-    h(*m_obj_);
+    h(m_obj_);
 }
 
 template<typename SetType>
