@@ -7,13 +7,9 @@
 /// TODO: Roll our own reference wrapper with these operations defined
 namespace std {
 
-template<typename T0, typename T1>
-bool operator==(const reference_wrapper<T0>& lhs, const T1& rhs) {
-    if constexpr(!std::is_convertible_v<T0, const T1&>) {
-        return false;
-    } else {
-        return lhs.get() == rhs;
-    }
+template<typename T0>
+bool operator==(const reference_wrapper<T0>& lhs, const std::decay_t<T0>& rhs) {
+    return lhs.get() == rhs;
 }
 
 } // namespace std
