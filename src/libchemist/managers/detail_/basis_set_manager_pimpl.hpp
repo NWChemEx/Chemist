@@ -45,7 +45,7 @@ struct BasisSetManagerPIMPL {
      */
     ao_basis_type get_basis(const std::string& name, size_type Z) const;
 
-    /** 
+    /**
      * @brief Add a basis set name/getter function pair
      *
      * @param name Basis set name
