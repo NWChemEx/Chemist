@@ -85,8 +85,13 @@ TENSOR_WRAPPER TENSOR_WRAPPER::reshape(
   const std::initializer_list<size_t>& shape) const {
     const auto times_op = std::multiplies<size_t>();
     auto new_volume = std::accumulate(shape.begin(), shape.end(), 1, times_op);
-    if(new_volume != size())
-        throw std::runtime_error("New shape is not the same volume");
+    if(new_volume != size()) {
+        std::string msg =
+          "Volume of the new shape: " + std::to_string(new_volume) +
+          " is not the same as " +
+          "the volume of the old shape: " + std::to_string(size());
+        throw std::runtime_error(msg);
+    }
 
     // TODO: Come up with a better tiling
     std::vector<TA::TiledRange1> tr1s;

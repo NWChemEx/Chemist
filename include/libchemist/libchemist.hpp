@@ -28,7 +28,6 @@
  */
 namespace libchemist {
 
-
 /**
  * @brief Convenience function for applying a basis set to a molecule
  *
