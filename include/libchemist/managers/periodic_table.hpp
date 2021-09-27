@@ -42,17 +42,17 @@ public:
      * @name Copy/Move CTors and Assignment Operators
      * @brief Functions for replicating the state of another PeriodicTable
      *        instance.
-     * 
+     *
      * Copy operations are deep copies and do not alias.
      *
      * @param[in] rhs The instance to copy/move from. If moved, @p rhs will be
      *                in a valid, but otherwise undefined state after the move.
-     * 
+     *
      * @return Copy/Move assignment operators return the current instance, but
      *         with its new state.
-     * 
+     *
      * @throw std::bad_alloc Copy ctor/assignment operators throw if there is
-     *                       insufficient memory to allocate the new state. 
+     *                       insufficient memory to allocate the new state.
      *                       Strong throw guarantee.
      * @throw None All move functions are no throw guarantee.
      */
@@ -66,9 +66,9 @@ public:
     /// Default dtor
     ~PeriodicTable() noexcept;
 
-    /** 
+    /**
      * @name Insertion Methods
-     * 
+     *
      * Methods to insert new Atom instances into the PeriodicTable.
      */
     ///@{
@@ -108,7 +108,7 @@ public:
      *
      * @param[in] Z The atomic number of the atom, for which mass numbers are
      *              wanted. Should be in range [0, max_Z()).
-     * 
+     *
      * @return A list of available mass numbers for the requested atom. If no
      *         isotope data is available for the particular value of @p Z then
      *         the list is empty.
@@ -147,7 +147,7 @@ public:
      * name of the atom returned by `get_atom(Z)`.
      *
      * @param[in] sym The symbol to convert (case-insensitive)
-     * 
+     *
      * @return The atomic number of the requested atom
      *
      * @throw std::out_of_range if @p sym is not a recognized symbol. Strong
@@ -171,7 +171,7 @@ public:
      * @param[in] sym The atomic symbol of the atom to create. Symbol is
      *                case-insensitive.
      * @param[in] mass_num The mass number of the isotope to create.
-     * 
+     *
      * @return The requested Atom
      *
      * @throw std::out_of_range if @p Z is not in the range [1, max_Z()), @p
