@@ -148,6 +148,19 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
         }
     }
 
+    SECTION("reshape()") {
+        SECTION("Vector to matrix") {
+            TWrapper corr(t_type(world, matrix_il{vector_il{1.0, 2.0, 3.0}}));
+            auto rv = vec.reshape({1ul, 3ul});
+            REQUIRE(rv == corr);
+        }
+        SECTION("Matrix to vector") {
+            TWrapper corr(t_type(world, vector_il{1.0, 2.0, 3.0, 4.0}));
+            auto rv = mat.reshape({4ul});
+            REQUIRE(rv == corr);
+        }
+    }
+
     SECTION("operator()") {
         // Basically just testing that it compiles, real test happens in
         // labeled_tensor_wrapper.cpp

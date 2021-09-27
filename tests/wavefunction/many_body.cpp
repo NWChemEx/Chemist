@@ -1,3 +1,4 @@
+#include "libchemist/operators/kinetic.hpp"
 #include "libchemist/wavefunction/many_body.hpp"
 #include "test_wavefunction.hpp"
 using namespace libchemist::wavefunction;
@@ -90,10 +91,24 @@ TEMPLATE_LIST_TEST_CASE("ManyBody", "", tuple_type) {
     }
 }
 
+using namespace libchemist::orbital_space;
+
 TEST_CASE("ManyBody conversions") {
-    Reference r;
-    CanonicalReference cr;
-    SparseReference sr;
+    auto occ         = testing::make_space<DerivedSpaceD>(1.0);
+    auto canon_occ   = testing::make_space<CanonicalSpaceD>(1.0);
+    auto sparse_occ  = testing::make_space<CanonicalIndSpace>(1.0);
+    auto virt        = testing::make_space<DerivedSpaceD>(2.0);
+    auto canon_virt  = testing::make_space<CanonicalSpaceD>(2.0);
+    auto sparse_virt = testing::make_space<CanonicalIndSpace>(2.0);
+    libchemist::operators::Fock fock(libchemist::operators::ElectronKinetic{});
+
+    Determinant d(occ, virt, fock);
+    CanonicalDeterminant c(canon_occ, canon_virt, fock);
+    SparseDeterminant s(sparse_occ, sparse_virt, fock);
+
+    Reference r(d);
+    CanonicalReference cr(c);
+    SparseReference sr(s);
 
     ManyBodyWf psi0(r);
     CanonicalManyBodyWf psi1(cr);

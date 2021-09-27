@@ -60,5 +60,6 @@ void MANY_BODY::hash(pluginplay::Hasher& h) const { h(m_pref_, m_amplitudes_); }
 template class ManyBody<Reference, type::tensor>;
 template class ManyBody<CanonicalReference, type::tensor>;
 template class ManyBody<SparseReference, type::tensor>;
+template class ManyBody<SparseToTReference, type::tensor_of_tensors>;
 
 } // namespace libchemist::wavefunction

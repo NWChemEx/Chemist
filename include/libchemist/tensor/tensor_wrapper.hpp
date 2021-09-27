@@ -203,6 +203,19 @@ public:
     TensorWrapper slice(const std::initializer_list<size_type>& lo,
                         const std::initializer_list<size_type>& hi) const;
 
+    /** @brief Used to view the tensor as if it has a different shape.
+     *
+     *  This function is mainly used to flatten and unflatten a tensor.
+     *
+     *  @param[in] shape The shape of the resulting tensor. The volume of
+     *                   @p shape must match the result of `size()`.
+     *
+     *  @throw std::runtime_error if @p shape does not have the same volume as
+     *                            the wrapped tensor. Strong throw guarantee.
+     *
+     */
+    TensorWrapper reshape(const std::initializer_list<size_type>& shape) const;
+
     /** @brief Used to get the wrapped tensor back.
      *
      *  This function should really only be called by the creator of the tensor

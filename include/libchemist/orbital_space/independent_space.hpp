@@ -128,6 +128,13 @@ public:
     bool operator==(const IndependentSpace& rhs) const;
 
 protected:
+    /// Adds the hash of the sparse map to the provided hasher.
+    virtual void hash_(pluginplay::Hasher& h) const override;
+
+    /// Returnst true if the spaces have the same sparse map
+    virtual bool equal_(const BaseSpace& rhs) const noexcept override;
+
+private:
     template<typename OtherBase>
     friend class IndependentSpace;
 
@@ -152,13 +159,6 @@ protected:
     template<typename DepSpace>
     static std::string key_(const DepSpace& dep);
 
-    /// Adds the hash of the sparse map to the provided hasher.
-    virtual void hash_(pluginplay::Hasher& h) const override;
-
-    /// Returnst true if the spaces have the same sparse map
-    virtual bool equal_(const BaseSpace& rhs) const noexcept override;
-
-private:
     /// The sparse map between the independent space and this space
     sparse_map_register m_sm_;
 };

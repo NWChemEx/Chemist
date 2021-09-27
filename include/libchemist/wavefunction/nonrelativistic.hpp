@@ -216,8 +216,11 @@ using CanonicalReference = Nonrelativistic<CanonicalDeterminant>;
 /// Type of a wavefunction built from MOs with a sparsity relationship
 using SparseReference = Nonrelativistic<SparseDeterminant>;
 
+using SparseToTReference = Nonrelativistic<SparseToTDeterminant>;
+
 extern template class Nonrelativistic<Determinant>;
 extern template class Nonrelativistic<CanonicalDeterminant>;
 extern template class Nonrelativistic<SparseDeterminant>;
+extern template class Nonrelativistic<SparseToTReference>;
 
 } // namespace libchemist::wavefunction
