@@ -6,6 +6,7 @@
 
 #pragma once
 #include "libchemist/ta_helpers/slice.hpp"
+#include "libchemist/tensor/conversions.hpp"
 
 namespace libchemist::tensor {
 #define TENSOR_WRAPPER TensorWrapper<VariantType>
@@ -73,6 +74,43 @@ TENSOR_WRAPPER TENSOR_WRAPPER::slice(
             throw std::runtime_error("Can't slice a ToT.");
         } else {
             rv = ta_helpers::slice(arg, low, high);
+        }
+        return rv;
+    };
+    return TENSOR_WRAPPER(std::visit(l, m_tensor_));
+}
+
+template<typename VariantType>
+TENSOR_WRAPPER TENSOR_WRAPPER::reshape(
+  const std::initializer_list<size_t>& shape) const {
+    const auto times_op = std::multiplies<size_t>();
+    auto new_volume = std::accumulate(shape.begin(), shape.end(), 1, times_op);
+    if(new_volume != size())
+        throw std::runtime_error("New shape is not the same volume");
+
+    // TODO: Come up with a better tiling
+    std::vector<TA::TiledRange1> tr1s;
+    for(auto x : shape) tr1s.emplace_back(TA::TiledRange1{0, x});
+    TA::TiledRange tr(tr1s.begin(), tr1s.end());
+    auto new_range = tr.elements_range();
+
+    // TODO: This is a bad way of doing this
+    auto l = [=](auto&& arg) {
+        using clean_t = std::decay_t<decltype(arg)>;
+        clean_t rv;
+        if constexpr(TensorTraits<clean_t>::is_tot) {
+            std::runtime_error("Can't reshape a ToT");
+        } else {
+            auto data             = to_vector(*this);
+            const auto& old_range = arg.trange().elements_range();
+            rv                    = TA::make_array<clean_t>(
+              arg.world(), tr, [=](auto& tile, const auto& range) {
+                  tile = std::decay_t<decltype(tile)>(range);
+                  for(const auto& new_idx : range) {
+                      tile[new_idx] = data[range.ordinal(new_idx)];
+                  }
+                  return tile.norm();
+              });
         }
         return rv;
     };
