@@ -12,8 +12,10 @@ namespace libchemist {
 //  * This class iterates through a basis set, filling four vectors that map
 //  * indices between corresponding sets of : [atom index -> range of shell
 //  * indices], [shell index -> range of ao indices], [ao index -> shell index],
-//  * and [shell index -> atom index]. The index of a vector is the LHS map index,
-//  * and the element stored at vector.at(LHS) is the corresponding RHS index/index
+//  * and [shell index -> atom index]. The index of a vector is the LHS map
+//  index,
+//  * and the element stored at vector.at(LHS) is the corresponding RHS
+//  index/index
 //  * range. Index ranges hold [index of first element, index of
 //  * one-past-the-last-element] for an AO or shell range. Index ranges are
 //  * unit-stride.
@@ -53,7 +55,8 @@ namespace libchemist {
 //      * @brief Can be used to construct BasisSetMaps with state obtained
 //      *        from another instance.
 //      *
-//      * @param[in] rhs The instance to copy/move.  If moved @p rhs is in a valid,
+//      * @param[in] rhs The instance to copy/move.  If moved @p rhs is in a
+//      valid,
 //      *            but otherwise undefined state.
 //      * @throw std::bad_alloc copy ctor/assignment operators throw if there is
 //      *        insufficient memory to allocate the new state.  Strong throw
@@ -74,7 +77,8 @@ namespace libchemist {
 //      * particular atom center.
 //      *
 //      * @param idx The index of the atom center, as ordered in the basis set.
-//      * @return The range of shell indices that correspond to the specified atom
+//      * @return The range of shell indices that correspond to the specified
+//      atom
 //      * center index.
 //      * @throw std::out_of_range if idx is outside the range of the number of
 //      * unique atom centers in the basis set. Strong throw guarantee.
@@ -82,7 +86,8 @@ namespace libchemist {
 //     range atom_to_shell(const size_type idx) { return a2s_vec.at(idx); };
 
 //     /**
-//      * @brief Returns an index range for the AOs that correspond to a particular
+//      * @brief Returns an index range for the AOs that correspond to a
+//      particular
 //      * atom center.
 //      *
 //      * @param idx The index of the atom center, as ordered in the basis set.
@@ -98,7 +103,8 @@ namespace libchemist {
 //     }
 
 //     /**
-//      * @brief Returns an index range for the AOs that correspond to a particular
+//      * @brief Returns an index range for the AOs that correspond to a
+//      particular
 //      * shell.
 //      *
 //      * @param idx The index of the shell, as ordered in the basis set.

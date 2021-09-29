@@ -1,24 +1,15 @@
 #pragma once
 #include "libchemist/set_theory/subset.hpp"
 #include "libchemist/set_theory/traits/traits.hpp"
+#include <pluginplay/utility.hpp>
 #include <vector>
 
 /// TODO: Roll our own reference wrapper with these operations defined
 namespace std {
 
-template<typename T0, typename T1>
-bool operator==(const reference_wrapper<T0>& lhs,
-                const reference_wrapper<T1>& rhs) {
-    return static_cast<const T0&>(lhs) == static_cast<const T1&>(rhs);
-}
-
-template<typename T0, typename T1>
-bool operator==(const reference_wrapper<T0>& lhs, const T1& rhs) {
-    if constexpr(!std::is_convertible_v<T0, const T1&>) {
-        return false;
-    } else {
-        return lhs.get() == rhs;
-    }
+template<typename T0>
+bool operator==(const reference_wrapper<T0>& lhs, const std::decay_t<T0>& rhs) {
+    return lhs.get() == rhs;
 }
 
 } // namespace std
@@ -138,6 +129,19 @@ public:
      *  @throw None no throw guarantee.
      */
     ptr_type data() const noexcept { return m_obj_; }
+
+    /** @brief Convenience function for creating a new subset.
+     *
+     *  This function will create a new subset of the family of sets and return
+     *  it. The user can then fill in the subset. The subset which is returned
+     *  has **NOT** been added to the family of sets yet; adding it to family
+     *  of sets can be accomplised by calling insert.
+     *
+     *  @return An empty subset, which the user can fill in.
+     *
+     *  @throw None No throw guarantee. (TODO: Check this.)
+     */
+    auto new_subset() const { return traits_type::new_subset(data()); }
 
     /** @brief Returns the i-th subset in the family.
      *

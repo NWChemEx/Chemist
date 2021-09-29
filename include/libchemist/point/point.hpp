@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 #include <memory>
 #include <pluginplay/hasher.hpp>
 
@@ -243,6 +244,19 @@ public:
      */
     const_reference z() const noexcept { return coord(2); }
 
+    /** @brief Returns the magnitude of the point
+     *
+     *  This function returns the magnitude of the current point, *i.e.*, the
+     *  distance from the origin.
+     *
+     *  @return The magnitude of the current point.
+     *
+     *  @throw None No throw guarantee.
+     */
+    T magnitude() const noexcept {
+        return std::sqrt(x() * x() + y() * y() + z() * z());
+    }
+
     /** @brief Serialize Point instance
      *
      * @param ar The archive object
@@ -277,6 +291,28 @@ private:
     /// The instance actually implementing the Point class
     pimpl_ptr m_pimpl_;
 }; // class Point
+
+/** @brief Vector difference of two points.
+ *
+ *  This function returns the vector difference of two points, *i.e.*, for
+ *  points @f$\mathvec{a}@f$ and @f$\mathvec{b}@$, this function returns a point
+ *  @f$\mathvec{c}@f$ such that the @f$i@f$-th component of @f$\mathvec{c}@f$ is
+ *  given by:
+ *  @f{
+ *    c_i = a_i - b_i
+ *  @f}
+ *
+ *  @tparam T The scalar type used to hold the components of the point.
+ *
+ *  @param[in] lhs The point we are subtracting @p rhs from.
+ *  @param[in] rhs The point we are subtracting from @p lhs
+ *
+ *  @return The difference between @p lhs and @p rhs.
+ */
+template<typename T>
+Point<T> operator-(const Point<T>& lhs, const Point<T>& rhs) noexcept {
+    return Point<T>(lhs.x() - rhs.x(), lhs.y() - rhs.y(), lhs.z() - rhs.z());
+}
 
 /** @brief Compares two Points for equality.
  *

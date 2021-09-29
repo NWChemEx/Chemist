@@ -135,9 +135,9 @@ TEST_CASE("PeriodicTable::insert") {
                                std::runtime_error,
                                Message("Element already exists with Z = 0"));
         // Element with isotopes
-        REQUIRE_THROWS_MATCHES(
-          pt.insert(1, Atom(1ul, 1837.4260218693814, "H")),
-          std::runtime_error, Message("Element already exists with Z = 1"));
+        REQUIRE_THROWS_MATCHES(pt.insert(1, Atom(1ul, 1837.4260218693814, "H")),
+                               std::runtime_error,
+                               Message("Element already exists with Z = 1"));
     }
 }
 

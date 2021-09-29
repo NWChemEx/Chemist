@@ -21,7 +21,7 @@ BasisSetManager& BasisSetManager::operator=(const BasisSetManager& rhs) {
 
 BasisSetManager& BasisSetManager::operator=(BasisSetManager&& rhs) noexcept {
     m_pimpl_ = std::move(rhs.m_pimpl_);
-    
+
     return *this;
 }
 
