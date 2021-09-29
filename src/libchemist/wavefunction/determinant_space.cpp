@@ -82,6 +82,6 @@ void DETERMINANT_SPACE::hash(pluginplay::Hasher& h) const {
 template class DeterminantSpace<DerivedSpaceD>;
 template class DeterminantSpace<CanonicalSpaceD>;
 template class DeterminantSpace<CanonicalIndSpace>;
-template class DeterminantSpace<CanonicalIndSpace, CanonicalIndToTSpace>;
+template class DeterminantSpace<CanonicalIndSpace, CanonicalToTSpace>;
 
 } // namespace libchemist::wavefunction

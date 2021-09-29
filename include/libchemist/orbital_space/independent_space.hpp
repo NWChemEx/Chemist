@@ -163,8 +163,7 @@ private:
     sparse_map_register m_sm_;
 };
 
-using CanonicalIndSpace    = IndependentSpace<CanonicalSpaceD>;
-using CanonicalIndToTSpace = IndependentSpace<CanonicalToTSpace>;
+using CanonicalIndSpace = IndependentSpace<CanonicalSpaceD>;
 
 /** @brief Compares two DependentSpaces for equality.
  *

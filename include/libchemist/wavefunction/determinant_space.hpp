@@ -252,14 +252,13 @@ using CanonicalDeterminant = DeterminantSpace<orbital_space::CanonicalSpaceD>;
 using SparseDeterminant = DeterminantSpace<orbital_space::CanonicalIndSpace>;
 
 /// Type of a determinant with ToT for the virtuals
-using SparseToTDeterminant =
-  DeterminantSpace<orbital_space::CanonicalIndSpace,
-                   orbital_space::CanonicalIndToTSpace>;
+using SparseToTDeterminant = DeterminantSpace<orbital_space::CanonicalIndSpace,
+                                              orbital_space::CanonicalToTSpace>;
 
 extern template class DeterminantSpace<orbital_space::DerivedSpaceD>;
 extern template class DeterminantSpace<orbital_space::CanonicalSpaceD>;
 extern template class DeterminantSpace<orbital_space::CanonicalIndSpace>;
 extern template class DeterminantSpace<orbital_space::CanonicalIndSpace,
-                                       orbital_space::CanonicalIndToTSpace>;
+                                       orbital_space::CanonicalToTSpace>;
 
 } // namespace libchemist::wavefunction
