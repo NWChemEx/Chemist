@@ -185,3 +185,17 @@ TEST_CASE("Point serialization") {
     }
     REQUIRE(p == p2);
 }
+
+TEST_CASE("Point<double> : operator-") {
+    Point<double> p0{1.0, 2.0, 3.0};
+    Point<double> p1{4.0, 5.0, 6.0};
+    Point<double> corr{3.0, 3.0, 3.0};
+    auto diff = p1 - p0;
+    REQUIRE(diff == corr);
+}
+
+TEST_CASE("Point<double> : magnitude") {
+    Point<double> p0{1.0, 2.0, 3.0};
+    double corr = 3.741657387;
+    REQUIRE(p0.magnitude() == Approx(corr));
+}
