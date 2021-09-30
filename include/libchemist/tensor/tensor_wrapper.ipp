@@ -105,8 +105,8 @@ TENSOR_WRAPPER TENSOR_WRAPPER::reshape(
         if constexpr(TensorTraits<clean_t>::is_tot) {
             std::runtime_error("Can't reshape a ToT");
         } else {
-            auto data             = to_vector(*this);
-            rv                    = TA::make_array<clean_t>(
+            auto data = to_vector(*this);
+            rv        = TA::make_array<clean_t>(
               arg.world(), tr, [=](auto& tile, const auto& range) {
                   tile = std::decay_t<decltype(tile)>(range);
                   for(const auto& new_idx : range) {
