@@ -149,6 +149,9 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
     }
 
     SECTION("reshape()") {
+        SECTION("Incorrect shape") {
+            REQUIRE_THROWS_AS(vec.reshape({2ul, 3ul}), std::runtime_error);
+        }
         SECTION("Vector to matrix") {
             TWrapper corr(t_type(world, matrix_il{vector_il{1.0, 2.0, 3.0}}));
             auto rv = vec.reshape({1ul, 3ul});
