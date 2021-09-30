@@ -93,12 +93,12 @@ TENSOR_WRAPPER TENSOR_WRAPPER::reshape(
         throw std::runtime_error(msg);
     }
 
-    // TODO: Come up with a better tiling
+    // TODO: Use allocator and do not hard-code to a single tile.
     std::vector<TA::TiledRange1> tr1s;
     for(auto x : shape) tr1s.emplace_back(TA::TiledRange1{0, x});
     TA::TiledRange tr(tr1s.begin(), tr1s.end());
 
-    // TODO: This is a bad way of doing this
+    // TODO: Use a distribution aware algorithm
     auto l = [=](auto&& arg) {
         using clean_t = std::decay_t<decltype(arg)>;
         clean_t rv;
