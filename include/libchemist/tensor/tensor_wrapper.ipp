@@ -97,7 +97,6 @@ TENSOR_WRAPPER TENSOR_WRAPPER::reshape(
     std::vector<TA::TiledRange1> tr1s;
     for(auto x : shape) tr1s.emplace_back(TA::TiledRange1{0, x});
     TA::TiledRange tr(tr1s.begin(), tr1s.end());
-    auto new_range = tr.elements_range();
 
     // TODO: This is a bad way of doing this
     auto l = [=](auto&& arg) {
