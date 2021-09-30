@@ -93,22 +93,20 @@ TENSOR_WRAPPER TENSOR_WRAPPER::reshape(
         throw std::runtime_error(msg);
     }
 
-    // TODO: Come up with a better tiling
+    // TODO: Use allocator and do not hard-code to a single tile.
     std::vector<TA::TiledRange1> tr1s;
     for(auto x : shape) tr1s.emplace_back(TA::TiledRange1{0, x});
     TA::TiledRange tr(tr1s.begin(), tr1s.end());
-    auto new_range = tr.elements_range();
 
-    // TODO: This is a bad way of doing this
+    // TODO: Use a distribution aware algorithm
     auto l = [=](auto&& arg) {
         using clean_t = std::decay_t<decltype(arg)>;
         clean_t rv;
         if constexpr(TensorTraits<clean_t>::is_tot) {
             std::runtime_error("Can't reshape a ToT");
         } else {
-            auto data             = to_vector(*this);
-            const auto& old_range = arg.trange().elements_range();
-            rv                    = TA::make_array<clean_t>(
+            auto data = to_vector(*this);
+            rv        = TA::make_array<clean_t>(
               arg.world(), tr, [=](auto& tile, const auto& range) {
                   tile = std::decay_t<decltype(tile)>(range);
                   for(const auto& new_idx : range) {

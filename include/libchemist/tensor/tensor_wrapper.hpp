@@ -218,7 +218,6 @@ public:
      *
      *  @throw std::runtime_error if @p shape does not have the same volume as
      *                            the wrapped tensor. Strong throw guarantee.
-     *
      */
     TensorWrapper reshape(const std::initializer_list<size_type>& shape) const;
 
