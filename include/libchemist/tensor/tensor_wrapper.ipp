@@ -106,7 +106,6 @@ TENSOR_WRAPPER TENSOR_WRAPPER::reshape(
             std::runtime_error("Can't reshape a ToT");
         } else {
             auto data             = to_vector(*this);
-            const auto& old_range = arg.trange().elements_range();
             rv                    = TA::make_array<clean_t>(
               arg.world(), tr, [=](auto& tile, const auto& range) {
                   tile = std::decay_t<decltype(tile)>(range);
