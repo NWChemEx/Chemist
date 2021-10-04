@@ -203,6 +203,24 @@ public:
     TensorWrapper slice(const std::initializer_list<size_type>& lo,
                         const std::initializer_list<size_type>& hi) const;
 
+    /** @brief Used to view the tensor as if it has a different shape.
+     *
+     *  This function is mainly used to flatten and un-flatten a tensor. Under
+     *  the hood this function remaps indices by:
+     *  - mapping the original coordinate index to its ordinal index
+     *  - mapping the ordinal index to the new coordinate index
+     *  The data is then redistributed, if needed.
+     *
+     *  @param[in] shape The shape of the resulting tensor. The volume of
+     *                   @p shape must match the result of `size()`.
+     *
+     *  @return A copy of the current tensor with the new shape.
+     *
+     *  @throw std::runtime_error if @p shape does not have the same volume as
+     *                            the wrapped tensor. Strong throw guarantee.
+     */
+    TensorWrapper reshape(const std::initializer_list<size_type>& shape) const;
+
     TA::TiledRange trange() const;
 
     /** @brief Used to get the wrapped tensor back.

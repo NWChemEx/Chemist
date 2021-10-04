@@ -38,17 +38,17 @@ public:
      * @name Copy/Move CTors and Assignment Operators
      * @brief Functions for replicating the state of another BasisSetManager
      *        instance.
-     * 
+     *
      * Copy operations are deep copies and do not alias.
      *
      * @param[in] rhs The instance to copy/move from. If moved, @p rhs will be
      *                in a valid, but otherwise undefined state after the move.
-     * 
+     *
      * @return Copy/Move assignment operators return the current instance, but
      *         with its new state.
-     * 
+     *
      * @throw std::bad_alloc Copy ctor/assignment operators throw if there is
-     *                       insufficient memory to allocate the new state. 
+     *                       insufficient memory to allocate the new state.
      *                       Strong throw guarantee.
      * @throw None All move functions are no throw guarantee.
      */
@@ -71,7 +71,7 @@ public:
      *
      * @param name The name of the basis set
      * @param Z The atomic number.
-     * 
+     *
      * @return The shells for an atom of atomic number @p Z.
      *
      * @throw std::out_of_range @p name is not a valid basis set name.
@@ -119,7 +119,7 @@ private:
      * @brief Returns the PIMPL instance, creating it if it does not exist.
      *
      * @returns Existing PIMPL or newly created PIMPL if one did not exist yet.
-     * 
+     *
      * @throw std::bad_alloc There was not enough memory to create the new
      *                       PIMPL. Strong throw guarantee.
      */
@@ -129,13 +129,13 @@ private:
      * @brief Returns the PIMPL instance, but throws if it does not exist.
      *
      * @return const detail_::BasisSetManagerPIMPL&
-     * 
+     *
      * @throw std::runtime_error A PIMPL does not exist. Strong throw
      *                           guarantee.
      */
     const detail_::BasisSetManagerPIMPL& pimpl_() const;
     ///@}
-    
+
     /// The instance actually responsible for making the class run
     std::unique_ptr<detail_::BasisSetManagerPIMPL> m_pimpl_;
 };
@@ -156,10 +156,10 @@ private:
  * @param[in] l The string representation of the orbital angular momentum.
  *              It is assumed to be a single character, *i.e.*, l > 25 is not
  *              supported.
- * 
+ *
  * @return The numerical value of the orbital angular momentum in atomic
  *         units.
- * 
+ *
  * @throw std::logic_error if @p l is not a letter of the English alphabet.
  *                         Strong throw guarantee.
  */
