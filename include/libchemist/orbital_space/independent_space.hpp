@@ -39,6 +39,13 @@ public:
     /// How the sparse maps are differentiated
     using sparse_map_register = std::map<std::string, sparse_map_type>;
 
+    /** @brief Creates a defaulted IndependentSpace instance.
+     *
+     *  The instance resulting from this call has no state and can only gain
+     *  state by being assigned/moved to.
+     *
+     *  @throw None No throw guarantee.
+     */
     IndependentSpace() = default;
 
     /** @brief Creates a new IndependentSpace by associating the provided space
@@ -135,6 +142,7 @@ protected:
     virtual bool equal_(const BaseSpace& rhs) const noexcept override;
 
 private:
+    /// Allows other instances to use base_hash_();
     template<typename OtherBase>
     friend class IndependentSpace;
 
