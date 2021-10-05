@@ -41,6 +41,10 @@ auto make_space(double seed = 1.0) {
 
     if constexpr(libchemist::orbital_space::is_canonical_space_v<space>) {
         return space(make_tensor<transform_type>(seed));
+    } else if constexpr(libchemist::orbital_space::is_independent_space_v<
+                          space>) {
+        using base_space = typename space::base_space_type;
+        return space(base_space(make_tensor<transform_type>(seed)));
     } else {
         return space(make_tensor<transform_type>(seed), from_space_type{});
     }

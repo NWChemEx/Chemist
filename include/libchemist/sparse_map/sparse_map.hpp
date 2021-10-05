@@ -3,6 +3,7 @@
 #include "libchemist/sparse_map/domain/domain.hpp"
 #include "libchemist/sparse_map/from_sparse_map.hpp"
 #include "libchemist/sparse_map/index.hpp"
+#include "libchemist/sparse_map/make_pair_map.hpp"
 #include "libchemist/sparse_map/sparse_map/sparse_map.hpp"
 #include "libchemist/sparse_map/sparsify.hpp"
 

@@ -15,7 +15,7 @@ type::tensor sparsify_basis(const type::tensor& C, const sparse_map& sm) {
 
     auto l = [&](auto&& out_tile, auto&& in_tile) {
         auto idx = ta_helpers::get_block_idx(C_ta, in_tile);
-        TileIndex row{idx[0]}, col{idx[1]};
+        TileIndex row(idx[0]), col(idx[1]);
 
         // Assume independent indices are on the columns, dependent on the rows
         const bool col_good = smtt.count(col);

@@ -27,6 +27,9 @@ namespace libchemist::orbital_space {
 template<typename BaseType>
 class IndependentSpace : public BaseType {
 public:
+    /// Type of the base space
+    using base_space_type = BaseType;
+
     /// The type used for indexing and offsets
     using size_type = typename BaseType::size_type;
 
@@ -35,6 +38,15 @@ public:
 
     /// How the sparse maps are differentiated
     using sparse_map_register = std::map<std::string, sparse_map_type>;
+
+    /** @brief Creates a defaulted IndependentSpace instance.
+     *
+     *  The instance resulting from this call has no state and can only gain
+     *  state by being assigned/moved to.
+     *
+     *  @throw None No throw guarantee.
+     */
+    IndependentSpace() = default;
 
     /** @brief Creates a new IndependentSpace by associating the provided space
      *         with a set of sparse maps.
@@ -123,6 +135,14 @@ public:
     bool operator==(const IndependentSpace& rhs) const;
 
 protected:
+    /// Adds the hash of the sparse map to the provided hasher.
+    virtual void hash_(pluginplay::Hasher& h) const override;
+
+    /// Returnst true if the spaces have the same sparse map
+    virtual bool equal_(const BaseSpace& rhs) const noexcept override;
+
+private:
+    /// Allows other instances to use base_hash_();
     template<typename OtherBase>
     friend class IndependentSpace;
 
@@ -147,13 +167,6 @@ protected:
     template<typename DepSpace>
     static std::string key_(const DepSpace& dep);
 
-    /// Adds the hash of the sparse map to the provided hasher.
-    virtual void hash_(pluginplay::Hasher& h) const override;
-
-    /// Returnst true if the spaces have the same sparse map
-    virtual bool equal_(const BaseSpace& rhs) const noexcept override;
-
-private:
     /// The sparse map between the independent space and this space
     sparse_map_register m_sm_;
 };
