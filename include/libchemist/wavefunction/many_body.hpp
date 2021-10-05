@@ -151,6 +151,7 @@ using CanonicalManyBodyWf = ManyBody<CanonicalReference, type::tensor>;
 /// Type of a ManyBody correlated wavefunction using localized orbitals
 using SparseManyBodyWf = ManyBody<SparseReference, type::tensor>;
 
+/// Type of a ManyBody correlated wavefunction using tensor of tensors
 using SparseToTManyBodyWf =
   ManyBody<SparseToTReference, type::tensor_of_tensors>;
 // -----------------------------------------------------------------------------
