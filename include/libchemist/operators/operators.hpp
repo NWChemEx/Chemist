@@ -26,7 +26,8 @@ using ElectronIdentity_Nuclear = Derivative<ElectronIdentity, Nuclei>;
 
 using ElectronKinetic_Nuclear = Derivative<ElectronKinetic, Nuclei>;
 
-using ElectronNuclearAttraction_Nuclear = Derivative<ElectronNuclearAttraction, Nuclei>;
+using ElectronNuclearAttraction_Nuclear =
+  Derivative<ElectronNuclearAttraction, Nuclei>;
 
 using ElectronRepulsion_Nuclear = Derivative<ElectronRepulsion, Nuclei>;
 
@@ -38,4 +39,4 @@ using ElectronRepulsion_Nuclear = Derivative<ElectronRepulsion, Nuclei>;
 
 //using Hamiltonian_Nuclear = Derivative<Hamiltonian, Nuclei>;
 
-}
+} // namespace libchemist::operators
