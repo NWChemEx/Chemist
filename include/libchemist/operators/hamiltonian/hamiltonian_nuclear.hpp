@@ -19,10 +19,11 @@ private:
 public:
     using size_type = std::size_t;
 
-    /** @brief Creates a new Hamiltonian derivative instance containing no operators.
+    /** @brief Creates a new Hamiltonian derivative instance containing no
+     * operators.
      *
-     *  This ctor can be used to create a new Hamiltonian derivative instance which
-     *  contains no operators. Operators may be added by calling `add_term`
+     *  This ctor can be used to create a new Hamiltonian derivative instance
+     * which contains no operators. Operators may be added by calling `add_term`
      *  or `add_terms`.
      *
      *  @throw None No throw guarantee.
@@ -31,11 +32,11 @@ public:
      */
     Hamiltonian_Nuclear() noexcept;
 
-    /** @brief Creates a new Hamiltonian derivative instance by deep copying another
-     *         instance.
+    /** @brief Creates a new Hamiltonian derivative instance by deep copying
+     * another instance.
      *
-     *  This ctor can be used to create a new Hamiltonian derivative instance which
-     *  contains a deep copy of @p other
+     *  This ctor can be used to create a new Hamiltonian derivative instance
+     * which contains a deep copy of @p other
      *
      *  @param[in] other Hamiltonian derivative instance to copy
      *
@@ -48,15 +49,15 @@ public:
      */
     Hamiltonian_Nuclear(const Hamiltonian_Nuclear& other);
 
-    /** @brief Creates a new Hamiltonian derivative instance by taking ownership of
-     *         another instance's state.
+    /** @brief Creates a new Hamiltonian derivative instance by taking ownership
+     * of another instance's state.
      *
-     *  This ctor will create a new Hamiltonian derivative instance by taking ownership
-     *  of @p other's state.
+     *  This ctor will create a new Hamiltonian derivative instance by taking
+     * ownership of @p other's state.
      *
      *  @param[in,out] other The instance whose state will be transferred to
-     *                       the resulting instance. After the operation @p other
-     * will not contain a PIMPL and will thus not be usable until another
+     *                       the resulting instance. After the operation @p
+     * other will not contain a PIMPL and will thus not be usable until another
      * PIMPL-containing Hamiltonian instance is assigned to it.
      *
      *  @throw None No throw guarantee.
@@ -68,8 +69,8 @@ public:
     /// Defaulted no-throw dtor
     virtual ~Hamiltonian_Nuclear() noexcept;
 
-    /** @brief Deep copy the state of another Hamiltonian derivative instance to the
-     *         current instance.
+    /** @brief Deep copy the state of another Hamiltonian derivative instance to
+     * the current instance.
      *
      *  This function will deep copy the state of @p other to the current
      *  instance. The state previously held by this instance will be
@@ -81,8 +82,8 @@ public:
      *          copy of @p other.
      *
      *  @throw std::bad_alloc if there is insufficient memory to copy the
-     *                        Hamiltonian derivative instance @p other. Strong exception
-     *                        guarantee.
+     *                        Hamiltonian derivative instance @p other. Strong
+     * exception guarantee.
      *
      *  Complexity: Linear in the number of operators which comprise @p
      *              other.
@@ -96,10 +97,9 @@ public:
      *  current instance. The state previously held by this instance will
      *  be released.
      *
-     *  @param[in,out] other The Hamiltonian derivative instance whose state is to be
-     *                       taken. @p other will no longer contain a valid
-     *                       PIMPL and will need to be reassigned prior to
-     *                       future usage.
+     *  @param[in,out] other The Hamiltonian derivative instance whose state is
+     * to be taken. @p other will no longer contain a valid PIMPL and will need
+     * to be reassigned prior to future usage.
      *
      *  @return The current instance after taking ownership of @p other's
      *          state.
@@ -110,8 +110,8 @@ public:
      */
     Hamiltonian_Nuclear& operator=(Hamiltonian_Nuclear&& other) noexcept;
 
-    /** @brief Creates a new Hamiltonian derivative instance from a collection of
-     *  Operator instances.
+    /** @brief Creates a new Hamiltonian derivative instance from a collection
+     * of Operator instances.
      *
      *  This ctor can be used to create a Hamiltonian derivative instance from
      *  a collection of Operator instances. Additional terms may be
@@ -124,8 +124,8 @@ public:
      *                  Hamiltonian derivative.
      *
      *  @throw std::bad_alloc if there is insufficient memory either to
-     *  create the PIMPL or to store the internal state of any Operator instance.
-     *  Basic exception guarantee.
+     *  create the PIMPL or to store the internal state of any Operator
+     * instance. Basic exception guarantee.
      *
      *  Complexity: Linear in the size of @p args
      */
@@ -141,7 +141,8 @@ protected:
 }; // class Hamiltonian_Nuclear
 
 template<typename OpType, typename... Args, typename>
-Hamiltonian_Nuclear::Hamiltonian_Nuclear(OpType&& op0, Args&&... args) : base_type() {
+Hamiltonian_Nuclear::Hamiltonian_Nuclear(OpType&& op0, Args&&... args) :
+  base_type() {
     add_terms(std::forward<OpType>(op0), std::forward<Args>(args)...);
 }
 

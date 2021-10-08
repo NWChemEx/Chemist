@@ -31,12 +31,13 @@ using ElectronNuclearAttraction_Nuclear =
 
 using ElectronRepulsion_Nuclear = Derivative<ElectronRepulsion, Nuclei>;
 
-//using NuclearRepulsion_Nuclear = Derivative<NuclearRepulsion, Nuclei>;
+// using NuclearRepulsion_Nuclear = Derivative<NuclearRepulsion, Nuclei>;
 
-//using CoreHamiltonian_Nuclear = Derivative<CoreHamiltonian, Nuclei>;
+// using CoreHamiltonian_Nuclear = Derivative<CoreHamiltonian, Nuclei>;
 
-//using ElectronicHamiltonian_Nuclear = Derivative<ElectronicHamiltonian, Nuclei>;
+// using ElectronicHamiltonian_Nuclear = Derivative<ElectronicHamiltonian,
+// Nuclei>;
 
-//using Hamiltonian_Nuclear = Derivative<Hamiltonian, Nuclei>;
+// using Hamiltonian_Nuclear = Derivative<Hamiltonian, Nuclei>;
 
 } // namespace libchemist::operators

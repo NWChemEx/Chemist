@@ -36,7 +36,8 @@ public:
     /// Type of the Fock operator which generated these orbitals
     using fock_operator_type = operators::Fock;
 
-    /// The derivative of the type of the Fock operator which generated these orbitals
+    /// The derivative of the type of the Fock operator which generated these
+    /// orbitals
     using fock_nuclear_operator_type = operators::Fock_Nuclear;
 
     /** @brief Creates a determinant space with all default-initialized membes.
@@ -86,9 +87,11 @@ public:
      */
     const auto& fock_operator() const noexcept { return m_fock_; }
 
-    /** @brief The derivative of the Fock operator which generated these orbitals.
+    /** @brief The derivative of the Fock operator which generated these
+     * orbitals.
      *
-     *  @return The derivative of the Fock operator which generated the orbitals.
+     *  @return The derivative of the Fock operator which generated the
+     * orbitals.
      *
      *  @throw None No throw guarantee.
      */
