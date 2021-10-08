@@ -8,7 +8,9 @@
 #include "libchemist/operators/exchange_correlation.hpp"
 #include "libchemist/operators/f12_commutator.hpp"
 #include "libchemist/operators/fock.hpp"
+#include "libchemist/operators/fock_nuclear.hpp"
 #include "libchemist/operators/hamiltonian/core_hamiltonian.hpp"
+#include "libchemist/operators/hamiltonian/core_hamiltonian_nuclear.hpp"
 #include "libchemist/operators/hamiltonian/electronic_hamiltonian.hpp"
 #include "libchemist/operators/hamiltonian/hamiltonian.hpp"
 #include "libchemist/operators/identity.hpp"
@@ -28,6 +30,12 @@ using ElectronNuclearAttraction_Nuclear = Derivative<ElectronNuclearAttraction, 
 
 using ElectronRepulsion_Nuclear = Derivative<ElectronRepulsion, Nuclei>;
 
-using NuclearRepulsion_Nuclear = Derivative<NuclearRepulsion, Nuclei>;
+//using NuclearRepulsion_Nuclear = Derivative<NuclearRepulsion, Nuclei>;
+
+//using CoreHamiltonian_Nuclear = Derivative<CoreHamiltonian, Nuclei>;
+
+//using ElectronicHamiltonian_Nuclear = Derivative<ElectronicHamiltonian, Nuclei>;
+
+//using Hamiltonian_Nuclear = Derivative<Hamiltonian, Nuclei>;
 
 }

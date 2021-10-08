@@ -60,7 +60,7 @@ public:
      */
     Point();
 
-    /** @brief Ctor which allows users to specify the PIMPL used by the Poin
+    /** @brief Ctor which allows users to specify the PIMPL used by the Point
      *
      *  This ctor allows the user to control the PIMPL used for the Point. Right
      *  now the only use case is for making Points that actually contain
