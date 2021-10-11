@@ -362,6 +362,29 @@ bool allclose_tot(T&& actual, U&& ref, std::size_t inner_rank = 0,
                     rtol, atol, inner_rank);
 }
 
+//------------------------------------------------------------------------------
+// TiledRange1 Creation
+//------------------------------------------------------------------------------
+
+/** @brief Creates a new TiledRange1.
+ *
+ *  This function is a convenience function for creating a new 1d tiled range.
+ *
+ * @param[in] length The extent of the range.
+ * @param[in] tilesize The max number of elements in a tile.
+ * @param[in] init_offset The value of the first element of the range.
+ * @return A new TiledRange1 spanning between @p init_offset and @p length,
+ *         where all but the last tile will have a size of @p tilesize.
+ */
+inline TA::TiledRange1 make_1D_trange(std::size_t length, std::size_t tilesize,
+                                      std::size_t init_offset = 0) {
+    std::vector<std::size_t> bounds;
+    for(std::size_t i = init_offset; i < length; i += tilesize)
+        bounds.push_back(i);
+    bounds.push_back(length);
+    return TA::TiledRange1{bounds.begin(), bounds.end()};
+}
+
 } // namespace libchemist::ta_helpers
 
 namespace TiledArray {
