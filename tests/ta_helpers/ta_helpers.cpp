@@ -133,12 +133,12 @@ TEST_CASE("TiledRange1 Creation") {
     SECTION("Default init_offset") {
         auto corr_tr = TA::TiledRange1({0, 2, 4, 5});
         auto test_tr = make_1D_trange(5, 2);
-        REQUIRE(test_tr==corr_tr);
+        REQUIRE(test_tr == corr_tr);
     }
 
     SECTION("Non-default init_offset") {
         auto corr_tr = TA::TiledRange1({1, 3, 5});
         auto test_tr = make_1D_trange(5, 2, 1);
-        REQUIRE(test_tr==corr_tr);
+        REQUIRE(test_tr == corr_tr);
     }
 }
