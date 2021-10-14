@@ -1,4 +1,4 @@
-#include "libchemist/ta_helpers/remove_redundancy.hpp"
+#include "../ta_helpers/remove_redundancy.hpp"
 #include "libchemist/tensor/remove_redundancy.hpp"
 #include "libchemist/tensor/tensor_wrapper.hpp"
 
