@@ -23,8 +23,8 @@ constexpr matrix_il NRC_corr_data{
   vector_il{0.6358462574920218, -0.8093539841320376},
   vector_il{0.6358462574920218, 0.8093539841320376}};
 
-constexpr matrix_il NRC_1_corr_data{vector_il{0.0, -0.8093539841320377},
-                                    vector_il{0.0, 0.8093539841320377}};
+constexpr matrix_il NRC_1_corr_data{vector_il{-0.8093539841320377},
+                                    vector_il{0.8093539841320377}};
 
 } // namespace
 
