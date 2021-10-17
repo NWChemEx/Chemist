@@ -75,6 +75,14 @@ public:
      */
     using il_type = typename traits_type::il_type;
 
+    /** @brief Creates an empty FoS w/o a superset.
+     *
+     *  This ctor creates an empty FoS. The FoS also has no superset, and thus
+     *  is not usable. To make the FoS usable you can assign a usable object to
+     *  it.
+     */
+    FamilyOfSets() = default;
+
     /** @brief Creates a new FamilyOfSets instance using @p obj as the parent
      *         set.
      *
@@ -299,6 +307,18 @@ template<typename LHSSetType, typename RHSSetType>
 bool operator!=(const FamilyOfSets<LHSSetType>& lhs,
                 const FamilyOfSets<RHSSetType>& rhs) {
     return !(lhs == rhs);
+}
+
+template<typename SetType>
+std::ostream& operator<<(std::ostream& os, const FamilyOfSets<SetType>& fos) {
+    os << "[";
+    bool first = true;
+    for(const auto& set_i : fos) {
+        if(!first) os << ",";
+        FamilyOfSetsTraits<SetType>::print_elem(os, set_i);
+        first = false;
+    }
+    return os << "]";
 }
 
 // -------------------------- Implementations ---------------------------------
