@@ -130,7 +130,7 @@ public:
      *  @return @p os after adding @p elem to it.
      */
     static std::ostream& print_elem(std::ostream& os, const value_type& elem) {
-        return os << elem << std::endl;
+        return os << elem;
     }
 };
 

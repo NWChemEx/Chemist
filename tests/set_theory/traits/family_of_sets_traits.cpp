@@ -110,4 +110,19 @@ TEMPLATE_LIST_TEST_CASE("FamilyOfSetsTraits<single container>", "",
             REQUIRE_FALSE(traits_type::disjoint(e0, e1));
         }
     }
+
+    SECTION("print_elem") {
+        SECTION("Non-empty") {
+            auto s1 = traits_type::new_subset(ptr, {size_type{0}});
+            std::stringstream ss;
+            traits_type::print_elem(ss, s1);
+            REQUIRE(ss.str() == "{0 }");
+        }
+        SECTION("Empty") {
+            auto s1 = traits_type::new_subset(ptr, {});
+            std::stringstream ss;
+            traits_type::print_elem(ss, s1);
+            REQUIRE(ss.str() == "{}");
+        }
+    }
 }
