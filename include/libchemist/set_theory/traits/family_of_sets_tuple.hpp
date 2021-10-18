@@ -112,6 +112,17 @@ public:
         return disjoint_<0>(lhs, rhs);
     }
 
+    /** @brief Wraps the process of printing an element of the FoS.
+     *
+     *  @param[in] os The stream to print the element to.
+     *  @param[in] elem The subset to print to @p os.
+     *
+     *  @return @p os after adding @p elem to it.
+     */
+    static std::ostream& print_elem(std::ostream& os, const value_type& elem) {
+        return print_elem_<0>(os, elem);
+    }
+
 private:
     /** @brief Implements new_subset
      *
@@ -182,6 +193,20 @@ private:
      */
     template<std::size_t I>
     static bool disjoint_(const value_type& lhs, const value_type& rhs);
+
+    /** @brief Implements print_elem
+     *
+     *  @tparam I The index of the tuple being printed at this level of
+     *            recursion.
+     *
+     *  @param[in] os The stream we are printing @p elem to.
+     *  @param[in] elem The subset of the FoS being printed to @p os.
+     *
+     *  @return @p os after adding the [I, sizeof(SetType)) tuple elements to
+     *                it.
+     */
+    template<std::size_t I>
+    static std::ostream& print_elem_(std::ostream& os, const value_type& elem);
 }; // namespace libchemist::set_theory
 
 //------------------------------- Implementations ------------------------------
@@ -230,6 +255,20 @@ bool FamilyOfSetsTraits<std::tuple<SetTypes...>>::disjoint_(
     } else {
         if(!(std::get<I>(lhs) ^ std::get<I>(rhs)).empty()) return false;
         return disjoint_<I + 1>(lhs, rhs);
+    }
+}
+
+template<typename... SetTypes>
+template<std::size_t I>
+std::ostream& FamilyOfSetsTraits<std::tuple<SetTypes...>>::print_elem_(
+  std::ostream& os, const value_type& elem) {
+    if constexpr(I == 0) { os << "("; }
+    if constexpr(I == sizeof...(SetTypes)) {
+        return os << ")";
+    } else {
+        if constexpr(I != 0) { os << ","; }
+        os << std::get<I>(elem);
+        return print_elem_<I + 1>(os, elem);
     }
 }
 

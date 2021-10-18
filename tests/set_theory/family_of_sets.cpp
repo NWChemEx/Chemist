@@ -57,6 +57,11 @@ TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
     value_type d02(dimers.data(), {0ul, 2ul}), d12(dimers.data(), {1ul, 2ul});
 
     SECTION("CTors/Assignment") {
+        SECTION("Default Ctor") {
+            family_type empty;
+            REQUIRE(empty.size() == 0);
+        }
+
         SECTION("Value Ctor") {
             SECTION("Empty family, empty superset") {
                 REQUIRE(defaulted.object() == default_obj);
