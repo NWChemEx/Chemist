@@ -78,8 +78,8 @@ public:
     /** @brief Creates an empty FoS w/o a superset.
      *
      *  This ctor creates an empty FoS. The FoS also has no superset, and thus
-     *  is not usable. To make the FoS usable you can assign a usable object to
-     *  it.
+     *  is not usable. To make the defaulted FoS instance usable you can assign
+     *  a non-defaulted FoS instance to it.
      */
     FamilyOfSets() = default;
 
