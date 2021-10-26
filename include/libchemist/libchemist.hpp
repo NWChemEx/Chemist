@@ -26,30 +26,4 @@
  * is defined within this namespace.
  *
  */
-namespace libchemist {
-
-/**
- * @brief Convenience function for applying a basis set to a molecule
- *
- * @params[in] name The name of the basis set to apply
- * @param[in] mol The molecule instance to apply the basis set to.
- * @param[in] man The BasisSetManager instance to read the basis set from.
- *            Defaults to a default constructed variant.
- * @return The basis set resulting from applying it to @p mol.
- * @throw std::bad_alloc if there is insufficient memory to create the basis
- *        set.  Strong throw guarantee.
- */
-/* NOTE: With the creation of the ChemCache repository, this function should
-         be moved to the NWChemEx repository.
-inline auto apply_basis(const std::string& name, const Molecule& mol,
-                        const BasisSetManager& man = BasisSetManager()) {
-    AOBasisSet<double> aos;
-    for(const auto& ai : mol) {
-        auto ci = man.get_basis(name, ai.Z());
-        for(auto i : {0, 1, 2}) ci.coord(i) = ai.coords()[i];
-        aos.add_center(ci);
-    }
-    return orbital_space::AOSpaceD(aos);
-}*/
-
-} // namespace libchemist
+namespace libchemist {} // namespace libchemist
