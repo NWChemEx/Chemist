@@ -59,6 +59,15 @@ size_type& ChemicalSystem::nelectrons() { return pimpl_().nelectrons(); }
 
 size_type ChemicalSystem::nelectrons() const { return pimpl_().nelectrons(); }
 
+typename ChemicalSystem::charge_type ChemicalSystem::charge() const noexcept {
+    if(!m_pimpl_) return charge_type{0};
+    std::size_t neutral = 0;
+    const auto nes      = nelectrons();
+    for(const auto& atomi : molecule()) neutral += atomi.Z();
+    if(neutral < nes) return -1 * charge_type(nes - neutral);
+    return charge_type(neutral - nes);
+}
+
 epot_t& ChemicalSystem::external_electrostatic_potential() {
     return pimpl_().external_electrostatic_potential();
 }
