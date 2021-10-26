@@ -121,6 +121,17 @@ public:
     static bool disjoint(const value_type& lhs, const value_type& rhs) {
         return (lhs ^ rhs).empty();
     }
+
+    /** @brief Wraps the process of printing an element of the FoS.
+     *
+     *  @param[in] os The stream to print the element to.
+     *  @param[in] elem The subset to print to @p os.
+     *
+     *  @return @p os after adding @p elem to it.
+     */
+    static std::ostream& print_elem(std::ostream& os, const value_type& elem) {
+        return os << elem;
+    }
 };
 
 } // namespace libchemist::set_theory

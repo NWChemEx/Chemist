@@ -2,6 +2,7 @@
 #include "libchemist/set_theory/subset.hpp"
 #include "libchemist/set_theory/traits/family_of_sets_tuple.hpp"
 #include <catch2/catch.hpp>
+#include <sstream>
 
 using namespace libchemist::set_theory;
 
@@ -107,5 +108,21 @@ TEST_CASE("FamilyOfSetsTraits<Tuple>") {
 
         REQUIRE(traits_type::disjoint(s, s1));
         REQUIRE_FALSE(traits_type::disjoint(s, s));
+    }
+
+    SECTION("print_elem") {
+        SECTION("Non-empty") {
+            std::size_t zero{0}, two{2};
+            auto s = traits_type::new_subset(ptr, {{zero, two}, {1, 2}});
+            std::stringstream ss;
+            traits_type::print_elem(ss, s);
+            REQUIRE(ss.str() == "({0 2 },{1 2 })");
+        }
+        SECTION("Empty") {
+            auto s1 = traits_type::new_subset(ptr);
+            std::stringstream ss;
+            traits_type::print_elem(ss, s1);
+            REQUIRE(ss.str() == "({},{})");
+        }
     }
 }
