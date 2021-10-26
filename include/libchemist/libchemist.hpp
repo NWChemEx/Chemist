@@ -26,6 +26,4 @@
  * is defined within this namespace.
  *
  */
-namespace libchemist {
-
-} // namespace libchemist
+namespace libchemist {} // namespace libchemist
