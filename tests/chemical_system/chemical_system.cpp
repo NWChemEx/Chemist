@@ -58,6 +58,11 @@ TEST_CASE("ChemicalSystem") {
             using corr_t           = const potentials::Electrostatic&;
             STATIC_REQUIRE(std::is_same_v<const_epot_ref_t, corr_t>);
         }
+
+        SECTION("charge_type") {
+            using corr_t      = int;
+            using charge_type = typename ChemicalSystem::charge_type;
+        }
     }
 
     libchemist::Molecule default_mol, h{libchemist::Atom(1ul)};
@@ -69,6 +74,7 @@ TEST_CASE("ChemicalSystem") {
         ChemicalSystem sys;
         REQUIRE(sys.molecule() == default_mol);
         REQUIRE(sys.nelectrons() == 0);
+        REQUIRE(sys.charge() == 0);
         REQUIRE(sys.external_electrostatic_potential() == default_v);
     }
 
@@ -78,6 +84,7 @@ TEST_CASE("ChemicalSystem") {
         REQUIRE(sys == copy);
         REQUIRE(copy.molecule() == h);
         REQUIRE(copy.nelectrons() == 2);
+        REQUIRE(copy.charge() == -1);
         REQUIRE(copy.external_electrostatic_potential() == v);
     }
 
@@ -86,6 +93,7 @@ TEST_CASE("ChemicalSystem") {
         ChemicalSystem moved(std::move(sys));
         REQUIRE(moved.molecule() == h);
         REQUIRE(moved.nelectrons() == 2);
+        REQUIRE(moved.charge() == -1);
         REQUIRE(moved.external_electrostatic_potential() == v);
     }
 
@@ -94,12 +102,14 @@ TEST_CASE("ChemicalSystem") {
             ChemicalSystem sys(h);
             REQUIRE(sys.molecule() == h);
             REQUIRE(sys.nelectrons() == 1);
+            REQUIRE(sys.charge() == 0);
             REQUIRE(sys.external_electrostatic_potential() == default_v);
         }
         SECTION("Default potential") {
             ChemicalSystem sys(h, 2);
             REQUIRE(sys.molecule() == h);
             REQUIRE(sys.nelectrons() == 2);
+            REQUIRE(sys.charge() == -1);
             REQUIRE(sys.external_electrostatic_potential() == default_v);
         }
 
@@ -107,6 +117,7 @@ TEST_CASE("ChemicalSystem") {
             ChemicalSystem sys(h, 2, v);
             REQUIRE(sys.molecule() == h);
             REQUIRE(sys.nelectrons() == 2);
+            REQUIRE(sys.charge() == -1);
             REQUIRE(sys.external_electrostatic_potential() == v);
         }
     }
@@ -185,6 +196,23 @@ TEST_CASE("ChemicalSystem") {
             ChemicalSystem buffer(std::move(sys));
             const auto& csys = sys;
             REQUIRE_THROWS_AS(csys.nelectrons(), std::runtime_error);
+        }
+    }
+
+    SECTION("charge()") {
+        SECTION("Default") {
+            ChemicalSystem sys;
+            REQUIRE(sys.charge() == 0);
+        }
+
+        SECTION("Cation") {
+            ChemicalSystem sys(h, 0);
+            REQUIRE(sys.charge() == 1);
+        }
+
+        SECTION("Anion") {
+            ChemicalSystem sys(h, 100);
+            REQUIRE(sys.charge() == -99);
         }
     }
 
