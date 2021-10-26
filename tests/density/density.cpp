@@ -1,13 +1,16 @@
-#include "../test_libchemist.hpp"
-#include "libchemist/density/density.hpp"
+#include "test_density.hpp"
+
+// Known Densities
+using libchemist::Decomposable1EDensity;
+using libchemist::OneElectronDensity;
 
 // Tuple containing the known densities
-using density_types = std::tuple<libchemist::OneElectronDensity>;
+using density_types = std::tuple<OneElectronDensity, Decomposable1EDensity>;
 
 TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
     using density_type = TestType;
     using value_type   = typename density_type::value_type;
-    using ao_space     = typename density_type::ao_space;
+    using space_type   = typename density_type::space_type;
 
     SECTION("Typedefs") {
         SECTION("value_type") {
@@ -15,24 +18,28 @@ TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
             STATIC_REQUIRE(std::is_same_v<value_type, corr>);
         }
 
-        SECTION("ao_space") {
-            using corr = libchemist::orbital_space::AOSpaceD;
-            STATIC_REQUIRE(std::is_same_v<ao_space, corr>);
+        SECTION("space_type") {
+            if constexpr(std::is_same_v<TestType, OneElectronDensity>) {
+                using corr = libchemist::orbital_space::AOSpaceD;
+                STATIC_REQUIRE(std::is_same_v<space_type, corr>);
+            } else if constexpr(std::is_same_v<TestType,
+                                               Decomposable1EDensity>) {
+                using corr = libchemist::orbital_space::DerivedSpaceD;
+                STATIC_REQUIRE(std::is_same_v<space_type, corr>);
+            }
         }
     }
 
     density_type defaulted;
     auto a_tensor = testing::generate_tensor(2);
-    typename ao_space::basis_type bs;
-    bs.add_center(libchemist::Center<double>(1.0, 2.0, 3.0));
-    ao_space aos(bs);
+    auto aos      = testing::non_default_space<space_type>();
 
     density_type has_value(a_tensor, aos);
 
     SECTION("CTors") {
         SECTION("Default") {
             REQUIRE(defaulted.value() == value_type{});
-            REQUIRE(defaulted.basis_set() == ao_space{});
+            REQUIRE(defaulted.basis_set() == space_type{});
         }
 
         SECTION("Value") {
@@ -95,7 +102,7 @@ TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
         }
 
         SECTION("Different AOs") {
-            density_type rhs(a_tensor, ao_space{});
+            density_type rhs(a_tensor, space_type{});
             REQUIRE(value_hash != pluginplay::hash_objects(rhs));
         }
     }
@@ -120,7 +127,7 @@ TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
         }
 
         SECTION("Different AOs") {
-            density_type rhs(a_tensor, ao_space{});
+            density_type rhs(a_tensor, space_type{});
             REQUIRE(rhs != has_value);
             REQUIRE_FALSE(rhs == has_value);
         }
