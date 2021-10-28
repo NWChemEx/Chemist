@@ -1,10 +1,11 @@
 #pragma once
-#include "libchemist/density/density_base.hpp"
 #include "libchemist/electrons/electrons.hpp"
+#include "libchemist/orbital_space/ao_space.hpp"
+#include "libchemist/types.hpp"
 
 namespace libchemist {
 
-/** @brief Class describing a density with its space.
+/** @brief Class describing a density.
  *
  *  In Electronic structure theory we place a lot of emphasis on the
  *  one-Electron density; however, there are many other densities. This class
@@ -12,48 +13,87 @@ namespace libchemist {
  *  describes. In turn this allows for this class to model densities involving
  *  an arbitrary number of arbitrary particles.
  *
+ *  @note At the moment this class is basically a strong type which wraps a
+ *        tensor.
+ *
  *  @tparam Particles The types of the particles described by this density. At
  *                    the moment the types are used purely for strong typing
  *                    purposes. Expected to be unqualified types.
  *
  */
 template<typename... Particles>
-class Density : public DensityBase<Particles...> {
+class Density {
 public:
-    /// Typedef of the base type
-    using base_type = DensityBase<Particles...>;
+    /// Type used to represent the numeric form of the density
+    using value_type = type::tensor;
 
-    /// Typedefs from the base type
-    using typename base_type::aos_type;
-    using typename base_type::value_type;
+    /// Type of the basis set
+    using aos_type = orbital_space::AOSpaceD;
 
     /// Default ctor
-    Density() = default;
+    explicit Density() = default;
 
     /// Ctor with non-default values
     Density(value_type rho, aos_type aos) :
-      base_type(rho), m_orbs_(std::move(aos)) {}
+      m_orbs_(std::move(aos)), m_density_(std::move(rho)) {}
 
-    /// Other ctors
-    Density(const Density&)     = default;
-    Density(Density&&) noexcept = default;
-    Density& operator=(const Density&) = default;
-    Density& operator=(Density&&) noexcept = default;
+    /** @brief Provides read-only access to the density matrix.
+     *
+     *  @return The density value.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const auto& value() const noexcept { return m_density_; }
 
-    /// Default dtor
-    ~Density() = default;
+    /** @brief Provides read-only access to the orbital basis set used to define
+     *         the density matrix.
+     *
+     *  @return The orbital basis the density is formed in.
+     *
+     *  @throw ??? Throws if the derived class's implementation of `basis_set_`
+     *             throws. Same throw guarantee.
+     */
+    const auto& basis_set() const { return basis_set_(); }
+
+    /** @brief Hashes the current instance.
+     *
+     *  @param[in,out] h The hasher instance to use for hashing. The internal
+     *                   state of h will be modified so that its internal hash
+     *                   includes state information about this instance.
+     *
+     *  @throw ??? Throws if the derived class's implementation of `hash_`
+     *             throws. Same throw guarantee.
+     */
+    void hash(pluginplay::Hasher& h) const { hash_(h); }
 
 protected:
-    /// Override virtual and return the basis space
-    const aos_type& basis_set_impl() const override { return m_orbs_; }
+    /// The density tensor
+    value_type m_density_;
 
-    /// Override the hash function
-    void hash_impl(pluginplay::Hasher& h) const override {
-        h(m_orbs_, this->value());
-    }
+    /// For assigning density value in derived types
+    explicit Density(value_type rho) : m_density_(rho) {}
+
+    /** @brief To be overridden by the derived class to implement basis_set().
+     *
+     *  The derived class is responsible for ensuring this function returns the
+     *  basis set.
+     *
+     *  @return The orbital basis the density is formed in.
+     *
+     *  @throw None No throw guarantee.
+     */
+    virtual const aos_type& basis_set_() const { return m_orbs_; }
+
+    /** @brief To be overridden by the derived class to implement hash().
+     *
+     *  Actually implements hash. Should be overridden by derived classes.
+     *
+     *  @throw None No throw guarantee.
+     */
+    virtual void hash_(pluginplay::Hasher& h) const { h(m_orbs_, m_density_); }
 
 private:
-    /// The AO space of the density
+    /// The orbital space used to make the density
     aos_type m_orbs_;
 };
 

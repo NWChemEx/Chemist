@@ -9,11 +9,17 @@ using density_types = std::tuple<Decomposable1EDensity>;
 
 TEMPLATE_LIST_TEST_CASE("DecomposableDensity", "", density_types) {
     using density_type = TestType;
+    using base_type    = typename density_type::base_type;
     using space_type   = typename density_type::space_type;
     using value_type   = typename density_type::value_type;
     using aos_type     = typename density_type::aos_type;
 
     SECTION("Typedefs") {
+        SECTION("base_type") {
+            using corr = libchemist::OneElectronDensity;
+            STATIC_REQUIRE(std::is_same_v<base_type, corr>);
+        }
+
         SECTION("space_type") {
             using corr = libchemist::orbital_space::DerivedSpaceD;
             STATIC_REQUIRE(std::is_same_v<space_type, corr>);
@@ -140,6 +146,12 @@ TEMPLATE_LIST_TEST_CASE("DecomposableDensity", "", density_types) {
             density_type rhs(a_tensor, space_type{});
             REQUIRE(rhs != has_value);
             REQUIRE_FALSE(rhs == has_value);
+        }
+
+        SECTION("With base_type") {
+            base_type base_with_value(a_tensor, aos);
+            REQUIRE(has_value == base_with_value);
+            REQUIRE_FALSE(has_value != base_with_value);
         }
     }
 }
