@@ -94,6 +94,15 @@ public:
      */
     bool not_equal(const BaseSpace& rhs) const noexcept { return !equal(rhs); }
 
+    // TODO: actual implementation, documentation and testing
+    template<typename Archive,
+             typename = std::enable_if_t<madness::is_output_archive_v<Archive>>>
+    void serialize(Archive ar) const {}
+
+    template<typename Archive,
+             typename = std::enable_if_t<madness::is_input_archive_v<Archive>>>
+    void serialize(Archive ar) {}
+
 protected:
     /// Type of a container of mode indices
     using mode_container = std::vector<type::size>;

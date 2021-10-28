@@ -510,6 +510,15 @@ public:
      */
     void hash(pluginplay::Hasher& h) const;
 
+    // TODO: actual implementation, documentation and testing
+    template<typename Archive,
+             typename = std::enable_if_t<madness::is_output_archive_v<Archive>>>
+    void serialize(Archive ar) const {}
+
+    template<typename Archive,
+             typename = std::enable_if_t<madness::is_input_archive_v<Archive>>>
+    void serialize(Archive ar) {}
+
 protected:
     /// Ensures the instance has a PIMPL and returns it
     pimpl_type& pimpl_();

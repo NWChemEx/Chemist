@@ -127,6 +127,15 @@ public:
 
     void hash(pluginplay::Hasher& h) const;
 
+    // TODO: actual implementation, documentation and testing
+    template<typename Archive,
+             typename = std::enable_if_t<madness::is_output_archive_v<Archive>>>
+    void serialize(Archive ar) const {}
+
+    template<typename Archive,
+             typename = std::enable_if_t<madness::is_input_archive_v<Archive>>>
+    void serialize(Archive ar) {}
+
 private:
     /// Maximum number of excitations allowed
     static constexpr std::size_t m_order_ = 2;

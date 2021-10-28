@@ -118,6 +118,15 @@ public:
      */
     void hash(pluginplay::Hasher& h) const { h(m_spin_, m_pbasis_); }
 
+    // TODO: actual implementation, documentation and testing
+    template<typename Archive,
+             typename = std::enable_if_t<madness::is_output_archive_v<Archive>>>
+    void serialize(Archive ar) const {}
+
+    template<typename Archive,
+             typename = std::enable_if_t<madness::is_input_archive_v<Archive>>>
+    void serialize(Archive ar) {}
+
 private:
     /// The total spin of the wavefunction
     spin_type m_spin_ = 0;
