@@ -1,6 +1,7 @@
 #pragma once
 #include "../test_libchemist.hpp"
-#include "libchemist/density/density.hpp"
+#include "libchemist/orbital_space/ao_space.hpp"
+#include "libchemist/orbital_space/derived_space.hpp"
 
 namespace testing {
 

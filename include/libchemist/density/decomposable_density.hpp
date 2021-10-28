@@ -1,6 +1,7 @@
 #pragma once
 #include "libchemist/density/density_base.hpp"
 #include "libchemist/electrons/electrons.hpp"
+#include "libchemist/orbital_space/derived_space.hpp"
 
 namespace libchemist {
 
@@ -18,45 +19,63 @@ namespace libchemist {
  *
  */
 template<typename... Particles>
-class Density : public DensityBase<Particles...>{
+class DecomposableDensity : public DensityBase<Particles...>{
 public:
     /// Typedef of the base type
     using base_type = DensityBase<Particles...>;
+
+    /// Typedef for a derived space
+    using space_type = orbital_space::DerivedSpaceD;
 
     /// Typedefs from the base type
     using typename base_type::aos_type;
     using typename base_type::value_type;
 
     /// Default ctor
-    Density() = default;
+    DecomposableDensity() = default;
 
     /// Ctor with non-default values
-    Density(value_type rho, aos_type aos) : base_type(rho),
-      m_orbs_(std::move(aos)) {}
+    DecomposableDensity(value_type rho, space_type space) : base_type(rho),
+      m_space_(std::move(space)) {}
 
     /// Other ctors
-    Density(const Density&) = default;
-    Density(Density&&)  noexcept = default;
-    Density& operator=(const Density&) = default;
-    Density& operator=(Density&&)  noexcept = default;
+    DecomposableDensity(const DecomposableDensity&) = default;
+    DecomposableDensity(DecomposableDensity&&)  noexcept = default;
+    DecomposableDensity& operator=(const DecomposableDensity&) = default;
+    DecomposableDensity& operator=(DecomposableDensity&&)  noexcept = default;
 
     /// Default dtor
-    ~Density() = default;
+    ~DecomposableDensity() = default;
+
+    /** @brief Provides read-only access to the derived space.
+     *
+     *  @return The derived space of the density.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const space_type& space() const { return m_space_; }
 
 protected:
-    /// Override virtual and return the basis space
+    /** @brief Returns the space that the density matrix is defined in.
+     *
+     *  @return The orbital space that this density is defined in terms of in a
+     *          read-only manner.
+     *
+     *  @throw std::runtime_error if the space instance does not contain a from
+     *                            space. Strong throw guarantee.
+     */
     const aos_type& basis_set_impl() const override {
-        return m_orbs_;
+        return m_space_.from_space();
     }
 
     /// Override the hash function
     void hash_impl(pluginplay::Hasher& h) const override{
-        h(m_orbs_, this->value());
+        h(m_space_, this->value());
     }
 
 private:
     /// The AO space of the density
-    aos_type m_orbs_;
+    space_type m_space_;
 };
 
 /** @brief Compares two Density instances for equality.
@@ -78,11 +97,11 @@ private:
  *  @throw None No throw guarantee.
  */
 template<typename... LHSParticles, typename... RHSParticles>
-bool operator==(const Density<LHSParticles...>& lhs,
-                const Density<RHSParticles...>& rhs) {
+bool operator==(const DecomposableDensity<LHSParticles...>& lhs,
+                const DecomposableDensity<RHSParticles...>& rhs) {
     if constexpr(std::is_same_v<decltype(lhs), decltype(rhs)>) {
-        return std::tie(lhs.basis_set(), lhs.value()) ==
-               std::tie(rhs.basis_set(), rhs.value());
+        return std::tie(lhs.space(), lhs.value()) ==
+               std::tie(rhs.space(), rhs.value());
     } else {
         return false;
     }
@@ -107,12 +126,12 @@ bool operator==(const Density<LHSParticles...>& lhs,
  *  @throw None No throw guarantee.
  */
 template<typename... LHSParticles, typename... RHSParticles>
-bool operator!=(const Density<LHSParticles...>& lhs,
-                const Density<RHSParticles...>& rhs) {
+bool operator!=(const DecomposableDensity<LHSParticles...>& lhs,
+                const DecomposableDensity<RHSParticles...>& rhs) {
     return !(lhs == rhs);
 }
 
 /// Type of the one-Electron density
-using OneElectronDensity = Density<Electron>;
+using Decomposable1EDensity = DecomposableDensity<Electron>;
 
 } // namespace libchemist
