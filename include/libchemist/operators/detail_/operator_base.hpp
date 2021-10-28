@@ -28,7 +28,7 @@ public:
 
     /// Hash function
     inline void hash(pluginplay::Hasher& h) const { hash_impl(h); }
-    
+
     // TODO: actual implementation, documentation and testing
     template<typename Archive,
              typename = std::enable_if_t<madness::is_output_archive_v<Archive>>>

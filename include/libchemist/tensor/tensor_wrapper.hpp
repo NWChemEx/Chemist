@@ -284,7 +284,7 @@ public:
     template<typename Archive,
              typename = std::enable_if_t<madness::is_input_archive_v<Archive>>>
     void serialize(Archive ar) {}
-    
+
     /** @brief Determines if two TensorWrappers wrap identical tensors.
      *
      *  This comparison determines if the two wrapped tensors are identical
