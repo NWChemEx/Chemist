@@ -24,11 +24,11 @@ namespace libchemist::set_theory {
  *  every element of the set appears in one and only one subset).
  *
  *  The FamilyOfSets class is a container which holds the subsets of a parent
- *  set. The parent set is owned by the FamilyOfSets instance to ensure that
- *  references to the parent set's elements remain valid. The subsets are
- *  lightweight views of the parent set which avoid copying elements of the
- *  parent set while still providing object-oriented access semantics to the
- *  elements.
+ *  set. The FamilyOfSets, and its subsets, share ownership of the parent set.
+ *  This means the subsets remain valid even if the originating FamilyOfSets
+ *  instance goes out of scope. The subsets are lightweight views of the parent
+ *  set which avoid copying elements of the parent set while still providing
+ *  object-oriented access semantics to the elements.
  *
  *  @tparam SetType The type of the parent set. @p SetType must be copy and/or
  *                  move constructable. Additionally `SetTraits<SetType>` must
