@@ -19,7 +19,7 @@ namespace libchemist {
  *
  */
 template<typename... Particles>
-class DecomposableDensity : public DensityBase<Particles...>{
+class DecomposableDensity : public DensityBase<Particles...> {
 public:
     /// Typedef of the base type
     using base_type = DensityBase<Particles...>;
@@ -35,14 +35,14 @@ public:
     DecomposableDensity() = default;
 
     /// Ctor with non-default values
-    DecomposableDensity(value_type rho, space_type space) : base_type(rho),
-      m_space_(std::move(space)) {}
+    DecomposableDensity(value_type rho, space_type space) :
+      base_type(rho), m_space_(std::move(space)) {}
 
     /// Other ctors
-    DecomposableDensity(const DecomposableDensity&) = default;
-    DecomposableDensity(DecomposableDensity&&)  noexcept = default;
+    DecomposableDensity(const DecomposableDensity&)     = default;
+    DecomposableDensity(DecomposableDensity&&) noexcept = default;
     DecomposableDensity& operator=(const DecomposableDensity&) = default;
-    DecomposableDensity& operator=(DecomposableDensity&&)  noexcept = default;
+    DecomposableDensity& operator=(DecomposableDensity&&) noexcept = default;
 
     /// Default dtor
     ~DecomposableDensity() = default;
@@ -69,7 +69,7 @@ protected:
     }
 
     /// Override the hash function
-    void hash_impl(pluginplay::Hasher& h) const override{
+    void hash_impl(pluginplay::Hasher& h) const override {
         h(m_space_, this->value());
     }
 

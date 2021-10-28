@@ -1,5 +1,5 @@
-#include "test_density.hpp"
 #include "libchemist/density/density.hpp"
+#include "test_density.hpp"
 
 // Known Densities
 using libchemist::OneElectronDensity;

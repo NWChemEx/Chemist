@@ -18,7 +18,7 @@ namespace libchemist {
  *
  */
 template<typename... Particles>
-class Density : public DensityBase<Particles...>{
+class Density : public DensityBase<Particles...> {
 public:
     /// Typedef of the base type
     using base_type = DensityBase<Particles...>;
@@ -31,26 +31,24 @@ public:
     Density() = default;
 
     /// Ctor with non-default values
-    Density(value_type rho, aos_type aos) : base_type(rho),
-      m_orbs_(std::move(aos)) {}
+    Density(value_type rho, aos_type aos) :
+      base_type(rho), m_orbs_(std::move(aos)) {}
 
     /// Other ctors
-    Density(const Density&) = default;
-    Density(Density&&)  noexcept = default;
+    Density(const Density&)     = default;
+    Density(Density&&) noexcept = default;
     Density& operator=(const Density&) = default;
-    Density& operator=(Density&&)  noexcept = default;
+    Density& operator=(Density&&) noexcept = default;
 
     /// Default dtor
     ~Density() = default;
 
 protected:
     /// Override virtual and return the basis space
-    const aos_type& basis_set_impl() const override {
-        return m_orbs_;
-    }
+    const aos_type& basis_set_impl() const override { return m_orbs_; }
 
     /// Override the hash function
-    void hash_impl(pluginplay::Hasher& h) const override{
+    void hash_impl(pluginplay::Hasher& h) const override {
         h(m_orbs_, this->value());
     }
 

@@ -87,11 +87,11 @@ protected:
     /// Defaulted copy ctor, protected to avoid slicing
     DensityBase(const DensityBase&) = default;
     /// Defaulted move ctor, protected to avoid slicing
-    DensityBase(DensityBase&&)  noexcept = default;
+    DensityBase(DensityBase&&) noexcept = default;
     /// Defaulted copy assignment, protected to avoid slicing
     DensityBase& operator=(const DensityBase&) = default;
     /// Defaulted move assignment, protected to avoid slicing
-    DensityBase& operator=(DensityBase&&)  noexcept = default;
+    DensityBase& operator=(DensityBase&&) noexcept = default;
 
     /// Derived implementation to get basis set
     virtual const aos_type& basis_set_impl() const = 0;
@@ -110,7 +110,8 @@ private:
 
 template<typename... Particles>
 template<typename... OtherPs>
-inline bool DENSITY_BASE::operator==(const DensityBase<OtherPs...>& other) const {
+inline bool DENSITY_BASE::operator==(
+  const DensityBase<OtherPs...>& other) const {
     if constexpr(std::is_same_v<decltype(*this), decltype(other)>) {
         return *this->value() == other.value();
     } else {
@@ -120,8 +121,9 @@ inline bool DENSITY_BASE::operator==(const DensityBase<OtherPs...>& other) const
 
 template<typename... Particles>
 template<typename... OtherPs>
-inline bool DENSITY_BASE::operator!=(const DensityBase<OtherPs...>& other) const {
-    return !((*this)==other);
+inline bool DENSITY_BASE::operator!=(
+  const DensityBase<OtherPs...>& other) const {
+    return !((*this) == other);
 }
 
 #undef DENSITY_BASE
