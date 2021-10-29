@@ -2,6 +2,7 @@
 #include "libchemist/electrons/electrons.hpp"
 #include "libchemist/orbital_space/ao_space.hpp"
 #include "libchemist/types.hpp"
+#include "parallelzone/serialization.hpp"
 
 namespace libchemist {
 
