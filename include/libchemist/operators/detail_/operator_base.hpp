@@ -1,8 +1,8 @@
 #pragma once
 #include "libchemist/potentials/electrostatic.hpp"
 #include <cstddef>
-#include <pluginplay/hasher.hpp>
 #include <parallelzone/serialization.hpp>
+#include <pluginplay/hasher.hpp>
 #include <typeindex>
 
 namespace libchemist::operators::detail_ {
