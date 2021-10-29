@@ -1,4 +1,5 @@
 #pragma once
+#include "libchemist/density/decomposable_density.hpp"
 #include "libchemist/density/density.hpp"
 #include "libchemist/electrons/electrons.hpp"
 #include "libchemist/operators/detail_/operator_impl.hpp"
@@ -37,5 +38,9 @@ protected:
 /// Type of Hartree-Fock Exchange
 using ElectronEDensityExchange =
   Exchange<libchemist::Electron, libchemist::OneElectronDensity>;
+
+/// Type of Hartree-Fock Exchange with decomposable density
+using ElectronDecomposableEDensity =
+  Exchange<libchemist::Electron, libchemist::Decomposable1EDensity>;
 
 } // namespace libchemist::operators

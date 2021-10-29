@@ -3,7 +3,8 @@
 
 using namespace libchemist::operators;
 
-using type_list = std::tuple<ElectronEDensityExchange>;
+using type_list =
+  std::tuple<ElectronEDensityExchange, ElectronDecomposableEDensity>;
 
 TEMPLATE_LIST_TEST_CASE("Exchange", "", type_list) {
     using exchange_type  = TestType;
