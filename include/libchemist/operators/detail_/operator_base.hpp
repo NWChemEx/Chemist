@@ -2,7 +2,7 @@
 #include "libchemist/potentials/electrostatic.hpp"
 #include <cstddef>
 #include <pluginplay/hasher.hpp>
-#include <pluginplay/serialization.hpp>
+#include <parallelzone/serialization.hpp>
 #include <typeindex>
 
 namespace libchemist::operators::detail_ {
