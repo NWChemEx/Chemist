@@ -1,5 +1,6 @@
 #pragma once
 #include "libchemist/orbital_space/types.hpp"
+#include <parallelzone/serialization.hpp>
 #include <pluginplay/hasher.hpp>
 
 namespace libchemist::orbital_space {
@@ -41,6 +42,15 @@ public:
      *             throws. Same throw guarantee.
      */
     void hash(pluginplay::Hasher& h) const { hash_(h); }
+
+    // TODO: actual implementation, documentation and testing
+    template<typename Archive,
+             typename = std::enable_if_t<pz::is_output_archive_v<Archive>>>
+    void serialize(Archive& ar) const {}
+
+    template<typename Archive,
+             typename = std::enable_if_t<pz::is_input_archive_v<Archive>>>
+    void serialize(Archive& ar) {}
 
     /** @brief Polymorphically compares two orbital spaces to determine if they
      *         are equal.
@@ -93,15 +103,6 @@ public:
      *  @throw None No throw guarantee.
      */
     bool not_equal(const BaseSpace& rhs) const noexcept { return !equal(rhs); }
-
-    // TODO: actual implementation, documentation and testing
-    template<typename Archive,
-             typename = std::enable_if_t<madness::is_output_archive_v<Archive>>>
-    void serialize(Archive ar) const {}
-
-    template<typename Archive,
-             typename = std::enable_if_t<madness::is_input_archive_v<Archive>>>
-    void serialize(Archive ar) {}
 
 protected:
     /// Type of a container of mode indices

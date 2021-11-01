@@ -2,6 +2,7 @@
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include "libchemist/tensor/detail_/labeled_tensor_wrapper.hpp"
 #include "libchemist/tensor/type_traits/type_traits.hpp"
+#include <parallelzone/serialization.hpp>
 #include <pluginplay/hasher.hpp>
 #include <utilities/type_traits/variant/add_const.hpp>
 #include <utilities/type_traits/variant/decay.hpp>
@@ -278,12 +279,12 @@ public:
 
     // TODO: actual implementation, documentation and testing
     template<typename Archive,
-             typename = std::enable_if_t<madness::is_output_archive_v<Archive>>>
-    void serialize(Archive ar) const {}
+             typename = std::enable_if_t<pz::is_output_archive_v<Archive>>>
+    void serialize(Archive& ar) const {}
 
     template<typename Archive,
-             typename = std::enable_if_t<madness::is_input_archive_v<Archive>>>
-    void serialize(Archive ar) {}
+             typename = std::enable_if_t<pz::is_input_archive_v<Archive>>>
+    void serialize(Archive& ar) {}
 
     /** @brief Determines if two TensorWrappers wrap identical tensors.
      *

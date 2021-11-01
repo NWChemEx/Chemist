@@ -31,12 +31,12 @@ public:
 
     // TODO: actual implementation, documentation and testing
     template<typename Archive,
-             typename = std::enable_if_t<madness::is_output_archive_v<Archive>>>
-    void serialize(Archive ar) const {}
+             typename = std::enable_if_t<pz::is_output_archive_v<Archive>>>
+    void serialize(Archive& ar) const {}
 
     template<typename Archive,
-             typename = std::enable_if_t<madness::is_input_archive_v<Archive>>>
-    void serialize(Archive ar) {}
+             typename = std::enable_if_t<pz::is_input_archive_v<Archive>>>
+    void serialize(Archive& ar) {}
 
     /// Polymorphic comparison of this Operator instance with another
     inline bool is_equal(const OperatorBase& other) const noexcept;
