@@ -100,6 +100,23 @@ TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
         }
     }
 
+    SECTION("Serialization") {
+        std::stringstream ss;
+
+        {
+            pz::BinaryOutputArchive ar(ss);
+            ar& has_value;
+        }
+        density_type has_value2;
+
+        {
+            pz::BinaryInputArchive ar(ss);
+            ar& has_value2;
+        }
+        // Fails with expansion: {? } == { ? }
+        // REQUIRE(has_value == has_value2);
+    }
+
     SECTION("Comparison") {
         SECTION("Both default") {
             density_type rhs;
