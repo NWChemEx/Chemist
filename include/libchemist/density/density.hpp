@@ -55,7 +55,7 @@ public:
      */
     // TODO: Fix deserialization
     template<typename Archive>
-        void serialize(Archive ar) const {
+    void serialize(Archive ar) const {
         ar& m_orbs_& m_density_;
     }
 
