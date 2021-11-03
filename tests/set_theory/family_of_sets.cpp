@@ -313,6 +313,18 @@ TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
             REQUIRE(defaulted != rhs);
         }
     }
+
+    SECTION("Subsets work when FoS goes out of scope") {
+        value_type subset = m0;
+        {
+            auto non_default_obj2 = testing::make_object<TestType>();
+            family_type f(non_default_obj2, {{0ul}, {1ul}, {2ul}});
+            subset = f[1];
+        }
+        REQUIRE(subset.object() == non_default_obj);
+        REQUIRE(subset.size() == 1);
+        REQUIRE(subset.count(non_default_obj[1]));
+    }
 }
 
 TEST_CASE("FamilyOfSets<tuple>") {
