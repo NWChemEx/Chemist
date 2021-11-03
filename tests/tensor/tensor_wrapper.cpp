@@ -27,6 +27,8 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
     TWrapper mat(mat_data);
     TWrapper t3(t3_data);
 
+    auto default_alloc = default_allocator<type::tensor_variant>();
+
     SECTION("Typedefs") {
         SECTION("variant_type") {
             using type = typename TWrapper::variant_type;
@@ -66,28 +68,57 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
             REQUIRE(defaulted.size() == 0);
         }
 
+        SECTION("Allocator") {
+            const auto* pa = &(*default_alloc);
+            TWrapper t(std::move(default_alloc));
+            REQUIRE(&t.allocator() == pa);
+        }
+
         SECTION("Wrapping CTor") {
             REQUIRE(vec.rank() == 1);
             REQUIRE(vec.extents() == extents{3});
             REQUIRE(vec.size() == 3);
+            REQUIRE(vec.allocator().is_equal(*default_alloc));
             REQUIRE(mat.rank() == 2);
             REQUIRE(mat.extents() == extents{2, 2});
             REQUIRE(mat.size() == 4);
+            REQUIRE(mat.allocator().is_equal(*default_alloc));
             REQUIRE(t3.rank() == 3);
             REQUIRE(t3.extents() == extents{2, 2, 2});
             REQUIRE(t3.size() == 8);
+            REQUIRE(t3.allocator().is_equal(*default_alloc));
+
+            SECTION("Can set allocator") {
+                auto palloc = &(*default_alloc);
+                TWrapper t(vec_data, std::move(default_alloc));
+                REQUIRE(&t.allocator() == palloc);
+            }
+
+            SECTION("Retiles if necessary") {
+                using other_alloc = SingleElementTiles<type::tensor_variant>;
+                auto palloc       = std::make_unique<other_alloc>(world);
+                auto tr           = palloc->make_tiled_range(std::vector{3ul});
+                t_type corr_data(world, tr, vector_il{1.0, 2.0, 3.0});
+                TWrapper corr(std::move(corr_data), std::move(palloc));
+                auto palloc2 = std::make_unique<other_alloc>(world);
+                TWrapper retiled(vec_data, std::move(palloc2));
+                REQUIRE(retiled == corr);
+            }
         }
 
         SECTION("Copy") {
             TWrapper copied(vec);
             REQUIRE(copied.rank() == 1);
             REQUIRE(copied.extents() == extents{3});
+            REQUIRE(copied.allocator().is_equal(vec.allocator()));
         }
 
         SECTION("Move") {
+            const auto* pa = &(vec.allocator());
             TWrapper moved(std::move(vec));
             REQUIRE(moved.rank() == 1);
             REQUIRE(moved.extents() == extents{3});
+            REQUIRE(&moved.allocator() == pa);
         }
 
         SECTION("Copy assignment") {
@@ -96,15 +127,25 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
             REQUIRE(pcopied == &copied);
             REQUIRE(copied.rank() == 1);
             REQUIRE(copied.extents() == extents{3});
+            REQUIRE(copied.allocator().is_equal(vec.allocator()));
         }
 
         SECTION("Move assignment") {
             TWrapper moved;
-            auto pmoved = &(moved = std::move(vec));
+            const auto* pa = &(vec.allocator());
+            auto pmoved    = &(moved = std::move(vec));
             REQUIRE(pmoved == &moved);
             REQUIRE(moved.rank() == 1);
             REQUIRE(moved.extents() == extents{3});
+            REQUIRE(&moved.allocator() == pa);
         }
+    }
+
+    SECTION("allocator") {
+        REQUIRE_THROWS_AS(defaulted.allocator(), std::runtime_error);
+        REQUIRE(vec.allocator().is_equal(*default_alloc));
+        REQUIRE(mat.allocator().is_equal(*default_alloc));
+        REQUIRE(t3.allocator().is_equal(*default_alloc));
     }
 
     SECTION("make_annotation") {

@@ -13,34 +13,64 @@ namespace libchemist::tensor {
  *  its own tile. While this allows element-wise access, it also ruins the
  *  performance.
  *
+ *  @tparam VariantType A variant containing all of the possible tensor types
+ *                      which may be wrapped by the TensorWrapper class.
  */
-class SingleElementTiles : public Allocator {
+template<typename VariantType>
+class SingleElementTiles : public Allocator<VariantType> {
+private:
+    /// Type this class derives from
+    using base_type = Allocator<VariantType>;
+
+    /// Type of this class
+    using my_type = SingleElementTiles<VariantType>;
+
 public:
+    /// Pulls in the base class's typedefs
+    ///@{
+    using typename base_type::runtime_reference;
+
+    using typename base_type::allocator_ptr;
+
+    using typename base_type::extents_type;
+
+    using typename base_type::tiled_range_type;
+    ///@}
+
     SingleElementTiles(runtime_reference world = TA::get_default_world());
 
 protected:
+    /// Copy ctor is used to implement clone, but shouldn't be called otherwise
     SingleElementTiles(const SingleElementTiles&) = default;
 
 private:
+    /// Implement the Allocator interfrace
+    ///@{
     virtual allocator_ptr clone_() const override;
     virtual tiled_range_type make_tr_(const extents_type& shape) const override;
+    virtual bool is_equal_(const base_type& other) const noexcept override;
+    ///@}
 };
 
 //------------------------------------------------------------------------------
 //                         Inline Implementations
 //------------------------------------------------------------------------------
 
-inline SingleElementTiles::SingleElementTiles(runtime_reference world) :
-  Allocator(world) {}
+template<typename VariantType>
+SingleElementTiles<VariantType>::SingleElementTiles(runtime_reference world) :
+  Allocator<VariantType>(world) {}
 
-inline typename Allocator::allocator_ptr SingleElementTiles::clone_() const {
-    return allocator_ptr(new SingleElementTiles(*this));
+template<typename VariantType>
+typename SingleElementTiles<VariantType>::allocator_ptr
+SingleElementTiles<VariantType>::clone_() const {
+    return allocator_ptr(new SingleElementTiles<VariantType>(*this));
 }
 
-inline typename Allocator::tiled_range_type SingleElementTiles::make_tr_(
-  const extents_type& shape) const {
+template<typename VariantType>
+typename SingleElementTiles<VariantType>::tiled_range_type
+SingleElementTiles<VariantType>::make_tr_(const extents_type& shape) const {
     using tr1_type    = TA::TiledRange1;
-    using size_type   = extents_type::size_type;
+    using size_type   = typename extents_type::size_type;
     using offset_type = typename tr1_type::index1_type;
 
     const auto n_modes = shape.size();
@@ -52,6 +82,14 @@ inline typename Allocator::tiled_range_type SingleElementTiles::make_tr_(
     }
 
     return TA::TiledRange(tr1s.begin(), tr1s.end());
+}
+
+template<typename VariantType>
+bool SingleElementTiles<VariantType>::is_equal_(
+  const base_type& rhs) const noexcept {
+    const auto* prhs = dynamic_cast<const my_type*>(&rhs);
+    if(!prhs) return false;
+    return base_type::operator==(rhs);
 }
 
 } // namespace libchemist::tensor
