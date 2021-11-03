@@ -433,3 +433,14 @@ bool operator!=(const TA::DistArray<LHSTileType, LHSPolicyType>& lhs,
 }
 
 } // namespace TiledArray
+
+// Serialize/deserialize for Density instance
+// TODO: Missing implementation. Move to TiledArray.
+namespace madness {
+namespace archive {
+template<class Archive, class T>
+struct ArchiveSerializeImpl<Archive, TA::DIIS<T>> {
+    static inline void serialize(const Archive& ar, TA::DIIS<T>& d){};
+};
+} // namespace archive
+} // namespace madness
