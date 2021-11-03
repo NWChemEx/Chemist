@@ -12,6 +12,52 @@ namespace libchemist::tensor {
 #define TENSOR_WRAPPER TensorWrapper<VariantType>
 
 template<typename VariantType>
+TENSOR_WRAPPER::TensorWrapper(const extents_type& shape, allocator_ptr p) :
+  m_tensor_(p->new_tensor(shape)) {}
+
+template<typename VariantType>
+template<typename TensorType, typename>
+TENSOR_WRAPPER::TensorWrapper(TensorType&& t, allocator_ptr p) :
+  m_tensor_(std::forward<TensorType>(t)), m_allocator_(std::move(p)) {
+    using clean_t         = std::decay_t<TensorType>;
+    constexpr bool is_tot = TensorTraits<clean_t>::is_tot;
+    if constexpr(!is_tot) {
+        auto l = [&](auto&& arg) {
+            if(!arg.is_initialized()) return;
+            const auto tr = m_allocator_->make_tiled_range(extents());
+            if(arg.trange() != tr) arg = TA::retile(arg, tr);
+        };
+        std::visit(l, m_tensor_);
+    }
+}
+
+template<typename VariantType>
+TENSOR_WRAPPER::TensorWrapper(const TensorWrapper& other) :
+  m_tensor_(other.m_tensor_),
+  m_allocator_(other.m_allocator_ ? other.m_allocator_->clone() : nullptr) {}
+
+template<typename VariantType>
+TENSOR_WRAPPER::TensorWrapper(TensorWrapper&& other) = default;
+
+template<typename VariantType>
+TENSOR_WRAPPER& TENSOR_WRAPPER::operator=(const TensorWrapper& other) {
+    if(this == &other) return *this;
+    m_tensor_    = other.m_tensor_;
+    m_allocator_ = (other.m_allocator_ ? other.m_allocator_->clone() : nullptr);
+    return *this;
+}
+
+template<typename VariantType>
+TENSOR_WRAPPER& TENSOR_WRAPPER::operator=(TensorWrapper&& other) = default;
+
+template<typename VariantType>
+typename TENSOR_WRAPPER::const_allocator_reference TENSOR_WRAPPER::allocator()
+  const {
+    if(m_allocator_) return *m_allocator_;
+    throw std::runtime_error("Tensor has no allocator!!!!");
+}
+
+template<typename VariantType>
 auto TENSOR_WRAPPER::operator()(const annotation_type& annotation) {
     return labeled_tensor_type(annotation, *this);
 }
@@ -77,7 +123,7 @@ TENSOR_WRAPPER TENSOR_WRAPPER::slice(
         }
         return rv;
     };
-    return TENSOR_WRAPPER(std::visit(l, m_tensor_));
+    return TENSOR_WRAPPER(std::visit(l, m_tensor_), m_allocator_->clone());
 }
 
 template<typename VariantType>
