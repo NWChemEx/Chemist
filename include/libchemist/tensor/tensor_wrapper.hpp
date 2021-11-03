@@ -1,5 +1,6 @@
 #pragma once
 #include "libchemist/ta_helpers/ta_helpers.hpp"
+#include "libchemist/tensor/allocators/allocators.hpp"
 #include "libchemist/tensor/detail_/labeled_tensor_wrapper.hpp"
 #include "libchemist/tensor/type_traits/type_traits.hpp"
 #include <pluginplay/hasher.hpp>
@@ -11,17 +12,17 @@ namespace libchemist::tensor {
 
 /** @brief Fundamental type for wrapping tensors.
  *
- *  The TensorWrapper class is designed to provide a single type which can hold
- *  any of an array of tensor types. The types that it can hold are determined
- *  by the types in @p VariantType. Algorithms which take TensorWrapper
- *  instances, should do so only for a specific TensorWrapper specialization. In
- *  turn the algorithm signals to the user that the algorithm will work with all
- *  of the tensor types that the TensorWrapper specialization can hold. In turn,
- *  it becomes possible to write non-templated algorithms, which work with a
- *  variety of tensor types.
+ *  The TensorWrapper class is designed to provide a single type which can
+ * hold any of an array of tensor types. The types that it can hold are
+ * determined by the types in @p VariantType. Algorithms which take
+ * TensorWrapper instances, should do so only for a specific TensorWrapper
+ * specialization. In turn the algorithm signals to the user that the
+ * algorithm will work with all of the tensor types that the TensorWrapper
+ * specialization can hold. In turn, it becomes possible to write
+ * non-templated algorithms, which work with a variety of tensor types.
  *
- *  @tparam VariantType the type of the std::variant holding all possible tensor
- *                      types the wrapper may hold.
+ *  @tparam VariantType the type of the std::variant holding all possible
+ * tensor types the wrapper may hold.
  */
 template<typename VariantType>
 class TensorWrapper {
@@ -69,29 +70,153 @@ public:
     /// Type used for returning the extents
     using extents_type = std::vector<size_type>;
 
+    /// Type of an allocator
+    using allocator_ptr = typename Allocator<variant_type>::allocator_ptr;
+
+    /// Type-erased type of the allocator
+    using allocator_type = typename allocator_ptr::element_type;
+
+    /// Type of a read-only reference to a type-erased allocator
+    using const_allocator_reference = const allocator_type&;
+
     /** @brief Default CTor
      *
-     *  TensorWrapper instances should always be wrapping an existing tensor. To
-     *  help ensure that this is the case we have deleted the default ctor.
+     *  The TensorWrapper resulting from this ctor wraps no tensor, and has no
+     *  allocator. At the moment the only way to make the resulting tensor into
+     *  a useful tensor is by moving or assigning to it.
+     *
+     *  @throw ??? Throws if the default ctor of any type in variant_type throws
+     *             same throw guarantee.
      */
     TensorWrapper() = default;
+
+    /** @brief Creates a TensorWrapper which will use the provided allocator to
+     *         create its state.
+     *
+     *  This ctor allows you to set the allocator a TensorWrapper will use. The
+     *  resulting TensorWrapper will have not contain an allocated tensor. At
+     *  the moment the only way to have the resulting TensorWrapper wrap a
+     *  useful tensor is to assign or move to it.
+     *
+     *  @param[in] p The allocator, passed as a pointer to the base, the tensor
+     *               should use.
+     *
+     *  @throw ??? Throws if the default ctor of any type in the variant_type
+     *             throws. Same throw guarantee.
+     */
+    explicit TensorWrapper(allocator_ptr p) : m_allocator_(std::move(p)) {}
+
+    /** @brief Creates a TensorWrapper which wraps a tensor of the specified
+     *         shape.
+     *
+     *  This ctor can be used to create a new tensor of the specified size. The
+     *  underlying tensor is not yet initialized, and must be initialized before
+     *  it is used. Attempting to use the tensor without initializing it, is
+     *  likely to cause deadlock.
+     *
+     *  @param[in] shape An r-element container such that the i-th element is
+     *                   the extent of the i-th mode of the resulting rank r
+     *                   tensor (r and i are zero based).
+     *
+     *  @param[in] p A pointer to the allocator the tensor wrapper should use.
+     *               By default the result of `default_allocator<variant_type>`
+     *               is used.
+     *
+     *  @throw ??? Throws if allocating the underlying tensor throws. Same throw
+     *             guarantee.
+     */
+    explicit TensorWrapper(const extents_type& shape,
+                           allocator_ptr p = default_allocator<variant_type>());
 
     /** @brief Wrapping CTor
      *
      *  This constructor creates a new TensorWrapper instance which wraps the
-     *  provided Tensor. After this call the TensorWrapper will either contain a
-     *  copy of the provided tensor or it will have taken ownership of it
-     *  depending on whether or not the tensor was moved into the TensorWrapper.
+     *  provided Tensor. After this call the TensorWrapper will either contain
+     * a copy of the provided tensor or it will have taken ownership of it
+     *  depending on whether or not the tensor was moved into the
+     * TensorWrapper.
      *
      *  @tparam TensorType The type of the tensor we are wrapping. TensorType
      *                      must be one of the types in @p VariantType.
      *  @tparam <anonymous> A type used to disable this ctor via SFINAE if
      *                      @p TensorType is not present in @p VariantType.
+     *
+     *  @param[in] t The tensor this TensorWrapper instance should wrap. @p t
+     *               should be initialized and set.
+     *  @param[in] p A pointer to the allocator the tensor wrapper should use.
+     *               By default the result of `default_allocator<variant_type>`
+     *               is used.
      */
     template<typename TensorType,
              typename = eif_has_type<std::decay_t<TensorType>>>
-    explicit TensorWrapper(TensorType&& t) :
-      m_tensor_(std::forward<TensorType>(t)) {}
+    explicit TensorWrapper(TensorType&& t,
+                           allocator_ptr p = default_allocator<variant_type>());
+
+    /** @brief Makes a copy of another TensorWrapper
+     *
+     *  The exact semantics of the copy ctor are defined by the copy semantics
+     *  of the wrapped tensor. The allocator however; will be deep-copied.
+     *
+     *  @param[in] other The instance we are copying.
+     *
+     */
+    TensorWrapper(const TensorWrapper& other);
+
+    /** @brief Takes ownership of another TensorWrapper instance.
+     *
+     *  The exact semantics of the move ctor are defined by the move semantics
+     *  of the wrapped tensor. Ownership of the allocator in @p other will be
+     *  transferred to this instance.
+     *
+     *  @param[in,out] other The TensorWrapper we are transferring the state
+     *                       from. After this operation the state of @p other
+     *                       will in a valid, but otherwise undefined state.
+     */
+    TensorWrapper(TensorWrapper&& other);
+
+    /** @brief Assigns a copy of another TensorWrapper to this instance.
+     *
+     *  This operation will overwrite the current TensorWrapper's state with a
+     *  copy of @p rhs 's state. The exact semantics of the copy will depend on
+     *  copy assignment operator of the wrapped tensor in @p rhs. The allocator
+     *  in @p rhs will be deep copied.
+     *
+     *  @param[in] rhs The TensorWrapper instance we are copying the state
+     *                 from.
+     *
+     *  @return The current TensorWrapper instance after overwriting its state
+     *          with a copy of @p rhs's state.
+     */
+    TensorWrapper& operator=(const TensorWrapper& rhs);
+
+    /** @brief Takes ownership of another TensorWrapper instance's state.
+     *
+     *  This operation will overwrite the current TensorWrapper instance's state
+     *  with the state of @p rhs. The exact semantics of the move assignment
+     *  will depend on the move assignment semantics of the wrapped tensor. The
+     *  ownership of the allocator in @p rhs will be transferred to this
+     *  instance.
+     *
+     *  @param[in,out] rhs The TensorWrapper instance we are transferring the
+     *                     state from. After this operation @p rhs will be in a
+     *                     valid, but otherwise undefined state.
+     *
+     * @return The current TensorWrapper instance after overwriting its state
+     *         with @p rhs's state.
+     */
+    TensorWrapper& operator=(TensorWrapper&& rhs);
+
+    /** @brief Returns the allocator in a read-only state.
+     *
+     *  This function can be used to retrieve the allocator that the
+     *  TensorWrapper was initialized with. If the instance does not have an
+     *  allocator an error will be thrown.
+     *
+     *  @return The allocator used for the tensor.
+     *
+     *  @throw std::runtime_error if the instance does not
+     */
+    const_allocator_reference allocator() const;
 
     /** @brief Annotates the modes of the wrapped index with the provided
      *         labels.
@@ -356,6 +481,9 @@ private:
 
     /// The actual tensor stored in an std::variant
     variant_type m_tensor_;
+
+    /// The allocator for the tensor
+    allocator_ptr m_allocator_;
 };
 
 /** @brief Prints the wrapped tensor to the provided output stream.
