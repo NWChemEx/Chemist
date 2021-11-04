@@ -27,6 +27,8 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
     TWrapper mat(mat_data);
     TWrapper t3(t3_data);
 
+    // Assumed different type than the one returned by default_allocator
+    using other_alloc  = SingleElementTiles<type::tensor_variant>;
     auto default_alloc = default_allocator<type::tensor_variant>();
 
     SECTION("Typedefs") {
@@ -95,9 +97,8 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
             }
 
             SECTION("Retiles if necessary") {
-                using other_alloc = SingleElementTiles<type::tensor_variant>;
-                auto palloc       = std::make_unique<other_alloc>(world);
-                auto tr           = palloc->make_tiled_range(std::vector{3ul});
+                auto palloc = std::make_unique<other_alloc>(world);
+                auto tr     = palloc->make_tiled_range(std::vector{3ul});
                 t_type corr_data(world, tr, vector_il{1.0, 2.0, 3.0});
                 TWrapper corr(std::move(corr_data), std::move(palloc));
                 auto palloc2 = std::make_unique<other_alloc>(world);
@@ -146,6 +147,23 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
         REQUIRE(vec.allocator().is_equal(*default_alloc));
         REQUIRE(mat.allocator().is_equal(*default_alloc));
         REQUIRE(t3.allocator().is_equal(*default_alloc));
+    }
+
+    SECTION("reallocate") {
+        auto new_p     = std::make_unique<other_alloc>(world);
+        const auto* pa = &(*new_p);
+
+        SECTION("Default") {
+            defaulted.reallocate(std::move(new_p));
+            REQUIRE(&defaulted.allocator() == pa);
+        }
+
+        SECTION("Non-default") {
+            TWrapper corr(vec_data, new_p->clone());
+            vec.reallocate(std::move(new_p));
+            REQUIRE(vec == corr);
+            REQUIRE(&vec.allocator() == pa);
+        }
     }
 
     SECTION("make_annotation") {

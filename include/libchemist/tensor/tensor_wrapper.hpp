@@ -218,6 +218,22 @@ public:
      */
     const_allocator_reference allocator() const;
 
+    /** @brief Changes the allocator, reallocating the tensor (in place) if
+     *         needed.
+     *
+     *  Under most circumstances users of the TensorWrapper class shouldn't have
+     *  to call this function. This function is mainly used under the hood when
+     *  a reallocation needs to happen to make tensors compatible. It has public
+     *  scope because it's useful for unit testing the effect different
+     *  allocation strategies have. This operation is in place, and may mutate
+     *  the underlying data (e.g., smaller tiles may result in small elements
+     *  being set to hard zero) in addition to moving the data around in
+     *  memory.
+     *
+     *  @param[in] p The new allocator for the tensor.
+     */
+    void reallocate(allocator_ptr p);
+
     /** @brief Annotates the modes of the wrapped index with the provided
      *         labels.
      *

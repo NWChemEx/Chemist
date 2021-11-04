@@ -19,16 +19,7 @@ template<typename VariantType>
 template<typename TensorType, typename>
 TENSOR_WRAPPER::TensorWrapper(TensorType&& t, allocator_ptr p) :
   m_tensor_(std::forward<TensorType>(t)), m_allocator_(std::move(p)) {
-    using clean_t         = std::decay_t<TensorType>;
-    constexpr bool is_tot = TensorTraits<clean_t>::is_tot;
-    if constexpr(!is_tot) {
-        auto l = [&](auto&& arg) {
-            if(!arg.is_initialized()) return;
-            const auto tr = m_allocator_->make_tiled_range(extents());
-            if(arg.trange() != tr) arg = TA::retile(arg, tr);
-        };
-        std::visit(l, m_tensor_);
-    }
+    reallocate(std::move(m_allocator_));
 }
 
 template<typename VariantType>
@@ -55,6 +46,19 @@ typename TENSOR_WRAPPER::const_allocator_reference TENSOR_WRAPPER::allocator()
   const {
     if(m_allocator_) return *m_allocator_;
     throw std::runtime_error("Tensor has no allocator!!!!");
+}
+
+template<typename VariantType>
+void TENSOR_WRAPPER::reallocate(allocator_ptr p) {
+    if constexpr(std::is_same_v<VariantType, type::tensor_variant>) {
+        auto l = [&](auto&& arg) {
+            if(!arg.is_initialized()) return;
+            const auto tr = p->make_tiled_range(extents());
+            if(arg.trange() != tr) arg = TA::retile(arg, tr);
+        };
+        std::visit(l, m_tensor_);
+    }
+    m_allocator_ = std::move(p);
 }
 
 template<typename VariantType>
