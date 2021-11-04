@@ -44,7 +44,7 @@ protected:
     SingleElementTiles(const SingleElementTiles&) = default;
 
 private:
-    /// Implement the Allocator interfrace
+    /// Implement the Allocator interface
     ///@{
     virtual allocator_ptr clone_() const override;
     virtual tiled_range_type make_tr_(const extents_type& shape) const override;
