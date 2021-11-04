@@ -295,8 +295,8 @@ private:
 /** @brief Vector difference of two points.
  *
  *  This function returns the vector difference of two points, *i.e.*, for
- *  points @f$\mathvec{a}@f$ and @f$\mathvec{b}@$, this function returns a point
- *  @f$\mathvec{c}@f$ such that the @f$i@f$-th component of @f$\mathvec{c}@f$ is
+ *  points @f$\vec{a}@f$ and @f$\vec{b}@f$, this function returns a point
+ *  @f$\vec{c}@f$ such that the @f$i@f$-th component of @f$\vec{c}@f$ is
  *  given by:
  *  @f{
  *    c_i = a_i - b_i

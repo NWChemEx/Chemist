@@ -264,20 +264,20 @@ auto reduce_tot_elementwise(const TA::DistArray<TileType, PolicyType>& lhs,
  *  determine if all their values are close to one another. "Close" is defined
  *  by two parameters. The absolute tolerance, @p atol, defines the effective
  *  zero for all comparisons. If for a given index @f$I@f$,
- *  @f$\left\mid A[I] - B[I]\right\mid@ftwo differs by less than @p atol, the
+ *  @f$\mid A[I]-B[I]\mid@f$ two differs by less than @p atol, the
  *  difference is considered indistinguishable from zero and the elements the
  *  same. Particularly for very large elements achieving a difference on the
  *  order of @p atol is not always reasonable; in these cases, one cares more
  *  about the percent error. In this case
- *  @f$\frac{\left\mid A[I] - B[I]\right\mid}{\left\midB[I]\right\mid}@f$ must
+ *  @f$\frac{\mid A[I] - B[I]\mid}{\mid B[I]\mid}@f$ must
  *  be less than a relative tolerance, @p rtol.
  *
  *  This function combines these criteria and returns true if @f$A@f$ and
  *  @f$B@f$ satisfy:
  *
- *  @f{
- *     \left\mid A - B\right\mid \le atol + rtol\left\mid B\right\mid
- *  @f}
+ *  @f[
+ *     \mid A - B\mid \le atol + rtol\mid B\mid
+ *  @f]
  *
  *  Note that this is **NOT** symmetric in @f$A@f$ and @f$B@f$, but is
  *  commensurate with @f$B@f$ being the reference (thereby dictating what is an

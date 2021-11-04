@@ -9,7 +9,7 @@ namespace libchemist::operators {
 /** @brief Exchange operator
  *
  *  The exchange operator is the product of the particle permutation operator
- *  and the Coulomb operator, i.e. @f$\frac{\widehat{P}_{12}}}{r_{12}}@f$
+ *  and the Coulomb operator, i.e. @f$\frac{\widehat{P}_{12}}{r_{12}}@f$
  *
  *  @tparam Particle1 The type of the first particle.
  *  @tparam Particle2 The type of the second particle.
