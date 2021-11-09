@@ -107,6 +107,8 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
             }
         }
 
+        SECTION("SparseMap") {}
+
         SECTION("Copy") {
             TWrapper copied(vec);
             REQUIRE(copied.rank() == 1);

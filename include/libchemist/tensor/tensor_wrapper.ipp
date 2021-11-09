@@ -22,6 +22,14 @@ TENSOR_WRAPPER::TensorWrapper(TensorType&& t, allocator_ptr p) :
     reallocate(std::move(m_allocator_));
 }
 
+// template<typename VariantType>
+// TENSOR_WRAPPER::TensorWrapper(const sparse_map_type& sm, allocator_ptr p) :
+//   m_tensor_(p->new_tensor(std::vector<std::size_t>{3})),
+//   m_allocator_(std::move(p)) {
+//     m_tensor_.set_shape(sm2shape(sm, m_tensor_.trange()));
+//     m_tensor_.truncate();
+// }
+
 template<typename VariantType>
 TENSOR_WRAPPER::TensorWrapper(const TensorWrapper& other) :
   m_tensor_(other.m_tensor_),

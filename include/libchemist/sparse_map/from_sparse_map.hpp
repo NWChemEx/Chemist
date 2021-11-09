@@ -2,7 +2,6 @@
 #include "libchemist/sparse_map/index.hpp"
 #include "libchemist/sparse_map/sparse_map/sparse_map.hpp"
 #include "libchemist/ta_helpers/get_block_idx.hpp"
-#include "libchemist/types.hpp"
 #include <algorithm>
 #include <iterator>
 

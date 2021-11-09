@@ -1,4 +1,5 @@
 #pragma once
+#include "libchemist/sparse_map/sparse_map.hpp"
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include "libchemist/tensor/allocators/allocators.hpp"
 #include "libchemist/tensor/detail_/labeled_tensor_wrapper.hpp"
@@ -79,6 +80,8 @@ public:
     /// Type of a read-only reference to a type-erased allocator
     using const_allocator_reference = const allocator_type&;
 
+    using sparse_map_type = sparse_map::SparseMapEE;
+
     /** @brief Default CTor
      *
      *  The TensorWrapper resulting from this ctor wraps no tensor, and has no
@@ -151,6 +154,16 @@ public:
              typename = eif_has_type<std::decay_t<TensorType>>>
     explicit TensorWrapper(TensorType&& t,
                            allocator_ptr p = default_allocator<variant_type>());
+
+    /** @brief Creates a TensorWrapper with a shape determined by the provided
+     *         sparse map.
+     *
+     *  This ctor is used to set the shape of a TensorWrapper which will hold
+     *  the result of th
+     */
+    // explicit TensorWrapper(const sparse_map_type& sm,
+    //                        allocator_ptr p =
+    //                        default_allocator<variant_type>());
 
     /** @brief Makes a copy of another TensorWrapper
      *
