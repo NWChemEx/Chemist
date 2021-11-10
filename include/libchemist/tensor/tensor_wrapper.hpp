@@ -1,4 +1,5 @@
 #pragma once
+#include "libchemist/sparse_map/sparse_map.hpp"
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include "libchemist/tensor/allocators/allocators.hpp"
 #include "libchemist/tensor/detail_/labeled_tensor_wrapper.hpp"
@@ -79,6 +80,8 @@ public:
     /// Type of a read-only reference to a type-erased allocator
     using const_allocator_reference = const allocator_type&;
 
+    using sparse_map_type = sparse_map::SparseMapEE;
+
     /** @brief Default CTor
      *
      *  The TensorWrapper resulting from this ctor wraps no tensor, and has no
@@ -154,63 +157,72 @@ public:
 
     /** @brief Makes a copy of another TensorWrapper
      *
-     *  The exact semantics of the copy ctor are defined by the copy semantics
-     *  of the wrapped tensor. The allocator however; will be deep-copied.
+     *  The exact semantics of the copy ctor are defined by the
+     * copy semantics of the wrapped tensor. The allocator
+     * however; will be deep-copied.
      *
      *  @param[in] other The instance we are copying.
      *
      */
     TensorWrapper(const TensorWrapper& other);
 
-    /** @brief Takes ownership of another TensorWrapper instance.
+    /** @brief Takes ownership of another TensorWrapper
+     * instance.
      *
-     *  The exact semantics of the move ctor are defined by the move semantics
-     *  of the wrapped tensor. Ownership of the allocator in @p other will be
-     *  transferred to this instance.
+     *  The exact semantics of the move ctor are defined by the
+     * move semantics of the wrapped tensor. Ownership of the
+     * allocator in @p other will be transferred to this
+     * instance.
      *
-     *  @param[in,out] other The TensorWrapper we are transferring the state
-     *                       from. After this operation the state of @p other
-     *                       will in a valid, but otherwise undefined state.
+     *  @param[in,out] other The TensorWrapper we are
+     * transferring the state from. After this operation the
+     * state of @p other will in a valid, but otherwise
+     * undefined state.
      */
     TensorWrapper(TensorWrapper&& other);
 
-    /** @brief Assigns a copy of another TensorWrapper to this instance.
+    /** @brief Assigns a copy of another TensorWrapper to this
+     * instance.
      *
-     *  This operation will overwrite the current TensorWrapper's state with a
-     *  copy of @p rhs 's state. The exact semantics of the copy will depend on
-     *  copy assignment operator of the wrapped tensor in @p rhs. The allocator
-     *  in @p rhs will be deep copied.
+     *  This operation will overwrite the current
+     * TensorWrapper's state with a copy of @p rhs 's state.
+     * The exact semantics of the copy will depend on copy
+     * assignment operator of the wrapped tensor in @p rhs. The
+     * allocator in @p rhs will be deep copied.
      *
-     *  @param[in] rhs The TensorWrapper instance we are copying the state
-     *                 from.
+     *  @param[in] rhs The TensorWrapper instance we are
+     * copying the state from.
      *
-     *  @return The current TensorWrapper instance after overwriting its state
-     *          with a copy of @p rhs's state.
+     *  @return The current TensorWrapper instance after
+     * overwriting its state with a copy of @p rhs's state.
      */
     TensorWrapper& operator=(const TensorWrapper& rhs);
 
-    /** @brief Takes ownership of another TensorWrapper instance's state.
+    /** @brief Takes ownership of another TensorWrapper
+     * instance's state.
      *
-     *  This operation will overwrite the current TensorWrapper instance's state
-     *  with the state of @p rhs. The exact semantics of the move assignment
-     *  will depend on the move assignment semantics of the wrapped tensor. The
-     *  ownership of the allocator in @p rhs will be transferred to this
-     *  instance.
+     *  This operation will overwrite the current TensorWrapper
+     * instance's state with the state of @p rhs. The exact
+     * semantics of the move assignment will depend on the move
+     * assignment semantics of the wrapped tensor. The
+     *  ownership of the allocator in @p rhs will be
+     * transferred to this instance.
      *
-     *  @param[in,out] rhs The TensorWrapper instance we are transferring the
-     *                     state from. After this operation @p rhs will be in a
-     *                     valid, but otherwise undefined state.
+     *  @param[in,out] rhs The TensorWrapper instance we are
+     * transferring the state from. After this operation @p rhs
+     * will be in a valid, but otherwise undefined state.
      *
-     * @return The current TensorWrapper instance after overwriting its state
-     *         with @p rhs's state.
+     * @return The current TensorWrapper instance after
+     * overwriting its state with @p rhs's state.
      */
     TensorWrapper& operator=(TensorWrapper&& rhs);
 
     /** @brief Returns the allocator in a read-only state.
      *
-     *  This function can be used to retrieve the allocator that the
-     *  TensorWrapper was initialized with. If the instance does not have an
-     *  allocator an error will be thrown.
+     *  This function can be used to retrieve the allocator
+     * that the TensorWrapper was initialized with. If the
+     * instance does not have an allocator an error will be
+     * thrown.
      *
      *  @return The allocator used for the tensor.
      *
@@ -218,75 +230,103 @@ public:
      */
     const_allocator_reference allocator() const;
 
-    /** @brief Annotates the modes of the wrapped index with the provided
-     *         labels.
+    /** @brief Changes the allocator, reallocating the tensor
+     * (in place) if needed.
      *
-     *  The domain-specific language of tensor operations is written in terms of
-     *  Einstein notation. This requires us to assign dummy indices to each mode
-     *  of the tensor. This function pairs @p annotation with the wrapped tensor
-     *  to provide a labeled tensor. The resulting labeled tensor can be used in
-     *  tensor expressions.
+     *  Under most circumstances users of the TensorWrapper
+     * class shouldn't have to call this function. This
+     * function is mainly used under the hood when a
+     * reallocation needs to happen to make tensors compatible.
+     * It has public scope because it's useful for unit testing
+     * the effect different allocation strategies have. This
+     * operation is in place, and may mutate the underlying
+     * data (e.g., smaller tiles may result in small elements
+     *  being set to hard zero) in addition to moving the data
+     * around in memory.
      *
-     *  @param[in] annotation The dummy indices we are annotating the underlying
-     *                        tensor with.
+     *  @param[in] p The new allocator for the tensor.
+     */
+    void reallocate(allocator_ptr p);
+
+    /** @brief Annotates the modes of the wrapped index with
+     * the provided labels.
+     *
+     *  The domain-specific language of tensor operations is
+     * written in terms of Einstein notation. This requires us
+     * to assign dummy indices to each mode of the tensor. This
+     * function pairs @p annotation with the wrapped tensor to
+     * provide a labeled tensor. The resulting labeled tensor
+     * can be used in tensor expressions.
+     *
+     *  @param[in] annotation The dummy indices we are
+     * annotating the underlying tensor with.
      *
      *  @return A labeled read/write tensor.
      */
     auto operator()(const annotation_type& annotation);
 
-    /** @brief Annotates the modes of the wrapped index with the provided
-     *         labels.
+    /** @brief Annotates the modes of the wrapped index with
+     * the provided labels.
      *
-     *  The domain-specific language of tensor operations is written in terms of
-     *  Einstein notation. This requires us to assign dummy indices to each mode
-     *  of the tensor. This function pairs @p annotation with the wrapped tensor
-     *  to provide a labeled tensor. The resulting labeled tensor can be used in
-     *  tensor expressions.
+     *  The domain-specific language of tensor operations is
+     * written in terms of Einstein notation. This requires us
+     * to assign dummy indices to each mode of the tensor. This
+     * function pairs @p annotation with the wrapped tensor to
+     * provide a labeled tensor. The resulting labeled tensor
+     * can be used in tensor expressions.
      *
-     *  @param[in] annotation The dummy indices we are annotating the underlying
-     *                        tensor with.
+     *  @param[in] annotation The dummy indices we are
+     * annotating the underlying tensor with.
      *
      *  @return A labeled read-only tensor.
      */
     auto operator()(const annotation_type& annotation) const;
 
-    /** @brief Creates an annotation suitable for the wrapped tensor.
+    /** @brief Creates an annotation suitable for the wrapped
+     * tensor.
      *
-     *  For a rank @f$r@f$ tensor this function will create a string containing
-     *  @f$r@f$ indices. The @f$i@f$-th 0-based mode's index will be the result
-     *  of concatentating @p letter with @f$i@f$. For example, using the default
-     *  value of @p letter this function will generate the annotation
-     *  `"i0,i1,i2"` for a rank 3 tensor. If the wrapped tensor is a
-     *  tensor-of-tensors, this function will insert a semicolon where
-     *  appropriate.
+     *  For a rank @f$r@f$ tensor this function will create a
+     * string containing
+     *  @f$r@f$ indices. The @f$i@f$-th 0-based mode's index
+     * will be the result of concatentating @p letter with
+     * @f$i@f$. For example, using the default value of @p
+     * letter this function will generate the annotation
+     *  `"i0,i1,i2"` for a rank 3 tensor. If the wrapped tensor
+     * is a tensor-of-tensors, this function will insert a
+     * semicolon where appropriate.
      *
-     *  This function is meant to be used to perform generic operations on the
-     *  tensors by string replacement. For example:
+     *  This function is meant to be used to perform generic
+     * operations on the tensors by string replacement. For
+     * example:
      *
      *  @code
      *  auto idx0 = t0.make_annotation();
      *  auto idx1 = t1.make_annotation("j");
-     *  // To contract mode 1 of t0 with mode 3 of t1 we replace "j3" with "i1"
-     *  auto new_idx1 = std::regex_replace(idx1, std::regex("j3"), "i1");
-     *  // In practice we would work out the resulting annotation too
-     *  auto mult_op = t0(idx0) * t1(idx1);
+     *  // To contract mode 1 of t0 with mode 3 of t1 we
+     * replace "j3" with "i1" auto new_idx1 =
+     * std::regex_replace(idx1, std::regex("j3"), "i1");
+     *  // In practice we would work out the resulting
+     * annotation too auto mult_op = t0(idx0) * t1(idx1);
      *  @endcode
      *
-     *  @param[in] letter The label part of the index. This is what will be
-     *                    concatenated with the mode number to get the final
-     *                    annotation for each mode. Default is `"i"`.
+     *  @param[in] letter The label part of the index. This is
+     * what will be concatenated with the mode number to get
+     * the final annotation for each mode. Default is `"i"`.
      *
-     *  @return A string containing an annotation which is appropriate for the
-     *          tensor.
+     *  @return A string containing an annotation which is
+     * appropriate for the tensor.
      */
     auto make_annotation(const annotation_type& letter = "i") const;
 
-    /** @brief Returns the number of modes in the wrapped tensor.
+    /** @brief Returns the number of modes in the wrapped
+     * tensor.
      *
-     *  For a normal, non-hierarchical tensor the rank is simply the number of
-     *  modes in the tensor. For a hierarchical tensor the rank is still the
-     *  number of modes in the tensor, but it should be noted that this is the
-     *  sum of the number of independent and dependent modes.
+     *  For a normal, non-hierarchical tensor the rank is
+     * simply the number of modes in the tensor. For a
+     * hierarchical tensor the rank is still the number of
+     * modes in the tensor, but it should be noted that this is
+     * the sum of the number of independent and dependent
+     * modes.
      *
      *  @return The number of modes in the tensor.
      */
@@ -294,19 +334,22 @@ public:
 
     /** @brief Returns the shape of the tensor.
      *
-     *  The shape of a rank @f$r@f$ tensor, also known as its extents, is a
-     *  @f$r@f$ element array such that the @f$i@f$-th element is the length of
-     *  the @f$i@f-th mode.
+     *  The shape of a rank @f$r@f$ tensor, also known as its
+     * extents, is a
+     *  @f$r@f$ element array such that the @f$i@f$-th element
+     * is the length of the @f$i@f-th mode.
      *
-     *  @return An array-like object containing the shape of the tensor.
+     *  @return An array-like object containing the shape of
+     * the tensor.
      */
     auto extents() const;
 
     /** @brief Returns the number of elements in this tensor.
      *
-     *  This function returns the total number of elements in the tensor, which
-     *  is sometimes also known as the volume. The volume is computed as the
-     *  product of the extents. An empty tensor has a volume of zero.
+     *  This function returns the total number of elements in
+     * the tensor, which is sometimes also known as the volume.
+     * The volume is computed as the product of the extents. An
+     * empty tensor has a volume of zero.
      *
      *  @return The number of elements in the wrapped tensor.
      */
@@ -314,49 +357,65 @@ public:
 
     /** @brief Returns a slice of the wrapped tensor.
      *
-     *  This function can be used to extract a slice of the underlying tensor.
-     *  The slice is assumed to contiguous along each mode, and have the same
-     *  rank as the underlying tensor. For mode `i` the slice will contain the
-     *  elements in the range [`lo[i]`, `hi[i]`).
+     *  This function can be used to extract a slice of the
+     * underlying tensor. The slice is assumed to contiguous
+     * along each mode, and have the same rank as the
+     * underlying tensor. For mode `i` the slice will contain
+     * the elements in the range [`lo[i]`, `hi[i]`).
      *
-     *  @param[in] lo The index of the first element to include in the slice.
-     *  @param[in] hi The index of the first element, which is just outside the
-     *                slice.
+     *  @param[in] lo The index of the first element to include
+     * in the slice.
+     *  @param[in] hi The index of the first element, which is
+     * just outside the slice.
+     * @param[in] p The allocator to use for the resulting slice. Default value
+     *              is the allocator returned by default_allocator().
      *
      *  @return The requested slice.
      */
-    TensorWrapper slice(const std::initializer_list<size_type>& lo,
-                        const std::initializer_list<size_type>& hi) const;
+    TensorWrapper slice(
+      const std::initializer_list<size_type>& lo,
+      const std::initializer_list<size_type>& hi,
+      allocator_ptr p = default_allocator<variant_type>()) const;
 
-    /** @brief Used to view the tensor as if it has a different shape.
+    /** @brief Used to view the tensor as if it has a different
+     * shape.
      *
-     *  This function is mainly used to flatten and un-flatten a tensor. Under
-     *  the hood this function remaps indices by:
-     *  - mapping the original coordinate index to its ordinal index
+     *  This function is mainly used to flatten and un-flatten
+     * a tensor. Under the hood this function remaps indices
+     * by:
+     *  - mapping the original coordinate index to its ordinal
+     * index
      *  - mapping the ordinal index to the new coordinate index
      *  The data is then redistributed, if needed.
      *
-     *  @param[in] shape The shape of the resulting tensor. The volume of
-     *                   @p shape must match the result of `size()`.
+     *  @param[in] shape The shape of the resulting tensor. The
+     * volume of
+     *                   @p shape must match the result of
+     * `size()`.
      *
-     *  @return A copy of the current tensor with the new shape.
+     *  @return A copy of the current tensor with the new
+     * shape.
      *
-     *  @throw std::runtime_error if @p shape does not have the same volume as
-     *                            the wrapped tensor. Strong throw guarantee.
+     *  @throw std::runtime_error if @p shape does not have the
+     * same volume as the wrapped tensor. Strong throw
+     * guarantee.
      */
     TensorWrapper reshape(const std::initializer_list<size_type>& shape) const;
 
     /** @brief Used to get the wrapped tensor back.
      *
-     *  This function should really only be called by the creator of the tensor
-     *  instance as they are the only ones who know what type they wrapped. In
-     *  practice it is also possible for a function to loop over the types in
-     *  the variant to figure out which type is in the wrapper; however, needing
-     *  to do this (versus going through the tensor-generic API of the
-     *  TensorWrapper class) suggests that your function may be better off being
-     *  specialized for a particular tensor type.
+     *  This function should really only be called by the
+     * creator of the tensor instance as they are the only ones
+     * who know what type they wrapped. In practice it is also
+     * possible for a function to loop over the types in the
+     * variant to figure out which type is in the wrapper;
+     * however, needing to do this (versus going through the
+     * tensor-generic API of the TensorWrapper class) suggests
+     * that your function may be better off being specialized
+     * for a particular tensor type.
      *
-     *  @tparam TensorType The cv-qualified type of the tensor to retrieve.
+     *  @tparam TensorType The cv-qualified type of the tensor
+     * to retrieve.
      *
      *  @return A read/write reference to the wrapped tensor.
      */
@@ -367,15 +426,18 @@ public:
 
     /** @brief Used to get the wrapped tensor back.
      *
-     *  This function should really only be called by the creator of the tensor
-     *  instance as they are the only ones who know what type they wrapped. In
-     *  practice it is also possible for a function to loop over the types in
-     *  the variant to figure out which type is in the wrapper; however, needing
-     *  to do this (versus going through the tensor-generic API of the
-     *  TensorWrapper class) suggests that your function may be better off being
-     *  specialized for a particular tensor type.
+     *  This function should really only be called by the
+     * creator of the tensor instance as they are the only ones
+     * who know what type they wrapped. In practice it is also
+     * possible for a function to loop over the types in the
+     * variant to figure out which type is in the wrapper;
+     * however, needing to do this (versus going through the
+     * tensor-generic API of the TensorWrapper class) suggests
+     * that your function may be better off being specialized
+     * for a particular tensor type.
      *
-     *  @tparam TensorType The cv-qualified type of the tensor to retrieve.
+     *  @tparam TensorType The cv-qualified type of the tensor
+     * to retrieve.
      *
      *  @return A read-only reference to the wrapped tensor.
      */
@@ -384,34 +446,39 @@ public:
         return std::get<TensorType>(m_tensor_);
     }
 
-    /** @brief Adds a string representation of the wrapped tensor to the
-     *         provided stream.
+    /** @brief Adds a string representation of the wrapped
+     * tensor to the provided stream.
      *
-     *  @param[in,out] os The stream we adding the string representation of the
-     *                    tensor to. After the call @p os will contain the
-     *                    string representation of the wrapped tensor instance.
+     *  @param[in,out] os The stream we adding the string
+     * representation of the tensor to. After the call @p os
+     * will contain the string representation of the wrapped
+     * tensor instance.
      *
-     *  @return This function returns @p os to facilitate operator chaining.
+     *  @return This function returns @p os to facilitate
+     * operator chaining.
      */
     std::ostream& print(std::ostream& os) const;
 
-    /** @brief Adds the hash of the wrapped tensor to the provided Hasher.
+    /** @brief Adds the hash of the wrapped tensor to the
+     * provided Hasher.
      *
-     *  @param[in] h The hasher we are adding the wrapped tensor to.
+     *  @param[in] h The hasher we are adding the wrapped
+     * tensor to.
      */
     void hash(pluginplay::Hasher& h) const;
 
-    /** @brief Determines if two TensorWrappers wrap identical tensors.
+    /** @brief Determines if two TensorWrappers wrap identical
+     * tensors.
      *
-     *  This comparison determines if the two wrapped tensors are identical
-     *  elementwise.
+     *  This comparison determines if the two wrapped tensors
+     * are identical elementwise.
      *
      *  @tparam RHSType the type of the variant used by @p rhs.
      *
      *  @param[in] rhs The wrapped tensor we are comparing to.
      *
-     *  @return True if the wrapped tensor compares equal to @p rhs and false
-     *          otherwise.
+     *  @return True if the wrapped tensor compares equal to @p
+     * rhs and false otherwise.
      */
     template<typename RHSType>
     bool operator==(const TensorWrapper<RHSType>& rhs) const;
@@ -424,9 +491,10 @@ protected:
 
     /** @brief Returns the wrapped variant.
      *
-     *  This function is used by LabeledTensorWrapper to get the variant. In
-     *  general users of the TensorWrapper class shouldn't be working with the
-     *  variant, which is why the function is not part of the public API.
+     *  This function is used by LabeledTensorWrapper to get
+     * the variant. In general users of the TensorWrapper class
+     * shouldn't be working with the variant, which is why the
+     * function is not part of the public API.
      *
      *  @return A modifiable reference to the wrapped variant.
      *
@@ -436,9 +504,10 @@ protected:
 
     /** @brief Returns the wrapped variant.
      *
-     *  This function is used by LabeledTensorWrapper to get the variant. In
-     *  general users of the TensorWrapper class shouldn't be working with the
-     *  variant, which is why the function is not part of the public API.
+     *  This function is used by LabeledTensorWrapper to get
+     * the variant. In general users of the TensorWrapper class
+     * shouldn't be working with the variant, which is why the
+     * function is not part of the public API.
      *
      *  @return A read-only reference to the wrapped variant.
      *
@@ -447,22 +516,26 @@ protected:
     const variant_type& variant() const { return m_tensor_; }
 
 private:
-    /** @brief Determines if we're wrapping a Tensor-of-tensors or not.
+    /** @brief Determines if we're wrapping a Tensor-of-tensors
+     * or not.
      *
-     *  Users of TensorWrapper should be using it in a manner that is agnostic
-     *  of what it is wrapping. That's why this function is private. Internally,
-     *  we have to diverge a little to treat ToTs vs. normal tensors. This
-     *  function is used to determine which scenario we presently have.
+     *  Users of TensorWrapper should be using it in a manner
+     * that is agnostic of what it is wrapping. That's why this
+     * function is private. Internally, we have to diverge a
+     * little to treat ToTs vs. normal tensors. This function
+     * is used to determine which scenario we presently have.
      *
-     *  @return True if we are wrapping a ToT and false otherwise.
+     *  @return True if we are wrapping a ToT and false
+     * otherwise.
      *  @throw None No throw guarantee.
      */
     bool is_tot_() const noexcept;
 
     /** @brief Returns the outer rank of the tensor.
      *
-     *  For a normal non-hierarchical tensor all modes are "outer" modes. For a
-     *  ToT the modes to the left of the semi-colon are outer modes.
+     *  For a normal non-hierarchical tensor all modes are
+     * "outer" modes. For a ToT the modes to the left of the
+     * semi-colon are outer modes.
      *
      *  @return The number of outer modes.
      *
@@ -472,8 +545,9 @@ private:
 
     /** @brief Returns the inner rank of the tensor.
      *
-     *  For a normal non-hierarchical tensor there are zero inner modes. For a
-     *  ToT the modes to the right of the semi-colon are inner modes.
+     *  For a normal non-hierarchical tensor there are zero
+     * inner modes. For a ToT the modes to the right of the
+     * semi-colon are inner modes.
      *
      *  @return The number of inner modes.
      */
