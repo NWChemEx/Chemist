@@ -272,8 +272,7 @@ private:
      *
      *  @param[in] rhs The allocator to compare to.
      *
-     *  @return True if the current instance polymorphically compares equal to
-     *          @p rhs and false otherwise.
+     *  @return True if the current instance polymorphically
      *
      *  @throw None The derived class is responsible for making sure the
      *              comparison is done in a no-throw manner.
