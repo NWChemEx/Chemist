@@ -112,9 +112,9 @@ auto TENSOR_WRAPPER::extents() const {
 }
 
 template<typename VariantType>
-TENSOR_WRAPPER TENSOR_WRAPPER::slice(
-  const std::initializer_list<size_t>& lo,
-  const std::initializer_list<size_t>& hi) const {
+TENSOR_WRAPPER TENSOR_WRAPPER::slice(const std::initializer_list<size_t>& lo,
+                                     const std::initializer_list<size_t>& hi,
+                                     allocator_ptr p) const {
     sparse_map::ElementIndex low(lo), high(hi);
     auto l = [=](auto&& arg) {
         using clean_t         = std::decay_t<decltype(arg)>;
@@ -127,8 +127,8 @@ TENSOR_WRAPPER TENSOR_WRAPPER::slice(
         }
         return rv;
     };
-
-    return TENSOR_WRAPPER(std::visit(l, m_tensor_));
+    // This will create the slice with the default allocator
+    return TENSOR_WRAPPER(std::visit(l, m_tensor_), std::move(p));
 }
 
 template<typename VariantType>

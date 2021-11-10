@@ -367,11 +367,15 @@ public:
      * in the slice.
      *  @param[in] hi The index of the first element, which is
      * just outside the slice.
+     * @param[in] p The allocator to use for the resulting slice. Default value
+     *              is the allocator returned by default_allocator().
      *
      *  @return The requested slice.
      */
-    TensorWrapper slice(const std::initializer_list<size_type>& lo,
-                        const std::initializer_list<size_type>& hi) const;
+    TensorWrapper slice(
+      const std::initializer_list<size_type>& lo,
+      const std::initializer_list<size_type>& hi,
+      allocator_ptr p = default_allocator<variant_type>()) const;
 
     /** @brief Used to view the tensor as if it has a different
      * shape.

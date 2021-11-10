@@ -207,6 +207,12 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
             auto slice = t3.slice({0ul, 0ul, 1ul}, {2ul, 2ul, 2ul});
             REQUIRE(slice == corr);
         }
+        SECTION("Different allocator") {
+            auto p = std::make_unique<other_alloc>(world);
+            TWrapper corr(t_type(world, vector_il{1.0, 2.0}), p->clone());
+            auto slice = vec.slice({0ul}, {2ul}, std::move(p));
+            REQUIRE(slice == corr);
+        }
     }
 
     SECTION("reshape()") {
@@ -307,6 +313,21 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
             REQUIRE_FALSE(vec == mat);
             REQUIRE(vec != mat);
         }
+    }
+
+    /* This bug was found by Jonathan Waldrop. What was happening was that if
+       you default constructed a TensorWrapper instance A, A has no allocator.
+       When you then assigned to A (from a filled instance B), A got the values
+       of B, but no allocator. When you then performed an operation which
+       requires usage of the allocator in A (such as slicing, which used to
+       clone A's allocator and give it to the slice) you got a segfault.
+     */
+    SECTION("Slicing after default construction") {
+        TWrapper A;
+        A("i,j")        = mat("i,j");
+        auto slice_of_A = A.slice({0ul, 1ul}, {1ul, 2ul});
+        TWrapper corr(t_type(world, matrix_il{vector_il{2.0}}));
+        REQUIRE(slice_of_A == corr);
     }
 }
 
