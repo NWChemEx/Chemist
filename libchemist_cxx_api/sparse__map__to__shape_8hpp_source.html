@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libchemist: Class Members - Functions</title>
+<title>libchemist: include/libchemist/tensor/detail_/sparse_map_to_shape.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -46,7 +46,6 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
-</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -61,31 +60,30 @@ $(function() {
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_a8962c7688edb58b4fca0817d183b0f7.html">libchemist</a></li><li class="navelem"><a class="el" href="dir_79816c341ac09c9e4edbf591fdb65c6e.html">tensor</a></li><li class="navelem"><a class="el" href="dir_f1ee5c1c524042b957790f9c474eeb2a.html">detail_</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">sparse_map_to_shape.hpp</div>  </div>
+</div><!--header-->
 <div class="contents">
-&#160;
-
-<h3><a id="index_r"></a>- r -</h3><ul>
-<li>rank()
-: <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainBase.html#a9c1c148cce493b191a5bd25a760ed62f">libchemist::sparse_map::detail_::DomainBase&lt; DerivedType, IndexType &gt;</a>
-, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#aab30fc790b457c782e9810a293f19591">libchemist::sparse_map::detail_::DomainPIMPL&lt; IndexType &gt;</a>
-, <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html#af61315c4b78c67007bffe2d0af01e962">libchemist::tensor::TensorWrapper&lt; VariantType &gt;</a>
-</li>
-<li>reallocate()
-: <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html#a00a7a64d555d6286431eb1a39c828681">libchemist::tensor::TensorWrapper&lt; VariantType &gt;</a>
-</li>
-<li>reference_wavefunction()
-: <a class="el" href="classlibchemist_1_1wavefunction_1_1ManyBody.html#a96ba9140bbb7420552087504b4e0e6b7">libchemist::wavefunction::ManyBody&lt; ReferenceType, TensorType &gt;</a>
-</li>
-<li>result_extents()
-: <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainBase.html#a09ff5ec0e4415a4cec9e969d2cbc846b">libchemist::sparse_map::detail_::DomainBase&lt; DerivedType, IndexType &gt;</a>
-, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#abf94d90f535ae6f98ddff4751e79af35">libchemist::sparse_map::detail_::DomainPIMPL&lt; IndexType &gt;</a>
-</li>
-<li>result_index()
-: <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainBase.html#af506ab392223a10a75d144eb25968c06">libchemist::sparse_map::detail_::DomainBase&lt; DerivedType, IndexType &gt;</a>
-, <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a4b1a931265f67ed81799de84cabc06d1">libchemist::sparse_map::detail_::DomainPIMPL&lt; IndexType &gt;</a>
-</li>
-</ul>
-</div><!-- contents -->
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;libchemist/sparse_map/sparse_map.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;tiledarray.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>libchemist::tensor::detail_ {</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using</span> idx2mode_type = std::vector&lt;std::size_t&gt;;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;TA::SparseShape&lt;double&gt; sparse_map_to_shape(<span class="keyword">const</span> sparse_map::SparseMapEE&amp; sm,</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                                            <span class="keyword">const</span> idx2mode_type&amp; idx2mode,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                                            <span class="keyword">const</span> TA::TiledRange&amp; tr);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;} <span class="comment">// namespace libchemist::tensor::detail_</span></div>
+</div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

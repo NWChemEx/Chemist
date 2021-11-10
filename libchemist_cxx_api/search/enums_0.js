@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gaugetype_1213',['GaugeType',['../namespacelibchemist.html#aa3acbb53b4cc969a0895476bb792f49c',1,'libchemist']]]
+  ['gaugetype_1215',['GaugeType',['../namespacelibchemist.html#aa3acbb53b4cc969a0895476bb792f49c',1,'libchemist']]]
 ];

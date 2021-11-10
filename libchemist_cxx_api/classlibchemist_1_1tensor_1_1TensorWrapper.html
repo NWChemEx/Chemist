@@ -122,6 +122,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html#a1d2143bc33c7c6c7890e65af7b8cb59f">const_allocator_reference</a> = const <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html#a58e28b189f749447a3910a952dddfc28">allocator_type</a> &amp;</td></tr>
 <tr class="memdesc:a1d2143bc33c7c6c7890e65af7b8cb59f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to a type-erased allocator. <br /></td></tr>
 <tr class="separator:a1d2143bc33c7c6c7890e65af7b8cb59f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf6b9146abb4be7cbc853ee865f4cb58"><td class="memItemLeft" align="right" valign="top"><a id="aaf6b9146abb4be7cbc853ee865f4cb58"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>sparse_map_type</b> = <a class="el" href="classlibchemist_1_1sparse__map_1_1SparseMap_3_01ElementIndex_00_01ElementIndex_01_4.html">sparse_map::SparseMapEE</a></td></tr>
+<tr class="separator:aaf6b9146abb4be7cbc853ee865f4cb58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -153,6 +156,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a096671fb5f0ab142f9248c7d3e75baa9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html#a1d2143bc33c7c6c7890e65af7b8cb59f">const_allocator_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html#a096671fb5f0ab142f9248c7d3e75baa9">allocator</a> () const</td></tr>
 <tr class="memdesc:a096671fb5f0ab142f9248c7d3e75baa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the allocator in a read-only state.  <a href="classlibchemist_1_1tensor_1_1TensorWrapper.html#a096671fb5f0ab142f9248c7d3e75baa9">More...</a><br /></td></tr>
 <tr class="separator:a096671fb5f0ab142f9248c7d3e75baa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00a7a64d555d6286431eb1a39c828681"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html#a00a7a64d555d6286431eb1a39c828681">reallocate</a> (<a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html#a82e94ac4e7a758132e7f2f837b027e55">allocator_ptr</a> p)</td></tr>
+<tr class="memdesc:a00a7a64d555d6286431eb1a39c828681"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the allocator, reallocating the tensor (in place) if needed.  <a href="classlibchemist_1_1tensor_1_1TensorWrapper.html#a00a7a64d555d6286431eb1a39c828681">More...</a><br /></td></tr>
+<tr class="separator:a00a7a64d555d6286431eb1a39c828681"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15ae3c8c388c1e59540e3c32b44731d7"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html#a15ae3c8c388c1e59540e3c32b44731d7">operator()</a> (const <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html#aceb08913e9cb2249210ff0ce84830213">annotation_type</a> &amp;annotation)</td></tr>
 <tr class="memdesc:a15ae3c8c388c1e59540e3c32b44731d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Annotates the modes of the wrapped index with the provided labels.  <a href="classlibchemist_1_1tensor_1_1TensorWrapper.html#a15ae3c8c388c1e59540e3c32b44731d7">More...</a><br /></td></tr>
 <tr class="separator:a15ae3c8c388c1e59540e3c32b44731d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -492,12 +498,13 @@ template&lt;typename VariantType &gt; </div>
 <p>Creates an annotation suitable for the wrapped tensor. </p>
 <p>For a rank <img class="formulaInl" alt="$r$" src="form_14.png"/> tensor this function will create a string containing <img class="formulaInl" alt="$r$" src="form_14.png"/> indices. The <img class="formulaInl" alt="$i$" src="form_12.png"/>-th 0-based mode's index will be the result of concatentating <code>letter</code> with <img class="formulaInl" alt="$i$" src="form_12.png"/>. For example, using the default value of <code>letter</code> this function will generate the annotation <code>"i0,i1,i2"</code> for a rank 3 tensor. If the wrapped tensor is a tensor-of-tensors, this function will insert a semicolon where appropriate.</p>
 <p>This function is meant to be used to perform generic operations on the tensors by string replacement. For example:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> idx0 = t0.make_annotation();</div>
-<div class="line"><span class="keyword">auto</span> idx1 = t1.make_annotation(<span class="stringliteral">&quot;j&quot;</span>);</div>
-<div class="line"><span class="comment">// To contract mode 1 of t0 with mode 3 of t1 we replace &quot;j3&quot; with &quot;i1&quot;</span></div>
-<div class="line"><span class="keyword">auto</span> new_idx1 = std::regex_replace(idx1, std::regex(<span class="stringliteral">&quot;j3&quot;</span>), <span class="stringliteral">&quot;i1&quot;</span>);</div>
-<div class="line"><span class="comment">// In practice we would work out the resulting annotation too</span></div>
-<div class="line"><span class="keyword">auto</span> mult_op = t0(idx0) * t1(idx1);</div>
+<div class="fragment"><div class="line"> <span class="keyword">auto</span> idx0 = t0.make_annotation();</div>
+<div class="line"> <span class="keyword">auto</span> idx1 = t1.make_annotation(<span class="stringliteral">&quot;j&quot;</span>);</div>
+<div class="line"> <span class="comment">// To contract mode 1 of t0 with mode 3 of t1 we</span></div>
+<div class="line">replace <span class="stringliteral">&quot;j3&quot;</span> with <span class="stringliteral">&quot;i1&quot;</span> <span class="keyword">auto</span> new_idx1 =</div>
+<div class="line">std::regex_replace(idx1, std::regex(<span class="stringliteral">&quot;j3&quot;</span>), <span class="stringliteral">&quot;i1&quot;</span>);</div>
+<div class="line"> <span class="comment">// In practice we would work out the resulting</span></div>
+<div class="line">annotation too <span class="keyword">auto</span> mult_op = t0(idx0) * t1(idx1);</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">letter</td><td>The label part of the index. This is what will be concatenated with the mode number to get the final annotation for each mode. Default is <code>"i"</code>.</td></tr>
@@ -648,6 +655,35 @@ template&lt;typename VariantType &gt; </div>
 <p>Returns the number of modes in the wrapped tensor. </p>
 <p>For a normal, non-hierarchical tensor the rank is simply the number of modes in the tensor. For a hierarchical tensor the rank is still the number of modes in the tensor, but it should be noted that this is the sum of the number of independent and dependent modes.</p>
 <dl class="section return"><dt>Returns</dt><dd>The number of modes in the tensor. </dd></dl>
+
+</div>
+</div>
+<a id="a00a7a64d555d6286431eb1a39c828681"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00a7a64d555d6286431eb1a39c828681">&#9670;&nbsp;</a></span>reallocate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename VariantType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html">libchemist::tensor::TensorWrapper</a>&lt; VariantType &gt;::reallocate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html#a82e94ac4e7a758132e7f2f837b027e55">allocator_ptr</a>&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Changes the allocator, reallocating the tensor (in place) if needed. </p>
+<p>Under most circumstances users of the <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html" title="Fundamental type for wrapping tensors.">TensorWrapper</a> class shouldn't have to call this function. This function is mainly used under the hood when a reallocation needs to happen to make tensors compatible. It has public scope because it's useful for unit testing the effect different allocation strategies have. This operation is in place, and may mutate the underlying data (e.g., smaller tiles may result in small elements being set to hard zero) in addition to moving the data around in memory.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>The new allocator for the tensor. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

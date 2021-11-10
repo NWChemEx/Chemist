@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['reducer_709',['Reducer',['../classlibchemist_1_1ta__helpers_1_1detail___1_1Reducer.html',1,'libchemist::ta_helpers::detail_']]]
+  ['reducer_710',['Reducer',['../classlibchemist_1_1ta__helpers_1_1detail___1_1Reducer.html',1,'libchemist::ta_helpers::detail_']]]
 ];
