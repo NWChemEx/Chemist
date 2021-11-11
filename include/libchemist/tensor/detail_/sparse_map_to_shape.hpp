@@ -35,8 +35,8 @@ using idx2mode_type = std::vector<std::size_t>;
  *  @throw std::runtime_error If any element of @p idx2mode is larger than the
  *                            rank of @p tr. Strong throw guarantee.
  */
-TA::SparseShape<double> sparse_map_to_shape(const sparse_map::SparseMapEE& sm,
-                                            const idx2mode_type& idx2mode,
-                                            const TA::TiledRange& tr);
+TA::SparseShape<float> sparse_map_to_shape(const sparse_map::SparseMapEE& sm,
+                                           const idx2mode_type& idx2mode,
+                                           const TA::TiledRange& tr);
 
 } // namespace libchemist::tensor::detail_

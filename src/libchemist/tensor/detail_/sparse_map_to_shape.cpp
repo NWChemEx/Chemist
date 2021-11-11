@@ -2,7 +2,7 @@
 
 namespace libchemist::tensor::detail_ {
 
-using shape_type      = TA::SparseShape<double>;
+using shape_type      = TA::SparseShape<float>;
 using trange_type     = TA::TiledRange;
 using sparse_map_type = libchemist::sparse_map::SparseMapEE;
 using index_type      = libchemist::sparse_map::ElementIndex;
@@ -69,11 +69,11 @@ shape_type sparse_map_to_shape(const sparse_map_type& sm,
                                const idx2mode_type& idx2mode,
                                const trange_type& tr) {
     const auto smTT = ee_to_tt(sm, idx2mode, tr);
-    TA::Tensor<double> shape_data(tr.tiles_range(), 0.0);
+    TA::Tensor<float> shape_data(tr.tiles_range(), 0.0);
     for(const auto& [ind_idx, domain] : smTT) {
         for(const auto& dep_idx : domain) {
             auto full_idx        = get_tile_index(ind_idx, dep_idx, idx2mode);
-            shape_data[full_idx] = std::numeric_limits<double>::max();
+            shape_data[full_idx] = std::numeric_limits<float>::max();
         }
     }
     return shape_type(shape_data, tr);

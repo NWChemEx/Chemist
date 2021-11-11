@@ -7,8 +7,8 @@ using namespace libchemist::tensor::detail_;
 namespace {
 
 // Code factorization for converting the correct values into a shape object
-auto il2shape(const TA::TiledRange& tr, std::initializer_list<double> il) {
-    using scalar_type = double;
+auto il2shape(const TA::TiledRange& tr, std::initializer_list<float> il) {
+    using scalar_type = float;
     using tensor_type = TA::Tensor<scalar_type>;
     using shape_type  = TA::SparseShape<scalar_type>;
 
@@ -25,7 +25,7 @@ TEST_CASE("sparse_map_to_shape") {
     using tr_type         = TA::TiledRange;
 
     auto [i0, i1, i2, i3, i4] = testing::make_indices<index_type, 1>();
-    auto max                  = std::numeric_limits<double>::max();
+    auto max                  = std::numeric_limits<float>::max();
 
     SECTION("Matrix") {
         sparse_map_type sm{
