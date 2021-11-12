@@ -8,7 +8,6 @@ namespace libchemist::tensor {
 using TWrapper       = ScalarTensorWrapper;
 using ta_tensor_type = TA::TSpArrayD;
 
-
 std::pair<TWrapper, TWrapper> eigen_solve(const TWrapper& X) {
     using tensor_type = ta_tensor_type;
 
