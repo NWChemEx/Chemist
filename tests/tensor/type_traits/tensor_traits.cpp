@@ -5,11 +5,13 @@
 using namespace libchemist;
 using namespace libchemist::tensor;
 
-using tensor_types =
-  std::tuple<libchemist::tensor::type::detail_::tensor<double>,
-             libchemist::tensor::type::detail_::tensor<float>,
-             libchemist::tensor::type::detail_::tensor_of_tensors<double>,
-             libchemist::tensor::type::detail_::tensor_of_tensors<float>>;
+using scalar_traits = backends::TiledArrayTraits<field::Scalar>;
+using tot_traits    = backends::TiledArrayTraits<field::Tensor>;
+
+using tensor_types = std::tuple<typename scalar_traits::tensor_type<double>,
+                                typename scalar_traits::tensor_type<float>,
+                                typename tot_traits::tensor_type<double>,
+                                typename tot_traits::tensor_type<float>>;
 
 TEMPLATE_LIST_TEST_CASE("TA TensorTraits", "", tensor_types) {
     using tensor_type = TestType;

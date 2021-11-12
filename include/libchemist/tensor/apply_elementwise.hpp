@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/tensor/types.hpp"
+#include "libchemist/tensor/tensor_wrapper.hpp"
 #include <functional>
 
 namespace libchemist::tensor {
@@ -19,9 +19,8 @@ namespace libchemist::tensor {
  *         @f$i@f$-th element of the new tensor is the result of `op(input[i])`,
  *         where `input[i]` is the @f$i@f$-th element of @p input.
  */
-type::SparseTensorWrapper apply_elementwise(
-  const type::SparseTensorWrapper& input,
-  const std::function<double(double)>& fxn);
+ScalarTensorWrapper apply_elementwise(const ScalarTensorWrapper& input,
+                                      const std::function<double(double)>& fxn);
 
 /** @brief Modifies an existing tensor by applying a function elementwise to its
  *         values.
@@ -34,7 +33,7 @@ type::SparseTensorWrapper apply_elementwise(
  * @param[in] op The function to apply to each element of @p input to modify
  *               the values in-place.
  */
-void apply_elementwise_inplace(type::SparseTensorWrapper& input,
+void apply_elementwise_inplace(ScalarTensorWrapper& input,
                                const std::function<void(double&)>& fxn);
 
 } // namespace libchemist::tensor

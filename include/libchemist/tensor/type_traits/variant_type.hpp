@@ -1,4 +1,5 @@
 #pragma once
+#include "libchemist/tensor/type_traits/field_traits.hpp"
 
 namespace libchemist::tensor {
 
@@ -32,7 +33,7 @@ struct VariantType;
 template<typename T>
 struct VariantType<TensorWrapper<T>> {
     /// Typedef of the variant type in the TensorWrapper
-    using type = T;
+    using type = typename FieldTraits<T>::variant_type;
 };
 } // namespace detail_
 

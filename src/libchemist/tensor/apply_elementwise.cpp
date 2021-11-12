@@ -1,10 +1,9 @@
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include "libchemist/tensor/apply_elementwise.hpp"
-#include "libchemist/tensor/tensor_wrapper.hpp"
 
 namespace libchemist::tensor {
 
-using tensor = type::SparseTensorWrapper;
+using tensor = ScalarTensorWrapper;
 
 tensor apply_elementwise(const tensor& input,
                          const std::function<double(double)>& fxn) {

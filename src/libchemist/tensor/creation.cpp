@@ -1,12 +1,11 @@
 #include "libchemist/tensor/creation.hpp"
-#include "libchemist/tensor/tensor_wrapper.hpp"
-#include <tiledarray.h>
+#include "libchemist/ta_helpers/ta_helpers.hpp"
 
 namespace libchemist::tensor {
 
-type::SparseTensorWrapper concatenate(const type::SparseTensorWrapper& lhs,
-                                      const type::SparseTensorWrapper& rhs,
-                                      std::size_t dim) {
+ScalarTensorWrapper concatenate(const ScalarTensorWrapper& lhs,
+                                const ScalarTensorWrapper& rhs,
+                                std::size_t dim) {
     const auto& C_lhs = lhs.get<TA::TSpArrayD>();
     const auto& C_rhs = rhs.get<TA::TSpArrayD>();
     const auto rank   = C_lhs.trange().rank();
@@ -52,11 +51,12 @@ type::SparseTensorWrapper concatenate(const type::SparseTensorWrapper& lhs,
     TA::TiledRange new_tr(out_tr1.begin(), out_tr1.end());
     C_out = TA::retile(C_out, new_tr);
 
-    return type::SparseTensorWrapper(C_out);
+    return ScalarTensorWrapper(C_out);
 }
 
-type::ToTWrapper concatenate(const type::ToTWrapper& lhs,
-                             const type::ToTWrapper& rhs, std::size_t dim) {
+TensorOfTensorsWrapper concatenate(const TensorOfTensorsWrapper& lhs,
+                                   const TensorOfTensorsWrapper& rhs,
+                                   std::size_t dim) {
     throw std::runtime_error("NYI");
     // Guts of the ToT matrix concatenate copy/pasted from MP2
     //     const auto& Cocc = occ.C();
@@ -112,10 +112,10 @@ type::ToTWrapper concatenate(const type::ToTWrapper& lhs,
     //     occ.from_space());
 }
 
-type::SparseTensorWrapper grab_diagonal(const type::SparseTensorWrapper& t) {
+ScalarTensorWrapper grab_diagonal(const ScalarTensorWrapper& t) {
     const auto& t_ta = t.get<TA::TSpArrayD>();
 
-    return type::SparseTensorWrapper(ta_helpers::grab_diagonal(t_ta));
+    return ScalarTensorWrapper(ta_helpers::grab_diagonal(t_ta));
 }
 
 } // namespace libchemist::tensor

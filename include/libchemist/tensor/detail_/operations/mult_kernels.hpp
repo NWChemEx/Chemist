@@ -1,14 +1,22 @@
 #pragma once
 #include "libchemist/ta_helpers/einsum/einsum.hpp"
+#include "libchemist/tensor/fields.hpp"
 #include "libchemist/tensor/type_traits/labeled_variant.hpp"
 #include "libchemist/tensor/type_traits/variant_type.hpp"
-#include "libchemist/tensor/types.hpp"
 #include <TiledArray/expressions/contraction_helpers.h>
 #include <type_traits>
 #include <utilities/strings/string_tools.hpp>
 #include <variant>
 
-namespace libchemist::tensor::detail_ {
+namespace libchemist::tensor {
+
+template<typename FieldType>
+class TensorWrapper;
+
+using ScalarTensorWrapper    = TensorWrapper<field::Scalar>;
+using TensorOfTensorsWrapper = TensorWrapper<field::Tensor>;
+
+namespace detail_ {
 
 /** @brief  Dispatches to the correct multiplication function based on the
  *          types of the tensors in the multiplication.
@@ -36,8 +44,8 @@ struct MultKernel;
  *  simply dispatches to TA's operator*.
  */
 template<>
-struct MultKernel<type::SparseTensorWrapper, type::SparseTensorWrapper,
-                  type::SparseTensorWrapper> {
+struct MultKernel<ScalarTensorWrapper, ScalarTensorWrapper,
+                  ScalarTensorWrapper> {
 private:
     template<typename Result, typename LHS, typename RHS>
     static auto use_einsum_(Result& result, const LHS& lhs, const RHS& rhs) {
@@ -65,7 +73,7 @@ private:
 
 public:
     /// Type of the resulting tensor wrapper
-    using result_type = type::SparseTensorWrapper;
+    using result_type = ScalarTensorWrapper;
 
     /// Type of a variant containing labeled results
     using return_type = labeled_variant_t<variant_type_t<result_type>>;
@@ -126,10 +134,10 @@ public:
  *  einsum.
  */
 template<>
-struct MultKernel<type::SparseTensorWrapper, type::ToTWrapper,
-                  type::ToTWrapper> {
+struct MultKernel<ScalarTensorWrapper, TensorOfTensorsWrapper,
+                  TensorOfTensorsWrapper> {
     /// Type of the wrapped tensor resulting from the product
-    using result_type = type::SparseTensorWrapper;
+    using result_type = ScalarTensorWrapper;
 
     /// Type of the variant containing the labeled result
     using return_type = labeled_variant_t<variant_type_t<result_type>>;
@@ -187,10 +195,10 @@ struct MultKernel<type::SparseTensorWrapper, type::ToTWrapper,
  *  dispatches to TA's einsum.
  */
 template<>
-struct MultKernel<type::ToTWrapper, type::SparseTensorWrapper,
-                  type::ToTWrapper> {
+struct MultKernel<TensorOfTensorsWrapper, ScalarTensorWrapper,
+                  TensorOfTensorsWrapper> {
     /// Type of the tensor wrapper associated with the result
-    using result_type = type::ToTWrapper;
+    using result_type = TensorOfTensorsWrapper;
 
     /// Type of the labeled variant containing the result
     using return_type = labeled_variant_t<variant_type_t<result_type>>;
@@ -248,10 +256,10 @@ struct MultKernel<type::ToTWrapper, type::SparseTensorWrapper,
  *  to TA's einsum.
  */
 template<>
-struct MultKernel<type::ToTWrapper, type::ToTWrapper,
-                  type::SparseTensorWrapper> {
+struct MultKernel<TensorOfTensorsWrapper, TensorOfTensorsWrapper,
+                  ScalarTensorWrapper> {
     /// Type of the tensor wrapper associated with the result
-    using result_type = type::ToTWrapper;
+    using result_type = TensorOfTensorsWrapper;
 
     /// Type of the variant holding the labeled result
     using return_type = labeled_variant_t<variant_type_t<result_type>>;
@@ -308,9 +316,10 @@ struct MultKernel<type::ToTWrapper, type::ToTWrapper,
  *  two ToTs together, resulting in a third ToT. It dispatches to TA's einsum.
  */
 template<>
-struct MultKernel<type::ToTWrapper, type::ToTWrapper, type::ToTWrapper> {
+struct MultKernel<TensorOfTensorsWrapper, TensorOfTensorsWrapper,
+                  TensorOfTensorsWrapper> {
     /// Type of the tensor wrapper associated with the result
-    using result_type = type::ToTWrapper;
+    using result_type = TensorOfTensorsWrapper;
 
     /// Type of the variant holding the annotated result
     using return_type = labeled_variant_t<variant_type_t<result_type>>;
@@ -360,4 +369,5 @@ struct MultKernel<type::ToTWrapper, type::ToTWrapper, type::ToTWrapper> {
     }
 };
 
-} // namespace libchemist::tensor::detail_
+} // namespace detail_
+} // namespace libchemist::tensor

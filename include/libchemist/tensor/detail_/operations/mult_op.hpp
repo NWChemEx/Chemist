@@ -2,7 +2,6 @@
 #include "libchemist/tensor/detail_/op_layer.hpp"
 #include "libchemist/tensor/detail_/operations/mult_kernels.hpp"
 #include "libchemist/tensor/type_traits/type_traits.hpp"
-#include "libchemist/tensor/types.hpp"
 #include <TiledArray/expressions/contraction_helpers.h>
 
 namespace libchemist::tensor::detail_ {

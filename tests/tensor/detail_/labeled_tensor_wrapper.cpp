@@ -4,13 +4,13 @@
 using namespace libchemist::tensor;
 
 TEST_CASE("LabeledTensorWrapper") {
-    using tensor         = type::SparseTensorWrapper;
+    using tensor         = ScalarTensorWrapper;
     using labeled_tensor = detail_::LabeledTensorWrapper<tensor>;
+    using ta_tensor_type = TA::TSpArrayD;
     using vector_il      = TA::detail::vector_il<int>;
 
     auto& world = TA::get_default_world();
-    libchemist::tensor::type::detail_::tensor<double> ta_tensor(
-      world, vector_il{1, 2, 3});
+    ta_tensor_type ta_tensor(world, vector_il{1, 2, 3});
     tensor t(ta_tensor);
     labeled_tensor lt("i", t);
 

@@ -1,17 +1,16 @@
 #pragma once
-#include "libchemist/tensor/types.hpp"
+#include "libchemist/tensor/tensor_wrapper.hpp"
 
 namespace libchemist::tensor {
 
-std::pair<type::SparseTensorWrapper, type::SparseTensorWrapper> eigen_solve(
-  const type::SparseTensorWrapper& X);
+std::pair<ScalarTensorWrapper, ScalarTensorWrapper> eigen_solve(
+  const ScalarTensorWrapper& X);
 
-std::pair<type::SparseTensorWrapper, type::SparseTensorWrapper> eigen_solve(
-  const type::SparseTensorWrapper& X, const type::SparseTensorWrapper& S);
+std::pair<ScalarTensorWrapper, ScalarTensorWrapper> eigen_solve(
+  const ScalarTensorWrapper& X, const ScalarTensorWrapper& S);
 
-type::SparseTensorWrapper cholesky_linv(const type::SparseTensorWrapper& M);
+ScalarTensorWrapper cholesky_linv(const ScalarTensorWrapper& M);
 
-type::SparseTensorWrapper hmatrix_pow(const type::SparseTensorWrapper& S,
-                                      double pow);
+ScalarTensorWrapper hmatrix_pow(const ScalarTensorWrapper& S, double pow);
 
 } // namespace libchemist::tensor

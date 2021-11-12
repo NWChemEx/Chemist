@@ -10,11 +10,6 @@
 
 namespace testing {
 
-/// Type of a variant with all possible tensor types in it
-using all_tensor_variant_t = utilities::type_traits::variant::cat_t<
-  libchemist::tensor::type::tensor_variant,
-  libchemist::tensor::type::tot_variant>;
-
 /// Function which generates some dummy tensors for a given type
 template<typename TensorType>
 auto get_tensors() {

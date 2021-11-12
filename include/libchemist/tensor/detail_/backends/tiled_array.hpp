@@ -13,11 +13,12 @@
  *  the TensorWrapper library.
  */
 
-namespace libchemist::tensor::tiled_array {
+namespace libchemist::tensor::backends {
 
 template<typename T>
 struct TiledArrayTraits;
 
+template<>
 struct TiledArrayTraits<field::Scalar> {
     /// Typedef of the tile for a tensor of scalars
     template<typename T>
@@ -31,6 +32,7 @@ struct TiledArrayTraits<field::Scalar> {
     using variant_type = std::variant<tensor_type<double>>;
 };
 
+template<>
 struct TiledArrayTraits<field::Tensor> {
     /// Typedef of the tiles in a tensor-of-tensors
     template<typename T>
@@ -44,4 +46,4 @@ struct TiledArrayTraits<field::Tensor> {
     using variant_type = std::variant<tensor_type<double>>;
 };
 
-} // namespace libchemist::tensor::tiled_array
+} // namespace libchemist::tensor::backends

@@ -1,4 +1,6 @@
 #pragma once
+#include "libchemist/tensor/detail_/backends/tiled_array.hpp"
+#include "libchemist/tensor/fields.hpp"
 #include "libchemist/tensor/type_traits/nd_initializer_list_traits.hpp"
 #include <memory>
 #include <tiledarray.h>
@@ -25,7 +27,7 @@ namespace libchemist::tensor {
  *  =====================================
  *
  *  To create a new Allocator specialization of type U:
- *  1. Derive a class from Allocator<VariantType>. Depending on the details of
+ *  1. Derive a class from Allocator<FieldType>. Depending on the details of
  *     your class it may make senese for you class to also be templated on the
  *     variant type.
  *  2. Implement `clone_()`. In most cases this implementation is just:
@@ -37,7 +39,7 @@ namespace libchemist::tensor {
  *     as long as the copy ctor works correctly.
  *  3. Implement `is_equal_()`. In most cases this is just:
  *     ```
- *     bool is_equal_(const Allocator<VariantType>& rhs) const noexcept
+ *     bool is_equal_(const Allocator<FieldType>& rhs) const noexcept
  *      override {
  *         const auto prhs = dynamic_cast<const U*>(&rhs);
  *         if(!prhs) return false;
@@ -49,15 +51,18 @@ namespace libchemist::tensor {
  *  4. Implement make_tr_(). The implementation of this function is highly
  *     specific to  the derived class.
  */
-template<typename VariantType>
+template<typename FieldType>
 class Allocator {
 private:
     /// The type of this allocator
-    using my_type = Allocator<VariantType>;
+    using my_type = Allocator<FieldType>;
+
+    /// The traits class for the backend
+    using backend_traits = backends::TiledArrayTraits<FieldType>;
 
 public:
-    /// The type of the variant this allocator can make
-    using variant_type = VariantType;
+    /// The type of object this allocator can make
+    using value_type = typename backend_traits::variant_type;
 
     /// Unsigned integral type used to specify the extent of a mode
     using extent_type = std::size_t;
@@ -153,7 +158,7 @@ public:
      *  @return A variant containing the created tensor. Which of the variant
      *          choices is initialized is up to the allocator.
      */
-    variant_type new_tensor(const extents_type& shape) const;
+    value_type new_tensor(const extents_type& shape) const;
 
     /** @brief Creates a tensor initialized with provided initializer list.
      *
@@ -172,16 +177,16 @@ public:
      *                            have the same extent). Strong throw guarantee.
      */
     ///@{
-    variant_type new_tensor(
+    value_type new_tensor(
       const n_d_initializer_list_t<scalar_type, 1>& il) const;
 
-    variant_type new_tensor(
+    value_type new_tensor(
       const n_d_initializer_list_t<scalar_type, 2>& il) const;
 
-    variant_type new_tensor(
+    value_type new_tensor(
       const n_d_initializer_list_t<scalar_type, 3>& il) const;
 
-    variant_type new_tensor(
+    value_type new_tensor(
       const n_d_initializer_list_t<scalar_type, 4>& il) const;
     ///@}
 
@@ -287,58 +292,58 @@ private:
 //                         Inline Implementations
 //------------------------------------------------------------------------------
 
-template<typename VariantType>
-Allocator<VariantType>::Allocator(runtime_reference world) : m_world_(world) {}
+template<typename FieldType>
+Allocator<FieldType>::Allocator(runtime_reference world) : m_world_(world) {}
 
-template<typename VariantType>
-bool Allocator<VariantType>::is_equal(const Allocator& other) const {
+template<typename FieldType>
+bool Allocator<FieldType>::is_equal(const Allocator& other) const {
     // Needs to be symmetrized to verify both have the same most-derived type
     return is_equal_(other) && other.is_equal_(*this);
 }
 
-template<typename VariantType>
-typename Allocator<VariantType>::tiled_range_type
-Allocator<VariantType>::make_tiled_range(const extents_type& shape) const {
+template<typename FieldType>
+typename Allocator<FieldType>::tiled_range_type
+Allocator<FieldType>::make_tiled_range(const extents_type& shape) const {
     return make_tr_(shape);
 }
 
-template<typename VariantType>
-VariantType Allocator<VariantType>::new_tensor(
+template<typename FieldType>
+typename Allocator<FieldType>::value_type Allocator<FieldType>::new_tensor(
   const extents_type& shape) const {
-    return VariantType(std::in_place_index<0>, m_world_,
-                       make_tiled_range(shape));
+    return value_type(std::in_place_index<0>, m_world_,
+                      make_tiled_range(shape));
 }
 
-template<typename VariantType>
-VariantType Allocator<VariantType>::new_tensor(
+template<typename FieldType>
+typename Allocator<FieldType>::value_type Allocator<FieldType>::new_tensor(
   const n_d_initializer_list_t<scalar_type, 1>& il) const {
     const auto tr = make_tiled_range(il2extents<scalar_type, 1>(il));
-    return VariantType(std::in_place_index<0>, m_world_, tr, il);
+    return value_type(std::in_place_index<0>, m_world_, tr, il);
 }
 
-template<typename VariantType>
-VariantType Allocator<VariantType>::new_tensor(
+template<typename FieldType>
+typename Allocator<FieldType>::value_type Allocator<FieldType>::new_tensor(
   const n_d_initializer_list_t<scalar_type, 2>& il) const {
     const auto tr = make_tiled_range(il2extents<scalar_type, 2>(il));
-    return VariantType(std::in_place_index<0>, m_world_, tr, il);
+    return value_type(std::in_place_index<0>, m_world_, tr, il);
 }
 
-template<typename VariantType>
-VariantType Allocator<VariantType>::new_tensor(
+template<typename FieldType>
+typename Allocator<FieldType>::value_type Allocator<FieldType>::new_tensor(
   const n_d_initializer_list_t<scalar_type, 3>& il) const {
     const auto tr = make_tiled_range(il2extents<scalar_type, 3>(il));
-    return VariantType(std::in_place_index<0>, m_world_, tr, il);
+    return value_type(std::in_place_index<0>, m_world_, tr, il);
 }
 
-template<typename VariantType>
-VariantType Allocator<VariantType>::new_tensor(
+template<typename FieldType>
+typename Allocator<FieldType>::value_type Allocator<FieldType>::new_tensor(
   const n_d_initializer_list_t<scalar_type, 4>& il) const {
     const auto tr = make_tiled_range(il2extents<scalar_type, 4>(il));
-    return VariantType(std::in_place_index<0>, m_world_, tr, il);
+    return value_type(std::in_place_index<0>, m_world_, tr, il);
 }
 
-template<typename VariantType>
-bool Allocator<VariantType>::is_equal_(const Allocator& rhs) const noexcept {
+template<typename FieldType>
+bool Allocator<FieldType>::is_equal_(const Allocator& rhs) const noexcept {
     return *this == rhs;
 }
 

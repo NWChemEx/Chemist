@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/tensor/types.hpp"
+#include "libchemist/tensor/tensor_wrapper.hpp"
 
 /** @file creation.hpp
  *
@@ -31,18 +31,19 @@ namespace libchemist::tensor {
  *                            for the concatenation or if @p dim is not a valid
  *                            mode offset. Strong throw guarantee.
  */
-type::SparseTensorWrapper concatenate(const type::SparseTensorWrapper& lhs,
-                                      const type::SparseTensorWrapper& rhs,
-                                      std::size_t dim);
+ScalarTensorWrapper concatenate(const ScalarTensorWrapper& lhs,
+                                const ScalarTensorWrapper& rhs,
+                                std::size_t dim);
 
 /** @brief Concatenates two ToTs along the specified dimension.
  *
  *  This function is not yet implemented.
  *
  */
-type::ToTWrapper concatenate(const type::ToTWrapper& lhs,
-                             const type::ToTWrapper& rhs, std::size_t dim);
+TensorOfTensorsWrapper concatenate(const TensorOfTensorsWrapper& lhs,
+                                   const TensorOfTensorsWrapper& rhs,
+                                   std::size_t dim);
 
-type::SparseTensorWrapper grab_diagonal(const type::SparseTensorWrapper& t);
+ScalarTensorWrapper grab_diagonal(const ScalarTensorWrapper& t);
 
 } // namespace libchemist::tensor

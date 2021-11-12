@@ -1,14 +1,16 @@
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include "libchemist/tensor/tensor.hpp"
-#include "libchemist/tensor/types.hpp"
 #include "libchemist/types.hpp"
 #include <catch2/catch.hpp>
 
 using namespace libchemist::tensor;
 
-TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
+using scalar_traits  = backends::TiledArrayTraits<field::Scalar>;
+using scalar_variant = typename scalar_traits::variant_type;
+
+TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", scalar_variant) {
     auto& world     = TA::get_default_world();
-    using TWrapper  = TensorWrapper<type::tensor_variant>;
+    using TWrapper  = ScalarTensorWrapper;
     using t_type    = TestType;
     using extents   = typename TWrapper::extents_type;
     using vector_il = TA::detail::vector_il<double>;
@@ -28,15 +30,10 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
     TWrapper t3(t3_data);
 
     // Assumed different type than the one returned by default_allocator
-    using other_alloc  = SingleElementTiles<type::tensor_variant>;
-    auto default_alloc = default_allocator<type::tensor_variant>();
+    using other_alloc  = SingleElementTiles<field::Scalar>;
+    auto default_alloc = default_allocator<field::Scalar>();
 
     SECTION("Typedefs") {
-        SECTION("variant_type") {
-            using type = typename TWrapper::variant_type;
-            using corr = libchemist::tensor::type::tensor_variant;
-            STATIC_REQUIRE(std::is_same_v<type, corr>);
-        }
         SECTION("annotation_type") {
             using type = typename TWrapper::annotation_type;
             using corr = std::string;
@@ -331,10 +328,13 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
     }
 }
 
-TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tot_variant) {
+using tot_traits  = backends::TiledArrayTraits<field::Tensor>;
+using tot_variant = typename tot_traits::variant_type;
+
+TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", tot_variant) {
     auto& world        = TA::get_default_world();
-    using variant_type = type::tot_variant;
-    using TWrapper     = TensorWrapper<type::tot_variant>;
+    using variant_type = tot_variant;
+    using TWrapper     = TensorOfTensorsWrapper;
     using t_type       = TestType;
     using tile_type    = typename TestType::value_type;
     using inner_tile   = typename tile_type::value_type;
@@ -355,11 +355,6 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tot_variant) {
     TWrapper t3_2(t3_2_data);
 
     SECTION("Typedefs") {
-        SECTION("variant_type") {
-            using type = typename TWrapper::variant_type;
-            using corr = variant_type;
-            STATIC_REQUIRE(std::is_same_v<type, corr>);
-        }
         SECTION("annotation_type") {
             using type = typename TWrapper::annotation_type;
             using corr = std::string;
