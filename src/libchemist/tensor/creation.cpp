@@ -1,5 +1,5 @@
-#include "libchemist/tensor/creation.hpp"
 #include "libchemist/ta_helpers/ta_helpers.hpp"
+#include "libchemist/tensor/creation.hpp"
 
 namespace libchemist::tensor {
 
