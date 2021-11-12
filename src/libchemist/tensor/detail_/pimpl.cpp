@@ -26,7 +26,9 @@ auto to_vector_from_pimpl(const TensorWrapperPIMPL<field::Scalar>& t) {
 template<typename FieldType>
 PIMPL_TYPE::TensorWrapperPIMPL(variant_type v, allocator_pointer p) :
   m_tensor_(std::move(v)), m_allocator_(std::move(p)) {
-    reallocate(std::move(m_allocator_));
+    if constexpr(std::is_same_v<FieldType, field::Scalar>) {
+        reallocate(std::move(m_allocator_));
+    }
 }
 
 template<typename FieldType>

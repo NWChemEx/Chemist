@@ -79,7 +79,7 @@ typename TENSOR_WRAPPER::const_labeled_tensor_type TENSOR_WRAPPER::operator()(
 template<typename FieldType>
 typename TENSOR_WRAPPER::annotation_type TENSOR_WRAPPER::make_annotation(
   const annotation_type& letter) const {
-    return pimpl_().make_annotation(letter);
+    return m_pimpl_ ? pimpl_().make_annotation(letter) : "";
 }
 
 template<typename FieldType>
@@ -112,7 +112,7 @@ template<typename FieldType>
 TENSOR_WRAPPER TENSOR_WRAPPER::reshape(
   const std::initializer_list<size_type>& shape) const {
     TENSOR_WRAPPER rv(*this);
-    rv.reshape(shape);
+    rv.pimpl_().reshape(shape);
     return rv;
 }
 
