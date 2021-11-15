@@ -14,26 +14,30 @@ namespace libchemist::tensor {
  *  In TensorWrapper we basically treat the wrapped tensor as the memory of our
  *  tensor wrapper. Standard C++ practice is to have allocator classes for
  *  allocating/deallocating memory, hence we introduce a class hierarchy of
- *  allocators for allocating the wrapped tensor.
+ *  allocators for allocating the wrapped tensor. Allocators are responsible for
+ *  hiding the general set-up details of the wrapped tensor when given a size.
+ *  Some examples of things the allocator can hide if we assume that TiledArray
+ *  is the wrapped tensor library: distribution, tiling, and whether tiles are
+ *  lazy.
  *
  *  The Allocator class defines the common API that all TensorWrapper allocators
  *  must have. We borrow from the C++ concept of allocator, but aren't too
  *  concerned with following it to the letter given that the tensors returned
- *  by the allocator aren't usable as memory anyways (thus even if we followed
- *  the API to the letter, you're not going to be doing something like:
- *  `std::vector<TA::DistArrayD, Allocator<DistArrayD>>`).
+ *  by the allocator aren't usable as memory in the C++ sense anyways (*i.e.*,
+ *  even if we followed the API to the letter, you're not going to be doing
+ *  something like: `std::vector<TA::DistArrayD, Allocator<DistArrayD>>`).
  *
  *  Adding A New Allocator Specialization
  *  =====================================
  *
  *  To create a new Allocator specialization of type U:
  *  1. Derive a class from Allocator<FieldType>. Depending on the details of
- *     your class it may make senese for you class to also be templated on the
- *     variant type.
+ *     your class it may make senese for your class to also be templated on
+ *     additional details beside the field type.
  *  2. Implement `clone_()`. In most cases this implementation is just:
  *     ```
  *     allocator_ptr clone_() const overrride {
- *         return std::make_uniuqe<U>(*this);
+ *         return std::make_unique<U>(*this);
  *     }
  *     ```
  *     as long as the copy ctor works correctly.
@@ -50,6 +54,9 @@ namespace libchemist::tensor {
  *     is implemented correctly.
  *  4. Implement make_tr_(). The implementation of this function is highly
  *     specific to  the derived class.
+ *
+ *  Realistically 4. should probably be made more general, but we're punting on
+ *  that for now.
  */
 template<typename FieldType>
 class Allocator {
@@ -224,6 +231,15 @@ public:
      */
     bool operator!=(const Allocator& rhs) const { return !((*this) == rhs); }
 
+    /** @brief Provides access to the runtime to which the tensor will belong.
+     *
+     *  At the moment the runtime associated with the tensor is just a
+     *  TiledArray World. This will change when ParallelZone rolls out.
+     *
+     *  @return A read/write reference to the runtime.
+     *
+     *  @throw None No throw guarantee.
+     */
     runtime_reference runtime() const { return m_world_; }
 
 protected:

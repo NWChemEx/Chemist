@@ -2,6 +2,13 @@
 #include "libchemist/tensor/allocators/allocators.hpp"
 #include <catch2/catch.hpp>
 
+/* Testing Strategy:
+ *
+ * The unit tests focuse on the parts of the Allocator hierarchy which are
+ * implemented in the Allocator class (as opposed to the derived classes).
+ * Unit tests for the derived classes focus on the parts they implement.
+ */
+
 TEST_CASE("Allocator") {
     using field_type  = libchemist::tensor::field::Scalar;
     using tensor_type = TA::TSpArrayD;

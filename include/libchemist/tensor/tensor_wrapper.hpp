@@ -64,12 +64,39 @@ private:
     template<typename T>
     using eif_is_tensor = std::enable_if_t<is_tensor_v<T>>;
 
+    /** @brief Type of a LabeledTensorWrapper which wraps a TensorWrapper of
+     *         type T.
+     *
+     *  This typedef is used purely to simplify other typedefs which are defined
+     *  in terms of detail_::LabeledTensorWrapper.
+     *
+     *  @tparam T The type of the TensorWrapper which is getting labeled.
+     *            Practically it will be either `my_type` or `const my_type`.
+     *
+     */
     template<typename T>
     using labeled_wrapper_type = detail_::LabeledTensorWrapper<T>;
 
+    /** @brief Helper value which determines if @p T  is the same as this
+     *         tensor's field.
+     *
+     *  @tparam T The type we are comparing to this tensor's field type. Assumed
+     *            to be a field, but will work with any type @p T.
+     *
+     */
     template<typename T>
     static constexpr bool same_field_v = std::is_same_v<FieldType, T>;
 
+    /** @brief Type which is used to enable a function via SFINAE if @p T is
+     *         a different field than the field associated with this tensor.
+     *
+     *  If @p T is different than this tensor's field type this typedef will be
+     *  an alias of `void`, otherwise the typedef will fail to compile and the
+     *  compiler will ignore functions which use this typedef as part of their
+     *  API.
+     *
+     *  @tparam T The type to compare to this tensor's field type.
+     */
     template<typename T>
     using eif_diff_fields = std::enable_if_t<!same_field_v<T>>;
 
@@ -503,18 +530,33 @@ public:
     /** @brief Determines if two TensorWrappers wrap identical
      * tensors.
      *
-     *  This comparison determines if the two wrapped tensors
-     * are identical elementwise.
+     *  This comparison determines if the two wrapped tensors are identical
+     *  elementwise. This overload is used when the TensorWrappers are
+     *  associated with the same field.
      *
      *  @tparam RHSType the type of the variant used by @p rhs.
      *
      *  @param[in] rhs The wrapped tensor we are comparing to.
      *
-     *  @return True if the wrapped tensor compares equal to @p
-     * rhs and false otherwise.
+     *  @return True if the wrapped tensor compares equal to @p rhs and false
+     *          otherwise.
      */
     bool operator==(const TensorWrapper& rhs) const;
 
+    /** @brief Determines if two TensorWrappers wrap identical tensors.
+     *
+     *  This overload is only enabled when the other TensorWrapper is over a
+     *  different field. This overloaded is hard-coded to false, since if the
+     *  tensors have different fields they can't be the same.
+     *
+     *  @tparam RHSField The type of the field associated with @p rhs.
+     *                   Assumed to be one of the fields recognized by the
+     *                   TensorWrapepr subcomponent.
+     *  @tparam <anonymous> Type used to selectively enable this overload via
+     *                      SFINAE when @p RHSField is not the same field as
+     *                      this tensor.
+     *
+     */
     template<typename RHSField, typename = eif_diff_fields<RHSField>>
     bool operator==(const TensorWrapper<RHSField>& rhs) const {
         return false;
