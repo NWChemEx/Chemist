@@ -224,6 +224,8 @@ public:
      */
     bool operator!=(const Allocator& rhs) const { return !((*this) == rhs); }
 
+    runtime_reference runtime() const { return m_world_; }
+
 protected:
     /// To help derived classes implement clone_
     Allocator(const Allocator&) = default;

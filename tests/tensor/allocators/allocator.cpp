@@ -23,6 +23,8 @@ TEST_CASE("Allocator") {
 
         auto corr = palloc->make_tiled_range(shape0);
         REQUIRE(std::get<0>(t).trange() == corr);
+        // TODO: proper unit test when runtime is comparable
+        REQUIRE_NOTHROW(palloc->runtime());
     }
 
     SECTION("new_tensor(vector)") {
