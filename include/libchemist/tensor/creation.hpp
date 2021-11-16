@@ -44,6 +44,14 @@ TensorOfTensorsWrapper concatenate(const TensorOfTensorsWrapper& lhs,
                                    const TensorOfTensorsWrapper& rhs,
                                    std::size_t dim);
 
+/** @brief Grabs the diagonal of a matrix and returns it as a vector.
+ *
+ *  It sometimes happens that we have a matrix, but we only need the diagonal of
+ *  that matrix. This function wraps the process of copying the diagonal of that
+ *  matrix into a vector.
+ *
+ *  @return A TensorWrapper containing just the diagonal elements of the tensor.
+ */
 ScalarTensorWrapper grab_diagonal(const ScalarTensorWrapper& t);
 
 } // namespace libchemist::tensor

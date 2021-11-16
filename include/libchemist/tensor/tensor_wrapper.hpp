@@ -579,12 +579,16 @@ protected:
     friend labeled_tensor_type;
     friend const_labeled_tensor_type;
 
+    /// Type of a modifiable reference to the PIMPL
     using pimpl_reference = pimpl_type&;
 
+    /// Read-only reference to the PIMPL
     using const_pimpl_reference = const pimpl_type&;
 
+    /// Type which results from annotating the modifiable tensor in the PIMPL
     using labeled_variant_type = typename field_traits::labeled_variant_type;
 
+    /// Type which results from annotating a read-only tensor in the PIMPL
     using const_labeled_type =
       typename field_traits::const_labeled_variant_type;
 
@@ -622,6 +626,7 @@ protected:
     const_pimpl_reference pimpl_() const;
 
 private:
+    /// The object actually holding the Tensor's state
     pimpl_pointer m_pimpl_;
 };
 

@@ -15,9 +15,24 @@
 
 namespace libchemist::tensor::backends {
 
+/** @brief Primary template for establishing the types associated with
+ *         TiledArray.
+ *
+ *  The primary template is not defined. Instead TiledArrayTraits is specialized
+ *  for each field, establishing a mapping from a field to the types Tiled Array
+ *  uses for that field.
+ *
+ *  @tparam T The type of the field the tensor is over.
+ *
+ */
 template<typename T>
 struct TiledArrayTraits;
 
+/** @brief Specializes TiledArrayTraits for tensors which have scalar elements.
+ *
+ *  This specialization is selected when the tensor uses `field::Scalar`. The
+ *  elements of such a tensor are floating point values.
+ */
 template<>
 struct TiledArrayTraits<field::Scalar> {
     /// Typedef of the tile for a tensor of scalars
@@ -32,6 +47,11 @@ struct TiledArrayTraits<field::Scalar> {
     using variant_type = std::variant<tensor_type<double>>;
 };
 
+/** @brief Specializes TiledArrayTraits for tensors which have tensor elements.
+ *
+ *  This specialization is selected when the tensor uses `field::Tensor`. The
+ *  elements of such a tensor are other tensors.
+ */
 template<>
 struct TiledArrayTraits<field::Tensor> {
     /// Typedef of the tiles in a tensor-of-tensors
@@ -47,4 +67,3 @@ struct TiledArrayTraits<field::Tensor> {
 };
 
 } // namespace libchemist::tensor::backends
-the* variant typ
