@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/tensor/types.hpp"
+#include "libchemist/tensor/tensor_wrapper.hpp"
 
 namespace libchemist::tensor {
 
@@ -17,6 +17,6 @@ namespace libchemist::tensor {
  *
  *  @return The tensor vectorized into an std::vector.
  */
-std::vector<double> to_vector(const type::SparseTensorWrapper& t);
+std::vector<double> to_vector(const ScalarTensorWrapper& t);
 
 } // namespace libchemist::tensor

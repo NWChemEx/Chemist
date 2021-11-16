@@ -19,9 +19,9 @@ namespace libchemist::type {
 using size = std::size_t;
 
 /// Type used for non-hierarchical tensors
-using tensor = libchemist::tensor::type::SparseTensorWrapper;
+using tensor = libchemist::tensor::ScalarTensorWrapper;
 
 /// Type used for hierarchical (i.e. ToTs) tensors
-using tensor_of_tensors = libchemist::tensor::type::ToTWrapper;
+using tensor_of_tensors = libchemist::tensor::TensorOfTensorsWrapper;
 
 } // namespace libchemist::type
