@@ -71,23 +71,19 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;libchemist/tensor/types.hpp&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;libchemist/tensor/tensor_wrapper.hpp&quot;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacelibchemist_1_1tensor.html">libchemist::tensor</a> {</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>libchemist::tensor {</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;type::SparseTensorWrapper <a class="code" href="namespacelibchemist_1_1tensor.html#a284c3d2cd4847b027ee47226f64508fd">apply_elementwise</a>(</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keyword">const</span> type::SparseTensorWrapper&amp; input,</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="keyword">const</span> std::function&lt;<span class="keywordtype">double</span>(<span class="keywordtype">double</span>)&gt;&amp; fxn);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacelibchemist_1_1tensor.html#a7d77b9cf5add0a6dd1d93e1153031bd8">apply_elementwise_inplace</a>(type::SparseTensorWrapper&amp; input,</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                               <span class="keyword">const</span> std::function&lt;<span class="keywordtype">void</span>(<span class="keywordtype">double</span>&amp;)&gt;&amp; fxn);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;} <span class="comment">// namespace libchemist::tensor</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;ScalarTensorWrapper apply_elementwise(<span class="keyword">const</span> ScalarTensorWrapper&amp; input,</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                                      <span class="keyword">const</span> std::function&lt;<span class="keywordtype">double</span>(<span class="keywordtype">double</span>)&gt;&amp; fxn);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">void</span> apply_elementwise_inplace(ScalarTensorWrapper&amp; input,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                               <span class="keyword">const</span> std::function&lt;<span class="keywordtype">void</span>(<span class="keywordtype">double</span>&amp;)&gt;&amp; fxn);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;} <span class="comment">// namespace libchemist::tensor</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="anamespacelibchemist_1_1tensor_html_a7d77b9cf5add0a6dd1d93e1153031bd8"><div class="ttname"><a href="namespacelibchemist_1_1tensor.html#a7d77b9cf5add0a6dd1d93e1153031bd8">libchemist::tensor::apply_elementwise_inplace</a></div><div class="ttdeci">void apply_elementwise_inplace(tensor &amp;input, const std::function&lt; void(double &amp;)&gt; &amp;fxn)</div><div class="ttdoc">Modifies an existing tensor by applying a function elementwise to its values.</div><div class="ttdef"><b>Definition:</b> apply_elementwise.cpp:15</div></div>
-<div class="ttc" id="anamespacelibchemist_1_1tensor_html"><div class="ttname"><a href="namespacelibchemist_1_1tensor.html">libchemist::tensor</a></div><div class="ttdoc">tensor_wrapper.ipp</div><div class="ttdef"><b>Definition:</b> allclose.cpp:6</div></div>
-<div class="ttc" id="anamespacelibchemist_1_1tensor_html_a284c3d2cd4847b027ee47226f64508fd"><div class="ttname"><a href="namespacelibchemist_1_1tensor.html#a284c3d2cd4847b027ee47226f64508fd">libchemist::tensor::apply_elementwise</a></div><div class="ttdeci">tensor apply_elementwise(const tensor &amp;input, const std::function&lt; double(double)&gt; &amp;fxn)</div><div class="ttdoc">Creates a new tensor by applying a function elementwise to an existing tensor.</div><div class="ttdef"><b>Definition:</b> apply_elementwise.cpp:9</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

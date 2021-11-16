@@ -73,7 +73,7 @@ $(function() {
 <div class="title">creation.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;libchemist/tensor/types.hpp&quot;</code><br />
+<div class="textblock"><code>#include &quot;libchemist/tensor/tensor_wrapper.hpp&quot;</code><br />
 </div>
 <p><a href="creation_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -82,25 +82,96 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespacelibchemist"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibchemist.html">libchemist</a></td></tr>
 <tr class="memdesc:namespacelibchemist"><td class="mdescLeft">&#160;</td><td class="mdescRight">The primary namespace for the libchemist library. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:namespacelibchemist_1_1tensor"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibchemist_1_1tensor.html">libchemist::tensor</a></td></tr>
-<tr class="memdesc:namespacelibchemist_1_1tensor"><td class="mdescLeft">&#160;</td><td class="mdescRight">tensor_wrapper.ipp <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac1aa274af3bc1fb2788fd3af3cb06dbb"><td class="memItemLeft" align="right" valign="top">type::SparseTensorWrapper&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibchemist_1_1tensor.html#ac1aa274af3bc1fb2788fd3af3cb06dbb">libchemist::tensor::concatenate</a> (const type::SparseTensorWrapper &amp;lhs, const type::SparseTensorWrapper &amp;rhs, std::size_t dim)</td></tr>
-<tr class="memdesc:ac1aa274af3bc1fb2788fd3af3cb06dbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatentaes two tensors together along the specified dimension.  <a href="namespacelibchemist_1_1tensor.html#ac1aa274af3bc1fb2788fd3af3cb06dbb">More...</a><br /></td></tr>
-<tr class="separator:ac1aa274af3bc1fb2788fd3af3cb06dbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fbdbdb30463b380ddb0d35e9245bdd9"><td class="memItemLeft" align="right" valign="top">type::ToTWrapper&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibchemist_1_1tensor.html#a0fbdbdb30463b380ddb0d35e9245bdd9">libchemist::tensor::concatenate</a> (const type::ToTWrapper &amp;lhs, const type::ToTWrapper &amp;rhs, std::size_t dim)</td></tr>
-<tr class="memdesc:a0fbdbdb30463b380ddb0d35e9245bdd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenates two ToTs along the specified dimension.  <a href="namespacelibchemist_1_1tensor.html#a0fbdbdb30463b380ddb0d35e9245bdd9">More...</a><br /></td></tr>
-<tr class="separator:a0fbdbdb30463b380ddb0d35e9245bdd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebcec8f687a6475382845cbf89e46372"><td class="memItemLeft" align="right" valign="top"><a id="aebcec8f687a6475382845cbf89e46372"></a>
-type::SparseTensorWrapper&#160;</td><td class="memItemRight" valign="bottom"><b>libchemist::tensor::grab_diagonal</b> (const type::SparseTensorWrapper &amp;t)</td></tr>
-<tr class="separator:aebcec8f687a6475382845cbf89e46372"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10a516c6ac2291f6deea6e5bcda2ec07"><td class="memItemLeft" align="right" valign="top">ScalarTensorWrapper&#160;</td><td class="memItemRight" valign="bottom"><b>libchemist::tensor::concatenate</b> (const ScalarTensorWrapper &amp;lhs, const ScalarTensorWrapper &amp;rhs, std::size_t dim)</td></tr>
+<tr class="memdesc:a10a516c6ac2291f6deea6e5bcda2ec07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatentaes two tensors together along the specified dimension.  <a href="creation_8cpp.html#a10a516c6ac2291f6deea6e5bcda2ec07">More...</a><br /></td></tr>
+<tr class="separator:a10a516c6ac2291f6deea6e5bcda2ec07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fd839c30672da413e1c66ab9e886fcd"><td class="memItemLeft" align="right" valign="top">ScalarTensorWrapper&#160;</td><td class="memItemRight" valign="bottom"><b>libchemist::tensor::grab_diagonal</b> (const ScalarTensorWrapper &amp;t)</td></tr>
+<tr class="memdesc:a3fd839c30672da413e1c66ab9e886fcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grabs the diagonal of a matrix and returns it as a vector.  <a href="creation_8cpp.html#a3fd839c30672da413e1c66ab9e886fcd">More...</a><br /></td></tr>
+<tr class="separator:a3fd839c30672da413e1c66ab9e886fcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A collection of routines for quickly creating tensors from other tensors. </p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a10a516c6ac2291f6deea6e5bcda2ec07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10a516c6ac2291f6deea6e5bcda2ec07">&#9670;&nbsp;</a></span>concatenate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TensorOfTensorsWrapper libchemist::tensor::concatenate </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html">ScalarTensorWrapper</a> &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html">ScalarTensorWrapper</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>dim</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Concatentaes two tensors together along the specified dimension. </p>
+<p>Concatenates two ToTs along the specified dimension.</p>
+<p>This function joins two tensors together by making concatenating them together along the specified mode. For a rank <img class="formulaInl" alt="$N$" src="form_3.png"/> tensor, this means that the shape of the remaining N-1 modes must be identical.</p>
+<dl class="section note"><dt>Note</dt><dd>Concatenation is in general non-commutative, i.e., <code>concatenate(A, B, dim)</code> will not necessarilly be the same as <code>concatenate(B, A, dim)</code>.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">lhs</td><td>The tensor which will serve as the base tensor. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The tensor which will be added on to <code>lhs</code>. Must be the same rank as <code>lhs</code> and all modes aside from mode <code>dim</code> must have the same shape as the corresponding mode in <code>lhs</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dim</td><td>The 0-based offset indicating which mode of <code>lhs</code> and <code>rhs</code> will be concatenated. Must be in the range [0, rank(lhs)).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if the shapes of the tensors are not compatible for the concatenation or if <code>dim</code> is not a valid mode offset. Strong throw guarantee.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function is not yet implemented. </p>
+
+</div>
+</div>
+<a id="a3fd839c30672da413e1c66ab9e886fcd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fd839c30672da413e1c66ab9e886fcd">&#9670;&nbsp;</a></span>grab_diagonal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScalarTensorWrapper libchemist::tensor::grab_diagonal </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html">ScalarTensorWrapper</a> &amp;&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Grabs the diagonal of a matrix and returns it as a vector. </p>
+<p>It sometimes happens that we have a matrix, but we only need the diagonal of that matrix. This function wraps the process of copying the diagonal of that matrix into a vector.</p>
+<dl class="section return"><dt>Returns</dt><dd>A TensorWrapper containing just the diagonal elements of the tensor. </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['quadruple_5ftype_423',['quadruple_type',['../classlibchemist_1_1topology_1_1Topology.html#af622423dda7bdaf677288af19f29ca0b',1,'libchemist::topology::Topology']]]
+  ['quadruple_5ftype_420',['quadruple_type',['../classlibchemist_1_1topology_1_1Topology.html#af622423dda7bdaf677288af19f29ca0b',1,'libchemist::topology::Topology']]]
 ];

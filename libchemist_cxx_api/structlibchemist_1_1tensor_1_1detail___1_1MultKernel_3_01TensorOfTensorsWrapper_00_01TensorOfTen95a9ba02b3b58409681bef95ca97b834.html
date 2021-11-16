@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libchemist: libchemist::tensor::detail_::MultKernel&lt; type::SparseTensorWrapper, type::SparseTensorWrapper, type::SparseTensorWrapper &gt; Struct Reference</title>
+<title>libchemist: libchemist::tensor::detail_::MultKernel&lt; TensorOfTensorsWrapper, TensorOfTensorsWrapper, ScalarTensorWrapper &gt; Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,48 +62,48 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacelibchemist.html">libchemist</a></li><li class="navelem"><a class="el" href="namespacelibchemist_1_1tensor.html">tensor</a></li><li class="navelem"><b>detail_</b></li><li class="navelem"><a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01type_1_1SparseTensorWrapper_00_01type_1ff551451b578989a0ba336e59cd13c38.html">MultKernel&lt; type::SparseTensorWrapper, type::SparseTensorWrapper, type::SparseTensorWrapper &gt;</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacelibchemist.html">libchemist</a></li><li class="navelem"><b>tensor</b></li><li class="navelem"><b>detail_</b></li><li class="navelem"><a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01TensorOfTensorsWrapper_00_01TensorOfTen95a9ba02b3b58409681bef95ca97b834.html">MultKernel&lt; TensorOfTensorsWrapper, TensorOfTensorsWrapper, ScalarTensorWrapper &gt;</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01type_1_1SparseTensorWrapper_00_01type_10b0e36a0334f0d53f1a3c075b46da18b.html">List of all members</a>  </div>
+<a href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01TensorOfTensorsWrapper_00_01TensorOfTen42620e2a143628b1f49f49bb77d94507.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">libchemist::tensor::detail_::MultKernel&lt; type::SparseTensorWrapper, type::SparseTensorWrapper, type::SparseTensorWrapper &gt; Struct Reference</div>  </div>
+<div class="title">libchemist::tensor::detail_::MultKernel&lt; TensorOfTensorsWrapper, TensorOfTensorsWrapper, ScalarTensorWrapper &gt; Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Specializes <a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel.html" title="Dispatches to the correct multiplication function based on the types of the tensors in the multiplica...">MultKernel</a> to the product of two non-hierarchical tensors.  
- <a href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01type_1_1SparseTensorWrapper_00_01type_1ff551451b578989a0ba336e59cd13c38.html#details">More...</a></p>
+<p>Specializes <a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel.html" title="Dispatches to the correct multiplication function based on the types of the tensors in the multiplica...">MultKernel</a> to the product of a ToT and anon-hierarchical tensor.  
+ <a href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01TensorOfTensorsWrapper_00_01TensorOfTen95a9ba02b3b58409681bef95ca97b834.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="mult__kernels_8hpp_source.html">mult_kernels.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a060ff2a64353ad09d7cb99220ef3356a"><td class="memItemLeft" align="right" valign="top"><a id="a060ff2a64353ad09d7cb99220ef3356a"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01type_1_1SparseTensorWrapper_00_01type_1ff551451b578989a0ba336e59cd13c38.html#a060ff2a64353ad09d7cb99220ef3356a">result_type</a> = <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html">type::SparseTensorWrapper</a></td></tr>
-<tr class="memdesc:a060ff2a64353ad09d7cb99220ef3356a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the resulting tensor wrapper. <br /></td></tr>
-<tr class="separator:a060ff2a64353ad09d7cb99220ef3356a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99fa02cdab57096ee9a4e75a091f8303"><td class="memItemLeft" align="right" valign="top"><a id="a99fa02cdab57096ee9a4e75a091f8303"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01type_1_1SparseTensorWrapper_00_01type_1ff551451b578989a0ba336e59cd13c38.html#a99fa02cdab57096ee9a4e75a091f8303">return_type</a> = <a class="el" href="namespacelibchemist_1_1tensor.html#aee90ba7a7bc6dae8651be8089bd1f749">labeled_variant_t</a>&lt; <a class="el" href="namespacelibchemist_1_1tensor.html#a22dba3e73038f864bc9b1897dc8e6ffb">variant_type_t</a>&lt; <a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01type_1_1SparseTensorWrapper_00_01type_1ff551451b578989a0ba336e59cd13c38.html#a060ff2a64353ad09d7cb99220ef3356a">result_type</a> &gt; &gt;</td></tr>
-<tr class="memdesc:a99fa02cdab57096ee9a4e75a091f8303"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a variant containing labeled results. <br /></td></tr>
-<tr class="separator:a99fa02cdab57096ee9a4e75a091f8303"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff3e94cc0d4e3638de050cb87d9a131d"><td class="memItemLeft" align="right" valign="top"><a id="aff3e94cc0d4e3638de050cb87d9a131d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01TensorOfTensorsWrapper_00_01TensorOfTen95a9ba02b3b58409681bef95ca97b834.html#aff3e94cc0d4e3638de050cb87d9a131d">result_type</a> = <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html">TensorOfTensorsWrapper</a></td></tr>
+<tr class="memdesc:aff3e94cc0d4e3638de050cb87d9a131d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the tensor wrapper associated with the result. <br /></td></tr>
+<tr class="separator:aff3e94cc0d4e3638de050cb87d9a131d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9f94a5a55e154c6564a089ebbe38d79"><td class="memItemLeft" align="right" valign="top"><a id="ae9f94a5a55e154c6564a089ebbe38d79"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01TensorOfTensorsWrapper_00_01TensorOfTen95a9ba02b3b58409681bef95ca97b834.html#ae9f94a5a55e154c6564a089ebbe38d79">return_type</a> = labeled_variant_t&lt; variant_type_t&lt; <a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01TensorOfTensorsWrapper_00_01TensorOfTen95a9ba02b3b58409681bef95ca97b834.html#aff3e94cc0d4e3638de050cb87d9a131d">result_type</a> &gt; &gt;</td></tr>
+<tr class="memdesc:ae9f94a5a55e154c6564a089ebbe38d79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the variant holding the labeled result. <br /></td></tr>
+<tr class="separator:ae9f94a5a55e154c6564a089ebbe38d79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ad236112988da7c8e5521aebddfb8f6f1"><td class="memTemplParams" colspan="2">template&lt;typename ResultType , typename LHSType , typename RHSType &gt; </td></tr>
-<tr class="memitem:ad236112988da7c8e5521aebddfb8f6f1"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01type_1_1SparseTensorWrapper_00_01type_1ff551451b578989a0ba336e59cd13c38.html#a99fa02cdab57096ee9a4e75a091f8303">return_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01type_1_1SparseTensorWrapper_00_01type_1ff551451b578989a0ba336e59cd13c38.html#ad236112988da7c8e5521aebddfb8f6f1">eval</a> (ResultType &amp;&amp;result, LHSType &amp;&amp;lhs, RHSType &amp;&amp;rhs)</td></tr>
-<tr class="memdesc:ad236112988da7c8e5521aebddfb8f6f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the multiplication of two normal tensors which results in a third normal tensor.  <a href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01type_1_1SparseTensorWrapper_00_01type_1ff551451b578989a0ba336e59cd13c38.html#ad236112988da7c8e5521aebddfb8f6f1">More...</a><br /></td></tr>
-<tr class="separator:ad236112988da7c8e5521aebddfb8f6f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9d0cb2c4720d6a904e8f320fcacade4"><td class="memTemplParams" colspan="2">template&lt;typename ResultType , typename LHSType , typename RHSType &gt; </td></tr>
+<tr class="memitem:af9d0cb2c4720d6a904e8f320fcacade4"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01TensorOfTensorsWrapper_00_01TensorOfTen95a9ba02b3b58409681bef95ca97b834.html#ae9f94a5a55e154c6564a089ebbe38d79">return_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01TensorOfTensorsWrapper_00_01TensorOfTen95a9ba02b3b58409681bef95ca97b834.html#af9d0cb2c4720d6a904e8f320fcacade4">eval</a> (ResultType &amp;&amp;result, LHSType &amp;&amp;lhs, RHSType &amp;&amp;rhs)</td></tr>
+<tr class="memdesc:af9d0cb2c4720d6a904e8f320fcacade4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the multiplication of a ToT with a normal tensor resulting in a ToT.  <a href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01TensorOfTensorsWrapper_00_01TensorOfTen95a9ba02b3b58409681bef95ca97b834.html#af9d0cb2c4720d6a904e8f320fcacade4">More...</a><br /></td></tr>
+<tr class="separator:af9d0cb2c4720d6a904e8f320fcacade4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Specializes <a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel.html" title="Dispatches to the correct multiplication function based on the types of the tensors in the multiplica...">MultKernel</a> to the product of two non-hierarchical tensors. </p>
-<p>This specialization of <a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel.html" title="Dispatches to the correct multiplication function based on the types of the tensors in the multiplica...">MultKernel</a> is selected when the user is multiplying two normal together (i.e., non-ToT), resulting in a third normal tensor. It simply dispatches to TA's operator*. </p>
+<div class="textblock"><p>Specializes <a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel.html" title="Dispatches to the correct multiplication function based on the types of the tensors in the multiplica...">MultKernel</a> to the product of a ToT and anon-hierarchical tensor. </p>
+<p>This specialization of <a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel.html" title="Dispatches to the correct multiplication function based on the types of the tensors in the multiplica...">MultKernel</a> is selected when the user is multiplying a ToT by a normal tensor (i.e., non-ToT), resulting in a ToT. It dispatches to TA's einsum. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ad236112988da7c8e5521aebddfb8f6f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad236112988da7c8e5521aebddfb8f6f1">&#9670;&nbsp;</a></span>eval()</h2>
+<a id="af9d0cb2c4720d6a904e8f320fcacade4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9d0cb2c4720d6a904e8f320fcacade4">&#9670;&nbsp;</a></span>eval()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -114,7 +114,7 @@ template&lt;typename ResultType , typename LHSType , typename RHSType &gt; </div
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01type_1_1SparseTensorWrapper_00_01type_1ff551451b578989a0ba336e59cd13c38.html#a99fa02cdab57096ee9a4e75a091f8303">return_type</a> <a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel.html">libchemist::tensor::detail_::MultKernel</a>&lt; <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html">type::SparseTensorWrapper</a>, <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html">type::SparseTensorWrapper</a>, <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html">type::SparseTensorWrapper</a> &gt;::eval </td>
+          <td class="memname">static <a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel_3_01TensorOfTensorsWrapper_00_01TensorOfTen95a9ba02b3b58409681bef95ca97b834.html#ae9f94a5a55e154c6564a089ebbe38d79">return_type</a> <a class="el" href="structlibchemist_1_1tensor_1_1detail___1_1MultKernel.html">libchemist::tensor::detail_::MultKernel</a>&lt; <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html">TensorOfTensorsWrapper</a>, <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html">TensorOfTensorsWrapper</a>, <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html">ScalarTensorWrapper</a> &gt;::eval </td>
           <td>(</td>
           <td class="paramtype">ResultType &amp;&amp;&#160;</td>
           <td class="paramname"><em>result</em>, </td>
@@ -144,7 +144,7 @@ template&lt;typename ResultType , typename LHSType , typename RHSType &gt; </div
 </table>
 </div><div class="memdoc">
 
-<p>Performs the multiplication of two normal tensors which results in a third normal tensor. </p>
+<p>Performs the multiplication of a ToT with a normal tensor resulting in a ToT. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">ResultType</td><td>The type of the tensor to use for the result. <code>ResultType</code> is assumed to be a <a class="el" href="classlibchemist_1_1tensor_1_1detail___1_1LabeledTensorWrapper.html" title="Wraps a labeled tensor.">LabeledTensorWrapper</a> which annotates a read/write <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html" title="Fundamental type for wrapping tensors.">TensorWrapper</a>. </td></tr>

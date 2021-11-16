@@ -81,7 +81,7 @@ $(function() {
 : <a class="el" href="classlibchemist_1_1operators_1_1detail___1_1OperatorBase.html#adab54d5c1aa955583cddf81e2bad3da5">libchemist::operators::detail_::OperatorBase</a>
 , <a class="el" href="classlibchemist_1_1PointCharge.html#af55992db8ad853fcdf16040f3c6e79b2">libchemist::PointCharge&lt; ScalarType &gt;</a>
 , <a class="el" href="classlibchemist_1_1potentials_1_1Electrostatic.html#a368fbeccdae498a10c3258472af56ead">libchemist::potentials::Electrostatic</a>
-, <a class="el" href="classlibchemist_1_1tensor_1_1Allocator.html#a1000897d2cabe08e639bac89cdde7f18">libchemist::tensor::Allocator&lt; VariantType &gt;</a>
+, <a class="el" href="classlibchemist_1_1tensor_1_1Allocator.html#a2e73a495b3d429e71bc43f3a8034dddb">libchemist::tensor::Allocator&lt; FieldType &gt;</a>
 </li>
 <li>ScaleOp()
 : <a class="el" href="classlibchemist_1_1tensor_1_1detail___1_1ScaleOp.html#a65c09aea3766d012c0709f7a334e2b58">libchemist::tensor::detail_::ScaleOp&lt; FloatType, TensorType &gt;</a>
@@ -198,7 +198,8 @@ $(function() {
 , <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapPIMPL.html#adc0b02172000cbf8e7ee7f4caee3aeea">libchemist::sparse_map::detail_::SparseMapPIMPL&lt; IndIndex, DepIndex &gt;</a>
 , <a class="el" href="structlibchemist_1_1sparse__map_1_1detail___1_1SparseMapTraits_3_01SparseMap_3_01IndIndex_00_01DepIndex_01_4_01_4.html#a17d0e33647c50a0d318efaf55729e4cf">libchemist::sparse_map::detail_::SparseMapTraits&lt; SparseMap&lt; IndIndex, DepIndex &gt; &gt;</a>
 , <a class="el" href="structlibchemist_1_1sparse__map_1_1Index.html#af6b29ffc77bc74f5233b862666d21015">libchemist::sparse_map::Index</a>
-, <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html#a2c4b2b2f28435e5558fa9e1755eae970">libchemist::tensor::TensorWrapper&lt; VariantType &gt;</a>
+, <a class="el" href="classlibchemist_1_1tensor_1_1detail___1_1TensorWrapperPIMPL.html#a948ee49e0629962200e547993fc02360">libchemist::tensor::detail_::TensorWrapperPIMPL&lt; FieldType &gt;</a>
+, <a class="el" href="classlibchemist_1_1tensor_1_1TensorWrapper.html#a1c86851562f7ea599082b3651db6a41b">libchemist::tensor::TensorWrapper&lt; FieldType &gt;</a>
 , <a class="el" href="classlibchemist_1_1topology_1_1ConnectivityTable.html#aba438ac13a6e933d3f6ec21f8ca95da1">libchemist::topology::ConnectivityTable</a>
 , <a class="el" href="classlibchemist_1_1topology_1_1detail___1_1ConnectivityTablePIMPL.html#acf9f0dc20a1da0c53454a53d7824d408">libchemist::topology::detail_::ConnectivityTablePIMPL</a>
 , <a class="el" href="classlibchemist_1_1topology_1_1Topology.html#ac3338da0140659ae7c37ad5942c019d2">libchemist::topology::Topology</a>
@@ -217,11 +218,11 @@ $(function() {
 </li>
 <li>SparseMap()
 : <a class="el" href="classlibchemist_1_1sparse__map_1_1SparseMap_3_01ElementIndex_00_01ElementIndex_01_4.html#ad7110f973ab2500a8b2119df8be84229">libchemist::sparse_map::SparseMap&lt; ElementIndex, ElementIndex &gt;</a>
-, <a class="el" href="classlibchemist_1_1sparse__map_1_1SparseMap_3_01TileIndex_00_01ElementIndex_01_4.html#a67a7a26faf0416f3f02103e18a9b0d84">libchemist::sparse_map::SparseMap&lt; TileIndex, ElementIndex &gt;</a>
+, <a class="el" href="classlibchemist_1_1sparse__map_1_1SparseMap_3_01TileIndex_00_01ElementIndex_01_4.html#a396e55a2d69eaae900b1e8604269a298">libchemist::sparse_map::SparseMap&lt; TileIndex, ElementIndex &gt;</a>
 , <a class="el" href="classlibchemist_1_1sparse__map_1_1SparseMap_3_01TileIndex_00_01TileIndex_01_4.html#ab170588139db91432e295e2520b0a30f">libchemist::sparse_map::SparseMap&lt; TileIndex, TileIndex &gt;</a>
 </li>
 <li>SparseMapBase()
-: <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapBase.html#a559cce09480cc64c4134aeee7116332d">libchemist::sparse_map::detail_::SparseMapBase&lt; DerivedType, IndIndex, DepIndex &gt;</a>
+: <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapBase.html#a50d6e012c99acc84906cdfbe0984bfab">libchemist::sparse_map::detail_::SparseMapBase&lt; DerivedType, IndIndex, DepIndex &gt;</a>
 </li>
 <li>SparseMapPIMPL()
 : <a class="el" href="classlibchemist_1_1sparse__map_1_1detail___1_1SparseMapPIMPL.html#ad618df3cc9da072d85697d25fbc446ef">libchemist::sparse_map::detail_::SparseMapPIMPL&lt; IndIndex, DepIndex &gt;</a>
@@ -233,7 +234,7 @@ $(function() {
 : <a class="el" href="classlibchemist_1_1wavefunction_1_1Nonrelativistic.html#ae0e842a14175e24ca2d7114caa903098">libchemist::wavefunction::Nonrelativistic&lt; BasisType &gt;</a>
 </li>
 <li>Subset()
-: <a class="el" href="classlibchemist_1_1set__theory_1_1Subset.html#a0e55480825d7527cb306384dc46f5666">libchemist::set_theory::Subset&lt; SetType &gt;</a>
+: <a class="el" href="classlibchemist_1_1set__theory_1_1Subset.html#af914df940d80e3c255d8c4ae7bb427ee">libchemist::set_theory::Subset&lt; SetType &gt;</a>
 </li>
 <li>subset_il_type
 : <a class="el" href="classlibchemist_1_1set__theory_1_1FamilyOfSets.html#ab8f910f34a42a4ccdb45bf005178faf7">libchemist::set_theory::FamilyOfSets&lt; SetType &gt;</a>

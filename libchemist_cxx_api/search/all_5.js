@@ -1,10 +1,13 @@
 var searchData=
 [
-  ['for_20getting_20the_20value_20of_20a_20field_192',['for getting the value of a field',['../group__Accessors.html',1,'']]],
-  ['f12commutator_193',['F12Commutator',['../classlibchemist_1_1operators_1_1F12Commutator.html',1,'libchemist::operators']]],
-  ['familyofsets_194',['FamilyOfSets',['../classlibchemist_1_1set__theory_1_1FamilyOfSets.html',1,'libchemist::set_theory::FamilyOfSets&lt; SetType &gt;'],['../classlibchemist_1_1set__theory_1_1FamilyOfSets.html#adf8e85bd0b097250585e0fb054a25932',1,'libchemist::set_theory::FamilyOfSets::FamilyOfSets()=default'],['../classlibchemist_1_1set__theory_1_1FamilyOfSets.html#a102a01e299cad63c6fbf6fef5a1d112d',1,'libchemist::set_theory::FamilyOfSets::FamilyOfSets(SetType obj, il_type il={})']]],
-  ['familyofsetstraits_195',['FamilyOfSetsTraits',['../structlibchemist_1_1set__theory_1_1FamilyOfSetsTraits.html',1,'libchemist::set_theory']]],
-  ['familyofsetstraits_3c_20std_3a_3atuple_3c_20settype_2e_2e_2e_20_3e_20_3e_196',['FamilyOfSetsTraits&lt; std::tuple&lt; SetType... &gt; &gt;',['../structlibchemist_1_1set__theory_1_1FamilyOfSetsTraits_3_01std_1_1tuple_3_01SetType_8_8_8_01_4_01_4.html',1,'libchemist::set_theory']]],
+  ['for_20getting_20the_20value_20of_20a_20field_189',['for getting the value of a field',['../group__Accessors.html',1,'']]],
+  ['f12commutator_190',['F12Commutator',['../classlibchemist_1_1operators_1_1F12Commutator.html',1,'libchemist::operators']]],
+  ['familyofsets_191',['FamilyOfSets',['../classlibchemist_1_1set__theory_1_1FamilyOfSets.html',1,'libchemist::set_theory::FamilyOfSets&lt; SetType &gt;'],['../classlibchemist_1_1set__theory_1_1FamilyOfSets.html#adf8e85bd0b097250585e0fb054a25932',1,'libchemist::set_theory::FamilyOfSets::FamilyOfSets()=default'],['../classlibchemist_1_1set__theory_1_1FamilyOfSets.html#a102a01e299cad63c6fbf6fef5a1d112d',1,'libchemist::set_theory::FamilyOfSets::FamilyOfSets(SetType obj, il_type il={})']]],
+  ['familyofsetstraits_192',['FamilyOfSetsTraits',['../structlibchemist_1_1set__theory_1_1FamilyOfSetsTraits.html',1,'libchemist::set_theory']]],
+  ['familyofsetstraits_3c_20std_3a_3atuple_3c_20settype_2e_2e_2e_20_3e_20_3e_193',['FamilyOfSetsTraits&lt; std::tuple&lt; SetType... &gt; &gt;',['../structlibchemist_1_1set__theory_1_1FamilyOfSetsTraits_3_01std_1_1tuple_3_01SetType_8_8_8_01_4_01_4.html',1,'libchemist::set_theory']]],
+  ['field_5ftype_194',['field_type',['../classlibchemist_1_1tensor_1_1detail___1_1TensorWrapperPIMPL.html#a5f064dfa28927fa5ab025692472f552a',1,'libchemist::tensor::detail_::TensorWrapperPIMPL::field_type()'],['../classlibchemist_1_1tensor_1_1TensorWrapper.html#a8cdcfd4d95407a7930bfab12dc733bad',1,'libchemist::tensor::TensorWrapper::field_type()']]],
+  ['fields_2ehpp_195',['fields.hpp',['../fields_8hpp.html',1,'']]],
+  ['fieldtraits_196',['FieldTraits',['../structlibchemist_1_1tensor_1_1detail___1_1FieldTraits.html',1,'libchemist::tensor::detail_']]],
   ['flattened_5faos_197',['flattened_aos',['../classlibchemist_1_1AOBasisSet.html#acb4c9555ce2967f9d51f318355c857e5',1,'libchemist::AOBasisSet']]],
   ['flattened_5fprimitives_198',['flattened_primitives',['../classlibchemist_1_1AOBasisSet.html#a40328930c3d4e6fa9575146146af76f9',1,'libchemist::AOBasisSet']]],
   ['flattened_5fshells_199',['flattened_shells',['../classlibchemist_1_1AOBasisSet.html#a7bfa087a25a9f2795c88934cd105cb20',1,'libchemist::AOBasisSet']]],

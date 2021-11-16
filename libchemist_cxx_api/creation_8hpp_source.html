@@ -71,23 +71,22 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <a href="creation_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;libchemist/tensor/types.hpp&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;libchemist/tensor/tensor_wrapper.hpp&quot;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacelibchemist_1_1tensor.html">libchemist::tensor</a> {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>libchemist::tensor {</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;type::SparseTensorWrapper <a class="code" href="namespacelibchemist_1_1tensor.html#ac1aa274af3bc1fb2788fd3af3cb06dbb">concatenate</a>(<span class="keyword">const</span> type::SparseTensorWrapper&amp; lhs,</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                                      <span class="keyword">const</span> type::SparseTensorWrapper&amp; rhs,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                                      std::size_t dim);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;ScalarTensorWrapper concatenate(<span class="keyword">const</span> ScalarTensorWrapper&amp; lhs,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                                <span class="keyword">const</span> ScalarTensorWrapper&amp; rhs,</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                                std::size_t dim);</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;type::ToTWrapper <a class="code" href="namespacelibchemist_1_1tensor.html#ac1aa274af3bc1fb2788fd3af3cb06dbb">concatenate</a>(<span class="keyword">const</span> type::ToTWrapper&amp; lhs,</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                             <span class="keyword">const</span> type::ToTWrapper&amp; rhs, std::size_t dim);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;type::SparseTensorWrapper grab_diagonal(<span class="keyword">const</span> type::SparseTensorWrapper&amp; t);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;} <span class="comment">// namespace libchemist::tensor</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;TensorOfTensorsWrapper concatenate(<span class="keyword">const</span> TensorOfTensorsWrapper&amp; lhs,</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                                   <span class="keyword">const</span> TensorOfTensorsWrapper&amp; rhs,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                                   std::size_t dim);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;ScalarTensorWrapper grab_diagonal(<span class="keyword">const</span> ScalarTensorWrapper&amp; t);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;} <span class="comment">// namespace libchemist::tensor</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="anamespacelibchemist_1_1tensor_html"><div class="ttname"><a href="namespacelibchemist_1_1tensor.html">libchemist::tensor</a></div><div class="ttdoc">tensor_wrapper.ipp</div><div class="ttdef"><b>Definition:</b> allclose.cpp:6</div></div>
-<div class="ttc" id="anamespacelibchemist_1_1tensor_html_ac1aa274af3bc1fb2788fd3af3cb06dbb"><div class="ttname"><a href="namespacelibchemist_1_1tensor.html#ac1aa274af3bc1fb2788fd3af3cb06dbb">libchemist::tensor::concatenate</a></div><div class="ttdeci">type::SparseTensorWrapper concatenate(const type::SparseTensorWrapper &amp;lhs, const type::SparseTensorWrapper &amp;rhs, std::size_t dim)</div><div class="ttdoc">Concatentaes two tensors together along the specified dimension.</div><div class="ttdef"><b>Definition:</b> creation.cpp:7</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
