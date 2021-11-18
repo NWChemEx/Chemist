@@ -133,7 +133,7 @@ public:
      *
      *  A pure shell of total angular momentum @f$\ell@f$ has @f$2\ell + 1@f$
      *  AOs in it, whereas a Cartesian shell of the same total angular momentum
-     *  has @f$\binomial{2 + \ell}{2}@f$ (the number of ways of distributing
+     *  has @f$\binom{2 + \ell}{2}@f$ (the number of ways of distributing
      *  @f$\ell@f$ units of angular momenta among the three Cartesian
      *  coordinates).
      *

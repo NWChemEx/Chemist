@@ -1,14 +1,16 @@
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include "libchemist/tensor/tensor.hpp"
-#include "libchemist/tensor/types.hpp"
 #include "libchemist/types.hpp"
 #include <catch2/catch.hpp>
 
 using namespace libchemist::tensor;
 
-TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
+using scalar_traits  = backends::TiledArrayTraits<field::Scalar>;
+using scalar_variant = typename scalar_traits::variant_type;
+
+TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", scalar_variant) {
     auto& world     = TA::get_default_world();
-    using TWrapper  = TensorWrapper<type::tensor_variant>;
+    using TWrapper  = ScalarTensorWrapper;
     using t_type    = TestType;
     using extents   = typename TWrapper::extents_type;
     using vector_il = TA::detail::vector_il<double>;
@@ -27,14 +29,11 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
     TWrapper mat(mat_data);
     TWrapper t3(t3_data);
 
-    auto default_alloc = default_allocator<type::tensor_variant>();
+    // Assumed different type than the one returned by default_allocator
+    using other_alloc  = SingleElementTiles<field::Scalar>;
+    auto default_alloc = default_allocator<field::Scalar>();
 
     SECTION("Typedefs") {
-        SECTION("variant_type") {
-            using type = typename TWrapper::variant_type;
-            using corr = libchemist::tensor::type::tensor_variant;
-            STATIC_REQUIRE(std::is_same_v<type, corr>);
-        }
         SECTION("annotation_type") {
             using type = typename TWrapper::annotation_type;
             using corr = std::string;
@@ -95,9 +94,8 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
             }
 
             SECTION("Retiles if necessary") {
-                using other_alloc = SingleElementTiles<type::tensor_variant>;
-                auto palloc       = std::make_unique<other_alloc>(world);
-                auto tr           = palloc->make_tiled_range(std::vector{3ul});
+                auto palloc = std::make_unique<other_alloc>(world);
+                auto tr     = palloc->make_tiled_range(std::vector{3ul});
                 t_type corr_data(world, tr, vector_il{1.0, 2.0, 3.0});
                 TWrapper corr(std::move(corr_data), std::move(palloc));
                 auto palloc2 = std::make_unique<other_alloc>(world);
@@ -105,6 +103,8 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
                 REQUIRE(retiled == corr);
             }
         }
+
+        SECTION("SparseMap") {}
 
         SECTION("Copy") {
             TWrapper copied(vec);
@@ -148,6 +148,23 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
         REQUIRE(t3.allocator().is_equal(*default_alloc));
     }
 
+    SECTION("reallocate") {
+        auto new_p     = std::make_unique<other_alloc>(world);
+        const auto* pa = &(*new_p);
+
+        SECTION("Default") {
+            defaulted.reallocate(std::move(new_p));
+            REQUIRE(&defaulted.allocator() == pa);
+        }
+
+        SECTION("Non-default") {
+            TWrapper corr(vec_data, new_p->clone());
+            vec.reallocate(std::move(new_p));
+            REQUIRE(vec == corr);
+            REQUIRE(&vec.allocator() == pa);
+        }
+    }
+
     SECTION("make_annotation") {
         REQUIRE(defaulted.make_annotation() == "");
         REQUIRE(vec.make_annotation() == "i0");
@@ -185,6 +202,12 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
               world, tensor_il{matrix_il{vector_il{2.0}, vector_il{4.0}},
                                matrix_il{vector_il{6.0}, vector_il{8.0}}}));
             auto slice = t3.slice({0ul, 0ul, 1ul}, {2ul, 2ul, 2ul});
+            REQUIRE(slice == corr);
+        }
+        SECTION("Different allocator") {
+            auto p = std::make_unique<other_alloc>(world);
+            TWrapper corr(t_type(world, vector_il{1.0, 2.0}), p->clone());
+            auto slice = vec.slice({0ul}, {2ul}, std::move(p));
             REQUIRE(slice == corr);
         }
     }
@@ -288,12 +311,30 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tensor_variant) {
             REQUIRE(vec != mat);
         }
     }
+
+    /* This bug was found by Jonathan Waldrop. What was happening was that if
+       you default constructed a TensorWrapper instance A, A has no allocator.
+       When you then assigned to A (from a filled instance B), A got the values
+       of B, but no allocator. When you then performed an operation which
+       requires usage of the allocator in A (such as slicing, which used to
+       clone A's allocator and give it to the slice) you got a segfault.
+     */
+    SECTION("Slicing after default construction") {
+        TWrapper A;
+        A("i,j")        = mat("i,j");
+        auto slice_of_A = A.slice({0ul, 1ul}, {1ul, 2ul});
+        TWrapper corr(t_type(world, matrix_il{vector_il{2.0}}));
+        REQUIRE(slice_of_A == corr);
+    }
 }
 
-TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tot_variant) {
+using tot_traits  = backends::TiledArrayTraits<field::Tensor>;
+using tot_variant = typename tot_traits::variant_type;
+
+TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", tot_variant) {
     auto& world        = TA::get_default_world();
-    using variant_type = type::tot_variant;
-    using TWrapper     = TensorWrapper<type::tot_variant>;
+    using variant_type = tot_variant;
+    using TWrapper     = TensorOfTensorsWrapper;
     using t_type       = TestType;
     using tile_type    = typename TestType::value_type;
     using inner_tile   = typename tile_type::value_type;
@@ -314,11 +355,6 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", type::tot_variant) {
     TWrapper t3_2(t3_2_data);
 
     SECTION("Typedefs") {
-        SECTION("variant_type") {
-            using type = typename TWrapper::variant_type;
-            using corr = variant_type;
-            STATIC_REQUIRE(std::is_same_v<type, corr>);
-        }
         SECTION("annotation_type") {
             using type = typename TWrapper::annotation_type;
             using corr = std::string;

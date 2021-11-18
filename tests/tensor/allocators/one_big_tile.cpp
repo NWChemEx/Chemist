@@ -1,5 +1,4 @@
 #include "libchemist/tensor/allocators/allocators.hpp"
-#include "libchemist/tensor/types.hpp"
 #include <catch2/catch.hpp>
 
 using namespace libchemist::tensor;
@@ -12,8 +11,8 @@ using namespace libchemist::tensor;
  *
  */
 TEST_CASE("OneBigTile") {
-    using variant_type = libchemist::tensor::type::tensor_variant;
-    using alloc_type   = OneBigTile<variant_type>;
+    using field_type   = libchemist::tensor::field::Scalar;
+    using alloc_type   = OneBigTile<field_type>;
     using extents_type = typename alloc_type::extents_type;
     using tr_type      = typename alloc_type::tiled_range_type;
 
@@ -37,7 +36,7 @@ TEST_CASE("OneBigTile") {
         }
 
         SECTION("Different derived types") {
-            SingleElementTiles<variant_type> c;
+            SingleElementTiles<field_type> c;
             REQUIRE_FALSE(c.is_equal(a));
             REQUIRE_FALSE(a.is_equal(c));
         }

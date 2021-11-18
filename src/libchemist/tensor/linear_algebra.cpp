@@ -5,10 +5,11 @@
 
 namespace libchemist::tensor {
 
-using TWrapper = type::SparseTensorWrapper;
+using TWrapper       = ScalarTensorWrapper;
+using ta_tensor_type = TA::TSpArrayD;
 
 std::pair<TWrapper, TWrapper> eigen_solve(const TWrapper& X) {
-    using tensor_type = tensor::type::detail_::tensor<double>;
+    using tensor_type = ta_tensor_type;
 
     const auto& x = X.get<tensor_type>();
 
@@ -22,7 +23,7 @@ std::pair<TWrapper, TWrapper> eigen_solve(const TWrapper& X) {
 
 std::pair<TWrapper, TWrapper> eigen_solve(const TWrapper& X,
                                           const TWrapper& S) {
-    using tensor_type = tensor::type::detail_::tensor<double>;
+    using tensor_type = ta_tensor_type;
 
     const auto& x = X.get<tensor_type>();
     const auto& s = S.get<tensor_type>();
@@ -36,7 +37,7 @@ std::pair<TWrapper, TWrapper> eigen_solve(const TWrapper& X,
 }
 
 TWrapper cholesky_linv(const TWrapper& M) {
-    using tensor_type = tensor::type::detail_::tensor<double>;
+    using tensor_type = ta_tensor_type;
 
     const auto& m = M.get<tensor_type>();
 
@@ -47,7 +48,7 @@ TWrapper cholesky_linv(const TWrapper& M) {
 }
 
 TWrapper hmatrix_pow(const TWrapper& S, double pow) {
-    const auto s = S.get<tensor::type::detail_::tensor<double>>();
+    const auto s = S.get<ta_tensor_type>();
     auto s_out   = libchemist::ta_helpers::hmatrix_pow(s, pow);
     return TWrapper(s_out);
 }

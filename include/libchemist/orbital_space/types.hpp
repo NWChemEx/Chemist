@@ -13,10 +13,10 @@ namespace libchemist::orbital_space::type {
 using namespace libchemist::type;
 
 /// Type of a wrapped, non-hierarchical tensor
-using tensor_wrapper = libchemist::tensor::type::SparseTensorWrapper;
+using tensor_wrapper = libchemist::tensor::ScalarTensorWrapper;
 
 /// Type of a wrapped, hierarchical tensor
-using tot_wrapper = libchemist::tensor::type::ToTWrapper;
+using tot_wrapper = libchemist::tensor::TensorOfTensorsWrapper;
 
 /** @brief Type of the sparse affiliated with dependent spaces.
  *

@@ -5,9 +5,12 @@ using vector_il = TA::detail::vector_il<double>;
 using matrix_il = TA::detail::matrix_il<double>;
 using tensor_il = TA::detail::tensor3_il<double>;
 
-TEMPLATE_LIST_TEST_CASE("ScaleOp", "", type::tensor_variant) {
+using scalar_traits  = backends::TiledArrayTraits<field::Scalar>;
+using scalar_variant = typename scalar_traits::variant_type;
+
+TEMPLATE_LIST_TEST_CASE("ScaleOp", "", scalar_variant) {
     auto& world    = TA::get_default_world();
-    using TWrapper = TensorWrapper<type::tensor_variant>;
+    using TWrapper = ScalarTensorWrapper;
     using t_type   = TestType;
 
     // Declare the TA tensors

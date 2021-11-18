@@ -1,22 +1,26 @@
 #include "libchemist/ta_helpers/ta_helpers.hpp"
 #include "libchemist/tensor/allclose.hpp"
-#include "libchemist/tensor/tensor_wrapper.hpp"
-#include "libchemist/tensor/types.hpp"
+#include "libchemist/tensor/detail_/backends/tiled_array.hpp"
 
 namespace libchemist::tensor {
 
-bool allclose(const type::SparseTensorWrapper& actual,
-              const type::SparseTensorWrapper& ref, double rtol, double atol) {
-    using tensor_type = tensor::type::detail_::tensor<double>;
+using ta_tensor_type =
+  backends::TiledArrayTraits<field::Scalar>::tensor_type<double>;
+using ta_tot_type =
+  backends::TiledArrayTraits<field::Tensor>::tensor_type<double>;
+
+bool allclose(const ScalarTensorWrapper& actual, const ScalarTensorWrapper& ref,
+              double rtol, double atol) {
+    using tensor_type = ta_tensor_type;
     const auto& a     = actual.get<tensor_type>();
     const auto& r     = ref.get<tensor_type>();
 
     return ta_helpers::allclose(a, r, false, rtol, atol);
 }
 
-bool allclose(const type::ToTWrapper& actual, const type::ToTWrapper& ref,
-              double rtol, double atol) {
-    using tensor_type = tensor::type::detail_::tensor_of_tensors<double>;
+bool allclose(const TensorOfTensorsWrapper& actual,
+              const TensorOfTensorsWrapper& ref, double rtol, double atol) {
+    using tensor_type = ta_tot_type;
     const auto& a     = actual.get<tensor_type>();
     const auto& r     = ref.get<tensor_type>();
 
@@ -24,19 +28,18 @@ bool allclose(const type::ToTWrapper& actual, const type::ToTWrapper& ref,
     return ta_helpers::allclose_tot(a, r, inner_rank, false, rtol, atol);
 }
 
-bool abs_allclose(const type::SparseTensorWrapper& actual,
-                  const type::SparseTensorWrapper& ref, double rtol,
-                  double atol) {
-    using tensor_type = tensor::type::detail_::tensor<double>;
+bool abs_allclose(const ScalarTensorWrapper& actual,
+                  const ScalarTensorWrapper& ref, double rtol, double atol) {
+    using tensor_type = ta_tensor_type;
     const auto& a     = actual.get<tensor_type>();
     const auto& r     = ref.get<tensor_type>();
 
     return ta_helpers::allclose(a, r, true, rtol, atol);
 }
 
-bool abs_allclose(const type::ToTWrapper& actual, const type::ToTWrapper& ref,
-                  double rtol, double atol) {
-    using tensor_type = tensor::type::detail_::tensor_of_tensors<double>;
+bool abs_allclose(const TensorOfTensorsWrapper& actual,
+                  const TensorOfTensorsWrapper& ref, double rtol, double atol) {
+    using tensor_type = ta_tot_type;
     const auto& a     = actual.get<tensor_type>();
     const auto& r     = ref.get<tensor_type>();
 

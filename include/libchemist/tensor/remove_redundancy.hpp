@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/tensor/types.hpp"
+#include "libchemist/tensor/tensor_wrapper.hpp"
 
 namespace libchemist::tensor {
 
@@ -19,8 +19,8 @@ namespace libchemist::tensor {
  *
  *  @return The new, linearly-independent, vectors.
  */
-type::SparseTensorWrapper remove_redundancy(const type::SparseTensorWrapper& C,
-                                            const type::SparseTensorWrapper& S,
-                                            double thresh = 1.0E-8);
+ScalarTensorWrapper remove_redundancy(const ScalarTensorWrapper& C,
+                                      const ScalarTensorWrapper& S,
+                                      double thresh = 1.0E-8);
 
 } // namespace libchemist::tensor

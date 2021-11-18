@@ -19,14 +19,15 @@ TEST_CASE("eigen_solve") {
     using imatrix_il = TA::detail::matrix_il<int>;
     using dvector_il = TA::detail::vector_il<double>;
     using dmatrix_il = TA::detail::matrix_il<double>;
+    using TWrapper   = ScalarTensorWrapper;
     auto& world      = TA::get_default_world();
     TA::TSpArrayD data(world,
                        imatrix_il{ivector_il{1, 2, 3}, ivector_il{2, 4, 5},
                                   ivector_il{3, 5, 6}});
-    type::SparseTensorWrapper X(data);
+    TWrapper X(data);
 
-    type::SparseTensorWrapper eval_corr(TA::TSpArrayD(world, eval_data));
-    type::SparseTensorWrapper evec_corr(TA::TSpArrayD(world, evec_data));
+    TWrapper eval_corr(TA::TSpArrayD(world, eval_data));
+    TWrapper evec_corr(TA::TSpArrayD(world, evec_data));
 
     SECTION("No overlap matrix") {
         const auto& [evals, evecs] = eigen_solve(X);
@@ -37,7 +38,7 @@ TEST_CASE("eigen_solve") {
         TA::TSpArrayD ovp(world, dmatrix_il{dvector_il{1.0, 0.0, 0.0},
                                             dvector_il{0.0, 1.0, 0.0},
                                             dvector_il{0.0, 0.0, 1.0}});
-        type::SparseTensorWrapper S(ovp);
+        TWrapper S(ovp);
         const auto& [evals, evecs] = eigen_solve(X, S);
         SECTION("eigen values") { REQUIRE(allclose(eval_corr, evals)); }
         SECTION("eigen vectors") { REQUIRE(abs_allclose(evec_corr, evecs)); }

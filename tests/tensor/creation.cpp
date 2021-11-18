@@ -6,7 +6,7 @@
 using namespace libchemist::tensor;
 
 TEST_CASE("concatenate(Tensor)") {
-    using tensor_t = libchemist::tensor::type::SparseTensorWrapper;
+    using tensor_t = libchemist::tensor::ScalarTensorWrapper;
     auto tensors   = testing::get_tensors<TA::TSpArrayD>();
     auto& world    = TA::get_default_world();
 
@@ -57,6 +57,6 @@ TEST_CASE("concatenate(Tensor)") {
 }
 
 TEST_CASE("concatenate(ToT)") {
-    type::ToTWrapper A, B;
+    TensorOfTensorsWrapper A, B;
     REQUIRE_THROWS_AS(concatenate(A, B, 0), std::runtime_error);
 }

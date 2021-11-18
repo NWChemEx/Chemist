@@ -4,7 +4,7 @@
 using namespace libchemist::tensor;
 
 TEST_CASE("to_vector") {
-    using tensor_type = libchemist::tensor::type::SparseTensorWrapper;
+    using tensor_type = libchemist::tensor::ScalarTensorWrapper;
     auto tensors      = testing::get_tensors<TA::TSpArrayD>();
 
     SECTION("vector") {
