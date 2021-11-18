@@ -14,7 +14,7 @@ namespace libchemist::tensor::detail_ {
  *  auto operator+(LHS&& lhs, RHS&& rhs) {}
  *  @endcode
  *
- *  which requires SFINAE so tha t it's only enabled for choices of LHS and RHS
+ *  which requires SFINAE so that it's only enabled for choices of LHS and RHS
  *  like `MultOp<L, R>`. With this class we can do:
  *
  *  @code

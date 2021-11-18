@@ -45,6 +45,9 @@ public:
     /// Type used for counting/indexing
     using size_type = std::size_t;
 
+    /// Type used to store the charge of the system
+    using charge_type = int;
+
     /** @brief Creates a new ChemicalSystem with default constructed members.
      *
      *  @throws std::bad_alloc if there is an error while allocating the PIMPL.
@@ -171,6 +174,21 @@ public:
      *         guarantee.
      */
     size_type nelectrons() const;
+
+    /** @brief Returns the electronic charge of the system.
+     *
+     *  The charge of the system is based off of the number of electrons and
+     *  the atomic numbers of the nuclei. To change the charge of the system,
+     *  change the number of electrons (or add/remove nuclei).
+     *
+     *  @note By fiat we define an empty system to have no charge.
+     *
+     *  @return -1 times the net number of electrons (relative to the neutral
+     *          system).
+     *
+     *  @throw None no throw guarantee.
+     */
+    charge_type charge() const noexcept;
 
     /** @brief Returns the external electrostatic potential in a read/write
      *         state.
