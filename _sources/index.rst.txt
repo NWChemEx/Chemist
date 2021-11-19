@@ -6,6 +6,6 @@ LibChemist
 
    orbital_space/index
    sparse_maps/index
-   C++ API <https://nwchemex-project.github.io/LibChemist/chemist_cxx_api/index.html>
+   C++ API <https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html>
 
 
