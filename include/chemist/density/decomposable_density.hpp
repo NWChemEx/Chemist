@@ -1,8 +1,8 @@
 #pragma once
-#include "libchemist/density/density.hpp"
-#include "libchemist/orbital_space/derived_space.hpp"
+#include "chemist/density/density.hpp"
+#include "chemist/orbital_space/derived_space.hpp"
 
-namespace libchemist {
+namespace chemist {
 
 /** @brief Class describing a decomposable density.
  *
@@ -120,4 +120,4 @@ bool operator!=(const DecomposableDensity<LHSParticles...>& lhs,
 /// Type of the one-Electron density
 using Decomposable1EDensity = DecomposableDensity<Electron>;
 
-} // namespace libchemist
+} // namespace chemist

@@ -1,4 +1,4 @@
-#include "../test_chemist.hpp"
+#include "test_density.hpp"
 #include "chemist/density/density.hpp"
 
 // Tuple containing the known densities

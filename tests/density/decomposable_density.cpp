@@ -1,8 +1,8 @@
-#include "libchemist/density/decomposable_density.hpp"
+#include "chemist/density/decomposable_density.hpp"
 #include "test_density.hpp"
 
 // Known Densities
-using libchemist::Decomposable1EDensity;
+using chemist::Decomposable1EDensity;
 
 // Tuple containing the known densities
 using density_types = std::tuple<Decomposable1EDensity>;
@@ -16,22 +16,22 @@ TEMPLATE_LIST_TEST_CASE("DecomposableDensity", "", density_types) {
 
     SECTION("Typedefs") {
         SECTION("base_type") {
-            using corr = libchemist::OneElectronDensity;
+            using corr = chemist::OneElectronDensity;
             STATIC_REQUIRE(std::is_same_v<base_type, corr>);
         }
 
         SECTION("space_type") {
-            using corr = libchemist::orbital_space::DerivedSpaceD;
+            using corr = chemist::orbital_space::DerivedSpaceD;
             STATIC_REQUIRE(std::is_same_v<space_type, corr>);
         }
 
         SECTION("value_type") {
-            using corr = libchemist::type::tensor;
+            using corr = chemist::type::tensor;
             STATIC_REQUIRE(std::is_same_v<value_type, corr>);
         }
 
         SECTION("aos_type") {
-            using corr = libchemist::orbital_space::AOSpaceD;
+            using corr = chemist::orbital_space::AOSpaceD;
             STATIC_REQUIRE(std::is_same_v<aos_type, corr>);
         }
     }
