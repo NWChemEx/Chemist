@@ -60,8 +60,7 @@ struct MoleculeStreamParser {
 struct XYZParser : public MoleculeStreamParser {
     action_type worth_parsing(const std::string& line) const override;
     std::map<data_type, std::vector<double>> parse(
-      const std::string& line,
-      const chemist::PeriodicTable& pt) const override;
+      const std::string& line, const chemist::PeriodicTable& pt) const override;
 };
 
 /**

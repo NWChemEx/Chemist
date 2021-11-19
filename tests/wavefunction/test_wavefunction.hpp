@@ -12,7 +12,7 @@ namespace testing {
 template<typename TensorType>
 auto make_tensor(double seed = 1.0) {
     using field_type = typename TensorType::field_type;
-    using traits = chemist::tensor::backends::TiledArrayTraits<field_type>;
+    using traits     = chemist::tensor::backends::TiledArrayTraits<field_type>;
 
     constexpr bool is_tot =
       std::is_same_v<field_type, chemist::tensor::field::Tensor>;
@@ -42,8 +42,7 @@ auto make_space(double seed = 1.0) {
 
     if constexpr(chemist::orbital_space::is_canonical_space_v<space>) {
         return space(make_tensor<transform_type>(seed));
-    } else if constexpr(chemist::orbital_space::is_independent_space_v<
-                          space>) {
+    } else if constexpr(chemist::orbital_space::is_independent_space_v<space>) {
         using base_space = typename space::base_space_type;
         return space(base_space(make_tensor<transform_type>(seed)));
     } else {
