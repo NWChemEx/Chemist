@@ -1,7 +1,7 @@
-#include "libchemist/operators/kinetic.hpp"
+#include "chemist/operators/kinetic.hpp"
 #include "test_operator.hpp"
 
-using namespace libchemist::operators;
+using namespace chemist::operators;
 
 // Using ManyElectrons for distinguishability in != cases
 using type_list = std::tuple<NElectronKinetic>;

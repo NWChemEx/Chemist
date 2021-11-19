@@ -1,8 +1,8 @@
-#include "libchemist/ta_helpers/remove_redundancy.hpp"
-#include "libchemist/types.hpp"
+#include "chemist/ta_helpers/remove_redundancy.hpp"
+#include "chemist/types.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::ta_helpers;
+using namespace chemist::ta_helpers;
 
 using tensor_type = TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>;
 using vector_t    = std::initializer_list<double>;

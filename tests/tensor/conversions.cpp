@@ -1,10 +1,10 @@
-#include "libchemist/tensor/tensor.hpp"
+#include "chemist/tensor/tensor.hpp"
 #include "test_tensor.hpp"
 
-using namespace libchemist::tensor;
+using namespace chemist::tensor;
 
 TEST_CASE("to_vector") {
-    using tensor_type = libchemist::tensor::type::SparseTensorWrapper;
+    using tensor_type = chemist::tensor::ScalarTensorWrapper;
     auto tensors      = testing::get_tensors<TA::TSpArrayD>();
 
     SECTION("vector") {

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 
 file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/version.txt" VERSION)
-project(libchemist VERSION "${VERSION}" LANGUAGES CXX)
+project(chemist VERSION "${VERSION}" LANGUAGES CXX)
 
 set(
     CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${PROJECT_SOURCE_DIR}/cmake"
@@ -44,10 +44,13 @@ find_package(Boost REQUIRED COMPONENTS container)
 
 cpp_add_library(
     chemist
-    SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/libchemist"
-    INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/include/libchemist"
+    SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/chemist"
+    INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/include/chemist"
     DEPENDS nwx::pluginplay tiledarray Boost::container
 )
+
+include(nwx_python_mods)
+cppyy_make_python_package(PYTHONIZE MPI BLAS TA PACKAGE chemist NAMESPACES chemist TA DEPPACKAGES pluginplay)
 
 if("${BUILD_TESTING}")
     cpp_find_or_build_dependency(
@@ -61,7 +64,7 @@ if("${BUILD_TESTING}")
     cpp_add_tests(
         test_chemist
         SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/tests"
-        INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/libchemist"
+        INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/chemist"
         DEPENDS Catch2::Catch2 chemist
     )
 endif()

@@ -1,10 +1,10 @@
 #include "../test_set_theory.hpp"
-#include "libchemist/set_theory/subset.hpp"
-#include "libchemist/set_theory/traits/family_of_sets_tuple.hpp"
+#include "chemist/set_theory/subset.hpp"
+#include "chemist/set_theory/traits/family_of_sets_tuple.hpp"
 #include <catch2/catch.hpp>
 #include <sstream>
 
-using namespace libchemist::set_theory;
+using namespace chemist::set_theory;
 
 TEST_CASE("FamilyOfSetsTraits<Tuple>") {
     using set0_t      = std::tuple_element_t<0, container_types>;

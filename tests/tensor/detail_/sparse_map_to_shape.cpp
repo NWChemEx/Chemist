@@ -1,8 +1,8 @@
 #include "../../sparse_map/test_sparse_map.hpp"
-#include "libchemist/tensor/detail_/sparse_map_to_shape.hpp"
-#include "libchemist/tensor/tensor.hpp"
+#include "chemist/tensor/detail_/sparse_map_to_shape.hpp"
+#include "chemist/tensor/tensor.hpp"
 
-using namespace libchemist::tensor::detail_;
+using namespace chemist::tensor::detail_;
 
 namespace {
 
@@ -19,8 +19,8 @@ auto il2shape(const TA::TiledRange& tr, std::initializer_list<float> il) {
 } // namespace
 
 TEST_CASE("sparse_map_to_shape") {
-    using index_type      = libchemist::sparse_map::ElementIndex;
-    using sparse_map_type = libchemist::sparse_map::SparseMapEE;
+    using index_type      = chemist::sparse_map::ElementIndex;
+    using sparse_map_type = chemist::sparse_map::SparseMapEE;
     using tr1_type        = TA::TiledRange1;
     using tr_type         = TA::TiledRange;
 

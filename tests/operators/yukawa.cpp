@@ -1,7 +1,7 @@
-#include "libchemist/operators/yukawa.hpp"
+#include "chemist/operators/yukawa.hpp"
 #include "test_operator.hpp"
 
-using namespace libchemist::operators;
+using namespace chemist::operators;
 
 using type_list = std::tuple<ElectronElectronYukawa>;
 

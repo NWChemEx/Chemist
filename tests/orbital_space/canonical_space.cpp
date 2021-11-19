@@ -1,8 +1,8 @@
-#include "libchemist/orbital_space/canonical_space.hpp"
+#include "chemist/orbital_space/canonical_space.hpp"
 #include "test_orbital_space.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::orbital_space;
+using namespace chemist::orbital_space;
 
 /* For testing purposes we assume:
  *
@@ -15,8 +15,8 @@ using namespace libchemist::orbital_space;
 
 TEST_CASE("CanonicalSpaceD") {
     using space_type  = CanonicalSpaceD;
-    using from_space  = libchemist::orbital_space::AOSpaceD;
-    using tensor_type = libchemist::type::tensor;
+    using from_space  = chemist::orbital_space::AOSpaceD;
+    using tensor_type = chemist::type::tensor;
 
     auto& world   = TA::get_default_world();
     auto ev_and_c = testing::get_canonical(world);

@@ -1,5 +1,5 @@
 #include <catch2/catch.hpp>
-#include <libchemist/detail_/aos_facade.hpp>
+#include <chemist/detail_/aos_facade.hpp>
 
 /*
  * Note that despite the names of the variables in this test, there's nothing
@@ -7,7 +7,7 @@
  * historical that that was the first application of this class.
  */
 
-using namespace libchemist::detail_;
+using namespace chemist::detail_;
 
 // Typedefs only used in this file
 using coef_t  = std::vector<double>;

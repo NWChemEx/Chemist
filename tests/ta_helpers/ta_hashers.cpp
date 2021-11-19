@@ -1,5 +1,5 @@
-#include "libchemist/ta_helpers/ta_hashers.hpp"
-#include "libchemist/ta_helpers/ta_helpers.hpp"
+#include "chemist/ta_helpers/ta_hashers.hpp"
+#include "chemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
 #include <pluginplay/hasher.hpp>
 

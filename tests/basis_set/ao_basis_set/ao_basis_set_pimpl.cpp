@@ -1,8 +1,8 @@
-#include "libchemist/basis_set/ao_basis_set/ao_basis_set_pimpl.hpp"
+#include "chemist/basis_set/ao_basis_set/ao_basis_set_pimpl.hpp"
 #include <catch2/catch.hpp>
 
-using pimpl_t  = libchemist::detail_::AOBasisSetPIMPL<double>;
-using center_t = libchemist::Center<double>;
+using pimpl_t  = chemist::detail_::AOBasisSetPIMPL<double>;
+using center_t = chemist::Center<double>;
 
 TEST_CASE("AOBasisSetPIMPL : default ctor") {
     pimpl_t p{};

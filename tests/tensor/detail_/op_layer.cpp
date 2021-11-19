@@ -1,4 +1,4 @@
-#include "libchemist/tensor/tensor.hpp"
+#include "chemist/tensor/tensor.hpp"
 #include <catch2/catch.hpp>
 
 /* Testing strategy:
@@ -8,11 +8,11 @@
  * to it.
  */
 
-using namespace libchemist::tensor;
+using namespace chemist::tensor;
 
 TEST_CASE("OpLayer") {
-    using tensor         = type::SparseTensorWrapper;
-    using ta_tensor      = libchemist::tensor::type::detail_::tensor<double>;
+    using tensor         = ScalarTensorWrapper;
+    using ta_tensor      = TA::TSpArrayD;
     using labeled_tensor = detail_::LabeledTensorWrapper<tensor>;
     using base_type      = detail_::OpLayer<labeled_tensor>;
     using vector_il      = TA::detail::vector_il<int>;

@@ -1,7 +1,7 @@
-#include "libchemist/topology/distance.hpp"
+#include "chemist/topology/distance.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::topology;
+using namespace chemist::topology;
 
 using value_type      = typename Distance::value_type;
 using reference_type  = typename Distance::reference_type;

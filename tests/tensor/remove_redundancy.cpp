@@ -1,10 +1,10 @@
-#include "libchemist/tensor/tensor.hpp"
+#include "chemist/tensor/tensor.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::tensor;
+using namespace chemist::tensor;
 
 using ta_type     = TA::TSpArrayD;
-using tensor_type = type::SparseTensorWrapper;
+using tensor_type = ScalarTensorWrapper;
 using vector_il   = TA::detail::vector_il<double>;
 using matrix_il   = TA::detail::matrix_il<double>;
 

@@ -1,5 +1,5 @@
-#include "libchemist/basis_set/basis_set.hpp"
-#include "libchemist/orbital_space/derived_space.hpp"
+#include "chemist/basis_set/basis_set.hpp"
+#include "chemist/orbital_space/derived_space.hpp"
 #include <catch2/catch.hpp>
 
 /* For testing purposes we assume:
@@ -10,15 +10,15 @@
  *   tested it'll work here too.
  */
 
-using namespace libchemist;
-using namespace libchemist::orbital_space;
+using namespace chemist;
+using namespace chemist::orbital_space;
 
 TEST_CASE("DerivedSpace") {
     // Work out types we will need
     using scalar_type = double;
     using space_type  = DerivedSpaceD;
     using ta_tensor = TA::DistArray<TA::Tensor<scalar_type>, TA::SparsePolicy>;
-    using tensor_type = libchemist::type::tensor;
+    using tensor_type = chemist::type::tensor;
     using from_space  = AOSpaceD;
     using base_space  = BaseSpace;
     using vector_il   = TA::detail::vector_il<double>;
@@ -52,7 +52,7 @@ TEST_CASE("DerivedSpace") {
 
     space_type default_ao(C, from_space{});
     AOBasisSetD bs;
-    bs.add_center(libchemist::Center<scalar_type>(1.0, 2.0, 3.0));
+    bs.add_center(chemist::Center<scalar_type>(1.0, 2.0, 3.0));
     from_space aos(std::move(bs));
     space_type non_default_aos(tensor_type{}, aos);
     space_type non_default(C, aos);

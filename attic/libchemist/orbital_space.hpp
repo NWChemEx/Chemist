@@ -1,11 +1,11 @@
 #pragma once
-#include <libchemist/basis_set/ao_basis_set/ao_basis_set.hpp>
-#include <libchemist/molecule.hpp>
-#include <libchemist/ta_helpers/ta_helpers.hpp>
-#include <libchemist/types.hpp>
+#include <chemist/basis_set/ao_basis_set/ao_basis_set.hpp>
+#include <chemist/molecule.hpp>
+#include <chemist/ta_helpers/ta_helpers.hpp>
+#include <chemist/types.hpp>
 #include <sde/hasher.hpp>
 
-namespace libchemist {
+namespace chemist {
 
 // Forward declaration of PIMPL
 namespace detail_ {
@@ -262,4 +262,4 @@ bool operator!=(const OrbitalSpace<E1, T>& space1,
                 const OrbitalSpace<E2, T>& space2) {
     return !(space1 == space2);
 }
-} // end namespace libchemist
+} // end namespace chemist

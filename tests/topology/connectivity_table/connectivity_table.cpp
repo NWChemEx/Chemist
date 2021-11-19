@@ -1,8 +1,8 @@
-#include "libchemist/topology/connectivity_table.hpp"
+#include "chemist/topology/connectivity_table.hpp"
 #include <catch2/catch.hpp>
 #include <sstream>
 
-using namespace libchemist::topology;
+using namespace chemist::topology;
 
 using pimpl_type     = typename ConnectivityTable::pimpl_type;
 using pimpl_ptr      = typename ConnectivityTable::pimpl_ptr;

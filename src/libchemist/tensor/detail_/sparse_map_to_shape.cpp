@@ -1,12 +1,12 @@
-#include "libchemist/tensor/detail_/sparse_map_to_shape.hpp"
+#include "chemist/tensor/detail_/sparse_map_to_shape.hpp"
 
-namespace libchemist::tensor::detail_ {
+namespace chemist::tensor::detail_ {
 
 using shape_type      = TA::SparseShape<float>;
 using trange_type     = TA::TiledRange;
-using sparse_map_type = libchemist::sparse_map::SparseMapEE;
-using index_type      = libchemist::sparse_map::ElementIndex;
-using tile_index      = libchemist::sparse_map::TileIndex;
+using sparse_map_type = chemist::sparse_map::SparseMapEE;
+using index_type      = chemist::sparse_map::ElementIndex;
+using tile_index      = chemist::sparse_map::TileIndex;
 
 namespace {
 
@@ -48,8 +48,8 @@ auto ee_to_tt(const sparse_map_type& sm, const idx2mode_type& idx2mode,
     auto ind_tr = make_tr(ind, tr);
     auto dep_tr = make_tr(dep, tr);
 
-    libchemist::sparse_map::SparseMapET smET(dep_tr, sm);
-    return libchemist::sparse_map::SparseMapTT(ind_tr, smET);
+    chemist::sparse_map::SparseMapET smET(dep_tr, sm);
+    return chemist::sparse_map::SparseMapTT(ind_tr, smET);
 }
 
 auto get_tile_index(const tile_index& ind, const tile_index& dep,

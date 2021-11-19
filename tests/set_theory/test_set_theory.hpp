@@ -5,12 +5,12 @@
  */
 
 #pragma once
-#include "libchemist/molecule/molecule.hpp"
+#include "chemist/molecule/molecule.hpp"
 #include <catch2/catch.hpp>
 #include <tuple>
 #include <vector>
 
-using namespace libchemist;
+using namespace chemist;
 using container_types = std::tuple<std::vector<int>, Molecule>;
 
 namespace testing {
@@ -19,7 +19,7 @@ template<typename T>
 auto make_object() {
     if constexpr(std::is_same_v<T, std::vector<int>>) {
         return T{1, 2, 3};
-    } else if constexpr(std::is_same_v<T, libchemist::Molecule>) {
+    } else if constexpr(std::is_same_v<T, chemist::Molecule>) {
         using value_type = typename Molecule::value_type;
         using cart_type  = typename value_type::coord_type;
         value_type O{8ul, cart_type{0.0, 0.0, 0.0}};

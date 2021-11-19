@@ -1,7 +1,7 @@
-#include "libchemist/point/point_pimpl.hpp"
+#include "chemist/point/point_pimpl.hpp"
 #include <catch2/catch.hpp>
 
-using pimpl_t = libchemist::detail_::PointPIMPL<double>;
+using pimpl_t = chemist::detail_::PointPIMPL<double>;
 
 template<typename T, typename U>
 static void compare_coords(T&& pimpl, U&& corr) {

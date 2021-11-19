@@ -1,11 +1,8 @@
-#include "libchemist/density/density.hpp"
-#include "test_density.hpp"
-
-// Known Densities
-using libchemist::OneElectronDensity;
+#include "../test_chemist.hpp"
+#include "chemist/density/density.hpp"
 
 // Tuple containing the known densities
-using density_types = std::tuple<OneElectronDensity>;
+using density_types = std::tuple<chemist::OneElectronDensity>;
 
 TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
     using density_type = TestType;
@@ -14,12 +11,12 @@ TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
 
     SECTION("Typedefs") {
         SECTION("value_type") {
-            using corr = libchemist::type::tensor;
+            using corr = chemist::type::tensor;
             STATIC_REQUIRE(std::is_same_v<value_type, corr>);
         }
 
         SECTION("aos_type") {
-            using corr = libchemist::orbital_space::AOSpaceD;
+            using corr = chemist::orbital_space::AOSpaceD;
             STATIC_REQUIRE(std::is_same_v<aos_type, corr>);
         }
     }

@@ -1,8 +1,8 @@
-#include "libchemist/operators/exchange_correlation.hpp"
+#include "chemist/operators/exchange_correlation.hpp"
 #include "test_operator.hpp"
 
-using namespace libchemist;
-using namespace libchemist::operators;
+using namespace chemist;
+using namespace chemist::operators;
 
 using type_list = std::tuple<ExchangeCorrelation>;
 

@@ -1,10 +1,10 @@
-#include "libchemist/operators/coulomb.hpp"
-#include "libchemist/operators/fock.hpp"
-#include "libchemist/operators/kinetic.hpp"
+#include "chemist/operators/coulomb.hpp"
+#include "chemist/operators/fock.hpp"
+#include "chemist/operators/kinetic.hpp"
 #include <catch2/catch.hpp>
 #include <iostream>
 
-using namespace libchemist::operators;
+using namespace chemist::operators;
 
 TEST_CASE("Fock Class") {
     SECTION("Default CTor") {

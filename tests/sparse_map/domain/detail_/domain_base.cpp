@@ -1,5 +1,5 @@
-#include "libchemist/sparse_map/domain/detail_/domain_base.hpp"
-#include "libchemist/sparse_map/domain/domain.hpp"
+#include "chemist/sparse_map/domain/detail_/domain_base.hpp"
+#include "chemist/sparse_map/domain/domain.hpp"
 #include <catch2/catch.hpp>
 
 /* Testing strategy.
@@ -13,8 +13,8 @@
  * - tensor product (i.e. operator*)
  */
 
-using namespace libchemist::sparse_map;
-using namespace libchemist::sparse_map::detail_;
+using namespace chemist::sparse_map;
+using namespace chemist::sparse_map::detail_;
 
 using index_types = std::tuple<ElementIndex, TileIndex>;
 

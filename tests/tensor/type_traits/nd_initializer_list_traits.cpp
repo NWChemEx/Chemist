@@ -1,7 +1,7 @@
-#include "libchemist/tensor/type_traits/nd_initializer_list_traits.hpp"
+#include "chemist/tensor/type_traits/nd_initializer_list_traits.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::tensor;
+using namespace chemist::tensor;
 
 TEST_CASE("NDInitializerListTraits") {
     using scalar = double;

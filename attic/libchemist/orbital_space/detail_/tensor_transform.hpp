@@ -1,6 +1,6 @@
 #pragma once
-#include "libchemist/ta_helpers/detail_/contraction_dummy_annotation.hpp"
-namespace libchemist::orbital_space::detail_ {
+#include "chemist/ta_helpers/detail_/contraction_dummy_annotation.hpp"
+namespace chemist::orbital_space::detail_ {
 
 template<typename SpaceType, typename TensorType>
 auto tensor_transform(SpaceType&& orbs, TensorType&& t,
@@ -24,4 +24,4 @@ auto tensor_transform(SpaceType&& orbs, TensorType&& t,
     return rv;
 }
 
-} // namespace libchemist::orbital_space::detail_
+} // namespace chemist::orbital_space::detail_

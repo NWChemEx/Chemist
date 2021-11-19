@@ -1,18 +1,19 @@
-#include "libchemist/tensor/type_traits/type_traits.hpp"
-#include "libchemist/tensor/types.hpp"
-#include "libchemist/types.hpp"
+#include "chemist/tensor/type_traits/type_traits.hpp"
+#include "chemist/types.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::tensor;
-using TensorD = libchemist::tensor::type::detail_::tensor<double>;
-using TensorF = libchemist::tensor::type::detail_::tensor<float>;
-using ToTD    = libchemist::tensor::type::detail_::tensor_of_tensors<double>;
-using ToTF    = libchemist::tensor::type::detail_::tensor_of_tensors<float>;
+using namespace chemist::tensor;
+using TensorD = backends::TiledArrayTraits<field::Scalar>::tensor_type<double>;
+using TensorF = backends::TiledArrayTraits<field::Scalar>::tensor_type<float>;
+using ToTD    = backends::TiledArrayTraits<field::Tensor>::tensor_type<double>;
+using ToTF    = backends::TiledArrayTraits<field::Tensor>::tensor_type<float>;
 
 template<typename T>
 using labeled_tensor_t = typename TensorTraits<T>::labeled_tensor_type;
 
-TEMPLATE_LIST_TEST_CASE("add_expr_t", "", type::tensor_variant) {
+using tensor_variant = backends::TiledArrayTraits<field::Scalar>::variant_type;
+
+TEMPLATE_LIST_TEST_CASE("add_expr_t", "", tensor_variant) {
     using lhs_type = labeled_tensor_t<TestType>;
     SECTION("RHS is tensor") {
         using rhs_type = labeled_tensor_t<TensorD>;
@@ -30,7 +31,7 @@ TEMPLATE_LIST_TEST_CASE("add_expr_t", "", type::tensor_variant) {
     }
 }
 
-TEMPLATE_LIST_TEST_CASE("subt_expr_t", "", type::tensor_variant) {
+TEMPLATE_LIST_TEST_CASE("subt_expr_t", "", tensor_variant) {
     using lhs_type = labeled_tensor_t<TestType>;
     SECTION("RHS is tensor") {
         using rhs_type = labeled_tensor_t<TensorD>;
@@ -48,7 +49,7 @@ TEMPLATE_LIST_TEST_CASE("subt_expr_t", "", type::tensor_variant) {
     }
 }
 
-TEMPLATE_LIST_TEST_CASE("mult_expr_t", "", type::tensor_variant) {
+TEMPLATE_LIST_TEST_CASE("mult_expr_t", "", tensor_variant) {
     using lhs_type = labeled_tensor_t<TestType>;
     SECTION("RHS is tensor") {
         using rhs_type = labeled_tensor_t<TensorD>;

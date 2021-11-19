@@ -1,20 +1,20 @@
-#include "libchemist/basis_set/ao_basis_set.hpp"
+#include "chemist/basis_set/ao_basis_set.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
 #include <pluginplay/hasher.hpp>
 #include <sstream>
 #include <utilities/iter_tools/enumerate.hpp>
 
-using bs_t     = libchemist::AOBasisSet<double>;
-using center_t = libchemist::Center<double>;
+using bs_t     = chemist::AOBasisSet<double>;
+using center_t = chemist::Center<double>;
 using param_t  = typename bs_t::value_type::param_set;
 
 static inline auto make_bs() {
     bs_t bs;
     center_t c(1.0, 2.0, 3.0);
     param_t ps{1.0};
-    c.add_shell(libchemist::ShellType::pure, 0, ps, ps);
-    c.add_shell(libchemist::ShellType::pure, 2, ps, ps);
+    c.add_shell(chemist::ShellType::pure, 0, ps, ps);
+    c.add_shell(chemist::ShellType::pure, 2, ps, ps);
     bs.add_center(c);
     return std::make_pair(bs, c);
 }

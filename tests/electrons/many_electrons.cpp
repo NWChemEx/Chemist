@@ -1,8 +1,8 @@
-#include "libchemist/electrons/many_electrons.hpp"
+#include "chemist/electrons/many_electrons.hpp"
 #include <catch2/catch.hpp>
 
 TEST_CASE("ManyElectrons") {
-    using libchemist::ManyElectrons;
+    using chemist::ManyElectrons;
     ManyElectrons i, j{2};
 
     SECTION("Size") {
@@ -23,7 +23,7 @@ TEST_CASE("ManyElectrons") {
     }
 
     SECTION("Comparisons") {
-        REQUIRE(i == libchemist::ManyElectrons{});
+        REQUIRE(i == chemist::ManyElectrons{});
         REQUIRE(i != j);
     }
 }

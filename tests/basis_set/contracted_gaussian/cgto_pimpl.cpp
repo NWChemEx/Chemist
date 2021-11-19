@@ -1,7 +1,7 @@
-#include "libchemist/basis_set/contracted_gaussian/cgto_pimpl.hpp"
+#include "chemist/basis_set/contracted_gaussian/cgto_pimpl.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::detail_;
+using namespace chemist::detail_;
 using vector_t = std::vector<double>;
 using array_t  = std::array<vector_t, 2>;
 
