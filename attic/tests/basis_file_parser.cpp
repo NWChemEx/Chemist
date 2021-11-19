@@ -1,10 +1,10 @@
 #include <catch/catch.hpp>
-#include <libchemist/basis_set_file_parser.hpp>
+#include <chemist/basis_set_file_parser.hpp>
 #include <sde/nwx_defaults.hpp>
 #include <sstream>
 
 using namespace sde;
-using namespace libchemist;
+using namespace chemist;
 // A shortened g94 entry, parts of this are from aDZ others from 6-31G* and
 // STO-3G
 std::string g94_example =
@@ -46,16 +46,16 @@ std::string g94_example =
   "\n";
 
 TEST_CASE("Basis set parsing capabilities") {
-    std::map<size_t, std::vector<libchemist::BasisShell>> g94_corr;
+    std::map<size_t, std::vector<chemist::BasisShell>> g94_corr;
     g94_corr[1].push_back(
-      BasisShell(libchemist::ShellType::SphericalGaussian, 0, 1,
+      BasisShell(chemist::ShellType::SphericalGaussian, 0, 1,
                  std::vector<double>({13.0100000, 1.9620000, 0.4446000}),
                  std::vector<double>({0.0196850, 0.1379770, 0.4781480})));
-    g94_corr[1].push_back(BasisShell(libchemist::ShellType::SphericalGaussian,
+    g94_corr[1].push_back(BasisShell(chemist::ShellType::SphericalGaussian,
                                      0, 1, std::vector<double>({0.1220000}),
                                      std::vector<double>({1.0000000})));
     g94_corr[6].push_back(BasisShell(
-      libchemist::ShellType::SphericalGaussian, 0, 1,
+      chemist::ShellType::SphericalGaussian, 0, 1,
       std::vector<double>({6665.0000000, 1000.0000000, 228.0000000, 64.7100000,
                            21.0600000, 7.4950000, 2.7970000, 0.5215000}),
       std::vector<double>({0.0006920, 0.0053290, 0.0270770, 0.1017180,

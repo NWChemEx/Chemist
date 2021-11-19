@@ -1,7 +1,7 @@
-#include "libchemist/tensor/allocators/allocators.hpp"
+#include "chemist/tensor/allocators/allocators.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::tensor;
+using namespace chemist::tensor;
 
 /* Testing strategy:
  *
@@ -11,7 +11,7 @@ using namespace libchemist::tensor;
  *
  */
 TEST_CASE("SingleElementTiles") {
-    using field_type   = libchemist::tensor::field::Scalar;
+    using field_type   = chemist::tensor::field::Scalar;
     using alloc_type   = SingleElementTiles<field_type>;
     using extents_type = typename alloc_type::extents_type;
     using tr_type      = typename alloc_type::tiled_range_type;

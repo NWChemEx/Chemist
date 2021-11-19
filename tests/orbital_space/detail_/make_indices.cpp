@@ -1,7 +1,7 @@
-#include "libchemist/orbital_space/detail_/make_indices.hpp"
+#include "chemist/orbital_space/detail_/make_indices.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::orbital_space::detail_;
+using namespace chemist::orbital_space::detail_;
 
 TEST_CASE("make_tensor_tensor_indices") {
     const std::string lhs = "i0,i1";

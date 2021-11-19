@@ -1,7 +1,7 @@
-#include "libchemist/sparse_map/domain/domain.hpp"
+#include "chemist/sparse_map/domain/domain.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::sparse_map;
+using namespace chemist::sparse_map;
 
 TEST_CASE("Domain<ElementIndex>") {
     SECTION("Conversion from Domain<TileIndex>") {

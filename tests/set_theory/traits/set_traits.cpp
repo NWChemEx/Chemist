@@ -1,11 +1,11 @@
-#include "libchemist/molecule/molecule.hpp"
-#include "libchemist/set_theory/traits/set_traits.hpp"
+#include "chemist/molecule/molecule.hpp"
+#include "chemist/set_theory/traits/set_traits.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::set_theory;
+using namespace chemist::set_theory;
 
 TEST_CASE("SetTraits<Molecule>") {
-    using obj_type = libchemist::Molecule;
+    using obj_type = chemist::Molecule;
     using traits   = SetTraits<obj_type>;
 
     SECTION("size_type") {
@@ -38,11 +38,11 @@ TEST_CASE("SetTraits<Molecule>") {
         STATIC_REQUIRE(std::is_same_v<corr, T>);
     }
     // Linear water
-    using coord_type = typename libchemist::Atom::coord_type;
-    libchemist::Atom H0(1ul, coord_type{0.0, 0.0, 1.0});
-    libchemist::Atom H1(1ul, coord_type{0.0, 0.0, -1.0});
-    libchemist::Atom O(8ul);
-    libchemist::Molecule mol{O, H0, H1};
+    using coord_type = typename chemist::Atom::coord_type;
+    chemist::Atom H0(1ul, coord_type{0.0, 0.0, 1.0});
+    chemist::Atom H1(1ul, coord_type{0.0, 0.0, -1.0});
+    chemist::Atom O(8ul);
+    chemist::Molecule mol{O, H0, H1};
 
     SECTION("size") { REQUIRE(traits::size(mol) == 3); }
 
@@ -64,7 +64,7 @@ TEST_CASE("SetTraits<Molecule>") {
             REQUIRE(traits::get_index(mol, H1) == 2);
         }
         SECTION("elem not in molecule") {
-            libchemist::Atom U(92ul);
+            chemist::Atom U(92ul);
             REQUIRE_THROWS_AS(traits::get_index(mol, U), std::out_of_range);
         }
     }

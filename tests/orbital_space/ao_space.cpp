@@ -1,19 +1,19 @@
-#include "libchemist/orbital_space/ao_space.hpp"
-#include "libchemist/ta_helpers/ta_helpers.hpp"
+#include "chemist/orbital_space/ao_space.hpp"
+#include "chemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist;
-using namespace libchemist::orbital_space;
+using namespace chemist;
+using namespace chemist::orbital_space;
 
 TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
     // Determine the types for this unit test
 
-    using basis_set_type = libchemist::AOBasisSet<TestType>;
+    using basis_set_type = chemist::AOBasisSet<TestType>;
     using space_type     = AOSpace<basis_set_type>;
 
     auto& world = TA::get_default_world();
     basis_set_type bs;
-    bs.add_center(libchemist::Center<TestType>(1.0, 2.0, 3.0));
+    bs.add_center(chemist::Center<TestType>(1.0, 2.0, 3.0));
 
     SECTION("Typedefs") {
         SECTION("basis_type") {

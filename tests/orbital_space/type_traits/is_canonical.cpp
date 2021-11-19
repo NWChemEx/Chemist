@@ -1,8 +1,8 @@
-#include "libchemist/orbital_space/canonical_space.hpp"
-#include "libchemist/orbital_space/type_traits/is_canonical.hpp"
+#include "chemist/orbital_space/canonical_space.hpp"
+#include "chemist/orbital_space/type_traits/is_canonical.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::orbital_space;
+using namespace chemist::orbital_space;
 
 using non_canonical_tuple = std::tuple<DerivedSpaceD, ToTDerivedSpace>;
 using canonical_tuple     = std::tuple<CanonicalSpaceD, CanonicalToTSpace>;

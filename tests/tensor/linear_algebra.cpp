@@ -1,7 +1,7 @@
-#include "libchemist/tensor/tensor.hpp"
+#include "chemist/tensor/tensor.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::tensor;
+using namespace chemist::tensor;
 
 namespace {
 TA::detail::vector_il<double> eval_data{-0.5157294715892564, 0.1709151888271797,

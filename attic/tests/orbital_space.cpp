@@ -1,28 +1,28 @@
 #include <catch2/catch.hpp>
-#include <libchemist/canonical_mos.hpp>
-#include <libchemist/libchemist.hpp>
-#include <libchemist/orthogonal_space.hpp>
-#include <libchemist/ta_helpers/ta_helpers.hpp>
+#include <chemist/canonical_mos.hpp>
+#include <chemist/chemist.hpp>
+#include <chemist/orthogonal_space.hpp>
+#include <chemist/ta_helpers/ta_helpers.hpp>
 #include <sde/hasher.hpp>
 
 using sde::hash_objects;
 using vector_t   = std::initializer_list<double>;
 using matrix_t   = std::initializer_list<vector_t>;
-using tensor     = libchemist::type::tensor<double>;
-using orbspace   = libchemist::OrbitalSpace<double, tensor>;
-using aospace    = libchemist::AOSpace<double, tensor>;
-using orthspace  = libchemist::OrthogonalSpace<double, tensor>;
-using canonspace = libchemist::CanonicalMO<double, tensor>;
+using tensor     = chemist::type::tensor<double>;
+using orbspace   = chemist::OrbitalSpace<double, tensor>;
+using aospace    = chemist::AOSpace<double, tensor>;
+using orthspace  = chemist::OrthogonalSpace<double, tensor>;
+using canonspace = chemist::CanonicalMO<double, tensor>;
 
 static inline auto make_bs() {
-    using libchemist::Atom;
+    using chemist::Atom;
     using c_t = typename Atom::coord_type;
 
     Atom O{8ul, c_t{0.000000000000000, -0.143222342980786, 0.000000000000000}};
     Atom H1{1ul, c_t{1.638033502034240, 1.136556880358410, 0.000000000000000}};
     Atom H2{1ul, c_t{-1.638033502034240, 1.136556880358410, 0.000000000000000}};
-    auto water = libchemist::Molecule(O, H1, H2);
-    return libchemist::apply_basis("sto-3g", water);
+    auto water = chemist::Molecule(O, H1, H2);
+    return chemist::apply_basis("sto-3g", water);
 }
 
 void require_not_initialized(orbspace& space) {
@@ -38,20 +38,20 @@ void require_not_initialized_canon(canonspace& space) {
     REQUIRE(!space.mo_energies().is_initialized());
 }
 
-void require_match_inputs(orbspace& space, libchemist::AOBasisSet<double> bs,
+void require_match_inputs(orbspace& space, chemist::AOBasisSet<double> bs,
                           tensor A, tensor B, tensor C, tensor D) {
     REQUIRE(space.basis_set() == bs);
-    REQUIRE(libchemist::ta_helpers::allclose(space.S(), A));
-    REQUIRE(libchemist::ta_helpers::allclose(space.C(), B));
-    REQUIRE(libchemist::ta_helpers::allclose(space.Cdagger(), C));
-    REQUIRE(libchemist::ta_helpers::allclose(space.density(), D));
+    REQUIRE(chemist::ta_helpers::allclose(space.S(), A));
+    REQUIRE(chemist::ta_helpers::allclose(space.C(), B));
+    REQUIRE(chemist::ta_helpers::allclose(space.Cdagger(), C));
+    REQUIRE(chemist::ta_helpers::allclose(space.density(), D));
 }
 
 void require_match_inputs_canon(canonspace space,
-                                libchemist::AOBasisSet<double> bs, tensor A,
+                                chemist::AOBasisSet<double> bs, tensor A,
                                 tensor B, tensor C, tensor D, tensor E) {
     require_match_inputs(space, bs, A, B, C, D);
-    REQUIRE(libchemist::ta_helpers::allclose(space.mo_energies(), E));
+    REQUIRE(chemist::ta_helpers::allclose(space.mo_energies(), E));
 }
 
 static matrix_t S_il{
@@ -271,23 +271,23 @@ TEST_CASE("Orbital space") {
     REQUIRE(hash_objects(Space1) != hash_objects(Space8));
 
     auto E = Space1.transform_from_ao(S, {0, 1});
-    REQUIRE(libchemist::ta_helpers::allclose(E, I_mo));
+    REQUIRE(chemist::ta_helpers::allclose(E, I_mo));
 
     auto F = Space1.transform_to_ao(I_mo, {0, 1});
-    REQUIRE(libchemist::ta_helpers::allclose(F, D));
+    REQUIRE(chemist::ta_helpers::allclose(F, D));
 
     auto G = Space1.transform_to_ao(C, {1});
-    REQUIRE(libchemist::ta_helpers::allclose(G, D));
+    REQUIRE(chemist::ta_helpers::allclose(G, D));
 
     // Test AOSpace
     aospace AO1;
     require_not_initialized(AO1);
 
     auto H = AO1.transform_from_ao(S, {0, 1});
-    REQUIRE(libchemist::ta_helpers::allclose(H, S));
+    REQUIRE(chemist::ta_helpers::allclose(H, S));
 
     auto I = AO1.transform_to_ao(S, {0, 1});
-    REQUIRE(libchemist::ta_helpers::allclose(I, S));
+    REQUIRE(chemist::ta_helpers::allclose(I, S));
 
     aospace AO2(bs, S);
     require_match_inputs(AO2, bs, S, I_ao, I_ao, S);

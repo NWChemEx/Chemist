@@ -1,7 +1,7 @@
-#include "libchemist/basis_set/primitive/primitive_pimpl.hpp"
+#include "chemist/basis_set/primitive/primitive_pimpl.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::detail_;
+using namespace chemist::detail_;
 
 template<typename T, typename U>
 void check_state(T&& prim, U&& corr) {

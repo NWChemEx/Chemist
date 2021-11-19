@@ -1,7 +1,7 @@
-#include "libchemist/basis_set/primitive_view.hpp"
+#include "chemist/basis_set/primitive_view.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist;
+using namespace chemist;
 
 template<typename T, typename U>
 static void compare_state(T&& view, U&& corr) {

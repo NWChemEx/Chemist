@@ -1,8 +1,8 @@
-#include "libchemist/basis_set/shell/shell_pimpl.hpp"
+#include "chemist/basis_set/shell/shell_pimpl.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::detail_;
-using namespace libchemist;
+using namespace chemist::detail_;
+using namespace chemist;
 using vector_t = std::vector<double>;
 
 template<typename T, typename U, typename V>

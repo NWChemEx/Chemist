@@ -1,4 +1,4 @@
-#include "libchemist/molecule/atom.hpp"
+#include "chemist/molecule/atom.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
 #include <map>
@@ -6,7 +6,7 @@
 #include <sstream>
 #include <type_traits>
 
-using namespace libchemist;
+using namespace chemist;
 using size_type  = typename Atom::size_type;
 using coord_type = typename Atom::coord_type;
 using mass_type  = typename Atom::mass_type;

@@ -113,7 +113,7 @@ struct G94 : public BasisSetFileParser {
  *  @throw ??? Throws if any of the parser's routines throw.  Same guarantee as
  *  the parser.
  */
-std::map<size_t, std::vector<libchemist::BasisShell>> parse_basis_set_file(
+std::map<size_t, std::vector<chemist::BasisShell>> parse_basis_set_file(
   std::istream& is, const BasisSetFileParser& parser,
   const ChemistryRuntime& crt);
 

@@ -1,9 +1,9 @@
-#include "libchemist/basis_set/primitive.hpp"
+#include "chemist/basis_set/primitive.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
 #include <sstream>
 
-using namespace libchemist;
+using namespace chemist;
 
 TEST_CASE("Primitive<double> : default ctor") {
     Primitive<double> p;

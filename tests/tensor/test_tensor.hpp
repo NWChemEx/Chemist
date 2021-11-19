@@ -2,9 +2,9 @@
  * the tensor component of LibChemist.
  */
 #pragma once
-#include "libchemist/ta_helpers/ta_helpers.hpp"
-#include "libchemist/tensor/tensor.hpp"
-#include "libchemist/types.hpp"
+#include "chemist/ta_helpers/ta_helpers.hpp"
+#include "chemist/tensor/tensor.hpp"
+#include "chemist/types.hpp"
 #include <catch2/catch.hpp>
 #include <utilities/type_traits/variant/cat.hpp>
 
@@ -15,7 +15,7 @@ template<typename TensorType>
 auto get_tensors() {
     auto& world = TA::get_default_world();
     std::map<std::string, TensorType> rv;
-    if constexpr(!libchemist::tensor::TensorTraits<TensorType>::is_tot) {
+    if constexpr(!chemist::tensor::TensorTraits<TensorType>::is_tot) {
         using vector_il = TA::detail::vector_il<double>;
         using matrix_il = TA::detail::matrix_il<double>;
         using tensor_il = TA::detail::tensor3_il<double>;

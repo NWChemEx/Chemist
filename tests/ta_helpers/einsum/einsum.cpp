@@ -1,8 +1,8 @@
-#include "libchemist/ta_helpers/einsum/einsum.hpp"
-#include "libchemist/ta_helpers/ta_helpers.hpp"
+#include "chemist/ta_helpers/einsum/einsum.hpp"
+#include "chemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::ta_helpers::einsum;
+using namespace chemist::ta_helpers::einsum;
 
 TEST_CASE("einsum") {
     using vector_il = TA::detail::vector_il<double>;
@@ -86,6 +86,6 @@ TEST_CASE("einsum") {
                                                         650,
                                                         729,
                                                       }}});
-        REQUIRE(libchemist::ta_helpers::allclose(result, corr));
+        REQUIRE(chemist::ta_helpers::allclose(result, corr));
     }
 } // einsum

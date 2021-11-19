@@ -1,6 +1,6 @@
 #include "../../test_tensor.hpp"
 
-using namespace libchemist::tensor;
+using namespace chemist::tensor;
 
 using scalar_traits  = backends::TiledArrayTraits<field::Scalar>;
 using scalar_variant = typename scalar_traits::variant_type;
@@ -46,14 +46,14 @@ TEMPLATE_LIST_TEST_CASE("SubtOp", "", scalar_variant) {
             result("i") = lvec - lvec;
             auto& rv    = result.get<t_type>();
             t_type corr(world, vector_il{0.0, 0.0, 0.0});
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
         SECTION("matrix") {
             result("i,j") = lmat - lmat;
             auto& rv      = result.get<t_type>();
             t_type corr(world,
                         matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}});
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
         SECTION("rank-3 tensor") {
             result("i,j,k") = lt3 - lt3;
@@ -62,7 +62,7 @@ TEMPLATE_LIST_TEST_CASE("SubtOp", "", scalar_variant) {
               world,
               tensor_il{matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}},
                         matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}}});
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
     }
 
@@ -71,14 +71,14 @@ TEMPLATE_LIST_TEST_CASE("SubtOp", "", scalar_variant) {
             result("i") = lvec - std::as_const(lvec);
             auto& rv    = result.get<t_type>();
             t_type corr(world, vector_il{0.0, 0.0, 0.0});
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
         SECTION("matrix") {
             result("i,j") = lmat - std::as_const(lmat);
             auto& rv      = result.get<t_type>();
             t_type corr(world,
                         matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}});
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
         SECTION("rank-3 tensor") {
             result("i,j,k") = lt3 - std::as_const(lt3);
@@ -87,7 +87,7 @@ TEMPLATE_LIST_TEST_CASE("SubtOp", "", scalar_variant) {
               world,
               tensor_il{matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}},
                         matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}}});
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
     }
 
@@ -96,14 +96,14 @@ TEMPLATE_LIST_TEST_CASE("SubtOp", "", scalar_variant) {
             result("i") = std::as_const(lvec) - lvec;
             auto& rv    = result.get<t_type>();
             t_type corr(world, vector_il{0.0, 0.0, 0.0});
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
         SECTION("matrix") {
             result("i,j") = std::as_const(lmat) - lmat;
             auto& rv      = result.get<t_type>();
             t_type corr(world,
                         matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}});
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
         SECTION("rank-3 tensor") {
             result("i,j,k") = std::as_const(lt3) - lt3;
@@ -112,7 +112,7 @@ TEMPLATE_LIST_TEST_CASE("SubtOp", "", scalar_variant) {
               world,
               tensor_il{matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}},
                         matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}}});
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
     }
 
@@ -121,14 +121,14 @@ TEMPLATE_LIST_TEST_CASE("SubtOp", "", scalar_variant) {
             result("i") = std::as_const(lvec) - std::as_const(lvec);
             auto& rv    = result.get<t_type>();
             t_type corr(world, vector_il{0.0, 0.0, 0.0});
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
         SECTION("matrix") {
             result("i,j") = std::as_const(lmat) - std::as_const(lmat);
             auto& rv      = result.get<t_type>();
             t_type corr(world,
                         matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}});
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
         SECTION("rank-3 tensor") {
             result("i,j,k") = std::as_const(lt3) - std::as_const(lt3);
@@ -137,7 +137,7 @@ TEMPLATE_LIST_TEST_CASE("SubtOp", "", scalar_variant) {
               world,
               tensor_il{matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}},
                         matrix_il{vector_il{0.0, 0.0}, vector_il{0.0, 0.0}}});
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
     }
 
@@ -147,21 +147,21 @@ TEMPLATE_LIST_TEST_CASE("SubtOp", "", scalar_variant) {
             result("i") = lvec - op;
             auto& rv    = result.get<t_type>();
             auto& corr  = vec.get<t_type>();
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
         SECTION("matrix") {
             auto op       = lmat - lmat;
             result("i,j") = lmat - op;
             auto& rv      = result.get<t_type>();
             auto& corr    = mat.get<t_type>();
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
         SECTION("rank-3 tensor") {
             auto op         = lt3 - lt3;
             result("i,j,k") = lt3 - op;
             auto& rv        = result.get<t_type>();
             auto& corr      = t3.get<t_type>();
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
     }
 }

@@ -1,10 +1,10 @@
-#include "libchemist/sparse_map/reduce_tot.hpp"
-#include "libchemist/ta_helpers/ta_helpers.hpp"
+#include "chemist/sparse_map/reduce_tot.hpp"
+#include "chemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist;
-using namespace libchemist::sparse_map;
-using namespace libchemist::sparse_map::detail_;
+using namespace chemist;
+using namespace chemist::sparse_map;
+using namespace chemist::sparse_map::detail_;
 
 using tot_type =
   TA::DistArray<TA::Tensor<TA::Tensor<double>>, TA::SparsePolicy>;

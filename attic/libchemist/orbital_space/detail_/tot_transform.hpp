@@ -1,8 +1,8 @@
 #pragma once
-#include "libchemist/ta_helpers/detail_/contraction_dummy_annotation.hpp"
+#include "chemist/ta_helpers/detail_/contraction_dummy_annotation.hpp"
 #include <TiledArray/expressions/contraction_helpers.h>
 
-namespace libchemist::orbital_space::detail_ {
+namespace chemist::orbital_space::detail_ {
 
 template<typename SpaceType, typename TensorType>
 auto tot_transform(SpaceType&& orbs, TensorType&& t,
@@ -108,4 +108,4 @@ auto tot_transform(SpaceType&& orbs, TensorType&& t,
     }
     return rv;
 }
-} // namespace libchemist::orbital_space::detail_
+} // namespace chemist::orbital_space::detail_

@@ -1,9 +1,9 @@
 #pragma once
-#include "libchemist/canonical_mos.hpp"
-#include "libchemist/detail_/orbital_space_pimpl.hpp"
-#include <libchemist/basis_set/ao_basis_set/ao_basis_set.hpp>
+#include "chemist/canonical_mos.hpp"
+#include "chemist/detail_/orbital_space_pimpl.hpp"
+#include <chemist/basis_set/ao_basis_set/ao_basis_set.hpp>
 
-namespace libchemist::detail_ {
+namespace chemist::detail_ {
 
 // Class that implements CanonicalMO
 template<typename basis_type, typename tensor_type>
@@ -80,4 +80,4 @@ public:
 
 }; // class CanonicalMOsPIMPL
 
-} // namespace libchemist::detail_
+} // namespace chemist::detail_

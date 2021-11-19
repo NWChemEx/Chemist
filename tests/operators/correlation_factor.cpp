@@ -1,7 +1,7 @@
-#include "libchemist/operators/correlation_factor.hpp"
+#include "chemist/operators/correlation_factor.hpp"
 #include "test_operator.hpp"
 
-using namespace libchemist::operators;
+using namespace chemist::operators;
 
 TEMPLATE_LIST_TEST_CASE("CorrelationFactor", "",
                         testing::correlation_factor_types) {
@@ -9,12 +9,12 @@ TEMPLATE_LIST_TEST_CASE("CorrelationFactor", "",
 
     f12_type f12;
 
-    libchemist::operators::STG stg(1.2, 2.3);
+    chemist::operators::STG stg(1.2, 2.3);
     f12_type non_default(stg);
 
     SECTION("Ctors") {
         SECTION("Default") {
-            REQUIRE(f12.template at<0>() == libchemist::operators::STG{});
+            REQUIRE(f12.template at<0>() == chemist::operators::STG{});
         }
         SECTION("Value") { REQUIRE(non_default.template at<0>() == stg); }
         SECTION("Copy") {

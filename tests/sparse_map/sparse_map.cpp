@@ -1,8 +1,8 @@
-#include "libchemist/sparse_map/index.hpp"
-#include "libchemist/sparse_map/sparse_map/sparse_map.hpp"
+#include "chemist/sparse_map/index.hpp"
+#include "chemist/sparse_map/sparse_map/sparse_map.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::sparse_map;
+using namespace chemist::sparse_map;
 
 TEST_CASE("SparseMap<ElementIndex, ElementIndex>") {
     using sm_t = SparseMap<ElementIndex, ElementIndex>;

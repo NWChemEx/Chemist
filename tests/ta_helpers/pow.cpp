@@ -1,8 +1,8 @@
-//#include "libchemist/ta_helpers/pow.hpp"
-//#include "libchemist/ta_helpers/ta_helpers.hpp"
+//#include "chemist/ta_helpers/pow.hpp"
+//#include "chemist/ta_helpers/ta_helpers.hpp"
 //#include <catch2/catch.hpp>
 //
-// using namespace libchemist::ta_helpers;
+// using namespace chemist::ta_helpers;
 //
 // using scalar_types = std::tuple<double>;
 //

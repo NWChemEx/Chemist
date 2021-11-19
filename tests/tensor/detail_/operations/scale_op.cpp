@@ -1,6 +1,6 @@
 #include "../../test_tensor.hpp"
 
-using namespace libchemist::tensor;
+using namespace chemist::tensor;
 using vector_il = TA::detail::vector_il<double>;
 using matrix_il = TA::detail::matrix_il<double>;
 using tensor_il = TA::detail::tensor3_il<double>;
@@ -45,14 +45,14 @@ TEMPLATE_LIST_TEST_CASE("ScaleOp", "", scalar_variant) {
             result("i") = lvec * 3.0;
             t_type corr(world, vector_il{3.0, 6.0, 9.0});
             auto& rv = result.get<t_type>();
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
         SECTION("matrix") {
             result("i,j") = lmat * 3.0;
             t_type corr(world,
                         matrix_il{vector_il{3.0, 6.0}, vector_il{9.0, 12.0}});
             auto& rv = result.get<t_type>();
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
         SECTION("rank-3 tensor") {
             result("i,j,k") = lt3 * 3.0;
@@ -61,7 +61,7 @@ TEMPLATE_LIST_TEST_CASE("ScaleOp", "", scalar_variant) {
                                          matrix_il{vector_il{15.0, 18.0},
                                                    vector_il{21.0, 24.0}}});
             auto& rv = result.get<t_type>();
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
     }
 
@@ -70,14 +70,14 @@ TEMPLATE_LIST_TEST_CASE("ScaleOp", "", scalar_variant) {
             result("i") = 3.0 * lvec;
             t_type corr(world, vector_il{3.0, 6.0, 9.0});
             auto& rv = result.get<t_type>();
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
         SECTION("matrix") {
             result("i,j") = 3.0 * lmat;
             t_type corr(world,
                         matrix_il{vector_il{3.0, 6.0}, vector_il{9.0, 12.0}});
             auto& rv = result.get<t_type>();
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
         SECTION("rank-3 tensor") {
             result("i,j,k") = 3.0 * lt3;
@@ -86,7 +86,7 @@ TEMPLATE_LIST_TEST_CASE("ScaleOp", "", scalar_variant) {
                                          matrix_il{vector_il{15.0, 18.0},
                                                    vector_il{21.0, 24.0}}});
             auto& rv = result.get<t_type>();
-            REQUIRE(libchemist::ta_helpers::allclose(rv, corr));
+            REQUIRE(chemist::ta_helpers::allclose(rv, corr));
         }
     }
 }

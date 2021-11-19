@@ -1,9 +1,9 @@
-#include "libchemist/sparse_map/detail_/tiled_domain_pimpl.hpp"
-#include "libchemist/sparse_map/index.hpp"
+#include "chemist/sparse_map/detail_/tiled_domain_pimpl.hpp"
+#include "chemist/sparse_map/index.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::sparse_map;
-using namespace libchemist::sparse_map::detail_;
+using namespace chemist::sparse_map;
+using namespace chemist::sparse_map::detail_;
 
 /* Testing strategy:
  *

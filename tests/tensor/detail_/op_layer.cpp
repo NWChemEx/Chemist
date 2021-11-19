@@ -1,4 +1,4 @@
-#include "libchemist/tensor/tensor.hpp"
+#include "chemist/tensor/tensor.hpp"
 #include <catch2/catch.hpp>
 
 /* Testing strategy:
@@ -8,7 +8,7 @@
  * to it.
  */
 
-using namespace libchemist::tensor;
+using namespace chemist::tensor;
 
 TEST_CASE("OpLayer") {
     using tensor         = ScalarTensorWrapper;

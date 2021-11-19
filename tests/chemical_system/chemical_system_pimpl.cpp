@@ -1,14 +1,14 @@
-#include "libchemist/chemical_system/chemical_system_pimpl.hpp"
+#include "chemist/chemical_system/chemical_system_pimpl.hpp"
 #include <catch2/catch.hpp>
 
 TEST_CASE("ChemicalSystemPIMPL") {
-    using chem_sys_t       = libchemist::ChemicalSystem;
-    using chem_sys_pimpl_t = libchemist::detail_::ChemicalSystemPIMPL;
+    using chem_sys_t       = chemist::ChemicalSystem;
+    using chem_sys_pimpl_t = chemist::detail_::ChemicalSystemPIMPL;
 
-    libchemist::Molecule default_mol, h{libchemist::Atom(1ul)};
+    chemist::Molecule default_mol, h{chemist::Atom(1ul)};
 
-    libchemist::potentials::Electrostatic default_v, v;
-    v.add_charge(libchemist::PointCharge<double>());
+    chemist::potentials::Electrostatic default_v, v;
+    v.add_charge(chemist::PointCharge<double>());
 
     // For all of these typedefs we are just ensuring that the ChemicalSystem
     // and the ChemicalSystemPIMPL class are synched
@@ -137,7 +137,7 @@ TEST_CASE("ChemicalSystemPIMPL") {
     SECTION("external_electrostatic_potential()") {
         SECTION("default") {
             chem_sys_pimpl_t pimpl;
-            libchemist::potentials::Electrostatic corr;
+            chemist::potentials::Electrostatic corr;
             REQUIRE(pimpl.external_electrostatic_potential() == corr);
         }
 
@@ -156,7 +156,7 @@ TEST_CASE("ChemicalSystemPIMPL") {
     SECTION("external_electrostatic_potential() const") {
         SECTION("default") {
             const chem_sys_pimpl_t pimpl;
-            libchemist::potentials::Electrostatic corr;
+            chemist::potentials::Electrostatic corr;
             REQUIRE(pimpl.external_electrostatic_potential() == corr);
         }
 

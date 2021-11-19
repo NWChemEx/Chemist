@@ -8,11 +8,11 @@
 // create an ``AOBasisSet`` instance.
 //
 // All of the functionality of the ``AOBasisSet`` class is contained in the
-// ``libchemist/basis_set/basis_set.hpp`` header file. After including this
+// ``chemist/basis_set/basis_set.hpp`` header file. After including this
 // header file the next several lines fill in an ``AOBasisSet`` instance with
 // the STO-3G parameters for a water molecule. If you are not interested in
 // how to make an ``AOBasisSet`` instance skip to the next code block.
-#include <libchemist/basis_set/basis_set.hpp>
+#include <chemist/basis_set/basis_set.hpp>
 
 // TUTORIAL_START_SKIP
 #include <catch2/catch.hpp>
@@ -20,29 +20,29 @@ namespace tutorial {
 TEST_CASE("AOBasisSet Tutorial") {
     // TUTORIAL_STOP_SKIP
 
-    libchemist::AOBasisSet<double> bs;
+    chemist::AOBasisSet<double> bs;
 
     // Atomic basis set for the oxygen atom
-    libchemist::Center<double> O(0.0, -0.1432223429807816, 0.0);
-    O.add_shell(libchemist::ShellType::pure, 0,
+    chemist::Center<double> O(0.0, -0.1432223429807816, 0.0);
+    O.add_shell(chemist::ShellType::pure, 0,
                 std::vector<double>{0.15432897, 0.53532814, 0.44463454},
                 std::vector<double>{99.1061690, 18.0523120, 4.8856602});
-    O.add_shell(libchemist::ShellType::pure, 0,
+    O.add_shell(chemist::ShellType::pure, 0,
                 std::vector<double>{-0.09996723, 0.39951283, 0.70011547},
                 std::vector<double>{3.7804559, 0.8784966, 0.2857144});
-    O.add_shell(libchemist::ShellType::pure, 1,
+    O.add_shell(chemist::ShellType::pure, 1,
                 std::vector<double>{0.15591627, 0.60768372, 0.39195739},
                 std::vector<double>{3.7804559, 0.8784966, 0.2857144});
 
     // Atomic basis set for the first hydrogen atom
-    libchemist::Center<double> H1(1.6380335020342418, 1.1365568803584036, 0.0);
-    H1.add_shell(libchemist::ShellType::pure, 0,
+    chemist::Center<double> H1(1.6380335020342418, 1.1365568803584036, 0.0);
+    H1.add_shell(chemist::ShellType::pure, 0,
                  std::vector<double>{0.15432897, 0.53532814, 0.44463454},
                  std::vector<double>{3.42525091, 0.62391373, 0.16885540});
 
     // Atomic basis set for the second hydrogen atom
-    libchemist::Center<double> H2(-1.6380335020342418, 1.1365568803584036, 0.0);
-    H2.add_shell(libchemist::ShellType::pure, 0,
+    chemist::Center<double> H2(-1.6380335020342418, 1.1365568803584036, 0.0);
+    H2.add_shell(chemist::ShellType::pure, 0,
                  std::vector<double>{0.15432897, 0.53532814, 0.44463454},
                  std::vector<double>{3.42525091, 0.62391373, 0.16885540});
 
@@ -90,10 +90,10 @@ TEST_CASE("AOBasisSet Tutorial") {
     //
     // This means that we can loop over the entirety of the basis set like:
     std::size_t counter = 0;
-    for(libchemist::Center<double> center_i : bs) {
-        for(libchemist::Shell<double> shell_j : center_i) {
-            for(libchemist::ContractedGaussian<double> ao_k : shell_j) {
-                for(libchemist::Primitive<double> prim_l : ao_k) {
+    for(chemist::Center<double> center_i : bs) {
+        for(chemist::Shell<double> shell_j : center_i) {
+            for(chemist::ContractedGaussian<double> ao_k : shell_j) {
+                for(chemist::Primitive<double> prim_l : ao_k) {
                     // Do something with the primitive
                     ++counter;
                 }
@@ -133,7 +133,7 @@ TEST_CASE("AOBasisSet Tutorial") {
     // AOs, or unique primitives, . The AOBasisSet class makes this easy. For
     // example to loop over unique primitives in the basis:
     counter = 0;
-    for(libchemist::Primitive<double> prim_i : bs.unique_primitives()) {
+    for(chemist::Primitive<double> prim_i : bs.unique_primitives()) {
         // Do something with the i-th unique primitive
         ++counter;
     }
@@ -144,8 +144,8 @@ TEST_CASE("AOBasisSet Tutorial") {
     // The class hierarchy makes it possible to do more advanced flattenings as
     // well such as looping over unique_primitives in each non-unique AO:
     counter = 0;
-    for(libchemist::ContractedGaussian<double> ao_i : bs.aos()) {
-        for(libchemist::Primitive<double> prim_j : ao_i) {
+    for(chemist::ContractedGaussian<double> ao_i : bs.aos()) {
+        for(chemist::Primitive<double> prim_j : ao_i) {
             // Use the j-th unique primitive from the (non-unique) i-th AO
             ++counter;
         }
@@ -157,7 +157,7 @@ TEST_CASE("AOBasisSet Tutorial") {
     // Or we may want to loop over the AOs, regardless of whether they have the
     // same ``ContractedGaussian`` instance or not.
     counter = 0;
-    for(libchemist::ContractedGaussian<double> ao_i : bs.aos()) {
+    for(chemist::ContractedGaussian<double> ao_i : bs.aos()) {
         // Do something with the (not necessarily unique) i-th AO
         ++counter;
     }
@@ -168,7 +168,7 @@ TEST_CASE("AOBasisSet Tutorial") {
     // At this point it is worth taking a brief aside. Up until this point we
     // have manually specified the type for our foreach loop. For example we
     // wrote
-    // ``for(libchemist::ContractedGaussian<double> ao_i : bs.aos())``
+    // ``for(chemist::ContractedGaussian<double> ao_i : bs.aos())``
     // and not the much shorter (and arguably preferred) syntax:
     // ``for(auto&& ao_i : bs.aos())``. This was done for the intent of
     // clarity. The shorter syntax works; however, the type is probably not what
@@ -178,11 +178,11 @@ TEST_CASE("AOBasisSet Tutorial") {
         // The actual type of ao_i (without references)
         using ao_i_type = std::remove_reference_t<decltype(ao_i)>;
         // We acted like it was this type,
-        using cgto_type = libchemist::ContractedGaussian<double>;
+        using cgto_type = chemist::ContractedGaussian<double>;
         // but as you can see it's not
         static_assert(std::is_same_v<ao_i_type, cgto_type> == false);
         // It's actually this type
-        using actual_type = libchemist::ContractedGaussianView<double>;
+        using actual_type = chemist::ContractedGaussianView<double>;
         static_assert(std::is_same_v<ao_i_type, actual_type>);
     }
 
@@ -197,13 +197,13 @@ TEST_CASE("AOBasisSet Tutorial") {
     //
     // Hence all of our foreach loops so far have copied state from ``bs`` as is
     // easily shown:
-    for(libchemist::Primitive<double> prim_i : bs.unique_primitives()) {
+    for(chemist::Primitive<double> prim_i : bs.unique_primitives()) {
         assert(prim_i.coefficient() != 0.0); // Wasn't 0 to start with
         prim_i.coefficient() = 0.0;
         assert(prim_i.coefficient() == 0.0); // We really did change it
     }
 
-    for(libchemist::PrimitiveView<double>&& prim_i : bs.unique_primitives()) {
+    for(chemist::PrimitiveView<double>&& prim_i : bs.unique_primitives()) {
         assert(prim_i.coefficient() != 0.0); // Isn't 0
     }
 
@@ -211,11 +211,11 @@ TEST_CASE("AOBasisSet Tutorial") {
     //
     // We can also prove that that the views really are aliases by modifying
     // ``bs``:
-    for(libchemist::PrimitiveView<double>&& prim_i : bs.unique_primitives()) {
+    for(chemist::PrimitiveView<double>&& prim_i : bs.unique_primitives()) {
         assert(prim_i.coefficient() != 0.0); // Still isn't 0
         prim_i.coefficient() = 0.0;          // Set it to 0
     }
-    for(libchemist::PrimitiveView<double>&& prim_i : bs.unique_primitives()) {
+    for(chemist::PrimitiveView<double>&& prim_i : bs.unique_primitives()) {
         assert(prim_i.coefficient() == 0.0); // It's 0 now!!!
     }
 
@@ -228,7 +228,7 @@ TEST_CASE("AOBasisSet Tutorial") {
     //
     // .. code-block: c++
     //
-    //    for(const libchemist::Shell<double>& shell_i : bs.shells()) {
+    //    for(const chemist::Shell<double>& shell_i : bs.shells()) {
     //       // Intent is to loop over read-only shells
     //    }
     //
@@ -244,7 +244,7 @@ TEST_CASE("AOBasisSet Tutorial") {
     //    auto __end = __range.end() ;
     //    for ( ; __begin != __end; ++__begin) {
     //
-    //        const libchemist::Shell<double>& shell_i = *__begin;
+    //        const chemist::Shell<double>& shell_i = *__begin;
     //        loop_statement
     //
     //    }
@@ -253,7 +253,7 @@ TEST_CASE("AOBasisSet Tutorial") {
     // then cast to a read-only reference, and the view is freed, leaving
     // ``shell_i`` as invalid reference. The equivalent view code will work just
     // fine:
-    for(const libchemist::ShellView<double>&& shell_i : bs.shells()) {
+    for(const chemist::ShellView<double>&& shell_i : bs.shells()) {
         // Do something with the read-only shell
     }
 

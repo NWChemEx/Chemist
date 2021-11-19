@@ -1,12 +1,12 @@
 #pragma once
-#include "libchemist/orbital_space/orbital_space.hpp"
+#include "chemist/orbital_space/orbital_space.hpp"
 
 namespace testing {
 
 inline auto get_canonical(TA::World& world) {
     using ta_tensor_type = TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>;
-    using tensor_type    = libchemist::type::tensor;
-    using from_space     = libchemist::orbital_space::AOSpaceD;
+    using tensor_type    = chemist::type::tensor;
+    using from_space     = chemist::orbital_space::AOSpaceD;
     using vector_il      = TA::detail::vector_il<double>;
     using matrix_il      = TA::detail::matrix_il<double>;
 
@@ -14,7 +14,7 @@ inline auto get_canonical(TA::World& world) {
     tensor_type c(ta_tensor_type(
       world, matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}}));
 
-    return libchemist::orbital_space::CanonicalSpaceD(ei, c, from_space{});
+    return chemist::orbital_space::CanonicalSpaceD(ei, c, from_space{});
 }
 
 } // namespace testing

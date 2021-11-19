@@ -1,5 +1,5 @@
-#include "libchemist/ta_helpers/ta_helpers.hpp"
-#include "libchemist/tensor/allocators/allocators.hpp"
+#include "chemist/ta_helpers/ta_helpers.hpp"
+#include "chemist/tensor/allocators/allocators.hpp"
 #include <catch2/catch.hpp>
 
 /* Testing Strategy:
@@ -10,9 +10,9 @@
  */
 
 TEST_CASE("Allocator") {
-    using field_type  = libchemist::tensor::field::Scalar;
+    using field_type  = chemist::tensor::field::Scalar;
     using tensor_type = TA::TSpArrayD;
-    auto palloc       = libchemist::tensor::default_allocator<field_type>();
+    auto palloc       = chemist::tensor::default_allocator<field_type>();
 
     using allocator_type = typename decltype(palloc)::element_type;
     using extents_type   = typename allocator_type::extents_type;
@@ -70,7 +70,7 @@ TEST_CASE("Allocator") {
     }
 
     SECTION("Comparisons") {
-        const auto prhs = libchemist::tensor::default_allocator<field_type>();
+        const auto prhs = chemist::tensor::default_allocator<field_type>();
         REQUIRE(*palloc == *prhs);
         REQUIRE_FALSE(*palloc != *prhs);
 
