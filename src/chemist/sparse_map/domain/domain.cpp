@@ -1,6 +1,6 @@
-#include "detail_/tiled_domain_pimpl.hpp"
 #include "chemist/sparse_map/domain/domain.hpp"
 #include "chemist/ta_helpers/get_block_idx.hpp"
+#include "detail_/tiled_domain_pimpl.hpp"
 #include <string>
 
 namespace chemist::sparse_map {

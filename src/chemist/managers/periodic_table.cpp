@@ -1,5 +1,5 @@
-#include "detail_/periodic_table_pimpl.hpp"
 #include "chemist/managers/periodic_table.hpp"
+#include "detail_/periodic_table_pimpl.hpp"
 
 namespace chemist {
 

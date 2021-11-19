@@ -1,6 +1,6 @@
-#include "domain_pimpl.hpp"
 #include "chemist/sparse_map/domain/detail_/domain_base.hpp"
 #include "chemist/sparse_map/domain/domain.hpp"
+#include "domain_pimpl.hpp"
 #include "tiled_domain_pimpl.hpp"
 #include <utilities/printing/print_stl.hpp>
 
@@ -8,8 +8,8 @@ namespace {
 
 // Hides decisions affecting which PIMPL the class gets
 template<typename IndexType, typename... Args>
-std::unique_ptr<chemist::sparse_map::detail_::DomainPIMPL<IndexType>>
-new_pimpl(Args&&... args) {
+std::unique_ptr<chemist::sparse_map::detail_::DomainPIMPL<IndexType>> new_pimpl(
+  Args&&... args) {
     using namespace chemist::sparse_map;
     using namespace chemist::sparse_map::detail_;
     using pimpl_type = DomainPIMPL<IndexType>;

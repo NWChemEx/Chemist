@@ -17,8 +17,8 @@ auto non_default_parameter() {
         return chemist::ManyElectrons{2};
     } else if constexpr(std::is_same_v<T, chemist::OneElectronDensity>) {
         auto a_tensor = testing::generate_tensor(2);
-        return chemist::OneElectronDensity(
-          a_tensor, chemist::orbital_space::AOSpaceD{});
+        return chemist::OneElectronDensity(a_tensor,
+                                           chemist::orbital_space::AOSpaceD{});
     } else if constexpr(std::is_same_v<T, chemist::Nuclei>) {
         chemist::Atom H(1ul);
         return chemist::Nuclei{H, H};
@@ -36,13 +36,12 @@ using stg_types = std::tuple<chemist::operators::STG>;
 using correlation_factor_types =
   std::tuple<chemist::operators::ElectronElectronSTG>;
 
-using all_coulomb =
-  std::tuple<chemist::operators::ElectronRepulsion,
-             chemist::operators::NuclearRepulsion,
-             chemist::operators::ElectronNuclearAttraction,
-             chemist::operators::ElectronEDensityCoulomb,
-             chemist::operators::NElectronRepulsion,
-             chemist::operators::NElectronNuclearAttraction>;
+using all_coulomb = std::tuple<chemist::operators::ElectronRepulsion,
+                               chemist::operators::NuclearRepulsion,
+                               chemist::operators::ElectronNuclearAttraction,
+                               chemist::operators::ElectronEDensityCoulomb,
+                               chemist::operators::NElectronRepulsion,
+                               chemist::operators::NElectronNuclearAttraction>;
 
 using all_operator_impls =
   std::tuple<chemist::operators::ElectronElectronDelta,

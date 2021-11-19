@@ -1,5 +1,5 @@
-#include "connectivity_table_pimpl.hpp"
 #include "chemist/topology/connectivity_table.hpp"
+#include "connectivity_table_pimpl.hpp"
 
 namespace chemist::topology {
 

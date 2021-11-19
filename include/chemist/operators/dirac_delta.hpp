@@ -32,7 +32,6 @@ protected:
 };
 
 /// Type of an electronic Dirac Delta
-using ElectronElectronDelta =
-  DiracDelta<chemist::Electron, chemist::Electron>;
+using ElectronElectronDelta = DiracDelta<chemist::Electron, chemist::Electron>;
 
 } // namespace chemist::operators

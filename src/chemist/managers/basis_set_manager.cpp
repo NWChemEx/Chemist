@@ -1,5 +1,5 @@
-#include "detail_/basis_set_manager_pimpl.hpp"
 #include "chemist/managers/basis_set_manager.hpp"
+#include "detail_/basis_set_manager_pimpl.hpp"
 
 namespace chemist {
 

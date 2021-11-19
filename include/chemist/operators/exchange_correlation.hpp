@@ -47,8 +47,7 @@ public:
 
 /// Type of Kohn-Sham Exchange-Correlation operator
 using ExchangeCorrelation =
-  KohnShamExchangeCorrelation<ExchangeCorrelationFunctional,
-                              chemist::Electron,
+  KohnShamExchangeCorrelation<ExchangeCorrelationFunctional, chemist::Electron,
                               chemist::OneElectronDensity>;
 
 } // namespace chemist::operators

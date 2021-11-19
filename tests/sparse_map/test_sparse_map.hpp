@@ -4,8 +4,8 @@
 
 namespace testing {
 
-using index_type_tuple_t = std::tuple<chemist::sparse_map::ElementIndex,
-                                      chemist::sparse_map::TileIndex>;
+using index_type_tuple_t =
+  std::tuple<chemist::sparse_map::ElementIndex, chemist::sparse_map::TileIndex>;
 
 template<typename T, typename U>
 using index_pairs_tuple_t_ = std::tuple<std::pair<T, T>, std::pair<T, U>,

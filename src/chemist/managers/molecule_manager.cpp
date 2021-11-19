@@ -1,5 +1,5 @@
-#include "detail_/molecule_manager_pimpl.hpp"
 #include "chemist/managers/molecule_manager.hpp"
+#include "detail_/molecule_manager_pimpl.hpp"
 
 namespace chemist {
 

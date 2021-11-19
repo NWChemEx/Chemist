@@ -39,8 +39,7 @@ TEST_CASE("linalg_inner_tensors") {
 
         auto [evals, evecs] = diagonalize_inner_tensors(t);
         REQUIRE(chemist::ta_helpers::allclose_tot(evals, corr_evals, 1));
-        REQUIRE(
-          chemist::ta_helpers::allclose_tot(evecs, corr_evecs, 2, true));
+        REQUIRE(chemist::ta_helpers::allclose_tot(evecs, corr_evecs, 2, true));
     }
 
     SECTION("cholesky_linv") {
@@ -62,7 +61,6 @@ TEST_CASE("linalg_inner_tensors") {
         tensor_type corr_linv(world, linv_il);
 
         auto linv = cholesky_linv_inner_tensors(t);
-        REQUIRE(
-          chemist::ta_helpers::allclose_tot(linv, corr_linv, 2, false));
+        REQUIRE(chemist::ta_helpers::allclose_tot(linv, corr_linv, 2, false));
     }
 }

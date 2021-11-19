@@ -1,7 +1,7 @@
-#include "detail_/make_indices.hpp"
 #include "chemist/orbital_space/derived_space.hpp"
 #include "chemist/ta_helpers/ta_hashers.hpp"
 #include "chemist/tensor/creation.hpp"
+#include "detail_/make_indices.hpp"
 namespace chemist::orbital_space {
 
 #define DERIVED_SPACE DerivedSpace<TransformType, FromSpace>
