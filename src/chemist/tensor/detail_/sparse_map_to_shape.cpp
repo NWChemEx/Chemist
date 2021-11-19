@@ -79,4 +79,4 @@ shape_type sparse_map_to_shape(const sparse_map_type& sm,
     return shape_type(shape_data, tr);
 }
 
-} // namespace libchemist::tensor::detail_
+} // namespace chemist::tensor::detail_

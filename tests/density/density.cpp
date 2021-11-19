@@ -1,5 +1,5 @@
-#include "test_density.hpp"
 #include "chemist/density/density.hpp"
+#include "test_density.hpp"
 
 // Tuple containing the known densities
 using density_types = std::tuple<chemist::OneElectronDensity>;

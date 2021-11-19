@@ -39,4 +39,4 @@ TA::SparseShape<float> sparse_map_to_shape(const sparse_map::SparseMapEE& sm,
                                            const idx2mode_type& idx2mode,
                                            const TA::TiledRange& tr);
 
-} // namespace libchemist::tensor::detail_
+} // namespace chemist::tensor::detail_
