@@ -1,9 +1,9 @@
-#include "libchemist/operators/kinetic.hpp"
-#include "libchemist/wavefunction/determinant_space.hpp"
+#include "chemist/operators/kinetic.hpp"
+#include "chemist/wavefunction/determinant_space.hpp"
 #include "test_wavefunction.hpp"
 
-using namespace libchemist::wavefunction;
-using namespace libchemist::orbital_space;
+using namespace chemist::wavefunction;
+using namespace chemist::orbital_space;
 
 using tuple_type =
   std::tuple<Determinant, CanonicalDeterminant, SparseDeterminant>;
@@ -32,7 +32,7 @@ TEMPLATE_LIST_TEST_CASE("DeterminantSpace", "", tuple_type) {
     // Makes a non-default DeterminantSpace
     auto occ  = testing::make_space<occ_space_t>(1.0);
     auto virt = testing::make_space<virt_space_t>(2.0);
-    fock_op_t fock(libchemist::operators::ElectronKinetic{});
+    fock_op_t fock(chemist::operators::ElectronKinetic{});
     space_t nondefault(occ, virt, fock);
 
     SECTION("CTors") {
@@ -144,7 +144,7 @@ TEST_CASE("DeterminantSpace implicit conversions") {
     auto virt        = testing::make_space<DerivedSpaceD>(2.0);
     auto canon_virt  = testing::make_space<CanonicalSpaceD>(2.0);
     auto sparse_virt = testing::make_space<CanonicalIndSpace>(2.0);
-    libchemist::operators::Fock fock(libchemist::operators::ElectronKinetic{});
+    chemist::operators::Fock fock(chemist::operators::ElectronKinetic{});
 
     Determinant noncanon(occ, virt, fock);
     CanonicalDeterminant canon(canon_occ, canon_virt, fock);

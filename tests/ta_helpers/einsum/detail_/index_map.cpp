@@ -1,8 +1,8 @@
-#include "libchemist/ta_helpers/einsum/detail_/index_map.hpp"
+#include "chemist/ta_helpers/einsum/detail_/index_map.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::ta_helpers::einsum;
-using libchemist::ta_helpers::einsum::detail_::IndexMap;
+using namespace chemist::ta_helpers::einsum;
+using chemist::ta_helpers::einsum::detail_::IndexMap;
 
 /* We know splitting strings works from parse_index test so we only need to make
  * sure that the inputs are correctly fed through parse_index and saved

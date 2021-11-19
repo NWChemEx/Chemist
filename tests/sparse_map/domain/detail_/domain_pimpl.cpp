@@ -1,10 +1,10 @@
-#include "libchemist/sparse_map/domain/detail_/domain_pimpl.hpp"
-#include "libchemist/sparse_map/index.hpp"
+#include "chemist/sparse_map/domain/detail_/domain_pimpl.hpp"
+#include "chemist/sparse_map/index.hpp"
 #include <catch2/catch.hpp>
 #include <tuple>
 #include <utilities/timer.hpp>
 
-using namespace libchemist::sparse_map;
+using namespace chemist::sparse_map;
 using index_types = std::tuple<ElementIndex, TileIndex>;
 
 /* Testing notes:
@@ -19,7 +19,7 @@ using index_types = std::tuple<ElementIndex, TileIndex>;
  */
 
 TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
-    using namespace libchemist::sparse_map::detail_;
+    using namespace chemist::sparse_map::detail_;
     using pimpl_type = DomainPIMPL<TestType>;
 
     TestType e, e0{0}, e00{0, 0}, e01{0, 1}, e1{1}, e10{1, 0}, e11{1, 1};
@@ -42,7 +42,7 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
 
     SECTION("Typedefs") {
         using traits =
-          libchemist::sparse_map::detail_::DomainTraits<Domain<TestType>>;
+          chemist::sparse_map::detail_::DomainTraits<Domain<TestType>>;
 
         SECTION("size_type") {
             using pimpl_t = typename pimpl_type::size_type;
@@ -1675,7 +1675,7 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL", "", index_types) {
 }
 
 TEMPLATE_LIST_TEST_CASE("DomainPIMPL comparisons", "", index_types) {
-    using DomainPIMPL = libchemist::sparse_map::detail_::DomainPIMPL<TestType>;
+    using DomainPIMPL = chemist::sparse_map::detail_::DomainPIMPL<TestType>;
 
     TestType e1{1}, e12{1, 2}, e2{2};
 
@@ -1732,9 +1732,9 @@ TEMPLATE_LIST_TEST_CASE("DomainPIMPL comparisons", "", index_types) {
 }
 
 // TEST_CASE("DomainPIMPL profiling") {
-//     using index_t     = libchemist::sparse_map::ElementIndex;
+//     using index_t     = chemist::sparse_map::ElementIndex;
 //     using DomainPIMPL =
-//     libchemist::sparse_map::detail_::DomainPIMPL<index_t>;
+//     chemist::sparse_map::detail_::DomainPIMPL<index_t>;
 
 //     const std::size_t n = 100;
 //     const std::size_t m = 100;

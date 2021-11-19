@@ -1,10 +1,10 @@
-#include "libchemist/molecule/molecule.hpp"
+#include "chemist/molecule/molecule.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
 #include <pluginplay/hasher.hpp>
 #include <sstream>
 
-using namespace libchemist;
+using namespace chemist;
 
 // Forwad typedefs from the molecule
 using value_type      = typename Molecule::value_type;

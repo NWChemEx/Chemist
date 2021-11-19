@@ -1,8 +1,8 @@
 #pragma once
-#include "libchemist/sparse_map/sparse_map/sparse_map.hpp"
-#include "libchemist/ta_helpers/ta_hashers.hpp"
-#include "libchemist/ta_helpers/ta_helpers.hpp"
-#include "libchemist/types.hpp"
+#include "chemist/sparse_map/sparse_map/sparse_map.hpp"
+#include "chemist/ta_helpers/ta_hashers.hpp"
+#include "chemist/ta_helpers/ta_helpers.hpp"
+#include "chemist/types.hpp"
 
 /* Testing notes:
  *
@@ -12,7 +12,7 @@
  *   matrices.
  */
 
-namespace libchemist::test {
+namespace chemist::test {
 
 template<typename T>
 struct TensorMaker {
@@ -81,7 +81,7 @@ static sparse_map::SparseMap<index_type, index_type> sm2({{index_type{0ul}, {ind
 template<typename T, typename U>
 struct CompareTensors{
     static bool allclose(const T& lhs, const U& rhs) {
-        return libchemist::ta_helpers::allclose(lhs, rhs);
+        return chemist::ta_helpers::allclose(lhs, rhs);
     }
 };
 
@@ -90,7 +90,7 @@ struct CompareTensors<type::tensor_of_tensors<T>, type::tensor_of_tensors<U>> {
     using lhs_type = type::tensor_of_tensors<T>;
     using rhs_type = type::tensor_of_tensors<U>;
     static bool allclose(const lhs_type& lhs, const rhs_type& rhs) {
-        return libchemist::ta_helpers::allclose_tot(lhs, rhs, 2);
+        return chemist::ta_helpers::allclose_tot(lhs, rhs, 2);
     }
 };
 

@@ -11,14 +11,14 @@
  */
 
 using namespace utilities::type_traits;
-using namespace libchemist::operators;
+using namespace chemist::operators;
 namespace {
 
 // This is some bogus operator, which has a type different than all operators we
 // are actually testing.
 template<typename T>
 struct BogusOperator
-  : libchemist::operators::detail_::OperatorImpl<BogusOperator, T> {};
+  : chemist::operators::detail_::OperatorImpl<BogusOperator, T> {};
 
 } // namespace
 

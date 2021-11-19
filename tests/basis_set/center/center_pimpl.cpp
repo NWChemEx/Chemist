@@ -1,9 +1,9 @@
-#include "libchemist/basis_set/center/center_pimpl.hpp"
-#include "libchemist/basis_set/shell.hpp"
+#include "chemist/basis_set/center/center_pimpl.hpp"
+#include "chemist/basis_set/shell.hpp"
 #include <catch2/catch.hpp>
 
-using libchemist::ShellType;
-using namespace libchemist::detail_;
+using chemist::ShellType;
+using namespace chemist::detail_;
 
 static inline auto make_center() {
     std::vector pures{ShellType::pure, ShellType::cartesian, ShellType::pure};

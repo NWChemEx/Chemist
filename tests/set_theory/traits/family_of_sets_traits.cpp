@@ -1,9 +1,9 @@
 #include "../test_set_theory.hpp"
-#include "libchemist/set_theory/subset.hpp"
-#include "libchemist/set_theory/traits/family_of_sets.hpp"
+#include "chemist/set_theory/subset.hpp"
+#include "chemist/set_theory/traits/family_of_sets.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::set_theory;
+using namespace chemist::set_theory;
 
 TEMPLATE_LIST_TEST_CASE("FamilyOfSetsTraits<single container>", "",
                         container_types) {

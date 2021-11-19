@@ -1,4 +1,4 @@
-#include "libchemist/point/point_view.hpp"
+#include "chemist/point/point_view.hpp"
 #include <catch2/catch.hpp>
 
 /* Testing Strategy:
@@ -10,7 +10,7 @@
  *
  */
 
-using namespace libchemist;
+using namespace chemist;
 
 using point_t      = Point<double>;
 using view_t       = PointView<double, point_t>;

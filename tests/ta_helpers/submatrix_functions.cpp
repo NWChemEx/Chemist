@@ -1,12 +1,12 @@
 #include <catch2/catch.hpp>
-#include <libchemist/ta_helpers/submatrix_functions.hpp>
-#include <libchemist/ta_helpers/ta_helpers.hpp>
-#include <libchemist/types.hpp>
+#include <chemist/ta_helpers/submatrix_functions.hpp>
+#include <chemist/ta_helpers/ta_helpers.hpp>
+#include <chemist/types.hpp>
 
 using tensor_type = TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>;
-using libchemist::ta_helpers::allclose;
-using libchemist::ta_helpers::expand_submatrix;
-using libchemist::ta_helpers::submatrix;
+using chemist::ta_helpers::allclose;
+using chemist::ta_helpers::expand_submatrix;
+using chemist::ta_helpers::submatrix;
 
 TEST_CASE("Submatrix Functions") {
     auto& world = TA::get_default_world();

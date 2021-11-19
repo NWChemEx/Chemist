@@ -1,8 +1,8 @@
-#include "libchemist/electrons/electron.hpp"
+#include "chemist/electrons/electron.hpp"
 #include <catch2/catch.hpp>
 
 TEST_CASE("Electron") {
-    libchemist::Electron i, j;
+    chemist::Electron i, j;
 
     SECTION("hash") {
         REQUIRE(pluginplay::hash_objects(i) == pluginplay::hash_objects(j));

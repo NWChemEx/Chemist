@@ -1,8 +1,8 @@
-#include "libchemist/set_theory/family_of_sets.hpp"
-#include "libchemist/set_theory/subset.hpp"
+#include "chemist/set_theory/family_of_sets.hpp"
+#include "chemist/set_theory/subset.hpp"
 #include "test_set_theory.hpp"
 
-using namespace libchemist::set_theory;
+using namespace chemist::set_theory;
 
 TEMPLATE_LIST_TEST_CASE("Subset", "", container_types) {
     // Work out some types we'll need for the unit tests

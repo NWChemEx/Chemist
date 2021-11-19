@@ -1,8 +1,8 @@
-#include "libchemist/potentials/electrostatic.hpp"
+#include "chemist/potentials/electrostatic.hpp"
 #include <catch2/catch.hpp>
 
 TEST_CASE("Electrostatic") {
-    using epot_t = libchemist::potentials::Electrostatic;
+    using epot_t = chemist::potentials::Electrostatic;
 
     SECTION("Typedefs") {
         SECTION("scalar_type") {
@@ -19,19 +19,19 @@ TEST_CASE("Electrostatic") {
 
         SECTION("charge_type") {
             using t    = typename epot_t::charge_type;
-            using corr = libchemist::PointCharge<double>;
+            using corr = chemist::PointCharge<double>;
             STATIC_REQUIRE(std::is_same_v<t, corr>);
         }
 
         SECTION("charge_reference") {
             using t    = typename epot_t::charge_reference;
-            using corr = libchemist::PointCharge<double>&;
+            using corr = chemist::PointCharge<double>&;
             STATIC_REQUIRE(std::is_same_v<t, corr>);
         }
 
         SECTION("const_charge_reference") {
             using t    = typename epot_t::const_charge_reference;
-            using corr = const libchemist::PointCharge<double>&;
+            using corr = const chemist::PointCharge<double>&;
             STATIC_REQUIRE(std::is_same_v<t, corr>);
         }
     }

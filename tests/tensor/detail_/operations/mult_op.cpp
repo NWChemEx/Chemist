@@ -1,7 +1,7 @@
 #include "../../test_tensor.hpp"
 
-using namespace libchemist;
-using namespace libchemist::tensor;
+using namespace chemist;
+using namespace chemist::tensor;
 using scalar_traits  = backends::TiledArrayTraits<field::Scalar>;
 using scalar_variant = typename scalar_traits::variant_type;
 using scalar_tensor  = typename scalar_traits::tensor_type<double>;

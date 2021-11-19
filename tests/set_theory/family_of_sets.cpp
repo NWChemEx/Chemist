@@ -1,7 +1,7 @@
-#include "libchemist/set_theory/family_of_sets.hpp"
+#include "chemist/set_theory/family_of_sets.hpp"
 #include "test_set_theory.hpp"
 
-using namespace libchemist::set_theory;
+using namespace chemist::set_theory;
 
 TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
     // Types we will need

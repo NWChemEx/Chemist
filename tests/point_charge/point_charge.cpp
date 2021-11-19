@@ -1,10 +1,10 @@
-#include "libchemist/point_charge/point_charge.hpp"
+#include "chemist/point_charge/point_charge.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
 #include <sstream>
 
 TEMPLATE_TEST_CASE("PointCharge", "", double, float) {
-    using point_charge_t = libchemist::PointCharge<TestType>;
+    using point_charge_t = chemist::PointCharge<TestType>;
 
     SECTION("typedefs") {
         SECTION("scalar_type") {
@@ -155,7 +155,7 @@ TEMPLATE_TEST_CASE("PointCharge", "", double, float) {
  * comparison operator).
  */
 TEMPLATE_TEST_CASE("PointCharge comparisons", "", double, float) {
-    using point_charge_t = libchemist::PointCharge<TestType>;
+    using point_charge_t = chemist::PointCharge<TestType>;
 
     SECTION("LHS == defaulted") {
         point_charge_t lhs;
@@ -185,7 +185,7 @@ TEMPLATE_TEST_CASE("PointCharge comparisons", "", double, float) {
         using rhs_t = std::conditional_t<test_type_is_float, double, float>;
 
         point_charge_t lhs;
-        libchemist::PointCharge<rhs_t> rhs;
+        chemist::PointCharge<rhs_t> rhs;
         REQUIRE_FALSE(lhs == rhs);
         REQUIRE(lhs != rhs);
     }

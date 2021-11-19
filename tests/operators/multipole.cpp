@@ -1,8 +1,8 @@
 #include "test_operator.hpp"
-#include <libchemist/operators/multipole.hpp>
-#include <libchemist/point/point.hpp>
+#include <chemist/operators/multipole.hpp>
+#include <chemist/point/point.hpp>
 
-using namespace libchemist::operators;
+using namespace chemist::operators;
 
 // Tuple containing the known
 using type_tuple =
@@ -29,7 +29,7 @@ TEMPLATE_LIST_TEST_CASE("Multipole", "", type_tuple) {
 
     SECTION("Typedefs") {
         SECTION("value_type") {
-            using corr = libchemist::Point<double>;
+            using corr = chemist::Point<double>;
             STATIC_REQUIRE(std::is_same_v<point_type, corr>);
         }
     }

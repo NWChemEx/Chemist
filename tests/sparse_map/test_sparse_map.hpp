@@ -1,19 +1,19 @@
 #pragma once
-#include "libchemist/sparse_map/sparse_map.hpp"
+#include "chemist/sparse_map/sparse_map.hpp"
 #include <catch2/catch.hpp>
 
 namespace testing {
 
-using index_type_tuple_t = std::tuple<libchemist::sparse_map::ElementIndex,
-                                      libchemist::sparse_map::TileIndex>;
+using index_type_tuple_t = std::tuple<chemist::sparse_map::ElementIndex,
+                                      chemist::sparse_map::TileIndex>;
 
 template<typename T, typename U>
 using index_pairs_tuple_t_ = std::tuple<std::pair<T, T>, std::pair<T, U>,
                                         std::pair<U, T>, std::pair<U, U>>;
 
 using index_pairs_tuple_t =
-  index_pairs_tuple_t_<libchemist::sparse_map::ElementIndex,
-                       libchemist::sparse_map::TileIndex>;
+  index_pairs_tuple_t_<chemist::sparse_map::ElementIndex,
+                       chemist::sparse_map::TileIndex>;
 
 template<typename IndexType, std::size_t N>
 auto make_indices() {

@@ -1,7 +1,7 @@
-#include "libchemist/operators/derivative.hpp"
+#include "chemist/operators/derivative.hpp"
 #include "test_operator.hpp"
 
-using namespace libchemist::operators;
+using namespace chemist::operators;
 
 using type_list = std::tuple<ElectronIdentity_Nuclear>;
 

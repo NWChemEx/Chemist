@@ -1,8 +1,8 @@
-#include "libchemist/managers/molecule_manager.hpp"
+#include "chemist/managers/molecule_manager.hpp"
 #include <catch2/catch.hpp>
 #include <string>
 
-using namespace libchemist;
+using namespace chemist;
 
 using Catch::Matchers::Message;
 

@@ -1,9 +1,9 @@
-#include "libchemist/tensor/type_traits/tensor_traits.hpp"
-#include "libchemist/types.hpp"
+#include "chemist/tensor/type_traits/tensor_traits.hpp"
+#include "chemist/types.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist;
-using namespace libchemist::tensor;
+using namespace chemist;
+using namespace chemist::tensor;
 
 using scalar_traits = backends::TiledArrayTraits<field::Scalar>;
 using tot_traits    = backends::TiledArrayTraits<field::Tensor>;

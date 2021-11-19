@@ -1,9 +1,9 @@
 #pragma once
-#include "libchemist/basis_set/ao_basis_set/ao_basis_set.hpp"
-#include "libchemist/orbital_space.hpp"
-#include "libchemist/ta_helpers/detail_/contraction_dummy_annotation.hpp"
+#include "chemist/basis_set/ao_basis_set/ao_basis_set.hpp"
+#include "chemist/orbital_space.hpp"
+#include "chemist/ta_helpers/detail_/contraction_dummy_annotation.hpp"
 
-namespace libchemist::detail_ {
+namespace chemist::detail_ {
 
 // Class that implements OrbitalSpace
 template<typename basis_type, typename tensor_type>
@@ -180,4 +180,4 @@ public:
 
 }; // class OrbitalSpacePIMPL
 
-} // namespace libchemist::detail_
+} // namespace chemist::detail_

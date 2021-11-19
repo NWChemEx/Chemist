@@ -1,7 +1,7 @@
-#include "libchemist/tensor/tensor.hpp"
+#include "chemist/tensor/tensor.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::tensor;
+using namespace chemist::tensor;
 
 TEST_CASE("LabeledTensorWrapper") {
     using tensor         = ScalarTensorWrapper;

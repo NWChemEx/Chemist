@@ -1,8 +1,8 @@
-#include "libchemist/sparse_map/sparse_map/sparse_map.hpp"
+#include "chemist/sparse_map/sparse_map/sparse_map.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::sparse_map;
-using namespace libchemist::sparse_map::detail_;
+using namespace chemist::sparse_map;
+using namespace chemist::sparse_map::detail_;
 
 using index_list = std::tuple<
   std::pair<ElementIndex, ElementIndex>, std::pair<ElementIndex, TileIndex>,

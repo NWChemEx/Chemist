@@ -1,8 +1,8 @@
-#include "libchemist/sparse_map/index.hpp"
+#include "chemist/sparse_map/index.hpp"
 #include <catch2/catch.hpp>
 #include <sstream>
 
-using namespace libchemist::sparse_map;
+using namespace chemist::sparse_map;
 
 // Types commonly used as integers
 using integral_types = std::tuple<int, unsigned int, std::size_t>;

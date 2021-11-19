@@ -1,8 +1,8 @@
-#include "libchemist/ta_helpers/get_block_idx.hpp"
-#include "libchemist/ta_helpers/ta_helpers.hpp"
+#include "chemist/ta_helpers/get_block_idx.hpp"
+#include "chemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::ta_helpers;
+using namespace chemist::ta_helpers;
 
 TEST_CASE("get_block_idx") {
     auto& world = TA::get_default_world();

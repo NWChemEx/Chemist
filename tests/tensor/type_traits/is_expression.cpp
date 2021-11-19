@@ -1,8 +1,8 @@
-#include "libchemist/tensor/tensor_wrapper.hpp"
-#include "libchemist/tensor/type_traits/is_expression.hpp"
+#include "chemist/tensor/tensor_wrapper.hpp"
+#include "chemist/tensor/type_traits/is_expression.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::tensor;
+using namespace chemist::tensor;
 
 TEST_CASE("is_expression_v") {
     STATIC_REQUIRE_FALSE(is_expression_v<ScalarTensorWrapper>);

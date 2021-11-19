@@ -1,9 +1,9 @@
-#include "libchemist/point/point.hpp"
+#include "chemist/point/point.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
 #include <sstream>
 
-using namespace libchemist;
+using namespace chemist;
 
 TEST_CASE("Point<double> : default ctor") {
     Point<double> p;

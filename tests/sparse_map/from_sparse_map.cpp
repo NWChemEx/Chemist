@@ -1,13 +1,13 @@
 // These tests randomly segfault; I'm in the process of redirecting the sparse
 // map logic through the TensorWrapper class. As a result we may not need these
 // functions anymore. If we do need them, I'll investigate the segfault then.
-// #include "libchemist/sparse_map/from_sparse_map.hpp"
-// #include "libchemist/ta_helpers/ta_helpers.hpp"
+// #include "chemist/sparse_map/from_sparse_map.hpp"
+// #include "chemist/ta_helpers/ta_helpers.hpp"
 // #include <catch2/catch.hpp>
 
-// using namespace libchemist;
-// using namespace libchemist::sparse_map;
-// using namespace libchemist::sparse_map::detail_;
+// using namespace chemist;
+// using namespace chemist::sparse_map;
+// using namespace chemist::sparse_map::detail_;
 
 // using tot_type =
 //   TA::DistArray<TA::Tensor<TA::Tensor<double>>, TA::SparsePolicy>;

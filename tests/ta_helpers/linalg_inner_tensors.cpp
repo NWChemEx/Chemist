@@ -1,8 +1,8 @@
-#include "libchemist/ta_helpers/linalg_inner_tensors.hpp"
-#include "libchemist/ta_helpers/ta_helpers.hpp"
+#include "chemist/ta_helpers/linalg_inner_tensors.hpp"
+#include "chemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::ta_helpers;
+using namespace chemist::ta_helpers;
 
 TEST_CASE("linalg_inner_tensors") {
     using inner_tile_type = TA::Tensor<double>;
@@ -38,9 +38,9 @@ TEST_CASE("linalg_inner_tensors") {
         tensor_type corr_evecs(world, evec_il);
 
         auto [evals, evecs] = diagonalize_inner_tensors(t);
-        REQUIRE(libchemist::ta_helpers::allclose_tot(evals, corr_evals, 1));
+        REQUIRE(chemist::ta_helpers::allclose_tot(evals, corr_evals, 1));
         REQUIRE(
-          libchemist::ta_helpers::allclose_tot(evecs, corr_evecs, 2, true));
+          chemist::ta_helpers::allclose_tot(evecs, corr_evecs, 2, true));
     }
 
     SECTION("cholesky_linv") {
@@ -63,6 +63,6 @@ TEST_CASE("linalg_inner_tensors") {
 
         auto linv = cholesky_linv_inner_tensors(t);
         REQUIRE(
-          libchemist::ta_helpers::allclose_tot(linv, corr_linv, 2, false));
+          chemist::ta_helpers::allclose_tot(linv, corr_linv, 2, false));
     }
 }

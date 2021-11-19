@@ -1,7 +1,7 @@
 #include "../test_tensor.hpp"
-#include "libchemist/tensor/type_traits/variant_type.hpp"
+#include "chemist/tensor/type_traits/variant_type.hpp"
 
-using namespace libchemist::tensor;
+using namespace chemist::tensor;
 
 using field_types = std::tuple<field::Scalar, field::Tensor>;
 

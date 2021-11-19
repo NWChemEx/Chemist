@@ -1,8 +1,8 @@
-#include "libchemist/tensor/type_traits/type_traits.hpp"
-#include "libchemist/types.hpp"
+#include "chemist/tensor/type_traits/type_traits.hpp"
+#include "chemist/types.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::tensor;
+using namespace chemist::tensor;
 using TensorD = backends::TiledArrayTraits<field::Scalar>::tensor_type<double>;
 using TensorF = backends::TiledArrayTraits<field::Scalar>::tensor_type<float>;
 using ToTD    = backends::TiledArrayTraits<field::Tensor>::tensor_type<double>;

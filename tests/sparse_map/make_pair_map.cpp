@@ -1,6 +1,6 @@
 #include "test_sparse_map.hpp"
 
-using namespace libchemist::sparse_map;
+using namespace chemist::sparse_map;
 
 TEMPLATE_LIST_TEST_CASE("make_pair_map", "", testing::index_pairs_tuple_t) {
     using ind_idx_type    = std::tuple_element_t<0, TestType>;

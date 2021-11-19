@@ -1,13 +1,13 @@
-#include "libchemist/ta_helpers/slice.hpp"
-#include "libchemist/ta_helpers/ta_helpers.hpp"
+#include "chemist/ta_helpers/slice.hpp"
+#include "chemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::ta_helpers;
+using namespace chemist::ta_helpers;
 using scalar_types = std::tuple<float, double>;
-using idx_type     = libchemist::sparse_map::ElementIndex;
+using idx_type     = chemist::sparse_map::ElementIndex;
 
 TEST_CASE("is_empty_slice_") {
-    using namespace libchemist::ta_helpers::detail_;
+    using namespace chemist::ta_helpers::detail_;
 
     idx_type e1{1}, e12{1, 2}, e2{2}, e23{2, 3};
 
@@ -23,8 +23,8 @@ TEST_CASE("is_empty_slice_") {
 }
 
 TEST_CASE("get_slice_tile_indices_") {
-    using namespace libchemist::ta_helpers::detail_;
-    using tile_idx = libchemist::sparse_map::TileIndex;
+    using namespace chemist::ta_helpers::detail_;
+    using tile_idx = chemist::sparse_map::TileIndex;
 
     SECTION("vector") {
         TA::TiledRange tr{{0, 2, 4}};

@@ -1,8 +1,8 @@
-#include "libchemist/set_theory/type_traits.hpp"
+#include "chemist/set_theory/type_traits.hpp"
 #include <catch2/catch.hpp>
 #include <vector>
 
-using namespace libchemist::set_theory;
+using namespace chemist::set_theory;
 
 using type_list = std::tuple<int, double, float, std::string>;
 

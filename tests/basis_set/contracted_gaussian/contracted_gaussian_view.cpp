@@ -1,7 +1,7 @@
-#include "libchemist/basis_set/contracted_gaussian_view.hpp"
+#include "chemist/basis_set/contracted_gaussian_view.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist;
+using namespace chemist;
 using prim_t = Primitive<double>;
 
 /* Testing strategy

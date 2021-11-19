@@ -1,9 +1,9 @@
-#include "libchemist/ta_helpers/ta_helpers.hpp"
-#include "libchemist/tensor/tensor.hpp"
-#include "libchemist/types.hpp"
+#include "chemist/ta_helpers/ta_helpers.hpp"
+#include "chemist/tensor/tensor.hpp"
+#include "chemist/types.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::tensor;
+using namespace chemist::tensor;
 
 using scalar_traits  = backends::TiledArrayTraits<field::Scalar>;
 using scalar_variant = typename scalar_traits::variant_type;
@@ -252,7 +252,7 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", scalar_variant) {
     }
 
     SECTION("get()") {
-        using libchemist::ta_helpers::allclose;
+        using chemist::ta_helpers::allclose;
         SECTION("Vector") { REQUIRE(allclose(vec.get<t_type>(), vec_data)); }
         SECTION("Matrix") { REQUIRE(allclose(mat.get<t_type>(), mat_data)); }
         SECTION("Rank 3 Tenosr") {
@@ -261,7 +261,7 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", scalar_variant) {
     }
 
     SECTION("get() const") {
-        using libchemist::ta_helpers::allclose;
+        using chemist::ta_helpers::allclose;
         SECTION("Vector") {
             REQUIRE(allclose(std::as_const(vec).get<t_type>(), vec_data));
         }
@@ -407,7 +407,7 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", tot_variant) {
     }
 
     SECTION("get()") {
-        using libchemist::ta_helpers::allclose_tot;
+        using chemist::ta_helpers::allclose_tot;
         SECTION("Matrix") {
             REQUIRE(allclose_tot(mat.get<t_type>(), mat_data, 1));
         }
@@ -420,7 +420,7 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper", "", tot_variant) {
     }
 
     SECTION("get() const") {
-        using libchemist::ta_helpers::allclose_tot;
+        using chemist::ta_helpers::allclose_tot;
         using std::as_const;
         SECTION("Matrix") {
             REQUIRE(

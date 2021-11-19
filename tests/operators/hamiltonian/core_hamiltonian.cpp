@@ -1,8 +1,8 @@
 #include "../test_operator.hpp"
-#include "libchemist/operators/hamiltonian/core_hamiltonian.hpp"
+#include "chemist/operators/hamiltonian/core_hamiltonian.hpp"
 
-using namespace libchemist;
-using namespace libchemist::operators;
+using namespace chemist;
+using namespace chemist::operators;
 
 TEST_CASE("Core Hamiltonian") {
     CoreHamiltonian defaulted;

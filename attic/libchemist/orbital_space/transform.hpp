@@ -1,5 +1,5 @@
 #pragma once
-#include "libchemist/orbital_space/orbital_space.hpp"
+#include "chemist/orbital_space/orbital_space.hpp"
 
 /** @file transform.hpp
  *
@@ -17,11 +17,11 @@
  *  to go much higher.
  */
 
-namespace libchemist {
+namespace chemist {
 namespace detail_ {
 
-#define AO_SPACE const libchemist::orbital_space::AOSpace
-#define DERIVED_SPACE const libchemist::orbital_space::DerivedSpace
+#define AO_SPACE const chemist::orbital_space::AOSpace
+#define DERIVED_SPACE const chemist::orbital_space::DerivedSpace
 
 /** @brief Determines which transformation results in the smallest tensor
  *
@@ -368,11 +368,11 @@ auto transform(DERIVED_SPACE<T1>& s0, DERIVED_SPACE<T2>& s1, AO_SPACE<T3>& s2,
                const TensorType& t) {
     const bool do_s1_first = detail_::do_which_first(s0, s1);
     if(do_s1_first) {
-        auto temp = libchemist::transform(s0.from_space(), s1, s2, t);
-        return libchemist::transform(s0, s1.from_space(), s2, temp);
+        auto temp = chemist::transform(s0.from_space(), s1, s2, t);
+        return chemist::transform(s0, s1.from_space(), s2, temp);
     }
-    auto temp = libchemist::transform(s0, s1.from_space(), s2, t);
-    return libchemist::transform(s0.from_space(), s1, s2, temp);
+    auto temp = chemist::transform(s0, s1.from_space(), s2, t);
+    return chemist::transform(s0.from_space(), s1, s2, temp);
 }
 
 /** @brief Transforms a rank 3 tensor.
@@ -400,11 +400,11 @@ auto transform(DERIVED_SPACE<T1>& s0, AO_SPACE<T2>& s1, DERIVED_SPACE<T3>& s2,
                const TensorType& t) {
     const bool do_s2_first = detail_::do_which_first(s0, s2);
     if(do_s2_first) {
-        auto temp = libchemist::transform(s0.from_space(), s1, s2, t);
-        return libchemist::transform(s0, s1, s2.from_space(), temp);
+        auto temp = chemist::transform(s0.from_space(), s1, s2, t);
+        return chemist::transform(s0, s1, s2.from_space(), temp);
     }
-    auto temp = libchemist::transform(s0, s1, s2.from_space(), t);
-    return libchemist::transform(s0.from_space(), s1, s2, temp);
+    auto temp = chemist::transform(s0, s1, s2.from_space(), t);
+    return chemist::transform(s0.from_space(), s1, s2, temp);
 }
 
 /** @brief Transforms a rank 3 tensor.
@@ -432,11 +432,11 @@ auto transform(AO_SPACE<T1>& s0, DERIVED_SPACE<T2>& s1, DERIVED_SPACE<T3>& s2,
                const TensorType& t) {
     const bool do_s2_first = detail_::do_which_first(s1, s2);
     if(do_s2_first) {
-        auto temp = libchemist::transform(s0, s1.from_space(), s2, t);
-        return libchemist::transform(s0, s1, s2.from_space(), temp);
+        auto temp = chemist::transform(s0, s1.from_space(), s2, t);
+        return chemist::transform(s0, s1, s2.from_space(), temp);
     }
-    auto temp = libchemist::transform(s0, s1, s2.from_space(), t);
-    return libchemist::transform(s0, s1.from_space(), s2, temp);
+    auto temp = chemist::transform(s0, s1, s2.from_space(), t);
+    return chemist::transform(s0, s1.from_space(), s2, temp);
 }
 
 /** @brief Transforms a rank 3 tensor.
@@ -470,16 +470,16 @@ auto transform(DERIVED_SPACE<T1>& s0, DERIVED_SPACE<T2>& s1,
 
     switch(detail_::do_which_first(s0, s1, s2)) {
         case 0: {
-            auto temp = libchemist::transform(s0, aos1, aos2, t);
-            return libchemist::transform(aos0, s1, s2, temp);
+            auto temp = chemist::transform(s0, aos1, aos2, t);
+            return chemist::transform(aos0, s1, s2, temp);
         }
         case 1: {
-            auto temp = libchemist::transform(aos0, s1, aos2, t);
-            return libchemist::transform(s0, aos1, s2, temp);
+            auto temp = chemist::transform(aos0, s1, aos2, t);
+            return chemist::transform(s0, aos1, s2, temp);
         }
         default: {
-            auto temp = libchemist::transform(aos0, aos1, s2, t);
-            return libchemist::transform(s0, s1, aos2, t);
+            auto temp = chemist::transform(aos0, aos1, s2, t);
+            return chemist::transform(s0, s1, aos2, t);
         }
     }
 }
@@ -630,11 +630,11 @@ auto transform(DERIVED_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2, AO_SPACE<T3>& k1,
                AO_SPACE<T4>& k2, const TensorType& t) {
     const bool do_b2_first = detail_::do_which_first(b1, b2);
     if(do_b2_first) {
-        auto temp = libchemist::transform(b1.from_space(), b2, k1, k2, t);
-        return libchemist::transform(b1, b2.from_space(), k1, k2, temp);
+        auto temp = chemist::transform(b1.from_space(), b2, k1, k2, t);
+        return chemist::transform(b1, b2.from_space(), k1, k2, temp);
     }
-    auto temp = libchemist::transform(b1, b2.from_space(), k1, k2, t);
-    return libchemist::transform(b1.from_space(), b2, k1, k2, temp);
+    auto temp = chemist::transform(b1, b2.from_space(), k1, k2, t);
+    return chemist::transform(b1.from_space(), b2, k1, k2, temp);
 }
 
 /** @brief Transforms a rank 4 tensor
@@ -662,11 +662,11 @@ auto transform(DERIVED_SPACE<T1>& b1, AO_SPACE<T2>& b2, DERIVED_SPACE<T3>& k1,
                AO_SPACE<T4>& k2, const TensorType& t) {
     const bool do_k1_first = detail_::do_which_first(b1, k1);
     if(do_k1_first) {
-        auto temp = libchemist::transform(b1.from_space(), b2, k1, k2, t);
-        return libchemist::transform(b1, b2, k1.from_space(), k2, temp);
+        auto temp = chemist::transform(b1.from_space(), b2, k1, k2, t);
+        return chemist::transform(b1, b2, k1.from_space(), k2, temp);
     }
-    auto temp = libchemist::transform(b1, b2, k1.from_space(), k2, t);
-    return libchemist::transform(b1.from_space(), b2, k1, k2, temp);
+    auto temp = chemist::transform(b1, b2, k1.from_space(), k2, t);
+    return chemist::transform(b1.from_space(), b2, k1, k2, temp);
 }
 
 /** @brief Transforms a rank 4 tensor
@@ -694,11 +694,11 @@ auto transform(DERIVED_SPACE<T1>& b1, AO_SPACE<T2>& b2, AO_SPACE<T3>& k1,
                DERIVED_SPACE<T4>& k2, const TensorType& t) {
     const bool do_k2_first = detail_::do_which_first(b1, k2);
     if(do_k2_first) {
-        auto temp = libchemist::transform(b1.from_space(), b2, k1, k2, t);
-        return libchemist::transform(b1, b2, k1, k2.from_space(), temp);
+        auto temp = chemist::transform(b1.from_space(), b2, k1, k2, t);
+        return chemist::transform(b1, b2, k1, k2.from_space(), temp);
     }
-    auto temp = libchemist::transform(b1, b2, k1, k2.from_space(), t);
-    return libchemist::transform(b1.from_space(), b2, k1, k2, temp);
+    auto temp = chemist::transform(b1, b2, k1, k2.from_space(), t);
+    return chemist::transform(b1.from_space(), b2, k1, k2, temp);
 }
 
 /** @brief Transforms a rank 4 tensor
@@ -726,11 +726,11 @@ auto transform(AO_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2, DERIVED_SPACE<T3>& k1,
                AO_SPACE<T4>& k2, const TensorType& t) {
     const bool do_k1_first = detail_::do_which_first(b2, k1);
     if(do_k1_first) {
-        auto temp = libchemist::transform(b1, b2.from_space(), k1, k2, t);
-        return libchemist::transform(b1, b2, k1.from_space(), k2, temp);
+        auto temp = chemist::transform(b1, b2.from_space(), k1, k2, t);
+        return chemist::transform(b1, b2, k1.from_space(), k2, temp);
     }
-    auto temp = libchemist::transform(b1, b2, k1.from_space(), k2, t);
-    return libchemist::transform(b1, b2.from_space(), k1, k2, temp);
+    auto temp = chemist::transform(b1, b2, k1.from_space(), k2, t);
+    return chemist::transform(b1, b2.from_space(), k1, k2, temp);
 }
 
 /** @brief Transforms a rank 4 tensor
@@ -758,11 +758,11 @@ auto transform(AO_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2, AO_SPACE<T3>& k1,
                DERIVED_SPACE<T4>& k2, const TensorType& t) {
     const bool do_k2_first = detail_::do_which_first(b2, k2);
     if(do_k2_first) {
-        auto temp = libchemist::transform(b1, b2.from_space(), k1, k2, t);
-        return libchemist::transform(b1, b2, k1, k2.from_space(), temp);
+        auto temp = chemist::transform(b1, b2.from_space(), k1, k2, t);
+        return chemist::transform(b1, b2, k1, k2.from_space(), temp);
     }
-    auto temp = libchemist::transform(b1, b2, k1, k2.from_space(), t);
-    return libchemist::transform(b1, b2.from_space(), k1, k2, temp);
+    auto temp = chemist::transform(b1, b2, k1, k2.from_space(), t);
+    return chemist::transform(b1, b2.from_space(), k1, k2, temp);
 }
 
 /** @brief Transforms a rank 4 tensor
@@ -790,11 +790,11 @@ auto transform(AO_SPACE<T1>& b1, AO_SPACE<T2>& b2, DERIVED_SPACE<T3>& k1,
                DERIVED_SPACE<T4>& k2, const TensorType& t) {
     const bool do_k2_first = detail_::do_which_first(k1, k2);
     if(do_k2_first) {
-        auto temp = libchemist::transform(b1, b2, k1.from_space(), k2, t);
-        return libchemist::transform(b1, b2, k1, k2.from_space(), temp);
+        auto temp = chemist::transform(b1, b2, k1.from_space(), k2, t);
+        return chemist::transform(b1, b2, k1, k2.from_space(), temp);
     }
-    auto temp = libchemist::transform(b1, b2, k1, k2.from_space(), t);
-    return libchemist::transform(b1, b2, k1.from_space(), k2, temp);
+    auto temp = chemist::transform(b1, b2, k1, k2.from_space(), t);
+    return chemist::transform(b1, b2, k1.from_space(), k2, temp);
 }
 
 /** @brief Transforms a rank 4 tensor
@@ -827,16 +827,16 @@ auto transform(DERIVED_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2,
 
     switch(detail_::do_which_first(b1, b2, k1)) {
         case 0: {
-            auto temp = libchemist::transform(b1, aos1, aos2, k2, t);
-            return libchemist::transform(aos0, b2, k1, k2, temp);
+            auto temp = chemist::transform(b1, aos1, aos2, k2, t);
+            return chemist::transform(aos0, b2, k1, k2, temp);
         }
         case 1: {
-            auto temp = libchemist::transform(aos0, b2, aos2, k2, t);
-            return libchemist::transform(b1, aos1, k1, k2, temp);
+            auto temp = chemist::transform(aos0, b2, aos2, k2, t);
+            return chemist::transform(b1, aos1, k1, k2, temp);
         }
         default: {
-            auto temp = libchemist::transform(aos0, aos1, k1, k2, t);
-            return libchemist::transform(b1, b2, aos2, k2, temp);
+            auto temp = chemist::transform(aos0, aos1, k1, k2, t);
+            return chemist::transform(b1, b2, aos2, k2, temp);
         }
     }
 }
@@ -871,16 +871,16 @@ auto transform(DERIVED_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2, AO_SPACE<T3>& k1,
 
     switch(detail_::do_which_first(b1, b2, k2)) {
         case 0: {
-            auto temp = libchemist::transform(b1, aos1, k1, aos3, t);
-            return libchemist::transform(aos0, b2, k1, k2, temp);
+            auto temp = chemist::transform(b1, aos1, k1, aos3, t);
+            return chemist::transform(aos0, b2, k1, k2, temp);
         }
         case 1: {
-            auto temp = libchemist::transform(aos0, b2, k1, aos3, t);
-            return libchemist::transform(b1, aos1, k1, k2, temp);
+            auto temp = chemist::transform(aos0, b2, k1, aos3, t);
+            return chemist::transform(b1, aos1, k1, k2, temp);
         }
         default: {
-            auto temp = libchemist::transform(aos0, aos1, k1, k2, t);
-            return libchemist::transform(b1, b2, k1, aos3, temp);
+            auto temp = chemist::transform(aos0, aos1, k1, k2, t);
+            return chemist::transform(b1, b2, k1, aos3, temp);
         }
     }
 }
@@ -915,16 +915,16 @@ auto transform(DERIVED_SPACE<T1>& b1, AO_SPACE<T2>& b2, DERIVED_SPACE<T3>& k1,
 
     switch(detail_::do_which_first(b1, k1, k2)) {
         case 0: {
-            auto temp = libchemist::transform(b1, b2, aos2, aos3, t);
-            return libchemist::transform(aos0, b2, k1, k2, temp);
+            auto temp = chemist::transform(b1, b2, aos2, aos3, t);
+            return chemist::transform(aos0, b2, k1, k2, temp);
         }
         case 1: {
-            auto temp = libchemist::transform(aos0, b2, k1, aos3, t);
-            return libchemist::transform(b1, b2, aos2, k2, temp);
+            auto temp = chemist::transform(aos0, b2, k1, aos3, t);
+            return chemist::transform(b1, b2, aos2, k2, temp);
         }
         default: {
-            auto temp = libchemist::transform(aos0, b2, aos2, k2, t);
-            return libchemist::transform(b1, b2, k1, aos3, temp);
+            auto temp = chemist::transform(aos0, b2, aos2, k2, t);
+            return chemist::transform(b1, b2, k1, aos3, temp);
         }
     }
 }
@@ -959,16 +959,16 @@ auto transform(AO_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2, DERIVED_SPACE<T3>& k1,
 
     switch(detail_::do_which_first(b2, k1, k2)) {
         case 0: {
-            auto temp = libchemist::transform(b1, b2, aos2, aos3, t);
-            return libchemist::transform(b1, aos1, k1, k2, temp);
+            auto temp = chemist::transform(b1, b2, aos2, aos3, t);
+            return chemist::transform(b1, aos1, k1, k2, temp);
         }
         case 1: {
-            auto temp = libchemist::transform(b1, aos1, k1, aos3, t);
-            return libchemist::transform(b1, b2, aos2, k2, temp);
+            auto temp = chemist::transform(b1, aos1, k1, aos3, t);
+            return chemist::transform(b1, b2, aos2, k2, temp);
         }
         default: {
-            auto temp = libchemist::transform(b1, aos1, aos2, k2, t);
-            return libchemist::transform(b1, b2, k1, aos3, temp);
+            auto temp = chemist::transform(b1, aos1, aos2, k2, t);
+            return chemist::transform(b1, b2, k1, aos3, temp);
         }
     }
 }
@@ -1005,24 +1005,24 @@ auto transform(DERIVED_SPACE<T1>& b1, DERIVED_SPACE<T2>& b2,
 
     switch(detail_::do_which_first(b1, b2, k1, k2)) {
         case 0: {
-            auto temp = libchemist::transform(b1, aos1, aos2, aos3, t);
-            return libchemist::transform(aos0, b2, k1, k2, temp);
+            auto temp = chemist::transform(b1, aos1, aos2, aos3, t);
+            return chemist::transform(aos0, b2, k1, k2, temp);
         }
         case 1: {
-            auto temp = libchemist::transform(aos0, b2, aos2, aos3, t);
-            return libchemist::transform(b1, aos1, k1, k2, temp);
+            auto temp = chemist::transform(aos0, b2, aos2, aos3, t);
+            return chemist::transform(b1, aos1, k1, k2, temp);
         }
         case 2: {
-            auto temp = libchemist::transform(aos0, aos1, k1, aos3, t);
-            return libchemist::transform(b1, b2, aos2, k2, temp);
+            auto temp = chemist::transform(aos0, aos1, k1, aos3, t);
+            return chemist::transform(b1, b2, aos2, k2, temp);
         }
         default: {
-            auto temp = libchemist::transform(aos0, aos1, aos2, k2, t);
-            return libchemist::transform(b1, b2, k1, aos3, temp);
+            auto temp = chemist::transform(aos0, aos1, aos2, k2, t);
+            return chemist::transform(b1, b2, k1, aos3, temp);
         }
     }
 }
 
 #undef DERIVED_SPACE
 #undef AO_SPACE
-} // namespace libchemist
+} // namespace chemist

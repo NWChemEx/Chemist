@@ -1,8 +1,8 @@
 // #include <catch2/catch.hpp>
-// #include "libchemist/molecule/molecule_stream_parser.hpp"
+// #include "chemist/molecule/molecule_stream_parser.hpp"
 // #include <sstream>
 
-// using namespace libchemist;
+// using namespace chemist;
 
 // using c_t = typename Atom::coord_type;
 // using m_t = typename Atom::mass_type;
