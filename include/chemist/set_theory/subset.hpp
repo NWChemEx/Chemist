@@ -593,6 +593,7 @@ SUBSET SUBSET::operator^(const Subset& rhs) const {
 
 template<typename SetType>
 bool SUBSET::operator<(const Subset& rhs) const noexcept {
+    if(object() != rhs.object()) return false;
     return m_members_ < rhs.m_members_;
 }
 
