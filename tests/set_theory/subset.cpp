@@ -510,6 +510,11 @@ TEMPLATE_LIST_TEST_CASE("Subset", "", container_types) {
             REQUIRE_FALSE(e2 < e01);
         }
         SECTION("Same subset") { REQUIRE_FALSE(e0 < e0); }
+
+        SECTION("Different parents") {
+            REQUIRE_FALSE(empty_defaulted < e0);
+            REQUIRE_FALSE(e0 < empty_defaulted);
+        }
     }
 
     SECTION("hash") {
