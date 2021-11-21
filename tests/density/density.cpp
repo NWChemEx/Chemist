@@ -1,8 +1,8 @@
-#include "../test_libchemist.hpp"
-#include "libchemist/density/density.hpp"
+#include "../test_chemist.hpp"
+#include "chemist/density/density.hpp"
 
 // Tuple containing the known densities
-using density_types = std::tuple<libchemist::OneElectronDensity>;
+using density_types = std::tuple<chemist::OneElectronDensity>;
 
 TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
     using density_type = TestType;
@@ -11,12 +11,12 @@ TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
 
     SECTION("Typedefs") {
         SECTION("value_type") {
-            using corr = libchemist::type::tensor;
+            using corr = chemist::type::tensor;
             STATIC_REQUIRE(std::is_same_v<value_type, corr>);
         }
 
         SECTION("ao_space") {
-            using corr = libchemist::orbital_space::AOSpaceD;
+            using corr = chemist::orbital_space::AOSpaceD;
             STATIC_REQUIRE(std::is_same_v<ao_space, corr>);
         }
     }
@@ -24,7 +24,7 @@ TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
     density_type defaulted;
     auto a_tensor = testing::generate_tensor(2);
     typename ao_space::basis_type bs;
-    bs.add_center(libchemist::Center<double>(1.0, 2.0, 3.0));
+    bs.add_center(chemist::Center<double>(1.0, 2.0, 3.0));
     ao_space aos(bs);
 
     density_type has_value(a_tensor, aos);

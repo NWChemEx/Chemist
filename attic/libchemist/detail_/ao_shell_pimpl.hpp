@@ -1,9 +1,9 @@
 #pragma once
-#include "libchemist/ao_shell.hpp"
-#include "libchemist/detail_/aos_facade.hpp"
+#include "chemist/ao_shell.hpp"
+#include "chemist/detail_/aos_facade.hpp"
 #include <vector>
 
-namespace libchemist::detail_ {
+namespace chemist::detail_ {
 
 /// Defines the API for a PIMPL that can run an AOShell instance
 class AOShellPIMPL {
@@ -128,4 +128,4 @@ private:
     ///@}
 };
 
-} // namespace libchemist::detail_
+} // namespace chemist::detail_

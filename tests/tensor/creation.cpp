@@ -1,12 +1,12 @@
-#include "libchemist/tensor/creation.hpp"
-#include "libchemist/tensor/tensor_wrapper.hpp"
+#include "chemist/tensor/creation.hpp"
+#include "chemist/tensor/tensor_wrapper.hpp"
 #include "test_tensor.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::tensor;
+using namespace chemist::tensor;
 
 TEST_CASE("concatenate(Tensor)") {
-    using tensor_t = libchemist::tensor::type::SparseTensorWrapper;
+    using tensor_t = chemist::tensor::ScalarTensorWrapper;
     auto tensors   = testing::get_tensors<TA::TSpArrayD>();
     auto& world    = TA::get_default_world();
 
@@ -57,6 +57,6 @@ TEST_CASE("concatenate(Tensor)") {
 }
 
 TEST_CASE("concatenate(ToT)") {
-    type::ToTWrapper A, B;
+    TensorOfTensorsWrapper A, B;
     REQUIRE_THROWS_AS(concatenate(A, B, 0), std::runtime_error);
 }

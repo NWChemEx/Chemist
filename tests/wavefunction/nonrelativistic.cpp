@@ -1,8 +1,8 @@
-#include "libchemist/operators/kinetic.hpp"
-#include "libchemist/wavefunction/nonrelativistic.hpp"
+#include "chemist/operators/kinetic.hpp"
+#include "chemist/wavefunction/nonrelativistic.hpp"
 #include "test_wavefunction.hpp"
 
-using namespace libchemist::wavefunction;
+using namespace chemist::wavefunction;
 
 using tuple_type = std::tuple<Reference, CanonicalReference, SparseReference>;
 
@@ -132,7 +132,7 @@ TEMPLATE_LIST_TEST_CASE("Nonrelativistic", "", tuple_type) {
     }
 }
 
-using namespace libchemist::orbital_space;
+using namespace chemist::orbital_space;
 
 TEST_CASE("Nonrelativistic implicit conversions") {
     auto occ         = testing::make_space<DerivedSpaceD>(1.0);
@@ -141,7 +141,7 @@ TEST_CASE("Nonrelativistic implicit conversions") {
     auto virt        = testing::make_space<DerivedSpaceD>(2.0);
     auto canon_virt  = testing::make_space<CanonicalSpaceD>(2.0);
     auto sparse_virt = testing::make_space<CanonicalIndSpace>(2.0);
-    libchemist::operators::Fock fock(libchemist::operators::ElectronKinetic{});
+    chemist::operators::Fock fock(chemist::operators::ElectronKinetic{});
 
     Determinant d(occ, virt, fock);
     CanonicalDeterminant c(canon_occ, canon_virt, fock);

@@ -1,7 +1,7 @@
-#include "libchemist/operators/coulomb.hpp"
+#include "chemist/operators/coulomb.hpp"
 #include "test_operator.hpp"
 
-using namespace libchemist::operators;
+using namespace chemist::operators;
 
 namespace {
 

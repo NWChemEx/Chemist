@@ -1,21 +1,21 @@
-#include "libchemist/operators/coulomb.hpp"
-#include "libchemist/operators/fock.hpp"
-#include "libchemist/operators/hamiltonian/hamiltonian.hpp"
+#include "chemist/operators/coulomb.hpp"
+#include "chemist/operators/fock.hpp"
+#include "chemist/operators/hamiltonian/hamiltonian.hpp"
 #include <catch2/catch.hpp>
 #include <iostream>
 
-using namespace libchemist;
-using namespace libchemist::operators;
-using namespace libchemist::operators::detail_;
+using namespace chemist;
+using namespace chemist::operators;
+using namespace chemist::operators::detail_;
 
 inline constexpr const auto& as_derived_operator(const LinearCombination& op) {
     return op;
 }
 
 TEST_CASE("LinearCombination") {
-    using libchemist::Atom;
-    libchemist::Nuclei a{Atom(1ul, std::array<double, 3>{0.0, 0.0, 0.0})};
-    libchemist::Nuclei b{Atom(2ul, std::array<double, 3>{0.0, 0.0, 0.0})};
+    using chemist::Atom;
+    chemist::Nuclei a{Atom(1ul, std::array<double, 3>{0.0, 0.0, 0.0})};
+    chemist::Nuclei b{Atom(2ul, std::array<double, 3>{0.0, 0.0, 0.0})};
 
     ElectronNuclearAttraction V1(Electron{}, a);
     ElectronNuclearAttraction V2(Electron{}, b);

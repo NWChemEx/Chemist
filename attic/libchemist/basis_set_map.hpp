@@ -1,9 +1,9 @@
 #pragma once
-#include <libchemist/ao_basis_set.hpp>
+#include <chemist/ao_basis_set.hpp>
 #include <utility> //std::pair
 #include <vector>
 
-namespace libchemist {
+namespace chemist {
 
 /**
  * @brief A class for bidirectional mapping between the indices of the AOs,
@@ -158,4 +158,4 @@ private:
     std::vector<size_type> s2a_vec;
 };
 
-} // namespace libchemist
+} // namespace chemist

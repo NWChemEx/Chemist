@@ -1,9 +1,9 @@
-#include "libchemist/basis_set/center.hpp"
+#include "chemist/basis_set/center.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
 #include <sstream>
 
-using namespace libchemist;
+using namespace chemist;
 
 static inline auto make_center() {
     Center<double> c(1.0, 2.0, 3.0);

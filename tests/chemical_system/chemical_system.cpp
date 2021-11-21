@@ -1,7 +1,7 @@
-#include "libchemist/chemical_system/chemical_system.hpp"
+#include "chemist/chemical_system/chemical_system.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist;
+using namespace chemist;
 
 TEST_CASE("ChemicalSystem") {
     SECTION("Typedefs") {
@@ -65,10 +65,10 @@ TEST_CASE("ChemicalSystem") {
         }
     }
 
-    libchemist::Molecule default_mol, h{libchemist::Atom(1ul)};
+    chemist::Molecule default_mol, h{chemist::Atom(1ul)};
 
-    libchemist::potentials::Electrostatic default_v, v;
-    v.add_charge(libchemist::PointCharge<double>());
+    chemist::potentials::Electrostatic default_v, v;
+    v.add_charge(chemist::PointCharge<double>());
 
     SECTION("Default ctor") {
         ChemicalSystem sys;

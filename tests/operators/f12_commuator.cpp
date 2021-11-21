@@ -1,7 +1,7 @@
-#include "libchemist/operators/f12_commutator.hpp"
+#include "chemist/operators/f12_commutator.hpp"
 #include "test_operator.hpp"
 
-using namespace libchemist::operators;
+using namespace chemist::operators;
 
 using type_list = std::tuple<ElectronElectronF12Commutator>;
 

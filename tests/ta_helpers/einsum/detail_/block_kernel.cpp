@@ -1,9 +1,9 @@
-#include "libchemist/ta_helpers/einsum/einsum.hpp"
-#include "libchemist/ta_helpers/ta_helpers.hpp"
+#include "chemist/ta_helpers/einsum/einsum.hpp"
+#include "chemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::ta_helpers::einsum::detail_;
-using ranges_type = libchemist::ta_helpers::einsum::types::assoc_range;
+using namespace chemist::ta_helpers::einsum::detail_;
+using ranges_type = chemist::ta_helpers::einsum::types::assoc_range;
 
 TEST_CASE("block_kernel") {
     SECTION("Vector-vector") {

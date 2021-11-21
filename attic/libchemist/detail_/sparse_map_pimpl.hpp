@@ -1,9 +1,9 @@
 //#pragma once
-//#include "libchemist/sparse_map.hpp"
+//#include "chemist/sparse_map.hpp"
 //#include <map>
 //#include <utilities/printing/print_stl.hpp>
 //
-// namespace libchemist::detail_ {
+// namespace chemist::detail_ {
 //
 // class SparseMapPIMPL {
 // public:

@@ -1,8 +1,8 @@
 #include "../test_operator.hpp"
-#include "libchemist/operators/hamiltonian/electronic_hamiltonian.hpp"
+#include "chemist/operators/hamiltonian/electronic_hamiltonian.hpp"
 
-using namespace libchemist;
-using namespace libchemist::operators;
+using namespace chemist;
+using namespace chemist::operators;
 
 TEST_CASE("Electronic Hamiltonian") {
     ElectronicHamiltonian defaulted;

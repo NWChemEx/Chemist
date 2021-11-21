@@ -1,6 +1,13 @@
 #include "../../test_tensor.hpp"
 
-using namespace libchemist;
+using namespace chemist;
+using namespace chemist::tensor;
+using scalar_traits  = backends::TiledArrayTraits<field::Scalar>;
+using scalar_variant = typename scalar_traits::variant_type;
+using scalar_tensor  = typename scalar_traits::tensor_type<double>;
+using tot_traits     = backends::TiledArrayTraits<field::Tensor>;
+using tot_variant    = typename tot_traits::variant_type;
+using tot_tensor     = typename tot_traits::tensor_type<double>;
 
 /* Testing Notes:
  *
@@ -17,10 +24,10 @@ using namespace libchemist;
  * be used to get the correct result.
  */
 TEST_CASE("Tensor = Tensor * Tensor") {
-    using result_t       = tensor::type::detail_::tensor<double>;
-    using lhs_t          = tensor::type::detail_::tensor<double>;
-    using rhs_t          = tensor::type::detail_::tensor<double>;
-    using tensor_wrapper = tensor::type::SparseTensorWrapper;
+    using result_t       = scalar_tensor;
+    using lhs_t          = scalar_tensor;
+    using rhs_t          = scalar_tensor;
+    using tensor_wrapper = ScalarTensorWrapper;
 
     auto lhs = testing::get_tensors<lhs_t>().at("vector");
     auto rhs = testing::get_tensors<rhs_t>().at("vector");
@@ -74,11 +81,11 @@ TEST_CASE("Tensor = Tensor * Tensor") {
 }
 
 TEST_CASE("Tensor = ToT * ToT") {
-    using result_t       = tensor::type::detail_::tensor<double>;
-    using lhs_t          = tensor::type::detail_::tensor_of_tensors<double>;
-    using rhs_t          = tensor::type::detail_::tensor_of_tensors<double>;
-    using tensor_wrapper = tensor::type::SparseTensorWrapper;
-    using tot_wrapper    = tensor::type::ToTWrapper;
+    using result_t       = scalar_tensor;
+    using lhs_t          = tot_tensor;
+    using rhs_t          = tot_tensor;
+    using tensor_wrapper = ScalarTensorWrapper;
+    using tot_wrapper    = TensorOfTensorsWrapper;
 
     auto lhs = testing::get_tensors<lhs_t>().at("vector-of-vectors");
     auto rhs = testing::get_tensors<rhs_t>().at("vector-of-vectors");
@@ -121,12 +128,12 @@ TEST_CASE("Tensor = ToT * ToT") {
 }
 
 TEST_CASE("ToT = Tensor * ToT") {
-    using result_t         = tensor::type::detail_::tensor_of_tensors<double>;
-    using lhs_t            = tensor::type::detail_::tensor<double>;
-    using rhs_t            = tensor::type::detail_::tensor_of_tensors<double>;
-    using wrapped_result_t = tensor::type::ToTWrapper;
-    using wrapped_lhs_t    = tensor::type::SparseTensorWrapper;
-    using wrapped_rhs_t    = tensor::type::ToTWrapper;
+    using result_t         = tot_tensor;
+    using lhs_t            = scalar_tensor;
+    using rhs_t            = tot_tensor;
+    using wrapped_result_t = TensorOfTensorsWrapper;
+    using wrapped_lhs_t    = ScalarTensorWrapper;
+    using wrapped_rhs_t    = TensorOfTensorsWrapper;
 
     auto lhs = testing::get_tensors<lhs_t>().at("matrix");
     auto rhs = testing::get_tensors<rhs_t>().at("matrix-of-vectors");
@@ -172,12 +179,12 @@ TEST_CASE("ToT = Tensor * ToT") {
 }
 
 TEST_CASE("ToT = ToT * Tensor") {
-    using result_t         = tensor::type::detail_::tensor_of_tensors<double>;
-    using lhs_t            = tensor::type::detail_::tensor_of_tensors<double>;
-    using rhs_t            = tensor::type::detail_::tensor<double>;
-    using wrapped_result_t = tensor::type::ToTWrapper;
-    using wrapped_lhs_t    = tensor::type::ToTWrapper;
-    using wrapped_rhs_t    = tensor::type::SparseTensorWrapper;
+    using result_t         = tot_tensor;
+    using lhs_t            = tot_tensor;
+    using rhs_t            = scalar_tensor;
+    using wrapped_result_t = TensorOfTensorsWrapper;
+    using wrapped_lhs_t    = TensorOfTensorsWrapper;
+    using wrapped_rhs_t    = ScalarTensorWrapper;
 
     auto lhs = testing::get_tensors<lhs_t>().at("matrix-of-vectors");
     auto rhs = testing::get_tensors<rhs_t>().at("matrix");
@@ -223,12 +230,12 @@ TEST_CASE("ToT = ToT * Tensor") {
 }
 
 TEST_CASE("ToT = ToT * ToT") {
-    using result_t         = tensor::type::detail_::tensor_of_tensors<double>;
-    using lhs_t            = tensor::type::detail_::tensor_of_tensors<double>;
-    using rhs_t            = tensor::type::detail_::tensor_of_tensors<double>;
-    using wrapped_result_t = tensor::type::ToTWrapper;
-    using wrapped_lhs_t    = tensor::type::ToTWrapper;
-    using wrapped_rhs_t    = tensor::type::ToTWrapper;
+    using result_t         = tot_tensor;
+    using lhs_t            = tot_tensor;
+    using rhs_t            = tot_tensor;
+    using wrapped_result_t = TensorOfTensorsWrapper;
+    using wrapped_lhs_t    = TensorOfTensorsWrapper;
+    using wrapped_rhs_t    = TensorOfTensorsWrapper;
 
     auto lhs = testing::get_tensors<lhs_t>().at("matrix-of-vectors");
     auto rhs = testing::get_tensors<rhs_t>().at("matrix-of-vectors");

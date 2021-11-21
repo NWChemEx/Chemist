@@ -1,4 +1,4 @@
-#include "libchemist/operators/slater_type_geminal.hpp"
+#include "chemist/operators/slater_type_geminal.hpp"
 #include "test_operator.hpp"
 
 TEMPLATE_LIST_TEST_CASE("SlaterTypeGeminal", "", testing::stg_types) {

@@ -1,8 +1,8 @@
-#include "libchemist/ta_helpers/einsum/detail_/detail_.hpp"
+#include "chemist/ta_helpers/einsum/detail_/detail_.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::ta_helpers::einsum;
-using libchemist::ta_helpers::einsum::detail_::increment_index;
+using namespace chemist::ta_helpers::einsum;
+using chemist::ta_helpers::einsum::detail_::increment_index;
 
 TEST_CASE("increment_index") {
     SECTION("No indices") {

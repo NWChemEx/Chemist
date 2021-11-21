@@ -1,8 +1,8 @@
-#include "libchemist/managers/periodic_table.hpp"
+#include "chemist/managers/periodic_table.hpp"
 #include <catch2/catch.hpp>
 #include <string>
 
-using namespace libchemist;
+using namespace chemist;
 
 using Catch::Matchers::Message;
 

@@ -1,12 +1,12 @@
-#include "libchemist/basis_set_file_parser.hpp"
-#include "libchemist/shell_types.hpp"
+#include "chemist/basis_set_file_parser.hpp"
+#include "chemist/shell_types.hpp"
 #include <regex>
 
 namespace SDE {
 
 using data_type   = BasisSetFileParser::data_type;
 using action_type = BasisSetFileParser::action_type;
-using return_type = std::map<std::size_t, std::vector<libchemist::BasisShell>>;
+using return_type = std::map<std::size_t, std::vector<chemist::BasisShell>>;
 using parsed_type = std::map<data_type, std::vector<double>>;
 
 namespace detail_ {
@@ -14,7 +14,7 @@ namespace detail_ {
 // Struct to hold data as we find it
 struct shell {
     // TODO: get correct angular moemntum
-    libchemist::ShellType type = libchemist::ShellType::SphericalGaussian;
+    chemist::ShellType type = chemist::ShellType::SphericalGaussian;
     int l;
     size_t ngen;
     std::vector<double> alphas;
@@ -46,7 +46,7 @@ void commit_shell(shell& s, size_t Z, return_type& rv) {
         for(auto x : s.cs) coefs.insert(coefs.end(), x.begin(), x.end());
         //
         rv[Z].push_back(
-          libchemist::BasisShell(s.type, s.l, s.ngen, s.alphas, coefs));
+          chemist::BasisShell(s.type, s.l, s.ngen, s.alphas, coefs));
     }
     s = shell();
 }

@@ -1,6 +1,6 @@
-#include "libchemist/basis_set/shell.hpp"
-#include "libchemist/basis_set/shell/shell_pimpl.hpp"
-#include "libchemist/point/point_pimpl.hpp"
+#include "chemist/basis_set/shell.hpp"
+#include "chemist/basis_set/shell/shell_pimpl.hpp"
+#include "chemist/point/point_pimpl.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
 #include <sstream>
@@ -17,7 +17,7 @@
  * - comparison
  */
 
-using namespace libchemist;
+using namespace chemist;
 using vector_t = std::vector<double>;
 
 static inline auto make_shell() {

@@ -1,8 +1,8 @@
-#include "libchemist/detail_/orbital_space_pimpl.hpp"
-#include "libchemist/orbital_space.hpp"
-#include "libchemist/ta_helpers/ta_hashers.hpp"
+#include "chemist/detail_/orbital_space_pimpl.hpp"
+#include "chemist/orbital_space.hpp"
+#include "chemist/ta_helpers/ta_hashers.hpp"
 #include <random>
-namespace libchemist {
+namespace chemist {
 
 #define OrbSpace OrbitalSpace<e_type, t_type>
 
@@ -120,4 +120,4 @@ template class AOSpace<float, type::tensor<double>>;
 template class AOSpace<double, type::tensor<float>>;
 template class AOSpace<double, type::tensor<double>>;
 
-} // namespace libchemist
+} // namespace chemist

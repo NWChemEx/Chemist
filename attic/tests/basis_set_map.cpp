@@ -1,8 +1,8 @@
 #include <catch2/catch.hpp>
-#include <libchemist/basis_set_map.hpp>
-#include <libchemist/libchemist.hpp>
+#include <chemist/basis_set_map.hpp>
+#include <chemist/chemist.hpp>
 
-using namespace libchemist;
+using namespace chemist;
 using range     = typename std::pair<size_t, size_t>;
 using size_type = std::size_t;
 

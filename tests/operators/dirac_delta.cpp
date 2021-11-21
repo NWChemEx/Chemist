@@ -1,8 +1,8 @@
-#include "libchemist/operators/dirac_delta.hpp"
+#include "chemist/operators/dirac_delta.hpp"
 #include "test_operator.hpp"
 
-using namespace libchemist;
-using namespace libchemist::operators;
+using namespace chemist;
+using namespace chemist::operators;
 
 // Using Nuclei and ManyElectrons for distinguishability in != cases
 using type_list = std::tuple<DiracDelta<Nuclei, ManyElectrons>>;

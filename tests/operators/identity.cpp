@@ -1,8 +1,8 @@
-#include "libchemist/operators/identity.hpp"
+#include "chemist/operators/identity.hpp"
 #include "test_operator.hpp"
 
-using namespace libchemist;
-using namespace libchemist::operators;
+using namespace chemist;
+using namespace chemist::operators;
 
 // Using ManyElectrons for distinguishability in != cases
 using type_list = std::tuple<Identity<ManyElectrons>>;

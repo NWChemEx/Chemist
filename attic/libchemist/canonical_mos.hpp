@@ -1,7 +1,7 @@
 #pragma once
 #include "orthogonal_space.hpp"
 
-namespace libchemist {
+namespace chemist {
 
 // Forward declaration of PIMPL
 namespace detail_ {
@@ -138,4 +138,4 @@ bool operator!=(const CanonicalMO<E1, T>& space1,
     return !(space1 == space2);
 }
 
-} // namespace libchemist
+} // namespace chemist

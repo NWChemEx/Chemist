@@ -1,9 +1,9 @@
 #pragma once
-#include "libchemist/ao_basis_set.hpp"
-#include "libchemist/detail_/ao_shell_pimpl.hpp"
-#include "libchemist/detail_/container_pimpl.hpp"
+#include "chemist/ao_basis_set.hpp"
+#include "chemist/detail_/ao_shell_pimpl.hpp"
+#include "chemist/detail_/container_pimpl.hpp"
 
-namespace libchemist::detail_ {
+namespace chemist::detail_ {
 
 class ContiguousBasisSet : public ContainerPIMPL<AOBasisSet> {
 public:
@@ -39,4 +39,4 @@ private:
     const_iterator end_() const noexcept override { return shells_.cend(); }
 };
 
-} // namespace libchemist::detail_
+} // namespace chemist::detail_
