@@ -533,7 +533,7 @@ public:
      */
     template<typename Archive>
     void serialize(Archive ar) const {}
-    
+
     /** @brief Determines if two TensorWrappers wrap identical
      * tensors.
      *
