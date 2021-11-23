@@ -158,6 +158,11 @@ public:
      */
     bond_list_type bonds() const;
 
+    /** @brief Returns the set of atoms bonded to atom @p i.
+     *
+     */
+    std::set<size_type> bonded_atoms(size_type i) const;
+
     /** @brief Hashes the current ConnectivityTable.
      *
      *  @param[in,out] h The hasher instance to use for hashing this instance.

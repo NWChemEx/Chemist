@@ -63,6 +63,17 @@ bond_list_type ConnectivityTable::bonds() const {
     return bond_list_type{};
 }
 
+std::set<size_type> ConnectivityTable::bonded_atoms(size_type i) const {
+    std::set<size_type> rv;
+    if(!m_pimpl_) return rv;
+    const auto& p = *m_pimpl_;
+    for(size_type j = 0; j < p.natoms(); ++j) {
+        if(i == j) continue;
+        if(p.are_bonded(i, j)) rv.insert(j);
+    }
+    return rv;
+}
+
 void ConnectivityTable::hash(pluginplay::Hasher& h) const {
     h(natoms());
     h(bonds());
