@@ -152,6 +152,25 @@ TEST_CASE("ConnectivityTable") {
         }
     }
 
+    SECTION("bonded_atoms") {
+        REQUIRE_THROWS_AS(t.bonded_atoms(0), std::out_of_range);
+        REQUIRE_THROWS_AS(t0.bonded_atoms(0), std::out_of_range);
+        REQUIRE_THROWS_AS(t1.bonded_atoms(1), std::out_of_range);
+        REQUIRE_THROWS_AS(t2.bonded_atoms(2), std::out_of_range);
+        REQUIRE_THROWS_AS(t3.bonded_atoms(3), std::out_of_range);
+
+        using set_type = std::set<size_type>;
+
+        REQUIRE(t3.bonded_atoms(0) == set_type{});
+
+        t3.add_bond(0, 1);
+        REQUIRE(t3.bonded_atoms(0) == set_type{1});
+        REQUIRE(t3.bonded_atoms(1) == set_type{0});
+        t3.add_bond(1, 2);
+        REQUIRE(t3.bonded_atoms(1) == set_type{0, 2});
+        REQUIRE(t3.bonded_atoms(2) == set_type{1});
+    }
+
     SECTION("hash") {
         using pluginplay::hash_objects;
         SECTION("LHS == default") {
