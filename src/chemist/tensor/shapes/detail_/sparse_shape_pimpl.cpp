@@ -99,24 +99,20 @@ SPARSE_SHAPE_PIMPL::SparseShapePIMPL(extents_type x, sparse_map_type sm,
     const auto ndep = m_sm_.dep_rank();
     const auto rank = nind + ndep;
 
-    if(rank != this->extents().size())
+    constexpr bool is_tot = std::is_same_v<FieldType, field::Tensor>;
+    const auto max_rank   = is_tot ? nind : rank;
+
+    if(max_rank != this->extents().size())
         throw std::runtime_error("Rank of SparseMap is not consistent with the "
                                  "provided extents");
 
-    if(rank != m_i2m_.size())
+    if(max_rank != m_i2m_.size())
         throw std::runtime_error("SparseMap not consistent with idx2mode");
 
     for(const auto x : m_i2m_)
-        if(x >= rank)
+        if(x >= max_rank)
             throw std::out_of_range("Index maps to mode outside range [0, " +
-                                    std::to_string(rank) + ")");
-
-    if constexpr(std::is_same_v<FieldType, field::Tensor>) {
-        for(std::size_t i = 0; i < nind; ++i)
-            if(m_i2m_[i] >= nind)
-                throw std::out_of_range("For ToTs can only permute indepenent "
-                                        "indices");
-    }
+                                    std::to_string(max_rank) + ")");
 }
 
 template<typename FieldType>
@@ -130,8 +126,26 @@ typename SPARSE_SHAPE_PIMPL::ta_shape_type SPARSE_SHAPE_PIMPL::shape(
 }
 
 template<typename FieldType>
+bool SPARSE_SHAPE_PIMPL::operator==(
+  const SparseShapePIMPL& rhs) const noexcept {
+    if(std::tie(m_sm_, m_i2m_) == std::tie(rhs.m_sm_, rhs.m_i2m_))
+        return base_type::operator==(rhs);
+    return false;
+}
+
+//------------------------------------------------------------------------------
+//                    Protected/Private Member Functions
+//------------------------------------------------------------------------------
+
+template<typename FieldType>
 typename SPARSE_SHAPE_PIMPL::pimpl_pointer SPARSE_SHAPE_PIMPL::clone_() const {
-    return std::make_unique<my_type>(*this);
+    return pimpl_pointer(new my_type(*this));
+}
+
+template<typename FieldType>
+void SPARSE_SHAPE_PIMPL::hash_(pluginplay::Hasher& h) const {
+    h(m_sm_, m_i2m_);
+    base_type::hash_(h);
 }
 
 #undef SPARSE_SHAPE_PIMPL

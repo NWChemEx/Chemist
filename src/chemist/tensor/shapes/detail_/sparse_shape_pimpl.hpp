@@ -4,6 +4,11 @@
 
 namespace chemist::tensor::detail_ {
 
+/** @brief Implements SparseShape class
+ *
+ *  @tparam FieldType Type of the field in the associated tensor. Assumed to be
+ *                    either field::Scalar or field::Tensor.
+ */
 template<typename FieldType>
 class SparseShapePIMPL : public ShapePIMPL<FieldType> {
 private:
@@ -69,6 +74,9 @@ public:
      *  instance of a class derived from SparseShapePIMPL, the copy will slice
      *  @p other.
      *
+     *  This ctor is public so that the SparseShape class can call it from its
+     *  non-polymorphic copy ctor.
+     *
      *  @param[in] other the PIMPL being copied.
      *
      *  @throw std::bad_alloc if there is a problem copying @p other. Strong
@@ -103,6 +111,26 @@ public:
      *                            guarantee.
      */
     ta_shape_type shape(const ta_tile_range& tr) const;
+
+    /** @brief Non-polymorphic equality comparison.
+     *
+     *  This function will compare the SparseShapePIMPL part of the current
+     *  instance to the SparseShapePIMPL part of @p rhs. The SparseShapePIMPL
+     *  parts are equal if they contain the same sparse maps, map the sparse
+     *  map to the tensor in the same way, and if the base class parts compare
+     *  equal.
+     *
+     *  @param[in] rhs The instance we are comparing to.
+     *
+     *  @return True if this instance's SparseShapePIMPL part is equivalent to
+     *          the SparseShapePIMPL part of @p rhs, false otherwise.
+     *
+     */
+    bool operator==(const SparseShapePIMPL& rhs) const noexcept;
+
+protected:
+    /// Additionally hashes the sparse map and index mapping
+    void hash_(pluginplay::Hasher& h) const override;
 
 private:
     /// Makes a polymorphic deep copy of this PIMPL
