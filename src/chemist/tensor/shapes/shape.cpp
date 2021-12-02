@@ -25,11 +25,6 @@ SHAPE::Shape(extents_type extents) :
   m_pimpl_(make_pimpl<FieldType>(std::move(extents))) {}
 
 template<typename FieldType>
-SHAPE::Shape(const Shape& other) :
-  m_pimpl_(other.has_pimpl_() ? make_pimpl<FieldType>(other.pimpl_()) :
-                                nullptr) {}
-
-template<typename FieldType>
 SHAPE::~Shape() noexcept = default;
 
 //------------------------------------------------------------------------------
@@ -37,9 +32,27 @@ SHAPE::~Shape() noexcept = default;
 //------------------------------------------------------------------------------
 
 template<typename FieldType>
-typename SHAPE::extents_type SHAPE::extents() const {
-    if(m_pimpl_) return m_pimpl_->extents();
-    return extents_type{};
+typename SHAPE::const_extents_reference SHAPE::extents() const {
+    assert_pimpl_();
+    return m_pimpl_->extents();
+}
+
+//------------------------------------------------------------------------------
+//                           Utility Functions
+//------------------------------------------------------------------------------
+
+template<typename FieldType>
+bool SHAPE::operator==(const Shape& rhs) const noexcept {
+    if(m_pimpl_ && rhs.m_pimpl_)
+        return pimpl_() == rhs.pimpl_();
+    else if(!m_pimpl_ && !rhs.m_pimpl_)
+        return true;
+    return false; // One has a PIMPL other doesn't
+}
+
+template<typename FieldType>
+void SHAPE::hash(pluginplay::Hasher& h) const {
+    h(m_pimpl_);
 }
 
 //------------------------------------------------------------------------------
@@ -66,7 +79,8 @@ void SHAPE::assert_pimpl_() const {
 
 template<typename FieldType>
 typename SHAPE::pointer_type SHAPE::clone_() const {
-    return pointer_type(new Shape(*this));
+    if(has_pimpl_()) return pointer_type(new Shape(pimpl_().extents()));
+    return pointer_type(new Shape());
 }
 
 template<typename FieldType>
