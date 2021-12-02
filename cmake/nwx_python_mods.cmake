@@ -1,20 +1,23 @@
-# This function will skim a CMake target and create a file _init__.py that
+# This function will skim a CMake target and create a file __init__.py that
 # should be placed next to the shared library created by that target. This
 # function assumes the target's:
 #
 # * public header files are in the ``PUBLIC_HEADER`` property
 # * include paths are in the ``INTERFACE_INCLUDE_DIRECTORIES`` property
-# * dependencies are targets and in the ``INTERFACE_LINK_LIBRAIRES`` property
-#
+# * dependencies are targets and in the ``INTERFACE_LINK_LIBRARIES`` property
 #
 # :Additional Named Arguments:
-#     * NAMESPACE - The C++ namespace that your bindings live in. 
+#     * NAMESPACES - The C++ namespace that your bindings live in. 
 #     * DEPNAMESPACES - The C++ namespaceis that your bindings require,
 #       i.e. previous Python package builds.
 #     * PACKAGE - Package name to used as an alternative to NAMESPACE.  
+#     * DEPPACKAGES - Packages this module depends on.
 #     * DEPENDS - List of modules this module depends on.
 #     * PYTHONIZE - Add special function to Pythonize class with more complex 
 #       arguments. Helps LibChemist.
+#     * MPI - When set will ensure MPI includes are added.
+#     * BLAS - When set will check for BLAS includes.
+#     * TA - When set, TiledArray will be loaded and includes added.
 #
 function(cppyy_make_python_package)
     #---------------------------------------------------------------------------
