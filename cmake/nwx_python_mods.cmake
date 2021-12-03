@@ -17,7 +17,7 @@
 #       arguments. Helps LibChemist.
 #     * MPI - When set will ensure MPI includes are added.
 #     * BLAS - When set will check for BLAS includes.
-#     * TA - When set, TiledArray will be loaded and includes added.
+#     * TILED - When set, TiledArray will be loaded and includes added.
 #
 function(cppyy_make_python_package)
     #---------------------------------------------------------------------------
@@ -40,7 +40,7 @@ function(cppyy_make_python_package)
     #---------------------------------------------------------------------------
     #--------------------------Argument Parsing---------------------------------
     #---------------------------------------------------------------------------
-    set(options MPI PYTHONIZE BLAS TA)
+    set(options MPI PYTHONIZE BLAS TILED)
     set(oneValueArgs PACKAGE)
     set(multiValueArgs NAMESPACES DEPPACKAGES)
     cmake_parse_arguments(install_data "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
@@ -79,7 +79,7 @@ function(cppyy_make_python_package)
        list(APPEND include_dirs ${blaspp_BINARY_DIR}/include ${blaspp_SOURCE_DIR}/include)
        list(APPEND include_dirs ${lapackpp_SOURCE_DIR}/include ${lapackpp_BINARY_DIR}/include)
     endif()
-    if(install_data_TA)
+    if(install_data_TILED)
        list(APPEND include_dirs ${TiledArray_SOURCE_DIR}/src ${TiledArray_BINARY_DIR}/src)
        get_property(EIGEN3_INCLUDE_DIRS TARGET TiledArray_Eigen PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
        list(APPEND include_dirs ${EIGEN3_INCLUDE_DIRS})
@@ -87,7 +87,8 @@ function(cppyy_make_python_package)
        list(APPEND include_dirs ${UMPIRE_INCLUDE_DIRS})
     endif()
     if(ENABLE_SCALAPACK AND install_data_BLAS)
-       list(APPEND include_dirs ${blacspp_SOURCE_DIR}/include ${scalapackpp_SOURCE_DIR}/include)
+       list(APPEND include_dirs ${blacspp_SOURCE_DIR}/include ${blacspp_BINARY_DIR}/include)
+       list(APPEND include_dirs ${scalapackpp_SOURCE_DIR}/include)
     endif()
     if("${install_data_PACKAGE}" STREQUAL "chemist")
        list(APPEND include_dirs ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
