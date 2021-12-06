@@ -10,8 +10,8 @@ namespace chemist {
  *  In Electronic structure theory we place a lot of emphasis on the
  *  one-Electron density; however, there are many other densities. This class
  *  is templated on the types and number of particles that the density
- * describes. In turn this allows for this class to model densities involving an
- *  arbitrary number of arbitrary particles.
+ *  describes. In turn this allows for this class to model densities involving
+ *  an arbitrary number of arbitrary particles.
  *
  *  @note At the moment this class is basically a strong type which wraps a
  *        tensor.
@@ -28,32 +28,73 @@ public:
     using value_type = type::tensor;
 
     /// Type of the basis set
-    using ao_space = orbital_space::AOSpaceD;
+    using aos_type = orbital_space::AOSpaceD;
 
+    /// Default ctor
     explicit Density() = default;
 
-    Density(value_type rho, ao_space aos) :
+    /// Ctor with non-default values
+    Density(value_type rho, aos_type aos) :
       m_orbs_(std::move(aos)), m_density_(std::move(rho)) {}
+
+    /** @brief Provides read-only access to the density matrix.
+     *
+     *  @return The density value.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const auto& value() const noexcept { return m_density_; }
 
     /** @brief Provides read-only access to the orbital basis set used to define
      *         the density matrix.
      *
      *  @return The orbital basis the density is formed in.
      *
+     *  @throw ??? Throws if the derived class's implementation of `basis_set_`
+     *             throws. Same throw guarantee.
+     */
+    const auto& basis_set() const { return basis_set_(); }
+
+    /** @brief Hashes the current instance.
+     *
+     *  @param[in,out] h The hasher instance to use for hashing. The internal
+     *                   state of h will be modified so that its internal hash
+     *                   includes state information about this instance.
+     *
+     *  @throw ??? Throws if the derived class's implementation of `hash_`
+     *             throws. Same throw guarantee.
+     */
+    void hash(pluginplay::Hasher& h) const { hash_(h); }
+
+protected:
+    /// The density tensor
+    value_type m_density_;
+
+    /// For assigning density value in derived types
+    explicit Density(value_type rho) : m_density_(rho) {}
+
+    /** @brief To be overridden by the derived class to implement basis_set().
+     *
+     *  The derived class is responsible for ensuring this function returns the
+     *  basis set.
+     *
+     *  @return The orbital basis the density is formed in.
+     *
      *  @throw None No throw guarantee.
      */
-    const auto& basis_set() const { return m_orbs_; }
+    virtual const aos_type& basis_set_() const { return m_orbs_; }
 
-    const auto& value() const noexcept { return m_density_; }
-
-    void hash(pluginplay::Hasher& h) const { h(m_orbs_, m_density_); }
+    /** @brief To be overridden by the derived class to implement hash().
+     *
+     *  Actually implements hash. Should be overridden by derived classes.
+     *
+     *  @throw None No throw guarantee.
+     */
+    virtual void hash_(pluginplay::Hasher& h) const { h(m_orbs_, m_density_); }
 
 private:
     /// The orbital space used to make the density
-    ao_space m_orbs_;
-
-    /// The density tensor
-    value_type m_density_;
+    aos_type m_orbs_;
 };
 
 /** @brief Compares two Density instances for equality.
