@@ -16,19 +16,20 @@ TEST_CASE("Allocator") {
 
     using allocator_type = typename decltype(palloc)::element_type;
     using extents_type   = typename allocator_type::extents_type;
+    using shape_type     = typename allocator_type::shape_type;
 
     // Assumes allocator uses this world too
     auto& world = TA::get_default_world();
 
     SECTION("new_tensor(shape)") {
-        extents_type shape0{2};
+        shape_type shape0(extents_type{2});
 
         auto t = palloc->new_tensor(shape0);
 
         // b/c the tensor isn't initialized we can't directly compare them, so
         // instead we compare the tiled ranges
 
-        auto corr = palloc->make_tiled_range(shape0);
+        auto corr = palloc->make_tiled_range(shape0.extents());
         REQUIRE(std::get<0>(t).trange() == corr);
         // TODO: proper unit test when runtime is comparable
         REQUIRE_NOTHROW(palloc->runtime());

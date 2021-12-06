@@ -17,7 +17,7 @@ TENSOR_WRAPPER::TensorWrapper(allocator_pointer p) :
   TensorWrapper(variant_type{}, std::move(p)) {}
 
 template<typename FieldType>
-TENSOR_WRAPPER::TensorWrapper(const extents_type& shape, allocator_pointer p) :
+TENSOR_WRAPPER::TensorWrapper(const shape_type& shape, allocator_pointer p) :
   TensorWrapper(p->new_tensor(shape), std::move(p)) {}
 
 template<typename FieldType>

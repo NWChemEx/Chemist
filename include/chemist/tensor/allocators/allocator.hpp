@@ -1,6 +1,7 @@
 #pragma once
 #include "chemist/tensor/detail_/backends/tiled_array.hpp"
 #include "chemist/tensor/fields.hpp"
+#include "chemist/tensor/shapes/shapes.hpp"
 #include "chemist/tensor/type_traits/nd_initializer_list_traits.hpp"
 #include <memory>
 #include <tiledarray.h>
@@ -71,11 +72,14 @@ public:
     /// The type of object this allocator can make
     using value_type = typename backend_traits::variant_type;
 
+    /// The base type of an object which models a tensor's shape
+    using shape_type = Shape<FieldType>;
+
     /// Unsigned integral type used to specify the extent of a mode
-    using extent_type = std::size_t;
+    using extent_type = typename shape_type::size_type;
 
     /// Container-of-extents type used to specify the extents of all modes
-    using extents_type = std::vector<extent_type>;
+    using extents_type = typename shape_type::extents_type;
 
     /// Type used to specify the tilings of the tensor
     using tiled_range_type = TA::TiledRange;
@@ -165,7 +169,7 @@ public:
      *  @return A variant containing the created tensor. Which of the variant
      *          choices is initialized is up to the allocator.
      */
-    value_type new_tensor(const extents_type& shape) const;
+    value_type new_tensor(const shape_type& shape) const;
 
     /** @brief Creates a tensor initialized with provided initializer list.
      *
@@ -327,9 +331,8 @@ Allocator<FieldType>::make_tiled_range(const extents_type& shape) const {
 
 template<typename FieldType>
 typename Allocator<FieldType>::value_type Allocator<FieldType>::new_tensor(
-  const extents_type& shape) const {
-    return value_type(std::in_place_index<0>, m_world_,
-                      make_tiled_range(shape));
+  const shape_type& shape) const {
+    return shape.make_tensor(*this);
 }
 
 template<typename FieldType>

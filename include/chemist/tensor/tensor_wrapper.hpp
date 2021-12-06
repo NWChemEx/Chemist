@@ -128,8 +128,11 @@ public:
     /// Type of a read-only reference to a type-erased allocator
     using const_allocator_reference = const allocator_type&;
 
+    /// Type used for describing the shape of the tensor
+    using shape_type = Shape<FieldType>;
+
     /// Type used for returning the extents
-    using extents_type = typename allocator_type::extents_type;
+    using extents_type = typename shape_type::extents_type;
 
     /// Type used for the rank
     using rank_type = unsigned int;
@@ -184,7 +187,7 @@ public:
      *             guarantee.
      */
     explicit TensorWrapper(
-      const extents_type& shape,
+      const shape_type& shape,
       allocator_pointer p = default_allocator<field_type>());
 
     /** @brief Wrapping CTor
