@@ -24,8 +24,9 @@ auto to_vector_from_pimpl(const TensorWrapperPIMPL<field::Scalar>& t) {
 #define PIMPL_TYPE TensorWrapperPIMPL<FieldType>
 
 template<typename FieldType>
-PIMPL_TYPE::TensorWrapperPIMPL(variant_type v, allocator_pointer p) :
-  m_tensor_(std::move(v)), m_allocator_(std::move(p)) {
+PIMPL_TYPE::TensorWrapperPIMPL(variant_type v, shape_pointer s,
+                               allocator_pointer p) :
+  m_tensor_(std::move(v)), m_allocator_(std::move(p)), m_shape_(std::move(s)) {
     if constexpr(std::is_same_v<FieldType, field::Scalar>) {
         reallocate(std::move(m_allocator_));
     }
@@ -34,7 +35,9 @@ PIMPL_TYPE::TensorWrapperPIMPL(variant_type v, allocator_pointer p) :
 template<typename FieldType>
 typename PIMPL_TYPE::pimpl_pointer PIMPL_TYPE::clone() const {
     allocator_pointer new_alloc(m_allocator_ ? m_allocator_->clone() : nullptr);
-    return std::make_unique<my_type>(m_tensor_, std::move(new_alloc));
+    shape_pointer new_shape(m_shape_ ? m_shape_->clone() : nullptr);
+    return std::make_unique<my_type>(m_tensor_, std::move(new_shape),
+                                     std::move(new_alloc));
 }
 
 template<typename FieldType>
@@ -61,15 +64,7 @@ typename PIMPL_TYPE::const_labeled_type PIMPL_TYPE::annotate(
 
 template<typename FieldType>
 typename PIMPL_TYPE::extents_type PIMPL_TYPE::extents() const {
-    auto l = [&](auto&& arg) {
-        extents_type rv;
-        if(!arg.is_initialized()) return rv;
-        const auto& tr = arg.trange();
-        for(size_type i = 0; i < tr.rank(); ++i)
-            rv.push_back(tr.dim(i).extent());
-        return rv;
-    };
-    return std::visit(l, m_tensor_);
+    return m_shape_ ? m_shape_->extents() : extents_type{};
 }
 
 template<typename FieldType>
@@ -109,8 +104,9 @@ void PIMPL_TYPE::reallocate(allocator_pointer p) {
 }
 
 template<typename FieldType>
-void PIMPL_TYPE::reshape(const il_type& shape) {
+void PIMPL_TYPE::reshape(shape_pointer pshape) {
     const auto times_op = std::multiplies<size_t>();
+    auto shape          = pshape->extents();
     auto new_volume = std::accumulate(shape.begin(), shape.end(), 1, times_op);
     if(new_volume != size()) {
         std::string msg =
@@ -120,10 +116,7 @@ void PIMPL_TYPE::reshape(const il_type& shape) {
         throw std::runtime_error(msg);
     }
 
-    // TODO: Use allocator and do not hard-code to a single tile.
-    std::vector<TA::TiledRange1> tr1s;
-    for(auto x : shape) tr1s.emplace_back(TA::TiledRange1{0, x});
-    TA::TiledRange tr(tr1s.begin(), tr1s.end());
+    auto tr = m_allocator_->make_tiled_range(shape);
 
     // TODO: Use a distribution aware algorithm
     auto l = [=](auto&& arg) {
@@ -145,6 +138,7 @@ void PIMPL_TYPE::reshape(const il_type& shape) {
         return rv;
     };
     m_tensor_ = std::visit(l, m_tensor_);
+    m_shape_  = std::move(pshape);
 }
 
 template<typename FieldType>

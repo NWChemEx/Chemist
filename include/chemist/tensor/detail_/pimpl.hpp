@@ -50,9 +50,9 @@ public:
     /// Type of a type-erased allocator
     using allocator_pointer = typename parent_type::allocator_pointer;
 
-    /// These will be added back in a forthcoming PR
-    // using shape_type                = Shape<field_type>;
-    // using shape_pointer             = typename shape_type::shape_ptr;
+    /// Base type of the Shape
+    using shape_type    = typename parent_type::shape_type;
+    using shape_pointer = typename parent_type::shape_ptr;
 
     /// Type used to describe the shape (will be removed in forthcoming PR)
     using extents_type = typename parent_type::extents_type;
@@ -75,7 +75,7 @@ public:
      *  @param[in] v A variant which wraps the tensor
      *  @param[in] p The allocator to use for tiling, distribution, etc.
      */
-    TensorWrapperPIMPL(variant_type v, allocator_pointer p);
+    TensorWrapperPIMPL(variant_type v, shape_pointer s, allocator_pointer p);
 
     /** @brief Makes a deep-copy of the current PIMPL
      *
@@ -221,7 +221,7 @@ public:
      * same volume as the wrapped tensor. Strong throw
      * guarantee.
      */
-    void reshape(const il_type& shape);
+    void reshape(shape_pointer shape);
 
     /** @brief Returns the number of elements in this tensor.
      *
@@ -332,7 +332,7 @@ private:
     allocator_pointer m_allocator_;
 
     // Will be added back in a forthcoming PR
-    // shape_ptr m_shape_;
+    shape_ptr m_shape_;
 };
 
 extern template class TensorWrapperPIMPL<field::Scalar>;

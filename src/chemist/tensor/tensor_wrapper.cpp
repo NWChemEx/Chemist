@@ -109,8 +109,7 @@ TENSOR_WRAPPER TENSOR_WRAPPER::slice(const il_type& lo, const il_type& hi,
 }
 
 template<typename FieldType>
-TENSOR_WRAPPER TENSOR_WRAPPER::reshape(
-  const std::initializer_list<size_type>& shape) const {
+TENSOR_WRAPPER TENSOR_WRAPPER::reshape(shape_pointer shape) const {
     TENSOR_WRAPPER rv(*this);
     rv.pimpl_().reshape(shape);
     return rv;

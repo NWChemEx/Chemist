@@ -100,6 +100,16 @@ private:
     template<typename T>
     using eif_diff_fields = std::enable_if_t<!same_field_v<T>>;
 
+    /// True if this class wraps a ToT and false otherwise
+    static constexpr bool is_tot = std::is_same_v<FieldType, field::Tensor>;
+
+    template<typename T>
+    static constexpr bool is_t_to_tot_v =
+      std::is_same_v<T, field::Scalar>&& is_tot;
+
+    template<typename T>
+    using eif_t_to_tot_conversion = std::enable_if_t<is_t_to_tot_v<T>>;
+
 public:
     /// Type of a pointer to the pimpl
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
@@ -130,6 +140,9 @@ public:
 
     /// Type used for describing the shape of the tensor
     using shape_type = Shape<FieldType>;
+
+    /// Type of a pointer to a shape
+    using shape_pointer = std::unique_ptr<shape_type>;
 
     /// Type used for returning the extents
     using extents_type = typename shape_type::extents_type;
@@ -214,6 +227,11 @@ public:
              typename = eif_is_tensor<std::decay_t<TensorType>>>
     explicit TensorWrapper(
       TensorType&& t, allocator_pointer p = default_allocator<field_type>());
+
+    template<typename OtherField,
+             typename = eif_t_to_tot_conversion<OtherField>>
+    TensorWrapper(const TensorWrapper<OtherField>& other, shape_pointer pshape,
+                  allocator_pointer palloc = default_allocator<field_type>());
 
     /** @brief Makes a copy of another TensorWrapper
      *
@@ -463,7 +481,7 @@ public:
      * same volume as the wrapped tensor. Strong throw
      * guarantee.
      */
-    TensorWrapper reshape(const il_type& shape) const;
+    TensorWrapper reshape(shape_pointer shape) const;
 
     /** @brief Used to get the wrapped tensor back.
      *
