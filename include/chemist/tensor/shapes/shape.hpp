@@ -101,7 +101,7 @@ public:
      *  @throw std::bad_alloc if there is a problem allocating the PIMPL. Strong
      *                        throw guarantee.
      */
-    Shape(extents_type extents);
+    explicit Shape(extents_type extents);
 
     /// Defaulted dtor
     virtual ~Shape() noexcept;

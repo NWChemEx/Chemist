@@ -39,9 +39,9 @@ public:
 
     /// Type of the object which maps indpendent/dependent indices to tensor
     /// modes
-    using idx2mode_type = std::vector<std::size_t>;
+    using idx2mode_type = typename parent_type::idx2mode_type;
 
-    /** @brief Creates a new SparseMapPIMPL with the provided state
+    /** @brief Creates a new SparseShapePIMPL with the provided state
      *
      *
      *  @param[in] extents The length of each mode.

@@ -22,7 +22,7 @@ SHAPE::Shape() noexcept = default;
 
 template<typename FieldType>
 SHAPE::Shape(extents_type extents) :
-  m_pimpl_(make_pimpl<FieldType>(std::move(extents))) {}
+  Shape(make_pimpl<FieldType>(std::move(extents))) {}
 
 template<typename FieldType>
 SHAPE::~Shape() noexcept = default;
@@ -58,6 +58,9 @@ void SHAPE::hash(pluginplay::Hasher& h) const {
 //------------------------------------------------------------------------------
 //                      Protected/Private Functions
 //------------------------------------------------------------------------------
+
+template<typename FieldType>
+SHAPE::Shape(pimpl_pointer pimpl) noexcept : m_pimpl_(std::move(pimpl)) {}
 
 template<typename FieldType>
 const typename SHAPE::pimpl_type& SHAPE::pimpl_() const {

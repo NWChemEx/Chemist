@@ -14,12 +14,19 @@ const auto& downcast(const detail_::ShapePIMPL<FieldType>& pimpl) {
     if(ppimpl) return *ppimpl;
 
     // Cast failed (shouldn't be reachable unless I missed something)
-    throw std::bad_cast("PIMPL is not a SparseShapePIMPL.");
+    throw std::bad_cast();
 }
 
 template<typename FieldType, typename... Args>
 auto make_pimpl(Args&&... args) {
     return std::make_unique<pimpl_type<FieldType>>(std::forward<Args>(args)...);
+}
+
+auto make_i2m(std::size_t i) {
+    using idx2mode_type = typename SparseShape<field::Scalar>::idx2mode_type;
+    idx2mode_type rv(i);
+    std::iota(rv.begin(), rv.end(), 0);
+    return rv;
 }
 
 } // namespace
@@ -28,7 +35,13 @@ auto make_pimpl(Args&&... args) {
 
 template<typename FieldType>
 SPARSE_SHAPE::SparseShape(extents_type extents, sparse_map_type sm) :
-  base_type(make_pimpl<FieldType>(std::move(extents), std::move(sm))) {}
+  SparseShape(std::move(extents), std::move(sm), make_i2m(extents.size())) {}
+
+template<typename FieldType>
+SPARSE_SHAPE::SparseShape(extents_type extents, sparse_map_type sm,
+                          idx2mode_type i2m) :
+  base_type(
+    make_pimpl<FieldType>(std::move(extents), std::move(sm), std::move(i2m))) {}
 
 template<typename FieldType>
 SPARSE_SHAPE::SparseShape(const SparseShape& other) :
@@ -36,13 +49,21 @@ SPARSE_SHAPE::SparseShape(const SparseShape& other) :
               make_pimpl<FieldType>(downcast(other.pimpl_())) :
               typename base_type::pimpl_pointer{}) {}
 
+template<typename FieldType>
+bool SPARSE_SHAPE::operator==(const SparseShape& rhs) const noexcept {
+    if(!this->has_pimpl_() && !rhs.has_pimpl_()) return true;
+    if(this->has_pimpl_() && rhs.has_pimpl_())
+        return downcast(this->pimpl_()) == downcast(rhs.pimpl_());
+    return false;
+}
+
 //------------------------------------------------------------------------------
 //                   Protected/Private Member Functions
 //------------------------------------------------------------------------------
 
 template<typename FieldType>
 typename SPARSE_SHAPE::pointer_type SPARSE_SHAPE::clone_() const {
-    return std::make_unique<my_type>(*this);
+    return pointer_type(new SparseShape(*this));
 }
 
 template<typename FieldType>
@@ -51,10 +72,13 @@ typename SPARSE_SHAPE::tensor_type SPARSE_SHAPE::make_tensor_(
     const auto& the_pimpl = downcast(this->pimpl_());
     auto tr               = p.make_tiled_range(the_pimpl.extents());
     auto& world           = p.runtime();
-    // auto shape            = the_pimpl.shape();
-    return tensor_type(std::in_place_index<0>, world, tr); //, shape);
+    auto shape            = the_pimpl.shape(tr);
+    return tensor_type(std::in_place_index<0>, world, tr, shape);
 }
 
 #undef SPARSE_SHAPE
+
+template class SparseShape<field::Scalar>;
+template class SparseShape<field::Tensor>;
 
 } // namespace chemist::tensor
