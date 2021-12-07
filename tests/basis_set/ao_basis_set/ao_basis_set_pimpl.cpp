@@ -2,7 +2,7 @@
 #include <catch2/catch.hpp>
 
 using pimpl_t  = chemist::detail_::AOBasisSetPIMPL<double>;
-using center_t = chemist::Center<double>;
+using center_t = chemist::AtomicBasisSet<double>;
 
 TEST_CASE("AOBasisSetPIMPL : default ctor") {
     pimpl_t p{};

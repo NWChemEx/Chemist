@@ -1,4 +1,4 @@
-#include "chemist/basis_set/center/center_pimpl.hpp"
+#include "chemist/basis_set/atomic_basis_set/atomic_basis_set_pimpl.hpp"
 #include "chemist/basis_set/shell.hpp"
 #include <catch2/catch.hpp>
 
@@ -15,16 +15,16 @@ static inline auto make_center() {
       ShellPIMPL<double>(pures[0], ls[0], v[0], v[1]),
       ShellPIMPL<double>(pures[1], ls[1], v[2], v[3]),
       ShellPIMPL<double>(pures[2], ls[2], v[4], v[5])};
-    CenterPIMPL<double> p(pures, ls, coefs, exps);
+    AtomicBasisSetPIMPL<double> p(pures, ls, coefs, exps);
     return std::make_pair(p, shells);
 }
 
-TEST_CASE("CenterPIMPL : default ctor") {
-    CenterPIMPL<double> p;
+TEST_CASE("AtomicBasisSetPIMPL : default ctor") {
+    AtomicBasisSetPIMPL<double> p;
     REQUIRE(p.size() == 0);
 }
 
-TEST_CASE("CenterPIMPL : value ctor") {
+TEST_CASE("AtomicBasisSetPIMPL : value ctor") {
     auto [p, shells] = make_center();
     REQUIRE(p.size() == shells.size());
     for(std::size_t i = 0; i < p.size(); ++i) {
@@ -34,9 +34,9 @@ TEST_CASE("CenterPIMPL : value ctor") {
     }
 }
 
-TEST_CASE("CenterPIMPL : copy ctor") {
+TEST_CASE("AtomicBasisSetPIMPL : copy ctor") {
     auto [p, shells] = make_center();
-    CenterPIMPL<double> c2(p);
+    AtomicBasisSetPIMPL<double> c2(p);
     REQUIRE(c2.size() == shells.size());
     for(std::size_t i = 0; i < p.size(); ++i) {
         auto shell = c2.at(i);
@@ -45,8 +45,8 @@ TEST_CASE("CenterPIMPL : copy ctor") {
     }
 }
 
-TEST_CASE("CenterPIMPL : add_shell") {
-    CenterPIMPL<double> c;
+TEST_CASE("AtomicBasisSetPIMPL : add_shell") {
+    AtomicBasisSetPIMPL<double> c;
     c.add_shell(ShellType::pure, 0, std::vector<double>{},
                 std::vector<double>{});
     REQUIRE(c.size() == 1);
@@ -54,12 +54,12 @@ TEST_CASE("CenterPIMPL : add_shell") {
     REQUIRE(c.at(0)->l() == 0);
 }
 
-TEST_CASE("CenterPIMPL : size") {
+TEST_CASE("AtomicBasisSetPIMPL : size") {
     auto [p, shells] = make_center();
     REQUIRE(p.size() == shells.size());
 }
 
-TEST_CASE("CenterPIMPL : at") {
+TEST_CASE("AtomicBasisSetPIMPL : at") {
     auto [p, shells] = make_center();
     for(std::size_t i = 0; i < shells.size(); ++i) {
         REQUIRE(p.at(i)->purity() == shells[i].purity());

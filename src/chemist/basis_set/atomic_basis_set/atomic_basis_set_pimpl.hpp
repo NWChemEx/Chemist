@@ -3,7 +3,7 @@
 
 namespace chemist::detail_ {
 
-/** @brief Implements a Center
+/** @brief Implements a AtomicBasisSet
  *
  *  As a technical note, the C++ standard specializes std::vector<bool> so that
  *  it does not return references. We therefore can not use it and allow the
@@ -12,7 +12,7 @@ namespace chemist::detail_ {
  *
  */
 template<typename T>
-class CenterPIMPL {
+class AtomicBasisSetPIMPL {
 public:
     /// Unsigned integral type used for indexes and offsets
     using size_type = std::size_t;
@@ -29,16 +29,16 @@ public:
     /// Type used to hold a set of param_set instances
     using shell_set = std::vector<param_set>;
 
-    /** @brief Constructs an empty CenterPIMPL instance.
+    /** @brief Constructs an empty AtomicBasisSetPIMPL instance.
      *
-     *  This ctor can be used to create an empty CenterPIMPL. The resulting
+     *  This ctor can be used to create an empty AtomicBasisSetPIMPL. The resulting
      *  instance contains no Shells. Shells can be added by calling add_shell.
      *
      *  @throw None No throw guarantee.
      *
      *  Complexity: Constant
      */
-    CenterPIMPL() noexcept = default;
+    AtomicBasisSetPIMPL() noexcept = default;
 
     /** @brief Makes a deep copy of @p rhs.
      *
@@ -48,11 +48,11 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to copy the state
      *                        of @p rhs. Strong throw guarantee.
      */
-    CenterPIMPL(const CenterPIMPL<T>& rhs);
+    AtomicBasisSetPIMPL(const AtomicBasisSetPIMPL<T>& rhs);
 
-    /** @brief Creates a new CenterPIMPL with the specified state.
+    /** @brief Creates a new AtomicBasisSetPIMPL with the specified state.
      *
-     *  This ctor can be used to create a new CenterPIMPL with the provided
+     *  This ctor can be used to create a new AtomicBasisSetPIMPL with the provided
      *  state. If a parameter is a pointer than the resulting instance will
      *  alias that piece of state, whereas if a parameter is passed by value
      *  the resulting instance will own that parameter.
@@ -84,9 +84,9 @@ public:
      *              the call depending on how the values are passed.
      */
     template<typename U, typename V, typename W, typename X>
-    CenterPIMPL(U&& purities, V&& ls, W&& cs, X&& es) noexcept;
+    AtomicBasisSetPIMPL(U&& purities, V&& ls, W&& cs, X&& es) noexcept;
 
-    /** @brief Creates and adds a new Shell to this CenterPIMPL instance.
+    /** @brief Creates and adds a new Shell to this AtomicBasisSetPIMPL instance.
      *
      *  This function adds a shell to the center with the provided state.
      *
@@ -106,7 +106,7 @@ public:
      *  This function is used to determine the number of Shells currently
      *  centered on the center.
      *
-     *  @return The number of shells currently centered on this CenterPIMPL.
+     *  @return The number of shells currently centered on this AtomicBasisSetPIMPL.
      *
      *  @throw none No throw guarantee.
      *
@@ -144,25 +144,25 @@ private:
     utilities::OwnOrBorrow<shell_set> m_coefs_;
     /// The exponents for each shell making up this center
     utilities::OwnOrBorrow<shell_set> m_exps_;
-}; // class Center
+}; // class AtomicBasisSet
 
 // ---------------------------- Implementations --------------------------------
 
 template<typename T>
-CenterPIMPL<T>::CenterPIMPL(const CenterPIMPL<T>& rhs) :
-  CenterPIMPL(rhs.m_purities_.value(), rhs.m_ls_.value(), rhs.m_coefs_.value(),
+AtomicBasisSetPIMPL<T>::AtomicBasisSetPIMPL(const AtomicBasisSetPIMPL<T>& rhs) :
+  AtomicBasisSetPIMPL(rhs.m_purities_.value(), rhs.m_ls_.value(), rhs.m_coefs_.value(),
               rhs.m_exps_.value()) {}
 
 template<typename T>
 template<typename U, typename V, typename W, typename X>
-CenterPIMPL<T>::CenterPIMPL(U&& purities, V&& ls, W&& cs, X&& es) noexcept :
+AtomicBasisSetPIMPL<T>::AtomicBasisSetPIMPL(U&& purities, V&& ls, W&& cs, X&& es) noexcept :
   m_purities_(std::forward<U>(purities)),
   m_ls_(std::forward<V>(ls)),
   m_coefs_(std::forward<W>(cs)),
   m_exps_(std::forward<X>(es)) {}
 
 template<typename T>
-void CenterPIMPL<T>::add_shell(pure_type purity, am_type l, param_set cs,
+void AtomicBasisSetPIMPL<T>::add_shell(pure_type purity, am_type l, param_set cs,
                                param_set es) {
     m_purities_.value().push_back(purity);
     m_ls_.value().push_back(l);
@@ -171,7 +171,7 @@ void CenterPIMPL<T>::add_shell(pure_type purity, am_type l, param_set cs,
 }
 
 template<typename T>
-std::unique_ptr<ShellPIMPL<T>> CenterPIMPL<T>::at(size_type i) const {
+std::unique_ptr<ShellPIMPL<T>> AtomicBasisSetPIMPL<T>::at(size_type i) const {
     if(i >= size())
         throw std::out_of_range("Requested index: " + std::to_string(i) +
                                 " is not in the range [0, size()).");

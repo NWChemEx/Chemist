@@ -52,7 +52,7 @@ TEST_CASE("DerivedSpace") {
 
     space_type default_ao(C, from_space{});
     AOBasisSetD bs;
-    bs.add_center(chemist::Center<scalar_type>(1.0, 2.0, 3.0));
+    bs.add_center(chemist::AtomicBasisSet<scalar_type>(1.0, 2.0, 3.0));
     from_space aos(std::move(bs));
     space_type non_default_aos(tensor_type{}, aos);
     space_type non_default(C, aos);

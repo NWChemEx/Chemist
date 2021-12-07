@@ -1,61 +1,62 @@
 #include "../../point/point_pimpl.hpp"
-#include "center_pimpl.hpp"
-#include "chemist/basis_set/center.hpp"
+#include "atomic_basis_set_pimpl.hpp"
+#include "chemist/basis_set/atomic_basis_set.hpp"
 #include <cassert>
 namespace chemist {
 
 template<typename T>
-Center<T>::Center() :
-  Center(std::make_unique<center_pimpl_t>(),
+AtomicBasisSet<T>::AtomicBasisSet() :
+  AtomicBasisSet(std::make_unique<center_pimpl_t>(),
          std::make_unique<point_pimpl_t>()) {}
 
 template<typename T>
-Center<T>::Center(const Center<T>& rhs) :
-  Center(std::make_unique<center_pimpl_t>(*rhs.m_pimpl_),
+AtomicBasisSet<T>::AtomicBasisSet(const AtomicBasisSet<T>& rhs) :
+  AtomicBasisSet(std::make_unique<center_pimpl_t>(*rhs.m_pimpl_),
          std::make_unique<point_pimpl_t>(rhs.x(), rhs.y(), rhs.z())) {}
 
 template<typename T>
-Center<T>::Center(Center<T>&& rhs) noexcept = default;
+AtomicBasisSet<T>::AtomicBasisSet(AtomicBasisSet<T>&& rhs) noexcept = default;
 
 template<typename T>
-Center<T>::Center(T x, T y, T z) :
-  Center(std::make_unique<center_pimpl_t>(),
+AtomicBasisSet<T>::AtomicBasisSet(T x, T y, T z) :
+  AtomicBasisSet(std::make_unique<center_pimpl_t>(),
          std::make_unique<point_pimpl_t>(x, y, z)) {}
 
 template<typename T>
-Center<T>::Center(center_pimpl_ptr_t cpimpl, point_pimpl_ptr_t ppimpl) noexcept
+AtomicBasisSet<T>::AtomicBasisSet(center_pimpl_ptr_t cpimpl, point_pimpl_ptr_t ppimpl) noexcept
   :
   m_pimpl_(std::move(cpimpl)),
   Point<T>(std::move(ppimpl)),
-  utilities::IndexableContainerBase<Center<T>>() {}
+  utilities::IndexableContainerBase<AtomicBasisSet<T>>() {}
 
 template<typename T>
-Center<T>& Center<T>::operator=(const Center<T>& rhs) {
-    return *this = std::move(Center<T>(rhs));
+AtomicBasisSet<T>& AtomicBasisSet<T>::operator=(const AtomicBasisSet<T>& rhs) {
+    return *this = std::move(AtomicBasisSet<T>(rhs));
 }
 
 template<typename T>
-Center<T>& Center<T>::operator=(Center<T>&& rhs) noexcept = default;
+AtomicBasisSet<T>& AtomicBasisSet<T>::operator=(
+  AtomicBasisSet<T>&& rhs) noexcept = default;
 
 template<typename T>
-Center<T>::~Center() noexcept = default;
+AtomicBasisSet<T>::~AtomicBasisSet() noexcept = default;
 
 template<typename T>
-void Center<T>::add_shell(pure_type pure, am_type l, param_set cs,
+void AtomicBasisSet<T>::add_shell(pure_type pure, am_type l, param_set cs,
                           param_set es) {
     assert(m_pimpl_ != nullptr);
     m_pimpl_->add_shell(pure, l, std::move(cs), std::move(es));
 }
 
 template<typename T>
-typename Center<T>::size_type Center<T>::n_aos() const noexcept {
+typename AtomicBasisSet<T>::size_type AtomicBasisSet<T>::n_aos() const noexcept {
     size_type counter = 0;
     for(auto&& shell_i : *this) counter += shell_i.size();
     return counter;
 }
 
 template<typename T>
-typename Center<T>::ao_reference Center<T>::ao(size_type i) {
+typename AtomicBasisSet<T>::ao_reference AtomicBasisSet<T>::ao(size_type i) {
     for(ShellView<T> shell_i : *this) {
         if(i < shell_i.size())
             return shell_i[i];
@@ -67,7 +68,7 @@ typename Center<T>::ao_reference Center<T>::ao(size_type i) {
 }
 
 template<typename T>
-typename Center<T>::const_ao_reference Center<T>::ao(size_type i) const {
+typename AtomicBasisSet<T>::const_ao_reference AtomicBasisSet<T>::ao(size_type i) const {
     for(auto&& shell_i : *this) {
         if(i < shell_i.size())
             return shell_i[i];
@@ -79,14 +80,15 @@ typename Center<T>::const_ao_reference Center<T>::ao(size_type i) const {
 }
 
 template<typename T>
-typename Center<T>::size_type Center<T>::n_unique_primitives() const noexcept {
+typename AtomicBasisSet<T>::size_type AtomicBasisSet<T>::n_unique_primitives() const noexcept {
     size_type counter = 0;
     for(auto&& shell_i : *this) counter += shell_i.n_unique_primitives();
     return counter;
 }
 
 template<typename T>
-typename Center<T>::primitive_reference Center<T>::unique_primitive(
+typename AtomicBasisSet<T>::primitive_reference
+AtomicBasisSet<T>::unique_primitive(
   size_type i) {
     for(ShellView<T> shell_i : *this) {
         if(i < shell_i.n_unique_primitives())
@@ -99,7 +101,8 @@ typename Center<T>::primitive_reference Center<T>::unique_primitive(
 }
 
 template<typename T>
-typename Center<T>::const_primitive_reference Center<T>::unique_primitive(
+typename AtomicBasisSet<T>::const_primitive_reference
+AtomicBasisSet<T>::unique_primitive(
   size_type i) const {
     for(auto&& shell_i : *this) {
         if(i < shell_i.n_unique_primitives())
@@ -112,13 +115,13 @@ typename Center<T>::const_primitive_reference Center<T>::unique_primitive(
 }
 
 template<typename T>
-typename Center<T>::size_type Center<T>::size_() const noexcept {
+typename AtomicBasisSet<T>::size_type AtomicBasisSet<T>::size_() const noexcept {
     assert(m_pimpl_ != nullptr);
     return m_pimpl_->size();
 }
 
 template<typename T>
-typename Center<T>::reference Center<T>::at_(size_type i) {
+typename AtomicBasisSet<T>::reference AtomicBasisSet<T>::at_(size_type i) {
     assert(m_pimpl_ != nullptr);
     auto ptr1 = m_pimpl_->at(i);
     auto ptr2 = this->point_alias();
@@ -127,7 +130,7 @@ typename Center<T>::reference Center<T>::at_(size_type i) {
 }
 
 template<typename T>
-typename Center<T>::const_reference Center<T>::at_(size_type i) const {
+typename AtomicBasisSet<T>::const_reference AtomicBasisSet<T>::at_(size_type i) const {
     assert(m_pimpl_ != nullptr);
     auto ptr1 = m_pimpl_->at(i);
     auto ptr2 = this->point_alias();
@@ -135,7 +138,7 @@ typename Center<T>::const_reference Center<T>::at_(size_type i) const {
     return const_reference(std::move(shell));
 }
 
-template class Center<double>;
-template class Center<float>;
+template class AtomicBasisSet<double>;
+template class AtomicBasisSet<float>;
 
 } // namespace chemist

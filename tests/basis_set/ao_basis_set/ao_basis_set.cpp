@@ -6,7 +6,7 @@
 #include <utilities/iter_tools/enumerate.hpp>
 
 using bs_t     = chemist::AOBasisSet<double>;
-using center_t = chemist::Center<double>;
+using center_t = chemist::AtomicBasisSet<double>;
 using param_t  = typename bs_t::value_type::param_set;
 
 static inline auto make_bs() {
