@@ -55,6 +55,13 @@ void SHAPE::hash(pluginplay::Hasher& h) const {
     h(m_pimpl_);
 }
 
+template<typename FieldType>
+bool SHAPE::is_equal(const Shape& rhs) const noexcept {
+    // Needs to be symmetric to engage the most derived class of each instance
+    if(is_equal_(rhs) && rhs.is_equal_(*this)) return true;
+    return false;
+}
+
 //------------------------------------------------------------------------------
 //                      Protected/Private Functions
 //------------------------------------------------------------------------------
@@ -93,6 +100,11 @@ typename SHAPE::tensor_type SHAPE::make_tensor_(
     auto tr     = p.make_tiled_range(m_pimpl_->extents());
     auto& world = p.runtime();
     return tensor_type(std::in_place_index<0>, world, tr);
+}
+
+template<typename FieldType>
+bool SHAPE::is_equal_(const Shape<FieldType>& rhs) const noexcept {
+    return *this == rhs;
 }
 
 #undef SHAPE

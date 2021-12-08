@@ -21,6 +21,11 @@ TENSOR_WRAPPER::TensorWrapper(const shape_type& shape, allocator_pointer p) :
   TensorWrapper(p->new_tensor(shape), std::move(p)) {}
 
 template<typename FieldType>
+template<typename OtherField, typename>
+TENSOR_WRAPPER::TensorWrapper(const TensorWrapper<OtherField>& other,
+                              shape_pointer pshape, allocator_pointer palloc) {}
+
+template<typename FieldType>
 TENSOR_WRAPPER::TensorWrapper(variant_type v, allocator_pointer p) :
   m_pimpl_(std::make_unique<pimpl_type>(std::move(v), std::move(p))) {}
 
@@ -111,7 +116,7 @@ TENSOR_WRAPPER TENSOR_WRAPPER::slice(const il_type& lo, const il_type& hi,
 template<typename FieldType>
 TENSOR_WRAPPER TENSOR_WRAPPER::reshape(shape_pointer shape) const {
     TENSOR_WRAPPER rv(*this);
-    rv.pimpl_().reshape(shape);
+    rv.pimpl_().reshape(std::move(shape));
     return rv;
 }
 
@@ -177,6 +182,11 @@ typename TENSOR_WRAPPER::const_pimpl_reference TENSOR_WRAPPER::pimpl_() const {
 }
 
 #undef TENSOR_WRAPPER
+
+template TensorWrapper<field::Tensor>::TensorWrapper<field::Scalar, void>(
+  const TensorWrapper<field::Scalar>&,
+  typename TensorWrapper<field::Tensor>::shape_pointer,
+  typename TensorWrapper<field::Tensor>::allocator_pointer);
 
 template class TensorWrapper<field::Scalar>;
 template class TensorWrapper<field::Tensor>;

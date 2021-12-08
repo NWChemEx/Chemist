@@ -51,8 +51,10 @@ public:
     using allocator_pointer = typename parent_type::allocator_pointer;
 
     /// Base type of the Shape
-    using shape_type    = typename parent_type::shape_type;
-    using shape_pointer = typename parent_type::shape_ptr;
+    using shape_type = typename parent_type::shape_type;
+
+    /// Type of a pointer to the shape's base class
+    using shape_pointer = typename parent_type::shape_pointer;
 
     /// Type used to describe the shape (will be removed in forthcoming PR)
     using extents_type = typename parent_type::extents_type;
@@ -69,10 +71,23 @@ public:
     /// Type used for initializer lists of sizes
     using il_type = typename parent_type::il_type;
 
+    /** @brief Creates a new PIMPL by using the provided allocator and wrapping
+     *         the provided tensor.
+     *
+     *  Given a wrapped tensor, this ctor will create a shape object consistent
+     *  with that tensor and will reallocate the tensor if the tiling is not
+     *  consistent with the provided allocator.
+     *
+     *
+     *  @param[in] v The wrapped tensor.
+     *  @param[in] p The allocator to use in the TensorWrapper
+     */
+    TensorWrapperPIMPL(variant_type v, allocator_pointer p);
+
     /** @brief Creates a new PIMPL which wraps the provided tensor and allocator
      *
-     *
      *  @param[in] v A variant which wraps the tensor
+     *  @param[in] s The shape of the tensor
      *  @param[in] p The allocator to use for tiling, distribution, etc.
      */
     TensorWrapperPIMPL(variant_type v, shape_pointer s, allocator_pointer p);
@@ -303,6 +318,14 @@ public:
     const auto& variant() const { return m_tensor_; }
 
 private:
+    /// Guts of reshape, but doesn't set internal shape to other
+    void reshape_(const shape_type& other);
+
+    /// Guts of reallocate, but doesn't set internal allocator to other
+    void reallocate_(const_allocator_reference other);
+
+    void shuffle_(const extents_type& other);
+
     /** @brief Returns the inner rank of the tensor.
      *
      *  For a normal non-hierarchical tensor there are zero
@@ -331,8 +354,8 @@ private:
     /// The allocator for the tensor, stored in a type-erased state
     allocator_pointer m_allocator_;
 
-    // Will be added back in a forthcoming PR
-    shape_ptr m_shape_;
+    /// The shape of the tensor, stored as pointer to the base class
+    shape_pointer m_shape_;
 };
 
 extern template class TensorWrapperPIMPL<field::Scalar>;

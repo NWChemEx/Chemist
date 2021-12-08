@@ -76,6 +76,18 @@ typename SPARSE_SHAPE::tensor_type SPARSE_SHAPE::make_tensor_(
     return tensor_type(std::in_place_index<0>, world, tr, shape);
 }
 
+template<typename FieldType>
+bool SPARSE_SHAPE::is_equal_(const Shape<FieldType>& rhs) const noexcept {
+    using const_pointer_type = const SparseShape<FieldType>*;
+    auto prhs                = dynamic_cast<const_pointer_type>(&rhs);
+
+    // If null, rhs does not contain a SparseShape part
+    if(!prhs) return false;
+
+    // Not null, dereference and compare SparseShape parts
+    return *this == *prhs;
+}
+
 #undef SPARSE_SHAPE
 
 template class SparseShape<field::Scalar>;

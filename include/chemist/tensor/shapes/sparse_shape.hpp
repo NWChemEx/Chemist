@@ -159,6 +159,8 @@ private:
     /// Overrides make_tensor to account for sparsity
     virtual tensor_type make_tensor_(
       const_allocator_reference p) const override;
+
+    virtual bool is_equal_(const Shape<FieldType>& rhs) const noexcept override;
 };
 
 /** @brief Determines if two SparseShape instances are different,
