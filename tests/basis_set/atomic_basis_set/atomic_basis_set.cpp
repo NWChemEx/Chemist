@@ -6,7 +6,7 @@
 using namespace chemist;
 
 static inline auto make_center() {
-    AtomicBasisSet<double> c(1.0, 2.0, 3.0);
+    AtomicBasisSet<double> c("custom", 1000, 1.0, 2.0, 3.0);
     std::vector<double> cs{4.0};
     std::vector<double> es{5.0};
     c.add_shell(ShellType::pure, 2, cs, es);
@@ -23,10 +23,12 @@ TEST_CASE("AtomicBasisSet : default ctor") {
         REQUIRE(c.y() == 0.0);
         REQUIRE(c.z() == 0.0);
     }
+    SECTION("Basis Set Name") { REQUIRE(c.basis_set_name() == ""); }
+    SECTION("Atomic Number") { REQUIRE(c.atomic_number() == 0); }
 }
 
 TEST_CASE("AtomicBasisSet : x, y, z ctor") {
-    AtomicBasisSet<double> c(1.0, 2.0, 3.0);
+    AtomicBasisSet<double> c("custom", 1000, 1.0, 2.0, 3.0);
     SECTION("State") {
         SECTION("Size") { REQUIRE(c.size() == 0); }
         SECTION("Coordinates") {
@@ -34,6 +36,8 @@ TEST_CASE("AtomicBasisSet : x, y, z ctor") {
             REQUIRE(c.y() == 2.0);
             REQUIRE(c.z() == 3.0);
         }
+        SECTION("Basis Set Name") { REQUIRE(c.basis_set_name() == "custom"); }
+        SECTION("Atomic Number") { REQUIRE(c.atomic_number() == 1000); }
     }
 }
 

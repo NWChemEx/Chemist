@@ -69,7 +69,7 @@ TEST_CASE("BasisSetManager Comparisons") {
     // Fill the second bsm with only one center
     BasisSetManager::ao_basis_map basis_map;
 
-    AtomicBasisSet<double> z1_center(0.0, 0.0, 0.0);
+    AtomicBasisSet<double> z1_center;
     z1_center.add_shell(ShellType::pure, 0,
                         std::vector<double>{1.0000000000e+00},
                         std::vector<double>{4.5000000000e+01});
@@ -167,7 +167,7 @@ TEST_CASE("BasisSetManager::get_basis") {
 
     SECTION("Retrieve existing basis") {
         // Correct basis
-        AtomicBasisSet<double> corr(0.0, 0.0, 0.0);
+        AtomicBasisSet<double> corr;
         corr.add_shell(ShellType::pure, 0,
                        std::vector<double>{1.0000000000e+00},
                        std::vector<double>{5.4000000000e+01});
@@ -191,7 +191,7 @@ TEST_CASE("BasisSetManager::get_basis") {
 void load_basis(BasisSetManager& bsm) {
     BasisSetManager::ao_basis_map basis_map;
 
-    AtomicBasisSet<double> z1_center(0.0, 0.0, 0.0);
+    AtomicBasisSet<double> z1_center;
     z1_center.add_shell(ShellType::pure, 0,
                         std::vector<double>{1.0000000000e+00},
                         std::vector<double>{4.5000000000e+01});
@@ -207,7 +207,7 @@ void load_basis(BasisSetManager& bsm) {
 
     basis_map.emplace(1, z1_center);
 
-    AtomicBasisSet<double> z2_center(0.0, 0.0, 0.0);
+    AtomicBasisSet<double> z2_center;
     z2_center.add_shell(ShellType::pure, 0,
                         std::vector<double>{1.0000000000e+00},
                         std::vector<double>{5.4000000000e+01});
@@ -223,7 +223,7 @@ void load_basis(BasisSetManager& bsm) {
 
     basis_map.emplace(2, z2_center);
 
-    AtomicBasisSet<double> z4_center(0.0, 0.0, 0.0);
+    AtomicBasisSet<double> z4_center;
     z4_center.add_shell(ShellType::pure, 0,
                         std::vector<double>{1.0000000000e+00},
                         std::vector<double>{5.1200000000e+02});

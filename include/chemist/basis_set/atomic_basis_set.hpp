@@ -11,7 +11,7 @@ class AtomicBasisSetPIMPL;
 template<typename T>
 class AtomicBasisSet
   : public Point<T>,
-               public utilities::IndexableContainerBase<AtomicBasisSet<T>> {
+    public utilities::IndexableContainerBase<AtomicBasisSet<T>> {
 private:
     /// Type of this class
     using my_type = AtomicBasisSet<T>;
@@ -44,8 +44,8 @@ public:
 
     /** @brief Creates a new AtomicBasisSet instance at the origin.
      *
-     *  The AtomicBasisSet instance resulting from this ctor will have no shells and
-     *  will be centered at the origin. The center can be translated by
+     *  The AtomicBasisSet instance resulting from this ctor will have no shells
+     *  and will be centered at the origin. The center can be translated by
      *  modifying the coordinates through `coord(size_type)` or the `x()`,
      *  `y()`, and `z()` member functions. Shells can be added via `add_shell`.
      *
@@ -63,23 +63,23 @@ public:
      */
     AtomicBasisSet(const AtomicBasisSet<T>& rhs);
 
-    /** @brief Creates a new AtomicBasisSet instance by taking ownership of an already
-     *         existing instance's state.
+    /** @brief Creates a new AtomicBasisSet instance by taking ownership of an
+     *         already existing instance's state.
      *
      *  @param[in, out] rhs The instance to take the state from. After this ctor
      *                      @p rhs will no longer contain a PIMPL and can not
-     *                      be used until a AtomicBasisSet instance with a valid PIMPL
-     *                      is copy/move assigned to @p rhs.
+     *                      be used until a AtomicBasisSet instance with a valid
+     *                      PIMPL is copy/move assigned to @p rhs.
      *
      *  @throw None no throw guarantee.
      */
     AtomicBasisSet(AtomicBasisSet<T>&& rhs) noexcept;
 
-    /** @brief Causes the current AtomicBasisSet to contain a deep copy of another
-     *         AtomicBasisSet.
+    /** @brief Causes the current AtomicBasisSet to contain a deep copy of
+     *         another AtomicBasisSet.
      *
-     *  This function will assign to the current AtomicBasisSet a deep copy of another
-     *  instance. This instance's previous state will be released.
+     *  This function will assign to the current AtomicBasisSet a deep copy of
+     *  another instance. This instance's previous state will be released.
      *
      *  @param[in] rhs The AtomicBasisSet instance to deep copy.
      *
@@ -90,13 +90,13 @@ public:
      */
     AtomicBasisSet<T>& operator=(const AtomicBasisSet<T>& rhs);
 
-    /** @brief Causes the current AtomicBasisSet instance to take ownership of an
-     * already existing instance's state.
+    /** @brief Causes the current AtomicBasisSet instance to take ownership of
+     *         an already existing instance's state.
      *
      *  @param[in, out] rhs The instance to take the state from. After this ctor
      *                      @p rhs will no longer contain a PIMPL and can not
-     *                      be used until a AtomicBasisSet instance with a valid PIMPL
-     *                      is copy/move assigned to @p rhs.
+     *                      be used until a AtomicBasisSet instance with a valid
+     *                      PIMPL is copy/move assigned to @p rhs.
      *
      *  @return The current instance after taking ownership of @p rhs's state.
      *
@@ -106,9 +106,11 @@ public:
 
     /** @brief Creates a new AtomicBasisSet centered on the provided point.
      *
-     *  This ctor is used to create a new AtomicBasisSet instance with the provided
-     *  Cartesian coordinates.
+     *  This ctor is used to create a new AtomicBasisSet instance with the
+     *  provided Cartesian coordinates.
      *
+     *  @param[in] name The name associated with the basis set.
+     *  @param[in] atomic_n The atomic number associated with the basis set.
      *  @param[in] x The x-coordinate for the resulting AtomicBasisSet
      *  @param[in] y The y-coordinate for the resulting AtomicBasisSet
      *  @param[in] z The z-coordinate for the resulting AtomicBasisSet
@@ -116,20 +118,22 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    AtomicBasisSet(T x, T y, T z);
+    AtomicBasisSet(const std::string& name, size_type atomic_n, T x, T y, T z);
 
     /** @brief Creates a new AtomicBasisSet with the provided state.
      *
-     *  This ctor can be used to create a AtomicBasisSet which uses the provided PIMPLs.
+     *  This ctor can be used to create a AtomicBasisSet which uses the provided
+     *  PIMPLs.
      *
-     *  @param[in] cpimpl The PIMPL to use for the AtomicBasisSet part of the resulting
-     *                    instance.
+     *  @param[in] cpimpl The PIMPL to use for the AtomicBasisSet part of the
+     *                    resulting instance.
      *  @param[in] ppimpl The PIMPL to use for the Point part of the resulting
      *                    instance.
      *
      *  @throw None no throw guarantee.
      */
-    AtomicBasisSet(center_pimpl_ptr_t cpimpl, point_pimpl_ptr_t ppimpl) noexcept;
+    AtomicBasisSet(center_pimpl_ptr_t cpimpl,
+                   point_pimpl_ptr_t ppimpl) noexcept;
 
     /// Defaulted no throw dtor
     ~AtomicBasisSet() noexcept override;
@@ -150,6 +154,12 @@ public:
      *                        Shell. Weak throw guarantee.
      */
     void add_shell(pure_type pure, am_type l, param_set cs, param_set es);
+
+    /** @brief Returns the name of the basis set. */
+    std::string basis_set_name() const;
+
+    /** @brief Returns the atomic number of the basis set. */
+    size_type atomic_number() const;
 
     /// The type of the AOs comprising a shell
     using ao_type = typename value_type::value_type;

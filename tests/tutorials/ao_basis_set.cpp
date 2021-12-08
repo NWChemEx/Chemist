@@ -23,7 +23,8 @@ TEST_CASE("AOBasisSet Tutorial") {
     chemist::AOBasisSet<double> bs;
 
     // Atomic basis set for the oxygen atom
-    chemist::AtomicBasisSet<double> O(0.0, -0.1432223429807816, 0.0);
+    chemist::AtomicBasisSet<double> O("STO-3G", 8, 0.0, -0.1432223429807816,
+                                      0.0);
     O.add_shell(chemist::ShellType::pure, 0,
                 std::vector<double>{0.15432897, 0.53532814, 0.44463454},
                 std::vector<double>{99.1061690, 18.0523120, 4.8856602});
@@ -35,13 +36,15 @@ TEST_CASE("AOBasisSet Tutorial") {
                 std::vector<double>{3.7804559, 0.8784966, 0.2857144});
 
     // Atomic basis set for the first hydrogen atom
-    chemist::AtomicBasisSet<double> H1(1.6380335020342418, 1.1365568803584036, 0.0);
+    chemist::AtomicBasisSet<double> H1("STO-3G", 1, 1.6380335020342418,
+                                       1.1365568803584036, 0.0);
     H1.add_shell(chemist::ShellType::pure, 0,
                  std::vector<double>{0.15432897, 0.53532814, 0.44463454},
                  std::vector<double>{3.42525091, 0.62391373, 0.16885540});
 
     // Atomic basis set for the second hydrogen atom
-    chemist::AtomicBasisSet<double> H2(-1.6380335020342418, 1.1365568803584036, 0.0);
+    chemist::AtomicBasisSet<double> H2("STO-3G", 1, -1.6380335020342418,
+                                       1.1365568803584036, 0.0);
     H2.add_shell(chemist::ShellType::pure, 0,
                  std::vector<double>{0.15432897, 0.53532814, 0.44463454},
                  std::vector<double>{3.42525091, 0.62391373, 0.16885540});

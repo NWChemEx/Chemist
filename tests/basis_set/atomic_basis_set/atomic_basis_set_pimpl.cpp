@@ -15,18 +15,29 @@ static inline auto make_center() {
       ShellPIMPL<double>(pures[0], ls[0], v[0], v[1]),
       ShellPIMPL<double>(pures[1], ls[1], v[2], v[3]),
       ShellPIMPL<double>(pures[2], ls[2], v[4], v[5])};
-    AtomicBasisSetPIMPL<double> p(pures, ls, coefs, exps);
+    AtomicBasisSetPIMPL<double> p("custom", 1000, pures, ls, coefs, exps);
     return std::make_pair(p, shells);
 }
 
-TEST_CASE("AtomicBasisSetPIMPL : default ctor") {
+TEST_CASE("AtomicBasisSetPIMPL : defaulte ctor") {
     AtomicBasisSetPIMPL<double> p;
     REQUIRE(p.size() == 0);
+    REQUIRE(p.basis_set_name() == "");
+    REQUIRE(p.atomic_number() == 0);
+}
+
+TEST_CASE("AtomicBasisSetPIMPL : name and atomic number ctor") {
+    AtomicBasisSetPIMPL<double> p("custom", 1000);
+    REQUIRE(p.size() == 0);
+    REQUIRE(p.basis_set_name() == "custom");
+    REQUIRE(p.atomic_number() == 1000);
 }
 
 TEST_CASE("AtomicBasisSetPIMPL : value ctor") {
     auto [p, shells] = make_center();
     REQUIRE(p.size() == shells.size());
+    REQUIRE(p.basis_set_name() == "custom");
+    REQUIRE(p.atomic_number() == 1000);
     for(std::size_t i = 0; i < p.size(); ++i) {
         auto shell = p.at(i);
         REQUIRE(shell->purity() == shells[i].purity());
@@ -38,6 +49,8 @@ TEST_CASE("AtomicBasisSetPIMPL : copy ctor") {
     auto [p, shells] = make_center();
     AtomicBasisSetPIMPL<double> c2(p);
     REQUIRE(c2.size() == shells.size());
+    REQUIRE(c2.basis_set_name() == "custom");
+    REQUIRE(c2.atomic_number() == 1000);
     for(std::size_t i = 0; i < p.size(); ++i) {
         auto shell = c2.at(i);
         REQUIRE(shell->purity() == shells[i].purity());

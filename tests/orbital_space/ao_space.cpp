@@ -13,7 +13,7 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
 
     auto& world = TA::get_default_world();
     basis_set_type bs;
-    bs.add_center(chemist::AtomicBasisSet<TestType>(1.0, 2.0, 3.0));
+    bs.add_center(chemist::AtomicBasisSet<TestType>("", 0, 1.0, 2.0, 3.0));
 
     SECTION("Typedefs") {
         SECTION("basis_type") {
