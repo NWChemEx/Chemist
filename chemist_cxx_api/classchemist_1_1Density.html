@@ -69,6 +69,8 @@ $(function() {
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#related">Related Functions</a> &#124;
 <a href="classchemist_1_1Density-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -87,25 +89,50 @@ Public Types</h2></td></tr>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Density.html#a4f4accf4d8be867967ad8927d6ac9c5a">value_type</a> = <a class="el" href="types_8hpp.html#ae77fdb5ff6f1d16308cce8789e3b0ad8">type::tensor</a></td></tr>
 <tr class="memdesc:a4f4accf4d8be867967ad8927d6ac9c5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to represent the numeric form of the density. <br /></td></tr>
 <tr class="separator:a4f4accf4d8be867967ad8927d6ac9c5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f7405552900f67069dc686657fe9772"><td class="memItemLeft" align="right" valign="top"><a id="a9f7405552900f67069dc686657fe9772"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Density.html#a9f7405552900f67069dc686657fe9772">ao_space</a> = <a class="el" href="classchemist_1_1orbital__space_1_1AOSpace.html">orbital_space::AOSpaceD</a></td></tr>
-<tr class="memdesc:a9f7405552900f67069dc686657fe9772"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the basis set. <br /></td></tr>
-<tr class="separator:a9f7405552900f67069dc686657fe9772"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71d5737dda2ba6bb8cbb606dea5b6538"><td class="memItemLeft" align="right" valign="top"><a id="a71d5737dda2ba6bb8cbb606dea5b6538"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Density.html#a71d5737dda2ba6bb8cbb606dea5b6538">aos_type</a> = <a class="el" href="classchemist_1_1orbital__space_1_1AOSpace.html">orbital_space::AOSpaceD</a></td></tr>
+<tr class="memdesc:a71d5737dda2ba6bb8cbb606dea5b6538"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the basis set. <br /></td></tr>
+<tr class="separator:a71d5737dda2ba6bb8cbb606dea5b6538"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af159c4f0ca14da5145fcd34452b7a7a2"><td class="memItemLeft" align="right" valign="top"><a id="af159c4f0ca14da5145fcd34452b7a7a2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Density</b> (<a class="el" href="classchemist_1_1Density.html#a4f4accf4d8be867967ad8927d6ac9c5a">value_type</a> rho, <a class="el" href="classchemist_1_1Density.html#a9f7405552900f67069dc686657fe9772">ao_space</a> aos)</td></tr>
-<tr class="separator:af159c4f0ca14da5145fcd34452b7a7a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47313ec225d8566c93deb149d25f0b10"><td class="memItemLeft" align="right" valign="top"><a id="a47313ec225d8566c93deb149d25f0b10"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Density.html#a47313ec225d8566c93deb149d25f0b10">Density</a> ()=default</td></tr>
+<tr class="memdesc:a47313ec225d8566c93deb149d25f0b10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default ctor. <br /></td></tr>
+<tr class="separator:a47313ec225d8566c93deb149d25f0b10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2df7d1ce37f8519d47fe8111004e935b"><td class="memItemLeft" align="right" valign="top"><a id="a2df7d1ce37f8519d47fe8111004e935b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Density.html#a2df7d1ce37f8519d47fe8111004e935b">Density</a> (<a class="el" href="classchemist_1_1Density.html#a4f4accf4d8be867967ad8927d6ac9c5a">value_type</a> rho, <a class="el" href="classchemist_1_1Density.html#a71d5737dda2ba6bb8cbb606dea5b6538">aos_type</a> aos)</td></tr>
+<tr class="memdesc:a2df7d1ce37f8519d47fe8111004e935b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ctor with non-default values. <br /></td></tr>
+<tr class="separator:a2df7d1ce37f8519d47fe8111004e935b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeabe06a057c17370b647dbfee12977bd"><td class="memItemLeft" align="right" valign="top">const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Density.html#aeabe06a057c17370b647dbfee12977bd">value</a> () const noexcept</td></tr>
+<tr class="memdesc:aeabe06a057c17370b647dbfee12977bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides read-only access to the density matrix.  <a href="classchemist_1_1Density.html#aeabe06a057c17370b647dbfee12977bd">More...</a><br /></td></tr>
+<tr class="separator:aeabe06a057c17370b647dbfee12977bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10caf26f77a2b27f5b1eef0763c4ff24"><td class="memItemLeft" align="right" valign="top">const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Density.html#a10caf26f77a2b27f5b1eef0763c4ff24">basis_set</a> () const</td></tr>
 <tr class="memdesc:a10caf26f77a2b27f5b1eef0763c4ff24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides read-only access to the orbital basis set used to define the density matrix.  <a href="classchemist_1_1Density.html#a10caf26f77a2b27f5b1eef0763c4ff24">More...</a><br /></td></tr>
 <tr class="separator:a10caf26f77a2b27f5b1eef0763c4ff24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeabe06a057c17370b647dbfee12977bd"><td class="memItemLeft" align="right" valign="top"><a id="aeabe06a057c17370b647dbfee12977bd"></a>
-const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>value</b> () const noexcept</td></tr>
-<tr class="separator:aeabe06a057c17370b647dbfee12977bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3eb87fd66cf3fa799aabdb43e787adf"><td class="memItemLeft" align="right" valign="top"><a id="ac3eb87fd66cf3fa799aabdb43e787adf"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>hash</b> (pluginplay::Hasher &amp;h) const</td></tr>
+<tr class="memitem:ac3eb87fd66cf3fa799aabdb43e787adf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Density.html#ac3eb87fd66cf3fa799aabdb43e787adf">hash</a> (pluginplay::Hasher &amp;h) const</td></tr>
+<tr class="memdesc:ac3eb87fd66cf3fa799aabdb43e787adf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hashes the current instance.  <a href="classchemist_1_1Density.html#ac3eb87fd66cf3fa799aabdb43e787adf">More...</a><br /></td></tr>
 <tr class="separator:ac3eb87fd66cf3fa799aabdb43e787adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a89e68e8e3db257670da2893a1a2d95c1"><td class="memItemLeft" align="right" valign="top"><a id="a89e68e8e3db257670da2893a1a2d95c1"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Density.html#a89e68e8e3db257670da2893a1a2d95c1">Density</a> (<a class="el" href="classchemist_1_1Density.html#a4f4accf4d8be867967ad8927d6ac9c5a">value_type</a> rho)</td></tr>
+<tr class="memdesc:a89e68e8e3db257670da2893a1a2d95c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">For assigning density value in derived types. <br /></td></tr>
+<tr class="separator:a89e68e8e3db257670da2893a1a2d95c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af083d6fcebac0f33bd7c11807ff7bf01"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="classchemist_1_1Density.html#a71d5737dda2ba6bb8cbb606dea5b6538">aos_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Density.html#af083d6fcebac0f33bd7c11807ff7bf01">basis_set_</a> () const</td></tr>
+<tr class="memdesc:af083d6fcebac0f33bd7c11807ff7bf01"><td class="mdescLeft">&#160;</td><td class="mdescRight">To be overridden by the derived class to implement <a class="el" href="classchemist_1_1Density.html#a10caf26f77a2b27f5b1eef0763c4ff24" title="Provides read-only access to the orbital basis set used to define the density matrix.">basis_set()</a>.  <a href="classchemist_1_1Density.html#af083d6fcebac0f33bd7c11807ff7bf01">More...</a><br /></td></tr>
+<tr class="separator:af083d6fcebac0f33bd7c11807ff7bf01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bd7aabf17b1786805cc298c03413a36"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Density.html#a7bd7aabf17b1786805cc298c03413a36">hash_</a> (pluginplay::Hasher &amp;h) const</td></tr>
+<tr class="memdesc:a7bd7aabf17b1786805cc298c03413a36"><td class="mdescLeft">&#160;</td><td class="mdescRight">To be overridden by the derived class to implement <a class="el" href="classchemist_1_1Density.html#ac3eb87fd66cf3fa799aabdb43e787adf" title="Hashes the current instance.">hash()</a>.  <a href="classchemist_1_1Density.html#a7bd7aabf17b1786805cc298c03413a36">More...</a><br /></td></tr>
+<tr class="separator:a7bd7aabf17b1786805cc298c03413a36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:aaba5bade2dcba895c464720f7a5bdc6a"><td class="memItemLeft" align="right" valign="top"><a id="aaba5bade2dcba895c464720f7a5bdc6a"></a>
+<a class="el" href="classchemist_1_1Density.html#a4f4accf4d8be867967ad8927d6ac9c5a">value_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Density.html#aaba5bade2dcba895c464720f7a5bdc6a">m_density_</a></td></tr>
+<tr class="memdesc:aaba5bade2dcba895c464720f7a5bdc6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The density tensor. <br /></td></tr>
+<tr class="separator:aaba5bade2dcba895c464720f7a5bdc6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Related Functions</h2></td></tr>
@@ -161,6 +188,160 @@ template&lt;typename... Particles&gt; </div>
 
 <p>Provides read-only access to the orbital basis set used to define the density matrix. </p>
 <dl class="section return"><dt>Returns</dt><dd>The orbital basis the density is formed in.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">???</td><td>Throws if the derived class's implementation of <code>basis_set_</code> throws. Same throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af083d6fcebac0f33bd7c11807ff7bf01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af083d6fcebac0f33bd7c11807ff7bf01">&#9670;&nbsp;</a></span>basis_set_()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Particles&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const <a class="el" href="classchemist_1_1Density.html#a71d5737dda2ba6bb8cbb606dea5b6538">aos_type</a>&amp; <a class="el" href="classchemist_1_1Density.html">chemist::Density</a>&lt; Particles &gt;::basis_set_ </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>To be overridden by the derived class to implement <a class="el" href="classchemist_1_1Density.html#a10caf26f77a2b27f5b1eef0763c4ff24" title="Provides read-only access to the orbital basis set used to define the density matrix.">basis_set()</a>. </p>
+<p>The derived class is responsible for ensuring this function returns the basis set.</p>
+<dl class="section return"><dt>Returns</dt><dd>The orbital basis the density is formed in.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac3eb87fd66cf3fa799aabdb43e787adf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3eb87fd66cf3fa799aabdb43e787adf">&#9670;&nbsp;</a></span>hash()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Particles&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classchemist_1_1Density.html">chemist::Density</a>&lt; Particles &gt;::hash </td>
+          <td>(</td>
+          <td class="paramtype">pluginplay::Hasher &amp;&#160;</td>
+          <td class="paramname"><em>h</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Hashes the current instance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">h</td><td>The hasher instance to use for hashing. The internal state of h will be modified so that its internal hash includes state information about this instance.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">???</td><td>Throws if the derived class's implementation of <code>hash_</code> throws. Same throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7bd7aabf17b1786805cc298c03413a36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bd7aabf17b1786805cc298c03413a36">&#9670;&nbsp;</a></span>hash_()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Particles&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void <a class="el" href="classchemist_1_1Density.html">chemist::Density</a>&lt; Particles &gt;::hash_ </td>
+          <td>(</td>
+          <td class="paramtype">pluginplay::Hasher &amp;&#160;</td>
+          <td class="paramname"><em>h</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>To be overridden by the derived class to implement <a class="el" href="classchemist_1_1Density.html#ac3eb87fd66cf3fa799aabdb43e787adf" title="Hashes the current instance.">hash()</a>. </p>
+<p>Actually implements hash. Should be overridden by derived classes.</p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented in <a class="el" href="classchemist_1_1DecomposableDensity.html#a000d9d669fd23ce94a20dc6c58970092">chemist::DecomposableDensity&lt; Particles &gt;</a>.</p>
+
+</div>
+</div>
+<a id="aeabe06a057c17370b647dbfee12977bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeabe06a057c17370b647dbfee12977bd">&#9670;&nbsp;</a></span>value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Particles&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const auto&amp; <a class="el" href="classchemist_1_1Density.html">chemist::Density</a>&lt; Particles &gt;::value </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Provides read-only access to the density matrix. </p>
+<dl class="section return"><dt>Returns</dt><dd>The density value.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>

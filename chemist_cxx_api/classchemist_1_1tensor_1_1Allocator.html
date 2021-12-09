@@ -87,14 +87,18 @@ Public Types</h2></td></tr>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a705ac8789120154c5bb7ce908630af1e">value_type</a> = typename backend_traits::variant_type</td></tr>
 <tr class="memdesc:a705ac8789120154c5bb7ce908630af1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of object this allocator can make. <br /></td></tr>
 <tr class="separator:a705ac8789120154c5bb7ce908630af1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59e9f36e0dd209af018b349fee653518"><td class="memItemLeft" align="right" valign="top"><a id="a59e9f36e0dd209af018b349fee653518"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a59e9f36e0dd209af018b349fee653518">extent_type</a> = std::size_t</td></tr>
-<tr class="memdesc:a59e9f36e0dd209af018b349fee653518"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsigned integral type used to specify the extent of a mode. <br /></td></tr>
-<tr class="separator:a59e9f36e0dd209af018b349fee653518"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5d3345f524991a72ceba1a06487c8d6"><td class="memItemLeft" align="right" valign="top"><a id="ae5d3345f524991a72ceba1a06487c8d6"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#ae5d3345f524991a72ceba1a06487c8d6">extents_type</a> = std::vector&lt; <a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a59e9f36e0dd209af018b349fee653518">extent_type</a> &gt;</td></tr>
-<tr class="memdesc:ae5d3345f524991a72ceba1a06487c8d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Container-of-extents type used to specify the extents of all modes. <br /></td></tr>
-<tr class="separator:ae5d3345f524991a72ceba1a06487c8d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1f7a28cd27e19d241ad44dbab7568fa"><td class="memItemLeft" align="right" valign="top"><a id="ad1f7a28cd27e19d241ad44dbab7568fa"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#ad1f7a28cd27e19d241ad44dbab7568fa">shape_type</a> = <a class="el" href="classchemist_1_1tensor_1_1Shape.html">Shape</a>&lt; FieldType &gt;</td></tr>
+<tr class="memdesc:ad1f7a28cd27e19d241ad44dbab7568fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">The base type of an object which models a tensor's shape. <br /></td></tr>
+<tr class="separator:ad1f7a28cd27e19d241ad44dbab7568fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a446ec737c858de756f9d6746116e4911"><td class="memItemLeft" align="right" valign="top"><a id="a446ec737c858de756f9d6746116e4911"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a446ec737c858de756f9d6746116e4911">extent_type</a> = typename <a class="el" href="classchemist_1_1tensor_1_1Shape.html#abc769fbe627a58af708064319d76fac8">shape_type::size_type</a></td></tr>
+<tr class="memdesc:a446ec737c858de756f9d6746116e4911"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsigned integral type used to specify the extent of a mode. <br /></td></tr>
+<tr class="separator:a446ec737c858de756f9d6746116e4911"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a801f2e0b5d7455e3b3a91a325f424fca"><td class="memItemLeft" align="right" valign="top"><a id="a801f2e0b5d7455e3b3a91a325f424fca"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a801f2e0b5d7455e3b3a91a325f424fca">extents_type</a> = typename <a class="el" href="classchemist_1_1tensor_1_1Shape.html#a14643eb1cddff541aab607e6182696ef">shape_type::extents_type</a></td></tr>
+<tr class="memdesc:a801f2e0b5d7455e3b3a91a325f424fca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Container-of-extents type used to specify the extents of all modes. <br /></td></tr>
+<tr class="separator:a801f2e0b5d7455e3b3a91a325f424fca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8bc0bdc5f85a8c1f8f1b86b748393ec4"><td class="memItemLeft" align="right" valign="top"><a id="a8bc0bdc5f85a8c1f8f1b86b748393ec4"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a8bc0bdc5f85a8c1f8f1b86b748393ec4">tiled_range_type</a> = TA::TiledRange</td></tr>
 <tr class="memdesc:a8bc0bdc5f85a8c1f8f1b86b748393ec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to specify the tilings of the tensor. <br /></td></tr>
@@ -131,12 +135,12 @@ Public Member Functions</h2></td></tr>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a1405ed12d20f2b7d255181ab9bbefed4">~Allocator</a> () noexcept=default</td></tr>
 <tr class="memdesc:a1405ed12d20f2b7d255181ab9bbefed4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard default dtor. <br /></td></tr>
 <tr class="separator:a1405ed12d20f2b7d255181ab9bbefed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cbcbfec9e2a5ba77683c2cf84a1f2f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a8bc0bdc5f85a8c1f8f1b86b748393ec4">tiled_range_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a7cbcbfec9e2a5ba77683c2cf84a1f2f6">make_tiled_range</a> (const <a class="el" href="classchemist_1_1tensor_1_1Allocator.html#ae5d3345f524991a72ceba1a06487c8d6">extents_type</a> &amp;shape) const</td></tr>
+<tr class="memitem:a7cbcbfec9e2a5ba77683c2cf84a1f2f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a8bc0bdc5f85a8c1f8f1b86b748393ec4">tiled_range_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a7cbcbfec9e2a5ba77683c2cf84a1f2f6">make_tiled_range</a> (const <a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a801f2e0b5d7455e3b3a91a325f424fca">extents_type</a> &amp;shape) const</td></tr>
 <tr class="memdesc:a7cbcbfec9e2a5ba77683c2cf84a1f2f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a TiledRange for the given shape.  <a href="classchemist_1_1tensor_1_1Allocator.html#a7cbcbfec9e2a5ba77683c2cf84a1f2f6">More...</a><br /></td></tr>
 <tr class="separator:a7cbcbfec9e2a5ba77683c2cf84a1f2f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e0af4405192d377989df2014bafa47f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a705ac8789120154c5bb7ce908630af1e">value_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a4e0af4405192d377989df2014bafa47f">new_tensor</a> (const <a class="el" href="classchemist_1_1tensor_1_1Allocator.html#ae5d3345f524991a72ceba1a06487c8d6">extents_type</a> &amp;shape) const</td></tr>
-<tr class="memdesc:a4e0af4405192d377989df2014bafa47f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an unininitialized tensor with the specified shape.  <a href="classchemist_1_1tensor_1_1Allocator.html#a4e0af4405192d377989df2014bafa47f">More...</a><br /></td></tr>
-<tr class="separator:a4e0af4405192d377989df2014bafa47f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f88f1dbc245de630b855698853a5b06"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a705ac8789120154c5bb7ce908630af1e">value_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a1f88f1dbc245de630b855698853a5b06">new_tensor</a> (const <a class="el" href="classchemist_1_1tensor_1_1Allocator.html#ad1f7a28cd27e19d241ad44dbab7568fa">shape_type</a> &amp;shape) const</td></tr>
+<tr class="memdesc:a1f88f1dbc245de630b855698853a5b06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an unininitialized tensor with the specified shape.  <a href="classchemist_1_1tensor_1_1Allocator.html#a1f88f1dbc245de630b855698853a5b06">More...</a><br /></td></tr>
+<tr class="separator:a1f88f1dbc245de630b855698853a5b06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb0c3e453c3ae6332889f53b9c6ec0aa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html#afb0c3e453c3ae6332889f53b9c6ec0aa">operator==</a> (const <a class="el" href="classchemist_1_1tensor_1_1Allocator.html">Allocator</a> &amp;rhs) const</td></tr>
 <tr class="memdesc:afb0c3e453c3ae6332889f53b9c6ec0aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Non-polymorphically compares two Allocators for equality.  <a href="classchemist_1_1tensor_1_1Allocator.html#afb0c3e453c3ae6332889f53b9c6ec0aa">More...</a><br /></td></tr>
 <tr class="separator:afb0c3e453c3ae6332889f53b9c6ec0aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -317,7 +321,7 @@ template&lt;typename FieldType &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html">Allocator</a>&lt; FieldType &gt;::<a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a8bc0bdc5f85a8c1f8f1b86b748393ec4">tiled_range_type</a> <a class="el" href="classchemist_1_1tensor_1_1Allocator.html">chemist::tensor::Allocator</a>&lt; FieldType &gt;::make_tiled_range </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classchemist_1_1tensor_1_1Allocator.html#ae5d3345f524991a72ceba1a06487c8d6">extents_type</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a801f2e0b5d7455e3b3a91a325f424fca">extents_type</a> &amp;&#160;</td>
           <td class="paramname"><em>shape</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -336,38 +340,8 @@ template&lt;typename FieldType &gt; </div>
 
 </div>
 </div>
-<a id="a4e0af4405192d377989df2014bafa47f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e0af4405192d377989df2014bafa47f">&#9670;&nbsp;</a></span>new_tensor() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename FieldType &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html">Allocator</a>&lt; FieldType &gt;::<a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a705ac8789120154c5bb7ce908630af1e">value_type</a> <a class="el" href="classchemist_1_1tensor_1_1Allocator.html">chemist::tensor::Allocator</a>&lt; FieldType &gt;::new_tensor </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classchemist_1_1tensor_1_1Allocator.html#ae5d3345f524991a72ceba1a06487c8d6">extents_type</a> &amp;&#160;</td>
-          <td class="paramname"><em>shape</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Creates an unininitialized tensor with the specified shape. </p>
-<p>This function combines the call to <code>make_tiled_range</code> with the construction of a tensor. In theory which of the variant alternatives is used can be controlled in some manner. At the moment we have hard-coded the choice to the first alternative.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">shape</td><td>A container such that the i-th element is the extent of the i-th mode of the resulting tensor. Extent lengths are in elements, not tiles.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A variant containing the created tensor. Which of the variant choices is initialized is up to the allocator. </dd></dl>
-
-</div>
-</div>
 <a id="a36e9b884ab80d724e6b03fa04cfdf517"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36e9b884ab80d724e6b03fa04cfdf517">&#9670;&nbsp;</a></span>new_tensor() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a36e9b884ab80d724e6b03fa04cfdf517">&#9670;&nbsp;</a></span>new_tensor() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -398,6 +372,36 @@ template&lt;typename FieldType &gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a1f88f1dbc245de630b855698853a5b06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f88f1dbc245de630b855698853a5b06">&#9670;&nbsp;</a></span>new_tensor() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename FieldType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1tensor_1_1Allocator.html">Allocator</a>&lt; FieldType &gt;::<a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a705ac8789120154c5bb7ce908630af1e">value_type</a> <a class="el" href="classchemist_1_1tensor_1_1Allocator.html">chemist::tensor::Allocator</a>&lt; FieldType &gt;::new_tensor </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1tensor_1_1Allocator.html#ad1f7a28cd27e19d241ad44dbab7568fa">shape_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>shape</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates an unininitialized tensor with the specified shape. </p>
+<p>This function combines the call to <code>make_tiled_range</code> with the construction of a tensor. In theory which of the variant alternatives is used can be controlled in some manner. At the moment we have hard-coded the choice to the first alternative.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">shape</td><td>A container such that the i-th element is the extent of the i-th mode of the resulting tensor. Extent lengths are in elements, not tiles.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A variant containing the created tensor. Which of the variant choices is initialized is up to the allocator. </dd></dl>
 
 </div>
 </div>
@@ -532,7 +536,7 @@ template&lt;typename FieldType &gt; </div>
 <li>include/chemist/tensor/allocators/<a class="el" href="allocator_8hpp_source.html">allocator.hpp</a></li>
 </ul>
 </div><!-- contents -->
-<div class="ttc" id="aclasschemist_1_1tensor_1_1Allocator_html_a4c27ca3edeac123f08c9aaaf23659af9"><div class="ttname"><a href="classchemist_1_1tensor_1_1Allocator.html#a4c27ca3edeac123f08c9aaaf23659af9">chemist::tensor::Allocator::allocator_ptr</a></div><div class="ttdeci">std::unique_ptr&lt; my_type &gt; allocator_ptr</div><div class="ttdoc">Pointer to the base class of the allocator hierarchy.</div><div class="ttdef"><b>Definition:</b> allocator.hpp:84</div></div>
+<div class="ttc" id="aclasschemist_1_1tensor_1_1Allocator_html_a4c27ca3edeac123f08c9aaaf23659af9"><div class="ttname"><a href="classchemist_1_1tensor_1_1Allocator.html#a4c27ca3edeac123f08c9aaaf23659af9">chemist::tensor::Allocator::allocator_ptr</a></div><div class="ttdeci">std::unique_ptr&lt; my_type &gt; allocator_ptr</div><div class="ttdoc">Pointer to the base class of the allocator hierarchy.</div><div class="ttdef"><b>Definition:</b> allocator.hpp:87</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

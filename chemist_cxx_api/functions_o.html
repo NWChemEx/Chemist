@@ -98,6 +98,7 @@ $(function() {
 </li>
 <li>operator!=()
 : <a class="el" href="classchemist_1_1ChemicalSystem.html#a76693207d783a2406e201277b84d824f">chemist::ChemicalSystem</a>
+, <a class="el" href="classchemist_1_1DecomposableDensity.html#af481559142152a7f054f5d9260f005e8">chemist::DecomposableDensity&lt; Particles &gt;</a>
 , <a class="el" href="classchemist_1_1Density.html#a5c1092208a2f44adc196d22b3354ebf6">chemist::Density&lt; Particles &gt;</a>
 , <a class="el" href="classchemist_1_1detail___1_1AOBasisViewBase.html#ad94d91edc895bbd9bd2d14f84fe639b1">chemist::detail_::AOBasisViewBase&lt; T, AliasedType, ViewType &gt;</a>
 , <a class="el" href="classchemist_1_1detail___1_1ViewBase.html#ac3f38156249cb45e714318f0d8d105f4">chemist::detail_::ViewBase&lt; is_const, AliasedType &gt;</a>
@@ -117,6 +118,8 @@ $(function() {
 , <a class="el" href="classchemist_1_1sparse__map_1_1detail___1_1SparseMapPIMPL.html#a99b77b36c04f8e08720de829c8f44b9f">chemist::sparse_map::detail_::SparseMapPIMPL&lt; IndIndex, DepIndex &gt;</a>
 , <a class="el" href="structchemist_1_1sparse__map_1_1Index.html#a230641620edb5eb15d83b0e46014f821">chemist::sparse_map::Index</a>
 , <a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a3bd72d2a2de70c9aaf816b090089310b">chemist::tensor::Allocator&lt; FieldType &gt;</a>
+, <a class="el" href="classchemist_1_1tensor_1_1Shape.html#aeaf2b480cf78a28a492aa683cd05a0dd">chemist::tensor::Shape&lt; FieldType &gt;</a>
+, <a class="el" href="classchemist_1_1tensor_1_1SparseShape.html#ad74fa4db4f86c86b8826d964a0704751">chemist::tensor::SparseShape&lt; FieldType &gt;</a>
 , <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#ae1adad032956ea0c6218873027432ce3">chemist::tensor::TensorWrapper&lt; FieldType &gt;</a>
 , <a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#a8b70cd782e6f34dd81bbc4929c050f46">chemist::topology::ConnectivityTable</a>
 , <a class="el" href="classchemist_1_1topology_1_1Distance.html#a68d8bc0fd304159f8500aca3d752e3ef">chemist::topology::Distance</a>
@@ -188,35 +191,36 @@ $(function() {
 , <a class="el" href="classchemist_1_1detail___1_1ViewBase.html#aee9c7139ba46641e615ebbef9aa1179d">chemist::detail_::ViewBase&lt; is_const, AliasedType &gt;</a>
 , <a class="el" href="classchemist_1_1operators_1_1detail___1_1LinearCombination.html#a3546c905d3bbf6ee20dc87b9df5fb129">chemist::operators::detail_::LinearCombination</a>
 , <a class="el" href="classchemist_1_1operators_1_1detail___1_1LinearCombinationPIMPL.html#ac5622a89a84cfaee1ef54d7a516ba03b">chemist::operators::detail_::LinearCombinationPIMPL</a>
-, <a class="el" href="classchemist_1_1operators_1_1detail___1_1OperatorBase.html#a2dbb90aa13636a44c48c2be57b325921">chemist::operators::detail_::OperatorBase</a>
+, <a class="el" href="classchemist_1_1operators_1_1detail___1_1OperatorBase.html#a25740fd666a4af66b53bd9f63a5c9ea8">chemist::operators::detail_::OperatorBase</a>
 , <a class="el" href="classchemist_1_1operators_1_1Fock.html#ab85a13258df493f1e489b3536fa1918d">chemist::operators::Fock</a>
-, <a class="el" href="classchemist_1_1operators_1_1Hamiltonian.html#a8d5ee9110de3c4dd4ae675a74fe70197">chemist::operators::Hamiltonian</a>
+, <a class="el" href="classchemist_1_1operators_1_1Hamiltonian.html#a804cbc71ac2f041cb7c49d1448118586">chemist::operators::Hamiltonian</a>
 , <a class="el" href="classchemist_1_1orbital__space_1_1AOSpace.html#a009f220a5b922582e2569b8851109917">chemist::orbital_space::AOSpace&lt; BasisType &gt;</a>
 , <a class="el" href="classchemist_1_1orbital__space_1_1BaseSpace.html#ab8f6175c7d93f3ef2a9f4530db1d85c5">chemist::orbital_space::BaseSpace</a>
 , <a class="el" href="classchemist_1_1orbital__space_1_1DerivedSpace.html#a5b5d65dc640fac9c56793db0a4f63e45">chemist::orbital_space::DerivedSpace&lt; TransformType, FromSpace &gt;</a>
-, <a class="el" href="classchemist_1_1Point.html#ad5288ab900a8d3238d2e85564fe1105d">chemist::Point&lt; T &gt;</a>
+, <a class="el" href="classchemist_1_1Point.html#ad0df9a2ce97a3ad153e618e2ee334f05">chemist::Point&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1PointCharge.html#aa75a8717a78ccd970055bea962f61a6b">chemist::PointCharge&lt; ScalarType &gt;</a>
 , <a class="el" href="classchemist_1_1Primitive.html#ac46526afaae8cfd360e19263d9ba89b6">chemist::Primitive&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1Shell.html#ab1a7a123416690f51ae63b7dc824bcdb">chemist::Shell&lt; T &gt;</a>
-, <a class="el" href="classchemist_1_1sparse__map_1_1detail___1_1DomainBase.html#a48e91abccfbd53f478319613a0087b41">chemist::sparse_map::detail_::DomainBase&lt; DerivedType, IndexType &gt;</a>
+, <a class="el" href="classchemist_1_1sparse__map_1_1detail___1_1DomainBase.html#ad1a0151f852eaa967e5cd71650a2d743">chemist::sparse_map::detail_::DomainBase&lt; DerivedType, IndexType &gt;</a>
 , <a class="el" href="classchemist_1_1sparse__map_1_1detail___1_1SparseMapBase.html#adc9eced8b82031cca8ee7a6d596408db">chemist::sparse_map::detail_::SparseMapBase&lt; DerivedType, IndIndex, DepIndex &gt;</a>
 , <a class="el" href="classchemist_1_1tensor_1_1detail___1_1LabeledTensorWrapper.html#a5b07100dd4fc31475b70410fa3dccfbb">chemist::tensor::detail_::LabeledTensorWrapper&lt; TensorWrapperType &gt;</a>
-, <a class="el" href="classchemist_1_1tensor_1_1detail___1_1OpLayer.html#ab96a697ace0d8fc607e177697b3bd3ea">chemist::tensor::detail_::OpLayer&lt; DerivedType &gt;</a>
-, <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#aa16dacdb75c500e46c9391bfe4dc645c">chemist::tensor::TensorWrapper&lt; FieldType &gt;</a>
+, <a class="el" href="classchemist_1_1tensor_1_1detail___1_1OpLayer.html#ac7fd5d1d7eeec517e549b5c97341ed98">chemist::tensor::detail_::OpLayer&lt; DerivedType &gt;</a>
+, <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#af005025042f931a2c40551c90a044d17">chemist::tensor::TensorWrapper&lt; FieldType &gt;</a>
 , <a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#a9e12fcffb72113acbca8ace8b89e3c4b">chemist::topology::ConnectivityTable</a>
 </li>
 <li>operator==()
 : <a class="el" href="classchemist_1_1ChemicalSystem.html#ac6f63a6fd556572c2c86ab4ebb2643a0">chemist::ChemicalSystem</a>
+, <a class="el" href="classchemist_1_1DecomposableDensity.html#a70dae2b4ea660d4f21788c1e248c123a">chemist::DecomposableDensity&lt; Particles &gt;</a>
 , <a class="el" href="classchemist_1_1Density.html#a3c4559b064361b7645b8fd2ffceac013">chemist::Density&lt; Particles &gt;</a>
 , <a class="el" href="classchemist_1_1detail___1_1AOBasisViewBase.html#a66b5453f4f17684928947775c0ec7a61">chemist::detail_::AOBasisViewBase&lt; T, AliasedType, ViewType &gt;</a>
 , <a class="el" href="classchemist_1_1detail___1_1ChemicalSystemPIMPL.html#a28e04117a0cfe063d0ae638dd357076e">chemist::detail_::ChemicalSystemPIMPL</a>
-, <a class="el" href="classchemist_1_1detail___1_1ViewBase.html#a799e166ed21b07bf92a5bb2adb75e89d">chemist::detail_::ViewBase&lt; is_const, AliasedType &gt;</a>
+, <a class="el" href="classchemist_1_1detail___1_1ViewBase.html#a892d663feb372326cf891e40eb8e9044">chemist::detail_::ViewBase&lt; is_const, AliasedType &gt;</a>
 , <a class="el" href="structchemist_1_1Electron.html#a3d860ddb86f8be91ac83c89fc82dfdcc">chemist::Electron</a>
 , <a class="el" href="classchemist_1_1operators_1_1detail___1_1LinearCombination.html#aa2aba9a6f7462c09cc83b32faf436427">chemist::operators::detail_::LinearCombination</a>
 , <a class="el" href="classchemist_1_1operators_1_1detail___1_1OperatorBase.html#aa4a5d99d0d1de15263110180f71c434a">chemist::operators::detail_::OperatorBase</a>
 , <a class="el" href="classchemist_1_1orbital__space_1_1BaseSpace.html#a1c4f115dc2110ad001af261e0f2234d3">chemist::orbital_space::BaseSpace</a>
 , <a class="el" href="classchemist_1_1orbital__space_1_1CanonicalSpace.html#a46a3547d4b102b7f1c77d2a6c66b235b">chemist::orbital_space::CanonicalSpace&lt; OrbitalEnergyType, BaseType &gt;</a>
-, <a class="el" href="classchemist_1_1orbital__space_1_1DerivedSpace.html#a885906bdae3085940a4c75c417ff9cda">chemist::orbital_space::DerivedSpace&lt; TransformType, FromSpace &gt;</a>
+, <a class="el" href="classchemist_1_1orbital__space_1_1DerivedSpace.html#af3453e25fdab982c8a944fe7272c7f09">chemist::orbital_space::DerivedSpace&lt; TransformType, FromSpace &gt;</a>
 , <a class="el" href="classchemist_1_1orbital__space_1_1IndependentSpace.html#a014dd6e04613387e0ee0d7a6f6b8974b">chemist::orbital_space::IndependentSpace&lt; BaseType &gt;</a>
 , <a class="el" href="classchemist_1_1Point.html#af76dd89b73b47062ae938de425b91f96">chemist::Point&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1PointCharge.html#ae50db17e2e0b7ef7d081a2ee17d3c0db">chemist::PointCharge&lt; ScalarType &gt;</a>
@@ -229,8 +233,12 @@ $(function() {
 , <a class="el" href="classchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a515e5a721cadc73fd61162a87ee74a36">chemist::sparse_map::detail_::DomainPIMPL&lt; IndexType &gt;</a>
 , <a class="el" href="classchemist_1_1sparse__map_1_1detail___1_1SparseMapBase.html#a4466927e8efc9fa9e9973754b825124f">chemist::sparse_map::detail_::SparseMapBase&lt; DerivedType, IndIndex, DepIndex &gt;</a>
 , <a class="el" href="classchemist_1_1sparse__map_1_1detail___1_1SparseMapPIMPL.html#a61c66479cb857e0cb422a2b49177c397">chemist::sparse_map::detail_::SparseMapPIMPL&lt; IndIndex, DepIndex &gt;</a>
-, <a class="el" href="structchemist_1_1sparse__map_1_1Index.html#afe6b9a33fd830123aa11fed08471f86a">chemist::sparse_map::Index</a>
+, <a class="el" href="structchemist_1_1sparse__map_1_1Index.html#a77741850e7ddcac47ce6e246deee497f">chemist::sparse_map::Index</a>
 , <a class="el" href="classchemist_1_1tensor_1_1Allocator.html#afb0c3e453c3ae6332889f53b9c6ec0aa">chemist::tensor::Allocator&lt; FieldType &gt;</a>
+, <a class="el" href="classchemist_1_1tensor_1_1detail___1_1ShapePIMPL.html#a09e6f9ad35301b9e1d7787b3b0189d91">chemist::tensor::detail_::ShapePIMPL&lt; FieldType &gt;</a>
+, <a class="el" href="classchemist_1_1tensor_1_1detail___1_1SparseShapePIMPL.html#a9e10c03831e3607f949ab4b29454084c">chemist::tensor::detail_::SparseShapePIMPL&lt; FieldType &gt;</a>
+, <a class="el" href="classchemist_1_1tensor_1_1Shape.html#a8d696e1e6bc4ec96a5343f1ae521232d">chemist::tensor::Shape&lt; FieldType &gt;</a>
+, <a class="el" href="classchemist_1_1tensor_1_1SparseShape.html#a226a45f2081043ecd4d1c09104e7cf5d">chemist::tensor::SparseShape&lt; FieldType &gt;</a>
 , <a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#a7ab67ec2d15381b13960f03a02794b49">chemist::topology::ConnectivityTable</a>
 , <a class="el" href="classchemist_1_1topology_1_1Distance.html#ab2b0113489f44553fab6467963bfe04c">chemist::topology::Distance</a>
 , <a class="el" href="classchemist_1_1wavefunction_1_1DeterminantSpace.html#abd4c660c88ad82b2f96be6b95f0c7e5e">chemist::wavefunction::DeterminantSpace&lt; OccupiedSpaceType, VirtualSpaceType &gt;</a>
@@ -259,7 +267,7 @@ $(function() {
 : <a class="el" href="classchemist_1_1operators_1_1detail___1_1LinearCombination.html#a3abb84e4162efe486186a14971393de4">chemist::operators::detail_::LinearCombination</a>
 </li>
 <li>OperatorBase()
-: <a class="el" href="classchemist_1_1operators_1_1detail___1_1OperatorBase.html#a8840618fdd292c531e9c1d92ebdf9f8b">chemist::operators::detail_::OperatorBase</a>
+: <a class="el" href="classchemist_1_1operators_1_1detail___1_1OperatorBase.html#a541946ad64bcebafe164e6a826ac11a1">chemist::operators::detail_::OperatorBase</a>
 </li>
 <li>OpLayer()
 : <a class="el" href="classchemist_1_1tensor_1_1detail___1_1OpLayer.html#a06774bd69fc3766ad1dc53c7ce1d375a">chemist::tensor::detail_::OpLayer&lt; DerivedType &gt;</a>

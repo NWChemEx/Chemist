@@ -119,10 +119,14 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#a08dc02e8e4f3c09d70924232a3b22f9b">const_allocator_reference</a> = const <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#a9919b9137b1e34ffcf4dbc043d4c2220">allocator_type</a> &amp;</td></tr>
 <tr class="memdesc:a08dc02e8e4f3c09d70924232a3b22f9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to a type-erased allocator. <br /></td></tr>
 <tr class="separator:a08dc02e8e4f3c09d70924232a3b22f9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdc20711d04ed0b7f52154a38fc4160c"><td class="memItemLeft" align="right" valign="top"><a id="abdc20711d04ed0b7f52154a38fc4160c"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#abdc20711d04ed0b7f52154a38fc4160c">extents_type</a> = typename <a class="el" href="classchemist_1_1tensor_1_1Allocator.html#ae5d3345f524991a72ceba1a06487c8d6">allocator_type::extents_type</a></td></tr>
-<tr class="memdesc:abdc20711d04ed0b7f52154a38fc4160c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used for returning the extents. <br /></td></tr>
-<tr class="separator:abdc20711d04ed0b7f52154a38fc4160c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35207732d5aa1d8278a572cd1149b6c3"><td class="memItemLeft" align="right" valign="top"><a id="a35207732d5aa1d8278a572cd1149b6c3"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#a35207732d5aa1d8278a572cd1149b6c3">shape_type</a> = <a class="el" href="classchemist_1_1tensor_1_1Shape.html">Shape</a>&lt; FieldType &gt;</td></tr>
+<tr class="memdesc:a35207732d5aa1d8278a572cd1149b6c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used for describing the shape of the tensor. <br /></td></tr>
+<tr class="separator:a35207732d5aa1d8278a572cd1149b6c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add13ab8b4f6110176f04d512ca193bf3"><td class="memItemLeft" align="right" valign="top"><a id="add13ab8b4f6110176f04d512ca193bf3"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#add13ab8b4f6110176f04d512ca193bf3">extents_type</a> = typename <a class="el" href="classchemist_1_1tensor_1_1Shape.html#a14643eb1cddff541aab607e6182696ef">shape_type::extents_type</a></td></tr>
+<tr class="memdesc:add13ab8b4f6110176f04d512ca193bf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used for returning the extents. <br /></td></tr>
+<tr class="separator:add13ab8b4f6110176f04d512ca193bf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9efee4f64d3bdbe44ecf91f871aa66a"><td class="memItemLeft" align="right" valign="top"><a id="ac9efee4f64d3bdbe44ecf91f871aa66a"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#ac9efee4f64d3bdbe44ecf91f871aa66a">rank_type</a> = unsigned int</td></tr>
 <tr class="memdesc:ac9efee4f64d3bdbe44ecf91f871aa66a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used for the rank. <br /></td></tr>
@@ -140,9 +144,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:affa067a77dbd83df70796bad21ef53db"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#affa067a77dbd83df70796bad21ef53db">TensorWrapper</a> (<a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#ae3aee2594d8e8e4fba57f36e79a4a330">allocator_pointer</a> p)</td></tr>
 <tr class="memdesc:affa067a77dbd83df70796bad21ef53db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html" title="Fundamental type for wrapping tensors.">TensorWrapper</a> which will use the provided allocator to create its state.  <a href="classchemist_1_1tensor_1_1TensorWrapper.html#affa067a77dbd83df70796bad21ef53db">More...</a><br /></td></tr>
 <tr class="separator:affa067a77dbd83df70796bad21ef53db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54abf17cf5ac30614286a28a52f6dfe8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#a54abf17cf5ac30614286a28a52f6dfe8">TensorWrapper</a> (const <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#abdc20711d04ed0b7f52154a38fc4160c">extents_type</a> &amp;shape, <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#ae3aee2594d8e8e4fba57f36e79a4a330">allocator_pointer</a> p=default_allocator&lt; <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#ab58aea5fa33fdd9e223e6b07539e692c">field_type</a> &gt;())</td></tr>
-<tr class="memdesc:a54abf17cf5ac30614286a28a52f6dfe8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html" title="Fundamental type for wrapping tensors.">TensorWrapper</a> which wraps a tensor of the specified shape.  <a href="classchemist_1_1tensor_1_1TensorWrapper.html#a54abf17cf5ac30614286a28a52f6dfe8">More...</a><br /></td></tr>
-<tr class="separator:a54abf17cf5ac30614286a28a52f6dfe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a507dc540b74b75453eb61dacbc38d24f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#a507dc540b74b75453eb61dacbc38d24f">TensorWrapper</a> (const <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#a35207732d5aa1d8278a572cd1149b6c3">shape_type</a> &amp;shape, <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#ae3aee2594d8e8e4fba57f36e79a4a330">allocator_pointer</a> p=default_allocator&lt; <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#ab58aea5fa33fdd9e223e6b07539e692c">field_type</a> &gt;())</td></tr>
+<tr class="memdesc:a507dc540b74b75453eb61dacbc38d24f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html" title="Fundamental type for wrapping tensors.">TensorWrapper</a> which wraps a tensor of the specified shape.  <a href="classchemist_1_1tensor_1_1TensorWrapper.html#a507dc540b74b75453eb61dacbc38d24f">More...</a><br /></td></tr>
+<tr class="separator:a507dc540b74b75453eb61dacbc38d24f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a776c8d4f7659a98c9bf55a2b4c5d5e6e"><td class="memTemplParams" colspan="2">template&lt;typename TensorType , typename  = eif_is_tensor&lt;std::decay_t&lt;TensorType&gt;&gt;&gt; </td></tr>
 <tr class="memitem:a776c8d4f7659a98c9bf55a2b4c5d5e6e"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#a776c8d4f7659a98c9bf55a2b4c5d5e6e">TensorWrapper</a> (TensorType &amp;&amp;t, <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#ae3aee2594d8e8e4fba57f36e79a4a330">allocator_pointer</a> p=default_allocator&lt; <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#ab58aea5fa33fdd9e223e6b07539e692c">field_type</a> &gt;())</td></tr>
 <tr class="memdesc:a776c8d4f7659a98c9bf55a2b4c5d5e6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapping CTor.  <a href="classchemist_1_1tensor_1_1TensorWrapper.html#a776c8d4f7659a98c9bf55a2b4c5d5e6e">More...</a><br /></td></tr>
@@ -280,8 +284,8 @@ template&lt;typename FieldType &gt; </div>
 
 </div>
 </div>
-<a id="a54abf17cf5ac30614286a28a52f6dfe8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54abf17cf5ac30614286a28a52f6dfe8">&#9670;&nbsp;</a></span>TensorWrapper() <span class="overload">[3/6]</span></h2>
+<a id="a507dc540b74b75453eb61dacbc38d24f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a507dc540b74b75453eb61dacbc38d24f">&#9670;&nbsp;</a></span>TensorWrapper() <span class="overload">[3/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -294,7 +298,7 @@ template&lt;typename FieldType &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html">chemist::tensor::TensorWrapper</a>&lt; FieldType &gt;::<a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html">TensorWrapper</a> </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#abdc20711d04ed0b7f52154a38fc4160c">extents_type</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#a35207732d5aa1d8278a572cd1149b6c3">shape_type</a> &amp;&#160;</td>
           <td class="paramname"><em>shape</em>, </td>
         </tr>
         <tr>

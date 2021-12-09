@@ -120,7 +120,9 @@ $(function() {
 , <a class="el" href="classchemist_1_1operators_1_1detail___1_1LinearCombinationPIMPL.html#a3c63b26d844b13d47e334f513d97ae95">chemist::operators::detail_::LinearCombinationPIMPL</a>
 , <a class="el" href="classchemist_1_1sparse__map_1_1detail___1_1DomainPIMPL.html#a48438331d1a35ffa462ba0064399fda2">chemist::sparse_map::detail_::DomainPIMPL&lt; IndexType &gt;</a>
 , <a class="el" href="classchemist_1_1tensor_1_1Allocator.html#a9cf6c9bc1a3d033e7932f91a61d19aa7">chemist::tensor::Allocator&lt; FieldType &gt;</a>
+, <a class="el" href="classchemist_1_1tensor_1_1detail___1_1ShapePIMPL.html#a0223652422040f3c85fac2c807676656">chemist::tensor::detail_::ShapePIMPL&lt; FieldType &gt;</a>
 , <a class="el" href="classchemist_1_1tensor_1_1detail___1_1TensorWrapperPIMPL.html#a42ff760a4b67b492bed3bd5cac12e9a3">chemist::tensor::detail_::TensorWrapperPIMPL&lt; FieldType &gt;</a>
+, <a class="el" href="classchemist_1_1tensor_1_1Shape.html#a1ea37ad0439ed735fcee01d949277e68">chemist::tensor::Shape&lt; FieldType &gt;</a>
 </li>
 <li>clone_()
 : <a class="el" href="classchemist_1_1detail___1_1ChemicalSystemPIMPL.html#a107426a042da848d76784e07bebb9843">chemist::detail_::ChemicalSystemPIMPL</a>
@@ -147,13 +149,14 @@ $(function() {
 : <a class="el" href="structchemist_1_1operators_1_1SlaterTypeGeminal.html#a544f71a67c36d751694a9ffbe70f793d">chemist::operators::SlaterTypeGeminal&lt; Particle1, Particle2 &gt;</a>
 </li>
 <li>ConnectivityTable()
-: <a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#a2420c31f875c85db4ad5983801c034b4">chemist::topology::ConnectivityTable</a>
+: <a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#a14c1a51743e8cc8e107d0f6f539090b7">chemist::topology::ConnectivityTable</a>
 </li>
 <li>ConnectivityTablePIMPL()
 : <a class="el" href="classchemist_1_1topology_1_1detail___1_1ConnectivityTablePIMPL.html#ab5550991cf4e6995083c9d331969ef46">chemist::topology::detail_::ConnectivityTablePIMPL</a>
 </li>
 <li>const_allocator_reference
 : <a class="el" href="classchemist_1_1tensor_1_1detail___1_1TensorWrapperPIMPL.html#acc6756fdfd32504dfa82ccc35885db90">chemist::tensor::detail_::TensorWrapperPIMPL&lt; FieldType &gt;</a>
+, <a class="el" href="classchemist_1_1tensor_1_1Shape.html#a864fa74ae8c17bd653768334cce99f3a">chemist::tensor::Shape&lt; FieldType &gt;</a>
 , <a class="el" href="classchemist_1_1tensor_1_1TensorWrapper.html#a08dc02e8e4f3c09d70924232a3b22f9b">chemist::tensor::TensorWrapper&lt; FieldType &gt;</a>
 </li>
 <li>const_amplitude_pointer
@@ -181,6 +184,9 @@ $(function() {
 <li>const_epot_ref_t
 : <a class="el" href="classchemist_1_1ChemicalSystem.html#a3459c67fa05054489ad23a47cffe44ff">chemist::ChemicalSystem</a>
 , <a class="el" href="classchemist_1_1detail___1_1ChemicalSystemPIMPL.html#a4eb523d3e148af8ceac446bb77a08922">chemist::detail_::ChemicalSystemPIMPL</a>
+</li>
+<li>const_extents_reference
+: <a class="el" href="classchemist_1_1tensor_1_1Shape.html#abd6b95576d59a1734281e435196b7897">chemist::tensor::Shape&lt; FieldType &gt;</a>
 </li>
 <li>const_flattened_aos
 : <a class="el" href="classchemist_1_1AOBasisSet.html#ad43942c5178d2b644ea4b19a73506160">chemist::AOBasisSet&lt; T &gt;</a>
@@ -294,21 +300,21 @@ $(function() {
 : <a class="el" href="classchemist_1_1wavefunction_1_1DeterminantSpace.html#a2e35631ccc5c6a9112f4c5806d6747dd">chemist::wavefunction::DeterminantSpace&lt; OccupiedSpaceType, VirtualSpaceType &gt;</a>
 </li>
 <li>ContainerPIMPL()
-: <a class="el" href="classchemist_1_1detail___1_1ContainerPIMPL.html#a282c21fad589cf6d085eaa8378f6ab96">chemist::detail_::ContainerPIMPL&lt; T &gt;</a>
+: <a class="el" href="classchemist_1_1detail___1_1ContainerPIMPL.html#ad7a32fc91669ecaa55dae64d944e1a18">chemist::detail_::ContainerPIMPL&lt; T &gt;</a>
 </li>
 <li>ContiguousAtomPIMPL()
-: <a class="el" href="classchemist_1_1detail___1_1ContiguousAtomPIMPL.html#a9c921fe97dd45008b7f74da6262984a1">chemist::detail_::ContiguousAtomPIMPL</a>
+: <a class="el" href="classchemist_1_1detail___1_1ContiguousAtomPIMPL.html#ae41e3546b596046b2e0fd79e6fe8f716">chemist::detail_::ContiguousAtomPIMPL</a>
 </li>
 <li>ContractedGaussian()
-: <a class="el" href="classchemist_1_1ContractedGaussian.html#acfdcd6db605d710b61ed1ee1e4b7b4b1">chemist::ContractedGaussian&lt; T &gt;</a>
+: <a class="el" href="classchemist_1_1ContractedGaussian.html#a78672543a4041ca29320fcc3b10c56e5">chemist::ContractedGaussian&lt; T &gt;</a>
 </li>
 <li>ContractedGaussianView()
 : <a class="el" href="classchemist_1_1ContractedGaussianView.html#acaa3c786e771f26eebb72df8676df0e0">chemist::ContractedGaussianView&lt; T &gt;</a>
 </li>
 <li>coord()
-: <a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ab3be08323a0ae61500229daa1e2d11dd">chemist::detail_::PointPIMPL&lt; T &gt;</a>
-, <a class="el" href="classchemist_1_1Point.html#a82a5ebbb4255c902e03c2a5caa70b62c">chemist::Point&lt; T &gt;</a>
-, <a class="el" href="classchemist_1_1PointView.html#af365df33726e0633126861fc60ee56a7">chemist::PointView&lt; T, AliasedType &gt;</a>
+: <a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#a99ada229d4d8d01b186e492dcd96c149">chemist::detail_::PointPIMPL&lt; T &gt;</a>
+, <a class="el" href="classchemist_1_1Point.html#a71b0c31179e9fd469fe155d5aeda7f2d">chemist::Point&lt; T &gt;</a>
+, <a class="el" href="classchemist_1_1PointView.html#a2c34c0bb85511e85e580a8a528f28c7d">chemist::PointView&lt; T, AliasedType &gt;</a>
 </li>
 <li>coord_type
 : <a class="el" href="classchemist_1_1Atom.html#a60608f8dd1301319876a801e8527192d">chemist::Atom</a>
