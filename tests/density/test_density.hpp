@@ -13,7 +13,7 @@ using chemist::orbital_space::DerivedSpaceD;
 template<typename SpaceType>
 auto non_default_space() {
     typename AOSpaceD::basis_type bs;
-    bs.add_center(chemist::Center<double>(1.0, 2.0, 3.0));
+    bs.add_center(chemist::AtomicBasisSet<double>("", 0, 1.0, 2.0, 3.0));
 
     if constexpr(std::is_same_v<SpaceType, AOSpaceD>) {
         return SpaceType(bs);
