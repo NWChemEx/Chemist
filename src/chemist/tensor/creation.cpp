@@ -1,5 +1,6 @@
 #include "chemist/ta_helpers/ta_helpers.hpp"
 #include "chemist/tensor/creation.hpp"
+#include <TiledArray/conversions/retile.h>
 
 namespace chemist::tensor {
 

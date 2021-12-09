@@ -4,6 +4,7 @@
 #include "chemist/ta_helpers/get_block_idx.hpp"
 #include <algorithm>
 #include <iterator>
+#include <TiledArray/conversions/make_array.h>
 
 namespace chemist::sparse_map {
 namespace detail_ {

@@ -1,7 +1,8 @@
 #pragma once
 #include <algorithm>
 #include <cmath>
-#include <tiledarray.h>
+#include <TiledArray/special/diagonal_array.h>
+#include <TiledArray/math/linalg/heig.h>
 
 namespace chemist::ta_helpers {
 
