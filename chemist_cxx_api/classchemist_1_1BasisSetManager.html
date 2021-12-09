@@ -82,16 +82,16 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a9448b6ac085816212e8205e23ea81eb9"><td class="memItemLeft" align="right" valign="top"><a id="a9448b6ac085816212e8205e23ea81eb9"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1BasisSetManager.html#a9448b6ac085816212e8205e23ea81eb9">ao_basis_type</a> = <a class="el" href="classchemist_1_1Center.html">Center</a>&lt; double &gt;</td></tr>
-<tr class="memdesc:a9448b6ac085816212e8205e23ea81eb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of an atom's AO basis set. <br /></td></tr>
-<tr class="separator:a9448b6ac085816212e8205e23ea81eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3c87fe64a512f419a250e871c95a091"><td class="memItemLeft" align="right" valign="top"><a id="ac3c87fe64a512f419a250e871c95a091"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1BasisSetManager.html#ac3c87fe64a512f419a250e871c95a091">ao_basis_type</a> = <a class="el" href="classchemist_1_1AtomicBasisSet.html">AtomicBasisSet</a>&lt; double &gt;</td></tr>
+<tr class="memdesc:ac3c87fe64a512f419a250e871c95a091"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of an atom's AO basis set. <br /></td></tr>
+<tr class="separator:ac3c87fe64a512f419a250e871c95a091"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d54e9484b88c45ee62416dc746c169a"><td class="memItemLeft" align="right" valign="top"><a id="a7d54e9484b88c45ee62416dc746c169a"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1BasisSetManager.html#a7d54e9484b88c45ee62416dc746c169a">size_type</a> = std::size_t</td></tr>
 <tr class="memdesc:a7d54e9484b88c45ee62416dc746c169a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of an atomic number. <br /></td></tr>
 <tr class="separator:a7d54e9484b88c45ee62416dc746c169a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe274197f86af7c846404cb62e1c0b63"><td class="memItemLeft" align="right" valign="top"><a id="abe274197f86af7c846404cb62e1c0b63"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1BasisSetManager.html#abe274197f86af7c846404cb62e1c0b63">ao_basis_map</a> = std::map&lt; <a class="el" href="classchemist_1_1BasisSetManager.html#a7d54e9484b88c45ee62416dc746c169a">size_type</a>, <a class="el" href="classchemist_1_1BasisSetManager.html#a9448b6ac085816212e8205e23ea81eb9">ao_basis_type</a> &gt;</td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1BasisSetManager.html#abe274197f86af7c846404cb62e1c0b63">ao_basis_map</a> = std::map&lt; <a class="el" href="classchemist_1_1BasisSetManager.html#a7d54e9484b88c45ee62416dc746c169a">size_type</a>, <a class="el" href="classchemist_1_1BasisSetManager.html#ac3c87fe64a512f419a250e871c95a091">ao_basis_type</a> &gt;</td></tr>
 <tr class="memdesc:abe274197f86af7c846404cb62e1c0b63"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a basis set, mapping atomic numbers to AO basis sets. <br /></td></tr>
 <tr class="separator:abe274197f86af7c846404cb62e1c0b63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -135,7 +135,7 @@ Public Member Functions</h2></td></tr>
 <a class="el" href="classchemist_1_1BasisSetManager.html">BasisSetManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classchemist_1_1BasisSetManager.html">BasisSetManager</a> &amp;&amp;rhs) noexcept</td></tr>
 <tr class="separator:a6de178beada928af1243958413002e19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Getter/Setters</div></td></tr>
-<tr class="memitem:aaac614ba44844318293573a0883ceadb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1BasisSetManager.html#a9448b6ac085816212e8205e23ea81eb9">ao_basis_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1BasisSetManager.html#aaac614ba44844318293573a0883ceadb">get_basis</a> (const std::string &amp;name, const <a class="el" href="classchemist_1_1BasisSetManager.html#a7d54e9484b88c45ee62416dc746c169a">size_type</a> &amp;Z) const</td></tr>
+<tr class="memitem:aaac614ba44844318293573a0883ceadb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1BasisSetManager.html#ac3c87fe64a512f419a250e871c95a091">ao_basis_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1BasisSetManager.html#aaac614ba44844318293573a0883ceadb">get_basis</a> (const std::string &amp;name, const <a class="el" href="classchemist_1_1BasisSetManager.html#a7d54e9484b88c45ee62416dc746c169a">size_type</a> &amp;Z) const</td></tr>
 <tr class="memdesc:aaac614ba44844318293573a0883ceadb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the requested basis set for a particular atom.  <a href="classchemist_1_1BasisSetManager.html#aaac614ba44844318293573a0883ceadb">More...</a><br /></td></tr>
 <tr class="separator:aaac614ba44844318293573a0883ceadb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a450f1ad49c9bd6f15bf72ed80f2ba08e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1BasisSetManager.html#a450f1ad49c9bd6f15bf72ed80f2ba08e">insert</a> (const std::string &amp;name, const <a class="el" href="classchemist_1_1BasisSetManager.html#abe274197f86af7c846404cb62e1c0b63">ao_basis_map</a> &amp;basis_set)</td></tr>
@@ -194,7 +194,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1BasisSetManager.html#a9448b6ac085816212e8205e23ea81eb9">ao_basis_type</a> chemist::BasisSetManager::get_basis </td>
+          <td class="memname"><a class="el" href="classchemist_1_1BasisSetManager.html#ac3c87fe64a512f419a250e871c95a091">ao_basis_type</a> chemist::BasisSetManager::get_basis </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>name</em>, </td>

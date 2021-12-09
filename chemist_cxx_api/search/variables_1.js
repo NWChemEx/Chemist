@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['exponent_1084',['exponent',['../structchemist_1_1operators_1_1SlaterTypeGeminal.html#ad533562c436946e153081d51f6c105c0',1,'chemist::operators::SlaterTypeGeminal']]]
+  ['exponent_1088',['exponent',['../structchemist_1_1operators_1_1SlaterTypeGeminal.html#ad533562c436946e153081d51f6c105c0',1,'chemist::operators::SlaterTypeGeminal']]]
 ];
