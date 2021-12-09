@@ -27,7 +27,7 @@ TEST_CASE("AtomicBasisSet : default ctor") {
     SECTION("Atomic Number") { REQUIRE(c.atomic_number() == 0); }
 }
 
-TEST_CASE("AtomicBasisSet : x, y, z ctor") {
+TEST_CASE("AtomicBasisSet : all values ctor") {
     AtomicBasisSet<double> c("custom", 1000, 1.0, 2.0, 3.0);
     SECTION("State") {
         SECTION("Size") { REQUIRE(c.size() == 0); }
@@ -35,6 +35,34 @@ TEST_CASE("AtomicBasisSet : x, y, z ctor") {
             REQUIRE(c.x() == 1.0);
             REQUIRE(c.y() == 2.0);
             REQUIRE(c.z() == 3.0);
+        }
+        SECTION("Basis Set Name") { REQUIRE(c.basis_set_name() == "custom"); }
+        SECTION("Atomic Number") { REQUIRE(c.atomic_number() == 1000); }
+    }
+}
+
+TEST_CASE("AtomicBasisSet : x, y, z ctor") {
+    AtomicBasisSet<double> c(1.0, 2.0, 3.0);
+    SECTION("State") {
+        SECTION("Size") { REQUIRE(c.size() == 0); }
+        SECTION("Coordinates") {
+            REQUIRE(c.x() == 1.0);
+            REQUIRE(c.y() == 2.0);
+            REQUIRE(c.z() == 3.0);
+        }
+        SECTION("Basis Set Name") { REQUIRE(c.basis_set_name() == ""); }
+        SECTION("Atomic Number") { REQUIRE(c.atomic_number() == 0); }
+    }
+}
+
+TEST_CASE("AtomicBasisSet : name and atomic number ctor") {
+    AtomicBasisSet<double> c("custom", 1000);
+    SECTION("State") {
+        SECTION("Size") { REQUIRE(c.size() == 0); }
+        SECTION("Coordinates") {
+            REQUIRE(c.x() == 0.0);
+            REQUIRE(c.y() == 0.0);
+            REQUIRE(c.z() == 0.0);
         }
         SECTION("Basis Set Name") { REQUIRE(c.basis_set_name() == "custom"); }
         SECTION("Atomic Number") { REQUIRE(c.atomic_number() == 1000); }

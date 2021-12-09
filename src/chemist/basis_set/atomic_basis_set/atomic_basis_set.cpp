@@ -24,6 +24,16 @@ AtomicBasisSet<T>::AtomicBasisSet(const std::string& name, size_type atomic_n,
                  std::make_unique<point_pimpl_t>(x, y, z)) {}
 
 template<typename T>
+AtomicBasisSet<T>::AtomicBasisSet(T x, T y, T z) :
+  AtomicBasisSet(std::make_unique<center_pimpl_t>(),
+                 std::make_unique<point_pimpl_t>(x, y, z)) {}
+
+template<typename T>
+AtomicBasisSet<T>::AtomicBasisSet(const std::string& name, size_type atomic_n) :
+  AtomicBasisSet(std::make_unique<center_pimpl_t>(name, atomic_n),
+                 std::make_unique<point_pimpl_t>()) {}
+
+template<typename T>
 AtomicBasisSet<T>::AtomicBasisSet(center_pimpl_ptr_t cpimpl,
                                   point_pimpl_ptr_t ppimpl) noexcept :
   m_pimpl_(std::move(cpimpl)),

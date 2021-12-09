@@ -44,10 +44,11 @@ public:
 
     /** @brief Creates a new AtomicBasisSet instance at the origin.
      *
-     *  The AtomicBasisSet instance resulting from this ctor will have no shells
-     *  and will be centered at the origin. The center can be translated by
-     *  modifying the coordinates through `coord(size_type)` or the `x()`,
-     *  `y()`, and `z()` member functions. Shells can be added via `add_shell`.
+     *  The AtomicBasisSet instance resulting from this ctor will have no
+     *  shells, an empty name, an atomic number of 0, and will be centered at
+     *  the origin. The center can be translated by modifying the coordinates
+     *  through `coord(size_type)` or the `x()`, `y()`, and `z()` member
+     *  functions. Shells can be added via `add_shell`.
      *
      *  @throw std::bad_alloc if there is insufficient memory to allocate the
      *                        PIMPL. Strong throw guarantee.
@@ -119,6 +120,35 @@ public:
      *                        PIMPL. Strong throw guarantee.
      */
     AtomicBasisSet(const std::string& name, size_type atomic_n, T x, T y, T z);
+
+    /** @brief Creates a new AtomicBasisSet centered on the provided point.
+     *
+     *  This ctor is used to create a new AtomicBasisSet instance with the
+     *  provided Cartesian coordinates, while the basis set name and atomic
+     *  number are defaulted.
+     *
+     *  @param[in] x The x-coordinate for the resulting AtomicBasisSet
+     *  @param[in] y The y-coordinate for the resulting AtomicBasisSet
+     *  @param[in] z The z-coordinate for the resulting AtomicBasisSet
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to create the
+     *                        PIMPL. Strong throw guarantee.
+     */
+    AtomicBasisSet(T x, T y, T z);
+
+    /** @brief Creates a new AtomicBasisSet with the provided name and atomic
+     *         number.
+     *
+     *  This ctor is used to create a new AtomicBasisSet instance, centered
+     *  on the origin, with the provided basis set name and atomic number.
+     *
+     *  @param[in] name The name associated with the basis set.
+     *  @param[in] atomic_n The atomic number associated with the basis set.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to create the
+     *                        PIMPL. Strong throw guarantee.
+     */
+    AtomicBasisSet(const std::string& name, size_type atomic_n);
 
     /** @brief Creates a new AtomicBasisSet with the provided state.
      *
