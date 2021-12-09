@@ -2,9 +2,9 @@
 #include "chemist/sparse_map/index.hpp"
 #include "chemist/sparse_map/sparse_map/sparse_map.hpp"
 #include "chemist/ta_helpers/get_block_idx.hpp"
+#include <TiledArray/conversions/make_array.h>
 #include <algorithm>
 #include <iterator>
-#include <TiledArray/conversions/make_array.h>
 
 namespace chemist::sparse_map {
 namespace detail_ {

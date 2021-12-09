@@ -3,7 +3,6 @@
 #include <madness/world/safempi.h>
 #include <pluginplay/hasher.hpp>
 
-
 namespace TiledArray {
 //------------------------------------------------------------------------------
 // Hashing for TiledArray Classes

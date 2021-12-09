@@ -1,8 +1,8 @@
 #pragma once
 #include "chemist/ta_helpers/get_block_idx.hpp"
 #include "chemist/ta_helpers/ta_headers.hpp"
-#include <TiledArray/math/linalg/heig.h>
 #include <TiledArray/math/linalg/cholesky.h>
+#include <TiledArray/math/linalg/heig.h>
 
 namespace chemist::ta_helpers {
 

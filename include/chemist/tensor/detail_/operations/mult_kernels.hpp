@@ -1,6 +1,6 @@
 #pragma once
-#include "chemist/ta_helpers/ta_headers.hpp"
 #include "chemist/ta_helpers/einsum/einsum.hpp"
+#include "chemist/ta_helpers/ta_headers.hpp"
 #include "chemist/tensor/fields.hpp"
 #include "chemist/tensor/type_traits/labeled_variant.hpp"
 #include "chemist/tensor/type_traits/variant_type.hpp"

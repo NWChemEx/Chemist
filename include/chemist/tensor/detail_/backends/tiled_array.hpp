@@ -1,8 +1,7 @@
 #pragma once
-#include "chemist/tensor/fields.hpp"
 #include "chemist/ta_helpers/ta_headers.hpp"
+#include "chemist/tensor/fields.hpp"
 #include <variant>
-
 
 /** @file tiled_array.hpp
  *
