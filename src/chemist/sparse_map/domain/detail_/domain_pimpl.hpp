@@ -4,7 +4,6 @@
 #include <memory>
 #include <pluginplay/hasher.hpp>
 #include <set>
-#include <tiledarray.h>
 #include <utilities/iter_tools.hpp>
 
 namespace boost::container {

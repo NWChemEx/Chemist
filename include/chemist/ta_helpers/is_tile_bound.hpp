@@ -1,6 +1,6 @@
 #pragma once
 #include "chemist/sparse_map/index.hpp"
-#include <tiledarray.h>
+#include "chemist/ta_helpers/ta_headers.hpp"
 
 namespace chemist::ta_helpers {
 

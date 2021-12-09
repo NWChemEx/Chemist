@@ -1,5 +1,4 @@
 #pragma once
-#include <tiledarray.h>
 
 namespace chemist::ta_helpers::detail_ {
 

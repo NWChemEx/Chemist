@@ -2,7 +2,6 @@
 #include "chemist/ta_helpers/einsum/detail_/detail_.hpp"
 #include "chemist/ta_helpers/einsum/detail_/index_map.hpp"
 #include "chemist/ta_helpers/einsum/types.hpp"
-#include <tiledarray.h>
 
 namespace chemist::ta_helpers::einsum::detail_ {
 

@@ -2,7 +2,7 @@
 #include "chemist/sparse_map/domain/detail_/domain_base.hpp"
 #include "chemist/sparse_map/index.hpp"
 
-#include <tiledarray.h>
+#include <TiledArray/tiled_range.h>
 
 namespace chemist::sparse_map {
 
