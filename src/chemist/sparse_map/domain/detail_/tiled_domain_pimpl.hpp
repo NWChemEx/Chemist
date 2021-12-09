@@ -1,6 +1,5 @@
 #pragma once
 #include "domain_pimpl.hpp"
-#include <tiledarray.h>
 
 namespace chemist::sparse_map::detail_ {
 

@@ -1,5 +1,5 @@
 #pragma once
-#include <tiledarray.h>
+#include <TiledArray/dist_array.h>
 namespace chemist::tensor {
 
 /** @brief Primary template for determining the types associated with a tensor

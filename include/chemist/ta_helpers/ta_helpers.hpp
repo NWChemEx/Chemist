@@ -2,7 +2,7 @@
 #include "chemist/ta_helpers/detail_/reducer.hpp"
 #include "chemist/ta_helpers/get_block_idx.hpp"
 #include "chemist/ta_helpers/ta_hashers.hpp"
-#include <tiledarray.h>
+#include "chemist/ta_helpers/ta_headers.hpp"
 
 namespace chemist::ta_helpers {
 

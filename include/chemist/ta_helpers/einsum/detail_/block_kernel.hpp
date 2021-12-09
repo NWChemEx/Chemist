@@ -1,7 +1,7 @@
 #pragma once
 #include "chemist/ta_helpers/einsum/detail_/detail_.hpp"
 #include "chemist/ta_helpers/einsum/detail_/index_map.hpp"
-#include <tiledarray.h>
+#include "chemist/ta_helpers/ta_headers.hpp"
 
 namespace chemist::ta_helpers::einsum::detail_ {
 

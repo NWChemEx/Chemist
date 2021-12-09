@@ -3,8 +3,8 @@
 #include "chemist/ta_helpers/get_block_idx.hpp"
 #include "chemist/ta_helpers/is_tile_bound.hpp"
 #include "chemist/ta_helpers/retile.hpp"
+#include "chemist/ta_helpers/ta_headers.hpp"
 #include <algorithm> // count
-#include <tiledarray.h>
 #include <utilities/iter_tools.hpp>
 
 namespace chemist::ta_helpers {
