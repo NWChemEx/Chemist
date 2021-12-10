@@ -33,6 +33,6 @@ std::vector<double> to_vector(const ScalarTensorWrapper& t);
  *  @param[out]   buffer_begin The start of the contiguous buffer
  *  @param[out]   buffer_end   The end of the contiguous buffer
  */
-void to_contiguous_buffer( const ScalarTensorWrapper& t, double* buffer_begin, double* buffer_end );
+void to_contiguous_buffer( const ScalarTensorWrapper& t, double* buffer_begin, const double* buffer_end );
 
 } // namespace chemist::tensor
