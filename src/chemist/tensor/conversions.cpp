@@ -2,19 +2,6 @@
 
 namespace chemist::tensor {
 
-#if 0
-std::vector<double> to_vector(const ScalarTensorWrapper& t) {
-    auto t_ta = t.get<TA::TSpArrayD>();
-    t_ta.make_replicated();
-    std::vector<double> rv(t.size(), 0.0);
-
-    for(const auto& tile_i : t_ta) {
-        const auto& i_range = tile_i.get().range();
-        for(auto idx : i_range) rv[i_range.ordinal(idx)] = tile_i.get()[idx];
-    }
-    return rv;
-}
-#else
 void to_contiguous_buffer( const ScalarTensorWrapper& t, double* buffer_begin, double* buffer_end ) {
 
     if( std::distance( buffer_begin, buffer_end ) != t.size() ) {
@@ -38,8 +25,5 @@ std::vector<double> to_vector(const ScalarTensorWrapper& t) {
     to_contiguous_buffer( t, rv.data(), rv.data() + rv.size() );
     return rv;
 }
-
-
-#endif
 
 } // namespace chemist::tensor
