@@ -4,7 +4,8 @@ namespace chemist::tensor {
 
 void to_contiguous_buffer( const ScalarTensorWrapper& t, double* buffer_begin, const double* buffer_end ) {
 
-    if( std::distance( buffer_begin, buffer_end ) != t.size() ) {
+    const double* cbegin = buffer_begin;
+    if( std::distance( cbegin, buffer_end ) != t.size() ) {
         throw std::runtime_error("to_contiguous_buffer requires buffer size to be exactly the size of the tensor");
     }
 
