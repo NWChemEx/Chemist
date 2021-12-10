@@ -56,6 +56,9 @@ public:
     /// Type of a pointer to the shape's base class
     using shape_pointer = typename parent_type::shape_pointer;
 
+    /// Type of a read-only reference to a shape
+    using const_shape_reference = typename parent_type::const_shape_reference;
+
     /// Type used to describe the shape (will be removed in forthcoming PR)
     using extents_type = typename parent_type::extents_type;
 
@@ -111,9 +114,19 @@ public:
      *
      *  @return The allocator used for the tensor.
      *
-     *  @throw std::runtime_error if the instance does not
+     *  @throw std::runtime_error if the instance does not have one.
      */
     const_allocator_reference allocator() const;
+
+    /** @brief Returns the shape in a read-only state.
+     *
+     *  This function is used to retrieve the shape of the tensor.
+     *
+     *  @return The shape of the tensor.
+     *
+     *  @throw std::runtime_error if the instance does not have one.
+     */
+    const_shape_reference shape() const;
 
     /** @brief Annotates the modes of the wrapped index with
      * the provided labels.

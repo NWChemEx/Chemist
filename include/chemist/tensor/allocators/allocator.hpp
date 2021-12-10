@@ -201,6 +201,14 @@ public:
       const n_d_initializer_list_t<scalar_type, 4>& il) const;
     ///@}
 
+    /** @brief Polymorphically hashes this allocator instance.
+     *
+     *  @param[in,out] h The instance to use for the hashing. After this call
+     *                   @p h will contain a hash of the present allocator.
+     *
+     */
+    void hash(pluginplay::Hasher& h) const { return hash_(h); }
+
     /** @brief Non-polymorphically compares two Allocators for equality.
      *
      *  This is a non-polymorphic comparison of two Allocator instances, meaning
@@ -249,6 +257,17 @@ public:
 protected:
     /// To help derived classes implement clone_
     Allocator(const Allocator&) = default;
+
+    /** @brief Hook for polymorphically hashing an Allocator.
+     *
+     *  The derived class is responsible for hashing any state it adds to the
+     *  allocator and then calling the `hash_` of the class below it.
+     *
+     *  @param[in,out] h The instance being used to hash. After this call @p h
+     *                   will contain a hash of this allocator instance.
+     *
+     */
+    virtual void hash_(pluginplay::Hasher& h) const;
 
 private:
     /// Deleted to avoid slicing
@@ -366,6 +385,11 @@ typename Allocator<FieldType>::value_type Allocator<FieldType>::new_tensor(
 template<typename FieldType>
 bool Allocator<FieldType>::is_equal_(const Allocator& rhs) const noexcept {
     return *this == rhs;
+}
+
+template<typename FieldType>
+void Allocator<FieldType>::hash_(pluginplay::Hasher& h) const {
+    // h(m_world_);
 }
 
 } // namespace chemist::tensor

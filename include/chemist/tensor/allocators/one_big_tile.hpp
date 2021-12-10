@@ -49,6 +49,8 @@ protected:
     /// Defaulted copy ctor, used to implement clone_
     OneBigTile(const OneBigTile&) = default;
 
+    virtual void hash_(pluginplay::Hasher& h) const override;
+
 private:
     /// Implement the Allocator interface
     ///@{
@@ -92,6 +94,11 @@ bool OneBigTile<VariantType>::is_equal_(const base_type& rhs) const noexcept {
     const auto* prhs = dynamic_cast<const my_type*>(&rhs);
     if(!prhs) return false;
     return base_type::operator==(rhs);
+}
+
+template<typename VariantType>
+void OneBigTile<VariantType>::hash_(pluginplay::Hasher& h) const {
+    base_type::hash_(h);
 }
 
 } // namespace chemist::tensor

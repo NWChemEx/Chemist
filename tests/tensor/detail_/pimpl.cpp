@@ -44,14 +44,17 @@ TEST_CASE("TensorWrapperPIMPL") {
     SECTION("CTors") {
         SECTION("No Shape") {
             REQUIRE(v.allocator() == *alloc);
+            REQUIRE(v.shape() == *v_shape);
             REQUIRE(std::get<0>(v.variant()) == tensors.at("vector"));
             REQUIRE(v.size() == 3);
 
             REQUIRE(m.allocator() == *alloc);
+            REQUIRE(m.shape() == *m_shape);
             REQUIRE(std::get<0>(m.variant()) == tensors.at("matrix"));
             REQUIRE(m.size() == 4);
 
             REQUIRE(t.allocator() == *alloc);
+            REQUIRE(t.shape() == *t_shape);
             REQUIRE(std::get<0>(t.variant()) == tensors.at("tensor"));
             REQUIRE(t.size() == 8);
 
@@ -69,18 +72,56 @@ TEST_CASE("TensorWrapperPIMPL") {
 
         SECTION("With shape") {
             REQUIRE(v2.allocator() == *alloc);
+            REQUIRE(v2.shape() == *v_shape);
             REQUIRE(std::get<0>(v2.variant()) == tensors.at("vector"));
             REQUIRE(v2.size() == 3);
 
             REQUIRE(m2.allocator() == *alloc);
+            REQUIRE(m2.shape() == *m_shape);
             REQUIRE(std::get<0>(m2.variant()) == tensors.at("matrix"));
             REQUIRE(m2.size() == 4);
 
             REQUIRE(t2.allocator() == *alloc);
+            REQUIRE(t2.shape() == *t_shape);
             REQUIRE(std::get<0>(t2.variant()) == tensors.at("tensor"));
             REQUIRE(t2.size() == 8);
 
-            // TODO: Check that it resizes
+            SECTION("Reshapes if necessary") {
+                extents_type four{4};
+                auto new_shape = std::make_unique<shape_type>(four);
+                auto tr        = alloc->make_tiled_range(four);
+                ta_tensor_type corr(alloc->runtime(), tr, {1, 2, 3, 4});
+
+                pimpl_type m3(matrix, new_shape->clone(), alloc->clone());
+                REQUIRE(m3.allocator() == *alloc);
+                REQUIRE(m3.shape() == *new_shape);
+                REQUIRE(std::get<0>(m3.variant()) == corr);
+                REQUIRE(m3.size() == 4);
+            }
+
+            SECTION("Applies sparsity if needed") {
+                using single_tiles    = SingleElementTiles<field_type>;
+                using sparse_shape    = SparseShape<field_type>;
+                using sparse_map_type = typename sparse_shape::sparse_map_type;
+                using index_type      = typename sparse_map_type::key_type;
+
+                auto new_alloc = std::make_unique<single_tiles>();
+                extents_type two{2, 2};
+                auto tr     = new_alloc->make_tiled_range(two);
+                auto& world = new_alloc->runtime();
+                variant_type input{ta_tensor_type(world, tr, {{1, 2}, {3, 4}})};
+                ta_tensor_type corr(world, tr, {{1, 0}, {3, 0}});
+
+                index_type i0{0}, i1{1};
+                sparse_map_type sm{{i0, {i0}}, {i1, {i0}}};
+                auto new_shape = std::make_unique<sparse_shape>(two, sm);
+
+                pimpl_type m3(input, new_shape->clone(), new_alloc->clone());
+                REQUIRE(m3.allocator() == *new_alloc);
+                REQUIRE(m3.shape() == *new_shape);
+                REQUIRE(std::get<0>(m3.variant()) == corr);
+                REQUIRE(m3.size() == 4);
+            }
 
             SECTION("Reallocates if necessary") {
                 auto new_alloc = std::make_unique<other_alloc>();
@@ -89,17 +130,33 @@ TEST_CASE("TensorWrapperPIMPL") {
 
                 pimpl_type v3(vector, v_shape->clone(), new_alloc->clone());
                 REQUIRE(v3.allocator() == *alloc);
+                REQUIRE(v3.shape() == *v_shape);
                 REQUIRE(std::get<0>(v3.variant()) == corr);
                 REQUIRE(v3.size() == 3);
             }
         }
 
-        SECTION("clone") {}
+        SECTION("clone") {
+            auto v_copy = v.clone();
+            REQUIRE(*v_copy == v);
+            // Make sure we didn't just alias
+            REQUIRE(&v_copy->allocator() != &v.allocator());
+            REQUIRE(&v_copy->shape() != &v.shape());
+
+            REQUIRE(*(m.clone()) == m);
+            REQUIRE(*(t.clone()) == t);
+        }
     }
 
     SECTION("Allocator") {
         REQUIRE(v.allocator() == *alloc);
         REQUIRE(m.allocator() == *alloc);
         REQUIRE(t.allocator() == *alloc);
+    }
+
+    SECTION("Shape") {
+        REQUIRE(v.shape() == *v_shape);
+        REQUIRE(m.shape() == *m_shape);
+        REQUIRE(t.shape() == *t_shape);
     }
 }

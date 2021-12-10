@@ -144,6 +144,9 @@ public:
     /// Type of a pointer to a shape
     using shape_pointer = std::unique_ptr<shape_type>;
 
+    /// Type of a read-only reference to a shape
+    using const_shape_reference = const shape_type&;
+
     /// Type used for returning the extents
     using extents_type = typename shape_type::extents_type;
 
@@ -425,6 +428,8 @@ public:
      * the tensor.
      */
     extents_type extents() const;
+
+    const_shape_reference shape() const;
 
     /** @brief Returns the number of elements in this tensor.
      *

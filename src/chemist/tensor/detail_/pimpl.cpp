@@ -45,15 +45,16 @@ PIMPL_TYPE::TensorWrapperPIMPL(variant_type v, allocator_pointer p) :
   m_allocator_(std::move(p)),
   m_shape_(std::make_unique<shape_type>(make_extents(m_tensor_))) {
     reallocate_(*m_allocator_);
-    reshape_(*m_shape_);
 }
 
 template<typename FieldType>
 PIMPL_TYPE::TensorWrapperPIMPL(variant_type v, shape_pointer s,
                                allocator_pointer p) :
-  m_tensor_(std::move(v)), m_allocator_(std::move(p)), m_shape_(std::move(s)) {
+  m_tensor_(std::move(v)),
+  m_allocator_(std::move(p)),
+  m_shape_(std::make_unique<shape_type>(make_extents(m_tensor_))) {
     reallocate_(*m_allocator_);
-    reshape_(*m_shape_);
+    reshape(std::move(s));
 }
 
 template<typename FieldType>
@@ -68,6 +69,12 @@ template<typename FieldType>
 typename PIMPL_TYPE::const_allocator_reference PIMPL_TYPE::allocator() const {
     if(m_allocator_) return *m_allocator_;
     throw std::runtime_error("Tensor has no allocator!!!!");
+}
+
+template<typename FieldType>
+typename PIMPL_TYPE::const_shape_reference PIMPL_TYPE::shape() const {
+    if(m_shape_) return *m_shape_;
+    throw std::runtime_error("Tensor has no shape!!!!");
 }
 
 template<typename FieldType>
@@ -160,12 +167,25 @@ std::ostream& PIMPL_TYPE::print(std::ostream& os) const {
 
 template<typename FieldType>
 void PIMPL_TYPE::hash(pluginplay::Hasher& h) const {
+    h(m_shape_, m_allocator_);
     auto l = [&](auto&& arg) { h(arg); };
     std::visit(l, m_tensor_);
 }
 
 template<typename FieldType>
 bool PIMPL_TYPE::operator==(const TensorWrapperPIMPL& rhs) const {
+    // Compare shapes
+    if(m_shape_ && rhs.m_shape_) {
+        if(!m_shape_->is_equal(*rhs.m_shape_)) return false;
+    } else if(!m_shape_ != !rhs.m_shape_)
+        return false;
+
+    // Compare allocators
+    if(m_allocator_ && rhs.m_allocator_) {
+        if(!m_allocator_->is_equal(*rhs.m_allocator_)) return false;
+    } else if(!m_allocator_ != !rhs.m_allocator_)
+        return false;
+
     auto l = [&](auto&& lhs) {
         auto m = [&](auto&& rhs) { return lhs == rhs; };
         return std::visit(m, rhs.m_tensor_);
@@ -187,7 +207,19 @@ void PIMPL_TYPE::reshape_(const shape_type& other) {
     // If the extents aren't the same we're shuffling elements around
     if(shape != extents()) shuffle_(shape);
 
-    // TODO: Compare derived states
+    // TODO: This is basically a hack to compare the sparsities
+    auto ta_tensor = other.make_tensor(*m_allocator_);
+
+    auto l = [&](auto&& old_tensor) {
+        auto m = [&](auto&& new_tensor) {
+            if(old_tensor.shape() == new_tensor.shape()) return;
+            const auto& new_shape = new_tensor.shape();
+            auto dummy_idx        = make_annotation("j");
+            old_tensor(dummy_idx) = old_tensor(dummy_idx).set_shape(new_shape);
+        };
+        std::visit(m, ta_tensor);
+    };
+    std::visit(l, m_tensor_);
 }
 
 template<typename FieldType>
