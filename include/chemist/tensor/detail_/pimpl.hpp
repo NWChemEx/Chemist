@@ -224,6 +224,14 @@ public:
      */
     rank_type rank() const;
 
+    /** @brief Changes the allocator used by the tensor.
+     *
+     *  This function will change the allocator used by the underlying tensor
+     *  to the provided allocator. If the wrapped tensor is not consistent with
+     *  the provided allocator it will be reallocated.
+     *
+     *  @param[in] p The allocator to switch to.
+     */
     void reallocate(allocator_pointer p);
 
     /** @brief Used to view the tensor as if it has a different
