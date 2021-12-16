@@ -224,19 +224,21 @@ void PIMPL_TYPE::reshape_(const shape_type& other) {
 
 template<typename FieldType>
 void PIMPL_TYPE::reallocate_(const_allocator_reference p) {
-    if constexpr(std::is_same_v<FieldType, field::Scalar>) {
-        auto l = [&](auto&& arg) {
-            // We have nothing to do if it's not initialized yet
-            if(!arg.is_initialized()) return;
+    auto l = [&](auto&& arg) {
+        // We have nothing to do if it's not initialized yet
+        if(!arg.is_initialized()) return;
 
-            // Only retile if the tiled ranges are different
-            const auto tr = p.make_tiled_range(extents());
-            if(arg.trange() != tr) arg = TA::retile(arg, tr);
-        };
-        std::visit(l, m_tensor_);
-    } else {
-        throw std::runtime_error("reallocate for ToT NYI!!!");
-    }
+        // Only retile if the tiled ranges are different
+        const auto tr = p.make_tiled_range(extents());
+        if(arg.trange() != tr) {
+            if constexpr(std::is_same_v<FieldType, field::Scalar>) {
+                arg = TA::retile(arg, tr);
+            } else {
+                throw std::runtime_error("reallocate for ToT NYI!!!");
+            }
+        }
+    };
+    std::visit(l, m_tensor_);
 }
 
 template<typename FieldType>

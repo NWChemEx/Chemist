@@ -5,6 +5,14 @@
 
 // using namespace chemist::tensor;
 
+/* Testing Strategy:
+ *
+ * The actual TensorWrapper class is a pass through to the PIMPL in many
+ * circumstances. For these unit tests we assume that the PIMPLs work and are
+ * thoroughly tested. Thus for functions which are just pass throughs, we simply
+ * need to ensure that arguments and returns are forwarded correctly.
+ */
+
 // using scalar_traits  = backends::TiledArrayTraits<field::Scalar>;
 // using scalar_variant = typename scalar_traits::variant_type;
 

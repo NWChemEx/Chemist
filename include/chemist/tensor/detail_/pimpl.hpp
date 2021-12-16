@@ -84,6 +84,9 @@ public:
      *
      *  @param[in] v The wrapped tensor.
      *  @param[in] p The allocator to use in the TensorWrapper
+     *
+     *  @throws std::runtime_error if FieldType == Tensor and a reallocation is
+     *                             necessary.
      */
     TensorWrapperPIMPL(variant_type v, allocator_pointer p);
 
@@ -281,8 +284,7 @@ public:
      *  @param[in] lo The index of the first element to include in the slice.
      *  @param[in] hi The index of the first element, which is just outside the
      *                slice.
-     * @param[in] p The allocator to use for the resulting slice. Default value
-     *              is the allocator returned by default_allocator().
+     * @param[in] p The allocator to use in the resulting slice.
      *
      *  @return The requested slice.
      */
@@ -302,11 +304,9 @@ public:
      */
     std::ostream& print(std::ostream& os) const;
 
-    /** @brief Adds the hash of the wrapped tensor to the
-     * provided Hasher.
+    /** @brief Adds the hash of the wrapped tensor to the provided Hasher.
      *
-     *  @param[in] h The hasher we are adding the wrapped
-     * tensor to.
+     *  @param[in,out] h The hasher we are adding the wrapped tensor to.
      */
     void hash(pluginplay::Hasher& h) const;
 
@@ -345,6 +345,7 @@ private:
     /// Guts of reallocate, but doesn't set internal allocator to other
     void reallocate_(const_allocator_reference other);
 
+    /// Routine used by reshape_ when the rank has changed
     void shuffle_(const extents_type& other);
 
     /** @brief Returns the inner rank of the tensor.

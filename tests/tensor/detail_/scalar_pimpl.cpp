@@ -11,7 +11,7 @@ using namespace chemist::tensor;
  * interacting with allocators/shapes. In practice there are a lot of
  */
 
-TEST_CASE("TensorWrapperPIMPL") {
+TEST_CASE("TensorWrapperPIMPL<Scalar>") {
     using field_type     = field::Scalar;
     using pimpl_type     = detail_::TensorWrapperPIMPL<field_type>;
     using variant_type   = typename pimpl_type::variant_type;
@@ -308,7 +308,7 @@ TEST_CASE("TensorWrapperPIMPL") {
 
                 SECTION("Rank 2 ind, rank 1 dependent") {
                     ta_tensor_type corr(world, tr,
-                                        {{{1, 0}, {0, 0}}, {{0, 0}, {7, 0}}});
+                                        {{{1, 0}, {0, 0}}, {{0, 0}, {0, 8}}});
                     sparse_map_type sm{{i00, {i0}}, {i11, {i1}}};
                     auto new_shape = std::make_unique<sparse_shape>(two, sm);
 
@@ -327,6 +327,41 @@ TEST_CASE("TensorWrapperPIMPL") {
         REQUIRE(v.size() == 3);
         REQUIRE(m.size() == 4);
         REQUIRE(t.size() == 8);
+    }
+
+    SECTION("slice()") {
+        auto& world = alloc->runtime();
+        SECTION("Vector") {
+            auto tr = alloc->make_tiled_range(extents_type{2});
+            ta_tensor_type corr_data{world, tr, {1.0, 2.0}};
+            pimpl_type corr(corr_data, alloc->clone());
+            auto slice = v.slice({0ul}, {2ul}, alloc->clone());
+            REQUIRE(*slice == corr);
+        }
+        SECTION("Matrix") {
+            auto tr = alloc->make_tiled_range(extents_type{1, 1});
+            ta_tensor_type corr_data{world, tr, {{2.0}}};
+            pimpl_type corr(corr_data, alloc->clone());
+            auto slice = m.slice({0ul, 1ul}, {1ul, 2ul}, alloc->clone());
+            REQUIRE(*slice == corr);
+        }
+        SECTION("Tensor") {
+            auto tr = alloc->make_tiled_range(extents_type{2, 2, 1});
+            ta_tensor_type corr_data{
+              world, tr, {{{2.0}, {4.0}}, {{6.0}, {8.0}}}};
+            pimpl_type corr(corr_data, alloc->clone());
+            auto slice =
+              t.slice({0ul, 0ul, 1ul}, {2ul, 2ul, 2ul}, alloc->clone());
+            REQUIRE(*slice == corr);
+        }
+        SECTION("Different allocator") {
+            auto p  = std::make_unique<other_alloc>(world);
+            auto tr = p->make_tiled_range(extents_type{2});
+            ta_tensor_type corr_data{world, tr, {1.0, 2.0}};
+            pimpl_type corr(corr_data, p->clone());
+            auto slice = v.slice({0ul}, {2ul}, std::move(p));
+            REQUIRE(*slice == corr);
+        }
     }
 
     SECTION("print") {
@@ -360,6 +395,66 @@ TEST_CASE("TensorWrapperPIMPL") {
 
             std::string corr = "0: [ [0,0,0], [2,2,2] ) { 1 2 3 4 5 6 7 8 }\n";
             REQUIRE(corr == ss.str());
+        }
+    }
+
+    SECTION("hash") {
+        auto lhs = pluginplay::hash_objects(m2);
+
+        SECTION("Same") {
+            pimpl_type rhs(matrix, m_shape->clone(), alloc->clone());
+            REQUIRE(lhs == pluginplay::hash_objects(rhs));
+        }
+
+        SECTION("Different values") {
+            auto tr = alloc->make_tiled_range(extents_type{2, 2});
+            ta_tensor_type rhs_data(alloc->runtime(), tr,
+                                    {{2.0, 3.0}, {4.0, 5.0}});
+            pimpl_type rhs(rhs_data, m_shape->clone(), alloc->clone());
+            REQUIRE(lhs != pluginplay::hash_objects(rhs));
+        }
+
+        SECTION("Different shape") {
+            using sparse_shape    = SparseShape<field_type>;
+            using sparse_map_type = typename sparse_shape::sparse_map_type;
+            using index_type      = typename sparse_map_type::key_type;
+
+            index_type i0{0}, i1{1};
+            sparse_map_type sm{{i0, {i0, i1}}, {i1, {i0, i1}}};
+            auto new_shape =
+              std::make_unique<sparse_shape>(extents_type{2, 2}, sm);
+
+            pimpl_type rhs(matrix, new_shape->clone(), alloc->clone());
+            REQUIRE(lhs != pluginplay::hash_objects(rhs));
+        }
+    }
+
+    SECTION("operator==") {
+        SECTION("Same") {
+            pimpl_type rhs(matrix, m_shape->clone(), alloc->clone());
+            REQUIRE(m2 == rhs);
+        }
+
+        SECTION("Different values") {
+            auto tr = alloc->make_tiled_range(extents_type{2, 2});
+            ta_tensor_type rhs_data(alloc->runtime(), tr,
+                                    {{2.0, 3.0}, {4.0, 5.0}});
+            pimpl_type rhs(rhs_data, m_shape->clone(), alloc->clone());
+            REQUIRE_FALSE(m2 == rhs);
+        }
+
+        SECTION("Different shape") {
+            using sparse_shape    = SparseShape<field_type>;
+            using sparse_map_type = typename sparse_shape::sparse_map_type;
+            using index_type      = typename sparse_map_type::key_type;
+
+            index_type i0{0}, i1{1};
+            sparse_map_type sm{{i0, {i0, i1}}, {i1, {i0, i1}}};
+            auto new_shape =
+              std::make_unique<sparse_shape>(extents_type{2, 2}, sm);
+
+            pimpl_type rhs(matrix, new_shape->clone(), alloc->clone());
+            REQUIRE_FALSE(m2 == rhs);
         }
     }
 }
