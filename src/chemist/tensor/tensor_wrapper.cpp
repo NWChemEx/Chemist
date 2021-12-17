@@ -17,8 +17,8 @@ TENSOR_WRAPPER::TensorWrapper(allocator_pointer p) :
   TensorWrapper(variant_type{}, std::move(p)) {}
 
 template<typename FieldType>
-TENSOR_WRAPPER::TensorWrapper(const shape_type& shape, allocator_pointer p) :
-  TensorWrapper(p->new_tensor(shape), std::move(p)) {}
+TENSOR_WRAPPER::TensorWrapper(shape_pointer shape, allocator_pointer p) :
+  TensorWrapper(p->new_tensor(*shape), std::move(shape), std::move(p)) {}
 
 template<typename FieldType>
 template<typename OtherField, typename>
@@ -28,6 +28,12 @@ TENSOR_WRAPPER::TensorWrapper(const TensorWrapper<OtherField>& other,
 template<typename FieldType>
 TENSOR_WRAPPER::TensorWrapper(variant_type v, allocator_pointer p) :
   m_pimpl_(std::make_unique<pimpl_type>(std::move(v), std::move(p))) {}
+
+template<typename FieldType>
+TENSOR_WRAPPER::TensorWrapper(variant_type v, shape_pointer pshape,
+                              allocator_pointer palloc) :
+  m_pimpl_(std::make_unique<pimpl_type>(std::move(v), std::move(pshape),
+                                        std::move(palloc))) {}
 
 template<typename FieldType>
 TENSOR_WRAPPER::TensorWrapper(const TensorWrapper& other) :
@@ -103,6 +109,11 @@ template<typename FieldType>
 typename TENSOR_WRAPPER::size_type TENSOR_WRAPPER::size() const {
     if(m_pimpl_) return pimpl_().size();
     return size_type{0};
+}
+
+template<typename FieldType>
+typename TENSOR_WRAPPER::const_shape_reference TENSOR_WRAPPER::shape() const {
+    return pimpl_().shape();
 }
 
 template<typename FieldType>

@@ -203,16 +203,16 @@ public:
      *             guarantee.
      */
     explicit TensorWrapper(
-      const shape_type& shape,
+      shape_pointer shape,
       allocator_pointer p = default_allocator<field_type>());
 
     /** @brief Wrapping CTor
      *
      *  This constructor creates a new TensorWrapper instance which wraps the
      *  provided Tensor. After this call the TensorWrapper will either contain
-     * a copy of the provided tensor or it will have taken ownership of it
-     *  depending on whether or not the tensor was moved into the
-     * TensorWrapper.
+     *  a copy of the provided tensor or it will have taken ownership of it
+     *  depending on whether or not the tensor was moved into the TensorWrapper.
+     *  This ctor will automatically create a Shape instance from @p t.
      *
      *  @tparam TensorType The type of the tensor we are wrapping. TensorType
      *                      must be one of the types the PIMPL recognizes as a
@@ -230,6 +230,32 @@ public:
              typename = eif_is_tensor<std::decay_t<TensorType>>>
     explicit TensorWrapper(
       TensorType&& t, allocator_pointer p = default_allocator<field_type>());
+
+    /** @brief Wrapping CTor with shape
+     *
+     *  This constructor creates a new TensorWrapper instance which wraps the
+     *  provided Tensor. After this call the TensorWrapper will either contain
+     *  a copy of the provided tensor or it will have taken ownership of it
+     *  depending on whether or not the tensor was moved into the TensorWrapper.
+     *
+     *  @tparam TensorType The type of the tensor we are wrapping. TensorType
+     *                      must be one of the types the PIMPL recognizes as a
+     *                      tensor.
+     *  @tparam <anonymous> A type used to disable this ctor via SFINAE if
+     *                      @p TensorType is not a tensor type in the PIMPL.
+     *
+     *  @param[in] t The tensor this TensorWrapper instance should wrap. @p t
+     *               should be initialized and set.
+     *  @param[in] shape A pointer to the base class of the object describing
+     *               the shape of the tensor.
+     *  @param[in] p A pointer to the allocator the tensor wrapper should use.
+     *               By default the result of `default_allocator<field_type>`
+     *               is used.
+     */
+    template<typename TensorType,
+             typename = eif_is_tensor<std::decay_t<TensorType>>>
+    TensorWrapper(TensorType&& t, shape_pointer shape,
+                  allocator_pointer p = default_allocator<field_type>());
 
     template<typename OtherField,
              typename = eif_t_to_tot_conversion<OtherField>>
@@ -429,6 +455,11 @@ public:
      */
     extents_type extents() const;
 
+    /** @brief Returns a read-only reference to the tensor's shape.
+     *
+     *  @return A read-only reference to the base class of the shape held by
+     *          the tensor.
+     */
     const_shape_reference shape() const;
 
     /** @brief Returns the number of elements in this tensor.
@@ -593,8 +624,9 @@ protected:
     template<typename OtherField>
     friend class TensorWrapper;
 
-    /// Primary ctor, all other ctors delegate to this one
+    /// Primary ctors, all other ctors delegate to these ones
     TensorWrapper(variant_type v, allocator_pointer p);
+    TensorWrapper(variant_type v, shape_pointer pshape, allocator_pointer p);
 
     /// Right now these are used for get(); the long term plan is to remove them
     ///@{
@@ -707,6 +739,13 @@ template<typename FieldType>
 template<typename TensorType, typename>
 TensorWrapper<FieldType>::TensorWrapper(TensorType&& t, allocator_pointer p) :
   TensorWrapper(variant_type(std::forward<TensorType>(t)), std::move(p)) {}
+
+template<typename FieldType>
+template<typename TensorType, typename>
+TensorWrapper<FieldType>::TensorWrapper(TensorType&& t, shape_pointer pshape,
+                                        allocator_pointer p) :
+  TensorWrapper(variant_type(std::forward<TensorType>(t)), std::move(pshape),
+                std::move(p)) {}
 
 //------------------------------------------------------------------------------
 //               Forward Declaration of Explicit Instantiations

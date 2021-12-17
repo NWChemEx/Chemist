@@ -25,6 +25,7 @@ auto make_extents(VariantType&& v) {
     using size_type    = typename extents_type::size_type;
 
     auto l = [=](auto&& t) {
+        if(!t.is_initialized()) return extents_type{};
         const auto& tr = t.trange();
         extents_type rv(tr.rank());
         const auto& erange = tr.elements_range().extent();
