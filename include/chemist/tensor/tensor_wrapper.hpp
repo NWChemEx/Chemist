@@ -144,6 +144,9 @@ public:
     /// Type of a pointer to a shape
     using shape_pointer = std::unique_ptr<shape_type>;
 
+    /// Type of a pointer to a sparse shape
+    using sparse_pointer = std::unique_ptr<SparseShape<FieldType>>;
+
     /// Type of a read-only reference to a shape
     using const_shape_reference = const shape_type&;
 
@@ -259,7 +262,7 @@ public:
 
     template<typename OtherField,
              typename = eif_t_to_tot_conversion<OtherField>>
-    TensorWrapper(const TensorWrapper<OtherField>& other, shape_pointer pshape,
+    TensorWrapper(const TensorWrapper<OtherField>& other, sparse_pointer pshape,
                   allocator_pointer palloc = default_allocator<field_type>());
 
     /** @brief Makes a copy of another TensorWrapper

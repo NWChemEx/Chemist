@@ -57,6 +57,18 @@ bool SPARSE_SHAPE::operator==(const SparseShape& rhs) const noexcept {
     return false;
 }
 
+template<typename FieldType>
+typename SPARSE_SHAPE::const_sparse_map_reference SPARSE_SHAPE::sparse_map()
+  const {
+    return downcast(this->pimpl_()).sparse_map();
+}
+
+template<typename FieldType>
+typename SPARSE_SHAPE::const_idx2mode_reference SPARSE_SHAPE::idx2mode_map()
+  const {
+    return downcast(this->pimpl_()).idx2mode_map();
+}
+
 //------------------------------------------------------------------------------
 //                   Protected/Private Member Functions
 //------------------------------------------------------------------------------

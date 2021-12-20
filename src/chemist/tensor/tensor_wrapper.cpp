@@ -1,6 +1,27 @@
 #include "chemist/tensor/detail_/pimpl.hpp"
 
 namespace chemist::tensor {
+namespace {
+
+template<typename VariantType>
+auto new_variant(const VariantType& other,
+                 const SparseShape<field::Tensor>& shape,
+                 const Allocator<field::Tensor>& alloc) {
+    const auto sm       = shape.sparse_map();
+    const auto tr       = alloc.make_tiled_range(shape.extents());
+    const auto idx2mode = shape.idx2mode_map();
+    std::map<std::size_t, std::size_t> idx2mode_map;
+    for(std::size_t i = 0; i < idx2mode.size(); ++i)
+        idx2mode_map[i] = idx2mode[i];
+    using variant_type =
+      typename detail_::FieldTraits<field::Tensor>::variant_type;
+    auto l = [=](auto&& tensor_in) {
+        return variant_type{from_sparse_map(sm, tensor_in, tr, idx2mode_map)};
+    };
+    return std::visit(l, other);
+}
+
+} // namespace
 
 // Macro to avoid typing the full type of the TensorWrapper
 #define TENSOR_WRAPPER TensorWrapper<FieldType>
@@ -23,7 +44,9 @@ TENSOR_WRAPPER::TensorWrapper(shape_pointer shape, allocator_pointer p) :
 template<typename FieldType>
 template<typename OtherField, typename>
 TENSOR_WRAPPER::TensorWrapper(const TensorWrapper<OtherField>& other,
-                              shape_pointer pshape, allocator_pointer palloc) {}
+                              sparse_pointer pshape, allocator_pointer palloc) :
+  TensorWrapper(new_variant(other.pimpl_().variant(), *pshape, *palloc),
+                pshape->clone(), palloc->clone()) {}
 
 template<typename FieldType>
 TENSOR_WRAPPER::TensorWrapper(variant_type v, allocator_pointer p) :
@@ -196,7 +219,7 @@ typename TENSOR_WRAPPER::const_pimpl_reference TENSOR_WRAPPER::pimpl_() const {
 
 template TensorWrapper<field::Tensor>::TensorWrapper<field::Scalar, void>(
   const TensorWrapper<field::Scalar>&,
-  typename TensorWrapper<field::Tensor>::shape_pointer,
+  typename TensorWrapper<field::Tensor>::sparse_pointer,
   typename TensorWrapper<field::Tensor>::allocator_pointer);
 
 template class TensorWrapper<field::Scalar>;

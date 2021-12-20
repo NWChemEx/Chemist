@@ -38,6 +38,40 @@ TEMPLATE_LIST_TEST_CASE("TensorWrapper<Tensor>", "", tot_variant) {
             REQUIRE(mov.rank() == 3);
             REQUIRE(vom.rank() == 3);
         }
+        SECTION("From normal tensor") {
+            using scalar_tensor  = TensorWrapper<field::Scalar>;
+            using scalar_traits  = backends::TiledArrayTraits<field::Scalar>;
+            using scalar_variant = typename scalar_traits::variant_type;
+            using ta_type      = std::variant_alternative_t<0, scalar_variant>;
+            using sparse_shape = SparseShape<field::Tensor>;
+            using sparse_map   = typename sparse_shape::sparse_map_type;
+            using index_type   = typename sparse_map::key_type;
+
+            auto scalar_tensors = testing::get_tensors<ta_type>();
+
+            index_type i0{0}, i1{1};
+            sparse_map sm{{i0, {i1}}, {i1, {i0}}};
+            auto shape = std::make_unique<sparse_shape>(extents_type{2}, sm);
+            // SECTION("Vector to vector-of-vectors") {
+            //     const auto& v = scalar_tensors.at("vector");
+            //     TWrapper vov2(v, std::move(shape));
+            //     std::cout << vov2 << std::endl;
+            // }
+
+            SECTION("Matrix to vector-of-vectors") {
+                using outer_tile = typename t_type::value_type;
+                using inner_tile = typename outer_tile::value_type;
+
+                inner_tile v0(TA::Range({1}), {2.0});
+                inner_tile v1(TA::Range({1}), {3.0});
+                t_type corr_data(vov.allocator().runtime(), {v0, v1});
+                TWrapper corr(std::move(corr_data), shape->clone());
+
+                scalar_tensor m(scalar_tensors.at("matrix"));
+                TWrapper vov2(m, std::move(shape));
+                REQUIRE(vov2 == corr);
+            }
+        }
     }
 
     SECTION("make_annotation") {
