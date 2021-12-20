@@ -4,7 +4,6 @@
 #include "chemist/tensor/shapes/shapes.hpp"
 #include "chemist/tensor/type_traits/nd_initializer_list_traits.hpp"
 #include <memory>
-#include <tiledarray.h>
 #include <vector>
 
 namespace chemist::tensor {

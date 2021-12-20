@@ -18,7 +18,7 @@ struct BasisSetManagerPIMPL;
 class BasisSetManager {
 public:
     /// The type of an atom's AO basis set
-    using ao_basis_type = Center<double>;
+    using ao_basis_type = AtomicBasisSet<double>;
 
     /// The type of an atomic number
     using size_type = std::size_t;

@@ -6,12 +6,12 @@
 #include <utilities/iter_tools/enumerate.hpp>
 
 using bs_t     = chemist::AOBasisSet<double>;
-using center_t = chemist::Center<double>;
+using center_t = chemist::AtomicBasisSet<double>;
 using param_t  = typename bs_t::value_type::param_set;
 
 static inline auto make_bs() {
     bs_t bs;
-    center_t c(1.0, 2.0, 3.0);
+    center_t c("", 0, 1.0, 2.0, 3.0);
     param_t ps{1.0};
     c.add_shell(chemist::ShellType::pure, 0, ps, ps);
     c.add_shell(chemist::ShellType::pure, 2, ps, ps);
@@ -31,7 +31,7 @@ TEST_CASE("AOBasisSet : default ctor") {
 
 TEST_CASE("AOBasisSet : copy ctor") {
     bs_t bs;
-    center_t c(1.0, 2.0, 3.0);
+    center_t c("", 0, 1.0, 2.0, 3.0);
     bs.add_center(c);
     bs_t bs2(bs);
     SECTION("State") { REQUIRE(bs2 == bs); }
@@ -40,7 +40,7 @@ TEST_CASE("AOBasisSet : copy ctor") {
 
 TEST_CASE("AOBasisSet : copy assignment") {
     bs_t bs;
-    center_t c(1.0, 2.0, 3.0);
+    center_t c("", 0, 1.0, 2.0, 3.0);
     bs.add_center(c);
     bs_t bs2;
     auto pbs2 = &(bs2 = bs);
@@ -51,7 +51,7 @@ TEST_CASE("AOBasisSet : copy assignment") {
 
 TEST_CASE("AOBasisSet : move ctor") {
     bs_t bs;
-    center_t c(1.0, 2.0, 3.0);
+    center_t c("", 0, 1.0, 2.0, 3.0);
     bs.add_center(c);
     bs_t bs2(bs);
     bs_t bs3(std::move(bs));
@@ -60,7 +60,7 @@ TEST_CASE("AOBasisSet : move ctor") {
 
 TEST_CASE("AOBasisSet : move assignment") {
     bs_t bs;
-    center_t c(1.0, 2.0, 3.0);
+    center_t c("", 0, 1.0, 2.0, 3.0);
     bs.add_center(c);
     bs_t bs2(bs);
     bs_t bs3;
@@ -71,7 +71,7 @@ TEST_CASE("AOBasisSet : move assignment") {
 
 TEST_CASE("AOBasisSet : add_center") {
     bs_t bs;
-    center_t c(1.0, 2.0, 3.0);
+    center_t c("", 0, 1.0, 2.0, 3.0);
     bs.add_center(c);
     REQUIRE(bs.size() == 1);
     REQUIRE(bs[0] == c);
@@ -221,7 +221,7 @@ TEST_CASE("AOBasisSet : unique_primitives() const") {
 TEST_CASE("AOBasisSet : operator+=") {
     auto [bs, c] = make_bs();
     bs_t rhs;
-    center_t c2(4.0, 5.0, 6.0);
+    center_t c2("", 0, 4.0, 5.0, 6.0);
     rhs.add_center(c2);
     auto pbs = &(bs += rhs);
     REQUIRE(pbs == &bs);
@@ -233,7 +233,7 @@ TEST_CASE("AOBasisSet : operator+=") {
 TEST_CASE("AOBasisSet : operator+") {
     const auto [bs, c] = make_bs();
     bs_t rhs;
-    center_t c2(4.0, 5.0, 6.0);
+    center_t c2("", 0, 4.0, 5.0, 6.0);
     rhs.add_center(c2);
     auto rv = bs + rhs;
     REQUIRE(rv.size() == 2);

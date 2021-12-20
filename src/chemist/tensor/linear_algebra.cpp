@@ -2,6 +2,7 @@
 #include "chemist/ta_helpers/ta_helpers.hpp"
 #include "chemist/tensor/linear_algebra.hpp"
 #include "chemist/tensor/tensor.hpp"
+#include <TiledArray/math/linalg/cholesky.h>
 
 namespace chemist::tensor {
 

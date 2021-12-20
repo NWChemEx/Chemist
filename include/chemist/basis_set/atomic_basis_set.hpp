@@ -6,18 +6,19 @@
 namespace chemist {
 namespace detail_ {
 template<typename T>
-class CenterPIMPL;
+class AtomicBasisSetPIMPL;
 }
 template<typename T>
-class Center : public Point<T>,
-               public utilities::IndexableContainerBase<Center<T>> {
+class AtomicBasisSet
+  : public Point<T>,
+    public utilities::IndexableContainerBase<AtomicBasisSet<T>> {
 private:
     /// Type of this class
-    using my_type = Center<T>;
+    using my_type = AtomicBasisSet<T>;
     /// Type of the IndexableContainerBase base class
     using container_base = utilities::IndexableContainerBase<my_type>;
     /// Type of the PIMPL implementing the center part
-    using center_pimpl_t = detail_::CenterPIMPL<T>;
+    using center_pimpl_t = detail_::AtomicBasisSetPIMPL<T>;
     /// Type of a pointer to the PIMPL for the center
     using center_pimpl_ptr_t = std::unique_ptr<center_pimpl_t>;
     /// Type of the PIMPL for the Point part
@@ -26,11 +27,11 @@ private:
     using point_pimpl_ptr_t = std::unique_ptr<point_pimpl_t>;
 
 public:
-    /// Type of the Shells on this Center
+    /// Type of the Shells on this AtomicBasisSet
     using value_type = Shell<T>;
-    /// Type of a read-/write-able reference to a Center
+    /// Type of a read-/write-able reference to a AtomicBasisSet
     using reference = ShellView<T>;
-    /// Type of a read-only reference to a Center
+    /// Type of a read-only reference to a AtomicBasisSet
     using const_reference = ShellView<const T>;
     /// Unsigned integral type used for indexing/offsets
     using size_type = typename container_base::size_type;
@@ -41,102 +42,136 @@ public:
     /// Type used to specify the coefficients/exponets for a CTGO
     using param_set = std::vector<T>;
 
-    /** @brief Creates a new Center instance at the origin.
+    /** @brief Creates a new AtomicBasisSet instance at the origin.
      *
-     *  The Center instance resulting from this ctor will have no shells and
-     *  will be centered at the origin. The center can be translated by
-     *  modifying the coordinates through `coord(size_type)` or the `x()`,
-     *  `y()`, and `z()` member functions. Shells can be added via `add_shell`.
+     *  The AtomicBasisSet instance resulting from this ctor will have no
+     *  shells, an empty name, an atomic number of 0, and will be centered at
+     *  the origin. The center can be translated by modifying the coordinates
+     *  through `coord(size_type)` or the `x()`, `y()`, and `z()` member
+     *  functions. Shells can be added via `add_shell`.
      *
      *  @throw std::bad_alloc if there is insufficient memory to allocate the
      *                        PIMPL. Strong throw guarantee.
      */
-    Center();
+    AtomicBasisSet();
 
-    /** @brief Creates a new Center by deep copying another instance.
+    /** @brief Creates a new AtomicBasisSet by deep copying another instance.
      *
-     *  @param[in] rhs The Center instance to deep copy.
+     *  @param[in] rhs The AtomicBasisSet instance to deep copy.
      *
      *  @throw std::bad_alloc if there is insufficient memory to create the new
      *                        instance. Strong throw guarantee.
      */
-    Center(const Center<T>& rhs);
+    AtomicBasisSet(const AtomicBasisSet<T>& rhs);
 
-    /** @brief Creates a new Center instance by taking ownership of an already
-     *         existing instance's state.
+    /** @brief Creates a new AtomicBasisSet instance by taking ownership of an
+     *         already existing instance's state.
      *
      *  @param[in, out] rhs The instance to take the state from. After this ctor
      *                      @p rhs will no longer contain a PIMPL and can not
-     *                      be used until a Center instance with a valid PIMPL
-     *                      is copy/move assigned to @p rhs.
+     *                      be used until a AtomicBasisSet instance with a valid
+     *                      PIMPL is copy/move assigned to @p rhs.
      *
      *  @throw None no throw guarantee.
      */
-    Center(Center<T>&& rhs) noexcept;
+    AtomicBasisSet(AtomicBasisSet<T>&& rhs) noexcept;
 
-    /** @brief Causes the current Center to contain a deep copy of another
-     *         Center.
+    /** @brief Causes the current AtomicBasisSet to contain a deep copy of
+     *         another AtomicBasisSet.
      *
-     *  This function will assign to the current Center a deep copy of another
-     *  instance. This instance's previous state will be released.
+     *  This function will assign to the current AtomicBasisSet a deep copy of
+     *  another instance. This instance's previous state will be released.
      *
-     *  @param[in] rhs The Center instance to deep copy.
+     *  @param[in] rhs The AtomicBasisSet instance to deep copy.
      *
      *  @return The current instance after setting it to a deep copy of @p rhs.
      *
      *  @throw std::bad_alloc if there is insufficient memory to create the new
      *                        instance. Strong throw guarantee.
      */
-    Center<T>& operator=(const Center<T>& rhs);
+    AtomicBasisSet<T>& operator=(const AtomicBasisSet<T>& rhs);
 
-    /** @brief Causes the current Center instance to take ownership of an
-     * already existing instance's state.
+    /** @brief Causes the current AtomicBasisSet instance to take ownership of
+     *         an already existing instance's state.
      *
      *  @param[in, out] rhs The instance to take the state from. After this ctor
      *                      @p rhs will no longer contain a PIMPL and can not
-     *                      be used until a Center instance with a valid PIMPL
-     *                      is copy/move assigned to @p rhs.
+     *                      be used until a AtomicBasisSet instance with a valid
+     *                      PIMPL is copy/move assigned to @p rhs.
      *
      *  @return The current instance after taking ownership of @p rhs's state.
      *
      *  @throw None no throw guarantee.
      */
-    Center<T>& operator=(Center<T>&& rhs) noexcept;
+    AtomicBasisSet<T>& operator=(AtomicBasisSet<T>&& rhs) noexcept;
 
-    /** @brief Creates a new Center centered on the provided point.
+    /** @brief Creates a new AtomicBasisSet centered on the provided point.
      *
-     *  This ctor is used to create a new Center instance with the provided
-     *  Cartesian coordinates.
+     *  This ctor is used to create a new AtomicBasisSet instance with the
+     *  provided Cartesian coordinates.
      *
-     *  @param[in] x The x-coordinate for the resulting Center
-     *  @param[in] y The y-coordinate for the resulting Center
-     *  @param[in] z The z-coordinate for the resulting Center
+     *  @param[in] name The name associated with the basis set.
+     *  @param[in] atomic_n The atomic number associated with the basis set.
+     *  @param[in] x The x-coordinate for the resulting AtomicBasisSet
+     *  @param[in] y The y-coordinate for the resulting AtomicBasisSet
+     *  @param[in] z The z-coordinate for the resulting AtomicBasisSet
      *
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    Center(T x, T y, T z);
+    AtomicBasisSet(const std::string& name, size_type atomic_n, T x, T y, T z);
 
-    /** @brief Creates a new Center with the provided state.
+    /** @brief Creates a new AtomicBasisSet centered on the provided point.
      *
-     *  This ctor can be used to create a Center which uses the provided PIMPLs.
+     *  This ctor is used to create a new AtomicBasisSet instance with the
+     *  provided Cartesian coordinates, while the basis set name and atomic
+     *  number are defaulted.
      *
-     *  @param[in] cpimpl The PIMPL to use for the Center part of the resulting
-     *                    instance.
+     *  @param[in] x The x-coordinate for the resulting AtomicBasisSet
+     *  @param[in] y The y-coordinate for the resulting AtomicBasisSet
+     *  @param[in] z The z-coordinate for the resulting AtomicBasisSet
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to create the
+     *                        PIMPL. Strong throw guarantee.
+     */
+    AtomicBasisSet(T x, T y, T z);
+
+    /** @brief Creates a new AtomicBasisSet with the provided name and atomic
+     *         number.
+     *
+     *  This ctor is used to create a new AtomicBasisSet instance, centered
+     *  on the origin, with the provided basis set name and atomic number.
+     *
+     *  @param[in] name The name associated with the basis set.
+     *  @param[in] atomic_n The atomic number associated with the basis set.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to create the
+     *                        PIMPL. Strong throw guarantee.
+     */
+    AtomicBasisSet(const std::string& name, size_type atomic_n);
+
+    /** @brief Creates a new AtomicBasisSet with the provided state.
+     *
+     *  This ctor can be used to create a AtomicBasisSet which uses the provided
+     *  PIMPLs.
+     *
+     *  @param[in] cpimpl The PIMPL to use for the AtomicBasisSet part of the
+     *                    resulting instance.
      *  @param[in] ppimpl The PIMPL to use for the Point part of the resulting
      *                    instance.
      *
      *  @throw None no throw guarantee.
      */
-    Center(center_pimpl_ptr_t cpimpl, point_pimpl_ptr_t ppimpl) noexcept;
+    AtomicBasisSet(center_pimpl_ptr_t cpimpl,
+                   point_pimpl_ptr_t ppimpl) noexcept;
 
     /// Defaulted no throw dtor
-    ~Center() noexcept override;
+    ~AtomicBasisSet() noexcept override;
 
     /** @brief Adds a shell to the center.
      *
      *  This function will create a Shell instance, with the specified
-     *  parameters, on the current Center.
+     *  parameters, on the current AtomicBasisSet.
      *
      *  @param[in] pure Whether the new shell is pure or not.
      *  @param[in] l The total angular momentum of the new shell.
@@ -149,6 +184,12 @@ public:
      *                        Shell. Weak throw guarantee.
      */
     void add_shell(pure_type pure, am_type l, param_set cs, param_set es);
+
+    /** @brief Returns the name of the basis set. */
+    std::string basis_set_name() const;
+
+    /** @brief Returns the atomic number of the basis set. */
+    size_type atomic_number() const;
 
     /// The type of the AOs comprising a shell
     using ao_type = typename value_type::value_type;
@@ -272,7 +313,7 @@ public:
      */
     const_primitive_reference unique_primitive(size_type i) const;
 
-    /** @brief Serialize Center instance
+    /** @brief Serialize AtomicBasisSet instance
      *
      * @param ar The archive object
      */
@@ -286,7 +327,7 @@ public:
         }
     }
 
-    /** @brief Deserialize for Center instance
+    /** @brief Deserialize for AtomicBasisSet instance
      *
      * @param ar The archive object
      */
@@ -319,13 +360,13 @@ private:
     center_pimpl_ptr_t m_pimpl_;
 };
 
-/** @brief Compares two Center instances for equality.
+/** @brief Compares two AtomicBasisSet instances for equality.
  *
- *  Two Center instances are considered equal if they contain the
+ *  Two AtomicBasisSet instances are considered equal if they contain the
  *  same number of shells and if the i-th shell of @p lhs is equal to
  *  the i-th shell of @p rhs for all i in the range `[0, lhs.size())`.
  *
- *  @tparam T The type used to hold the Center's parameters.
+ *  @tparam T The type used to hold the AtomicBasisSet's parameters.
  *
  *  @param[in] lhs The instance on the left side of the operator.
  *  @param[in] rhs The instance on the right side of the operator.
@@ -336,19 +377,19 @@ private:
  * for one of the ShellView instances. Strong throw guarantee.
  */
 template<typename T>
-bool operator==(const Center<T>& lhs, const Center<T>& rhs) {
-    using base_t = utilities::IndexableContainerBase<Center<T>>;
+bool operator==(const AtomicBasisSet<T>& lhs, const AtomicBasisSet<T>& rhs) {
+    using base_t = utilities::IndexableContainerBase<AtomicBasisSet<T>>;
     return static_cast<const base_t&>(lhs) == static_cast<const base_t&>(rhs);
 }
 
-/** @brief Determines if two Center instances are different.
+/** @brief Determines if two AtomicBasisSet instances are different.
  *
- *  Two Center instances are considered equal if they contain the
+ *  Two AtomicBasisSet instances are considered equal if they contain the
  *  same number of shells and if the i-th shell of @p lhs is equal to
  *  the i-th shell of @p rhs for all i in the range `[0, lhs.size())`.
  *  Different is defined as not equal.
  *
- *  @tparam T The type used to hold the Center's parameters.
+ *  @tparam T The type used to hold the AtomicBasisSet's parameters.
  *
  *  @param[in] lhs The instance on the left side of the operator.
  *  @param[in] rhs The instance on the right side of the operator.
@@ -359,11 +400,11 @@ bool operator==(const Center<T>& lhs, const Center<T>& rhs) {
  * for one of the ShellView instances. Strong throw guarantee.
  */
 template<typename T>
-bool operator!=(const Center<T>& lhs, const Center<T>& rhs) {
+bool operator!=(const AtomicBasisSet<T>& lhs, const AtomicBasisSet<T>& rhs) {
     return !(lhs == rhs);
 }
 
-extern template class Center<double>;
-extern template class Center<float>;
+extern template class AtomicBasisSet<double>;
+extern template class AtomicBasisSet<float>;
 
 } // namespace chemist

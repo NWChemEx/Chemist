@@ -7,5 +7,4 @@
 #include "chemist/tensor/linear_algebra.hpp"
 #include "chemist/tensor/remove_redundancy.hpp"
 #include "chemist/tensor/tensor_wrapper.hpp"
-#include <tiledarray.h>
 #include <variant>

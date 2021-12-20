@@ -1,8 +1,8 @@
 #pragma once
+#include "chemist/ta_helpers/ta_headers.hpp"
 #include "chemist/tensor/detail_/op_layer.hpp"
 #include "chemist/tensor/detail_/operations/mult_kernels.hpp"
 #include "chemist/tensor/type_traits/type_traits.hpp"
-#include <TiledArray/expressions/contraction_helpers.h>
 
 namespace chemist::tensor::detail_ {
 template<typename T>

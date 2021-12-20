@@ -1,6 +1,5 @@
 #include "chemist/types.hpp"
 #include <catch2/catch.hpp>
-#include <tiledarray.h>
 
 namespace testing {
 

@@ -3,7 +3,6 @@
 #include "chemist/tensor/type_traits/labeled_variant.hpp"
 #include "chemist/tensor/type_traits/tensor_traits.hpp"
 #include "chemist/tensor/type_traits/variant_type.hpp"
-#include <tiledarray.h>
 #include <utilities/type_traits/variant/variant_product.hpp>
 
 namespace chemist::tensor {
