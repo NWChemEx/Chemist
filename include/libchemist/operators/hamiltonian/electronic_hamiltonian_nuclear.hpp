@@ -68,4 +68,3 @@ ElectronicHamiltonian_Nuclear::ElectronicHamiltonian_Nuclear(OpType&& op0,
   Hamiltonian_Nuclear(std::forward<OpType>(op0), std::forward<Args>(args)...) {}
 */
 } // namespace libchemist::operators
-
