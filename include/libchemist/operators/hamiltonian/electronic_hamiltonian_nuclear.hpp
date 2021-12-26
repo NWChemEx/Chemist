@@ -1,3 +1,4 @@
+
 #pragma once
 #include "libchemist/operators/hamiltonian/hamiltonian_nuclear.hpp"
 
@@ -11,6 +12,7 @@ namespace libchemist::operators {
  * do not involve electrons. It's primarily used as an input to correlated
  * methods.
  */
+/*
 class ElectronicHamiltonian_Nuclear : public Hamiltonian_Nuclear {
 private:
     template<typename T>
@@ -41,7 +43,7 @@ public:
      *
      *  @throw std::bad_alloc if there is a problem allocating memory for the
      *                        new instance. Strong throw guarantee.
-     */
+     * /
     explicit ElectronicHamiltonian_Nuclear(const Hamiltonian_Nuclear& H);
 
     template<typename OpType, typename... Args,
@@ -52,15 +54,18 @@ protected:
     std::unique_ptr<OperatorBase> clone_impl() const override {
         return std::make_unique<ElectronicHamiltonian_Nuclear>(*this);
     }
+
 };
+*/
 
 // -----------------------------------------------------------------------------
 // ----------------------- Inline Implementations ------------------------------
 // -----------------------------------------------------------------------------
-
+/*
 template<typename OpType, typename... Args, typename>
 ElectronicHamiltonian_Nuclear::ElectronicHamiltonian_Nuclear(OpType&& op0,
                                                              Args&&... args) :
   Hamiltonian_Nuclear(std::forward<OpType>(op0), std::forward<Args>(args)...) {}
-
+*/
 } // namespace libchemist::operators
+

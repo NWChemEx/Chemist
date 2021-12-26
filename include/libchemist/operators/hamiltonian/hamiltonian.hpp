@@ -41,7 +41,7 @@ public:
      *
      *  @throw std::bad_alloc if there is insufficient memory to copy the
      *                        Hamiltonian instance. Strong exception
-     gurantee.
+     *                        guarantee.
      *
      *  Complexity: Linear in the number of operators which comprise @p
      other.

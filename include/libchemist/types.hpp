@@ -1,4 +1,5 @@
 #pragma once
+#include "libchemist/point/point.hpp"
 #include "libchemist/tensor/tensor.hpp"
 
 /** @file types.hpp
@@ -17,6 +18,9 @@ namespace libchemist::type {
 
 /// Type used for offsets and indexing
 using size = std::size_t;
+
+/// Type used for points in space
+using point = libchemist::Point<double>;
 
 /// Type used for non-hierarchical tensors
 using tensor = libchemist::tensor::type::SparseTensorWrapper;

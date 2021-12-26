@@ -10,6 +10,7 @@ namespace libchemist::operators {
  * the many- electron core Hamiltonian derivative so by convention this class is
  * the one-electron core Hamiltonian derivative.
  */
+/*
 class CoreHamiltonian_Nuclear : public ElectronicHamiltonian_Nuclear {
 private:
     template<typename T>
@@ -40,7 +41,7 @@ public:
      *
      *  @throw std::bad_alloc if there is a problem allocating memory for the
      *                        new instance. Strong throw guarantee.
-     */
+     * /
     explicit CoreHamiltonian_Nuclear(const ElectronicHamiltonian_Nuclear& He);
 
     template<typename OpType, typename... Args,
@@ -52,14 +53,14 @@ protected:
         return std::make_unique<CoreHamiltonian_Nuclear>(*this);
     }
 };
-
+*/
 // -----------------------------------------------------------------------------
 // ----------------------- Inline Implementations ------------------------------
 // -----------------------------------------------------------------------------
-
+/*
 template<typename OpType, typename... Args, typename>
 CoreHamiltonian_Nuclear::CoreHamiltonian_Nuclear(OpType&& op0, Args&&... args) :
   ElectronicHamiltonian_Nuclear(std::forward<OpType>(op0),
                                 std::forward<Args>(args)...) {}
-
+*/
 } // namespace libchemist::operators

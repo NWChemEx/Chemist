@@ -1,6 +1,5 @@
 #pragma once
 #include "libchemist/operators/fock.hpp"
-#include "libchemist/operators/fock_nuclear.hpp"
 #include "libchemist/orbital_space/orbital_space.hpp"
 
 namespace libchemist::wavefunction {
@@ -35,10 +34,6 @@ public:
 
     /// Type of the Fock operator which generated these orbitals
     using fock_operator_type = operators::Fock;
-
-    /// The derivative of the type of the Fock operator which generated these
-    /// orbitals
-    using fock_nuclear_operator_type = operators::Fock_Nuclear;
 
     /** @brief Creates a determinant space with all default-initialized membes.
      *
@@ -116,8 +111,10 @@ private:
     /// The fock operator
     fock_operator_type m_fock_;
 
-    /// The fock operator
-    fock_nuclear_operator_type m_fock_nuc_;
+    /// The derivative fock operator (type the same as Fock operator but the 
+    /// primitive terms are the derivative wrt the nuclear positions of the 
+    /// primitive terms of the Fock operator) 
+    fock_operator_type m_fock_nuc_;
 };
 
 /** @brief Compares two DeterminantSpace instances for equality.
