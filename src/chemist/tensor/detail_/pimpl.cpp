@@ -62,6 +62,15 @@ template<typename FieldType>
 typename PIMPL_TYPE::pimpl_pointer PIMPL_TYPE::clone() const {
     allocator_pointer new_alloc(m_allocator_ ? m_allocator_->clone() : nullptr);
     shape_pointer new_shape(m_shape_ ? m_shape_->clone() : nullptr);
+    // TODO: This is a hack to compensate for shape not propogating through
+    //       expressions. Fix that and remove this.
+    if(m_shape_) {
+        auto ex = m_shape_->extents();
+        if(ex != extents_type{})
+            return std::make_unique<my_type>(m_tensor_, std::move(new_shape),
+                                             std::move(new_alloc));
+    }
+    std::make_unique<shape_type>(make_extents(m_tensor_)).swap(new_shape);
     return std::make_unique<my_type>(m_tensor_, std::move(new_shape),
                                      std::move(new_alloc));
 }
@@ -96,7 +105,12 @@ typename PIMPL_TYPE::const_labeled_type PIMPL_TYPE::annotate(
 
 template<typename FieldType>
 typename PIMPL_TYPE::extents_type PIMPL_TYPE::extents() const {
-    return m_shape_ ? m_shape_->extents() : extents_type{};
+    if(m_shape_) {
+        auto ex = m_shape_->extents();
+        if(ex != extents_type{}) return ex;
+        return make_extents(m_tensor_);
+    }
+    return extents_type{};
 }
 
 template<typename FieldType>
@@ -192,6 +206,13 @@ bool PIMPL_TYPE::operator==(const TensorWrapperPIMPL& rhs) const {
         return std::visit(m, rhs.m_tensor_);
     };
     return std::visit(l, m_tensor_);
+}
+
+template<typename FieldType>
+void PIMPL_TYPE::update_shape() {
+    auto new_shape = std::make_unique<shape_type>(make_extents(m_tensor_));
+    if(m_shape_ && extents() == new_shape->extents()) return;
+    m_shape_.swap(new_shape);
 }
 
 //------------------------------------------------------------------------------

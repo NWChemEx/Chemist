@@ -215,6 +215,11 @@ typename TENSOR_WRAPPER::const_pimpl_reference TENSOR_WRAPPER::pimpl_() const {
       "Tensor has no PIMPL. Was it default constructed or moved from?");
 }
 
+template<typename FieldType>
+void TENSOR_WRAPPER::update_shape_() {
+    if(m_pimpl_) m_pimpl_->update_shape();
+}
+
 #undef TENSOR_WRAPPER
 
 template TensorWrapper<field::Tensor>::TensorWrapper<field::Scalar, void>(

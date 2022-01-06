@@ -98,6 +98,7 @@ auto LABELED_TENSOR_WRAPPER::operator=(RHSType&& rhs_tensor) {
         std::visit(m, rhs_variant);
     };
     std::visit(l, my_variant);
+    m_tensor_.update_shape_();
     return *this;
 }
 

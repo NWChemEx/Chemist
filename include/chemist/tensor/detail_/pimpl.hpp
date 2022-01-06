@@ -338,6 +338,8 @@ public:
      */
     const auto& variant() const { return m_tensor_; }
 
+    void update_shape();
+
 private:
     /// Guts of reshape, but doesn't set internal shape to other
     void reshape_(const shape_type& other);

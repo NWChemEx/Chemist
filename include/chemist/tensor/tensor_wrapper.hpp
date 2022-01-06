@@ -660,6 +660,8 @@ protected:
     const_labeled_type annotate_(const annotation_type& annotation) const;
     ///@}
 
+    void update_shape_();
+
     /** @brief Returns the wrapped variant.
      *
      *  This function is used by LabeledTensorWrapper to get
