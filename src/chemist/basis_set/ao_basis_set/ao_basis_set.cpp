@@ -90,6 +90,13 @@ typename AO_BS::const_flattened_shells AO_BS::shells() const noexcept {
                                   [&](size_type i) { return shell(i); });
 }
 
+template<typename T>
+std::vector<typename AO_BS::size_type> AO_BS::shell_offsets() const {
+    std::vector<size_type> rv{0};
+    for(auto&& x : *this) { rv.push_back(rv.back() + x.size()); }
+    return rv;
+}
+
 // ---------------------------- AOs --------------------------------------------
 
 template<typename T>
@@ -135,6 +142,13 @@ typename AOBasisSet<T>::const_flattened_aos AO_BS::aos() const noexcept {
     return const_flattened_aos([&]() { return n_aos(); },
                                [&](size_type i) { return ao(i); },
                                [&](size_type i) { return ao(i); });
+}
+
+template<typename T>
+std::vector<typename AO_BS::size_type> AO_BS::ao_offsets() const {
+    std::vector<size_type> rv{0};
+    for(auto&& x : *this) { rv.push_back(rv.back() + x.n_aos()); }
+    return rv;
 }
 
 // -------------------------- Primitives --------------------------------------
