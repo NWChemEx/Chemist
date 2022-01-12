@@ -202,6 +202,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8b84fc753ef8580bd9a39fd093ca2db8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1AOBasisSet.html#a6a416c766069af64e303e93a75cca7b8">const_flattened_shells</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1AOBasisSet.html#a8b84fc753ef8580bd9a39fd093ca2db8">shells</a> () const noexcept</td></tr>
 <tr class="memdesc:a8b84fc753ef8580bd9a39fd093ca2db8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a proxy container to facilitate looping over shells in a foreach loop.  <a href="classchemist_1_1AOBasisSet.html#a8b84fc753ef8580bd9a39fd093ca2db8">More...</a><br /></td></tr>
 <tr class="separator:a8b84fc753ef8580bd9a39fd093ca2db8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac96bcb542658016dea3be538881e0865"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classchemist_1_1AOBasisSet.html#ae57ada0bce3146ca75d87d52fe70dc0a">size_type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1AOBasisSet.html#ac96bcb542658016dea3be538881e0865">shell_offsets</a> () const</td></tr>
+<tr class="memdesc:ac96bcb542658016dea3be538881e0865"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a vector of shell offsets per center.  <a href="classchemist_1_1AOBasisSet.html#ac96bcb542658016dea3be538881e0865">More...</a><br /></td></tr>
+<tr class="separator:ac96bcb542658016dea3be538881e0865"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac95a05fa467191bd93b0faebf8fb9eb3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1AOBasisSet.html#ae57ada0bce3146ca75d87d52fe70dc0a">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1AOBasisSet.html#ac95a05fa467191bd93b0faebf8fb9eb3">n_aos</a> () const noexcept</td></tr>
 <tr class="memdesc:ac95a05fa467191bd93b0faebf8fb9eb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total number of AOs in this basis set.  <a href="classchemist_1_1AOBasisSet.html#ac95a05fa467191bd93b0faebf8fb9eb3">More...</a><br /></td></tr>
 <tr class="separator:ac95a05fa467191bd93b0faebf8fb9eb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -217,6 +220,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae76200a20095ee5942ae13c4b1e272a5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1AOBasisSet.html#ad43942c5178d2b644ea4b19a73506160">const_flattened_aos</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1AOBasisSet.html#ae76200a20095ee5942ae13c4b1e272a5">aos</a> () const noexcept</td></tr>
 <tr class="memdesc:ae76200a20095ee5942ae13c4b1e272a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a proxy container to facilitate looping over AOs in a foreach loop.  <a href="classchemist_1_1AOBasisSet.html#ae76200a20095ee5942ae13c4b1e272a5">More...</a><br /></td></tr>
 <tr class="separator:ae76200a20095ee5942ae13c4b1e272a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87fbdedcae5e7dbed00c678e6315fc72"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classchemist_1_1AOBasisSet.html#ae57ada0bce3146ca75d87d52fe70dc0a">size_type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1AOBasisSet.html#a87fbdedcae5e7dbed00c678e6315fc72">ao_offsets</a> () const</td></tr>
+<tr class="memdesc:a87fbdedcae5e7dbed00c678e6315fc72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a vector of AO offsets per center.  <a href="classchemist_1_1AOBasisSet.html#a87fbdedcae5e7dbed00c678e6315fc72">More...</a><br /></td></tr>
+<tr class="separator:a87fbdedcae5e7dbed00c678e6315fc72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7b4dd50e070ce9e314acb10e24280ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1AOBasisSet.html#ae57ada0bce3146ca75d87d52fe70dc0a">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1AOBasisSet.html#af7b4dd50e070ce9e314acb10e24280ef">n_unique_primitives</a> () const noexcept</td></tr>
 <tr class="memdesc:af7b4dd50e070ce9e314acb10e24280ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total number of unique primitives in this basis set.  <a href="classchemist_1_1AOBasisSet.html#af7b4dd50e070ce9e314acb10e24280ef">More...</a><br /></td></tr>
 <tr class="separator:af7b4dd50e070ce9e314acb10e24280ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -464,6 +470,29 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a87fbdedcae5e7dbed00c678e6315fc72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87fbdedcae5e7dbed00c678e6315fc72">&#9670;&nbsp;</a></span>ao_offsets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="classchemist_1_1AOBasisSet.html#ae57ada0bce3146ca75d87d52fe70dc0a">size_type</a>&gt; <a class="el" href="classchemist_1_1AOBasisSet.html">chemist::AOBasisSet</a>&lt; T &gt;::ao_offsets </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a vector of AO offsets per center. </p>
+<p>This function returns a vector whose elements are such that the i-th element is the first AO on the i-th center in the set and the final element is the total number of AOs.</p>
+<dl class="section return"><dt>Returns</dt><dd>A vector of shell offsets </dd></dl>
 
 </div>
 </div>
@@ -1006,6 +1035,29 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ac96bcb542658016dea3be538881e0865"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac96bcb542658016dea3be538881e0865">&#9670;&nbsp;</a></span>shell_offsets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="classchemist_1_1AOBasisSet.html#ae57ada0bce3146ca75d87d52fe70dc0a">size_type</a>&gt; <a class="el" href="classchemist_1_1AOBasisSet.html">chemist::AOBasisSet</a>&lt; T &gt;::shell_offsets </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a vector of shell offsets per center. </p>
+<p>This function returns a vector whose elements are such that the i-th element is the first shell on the i-th center in the set and the final element is the total number of shells.</p>
+<dl class="section return"><dt>Returns</dt><dd>A vector of shell offsets </dd></dl>
 
 </div>
 </div>
