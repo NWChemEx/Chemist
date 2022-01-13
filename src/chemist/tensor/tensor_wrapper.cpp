@@ -21,6 +21,20 @@ auto new_variant(const VariantType& other,
     return std::visit(l, other);
 }
 
+template<typename ElementType, std::size_t Rank, typename FieldType>
+auto il_to_tensor(const n_d_initializer_list_t<ElementType, Rank>& il,
+                  const Allocator<FieldType>& alloc) {
+    using traits_type      = detail_::FieldTraits<FieldType>;
+    using variant_type     = typename traits_type::variant_type;
+    using default_tensor_t = std::variant_alternative_t<0, variant_type>;
+    if constexpr(std::is_same_v<FieldType, field::Scalar>) {
+        return default_tensor_t(alloc.runtime(), il);
+    } else {
+        throw std::runtime_error("ToT initializer lists NYI.");
+        return default_tensor_t{};
+    }
+}
+
 } // namespace
 
 // Macro to avoid typing the full type of the TensorWrapper
@@ -57,6 +71,26 @@ TENSOR_WRAPPER::TensorWrapper(variant_type v, shape_pointer pshape,
                               allocator_pointer palloc) :
   m_pimpl_(std::make_unique<pimpl_type>(std::move(v), std::move(pshape),
                                         std::move(palloc))) {}
+
+template<typename FieldType>
+TENSOR_WRAPPER::TensorWrapper(n_d_initializer_list_t<element_type, 1> il,
+                              allocator_pointer p) :
+  TensorWrapper(il_to_tensor<element_type, 1>(il, *p), p->clone()) {}
+
+template<typename FieldType>
+TENSOR_WRAPPER::TensorWrapper(n_d_initializer_list_t<element_type, 2> il,
+                              allocator_pointer p) :
+  TensorWrapper(il_to_tensor<element_type, 2>(il, *p), p->clone()) {}
+
+template<typename FieldType>
+TENSOR_WRAPPER::TensorWrapper(n_d_initializer_list_t<element_type, 3> il,
+                              allocator_pointer p) :
+  TensorWrapper(il_to_tensor<element_type, 3>(il, *p), p->clone()) {}
+
+template<typename FieldType>
+TENSOR_WRAPPER::TensorWrapper(n_d_initializer_list_t<element_type, 4> il,
+                              allocator_pointer p) :
+  TensorWrapper(il_to_tensor<element_type, 4>(il, *p), p->clone()) {}
 
 template<typename FieldType>
 TENSOR_WRAPPER::TensorWrapper(const TensorWrapper& other) :

@@ -4,6 +4,7 @@
 #include "chemist/tensor/fields.hpp"
 #include "chemist/tensor/shapes/shape.hpp"
 #include "chemist/tensor/type_traits/field_traits.hpp"
+#include "chemist/tensor/type_traits/nd_initializer_list_traits.hpp"
 #include <pluginplay/hasher.hpp>
 
 namespace chemist::tensor {
@@ -109,6 +110,9 @@ private:
 
     template<typename T>
     using eif_t_to_tot_conversion = std::enable_if_t<is_t_to_tot_v<T>>;
+
+    using element_type =
+      std::conditional_t<!is_tot, double, TensorWrapper<field::Scalar>>;
 
 public:
     /// Type of a pointer to the pimpl
@@ -265,6 +269,14 @@ public:
     TensorWrapper(const TensorWrapper<OtherField>& other, sparse_pointer pshape,
                   allocator_pointer palloc = default_allocator<field_type>());
 
+    TensorWrapper(n_d_initializer_list_t<element_type, 1> il,
+                  allocator_pointer p);
+    TensorWrapper(n_d_initializer_list_t<element_type, 2> il,
+                  allocator_pointer p);
+    TensorWrapper(n_d_initializer_list_t<element_type, 3> il,
+                  allocator_pointer p);
+    TensorWrapper(n_d_initializer_list_t<element_type, 4> il,
+                  allocator_pointer p);
     /** @brief Makes a copy of another TensorWrapper
      *
      *  The exact semantics of the copy ctor are defined by the
