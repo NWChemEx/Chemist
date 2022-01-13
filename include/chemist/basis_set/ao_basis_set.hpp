@@ -231,6 +231,16 @@ public:
      */
     const_flattened_shells shells() const noexcept;
 
+    /** @brief Returns a vector of shell offsets per center
+     *
+     *  This function returns a vector whose elements are such that the i-th
+     *  element is the first shell on the i-th center in the set and the final
+     *  element is the total number of shells.
+     *
+     *  @return A vector of shell offsets
+     */
+    std::vector<size_type> shell_offsets() const;
+
     // ---------------------------- AOs ----------------------------------------
     /// Type used to model an AO
     using ao_type = typename value_type::ao_type;
@@ -320,6 +330,16 @@ public:
      *  @throw None No throw guarantee.
      */
     const_flattened_aos aos() const noexcept;
+
+    /** @brief Returns a vector of AO offsets per center
+     *
+     *  This function returns a vector whose elements are such that the i-th
+     *  element is the first AO on the i-th center in the set and the final
+     *  element is the total number of AOs.
+     *
+     *  @return A vector of shell offsets
+     */
+    std::vector<size_type> ao_offsets() const;
 
     // ---------------------------- Primitives ---------------------------------
     /// Type used to model a primitive Gaussian

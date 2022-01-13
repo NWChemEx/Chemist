@@ -130,6 +130,13 @@ TEST_CASE("AOBasisSet : shells() const") {
     }
 }
 
+TEST_CASE("AOBasisSet : shell_offsets()") {
+    auto [bs, c] = make_bs();
+    bs.add_center(c);
+    auto shell_offsets = bs.shell_offsets();
+    REQUIRE(shell_offsets == std::vector<bs_t::size_type>{0, 2, 4});
+}
+
 TEST_CASE("AOBasisSet : n_aos()") {
     auto [bs, c] = make_bs();
     REQUIRE(bs.n_aos() == 6);
@@ -179,6 +186,13 @@ TEST_CASE("AOBasisSet : aos() const") {
     for(auto&& [i, ao_i] : utilities::Enumerate(bs.aos())) {
         REQUIRE(ao_i == corr[i]);
     }
+}
+
+TEST_CASE("AOBasisSet : ao_offsets()") {
+    auto [bs, c] = make_bs();
+    bs.add_center(c);
+    auto ao_offsets = bs.ao_offsets();
+    REQUIRE(ao_offsets == std::vector<bs_t::size_type>{0, 6, 12});
 }
 
 TEST_CASE("AOBasisSet : n_unique_primitives()") {
