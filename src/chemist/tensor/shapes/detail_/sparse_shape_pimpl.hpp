@@ -128,6 +128,10 @@ public:
      */
     bool operator==(const SparseShapePIMPL& rhs) const noexcept;
 
+    const auto& sparse_map() const noexcept { return m_sm_; }
+
+    const auto& idx2mode_map() const noexcept { return m_i2m_; }
+
 protected:
     /// Additionally hashes the sparse map and index mapping
     void hash_(pluginplay::Hasher& h) const override;

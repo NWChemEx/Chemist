@@ -1,6 +1,41 @@
 #include "chemist/tensor/detail_/pimpl.hpp"
 
 namespace chemist::tensor {
+namespace {
+
+template<typename VariantType>
+auto new_variant(const VariantType& other,
+                 const SparseShape<field::Tensor>& shape,
+                 const Allocator<field::Tensor>& alloc) {
+    const auto sm       = shape.sparse_map();
+    const auto tr       = alloc.make_tiled_range(shape.extents());
+    const auto idx2mode = shape.idx2mode_map();
+    std::map<std::size_t, std::size_t> idx2mode_map;
+    for(std::size_t i = 0; i < idx2mode.size(); ++i)
+        idx2mode_map[i] = idx2mode[i];
+    using variant_type =
+      typename detail_::FieldTraits<field::Tensor>::variant_type;
+    auto l = [=](auto&& tensor_in) {
+        return variant_type{from_sparse_map(sm, tensor_in, tr, idx2mode_map)};
+    };
+    return std::visit(l, other);
+}
+
+template<typename ElementType, std::size_t Rank, typename FieldType>
+auto il_to_tensor(const n_d_initializer_list_t<ElementType, Rank>& il,
+                  const Allocator<FieldType>& alloc) {
+    using traits_type      = detail_::FieldTraits<FieldType>;
+    using variant_type     = typename traits_type::variant_type;
+    using default_tensor_t = std::variant_alternative_t<0, variant_type>;
+    if constexpr(std::is_same_v<FieldType, field::Scalar>) {
+        return default_tensor_t(alloc.runtime(), il);
+    } else {
+        throw std::runtime_error("ToT initializer lists NYI.");
+        return default_tensor_t{};
+    }
+}
+
+} // namespace
 
 // Macro to avoid typing the full type of the TensorWrapper
 #define TENSOR_WRAPPER TensorWrapper<FieldType>
@@ -17,12 +52,45 @@ TENSOR_WRAPPER::TensorWrapper(allocator_pointer p) :
   TensorWrapper(variant_type{}, std::move(p)) {}
 
 template<typename FieldType>
-TENSOR_WRAPPER::TensorWrapper(const shape_type& shape, allocator_pointer p) :
-  TensorWrapper(p->new_tensor(shape), std::move(p)) {}
+TENSOR_WRAPPER::TensorWrapper(shape_pointer shape, allocator_pointer p) :
+  TensorWrapper(p->new_tensor(*shape), std::move(shape), std::move(p)) {}
+
+template<typename FieldType>
+template<typename OtherField, typename>
+TENSOR_WRAPPER::TensorWrapper(const TensorWrapper<OtherField>& other,
+                              sparse_pointer pshape, allocator_pointer palloc) :
+  TensorWrapper(new_variant(other.pimpl_().variant(), *pshape, *palloc),
+                pshape->clone(), palloc->clone()) {}
 
 template<typename FieldType>
 TENSOR_WRAPPER::TensorWrapper(variant_type v, allocator_pointer p) :
   m_pimpl_(std::make_unique<pimpl_type>(std::move(v), std::move(p))) {}
+
+template<typename FieldType>
+TENSOR_WRAPPER::TensorWrapper(variant_type v, shape_pointer pshape,
+                              allocator_pointer palloc) :
+  m_pimpl_(std::make_unique<pimpl_type>(std::move(v), std::move(pshape),
+                                        std::move(palloc))) {}
+
+template<typename FieldType>
+TENSOR_WRAPPER::TensorWrapper(n_d_initializer_list_t<element_type, 1> il,
+                              allocator_pointer p) :
+  TensorWrapper(il_to_tensor<element_type, 1>(il, *p), p->clone()) {}
+
+template<typename FieldType>
+TENSOR_WRAPPER::TensorWrapper(n_d_initializer_list_t<element_type, 2> il,
+                              allocator_pointer p) :
+  TensorWrapper(il_to_tensor<element_type, 2>(il, *p), p->clone()) {}
+
+template<typename FieldType>
+TENSOR_WRAPPER::TensorWrapper(n_d_initializer_list_t<element_type, 3> il,
+                              allocator_pointer p) :
+  TensorWrapper(il_to_tensor<element_type, 3>(il, *p), p->clone()) {}
+
+template<typename FieldType>
+TENSOR_WRAPPER::TensorWrapper(n_d_initializer_list_t<element_type, 4> il,
+                              allocator_pointer p) :
+  TensorWrapper(il_to_tensor<element_type, 4>(il, *p), p->clone()) {}
 
 template<typename FieldType>
 TENSOR_WRAPPER::TensorWrapper(const TensorWrapper& other) :
@@ -101,6 +169,11 @@ typename TENSOR_WRAPPER::size_type TENSOR_WRAPPER::size() const {
 }
 
 template<typename FieldType>
+typename TENSOR_WRAPPER::const_shape_reference TENSOR_WRAPPER::shape() const {
+    return pimpl_().shape();
+}
+
+template<typename FieldType>
 TENSOR_WRAPPER TENSOR_WRAPPER::slice(const il_type& lo, const il_type& hi,
                                      allocator_pointer p) const {
     TENSOR_WRAPPER rv;
@@ -109,10 +182,9 @@ TENSOR_WRAPPER TENSOR_WRAPPER::slice(const il_type& lo, const il_type& hi,
 }
 
 template<typename FieldType>
-TENSOR_WRAPPER TENSOR_WRAPPER::reshape(
-  const std::initializer_list<size_type>& shape) const {
+TENSOR_WRAPPER TENSOR_WRAPPER::reshape(shape_pointer shape) const {
     TENSOR_WRAPPER rv(*this);
-    rv.pimpl_().reshape(shape);
+    rv.pimpl_().reshape(std::move(shape));
     return rv;
 }
 
@@ -177,7 +249,17 @@ typename TENSOR_WRAPPER::const_pimpl_reference TENSOR_WRAPPER::pimpl_() const {
       "Tensor has no PIMPL. Was it default constructed or moved from?");
 }
 
+template<typename FieldType>
+void TENSOR_WRAPPER::update_shape_() {
+    if(m_pimpl_) m_pimpl_->update_shape();
+}
+
 #undef TENSOR_WRAPPER
+
+template TensorWrapper<field::Tensor>::TensorWrapper<field::Scalar, void>(
+  const TensorWrapper<field::Scalar>&,
+  typename TensorWrapper<field::Tensor>::sparse_pointer,
+  typename TensorWrapper<field::Tensor>::allocator_pointer);
 
 template class TensorWrapper<field::Scalar>;
 template class TensorWrapper<field::Tensor>;

@@ -18,6 +18,23 @@ auto to_vector_from_pimpl(const TensorWrapperPIMPL<field::Scalar>& t) {
     }
     return rv;
 }
+
+template<typename VariantType>
+auto make_extents(VariantType&& v) {
+    using extents_type = TensorWrapperPIMPL<field::Scalar>::extents_type;
+    using size_type    = typename extents_type::size_type;
+
+    auto l = [=](auto&& t) {
+        if(!t.is_initialized()) return extents_type{};
+        const auto& tr = t.trange();
+        extents_type rv(tr.rank());
+        const auto& erange = tr.elements_range().extent();
+        for(size_type i = 0; i < rv.size(); ++i) rv[i] = erange[i];
+        return rv;
+    };
+    return std::visit(l, std::forward<VariantType>(v));
+}
+
 } // namespace
 
 // Macro to avoid retyping the full type of the PIMPL
@@ -25,22 +42,49 @@ auto to_vector_from_pimpl(const TensorWrapperPIMPL<field::Scalar>& t) {
 
 template<typename FieldType>
 PIMPL_TYPE::TensorWrapperPIMPL(variant_type v, allocator_pointer p) :
-  m_tensor_(std::move(v)), m_allocator_(std::move(p)) {
-    if constexpr(std::is_same_v<FieldType, field::Scalar>) {
-        reallocate(std::move(m_allocator_));
-    }
+  m_tensor_(std::move(v)),
+  m_allocator_(std::move(p)),
+  m_shape_(std::make_unique<shape_type>(make_extents(m_tensor_))) {
+    reallocate_(*m_allocator_);
+}
+
+template<typename FieldType>
+PIMPL_TYPE::TensorWrapperPIMPL(variant_type v, shape_pointer s,
+                               allocator_pointer p) :
+  m_tensor_(std::move(v)),
+  m_allocator_(std::move(p)),
+  m_shape_(std::make_unique<shape_type>(make_extents(m_tensor_))) {
+    reallocate_(*m_allocator_);
+    reshape(std::move(s));
 }
 
 template<typename FieldType>
 typename PIMPL_TYPE::pimpl_pointer PIMPL_TYPE::clone() const {
     allocator_pointer new_alloc(m_allocator_ ? m_allocator_->clone() : nullptr);
-    return std::make_unique<my_type>(m_tensor_, std::move(new_alloc));
+    shape_pointer new_shape(m_shape_ ? m_shape_->clone() : nullptr);
+    // TODO: This is a hack to compensate for shape not propogating through
+    //       expressions. Fix that and remove this.
+    if(m_shape_) {
+        auto ex = m_shape_->extents();
+        if(ex != extents_type{})
+            return std::make_unique<my_type>(m_tensor_, std::move(new_shape),
+                                             std::move(new_alloc));
+    }
+    std::make_unique<shape_type>(make_extents(m_tensor_)).swap(new_shape);
+    return std::make_unique<my_type>(m_tensor_, std::move(new_shape),
+                                     std::move(new_alloc));
 }
 
 template<typename FieldType>
 typename PIMPL_TYPE::const_allocator_reference PIMPL_TYPE::allocator() const {
     if(m_allocator_) return *m_allocator_;
     throw std::runtime_error("Tensor has no allocator!!!!");
+}
+
+template<typename FieldType>
+typename PIMPL_TYPE::const_shape_reference PIMPL_TYPE::shape() const {
+    if(m_shape_) return *m_shape_;
+    throw std::runtime_error("Tensor has no shape!!!!");
 }
 
 template<typename FieldType>
@@ -61,15 +105,12 @@ typename PIMPL_TYPE::const_labeled_type PIMPL_TYPE::annotate(
 
 template<typename FieldType>
 typename PIMPL_TYPE::extents_type PIMPL_TYPE::extents() const {
-    auto l = [&](auto&& arg) {
-        extents_type rv;
-        if(!arg.is_initialized()) return rv;
-        const auto& tr = arg.trange();
-        for(size_type i = 0; i < tr.rank(); ++i)
-            rv.push_back(tr.dim(i).extent());
-        return rv;
-    };
-    return std::visit(l, m_tensor_);
+    if(m_shape_) {
+        auto ex = m_shape_->extents();
+        if(ex != extents_type{}) return ex;
+        return make_extents(m_tensor_);
+    }
+    return extents_type{};
 }
 
 template<typename FieldType>
@@ -95,56 +136,14 @@ typename PIMPL_TYPE::rank_type PIMPL_TYPE::rank() const {
 
 template<typename FieldType>
 void PIMPL_TYPE::reallocate(allocator_pointer p) {
-    if constexpr(std::is_same_v<FieldType, field::Scalar>) {
-        auto l = [&](auto&& arg) {
-            if(!arg.is_initialized()) return;
-            const auto tr = p->make_tiled_range(extents());
-            if(arg.trange() != tr) arg = TA::retile(arg, tr);
-        };
-        std::visit(l, m_tensor_);
-    } else {
-        throw std::runtime_error("reallocate for ToT NYI!!!");
-    }
+    reallocate_(*p);
     m_allocator_ = std::move(p);
 }
 
 template<typename FieldType>
-void PIMPL_TYPE::reshape(const il_type& shape) {
-    const auto times_op = std::multiplies<size_t>();
-    auto new_volume = std::accumulate(shape.begin(), shape.end(), 1, times_op);
-    if(new_volume != size()) {
-        std::string msg =
-          "Volume of the new shape: " + std::to_string(new_volume) +
-          " is not the same as " +
-          "the volume of the old shape: " + std::to_string(size());
-        throw std::runtime_error(msg);
-    }
-
-    // TODO: Use allocator and do not hard-code to a single tile.
-    std::vector<TA::TiledRange1> tr1s;
-    for(auto x : shape) tr1s.emplace_back(TA::TiledRange1{0, x});
-    TA::TiledRange tr(tr1s.begin(), tr1s.end());
-
-    // TODO: Use a distribution aware algorithm
-    auto l = [=](auto&& arg) {
-        using clean_t = std::decay_t<decltype(arg)>;
-        clean_t rv;
-        if constexpr(TensorTraits<clean_t>::is_tot) {
-            std::runtime_error("Can't reshape a ToT");
-        } else {
-            auto data = to_vector_from_pimpl(*this);
-            rv        = TA::make_array<clean_t>(
-              arg.world(), tr, [=](auto& tile, const auto& range) {
-                  tile = std::decay_t<decltype(tile)>(range);
-                  for(const auto& new_idx : range) {
-                      tile[new_idx] = data[range.ordinal(new_idx)];
-                  }
-                  return tile.norm();
-              });
-        }
-        return rv;
-    };
-    m_tensor_ = std::visit(l, m_tensor_);
+void PIMPL_TYPE::reshape(shape_pointer pshape) {
+    reshape_(*pshape);
+    m_shape_ = std::move(pshape);
 }
 
 template<typename FieldType>
@@ -183,12 +182,25 @@ std::ostream& PIMPL_TYPE::print(std::ostream& os) const {
 
 template<typename FieldType>
 void PIMPL_TYPE::hash(pluginplay::Hasher& h) const {
+    h(m_shape_, m_allocator_);
     auto l = [&](auto&& arg) { h(arg); };
     std::visit(l, m_tensor_);
 }
 
 template<typename FieldType>
 bool PIMPL_TYPE::operator==(const TensorWrapperPIMPL& rhs) const {
+    // Compare shapes
+    if(m_shape_ && rhs.m_shape_) {
+        if(!m_shape_->is_equal(*rhs.m_shape_)) return false;
+    } else if(!m_shape_ != !rhs.m_shape_)
+        return false;
+
+    // Compare allocators
+    if(m_allocator_ && rhs.m_allocator_) {
+        if(!m_allocator_->is_equal(*rhs.m_allocator_)) return false;
+    } else if(!m_allocator_ != !rhs.m_allocator_)
+        return false;
+
     auto l = [&](auto&& lhs) {
         auto m = [&](auto&& rhs) { return lhs == rhs; };
         return std::visit(m, rhs.m_tensor_);
@@ -196,9 +208,97 @@ bool PIMPL_TYPE::operator==(const TensorWrapperPIMPL& rhs) const {
     return std::visit(l, m_tensor_);
 }
 
+template<typename FieldType>
+void PIMPL_TYPE::update_shape() {
+    auto new_shape = std::make_unique<shape_type>(make_extents(m_tensor_));
+    if(m_shape_ && extents() == new_shape->extents()) return;
+    m_shape_.swap(new_shape);
+}
+
 //------------------------------------------------------------------------------
 //                     Private Member Functions
 //------------------------------------------------------------------------------
+
+template<typename FieldType>
+void PIMPL_TYPE::reshape_(const shape_type& other) {
+    auto shape = other.extents();
+
+    // Short-circuit if shapes are polymorphically equivalent
+    if(m_shape_->is_equal(other)) return;
+
+    // If the extents aren't the same we're shuffling elements around
+    if(shape != extents()) shuffle_(shape);
+
+    // TODO: This is basically a hack to compare the sparsities
+    auto ta_tensor = other.make_tensor(*m_allocator_);
+
+    auto l = [&](auto&& old_tensor) {
+        auto m = [&](auto&& new_tensor) {
+            if(old_tensor.shape() == new_tensor.shape()) return;
+            const auto& new_shape = new_tensor.shape();
+            auto dummy_idx        = make_annotation("j");
+            old_tensor(dummy_idx) = old_tensor(dummy_idx).set_shape(new_shape);
+        };
+        std::visit(m, ta_tensor);
+    };
+    std::visit(l, m_tensor_);
+}
+
+template<typename FieldType>
+void PIMPL_TYPE::reallocate_(const_allocator_reference p) {
+    auto l = [&](auto&& arg) {
+        // We have nothing to do if it's not initialized yet
+        if(!arg.is_initialized()) return;
+
+        // Only retile if the tiled ranges are different
+        const auto tr = p.make_tiled_range(extents());
+        if(arg.trange() != tr) {
+            if constexpr(std::is_same_v<FieldType, field::Scalar>) {
+                arg = TA::retile(arg, tr);
+            } else {
+                throw std::runtime_error("reallocate for ToT NYI!!!");
+            }
+        }
+    };
+    std::visit(l, m_tensor_);
+}
+
+template<typename FieldType>
+void PIMPL_TYPE::shuffle_(const extents_type& shape) {
+    const auto times_op = std::multiplies<size_t>();
+    auto new_volume = std::accumulate(shape.begin(), shape.end(), 1, times_op);
+
+    if(new_volume != size()) {
+        std::string msg =
+          "Volume of the new shape: " + std::to_string(new_volume) +
+          " is not the same as " +
+          "the volume of the old shape: " + std::to_string(size());
+        throw std::runtime_error(msg);
+    }
+
+    auto tr = m_allocator_->make_tiled_range(shape);
+
+    // TODO: Use a distribution aware algorithm
+    auto l = [=](auto&& arg) {
+        using clean_t = std::decay_t<decltype(arg)>;
+        clean_t rv;
+        if constexpr(TensorTraits<clean_t>::is_tot) {
+            std::runtime_error("Can't reshape a ToT");
+        } else {
+            auto data = to_vector_from_pimpl(*this);
+            rv        = TA::make_array<clean_t>(
+              arg.world(), tr, [=](auto& tile, const auto& range) {
+                  tile = std::decay_t<decltype(tile)>(range);
+                  for(const auto& new_idx : range) {
+                      tile[new_idx] = data[range.ordinal(new_idx)];
+                  }
+                  return tile.norm();
+              });
+        }
+        return rv;
+    };
+    m_tensor_ = std::visit(l, m_tensor_);
+}
 
 template<typename FieldType>
 typename PIMPL_TYPE::rank_type PIMPL_TYPE::inner_rank_() const noexcept {

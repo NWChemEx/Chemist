@@ -4,6 +4,7 @@
 #include "chemist/tensor/fields.hpp"
 #include "chemist/tensor/shapes/shape.hpp"
 #include "chemist/tensor/type_traits/field_traits.hpp"
+#include "chemist/tensor/type_traits/nd_initializer_list_traits.hpp"
 #include <pluginplay/hasher.hpp>
 
 namespace chemist::tensor {
@@ -100,6 +101,19 @@ private:
     template<typename T>
     using eif_diff_fields = std::enable_if_t<!same_field_v<T>>;
 
+    /// True if this class wraps a ToT and false otherwise
+    static constexpr bool is_tot = std::is_same_v<FieldType, field::Tensor>;
+
+    template<typename T>
+    static constexpr bool is_t_to_tot_v =
+      std::is_same_v<T, field::Scalar>&& is_tot;
+
+    template<typename T>
+    using eif_t_to_tot_conversion = std::enable_if_t<is_t_to_tot_v<T>>;
+
+    using element_type =
+      std::conditional_t<!is_tot, double, TensorWrapper<field::Scalar>>;
+
 public:
     /// Type of a pointer to the pimpl
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
@@ -130,6 +144,15 @@ public:
 
     /// Type used for describing the shape of the tensor
     using shape_type = Shape<FieldType>;
+
+    /// Type of a pointer to a shape
+    using shape_pointer = std::unique_ptr<shape_type>;
+
+    /// Type of a pointer to a sparse shape
+    using sparse_pointer = std::unique_ptr<SparseShape<FieldType>>;
+
+    /// Type of a read-only reference to a shape
+    using const_shape_reference = const shape_type&;
 
     /// Type used for returning the extents
     using extents_type = typename shape_type::extents_type;
@@ -187,16 +210,16 @@ public:
      *             guarantee.
      */
     explicit TensorWrapper(
-      const shape_type& shape,
+      shape_pointer shape,
       allocator_pointer p = default_allocator<field_type>());
 
     /** @brief Wrapping CTor
      *
      *  This constructor creates a new TensorWrapper instance which wraps the
      *  provided Tensor. After this call the TensorWrapper will either contain
-     * a copy of the provided tensor or it will have taken ownership of it
-     *  depending on whether or not the tensor was moved into the
-     * TensorWrapper.
+     *  a copy of the provided tensor or it will have taken ownership of it
+     *  depending on whether or not the tensor was moved into the TensorWrapper.
+     *  This ctor will automatically create a Shape instance from @p t.
      *
      *  @tparam TensorType The type of the tensor we are wrapping. TensorType
      *                      must be one of the types the PIMPL recognizes as a
@@ -215,6 +238,45 @@ public:
     explicit TensorWrapper(
       TensorType&& t, allocator_pointer p = default_allocator<field_type>());
 
+    /** @brief Wrapping CTor with shape
+     *
+     *  This constructor creates a new TensorWrapper instance which wraps the
+     *  provided Tensor. After this call the TensorWrapper will either contain
+     *  a copy of the provided tensor or it will have taken ownership of it
+     *  depending on whether or not the tensor was moved into the TensorWrapper.
+     *
+     *  @tparam TensorType The type of the tensor we are wrapping. TensorType
+     *                      must be one of the types the PIMPL recognizes as a
+     *                      tensor.
+     *  @tparam <anonymous> A type used to disable this ctor via SFINAE if
+     *                      @p TensorType is not a tensor type in the PIMPL.
+     *
+     *  @param[in] t The tensor this TensorWrapper instance should wrap. @p t
+     *               should be initialized and set.
+     *  @param[in] shape A pointer to the base class of the object describing
+     *               the shape of the tensor.
+     *  @param[in] p A pointer to the allocator the tensor wrapper should use.
+     *               By default the result of `default_allocator<field_type>`
+     *               is used.
+     */
+    template<typename TensorType,
+             typename = eif_is_tensor<std::decay_t<TensorType>>>
+    TensorWrapper(TensorType&& t, shape_pointer shape,
+                  allocator_pointer p = default_allocator<field_type>());
+
+    template<typename OtherField,
+             typename = eif_t_to_tot_conversion<OtherField>>
+    TensorWrapper(const TensorWrapper<OtherField>& other, sparse_pointer pshape,
+                  allocator_pointer palloc = default_allocator<field_type>());
+
+    TensorWrapper(n_d_initializer_list_t<element_type, 1> il,
+                  allocator_pointer p);
+    TensorWrapper(n_d_initializer_list_t<element_type, 2> il,
+                  allocator_pointer p);
+    TensorWrapper(n_d_initializer_list_t<element_type, 3> il,
+                  allocator_pointer p);
+    TensorWrapper(n_d_initializer_list_t<element_type, 4> il,
+                  allocator_pointer p);
     /** @brief Makes a copy of another TensorWrapper
      *
      *  The exact semantics of the copy ctor are defined by the
@@ -408,6 +470,13 @@ public:
      */
     extents_type extents() const;
 
+    /** @brief Returns a read-only reference to the tensor's shape.
+     *
+     *  @return A read-only reference to the base class of the shape held by
+     *          the tensor.
+     */
+    const_shape_reference shape() const;
+
     /** @brief Returns the number of elements in this tensor.
      *
      *  This function returns the total number of elements in
@@ -463,7 +532,7 @@ public:
      * same volume as the wrapped tensor. Strong throw
      * guarantee.
      */
-    TensorWrapper reshape(const il_type& shape) const;
+    TensorWrapper reshape(shape_pointer shape) const;
 
     /** @brief Used to get the wrapped tensor back.
      *
@@ -570,8 +639,9 @@ protected:
     template<typename OtherField>
     friend class TensorWrapper;
 
-    /// Primary ctor, all other ctors delegate to this one
+    /// Primary ctors, all other ctors delegate to these ones
     TensorWrapper(variant_type v, allocator_pointer p);
+    TensorWrapper(variant_type v, shape_pointer pshape, allocator_pointer p);
 
     /// Right now these are used for get(); the long term plan is to remove them
     ///@{
@@ -601,6 +671,8 @@ protected:
 
     const_labeled_type annotate_(const annotation_type& annotation) const;
     ///@}
+
+    void update_shape_();
 
     /** @brief Returns the wrapped variant.
      *
@@ -684,6 +756,13 @@ template<typename FieldType>
 template<typename TensorType, typename>
 TensorWrapper<FieldType>::TensorWrapper(TensorType&& t, allocator_pointer p) :
   TensorWrapper(variant_type(std::forward<TensorType>(t)), std::move(p)) {}
+
+template<typename FieldType>
+template<typename TensorType, typename>
+TensorWrapper<FieldType>::TensorWrapper(TensorType&& t, shape_pointer pshape,
+                                        allocator_pointer p) :
+  TensorWrapper(variant_type(std::forward<TensorType>(t)), std::move(pshape),
+                std::move(p)) {}
 
 //------------------------------------------------------------------------------
 //               Forward Declaration of Explicit Instantiations

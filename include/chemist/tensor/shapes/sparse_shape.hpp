@@ -45,8 +45,14 @@ public:
     /// Type of the sparse map taken as input
     using sparse_map_type = sparse_map::SparseMapEE;
 
+    /// Type of a read-only reference to the sparse map the shape is using
+    using const_sparse_map_reference = const sparse_map_type&;
+
     /// Type of the input mapping sparse map indices to tensor modes
     using idx2mode_type = std::vector<std::size_t>;
+
+    /// Type of a read-only reference to the sparse map to tensor mode map
+    using const_idx2mode_reference = const idx2mode_type&;
 
     /** @brief Creates a new SparseShape from extents and a SparseMap.
      *
@@ -138,6 +144,10 @@ public:
         return false;
     }
 
+    const_sparse_map_reference sparse_map() const;
+
+    const_idx2mode_reference idx2mode_map() const;
+
 protected:
     /** @brief Makes a non-polymorphic copy of this instance.
      *
@@ -159,6 +169,8 @@ private:
     /// Overrides make_tensor to account for sparsity
     virtual tensor_type make_tensor_(
       const_allocator_reference p) const override;
+
+    virtual bool is_equal_(const Shape<FieldType>& rhs) const noexcept override;
 };
 
 /** @brief Determines if two SparseShape instances are different,

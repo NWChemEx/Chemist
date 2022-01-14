@@ -50,9 +50,14 @@ public:
     /// Type of a type-erased allocator
     using allocator_pointer = typename parent_type::allocator_pointer;
 
-    /// These will be added back in a forthcoming PR
-    // using shape_type                = Shape<field_type>;
-    // using shape_pointer             = typename shape_type::shape_ptr;
+    /// Base type of the Shape
+    using shape_type = typename parent_type::shape_type;
+
+    /// Type of a pointer to the shape's base class
+    using shape_pointer = typename parent_type::shape_pointer;
+
+    /// Type of a read-only reference to a shape
+    using const_shape_reference = typename parent_type::const_shape_reference;
 
     /// Type used to describe the shape (will be removed in forthcoming PR)
     using extents_type = typename parent_type::extents_type;
@@ -69,13 +74,29 @@ public:
     /// Type used for initializer lists of sizes
     using il_type = typename parent_type::il_type;
 
-    /** @brief Creates a new PIMPL which wraps the provided tensor and allocator
+    /** @brief Creates a new PIMPL by using the provided allocator and wrapping
+     *         the provided tensor.
+     *
+     *  Given a wrapped tensor, this ctor will create a shape object consistent
+     *  with that tensor and will reallocate the tensor if the tiling is not
+     *  consistent with the provided allocator.
      *
      *
-     *  @param[in] v A variant which wraps the tensor
-     *  @param[in] p The allocator to use for tiling, distribution, etc.
+     *  @param[in] v The wrapped tensor.
+     *  @param[in] p The allocator to use in the TensorWrapper
+     *
+     *  @throws std::runtime_error if FieldType == Tensor and a reallocation is
+     *                             necessary.
      */
     TensorWrapperPIMPL(variant_type v, allocator_pointer p);
+
+    /** @brief Creates a new PIMPL which wraps the provided tensor and allocator
+     *
+     *  @param[in] v A variant which wraps the tensor
+     *  @param[in] s The shape of the tensor
+     *  @param[in] p The allocator to use for tiling, distribution, etc.
+     */
+    TensorWrapperPIMPL(variant_type v, shape_pointer s, allocator_pointer p);
 
     /** @brief Makes a deep-copy of the current PIMPL
      *
@@ -96,9 +117,19 @@ public:
      *
      *  @return The allocator used for the tensor.
      *
-     *  @throw std::runtime_error if the instance does not
+     *  @throw std::runtime_error if the instance does not have one.
      */
     const_allocator_reference allocator() const;
+
+    /** @brief Returns the shape in a read-only state.
+     *
+     *  This function is used to retrieve the shape of the tensor.
+     *
+     *  @return The shape of the tensor.
+     *
+     *  @throw std::runtime_error if the instance does not have one.
+     */
+    const_shape_reference shape() const;
 
     /** @brief Annotates the modes of the wrapped index with
      * the provided labels.
@@ -196,6 +227,14 @@ public:
      */
     rank_type rank() const;
 
+    /** @brief Changes the allocator used by the tensor.
+     *
+     *  This function will change the allocator used by the underlying tensor
+     *  to the provided allocator. If the wrapped tensor is not consistent with
+     *  the provided allocator it will be reallocated.
+     *
+     *  @param[in] p The allocator to switch to.
+     */
     void reallocate(allocator_pointer p);
 
     /** @brief Used to view the tensor as if it has a different
@@ -221,7 +260,7 @@ public:
      * same volume as the wrapped tensor. Strong throw
      * guarantee.
      */
-    void reshape(const il_type& shape);
+    void reshape(shape_pointer shape);
 
     /** @brief Returns the number of elements in this tensor.
      *
@@ -245,8 +284,7 @@ public:
      *  @param[in] lo The index of the first element to include in the slice.
      *  @param[in] hi The index of the first element, which is just outside the
      *                slice.
-     * @param[in] p The allocator to use for the resulting slice. Default value
-     *              is the allocator returned by default_allocator().
+     * @param[in] p The allocator to use in the resulting slice.
      *
      *  @return The requested slice.
      */
@@ -266,11 +304,9 @@ public:
      */
     std::ostream& print(std::ostream& os) const;
 
-    /** @brief Adds the hash of the wrapped tensor to the
-     * provided Hasher.
+    /** @brief Adds the hash of the wrapped tensor to the provided Hasher.
      *
-     *  @param[in] h The hasher we are adding the wrapped
-     * tensor to.
+     *  @param[in,out] h The hasher we are adding the wrapped tensor to.
      */
     void hash(pluginplay::Hasher& h) const;
 
@@ -302,7 +338,18 @@ public:
      */
     const auto& variant() const { return m_tensor_; }
 
+    void update_shape();
+
 private:
+    /// Guts of reshape, but doesn't set internal shape to other
+    void reshape_(const shape_type& other);
+
+    /// Guts of reallocate, but doesn't set internal allocator to other
+    void reallocate_(const_allocator_reference other);
+
+    /// Routine used by reshape_ when the rank has changed
+    void shuffle_(const extents_type& other);
+
     /** @brief Returns the inner rank of the tensor.
      *
      *  For a normal non-hierarchical tensor there are zero
@@ -331,8 +378,8 @@ private:
     /// The allocator for the tensor, stored in a type-erased state
     allocator_pointer m_allocator_;
 
-    // Will be added back in a forthcoming PR
-    // shape_ptr m_shape_;
+    /// The shape of the tensor, stored as pointer to the base class
+    shape_pointer m_shape_;
 };
 
 extern template class TensorWrapperPIMPL<field::Scalar>;

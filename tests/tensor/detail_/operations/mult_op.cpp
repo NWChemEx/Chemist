@@ -13,7 +13,8 @@ using tot_tensor     = typename tot_traits::tensor_type<double>;
  *
  * For construction purposes we don't care if the labels make any sense. For
  * example we're fine with `lhs("i0,i1") * rhs("i0;i1")` even though for a
- * tensor times a ToT contraction can only occur over the independent indices.
+ * tensor times a ToT contraction can only occur over the independent
+ indices.
  * What we are testing for construction purposes is that we've covered all of
  * the possible products.
  *

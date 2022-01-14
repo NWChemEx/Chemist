@@ -57,6 +57,18 @@ bool SPARSE_SHAPE::operator==(const SparseShape& rhs) const noexcept {
     return false;
 }
 
+template<typename FieldType>
+typename SPARSE_SHAPE::const_sparse_map_reference SPARSE_SHAPE::sparse_map()
+  const {
+    return downcast(this->pimpl_()).sparse_map();
+}
+
+template<typename FieldType>
+typename SPARSE_SHAPE::const_idx2mode_reference SPARSE_SHAPE::idx2mode_map()
+  const {
+    return downcast(this->pimpl_()).idx2mode_map();
+}
+
 //------------------------------------------------------------------------------
 //                   Protected/Private Member Functions
 //------------------------------------------------------------------------------
@@ -74,6 +86,18 @@ typename SPARSE_SHAPE::tensor_type SPARSE_SHAPE::make_tensor_(
     auto& world           = p.runtime();
     auto shape            = the_pimpl.shape(tr);
     return tensor_type(std::in_place_index<0>, world, tr, shape);
+}
+
+template<typename FieldType>
+bool SPARSE_SHAPE::is_equal_(const Shape<FieldType>& rhs) const noexcept {
+    using const_pointer_type = const SparseShape<FieldType>*;
+    auto prhs                = dynamic_cast<const_pointer_type>(&rhs);
+
+    // If null, rhs does not contain a SparseShape part
+    if(!prhs) return false;
+
+    // Not null, dereference and compare SparseShape parts
+    return *this == *prhs;
 }
 
 #undef SPARSE_SHAPE

@@ -188,6 +188,12 @@ public:
         return false;
     }
 
+    /** @brief Polymorphic equality comparison.
+     *
+     *
+     */
+    bool is_equal(const Shape& rhs) const noexcept;
+
     /** @brief Polymorphic hash function.
      *
      *  This function will hash the entire state (including that in any derived
@@ -262,6 +268,9 @@ private:
 
     /// Derived class should override to implement make_tensor
     virtual tensor_type make_tensor_(const_allocator_reference p) const;
+
+    /// Derived class should override to implement is_equal
+    virtual bool is_equal_(const Shape<FieldType>& rhs) const noexcept;
 
     /// Object actually holding the state of the instance
     pimpl_pointer m_pimpl_;
