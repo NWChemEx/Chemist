@@ -1,6 +1,6 @@
 #pragma once
 #include "chemist/orbital_space/derived_space.hpp"
-#include "chemist/orbital_space/types.hpp"
+#include "chemist/types.hpp"
 #include <pluginplay/hasher.hpp>
 
 namespace chemist::orbital_space {

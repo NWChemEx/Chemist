@@ -1,13 +1,10 @@
 #include "chemist/orbital_space/ao_space.hpp"
-#include "chemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
 
-using namespace chemist;
 using namespace chemist::orbital_space;
 
 TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
     // Determine the types for this unit test
-
     using basis_set_type = chemist::AOBasisSet<TestType>;
     using space_type     = AOSpace<basis_set_type>;
 
@@ -118,11 +115,11 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
     SECTION("comparisons") {
         SECTION("Different types") {
             if constexpr(std::is_same_v<TestType, double>) {
-                AOSpace<AOBasisSetF> other;
+                AOSpace<chemist::AOBasisSetF> other;
                 REQUIRE_FALSE(defaulted == other);
                 REQUIRE(defaulted != other);
             } else {
-                AOSpace<AOBasisSetD> other;
+                AOSpace<chemist::AOBasisSetD> other;
                 REQUIRE_FALSE(defaulted == other);
                 REQUIRE(defaulted != other);
             }

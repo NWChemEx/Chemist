@@ -1,6 +1,8 @@
 #pragma once
 #include "chemist/orbital_space/type_traits/type_traits.hpp"
+#include "chemist/types.hpp"
 #include <catch2/catch.hpp>
+#include <tensorwrapper/tensor/tensor.hpp>
 
 /* This file contains functions which are useful for testing classes in the
  * wavefunction component of Libchemist.
@@ -12,10 +14,11 @@ namespace testing {
 template<typename TensorType>
 auto make_tensor(double seed = 1.0) {
     using field_type = typename TensorType::field_type;
-    using traits     = chemist::tensor::backends::TiledArrayTraits<field_type>;
+    using traits =
+      tensorwrapper::tensor::backends::TiledArrayTraits<field_type>;
 
     constexpr bool is_tot =
-      std::is_same_v<field_type, chemist::tensor::field::Tensor>;
+      std::is_same_v<field_type, tensorwrapper::tensor::field::Tensor>;
 
     auto& world = TA::get_default_world();
     if constexpr(is_tot) {

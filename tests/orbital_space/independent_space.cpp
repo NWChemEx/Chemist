@@ -1,7 +1,9 @@
 #include "chemist/orbital_space/orbital_space.hpp"
+#include "chemist/types.hpp"
 #include "test_orbital_space.hpp"
 #include <catch2/catch.hpp>
 
+using namespace chemist;
 using namespace chemist::orbital_space;
 
 /* Testing strategy:
