@@ -36,7 +36,7 @@ cpp_add_library(
 )
 
 include(nwx_python_mods)
-cppyy_make_python_package(PYTHONIZE MPI BLAS TILED PACKAGE chemist NAMESPACES chemist TA DEPPACKAGES pluginplay)
+cppyy_make_python_package(PYTHONIZE MPI PACKAGE chemist NAMESPACES chemist TA DEPPACKAGES pluginplay)
 
 if("${BUILD_TESTING}")
     cpp_find_or_build_dependency(
