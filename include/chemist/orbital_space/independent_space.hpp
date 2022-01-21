@@ -1,7 +1,7 @@
 #pragma once
 #include "chemist/orbital_space/canonical_space.hpp"
 #include "chemist/orbital_space/type_traits/is_independent.hpp"
-#include "chemist/sparse_map/sparse_map.hpp"
+#include "chemist/types.hpp"
 
 namespace chemist::orbital_space {
 

@@ -18,26 +18,12 @@ option(BUILD_TESTING "Should we build the tests?" OFF)
 option(BUILD_PYBINDINGS "Should we build Python3 bindings?" ON)
 
 cpp_find_or_build_dependency(
-    pluginplay
-    URL github.com/NWChemEx-Project/PluginPlay
+    tensorwrapper
+    URL github.com/NWChemEx-Project/TensorWrapper
     PRIVATE TRUE
-    BUILD_TARGET pluginplay
-    FIND_TARGET nwx::pluginplay
+    BUILD_TARGET tensorwrapper
+    FIND_TARGET nwx::tensorwrapper
     CMAKE_ARGS BUILD_TESTING=OFF
-)
-
-# N.B. If you update the TA version, you may also need to update 
-#      the MADNESS version in the ParallelZone repo.
-cpp_find_or_build_dependency(
-    tiledarray
-    URL github.com/ValeevGroup/tiledarray
-    VERSION 1b7e2e3da438344a11c848724f3041b2d2b5c30b
-    BUILD_TARGET tiledarray
-    FIND_TARGET tiledarray
-    CMAKE_ARGS TA_BUILD_UNITTEST=OFF
-               BUILD_TESTING=OFF 
-               BLAS_THREAD_LAYER=sequential
-               MADNESS_ENABLE_CEREAL=ON
 )
 
 find_package(Boost REQUIRED COMPONENTS container)
@@ -46,7 +32,7 @@ cpp_add_library(
     chemist
     SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/chemist"
     INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/include/chemist"
-    DEPENDS nwx::pluginplay tiledarray Boost::container
+    DEPENDS nwx::tensorwrapper Boost::container
 )
 
 include(nwx_python_mods)

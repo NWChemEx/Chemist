@@ -145,7 +145,8 @@ TEST_CASE("DerivedSpace") {
             REQUIRE_THROWS_AS(non_default + default_ao, std::runtime_error);
         }
 
-        auto new_C = tensor::concatenate(non_default.C(), non_default.C(), 1);
+        auto new_C = tensorwrapper::tensor::concatenate(non_default.C(),
+                                                        non_default.C(), 1);
         space_type corr(new_C, non_default.from_space_data());
         auto rv = non_default + non_default;
         REQUIRE(corr == rv);

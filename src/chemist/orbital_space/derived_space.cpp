@@ -1,7 +1,8 @@
 #include "chemist/orbital_space/derived_space.hpp"
-#include "chemist/ta_helpers/ta_hashers.hpp"
-#include "chemist/tensor/creation.hpp"
 #include "detail_/make_indices.hpp"
+#include <tensorwrapper/ta_helpers/ta_hashers.hpp>
+#include <tensorwrapper/tensor/creation.hpp>
+
 namespace chemist::orbital_space {
 
 #define DERIVED_SPACE DerivedSpace<TransformType, FromSpace>
@@ -51,7 +52,7 @@ DERIVED_SPACE DERIVED_SPACE::operator+(const DERIVED_SPACE& rhs) const {
     if(from_space() != rhs.from_space())
         throw std::runtime_error("Must have same from space");
 
-    auto C_new = tensor::concatenate(C(), rhs.C(), 1);
+    auto C_new = tensorwrapper::tensor::concatenate(C(), rhs.C(), 1);
     return DerivedSpace(C_new, from_space_data());
 }
 
