@@ -52,7 +52,9 @@ bool MANY_BODY::operator==(const ManyBody& rhs) const {
 }
 
 MANY_BODY_TPARAMS
-void MANY_BODY::hash(chemist::detail_::Hasher& h) const { h(m_pref_, m_amplitudes_); }
+void MANY_BODY::hash(chemist::detail_::Hasher& h) const {
+    h(m_pref_, m_amplitudes_);
+}
 
 #undef MANY_BODY
 #undef MANY_BODY_TPARAMS

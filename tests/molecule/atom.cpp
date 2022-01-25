@@ -50,7 +50,8 @@ void check_atom(Atom& ai, const coord_type& coords, size_type Z, mass_type m,
 
     chemist::detail_::Hasher h(chemist::detail_::HashType::Hash128);
     h(ai);
-    REQUIRE(chemist::detail_::hash_to_string(h.finalize()) == corr_hashes[hash]);
+    REQUIRE(chemist::detail_::hash_to_string(h.finalize()) ==
+            corr_hashes[hash]);
 }
 
 TEST_CASE("Atom Class") {
