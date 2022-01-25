@@ -76,8 +76,7 @@ TEMPLATE_LIST_TEST_CASE("CoulombInteraction", "", testing::all_coulomb) {
                 REQUIRE(lhs == pz::hash_objects(r12_type{}));
             }
             SECTION("RHS != LHS") {
-                if(is_diff)
-                    REQUIRE(lhs != pz::hash_objects(non_default));
+                if(is_diff) REQUIRE(lhs != pz::hash_objects(non_default));
             }
         }
     }

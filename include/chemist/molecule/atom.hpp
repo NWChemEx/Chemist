@@ -2,9 +2,9 @@
 #include <array> // For the coordinates
 #include <cereal/types/array.hpp>
 #include <cereal/types/string.hpp>
-#include <memory>                // For unique pointer
+#include <memory>                  // For unique pointer
 #include <parallelzone/hasher.hpp> // For hashing
-#include <string>                // For name of atom
+#include <string>                  // For name of atom
 
 namespace chemist {
 namespace detail_ {
