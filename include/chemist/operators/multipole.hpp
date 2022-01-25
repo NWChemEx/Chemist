@@ -56,7 +56,7 @@ public:
     inline auto& gauge_origin() { return gauge_origin_; }
 
 protected:
-    inline void hash_impl(pluginplay::Hasher& h) const override {
+    inline void hash_impl(pz::Hasher& h) const override {
         return h(gauge_origin_);
     }
 

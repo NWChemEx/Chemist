@@ -169,26 +169,26 @@ TEST_CASE("ChemicalSystemPIMPL") {
     SECTION("hash") {
         SECTION("LHS is default") {
             chem_sys_pimpl_t lhs;
-            auto lhs_hash = pluginplay::hash_objects(lhs);
+            auto lhs_hash = pz::hash_objects(lhs);
 
             SECTION("RHS is default") {
                 chem_sys_pimpl_t rhs;
-                REQUIRE(lhs_hash == pluginplay::hash_objects(rhs));
+                REQUIRE(lhs_hash == pz::hash_objects(rhs));
             }
 
             SECTION("RHS has a different molecule") {
                 chem_sys_pimpl_t rhs(h, 0, default_v);
-                REQUIRE_FALSE(lhs_hash == pluginplay::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == pz::hash_objects(rhs));
             }
 
             SECTION("RHS has a different number of electrons") {
                 chem_sys_pimpl_t rhs(default_mol, 2, default_v);
-                REQUIRE_FALSE(lhs_hash == pluginplay::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == pz::hash_objects(rhs));
             }
 
             SECTION("RHS has a different potential") {
                 chem_sys_pimpl_t rhs(default_mol, 0, v);
-                REQUIRE_FALSE(lhs_hash == pluginplay::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == pz::hash_objects(rhs));
             }
         }
     }

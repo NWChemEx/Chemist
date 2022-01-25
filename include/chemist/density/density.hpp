@@ -64,7 +64,7 @@ public:
      *  @throw ??? Throws if the derived class's implementation of `hash_`
      *             throws. Same throw guarantee.
      */
-    void hash(pluginplay::Hasher& h) const { hash_(h); }
+    void hash(pz::Hasher& h) const { hash_(h); }
 
 protected:
     /// The density tensor
@@ -90,7 +90,7 @@ protected:
      *
      *  @throw None No throw guarantee.
      */
-    virtual void hash_(pluginplay::Hasher& h) const { h(m_orbs_, m_density_); }
+    virtual void hash_(pz::Hasher& h) const { h(m_orbs_, m_density_); }
 
 private:
     /// The orbital space used to make the density

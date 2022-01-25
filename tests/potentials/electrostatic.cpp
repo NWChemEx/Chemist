@@ -105,47 +105,47 @@ TEST_CASE("Electrostatic") {
     SECTION("hash") {
         SECTION("LHS is default") {
             epot_t lhs;
-            auto lhs_hash = pluginplay::hash_objects(lhs);
+            auto lhs_hash = pz::hash_objects(lhs);
 
             SECTION("RHS is default") {
                 epot_t rhs;
-                REQUIRE(lhs_hash == pluginplay::hash_objects(rhs));
+                REQUIRE(lhs_hash == pz::hash_objects(rhs));
             }
 
             SECTION("RHS has a point charge") {
                 epot_t rhs;
                 rhs.add_charge(q0);
-                REQUIRE(lhs_hash != pluginplay::hash_objects(rhs));
+                REQUIRE(lhs_hash != pz::hash_objects(rhs));
             }
         }
 
         SECTION("LHS has a point charge") {
             epot_t lhs;
             lhs.add_charge(q0);
-            auto lhs_hash = pluginplay::hash_objects(lhs);
+            auto lhs_hash = pz::hash_objects(lhs);
 
             SECTION("RHS is default") {
                 epot_t rhs;
-                REQUIRE(lhs_hash != pluginplay::hash_objects(rhs));
+                REQUIRE(lhs_hash != pz::hash_objects(rhs));
             }
 
             SECTION("RHS has same point charge") {
                 epot_t rhs;
                 rhs.add_charge(q0);
-                REQUIRE(lhs_hash == pluginplay::hash_objects(rhs));
+                REQUIRE(lhs_hash == pz::hash_objects(rhs));
             }
 
             SECTION("RHS has a different point charge") {
                 epot_t rhs;
                 rhs.add_charge(q1);
-                REQUIRE(lhs_hash != pluginplay::hash_objects(rhs));
+                REQUIRE(lhs_hash != pz::hash_objects(rhs));
             }
 
             SECTION("RHS is a superset") {
                 epot_t rhs;
                 rhs.add_charge(q0);
                 rhs.add_charge(q1);
-                REQUIRE(lhs_hash != pluginplay::hash_objects(rhs));
+                REQUIRE(lhs_hash != pz::hash_objects(rhs));
             }
         }
     }

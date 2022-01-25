@@ -29,10 +29,8 @@ TEST_CASE("Distance") {
     }
 
     SECTION("hash") {
-        REQUIRE(pluginplay::hash_objects(d) ==
-                pluginplay::hash_objects(Distance{1.23}));
-        REQUIRE(pluginplay::hash_objects(d) !=
-                pluginplay::hash_objects(Distance{}));
+        REQUIRE(pz::hash_objects(d) == pz::hash_objects(Distance{1.23}));
+        REQUIRE(pz::hash_objects(d) != pz::hash_objects(Distance{}));
     }
 
     SECTION("Comparisons") {

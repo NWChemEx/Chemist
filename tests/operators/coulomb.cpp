@@ -71,13 +71,13 @@ TEMPLATE_LIST_TEST_CASE("CoulombInteraction", "", testing::all_coulomb) {
 
     SECTION("hash") {
         SECTION("LHS is default") {
-            auto lhs = pluginplay::hash_objects(r12);
+            auto lhs = pz::hash_objects(r12);
             SECTION("RHS == LHS") {
-                REQUIRE(lhs == pluginplay::hash_objects(r12_type{}));
+                REQUIRE(lhs == pz::hash_objects(r12_type{}));
             }
             SECTION("RHS != LHS") {
                 if(is_diff)
-                    REQUIRE(lhs != pluginplay::hash_objects(non_default));
+                    REQUIRE(lhs != pz::hash_objects(non_default));
             }
         }
     }

@@ -136,7 +136,7 @@ public:
 
 protected:
     /// Adds the hash of the sparse map to the provided hasher.
-    virtual void hash_(pluginplay::Hasher& h) const override;
+    virtual void hash_(pz::Hasher& h) const override;
 
     /// Returnst true if the spaces have the same sparse map
     virtual bool equal_(const BaseSpace& rhs) const noexcept override;
@@ -245,9 +245,9 @@ bool IndependentSpace<BaseType>::operator==(const IndependentSpace& rhs) const {
 
 template<typename BaseType>
 std::string IndependentSpace<BaseType>::base_hash_() const {
-    auto h = pluginplay::make_hasher();
+    auto h = pz::make_hasher();
     BaseType::hash_(h);
-    return pluginplay::hash_to_string(h.finalize());
+    return pz::hash_to_string(h.finalize());
 }
 
 template<typename BaseType>
@@ -256,7 +256,7 @@ std::string IndependentSpace<BaseType>::key_(const DepSpace& dep) {
     if constexpr(is_independent_space_v<DepSpace>) {
         return dep.base_hash_();
     } else {
-        return pluginplay::hash_objects(dep);
+        return pz::hash_objects(dep);
     }
 }
 
@@ -267,7 +267,7 @@ inline bool IndependentSpace<BaseType>::equal_(
 }
 
 template<typename BaseType>
-void IndependentSpace<BaseType>::hash_(pluginplay::Hasher& h) const {
+void IndependentSpace<BaseType>::hash_(pz::Hasher& h) const {
     BaseType::hash_(h);
     h(m_sm_);
 }

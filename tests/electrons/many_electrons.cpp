@@ -12,12 +12,12 @@ TEST_CASE("ManyElectrons") {
 
     SECTION("hash") {
         SECTION("LHS == default") {
-            auto lhs = pluginplay::hash_objects(i);
+            auto lhs = pz::hash_objects(i);
             SECTION("RHS == default") {
-                REQUIRE(lhs == pluginplay::hash_objects(ManyElectrons{}));
+                REQUIRE(lhs == pz::hash_objects(ManyElectrons{}));
             }
             SECTION("RHS == Non-default") {
-                REQUIRE(lhs != pluginplay::hash_objects(j));
+                REQUIRE(lhs != pz::hash_objects(j));
             }
         }
     }

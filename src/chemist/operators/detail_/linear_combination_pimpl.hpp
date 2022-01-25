@@ -83,7 +83,7 @@ public:
     bool operator==(const LinearCombinationPIMPL& other) const;
     bool operator!=(const LinearCombinationPIMPL& other) const;
 
-    void hash(pluginplay::Hasher& h) const;
+    void hash(pz::Hasher& h) const;
 
 private:
     using operator_container_type =

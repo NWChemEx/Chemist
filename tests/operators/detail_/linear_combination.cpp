@@ -75,25 +75,25 @@ TEST_CASE("LinearCombination") {
     }
 
     SECTION("hash") {
-        auto h_hash  = pluginplay::hash_objects(h_default);
-        auto f_hash  = pluginplay::hash_objects(f_default);
-        auto h1_hash = pluginplay::hash_objects(h_v1);
-        auto f1_hash = pluginplay::hash_objects(f_v1);
+        auto h_hash  = pz::hash_objects(h_default);
+        auto f_hash  = pz::hash_objects(f_default);
+        auto h1_hash = pz::hash_objects(h_v1);
+        auto f1_hash = pz::hash_objects(f_v1);
 
         auto& d_h  = as_derived_operator(h_default);
         auto& d_f  = as_derived_operator(f_default);
         auto& d_h1 = as_derived_operator(h_v1);
         auto& d_f1 = as_derived_operator(f_v1);
 
-        auto d_h_hash  = pluginplay::hash_objects(d_h);
-        auto d_f_hash  = pluginplay::hash_objects(d_f);
-        auto d_h1_hash = pluginplay::hash_objects(d_h1);
-        auto d_f1_hash = pluginplay::hash_objects(d_f1);
+        auto d_h_hash  = pz::hash_objects(d_h);
+        auto d_f_hash  = pz::hash_objects(d_f);
+        auto d_h1_hash = pz::hash_objects(d_h1);
+        auto d_f1_hash = pz::hash_objects(d_f1);
 
-        REQUIRE(h_hash == pluginplay::hash_objects(Hamiltonian{}));
-        REQUIRE(f_hash == pluginplay::hash_objects(Fock{}));
-        REQUIRE(h1_hash == pluginplay::hash_objects(Hamiltonian{V1}));
-        REQUIRE(f1_hash == pluginplay::hash_objects(Fock{V1}));
+        REQUIRE(h_hash == pz::hash_objects(Hamiltonian{}));
+        REQUIRE(f_hash == pz::hash_objects(Fock{}));
+        REQUIRE(h1_hash == pz::hash_objects(Hamiltonian{V1}));
+        REQUIRE(f1_hash == pz::hash_objects(Fock{V1}));
         REQUIRE(h_hash == f_hash);
         REQUIRE(h1_hash == f1_hash);
         REQUIRE(d_h_hash == h_hash);

@@ -1,6 +1,6 @@
 #pragma once
 #include "chemist/molecule/atom.hpp"
-#include <pluginplay/hasher.hpp>
+#include <parallelzone/hasher.hpp>
 #include <vector> //For iterators
 
 namespace chemist {
@@ -141,7 +141,7 @@ public:
      *
      * @param h Hasher object
      */
-    void hash(pluginplay::Hasher& h) const;
+    void hash(pz::Hasher& h) const;
 
 private:
     /// The object actually implementing the Molecule class

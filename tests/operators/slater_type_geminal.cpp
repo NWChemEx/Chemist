@@ -50,16 +50,16 @@ TEMPLATE_LIST_TEST_CASE("SlaterTypeGeminal", "", testing::stg_types) {
 
     SECTION("hash") {
         SECTION("LHS == default") {
-            auto lhs = pluginplay::hash_objects(stg);
+            auto lhs = pz::hash_objects(stg);
             SECTION("RHS == default") {
-                REQUIRE(lhs == pluginplay::hash_objects(stg_type{}));
+                REQUIRE(lhs == pz::hash_objects(stg_type{}));
             }
             SECTION("RHS different exponent") {
-                REQUIRE(lhs != pluginplay::hash_objects(diff_exponent));
+                REQUIRE(lhs != pz::hash_objects(diff_exponent));
             }
             SECTION("RHS different coefficient") {
                 stg_type rhs(1.2, -1.0 / 3.1);
-                REQUIRE(lhs != pluginplay::hash_objects(rhs));
+                REQUIRE(lhs != pz::hash_objects(rhs));
             }
         }
     }

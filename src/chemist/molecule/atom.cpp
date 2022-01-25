@@ -1,7 +1,7 @@
 #include "atom_pimpl.hpp"
 #include "chemist/molecule/atom.hpp"
 #include <iomanip>               // For precision of floats
-#include <pluginplay/hasher.hpp> //For hashing
+#include <parallelzone/hasher.hpp> //For hashing
 
 namespace chemist {
 
@@ -35,9 +35,7 @@ coord_type& Atom::coords() noexcept { return pimpl_->coords(); }
 
 mass_type& Atom::mass() noexcept { return pimpl_->mass(); }
 
-void Atom::hash(pluginplay::Hasher& h) const {
-    h(Z(), coords(), mass(), name());
-}
+void Atom::hash(pz::Hasher& h) const { h(Z(), coords(), mass(), name()); }
 
 bool operator==(const Atom& lhs, const Atom& rhs) noexcept {
     return std::tie(lhs.Z(), lhs.coords(), lhs.mass(), lhs.name()) ==

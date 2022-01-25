@@ -47,15 +47,15 @@ TEMPLATE_LIST_TEST_CASE("CorrelationFactor", "",
 
     SECTION("Hash") {
         SECTION("LHS == default") {
-            auto lhs = pluginplay::hash_objects(f12);
+            auto lhs = pz::hash_objects(f12);
 
             SECTION("LHS == RHS") {
                 f12_type rhs;
-                REQUIRE(lhs == pluginplay::hash_objects(rhs));
+                REQUIRE(lhs == pz::hash_objects(rhs));
             }
 
             SECTION("LHS != RHS") {
-                REQUIRE(lhs != pluginplay::hash_objects(non_default));
+                REQUIRE(lhs != pz::hash_objects(non_default));
             }
         }
     }

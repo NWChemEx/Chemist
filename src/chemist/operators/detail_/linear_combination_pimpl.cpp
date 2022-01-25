@@ -76,7 +76,7 @@ std::unique_ptr<LinearCombinationPIMPL> LinearCombinationPIMPL::clone() const {
     return std::make_unique<LinearCombinationPIMPL>(*this);
 }
 
-void LinearCombinationPIMPL::hash(pluginplay::Hasher& h) const {
+void LinearCombinationPIMPL::hash(pz::Hasher& h) const {
     for(const auto& [key, val] : terms_) { h(val); }
 }
 
