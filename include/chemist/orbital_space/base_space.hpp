@@ -1,6 +1,6 @@
 #pragma once
+#include "chemist/detail_/hashing.hpp"
 #include "chemist/types.hpp"
-#include <parallelzone/hasher.hpp>
 
 namespace chemist::orbital_space {
 
@@ -40,7 +40,7 @@ public:
      *  @throw ??? Throws if the derived class's implementation of `hash_`
      *             throws. Same throw guarantee.
      */
-    void hash(pz::Hasher& h) const { hash_(h); }
+    void hash(chemist::detail_::Hasher& h) const { hash_(h); }
 
     /** @brief Polymorphically compares two orbital spaces to determine if they
      *         are equal.
@@ -200,7 +200,7 @@ protected:
     virtual size_type size_() const noexcept = 0;
 
     /// Actually implements hash. Should be overridden by derived classes
-    virtual void hash_(pz::Hasher& h) const {};
+    virtual void hash_(chemist::detail_::Hasher& h) const {};
 
     /** @brief To be overridden by the derived class to implement `equal`
      *

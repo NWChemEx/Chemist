@@ -1,7 +1,7 @@
 #pragma once
 #include "chemist/basis_set/atomic_basis_set.hpp"
 #include "chemist/basis_set/detail_/flattened_view.hpp"
-#include <parallelzone/hasher.hpp>
+#include "chemist/detail_/hashing.hpp"
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
@@ -469,7 +469,7 @@ public:
      *
      * @param h Hasher object
      */
-    void hash(pz::Hasher& h) const;
+    void hash(detail_::Hasher& h) const;
 
     /** @brief Makes this AOBasisSet the union of this set and @p rhs.
      *

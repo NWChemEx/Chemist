@@ -87,7 +87,7 @@ typename DERIVED_SPACE::size_type DERIVED_SPACE::size_() const noexcept {
 }
 
 template<typename TransformType, typename FromSpace>
-void DERIVED_SPACE::hash_(pz::Hasher& h) const {
+void DERIVED_SPACE::hash_(chemist::detail_::Hasher& h) const {
     h(m_pC_, m_pbase_);
 }
 

@@ -75,7 +75,7 @@ protected:
 
     bool is_equal_impl(const OperatorBase& rhs) const noexcept override;
     std::unique_ptr<OperatorBase> clone_impl() const override;
-    void hash_impl(pz::Hasher& h) const override;
+    void hash_impl(chemist::detail_::Hasher& h) const override;
     std::string as_string_impl() const override;
 
 private:
@@ -116,7 +116,7 @@ std::unique_ptr<OperatorBase> OPERATOR_IMPL::clone_impl() const {
 }
 
 template<template<typename...> typename DerivedClass, typename... Particles>
-void OPERATOR_IMPL::hash_impl(pz::Hasher& h) const {
+void OPERATOR_IMPL::hash_impl(chemist::detail_::Hasher& h) const {
     h(m_particles_);
 }
 

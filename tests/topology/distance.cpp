@@ -29,8 +29,9 @@ TEST_CASE("Distance") {
     }
 
     SECTION("hash") {
-        REQUIRE(pz::hash_objects(d) == pz::hash_objects(Distance{1.23}));
-        REQUIRE(pz::hash_objects(d) != pz::hash_objects(Distance{}));
+        using chemist::detail_::hash_objects;
+        REQUIRE(hash_objects(d) == hash_objects(Distance{1.23}));
+        REQUIRE(hash_objects(d) != hash_objects(Distance{}));
     }
 
     SECTION("Comparisons") {

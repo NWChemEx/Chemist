@@ -33,7 +33,7 @@ bool CANONICAL_SPACE::operator==(const CanonicalSpace& rhs) const noexcept {
 // -----------------------------------------------------------------------------
 
 template<typename OrbitalEnergyType, typename BaseType>
-void CANONICAL_SPACE::hash_(pz::Hasher& h) const {
+void CANONICAL_SPACE::hash_(chemist::detail_::Hasher& h) const {
     BaseType::hash_(h);
     h(m_pegys_);
 }

@@ -153,7 +153,7 @@ TEST_CASE("ConnectivityTable") {
     }
 
     SECTION("hash") {
-        using pz::hash_objects;
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
             SECTION("RHS == default") {
                 REQUIRE(hash_objects(t) == hash_objects(ConnectivityTable{}));

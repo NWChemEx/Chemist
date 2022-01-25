@@ -1,7 +1,7 @@
 #include "chemist/basis_set/ao_basis_set.hpp"
+#include "chemist/detail_/hashing.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
-#include <parallelzone/hasher.hpp>
 #include <sstream>
 #include <utilities/iter_tools/enumerate.hpp>
 
@@ -23,9 +23,9 @@ TEST_CASE("AOBasisSet : default ctor") {
     bs_t bs;
     REQUIRE(bs.empty());
 
-    pz::Hasher h(pz::HashType::Hash128);
+    chemist::detail_::Hasher h(chemist::detail_::HashType::Hash128);
     h(bs);
-    REQUIRE(pz::hash_to_string(h.finalize()) ==
+    REQUIRE(chemist::detail_::hash_to_string(h.finalize()) ==
             "00000000000000000000000000000000");
 }
 
@@ -76,9 +76,9 @@ TEST_CASE("AOBasisSet : add_center") {
     REQUIRE(bs.size() == 1);
     REQUIRE(bs[0] == c);
 
-    pz::Hasher h(pz::HashType::Hash128);
+    chemist::detail_::Hasher h(chemist::detail_::HashType::Hash128);
     h(bs);
-    REQUIRE(pz::hash_to_string(h.finalize()) ==
+    REQUIRE(chemist::detail_::hash_to_string(h.finalize()) ==
             "c7c65e5af263ca28eb7d099cf993f8af");
 }
 

@@ -286,7 +286,7 @@ protected:
     virtual size_type size_() const noexcept override;
 
     /// Include the transformation and the from space in the hash
-    virtual void hash_(pz::Hasher& h) const override;
+    virtual void hash_(chemist::detail_::Hasher& h) const override;
 
     /// Include the transformation and the from space in the comparison
     virtual bool equal_(const BaseSpace& rhs) const noexcept override;

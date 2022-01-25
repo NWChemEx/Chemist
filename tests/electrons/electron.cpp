@@ -4,7 +4,10 @@
 TEST_CASE("Electron") {
     chemist::Electron i, j;
 
-    SECTION("hash") { REQUIRE(pz::hash_objects(i) == pz::hash_objects(j)); }
+    SECTION("hash") {
+        using chemist::detail_::hash_objects;
+        REQUIRE(hash_objects(i) == hash_objects(j));
+    }
 
     SECTION("Comparisons") {
         REQUIRE(i == j);

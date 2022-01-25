@@ -114,7 +114,7 @@ public:
      *                   will have been modified to include a hash of this
      *                   object's state.
      */
-    void hash(pz::Hasher& h) const { h(m_charges_); }
+    void hash(chemist::detail_::Hasher& h) const { h(m_charges_); }
 
 private:
     /** @brief Checks that a charge index is in bounds

@@ -1,7 +1,7 @@
 #pragma once
+#include "chemist/detail_/hashing.hpp"
 #include <iomanip>
 #include <iostream>
-#include <parallelzone/hasher.hpp>
 
 namespace chemist::topology {
 
@@ -51,7 +51,7 @@ public:
      *  @param[in,out] h The Hasher instance to use for the hashing. After this
      *                   call @p h will contain the hash of this instance.
      */
-    void hash(pz::Hasher& h) const { h(m_distance_); }
+    void hash(chemist::detail_::Hasher& h) const { h(m_distance_); }
 
 private:
     /// The actual value of the distance.

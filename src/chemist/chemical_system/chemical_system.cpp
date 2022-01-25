@@ -84,7 +84,7 @@ bool ChemicalSystem::operator==(const ChemicalSystem& rhs) const noexcept {
     return (*m_pimpl_) == (*rhs.m_pimpl_);
 }
 
-void ChemicalSystem::hash(pz::Hasher& h) const { h(m_pimpl_); }
+void ChemicalSystem::hash(detail_::Hasher& h) const { h(m_pimpl_); }
 
 // ---------------------- Private Member Functions -----------------------------
 

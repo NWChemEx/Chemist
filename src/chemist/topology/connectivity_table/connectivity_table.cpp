@@ -63,7 +63,7 @@ bond_list_type ConnectivityTable::bonds() const {
     return bond_list_type{};
 }
 
-void ConnectivityTable::hash(pz::Hasher& h) const {
+void ConnectivityTable::hash(chemist::detail_::Hasher& h) const {
     h(natoms());
     h(bonds());
 }
