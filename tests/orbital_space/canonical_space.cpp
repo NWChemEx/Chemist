@@ -80,21 +80,21 @@ TEST_CASE("CanonicalSpaceD") {
 
     SECTION("hash") {
         SECTION("LHS is default") {
-            auto hash1 = pluginplay::hash_objects(defaulted);
+            auto hash1 = pz::hash_objects(defaulted);
 
             SECTION("Same value") {
-                auto hash2 = pluginplay::hash_objects(space_type{});
+                auto hash2 = pz::hash_objects(space_type{});
                 REQUIRE(hash1 == hash2);
             }
 
             SECTION("Different orbital energies") {
-                auto hash2 = pluginplay::hash_objects(only_ev);
+                auto hash2 = pz::hash_objects(only_ev);
                 REQUIRE(hash1 != hash2);
             }
 
             SECTION("Different base instances") {
                 space_type rhs(tensor_type{}, c, from_space{});
-                auto hash2 = pluginplay::hash_objects(rhs);
+                auto hash2 = pz::hash_objects(rhs);
                 REQUIRE(hash1 != hash2);
             }
         }

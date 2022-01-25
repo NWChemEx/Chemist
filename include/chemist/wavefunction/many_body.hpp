@@ -125,7 +125,7 @@ public:
 
     bool operator==(const ManyBody& rhs) const;
 
-    void hash(pluginplay::Hasher& h) const;
+    void hash(pz::Hasher& h) const;
 
 private:
     /// Maximum number of excitations allowed

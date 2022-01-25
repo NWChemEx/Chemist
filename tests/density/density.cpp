@@ -74,27 +74,27 @@ TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
     SECTION("basis_set") { REQUIRE(has_value.basis_set() == aos); }
 
     SECTION("hash") {
-        auto default_hash = pluginplay::hash_objects(defaulted);
-        auto value_hash   = pluginplay::hash_objects(has_value);
+        auto default_hash = pz::hash_objects(defaulted);
+        auto value_hash   = pz::hash_objects(has_value);
 
         SECTION("Both default") {
             density_type rhs;
-            REQUIRE(default_hash == pluginplay::hash_objects(rhs));
+            REQUIRE(default_hash == pz::hash_objects(rhs));
         }
 
         SECTION("Both have same value") {
             density_type rhs(a_tensor, aos);
-            REQUIRE(value_hash == pluginplay::hash_objects(rhs));
+            REQUIRE(value_hash == pz::hash_objects(rhs));
         }
 
         SECTION("Different tensors") {
             density_type rhs(value_type{}, aos);
-            REQUIRE(value_hash != pluginplay::hash_objects(rhs));
+            REQUIRE(value_hash != pz::hash_objects(rhs));
         }
 
         SECTION("Different AOs") {
             density_type rhs(a_tensor, aos_type{});
-            REQUIRE(value_hash != pluginplay::hash_objects(rhs));
+            REQUIRE(value_hash != pz::hash_objects(rhs));
         }
     }
 

@@ -56,15 +56,15 @@ TEST_CASE("Electronic Hamiltonian") {
 
     SECTION("Hash") {
         SECTION("LHS == default") {
-            auto lhs = pluginplay::hash_objects(defaulted);
+            auto lhs = pz::hash_objects(defaulted);
 
             SECTION("LHS == RHS") {
                 ElectronicHamiltonian rhs;
-                REQUIRE(lhs == pluginplay::hash_objects(rhs));
+                REQUIRE(lhs == pz::hash_objects(rhs));
             }
 
             SECTION("LHS != RHS") {
-                REQUIRE(lhs != pluginplay::hash_objects(from_ham));
+                REQUIRE(lhs != pz::hash_objects(from_ham));
             }
         }
     }

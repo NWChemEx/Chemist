@@ -99,27 +99,27 @@ TEMPLATE_LIST_TEST_CASE("DecomposableDensity", "", density_types) {
     SECTION("space") { REQUIRE(has_value.space() == space); }
 
     SECTION("hash") {
-        auto default_hash = pluginplay::hash_objects(defaulted);
-        auto value_hash   = pluginplay::hash_objects(has_value);
+        auto default_hash = pz::hash_objects(defaulted);
+        auto value_hash   = pz::hash_objects(has_value);
 
         SECTION("Both default") {
             density_type rhs;
-            REQUIRE(default_hash == pluginplay::hash_objects(rhs));
+            REQUIRE(default_hash == pz::hash_objects(rhs));
         }
 
         SECTION("Both have same value") {
             density_type rhs(a_tensor, space);
-            REQUIRE(value_hash == pluginplay::hash_objects(rhs));
+            REQUIRE(value_hash == pz::hash_objects(rhs));
         }
 
         SECTION("Different tensors") {
             density_type rhs(value_type{}, space);
-            REQUIRE(value_hash != pluginplay::hash_objects(rhs));
+            REQUIRE(value_hash != pz::hash_objects(rhs));
         }
 
         SECTION("Different AOs") {
             density_type rhs(a_tensor, space_type{});
-            REQUIRE(value_hash != pluginplay::hash_objects(rhs));
+            REQUIRE(value_hash != pz::hash_objects(rhs));
         }
     }
 

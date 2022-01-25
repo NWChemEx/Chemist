@@ -4,7 +4,7 @@
 #include <boost/container/flat_set.hpp>
 #include <iterator>
 #include <memory>
-#include <pluginplay/hasher.hpp>
+#include <parallelzone/hasher.hpp>
 
 namespace chemist::set_theory {
 template<typename SetType>
@@ -399,7 +399,7 @@ public:
      *                   call, the internal hash of @p h will be updated to
      *                   include the hash of this Subset.
      */
-    void hash(pluginplay::Hasher& h) const;
+    void hash(pz::Hasher& h) const;
 
 private:
     /// Type of the container holding the set
@@ -598,7 +598,7 @@ bool SUBSET::operator<(const Subset& rhs) const noexcept {
 }
 
 template<typename SetType>
-void SUBSET::hash(pluginplay::Hasher& h) const {
+void SUBSET::hash(pz::Hasher& h) const {
     for(const auto& x : m_members_) h(x);
     h(*m_parent_);
 }

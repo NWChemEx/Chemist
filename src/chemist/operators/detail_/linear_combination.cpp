@@ -57,7 +57,7 @@ bool LinearCombination::is_equal_impl(
     return pother ? (*this) == (*pother) : false;
 }
 
-void LinearCombination::hash_impl(pluginplay::Hasher& h) const {
+void LinearCombination::hash_impl(pz::Hasher& h) const {
     if(m_pimpl_) return h(pimpl_());
 }
 

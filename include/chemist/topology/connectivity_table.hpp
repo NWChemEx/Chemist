@@ -2,7 +2,7 @@
 #include <array>
 #include <iostream>
 #include <memory>
-#include <pluginplay/hasher.hpp>
+#include <parallelzone/hasher.hpp>
 #include <vector>
 
 namespace chemist::topology {
@@ -164,7 +164,7 @@ public:
      *                   After the call @p h will contain a hash of this
      *                   instance.
      */
-    void hash(pluginplay::Hasher& h) const;
+    void hash(pz::Hasher& h) const;
 
 private:
     /** @brief Returns the PIMPL in a read/write state, making a PIMPL if the

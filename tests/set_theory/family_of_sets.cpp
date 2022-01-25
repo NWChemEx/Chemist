@@ -255,29 +255,26 @@ TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
 
     SECTION("hash") {
         SECTION("Both empty") {
-            auto lhs = pluginplay::hash_objects(defaulted);
+            auto lhs = pz::hash_objects(defaulted);
             family_type other(default_obj);
-            auto rhs = pluginplay::hash_objects(other);
+            auto rhs = pz::hash_objects(other);
             REQUIRE(lhs == rhs);
         }
         SECTION("Different supersets") {
-            auto lhs = pluginplay::hash_objects(defaulted);
-            REQUIRE(lhs != pluginplay::hash_objects(non_default));
+            auto lhs = pz::hash_objects(defaulted);
+            REQUIRE(lhs != pz::hash_objects(non_default));
         }
         SECTION("Same non-empty") {
             family_type rhs(non_default_obj, {{0ul}, {1ul}, {2ul}});
-            REQUIRE(pluginplay::hash_objects(monomers) ==
-                    pluginplay::hash_objects(rhs));
+            REQUIRE(pz::hash_objects(monomers) == pz::hash_objects(rhs));
         }
         SECTION("Different non-empty size") {
             family_type rhs(non_default_obj, {{0ul}, {1ul}});
-            REQUIRE(pluginplay::hash_objects(monomers) !=
-                    pluginplay::hash_objects(rhs));
+            REQUIRE(pz::hash_objects(monomers) != pz::hash_objects(rhs));
         }
         SECTION("Different non-empty subset") {
             family_type rhs(non_default_obj, {{0ul}, {1ul}, {0ul, 1ul}});
-            REQUIRE(pluginplay::hash_objects(monomers) !=
-                    pluginplay::hash_objects(rhs));
+            REQUIRE(pz::hash_objects(monomers) != pz::hash_objects(rhs));
         }
     }
 
@@ -464,9 +461,9 @@ TEST_CASE("FamilyOfSets<tuple>") {
     }
 
     SECTION("Hash") {
-        auto h = pluginplay::hash_objects(empty);
-        REQUIRE(h != pluginplay::hash_objects(s0));
-        REQUIRE(h == pluginplay::hash_objects(fos_t(the_sets)));
+        auto h = pz::hash_objects(empty);
+        REQUIRE(h != pz::hash_objects(s0));
+        REQUIRE(h == pz::hash_objects(fos_t(the_sets)));
     }
 
     SECTION("Comparisons") {

@@ -519,39 +519,37 @@ TEMPLATE_LIST_TEST_CASE("Subset", "", container_types) {
 
     SECTION("hash") {
         SECTION("Different parent objects") {
-            auto lhs = pluginplay::hash_objects(empty_defaulted);
-            auto rhs = pluginplay::hash_objects(empty_non_defaulted);
+            auto lhs = pz::hash_objects(empty_defaulted);
+            auto rhs = pz::hash_objects(empty_non_defaulted);
             REQUIRE(lhs != rhs);
         }
         SECTION("Empty sets are equal") {
             SECTION("Empty parent set") {
-                auto lhs = pluginplay::hash_objects(empty_defaulted);
+                auto lhs = pz::hash_objects(empty_defaulted);
                 subset_type s(default_ptr);
-                auto rhs = pluginplay::hash_objects(s);
+                auto rhs = pz::hash_objects(s);
                 REQUIRE(lhs == rhs);
             }
 
             SECTION("Non-empty parent set") {
-                auto lhs = pluginplay::hash_objects(empty_non_defaulted);
+                auto lhs = pz::hash_objects(empty_non_defaulted);
                 subset_type s(non_default_ptr);
-                auto rhs = pluginplay::hash_objects(s);
+                auto rhs = pz::hash_objects(s);
                 REQUIRE(lhs == rhs);
             }
         }
         SECTION("Different number of elements") {
-            REQUIRE(pluginplay::hash_objects(e0) !=
-                    pluginplay::hash_objects(e01));
+            REQUIRE(pz::hash_objects(e0) != pz::hash_objects(e01));
         }
 
         SECTION("Different elements") {
-            REQUIRE(pluginplay::hash_objects(e0) !=
-                    pluginplay::hash_objects(e2));
+            REQUIRE(pz::hash_objects(e0) != pz::hash_objects(e2));
         }
 
         SECTION("Same elements") {
-            auto lhs = pluginplay::hash_objects(e0);
+            auto lhs = pz::hash_objects(e0);
             subset_type s(non_default_ptr, {0ul});
-            auto rhs = pluginplay::hash_objects(s);
+            auto rhs = pz::hash_objects(s);
             REQUIRE(lhs == rhs);
         }
     }

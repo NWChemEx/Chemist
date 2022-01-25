@@ -57,15 +57,15 @@ TEST_CASE("Core Hamiltonian") {
 
     SECTION("Hash") {
         SECTION("LHS == default") {
-            auto lhs = pluginplay::hash_objects(defaulted);
+            auto lhs = pz::hash_objects(defaulted);
 
             SECTION("LHS == RHS") {
                 CoreHamiltonian rhs;
-                REQUIRE(lhs == pluginplay::hash_objects(rhs));
+                REQUIRE(lhs == pz::hash_objects(rhs));
             }
 
             SECTION("LHS != RHS") {
-                REQUIRE(lhs != pluginplay::hash_objects(from_elec_ham));
+                REQUIRE(lhs != pz::hash_objects(from_elec_ham));
             }
         }
     }

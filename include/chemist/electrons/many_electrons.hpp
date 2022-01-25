@@ -1,5 +1,5 @@
 #pragma once
-#include <pluginplay/hasher.hpp>
+#include <parallelzone/hasher.hpp>
 
 namespace chemist {
 
@@ -19,7 +19,7 @@ struct ManyElectrons {
      *  @param[in,out] h The hasher instance to use for hashing. After this call
      *                   @p h will be updated with the hash of this instance.
      */
-    void hash(pluginplay::Hasher& h) const noexcept { h(size); }
+    void hash(pz::Hasher& h) const noexcept { h(size); }
 
     /// The number of electrons
     size_type size = 0;

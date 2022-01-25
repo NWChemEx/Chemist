@@ -62,15 +62,15 @@ TEMPLATE_LIST_TEST_CASE("F12Commutator", "", type_list) {
 
     SECTION("Hash") {
         SECTION("LHS == default") {
-            auto lhs = pluginplay::hash_objects(defaulted);
+            auto lhs = pz::hash_objects(defaulted);
 
             SECTION("LHS == RHS") {
                 comm_type rhs;
-                REQUIRE(lhs == pluginplay::hash_objects(rhs));
+                REQUIRE(lhs == pz::hash_objects(rhs));
             }
 
             SECTION("LHS != RHS") {
-                REQUIRE(lhs != pluginplay::hash_objects(non_default));
+                REQUIRE(lhs != pz::hash_objects(non_default));
             }
         }
     }

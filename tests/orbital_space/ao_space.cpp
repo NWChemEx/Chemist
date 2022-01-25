@@ -76,22 +76,22 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
 
     SECTION("hash") {
         SECTION("LHS == default") {
-            auto lhs = pluginplay::hash_objects(defaulted);
+            auto lhs = pz::hash_objects(defaulted);
 
             SECTION("RHS == defaulted") {
-                auto rhs = pluginplay::hash_objects(space_type{});
+                auto rhs = pz::hash_objects(space_type{});
                 REQUIRE(lhs == rhs);
             }
 
             SECTION("RHS == non-default") {
-                auto rhs = pluginplay::hash_objects(non_default_bs);
+                auto rhs = pz::hash_objects(non_default_bs);
                 REQUIRE(lhs != rhs);
             }
         }
 
         SECTION("LHS == non-default && RHS == non-default") {
-            auto lhs = pluginplay::hash_objects(non_default_bs);
-            auto rhs = pluginplay::hash_objects(space_type{bs});
+            auto lhs = pz::hash_objects(non_default_bs);
+            auto rhs = pz::hash_objects(space_type{bs});
             REQUIRE(lhs == rhs);
         }
     }

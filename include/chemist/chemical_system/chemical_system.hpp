@@ -233,7 +233,7 @@ public:
      *                   will have been modified to include a hash of this
      *                   object's state.
      */
-    void hash(pluginplay::Hasher& h) const;
+    void hash(pz::Hasher& h) const;
 
 private:
     /** @brief Returns the PIMPL in a read/write state.
