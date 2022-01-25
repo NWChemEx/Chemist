@@ -22,7 +22,6 @@ for the JavaScript code in this file
 */
 var menudata={children:[
 {text:"Main Page",url:"index.html"},
-{text:"Related Pages",url:"pages.html"},
 {text:"Modules",url:"modules.html"},
 {text:"Namespaces",url:"namespaces.html",children:[
 {text:"Namespace List",url:"namespaces.html"},
@@ -97,7 +96,6 @@ var menudata={children:[
 {text:"g",url:"functions_type_g.html#index_g"},
 {text:"i",url:"functions_type_i.html#index_i"},
 {text:"k",url:"functions_type_k.html#index_k"},
-{text:"l",url:"functions_type_l.html#index_l"},
 {text:"m",url:"functions_type_m.html#index_m"},
 {text:"n",url:"functions_type_n.html#index_n"},
 {text:"o",url:"functions_type_o.html#index_o"},

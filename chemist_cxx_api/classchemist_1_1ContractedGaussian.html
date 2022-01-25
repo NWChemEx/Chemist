@@ -216,9 +216,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adac0fd720514cfeed4775291caa60218 inherit pub_methods_classchemist_1_1Point"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#adac0fd720514cfeed4775291caa60218">load</a> (Archive &amp;ar)</td></tr>
 <tr class="memdesc:adac0fd720514cfeed4775291caa60218 inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialize for <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> instance.  <a href="classchemist_1_1Point.html#adac0fd720514cfeed4775291caa60218">More...</a><br /></td></tr>
 <tr class="separator:adac0fd720514cfeed4775291caa60218 inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70315864e1790e97de25958eeab5d230 inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a70315864e1790e97de25958eeab5d230">hash</a> (pluginplay::Hasher &amp;h) const</td></tr>
-<tr class="memdesc:a70315864e1790e97de25958eeab5d230 inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes a hash of the <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a>.  <a href="classchemist_1_1Point.html#a70315864e1790e97de25958eeab5d230">More...</a><br /></td></tr>
-<tr class="separator:a70315864e1790e97de25958eeab5d230 inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a173532078ebe88c1e2345162ad76dce5 inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a173532078ebe88c1e2345162ad76dce5">hash</a> (pz::Hasher &amp;h) const</td></tr>
+<tr class="memdesc:a173532078ebe88c1e2345162ad76dce5 inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes a hash of the <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a>.  <a href="classchemist_1_1Point.html#a173532078ebe88c1e2345162ad76dce5">More...</a><br /></td></tr>
+<tr class="separator:a173532078ebe88c1e2345162ad76dce5 inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -242,7 +242,7 @@ pimpl_ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 class chemist::ContractedGaussian&lt; T &gt;</h3>
 
 <p>An atomic orbital resulting from a linear combination of Gaussian primitives. </p>
-<p>A contracted Gaussian type orbital formed from <img class="formulaInl" alt="$N$" src="form_3.png"/> primitive gaussians, <img class="formulaInl" alt="$\chi(\vec{r};\vec{c}, \vec{\alpha})$" src="form_37.png"/>, is given by:</p>
+<p>A contracted Gaussian type orbital formed from <img class="formulaInl" alt="$N$" src="form_11.png"/> primitive gaussians, <img class="formulaInl" alt="$\chi(\vec{r};\vec{c}, \vec{\alpha})$" src="form_12.png"/>, is given by:</p>
 <p>@f{ \chi(\vec{r};\vec{c}, \vec{\alpha}) = \sum_{i=1}^N g(\vec{r};c_i, \alpha_i)</p><ul>
 <li>\chi(\vec{r};\vec{c}, \vec{\alpha}) = \sum_{i=1}^N c_ie^{-\alpha_i r^2}</li>
 </ul>
@@ -329,8 +329,8 @@ template&lt;typename T &gt; </div>
 <p>This ctor is largely intended for constructing a <a class="el" href="classchemist_1_1ContractedGaussian.html" title="An atomic orbital resulting from a linear combination of Gaussian primitives.">ContractedGaussian</a> when the parameters are not already stored in Primitives.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">coefs</td><td>An <img class="formulaInl" alt="$N$" src="form_3.png"/> element array such that the <img class="formulaInl" alt="$i$" src="form_12.png"/>-th element is the contraction coefficient for the <img class="formulaInl" alt="$i$" src="form_12.png"/>-th primitive. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">exps</td><td>An <img class="formulaInl" alt="$N$" src="form_3.png"/> element array such that the <img class="formulaInl" alt="$i$" src="form_12.png"/>-th element is the exponent for the <img class="formulaInl" alt="$i$" src="form_12.png"/>-th primitive. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">coefs</td><td>An <img class="formulaInl" alt="$N$" src="form_11.png"/> element array such that the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th element is the contraction coefficient for the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th primitive. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">exps</td><td>An <img class="formulaInl" alt="$N$" src="form_11.png"/> element array such that the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th element is the exponent for the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th primitive. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The x-coordinate where this orbital is centered. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The y-coordinate where this orbital is centered. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">z</td><td>The z-coordinate where this orbital is centered.</td></tr>

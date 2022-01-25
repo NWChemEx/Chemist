@@ -169,9 +169,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a57f357dae8c44abdaf3578efbda20e5f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1set__theory_1_1Subset.html#a57f357dae8c44abdaf3578efbda20e5f">operator&lt;</a> (const <a class="el" href="classchemist_1_1set__theory_1_1Subset.html">my_type</a> &amp;rhs) const noexcept</td></tr>
 <tr class="memdesc:a57f357dae8c44abdaf3578efbda20e5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if this <a class="el" href="classchemist_1_1set__theory_1_1Subset.html" title="Models a subset of a set.">Subset</a> comes before <code>rhs</code> lexicographically.  <a href="classchemist_1_1set__theory_1_1Subset.html#a57f357dae8c44abdaf3578efbda20e5f">More...</a><br /></td></tr>
 <tr class="separator:a57f357dae8c44abdaf3578efbda20e5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96dbe4f012dfc67c4a9b1a6824f600c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1set__theory_1_1Subset.html#a96dbe4f012dfc67c4a9b1a6824f600c1">hash</a> (pluginplay::Hasher &amp;h) const</td></tr>
-<tr class="memdesc:a96dbe4f012dfc67c4a9b1a6824f600c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hashes the current subset.  <a href="classchemist_1_1set__theory_1_1Subset.html#a96dbe4f012dfc67c4a9b1a6824f600c1">More...</a><br /></td></tr>
-<tr class="separator:a96dbe4f012dfc67c4a9b1a6824f600c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c3f5d3c02bcbd5ccc035340a5fee37e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1set__theory_1_1Subset.html#a6c3f5d3c02bcbd5ccc035340a5fee37e">hash</a> (pz::Hasher &amp;h) const</td></tr>
+<tr class="memdesc:a6c3f5d3c02bcbd5ccc035340a5fee37e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hashes the current subset.  <a href="classchemist_1_1set__theory_1_1Subset.html#a6c3f5d3c02bcbd5ccc035340a5fee37e">More...</a><br /></td></tr>
+<tr class="separator:a6c3f5d3c02bcbd5ccc035340a5fee37e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Related Functions</h2></td></tr>
@@ -191,7 +191,7 @@ Related Functions</h2></td></tr>
 class chemist::set_theory::Subset&lt; SetType &gt;</h3>
 
 <p>Models a subset of a set. </p>
-<p>Given a set <img class="formulaInl" alt="$\mathbb{S}$" src="form_52.png"/>, <img class="formulaInl" alt="$\mathbb{T}$" src="form_53.png"/> is a subset of <img class="formulaInl" alt="$\mathbb{S}$" src="form_52.png"/> if <img class="formulaInl" alt="$\mathbb{T}$" src="form_53.png"/> is a set and if every member of <img class="formulaInl" alt="$\mathbb{T}$" src="form_53.png"/> is also a member of <img class="formulaInl" alt="$\mathbb{S}$" src="form_52.png"/>. <img class="formulaInl" alt="$\mathbb{T}$" src="form_53.png"/> is a proper subset if at least one member of <img class="formulaInl" alt="$\mathbb{S}$" src="form_52.png"/> does not appear in <img class="formulaInl" alt="$\mathbb{T}$" src="form_53.png"/>.</p>
+<p>Given a set <img class="formulaInl" alt="$\mathbb{S}$" src="form_28.png"/>, <img class="formulaInl" alt="$\mathbb{T}$" src="form_29.png"/> is a subset of <img class="formulaInl" alt="$\mathbb{S}$" src="form_28.png"/> if <img class="formulaInl" alt="$\mathbb{T}$" src="form_29.png"/> is a set and if every member of <img class="formulaInl" alt="$\mathbb{T}$" src="form_29.png"/> is also a member of <img class="formulaInl" alt="$\mathbb{S}$" src="form_28.png"/>. <img class="formulaInl" alt="$\mathbb{T}$" src="form_29.png"/> is a proper subset if at least one member of <img class="formulaInl" alt="$\mathbb{S}$" src="form_28.png"/> does not appear in <img class="formulaInl" alt="$\mathbb{T}$" src="form_29.png"/>.</p>
 <p>Programatically, this class serves as a proxy for an object of type <code>SetType</code> whose members are restricted to being a subset of another <code>SetType</code> instance. This proxy is a view/mask of the <code>SetType</code> instance with limited <code>SetType</code> functionality (mainly the ability to determine if members are in the proxy and the ability to iterate over the members of the proxy).</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -510,8 +510,8 @@ template&lt;typename SetType &gt; </div>
 
 </div>
 </div>
-<a id="a96dbe4f012dfc67c4a9b1a6824f600c1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96dbe4f012dfc67c4a9b1a6824f600c1">&#9670;&nbsp;</a></span>hash()</h2>
+<a id="a6c3f5d3c02bcbd5ccc035340a5fee37e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c3f5d3c02bcbd5ccc035340a5fee37e">&#9670;&nbsp;</a></span>hash()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -521,7 +521,7 @@ template&lt;typename SetType &gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classchemist_1_1set__theory_1_1Subset.html">chemist::set_theory::Subset</a>&lt; SetType &gt;::hash </td>
           <td>(</td>
-          <td class="paramtype">pluginplay::Hasher &amp;&#160;</td>
+          <td class="paramtype">pz::Hasher &amp;&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -666,7 +666,7 @@ template&lt;typename SetType &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the union of this instance with <code>rhs</code>. </p>
-<p>The union of two sets <img class="formulaInl" alt="$A$" src="form_4.png"/> and <img class="formulaInl" alt="$B$" src="form_6.png"/> is a set <img class="formulaInl" alt="$C$" src="form_8.png"/> such that every element in <img class="formulaInl" alt="$A$" src="form_4.png"/> and <img class="formulaInl" alt="$B$" src="form_6.png"/> is also in <img class="formulaInl" alt="$C$" src="form_8.png"/>. This function will compute the union of the current subset with <code>rhs</code> and return it.</p>
+<p>The union of two sets <img class="formulaInl" alt="$A$" src="form_30.png"/> and <img class="formulaInl" alt="$B$" src="form_31.png"/> is a set <img class="formulaInl" alt="$C$" src="form_32.png"/> such that every element in <img class="formulaInl" alt="$A$" src="form_30.png"/> and <img class="formulaInl" alt="$B$" src="form_31.png"/> is also in <img class="formulaInl" alt="$C$" src="form_32.png"/>. This function will compute the union of the current subset with <code>rhs</code> and return it.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The instance we are taking the union with.</td></tr>
@@ -703,7 +703,7 @@ template&lt;typename SetType &gt; </div>
 </div><div class="memdoc">
 
 <p>Makes this instance the union of itself and <code>rhs</code>. </p>
-<p>The union of two sets <img class="formulaInl" alt="$A$" src="form_4.png"/> and <img class="formulaInl" alt="$B$" src="form_6.png"/> is a set <img class="formulaInl" alt="$C$" src="form_8.png"/> such that every element in <img class="formulaInl" alt="$A$" src="form_4.png"/> and <img class="formulaInl" alt="$B$" src="form_6.png"/> is also in <img class="formulaInl" alt="$C$" src="form_8.png"/>. This function will overwrite the current subset's state with the union of itself and <code>rhs</code>.</p>
+<p>The union of two sets <img class="formulaInl" alt="$A$" src="form_30.png"/> and <img class="formulaInl" alt="$B$" src="form_31.png"/> is a set <img class="formulaInl" alt="$C$" src="form_32.png"/> such that every element in <img class="formulaInl" alt="$A$" src="form_30.png"/> and <img class="formulaInl" alt="$B$" src="form_31.png"/> is also in <img class="formulaInl" alt="$C$" src="form_32.png"/>. This function will overwrite the current subset's state with the union of itself and <code>rhs</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The <a class="el" href="classchemist_1_1set__theory_1_1Subset.html" title="Models a subset of a set.">Subset</a> we are taking a union with.</td></tr>
@@ -740,7 +740,7 @@ template&lt;typename SetType &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the set difference of this with <code>rhs</code>. </p>
-<p>The set difference of two sets, <img class="formulaInl" alt="$A$" src="form_4.png"/> and <img class="formulaInl" alt="$B$" src="form_6.png"/>, is a set <img class="formulaInl" alt="$C$" src="form_8.png"/> which contains all of the elements in <img class="formulaInl" alt="$A$" src="form_4.png"/> that are not in <img class="formulaInl" alt="$B$" src="form_6.png"/>. This function will return the set difference of the current instance with <code>rhs</code>.</p>
+<p>The set difference of two sets, <img class="formulaInl" alt="$A$" src="form_30.png"/> and <img class="formulaInl" alt="$B$" src="form_31.png"/>, is a set <img class="formulaInl" alt="$C$" src="form_32.png"/> which contains all of the elements in <img class="formulaInl" alt="$A$" src="form_30.png"/> that are not in <img class="formulaInl" alt="$B$" src="form_31.png"/>. This function will return the set difference of the current instance with <code>rhs</code>.</p>
 <dl class="section return"><dt>Returns</dt><dd>The current subset after setting it to the set difference with <code>rhs</code>.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -777,7 +777,7 @@ template&lt;typename SetType &gt; </div>
 </div><div class="memdoc">
 
 <p>Removes <code>rhs</code> from the current set. </p>
-<p>The set difference of two sets, <img class="formulaInl" alt="$A$" src="form_4.png"/> and <img class="formulaInl" alt="$B$" src="form_6.png"/>, is a set <img class="formulaInl" alt="$C$" src="form_8.png"/> which contains all of the elements in <img class="formulaInl" alt="$A$" src="form_4.png"/> that are not in <img class="formulaInl" alt="$B$" src="form_6.png"/>. This function will set the current instance to the set difference of itself with <code>rhs</code>.</p>
+<p>The set difference of two sets, <img class="formulaInl" alt="$A$" src="form_30.png"/> and <img class="formulaInl" alt="$B$" src="form_31.png"/>, is a set <img class="formulaInl" alt="$C$" src="form_32.png"/> which contains all of the elements in <img class="formulaInl" alt="$A$" src="form_30.png"/> that are not in <img class="formulaInl" alt="$B$" src="form_31.png"/>. This function will set the current instance to the set difference of itself with <code>rhs</code>.</p>
 <dl class="section return"><dt>Returns</dt><dd>The current subset after setting it to the set difference with <code>rhs</code>.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -895,7 +895,7 @@ template&lt;typename SetType &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the intersection of this with <code>rhs</code>. </p>
-<p>The intersction of two sets, <img class="formulaInl" alt="$A$" src="form_4.png"/> and <img class="formulaInl" alt="$B$" src="form_6.png"/>, is the set <img class="formulaInl" alt="$C$" src="form_8.png"/> containing all elements that appear in both <img class="formulaInl" alt="$A$" src="form_4.png"/> and <img class="formulaInl" alt="$B$" src="form_6.png"/>. This function will return the intersection of itself with <code>rhs</code>.</p>
+<p>The intersction of two sets, <img class="formulaInl" alt="$A$" src="form_30.png"/> and <img class="formulaInl" alt="$B$" src="form_31.png"/>, is the set <img class="formulaInl" alt="$C$" src="form_32.png"/> containing all elements that appear in both <img class="formulaInl" alt="$A$" src="form_30.png"/> and <img class="formulaInl" alt="$B$" src="form_31.png"/>. This function will return the intersection of itself with <code>rhs</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The set we are taking the intersection with.</td></tr>
@@ -932,7 +932,7 @@ template&lt;typename SetType &gt; </div>
 </div><div class="memdoc">
 
 <p>Sets this to the intersection of itself with <code>rhs</code>. </p>
-<p>The intersction of two sets, <img class="formulaInl" alt="$A$" src="form_4.png"/> and <img class="formulaInl" alt="$B$" src="form_6.png"/>, is the set <img class="formulaInl" alt="$C$" src="form_8.png"/> containing all elements that appear in both <img class="formulaInl" alt="$A$" src="form_4.png"/> and <img class="formulaInl" alt="$B$" src="form_6.png"/>. This function will set the current instance to the intersection of itself with <code>rhs</code>.</p>
+<p>The intersction of two sets, <img class="formulaInl" alt="$A$" src="form_30.png"/> and <img class="formulaInl" alt="$B$" src="form_31.png"/>, is the set <img class="formulaInl" alt="$C$" src="form_32.png"/> containing all elements that appear in both <img class="formulaInl" alt="$A$" src="form_30.png"/> and <img class="formulaInl" alt="$B$" src="form_31.png"/>. This function will set the current instance to the intersection of itself with <code>rhs</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The set we are taking the intersection with.</td></tr>

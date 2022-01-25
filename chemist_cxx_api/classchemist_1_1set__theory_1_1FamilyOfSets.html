@@ -167,9 +167,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab30d896a6e864459ad67e0491e5f77bf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#ab30d896a6e864459ad67e0491e5f77bf">disjoint</a> () const noexcept</td></tr>
 <tr class="memdesc:ab30d896a6e864459ad67e0491e5f77bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if all of the subsets are disjoint.  <a href="classchemist_1_1set__theory_1_1FamilyOfSets.html#ab30d896a6e864459ad67e0491e5f77bf">More...</a><br /></td></tr>
 <tr class="separator:ab30d896a6e864459ad67e0491e5f77bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84a41aeb4e3968ed9ae12826baa7b3bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a84a41aeb4e3968ed9ae12826baa7b3bd">hash</a> (pluginplay::Hasher &amp;h) const</td></tr>
-<tr class="memdesc:a84a41aeb4e3968ed9ae12826baa7b3bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hashes the <a class="el" href="classchemist_1_1set__theory_1_1FamilyOfSets.html" title="Holds a series of Subset objects.">FamilyOfSets</a>.  <a href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a84a41aeb4e3968ed9ae12826baa7b3bd">More...</a><br /></td></tr>
-<tr class="separator:a84a41aeb4e3968ed9ae12826baa7b3bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7f700a98e5524e25cfdba31c99559be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#ab7f700a98e5524e25cfdba31c99559be">hash</a> (pz::Hasher &amp;h) const</td></tr>
+<tr class="memdesc:ab7f700a98e5524e25cfdba31c99559be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hashes the <a class="el" href="classchemist_1_1set__theory_1_1FamilyOfSets.html" title="Holds a series of Subset objects.">FamilyOfSets</a>.  <a href="classchemist_1_1set__theory_1_1FamilyOfSets.html#ab7f700a98e5524e25cfdba31c99559be">More...</a><br /></td></tr>
+<tr class="separator:ab7f700a98e5524e25cfdba31c99559be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Related Functions</h2></td></tr>
@@ -185,7 +185,7 @@ Related Functions</h2></td></tr>
 class chemist::set_theory::FamilyOfSets&lt; SetType &gt;</h3>
 
 <p>Holds a series of <a class="el" href="classchemist_1_1set__theory_1_1Subset.html" title="Models a subset of a set.">Subset</a> objects. </p>
-<p>Mathematically a "family of sets" <img class="formulaInl" alt="$\mathbb{F}$" src="form_51.png"/> is a collections of subsets of a set <img class="formulaInl" alt="$\mathbb{S}$" src="form_52.png"/>. A family of sets is a generalization of a partitioning of a set (a partitioning of a set is a family of sets where every element of the set appears in one and only one subset).</p>
+<p>Mathematically a "family of sets" <img class="formulaInl" alt="$\mathbb{F}$" src="form_27.png"/> is a collections of subsets of a set <img class="formulaInl" alt="$\mathbb{S}$" src="form_28.png"/>. A family of sets is a generalization of a partitioning of a set (a partitioning of a set is a family of sets where every element of the set appears in one and only one subset).</p>
 <p>The <a class="el" href="classchemist_1_1set__theory_1_1FamilyOfSets.html" title="Holds a series of Subset objects.">FamilyOfSets</a> class is a container which holds the subsets of a parent set. The <a class="el" href="classchemist_1_1set__theory_1_1FamilyOfSets.html" title="Holds a series of Subset objects.">FamilyOfSets</a>, and its subsets, share ownership of the parent set. This means the subsets remain valid even if the originating <a class="el" href="classchemist_1_1set__theory_1_1FamilyOfSets.html" title="Holds a series of Subset objects.">FamilyOfSets</a> instance goes out of scope. The subsets are lightweight views of the parent set which avoid copying elements of the parent set while still providing object-oriented access semantics to the elements.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -532,8 +532,8 @@ template&lt;typename SetType &gt; </div>
 
 </div>
 </div>
-<a id="a84a41aeb4e3968ed9ae12826baa7b3bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84a41aeb4e3968ed9ae12826baa7b3bd">&#9670;&nbsp;</a></span>hash()</h2>
+<a id="ab7f700a98e5524e25cfdba31c99559be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7f700a98e5524e25cfdba31c99559be">&#9670;&nbsp;</a></span>hash()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -543,7 +543,7 @@ template&lt;typename SetType &gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classchemist_1_1set__theory_1_1FamilyOfSets.html">chemist::set_theory::FamilyOfSets</a>&lt; SetType &gt;::hash </td>
           <td>(</td>
-          <td class="paramtype">pluginplay::Hasher &amp;&#160;</td>
+          <td class="paramtype">pz::Hasher &amp;&#160;</td>
           <td class="paramname"><em>h</em></td><td>)</td>
           <td> const</td>
         </tr>

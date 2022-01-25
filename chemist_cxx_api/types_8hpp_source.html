@@ -71,20 +71,25 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <a href="types_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;chemist/tensor/tensor.hpp&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>chemist::type {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="types_8hpp.html#a9ee3ebc8fa20e70336ca452fe2a719e2">   19</a></span>&#160;<span class="keyword">using</span> <a class="code" href="types_8hpp.html#a9ee3ebc8fa20e70336ca452fe2a719e2">size</a> = std::size_t;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="types_8hpp.html#ae77fdb5ff6f1d16308cce8789e3b0ad8">   22</a></span>&#160;<span class="keyword">using</span> <a class="code" href="classchemist_1_1tensor_1_1TensorWrapper.html">tensor</a> = <a class="code" href="classchemist_1_1tensor_1_1TensorWrapper.html">chemist::tensor::ScalarTensorWrapper</a>;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="types_8hpp.html#a2f5d827d38477fdc60f779eae511fdec">   25</a></span>&#160;<span class="keyword">using</span> <a class="code" href="classchemist_1_1tensor_1_1TensorWrapper.html">tensor_of_tensors</a> = <a class="code" href="classchemist_1_1tensor_1_1TensorWrapper.html">chemist::tensor::TensorOfTensorsWrapper</a>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;} <span class="comment">// namespace chemist::type</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;tensorwrapper/sparse_map/sparse_map.hpp&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;tensorwrapper/tensor/tensor.hpp&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">namespace </span>chemist::type {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="types_8hpp.html#a9ee3ebc8fa20e70336ca452fe2a719e2">   20</a></span>&#160;<span class="keyword">using</span> <a class="code" href="types_8hpp.html#a9ee3ebc8fa20e70336ca452fe2a719e2">size</a> = std::size_t;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="types_8hpp.html#aee6e84d0a87807bc32dfa20405d8ba10">   23</a></span>&#160;<span class="keyword">using</span> <a class="code" href="types_8hpp.html#aee6e84d0a87807bc32dfa20405d8ba10">tensor</a> = tensorwrapper::tensor::ScalarTensorWrapper;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="types_8hpp.html#ab41535d4676312efa1f0e3f712565830">   26</a></span>&#160;<span class="keyword">using</span> <a class="code" href="types_8hpp.html#ab41535d4676312efa1f0e3f712565830">tensor_of_tensors</a> = tensorwrapper::tensor::TensorOfTensorsWrapper;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="types_8hpp.html#ae98d1f1a8f384cf7eae96759d501c590">   34</a></span>&#160;<span class="keyword">using</span> <a class="code" href="types_8hpp.html#ae98d1f1a8f384cf7eae96759d501c590">sparse_map</a> = tensorwrapper::sparse_map::SparseMapEE;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;} <span class="comment">// namespace chemist::type</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclasschemist_1_1tensor_1_1TensorWrapper_html"><div class="ttname"><a href="classchemist_1_1tensor_1_1TensorWrapper.html">chemist::tensor::TensorWrapper</a></div><div class="ttdoc">Fundamental type for wrapping tensors.</div><div class="ttdef"><b>Definition:</b> mult_kernels.hpp:14</div></div>
-<div class="ttc" id="atypes_8hpp_html_a9ee3ebc8fa20e70336ca452fe2a719e2"><div class="ttname"><a href="types_8hpp.html#a9ee3ebc8fa20e70336ca452fe2a719e2">chemist::type::size</a></div><div class="ttdeci">std::size_t size</div><div class="ttdoc">Type used for offsets and indexing.</div><div class="ttdef"><b>Definition:</b> types.hpp:19</div></div>
+<div class="ttc" id="atypes_8hpp_html_ab41535d4676312efa1f0e3f712565830"><div class="ttname"><a href="types_8hpp.html#ab41535d4676312efa1f0e3f712565830">chemist::type::tensor_of_tensors</a></div><div class="ttdeci">tensorwrapper::tensor::TensorOfTensorsWrapper tensor_of_tensors</div><div class="ttdoc">Type used for hierarchical (i.e. ToTs) tensors.</div><div class="ttdef"><b>Definition:</b> types.hpp:26</div></div>
+<div class="ttc" id="atypes_8hpp_html_ae98d1f1a8f384cf7eae96759d501c590"><div class="ttname"><a href="types_8hpp.html#ae98d1f1a8f384cf7eae96759d501c590">chemist::type::sparse_map</a></div><div class="ttdeci">tensorwrapper::sparse_map::SparseMapEE sparse_map</div><div class="ttdoc">Type of the sparse affiliated with dependent spaces.</div><div class="ttdef"><b>Definition:</b> types.hpp:34</div></div>
+<div class="ttc" id="atypes_8hpp_html_aee6e84d0a87807bc32dfa20405d8ba10"><div class="ttname"><a href="types_8hpp.html#aee6e84d0a87807bc32dfa20405d8ba10">chemist::type::tensor</a></div><div class="ttdeci">tensorwrapper::tensor::ScalarTensorWrapper tensor</div><div class="ttdoc">Type used for non-hierarchical tensors.</div><div class="ttdef"><b>Definition:</b> types.hpp:23</div></div>
+<div class="ttc" id="atypes_8hpp_html_a9ee3ebc8fa20e70336ca452fe2a719e2"><div class="ttname"><a href="types_8hpp.html#a9ee3ebc8fa20e70336ca452fe2a719e2">chemist::type::size</a></div><div class="ttdeci">std::size_t size</div><div class="ttdoc">Type used for offsets and indexing.</div><div class="ttdef"><b>Definition:</b> types.hpp:20</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
