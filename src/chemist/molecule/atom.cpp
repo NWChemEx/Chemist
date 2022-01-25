@@ -1,6 +1,6 @@
 #include "atom_pimpl.hpp"
 #include "chemist/molecule/atom.hpp"
-#include <iomanip>               // For precision of floats
+#include <iomanip>                 // For precision of floats
 #include <parallelzone/hasher.hpp> //For hashing
 
 namespace chemist {
