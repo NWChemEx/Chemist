@@ -46,17 +46,16 @@ TEMPLATE_LIST_TEST_CASE("CorrelationFactor", "",
     }
 
     SECTION("Hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
-            auto lhs = pz::hash_objects(f12);
+            auto lhs = hash_objects(f12);
 
             SECTION("LHS == RHS") {
                 f12_type rhs;
-                REQUIRE(lhs == pz::hash_objects(rhs));
+                REQUIRE(lhs == hash_objects(rhs));
             }
 
-            SECTION("LHS != RHS") {
-                REQUIRE(lhs != pz::hash_objects(non_default));
-            }
+            SECTION("LHS != RHS") { REQUIRE(lhs != hash_objects(non_default)); }
         }
     }
 

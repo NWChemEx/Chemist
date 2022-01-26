@@ -55,17 +55,16 @@ TEST_CASE("Electronic Hamiltonian") {
     }
 
     SECTION("Hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
-            auto lhs = pz::hash_objects(defaulted);
+            auto lhs = hash_objects(defaulted);
 
             SECTION("LHS == RHS") {
                 ElectronicHamiltonian rhs;
-                REQUIRE(lhs == pz::hash_objects(rhs));
+                REQUIRE(lhs == hash_objects(rhs));
             }
 
-            SECTION("LHS != RHS") {
-                REQUIRE(lhs != pz::hash_objects(from_ham));
-            }
+            SECTION("LHS != RHS") { REQUIRE(lhs != hash_objects(from_ham)); }
         }
     }
 

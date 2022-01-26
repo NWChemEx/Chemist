@@ -56,16 +56,17 @@ TEST_CASE("Core Hamiltonian") {
     }
 
     SECTION("Hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
-            auto lhs = pz::hash_objects(defaulted);
+            auto lhs = hash_objects(defaulted);
 
             SECTION("LHS == RHS") {
                 CoreHamiltonian rhs;
-                REQUIRE(lhs == pz::hash_objects(rhs));
+                REQUIRE(lhs == hash_objects(rhs));
             }
 
             SECTION("LHS != RHS") {
-                REQUIRE(lhs != pz::hash_objects(from_elec_ham));
+                REQUIRE(lhs != hash_objects(from_elec_ham));
             }
         }
     }

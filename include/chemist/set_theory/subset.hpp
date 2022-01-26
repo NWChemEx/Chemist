@@ -1,10 +1,10 @@
 #pragma once
+#include "chemist/detail_/hashing.hpp"
 #include "chemist/set_theory/traits/set_traits.hpp"
 #include <algorithm>
 #include <boost/container/flat_set.hpp>
 #include <iterator>
 #include <memory>
-#include <parallelzone/hasher.hpp>
 
 namespace chemist::set_theory {
 template<typename SetType>
@@ -399,7 +399,7 @@ public:
      *                   call, the internal hash of @p h will be updated to
      *                   include the hash of this Subset.
      */
-    void hash(pz::Hasher& h) const;
+    void hash(chemist::detail_::Hasher& h) const;
 
 private:
     /// Type of the container holding the set
@@ -598,7 +598,7 @@ bool SUBSET::operator<(const Subset& rhs) const noexcept {
 }
 
 template<typename SetType>
-void SUBSET::hash(pz::Hasher& h) const {
+void SUBSET::hash(chemist::detail_::Hasher& h) const {
     for(const auto& x : m_members_) h(x);
     h(*m_parent_);
 }

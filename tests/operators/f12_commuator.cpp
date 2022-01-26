@@ -61,17 +61,16 @@ TEMPLATE_LIST_TEST_CASE("F12Commutator", "", type_list) {
     }
 
     SECTION("Hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
-            auto lhs = pz::hash_objects(defaulted);
+            auto lhs = hash_objects(defaulted);
 
             SECTION("LHS == RHS") {
                 comm_type rhs;
-                REQUIRE(lhs == pz::hash_objects(rhs));
+                REQUIRE(lhs == hash_objects(rhs));
             }
 
-            SECTION("LHS != RHS") {
-                REQUIRE(lhs != pz::hash_objects(non_default));
-            }
+            SECTION("LHS != RHS") { REQUIRE(lhs != hash_objects(non_default)); }
         }
     }
 

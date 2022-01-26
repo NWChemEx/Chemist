@@ -75,23 +75,24 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
     }
 
     SECTION("hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
-            auto lhs = pz::hash_objects(defaulted);
+            auto lhs = hash_objects(defaulted);
 
             SECTION("RHS == defaulted") {
-                auto rhs = pz::hash_objects(space_type{});
+                auto rhs = hash_objects(space_type{});
                 REQUIRE(lhs == rhs);
             }
 
             SECTION("RHS == non-default") {
-                auto rhs = pz::hash_objects(non_default_bs);
+                auto rhs = hash_objects(non_default_bs);
                 REQUIRE(lhs != rhs);
             }
         }
 
         SECTION("LHS == non-default && RHS == non-default") {
-            auto lhs = pz::hash_objects(non_default_bs);
-            auto rhs = pz::hash_objects(space_type{bs});
+            auto lhs = hash_objects(non_default_bs);
+            auto rhs = hash_objects(space_type{bs});
             REQUIRE(lhs == rhs);
         }
     }

@@ -49,17 +49,18 @@ TEMPLATE_LIST_TEST_CASE("SlaterTypeGeminal", "", testing::stg_types) {
     }
 
     SECTION("hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
-            auto lhs = pz::hash_objects(stg);
+            auto lhs = hash_objects(stg);
             SECTION("RHS == default") {
-                REQUIRE(lhs == pz::hash_objects(stg_type{}));
+                REQUIRE(lhs == hash_objects(stg_type{}));
             }
             SECTION("RHS different exponent") {
-                REQUIRE(lhs != pz::hash_objects(diff_exponent));
+                REQUIRE(lhs != hash_objects(diff_exponent));
             }
             SECTION("RHS different coefficient") {
                 stg_type rhs(1.2, -1.0 / 3.1);
-                REQUIRE(lhs != pz::hash_objects(rhs));
+                REQUIRE(lhs != hash_objects(rhs));
             }
         }
     }

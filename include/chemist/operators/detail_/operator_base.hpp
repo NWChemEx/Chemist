@@ -1,7 +1,7 @@
 #pragma once
+#include "chemist/detail_/hashing.hpp"
 #include "chemist/potentials/electrostatic.hpp"
 #include <cstddef>
-#include <parallelzone/hasher.hpp>
 #include <typeindex>
 
 namespace chemist::operators::detail_ {
@@ -26,7 +26,7 @@ public:
     scalar_type coefficient() const noexcept { return m_c_; }
 
     /// Hash function
-    inline void hash(pz::Hasher& h) const { hash_impl(h); }
+    inline void hash(chemist::detail_::Hasher& h) const { hash_impl(h); }
 
     /// Polymorphic comparison of this Operator instance with another
     inline bool is_equal(const OperatorBase& other) const noexcept;
@@ -88,7 +88,7 @@ protected:
     OperatorBase& operator=(OperatorBase&&) = default;
 
     /// Derived implementation of Hash function.
-    virtual void hash_impl(pz::Hasher& h) const = 0;
+    virtual void hash_impl(chemist::detail_::Hasher& h) const = 0;
     /// Derived implementation of comparison function.
     virtual bool is_equal_impl(const OperatorBase&) const noexcept = 0;
     /// Derived implementation of polymorphic copy
