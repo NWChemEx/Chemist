@@ -12,17 +12,21 @@ namespace libchemist::operators {
 class ElectronicHamiltonian_Nuclear : public Hamiltonian_Nuclear {
 private:
     template<typename T>
-    static constexpr bool is_hamiltonian_v = std::is_base_of_v<Hamiltonian_Nuclear, T>;
+    static constexpr bool is_hamiltonian_v =
+      std::is_base_of_v<Hamiltonian_Nuclear, T>;
 
     template<typename T>
     using disable_if_hamiltonian_t = std::enable_if_t<!is_hamiltonian_v<T>>;
 
 public:
-    ElectronicHamiltonian_Nuclear()                             = default;
-    ElectronicHamiltonian_Nuclear(const ElectronicHamiltonian_Nuclear&) = default;
-    ElectronicHamiltonian_Nuclear(ElectronicHamiltonian_Nuclear&&)      = default;
-    ElectronicHamiltonian_Nuclear& operator=(const ElectronicHamiltonian_Nuclear&) = default;
-    ElectronicHamiltonian_Nuclear& operator=(ElectronicHamiltonian_Nuclear&&) = default;
+    ElectronicHamiltonian_Nuclear() = default;
+    ElectronicHamiltonian_Nuclear(const ElectronicHamiltonian_Nuclear&) =
+      default;
+    ElectronicHamiltonian_Nuclear(ElectronicHamiltonian_Nuclear&&) = default;
+    ElectronicHamiltonian_Nuclear& operator                        =(
+      const ElectronicHamiltonian_Nuclear&) = default;
+    ElectronicHamiltonian_Nuclear& operator=(ElectronicHamiltonian_Nuclear&&) =
+      default;
 
     /** @brief Convenience ctor for creating an ElectronicHamiltonian from the
      *         full system Hamiltonian.
@@ -53,7 +57,8 @@ protected:
 // -----------------------------------------------------------------------------
 
 template<typename OpType, typename... Args, typename>
-ElectronicHamiltonian_Nuclear::ElectronicHamiltonian_Nuclear(OpType&& op0, Args&&... args) :
+ElectronicHamiltonian_Nuclear::ElectronicHamiltonian_Nuclear(OpType&& op0,
+                                                             Args&&... args) :
   Hamiltonian_Nuclear(std::forward<OpType>(op0), std::forward<Args>(args)...) {}
 
 } // namespace libchemist::operators

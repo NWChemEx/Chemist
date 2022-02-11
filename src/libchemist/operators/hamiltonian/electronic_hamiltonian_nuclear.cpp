@@ -4,7 +4,8 @@
 
 namespace libchemist::operators {
 
-ElectronicHamiltonian_Nuclear::ElectronicHamiltonian_Nuclear(const Hamiltonian_Nuclear& H) {
+ElectronicHamiltonian_Nuclear::ElectronicHamiltonian_Nuclear(
+  const Hamiltonian_Nuclear& H) {
     using T_type = NElectronKinetic_Nuclear;
     using V_type = NElectronNuclearAttraction_Nuclear;
     using G_type = NElectronRepulsion_Nuclear;
