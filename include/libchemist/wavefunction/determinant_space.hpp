@@ -111,9 +111,9 @@ private:
     /// The fock operator
     fock_operator_type m_fock_;
 
-    /// The derivative fock operator (type the same as Fock operator but the 
-    /// primitive terms are the derivative wrt the nuclear positions of the 
-    /// primitive terms of the Fock operator) 
+    /// The derivative fock operator (type the same as Fock operator but the
+    /// primitive terms are the derivative wrt the nuclear positions of the
+    /// primitive terms of the Fock operator)
     fock_operator_type m_fock_nuc_;
 };
 
