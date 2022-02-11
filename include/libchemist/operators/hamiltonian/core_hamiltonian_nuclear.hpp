@@ -10,12 +10,11 @@ namespace libchemist::operators {
  * the many- electron core Hamiltonian derivative so by convention this class is
  * the one-electron core Hamiltonian derivative.
  */
-/*
 class CoreHamiltonian_Nuclear : public ElectronicHamiltonian_Nuclear {
 private:
     template<typename T>
     static constexpr bool is_hamiltonian_v =
-      std::is_base_of_v<Hamiltonian_Nuclear, T>;
+      std::is_base_of_v<ElectronicHamiltonian_Nuclear, T>;
 
     template<typename T>
     using disable_if_hamiltonian_t = std::enable_if_t<!is_hamiltonian_v<T>>;
@@ -41,7 +40,7 @@ public:
      *
      *  @throw std::bad_alloc if there is a problem allocating memory for the
      *                        new instance. Strong throw guarantee.
-     * /
+     */
     explicit CoreHamiltonian_Nuclear(const ElectronicHamiltonian_Nuclear& He);
 
     template<typename OpType, typename... Args,
@@ -53,14 +52,11 @@ protected:
         return std::make_unique<CoreHamiltonian_Nuclear>(*this);
     }
 };
-*/
 // -----------------------------------------------------------------------------
 // ----------------------- Inline Implementations ------------------------------
 // -----------------------------------------------------------------------------
-/*
 template<typename OpType, typename... Args, typename>
 CoreHamiltonian_Nuclear::CoreHamiltonian_Nuclear(OpType&& op0, Args&&... args) :
   ElectronicHamiltonian_Nuclear(std::forward<OpType>(op0),
                                 std::forward<Args>(args)...) {}
-*/
 } // namespace libchemist::operators
