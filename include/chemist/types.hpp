@@ -31,6 +31,6 @@ using tensor_of_tensors = tensorwrapper::tensor::TensorOfTensorsWrapper;
  *  tensor to tensor this allows us to compute the tile to tile sparse map per
  *  tensor.
  */
-using sparse_map = tensorwrapper::sparse_map::SparseMapEE;
+using sparse_map = tensorwrapper::sparse_map::SparseMap;
 
 } // namespace chemist::type
