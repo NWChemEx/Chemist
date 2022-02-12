@@ -19,18 +19,17 @@ static inline auto make_bs() {
     return std::make_pair(bs, c);
 }
 
-TEST_CASE("AOBasisSet : default ctor") {
-    bs_t bs;
-    REQUIRE(bs.empty());
-
-    chemist::detail_::Hasher h(chemist::detail_::HashType::Hash128);
-    h(bs);
-    REQUIRE(chemist::detail_::hash_to_string(h.finalize()) ==
-            "00000000000000000000000000000000");
-}
+// TEST_CASE("AOBasisSet : default ctor") {
+//     bs_t bs;
+//     chemist::detail_::Hasher h(chemist::detail_::HashType::Hash128);
+//     h(bs);
+//     REQUIRE(chemist::detail_::hash_to_string(h.finalize()) ==
+//             "00000000000000000000000000000000");
+// }
 
 TEST_CASE("AOBasisSet : copy ctor") {
     bs_t bs;
+    REQUIRE(bs.empty());
     center_t c("", 0, 1.0, 2.0, 3.0);
     bs.add_center(c);
     bs_t bs2(bs);
@@ -76,10 +75,10 @@ TEST_CASE("AOBasisSet : add_center") {
     REQUIRE(bs.size() == 1);
     REQUIRE(bs[0] == c);
 
-    chemist::detail_::Hasher h(chemist::detail_::HashType::Hash128);
-    h(bs);
-    REQUIRE(chemist::detail_::hash_to_string(h.finalize()) ==
-            "c7c65e5af263ca28eb7d099cf993f8af");
+    // chemist::detail_::Hasher h(chemist::detail_::HashType::Hash128);
+    // h(bs);
+    // REQUIRE(chemist::detail_::hash_to_string(h.finalize()) ==
+    //         "c7c65e5af263ca28eb7d099cf993f8af");
 }
 
 TEST_CASE("AOBasisSet : max_l") {

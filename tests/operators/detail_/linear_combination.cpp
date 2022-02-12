@@ -96,12 +96,22 @@ TEST_CASE("LinearCombination") {
         REQUIRE(f_hash == hash_objects(Fock{}));
         REQUIRE(h1_hash == hash_objects(Hamiltonian{V1}));
         REQUIRE(f1_hash == hash_objects(Fock{V1}));
+#ifdef BPHASH_USE_TYPEID
+        REQUIRE_FALSE(h_hash == f_hash);
+        REQUIRE_FALSE(h1_hash == f1_hash);
+        REQUIRE_FALSE(d_h_hash == h_hash);
+        REQUIRE_FALSE(d_f_hash == f_hash);
+        REQUIRE_FALSE(d_h1_hash == h1_hash);
+        REQUIRE_FALSE(d_f1_hash == f1_hash);
+#else
         REQUIRE(h_hash == f_hash);
         REQUIRE(h1_hash == f1_hash);
         REQUIRE(d_h_hash == h_hash);
         REQUIRE(d_f_hash == f_hash);
         REQUIRE(d_h1_hash == h1_hash);
         REQUIRE(d_f1_hash == f1_hash);
-        REQUIRE_FALSE(h_hash == h1_hash);
+#endif
+
+                REQUIRE_FALSE(h_hash == h1_hash);
     }
 }
