@@ -112,6 +112,6 @@ TEST_CASE("LinearCombination") {
         REQUIRE(d_f1_hash == f1_hash);
 #endif
 
-                REQUIRE_FALSE(h_hash == h1_hash);
+        REQUIRE_FALSE(h_hash == h1_hash);
     }
 }
