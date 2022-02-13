@@ -58,13 +58,19 @@ TEST_CASE("IndependentSpace") {
         REQUIRE(no_sms.count(space2) == 0);
 
         REQUIRE(has_sms.count(space1) == 1);
+#ifdef BPHASH_USE_TYPEID
+        REQUIRE(has_sms.count(has_sms) == 0);
+#else
         REQUIRE(has_sms.count(has_sms) == 1);
+#endif
         REQUIRE(has_sms.count(space2) == 1);
     }
 
     SECTION("sparse_map") {
         REQUIRE(has_sms.sparse_map(space1) == sm0);
+#ifndef BPHASH_USE_TYPEID
         REQUIRE(has_sms.sparse_map(has_sms) == sm0);
+#endif
         REQUIRE(has_sms.sparse_map(space2) == sm1);
     }
 }
