@@ -4,7 +4,8 @@
 
 namespace libchemist::operators {
 
-CoreHamiltonian_Nuclear::CoreHamiltonian_Nuclear(const ElectronicHamiltonian_Nuclear& He) {
+CoreHamiltonian_Nuclear::CoreHamiltonian_Nuclear(
+  const ElectronicHamiltonian_Nuclear& He) {
     using T_type = NElectronKinetic_Nuclear;
     using t_type = ElectronKinetic_Nuclear;
     using V_type = NElectronNuclearAttraction_Nuclear;
@@ -13,8 +14,9 @@ CoreHamiltonian_Nuclear::CoreHamiltonian_Nuclear(const ElectronicHamiltonian_Nuc
     if(He.has_term<T_type>()) add_term(t_type{});
     for(const auto& V : He.get_terms<V_type>()) {
         add_term(v_type{});
-        // The line above should be. Everything is encapsulated in the ElectronNuclearAttraction_Nuclear data type.
-        //add_terms(v_type{libchemist::Electron{}, V->at<1>()});
+        // The line above should be. Everything is encapsulated in the
+        // ElectronNuclearAttraction_Nuclear data type.
+        // add_terms(v_type{libchemist::Electron{}, V->at<1>()});
     }
 }
 

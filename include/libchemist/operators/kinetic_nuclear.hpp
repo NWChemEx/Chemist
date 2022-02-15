@@ -1,5 +1,8 @@
 #pragma once
 #include "libchemist/electrons/electrons.hpp"
+#include "libchemist/molecule/molecule.hpp"
+#include "libchemist/operators/kinetic.hpp"
+#include "libchemist/operators/derivative.hpp"
 #include "libchemist/operators/detail_/operator_impl.hpp"
 
 namespace libchemist::operators {
@@ -10,7 +13,7 @@ namespace libchemist::operators {
  */
 template<typename Particle>
 using Kinetic_Nuclear =
-  Derivative<Kinetic<Particles...>,libchemist::Nuclei>;
+  Derivative<Kinetic<Particle>,libchemist::Nuclei>;
 
 /// Type of the electronic kinetic energy operator
 using ElectronKinetic_Nuclear = Kinetic_Nuclear<libchemist::Electron>;

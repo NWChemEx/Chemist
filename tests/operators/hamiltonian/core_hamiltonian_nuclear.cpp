@@ -21,15 +21,19 @@ TEST_CASE("Core Hamiltonian Deriv") {
     CoreHamiltonian_Nuclear non_default{t, v}, from_elec_ham{h_e};
 
     SECTION("Ctors") {
-        SECTION("Default") { REQUIRE(defaulted == ElectronicHamiltonian_Nuclear{}); }
+        SECTION("Default") {
+            REQUIRE(defaulted == ElectronicHamiltonian_Nuclear{});
+        }
         SECTION("With Values") {
             REQUIRE(non_default == CoreHamiltonian_Nuclear{t, v});
         }
         SECTION("From ElectronicHamiltonian") {
             REQUIRE(from_elec_ham.has_term<ElectronKinetic_Nuclear>());
-            REQUIRE(from_elec_ham.has_term<ElectronNuclearAttraction_Nuclear>());
+            REQUIRE(
+              from_elec_ham.has_term<ElectronNuclearAttraction_Nuclear>());
             REQUIRE_FALSE(from_elec_ham.has_term<NElectronKinetic_Nuclear>());
-            REQUIRE_FALSE(from_elec_ham.has_term<NElectronNuclearAttraction_Nuclear>());
+            REQUIRE_FALSE(
+              from_elec_ham.has_term<NElectronNuclearAttraction_Nuclear>());
             REQUIRE_FALSE(from_elec_ham.has_term<NElectronRepulsion_Nuclear>());
             REQUIRE(from_elec_ham == non_default);
         }

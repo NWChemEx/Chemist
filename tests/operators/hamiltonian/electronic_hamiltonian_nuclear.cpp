@@ -21,7 +21,9 @@ TEST_CASE("Electronic Hamiltonian Nuclear") {
     ElectronicHamiltonian_Nuclear from_ham{ham_input};
 
     SECTION("Ctors") {
-        SECTION("Default") { REQUIRE(defaulted == ElectronicHamiltonian_Nuclear{}); }
+        SECTION("Default") {
+            REQUIRE(defaulted == ElectronicHamiltonian_Nuclear{});
+        }
         SECTION("With Values") {
             REQUIRE(non_default == ElectronicHamiltonian_Nuclear{T, V, G});
         }
