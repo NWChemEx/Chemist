@@ -1,6 +1,6 @@
-#include "libchemist/basis_set/contracted_gaussian.hpp"
-#include "libchemist/basis_set/contracted_gaussian/cgto_pimpl.hpp"
-#include "libchemist/point/point_pimpl.hpp"
+#include "chemist/basis_set/contracted_gaussian.hpp"
+#include "chemist/basis_set/contracted_gaussian/cgto_pimpl.hpp"
+#include "chemist/point/point_pimpl.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
 #include <sstream>
@@ -15,7 +15,7 @@
  * - comparisons
  */
 
-using namespace libchemist;
+using namespace chemist;
 using vector_t = std::vector<double>;
 using prim_t   = Primitive<double>;
 

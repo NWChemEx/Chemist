@@ -1,7 +1,7 @@
-#include "libchemist/operators/coulomb.hpp"
+#include "chemist/operators/coulomb.hpp"
 #include "test_operator.hpp"
 
-using namespace libchemist::operators;
+using namespace chemist::operators;
 
 namespace {
 
@@ -70,14 +70,12 @@ TEMPLATE_LIST_TEST_CASE("CoulombInteraction", "", testing::all_coulomb) {
     bool is_diff = std::tie(p0, p1) != std::tie(p0_default, p1_default);
 
     SECTION("hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS is default") {
-            auto lhs = pluginplay::hash_objects(r12);
-            SECTION("RHS == LHS") {
-                REQUIRE(lhs == pluginplay::hash_objects(r12_type{}));
-            }
+            auto lhs = hash_objects(r12);
+            SECTION("RHS == LHS") { REQUIRE(lhs == hash_objects(r12_type{})); }
             SECTION("RHS != LHS") {
-                if(is_diff)
-                    REQUIRE(lhs != pluginplay::hash_objects(non_default));
+                if(is_diff) REQUIRE(lhs != hash_objects(non_default));
             }
         }
     }

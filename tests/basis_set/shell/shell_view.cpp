@@ -1,7 +1,7 @@
-#include "libchemist/basis_set/shell_view.hpp"
+#include "chemist/basis_set/shell_view.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist;
+using namespace chemist;
 
 TEST_CASE("ShellView : default ctor") {
     ShellView<double> s; // Basically just make sure it compiles.

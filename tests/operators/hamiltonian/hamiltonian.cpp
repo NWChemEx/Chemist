@@ -1,10 +1,10 @@
 #include "../test_operator.hpp"
-#include "libchemist/operators/coulomb.hpp"
-#include "libchemist/operators/hamiltonian/hamiltonian.hpp"
-#include "libchemist/operators/kinetic.hpp"
+#include "chemist/operators/coulomb.hpp"
+#include "chemist/operators/hamiltonian/hamiltonian.hpp"
+#include "chemist/operators/kinetic.hpp"
 
-using namespace libchemist;
-using namespace libchemist::operators;
+using namespace chemist;
+using namespace chemist::operators;
 
 TEST_CASE("Hamiltonian Class") {
     SECTION("Default CTor") {

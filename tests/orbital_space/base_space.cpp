@@ -1,8 +1,10 @@
-#include "libchemist/orbital_space/ao_space.hpp"
-#include "libchemist/orbital_space/base_space.hpp"
+#include "chemist/orbital_space/ao_space.hpp"
+#include "chemist/orbital_space/base_space.hpp"
+#include "chemist/types.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::orbital_space;
+using namespace chemist;
+using namespace chemist::orbital_space;
 
 /* Testing Strategy:
  *

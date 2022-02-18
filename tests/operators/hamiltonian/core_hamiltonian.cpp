@@ -1,8 +1,8 @@
 #include "../test_operator.hpp"
-#include "libchemist/operators/hamiltonian/core_hamiltonian.hpp"
+#include "chemist/operators/hamiltonian/core_hamiltonian.hpp"
 
-using namespace libchemist;
-using namespace libchemist::operators;
+using namespace chemist;
+using namespace chemist::operators;
 
 TEST_CASE("Core Hamiltonian") {
     CoreHamiltonian defaulted;
@@ -56,16 +56,17 @@ TEST_CASE("Core Hamiltonian") {
     }
 
     SECTION("Hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
-            auto lhs = pluginplay::hash_objects(defaulted);
+            auto lhs = hash_objects(defaulted);
 
             SECTION("LHS == RHS") {
                 CoreHamiltonian rhs;
-                REQUIRE(lhs == pluginplay::hash_objects(rhs));
+                REQUIRE(lhs == hash_objects(rhs));
             }
 
             SECTION("LHS != RHS") {
-                REQUIRE(lhs != pluginplay::hash_objects(from_elec_ham));
+                REQUIRE(lhs != hash_objects(from_elec_ham));
             }
         }
     }

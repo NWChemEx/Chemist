@@ -1,9 +1,8 @@
-#include "libchemist/orbital_space/canonical_space.hpp"
+#include "chemist/orbital_space/canonical_space.hpp"
+#include "test_orbital_space.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::orbital_space;
-
-using tuple = std::tuple<CanonicalSpaceD, CanonicalIndSpace, CanonicalDepSpace>;
+using namespace chemist::orbital_space;
 
 /* For testing purposes we assume:
  *
@@ -15,21 +14,17 @@ using tuple = std::tuple<CanonicalSpaceD, CanonicalIndSpace, CanonicalDepSpace>;
  */
 
 TEST_CASE("CanonicalSpaceD") {
-    using space_type     = CanonicalSpaceD;
-    using ta_tensor_type = TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>;
-    using tensor_type    = type::tensor;
-    using from_space     = AOSpaceD;
-    using vector_il      = TA::detail::vector_il<double>;
-    using matrix_il      = TA::detail::matrix_il<double>;
+    using space_type  = CanonicalSpaceD;
+    using from_space  = chemist::orbital_space::AOSpaceD;
+    using tensor_type = chemist::type::tensor;
 
-    auto& world = TA::get_default_world();
-    tensor_type ei(ta_tensor_type(world, vector_il{1.0, 2.0, 3.0}));
-    tensor_type c(ta_tensor_type(
-      world, matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}}));
-
+    auto& world   = TA::get_default_world();
+    auto ev_and_c = testing::get_canonical(world);
+    space_type only_ev(ev_and_c.orbital_energies());
     space_type defaulted;
-    space_type only_ev(ei);
-    space_type ev_and_c(ei, c, from_space{});
+
+    const auto& c  = ev_and_c.C();
+    const auto& ei = ev_and_c.orbital_energies();
 
     SECTION("Typedefs") {
         using orb_egy_type = typename space_type::orbital_energy_type;
@@ -37,10 +32,7 @@ TEST_CASE("CanonicalSpaceD") {
     }
 
     SECTION("CTors") {
-        SECTION("Default") {
-            REQUIRE(defaulted.orbital_energies() == tensor_type{});
-            REQUIRE(defaulted.C() == tensor_type{});
-        }
+        SECTION("Default") { REQUIRE(defaulted.size() == 0); }
         SECTION("Value") {
             REQUIRE(only_ev.orbital_energies() == ei);
             REQUIRE(ev_and_c.orbital_energies() == ei);
@@ -80,36 +72,30 @@ TEST_CASE("CanonicalSpaceD") {
         }
     }
 
-    SECTION("orbital_energies()") {
+    SECTION("orbital_energies() const") {
         REQUIRE(ev_and_c.orbital_energies() == ei);
 
-        SECTION("Are writeable") {
-            ev_and_c.orbital_energies() = c;
-            REQUIRE(ev_and_c.orbital_energies() == c);
-        }
-    }
-
-    SECTION("orbital_energies() const") {
-        REQUIRE(std::as_const(ev_and_c).orbital_energies() == ei);
+        REQUIRE_THROWS_AS(defaulted.orbital_energies(), std::runtime_error);
     }
 
     SECTION("hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS is default") {
-            auto hash1 = pluginplay::hash_objects(defaulted);
+            auto hash1 = hash_objects(defaulted);
 
             SECTION("Same value") {
-                auto hash2 = pluginplay::hash_objects(space_type{});
+                auto hash2 = hash_objects(space_type{});
                 REQUIRE(hash1 == hash2);
             }
 
             SECTION("Different orbital energies") {
-                auto hash2 = pluginplay::hash_objects(only_ev);
+                auto hash2 = hash_objects(only_ev);
                 REQUIRE(hash1 != hash2);
             }
 
             SECTION("Different base instances") {
                 space_type rhs(tensor_type{}, c, from_space{});
-                auto hash2 = pluginplay::hash_objects(rhs);
+                auto hash2 = hash_objects(rhs);
                 REQUIRE(hash1 != hash2);
             }
         }

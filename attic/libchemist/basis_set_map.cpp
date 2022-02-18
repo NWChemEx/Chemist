@@ -1,6 +1,6 @@
-#include <libchemist/basis_set_map.hpp>
+#include <chemist/basis_set_map.hpp>
 
-namespace libchemist {
+namespace chemist {
 
 using size_type = std::size_t;
 
@@ -63,4 +63,4 @@ BasisSetMap::BasisSetMap(const AOBasisSet& bs) {
     a2s_vec.push_back(std::make_pair(shell_beg, shell_end));
 }
 
-} // namespace libchemist
+} // namespace chemist

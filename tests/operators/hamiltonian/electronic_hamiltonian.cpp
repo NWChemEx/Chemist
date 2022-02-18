@@ -1,8 +1,8 @@
 #include "../test_operator.hpp"
-#include "libchemist/operators/hamiltonian/electronic_hamiltonian.hpp"
+#include "chemist/operators/hamiltonian/electronic_hamiltonian.hpp"
 
-using namespace libchemist;
-using namespace libchemist::operators;
+using namespace chemist;
+using namespace chemist::operators;
 
 TEST_CASE("Electronic Hamiltonian") {
     ElectronicHamiltonian defaulted;
@@ -55,17 +55,16 @@ TEST_CASE("Electronic Hamiltonian") {
     }
 
     SECTION("Hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
-            auto lhs = pluginplay::hash_objects(defaulted);
+            auto lhs = hash_objects(defaulted);
 
             SECTION("LHS == RHS") {
                 ElectronicHamiltonian rhs;
-                REQUIRE(lhs == pluginplay::hash_objects(rhs));
+                REQUIRE(lhs == hash_objects(rhs));
             }
 
-            SECTION("LHS != RHS") {
-                REQUIRE(lhs != pluginplay::hash_objects(from_ham));
-            }
+            SECTION("LHS != RHS") { REQUIRE(lhs != hash_objects(from_ham)); }
         }
     }
 

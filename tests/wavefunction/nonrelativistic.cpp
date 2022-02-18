@@ -1,10 +1,10 @@
-#include "libchemist/wavefunction/nonrelativistic.hpp"
+#include "chemist/operators/kinetic.hpp"
+#include "chemist/wavefunction/nonrelativistic.hpp"
 #include "test_wavefunction.hpp"
 
-using namespace libchemist::wavefunction;
+using namespace chemist::wavefunction;
 
-using tuple_type = std::tuple<Reference, CanonicalReference, LocalReference,
-                              CanonicalLocalReference>;
+using tuple_type = std::tuple<Reference, CanonicalReference, SparseReference>;
 
 TEMPLATE_LIST_TEST_CASE("Nonrelativistic", "", tuple_type) {
     using wf_t         = TestType;
@@ -22,10 +22,7 @@ TEMPLATE_LIST_TEST_CASE("Nonrelativistic", "", tuple_type) {
     wf_t non_default(space, 1.0);
 
     SECTION("CTors") {
-        SECTION("Default") {
-            REQUIRE(defaulted.spin() == 0);
-            REQUIRE(defaulted.basis_set() == basis_set_t{});
-        }
+        SECTION("Default") { REQUIRE(defaulted.spin() == 0); }
 
         SECTION("Value") {
             REQUIRE(non_default_space.spin() == 0);
@@ -77,27 +74,28 @@ TEMPLATE_LIST_TEST_CASE("Nonrelativistic", "", tuple_type) {
     }
 
     SECTION("basis_set") {
-        REQUIRE(defaulted.basis_set() == basis_set_t{});
+        REQUIRE_THROWS_AS(defaulted.basis_set(), std::runtime_error);
         REQUIRE(non_default_space.basis_set() == space);
         REQUIRE(non_default.basis_set() == space);
     }
 
     // SECTION("hash") {
+    //     using chemist::detail_::hash_objects;
     //     SECTION("LHS == default") {
-    //         auto lhs = pluginplay::hash_objects(defaulted);
+    //         auto lhs = hash_objects(defaulted);
 
     //         SECTION("RHS == default") {
     //             wf_t rhs;
-    //             REQUIRE(lhs == pluginplay::hash_objects(rhs));
+    //             REQUIRE(lhs == hash_objects(rhs));
     //         }
 
     //         SECTION("different space") {
-    //             REQUIRE(lhs != pluginplay::hash_objects(non_default_space));
+    //             REQUIRE(lhs != hash_objects(non_default_space));
     //         }
 
     //         SECTION("different spin") {
     //             wf_t rhs(basis_set_t{}, 1);
-    //             REQUIRE(lhs != pluginplay::hash_objects(rhs));
+    //             REQUIRE(lhs != hash_objects(rhs));
     //         }
     //     }
     // }
@@ -116,9 +114,8 @@ TEMPLATE_LIST_TEST_CASE("Nonrelativistic", "", tuple_type) {
             }
 
             SECTION("different spin") {
-                wf_t rhs(basis_set_t{}, 1);
-                REQUIRE(defaulted != rhs);
-                REQUIRE_FALSE(defaulted == rhs);
+                REQUIRE(non_default_space != non_default);
+                REQUIRE_FALSE(non_default_space == non_default);
             }
         }
     }
@@ -133,5 +130,40 @@ TEMPLATE_LIST_TEST_CASE("Nonrelativistic", "", tuple_type) {
             auto wf = make_wavefunction(occ, virt, fock_t{}, 1);
             REQUIRE(wf == non_default);
         }
+    }
+}
+
+using namespace chemist::orbital_space;
+
+TEST_CASE("Nonrelativistic implicit conversions") {
+    auto occ         = testing::make_space<DerivedSpaceD>(1.0);
+    auto canon_occ   = testing::make_space<CanonicalSpaceD>(1.0);
+    auto sparse_occ  = testing::make_space<CanonicalIndSpace>(1.0);
+    auto virt        = testing::make_space<DerivedSpaceD>(2.0);
+    auto canon_virt  = testing::make_space<CanonicalSpaceD>(2.0);
+    auto sparse_virt = testing::make_space<CanonicalIndSpace>(2.0);
+    chemist::operators::Fock fock(chemist::operators::ElectronKinetic{});
+
+    Determinant d(occ, virt, fock);
+    CanonicalDeterminant c(canon_occ, canon_virt, fock);
+    SparseDeterminant s(sparse_occ, sparse_virt, fock);
+
+    Reference r(d);
+    CanonicalReference cr(c);
+    SparseReference sr(s);
+
+    SECTION("CanonicalReference to Reference") {
+        Reference r(cr);
+        REQUIRE(r == cr);
+    }
+
+    SECTION("SparseReference to CanonicalReference") {
+        CanonicalReference temp(sr);
+        REQUIRE(temp == sr);
+    }
+
+    SECTION("SparseReference to Reference") {
+        Reference temp(sr);
+        REQUIRE(temp == sr);
     }
 }

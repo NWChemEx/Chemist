@@ -1,8 +1,8 @@
-#include "libchemist/topology/connectivity_table.hpp"
+#include "chemist/topology/connectivity_table.hpp"
 #include <catch2/catch.hpp>
 #include <sstream>
 
-using namespace libchemist::topology;
+using namespace chemist::topology;
 
 using pimpl_type     = typename ConnectivityTable::pimpl_type;
 using pimpl_ptr      = typename ConnectivityTable::pimpl_ptr;
@@ -153,7 +153,7 @@ TEST_CASE("ConnectivityTable") {
     }
 
     SECTION("hash") {
-        using pluginplay::hash_objects;
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
             SECTION("RHS == default") {
                 REQUIRE(hash_objects(t) == hash_objects(ConnectivityTable{}));

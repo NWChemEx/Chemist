@@ -1,7 +1,7 @@
-#include "libchemist/chemical_system/chemical_system.hpp"
+#include "chemist/chemical_system/chemical_system.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist;
+using namespace chemist;
 
 TEST_CASE("ChemicalSystem") {
     SECTION("Typedefs") {
@@ -58,17 +58,23 @@ TEST_CASE("ChemicalSystem") {
             using corr_t           = const potentials::Electrostatic&;
             STATIC_REQUIRE(std::is_same_v<const_epot_ref_t, corr_t>);
         }
+
+        SECTION("charge_type") {
+            using corr_t      = int;
+            using charge_type = typename ChemicalSystem::charge_type;
+        }
     }
 
-    libchemist::Molecule default_mol, h{libchemist::Atom(1ul)};
+    chemist::Molecule default_mol, h{chemist::Atom(1ul)};
 
-    libchemist::potentials::Electrostatic default_v, v;
-    v.add_charge(libchemist::PointCharge<double>());
+    chemist::potentials::Electrostatic default_v, v;
+    v.add_charge(chemist::PointCharge<double>());
 
     SECTION("Default ctor") {
         ChemicalSystem sys;
         REQUIRE(sys.molecule() == default_mol);
         REQUIRE(sys.nelectrons() == 0);
+        REQUIRE(sys.charge() == 0);
         REQUIRE(sys.external_electrostatic_potential() == default_v);
     }
 
@@ -78,6 +84,7 @@ TEST_CASE("ChemicalSystem") {
         REQUIRE(sys == copy);
         REQUIRE(copy.molecule() == h);
         REQUIRE(copy.nelectrons() == 2);
+        REQUIRE(copy.charge() == -1);
         REQUIRE(copy.external_electrostatic_potential() == v);
     }
 
@@ -86,6 +93,7 @@ TEST_CASE("ChemicalSystem") {
         ChemicalSystem moved(std::move(sys));
         REQUIRE(moved.molecule() == h);
         REQUIRE(moved.nelectrons() == 2);
+        REQUIRE(moved.charge() == -1);
         REQUIRE(moved.external_electrostatic_potential() == v);
     }
 
@@ -94,12 +102,14 @@ TEST_CASE("ChemicalSystem") {
             ChemicalSystem sys(h);
             REQUIRE(sys.molecule() == h);
             REQUIRE(sys.nelectrons() == 1);
+            REQUIRE(sys.charge() == 0);
             REQUIRE(sys.external_electrostatic_potential() == default_v);
         }
         SECTION("Default potential") {
             ChemicalSystem sys(h, 2);
             REQUIRE(sys.molecule() == h);
             REQUIRE(sys.nelectrons() == 2);
+            REQUIRE(sys.charge() == -1);
             REQUIRE(sys.external_electrostatic_potential() == default_v);
         }
 
@@ -107,6 +117,7 @@ TEST_CASE("ChemicalSystem") {
             ChemicalSystem sys(h, 2, v);
             REQUIRE(sys.molecule() == h);
             REQUIRE(sys.nelectrons() == 2);
+            REQUIRE(sys.charge() == -1);
             REQUIRE(sys.external_electrostatic_potential() == v);
         }
     }
@@ -188,6 +199,23 @@ TEST_CASE("ChemicalSystem") {
         }
     }
 
+    SECTION("charge()") {
+        SECTION("Default") {
+            ChemicalSystem sys;
+            REQUIRE(sys.charge() == 0);
+        }
+
+        SECTION("Cation") {
+            ChemicalSystem sys(h, 0);
+            REQUIRE(sys.charge() == 1);
+        }
+
+        SECTION("Anion") {
+            ChemicalSystem sys(h, 100);
+            REQUIRE(sys.charge() == -99);
+        }
+    }
+
     SECTION("external_electrostatic_potential()") {
         ChemicalSystem sys(h, 2, v);
 
@@ -225,27 +253,28 @@ TEST_CASE("ChemicalSystem") {
 
     SECTION("hash") {
         SECTION("LHS is default") {
+            using chemist::detail_::hash_objects;
             ChemicalSystem lhs;
-            auto lhs_hash = pluginplay::hash_objects(lhs);
+            auto lhs_hash = hash_objects(lhs);
 
             SECTION("RHS is default") {
                 ChemicalSystem rhs;
-                REQUIRE(lhs_hash == pluginplay::hash_objects(rhs));
+                REQUIRE(lhs_hash == hash_objects(rhs));
             }
 
             SECTION("RHS has a different molecule") {
                 ChemicalSystem rhs(h);
-                REQUIRE_FALSE(lhs_hash == pluginplay::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == hash_objects(rhs));
             }
 
             SECTION("RHS has a different number of electrons") {
                 ChemicalSystem rhs(default_mol, 2);
-                REQUIRE_FALSE(lhs_hash == pluginplay::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == hash_objects(rhs));
             }
 
             SECTION("RHS has a different potential") {
                 ChemicalSystem rhs(default_mol, 1, v);
-                REQUIRE_FALSE(lhs_hash == pluginplay::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == hash_objects(rhs));
             }
         }
     }

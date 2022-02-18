@@ -1,6 +1,8 @@
-#include "libchemist/set_theory/family_of_sets.hpp"
-#include "libchemist/set_theory/subset.hpp"
+#include "chemist/set_theory/family_of_sets.hpp"
+#include "chemist/set_theory/subset.hpp"
 #include "test_set_theory.hpp"
+
+using namespace chemist::set_theory;
 
 TEMPLATE_LIST_TEST_CASE("Subset", "", container_types) {
     // Work out some types we'll need for the unit tests
@@ -508,43 +510,47 @@ TEMPLATE_LIST_TEST_CASE("Subset", "", container_types) {
             REQUIRE_FALSE(e2 < e01);
         }
         SECTION("Same subset") { REQUIRE_FALSE(e0 < e0); }
+
+        SECTION("Different parents") {
+            REQUIRE_FALSE(empty_defaulted < e0);
+            REQUIRE_FALSE(e0 < empty_defaulted);
+        }
     }
 
     SECTION("hash") {
+        using chemist::detail_::hash_objects;
         SECTION("Different parent objects") {
-            auto lhs = pluginplay::hash_objects(empty_defaulted);
-            auto rhs = pluginplay::hash_objects(empty_non_defaulted);
+            auto lhs = hash_objects(empty_defaulted);
+            auto rhs = hash_objects(empty_non_defaulted);
             REQUIRE(lhs != rhs);
         }
         SECTION("Empty sets are equal") {
             SECTION("Empty parent set") {
-                auto lhs = pluginplay::hash_objects(empty_defaulted);
+                auto lhs = hash_objects(empty_defaulted);
                 subset_type s(default_ptr);
-                auto rhs = pluginplay::hash_objects(s);
+                auto rhs = hash_objects(s);
                 REQUIRE(lhs == rhs);
             }
 
             SECTION("Non-empty parent set") {
-                auto lhs = pluginplay::hash_objects(empty_non_defaulted);
+                auto lhs = hash_objects(empty_non_defaulted);
                 subset_type s(non_default_ptr);
-                auto rhs = pluginplay::hash_objects(s);
+                auto rhs = hash_objects(s);
                 REQUIRE(lhs == rhs);
             }
         }
         SECTION("Different number of elements") {
-            REQUIRE(pluginplay::hash_objects(e0) !=
-                    pluginplay::hash_objects(e01));
+            REQUIRE(hash_objects(e0) != hash_objects(e01));
         }
 
         SECTION("Different elements") {
-            REQUIRE(pluginplay::hash_objects(e0) !=
-                    pluginplay::hash_objects(e2));
+            REQUIRE(hash_objects(e0) != hash_objects(e2));
         }
 
         SECTION("Same elements") {
-            auto lhs = pluginplay::hash_objects(e0);
+            auto lhs = hash_objects(e0);
             subset_type s(non_default_ptr, {0ul});
-            auto rhs = pluginplay::hash_objects(s);
+            auto rhs = hash_objects(s);
             REQUIRE(lhs == rhs);
         }
     }

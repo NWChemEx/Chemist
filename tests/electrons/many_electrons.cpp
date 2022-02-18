@@ -1,8 +1,8 @@
-#include "libchemist/electrons/many_electrons.hpp"
+#include "chemist/electrons/many_electrons.hpp"
 #include <catch2/catch.hpp>
 
 TEST_CASE("ManyElectrons") {
-    using libchemist::ManyElectrons;
+    using chemist::ManyElectrons;
     ManyElectrons i, j{2};
 
     SECTION("Size") {
@@ -11,19 +11,18 @@ TEST_CASE("ManyElectrons") {
     }
 
     SECTION("hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
-            auto lhs = pluginplay::hash_objects(i);
+            auto lhs = hash_objects(i);
             SECTION("RHS == default") {
-                REQUIRE(lhs == pluginplay::hash_objects(ManyElectrons{}));
+                REQUIRE(lhs == hash_objects(ManyElectrons{}));
             }
-            SECTION("RHS == Non-default") {
-                REQUIRE(lhs != pluginplay::hash_objects(j));
-            }
+            SECTION("RHS == Non-default") { REQUIRE(lhs != hash_objects(j)); }
         }
     }
 
     SECTION("Comparisons") {
-        REQUIRE(i == libchemist::ManyElectrons{});
+        REQUIRE(i == chemist::ManyElectrons{});
         REQUIRE(i != j);
     }
 }

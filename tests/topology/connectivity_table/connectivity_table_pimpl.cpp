@@ -1,7 +1,7 @@
-#include "libchemist/topology/connectivity_table/connectivity_table_pimpl.hpp"
+#include "chemist/topology/connectivity_table/connectivity_table_pimpl.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::topology::detail_;
+using namespace chemist::topology::detail_;
 
 using size_type      = typename ConnectivityTablePIMPL::size_type;
 using pair_type      = typename ConnectivityTablePIMPL::pair_type;
@@ -11,7 +11,7 @@ TEST_CASE("ConnectivityTablePIMPL") {
     ConnectivityTablePIMPL defaulted;
 
     SECTION("Typedefs") {
-        using ct_t = libchemist::topology::ConnectivityTable;
+        using ct_t = chemist::topology::ConnectivityTable;
         // Make sure the PIMPL uses the same type as the main class
         STATIC_REQUIRE(std::is_same_v<size_type, typename ct_t::size_type>);
         STATIC_REQUIRE(std::is_same_v<pair_type, typename ct_t::pair_type>);

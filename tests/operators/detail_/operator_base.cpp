@@ -1,7 +1,7 @@
 #include "../test_operator.hpp"
 #include <iostream>
 
-using namespace libchemist::operators;
+using namespace chemist::operators;
 
 /* Testing strategy:
  *

@@ -1,4 +1,4 @@
-#include "libchemist/operators/slater_type_geminal.hpp"
+#include "chemist/operators/slater_type_geminal.hpp"
 #include "test_operator.hpp"
 
 TEMPLATE_LIST_TEST_CASE("SlaterTypeGeminal", "", testing::stg_types) {
@@ -49,17 +49,18 @@ TEMPLATE_LIST_TEST_CASE("SlaterTypeGeminal", "", testing::stg_types) {
     }
 
     SECTION("hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
-            auto lhs = pluginplay::hash_objects(stg);
+            auto lhs = hash_objects(stg);
             SECTION("RHS == default") {
-                REQUIRE(lhs == pluginplay::hash_objects(stg_type{}));
+                REQUIRE(lhs == hash_objects(stg_type{}));
             }
             SECTION("RHS different exponent") {
-                REQUIRE(lhs != pluginplay::hash_objects(diff_exponent));
+                REQUIRE(lhs != hash_objects(diff_exponent));
             }
             SECTION("RHS different coefficient") {
                 stg_type rhs(1.2, -1.0 / 3.1);
-                REQUIRE(lhs != pluginplay::hash_objects(rhs));
+                REQUIRE(lhs != hash_objects(rhs));
             }
         }
     }

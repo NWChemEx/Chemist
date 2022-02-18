@@ -1,7 +1,7 @@
 #include "canonical_mos.hpp"
-#include "libchemist/detail_/canonical_mo_pimpl.hpp"
+#include "chemist/detail_/canonical_mo_pimpl.hpp"
 
-namespace libchemist {
+namespace chemist {
 
 #define OrthSpace OrthogonalSpace<e_type, t_type>
 #define CanMO CanonicalMO<e_type, t_type>
@@ -58,4 +58,4 @@ template class CanonicalMO<float, type::tensor<double>>;
 template class CanonicalMO<double, type::tensor<float>>;
 template class CanonicalMO<double, type::tensor<double>>;
 
-} // namespace libchemist
+} // namespace chemist

@@ -1,13 +1,11 @@
-#include "libchemist/orbital_space/canonical_space.hpp"
-#include "libchemist/orbital_space/type_traits/is_canonical.hpp"
+#include "chemist/orbital_space/canonical_space.hpp"
+#include "chemist/orbital_space/type_traits/is_canonical.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::orbital_space;
+using namespace chemist::orbital_space;
 
-using non_canonical_tuple =
-  std::tuple<DerivedSpaceD, IndDerivedSpace, DepDerivedSpace>;
-using canonical_tuple =
-  std::tuple<CanonicalSpaceD, CanonicalIndSpace, CanonicalDepSpace>;
+using non_canonical_tuple = std::tuple<DerivedSpaceD, ToTDerivedSpace>;
+using canonical_tuple     = std::tuple<CanonicalSpaceD, CanonicalToTSpace>;
 
 TEMPLATE_LIST_TEST_CASE("IsCanonicalSpace (false)", "", non_canonical_tuple) {
     STATIC_REQUIRE_FALSE(detail_::IsCanonicalSpace<TestType>::value);

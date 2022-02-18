@@ -1,4 +1,4 @@
-#include "libchemist/detail_/view_base.hpp"
+#include "chemist/detail_/view_base.hpp"
 #include <catch2/catch.hpp>
 
 /* Testing Strategy:
@@ -18,8 +18,8 @@ using vector_t = std::vector<int>;
 
 // A facade struct for testing read-/write-able views
 template<bool is_const>
-struct ViewTester : libchemist::detail_::ViewBase<is_const, vector_t> {
-    using base_type = libchemist::detail_::ViewBase<is_const, vector_t>;
+struct ViewTester : chemist::detail_::ViewBase<is_const, vector_t> {
+    using base_type = chemist::detail_::ViewBase<is_const, vector_t>;
     explicit ViewTester(vector_t v) : base_type(std::move(v)) {}
     decltype(auto) check_pimpl() { return this->pimpl(); }
     decltype(auto) check_pimpl() const { return this->pimpl(); }

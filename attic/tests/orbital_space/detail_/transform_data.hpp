@@ -1,7 +1,7 @@
 #pragma once
-#include <libchemist/orbital_space/orbital_space.hpp>
+#include <chemist/orbital_space/orbital_space.hpp>
 
-using namespace libchemist;
+using namespace chemist;
 
 namespace {
 

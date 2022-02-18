@@ -1,7 +1,7 @@
-#include "libchemist/operators/kinetic.hpp"
+#include "chemist/operators/kinetic.hpp"
 #include "test_operator.hpp"
 
-using namespace libchemist::operators;
+using namespace chemist::operators;
 
 // Using ManyElectrons for distinguishability in != cases
 using type_list = std::tuple<NElectronKinetic>;
@@ -44,17 +44,16 @@ TEMPLATE_LIST_TEST_CASE("Kinetic", "", type_list) {
     }
 
     SECTION("Hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
-            auto lhs = pluginplay::hash_objects(defaulted);
+            auto lhs = hash_objects(defaulted);
 
             SECTION("LHS == RHS") {
                 kinetic_type rhs;
-                REQUIRE(lhs == pluginplay::hash_objects(rhs));
+                REQUIRE(lhs == hash_objects(rhs));
             }
 
-            SECTION("LHS != RHS") {
-                REQUIRE(lhs != pluginplay::hash_objects(non_default));
-            }
+            SECTION("LHS != RHS") { REQUIRE(lhs != hash_objects(non_default)); }
         }
     }
 

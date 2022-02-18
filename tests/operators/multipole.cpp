@@ -1,8 +1,8 @@
 #include "test_operator.hpp"
-#include <libchemist/operators/multipole.hpp>
-#include <libchemist/point/point.hpp>
+#include <chemist/operators/multipole.hpp>
+#include <chemist/point/point.hpp>
 
-using namespace libchemist::operators;
+using namespace chemist::operators;
 
 // Tuple containing the known
 using type_tuple =
@@ -29,7 +29,7 @@ TEMPLATE_LIST_TEST_CASE("Multipole", "", type_tuple) {
 
     SECTION("Typedefs") {
         SECTION("value_type") {
-            using corr = libchemist::Point<double>;
+            using corr = chemist::Point<double>;
             STATIC_REQUIRE(std::is_same_v<point_type, corr>);
         }
     }
@@ -78,17 +78,19 @@ TEMPLATE_LIST_TEST_CASE("Multipole", "", type_tuple) {
     }
 
     SECTION("hash") {
-        auto default_hash = pluginplay::hash_objects(defaulted);
-        auto value_hash   = pluginplay::hash_objects(has_value);
+        using chemist::detail_::hash_objects;
+
+        auto default_hash = hash_objects(defaulted);
+        auto value_hash   = hash_objects(has_value);
 
         SECTION("Both default") {
             multipole_type rhs;
-            REQUIRE(default_hash == pluginplay::hash_objects(rhs));
+            REQUIRE(default_hash == hash_objects(rhs));
         }
 
         SECTION("Both have same value") {
             multipole_type rhs(p);
-            REQUIRE(value_hash == pluginplay::hash_objects(rhs));
+            REQUIRE(value_hash == hash_objects(rhs));
         }
 
         SECTION("Different values") { REQUIRE(value_hash != default_hash); }

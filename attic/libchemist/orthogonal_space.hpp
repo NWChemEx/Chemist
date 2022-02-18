@@ -1,7 +1,7 @@
 #pragma once
-#include "libchemist/orbital_space.hpp"
+#include "chemist/orbital_space.hpp"
 
-namespace libchemist {
+namespace chemist {
 
 // This class wraps OrbitalSpace for physically-motivated, type-enforcing
 // reasons
@@ -17,4 +17,4 @@ extern template class OrthogonalSpace<float, type::tensor<double>>;
 extern template class OrthogonalSpace<double, type::tensor<float>>;
 extern template class OrthogonalSpace<double, type::tensor<double>>;
 
-} // namespace libchemist
+} // namespace chemist

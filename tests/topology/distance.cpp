@@ -1,7 +1,7 @@
-#include "libchemist/topology/distance.hpp"
+#include "chemist/topology/distance.hpp"
 #include <catch2/catch.hpp>
 
-using namespace libchemist::topology;
+using namespace chemist::topology;
 
 using value_type      = typename Distance::value_type;
 using reference_type  = typename Distance::reference_type;
@@ -29,10 +29,9 @@ TEST_CASE("Distance") {
     }
 
     SECTION("hash") {
-        REQUIRE(pluginplay::hash_objects(d) ==
-                pluginplay::hash_objects(Distance{1.23}));
-        REQUIRE(pluginplay::hash_objects(d) !=
-                pluginplay::hash_objects(Distance{}));
+        using chemist::detail_::hash_objects;
+        REQUIRE(hash_objects(d) == hash_objects(Distance{1.23}));
+        REQUIRE(hash_objects(d) != hash_objects(Distance{}));
     }
 
     SECTION("Comparisons") {

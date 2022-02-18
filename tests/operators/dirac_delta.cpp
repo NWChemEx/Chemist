@@ -1,8 +1,8 @@
-#include "libchemist/operators/dirac_delta.hpp"
+#include "chemist/operators/dirac_delta.hpp"
 #include "test_operator.hpp"
 
-using namespace libchemist;
-using namespace libchemist::operators;
+using namespace chemist;
+using namespace chemist::operators;
 
 // Using Nuclei and ManyElectrons for distinguishability in != cases
 using type_list = std::tuple<DiracDelta<Nuclei, ManyElectrons>>;
@@ -55,17 +55,16 @@ TEMPLATE_LIST_TEST_CASE("DiracDelta", "", type_list) {
     }
 
     SECTION("Hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
-            auto lhs = pluginplay::hash_objects(defaulted);
+            auto lhs = hash_objects(defaulted);
 
             SECTION("LHS == RHS") {
                 delta_type rhs;
-                REQUIRE(lhs == pluginplay::hash_objects(rhs));
+                REQUIRE(lhs == hash_objects(rhs));
             }
 
-            SECTION("LHS != RHS") {
-                REQUIRE(lhs != pluginplay::hash_objects(non_default));
-            }
+            SECTION("LHS != RHS") { REQUIRE(lhs != hash_objects(non_default)); }
         }
     }
 
