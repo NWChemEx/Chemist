@@ -56,4 +56,4 @@ using ElectronicHamiltonian_Nuclear = LinearCombination().add_terms(
           ElectronNuclearAttraction_Nuclear,
           ElectronRepulsion_Nuclear);
 */
-} // namespace libchemist::operators
+} // namespace chemist::operators

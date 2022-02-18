@@ -1,9 +1,9 @@
 #pragma once
 #include "chemist/electrons/electrons.hpp"
 #include "chemist/molecule/molecule.hpp"
-#include "chemist/operators/kinetic.hpp"
 #include "chemist/operators/derivative.hpp"
 #include "chemist/operators/detail_/operator_impl.hpp"
+#include "chemist/operators/kinetic.hpp"
 
 namespace chemist::operators {
 
@@ -12,8 +12,7 @@ namespace chemist::operators {
  *  @tparam Particle The type of the particle.
  */
 template<typename Particle>
-using Kinetic_Nuclear =
-  Derivative<Kinetic<Particle>,chemist::Nuclei>;
+using Kinetic_Nuclear = Derivative<Kinetic<Particle>, chemist::Nuclei>;
 
 /// Type of the electronic kinetic energy operator
 using ElectronKinetic_Nuclear = Kinetic_Nuclear<chemist::Electron>;

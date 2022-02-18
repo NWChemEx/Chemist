@@ -20,15 +20,14 @@ namespace chemist::operators {
  */
 template<typename... Particles>
 using CoulombInteraction_Nuclear =
-  Derivative<CoulombInteraction<Particles...>,chemist::Nuclei>;
+  Derivative<CoulombInteraction<Particles...>, chemist::Nuclei>;
 
 /// Type of the two-electron repulsion operator
 using ElectronRepulsion_Nuclear =
   CoulombInteraction_Nuclear<chemist::Electron, chemist::Electron>;
 
 /// Type of the nuclei-nuclei repulsion operator
-using NuclearRepulsion_Nuclear = 
-  CoulombInteraction_Nuclear<chemist::Nuclei>;
+using NuclearRepulsion_Nuclear = CoulombInteraction_Nuclear<chemist::Nuclei>;
 
 /// Type of the electron-nuclei attraction operator
 using ElectronNuclearAttraction_Nuclear =
@@ -36,8 +35,7 @@ using ElectronNuclearAttraction_Nuclear =
 
 /// Type of a one-electron Coulomb interaction with a one-electron density
 using ElectronEDensityCoulomb_Nuclear =
-  CoulombInteraction_Nuclear<chemist::Electron,
-                             chemist::OneElectronDensity>;
+  CoulombInteraction_Nuclear<chemist::Electron, chemist::OneElectronDensity>;
 
 /// Type of the many-electron repulsion operator
 using NElectronRepulsion_Nuclear =
