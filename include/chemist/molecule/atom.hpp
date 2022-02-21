@@ -1,10 +1,10 @@
 #pragma once
-#include <array> // For the coordinates
+#include "chemist/detail_/hashing.hpp" // For hashing
+#include <array>                       // For the coordinates
 #include <cereal/types/array.hpp>
 #include <cereal/types/string.hpp>
-#include <memory>                // For unique pointer
-#include <pluginplay/hasher.hpp> // For hashing
-#include <string>                // For name of atom
+#include <memory> // For unique pointer
+#include <string> // For name of atom
 
 namespace chemist {
 namespace detail_ {
@@ -242,7 +242,7 @@ public:
      *
      * @param h Hasher object
      */
-    void hash(pluginplay::Hasher& h) const;
+    void hash(detail_::Hasher& h) const;
 
 private:
     /// Actual implementation of the Atom class

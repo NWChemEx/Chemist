@@ -78,17 +78,19 @@ TEMPLATE_LIST_TEST_CASE("Multipole", "", type_tuple) {
     }
 
     SECTION("hash") {
-        auto default_hash = pluginplay::hash_objects(defaulted);
-        auto value_hash   = pluginplay::hash_objects(has_value);
+        using chemist::detail_::hash_objects;
+
+        auto default_hash = hash_objects(defaulted);
+        auto value_hash   = hash_objects(has_value);
 
         SECTION("Both default") {
             multipole_type rhs;
-            REQUIRE(default_hash == pluginplay::hash_objects(rhs));
+            REQUIRE(default_hash == hash_objects(rhs));
         }
 
         SECTION("Both have same value") {
             multipole_type rhs(p);
-            REQUIRE(value_hash == pluginplay::hash_objects(rhs));
+            REQUIRE(value_hash == hash_objects(rhs));
         }
 
         SECTION("Different values") { REQUIRE(value_hash != default_hash); }

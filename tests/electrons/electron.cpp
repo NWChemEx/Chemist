@@ -5,7 +5,8 @@ TEST_CASE("Electron") {
     chemist::Electron i, j;
 
     SECTION("hash") {
-        REQUIRE(pluginplay::hash_objects(i) == pluginplay::hash_objects(j));
+        using chemist::detail_::hash_objects;
+        REQUIRE(hash_objects(i) == hash_objects(j));
     }
 
     SECTION("Comparisons") {

@@ -78,7 +78,7 @@ std::set<size_type> ConnectivityTable::bonded_atoms(size_type i) const {
     return rv;
 }
 
-void ConnectivityTable::hash(pluginplay::Hasher& h) const {
+void ConnectivityTable::hash(chemist::detail_::Hasher& h) const {
     h(natoms());
     h(bonds());
 }

@@ -1,19 +1,16 @@
 #include "chemist/orbital_space/ao_space.hpp"
-#include "chemist/ta_helpers/ta_helpers.hpp"
 #include <catch2/catch.hpp>
 
-using namespace chemist;
 using namespace chemist::orbital_space;
 
 TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
     // Determine the types for this unit test
-
     using basis_set_type = chemist::AOBasisSet<TestType>;
     using space_type     = AOSpace<basis_set_type>;
 
     auto& world = TA::get_default_world();
     basis_set_type bs;
-    bs.add_center(chemist::Center<TestType>(1.0, 2.0, 3.0));
+    bs.add_center(chemist::AtomicBasisSet<TestType>("", 0, 1.0, 2.0, 3.0));
 
     SECTION("Typedefs") {
         SECTION("basis_type") {
@@ -78,23 +75,24 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
     }
 
     SECTION("hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
-            auto lhs = pluginplay::hash_objects(defaulted);
+            auto lhs = hash_objects(defaulted);
 
             SECTION("RHS == defaulted") {
-                auto rhs = pluginplay::hash_objects(space_type{});
+                auto rhs = hash_objects(space_type{});
                 REQUIRE(lhs == rhs);
             }
 
             SECTION("RHS == non-default") {
-                auto rhs = pluginplay::hash_objects(non_default_bs);
+                auto rhs = hash_objects(non_default_bs);
                 REQUIRE(lhs != rhs);
             }
         }
 
         SECTION("LHS == non-default && RHS == non-default") {
-            auto lhs = pluginplay::hash_objects(non_default_bs);
-            auto rhs = pluginplay::hash_objects(space_type{bs});
+            auto lhs = hash_objects(non_default_bs);
+            auto rhs = hash_objects(space_type{bs});
             REQUIRE(lhs == rhs);
         }
     }
@@ -118,11 +116,11 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
     SECTION("comparisons") {
         SECTION("Different types") {
             if constexpr(std::is_same_v<TestType, double>) {
-                AOSpace<AOBasisSetF> other;
+                AOSpace<chemist::AOBasisSetF> other;
                 REQUIRE_FALSE(defaulted == other);
                 REQUIRE(defaulted != other);
             } else {
-                AOSpace<AOBasisSetD> other;
+                AOSpace<chemist::AOBasisSetD> other;
                 REQUIRE_FALSE(defaulted == other);
                 REQUIRE(defaulted != other);
             }

@@ -1,7 +1,7 @@
 #pragma once
+#include "chemist/detail_/hashing.hpp"
 #include "chemist/orbital_space/derived_space.hpp"
-#include "chemist/orbital_space/types.hpp"
-#include <pluginplay/hasher.hpp>
+#include "chemist/types.hpp"
 
 namespace chemist::orbital_space {
 /** @brief Models an orbital space in which the Fock matrix is diagonal.
@@ -87,7 +87,7 @@ public:
 
 protected:
     /// Adds the orbital energies to the hash internal to `h`
-    virtual void hash_(pluginplay::Hasher& h) const override;
+    virtual void hash_(chemist::detail_::Hasher& h) const override;
 
     /// Also compares the orbital energies
     virtual bool equal_(const BaseSpace& rhs) const noexcept override;

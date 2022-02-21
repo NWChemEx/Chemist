@@ -1,7 +1,7 @@
 #pragma once
+#include "chemist/detail_/hashing.hpp"
 #include <cmath>
 #include <memory>
-#include <pluginplay/hasher.hpp>
 
 namespace chemist {
 namespace detail_ {
@@ -281,7 +281,7 @@ public:
      *                   will have been modified to include a hash of this
      *                   object's state.
      */
-    void hash(pluginplay::Hasher& h) const { h(x(), y(), z()); }
+    void hash(detail_::Hasher& h) const { h(x(), y(), z()); }
 
 protected:
     /// Convenience fxn that makes a PIMPL that aliases this instance's state

@@ -175,7 +175,7 @@ public:
      *                   will have been modified to include a hash of this
      *                   object's state.
      */
-    void hash(pluginplay::Hasher& h) const;
+    void hash(Hasher& h) const;
 
 protected:
     /// Implements polymorphic copy, should be overriden by derived classes
@@ -210,7 +210,7 @@ inline bool ChemicalSystemPIMPL::operator==(
     return are_equal_(rhs);
 }
 
-inline void ChemicalSystemPIMPL::hash(pluginplay::Hasher& h) const {
+inline void ChemicalSystemPIMPL::hash(Hasher& h) const {
     h(m_mol_, m_nelectrons_, m_epot_);
 }
 

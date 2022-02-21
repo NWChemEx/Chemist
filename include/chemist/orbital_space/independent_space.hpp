@@ -1,7 +1,7 @@
 #pragma once
 #include "chemist/orbital_space/canonical_space.hpp"
 #include "chemist/orbital_space/type_traits/is_independent.hpp"
-#include "chemist/sparse_map/sparse_map.hpp"
+#include "chemist/types.hpp"
 
 namespace chemist::orbital_space {
 
@@ -136,7 +136,7 @@ public:
 
 protected:
     /// Adds the hash of the sparse map to the provided hasher.
-    virtual void hash_(pluginplay::Hasher& h) const override;
+    virtual void hash_(chemist::detail_::Hasher& h) const override;
 
     /// Returnst true if the spaces have the same sparse map
     virtual bool equal_(const BaseSpace& rhs) const noexcept override;
@@ -245,9 +245,9 @@ bool IndependentSpace<BaseType>::operator==(const IndependentSpace& rhs) const {
 
 template<typename BaseType>
 std::string IndependentSpace<BaseType>::base_hash_() const {
-    auto h = pluginplay::make_hasher();
+    auto h = chemist::detail_::make_hasher();
     BaseType::hash_(h);
-    return pluginplay::hash_to_string(h.finalize());
+    return chemist::detail_::hash_to_string(h.finalize());
 }
 
 template<typename BaseType>
@@ -256,7 +256,7 @@ std::string IndependentSpace<BaseType>::key_(const DepSpace& dep) {
     if constexpr(is_independent_space_v<DepSpace>) {
         return dep.base_hash_();
     } else {
-        return pluginplay::hash_objects(dep);
+        return chemist::detail_::hash_objects(dep);
     }
 }
 
@@ -267,7 +267,7 @@ inline bool IndependentSpace<BaseType>::equal_(
 }
 
 template<typename BaseType>
-void IndependentSpace<BaseType>::hash_(pluginplay::Hasher& h) const {
+void IndependentSpace<BaseType>::hash_(chemist::detail_::Hasher& h) const {
     BaseType::hash_(h);
     h(m_sm_);
 }

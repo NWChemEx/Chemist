@@ -1,7 +1,7 @@
 #pragma once
-#include "chemist/basis_set/center.hpp"
+#include "chemist/basis_set/atomic_basis_set.hpp"
 #include "chemist/basis_set/detail_/flattened_view.hpp"
-#include <pluginplay/hasher.hpp>
+#include "chemist/detail_/hashing.hpp"
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
@@ -22,11 +22,11 @@ private:
 
 public:
     /// Type of the centers in this basis set
-    using value_type = Center<T>;
-    /// Type of a read-/write-able reference to a Center
-    using reference = Center<T>&;
-    /// Type of a read-only reference to a Center
-    using const_reference = const Center<T>&;
+    using value_type = AtomicBasisSet<T>;
+    /// Type of a read-/write-able reference to a AtomicBasisSet
+    using reference = AtomicBasisSet<T>&;
+    /// Type of a read-only reference to a AtomicBasisSet
+    using const_reference = const AtomicBasisSet<T>&;
     /// Unsigned integral type used for indexing/offsets
     using size_type = typename base_type::size_type;
 
@@ -112,7 +112,7 @@ public:
     /// Defaulted no-throw dtor
     ~AOBasisSet() noexcept;
 
-    /** @brief Adds an additional Center instance to this basis set.
+    /** @brief Adds an additional AtomicBasisSet instance to this basis set.
      *
      *  @param[in] center The center to add to this basis set.
      *
@@ -231,6 +231,16 @@ public:
      */
     const_flattened_shells shells() const noexcept;
 
+    /** @brief Returns a vector of shell offsets per center
+     *
+     *  This function returns a vector whose elements are such that the i-th
+     *  element is the first shell on the i-th center in the set and the final
+     *  element is the total number of shells.
+     *
+     *  @return A vector of shell offsets
+     */
+    std::vector<size_type> shell_offsets() const;
+
     // ---------------------------- AOs ----------------------------------------
     /// Type used to model an AO
     using ao_type = typename value_type::ao_type;
@@ -320,6 +330,16 @@ public:
      *  @throw None No throw guarantee.
      */
     const_flattened_aos aos() const noexcept;
+
+    /** @brief Returns a vector of AO offsets per center
+     *
+     *  This function returns a vector whose elements are such that the i-th
+     *  element is the first AO on the i-th center in the set and the final
+     *  element is the total number of AOs.
+     *
+     *  @return A vector of shell offsets
+     */
+    std::vector<size_type> ao_offsets() const;
 
     // ---------------------------- Primitives ---------------------------------
     /// Type used to model a primitive Gaussian
@@ -438,7 +458,7 @@ public:
     void load(Archive& ar) {
         size_type nc;
         ar& nc;
-        chemist::Center<T> c;
+        chemist::AtomicBasisSet<T> c;
         for(int ci = 0; ci < nc; ++ci) {
             ar& c;
             this->add_center(std::move(c));
@@ -449,7 +469,7 @@ public:
      *
      * @param h Hasher object
      */
-    void hash(pluginplay::Hasher& h) const;
+    void hash(detail_::Hasher& h) const;
 
     /** @brief Makes this AOBasisSet the union of this set and @p rhs.
      *

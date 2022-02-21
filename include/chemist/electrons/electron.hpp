@@ -1,5 +1,5 @@
 #pragma once
-#include <pluginplay/hasher.hpp>
+#include "chemist/detail_/hashing.hpp"
 
 namespace chemist {
 
@@ -13,7 +13,7 @@ struct Electron {
      *                             function is a no-op and the hasher will
      *                             remain unchanged after the call.
      */
-    void hash(pluginplay::Hasher&) const noexcept {}
+    void hash(detail_::Hasher&) const noexcept {}
 };
 
 /** @brief Compares two Electron instances.

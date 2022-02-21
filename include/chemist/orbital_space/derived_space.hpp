@@ -1,8 +1,8 @@
 #pragma once
 #include "chemist/orbital_space/ao_space.hpp"
 #include "chemist/orbital_space/base_space.hpp"
-#include "chemist/ta_helpers/ta_helpers.hpp" // For equality
 #include <memory>
+#include <tensorwrapper/ta_helpers/ta_helpers.hpp> // For equality
 
 namespace chemist::orbital_space {
 
@@ -286,7 +286,7 @@ protected:
     virtual size_type size_() const noexcept override;
 
     /// Include the transformation and the from space in the hash
-    virtual void hash_(pluginplay::Hasher& h) const override;
+    virtual void hash_(chemist::detail_::Hasher& h) const override;
 
     /// Include the transformation and the from space in the comparison
     virtual bool equal_(const BaseSpace& rhs) const noexcept override;

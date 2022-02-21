@@ -1,7 +1,7 @@
 #pragma once
+#include "chemist/detail_/hashing.hpp"
 #include "chemist/set_theory/subset.hpp"
 #include "chemist/set_theory/traits/traits.hpp"
-#include <pluginplay/utility.hpp>
 #include <vector>
 
 /// TODO: Roll our own reference wrapper with these operations defined
@@ -249,7 +249,7 @@ public:
      *                   FamilyOfSets. After this call the internal hash of @p h
      *                   will be updated to include the hash of this instance.
      */
-    void hash(pluginplay::Hasher& h) const;
+    void hash(chemist::detail_::Hasher& h) const;
 
 private:
     /// Checks that @p i is a valid offset
@@ -375,7 +375,7 @@ bool FAMILYOFSETS::disjoint() const noexcept {
 }
 
 template<typename SetType>
-void FAMILYOFSETS::hash(pluginplay::Hasher& h) const {
+void FAMILYOFSETS::hash(chemist::detail_::Hasher& h) const {
     for(const auto& x : m_subsets_) h(x);
     h(m_obj_);
 }

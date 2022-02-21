@@ -3,7 +3,8 @@
 
 using namespace chemist::operators;
 
-using type_list = std::tuple<ElectronEDensityExchange>;
+using type_list =
+  std::tuple<ElectronEDensityExchange, ElectronDecomposableEDensity>;
 
 TEMPLATE_LIST_TEST_CASE("Exchange", "", type_list) {
     using exchange_type  = TestType;
@@ -53,17 +54,16 @@ TEMPLATE_LIST_TEST_CASE("Exchange", "", type_list) {
     }
 
     SECTION("Hash") {
+        using chemist::detail_::hash_objects;
         SECTION("LHS == default") {
-            auto lhs = pluginplay::hash_objects(defaulted);
+            auto lhs = hash_objects(defaulted);
 
             SECTION("LHS == RHS") {
                 exchange_type rhs;
-                REQUIRE(lhs == pluginplay::hash_objects(rhs));
+                REQUIRE(lhs == hash_objects(rhs));
             }
 
-            SECTION("LHS != RHS") {
-                REQUIRE(lhs != pluginplay::hash_objects(non_default));
-            }
+            SECTION("LHS != RHS") { REQUIRE(lhs != hash_objects(non_default)); }
         }
     }
 

@@ -27,7 +27,7 @@ public:
      */
     size_type size() const noexcept { return m_centers_.size(); }
 
-    /** @brief Adds a Center to the current basis set.
+    /** @brief Adds a AtomicBasisSet to the current basis set.
      *
      *  @param[in] c The center to add to this basis set.
      *

@@ -1,5 +1,5 @@
-#include "../test_chemist.hpp"
 #include "chemist/density/density.hpp"
+#include "test_density.hpp"
 
 // Tuple containing the known densities
 using density_types = std::tuple<chemist::OneElectronDensity>;
@@ -7,7 +7,7 @@ using density_types = std::tuple<chemist::OneElectronDensity>;
 TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
     using density_type = TestType;
     using value_type   = typename density_type::value_type;
-    using ao_space     = typename density_type::ao_space;
+    using aos_type     = typename density_type::aos_type;
 
     SECTION("Typedefs") {
         SECTION("value_type") {
@@ -15,24 +15,22 @@ TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
             STATIC_REQUIRE(std::is_same_v<value_type, corr>);
         }
 
-        SECTION("ao_space") {
+        SECTION("aos_type") {
             using corr = chemist::orbital_space::AOSpaceD;
-            STATIC_REQUIRE(std::is_same_v<ao_space, corr>);
+            STATIC_REQUIRE(std::is_same_v<aos_type, corr>);
         }
     }
 
     density_type defaulted;
     auto a_tensor = testing::generate_tensor(2);
-    typename ao_space::basis_type bs;
-    bs.add_center(chemist::Center<double>(1.0, 2.0, 3.0));
-    ao_space aos(bs);
+    auto aos      = testing::non_default_space<aos_type>();
 
     density_type has_value(a_tensor, aos);
 
     SECTION("CTors") {
         SECTION("Default") {
             REQUIRE(defaulted.value() == value_type{});
-            REQUIRE(defaulted.basis_set() == ao_space{});
+            REQUIRE(defaulted.basis_set() == aos_type{});
         }
 
         SECTION("Value") {
@@ -76,27 +74,28 @@ TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
     SECTION("basis_set") { REQUIRE(has_value.basis_set() == aos); }
 
     SECTION("hash") {
-        auto default_hash = pluginplay::hash_objects(defaulted);
-        auto value_hash   = pluginplay::hash_objects(has_value);
+        using chemist::detail_::hash_objects;
+        auto default_hash = hash_objects(defaulted);
+        auto value_hash   = hash_objects(has_value);
 
         SECTION("Both default") {
             density_type rhs;
-            REQUIRE(default_hash == pluginplay::hash_objects(rhs));
+            REQUIRE(default_hash == hash_objects(rhs));
         }
 
         SECTION("Both have same value") {
             density_type rhs(a_tensor, aos);
-            REQUIRE(value_hash == pluginplay::hash_objects(rhs));
+            REQUIRE(value_hash == hash_objects(rhs));
         }
 
         SECTION("Different tensors") {
             density_type rhs(value_type{}, aos);
-            REQUIRE(value_hash != pluginplay::hash_objects(rhs));
+            REQUIRE(value_hash != hash_objects(rhs));
         }
 
         SECTION("Different AOs") {
-            density_type rhs(a_tensor, ao_space{});
-            REQUIRE(value_hash != pluginplay::hash_objects(rhs));
+            density_type rhs(a_tensor, aos_type{});
+            REQUIRE(value_hash != hash_objects(rhs));
         }
     }
 
@@ -120,7 +119,7 @@ TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
         }
 
         SECTION("Different AOs") {
-            density_type rhs(a_tensor, ao_space{});
+            density_type rhs(a_tensor, aos_type{});
             REQUIRE(rhs != has_value);
             REQUIRE_FALSE(rhs == has_value);
         }

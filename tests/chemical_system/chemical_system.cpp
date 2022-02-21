@@ -253,27 +253,28 @@ TEST_CASE("ChemicalSystem") {
 
     SECTION("hash") {
         SECTION("LHS is default") {
+            using chemist::detail_::hash_objects;
             ChemicalSystem lhs;
-            auto lhs_hash = pluginplay::hash_objects(lhs);
+            auto lhs_hash = hash_objects(lhs);
 
             SECTION("RHS is default") {
                 ChemicalSystem rhs;
-                REQUIRE(lhs_hash == pluginplay::hash_objects(rhs));
+                REQUIRE(lhs_hash == hash_objects(rhs));
             }
 
             SECTION("RHS has a different molecule") {
                 ChemicalSystem rhs(h);
-                REQUIRE_FALSE(lhs_hash == pluginplay::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == hash_objects(rhs));
             }
 
             SECTION("RHS has a different number of electrons") {
                 ChemicalSystem rhs(default_mol, 2);
-                REQUIRE_FALSE(lhs_hash == pluginplay::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == hash_objects(rhs));
             }
 
             SECTION("RHS has a different potential") {
                 ChemicalSystem rhs(default_mol, 1, v);
-                REQUIRE_FALSE(lhs_hash == pluginplay::hash_objects(rhs));
+                REQUIRE_FALSE(lhs_hash == hash_objects(rhs));
             }
         }
     }

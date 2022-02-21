@@ -157,8 +157,8 @@ public:
 
     /** @brief Creates a new Shell instance with the provided PIMPLs.
      *
-     *  This function is primarily intended for use by the CenterPIMPL class to
-     *  create ShellView instances.
+     *  This function is primarily intended for use by the AtomicBasisSetPIMPL
+     * class to create ShellView instances.
      *
      * @param[in] my_pimpl The PIMPL implementing the non-Point part of the
      *                     instance.

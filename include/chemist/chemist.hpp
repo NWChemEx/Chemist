@@ -15,7 +15,6 @@
 #include "chemist/molecule/molecule.hpp"
 #include "chemist/operators/operators.hpp"
 #include "chemist/orbital_space/orbital_space.hpp"
-#include "chemist/tensor/tensor.hpp"
 #include "chemist/topology/topology.hpp"
 #include "chemist/wavefunction/wavefunction.hpp"
 

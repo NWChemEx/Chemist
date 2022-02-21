@@ -1,5 +1,5 @@
 #include "chemist/orbital_space/canonical_space.hpp"
-#include "chemist/ta_helpers/ta_hashers.hpp"
+#include <tensorwrapper/ta_helpers/ta_hashers.hpp>
 
 namespace chemist::orbital_space {
 
@@ -33,7 +33,7 @@ bool CANONICAL_SPACE::operator==(const CanonicalSpace& rhs) const noexcept {
 // -----------------------------------------------------------------------------
 
 template<typename OrbitalEnergyType, typename BaseType>
-void CANONICAL_SPACE::hash_(pluginplay::Hasher& h) const {
+void CANONICAL_SPACE::hash_(chemist::detail_::Hasher& h) const {
     BaseType::hash_(h);
     h(m_pegys_);
 }

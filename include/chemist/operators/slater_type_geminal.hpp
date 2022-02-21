@@ -1,6 +1,6 @@
 #pragma once
+#include "chemist/detail_/hashing.hpp"
 #include "chemist/electrons/electrons.hpp"
-#include <pluginplay/hasher.hpp>
 #include <tuple> // for std::tie
 
 namespace chemist::operators {
@@ -78,7 +78,7 @@ struct SlaterTypeGeminal {
      *                   internal state of @p h will be updated with the hashes
      *                   of this instance's state.
      */
-    void hash(pluginplay::Hasher& h) const { h(coefficient, exponent); }
+    void hash(chemist::detail_::Hasher& h) const { h(coefficient, exponent); }
 
     /// The scalar multiplying the STG
     double coefficient;

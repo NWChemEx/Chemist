@@ -1,8 +1,8 @@
 #pragma once
+#include "chemist/detail_/hashing.hpp"
 #include <array>
 #include <iostream>
 #include <memory>
-#include <pluginplay/hasher.hpp>
 #include <vector>
 
 namespace chemist::topology {
@@ -180,7 +180,7 @@ public:
      *                   After the call @p h will contain a hash of this
      *                   instance.
      */
-    void hash(pluginplay::Hasher& h) const;
+    void hash(chemist::detail_::Hasher& h) const;
 
 private:
     /** @brief Returns the PIMPL in a read/write state, making a PIMPL if the

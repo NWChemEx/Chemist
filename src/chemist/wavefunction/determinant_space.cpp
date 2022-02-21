@@ -72,7 +72,7 @@ bool DETERMINANT_SPACE::operator==(const DeterminantSpace& rhs) const {
 }
 
 DETERMINANT_SPACE_TPARAMS
-void DETERMINANT_SPACE::hash(pluginplay::Hasher& h) const {
+void DETERMINANT_SPACE::hash(chemist::detail_::Hasher& h) const {
     h(m_pocc_, m_pvirt_); //, m_fock_);
 }
 

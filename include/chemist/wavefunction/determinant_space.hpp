@@ -179,7 +179,7 @@ public:
      *                   updated with hashes of this instance's state.
      *
      */
-    void hash(pluginplay::Hasher& h) const;
+    void hash(chemist::detail_::Hasher& h) const;
 
 private:
     /// The occupied orbitals

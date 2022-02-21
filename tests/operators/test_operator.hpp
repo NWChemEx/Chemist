@@ -19,6 +19,10 @@ auto non_default_parameter() {
         auto a_tensor = testing::generate_tensor(2);
         return chemist::OneElectronDensity(a_tensor,
                                            chemist::orbital_space::AOSpaceD{});
+    } else if constexpr(std::is_same_v<T, chemist::Decomposable1EDensity>) {
+        auto a_tensor = testing::generate_tensor(2);
+        return chemist::Decomposable1EDensity(
+          a_tensor, chemist::orbital_space::DerivedSpaceD{});
     } else if constexpr(std::is_same_v<T, chemist::Nuclei>) {
         chemist::Atom H(1ul);
         return chemist::Nuclei{H, H};
@@ -47,6 +51,7 @@ using all_operator_impls =
   std::tuple<chemist::operators::ElectronElectronDelta,
              chemist::operators::ExchangeCorrelation,
              chemist::operators::ElectronEDensityExchange,
+             chemist::operators::ElectronDecomposableEDensity,
              chemist::operators::ElectronElectronF12Commutator,
              chemist::operators::ElectronIdentity,
              chemist::operators::ElectronKinetic,

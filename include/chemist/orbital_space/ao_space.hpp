@@ -140,7 +140,7 @@ protected:
      *  @param[in,out] h The hasher instance being used. After this call the
      *                   AO basis set wil be added to the internal hashed state.
      */
-    virtual void hash_(pluginplay::Hasher& h) const override { h(m_bs_); }
+    virtual void hash_(chemist::detail_::Hasher& h) const override { h(m_bs_); }
 
     /** @brief Overrides polymorphic comparison to account for basis set.
      *
