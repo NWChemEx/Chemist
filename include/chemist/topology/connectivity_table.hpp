@@ -158,6 +158,22 @@ public:
      */
     bond_list_type bonds() const;
 
+    /** @brief Returns the set of atoms bonded to atom @p i.
+     *
+     *  This function will return a set which contains the zero-based indices of
+     *  the atoms which are bonded to the atom with (zero-based) index @p i. The
+     *  set will be empty if no atoms are bonded to @p i.
+     *
+     *  @note add_bond will not allow @p i to be bonded to itself and thus @p i
+     *        will not be included in the resulting set.
+     *
+     *  @param[in] i the zero-based index of the atom of interest.
+     *
+     *  @throw std::out_of_range if @p i is not in the range [0, natoms()).
+     *                           Strong throw guarantee.
+     */
+    std::set<size_type> bonded_atoms(size_type i) const;
+
     /** @brief Hashes the current ConnectivityTable.
      *
      *  @param[in,out] h The hasher instance to use for hashing this instance.
