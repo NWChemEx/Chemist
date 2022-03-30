@@ -138,6 +138,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a05b3c5587084790d3fa58451258b4f32"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#aa6889facb6876393125e135bfbead078">bond_list_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#a05b3c5587084790d3fa58451258b4f32">bonds</a> () const</td></tr>
 <tr class="memdesc:a05b3c5587084790d3fa58451258b4f32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of the bonds in the connectivity table.  <a href="classchemist_1_1topology_1_1ConnectivityTable.html#a05b3c5587084790d3fa58451258b4f32">More...</a><br /></td></tr>
 <tr class="separator:a05b3c5587084790d3fa58451258b4f32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82a746b417870041df9ba15e73698b2e"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#ade337fbeef8da2dcb2aee08ca52759de">size_type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#a82a746b417870041df9ba15e73698b2e">bonded_atoms</a> (<a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#ade337fbeef8da2dcb2aee08ca52759de">size_type</a> i) const</td></tr>
+<tr class="memdesc:a82a746b417870041df9ba15e73698b2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the set of atoms bonded to atom <code>i</code>.  <a href="classchemist_1_1topology_1_1ConnectivityTable.html#a82a746b417870041df9ba15e73698b2e">More...</a><br /></td></tr>
+<tr class="separator:a82a746b417870041df9ba15e73698b2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a969244a2c7e827543fb37a6e3b715c27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#a969244a2c7e827543fb37a6e3b715c27">hash</a> (chemist::detail_::Hasher &amp;h) const</td></tr>
 <tr class="memdesc:a969244a2c7e827543fb37a6e3b715c27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hashes the current <a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html">ConnectivityTable</a>.  <a href="classchemist_1_1topology_1_1ConnectivityTable.html#a969244a2c7e827543fb37a6e3b715c27">More...</a><br /></td></tr>
 <tr class="separator:a969244a2c7e827543fb37a6e3b715c27"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -344,6 +347,40 @@ Related Functions</h2></td></tr>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if either (or both) of <code>i</code> and/or <code>j</code> are not in the range [0, <a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#aab89359eaf97f02cbb14858fc451cbb5" title="The number of atoms in this table.">natoms()</a>). Strong throw guarantee. </td></tr>
     <tr><td class="paramname">std::out_of_range</td><td>if <code>i</code> equals <code>j</code>. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a82a746b417870041df9ba15e73698b2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82a746b417870041df9ba15e73698b2e">&#9670;&nbsp;</a></span>bonded_atoms()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::set&lt; <a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#ade337fbeef8da2dcb2aee08ca52759de">size_type</a> &gt; chemist::topology::ConnectivityTable::bonded_atoms </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#ade337fbeef8da2dcb2aee08ca52759de">size_type</a>&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the set of atoms bonded to atom <code>i</code>. </p>
+<p>This function will return a set which contains the zero-based indices of the atoms which are bonded to the atom with (zero-based) index <code>i</code>. The set will be empty if no atoms are bonded to <code>i</code>.</p>
+<dl class="section note"><dt>Note</dt><dd>add_bond will not allow <code>i</code> to be bonded to itself and thus <code>i</code> will not be included in the resulting set.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>the zero-based index of the atom of interest.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>if <code>i</code> is not in the range [0, <a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#aab89359eaf97f02cbb14858fc451cbb5" title="The number of atoms in this table.">natoms()</a>). Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
