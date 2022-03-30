@@ -90,7 +90,8 @@ public:
      *                 determinant.
      *  @param[in] virt The orbitals that can be used to form the rest of the
      *                  determinant space.
-     *  @param[in] fock The Fock operator which generated these orbitals.
+     *  @param[in] fock The Fock operator associated with the density of the
+     *                  occupied orbitals.
      *
      *  @throw None No throw gurantee
      */
