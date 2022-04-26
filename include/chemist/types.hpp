@@ -1,4 +1,5 @@
 #pragma once
+#include <tensorwrapper/diis/diis.hpp>
 #include <tensorwrapper/sparse_map/sparse_map.hpp>
 #include <tensorwrapper/tensor/tensor.hpp>
 
@@ -32,5 +33,7 @@ using tensor_of_tensors = tensorwrapper::tensor::TensorOfTensorsWrapper;
  *  tensor.
  */
 using sparse_map = tensorwrapper::sparse_map::SparseMap;
+
+using diis = tensorwrapper::diis::DIIS;
 
 } // namespace chemist::type
