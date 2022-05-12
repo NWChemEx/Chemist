@@ -157,7 +157,7 @@ private:
     basis_type m_bs_;
 };
 
-/** @brief Comapres two AOSpace instances for equality.
+/** @brief Compares two AOSpace instances for equality.
  *
  *  Two AOSpace instances are equal if the AOBasisSet instances they contain are
  *  the same and if the state of the base classes are the same. In particular
