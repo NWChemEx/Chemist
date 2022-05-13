@@ -1,5 +1,4 @@
 #include "chemist/orbital_space/canonical_space.hpp"
-//#include <tensorwrapper/ta_helpers/ta_hashers.hpp>
 
 namespace chemist::orbital_space {
 
