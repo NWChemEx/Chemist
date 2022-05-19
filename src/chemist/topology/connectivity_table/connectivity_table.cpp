@@ -63,6 +63,21 @@ bond_list_type ConnectivityTable::bonds() const {
     return bond_list_type{};
 }
 
+std::set<size_type> ConnectivityTable::bonded_atoms(size_type i) const {
+    const auto n = natoms();
+    if(i >= n)
+        throw std::out_of_range("i = " + std::to_string(i) +
+                                " is not in the range [0, " +
+                                std::to_string(n) + ").");
+    std::set<size_type> rv;
+    const auto& p = *m_pimpl_;
+    for(size_type j = 0; j < n; ++j) {
+        if(i == j) continue;
+        if(p.are_bonded(i, j)) rv.insert(j);
+    }
+    return rv;
+}
+
 void ConnectivityTable::hash(chemist::detail_::Hasher& h) const {
     h(natoms());
     h(bonds());

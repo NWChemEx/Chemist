@@ -1,6 +1,5 @@
 #include "chemist/orbital_space/derived_space.hpp"
 #include "detail_/make_indices.hpp"
-#include <tensorwrapper/ta_helpers/ta_hashers.hpp>
 #include <tensorwrapper/tensor/creation.hpp>
 
 namespace chemist::orbital_space {

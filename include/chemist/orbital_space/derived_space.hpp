@@ -2,7 +2,6 @@
 #include "chemist/orbital_space/ao_space.hpp"
 #include "chemist/orbital_space/base_space.hpp"
 #include <memory>
-#include <tensorwrapper/ta_helpers/ta_helpers.hpp> // For equality
 
 namespace chemist::orbital_space {
 
