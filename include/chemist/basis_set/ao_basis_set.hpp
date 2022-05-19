@@ -206,8 +206,8 @@ public:
      *
      *  This member function is used to loop over the shells in this basis set
      *  in a foreach loop like: `for(auto&& shell_i : bs.shells())`, where `bs`
-     * is this instance and `shell_i` will be a read-/write-able reference to a
-     * shell in this basis set.
+     *  is this instance and `shell_i` will be a read-/write-able reference to a
+     *  shell in this basis set.
      *
      *  @return A container which simulates being filled with all of the shells
      *          in this basis set to facilitate usage in a foreach loop.
@@ -221,8 +221,8 @@ public:
      *
      *  This member function is used to loop over the shells in this basis set
      *  in a foreach loop like: `for(auto&& shell_i : bs.shells())`, where `bs`
-     * is this instance and `shell_i` will be a read-only reference to a shell
-     * in this basis set.
+     *  is this instance and `shell_i` will be a read-only reference to a shell
+     *  in this basis set.
      *
      *  @return A container which simulates being filled with all of the shells
      *          in this basis set to facilitate usage in a foreach loop.
