@@ -34,7 +34,7 @@ bool MANY_BODY::operator==(const ManyBody& rhs) const {
         if(rhs.m_pref_) return false;
     }
 
-    if constexpr(m_order_ != rhs.m_order_) {
+    if (m_order_ != rhs.m_order_) {
         return false;
     } else {
         for(std::size_t i = 0; i < m_order_; ++i) {
