@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sparse Map Library Design &mdash; Chemist 1.0.0 documentation</title>
@@ -14,6 +14,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -83,9 +84,9 @@
            <div itemprop="articleBody">
              
   <section id="sparse-map-library-design">
-<h1>Sparse Map Library Design<a class="headerlink" href="#sparse-map-library-design" title="Permalink to this headline"></a></h1>
+<h1>Sparse Map Library Design<a class="headerlink" href="#sparse-map-library-design" title="Permalink to this heading"></a></h1>
 <section id="key-considerations">
-<h2>Key Considerations<a class="headerlink" href="#key-considerations" title="Permalink to this headline"></a></h2>
+<h2>Key Considerations<a class="headerlink" href="#key-considerations" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Tile vs. Element sparsity</p></li>
 <li><p>Storage concerns (e.g. store range, store elements, etc.)</p></li>
@@ -93,7 +94,7 @@
 </ul>
 </section>
 <section id="domain-class-hierarchy">
-<h2>Domain Class Hierarchy<a class="headerlink" href="#domain-class-hierarchy" title="Permalink to this headline"></a></h2>
+<h2>Domain Class Hierarchy<a class="headerlink" href="#domain-class-hierarchy" title="Permalink to this heading"></a></h2>
 <p>The series of classes involved in the Domain class hierarchy:</p>
 <ul class="simple">
 <li><p>DomainTraits</p></li>
@@ -115,7 +116,7 @@ Normally this would would require us to redefine all common functions; instead
 we factor these common functions out into the <code class="docutils literal notranslate"><span class="pre">DomainBase</span></code> class.</p>
 </section>
 <section id="sparsemap-class-hierarchy">
-<h2>SparseMap Class Hierarchy<a class="headerlink" href="#sparsemap-class-hierarchy" title="Permalink to this headline"></a></h2>
+<h2>SparseMap Class Hierarchy<a class="headerlink" href="#sparsemap-class-hierarchy" title="Permalink to this heading"></a></h2>
 <p>The SparseMap class hierarchy mirrors the Domain class hierarchy for the same
 reasons. Of note we have four specializations of SparseMap:</p>
 <ul class="simple">
