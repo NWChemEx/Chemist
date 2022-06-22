@@ -18,8 +18,7 @@ TEST_CASE("CanonicalSpaceD") {
     using from_space  = chemist::orbital_space::AOSpaceD;
     using tensor_type = chemist::type::tensor;
 
-    auto& world   = TA::get_default_world();
-    auto ev_and_c = testing::get_canonical(world);
+    auto ev_and_c = testing::get_canonical();
     space_type only_ev(ev_and_c.orbital_energies());
     space_type defaulted;
 

@@ -14,26 +14,17 @@ namespace testing {
 template<typename TensorType>
 auto make_tensor(double seed = 1.0) {
     using field_type = typename TensorType::field_type;
-    using traits =
-      tensorwrapper::tensor::backends::TiledArrayTraits<field_type>;
 
     constexpr bool is_tot =
       std::is_same_v<field_type, tensorwrapper::tensor::field::Tensor>;
 
     auto& world = TA::get_default_world();
     if constexpr(is_tot) {
-        using ta_tot     = typename traits::template tensor_type<double>;
-        using value_type = typename ta_tot::value_type;
-        using inner_type = typename value_type::value_type;
-        using vector_il  = TA::detail::vector_il<inner_type>;
-        inner_type inner(TA::Range{2, 1}, {seed, seed + 1.0});
-        return TensorType(ta_tot(world, vector_il{inner, inner}));
+        throw std::runtime_error("ToT make_tensor NYI");
     } else {
-        using value_type = typename traits::template tensor_type<double>;
         using vector_il  = TA::detail::vector_il<double>;
         using matrix_il  = TA::detail::matrix_il<double>;
-        value_type t(world, matrix_il{vector_il{seed}, vector_il{seed + 1.0}});
-        return TensorType(t);
+        return TensorType(matrix_il{vector_il{seed}, vector_il{seed + 1.0}});
     }
 }
 
