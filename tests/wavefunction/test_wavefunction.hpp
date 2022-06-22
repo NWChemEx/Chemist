@@ -22,8 +22,8 @@ auto make_tensor(double seed = 1.0) {
     if constexpr(is_tot) {
         throw std::runtime_error("ToT make_tensor NYI");
     } else {
-        using vector_il  = TA::detail::vector_il<double>;
-        using matrix_il  = TA::detail::matrix_il<double>;
+        using vector_il = TA::detail::vector_il<double>;
+        using matrix_il = TA::detail::matrix_il<double>;
         return TensorType(matrix_il{vector_il{seed}, vector_il{seed + 1.0}});
     }
 }
