@@ -11,7 +11,8 @@ namespace testing {
 //     using tensor_il = TA::detail::tensor3_il<double>;
 
 //     if(rank == 1u) {
-//         return chemist::type::tensor(vector_il{seed, seed + 1.0, seed + 2.0});
+//         return chemist::type::tensor(vector_il{seed, seed + 1.0, seed
+//         + 2.0});
 //     } else if(rank == 2u) {
 //         return chemist::type::tensor(
 //           matrix_il{vector_il{seed + 0.0, seed + 1.0, seed + 2.0},
