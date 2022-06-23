@@ -17,7 +17,6 @@ TEST_CASE("DerivedSpace") {
     // Work out types we will need
     using scalar_type = double;
     using space_type  = DerivedSpaceD;
-    using ta_tensor = TA::DistArray<TA::Tensor<scalar_type>, TA::SparsePolicy>;
     using tensor_type = chemist::type::tensor;
     using from_space  = AOSpaceD;
     using base_space  = BaseSpace;
@@ -46,9 +45,7 @@ TEST_CASE("DerivedSpace") {
         }
     }
 
-    auto& world = TA::get_default_world();
-    tensor_type C(
-      ta_tensor(world, matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}}));
+    tensor_type C(matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}});
 
     space_type default_ao(C, from_space{});
     AOBasisSetD bs;
