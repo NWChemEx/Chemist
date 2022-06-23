@@ -21,6 +21,11 @@ cpp_find_or_build_dependency(
     tensorwrapper
     URL github.com/NWChemEx-Project/TensorWrapper
     PRIVATE TRUE
+    # This version pin needs to be removed once Integrals (and everything else)
+    # has been updated to account for changes in TensorWrapper.
+    # Source files in have commented changes that need to be uncommented when 
+    # this pin is removed.
+    VERSION 2db0f8fb6edc84ff650841cef8595535a3f865ab
     BUILD_TARGET tensorwrapper
     FIND_TARGET nwx::tensorwrapper
     CMAKE_ARGS BUILD_TESTING=OFF
