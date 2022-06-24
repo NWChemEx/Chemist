@@ -45,14 +45,7 @@ TEST_CASE("DerivedSpace") {
         }
     }
 
-    /// Remove with removal of TW pin
-    using ta_tensor = TA::DistArray<TA::Tensor<scalar_type>, TA::SparsePolicy>;
-    auto& world     = TA::get_default_world();
-    tensor_type C(
-      ta_tensor(world, matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}}));
-
-    /// Uncomment with removal of TW pin
-    // tensor_type C(matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}});
+    tensor_type C(matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}});
 
     space_type default_ao(C, from_space{});
     AOBasisSetD bs;

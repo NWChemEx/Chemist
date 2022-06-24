@@ -24,14 +24,7 @@ auto make_tensor(double seed = 1.0) {
     } else {
         using vector_il = TA::detail::vector_il<double>;
         using matrix_il = TA::detail::matrix_il<double>;
-        /// Uncomment with removal of TW pin
-        // return TensorType(matrix_il{vector_il{seed}, vector_il{seed + 1.0}});
-
-        /// Remove with removal of TW pin
-        using value_type = TA::DistArray<TA::Tensor<double>, TA::SparsePolicy>;
-        auto& world      = TA::get_default_world();
-        value_type t(world, matrix_il{vector_il{seed}, vector_il{seed + 1.0}});
-        return TensorType(t);
+        return TensorType(matrix_il{vector_il{seed}, vector_il{seed + 1.0}});
     }
 }
 
