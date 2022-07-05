@@ -1,39 +1,14 @@
 name: C_C++_CI
-
 on:
   pull_request:
     branches:
       - master
+  push:
+    branches:
+      - reuseable-workflow
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        cmake_version: [3.20.4]
-        gcc_version: [9]
-
-    steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-python@v1
-      with:
-         python-version: '3.x'
-    - uses: lukka/get-cmake@v3.20.1
-    - name: Get dependencies
-      env:
-        cmake_version: ${{ matrix.cmake_version }}
-        gcc_version: ${{ matrix.gcc_version }}
-      run: >
-        .github/workflows/scripts/get_dependencies.sh gcc gcovr
-        openblas cblas lapacke scalapack boost eigen3 openmpi
-    - name: Build and test
-      env:
-        cmake_version: ${{ matrix.cmake_version }}
-        gcc_version: ${{ matrix.gcc_version }}
-        CPP_GITHUB_TOKEN: ${{ secrets.CPP_GITHUB_TOKEN }}
-      run: .github/workflows/scripts/build_and_test.sh
-    - uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./coverage.xml
+    uses: NWChemEx-Project/.github/.github/workflows/c-cpp_tmpl.yml@master
+    with: 
+      dependencies: 'gcc gcovr openblas cblas lapacke scalapack boost eigen3 openmpi'
