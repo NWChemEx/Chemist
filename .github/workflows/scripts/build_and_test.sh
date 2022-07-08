@@ -20,6 +20,8 @@
 
 set -e # Exit with error if any command fails
 
+echo 'this is the token'${CPP_GITHUB_TOKEN}
+
 arch=Linux-x86_64
 cmake_root=$(pwd)/cmake-"${cmake_version}"-"${arch}"
 cmake_command=cmake #"${cmake_root}/bin/cmake"
@@ -52,7 +54,7 @@ echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
   #echo 'set(lapack_LIBRARIES ${LAPACK_LIBRARIES})'
 } >> "${toolchain_file}"
 
-nano toolchain_file
+cat toolchain_file
 
 #Step 2: Configure
 ${cmake_command} -H. -Bbuild -DCMAKE_TOOLCHAIN_FILE="${toolchain_file}"
