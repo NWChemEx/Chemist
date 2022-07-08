@@ -35,8 +35,10 @@ jobs:
         cmake_version: ${{ matrix.cmake_version }}
         gcc_version: ${{ matrix.gcc_version }}
         CPP_GITHUB_TOKEN: ${{ secrets.CPP_GITHUB_TOKEN }}
-      run: .github/workflows/scripts/build_and_test.sh
-    - uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./coverage.xml
+        CPP_GITHUB_TOKEN_2: ${{ github.CPP_GITHUB_TOKEN }}
+      run: env
+      # run: .github/workflows/scripts/build_and_test.sh
+    # - uses: codecov/codecov-action@v1
+    #   with:
+    #     token: ${{ secrets.CODECOV_TOKEN }}
+    #     file: ./coverage.xml
