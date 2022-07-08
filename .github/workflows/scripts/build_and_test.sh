@@ -40,7 +40,7 @@ echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
   echo 'set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DOMPI_SKIP_MPICXX")'
   echo 'set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage")'
   echo 'set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs")'
-  echo "set(CPP_GITHUB_TOKEN ${CPP_GITHUB_TOKEN})"
+  echo 'set(CPP_GITHUB_TOKEN "${CPP_GITHUB_TOKEN}")'
   echo 'set(CMAKE_BUILD_TYPE Debug)'
   echo 'set(ENABLE_SCALAPACK ON)'
   echo 'set(LIBDIR "/usr/lib/x86_64-linux-gnu")'
@@ -51,6 +51,8 @@ echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
   #echo 'set(scalapack_LIBRARIES ${SCALAPACK_LIBRARIES})'
   #echo 'set(lapack_LIBRARIES ${LAPACK_LIBRARIES})'
 } >> "${toolchain_file}"
+
+nano toolchain_file
 
 #Step 2: Configure
 ${cmake_command} -H. -Bbuild -DCMAKE_TOOLCHAIN_FILE="${toolchain_file}"
