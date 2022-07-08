@@ -37,7 +37,7 @@ jobs:
         cmake_version: ${{ matrix.cmake_version }}
         gcc_version: ${{ matrix.gcc_version }}
         CPP_GITHUB_TOKEN: ${{ secrets.CPP_GITHUB_TOKEN }}
-      run: .github/workflows/scripts/test.sh
+      run: .github/workflows/scripts/build_and_test.sh
       # run: .github/workflows/scripts/build_and_test.sh
     # - uses: codecov/codecov-action@v1
     #   with:
