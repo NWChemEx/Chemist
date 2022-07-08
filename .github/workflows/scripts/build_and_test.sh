@@ -54,7 +54,7 @@ echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
   #echo 'set(lapack_LIBRARIES ${LAPACK_LIBRARIES})'
 } >> "${toolchain_file}"
 
-cat toolchain_file
+cat $(pwd)/toolchain.cmake
 
 #Step 2: Configure
 ${cmake_command} -H. -Bbuild -DCMAKE_TOOLCHAIN_FILE="${toolchain_file}"
