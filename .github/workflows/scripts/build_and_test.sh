@@ -20,7 +20,7 @@
 
 set -e # Exit with error if any command fails
 
-echo 'this is the token ${CPP_GITHUB_TOKEN}'
+echo 'this is the token ('${CPP_GITHUB_TOKEN}')'
 
 arch=Linux-x86_64
 cmake_root=$(pwd)/cmake-"${cmake_version}"-"${arch}"
@@ -42,7 +42,7 @@ echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
   echo 'set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DOMPI_SKIP_MPICXX")'
   echo 'set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage")'
   echo 'set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs")'
-  echo 'set(CPP_GITHUB_TOKEN ${CPP_GITHUB_TOKEN})'
+  echo 'set(CPP_GITHUB_TOKEN '${CPP_GITHUB_TOKEN}')'
   echo 'set(CMAKE_BUILD_TYPE Debug)'
   echo 'set(ENABLE_SCALAPACK ON)'
   echo 'set(LIBDIR "/usr/lib/x86_64-linux-gnu")'
