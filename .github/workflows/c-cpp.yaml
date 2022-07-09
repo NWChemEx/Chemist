@@ -12,3 +12,5 @@ jobs:
     uses: NWChemEx-Project/.github/.github/workflows/c-cpp_tmpl.yml@reuseable-workflow
     with: 
       dependencies: 'gcc gcovr openblas cblas lapacke scalapack boost eigen3 openmpi'
+    secrets:
+      CPP_GITHUB_TOKEN: ${{ secrets.CPP_GITHUB_TOKEN }}
