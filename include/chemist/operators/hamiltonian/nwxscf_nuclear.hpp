@@ -142,8 +142,7 @@ protected:
 }; // class Hamiltonian
 
 template<typename OpType, typename... Args, typename>
-NWXSCF_Nuclear::NWXSCF_Nuclear(OpType&& op0, Args&&... args) :
-  base_type() {
+NWXSCF_Nuclear::NWXSCF_Nuclear(OpType&& op0, Args&&... args) : base_type() {
     add_terms(std::forward<OpType>(op0), std::forward<Args>(args)...);
 }
 

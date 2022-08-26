@@ -8,18 +8,15 @@ using size_type = typename NWXSCF_Nuclear::size_type;
 NWXSCF_Nuclear::NWXSCF_Nuclear() noexcept  = default;
 NWXSCF_Nuclear::~NWXSCF_Nuclear() noexcept = default;
 
-NWXSCF_Nuclear::NWXSCF_Nuclear(const NWXSCF_Nuclear& other) =
+NWXSCF_Nuclear::NWXSCF_Nuclear(const NWXSCF_Nuclear& other)     = default;
+NWXSCF_Nuclear::NWXSCF_Nuclear(NWXSCF_Nuclear&& other) noexcept = default;
+NWXSCF_Nuclear& NWXSCF_Nuclear::operator=(const NWXSCF_Nuclear& other) =
   default;
-NWXSCF_Nuclear::NWXSCF_Nuclear(NWXSCF_Nuclear&& other) noexcept =
+
+NWXSCF_Nuclear& NWXSCF_Nuclear::operator=(NWXSCF_Nuclear&& other) noexcept =
   default;
-NWXSCF_Nuclear& NWXSCF_Nuclear::operator=(
-  const NWXSCF_Nuclear& other) = default;
 
-NWXSCF_Nuclear& NWXSCF_Nuclear::operator=(
-  NWXSCF_Nuclear&& other) noexcept = default;
-
-bool NWXSCF_Nuclear::is_equal_impl(
-  const OperatorBase& other) const noexcept {
+bool NWXSCF_Nuclear::is_equal_impl(const OperatorBase& other) const noexcept {
     auto ptr = dynamic_cast<const NWXSCF_Nuclear*>(&other);
     if(!ptr) return false;
     return *this == *ptr;
