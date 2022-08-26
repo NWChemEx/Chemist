@@ -1,8 +1,9 @@
 #include "../test_operator.hpp"
-#include "libchemist/operators/hamiltonian/core_hamiltonian_nuclear.hpp"
+#include "chemist/operators/hamiltonian/core_hamiltonian_nuclear.hpp"
+#include <pluginplay/pluginplay.hpp>
 
-using namespace libchemist;
-using namespace libchemist::operators;
+using namespace chemist;
+using namespace chemist::operators;
 
 TEST_CASE("Core Hamiltonian Deriv") {
     CoreHamiltonian_Nuclear defaulted;
@@ -10,11 +11,13 @@ TEST_CASE("Core Hamiltonian Deriv") {
     auto nelec  = testing::non_default_parameter<ManyElectrons>();
     auto nuclei = testing::non_default_parameter<Nuclei>();
 
-    auto T = NElectronKinetic_Nuclear{nelec};
-    auto V = NElectronNuclearAttraction_Nuclear{nelec, nuclei};
-    auto G = NElectronRepulsion_Nuclear{nelec};
-    auto t = ElectronKinetic_Nuclear{};
-    auto v = ElectronNuclearAttraction_Nuclear{Electron{}, nuclei};
+    auto T  = NElectronKinetic_Nuclear{nelec, nuclei};
+    auto Vv = NElectronNuclearAttraction{nelec, nuclei};
+    auto V  = NElectronNuclearAttraction_Nuclear{Vv, nuclei};
+    auto Gg = NElectronRepulsion{nelec};
+    auto G  = NElectronRepulsion_Nuclear{Gg, nuclei};
+    auto t  = ElectronKinetic_Nuclear{};
+    auto v  = ElectronNuclearAttraction_Nuclear{};
 
     ElectronicHamiltonian_Nuclear h_e{T, V, G};
 

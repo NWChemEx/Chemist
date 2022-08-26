@@ -40,6 +40,14 @@ cppyy_make_python_package(PYTHONIZE MPI PACKAGE chemist NAMESPACES chemist TA DE
 
 if("${BUILD_TESTING}")
     cpp_find_or_build_dependency(
+        pluginplay
+        URL github.com/NWChemEx-Project/PluginPlay
+        PRIVATE TRUE
+        BUILD_TARGET pluginplay
+        FIND_TARGET nwx::pluginplay
+        CMAKE_ARGS BUILD_TESTING=OFF
+    )
+    cpp_find_or_build_dependency(
         Catch2
         URL github.com/catchorg/Catch2
         BUILD_TARGET Catch2
@@ -51,6 +59,6 @@ if("${BUILD_TESTING}")
         test_chemist
         SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/tests"
         INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/chemist"
-        DEPENDS Catch2::Catch2 chemist
+        DEPENDS nwx::pluginplay Catch2::Catch2 chemist
     )
 endif()

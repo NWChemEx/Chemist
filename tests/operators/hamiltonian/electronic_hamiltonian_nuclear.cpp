@@ -1,8 +1,9 @@
 #include "../test_operator.hpp"
-#include "libchemist/operators/hamiltonian/electronic_hamiltonian_nuclear.hpp"
+#include "chemist/operators/hamiltonian/electronic_hamiltonian_nuclear.hpp"
+#include <pluginplay/pluginplay.hpp>
 
-using namespace libchemist;
-using namespace libchemist::operators;
+using namespace chemist;
+using namespace chemist::operators;
 
 TEST_CASE("Electronic Hamiltonian Nuclear") {
     ElectronicHamiltonian_Nuclear defaulted;
@@ -10,10 +11,12 @@ TEST_CASE("Electronic Hamiltonian Nuclear") {
     auto nelec  = testing::non_default_parameter<ManyElectrons>();
     auto nuclei = testing::non_default_parameter<Nuclei>();
 
-    auto T   = NElectronKinetic_Nuclear{nelec};
-    auto V   = NElectronNuclearAttraction_Nuclear{nelec, nuclei};
-    auto G   = NElectronRepulsion_Nuclear{nelec};
-    auto V_n = NuclearRepulsion_Nuclear{nuclei};
+    auto T   = NElectronKinetic_Nuclear{nelec, nuclei};
+    auto Vv  = NElectronNuclearAttraction{nelec, nuclei};
+    auto V   = NElectronNuclearAttraction_Nuclear{Vv, nuclei};
+    auto Gg  = NElectronRepulsion{nelec};
+    auto G   = NElectronRepulsion_Nuclear{Gg, nuclei};
+    auto V_n = NuclearRepulsion_Nuclear{};
 
     ElectronicHamiltonian_Nuclear non_default{T, V, G};
 
