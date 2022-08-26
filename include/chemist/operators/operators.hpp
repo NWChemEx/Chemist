@@ -14,6 +14,7 @@
 #include "chemist/operators/hamiltonian/electronic_hamiltonian_nuclear.hpp"
 #include "chemist/operators/hamiltonian/hamiltonian.hpp"
 #include "chemist/operators/hamiltonian/hamiltonian_nuclear.hpp"
+#include "chemist/operators/hamiltonian/nwxscf_nuclear.hpp"
 #include "chemist/operators/identity.hpp"
 #include "chemist/operators/kinetic.hpp"
 #include "chemist/operators/multipole.hpp"
@@ -40,20 +41,5 @@ using ElectronRepulsion_Nuclear = Derivative<ElectronRepulsion, Nuclei>;
 using NElectronRepulsion_Nuclear = Derivative<NElectronRepulsion, Nuclei>;
 
 using NuclearRepulsion_Nuclear = Derivative<NuclearRepulsion, Nuclei>;
-/*
-using CoreHamiltonian_Nuclear = LinearCombination().add_terms(
-          ElectronKinetic_Nuclear,
-          ElectronNuclearAttraction_Nuclear);
 
-using ElectronicHamiltonian_Nuclear = LinearCombination().add_terms(
-          ElectronKinetic_Nuclear,
-          ElectronNuclearAttraction_Nuclear,
-          ElectronRepulsion_Nuclear);
-
-using ElectronicHamiltonian_Nuclear = LinearCombination().add_terms(
-          ElectronRepulsion_Nuclear,
-          ElectronKinetic_Nuclear,
-          ElectronNuclearAttraction_Nuclear,
-          ElectronRepulsion_Nuclear);
-*/
 } // namespace chemist::operators
