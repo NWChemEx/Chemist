@@ -37,10 +37,8 @@ TEST_CASE("IndependentSpace") {
         }
     }
 
-    auto& world = TA::get_default_world();
-
     // Declare two spaces so we can have a sparsity relation
-    auto space1 = testing::get_canonical(world);
+    auto space1 = testing::get_canonical();
     decltype(space1) space2(space1.orbital_energies());
 
     // We'll let space1 be the independent space
