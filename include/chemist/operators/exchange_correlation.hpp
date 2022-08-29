@@ -43,6 +43,7 @@ public:
       default;
     KohnShamExchangeCorrelation& operator=(KohnShamExchangeCorrelation&&) =
       default;
+
 protected:
     /// Gives a more traditional representation than the default implementation
     std::string as_string_impl() const override { return "xc"; }
