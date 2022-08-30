@@ -96,5 +96,5 @@ TEMPLATE_LIST_TEST_CASE("ExchangeCorrelation", "", type_list) {
         }
     }
 
-    SECTION("as_string") { REQUIRE(defaulted.as_string() == "Ô"); }
+    SECTION("as_string") { REQUIRE(defaulted.as_string() == "xc"); }
 }
