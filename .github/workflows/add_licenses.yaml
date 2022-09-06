@@ -1,4 +1,4 @@
-# Copyright 2022 NWChemEx-Project
+# Copyright 2021 NWChemEx-Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,9 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+name: Add Licenses
 
-set(LIBCHEMIST_DENSITY_SOURCE
-    defaults/atomic_densities/6-31g.cpp
-    defaults/atomic_densities/sto-3g.cpp
-    defaults/atomic_densities/sto-6g.cpp
-)
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  license_files:
+    uses: NWChemEx-Project/.github/.github/workflows/add_licenses_master.yml@master
+    with:
+      config_file: .github/.licenserc.yaml
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
