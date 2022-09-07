@@ -34,6 +34,7 @@ bool NONRELATIVISTIC::operator==(const Nonrelativistic& rhs) const {
 #undef NONRELATIVISTIC
 
 template class Nonrelativistic<Determinant>;
+template class Nonrelativistic<DerivedActiveSpace>;
 template class Nonrelativistic<CanonicalDeterminant>;
 template class Nonrelativistic<SparseDeterminant>;
 template class Nonrelativistic<SparseToTDeterminant>;

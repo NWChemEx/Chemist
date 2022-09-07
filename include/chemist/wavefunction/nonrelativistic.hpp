@@ -1,5 +1,6 @@
 #pragma once
-#include "chemist/wavefunction/determinant_space.hpp"
+#include <chemist/wavefunction/determinant_space.hpp>
+#include <chemist/wavefunction/active_space.hpp>
 
 namespace chemist::wavefunction {
 
@@ -148,6 +149,32 @@ auto make_wavefunction(OccType&& occ, VirtType&& virt, operators::Fock fock,
     return Nonrelativistic<det_type>(std::move(det), spin);
 }
 
+/** @brief Convenience function for making a wavefunction from an active
+ *         space. 
+ *
+ *  @relates Nonrelativistic
+ *
+ *  A common scenario is the need to prepare a wavefunction given a set of
+ *  inactive, active, virtual and core orbitals. This function takes care of preparing the
+ *  active space for you and returns the wavefunction object.
+ *
+ *  @return The active space-based wavefunction.
+ */
+template<typename InactType, typename ActType, typename VirtType, typename CoreType>
+auto make_wavefunction(InactType&& inact, ActType&& act, VirtType&& virt, CoreType&& core,
+                       operators::Fock inact_fock, operators::Fock act_fock,
+                       unsigned int spin = 0) {
+    using clean_inact  = std::decay_t<InactType>;
+    using clean_act    = std::decay_t<ActType>;
+    using clean_virt   = std::decay_t<VirtType>;
+    using clean_core   = std::decay_t<CoreType>;
+    using as_type      = ActiveSpace<clean_inact, clean_act, clean_virt, clean_core>;
+    as_type as(std::forward<InactType>(inact), std::forward<ActType>(act), 
+               std::forward<VirtType>(virt), std::forward<CoreType>(core),
+               std::move(inact_fock), std::move(act_fock));
+    return Nonrelativistic<as_type>(std::move(as), spin);
+}
+
 /** @brief Compares two non-relativistic wavefunctions for equality.
  *
  *  @relates Nonrelativistic
@@ -210,6 +237,9 @@ bool operator!=(const Nonrelativistic<LHSRefType>& lhs,
 /// Type of a wavefunction built from MOs
 using Reference = Nonrelativistic<Determinant>;
 
+/// Type of a wave function built from an active space
+using ActiveSpaceReference = Nonrelativistic<DerivedActiveSpace>;
+
 /// Type of a wavefunction built from canonical MOs
 using CanonicalReference = Nonrelativistic<CanonicalDeterminant>;
 
@@ -219,6 +249,7 @@ using SparseReference = Nonrelativistic<SparseDeterminant>;
 using SparseToTReference = Nonrelativistic<SparseToTDeterminant>;
 
 extern template class Nonrelativistic<Determinant>;
+extern template class Nonrelativistic<DerivedActiveSpace>;
 extern template class Nonrelativistic<CanonicalDeterminant>;
 extern template class Nonrelativistic<SparseDeterminant>;
 extern template class Nonrelativistic<SparseToTReference>;
