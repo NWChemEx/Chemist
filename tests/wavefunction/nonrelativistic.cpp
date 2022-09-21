@@ -151,14 +151,15 @@ TEMPLATE_LIST_TEST_CASE("Nonrelativistic", "", tuple_type) {
 
 
 
-TEST_CASE("Nonrelativistic ActiveSpace", "") {
-    using wf_t           = ActiveSpaceReference;
+TEST_CASE("Nonrelativistic ConfigurationInteractionSpace", "") {
+    using wf_t           = ConfigurationInteractionReference;
     using basis_set_t    = typename wf_t::basis_set_type;
     using inact_space_t  = typename basis_set_t::inactive_orbital_type;
     using act_space_t    = typename basis_set_t::active_orbital_type;
     using virt_space_t   = typename basis_set_t::virtual_orbital_type;
     using core_space_t   = typename basis_set_t::core_orbital_type;
-    using fock_t         = typename basis_set_t::fock_operator_type;
+    using opdm_t         = typename basis_set_t::active_1rdm_type;
+    using tpdm_t         = typename basis_set_t::active_2rdm_type;
 
     wf_t defaulted;
 
@@ -166,7 +167,8 @@ TEST_CASE("Nonrelativistic ActiveSpace", "") {
     auto act    = testing::make_space<act_space_t>(3.5);
     auto virt = testing::make_space<virt_space_t>(2);
     auto core = testing::make_space<core_space_t>(9);
-    basis_set_t space(inact, act, virt, core, fock_t{}, fock_t{});
+    int nalpha = 2, nbeta = 5;
+    basis_set_t space(nalpha, nbeta, inact, act, virt, core, opdm_t{}, tpdm_t{});
     wf_t non_default_space(space);
     wf_t non_default(space, 1.0);
 
@@ -271,12 +273,12 @@ TEST_CASE("Nonrelativistic ActiveSpace", "") {
 
     SECTION("make_wavefunction") {
         SECTION("Default spin") {
-            auto wf = make_wavefunction(inact, act, virt, core, fock_t{}, fock_t{});
+            auto wf = make_wavefunction(nalpha, nbeta, inact, act, virt, core, opdm_t{}, tpdm_t{});
             REQUIRE(wf == non_default_space);
         }
 
         SECTION("Non-default spin") {
-            auto wf = make_wavefunction(inact, act, virt, core, fock_t{}, fock_t{}, 1);
+            auto wf = make_wavefunction(nalpha, nbeta, inact, act, virt, core, opdm_t{}, tpdm_t{}, 1);
             REQUIRE(wf == non_default);
         }
     }

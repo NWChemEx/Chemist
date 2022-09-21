@@ -18,12 +18,12 @@
 #include "test_density.hpp"
 
 // Tuple containing the known densities
-using density_types = std::tuple<chemist::OneElectronDensity>;
+using density_types = std::tuple<chemist::OneElectronDensity<>>;
 
 TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
     using density_type = TestType;
     using value_type   = typename density_type::value_type;
-    using aos_type     = typename density_type::aos_type;
+    using space_type     = typename density_type::base_space_type;
 
     SECTION("Typedefs") {
         SECTION("value_type") {
@@ -31,22 +31,22 @@ TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
             STATIC_REQUIRE(std::is_same_v<value_type, corr>);
         }
 
-        SECTION("aos_type") {
+        SECTION("base_space_type") {
             using corr = chemist::orbital_space::AOSpaceD;
-            STATIC_REQUIRE(std::is_same_v<aos_type, corr>);
+            STATIC_REQUIRE(std::is_same_v<space_type, corr>);
         }
     }
 
     density_type defaulted;
     auto a_tensor = testing::generate_tensor(2);
-    auto aos      = testing::non_default_space<aos_type>();
+    auto aos      = testing::non_default_space<space_type>();
 
     density_type has_value(a_tensor, aos);
 
     SECTION("CTors") {
         SECTION("Default") {
             REQUIRE(defaulted.value() == value_type{});
-            REQUIRE(defaulted.basis_set() == aos_type{});
+            REQUIRE(defaulted.basis_set() == space_type{});
         }
 
         SECTION("Value") {
@@ -110,7 +110,7 @@ TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
         }
 
         SECTION("Different AOs") {
-            density_type rhs(a_tensor, aos_type{});
+            density_type rhs(a_tensor, space_type{});
             REQUIRE(value_hash != hash_objects(rhs));
         }
     }
@@ -135,7 +135,7 @@ TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
         }
 
         SECTION("Different AOs") {
-            density_type rhs(a_tensor, aos_type{});
+            density_type rhs(a_tensor, space_type{});
             REQUIRE(rhs != has_value);
             REQUIRE_FALSE(rhs == has_value);
         }

@@ -32,7 +32,7 @@ TEMPLATE_LIST_TEST_CASE("DecomposableDensity", "", density_types) {
 
     SECTION("Typedefs") {
         SECTION("base_type") {
-            using corr = chemist::OneElectronDensity;
+            using corr = chemist::OneElectronDensity<>;
             STATIC_REQUIRE(std::is_same_v<base_type, corr>);
         }
 

@@ -67,7 +67,7 @@ using ElectronNuclearAttraction =
 
 /// Type of a one-electron Coulomb interaction with a one-electron density
 using ElectronEDensityCoulomb =
-  CoulombInteraction<chemist::Electron, chemist::OneElectronDensity>;
+  CoulombInteraction<chemist::Electron, chemist::OneElectronDensity<>>;
 
 /// Type of the many-electron repulsion operator
 using NElectronRepulsion = CoulombInteraction<chemist::ManyElectrons>;

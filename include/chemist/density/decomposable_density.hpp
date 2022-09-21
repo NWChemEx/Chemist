@@ -30,10 +30,10 @@ namespace chemist {
  *
  */
 template<typename... Particles>
-class DecomposableDensity : public Density<Particles...> {
+class DecomposableDensity : public Density<orbital_space::AOSpaceD, Particles...> {
 public:
     /// Type of base Density
-    using base_type = Density<Particles...>;
+    using base_type = Density<orbital_space::AOSpaceD, Particles...>;
 
     /// Type of the derived space
     using space_type = orbital_space::DerivedSpaceD;
@@ -42,7 +42,7 @@ public:
     using typename base_type::value_type;
 
     /// Type of the basis set
-    using typename base_type::aos_type;
+    using aos_type = typename base_type::base_space_type;
 
     /// Default ctor
     explicit DecomposableDensity() = default;

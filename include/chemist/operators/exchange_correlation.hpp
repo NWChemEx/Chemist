@@ -68,6 +68,6 @@ protected:
 /// Type of Kohn-Sham Exchange-Correlation operator
 using ExchangeCorrelation =
   KohnShamExchangeCorrelation<ExchangeCorrelationFunctional, chemist::Electron,
-                              chemist::OneElectronDensity>;
+                              chemist::OneElectronDensity<>>;
 
 } // namespace chemist::operators

@@ -16,7 +16,7 @@
 
 #pragma once
 #include <chemist/wavefunction/determinant_space.hpp>
-#include <chemist/wavefunction/active_space.hpp>
+#include <chemist/wavefunction/configuration_interaction_space.hpp>
 
 namespace chemist::wavefunction {
 
@@ -177,17 +177,18 @@ auto make_wavefunction(OccType&& occ, VirtType&& virt, operators::Fock fock,
  *  @return The active space-based wavefunction.
  */
 template<typename InactType, typename ActType, typename VirtType, typename CoreType>
-auto make_wavefunction(InactType&& inact, ActType&& act, VirtType&& virt, CoreType&& core,
-                       operators::Fock inact_fock, operators::Fock act_fock,
-                       unsigned int spin = 0) {
+auto make_wavefunction(unsigned int nact_alpha, unsigned int nact_beta,
+    InactType&& inact, ActType&& act, VirtType&& virt, CoreType&& core,
+    OneElectronDensity<std::decay_t<ActType>> opdm, TwoElectronDensity<std::decay_t<ActType>> tpdm, 
+    unsigned int spin = 0) {
     using clean_inact  = std::decay_t<InactType>;
     using clean_act    = std::decay_t<ActType>;
     using clean_virt   = std::decay_t<VirtType>;
     using clean_core   = std::decay_t<CoreType>;
-    using as_type      = ActiveSpace<clean_inact, clean_act, clean_virt, clean_core>;
-    as_type as(std::forward<InactType>(inact), std::forward<ActType>(act), 
+    using as_type      = ConfigurationInteractionSpace<clean_inact, clean_act, clean_virt, clean_core>;
+    as_type as(nact_alpha, nact_beta, std::forward<InactType>(inact), std::forward<ActType>(act), 
                std::forward<VirtType>(virt), std::forward<CoreType>(core),
-               std::move(inact_fock), std::move(act_fock));
+               std::move(opdm), std::move(tpdm));
     return Nonrelativistic<as_type>(std::move(as), spin);
 }
 
@@ -254,7 +255,7 @@ bool operator!=(const Nonrelativistic<LHSRefType>& lhs,
 using Reference = Nonrelativistic<Determinant>;
 
 /// Type of a wave function built from an active space
-using ActiveSpaceReference = Nonrelativistic<DerivedActiveSpace>;
+using ConfigurationInteractionReference = Nonrelativistic<DerivedConfigurationInteractionSpace>;
 
 /// Type of a wavefunction built from canonical MOs
 using CanonicalReference = Nonrelativistic<CanonicalDeterminant>;
@@ -265,9 +266,10 @@ using SparseReference = Nonrelativistic<SparseDeterminant>;
 using SparseToTReference = Nonrelativistic<SparseToTDeterminant>;
 
 extern template class Nonrelativistic<Determinant>;
-extern template class Nonrelativistic<DerivedActiveSpace>;
 extern template class Nonrelativistic<CanonicalDeterminant>;
 extern template class Nonrelativistic<SparseDeterminant>;
 extern template class Nonrelativistic<SparseToTReference>;
+
+extern template class Nonrelativistic<DerivedConfigurationInteractionSpace>;
 
 } // namespace chemist::wavefunction

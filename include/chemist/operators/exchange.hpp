@@ -53,7 +53,7 @@ protected:
 
 /// Type of Hartree-Fock Exchange
 using ElectronEDensityExchange =
-  Exchange<chemist::Electron, chemist::OneElectronDensity>;
+  Exchange<chemist::Electron, chemist::OneElectronDensity<>>;
 
 /// Type of Hartree-Fock Exchange with decomposable density
 using ElectronDecomposableEDensity =

@@ -31,9 +31,9 @@ auto non_default_parameter() {
         return chemist::operators::STG(1.2, 2.3);
     } else if constexpr(std::is_same_v<T, chemist::ManyElectrons>) {
         return chemist::ManyElectrons{2};
-    } else if constexpr(std::is_same_v<T, chemist::OneElectronDensity>) {
+    } else if constexpr(std::is_same_v<T, chemist::OneElectronDensity<>>) {
         auto a_tensor = testing::generate_tensor(2);
-        return chemist::OneElectronDensity(a_tensor,
+        return chemist::OneElectronDensity<>(a_tensor,
                                            chemist::orbital_space::AOSpaceD{});
     } else if constexpr(std::is_same_v<T, chemist::Decomposable1EDensity>) {
         auto a_tensor = testing::generate_tensor(2);

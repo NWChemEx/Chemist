@@ -1,13 +1,14 @@
 #include "chemist/operators/kinetic.hpp"
 #include "chemist/operators/multipole.hpp"
-#include "chemist/wavefunction/active_space.hpp"
+#include "chemist/wavefunction/configuration_interaction_space.hpp"
 #include "test_wavefunction.hpp"
+#include "../test_chemist.hpp"
 
 using namespace chemist::wavefunction;
 using namespace chemist::orbital_space;
 
 using tuple_type =
-  std::tuple<DerivedActiveSpace>;
+  std::tuple<DerivedConfigurationInteractionSpace>;
 
 /* Testing strategy:
  *
@@ -17,13 +18,14 @@ using tuple_type =
  * set them and that they are taken into account in comparisons.
  */
 
-TEMPLATE_LIST_TEST_CASE("ActiveSpace", "", tuple_type) {
+TEMPLATE_LIST_TEST_CASE("ConfigurationInteractionSpace", "", tuple_type) {
     using space_t         = TestType;
     using inact_space_t   = typename TestType::inactive_orbital_type;
     using act_space_t     = typename TestType::active_orbital_type;
     using virt_space_t    = typename TestType::virtual_orbital_type;
     using core_space_t    = typename TestType::core_orbital_type;
-    using fock_op_t       = typename TestType::fock_operator_type;
+    using ordm_t          = typename TestType::active_1rdm_type;
+    using trdm_t          = typename TestType::active_2rdm_type;
     using inact_tensor_t  = typename inact_space_t::transform_type;
     using act_tensor_t    = typename act_space_t::transform_type;
     using virt_tensor_t   = typename virt_space_t::transform_type;
@@ -31,71 +33,94 @@ TEMPLATE_LIST_TEST_CASE("ActiveSpace", "", tuple_type) {
 
     auto& world = TA::get_default_world();
 
-    // A default ActiveSpace
+    // A default ConfigurationInteractionSpace
     space_t defaulted;
 
-    // Makes a non-default ActiveSpace
+    // Makes a non-default ConfigurationInteractionSpace
+    int nalpha = 1, nbeta = 3;
     auto inact  = testing::make_space<inact_space_t>(1.0);
     auto act    = testing::make_space<act_space_t>(1.2);
     auto virt   = testing::make_space<virt_space_t>(2.0);
     auto core   = testing::make_space<core_space_t>(3.5);
-    fock_op_t inact_fock(chemist::operators::ElectronKinetic{});
-    fock_op_t act_fock(chemist::operators::ElectricDipole{});
-    space_t nondefault(inact, act, virt, core, inact_fock, act_fock);
+    auto ordm_tensor = testing::generate_tensor(2);
+    auto trdm_tensor = testing::generate_tensor(4);
+    ordm_t a1rdm(ordm_tensor,virt);
+    trdm_t a2rdm(trdm_tensor,virt);
+    space_t nondefault(nalpha, nbeta, inact, act, virt, core, a1rdm, a2rdm);
 
     SECTION("CTors") {
         SECTION("value") {
+            REQUIRE(nondefault.n_active_alpha_electrons() == nalpha);
+            REQUIRE(nondefault.n_active_beta_electrons() == nbeta);
             REQUIRE(nondefault.inactive_orbitals() == inact);
             REQUIRE(nondefault.active_orbitals() == act);
             REQUIRE(nondefault.virtual_orbitals() == virt);
             REQUIRE(nondefault.core_orbitals() == core);
-            REQUIRE(nondefault.inactive_fock_operator() == inact_fock);
-            REQUIRE(nondefault.active_fock_operator() == act_fock);
+            REQUIRE(nondefault.active_1rdm() == a1rdm);
+            REQUIRE(nondefault.active_2rdm() == a2rdm);
         }
 
         SECTION("copy") {
             space_t copy(nondefault);
+            REQUIRE(copy.n_active_alpha_electrons() == nalpha);
+            REQUIRE(copy.n_active_beta_electrons() == nbeta);
             REQUIRE(copy.inactive_orbitals() == inact);
             REQUIRE(copy.active_orbitals() == act);
             REQUIRE(copy.virtual_orbitals() == virt);
             REQUIRE(copy.core_orbitals() == core);
-            REQUIRE(copy.inactive_fock_operator() == inact_fock);
-            REQUIRE(copy.active_fock_operator() == act_fock);
+            REQUIRE(copy.active_1rdm() == a1rdm);
+            REQUIRE(copy.active_2rdm() == a2rdm);
         }
 
         SECTION("move") {
             space_t moved(std::move(nondefault));
+            REQUIRE(moved.n_active_alpha_electrons() == nalpha);
+            REQUIRE(moved.n_active_beta_electrons() == nbeta);
             REQUIRE(moved.inactive_orbitals() == inact);
             REQUIRE(moved.active_orbitals() == act);
             REQUIRE(moved.virtual_orbitals() == virt);
             REQUIRE(moved.core_orbitals() == core);
-            REQUIRE(moved.inactive_fock_operator() == inact_fock);
-            REQUIRE(moved.active_fock_operator() == act_fock);
+            REQUIRE(moved.active_1rdm() == a1rdm);
+            REQUIRE(moved.active_2rdm() == a2rdm);
         }
 
         SECTION("copy assignment") {
             space_t copy;
             auto pcopy = &(copy = nondefault);
             REQUIRE(pcopy == &copy);
+            REQUIRE(copy.n_active_alpha_electrons() == nalpha);
+            REQUIRE(copy.n_active_beta_electrons() == nbeta);
             REQUIRE(copy.inactive_orbitals() == inact);
             REQUIRE(copy.active_orbitals() == act);
             REQUIRE(copy.virtual_orbitals() == virt);
             REQUIRE(copy.core_orbitals() == core);
-            REQUIRE(copy.inactive_fock_operator() == inact_fock);
-            REQUIRE(copy.active_fock_operator() == act_fock);
+            REQUIRE(copy.active_1rdm() == a1rdm);
+            REQUIRE(copy.active_2rdm() == a2rdm);
         }
 
         SECTION("move assignment") {
             space_t moved;
             auto pmoved = &(moved = nondefault);
             REQUIRE(pmoved == &moved);
+            REQUIRE(moved.n_active_alpha_electrons() == nalpha);
+            REQUIRE(moved.n_active_beta_electrons() == nbeta);
             REQUIRE(moved.inactive_orbitals() == inact);
             REQUIRE(moved.active_orbitals() == act);
             REQUIRE(moved.virtual_orbitals() == virt);
             REQUIRE(moved.core_orbitals() == core);
-            REQUIRE(moved.inactive_fock_operator() == inact_fock);
-            REQUIRE(moved.active_fock_operator() == act_fock);
+            REQUIRE(moved.active_1rdm() == a1rdm);
+            REQUIRE(moved.active_2rdm() == a2rdm);
         }
+    }
+
+    SECTION("n_active_alpha_electrons") {
+        REQUIRE(defaulted.n_active_alpha_electrons() == 0);
+        REQUIRE(nondefault.n_active_alpha_electrons() == nalpha);
+    }
+
+    SECTION("n_active_beta_electrons") {
+        REQUIRE(defaulted.n_active_beta_electrons() == 0);
+        REQUIRE(nondefault.n_active_beta_electrons() == nbeta);
     }
 
     SECTION("inactive_orbitals") {
@@ -118,14 +143,14 @@ TEMPLATE_LIST_TEST_CASE("ActiveSpace", "", tuple_type) {
         REQUIRE(nondefault.core_orbitals() == core);
     }
 
-    SECTION("inactive_fock_operator") {
-        REQUIRE_THROWS_AS(defaulted.inactive_fock_operator(), std::runtime_error);
-        REQUIRE(nondefault.inactive_fock_operator() == inact_fock);
+    SECTION("active_1rdm") {
+        REQUIRE_THROWS_AS(defaulted.active_1rdm(), std::runtime_error);
+        REQUIRE(nondefault.active_1rdm() == a1rdm);
     }
 
-    SECTION("active_fock_operator") {
-        REQUIRE_THROWS_AS(defaulted.active_fock_operator(), std::runtime_error);
-        REQUIRE(nondefault.active_fock_operator() == act_fock);
+    SECTION("active_2rdm") {
+        REQUIRE_THROWS_AS(defaulted.active_2rdm(), std::runtime_error);
+        REQUIRE(nondefault.active_2rdm() == a2rdm);
     }
 
 
@@ -135,33 +160,43 @@ TEMPLATE_LIST_TEST_CASE("ActiveSpace", "", tuple_type) {
                 REQUIRE(defaulted == space_t{});
                 REQUIRE_FALSE(defaulted != space_t{});
             }
+            SECTION("Different alpha electrons") {
+                space_t rhs(nalpha+10, nbeta, inact, act_space_t{},  virt_space_t{}, core_space_t{}, ordm_t{}, trdm_t{});
+                REQUIRE(defaulted != rhs);
+                REQUIRE_FALSE(defaulted == rhs);
+            }
+            SECTION("Different beta electrons") {
+                space_t rhs(nalpha, nbeta+10, inact, act_space_t{},  virt_space_t{}, core_space_t{}, ordm_t{}, trdm_t{});
+                REQUIRE(defaulted != rhs);
+                REQUIRE_FALSE(defaulted == rhs);
+            }
             SECTION("Different inactive") {
-                space_t rhs(inact, act_space_t{},  virt_space_t{}, core_space_t{}, fock_op_t{}, fock_op_t{});
+                space_t rhs(nalpha, nbeta, inact, act_space_t{},  virt_space_t{}, core_space_t{}, ordm_t{}, trdm_t{});
                 REQUIRE(defaulted != rhs);
                 REQUIRE_FALSE(defaulted == rhs);
             }
             SECTION("Different active") {
-                space_t rhs(inact_space_t{}, act,  virt_space_t{}, core_space_t{}, fock_op_t{}, fock_op_t{});
+                space_t rhs(nalpha, nbeta, inact_space_t{}, act,  virt_space_t{}, core_space_t{}, ordm_t{}, trdm_t{});
                 REQUIRE(defaulted != rhs);
                 REQUIRE_FALSE(defaulted == rhs);
             }
             SECTION("Different virtual") {
-                space_t rhs(inact_space_t{}, act_space_t{}, virt, core_space_t{}, fock_op_t{}, fock_op_t{});
+                space_t rhs(nalpha, nbeta, inact_space_t{}, act_space_t{}, virt, core_space_t{}, ordm_t{}, trdm_t{});
                 REQUIRE(defaulted != rhs);
                 REQUIRE_FALSE(defaulted == rhs);
             }
             SECTION("Different core") {
-                space_t rhs(inact_space_t{}, act_space_t{}, virt_space_t{}, core, fock_op_t{}, fock_op_t{});
+                space_t rhs(nalpha, nbeta, inact_space_t{}, act_space_t{}, virt_space_t{}, core, ordm_t{}, trdm_t{});
                 REQUIRE(defaulted != rhs);
                 REQUIRE_FALSE(defaulted == rhs);
             }
-            SECTION("Different inactive fock operators") {
-                space_t rhs(inact_space_t{}, act_space_t{}, virt_space_t{}, core_space_t{}, inact_fock, fock_op_t{});
+            SECTION("Different active 1RDM") {
+                space_t rhs(nalpha, nbeta, inact_space_t{}, act_space_t{}, virt_space_t{}, core_space_t{}, a1rdm, trdm_t{});
                 REQUIRE(defaulted != rhs);
                 REQUIRE_FALSE(defaulted == rhs);
             }
-            SECTION("Different active fock operators") {
-                space_t rhs(inact_space_t{}, act_space_t{}, virt_space_t{}, core_space_t{}, fock_op_t{}, act_fock);
+            SECTION("Different active 2RDM") {
+                space_t rhs(nalpha, nbeta, inact_space_t{}, act_space_t{}, virt_space_t{}, core_space_t{}, ordm_t{}, a2rdm);
                 REQUIRE(defaulted != rhs);
                 REQUIRE_FALSE(defaulted == rhs);
             }
