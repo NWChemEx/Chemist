@@ -23,7 +23,7 @@ class DeterminantSpace;
 
 template<typename InactiveSpaceType, typename ActiveSpaceType, 
          typename VirtualSpaceType, typename CoreSpaceType>
-class ActiveSpace;
+class ConfigurationInteractionSpace;
 
 template<typename ReferenceType>
 class Nonrelativistic;
