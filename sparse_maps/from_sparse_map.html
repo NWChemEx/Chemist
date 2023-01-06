@@ -1,38 +1,76 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
   <title>Sparsifying a Tensor &mdash; Chemist 1.0.0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/js/theme.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="prev" title="Sparse Map Library Design" href="design.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+
+   
   <div class="wy-grid-for-nav">
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+          
+
+          
             <a href="../index.html" class="icon icon-home"> Chemist
+          
+
+          
           </a>
+
+          
+            
+            
               <div class="version">
                 1.0.0
               </div>
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -40,7 +78,18 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../orbital_space/index.html">Orbital Space Documentation</a></li>
@@ -58,37 +107,79 @@
 <li class="toctree-l1"><a class="reference external" href="https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
 </ul>
 
+            
+          
         </div>
+        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Chemist</a>
+        
       </nav>
 
+
       <div class="wy-nav-content">
+        
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">Sparse Maps Sublibrary</a></li>
-      <li class="breadcrumb-item active">Sparsifying a Tensor</li>
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Sparse Maps Sublibrary</a> &raquo;</li>
+        
+      <li>Sparsifying a Tensor</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
+        
+          
             <a href="../_sources/sparse_maps/from_sparse_map.rst.txt" rel="nofollow"> View page source</a>
+          
+        
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+            
   <section id="sparsifying-a-tensor">
-<h1>Sparsifying a Tensor<a class="headerlink" href="#sparsifying-a-tensor" title="Permalink to this heading"></a></h1>
+<h1>Sparsifying a Tensor<a class="headerlink" href="#sparsifying-a-tensor" title="Permalink to this heading">¶</a></h1>
 <p>This page details the algorithms used to create a tensor-of-tensors from a
 SparseMap and a tensor.</p>
 <section id="things-to-note">
-<h2>Things to note<a class="headerlink" href="#things-to-note" title="Permalink to this heading"></a></h2>
+<h2>Things to note<a class="headerlink" href="#things-to-note" title="Permalink to this heading">¶</a></h2>
 <p>We are creating an object, <code class="docutils literal notranslate"><span class="pre">t</span></code> of type <code class="docutils literal notranslate"><span class="pre">DistArray&lt;Tensor&lt;Tensor&lt;T&gt;&gt;&gt;</span></code> from
 an object <code class="docutils literal notranslate"><span class="pre">T</span></code> of type <code class="docutils literal notranslate"><span class="pre">DistArray&lt;Tensor&lt;T&gt;&gt;</span></code>. Since the tiles are not the
 same type we are going to have to copy data. At best we are going to be able to
@@ -100,7 +191,7 @@ us the most flexibility in defining tiles. Specialized kernels may be added at
 a later point for other types of SparseMap instances.</p>
 </section>
 <section id="assumptions">
-<h2>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this heading"></a></h2>
+<h2>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this heading">¶</a></h2>
 <p>Assume we are given a <code class="docutils literal notranslate"><span class="pre">SparseMap</span></code> instance, <code class="docutils literal notranslate"><span class="pre">sm</span></code> and a tensor <code class="docutils literal notranslate"><span class="pre">T</span></code>. Our
 present goal is to create a tensor-of-tensors (ToT), <code class="docutils literal notranslate"><span class="pre">t</span></code>,  out of <code class="docutils literal notranslate"><span class="pre">T</span></code>. The
 outer rank of <code class="docutils literal notranslate"><span class="pre">t</span></code> is given by <code class="docutils literal notranslate"><span class="pre">sm.ind_rank()</span></code> and the inner rank of <code class="docutils literal notranslate"><span class="pre">t</span></code> is
@@ -127,7 +218,7 @@ second if we have no injections. Thus as long as we code up the second scenario
 in such a manner that it works with no injections we cover both scenarios.</p>
 </section>
 <section id="make-tot-tile-algorithm">
-<h2><code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code> Algorithm<a class="headerlink" href="#make-tot-tile-algorithm" title="Permalink to this heading"></a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code> Algorithm<a class="headerlink" href="#make-tot-tile-algorithm" title="Permalink to this heading">¶</a></h2>
 <p>The guts of the <code class="docutils literal notranslate"><span class="pre">from_sparse_tensor</span></code> function are contained in
 <code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code>. <code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code> is more-or-less a lambda which will be
 passed to <code class="docutils literal notranslate"><span class="pre">TA::make_array</span></code> to form the tensor-of-tensors. <code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code>
@@ -173,32 +264,49 @@ works by:</p>
 
 
            </div>
+           
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="design.html" class="btn btn-neutral float-left" title="Sparse Map Library Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2020, NWChemEx Team.</p>
-  </div>
+    <p>
+        &#169; Copyright 2020, NWChemEx Team.
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
         </div>
       </div>
+
     </section>
+
   </div>
-  <script>
+  
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>
