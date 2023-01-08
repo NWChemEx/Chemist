@@ -14,7 +14,7 @@ jobs:
       dependencies: 'ninja gcc gcovr openblas cblas lapacke scalapack boost eigen3 openmpi'
       clang-build: false
       gcc-build: true
-      ninja-build: true
+      ninja_build: true
     secrets:
       CPP_GITHUB_TOKEN: ${{ secrets.CPP_GITHUB_TOKEN }}
   
