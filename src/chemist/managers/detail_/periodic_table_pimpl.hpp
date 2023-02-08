@@ -29,11 +29,11 @@ namespace chemist::detail_ {
 struct PeriodicTablePIMPL {
     /// @name Forward typedefs from PeriodicTable
     ///@{
-    using size_type    = typename PeriodicTable::size_type;
-    using Z_list       = typename PeriodicTable::Z_list;
-    using isotope_list = typename PeriodicTable::isotope_list;
-    using elec_conf_t  = typename PeriodicTable::elec_conf_t;
-    using elec_conf_full_t  = typename PeriodicTable::elec_conf_full_t;
+    using size_type        = typename PeriodicTable::size_type;
+    using Z_list           = typename PeriodicTable::Z_list;
+    using isotope_list     = typename PeriodicTable::isotope_list;
+    using elec_conf_t      = typename PeriodicTable::elec_conf_t;
+    using elec_conf_full_t = typename PeriodicTable::elec_conf_full_t;
     ///@}
 
     /// Map of atomic numbers to Atom objects
@@ -291,17 +291,17 @@ inline typename PeriodicTablePIMPL::size_type PeriodicTablePIMPL::sym_2_Z(
 inline elec_conf_full_t PeriodicTablePIMPL::reduced_2_full_conf(
   const elec_conf_t& r_conf) const {
     elec_conf_full_t f_conf;
-    for (size_type l = 0; l < r_conf.size(); l++){
-        size_type nmult = 2*(2*l+1); // nelec in each shell
-        std::div_t d = std::div(r_conf[l], int(nmult));
+    for(size_type l = 0; l < r_conf.size(); l++) {
+        size_type nmult         = 2 * (2 * l + 1); // nelec in each shell
+        std::div_t d            = std::div(r_conf[l], int(nmult));
         size_type n_full_shells = d.quot;
 
-        // fill starting from l+1 ([1s,2s,...], [2p, 3p, ...], [3d, 4d, ...], ...)
-        for (size_type i = 0; i < n_full_shells; i++){
-            f_conf[{i+l+1, l}] = nmult;
+        // fill starting from l+1 ([1s,2s,...], [2p, 3p, ...], [3d, 4d, ...],
+        // ...)
+        for(size_type i = 0; i < n_full_shells; i++) {
+            f_conf[{i + l + 1, l}] = nmult;
         }
-        if (d.rem)
-            f_conf[{n_full_shells+l+1, l}] = d.rem;
+        if(d.rem) f_conf[{n_full_shells + l + 1, l}] = d.rem;
     }
     return f_conf;
 }
@@ -315,7 +315,7 @@ inline Atom PeriodicTablePIMPL::get_atom(size_type Z) const {
 }
 
 inline elec_conf_t PeriodicTablePIMPL::get_elec_conf(size_type Z) const {
-    if (!m_elec_confs.count(Z))
+    if(!m_elec_confs.count(Z))
         throw std::out_of_range("Configuration does not exist for Z = " +
                                 std::to_string(Z));
 
