@@ -253,18 +253,21 @@ TEST_CASE("PeriodicTable::get_elec_conf") {
         std::array<size_t, 4> corr = {1, 0, 0, 0};
 
         REQUIRE(corr == pt.get_elec_conf(1));
+        REQUIRE(corr == pt.get_elec_conf("H"));
     }
 
     SECTION("Config exists 2") {
         std::array<size_t, 4> corr = {2, 0, 0, 0};
 
         REQUIRE(corr == pt.get_elec_conf(2));
+        REQUIRE(corr == pt.get_elec_conf("He"));
     }
 
     SECTION("Get full conf 2") {
         std::map<std::pair<size_t, size_t>, size_t> corr = {{{1, 0}, 2}}; // 1s2
 
         REQUIRE(corr == pt.get_elec_conf_full(2));
+        REQUIRE(corr == pt.get_elec_conf_full("He"));
     }
 
     SECTION("Get full conf 42") {
@@ -284,6 +287,7 @@ TEST_CASE("PeriodicTable::get_elec_conf") {
         };
 
         REQUIRE(corr == pt.get_elec_conf_full(42));
+        REQUIRE(corr == pt.get_elec_conf_full("Mo"));
     }
 }
 
