@@ -30,7 +30,6 @@ inline void load_elements(PeriodicTable& pt) {
     pt.add_isotope(1, 2, Atom(1ul, 3671.4829413173247, "H"));
     pt.add_elec_config(1, {1, 0, 0, 0});
 
-
     pt.insert(2, Atom(2ul, 7296.297100609073, "He"));
     pt.add_isotope(2, 3, Atom(2ul, 5497.885121445487, "He"));
     pt.add_isotope(2, 4, Atom(2ul, 7296.299386693523, "He"));
@@ -241,18 +240,19 @@ TEST_CASE("PeriodicTable::get_elec_conf") {
     pt.add_elec_config(1, {1, 0, 0, 0});
 
     SECTION("No config") {
-        REQUIRE_THROWS_MATCHES(pt.get_elec_conf(3), std::out_of_range,
-                               Message("Configuration does not exist for Z = 3"));
+        REQUIRE_THROWS_MATCHES(
+          pt.get_elec_conf(3), std::out_of_range,
+          Message("Configuration does not exist for Z = 3"));
     }
 
     SECTION("Config exists 1") {
-      std::array<size_t, 4> corr = {1, 0, 0, 0};
+        std::array<size_t, 4> corr = {1, 0, 0, 0};
 
         REQUIRE(corr == pt.get_elec_conf(1));
     }
 
     SECTION("Config exists 2") {
-      std::array<size_t, 4> corr = {2, 0, 0, 0};
+        std::array<size_t, 4> corr = {2, 0, 0, 0};
 
         REQUIRE(corr == pt.get_elec_conf(2));
     }
