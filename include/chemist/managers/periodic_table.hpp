@@ -49,7 +49,8 @@ public:
 
     /// The type of a full atomic electronic configuration
     /// maps from {n,l} to the number of electrons in that shell
-    using elec_conf_full_t = std::map<std::pair<size_type, size_type>, size_type>;
+    using elec_conf_full_t =
+      std::map<std::pair<size_type, size_type>, size_type>;
 
     /**
      * @brief Constructs an empty PeriodicTable instance
