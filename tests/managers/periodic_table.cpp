@@ -245,8 +245,8 @@ TEST_CASE("PeriodicTable::get_elec_conf") {
 
     SECTION("Add existing config") {
         REQUIRE_THROWS_MATCHES(
-            pt.add_elec_config(1, {1, 0, 0, 0}), std::runtime_error,
-            Message("Elec. config for Z = 1 already exists"));
+          pt.add_elec_config(1, {1, 0, 0, 0}), std::runtime_error,
+          Message("Elec. config for Z = 1 already exists"));
     }
 
     SECTION("Config exists 1") {
