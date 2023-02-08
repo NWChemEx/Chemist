@@ -44,9 +44,12 @@ public:
     /// The type of a list of isotopes
     using isotope_list = std::vector<size_type>;
 
-    /// The type of a list of electron configurations
-    /// Dimensions are l, n
+    /// The type of a reduced atomic electronic configuration {Ns, Np, Nd, Nf}
     using elec_conf_t = std::array<size_type, 4>;
+
+    /// The type of a full atomic electronic configuration
+    /// maps from {n,l} to the number of electrons in that shell
+    using elec_conf_full_t = std::map<std::pair<size_type, size_type>, size_type>;
 
     /**
      * @brief Constructs an empty PeriodicTable instance
@@ -133,8 +136,6 @@ public:
      *                          does not exist. Strong throw guarantee.
      * @throw std::runtime_error Configuration already exists for this element.
      *                           Strong throw guarantee.
-     * @throw ??? if std::map::emplace throws an exception. Strong throw
-     *            guarantee.
      */
     void add_elec_config(size_type Z, const elec_conf_t& elec_config);
     ///@}
