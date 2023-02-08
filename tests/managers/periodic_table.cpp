@@ -262,15 +262,25 @@ TEST_CASE("PeriodicTable::get_elec_conf") {
         REQUIRE(corr == pt.get_elec_conf(2));
         REQUIRE(corr == pt.get_elec_conf("He"));
     }
+}
 
-    SECTION("Get full conf 2") {
+TEST_CASE("PeriodicTable::get_elec_conf_full") {
+    PeriodicTable pt;
+    load_elements(pt);
+
+    SECTION("No config") {
+        REQUIRE_THROWS_MATCHES(
+          pt.get_elec_conf_full(3), std::out_of_range,
+          Message("Configuration does not exist for Z = 3"));
+    }
+    SECTION("Config exists 2 (full)") {
         std::map<std::pair<size_t, size_t>, size_t> corr = {{{1, 0}, 2}}; // 1s2
 
         REQUIRE(corr == pt.get_elec_conf_full(2));
         REQUIRE(corr == pt.get_elec_conf_full("He"));
     }
 
-    SECTION("Get full conf 42") {
+    SECTION("Config exists 42 (full)") {
         pt.insert(42, chemist::Atom(42ul, 174906.15025012242, "Mo"));
         pt.add_elec_config(42, {9, 18, 15, 0});
         std::map<std::pair<size_t, size_t>, size_t> corr = {
