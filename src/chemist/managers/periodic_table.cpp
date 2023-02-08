@@ -19,11 +19,11 @@
 
 namespace chemist {
 
-using size_type    = typename PeriodicTable::size_type;
-using Z_list       = typename PeriodicTable::Z_list;
-using isotope_list = typename PeriodicTable::isotope_list;
-using elec_conf_t  = typename PeriodicTable::elec_conf_t;
-using elec_conf_full_t  = typename PeriodicTable::elec_conf_full_t;
+using size_type        = typename PeriodicTable::size_type;
+using Z_list           = typename PeriodicTable::Z_list;
+using isotope_list     = typename PeriodicTable::isotope_list;
+using elec_conf_t      = typename PeriodicTable::elec_conf_t;
+using elec_conf_full_t = typename PeriodicTable::elec_conf_full_t;
 
 PeriodicTable::PeriodicTable() : m_pimpl_() {}
 
@@ -67,7 +67,8 @@ size_type PeriodicTable::sym_2_Z(const std::string& sym) const {
     return pimpl_().sym_2_Z(sym);
 }
 
-elec_conf_full_t PeriodicTable::reduced_2_full_conf(const elec_conf_t& r_conf) const {
+elec_conf_full_t PeriodicTable::reduced_2_full_conf(
+  const elec_conf_t& r_conf) const {
     return pimpl_().reduced_2_full_conf(r_conf);
 }
 
