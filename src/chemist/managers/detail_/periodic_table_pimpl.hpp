@@ -229,8 +229,8 @@ inline void PeriodicTablePIMPL::add_isotope(size_type Z, size_type mass_number,
     m_isotopes.at(Z).emplace(mass_number, std::move(isotope));
 }
 
-inline void PeriodicTablePIMPL::add_elec_config(size_type Z,
-                                            const elec_conf_t& elec_config) {
+inline void PeriodicTablePIMPL::add_elec_config(
+  size_type Z, const elec_conf_t& elec_config) {
     // Check for valid element
     if(!m_atoms.count(Z))
         throw std::runtime_error("Element does not exist with Z = " +
@@ -242,7 +242,7 @@ inline void PeriodicTablePIMPL::add_elec_config(size_type Z,
                                  " already exists");
 
     m_elec_confs[Z] = elec_config;
-    //m_elec_confs.emplace(Z, std::move(elec_config));
+    // m_elec_confs.emplace(Z, std::move(elec_config));
 }
 
 inline typename PeriodicTablePIMPL::isotope_list PeriodicTablePIMPL::isotopes(
