@@ -33,6 +33,7 @@ struct PeriodicTablePIMPL {
     using Z_list       = typename PeriodicTable::Z_list;
     using isotope_list = typename PeriodicTable::isotope_list;
     using elec_conf_t  = typename PeriodicTable::elec_conf_t;
+    using elec_conf_full_t  = typename PeriodicTable::elec_conf_full_t;
     ///@}
 
     /// Map of atomic numbers to Atom objects
@@ -144,6 +145,16 @@ struct PeriodicTablePIMPL {
     size_type sym_2_Z(const std::string& sym) const;
 
     /**
+     * @brief Convert reduced electronic configuration to full
+     *        electronic configuration
+     *
+     * @param[in] r_conf The reduced electronic configuration to convert
+     *
+     * @return The full configuration as a map: {n,l} -> N_elec
+     */
+    elec_conf_full_t reduced_2_full_conf(const elec_conf_t& r_conf) const;
+
+    /**
      * @brief Get an Atom of the element specified
      *
      * @param[in] Z Atomic number
@@ -151,6 +162,15 @@ struct PeriodicTablePIMPL {
      * @return Atom of the specified element
      */
     Atom get_atom(size_type Z) const;
+
+    /**
+     * @brief Get reduced electronic configuration for the specified element
+     *
+     * @param[in] Z Atomic number
+     *
+     * @return The requested configuration
+     */
+    elec_conf_t get_elec_conf(size_type Z) const;
 
     /**
      * @brief Get an isotope
@@ -268,12 +288,38 @@ inline typename PeriodicTablePIMPL::size_type PeriodicTablePIMPL::sym_2_Z(
     return m_sym_2_Z.at(sym);
 }
 
+inline elec_conf_full_t PeriodicTablePIMPL::reduced_2_full_conf(
+  const elec_conf_t& r_conf) const {
+    elec_conf_full_t f_conf;
+    for (size_type l = 0; l < r_conf.size(); l++){
+        size_type nmult = 2*(2*l+1); // nelec in each shell
+        std::div_t d = std::div(r_conf[l], int(nmult));
+        size_type n_full_shells = d.quot;
+
+        // fill starting from l+1 ([1s,2s,...], [2p, 3p, ...], [3d, 4d, ...], ...)
+        for (size_type i = 0; i < n_full_shells; i++){
+            f_conf[{i+l+1, l}] = nmult;
+        }
+        if (d.rem)
+            f_conf[{n_full_shells+l+1, l}] = d.rem;
+    }
+    return f_conf;
+}
+
 inline Atom PeriodicTablePIMPL::get_atom(size_type Z) const {
     if(!m_atoms.count(Z))
         throw std::out_of_range("Element does not exist with Z = " +
                                 std::to_string(Z));
 
     return m_atoms.at(Z);
+}
+
+inline elec_conf_t PeriodicTablePIMPL::get_elec_conf(size_type Z) const {
+    if (!m_elec_confs.count(Z))
+        throw std::out_of_range("Configuration does not exist for Z = " +
+                                std::to_string(Z));
+
+    return m_elec_confs.at(Z);
 }
 
 inline Atom PeriodicTablePIMPL::get_isotope(size_type Z,

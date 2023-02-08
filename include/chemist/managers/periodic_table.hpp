@@ -194,6 +194,19 @@ public:
     size_type sym_2_Z(const std::string& sym) const;
 
     /**
+     * @brief Convert reduced electronic configuration {Ns,Np,Nd,Nf} to full
+     *        electronic configuration (1s^2 2s^2 2p^2 ...)
+     *
+     * Assumes shells of a given l are filled in order of increasing n
+     * (should be valid up to Z=166)
+     *
+     * @param[in] r_conf The reduced electronic configuration to convert
+     *
+     * @return The full configuration as a map: {n,l} -> N_elec
+     */
+    elec_conf_full_t reduced_2_full_conf(const elec_conf_t& r_conf) const;
+
+    /**
      * @name Atom Retrieval Functions
      * @brief Returns an Atom instance pre-loaded with the data for the
      *        specified atomic number.
@@ -225,6 +238,36 @@ public:
     Atom get_isotope(size_type Z, size_type mass_num) const;
     Atom get_isotope(const std::string& sym, size_type mass_num) const {
         return get_isotope(sym_2_Z(sym), mass_num);
+    }
+    ///@}
+
+    /**
+     * @name configuration Retrieval Functions
+     * @brief Returns an electronic configuration for the specified atom.
+     *        Separate functions exist for full or reduced configuration.
+     *
+     * @param[in] Z The atomic number of the configuration to return. Should
+     *              be in the range [1, max_Z()).
+     * @param[in] sym The atomic symbol of the configuration to return. Symbol
+     *                is case-insensitive.
+     *
+     * @return The requested configuration
+     *
+     * @throw std::out_of_range if @p Z is not in the range [1, max_Z()), @p
+     *                          sym is not a recognized atomic symbol, or no
+     *                          configuration data is available. Strong throw
+     *                          guarantee.
+     */
+    ///@{
+    elec_conf_t get_elec_conf(size_type Z) const;
+    elec_conf_t get_elec_conf(const std::string& sym) const {
+        return get_elec_conf(sym_2_Z(sym));
+    }
+    elec_conf_full_t get_elec_conf_full(size_type Z) const {
+        return reduced_2_full_conf(get_elec_conf(Z));
+    }
+    elec_conf_full_t get_elec_conf_full(const std::string& sym) const {
+        return get_elec_conf_full(sym_2_Z(sym));
     }
     ///@}
 

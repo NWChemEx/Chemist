@@ -66,11 +66,19 @@ size_type PeriodicTable::sym_2_Z(const std::string& sym) const {
     return pimpl_().sym_2_Z(sym);
 }
 
+elec_conf_full_t reduced_2_full_conf(const elec_conf_t& r_conf) const {
+    return pimpl_().reduced_2_full_conf(r_conf);
+}
+
 size_type PeriodicTable::max_Z() const noexcept { return pimpl_().max_Z(); }
 
 Atom PeriodicTable::get_atom(size_type Z) const { return pimpl_().get_atom(Z); }
 Atom PeriodicTable::get_isotope(size_type Z, size_type mass_num) const {
     return pimpl_().get_isotope(Z, mass_num);
+}
+
+elec_conf_t get_elec_conf(size_type Z) const {
+    return pimpl_().get_elec_conf(Z);
 }
 
 bool PeriodicTable::operator==(const PeriodicTable& rhs) const {
