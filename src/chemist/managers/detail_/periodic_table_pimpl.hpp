@@ -288,7 +288,7 @@ inline typename PeriodicTablePIMPL::size_type PeriodicTablePIMPL::sym_2_Z(
     return m_sym_2_Z.at(sym);
 }
 
-inline elec_conf_full_t PeriodicTablePIMPL::reduced_2_full_conf(
+inline typename PeriodicTablePIMPL::elec_conf_full_t PeriodicTablePIMPL::reduced_2_full_conf(
   const elec_conf_t& r_conf) const {
     elec_conf_full_t f_conf;
     for(size_type l = 0; l < r_conf.size(); l++) {
@@ -314,7 +314,7 @@ inline Atom PeriodicTablePIMPL::get_atom(size_type Z) const {
     return m_atoms.at(Z);
 }
 
-inline elec_conf_t PeriodicTablePIMPL::get_elec_conf(size_type Z) const {
+inline typename PeriodicTablePIMPL::elec_conf_t PeriodicTablePIMPL::get_elec_conf(size_type Z) const {
     if(!m_elec_confs.count(Z))
         throw std::out_of_range("Configuration does not exist for Z = " +
                                 std::to_string(Z));
