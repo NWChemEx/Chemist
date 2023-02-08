@@ -44,6 +44,10 @@ public:
     /// The type of a list of isotopes
     using isotope_list = std::vector<size_type>;
 
+    /// The type of a list of electron configurations
+    /// Dimensions are l, n
+    using elec_conf_t = std::array<size_type, 4>;
+
     /**
      * @brief Constructs an empty PeriodicTable instance
      *
@@ -117,6 +121,22 @@ public:
      *            guarantee.
      */
     void add_isotope(size_type Z, size_type mass_number, const Atom& isotope);
+
+    /**
+     * @brief Add an electronic configuration for the given element
+     *
+     * @param[in] Z Atomic number of the element
+     * @param[in] elec_config Electronic configuration by l
+     *                        {Ns, Np, Nd, Nf}
+     *
+     * @throw std::out_of_range if an element with the given atomic number
+     *                          does not exist. Strong throw guarantee.
+     * @throw std::runtime_error Configuration already exists for this element.
+     *                           Strong throw guarantee.
+     * @throw ??? if std::map::emplace throws an exception. Strong throw
+     *            guarantee.
+     */
+    void add_elec_config(size_type Z, const elec_conf_t& elec_config);
     ///@}
 
     /**

@@ -32,6 +32,7 @@ struct PeriodicTablePIMPL {
     using size_type    = typename PeriodicTable::size_type;
     using Z_list       = typename PeriodicTable::Z_list;
     using isotope_list = typename PeriodicTable::isotope_list;
+    using elec_conf_t  = typename PeriodicTable::elec_conf_t;
     ///@}
 
     /// Map of atomic numbers to Atom objects
@@ -42,6 +43,9 @@ struct PeriodicTablePIMPL {
 
     /// Symbol to atomic number map
     using sym_map = utilities::CaseInsensitiveMap<size_type>;
+
+    /// Symbol to atomic number map
+    using elec_conf_map = std::map<size_type, elec_conf_t>;
 
     /**
      * @name PeriodicTablePIMPL Public API
@@ -84,6 +88,22 @@ struct PeriodicTablePIMPL {
      *                            exists. Strong throw guarantee.
      */
     void add_isotope(size_type Z, size_type mass_number, const Atom& isotope);
+
+    /**
+     * @brief Add an electronic configuration for the given element
+     *
+     * @param[in] Z Atomic number of the element
+     * @param[in] elec_config Electronic configuration by l
+     *                        {Ns, Np, Nd, Nf}
+     *
+     * @throw std::out_of_range if an element with the given atomic number
+     *                          does not exist. Strong throw guarantee.
+     * @throw std::runtime_error Configuration already exists for this element.
+     *                           Strong throw guarantee.
+     * @throw ??? if std::map::emplace throws an exception. Strong throw
+     *            guarantee.
+     */
+    void add_elec_config(size_type Z, const elec_conf_t& elec_config);
 
     /**
      * @brief Retrieves a list of mass numbers for isotopes of the element
@@ -172,6 +192,9 @@ struct PeriodicTablePIMPL {
     /// Maps atomic numbers and mass numbers to an isotope Atom
     isotope_map m_isotopes;
 
+    /// Maps atomic number to an electronic configuration
+    elec_conf_map m_elec_confs;
+
     /// Highest atomic number (Z) of an Atom in this instance
     size_type m_max_Z;
     ///@}
@@ -204,6 +227,22 @@ inline void PeriodicTablePIMPL::add_isotope(size_type Z, size_type mass_number,
                                  " already exists");
 
     m_isotopes.at(Z).emplace(mass_number, std::move(isotope));
+}
+
+inline void PeriodicTablePIMPL::add_elec_config(size_type Z,
+                                            const elec_conf_t& elec_config) {
+    // Check for valid element
+    if(!m_atoms.count(Z))
+        throw std::runtime_error("Element does not exist with Z = " +
+                                 std::to_string(Z));
+
+    // Check if elec config already exists
+    if(m_elec_confs.count(Z))
+        throw std::runtime_error("Elec. config for Z = " + std::to_string(Z) +
+                                 " already exists");
+
+    m_elec_confs[Z] = elec_config;
+    //m_elec_confs.emplace(Z, std::move(elec_config));
 }
 
 inline typename PeriodicTablePIMPL::isotope_list PeriodicTablePIMPL::isotopes(
