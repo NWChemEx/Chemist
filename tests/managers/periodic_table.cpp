@@ -262,26 +262,26 @@ TEST_CASE("PeriodicTable::get_elec_conf") {
     }
 
     SECTION("Get full conf 2") {
-        std::map<std::pair<size_t,size_t>,size_t> corr = {{{1,0}, 2}}; // 1s2
+        std::map<std::pair<size_t, size_t>, size_t> corr = {{{1, 0}, 2}}; // 1s2
 
         REQUIRE(corr == pt.get_elec_conf_full(2));
     }
 
     SECTION("Get full conf 42") {
         pt.insert(42, chemist::Atom(42ul, 174906.15025012242, "Mo"));
-        pt.add_elec_config( 42, { 9,18,15, 0});
-        std::map<std::pair<size_t,size_t>,size_t> corr = {
-                                        {{1,0},  2}, // 1s2
-                                        {{2,0},  2}, // 2s2
-                                        {{2,1},  6}, // 2p6
-                                        {{3,0},  2}, // 3s2
-                                        {{3,1},  6}, // 3p6
-                                        {{3,2}, 10}, // 3d10
-                                        {{4,0},  2}, // 4s2
-                                        {{4,1},  6}, // 4p6
-                                        {{4,2},  5}, // 4d5
-                                        {{5,0},  1}, // 5s1
-                                        };
+        pt.add_elec_config(42, {9, 18, 15, 0});
+        std::map<std::pair<size_t, size_t>, size_t> corr = {
+          {{1, 0}, 2},  // 1s2
+          {{2, 0}, 2},  // 2s2
+          {{2, 1}, 6},  // 2p6
+          {{3, 0}, 2},  // 3s2
+          {{3, 1}, 6},  // 3p6
+          {{3, 2}, 10}, // 3d10
+          {{4, 0}, 2},  // 4s2
+          {{4, 1}, 6},  // 4p6
+          {{4, 2}, 5},  // 4d5
+          {{5, 0}, 1},  // 5s1
+        };
 
         REQUIRE(corr == pt.get_elec_conf_full(42));
     }
