@@ -250,14 +250,14 @@ TEST_CASE("PeriodicTable::get_elec_conf") {
     }
 
     SECTION("Config exists 1") {
-        std::array<size_t, 4> corr = {1, 0, 0, 0};
+        PeriodicTable::elec_conf_t corr = {1, 0, 0, 0};
 
         REQUIRE(corr == pt.get_elec_conf(1));
         REQUIRE(corr == pt.get_elec_conf("H"));
     }
 
     SECTION("Config exists 2") {
-        std::array<size_t, 4> corr = {2, 0, 0, 0};
+        PeriodicTable::elec_conf_t corr = {2, 0, 0, 0};
 
         REQUIRE(corr == pt.get_elec_conf(2));
         REQUIRE(corr == pt.get_elec_conf("He"));
