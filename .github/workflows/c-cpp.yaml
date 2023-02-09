@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-with-gcc:
-    uses: NWChemEx-Project/.github/.github/workflows/c-cpp_tmpl.yaml@master
+    uses: NWChemEx-Project/.github/.github/workflows/c-cpp_tmpl.yaml@cache-build2
     with: 
       dependencies: 'ninja gcc gcovr openblas cblas lapacke scalapack boost eigen3 openmpi'
       clang-build: false
@@ -16,7 +16,7 @@ jobs:
       CPP_GITHUB_TOKEN: ${{ secrets.CPP_GITHUB_TOKEN }}
   
   build-with-clang:
-    uses: NWChemEx-Project/.github/.github/workflows/c-cpp_tmpl.yaml@master
+    uses: NWChemEx-Project/.github/.github/workflows/c-cpp_tmpl.yaml@cache-build2
     with: 
       dependencies: 'ninja clang gcovr openblas cblas lapacke scalapack boost eigen3 openmpi'
       clang-build: true
