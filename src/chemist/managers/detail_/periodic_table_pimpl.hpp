@@ -97,11 +97,9 @@ struct PeriodicTablePIMPL {
      * @param[in] elec_config Electronic configuration by l
      *                        {Ns, Np, Nd, Nf}
      *
-     * @throw std::out_of_range if an element with the given atomic number
-     *                          does not exist. Strong throw guarantee.
      * @throw std::runtime_error Configuration already exists for this element.
      *                           Strong throw guarantee.
-     * @throw ??? if std::map::emplace throws an exception. Strong throw
+     * @throw ??? if std::map::operator[] throws an exception. Strong throw
      *            guarantee.
      */
     void add_elec_config(size_type Z, const elec_conf_t& elec_config);
@@ -251,18 +249,12 @@ inline void PeriodicTablePIMPL::add_isotope(size_type Z, size_type mass_number,
 
 inline void PeriodicTablePIMPL::add_elec_config(
   size_type Z, const elec_conf_t& elec_config) {
-    // Check for valid element
-    if(!m_atoms.count(Z))
-        throw std::runtime_error("Element does not exist with Z = " +
-                                 std::to_string(Z));
-
     // Check if elec config already exists
     if(m_elec_confs.count(Z))
         throw std::runtime_error("Elec. config for Z = " + std::to_string(Z) +
                                  " already exists");
 
     m_elec_confs[Z] = elec_config;
-    // m_elec_confs.emplace(Z, std::move(elec_config));
 }
 
 inline typename PeriodicTablePIMPL::isotope_list PeriodicTablePIMPL::isotopes(

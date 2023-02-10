@@ -131,12 +131,12 @@ public:
      *
      * @param[in] Z Atomic number of the element
      * @param[in] elec_config Electronic configuration by l
-     *                        {Ns, Np, Nd, Nf}
+     *                        {Ns, Np, Nd, Nf, ...}
      *
-     * @throw std::out_of_range if an element with the given atomic number
-     *                          does not exist. Strong throw guarantee.
      * @throw std::runtime_error Configuration already exists for this element.
      *                           Strong throw guarantee.
+     * @throw ??? if std::map::operator[] throws an exception. Strong throw
+     *            guarantee.
      */
     void add_elec_config(size_type Z, const elec_conf_t& elec_config);
     ///@}

@@ -262,6 +262,15 @@ TEST_CASE("PeriodicTable::get_elec_conf") {
         REQUIRE(corr == pt.get_elec_conf(2));
         REQUIRE(corr == pt.get_elec_conf("He"));
     }
+
+    SECTION("Config exists without atom") {
+        pt.add_elec_config(42, {9, 18, 15, 0});
+        PeriodicTable::elec_conf_t corr = {9, 18, 15, 0};
+
+        REQUIRE(corr == pt.get_elec_conf(42));
+        REQUIRE_THROWS_MATCHES(corr == pt.get_elec_conf("Mo"), std::out_of_range,
+        Message("Unrecognized atomic symbol: Mo"));
+    }
 }
 
 TEST_CASE("PeriodicTable::get_elec_conf_full") {
