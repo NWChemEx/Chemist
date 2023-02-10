@@ -268,8 +268,9 @@ TEST_CASE("PeriodicTable::get_elec_conf") {
         PeriodicTable::elec_conf_t corr = {9, 18, 15, 0};
 
         REQUIRE(corr == pt.get_elec_conf(42));
-        REQUIRE_THROWS_MATCHES(corr == pt.get_elec_conf("Mo"), std::out_of_range,
-        Message("Unrecognized atomic symbol: Mo"));
+        REQUIRE_THROWS_MATCHES(corr == pt.get_elec_conf("Mo"),
+                               std::out_of_range,
+                               Message("Unrecognized atomic symbol: Mo"));
     }
 }
 
