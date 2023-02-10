@@ -17,6 +17,7 @@
 #pragma once
 #include "chemist/managers/periodic_table.hpp"
 #include "utilities/containers/case_insensitive_map.hpp"
+#include <algorithm>
 
 namespace chemist::detail_ {
 
