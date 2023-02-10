@@ -250,22 +250,22 @@ TEST_CASE("PeriodicTable::get_elec_conf") {
     }
 
     SECTION("Config exists 1") {
-        PeriodicTable::elec_conf_t corr = {1, 0, 0, 0};
+        PeriodicTable::elec_conf_t corr = {1};
 
         REQUIRE(corr == pt.get_elec_conf(1));
         REQUIRE(corr == pt.get_elec_conf("H"));
     }
 
     SECTION("Config exists 2") {
-        PeriodicTable::elec_conf_t corr = {2, 0, 0, 0};
+        PeriodicTable::elec_conf_t corr = {2};
 
         REQUIRE(corr == pt.get_elec_conf(2));
         REQUIRE(corr == pt.get_elec_conf("He"));
     }
 
     SECTION("Config exists without atom") {
-        pt.add_elec_config(42, {9, 18, 15, 0});
-        PeriodicTable::elec_conf_t corr = {9, 18, 15, 0};
+        pt.add_elec_config(42, {9, 18, 15});
+        PeriodicTable::elec_conf_t corr = {9, 18, 15};
 
         REQUIRE(corr == pt.get_elec_conf(42));
         REQUIRE_THROWS_MATCHES(corr == pt.get_elec_conf("Mo"),

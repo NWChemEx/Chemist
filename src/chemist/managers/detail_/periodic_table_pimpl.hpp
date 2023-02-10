@@ -92,6 +92,7 @@ struct PeriodicTablePIMPL {
 
     /**
      * @brief Add an electronic configuration for the given element
+     *        Any trailing zeros will be truncated.
      *
      * @param[in] Z Atomic number of the element
      * @param[in] elec_config Electronic configuration by l
@@ -253,8 +254,13 @@ inline void PeriodicTablePIMPL::add_elec_config(
     if(m_elec_confs.count(Z))
         throw std::runtime_error("Elec. config for Z = " + std::to_string(Z) +
                                  " already exists");
+    // reverse iterator to find last (first in reverse) nonzero value
+    auto nonzero_end = std::find_if(elec_config.rbegin(), elec_config.rend(),
+                                    [](size_type i) { return i > 0; });
+    // make copy of config without trailing zeros
+    elec_conf_t clean_config(elec_config.begin(), nonzero_end.base());
 
-    m_elec_confs[Z] = elec_config;
+    m_elec_confs.emplace(Z, std::move(clean_config));
 }
 
 inline typename PeriodicTablePIMPL::isotope_list PeriodicTablePIMPL::isotopes(

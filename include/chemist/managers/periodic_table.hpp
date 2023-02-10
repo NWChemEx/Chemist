@@ -128,6 +128,7 @@ public:
 
     /**
      * @brief Add an electronic configuration for the given element
+     *        Any trailing zeros will be truncated
      *
      * @param[in] Z Atomic number of the element
      * @param[in] elec_config Electronic configuration by l
