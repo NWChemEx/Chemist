@@ -338,7 +338,7 @@ inline Atom PeriodicTablePIMPL::get_isotope(size_type Z,
 inline bool PeriodicTablePIMPL::operator==(
   const PeriodicTablePIMPL& rhs) const {
     return m_sym_2_Z == rhs.m_sym_2_Z && m_atoms == rhs.m_atoms &&
-           m_isotopes == rhs.m_isotopes;
+           m_isotopes == rhs.m_isotopes && m_elec_confs == rhs.m_elec_confs;
 }
 
 inline bool PeriodicTablePIMPL::operator!=(

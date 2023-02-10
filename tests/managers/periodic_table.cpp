@@ -140,6 +140,15 @@ TEST_CASE("PeriodicTable Comparison") {
         REQUIRE(pt != pt2);
         REQUIRE(pt2 != pt);
     }
+
+    SECTION("Filled with different configs") {
+        load_elements(pt);
+        load_elements(pt2);
+        pt.add_elec_config(3, {3, 0, 0, 0});
+
+        REQUIRE(pt != pt2);
+        REQUIRE(pt2 != pt);
+    }
 }
 
 TEST_CASE("PeriodicTable::insert") {
@@ -247,6 +256,14 @@ TEST_CASE("PeriodicTable::get_elec_conf") {
         REQUIRE_THROWS_MATCHES(
           pt.add_elec_config(1, {1, 0, 0, 0}), std::runtime_error,
           Message("Elec. config for Z = 1 already exists"));
+    }
+
+    SECTION("Config exists 0") {
+        PeriodicTable::elec_conf_t corr = {};
+        pt.add_elec_config(0, {});
+
+        REQUIRE(corr == pt.get_elec_conf(0));
+        REQUIRE(corr == pt.get_elec_conf("Ez"));
     }
 
     SECTION("Config exists 1") {
