@@ -45,7 +45,7 @@ public:
     using isotope_list = std::vector<size_type>;
 
     /// The type of a reduced atomic electronic configuration {Ns, Np, Nd, Nf}
-    using elec_conf_t = std::array<size_type, 4>;
+    using elec_conf_t = std::vector<size_type>;
 
     /// The type of a full atomic electronic configuration
     /// maps from {n,l} to the number of electrons in that shell
