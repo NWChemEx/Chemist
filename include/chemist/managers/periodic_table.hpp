@@ -44,8 +44,9 @@ public:
     /// The type of a list of isotopes
     using isotope_list = std::vector<size_type>;
 
-    /// The type of a precalculated atomic density matrix in a certain basis set (e. g., 6-31G)
-    /// should be in the format of a vector of doubles (flatten matrix)
+    /// The type of a precalculated atomic density matrix in a certain basis set
+    /// (e. g., 6-31G) should be in the format of a vector of doubles (flatten
+    /// matrix)
     using atom_dm_t = std::vector<double>;
 
     /**
@@ -128,10 +129,10 @@ public:
      *
      * @param[in] Z Atomic number of the element
      * @param[in] atom_dm precalculated atomic density matrix in the format of
-     *            a vector of double numbers (flatten matrix) 
+     *            a vector of double numbers (flatten matrix)
      *
-     * @throw std::runtime_error Atomic density matrix already exists for this element.
-     *                           Strong throw guarantee.
+     * @throw std::runtime_error Atomic density matrix already exists for this
+     * element. Strong throw guarantee.
      * @throw ??? if std::map::operator[] throws an exception. Strong throw
      *            guarantee.
      */
