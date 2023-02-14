@@ -32,7 +32,8 @@ struct PeriodicTablePIMPL {
     using size_type    = typename PeriodicTable::size_type;
     using Z_list       = typename PeriodicTable::Z_list;
     using isotope_list = typename PeriodicTable::isotope_list;
-    using atom_dm_t = typename PeriodicTable::atom_dm_t; // atomic density matrix reference
+    using atom_dm_t =
+      typename PeriodicTable::atom_dm_t; // atomic density matrix reference
     ///@}
 
     /// Map of atomic numbers to Atom objects
@@ -45,7 +46,9 @@ struct PeriodicTablePIMPL {
     using sym_map = utilities::CaseInsensitiveMap<size_type>;
 
     /// Symbol to atomic number map
-    using atom_dm_map = std::map<size_type,atom_dm_t>; // map from atomic number to atomic density matrix
+    using atom_dm_map =
+      std::map<size_type,
+               atom_dm_t>; // map from atomic number to atomic density matrix
 
     /**
      * @name PeriodicTablePIMPL Public API
@@ -236,11 +239,12 @@ inline void PeriodicTablePIMPL::add_isotope(size_type Z, size_type mass_number,
     m_isotopes.at(Z).emplace(mass_number, std::move(isotope));
 }
 
-inline void PeriodicTablePIMPL::add_atom_dm(size_type Z, const atom_dm_t& atom_dm) {
+inline void PeriodicTablePIMPL::add_atom_dm(size_type Z,
+                                            const atom_dm_t& atom_dm) {
     // Check if atomic density matrix already exists
     if(m_atom_dms.count(Z))
-        throw std::runtime_error("Atomic density matrix for Z = " + std::to_string(Z) +
-                                 " already exists");
+        throw std::runtime_error("Atomic density matrix for Z = " +
+                                 std::to_string(Z) + " already exists");
 
     m_atom_dms.emplace(Z, atom_dm);
 }
@@ -276,7 +280,8 @@ inline Atom PeriodicTablePIMPL::get_atom(size_type Z) const {
     return m_atoms.at(Z);
 }
 
-inline typename PeriodicTablePIMPL::elec_conf_t PeriodicTablePIMPL::get_atom_dm(size_type Z) const {
+inline typename PeriodicTablePIMPL::elec_conf_t PeriodicTablePIMPL::get_atom_dm(
+  size_type Z) const {
     if(!m_atom_dms.count(Z))
         throw std::out_of_range("Density matrix does not exist for Z = " +
                                 std::to_string(Z));
