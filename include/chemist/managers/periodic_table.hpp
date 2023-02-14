@@ -44,6 +44,10 @@ public:
     /// The type of a list of isotopes
     using isotope_list = std::vector<size_type>;
 
+    /// The type of a precalculated atomic density matrix in a certain basis set (e. g., 6-31G)
+    /// should be in the format of a vector of doubles (flatten matrix)
+    using atom_dm_t = std::vector<double>;
+
     /**
      * @brief Constructs an empty PeriodicTable instance
      *
@@ -117,6 +121,21 @@ public:
      *            guarantee.
      */
     void add_isotope(size_type Z, size_type mass_number, const Atom& isotope);
+    ///@}
+
+    /**
+     * @brief Add a precalculated atomic density matrix for the given element
+     *
+     * @param[in] Z Atomic number of the element
+     * @param[in] atom_dm precalculated atomic density matrix in the format of
+     *            a vector of double numbers (flatten matrix) 
+     *
+     * @throw std::runtime_error Atomic density matrix already exists for this element.
+     *                           Strong throw guarantee.
+     * @throw ??? if std::map::operator[] throws an exception. Strong throw
+     *            guarantee.
+     */
+    void add_atom_dm(size_type Z, const atom_dm_t& atom_dm);
     ///@}
 
     /**
@@ -203,6 +222,29 @@ public:
     Atom get_isotope(size_type Z, size_type mass_num) const;
     Atom get_isotope(const std::string& sym, size_type mass_num) const {
         return get_isotope(sym_2_Z(sym), mass_num);
+    }
+    ///@}
+
+    /**
+     * @name atomic density matrix Retrieval Functions
+     * @brief Returns adensity matrix for the specified atom.
+     *
+     * @param[in] Z The atomic number of the density matrix to return. Should
+     *              be in the range [1, max_Z()).
+     * @param[in] sym The atomic symbol of the density matrix to return. Symbol
+     *                is case-insensitive.
+     *
+     * @return The requested configuration
+     *
+     * @throw std::out_of_range if @p Z is not in the range [1, max_Z()), @p
+     *                          sym is not a recognized atomic symbol, or no
+     *                          configuration data is available. Strong throw
+     *                          guarantee.
+     */
+    ///@{
+    atom_dm_t get_atom_dm(size_type Z) const;
+    atom_dm_t get_atom_dm(const std::string& sym) const {
+        return get_atom_dm(sym_2_Z(sym));
     }
     ///@}
 
