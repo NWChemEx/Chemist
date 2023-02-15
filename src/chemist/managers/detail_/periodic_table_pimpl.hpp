@@ -158,7 +158,7 @@ struct PeriodicTablePIMPL {
      * @return The precalculated density matrix
      */
 
-    elec_conf_t get_atom_dm(size_type Z) const;
+    atom_dm_t get_atom_dm(size_type Z) const;
     /**
      * @brief Get an isotope
      *
@@ -276,7 +276,7 @@ inline Atom PeriodicTablePIMPL::get_atom(size_type Z) const {
     return m_atoms.at(Z);
 }
 
-inline typename PeriodicTablePIMPL::elec_conf_t PeriodicTablePIMPL::get_atom_dm(size_type Z) const {
+inline typename PeriodicTablePIMPL::atom_dm_t PeriodicTablePIMPL::get_atom_dm(size_type Z) const {
     if(!m_atom_dms.count(Z))
         throw std::out_of_range("Density matrix does not exist for Z = " +
                                 std::to_string(Z));

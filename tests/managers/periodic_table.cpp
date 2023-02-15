@@ -28,10 +28,12 @@ inline void load_elements(PeriodicTable& pt) {
     pt.insert(1, Atom(1ul, 1837.4260218693814, "H"));
     pt.add_isotope(1, 1, Atom(1ul, 1837.1526472934618, "H"));
     pt.add_isotope(1, 2, Atom(1ul, 3671.4829413173247, "H"));
+    pt.add_atom_dm(1, {0.18269721, 0.28443345, 0.28443345, 0.44282224}); // add precalculated density matrix with the basis set 6-31G for H
 
     pt.insert(2, Atom(2ul, 7296.297100609073, "He"));
     pt.add_isotope(2, 3, Atom(2ul, 5497.885121445487, "He"));
     pt.add_isotope(2, 4, Atom(2ul, 7296.299386693523, "He"));
+    pt.add_atom_dm(2, {0.70112023, 0.60816932, 0.60816932, 0.52754136});
 }
 
 TEST_CASE("PeriodicTable Copy/Move") {
@@ -139,6 +141,17 @@ TEST_CASE("PeriodicTable Comparison") {
         REQUIRE(pt != pt2);
         REQUIRE(pt2 != pt);
     }
+
+    SECTION("Filled with different density matrices") {
+        load_elements(pt);
+        load_elements(pt2);
+        const std::vector<double>& vec_t{1.0, 1.0, 1.0, 1.0};
+        //pt.add_atom_dm(3, {1.0, 1.0, 1.0, 1.0});
+        pt.add_atom_dm(3, vec_t);
+
+        REQUIRE(pt != pt2);
+        REQUIRE(pt2 != pt);
+    }
 }
 
 TEST_CASE("PeriodicTable::insert") {
@@ -229,6 +242,47 @@ TEST_CASE("PeriodicTable::get_atom") {
         auto corr = Atom(0ul, 0.0, "Ez");
 
         REQUIRE(corr == pt.get_atom(0));
+    }
+}
+
+TEST_CASE("PeriodicTable::get_atom_dm") {
+    PeriodicTable pt;
+    load_elements(pt);
+
+    SECTION("No density matrix") {
+        REQUIRE_THROWS_MATCHES(
+          pt.get_atom_dm(3), std::out_of_range,
+          Message("Density matrix does not exist for Z = 3"));
+    }
+
+    SECTION("Add existing density matrix") {
+        REQUIRE_THROWS_MATCHES(
+          pt.add_atom_dm(1, {1.0, 1.0, 1.0, 1.0}), std::runtime_error,
+          Message("Density matrix for Z = 1 already exists"));
+    }
+
+    SECTION("Density matrix exists 1") {
+        PeriodicTable::atom_dm_t corr = {1};
+
+        REQUIRE(corr == pt.get_atom_dm(1));
+        REQUIRE(corr == pt.get_atom_dm("H"));
+    }
+
+    SECTION("Density matrix exists 2") {
+        PeriodicTable::atom_dm_t corr = {2};
+
+        REQUIRE(corr == pt.get_atom_dm(2));
+        REQUIRE(corr == pt.get_atom_dm("He"));
+    }
+
+    SECTION("Density matrix exists without atom") {
+        pt.add_atom_dm(42, {9.0, 18.0, 15.0});
+        PeriodicTable::atom_dm_t corr = {9.0, 18.0, 15.0};
+
+        REQUIRE(corr == pt.get_atom_dm(42));
+        REQUIRE_THROWS_MATCHES(corr == pt.get_atom_dm("Mo"),
+                               std::out_of_range,
+                               Message("Unrecognized atomic symbol: Mo"));
     }
 }
 
