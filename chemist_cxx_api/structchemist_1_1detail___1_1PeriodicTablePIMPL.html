@@ -93,6 +93,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#ad8b717c9d1ca352c9c7be4ac828f37a6">sym_map</a> = utilities::CaseInsensitiveMap&lt; size_type &gt;</td></tr>
 <tr class="memdesc:ad8b717c9d1ca352c9c7be4ac828f37a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Symbol to atomic number map. <br /></td></tr>
 <tr class="separator:ad8b717c9d1ca352c9c7be4ac828f37a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fe58543ada2182855302c65a9a2fbb3"><td class="memItemLeft" align="right" valign="top"><a id="a8fe58543ada2182855302c65a9a2fbb3"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a8fe58543ada2182855302c65a9a2fbb3">elec_conf_map</a> = std::map&lt; size_type, elec_conf_t &gt;</td></tr>
+<tr class="memdesc:a8fe58543ada2182855302c65a9a2fbb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Symbol to atomic number map. <br /></td></tr>
+<tr class="separator:a8fe58543ada2182855302c65a9a2fbb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Forward typedefs from PeriodicTable</div></td></tr>
 <tr class="memitem:a99c88295401b1310fe6ba27e1ee76051"><td class="memItemLeft" align="right" valign="top"><a id="a99c88295401b1310fe6ba27e1ee76051"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>size_type</b> = typename <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">PeriodicTable::size_type</a></td></tr>
@@ -103,6 +107,12 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Z_list</b> = typenam
 <tr class="memitem:ab67e85a0682ac791d7a0994f1784ba6c"><td class="memItemLeft" align="right" valign="top"><a id="ab67e85a0682ac791d7a0994f1784ba6c"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>isotope_list</b> = typename <a class="el" href="classchemist_1_1PeriodicTable.html#abdc320ea18caa433d5094b4bd2b7d629">PeriodicTable::isotope_list</a></td></tr>
 <tr class="separator:ab67e85a0682ac791d7a0994f1784ba6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5525a33e95f28e8e1ebd81310e015c04"><td class="memItemLeft" align="right" valign="top"><a id="a5525a33e95f28e8e1ebd81310e015c04"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>elec_conf_t</b> = typename <a class="el" href="classchemist_1_1PeriodicTable.html#ae1293b72fbb7be383c4f1dcb64c3a892">PeriodicTable::elec_conf_t</a></td></tr>
+<tr class="separator:a5525a33e95f28e8e1ebd81310e015c04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac7848a261411f53f8c5060b567b6841"><td class="memItemLeft" align="right" valign="top"><a id="aac7848a261411f53f8c5060b567b6841"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>elec_conf_full_t</b> = typename <a class="el" href="classchemist_1_1PeriodicTable.html#a42a9f61a92397b97698f1852043ea73b">PeriodicTable::elec_conf_full_t</a></td></tr>
+<tr class="separator:aac7848a261411f53f8c5060b567b6841"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -119,6 +129,9 @@ std::unique_ptr&lt; <a class="el" href="structchemist_1_1detail___1_1PeriodicTab
 <tr class="memitem:ab36405a3c5e30b8bd724db5d189edc20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#ab36405a3c5e30b8bd724db5d189edc20">add_isotope</a> (size_type Z, size_type mass_number, const <a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;isotope)</td></tr>
 <tr class="memdesc:ab36405a3c5e30b8bd724db5d189edc20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an isotope for the given element.  <a href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#ab36405a3c5e30b8bd724db5d189edc20">More...</a><br /></td></tr>
 <tr class="separator:ab36405a3c5e30b8bd724db5d189edc20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad972f375427a234969b3b386601201d4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#ad972f375427a234969b3b386601201d4">add_elec_config</a> (size_type Z, const elec_conf_t &amp;elec_config)</td></tr>
+<tr class="memdesc:ad972f375427a234969b3b386601201d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an electronic configuration for the given element Any trailing zeros will be truncated.  <a href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#ad972f375427a234969b3b386601201d4">More...</a><br /></td></tr>
+<tr class="separator:ad972f375427a234969b3b386601201d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d2508b50494b0cb6b2b42aac5cd7982"><td class="memItemLeft" align="right" valign="top">isotope_list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a1d2508b50494b0cb6b2b42aac5cd7982">isotopes</a> (size_type Z) const</td></tr>
 <tr class="memdesc:a1d2508b50494b0cb6b2b42aac5cd7982"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves a list of mass numbers for isotopes of the element.  <a href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a1d2508b50494b0cb6b2b42aac5cd7982">More...</a><br /></td></tr>
 <tr class="separator:a1d2508b50494b0cb6b2b42aac5cd7982"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,9 +141,15 @@ std::unique_ptr&lt; <a class="el" href="structchemist_1_1detail___1_1PeriodicTab
 <tr class="memitem:a14399a42250ae87215d865bc7180e49e"><td class="memItemLeft" align="right" valign="top">size_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a14399a42250ae87215d865bc7180e49e">sym_2_Z</a> (const std::string &amp;sym) const</td></tr>
 <tr class="memdesc:a14399a42250ae87215d865bc7180e49e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a given atomic symbol to an atomic number.  <a href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a14399a42250ae87215d865bc7180e49e">More...</a><br /></td></tr>
 <tr class="separator:a14399a42250ae87215d865bc7180e49e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa78f8053e4dc813417c8463ccec2637c"><td class="memItemLeft" align="right" valign="top">elec_conf_full_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#aa78f8053e4dc813417c8463ccec2637c">reduced_2_full_conf</a> (const elec_conf_t &amp;r_conf) const</td></tr>
+<tr class="memdesc:aa78f8053e4dc813417c8463ccec2637c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert reduced electronic configuration to full electronic configuration.  <a href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#aa78f8053e4dc813417c8463ccec2637c">More...</a><br /></td></tr>
+<tr class="separator:aa78f8053e4dc813417c8463ccec2637c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6bd23a8226ad48426a572c0817b6d08b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Atom.html">Atom</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a6bd23a8226ad48426a572c0817b6d08b">get_atom</a> (size_type Z) const</td></tr>
 <tr class="memdesc:a6bd23a8226ad48426a572c0817b6d08b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> of the element specified.  <a href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a6bd23a8226ad48426a572c0817b6d08b">More...</a><br /></td></tr>
 <tr class="separator:a6bd23a8226ad48426a572c0817b6d08b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa82ee4801b96bd82aa873c5bd138f890"><td class="memItemLeft" align="right" valign="top">elec_conf_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#aa82ee4801b96bd82aa873c5bd138f890">get_elec_conf</a> (size_type Z) const</td></tr>
+<tr class="memdesc:aa82ee4801b96bd82aa873c5bd138f890"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get reduced electronic configuration for the specified element.  <a href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#aa82ee4801b96bd82aa873c5bd138f890">More...</a><br /></td></tr>
+<tr class="separator:aa82ee4801b96bd82aa873c5bd138f890"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05612d3c89b7ac2979f5649c881feafa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Atom.html">Atom</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a05612d3c89b7ac2979f5649c881feafa">get_isotope</a> (size_type Z, size_type mass_num) const</td></tr>
 <tr class="memdesc:a05612d3c89b7ac2979f5649c881feafa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an isotope.  <a href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a05612d3c89b7ac2979f5649c881feafa">More...</a><br /></td></tr>
 <tr class="separator:a05612d3c89b7ac2979f5649c881feafa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,6 +184,10 @@ Public Attributes</h2></td></tr>
 <a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a12ed0069e08becb6e4b617b236ef6d8c">isotope_map</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#abf0a77289805aad0bf306e1ff7f97611">m_isotopes</a></td></tr>
 <tr class="memdesc:abf0a77289805aad0bf306e1ff7f97611"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maps atomic numbers and mass numbers to an isotope <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a>. <br /></td></tr>
 <tr class="separator:abf0a77289805aad0bf306e1ff7f97611"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa38e1c4ca63a9d222991c73fba2d9544"><td class="memItemLeft" align="right" valign="top"><a id="aa38e1c4ca63a9d222991c73fba2d9544"></a>
+<a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a8fe58543ada2182855302c65a9a2fbb3">elec_conf_map</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#aa38e1c4ca63a9d222991c73fba2d9544">m_elec_confs</a></td></tr>
+<tr class="memdesc:aa38e1c4ca63a9d222991c73fba2d9544"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maps atomic number to an electronic configuration. <br /></td></tr>
+<tr class="separator:aa38e1c4ca63a9d222991c73fba2d9544"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae31f34320a27ff9d9672828144503d76"><td class="memItemLeft" align="right" valign="top"><a id="ae31f34320a27ff9d9672828144503d76"></a>
 size_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#ae31f34320a27ff9d9672828144503d76">m_max_Z</a></td></tr>
 <tr class="memdesc:ae31f34320a27ff9d9672828144503d76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Highest atomic number (Z) of an <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> in this instance. <br /></td></tr>
@@ -174,6 +197,58 @@ size_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 <div class="textblock"><p>PIMPL to hide details for the <a class="el" href="classchemist_1_1PeriodicTable.html" title="A class to contain Atom instances.">PeriodicTable</a> class. </p>
 <p>Atoms should be added to the <a class="el" href="classchemist_1_1PeriodicTable.html" title="A class to contain Atom instances.">PeriodicTable</a> through the API defined by the <a class="el" href="classchemist_1_1PeriodicTable.html" title="A class to contain Atom instances.">PeriodicTable</a> class. That API redirects calls to this struct. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad972f375427a234969b3b386601201d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad972f375427a234969b3b386601201d4">&#9670;&nbsp;</a></span>add_elec_config()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void chemist::detail_::PeriodicTablePIMPL::add_elec_config </td>
+          <td>(</td>
+          <td class="paramtype">size_type&#160;</td>
+          <td class="paramname"><em>Z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const elec_conf_t &amp;&#160;</td>
+          <td class="paramname"><em>elec_config</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Add an electronic configuration for the given element Any trailing zeros will be truncated. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>Atomic number of the element </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">elec_config</td><td>Electronic configuration by l {Ns, Np, Nd, Nf}</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>Configuration already exists for this element. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">???</td><td>if std::map::operator[] throws an exception. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ab36405a3c5e30b8bd724db5d189edc20"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab36405a3c5e30b8bd724db5d189edc20">&#9670;&nbsp;</a></span>add_isotope()</h2>
 
@@ -266,6 +341,41 @@ size_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> of the specified element </dd></dl>
+
+</div>
+</div>
+<a id="aa82ee4801b96bd82aa873c5bd138f890"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa82ee4801b96bd82aa873c5bd138f890">&#9670;&nbsp;</a></span>get_elec_conf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PeriodicTablePIMPL::elec_conf_t chemist::detail_::PeriodicTablePIMPL::get_elec_conf </td>
+          <td>(</td>
+          <td class="paramtype">size_type&#160;</td>
+          <td class="paramname"><em>Z</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get reduced electronic configuration for the specified element. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>Atomic number</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The requested configuration </dd></dl>
 
 </div>
 </div>
@@ -447,6 +557,41 @@ size_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="aa78f8053e4dc813417c8463ccec2637c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa78f8053e4dc813417c8463ccec2637c">&#9670;&nbsp;</a></span>reduced_2_full_conf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PeriodicTablePIMPL::elec_conf_full_t chemist::detail_::PeriodicTablePIMPL::reduced_2_full_conf </td>
+          <td>(</td>
+          <td class="paramtype">const elec_conf_t &amp;&#160;</td>
+          <td class="paramname"><em>r_conf</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert reduced electronic configuration to full electronic configuration. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">r_conf</td><td>The reduced electronic configuration to convert</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The full configuration as a map: {n,l} -&gt; N_elec </dd></dl>
 
 </div>
 </div>

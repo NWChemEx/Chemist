@@ -94,6 +94,12 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#abdc320ea18caa433d5094b4bd2b7d629">isotope_list</a> = std::vector&lt; <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> &gt;</td></tr>
 <tr class="memdesc:abdc320ea18caa433d5094b4bd2b7d629"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a list of isotopes. <br /></td></tr>
 <tr class="separator:abdc320ea18caa433d5094b4bd2b7d629"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1293b72fbb7be383c4f1dcb64c3a892"><td class="memItemLeft" align="right" valign="top"><a id="ae1293b72fbb7be383c4f1dcb64c3a892"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#ae1293b72fbb7be383c4f1dcb64c3a892">elec_conf_t</a> = std::vector&lt; <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> &gt;</td></tr>
+<tr class="memdesc:ae1293b72fbb7be383c4f1dcb64c3a892"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a reduced atomic electronic configuration {Ns, Np, Nd, Nf}. <br /></td></tr>
+<tr class="separator:ae1293b72fbb7be383c4f1dcb64c3a892"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42a9f61a92397b97698f1852043ea73b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#a42a9f61a92397b97698f1852043ea73b">elec_conf_full_t</a> = std::map&lt; std::pair&lt; <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a>, <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> &gt;, <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> &gt;</td></tr>
+<tr class="separator:a42a9f61a92397b97698f1852043ea73b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -113,6 +119,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2cb6881415c5b75a1302062a7d35633f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#a2cb6881415c5b75a1302062a7d35633f">sym_2_Z</a> (const std::string &amp;sym) const</td></tr>
 <tr class="memdesc:a2cb6881415c5b75a1302062a7d35633f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function for converting an atomic symbol to an atomic number.  <a href="classchemist_1_1PeriodicTable.html#a2cb6881415c5b75a1302062a7d35633f">More...</a><br /></td></tr>
 <tr class="separator:a2cb6881415c5b75a1302062a7d35633f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45dd42aed2b698c9a0644b3b12399948"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PeriodicTable.html#a42a9f61a92397b97698f1852043ea73b">elec_conf_full_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#a45dd42aed2b698c9a0644b3b12399948">reduced_2_full_conf</a> (const <a class="el" href="classchemist_1_1PeriodicTable.html#ae1293b72fbb7be383c4f1dcb64c3a892">elec_conf_t</a> &amp;r_conf) const</td></tr>
+<tr class="memdesc:a45dd42aed2b698c9a0644b3b12399948"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert reduced electronic configuration {Ns,Np,Nd,Nf} to full electronic configuration (1s^2 2s^2 2p^2 ...)  <a href="classchemist_1_1PeriodicTable.html#a45dd42aed2b698c9a0644b3b12399948">More...</a><br /></td></tr>
+<tr class="separator:a45dd42aed2b698c9a0644b3b12399948"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Copy/Move CTors and Assignment Operators</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p>Functions for replicating the state of another <a class="el" href="classchemist_1_1PeriodicTable.html" title="A class to contain Atom instances.">PeriodicTable</a> instance.</p>
 <p>Copy operations are deep copies and do not alias.</p>
@@ -152,6 +161,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acbbcccd57f14c06cce91570ac1c4d55f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#acbbcccd57f14c06cce91570ac1c4d55f">add_isotope</a> (<a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> Z, <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> mass_number, const <a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;isotope)</td></tr>
 <tr class="memdesc:acbbcccd57f14c06cce91570ac1c4d55f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an isotope for the given element.  <a href="classchemist_1_1PeriodicTable.html#acbbcccd57f14c06cce91570ac1c4d55f">More...</a><br /></td></tr>
 <tr class="separator:acbbcccd57f14c06cce91570ac1c4d55f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad631d202ac164d9a4ed79327a6d80df0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#ad631d202ac164d9a4ed79327a6d80df0">add_elec_config</a> (<a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> Z, const <a class="el" href="classchemist_1_1PeriodicTable.html#ae1293b72fbb7be383c4f1dcb64c3a892">elec_conf_t</a> &amp;elec_config)</td></tr>
+<tr class="memdesc:ad631d202ac164d9a4ed79327a6d80df0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an electronic configuration for the given element Any trailing zeros will be truncated.  <a href="classchemist_1_1PeriodicTable.html#ad631d202ac164d9a4ed79327a6d80df0">More...</a><br /></td></tr>
+<tr class="separator:ad631d202ac164d9a4ed79327a6d80df0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Atom Retrieval Functions</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p>Returns an <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instance pre-loaded with the data for the specified atomic number.</p>
 <p>There are two masses one can reasonably use for an atom: the abundance- weighted mass and the isotope mass. We provide two different functions to distinguish between these use cases. <code>get_atom</code> returns the abundance-weighted variant, whereas <code>get_isotope</code> returns an <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> whose mass is for a particular isotope.</p>
@@ -183,6 +195,35 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8f769e95aeb24c537c87096bc714a08e"><td class="memItemLeft" align="right" valign="top"><a id="a8f769e95aeb24c537c87096bc714a08e"></a>
 <a class="el" href="classchemist_1_1Atom.html">Atom</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_isotope</b> (const std::string &amp;sym, <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> mass_num) const</td></tr>
 <tr class="separator:a8f769e95aeb24c537c87096bc714a08e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">configuration Retrieval Functions</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p>Returns an electronic configuration for the specified atom. Separate functions exist for full or reduced configuration.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>The atomic number of the configuration to return. Should be in the range [1, <a class="el" href="classchemist_1_1PeriodicTable.html#a95da9e0c5d7b2ad3b7e2b57b7724ea10" title="Returns the maximum atomic number for which an Atom instance can be made.">max_Z()</a>). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sym</td><td>The atomic symbol of the configuration to return. Symbol is case-insensitive.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The requested configuration</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>if <code>Z</code> is not in the range [1, <a class="el" href="classchemist_1_1PeriodicTable.html#a95da9e0c5d7b2ad3b7e2b57b7724ea10" title="Returns the maximum atomic number for which an Atom instance can be made.">max_Z()</a>), <code>sym</code> is not a recognized atomic symbol, or no configuration data is available. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+</div></td></tr>
+<tr class="memitem:a240a45b2dc6fe60ef5805fbdb7f192f3"><td class="memItemLeft" align="right" valign="top"><a id="a240a45b2dc6fe60ef5805fbdb7f192f3"></a>
+<a class="el" href="classchemist_1_1PeriodicTable.html#ae1293b72fbb7be383c4f1dcb64c3a892">elec_conf_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_elec_conf</b> (<a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> Z) const</td></tr>
+<tr class="separator:a240a45b2dc6fe60ef5805fbdb7f192f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade28d79632800109de7afe33b070ded8"><td class="memItemLeft" align="right" valign="top"><a id="ade28d79632800109de7afe33b070ded8"></a>
+<a class="el" href="classchemist_1_1PeriodicTable.html#ae1293b72fbb7be383c4f1dcb64c3a892">elec_conf_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_elec_conf</b> (const std::string &amp;sym) const</td></tr>
+<tr class="separator:ade28d79632800109de7afe33b070ded8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b67528c5a9b1caa21e7454565f48fa4"><td class="memItemLeft" align="right" valign="top"><a id="a5b67528c5a9b1caa21e7454565f48fa4"></a>
+<a class="el" href="classchemist_1_1PeriodicTable.html#a42a9f61a92397b97698f1852043ea73b">elec_conf_full_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_elec_conf_full</b> (<a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> Z) const</td></tr>
+<tr class="separator:a5b67528c5a9b1caa21e7454565f48fa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7614e5c767f2d1bc9868894e7416f83"><td class="memItemLeft" align="right" valign="top"><a id="ab7614e5c767f2d1bc9868894e7416f83"></a>
+<a class="el" href="classchemist_1_1PeriodicTable.html#a42a9f61a92397b97698f1852043ea73b">elec_conf_full_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_elec_conf_full</b> (const std::string &amp;sym) const</td></tr>
+<tr class="separator:ab7614e5c767f2d1bc9868894e7416f83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Comparison Operators</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -202,7 +243,23 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A class to contain <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instances. </p>
 <p>The <a class="el" href="classchemist_1_1PeriodicTable.html" title="A class to contain Atom instances.">PeriodicTable</a> class manages <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instances, which are populated at runtime using the provided insertion methods. The class also serves as a hub for retrieving other atomic data that is not typically stored with an <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instance. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a42a9f61a92397b97698f1852043ea73b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42a9f61a92397b97698f1852043ea73b">&#9670;&nbsp;</a></span>elec_conf_full_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classchemist_1_1PeriodicTable.html#a42a9f61a92397b97698f1852043ea73b">chemist::PeriodicTable::elec_conf_full_t</a> =  std::map&lt;std::pair&lt;<a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a>, <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a>&gt;, <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The type of a full atomic electronic configuration maps from {n,l} to the number of electrons in that shell </p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a0040f50e258bac4ef546a72095208256"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0040f50e258bac4ef546a72095208256">&#9670;&nbsp;</a></span>PeriodicTable()</h2>
 
@@ -230,6 +287,50 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad631d202ac164d9a4ed79327a6d80df0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad631d202ac164d9a4ed79327a6d80df0">&#9670;&nbsp;</a></span>add_elec_config()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void chemist::PeriodicTable::add_elec_config </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a>&#160;</td>
+          <td class="paramname"><em>Z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1PeriodicTable.html#ae1293b72fbb7be383c4f1dcb64c3a892">elec_conf_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>elec_config</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add an electronic configuration for the given element Any trailing zeros will be truncated. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>Atomic number of the element </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">elec_config</td><td>Electronic configuration by l {Ns, Np, Nd, Nf, ...}</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>Configuration already exists for this element. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">???</td><td>if std::map::operator[] throws an exception. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="acbbcccd57f14c06cce91570ac1c4d55f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acbbcccd57f14c06cce91570ac1c4d55f">&#9670;&nbsp;</a></span>add_isotope()</h2>
 
@@ -393,6 +494,34 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a45dd42aed2b698c9a0644b3b12399948"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45dd42aed2b698c9a0644b3b12399948">&#9670;&nbsp;</a></span>reduced_2_full_conf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1PeriodicTable.html#a42a9f61a92397b97698f1852043ea73b">elec_conf_full_t</a> chemist::PeriodicTable::reduced_2_full_conf </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1PeriodicTable.html#ae1293b72fbb7be383c4f1dcb64c3a892">elec_conf_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>r_conf</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert reduced electronic configuration {Ns,Np,Nd,Nf} to full electronic configuration (1s^2 2s^2 2p^2 ...) </p>
+<p>Assumes shells of a given l are filled in order of increasing n (should be valid up to Z=166)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">r_conf</td><td>The reduced electronic configuration to convert</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The full configuration as a map: {n,l} -&gt; N_elec </dd></dl>
 
 </div>
 </div>
