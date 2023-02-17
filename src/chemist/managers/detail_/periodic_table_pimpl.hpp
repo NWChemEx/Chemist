@@ -32,7 +32,8 @@ struct PeriodicTablePIMPL {
     using size_type    = typename PeriodicTable::size_type;
     using Z_list       = typename PeriodicTable::Z_list;
     using isotope_list = typename PeriodicTable::isotope_list;
-    using atom_dm_t = typename PeriodicTable::atom_dm_t; // atomic density matrix reference
+    using atom_dm_t =
+      typename PeriodicTable::atom_dm_t; // atomic density matrix reference
     ///@}
 
     /// Map of atomic numbers to Atom objects
@@ -45,7 +46,9 @@ struct PeriodicTablePIMPL {
     using sym_map = utilities::CaseInsensitiveMap<size_type>;
 
     /// Symbol to atomic number map
-    using atom_dm_map = std::map<size_type, atom_dm_t>; // map from atomic number to atomic density matrix
+    using atom_dm_map =
+      std::map<size_type,
+               atom_dm_t>; // map from atomic number to atomic density matrix
 
     /**
      * @name PeriodicTablePIMPL Public API
@@ -302,7 +305,7 @@ inline Atom PeriodicTablePIMPL::get_isotope(size_type Z,
 inline bool PeriodicTablePIMPL::operator==(
   const PeriodicTablePIMPL& rhs) const {
     return m_sym_2_Z == rhs.m_sym_2_Z && m_atoms == rhs.m_atoms &&
-           m_isotopes == rhs.m_isotopes && m_atoms == rhs.m_atoms && 
+           m_isotopes == rhs.m_isotopes && m_atoms == rhs.m_atoms &&
            m_atom_dms == rhs.m_atom_dms;
 }
 
