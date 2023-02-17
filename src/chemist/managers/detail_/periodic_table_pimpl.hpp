@@ -32,8 +32,7 @@ struct PeriodicTablePIMPL {
     using size_type    = typename PeriodicTable::size_type;
     using Z_list       = typename PeriodicTable::Z_list;
     using isotope_list = typename PeriodicTable::isotope_list;
-    using atom_dm_t =
-      typename PeriodicTable::atom_dm_t; // atomic density matrix reference
+    using atom_dm_t = typename PeriodicTable::atom_dm_t; // atomic density matrix reference
     ///@}
 
     /// Map of atomic numbers to Atom objects
@@ -46,9 +45,7 @@ struct PeriodicTablePIMPL {
     using sym_map = utilities::CaseInsensitiveMap<size_type>;
 
     /// Symbol to atomic number map
-    using atom_dm_map =
-      std::map<size_type,
-               atom_dm_t>; // map from atomic number to atomic density matrix
+    using atom_dm_map = std::map<size_type, atom_dm_t>; // map from atomic number to atomic density matrix
 
     /**
      * @name PeriodicTablePIMPL Public API
@@ -93,6 +90,19 @@ struct PeriodicTablePIMPL {
     void add_isotope(size_type Z, size_type mass_number, const Atom& isotope);
 
     /**
+     * @brief Add a precalculated density matrix for the given element
+     *
+     * @param[in] Z Atomic number of the element
+     * @param[in] atom_dm precalculated atomic density matrix
+     *
+     * @throw std::runtime_error density matrix already exists for this element.
+     *                           Strong throw guarantee.
+     * @throw ??? if std::map::operator[] throws an exception. Strong throw
+     *            guarantee.
+     */
+    void add_atom_dm(size_type Z, const atom_dm_t& atom_dm);
+
+    /**
      * @brief Retrieves a list of mass numbers for isotopes of the element
      *
      * @param[in] Z Atomic number
@@ -107,20 +117,6 @@ struct PeriodicTablePIMPL {
      * @throw ??? If an exception occurs in std::vector::push_back. Strong
      *            throw guarantee.
      */
-
-    /**
-     * @brief Add a precalculated density matrix for the given element
-     *
-     * @param[in] Z Atomic number of the element
-     * @param[in] atom_dm precalculated atomic density matrix
-     *
-     * @throw std::runtime_error density matrix already exists for this element.
-     *                           Strong throw guarantee.
-     * @throw ??? if std::map::operator[] throws an exception. Strong throw
-     *            guarantee.
-     */
-    void add_atom_dm(size_type Z, const atom_dm_t& atom_dm);
-
     isotope_list isotopes(size_type Z) const;
 
     /**
@@ -162,6 +158,7 @@ struct PeriodicTablePIMPL {
      */
 
     atom_dm_t get_atom_dm(size_type Z) const;
+
     /**
      * @brief Get an isotope
      *
@@ -304,14 +301,9 @@ inline Atom PeriodicTablePIMPL::get_isotope(size_type Z,
 inline bool PeriodicTablePIMPL::operator==(
   const PeriodicTablePIMPL& rhs) const {
     return m_sym_2_Z == rhs.m_sym_2_Z && m_atoms == rhs.m_atoms &&
-           m_isotopes == rhs.m_isotopes;
+           m_isotopes == rhs.m_isotopes && m_atoms == rhs.m_atoms && 
+           m_atom_dms == rhs.m_atom_dms;
 }
-
-// inline bool PeriodicTablePIMPL::operator==(
-//   const PeriodicTablePIMPL& rhs) const {
-//     return m_sym_2_Z == rhs.m_sym_2_Z && m_atoms == rhs.m_atoms &&
-//            m_isotopes == rhs.m_isotopes && m_atom_dms == rhs.m_atom_dms;
-// } // necesseary?
 
 inline bool PeriodicTablePIMPL::operator!=(
   const PeriodicTablePIMPL& rhs) const {

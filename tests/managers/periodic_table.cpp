@@ -28,12 +28,10 @@ inline void load_elements(PeriodicTable& pt) {
     pt.insert(1, Atom(1ul, 1837.4260218693814, "H"));
     pt.add_isotope(1, 1, Atom(1ul, 1837.1526472934618, "H"));
     pt.add_isotope(1, 2, Atom(1ul, 3671.4829413173247, "H"));
-    pt.add_atom_dm(1, {0.18269721, 0.28443345, 0.28443345, 0.44282224}); // add precalculated density matrix with the basis set 6-31G for H
 
     pt.insert(2, Atom(2ul, 7296.297100609073, "He"));
     pt.add_isotope(2, 3, Atom(2ul, 5497.885121445487, "He"));
     pt.add_isotope(2, 4, Atom(2ul, 7296.299386693523, "He"));
-    pt.add_atom_dm(2, {0.70112023, 0.60816932, 0.60816932, 0.52754136});
 }
 
 TEST_CASE("PeriodicTable Copy/Move") {
@@ -145,9 +143,7 @@ TEST_CASE("PeriodicTable Comparison") {
     SECTION("Filled with different density matrices") {
         load_elements(pt);
         load_elements(pt2);
-        const std::vector<double>& vec_t{1.0, 1.0, 1.0, 1.0};
-        //pt.add_atom_dm(3, {1.0, 1.0, 1.0, 1.0});
-        pt.add_atom_dm(3, vec_t);
+        pt.add_atom_dm(3, {1.0, 1.0, 1.0, 1.0});
 
         REQUIRE(pt != pt2);
         REQUIRE(pt2 != pt);
@@ -248,6 +244,8 @@ TEST_CASE("PeriodicTable::get_atom") {
 TEST_CASE("PeriodicTable::get_atom_dm") {
     PeriodicTable pt;
     load_elements(pt);
+    pt.add_atom_dm(1, {0.18269721, 0.28443345, 0.28443345, 0.44282224}); // add precalculated density matrix with the basis set 6-31G for H
+    pt.add_atom_dm(2, {0.70112023, 0.60816932, 0.60816932, 0.52754136}); // add precalculated density matrix with the basis set 6-31G for He
 
     SECTION("No density matrix") {
         REQUIRE_THROWS_MATCHES(
@@ -258,18 +256,18 @@ TEST_CASE("PeriodicTable::get_atom_dm") {
     SECTION("Add existing density matrix") {
         REQUIRE_THROWS_MATCHES(
           pt.add_atom_dm(1, {1.0, 1.0, 1.0, 1.0}), std::runtime_error,
-          Message("Density matrix for Z = 1 already exists"));
+          Message("Atomic density matrix for Z = 1 already exists"));
     }
 
     SECTION("Density matrix exists 1") {
-        PeriodicTable::atom_dm_t corr = {1};
+        PeriodicTable::atom_dm_t corr = {0.18269721, 0.28443345, 0.28443345, 0.44282224};
 
         REQUIRE(corr == pt.get_atom_dm(1));
         REQUIRE(corr == pt.get_atom_dm("H"));
     }
 
     SECTION("Density matrix exists 2") {
-        PeriodicTable::atom_dm_t corr = {2};
+        PeriodicTable::atom_dm_t corr = {0.70112023, 0.60816932, 0.60816932, 0.52754136};
 
         REQUIRE(corr == pt.get_atom_dm(2));
         REQUIRE(corr == pt.get_atom_dm("He"));
