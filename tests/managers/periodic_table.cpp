@@ -278,8 +278,7 @@ TEST_CASE("PeriodicTable::get_atom_dm") {
         PeriodicTable::atom_dm_t corr = {9.0, 18.0, 15.0};
 
         REQUIRE(corr == pt.get_atom_dm(42));
-        REQUIRE_THROWS_MATCHES(corr == pt.get_atom_dm("Mo"),
-                               std::out_of_range,
+        REQUIRE_THROWS_MATCHES(corr == pt.get_atom_dm("Mo"), std::out_of_range,
                                Message("Unrecognized atomic symbol: Mo"));
     }
 }
