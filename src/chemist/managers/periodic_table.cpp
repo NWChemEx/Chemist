@@ -22,7 +22,7 @@ namespace chemist {
 using size_type    = typename PeriodicTable::size_type;
 using Z_list       = typename PeriodicTable::Z_list;
 using isotope_list = typename PeriodicTable::isotope_list;
-using atom_dm_t      = typename PeriodicTable::atom_dm_t;
+using atom_dm_t    = typename PeriodicTable::atom_dm_t;
 
 PeriodicTable::PeriodicTable() : m_pimpl_() {}
 

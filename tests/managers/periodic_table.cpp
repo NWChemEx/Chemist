@@ -264,14 +264,16 @@ TEST_CASE("PeriodicTable::get_atom_dm") {
     }
 
     SECTION("Density matrix exists 1") {
-        PeriodicTable::atom_dm_t corr = {0.18269721, 0.28443345, 0.28443345, 0.44282224};
+        PeriodicTable::atom_dm_t corr = {0.18269721, 0.28443345, 0.28443345,
+                                         0.44282224};
 
         REQUIRE(corr == pt.get_atom_dm(1, "6-31G"));
         REQUIRE(corr == pt.get_atom_dm("H", "6-31G"));
     }
 
     SECTION("Density matrix exists 2") {
-        PeriodicTable::atom_dm_t corr = {0.70112023, 0.60816932, 0.60816932, 0.52754136};
+        PeriodicTable::atom_dm_t corr = {0.70112023, 0.60816932, 0.60816932,
+                                         0.52754136};
 
         REQUIRE(corr == pt.get_atom_dm(2, "6-31G"));
         REQUIRE(corr == pt.get_atom_dm("He", "6-31G"));
