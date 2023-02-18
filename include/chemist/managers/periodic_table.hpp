@@ -48,7 +48,7 @@ public:
     /// (e. g., 6-31G) should be in the format of a vector of doubles (flatten
     /// matrix)
     using atom_dm_t = std::vector<double>;
-  
+
     /// The type of a reduced atomic electronic configuration {Ns, Np, Nd, Nf}
     using elec_conf_t = std::vector<size_type>;
 
@@ -286,7 +286,7 @@ public:
         return get_atom_dm(sym_2_Z(sym), basis_name);
     }
     ///@}
-  
+
     /**
      * @name configuration Retrieval Functions
      * @brief Returns an electronic configuration for the specified atom.

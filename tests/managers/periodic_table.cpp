@@ -140,21 +140,21 @@ TEST_CASE("PeriodicTable Comparison") {
         REQUIRE(pt != pt2);
         REQUIRE(pt2 != pt);
     }
-  
+
     SECTION("Filled with different density matrices") {
         load_elements(pt);
         load_elements(pt2);
         pt.add_atom_dm(3, "6-31G", {1.0, 1.0, 1.0, 1.0});
-      
+
         REQUIRE(pt != pt2);
         REQUIRE(pt2 != pt);
     }
-      
+
     SECTION("Filled with different configs") {
         load_elements(pt);
         load_elements(pt2);
         pt.add_elec_config(3, {3, 0, 0, 0});
- 
+
         REQUIRE(pt != pt2);
         REQUIRE(pt2 != pt);
     }
@@ -305,7 +305,7 @@ TEST_CASE("PeriodicTable::get_atom_dm") {
                                Message("Unrecognized atomic symbol: Mo"));
     }
 }
-                               
+
 TEST_CASE("PeriodicTable::get_elec_conf") {
     PeriodicTable pt;
     load_elements(pt);

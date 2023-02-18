@@ -33,7 +33,8 @@ struct PeriodicTablePIMPL {
     using size_type    = typename PeriodicTable::size_type;
     using Z_list       = typename PeriodicTable::Z_list;
     using isotope_list = typename PeriodicTable::isotope_list;
-    using atom_dm_t = typename PeriodicTable::atom_dm_t; // atomic density matrix reference
+    using atom_dm_t =
+      typename PeriodicTable::atom_dm_t; // atomic density matrix reference
     using elec_conf_t      = typename PeriodicTable::elec_conf_t;
     using elec_conf_full_t = typename PeriodicTable::elec_conf_full_t;
     ///@}
@@ -48,9 +49,13 @@ struct PeriodicTablePIMPL {
     using sym_map = utilities::CaseInsensitiveMap<size_type>;
 
     /// Atomic symbol to basis set name map
-    using atom_basis_pair = std::pair<size_type,std::string>; // pair of atomic number and basis set name
-    using atom_dm_map = std::map<atom_basis_pair,atom_dm_t>; // map from (atomic number, basis name) to
-                                                             // the atomic density matrix
+    using atom_basis_pair =
+      std::pair<size_type,
+                std::string>; // pair of atomic number and basis set name
+    using atom_dm_map =
+      std::map<atom_basis_pair,
+               atom_dm_t>; // map from (atomic number, basis name) to
+                           // the atomic density matrix
     /// Symbol to atomic number map
     using elec_conf_map = std::map<size_type, elec_conf_t>;
 
@@ -112,7 +117,7 @@ struct PeriodicTablePIMPL {
      */
     void add_atom_dm(size_type Z, const std::string& basis_name,
                      const atom_dm_t& atom_dm);
-  
+
     /**
      * @brief Add an electronic configuration for the given element
      *        Any trailing zeros will be truncated.
@@ -196,7 +201,7 @@ struct PeriodicTablePIMPL {
      * @return The precalculated density matrix
      */
     atom_dm_t get_atom_dm(size_type Z, const std::string& basis_name) const;
-  
+
     /**
      * @brief Get reduced electronic configuration for the specified element
      *
@@ -248,7 +253,7 @@ struct PeriodicTablePIMPL {
 
     /// Maps atomic number to a density matrix
     atom_dm_map m_atom_dms;
-  
+
     /// Maps atomic number to an electronic configuration
     elec_conf_map m_elec_confs;
 
@@ -285,7 +290,7 @@ inline void PeriodicTablePIMPL::add_isotope(size_type Z, size_type mass_number,
 
     m_isotopes.at(Z).emplace(mass_number, std::move(isotope));
 }
-  
+
 inline void PeriodicTablePIMPL::add_atom_dm(size_type Z,
                                             const std::string& basis_name,
                                             const atom_dm_t& atom_dm) {

@@ -19,10 +19,10 @@
 
 namespace chemist {
 
-using size_type    = typename PeriodicTable::size_type;
-using Z_list       = typename PeriodicTable::Z_list;
-using isotope_list = typename PeriodicTable::isotope_list;
-using atom_dm_t    = typename PeriodicTable::atom_dm_t;
+using size_type        = typename PeriodicTable::size_type;
+using Z_list           = typename PeriodicTable::Z_list;
+using isotope_list     = typename PeriodicTable::isotope_list;
+using atom_dm_t        = typename PeriodicTable::atom_dm_t;
 using elec_conf_t      = typename PeriodicTable::elec_conf_t;
 using elec_conf_full_t = typename PeriodicTable::elec_conf_full_t;
 
