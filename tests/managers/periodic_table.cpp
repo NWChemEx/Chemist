@@ -21,17 +21,18 @@
 using namespace chemist;
 
 using Catch::Matchers::Message;
-
-inline void load_elements(PeriodicTable& pt) {
+void load_elements(PeriodicTable& pt) {
     pt.insert(0, Atom(0ul, 0.0, "Ez"));
 
     pt.insert(1, Atom(1ul, 1837.4260218693814, "H"));
     pt.add_isotope(1, 1, Atom(1ul, 1837.1526472934618, "H"));
     pt.add_isotope(1, 2, Atom(1ul, 3671.4829413173247, "H"));
+    pt.add_elec_config(1, {1, 0, 0, 0});
 
     pt.insert(2, Atom(2ul, 7296.297100609073, "He"));
     pt.add_isotope(2, 3, Atom(2ul, 5497.885121445487, "He"));
     pt.add_isotope(2, 4, Atom(2ul, 7296.299386693523, "He"));
+    pt.add_elec_config(2, {2, 0, 0, 0});
 }
 
 TEST_CASE("PeriodicTable Copy/Move") {
@@ -139,12 +140,21 @@ TEST_CASE("PeriodicTable Comparison") {
         REQUIRE(pt != pt2);
         REQUIRE(pt2 != pt);
     }
-
+  
     SECTION("Filled with different density matrices") {
         load_elements(pt);
         load_elements(pt2);
         pt.add_atom_dm(3, "6-31G", {1.0, 1.0, 1.0, 1.0});
-
+      
+        REQUIRE(pt != pt2);
+        REQUIRE(pt2 != pt);
+    }
+      
+    SECTION("Filled with different configs") {
+        load_elements(pt);
+        load_elements(pt2);
+        pt.add_elec_config(3, {3, 0, 0, 0});
+ 
         REQUIRE(pt != pt2);
         REQUIRE(pt2 != pt);
     }
@@ -293,6 +303,92 @@ TEST_CASE("PeriodicTable::get_atom_dm") {
         REQUIRE_THROWS_MATCHES(corr == pt.get_atom_dm("Mo", "6-31G"),
                                std::out_of_range,
                                Message("Unrecognized atomic symbol: Mo"));
+    }
+}
+                               
+TEST_CASE("PeriodicTable::get_elec_conf") {
+    PeriodicTable pt;
+    load_elements(pt);
+
+    SECTION("No config") {
+        REQUIRE_THROWS_MATCHES(
+          pt.get_elec_conf(3), std::out_of_range,
+          Message("Configuration does not exist for Z = 3"));
+    }
+
+    SECTION("Add existing config") {
+        REQUIRE_THROWS_MATCHES(
+          pt.add_elec_config(1, {1, 0, 0, 0}), std::runtime_error,
+          Message("Elec. config for Z = 1 already exists"));
+    }
+
+    SECTION("Config exists 0") {
+        PeriodicTable::elec_conf_t corr = {};
+        pt.add_elec_config(0, {});
+
+        REQUIRE(corr == pt.get_elec_conf(0));
+        REQUIRE(corr == pt.get_elec_conf("Ez"));
+    }
+
+    SECTION("Config exists 1") {
+        PeriodicTable::elec_conf_t corr = {1};
+
+        REQUIRE(corr == pt.get_elec_conf(1));
+        REQUIRE(corr == pt.get_elec_conf("H"));
+    }
+
+    SECTION("Config exists 2") {
+        PeriodicTable::elec_conf_t corr = {2};
+
+        REQUIRE(corr == pt.get_elec_conf(2));
+        REQUIRE(corr == pt.get_elec_conf("He"));
+    }
+
+    SECTION("Config exists without atom") {
+        pt.add_elec_config(42, {9, 18, 15});
+        PeriodicTable::elec_conf_t corr = {9, 18, 15};
+
+        REQUIRE(corr == pt.get_elec_conf(42));
+        REQUIRE_THROWS_MATCHES(corr == pt.get_elec_conf("Mo"),
+                               std::out_of_range,
+                               Message("Unrecognized atomic symbol: Mo"));
+    }
+}
+
+TEST_CASE("PeriodicTable::get_elec_conf_full") {
+    PeriodicTable pt;
+    load_elements(pt);
+
+    SECTION("No config") {
+        REQUIRE_THROWS_MATCHES(
+          pt.get_elec_conf_full(3), std::out_of_range,
+          Message("Configuration does not exist for Z = 3"));
+    }
+    SECTION("Config exists 2 (full)") {
+        std::map<std::pair<size_t, size_t>, size_t> corr = {{{1, 0}, 2}}; // 1s2
+
+        REQUIRE(corr == pt.get_elec_conf_full(2));
+        REQUIRE(corr == pt.get_elec_conf_full("He"));
+    }
+
+    SECTION("Config exists 42 (full)") {
+        pt.insert(42, chemist::Atom(42ul, 174906.15025012242, "Mo"));
+        pt.add_elec_config(42, {9, 18, 15, 0});
+        std::map<std::pair<size_t, size_t>, size_t> corr = {
+          {{1, 0}, 2},  // 1s2
+          {{2, 0}, 2},  // 2s2
+          {{2, 1}, 6},  // 2p6
+          {{3, 0}, 2},  // 3s2
+          {{3, 1}, 6},  // 3p6
+          {{3, 2}, 10}, // 3d10
+          {{4, 0}, 2},  // 4s2
+          {{4, 1}, 6},  // 4p6
+          {{4, 2}, 5},  // 4d5
+          {{5, 0}, 1},  // 5s1
+        };
+
+        REQUIRE(corr == pt.get_elec_conf_full(42));
+        REQUIRE(corr == pt.get_elec_conf_full("Mo"));
     }
 }
 

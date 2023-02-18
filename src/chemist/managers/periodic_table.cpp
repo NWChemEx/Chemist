@@ -23,6 +23,8 @@ using size_type    = typename PeriodicTable::size_type;
 using Z_list       = typename PeriodicTable::Z_list;
 using isotope_list = typename PeriodicTable::isotope_list;
 using atom_dm_t    = typename PeriodicTable::atom_dm_t;
+using elec_conf_t      = typename PeriodicTable::elec_conf_t;
+using elec_conf_full_t = typename PeriodicTable::elec_conf_full_t;
 
 PeriodicTable::PeriodicTable() : m_pimpl_() {}
 
@@ -52,10 +54,14 @@ void PeriodicTable::add_isotope(size_type Z, size_type mass_number,
                                 const Atom& isotope) {
     pimpl_().add_isotope(Z, mass_number, isotope);
 }
-
 void PeriodicTable::add_atom_dm(size_type Z, const std::string& basis_name,
                                 const atom_dm_t& atom_dm) {
     pimpl_().add_atom_dm(Z, basis_name, atom_dm);
+}
+
+void PeriodicTable::add_elec_config(size_type Z,
+                                    const elec_conf_t& elec_config) {
+    pimpl_().add_elec_config(Z, elec_config);
 }
 
 isotope_list PeriodicTable::isotopes(size_type Z) const {
@@ -66,11 +72,20 @@ size_type PeriodicTable::sym_2_Z(const std::string& sym) const {
     return pimpl_().sym_2_Z(sym);
 }
 
+elec_conf_full_t PeriodicTable::reduced_2_full_conf(
+  const elec_conf_t& r_conf) const {
+    return pimpl_().reduced_2_full_conf(r_conf);
+}
+
 size_type PeriodicTable::max_Z() const noexcept { return pimpl_().max_Z(); }
 
 Atom PeriodicTable::get_atom(size_type Z) const { return pimpl_().get_atom(Z); }
 Atom PeriodicTable::get_isotope(size_type Z, size_type mass_num) const {
     return pimpl_().get_isotope(Z, mass_num);
+}
+
+elec_conf_t PeriodicTable::get_elec_conf(size_type Z) const {
+    return pimpl_().get_elec_conf(Z);
 }
 
 bool PeriodicTable::operator==(const PeriodicTable& rhs) const {

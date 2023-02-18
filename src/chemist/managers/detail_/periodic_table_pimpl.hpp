@@ -17,6 +17,7 @@
 #pragma once
 #include "chemist/managers/periodic_table.hpp"
 #include "utilities/containers/case_insensitive_map.hpp"
+#include <algorithm>
 
 namespace chemist::detail_ {
 
@@ -32,8 +33,9 @@ struct PeriodicTablePIMPL {
     using size_type    = typename PeriodicTable::size_type;
     using Z_list       = typename PeriodicTable::Z_list;
     using isotope_list = typename PeriodicTable::isotope_list;
-    using atom_dm_t =
-      typename PeriodicTable::atom_dm_t; // atomic density matrix reference
+    using atom_dm_t = typename PeriodicTable::atom_dm_t; // atomic density matrix reference
+    using elec_conf_t      = typename PeriodicTable::elec_conf_t;
+    using elec_conf_full_t = typename PeriodicTable::elec_conf_full_t;
     ///@}
 
     /// Map of atomic numbers to Atom objects
@@ -46,13 +48,11 @@ struct PeriodicTablePIMPL {
     using sym_map = utilities::CaseInsensitiveMap<size_type>;
 
     /// Atomic symbol to basis set name map
-    using atom_basis_pair =
-      std::pair<size_type,
-                std::string>; // pair of atomic number and basis set name
-    using atom_dm_map =
-      std::map<atom_basis_pair,
-               atom_dm_t>; // map from (atomic number, basis name) to
-                           // the atomic density matrix
+    using atom_basis_pair = std::pair<size_type,std::string>; // pair of atomic number and basis set name
+    using atom_dm_map = std::map<atom_basis_pair,atom_dm_t>; // map from (atomic number, basis name) to
+                                                             // the atomic density matrix
+    /// Symbol to atomic number map
+    using elec_conf_map = std::map<size_type, elec_conf_t>;
 
     /**
      * @name PeriodicTablePIMPL Public API
@@ -112,6 +112,21 @@ struct PeriodicTablePIMPL {
      */
     void add_atom_dm(size_type Z, const std::string& basis_name,
                      const atom_dm_t& atom_dm);
+  
+    /**
+     * @brief Add an electronic configuration for the given element
+     *        Any trailing zeros will be truncated.
+     *
+     * @param[in] Z Atomic number of the element
+     * @param[in] elec_config Electronic configuration by l
+     *                        {Ns, Np, Nd, Nf}
+     *
+     * @throw std::runtime_error Configuration already exists for this element.
+     *                           Strong throw guarantee.
+     * @throw ??? if std::map::operator[] throws an exception. Strong throw
+     *            guarantee.
+     */
+    void add_elec_config(size_type Z, const elec_conf_t& elec_config);
 
     /**
      * @brief Retrieves a list of mass numbers for isotopes of the element
@@ -152,6 +167,16 @@ struct PeriodicTablePIMPL {
     size_type sym_2_Z(const std::string& sym) const;
 
     /**
+     * @brief Convert reduced electronic configuration to full
+     *        electronic configuration
+     *
+     * @param[in] r_conf The reduced electronic configuration to convert
+     *
+     * @return The full configuration as a map: {n,l} -> N_elec
+     */
+    elec_conf_full_t reduced_2_full_conf(const elec_conf_t& r_conf) const;
+
+    /**
      * @brief Get an Atom of the element specified
      *
      * @param[in] Z Atomic number
@@ -170,8 +195,16 @@ struct PeriodicTablePIMPL {
      *
      * @return The precalculated density matrix
      */
-
     atom_dm_t get_atom_dm(size_type Z, const std::string& basis_name) const;
+  
+    /**
+     * @brief Get reduced electronic configuration for the specified element
+     *
+     * @param[in] Z Atomic number
+     *
+     * @return The requested configuration
+     */
+    elec_conf_t get_elec_conf(size_type Z) const;
 
     /**
      * @brief Get an isotope
@@ -215,6 +248,9 @@ struct PeriodicTablePIMPL {
 
     /// Maps atomic number to a density matrix
     atom_dm_map m_atom_dms;
+  
+    /// Maps atomic number to an electronic configuration
+    elec_conf_map m_elec_confs;
 
     /// Highest atomic number (Z) of an Atom in this instance
     size_type m_max_Z;
@@ -249,7 +285,7 @@ inline void PeriodicTablePIMPL::add_isotope(size_type Z, size_type mass_number,
 
     m_isotopes.at(Z).emplace(mass_number, std::move(isotope));
 }
-
+  
 inline void PeriodicTablePIMPL::add_atom_dm(size_type Z,
                                             const std::string& basis_name,
                                             const atom_dm_t& atom_dm) {
@@ -261,6 +297,21 @@ inline void PeriodicTablePIMPL::add_atom_dm(size_type Z,
 
     m_atom_dms.emplace(std::pair<atom_basis_pair, atom_dm_t>(
       std::make_pair(Z, basis_name), atom_dm));
+}
+
+inline void PeriodicTablePIMPL::add_elec_config(
+  size_type Z, const elec_conf_t& elec_config) {
+    // Check if elec config already exists
+    if(m_elec_confs.count(Z))
+        throw std::runtime_error("Elec. config for Z = " + std::to_string(Z) +
+                                 " already exists");
+    // reverse iterator to find last (first in reverse) nonzero value
+    auto nonzero_end = std::find_if(elec_config.rbegin(), elec_config.rend(),
+                                    [](size_type i) { return i > 0; });
+    // make copy of config without trailing zeros
+    elec_conf_t clean_config(elec_config.begin(), nonzero_end.base());
+
+    m_elec_confs.emplace(Z, std::move(clean_config));
 }
 
 inline typename PeriodicTablePIMPL::isotope_list PeriodicTablePIMPL::isotopes(
@@ -286,6 +337,24 @@ inline typename PeriodicTablePIMPL::size_type PeriodicTablePIMPL::sym_2_Z(
     return m_sym_2_Z.at(sym);
 }
 
+inline typename PeriodicTablePIMPL::elec_conf_full_t
+PeriodicTablePIMPL::reduced_2_full_conf(const elec_conf_t& r_conf) const {
+    elec_conf_full_t f_conf;
+    for(size_type l = 0; l < r_conf.size(); l++) {
+        size_type nmult         = 2 * (2 * l + 1); // nelec in each shell
+        std::div_t d            = std::div(r_conf[l], int(nmult));
+        size_type n_full_shells = d.quot;
+
+        // fill starting from l+1 ([1s,2s,...], [2p, 3p, ...], [3d, 4d, ...],
+        // ...)
+        for(size_type i = 0; i < n_full_shells; i++) {
+            f_conf[{i + l + 1, l}] = nmult;
+        }
+        if(d.rem) f_conf[{n_full_shells + l + 1, l}] = d.rem;
+    }
+    return f_conf;
+}
+
 inline Atom PeriodicTablePIMPL::get_atom(size_type Z) const {
     if(!m_atoms.count(Z))
         throw std::out_of_range("Element does not exist with Z = " +
@@ -301,6 +370,15 @@ inline typename PeriodicTablePIMPL::atom_dm_t PeriodicTablePIMPL::get_atom_dm(
                                 std::to_string(Z) + "/" + basis_name);
 
     return m_atom_dms.at(std::make_pair(Z, basis_name));
+}
+
+inline typename PeriodicTablePIMPL::elec_conf_t
+PeriodicTablePIMPL::get_elec_conf(size_type Z) const {
+    if(!m_elec_confs.count(Z))
+        throw std::out_of_range("Configuration does not exist for Z = " +
+                                std::to_string(Z));
+
+    return m_elec_confs.at(Z);
 }
 
 inline Atom PeriodicTablePIMPL::get_isotope(size_type Z,
@@ -319,7 +397,8 @@ inline Atom PeriodicTablePIMPL::get_isotope(size_type Z,
 inline bool PeriodicTablePIMPL::operator==(
   const PeriodicTablePIMPL& rhs) const {
     return m_sym_2_Z == rhs.m_sym_2_Z && m_atoms == rhs.m_atoms &&
-           m_isotopes == rhs.m_isotopes && m_atom_dms == rhs.m_atom_dms;
+           m_isotopes == rhs.m_isotopes && m_elec_confs == rhs.m_elec_confs &&
+           m_atom_dms == rhs.m_atom_dms;
 }
 
 inline bool PeriodicTablePIMPL::operator!=(
