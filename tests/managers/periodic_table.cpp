@@ -244,8 +244,14 @@ TEST_CASE("PeriodicTable::get_atom") {
 TEST_CASE("PeriodicTable::get_atom_dm") {
     PeriodicTable pt;
     load_elements(pt);
-    pt.add_atom_dm(1, "6-31G", {0.18269721, 0.28443345, 0.28443345, 0.44282224}); // add precalculated density matrix with the basis set 6-31G for H
-    pt.add_atom_dm(2, "6-31G", {0.70112023, 0.60816932, 0.60816932, 0.52754136}); // add precalculated density matrix with the basis set 6-31G for He
+    pt.add_atom_dm(1, "6-31G",
+                   {0.18269721, 0.28443345, 0.28443345,
+                    0.44282224}); // add precalculated density matrix with the
+                                  // basis set 6-31G for H
+    pt.add_atom_dm(2, "6-31G",
+                   {0.70112023, 0.60816932, 0.60816932,
+                    0.52754136}); // add precalculated density matrix with the
+                                  // basis set 6-31G for He
 
     SECTION("No density matrix") {
         REQUIRE_THROWS_MATCHES(
@@ -284,7 +290,8 @@ TEST_CASE("PeriodicTable::get_atom_dm") {
         PeriodicTable::atom_dm_t corr = {9.0, 18.0, 15.0};
 
         REQUIRE(corr == pt.get_atom_dm(42, "6-31G"));
-        REQUIRE_THROWS_MATCHES(corr == pt.get_atom_dm("Mo", "6-31G"), std::out_of_range,
+        REQUIRE_THROWS_MATCHES(corr == pt.get_atom_dm("Mo", "6-31G"),
+                               std::out_of_range,
                                Message("Unrecognized atomic symbol: Mo"));
     }
 }

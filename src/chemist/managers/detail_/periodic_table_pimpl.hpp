@@ -46,9 +46,13 @@ struct PeriodicTablePIMPL {
     using sym_map = utilities::CaseInsensitiveMap<size_type>;
 
     /// Atomic symbol to basis set name map
-    using atom_basis_pair = std::pair<size_type, std::string>; // pair of atomic number and basis set name
-    using atom_dm_map = std::map<atom_basis_pair, atom_dm_t>; // map from (atomic number, basis name) to 
-                                                              // the atomic density matrix
+    using atom_basis_pair =
+      std::pair<size_type,
+                std::string>; // pair of atomic number and basis set name
+    using atom_dm_map =
+      std::map<atom_basis_pair,
+               atom_dm_t>; // map from (atomic number, basis name) to
+                           // the atomic density matrix
 
     /**
      * @name PeriodicTablePIMPL Public API
@@ -96,7 +100,7 @@ struct PeriodicTablePIMPL {
      * @brief Add a precalculated density matrix for the given element
      *
      * @param[in] Z Atomic number of the element
-     * 
+     *
      * @param[in] basis_name The name of the basis set to generate the atomic
      *                       density matrix
      * @param[in] atom_dm precalculated atomic density matrix
@@ -106,7 +110,8 @@ struct PeriodicTablePIMPL {
      * @throw ??? if std::map::operator[] throws an exception. Strong throw
      *            guarantee.
      */
-    void add_atom_dm(size_type Z, const std::string& basis_name, const atom_dm_t& atom_dm);
+    void add_atom_dm(size_type Z, const std::string& basis_name,
+                     const atom_dm_t& atom_dm);
 
     /**
      * @brief Retrieves a list of mass numbers for isotopes of the element
@@ -159,7 +164,7 @@ struct PeriodicTablePIMPL {
      * @brief Get precalculated density matrix for the specified element
      *
      * @param[in] Z Atomic number
-     * 
+     *
      * @param[in] basis_name The name of the basis set to generate the atomic
      *                       density matrix
      *
@@ -245,15 +250,17 @@ inline void PeriodicTablePIMPL::add_isotope(size_type Z, size_type mass_number,
     m_isotopes.at(Z).emplace(mass_number, std::move(isotope));
 }
 
-inline void PeriodicTablePIMPL::add_atom_dm(size_type Z, const std::string&
-                                    basis_name, const atom_dm_t& atom_dm) {
+inline void PeriodicTablePIMPL::add_atom_dm(size_type Z,
+                                            const std::string& basis_name,
+                                            const atom_dm_t& atom_dm) {
     // Check if atomic density matrix already exists
     if(m_atom_dms.count(std::make_pair(Z, basis_name)))
-        throw std::runtime_error("Atomic density matrix for Z = " +
-                                 std::to_string(Z) + "/" + basis_name + 
-                                 " already exists");
-    
-    m_atom_dms.emplace(std::pair<atom_basis_pair, atom_dm_t>(std::make_pair(Z, basis_name), atom_dm));
+        throw std::runtime_error(
+          "Atomic density matrix for Z = " + std::to_string(Z) + "/" +
+          basis_name + " already exists");
+
+    m_atom_dms.emplace(std::pair<atom_basis_pair, atom_dm_t>(
+      std::make_pair(Z, basis_name), atom_dm));
 }
 
 inline typename PeriodicTablePIMPL::isotope_list PeriodicTablePIMPL::isotopes(
@@ -289,7 +296,7 @@ inline Atom PeriodicTablePIMPL::get_atom(size_type Z) const {
 
 inline typename PeriodicTablePIMPL::atom_dm_t PeriodicTablePIMPL::get_atom_dm(
   size_type Z, const std::string& basis_name) const {
-    if(!m_atom_dms.count(std::make_pair(Z,basis_name)))
+    if(!m_atom_dms.count(std::make_pair(Z, basis_name)))
         throw std::out_of_range("Density matrix does not exist for Z = " +
                                 std::to_string(Z) + "/" + basis_name);
 
@@ -312,8 +319,7 @@ inline Atom PeriodicTablePIMPL::get_isotope(size_type Z,
 inline bool PeriodicTablePIMPL::operator==(
   const PeriodicTablePIMPL& rhs) const {
     return m_sym_2_Z == rhs.m_sym_2_Z && m_atoms == rhs.m_atoms &&
-           m_isotopes == rhs.m_isotopes && 
-           m_atom_dms == rhs.m_atom_dms;
+           m_isotopes == rhs.m_isotopes && m_atom_dms == rhs.m_atom_dms;
 }
 
 inline bool PeriodicTablePIMPL::operator!=(

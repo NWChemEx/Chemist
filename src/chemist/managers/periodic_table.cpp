@@ -54,7 +54,7 @@ void PeriodicTable::add_isotope(size_type Z, size_type mass_number,
 }
 
 void PeriodicTable::add_atom_dm(size_type Z, const std::string& basis_name,
-                                    const atom_dm_t& atom_dm) {
+                                const atom_dm_t& atom_dm) {
     pimpl_().add_atom_dm(Z, basis_name, atom_dm);
 }
 
@@ -77,7 +77,8 @@ bool PeriodicTable::operator==(const PeriodicTable& rhs) const {
     return pimpl_() == rhs.pimpl_();
 }
 
-atom_dm_t PeriodicTable::get_atom_dm(size_type Z, const std::string& basis_name) const {
+atom_dm_t PeriodicTable::get_atom_dm(size_type Z,
+                                     const std::string& basis_name) const {
     return pimpl_().get_atom_dm(Z, basis_name);
 }
 

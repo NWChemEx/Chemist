@@ -136,7 +136,8 @@ public:
      * @throw ??? if std::map::operator[] throws an exception. Strong throw
      *            guarantee.
      */
-    void add_atom_dm(size_type Z, const std::string& basis_name, const atom_dm_t& atom_dm);
+    void add_atom_dm(size_type Z, const std::string& basis_name,
+                     const atom_dm_t& atom_dm);
     ///@}
 
     /**
@@ -244,7 +245,8 @@ public:
      */
     ///@{
     atom_dm_t get_atom_dm(size_type Z, const std::string& basis_name) const;
-    atom_dm_t get_atom_dm(const std::string& sym, const std::string& basis_name) const {
+    atom_dm_t get_atom_dm(const std::string& sym,
+                          const std::string& basis_name) const {
         return get_atom_dm(sym_2_Z(sym), basis_name);
     }
     ///@}
