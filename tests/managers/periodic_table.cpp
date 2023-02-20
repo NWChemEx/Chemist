@@ -247,10 +247,16 @@ TEST_CASE("PeriodicTable::get_atom_dm") {
     pt.add_atom_dm(1, "6-31G", {0.18269721, 0.28443345, 0.28443345, 0.44282224}); // add precalculated density matrix with the basis set 6-31G for H
     pt.add_atom_dm(2, "6-31G", {0.70112023, 0.60816932, 0.60816932, 0.52754136}); // add precalculated density matrix with the basis set 6-31G for He
 
-    SECTION("No density matrix") {
+    SECTION("No density matrix 1") {
         REQUIRE_THROWS_MATCHES(
           pt.get_atom_dm(3, "6-31G"), std::out_of_range,
           Message("Density matrix does not exist for Z = 3/6-31G"));
+    }
+
+    SECTION("No density matrix 2") {
+        REQUIRE_THROWS_MATCHES(
+          pt.get_atom_dm(1, "3-21G"), std::out_of_range,
+          Message("Density matrix does not exist for Z = 1/3-21G"));
     }
 
     SECTION("Add existing density matrix") {

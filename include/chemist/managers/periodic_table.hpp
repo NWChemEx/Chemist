@@ -128,7 +128,9 @@ public:
      * @brief Add a precalculated atomic density matrix for the given element
      *
      * @param[in] Z Atomic number of the element
-     * @param[in] atom_dm precalculated atomic density matrix in the format of
+     * @param[in] basis_name The name of the basis set with which the atomic
+     *            density matrix is generated, case insensitive
+     * @param[in] atom_dm Precalculated atomic density matrix in the format of
      *            a vector of double numbers (flatten matrix)
      *
      * @throw std::runtime_error Atomic density matrix already exists for this
@@ -234,6 +236,8 @@ public:
      *              be in the range [1, max_Z()).
      * @param[in] sym The atomic symbol of the density matrix to return. Symbol
      *                is case-insensitive.
+     * @param[in] basis_name The name of the basis set with which the atomic
+     *            density matrix is generated, case insensitive
      *
      * @return The requested configuration
      *
