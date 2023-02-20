@@ -33,7 +33,8 @@ struct PeriodicTablePIMPL {
     using size_type    = typename PeriodicTable::size_type;
     using Z_list       = typename PeriodicTable::Z_list;
     using isotope_list = typename PeriodicTable::isotope_list;
-    using atom_dm_t = typename PeriodicTable::atom_dm_t; // atomic density matrix reference
+    using atom_dm_t =
+      typename PeriodicTable::atom_dm_t; // atomic density matrix reference
     using elec_conf_t      = typename PeriodicTable::elec_conf_t;
     using elec_conf_full_t = typename PeriodicTable::elec_conf_full_t;
     ///@}
@@ -46,13 +47,13 @@ struct PeriodicTablePIMPL {
 
     /// Symbol to atomic number map
     using sym_map = utilities::CaseInsensitiveMap<size_type>;
-    
+
     /// Atomic number/basis set to atomic density matrix map
     // Defined with a case insensitive map inside a standard map
-    // Have to use a map of (basis_set, atomic number) as key since there could be many basis sets associated
-    // with an atom
+    // Have to use a map of (basis_set, atomic number) as key since there could
+    // be many basis sets associated with an atom
     using basis_atom_map = utilities::CaseInsensitiveMap<size_type>;
-    using atom_dm_map = std::map<basis_atom_map, atom_dm_t>;
+    using atom_dm_map    = std::map<basis_atom_map, atom_dm_t>;
 
     /// Atomic number to electron configuration map
     using elec_conf_map = std::map<size_type, elec_conf_t>;
@@ -295,9 +296,9 @@ inline void PeriodicTablePIMPL::add_atom_dm(size_type Z,
     // Check if atomic density matrix already exists
     basis_atom_map map_t = {{basis_name, Z}};
     if(m_atom_dms.count(map_t))
-        throw std::runtime_error("Atomic density matrix for Z = " +
-                                 std::to_string(Z) + "/" + basis_name + 
-                                 " already exists");
+        throw std::runtime_error(
+          "Atomic density matrix for Z = " + std::to_string(Z) + "/" +
+          basis_name + " already exists");
     m_atom_dms.emplace(map_t, atom_dm);
 }
 
