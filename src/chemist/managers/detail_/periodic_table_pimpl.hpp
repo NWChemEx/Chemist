@@ -46,7 +46,7 @@ struct PeriodicTablePIMPL {
 
     /// Symbol to atomic number map
     using sym_map = utilities::CaseInsensitiveMap<size_type>;
-x
+    
     /// Atomic number/basis set to atomic density matrix map
     // Defined with a case insensitive map inside a standard map
     // Have to use a map of (basis_set, atomic number) as key since there could be many basis sets associated
