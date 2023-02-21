@@ -394,11 +394,11 @@ PeriodicTablePIMPL::get_elec_conf_simple(size_type Z) const {
 inline typename PeriodicTablePIMPL::elec_conf_frac_t
 PeriodicTablePIMPL::get_elec_conf_frac(double Z) const {
     constexpr double tol = 1e-6;
-    if (std::abs(Z - std::round(Z)) < tol){
+    if(std::abs(Z - std::round(Z)) < tol) {
         auto iconf = get_elec_conf(std::round(Z));
-        return elec_conf_frac_t(iconf.begin(),iconf.end());
+        return elec_conf_frac_t(iconf.begin(), iconf.end());
     }
-    size_t Z0 = static_cast <size_type> (Z);
+    size_t Z0 = static_cast<size_type>(Z);
     size_t Z1 = Z0 + 1;
     double dz = Z - Z0;
 
@@ -408,14 +408,12 @@ PeriodicTablePIMPL::get_elec_conf_frac(double Z) const {
     auto n0 = iconf0.size();
     auto n1 = iconf1.size();
 
-    elec_conf_frac_t conf(n1,0);
+    elec_conf_frac_t conf(n1, 0);
 
-    std::transform(iconf0.begin(),iconf0.end(),iconf1.begin(),conf.begin(),
-    [=](double i0, double i1){ return i0 + dz * (i1 - i0); });
+    std::transform(iconf0.begin(), iconf0.end(), iconf1.begin(), conf.begin(),
+                   [=](double i0, double i1) { return i0 + dz * (i1 - i0); });
 
-    for (size_t ni = n0; ni < n1; ni++){
-        conf[ni] = iconf1[ni] * dz;
-    }
+    for(size_t ni = n0; ni < n1; ni++) { conf[ni] = iconf1[ni] * dz; }
     return conf;
 }
 

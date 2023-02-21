@@ -295,9 +295,8 @@ TEST_CASE("PeriodicTable::get_elec_conf_full") {
     load_elements(pt);
 
     SECTION("No config") {
-        std::map<std::pair<size_t, size_t>, size_t> corr = {
-          {{1, 0}, 2},  // 1s2
-          {{2, 0}, 1}}; // 2s1
+        std::map<std::pair<size_t, size_t>, size_t> corr = {{{1, 0}, 2},  // 1s2
+                                                            {{2, 0}, 1}}; // 2s1
         REQUIRE(corr == pt.get_elec_conf_full(3));
     }
     SECTION("Config exists 2 (full)") {
