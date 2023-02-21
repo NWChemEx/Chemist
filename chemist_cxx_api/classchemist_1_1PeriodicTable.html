@@ -94,6 +94,8 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#abdc320ea18caa433d5094b4bd2b7d629">isotope_list</a> = std::vector&lt; <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> &gt;</td></tr>
 <tr class="memdesc:abdc320ea18caa433d5094b4bd2b7d629"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a list of isotopes. <br /></td></tr>
 <tr class="separator:abdc320ea18caa433d5094b4bd2b7d629"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f01591d37723b42b861da3294fa6aa6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#a3f01591d37723b42b861da3294fa6aa6">atom_dm_t</a> = std::vector&lt; double &gt;</td></tr>
+<tr class="separator:a3f01591d37723b42b861da3294fa6aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1293b72fbb7be383c4f1dcb64c3a892"><td class="memItemLeft" align="right" valign="top"><a id="ae1293b72fbb7be383c4f1dcb64c3a892"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#ae1293b72fbb7be383c4f1dcb64c3a892">elec_conf_t</a> = std::vector&lt; <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> &gt;</td></tr>
 <tr class="memdesc:ae1293b72fbb7be383c4f1dcb64c3a892"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a reduced atomic electronic configuration {Ns, Np, Nd, Nf}. <br /></td></tr>
@@ -110,6 +112,9 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#ad259352326f9dbba1388898eb10119d2">~PeriodicTable</a> () noexcept</td></tr>
 <tr class="memdesc:ad259352326f9dbba1388898eb10119d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default dtor. <br /></td></tr>
 <tr class="separator:ad259352326f9dbba1388898eb10119d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47fef7c3b52abab2d1464996a494e98b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#a47fef7c3b52abab2d1464996a494e98b">add_atom_dm</a> (<a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> Z, const std::string &amp;basis_name, const <a class="el" href="classchemist_1_1PeriodicTable.html#a3f01591d37723b42b861da3294fa6aa6">atom_dm_t</a> &amp;atom_dm)</td></tr>
+<tr class="memdesc:a47fef7c3b52abab2d1464996a494e98b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a precalculated atomic density matrix for the given element.  <a href="classchemist_1_1PeriodicTable.html#a47fef7c3b52abab2d1464996a494e98b">More...</a><br /></td></tr>
+<tr class="separator:a47fef7c3b52abab2d1464996a494e98b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc8a42807c70a2d61e7dc0aeebcf1b94"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PeriodicTable.html#abdc320ea18caa433d5094b4bd2b7d629">isotope_list</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#acc8a42807c70a2d61e7dc0aeebcf1b94">isotopes</a> (<a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> Z) const</td></tr>
 <tr class="memdesc:acc8a42807c70a2d61e7dc0aeebcf1b94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of available mass numbers for a particular atom.  <a href="classchemist_1_1PeriodicTable.html#acc8a42807c70a2d61e7dc0aeebcf1b94">More...</a><br /></td></tr>
 <tr class="separator:acc8a42807c70a2d61e7dc0aeebcf1b94"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -195,6 +200,30 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8f769e95aeb24c537c87096bc714a08e"><td class="memItemLeft" align="right" valign="top"><a id="a8f769e95aeb24c537c87096bc714a08e"></a>
 <a class="el" href="classchemist_1_1Atom.html">Atom</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_isotope</b> (const std::string &amp;sym, <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> mass_num) const</td></tr>
 <tr class="separator:a8f769e95aeb24c537c87096bc714a08e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">atomic density matrix Retrieval Functions</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p>Returns adensity matrix for the specified atom.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>The atomic number of the density matrix to return. Should be in the range [1, <a class="el" href="classchemist_1_1PeriodicTable.html#a95da9e0c5d7b2ad3b7e2b57b7724ea10" title="Returns the maximum atomic number for which an Atom instance can be made.">max_Z()</a>). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sym</td><td>The atomic symbol of the density matrix to return. Symbol is case-insensitive. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">basis_name</td><td>The name of the basis set with which the atomic density matrix is generated, case insensitive</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The requested configuration</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>if <code>Z</code> is not in the range [1, <a class="el" href="classchemist_1_1PeriodicTable.html#a95da9e0c5d7b2ad3b7e2b57b7724ea10" title="Returns the maximum atomic number for which an Atom instance can be made.">max_Z()</a>), <code>sym</code> is not a recognized atomic symbol, or no configuration data is available. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+</div></td></tr>
+<tr class="memitem:a784b3cc2c5d130e988fe14c11be54a7e"><td class="memItemLeft" align="right" valign="top"><a id="a784b3cc2c5d130e988fe14c11be54a7e"></a>
+<a class="el" href="classchemist_1_1PeriodicTable.html#a3f01591d37723b42b861da3294fa6aa6">atom_dm_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_atom_dm</b> (<a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> Z, const std::string &amp;basis_name) const</td></tr>
+<tr class="separator:a784b3cc2c5d130e988fe14c11be54a7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac4efd5c635f022bba36aeda47bab748"><td class="memItemLeft" align="right" valign="top"><a id="aac4efd5c635f022bba36aeda47bab748"></a>
+<a class="el" href="classchemist_1_1PeriodicTable.html#a3f01591d37723b42b861da3294fa6aa6">atom_dm_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_atom_dm</b> (const std::string &amp;sym, const std::string &amp;basis_name) const</td></tr>
+<tr class="separator:aac4efd5c635f022bba36aeda47bab748"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">configuration Retrieval Functions</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p>Returns an electronic configuration for the specified atom. Separate functions exist for full or reduced configuration.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -244,6 +273,21 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const
 <div class="textblock"><p>A class to contain <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instances. </p>
 <p>The <a class="el" href="classchemist_1_1PeriodicTable.html" title="A class to contain Atom instances.">PeriodicTable</a> class manages <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instances, which are populated at runtime using the provided insertion methods. The class also serves as a hub for retrieving other atomic data that is not typically stored with an <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instance. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a3f01591d37723b42b861da3294fa6aa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f01591d37723b42b861da3294fa6aa6">&#9670;&nbsp;</a></span>atom_dm_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classchemist_1_1PeriodicTable.html#a3f01591d37723b42b861da3294fa6aa6">chemist::PeriodicTable::atom_dm_t</a> =  std::vector&lt;double&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The type of a precalculated atomic density matrix in a certain basis set (e. g., 6-31G) should be in the format of a vector of doubles (flatten matrix) </p>
+
+</div>
+</div>
 <a id="a42a9f61a92397b97698f1852043ea73b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a42a9f61a92397b97698f1852043ea73b">&#9670;&nbsp;</a></span>elec_conf_full_t</h2>
 
@@ -287,6 +331,57 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a47fef7c3b52abab2d1464996a494e98b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47fef7c3b52abab2d1464996a494e98b">&#9670;&nbsp;</a></span>add_atom_dm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void chemist::PeriodicTable::add_atom_dm </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a>&#160;</td>
+          <td class="paramname"><em>Z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>basis_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1PeriodicTable.html#a3f01591d37723b42b861da3294fa6aa6">atom_dm_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>atom_dm</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a precalculated atomic density matrix for the given element. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>Atomic number of the element </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">basis_name</td><td>The name of the basis set with which the atomic density matrix is generated, case insensitive </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">atom_dm</td><td>Precalculated atomic density matrix in the format of a vector of double numbers (flatten matrix)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>Atomic density matrix already exists for this element. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">???</td><td>if std::map::operator[] throws an exception. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ad631d202ac164d9a4ed79327a6d80df0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad631d202ac164d9a4ed79327a6d80df0">&#9670;&nbsp;</a></span>add_elec_config()</h2>
 
