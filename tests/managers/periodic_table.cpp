@@ -141,6 +141,15 @@ TEST_CASE("PeriodicTable Comparison") {
         REQUIRE(pt2 != pt);
     }
 
+    SECTION("Filled with different density matrices") {
+        load_elements(pt);
+        load_elements(pt2);
+        pt.add_atom_dm(3, "6-31G", {1.0, 1.0, 1.0, 1.0});
+
+        REQUIRE(pt != pt2);
+        REQUIRE(pt2 != pt);
+    }
+
     SECTION("Filled with different configs") {
         load_elements(pt);
         load_elements(pt2);
@@ -239,6 +248,67 @@ TEST_CASE("PeriodicTable::get_atom") {
         auto corr = Atom(0ul, 0.0, "Ez");
 
         REQUIRE(corr == pt.get_atom(0));
+    }
+}
+
+TEST_CASE("PeriodicTable::get_atom_dm") {
+    PeriodicTable pt;
+    load_elements(pt);
+    pt.add_atom_dm(1, "6-31G",
+                   {0.18269721, 0.28443345, 0.28443345,
+                    0.44282224}); // add precalculated density matrix with the
+                                  // basis set 6-31G for H
+    pt.add_atom_dm(2, "6-31G",
+                   {0.70112023, 0.60816932, 0.60816932,
+                    0.52754136}); // add precalculated density matrix with the
+                                  // basis set 6-31G for He
+
+    SECTION("No density matrix 1") {
+        REQUIRE_THROWS_MATCHES(
+          pt.get_atom_dm(3, "6-31G"), std::out_of_range,
+          Message("Density matrix does not exist for Z = 3/6-31G"));
+    }
+
+    SECTION("No density matrix 2") {
+        REQUIRE_THROWS_MATCHES(
+          pt.get_atom_dm(1, "3-21G"), std::out_of_range,
+          Message("Density matrix does not exist for Z = 1/3-21G"));
+    }
+
+    SECTION("Add existing density matrix") {
+        REQUIRE_THROWS_MATCHES(
+          pt.add_atom_dm(1, "6-31G", {1.0, 1.0, 1.0, 1.0}), std::runtime_error,
+          Message("Atomic density matrix for Z = 1/6-31G already exists"));
+    }
+
+    SECTION("Add density matrix with another basis set") {
+        REQUIRE_NOTHROW(pt.add_atom_dm(1, "3-21G", {0.5, 0.5, 0.5, 0.5}));
+    }
+
+    SECTION("Density matrix exists 1") {
+        PeriodicTable::atom_dm_t corr = {0.18269721, 0.28443345, 0.28443345,
+                                         0.44282224};
+
+        REQUIRE(corr == pt.get_atom_dm(1, "6-31G"));
+        REQUIRE(corr == pt.get_atom_dm("H", "6-31G"));
+    }
+
+    SECTION("Density matrix exists 2") {
+        PeriodicTable::atom_dm_t corr = {0.70112023, 0.60816932, 0.60816932,
+                                         0.52754136};
+
+        REQUIRE(corr == pt.get_atom_dm(2, "6-31G"));
+        REQUIRE(corr == pt.get_atom_dm("He", "6-31G"));
+    }
+
+    SECTION("Density matrix exists without atom") {
+        pt.add_atom_dm(42, "6-31G", {9.0, 18.0, 15.0});
+        PeriodicTable::atom_dm_t corr = {9.0, 18.0, 15.0};
+
+        REQUIRE(corr == pt.get_atom_dm(42, "6-31G"));
+        REQUIRE_THROWS_MATCHES(corr == pt.get_atom_dm("Mo", "6-31G"),
+                               std::out_of_range,
+                               Message("Unrecognized atomic symbol: Mo"));
     }
 }
 

@@ -22,6 +22,7 @@ namespace chemist {
 using size_type        = typename PeriodicTable::size_type;
 using Z_list           = typename PeriodicTable::Z_list;
 using isotope_list     = typename PeriodicTable::isotope_list;
+using atom_dm_t        = typename PeriodicTable::atom_dm_t;
 using elec_conf_t      = typename PeriodicTable::elec_conf_t;
 using elec_conf_frac_t = typename PeriodicTable::elec_conf_frac_t;
 using elec_conf_full_t = typename PeriodicTable::elec_conf_full_t;
@@ -53,6 +54,10 @@ void PeriodicTable::insert(size_type Z, const Atom& atom) {
 void PeriodicTable::add_isotope(size_type Z, size_type mass_number,
                                 const Atom& isotope) {
     pimpl_().add_isotope(Z, mass_number, isotope);
+}
+void PeriodicTable::add_atom_dm(size_type Z, const std::string& basis_name,
+                                const atom_dm_t& atom_dm) {
+    pimpl_().add_atom_dm(Z, basis_name, atom_dm);
 }
 
 void PeriodicTable::add_elec_config(size_type Z,
@@ -90,6 +95,11 @@ elec_conf_frac_t PeriodicTable::get_elec_conf_frac(double Z) const {
 
 bool PeriodicTable::operator==(const PeriodicTable& rhs) const {
     return pimpl_() == rhs.pimpl_();
+}
+
+atom_dm_t PeriodicTable::get_atom_dm(size_type Z,
+                                     const std::string& basis_name) const {
+    return pimpl_().get_atom_dm(Z, basis_name);
 }
 
 bool PeriodicTable::operator!=(const PeriodicTable& rhs) const {
