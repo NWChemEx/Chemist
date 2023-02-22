@@ -17,7 +17,7 @@
 #pragma once
 #include <chemist/integral_factory/integral_factory.hpp>
 
-namespace chemist::detail_ {
+namespace chemist {
 
 class IntegralFactoryPIMPL {
 private:
@@ -74,4 +74,4 @@ private:
     virtual bool are_equal_(const IntegralFactoryPIMPL& rhs) const = 0;
 };
 
-} // namespace chemist::detail_
+} // namespace chemist

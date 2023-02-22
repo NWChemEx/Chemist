@@ -18,14 +18,14 @@
 #include <chemist/basis_set/basis_set.hpp>
 
 namespace chemist {
-namespace detail_ {
+
+/// PIMPL forward declaration
 class IntegralFactoryPIMPL;
-} // namespace detail_
 
 class IntegralFactory {
 public:
     /// Type of this instance
-    using pimpl_t = detail_::IntegralFactoryPIMPL;
+    using pimpl_t = IntegralFactoryPIMPL;
 
     /// Type of the pimpl
     using pimpl_ptr_t = std::unique_ptr<pimpl_t>;

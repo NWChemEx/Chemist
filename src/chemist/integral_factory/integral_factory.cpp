@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include <chemist/integral_factory/detail_/pimpl.hpp>
 #include <chemist/integral_factory/integral_factory.hpp>
+#include <chemist/integral_factory/integral_factory_pimpl.hpp>
 
 namespace chemist {
 
