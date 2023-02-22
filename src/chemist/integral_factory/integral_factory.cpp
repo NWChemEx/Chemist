@@ -56,6 +56,8 @@ const typename IntegralFactory::buffer_t& IntegralFactory::compute(
     return m_pimpl_->compute(indices);
 }
 
+// -- Private methods ----------------------------------------------------------
+
 void IntegralFactory::assert_pimpl_() const {
     if(!m_pimpl_)
         throw std::runtime_error("Instance does not contain a PIMPL. Did you "

@@ -33,6 +33,7 @@ public:
     /// Type of the shell indices
     using indices_t = std::vector<std::size_t>;
 
+    /// Type returned by compute
     using buffer_t = std::vector<const double*>;
 
     /** @brief Creates a new IntegralFactory with default constructed members.
@@ -114,11 +115,12 @@ public:
      */
     bool operator==(const IntegralFactory& rhs) const noexcept;
 
-    /** @brief
+    /** @brief Computes the integral values for a given set of shell indices
      *
-     *  @return
+     *  @return A vector of buffer points where the values of the integral can
+     *          be found.
      *
-     *  @throw
+     *  @throw std::runtime_error if the PIMPL isn't set.
      */
     const buffer_t& compute(const indices_t& indices);
 
@@ -138,8 +140,7 @@ private:
  *  @relates IntegralFactory
  *
  *  Two IntegralFactory instances are equal if all of their members compare
- *  equal. It is worth noting that since these members contain floating-point
- *  data this implies exact floating-point comparisons, i.e. 1.0000 != 1.0001.
+ *  equal.
  *
  *  @param[in] lhs The IntegralFactory on the left of the inequality operator.
  *  @param[in] rhs The IntegralFactory on the right of the inequality operator.
