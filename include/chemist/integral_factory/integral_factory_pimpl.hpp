@@ -60,7 +60,7 @@ protected:
     IntegralFactoryPIMPL(const IntegralFactoryPIMPL&)  = default;
     IntegralFactoryPIMPL(IntegralFactoryPIMPL&& other) = default;
     IntegralFactoryPIMPL& operator=(const IntegralFactoryPIMPL& rhs) = default;
-    IntegralFactoryPIMPL& operator=(IntegralFactoryPIMPL&& rhs)      = default;
+    IntegralFactoryPIMPL& operator=(IntegralFactoryPIMPL&& rhs) = default;
     ///@}
 
 private:
