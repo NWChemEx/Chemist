@@ -27,6 +27,8 @@
 
 #include "chemist/basis_set/basis_set.hpp"
 #include "chemist/chemical_system/chemical_system.hpp"
+#include "chemist/integral_factory/integral_factory.hpp"
+#include "chemist/integral_factory/integral_factory_pimpl.hpp"
 #include "chemist/managers/managers.hpp"
 #include "chemist/molecule/molecule.hpp"
 #include "chemist/operators/operators.hpp"
