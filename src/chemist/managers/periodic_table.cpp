@@ -89,8 +89,8 @@ elec_conf_t PeriodicTable::get_elec_conf(size_type Z) const {
     return pimpl_().get_elec_conf(Z);
 }
 
-elec_conf_frac_t PeriodicTable::get_elec_conf_frac(double Z) const {
-    return pimpl_().get_elec_conf_frac(Z);
+elec_conf_frac_t PeriodicTable::get_elec_conf_frac(double Z, double tol) const {
+    return pimpl_().get_elec_conf_frac(Z, tol);
 }
 
 bool PeriodicTable::operator==(const PeriodicTable& rhs) const {

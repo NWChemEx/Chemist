@@ -325,7 +325,7 @@ public:
     elec_conf_full_t get_elec_conf_full(const std::string& sym) const {
         return get_elec_conf_full(sym_2_Z(sym));
     }
-    elec_conf_frac_t get_elec_conf_frac(double Z) const;
+    elec_conf_frac_t get_elec_conf_frac(double Z, double tol = 1e-6) const;
     ///@}
 
     /**

@@ -416,6 +416,16 @@ TEST_CASE("PeriodicTable::get_elec_conf_frac") {
         REQUIRE(corr == pt.get_elec_conf_frac(3.8));
     }
 
+    SECTION("Outside tol") {
+        PeriodicTable::elec_conf_frac_t corr = {4.0, 0.001};
+        REQUIRE_THAT(pt.get_elec_conf_frac(4.001, 1e-4), Catch::Approx(corr));
+    }
+
+    SECTION("Larger tol") {
+        PeriodicTable::elec_conf_frac_t corr = {4.0};
+        REQUIRE(corr == pt.get_elec_conf_frac(4.001, 1e-2));
+    }
+
     SECTION("Within tol above") {
         PeriodicTable::elec_conf_frac_t corr = {4.0};
         REQUIRE(corr == pt.get_elec_conf_frac(4.0000001));

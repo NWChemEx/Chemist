@@ -220,7 +220,7 @@ struct PeriodicTablePIMPL {
      *
      * @return The requested configuration
      */
-    elec_conf_frac_t get_elec_conf_frac(double Z) const;
+    elec_conf_frac_t get_elec_conf_frac(double Z, double tol) const;
 
     /**
      * @brief Get an isotope
@@ -402,6 +402,7 @@ inline typename PeriodicTablePIMPL::atom_dm_t PeriodicTablePIMPL::get_atom_dm(
 inline typename PeriodicTablePIMPL::elec_conf_t
 PeriodicTablePIMPL::get_elec_conf(size_type Z) const {
     if(!m_elec_confs.count(Z)) {
+        //TODO: change to logger call
         std::cerr << "WARNING: No existing configuration for Z = " +
                        std::to_string(Z) +
                        ": generating configuration using aufbau principle"
@@ -456,8 +457,7 @@ PeriodicTablePIMPL::get_elec_conf_simple(size_type Z) const {
 }
 
 inline typename PeriodicTablePIMPL::elec_conf_frac_t
-PeriodicTablePIMPL::get_elec_conf_frac(double Z) const {
-    constexpr double tol = 1e-6;
+PeriodicTablePIMPL::get_elec_conf_frac(double Z, double tol) const {
     if(std::abs(Z - std::round(Z)) < tol) {
         auto iconf = get_elec_conf(std::round(Z));
         return elec_conf_frac_t(iconf.begin(), iconf.end());
