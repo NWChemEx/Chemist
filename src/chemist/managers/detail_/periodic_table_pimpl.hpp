@@ -402,7 +402,7 @@ inline typename PeriodicTablePIMPL::atom_dm_t PeriodicTablePIMPL::get_atom_dm(
 inline typename PeriodicTablePIMPL::elec_conf_t
 PeriodicTablePIMPL::get_elec_conf(size_type Z) const {
     if(!m_elec_confs.count(Z)) {
-        //TODO: change to logger call
+        // TODO: change to logger call
         std::cerr << "WARNING: No existing configuration for Z = " +
                        std::to_string(Z) +
                        ": generating configuration using aufbau principle"
