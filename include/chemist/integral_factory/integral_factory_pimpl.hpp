@@ -48,7 +48,7 @@ public:
     };
 
     /// Computes the integral values for a given set of shell indices
-    const buffer_t& compute(const indices_t& indices) const {
+    const buffer_t& compute(const indices_t& indices) {
         return compute_(indices);
     }
 
