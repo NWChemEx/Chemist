@@ -36,9 +36,7 @@ public:
 private:
     pimpl_ptr_t clone_() const { return std::make_unique<TestPIMPL>(m_buffer); }
 
-    const buffer_t& compute_(const indices_t& indices) const {
-        return m_buffer;
-    }
+    const buffer_t& compute_(const indices_t& indices) { return m_buffer; }
 
     bool are_equal_(const IntegralFactoryPIMPL& rhs) const {
         auto ptr = dynamic_cast<const TestPIMPL*>(&rhs);
