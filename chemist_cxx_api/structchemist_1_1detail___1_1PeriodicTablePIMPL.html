@@ -120,6 +120,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>atom_dm_t</b> = type
 <tr class="memitem:a5525a33e95f28e8e1ebd81310e015c04"><td class="memItemLeft" align="right" valign="top"><a id="a5525a33e95f28e8e1ebd81310e015c04"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>elec_conf_t</b> = typename <a class="el" href="classchemist_1_1PeriodicTable.html#ae1293b72fbb7be383c4f1dcb64c3a892">PeriodicTable::elec_conf_t</a></td></tr>
 <tr class="separator:a5525a33e95f28e8e1ebd81310e015c04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12a2024fcc5061011b0f1a4d283807f5"><td class="memItemLeft" align="right" valign="top"><a id="a12a2024fcc5061011b0f1a4d283807f5"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>elec_conf_frac_t</b> = typename PeriodicTable::elec_conf_frac_t</td></tr>
+<tr class="separator:a12a2024fcc5061011b0f1a4d283807f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac7848a261411f53f8c5060b567b6841"><td class="memItemLeft" align="right" valign="top"><a id="aac7848a261411f53f8c5060b567b6841"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>elec_conf_full_t</b> = typename <a class="el" href="classchemist_1_1PeriodicTable.html#a42a9f61a92397b97698f1852043ea73b">PeriodicTable::elec_conf_full_t</a></td></tr>
 <tr class="separator:aac7848a261411f53f8c5060b567b6841"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -166,6 +169,9 @@ std::unique_ptr&lt; <a class="el" href="structchemist_1_1detail___1_1PeriodicTab
 <tr class="memitem:aa82ee4801b96bd82aa873c5bd138f890"><td class="memItemLeft" align="right" valign="top">elec_conf_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#aa82ee4801b96bd82aa873c5bd138f890">get_elec_conf</a> (size_type Z) const</td></tr>
 <tr class="memdesc:aa82ee4801b96bd82aa873c5bd138f890"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get reduced electronic configuration for the specified element.  <a href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#aa82ee4801b96bd82aa873c5bd138f890">More...</a><br /></td></tr>
 <tr class="separator:aa82ee4801b96bd82aa873c5bd138f890"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bbfc207ce38b86fa031ce6218d3d533"><td class="memItemLeft" align="right" valign="top">elec_conf_frac_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a9bbfc207ce38b86fa031ce6218d3d533">get_elec_conf_frac</a> (double Z, double tol) const</td></tr>
+<tr class="memdesc:a9bbfc207ce38b86fa031ce6218d3d533"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get reduced electronic configuration for the specified element. Allow non-integer numbers of electrons. Interpolate (linearly) between two nearest integers.  <a href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a9bbfc207ce38b86fa031ce6218d3d533">More...</a><br /></td></tr>
+<tr class="separator:a9bbfc207ce38b86fa031ce6218d3d533"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05612d3c89b7ac2979f5649c881feafa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Atom.html">Atom</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a05612d3c89b7ac2979f5649c881feafa">get_isotope</a> (size_type Z, size_type mass_num) const</td></tr>
 <tr class="memdesc:a05612d3c89b7ac2979f5649c881feafa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an isotope.  <a href="structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a05612d3c89b7ac2979f5649c881feafa">More...</a><br /></td></tr>
 <tr class="separator:a05612d3c89b7ac2979f5649c881feafa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -494,6 +500,51 @@ size_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 </div><div class="memdoc">
 
 <p>Get reduced electronic configuration for the specified element. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>Atomic number</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The requested configuration </dd></dl>
+
+</div>
+</div>
+<a id="a9bbfc207ce38b86fa031ce6218d3d533"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bbfc207ce38b86fa031ce6218d3d533">&#9670;&nbsp;</a></span>get_elec_conf_frac()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PeriodicTablePIMPL::elec_conf_frac_t chemist::detail_::PeriodicTablePIMPL::get_elec_conf_frac </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>Z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>tol</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get reduced electronic configuration for the specified element. Allow non-integer numbers of electrons. Interpolate (linearly) between two nearest integers. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>Atomic number</td></tr>

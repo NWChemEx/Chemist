@@ -96,10 +96,11 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr class="separator:abdc320ea18caa433d5094b4bd2b7d629"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f01591d37723b42b861da3294fa6aa6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#a3f01591d37723b42b861da3294fa6aa6">atom_dm_t</a> = std::vector&lt; double &gt;</td></tr>
 <tr class="separator:a3f01591d37723b42b861da3294fa6aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1293b72fbb7be383c4f1dcb64c3a892"><td class="memItemLeft" align="right" valign="top"><a id="ae1293b72fbb7be383c4f1dcb64c3a892"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#ae1293b72fbb7be383c4f1dcb64c3a892">elec_conf_t</a> = std::vector&lt; <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> &gt;</td></tr>
-<tr class="memdesc:ae1293b72fbb7be383c4f1dcb64c3a892"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a reduced atomic electronic configuration {Ns, Np, Nd, Nf}. <br /></td></tr>
+<tr class="memitem:ae1293b72fbb7be383c4f1dcb64c3a892"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#ae1293b72fbb7be383c4f1dcb64c3a892">elec_conf_t</a> = std::vector&lt; <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> &gt;</td></tr>
 <tr class="separator:ae1293b72fbb7be383c4f1dcb64c3a892"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dd7adb4a96b2182efdf6502423ec37c"><td class="memItemLeft" align="right" valign="top"><a id="a1dd7adb4a96b2182efdf6502423ec37c"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>elec_conf_frac_t</b> = std::vector&lt; double &gt;</td></tr>
+<tr class="separator:a1dd7adb4a96b2182efdf6502423ec37c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42a9f61a92397b97698f1852043ea73b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PeriodicTable.html#a42a9f61a92397b97698f1852043ea73b">elec_conf_full_t</a> = std::map&lt; std::pair&lt; <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a>, <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> &gt;, <a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a> &gt;</td></tr>
 <tr class="separator:a42a9f61a92397b97698f1852043ea73b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -225,7 +226,7 @@ Public Member Functions</h2></td></tr>
 <a class="el" href="classchemist_1_1PeriodicTable.html#a3f01591d37723b42b861da3294fa6aa6">atom_dm_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_atom_dm</b> (const std::string &amp;sym, const std::string &amp;basis_name) const</td></tr>
 <tr class="separator:aac4efd5c635f022bba36aeda47bab748"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">configuration Retrieval Functions</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p>Returns an electronic configuration for the specified atom. Separate functions exist for full or reduced configuration.</p>
+<tr><td colspan="2"><div class="groupText"><p>Returns an electronic configuration for the specified atom. Separate functions exist for full or reduced configuration. If the requested configuration has not been assigned, one will be generated based on simple shell filling rules. Fractional configurations will be interpolated based on configs from the two integer values nearest to Z. Fractional configurations do not have a string/sym interface. Fractional full configurations are not implemented.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>The atomic number of the configuration to return. Should be in the range [1, <a class="el" href="classchemist_1_1PeriodicTable.html#a95da9e0c5d7b2ad3b7e2b57b7724ea10" title="Returns the maximum atomic number for which an Atom instance can be made.">max_Z()</a>). </td></tr>
@@ -236,7 +237,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The requested configuration</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::out_of_range</td><td>if <code>Z</code> is not in the range [1, <a class="el" href="classchemist_1_1PeriodicTable.html#a95da9e0c5d7b2ad3b7e2b57b7724ea10" title="Returns the maximum atomic number for which an Atom instance can be made.">max_Z()</a>), <code>sym</code> is not a recognized atomic symbol, or no configuration data is available. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::out_of_range</td><td>if <code>sym</code> is not a recognized atomic symbol. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
@@ -253,6 +254,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab7614e5c767f2d1bc9868894e7416f83"><td class="memItemLeft" align="right" valign="top"><a id="ab7614e5c767f2d1bc9868894e7416f83"></a>
 <a class="el" href="classchemist_1_1PeriodicTable.html#a42a9f61a92397b97698f1852043ea73b">elec_conf_full_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_elec_conf_full</b> (const std::string &amp;sym) const</td></tr>
 <tr class="separator:ab7614e5c767f2d1bc9868894e7416f83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64b5968072783d0539d3cfd44b7b33c4"><td class="memItemLeft" align="right" valign="top"><a id="a64b5968072783d0539d3cfd44b7b33c4"></a>
+elec_conf_frac_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_elec_conf_frac</b> (double Z, double tol=1e-6) const</td></tr>
+<tr class="separator:a64b5968072783d0539d3cfd44b7b33c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Comparison Operators</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -300,6 +304,21 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const
       </table>
 </div><div class="memdoc">
 <p>The type of a full atomic electronic configuration maps from {n,l} to the number of electrons in that shell </p>
+
+</div>
+</div>
+<a id="ae1293b72fbb7be383c4f1dcb64c3a892"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1293b72fbb7be383c4f1dcb64c3a892">&#9670;&nbsp;</a></span>elec_conf_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classchemist_1_1PeriodicTable.html#ae1293b72fbb7be383c4f1dcb64c3a892">chemist::PeriodicTable::elec_conf_t</a> =  std::vector&lt;<a class="el" href="classchemist_1_1PeriodicTable.html#aff6d55a7ba0252e8124147f00fe07a5e">size_type</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The type of a reduced atomic electronic configuration {Ns, Np, Nd, Nf} Fractional configs are not stored but are computed for non-integer Z </p>
 
 </div>
 </div>

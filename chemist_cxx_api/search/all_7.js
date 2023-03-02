@@ -7,9 +7,10 @@ var searchData=
   ['get_5fbasis_191',['get_basis',['../structchemist_1_1detail___1_1BasisSetManagerPIMPL.html#a40251e3607c4331670fb6052e2106fe7',1,'chemist::detail_::BasisSetManagerPIMPL::get_basis()'],['../classchemist_1_1BasisSetManager.html#aaac614ba44844318293573a0883ceadb',1,'chemist::BasisSetManager::get_basis()']]],
   ['get_5fconst_5freturn_5ftype_192',['get_const_return_type',['../classchemist_1_1operators_1_1detail___1_1LinearCombination.html#a3a96579a5790cba61d9678a0b781188f',1,'chemist::operators::detail_::LinearCombination']]],
   ['get_5felec_5fconf_193',['get_elec_conf',['../structchemist_1_1detail___1_1PeriodicTablePIMPL.html#aa82ee4801b96bd82aa873c5bd138f890',1,'chemist::detail_::PeriodicTablePIMPL']]],
-  ['get_5felem_5fi_194',['get_elem_i',['../structchemist_1_1set__theory_1_1SetTraits.html#a768a6337d839f4e758fe927ed6f23c89',1,'chemist::set_theory::SetTraits']]],
-  ['get_5findex_195',['get_index',['../structchemist_1_1set__theory_1_1SetTraits.html#a156354195fe313278c929f0ec3472496',1,'chemist::set_theory::SetTraits']]],
-  ['get_5fisotope_196',['get_isotope',['../structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a05612d3c89b7ac2979f5649c881feafa',1,'chemist::detail_::PeriodicTablePIMPL']]],
-  ['get_5freturn_5ftype_197',['get_return_type',['../classchemist_1_1operators_1_1detail___1_1LinearCombination.html#af31f8ae4f25b0a5c3acc9f521cfc428c',1,'chemist::operators::detail_::LinearCombination']]],
-  ['get_5fterms_198',['get_terms',['../classchemist_1_1operators_1_1detail___1_1LinearCombinationPIMPL.html#aae64a99a8fe8146d0486dc8a775cd961',1,'chemist::operators::detail_::LinearCombinationPIMPL::get_terms()'],['../classchemist_1_1operators_1_1detail___1_1LinearCombination.html#a9cd93dedc3da24fd988e1b639c4ce05a',1,'chemist::operators::detail_::LinearCombination::get_terms()']]]
+  ['get_5felec_5fconf_5ffrac_194',['get_elec_conf_frac',['../structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a9bbfc207ce38b86fa031ce6218d3d533',1,'chemist::detail_::PeriodicTablePIMPL']]],
+  ['get_5felem_5fi_195',['get_elem_i',['../structchemist_1_1set__theory_1_1SetTraits.html#a768a6337d839f4e758fe927ed6f23c89',1,'chemist::set_theory::SetTraits']]],
+  ['get_5findex_196',['get_index',['../structchemist_1_1set__theory_1_1SetTraits.html#a156354195fe313278c929f0ec3472496',1,'chemist::set_theory::SetTraits']]],
+  ['get_5fisotope_197',['get_isotope',['../structchemist_1_1detail___1_1PeriodicTablePIMPL.html#a05612d3c89b7ac2979f5649c881feafa',1,'chemist::detail_::PeriodicTablePIMPL']]],
+  ['get_5freturn_5ftype_198',['get_return_type',['../classchemist_1_1operators_1_1detail___1_1LinearCombination.html#af31f8ae4f25b0a5c3acc9f521cfc428c',1,'chemist::operators::detail_::LinearCombination']]],
+  ['get_5fterms_199',['get_terms',['../classchemist_1_1operators_1_1detail___1_1LinearCombinationPIMPL.html#aae64a99a8fe8146d0486dc8a775cd961',1,'chemist::operators::detail_::LinearCombinationPIMPL::get_terms()'],['../classchemist_1_1operators_1_1detail___1_1LinearCombination.html#a9cd93dedc3da24fd988e1b639c4ce05a',1,'chemist::operators::detail_::LinearCombination::get_terms()']]]
 ];
