@@ -48,7 +48,7 @@ public:
     };
 
     /// Computes the integral values for a given set of shell indices
-    const buffer_t& compute(const indices_t& indices) const {
+    const buffer_t& compute(const indices_t& indices) {
         return compute_(indices);
     }
 
@@ -68,7 +68,7 @@ private:
     virtual pimpl_ptr_t clone_() const = 0;
 
     /// To be overridden by the derived class to implement compute()
-    virtual const buffer_t& compute_(const indices_t& indices) const = 0;
+    virtual const buffer_t& compute_(const indices_t& indices) = 0;
 
     /// To be overridden by the derived class to implement compute()
     virtual bool are_equal_(const IntegralFactoryPIMPL& rhs) const = 0;
