@@ -50,7 +50,9 @@ public:
     using atom_dm_t = std::vector<double>;
 
     /// The type of a reduced atomic electronic configuration {Ns, Np, Nd, Nf}
-    using elec_conf_t = std::vector<size_type>;
+    /// Fractional configs are not stored but are computed for non-integer Z
+    using elec_conf_t      = std::vector<size_type>;
+    using elec_conf_frac_t = std::vector<double>;
 
     /// The type of a full atomic electronic configuration
     /// maps from {n,l} to the number of electrons in that shell
@@ -295,6 +297,12 @@ public:
      * @name configuration Retrieval Functions
      * @brief Returns an electronic configuration for the specified atom.
      *        Separate functions exist for full or reduced configuration.
+     *        If the requested configuration has not been assigned, one will
+     *        be generated based on simple shell filling rules.
+     *        Fractional configurations will be interpolated based on configs
+     *        from the two integer values nearest to Z.
+     *        Fractional configurations do not have a string/sym interface.
+     *        Fractional full configurations are not implemented.
      *
      * @param[in] Z The atomic number of the configuration to return. Should
      *              be in the range [1, max_Z()).
@@ -303,10 +311,8 @@ public:
      *
      * @return The requested configuration
      *
-     * @throw std::out_of_range if @p Z is not in the range [1, max_Z()), @p
-     *                          sym is not a recognized atomic symbol, or no
-     *                          configuration data is available. Strong throw
-     *                          guarantee.
+     * @throw std::out_of_range if @p sym is not a recognized atomic symbol.
+     *        Strong throw guarantee.
      */
     ///@{
     elec_conf_t get_elec_conf(size_type Z) const;
@@ -319,6 +325,7 @@ public:
     elec_conf_full_t get_elec_conf_full(const std::string& sym) const {
         return get_elec_conf_full(sym_2_Z(sym));
     }
+    elec_conf_frac_t get_elec_conf_frac(double Z, double tol = 1e-6) const;
     ///@}
 
     /**

@@ -24,6 +24,7 @@ using Z_list           = typename PeriodicTable::Z_list;
 using isotope_list     = typename PeriodicTable::isotope_list;
 using atom_dm_t        = typename PeriodicTable::atom_dm_t;
 using elec_conf_t      = typename PeriodicTable::elec_conf_t;
+using elec_conf_frac_t = typename PeriodicTable::elec_conf_frac_t;
 using elec_conf_full_t = typename PeriodicTable::elec_conf_full_t;
 
 PeriodicTable::PeriodicTable() : m_pimpl_() {}
@@ -86,6 +87,10 @@ Atom PeriodicTable::get_isotope(size_type Z, size_type mass_num) const {
 
 elec_conf_t PeriodicTable::get_elec_conf(size_type Z) const {
     return pimpl_().get_elec_conf(Z);
+}
+
+elec_conf_frac_t PeriodicTable::get_elec_conf_frac(double Z, double tol) const {
+    return pimpl_().get_elec_conf_frac(Z, tol);
 }
 
 bool PeriodicTable::operator==(const PeriodicTable& rhs) const {

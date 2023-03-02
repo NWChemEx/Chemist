@@ -36,6 +36,7 @@ struct PeriodicTablePIMPL {
     using atom_dm_t =
       typename PeriodicTable::atom_dm_t; // atomic density matrix reference
     using elec_conf_t      = typename PeriodicTable::elec_conf_t;
+    using elec_conf_frac_t = typename PeriodicTable::elec_conf_frac_t;
     using elec_conf_full_t = typename PeriodicTable::elec_conf_full_t;
     ///@}
 
@@ -211,6 +212,17 @@ struct PeriodicTablePIMPL {
     elec_conf_t get_elec_conf(size_type Z) const;
 
     /**
+     * @brief Get reduced electronic configuration for the specified element.
+     *        Allow non-integer numbers of electrons.
+     *        Interpolate (linearly) between two nearest integers.
+     *
+     * @param[in] Z Atomic number
+     *
+     * @return The requested configuration
+     */
+    elec_conf_frac_t get_elec_conf_frac(double Z, double tol) const;
+
+    /**
      * @brief Get an isotope
      *
      * @param[in] Z Atomic number of isotope
@@ -259,6 +271,17 @@ struct PeriodicTablePIMPL {
     /// Highest atomic number (Z) of an Atom in this instance
     size_type m_max_Z;
     ///@}
+
+private:
+    /**
+     * @brief Return an electronic configuration based on aufbau principle.
+     *        Fill shells in order of increasing n+l (and increasing n in shells
+     *        with same n+l).
+     *
+     * @param[in] Z number of electrons
+     * @return electronic configuration with Z electrons
+     */
+    elec_conf_t get_elec_conf_simple(size_type Z) const;
 };
 
 inline void PeriodicTablePIMPL::insert(size_type Z, const Atom& atom) {
@@ -378,9 +401,14 @@ inline typename PeriodicTablePIMPL::atom_dm_t PeriodicTablePIMPL::get_atom_dm(
 
 inline typename PeriodicTablePIMPL::elec_conf_t
 PeriodicTablePIMPL::get_elec_conf(size_type Z) const {
-    if(!m_elec_confs.count(Z))
-        throw std::out_of_range("Configuration does not exist for Z = " +
-                                std::to_string(Z));
+    if(!m_elec_confs.count(Z)) {
+        // TODO: change to logger call
+        std::cerr << "WARNING: No existing configuration for Z = " +
+                       std::to_string(Z) +
+                       ": generating configuration using aufbau principle"
+                  << std::endl;
+        return PeriodicTablePIMPL::get_elec_conf_simple(Z);
+    }
 
     return m_elec_confs.at(Z);
 }
@@ -408,6 +436,49 @@ inline bool PeriodicTablePIMPL::operator==(
 inline bool PeriodicTablePIMPL::operator!=(
   const PeriodicTablePIMPL& rhs) const {
     return !(*this == rhs);
+}
+
+inline typename PeriodicTablePIMPL::elec_conf_t
+PeriodicTablePIMPL::get_elec_conf_simple(size_type Z) const {
+    elec_conf_t conf(0);
+    size_t nrem   = Z;
+    size_t nPlusl = 1;
+    while(nrem > 0) {
+        size_t lmax = (nPlusl - 1) / 2;
+        if(nPlusl % 2) { conf.push_back(0); }
+        for(size_t li = lmax; li <= lmax; li--) {
+            size_t delta_e = std::min(2 * (2 * li + 1), nrem);
+            conf[li] += delta_e;
+            nrem -= delta_e;
+        }
+        nPlusl += 1;
+    }
+    return conf;
+}
+
+inline typename PeriodicTablePIMPL::elec_conf_frac_t
+PeriodicTablePIMPL::get_elec_conf_frac(double Z, double tol) const {
+    if(std::abs(Z - std::round(Z)) < tol) {
+        auto iconf = get_elec_conf(std::round(Z));
+        return elec_conf_frac_t(iconf.begin(), iconf.end());
+    }
+    size_t Z0 = static_cast<size_type>(Z);
+    size_t Z1 = Z0 + 1;
+    double dz = Z - Z0;
+
+    auto iconf0 = get_elec_conf(Z0);
+    auto iconf1 = get_elec_conf(Z1);
+
+    auto n0 = iconf0.size();
+    auto n1 = iconf1.size();
+
+    elec_conf_frac_t conf(n1, 0);
+
+    std::transform(iconf0.begin(), iconf0.end(), iconf1.begin(), conf.begin(),
+                   [=](double i0, double i1) { return i0 + dz * (i1 - i0); });
+
+    for(size_t ni = n0; ni < n1; ni++) { conf[ni] = iconf1[ni] * dz; }
+    return conf;
 }
 
 } // namespace chemist::detail_

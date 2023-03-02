@@ -317,9 +317,8 @@ TEST_CASE("PeriodicTable::get_elec_conf") {
     load_elements(pt);
 
     SECTION("No config") {
-        REQUIRE_THROWS_MATCHES(
-          pt.get_elec_conf(3), std::out_of_range,
-          Message("Configuration does not exist for Z = 3"));
+        PeriodicTable::elec_conf_t corr = {3};
+        REQUIRE(corr == pt.get_elec_conf(3));
     }
 
     SECTION("Add existing config") {
@@ -366,9 +365,9 @@ TEST_CASE("PeriodicTable::get_elec_conf_full") {
     load_elements(pt);
 
     SECTION("No config") {
-        REQUIRE_THROWS_MATCHES(
-          pt.get_elec_conf_full(3), std::out_of_range,
-          Message("Configuration does not exist for Z = 3"));
+        std::map<std::pair<size_t, size_t>, size_t> corr = {{{1, 0}, 2},  // 1s2
+                                                            {{2, 0}, 1}}; // 2s1
+        REQUIRE(corr == pt.get_elec_conf_full(3));
     }
     SECTION("Config exists 2 (full)") {
         std::map<std::pair<size_t, size_t>, size_t> corr = {{{1, 0}, 2}}; // 1s2
@@ -395,6 +394,60 @@ TEST_CASE("PeriodicTable::get_elec_conf_full") {
 
         REQUIRE(corr == pt.get_elec_conf_full(42));
         REQUIRE(corr == pt.get_elec_conf_full("Mo"));
+    }
+}
+
+TEST_CASE("PeriodicTable::get_elec_conf_frac") {
+    PeriodicTable pt;
+    load_elements(pt);
+
+    SECTION("One exists") {
+        PeriodicTable::elec_conf_frac_t corr = {2.3};
+        REQUIRE(corr == pt.get_elec_conf_frac(2.3));
+    }
+
+    SECTION("Both exist") {
+        PeriodicTable::elec_conf_frac_t corr = {1.2};
+        REQUIRE(corr == pt.get_elec_conf_frac(1.2));
+    }
+
+    SECTION("Neither exist") {
+        PeriodicTable::elec_conf_frac_t corr = {3.8};
+        REQUIRE(corr == pt.get_elec_conf_frac(3.8));
+    }
+
+    SECTION("Outside tol") {
+        PeriodicTable::elec_conf_frac_t corr = {4.0, 0.001};
+        REQUIRE_THAT(pt.get_elec_conf_frac(4.001, 1e-4), Catch::Approx(corr));
+    }
+
+    SECTION("Larger tol") {
+        PeriodicTable::elec_conf_frac_t corr = {4.0};
+        REQUIRE(corr == pt.get_elec_conf_frac(4.001, 1e-2));
+    }
+
+    SECTION("Within tol above") {
+        PeriodicTable::elec_conf_frac_t corr = {4.0};
+        REQUIRE(corr == pt.get_elec_conf_frac(4.0000001));
+    }
+
+    SECTION("Within tol below") {
+        PeriodicTable::elec_conf_frac_t corr = {4.0};
+        REQUIRE(corr == pt.get_elec_conf_frac(3.9999999));
+    }
+
+    SECTION("Multiple diff") {
+        pt.add_elec_config(24, {8, 12, 4});
+        pt.add_elec_config(25, {6, 12, 7});
+        PeriodicTable::elec_conf_frac_t corr = {7.8, 12, 4.3};
+        REQUIRE_THAT(pt.get_elec_conf_frac(24.1), Catch::Approx(corr));
+    }
+
+    SECTION("Length mismatch") {
+        pt.add_elec_config(58, {12, 24, 22});
+        pt.add_elec_config(59, {12, 24, 21, 2});
+        PeriodicTable::elec_conf_frac_t corr = {12.0, 24.0, 21.3, 1.4};
+        REQUIRE_THAT(pt.get_elec_conf_frac(58.7), Catch::Approx(corr));
     }
 }
 
