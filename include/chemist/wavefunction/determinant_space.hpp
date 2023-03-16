@@ -189,15 +189,6 @@ public:
      */
     bool operator==(const DeterminantSpace& rhs) const;
 
-    /** @brief Updates a hasher with the state of this determinant space.
-     *
-     *  @param[in,out] h The hasher to hash the DeterminantSpace with. After
-     *                   this call the internal state of @p h will have been
-     *                   updated with hashes of this instance's state.
-     *
-     */
-    void hash(chemist::detail_::Hasher& h) const;
-
 private:
     /// The occupied orbitals
     const_occupied_pointer m_pocc_;

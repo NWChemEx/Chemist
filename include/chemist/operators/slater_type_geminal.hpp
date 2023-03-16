@@ -15,7 +15,6 @@
  */
 
 #pragma once
-#include "chemist/detail_/hashing.hpp"
 #include "chemist/electrons/electrons.hpp"
 #include <tuple> // for std::tie
 
@@ -83,18 +82,6 @@ struct SlaterTypeGeminal {
      *  @throw None No throw guarantee.
      */
     auto operator*(const SlaterTypeGeminal& rhs) const;
-
-    /** @brief Hashes the current STG.
-     *
-     *  An STG has two pieces of state: the coefficient and the exponent. This
-     *  function updates the hash of the provided hasher with the hashes of this
-     *  STG's state.
-     *
-     *  @param[in,out] h The hasher to use for hashing. After this call the
-     *                   internal state of @p h will be updated with the hashes
-     *                   of this instance's state.
-     */
-    void hash(chemist::detail_::Hasher& h) const { h(coefficient, exponent); }
 
     /// The scalar multiplying the STG
     double coefficient;

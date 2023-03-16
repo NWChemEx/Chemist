@@ -16,6 +16,7 @@
 
 #pragma once
 #include "chemist/molecule/atom.hpp"
+#include <map>
 #include <memory> //For unique_ptr
 #include <vector>
 

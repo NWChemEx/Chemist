@@ -269,7 +269,6 @@ protected:
     /// Derived implementation of polymorphic equality comparison
     bool is_equal_impl(const OperatorBase& other) const noexcept override;
 
-    void hash_impl(chemist::detail_::Hasher& h) const override;
     std::string as_string_impl() const override;
 
 private:

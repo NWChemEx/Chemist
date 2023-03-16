@@ -141,8 +141,6 @@ public:
 
     bool operator==(const ManyBody& rhs) const;
 
-    void hash(chemist::detail_::Hasher& h) const;
-
 private:
     /// Maximum number of excitations allowed
     static constexpr std::size_t m_order_ = 2;

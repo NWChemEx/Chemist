@@ -15,7 +15,6 @@
  */
 
 #pragma once
-#include "chemist/detail_/hashing.hpp"
 #include <iomanip>
 #include <iostream>
 
@@ -61,13 +60,6 @@ public:
      *  @throw None No throw guarantee.
      */
     const_reference value() const noexcept { return m_distance_; }
-
-    /** @brief Hashes the current Distance instance.
-     *
-     *  @param[in,out] h The Hasher instance to use for the hashing. After this
-     *                   call @p h will contain the hash of this instance.
-     */
-    void hash(chemist::detail_::Hasher& h) const { h(m_distance_); }
 
 private:
     /// The actual value of the distance.

@@ -15,7 +15,6 @@
  */
 
 #pragma once
-#include "chemist/detail_/hashing.hpp"
 
 namespace chemist {
 
@@ -26,16 +25,6 @@ namespace chemist {
  */
 struct ManyElectrons {
     using size_type = unsigned long;
-
-    /** @brief Hashes a ManyElectrons instance.
-     *
-     *  This function updates the internal hash of @p h with the hash of this
-     *  instance's state (*i.e.*, it's number of electrons).
-     *
-     *  @param[in,out] h The hasher instance to use for hashing. After this call
-     *                   @p h will be updated with the hash of this instance.
-     */
-    void hash(detail_::Hasher& h) const noexcept { h(size); }
 
     /// The number of electrons
     size_type size = 0;

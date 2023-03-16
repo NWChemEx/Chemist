@@ -144,14 +144,6 @@ public:
     template<typename Archive>
     void load(Archive& ar);
 
-    /** @brief Computes a hash of the PointCharge.
-     *
-     *  @param[in,out] h The object used to hash the state. After this call @p h
-     *                   will have been modified to include a hash of this
-     *                   object's state.
-     */
-    void hash(detail_::Hasher& h) const;
-
 private:
     /// The charge associated with this point charge
     scalar_type m_q_ = 0.0;
@@ -234,12 +226,6 @@ template<typename Archive>
 void PointCharge<T>::load(Archive& ar) {
     base_type::load(ar);
     ar& m_q_;
-}
-
-template<typename T>
-void PointCharge<T>::hash(detail_::Hasher& h) const {
-    base_type::hash(h);
-    h(m_q_);
 }
 
 extern template class PointCharge<double>;

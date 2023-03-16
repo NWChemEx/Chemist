@@ -16,7 +16,6 @@
 
 #include "ao_basis_set_pimpl.hpp"
 #include "chemist/basis_set/ao_basis_set.hpp"
-#include "chemist/detail_/hashing.hpp"
 #include <cassert>
 
 namespace chemist {
@@ -236,15 +235,6 @@ template<typename T>
 typename AOBasisSet<T>::const_reference AO_BS::at_(size_type i) const {
     assert(m_pimpl_ != nullptr);
     return m_pimpl_->at(i);
-}
-
-template<typename T>
-void AOBasisSet<T>::hash(detail_::Hasher& h) const {
-    for(const auto& c : *this) { h(c.x(), c.y(), c.z()); }
-    for(const auto&& s : this->shells()) { h(s.pure(), s.l()); }
-    for(const auto&& p : this->unique_primitives()) {
-        h(p.coefficient(), p.exponent());
-    }
 }
 
 template class AOBasisSet<double>;

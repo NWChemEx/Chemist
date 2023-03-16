@@ -300,9 +300,6 @@ protected:
      */
     virtual size_type size_() const noexcept override;
 
-    /// Include the transformation and the from space in the hash
-    virtual void hash_(chemist::detail_::Hasher& h) const override;
-
     /// Include the transformation and the from space in the comparison
     virtual bool equal_(const BaseSpace& rhs) const noexcept override;
 
@@ -334,9 +331,7 @@ bool operator==(const DerivedSpace<LTransformType, LFromSpace>& lhs,
                 const DerivedSpace<RTransformType, RFromSpace>& rhs) {
     if constexpr(!std::is_same_v<decltype(lhs), decltype(rhs)>)
         return false;
-    else {
-        return lhs.operator==(rhs);
-    }
+    else { return lhs.operator==(rhs); }
 }
 
 /** @brief Determines if two DerivedSpace instances are non-polymorphically

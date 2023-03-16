@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#include "chemist/detail_/hashing.hpp"
 #include "chemist/molecule/molecule.hpp"
 #include "mol_pimpl.hpp"
 #include <iostream> //For std::endl
@@ -63,10 +62,6 @@ const_iterator Molecule::begin() const noexcept { return pimpl_->begin(); }
 iterator Molecule::end() noexcept { return pimpl_->end(); }
 
 const_iterator Molecule::end() const noexcept { return pimpl_->end(); }
-
-void Molecule::hash(detail_::Hasher& h) const {
-    for(const auto& x : *this) h(x);
-}
 
 std::ostream& operator<<(std::ostream& os, const chemist::Molecule& mol) {
     for(const auto& ai : mol) os << ai << std::endl;

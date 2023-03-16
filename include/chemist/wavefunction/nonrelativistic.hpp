@@ -124,16 +124,6 @@ public:
 
     bool operator==(const Nonrelativistic& rhs) const;
 
-    /** @brief Hashes the wavefunction.
-     *
-     *  This function will add a hash of the wavefunction to the provided
-     *  Hasher instance
-     *
-     *  @param[in,out] h The instance to use for hashing. After this call @p h
-     *                   will contain a hash of this wavefunction.
-     */
-    void hash(chemist::detail_::Hasher& h) const { h(m_spin_, m_pbasis_); }
-
 private:
     /// The total spin of the wavefunction
     spin_type m_spin_ = 0;

@@ -15,22 +15,13 @@
  */
 
 #pragma once
-#include "chemist/detail_/hashing.hpp"
 
 namespace chemist {
 
 /** @brief Class representing a single Electron
  *
  */
-struct Electron {
-    /** @brief Hashes an Electron instance.
-     *
-     *  @param[in,out] <anonymous> The hasher instance to use for hashing. This
-     *                             function is a no-op and the hasher will
-     *                             remain unchanged after the call.
-     */
-    void hash(detail_::Hasher&) const noexcept {}
-};
+struct Electron {};
 
 /** @brief Compares two Electron instances.
  *

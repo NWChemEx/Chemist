@@ -15,8 +15,7 @@
  */
 
 #pragma once
-#include "chemist/detail_/hashing.hpp" // For hashing
-#include <array>                       // For the coordinates
+#include <array> // For the coordinates
 #include <cereal/types/array.hpp>
 #include <cereal/types/string.hpp>
 #include <memory> // For unique pointer
@@ -253,12 +252,6 @@ public:
     void serialize(Archive& ar) {
         ar& Z() & coords() & mass() & name();
     }
-
-    /** @brief Hash Atom instance
-     *
-     * @param h Hasher object
-     */
-    void hash(detail_::Hasher& h) const;
 
 private:
     /// Actual implementation of the Atom class

@@ -29,7 +29,7 @@ using mass_type  = typename Atom::mass_type;
 Atom::Atom() : pimpl_(std::make_unique<detail_::ContiguousAtomPIMPL>()) {}
 Atom::Atom(const Atom& rhs) : pimpl_(rhs.pimpl_->clone()) {}
 Atom::Atom(Atom&& rhs) noexcept = default;
-Atom& Atom::operator            =(const Atom& rhs) {
+Atom& Atom::operator=(const Atom& rhs) {
     // Note using the copy ctor would reallocate the buffers, this way we skip
     // the reallocation
     name()   = rhs.name();
@@ -50,8 +50,6 @@ size_type& Atom::Z() noexcept { return pimpl_->at_num(); }
 coord_type& Atom::coords() noexcept { return pimpl_->coords(); }
 
 mass_type& Atom::mass() noexcept { return pimpl_->mass(); }
-
-void Atom::hash(detail_::Hasher& h) const { h(Z(), coords(), mass(), name()); }
 
 bool operator==(const Atom& lhs, const Atom& rhs) noexcept {
     return std::tie(lhs.Z(), lhs.coords(), lhs.mass(), lhs.name()) ==
