@@ -48,10 +48,10 @@ public:
 
     Multipole(point_type p = point_type(0., 0., 0.)) : gauge_origin_(p) {}
 
-    Multipole(const Multipole& other)      = default;
-    Multipole(Multipole&& other) noexcept  = default;
+    Multipole(const Multipole& other)     = default;
+    Multipole(Multipole&& other) noexcept = default;
     Multipole& operator=(const Multipole&) = default;
-    Multipole& operator=(Multipole&&)      = default;
+    Multipole& operator=(Multipole&&) = default;
 
     ~Multipole() noexcept = default;
 

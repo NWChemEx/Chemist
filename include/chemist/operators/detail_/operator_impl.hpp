@@ -84,7 +84,7 @@ protected:
     OperatorImpl(OperatorImpl&& rhs)      = default;
 
     OperatorImpl& operator=(const OperatorImpl&) = default;
-    OperatorImpl& operator=(OperatorImpl&&)      = default;
+    OperatorImpl& operator=(OperatorImpl&&) = default;
 
     OperatorImpl(Particles... inputs) :
       m_particles_(std::make_tuple(std::move(inputs)...)) {}

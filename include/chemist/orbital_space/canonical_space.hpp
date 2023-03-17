@@ -137,7 +137,9 @@ bool operator==(const CanonicalSpace<LOrbitalEnergyType, LBaseType>& lhs,
                 const CanonicalSpace<ROrbitalEnergyType, RBaseType>& rhs) {
     if constexpr(!std::is_same_v<decltype(lhs), decltype(rhs)>)
         return false;
-    else { lhs.operator==(rhs); }
+    else {
+        lhs.operator==(rhs);
+    }
 }
 
 /** @brief Determines if two CanonicalSpace instances are different.
