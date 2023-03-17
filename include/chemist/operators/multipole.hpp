@@ -48,10 +48,10 @@ public:
 
     Multipole(point_type p = point_type(0., 0., 0.)) : gauge_origin_(p) {}
 
-    Multipole(const Multipole& other)     = default;
-    Multipole(Multipole&& other) noexcept = default;
+    Multipole(const Multipole& other)      = default;
+    Multipole(Multipole&& other) noexcept  = default;
     Multipole& operator=(const Multipole&) = default;
-    Multipole& operator=(Multipole&&) = default;
+    Multipole& operator=(Multipole&&)      = default;
 
     ~Multipole() noexcept = default;
 
@@ -72,10 +72,6 @@ public:
     inline auto& gauge_origin() { return gauge_origin_; }
 
 protected:
-    inline void hash_impl(chemist::detail_::Hasher& h) const override {
-        return h(gauge_origin_);
-    }
-
     inline bool is_equal_impl(
       const OperatorBase& other) const noexcept override {
         auto ptr = dynamic_cast<const my_type*>(&other);

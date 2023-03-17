@@ -15,7 +15,6 @@
  */
 
 #include "chemist/basis_set/ao_basis_set.hpp"
-#include "chemist/detail_/hashing.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
 #include <sstream>
@@ -34,14 +33,6 @@ static inline auto make_bs() {
     bs.add_center(c);
     return std::make_pair(bs, c);
 }
-
-// TEST_CASE("AOBasisSet : default ctor") {
-//     bs_t bs;
-//     chemist::detail_::Hasher h(chemist::detail_::HashType::Hash128);
-//     h(bs);
-//     REQUIRE(chemist::detail_::hash_to_string(h.finalize()) ==
-//             "00000000000000000000000000000000");
-// }
 
 TEST_CASE("AOBasisSet : copy ctor") {
     bs_t bs;
@@ -90,11 +81,6 @@ TEST_CASE("AOBasisSet : add_center") {
     bs.add_center(c);
     REQUIRE(bs.size() == 1);
     REQUIRE(bs[0] == c);
-
-    // chemist::detail_::Hasher h(chemist::detail_::HashType::Hash128);
-    // h(bs);
-    // REQUIRE(chemist::detail_::hash_to_string(h.finalize()) ==
-    //         "c7c65e5af263ca28eb7d099cf993f8af");
 }
 
 TEST_CASE("AOBasisSet : max_l") {

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#include "chemist/detail_/hashing.hpp"
 #include "chemist/molecule/molecule.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
@@ -33,14 +32,6 @@ using const_iterator  = typename Molecule::const_iterator;
 // Typedefs used for the tests
 using cart_t      = std::array<double, 3>;
 using vector_type = std::vector<value_type>;
-
-static const std::array<std::string, 7> corr_hash{
-  "b5bf975551bed42fdad51c5b101e400a", // Default CTor
-  "4b83ba11f9c6e3f9b75b7a190044fa8e", // 1 atom
-  "885a0a137b3eaada1695f8b2115d6b93", // 2 atom anion
-  "0dd6b5583385ad3b5ea2276326b2eef1", // D-D molecule
-  "7793f30bc4ab64eda18c600d13c03330"  // H-D molecule
-};
 
 TEST_CASE("Molecule Class") {
     SECTION("Typedefs") {

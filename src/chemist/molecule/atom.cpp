@@ -15,7 +15,6 @@
  */
 
 #include "atom_pimpl.hpp"
-#include "chemist/detail_/hashing.hpp" //For hashing
 #include "chemist/molecule/atom.hpp"
 #include <iomanip> // For precision of floats
 

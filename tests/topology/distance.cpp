@@ -44,12 +44,6 @@ TEST_CASE("Distance") {
         REQUIRE(CopyOfd.value() == value_type{1.23});
     }
 
-    SECTION("hash") {
-        using chemist::detail_::hash_objects;
-        REQUIRE(hash_objects(d) == hash_objects(Distance{1.23}));
-        REQUIRE(hash_objects(d) != hash_objects(Distance{}));
-    }
-
     SECTION("Comparisons") {
         SECTION("LHS == RHS") {
             Distance d2(1.23);

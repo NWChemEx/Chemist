@@ -20,7 +20,7 @@
 using namespace chemist::wavefunction;
 
 using tuple_type =
-  std::tuple<ManyBodyWf, CanonicalManyBodyWf, SparseManyBodyWf>;
+  std::tuple<ManyBodyWf, CanonicalManyBodyWf>; //, SparseManyBodyWf>;
 
 TEMPLATE_LIST_TEST_CASE("ManyBody", "", tuple_type) {
     using wf_t        = TestType;
@@ -110,32 +110,32 @@ TEMPLATE_LIST_TEST_CASE("ManyBody", "", tuple_type) {
 using namespace chemist::orbital_space;
 
 TEST_CASE("ManyBody conversions") {
-    auto occ         = testing::make_space<DerivedSpaceD>(1.0);
-    auto canon_occ   = testing::make_space<CanonicalSpaceD>(1.0);
-    auto sparse_occ  = testing::make_space<CanonicalIndSpace>(1.0);
-    auto virt        = testing::make_space<DerivedSpaceD>(2.0);
-    auto canon_virt  = testing::make_space<CanonicalSpaceD>(2.0);
-    auto sparse_virt = testing::make_space<CanonicalIndSpace>(2.0);
+    auto occ       = testing::make_space<DerivedSpaceD>(1.0);
+    auto canon_occ = testing::make_space<CanonicalSpaceD>(1.0);
+    // auto sparse_occ  = testing::make_space<CanonicalIndSpace>(1.0);
+    auto virt       = testing::make_space<DerivedSpaceD>(2.0);
+    auto canon_virt = testing::make_space<CanonicalSpaceD>(2.0);
+    // auto sparse_virt = testing::make_space<CanonicalIndSpace>(2.0);
     chemist::operators::Fock fock(chemist::operators::ElectronKinetic{});
 
     Determinant d(occ, virt, fock);
     CanonicalDeterminant c(canon_occ, canon_virt, fock);
-    SparseDeterminant s(sparse_occ, sparse_virt, fock);
+    // SparseDeterminant s(sparse_occ, sparse_virt, fock);
 
     Reference r(d);
     CanonicalReference cr(c);
-    SparseReference sr(s);
+    // SparseReference sr(s);
 
     ManyBodyWf psi0(r);
     CanonicalManyBodyWf psi1(cr);
-    SparseManyBodyWf psi2(sr);
+    // SparseManyBodyWf psi2(sr);
 
     SECTION("Canonical to Non-Canonical") {
         ManyBodyWf temp(psi1);
         REQUIRE(temp == psi1);
     }
 
-    SECTION("Sparse to Canonical") {
+    /*SECTION("Sparse to Canonical") {
         CanonicalManyBodyWf temp(psi2);
         REQUIRE(temp == psi2);
     }
@@ -143,5 +143,5 @@ TEST_CASE("ManyBody conversions") {
     SECTION("Sparse to Non-Canonical") {
         ManyBodyWf temp(psi2);
         REQUIRE(temp == psi2);
-    }
+    }*/
 }

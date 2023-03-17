@@ -26,17 +26,6 @@ TEST_CASE("ManyElectrons") {
         SECTION("Non-defaulted") { REQUIRE(j.size == 2); }
     }
 
-    SECTION("hash") {
-        using chemist::detail_::hash_objects;
-        SECTION("LHS == default") {
-            auto lhs = hash_objects(i);
-            SECTION("RHS == default") {
-                REQUIRE(lhs == hash_objects(ManyElectrons{}));
-            }
-            SECTION("RHS == Non-default") { REQUIRE(lhs != hash_objects(j)); }
-        }
-    }
-
     SECTION("Comparisons") {
         REQUIRE(i == chemist::ManyElectrons{});
         REQUIRE(i != j);

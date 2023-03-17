@@ -16,6 +16,7 @@
 
 #pragma once
 #include "chemist/topology/topology.hpp"
+#include <map>
 
 namespace chemist::topology::detail_ {
 

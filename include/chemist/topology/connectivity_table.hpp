@@ -18,6 +18,7 @@
 #include <array>
 #include <iostream>
 #include <memory>
+#include <set>
 #include <vector>
 
 namespace chemist::topology {

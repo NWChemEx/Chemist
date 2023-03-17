@@ -243,14 +243,6 @@ public:
      */
     bool operator==(const ChemicalSystem& rhs) const noexcept;
 
-    /** @brief Computes a hash of the ChemicalSystem.
-     *
-     *  @param[in,out] h The object used to hash the state. After this call @p h
-     *                   will have been modified to include a hash of this
-     *                   object's state.
-     */
-    void hash(detail_::Hasher& h) const;
-
 private:
     /** @brief Returns the PIMPL in a read/write state.
      *

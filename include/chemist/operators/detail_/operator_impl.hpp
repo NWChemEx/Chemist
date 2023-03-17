@@ -84,14 +84,13 @@ protected:
     OperatorImpl(OperatorImpl&& rhs)      = default;
 
     OperatorImpl& operator=(const OperatorImpl&) = default;
-    OperatorImpl& operator=(OperatorImpl&&) = default;
+    OperatorImpl& operator=(OperatorImpl&&)      = default;
 
     OperatorImpl(Particles... inputs) :
       m_particles_(std::make_tuple(std::move(inputs)...)) {}
 
     bool is_equal_impl(const OperatorBase& rhs) const noexcept override;
     std::unique_ptr<OperatorBase> clone_impl() const override;
-    void hash_impl(chemist::detail_::Hasher& h) const override;
     std::string as_string_impl() const override;
 
 private:
@@ -129,11 +128,6 @@ template<template<typename...> typename DerivedClass, typename... Particles>
 std::unique_ptr<OperatorBase> OPERATOR_IMPL::clone_impl() const {
     const auto& derived = static_cast<const derived_type&>(*this);
     return std::make_unique<derived_type>(derived);
-}
-
-template<template<typename...> typename DerivedClass, typename... Particles>
-void OPERATOR_IMPL::hash_impl(chemist::detail_::Hasher& h) const {
-    h(m_particles_);
 }
 
 template<template<typename...> typename DerivedClass, typename... Particles>

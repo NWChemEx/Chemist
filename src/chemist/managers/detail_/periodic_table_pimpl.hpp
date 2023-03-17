@@ -18,6 +18,7 @@
 #include "chemist/managers/periodic_table.hpp"
 #include "utilities/containers/case_insensitive_map.hpp"
 #include <algorithm>
+#include <cmath>
 
 namespace chemist::detail_ {
 

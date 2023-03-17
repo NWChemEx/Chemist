@@ -85,17 +85,6 @@ TEMPLATE_LIST_TEST_CASE("CoulombInteraction", "", testing::all_coulomb) {
     // r12 and non_default can be the same if the particles are stateless
     bool is_diff = std::tie(p0, p1) != std::tie(p0_default, p1_default);
 
-    SECTION("hash") {
-        using chemist::detail_::hash_objects;
-        SECTION("LHS is default") {
-            auto lhs = hash_objects(r12);
-            SECTION("RHS == LHS") { REQUIRE(lhs == hash_objects(r12_type{})); }
-            SECTION("RHS != LHS") {
-                if(is_diff) REQUIRE(lhs != hash_objects(non_default));
-            }
-        }
-    }
-
     SECTION("comparisons") {
         SECTION("LHS is default") {
             SECTION("RHS == LHS") {

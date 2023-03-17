@@ -185,14 +185,6 @@ public:
         ar& m_mol_& m_nelectrons_& m_epot_;
     }
 
-    /** @brief Computes a hash of the ChemicalSystemPIMPL.
-     *
-     *  @param[in,out] h The object used to hash the state. After this call @p h
-     *                   will have been modified to include a hash of this
-     *                   object's state.
-     */
-    void hash(Hasher& h) const;
-
 protected:
     /// Implements polymorphic copy, should be overriden by derived classes
     virtual pimpl_ptr_t clone_() const;
@@ -224,10 +216,6 @@ inline ChemicalSystemPIMPL::ChemicalSystemPIMPL(molecule_t mol,
 inline bool ChemicalSystemPIMPL::operator==(
   const ChemicalSystemPIMPL& rhs) const noexcept {
     return are_equal_(rhs);
-}
-
-inline void ChemicalSystemPIMPL::hash(Hasher& h) const {
-    h(m_mol_, m_nelectrons_, m_epot_);
 }
 
 inline typename ChemicalSystemPIMPL::pimpl_ptr_t ChemicalSystemPIMPL::clone_()

@@ -16,6 +16,8 @@
 
 #pragma once
 #include "chemist/point_charge/point_charge.hpp"
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 namespace chemist::potentials {

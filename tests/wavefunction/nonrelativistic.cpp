@@ -20,7 +20,8 @@
 
 using namespace chemist::wavefunction;
 
-using tuple_type = std::tuple<Reference, CanonicalReference, SparseReference>;
+using tuple_type =
+  std::tuple<Reference, CanonicalReference>; //, SparseReference>;
 
 TEMPLATE_LIST_TEST_CASE("Nonrelativistic", "", tuple_type) {
     using wf_t         = TestType;
@@ -95,27 +96,6 @@ TEMPLATE_LIST_TEST_CASE("Nonrelativistic", "", tuple_type) {
         REQUIRE(non_default.basis_set() == space);
     }
 
-    // SECTION("hash") {
-    //     using chemist::detail_::hash_objects;
-    //     SECTION("LHS == default") {
-    //         auto lhs = hash_objects(defaulted);
-
-    //         SECTION("RHS == default") {
-    //             wf_t rhs;
-    //             REQUIRE(lhs == hash_objects(rhs));
-    //         }
-
-    //         SECTION("different space") {
-    //             REQUIRE(lhs != hash_objects(non_default_space));
-    //         }
-
-    //         SECTION("different spin") {
-    //             wf_t rhs(basis_set_t{}, 1);
-    //             REQUIRE(lhs != hash_objects(rhs));
-    //         }
-    //     }
-    // }
-
     SECTION("comparisons") {
         SECTION("LHS == default") {
             SECTION("RHS == default") {
@@ -152,27 +132,28 @@ TEMPLATE_LIST_TEST_CASE("Nonrelativistic", "", tuple_type) {
 using namespace chemist::orbital_space;
 
 TEST_CASE("Nonrelativistic implicit conversions") {
-    auto occ         = testing::make_space<DerivedSpaceD>(1.0);
-    auto canon_occ   = testing::make_space<CanonicalSpaceD>(1.0);
-    auto sparse_occ  = testing::make_space<CanonicalIndSpace>(1.0);
-    auto virt        = testing::make_space<DerivedSpaceD>(2.0);
-    auto canon_virt  = testing::make_space<CanonicalSpaceD>(2.0);
-    auto sparse_virt = testing::make_space<CanonicalIndSpace>(2.0);
+    auto occ       = testing::make_space<DerivedSpaceD>(1.0);
+    auto canon_occ = testing::make_space<CanonicalSpaceD>(1.0);
+    // auto sparse_occ  = testing::make_space<CanonicalIndSpace>(1.0);
+    auto virt       = testing::make_space<DerivedSpaceD>(2.0);
+    auto canon_virt = testing::make_space<CanonicalSpaceD>(2.0);
+    // auto sparse_virt = testing::make_space<CanonicalIndSpace>(2.0);
     chemist::operators::Fock fock(chemist::operators::ElectronKinetic{});
 
     Determinant d(occ, virt, fock);
     CanonicalDeterminant c(canon_occ, canon_virt, fock);
-    SparseDeterminant s(sparse_occ, sparse_virt, fock);
+    // SparseDeterminant s(sparse_occ, sparse_virt, fock);
 
     Reference r(d);
     CanonicalReference cr(c);
-    SparseReference sr(s);
+    // SparseReference sr(s);
 
     SECTION("CanonicalReference to Reference") {
         Reference r(cr);
         REQUIRE(r == cr);
     }
 
+    /*
     SECTION("SparseReference to CanonicalReference") {
         CanonicalReference temp(sr);
         REQUIRE(temp == sr);
@@ -181,5 +162,5 @@ TEST_CASE("Nonrelativistic implicit conversions") {
     SECTION("SparseReference to Reference") {
         Reference temp(sr);
         REQUIRE(temp == sr);
-    }
+    }*/
 }

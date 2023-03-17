@@ -94,11 +94,6 @@ std::set<size_type> ConnectivityTable::bonded_atoms(size_type i) const {
     return rv;
 }
 
-void ConnectivityTable::hash(chemist::detail_::Hasher& h) const {
-    h(natoms());
-    h(bonds());
-}
-
 pimpl_type& ConnectivityTable::pimpl_() {
     if(!m_pimpl_) m_pimpl_ = std::make_unique<pimpl_type>();
     return *m_pimpl_;

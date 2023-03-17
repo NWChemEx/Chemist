@@ -163,14 +163,14 @@ using ManyBodyWf = ManyBody<Reference, type::tensor>;
 using CanonicalManyBodyWf = ManyBody<CanonicalReference, type::tensor>;
 
 /// Type of a ManyBody correlated wavefunction using localized orbitals
-using SparseManyBodyWf = ManyBody<SparseReference, type::tensor>;
+// using SparseManyBodyWf = ManyBody<SparseReference, type::tensor>;
 
 /// Type of a ManyBody correlated wavefunction using tensor of tensors
-using SparseToTManyBodyWf =
-  ManyBody<SparseToTReference, type::tensor_of_tensors>;
-// -----------------------------------------------------------------------------
-//                             Related Functions
-// -----------------------------------------------------------------------------
+// using SparseToTManyBodyWf =
+//   ManyBody<SparseToTReference, type::tensor_of_tensors>;
+//  -----------------------------------------------------------------------------
+//                              Related Functions
+//  -----------------------------------------------------------------------------
 
 template<typename LHSReferenceType, typename LHSTensorType,
          typename RHSReferenceType, typename RHSTensorType>
@@ -216,7 +216,7 @@ ManyBody<ReferenceType, TensorType>::amplitudes() const {
 
 extern template class ManyBody<Reference, type::tensor>;
 extern template class ManyBody<CanonicalReference, type::tensor>;
-extern template class ManyBody<SparseReference, type::tensor>;
-extern template class ManyBody<SparseToTReference, type::tensor_of_tensors>;
+// extern template class ManyBody<SparseReference, type::tensor>;
+// extern template class ManyBody<SparseToTReference, type::tensor_of_tensors>;
 
 } // namespace chemist::wavefunction

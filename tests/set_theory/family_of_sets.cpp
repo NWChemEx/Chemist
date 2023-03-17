@@ -269,32 +269,6 @@ TEMPLATE_LIST_TEST_CASE("FamilyOfSets", "", container_types) {
         REQUIRE_FALSE(dimers.disjoint());
     }
 
-    SECTION("hash") {
-        using chemist::detail_::hash_objects;
-        SECTION("Both empty") {
-            auto lhs = hash_objects(defaulted);
-            family_type other(default_obj);
-            auto rhs = hash_objects(other);
-            REQUIRE(lhs == rhs);
-        }
-        SECTION("Different supersets") {
-            auto lhs = hash_objects(defaulted);
-            REQUIRE(lhs != hash_objects(non_default));
-        }
-        SECTION("Same non-empty") {
-            family_type rhs(non_default_obj, {{0ul}, {1ul}, {2ul}});
-            REQUIRE(hash_objects(monomers) == hash_objects(rhs));
-        }
-        SECTION("Different non-empty size") {
-            family_type rhs(non_default_obj, {{0ul}, {1ul}});
-            REQUIRE(hash_objects(monomers) != hash_objects(rhs));
-        }
-        SECTION("Different non-empty subset") {
-            family_type rhs(non_default_obj, {{0ul}, {1ul}, {0ul, 1ul}});
-            REQUIRE(hash_objects(monomers) != hash_objects(rhs));
-        }
-    }
-
     SECTION("Comparisons") {
         SECTION("Both empty") {
             family_type rhs(default_obj);
@@ -475,13 +449,6 @@ TEST_CASE("FamilyOfSets<tuple>") {
         REQUIRE(empty.disjoint());
         REQUIRE(s0.disjoint());
         REQUIRE_FALSE(s1.disjoint());
-    }
-
-    SECTION("Hash") {
-        using chemist::detail_::hash_objects;
-        auto h = hash_objects(empty);
-        REQUIRE(h != hash_objects(s0));
-        REQUIRE(h == hash_objects(fos_t(the_sets)));
     }
 
     SECTION("Comparisons") {

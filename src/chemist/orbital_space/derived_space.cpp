@@ -102,11 +102,6 @@ typename DERIVED_SPACE::size_type DERIVED_SPACE::size_() const noexcept {
 }
 
 template<typename TransformType, typename FromSpace>
-void DERIVED_SPACE::hash_(chemist::detail_::Hasher& h) const {
-    h(m_pC_, m_pbase_);
-}
-
-template<typename TransformType, typename FromSpace>
 bool DERIVED_SPACE::equal_(const BaseSpace& rhs) const noexcept {
     return this->equal_common(*this, rhs);
 }

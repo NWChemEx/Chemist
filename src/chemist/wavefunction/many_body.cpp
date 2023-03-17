@@ -67,17 +67,12 @@ bool MANY_BODY::operator==(const ManyBody& rhs) const {
     }
 }
 
-MANY_BODY_TPARAMS
-void MANY_BODY::hash(chemist::detail_::Hasher& h) const {
-    h(m_pref_, m_amplitudes_);
-}
-
 #undef MANY_BODY
 #undef MANY_BODY_TPARAMS
 
 template class ManyBody<Reference, type::tensor>;
 template class ManyBody<CanonicalReference, type::tensor>;
-template class ManyBody<SparseReference, type::tensor>;
-template class ManyBody<SparseToTReference, type::tensor_of_tensors>;
+// template class ManyBody<SparseReference, type::tensor>;
+// template class ManyBody<SparseToTReference, type::tensor_of_tensors>;
 
 } // namespace chemist::wavefunction

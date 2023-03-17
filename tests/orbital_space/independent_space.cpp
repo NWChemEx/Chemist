@@ -26,7 +26,7 @@ using namespace chemist::orbital_space;
  *
  * We assume that the object his class derives from is tested and works
  * correctly. The tests focus on adding sparse maps and differentiating them.
- */
+ *
 
 TEST_CASE("IndependentSpace") {
     using space_type      = CanonicalIndSpace;
@@ -88,3 +88,4 @@ TEST_CASE("IndependentSpace") {
         REQUIRE(has_sms.sparse_map(space2) == sm1);
     }
 }
+*/

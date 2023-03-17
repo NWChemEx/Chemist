@@ -17,6 +17,7 @@
 #pragma once
 #include "chemist/operators/detail_/operator_base.hpp"
 #include "chemist/operators/type_traits/type_traits.hpp"
+#include <algorithm>
 #include <memory>
 
 namespace chemist::operators::detail_ {

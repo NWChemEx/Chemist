@@ -89,32 +89,6 @@ TEMPLATE_LIST_TEST_CASE("Density", "", density_types) {
 
     SECTION("basis_set") { REQUIRE(has_value.basis_set() == aos); }
 
-    SECTION("hash") {
-        using chemist::detail_::hash_objects;
-        auto default_hash = hash_objects(defaulted);
-        auto value_hash   = hash_objects(has_value);
-
-        SECTION("Both default") {
-            density_type rhs;
-            REQUIRE(default_hash == hash_objects(rhs));
-        }
-
-        SECTION("Both have same value") {
-            density_type rhs(a_tensor, aos);
-            REQUIRE(value_hash == hash_objects(rhs));
-        }
-
-        SECTION("Different tensors") {
-            density_type rhs(value_type{}, aos);
-            REQUIRE(value_hash != hash_objects(rhs));
-        }
-
-        SECTION("Different AOs") {
-            density_type rhs(a_tensor, aos_type{});
-            REQUIRE(value_hash != hash_objects(rhs));
-        }
-    }
-
     SECTION("Comparison") {
         SECTION("Both default") {
             density_type rhs;

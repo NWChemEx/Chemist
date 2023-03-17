@@ -92,8 +92,4 @@ std::unique_ptr<LinearCombinationPIMPL> LinearCombinationPIMPL::clone() const {
     return std::make_unique<LinearCombinationPIMPL>(*this);
 }
 
-void LinearCombinationPIMPL::hash(chemist::detail_::Hasher& h) const {
-    for(const auto& [key, val] : terms_) { h(val); }
-}
-
 } // namespace chemist::operators::detail_

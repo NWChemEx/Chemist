@@ -61,20 +61,6 @@ TEMPLATE_LIST_TEST_CASE("CorrelationFactor", "",
         REQUIRE(rv.template at<0>() == corr);
     }
 
-    SECTION("Hash") {
-        using chemist::detail_::hash_objects;
-        SECTION("LHS == default") {
-            auto lhs = hash_objects(f12);
-
-            SECTION("LHS == RHS") {
-                f12_type rhs;
-                REQUIRE(lhs == hash_objects(rhs));
-            }
-
-            SECTION("LHS != RHS") { REQUIRE(lhs != hash_objects(non_default)); }
-        }
-    }
-
     SECTION("comparisons") {
         SECTION("LHS == default") {
             SECTION("LHS == RHS") {

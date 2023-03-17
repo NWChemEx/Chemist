@@ -71,22 +71,6 @@ TEST_CASE("Core Hamiltonian") {
         }
     }
 
-    SECTION("Hash") {
-        using chemist::detail_::hash_objects;
-        SECTION("LHS == default") {
-            auto lhs = hash_objects(defaulted);
-
-            SECTION("LHS == RHS") {
-                CoreHamiltonian rhs;
-                REQUIRE(lhs == hash_objects(rhs));
-            }
-
-            SECTION("LHS != RHS") {
-                REQUIRE(lhs != hash_objects(from_elec_ham));
-            }
-        }
-    }
-
     SECTION("comparisons") {
         SECTION("LHS == default") {
             SECTION("LHS == RHS") {
