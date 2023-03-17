@@ -16,6 +16,7 @@
 
 #include "chemist/potentials/electrostatic.hpp"
 #include <catch2/catch.hpp>
+#include <utility>
 
 TEST_CASE("Electrostatic") {
     using epot_t = chemist::potentials::Electrostatic;

@@ -26,6 +26,7 @@
 #include <stdexcept>
 #include <string>
 #include <utilities/containers/own_or_borrow.hpp>
+#include <utility>
 
 namespace chemist::detail_ {
 

@@ -16,6 +16,7 @@
 
 #include "chemist/orbital_space/ao_space.hpp"
 #include <catch2/catch.hpp>
+#include <utility>
 
 using namespace chemist::orbital_space;
 
