@@ -17,6 +17,7 @@
 #include "ao_basis_set_pimpl.hpp"
 #include "chemist/basis_set/ao_basis_set.hpp"
 #include <cassert>
+#include <utility>
 
 namespace chemist {
 
