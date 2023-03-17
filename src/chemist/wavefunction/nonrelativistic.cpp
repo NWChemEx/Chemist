@@ -51,7 +51,7 @@ bool NONRELATIVISTIC::operator==(const Nonrelativistic& rhs) const {
 
 template class Nonrelativistic<Determinant>;
 template class Nonrelativistic<CanonicalDeterminant>;
-template class Nonrelativistic<SparseDeterminant>;
-template class Nonrelativistic<SparseToTDeterminant>;
+// template class Nonrelativistic<SparseDeterminant>;
+// template class Nonrelativistic<SparseToTDeterminant>;
 
 } // namespace chemist::wavefunction

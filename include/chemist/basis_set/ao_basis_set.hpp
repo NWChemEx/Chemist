@@ -17,7 +17,6 @@
 #pragma once
 #include "chemist/basis_set/atomic_basis_set.hpp"
 #include "chemist/basis_set/detail_/flattened_view.hpp"
-#include "chemist/detail_/hashing.hpp"
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
@@ -480,12 +479,6 @@ public:
             this->add_center(std::move(c));
         }
     }
-
-    /** @brief Hash AOBasisSet instance
-     *
-     * @param h Hasher object
-     */
-    void hash(detail_::Hasher& h) const;
 
     /** @brief Makes this AOBasisSet the union of this set and @p rhs.
      *

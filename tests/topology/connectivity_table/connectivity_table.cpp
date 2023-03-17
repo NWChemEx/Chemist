@@ -187,61 +187,6 @@ TEST_CASE("ConnectivityTable") {
         REQUIRE(t3.bonded_atoms(2) == set_type{1});
     }
 
-    SECTION("hash") {
-        using chemist::detail_::hash_objects;
-        SECTION("LHS == default") {
-            SECTION("RHS == default") {
-                REQUIRE(hash_objects(t) == hash_objects(ConnectivityTable{}));
-            }
-
-            SECTION("RHS == 0 Atoms") {
-                REQUIRE(hash_objects(t) == hash_objects(t0));
-            }
-
-            SECTION("RHS has different number of atoms") {
-                REQUIRE(hash_objects(t) != hash_objects(t1));
-            }
-
-            // No way for RHS have to only a different bonds or number of bonds
-        }
-
-        SECTION("LHS has natoms set") {
-            SECTION("RHS == default") {
-                REQUIRE(hash_objects(t3) != hash_objects(t));
-            }
-
-            SECTION("RHS is equal") {
-                REQUIRE(hash_objects(t3) == hash_objects(ConnectivityTable{3}));
-            }
-
-            SECTION("RHS has different number of atoms") {
-                REQUIRE(hash_objects(t3) != hash_objects(t2));
-            }
-
-            SECTION("RHS has different number of bonds") {
-                ConnectivityTable t3_2(3);
-                t3_2.add_bond(0, 1);
-                REQUIRE(hash_objects(t3) != hash_objects(t3_2));
-            }
-        }
-
-        SECTION("LHS has bonds") {
-            t3.add_bond(0, 1);
-
-            SECTION("RHS is equal") {
-                ConnectivityTable t3_2(3);
-                t3_2.add_bond(0, 1);
-                REQUIRE(hash_objects(t3) == hash_objects(t3_2));
-            }
-
-            SECTION("RHS has a different bond") {
-                ConnectivityTable t3_2(3);
-                t3_2.add_bond(1, 2);
-                REQUIRE(hash_objects(t3) != hash_objects(t3_2));
-            }
-        }
-    }
-
     SECTION("Comparisons") {
         SECTION("LHS == default") {
             SECTION("RHS == default") {

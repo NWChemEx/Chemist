@@ -69,12 +69,6 @@ protected:
      */
     const aos_type& basis_set_() const { return m_space_.from_space(); }
 
-    /** @brief Implementation of hash().
-     *
-     *  @throw None No throw guarantee.
-     */
-    void hash_(detail_::Hasher& h) const { h(m_space_, this->value()); }
-
 private:
     /// The orbital space used to make the density
     space_type m_space_;

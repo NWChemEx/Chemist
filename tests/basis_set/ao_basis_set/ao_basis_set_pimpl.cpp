@@ -16,6 +16,7 @@
 
 #include "chemist/basis_set/ao_basis_set/ao_basis_set_pimpl.hpp"
 #include <catch2/catch.hpp>
+#include <utility>
 
 using pimpl_t  = chemist::detail_::AOBasisSetPIMPL<double>;
 using center_t = chemist::AtomicBasisSet<double>;

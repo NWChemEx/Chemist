@@ -16,6 +16,8 @@
 
 #pragma once
 #include "chemist/point_charge/point_charge.hpp"
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 namespace chemist::potentials {
@@ -123,14 +125,6 @@ public:
      */
     template<typename Archive>
     void load(Archive& ar);
-
-    /** @brief Computes a hash of the electrostatic potential.
-     *
-     *  @param[in,out] h The object used to hash the state. After this call @p h
-     *                   will have been modified to include a hash of this
-     *                   object's state.
-     */
-    void hash(chemist::detail_::Hasher& h) const { h(m_charges_); }
 
 private:
     /** @brief Checks that a charge index is in bounds

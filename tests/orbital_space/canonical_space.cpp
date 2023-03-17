@@ -26,7 +26,7 @@ using namespace chemist::orbital_space;
  *   if the base class works, it'll work when used with CanonicalSpace too.
  *
  *   - The caveats are that we need to make sure it's accounted for in the ctor,
- *     hash, and comparison operations.
+ *     and comparison operations.
  */
 
 TEST_CASE("CanonicalSpaceD") {
@@ -91,29 +91,6 @@ TEST_CASE("CanonicalSpaceD") {
         REQUIRE(ev_and_c.orbital_energies() == ei);
 
         REQUIRE_THROWS_AS(defaulted.orbital_energies(), std::runtime_error);
-    }
-
-    SECTION("hash") {
-        using chemist::detail_::hash_objects;
-        SECTION("LHS is default") {
-            auto hash1 = hash_objects(defaulted);
-
-            SECTION("Same value") {
-                auto hash2 = hash_objects(space_type{});
-                REQUIRE(hash1 == hash2);
-            }
-
-            SECTION("Different orbital energies") {
-                auto hash2 = hash_objects(only_ev);
-                REQUIRE(hash1 != hash2);
-            }
-
-            SECTION("Different base instances") {
-                space_type rhs(tensor_type{}, c, from_space{});
-                auto hash2 = hash_objects(rhs);
-                REQUIRE(hash1 != hash2);
-            }
-        }
     }
 
     SECTION("Comparisons") {

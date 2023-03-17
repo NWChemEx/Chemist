@@ -71,17 +71,6 @@ public:
      */
     const auto& basis_set() const { return basis_set_(); }
 
-    /** @brief Hashes the current instance.
-     *
-     *  @param[in,out] h The hasher instance to use for hashing. The internal
-     *                   state of h will be modified so that its internal hash
-     *                   includes state information about this instance.
-     *
-     *  @throw ??? Throws if the derived class's implementation of `hash_`
-     *             throws. Same throw guarantee.
-     */
-    void hash(detail_::Hasher& h) const { hash_(h); }
-
 protected:
     /// The density tensor
     value_type m_density_;
@@ -99,14 +88,6 @@ protected:
      *  @throw None No throw guarantee.
      */
     virtual const aos_type& basis_set_() const { return m_orbs_; }
-
-    /** @brief To be overridden by the derived class to implement hash().
-     *
-     *  Actually implements hash. Should be overridden by derived classes.
-     *
-     *  @throw None No throw guarantee.
-     */
-    virtual void hash_(detail_::Hasher& h) const { h(m_orbs_, m_density_); }
 
 private:
     /// The orbital space used to make the density

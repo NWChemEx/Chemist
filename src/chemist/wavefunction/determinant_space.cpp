@@ -87,17 +87,12 @@ bool DETERMINANT_SPACE::operator==(const DeterminantSpace& rhs) const {
     return true;
 }
 
-DETERMINANT_SPACE_TPARAMS
-void DETERMINANT_SPACE::hash(chemist::detail_::Hasher& h) const {
-    h(m_pocc_, m_pvirt_); //, m_fock_);
-}
-
 #undef DETERMINANT_SPACE
 #undef DETERMINANT_SPACE_TPARAMS
 
 template class DeterminantSpace<DerivedSpaceD>;
 template class DeterminantSpace<CanonicalSpaceD>;
-template class DeterminantSpace<CanonicalIndSpace>;
-template class DeterminantSpace<CanonicalIndSpace, CanonicalToTSpace>;
+// template class DeterminantSpace<CanonicalIndSpace>;
+// template class DeterminantSpace<CanonicalIndSpace, CanonicalToTSpace>;
 
 } // namespace chemist::wavefunction

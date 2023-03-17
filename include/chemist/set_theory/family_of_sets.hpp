@@ -15,9 +15,9 @@
  */
 
 #pragma once
-#include "chemist/detail_/hashing.hpp"
 #include "chemist/set_theory/subset.hpp"
 #include "chemist/set_theory/traits/traits.hpp"
+#include <sstream>
 #include <vector>
 
 /// TODO: Roll our own reference wrapper with these operations defined
@@ -259,14 +259,6 @@ public:
      */
     bool disjoint() const noexcept;
 
-    /** @brief Hashes the FamilyOfSets.
-     *
-     *  @param[in,out] h The Hasher instance to use for hashing the
-     *                   FamilyOfSets. After this call the internal hash of @p h
-     *                   will be updated to include the hash of this instance.
-     */
-    void hash(chemist::detail_::Hasher& h) const;
-
 private:
     /// Checks that @p i is a valid offset
     void bounds_check_(size_type i) const;
@@ -388,12 +380,6 @@ bool FAMILYOFSETS::disjoint() const noexcept {
         }
     }
     return true;
-}
-
-template<typename SetType>
-void FAMILYOFSETS::hash(chemist::detail_::Hasher& h) const {
-    for(const auto& x : m_subsets_) h(x);
-    h(m_obj_);
 }
 
 template<typename SetType>

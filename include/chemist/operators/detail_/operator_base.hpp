@@ -15,7 +15,6 @@
  */
 
 #pragma once
-#include "chemist/detail_/hashing.hpp"
 #include "chemist/potentials/electrostatic.hpp"
 #include <cstddef>
 #include <typeindex>
@@ -40,9 +39,6 @@ public:
     scalar_type& coefficient() noexcept { return m_c_; }
 
     scalar_type coefficient() const noexcept { return m_c_; }
-
-    /// Hash function
-    inline void hash(chemist::detail_::Hasher& h) const { hash_impl(h); }
 
     /// Polymorphic comparison of this Operator instance with another
     inline bool is_equal(const OperatorBase& other) const noexcept;
@@ -103,8 +99,6 @@ protected:
     /// Defaulted move assignment, protected to avoid slicing
     OperatorBase& operator=(OperatorBase&&) = default;
 
-    /// Derived implementation of Hash function.
-    virtual void hash_impl(chemist::detail_::Hasher& h) const = 0;
     /// Derived implementation of comparison function.
     virtual bool is_equal_impl(const OperatorBase&) const noexcept = 0;
     /// Derived implementation of polymorphic copy

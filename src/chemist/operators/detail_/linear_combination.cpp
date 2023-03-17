@@ -73,10 +73,6 @@ bool LinearCombination::is_equal_impl(
     return pother ? (*this) == (*pother) : false;
 }
 
-void LinearCombination::hash_impl(chemist::detail_::Hasher& h) const {
-    if(m_pimpl_) return h(pimpl_());
-}
-
 std::string LinearCombination::as_string_impl() const { return "O\u0302"; }
 
 LinearCombinationPIMPL& LinearCombination::pimpl_() {

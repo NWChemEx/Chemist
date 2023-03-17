@@ -15,12 +15,12 @@
  */
 
 #pragma once
-#include "chemist/detail_/hashing.hpp"
 #include "chemist/set_theory/traits/set_traits.hpp"
 #include <algorithm>
 #include <boost/container/flat_set.hpp>
 #include <iterator>
 #include <memory>
+#include <sstream>
 
 namespace chemist::set_theory {
 template<typename SetType>
@@ -409,14 +409,6 @@ public:
      */
     bool operator<(const my_type& rhs) const noexcept;
 
-    /** @brief Hashes the current subset.
-     *
-     *  @param[in,out] h The hasher being used to hash this Subset. After the
-     *                   call, the internal hash of @p h will be updated to
-     *                   include the hash of this Subset.
-     */
-    void hash(chemist::detail_::Hasher& h) const;
-
 private:
     /// Type of the container holding the set
     using set_type = boost::container::flat_set<size_type>;
@@ -611,12 +603,6 @@ template<typename SetType>
 bool SUBSET::operator<(const Subset& rhs) const noexcept {
     if(object() != rhs.object()) return false;
     return m_members_ < rhs.m_members_;
-}
-
-template<typename SetType>
-void SUBSET::hash(chemist::detail_::Hasher& h) const {
-    for(const auto& x : m_members_) h(x);
-    h(*m_parent_);
 }
 
 template<typename SetType>

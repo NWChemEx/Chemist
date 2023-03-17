@@ -124,16 +124,6 @@ public:
 
     bool operator==(const Nonrelativistic& rhs) const;
 
-    /** @brief Hashes the wavefunction.
-     *
-     *  This function will add a hash of the wavefunction to the provided
-     *  Hasher instance
-     *
-     *  @param[in,out] h The instance to use for hashing. After this call @p h
-     *                   will contain a hash of this wavefunction.
-     */
-    void hash(chemist::detail_::Hasher& h) const { h(m_spin_, m_pbasis_); }
-
 private:
     /// The total spin of the wavefunction
     spin_type m_spin_ = 0;
@@ -230,13 +220,13 @@ using Reference = Nonrelativistic<Determinant>;
 using CanonicalReference = Nonrelativistic<CanonicalDeterminant>;
 
 /// Type of a wavefunction built from MOs with a sparsity relationship
-using SparseReference = Nonrelativistic<SparseDeterminant>;
+// using SparseReference = Nonrelativistic<SparseDeterminant>;
 
-using SparseToTReference = Nonrelativistic<SparseToTDeterminant>;
+// using SparseToTReference = Nonrelativistic<SparseToTDeterminant>;
 
 extern template class Nonrelativistic<Determinant>;
 extern template class Nonrelativistic<CanonicalDeterminant>;
-extern template class Nonrelativistic<SparseDeterminant>;
-extern template class Nonrelativistic<SparseToTReference>;
+// extern template class Nonrelativistic<SparseDeterminant>;
+// extern template class Nonrelativistic<SparseToTReference>;
 
 } // namespace chemist::wavefunction

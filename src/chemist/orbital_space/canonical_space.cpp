@@ -48,12 +48,6 @@ bool CANONICAL_SPACE::operator==(const CanonicalSpace& rhs) const noexcept {
 // -----------------------------------------------------------------------------
 
 template<typename OrbitalEnergyType, typename BaseType>
-void CANONICAL_SPACE::hash_(chemist::detail_::Hasher& h) const {
-    BaseType::hash_(h);
-    h(m_pegys_);
-}
-
-template<typename OrbitalEnergyType, typename BaseType>
 bool CANONICAL_SPACE::equal_(const BaseSpace& rhs) const noexcept {
     return this->equal_common(*this, rhs);
 }

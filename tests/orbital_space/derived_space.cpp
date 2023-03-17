@@ -165,42 +165,6 @@ TEST_CASE("DerivedSpace") {
         REQUIRE(corr == rv);
     }
 
-    SECTION("hash") {
-        using chemist::detail_::hash_objects;
-        SECTION("LHS == default") {
-            const auto lhs = hash_objects(space_type{});
-
-            SECTION("RHS == default") {
-                const space_type rhs;
-                REQUIRE(lhs == hash_objects(rhs));
-            }
-
-            SECTION("RHS == non-default C") {
-                REQUIRE(lhs != hash_objects(default_ao));
-            }
-
-            SECTION("RHS == non-default from-space") {
-                REQUIRE(lhs != hash_objects(non_default_aos));
-            }
-        }
-
-        SECTION("LHS == non-default C") {
-            const auto lhs = hash_objects(default_ao);
-            SECTION("RHS == non-default C") {
-                REQUIRE(lhs == hash_objects(space_type(C, from_space{})));
-            }
-            SECTION("RHS == non-default from-space") {
-                REQUIRE(lhs != hash_objects(non_default_aos));
-            }
-        }
-
-        SECTION("Non-default from-space") {
-            const auto lhs = hash_objects(non_default_aos);
-            const auto rhs = hash_objects(space_type{tensor_type{}, aos});
-            REQUIRE(lhs == rhs);
-        }
-    }
-
     SECTION("comparisons") {
         SECTION("LHS == default") {
             const space_type lhs;

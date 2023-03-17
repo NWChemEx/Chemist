@@ -15,7 +15,6 @@
  */
 
 #pragma once
-#include "chemist/detail_/hashing.hpp"
 #include <cmath>
 #include <memory>
 
@@ -290,14 +289,6 @@ public:
     void load(Archive& ar) {
         ar& x() & y() & z();
     }
-
-    /** @brief Computes a hash of the Point.
-     *
-     *  @param[in,out] h The object used to hash the state. After this call @p h
-     *                   will have been modified to include a hash of this
-     *                   object's state.
-     */
-    void hash(detail_::Hasher& h) const { h(x(), y(), z()); }
 
 protected:
     /// Convenience fxn that makes a PIMPL that aliases this instance's state

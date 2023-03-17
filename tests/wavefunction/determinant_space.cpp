@@ -22,7 +22,7 @@ using namespace chemist::wavefunction;
 using namespace chemist::orbital_space;
 
 using tuple_type =
-  std::tuple<Determinant, CanonicalDeterminant, SparseDeterminant>;
+  std::tuple<Determinant, CanonicalDeterminant>; //, SparseDeterminant>;
 
 /* Testing strategy:
  *
@@ -106,28 +106,6 @@ TEMPLATE_LIST_TEST_CASE("DeterminantSpace", "", tuple_type) {
         REQUIRE(nondefault.fock_operator() == fock);
     }
 
-    // SECTION("hash") {
-    //    using chemist::detail_::hash_objects;
-    //     SECTION("LHS is default") {
-    //         const auto lhs = hash_objects(defaulted);
-    //         SECTION("Same value") {
-    //             REQUIRE(lhs == hash_objects(space_t{}));
-    //         }
-    //         SECTION("Different occupied") {
-    //             space_t rhs(occ, virt_space_t{}, fock_op_t{});
-    //             REQUIRE(lhs != hash_objects(rhs));
-    //         }
-    //         SECTION("Different virtual") {
-    //             space_t rhs(occ_space_t{}, virt, fock_op_t{});
-    //             REQUIRE(lhs != hash_objects(rhs));
-    //         }
-    //         SECTION("Different fock operators") {
-    //             space_t rhs(occ_space_t{}, virt_space_t{}, fock);
-    //             REQUIRE(lhs != hash_objects(rhs));
-    //         }
-    //     }
-    // }
-
     SECTION("comparisons") {
         SECTION("LHS is default") {
             SECTION("Same value") {
@@ -155,17 +133,17 @@ TEMPLATE_LIST_TEST_CASE("DeterminantSpace", "", tuple_type) {
 
 TEST_CASE("DeterminantSpace implicit conversions") {
     // Makes a non-default DeterminantSpace
-    auto occ         = testing::make_space<DerivedSpaceD>(1.0);
-    auto canon_occ   = testing::make_space<CanonicalSpaceD>(1.0);
-    auto sparse_occ  = testing::make_space<CanonicalIndSpace>(1.0);
-    auto virt        = testing::make_space<DerivedSpaceD>(2.0);
-    auto canon_virt  = testing::make_space<CanonicalSpaceD>(2.0);
-    auto sparse_virt = testing::make_space<CanonicalIndSpace>(2.0);
+    auto occ       = testing::make_space<DerivedSpaceD>(1.0);
+    auto canon_occ = testing::make_space<CanonicalSpaceD>(1.0);
+    // auto sparse_occ  = testing::make_space<CanonicalIndSpace>(1.0);
+    auto virt       = testing::make_space<DerivedSpaceD>(2.0);
+    auto canon_virt = testing::make_space<CanonicalSpaceD>(2.0);
+    // auto sparse_virt = testing::make_space<CanonicalIndSpace>(2.0);
     chemist::operators::Fock fock(chemist::operators::ElectronKinetic{});
 
     Determinant noncanon(occ, virt, fock);
     CanonicalDeterminant canon(canon_occ, canon_virt, fock);
-    SparseDeterminant sparse(sparse_occ, sparse_virt, fock);
+    // SparseDeterminant sparse(sparse_occ, sparse_virt, fock);
 
     SECTION("Canon to non-canon") {
         Determinant canon_as_noncanon(canon);
@@ -174,17 +152,17 @@ TEST_CASE("DeterminantSpace implicit conversions") {
         REQUIRE(canon_as_noncanon.fock_operator() == fock);
     }
 
-    SECTION("Ind to canon") {
+    /*SECTION("Ind to canon") {
         CanonicalDeterminant sparse_as_canon(sparse);
         REQUIRE(sparse_as_canon.occupied_orbitals() == sparse_occ);
         REQUIRE(sparse_as_canon.virtual_orbitals() == sparse_virt);
         REQUIRE(sparse_as_canon.fock_operator() == fock);
-    }
+    }*/
 
-    SECTION("Ind to non-canon") {
+    /*SECTION("Ind to non-canon") {
         Determinant sparse_as_noncanon(sparse);
         REQUIRE(sparse_as_noncanon.occupied_orbitals() == sparse_occ);
         REQUIRE(sparse_as_noncanon.virtual_orbitals() == sparse_virt);
         REQUIRE(sparse_as_noncanon.fock_operator() == fock);
-    }
+    }*/
 }

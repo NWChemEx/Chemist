@@ -15,7 +15,6 @@
  */
 
 #pragma once
-#include "chemist/detail_/hashing.hpp"
 #include "chemist/orbital_space/derived_space.hpp"
 #include "chemist/types.hpp"
 
@@ -102,9 +101,6 @@ public:
     bool operator==(const CanonicalSpace& rhs) const noexcept;
 
 protected:
-    /// Adds the orbital energies to the hash internal to `h`
-    virtual void hash_(chemist::detail_::Hasher& h) const override;
-
     /// Also compares the orbital energies
     virtual bool equal_(const BaseSpace& rhs) const noexcept override;
 

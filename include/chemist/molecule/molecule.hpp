@@ -15,7 +15,6 @@
  */
 
 #pragma once
-#include "chemist/detail_/hashing.hpp"
 #include "chemist/molecule/atom.hpp"
 #include <vector> //For iterators
 
@@ -152,12 +151,6 @@ public:
             this->push_back(std::move(a));
         }
     }
-
-    /** @brief Hash Atom instance
-     *
-     * @param h Hasher object
-     */
-    void hash(detail_::Hasher& h) const;
 
 private:
     /// The object actually implementing the Molecule class

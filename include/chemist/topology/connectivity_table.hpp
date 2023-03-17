@@ -15,10 +15,10 @@
  */
 
 #pragma once
-#include "chemist/detail_/hashing.hpp"
 #include <array>
 #include <iostream>
 #include <memory>
+#include <set>
 #include <vector>
 
 namespace chemist::topology {
@@ -189,14 +189,6 @@ public:
      *                           Strong throw guarantee.
      */
     std::set<size_type> bonded_atoms(size_type i) const;
-
-    /** @brief Hashes the current ConnectivityTable.
-     *
-     *  @param[in,out] h The hasher instance to use for hashing this instance.
-     *                   After the call @p h will contain a hash of this
-     *                   instance.
-     */
-    void hash(chemist::detail_::Hasher& h) const;
 
 private:
     /** @brief Returns the PIMPL in a read/write state, making a PIMPL if the

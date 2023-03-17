@@ -135,31 +135,6 @@ TEMPLATE_TEST_CASE("PointCharge", "", double, float) {
             REQUIRE(q.charge() == 1.0);
         }
     }
-
-    SECTION("hash") {
-        using chemist::detail_::hash_objects;
-        SECTION("LHS == defaulted") {
-            point_charge_t lhs;
-            auto lhs_hash = hash_objects(lhs);
-
-            SECTION("RHS == defaulted") {
-                point_charge_t rhs;
-                REQUIRE(lhs_hash == hash_objects(rhs));
-            }
-
-            SECTION("RHS has different charge") {
-                point_charge_t rhs;
-                rhs.charge() = 1.1;
-                REQUIRE(lhs_hash != hash_objects(rhs));
-            }
-
-            SECTION("RHS has different origin") {
-                point_charge_t rhs;
-                rhs.coord(1) = 1.1;
-                REQUIRE(lhs_hash != hash_objects(rhs));
-            }
-        }
-    }
 }
 
 /* Unit testing notes.

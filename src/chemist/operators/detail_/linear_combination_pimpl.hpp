@@ -99,8 +99,6 @@ public:
     bool operator==(const LinearCombinationPIMPL& other) const;
     bool operator!=(const LinearCombinationPIMPL& other) const;
 
-    void hash(chemist::detail_::Hasher& h) const;
-
 private:
     using operator_container_type =
       std::multimap<rtti_type, type_erased_pointer>;

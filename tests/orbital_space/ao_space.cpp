@@ -16,6 +16,7 @@
 
 #include "chemist/orbital_space/ao_space.hpp"
 #include <catch2/catch.hpp>
+#include <utility>
 
 using namespace chemist::orbital_space;
 
@@ -88,29 +89,6 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
     SECTION("size") {
         REQUIRE(defaulted.size() == 0);
         REQUIRE(non_default_bs.size() == 1);
-    }
-
-    SECTION("hash") {
-        using chemist::detail_::hash_objects;
-        SECTION("LHS == default") {
-            auto lhs = hash_objects(defaulted);
-
-            SECTION("RHS == defaulted") {
-                auto rhs = hash_objects(space_type{});
-                REQUIRE(lhs == rhs);
-            }
-
-            SECTION("RHS == non-default") {
-                auto rhs = hash_objects(non_default_bs);
-                REQUIRE(lhs != rhs);
-            }
-        }
-
-        SECTION("LHS == non-default && RHS == non-default") {
-            auto lhs = hash_objects(non_default_bs);
-            auto rhs = hash_objects(space_type{bs});
-            REQUIRE(lhs == rhs);
-        }
     }
 
     SECTION("equal") {

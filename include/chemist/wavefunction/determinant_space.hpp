@@ -189,15 +189,6 @@ public:
      */
     bool operator==(const DeterminantSpace& rhs) const;
 
-    /** @brief Updates a hasher with the state of this determinant space.
-     *
-     *  @param[in,out] h The hasher to hash the DeterminantSpace with. After
-     *                   this call the internal state of @p h will have been
-     *                   updated with hashes of this instance's state.
-     *
-     */
-    void hash(chemist::detail_::Hasher& h) const;
-
 private:
     /// The occupied orbitals
     const_occupied_pointer m_pocc_;
@@ -266,16 +257,17 @@ using Determinant = DeterminantSpace<orbital_space::DerivedSpaceD>;
 using CanonicalDeterminant = DeterminantSpace<orbital_space::CanonicalSpaceD>;
 
 /// Type of a determinant which uses sparse maps
-using SparseDeterminant = DeterminantSpace<orbital_space::CanonicalIndSpace>;
+// using SparseDeterminant = DeterminantSpace<orbital_space::CanonicalIndSpace>;
 
 /// Type of a determinant with ToT for the virtuals
-using SparseToTDeterminant = DeterminantSpace<orbital_space::CanonicalIndSpace,
-                                              orbital_space::CanonicalToTSpace>;
+// using SparseToTDeterminant =
+// DeterminantSpace<orbital_space::CanonicalIndSpace,
+//                                               orbital_space::CanonicalToTSpace>;
 
 extern template class DeterminantSpace<orbital_space::DerivedSpaceD>;
 extern template class DeterminantSpace<orbital_space::CanonicalSpaceD>;
-extern template class DeterminantSpace<orbital_space::CanonicalIndSpace>;
-extern template class DeterminantSpace<orbital_space::CanonicalIndSpace,
-                                       orbital_space::CanonicalToTSpace>;
+// extern template class DeterminantSpace<orbital_space::CanonicalIndSpace>;
+// extern template class DeterminantSpace<orbital_space::CanonicalIndSpace,
+//                                        orbital_space::CanonicalToTSpace>;
 
 } // namespace chemist::wavefunction

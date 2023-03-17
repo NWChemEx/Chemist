@@ -15,7 +15,6 @@
  */
 
 #pragma once
-#include "chemist/detail_/hashing.hpp"
 #include "chemist/types.hpp"
 
 namespace chemist::orbital_space {
@@ -26,7 +25,6 @@ namespace chemist::orbital_space {
  *  particular this API provides members for:
  *  - the number of orbitals via `size()`
  *  - transforming a tensor to the space `transform()`
- *  - hashing the orbital space `hash()`
  *  - polymorphically comparing the orbital spaces `equal()` and `not_equal()`
  */
 class BaseSpace {
@@ -45,18 +43,6 @@ public:
      *  @throw None No throw guarantee.
      */
     auto size() const { return size_(); }
-
-    /** @brief Hashes the current instance.
-     *
-     *  @param[in,out] h The hasher instance to use for hashing. The internal
-     *                   state of h will be modified so that its internal hash
-     *                   includes state information about this BaseSpace_
-     *                   instance.
-     *
-     *  @throw ??? Throws if the derived class's implementation of `hash_`
-     *             throws. Same throw guarantee.
-     */
-    void hash(chemist::detail_::Hasher& h) const { hash_(h); }
 
     /** @brief Polymorphically compares two orbital spaces to determine if they
      *         are equal.
@@ -214,9 +200,6 @@ protected:
      *  @throw None No throw guarantee.
      */
     virtual size_type size_() const noexcept = 0;
-
-    /// Actually implements hash. Should be overridden by derived classes
-    virtual void hash_(chemist::detail_::Hasher& h) const {};
 
     /** @brief To be overridden by the derived class to implement `equal`
      *

@@ -16,6 +16,7 @@
 
 #pragma once
 #include "chemist/basis_set/basis_set.hpp"
+#include <map>
 #include <string>
 
 namespace chemist {
