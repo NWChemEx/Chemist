@@ -28,7 +28,7 @@ using mass_type  = typename Atom::mass_type;
 Atom::Atom() : pimpl_(std::make_unique<detail_::ContiguousAtomPIMPL>()) {}
 Atom::Atom(const Atom& rhs) : pimpl_(rhs.pimpl_->clone()) {}
 Atom::Atom(Atom&& rhs) noexcept = default;
-Atom& Atom::operator=(const Atom& rhs) {
+Atom& Atom::operator            =(const Atom& rhs) {
     // Note using the copy ctor would reallocate the buffers, this way we skip
     // the reallocation
     name()   = rhs.name();

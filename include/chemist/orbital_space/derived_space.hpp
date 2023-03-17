@@ -331,7 +331,9 @@ bool operator==(const DerivedSpace<LTransformType, LFromSpace>& lhs,
                 const DerivedSpace<RTransformType, RFromSpace>& rhs) {
     if constexpr(!std::is_same_v<decltype(lhs), decltype(rhs)>)
         return false;
-    else { return lhs.operator==(rhs); }
+    else {
+        return lhs.operator==(rhs);
+    }
 }
 
 /** @brief Determines if two DerivedSpace instances are non-polymorphically
