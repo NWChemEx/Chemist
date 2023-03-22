@@ -22,6 +22,7 @@ header:
     - docs/Makefile
     - LICENSE
     - docs/requirements.txt
+    - docs/source/bibliography/*.bib
     - version.txt
 
   comment: never
