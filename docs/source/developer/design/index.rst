@@ -16,6 +16,11 @@
 Design Documentation
 ####################
 
+Topics in this section record the design process for the Chemist library.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
+   orbital_spaces
+   wavefunction

@@ -1,4 +1,4 @@
-.. Copyright 2022 NWChemEx-Project
+.. Copyright 2023 NWChemEx-Project
 ..
 .. Licensed under the Apache License, Version 2.0 (the "License");
 .. you may not use this file except in compliance with the License.
@@ -16,8 +16,12 @@
 Developer Documentation
 #######################
 
+Topics in this section are concerned with helping the reader understand the
+design of Chemist, and how to develop/contribute to the Chemist repository.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    design/index
+   Developing for the NWChemEx Organization <https://nwchemex-project.github.io/>
