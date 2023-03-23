@@ -148,7 +148,6 @@ public:
      *            guarantee.
      */
     void add_elec_config(size_type Z, const elec_conf_t& elec_config);
-    ///@}
 
     /**
      * @brief Add a precalculated atomic density matrix for the given element
@@ -232,6 +231,20 @@ public:
      * @return The full configuration as a map: {n,l} -> N_elec
      */
     elec_conf_full_t reduced_2_full_conf(const elec_conf_t& r_conf) const;
+
+    /**
+     * @brief Set a default basis to use for dm retrieval
+     *
+     * @param[in] basis_name The name of the basis to set as default
+     */
+    void set_default_basis(const std::string& basis_name);
+
+    /**
+     * @brief Get default basis name to use for dm retrieval
+     *
+     * @return default basis name
+     */
+    std::string get_default_basis() const;
 
     /**
      * @name Atom Retrieval Functions

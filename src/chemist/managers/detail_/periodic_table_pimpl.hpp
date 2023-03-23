@@ -173,6 +173,20 @@ struct PeriodicTablePIMPL {
     size_type sym_2_Z(const std::string& sym) const;
 
     /**
+     * @brief Set a default basis to use for dm retrieval
+     *
+     * @param[in] basis_name The name of the basis to set as default
+     */
+    void set_default_basis(const std::string& basis_name);
+
+    /**
+     * @brief Get default basis name to use for dm retrieval
+     *
+     * @return default basis name
+     */
+    std::string get_default_basis() const;
+
+    /**
      * @brief Convert reduced electronic configuration to full
      *        electronic configuration
      *
@@ -271,6 +285,9 @@ struct PeriodicTablePIMPL {
 
     /// Highest atomic number (Z) of an Atom in this instance
     size_type m_max_Z;
+
+    /// Default basis to use for dm retrieval
+    std::string m_default_basis;
     ///@}
 
 private:
@@ -393,11 +410,27 @@ inline Atom PeriodicTablePIMPL::get_atom(size_type Z) const {
 inline typename PeriodicTablePIMPL::atom_dm_t PeriodicTablePIMPL::get_atom_dm(
   size_type Z, const std::string& basis_name) const {
     basis_atom_map map_t = {{basis_name, Z}};
-    if(!m_atom_dms.count(map_t))
-        throw std::out_of_range("Density matrix does not exist for Z = " +
-                                std::to_string(Z) + "/" + basis_name);
+    if(m_atom_dms.count(map_t))
+        return m_atom_dms.at(map_t);
+    std::cerr << "Density matrix does not exist for Z = " +
+                                std::to_string(Z) + "/" + basis_name +
+                                "\nUsing default basis: " + m_default_basis;
 
-    return m_atom_dms.at(map_t);
+    // if not present, use default basis
+    map_t = {{m_default_basis, Z}};
+    if(m_atom_dms.count(map_t))
+        return m_atom_dms.at(map_t);
+    throw std::out_of_range("Density matrix does not exist for Z = " +
+                                std::to_string(Z) + "/" + m_default_basis);
+
+}
+
+inline void PeriodicTablePIMPL::set_default_basis(const std::string& basis_name) {
+    m_default_basis = basis_name;
+}
+
+inline std::string PeriodicTablePIMPL::get_default_basis() const {
+    return m_default_basis;
 }
 
 inline typename PeriodicTablePIMPL::elec_conf_t

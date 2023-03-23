@@ -78,6 +78,13 @@ elec_conf_full_t PeriodicTable::reduced_2_full_conf(
     return pimpl_().reduced_2_full_conf(r_conf);
 }
 
+void PeriodicTable::set_default_basis(const std::string& basis_name) {
+    pimpl_().set_default_basis(basis_name);
+}
+
+std::string PeriodicTable::get_default_basis() const {
+    return pimpl_().get_default_basis();
+}
 size_type PeriodicTable::max_Z() const noexcept { return pimpl_().max_Z(); }
 
 Atom PeriodicTable::get_atom(size_type Z) const { return pimpl_().get_atom(Z); }
