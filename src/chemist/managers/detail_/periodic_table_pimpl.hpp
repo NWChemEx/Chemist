@@ -410,22 +410,20 @@ inline Atom PeriodicTablePIMPL::get_atom(size_type Z) const {
 inline typename PeriodicTablePIMPL::atom_dm_t PeriodicTablePIMPL::get_atom_dm(
   size_type Z, const std::string& basis_name) const {
     basis_atom_map map_t = {{basis_name, Z}};
-    if(m_atom_dms.count(map_t))
-        return m_atom_dms.at(map_t);
-    std::cerr << "Density matrix does not exist for Z = " +
-                                std::to_string(Z) + "/" + basis_name +
-                                "\nUsing default basis: " + m_default_basis;
+    if(m_atom_dms.count(map_t)) return m_atom_dms.at(map_t);
+    std::cerr << "Density matrix does not exist for Z = " + std::to_string(Z) +
+                   "/" + basis_name +
+                   "\nUsing default basis: " + m_default_basis;
 
     // if not present, use default basis
     map_t = {{m_default_basis, Z}};
-    if(m_atom_dms.count(map_t))
-        return m_atom_dms.at(map_t);
+    if(m_atom_dms.count(map_t)) return m_atom_dms.at(map_t);
     throw std::out_of_range("Density matrix does not exist for Z = " +
-                                std::to_string(Z) + "/" + m_default_basis);
-
+                            std::to_string(Z) + "/" + m_default_basis);
 }
 
-inline void PeriodicTablePIMPL::set_default_basis(const std::string& basis_name) {
+inline void PeriodicTablePIMPL::set_default_basis(
+  const std::string& basis_name) {
     m_default_basis = basis_name;
 }
 
