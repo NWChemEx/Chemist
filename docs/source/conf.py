@@ -21,6 +21,7 @@
 # http://www.sphinx-doc.org/en/master/config
 
 import os
+import git
 
 # -- Project information -----------------------------------------------------
 
@@ -28,15 +29,29 @@ project = u'Chemist'
 copyright = u'2020, NWChemEx Team'
 author = u'NWChemEx Team'
 
-# Get the version from version.txt
-with open('../../version.txt', 'r') as file:
-    version = file.read().replace('\n', '')
-# The full version, including alpha/beta/rc tags
-release = version
-
 ##############################################################################
 #           Shouldn't need to change anything below this point               #
 ##############################################################################
+
+# -- Project Paths -----------------------------------------------------------
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+doc_path = os.path.dirname(dir_path)
+root_path = os.path.dirname(doc_path)
+
+# -- Package Version ---------------------------------------------------------
+
+# Read the git tags, from ../../.git and find the most recent one
+repo = git.Repo(root_path)
+last_tag = sorted(repo.tags, key=lambda t: t.commit.committed_datetime)[-1]
+
+# This is the strictly numeric version (e.g., no "beta" qualifier)
+version = str(last_tag)
+
+# This is the full version (includes qualifiers like "beta" or
+# "release candidate")
+release = version
+
 
 # -- General configuration ---------------------------------------------------
 
@@ -55,9 +70,7 @@ extensions = [
     'sphinx_rtd_theme',
     'sphinxcontrib.bibtex'
 ]
-dir_path = os.path.dirname(os.path.realpath(__file__))
-doc_path = os.path.dirname(dir_path)
-root_path = os.path.dirname(doc_path)
+
 
 # Add any paths that contain templates here, relative to this directory.
 #templates_path = ['_templates']
@@ -123,61 +136,7 @@ html_theme = 'sphinx_rtd_theme'
 # Output file base name for HTML help builder.
 htmlhelp_basename = project + 'doc'
 
-
-# -- Options for LaTeX output ------------------------------------------------
-
-latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
-
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
-
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
-
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
-}
-
-# Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title,
-#  author, documentclass [howto, manual, or own class]).
-latex_documents = [
-    (master_doc, project + '.tex',project + ' Documentation', author, 'manual'),
-]
-
-
-# -- Options for manual page output ------------------------------------------
-
-# One entry per manual page. List of tuples
-# (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, project.lower(), project + ' Documentation', [author], 1)
-]
-
-
-# -- Options for Texinfo output ----------------------------------------------
-
-# Grouping the document tree into Texinfo files. List of tuples
-# (source start file, target name, title, author,
-#  dir menu entry, description, category)
-texinfo_documents = [
-    (master_doc, project, project + ' Documentation',
-     author, project, 'One line description of project.', 'Miscellaneous'),
-]
-
-
 # -- Extension configuration -------------------------------------------------
-
-# -- Options for intersphinx extension ---------------------------------------
-
-# Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
 
 # -- Options for bibtex ------------------------------------------------------
 

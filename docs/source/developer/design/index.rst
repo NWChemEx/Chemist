@@ -22,5 +22,5 @@ Topics in this section record the design process for the Chemist library.
    :maxdepth: 2
    :caption: Contents:
 
-   orbital_spaces
+   vector_spaces
    wavefunction
