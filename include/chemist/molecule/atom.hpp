@@ -15,16 +15,9 @@
  */
 
 #pragma once
-#include <array> // For the coordinates
-#include <cereal/types/array.hpp>
-#include <cereal/types/string.hpp>
-#include <memory> // For unique pointer
-#include <string> // For name of atom
+#include "chemist/point_charge/point_charge.hpp"
 
 namespace chemist {
-namespace detail_ {
-class AtomPIMPL;
-}
 
 /** @brief A class for holding the details of an atomic unit.
  *
@@ -34,47 +27,30 @@ class AtomPIMPL;
  *  is.  This class also additionally holds the mass of the atom and a string
  *  identifier.
  *
- *  Like many of the classes in chemist, the Atom class is built using the
- *  PIMPL model.  That is by changing the underlying implementation it is
- *  possible to change how the class behaves under the hood.  The documentation
- *  for the Atom class assumes the default PIMPL implementation is used. Other
- *  backends must minimally adhere to this API, but some, like the one used
- *  within the Molecule class may provide additional guarantees (coordinates
- *  and properties are contiguous in the Molecule case).
+ *  @tparam ScalarType the floating-point type to use for storing the value of
+ *                     the charge and the charge's Cartesian coordinates.
+ *                     Default is double.
  */
-class Atom {
+template<typename ScalarType = double>
+class Atom : public PointCharge<ScalarType> {
+private:
+    using base_type = PointCharge<ScalarType>;
+
 public:
-    /// The type of a counting number
+    /// The type used for floating-point values
+    using scalar_type = ScalarType;
+
+    /// The type of a counting number (i.e. atomic number)
     using size_type = std::size_t;
 
     /// The type the mass is stored as
-    using mass_type = double;
+    using mass_type = scalar_type;
 
     /// The type of the atomic coordinates
-    using coord_type = std::array<double, 3>;
+    using coord_type = std::array<scalar_type, 3>;
 
     /// The type of the name of the Atom instance
     using name_type = std::string;
-
-    /// Wrapper for tagging an input size_t as an atomic number
-    struct AtomicNumber {
-        size_type a_n = 0;
-    };
-
-    /// Wrapper for tagging an input double as a mass
-    struct Mass {
-        mass_type m_m = 0.0;
-    };
-
-    /// Wrapper for tagging an input name as an atom name
-    struct AtomName {
-        name_type n_n = "";
-    };
-
-    /// Wrapper for tagging input array as a set of coordinates
-    struct Coordinates {
-        coord_type c_n = {0.0, 0.0, 0.0};
-    };
 
     /**
      * @brief Makes a default constructed Atom instance.
@@ -171,38 +147,6 @@ public:
         mass() = mass_in;
     }
 
-    template<typename... Args>
-    explicit Atom(const Coordinates& coords_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_carts = only_one<Coordinates, Args...>;
-        static_assert(!is_carts, "Please only provide one set of coordinates");
-        coords() = coords_in.c_n;
-    }
-
-    template<typename... Args>
-    explicit Atom(const AtomName& name_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_name = only_one<AtomName, Args...>;
-        static_assert(!is_name, "Please only provide one name");
-        name() = name_in.n_n;
-    }
-
-    template<typename... Args>
-    explicit Atom(const AtomicNumber& Z_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_Z = only_one<AtomicNumber, Args...>;
-        static_assert(!is_Z, "Please only provide one atomic number");
-        Z() = Z_in.a_n;
-    }
-
-    template<typename... Args>
-    explicit Atom(const Mass& mass_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_mass = only_one<Mass, Args...>;
-        static_assert(!is_mass, "Please only provide one mass");
-        mass() = mass_in.m_m;
-    }
-
     explicit Atom(std::unique_ptr<detail_::AtomPIMPL> pimpl);
     ///@}
 
@@ -210,7 +154,7 @@ public:
     ~Atom() noexcept;
 
     /**
-     * @defgroup Z/Name setter/getter
+     * @defgroup Z/Name/Mass setter/getter
      *
      * @brief Returns the atomic number/name of the atom.
      *
@@ -223,39 +167,43 @@ public:
      * @throw None. No throw guarantee.
      */
     ///@{
-    std::string& name() noexcept;
-    const std::string& name() const noexcept {
-        return const_cast<Atom&>(*this).name();
-    }
+    name_type& name() noexcept { return m_name_; }
+    const name_type& name() const noexcept { return m_name_; }
 
-    size_type& Z() noexcept;
-    const size_type& Z() const noexcept { return const_cast<Atom&>(*this).Z(); }
+    size_type& Z() noexcept { return m_Z_; }
+    const size_type& Z() const noexcept { return m_Z_; }
 
-    coord_type& coords() noexcept;
-    const coord_type& coords() const noexcept {
-        return const_cast<Atom&>(*this).coords();
-    }
-    auto& operator[](size_type i) noexcept { return coords()[i]; }
-    const auto& operator[](size_type i) const noexcept { return coords()[i]; }
-
-    mass_type& mass() noexcept;
-    const mass_type& mass() const noexcept {
-        return const_cast<Atom&>(*this).mass();
-    }
+    mass_type& mass() noexcept { return m_mass_; }
+    const mass_type& mass() const noexcept { return m_mass_; }
     ///@}
 
-    /** @brief Serialize/deserialize for Atom instance
+    /** @brief Serializes the atom.
      *
-     * @param ar The archive object
+     *  @param[in,out] ar The archive instance being used for serialization.
+     *                    After this call @p ar will contain this instance's
+     *                    serialized state.
      */
     template<typename Archive>
-    void serialize(Archive& ar) {
-        ar& Z() & coords() & mass() & name();
-    }
+    void save(Archive& ar) const;
+
+    /** @brief Deserializes the atom.
+     *
+     *  @param[in,out] ar The archive instance which contains the serialized
+     *                    state for this instance. After this call @p ar will
+     *                    no longer contain this instance's serialized state.
+     */
+    template<typename Archive>
+    void load(Archive& ar);
 
 private:
-    /// Actual implementation of the Atom class
-    std::unique_ptr<detail_::AtomPIMPL> pimpl_;
+    /// The atomic number of the atom
+    size_type m_Z_ = 0;
+
+    /// The name of the atom
+    name_type m_name_ = "";
+
+    /// The mass of the atom
+    mass_type m_mass_ = 0.0;
 
     /// Private member variable for static asserts
     template<typename T, typename... Args>
@@ -283,8 +231,21 @@ private:
  * @throw none all comparisons are no throw guarantee.
  */
 ///@{
-bool operator==(const Atom& lhs, const Atom& rhs) noexcept;
-inline bool operator!=(const Atom& lhs, const Atom& rhs) noexcept {
+template<typename LHSType, typename RHSType>
+bool operator==(const Atom<LHSType>& lhs, const Atom<RHSType>& rhs) noexcept {
+    if constexpr(!std::is_same_v<LHSType, RHSType>) {
+        return false;
+    } else {
+        const PointCharge<LHSType>& lhs_point_charge = lhs;
+        const PointCharge<RHSType>& rhs_point_charge = rhs;
+        return (lhs.name() == rhs.name()) && (lhs.Z() == rhs.Z()) &&
+               (lhs.mass() == rhs.mass()) &&
+               (lhs_point_charge == rhs_point_charge);
+    }
+}
+
+template<typename LHSType, typename RHSType>
+bool operator!=(const Atom<LHSType>& lhs, const Atom<RHSType>& rhs) noexcept {
     return !(lhs == rhs);
 }
 ///@}
@@ -299,6 +260,29 @@ inline bool operator!=(const Atom& lhs, const Atom& rhs) noexcept {
  * @throws std::ios_base::failure if anything goes wrong while writing. Weak
  *         throw guarantee.
  */
-std::ostream& operator<<(std::ostream& os, const Atom& ai);
+std::ostream& operator<<(std::ostream& os, const Atom& ai) {
+    os << ai.name() << std::fixed << std::setprecision(15) << " " << ai.x()
+       << " " << ai.y() << " " << ai.z();
+    return os;
+}
+
+// ----------------------- Implementations -------------------------------------
+
+template<typename T>
+template<typename Archive>
+void Atom<T>::save(Archive& ar) const {
+    base_type::save(ar);
+    ar& m_q_;
+}
+
+template<typename T>
+template<typename Archive>
+void Atom<T>::load(Archive& ar) {
+    base_type::load(ar);
+    ar& m_q_;
+}
+
+extern template class Atom<double>;
+extern template class Atom<float>;
 
 } // namespace chemist
