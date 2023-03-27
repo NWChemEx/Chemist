@@ -43,7 +43,12 @@ root_path = os.path.dirname(doc_path)
 
 # Read the git tags, from ../../.git and find the most recent one
 repo = git.Repo(root_path)
-last_tag = sorted(repo.tags, key=lambda t: t.commit.committed_datetime)[-1]
+tags = sorted(repo.tags, key=lambda t: t.commit.committed_datetime)
+
+if len(tags):
+    last_tag = tags[-1]
+else:
+    last_tag = "0.0.0"
 
 # This is the strictly numeric version (e.g., no "beta" qualifier)
 version = str(last_tag)
