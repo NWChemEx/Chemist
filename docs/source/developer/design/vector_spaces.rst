@@ -217,6 +217,12 @@ of the ``AOSpace`` (*e.g.*, the algorithm for transforming a tensor from the
 AO basis set). These algorithms do not care if the transformation is to
 canonical MOs, to localized MOs, or to something else.
 
+Localized MOs
+=============
+
+``LocalizedMOs<T>`` is a strong type used to denote that the MOs have been
+spatially localized according to some metric.
+
 Product Space
 =============
 
@@ -232,34 +238,111 @@ Spinor Space
 
 .. |alpha| replace:: :math:`\alpha`
 .. |beta| replace:: :math:`\beta`
+.. |2N| replace:: :math:`2N`
 
 The ``SpinorSpace<T>`` class is a strong type of a derived space whose
 reference state is the space of atomic spin orbitals (product of an AO and a
-spin function). For |N| AOs this means we have 2|N| atomic spin orbitals,
-which get transformed into 2|N| new orbitals. In turn we have a 2|N| by 2|N|
+spin function). For |N| AOs this means we have |2N| atomic spin orbitals,
+which get transformed into |2N| new orbitals. In turn we have a |2N| by |2N|
 transformation matrix.
 
 Spin Orbitals (SOs)
 ===================
 
-Conceptually similar to the ``SpinorSpace<T>``, the ``SOSpace<T>`` except that
-the resulting orbitals restrict the transformation so that the |alpha| AOs are
-only mixed with other |alpha| AOs and the |beta| AOs are only mixed with
-other |beta| AOs`. In turn, each of the resulting 2|N| spin orbitals is
-defined in terms of |N| coefficients and our transformation is |N| by 2|N|,
-not 2|N| by 2|N|.
+Conceptually similar to the ``SpinorSpace<T>``, the ``SOSpace<T>`` differs in
+that it excepts the resulting orbital transformation to be restricted so that
+the |alpha| AOs are only mixed with other |alpha| AOs and the |beta| AOs are
+only mixed with other |beta| AOs`. In turn, each of the resulting |2N| spin
+orbitals are defined in terms of |N| coefficients and our transformation is
+|N| by |2N|, not |2N| by |2N| like in the spinor case.
 
 Natural Space
 =============
 
-TODO: Write me!
+There are a number of orbital spaces where the transformation is defined by
+requiring the resulting orbitals to diagonalize a particular tensor. In these
+cases the resulting orbitals are often said to be the "natural" basis set on
+account of the fact that they simplify equations involving the diagonalized
+quantity. Compared to a ``DerivedSpace<T, R>`` object, the additional state
+contained in a ``NaturalSpace<T, B>`` is the diagonalized tensor (which is
+assumed to be stored in a tensor of type ``T``). Rather than deriving directly
+from ``DerivedSpace<T,R>`` we allow the user to specify the base class to
+derive from (this allows one to derive a natural space from an ``MOSpace<T>``
+or an ``SOSpace<T>``, for example). The need for this space stems from
+:ref:`vsd_properties`.
+
 
 Canonical Molecular Orbitals (CMOs)
 ===================================
 
-TODO: Write me!
+In conventional electronic structure theory, the CMOs, *i.e.*,  the orbitals
+which diagonalize the Fock matrix, are one of the most important natural
+spaces on account of the fact that they simplify the derivation of
+correlated methods (although they notably do not simplify the computational
+cost of such methods). The ``CMOSpace<T>`` class is a strong type to denote
+that the additional tensor contained in the base
+``NaturalSpace<T, MOSpace<T>>`` contains the orbital eigenvalues and that the
+orbitals diagonalize the Fock matrix.
 
 Natural Orbitals
 ================
 
-TODO: Write me!
+Natural orbitals diagonalize the one-electron density matrix and the
+``NOSpace<T>`` class was designed to represent that the tensor contained in
+the base ``NaturalSpace<T, MOSpace<T>>`` class contains the orbital occupation
+values.
+
+Independent Spaces
+==================
+
+In theories exploiting (usually spatial) sparsity, members of one basis
+set usually only have non-zero tensor elements with some of the members of
+another basis set. This defines a "sparse map" where each member of the first
+basis set is associated with a "domain" of the second set. The first set
+is termed the "independent space" and the second basis set is termed the
+"dependent space". The ``IndependentSpace<B>`` class serves as
+code-factorization for implementing vector spaces for which we have sparse
+maps. Relative to the base class ``B`` it inherits from,
+``IndependentSpace<B>`` includes a sparse map.
+
+********************
+Vector Space Summary
+********************
+
+Over the years, electronic structure theorists have used a lot of basis sets.
+Each basis set has different properties, which in turn can influence the
+approximations and assumptions algorithms consuming the basis sets can make.
+The vector space component was introduced to represent those basis set in the
+simplest manner possible. The vector space component was designed adhering to
+the considerations listed in :ref:`vsd_considerations`. The responsiveness of
+our design to those considerations is summarized below.
+
+:ref:`vsd_basis_set`
+   The design includes a number of non-orbital vector spaces and the
+   ``BaseSpace`` class does not assume that classes which derives from it
+   actually contain orbitals.
+
+:ref:`vsd_parameters`
+   The class hierarchy derives a new class anytime the definition of the
+   basis set depends on a new set of parameters.
+
+:ref:`vsd_properties`
+   Classes representing generic (and specific) basis set properties are found
+   throughout the hierarchy. Functions are encouraged to use the lowest level
+   (*i.e.*, closest to ``BaseSpace``) necessary in order to implement their
+   algorithm.
+
+:ref:`vsd_type_dispatch`
+   Ultimately similar to :ref:`vsd_properties`, by establishing a series of
+   strong types throughout the hierarchy it is possible to distinguish between,
+   say canonical molecular orbitals and natural orbitals by type alone. In
+   turn, if a module, for example, wants to assume it has been provided CMOs,
+   it can do so by relying on C++'s type system.
+
+*********************
+Future Considerations
+*********************
+
+- The ``IndependentSpace<B>`` class is envisioned as being used by a whole
+  host of additional spaces. The design should be fleshed out to accommodate
+  those spaces when the time comes.
