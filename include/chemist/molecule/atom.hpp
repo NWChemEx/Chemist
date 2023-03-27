@@ -89,19 +89,17 @@ public:
      * type.  The following list first lists the "capture group" (in brackets)
      * followed by how that group will be interpreted.
      *
-     * - `[double, double, double]`  the input coordinates.
      * - `[std::array<double, 3>]` the input coordinates.
-     * - `[AtomProperty, double]` a property and its value
      * - `[std::string]` the name of the Atom.
      * - `[std::size_t]` the atomic number of the Atom.
+     * - `[double]` the atomic mass of the Atom
      *
      * When providing input to the CTor, the order of the groups is irrelevant.
+     * The charge of the atom is set to the atomic number by default. The charge
+     * can be altered after construction if desired.
      *
-     * @param[in] x The "x" Cartesian coordinate.
-     * @param[in] y The "y" Cartesian coordinate.
-     * @param[in] z The "z" Cartesian coordinate.
-     * @param[in] prop The enum corresponding to the `AtomProperty` to set.
-     * @param[in] value The value for the property
+     *
+     * @param[in] coords The Cartesian coordinates (x,y,z).
      * @param[in] name The name of the atom (typically the atomic symbol)
      * @param[in] Z The atomic number of the  Atom
      * @param[in] args The remaining arguments to be parsed

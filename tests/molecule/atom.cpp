@@ -22,13 +22,14 @@
 #include <type_traits>
 
 using namespace chemist;
-using size_type  = typename Atom::size_type;
-using coord_type = typename Atom::coord_type;
-using mass_type  = typename Atom::mass_type;
-using name_type  = typename Atom::name_type;
+using size_type   = typename Atom::size_type;
+using coord_type  = typename Atom::coord_type;
+using mass_type   = typename Atom::mass_type;
+using name_type   = typename Atom::name_type;
+using charge_type = typename Atom::charge_type;
 
 void check_atom(Atom& ai, const coord_type& coords, size_type Z, mass_type m,
-                name_type name) {
+                name_type name, double q) {
     const Atom& const_ai = ai;
 
     REQUIRE(ai.x() == coords[0]);
@@ -38,6 +39,9 @@ void check_atom(Atom& ai, const coord_type& coords, size_type Z, mass_type m,
     REQUIRE(const_ai.x() == coords[0]);
     REQUIRE(const_ai.y() == coords[1]);
     REQUIRE(const_ai.z() == coords[2]);
+
+    REQUIRE(ai.charge() == q);
+    REQUIRE(const_ai.charge() == q);
 
     REQUIRE(ai.name() == name);
     REQUIRE(const_ai.name() == name);
@@ -55,6 +59,7 @@ TEST_CASE("Atom Class") {
         REQUIRE(std::is_same_v<coord_type, std::array<double, 3>>);
         REQUIRE(std::is_same_v<mass_type, double>);
         REQUIRE(std::is_same_v<name_type, std::string>);
+        REQUIRE(std::is_same_v<charge_type, double>);
     }
 
     coord_type carts{1.0, 2.0, 3.0};
@@ -64,7 +69,7 @@ TEST_CASE("Atom Class") {
 
     SECTION("Default Ctor") {
         Atom ai;
-        check_atom(ai, coord_type{}, 0, 0.0, "");
+        check_atom(ai, coord_type{}, 0, 0.0, "", 0.0);
     }
 
     SECTION("State Ctor") {
@@ -72,44 +77,44 @@ TEST_CASE("Atom Class") {
 
         SECTION("Mass") {
             Atom ai(m);
-            check_atom(ai, coord_type{}, 0, m, "");
+            check_atom(ai, coord_type{}, 0, m, "", 0.0);
         }
 
         SECTION("Carts") {
             Atom ai(carts);
-            check_atom(ai, carts, 0, 0.0, "");
+            check_atom(ai, carts, 0, 0.0, "", 0.0);
         }
 
         SECTION("Z") {
             Atom ai(Z);
-            check_atom(ai, coord_type{}, Z, 0.0, "");
+            check_atom(ai, coord_type{}, Z, 0.0, "", 1.0);
         }
 
         SECTION("Name") {
             Atom ai(h);
-            check_atom(ai, coord_type{}, 0, 0.0, h);
+            check_atom(ai, coord_type{}, 0, 0.0, h, 0.0);
         }
 
         SECTION("Z and Carts") {
             Atom ai(Z, carts);
-            check_atom(ai, carts, Z, 0.0, "");
+            check_atom(ai, carts, Z, 0.0, "", 1.0);
         }
 
         SECTION("Z, Carts, and mass") {
             Atom ai(carts, Z, m);
-            check_atom(ai, carts, Z, m, "");
+            check_atom(ai, carts, Z, m, "", 1.0);
         }
 
         SECTION("Z, Carts, mass, and name") {
             Atom ai(h, carts, m, Z);
-            check_atom(ai, carts, Z, m, h);
+            check_atom(ai, carts, Z, m, h, 1.0);
         }
     }
 
     Atom ai(h, m, Z, carts);
     SECTION("Copy Ctor") {
         Atom a2(ai);
-        check_atom(a2, carts, Z, m, h);
+        check_atom(a2, carts, Z, m, h, 1.0);
         REQUIRE(a2 == ai);
         REQUIRE(!(a2 != ai));
     }
@@ -119,7 +124,7 @@ TEST_CASE("Atom Class") {
         REQUIRE(a2 != ai);
         REQUIRE(!(a2 == ai));
         Atom& pai = (a2 = ai);
-        check_atom(a2, carts, Z, m, h);
+        check_atom(a2, carts, Z, m, h, 1.0);
         REQUIRE(a2 == ai);
         REQUIRE(!(a2 != ai));
         REQUIRE(&pai == &a2);
@@ -127,13 +132,13 @@ TEST_CASE("Atom Class") {
 
     SECTION("Move Ctor") {
         Atom a2(std::move(ai));
-        check_atom(a2, carts, Z, m, h);
+        check_atom(a2, carts, Z, m, h, 1.0);
     }
 
     SECTION("Move Assignment") {
         Atom a2;
         Atom& pai = (a2 = std::move(ai));
-        check_atom(a2, carts, Z, m, h);
+        check_atom(a2, carts, Z, m, h, 1.0);
         REQUIRE(&pai == &a2);
     }
 
