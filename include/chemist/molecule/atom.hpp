@@ -115,9 +115,7 @@ public:
       Atom(std::forward<Args>(args)...) {
         constexpr bool is_carts = only_one<coord_type, Args...>;
         static_assert(!is_carts, "Please only provide one set of coordinates");
-        this->x() = coords_in[0];
-        this->y() = coords_in[1];
-        this->z() = coords_in[2];
+        for(auto c = 0; c < 3; ++c) this->coord(c) = coords_in[c];
     }
 
     template<typename... Args>
