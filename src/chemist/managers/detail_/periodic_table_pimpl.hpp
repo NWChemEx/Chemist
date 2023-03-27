@@ -19,6 +19,7 @@
 #include "utilities/containers/case_insensitive_map.hpp"
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 
 namespace chemist::detail_ {
 

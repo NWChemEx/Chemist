@@ -16,6 +16,9 @@
 
 #pragma once
 #include "chemist/point_charge/point_charge.hpp"
+#include <cereal/types/string.hpp>
+#include <iomanip>
+#include <ios>
 
 namespace chemist {
 
@@ -26,28 +29,23 @@ namespace chemist {
  *  know where in space the atoms are located and what their chemical identity
  *  is.  This class also additionally holds the mass of the atom and a string
  *  identifier.
- *
- *  @tparam ScalarType the floating-point type to use for storing the value of
- *                     the charge and the charge's Cartesian coordinates.
- *                     Default is double.
  */
-template<typename ScalarType = double>
-class Atom : public PointCharge<ScalarType> {
+class Atom : public PointCharge<double> {
 private:
-    using base_type = PointCharge<ScalarType>;
+    using base_type = PointCharge<double>;
 
 public:
-    /// The type used for floating-point values
-    using scalar_type = ScalarType;
+    /// The type of a charge
+    using charge_type = typename base_type::scalar_type;
 
     /// The type of a counting number (i.e. atomic number)
     using size_type = std::size_t;
 
     /// The type the mass is stored as
-    using mass_type = scalar_type;
+    using mass_type = double;
 
-    /// The type of the atomic coordinates
-    using coord_type = std::array<scalar_type, 3>;
+    /// The type of the atomic coordinates input
+    using coord_type = std::array<double, 3>;
 
     /// The type of the name of the Atom instance
     using name_type = std::string;
@@ -60,7 +58,7 @@ public:
      *
      * @throw None No throw guarantee.
      */
-    Atom();
+    Atom() = default;
 
     /**
      * @defgroup Copy/Move CTors and Assignment Operators
@@ -75,10 +73,10 @@ public:
      * there is insufficient memory to perform the copy.
      */
     ///@{
-    Atom(const Atom& rhs);
-    Atom(Atom&& rhs) noexcept;
-    Atom& operator=(const Atom& rhs);
-    Atom& operator=(Atom&& rhs) noexcept;
+    Atom(const Atom& rhs)                = default;
+    Atom(Atom&& rhs) noexcept            = default;
+    Atom& operator=(const Atom& rhs)     = default;
+    Atom& operator=(Atom&& rhs) noexcept = default;
     ///@}
 
     /**
@@ -114,13 +112,14 @@ public:
      *        property.  Strong throw guarantee.
      */
     ///@{
-
     template<typename... Args>
     explicit Atom(const coord_type& coords_in, Args&&... args) :
       Atom(std::forward<Args>(args)...) {
         constexpr bool is_carts = only_one<coord_type, Args...>;
         static_assert(!is_carts, "Please only provide one set of coordinates");
-        coords() = coords_in;
+        this->x() = coords_in[0];
+        this->y() = coords_in[1];
+        this->z() = coords_in[2];
     }
 
     template<typename... Args>
@@ -136,7 +135,8 @@ public:
       Atom(std::forward<Args>(args)...) {
         constexpr bool is_Z = only_one<size_type, Args...>;
         static_assert(!is_Z, "Please only provide one atomic number");
-        Z() = Z_in;
+        Z()            = Z_in;
+        this->charge() = (charge_type)Z_in;
     }
 
     template<typename... Args>
@@ -146,12 +146,10 @@ public:
         static_assert(!is_mass, "Please only provide one mass");
         mass() = mass_in;
     }
-
-    explicit Atom(std::unique_ptr<detail_::AtomPIMPL> pimpl);
     ///@}
 
-    /// Frees the PIMPL instance
-    ~Atom() noexcept;
+    /// Default dtor
+    ~Atom() noexcept = default;
 
     /**
      * @defgroup Z/Name/Mass setter/getter
@@ -231,21 +229,9 @@ private:
  * @throw none all comparisons are no throw guarantee.
  */
 ///@{
-template<typename LHSType, typename RHSType>
-bool operator==(const Atom<LHSType>& lhs, const Atom<RHSType>& rhs) noexcept {
-    if constexpr(!std::is_same_v<LHSType, RHSType>) {
-        return false;
-    } else {
-        const PointCharge<LHSType>& lhs_point_charge = lhs;
-        const PointCharge<RHSType>& rhs_point_charge = rhs;
-        return (lhs.name() == rhs.name()) && (lhs.Z() == rhs.Z()) &&
-               (lhs.mass() == rhs.mass()) &&
-               (lhs_point_charge == rhs_point_charge);
-    }
-}
+bool operator==(const Atom& lhs, const Atom& rhs) noexcept;
 
-template<typename LHSType, typename RHSType>
-bool operator!=(const Atom<LHSType>& lhs, const Atom<RHSType>& rhs) noexcept {
+inline bool operator!=(const Atom& lhs, const Atom& rhs) noexcept {
     return !(lhs == rhs);
 }
 ///@}
@@ -260,29 +246,24 @@ bool operator!=(const Atom<LHSType>& lhs, const Atom<RHSType>& rhs) noexcept {
  * @throws std::ios_base::failure if anything goes wrong while writing. Weak
  *         throw guarantee.
  */
-std::ostream& operator<<(std::ostream& os, const Atom& ai) {
-    os << ai.name() << std::fixed << std::setprecision(15) << " " << ai.x()
-       << " " << ai.y() << " " << ai.z();
-    return os;
-}
+std::ostream& operator<<(std::ostream& os, const Atom& ai);
 
 // ----------------------- Implementations -------------------------------------
 
-template<typename T>
 template<typename Archive>
-void Atom<T>::save(Archive& ar) const {
+void Atom::save(Archive& ar) const {
     base_type::save(ar);
-    ar& m_q_;
+    ar& m_Z_;
+    ar& m_name_;
+    ar& m_mass_;
 }
 
-template<typename T>
 template<typename Archive>
-void Atom<T>::load(Archive& ar) {
+void Atom::load(Archive& ar) {
     base_type::load(ar);
-    ar& m_q_;
+    ar& m_Z_;
+    ar& m_name_;
+    ar& m_mass_;
 }
-
-extern template class Atom<double>;
-extern template class Atom<float>;
 
 } // namespace chemist

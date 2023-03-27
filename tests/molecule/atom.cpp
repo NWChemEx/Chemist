@@ -31,16 +31,13 @@ void check_atom(Atom& ai, const coord_type& coords, size_type Z, mass_type m,
                 name_type name) {
     const Atom& const_ai = ai;
 
-    REQUIRE(ai.coords() == coords);
-    REQUIRE(const_ai.coords() == coords);
-    double* pCarts        = &ai[0];
-    const double* pcCarts = &const_ai[0];
-    for(size_type i = 0; i < 3; ++i) {
-        REQUIRE(ai[i] == coords[i]);
-        REQUIRE(const_ai[i] == coords[i]);
-        REQUIRE(pCarts[i] == coords[i]);
-        REQUIRE(pcCarts[i] == coords[i]);
-    }
+    REQUIRE(ai.x() == coords[0]);
+    REQUIRE(ai.y() == coords[1]);
+    REQUIRE(ai.z() == coords[2]);
+
+    REQUIRE(const_ai.x() == coords[0]);
+    REQUIRE(const_ai.y() == coords[1]);
+    REQUIRE(const_ai.z() == coords[2]);
 
     REQUIRE(ai.name() == name);
     REQUIRE(const_ai.name() == name);
@@ -107,16 +104,6 @@ TEST_CASE("Atom Class") {
             Atom ai(h, carts, m, Z);
             check_atom(ai, carts, Z, m, h);
         }
-
-        SECTION("Mass AtomicNumber functions") {
-            Atom ai(h, carts, Atom::Mass{1.0079}, Atom::AtomicNumber{1});
-            check_atom(ai, carts, Z, m, h);
-        }
-        SECTION("Carts Name functions") {
-            Atom ai(Atom::AtomName{"H"}, Atom::Coordinates{1.0, 2.0, 3.0},
-                    Atom::Mass{1.0079}, Atom::AtomicNumber{1});
-            check_atom(ai, carts, Z, m, h);
-        }
     }
 
     Atom ai(h, m, Z, carts);
@@ -161,8 +148,7 @@ TEST_CASE("Atom Class") {
 } // TEST_CASE("Atom Class")
 
 TEST_CASE("Atom serialization") {
-    Atom a(Atom::AtomName{"H"}, Atom::Coordinates{1.0, 2.0, 3.0},
-           Atom::Mass{1.0079}, Atom::AtomicNumber{1});
+    Atom a("H", coord_type{1.0, 2.0, 3.0}, 1.0079, size_type{1});
     Atom a2;
     std::stringstream ss;
     {

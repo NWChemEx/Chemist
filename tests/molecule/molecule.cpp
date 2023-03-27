@@ -29,6 +29,10 @@ using size_type       = typename Molecule::size_type;
 using iterator        = typename Molecule::iterator;
 using const_iterator  = typename Molecule::const_iterator;
 
+// Some typedefs related to Atoms
+using coord_type = typename value_type::coord_type;
+using size_type  = typename value_type::size_type;
+
 // Typedefs used for the tests
 using cart_t      = std::array<double, 3>;
 using vector_type = std::vector<value_type>;
@@ -70,7 +74,7 @@ TEST_CASE("Molecule Class") {
     SECTION("Copy CTor") {
         Molecule mol2(mol);
         REQUIRE(mol2 == mol);
-        REQUIRE(&mol.at(0).coords()[0] != &mol2.at(0).coords()[0]);
+        REQUIRE(&mol.at(0).x() != &mol2.at(0).x());
     }
 
     SECTION("Copy Assignment") {
@@ -78,7 +82,7 @@ TEST_CASE("Molecule Class") {
         auto& pmol = (mol2 = mol);
         REQUIRE(&pmol == &mol2);
         REQUIRE(mol2 == mol);
-        REQUIRE(&mol.at(0).coords()[0] != &mol2.at(0).coords()[0]);
+        REQUIRE(&mol.at(0).x() != &mol2.at(0).x());
     }
 
     SECTION("Move CTor") {
@@ -122,12 +126,9 @@ TEST_CASE("Molecule Class") {
 }
 
 TEST_CASE("Molecule serialization") {
-    Atom C(Atom::AtomName{"C"}, Atom::Coordinates{0.0, 0.0, 1.0},
-           Atom::Mass{12.0107}, Atom::AtomicNumber{1});
-    Atom O(Atom::AtomName{"O"}, Atom::Coordinates{0.0, 0.0, 0.0},
-           Atom::Mass{15.999}, Atom::AtomicNumber{1});
-    Atom C2(Atom::AtomName{"C"}, Atom::Coordinates{0.0, 0.0, -1.0},
-            Atom::Mass{12.0107}, Atom::AtomicNumber{1});
+    Atom C("C", coord_type{0.0, 0.0, 1.0}, 12.0107, size_type{1});
+    Atom O("O", coord_type{0.0, 0.0, 0.0}, 15.999, size_type{1});
+    Atom C2("C", coord_type{0.0, 0.0, -1.0}, 12.0107, size_type{1});
     Molecule mol{C, O, C2};
     Molecule mol2;
     std::stringstream ss;
