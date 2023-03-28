@@ -40,7 +40,7 @@ auto non_default_parameter() {
         return chemist::Decomposable1EDensity(
           a_tensor, chemist::orbital_space::DerivedSpaceD{});
     } else if constexpr(std::is_same_v<T, chemist::Nuclei>) {
-        chemist::Atom H(1ul);
+        chemist::Atom H("H", 1ul, 0.0, 0.0, 0.0, 0.0);
         return chemist::Nuclei{H, H};
     } else if constexpr(std::is_same_v<T, chemist::Point<double>>) {
         return chemist::Point<double>(1., 2., 3.);

@@ -29,10 +29,6 @@ using size_type       = typename Molecule::size_type;
 using iterator        = typename Molecule::iterator;
 using const_iterator  = typename Molecule::const_iterator;
 
-// Some typedefs related to Atoms
-using coord_type = typename value_type::coord_type;
-using size_type  = typename value_type::size_type;
-
 // Typedefs used for the tests
 using cart_t      = std::array<double, 3>;
 using vector_type = std::vector<value_type>;
@@ -52,8 +48,8 @@ TEST_CASE("Molecule Class") {
         REQUIRE(mol.size() == 0);
     }
 
-    vector_type atoms{Atom{"H", 1ul, 1.0079, cart_t{0.0, 0.0, 0.89}},
-                      Atom{"D", 1ul, 2.0079, cart_t{0.0, 0.0, 0.0}}};
+    vector_type atoms{Atom{"H", 1ul, 1.0079, 0.0, 0.0, 0.89},
+                      Atom{"D", 1ul, 2.0079, 0.0, 0.0, 0.0}};
 
     SECTION("State CTor") {
         SECTION("An atom") {
@@ -107,17 +103,24 @@ TEST_CASE("Molecule Class") {
     }
 
     SECTION("Equality") {
-        using c_t = typename Atom::coord_type;
-        using m_t = typename Atom::mass_type;
-        Atom H{"H", 1ul,
-               c_t{0.000000000000000, 1.579252144093028, 2.174611055780858},
-               m_t{1837.4260218693814}};
-        Atom O{"O", 8ul,
-               c_t{0.000000000000000, 0.000000000000000, 0.000000000000000},
-               m_t{29165.122045980286}};
-        Atom H2{"H", 1ul,
-                c_t{0.000000000000000, 1.579252144093028, -2.174611055780858},
-                m_t{1837.4260218693814}};
+        Atom H{"H",
+               1ul,
+               1837.4260218693814,
+               0.000000000000000,
+               1.579252144093028,
+               2.174611055780858};
+        Atom O{"O",
+               8ul,
+               29165.122045980286,
+               0.000000000000000,
+               0.000000000000000,
+               0.000000000000000};
+        Atom H2{"H",
+                1ul,
+                1837.4260218693814,
+                0.000000000000000,
+                1.579252144093028,
+                -2.174611055780858};
         Molecule h2o_a{H, O, H2};
         Molecule h2o_b{H, O, H2};
         SECTION("Molecules are the same") { REQUIRE(h2o_a == h2o_b); }
@@ -126,9 +129,9 @@ TEST_CASE("Molecule Class") {
 }
 
 TEST_CASE("Molecule serialization") {
-    Atom C("C", coord_type{0.0, 0.0, 1.0}, 12.0107, size_type{1});
-    Atom O("O", coord_type{0.0, 0.0, 0.0}, 15.999, size_type{1});
-    Atom C2("C", coord_type{0.0, 0.0, -1.0}, 12.0107, size_type{1});
+    Atom C("C", size_type{1}, 12.0107, 0.0, 0.0, 1.0);
+    Atom O("O", size_type{1}, 15.999, 0.0, 0.0, 0.0);
+    Atom C2("C", size_type{1}, 12.0107, 0.0, 0.0, -1.0);
     Molecule mol{C, O, C2};
     Molecule mol2;
     std::stringstream ss;

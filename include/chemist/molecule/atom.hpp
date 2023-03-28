@@ -45,7 +45,7 @@ public:
     using mass_type = double;
 
     /// The type of the atomic coordinates input
-    using coord_type = std::array<double, 3>;
+    using coord_type = double;
 
     /// The type of the name of the Atom instance
     using name_type = std::string;
@@ -80,68 +80,30 @@ public:
     ///@}
 
     /**
-     * @defgroup State CTors
+     * @defgroup State-based Ctors
      *
-     * @brief The CTors in this group allow a user to set the state of the Atom
-     * *via* the CTor.
+     * @brief CTors for providing the initial state of the Atom instance.
      *
-     * The state of the Atom is set by parsing the list of input arguments by
-     * type.  The following list first lists the "capture group" (in brackets)
-     * followed by how that group will be interpreted.
+     * @param[in] s The name/symbol of the Atom
+     * @param[in] Z The atomic number of the Atom
+     * @param[in] m The mass of the Atom
+     * @param[in] x The x coordinate of the Atom
+     * @param[in] y The y coordinate of the Atom
+     * @param[in] z The z coordinate of the Atom
+     * @param[in] q The charge on the Atom. Defaults to the atomic number if not
+     *              provided
      *
-     * - `[std::array<double, 3>]` the input coordinates.
-     * - `[std::string]` the name of the Atom.
-     * - `[std::size_t]` the atomic number of the Atom.
-     * - `[double]` the atomic mass of the Atom
-     *
-     * When providing input to the CTor, the order of the groups is irrelevant.
-     * The charge of the atom is set to the atomic number by default. The charge
-     * can be altered after construction if desired.
-     *
-     *
-     * @param[in] coords The Cartesian coordinates (x,y,z).
-     * @param[in] name The name of the atom (typically the atomic symbol)
-     * @param[in] Z The atomic number of the  Atom
-     * @param[in] args The remaining arguments to be parsed
-     *
-     * @tparam Args The types of the remaining arguments to be parsed.
-     *
-     * @throw std::bad_alloc if there is insufficient memory to add a new
-     *        property.  Strong throw guarantee.
+     * @throw std::bad_alloc The copy ctor/assignment operator throws if
+     * there is insufficient memory to perform the copy.
      */
     ///@{
-    template<typename... Args>
-    explicit Atom(const coord_type& coords_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_carts = only_one<coord_type, Args...>;
-        static_assert(!is_carts, "Please only provide one set of coordinates");
-        for(auto c = 0; c < 3; ++c) this->coord(c) = coords_in[c];
-    }
+    Atom(name_type s, size_type Z, mass_type m, coord_type x, coord_type y,
+         coord_type z) :
+      base_type((charge_type)Z, x, y, z), m_name_(s), m_Z_(Z), m_mass_(m) {}
 
-    template<typename... Args>
-    explicit Atom(const name_type& name_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_name = only_one<name_type, Args...>;
-        static_assert(!is_name, "Please only provide one name");
-        name() = name_in;
-    }
-
-    template<typename... Args>
-    explicit Atom(size_type Z_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_Z = only_one<size_type, Args...>;
-        static_assert(!is_Z, "Please only provide one atomic number");
-        Z()            = Z_in;
-        this->charge() = (charge_type)Z_in;
-    }
-
-    template<typename... Args>
-    explicit Atom(const mass_type& mass_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_mass = only_one<mass_type, Args...>;
-        static_assert(!is_mass, "Please only provide one mass");
-        mass() = mass_in;
-    }
+    Atom(name_type s, size_type Z, mass_type m, coord_type x, coord_type y,
+         coord_type z, charge_type q) :
+      base_type(q, x, y, z), m_name_(s), m_Z_(Z), m_mass_(m) {}
     ///@}
 
     /// Default dtor
@@ -198,11 +160,6 @@ private:
 
     /// The mass of the atom
     mass_type m_mass_ = 0.0;
-
-    /// Private member variable for static asserts
-    template<typename T, typename... Args>
-    static constexpr bool only_one =
-      std::disjunction_v<std::is_same<std::decay_t<Args>, T>...>;
 
 }; // End Atom
 

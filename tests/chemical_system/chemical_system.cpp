@@ -82,7 +82,8 @@ TEST_CASE("ChemicalSystem") {
         }
     }
 
-    chemist::Molecule default_mol, h{chemist::Atom(1ul)};
+    chemist::Atom atom("H", 1ul, 0.0, 0.0, 0.0, 0.0); // Mass-less hydrogen
+    chemist::Molecule default_mol, h{atom};
 
     chemist::potentials::Electrostatic default_v, v;
     v.add_charge(chemist::PointCharge<double>());

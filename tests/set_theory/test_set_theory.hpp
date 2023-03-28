@@ -38,9 +38,9 @@ auto make_object() {
     } else if constexpr(std::is_same_v<T, chemist::Molecule>) {
         using value_type = typename Molecule::value_type;
         using cart_type  = typename value_type::coord_type;
-        value_type O{8ul, cart_type{0.0, 0.0, 0.0}};
-        value_type H0{1ul, cart_type{0.0, 0.0, 0.5}};
-        value_type H1{1ul, cart_type{0.0, 0.5, 0.0}};
+        value_type O{"O", 8ul, 0.0, 0.0, 0.0, 0.0};
+        value_type H0{"H", 1ul, 0.0, 0.0, 0.0, 0.5};
+        value_type H1{"H", 1ul, 0.0, 0.0, 0.5, 0.0};
         return T{O, H0, H1};
     }
 }
