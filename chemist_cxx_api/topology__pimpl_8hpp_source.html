@@ -88,20 +88,21 @@ $(function() {
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;chemist/topology/topology.hpp&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>chemist::topology::detail_ {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="structchemist_1_1topology_1_1detail___1_1TopologyPIMPL.html">   22</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structchemist_1_1topology_1_1detail___1_1TopologyPIMPL.html">TopologyPIMPL</a> {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">using</span> pair_type     = <span class="keyword">typename</span> <a class="code" href="classchemist_1_1topology_1_1Topology.html#a1ec548696e78de91d0eda4ff48a1bf84">Topology::pair_type</a>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">using</span> distance_type = <span class="keyword">typename</span> <a class="code" href="classchemist_1_1topology_1_1Topology.html#a13244daf7b8623e744fab23f51901910">Topology::distance_type</a>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    std::map&lt;pair_type, distance_type&gt; m_distances;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;};</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;} <span class="comment">// namespace chemist::topology::detail_</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">namespace </span>chemist::topology::detail_ {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="structchemist_1_1topology_1_1detail___1_1TopologyPIMPL.html">   23</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structchemist_1_1topology_1_1detail___1_1TopologyPIMPL.html">TopologyPIMPL</a> {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">using</span> pair_type     = <span class="keyword">typename</span> <a class="code" href="classchemist_1_1topology_1_1Topology.html#a1ec548696e78de91d0eda4ff48a1bf84">Topology::pair_type</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">using</span> distance_type = <span class="keyword">typename</span> <a class="code" href="classchemist_1_1topology_1_1Topology.html#a13244daf7b8623e744fab23f51901910">Topology::distance_type</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    std::map&lt;pair_type, distance_type&gt; m_distances;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;};</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;} <span class="comment">// namespace chemist::topology::detail_</span></div>
 <div class="ttc" id="aclasschemist_1_1topology_1_1Topology_html_a13244daf7b8623e744fab23f51901910"><div class="ttname"><a href="classchemist_1_1topology_1_1Topology.html#a13244daf7b8623e744fab23f51901910">chemist::topology::Topology::distance_type</a></div><div class="ttdeci">Distance distance_type</div><div class="ttdoc">Type used for storing distances.</div><div class="ttdef"><b>Definition:</b> topology_class.hpp:46</div></div>
 <div class="ttc" id="aclasschemist_1_1topology_1_1Topology_html_a1ec548696e78de91d0eda4ff48a1bf84"><div class="ttname"><a href="classchemist_1_1topology_1_1Topology.html#a1ec548696e78de91d0eda4ff48a1bf84">chemist::topology::Topology::pair_type</a></div><div class="ttdeci">std::array&lt; size_type, 2 &gt; pair_type</div><div class="ttdoc">Type used for pairs of indices.</div><div class="ttdef"><b>Definition:</b> topology_class.hpp:40</div></div>
-<div class="ttc" id="astructchemist_1_1topology_1_1detail___1_1TopologyPIMPL_html"><div class="ttname"><a href="structchemist_1_1topology_1_1detail___1_1TopologyPIMPL.html">chemist::topology::detail_::TopologyPIMPL</a></div><div class="ttdef"><b>Definition:</b> topology_pimpl.hpp:22</div></div>
+<div class="ttc" id="astructchemist_1_1topology_1_1detail___1_1TopologyPIMPL_html"><div class="ttname"><a href="structchemist_1_1topology_1_1detail___1_1TopologyPIMPL.html">chemist::topology::detail_::TopologyPIMPL</a></div><div class="ttdef"><b>Definition:</b> topology_pimpl.hpp:23</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

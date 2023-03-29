@@ -87,9 +87,9 @@ $(function() {
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;chemist/detail_/hashing.hpp&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;chemist/set_theory/subset.hpp&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;chemist/set_theory/traits/traits.hpp&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;chemist/set_theory/subset.hpp&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;chemist/set_theory/traits/traits.hpp&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="namespacestd.html">   24</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacestd.html">std</a> {</div>
@@ -159,120 +159,112 @@ $(function() {
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
 <div class="line"><a name="l00260"></a><span class="lineno"><a class="line" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#ab30d896a6e864459ad67e0491e5f77bf">  260</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#ab30d896a6e864459ad67e0491e5f77bf">disjoint</a>() const noexcept;</div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
-<div class="line"><a name="l00268"></a><span class="lineno"><a class="line" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a914a843027bbf4e4fd9fc14a5b4495c0">  268</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a914a843027bbf4e4fd9fc14a5b4495c0">hash</a>(<a class="code" href="namespacechemist.html">chemist</a>::detail_::Hasher&amp; h) const;</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;private:</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="keywordtype">void</span> bounds_check_(<a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a14e48b349722c949fab0d90d974a480f">size_type</a> i) const;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160; </div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    subset_container m_subsets_;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160; </div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a289d4d59ee08af728dc1e8f18cbbe349">ptr_type</a> m_obj_;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;};</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;template&lt;typename LHSSetType, typename RHSSetType&gt;</div>
-<div class="line"><a name="l00296"></a><span class="lineno"><a class="line" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a444e16a2bec9e43d4c2b7c5b5ff07446">  296</a></span>&#160;<span class="keywordtype">bool</span> operator==(const <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html">FamilyOfSets</a>&lt;LHSSetType&gt;&amp; lhs,</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                const <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html">FamilyOfSets</a>&lt;RHSSetType&gt;&amp; rhs) {</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    <span class="keywordflow">if</span> constexpr(!std::is_same_v&lt;decltype(lhs), decltype(rhs)&gt;) {</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        <span class="keywordflow">if</span>(lhs.object() != rhs.object()) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        <span class="keywordflow">if</span>(lhs.size() != rhs.size()) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        <span class="keyword">using</span> <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a14e48b349722c949fab0d90d974a480f">size_type</a> = <span class="keyword">typename</span> <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a14e48b349722c949fab0d90d974a480f">FamilyOfSets&lt;LHSSetType&gt;::size_type</a>;</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        <span class="keywordflow">for</span>(<a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a14e48b349722c949fab0d90d974a480f">size_type</a> i = 0; i &lt; lhs.size(); ++i)</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;            <span class="keywordflow">if</span>(lhs[i] != rhs[i]) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    }</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;}</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160; </div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> LHSSetType, <span class="keyword">typename</span> RHSSetType&gt;</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacechemist.html#a330b4119afeda5d8124160d058c4c72e">operator!=</a>(<span class="keyword">const</span> <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html">FamilyOfSets&lt;LHSSetType&gt;</a>&amp; lhs,</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;                <span class="keyword">const</span> <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html">FamilyOfSets&lt;RHSSetType&gt;</a>&amp; rhs) {</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    <span class="keywordflow">return</span> !(lhs == rhs);</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;}</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160; </div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> FamilyOfSets&lt;SetType&gt;&amp; fos) {</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;    os &lt;&lt; <span class="stringliteral">&quot;[&quot;</span>;</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    <span class="keywordtype">bool</span> first = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; set_i : fos) {</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        <span class="keywordflow">if</span>(!first) os &lt;&lt; <span class="stringliteral">&quot;,&quot;</span>;</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        <a class="code" href="structchemist_1_1set__theory_1_1FamilyOfSetsTraits.html#af7c96685d29130f2ffd6b9f600e2c913">FamilyOfSetsTraits&lt;SetType&gt;::print_elem</a>(os, set_i);</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        first = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    }</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    <span class="keywordflow">return</span> os &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>;</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;}</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160; </div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;<span class="comment">// -------------------------- Implementations ---------------------------------</span></div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="preprocessor">#define FAMILYOFSETS FamilyOfSets&lt;SetType&gt;</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160; </div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;FAMILYOFSETS::FamilyOfSets(SetType obj, <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a14e3f0a7bb6c8cc24b1242fbdddc420d">il_type</a> il) :</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;  m_obj_(traits_type::make_pointer(<a class="code" href="namespacestd.html">std</a>::move(obj))) {</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">auto</span> x : il) <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#aeee812ce267e8afa6377ab22c9282c5c">emplace</a>(x);</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;}</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160; </div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="keywordtype">void</span> FAMILYOFSETS::emplace(subset_il_type il) {</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    insert(traits_type::new_subset(data(), il));</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;}</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160; </div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="keyword">typename</span> FAMILYOFSETS::const_reference FAMILYOFSETS::operator[](</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;  size_type i) <span class="keyword">const</span> noexcept {</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    <span class="keywordflow">return</span> *(m_subsets_.begin() + i);</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;}</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160; </div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="keyword">typename</span> FAMILYOFSETS::const_reference FAMILYOFSETS::at(size_type i)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;    bounds_check_(i);</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;    <span class="keywordflow">return</span> (*<span class="keyword">this</span>)[i];</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;}</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160; </div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="keyword">typename</span> FAMILYOFSETS::const_superset_reference FAMILYOFSETS::object()</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  const noexcept {</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    <span class="keywordflow">return</span> traits_type::dereference_object(m_obj_);</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;private:</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="keywordtype">void</span> bounds_check_(<a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a14e48b349722c949fab0d90d974a480f">size_type</a> i) const;</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160; </div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    subset_container m_subsets_;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a289d4d59ee08af728dc1e8f18cbbe349">ptr_type</a> m_obj_;</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;};</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160; </div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;template&lt;typename LHSSetType, typename RHSSetType&gt;</div>
+<div class="line"><a name="l00288"></a><span class="lineno"><a class="line" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a444e16a2bec9e43d4c2b7c5b5ff07446">  288</a></span>&#160;<span class="keywordtype">bool</span> operator==(const <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html">FamilyOfSets</a>&lt;LHSSetType&gt;&amp; lhs,</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;                const <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html">FamilyOfSets</a>&lt;RHSSetType&gt;&amp; rhs) {</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    <span class="keywordflow">if</span> constexpr(!std::is_same_v&lt;decltype(lhs), decltype(rhs)&gt;) {</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        <span class="keywordflow">if</span>(lhs.object() != rhs.object()) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        <span class="keywordflow">if</span>(lhs.size() != rhs.size()) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        <span class="keyword">using</span> <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a14e48b349722c949fab0d90d974a480f">size_type</a> = <span class="keyword">typename</span> <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a14e48b349722c949fab0d90d974a480f">FamilyOfSets&lt;LHSSetType&gt;::size_type</a>;</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        <span class="keywordflow">for</span>(<a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a14e48b349722c949fab0d90d974a480f">size_type</a> i = 0; i &lt; lhs.size(); ++i)</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;            <span class="keywordflow">if</span>(lhs[i] != rhs[i]) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    }</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;}</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160; </div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> LHSSetType, <span class="keyword">typename</span> RHSSetType&gt;</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacechemist.html#a330b4119afeda5d8124160d058c4c72e">operator!=</a>(<span class="keyword">const</span> <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html">FamilyOfSets&lt;LHSSetType&gt;</a>&amp; lhs,</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;                <span class="keyword">const</span> <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html">FamilyOfSets&lt;RHSSetType&gt;</a>&amp; rhs) {</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    <span class="keywordflow">return</span> !(lhs == rhs);</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;}</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160; </div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> FamilyOfSets&lt;SetType&gt;&amp; fos) {</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    os &lt;&lt; <span class="stringliteral">&quot;[&quot;</span>;</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <span class="keywordtype">bool</span> first = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; set_i : fos) {</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        <span class="keywordflow">if</span>(!first) os &lt;&lt; <span class="stringliteral">&quot;,&quot;</span>;</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        <a class="code" href="structchemist_1_1set__theory_1_1FamilyOfSetsTraits.html#af7c96685d29130f2ffd6b9f600e2c913">FamilyOfSetsTraits&lt;SetType&gt;::print_elem</a>(os, set_i);</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        first = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    }</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    <span class="keywordflow">return</span> os &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>;</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;}</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160; </div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="comment">// -------------------------- Implementations ---------------------------------</span></div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;<span class="preprocessor">#define FAMILYOFSETS FamilyOfSets&lt;SetType&gt;</span></div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160; </div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;FAMILYOFSETS::FamilyOfSets(SetType obj, <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a14e3f0a7bb6c8cc24b1242fbdddc420d">il_type</a> il) :</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;  m_obj_(traits_type::make_pointer(<a class="code" href="namespacestd.html">std</a>::move(obj))) {</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">auto</span> x : il) <a class="code" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#aeee812ce267e8afa6377ab22c9282c5c">emplace</a>(x);</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;}</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160; </div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="keywordtype">void</span> FAMILYOFSETS::emplace(subset_il_type il) {</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    insert(traits_type::new_subset(data(), il));</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;}</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160; </div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="keyword">typename</span> FAMILYOFSETS::const_reference FAMILYOFSETS::operator[](</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;  size_type i) <span class="keyword">const</span> noexcept {</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    <span class="keywordflow">return</span> *(m_subsets_.begin() + i);</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;}</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160; </div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="keyword">typename</span> FAMILYOFSETS::const_reference FAMILYOFSETS::at(size_type i)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    bounds_check_(i);</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    <span class="keywordflow">return</span> (*<span class="keyword">this</span>)[i];</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;}</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160; </div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="keyword">typename</span> FAMILYOFSETS::const_superset_reference FAMILYOFSETS::object()</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;  const noexcept {</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    <span class="keywordflow">return</span> traits_type::dereference_object(m_obj_);</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;}</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160; </div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="keywordtype">void</span> FAMILYOFSETS::insert(value_type elem) {</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <span class="keywordflow">if</span>(!traits_type::is_subset(elem, data()))</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Subset is not part of this family&quot;</span>);</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160; </div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    m_subsets_.emplace(std::move(elem));</div>
 <div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;}</div>
 <div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160; </div>
 <div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="keywordtype">void</span> FAMILYOFSETS::insert(value_type elem) {</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    <span class="keywordflow">if</span>(!traits_type::is_subset(elem, data()))</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Subset is not part of this family&quot;</span>);</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160; </div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    m_subsets_.emplace(std::move(elem));</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;}</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160; </div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="keywordtype">bool</span> FAMILYOFSETS::disjoint() const noexcept {</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    <span class="keyword">auto</span> e = end();</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">auto</span> lhs = begin(); lhs != e; ++lhs) {</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        <span class="keyword">auto</span> rhs = lhs;</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        ++rhs;</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        <span class="keywordflow">for</span>(; rhs != e; ++rhs) {</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;            <span class="keywordflow">if</span>(!traits_type::disjoint(*lhs, *rhs)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        }</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    }</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;}</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160; </div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;<span class="keywordtype">void</span> FAMILYOFSETS::hash(chemist::detail_::Hasher&amp; h)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; x : m_subsets_) h(x);</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    h(m_obj_);</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;}</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160; </div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;<span class="keywordtype">void</span> FAMILYOFSETS::bounds_check_(size_type i)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> n = <a class="code" href="types_8hpp.html#a9ee3ebc8fa20e70336ca452fe2a719e2">size</a>();</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;    <span class="keywordflow">if</span>(i &lt; n) <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;    <span class="keywordflow">throw</span> std::out_of_range(<span class="stringliteral">&quot;Index &quot;</span> + std::to_string(i) +</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;                            <span class="stringliteral">&quot; is not in the &quot;</span></div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;                            <span class="stringliteral">&quot;range [0, &quot;</span> +</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;                            std::to_string(n) + <span class="stringliteral">&quot;).&quot;</span>);</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;}</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160; </div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;<span class="preprocessor">#undef FAMILYOFSETS</span></div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;} <span class="comment">// namespace chemist::set_theory</span></div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="keywordtype">bool</span> FAMILYOFSETS::disjoint() const noexcept {</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    <span class="keyword">auto</span> e = end();</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">auto</span> lhs = begin(); lhs != e; ++lhs) {</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;        <span class="keyword">auto</span> rhs = lhs;</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        ++rhs;</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        <span class="keywordflow">for</span>(; rhs != e; ++rhs) {</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;            <span class="keywordflow">if</span>(!traits_type::disjoint(*lhs, *rhs)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        }</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    }</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;}</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160; </div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> SetType&gt;</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="keywordtype">void</span> FAMILYOFSETS::bounds_check_(size_type i)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> n = <a class="code" href="types_8hpp.html#a9ee3ebc8fa20e70336ca452fe2a719e2">size</a>();</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    <span class="keywordflow">if</span>(i &lt; n) <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    <span class="keywordflow">throw</span> std::out_of_range(<span class="stringliteral">&quot;Index &quot;</span> + std::to_string(i) +</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;                            <span class="stringliteral">&quot; is not in the &quot;</span></div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;                            <span class="stringliteral">&quot;range [0, &quot;</span> +</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;                            std::to_string(n) + <span class="stringliteral">&quot;).&quot;</span>);</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;}</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160; </div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;<span class="preprocessor">#undef FAMILYOFSETS</span></div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;} <span class="comment">// namespace chemist::set_theory</span></div>
 <div class="ttc" id="aclasschemist_1_1set__theory_1_1FamilyOfSets_html"><div class="ttname"><a href="classchemist_1_1set__theory_1_1FamilyOfSets.html">chemist::set_theory::FamilyOfSets</a></div><div class="ttdoc">Holds a series of Subset objects.</div><div class="ttdef"><b>Definition:</b> family_of_sets.hpp:55</div></div>
 <div class="ttc" id="aclasschemist_1_1set__theory_1_1FamilyOfSets_html_a03e9b732c51e5c3fe9c9a74492500d50"><div class="ttname"><a href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a03e9b732c51e5c3fe9c9a74492500d50">chemist::set_theory::FamilyOfSets::FamilyOfSets</a></div><div class="ttdeci">FamilyOfSets(SetType obj, il_type il={})</div><div class="ttdoc">Creates a new FamilyOfSets instance using obj as the parent set.</div></div>
 <div class="ttc" id="aclasschemist_1_1set__theory_1_1FamilyOfSets_html_a04129151a30a5c7bfe31d3690879ce86"><div class="ttname"><a href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a04129151a30a5c7bfe31d3690879ce86">chemist::set_theory::FamilyOfSets::FamilyOfSets</a></div><div class="ttdeci">FamilyOfSets()=default</div><div class="ttdoc">Creates an empty FoS w/o a superset.</div></div>
@@ -289,7 +281,6 @@ $(function() {
 <div class="ttc" id="aclasschemist_1_1set__theory_1_1FamilyOfSets_html_a8113f5d5efcffa605396a1c1391d5758"><div class="ttname"><a href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a8113f5d5efcffa605396a1c1391d5758">chemist::set_theory::FamilyOfSets::empty</a></div><div class="ttdeci">bool empty() const noexcept</div><div class="ttdoc">Used to determine if the current family is empty.</div><div class="ttdef"><b>Definition:</b> family_of_sets.hpp:122</div></div>
 <div class="ttc" id="aclasschemist_1_1set__theory_1_1FamilyOfSets_html_a8245265b6fabfbc9b6190b0784945955"><div class="ttname"><a href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a8245265b6fabfbc9b6190b0784945955">chemist::set_theory::FamilyOfSets::operator[]</a></div><div class="ttdeci">const_reference operator[](size_type i) const noexcept</div><div class="ttdoc">Returns the i-th subset in the family.</div></div>
 <div class="ttc" id="aclasschemist_1_1set__theory_1_1FamilyOfSets_html_a86eda515ac40fd894974ae694542d3ef"><div class="ttname"><a href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a86eda515ac40fd894974ae694542d3ef">chemist::set_theory::FamilyOfSets::reference_type</a></div><div class="ttdeci">typename traits_type::reference_type reference_type</div><div class="ttdoc">Type of a read/write-reference to a subset.</div><div class="ttdef"><b>Definition:</b> family_of_sets.hpp:70</div></div>
-<div class="ttc" id="aclasschemist_1_1set__theory_1_1FamilyOfSets_html_a914a843027bbf4e4fd9fc14a5b4495c0"><div class="ttname"><a href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a914a843027bbf4e4fd9fc14a5b4495c0">chemist::set_theory::FamilyOfSets::hash</a></div><div class="ttdeci">void hash(chemist::detail_::Hasher &amp;h) const</div><div class="ttdoc">Hashes the FamilyOfSets.</div></div>
 <div class="ttc" id="aclasschemist_1_1set__theory_1_1FamilyOfSets_html_a99447bce74e40331a584be33602d4d43"><div class="ttname"><a href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a99447bce74e40331a584be33602d4d43">chemist::set_theory::FamilyOfSets::object</a></div><div class="ttdeci">const_superset_reference object() const noexcept</div><div class="ttdoc">Returns the parent set.</div></div>
 <div class="ttc" id="aclasschemist_1_1set__theory_1_1FamilyOfSets_html_a9ee6f9e6eab1411f80409d815d19a6f4"><div class="ttname"><a href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a9ee6f9e6eab1411f80409d815d19a6f4">chemist::set_theory::FamilyOfSets::const_reference</a></div><div class="ttdeci">typename traits_type::const_reference const_reference</div><div class="ttdoc">Type of a read-only reference to a subset.</div><div class="ttdef"><b>Definition:</b> family_of_sets.hpp:73</div></div>
 <div class="ttc" id="aclasschemist_1_1set__theory_1_1FamilyOfSets_html_aa43b9e4c1dff7abab64275b94f0633f3"><div class="ttname"><a href="classchemist_1_1set__theory_1_1FamilyOfSets.html#aa43b9e4c1dff7abab64275b94f0633f3">chemist::set_theory::FamilyOfSets::const_superset_reference</a></div><div class="ttdeci">typename traits_type::const_parent_reference const_superset_reference</div><div class="ttdoc">Type of a read-only reference to the superset.</div><div class="ttdef"><b>Definition:</b> family_of_sets.hpp:64</div></div>
@@ -298,7 +289,6 @@ $(function() {
 <div class="ttc" id="aclasschemist_1_1set__theory_1_1FamilyOfSets_html_ace4021075bc4ab0d55b76b1434a66f70"><div class="ttname"><a href="classchemist_1_1set__theory_1_1FamilyOfSets.html#ace4021075bc4ab0d55b76b1434a66f70">chemist::set_theory::FamilyOfSets::size</a></div><div class="ttdeci">size_type size() const noexcept</div><div class="ttdoc">Returns the number of subsets in this family of sets.</div><div class="ttdef"><b>Definition:</b> family_of_sets.hpp:133</div></div>
 <div class="ttc" id="aclasschemist_1_1set__theory_1_1FamilyOfSets_html_aeee812ce267e8afa6377ab22c9282c5c"><div class="ttname"><a href="classchemist_1_1set__theory_1_1FamilyOfSets.html#aeee812ce267e8afa6377ab22c9282c5c">chemist::set_theory::FamilyOfSets::emplace</a></div><div class="ttdeci">void emplace(subset_il_type il)</div><div class="ttdoc">Convience function for creating an empty subset.</div></div>
 <div class="ttc" id="aclasschemist_1_1set__theory_1_1FamilyOfSets_html_afc6332cf57e6e0523b0de8f4d4330d7f"><div class="ttname"><a href="classchemist_1_1set__theory_1_1FamilyOfSets.html#afc6332cf57e6e0523b0de8f4d4330d7f">chemist::set_theory::FamilyOfSets::superset_type</a></div><div class="ttdeci">SetType superset_type</div><div class="ttdoc">Type of the set we are dividing up.</div><div class="ttdef"><b>Definition:</b> family_of_sets.hpp:60</div></div>
-<div class="ttc" id="anamespacechemist_html"><div class="ttname"><a href="namespacechemist.html">chemist</a></div><div class="ttdoc">The primary namespace for the chemist library.</div><div class="ttdef"><b>Definition:</b> ao_basis_set.cpp:22</div></div>
 <div class="ttc" id="anamespacechemist_html_a330b4119afeda5d8124160d058c4c72e"><div class="ttname"><a href="namespacechemist.html#a330b4119afeda5d8124160d058c4c72e">chemist::operator!=</a></div><div class="ttdeci">bool operator!=(const AtomicBasisSet&lt; T &gt; &amp;lhs, const AtomicBasisSet&lt; T &gt; &amp;rhs)</div><div class="ttdoc">Determines if two AtomicBasisSet instances are different.</div><div class="ttdef"><b>Definition:</b> atomic_basis_set.hpp:419</div></div>
 <div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdoc">TODO: Roll our own reference wrapper with these operations defined.</div><div class="ttdef"><b>Definition:</b> family_of_sets.hpp:24</div></div>
 <div class="ttc" id="astructchemist_1_1set__theory_1_1FamilyOfSetsTraits_html"><div class="ttname"><a href="structchemist_1_1set__theory_1_1FamilyOfSetsTraits.html">chemist::set_theory::FamilyOfSetsTraits</a></div><div class="ttdoc">Given a set type determines the types for a FamilyOfSets which wraps the set.</div><div class="ttdef"><b>Definition:</b> family_of_sets.hpp:42</div></div>

@@ -68,7 +68,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structchemist_1_1ManyElectrons-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -87,12 +86,6 @@ Public Types</h2></td></tr>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>size_type</b> = unsigned long</td></tr>
 <tr class="separator:ab97a8c12793cbe6aca4dd11a19178332"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a1f1d62ba1fd229c43bfc9971d5088ecb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1ManyElectrons.html#a1f1d62ba1fd229c43bfc9971d5088ecb">hash</a> (detail_::Hasher &amp;h) const noexcept</td></tr>
-<tr class="memdesc:a1f1d62ba1fd229c43bfc9971d5088ecb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hashes a <a class="el" href="structchemist_1_1ManyElectrons.html" title="Class representing an indeterminate number of electrons.">ManyElectrons</a> instance.  <a href="structchemist_1_1ManyElectrons.html#a1f1d62ba1fd229c43bfc9971d5088ecb">More...</a><br /></td></tr>
-<tr class="separator:a1f1d62ba1fd229c43bfc9971d5088ecb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a9d078761a986fdce1b94cb8e87ba0394"><td class="memItemLeft" align="right" valign="top"><a id="a9d078761a986fdce1b94cb8e87ba0394"></a>
@@ -103,43 +96,7 @@ size_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class representing an indeterminate number of electrons. </p>
 <p>This class models a swarm of electrons. In practice the swarm may have 0 or more electrons in it. The number is not known at compile time. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1f1d62ba1fd229c43bfc9971d5088ecb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f1d62ba1fd229c43bfc9971d5088ecb">&#9670;&nbsp;</a></span>hash()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void chemist::ManyElectrons::hash </td>
-          <td>(</td>
-          <td class="paramtype">detail_::Hasher &amp;&#160;</td>
-          <td class="paramname"><em>h</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Hashes a <a class="el" href="structchemist_1_1ManyElectrons.html" title="Class representing an indeterminate number of electrons.">ManyElectrons</a> instance. </p>
-<p>This function updates the internal hash of <code>h</code> with the hash of this instance's state (<em>i.e.</em>, it's number of electrons).</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">h</td><td>The hasher instance to use for hashing. After this call <code>h</code> will be updated with the hash of this instance. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/chemist/electrons/<a class="el" href="many__electrons_8hpp_source.html">many_electrons.hpp</a></li>
 </ul>
 </div><!-- contents -->

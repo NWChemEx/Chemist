@@ -128,9 +128,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a06a2eef9845bd889453221e8fa5bd30b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1potentials_1_1Electrostatic.html#a06a2eef9845bd889453221e8fa5bd30b">load</a> (Archive &amp;ar)</td></tr>
 <tr class="memdesc:a06a2eef9845bd889453221e8fa5bd30b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserializes the electrostatic potential.  <a href="classchemist_1_1potentials_1_1Electrostatic.html#a06a2eef9845bd889453221e8fa5bd30b">More...</a><br /></td></tr>
 <tr class="separator:a06a2eef9845bd889453221e8fa5bd30b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a958f3ab58e38dc4defa0d08596415ef2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1potentials_1_1Electrostatic.html#a958f3ab58e38dc4defa0d08596415ef2">hash</a> (chemist::detail_::Hasher &amp;h) const</td></tr>
-<tr class="memdesc:a958f3ab58e38dc4defa0d08596415ef2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes a hash of the electrostatic potential.  <a href="classchemist_1_1potentials_1_1Electrostatic.html#a958f3ab58e38dc4defa0d08596415ef2">More...</a><br /></td></tr>
-<tr class="separator:a958f3ab58e38dc4defa0d08596415ef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class that models an electrostatic potential. </p>
@@ -253,40 +250,6 @@ Public Member Functions</h2></td></tr>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if <code>i</code> is not in the range [0, <a class="el" href="classchemist_1_1potentials_1_1Electrostatic.html#aa9027ecefc8692dff76b1096e23ec544" title="Returns the number of point charges in the electrostatic potential.">ncharges()</a>). Strong throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a958f3ab58e38dc4defa0d08596415ef2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a958f3ab58e38dc4defa0d08596415ef2">&#9670;&nbsp;</a></span>hash()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void chemist::potentials::Electrostatic::hash </td>
-          <td>(</td>
-          <td class="paramtype">chemist::detail_::Hasher &amp;&#160;</td>
-          <td class="paramname"><em>h</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Computes a hash of the electrostatic potential. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">h</td><td>The object used to hash the state. After this call <code>h</code> will have been modified to include a hash of this object's state. </td></tr>
   </table>
   </dd>
 </dl>

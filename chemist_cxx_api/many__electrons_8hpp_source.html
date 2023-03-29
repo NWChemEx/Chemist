@@ -87,32 +87,28 @@ $(function() {
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;chemist/detail_/hashing.hpp&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacechemist.html">chemist</a> {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="structchemist_1_1ManyElectrons.html">   27</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structchemist_1_1ManyElectrons.html">ManyElectrons</a> {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">using</span> size_type = <span class="keywordtype">unsigned</span> long;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="structchemist_1_1ManyElectrons.html#a1f1d62ba1fd229c43bfc9971d5088ecb">   38</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="structchemist_1_1ManyElectrons.html#a1f1d62ba1fd229c43bfc9971d5088ecb">hash</a>(detail_::Hasher&amp; h) <span class="keyword">const</span> noexcept { h(<a class="code" href="structchemist_1_1ManyElectrons.html#a9d078761a986fdce1b94cb8e87ba0394">size</a>); }</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="structchemist_1_1ManyElectrons.html#a9d078761a986fdce1b94cb8e87ba0394">   41</a></span>&#160;    size_type <a class="code" href="structchemist_1_1ManyElectrons.html#a9d078761a986fdce1b94cb8e87ba0394">size</a> = 0;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;};</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> <a class="code" href="structchemist_1_1ManyElectrons.html">ManyElectrons</a>&amp; lhs, <span class="keyword">const</span> <a class="code" href="structchemist_1_1ManyElectrons.html">ManyElectrons</a>&amp; rhs) {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">return</span> lhs.<a class="code" href="structchemist_1_1ManyElectrons.html#a9d078761a986fdce1b94cb8e87ba0394">size</a> == rhs.<a class="code" href="structchemist_1_1ManyElectrons.html#a9d078761a986fdce1b94cb8e87ba0394">size</a>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="namespacechemist.html#a330b4119afeda5d8124160d058c4c72e">operator!=</a>(<span class="keyword">const</span> ManyElectrons&amp; lhs, <span class="keyword">const</span> ManyElectrons&amp; rhs) {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> !(lhs == rhs);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;} <span class="comment">// namespace chemist</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacechemist.html">chemist</a> {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="structchemist_1_1ManyElectrons.html">   26</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structchemist_1_1ManyElectrons.html">ManyElectrons</a> {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">using</span> size_type = <span class="keywordtype">unsigned</span> long;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="structchemist_1_1ManyElectrons.html#a9d078761a986fdce1b94cb8e87ba0394">   30</a></span>&#160;    size_type <a class="code" href="structchemist_1_1ManyElectrons.html#a9d078761a986fdce1b94cb8e87ba0394">size</a> = 0;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;};</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> <a class="code" href="structchemist_1_1ManyElectrons.html">ManyElectrons</a>&amp; lhs, <span class="keyword">const</span> <a class="code" href="structchemist_1_1ManyElectrons.html">ManyElectrons</a>&amp; rhs) {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">return</span> lhs.<a class="code" href="structchemist_1_1ManyElectrons.html#a9d078761a986fdce1b94cb8e87ba0394">size</a> == rhs.<a class="code" href="structchemist_1_1ManyElectrons.html#a9d078761a986fdce1b94cb8e87ba0394">size</a>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="namespacechemist.html#a330b4119afeda5d8124160d058c4c72e">operator!=</a>(<span class="keyword">const</span> ManyElectrons&amp; lhs, <span class="keyword">const</span> ManyElectrons&amp; rhs) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> !(lhs == rhs);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;} <span class="comment">// namespace chemist</span></div>
 <div class="ttc" id="anamespacechemist_html"><div class="ttname"><a href="namespacechemist.html">chemist</a></div><div class="ttdoc">The primary namespace for the chemist library.</div><div class="ttdef"><b>Definition:</b> ao_basis_set.cpp:22</div></div>
 <div class="ttc" id="anamespacechemist_html_a330b4119afeda5d8124160d058c4c72e"><div class="ttname"><a href="namespacechemist.html#a330b4119afeda5d8124160d058c4c72e">chemist::operator!=</a></div><div class="ttdeci">bool operator!=(const AtomicBasisSet&lt; T &gt; &amp;lhs, const AtomicBasisSet&lt; T &gt; &amp;rhs)</div><div class="ttdoc">Determines if two AtomicBasisSet instances are different.</div><div class="ttdef"><b>Definition:</b> atomic_basis_set.hpp:419</div></div>
-<div class="ttc" id="astructchemist_1_1ManyElectrons_html"><div class="ttname"><a href="structchemist_1_1ManyElectrons.html">chemist::ManyElectrons</a></div><div class="ttdoc">Class representing an indeterminate number of electrons.</div><div class="ttdef"><b>Definition:</b> many_electrons.hpp:27</div></div>
-<div class="ttc" id="astructchemist_1_1ManyElectrons_html_a1f1d62ba1fd229c43bfc9971d5088ecb"><div class="ttname"><a href="structchemist_1_1ManyElectrons.html#a1f1d62ba1fd229c43bfc9971d5088ecb">chemist::ManyElectrons::hash</a></div><div class="ttdeci">void hash(detail_::Hasher &amp;h) const noexcept</div><div class="ttdoc">Hashes a ManyElectrons instance.</div><div class="ttdef"><b>Definition:</b> many_electrons.hpp:38</div></div>
-<div class="ttc" id="astructchemist_1_1ManyElectrons_html_a9d078761a986fdce1b94cb8e87ba0394"><div class="ttname"><a href="structchemist_1_1ManyElectrons.html#a9d078761a986fdce1b94cb8e87ba0394">chemist::ManyElectrons::size</a></div><div class="ttdeci">size_type size</div><div class="ttdoc">The number of electrons.</div><div class="ttdef"><b>Definition:</b> many_electrons.hpp:41</div></div>
+<div class="ttc" id="astructchemist_1_1ManyElectrons_html"><div class="ttname"><a href="structchemist_1_1ManyElectrons.html">chemist::ManyElectrons</a></div><div class="ttdoc">Class representing an indeterminate number of electrons.</div><div class="ttdef"><b>Definition:</b> many_electrons.hpp:26</div></div>
+<div class="ttc" id="astructchemist_1_1ManyElectrons_html_a9d078761a986fdce1b94cb8e87ba0394"><div class="ttname"><a href="structchemist_1_1ManyElectrons.html#a9d078761a986fdce1b94cb8e87ba0394">chemist::ManyElectrons::size</a></div><div class="ttdeci">size_type size</div><div class="ttdoc">The number of electrons.</div><div class="ttdef"><b>Definition:</b> many_electrons.hpp:30</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

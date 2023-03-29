@@ -128,9 +128,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae4aebf0b676237368b94085c96ef69b0"><td class="memItemLeft" align="right" valign="top"><a id="ae4aebf0b676237368b94085c96ef69b0"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classchemist_1_1wavefunction_1_1Nonrelativistic.html">Nonrelativistic</a> &amp;rhs) const</td></tr>
 <tr class="separator:ae4aebf0b676237368b94085c96ef69b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6658ce411f3c7d0e5c8c1d82208126af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1Nonrelativistic.html#a6658ce411f3c7d0e5c8c1d82208126af">hash</a> (chemist::detail_::Hasher &amp;h) const</td></tr>
-<tr class="memdesc:a6658ce411f3c7d0e5c8c1d82208126af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hashes the wavefunction.  <a href="classchemist_1_1wavefunction_1_1Nonrelativistic.html#a6658ce411f3c7d0e5c8c1d82208126af">More...</a><br /></td></tr>
-<tr class="separator:a6658ce411f3c7d0e5c8c1d82208126af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Related Functions</h2></td></tr>
@@ -237,43 +234,6 @@ template&lt;typename BasisType &gt; </div>
 <p>The basis_set this wavefunction is based on. </p>
 <p>The basis set for a wavefunction is a set of determinants or configuration state functions. This function returns this set, which in turn will contain the more traditional quantities known as "basis set" (<em>e.g.</em> the AOs or MOs).</p>
 <dl class="section return"><dt>Returns</dt><dd>The basis_set used to construct this wavefunction. </dd></dl>
-
-</div>
-</div>
-<a id="a6658ce411f3c7d0e5c8c1d82208126af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6658ce411f3c7d0e5c8c1d82208126af">&#9670;&nbsp;</a></span>hash()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename BasisType &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classchemist_1_1wavefunction_1_1Nonrelativistic.html">chemist::wavefunction::Nonrelativistic</a>&lt; BasisType &gt;::hash </td>
-          <td>(</td>
-          <td class="paramtype">chemist::detail_::Hasher &amp;&#160;</td>
-          <td class="paramname"><em>h</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Hashes the wavefunction. </p>
-<p>This function will add a hash of the wavefunction to the provided Hasher instance</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">h</td><td>The instance to use for hashing. After this call <code>h</code> will contain a hash of this wavefunction. </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>

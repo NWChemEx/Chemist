@@ -170,9 +170,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adac0fd720514cfeed4775291caa60218"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#adac0fd720514cfeed4775291caa60218">load</a> (Archive &amp;ar)</td></tr>
 <tr class="memdesc:adac0fd720514cfeed4775291caa60218"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialize for <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> instance.  <a href="classchemist_1_1Point.html#adac0fd720514cfeed4775291caa60218">More...</a><br /></td></tr>
 <tr class="separator:adac0fd720514cfeed4775291caa60218"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7eaabda526f04b993daf01363776ba76"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a7eaabda526f04b993daf01363776ba76">hash</a> (detail_::Hasher &amp;h) const</td></tr>
-<tr class="memdesc:a7eaabda526f04b993daf01363776ba76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes a hash of the <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a>.  <a href="classchemist_1_1Point.html#a7eaabda526f04b993daf01363776ba76">More...</a><br /></td></tr>
-<tr class="separator:a7eaabda526f04b993daf01363776ba76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -518,42 +515,6 @@ template&lt;typename T &gt; </div>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if <code>q</code> is not in the range [0, 3). Strong throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a7eaabda526f04b993daf01363776ba76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7eaabda526f04b993daf01363776ba76">&#9670;&nbsp;</a></span>hash()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::hash </td>
-          <td>(</td>
-          <td class="paramtype">detail_::Hasher &amp;&#160;</td>
-          <td class="paramname"><em>h</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Computes a hash of the <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">h</td><td>The object used to hash the state. After this call <code>h</code> will have been modified to include a hash of this object's state. </td></tr>
   </table>
   </dd>
 </dl>

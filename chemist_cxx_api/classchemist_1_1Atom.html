@@ -67,7 +67,6 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#related">Related Functions</a> &#124;
@@ -81,134 +80,200 @@ $(function() {
  <a href="classchemist_1_1Atom.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="atom_8hpp_source.html">atom.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for chemist::Atom:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classchemist_1_1Atom.png" usemap="#chemist::Atom_map" alt=""/>
+  <map id="chemist::Atom_map" name="chemist::Atom_map">
+<area href="classchemist_1_1PointCharge.html" alt="chemist::PointCharge&lt; double &gt;" shape="rect" coords="0,56,192,80"/>
+<area href="classchemist_1_1Point.html" alt="chemist::Point&lt; double &gt;" shape="rect" coords="0,0,192,24"/>
+  </map>
+</div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1Atom_1_1AtomicNumber.html">AtomicNumber</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper for tagging an input size_t as an atomic number.  <a href="structchemist_1_1Atom_1_1AtomicNumber.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1Atom_1_1AtomName.html">AtomName</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper for tagging an input name as an atom name.  <a href="structchemist_1_1Atom_1_1AtomName.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1Atom_1_1Coordinates.html">Coordinates</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper for tagging input array as a set of coordinates.  <a href="structchemist_1_1Atom_1_1Coordinates.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1Atom_1_1Mass.html">Mass</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper for tagging an input double as a mass.  <a href="structchemist_1_1Atom_1_1Mass.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
+<tr class="memitem:a72d43169b9634952b6c535af3a9971d9"><td class="memItemLeft" align="right" valign="top"><a id="a72d43169b9634952b6c535af3a9971d9"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html#a72d43169b9634952b6c535af3a9971d9">charge_type</a> = typename <a class="el" href="classchemist_1_1PointCharge.html#a7225cbed5e4945560aaef4e2bcf2f4eb">base_type::scalar_type</a></td></tr>
+<tr class="memdesc:a72d43169b9634952b6c535af3a9971d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a charge. <br /></td></tr>
+<tr class="separator:a72d43169b9634952b6c535af3a9971d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b6dc4ae02a520f3d754c382c98b59e2"><td class="memItemLeft" align="right" valign="top"><a id="a4b6dc4ae02a520f3d754c382c98b59e2"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html#a4b6dc4ae02a520f3d754c382c98b59e2">size_type</a> = std::size_t</td></tr>
-<tr class="memdesc:a4b6dc4ae02a520f3d754c382c98b59e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a counting number. <br /></td></tr>
+<tr class="memdesc:a4b6dc4ae02a520f3d754c382c98b59e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a counting number (i.e. atomic number) <br /></td></tr>
 <tr class="separator:a4b6dc4ae02a520f3d754c382c98b59e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a701542634f11bad646570b5da64a2e"><td class="memItemLeft" align="right" valign="top"><a id="a3a701542634f11bad646570b5da64a2e"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html#a3a701542634f11bad646570b5da64a2e">mass_type</a> = double</td></tr>
 <tr class="memdesc:a3a701542634f11bad646570b5da64a2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type the mass is stored as. <br /></td></tr>
 <tr class="separator:a3a701542634f11bad646570b5da64a2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60608f8dd1301319876a801e8527192d"><td class="memItemLeft" align="right" valign="top"><a id="a60608f8dd1301319876a801e8527192d"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html#a60608f8dd1301319876a801e8527192d">coord_type</a> = std::array&lt; double, 3 &gt;</td></tr>
-<tr class="memdesc:a60608f8dd1301319876a801e8527192d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the atomic coordinates. <br /></td></tr>
-<tr class="separator:a60608f8dd1301319876a801e8527192d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a852e18468a2c820bf947e9bb7e525a7d"><td class="memItemLeft" align="right" valign="top"><a id="a852e18468a2c820bf947e9bb7e525a7d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html#a852e18468a2c820bf947e9bb7e525a7d">coord_type</a> = double</td></tr>
+<tr class="memdesc:a852e18468a2c820bf947e9bb7e525a7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the atomic coordinates input. <br /></td></tr>
+<tr class="separator:a852e18468a2c820bf947e9bb7e525a7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb6ee04812ddb1634a32f15b7fc49911"><td class="memItemLeft" align="right" valign="top"><a id="afb6ee04812ddb1634a32f15b7fc49911"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html#afb6ee04812ddb1634a32f15b7fc49911">name_type</a> = std::string</td></tr>
 <tr class="memdesc:afb6ee04812ddb1634a32f15b7fc49911"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the name of the <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instance. <br /></td></tr>
 <tr class="separator:afb6ee04812ddb1634a32f15b7fc49911"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classchemist_1_1PointCharge"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classchemist_1_1PointCharge')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classchemist_1_1PointCharge.html">chemist::PointCharge&lt; double &gt;</a></td></tr>
+<tr class="memitem:a7225cbed5e4945560aaef4e2bcf2f4eb inherit pub_types_classchemist_1_1PointCharge"><td class="memItemLeft" align="right" valign="top"><a id="a7225cbed5e4945560aaef4e2bcf2f4eb"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointCharge.html#a7225cbed5e4945560aaef4e2bcf2f4eb">scalar_type</a> = double</td></tr>
+<tr class="memdesc:a7225cbed5e4945560aaef4e2bcf2f4eb inherit pub_types_classchemist_1_1PointCharge"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type used to model the charge and the coordinates. <br /></td></tr>
+<tr class="separator:a7225cbed5e4945560aaef4e2bcf2f4eb inherit pub_types_classchemist_1_1PointCharge"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classchemist_1_1Point"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classchemist_1_1Point')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classchemist_1_1Point.html">chemist::Point&lt; double &gt;</a></td></tr>
+<tr class="memitem:a57af4b16c58c2e114554290d0c7bb58b inherit pub_types_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top"><a id="a57af4b16c58c2e114554290d0c7bb58b"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a57af4b16c58c2e114554290d0c7bb58b">reference</a> = double &amp;</td></tr>
+<tr class="memdesc:a57af4b16c58c2e114554290d0c7bb58b inherit pub_types_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read/write reference to a component of the point. <br /></td></tr>
+<tr class="separator:a57af4b16c58c2e114554290d0c7bb58b inherit pub_types_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e38cdf263f18cd9f6a7480781b5fffc inherit pub_types_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top"><a id="a7e38cdf263f18cd9f6a7480781b5fffc"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a7e38cdf263f18cd9f6a7480781b5fffc">const_reference</a> = const double &amp;</td></tr>
+<tr class="memdesc:a7e38cdf263f18cd9f6a7480781b5fffc inherit pub_types_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to a component of the point. <br /></td></tr>
+<tr class="separator:a7e38cdf263f18cd9f6a7480781b5fffc inherit pub_types_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01df611286efdbb40733122811b81271 inherit pub_types_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top"><a id="a01df611286efdbb40733122811b81271"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a01df611286efdbb40733122811b81271">size_type</a> = std::size_t</td></tr>
+<tr class="memdesc:a01df611286efdbb40733122811b81271 inherit pub_types_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used for indexing and offsets. <br /></td></tr>
+<tr class="separator:a01df611286efdbb40733122811b81271 inherit pub_types_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad5d030fc1716debfe4aba94b48c57100"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html#ad5d030fc1716debfe4aba94b48c57100">Atom</a> ()</td></tr>
-<tr class="memdesc:ad5d030fc1716debfe4aba94b48c57100"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a default constructed <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instance.  <a href="classchemist_1_1Atom.html#ad5d030fc1716debfe4aba94b48c57100">More...</a><br /></td></tr>
-<tr class="separator:ad5d030fc1716debfe4aba94b48c57100"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga142e3c6d85f01f6444bb76d3ea15fd62"><td class="memItemLeft" align="right" valign="top">
-&#160;</td><td class="memItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;rhs)</td></tr>
-<tr class="separator:ga142e3c6d85f01f6444bb76d3ea15fd62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad4ea45b1173194c723c8ace75aa30f04"><td class="memItemLeft" align="right" valign="top">
-&#160;</td><td class="memItemRight" valign="bottom"><b>Atom</b> (<a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;&amp;rhs) noexcept</td></tr>
-<tr class="separator:gad4ea45b1173194c723c8ace75aa30f04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac945b803a4b18851d6500d31f3832190"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;rhs)</td></tr>
-<tr class="separator:gac945b803a4b18851d6500d31f3832190"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaef7ab5896efa5f1ad16d0dfc606159b5"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;&amp;rhs) noexcept</td></tr>
-<tr class="separator:gaef7ab5896efa5f1ad16d0dfc606159b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac523988754e949d7d33dc4051ea9cdcc"><td class="memTemplParams" colspan="2">
-template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:gac523988754e949d7d33dc4051ea9cdcc"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="classchemist_1_1Atom.html#a60608f8dd1301319876a801e8527192d">coord_type</a> &amp;coords_in, Args &amp;&amp;... args)</td></tr>
-<tr class="separator:gac523988754e949d7d33dc4051ea9cdcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab501270be46e2542ee4b51dc7c7d1c5b"><td class="memTemplParams" colspan="2">
-template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:gab501270be46e2542ee4b51dc7c7d1c5b"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="classchemist_1_1Atom.html#afb6ee04812ddb1634a32f15b7fc49911">name_type</a> &amp;name_in, Args &amp;&amp;... args)</td></tr>
-<tr class="separator:gab501270be46e2542ee4b51dc7c7d1c5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab04ea9409751af5eea1ab85415538103"><td class="memTemplParams" colspan="2">
-template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:gab04ea9409751af5eea1ab85415538103"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (<a class="el" href="classchemist_1_1Atom.html#a4b6dc4ae02a520f3d754c382c98b59e2">size_type</a> Z_in, Args &amp;&amp;... args)</td></tr>
-<tr class="separator:gab04ea9409751af5eea1ab85415538103"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga83f7e58ba771d0b1bfb5b25727bea04c"><td class="memTemplParams" colspan="2">
-template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:ga83f7e58ba771d0b1bfb5b25727bea04c"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="classchemist_1_1Atom.html#a3a701542634f11bad646570b5da64a2e">mass_type</a> &amp;mass_in, Args &amp;&amp;... args)</td></tr>
-<tr class="separator:ga83f7e58ba771d0b1bfb5b25727bea04c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9572ba2ce1bfb8436a5fcc9dc4b56942"><td class="memTemplParams" colspan="2">
-template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:ga9572ba2ce1bfb8436a5fcc9dc4b56942"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="structchemist_1_1Atom_1_1Coordinates.html">Coordinates</a> &amp;coords_in, Args &amp;&amp;... args)</td></tr>
-<tr class="separator:ga9572ba2ce1bfb8436a5fcc9dc4b56942"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa262afe6c98195d41da32e8fd7028b49"><td class="memTemplParams" colspan="2">
-template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:gaa262afe6c98195d41da32e8fd7028b49"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="structchemist_1_1Atom_1_1AtomName.html">AtomName</a> &amp;name_in, Args &amp;&amp;... args)</td></tr>
-<tr class="separator:gaa262afe6c98195d41da32e8fd7028b49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadae70f3a9a9b62a018dc699e3be59caf"><td class="memTemplParams" colspan="2">
-template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:gadae70f3a9a9b62a018dc699e3be59caf"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="structchemist_1_1Atom_1_1AtomicNumber.html">AtomicNumber</a> &amp;Z_in, Args &amp;&amp;... args)</td></tr>
-<tr class="separator:gadae70f3a9a9b62a018dc699e3be59caf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6ea53cc3611b739016d8214161041819"><td class="memTemplParams" colspan="2">
-template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:ga6ea53cc3611b739016d8214161041819"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="structchemist_1_1Atom_1_1Mass.html">Mass</a> &amp;mass_in, Args &amp;&amp;... args)</td></tr>
-<tr class="separator:ga6ea53cc3611b739016d8214161041819"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabe60d58fe1e022ea9666579f1a40e478"><td class="memItemLeft" align="right" valign="top">
-&#160;</td><td class="memItemRight" valign="bottom"><b>Atom</b> (std::unique_ptr&lt; <a class="el" href="classchemist_1_1detail___1_1AtomPIMPL.html">detail_::AtomPIMPL</a> &gt; pimpl)</td></tr>
-<tr class="separator:gabe60d58fe1e022ea9666579f1a40e478"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a98973cf7e098bdac47b11d804a2b91"><td class="memItemLeft" align="right" valign="top"><a id="a2a98973cf7e098bdac47b11d804a2b91"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html#a2a98973cf7e098bdac47b11d804a2b91">~Atom</a> () noexcept</td></tr>
-<tr class="memdesc:a2a98973cf7e098bdac47b11d804a2b91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees the PIMPL instance. <br /></td></tr>
-<tr class="separator:a2a98973cf7e098bdac47b11d804a2b91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga82d65d6cce24f089119a88396287278c"><td class="memItemLeft" align="right" valign="top">
-std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () noexcept</td></tr>
-<tr class="separator:ga82d65d6cce24f089119a88396287278c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga994ca5fcabad53cddd5c0a0aa5460f55"><td class="memItemLeft" align="right" valign="top">
-const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () const noexcept</td></tr>
-<tr class="separator:ga994ca5fcabad53cddd5c0a0aa5460f55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1c6d8b76ebc5e3016d9d3694d4f787ca"><td class="memItemLeft" align="right" valign="top">
+<tr class="memitem:ab4080c9dcb83a37a699f6ca23959a2ab"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html#ab4080c9dcb83a37a699f6ca23959a2ab">Atom</a> ()=default</td></tr>
+<tr class="memdesc:ab4080c9dcb83a37a699f6ca23959a2ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a default constructed <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instance.  <a href="classchemist_1_1Atom.html#ab4080c9dcb83a37a699f6ca23959a2ab">More...</a><br /></td></tr>
+<tr class="separator:ab4080c9dcb83a37a699f6ca23959a2ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga272c07046212f5ba41071de12eca55eb"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>Atom</b> (const <a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;rhs)=default</td></tr>
+<tr class="separator:ga272c07046212f5ba41071de12eca55eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga96b799857cab3af516239efe6aa35449"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>Atom</b> (<a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;&amp;rhs) noexcept=default</td></tr>
+<tr class="separator:ga96b799857cab3af516239efe6aa35449"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadb453b8d09bc43306f441c6519cf4811"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;rhs)=default</td></tr>
+<tr class="separator:gadb453b8d09bc43306f441c6519cf4811"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0a3703719d255989142577ea7311a8a8"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;&amp;rhs) noexcept=default</td></tr>
+<tr class="separator:ga0a3703719d255989142577ea7311a8a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga80c19ed34726de49e7d1c2838c6925b3"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>Atom</b> (<a class="el" href="classchemist_1_1Atom.html#afb6ee04812ddb1634a32f15b7fc49911">name_type</a> s, <a class="el" href="classchemist_1_1Atom.html#a4b6dc4ae02a520f3d754c382c98b59e2">size_type</a> Z, <a class="el" href="classchemist_1_1Atom.html#a3a701542634f11bad646570b5da64a2e">mass_type</a> m, <a class="el" href="classchemist_1_1Atom.html#a852e18468a2c820bf947e9bb7e525a7d">coord_type</a> <a class="el" href="classchemist_1_1Point.html#a74b8c366f8c2877b52336a0f8dc52c1f">x</a>, <a class="el" href="classchemist_1_1Atom.html#a852e18468a2c820bf947e9bb7e525a7d">coord_type</a> <a class="el" href="classchemist_1_1Point.html#a52c81d8d99e5e6655bb0adb89c4990fd">y</a>, <a class="el" href="classchemist_1_1Atom.html#a852e18468a2c820bf947e9bb7e525a7d">coord_type</a> <a class="el" href="classchemist_1_1Point.html#ae77c59ee22e74f26235ee19f2c256fdd">z</a>)</td></tr>
+<tr class="separator:ga80c19ed34726de49e7d1c2838c6925b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga61fe0da4ec3f58b0ad75717e0200be10"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>Atom</b> (<a class="el" href="classchemist_1_1Atom.html#afb6ee04812ddb1634a32f15b7fc49911">name_type</a> s, <a class="el" href="classchemist_1_1Atom.html#a4b6dc4ae02a520f3d754c382c98b59e2">size_type</a> Z, <a class="el" href="classchemist_1_1Atom.html#a3a701542634f11bad646570b5da64a2e">mass_type</a> m, <a class="el" href="classchemist_1_1Atom.html#a852e18468a2c820bf947e9bb7e525a7d">coord_type</a> <a class="el" href="classchemist_1_1Point.html#a74b8c366f8c2877b52336a0f8dc52c1f">x</a>, <a class="el" href="classchemist_1_1Atom.html#a852e18468a2c820bf947e9bb7e525a7d">coord_type</a> <a class="el" href="classchemist_1_1Point.html#a52c81d8d99e5e6655bb0adb89c4990fd">y</a>, <a class="el" href="classchemist_1_1Atom.html#a852e18468a2c820bf947e9bb7e525a7d">coord_type</a> <a class="el" href="classchemist_1_1Point.html#ae77c59ee22e74f26235ee19f2c256fdd">z</a>, <a class="el" href="classchemist_1_1Atom.html#a72d43169b9634952b6c535af3a9971d9">charge_type</a> q)</td></tr>
+<tr class="separator:ga61fe0da4ec3f58b0ad75717e0200be10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa07bff9960668bdd422248a2106ad9ef"><td class="memItemLeft" align="right" valign="top"><a id="aa07bff9960668bdd422248a2106ad9ef"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html#aa07bff9960668bdd422248a2106ad9ef">~Atom</a> () noexcept=default</td></tr>
+<tr class="memdesc:aa07bff9960668bdd422248a2106ad9ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default dtor. <br /></td></tr>
+<tr class="separator:aa07bff9960668bdd422248a2106ad9ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7bf188c33b3564fe0842e46b0f44530f"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classchemist_1_1Atom.html#afb6ee04812ddb1634a32f15b7fc49911">name_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () noexcept</td></tr>
+<tr class="separator:ga7bf188c33b3564fe0842e46b0f44530f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad985cffd9dd7633f28012be6768f1ba6"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classchemist_1_1Atom.html#afb6ee04812ddb1634a32f15b7fc49911">name_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () const noexcept</td></tr>
+<tr class="separator:gad985cffd9dd7633f28012be6768f1ba6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8fac93346d6b13798772368196e48b02"><td class="memItemLeft" align="right" valign="top">
 <a class="el" href="classchemist_1_1Atom.html#a4b6dc4ae02a520f3d754c382c98b59e2">size_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>Z</b> () noexcept</td></tr>
-<tr class="separator:ga1c6d8b76ebc5e3016d9d3694d4f787ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ga8fac93346d6b13798772368196e48b02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3b91e677ceeb3e8c47f2d1401c6a69cb"><td class="memItemLeft" align="right" valign="top">
 const <a class="el" href="classchemist_1_1Atom.html#a4b6dc4ae02a520f3d754c382c98b59e2">size_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>Z</b> () const noexcept</td></tr>
 <tr class="separator:ga3b91e677ceeb3e8c47f2d1401c6a69cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga63e3a8c86cad17ecdd892a84887d31d9"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="classchemist_1_1Atom.html#a60608f8dd1301319876a801e8527192d">coord_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>coords</b> () noexcept</td></tr>
-<tr class="separator:ga63e3a8c86cad17ecdd892a84887d31d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1fd4ae12f0e42f0d237eac2790a628fd"><td class="memItemLeft" align="right" valign="top">
-const <a class="el" href="classchemist_1_1Atom.html#a60608f8dd1301319876a801e8527192d">coord_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>coords</b> () const noexcept</td></tr>
-<tr class="separator:ga1fd4ae12f0e42f0d237eac2790a628fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac15cb4d2f9d8617137e6fb380599078b"><td class="memItemLeft" align="right" valign="top">
-auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (<a class="el" href="classchemist_1_1Atom.html#a4b6dc4ae02a520f3d754c382c98b59e2">size_type</a> i) noexcept</td></tr>
-<tr class="separator:gac15cb4d2f9d8617137e6fb380599078b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad078360adb50662a902f9ad0e511b867"><td class="memItemLeft" align="right" valign="top">
-const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (<a class="el" href="classchemist_1_1Atom.html#a4b6dc4ae02a520f3d754c382c98b59e2">size_type</a> i) const noexcept</td></tr>
-<tr class="separator:gad078360adb50662a902f9ad0e511b867"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gafc70f7dc756baf47ca821565f8e83c94"><td class="memItemLeft" align="right" valign="top">
+<tr class="memitem:gae9085f6b53664718ec4344aba6dc2832"><td class="memItemLeft" align="right" valign="top">
 <a class="el" href="classchemist_1_1Atom.html#a3a701542634f11bad646570b5da64a2e">mass_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>mass</b> () noexcept</td></tr>
-<tr class="separator:gafc70f7dc756baf47ca821565f8e83c94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:gae9085f6b53664718ec4344aba6dc2832"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga64b729874c5a472ece3e1e6cbaf72bf8"><td class="memItemLeft" align="right" valign="top">
 const <a class="el" href="classchemist_1_1Atom.html#a3a701542634f11bad646570b5da64a2e">mass_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>mass</b> () const noexcept</td></tr>
 <tr class="separator:ga64b729874c5a472ece3e1e6cbaf72bf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af636daec24395d73500cdfa61da6abcb"><td class="memTemplParams" colspan="2">template&lt;typename Archive &gt; </td></tr>
-<tr class="memitem:af636daec24395d73500cdfa61da6abcb"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html#af636daec24395d73500cdfa61da6abcb">serialize</a> (Archive &amp;ar)</td></tr>
-<tr class="memdesc:af636daec24395d73500cdfa61da6abcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialize/deserialize for <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instance.  <a href="classchemist_1_1Atom.html#af636daec24395d73500cdfa61da6abcb">More...</a><br /></td></tr>
-<tr class="separator:af636daec24395d73500cdfa61da6abcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31f7c408970ed9519eeec0069e4b4c28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html#a31f7c408970ed9519eeec0069e4b4c28">hash</a> (detail_::Hasher &amp;h) const</td></tr>
-<tr class="memdesc:a31f7c408970ed9519eeec0069e4b4c28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hash <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instance.  <a href="classchemist_1_1Atom.html#a31f7c408970ed9519eeec0069e4b4c28">More...</a><br /></td></tr>
-<tr class="separator:a31f7c408970ed9519eeec0069e4b4c28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae13847d2c5aa6e67c0babbcaf47f8491"><td class="memTemplParams" colspan="2">template&lt;typename Archive &gt; </td></tr>
+<tr class="memitem:ae13847d2c5aa6e67c0babbcaf47f8491"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html#ae13847d2c5aa6e67c0babbcaf47f8491">save</a> (Archive &amp;ar) const</td></tr>
+<tr class="memdesc:ae13847d2c5aa6e67c0babbcaf47f8491"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes the atom.  <a href="classchemist_1_1Atom.html#ae13847d2c5aa6e67c0babbcaf47f8491">More...</a><br /></td></tr>
+<tr class="separator:ae13847d2c5aa6e67c0babbcaf47f8491"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa20b6e9a017a3dc1fcae441b3f03c748"><td class="memTemplParams" colspan="2">template&lt;typename Archive &gt; </td></tr>
+<tr class="memitem:aa20b6e9a017a3dc1fcae441b3f03c748"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html#aa20b6e9a017a3dc1fcae441b3f03c748">load</a> (Archive &amp;ar)</td></tr>
+<tr class="memdesc:aa20b6e9a017a3dc1fcae441b3f03c748"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserializes the atom.  <a href="classchemist_1_1Atom.html#aa20b6e9a017a3dc1fcae441b3f03c748">More...</a><br /></td></tr>
+<tr class="separator:aa20b6e9a017a3dc1fcae441b3f03c748"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classchemist_1_1PointCharge"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classchemist_1_1PointCharge')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classchemist_1_1PointCharge.html">chemist::PointCharge&lt; double &gt;</a></td></tr>
+<tr class="memitem:a16670edef9dabc7fccfb041cbab5f3d3 inherit pub_methods_classchemist_1_1PointCharge"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointCharge.html#a16670edef9dabc7fccfb041cbab5f3d3">PointCharge</a> ()=default</td></tr>
+<tr class="memdesc:a16670edef9dabc7fccfb041cbab5f3d3 inherit pub_methods_classchemist_1_1PointCharge"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a defaulted point charge centered at the origin.  <a href="classchemist_1_1PointCharge.html#a16670edef9dabc7fccfb041cbab5f3d3">More...</a><br /></td></tr>
+<tr class="separator:a16670edef9dabc7fccfb041cbab5f3d3 inherit pub_methods_classchemist_1_1PointCharge"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb5640fec1d2d9cd21f873763c3cf088 inherit pub_methods_classchemist_1_1PointCharge"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointCharge.html#adb5640fec1d2d9cd21f873763c3cf088">PointCharge</a> (const <a class="el" href="classchemist_1_1PointCharge.html">PointCharge</a> &amp;other)=default</td></tr>
+<tr class="memdesc:adb5640fec1d2d9cd21f873763c3cf088 inherit pub_methods_classchemist_1_1PointCharge"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new PointCharge by deep copying another instance.  <a href="classchemist_1_1PointCharge.html#adb5640fec1d2d9cd21f873763c3cf088">More...</a><br /></td></tr>
+<tr class="separator:adb5640fec1d2d9cd21f873763c3cf088 inherit pub_methods_classchemist_1_1PointCharge"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe75d67f53b8293cd2e2688dfd2b7cdb inherit pub_methods_classchemist_1_1PointCharge"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointCharge.html#abe75d67f53b8293cd2e2688dfd2b7cdb">PointCharge</a> (<a class="el" href="classchemist_1_1PointCharge.html">PointCharge</a> &amp;&amp;other) noexcept=default</td></tr>
+<tr class="memdesc:abe75d67f53b8293cd2e2688dfd2b7cdb inherit pub_methods_classchemist_1_1PointCharge"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a PointCharge by taking ownership of another instance's state.  <a href="classchemist_1_1PointCharge.html#abe75d67f53b8293cd2e2688dfd2b7cdb">More...</a><br /></td></tr>
+<tr class="separator:abe75d67f53b8293cd2e2688dfd2b7cdb inherit pub_methods_classchemist_1_1PointCharge"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac533196f4182f9d305f4610b7b1be157 inherit pub_methods_classchemist_1_1PointCharge"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointCharge.html#ac533196f4182f9d305f4610b7b1be157">PointCharge</a> (<a class="el" href="classchemist_1_1PointCharge.html#a7225cbed5e4945560aaef4e2bcf2f4eb">scalar_type</a> q, <a class="el" href="classchemist_1_1PointCharge.html#a7225cbed5e4945560aaef4e2bcf2f4eb">scalar_type</a> <a class="el" href="classchemist_1_1Point.html#a74b8c366f8c2877b52336a0f8dc52c1f">x</a>, <a class="el" href="classchemist_1_1PointCharge.html#a7225cbed5e4945560aaef4e2bcf2f4eb">scalar_type</a> <a class="el" href="classchemist_1_1Point.html#a52c81d8d99e5e6655bb0adb89c4990fd">y</a>, <a class="el" href="classchemist_1_1PointCharge.html#a7225cbed5e4945560aaef4e2bcf2f4eb">scalar_type</a> <a class="el" href="classchemist_1_1Point.html#ae77c59ee22e74f26235ee19f2c256fdd">z</a>)</td></tr>
+<tr class="memdesc:ac533196f4182f9d305f4610b7b1be157 inherit pub_methods_classchemist_1_1PointCharge"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new PointCharge instance with the specified state.  <a href="classchemist_1_1PointCharge.html#ac533196f4182f9d305f4610b7b1be157">More...</a><br /></td></tr>
+<tr class="separator:ac533196f4182f9d305f4610b7b1be157 inherit pub_methods_classchemist_1_1PointCharge"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa75a8717a78ccd970055bea962f61a6b inherit pub_methods_classchemist_1_1PointCharge"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointCharge.html">PointCharge</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointCharge.html#aa75a8717a78ccd970055bea962f61a6b">operator=</a> (const <a class="el" href="classchemist_1_1PointCharge.html">PointCharge</a> &amp;rhs) noexcept=default</td></tr>
+<tr class="memdesc:aa75a8717a78ccd970055bea962f61a6b inherit pub_methods_classchemist_1_1PointCharge"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overwrites the current state with a deep copy of another point charge's state.  <a href="classchemist_1_1PointCharge.html#aa75a8717a78ccd970055bea962f61a6b">More...</a><br /></td></tr>
+<tr class="separator:aa75a8717a78ccd970055bea962f61a6b inherit pub_methods_classchemist_1_1PointCharge"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03a12b0d2f6f897bda1256fa5dadd390 inherit pub_methods_classchemist_1_1PointCharge"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointCharge.html">PointCharge</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointCharge.html#a03a12b0d2f6f897bda1256fa5dadd390">operator=</a> (<a class="el" href="classchemist_1_1PointCharge.html">PointCharge</a> &amp;&amp;rhs) noexcept=default</td></tr>
+<tr class="memdesc:a03a12b0d2f6f897bda1256fa5dadd390 inherit pub_methods_classchemist_1_1PointCharge"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overwrites the current state by taking ownwership of another point charge's state.  <a href="classchemist_1_1PointCharge.html#a03a12b0d2f6f897bda1256fa5dadd390">More...</a><br /></td></tr>
+<tr class="separator:a03a12b0d2f6f897bda1256fa5dadd390 inherit pub_methods_classchemist_1_1PointCharge"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a327f9379d03d89e1d78ede78cda4bcfe inherit pub_methods_classchemist_1_1PointCharge"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointCharge.html#a7225cbed5e4945560aaef4e2bcf2f4eb">scalar_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointCharge.html#a327f9379d03d89e1d78ede78cda4bcfe">charge</a> () noexcept</td></tr>
+<tr class="memdesc:a327f9379d03d89e1d78ede78cda4bcfe inherit pub_methods_classchemist_1_1PointCharge"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the charge of the point charge in a read/write format.  <a href="classchemist_1_1PointCharge.html#a327f9379d03d89e1d78ede78cda4bcfe">More...</a><br /></td></tr>
+<tr class="separator:a327f9379d03d89e1d78ede78cda4bcfe inherit pub_methods_classchemist_1_1PointCharge"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7ca550b82f6f87f2d17486554e5e418 inherit pub_methods_classchemist_1_1PointCharge"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classchemist_1_1PointCharge.html#a7225cbed5e4945560aaef4e2bcf2f4eb">scalar_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointCharge.html#ad7ca550b82f6f87f2d17486554e5e418">charge</a> () const noexcept</td></tr>
+<tr class="memdesc:ad7ca550b82f6f87f2d17486554e5e418 inherit pub_methods_classchemist_1_1PointCharge"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the charge in a read-only state.  <a href="classchemist_1_1PointCharge.html#ad7ca550b82f6f87f2d17486554e5e418">More...</a><br /></td></tr>
+<tr class="separator:ad7ca550b82f6f87f2d17486554e5e418 inherit pub_methods_classchemist_1_1PointCharge"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedf8fc84ca788cd147ace56200f63f09 inherit pub_methods_classchemist_1_1PointCharge"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointCharge.html#aedf8fc84ca788cd147ace56200f63f09">save</a> (Archive &amp;ar) const</td></tr>
+<tr class="memdesc:aedf8fc84ca788cd147ace56200f63f09 inherit pub_methods_classchemist_1_1PointCharge"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes the point charge.  <a href="classchemist_1_1PointCharge.html#aedf8fc84ca788cd147ace56200f63f09">More...</a><br /></td></tr>
+<tr class="separator:aedf8fc84ca788cd147ace56200f63f09 inherit pub_methods_classchemist_1_1PointCharge"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab26eeb47f0e47f521547498f1c5318cf inherit pub_methods_classchemist_1_1PointCharge"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointCharge.html#ab26eeb47f0e47f521547498f1c5318cf">load</a> (Archive &amp;ar)</td></tr>
+<tr class="memdesc:ab26eeb47f0e47f521547498f1c5318cf inherit pub_methods_classchemist_1_1PointCharge"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserializes the point charge.  <a href="classchemist_1_1PointCharge.html#ab26eeb47f0e47f521547498f1c5318cf">More...</a><br /></td></tr>
+<tr class="separator:ab26eeb47f0e47f521547498f1c5318cf inherit pub_methods_classchemist_1_1PointCharge"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classchemist_1_1Point"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classchemist_1_1Point')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classchemist_1_1Point.html">chemist::Point&lt; double &gt;</a></td></tr>
+<tr class="memitem:a9d4a9b04de3c472fb141ca7f2119ac25 inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a9d4a9b04de3c472fb141ca7f2119ac25">Point</a> ()</td></tr>
+<tr class="memdesc:a9d4a9b04de3c472fb141ca7f2119ac25 inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new Point instance situated at the origin.  <a href="classchemist_1_1Point.html#a9d4a9b04de3c472fb141ca7f2119ac25">More...</a><br /></td></tr>
+<tr class="separator:a9d4a9b04de3c472fb141ca7f2119ac25 inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6d2aff2604f3138568b6e0efd488781 inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#ad6d2aff2604f3138568b6e0efd488781">Point</a> (pimpl_ptr pimpl) noexcept</td></tr>
+<tr class="memdesc:ad6d2aff2604f3138568b6e0efd488781 inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ctor which allows users to specify the PIMPL used by the Poin.  <a href="classchemist_1_1Point.html#ad6d2aff2604f3138568b6e0efd488781">More...</a><br /></td></tr>
+<tr class="separator:ad6d2aff2604f3138568b6e0efd488781 inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31b13a8df554e7866baac338ef030c83 inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a31b13a8df554e7866baac338ef030c83">Point</a> (const <a class="el" href="classchemist_1_1Point.html">Point</a>&lt; double &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a31b13a8df554e7866baac338ef030c83 inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new Point, which is a deep copy of another Point.  <a href="classchemist_1_1Point.html#a31b13a8df554e7866baac338ef030c83">More...</a><br /></td></tr>
+<tr class="separator:a31b13a8df554e7866baac338ef030c83 inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacbf5458cdadad2db510ebba812fd248 inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#aacbf5458cdadad2db510ebba812fd248">Point</a> (<a class="el" href="classchemist_1_1Point.html">Point</a>&lt; double &gt; &amp;&amp;rhs) noexcept</td></tr>
+<tr class="memdesc:aacbf5458cdadad2db510ebba812fd248 inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new Point whose state is taken from <code>rhs</code>.  <a href="classchemist_1_1Point.html#aacbf5458cdadad2db510ebba812fd248">More...</a><br /></td></tr>
+<tr class="separator:aacbf5458cdadad2db510ebba812fd248 inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a241bbeeac359c9226ac8085bd6bbf7db inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a241bbeeac359c9226ac8085bd6bbf7db">Point</a> (double <a class="el" href="classchemist_1_1Point.html#a74b8c366f8c2877b52336a0f8dc52c1f">x</a>, double <a class="el" href="classchemist_1_1Point.html#a52c81d8d99e5e6655bb0adb89c4990fd">y</a>, double <a class="el" href="classchemist_1_1Point.html#ae77c59ee22e74f26235ee19f2c256fdd">z</a>)</td></tr>
+<tr class="memdesc:a241bbeeac359c9226ac8085bd6bbf7db inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new Point instance so that it resides at the specified coordinate.  <a href="classchemist_1_1Point.html#a241bbeeac359c9226ac8085bd6bbf7db">More...</a><br /></td></tr>
+<tr class="separator:a241bbeeac359c9226ac8085bd6bbf7db inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5288ab900a8d3238d2e85564fe1105d inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html">Point</a>&lt; double &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#ad5288ab900a8d3238d2e85564fe1105d">operator=</a> (const <a class="el" href="classchemist_1_1Point.html">Point</a>&lt; double &gt; &amp;rhs) noexcept</td></tr>
+<tr class="memdesc:ad5288ab900a8d3238d2e85564fe1105d inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes the current instance contain a deep copy of another Point.  <a href="classchemist_1_1Point.html#ad5288ab900a8d3238d2e85564fe1105d">More...</a><br /></td></tr>
+<tr class="separator:ad5288ab900a8d3238d2e85564fe1105d inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0df9a2ce97a3ad153e618e2ee334f05 inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html">Point</a>&lt; double &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#ad0df9a2ce97a3ad153e618e2ee334f05">operator=</a> (<a class="el" href="classchemist_1_1Point.html">Point</a>&lt; double &gt; &amp;&amp;rhs) noexcept</td></tr>
+<tr class="memdesc:ad0df9a2ce97a3ad153e618e2ee334f05 inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transfers <code>rhs's</code> state to this instance.  <a href="classchemist_1_1Point.html#ad0df9a2ce97a3ad153e618e2ee334f05">More...</a><br /></td></tr>
+<tr class="separator:ad0df9a2ce97a3ad153e618e2ee334f05 inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9ea6eb7c8a56229b9a074f6e57826e6 inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#ac9ea6eb7c8a56229b9a074f6e57826e6">~Point</a> () noexcept</td></tr>
+<tr class="memdesc:ac9ea6eb7c8a56229b9a074f6e57826e6 inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard defaulted dtor.  <a href="classchemist_1_1Point.html#ac9ea6eb7c8a56229b9a074f6e57826e6">More...</a><br /></td></tr>
+<tr class="separator:ac9ea6eb7c8a56229b9a074f6e57826e6 inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71b0c31179e9fd469fe155d5aeda7f2d inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a57af4b16c58c2e114554290d0c7bb58b">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a71b0c31179e9fd469fe155d5aeda7f2d">coord</a> (<a class="el" href="classchemist_1_1Point.html#a01df611286efdbb40733122811b81271">size_type</a> q)</td></tr>
+<tr class="memdesc:a71b0c31179e9fd469fe155d5aeda7f2d inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <code>q-th</code> coordinate of the point.  <a href="classchemist_1_1Point.html#a71b0c31179e9fd469fe155d5aeda7f2d">More...</a><br /></td></tr>
+<tr class="separator:a71b0c31179e9fd469fe155d5aeda7f2d inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82a5ebbb4255c902e03c2a5caa70b62c inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a7e38cdf263f18cd9f6a7480781b5fffc">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a82a5ebbb4255c902e03c2a5caa70b62c">coord</a> (<a class="el" href="classchemist_1_1Point.html#a01df611286efdbb40733122811b81271">size_type</a> q) const</td></tr>
+<tr class="memdesc:a82a5ebbb4255c902e03c2a5caa70b62c inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <code>q-th</code> coordinate of the point in a read-only format.  <a href="classchemist_1_1Point.html#a82a5ebbb4255c902e03c2a5caa70b62c">More...</a><br /></td></tr>
+<tr class="separator:a82a5ebbb4255c902e03c2a5caa70b62c inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74b8c366f8c2877b52336a0f8dc52c1f inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a57af4b16c58c2e114554290d0c7bb58b">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a74b8c366f8c2877b52336a0f8dc52c1f">x</a> () noexcept</td></tr>
+<tr class="memdesc:a74b8c366f8c2877b52336a0f8dc52c1f inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the x-coordinate of the point in a read/write format.  <a href="classchemist_1_1Point.html#a74b8c366f8c2877b52336a0f8dc52c1f">More...</a><br /></td></tr>
+<tr class="separator:a74b8c366f8c2877b52336a0f8dc52c1f inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f12ecdccf46a6c7fc6b6b6fdac27275 inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a7e38cdf263f18cd9f6a7480781b5fffc">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a9f12ecdccf46a6c7fc6b6b6fdac27275">x</a> () const noexcept</td></tr>
+<tr class="memdesc:a9f12ecdccf46a6c7fc6b6b6fdac27275 inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the x-coordinate of the point in a read-only format.  <a href="classchemist_1_1Point.html#a9f12ecdccf46a6c7fc6b6b6fdac27275">More...</a><br /></td></tr>
+<tr class="separator:a9f12ecdccf46a6c7fc6b6b6fdac27275 inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52c81d8d99e5e6655bb0adb89c4990fd inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a57af4b16c58c2e114554290d0c7bb58b">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a52c81d8d99e5e6655bb0adb89c4990fd">y</a> () noexcept</td></tr>
+<tr class="memdesc:a52c81d8d99e5e6655bb0adb89c4990fd inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the y-coordinate of the point in a read/write format.  <a href="classchemist_1_1Point.html#a52c81d8d99e5e6655bb0adb89c4990fd">More...</a><br /></td></tr>
+<tr class="separator:a52c81d8d99e5e6655bb0adb89c4990fd inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e1a829d0cf49e81f2eabac67c0f7548 inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a7e38cdf263f18cd9f6a7480781b5fffc">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a9e1a829d0cf49e81f2eabac67c0f7548">y</a> () const noexcept</td></tr>
+<tr class="memdesc:a9e1a829d0cf49e81f2eabac67c0f7548 inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the y-coordinate of the point in a read-only format.  <a href="classchemist_1_1Point.html#a9e1a829d0cf49e81f2eabac67c0f7548">More...</a><br /></td></tr>
+<tr class="separator:a9e1a829d0cf49e81f2eabac67c0f7548 inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae77c59ee22e74f26235ee19f2c256fdd inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a57af4b16c58c2e114554290d0c7bb58b">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#ae77c59ee22e74f26235ee19f2c256fdd">z</a> () noexcept</td></tr>
+<tr class="memdesc:ae77c59ee22e74f26235ee19f2c256fdd inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the z-coordinate of the point in a read/write format.  <a href="classchemist_1_1Point.html#ae77c59ee22e74f26235ee19f2c256fdd">More...</a><br /></td></tr>
+<tr class="separator:ae77c59ee22e74f26235ee19f2c256fdd inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab32e38d8e644303a40582b1a20923756 inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a7e38cdf263f18cd9f6a7480781b5fffc">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#ab32e38d8e644303a40582b1a20923756">z</a> () const noexcept</td></tr>
+<tr class="memdesc:ab32e38d8e644303a40582b1a20923756 inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the z-coordinate of the point in a read-only format.  <a href="classchemist_1_1Point.html#ab32e38d8e644303a40582b1a20923756">More...</a><br /></td></tr>
+<tr class="separator:ab32e38d8e644303a40582b1a20923756 inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60f7a98b4c45258d581049c387963e7e inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a60f7a98b4c45258d581049c387963e7e">magnitude</a> () const noexcept</td></tr>
+<tr class="memdesc:a60f7a98b4c45258d581049c387963e7e inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the magnitude of the point.  <a href="classchemist_1_1Point.html#a60f7a98b4c45258d581049c387963e7e">More...</a><br /></td></tr>
+<tr class="separator:a60f7a98b4c45258d581049c387963e7e inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a458633db6bf69efd8589cc7c6a046233 inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a458633db6bf69efd8589cc7c6a046233">save</a> (Archive &amp;ar) const</td></tr>
+<tr class="memdesc:a458633db6bf69efd8589cc7c6a046233 inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialize Point instance.  <a href="classchemist_1_1Point.html#a458633db6bf69efd8589cc7c6a046233">More...</a><br /></td></tr>
+<tr class="separator:a458633db6bf69efd8589cc7c6a046233 inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adac0fd720514cfeed4775291caa60218 inherit pub_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#adac0fd720514cfeed4775291caa60218">load</a> (Archive &amp;ar)</td></tr>
+<tr class="memdesc:adac0fd720514cfeed4775291caa60218 inherit pub_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialize for Point instance.  <a href="classchemist_1_1Point.html#adac0fd720514cfeed4775291caa60218">More...</a><br /></td></tr>
+<tr class="separator:adac0fd720514cfeed4775291caa60218 inherit pub_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Related Functions</h2></td></tr>
@@ -217,17 +282,41 @@ Related Functions</h2></td></tr>
 <tr class="memitem:afb50af0a19205ecda64af0d5112faa86"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html#afb50af0a19205ecda64af0d5112faa86">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;ai)</td></tr>
 <tr class="memdesc:afb50af0a19205ecda64af0d5112faa86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes it so the <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> class can be printed out.  <a href="classchemist_1_1Atom.html#afb50af0a19205ecda64af0d5112faa86">More...</a><br /></td></tr>
 <tr class="separator:afb50af0a19205ecda64af0d5112faa86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header related_classchemist_1_1PointCharge"><td colspan="2" onclick="javascript:toggleInherit('related_classchemist_1_1PointCharge')"><img src="closed.png" alt="-"/>&#160;Related Functions inherited from <a class="el" href="classchemist_1_1PointCharge.html">chemist::PointCharge&lt; double &gt;</a></td></tr>
+<tr class="memitem:ae50db17e2e0b7ef7d081a2ee17d3c0db inherit related_classchemist_1_1PointCharge"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointCharge.html#ae50db17e2e0b7ef7d081a2ee17d3c0db">operator==</a> (const <a class="el" href="classchemist_1_1PointCharge.html">PointCharge</a>&lt; LHSType &gt; &amp;lhs, const <a class="el" href="classchemist_1_1PointCharge.html">PointCharge</a>&lt; RHSType &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:ae50db17e2e0b7ef7d081a2ee17d3c0db inherit related_classchemist_1_1PointCharge"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if two point charges are the same.  <a href="classchemist_1_1PointCharge.html#ae50db17e2e0b7ef7d081a2ee17d3c0db">More...</a><br /></td></tr>
+<tr class="separator:ae50db17e2e0b7ef7d081a2ee17d3c0db inherit related_classchemist_1_1PointCharge"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3729e83c72ec863d80d334b8425ad68 inherit related_classchemist_1_1PointCharge"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointCharge.html#ac3729e83c72ec863d80d334b8425ad68">operator!=</a> (const <a class="el" href="classchemist_1_1PointCharge.html">PointCharge</a>&lt; LHSType &gt; &amp;lhs, const <a class="el" href="classchemist_1_1PointCharge.html">PointCharge</a>&lt; RHSType &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:ac3729e83c72ec863d80d334b8425ad68 inherit related_classchemist_1_1PointCharge"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if two point charges are different.  <a href="classchemist_1_1PointCharge.html#ac3729e83c72ec863d80d334b8425ad68">More...</a><br /></td></tr>
+<tr class="separator:ac3729e83c72ec863d80d334b8425ad68 inherit related_classchemist_1_1PointCharge"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header related_classchemist_1_1Point"><td colspan="2" onclick="javascript:toggleInherit('related_classchemist_1_1Point')"><img src="closed.png" alt="-"/>&#160;Related Functions inherited from <a class="el" href="classchemist_1_1Point.html">chemist::Point&lt; double &gt;</a></td></tr>
+<tr class="memitem:af76dd89b73b47062ae938de425b91f96 inherit related_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#af76dd89b73b47062ae938de425b91f96">operator==</a> (const <a class="el" href="classchemist_1_1Point.html">Point</a>&lt; double &gt; &amp;lhs, const <a class="el" href="classchemist_1_1Point.html">Point</a>&lt; double &gt; &amp;rhs) noexcept</td></tr>
+<tr class="memdesc:af76dd89b73b47062ae938de425b91f96 inherit related_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares two Points for equality.  <a href="classchemist_1_1Point.html#af76dd89b73b47062ae938de425b91f96">More...</a><br /></td></tr>
+<tr class="separator:af76dd89b73b47062ae938de425b91f96 inherit related_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af14f29d429904bbc45c8eb851af151ef inherit related_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#af14f29d429904bbc45c8eb851af151ef">operator!=</a> (const <a class="el" href="classchemist_1_1Point.html">Point</a>&lt; double &gt; &amp;lhs, const <a class="el" href="classchemist_1_1Point.html">Point</a>&lt; double &gt; &amp;rhs) noexcept</td></tr>
+<tr class="memdesc:af14f29d429904bbc45c8eb851af151ef inherit related_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if two Points are different.  <a href="classchemist_1_1Point.html#af14f29d429904bbc45c8eb851af151ef">More...</a><br /></td></tr>
+<tr class="separator:af14f29d429904bbc45c8eb851af151ef inherit related_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_methods_classchemist_1_1Point"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classchemist_1_1Point')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classchemist_1_1Point.html">chemist::Point&lt; double &gt;</a></td></tr>
+<tr class="memitem:a73bdde68c0fe9d08c9d73e8b0913c9a9 inherit pro_methods_classchemist_1_1Point"><td class="memItemLeft" align="right" valign="top"><a id="a73bdde68c0fe9d08c9d73e8b0913c9a9"></a>
+pimpl_ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a73bdde68c0fe9d08c9d73e8b0913c9a9">point_alias</a> () const</td></tr>
+<tr class="memdesc:a73bdde68c0fe9d08c9d73e8b0913c9a9 inherit pro_methods_classchemist_1_1Point"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience fxn that makes a PIMPL that aliases this instance's state. <br /></td></tr>
+<tr class="separator:a73bdde68c0fe9d08c9d73e8b0913c9a9 inherit pro_methods_classchemist_1_1Point"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A class for holding the details of an atomic unit. </p>
-<p>Atoms are considered the first tier of input to a computational chemistry program. That is, most types of computational chemistry algorithms need to know where in space the atoms are located and what their chemical identity is. This class also additionally holds the mass of the atom and a string identifier.</p>
-<p>Like many of the classes in chemist, the <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> class is built using the PIMPL model. That is by changing the underlying implementation it is possible to change how the class behaves under the hood. The documentation for the <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> class assumes the default PIMPL implementation is used. Other backends must minimally adhere to this API, but some, like the one used within the <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> class may provide additional guarantees (coordinates and properties are contiguous in the <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> case). </p>
+<p>Atoms are considered the first tier of input to a computational chemistry program. That is, most types of computational chemistry algorithms need to know where in space the atoms are located and what their chemical identity is. This class also additionally holds the mass of the atom and a string identifier. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ad5d030fc1716debfe4aba94b48c57100"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad5d030fc1716debfe4aba94b48c57100">&#9670;&nbsp;</a></span>Atom()</h2>
+<a id="ab4080c9dcb83a37a699f6ca23959a2ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4080c9dcb83a37a699f6ca23959a2ab">&#9670;&nbsp;</a></span>Atom()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">chemist::Atom::Atom </td>
@@ -236,6 +325,11 @@ Related Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Makes a default constructed <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instance. </p>
@@ -250,62 +344,56 @@ Related Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a31f7c408970ed9519eeec0069e4b4c28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31f7c408970ed9519eeec0069e4b4c28">&#9670;&nbsp;</a></span>hash()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void chemist::Atom::hash </td>
-          <td>(</td>
-          <td class="paramtype">detail_::Hasher &amp;&#160;</td>
-          <td class="paramname"><em>h</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Hash <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instance. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">h</td><td>Hasher object </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="af636daec24395d73500cdfa61da6abcb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af636daec24395d73500cdfa61da6abcb">&#9670;&nbsp;</a></span>serialize()</h2>
+<a id="aa20b6e9a017a3dc1fcae441b3f03c748"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa20b6e9a017a3dc1fcae441b3f03c748">&#9670;&nbsp;</a></span>load()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Archive &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void chemist::Atom::serialize </td>
+          <td class="memname">void chemist::Atom::load </td>
           <td>(</td>
           <td class="paramtype">Archive &amp;&#160;</td>
           <td class="paramname"><em>ar</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Serialize/deserialize for <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instance. </p>
+<p>Deserializes the atom. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ar</td><td>The archive object </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">ar</td><td>The archive instance which contains the serialized state for this instance. After this call <code>ar</code> will no longer contain this instance's serialized state. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae13847d2c5aa6e67c0babbcaf47f8491"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae13847d2c5aa6e67c0babbcaf47f8491">&#9670;&nbsp;</a></span>save()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Archive &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void chemist::Atom::save </td>
+          <td>(</td>
+          <td class="paramtype">Archive &amp;&#160;</td>
+          <td class="paramname"><em>ar</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Serializes the atom. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">ar</td><td>The archive instance being used for serialization. After this call <code>ar</code> will contain this instance's serialized state. </td></tr>
   </table>
   </dd>
 </dl>
@@ -365,9 +453,8 @@ template&lt;typename Archive &gt; </div>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/chemist/molecule/<a class="el" href="atom_8hpp_source.html">atom.hpp</a></li>
-<li>src/chemist/molecule/atom.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
