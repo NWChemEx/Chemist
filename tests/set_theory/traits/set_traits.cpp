@@ -55,9 +55,9 @@ TEST_CASE("SetTraits<Molecule>") {
     }
     // Linear water
     using coord_type = typename chemist::Atom::coord_type;
-    chemist::Atom H0(1ul, coord_type{0.0, 0.0, 1.0});
-    chemist::Atom H1(1ul, coord_type{0.0, 0.0, -1.0});
-    chemist::Atom O(8ul);
+    chemist::Atom H0("H", 1ul, 0.0, 0.0, 0.0, 1.0);
+    chemist::Atom H1("H", 1ul, 0.0, 0.0, 0.0, -1.0);
+    chemist::Atom O("O", 8ul, 0.0, 0.0, 0.0, 0.0);
     chemist::Molecule mol{O, H0, H1};
 
     SECTION("size") { REQUIRE(traits::size(mol) == 3); }
@@ -80,7 +80,7 @@ TEST_CASE("SetTraits<Molecule>") {
             REQUIRE(traits::get_index(mol, H1) == 2);
         }
         SECTION("elem not in molecule") {
-            chemist::Atom U(92ul);
+            chemist::Atom U("U", 92ul, 0.0, 0.0, 0.0, 0.0);
             REQUIRE_THROWS_AS(traits::get_index(mol, U), std::out_of_range);
         }
     }

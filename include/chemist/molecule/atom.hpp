@@ -15,16 +15,12 @@
  */
 
 #pragma once
-#include <array> // For the coordinates
-#include <cereal/types/array.hpp>
+#include "chemist/point_charge/point_charge.hpp"
 #include <cereal/types/string.hpp>
-#include <memory> // For unique pointer
-#include <string> // For name of atom
+#include <iomanip>
+#include <ios>
 
 namespace chemist {
-namespace detail_ {
-class AtomPIMPL;
-}
 
 /** @brief A class for holding the details of an atomic unit.
  *
@@ -33,48 +29,26 @@ class AtomPIMPL;
  *  know where in space the atoms are located and what their chemical identity
  *  is.  This class also additionally holds the mass of the atom and a string
  *  identifier.
- *
- *  Like many of the classes in chemist, the Atom class is built using the
- *  PIMPL model.  That is by changing the underlying implementation it is
- *  possible to change how the class behaves under the hood.  The documentation
- *  for the Atom class assumes the default PIMPL implementation is used. Other
- *  backends must minimally adhere to this API, but some, like the one used
- *  within the Molecule class may provide additional guarantees (coordinates
- *  and properties are contiguous in the Molecule case).
  */
-class Atom {
+class Atom : public PointCharge<double> {
+private:
+    using base_type = PointCharge<double>;
+
 public:
-    /// The type of a counting number
+    /// The type of a charge
+    using charge_type = typename base_type::scalar_type;
+
+    /// The type of a counting number (i.e. atomic number)
     using size_type = std::size_t;
 
     /// The type the mass is stored as
     using mass_type = double;
 
-    /// The type of the atomic coordinates
-    using coord_type = std::array<double, 3>;
+    /// The type of the atomic coordinates input
+    using coord_type = double;
 
     /// The type of the name of the Atom instance
     using name_type = std::string;
-
-    /// Wrapper for tagging an input size_t as an atomic number
-    struct AtomicNumber {
-        size_type a_n = 0;
-    };
-
-    /// Wrapper for tagging an input double as a mass
-    struct Mass {
-        mass_type m_m = 0.0;
-    };
-
-    /// Wrapper for tagging an input name as an atom name
-    struct AtomName {
-        name_type n_n = "";
-    };
-
-    /// Wrapper for tagging input array as a set of coordinates
-    struct Coordinates {
-        coord_type c_n = {0.0, 0.0, 0.0};
-    };
 
     /**
      * @brief Makes a default constructed Atom instance.
@@ -84,7 +58,7 @@ public:
      *
      * @throw None No throw guarantee.
      */
-    Atom();
+    Atom() = default;
 
     /**
      * @defgroup Copy/Move CTors and Assignment Operators
@@ -99,118 +73,44 @@ public:
      * there is insufficient memory to perform the copy.
      */
     ///@{
-    Atom(const Atom& rhs);
-    Atom(Atom&& rhs) noexcept;
-    Atom& operator=(const Atom& rhs);
-    Atom& operator=(Atom&& rhs) noexcept;
+    Atom(const Atom& rhs)     = default;
+    Atom(Atom&& rhs) noexcept = default;
+    Atom& operator=(const Atom& rhs) = default;
+    Atom& operator=(Atom&& rhs) noexcept = default;
     ///@}
 
     /**
-     * @defgroup State CTors
+     * @defgroup State-based Ctors
      *
-     * @brief The CTors in this group allow a user to set the state of the Atom
-     * *via* the CTor.
+     * @brief CTors for providing the initial state of the Atom instance.
      *
-     * The state of the Atom is set by parsing the list of input arguments by
-     * type.  The following list first lists the "capture group" (in brackets)
-     * followed by how that group will be interpreted.
+     * @param[in] s The name/symbol of the Atom
+     * @param[in] Z The atomic number of the Atom
+     * @param[in] m The mass of the Atom
+     * @param[in] x The x coordinate of the Atom
+     * @param[in] y The y coordinate of the Atom
+     * @param[in] z The z coordinate of the Atom
+     * @param[in] q The charge on the Atom. Defaults to the atomic number if not
+     *              provided
      *
-     * - `[double, double, double]`  the input coordinates.
-     * - `[std::array<double, 3>]` the input coordinates.
-     * - `[AtomProperty, double]` a property and its value
-     * - `[std::string]` the name of the Atom.
-     * - `[std::size_t]` the atomic number of the Atom.
-     *
-     * When providing input to the CTor, the order of the groups is irrelevant.
-     *
-     * @param[in] x The "x" Cartesian coordinate.
-     * @param[in] y The "y" Cartesian coordinate.
-     * @param[in] z The "z" Cartesian coordinate.
-     * @param[in] prop The enum corresponding to the `AtomProperty` to set.
-     * @param[in] value The value for the property
-     * @param[in] name The name of the atom (typically the atomic symbol)
-     * @param[in] Z The atomic number of the  Atom
-     * @param[in] args The remaining arguments to be parsed
-     *
-     * @tparam Args The types of the remaining arguments to be parsed.
-     *
-     * @throw std::bad_alloc if there is insufficient memory to add a new
-     *        property.  Strong throw guarantee.
+     * @throw std::bad_alloc The copy ctor/assignment operator throws if
+     * there is insufficient memory to perform the copy.
      */
     ///@{
+    Atom(name_type s, size_type Z, mass_type m, coord_type x, coord_type y,
+         coord_type z) :
+      base_type((charge_type)Z, x, y, z), m_name_(s), m_Z_(Z), m_mass_(m) {}
 
-    template<typename... Args>
-    explicit Atom(const coord_type& coords_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_carts = only_one<coord_type, Args...>;
-        static_assert(!is_carts, "Please only provide one set of coordinates");
-        coords() = coords_in;
-    }
-
-    template<typename... Args>
-    explicit Atom(const name_type& name_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_name = only_one<name_type, Args...>;
-        static_assert(!is_name, "Please only provide one name");
-        name() = name_in;
-    }
-
-    template<typename... Args>
-    explicit Atom(size_type Z_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_Z = only_one<size_type, Args...>;
-        static_assert(!is_Z, "Please only provide one atomic number");
-        Z() = Z_in;
-    }
-
-    template<typename... Args>
-    explicit Atom(const mass_type& mass_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_mass = only_one<mass_type, Args...>;
-        static_assert(!is_mass, "Please only provide one mass");
-        mass() = mass_in;
-    }
-
-    template<typename... Args>
-    explicit Atom(const Coordinates& coords_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_carts = only_one<Coordinates, Args...>;
-        static_assert(!is_carts, "Please only provide one set of coordinates");
-        coords() = coords_in.c_n;
-    }
-
-    template<typename... Args>
-    explicit Atom(const AtomName& name_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_name = only_one<AtomName, Args...>;
-        static_assert(!is_name, "Please only provide one name");
-        name() = name_in.n_n;
-    }
-
-    template<typename... Args>
-    explicit Atom(const AtomicNumber& Z_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_Z = only_one<AtomicNumber, Args...>;
-        static_assert(!is_Z, "Please only provide one atomic number");
-        Z() = Z_in.a_n;
-    }
-
-    template<typename... Args>
-    explicit Atom(const Mass& mass_in, Args&&... args) :
-      Atom(std::forward<Args>(args)...) {
-        constexpr bool is_mass = only_one<Mass, Args...>;
-        static_assert(!is_mass, "Please only provide one mass");
-        mass() = mass_in.m_m;
-    }
-
-    explicit Atom(std::unique_ptr<detail_::AtomPIMPL> pimpl);
+    Atom(name_type s, size_type Z, mass_type m, coord_type x, coord_type y,
+         coord_type z, charge_type q) :
+      base_type(q, x, y, z), m_name_(s), m_Z_(Z), m_mass_(m) {}
     ///@}
 
-    /// Frees the PIMPL instance
-    ~Atom() noexcept;
+    /// Default dtor
+    ~Atom() noexcept = default;
 
     /**
-     * @defgroup Z/Name setter/getter
+     * @defgroup Z/Name/Mass setter/getter
      *
      * @brief Returns the atomic number/name of the atom.
      *
@@ -223,44 +123,43 @@ public:
      * @throw None. No throw guarantee.
      */
     ///@{
-    std::string& name() noexcept;
-    const std::string& name() const noexcept {
-        return const_cast<Atom&>(*this).name();
-    }
+    name_type& name() noexcept { return m_name_; }
+    const name_type& name() const noexcept { return m_name_; }
 
-    size_type& Z() noexcept;
-    const size_type& Z() const noexcept { return const_cast<Atom&>(*this).Z(); }
+    size_type& Z() noexcept { return m_Z_; }
+    const size_type& Z() const noexcept { return m_Z_; }
 
-    coord_type& coords() noexcept;
-    const coord_type& coords() const noexcept {
-        return const_cast<Atom&>(*this).coords();
-    }
-    auto& operator[](size_type i) noexcept { return coords()[i]; }
-    const auto& operator[](size_type i) const noexcept { return coords()[i]; }
-
-    mass_type& mass() noexcept;
-    const mass_type& mass() const noexcept {
-        return const_cast<Atom&>(*this).mass();
-    }
+    mass_type& mass() noexcept { return m_mass_; }
+    const mass_type& mass() const noexcept { return m_mass_; }
     ///@}
 
-    /** @brief Serialize/deserialize for Atom instance
+    /** @brief Serializes the atom.
      *
-     * @param ar The archive object
+     *  @param[in,out] ar The archive instance being used for serialization.
+     *                    After this call @p ar will contain this instance's
+     *                    serialized state.
      */
     template<typename Archive>
-    void serialize(Archive& ar) {
-        ar& Z() & coords() & mass() & name();
-    }
+    void save(Archive& ar) const;
+
+    /** @brief Deserializes the atom.
+     *
+     *  @param[in,out] ar The archive instance which contains the serialized
+     *                    state for this instance. After this call @p ar will
+     *                    no longer contain this instance's serialized state.
+     */
+    template<typename Archive>
+    void load(Archive& ar);
 
 private:
-    /// Actual implementation of the Atom class
-    std::unique_ptr<detail_::AtomPIMPL> pimpl_;
+    /// The atomic number of the atom
+    size_type m_Z_ = 0;
 
-    /// Private member variable for static asserts
-    template<typename T, typename... Args>
-    static constexpr bool only_one =
-      std::disjunction_v<std::is_same<std::decay_t<Args>, T>...>;
+    /// The name of the atom
+    name_type m_name_ = "";
+
+    /// The mass of the atom
+    mass_type m_mass_ = 0.0;
 
 }; // End Atom
 
@@ -284,6 +183,7 @@ private:
  */
 ///@{
 bool operator==(const Atom& lhs, const Atom& rhs) noexcept;
+
 inline bool operator!=(const Atom& lhs, const Atom& rhs) noexcept {
     return !(lhs == rhs);
 }
@@ -300,5 +200,23 @@ inline bool operator!=(const Atom& lhs, const Atom& rhs) noexcept {
  *         throw guarantee.
  */
 std::ostream& operator<<(std::ostream& os, const Atom& ai);
+
+// ----------------------- Implementations -------------------------------------
+
+template<typename Archive>
+void Atom::save(Archive& ar) const {
+    base_type::save(ar);
+    ar& m_Z_;
+    ar& m_name_;
+    ar& m_mass_;
+}
+
+template<typename Archive>
+void Atom::load(Archive& ar) {
+    base_type::load(ar);
+    ar& m_Z_;
+    ar& m_name_;
+    ar& m_mass_;
+}
 
 } // namespace chemist
