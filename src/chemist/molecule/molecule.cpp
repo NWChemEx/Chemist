@@ -27,7 +27,7 @@ using size_type       = typename Molecule::size_type;
 using iterator        = typename Molecule::iterator;
 using const_iterator  = typename Molecule::const_iterator;
 
-Molecule::Molecule() : pimpl_(std::make_unique<detail_::ContiguousMol>()) {}
+Molecule::Molecule() : pimpl_(std::make_unique<detail_::MolPIMPL>()) {}
 
 Molecule::Molecule(const Molecule& rhs) : Molecule() {
     for(auto ai : rhs) push_back(ai);

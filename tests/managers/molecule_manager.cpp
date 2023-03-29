@@ -139,8 +139,7 @@ TEST_CASE("MoleculeManager::insert") {
         std::string msg = "Molecule already exists named ez";
 
         auto ez = Molecule();
-        ez.push_back(
-          Atom{pt.get_atom(0).mass(), 1ul, Atom::coord_type{1.0, 1.0, 1.0}});
+        ez.push_back(Atom{"H", 1ul, pt.get_atom(0).mass(), 1.0, 1.0, 1.0});
 
         REQUIRE_THROWS_MATCHES(mm.insert("ez", ez), std::runtime_error,
                                Message(msg));
@@ -171,52 +170,50 @@ TEST_CASE("MoleculeManager::at") {
         load_molecules(mm, pt);
         auto corr = Molecule();
         corr.push_back(
-          Atom{pt.get_atom(0).mass(), 1ul, Atom::coord_type{0.0, 0.0, 0.0}});
+          Atom{Atom{"", 1ul, pt.get_atom(0).mass(), 0.0, 0.0, 0.0}});
 
         REQUIRE(corr == mm.at("ez"));
     }
 }
 
 inline void load_elements(PeriodicTable& pt) {
-    pt.insert(0, Atom(0ul, 0.0, "Ez"));
+    pt.insert(0, Atom("Ez", 0ul, 0.0, 0.0, 0.0, 0.0));
 
-    pt.insert(1, Atom(1ul, 1837.4260218693814, "H"));
-    pt.add_isotope(1, 1, Atom(1ul, 1837.1526472934618, "H"));
-    pt.add_isotope(1, 2, Atom(1ul, 3671.4829413173247, "H"));
+    pt.insert(1, Atom("H", 1ul, 1837.4260218693814, 0.0, 0.0, 0.0));
+    pt.add_isotope(1, 1, Atom("H", 1ul, 1837.1526472934618, 0.0, 0.0, 0.0));
+    pt.add_isotope(1, 2, Atom("H", 1ul, 3671.4829413173247, 0.0, 0.0, 0.0));
 
-    pt.insert(2, Atom(2ul, 7296.297100609073, "He"));
-    pt.add_isotope(2, 3, Atom(2ul, 5497.885121445487, "He"));
-    pt.add_isotope(2, 4, Atom(2ul, 7296.299386693523, "He"));
+    pt.insert(2, Atom("He", 2ul, 7296.297100609073, 0.0, 0.0, 0.0));
+    pt.add_isotope(2, 3, Atom("He", 2ul, 5497.885121445487, 0.0, 0.0, 0.0));
+    pt.add_isotope(2, 4, Atom("He", 2ul, 7296.299386693523, 0.0, 0.0, 0.0));
 }
 
 inline void load_molecules(MoleculeManager& mm, const PeriodicTable& pt) {
     auto ez = Molecule();
-    ez.push_back(
-      Atom{pt.get_atom(0).mass(), 1ul, Atom::coord_type{0.0, 0.0, 0.0}});
+    ez.push_back(Atom{"", 1ul, pt.get_atom(0).mass(), 0.0, 0.0, 0.0});
 
     mm.insert("ez", ez);
 
     auto test_molecule = Molecule();
     test_molecule.push_back(
-      Atom{pt.get_atom(1).mass(), 1ul, Atom::coord_type{0.5, 0.5, 0.5}});
+      Atom{"", 1ul, pt.get_atom(1).mass(), 0.5, 0.5, 0.5});
     test_molecule.push_back(
-      Atom{pt.get_atom(1).mass(), 1ul, Atom::coord_type{-0.5, -0.5, -0.5}});
+      Atom{"", 1ul, pt.get_atom(1).mass(), -0.5, -0.5, -0.5});
 
     mm.insert("test_molecule", test_molecule);
 }
 
 inline void load_molecules_2(MoleculeManager& mm, const PeriodicTable& pt) {
     auto ez = Molecule();
-    ez.push_back(
-      Atom{pt.get_atom(0).mass(), 1ul, Atom::coord_type{1.0, 1.0, 1.0}});
+    ez.push_back(Atom{"", 1ul, pt.get_atom(0).mass(), 1.0, 1.0, 1.0});
 
     mm.insert("ez", ez);
 
     auto test_molecule = Molecule();
     test_molecule.push_back(
-      Atom{pt.get_atom(2).mass(), 1ul, Atom::coord_type{0.5, 0.5, 0.5}});
+      Atom{"", 1ul, pt.get_atom(2).mass(), 0.5, 0.5, 0.5});
     test_molecule.push_back(
-      Atom{pt.get_atom(2).mass(), 1ul, Atom::coord_type{-0.5, -0.5, -0.5}});
+      Atom{"", 1ul, pt.get_atom(2).mass(), -0.5, -0.5, -0.5});
 
     mm.insert("test_molecule", test_molecule);
 }

@@ -135,6 +135,21 @@ TEMPLATE_TEST_CASE("PointCharge", "", double, float) {
             REQUIRE(q.charge() == 1.0);
         }
     }
+
+    SECTION("serialization") {
+        point_charge_t p{1.0, 2.0, 3.0, 4.0};
+        point_charge_t p2;
+        std::stringstream ss;
+        {
+            cereal::BinaryOutputArchive oarchive(ss);
+            oarchive(p);
+        }
+        {
+            cereal::BinaryInputArchive iarchive(ss);
+            iarchive(p2);
+        }
+        REQUIRE(p == p2);
+    }
 }
 
 /* Unit testing notes.

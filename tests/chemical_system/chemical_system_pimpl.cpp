@@ -21,7 +21,8 @@ TEST_CASE("ChemicalSystemPIMPL") {
     using chem_sys_t       = chemist::ChemicalSystem;
     using chem_sys_pimpl_t = chemist::detail_::ChemicalSystemPIMPL;
 
-    chemist::Molecule default_mol, h{chemist::Atom(1ul)};
+    chemist::Atom atom("H", 1ul, 0.0, 0.0, 0.0, 0.0); // Mass-less hydrogen
+    chemist::Molecule default_mol, h{atom};
 
     chemist::potentials::Electrostatic default_v, v;
     v.add_charge(chemist::PointCharge<double>());

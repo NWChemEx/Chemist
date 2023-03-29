@@ -22,16 +22,16 @@ using namespace chemist;
 
 using Catch::Matchers::Message;
 void load_elements(PeriodicTable& pt) {
-    pt.insert(0, Atom(0ul, 0.0, "Ez"));
+    pt.insert(0, Atom("Ez", 0ul, 0.0, 0.0, 0.0, 0.0));
 
-    pt.insert(1, Atom(1ul, 1837.4260218693814, "H"));
-    pt.add_isotope(1, 1, Atom(1ul, 1837.1526472934618, "H"));
-    pt.add_isotope(1, 2, Atom(1ul, 3671.4829413173247, "H"));
+    pt.insert(1, Atom("H", 1ul, 1837.4260218693814, 0.0, 0.0, 0.0));
+    pt.add_isotope(1, 1, Atom("H", 1ul, 1837.1526472934618, 0.0, 0.0, 0.0));
+    pt.add_isotope(1, 2, Atom("H", 1ul, 3671.4829413173247, 0.0, 0.0, 0.0));
     pt.add_elec_config(1, {1, 0, 0, 0});
 
-    pt.insert(2, Atom(2ul, 7296.297100609073, "He"));
-    pt.add_isotope(2, 3, Atom(2ul, 5497.885121445487, "He"));
-    pt.add_isotope(2, 4, Atom(2ul, 7296.299386693523, "He"));
+    pt.insert(2, Atom("He", 2ul, 7296.297100609073, 0.0, 0.0, 0.0));
+    pt.add_isotope(2, 3, Atom("He", 2ul, 5497.885121445487, 0.0, 0.0, 0.0));
+    pt.add_isotope(2, 4, Atom("He", 2ul, 7296.299386693523, 0.0, 0.0, 0.0));
     pt.add_elec_config(2, {2, 0, 0, 0});
 }
 
@@ -124,18 +124,19 @@ TEST_CASE("PeriodicTable Comparison") {
 
     SECTION("Filled with different elements") {
         load_elements(pt);
-        pt2.insert(0, Atom(0ul, 0.0, "Ez"));
+        pt2.insert(0, Atom("Ez", 0ul, 0.0, 0.0, 0.0, 0.0));
 
         REQUIRE(pt != pt2);
         REQUIRE(pt2 != pt);
     }
 
     SECTION("Filled with same element; different isotopes") {
-        pt.insert(1, Atom(1ul, 1837.4260218693814, "H"));
-        pt.add_isotope(1, 1, Atom(1ul, 1837.1526472934618, "H"));
+        pt.insert(1, Atom("H", 1ul, 1837.4260218693814, 0.0, 0.0, 0.0));
+        pt.add_isotope(1, 1, Atom("H", 1ul, 1837.1526472934618, 0.0, 0.0, 0.0));
 
-        pt2.insert(1, Atom(1ul, 1837.4260218693814, "H"));
-        pt2.add_isotope(1, 2, Atom(1ul, 3671.4829413173247, "H"));
+        pt2.insert(1, Atom("H", 1ul, 1837.4260218693814, 0.0, 0.0, 0.0));
+        pt2.add_isotope(1, 2,
+                        Atom("H", 1ul, 3671.4829413173247, 0.0, 0.0, 0.0));
 
         REQUIRE(pt != pt2);
         REQUIRE(pt2 != pt);
@@ -166,13 +167,13 @@ TEST_CASE("PeriodicTable::insert") {
 
     SECTION("Repeat elements") {
         // Element with no isotopes
-        REQUIRE_THROWS_MATCHES(pt.insert(0, Atom(0ul, 0.0, "Ez")),
-                               std::runtime_error,
-                               Message("Element already exists with Z = 0"));
+        REQUIRE_THROWS_MATCHES(
+          pt.insert(0, Atom("Ez", 0ul, 0.0, 0.0, 0.0, 0.0)), std::runtime_error,
+          Message("Element already exists with Z = 0"));
         // Element with isotopes
-        REQUIRE_THROWS_MATCHES(pt.insert(1, Atom(1ul, 1837.4260218693814, "H")),
-                               std::runtime_error,
-                               Message("Element already exists with Z = 1"));
+        REQUIRE_THROWS_MATCHES(
+          pt.insert(1, Atom("H", 1ul, 1837.4260218693814, 0.0, 0.0, 0.0)),
+          std::runtime_error, Message("Element already exists with Z = 1"));
     }
 }
 
@@ -182,13 +183,15 @@ TEST_CASE("PeriodicTable::add_isotope") {
 
     SECTION("Repeat isotopes") {
         REQUIRE_THROWS_MATCHES(
-          pt.add_isotope(1, 1, Atom(1ul, 1837.1526472934618, "H")),
+          pt.add_isotope(1, 1,
+                         Atom("H", 1ul, 1837.1526472934618, 0.0, 0.0, 0.0)),
           std::runtime_error, Message("Isotope Z = 1, A = 1 already exists"));
     }
 
     SECTION("No element") {
         REQUIRE_THROWS_MATCHES(
-          pt.add_isotope(3, 6, Atom(3ul, 10964.898253742283, "Li")),
+          pt.add_isotope(3, 6,
+                         Atom("Li", 3ul, 10964.898253742283, 0.0, 0.0, 0.0)),
           std::runtime_error, Message("Element does not exist with Z = 3"));
     }
 }
@@ -245,7 +248,7 @@ TEST_CASE("PeriodicTable::get_atom") {
     }
 
     SECTION("Element exists") {
-        auto corr = Atom(0ul, 0.0, "Ez");
+        auto corr = Atom("Ez", 0ul, 0.0, 0.0, 0.0, 0.0);
 
         REQUIRE(corr == pt.get_atom(0));
     }
@@ -377,7 +380,8 @@ TEST_CASE("PeriodicTable::get_elec_conf_full") {
     }
 
     SECTION("Config exists 42 (full)") {
-        pt.insert(42, chemist::Atom(42ul, 174906.15025012242, "Mo"));
+        pt.insert(42,
+                  chemist::Atom("Mo", 42ul, 174906.15025012242, 0.0, 0.0, 0.0));
         pt.add_elec_config(42, {9, 18, 15, 0});
         std::map<std::pair<size_t, size_t>, size_t> corr = {
           {{1, 0}, 2},  // 1s2
@@ -471,7 +475,7 @@ TEST_CASE("PeriodicTable::get_isotope") {
     }
 
     SECTION("Element exists, isotope exists") {
-        auto corr = Atom(1ul, 1837.1526472934618, "H");
+        auto corr = Atom("H", 1ul, 1837.1526472934618, 0.0, 0.0, 0.0);
 
         REQUIRE(corr == pt.get_isotope(1, 1));
     }
