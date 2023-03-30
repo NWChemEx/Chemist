@@ -12,12 +12,15 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-###########################
-Orbital Space Documentation
-###########################
-The 
+####################
+Design Documentation
+####################
+
+Topics in this section record the design process for the Chemist library.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-   
-   types
+
+   vector_spaces
+   wavefunction
