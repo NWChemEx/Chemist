@@ -15,3 +15,19 @@
 ###################
 Wavefunction Design
 ###################
+
+
+Example Wavefunctions
+=====================
+
+- ``SingleReference<ClosedShell<MOSpace<T>>>``. RHF wavefunction.
+- ``SingleReference<HighSpinSpace<MOSpace<T>>>``. ROHF wavefunction.
+- ``SingleReference<HighSpinSpace<SOSpace<T>>>``. UHF wavefunction.
+- ``Reference<GASSpace<SOSpace<T>>>``. GASSCF wavefunction.
+- ``Reference<RASSpace<SOSpace<T>>>``. RASSCF wavefunction.
+- ``Reference<ActiveSpace<SOSpace<T>>>``. CASSCF wavefunction.
+- ``Linear<ClosedShell<MOSpace<T>>>``. (Determinant-based) CI wavefunction.
+- ``Exponential<ClosedShell<MOSpace<T>>>``. Coupled cluster wavefunction.
+- ``Perturbative<ClosedShell<MOSpace<T>>>``. MPN wavefunction.
+- ``Perturbative<FrozenCore<ClosedShell<MOSpace<T>>>>``. Frozen-core MPN.
+- ``Perturbative<

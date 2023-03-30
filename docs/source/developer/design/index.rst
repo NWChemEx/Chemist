@@ -23,4 +23,5 @@ Topics in this section record the design process for the Chemist library.
    :caption: Contents:
 
    vector_spaces
+   determinant_spaces
    wavefunction
