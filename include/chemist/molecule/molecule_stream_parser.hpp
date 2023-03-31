@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-#pragma once
-#include "chemist/managers/periodic_table.hpp"
-#include "chemist/molecule/molecule.hpp"
-#include <istream>
-#include <map>
-#include <string>
-#include <vector>
+// #pragma once
+// #include "chemist/managers/periodic_table.hpp"
+// #include "chemist/molecule/molecule.hpp"
+// #include <istream>
+// #include <map>
+// #include <string>
+// #include <vector>
 
 /** @file This file contains the machinery for parsing a string representation
  *  of a set of atoms.
@@ -54,48 +54,48 @@
  * - SpaceGroup: which space group the unit cell belongs to.
  */
 
-namespace chemist {
+// namespace chemist {
 
-/** @brief This class abstracts away the layout of a string representation of a
- *  Molecule.
- *
- *  This is the base class for all classes specifying the layout of a
- *  Molecule stream.
- */
-struct MoleculeStreamParser {
-    enum class action_type { none, new_atom, same_atom, overall_system };
-    enum class data_type { AtNum, x, y, z, charge, multiplicity };
-    virtual action_type worth_parsing(const std::string& line) const = 0;
-    virtual std::map<data_type, std::vector<double>> parse(
-      const std::string& line, const chemist::PeriodicTable& pt) const = 0;
-};
+// /** @brief This class abstracts away the layout of a string representation of a
+//  *  Molecule.
+//  *
+//  *  This is the base class for all classes specifying the layout of a
+//  *  Molecule stream.
+//  */
+// struct MoleculeStreamParser {
+//     enum class action_type { none, new_atom, same_atom, overall_system };
+//     enum class data_type { AtNum, x, y, z, charge, multiplicity };
+//     virtual action_type worth_parsing(const std::string& line) const = 0;
+//     virtual std::map<data_type, std::vector<double>> parse(
+//       const std::string& line, const chemist::PeriodicTable& pt) const = 0;
+// };
 
-/** @brief This class implements a MoleculeParser for the xyz format.
- *
- */
-struct XYZParser : public MoleculeStreamParser {
-    action_type worth_parsing(const std::string& line) const override;
-    std::map<data_type, std::vector<double>> parse(
-      const std::string& line, const chemist::PeriodicTable& pt) const override;
-};
+// /** @brief This class implements a MoleculeParser for the xyz format.
+//  *
+//  */
+// struct XYZParser : public MoleculeStreamParser {
+//     action_type worth_parsing(const std::string& line) const override;
+//     std::map<data_type, std::vector<double>> parse(
+//       const std::string& line, const chemist::PeriodicTable& pt) const override;
+// };
 
-/**
- * @brief The function to call to parse a MoleculeStream.
- *
- * @param[in] is An input stream containing a string representation of a
- *               Molecule instance in a format the parser understands.
- * @param[in] parser The parser to be used to parse the input stream.
- * @param[in] pt The definition of the PeriodicTable instance we're using
- * @returns The Molecule instance represented in the input stream.
- * @throws std::domain_error if the charge and multiplicity of the molecule is
- * in consistent.  Weak throw guarantee for @p is and strong throw for all other
- * parameters.
- * @throws std::bad_alloc if there is insufficient memory to allocate the new
- * molecule. Weak throw guarantee for @p is and strong throw for all other
- * parameters.
- */
-Molecule parse_molecule_stream(std::istream& is,
-                               const MoleculeStreamParser& parser,
-                               const chemist::PeriodicTable& pt);
+// /**
+//  * @brief The function to call to parse a MoleculeStream.
+//  *
+//  * @param[in] is An input stream containing a string representation of a
+//  *               Molecule instance in a format the parser understands.
+//  * @param[in] parser The parser to be used to parse the input stream.
+//  * @param[in] pt The definition of the PeriodicTable instance we're using
+//  * @returns The Molecule instance represented in the input stream.
+//  * @throws std::domain_error if the charge and multiplicity of the molecule is
+//  * in consistent.  Weak throw guarantee for @p is and strong throw for all other
+//  * parameters.
+//  * @throws std::bad_alloc if there is insufficient memory to allocate the new
+//  * molecule. Weak throw guarantee for @p is and strong throw for all other
+//  * parameters.
+//  */
+// Molecule parse_molecule_stream(std::istream& is,
+//                                const MoleculeStreamParser& parser,
+//                                const chemist::PeriodicTable& pt);
 
-} // namespace chemist
+// } // namespace chemist
