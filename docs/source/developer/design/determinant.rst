@@ -12,6 +12,8 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
+.. _dd_design:
+
 ##################
 Determinant Design
 ##################
@@ -52,6 +54,8 @@ occupation vector (for |N| orbitals, an |N|-element vector such that the
 determinants as a means of defining occupied/virtual orbitals and potentially
 tracking non-standard occupations.
 
+.. _dd_considerations:
+
 **************************
 Determinant Considerations
 **************************
@@ -69,3 +73,104 @@ Occupied/Virtual
 .. _dd_occ_restrict:
 
 Occupation Restriction
+   Knowing whether each orbital is restricted to doubly occupied, or if there
+   are some singly occupied orbitals, can lead to algorithm simplifications.
+   The class hierarchy should make it possible to glean this information from
+   the type alone.
+
+*********************************
+Overview of Determinant Component
+*********************************
+
+.. _fig_determinant:
+
+.. figure:: assets/determinants.png
+   :align: center
+
+   The fundamental classes comprising Chemist's determinant component.
+
+:numref:`fig_determinant` shows the major pieces of Chemist's determinant
+component. Compared to :ref:`vsd_design`, the determinant component is
+relatively simple; a fact that stems from realizing that most of the variation
+in modern electronic structure methods comes from how to choose the orbitals,
+or how to approximate the many-electron wavefunction. In other words, there's
+comparatively few ways to create |N|-electron basis functions from orbitals.
+
+Determinant Class
+=================
+
+The base class of the determinant hierarchy is the ``Determinant<V>`` class
+(here ``V`` is the type of a vector space representing the orbital space).
+To address the :ref:`dd_ov` consideration, this class stores a reference to
+the (full) orbital space the determinant is created from (*i.e.*, it is not
+just the orbitals occupied in the determinant) and the orbital occupations.
+Admittedly, in many cases, orbital occupations are somewhat trivial to
+implicitly store developers of the ``Determinant<V>`` class may opt for
+multiple backends depending on whether or not the occupations need to be
+explicitly stored (usually only necessary for excited states or fractional
+occupations).
+
+High Spin Class
+===============
+
+A number of electronic structure methods assume that the determinant is in a
+high-spin state (all unpaired electrons have the same spin). While we could
+carry around the spins of each electron, and determine on-the-fly if we have
+a high-spin state, we instead have created a strong type ``HighSpin<V>`` to
+denote when a determinant is in a high-spin state. This is justified by the
+fact that the user makes this decision (implicitly) based on what method they
+select. Combined with the ``ClosedShell<V>`` class introduced below, the
+``HighSpin<V>`` class addresses the :ref:`dd_occ_restrict` consideration.
+
+Closed Shell Class
+==================
+
+A special (trivial) case of a high-spin determinant is one with no unpaired
+electrons. Knowing that there are no unpaired electrons again leads to
+simplifications in the resulting theories, which is why we opt to denote this
+condition by the ``ClosedShell<V>`` strong type. Together with the
+``HighSpin<V>`` class, ``ClosedShell<V>`` addresses the :ref:`dd_occ_restrict`
+consideration.
+
+Example Determinants
+====================
+
+The remainder of :numref:`fig_determinant` shows some template specializations
+and strong types for those specializations. We have opted for strong types,
+rather than typedefs, primarily to minimize the use of templates in user-facing
+classes (which also has the advantage of cleaner compiler errors). Briefly,
+the strong types we introduce are:
+
+- ``UDeterminant<T>``. Class denoting that determinant is expressed in terms
+  of spin orbitals, occupied in a high-spin state. These are the determinants
+  considered in methods typically labeled as "unrestricted".
+- ``RODeterminant<T>``. Same as ``UDeterminant<T>``, except that the orbitals
+  are spatial orbitals (not spin). These are the determinants considered in
+  methods typically labeled as "restricted open-shell".
+- ``RDeterminant<T>``. Same as ``RODeterminant<T>``, except that we additionally
+  know that there are no singly-occupied orbitals. These are the determinants
+  considered in methods typically labeled as "restricted".
+
+Also denoted in :numref:`fig_determinant` is that ``RDeterminant<T>`` should be
+implicitly convertible to an object of type ``RODeterminant<T>``, which itself
+should be implicitly convertible to an object of type ``UDeterminant<T>``.
+The decision to use implicit conversions is to avoid multiple inheritance, but
+still allow physically meaningful conversions (a ``RDeterminant<T>`` is just
+a special case of an ``RODeterminant<T>``, which is just a special case of a
+``UDeterminant<T>``).
+
+**************************
+Determinant Design Summary
+**************************
+
+The design of the determinant component satisfies the considerations raised in
+section :ref:`dd_considerations` by:
+
+:ref:`dd_ov`
+   The ``Determinant<V>`` class stores a reference to the full orbital space
+   and the occupation vector.
+
+:ref:`dd_occ_restrict`
+   The strong types ``HighSpin<V>`` and ``ClosedShell<V>`` add occupation
+   restriction information to the type, facilitating type dispatching based
+   on how the orbitals are occupied.
