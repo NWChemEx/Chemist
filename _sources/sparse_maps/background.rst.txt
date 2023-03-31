@@ -24,7 +24,3 @@ to a subspace of :math:`\mathbb{U}` termed its "domain". Letting :math:`v` be a
 vector in  :math:`\mathbb{V}` we denote the domain of :math:`v` in
 :math:`\mathbb{U}` as :math:`\mathbb{U}_{v}`. A member of :math:`\mathbb{U}_{v}`
 is denoted by :math:`u_v`.
-
-.. todo::
-
-   Finish this background section up.
