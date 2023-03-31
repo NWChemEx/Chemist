@@ -122,12 +122,6 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html">Molecule</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1MoleculeStreamParser.html">MoleculeStreamParser</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class abstracts away the layout of a string representation of a <a class="el" href="classchemist_1_1Molecule.html">Molecule</a>.  <a href="structchemist_1_1MoleculeStreamParser.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1XYZParser.html">XYZParser</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements a MoleculeParser for the xyz format.  <a href="structchemist_1_1XYZParser.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html">Point</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An object that is associated with a point in 3-D Cartesian space.  <a href="classchemist_1_1Point.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -256,9 +250,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const
 <tr class="memitem:ga9aa3c8d79b0d1fe3c1a0165ce625dfda"><td class="memItemLeft" align="right" valign="top">
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;lhs, const <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;rhs) noexcept</td></tr>
 <tr class="separator:ga9aa3c8d79b0d1fe3c1a0165ce625dfda"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cd2c21100ddf7835b7ef9c52c556797"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Molecule.html">Molecule</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechemist.html#a6cd2c21100ddf7835b7ef9c52c556797">parse_molecule_stream</a> (std::istream &amp;is, const <a class="el" href="structchemist_1_1MoleculeStreamParser.html">MoleculeStreamParser</a> &amp;parser, const chemist::PeriodicTable &amp;pt)</td></tr>
-<tr class="memdesc:a6cd2c21100ddf7835b7ef9c52c556797"><td class="mdescLeft">&#160;</td><td class="mdescRight">The function to call to parse a MoleculeStream.  <a href="namespacechemist.html#a6cd2c21100ddf7835b7ef9c52c556797">More...</a><br /></td></tr>
-<tr class="separator:a6cd2c21100ddf7835b7ef9c52c556797"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af092d6d471b5d47ebf7f838431e0c9a2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:af092d6d471b5d47ebf7f838431e0c9a2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html">Point</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacechemist.html#af092d6d471b5d47ebf7f838431e0c9a2">operator-</a> (const <a class="el" href="classchemist_1_1Point.html">Point</a>&lt; T &gt; &amp;lhs, const <a class="el" href="classchemist_1_1Point.html">Point</a>&lt; T &gt; &amp;rhs) noexcept</td></tr>
 <tr class="memdesc:af092d6d471b5d47ebf7f838431e0c9a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector difference of two points.  <a href="namespacechemist.html#af092d6d471b5d47ebf7f838431e0c9a2">More...</a><br /></td></tr>
@@ -529,58 +520,6 @@ template&lt;typename T &gt; </div>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to make the PIMPL for one of the <a class="el" href="classchemist_1_1PrimitiveView.html" title="Models a Gaussian Primitive by reference.">PrimitiveView</a> instances. Strong throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a6cd2c21100ddf7835b7ef9c52c556797"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6cd2c21100ddf7835b7ef9c52c556797">&#9670;&nbsp;</a></span>parse_molecule_stream()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1Molecule.html">Molecule</a> chemist::parse_molecule_stream </td>
-          <td>(</td>
-          <td class="paramtype">std::istream &amp;&#160;</td>
-          <td class="paramname"><em>is</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="structchemist_1_1MoleculeStreamParser.html">MoleculeStreamParser</a> &amp;&#160;</td>
-          <td class="paramname"><em>parser</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const chemist::PeriodicTable &amp;&#160;</td>
-          <td class="paramname"><em>pt</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The function to call to parse a MoleculeStream. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">is</td><td>An input stream containing a string representation of a <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> instance in a format the parser understands. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">parser</td><td>The parser to be used to parse the input stream. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pt</td><td>The definition of the PeriodicTable instance we're using </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> instance represented in the input stream. </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">std::domain_error</td><td>if the charge and multiplicity of the molecule is in consistent. Weak throw guarantee for <code>is</code> and strong throw for all other parameters. </td></tr>
-    <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to allocate the new molecule. Weak throw guarantee for <code>is</code> and strong throw for all other parameters. </td></tr>
   </table>
   </dd>
 </dl>

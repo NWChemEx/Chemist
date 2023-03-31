@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['xyzparser_490',['XYZParser',['../structchemist_1_1XYZParser.html',1,'chemist']]]
+  ['yukawa_486',['Yukawa',['../classchemist_1_1operators_1_1Yukawa.html',1,'chemist::operators']]]
 ];
