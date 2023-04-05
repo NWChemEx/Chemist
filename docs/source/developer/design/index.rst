@@ -18,6 +18,21 @@ Design Documentation
 
 Topics in this section record the design process for the Chemist library.
 
+*********
+Chemistry
+*********
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   system
+   molecule
+
+*******
+Physics
+*******
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
