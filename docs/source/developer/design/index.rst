@@ -18,13 +18,21 @@ Design Documentation
 
 Topics in this section record the design process for the Chemist library.
 
+********
+Overview
+********
+
+.. toctree::
+   :maxdepth: 2
+
+   architecture
+
 *********
 Chemistry
 *********
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
    system
    molecule
@@ -35,7 +43,6 @@ Physics
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
    vector_spaces
    wavefunction

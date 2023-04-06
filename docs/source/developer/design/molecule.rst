@@ -133,7 +133,7 @@ Overview of Molecule Design
 
 .. _fig_molecule_design:
 
-.. figure:: assets/molecule.rst
+.. figure:: assets/molecule.png
    :align: center
 
    Major pieces of the molecule component of Chemist.
@@ -225,8 +225,8 @@ the ``Atom`` class serving as:
 
 Of some note in our design, ``Atom`` contains a ``Nucleus`` and does not
 inherit from it. This is because atoms are in general not just nuclei (the
-notable exceptions being :math:`H^+` and  :math:`He^{2+}`), but are nuclei AND
-electrons.
+notable exceptions being :math:`\text{H}^+` and  :math:`\text{He}^{2+}`), but
+are nuclei AND electrons.
 
 Point Set Hierarchy
 ===================
