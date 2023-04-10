@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wavefunction Design &mdash; Chemist 0.0.0 documentation</title>
+  <title>Chemical System Design &mdash; Chemist 0.0.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,7 +19,8 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="Vector Space Design" href="vector_spaces.html" /> 
+    <link rel="next" title="Molecule Design" href="molecule.html" />
+    <link rel="prev" title="Architecture of Chemist" href="architecture.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,12 +52,12 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">Design Documentation</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="index.html#overview">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="index.html#chemistry">Chemistry</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="index.html#physics">Physics</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="vector_spaces.html">Vector Space Design</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Wavefunction Design</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#chemistry">Chemistry</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Chemical System Design</a></li>
+<li class="toctree-l4"><a class="reference internal" href="molecule.html">Molecule Design</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#physics">Physics</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex-project.github.io/">Developing for the NWChemEx Organization</a></li>
@@ -81,9 +82,9 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Developer Documentation</a></li>
           <li class="breadcrumb-item"><a href="index.html">Design Documentation</a></li>
-      <li class="breadcrumb-item active">Wavefunction Design</li>
+      <li class="breadcrumb-item active">Chemical System Design</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/developer/design/wavefunction.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/developer/design/system.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -91,15 +92,61 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="wavefunction-design">
-<h1>Wavefunction Design<a class="headerlink" href="#wavefunction-design" title="Permalink to this heading"></a></h1>
+  <div class="section" id="chemical-system-design">
+<h1>Chemical System Design<a class="headerlink" href="#chemical-system-design" title="Permalink to this heading"></a></h1>
+<div class="section" id="chemical-system-design-considerations">
+<h2>Chemical System Design Considerations<a class="headerlink" href="#chemical-system-design-considerations" title="Permalink to this heading"></a></h2>
+<dl class="simple" id="cs-molecule">
+<dt>Molecule</dt><dd><p>Following usual quantum chemistry conventions we define the molecule as all
+the atoms in the system, whether they are covalently bonded or not. In this
+sense a molecule is just a set of atoms. The molecule should describe the
+properties of the nuclei and the electrons comprising it.</p>
+</dd>
+</dl>
+<dl class="simple" id="cs-periodic">
+<dt>Periodicity</dt><dd><p>Periodic molecules (in the <a class="reference internal" href="#cs-molecule"><span class="std std-ref">Molecule</span></a> sense of the word) require
+one to specify the molecule (again in the <a class="reference internal" href="#cs-molecule"><span class="std std-ref">Molecule</span></a> sense) which
+forms the unit cell’s contents, as well as the shape of the unit cell.</p>
+</dd>
+</dl>
+<dl class="simple" id="cs-fields">
+<dt>Fields</dt><dd><p>If all the atoms live in the molecule, there’s only a handful of other
+quantities left. We refer to these quantities as fields, using “fields”
+in the physics sense to refer to a function which has a value for every
+point in space. Important sub-considerations:</p>
+<ul class="simple">
+<li><p>Electric field, from say point charges</p></li>
+<li><p>Magnetic field, from say an NMR experiment</p></li>
+<li><p>Polarizable continuum, from PCM</p></li>
+<li><p>(External) basis-set field, from say ghost atoms.</p></li>
+</ul>
+</dd>
+<dt>Partitioning</dt><dd><p>A number of approximate quantum chemistry methods rely on somehow
+decomposing the chemical system into subsystems. While such methods
+typically only consider decompositions of the nuclei, realistically they
+should partition the entire chemical system. In practice, since many of
+the fields are static and interact pair-wise with the molecule, it is often
+the case that the fields for the supersystem end up being also present in
+each subsystem calculation unchanged.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="future-considerations">
+<h2>Future Considerations<a class="headerlink" href="#future-considerations" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Could template <code class="docutils literal notranslate"><span class="pre">Atom</span></code> on the type of the nucleus and introduce additional
+nucleus types in cases where the nucleus is to be treated quantum
+mechanically.</p></li>
+</ul>
+</div>
 </div>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="vector_spaces.html" class="btn btn-neutral float-left" title="Vector Space Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="architecture.html" class="btn btn-neutral float-left" title="Architecture of Chemist" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="molecule.html" class="btn btn-neutral float-right" title="Molecule Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

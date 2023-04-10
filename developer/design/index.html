@@ -19,7 +19,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Vector Space Design" href="vector_spaces.html" />
+    <link rel="next" title="Architecture of Chemist" href="architecture.html" />
     <link rel="prev" title="Developer Documentation" href="../index.html" /> 
 </head>
 
@@ -47,11 +47,24 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview of Chemist</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Design Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="vector_spaces.html">Vector Space Design</a></li>
-<li class="toctree-l3"><a class="reference internal" href="wavefunction.html">Wavefunction Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="architecture.html">Architecture of Chemist</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#chemistry">Chemistry</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="system.html">Chemical System Design</a></li>
+<li class="toctree-l4"><a class="reference internal" href="molecule.html">Molecule Design</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#physics">Physics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="vector_spaces.html">Vector Space Design</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wavefunction.html">Wavefunction Design</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex-project.github.io/">Developing for the NWChemEx Organization</a></li>
@@ -88,8 +101,40 @@
   <div class="section" id="design-documentation">
 <h1>Design Documentation<a class="headerlink" href="#design-documentation" title="Permalink to this heading"></a></h1>
 <p>Topics in this section record the design process for the Chemist library.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture of Chemist</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#chemist-architecture-considerations">Chemist Architecture Considerations</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="chemistry">
+<h2>Chemistry<a class="headerlink" href="#chemistry" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="system.html">Chemical System Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="system.html#chemical-system-design-considerations">Chemical System Design Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="system.html#future-considerations">Future Considerations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="molecule.html">Molecule Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="molecule.html#what-is-a-molecule">What is a Molecule?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecule.html#why-do-we-need-a-molecule-component">Why do we need a Molecule (component)?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecule.html#molecule-considerations">Molecule Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecule.html#overview-of-molecule-design">Overview of Molecule Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecule.html#molecule-design-summary">Molecule Design Summary</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="physics">
+<h2>Physics<a class="headerlink" href="#physics" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="vector_spaces.html">Vector Space Design</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="vector_spaces.html#what-are-vector-spaces">What are vector spaces?</a></li>
@@ -104,13 +149,14 @@
 </ul>
 </div>
 </div>
+</div>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../index.html" class="btn btn-neutral float-left" title="Developer Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="vector_spaces.html" class="btn btn-neutral float-right" title="Vector Space Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="architecture.html" class="btn btn-neutral float-right" title="Architecture of Chemist" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

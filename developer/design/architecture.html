@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wavefunction Design &mdash; Chemist 0.0.0 documentation</title>
+  <title>Architecture of Chemist &mdash; Chemist 0.0.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,7 +19,8 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="Vector Space Design" href="vector_spaces.html" /> 
+    <link rel="next" title="Chemical System Design" href="system.html" />
+    <link rel="prev" title="Design Documentation" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,13 +51,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../../sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">Design Documentation</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="index.html#overview">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="index.html#chemistry">Chemistry</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="index.html#physics">Physics</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="vector_spaces.html">Vector Space Design</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Wavefunction Design</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#overview">Overview</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Architecture of Chemist</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#chemistry">Chemistry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#physics">Physics</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex-project.github.io/">Developing for the NWChemEx Organization</a></li>
@@ -81,9 +81,9 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Developer Documentation</a></li>
           <li class="breadcrumb-item"><a href="index.html">Design Documentation</a></li>
-      <li class="breadcrumb-item active">Wavefunction Design</li>
+      <li class="breadcrumb-item active">Architecture of Chemist</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/developer/design/wavefunction.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/developer/design/architecture.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -91,15 +91,38 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="wavefunction-design">
-<h1>Wavefunction Design<a class="headerlink" href="#wavefunction-design" title="Permalink to this heading"></a></h1>
+  <div class="section" id="architecture-of-chemist">
+<h1>Architecture of Chemist<a class="headerlink" href="#architecture-of-chemist" title="Permalink to this heading"></a></h1>
+<div class="section" id="chemist-architecture-considerations">
+<h2>Chemist Architecture Considerations<a class="headerlink" href="#chemist-architecture-considerations" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>Chemical systems.</dt><dd><p>It is natural to express the phenomena we want to describe using chemistry
+concepts. Hence many users will feel most comfortable specifying their
+problem in terms of these chemical concepts. We therefore must have a
+software representation of the relevant concepts.</p>
+</dd>
+<dt>Quantum mechanics.</dt><dd><p>The heart of quantum chemistry is that chemistry is fully described by
+quantum mechanics. Thus whatever chemical question we have, quantum
+mechanics should be able to answer. Since we want to get an answer from
+quantum mechanics, it’s best to phrase the question using quantum mechanics,
+and we thus also need a software representation of quantum mechanical
+concepts.</p>
+</dd>
+<dt>Performance.</dt><dd><p>Quantum chemistry is computationally expensive. Software used in the stack
+must be performant on not only current hardware, but should also be
+readily adaptable to performant execution on future hardware. An admittedly
+tall order without knowledge of said future hardware.</p>
+</dd>
+</dl>
+</div>
 </div>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="vector_spaces.html" class="btn btn-neutral float-left" title="Vector Space Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Design Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="system.html" class="btn btn-neutral float-right" title="Chemical System Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
