@@ -13,7 +13,7 @@ jobs:
       gcc-build: true
       ninja_build: true
     secrets:
-      CPP_GITHUB_TOKEN: ${{ secrets.CPP_GITHUB_TOKEN }}
+      CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}
   
   build-with-clang:
     uses: NWChemEx-Project/.github/.github/workflows/c-cpp_tmpl.yaml@master
@@ -23,4 +23,4 @@ jobs:
       gcc-build: false
       ninja_build: true
     secrets:
-      CPP_GITHUB_TOKEN: ${{ secrets.CPP_GITHUB_TOKEN }}
+      CMAIZE_GITHUB_TOKEN: ${{ secrets.CMAIZE_GITHUB_TOKEN }}

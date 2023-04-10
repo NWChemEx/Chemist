@@ -19,8 +19,8 @@ project(chemist VERSION "${VERSION}" LANGUAGES CXX)
 
 include(FetchContent)
 FetchContent_Declare(
-        nwx_cmake
-        GIT_REPOSITORY https://github.com/NWChemEx-Project/NWXCMake
+    nwx_cmake
+    GIT_REPOSITORY https://github.com/NWChemEx-Project/NWXCMake
 )
 FetchContent_MakeAvailable(nwx_cmake)
 list(APPEND CMAKE_MODULE_PATH "${nwx_cmake_SOURCE_DIR}/cmake")
@@ -30,7 +30,7 @@ set(
     CACHE STRING "" FORCE
 )
 
-include(get_cpp)
+include(get_cmaize)
 include(nwx_cxx_api_docs)
 nwx_cxx_api_docs("${CMAKE_CURRENT_SOURCE_DIR}/src" 
                  "${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -39,7 +39,7 @@ nwx_cxx_api_docs("${CMAKE_CURRENT_SOURCE_DIR}/src"
 option(BUILD_TESTING "Should we build the tests?" OFF)
 option(BUILD_PYBINDINGS "Should we build Python3 bindings?" ON)
 
-cpp_find_or_build_dependency(
+cmaize_find_or_build_dependency(
     tensorwrapper
     URL github.com/NWChemEx-Project/TensorWrapper
     PRIVATE TRUE
@@ -50,29 +50,30 @@ cpp_find_or_build_dependency(
 
 find_package(Boost REQUIRED COMPONENTS container)
 
-cpp_add_library(
+cmaize_add_library(
     chemist
     SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/chemist"
-    INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/include/chemist"
-    DEPENDS nwx::tensorwrapper Boost::container
+    INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/include/chemist"
+    DEPENDS tensorwrapper Boost::container
 )
 
 include(nwx_python_mods)
 cppyy_make_python_package(PYTHONIZE MPI PACKAGE chemist NAMESPACES chemist TA DEPPACKAGES tensorwrapper)
 
 if("${BUILD_TESTING}")
-    cpp_find_or_build_dependency(
+    cmaize_find_or_build_dependency(
         Catch2
         URL github.com/catchorg/Catch2
         BUILD_TARGET Catch2
-        VERSION v2.x
         FIND_TARGET Catch2::Catch2
         VERSION v2.x
     )
-    cpp_add_tests(
+    cmaize_add_tests(
         test_chemist
         SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/tests"
-        INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/chemist"
-        DEPENDS Catch2::Catch2 chemist
+        INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/src/chemist"
+        DEPENDS Catch2 chemist
     )
 endif()
+
+cmaize_add_package(${PROJECT_NAME} NAMESPACE nwx::)
