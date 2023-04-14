@@ -45,6 +45,6 @@ Physics
    :maxdepth: 2
 
    vector_spaces
-   determinant
+   reference_space
    wavefunction
    operators

@@ -16,14 +16,27 @@
 Wavefunction Design
 ###################
 
+This section describes the design process of Chemist's wavefunction component.
+
 ***********************
 What is a Wavefunction?
 ***********************
+
+In quantum mechanics the wavefunction is a mathematical description of the
+state of a system. Knowledge of a system's wavefunction allows one to compute
+any knowable property of interest. Thus most of electronic structure theory is
+based on either the explicit or implicit computation of wavefunctions.
 
 ******************************
 Why Do We Need a Wavefunction?
 ******************************
 
+At a theoretical level many of the differences in electronic structure methods
+come down to how one approximates the system's wavefunction. Having a fleshed-
+out wavefunction component allows us to dispatch among various electronic
+structure methods based on C++'s type system. The representation of the
+wavefunction is also used to compute properties, and the wavefunction classes
+are used to shuttle the representations among functions.
 
 .. _wd_considerations:
 
@@ -75,6 +88,22 @@ Type Dispatch.
    as well as for specific wavefunctions. For example, think dispatching
    between a correlated method driver and the CCSD correlation energy.
 
+Not in Scope
+============
+
+Many object-oriented quantum chemistry codes have classes named wavefunction,
+and thus users coming from those codes may have pre-concieved notions of what
+should be in the wavefunction. Here we have collected additional considerations
+which were considered in designing the wavefunction, but were then ultimately
+decided to be out of scope for the wavefunction component of Chemist.
+
+Amplitudes.
+   In our design the wavefunctions serve as inputs to methods, specifying what
+   techniques to use to compute the amplitudes. It is our opinion that, it is
+   better to obtain the amplitudes by calling a module (usually one that
+   projects the wavefunction onto the reference), than to try to store them in
+   the wavefunction.
+
 **************************************
 Overview of the Wavefunction Component
 **************************************
@@ -97,10 +126,16 @@ Wavefunction Base Class
 =======================
 
 The ``Wavefunction<D>`` class is envisioned as a common base class for all
-wavefunctions, its primary purpose is code factorization. It also serves as a
-programatic means of dispatching between wavefunctions which are meant to
-serve as initial wavefunctions for correlated methods, and the resulting
-correlated wavefunctions.
+wavefunctions; it's primarily seen as a container for the wavefunction's
+components. Derived class types signifying restrictions on which components
+are present in the wavefunction. Design notes:
+
+-  Conceptually will need to be a recursive structure, since components are
+   often perfectly good wavefunctions on their own, *e.g.*, most correlated
+   wavefunctions have the Hartree-Fock wavefunction as a component
+- ``D`` will usually be a determinant; however, it could also be a product
+  of determinants (*n.b.*, the product of two determinants is not the same
+  as taking the determinant of the orbital product).
 
 Initial Wavefunctions
 =====================

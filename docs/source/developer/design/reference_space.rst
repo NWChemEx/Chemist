@@ -12,17 +12,17 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-.. _dd_design:
+.. _rsd_design:
 
-##################
-Determinant Design
-##################
+######################
+Reference Space Design
+######################
 
-This page describes the design of the determinant component of Chemist.
+This page describes the design of the reference space component of Chemist.
 
-**********************
-What is a Determinant?
-**********************
+**************************
+What is a Reference Space?
+**************************
 
 .. |N| replace:: :math:`N`
 .. |i| replace:: :math:`i`
@@ -30,6 +30,10 @@ What is a Determinant?
 .. |M| replace:: :math:`\mathbf{M}`
 .. |Mij| replace:: :math:`M_{ij}`
 
+Many-electron wavefunctions are expressed in terms of many-electron basis
+functions. We define a reference space as the space of many-electron basis
+functions which can be used to form a wavefunction. Arguably the most important
+many-electron basis functions are written as determinants.
 
 Our present interest in determinants is purely from a quantum chemistry
 perspective, not the general mathematical angle. In the context of
@@ -44,23 +48,23 @@ properly antisymmetrized |N|-electron basis function.
    the |j|-th electron in the |i|-th orbital, since
    :math:`det\left(\mathbf{M}\right)=det\left(\mathbf{M}^T\right)`.
 
-****************************
-Why Do We Need Determinants?
-****************************
+*********************************
+Why Do We Need a Reference Space?
+*********************************
 
-In quantum chemistry, determinants pair a one-electron basis set with an
-occupation vector (for |N| orbitals, an |N|-element vector such that the
-|i|-th element is the occupation of the |i|-the orbital). In turn, we use
-determinants as a means of defining occupied/virtual orbitals and potentially
-tracking non-standard occupations.
+Vector spaces describe basis sets for one-electron wavefunctions, reference
+spaces generalize these concepts to many-electron wavefunctios. In particular,
+the reference space component provides us a representation of the space our
+wavefunction will live in, but more notably the reference space
+will provide us the basis vectors we will build our wavefunction from.
 
-.. _dd_considerations:
+.. _rsd_considerations:
 
-**************************
-Determinant Considerations
-**************************
+******************************
+Reference Space Considerations
+******************************
 
-.. _dd_ov:
+.. _rsd_ov:
 
 Occupied/Virtual
    As mentioned in the previous section the determinant class is primarily
@@ -70,7 +74,7 @@ Occupied/Virtual
    Hence we are primarily interested in using the determinant component to
    track the reference determinant.
 
-.. _dd_occ_restrict:
+.. _rsd_occ_restrict:
 
 Occupation Restriction
    Knowing whether each orbital is restricted to doubly occupied, or if there
@@ -78,37 +82,83 @@ Occupation Restriction
    The class hierarchy should make it possible to glean this information from
    the type alone.
 
-*********************************
-Overview of Determinant Component
-*********************************
+.. _rsd_csf:
 
-.. _fig_determinant:
+Configuration state functions (CSFs)
+   In general a single determinant is not capable of satisfying the spin
+   symmetries of an arbitrary system (the notable exception being high-spin
+   systems). CSFs are eigenfunctions of the spin-projection operator.
 
-.. figure:: assets/determinants.png
+
+.. _rsd_product:
+
+Product spaces.
+   There are methods (*e.g.*, symmetry-adapted perturbation theory) which use
+   products of determinants as basis functions for the many-electron
+   wavefunctions. The catch is that the resulting basis functions are only
+   antisymmetric within each determinant, not overall (which is what would
+   happen if one started with tensor product of the orbital spaces and then
+   took the determinant).
+
+*************************************
+Overview of Reference Space Component
+*************************************
+
+.. _fig_ref_space:
+
+.. figure:: assets/reference_space.png
    :align: center
 
-   The fundamental classes comprising Chemist's determinant component.
+   The fundamental classes comprising Chemist's reference space component.
 
-:numref:`fig_determinant` shows the major pieces of Chemist's determinant
-component. Compared to :ref:`vsd_design`, the determinant component is
+:numref:`fig_ref_space` shows the major pieces of Chemist's reference space
+component. Compared to :ref:`vsd_design`, the reference space component is
 relatively simple; a fact that stems from realizing that most of the variation
 in modern electronic structure methods comes from how to choose the orbitals,
 or how to approximate the many-electron wavefunction. In other words, there's
 comparatively few ways to create |N|-electron basis functions from orbitals.
 
-Determinant Class
-=================
+Reference Space Class
+=====================
 
-The base class of the determinant hierarchy is the ``Determinant<V>`` class
+The base class of the hierarchy is the ``ReferenceSpace<V>`` class
 (here ``V`` is the type of a vector space representing the orbital space).
-To address the :ref:`dd_ov` consideration, this class stores a reference to
-the (full) orbital space the determinant is created from (*i.e.*, it is not
-just the orbitals occupied in the determinant) and the orbital occupations.
+To address the :ref:`rsd_ov` consideration, this class stores a reference to
+the (full) orbital space the basis functions can be created from (*i.e.*, it
+is not just the occupied orbitals) and the orbital occupations.
 Admittedly, in many cases, orbital occupations are somewhat trivial to
-implicitly store developers of the ``Determinant<V>`` class may opt for
+store implicitly and developers of the ``ReferenceSpace<V>`` class may opt for
 multiple backends depending on whether or not the occupations need to be
 explicitly stored (usually only necessary for excited states or fractional
 occupations).
+
+Product Space Class
+===================
+
+Consideration :ref:`rsd_product` leads to needing a class for reference spaces
+that are formed from products of other reference spaces. We introduce the
+``ProductSpace<R...>`` class for this purpose. It is assumed that
+``ProductSpace<R...>`` will only be used when there are at most a few parameters
+in the parameter pack. If one needs a ``ProductSpace<R..>`` of a large number
+of spaces (or an indeterminate number), additional classes should be
+added.
+
+
+CSF Class
+=========
+
+At this stage the ``CSF<V>`` class is not very fleshed out. We simply note that
+CSFs can be used as alternatives to determinants in many theories. The advantage
+of CSFs is that they are eigenfunction of the spin-projection operator
+regardless of whether or not we have a high-spin wavefunction. The disadvantage
+is they are significantly more complicated than determinants. The addition of
+``CSF<V>`` directly addresses the :ref:`rsd_csf` consideration.
+
+Determinant Class
+=================
+
+The ``Determinant<V>`` class is a strong type guaranteeing that the basis
+functions in the reference space are single determinants.
 
 High Spin Class
 ===============
@@ -120,7 +170,7 @@ a high-spin state, we instead have created a strong type ``HighSpin<V>`` to
 denote when a determinant is in a high-spin state. This is justified by the
 fact that the user makes this decision (implicitly) based on what method they
 select. Combined with the ``ClosedShell<V>`` class introduced below, the
-``HighSpin<V>`` class addresses the :ref:`dd_occ_restrict` consideration.
+``HighSpin<V>`` class addresses the :ref:`rsd_occ_restrict` consideration.
 
 Closed Shell Class
 ==================
@@ -129,13 +179,13 @@ A special (trivial) case of a high-spin determinant is one with no unpaired
 electrons. Knowing that there are no unpaired electrons again leads to
 simplifications in the resulting theories, which is why we opt to denote this
 condition by the ``ClosedShell<V>`` strong type. Together with the
-``HighSpin<V>`` class, ``ClosedShell<V>`` addresses the :ref:`dd_occ_restrict`
+``HighSpin<V>`` class, ``ClosedShell<V>`` addresses the :ref:`rsd_occ_restrict`
 consideration.
 
-Example Determinants
-====================
+Example Reference Spaces
+========================
 
-The remainder of :numref:`fig_determinant` shows some template specializations
+The remainder of :numref:`fig_ref_space` shows some template specializations
 and strong types for those specializations. We have opted for strong types,
 rather than typedefs, primarily to minimize the use of templates in user-facing
 classes (which also has the advantage of cleaner compiler errors). Briefly,
@@ -150,8 +200,10 @@ the strong types we introduce are:
 - ``RDeterminant<T>``. Same as ``RODeterminant<T>``, except that we additionally
   know that there are no singly-occupied orbitals. These are the determinants
   considered in methods typically labeled as "restricted".
+- ``SAPT2BSpace<T>``. Denotes the reference space is the tensor product of two
+   (closed-shell) monomer wavefunctions.
 
-Also denoted in :numref:`fig_determinant` is that ``RDeterminant<T>`` should be
+Also denoted in :numref:`fig_ref_space` is that ``RDeterminant<T>`` should be
 implicitly convertible to an object of type ``RODeterminant<T>``, which itself
 should be implicitly convertible to an object of type ``UDeterminant<T>``.
 The decision to use implicit conversions is to avoid multiple inheritance, but
@@ -159,18 +211,26 @@ still allow physically meaningful conversions (a ``RDeterminant<T>`` is just
 a special case of an ``RODeterminant<T>``, which is just a special case of a
 ``UDeterminant<T>``).
 
-**************************
-Determinant Design Summary
-**************************
+******************************
+Reference Space Design Summary
+******************************
 
 The design of the determinant component satisfies the considerations raised in
-section :ref:`dd_considerations` by:
+section :ref:`rsd_considerations` by:
 
-:ref:`dd_ov`
+:ref:`rsd_ov`
    The ``Determinant<V>`` class stores a reference to the full orbital space
    and the occupation vector.
 
-:ref:`dd_occ_restrict`
+:ref:`rsd_occ_restrict`
    The strong types ``HighSpin<V>`` and ``ClosedShell<V>`` add occupation
    restriction information to the type, facilitating type dispatching based
    on how the orbitals are occupied.
+
+:ref:`rsd_csf`
+   The ``CSF<V>`` class was added to the hierarchy to ensure we have a means
+   of representing many-electron spaces which use CSFs as basis functions.
+
+:ref:`rsd_product`
+   The ``ProductSpace`` class allows us to form reference spaces which are
+   products of other reference spaces.
