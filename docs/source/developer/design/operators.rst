@@ -1,4 +1,4 @@
-.. Copyright 2022 NWChemEx-Project
+.. Copyright 2023 NWChemEx-Project
 ..
 .. Licensed under the Apache License, Version 2.0 (the "License");
 .. you may not use this file except in compliance with the License.
@@ -12,39 +12,16 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-####################
-Design Documentation
-####################
+#########################
+Operator Component Design
+#########################
 
-Topics in this section record the design process for the Chemist library.
+TODO: Flesh out in another PR.
 
-********
-Overview
-********
+.. _fig_many_electron_operators:
 
-.. toctree::
-   :maxdepth: 2
+.. figure:: assets/many_electron_operators.png
+   :align: center
 
-   architecture
-
-*********
-Chemistry
-*********
-
-.. toctree::
-   :maxdepth: 2
-
-   system
-   molecule
-
-*******
-Physics
-*******
-
-.. toctree::
-   :maxdepth: 2
-
-   vector_spaces
-   reference_space
-   wavefunction
-   operators
+   Class hierarchy and relationships among many-electron operators commonly
+   occurring in electronic structure theory.
