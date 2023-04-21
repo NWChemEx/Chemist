@@ -25,7 +25,7 @@ TEMPLATE_TEST_CASE("PointCharge", "", double, float) {
     SECTION("typedefs") {
         SECTION("scalar_type") {
             using corr_type = TestType;
-            using type      = typename point_charge_t::scalar_type;
+            using type      = typename point_charge_t::charge_type;
             STATIC_REQUIRE(std::is_same_v<type, corr_type>);
         }
     }

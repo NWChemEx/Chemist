@@ -44,9 +44,9 @@ public:
     /// Type of the point this PIMPL is associated with
     using point_type = Point<T>;
     /// Type of a read/write reference to a coordinate of the point
-    using reference = typename point_type::reference;
+    using reference = typename point_type::coord_reference;
     /// Type of a read-only reference to a coordinate of the point
-    using const_reference = typename point_type::const_reference;
+    using const_reference = typename point_type::const_coord_reference;
     /// Type of an index or offset, assumed to be integral and POD-like
     using size_type = typename point_type::size_type;
 

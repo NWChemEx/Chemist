@@ -32,11 +32,21 @@ namespace chemist {
 template<typename ScalarType = double>
 class PointCharge : public Point<ScalarType> {
 private:
+    /// Type of the base class
     using base_type = Point<ScalarType>;
 
 public:
-    /// The type used to model the charge and the coordinates
-    using scalar_type = ScalarType;
+    /// The type of a coordinate, aliases base class's coord_type
+    using coord_type = typename base_type::coord_type;
+
+    /// The type used to model the charge (and, as coded, the coordinates)
+    using charge_type = ScalarType;
+
+    /// Type of a read/write reference to the charge
+    using charge_reference = charge_type&;
+
+    /// Type of a read-only reference to the charge
+    using const_charge_reference = const charge_type&;
 
     /** @brief Creates a defaulted point charge centered at the origin
      *
@@ -80,7 +90,7 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        base class's PIMPL. Strong throw guarantee.
      */
-    PointCharge(scalar_type q, scalar_type x, scalar_type y, scalar_type z);
+    PointCharge(charge_type q, coord_type x, coord_type y, coord_type z);
 
     /** @brief Overwrites the current state with a deep copy of another point
      *         charge's state.
@@ -116,7 +126,7 @@ public:
      *
      *  @throw None No throw gurantee.
      */
-    scalar_type& charge() noexcept { return m_q_; }
+    charge_reference charge() noexcept { return m_q_; }
 
     /** @brief Returns the charge in a read-only state.
      *
@@ -124,7 +134,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    const scalar_type& charge() const noexcept { return m_q_; }
+    const_charge_reference charge() const noexcept { return m_q_; }
 
     /** @brief Serializes the point charge.
      *
@@ -146,7 +156,7 @@ public:
 
 private:
     /// The charge associated with this point charge
-    scalar_type m_q_ = 0.0;
+    charge_type m_q_ = 0.0;
 };
 
 /** @brief Determines if two point charges are the same.
@@ -210,8 +220,8 @@ bool operator!=(const PointCharge<LHSType>& lhs,
 // ----------------------- Implementations -------------------------------------
 
 template<typename T>
-PointCharge<T>::PointCharge(scalar_type q, scalar_type x, scalar_type y,
-                            scalar_type z) :
+PointCharge<T>::PointCharge(charge_type q, coord_type x, coord_type y,
+                            coord_type z) :
   Point<T>(x, y, z), m_q_(q) {}
 
 template<typename T>

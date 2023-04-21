@@ -44,13 +44,13 @@ template<typename T>
 Point<T>::~Point<T>() noexcept = default;
 
 template<typename T>
-typename Point<T>::reference Point<T>::coord(size_type i) {
+typename Point<T>::coord_reference Point<T>::coord(size_type i) {
     assert(m_pimpl_ != nullptr);
     return m_pimpl_->coord(i);
 }
 
 template<typename T>
-typename Point<T>::const_reference Point<T>::coord(size_type i) const {
+typename Point<T>::const_coord_reference Point<T>::coord(size_type i) const {
     assert(m_pimpl_ != nullptr);
     return m_pimpl_->coord(i);
 }

@@ -26,11 +26,8 @@ class PointPIMPL;
 
 /** @brief An object that is associated with a point in 3-D Cartesian space.
  *
- *  This class is largely intended to be used as a mix-in for code factorization
- *  purposes. More specifically many of the point-centered quantities in
- *  LibChemist such as `Primitive`s, `Shell`s, and `Atom`s, have a Cartesian
- *  coordinate associated with them. This class factors the state and member
- *  functions common to those classes into this class.
+ *  See https://nwchemex-project.github.io/Chemist/developer/design/molecule.html
+ *  for design.
  *
  *  Conceptually a point is nothing more than three floating point values, which
  *  respectively indicate its Cartesian `x`, `y`, and `z` coordinates. By
@@ -57,10 +54,15 @@ private:
     using pimpl_ptr = std::unique_ptr<pimpl_type>;
 
 public:
-    /// Type of a read/write reference to a component of the point
-    using reference = T&;
-    /// Type of a read-only reference to a component of the point
-    using const_reference = const T&;
+    /// Type used to store the points coordinates, alias of @p T
+    using coord_type = T;
+
+    /// Type of a read/write reference to a coordinate of the point
+    using coord_reference = coord_type&;
+
+    /// Type of a read-only reference to a coordinate of the point
+    using const_coord_reference = const coord_type&;
+
     /// Type used for indexing and offsets
     using size_type = std::size_t;
 
@@ -160,7 +162,7 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to allocate the
      *         PIMPL. Strong throw guarantee.
      */
-    Point(T x, T y, T z);
+    Point(coord_type x, coord_type y, coord_type z);
 
     /** @brief Standard defaulted dtor
      *
@@ -183,7 +185,7 @@ public:
      *  @throw std::out_of_range if @p q is not in the range [0, 3). Strong
      *         throw guarantee.
      */
-    reference coord(size_type q);
+    coord_reference coord(size_type q);
 
     /** @brief Returns the @p q-th coordinate of the point in a read-only format
      *
@@ -197,7 +199,7 @@ public:
      *  @throw std::out_of_range if @p q is not in the range [0, 3). Strong
      *         throw guarantee.
      */
-    const_reference coord(size_type q) const;
+    const_coord_reference coord(size_type q) const;
 
     /** @brief Returns the x-coordinate of the point in a read/write format.
      *
@@ -207,7 +209,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    reference x() noexcept { return coord(0); }
+    coord_reference x() noexcept { return coord(0); }
 
     /** @brief Returns the x-coordinate of the point in a read-only format.
      *
@@ -217,7 +219,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    const_reference x() const noexcept { return coord(0); }
+    const_coord_reference x() const noexcept { return coord(0); }
 
     /** @brief Returns the y-coordinate of the point in a read/write format.
      *
@@ -227,7 +229,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    reference y() noexcept { return coord(1); }
+    coord_reference y() noexcept { return coord(1); }
 
     /** @brief Returns the y-coordinate of the point in a read-only format.
      *
@@ -237,7 +239,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    const_reference y() const noexcept { return coord(1); }
+    const_coord_reference y() const noexcept { return coord(1); }
 
     /** @brief Returns the z-coordinate of the point in a read/write format.
      *
@@ -247,7 +249,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    reference z() noexcept { return coord(2); }
+    coord_reference z() noexcept { return coord(2); }
 
     /** @brief Returns the z-coordinate of the point in a read-only format.
      *
@@ -257,7 +259,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    const_reference z() const noexcept { return coord(2); }
+    const_coord_reference z() const noexcept { return coord(2); }
 
     /** @brief Returns the magnitude of the point
      *
@@ -268,7 +270,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    T magnitude() const noexcept {
+    coord_type magnitude() const noexcept {
         return std::sqrt(x() * x() + y() * y() + z() * z());
     }
 

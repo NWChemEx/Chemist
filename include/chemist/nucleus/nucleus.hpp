@@ -1,0 +1,162 @@
+/*
+ * Copyright 2022 NWChemEx-Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#pragma once
+#include <chemist/point_charge/point_charge.hpp>
+
+namespace chemist {
+
+/** @brief Class representing the (point) nucleus of an atom.
+ *
+ *  The Nucleus class additionally bestows a point charge with a mass and an
+ *  atomic number.
+ *
+ */
+class Nucleus : public PointCharge<double> {
+private:
+    /// Type of a point charge, i.e., the class *this inherits from
+    using base_type = PointCharge<double>;
+
+public:
+    /// Floating-point type of each Cartesian coordinate
+    using coord_type = base_type::coord_type;
+
+    /// Integral type used to store the atomic number
+    using atomic_number_type = std::size_t;
+
+    /// Type used for read/write references to the atomic number
+    using atomic_number_reference = atomic_number_type&;
+
+    /// Type used for read-only references to the atomic number
+    using const_atomic_number_reference = const atomic_number_type&;
+
+    /// Floating-point type used to store the mass
+    using mass_type = double;
+
+    /// Type used for read/write references to the nucleus's mass
+    using mass_reference = mass_type&;
+
+    /// Type for read-only references to the mass
+    using const_mass_reference = const mass_type&;
+
+    /** @brief Creates a new nucleus with the specified properties.
+     *
+     *  The Nucleus class adds an atomic number and a mass to a point charge.
+     *  The provided constructors can respectively be used to create:
+     *
+     *  1. A defaulted nucleus (all properties set to zero).
+     *  2. A nucleus sitting at the origin (charge equal to atomic number).
+     *  3. A nucleus sitting at a specified point (charge still equal to
+     *     atomic number).
+     *  4. A nucleus sitting at a specified point, with a user-spefied charge.
+     *
+     *  @note A priori users may wonder why overload 4 even exists. At the
+     *        moment the main answer is because the class hierarchy naturally
+     *        admits it. Theoretically, we would like to expand Chemist to
+     *        include unit literals. If we do that, then note that the charge
+     *        of the nucleus only equals the atomic number in atomic units;
+     *        i.e., in many other unit systems they are not equal and different
+     *        methods are needed. More practically, the atomic number is
+     *        guaranteed to be an integer and is thus easier to use for
+     *        indexing, where as charge is guaranteed to be floating-point and
+     *        is thus easier to use in computations.
+     *
+     *  @param[in] Z The atomic number, i.e., Z==1 for hydrogen, Z==2 for
+     *               helium, etc. If not specified defaults to 0.
+     *  @param[in] m The mass (in atomic units) of the nucleus. If not specified
+     *               defaults to 0.0.
+     *  @param[in] x The x-coordinate of where the nucleus is centered.
+     *               If not specified defaults to the origin.
+     *  @param[in] y The y-coordinate of where the nucleus is centered.
+     *               If not specified defaults to the orgin.
+     *  @param[in] z The z-coordinate of where the nucleus is centered.
+     *               If not specefied defaults to the origin.
+     *  @param[in] q The charge of the nucleus (in atomic units). If not
+     *               specified defaults to @p Z.
+     *
+     *  @throw std::bad_alloc if the allocating the Point's PIMPL fails. Strong
+     *                        throw guarantee.
+     */
+    ///@{
+    Nucleus() : base_type(), m_Z_(0), m_mass_(0.0) {}
+    Nucleus(atomic_number_type Z, mass_type m);
+    Nucleus(atomic_number_type Z, mass_type m, coord_type x, coord_type y,
+            coord_type z);
+    Nucleus(atomic_number_type Z, mass_type m, coord_type x, coord_type y,
+            coord_type z, charge_type q);
+    ///@}
+
+    /** @brief Get/set the atomic number of the nucleus
+     *
+     *  The atomic number of a nucleus is the number of protons in the nucleus.
+     *  This method allows you to access the atomic number of the nucleus, in
+     *  a mutable state, so that you can do on the spot alchemy (like turning
+     *  lead into gold).
+     *
+     *  @return A read/write reference to the nucleus's atomic number.
+     *
+     *  @throw None No throw guarantee.
+     */
+    atomic_number_reference Z() noexcept { return m_Z_; }
+
+    /** @brief Gets the atomic number of the nucleus
+     *
+     *  This method is the same as the non-const version, but the returned
+     *  reference is read-only.
+     *
+     *  @return A read-only reference to the atomic number.
+     *
+     *  @throw None No throw guarantee.
+     *
+     */
+    const_atomic_number_reference Z() const noexcept { return m_Z_; }
+
+    /** @brief Get/set the mass of the nucleus.
+     *
+     *  @return A read/write reference to the nucleus's mass
+     *
+     *  @throw None No throw guarantee.
+     */
+    mass_reference mass() noexcept { return m_mass_; }
+
+    /** @brief Get the mass of the nucleus.
+     *
+     *  @return A read-only reference to the nucleus's mass.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const_mass_reference mass() const noexcept { return m_mass_; }
+
+    bool operator==(const Nucleus& rhs) const noexcept;
+    bool operator!=(const Nucleus& rhs) const noexcept;
+
+    template<typename Archive>
+    void save(Archive& ar) const;
+
+    template<typename Archive>
+    void load(Archive& ar);
+
+private:
+    /// The nucleus's atomic number
+    atomic_number_type m_Z_;
+
+    /// The nucleus's mass (in a.u.)
+    mass_type m_mass_;
+};
+
+} // namespace chemist
+
+#include "nucleus.ipp"

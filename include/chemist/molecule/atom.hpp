@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include "chemist/point_charge/point_charge.hpp"
+#include "chemist/nucleus/nucleus.hpp"
 #include <cereal/types/string.hpp>
 #include <iomanip>
 #include <ios>
@@ -27,28 +27,67 @@ namespace chemist {
  *  Atoms are considered the first tier of input to a computational chemistry
  *  program.  That is, most types of computational chemistry algorithms need to
  *  know where in space the atoms are located and what their chemical identity
- *  is.  This class also additionally holds the mass of the atom and a string
- *  identifier.
+ *  is.
  */
-class Atom : public PointCharge<double> {
-private:
-    using base_type = PointCharge<double>;
-
+class Atom {
 public:
-    /// The type of a charge
-    using charge_type = typename base_type::scalar_type;
+    /// The type of the nucleus
+    using nucleus_type = Nucleus;
 
-    /// The type of a counting number (i.e. atomic number)
-    using size_type = std::size_t;
+    /// The type of a read/write reference to the Nucleus
+    using nucleus_reference = nucleus_type&;
 
-    /// The type the mass is stored as
-    using mass_type = double;
+    /// The type of a read-only reference to the Nucleus
+    using const_nucleus_reference = const nucleus_type&;
 
-    /// The type of the atomic coordinates input
-    using coord_type = double;
+    /// The integral type used for the atomic number
+    using atomic_number_type = nucleus_type::atomic_number_type;
 
-    /// The type of the name of the Atom instance
+    /// A read/write reference to the atomic number
+    using atomic_number_reference = nucleus_type::atomic_number_reference;
+
+    /// A read-only reference to the atomic number
+    using const_atomic_number_reference =
+      nucleus_type::const_atomic_number_reference;
+
+    /// The floating-point type used to store the mass
+    using mass_type = nucleus_type::mass_type;
+
+    /// The type of a read/write reference to the mass
+    using mass_reference = nucleus_type::mass_reference;
+
+    /// The type of a read-only reference to the mass
+    using const_mass_reference = nucleus_type::const_mass_reference;
+
+    /// The floating-point type of the nuclear charge
+    using charge_type = nucleus_type::charge_type;
+
+    /// The type of a read/write reference to the nuclear charge
+    using charge_reference = nucleus_type::charge_reference;
+
+    /// The type of a read-only reference to the nuclear charge
+    using const_charge_reference = nucleus_type::const_charge_reference;
+
+    /// The floating-point type used to store each coordinate
+    using coord_type = nucleus_type::coord_type;
+
+    /// A read/write reference to a coordinate
+    using coord_reference = nucleus_type::coord_reference;
+
+    /// A read-only reference to a coordinate
+    using const_coord_reference = nucleus_type::const_coord_reference;
+
+    /// A string-like type for storing the name of the Atom instance
     using name_type = std::string;
+
+    /// A read/write reference to the name of the Atom
+    using name_reference = name_type&;
+
+    /// A read-only reference to the natom of the Atom
+    using const_name_reference = const name_type&;
+
+    /// The type of a counting number
+    using size_type = nucleus_type::size_type;
 
     /**
      * @brief Makes a default constructed Atom instance.
@@ -73,9 +112,9 @@ public:
      * there is insufficient memory to perform the copy.
      */
     ///@{
-    Atom(const Atom& rhs)     = default;
-    Atom(Atom&& rhs) noexcept = default;
-    Atom& operator=(const Atom& rhs) = default;
+    Atom(const Atom& rhs)                = default;
+    Atom(Atom&& rhs) noexcept            = default;
+    Atom& operator=(const Atom& rhs)     = default;
     Atom& operator=(Atom&& rhs) noexcept = default;
     ///@}
 
@@ -97,40 +136,71 @@ public:
      * there is insufficient memory to perform the copy.
      */
     ///@{
-    Atom(name_type s, size_type Z, mass_type m, coord_type x, coord_type y,
-         coord_type z) :
-      base_type((charge_type)Z, x, y, z), m_name_(s), m_Z_(Z), m_mass_(m) {}
+    Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
+         coord_type y, coord_type z);
 
-    Atom(name_type s, size_type Z, mass_type m, coord_type x, coord_type y,
-         coord_type z, charge_type q) :
-      base_type(q, x, y, z), m_name_(s), m_Z_(Z), m_mass_(m) {}
+    Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
+         coord_type y, coord_type z, charge_type q);
     ///@}
 
     /// Default dtor
     ~Atom() noexcept = default;
 
     /**
-     * @defgroup Z/Name/Mass setter/getter
+     * @defgroup Getters/Setters
      *
-     * @brief Returns the atomic number/name of the atom.
+     * @brief Returns the method's namesake property
      *
      * The returned value is read/write for non-const Atom instances and
      * read-only for const instances.
      *
-     * @return The value of the atomic number/name.  If the name was not set
-     *         then this returns an empty string.
+     * @return The requested value, by mutable or read-only reference.
      *
      * @throw None. No throw guarantee.
      */
     ///@{
-    name_type& name() noexcept { return m_name_; }
-    const name_type& name() const noexcept { return m_name_; }
+    name_reference name() noexcept { return m_name_; }
+    const_name_reference name() const noexcept { return m_name_; }
 
-    size_type& Z() noexcept { return m_Z_; }
-    const size_type& Z() const noexcept { return m_Z_; }
+    nucleus_reference nucleus() noexcept { return m_nuke_; }
+    const_nucleus_reference nucleus() const noexcept { return m_nuke_; }
 
-    mass_type& mass() noexcept { return m_mass_; }
-    const mass_type& mass() const noexcept { return m_mass_; }
+    atomic_number_reference Z() noexcept { return nucleus().Z(); }
+    const_atomic_number_reference Z() const noexcept { return nucleus().Z(); }
+
+    mass_reference mass() noexcept { return nucleus().mass(); }
+    const_mass_reference mass() const noexcept { return nucleus().mass(); }
+
+    charge_reference charge() noexcept { return nucleus().charge(); }
+    const_charge_reference charge() const noexcept {
+        return nucleus().charge();
+    }
+
+    ///@}
+
+    /** @brief Nuclear coordinate getter/setters
+     *
+     *  @param[in] q Used to request the q-th component of the nuclear position,
+     *               *i.e.*, q==0 returns the x component, q == 1 the y, etc.
+     *
+     *  @return A mutable reference if *this is non-const, and a read-only
+     *          reference if *this is const.
+     *
+     *  @throw std::out_of_range if @p q is not in the range [0, 3). Strong
+     *                           throw guarantee.
+     */
+    ///@{
+    coord_reference coord(size_type q) { return nucleus().coord(q); }
+    const_coord_reference coord(size_type q) const;
+
+    coord_reference x() { return coord(0); }
+    const_coord_reference x() const { return coord(0); }
+
+    coord_reference y() { return coord(1); }
+    const_coord_reference y() const { return coord(1); }
+
+    coord_reference z() { return coord(2); }
+    const_coord_reference z() const { return coord(2); }
     ///@}
 
     /** @brief Serializes the atom.
@@ -152,14 +222,11 @@ public:
     void load(Archive& ar);
 
 private:
-    /// The atomic number of the atom
-    size_type m_Z_ = 0;
+    /// The atom's nucleus
+    nucleus_type m_nuke_;
 
     /// The name of the atom
-    name_type m_name_ = "";
-
-    /// The mass of the atom
-    mass_type m_mass_ = 0.0;
+    name_type m_name_;
 
 }; // End Atom
 
@@ -201,22 +268,6 @@ inline bool operator!=(const Atom& lhs, const Atom& rhs) noexcept {
  */
 std::ostream& operator<<(std::ostream& os, const Atom& ai);
 
-// ----------------------- Implementations -------------------------------------
-
-template<typename Archive>
-void Atom::save(Archive& ar) const {
-    base_type::save(ar);
-    ar& m_Z_;
-    ar& m_name_;
-    ar& m_mass_;
-}
-
-template<typename Archive>
-void Atom::load(Archive& ar) {
-    base_type::load(ar);
-    ar& m_Z_;
-    ar& m_name_;
-    ar& m_mass_;
-}
-
 } // namespace chemist
+
+#include "atom.ipp"
