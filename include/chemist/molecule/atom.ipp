@@ -34,6 +34,10 @@ inline typename Atom::const_coord_reference Atom::coord(size_type q) const {
     return nucleus().coord(q);
 }
 
+inline typename Atom::const_charge_reference Atom::charge() const noexcept {
+    return nucleus().charge();
+}
+
 // -- Serialization ------------------------------------------------------------
 
 template<typename Archive>

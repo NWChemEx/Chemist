@@ -21,8 +21,8 @@ namespace chemist {
 
 /** @brief Class representing the (point) nucleus of an atom.
  *
- *  The Nucleus class additionally bestows a point charge with a mass and an
- *  atomic number.
+ *  The Nucleus class extends the ``PointCharge`` class by additionally storing
+ *  a mass and an atomic number.
  *
  */
 class Nucleus : public PointCharge<double> {
@@ -140,12 +140,53 @@ public:
      */
     const_mass_reference mass() const noexcept { return m_mass_; }
 
+    /** @brief Compares two nuclei for value equality.
+     *
+     *  Two Nucleus instances are the same if their:
+     *  - respective Point base instances compare equal,
+     *  - atomic numbers are equal, and
+     *  - masses are value equal.
+     *
+     *  @param[in] rhs The Nucleus being compared to *this.
+     *
+     *  @return True if *this is value equal to @p rhs and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
     bool operator==(const Nucleus& rhs) const noexcept;
+
+    /** @brief Determines if two nuclei are different.
+     *
+     *  Two Nucleus instances are different if their value equality operator
+     *  returns false.
+     *
+     *  @param[in] rhs  The Nucleus instance being compared to *this.
+     *
+     *  @return False if *this is value equal to @p rhs and true otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
     bool operator!=(const Nucleus& rhs) const noexcept;
 
+    /** @brief Serializes *this into @p ar.
+     *
+     *  @tparam Archive The type of the archive we are serializing *this in to.
+     *                  Assumed to be the type of a Cereal OutputArchive object.
+     *
+     *  @param[in] ar The archive we are serializing in to.
+     *
+     */
     template<typename Archive>
     void save(Archive& ar) const;
 
+    /** @brief Deserializes @p ar into *this
+     *
+     *  @tparam Archive The type of the archive we are deserializing in to
+     *                  *this. Assumed to be the type of a Cereal InputArchive
+     *                   object.
+     *
+     *  @param[in] ar The archive we are deserializing from.
+     */
     template<typename Archive>
     void load(Archive& ar);
 

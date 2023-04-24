@@ -172,9 +172,7 @@ public:
     const_mass_reference mass() const noexcept { return nucleus().mass(); }
 
     charge_reference charge() noexcept { return nucleus().charge(); }
-    const_charge_reference charge() const noexcept {
-        return nucleus().charge();
-    }
+    const_charge_reference charge() const noexcept;
 
     ///@}
 
