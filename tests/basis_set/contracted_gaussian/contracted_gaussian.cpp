@@ -16,7 +16,7 @@
 
 #include "chemist/basis_set/contracted_gaussian.hpp"
 #include "chemist/basis_set/contracted_gaussian/cgto_pimpl.hpp"
-#include "chemist/point/point_pimpl.hpp"
+#include "chemist/point/detail_/point_pimpl.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
 #include <sstream>

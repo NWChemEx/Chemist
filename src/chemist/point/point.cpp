@@ -15,7 +15,7 @@
  */
 
 #include "chemist/point/point.hpp"
-#include "point_pimpl.hpp"
+#include "detail_/point_pimpl.hpp"
 #include <cassert>
 
 namespace chemist {

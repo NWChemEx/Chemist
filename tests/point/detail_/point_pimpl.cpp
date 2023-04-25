@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "chemist/point/point_pimpl.hpp"
+#include "chemist/point/detail_/point_pimpl.hpp"
 #include <catch2/catch.hpp>
 
 using pimpl_t = chemist::detail_::PointPIMPL<double>;
