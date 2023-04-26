@@ -33,6 +33,12 @@ typename POINT_SET::const_reference POINT_SET::at(size_type i) const {
 }
 
 TEMPLATE_PARAMS
+void POINT_SET::push_back(value_type r) {
+    if(!has_pimpl_()) m_pimpl_ = std::make_unique<pimpl_type>();
+    m_pimpl_->push_back(std::move(r));
+}
+
+TEMPLATE_PARAMS
 typename POINT_SET::size_type POINT_SET::size() const noexcept {
     if(!has_pimpl_()) return 0;
     return m_pimpl_->size();

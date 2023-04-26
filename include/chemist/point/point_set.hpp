@@ -24,9 +24,10 @@ template<typename T>
 class PointSetPIMPL;
 }
 
-/** @brief
+/** @brief A container filled with Point objects
  *
- *
+ *  Conceptually this class behaves like a std::vector<Point<T>>; however, the
+ *  backend is more complicated than that, which is why we wrote a new class.
  *
  */
 template<typename T>
@@ -58,9 +59,12 @@ public:
 
     const_reference at(size_type i) const;
 
+    void push_back(value_type r);
+
     size_type size() const noexcept;
 
 private:
+    /// Code factorization for determining if *this has a PIMPL already
     bool has_pimpl_() const noexcept;
 
     void bounds_check_(size_type i) const;

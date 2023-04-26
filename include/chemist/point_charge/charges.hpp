@@ -1,42 +1,58 @@
-// #pragma once
-// #include <chemist/point_charge/point_charge.hpp>
+#pragma once
+#include <chemist/point_charge/point_charge_view.hpp>
+#include <utilities/containers/indexable_container_base.hpp>
+namespace chemist {
+namespace detail_ {
+template<typename T>
+class ChargesPIMPL;
+}
 
-// namespace chemist {
-// namespace detail_ {
-// template<typename T>
-// class ChargesPIMPL;
-// }
+template<typename T>
+class Charges : public utilities::IndexableContainerBase<Charges<T>> {
+private:
+    using base_type = utilities::IndexableContainerBase<Charges<T>>;
 
-// template<typename T>
-// class Charges {
-// public:
-//     /// The type of the PIMPL
-//     using pimpl_type = detail_::ChargesPIMPL<T>;
+public:
+    /// The type of the PIMPL
+    using pimpl_type = detail_::ChargesPIMPL<T>;
 
-//     /// The type of a pointer to a PIMPL
-//     using pimpl_pointer = std::unique_ptr<pimpl_type>;
+    /// The type of a pointer to a PIMPL
+    using pimpl_pointer = std::unique_ptr<pimpl_type>;
 
-//     /// The elements in the container
-//     using value_type = PointCharge<T>;
+    /// The elements in the container
+    using value_type = PointCharge<T>;
 
-//     /// Read/write reference to an element
-//     using reference = value_type&;
+    /// Read/write reference to an element
+    using reference = PointChargeView<value_type>;
 
-//     /// Read-only reference to an element
-//     using const_reference = const value_type&;
+    /// Read-only reference to an element
+    using const_reference = PointChargeView<const value_type>;
 
-//     /// Integral type used for indexing
-//     using size_type = std::size_t;
+    /// Integral type used for indexing
+    using size_type = typename base_type::size_type;
 
-//     Charges() noexcept;
-//     ~Charges() const noexcept;
+    Charges() noexcept;
+    ~Charges() noexcept;
 
-//     reference at(size_type i);
+    // void push_back(value_type q);
 
-//     const_reference at(size_type i);
+    size_type size() const noexcept;
 
-// private:
-//     pimpl_pointer m_pimpl_;
-// };
+    void push_back(value_type q);
 
-// } // namespace chemist
+private:
+    friend base_type;
+
+    reference at_(size_type i);
+
+    const_reference at_(size_type i) const;
+
+    bool has_pimpl_() const noexcept;
+
+    pimpl_pointer m_pimpl_;
+};
+
+extern template class Charges<float>;
+extern template class Charges<double>;
+
+} // namespace chemist

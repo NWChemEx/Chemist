@@ -1,46 +1,53 @@
-// #pragma once
-// #include <chemist/point/detail_/point_set_pimpl.hpp>
-// #include <chemist/point_charge/charges.hpp>
+#pragma once
+#include "../../point/detail_/point_set_pimpl.hpp"
+#include <chemist/point_charge/charges.hpp>
 
-// namespace chemist::detail_ {
+namespace chemist::detail_ {
 
-// template<typename T>
-// class ChargesPIMPL : public PointSetPIMPL<T> {
-// private:
-//     /// Type of *this
-//     using my_type = ChargesPIMPL<T>;
+template<typename T>
+class ChargesPIMPL {
+private:
+    /// Type of *this
+    using my_type = ChargesPIMPL<T>;
 
-//     /// Type of a PointSetViewPIMPL powered by *this
-//     using point_set_view_pimpl = PointSetViewPIMPL<const my_type>;
+public:
+    /// Type we are implementing
+    using parent_type = Charges<T>;
 
-// public:
-//     /// Type we are implementing
-//     using parent_type = Charges<T>;
+    /// Reuse parent class's types
+    ///@{
+    using pimpl_pointer   = typename parent_type::pimpl_pointer;
+    using value_type      = typename parent_type::value_type;
+    using reference       = typename parent_type::reference;
+    using const_reference = typename parent_type::const_reference;
+    using size_type       = typename parent_type::size_type;
+    ///@}
 
-//     /// Reuse parent class's types
-//     ///@{
-//     using pimpl_pointer   = typename base_type::pimpl_pointer;
-//     using value_type      = typename parent_type::value_type;
-//     using reference       = typename parent_type::reference;
-//     using const_reference = typename parent_type::const_reference;
-//     using size_type       = typename parent_type::size_type;
-//     ///@}
+    using charge_type = typename value_type::charge_type;
 
-//     reference at(size_type i) { return at_(i); }
-//     const_reference at(size_type i) const { return at_(i); }
+    void push_back(value_type q) {
+        m_charges_.push_back(q.charge());
+        m_points_.push_back(q);
+    }
 
-//     size_type size() const noexcept { return size_(); }
-//     const PointSet<T> as_point_set() { return m_points_; }
+    reference operator[](size_type i) {
+        return reference(m_charges_[i], m_points_.at(i));
+    }
 
-// private:
-//     virtual reference at_(size_type i) { return m_charges_.at(i); }
-//     virtual const_reference at_(size_type i) const { return m_charges_.at(i);
-//     }
+    const_reference operator[](size_type i) const {
+        return const_reference(m_charges_[i], m_points_.at(i));
+    }
 
-//     virtual size_type_(size_type i) const { return m_charges_.size(); }
+    size_type size() const noexcept { return m_charges_.size(); }
 
-//       PointSet<T> m_points_;
-//     std::vector<value_type> m_charges_;
-// };
+    const PointSet<T>& as_point_set() { return m_points_; }
 
-// } // namespace chemist::detail_
+private:
+    /// The state associated with being a PointSet<T>
+    PointSet<T> m_points_;
+
+    /// The charges of each point charge
+    std::vector<charge_type> m_charges_;
+};
+
+} // namespace chemist::detail_

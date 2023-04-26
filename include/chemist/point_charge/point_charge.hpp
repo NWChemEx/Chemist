@@ -31,13 +31,12 @@ namespace chemist {
  */
 template<typename ScalarType = double>
 class PointCharge : public Point<ScalarType> {
-private:
-    /// Type of the base class
-    using base_type = Point<ScalarType>;
-
 public:
+    /// Type of the base Point type
+    using point_type = Point<ScalarType>;
+
     /// The type of a coordinate, aliases base class's coord_type
-    using coord_type = typename base_type::coord_type;
+    using coord_type = typename point_type::coord_type;
 
     /// The type used to model the charge (and, as coded, the coordinates)
     using charge_type = ScalarType;
@@ -227,14 +226,14 @@ PointCharge<T>::PointCharge(charge_type q, coord_type x, coord_type y,
 template<typename T>
 template<typename Archive>
 void PointCharge<T>::save(Archive& ar) const {
-    base_type::save(ar);
+    point_type::save(ar);
     ar& m_q_;
 }
 
 template<typename T>
 template<typename Archive>
 void PointCharge<T>::load(Archive& ar) {
-    base_type::load(ar);
+    point_type::load(ar);
     ar& m_q_;
 }
 
