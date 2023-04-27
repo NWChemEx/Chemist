@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 NWChemEx-Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #pragma once
 #include <array>
 #include <chemist/detail_/view/traits.hpp>
@@ -32,6 +48,12 @@ public:
     /// Type of a non-CV qualified Point<T> object
     using point_type = typename traits_type::type;
 
+    /// Type of reference to a Point<T> object with parallel const of *this
+    using point_reference = typename traits_type::apply_const_ref<point_type>;
+
+    /// Type of a read-only reference to a Point<T> object
+    using const_point_reference = const point_type&;
+
     /// Forward types from Point<T> class
     ///@{
     using coord_type            = typename point_type::coord_type;
@@ -41,6 +63,18 @@ public:
 
     /// Type of a coordinate reference returned when *this is non-const
     using coord_reference = typename traits_type::apply_const_ref<coord_type>;
+
+    /** @brief Value to reference converter.
+     *
+     *  This ctor allows you to make a PointView which aliases an existing
+     *  Point object.
+     *
+     *  @param[in] point The Point object *this is a view of.
+     *
+     *  @throw None No throw guarantee.
+     */
+    PointView2(point_reference point) :
+      PointView2(point.x(), point.y(), point.z()) {}
 
     /** @brief Value ctor.
      *
@@ -113,7 +147,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    bool operator==(const Point<coord_type>& rhs) const noexcept {
+    bool operator==(const_point_reference& rhs) const noexcept {
         return std::tie(x(), y(), z()) == std::tie(rhs.x(), rhs.y(), rhs.z());
     }
 
@@ -129,7 +163,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    bool operator!=(const Point<coord_type>& rhs) const noexcept {
+    bool operator!=(const_point_reference& rhs) const noexcept {
         return !(*this == rhs);
     }
 
@@ -137,10 +171,9 @@ public:
      *
      *  @return A new Point instance which owns its coordinates.
      *
+     *  @throw None No throw guarantee.
      */
-    operator Point<coord_type>() const {
-        return Point<coord_type>(x(), y(), z());
-    }
+    operator point_type() const { return point_type(x(), y(), z()); }
 
 private:
     /// The type of pointer used to alias a coordinate

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 NWChemEx-Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #include "detail_/point_set_pimpl.hpp"
 #include <stdexcept>
 #include <string>
@@ -13,24 +29,35 @@ TEMPLATE_PARAMS
 POINT_SET::PointSet() noexcept = default;
 
 TEMPLATE_PARAMS
+POINT_SET::PointSet(std::initializer_list<value_type> points) :
+  PointSet(std::make_unique<pimpl_type>()) {
+    for(const auto& x : points) m_pimpl_->push_back(x);
+}
+
+TEMPLATE_PARAMS
 POINT_SET::PointSet(pimpl_pointer pimpl) noexcept :
   m_pimpl_(std::move(pimpl)) {}
 
+TEMPLATE_PARAMS
+POINT_SET::PointSet(const PointSet& other) :
+  PointSet(other.has_pimpl_() ? std::make_unique<pimpl_type>(*other.m_pimpl_) :
+                                nullptr) {}
+
+TEMPLATE_PARAMS
+POINT_SET::PointSet(PointSet&& other) noexcept = default;
+
+TEMPLATE_PARAMS
+POINT_SET& POINT_SET::operator=(const PointSet& rhs) {
+    PointSet(rhs).m_pimpl_.swap(m_pimpl_);
+    return *this;
+}
+
+TEMPLATE_PARAMS
+POINT_SET& POINT_SET::operator=(PointSet&& rhs) noexcept = default;
+
 TEMPLATE_PARAMS POINT_SET::~PointSet() noexcept = default;
 
-// -- Accessors ----------------------------------------------------------------
-
-TEMPLATE_PARAMS
-typename POINT_SET::reference POINT_SET::at(size_type i) {
-    bounds_check_(i);
-    return (*m_pimpl_)[i];
-}
-
-TEMPLATE_PARAMS
-typename POINT_SET::const_reference POINT_SET::at(size_type i) const {
-    bounds_check_(i);
-    return std::as_const(*m_pimpl_)[i];
-}
+// -- Setters ------------------------------------------------------------------
 
 TEMPLATE_PARAMS
 void POINT_SET::push_back(value_type r) {
@@ -38,23 +65,26 @@ void POINT_SET::push_back(value_type r) {
     m_pimpl_->push_back(std::move(r));
 }
 
+// -- Private ------------------------------------------------------------------
+
 TEMPLATE_PARAMS
-typename POINT_SET::size_type POINT_SET::size() const noexcept {
+typename POINT_SET::reference POINT_SET::at_(size_type i) {
+    return (*m_pimpl_)[i];
+}
+
+TEMPLATE_PARAMS
+typename POINT_SET::const_reference POINT_SET::at_(size_type i) const {
+    return std::as_const(*m_pimpl_)[i];
+}
+
+TEMPLATE_PARAMS
+typename POINT_SET::size_type POINT_SET::size_() const noexcept {
     if(!has_pimpl_()) return 0;
     return m_pimpl_->size();
 }
 
-// -- Private ------------------------------------------------------------------
-
 TEMPLATE_PARAMS
 bool POINT_SET::has_pimpl_() const noexcept { return !(m_pimpl_ == nullptr); }
-
-TEMPLATE_PARAMS
-void POINT_SET::bounds_check_(size_type i) const {
-    if(i < size()) return;
-    throw std::out_of_range(std::to_string(i) + " is not in the range [0, " +
-                            std::to_string(size()) + ").");
-}
 
 #undef POINT_SET
 #undef TEMPLATE_PARAMS

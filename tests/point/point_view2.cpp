@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 NWChemEx-Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #include <catch2/catch.hpp>
 #include <chemist/point/point_view2.hpp>
 
@@ -14,6 +30,13 @@ TEMPLATE_TEST_CASE("PointView2", "", Point<double>, Point<float>) {
     const_view_type pr1(r1.x(), r1.y(), r1.z());
 
     SECTION("CTors and assignment") {
+        SECTION("Point reference ctor") {
+            view_type pr2(r0);
+
+            for(std::size_t i = 0; i < 3; ++i)
+                REQUIRE(&pr2.coord(i) == &r0.coord(i));
+        }
+
         SECTION("Value ctor") {
             // Check address to verify aliasing
             for(std::size_t i = 0; i < 3; ++i) {
@@ -159,9 +182,36 @@ TEMPLATE_TEST_CASE("PointView2", "", Point<double>, Point<float>) {
         REQUIRE(r0 != pr1);
 
         // Compare to same PointView
+        view_type pr2(r0.x(), r0.y(), r0.z());
+        const_view_type pr3(r1.x(), r1.y(), r1.z());
+        REQUIRE(pr0 == pr2);
+        REQUIRE(pr2 == pr0);
+        REQUIRE_FALSE(pr0 != pr2);
+        REQUIRE_FALSE(pr2 != pr0);
+        REQUIRE(pr1 == pr3);
+        REQUIRE(pr3 == pr1);
+        REQUIRE_FALSE(pr1 != pr3);
+        REQUIRE_FALSE(pr3 != pr1);
 
-        // Compare to different PointView
+        // Compare to different PointView (including different const-ness)
+        REQUIRE_FALSE(pr0 == pr3);
+        REQUIRE_FALSE(pr3 == pr0);
+        REQUIRE(pr0 != pr3);
+        REQUIRE(pr3 != pr0);
+        REQUIRE_FALSE(pr1 == pr2);
+        REQUIRE_FALSE(pr2 == pr1);
+        REQUIRE(pr1 != pr2);
+        REQUIRE(pr2 != pr1);
     }
 
-    SECTION("To Point") {}
+    SECTION("implicit conversion to Point") {
+        REQUIRE(static_cast<TestType>(pr0) == r0);
+        REQUIRE(static_cast<TestType>(pr1) == r1);
+
+        auto l = [](const TestType& input, const TestType& corr) {
+            return input == corr;
+        };
+        REQUIRE(l(pr0, r0));
+        REQUIRE(l(pr1, r1));
+    }
 }

@@ -1,5 +1,21 @@
+/*
+ * Copyright 2023 NWChemEx-Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #pragma once
-#include "../../point/detail_/point_set_pimpl.hpp"
+#include <chemist/point/point_set.hpp>
 #include <chemist/point_charge/charges.hpp>
 
 namespace chemist::detail_ {
@@ -31,11 +47,11 @@ public:
     }
 
     reference operator[](size_type i) {
-        return reference(m_charges_[i], m_points_.at(i));
+        return reference(m_charges_[i], m_points_[i]);
     }
 
     const_reference operator[](size_type i) const {
-        return const_reference(m_charges_[i], m_points_.at(i));
+        return const_reference(m_charges_[i], m_points_[i]);
     }
 
     size_type size() const noexcept { return m_charges_.size(); }

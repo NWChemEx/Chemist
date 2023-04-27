@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 NWChemEx-Project
+ * Copyright 2023 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,12 +23,12 @@ namespace chemist {
 inline Nucleus::Nucleus(atomic_number_type Z, mass_type m) :
   Nucleus(Z, m, 0.0, 0.0, 0.0) {}
 
-inline Nucleus::Nucleus(atomic_number_type Z, mass_type m, coord_type x, coord_type y,
-                 coord_type z) :
+inline Nucleus::Nucleus(atomic_number_type Z, mass_type m, coord_type x,
+                        coord_type y, coord_type z) :
   Nucleus(Z, m, x, y, z, (charge_type)Z) {}
 
-inline Nucleus::Nucleus(atomic_number_type Z, mass_type m, coord_type x, coord_type y,
-                 coord_type z, charge_type q) :
+inline Nucleus::Nucleus(atomic_number_type Z, mass_type m, coord_type x,
+                        coord_type y, coord_type z, charge_type q) :
   base_type(q, x, y, z), m_Z_(Z), m_mass_(m) {}
 
 // -- Comparisons --------------------------------------------------------------
