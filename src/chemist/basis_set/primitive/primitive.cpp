@@ -40,8 +40,8 @@ PRIM_TYPE::Primitive(PRIM_TYPE&& rhs) noexcept = default;
 template<typename T>
 PRIM_TYPE& PRIM_TYPE::operator=(const PRIM_TYPE& rhs) noexcept {
     Point<T>::operator=(rhs);
-    m_pimpl_->coef() = rhs.coefficient();
-    m_pimpl_->exp()  = rhs.exponent();
+    m_pimpl_->coef()  = rhs.coefficient();
+    m_pimpl_->exp()   = rhs.exponent();
     return *this;
 }
 
