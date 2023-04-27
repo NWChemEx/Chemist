@@ -26,13 +26,8 @@ namespace chemist {
  *
  */
 class Nucleus : public PointCharge<double> {
-private:
-    /// Type of a point charge, i.e., the class *this inherits from
-    using base_type = PointCharge<double>;
-
 public:
-    /// Floating-point type of each Cartesian coordinate
-    using coord_type = base_type::coord_type;
+    // -- Nucleus types -------------------------------------------------------
 
     /// Integral type used to store the atomic number
     using atomic_number_type = std::size_t;
@@ -51,6 +46,19 @@ public:
 
     /// Type for read-only references to the mass
     using const_mass_reference = const mass_type&;
+
+    // -- PointCharge types ----------------------------------------------------
+
+    /// Type of a point charge, i.e., the class *this inherits from
+    using point_charge_type = PointCharge<double>;
+
+    /// Type of the point charge's charge
+    using charge_type = typename point_charge_type::charge_type;
+
+    // -- Point types ----------------------------------------------------------
+
+    /// Floating-point type of each Cartesian coordinate
+    using coord_type = point_charge_type::coord_type;
 
     /** @brief Creates a new nucleus with the specified properties.
      *
@@ -91,7 +99,7 @@ public:
      *                        throw guarantee.
      */
     ///@{
-    Nucleus() : base_type(), m_Z_(0), m_mass_(0.0) {}
+    Nucleus() : point_charge_type(), m_Z_(0), m_mass_(0.0) {}
     Nucleus(atomic_number_type Z, mass_type m);
     Nucleus(atomic_number_type Z, mass_type m, coord_type x, coord_type y,
             coord_type z);

@@ -34,7 +34,7 @@ inline Nucleus::Nucleus(atomic_number_type Z, mass_type m, coord_type x,
 // -- Comparisons --------------------------------------------------------------
 
 inline bool Nucleus::operator==(const Nucleus& rhs) const noexcept {
-    if(static_cast<const base_type&>(*this) != rhs) return false;
+    if(static_cast<const point_charge_type&>(*this) != rhs) return false;
     return std::tie(m_Z_, m_mass_) == std::tie(rhs.m_Z_, rhs.m_mass_);
 }
 
