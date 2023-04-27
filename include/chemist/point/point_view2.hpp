@@ -44,12 +44,16 @@ private:
     /// Type helping us do the template meta-programming
     using traits_type = detail_::ViewTraits<PointType>;
 
+    /// Pull in apply_const_xxx (so we can drop typename and template)
+    template<typename U>
+    using apply_const_ref = typename traits_type::template apply_const_ref<U>;
+
 public:
     /// Type of a non-CV qualified Point<T> object
     using point_type = typename traits_type::type;
 
     /// Type of reference to a Point<T> object with parallel const of *this
-    using point_reference = typename traits_type::apply_const_ref<point_type>;
+    using point_reference = apply_const_ref<point_type>;
 
     /// Type of a read-only reference to a Point<T> object
     using const_point_reference = const point_type&;
@@ -62,7 +66,7 @@ public:
     ///@}
 
     /// Type of a coordinate reference returned when *this is non-const
-    using coord_reference = typename traits_type::apply_const_ref<coord_type>;
+    using coord_reference = apply_const_ref<coord_type>;
 
     /** @brief Value to reference converter.
      *
@@ -177,7 +181,8 @@ public:
 
 private:
     /// The type of pointer used to alias a coordinate
-    using internal_pointer = typename traits_type::apply_const_ptr<coord_type>;
+    using internal_pointer =
+      typename traits_type::template apply_const_ptr<coord_type>;
 
     /// Pointers to the x, y, and z coordinates (respectively)
     std::array<internal_pointer, 3> m_pr_;

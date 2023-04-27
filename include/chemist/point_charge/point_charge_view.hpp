@@ -43,6 +43,10 @@ private:
     /// Traits type helping us with TMP
     using traits_type = detail_::ViewTraits<ChargeType>;
 
+    /// Typedef so we don't need "typename" and "template"
+    template<typename U>
+    using apply_const_ref = typename traits_type::template apply_const_ref<U>;
+
 public:
     // -- Types associated with PointCharge ------------------------------------
 
@@ -50,14 +54,13 @@ public:
     using point_charge_type = typename traits_type::type;
 
     /// Type of a PointCharge with parallel const-ness of *this
-    using point_charge_reference =
-      typename traits_type::apply_const_ref<point_charge_type>;
+    using point_charge_reference = apply_const_ref<point_charge_type>;
 
     /// Type used to store the point charge's charge
     using charge_type = typename point_charge_type::charge_type;
 
     /// Type used of a reference to the charge
-    using charge_reference = typename traits_type::apply_const_ref<charge_type>;
+    using charge_reference = apply_const_ref<charge_type>;
 
     /// Type used for a read-only reference to the charge
     using const_charge_reference =
@@ -70,7 +73,7 @@ public:
 
     /// Type of a view to a Point object with const-ness paralleling *this
     using point_view_type =
-      PointView2<typename traits_type::apply_const<point_type>>;
+      PointView2<typename traits_type::template apply_const<point_type>>;
 
     /// Type of a read-only view of a Point object
     using const_point_view = PointView2<const point_type>;
@@ -177,7 +180,8 @@ public:
 
 private:
     /// The type of a pointer used to alias the charge
-    using internal_pointer = typename traits_type::apply_const_ptr<charge_type>;
+    using internal_pointer =
+      typename traits_type::template apply_const_ptr<charge_type>;
 
     /// The aliased charge
     internal_pointer m_pq_;
