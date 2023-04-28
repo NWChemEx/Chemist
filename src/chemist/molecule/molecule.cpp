@@ -49,9 +49,6 @@ Molecule& Molecule::operator=(Molecule&& rhs) noexcept = default;
 Molecule::Molecule(std::initializer_list<atom_type> atoms) :
   Molecule(0, 1ul, atoms) {}
 
-Molecule::Molecule(charge_type charge, size_type multiplicity) :
-  Molecule(charge, multiplicity, {}) {}
-
 Molecule::Molecule(charge_type charge, size_type multiplicity,
                    std::initializer_list<atom_type> atoms) :
   m_pimpl_(make_pimpl_()) {
@@ -93,7 +90,9 @@ charge_type Molecule::charge() const noexcept {
 
 void Molecule::set_charge(charge_type n) {
     if(!has_pimpl_()) m_pimpl_ = make_pimpl_();
-    m_pimpl_->m_charge = n;
+    if(size() < n)
+        throw std::out_of_range("Did you forget to add atoms?")
+          m_pimpl_->m_charge = n;
 }
 
 size_type Molecule::multiplicity() const noexcept {

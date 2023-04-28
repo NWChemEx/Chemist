@@ -43,6 +43,7 @@ class MolPIMPL;
  */
 class Molecule : public utilities::IndexableContainerBase<Molecule> {
 private:
+    /// Type of the base class
     using base_type = utilities::IndexableContainerBase<Molecule>;
 
 public:
@@ -54,6 +55,9 @@ public:
 
     /// Type of an atom contained in this class
     using atom_type = Atom;
+
+    /// Type of an initializer list filled with Atom objects
+    using atom_initializer_list = std::initializer_list<atom_type>;
 
     /// Type representing the set of nuclei
     using nuclei_type = Nuclei;
@@ -90,21 +94,77 @@ public:
      */
     Molecule() noexcept;
 
-    ///@{
+    /** @brief Creates a new Molecule which is a deep-copy of @p rhs.
+     *
+     *  @param[in] rhs The instance we are deep copying.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the memory for
+     *                        the copied state. Strong throw guarantee.
+     */
     Molecule(const Molecule& rhs);
+
+    /** @brief Create a new Molecule by taking the state from @p rhs.
+     *
+     *  @param[in,out] rhs The object we are taking the state of. After this
+     *                     call @p rhs will be in a state consistent with
+     *                     default initialization.
+     *
+     *  @throw None No throw guarantee.
+     */
     Molecule(Molecule&& rhs) noexcept;
+
+    /** @brief Overrides the state in *this with a deep-copy of @p rhs.
+     *
+     *  This method will release the state currently held by *this and then
+     *  replace it with a deep copy of the state in @p rhs.
+     *
+     *  @param[in] rhs The object we are copying.
+     *
+     *  @return *this after replacing its state with a deep-copy of @p rhs.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the internal
+     *                        state of *this.
+     */
     Molecule& operator=(const Molecule& rhs);
+
+    /** @brief Overrides the state in *this with the state in @p rhs.
+     *
+     *  @param[in,out] rhs The object we are taking the state from. After this
+     *                     operation @p rhs will be in a state consistent with
+     *                     default initialization.
+     *
+     *  @throw None No throw guarantee.
+     */
     Molecule& operator=(Molecule&& rhs) noexcept;
-    ///@}
 
     /** @brief Initializes the Molecule with the provided atoms.
      *
+     *  This ctor is primarily used to initialize Molecule objects for tests
+     *  and tutorials. The resulting Molecule will have a charge based on the
+     *  number of electrons assigned to each atom in @p atoms, and the
+     *  multiplicity will be set to 1.
+     *
      *  @param[in] atoms The initial atoms to occupy this molecule.
+     *
+     *  @throw std::bad_alloc if allocating the state for *this fails. Strong
+     *                        throw guarantee.
      */
-    Molecule(std::initializer_list<atom_type> atoms);
-    Molecule(charge_type charge, size_type multiplicity);
+    Molecule(atom_initializer_list atoms);
+
+    /** @brief Creates a Molecule with the specified charge and
+     *         multiplicity.
+     *
+     *  When adding atoms to a Molecule the charge and multiplicity will
+     *  remain unchanged unless one of the atoms has a number of electrons not
+     *  equal to its atomic number
+     *
+     *  @param[in] charge The charge the newly created molecule should have.
+     *  @param[in] multiplicity The multiplicity the created molecule should
+     *                          have.
+     *
+     */
     Molecule(charge_type charge, size_type multiplicity,
-             std::initializer_list<atom_type> atoms);
+             atom_initializer_list atoms);
 
     /// Default dtor
     ~Molecule() noexcept;
@@ -133,8 +193,14 @@ public:
      *  Each Atom instance provided to *this also provides electrons (by default
      *  the number of which is equal to the atomic number, but this can be
      *  configured on a per atom-basis by the user if need be). Internally,
-     *  we keep a rolling count of the number of electrons and this method can
-     *  be used to retrieve it.
+     *  we store the charge of the molecule and adjust it as atoms are added
+     *  (or when the user calls set_charge). This method will return the sum
+     *  of each atom's atomic number less the charge.
+     *
+     *  @return The number of electrons which have been added to *this,
+     *          adjusting for the charge of the system.
+     *
+     *  @throw None No throw guarantee.
      */
     size_type n_electrons() const noexcept;
 
@@ -149,6 +215,12 @@ public:
      *  number of electrons.
      *
      *  @param[in] n The number of electrons the caller wants *this to have.
+     *               The charge must be less than the sum of the currently
+     *               stored atoms' atomic numbers.
+     *
+     *  @note It's best to call this after adding all atoms you want to add, as
+     *        adding another atom will update the charge based on the charge of
+     *        that atom.
      *
      *  @throw std::bad_alloc if there is no PIMPL and allocating one fails.
      *                        If an error is raised, it is done with a strong
@@ -175,15 +247,25 @@ public:
     void load(Archive& ar);
 
 private:
+    /// Lets the base class implement the container API
     friend base_type;
 
+    /// Used by the base to implement read/write element access
     reference at_(size_type i) noexcept;
+
+    /// Used by the base to implement read-only element access
     const_reference at_(size_type i) const noexcept;
+
+    /// Used by the base to implement size
     size_type size_() const noexcept;
 
+    /// Code factorization for creating a new, empty PIMPL
     static pimpl_pointer make_pimpl_();
 
+    /// Code factorization for checking if *this has a PIMPL
     bool has_pimpl_() const noexcept;
+
+    /// Code factorization for throwing if *this does not have a PIMPL
     void assert_pimpl_() const;
 
     /// The object actually implementing the Molecule class
