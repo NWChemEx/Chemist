@@ -23,12 +23,13 @@ using namespace chemist;
 
 TEST_CASE("Nucleus") {
     Nucleus defaulted;
-    Nucleus zm(2ul, 7304.01);
-    Nucleus zmxyz(6ul, 21897.81, 1.0, 2.0, 3.0);
-    Nucleus zmxyzq(92ul, 428912.28, 4.0, 5.0, 6.0, 91.5);
+    Nucleus zm("He", 2ul, 7304.01);
+    Nucleus zmxyz("C", 6ul, 21897.81, 1.0, 2.0, 3.0);
+    Nucleus zmxyzq("U", 92ul, 428912.28, 4.0, 5.0, 6.0, 91.5);
 
     SECTION("CTors/Assignment") {
         SECTION("Default") {
+            REQUIRE(defaulted.name() == "");
             REQUIRE(defaulted.Z() == 0ul);
             REQUIRE(defaulted.mass() == 0.0);
             REQUIRE(defaulted.x() == 0.0);
@@ -36,7 +37,8 @@ TEST_CASE("Nucleus") {
             REQUIRE(defaulted.z() == 0.0);
         }
 
-        SECTION("Z and mass") {
+        SECTION("name, Z, and mass") {
+            REQUIRE(zm.name() == "He");
             REQUIRE(zm.Z() == 2ul);
             REQUIRE(zm.mass() == 7304.01);
             REQUIRE(zm.x() == 0.0);
@@ -45,6 +47,7 @@ TEST_CASE("Nucleus") {
         }
 
         SECTION("Z, mass, and coordinates") {
+            REQUIRE(zmxyz.name() == "C");
             REQUIRE(zmxyz.Z() == 6ul);
             REQUIRE(zmxyz.mass() == 21897.81);
             REQUIRE(zmxyz.x() == 1.0);
@@ -53,6 +56,7 @@ TEST_CASE("Nucleus") {
         }
 
         SECTION("Z, mass, coordinates, and charge") {
+            REQUIRE(zmxyzq.name() == "U");
             REQUIRE(zmxyzq.Z() == 92ul);
             REQUIRE(zmxyzq.mass() == 428912.28);
             REQUIRE(zmxyzq.x() == 4.0);
@@ -87,6 +91,20 @@ TEST_CASE("Nucleus") {
         }
     }
 
+    SECTION("name()") {
+        auto pname = &(zm.name());
+        REQUIRE(*pname == "He");
+
+        // Can change it
+        *pname = "H";
+        REQUIRE(zm.name() == "H");
+    }
+
+    SECTION("name() const") {
+        auto pname = &(std::as_const(zm).name());
+        REQUIRE(*pname == "He");
+    }
+
     SECTION("Z") {
         auto pZ = &(zm.Z());
         REQUIRE(*pZ == 2ul);
@@ -117,43 +135,49 @@ TEST_CASE("Nucleus") {
 
     SECTION("comparisons") {
         SECTION("same") {
-            Nucleus rhs(92ul, 428912.28, 4.0, 5.0, 6.0, 91.5);
+            Nucleus rhs("U", 92ul, 428912.28, 4.0, 5.0, 6.0, 91.5);
             REQUIRE(zmxyzq == rhs);
             REQUIRE_FALSE(zmxyzq != rhs);
         }
 
+        SECTION("different name") {
+            Nucleus rhs("He", 92ul, 428912.28, 4.0, 5.0, 6.0, 91.5);
+            REQUIRE_FALSE(zmxyzq == rhs);
+            REQUIRE(zmxyzq != rhs);
+        }
+
         SECTION("Different atomic number") {
-            Nucleus rhs(93ul, 428912.28, 4.0, 5.0, 6.0, 91.5);
+            Nucleus rhs("U", 93ul, 428912.28, 4.0, 5.0, 6.0, 91.5);
             REQUIRE_FALSE(zmxyzq == rhs);
             REQUIRE(zmxyzq != rhs);
         }
 
         SECTION("Different mass") {
-            Nucleus rhs(92ul, 1.28, 4.0, 5.0, 6.0, 91.5);
+            Nucleus rhs("U", 92ul, 1.28, 4.0, 5.0, 6.0, 91.5);
             REQUIRE_FALSE(zmxyzq == rhs);
             REQUIRE(zmxyzq != rhs);
         }
 
         SECTION("Different x coordinate") {
-            Nucleus rhs(92ul, 428912.28, 2.0, 5.0, 6.0, 91.5);
+            Nucleus rhs("U", 92ul, 428912.28, 2.0, 5.0, 6.0, 91.5);
             REQUIRE_FALSE(zmxyzq == rhs);
             REQUIRE(zmxyzq != rhs);
         }
 
         SECTION("Different y coordinate") {
-            Nucleus rhs(92ul, 428912.28, 4.0, 2.0, 6.0, 91.5);
+            Nucleus rhs("U", 92ul, 428912.28, 4.0, 2.0, 6.0, 91.5);
             REQUIRE_FALSE(zmxyzq == rhs);
             REQUIRE(zmxyzq != rhs);
         }
 
         SECTION("Different z coordinate") {
-            Nucleus rhs(92ul, 428912.28, 4.0, 5.0, 2.0, 91.5);
+            Nucleus rhs("U", 92ul, 428912.28, 4.0, 5.0, 2.0, 91.5);
             REQUIRE_FALSE(zmxyzq == rhs);
             REQUIRE(zmxyzq != rhs);
         }
 
         SECTION("Different charge") {
-            Nucleus rhs(92ul, 428912.28, 4.0, 5.0, 6.0, 92.1);
+            Nucleus rhs("U", 92ul, 428912.28, 4.0, 5.0, 6.0, 92.1);
             REQUIRE_FALSE(zmxyzq == rhs);
             REQUIRE(zmxyzq != rhs);
         }

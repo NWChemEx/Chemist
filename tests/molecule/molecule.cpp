@@ -21,7 +21,7 @@
 
 using namespace chemist;
 
-// Forwad typedefs from the molecule
+// Forward typedefs from the molecule
 using value_type      = typename Molecule::value_type;
 using reference       = typename Molecule::reference;
 using const_reference = typename Molecule::const_reference;

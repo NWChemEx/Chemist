@@ -23,8 +23,8 @@ TEST_CASE("NucleiPIMPL") {
     using pimpl_type = NucleiPIMPL;
     using value_type = typename pimpl_type::value_type;
 
-    value_type q0(1ul, 1.0, 2.0, 3.0, 4.0, 5.0);
-    value_type q1(2ul, 5.0, 6.0, 7.0, 8.0, 9.0);
+    value_type q0("H", 1ul, 1.0, 2.0, 3.0, 4.0, 5.0);
+    value_type q1("He", 2ul, 5.0, 6.0, 7.0, 8.0, 9.0);
 
     pimpl_type defaulted;
     pimpl_type qs;

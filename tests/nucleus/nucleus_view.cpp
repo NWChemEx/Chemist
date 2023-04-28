@@ -25,58 +25,45 @@ using namespace chemist;
  * we do spot check the state of the base in the ctors).
  */
 
+/// Code factorization for checking addresses match for all state
+template<typename T, typename U>
+void check_addresses(T&& lhs, U&& rhs) {
+    REQUIRE(&lhs.name() == &rhs.name());
+    REQUIRE(&lhs.Z() == &rhs.Z());
+    REQUIRE(&lhs.mass() == &rhs.mass());
+    REQUIRE(&lhs.charge() == &rhs.charge());
+    REQUIRE(&lhs.x() == &rhs.x());
+    REQUIRE(&lhs.y() == &rhs.y());
+    REQUIRE(&lhs.z() == &rhs.z());
+}
+
 TEST_CASE("NucleusView") {
     using value_type = Nucleus;
     using view_type  = NucleusView<value_type>;
     using const_view = NucleusView<const value_type>;
 
-    value_type n0(1ul, 1.0, 2.0, 3.0, 4.0, 5.0);
-    value_type n1(2ul, 2.0, 3.0, 4.0, 5.0, 6.0);
+    value_type n0("H", 1ul, 1.0, 2.0, 3.0, 4.0, 5.0);
+    value_type n1("He", 2ul, 2.0, 3.0, 4.0, 5.0, 6.0);
 
     // This uses ctor 1
     view_type pn0(n0);
 
     // This uses ctor 2
     typename const_view::charge_view_type pq1(n1);
-    const_view pn1(n1.Z(), n1.mass(), pq1);
+    const_view pn1(n1.name(), n1.Z(), n1.mass(), pq1);
 
     SECTION("CTors and Assignment") {
-        SECTION("Nucleus") {
-            REQUIRE(&pn0.Z() == &n0.Z());
-            REQUIRE(&pn0.mass() == &n0.mass());
-            REQUIRE(&pn0.charge() == &n0.charge());
-            REQUIRE(&pn0.x() == &n0.x());
-            REQUIRE(&pn0.y() == &n0.y());
-            REQUIRE(&pn0.z() == &n0.z());
-        }
+        SECTION("Nucleus") { check_addresses(pn0, n0); }
 
-        SECTION("Z, m, point charge") {
-            REQUIRE(&pn1.Z() == &n1.Z());
-            REQUIRE(&pn1.mass() == &n1.mass());
-            REQUIRE(&pn1.charge() == &n1.charge());
-            REQUIRE(&pn1.x() == &n1.x());
-            REQUIRE(&pn1.y() == &n1.y());
-            REQUIRE(&pn1.z() == &n1.z());
-        }
+        SECTION("Z, m, point charge") { check_addresses(pn1, n1); }
 
         SECTION("copy") {
             view_type copy0(pn0);
             const_view copy1(pn1);
 
             // Compare addresses to verify alias
-            REQUIRE(&copy0.Z() == &pn0.Z());
-            REQUIRE(&copy0.mass() == &pn0.mass());
-            REQUIRE(&copy0.charge() == &pn0.charge());
-            REQUIRE(&copy0.x() == &pn0.x());
-            REQUIRE(&copy0.y() == &pn0.y());
-            REQUIRE(&copy0.z() == &pn0.z());
-
-            REQUIRE(&copy1.Z() == &pn1.Z());
-            REQUIRE(&copy1.mass() == &pn1.mass());
-            REQUIRE(&copy1.charge() == &pn1.charge());
-            REQUIRE(&copy1.x() == &pn1.x());
-            REQUIRE(&copy1.y() == &pn1.y());
-            REQUIRE(&copy1.z() == &pn1.z());
+            check_addresses(copy0, pn0);
+            check_addresses(copy1, pn1);
         }
 
         SECTION("move") {
@@ -86,19 +73,8 @@ TEST_CASE("NucleusView") {
             const_view move1(std::move(pn1));
 
             // Compare addresses to verify alias
-            REQUIRE(&copy0.Z() == &move0.Z());
-            REQUIRE(&copy0.mass() == &move0.mass());
-            REQUIRE(&copy0.charge() == &move0.charge());
-            REQUIRE(&copy0.x() == &move0.x());
-            REQUIRE(&copy0.y() == &move0.y());
-            REQUIRE(&copy0.z() == &move0.z());
-
-            REQUIRE(&copy1.Z() == &move1.Z());
-            REQUIRE(&copy1.mass() == &move1.mass());
-            REQUIRE(&copy1.charge() == &move1.charge());
-            REQUIRE(&copy1.x() == &move1.x());
-            REQUIRE(&copy1.y() == &move1.y());
-            REQUIRE(&copy1.z() == &move1.z());
+            check_addresses(copy0, move0);
+            check_addresses(copy1, move1);
         }
 
         SECTION("copy assignment") {
@@ -110,19 +86,8 @@ TEST_CASE("NucleusView") {
             auto pcopy1 = &(copy1 = pn1);
 
             // Check value (comparing addresses to verify alias)
-            REQUIRE(&copy0.Z() == &pn0.Z());
-            REQUIRE(&copy0.mass() == &pn0.mass());
-            REQUIRE(&copy0.charge() == &pn0.charge());
-            REQUIRE(&copy0.x() == &pn0.x());
-            REQUIRE(&copy0.y() == &pn0.y());
-            REQUIRE(&copy0.z() == &pn0.z());
-
-            REQUIRE(&copy1.Z() == &pn1.Z());
-            REQUIRE(&copy1.mass() == &pn1.mass());
-            REQUIRE(&copy1.charge() == &pn1.charge());
-            REQUIRE(&copy1.x() == &pn1.x());
-            REQUIRE(&copy1.y() == &pn1.y());
-            REQUIRE(&copy1.z() == &pn1.z());
+            check_addresses(copy0, pn0);
+            check_addresses(copy1, pn1);
 
             // Check returns *this
             REQUIRE(pcopy0 == &copy0);
@@ -140,24 +105,23 @@ TEST_CASE("NucleusView") {
             auto pmove1 = &(move1 = std::move(pn1));
 
             // Check value (comparing addresses to verify alias)
-            REQUIRE(&copy0.Z() == &move0.Z());
-            REQUIRE(&copy0.mass() == &move0.mass());
-            REQUIRE(&copy0.charge() == &move0.charge());
-            REQUIRE(&copy0.x() == &move0.x());
-            REQUIRE(&copy0.y() == &move0.y());
-            REQUIRE(&copy0.z() == &move0.z());
-
-            REQUIRE(&copy1.Z() == &move1.Z());
-            REQUIRE(&copy1.mass() == &move1.mass());
-            REQUIRE(&copy1.charge() == &move1.charge());
-            REQUIRE(&copy1.x() == &move1.x());
-            REQUIRE(&copy1.y() == &move1.y());
-            REQUIRE(&copy1.z() == &move1.z());
+            check_addresses(copy0, move0);
+            check_addresses(copy1, move1);
 
             // Check returns *this
             REQUIRE(pmove0 == &move0);
             REQUIRE(pmove1 == &move1);
         }
+    }
+
+    SECTION("name()") {
+        REQUIRE(&pn0.name() == &n0.name());
+        REQUIRE(&pn1.name() == &n1.name());
+    }
+
+    SECTION("name() const") {
+        REQUIRE(&std::as_const(pn0).name() == &n0.name());
+        REQUIRE(&std::as_const(pn1).name() == &n1.name());
     }
 
     SECTION("Z()") {

@@ -59,6 +59,15 @@ public:
     /// Type of a read-only reference to a Nucleus
     using const_nucleus_reference = const nucleus_type&;
 
+    /// Type of the name
+    using name_type = typename nucleus_type::name_type;
+
+    /// Reference to the name with const-ness paralleling @p NucleusType
+    using name_reference = apply_const_ref<name_type>;
+
+    /// Type of a read-only reference to the name
+    using const_name_reference = typename nucleus_type::const_name_reference;
+
     /// Type of the atomic number
     using atomic_number_type = typename nucleus_type::atomic_number_type;
 
@@ -112,16 +121,33 @@ public:
      *  for ensuring the provided state's lifetime exceeds that of the resulting
      *  view.
      *
+     *  @param[in] name The name of the nucleus
      *  @param[in] Z The atomic number *this will alias.
      *  @param[in] m The mass *this will alias.
      *  @param[in] q An existing view of a PointCharge on which to build *this.
      *
      *  @throw None No throw guarantee.
      */
-    NucleusView(atomic_number_reference Z, mass_reference m,
-                charge_view_type q);
+    NucleusView(name_reference name, atomic_number_reference Z,
+                mass_reference m, charge_view_type q);
 
     // -- Accessors ------------------------------------------------------------
+
+    /** @brief Provides access to the name.
+     *
+     *  These methods can be used to retrieve the aliased name. The
+     *  non-const method returns a reference whose const-ness parallels that
+     *  of @p NucleusType (i.e., if @p NucleusType is const-qualified so too
+     *  will be the resulting name).
+     *
+     *  @return The aliased name by reference.
+     *
+     *  @throw None No throw guarantee
+     */
+    ///@{
+    name_reference name() noexcept { return *m_pname_; }
+    const_name_reference name() const noexcept { return *m_pname_; }
+    ///@}
 
     /** @brief Provides access to the atomic number.
      *
@@ -210,6 +236,9 @@ public:
     nucleus_type as_nucleus() const;
 
 private:
+    /// Pointer to the aliased name
+    ptr_type<name_type> m_pname_;
+
     /// Pointer to the aliased atomic number
     ptr_type<atomic_number_type> m_pZ_;
 
@@ -235,19 +264,19 @@ bool operator!=(const Nucleus& lhs, const NucleusView<NucleusType>& rhs) {
 
 template<typename NucleusType>
 NUCLEUS_VIEW::NucleusView(nucleus_reference nuke) :
-  NucleusView(nuke.Z(), nuke.mass(), charge_view_type(nuke)) {}
+  NucleusView(nuke.name(), nuke.Z(), nuke.mass(), charge_view_type(nuke)) {}
 
 template<typename NucleusType>
-NUCLEUS_VIEW::NucleusView(atomic_number_reference Z, mass_reference m,
+NUCLEUS_VIEW::NucleusView(name_reference name, atomic_number_reference Z, mass_reference m,
                           charge_view_type q) :
-  charge_view_type(q), m_pZ_(&Z), m_pmass_(&m) {}
+  charge_view_type(q), m_pname_(&name), m_pZ_(&Z), m_pmass_(&m) {}
 
 template<typename NucleusType>
 bool NUCLEUS_VIEW::operator==(const_nucleus_reference rhs) const noexcept {
     const charge_view_type& plhs = *this;
     const_charge_view prhs(rhs);
 
-    return std::tie(Z(), mass(), plhs) == std::tie(rhs.Z(), rhs.mass(), prhs);
+    return std::tie(name(), Z(), mass(), plhs) == std::tie(rhs.name(), rhs.Z(), rhs.mass(), prhs);
 }
 
 template<typename NucleusType>
@@ -256,12 +285,12 @@ bool NUCLEUS_VIEW::operator==(const NucleusView<T>& rhs) const noexcept {
     const charge_view_type& plhs = *this;
     const_charge_view prhs(rhs.charge(), rhs.x(), rhs.y(), rhs.z());
 
-    return std::tie(Z(), mass(), plhs) == std::tie(rhs.Z(), rhs.mass(), prhs);
+    return std::tie(name(), Z(), mass(), plhs) == std::tie(rhs.name(), rhs.Z(), rhs.mass(), prhs);
 }
 
 template<typename NucleusType>
 typename NUCLEUS_VIEW::nucleus_type NUCLEUS_VIEW::as_nucleus() const {
-    return nucleus_type(Z(), mass(), this->x(), this->y(), this->z(),
+    return nucleus_type(name(), Z(), mass(), this->x(), this->y(), this->z(),
                         this->charge());
 }
 

@@ -16,7 +16,6 @@
 
 #pragma once
 #include "chemist/nucleus/nucleus.hpp"
-#include <cereal/types/string.hpp>
 #include <iomanip>
 #include <ios>
 
@@ -78,13 +77,13 @@ public:
     using const_coord_reference = nucleus_type::const_coord_reference;
 
     /// A string-like type for storing the name of the Atom instance
-    using name_type = std::string;
+    using name_type = typename nucleus_type::name_type;
 
     /// A read/write reference to the name of the Atom
-    using name_reference = name_type&;
+    using name_reference = typename nucleus_type::name_reference;
 
     /// A read-only reference to the natom of the Atom
-    using const_name_reference = const name_type&;
+    using const_name_reference = typename nucleus_type::const_name_reference;
 
     /// The type of a counting number
     using size_type = nucleus_type::size_type;
@@ -112,9 +111,9 @@ public:
      * there is insufficient memory to perform the copy.
      */
     ///@{
-    Atom(const Atom& rhs)     = default;
-    Atom(Atom&& rhs) noexcept = default;
-    Atom& operator=(const Atom& rhs) = default;
+    Atom(const Atom& rhs)                = default;
+    Atom(Atom&& rhs) noexcept            = default;
+    Atom& operator=(const Atom& rhs)     = default;
     Atom& operator=(Atom&& rhs) noexcept = default;
     ///@}
 
@@ -159,8 +158,8 @@ public:
      * @throw None. No throw guarantee.
      */
     ///@{
-    name_reference name() noexcept { return m_name_; }
-    const_name_reference name() const noexcept { return m_name_; }
+    name_reference name() noexcept { return nucleus().name(); }
+    const_name_reference name() const noexcept { return nucleus().name(); }
 
     nucleus_reference nucleus() noexcept { return m_nuke_; }
     const_nucleus_reference nucleus() const noexcept { return m_nuke_; }
@@ -222,9 +221,6 @@ public:
 private:
     /// The atom's nucleus
     nucleus_type m_nuke_;
-
-    /// The name of the atom
-    name_type m_name_;
 
 }; // End Atom
 

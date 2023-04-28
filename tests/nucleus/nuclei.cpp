@@ -27,24 +27,28 @@ using namespace chemist;
  * to retest all the ways one can access the elements (i.e., operator[], at, and
  * iterators).
  */
+
 TEST_CASE("Nuclei") {
     using set_type   = Nuclei;
     using value_type = typename set_type::value_type;
 
-    value_type n0(1ul, 0.0, 1.0, 2.0, 3.0, 4.0);
-    value_type n1(2ul, 4.0, 5.0, 6.0, 7.0, 5.0);
+    value_type n0("H", 1ul, 0.0, 1.0, 2.0, 3.0, 4.0);
+    value_type n1("He", 2ul, 4.0, 5.0, 6.0, 7.0, 5.0);
 
     set_type defaulted;
     set_type nuclei{n0, n1, n1}; // <- ensure we can add same charge 2x
 
     // Collect the addresses for testing aliasing/references
+    using name_type          = typename value_type::name_type;
     using charge_type        = typename value_type::charge_type;
     using atomic_number_type = typename value_type::atomic_number_type;
 
+    std::vector<name_type*> name_addresses;
     std::vector<charge_type*> old_addresses;
     std::vector<atomic_number_type*> z_addresses;
     for(std::size_t nuke_i = 0; nuke_i < 3; ++nuke_i) {
         z_addresses.push_back(&nuclei[nuke_i].Z());
+        name_addresses.push_back(&nuclei[nuke_i].name());
         old_addresses.push_back(&nuclei[nuke_i].mass());
         old_addresses.push_back(&nuclei[nuke_i].charge());
         for(std::size_t coord_i = 0; coord_i < 3; ++coord_i) {
@@ -84,6 +88,7 @@ TEST_CASE("Nuclei") {
             // Check that original references are still valid
             for(std::size_t nuke_i = 0; nuke_i < 3; ++nuke_i) {
                 const auto idx = nuke_i * 5;
+                REQUIRE(name_addresses[nuke_i] == &move1[nuke_i].name());
                 REQUIRE(z_addresses[nuke_i] == &move1[nuke_i].Z());
                 REQUIRE(old_addresses[idx] == &move1[nuke_i].mass());
                 REQUIRE(old_addresses[idx + 1] == &move1[nuke_i].charge());
@@ -130,6 +135,7 @@ TEST_CASE("Nuclei") {
             // Check that original references are still valid
             for(std::size_t nuke_i = 0; nuke_i < 3; ++nuke_i) {
                 const auto idx = nuke_i * 5;
+                REQUIRE(name_addresses[nuke_i] == &move1[nuke_i].name());
                 REQUIRE(z_addresses[nuke_i] == &move1[nuke_i].Z());
                 REQUIRE(old_addresses[idx] == &move1[nuke_i].mass());
                 REQUIRE(old_addresses[idx + 1] == &move1[nuke_i].charge());
@@ -156,6 +162,9 @@ TEST_CASE("Nuclei") {
             const auto idx  = nuke_i * 5;
             const auto corr = nuke_i == 0 ? n0 : n1;
             auto qi         = nuclei[nuke_i];
+
+            REQUIRE(qi.name() == corr.name());
+            REQUIRE(name_addresses[nuke_i] == &qi.name());
 
             REQUIRE(qi.Z() == corr.Z());
             REQUIRE(z_addresses[nuke_i] == &qi.Z());
@@ -184,6 +193,9 @@ TEST_CASE("Nuclei") {
             const auto idx  = nuke_i * 5;
             const auto corr = nuke_i == 0 ? n0 : n1;
             auto qi         = std::as_const(nuclei)[nuke_i];
+
+            REQUIRE(qi.name() == corr.name());
+            REQUIRE(name_addresses[nuke_i] == &qi.name());
 
             REQUIRE(qi.Z() == corr.Z());
             REQUIRE(z_addresses[nuke_i] == &qi.Z());

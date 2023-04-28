@@ -50,12 +50,14 @@ public:
 
     /// Reuse Nucleus types
     ///@{
+    using name_type          = typename value_type::name_type;
     using atomic_number_type = typename value_type::atomic_number_type;
     using mass_type          = typename value_type::mass_type;
     ///@}
 
     /// Implements push_back
     void push_back(value_type q) {
+        m_names_.push_back(q.name());
         m_Zs_.push_back(q.Z());
         m_mass_.push_back(q.mass());
         m_charges_.push_back(q);
@@ -63,12 +65,13 @@ public:
 
     /// Implements retrieving a reference to a charge
     reference operator[](size_type i) {
-        return reference(m_Zs_[i], m_mass_[i], m_charges_[i]);
+        return reference(m_names_[i], m_Zs_[i], m_mass_[i], m_charges_[i]);
     }
 
     /// Implements retrieving a read-only reference to a charge
     const_reference operator[](size_type i) const {
-        return const_reference(m_Zs_[i], m_mass_[i], m_charges_[i]);
+        return const_reference(m_names_[i], m_Zs_[i], m_mass_[i],
+                               m_charges_[i]);
     }
 
     /// Implements determining the number of point Nuclei
@@ -79,13 +82,16 @@ public:
 
     /// Implements comparisons for Nuclei
     bool operator==(const NucleiPIMPL& rhs) const {
-        return std::tie(m_charges_, m_Zs_, m_mass_) ==
-               std::tie(rhs.m_charges_, rhs.m_Zs_, rhs.m_mass_);
+        return std::tie(m_charges_, m_names_, m_Zs_, m_mass_) ==
+               std::tie(rhs.m_charges_, rhs.m_names_, rhs.m_Zs_, rhs.m_mass_);
     }
 
 private:
     /// The state associated with being a Charges<T>
     charge_set_type m_charges_;
+
+    /// The name of each nucleus
+    std::vector<name_type> m_names_;
 
     /// The atomic number of each nucleus
     std::vector<atomic_number_type> m_Zs_;

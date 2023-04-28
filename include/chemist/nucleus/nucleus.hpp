@@ -15,7 +15,9 @@
  */
 
 #pragma once
+#include <cereal/types/string.hpp>
 #include <chemist/point_charge/point_charge.hpp>
+#include <string>
 
 namespace chemist {
 
@@ -28,6 +30,15 @@ namespace chemist {
 class Nucleus : public PointCharge<double> {
 public:
     // -- Nucleus types -------------------------------------------------------
+
+    /// A string-like type for storing the name
+    using name_type = std::string;
+
+    /// A read/write reference to the name
+    using name_reference = name_type&;
+
+    /// A read-only reference to the name
+    using const_name_reference = const name_type&;
 
     /// Integral type used to store the atomic number
     using atomic_number_type = std::size_t;
@@ -82,6 +93,9 @@ public:
      *        indexing, where as charge is guaranteed to be floating-point and
      *        is thus easier to use in computations.
      *
+     *  @param[in] name The name for the nucleus. At present this is the atomic
+     *               symbol associated with @p Z and is used only for logging
+     *               purposes.
      *  @param[in] Z The atomic number, i.e., Z==1 for hydrogen, Z==2 for
      *               helium, etc. If not specified defaults to 0.
      *  @param[in] m The mass (in atomic units) of the nucleus. If not specified
@@ -99,13 +113,37 @@ public:
      *                        throw guarantee.
      */
     ///@{
-    Nucleus() : point_charge_type(), m_Z_(0), m_mass_(0.0) {}
-    Nucleus(atomic_number_type Z, mass_type m);
-    Nucleus(atomic_number_type Z, mass_type m, coord_type x, coord_type y,
-            coord_type z);
-    Nucleus(atomic_number_type Z, mass_type m, coord_type x, coord_type y,
-            coord_type z, charge_type q);
+    Nucleus() : point_charge_type(), m_name_(), m_Z_(0), m_mass_(0.0) {}
+    Nucleus(name_type name, atomic_number_type Z, mass_type m);
+    Nucleus(name_type name, atomic_number_type Z, mass_type m, coord_type x,
+            coord_type y, coord_type z);
+    Nucleus(name_type name, atomic_number_type Z, mass_type m, coord_type x,
+            coord_type y, coord_type z, charge_type q);
     ///@}
+
+    /** @brief Get/set the name of the nucleus.
+     *
+     *  While atomic numbers are useful for progmatically identifying a nucleus,
+     *  most users would rather see "H" or "He" instead of "Z==1" or "Z==2",
+     *  respectively. The name of the nucleus is the string to print when the
+     *  user wants to know the identity of the nucleus.
+     *
+     *  @return A read/write reference to the nucleus's name.
+     *
+     *  @throw None No throw guarantee.
+     */
+    name_reference name() noexcept { return m_name_; }
+
+    /** @brief Gets the name of the nucleus.
+     *
+     *  This method is the same as the non-const version, but the returned
+     *  reference is read-only.
+     *
+     *  @return A read-only reference to the nucleus's name.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const_name_reference name() const noexcept { return m_name_; }
 
     /** @brief Get/set the atomic number of the nucleus
      *
@@ -199,6 +237,9 @@ public:
     void load(Archive& ar);
 
 private:
+    /// The nucleus's name
+    name_type m_name_;
+
     /// The nucleus's atomic number
     atomic_number_type m_Z_;
 
