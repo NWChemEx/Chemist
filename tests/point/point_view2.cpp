@@ -204,14 +204,8 @@ TEMPLATE_TEST_CASE("PointView2", "", Point<double>, Point<float>) {
         REQUIRE(pr2 != pr1);
     }
 
-    SECTION("implicit conversion to Point") {
-        REQUIRE(static_cast<TestType>(pr0) == r0);
-        REQUIRE(static_cast<TestType>(pr1) == r1);
-
-        auto l = [](const TestType& input, const TestType& corr) {
-            return input == corr;
-        };
-        REQUIRE(l(pr0, r0));
-        REQUIRE(l(pr1, r1));
+    SECTION("as_point") {
+        REQUIRE(pr0.as_point() == r0);
+        REQUIRE(pr1.as_point() == r1);
     }
 }

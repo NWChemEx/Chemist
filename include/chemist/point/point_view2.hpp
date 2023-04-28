@@ -26,9 +26,7 @@ namespace chemist {
  *
  *  PointView objects act like references to a Point object. More specifically,
  *  the state inside a PointView is an alias of data owned by another object
- *  (usually a PointSet or related classes). Importantly, PointView objects can
- *  implicitly convert to Point objects, so that the user need not concern
- *  themselves with the existence of the PointView object unless they want to.
+ *  (usually a PointSet or related classes).
  *
  *  TODO: This class should replace PointView, at which point we should drop the
  *        2 from the name. This requires switching over Chemist's basis set
@@ -144,40 +142,57 @@ public:
      *  This method compares the coordinates aliased by *this to the coordinates
      *  owned by @p rhs.
      *
-     *  @param[in] rhs The Point we are comparing to.
+     *  @param[in] rhs The Point-like object we are comparing to.
      *
      *  @return True if the coordinates in *this are value equal to those in
      *          @p rhs and false otherwise.
      *
      *  @throw None No throw guarantee.
      */
+    ///@{
     bool operator==(const_point_reference& rhs) const noexcept {
         return std::tie(x(), y(), z()) == std::tie(rhs.x(), rhs.y(), rhs.z());
     }
+
+    template<typename T>
+    bool operator==(const PointView2<T>& rhs) const noexcept {
+        return std::tie(x(), y(), z()) == std::tie(rhs.x(), rhs.y(), rhs.z());
+    }
+    ///@}
 
     /** @brief Determines if *this represents a different point than @p rhs.
      *
      *  This method compares the coordinates aliased by *this to the coordinates
      *  owned by @p rhs.
      *
-     *  @param[in] rhs The Point we are comparing to.
+     *  @param[in] rhs The Point-like object we are comparing to.
      *
      *  @return False if the coordinates in *this are value equal to those in
      *          @p rhs and true otherwise.
      *
      *  @throw None No throw guarantee.
      */
+    ///@{
     bool operator!=(const_point_reference& rhs) const noexcept {
         return !(*this == rhs);
     }
 
-    /** @brief Implicit conversion to a Point object.
+    template<typename T>
+    bool operator!=(const PointView2<T>& rhs) const noexcept {
+        return !(*this == rhs);
+    }
+    ///@}
+
+    /** @brief Conversion to a Point object.
+     *
+     *  This method will deep copy the aliased state in to a new Point object.
      *
      *  @return A new Point instance which owns its coordinates.
      *
-     *  @throw None No throw guarantee.
+     *  @throw std::bad_alloc if there is a problem allocating the Point's
+     *                        PIMPL. Strong throw guarantee.
      */
-    operator point_type() const { return point_type(x(), y(), z()); }
+    point_type as_point() const { return point_type(x(), y(), z()); }
 
 private:
     /// The type of pointer used to alias a coordinate

@@ -29,7 +29,7 @@ inline Nucleus::Nucleus(atomic_number_type Z, mass_type m, coord_type x,
 
 inline Nucleus::Nucleus(atomic_number_type Z, mass_type m, coord_type x,
                         coord_type y, coord_type z, charge_type q) :
-  base_type(q, x, y, z), m_Z_(Z), m_mass_(m) {}
+  point_charge_type(q, x, y, z), m_Z_(Z), m_mass_(m) {}
 
 // -- Comparisons --------------------------------------------------------------
 
@@ -46,14 +46,14 @@ inline bool Nucleus::operator!=(const Nucleus& rhs) const noexcept {
 
 template<typename Archive>
 void Nucleus::save(Archive& ar) const {
-    base_type::save(ar);
+    point_charge_type::save(ar);
     ar& m_Z_;
     ar& m_mass_;
 }
 
 template<typename Archive>
 void Nucleus::load(Archive& ar) {
-    base_type::load(ar);
+    point_charge_type::load(ar);
     ar& m_Z_;
     ar& m_mass_;
 }

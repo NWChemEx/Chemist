@@ -204,4 +204,9 @@ TEMPLATE_TEST_CASE("PointChargeView", "", float, double) {
         REQUIRE(pq1 != pq2);
         REQUIRE(pq2 != pq1);
     }
+
+    SECTION("as_point_charge") {
+        REQUIRE(pq0.as_point_charge() == q0);
+        REQUIRE(pq1.as_point_charge() == q1);
+    }
 }

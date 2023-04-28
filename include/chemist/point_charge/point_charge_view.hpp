@@ -27,9 +27,6 @@ namespace chemist {
  *  PointChargeView objects act like references to a PointCharge object. More
  *  specifically, the state inside a PointChargeView is an alias of data owned
  *  by another object (usually a Charges object or related classes).
- *  Importantly, PointChargeView objects can implicitly convert to PointCharge
- *  objects, so that the user need not concern themselves with the existence of
- *  the PointChargeView object unless they want to.
  *
  *  @tparam ChargeType The type of PointCharge<T> object this class is behaving
  *                     like a view of. Assumed to be either PointCharge<T> or
@@ -150,8 +147,12 @@ public:
      *
      *  @throw None No throw guarantee.
      */
+    ///@{
     bool operator==(const point_charge_type& rhs) const noexcept;
 
+    template<typename T>
+    bool operator==(const PointChargeView<T>& rhs) const noexcept;
+    ///@}
     /** @brief Determines if *this is different than @p rhs.
      *
      *  This operator defines two PointChargeViews to be different if they
@@ -163,18 +164,23 @@ public:
      *
      *  @throw None No throw guarantee.
      */
+    ///@{
     bool operator!=(const point_charge_type& rhs) const noexcept;
 
-    /** @brief Allows *this to be implicitly converted in to a PointCharge.
+    template<typename T>
+    bool operator!=(const PointChargeView<T>& rhs) const noexcept;
+    ///@}
+
+    /** @brief Allows *this to be converted in to a PointCharge.
      *
-     *  To facilitate hiding views from the user we allow *this to be
-     *  implicitly converted to a PointCharge instance.
+     *  This will create a new PointCharge object by copying the state aliased
+     *  by *this into the
      *
      *  @return A new PointCharge object initialized from the state of *this.
      *
      *  @throw None No throw guarantee.
      */
-    operator point_charge_type() const {
+    point_charge_type as_point_charge() const {
         return point_charge_type(charge(), this->x(), this->y(), this->z());
     }
 
@@ -203,28 +209,27 @@ bool operator!=(const PointCharge<ChargeType>& lhs,
 
 // -- Inline implementations ---------------------------------------------------
 
+#define POINT_CHARGE_VIEW PointChargeView<ChargeType>
+
 // -- Ctors --------------------------------------------------------------------
 
 template<typename ChargeType>
-PointChargeView<ChargeType>::PointChargeView(point_charge_reference q) :
+POINT_CHARGE_VIEW::PointChargeView(point_charge_reference q) :
   PointChargeView(q.charge(), q.x(), q.y(), q.z()) {}
 
 template<typename ChargeType>
-PointChargeView<ChargeType>::PointChargeView(charge_reference q,
-                                             point_view_type r) :
+POINT_CHARGE_VIEW::PointChargeView(charge_reference q, point_view_type r) :
   point_view_type(r), m_pq_(&q) {}
 
 template<typename ChargeType>
-PointChargeView<ChargeType>::PointChargeView(charge_reference q,
-                                             coord_reference x,
-                                             coord_reference y,
-                                             coord_reference z) :
+POINT_CHARGE_VIEW::PointChargeView(charge_reference q, coord_reference x,
+                                   coord_reference y, coord_reference z) :
   point_view_type(x, y, z), m_pq_(&q) {}
 
 // -- Utility ------------------------------------------------------------------
 
 template<typename ChargeType>
-bool PointChargeView<ChargeType>::operator==(
+bool POINT_CHARGE_VIEW::operator==(
   const point_charge_type& rhs) const noexcept {
     const point_view_type& plhs = *this;
     const_point_view prhs(rhs);
@@ -233,9 +238,27 @@ bool PointChargeView<ChargeType>::operator==(
 }
 
 template<typename ChargeType>
-bool PointChargeView<ChargeType>::operator!=(
+template<typename T>
+bool POINT_CHARGE_VIEW::operator==(
+  const PointChargeView<T>& rhs) const noexcept {
+    const point_view_type& plhs = *this;
+    const_point_view prhs(rhs.x(), rhs.y(), rhs.z());
+
+    return std::tie(charge(), plhs) == std::tie(rhs.charge(), prhs);
+}
+
+template<typename ChargeType>
+bool POINT_CHARGE_VIEW::operator!=(
   const point_charge_type& rhs) const noexcept {
     return !(*this == rhs);
 }
 
+template<typename ChargeType>
+template<typename T>
+bool POINT_CHARGE_VIEW::operator!=(
+  const PointChargeView<T>& rhs) const noexcept {
+    return !(*this == rhs);
+}
+
+#undef POINT_CHARGE_VIEW
 } // namespace chemist
