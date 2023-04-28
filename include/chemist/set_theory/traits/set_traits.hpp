@@ -53,10 +53,10 @@ struct SetTraits {
     using value_type = typename SetType::value_type;
 
     /// Type of a read/write reference to an element in @p SetType
-    using reference_type = value_type&;
+    using reference_type = typename SetType::reference;
 
     /// Type of a read-only reference to an element in @p SetType
-    using const_reference = const value_type&;
+    using const_reference = typename SetType::const_reference;
 
     /// Type of each Subset in the FamilyOfSets
     using subset_type = Subset<SetType>;

@@ -161,6 +161,20 @@ public:
      */
     void push_back(value_type q);
 
+    /** @brief Serialize Nuclei instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void save(Archive& ar) const;
+
+    /** @brief Deserialize for Nuclei instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void load(Archive& ar);
+
 private:
     /// Allows the base class to access at_ and size_
     friend base_type;
@@ -180,5 +194,26 @@ private:
     /// The object actually implementing *this
     pimpl_pointer m_pimpl_;
 };
+
+template<typename Archive>
+void Nuclei::save(Archive& ar) const {
+    ar& size();
+    if(size()) {
+        for(const auto& x : *this) ar& x.as_nucleus();
+    }
+}
+
+template<typename Archive>
+void Nuclei::load(Archive& ar) {
+    size_type size;
+    ar& size;
+    if(size) {
+        value_type p;
+        for(size_type _ = 0; _ < size; ++_) {
+            ar& p;
+            push_back(p);
+        }
+    }
+}
 
 } // namespace chemist

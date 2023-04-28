@@ -166,6 +166,20 @@ public:
      */
     void push_back(value_type q);
 
+    /** @brief Serialize Charges instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void save(Archive& ar) const;
+
+    /** @brief Deserialize for Charges instance
+     *
+     * @param ar The archive object
+     */
+    template<typename Archive>
+    void load(Archive& ar);
+
 private:
     /// Allows the base class to access at_ and size_
     friend base_type;
@@ -185,6 +199,28 @@ private:
     /// The object actually implementing *this
     pimpl_pointer m_pimpl_;
 };
+
+template<typename T>
+template<typename Archive>
+void Charges<T>::save(Archive& ar) const {
+    ar& this->size();
+    if(this->size()) {for(const auto& x : *this) ar& x.as_point_charge();}
+}
+
+template<typename T>
+template<typename Archive>
+void Charges<T>::load(Archive& ar) {
+    size_type size;
+    ar& size;
+    if(size) {
+        value_type p;
+        for(size_type _ = 0; _ < size; ++_){
+            ar& p;
+            push_back(p);
+        }
+
+    }
+}
 
 extern template class Charges<float>;
 extern template class Charges<double>;

@@ -22,6 +22,7 @@
 using namespace chemist;
 
 // Forward typedefs from the molecule
+using atom_type       = typename Molecule::atom_type;
 using value_type      = typename Molecule::value_type;
 using reference       = typename Molecule::reference;
 using const_reference = typename Molecule::const_reference;
@@ -31,16 +32,13 @@ using const_iterator  = typename Molecule::const_iterator;
 
 // Typedefs used for the tests
 using cart_t      = std::array<double, 3>;
-using vector_type = std::vector<value_type>;
+using vector_type = std::vector<atom_type>;
 
 TEST_CASE("Molecule Class") {
     SECTION("Typedefs") {
-        REQUIRE(std::is_same_v<value_type, Atom>);
-        REQUIRE(std::is_same_v<reference, Atom&>);
-        REQUIRE(std::is_same_v<const_reference, const Atom&>);
-        REQUIRE(std::is_same_v<iterator, typename vector_type::iterator>);
-        REQUIRE(
-          std::is_same_v<const_iterator, typename vector_type::const_iterator>);
+        REQUIRE(std::is_same_v<value_type, Nucleus>);
+        REQUIRE(std::is_same_v<reference, NucleusView<Nucleus>>);
+        REQUIRE(std::is_same_v<const_reference, NucleusView<const Nucleus>>);
     }
 
     SECTION("Default CTor") {
@@ -48,21 +46,23 @@ TEST_CASE("Molecule Class") {
         REQUIRE(mol.size() == 0);
     }
 
-    vector_type atoms{Atom{"H", 1ul, 1.0079, 0.0, 0.0, 0.89},
-                      Atom{"D", 1ul, 2.0079, 0.0, 0.0, 0.0}};
+    Atom h("H", 1ul, 1.0079, 0.0, 0.0, 0.89, 0.0);
+    Atom d("D", 1ul, 2.0079, 0.0, 0.0, 0.0, 0.0);
+
+    vector_type atoms{h, d};
 
     SECTION("State CTor") {
         SECTION("An atom") {
             Molecule mol{atoms[0]};
             REQUIRE(mol.size() == 1);
-            REQUIRE(mol[0] == atoms[0]);
+            REQUIRE(mol[0] == atoms[0].nucleus());
         }
 
         SECTION("H-D molecule") {
             Molecule mol{atoms[0], atoms[1]};
             REQUIRE(mol.size() == 2);
-            REQUIRE(mol[0] == atoms[0]);
-            REQUIRE(mol[1] == atoms[1]);
+            REQUIRE(mol[0] == atoms[0].nucleus());
+            REQUIRE(mol[1] == atoms[1].nucleus());
         }
     }
 
@@ -70,7 +70,7 @@ TEST_CASE("Molecule Class") {
     SECTION("Copy CTor") {
         Molecule mol2(mol);
         REQUIRE(mol2 == mol);
-        REQUIRE(&mol.at(0).x() != &mol2.at(0).x());
+        REQUIRE(&mol[0].x() != &mol2[0].x());
     }
 
     SECTION("Copy Assignment") {
@@ -78,7 +78,7 @@ TEST_CASE("Molecule Class") {
         auto& pmol = (mol2 = mol);
         REQUIRE(&pmol == &mol2);
         REQUIRE(mol2 == mol);
-        REQUIRE(&mol.at(0).x() != &mol2.at(0).x());
+        REQUIRE(&mol[0].x() != &mol2[0].x());
     }
 
     SECTION("Move CTor") {

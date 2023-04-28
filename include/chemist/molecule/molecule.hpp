@@ -15,8 +15,9 @@
  */
 
 #pragma once
-#include "chemist/molecule/atom.hpp"
-#include <vector> //For iterators
+#include <chemist/molecule/atom.hpp>
+#include <chemist/nucleus/nuclei.hpp>
+#include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
 namespace detail_ {
@@ -24,32 +25,70 @@ namespace detail_ {
 class MolPIMPL;
 } // namespace detail_
 
-class Molecule {
+/** @brief Represents a set of atoms.
+ *
+ *  When atoms come together they become a molecule. Within the Born-Oppenheimer
+ *  picture of quantum chemistry, the nuclei of the molecule remain as distinct
+ *  points, but the electrons delocalize across multiple atoms. The point is,
+ *  that once atoms have been combined to form a molecule we can no longer, in
+ *  general, associate electrons with a specific atom. This class models this
+ *  by having Atom instances be the inputs, but users of the Molecule can only
+ *  get back Nucleus instances or total electronic properties (charge and
+ *  multiplicity).
+ *
+ *  @note While our approach of "dissolving" the atoms upon insertion may be
+ *        atypical, note that this is entirely consistent with traditional
+ *        inputs (charge, multiplicity, nuclear identities, and Cartesian
+ *        coordinates of the nuclei).
+ */
+class Molecule : public utilities::IndexableContainerBase<Molecule> {
+private:
+    using base_type = utilities::IndexableContainerBase<Molecule>;
+
 public:
+    /// The type of the PIMPL
+    using pimpl_type = detail_::MolPIMPL;
+
+    /// The type of a pointer to the PIMPL
+    using pimpl_pointer = std::unique_ptr<pimpl_type>;
+
     /// Type of an atom contained in this class
-    using value_type = Atom;
+    using atom_type = Atom;
 
-    /// Type of a reference to an atom
-    using reference = value_type&;
+    /// Type representing the set of nuclei
+    using nuclei_type = Nuclei;
 
-    /// Type of a const reference to an atom
-    using const_reference = const value_type&;
+    /// Type of a reference to the set of nuclei
+    using nuclei_reference = nuclei_type&;
 
-    /// Type of an iterator over the atoms
-    using iterator = typename std::vector<value_type>::iterator;
+    /// Type of a read-only reference to the set of nuclei
+    using const_nuclei_reference = const nuclei_type&;
 
-    /// Type of a const iterator over the atoms
-    using const_iterator = typename std::vector<value_type>::const_iterator;
+    /// Type of a nucleus
+    using value_type = typename nuclei_type::value_type;
 
-    /// Type of a number returned by this class
-    using size_type = std::size_t;
+    /// Type of a read/write reference to a nucleus
+    using reference = typename nuclei_type::reference;
 
-    /**
-     * @brief Makes a molecule with no atoms, no charge, and a multiplicity of 1
+    /// Type of a read-only reference to a nucleus
+    using const_reference = typename nuclei_type::const_reference;
+
+    /// Type used to count things (like electrons and multiplicities)
+    using size_type = typename nuclei_type::size_type;
+
+    /// Signed-integral type used to hold the molecule's charge
+    using charge_type = int;
+
+    /** @brief Makes a molecule with no nuclei, no charge, and a multiplicity
+     *         of 1
      *
-     * @throw std::bad_alloc if there is insufficient memory to
+     *  The default constructed molecule contains no nuclei or electrons. It
+     *  thus has a charge of 0 and a total spin of 0 (*i.e.*, a multiplicity of
+     *  1).
+     *
+     *  @throw None No throw guarantee.
      */
-    Molecule();
+    Molecule() noexcept;
 
     ///@{
     Molecule(const Molecule& rhs);
@@ -62,99 +101,93 @@ public:
      *
      *  @param[in] atoms The initial atoms to occupy this molecule.
      */
-    Molecule(std::initializer_list<value_type> atoms);
+    Molecule(std::initializer_list<atom_type> atoms);
+    Molecule(charge_type charge, size_type multiplicity);
+    Molecule(charge_type charge, size_type multiplicity,
+             std::initializer_list<atom_type> atoms);
 
     /// Default dtor
     ~Molecule() noexcept;
 
-    /**
-     * @brief Function used to add an additional atom to the molecule
+    /** @brief Function used to add an additional atom to the molecule
      *
      * Given a molecule that contains @f$N@f$ atoms, this will make the provided
      * atom the @f$N+1@f$-th atom, which resides at index @f$N@f$.
      *
+     * @note The caller is responsible for updating the multiplicity of *this
+     *       if needed.
+     *
      * @param value the atom to add to the molecule.
-     * @throw std::bad_alloc if there is insufficient memory to copy the state
-     *        of the molecule over.  Strong throw guarantee.
-     */
-    void push_back(value_type value);
-
-    /**
-     * @brief Used to determine the number of atoms within the system.
      *
-     * @return The number of atoms within the molecule
-     * @throw None. No throw guarantee.
+     * @throw std::bad_alloc if there is insufficient memory to allocate the
+     *                       PIMPL (if *this does not already have one) or to
+     *                       copy @p value.  Strong throw guarantee.
      */
-    size_type size() const noexcept;
+    void push_back(atom_type value);
 
-    /**
-     * @defgroup Atom Accessors
-     * @brief Functions in this group can be used to set/get an individual atom.
+    nuclei_reference nuclei();
+    const_nuclei_reference nuclei() const;
+
+    /** @brief The number of electrons in this molecule.
      *
-     * @param[in] i The index of the requested atom.  Should be in the range
-     *            [0,size()).
-     *
-     * @warning No bounds checks are performed for any function in this section.
-     * @return The requested atom.
-     * @throw None no throw guarantee.
+     *  Each Atom instance provided to *this also provides electrons (by default
+     *  the number of which is equal to the atomic number, but this can be
+     *  configured on a per atom-basis by the user if need be). Internally,
+     *  we keep a rolling count of the number of electrons and this method can
+     *  be used to retrieve it.
      */
-    ///@{
-    reference at(size_type i) noexcept;
+    size_type n_electrons() const noexcept;
 
-    const_reference at(size_type i) const noexcept {
-        return const_cast<Molecule&>(*this).at(i);
-    }
+    charge_type charge() const noexcept;
 
-    reference operator[](size_type i) noexcept { return at(i); }
-
-    const_reference operator[](size_type i) const noexcept { return at(i); }
-    ///@}
-
-    /**
-     * @defgroup Iterators
-     * @brief Functions for returning iterators that can be used to iterate
-     *        over the atoms in the molecule in an STL-like manner.
+    /** @brief Used to manually set the number of electrons.
      *
-     * @return An iterator pointing to the first Atom (for overloads of begin)
-     *         or an iterator pointing to just past the last Atom (for overloads
-     *         of end).
-     * @throw none No throw guarantee.
+     *  Adding Atom instances changes the number of electrons. Sometimes we
+     *  just know that a system is electron-rich or electron-deficient, but
+     *  do not know which atom(s) is actually associated with the electron
+     *  difference. This method can be called to manually override the
+     *  number of electrons.
+     *
+     *  @param[in] n The number of electrons the caller wants *this to have.
+     *
+     *  @throw std::bad_alloc if there is no PIMPL and allocating one fails.
+     *                        If an error is raised, it is done with a strong
+     *                        guarantee. If *this already has a PIMPL this is
+     *                        no-throw guarantee.
      */
-    ///@{
-    iterator begin() noexcept;
-    const_iterator begin() const noexcept;
-    iterator end() noexcept;
-    const_iterator end() const noexcept;
-    ///@}
+    void set_charge(charge_type n);
+
+    size_type multiplicity() const noexcept;
+    void set_multiplicity(size_type mult);
 
     /** @brief Serialize Molecule instance
      *
      * @param ar The archive object
      */
     template<typename Archive>
-    void save(Archive& ar) const {
-        ar& size();
-        for(const auto& x : *this) ar& x;
-    }
+    void save(Archive& ar) const;
 
     /** @brief Deserialize for Molecule instance
      *
      * @param ar The archive object
      */
     template<typename Archive>
-    void load(Archive& ar) {
-        size_type s;
-        ar& s;
-        for(int i = 0; i < s; ++i) {
-            Atom a;
-            ar& a;
-            this->push_back(std::move(a));
-        }
-    }
+    void load(Archive& ar);
 
 private:
+    friend base_type;
+
+    reference at_(size_type i) noexcept;
+    const_reference at_(size_type i) const noexcept;
+    size_type size_() const noexcept;
+
+    static pimpl_pointer make_pimpl_();
+
+    bool has_pimpl_() const noexcept;
+    void assert_pimpl_() const;
+
     /// The object actually implementing the Molecule class
-    std::unique_ptr<detail_::MolPIMPL> pimpl_;
+    pimpl_pointer m_pimpl_;
 };
 
 /**
@@ -196,7 +229,29 @@ inline bool operator!=(const Molecule& lhs, const Molecule& rhs) noexcept {
 }
 ///@}
 
-// TODO: Change Molecule class to Nuclei and remove typedef
-using Nuclei = Molecule;
+template<typename Archive>
+void Molecule::save(Archive& ar) const {
+    ar& has_pimpl_();
+    if(has_pimpl_()) {
+        ar& charge();
+        ar& multiplicity();
+        ar& nuclei();
+    }
+}
+
+template<typename Archive>
+void Molecule::load(Archive& ar) {
+    bool has_pimpl = false;
+    ar& has_pimpl;
+    if(has_pimpl) {
+        charge_type q;
+        size_type m;
+        ar& q;
+        ar& m;
+        ar& nuclei();
+        set_charge(q);
+        set_multiplicity(m);
+    }
+}
 
 } // end namespace chemist
