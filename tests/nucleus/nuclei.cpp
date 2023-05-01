@@ -16,6 +16,8 @@
 
 #include <catch2/catch.hpp>
 #include <chemist/nucleus/nuclei.hpp>
+#include <cereal/archives/binary.hpp>
+#include <sstream>
 
 using namespace chemist;
 
@@ -218,5 +220,18 @@ TEST_CASE("Nuclei") {
     SECTION("size_") {
         REQUIRE(defaulted.size() == 0);
         REQUIRE(nuclei.size() == 3);
+    }
+
+    SECTION("serialization") {
+        std::stringstream ss;
+        {
+            cereal::BinaryOutputArchive oarchive(ss);
+            oarchive(nuclei);
+        }
+        {
+            cereal::BinaryInputArchive iarchive(ss);
+            iarchive(defaulted);
+        }
+        REQUIRE(defaulted == nuclei);
     }
 }

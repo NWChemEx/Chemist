@@ -15,7 +15,9 @@
  */
 
 #include <catch2/catch.hpp>
+#include <cereal/archives/binary.hpp>
 #include <chemist/point/point_set.hpp>
+#include <sstream>
 
 using namespace chemist;
 
@@ -169,5 +171,18 @@ TEMPLATE_TEST_CASE("PointSet", "", float, double) {
     SECTION("size_") {
         REQUIRE(defaulted.size() == 0);
         REQUIRE(points.size() == 3);
+    }
+
+    SECTION("serialization") {
+        std::stringstream ss;
+        {
+            cereal::BinaryOutputArchive oarchive(ss);
+            oarchive(points);
+        }
+        {
+            cereal::BinaryInputArchive iarchive(ss);
+            iarchive(defaulted);
+        }
+        REQUIRE(defaulted == points);
     }
 }

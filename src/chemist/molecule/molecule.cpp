@@ -47,12 +47,16 @@ Molecule& Molecule::operator=(const Molecule& rhs) {
 Molecule& Molecule::operator=(Molecule&& rhs) noexcept = default;
 
 Molecule::Molecule(std::initializer_list<atom_type> atoms) :
-  Molecule(0, 1ul, atoms) {}
+  m_pimpl_(make_pimpl_()) {
+    for(auto ai : atoms) push_back(ai);
+
+    set_multiplicity_();
+    set_charge_();
+}
 
 Molecule::Molecule(charge_type charge, size_type multiplicity,
                    std::initializer_list<atom_type> atoms) :
-  m_pimpl_(make_pimpl_()) {
-    for(auto ai : atoms) push_back(ai);
+  Molecule(atoms) {
     set_charge(charge);
     set_multiplicity(multiplicity);
 }
@@ -77,7 +81,7 @@ size_type Molecule::n_electrons() const noexcept {
     size_type n = 0;
     for(const auto& x : *this) n += x.Z();
     if(charge() < 0)
-        n += charge();
+        n += size_type(-1 * charge());
     else if(charge() > 0)
         n -= charge();
 
@@ -90,9 +94,10 @@ charge_type Molecule::charge() const noexcept {
 
 void Molecule::set_charge(charge_type n) {
     if(!has_pimpl_()) m_pimpl_ = make_pimpl_();
-    if(size() < n)
-        throw std::out_of_range("Did you forget to add atoms?")
-          m_pimpl_->m_charge = n;
+    if(charge_type(size()) < n)
+        throw std::out_of_range("Did you forget to add atoms?");
+    m_pimpl_->m_charge = n;
+    set_multiplicity_();
 }
 
 size_type Molecule::multiplicity() const noexcept {
@@ -107,7 +112,9 @@ void Molecule::set_multiplicity(size_type mult) {
 void Molecule::push_back(atom_type atom) {
     if(!has_pimpl_()) m_pimpl_ = make_pimpl_();
     m_pimpl_->nuclei().push_back(atom.nucleus());
-    // TODO: adjust electrons when Atom lets you set it
+
+    set_multiplicity_();
+    set_charge_();
 }
 
 // -- Private methods ----------------------------------------------------------
@@ -131,6 +138,15 @@ void Molecule::assert_pimpl_() const {
     if(has_pimpl_()) return;
     throw std::runtime_error("Molecule has no PIMPL. Was it default "
                              "constructed or moved from?");
+}
+
+void Molecule::set_multiplicity_() {
+    // if n_electrons is odd, we can't have a multiplicity of 1, so set it to 2
+    set_multiplicity(n_electrons() % 2 ? 2 : 1);
+}
+
+void Molecule::set_charge_() {
+    // TODO: adjust electrons when Atom lets you set the number of electrons
 }
 
 // -- Free functions -----------------------------------------------------------

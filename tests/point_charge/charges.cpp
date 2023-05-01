@@ -15,7 +15,9 @@
  */
 
 #include <catch2/catch.hpp>
+#include <cereal/archives/binary.hpp>
 #include <chemist/point_charge/charges.hpp>
+#include <sstream>
 
 using namespace chemist;
 
@@ -184,5 +186,18 @@ TEMPLATE_TEST_CASE("Charges", "", float, double) {
     SECTION("size_") {
         REQUIRE(defaulted.size() == 0);
         REQUIRE(charges.size() == 3);
+    }
+
+    SECTION("serialization") {
+        std::stringstream ss;
+        {
+            cereal::BinaryOutputArchive oarchive(ss);
+            oarchive(charges);
+        }
+        {
+            cereal::BinaryInputArchive iarchive(ss);
+            iarchive(defaulted);
+        }
+        REQUIRE(defaulted == charges);
     }
 }

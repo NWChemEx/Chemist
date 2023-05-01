@@ -35,70 +35,152 @@ using cart_t      = std::array<double, 3>;
 using vector_type = std::vector<atom_type>;
 
 TEST_CASE("Molecule Class") {
-    SECTION("Typedefs") {
-        REQUIRE(std::is_same_v<value_type, Nucleus>);
-        REQUIRE(std::is_same_v<reference, NucleusView<Nucleus>>);
-        REQUIRE(std::is_same_v<const_reference, NucleusView<const Nucleus>>);
-    }
-
-    SECTION("Default CTor") {
-        Molecule mol;
-        REQUIRE(mol.size() == 0);
-    }
-
     Atom h("H", 1ul, 1.0079, 0.0, 0.0, 0.89, 0.0);
     Atom d("D", 1ul, 2.0079, 0.0, 0.0, 0.0, 0.0);
 
     vector_type atoms{h, d};
 
-    SECTION("State CTor") {
-        SECTION("An atom") {
-            Molecule mol{atoms[0]};
+    Molecule defaulted;
+    Molecule mol{h};
+    Molecule hd{h, d};
+    Molecule qm(1, 2, {h, d});
+
+    SECTION("CTors") {
+        SECTION("Default CTor") {
+            REQUIRE(defaulted.size() == 0ul);
+            REQUIRE(defaulted.charge() == 0);
+            REQUIRE(defaulted.multiplicity() == 1ul);
+        }
+
+        SECTION("initializer list") {
             REQUIRE(mol.size() == 1);
+            REQUIRE(mol.charge() == 0);
+            REQUIRE(mol.multiplicity() == 2);
+            REQUIRE(mol.n_electrons() == 1);
             REQUIRE(mol[0] == atoms[0].nucleus());
+
+            REQUIRE(hd.size() == 2);
+            REQUIRE(hd.charge() == 0);
+            REQUIRE(hd.multiplicity() == 1);
+            REQUIRE(hd.n_electrons() == 2);
+            REQUIRE(hd[0] == atoms[0].nucleus());
+            REQUIRE(hd[1] == atoms[1].nucleus());
         }
 
-        SECTION("H-D molecule") {
-            Molecule mol{atoms[0], atoms[1]};
-            REQUIRE(mol.size() == 2);
-            REQUIRE(mol[0] == atoms[0].nucleus());
-            REQUIRE(mol[1] == atoms[1].nucleus());
+        SECTION("charge, multiplicity, and atoms") {
+            REQUIRE(qm.size() == 2);
+            REQUIRE(qm.charge() == 1);
+            REQUIRE(qm.n_electrons() == 1);
+            REQUIRE(qm.multiplicity() == 2);
+            REQUIRE(qm[0] == atoms[0].nucleus());
+            REQUIRE(qm[1] == atoms[1].nucleus());
+        }
+
+        SECTION("Copy CTor") {
+            Molecule hd2(hd);
+            REQUIRE(hd2 == hd);
+
+            // Spot check it's a deep copy
+            REQUIRE(&hd[0].x() != &hd2[0].x());
+        }
+
+        SECTION("Copy Assignment") {
+            Molecule hd2;
+            auto& phd = (hd2 = hd);
+            REQUIRE(&phd == &hd2);
+            REQUIRE(hd2 == hd);
+
+            // Spot check it's a deep copy
+            REQUIRE(&hd[0].x() != &hd2[0].x());
+        }
+
+        SECTION("Move CTor") {
+            Molecule copy(hd);
+            Molecule hd2(std::move(hd));
+            REQUIRE(hd2 == copy);
+        }
+
+        SECTION("Move Assignment") {
+            Molecule hd2;
+            Molecule copy(hd);
+            auto& phd = (hd2 = std::move(hd));
+            REQUIRE(&phd == &hd2);
+            REQUIRE(hd2 == copy);
         }
     }
+    SECTION("push_back") {
+        Atom h2(atoms[0]);
+        h2.x() = -999.0;
+        hd.push_back(h2);
+        REQUIRE(hd.size() == 3);
+        REQUIRE(hd[0] == atoms[0].nucleus());
+        REQUIRE(hd[1] == atoms[1].nucleus());
+        REQUIRE(hd[2] == h2.nucleus());
+        REQUIRE(hd.charge() == 0);
+        REQUIRE(hd.multiplicity() == 2);
+        REQUIRE(hd.n_electrons() == 3);
 
-    Molecule mol{atoms[0], atoms[1]};
-    SECTION("Copy CTor") {
-        Molecule mol2(mol);
-        REQUIRE(mol2 == mol);
-        REQUIRE(&mol[0].x() != &mol2[0].x());
+        mol.push_back(h2);
+        REQUIRE(mol.size() == 2);
+        REQUIRE(mol[0] == atoms[0].nucleus());
+        REQUIRE(mol[1] == h2.nucleus());
+        REQUIRE(mol.charge() == 0);
+        REQUIRE(mol.multiplicity() == 1);
+        REQUIRE(mol.n_electrons() == 2);
     }
 
-    SECTION("Copy Assignment") {
-        Molecule mol2;
-        auto& pmol = (mol2 = mol);
-        REQUIRE(&pmol == &mol2);
-        REQUIRE(mol2 == mol);
-        REQUIRE(&mol[0].x() != &mol2[0].x());
+    Nuclei corr_nukes{atoms[0].nucleus(), atoms[1].nucleus()};
+
+    SECTION("nuclei") { REQUIRE(hd.nuclei() == corr_nukes); }
+
+    SECTION("nuclei() const") {
+        REQUIRE(std::as_const(hd).nuclei() == corr_nukes);
     }
 
-    SECTION("Move CTor") {
-        Molecule copy(mol);
-        Molecule mol2(std::move(mol));
-        REQUIRE(mol2 == copy);
+    SECTION("n_electrons") {
+        REQUIRE(mol.n_electrons() == 1);
+        REQUIRE(hd.n_electrons() == 2);
+        REQUIRE(qm.n_electrons() == 1);
     }
 
-    SECTION("Move Assignment") {
-        Molecule mol2;
-        Molecule copy(mol);
-        auto& pmol = (mol2 = std::move(mol));
-        REQUIRE(&pmol == &mol2);
-        REQUIRE(mol2 == copy);
+    SECTION("charge") {
+        REQUIRE(mol.charge() == 0);
+        REQUIRE(hd.charge() == 0);
+        REQUIRE(qm.charge() == 1);
+    }
+
+    SECTION("set_charge") {
+        mol.set_charge(1);
+        REQUIRE(mol.charge() == 1);
+        REQUIRE(mol.n_electrons() == 0);
+        REQUIRE(mol.multiplicity() == 1);
+
+        hd.set_charge(1);
+        REQUIRE(hd.charge() == 1);
+        REQUIRE(hd.n_electrons() == 1);
+        REQUIRE(hd.multiplicity() == 2);
+
+        hd.set_charge(-1);
+        REQUIRE(hd.charge() == -1);
+        REQUIRE(hd.n_electrons() == 3);
+        REQUIRE(hd.multiplicity() == 2);
+    }
+
+    SECTION("multiplicity") {
+        REQUIRE(mol.multiplicity() == 2);
+        REQUIRE(hd.multiplicity() == 1);
+        REQUIRE(qm.multiplicity() == 2);
+    }
+
+    SECTION("set_multiplicity") {
+        hd.set_multiplicity(3);
+        REQUIRE(hd.multiplicity() == 3);
     }
 
     SECTION("Printing") {
         std::stringstream ss, corr_ss;
         corr_ss << atoms[0] << std::endl << atoms[1] << std::endl;
-        ss << mol;
+        ss << hd;
         REQUIRE(corr_ss.str() == ss.str());
     }
 
@@ -132,16 +214,16 @@ TEST_CASE("Molecule serialization") {
     Atom C("C", size_type{1}, 12.0107, 0.0, 0.0, 1.0);
     Atom O("O", size_type{1}, 15.999, 0.0, 0.0, 0.0);
     Atom C2("C", size_type{1}, 12.0107, 0.0, 0.0, -1.0);
-    Molecule mol{C, O, C2};
-    Molecule mol2;
+    Molecule hd{C, O, C2};
+    Molecule hd2;
     std::stringstream ss;
     {
         cereal::BinaryOutputArchive oarchive(ss);
-        oarchive(mol);
+        oarchive(hd);
     }
     {
         cereal::BinaryInputArchive iarchive(ss);
-        iarchive(mol2);
+        iarchive(hd2);
     }
-    REQUIRE(mol == mol2);
+    REQUIRE(hd == hd2);
 }

@@ -142,7 +142,8 @@ public:
      *  This ctor is primarily used to initialize Molecule objects for tests
      *  and tutorials. The resulting Molecule will have a charge based on the
      *  number of electrons assigned to each atom in @p atoms, and the
-     *  multiplicity will be set to 1.
+     *  multiplicity will be set to 1 if the number of electrons is even and
+     *  2 if the number of electrons are odd.
      *
      *  @param[in] atoms The initial atoms to occupy this molecule.
      *
@@ -154,14 +155,18 @@ public:
     /** @brief Creates a Molecule with the specified charge and
      *         multiplicity.
      *
-     *  When adding atoms to a Molecule the charge and multiplicity will
-     *  remain unchanged unless one of the atoms has a number of electrons not
-     *  equal to its atomic number
+     *  This ctor can be used to set the charge and multiplicity of the
+     *  Molecule, in addition to specifying the initial set of atoms. The charge
+     *  and multiplicity provided to this constructor will override whatever
+     *  charge is worked out from the number of electrons in @p atoms.
      *
      *  @param[in] charge The charge the newly created molecule should have.
      *  @param[in] multiplicity The multiplicity the created molecule should
      *                          have.
+     *  @param[in] atoms The set of atoms to initialize *this to.
      *
+     *  @throw std::bad_alloc if there is a problem allocating the initial
+     *                        state. Strong throw guarantee.
      */
     Molecule(charge_type charge, size_type multiplicity,
              atom_initializer_list atoms);
@@ -185,7 +190,35 @@ public:
      */
     void push_back(atom_type value);
 
+    /** @brief Provides access to the set of nuclei.
+     *
+     *  In the typical quantum chemistry approximations, a molecule is comprised
+     *  of a nuclear framework comprised of classical point charges and
+     *  electrons that move about in that framework. This method allows the
+     *  user to directly interact with the nuclei.
+     *
+     *  Note that adding/removing nuclei through this method will NOT update
+     *  the number of electrons or multiplicity of the molecule (after all
+     *  you're only adding nuclei). Thus if the user is really trying to add
+     *  atoms (nucleus + electrons) use `push_back` (or similar mechanisms).
+     *
+     *  @return A read/write reference to the nuclear framework.
+     *
+     *  @throw std::bad_alloc if *this has no PIMPL and allocating a PIMPL
+     *                        fails. Strong throw guarantee. If *this has a
+     *                        PIMPL this method is no throw guarantee.
+     */
     nuclei_reference nuclei();
+
+    /** @brief Read-only access to the set of nuclei.
+     *
+     *  This method is the same as th non-const version, except that the
+     *  returned set is read-only.
+     *
+     *  @throw std::runtime_error if *this has no PIMPL. Strong throw guarantee.
+     *                            If *this has a PIMPL, this method is no-throw
+     *                            guarantee.
+     */
     const_nuclei_reference nuclei() const;
 
     /** @brief The number of electrons in this molecule.
@@ -204,6 +237,17 @@ public:
      */
     size_type n_electrons() const noexcept;
 
+    /** @brief The charge of the molecule (in a.u.)
+     *
+     *  The charge of the molecule is the sum of each nucleus's atomic number
+     *  less the total number of electrons. A positive charge indicates a net
+     *  loss in electrons, whereas a negative charge indicates a net excess of
+     *  electrons (relative to neutrality).
+     *
+     *  @return The charge (in a.u.) of *this
+     *
+     *  @throw None No throw guarantee.
+     */
     charge_type charge() const noexcept;
 
     /** @brief Used to manually set the number of electrons.
@@ -213,6 +257,12 @@ public:
      *  do not know which atom(s) is actually associated with the electron
      *  difference. This method can be called to manually override the
      *  number of electrons.
+     *
+     *  @note Setting the charge will also default the multiplicity (1 if the
+     *        new number of electrons is even, and 2 if the new number is odd).
+     *        This is done to avoid having *this be in a bad state. If you want
+     *        a different multiplicity, follow the call to set_charge with a
+     *        call to set_multiplicity.
      *
      *  @param[in] n The number of electrons the caller wants *this to have.
      *               The charge must be less than the sum of the currently
@@ -229,7 +279,31 @@ public:
      */
     void set_charge(charge_type n);
 
+    /** @brief The multiplicity of *this.
+     *
+     *  The multiplicity of a molecule is @f$2S+1@f$ where @f$S@f$ is the total
+     *  spin. Note that an empty molecule has 0 electrons, and thus has a total
+     *  spin of 0 and a multiplicity of 1.
+     *
+     *  @return The multiplicity of *this.
+     *
+     *  @throw None No throw guarantee.
+     */
     size_type multiplicity() const noexcept;
+
+    /** @brief Used to override the multiplicity.
+     *
+     *  This method will set the multiplicity of *this to @p mult.
+     *
+     *  @note Calling this method will NOT change the charge/number of
+     *        electrons. You must have the charge/number of electrons set
+     *        correctly prior to calling this method.
+     *
+     *  @param[in] mult The multiplicity the user wants *this to have.
+     *
+     *  @throw std::bad_alloc if *this has no PIMPL, and allocating a new PIMPL
+     *                        fails. Strong throw guarantee.
+     */
     void set_multiplicity(size_type mult);
 
     /** @brief Serialize Molecule instance
@@ -267,6 +341,12 @@ private:
 
     /// Code factorization for throwing if *this does not have a PIMPL
     void assert_pimpl_() const;
+
+    /// Code factorization for setting the multiplicity after modifying *this
+    void set_multiplicity_();
+
+    /// Code factorization for setting the charge after modifying *this
+    void set_charge_();
 
     /// The object actually implementing the Molecule class
     pimpl_pointer m_pimpl_;
@@ -310,6 +390,8 @@ inline bool operator!=(const Molecule& lhs, const Molecule& rhs) noexcept {
     return !(lhs == rhs);
 }
 ///@}
+
+// -- Inline Implementations ---------------------------------------------------
 
 template<typename Archive>
 void Molecule::save(Archive& ar) const {
