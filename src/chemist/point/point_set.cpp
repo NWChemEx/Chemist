@@ -17,6 +17,7 @@
 #include "detail_/point_set_pimpl.hpp"
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 namespace chemist {
 
