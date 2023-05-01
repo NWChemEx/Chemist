@@ -51,24 +51,26 @@ TEMPLATE_TEST_CASE("ViewTraits", "", Point<float>, Charge<double>) {
     }
 
     SECTION("apply_const") {
-        using u       = typename view_traits::apply_const<int>;
-        using const_u = typename const_view_traits::apply_const<int>;
+        using u       = typename view_traits::template apply_const<int>;
+        using const_u = typename const_view_traits::template apply_const<int>;
 
         STATIC_REQUIRE(std::is_same_v<u, int>);
         STATIC_REQUIRE(std::is_same_v<const_u, const int>);
     }
 
     SECTION("apply_const_ref") {
-        using u       = typename view_traits::apply_const_ref<int>;
-        using const_u = typename const_view_traits::apply_const_ref<int>;
+        using u = typename view_traits::template apply_const_ref<int>;
+        using const_u =
+          typename const_view_traits::template apply_const_ref<int>;
 
         STATIC_REQUIRE(std::is_same_v<u, int&>);
         STATIC_REQUIRE(std::is_same_v<const_u, const int&>);
     }
 
     SECTION("apply_const_ptr") {
-        using u       = typename view_traits::apply_const_ptr<int>;
-        using const_u = typename const_view_traits::apply_const_ptr<int>;
+        using u = typename view_traits::template apply_const_ptr<int>;
+        using const_u =
+          typename const_view_traits::template apply_const_ptr<int>;
 
         STATIC_REQUIRE(std::is_same_v<u, int*>);
         STATIC_REQUIRE(std::is_same_v<const_u, const int*>);

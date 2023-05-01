@@ -34,8 +34,8 @@ namespace chemist {
  */
 template<typename ChargeType>
 class PointChargeView
-  : public PointView2<typename detail_::ViewTraits<ChargeType>::apply_const<
-      typename ChargeType::point_type>> {
+  : public PointView2<typename detail_::ViewTraits<
+      ChargeType>::template apply_const<typename ChargeType::point_type>> {
 private:
     /// Traits type helping us with TMP
     using traits_type = detail_::ViewTraits<ChargeType>;
