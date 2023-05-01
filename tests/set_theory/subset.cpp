@@ -109,7 +109,8 @@
 //                 SECTION("Throws if pointer is null") {
 //                     typename subset_type::object_ptr null_ptr;
 //                     using except_t = std::runtime_error;
-//                     REQUIRE_THROWS_AS(subset_type(null_ptr, {0ul}), except_t);
+//                     REQUIRE_THROWS_AS(subset_type(null_ptr, {0ul}),
+//                     except_t);
 //                 }
 //             }
 
@@ -135,7 +136,8 @@
 //                 SECTION("Throws if pointer is null") {
 //                     typename subset_type::object_ptr null_ptr;
 //                     using except_t = std::runtime_error;
-//                     REQUIRE_THROWS_AS(subset_type(null_ptr, {0ul}), except_t);
+//                     REQUIRE_THROWS_AS(subset_type(null_ptr, {0ul}),
+//                     except_t);
 //                 }
 
 //                 SECTION("Throws if invalid index") {
@@ -242,7 +244,8 @@
 
 //     SECTION("iterators") {
 //         SECTION("Empty container") {
-//             REQUIRE(empty_non_defaulted.begin() == empty_non_defaulted.end());
+//             REQUIRE(empty_non_defaulted.begin() ==
+//             empty_non_defaulted.end());
 //         }
 //         SECTION("Single element") {
 //             auto b = e0.begin();
@@ -520,8 +523,8 @@
 //             REQUIRE(e0 < e01);
 //             REQUIRE(e01 < e2);
 //         }
-//         SECTION("Greater same number of elements") { REQUIRE_FALSE(e2 < e0); }
-//         SECTION("Greater different number of elements") {
+//         SECTION("Greater same number of elements") { REQUIRE_FALSE(e2 < e0);
+//         } SECTION("Greater different number of elements") {
 //             REQUIRE_FALSE(e01 < e0);
 //             REQUIRE_FALSE(e2 < e01);
 //         }

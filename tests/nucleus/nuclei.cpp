@@ -15,8 +15,8 @@
  */
 
 #include <catch2/catch.hpp>
-#include <chemist/nucleus/nuclei.hpp>
 #include <cereal/archives/binary.hpp>
+#include <chemist/nucleus/nuclei.hpp>
 #include <sstream>
 
 using namespace chemist;

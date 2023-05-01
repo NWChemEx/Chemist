@@ -65,12 +65,14 @@
 
 //     // Families containg subsets
 //     family_type monomers(non_default_obj, {{0ul}, {1ul}, {2ul}});
-//     family_type dimers(non_default_obj, {{0ul, 1ul}, {0ul, 2ul}, {1ul, 2ul}});
+//     family_type dimers(non_default_obj, {{0ul, 1ul}, {0ul, 2ul}, {1ul,
+//     2ul}});
 
 //     // For convenience the subsets in the above families
 //     value_type m0(monomers.data(), {0ul}), m1(monomers.data(), {1ul});
 //     value_type m2(monomers.data(), {2ul}), d01(dimers.data(), {0ul, 1ul});
-//     value_type d02(dimers.data(), {0ul, 2ul}), d12(dimers.data(), {1ul, 2ul});
+//     value_type d02(dimers.data(), {0ul, 2ul}), d12(dimers.data(), {1ul,
+//     2ul});
 
 //     SECTION("CTors/Assignment") {
 //         SECTION("Default Ctor") {
@@ -106,7 +108,8 @@
 //         SECTION("Copy Ctor") {
 //             SECTION("Empty") {
 //                 family_type copy(non_default);
-//                 SECTION("value") { REQUIRE(copy.object() == non_default_obj); }
+//                 SECTION("value") { REQUIRE(copy.object() == non_default_obj);
+//                 }
 //             }
 //             SECTION("Non-empty") {
 //                 family_type copy(monomers);
@@ -140,7 +143,8 @@
 //                 family_type copy(defaulted);
 //                 auto p = &(copy = non_default);
 //                 REQUIRE(p == &copy);
-//                 SECTION("value") { REQUIRE(copy.object() == non_default_obj); }
+//                 SECTION("value") { REQUIRE(copy.object() == non_default_obj);
+//                 }
 //             }
 //             SECTION("Non-empty") {
 //                 family_type copy(defaulted);
@@ -225,8 +229,8 @@
 //     }
 
 //     SECTION("iterators") {
-//         SECTION("Empty") { REQUIRE(non_default.begin() == non_default.end()); }
-//         SECTION("Non-empty") {
+//         SECTION("Empty") { REQUIRE(non_default.begin() == non_default.end());
+//         } SECTION("Non-empty") {
 //             auto b = monomers.begin();
 //             REQUIRE(b != monomers.end());
 //             REQUIRE(*b == m0);
@@ -363,7 +367,8 @@
 //             REQUIRE(std::get<0>(s1.object()) == std::get<0>(the_sets));
 //             REQUIRE(std::get<1>(s1.object()) == std::get<1>(the_sets));
 
-//             // N.B. They actually get sorted in the opposite order we declared
+//             // N.B. They actually get sorted in the opposite order we
+//             declared
 //             //      them.
 //             REQUIRE(s1[1] == s10);
 //             REQUIRE(s1[0] == s11);

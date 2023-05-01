@@ -102,7 +102,8 @@
 
 //     SECTION("is_subset") {
 //         SECTION("Is subset") {
-//             REQUIRE(traits_type::is_subset(traits_type::new_subset(ptr), ptr));
+//             REQUIRE(traits_type::is_subset(traits_type::new_subset(ptr),
+//             ptr));
 //         }
 
 //         SECTION("Not a subset") {

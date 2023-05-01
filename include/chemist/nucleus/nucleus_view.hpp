@@ -267,8 +267,8 @@ NUCLEUS_VIEW::NucleusView(nucleus_reference nuke) :
   NucleusView(nuke.name(), nuke.Z(), nuke.mass(), charge_view_type(nuke)) {}
 
 template<typename NucleusType>
-NUCLEUS_VIEW::NucleusView(name_reference name, atomic_number_reference Z, mass_reference m,
-                          charge_view_type q) :
+NUCLEUS_VIEW::NucleusView(name_reference name, atomic_number_reference Z,
+                          mass_reference m, charge_view_type q) :
   charge_view_type(q), m_pname_(&name), m_pZ_(&Z), m_pmass_(&m) {}
 
 template<typename NucleusType>
@@ -276,7 +276,8 @@ bool NUCLEUS_VIEW::operator==(const_nucleus_reference rhs) const noexcept {
     const charge_view_type& plhs = *this;
     const_charge_view prhs(rhs);
 
-    return std::tie(name(), Z(), mass(), plhs) == std::tie(rhs.name(), rhs.Z(), rhs.mass(), prhs);
+    return std::tie(name(), Z(), mass(), plhs) ==
+           std::tie(rhs.name(), rhs.Z(), rhs.mass(), prhs);
 }
 
 template<typename NucleusType>
@@ -285,7 +286,8 @@ bool NUCLEUS_VIEW::operator==(const NucleusView<T>& rhs) const noexcept {
     const charge_view_type& plhs = *this;
     const_charge_view prhs(rhs.charge(), rhs.x(), rhs.y(), rhs.z());
 
-    return std::tie(name(), Z(), mass(), plhs) == std::tie(rhs.name(), rhs.Z(), rhs.mass(), prhs);
+    return std::tie(name(), Z(), mass(), plhs) ==
+           std::tie(rhs.name(), rhs.Z(), rhs.mass(), prhs);
 }
 
 template<typename NucleusType>

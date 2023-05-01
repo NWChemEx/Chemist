@@ -204,7 +204,9 @@ template<typename T>
 template<typename Archive>
 void Charges<T>::save(Archive& ar) const {
     ar& this->size();
-    if(this->size()) {for(const auto& x : *this) ar& x.as_point_charge();}
+    if(this->size()) {
+        for(const auto& x : *this) ar& x.as_point_charge();
+    }
 }
 
 template<typename T>
@@ -214,11 +216,10 @@ void Charges<T>::load(Archive& ar) {
     ar& size;
     if(size) {
         value_type p;
-        for(size_type _ = 0; _ < size; ++_){
+        for(size_type _ = 0; _ < size; ++_) {
             ar& p;
             push_back(p);
         }
-
     }
 }
 
