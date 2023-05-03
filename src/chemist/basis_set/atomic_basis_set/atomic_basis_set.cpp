@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "../../point/point_pimpl.hpp"
+#include "../../point/detail_/point_pimpl.hpp"
 #include "atomic_basis_set_pimpl.hpp"
 #include "chemist/basis_set/atomic_basis_set.hpp"
 #include <cassert>

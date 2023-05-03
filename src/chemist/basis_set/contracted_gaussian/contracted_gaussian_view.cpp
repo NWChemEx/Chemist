@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "../../point/point_pimpl.hpp"
+#include "../../point/detail_/point_pimpl.hpp"
 #include "cgto_pimpl.hpp"
 #include "chemist/basis_set/contracted_gaussian_view.hpp"
 

@@ -29,9 +29,9 @@ inline constexpr const auto& as_derived_operator(const LinearCombination& op) {
 }
 
 TEST_CASE("LinearCombination") {
-    using chemist::Atom;
-    chemist::Nuclei a{Atom("", 1ul, 0.0, 0.0, 0.0, 0.0)};
-    chemist::Nuclei b{Atom("", 2ul, 0.0, 0.0, 0.0, 0.0)};
+    using chemist::Nucleus;
+    chemist::Nuclei a{Nucleus("", 1ul, 0.0, 0.0, 0.0, 0.0)};
+    chemist::Nuclei b{Nucleus("", 2ul, 0.0, 0.0, 0.0, 0.0)};
 
     ElectronNuclearAttraction V1(Electron{}, a);
     ElectronNuclearAttraction V2(Electron{}, b);

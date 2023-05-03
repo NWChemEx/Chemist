@@ -15,39 +15,35 @@
  */
 
 #pragma once
-#include "../detail_/container_pimpl.hpp"
 #include "chemist/molecule/molecule.hpp"
 
 namespace chemist::detail_ {
 
-class MolPIMPL : public ContainerPIMPL<Molecule> {
+class MolPIMPL {
+public:
+    using parent_type = Molecule;
+
+    /// Pull in parent types
+    ///@{
+    using nuclei_type            = typename parent_type::nuclei_type;
+    using nuclei_reference       = typename parent_type::nuclei_reference;
+    using const_nuclei_reference = typename parent_type::const_nuclei_reference;
+    using size_type              = typename parent_type::size_type;
+    using charge_type            = typename parent_type::charge_type;
+    ///@}
+
+    nuclei_reference nuclei() { return m_nuclei_; }
+    const_nuclei_reference nuclei() const { return m_nuclei_; }
+
+    /// Charge
+    charge_type m_charge = 0;
+
+    /// Multiplicity
+    size_type m_mult = 1;
+
 private:
-    /// Container hold the atoms of this Molecule
-    std::vector<value_type> m_atms_;
-
-    /// Implements the clone() method
-    std::unique_ptr<ContainerPIMPL<Molecule>> clone_() const override {
-        return std::make_unique<MolPIMPL>(*this);
-    }
-
-    /// Implements the at() method
-    reference at_(size_type i) override { return m_atms_[i]; }
-
-    /// Implements the size() method
-    size_type size_() const noexcept override { return m_atms_.size(); }
-
-    /// Implements the push_back() method
-    void push_back_(value_type atom) override {
-        m_atms_.push_back(std::move(atom));
-    }
-
-    /// Implements the begin() method
-    iterator begin_() noexcept override { return m_atms_.begin(); }
-    const_iterator begin_() const noexcept override { return m_atms_.cbegin(); }
-
-    /// Implements the end() method
-    iterator end_() noexcept override { return m_atms_.end(); }
-    const_iterator end_() const noexcept override { return m_atms_.cend(); }
+    /// The nuclei
+    nuclei_type m_nuclei_;
 };
 
 } // namespace chemist::detail_

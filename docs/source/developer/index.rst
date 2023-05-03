@@ -24,4 +24,4 @@ design of Chemist, and how to develop/contribute to the Chemist repository.
    :caption: Contents:
 
    design/index
-   Developing for the NWChemEx Organization <https://nwchemex-project.github.io/>
+   Developing for the NWChemEx Organization <https://nwchemex-project.github.io/.github/>

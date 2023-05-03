@@ -24,14 +24,8 @@ using name_type  = typename Atom::name_type;
 using mass_type  = typename Atom::mass_type;
 
 bool operator==(const Atom& lhs, const Atom& rhs) noexcept {
-    using charge_type       = typename Atom::charge_type;
-    using point_charge_type = PointCharge<charge_type>;
-
-    const point_charge_type& lhs_point_charge = lhs;
-    const point_charge_type& rhs_point_charge = rhs;
-
-    return (lhs.name() == rhs.name()) && (lhs.Z() == rhs.Z()) &&
-           (lhs.mass() == rhs.mass()) && (lhs_point_charge == rhs_point_charge);
+    if(lhs.nucleus() != rhs.nucleus()) return false;
+    return lhs.name() == rhs.name();
 }
 
 std::ostream& operator<<(std::ostream& os, const Atom& ai) {

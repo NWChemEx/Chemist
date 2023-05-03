@@ -252,7 +252,15 @@ detail below, the introduction of new classes (as opposed to simply just using
 :ref:`md_performance` consideration. More specifically, by having actual
 classes we are able to define an API, which is decoupled from the
 implementation, whereas if we declare ``Molecule`` as a typedef of
-``std::vector<Atom>``
+``std::vector<Atom>``.
+
+.. note::
+
+   In C++, having polymorphic containers, with polymorphic elements, introduces
+   a lot of edge cases we do not want to deal with. So in practice ``Charges``
+   does not actually derive from ``PointSet`` and ``Nuclei`` does not actually
+   derive from ``PointSet``. Instead we allow implicit conversion to read-only
+   references of the bases
 
 Point Set Class
 ---------------
