@@ -29,11 +29,11 @@ What is a Chemical System?
 
 Many quantum chemistry codes talk about the "molecule" as being the input to
 the code; however, in chemistry, molecules are simply sets of atoms. Even with
-the general definition adopted in :ref:`md_what_is_a_molecule` there are some
-systems which have additional parts -- for example external fields -- not 
-captured by the "molecule" concept. We define the chemical system to be the
-entire system we are trying to model. This will almost always include a
-molecule.
+the general definition adopted in :ref:`md_what_is_a_molecule` there are often
+additional parts to the system being studied -- for example external fields -- 
+that are not captured by the "molecule" concept. We define the chemical system 
+to be the entire system we are trying to model. This will almost always 
+include a molecule.
 
 *************************************
 Chemical System Design Considerations
@@ -67,10 +67,17 @@ Fields
    - Polarizable continuum, from PCM
    - (External) basis-set field, from say ghost atoms.
 
+Out of Scope Considerations
+===========================
+
+The considerations in this section were considered in the design, but ultimately
+ignored or thought to be better addressed by another component.
+
 Model parameters
    In many cases it is a fine-line between model parameters and the system
    being modeled. Generally speaking we prefer to treat model parameters
-   separate from the chemical system. 
+   separate from the chemical system when they can be clearly distinguished
+   (for example the atomic orbital basis set). 
 
 *********************
 Future Considerations
