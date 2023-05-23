@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "nucleus/export_nucleus.hpp"
 #include "point/export_point.hpp"
 #include "point_charge/export_point_charge.hpp"
 #include "pychemist.hpp"
@@ -23,8 +24,10 @@ namespace chemist {
 PYBIND11_MODULE(chemist, m) {
     m.doc() = "PyChemist : Python bindings for Chemist";
 
+    // Need to be exported in hierarchical order
     export_point(m);
     export_point_charge(m);
+    export_nucleus(m);
 }
 
 } // namespace chemist

@@ -68,6 +68,11 @@ nwx_add_pybind11_module(
     DEPENDS "${PROJECT_NAME}"
 )
 
+set(chemist_install_targets ${PROJECT_NAME})
+if("${BUILD_PYBIND11_PYBINDINGS}")
+    list(APPEND chemist_install_targets py_${PROJECT_NAME})
+endif()
+
 if("${BUILD_CPPYY_PYBINDINGS}")
     include(nwx_python_mods)
     cppyy_make_python_package(PYTHONIZE MPI PACKAGE chemist NAMESPACES chemist TA DEPPACKAGES tensorwrapper)
@@ -95,3 +100,10 @@ if("${BUILD_TESTING}")
         py_chemist "${PYTHON_TEST_DIR}/unit_tests/test_chemist.py"
     )
 endif()
+
+
+cmaize_add_package(
+    ${PROJECT_NAME}
+    NAMESPACE nwx::
+    TARGETS "${chemist_install_targets}"
+)
