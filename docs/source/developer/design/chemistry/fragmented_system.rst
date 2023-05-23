@@ -1,13 +1,13 @@
-##############################
-Designing the FragmentedSystem
-##############################
+#########################################
+Designing the Fragmented System Component
+#########################################
 
-The point of this page is to record the design process of the FragmentedSystem
-and affiliated classes.
+The point of this page is to record the design process of the 
+``FragmentedSystem`` and affiliated classes.
 
-***************************
-What is a FragmentedSystem?
-***************************
+****************************
+What is a Fragmented System?
+****************************
 
 The ``ChemicalSystem`` (main discussion: :ref:`csd_chemical_system_design`)
 represents the physical system we are trying to model. For traditional
@@ -15,7 +15,7 @@ electronic structure calculations the ``ChemicalSystem`` is the part of the
 input independent from the method/model specification. Many approximate
 methods require breaking the target chemical system up into subsets. We term
 those subsets fragments and a ``FragmentedSystem`` is a ``ChemicalSystem``
-which has been decomposed into fragments.
+which has been decomposed into fragment/field pairs.
 
 **********************************
 Why do we need a FragmentedSystem?
@@ -24,8 +24,9 @@ Why do we need a FragmentedSystem?
 As mentioned, there are a number of approximate methods --- *e.g.*, QM/MM,
 fragment based-methods, electronic embedding, and symmetry-adpated perturbation
 theory --- which require fragmenting the physical system of interest into a
-series of subsystems. The ``FragmentedSystem`` class is the representation of
-the fragments.
+series of subsystems. The ``FragmentedSystem`` class allows us to represent
+fragments of the original ``Molecule`` along with the field the fragment is
+embedded in.
 
 *******************************
 FragmentedSystem Considerations
@@ -35,22 +36,18 @@ FragmentedSystem Considerations
 
 Hierarchy
    While we have talked about a single ``FragmentedSystem`` class up until this
-   point, and given that the ``ChemicalSystem`` class we intend to fragment is 
-   itself a hierarchy, it makes sense to parallel the ``ChemicalSystem``
-   hierarchy with a "fragmented" hierarchy.
+   point, the ``ChemicalSystem`` class we intend to fragment is itself a 
+   hierarchy. It thus makes sense to parallel the ``ChemicalSystem``
+   hierarchy with a "fragmented" system hierarchy.
 
-.. _fs_container:
+.. _fs_fields:
 
-Container
-   ``FragmentedSystem`` and the like will be container-based, being a series
-   of fragments, each fragment being a view of a ``ChemicalSystem``. 
+Fields.
+   Each fragment may have a different field associated with it. The 
+   ``FragmentedSystem`` needs to know the field of each fragment.
 
-.. _fs_caps:
-
-Caps
-   When fragmenting large covalently bonded systems we often need to sever
-   covalent bonds (see :ref:`caps_design`). The fragments of such a system
-   will need to be capped.
+   - Assigning fields to a fragment usually requires knowledge of the original
+     ``ChemicalSystem`` and the ``FragmentedMolecule`` object.
 
 .. _fs_performance:
 
@@ -61,3 +58,61 @@ Performance
    exponetially with system size (many of those fragments need not be
    considered, but that's a different problem). Storing an exponential number
    of copies (even if those copies are only subsets) gets expensive quickly.
+
+.. _fs_container:
+
+Container
+   ``FragmentedSystem`` and the like will be container-based, being a series
+   of fragments, each fragment being a view of a ``ChemicalSystem``. 
+
+   - Views allow array-of-structures API, while maintaining structure-of-array
+     innards. Helps address :ref:`fs_performance`.
+
+Out of Scope
+============
+
+Expansion coefficients.
+   Usually the properties of the fragments are combined as a linear combination.
+   The weights of this linear expansion will be stored elsewhere. Part of the
+   motivation for not including the weights here is that in many cases the
+   weights depend on more than just the fragment/field, *e.g.*, they may also
+   depend on the AO basis set (think basis set superposition error corrections)
+   and/or level of theory (think QM/MM or other multi-layered theories).
+
+AO Basis Sets.
+   For the same reason we considered the AO Basis Set out of scope from the
+   ``ChemicalSystem``, it is also out of scope here. See 
+   :ref:`csd_considerations` for more details.
+
+
+************************
+Fragmented System Design
+************************
+
+.. _fig_fragmented_system_design:
+
+.. figure:: assets/fragmented_system.png
+   :align: center
+
+   How the major pieces of the ``ChemicalSystem`` map to pieces of the 
+   fragmented system.
+
+As :numref:`fig_fragmented_system_design` shows, in satisfying 
+:ref:`fs_hierarchy` we have opted to mirror the existing ``ChemicalSystem``
+hierarchy. More specifically, what was the ``Nuclei`` in the original 
+``ChemicalSystem`` becomes the ``FragmentedNuclei`` (subsets of the original
+nuclei), what was the ``Molecule`` becomes the ``FragmentedMolecule`` (subsets
+of the original atoms), and what was the ``ChemicalSystem`` becomes the
+``FragmentedChemicalSystem``. These three major components are described briefly
+in the following subsections.
+
+FragmentedNuclei Class
+======================
+
+
+
+FragmentedMolecule Class
+========================
+
+Main page: :ref:`designing_fragmented_molecule_class`.
+
