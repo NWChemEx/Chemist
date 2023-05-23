@@ -15,6 +15,7 @@
  */
 
 #include "point/export_point.hpp"
+#include "point_charge/export_point_charge.hpp"
 #include "pychemist.hpp"
 
 namespace chemist {
@@ -23,6 +24,7 @@ PYBIND11_MODULE(chemist, m) {
     m.doc() = "PyChemist : Python bindings for Chemist";
 
     export_point(m);
+    export_point_charge(m);
 }
 
 } // namespace chemist
