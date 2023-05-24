@@ -47,6 +47,7 @@ cmaize_find_or_build_dependency(
     BUILD_TARGET tensorwrapper
     FIND_TARGET nwx::tensorwrapper
     CMAKE_ARGS BUILD_TESTING=OFF
+               BUILD_PYBIND11_PYBINDINGS=${BUILD_PYBIND11_PYBINDINGS}
 )
 
 find_package(Boost REQUIRED COMPONENTS container)
@@ -57,8 +58,6 @@ cmaize_add_library(
     INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/include/chemist"
     DEPENDS tensorwrapper Boost::container
 )
-
-cmaize_add_package(${PROJECT_NAME} NAMESPACE nwx::)
 
 # N.B. this is a no-op if BUILD_PYBIND11_PYBINDINGS is not turned on
 include(nwx_pybind11)

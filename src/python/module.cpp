@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "chemical_system/export_chemical_system.hpp"
 #include "molecule/export_molecule.hpp"
 #include "nucleus/export_nucleus.hpp"
 #include "point/export_point.hpp"
@@ -30,6 +31,7 @@ PYBIND11_MODULE(chemist, m) {
     export_point_charge(m);
     export_nucleus(m);
     export_molecule(m);
+    export_chemical_system(m);
 }
 
 } // namespace chemist
