@@ -32,6 +32,10 @@ embedded in.
 FragmentedSystem Considerations
 *******************************
 
+Ultimately the ``FragmentedSystem`` class will end up paralleling the 
+``ChemicalSystem`` class and thus many of the considerations in 
+:ref:`csd_considerations` apply here too. In addition:
+
 .. _fs_hierarchy:
 
 Hierarchy
@@ -48,6 +52,7 @@ Fields.
 
    - Assigning fields to a fragment usually requires knowledge of the original
      ``ChemicalSystem`` and the ``FragmentedMolecule`` object.
+   - Some fields are subsets of the field for the entire system.   
 
 .. _fs_performance:
 
@@ -68,6 +73,25 @@ Container
    - Views allow array-of-structures API, while maintaining structure-of-array
      innards. Helps address :ref:`fs_performance`.
 
+.. _fs_generality:
+
+Generality
+   Ideally the ``FragmentedSystem`` class should be applicable to as many
+   methods which rely on fragments as possible. To this extent the class should
+   be able to handle:
+
+   - Disjoint and non-disjoint fragments.
+   - Covalently-bonded fragments.
+
+.. _fs_chemical_system_compatability:
+
+ChemicalSystem compatability.
+   Following from the :ref:`fs_container` consideration, ``FragmentedSystem``
+   will conceptually be a container filled with ``ChemicalSystem`` objects. We
+   anticipate that the primary usage of the ``FragmentedSystem`` class will be
+   to pass elements of the container to algorithms which expect 
+   ``ChemicqlSystem`` objects. 
+
 Out of Scope
 ============
 
@@ -84,6 +108,18 @@ AO Basis Sets.
    ``ChemicalSystem``, it is also out of scope here. See 
    :ref:`csd_considerations` for more details.
 
+:math:`n`-mers.
+   In fragment-based methods based off of the many-body expansion, one often
+   starts with a set of fragments. Typically these fragments are chosen to 
+   contain atoms residing proximal to one another. To capture many-body
+   interactions among the fragments, one then forms unions of pairs, triples,
+   up to :math:`n`-tuples of fragments. The resulting unions are termed 
+   :math:`n`-mers. From the perspective of running calculations :math:`n`-mers
+   are no different tha a non-disjoint use of ``FragmentedSystem``. That said,
+   having a class which can express the :math:`n`-mer relationship is useful 
+   for other purposes, e.g., screening the final set of :math:`n`-mers and 
+   basis-set superposition corrections, and thus should exist. Here we simply
+   advocate for that class being different than the ``FragmentedSystem`` class.
 
 ************************
 Fragmented System Design
@@ -109,10 +145,29 @@ in the following subsections.
 FragmentedNuclei Class
 ======================
 
-
+Most algorithms for fragmenting a molecular system focus on the nuclei. Given
+a ``Nuclei`` object, a ``FragmentedNuclei`` is a container whose elements are
+subsets of ``Nuclei``. As shown in :numref:`fig_fragmented_system_design` the
+actual elements are ``NucleiView`` objects, which behave like a ``Nuclei``
+object, but do not own their state. As users create fragments from the 
+``Nuclei`` class they add them to the ``FragmentedNuclei`` object, which tracks
+them.
 
 FragmentedMolecule Class
 ========================
 
 Main page: :ref:`designing_fragmented_molecule_class`.
 
+As shown in :numref:`fig_fragmented_system_design` the ``FragmentedMolecule``
+class has three components: a ``FragmentedNuclei`` object, the caps for each
+element in the ``FragmentedNuclei`` object, and a mapping from
+the elements of the ``FragmentedNuclei`` to their respective 
+charge/multiplicities. The ``Caps`` object is needed to deal with severed
+valencies.
+
+FragmentedSystem Class
+======================
+
+As shown in :numref:`fig_fragmented_system_design`, the ``FragmentedSystem``
+class has two pieces: a ``FragmentedMolecule`` object and a mapping from the
+elements of the ``FragmentedMolecule`` object to their respective fields.

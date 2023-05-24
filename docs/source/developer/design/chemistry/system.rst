@@ -59,15 +59,12 @@ Periodicity
 .. _cs_fields:
 
 Fields
-   If all the atoms live in the molecule, there's only a handful of other
-   quantities left. We refer to these quantities as fields, using "fields"
-   in the physics sense to refer to a function which has a value for every
-   point in space. Important sub-considerations:
+   Rather than explicitly model the environment a molecular system is embedded
+   in, we often treat that environment via a field. Important examples include:
 
    - Electric field, from say point charges
    - Magnetic field, from say an NMR experiment
    - Polarizable continuum, from PCM
-   - (External) basis-set field, from say ghost atoms.
 
 Out of Scope Considerations
 ===========================
@@ -78,13 +75,7 @@ ignored or thought to be better addressed by another component.
 Model parameters
    In many cases it is a fine-line between model parameters and the system
    being modeled. Generally speaking we prefer to treat model parameters
-   separate from the chemical system when they can be clearly distinguished
-   (for example the atomic orbital basis set). 
+   separate from the chemical system when they can be clearly distinguished.
+   Of note the AO basis set is considered separately. 
 
-*********************
-Future Considerations
-*********************
 
-- Could template ``Atom`` on the type of the nucleus and introduce additional
-  nucleus types in cases where the nucleus is to be treated quantum
-  mechanically.
