@@ -87,37 +87,42 @@ $(function() {
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;../detail_/container_pimpl.hpp&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;chemist/molecule/molecule.hpp&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">namespace </span>chemist::detail_ {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classchemist_1_1detail___1_1MolPIMPL.html">   23</a></span>&#160;<span class="keyword">class </span><a class="code" href="classchemist_1_1detail___1_1MolPIMPL.html">MolPIMPL</a> : <span class="keyword">public</span> <a class="code" href="classchemist_1_1detail___1_1ContainerPIMPL.html">ContainerPIMPL</a>&lt;Molecule&gt; {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    std::vector&lt;value_type&gt; m_atms_;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    std::unique_ptr&lt;ContainerPIMPL&lt;Molecule&gt;&gt; clone_()<span class="keyword"> const override </span>{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordflow">return</span> std::make_unique&lt;MolPIMPL&gt;(*<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    }</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    reference at_(size_type i)<span class="keyword"> override </span>{ <span class="keywordflow">return</span> m_atms_[i]; }</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    size_type size_() <span class="keyword">const</span> noexcept <span class="keyword">override</span> { <span class="keywordflow">return</span> m_atms_.size(); }</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> push_back_(value_type atom)<span class="keyword"> override </span>{</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        m_atms_.push_back(std::move(atom));</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;chemist/molecule/molecule.hpp&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>chemist::detail_ {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classchemist_1_1detail___1_1MolPIMPL.html">   22</a></span>&#160;<span class="keyword">class </span><a class="code" href="classchemist_1_1detail___1_1MolPIMPL.html">MolPIMPL</a> {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1Molecule.html">parent_type</a> = <a class="code" href="classchemist_1_1Molecule.html">Molecule</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classchemist_1_1detail___1_1MolPIMPL.html#a6fcdf0733df3b1ae233641eff28a9df0">   28</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1detail___1_1MolPIMPL.html#a6fcdf0733df3b1ae233641eff28a9df0">nuclei_type</a>            = <span class="keyword">typename</span> <a class="code" href="classchemist_1_1Molecule.html#a16bc745e0e1ae5e06ab9a0920106d44f">parent_type::nuclei_type</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">using</span> nuclei_reference       = <span class="keyword">typename</span> <a class="code" href="classchemist_1_1Molecule.html#aaf848f10ebb80bc9804843f32974a735">parent_type::nuclei_reference</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">using</span> const_nuclei_reference = <span class="keyword">typename</span> <a class="code" href="classchemist_1_1Molecule.html#a30ee7f599baee569ed1f13a27a0b2cbe">parent_type::const_nuclei_reference</a>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">using</span> size_type              = <span class="keyword">typename</span> <a class="code" href="classchemist_1_1Molecule.html#a07ee76577c6015a056ed76daf8aee583">parent_type::size_type</a>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">using</span> charge_type            = <span class="keyword">typename</span> <a class="code" href="classchemist_1_1Molecule.html#a7d1a39d4547a346472d8794efc88f0a5">parent_type::charge_type</a>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    nuclei_reference nuclei() { <span class="keywordflow">return</span> m_nuclei_; }</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    const_nuclei_reference nuclei()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_nuclei_; }</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classchemist_1_1detail___1_1MolPIMPL.html#a0ad76a17704ab238f1118b4240d0216e">   39</a></span>&#160;    charge_type <a class="code" href="classchemist_1_1detail___1_1MolPIMPL.html#a0ad76a17704ab238f1118b4240d0216e">m_charge</a> = 0;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classchemist_1_1detail___1_1MolPIMPL.html#a039ff161fd0b920b87782a605085cd73">   42</a></span>&#160;    size_type <a class="code" href="classchemist_1_1detail___1_1MolPIMPL.html#a039ff161fd0b920b87782a605085cd73">m_mult</a> = 1;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    iterator begin_() noexcept <span class="keyword">override</span> { <span class="keywordflow">return</span> m_atms_.begin(); }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    const_iterator begin_() <span class="keyword">const</span> noexcept <span class="keyword">override</span> { <span class="keywordflow">return</span> m_atms_.cbegin(); }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    iterator end_() noexcept <span class="keyword">override</span> { <span class="keywordflow">return</span> m_atms_.end(); }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    const_iterator end_() <span class="keyword">const</span> noexcept <span class="keyword">override</span> { <span class="keywordflow">return</span> m_atms_.cend(); }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;};</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;} <span class="comment">// namespace chemist::detail_</span></div>
-<div class="ttc" id="aclasschemist_1_1detail___1_1ContainerPIMPL_html"><div class="ttname"><a href="classchemist_1_1detail___1_1ContainerPIMPL.html">chemist::detail_::ContainerPIMPL</a></div><div class="ttdoc">A PIMPL base class suitable for use by a container-like class.</div><div class="ttdef"><b>Definition:</b> container_pimpl.hpp:33</div></div>
-<div class="ttc" id="aclasschemist_1_1detail___1_1MolPIMPL_html"><div class="ttname"><a href="classchemist_1_1detail___1_1MolPIMPL.html">chemist::detail_::MolPIMPL</a></div><div class="ttdef"><b>Definition:</b> mol_pimpl.hpp:23</div></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classchemist_1_1detail___1_1MolPIMPL.html#a6fcdf0733df3b1ae233641eff28a9df0">nuclei_type</a> m_nuclei_;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;};</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;} <span class="comment">// namespace chemist::detail_</span></div>
+<div class="ttc" id="aclasschemist_1_1Molecule_html"><div class="ttname"><a href="classchemist_1_1Molecule.html">chemist::Molecule</a></div><div class="ttdoc">Represents a set of atoms.</div><div class="ttdef"><b>Definition:</b> molecule.hpp:44</div></div>
+<div class="ttc" id="aclasschemist_1_1Molecule_html_a07ee76577c6015a056ed76daf8aee583"><div class="ttname"><a href="classchemist_1_1Molecule.html#a07ee76577c6015a056ed76daf8aee583">chemist::Molecule::size_type</a></div><div class="ttdeci">typename nuclei_type::size_type size_type</div><div class="ttdoc">Type used to count things (like electrons and multiplicities)</div><div class="ttdef"><b>Definition:</b> molecule.hpp:81</div></div>
+<div class="ttc" id="aclasschemist_1_1Molecule_html_a16bc745e0e1ae5e06ab9a0920106d44f"><div class="ttname"><a href="classchemist_1_1Molecule.html#a16bc745e0e1ae5e06ab9a0920106d44f">chemist::Molecule::nuclei_type</a></div><div class="ttdeci">Nuclei nuclei_type</div><div class="ttdoc">Type representing the set of nuclei.</div><div class="ttdef"><b>Definition:</b> molecule.hpp:63</div></div>
+<div class="ttc" id="aclasschemist_1_1Molecule_html_a30ee7f599baee569ed1f13a27a0b2cbe"><div class="ttname"><a href="classchemist_1_1Molecule.html#a30ee7f599baee569ed1f13a27a0b2cbe">chemist::Molecule::const_nuclei_reference</a></div><div class="ttdeci">const nuclei_type &amp; const_nuclei_reference</div><div class="ttdoc">Type of a read-only reference to the set of nuclei.</div><div class="ttdef"><b>Definition:</b> molecule.hpp:69</div></div>
+<div class="ttc" id="aclasschemist_1_1Molecule_html_a7d1a39d4547a346472d8794efc88f0a5"><div class="ttname"><a href="classchemist_1_1Molecule.html#a7d1a39d4547a346472d8794efc88f0a5">chemist::Molecule::charge_type</a></div><div class="ttdeci">int charge_type</div><div class="ttdoc">Signed-integral type used to hold the molecule's charge.</div><div class="ttdef"><b>Definition:</b> molecule.hpp:84</div></div>
+<div class="ttc" id="aclasschemist_1_1Molecule_html_aaf848f10ebb80bc9804843f32974a735"><div class="ttname"><a href="classchemist_1_1Molecule.html#aaf848f10ebb80bc9804843f32974a735">chemist::Molecule::nuclei_reference</a></div><div class="ttdeci">nuclei_type &amp; nuclei_reference</div><div class="ttdoc">Type of a reference to the set of nuclei.</div><div class="ttdef"><b>Definition:</b> molecule.hpp:66</div></div>
+<div class="ttc" id="aclasschemist_1_1detail___1_1MolPIMPL_html"><div class="ttname"><a href="classchemist_1_1detail___1_1MolPIMPL.html">chemist::detail_::MolPIMPL</a></div><div class="ttdef"><b>Definition:</b> mol_pimpl.hpp:22</div></div>
+<div class="ttc" id="aclasschemist_1_1detail___1_1MolPIMPL_html_a039ff161fd0b920b87782a605085cd73"><div class="ttname"><a href="classchemist_1_1detail___1_1MolPIMPL.html#a039ff161fd0b920b87782a605085cd73">chemist::detail_::MolPIMPL::m_mult</a></div><div class="ttdeci">size_type m_mult</div><div class="ttdoc">Multiplicity.</div><div class="ttdef"><b>Definition:</b> mol_pimpl.hpp:42</div></div>
+<div class="ttc" id="aclasschemist_1_1detail___1_1MolPIMPL_html_a0ad76a17704ab238f1118b4240d0216e"><div class="ttname"><a href="classchemist_1_1detail___1_1MolPIMPL.html#a0ad76a17704ab238f1118b4240d0216e">chemist::detail_::MolPIMPL::m_charge</a></div><div class="ttdeci">charge_type m_charge</div><div class="ttdoc">Charge.</div><div class="ttdef"><b>Definition:</b> mol_pimpl.hpp:39</div></div>
+<div class="ttc" id="aclasschemist_1_1detail___1_1MolPIMPL_html_a6fcdf0733df3b1ae233641eff28a9df0"><div class="ttname"><a href="classchemist_1_1detail___1_1MolPIMPL.html#a6fcdf0733df3b1ae233641eff28a9df0">chemist::detail_::MolPIMPL::nuclei_type</a></div><div class="ttdeci">typename parent_type::nuclei_type nuclei_type</div><div class="ttdef"><b>Definition:</b> mol_pimpl.hpp:28</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

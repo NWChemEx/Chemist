@@ -61,7 +61,7 @@
 <li class="toctree-l3"><a class="reference internal" href="index.html#physics">Physics</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference external" href="https://nwchemex-project.github.io/">Developing for the NWChemEx Organization</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex-project.github.io/.github/">Developing for the NWChemEx Organization</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
@@ -307,7 +307,15 @@ detail below, the introduction of new classes (as opposed to simply just using
 <a class="reference internal" href="#md-performance"><span class="std std-ref">Performance.</span></a> consideration. More specifically, by having actual
 classes we are able to define an API, which is decoupled from the
 implementation, whereas if we declare <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> as a typedef of
-<code class="docutils literal notranslate"><span class="pre">std::vector&lt;Atom&gt;</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">std::vector&lt;Atom&gt;</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In C++, having polymorphic containers, with polymorphic elements, introduces
+a lot of edge cases we do not want to deal with. So in practice <code class="docutils literal notranslate"><span class="pre">Charges</span></code>
+does not actually derive from <code class="docutils literal notranslate"><span class="pre">PointSet</span></code> and <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> does not actually
+derive from <code class="docutils literal notranslate"><span class="pre">PointSet</span></code>. Instead we allow implicit conversion to read-only
+references of the bases</p>
+</div>
 <div class="section" id="point-set-class">
 <h4>Point Set Class<a class="headerlink" href="#point-set-class" title="Permalink to this heading"></a></h4>
 <p>When one has more than one <code class="docutils literal notranslate"><span class="pre">Point</span></code> object, we say they have a set of points.

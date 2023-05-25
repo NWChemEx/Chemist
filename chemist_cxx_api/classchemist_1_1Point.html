@@ -96,14 +96,18 @@ Inheritance diagram for chemist::Point&lt; T &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a57af4b16c58c2e114554290d0c7bb58b"><td class="memItemLeft" align="right" valign="top"><a id="a57af4b16c58c2e114554290d0c7bb58b"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a57af4b16c58c2e114554290d0c7bb58b">reference</a> = T &amp;</td></tr>
-<tr class="memdesc:a57af4b16c58c2e114554290d0c7bb58b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read/write reference to a component of the point. <br /></td></tr>
-<tr class="separator:a57af4b16c58c2e114554290d0c7bb58b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e38cdf263f18cd9f6a7480781b5fffc"><td class="memItemLeft" align="right" valign="top"><a id="a7e38cdf263f18cd9f6a7480781b5fffc"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a7e38cdf263f18cd9f6a7480781b5fffc">const_reference</a> = const T &amp;</td></tr>
-<tr class="memdesc:a7e38cdf263f18cd9f6a7480781b5fffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to a component of the point. <br /></td></tr>
-<tr class="separator:a7e38cdf263f18cd9f6a7480781b5fffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad75bc3af8f6f563215adddb267330bf7"><td class="memItemLeft" align="right" valign="top"><a id="ad75bc3af8f6f563215adddb267330bf7"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">coord_type</a> = T</td></tr>
+<tr class="memdesc:ad75bc3af8f6f563215adddb267330bf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to store the points coordinates, alias of <code>T</code>. <br /></td></tr>
+<tr class="separator:ad75bc3af8f6f563215adddb267330bf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaac2b59400d7eb45d075f0eb2b2827ec"><td class="memItemLeft" align="right" valign="top"><a id="aaac2b59400d7eb45d075f0eb2b2827ec"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#aaac2b59400d7eb45d075f0eb2b2827ec">coord_reference</a> = <a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">coord_type</a> &amp;</td></tr>
+<tr class="memdesc:aaac2b59400d7eb45d075f0eb2b2827ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read/write reference to a coordinate of the point. <br /></td></tr>
+<tr class="separator:aaac2b59400d7eb45d075f0eb2b2827ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7eebd0fcd90d39c2211bbb7fec9f9b9"><td class="memItemLeft" align="right" valign="top"><a id="ad7eebd0fcd90d39c2211bbb7fec9f9b9"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#ad7eebd0fcd90d39c2211bbb7fec9f9b9">const_coord_reference</a> = const <a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">coord_type</a> &amp;</td></tr>
+<tr class="memdesc:ad7eebd0fcd90d39c2211bbb7fec9f9b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to a coordinate of the point. <br /></td></tr>
+<tr class="separator:ad7eebd0fcd90d39c2211bbb7fec9f9b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01df611286efdbb40733122811b81271"><td class="memItemLeft" align="right" valign="top"><a id="a01df611286efdbb40733122811b81271"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a01df611286efdbb40733122811b81271">size_type</a> = std::size_t</td></tr>
 <tr class="memdesc:a01df611286efdbb40733122811b81271"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used for indexing and offsets. <br /></td></tr>
@@ -129,39 +133,39 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad0df9a2ce97a3ad153e618e2ee334f05"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html">Point</a>&lt; T &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#ad0df9a2ce97a3ad153e618e2ee334f05">operator=</a> (<a class="el" href="classchemist_1_1Point.html">Point</a>&lt; T &gt; &amp;&amp;rhs) noexcept</td></tr>
 <tr class="memdesc:ad0df9a2ce97a3ad153e618e2ee334f05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transfers <code>rhs's</code> state to this instance.  <a href="classchemist_1_1Point.html#ad0df9a2ce97a3ad153e618e2ee334f05">More...</a><br /></td></tr>
 <tr class="separator:ad0df9a2ce97a3ad153e618e2ee334f05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a241bbeeac359c9226ac8085bd6bbf7db"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a241bbeeac359c9226ac8085bd6bbf7db">Point</a> (T <a class="el" href="classchemist_1_1Point.html#a74b8c366f8c2877b52336a0f8dc52c1f">x</a>, T <a class="el" href="classchemist_1_1Point.html#a52c81d8d99e5e6655bb0adb89c4990fd">y</a>, T <a class="el" href="classchemist_1_1Point.html#ae77c59ee22e74f26235ee19f2c256fdd">z</a>)</td></tr>
-<tr class="memdesc:a241bbeeac359c9226ac8085bd6bbf7db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> instance so that it resides at the specified coordinate.  <a href="classchemist_1_1Point.html#a241bbeeac359c9226ac8085bd6bbf7db">More...</a><br /></td></tr>
-<tr class="separator:a241bbeeac359c9226ac8085bd6bbf7db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe6b23d90af6409f1d77e4efca011ec0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#afe6b23d90af6409f1d77e4efca011ec0">Point</a> (<a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">coord_type</a> <a class="el" href="classchemist_1_1Point.html#a04335db0a2cf4e3a24f908d83007cd2f">x</a>, <a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">coord_type</a> <a class="el" href="classchemist_1_1Point.html#a17cd94f5c2a8f6ac9b98cb9d8a9b1b05">y</a>, <a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">coord_type</a> <a class="el" href="classchemist_1_1Point.html#a4f1c64e1d91a98abfb72d7a70df7569d">z</a>)</td></tr>
+<tr class="memdesc:afe6b23d90af6409f1d77e4efca011ec0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> instance so that it resides at the specified coordinate.  <a href="classchemist_1_1Point.html#afe6b23d90af6409f1d77e4efca011ec0">More...</a><br /></td></tr>
+<tr class="separator:afe6b23d90af6409f1d77e4efca011ec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9ea6eb7c8a56229b9a074f6e57826e6"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#ac9ea6eb7c8a56229b9a074f6e57826e6">~Point</a> () noexcept</td></tr>
 <tr class="memdesc:ac9ea6eb7c8a56229b9a074f6e57826e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard defaulted dtor.  <a href="classchemist_1_1Point.html#ac9ea6eb7c8a56229b9a074f6e57826e6">More...</a><br /></td></tr>
 <tr class="separator:ac9ea6eb7c8a56229b9a074f6e57826e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71b0c31179e9fd469fe155d5aeda7f2d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a57af4b16c58c2e114554290d0c7bb58b">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a71b0c31179e9fd469fe155d5aeda7f2d">coord</a> (<a class="el" href="classchemist_1_1Point.html#a01df611286efdbb40733122811b81271">size_type</a> q)</td></tr>
-<tr class="memdesc:a71b0c31179e9fd469fe155d5aeda7f2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <code>q-th</code> coordinate of the point.  <a href="classchemist_1_1Point.html#a71b0c31179e9fd469fe155d5aeda7f2d">More...</a><br /></td></tr>
-<tr class="separator:a71b0c31179e9fd469fe155d5aeda7f2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82a5ebbb4255c902e03c2a5caa70b62c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a7e38cdf263f18cd9f6a7480781b5fffc">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a82a5ebbb4255c902e03c2a5caa70b62c">coord</a> (<a class="el" href="classchemist_1_1Point.html#a01df611286efdbb40733122811b81271">size_type</a> q) const</td></tr>
-<tr class="memdesc:a82a5ebbb4255c902e03c2a5caa70b62c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <code>q-th</code> coordinate of the point in a read-only format.  <a href="classchemist_1_1Point.html#a82a5ebbb4255c902e03c2a5caa70b62c">More...</a><br /></td></tr>
-<tr class="separator:a82a5ebbb4255c902e03c2a5caa70b62c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74b8c366f8c2877b52336a0f8dc52c1f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a57af4b16c58c2e114554290d0c7bb58b">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a74b8c366f8c2877b52336a0f8dc52c1f">x</a> () noexcept</td></tr>
-<tr class="memdesc:a74b8c366f8c2877b52336a0f8dc52c1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the x-coordinate of the point in a read/write format.  <a href="classchemist_1_1Point.html#a74b8c366f8c2877b52336a0f8dc52c1f">More...</a><br /></td></tr>
-<tr class="separator:a74b8c366f8c2877b52336a0f8dc52c1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f12ecdccf46a6c7fc6b6b6fdac27275"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a7e38cdf263f18cd9f6a7480781b5fffc">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a9f12ecdccf46a6c7fc6b6b6fdac27275">x</a> () const noexcept</td></tr>
-<tr class="memdesc:a9f12ecdccf46a6c7fc6b6b6fdac27275"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the x-coordinate of the point in a read-only format.  <a href="classchemist_1_1Point.html#a9f12ecdccf46a6c7fc6b6b6fdac27275">More...</a><br /></td></tr>
-<tr class="separator:a9f12ecdccf46a6c7fc6b6b6fdac27275"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52c81d8d99e5e6655bb0adb89c4990fd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a57af4b16c58c2e114554290d0c7bb58b">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a52c81d8d99e5e6655bb0adb89c4990fd">y</a> () noexcept</td></tr>
-<tr class="memdesc:a52c81d8d99e5e6655bb0adb89c4990fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the y-coordinate of the point in a read/write format.  <a href="classchemist_1_1Point.html#a52c81d8d99e5e6655bb0adb89c4990fd">More...</a><br /></td></tr>
-<tr class="separator:a52c81d8d99e5e6655bb0adb89c4990fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e1a829d0cf49e81f2eabac67c0f7548"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a7e38cdf263f18cd9f6a7480781b5fffc">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a9e1a829d0cf49e81f2eabac67c0f7548">y</a> () const noexcept</td></tr>
-<tr class="memdesc:a9e1a829d0cf49e81f2eabac67c0f7548"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the y-coordinate of the point in a read-only format.  <a href="classchemist_1_1Point.html#a9e1a829d0cf49e81f2eabac67c0f7548">More...</a><br /></td></tr>
-<tr class="separator:a9e1a829d0cf49e81f2eabac67c0f7548"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae77c59ee22e74f26235ee19f2c256fdd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a57af4b16c58c2e114554290d0c7bb58b">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#ae77c59ee22e74f26235ee19f2c256fdd">z</a> () noexcept</td></tr>
-<tr class="memdesc:ae77c59ee22e74f26235ee19f2c256fdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the z-coordinate of the point in a read/write format.  <a href="classchemist_1_1Point.html#ae77c59ee22e74f26235ee19f2c256fdd">More...</a><br /></td></tr>
-<tr class="separator:ae77c59ee22e74f26235ee19f2c256fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab32e38d8e644303a40582b1a20923756"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#a7e38cdf263f18cd9f6a7480781b5fffc">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#ab32e38d8e644303a40582b1a20923756">z</a> () const noexcept</td></tr>
-<tr class="memdesc:ab32e38d8e644303a40582b1a20923756"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the z-coordinate of the point in a read-only format.  <a href="classchemist_1_1Point.html#ab32e38d8e644303a40582b1a20923756">More...</a><br /></td></tr>
-<tr class="separator:ab32e38d8e644303a40582b1a20923756"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60f7a98b4c45258d581049c387963e7e"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a60f7a98b4c45258d581049c387963e7e">magnitude</a> () const noexcept</td></tr>
-<tr class="memdesc:a60f7a98b4c45258d581049c387963e7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the magnitude of the point.  <a href="classchemist_1_1Point.html#a60f7a98b4c45258d581049c387963e7e">More...</a><br /></td></tr>
-<tr class="separator:a60f7a98b4c45258d581049c387963e7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94f714915c2da4ecf66e8787afbc53d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#aaac2b59400d7eb45d075f0eb2b2827ec">coord_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a94f714915c2da4ecf66e8787afbc53d3">coord</a> (<a class="el" href="classchemist_1_1Point.html#a01df611286efdbb40733122811b81271">size_type</a> q)</td></tr>
+<tr class="memdesc:a94f714915c2da4ecf66e8787afbc53d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <code>q-th</code> coordinate of the point.  <a href="classchemist_1_1Point.html#a94f714915c2da4ecf66e8787afbc53d3">More...</a><br /></td></tr>
+<tr class="separator:a94f714915c2da4ecf66e8787afbc53d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af919f1d1baafd085f4ee0057774b1a1d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#ad7eebd0fcd90d39c2211bbb7fec9f9b9">const_coord_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#af919f1d1baafd085f4ee0057774b1a1d">coord</a> (<a class="el" href="classchemist_1_1Point.html#a01df611286efdbb40733122811b81271">size_type</a> q) const</td></tr>
+<tr class="memdesc:af919f1d1baafd085f4ee0057774b1a1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <code>q-th</code> coordinate of the point in a read-only format.  <a href="classchemist_1_1Point.html#af919f1d1baafd085f4ee0057774b1a1d">More...</a><br /></td></tr>
+<tr class="separator:af919f1d1baafd085f4ee0057774b1a1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04335db0a2cf4e3a24f908d83007cd2f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#aaac2b59400d7eb45d075f0eb2b2827ec">coord_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a04335db0a2cf4e3a24f908d83007cd2f">x</a> () noexcept</td></tr>
+<tr class="memdesc:a04335db0a2cf4e3a24f908d83007cd2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the x-coordinate of the point in a read/write format.  <a href="classchemist_1_1Point.html#a04335db0a2cf4e3a24f908d83007cd2f">More...</a><br /></td></tr>
+<tr class="separator:a04335db0a2cf4e3a24f908d83007cd2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2f13868de3593e94d219e2a7a32166d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#ad7eebd0fcd90d39c2211bbb7fec9f9b9">const_coord_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#ac2f13868de3593e94d219e2a7a32166d">x</a> () const noexcept</td></tr>
+<tr class="memdesc:ac2f13868de3593e94d219e2a7a32166d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the x-coordinate of the point in a read-only format.  <a href="classchemist_1_1Point.html#ac2f13868de3593e94d219e2a7a32166d">More...</a><br /></td></tr>
+<tr class="separator:ac2f13868de3593e94d219e2a7a32166d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17cd94f5c2a8f6ac9b98cb9d8a9b1b05"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#aaac2b59400d7eb45d075f0eb2b2827ec">coord_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a17cd94f5c2a8f6ac9b98cb9d8a9b1b05">y</a> () noexcept</td></tr>
+<tr class="memdesc:a17cd94f5c2a8f6ac9b98cb9d8a9b1b05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the y-coordinate of the point in a read/write format.  <a href="classchemist_1_1Point.html#a17cd94f5c2a8f6ac9b98cb9d8a9b1b05">More...</a><br /></td></tr>
+<tr class="separator:a17cd94f5c2a8f6ac9b98cb9d8a9b1b05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68def16c5b4b5ec5b7c4001daa81eefd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#ad7eebd0fcd90d39c2211bbb7fec9f9b9">const_coord_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a68def16c5b4b5ec5b7c4001daa81eefd">y</a> () const noexcept</td></tr>
+<tr class="memdesc:a68def16c5b4b5ec5b7c4001daa81eefd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the y-coordinate of the point in a read-only format.  <a href="classchemist_1_1Point.html#a68def16c5b4b5ec5b7c4001daa81eefd">More...</a><br /></td></tr>
+<tr class="separator:a68def16c5b4b5ec5b7c4001daa81eefd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f1c64e1d91a98abfb72d7a70df7569d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#aaac2b59400d7eb45d075f0eb2b2827ec">coord_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a4f1c64e1d91a98abfb72d7a70df7569d">z</a> () noexcept</td></tr>
+<tr class="memdesc:a4f1c64e1d91a98abfb72d7a70df7569d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the z-coordinate of the point in a read/write format.  <a href="classchemist_1_1Point.html#a4f1c64e1d91a98abfb72d7a70df7569d">More...</a><br /></td></tr>
+<tr class="separator:a4f1c64e1d91a98abfb72d7a70df7569d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a407f5796c6ce9aca65292417673ad026"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#ad7eebd0fcd90d39c2211bbb7fec9f9b9">const_coord_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a407f5796c6ce9aca65292417673ad026">z</a> () const noexcept</td></tr>
+<tr class="memdesc:a407f5796c6ce9aca65292417673ad026"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the z-coordinate of the point in a read-only format.  <a href="classchemist_1_1Point.html#a407f5796c6ce9aca65292417673ad026">More...</a><br /></td></tr>
+<tr class="separator:a407f5796c6ce9aca65292417673ad026"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc265138ddcc59cb18385751ef03a64f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">coord_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#abc265138ddcc59cb18385751ef03a64f">magnitude</a> () const noexcept</td></tr>
+<tr class="memdesc:abc265138ddcc59cb18385751ef03a64f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the magnitude of the point.  <a href="classchemist_1_1Point.html#abc265138ddcc59cb18385751ef03a64f">More...</a><br /></td></tr>
+<tr class="separator:abc265138ddcc59cb18385751ef03a64f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a458633db6bf69efd8589cc7c6a046233"><td class="memTemplParams" colspan="2">template&lt;typename Archive &gt; </td></tr>
 <tr class="memitem:a458633db6bf69efd8589cc7c6a046233"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a458633db6bf69efd8589cc7c6a046233">save</a> (Archive &amp;ar) const</td></tr>
 <tr class="memdesc:a458633db6bf69efd8589cc7c6a046233"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialize <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> instance.  <a href="classchemist_1_1Point.html#a458633db6bf69efd8589cc7c6a046233">More...</a><br /></td></tr>
@@ -196,8 +200,8 @@ Related Functions</h2></td></tr>
 class chemist::Point&lt; T &gt;</h3>
 
 <p>An object that is associated with a point in 3-D Cartesian space. </p>
-<p>This class is largely intended to be used as a mix-in for code factorization purposes. More specifically many of the point-centered quantities in LibChemist such as <code><a class="el" href="classchemist_1_1Primitive.html" title="Models a Gaussian Primitive by value.">Primitive</a></code>s, <code><a class="el" href="classchemist_1_1Shell.html" title="Models a set of AOs with a common center, total angular momentum, and CGTOs.">Shell</a></code>s, and <code><a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a></code>s, have a Cartesian coordinate associated with them. This class factors the state and member functions common to those classes into this class.</p>
-<p>Conceptually a point is nothing more than three floating point values, which respectively indicate its Cartesian <code>x</code>, <code>y</code>, and <code>z</code> coordinates. By convention these coordinates can also be thought of respectively as the 0-th, 1-st, and 2-nd components of a three-dimensional vector. The API of the <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> class allows for both views by aliasing <code><a class="el" href="classchemist_1_1Point.html#a74b8c366f8c2877b52336a0f8dc52c1f" title="Returns the x-coordinate of the point in a read/write format.">x()</a></code>, <code><a class="el" href="classchemist_1_1Point.html#a52c81d8d99e5e6655bb0adb89c4990fd" title="Returns the y-coordinate of the point in a read/write format.">y()</a></code> and <code><a class="el" href="classchemist_1_1Point.html#ae77c59ee22e74f26235ee19f2c256fdd" title="Returns the z-coordinate of the point in a read/write format.">z()</a></code> to <code>coord(0)</code>, <code>coord(1)</code>, and <code>coord(2)</code> respectively.</p>
+<p>See <a href="https://nwchemex-project.github.io/Chemist/developer/design/molecule.html">https://nwchemex-project.github.io/Chemist/developer/design/molecule.html</a> for design.</p>
+<p>Conceptually a point is nothing more than three floating point values, which respectively indicate its Cartesian <code>x</code>, <code>y</code>, and <code>z</code> coordinates. By convention these coordinates can also be thought of respectively as the 0-th, 1-st, and 2-nd components of a three-dimensional vector. The API of the <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> class allows for both views by aliasing <code><a class="el" href="classchemist_1_1Point.html#a04335db0a2cf4e3a24f908d83007cd2f" title="Returns the x-coordinate of the point in a read/write format.">x()</a></code>, <code><a class="el" href="classchemist_1_1Point.html#a17cd94f5c2a8f6ac9b98cb9d8a9b1b05" title="Returns the y-coordinate of the point in a read/write format.">y()</a></code> and <code><a class="el" href="classchemist_1_1Point.html#a4f1c64e1d91a98abfb72d7a70df7569d" title="Returns the z-coordinate of the point in a read/write format.">z()</a></code> to <code>coord(0)</code>, <code>coord(1)</code>, and <code>coord(2)</code> respectively.</p>
 <dl class="section note"><dt>Note</dt><dd>The implementation of this class is contained in point.cpp. Thus to use this class with a new type one needs to add an explicit template instantiation for that type to point.cpp (and declare it in this file).</dd></dl>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -360,8 +364,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a241bbeeac359c9226ac8085bd6bbf7db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a241bbeeac359c9226ac8085bd6bbf7db">&#9670;&nbsp;</a></span>Point() <span class="overload">[5/5]</span></h2>
+<a id="afe6b23d90af6409f1d77e4efca011ec0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe6b23d90af6409f1d77e4efca011ec0">&#9670;&nbsp;</a></span>Point() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -371,19 +375,19 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::<a class="el" href="classchemist_1_1Point.html">Point</a> </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">coord_type</a>&#160;</td>
           <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">coord_type</a>&#160;</td>
           <td class="paramname"><em>y</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">coord_type</a>&#160;</td>
           <td class="paramname"><em>z</em>&#160;</td>
         </tr>
         <tr>
@@ -449,8 +453,8 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a71b0c31179e9fd469fe155d5aeda7f2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71b0c31179e9fd469fe155d5aeda7f2d">&#9670;&nbsp;</a></span>coord() <span class="overload">[1/2]</span></h2>
+<a id="a94f714915c2da4ecf66e8787afbc53d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94f714915c2da4ecf66e8787afbc53d3">&#9670;&nbsp;</a></span>coord() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -458,7 +462,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1Point.html">Point</a>&lt; T &gt;::<a class="el" href="classchemist_1_1Point.html#a57af4b16c58c2e114554290d0c7bb58b">reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::coord </td>
+          <td class="memname"><a class="el" href="classchemist_1_1Point.html">Point</a>&lt; T &gt;::<a class="el" href="classchemist_1_1Point.html#aaac2b59400d7eb45d075f0eb2b2827ec">coord_reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::coord </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classchemist_1_1Point.html#a01df611286efdbb40733122811b81271">size_type</a>&#160;</td>
           <td class="paramname"><em>q</em></td><td>)</td>
@@ -485,8 +489,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a82a5ebbb4255c902e03c2a5caa70b62c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82a5ebbb4255c902e03c2a5caa70b62c">&#9670;&nbsp;</a></span>coord() <span class="overload">[2/2]</span></h2>
+<a id="af919f1d1baafd085f4ee0057774b1a1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af919f1d1baafd085f4ee0057774b1a1d">&#9670;&nbsp;</a></span>coord() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -494,7 +498,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1Point.html">Point</a>&lt; T &gt;::<a class="el" href="classchemist_1_1Point.html#a7e38cdf263f18cd9f6a7480781b5fffc">const_reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::coord </td>
+          <td class="memname"><a class="el" href="classchemist_1_1Point.html">Point</a>&lt; T &gt;::<a class="el" href="classchemist_1_1Point.html#ad7eebd0fcd90d39c2211bbb7fec9f9b9">const_coord_reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::coord </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classchemist_1_1Point.html#a01df611286efdbb40733122811b81271">size_type</a>&#160;</td>
           <td class="paramname"><em>q</em></td><td>)</td>
@@ -559,8 +563,8 @@ template&lt;typename Archive &gt; </div>
 
 </div>
 </div>
-<a id="a60f7a98b4c45258d581049c387963e7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60f7a98b4c45258d581049c387963e7e">&#9670;&nbsp;</a></span>magnitude()</h2>
+<a id="abc265138ddcc59cb18385751ef03a64f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc265138ddcc59cb18385751ef03a64f">&#9670;&nbsp;</a></span>magnitude()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -571,7 +575,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::magnitude </td>
+          <td class="memname"><a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">coord_type</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::magnitude </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -722,8 +726,8 @@ template&lt;typename Archive &gt; </div>
 
 </div>
 </div>
-<a id="a9f12ecdccf46a6c7fc6b6b6fdac27275"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f12ecdccf46a6c7fc6b6b6fdac27275">&#9670;&nbsp;</a></span>x() <span class="overload">[1/2]</span></h2>
+<a id="ac2f13868de3593e94d219e2a7a32166d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2f13868de3593e94d219e2a7a32166d">&#9670;&nbsp;</a></span>x() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -734,7 +738,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1Point.html#a7e38cdf263f18cd9f6a7480781b5fffc">const_reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::x </td>
+          <td class="memname"><a class="el" href="classchemist_1_1Point.html#ad7eebd0fcd90d39c2211bbb7fec9f9b9">const_coord_reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::x </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -759,8 +763,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a74b8c366f8c2877b52336a0f8dc52c1f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74b8c366f8c2877b52336a0f8dc52c1f">&#9670;&nbsp;</a></span>x() <span class="overload">[2/2]</span></h2>
+<a id="a04335db0a2cf4e3a24f908d83007cd2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04335db0a2cf4e3a24f908d83007cd2f">&#9670;&nbsp;</a></span>x() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -771,7 +775,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1Point.html#a57af4b16c58c2e114554290d0c7bb58b">reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::x </td>
+          <td class="memname"><a class="el" href="classchemist_1_1Point.html#aaac2b59400d7eb45d075f0eb2b2827ec">coord_reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::x </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -796,8 +800,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a9e1a829d0cf49e81f2eabac67c0f7548"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e1a829d0cf49e81f2eabac67c0f7548">&#9670;&nbsp;</a></span>y() <span class="overload">[1/2]</span></h2>
+<a id="a68def16c5b4b5ec5b7c4001daa81eefd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68def16c5b4b5ec5b7c4001daa81eefd">&#9670;&nbsp;</a></span>y() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -808,7 +812,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1Point.html#a7e38cdf263f18cd9f6a7480781b5fffc">const_reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::y </td>
+          <td class="memname"><a class="el" href="classchemist_1_1Point.html#ad7eebd0fcd90d39c2211bbb7fec9f9b9">const_coord_reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::y </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -833,8 +837,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a52c81d8d99e5e6655bb0adb89c4990fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52c81d8d99e5e6655bb0adb89c4990fd">&#9670;&nbsp;</a></span>y() <span class="overload">[2/2]</span></h2>
+<a id="a17cd94f5c2a8f6ac9b98cb9d8a9b1b05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17cd94f5c2a8f6ac9b98cb9d8a9b1b05">&#9670;&nbsp;</a></span>y() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -845,7 +849,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1Point.html#a57af4b16c58c2e114554290d0c7bb58b">reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::y </td>
+          <td class="memname"><a class="el" href="classchemist_1_1Point.html#aaac2b59400d7eb45d075f0eb2b2827ec">coord_reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::y </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -870,8 +874,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ab32e38d8e644303a40582b1a20923756"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab32e38d8e644303a40582b1a20923756">&#9670;&nbsp;</a></span>z() <span class="overload">[1/2]</span></h2>
+<a id="a407f5796c6ce9aca65292417673ad026"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a407f5796c6ce9aca65292417673ad026">&#9670;&nbsp;</a></span>z() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -882,7 +886,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1Point.html#a7e38cdf263f18cd9f6a7480781b5fffc">const_reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::z </td>
+          <td class="memname"><a class="el" href="classchemist_1_1Point.html#ad7eebd0fcd90d39c2211bbb7fec9f9b9">const_coord_reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::z </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -907,8 +911,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ae77c59ee22e74f26235ee19f2c256fdd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae77c59ee22e74f26235ee19f2c256fdd">&#9670;&nbsp;</a></span>z() <span class="overload">[2/2]</span></h2>
+<a id="a4f1c64e1d91a98abfb72d7a70df7569d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f1c64e1d91a98abfb72d7a70df7569d">&#9670;&nbsp;</a></span>z() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -919,7 +923,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1Point.html#a57af4b16c58c2e114554290d0c7bb58b">reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::z </td>
+          <td class="memname"><a class="el" href="classchemist_1_1Point.html#aaac2b59400d7eb45d075f0eb2b2827ec">coord_reference</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::z </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>

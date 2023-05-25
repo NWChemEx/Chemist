@@ -45,4 +45,6 @@ Physics
    :maxdepth: 2
 
    vector_spaces
+   reference_space
    wavefunction
+   operators

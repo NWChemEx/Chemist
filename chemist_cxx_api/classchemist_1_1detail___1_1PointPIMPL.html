@@ -86,14 +86,14 @@ Public Types</h2></td></tr>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#a1b8fd22295f8c61f7ba150190cfc3f68">point_type</a> = <a class="el" href="classchemist_1_1Point.html">Point</a>&lt; T &gt;</td></tr>
 <tr class="memdesc:a1b8fd22295f8c61f7ba150190cfc3f68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the point this PIMPL is associated with. <br /></td></tr>
 <tr class="separator:a1b8fd22295f8c61f7ba150190cfc3f68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada4254436488b80cdb23fca9f7315974"><td class="memItemLeft" align="right" valign="top"><a id="ada4254436488b80cdb23fca9f7315974"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ada4254436488b80cdb23fca9f7315974">reference</a> = typename <a class="el" href="classchemist_1_1Point.html#a57af4b16c58c2e114554290d0c7bb58b">point_type::reference</a></td></tr>
-<tr class="memdesc:ada4254436488b80cdb23fca9f7315974"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read/write reference to a coordinate of the point. <br /></td></tr>
-<tr class="separator:ada4254436488b80cdb23fca9f7315974"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25419c36195cdee4f260e5f103f16a89"><td class="memItemLeft" align="right" valign="top"><a id="a25419c36195cdee4f260e5f103f16a89"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#a25419c36195cdee4f260e5f103f16a89">const_reference</a> = typename <a class="el" href="classchemist_1_1Point.html#a7e38cdf263f18cd9f6a7480781b5fffc">point_type::const_reference</a></td></tr>
-<tr class="memdesc:a25419c36195cdee4f260e5f103f16a89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to a coordinate of the point. <br /></td></tr>
-<tr class="separator:a25419c36195cdee4f260e5f103f16a89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36102e6c17ab8086397a3037f2c5f860"><td class="memItemLeft" align="right" valign="top"><a id="a36102e6c17ab8086397a3037f2c5f860"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#a36102e6c17ab8086397a3037f2c5f860">reference</a> = typename <a class="el" href="classchemist_1_1Point.html#aaac2b59400d7eb45d075f0eb2b2827ec">point_type::coord_reference</a></td></tr>
+<tr class="memdesc:a36102e6c17ab8086397a3037f2c5f860"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read/write reference to a coordinate of the point. <br /></td></tr>
+<tr class="separator:a36102e6c17ab8086397a3037f2c5f860"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1c499453918c8626526e3efb9b195fa"><td class="memItemLeft" align="right" valign="top"><a id="ac1c499453918c8626526e3efb9b195fa"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ac1c499453918c8626526e3efb9b195fa">const_reference</a> = typename <a class="el" href="classchemist_1_1Point.html#ad7eebd0fcd90d39c2211bbb7fec9f9b9">point_type::const_coord_reference</a></td></tr>
+<tr class="memdesc:ac1c499453918c8626526e3efb9b195fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to a coordinate of the point. <br /></td></tr>
+<tr class="separator:ac1c499453918c8626526e3efb9b195fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae32e10cd7bebe8e063026b65fbcd53fa"><td class="memItemLeft" align="right" valign="top"><a id="ae32e10cd7bebe8e063026b65fbcd53fa"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ae32e10cd7bebe8e063026b65fbcd53fa">size_type</a> = typename <a class="el" href="classchemist_1_1Point.html#a01df611286efdbb40733122811b81271">point_type::size_type</a></td></tr>
 <tr class="memdesc:ae32e10cd7bebe8e063026b65fbcd53fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of an index or offset, assumed to be integral and POD-like. <br /></td></tr>
@@ -120,10 +120,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5dc5f767bbcf12040209cfe51121aee0"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#a5dc5f767bbcf12040209cfe51121aee0">PointPIMPL</a> (X &amp;&amp;x, Y &amp;&amp;y, Z &amp;&amp;z) noexcept</td></tr>
 <tr class="memdesc:a5dc5f767bbcf12040209cfe51121aee0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new <a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html" title="Holds the Point class&#39;s state.">PointPIMPL</a> with the initial state taken from the arguments.  <a href="classchemist_1_1detail___1_1PointPIMPL.html#a5dc5f767bbcf12040209cfe51121aee0">More...</a><br /></td></tr>
 <tr class="separator:a5dc5f767bbcf12040209cfe51121aee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3be08323a0ae61500229daa1e2d11dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ada4254436488b80cdb23fca9f7315974">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ab3be08323a0ae61500229daa1e2d11dd">coord</a> (<a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ae32e10cd7bebe8e063026b65fbcd53fa">size_type</a> i)</td></tr>
+<tr class="memitem:ab3be08323a0ae61500229daa1e2d11dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#a36102e6c17ab8086397a3037f2c5f860">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ab3be08323a0ae61500229daa1e2d11dd">coord</a> (<a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ae32e10cd7bebe8e063026b65fbcd53fa">size_type</a> i)</td></tr>
 <tr class="memdesc:ab3be08323a0ae61500229daa1e2d11dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <code>i-th</code> component of the point.  <a href="classchemist_1_1detail___1_1PointPIMPL.html#ab3be08323a0ae61500229daa1e2d11dd">More...</a><br /></td></tr>
 <tr class="separator:ab3be08323a0ae61500229daa1e2d11dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99ada229d4d8d01b186e492dcd96c149"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#a25419c36195cdee4f260e5f103f16a89">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#a99ada229d4d8d01b186e492dcd96c149">coord</a> (<a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ae32e10cd7bebe8e063026b65fbcd53fa">size_type</a> i) const</td></tr>
+<tr class="memitem:a99ada229d4d8d01b186e492dcd96c149"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ac1c499453918c8626526e3efb9b195fa">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#a99ada229d4d8d01b186e492dcd96c149">coord</a> (<a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ae32e10cd7bebe8e063026b65fbcd53fa">size_type</a> i) const</td></tr>
 <tr class="memdesc:a99ada229d4d8d01b186e492dcd96c149"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <code>i-th</code> component of the point as read-only.  <a href="classchemist_1_1detail___1_1PointPIMPL.html#a99ada229d4d8d01b186e492dcd96c149">More...</a><br /></td></tr>
 <tr class="separator:a99ada229d4d8d01b186e492dcd96c149"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -345,7 +345,7 @@ template&lt;typename X , typename Y , typename Z &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ada4254436488b80cdb23fca9f7315974">reference</a> <a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html">chemist::detail_::PointPIMPL</a>&lt; T &gt;::coord </td>
+          <td class="memname"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#a36102e6c17ab8086397a3037f2c5f860">reference</a> <a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html">chemist::detail_::PointPIMPL</a>&lt; T &gt;::coord </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ae32e10cd7bebe8e063026b65fbcd53fa">size_type</a>&#160;</td>
           <td class="paramname"><em>i</em></td><td>)</td>
@@ -380,7 +380,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#a25419c36195cdee4f260e5f103f16a89">const_reference</a> <a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html">chemist::detail_::PointPIMPL</a>&lt; T &gt;::coord </td>
+          <td class="memname"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ac1c499453918c8626526e3efb9b195fa">const_reference</a> <a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html">chemist::detail_::PointPIMPL</a>&lt; T &gt;::coord </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ae32e10cd7bebe8e063026b65fbcd53fa">size_type</a>&#160;</td>
           <td class="paramname"><em>i</em></td><td>)</td>
@@ -495,7 +495,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/chemist/point/<a class="el" href="point__pimpl_8hpp_source.html">point_pimpl.hpp</a></li>
+<li>src/chemist/point/detail_/<a class="el" href="point__pimpl_8hpp_source.html">point_pimpl.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

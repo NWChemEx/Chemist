@@ -75,97 +75,128 @@ $(function() {
 <div class="title">chemist::Molecule Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Represents a set of atoms.  
+ <a href="classchemist_1_1Molecule.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="molecule_8hpp_source.html">molecule.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for chemist::Molecule:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classchemist_1_1Molecule.png" alt=""/>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ac51968cc45f0e45ba0a50c6e283de1a9"><td class="memItemLeft" align="right" valign="top"><a id="ac51968cc45f0e45ba0a50c6e283de1a9"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#ac51968cc45f0e45ba0a50c6e283de1a9">value_type</a> = <a class="el" href="classchemist_1_1Atom.html">Atom</a></td></tr>
-<tr class="memdesc:ac51968cc45f0e45ba0a50c6e283de1a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of an atom contained in this class. <br /></td></tr>
-<tr class="separator:ac51968cc45f0e45ba0a50c6e283de1a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5274a49f41f6ce8b1996d5999ea987e0"><td class="memItemLeft" align="right" valign="top"><a id="a5274a49f41f6ce8b1996d5999ea987e0"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a5274a49f41f6ce8b1996d5999ea987e0">reference</a> = <a class="el" href="classchemist_1_1Molecule.html#ac51968cc45f0e45ba0a50c6e283de1a9">value_type</a> &amp;</td></tr>
-<tr class="memdesc:a5274a49f41f6ce8b1996d5999ea987e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a reference to an atom. <br /></td></tr>
-<tr class="separator:a5274a49f41f6ce8b1996d5999ea987e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac100299b2bb2b6df71ffa80e81841897"><td class="memItemLeft" align="right" valign="top"><a id="ac100299b2bb2b6df71ffa80e81841897"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#ac100299b2bb2b6df71ffa80e81841897">const_reference</a> = const <a class="el" href="classchemist_1_1Molecule.html#ac51968cc45f0e45ba0a50c6e283de1a9">value_type</a> &amp;</td></tr>
-<tr class="memdesc:ac100299b2bb2b6df71ffa80e81841897"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a const reference to an atom. <br /></td></tr>
-<tr class="separator:ac100299b2bb2b6df71ffa80e81841897"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f6104c3c2bd128007cd421bfcb18590"><td class="memItemLeft" align="right" valign="top"><a id="a3f6104c3c2bd128007cd421bfcb18590"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a3f6104c3c2bd128007cd421bfcb18590">iterator</a> = typename std::vector&lt; <a class="el" href="classchemist_1_1Molecule.html#ac51968cc45f0e45ba0a50c6e283de1a9">value_type</a> &gt;::<a class="el" href="classchemist_1_1Molecule.html#a3f6104c3c2bd128007cd421bfcb18590">iterator</a></td></tr>
-<tr class="memdesc:a3f6104c3c2bd128007cd421bfcb18590"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of an iterator over the atoms. <br /></td></tr>
-<tr class="separator:a3f6104c3c2bd128007cd421bfcb18590"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d04ac6d768274c2ed71afcd925923f9"><td class="memItemLeft" align="right" valign="top"><a id="a4d04ac6d768274c2ed71afcd925923f9"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a4d04ac6d768274c2ed71afcd925923f9">const_iterator</a> = typename std::vector&lt; <a class="el" href="classchemist_1_1Molecule.html#ac51968cc45f0e45ba0a50c6e283de1a9">value_type</a> &gt;::<a class="el" href="classchemist_1_1Molecule.html#a4d04ac6d768274c2ed71afcd925923f9">const_iterator</a></td></tr>
-<tr class="memdesc:a4d04ac6d768274c2ed71afcd925923f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a const iterator over the atoms. <br /></td></tr>
-<tr class="separator:a4d04ac6d768274c2ed71afcd925923f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ee803ce7980b80dbe46ae8e2f5d3d0f"><td class="memItemLeft" align="right" valign="top"><a id="a1ee803ce7980b80dbe46ae8e2f5d3d0f"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a1ee803ce7980b80dbe46ae8e2f5d3d0f">size_type</a> = std::size_t</td></tr>
-<tr class="memdesc:a1ee803ce7980b80dbe46ae8e2f5d3d0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a number returned by this class. <br /></td></tr>
-<tr class="separator:a1ee803ce7980b80dbe46ae8e2f5d3d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ee8acb419e1a48fad774b1878369b50"><td class="memItemLeft" align="right" valign="top"><a id="a5ee8acb419e1a48fad774b1878369b50"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a5ee8acb419e1a48fad774b1878369b50">pimpl_type</a> = <a class="el" href="classchemist_1_1detail___1_1MolPIMPL.html">detail_::MolPIMPL</a></td></tr>
+<tr class="memdesc:a5ee8acb419e1a48fad774b1878369b50"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the PIMPL. <br /></td></tr>
+<tr class="separator:a5ee8acb419e1a48fad774b1878369b50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04f151d123f3e0ae1cc8333d956e107d"><td class="memItemLeft" align="right" valign="top"><a id="a04f151d123f3e0ae1cc8333d956e107d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a04f151d123f3e0ae1cc8333d956e107d">pimpl_pointer</a> = std::unique_ptr&lt; <a class="el" href="classchemist_1_1Molecule.html#a5ee8acb419e1a48fad774b1878369b50">pimpl_type</a> &gt;</td></tr>
+<tr class="memdesc:a04f151d123f3e0ae1cc8333d956e107d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a pointer to the PIMPL. <br /></td></tr>
+<tr class="separator:a04f151d123f3e0ae1cc8333d956e107d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb46128c3eb3adbc3a9516bac4a0f564"><td class="memItemLeft" align="right" valign="top"><a id="acb46128c3eb3adbc3a9516bac4a0f564"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#acb46128c3eb3adbc3a9516bac4a0f564">atom_type</a> = <a class="el" href="classchemist_1_1Atom.html">Atom</a></td></tr>
+<tr class="memdesc:acb46128c3eb3adbc3a9516bac4a0f564"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of an atom contained in this class. <br /></td></tr>
+<tr class="separator:acb46128c3eb3adbc3a9516bac4a0f564"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a931c9f0ed27651ecd8611315b242c3f3"><td class="memItemLeft" align="right" valign="top"><a id="a931c9f0ed27651ecd8611315b242c3f3"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a931c9f0ed27651ecd8611315b242c3f3">atom_initializer_list</a> = std::initializer_list&lt; <a class="el" href="classchemist_1_1Molecule.html#acb46128c3eb3adbc3a9516bac4a0f564">atom_type</a> &gt;</td></tr>
+<tr class="memdesc:a931c9f0ed27651ecd8611315b242c3f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of an initializer list filled with <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> objects. <br /></td></tr>
+<tr class="separator:a931c9f0ed27651ecd8611315b242c3f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16bc745e0e1ae5e06ab9a0920106d44f"><td class="memItemLeft" align="right" valign="top"><a id="a16bc745e0e1ae5e06ab9a0920106d44f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a16bc745e0e1ae5e06ab9a0920106d44f">nuclei_type</a> = <a class="el" href="classchemist_1_1Nuclei.html">Nuclei</a></td></tr>
+<tr class="memdesc:a16bc745e0e1ae5e06ab9a0920106d44f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type representing the set of nuclei. <br /></td></tr>
+<tr class="separator:a16bc745e0e1ae5e06ab9a0920106d44f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf848f10ebb80bc9804843f32974a735"><td class="memItemLeft" align="right" valign="top"><a id="aaf848f10ebb80bc9804843f32974a735"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#aaf848f10ebb80bc9804843f32974a735">nuclei_reference</a> = <a class="el" href="classchemist_1_1Molecule.html#a16bc745e0e1ae5e06ab9a0920106d44f">nuclei_type</a> &amp;</td></tr>
+<tr class="memdesc:aaf848f10ebb80bc9804843f32974a735"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a reference to the set of nuclei. <br /></td></tr>
+<tr class="separator:aaf848f10ebb80bc9804843f32974a735"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30ee7f599baee569ed1f13a27a0b2cbe"><td class="memItemLeft" align="right" valign="top"><a id="a30ee7f599baee569ed1f13a27a0b2cbe"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a30ee7f599baee569ed1f13a27a0b2cbe">const_nuclei_reference</a> = const <a class="el" href="classchemist_1_1Molecule.html#a16bc745e0e1ae5e06ab9a0920106d44f">nuclei_type</a> &amp;</td></tr>
+<tr class="memdesc:a30ee7f599baee569ed1f13a27a0b2cbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to the set of nuclei. <br /></td></tr>
+<tr class="separator:a30ee7f599baee569ed1f13a27a0b2cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b292c29f7f6a25beab4738cdc97f834"><td class="memItemLeft" align="right" valign="top"><a id="a2b292c29f7f6a25beab4738cdc97f834"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a2b292c29f7f6a25beab4738cdc97f834">value_type</a> = typename <a class="el" href="classchemist_1_1Nuclei.html#a734e0d9234c2b6ab8bbe2ae3807bf493">nuclei_type::value_type</a></td></tr>
+<tr class="memdesc:a2b292c29f7f6a25beab4738cdc97f834"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a nucleus. <br /></td></tr>
+<tr class="separator:a2b292c29f7f6a25beab4738cdc97f834"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d938d3a8fb66575800e7bd5928046a9"><td class="memItemLeft" align="right" valign="top"><a id="a3d938d3a8fb66575800e7bd5928046a9"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a3d938d3a8fb66575800e7bd5928046a9">reference</a> = typename <a class="el" href="classchemist_1_1Nuclei.html#ae8c8e84605bb7e20f24e3f729522810c">nuclei_type::reference</a></td></tr>
+<tr class="memdesc:a3d938d3a8fb66575800e7bd5928046a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read/write reference to a nucleus. <br /></td></tr>
+<tr class="separator:a3d938d3a8fb66575800e7bd5928046a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaf286d9fb84f108d5e48dcfea849dd7"><td class="memItemLeft" align="right" valign="top"><a id="acaf286d9fb84f108d5e48dcfea849dd7"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#acaf286d9fb84f108d5e48dcfea849dd7">const_reference</a> = typename <a class="el" href="classchemist_1_1Nuclei.html#a6cd9fb8a857d606fc32e193bfd33c130">nuclei_type::const_reference</a></td></tr>
+<tr class="memdesc:acaf286d9fb84f108d5e48dcfea849dd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to a nucleus. <br /></td></tr>
+<tr class="separator:acaf286d9fb84f108d5e48dcfea849dd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07ee76577c6015a056ed76daf8aee583"><td class="memItemLeft" align="right" valign="top"><a id="a07ee76577c6015a056ed76daf8aee583"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a07ee76577c6015a056ed76daf8aee583">size_type</a> = typename <a class="el" href="classchemist_1_1Nuclei.html#aa29e86e57cd11203dddbb2d3e15d2fca">nuclei_type::size_type</a></td></tr>
+<tr class="memdesc:a07ee76577c6015a056ed76daf8aee583"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to count things (like electrons and multiplicities) <br /></td></tr>
+<tr class="separator:a07ee76577c6015a056ed76daf8aee583"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d1a39d4547a346472d8794efc88f0a5"><td class="memItemLeft" align="right" valign="top"><a id="a7d1a39d4547a346472d8794efc88f0a5"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a7d1a39d4547a346472d8794efc88f0a5">charge_type</a> = int</td></tr>
+<tr class="memdesc:a7d1a39d4547a346472d8794efc88f0a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signed-integral type used to hold the molecule's charge. <br /></td></tr>
+<tr class="separator:a7d1a39d4547a346472d8794efc88f0a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a050e6a60762f5a11b7d92471711af65c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a050e6a60762f5a11b7d92471711af65c">Molecule</a> ()</td></tr>
-<tr class="memdesc:a050e6a60762f5a11b7d92471711af65c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a molecule with no atoms, no charge, and a multiplicity of 1.  <a href="classchemist_1_1Molecule.html#a050e6a60762f5a11b7d92471711af65c">More...</a><br /></td></tr>
-<tr class="separator:a050e6a60762f5a11b7d92471711af65c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1e65faaab9ace0c2b3ce9648bd8d8df"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#ad1e65faaab9ace0c2b3ce9648bd8d8df">Molecule</a> (std::initializer_list&lt; <a class="el" href="classchemist_1_1Molecule.html#ac51968cc45f0e45ba0a50c6e283de1a9">value_type</a> &gt; atoms)</td></tr>
-<tr class="memdesc:ad1e65faaab9ace0c2b3ce9648bd8d8df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> with the provided atoms.  <a href="classchemist_1_1Molecule.html#ad1e65faaab9ace0c2b3ce9648bd8d8df">More...</a><br /></td></tr>
-<tr class="separator:ad1e65faaab9ace0c2b3ce9648bd8d8df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a455142a13be38f6024fdc5fd26f3491b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a455142a13be38f6024fdc5fd26f3491b">Molecule</a> () noexcept</td></tr>
+<tr class="memdesc:a455142a13be38f6024fdc5fd26f3491b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a molecule with no nuclei, no charge, and a multiplicity of 1.  <a href="classchemist_1_1Molecule.html#a455142a13be38f6024fdc5fd26f3491b">More...</a><br /></td></tr>
+<tr class="separator:a455142a13be38f6024fdc5fd26f3491b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a4c1250ca3b1bb883304a196dc6faee"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a9a4c1250ca3b1bb883304a196dc6faee">Molecule</a> (const <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;rhs)</td></tr>
+<tr class="memdesc:a9a4c1250ca3b1bb883304a196dc6faee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> which is a deep-copy of <code>rhs</code>.  <a href="classchemist_1_1Molecule.html#a9a4c1250ca3b1bb883304a196dc6faee">More...</a><br /></td></tr>
+<tr class="separator:a9a4c1250ca3b1bb883304a196dc6faee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51c79298f5be61e51630a81e528e31c6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a51c79298f5be61e51630a81e528e31c6">Molecule</a> (<a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;&amp;rhs) noexcept</td></tr>
+<tr class="memdesc:a51c79298f5be61e51630a81e528e31c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> by taking the state from <code>rhs</code>.  <a href="classchemist_1_1Molecule.html#a51c79298f5be61e51630a81e528e31c6">More...</a><br /></td></tr>
+<tr class="separator:a51c79298f5be61e51630a81e528e31c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae642ddd90486ad2b3f6d625a4ef05190"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#ae642ddd90486ad2b3f6d625a4ef05190">operator=</a> (const <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;rhs)</td></tr>
+<tr class="memdesc:ae642ddd90486ad2b3f6d625a4ef05190"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overrides the state in *this with a deep-copy of <code>rhs</code>.  <a href="classchemist_1_1Molecule.html#ae642ddd90486ad2b3f6d625a4ef05190">More...</a><br /></td></tr>
+<tr class="separator:ae642ddd90486ad2b3f6d625a4ef05190"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1994edde61d5b44740ced21c4dd56064"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a1994edde61d5b44740ced21c4dd56064">operator=</a> (<a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;&amp;rhs) noexcept</td></tr>
+<tr class="memdesc:a1994edde61d5b44740ced21c4dd56064"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overrides the state in *this with the state in <code>rhs</code>.  <a href="classchemist_1_1Molecule.html#a1994edde61d5b44740ced21c4dd56064">More...</a><br /></td></tr>
+<tr class="separator:a1994edde61d5b44740ced21c4dd56064"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b11f7516ef6a105dea484c887530a70"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a3b11f7516ef6a105dea484c887530a70">Molecule</a> (<a class="el" href="classchemist_1_1Molecule.html#a931c9f0ed27651ecd8611315b242c3f3">atom_initializer_list</a> atoms)</td></tr>
+<tr class="memdesc:a3b11f7516ef6a105dea484c887530a70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> with the provided atoms.  <a href="classchemist_1_1Molecule.html#a3b11f7516ef6a105dea484c887530a70">More...</a><br /></td></tr>
+<tr class="separator:a3b11f7516ef6a105dea484c887530a70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0456743d76473a206bc40f11430e0646"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a0456743d76473a206bc40f11430e0646">Molecule</a> (<a class="el" href="classchemist_1_1Molecule.html#a7d1a39d4547a346472d8794efc88f0a5">charge_type</a> <a class="el" href="classchemist_1_1Molecule.html#ab5c8cfd5f367fd068ff81d2fe1edcc02">charge</a>, <a class="el" href="classchemist_1_1Molecule.html#a07ee76577c6015a056ed76daf8aee583">size_type</a> <a class="el" href="classchemist_1_1Molecule.html#a37342d875197352c561e0fe1f9ac3cab">multiplicity</a>, <a class="el" href="classchemist_1_1Molecule.html#a931c9f0ed27651ecd8611315b242c3f3">atom_initializer_list</a> atoms)</td></tr>
+<tr class="memdesc:a0456743d76473a206bc40f11430e0646"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> with the specified charge and multiplicity.  <a href="classchemist_1_1Molecule.html#a0456743d76473a206bc40f11430e0646">More...</a><br /></td></tr>
+<tr class="separator:a0456743d76473a206bc40f11430e0646"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac89528bdac2659d94be703086af44c7b"><td class="memItemLeft" align="right" valign="top"><a id="ac89528bdac2659d94be703086af44c7b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#ac89528bdac2659d94be703086af44c7b">~Molecule</a> () noexcept</td></tr>
 <tr class="memdesc:ac89528bdac2659d94be703086af44c7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default dtor. <br /></td></tr>
 <tr class="separator:ac89528bdac2659d94be703086af44c7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9b0cb48d60cc703d759f780aa0759d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#ab9b0cb48d60cc703d759f780aa0759d8">push_back</a> (<a class="el" href="classchemist_1_1Molecule.html#ac51968cc45f0e45ba0a50c6e283de1a9">value_type</a> value)</td></tr>
-<tr class="memdesc:ab9b0cb48d60cc703d759f780aa0759d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function used to add an additional atom to the molecule.  <a href="classchemist_1_1Molecule.html#ab9b0cb48d60cc703d759f780aa0759d8">More...</a><br /></td></tr>
-<tr class="separator:ab9b0cb48d60cc703d759f780aa0759d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac7df8b6e24c4f3724730cbe8c42bb18"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Molecule.html#a1ee803ce7980b80dbe46ae8e2f5d3d0f">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#aac7df8b6e24c4f3724730cbe8c42bb18">size</a> () const noexcept</td></tr>
-<tr class="memdesc:aac7df8b6e24c4f3724730cbe8c42bb18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to determine the number of atoms within the system.  <a href="classchemist_1_1Molecule.html#aac7df8b6e24c4f3724730cbe8c42bb18">More...</a><br /></td></tr>
-<tr class="separator:aac7df8b6e24c4f3724730cbe8c42bb18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacf620b57987d42c4811c46034afde6dc"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="classchemist_1_1Molecule.html#a5274a49f41f6ce8b1996d5999ea987e0">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><b>at</b> (<a class="el" href="classchemist_1_1Molecule.html#a1ee803ce7980b80dbe46ae8e2f5d3d0f">size_type</a> i) noexcept</td></tr>
-<tr class="separator:gacf620b57987d42c4811c46034afde6dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7e5743445578becc4d31e1c79c92d159"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="classchemist_1_1Molecule.html#ac100299b2bb2b6df71ffa80e81841897">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><b>at</b> (<a class="el" href="classchemist_1_1Molecule.html#a1ee803ce7980b80dbe46ae8e2f5d3d0f">size_type</a> i) const noexcept</td></tr>
-<tr class="separator:ga7e5743445578becc4d31e1c79c92d159"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gace9c9d25cf1cb2865b147a11aa44e0c9"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="classchemist_1_1Molecule.html#a5274a49f41f6ce8b1996d5999ea987e0">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (<a class="el" href="classchemist_1_1Molecule.html#a1ee803ce7980b80dbe46ae8e2f5d3d0f">size_type</a> i) noexcept</td></tr>
-<tr class="separator:gace9c9d25cf1cb2865b147a11aa44e0c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8313c3bedd0f2e22e64cc4daa1ee7031"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="classchemist_1_1Molecule.html#ac100299b2bb2b6df71ffa80e81841897">const_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (<a class="el" href="classchemist_1_1Molecule.html#a1ee803ce7980b80dbe46ae8e2f5d3d0f">size_type</a> i) const noexcept</td></tr>
-<tr class="separator:ga8313c3bedd0f2e22e64cc4daa1ee7031"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7f76e5e6cce9d5440c7bee3b4c2ae329"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="classchemist_1_1Molecule.html#a3f6104c3c2bd128007cd421bfcb18590">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> () noexcept</td></tr>
-<tr class="separator:ga7f76e5e6cce9d5440c7bee3b4c2ae329"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa3277620cf4bb4f9f2d7e5632ced18c1"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="classchemist_1_1Molecule.html#a4d04ac6d768274c2ed71afcd925923f9">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> () const noexcept</td></tr>
-<tr class="separator:gaa3277620cf4bb4f9f2d7e5632ced18c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8a6ae04233da72158e437aca754f799e"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="classchemist_1_1Molecule.html#a3f6104c3c2bd128007cd421bfcb18590">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>end</b> () noexcept</td></tr>
-<tr class="separator:ga8a6ae04233da72158e437aca754f799e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4c53639325e7f3e9715a12a4694dbf8e"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="classchemist_1_1Molecule.html#a4d04ac6d768274c2ed71afcd925923f9">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>end</b> () const noexcept</td></tr>
-<tr class="separator:ga4c53639325e7f3e9715a12a4694dbf8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98158f543af684ae1a99e12011ebd5f5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a98158f543af684ae1a99e12011ebd5f5">push_back</a> (<a class="el" href="classchemist_1_1Molecule.html#acb46128c3eb3adbc3a9516bac4a0f564">atom_type</a> value)</td></tr>
+<tr class="memdesc:a98158f543af684ae1a99e12011ebd5f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function used to add an additional atom to the molecule.  <a href="classchemist_1_1Molecule.html#a98158f543af684ae1a99e12011ebd5f5">More...</a><br /></td></tr>
+<tr class="separator:a98158f543af684ae1a99e12011ebd5f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace3acb1e62578c7431680a713c6f517c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Molecule.html#aaf848f10ebb80bc9804843f32974a735">nuclei_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#ace3acb1e62578c7431680a713c6f517c">nuclei</a> ()</td></tr>
+<tr class="memdesc:ace3acb1e62578c7431680a713c6f517c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides access to the set of nuclei.  <a href="classchemist_1_1Molecule.html#ace3acb1e62578c7431680a713c6f517c">More...</a><br /></td></tr>
+<tr class="separator:ace3acb1e62578c7431680a713c6f517c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98318ff5fa5fa14b07569aef5e0907ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Molecule.html#a30ee7f599baee569ed1f13a27a0b2cbe">const_nuclei_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a98318ff5fa5fa14b07569aef5e0907ea">nuclei</a> () const</td></tr>
+<tr class="memdesc:a98318ff5fa5fa14b07569aef5e0907ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only access to the set of nuclei.  <a href="classchemist_1_1Molecule.html#a98318ff5fa5fa14b07569aef5e0907ea">More...</a><br /></td></tr>
+<tr class="separator:a98318ff5fa5fa14b07569aef5e0907ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5a7d0b0834e9124bc22c116e223f655"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Molecule.html#a07ee76577c6015a056ed76daf8aee583">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#ae5a7d0b0834e9124bc22c116e223f655">n_electrons</a> () const noexcept</td></tr>
+<tr class="memdesc:ae5a7d0b0834e9124bc22c116e223f655"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of electrons in this molecule.  <a href="classchemist_1_1Molecule.html#ae5a7d0b0834e9124bc22c116e223f655">More...</a><br /></td></tr>
+<tr class="separator:ae5a7d0b0834e9124bc22c116e223f655"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5c8cfd5f367fd068ff81d2fe1edcc02"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Molecule.html#a7d1a39d4547a346472d8794efc88f0a5">charge_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#ab5c8cfd5f367fd068ff81d2fe1edcc02">charge</a> () const noexcept</td></tr>
+<tr class="memdesc:ab5c8cfd5f367fd068ff81d2fe1edcc02"><td class="mdescLeft">&#160;</td><td class="mdescRight">The charge of the molecule (in a.u.)  <a href="classchemist_1_1Molecule.html#ab5c8cfd5f367fd068ff81d2fe1edcc02">More...</a><br /></td></tr>
+<tr class="separator:ab5c8cfd5f367fd068ff81d2fe1edcc02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4798bb77d5bc9d14e6e295f3b3c4825"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#ae4798bb77d5bc9d14e6e295f3b3c4825">set_charge</a> (<a class="el" href="classchemist_1_1Molecule.html#a7d1a39d4547a346472d8794efc88f0a5">charge_type</a> n)</td></tr>
+<tr class="memdesc:ae4798bb77d5bc9d14e6e295f3b3c4825"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to manually set the number of electrons.  <a href="classchemist_1_1Molecule.html#ae4798bb77d5bc9d14e6e295f3b3c4825">More...</a><br /></td></tr>
+<tr class="separator:ae4798bb77d5bc9d14e6e295f3b3c4825"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37342d875197352c561e0fe1f9ac3cab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Molecule.html#a07ee76577c6015a056ed76daf8aee583">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a37342d875197352c561e0fe1f9ac3cab">multiplicity</a> () const noexcept</td></tr>
+<tr class="memdesc:a37342d875197352c561e0fe1f9ac3cab"><td class="mdescLeft">&#160;</td><td class="mdescRight">The multiplicity of *this.  <a href="classchemist_1_1Molecule.html#a37342d875197352c561e0fe1f9ac3cab">More...</a><br /></td></tr>
+<tr class="separator:a37342d875197352c561e0fe1f9ac3cab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa9141b9f5e762c0860e9733c076e74d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#afa9141b9f5e762c0860e9733c076e74d">set_multiplicity</a> (<a class="el" href="classchemist_1_1Molecule.html#a07ee76577c6015a056ed76daf8aee583">size_type</a> mult)</td></tr>
+<tr class="memdesc:afa9141b9f5e762c0860e9733c076e74d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to override the multiplicity.  <a href="classchemist_1_1Molecule.html#afa9141b9f5e762c0860e9733c076e74d">More...</a><br /></td></tr>
+<tr class="separator:afa9141b9f5e762c0860e9733c076e74d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcc66aec1b51ded61f1135a2be954c89"><td class="memTemplParams" colspan="2">template&lt;typename Archive &gt; </td></tr>
 <tr class="memitem:afcc66aec1b51ded61f1135a2be954c89"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#afcc66aec1b51ded61f1135a2be954c89">save</a> (Archive &amp;ar) const</td></tr>
-<tr class="memdesc:afcc66aec1b51ded61f1135a2be954c89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialize <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> instance.  <a href="classchemist_1_1Molecule.html#afcc66aec1b51ded61f1135a2be954c89">More...</a><br /></td></tr>
+<tr class="memdesc:afcc66aec1b51ded61f1135a2be954c89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialize <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> instance.  <a href="classchemist_1_1Molecule.html#afcc66aec1b51ded61f1135a2be954c89">More...</a><br /></td></tr>
 <tr class="separator:afcc66aec1b51ded61f1135a2be954c89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af645e1371b9c69927c54d124182c7c23"><td class="memTemplParams" colspan="2">template&lt;typename Archive &gt; </td></tr>
 <tr class="memitem:af645e1371b9c69927c54d124182c7c23"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#af645e1371b9c69927c54d124182c7c23">load</a> (Archive &amp;ar)</td></tr>
-<tr class="memdesc:af645e1371b9c69927c54d124182c7c23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialize for <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> instance.  <a href="classchemist_1_1Molecule.html#af645e1371b9c69927c54d124182c7c23">More...</a><br /></td></tr>
+<tr class="memdesc:af645e1371b9c69927c54d124182c7c23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialize for <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> instance.  <a href="classchemist_1_1Molecule.html#af645e1371b9c69927c54d124182c7c23">More...</a><br /></td></tr>
 <tr class="separator:af645e1371b9c69927c54d124182c7c23"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader"></div></td></tr>
-<tr class="memitem:a9a4c1250ca3b1bb883304a196dc6faee"><td class="memItemLeft" align="right" valign="top"><a id="a9a4c1250ca3b1bb883304a196dc6faee"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Molecule</b> (const <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;rhs)</td></tr>
-<tr class="separator:a9a4c1250ca3b1bb883304a196dc6faee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51c79298f5be61e51630a81e528e31c6"><td class="memItemLeft" align="right" valign="top"><a id="a51c79298f5be61e51630a81e528e31c6"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Molecule</b> (<a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;&amp;rhs) noexcept</td></tr>
-<tr class="separator:a51c79298f5be61e51630a81e528e31c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae642ddd90486ad2b3f6d625a4ef05190"><td class="memItemLeft" align="right" valign="top"><a id="ae642ddd90486ad2b3f6d625a4ef05190"></a>
-<a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;rhs)</td></tr>
-<tr class="separator:ae642ddd90486ad2b3f6d625a4ef05190"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1994edde61d5b44740ced21c4dd56064"><td class="memItemLeft" align="right" valign="top"><a id="a1994edde61d5b44740ced21c4dd56064"></a>
-<a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;&amp;rhs) noexcept</td></tr>
-<tr class="separator:a1994edde61d5b44740ced21c4dd56064"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Related Functions</h2></td></tr>
@@ -175,12 +206,19 @@ Related Functions</h2></td></tr>
 <tr class="memdesc:a11cd42f538be2eeb56069cd652e81172"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloads the stream insertion operator so that molecules can be printed.  <a href="classchemist_1_1Molecule.html#a11cd42f538be2eeb56069cd652e81172">More...</a><br /></td></tr>
 <tr class="separator:a11cd42f538be2eeb56069cd652e81172"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a050e6a60762f5a11b7d92471711af65c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a050e6a60762f5a11b7d92471711af65c">&#9670;&nbsp;</a></span>Molecule() <span class="overload">[1/2]</span></h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Represents a set of atoms. </p>
+<p>When atoms come together they become a molecule. Within the Born-Oppenheimer picture of quantum chemistry, the nuclei of the molecule remain as distinct points, but the electrons delocalize across multiple atoms. The point is, that once atoms have been combined to form a molecule we can no longer, in general, associate electrons with a specific atom. This class models this by having <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instances be the inputs, but users of the <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> can only get back <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a> instances or total electronic properties (charge and multiplicity).</p>
+<dl class="section note"><dt>Note</dt><dd>While our approach of "dissolving" the atoms upon insertion may be atypical, note that this is entirely consistent with traditional inputs (charge, multiplicity, nuclear identities, and Cartesian coordinates of the nuclei). </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a455142a13be38f6024fdc5fd26f3491b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a455142a13be38f6024fdc5fd26f3491b">&#9670;&nbsp;</a></span>Molecule() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">chemist::Molecule::Molecule </td>
@@ -189,20 +227,26 @@ Related Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Makes a molecule with no atoms, no charge, and a multiplicity of 1. </p>
+<p>Makes a molecule with no nuclei, no charge, and a multiplicity of 1. </p>
+<p>The default constructed molecule contains no nuclei or electrons. It thus has a charge of 0 and a total spin of 0 (<em>i.e.</em>, a multiplicity of 1).</p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to </td></tr>
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="ad1e65faaab9ace0c2b3ce9648bd8d8df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad1e65faaab9ace0c2b3ce9648bd8d8df">&#9670;&nbsp;</a></span>Molecule() <span class="overload">[2/2]</span></h2>
+<a id="a9a4c1250ca3b1bb883304a196dc6faee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a4c1250ca3b1bb883304a196dc6faee">&#9670;&nbsp;</a></span>Molecule() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -210,17 +254,147 @@ Related Functions</h2></td></tr>
         <tr>
           <td class="memname">chemist::Molecule::Molecule </td>
           <td>(</td>
-          <td class="paramtype">std::initializer_list&lt; <a class="el" href="classchemist_1_1Molecule.html#ac51968cc45f0e45ba0a50c6e283de1a9">value_type</a> &gt;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a new <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> which is a deep-copy of <code>rhs</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The instance we are deep copying.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the memory for the copied state. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a51c79298f5be61e51630a81e528e31c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51c79298f5be61e51630a81e528e31c6">&#9670;&nbsp;</a></span>Molecule() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">chemist::Molecule::Molecule </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create a new <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> by taking the state from <code>rhs</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">rhs</td><td>The object we are taking the state of. After this call <code>rhs</code> will be in a state consistent with default initialization.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3b11f7516ef6a105dea484c887530a70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b11f7516ef6a105dea484c887530a70">&#9670;&nbsp;</a></span>Molecule() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">chemist::Molecule::Molecule </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Molecule.html#a931c9f0ed27651ecd8611315b242c3f3">atom_initializer_list</a>&#160;</td>
           <td class="paramname"><em>atoms</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initializes the <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> with the provided atoms. </p>
+<p>Initializes the <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> with the provided atoms. </p>
+<p>This ctor is primarily used to initialize <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> objects for tests and tutorials. The resulting <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> will have a charge based on the number of electrons assigned to each atom in <code>atoms</code>, and the multiplicity will be set to 1 if the number of electrons is even and 2 if the number of electrons are odd.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">atoms</td><td>The initial atoms to occupy this molecule. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">atoms</td><td>The initial atoms to occupy this molecule.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if allocating the state for *this fails. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0456743d76473a206bc40f11430e0646"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0456743d76473a206bc40f11430e0646">&#9670;&nbsp;</a></span>Molecule() <span class="overload">[5/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">chemist::Molecule::Molecule </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Molecule.html#a7d1a39d4547a346472d8794efc88f0a5">charge_type</a>&#160;</td>
+          <td class="paramname"><em>charge</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Molecule.html#a07ee76577c6015a056ed76daf8aee583">size_type</a>&#160;</td>
+          <td class="paramname"><em>multiplicity</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Molecule.html#a931c9f0ed27651ecd8611315b242c3f3">atom_initializer_list</a>&#160;</td>
+          <td class="paramname"><em>atoms</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> with the specified charge and multiplicity. </p>
+<p>This ctor can be used to set the charge and multiplicity of the <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a>, in addition to specifying the initial set of atoms. The charge and multiplicity provided to this constructor will override whatever charge is worked out from the number of electrons in <code>atoms</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">charge</td><td>The charge the newly created molecule should have. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">multiplicity</td><td>The multiplicity the created molecule should have. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">atoms</td><td>The set of atoms to initialize *this to.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the initial state. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
@@ -228,6 +402,41 @@ Related Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab5c8cfd5f367fd068ff81d2fe1edcc02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5c8cfd5f367fd068ff81d2fe1edcc02">&#9670;&nbsp;</a></span>charge()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1Molecule.html#a7d1a39d4547a346472d8794efc88f0a5">charge_type</a> chemist::Molecule::charge </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The charge of the molecule (in a.u.) </p>
+<p>The charge of the molecule is the sum of each nucleus's atomic number less the total number of electrons. A positive charge indicates a net loss in electrons, whereas a negative charge indicates a net excess of electrons (relative to neutrality).</p>
+<dl class="section return"><dt>Returns</dt><dd>The charge (in a.u.) of *this</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="af645e1371b9c69927c54d124182c7c23"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af645e1371b9c69927c54d124182c7c23">&#9670;&nbsp;</a></span>load()</h2>
 
@@ -235,9 +444,6 @@ Related Functions</h2></td></tr>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Archive &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void chemist::Molecule::load </td>
@@ -247,14 +453,9 @@ template&lt;typename Archive &gt; </div>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Deserialize for <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> instance. </p>
+<p>Deserialize for <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> instance. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ar</td><td>The archive object </td></tr>
@@ -264,8 +465,206 @@ template&lt;typename Archive &gt; </div>
 
 </div>
 </div>
-<a id="ab9b0cb48d60cc703d759f780aa0759d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9b0cb48d60cc703d759f780aa0759d8">&#9670;&nbsp;</a></span>push_back()</h2>
+<a id="a37342d875197352c561e0fe1f9ac3cab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37342d875197352c561e0fe1f9ac3cab">&#9670;&nbsp;</a></span>multiplicity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1Molecule.html#a07ee76577c6015a056ed76daf8aee583">size_type</a> chemist::Molecule::multiplicity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The multiplicity of *this. </p>
+<p>The multiplicity of a molecule is <img class="formulaInl" alt="$2S+1$" src="form_21.png"/> where <img class="formulaInl" alt="$S$" src="form_22.png"/> is the total spin. Note that an empty molecule has 0 electrons, and thus has a total spin of 0 and a multiplicity of 1.</p>
+<dl class="section return"><dt>Returns</dt><dd>The multiplicity of *this.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae5a7d0b0834e9124bc22c116e223f655"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5a7d0b0834e9124bc22c116e223f655">&#9670;&nbsp;</a></span>n_electrons()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1Molecule.html#a07ee76577c6015a056ed76daf8aee583">size_type</a> chemist::Molecule::n_electrons </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The number of electrons in this molecule. </p>
+<p>Each <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instance provided to *this also provides electrons (by default the number of which is equal to the atomic number, but this can be configured on a per atom-basis by the user if need be). Internally, we store the charge of the molecule and adjust it as atoms are added (or when the user calls set_charge). This method will return the sum of each atom's atomic number less the charge.</p>
+<dl class="section return"><dt>Returns</dt><dd>The number of electrons which have been added to *this, adjusting for the charge of the system.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ace3acb1e62578c7431680a713c6f517c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace3acb1e62578c7431680a713c6f517c">&#9670;&nbsp;</a></span>nuclei() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1Molecule.html#aaf848f10ebb80bc9804843f32974a735">nuclei_reference</a> chemist::Molecule::nuclei </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Provides access to the set of nuclei. </p>
+<p>In the typical quantum chemistry approximations, a molecule is comprised of a nuclear framework comprised of classical point charges and electrons that move about in that framework. This method allows the user to directly interact with the nuclei.</p>
+<p>Note that adding/removing nuclei through this method will NOT update the number of electrons or multiplicity of the molecule (after all you're only adding nuclei). Thus if the user is really trying to add atoms (nucleus + electrons) use <code>push_back</code> (or similar mechanisms).</p>
+<dl class="section return"><dt>Returns</dt><dd>A read/write reference to the nuclear framework.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if *this has no PIMPL and allocating a PIMPL fails. Strong throw guarantee. If *this has a PIMPL this method is no throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a98318ff5fa5fa14b07569aef5e0907ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98318ff5fa5fa14b07569aef5e0907ea">&#9670;&nbsp;</a></span>nuclei() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1Molecule.html#a30ee7f599baee569ed1f13a27a0b2cbe">const_nuclei_reference</a> chemist::Molecule::nuclei </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read-only access to the set of nuclei. </p>
+<p>This method is the same as th non-const version, except that the returned set is read-only.</p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if *this has no PIMPL. Strong throw guarantee. If *this has a PIMPL, this method is no-throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae642ddd90486ad2b3f6d625a4ef05190"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae642ddd90486ad2b3f6d625a4ef05190">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp; chemist::Molecule::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Overrides the state in *this with a deep-copy of <code>rhs</code>. </p>
+<p>This method will release the state currently held by *this and then replace it with a deep copy of the state in <code>rhs</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The object we are copying.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>*this after replacing its state with a deep-copy of <code>rhs</code>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the internal state of *this. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1994edde61d5b44740ced21c4dd56064"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1994edde61d5b44740ced21c4dd56064">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp; chemist::Molecule::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Overrides the state in *this with the state in <code>rhs</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">rhs</td><td>The object we are taking the state from. After this operation <code>rhs</code> will be in a state consistent with default initialization.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a98158f543af684ae1a99e12011ebd5f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98158f543af684ae1a99e12011ebd5f5">&#9670;&nbsp;</a></span>push_back()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -273,7 +672,7 @@ template&lt;typename Archive &gt; </div>
         <tr>
           <td class="memname">void chemist::Molecule::push_back </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classchemist_1_1Molecule.html#ac51968cc45f0e45ba0a50c6e283de1a9">value_type</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Molecule.html#acb46128c3eb3adbc3a9516bac4a0f564">atom_type</a>&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
           <td></td>
         </tr>
@@ -282,15 +681,16 @@ template&lt;typename Archive &gt; </div>
 
 <p>Function used to add an additional atom to the molecule. </p>
 <p>Given a molecule that contains <img class="formulaInl" alt="$N$" src="form_11.png"/> atoms, this will make the provided atom the <img class="formulaInl" alt="$N+1$" src="form_20.png"/>-th atom, which resides at index <img class="formulaInl" alt="$N$" src="form_11.png"/>.</p>
+<dl class="section note"><dt>Note</dt><dd>The caller is responsible for updating the multiplicity of *this if needed.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">value</td><td>the atom to add to the molecule. </td></tr>
+    <tr><td class="paramname">value</td><td>the atom to add to the molecule.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to copy the state of the molecule over. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to allocate the PIMPL (if *this does not already have one) or to copy <code>value</code>. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
@@ -304,9 +704,6 @@ template&lt;typename Archive &gt; </div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Archive &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void chemist::Molecule::save </td>
@@ -316,14 +713,9 @@ template&lt;typename Archive &gt; </div>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Serialize <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> instance. </p>
+<p>Serialize <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> instance. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ar</td><td>The archive object </td></tr>
@@ -333,34 +725,69 @@ template&lt;typename Archive &gt; </div>
 
 </div>
 </div>
-<a id="aac7df8b6e24c4f3724730cbe8c42bb18"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac7df8b6e24c4f3724730cbe8c42bb18">&#9670;&nbsp;</a></span>size()</h2>
+<a id="ae4798bb77d5bc9d14e6e295f3b3c4825"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4798bb77d5bc9d14e6e295f3b3c4825">&#9670;&nbsp;</a></span>set_charge()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1Molecule.html#a1ee803ce7980b80dbe46ae8e2f5d3d0f">size_type</a> chemist::Molecule::size </td>
+          <td class="memname">void chemist::Molecule::set_charge </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Molecule.html#a7d1a39d4547a346472d8794efc88f0a5">charge_type</a>&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Used to determine the number of atoms within the system. </p>
-<dl class="section return"><dt>Returns</dt><dd>The number of atoms within the molecule </dd></dl>
+<p>Used to manually set the number of electrons. </p>
+<p>Adding <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instances changes the number of electrons. Sometimes we just know that a system is electron-rich or electron-deficient, but do not know which atom(s) is actually associated with the electron difference. This method can be called to manually override the number of electrons.</p>
+<dl class="section note"><dt>Note</dt><dd>Setting the charge will also default the multiplicity (1 if the new number of electrons is even, and 2 if the new number is odd). This is done to avoid having *this be in a bad state. If you want a different multiplicity, follow the call to set_charge with a call to set_multiplicity.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">n</td><td>The number of electrons the caller wants *this to have. The charge must be less than the sum of the currently stored atoms' atomic numbers.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>It's best to call this after adding all atoms you want to add, as adding another atom will update the charge based on the charge of that atom.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">None.</td><td>No throw guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is no PIMPL and allocating one fails. If an error is raised, it is done with a strong guarantee. If *this already has a PIMPL this is no-throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="afa9141b9f5e762c0860e9733c076e74d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa9141b9f5e762c0860e9733c076e74d">&#9670;&nbsp;</a></span>set_multiplicity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void chemist::Molecule::set_multiplicity </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Molecule.html#a07ee76577c6015a056ed76daf8aee583">size_type</a>&#160;</td>
+          <td class="paramname"><em>mult</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Used to override the multiplicity. </p>
+<p>This method will set the multiplicity of *this to <code>mult</code>.</p>
+<dl class="section note"><dt>Note</dt><dd>Calling this method will NOT change the charge/number of electrons. You must have the charge/number of electrons set correctly prior to calling this method.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">mult</td><td>The multiplicity the user wants *this to have.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if *this has no PIMPL, and allocating a new PIMPL fails. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
@@ -406,7 +833,7 @@ template&lt;typename Archive &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">os</td><td>The ostream instance to write to. </td></tr>
-    <tr><td class="paramname">mol</td><td>The <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> instance to write to the stream. </td></tr>
+    <tr><td class="paramname">mol</td><td>The <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> instance to write to the stream. </td></tr>
   </table>
   </dd>
 </dl>
