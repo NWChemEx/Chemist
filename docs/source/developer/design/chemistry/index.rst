@@ -16,3 +16,4 @@ familiar to quantum chemists (which we put in the physics sublibrary).
    fragmented_system
    fragmented_molecule
    caps
+   fragmented_nuclei

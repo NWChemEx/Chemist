@@ -6,6 +6,10 @@ Designing the FragmentedMolecule Class
 
 .. |n| replace:: :math:`n`
 
+Following the discussion in :ref:`designing_fragmented_system` we need a class
+``FragmentedMolecule`` to track how the ``Molecule`` piece of the 
+``ChemicalSystem`` is decomposed. This page discusses the design of that class.
+
 ******************************
 What is a fragmented molecule?
 ******************************
@@ -33,34 +37,23 @@ FragmentedMolecule Class Considerations
 
 .. _fm_molecule:
 
-Molecule class.
-   Chemist defines the ``Molecule`` class. A set of fragments should function
-   like a series of views of the ``Molecule`` class. This has two parts: nuclei
-   and the electrons (charge/multiplicity).
+Molecule compatability.
+   Chemist defines the ``Molecule`` class. The ``FragmentedMolecule`` class
+   should behave like a container of ``Molecule`` objects.
 
 .. _fm_charge_mult:
 
 Charge and multiplicity.
-   In fragmenting the molecule, the total charge and multiplicity of the
-   original molecule must somehow be assigned to the fragments. In both cases, 
-   this is usually done by having the user assign the charge, or unpaired 
-   electrons, to one or more atoms. When those atoms appear in a fragment,
-   the fragment is charged/has unparied electrons too.
-
-.. _fm_non_disjoint:
-
-Non-disjoint.
-   While many initial fragment-based techniques relied on disjoint fragments,
-   more modern techniques relax this requirement. The ``FragmentedMolecule``
-   class needs to be able to handle multiple fragments, even if those fragments
-   are non-disjoint.
+   In fragmenting the molecule, the charge/multiplicity must also be fragmented.
+   More specifically we must assign a charge/multiplicity to each fragment.
 
 .. _fm_caps:
 
 Caps.
-   Usually the charge/multiplicity of a fragment is neutral/singlet 
-   respectively. This only makes sense if one includes caps as part of the 
-   fragment (otherwise the fragments would be radicals).
+   As a direct result of the :ref:`fs_generality` consideration raised for the
+   ``FragmentedSystem`` class, the  ``FragmentedMolecule`` class must be able 
+   to handle fragmentation patterns which break covalent-bonds. The usual way
+   of dealing with severed bonds is by capping. 
 
    - Computing caps only requires a FragmentedNuclei object (and the Nuclei)
      object it refers back to.
@@ -72,41 +65,10 @@ Type dispatch.
    fragments, whereas modules recieving ``FragmentedMolecule`` objects do need
    to worry about the fact that there is (in general) a set of fragments.
 
+*************************
+FragmentedMolecule Design
+*************************
 
-Ignored Considerations
-======================
+The high-level design aspects of the ``FragmentedMolecule`` class were
+already covered by :numref:`fig_fragmented_system_design`.
 
-.. |phi_set| replace:: :math:`\left\lbrace\phi_i\right\rbrace`
-
-AO Basis Set.
-   It is almost always assumed that if |phi_set| is the atomic basis set
-   for atom :math:`i` in the :ref:`supersystem`, then |phi_set| is also the
-   atomic basis set for atom :math:`i` in each fragment. In other words, the
-   molecular basis set is fragmented in the same way as the :ref:`supersystem`.
-   Thus if we know how to generate |phi_set| for any given atom, it is trivial
-   to assemble the molecular basis set for a given fragment. This is one reason
-   why we do not worry about storing the AO basis set in the 
-   ``FragmentedMolecule`` class. Another reason is to parallel the un-fragmented
-   hierarchy where ``Molecule`` and ``AOBasisSet`` are separate classes.
-
-NMers.
-
-   Main discussion :ref:`gf_interaction_class_design`.
-   
-   Many fragment-based methods require forming |n|-mers. Naive,
-   applications of the MBE suggest that |n|-mers are "just another system
-   we need to compute the energy of", suggesting |n|-mers should be treated 
-   similar to fragments. However, more complicated applications (*e.g.*, 
-   screened |n|-mers, multi-layer approaches, and BSSE-corrections) tend to
-   rely on interactions, which are more complicated than just an |n|-mer (they
-   inolve an |n|-mer and usually some overlaps/subsystems, along with linear-
-   expansion coefficients). Since interactions are more complicated we feel
-   they warrant another class.
-
-
-Fields.
-   While we ultimately want to fragment the chemical system, which includes
-   the external fields, we want our fragmented chemical system class to
-   parallel the non-fragmented versions. Since the chemical system contains
-   a molecule, we want the fragmented chemical system to contain a fragmented
-   molecule. The point is that fragmenting the fields is handled elsewhere. 

@@ -1,9 +1,11 @@
+.. _designing_fragmented_system:
+
 #########################################
 Designing the Fragmented System Component
 #########################################
 
 The point of this page is to record the design process of the 
-``FragmentedSystem`` and affiliated classes.
+``FragmentedSystem`` class and affiliated classes.
 
 ****************************
 What is a Fragmented System?
@@ -64,14 +66,14 @@ Performance
    considered, but that's a different problem). Storing an exponential number
    of copies (even if those copies are only subsets) gets expensive quickly.
 
+   - Views allow array-of-structures API, while maintaining structure-of-array
+     innards.
+
 .. _fs_container:
 
 Container
-   ``FragmentedSystem`` and the like will be container-based, being a series
-   of fragments, each fragment being a view of a ``ChemicalSystem``. 
-
-   - Views allow array-of-structures API, while maintaining structure-of-array
-     innards. Helps address :ref:`fs_performance`.
+   ``FragmentedSystem`` is essentially a set of fragments. In terms of C++
+   concepts this means the ``FragmentedSystem`` class should be container-like.
 
 .. _fs_generality:
 
@@ -145,6 +147,8 @@ in the following subsections.
 FragmentedNuclei Class
 ======================
 
+Main page: :ref:`designing_fragmented_nuclei`.
+
 Most algorithms for fragmenting a molecular system focus on the nuclei. Given
 a ``Nuclei`` object, a ``FragmentedNuclei`` is a container whose elements are
 subsets of ``Nuclei``. As shown in :numref:`fig_fragmented_system_design` the
@@ -170,4 +174,37 @@ FragmentedSystem Class
 
 As shown in :numref:`fig_fragmented_system_design`, the ``FragmentedSystem``
 class has two pieces: a ``FragmentedMolecule`` object and a mapping from the
-elements of the ``FragmentedMolecule`` object to their respective fields.
+elements of the ``FragmentedMolecule`` object to their respective fields. At
+
+************************
+FragmentedSystem Summary
+************************
+
+:ref:`fs_hierarchy`
+   As :numref:`fig_fragmented_system_design` shows the nesting of the
+   ``FragmentedSystem`` class mirrors that of the ``ChemicalSystem`` class.
+
+:ref:`fs_fields`
+    The ``FragmentedSystem`` class internally contains a list of fields for
+    each element of the ``FragmentedSystem``. 
+
+:ref:`fs_performance``
+   The design relies on views for accessing elements of the 
+   ``FragmentedSystem``, ``FragmentedMolecule``, and ``FragmentedNuclei``.
+   In turn, the innards of the classes are free to store the fragmentation
+   information in whatever format is convenient for performance.
+
+:ref:`fs_container`
+   The adherenance to the container concept is reflected in the API of the
+   ``FragmentedSystem`` class which is not shown in 
+   :numref:`fig_fragmented_system_design`.
+
+:ref:`fs_generality`
+   In this design, disjoint/non-disjoint and covalent vs. non-covalent are 
+   considerations for the ``FragmentedNuclei`` and ``FragmentedMolecule``
+   classes respectively. 
+
+:ref:`fs_chemical_system_compatability`
+   Not apparent from :numref:`fig_fragmented_system_design`, but impacts the
+   API of the ``ChemicalSystemView`` class. Namely, the ``ChemicalSystemView``
+   class needs to be easily converted to a ``ChemicalSystem`` class.
