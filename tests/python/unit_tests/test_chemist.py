@@ -15,15 +15,14 @@
 #
 
 import os
-import chemist
+import parallelzone as pz
 import sys
 import unittest
 
 
 
 if __name__ == '__main__':
-    # TODO: RuntimeView  and hold
-    # rv = pz.runtime.RuntimeView()
+    rv = pz.runtime.RuntimeView()
 
     my_dir = os.path.dirname(os.path.realpath(__file__))
 

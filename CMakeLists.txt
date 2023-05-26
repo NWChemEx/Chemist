@@ -47,7 +47,7 @@ cmaize_find_or_build_dependency(
     BUILD_TARGET tensorwrapper
     FIND_TARGET nwx::tensorwrapper
     CMAKE_ARGS BUILD_TESTING=OFF
-               BUILD_PYBIND11_PYBINDINGS=${BUILD_PYBIND11_PYBINDINGS}
+#               BUILD_PYBIND11_PYBINDINGS=${BUILD_PYBIND11_PYBINDINGS}
 )
 
 find_package(Boost REQUIRED COMPONENTS container)
@@ -66,11 +66,6 @@ nwx_add_pybind11_module(
     SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/python"
     DEPENDS "${PROJECT_NAME}"
 )
-
-set(chemist_install_targets ${PROJECT_NAME})
-if("${BUILD_PYBIND11_PYBINDINGS}")
-    list(APPEND chemist_install_targets py_${PROJECT_NAME})
-endif()
 
 if("${BUILD_CPPYY_PYBINDINGS}")
     include(nwx_python_mods)
@@ -97,12 +92,9 @@ if("${BUILD_TESTING}")
     # N.B. these are no-ops if BUILD_PYBIND11_PYBINDINGS is not turned on
     nwx_pybind11_tests(
         py_chemist "${PYTHON_TEST_DIR}/unit_tests/test_chemist.py"
+        SUBMODULES parallelzone
     )
 endif()
 
 
-cmaize_add_package(
-    ${PROJECT_NAME}
-    NAMESPACE nwx::
-    TARGETS "${chemist_install_targets}"
-)
+cmaize_add_package(${PROJECT_NAME} NAMESPACE nwx::)
