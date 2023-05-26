@@ -31,6 +31,7 @@ set(
 )
 
 include(get_cmaize)
+include(nwx_versions)
 include(nwx_cxx_api_docs)
 nwx_cxx_api_docs("${CMAKE_CURRENT_SOURCE_DIR}/src"
                  "${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -44,6 +45,7 @@ cmaize_find_or_build_dependency(
     tensorwrapper
     URL github.com/NWChemEx-Project/TensorWrapper
     PRIVATE TRUE
+    VERSION ${NWX_TENSORWRAPPER_VERSION}
     BUILD_TARGET tensorwrapper
     FIND_TARGET nwx::tensorwrapper
     CMAKE_ARGS BUILD_TESTING=OFF
@@ -81,7 +83,7 @@ if("${BUILD_TESTING}")
         URL github.com/catchorg/Catch2
         BUILD_TARGET Catch2
         FIND_TARGET Catch2::Catch2
-        VERSION v2.x
+        VERSION ${NWX_CATCH2_VERSION}
     )
     cmaize_add_tests(
         test_chemist
