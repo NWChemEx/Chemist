@@ -72,3 +72,27 @@ FragmentedMolecule Design
 The high-level design aspects of the ``FragmentedMolecule`` class were
 already covered by :numref:`fig_fragmented_system_design`.
 
+**************************
+FragmentedMolecule Summary
+**************************
+
+Below we summarize how our design addresses the considerations raised above.
+
+:ref:`fm_molecule`
+   The elements of the ``FragmentedMolecule`` class are ``MoleculeView`` 
+   objects, which are API-compatible with ``Molecule`` instances.
+
+:ref:`fm_charge_mult`
+   The ``FragmentedMolecule`` class stores the charge/multiplicty of each
+   fragment.
+
+:ref:`fm_caps`
+   The ``FragmentedMolecule`` class will contain a ``Caps`` object which
+   represents the broken bonds and what they are replaced with. Discussion of
+   the design of the ``Caps`` class can be found 
+   :ref:`designing_the_caps_class`.
+
+
+:ref:`fm_type_dispatch`
+   The ``FragmentedMolecule`` class is different from the ``Molecule`` class
+   and thus can be used for type-based dispatching.

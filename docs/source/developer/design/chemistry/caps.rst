@@ -4,7 +4,7 @@
 Designing the Caps Class
 ########################
 
-In :ref:`desinging_fragmented_molecule_class` consideration :ref:`fm_caps`
+In :ref:`designing_fragmented_molecule_class` consideration :ref:`fm_caps`
 gave rise to the need for a ``Caps`` class. This page describes the design of
 that object.
 
@@ -44,6 +44,7 @@ Caps considerations
 .. |D| replace:: :math:`D`
 .. |CB| replace:: :math:`C-B`
 .. |AD| replace:: :math:`A-D`
+.. |AC| replace:: :math:`A-C`
 
 .. _cc_new_atoms:
 
@@ -70,6 +71,7 @@ Bond memory.
 .. _cc_multiple_caps:
 
 Multiple caps.
-   It is possible that when forming a fragment we break more than one bond to
-   the same atom. In other words, it may be that fragmenting results in an
-   atom needing more than one cap.
+   An atom |A| may make bonds to several atoms which are not in the fragment.
+   If |A| is bonded to |B| and |C|, and |B| and |C| are both not in the 
+   fragment we need caps to address fragmenting the |AB| bond, but also the
+   |AC| bond

@@ -127,6 +127,8 @@ AO Basis Sets.
 Fragmented System Design
 ************************
 
+This
+
 .. _fig_fragmented_system_design:
 
 .. figure:: assets/fragmented_system.png
@@ -185,10 +187,10 @@ FragmentedSystem Summary
    ``FragmentedSystem`` class mirrors that of the ``ChemicalSystem`` class.
 
 :ref:`fs_fields`
-    The ``FragmentedSystem`` class internally contains a list of fields for
-    each element of the ``FragmentedSystem``. 
+   The ``FragmentedSystem`` class internally contains a list of fields for
+   each element of the ``FragmentedSystem``. 
 
-:ref:`fs_performance``
+:ref:`fs_performance`
    The design relies on views for accessing elements of the 
    ``FragmentedSystem``, ``FragmentedMolecule``, and ``FragmentedNuclei``.
    In turn, the innards of the classes are free to store the fragmentation
