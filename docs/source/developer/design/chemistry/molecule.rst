@@ -20,7 +20,7 @@ Molecule Design
 
 This section contains notes on the design of Chemist's molecule component.
 
-.. _md_what_is_a molecule:
+.. _md_what_is_a_molecule:
 
 *******************
 What is a Molecule?

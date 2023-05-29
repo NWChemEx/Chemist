@@ -127,8 +127,6 @@ AO Basis Sets.
 Fragmented System Design
 ************************
 
-This
-
 .. _fig_fragmented_system_design:
 
 .. figure:: assets/fragmented_system.png
