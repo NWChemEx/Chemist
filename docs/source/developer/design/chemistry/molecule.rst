@@ -12,11 +12,15 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
+.. _ md_molecule_design:
+
 ###############
 Molecule Design
 ###############
 
 This section contains notes on the design of Chemist's molecule component.
+
+.. _md_what_is_a_molecule:
 
 *******************
 What is a Molecule?
@@ -338,3 +342,11 @@ raised in :ref:`molecule_considerations`:
    able to separate the API of the class from its implementation, which would
    not be as easy if we had opted to represent a molecule as a
    ``std::vector<Atom>`` for example.
+
+*********************
+Future Considerations
+*********************
+
+- Could template ``Atom`` on the type of the nucleus and introduce additional
+  nucleus types in cases where the nucleus is to be treated quantum
+  mechanically.

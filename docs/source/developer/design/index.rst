@@ -26,16 +26,7 @@ Overview
    :maxdepth: 2
 
    architecture
-
-*********
-Chemistry
-*********
-
-.. toctree::
-   :maxdepth: 2
-
-   system
-   molecule
+   chemistry/index
 
 *******
 Physics
