@@ -4,24 +4,24 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Molecule Design &mdash; Chemist 0.0.0 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Vector Space Design" href="vector_spaces.html" />
-    <link rel="prev" title="Chemical System Design" href="system.html" /> 
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Chemical System Design" href="system.html" />
+    <link rel="prev" title="Designing the Chemistry Sublibrary" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,14 +32,14 @@
 
           
           
-          <a href="../../index.html" class="icon icon-home">
+          <a href="../../../index.html" class="icon icon-home">
             Chemist
           </a>
               <div class="version">
                 0.0.0
               </div>
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -48,17 +48,16 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview of Chemist</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Developer Documentation</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">Design Documentation</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="index.html#overview">Overview</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="index.html#chemistry">Chemistry</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="system.html">Chemical System Design</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Molecule Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview of Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#overview">Overview</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html">Designing the Chemistry Sublibrary</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="index.html#physics">Physics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#physics">Physics</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex-project.github.io/.github/">Developing for the NWChemEx Organization</a></li>
@@ -73,19 +72,20 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">Chemist</a>
+          <a href="../../../index.html">Chemist</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Developer Documentation</a></li>
-          <li class="breadcrumb-item"><a href="index.html">Design Documentation</a></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Developer Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Design Documentation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Designing the Chemistry Sublibrary</a></li>
       <li class="breadcrumb-item active">Molecule Design</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/developer/design/molecule.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../../_sources/developer/design/chemistry/molecule.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -97,7 +97,7 @@
 <h1>Molecule Design<a class="headerlink" href="#molecule-design" title="Permalink to this heading"></a></h1>
 <p>This section contains notes on the design of Chemist’s molecule component.</p>
 <div class="section" id="what-is-a-molecule">
-<h2>What is a Molecule?<a class="headerlink" href="#what-is-a-molecule" title="Permalink to this heading"></a></h2>
+<span id="md-what-is-a-molecule"></span><h2>What is a Molecule?<a class="headerlink" href="#what-is-a-molecule" title="Permalink to this heading"></a></h2>
 <p>In chemistry molecules are sets of atoms which are covalently bonded. In
 computational chemistry, particularly quantum chemistry, the covalently-bonded
 requirement is usually dropped, <em>i.e.</em>, a molecule is simply a set of atoms.
@@ -210,7 +210,7 @@ have opted to store the topology in a different class as well (the
 <div class="section" id="overview-of-molecule-design">
 <h2>Overview of Molecule Design<a class="headerlink" href="#overview-of-molecule-design" title="Permalink to this heading"></a></h2>
 <div class="figure align-center" id="id2">
-<span id="fig-molecule-design"></span><img alt="../../_images/molecule.png" src="../../_images/molecule.png" />
+<span id="fig-molecule-design"></span><img alt="../../../_images/molecule.png" src="../../../_images/molecule.png" />
 <p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">Major pieces of the molecule component of Chemist.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
 </div>
 <p>Subject to the considerations raised in <a class="reference internal" href="#molecule-considerations"><span class="std std-ref">Molecule Considerations</span></a>, the
@@ -391,14 +391,22 @@ not be as easy if we had opted to represent a molecule as a
 </dd>
 </dl>
 </div>
+<div class="section" id="future-considerations">
+<h2>Future Considerations<a class="headerlink" href="#future-considerations" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Could template <code class="docutils literal notranslate"><span class="pre">Atom</span></code> on the type of the nucleus and introduce additional
+nucleus types in cases where the nucleus is to be treated quantum
+mechanically.</p></li>
+</ul>
+</div>
 </div>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="system.html" class="btn btn-neutral float-left" title="Chemical System Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="vector_spaces.html" class="btn btn-neutral float-right" title="Vector Space Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Designing the Chemistry Sublibrary" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="system.html" class="btn btn-neutral float-right" title="Chemical System Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
