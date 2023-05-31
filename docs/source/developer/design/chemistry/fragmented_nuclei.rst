@@ -59,8 +59,22 @@ Container.
    filled with subsets of a ``Nuclei`` object. The container should be set-like
    but also support indexing.
 
-.. _fn_fixed_superset:
+.. _fn_immutable_superset:
 
-Fixed superset.
+Immutable superset.
    For the purposes of the super-/sub-set relation we assume that the
    ``Nuclei`` superset has been fully initialized and will not change.
+
+   - If the ``Nuclei`` object changes it likely will invalidate the elements of
+     the ``FragmentedNuclei``.
+
+.. _fn_immutable_subsets:
+
+Immutable subsets.
+   Each subset is thought of as a literal. So while you can add new subsets to
+   the ``FragmentedNuclei``, but can't modify the subset once it's added.
+
+   - Subsets are guaranteed to be unique and are sorted. Allowing subset
+     modifications would get tricky since in the process of adding/removing
+     elements of the subset one may clobber other subsets and/or cause a need
+     for resorting.
