@@ -5,7 +5,7 @@ using namespace chemist;
 
 TEST_CASE("FragmentedNuclei") {
     FragmentedNuclei defaulted;
-    FragmentedNuclei empty(Nuclei());
+    FragmentedNuclei empty(chemist::Nuclei{});
     Nuclei nukes;
     nukes.push_back(Nuclei::value_type("H", 1ul, 1.0, 0.0, 0.0, 0.0, 1.0));
     nukes.push_back(Nuclei::value_type("He", 2ul, 4.0, 1.0, 2.0, 3.0, 2.0));
@@ -19,11 +19,10 @@ TEST_CASE("FragmentedNuclei") {
         SECTION("Default") { REQUIRE(defaulted.size() == 0); }
         SECTION("value") {
             REQUIRE(empty.size() == 0);
-            REQUIRE(empty.supersystem() == Nuclei());
+            REQUIRE(empty.supersystem() == Nuclei{});
 
             REQUIRE(full.size() == 3);
             REQUIRE(full.supersystem() == nukes);
-            s
         }
         SECTION("copy") {
             FragmentedNuclei other_defaulted(defaulted);
@@ -34,6 +33,19 @@ TEST_CASE("FragmentedNuclei") {
 
             FragmentedNuclei other_full(full);
             REQUIRE(full == other_full);
+        }
+        SECTION("move") {
+            FragmentedNuclei other_defaulted(defaulted);
+            FragmentedNuclei moved_defaulted(std::move(defaulted));
+            REQUIRE(moved_defaulted == other_defaulted);
+
+            FragmentedNuclei other_empty(empty);
+            FragmentedNuclei moved_empty(std::move(empty));
+            REQUIRE(moved_empty == other_empty);
+
+            FragmentedNuclei other_full(full);
+            FragmentedNuclei moved_full(std::move(full));
+            REQUIRE(moved_full == other_full);
         }
     }
 

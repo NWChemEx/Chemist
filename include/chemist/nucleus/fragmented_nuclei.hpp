@@ -1,5 +1,6 @@
 #pragma once
 #include <chemist/nucleus/nuclei.hpp>
+#include <chemist/set_theory/family_of_sets.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
@@ -29,6 +30,9 @@ private:
     using impl_type = set_theory::FamilyOfSets<supersystem_type>;
 
 public:
+    /// Type of a fragment
+    using value_type = typename impl_type::value_type;
+
     /// Type of a reference to a fragment returned by non-const *this, will be
     /// read-only.
     using reference = typename impl_type::const_reference;
@@ -44,17 +48,16 @@ public:
 
     FragmentedNuclei() = default;
 
-    explicit FragmentedNuclei(nuclei_type supersystem) :
+    explicit FragmentedNuclei(supersystem_type supersystem) :
       m_frags_(std::move(supersystem)) {}
 
     void add_fragment(std::initializer_list<size_type> il) {
         add_fragment(il.begin(), il.end());
     }
 
-    template<typename Args...>
-    void add_fragment(size_type index0, Args... other_indices) {
-        constexpr auto n = sizeof(Args) + 1;
-        std::array<size_type, n> indices{index0, other_indices....};
+    template<typename... Args>
+    void add_fragment(index_type index0, Args... other_indices) {
+        std::array indices{index0, other_indices...};
         add_fragment(indices.begin(), indices.end());
     }
 
@@ -62,7 +65,11 @@ public:
     void add_fragment(BeginItr&& b, EndItr&& e) {
         auto s = m_frags_.new_subset();
         for(; b != e; ++b) s.insert(*b);
-        m_frags_.emplace(std::move(s));
+        m_frags_.insert(std::move(s));
+    }
+
+    const_supersystem_reference supersystem() const {
+        return m_frags_.object();
     }
 
     bool operator==(const FragmentedNuclei& rhs) const noexcept {
@@ -76,15 +83,13 @@ public:
 private:
     friend base_type;
 
-    reference at_(size_type i) noexcept {return m_}
+    reference at_(size_type i) noexcept { return m_frags_[i]; }
 
-    const_reference at_(size_type i) const noexcept {
-        return m_frags_[i];
-    }
+    const_reference at_(size_type i) const noexcept { return m_frags_[i]; }
 
     size_type size_() const noexcept { return m_frags_.size(); }
 
-    /// Object actually implementing the set theory
+    /// Object actually managing the sets
     impl_type m_frags_;
 };
 

@@ -43,7 +43,7 @@ TEST_CASE("SetTraits<Molecule>") {
     }
 
     SECTION("const_reference") {
-        using corr = const typename obj_type::const_reference;
+        using corr = typename obj_type::const_reference;
         using T    = typename traits::const_reference;
         STATIC_REQUIRE(std::is_same_v<corr, T>);
     }

@@ -110,6 +110,18 @@ public:
      */
     explicit FamilyOfSets(SetType obj, il_type il = {});
 
+    FamilyOfSets(const FamilyOfSets& other);
+
+    FamilyOfSets& operator=(const FamilyOfSets& rhs);
+
+    /** @brief Exchanges the state in *this with that in @p other.
+     *
+     *  @param[in,out] other The instance to exchange state with. After this
+     *                       operation @p other will contain the state which
+     *                       was previously in *this.
+     */
+    void swap(FamilyOfSets& other) noexcept;
+
     /** @brief Used to determine if the current family is empty.
      *
      *  This family of sets is empty if it contains zero sets. This function is
@@ -259,9 +271,13 @@ public:
      */
     bool disjoint() const noexcept;
 
+    bool operator==(const FamilyOfSets& rhs) const noexcept;
+
 private:
     /// Checks that @p i is a valid offset
     void bounds_check_(size_type i) const;
+
+    bool has_obj_() const noexcept { return static_cast<bool>(m_obj_); }
 
     /// The actual subsets
     subset_container m_subsets_;
@@ -290,12 +306,7 @@ bool operator==(const FamilyOfSets<LHSSetType>& lhs,
     if constexpr(!std::is_same_v<decltype(lhs), decltype(rhs)>) {
         return false;
     } else {
-        if(lhs.object() != rhs.object()) return false;
-        if(lhs.size() != rhs.size()) return false;
-        using size_type = typename FamilyOfSets<LHSSetType>::size_type;
-        for(size_type i = 0; i < lhs.size(); ++i)
-            if(lhs[i] != rhs[i]) return false;
-        return true;
+        return lhs == rhs;
     }
 }
 
@@ -333,9 +344,31 @@ std::ostream& operator<<(std::ostream& os, const FamilyOfSets<SetType>& fos) {
 #define FAMILYOFSETS FamilyOfSets<SetType>
 
 template<typename SetType>
+FAMILYOFSETS::FamilyOfSets(const FamilyOfSets& other) :
+  m_obj_(other.size() ? traits_type::make_pointer(other.object()) : nullptr) {
+    for(const auto& x : other) {
+        auto temp = new_subset();
+        for(size_type i = 0; i < x.size(); ++i) temp.insert(x[i]);
+        insert(std::move(temp));
+    }
+}
+
+template<typename SetType>
+FAMILYOFSETS& FAMILYOFSETS::operator=(const FamilyOfSets& rhs) {
+    if(this != &rhs) { FamilyOfSets(rhs).swap(*this); }
+    return *this;
+}
+
+template<typename SetType>
 FAMILYOFSETS::FamilyOfSets(SetType obj, il_type il) :
   m_obj_(traits_type::make_pointer(std::move(obj))) {
     for(auto x : il) emplace(x);
+}
+
+template<typename SetType>
+void FAMILYOFSETS::swap(FamilyOfSets& other) noexcept {
+    m_subsets_.swap(other.m_subsets_);
+    m_obj_.swap(other.m_obj_);
 }
 
 template<typename SetType>
@@ -379,6 +412,17 @@ bool FAMILYOFSETS::disjoint() const noexcept {
             if(!traits_type::disjoint(*lhs, *rhs)) return false;
         }
     }
+    return true;
+}
+
+template<typename SetType>
+bool FAMILYOFSETS::operator==(const FamilyOfSets& rhs) const noexcept {
+    if(size() != rhs.size()) return false;
+    if(has_obj_() != rhs.has_obj_()) return false;
+    if(!has_obj_()) return true; // Both are empty without objects
+    if(object() != rhs.object()) return false;
+    for(size_type i = 0; i < size(); ++i)
+        if((*this)[i] != rhs[i]) return false;
     return true;
 }
 
