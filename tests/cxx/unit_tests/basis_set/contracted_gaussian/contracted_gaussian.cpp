@@ -129,7 +129,7 @@ TEST_CASE("ContractedGaussian<double> : at_") {
         STATIC_REQUIRE(std::is_same_v<double&, decltype(prim0.exponent())>);
     }
     SECTION("Throws for out of range") {
-        REQUIRE_THROWS_AS(g[9], std::out_of_range);
+        REQUIRE_THROWS_AS(g.at(9), std::out_of_range);
     }
 }
 
@@ -143,7 +143,7 @@ TEST_CASE("ContractedGaussian<double> : at_() const") {
         STATIC_REQUIRE(std::is_same_v<constd, decltype(prim0.exponent())>);
     }
     SECTION("Throws for out of range") {
-        REQUIRE_THROWS_AS(g[9], std::out_of_range);
+        REQUIRE_THROWS_AS(g.at(9), std::out_of_range);
     }
 }
 
