@@ -15,6 +15,7 @@
  */
 
 #include "test_integral_factory.hpp"
+#include <iostream>
 
 TEST_CASE("IntegralFactory") {
     using test_t = chemist::IntegralFactory;
@@ -26,8 +27,10 @@ TEST_CASE("IntegralFactory") {
     using indices_t   = typename test_t::indices_t;
     using buffer_t    = typename test_t::buffer_t;
 
-    double* a;
-    double* b;
+    double z  = 0.0;
+    double y  = 0.0;
+    double* a = &z;
+    double* b = &y;
     buffer_t buffer1{a};
     buffer_t buffer2{b};
 
