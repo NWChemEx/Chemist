@@ -16,8 +16,6 @@ private:
     using impl_type = set_theory::FamilyOfSets<supersystem_type>;
 
 public:
-    using reference = typename impl_type::reference_type;
-
     using const_reference = typename impl_type::const_reference;
 
     using size_type = base_type::size_type;
