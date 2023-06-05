@@ -78,3 +78,10 @@ Immutable subsets.
      modifications would get tricky since in the process of adding/removing
      elements of the subset one may clobber other subsets and/or cause a need
      for resorting.
+
+.. _fn_empty_states:
+
+Empty states.
+   The default constructed object should represent a truly empty state, such a
+   state does not even have a supersystem set. There is also an empty state
+   where the supersystem is set, but the object may not contain any fragments.

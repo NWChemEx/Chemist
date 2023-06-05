@@ -345,7 +345,8 @@ std::ostream& operator<<(std::ostream& os, const FamilyOfSets<SetType>& fos) {
 
 template<typename SetType>
 FAMILYOFSETS::FamilyOfSets(const FamilyOfSets& other) :
-  m_obj_(other.size() ? traits_type::make_pointer(other.object()) : nullptr) {
+  m_obj_(other.has_obj_() ? traits_type::make_pointer(other.object()) :
+                            nullptr) {
     for(const auto& x : other) {
         auto temp = new_subset();
         for(size_type i = 0; i < x.size(); ++i) temp.insert(x[i]);
