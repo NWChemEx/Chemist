@@ -22,7 +22,7 @@
 namespace chemist {
 namespace detail_ {
 class NucleiPIMPL;
-}
+} // namespace detail_
 
 /** @brief Represents a container of Nucleus objects.
  *
