@@ -171,6 +171,20 @@ public:
     Molecule(charge_type charge, size_type multiplicity,
              atom_initializer_list atoms);
 
+    /** @brief Constructs a molecule from a set of nuclei.
+     *
+     *  @param[in] charge The net charge of the molecule. The negative of the
+     *                    net number of electrons.
+     *  @param[in] multiplicity This is 2S+1, where S is the total spin of the
+     *                          electrons.
+     *  @param[in] nuclei This is the nuclear framework in which the electrons
+     *                    move about.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the initial
+     *                        state. Strong throw guarantee.
+     */
+    Molecule(charge_type charge, size_type multiplicity, nuclei_type nuclei);
+
     /// Default dtor
     ~Molecule() noexcept;
 
