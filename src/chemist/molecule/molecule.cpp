@@ -61,6 +61,14 @@ Molecule::Molecule(charge_type charge, size_type multiplicity,
     set_multiplicity(multiplicity);
 }
 
+Molecule::Molecule(charge_type charge, size_type multiplicity,
+                   nuclei_type nuclei) :
+  m_pimpl_(make_pimpl_()) {
+    this->nuclei() = std::move(nuclei);
+    set_charge(charge);
+    set_multiplicity(multiplicity);
+}
+
 Molecule::~Molecule() noexcept = default;
 
 // -- Getters/Setters ----------------------------------------------------------
@@ -164,6 +172,8 @@ bool operator==(const Molecule& lhs, const Molecule& rhs) noexcept {
     // Check for equivalent sizes before iterating through all atoms
     if(lhs.size() != rhs.size()) return false;
     if(!lhs.size()) return true; // Both empty
+    if(lhs.charge() != rhs.charge()) return false;
+    if(lhs.multiplicity() != rhs.multiplicity()) return false;
 
     return std::equal(lhs.begin(), lhs.end(), rhs.begin());
 }

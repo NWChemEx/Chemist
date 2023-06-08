@@ -20,7 +20,7 @@ Designing the CapSet Class
 
 In :ref:`designing_fragmented_molecule_class` consideration :ref:`fm_caps`
 gave rise to the need for a ``CapSet`` class (the name is chosen to avoid
-having two classes which differ by only an "s"). This page describes the design 
+having two classes which differ by only an "s"). This page describes the design
 of the ``CapSet``
 
 **************
@@ -39,7 +39,7 @@ In this case we say that in forming the fragments we have broken the
 electrons in the bond are split evenly). Treating the fragments as radicals
 would lead to substantially different electronic structure, and we instead
 usually prefer to instead approximate the severed bond as existing
-between |A| and an added monovalent atom (usually hydrogen). The 
+between |A| and an added monovalent atom (usually hydrogen). The
 monovalent atom (or sometimes group of atoms) is referred to as a "cap".
 
 ********************
@@ -49,7 +49,7 @@ Why do we need caps?
 If we want to apply fragment-based methods to large covalently-bonded systems
 then we will necessarily have to break covalent bonds. Since we will not want
 to treat the resulting fragments as radicals, we will also need to cap the
-fragments. 
+fragments.
 
 *******************
 Caps considerations
@@ -91,7 +91,7 @@ Bond memory.
 
 Multiple caps.
    An atom |A| may make bonds to several atoms which are not in the fragment.
-   If |A| is bonded to |B| and |C|, and |B| and |C| are both not in the 
+   If |A| is bonded to |B| and |C|, and |B| and |C| are both not in the
    fragment we need caps to address fragmenting the |AB| bond, but also the
    |AC| bond
 
@@ -126,10 +126,10 @@ as the "replaced" atom.
 Following the :ref:`cc_container` consideration, the ``CapSet`` object is a
 container-like object whose elements are instances of the ``Cap`` class. Each
 ``Cap`` object knows the identity of the anchor atom, and the atom(s) replaced
-by the cap(s). This satisfies the :ref:`cc_bond_memory` and 
+by the cap(s). This satisfies the :ref:`cc_bond_memory` and
 :ref:`cc_multiple_caps` considerations. Consideration :ref:`cc_asymmetry` is
 handled by adding two ``Cap`` instances to the ``CapSet`` object, each having a
-different anchor atom. Finally, to satisfy :ref:`cc_new_atoms` each ``Cap`` 
+different anchor atom. Finally, to satisfy :ref:`cc_new_atoms` each ``Cap``
 holds ``Atom`` objects for the new atom(s).
 
 *******************
@@ -152,7 +152,7 @@ Bond memory.
    it is bonded to.
 
 :ref:`cc_multiple_caps`
-   Each ``Cap`` object can hold multiple replaced atoms.
+   ``Cap`` objects can be created for each of the replaced atoms.
 
 :ref:`cc_container`
    The ``CapSet`` class is container-like.

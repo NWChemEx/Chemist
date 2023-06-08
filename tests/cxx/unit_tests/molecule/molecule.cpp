@@ -45,6 +45,9 @@ TEST_CASE("Molecule Class") {
     Molecule hd{h, d};
     Molecule qm(1, 2, {h, d});
 
+    Molecule::nuclei_type nukes{h.nucleus(), d.nucleus()};
+    Molecule qm2(1, 2, nukes);
+
     SECTION("CTors") {
         SECTION("Default CTor") {
             REQUIRE(defaulted.size() == 0ul);
@@ -74,6 +77,15 @@ TEST_CASE("Molecule Class") {
             REQUIRE(qm.multiplicity() == 2);
             REQUIRE(qm[0] == atoms[0].nucleus());
             REQUIRE(qm[1] == atoms[1].nucleus());
+        }
+
+        SECTION("charge, multiplicity, and nuclei") {
+            REQUIRE(qm2.size() == 2);
+            REQUIRE(qm2.charge() == 1);
+            REQUIRE(qm2.n_electrons() == 1);
+            REQUIRE(qm2.multiplicity() == 2);
+            REQUIRE(qm2[0] == atoms[0].nucleus());
+            REQUIRE(qm2[1] == atoms[1].nucleus());
         }
 
         SECTION("Copy CTor") {
@@ -207,6 +219,17 @@ TEST_CASE("Molecule Class") {
         Molecule h2o_b{H, O, H2};
         SECTION("Molecules are the same") { REQUIRE(h2o_a == h2o_b); }
         SECTION("Molecules are different") { REQUIRE(h2o_a != Molecule{}); }
+
+        // Different charges
+        h2o_a.set_charge(2);
+        REQUIRE(h2o_a != h2o_b);
+
+        h2o_b.set_charge(2);
+        REQUIRE(h2o_a == h2o_b); // Sanity check they're back to equal
+
+        // Different multiplicities
+        h2o_a.set_multiplicity(3);
+        REQUIRE(h2o_a != h2o_b);
     }
 }
 
