@@ -7,20 +7,18 @@ using atom_type = Molecule::atom_type;
 
 TEST_CASE("FragmentedMolecule") {
     // Make some atoms
-    atom_type atom0;
-    atom_type atom1{"H", 1, 1.0, 0.0, 0.0, 0.0};
-    atom_type atom2{"H", 1, 1.0, 0.0, 0.1, 0.0};
+    atom_type atom0{"H", 1, 1.0, 0.0, 0.0, 0.0};
+    atom_type atom1{"H", 1, 1.0, 0.0, 0.1, 0.0};
 
     // Make a molecule filled with the atoms
     Molecule mol;
     mol.push_back(atom0);
     mol.push_back(atom1);
-    mol.push_back(atom2);
 
     // Fragment the molecule
     FragmentedNuclei frags(mol.nuclei());
     frags.add_fragment({0});
-    frags.add_fragment({1, 2});
+    frags.add_fragment({1});
 
     FragmentedMolecule defaulted;
     FragmentedMolecule has_frags(frags);
@@ -94,6 +92,92 @@ TEST_CASE("FragmentedMolecule") {
         }
     }
 
+    SECTION("supersystem") {
+        REQUIRE_THROWS_AS(defaulted.supersystem(), std::runtime_error);
+        REQUIRE(has_frags.supersystem() == mol);
+
+        // Honors charge/mult
+        FragmentedMolecule other(frags, 1, 2);
+        mol.set_charge(1);
+        mol.set_multiplicity(2);
+        REQUIRE(other.supersystem() == mol);
+    }
+
+    SECTION("charge") {
+        REQUIRE_THROWS_AS(defaulted.charge(0), std::out_of_range);
+
+        REQUIRE(has_frags.charge(0) == 0);
+        REQUIRE(has_frags.charge(1) == 0);
+
+        // Is mutable?
+        has_frags.charge(0) = 2;
+        REQUIRE(has_frags.charge(0) == 2);
+    }
+
+    SECTION("charge() const") {
+        REQUIRE_THROWS_AS(std::as_const(defaulted).charge(0),
+                          std::out_of_range);
+
+        REQUIRE(std::as_const(has_frags).charge(0) == 0);
+        REQUIRE(std::as_const(has_frags).charge(1) == 0);
+    }
+
+    SECTION("multiplicity") {
+        REQUIRE_THROWS_AS(defaulted.multiplicity(0), std::out_of_range);
+
+        REQUIRE(has_frags.multiplicity(0) == 1);
+        REQUIRE(has_frags.multiplicity(1) == 1);
+
+        // Is mutable?
+        has_frags.multiplicity(0) = 2;
+        REQUIRE(has_frags.multiplicity(0) == 2);
+    }
+
+    SECTION("multiplicity() const") {
+        REQUIRE_THROWS_AS(std::as_const(defaulted).multiplicity(0),
+                          std::out_of_range);
+
+        REQUIRE(std::as_const(has_frags).multiplicity(0) == 1);
+        REQUIRE(std::as_const(has_frags).multiplicity(1) == 1);
+    }
+
+    SECTION("at_") {
+        // N.B. This is tested through operator[], which relies on at_
+
+        Molecule corr0(0, 1, {atom0});
+        Molecule corr1(0, 1, {atom1});
+        REQUIRE(has_frags[0] == corr0);
+        REQUIRE(has_frags[1] == corr1);
+
+        // Honors charge/multiplicity
+        has_frags.charge(0)       = -1;
+        has_frags.multiplicity(0) = 3;
+        corr0.set_charge(-1);
+        corr0.set_multiplicity(3);
+        REQUIRE(has_frags[0] == corr0);
+    }
+
+    SECTION("at_ const") {
+        // N.B. This is tested through operator[] const, which relies on
+        // at_ const
+        Molecule corr0(0, 1, {atom0});
+        Molecule corr1(0, 1, {atom1});
+        REQUIRE(std::as_const(has_frags)[0] == corr0);
+        REQUIRE(std::as_const(has_frags)[1] == corr1);
+
+        // Honors charge/multiplicity
+        has_frags.charge(0)       = -1;
+        has_frags.multiplicity(0) = 3;
+        corr0.set_charge(-1);
+        corr0.set_multiplicity(3);
+        REQUIRE(std::as_const(has_frags)[0] == corr0);
+    }
+
+    SECTION("size_") {
+        REQUIRE(defaulted.size() == 0);
+        REQUIRE(has_frags.size() == 2);
+    }
+
     SECTION("comparisons") {
         // Default v default
         FragmentedMolecule other_default;
@@ -116,13 +200,13 @@ TEST_CASE("FragmentedMolecule") {
         // Different charge
         FragmentedMolecule diff_charge(has_frags);
         diff_charge.charge(0) = 1;
-        // REQUIRE(has_frags != diff_charge);
-        // REQUIRE_FALSE(has_frags == diff_charge);
+        REQUIRE(has_frags != diff_charge);
+        REQUIRE_FALSE(has_frags == diff_charge);
 
         // Different multiplicity
         FragmentedMolecule diff_multiplicity(has_frags);
-        diff_charge.multiplicity(0) = 2;
-        // REQUIRE(has_frags != diff_multiplicity);
-        // REQUIRE_FALSE(has_frags == diff_multiplicity);
+        diff_multiplicity.multiplicity(0) = 2;
+        REQUIRE(has_frags != diff_multiplicity);
+        REQUIRE_FALSE(has_frags == diff_multiplicity);
     }
 }

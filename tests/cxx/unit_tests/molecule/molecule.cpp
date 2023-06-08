@@ -219,6 +219,17 @@ TEST_CASE("Molecule Class") {
         Molecule h2o_b{H, O, H2};
         SECTION("Molecules are the same") { REQUIRE(h2o_a == h2o_b); }
         SECTION("Molecules are different") { REQUIRE(h2o_a != Molecule{}); }
+
+        // Different charges
+        h2o_a.set_charge(2);
+        REQUIRE(h2o_a != h2o_b);
+
+        h2o_b.set_charge(2);
+        REQUIRE(h2o_a == h2o_b); // Sanity check they're back to equal
+
+        // Different multiplicities
+        h2o_a.set_multiplicity(3);
+        REQUIRE(h2o_a != h2o_b);
     }
 }
 

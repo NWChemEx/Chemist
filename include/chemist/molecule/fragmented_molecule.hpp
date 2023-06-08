@@ -90,27 +90,89 @@ public:
                                 charge_type charge             = 0,
                                 multiplicity_type multiplicity = 1);
 
-    molecule_type supersystem() const {
+    /** @brief Returns the Molecule object *this is fragmenting.
+     *
+     *  The fragments in *this are subsets of some superset. This method can
+     *  be used to retrieve that superset.
+     *
+     *  @return The supersystem the fragments are subsets of.
+     *
+     *  @throw std::bad_alloc if
+     */
+    reference supersystem() const {
         return molecule_type(m_charge_, m_multiplicity_,
                              m_nuclei_.supersystem());
     }
 
+    /** @brief Returns a reference to the total charge of fragment @p i.
+     *
+     *  This method can be used to both get and set the charge of fragment
+     *  @p i. No consistency checks are made aside from ensuring that @p i
+     *  is in bounds, *i.e.*, there is no check to ensure that the charge is
+     *  physically possible.
+     *
+     *  @param[in] i The offset of the fragment whose charge is wanted. @p i
+     *               must be in the range [0, size()).
+     *
+     *  @return A mutable reference to the charge of fragment @p i.
+     *
+     *  @throw std::out_of_range if @p i is not in the range [0, size()). Strong
+     *                           throw guarantee.
+     */
     charge_reference charge(size_type i) { return m_charges_.at(i); }
 
+    /** @brief Returns the charge of fragment @p i.
+     *
+     *  This method is identical to the non-const version except that the
+     *  returned reference is read-only.
+     *
+     *  @param[in] i The offset of the fragment whose charge is wanted. @p i
+     *               must be in the range [0, size()).
+     *
+     *  @return A reference to the charge of the @p i th fragment.
+     *
+     *  @throw std::out_of_range if @p i is not in the range [0, size()).
+     *                           Strong throw guarantee.
+     */
     const_charge_reference charge(size_type i) const {
         return m_charges_.at(i);
     }
 
+    /** @brief Returns the multiplicity of fragment @p i.
+     *
+     *  This method can be used to set and get the multiplicity of the @p i -th
+     *  fragment. Aside from ensuring that @p i is in the range [0, size()),
+     *  this method performs no bounds checks on the multiplicity, *i.e*. there
+     *  is no check to see if the value of the multiplicity is physically
+     *  possible or meaningful.
+     *
+     *  @param[in] i The offset of the fragment whose multiplicity is wanted.
+     *               @p i must be in the range [0, size()).
+     *
+     *  @return A reference to the multiplicity of the @p i-th fragment.
+     *
+     *  @throw std::out_of_range if @p i is not in the range [0, size()).
+     *                           Strong throw guarantee.
+     */
     multiplicity_reference multiplicity(size_type i) {
         return m_multiplicities_.at(i);
     }
 
+    /** @brief Returns the multiplicity of fragment @p i.
+     *
+     *  This method is the same as the non-const version except that returned
+     *  multiplicity is read-only.
+     *
+     *  @param[in] i The offset of the fragment whose multiplicity is wanted.
+     *               @p i must be in the range [0, size()).
+     *
+     *  @return A reference to the multiplicity of the @p i-th fragment.
+     *
+     *  @throw std::out_of_range if @p i is not in the range [0, size()).
+     *                           Strong throw guarantee.
+     */
     const_multiplicity_reference multiplicity(size_type i) const {
         return m_multiplicities_.at(i);
-    }
-
-    void set_caps(size_type i, cap_set_type caps) {
-        m_caps_.emplace(i, std::move(caps));
     }
 
 private:
