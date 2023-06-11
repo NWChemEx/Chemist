@@ -52,13 +52,13 @@ cmaize_find_or_build_dependency(
 #               BUILD_PYBIND11_PYBINDINGS=${BUILD_PYBIND11_PYBINDINGS}
 )
 
-find_package(Boost REQUIRED COMPONENTS container)
+find_package(Boost REQUIRED)
 
 cmaize_add_library(
     ${PROJECT_NAME}
     SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/chemist"
     INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/include/chemist"
-    DEPENDS tensorwrapper Boost::container
+    DEPENDS tensorwrapper Boost::boost
 )
 
 # N.B. this is a no-op if BUILD_PYBIND11_PYBINDINGS is not turned on
