@@ -113,17 +113,43 @@ system.</p>
 </div>
 <div class="section" id="fragmented-nuclei-considerations">
 <h2>Fragmented Nuclei Considerations<a class="headerlink" href="#fragmented-nuclei-considerations" title="Permalink to this heading"></a></h2>
-<dl class="simple" id="fm-non-disjoint">
+<dl class="simple" id="fn-non-disjoint">
 <dt>Non-disjoint.</dt><dd><p>While many initial fragment-based techniques relied on disjoint fragments,
 more modern techniques relax this requirement. The <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code>
 class needs to be able to handle multiple fragments, even if those fragments
 are non-disjoint.</p>
 </dd>
 </dl>
-<dl class="simple" id="fm-container">
+<dl class="simple" id="fn-container">
 <dt>Container.</dt><dd><p>As described above, the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> class is envisioned as being
 filled with subsets of a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object. The container should be set-like
 but also support indexing.</p>
+</dd>
+</dl>
+<dl class="simple" id="fn-immutable-superset">
+<dt>Immutable superset.</dt><dd><p>For the purposes of the super-/sub-set relation we assume that the
+<code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> superset has been fully initialized and will not change.</p>
+<ul class="simple">
+<li><p>If the <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object changes it likely will invalidate the elements of
+the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="fn-immutable-subsets">
+<dt>Immutable subsets.</dt><dd><p>Each subset is thought of as a literal. So while you can add new subsets to
+the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code>, but can’t modify the subset once it’s added.</p>
+<ul class="simple">
+<li><p>Subsets are guaranteed to be unique and are sorted. Allowing subset
+modifications would get tricky since in the process of adding/removing
+elements of the subset one may clobber other subsets and/or cause a need
+for resorting.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="fn-empty-states">
+<dt>Empty states.</dt><dd><p>The default constructed object should represent a truly empty state, such a
+state does not even have a supersystem set. There is also an empty state
+where the supersystem is set, but the object may not contain any fragments.</p>
 </dd>
 </dl>
 </div>

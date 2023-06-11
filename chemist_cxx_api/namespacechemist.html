@@ -98,6 +98,12 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ShellView.html">ShellView</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Cap.html">Cap</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Caps a severed bond.  <a href="classchemist_1_1Cap.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1CapSet.html">CapSet</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The set of caps associated with a fragment.  <a href="classchemist_1_1CapSet.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html">ChemicalSystem</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class describing the entire chemical system to be modeled.  <a href="classchemist_1_1ChemicalSystem.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -120,8 +126,14 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Atom.html">Atom</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A class for holding the details of an atomic unit.  <a href="classchemist_1_1Atom.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1FragmentedMolecule.html">FragmentedMolecule</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a molecule which has been decomposed into fragments.  <a href="classchemist_1_1FragmentedMolecule.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html">Molecule</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a set of atoms.  <a href="classchemist_1_1Molecule.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1FragmentedNuclei.html">FragmentedNuclei</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class describing super-/sub-set relationship among sets of <code><a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a></code> objects.  <a href="classchemist_1_1FragmentedNuclei.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Nuclei.html">Nuclei</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a container of <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a> objects.  <a href="classchemist_1_1Nuclei.html#details">More...</a><br /></td></tr>
@@ -203,6 +215,16 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>const_nuclei_referen
 <tr class="memitem:a9c35c2077f93d58e288aedf98b48239c"><td class="memItemLeft" align="right" valign="top"><a id="a9c35c2077f93d58e288aedf98b48239c"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>charge_type</b> = typename <a class="el" href="classchemist_1_1Molecule.html#a7d1a39d4547a346472d8794efc88f0a5">Molecule::charge_type</a></td></tr>
 <tr class="separator:a9c35c2077f93d58e288aedf98b48239c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a033607b68c2630489097e14eee89f9fb"><td class="memItemLeft" align="right" valign="top"><a id="a033607b68c2630489097e14eee89f9fb"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>python_module_type</b> = pybind11::module_</td></tr>
+<tr class="separator:a033607b68c2630489097e14eee89f9fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f8fbe3925fa269932506822d3ff7a2a"><td class="memItemLeft" align="right" valign="top"><a id="a1f8fbe3925fa269932506822d3ff7a2a"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>python_module_reference</b> = python_module_type &amp;</td></tr>
+<tr class="separator:a1f8fbe3925fa269932506822d3ff7a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a390acb4b5fa938f37988ad1ec2d21699"><td class="memTemplParams" colspan="2"><a id="a390acb4b5fa938f37988ad1ec2d21699"></a>
+template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:a390acb4b5fa938f37988ad1ec2d21699"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><b>python_class_type</b> = pybind11::class_&lt; Args... &gt;</td></tr>
+<tr class="separator:a390acb4b5fa938f37988ad1ec2d21699"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96d048528cb7b99ed4be473f8548f361"><td class="memItemLeft" align="right" valign="top"><a id="a96d048528cb7b99ed4be473f8548f361"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>AOBasisSetD</b> = <a class="el" href="classchemist_1_1AOBasisSet.html">AOBasisSet</a>&lt; double &gt;</td></tr>
 <tr class="separator:a96d048528cb7b99ed4be473f8548f361"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -244,6 +266,45 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 <tr class="memitem:ga59bef977d0ef3e59a64fdf1dd3f148b0"><td class="memItemLeft" align="right" valign="top">
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;lhs, const <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;rhs) noexcept</td></tr>
 <tr class="separator:ga59bef977d0ef3e59a64fdf1dd3f148b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87775100fed4c5bb937171fbe95711bd"><td class="memItemLeft" align="right" valign="top"><a id="a87775100fed4c5bb937171fbe95711bd"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_chemical_system</b> (python_module_reference m)</td></tr>
+<tr class="separator:a87775100fed4c5bb937171fbe95711bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a186d3bc9be37640cace919191d1feb66"><td class="memItemLeft" align="right" valign="top"><a id="a186d3bc9be37640cace919191d1feb66"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>PYBIND11_MODULE</b> (chemist, m)</td></tr>
+<tr class="separator:a186d3bc9be37640cace919191d1feb66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e3af3663b83103c7ef49377c676df74"><td class="memItemLeft" align="right" valign="top"><a id="a7e3af3663b83103c7ef49377c676df74"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_atom</b> (python_module_reference m)</td></tr>
+<tr class="separator:a7e3af3663b83103c7ef49377c676df74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dafae08901357f0aecdf26f78e8ced9"><td class="memItemLeft" align="right" valign="top"><a id="a4dafae08901357f0aecdf26f78e8ced9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_molecule</b> (python_module_reference m)</td></tr>
+<tr class="separator:a4dafae08901357f0aecdf26f78e8ced9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65216180c77d6d6418b50e1b357ee33b"><td class="memItemLeft" align="right" valign="top"><a id="a65216180c77d6d6418b50e1b357ee33b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_nuclei</b> (python_module_reference m)</td></tr>
+<tr class="separator:a65216180c77d6d6418b50e1b357ee33b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cc1b88ca4fc9ec49991c760e1d604ab"><td class="memItemLeft" align="right" valign="top"><a id="a8cc1b88ca4fc9ec49991c760e1d604ab"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_nucleus</b> (python_module_reference m)</td></tr>
+<tr class="separator:a8cc1b88ca4fc9ec49991c760e1d604ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d130141f0c3ae268ae17c94a703cef2"><td class="memItemLeft" align="right" valign="top"><a id="a9d130141f0c3ae268ae17c94a703cef2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_nucleus_view</b> (python_module_reference m)</td></tr>
+<tr class="separator:a9d130141f0c3ae268ae17c94a703cef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac69148d2132cfbde9756f9cb2f007083"><td class="memItemLeft" align="right" valign="top"><a id="ac69148d2132cfbde9756f9cb2f007083"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_point_set</b> (python_module_reference m)</td></tr>
+<tr class="separator:ac69148d2132cfbde9756f9cb2f007083"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ce3020819ab0d3bfdf3093b3b95e30f"><td class="memItemLeft" align="right" valign="top"><a id="a2ce3020819ab0d3bfdf3093b3b95e30f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_point_view</b> (python_module_reference m)</td></tr>
+<tr class="separator:a2ce3020819ab0d3bfdf3093b3b95e30f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f7199f284e98322c45169fab247b73f"><td class="memItemLeft" align="right" valign="top"><a id="a9f7199f284e98322c45169fab247b73f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_point</b> (python_module_reference m)</td></tr>
+<tr class="separator:a9f7199f284e98322c45169fab247b73f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a267ae7b6ff2e07628c7c1eec509d43ef"><td class="memItemLeft" align="right" valign="top"><a id="a267ae7b6ff2e07628c7c1eec509d43ef"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_charge_view</b> (python_module_reference m)</td></tr>
+<tr class="separator:a267ae7b6ff2e07628c7c1eec509d43ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe5609a7a580861f89e189c8c8af6da8"><td class="memItemLeft" align="right" valign="top"><a id="afe5609a7a580861f89e189c8c8af6da8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_charges</b> (python_module_reference m)</td></tr>
+<tr class="separator:afe5609a7a580861f89e189c8c8af6da8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ff98e7fc43474d9e45e10a272b585c2"><td class="memItemLeft" align="right" valign="top"><a id="a6ff98e7fc43474d9e45e10a272b585c2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_point_charge</b> (python_module_reference m)</td></tr>
+<tr class="separator:a6ff98e7fc43474d9e45e10a272b585c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab47b65136044d4bbcef215d1208a1079"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ab47b65136044d4bbcef215d1208a1079"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacechemist.html#ab47b65136044d4bbcef215d1208a1079">operator==</a> (const <a class="el" href="classchemist_1_1AtomicBasisSet.html">AtomicBasisSet</a>&lt; T &gt; &amp;lhs, const <a class="el" href="classchemist_1_1AtomicBasisSet.html">AtomicBasisSet</a>&lt; T &gt; &amp;rhs)</td></tr>
 <tr class="memdesc:ab47b65136044d4bbcef215d1208a1079"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares two <a class="el" href="classchemist_1_1AtomicBasisSet.html">AtomicBasisSet</a> instances for equality.  <a href="namespacechemist.html#ab47b65136044d4bbcef215d1208a1079">More...</a><br /></td></tr>
@@ -454,7 +515,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Vector difference of two points. </p>
-<p>This function returns the vector difference of two points, <em>i.e.</em>, for points <img class="formulaInl" alt="$\vec{a}$" src="form_28.png"/> and <img class="formulaInl" alt="$\vec{b}$" src="form_29.png"/>, this function returns a point <img class="formulaInl" alt="$\vec{c}$" src="form_30.png"/> such that the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th component of <img class="formulaInl" alt="$\vec{c}$" src="form_30.png"/> is given by: @f{ c_i = a_i - b_i @f}</p>
+<p>This function returns the vector difference of two points, <em>i.e.</em>, for points <img class="formulaInl" alt="$\vec{a}$" src="form_30.png"/> and <img class="formulaInl" alt="$\vec{b}$" src="form_31.png"/>, this function returns a point <img class="formulaInl" alt="$\vec{c}$" src="form_32.png"/> such that the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th component of <img class="formulaInl" alt="$\vec{c}$" src="form_32.png"/> is given by: @f{ c_i = a_i - b_i @f}</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The scalar type used to hold the components of the point.</td></tr>
