@@ -26,6 +26,7 @@ familiar to quantum chemists (which we put in the physics sublibrary).
    :maxdepth: 2
 
    molecule
+   ao_basis_set
    system
    fragmented_system
    fragmented_molecule
