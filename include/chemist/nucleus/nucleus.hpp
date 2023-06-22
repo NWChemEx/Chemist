@@ -247,6 +247,18 @@ private:
     mass_type m_mass_;
 };
 
+/**
+ * @relates Nucleus
+ * @brief Makes it so the Nucleus class can be printed out.
+ *
+ * @param os The output stream to print to.
+ * @param ai The Nucleus instance to print to the stream.
+ * @return The output stream containing the Nucleus instance.
+ * @throws std::ios_base::failure if anything goes wrong while writing. Weak
+ *         throw guarantee.
+ */
+std::ostream& operator<<(std::ostream& os, const Nucleus& ni);
+
 } // namespace chemist
 
 #include "nucleus.ipp"
