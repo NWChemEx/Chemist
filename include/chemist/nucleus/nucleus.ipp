@@ -49,9 +49,9 @@ inline bool Nucleus::operator!=(const Nucleus& rhs) const noexcept {
 
 // -- Printing --------------------------------------------------------------
 
-std::ostream& operator<<(std::ostream& os, const Nucleus& ni) {
+inline std::ostream& operator<<(std::ostream& os, const Nucleus& ni) {
     os << ni.name() << std::fixed << std::setprecision(15);
-    for(auto c = 0; c < 3; ++c) os << " " << ai.coord(c);
+    for(auto c = 0; c < 3; ++c) os << " " << ni.coord(c);
     return os;
 }
 

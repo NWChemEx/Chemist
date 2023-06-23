@@ -18,6 +18,8 @@
 #include <cereal/types/string.hpp>
 #include <chemist/point_charge/point_charge.hpp>
 #include <string>
+#include <iostream>
+#include <iomanip>
 
 namespace chemist {
 
