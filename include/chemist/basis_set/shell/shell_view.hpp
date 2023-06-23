@@ -15,37 +15,76 @@
  */
 
 #pragma once
-#include "chemist/basis_set/detail_/ao_basis_view_base.hpp"
-#include "chemist/basis_set/shell.hpp"
+#include <chemist/basis_set/shell/shell.hpp>
+#include <chemist/detail_/view/traits.hpp>
 
 namespace chemist {
 
 template<typename T>
-class ShellView : public detail_::AOBasisViewBase<T, Shell, ShellView<T>> {
+class ShellView {
 private:
-    /// The type of the class this class derives from
-    using base_type = detail_::AOBasisViewBase<T, Shell, ShellView<T>>;
+    /// Works out view types for us
+    using traits_type = ViewTraits<T>;
+
+    /// Typedef so we don't need "typename" and "template" below
+    template<typename U>
+    using apply_const_ref = typename traits_type::template apply_const_ref<U>;
+
+    /// Typedef so we don't need "typename" and "template" below
+    template<typename U>
+    using ptr_type = typename traits_type::template apply_const_ptr<U>;
+
+    /// The value of the template parameter with all qualifiers removed.
+    using clean_value_type = typename traits_type::type;
+
+    /// Is the value of the template parameter const-qualified?
+    constexpr bool is_const_v = traits_type::is_const_v;
 
 public:
-    /// The type of the elements in this container
-    using value_type = ContractedGaussian<std::remove_cv_t<T>>;
+    /// The type *this is a view of
+    using shell_type = Shell<clean_value_type>;
+
+    /// The type of a mutable reference to a Shell
+    using shell_reference = shell_type&;
+
+    /// The type of the contracted Gaussian common to AOs in *this
+    using contracted_gaussian_type =
+      typename shell_type::contracted_gaussian_type;
+
+    /// The type of a read-only reference to a contracted Gaussian
+    using const_cg_reference = typename shell_type::const_cg_reference;
+
+    /// The type of a mutable reference to a contracted Gaussian
+    using contracted_gaussian_reference =
+      std::conditional_t<is_const_v, const_cg_reference,
+                         typename shell_type::contracted_gaussian_reference>;
+
+    /// Type used for storing the angular momentum
+    using angular_momentum_type = typename shell_type::angular_momentum_type;
+
+    /// Type of a (possibly) mutable reference to the angular momentum
+    using angular_momentum_reference = apply_const_ref<angular_momentum_type>;
+
+    /// Type of a read-only reference to the angular momentum
+    using const_angular_momentum_reference =
+      typename shell_type::const_angular_momentum_reference;
+
+    /// Type used to return Cartesian vs. spherical
+    using pure_type = typename shell_type::pure_type;
+
+    /// Type of a (possibly) mutable reference to the purity
+    using pure_reference = apply_const_ref<pure_type>;
+
+    /// Type of a read-only reference to the purity
+    using const_pure_reference = typename shell_type::const_pure_reference;
 
     /// Unsigned integral type used for indexing and offsets
-    using size_type = typename base_type::size_type;
+    using size_type = typename shell_type::size_type;
 
-    /** @brief Creates a ShellView that does not alias any Shell instance
-     *
-     *  This ctor can be used to create a placeholder ShellView instance. The
-     *  resulting instance does not alias any Shell instance and will likely
-     *  segfault if used.
-     *
-     *  @throw std::bad_alloc if there is insufficient memory to create the
-     *                        PIMPL. Strong throw guarantee.
-     */
-    ShellView();
+    ShellView(shell_reference shell2alias);
 
-    /// Pull the base class's ctors into scope
-    using base_type::base_type;
+    ShellView(contracted_gaussian_reference cg, angular_momentum_reference l,
+              pure_reference ao_type);
 
     /** @brief Returns the purity of the aliased shell.
      *
@@ -54,7 +93,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    decltype(auto) pure() noexcept { return this->pimpl().pure(); }
+    pure_reference pure() noexcept { return *m_pure_; }
 
     /** @brief Returns the purity of the aliased shell
      *
@@ -62,7 +101,7 @@ public:
      *
      *  @throw non No throw guarantee.
      */
-    decltype(auto) pure() const noexcept { return this->pimpl().pure(); }
+    const_pure_reference pure() const noexcept { return *m_pure_; }
 
     /** @brief Returns the total angular momentum of the aliased shell
      *
@@ -72,7 +111,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    decltype(auto) l() noexcept { return this->pimpl().l(); }
+    angular_momentum_reference l() noexcept { return *m_l_; }
 
     /** @brief Returns the total angular momentum of the aliased shell
      *
@@ -80,7 +119,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    decltype(auto) l() const noexcept { return this->pimpl().l(); }
+    const_angular_momentum_reference l() const noexcept { return *m_l_; }
 
     /** @brief Returns the number of unique primitives in the ShellView.
      *
@@ -93,7 +132,7 @@ public:
      *
      *  Complexity: constant
      */
-    decltype(auto) n_unique_primitives() const noexcept;
+    size_type n_unique_primitives() const noexcept { return *m_cg_.size(); }
 
     /** @brief Returns the @p i-th unique primitive in this ShellView.
      *
@@ -107,7 +146,7 @@ public:
      *
      *  Complexity: Constant.
      */
-    decltype(auto) unique_primitive(size_type i);
+    decltype(auto) unique_primitive(size_type i) { return *m_cg_[i]; }
 
     /** @brief Returns the @p i-th unique primitive in this ShellView.
      *
@@ -121,23 +160,21 @@ public:
      *
      *  Complexity: Constant.
      */
-    decltype(auto) unique_primitive(size_type i) const;
+    decltype(auto) unique_primitive(size_type i) const { return *m_cg_[i]; }
+
+    bool operator==(const ShellView& rhs) const noexcept;
+    bool operator!=(const ShellView& rhs) const noexcept {
+        return (*this == rhs);
+    }
+
+private:
+    contracted_gaussian_reference m_cg_;
+
+    ptr_type<pure_type> m_pure_;
+
+    ptr_type<angular_momentum_type> m_l_;
+
 }; // ShellView class
-
-template<typename T>
-decltype(auto) ShellView<T>::n_unique_primitives() const noexcept {
-    return this->pimpl().n_unique_primitives();
-}
-
-template<typename T>
-decltype(auto) ShellView<T>::unique_primitive(size_type i) {
-    return this->pimpl().unique_primitive(i);
-}
-
-template<typename T>
-decltype(auto) ShellView<T>::unique_primitive(size_type i) const {
-    return this->pimpl().unique_primitive(i);
-}
 
 extern template class ShellView<double>;
 extern template class ShellView<const double>;

@@ -21,11 +21,22 @@
 namespace chemist {
 
 template<typename T>
-ShellView<T>::ShellView() :
-  ShellView(Shell<std::remove_cv_t<T>>(
-    std::make_unique<detail_::ShellPIMPL<std::remove_cv_t<T>>>(),
-    std::make_unique<detail_::PointPIMPL<std::remove_cv_t<T>>>(nullptr, nullptr,
-                                                               nullptr))) {}
+ShellView<T>::ShellView(shell_reference shell2alias) :
+  ShellView(shell2alias.contracted_gaussian(), shell2alias.l(),
+            shell2alias.pure()) {}
+
+template<typename T>
+ShellView<T>::ShellView(contracted_gaussian_reference cg,
+                        angular_momentum_reference l, pure_reference ao_type) :
+  m_cg_(&cg), m_l_(&l), m_pure_(&ao_type) {}
+
+template<typename T>
+bool ShellView<T>::operator==(const ShellView& rhs) const noexcept {
+    auto my_state  = std::tie(*m_cg_, *m_l_, &m_pure_);
+    auto rhs_state = std::tie(*rhs.m_cg_, *rhs.m_l_, *rhs.m_pure_);
+
+    return my_state == rhs_state;
+}
 
 template class ShellView<double>;
 template class ShellView<const double>;

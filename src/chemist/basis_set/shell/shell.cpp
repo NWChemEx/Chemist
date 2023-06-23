@@ -105,7 +105,8 @@ typename Shell<T>::size_type Shell<T>::size_() const noexcept {
 }
 
 template<typename T>
-typename Shell<T>::reference Shell<T>::at_(size_type index) {
+typename Shell<T>::contracted_gaussian_reference Shell<T>::at_(
+  size_type index) {
     assert(m_pimpl_ != nullptr);
     auto ptr1 = m_pimpl_->at(index);
     auto ptr2 = this->point_alias();
@@ -114,7 +115,7 @@ typename Shell<T>::reference Shell<T>::at_(size_type index) {
 }
 
 template<typename T>
-typename Shell<T>::const_reference Shell<T>::at_(size_type index) const {
+typename Shell<T>::const_cg_reference Shell<T>::at_(size_type index) const {
     assert(m_pimpl_ != nullptr);
     auto ptr1 = m_pimpl_->at(index);
     auto ptr2 = this->point_alias();

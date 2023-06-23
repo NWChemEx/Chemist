@@ -21,8 +21,8 @@
 #include "chemist/basis_set/contracted_gaussian_view.hpp"
 #include "chemist/basis_set/primitive.hpp"
 #include "chemist/basis_set/primitive_view.hpp"
-#include "chemist/basis_set/shell.hpp"
-#include "chemist/basis_set/shell_view.hpp"
+#include "chemist/basis_set/shell/shell.hpp"
+#include "chemist/basis_set/shell/shell_view.hpp"
 
 namespace chemist {
 

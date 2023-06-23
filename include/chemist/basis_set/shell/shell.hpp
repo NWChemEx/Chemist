@@ -33,7 +33,7 @@ class ShellPIMPL;
  *  form: @f$x^ay^bz^c@f$ such that @f$a+b+c = \ell@f$ (with @f$\ell@f$ being
  *  the total angular momentum of the AO. Spherical AOs are then formed by
  *  taking linear combinations of Cartesian AOs (the coefficients of the
- *  transformation being given by the spherical transform). Histroically, in
+ *  transformation being given by the spherical transform). Historically, in
  *  electronic structure theory we implicitly store much of this information in
  *  what is called a shell. A shell is comprised of a CGTO, @f$\ell@f$, and
  *  whether the AOs in the shell are Cartesian or spherical (often called pure).
@@ -45,8 +45,7 @@ class ShellPIMPL;
  *            `double` or `float`.
  */
 template<typename T>
-class Shell : public Point<T>,
-              public utilities::IndexableContainerBase<Shell<T>> {
+class Shell : public Point<T> {
 private:
     /// Type of this instance
     using my_type = Shell<T>;
@@ -63,19 +62,34 @@ private:
 
 public:
     /// For all intents and purposes the type of CGTOs comprising the shell
-    using value_type = ContractedGaussian<T>;
+    using contracted_gaussian_type = ContractedGaussian<T>;
 
     /// Type of a read/write reference to an AO
-    using reference = ContractedGaussianView<T>;
+    using contracted_gaussian_reference = ContractedGaussianView<T>;
 
     /// Type of a read-only reference to an AO
-    using const_reference = ContractedGaussianView<const T>;
+    using const_cg_reference = ContractedGaussianView<const T>;
 
     /// Unsigned integral type used for indexing and offsets
-    using size_type = typename container_base::size_type;
+    using size_type = std::size_t;
+
+    /// Unsigned integral type used to represent the total angular momentum
+    using angular_momentum_type = size_type;
+
+    /// Type of a mutable reference to the angular momentum
+    using angular_momentum_reference = angular_momemtum_type&;
+
+    /// Type of a read-only reference to the angular momentum
+    using const_angular_momentum_reference = const angular_momemtum_type&;
 
     /// Type used to determine if a shell is pure or not
     using pure_type = ShellType;
+
+    /// Reference to a mutable object of type pure_type
+    using pure_reference = pure_type&;
+
+    /// Reference to a read-only object of type pure_type
+    using const_pure_reference = const pure_type&;
 
     /** @brief Creates a new Shell instance.
      *
@@ -168,8 +182,8 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    Shell(ShellType pure, int l, std::vector<T> coefs, std::vector<T> exps, T x,
-          T y, T z);
+    Shell(ShellType pure, angular_momentum_type l, std::vector<T> coefs,
+          std::vector<T> exps, T x, T y, T z);
 
     /** @brief Creates a new Shell instance with the provided PIMPLs.
      *
@@ -197,7 +211,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    pure_type& pure() noexcept;
+    pure_reference pure() noexcept;
 
     /** @brief Function for determining if the shell is pure.
      *
@@ -208,7 +222,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    const pure_type& pure() const noexcept;
+    const_pure_reference pure() const noexcept;
 
     /** @brief Determines/sets the total angular momentum of the shell.
      *
@@ -220,7 +234,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    size_type& l() noexcept;
+    angular_momentum_reference l() noexcept;
 
     /** @brief Determines the total angular momentum of the shell.
      *
@@ -231,16 +245,49 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    const size_type& l() const noexcept;
+    const_angular_momentum_reference l() const noexcept;
+
+    /** @brief The number of AOs in *this.
+     *
+     *  A Shell object implicitly stores the AO objects which make it up. This
+     *  method is used to retrieve the number of such AOs.
+     *
+     *  @return The number of AOs in *this.
+     *
+     *  @throw None No throw guarantee.
+     */
+    size_type size() const noexcept { return size_(); }
+
+    /** @brief The ContractedGauassian *this is based on.
+     *
+     *  The Shell class assumes the use of a segmented contraction. Thus each
+     *  AO in *this is based off of a single contracted Gaussian. This method
+     *  can be used to retrieve that contracted Gaussian.
+     *
+     *  @return A mutable reference to the ContractedGaussian implementing
+     *          *this.
+     */
+    contracted_gaussian_reference contracted_gaussian() { return at_(0); }
+
+    /** @brief Accesses the ContractedGaussian used to define *this.
+     *
+     *  This method behaves identical to the non-const version except that
+     *  the resulting reference is read-only.
+     *
+     *  @return A read-only reference to the ContractedGaussian *this is
+     *          defined in terms of.
+     */
+    const_cg_reference contracted_gaussian() const { return at_(0); }
 
     /// Type of a Primitive
-    using primitive_type = typename value_type::value_type;
+    using primitive_type = typename contracted_gaussian_type::value_type;
 
     /// Type of a read/write reference to a primitive
-    using primitive_reference = typename value_type::reference;
+    using primitive_reference = typename contracted_gaussian_type::reference;
 
     /// Type of a read-only reference to a primitive
-    using const_primitive_reference = typename value_type::const_reference;
+    using const_primitive_reference =
+      typename contracted_gaussian_type::const_reference;
 
     /** @brief Returns the number of unique primitives in the Shell.
      *
@@ -315,13 +362,13 @@ public:
 
 private:
     /// Allows the IndexableContainerBase to access the implementations
-    friend container_base;
+    // friend container_base;
     /// Implements size()
     size_type size_() const noexcept;
     /// Implements operator[]
-    reference at_(size_type index);
+    contracted_gaussian_reference at_(size_type index);
     /// Implements operator[]const
-    const_reference at_(size_type index) const;
+    const_cg_reference at_(size_type index) const;
     /// The instance that actually implements this class
     pimpl_ptr_t m_pimpl_;
 }; // End class Shell
@@ -332,9 +379,9 @@ private:
  *
  *  This function is used to compare two Shell instances for equality. Two
  *  Shell instances are equal if they have the same purity, total angular
- *  momentum, and CGTO.
+ *  momentum, and the same contracted gaussian.
  *
- *  @tparam T The type used for the CGTO parameters.
+ *  @tparam T The type used for the parameters of the contracted Gaussian.
  *  @param[in] lhs The Shell instance on the left side of the comparison
  *                 operator.
  *  @param[in] rhs The Shell instance on the right side of the comparison
@@ -344,22 +391,23 @@ private:
  */
 template<typename T>
 bool operator==(const Shell<T>& lhs, const Shell<T>& rhs) noexcept {
-    using base_t = utilities::IndexableContainerBase<Shell<T>>;
-    if(std::tie(lhs.l(), lhs.pure()) != std::tie(rhs.l(), rhs.pure()))
-        return false;
-    return static_cast<const base_t&>(lhs) == static_cast<const base_t&>(rhs);
+    // using base_t = utilities::IndexableContainerBase<Shell<T>>;
+    auto lhs_state = std::tie(lhs.l(), lhs.pure(), lhs.contracted_gaussian());
+    auto rhs_state = std::tie(rhs.l(), rhs.pure(), rhs.contracted_gaussian());
+
+    return lhs_state == rhs_state;
+    // return static_cast<const base_t&>(lhs) == static_cast<const
+    // base_t&>(rhs);
 }
 
 /** @brief Determines if two Shell instances are different.
  *
  *  @relates Shell
  *
- *  This function is used to compare two Shell instances for inequality. Two
- *  Shell instances are equal if they have the same purity, total angular
- *  momentum, and CGTO. Two instances are defined as different if they are not
- *  equal.
+ *  This function is used to compare two Shell instances for inequality. It
+ *  simply negates the result of operator==.
  *
- *  @tparam T The type used for the CGTO parameters.
+ *  @tparam T The type used for the contracted Gaussian's parameters.
  *  @param[in] lhs The Shell instance on the left side of the comparison
  *                 operator.
  *  @param[in] rhs The Shell instance on the right side of the comparison
