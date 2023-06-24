@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include "chemist/point/point.hpp"
+#include <chemist/point/point.hpp>
 #include <memory>
 
 namespace chemist {
@@ -27,57 +27,72 @@ class PrimitivePIMPL;
 /** @brief Models a Gaussian Primitive by value.
  *
  *  This class is used to model a Gaussian Primitive by value. For our purposes
- *  a Gaussian Primitive is a function @f$g(\vec{r};c, \alpha)@f$ such that:
+ *  a Gaussian Primitive is a function @f$g@f$ such that:
  *
  *  @f{
- *  g(\vec{r}; c, \alpha) = c e^{-\alpha r^2},
+ *  g(\vec{r}; \vec{r_0}, c, \alpha) = c e^{-\alpha (\vec{r}-\vec{r_0})^2},
  *  @f}
  *
  *  where @f$c@f$ is the coefficient or weight of the Gaussian (usually in a
  *  linear combination, but could also be a normalization factor), @f$\alpha@f$
- *  is the exponent, and @f$\vec{r}@f$ is the point in Cartesian space that the
- *  Gaussian is centered on.
+ *  is the exponent, and @f$\vec{r_0}@f$ is the point in Cartesian space that 
+ *  the Gaussian is centered on.
  *
  * @tparam T The type used to hold the parameters of the Primitive and the
  *         coordinates of the center. Assumed to be a floating-point POD type.
  */
 template<typename T>
-class Primitive : public Point<T> {
-private:
+class Primitive {
+public:
     /// Type of this class's PIMPL
-    using my_pimpl = detail_::PrimitivePIMPL<T>;
+    using pimpl_type = detail_::PrimitivePIMPL<T>;
 
     /// Type of a pointer to this class's PIMPL
-    using my_pimpl_ptr = std::unique_ptr<my_pimpl>;
+    using pimpl_pointer = std::unique_ptr<pimpl_type>;
 
-    /// Type of a PIMPL for the base class
-    using base_pimpl = detail_::PointPIMPL<T>;
+    /// rank 1 tensor-like type used to hold the center
+    using center_type = Point<T>;
 
-    /// Type of a pointer to Point's PIMPL
-    using base_pimpl_ptr = std::unique_ptr<base_pimpl>;
+    /// Type of a mutable reference to the center
+    using center_reference = center_type&;
 
-public:
-    /// Type of a read/write reference to a parameter
-    using reference = T&;
+    /// Type of a read-only reference to the center
+    using const_center_reference = const center_type&;
+
+    /// Floating-point type used to hold the coefficient
+    using coefficient_type = T;
+
+    /// Type of a mutable reference to the coefficient
+    using coefficient_reference = coefficient_type&;
+
+    /// Type of a read-only reference to the coefficient
+    using const_coefficient_reference = const coefficient_type&;
+
+    /// Floating-point type used to hold the exponent
+    using exponent_type = T;
+
+    /// Type of a read/write reference to the exponent
+    using exponent_reference = exponent_type&;
+
     /// Type of a read-only reference to a parameter
-    using const_reference = const T&;
+    using const_exponent_reference = const exponent_type&;
 
-    /** @brief Creates a new Primitive instance with zeroed out parameters.
+    /** @brief Creates a new null Primitive instance
      *
-     *  This ctor can be used to create a Primitive with an expansion
-     *  coefficient and exponent of 0.0. It will be centered at the origin.
-     *  Parameters and components can be changed by calling the respective
-     *  member functions.
+     *  This ctor creates a null Primitive. Null primitives have no center,
+     *  coefficient, or exponent. Calling the non-const version of `center()`,
+     *  `coefficient()`, or `exponent()` will convert the null Primitive into
+     *  a zero-initialized Primitive whose state can then be set through
+     *  the respective getter. Alternatively, a null Primitive can be converted
+     *  to a valued Primitive by assignment.
      *
-     *  @throw std::bad_alloc if there is insufficient memory to allocate the
-     *         PIMPL. Strong throw guarantee.
+     *  @throw None No throw guarantee
      */
-    Primitive();
+    Primitive() noexcept;
 
     /** @brief Creates a new Primitive with the specified parameters.
      *
      *  This ctor can be used to create a Primitive with the provided
-     *  parameters. The resulting instance will contain copies of all
      *  parameters.
      *
      * @param[in] coef The contraction coefficient of the primitive.
@@ -153,36 +168,52 @@ public:
      */
     Primitive<T>& operator=(Primitive<T>&& rhs) noexcept;
 
-    /** @brief Constructs a Primitive with specified PIMPL instances.
-     *
-     *  This ctor is primarily meant to be called from classes that are defined
-     *  in terms of Primitives in order to create the Primitive for implementing
-     *  a PrimitiveView instance.
-     *
-     * @param[in] my_pimpl The PIMPL for the Primitive part of the resulting
-     *                     instance.
-     * @param[in] point_pimpl The PIMPL for the Point part of the resulting
-     *                     instance.
-     *
-     * @throw None No throw guarantee.
-     *
-     * Complexity: Constant
-     */
-    Primitive(my_pimpl_ptr my_pimpl, base_pimpl_ptr point_pimpl) noexcept;
-
     /// Defaulted, no throw dtor
-    ~Primitive() noexcept override;
+    ~Primitive() noexcept;
+
+    // -------------------------------------------------------------------------
+    // -- Getters/Setters
+    // -------------------------------------------------------------------------
+
+    /** @brief Provides mutable access to the the point where *this is centered
+     *
+     *  This function provides access to the point where *this is centered. The 
+     *  returned instance is modifiable. If *this has no
+     *  PIMPL, then this method will create a PIMPL and then return a reference
+     *  to the newly created PIMPL's center (which will be set to the origin).
+     *
+     *  @return The coefficient in a modifiable form.
+     *
+     *  @throw std::bad_alloc if there is no PIMPL and allocating one fails.
+     *         Strong throw guarantee.
+     */
+    center_reference center();
+
+    /** @brief Provides read-only access to the point where *this is centered.
+     *
+     *  This function provides access to the point where this Primitive is
+     *  centered. The returned instance is read-only.
+     *
+     *  @return The center in a read-only format.
+     *
+     *  @throw std::runtime_error if *this is in a null state. Strong throw
+     *         guarantee.
+     */
+    const_center_reference center() const;
 
     /** @brief Provides read/write access to the coefficient
      *
      *  This function provides access to the expansion coefficient of the
-     *  Primitive. The returned instance is modifiable.
+     *  Primitive. The returned instance is modifiable. If *this has no
+     *  PIMPL, then this method will create a PIMPL and then return a reference
+     *  to the newly created PIMPL's coefficient (which will be set to zero).
      *
      *  @return The coefficient in a modifiable form.
      *
-     *  @throw none No throw guarantee.
+     *  @throw std::bad_alloc if there is no PIMPL and allocating one fails.
+     *         Strong throw guarantee.
      */
-    reference coefficient() noexcept;
+    coefficient_reference coefficient();
 
     /** @brief Provides read-only access to the coefficient
      *
@@ -191,20 +222,24 @@ public:
      *
      *  @return The coefficient in a read-only format.
      *
-     *  @throw none No throw guarantee.
+     *  @throw std::runtime_error if *this is in a null state. Strong throw
+     *         guarantee.
      */
-    const_reference coefficient() const noexcept;
+    const_coefficient_reference coefficient() const;
 
     /** @brief Provides read/write access to the exponent
      *
      *  This function provides access to the exponent of the Primitive. The
-     *  returned instance is modifiable.
+     *  returned instance is modifiable. If *this has no PIMPL, then this method
+     *  will create a PIMPL and return a reference to the newly created PIMPL's
+     *  exponent (which will be set to zero).
      *
      *  @return The exponent in a modifiable form.
      *
-     *  @throw none No throw guarantee.
+     *  @throw std::bad_alloc if *this is in a null state and allocating the
+     *         PIMPL fails. Strong throw guarantee.
      */
-    reference exponent() noexcept;
+    exponent_reference exponent();
 
     /** @brief Provides read-only access to the exponent
      *
@@ -213,62 +248,76 @@ public:
      *
      *  @return The exponent in a read-only format.
      *
+     *  @throw std::runtime_error if *this is in a null state. Strong throw
+     *         guarantee.
+     */
+    const_exponent_reference exponent() const;
+
+    // -------------------------------------------------------------------------
+    // -- Utility Functions
+    // -------------------------------------------------------------------------
+
+    /** @brief Exchanges the state of *this with that of @p rhs.
+     * 
+     *  @param[in,out] rhs The instance to exchange state with. After this call
+     *                 @p rhs will have the state which previously resided in
+     *                 *this.
+     * 
+     *  @throw None No throw guarantee.
+     */
+    void swap(Primitive<T>& rhs) noexcept;
+
+    /** @brief Compares two Primitives for equality.
+     *
+     *  @relates Primitive
+     *
+     *  Two Primitive instances are defined as equal if they are centered on the
+     *  same point, and they have the same parameters (coefficient and exponent).
+     *  Equality in all cases is defined as having exactly the same value to 
+     *  machine precision.
+     *
+     *  @tparam T The type used to store the parameters and coordinates of the
+     *          Primitive. Assumed to be a floating-point POD type.
+     *
+     *  @param[in] lhs The Primitive on the left side of the operator.
+     *  @param[in] rhs The Primitive on the right side of the operator.
+     *
+     *  @return True if the Primitives are equal and false otherwise.
+     *
      *  @throw none No throw guarantee.
      */
-    const_reference exponent() const noexcept;
+    bool operator==(const Primitive<T>& rhs) const noexcept;
 
     /** @brief Serialize Primitive instance
      *
      * @param ar The archive object
      */
     template<typename Archive>
-    void save(Archive& ar) const {
-        ar& coefficient() & exponent() & this->coord(0) & this->coord(1) &
-          this->coord(2);
-    }
+    void save(Archive& ar) const { ar& coefficient() & exponent() & center(); }
 
     /** @brief Deserialize for Primitive instance
      *
      * @param ar The archive object
      */
     template<typename Archive>
-    void load(Archive& ar) {
-        ar& coefficient() & exponent() & this->coord(0) & this->coord(1) &
-          this->coord(2);
-    }
+    void load(Archive& ar) { ar& coefficient() & exponent() & center(); }
 
 private:
-    /// The instance in charge of implementing the class
-    my_pimpl_ptr m_pimpl_;
-}; // class Primitive
+    /// Sets state of *this to already created PIMPL
+    Primitive(pimpl_pointer pimpl) noexcept;
 
-/** @brief Compares two Primitives for equality.
- *
- *  @relates Primitive
- *
- *  Two Primitive instances are defined as equal if they are centered on the
- *  same point, and they have the same parameters (coefficient and exponent).
- *  Equality in all cases is defined as having exactly the same value to machine
- *  precision.
- *
- *  @tparam T The type used to store the parameters and coordinates of the
- *          Primitive. Assumed to be a floating-point POD type.
- *
- *  @param[in] lhs The Primitive on the left side of the operator.
- *  @param[in] rhs The Primitive on the right side of the operator.
- *
- *  @return True if the Primitives are equal and false otherwise.
- *
- *  @throw none No throw guarantee.
- */
-template<typename T>
-bool operator==(const Primitive<T>& lhs, const Primitive<T>& rhs) noexcept {
-    if(std::tie(lhs.coefficient(), lhs.exponent()) ==
-       std::tie(rhs.coefficient(), rhs.exponent()))
-        return static_cast<const Point<T>&>(lhs) ==
-               static_cast<const Point<T>&>(rhs);
-    return false;
-}
+    /// Raises std::runtime_error if *this does not have a PIMPL
+    void assert_pimpl_() const;
+
+    /// Allocates a default-initialized PIMPL on the heap and returns it
+    pimpl_pointer make_pimpl_() const;
+
+    /// Returns false if *this is in a null state and true otherwise
+    bool has_pimpl_() const noexcept;
+
+    /// The instance in charge of implementing the class
+    pimpl_pointer m_pimpl_;
+}; // class Primitive
 
 /** @brief Determines if two Primitives are different.
  *
