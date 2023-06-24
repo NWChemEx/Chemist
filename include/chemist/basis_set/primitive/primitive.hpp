@@ -257,6 +257,17 @@ public:
     // -- Utility Functions
     // -------------------------------------------------------------------------
 
+    /** @brief Is *this null?
+     * 
+     *  *this is in a null state if it has no PIMPL. A null state is possible
+     *  by either default constructing *this or moving from *this.
+     * 
+     *  @return Whether *this is null or not.
+     * 
+     *  @throw None No throw guarantee.
+     */
+    bool is_null() const noexcept { return !has_pimpl_(); }
+
     /** @brief Exchanges the state of *this with that of @p rhs.
      * 
      *  @param[in,out] rhs The instance to exchange state with. After this call
