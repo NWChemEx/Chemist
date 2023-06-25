@@ -354,6 +354,12 @@ bool operator!=(const Primitive<T>& lhs, const Primitive<T>& rhs) noexcept {
     return !(lhs == rhs);
 }
 
+/// Type of a Primitive where all parameters are doubles
+using PrimitiveD = Primitive<double>;
+
+/// Type of a Primitive where all parameters are floats
+using PrimitiveF = Primitive<float>;
+
 extern template class Primitive<double>;
 extern template class Primitive<float>;
 

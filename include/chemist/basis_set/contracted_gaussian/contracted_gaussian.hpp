@@ -15,72 +15,97 @@
  */
 
 #pragma once
-#include "chemist/basis_set/primitive_view.hpp"
-#include "chemist/point/point.hpp"
+#include <chemist/basis_set/primitive/primitive_view.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 #include <vector>
 
 namespace chemist {
 namespace detail_ {
-template<typename T>
-class CGTOPIMPL;
+template<typename PrimitiveType>
+class ContractedGaussianPIMPL;
 } // namespace detail_
 
-/** @brief An atomic orbital resulting from a linear combination of Gaussian
- *         primitives.
+/** @brief Represents a (segmented) contracted Gaussian function.
  *
- *  A contracted Gaussian type orbital formed from @f$N@f$ primitive
- *  gaussians,
- *  @f$\chi(\vec{r};\vec{c}, \vec{\alpha})@f$, is given by:
+ *  A (segmented) contracted Gaussian function, $\chi$, is a linear combination
+ *  of @f$N@f$ primitive Gaussians and is given by:
  *
  *  @f{
- *  \chi(\vec{r};\vec{c}, \vec{\alpha}) = \sum_{i=1}^N g(\vec{r};c_i, \alpha_i)
- *   *  \chi(\vec{r};\vec{c}, \vec{\alpha}) = \sum_{i=1}^N c_ie^{-\alpha_i r^2}
+ *     \chi(\vec{r};\vec{r_0}, \vec{c}, \vec{\alpha}) = 
+ *        \sum_{i=1}^N c_ie^{-\alpha_i (\vec{r}-\vec{r_0})^2}
 
  *  @f}.
- *  This class models the resulting orbital by value, meaning instances of this
- *  class own the memory associated with their parameters.
+ *  Here, @f$\vec{r_0}@f$ is the point where it is centered, @f$c_i@f$ is the
+ *  expansion coefficient of the @f$i@f$-th primitive, and @f$\alpha_i@f$ is
+ *  the exponent of the @f$i@f$-th primitive.
  *
- * @tparam T The non-cv qualified type of the primitive's parameters.
+ *  Conceptually the ContractedGaussian class is simply a container of
+ *  Primitive instances which enforces that the primitives must be centered on
+ *  the same point in space. It should be noted that modifying where *this is 
+ *  centered through calling `center` or by directly modifying where a specific
+ *  primitive is centered, will affect where all primitives are centered.
+ * 
+ * @tparam PrimitiveType The non-cv qualified type of each primitive Gaussian.
  */
-template<typename T>
+template<typename PrimitiveType>
 class ContractedGaussian
-  : public Point<T>,
-    public utilities::IndexableContainerBase<ContractedGaussian<T>> {
+  : public utilities::IndexableContainerBase<ContractedGaussian<PrimitiveType>> {
 private:
     /// The type of this class
-    using my_type = ContractedGaussian<T>;
+    using my_type = ContractedGaussian<PrimitiveType>;
+
     /// the type of the IndexableContainerBase
     using container_base = utilities::IndexableContainerBase<my_type>;
-    /// The type of the PIMPL implementing this class
-    using pimpl_type = detail_::CGTOPIMPL<T>;
-    /// The type of a pointer to this class's PIMPL
-    using pimpl_ptr = std::unique_ptr<pimpl_type>;
-    /// The type of the PIMPL implementing the base class
-    using point_pimpl_type = detail_::PointPIMPL<T>;
-    /// The type of a pointer to the base class's PIMPL.
-    using point_pimpl_ptr = std::unique_ptr<point_pimpl_type>;
 
 public:
-    /// Type of the parameters in this contraction
-    using value_type = Primitive<T>;
+    /// The type of the PIMPL implementing this class
+    using pimpl_type = detail_::ContractedGaussianPIMPL<PrimitiveType>;
 
-    /// Type of an index/offset
+    /// The type of a pointer to this class's PIMPL
+    using pimpl_ptr = std::unique_ptr<pimpl_type>;
+
+    /// Type of the primitives in this contraction
+    using value_type = PrimitiveType;
+
+    /// Type of a mutable view of a primitive
+    using reference = PrimitiveView<value_type>;
+
+    /// Type of a read-only view to a Primitive
+    using const_reference = PrimitiveView<const value_type>;
+
+    /// Unsigned integral type of an index/offset
     using size_type = typename container_base::size_type;
 
-    /// Type of a read-/write-able view to a Primitive
-    using reference = PrimitiveView<T>;
-    /// Type of a read-only view to a Primitive
-    using const_reference = PrimitiveView<const T>;
+    /// ------------------------------------------------------------------------
+    /// -- Primitive types
+    /// ------------------------------------------------------------------------
 
-    /** @brief Makes a ContractedGaussian with no Primitives.
+    /// Rank 1 tensor-like type used for the center
+    using center_type = typename value_type::center_type;
+
+    /// Type of a mutable reference to the center
+    using center_reference = center_type&;
+
+    /// Type of a read-only reference to the center
+    using const_center_reference = const center_type&;
+
+    /// Floating-point type used to hold the coordinates of the center
+    using coord_type = typename center_type::coord_type;
+
+    /// Floating point type each primitive uses for the coefficient
+    using coefficient_type = typename value_type::coefficient_type;
+
+    /// Floating point type each primitive uses for the exponent
+    using exponent_type = typename value_type::exponent_type;
+
+    /** @brief Makes a null ContractedGaussian.
      *
-     *  The default ctor makes a ContractedGaussian instance which contains no
-     *  Primitives. At the moment it is not possible to add Primitives to the
-     *  resulting instance aside from using copy/move assignment.
+     *  The default ctor makes a null ContractedGaussian instance which means
+     *  the resulting instance contains no Primitives and is not centered
+     *  anywhere. State can be added to a null instance by calling `center()` 
+     *  and/or adding primitives.
      *
-     *  @throw std::bad_alloc if there is insufficient memory to allocate the
-     *         PIMPL. Strong throw guarantee.
+     *  @throw None No throw guarantee.
      */
     ContractedGaussian();
 
@@ -94,31 +119,36 @@ public:
      *                    @f$i@f$-th primitive.
      *  @param[in] exps An @f$N@f$ element array such that the @f$i@f$-th
      *                  element is the exponent for the @f$i@f$-th primitive.
-     *  @param[in] x The x-coordinate where this orbital is centered.
-     *  @param[in] y The y-coordinate where this orbital is centered.
-     *  @param[in] z The z-coordinate where this orbital is centered.
+     *  @param[in] x The x-coordinate where *this will be centered.
+     *  @param[in] y The y-coordinate where *this will be centered.
+     *  @param[in] z The z-coordinate where *this will be centered.
      *
      *  @throw std::bad_alloc if there is insufficient memory to allocate the
-     *         PIMPLs. Strong throw guarantee.
+     *         PIMPL. Strong throw guarantee.
      */
-    ContractedGaussian(std::vector<T> coefs, std::vector<T> exps, T x, T y,
-                       T z);
+    ContractedGaussian(std::vector<coefficient_type> coefs, 
+                       std::vector<exponent_type> exps, 
+                       coord_type x, coord_type y,
+                       coord_type z);
 
-    /** @brief Constructs a new ContractedGaussian instance by wrapping the
-     *         provided PIMPLs.
+    /** @brief Constructs a ContractedGaussian from the provided parameters.
      *
-     *  This ctor gives you the ability to micro-manage how the
-     *  ContractedGaussian works. This ctor is mainly intended for use by the
-     *  ContractedGaussianView class.
+     *  This ctor is largely intended for constructing a ContractedGaussian when
+     *  the parameters are not already stored in Primitives.
      *
-     *  @param[in] my_pimpl The PIMPL which stores the coefficients and
-     *                      exponents for the ContractedGaussian class.
-     *  @param[in] point_pimpl The PIMPL which stores the Cartesian coordinates
-     *                         for the base Point<T> class.
-     *  @throw none No throw guarantee.
+     *  @param[in] coefs  An @f$N@f$ element array such that the @f$i@f$-th
+     *                    element is the contraction coefficient for the
+     *                    @f$i@f$-th primitive.
+     *  @param[in] exps An @f$N@f$ element array such that the @f$i@f$-th
+     *                  element is the exponent for the @f$i@f$-th primitive.
+     *  @param[in] center Where *this is centered in Cartesian space.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to allocate the
+     *         PIMPL. Strong throw guarantee.
      */
-    ContractedGaussian(pimpl_ptr my_pimpl,
-                       point_pimpl_ptr point_pimpl) noexcept;
+    ContractedGaussian(std::vector<coefficient_type> coefs, 
+                       std::vector<exponent_type> exps, 
+                       center_type center);
 
     /** @brief Constructs a new ContractedGaussian instance by copying the state
      *         of @p rhs.
@@ -129,9 +159,9 @@ public:
      *  @param[in] rhs The ContractedGaussian instance whose state is being
      *                 copied.
      *  @throw std::bad_alloc if there is insufficient memory to allocate the
-     *         PIMPLs. Strong throw guarantee.
+     *         PIMPL. Strong throw guarantee.
      */
-    ContractedGaussian(const ContractedGaussian<T>& rhs);
+    ContractedGaussian(const my_type& rhs);
 
     /** @brief Transfers another ContractedGaussian's state into a new instance.
      *
@@ -147,7 +177,7 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    ContractedGaussian(ContractedGaussian<T>&& rhs) noexcept;
+    ContractedGaussian(my_type&& rhs) noexcept;
 
     /** @brief Replaces the current ContractedGaussian instance's state with a
      *         deep copy of @p rhs's state.
@@ -165,7 +195,7 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to allocate the
      *         PIMPLs. Strong throw guarantee.
      */
-    ContractedGaussian<T>& operator=(const ContractedGaussian<T>& rhs);
+    my_type& operator=(const my_type& rhs);
 
     /** @brief Transfers another ContractedGaussian's state into this instance.
      *
@@ -184,10 +214,102 @@ public:
      *
      *  @throw none No throw guarantee.
      */
-    ContractedGaussian<T>& operator=(ContractedGaussian<T>&& rhs) noexcept;
+    my_type& operator=(my_type&& rhs) noexcept;
 
     /// Default dtor
-    ~ContractedGaussian() noexcept override;
+    ~ContractedGaussian() noexcept;
+
+    // -------------------------------------------------------------------------
+    // -- Getters/Setters
+    // -------------------------------------------------------------------------
+
+    /** @brief Returns the location where *this is centered.
+     * 
+     *  All primitive Gaussians forming a contracted Gaussian, must be centered
+     *  on the same point. This method can be used to retrieve a reference to
+     *  that point. If *this is a null instance, this method will first allocate
+     *  state and then return the default initialized center (which will be
+     *  oriented at the origin).
+     * 
+     *  It should be noted that modifying where *this is centered, either 
+     *  through this method or by directly accessing any of the primitives,
+     *  changes where all primitives are centered.
+     * 
+     *  @return The point in Cartesian space where *this is located.
+     * 
+     *  @throw std::bad_alloc if *this is a null instance and allocating the
+     *                        PIMPL fails. Strong throw guarantee.
+    */
+    center_reference center();
+
+    /** @brief Returns the location where *this is centered.
+     * 
+     *  This method is the same as the non-const version except that an error
+     *  is raised if *this is null and the resulting center is read-only.
+     * 
+     *  @return A read-only reference to the point where *this is centered.
+     * 
+     *  @throw std::runtime_error if *this is null. Strong throw guarantee.
+    */
+    const_center_reference center() const;
+
+    // -------------------------------------------------------------------------
+    // -- Utility functions
+    // -------------------------------------------------------------------------
+
+    /** @brief Exchanges the state in *this with that in @p rhs.
+     * 
+     *  @param[in, out] rhs The instance *this will take state from. After the
+     *                      operation, @p rhs will contain the state which
+     *                      previously was in *this.
+     * 
+     *  @throw None No throw gurantee.
+     */
+    void swap(my_type& rhs) noexcept;
+
+    /** @brief Used to determine if *this is null.
+     * 
+     *  A null ContractedGaussian is one that does not have any primitives in
+     *  it and does not have a center set. Such instances are created by
+     *  default.
+     * 
+     *  @return True if *this is null and false otherwise.
+     * 
+     *  @throw None No throw guarantee.
+     */
+    bool is_null() const noexcept { return !has_pimpl_(); }
+
+    /** @brief Determines if *this is value equal to @p rhs.
+     * 
+     *  We define non-null ContractedGaussian instances to be value equal if:
+     *  they contain the same number of primitives @f$N@f$ and if for each
+     *  @f$i@f$ in the range [0, @f$N@f$) `(*this)[i] == rhs[i]`. Notably, this
+     *  means the primitives must be in the same order and that the parameters
+     *  in the primitives are also compared for value equality (*i.e.*, the
+     *  parameters must be bitwise equivalent).
+     * 
+     *  @param[in] rhs The ContractedGaussian we are comparing to.
+     * 
+     *  @return True if *this is value equal to @p rhs and false otherwise.
+     * 
+     *  @throw None No throw guarantee.
+     */
+    bool operator==(const my_type& rhs) const noexcept;
+
+    /** @brief Determines if *this is different than @p rhs.
+     * 
+     *  We define two ContractedGaussian instances to be different if they are
+     *  not value equal. In practice this means that this method simply negates
+     *  a call to operator==. See the description for operator== for the
+     *  definition of value equal.
+     *  
+     *  @param[in] rhs The ContractedGaussian we are comparing to.
+     * 
+     *  @return False if *this is value equal to @p rhs and true otherwise.
+     * 
+     *  @throw None No throw guarantee.
+    */
+    bool operator!=(const my_type& rhs) const noexcept;
 
     /** @brief Serialize ContractedGaussian instance
      *
@@ -195,7 +317,7 @@ public:
      */
     template<typename Archive>
     void save(Archive& ar) const {
-        ar& this->size() & this->coord(0) & this->coord(1) & this->coord(2);
+        ar& this->size() & this->center();
         for(const auto& p : *this) { ar& p.coefficient() & p.exponent(); }
     }
 
@@ -206,78 +328,59 @@ public:
     template<typename Archive>
     void load(Archive& ar) {
         size_type mysize;
-        T myx, myy, myz;
-        ar& mysize& myx& myy& myz;
+        center_type center;
+        ar& mysize& center;
         std::vector<T> cs(mysize, 0);
         std::vector<T> es(mysize, 0);
         for(int i = 0; i < mysize; ++i) { ar& cs[i] & es[i]; }
-        m_pimpl_.reset(new pimpl_type(cs, es));
-        this->coord(0) = myx;
-        this->coord(1) = myy;
-        this->coord(2) = myz;
+
+        ContractedGaussian(cs, es, center).swap(*this);
     }
 
 private:
     /// Allows the IndexableContainerBase to access the implementations
     friend container_base;
+
+    /** @brief Constructs a new ContractedGaussian instance by wrapping the
+     *         provided state.
+     *
+     *  This ctor is intended for use when the PIMPL holding the state has
+     *  already been created elsewhere. In practice, this ctor is the ultimate
+     *  dispatch point for most of the stateful ctors.
+     *
+     *  @param[in] my_pimpl The PIMPL which stores the coefficients and
+     *                      exponents for the ContractedGaussian class.
+     * 
+     *  @throw none No throw guarantee.
+     */
+    explicit ContractedGaussian(pimpl_ptr my_pimpl) noexcept;
+
+    /// Does *this have a PIMPL instantiated? 
+    bool has_pimpl_() const noexcept;
+
+    /// Throw std::runtime_error if *this has no PIMPL
+    void assert_pimpl_() const;
+
     /// Implements size()
     size_type size_() const noexcept;
-    /// Implements operator[]
-    reference at_(size_type index);
-    /// Impelments operator[]const
-    const_reference at_(size_type index) const;
+
+    /// Implements operator[]/at
+    reference at_(size_type index) noexcept;
+
+    /// Impelments operator[]const/at const
+    const_reference at_(size_type index) const noexcept;
 
     /// The instance actually implementing the class
-    std::unique_ptr<pimpl_type> m_pimpl_;
+    pimpl_ptr m_pimpl_;
 }; // End class contracted_gaussian
 
-/** @brief Compares two ContractedGaussian instances for equality.
- *
- *  Two ContractedGaussian instances are considered equal if they contain the
- *  same number of primitives and if the i-th primitive of @p lhs is equal to
- *  the i-th primitive of @p rhs for all i in the range `[0, lhs.size())`.
- *
- *  @tparam T The type used to hold the ContractedGaussian's parameters.
- *
- *  @param[in] lhs The instance on the left side of the operator.
- *  @param[in] rhs The instance on the right side of the operator.
- *
- *  @return True if the the two instances are equal and false otherwise.
- *
- *  @throw std::bad_alloc if there is insufficient memory to make the PIMPL for
- *         one of the PrimitiveView instances. Strong throw guarantee.
- */
-template<typename T>
-bool operator==(const ContractedGaussian<T>& lhs,
-                const ContractedGaussian<T>& rhs) {
-    using base_t = utilities::IndexableContainerBase<ContractedGaussian<T>>;
-    return static_cast<const base_t&>(lhs) == static_cast<const base_t&>(rhs);
-}
+/// Type of a ContractedGaussian where all parameters are doubles
+using ContractedGaussianD = ContractedGaussian<PrimitiveD>;
 
-/** @brief Determines if two ContractedGaussian instances are different.
- *
- *  Two ContractedGaussian instances are considered equal if they contain the
- *  same number of primitives and if the i-th primitive of @p lhs is equal to
- *  the i-th primitive of @p rhs for all i in the range `[0, lhs.size())`.
- *  Different is defined as not equal.
- *
- *  @tparam T The type used to hold the ContractedGaussian's parameters.
- *
- *  @param[in] lhs The instance on the left side of the operator.
- *  @param[in] rhs The instance on the right side of the operator.
- *
- *  @return False if the the two instances are equal and true otherwise.
- *
- *  @throw std::bad_alloc if there is insufficient memory to make the PIMPL for
- *         one of the PrimitiveView instances. Strong throw guarantee.
- */
-template<typename T>
-bool operator!=(const ContractedGaussian<T>& lhs,
-                const ContractedGaussian<T>& rhs) {
-    return !(lhs == rhs);
-}
+/// Type of a ContractedGaussian where all parameters are floats
+using ContractedGaussianF = ContractedGaussian<PrimitiveF>;
 
-extern template class ContractedGaussian<double>;
-extern template class ContractedGaussian<float>;
+extern template class ContractedGaussian<PrimitiveD>;
+extern template class ContractedGaussian<PrimitiveF>;
 
 } // namespace chemist
