@@ -21,15 +21,10 @@
 #include <string>
 #include <iostream>
 #include <iomanip>
+#include <limits>
 
 
 namespace chemist {
-
-template <typename NucleusType>
-class NucleusView;
-
-template <typename NucleusType>
-std::ostream& operator<< (std::ostream& os, const NucleusView<NucleusType>& view);
 
 /** @brief Allows representing data as if it were a Nucleus object.
  *
@@ -96,6 +91,10 @@ public:
 
     /// Type of a read-only reference to the mass
     using const_mass_reference = typename nucleus_type::const_mass_reference;
+
+    
+    /// Type of the nucleus' coordiantes
+    using coord_type = typename nucleus_type::coord_type;
 
     // -- PointCharge types ----------------------------------------------------
 
@@ -191,19 +190,6 @@ public:
     const_mass_reference mass() const noexcept { return *m_pmass_; }
     ///@}
 
-    /**
-    * @relates NucleusView
-    * @brief Makes it so the NucleusView class can be printed out.
-    *
-    * @param os The output stream to print to.
-    * @param ni The NucleusView instance to print to the stream.
-    * @return The output stream containing the Nucleus instance.
-    * @throws std::ios_base::failure if anything goes wrong while writing. Weak
-    *         throw guarantee.
-    */
-
-    friend std::ostream& operator<< <>(std::ostream& os, const NucleusView<NucleusType>& view);
-
     /** @brief Determines if *this is value equal to @p rhs.
      *
      *  These operators compare the state aliased by *this to the respective
@@ -270,6 +256,19 @@ private:
     /// Pointer to the aliased mass
     ptr_type<mass_type> m_pmass_;
 };
+
+/**
+* @relates NucleusView
+* @brief Makes it so the NucleusView class can be printed out.
+*
+* @param os The output stream to print to.
+* @param ni The NucleusView instance to print to the stream.
+* @return The output stream containing the Nucleus instance.
+* @throws std::ios_base::failure if anything goes wrong while writing. Weak
+*         throw guarantee.
+*/
+template <typename NucleusType>
+std::ostream& operator<< (std::ostream& os, const NucleusView<NucleusType>& view);
 
 /// Same as NucleusView::operator==, but when a Nucleus is the LHS
 template<typename NucleusType>

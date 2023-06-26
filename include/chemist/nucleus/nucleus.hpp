@@ -20,6 +20,7 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
+#include <limits>
 
 namespace chemist {
 
@@ -72,7 +73,7 @@ public:
 
     /// Floating-point type of each Cartesian coordinate
     using coord_type = point_charge_type::coord_type;
-
+    
     /** @brief Creates a new nucleus with the specified properties.
      *
      *  The Nucleus class adds an atomic number and a mass to a point charge.

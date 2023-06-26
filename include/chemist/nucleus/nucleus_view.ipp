@@ -24,7 +24,8 @@ namespace chemist {
 
 template<typename NucleusType>
 std::ostream& operator<<(std::ostream& os, const NucleusView<NucleusType>& view) {
-    os << view.name() << std::fixed << std::setprecision(15);
+    using coord_type = typename NucleusView<NucleusType>::coord_type;
+    os << view.name() << std::fixed << std::setprecision(std::numeric_limits<coord_type>::digits10);
     for(auto c = 0; c < 3; ++c) os << " " << view.coord(c);
     return os;
 }
