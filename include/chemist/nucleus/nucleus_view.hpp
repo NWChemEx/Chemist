@@ -18,18 +18,18 @@
 #include <chemist/detail_/view/traits.hpp>
 #include <chemist/nucleus/nucleus.hpp>
 #include <chemist/point_charge/point_charge_view.hpp>
-#include <string>
-#include <iostream>
 #include <iomanip>
-
+#include <iostream>
+#include <string>
 
 namespace chemist {
 
-template <typename NucleusType>
+template<typename NucleusType>
 class NucleusView;
 
-template <typename NucleusType>
-std::ostream& operator<< (std::ostream& os, const NucleusView<NucleusType>& view);
+template<typename NucleusType>
+std::ostream& operator<<(std::ostream& os,
+                         const NucleusView<NucleusType>& view);
 
 /** @brief Allows representing data as if it were a Nucleus object.
  *
@@ -192,17 +192,18 @@ public:
     ///@}
 
     /**
-    * @relates NucleusView
-    * @brief Makes it so the NucleusView class can be printed out.
-    *
-    * @param os The output stream to print to.
-    * @param ni The NucleusView instance to print to the stream.
-    * @return The output stream containing the Nucleus instance.
-    * @throws std::ios_base::failure if anything goes wrong while writing. Weak
-    *         throw guarantee.
-    */
+     * @relates NucleusView
+     * @brief Makes it so the NucleusView class can be printed out.
+     *
+     * @param os The output stream to print to.
+     * @param ni The NucleusView instance to print to the stream.
+     * @return The output stream containing the Nucleus instance.
+     * @throws std::ios_base::failure if anything goes wrong while writing. Weak
+     *         throw guarantee.
+     */
 
-    friend std::ostream& operator<< <>(std::ostream& os, const NucleusView<NucleusType>& view);
+    friend std::ostream& operator<<<>(std::ostream& os,
+                                      const NucleusView<NucleusType>& view);
 
     /** @brief Determines if *this is value equal to @p rhs.
      *
