@@ -23,6 +23,13 @@ namespace chemist {
 #define NUCLEUS_VIEW NucleusView<NucleusType>
 
 template<typename NucleusType>
+std::ostream& operator<<(std::ostream& os, const NucleusView<NucleusType>& view) {
+    os << view.name() << std::fixed << std::setprecision(15);
+    for(auto c = 0; c < 3; ++c) os << " " << view.coord(c);
+    return os;
+}
+
+template<typename NucleusType>
 NUCLEUS_VIEW::NucleusView(nucleus_reference nuke) :
   NucleusView(nuke.name(), nuke.Z(), nuke.mass(), charge_view_type(nuke)) {}
 
