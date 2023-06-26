@@ -15,60 +15,63 @@
  */
 
 #pragma once
-#include "chemist/basis_set/contracted_gaussian_view.hpp"
-#include "chemist/enums.hpp"
-#include "chemist/point/point.hpp"
-#include <utilities/containers/indexable_container_base.hpp>
+#include <chemist/basis_set/contracted_gaussian/contracted_gaussian.hpp>
+#include <chemist/enums.hpp>
+
+// TODO: Add AO classes and make Shell a container.
+// #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
 namespace detail_ {
-template<typename T>
+template<typename CGType>
 class ShellPIMPL;
 }
 
-/** @brief Models a set of AOs with a common center, total angular momentum, and
- *         CGTOs.
+/** @brief Models a set of AOs with a common center, the same total angular
+ *         momentum, and the same contracted Gaussian function.
  *
- *  Each Cartesian AO is made up of the product of a CGTO and a term of the
+ *  Each Cartesian AO is made up of the product of a contracted Gaussian
+ *  function  and a term of the
  *  form: @f$x^ay^bz^c@f$ such that @f$a+b+c = \ell@f$ (with @f$\ell@f$ being
  *  the total angular momentum of the AO. Spherical AOs are then formed by
  *  taking linear combinations of Cartesian AOs (the coefficients of the
  *  transformation being given by the spherical transform). Historically, in
  *  electronic structure theory we implicitly store much of this information in
- *  what is called a shell. A shell is comprised of a CGTO, @f$\ell@f$, and
- *  whether the AOs in the shell are Cartesian or spherical (often called pure).
- *  All other information is stored implicitly. This class adheres to this
- *  convention.
+ *  what is called a shell. A shell is comprised of a contracted Gaussian
+ *  function, the total angular momentum, and
+ *  whether the AOs in the shell are Cartesian or spherical (often als called
+ *  pure). All other information is stored implicitly. At present, this class
+ *  adheres to this convention.
  *
- *  @tparam T The type used to store parameters associated with the CGTO.
- *            Expected to be a non-cv qualified POD floating-point type such as
- *            `double` or `float`.
+ *  @tparam CGType The type of the contracted Gaussian common to all AOs in the
+ *                 shell.
  */
-template<typename T>
-class Shell : public Point<T> {
+template<typename CGType>
+class Shell {
 private:
     /// Type of this instance
-    using my_type = Shell<T>;
+    using my_type = Shell<CGType>;
+
     /// Type of the IndexableContainerBase base class
-    using container_base = utilities::IndexableContainerBase<my_type>;
-    /// Type of the PIMPL implementing the shell part of the class
-    using pimpl_t = detail_::ShellPIMPL<T>;
-    /// Type of a pointer to this class's PIMPL
-    using pimpl_ptr_t = std::unique_ptr<pimpl_t>;
-    /// Type of the PIMPL used by the Point<T> class
-    using point_pimpl_t = detail_::PointPIMPL<T>;
-    /// Type of a pointer to the Point's PIMPL
-    using point_pimpl_ptr_t = std::unique_ptr<point_pimpl_t>;
+    // using container_base = utilities::IndexableContainerBase<my_type>;
 
 public:
+    /// Type of the PIMPL implementing the shell part of the class
+    using pimpl_t = detail_::ShellPIMPL<T>;
+
+    /// Type of a pointer to this class's PIMPL
+    using pimpl_ptr_t = std::unique_ptr<pimpl_t>;
+
     /// For all intents and purposes the type of CGTOs comprising the shell
-    using contracted_gaussian_type = ContractedGaussian<T>;
+    using contracted_gaussian_type = CGType;
 
     /// Type of a read/write reference to an AO
-    using contracted_gaussian_reference = ContractedGaussianView<T>;
+    using contracted_gaussian_reference =
+      ContractedGaussianView<contracted_gaussian_type>;
 
     /// Type of a read-only reference to an AO
-    using const_cg_reference = ContractedGaussianView<const T>;
+    using const_cg_reference =
+      ContractedGaussianView<const contracted_gaussian_type>;
 
     /// Unsigned integral type used for indexing and offsets
     using size_type = std::size_t;
@@ -77,10 +80,10 @@ public:
     using angular_momentum_type = size_type;
 
     /// Type of a mutable reference to the angular momentum
-    using angular_momentum_reference = angular_momemtum_type&;
+    using angular_momentum_reference = angular_momentum_type&;
 
     /// Type of a read-only reference to the angular momentum
-    using const_angular_momentum_reference = const angular_momemtum_type&;
+    using const_angular_momentum_reference = const angular_momentum_type&;
 
     /// Type used to determine if a shell is pure or not
     using pure_type = ShellType;
