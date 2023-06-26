@@ -51,7 +51,8 @@ inline bool Nucleus::operator!=(const Nucleus& rhs) const noexcept {
 
 inline std::ostream& operator<<(std::ostream& os, const Nucleus& ni) {
     using coord_type = Nucleus::coord_type;
-    os << ni.name() << std::fixed << std::setprecision(std::numeric_limits<coord_type>::digits10);
+    os << ni.name() << std::fixed
+       << std::setprecision(std::numeric_limits<coord_type>::digits10);
     for(auto c = 0; c < 3; ++c) os << " " << ni.coord(c);
     return os;
 }

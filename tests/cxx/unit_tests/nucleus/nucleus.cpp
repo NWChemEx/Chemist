@@ -200,7 +200,8 @@ TEST_CASE("Nucleus") {
         std::stringstream ss;
         ss << zmxyz;
 
-        std::string corr = "C 1.000000000000000 2.000000000000000 3.000000000000000";
+        std::string corr =
+          "C 1.000000000000000 2.000000000000000 3.000000000000000";
 
         REQUIRE(ss.str() == corr);
     }
