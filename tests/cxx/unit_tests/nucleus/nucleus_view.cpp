@@ -195,7 +195,8 @@ TEST_CASE("NucleusView") {
         std::stringstream ss;
         ss << pn0;
 
-        std::string corr = "H 2.000000000000000 3.000000000000000 4.000000000000000";
+        std::string corr =
+          "H 2.000000000000000 3.000000000000000 4.000000000000000";
 
         REQUIRE(ss.str() == corr);
     }
