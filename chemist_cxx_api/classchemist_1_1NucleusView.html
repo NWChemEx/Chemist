@@ -69,6 +69,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#related">Related Functions</a> &#124;
 <a href="classchemist_1_1NucleusView-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">chemist::NucleusView&lt; NucleusType &gt; Class Template Reference</div>  </div>
@@ -140,6 +141,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleusView.html#a812fc1c46f8a22971a93aa32618924b5">const_mass_reference</a> = typename nucleus_type::const_mass_reference</td></tr>
 <tr class="memdesc:a812fc1c46f8a22971a93aa32618924b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to the mass. <br /></td></tr>
 <tr class="separator:a812fc1c46f8a22971a93aa32618924b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a226448e1a2b8408a77369a420516a521"><td class="memItemLeft" align="right" valign="top"><a id="a226448e1a2b8408a77369a420516a521"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleusView.html#a226448e1a2b8408a77369a420516a521">coord_type</a> = typename nucleus_type::coord_type</td></tr>
+<tr class="memdesc:a226448e1a2b8408a77369a420516a521"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the nucleus' coordiantes. <br /></td></tr>
+<tr class="separator:a226448e1a2b8408a77369a420516a521"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f225e5222aff84578b7d5ed8daf4830"><td class="memItemLeft" align="right" valign="top"><a id="a5f225e5222aff84578b7d5ed8daf4830"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleusView.html#a5f225e5222aff84578b7d5ed8daf4830">point_charge_type</a> = typename nucleus_type::point_charge_type</td></tr>
 <tr class="memdesc:a5f225e5222aff84578b7d5ed8daf4830"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of <a class="el" href="classchemist_1_1PointCharge.html" title="Models a point charge.">PointCharge</a> an object of type <code>nucleus_type</code> inherits from. <br /></td></tr>
@@ -348,6 +353,15 @@ template&lt;typename T &gt; </td></tr>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ab55906b42d6d727f6749ef59177be964 inherit pub_methods_classchemist_1_1PointView2"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classchemist_1_1PointView2.html">PointView2</a>&lt; T &gt; &amp;rhs) const noexcept</td></tr>
 <tr class="separator:ab55906b42d6d727f6749ef59177be964 inherit pub_methods_classchemist_1_1PointView2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
+Related Functions</h2></td></tr>
+<tr><td class="ititle" colspan="2"><p>(Note that these are not member functions.) </p>
+</td></tr>
+<tr class="memitem:a56dcd0bbed854cd62a4bcc0b9478919c"><td class="memTemplParams" colspan="2">template&lt;typename NucleusType &gt; </td></tr>
+<tr class="memitem:a56dcd0bbed854cd62a4bcc0b9478919c"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleusView.html#a56dcd0bbed854cd62a4bcc0b9478919c">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classchemist_1_1NucleusView.html">NucleusView</a>&lt; NucleusType &gt; &amp;view)</td></tr>
+<tr class="memdesc:a56dcd0bbed854cd62a4bcc0b9478919c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes it so the <a class="el" href="classchemist_1_1NucleusView.html" title="Allows representing data as if it were a Nucleus object.">NucleusView</a> class can be printed out.  <a href="classchemist_1_1NucleusView.html#a56dcd0bbed854cd62a4bcc0b9478919c">More...</a><br /></td></tr>
+<tr class="separator:a56dcd0bbed854cd62a4bcc0b9478919c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename NucleusType&gt;<br />
@@ -680,6 +694,61 @@ template&lt;typename NucleusType &gt; </div>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">None</td><td>No throw guarantee </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a id="a56dcd0bbed854cd62a4bcc0b9478919c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56dcd0bbed854cd62a4bcc0b9478919c">&#9670;&nbsp;</a></span>operator&lt;&lt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename NucleusType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream &amp; operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>os</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1NucleusView.html">NucleusView</a>&lt; NucleusType &gt; &amp;&#160;</td>
+          <td class="paramname"><em>view</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Makes it so the <a class="el" href="classchemist_1_1NucleusView.html" title="Allows representing data as if it were a Nucleus object.">NucleusView</a> class can be printed out. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">os</td><td>The output stream to print to. </td></tr>
+    <tr><td class="paramname">ni</td><td>The <a class="el" href="classchemist_1_1NucleusView.html" title="Allows representing data as if it were a Nucleus object.">NucleusView</a> instance to print to the stream. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The output stream containing the <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a> instance. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::ios_base::failure</td><td>if anything goes wrong while writing. Weak throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
