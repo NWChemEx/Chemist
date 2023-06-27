@@ -15,59 +15,100 @@
  */
 
 #pragma once
-#include "chemist/basis_set/shell_view.hpp"
-#include "chemist/point/point.hpp"
+#include <chemist/basis_set/shell/shell_view.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
 namespace detail_ {
-template<typename T>
+template<typename ShellType>
 class AtomicBasisSetPIMPL;
 }
-template<typename T>
+
+template<typename ShellType>
 class AtomicBasisSet
-  : public Point<T>,
-    public utilities::IndexableContainerBase<AtomicBasisSet<T>> {
+  : public utilities::IndexableContainerBase<AtomicBasisSet<ShellType>> {
 private:
     /// Type of this class
-    using my_type = AtomicBasisSet<T>;
+    using my_type = AtomicBasisSet<ShellType>;
+
     /// Type of the IndexableContainerBase base class
     using container_base = utilities::IndexableContainerBase<my_type>;
-    /// Type of the PIMPL implementing the center part
-    using center_pimpl_t = detail_::AtomicBasisSetPIMPL<T>;
-    /// Type of a pointer to the PIMPL for the center
-    using center_pimpl_ptr_t = std::unique_ptr<center_pimpl_t>;
-    /// Type of the PIMPL for the Point part
-    using point_pimpl_t = detail_::PointPIMPL<T>;
-    /// Type of a pointer to the PIMPL for the Point part
-    using point_pimpl_ptr_t = std::unique_ptr<point_pimpl_t>;
 
 public:
-    /// Type of the Shells on this AtomicBasisSet
-    using value_type = Shell<T>;
-    /// Type of a read-/write-able reference to a AtomicBasisSet
-    using reference = ShellView<T>;
-    /// Type of a read-only reference to a AtomicBasisSet
-    using const_reference = ShellView<const T>;
+    /// Type of the PIMPL
+    using pimpl_type = detail_::AtomicBasisSetPIMPL<ShellType>;
+
+    /// Type of a pointer to a PIMPL
+    using pimpl_pointer = std::unique_ptr<pimpl_type>;
+
+    /// String-like type used to store the basis set name
+    using name_type = std::string;
+
+    /// Mutable reference to the basis set's name
+    using name_reference = name_type&;
+
+    /// Read-only reference to the basis set's name
+    using const_name_reference = const name_type&;
+
+    /// Unsigned integral type used to store the atomic number
+    using atomic_number_type = std::size_t;
+
+    /// Mutable reference to the basis set's atomic number
+    using atomic_number_reference = atomic_number_type&;
+
+    /// Read-only reference to the basis set's atomic number
+    using const_atomic_number_reference = const atomic_number_type&;
+
     /// Unsigned integral type used for indexing/offsets
     using size_type = typename container_base::size_type;
-    /// Type used to specify whether a Shell is pure or not
-    using pure_type = ShellType;
-    /// Type used to store the total angular momentum of a shell
-    using am_type = size_type;
-    /// Type used to specify the coefficients/exponets for a CTGO
-    using param_set = std::vector<T>;
 
-    /** @brief Creates a new AtomicBasisSet instance at the origin.
+    // -------------------------------------------------------------------------
+    // -- Shell types
+    // -------------------------------------------------------------------------
+
+    /// Type of the Shells on this AtomicBasisSet
+    using value_type = ShellType;
+
+    /// Type of a read-/write-able reference to a AtomicBasisSet
+    using reference = ShellView<value_type>;
+
+    /// Type of a read-only reference to a AtomicBasisSet
+    using const_reference = ShellView<const value_type>;
+
+    /// Type used to specify angular momentum
+    using angular_momentum = typename value_type::angular_momentum;
+
+    /// Type used to specify whether a Shell is pure or not
+    using pure_type = typename value_type::pure_type;
+
+    /// Type of a reference to a contracted Gaussian function
+    using contracted_gaussian_reference =
+      typename value_type::contracted_gaussian_reference;
+
+    // -------------------------------------------------------------------------
+    // -- Primitive types
+    // -------------------------------------------------------------------------
+
+    using primitive_reference = typename value_type::primitive_reference;
+
+    using const_primitive_reference =
+      typename value_type::const_primitive_reference;
+
+    using center_type = typename primitive_reference::center_type;
+
+    using coefficient_type = typename primitive_reference::coefficient_type;
+
+    using exponent_type = typename primitive_reference::exponent_type;
+
+    using coord_type = typename center_type::coord_type;
+
+    // -------------------------------------------------------------------------
+    // -- Ctors, assignment, and dtor
+    // -------------------------------------------------------------------------
+
+    /** @brief Creates a null AtomicBasisSet object.
      *
-     *  The AtomicBasisSet instance resulting from this ctor will have no
-     *  shells, an empty name, an atomic number of 0, and will be centered at
-     *  the origin. The center can be translated by modifying the coordinates
-     *  through `coord(size_type)` or the `x()`, `y()`, and `z()` member
-     *  functions. Shells can be added via `add_shell`.
-     *
-     *  @throw std::bad_alloc if there is insufficient memory to allocate the
-     *                        PIMPL. Strong throw guarantee.
+     *  @throw None No throw guarantee
      */
     AtomicBasisSet();
 
@@ -135,7 +176,8 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    AtomicBasisSet(const std::string& name, size_type atomic_n, T x, T y, T z);
+    AtomicBasisSet(const_name_reference name, atomic_number_type atomic_n,
+                   coord_type x, coord_type y, coord_type z);
 
     /** @brief Creates a new AtomicBasisSet centered on the provided point.
      *
@@ -150,7 +192,7 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    AtomicBasisSet(T x, T y, T z);
+    AtomicBasisSet(coord_type x, coord_type y, coord_types z);
 
     /** @brief Creates a new AtomicBasisSet with the provided name and atomic
      *         number.
@@ -164,22 +206,7 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    AtomicBasisSet(const std::string& name, size_type atomic_n);
-
-    /** @brief Creates a new AtomicBasisSet with the provided state.
-     *
-     *  This ctor can be used to create a AtomicBasisSet which uses the provided
-     *  PIMPLs.
-     *
-     *  @param[in] cpimpl The PIMPL to use for the AtomicBasisSet part of the
-     *                    resulting instance.
-     *  @param[in] ppimpl The PIMPL to use for the Point part of the resulting
-     *                    instance.
-     *
-     *  @throw None no throw guarantee.
-     */
-    AtomicBasisSet(center_pimpl_ptr_t cpimpl,
-                   point_pimpl_ptr_t ppimpl) noexcept;
+    AtomicBasisSet(const_name_reference name, size_type atomic_n);
 
     /// Defaulted no throw dtor
     ~AtomicBasisSet() noexcept override;
@@ -366,12 +393,28 @@ public:
 private:
     /// Allows the IndexableContainerBase to access implementations
     friend container_base;
+
+    /** @brief Creates a new AtomicBasisSet with the provided state.
+     *
+     *  This ctor can be used to create a AtomicBasisSet which uses the provided
+     *  PIMPL.
+     *
+     *  @param[in] pimpl The PIMPL to use for the AtomicBasisSet part of the
+     *                    resulting instance.
+     *
+     *  @throw None no throw guarantee.
+     */
+    AtomicBasisSet(pimpl_pointer pimpl) noexcept;
+
     /// Implements size()
     size_type size_() const noexcept;
-    /// Implements operator[](size_type)
+
+    /// Implements non-const version of operator[]/at
     reference at_(size_type i);
-    /// Implements operator[](size_type)const
+
+    /// Implements const version of operator[]/at
     const_reference at_(size_type i) const;
+
     /// The instance that actually implements this class
     center_pimpl_ptr_t m_pimpl_;
 };

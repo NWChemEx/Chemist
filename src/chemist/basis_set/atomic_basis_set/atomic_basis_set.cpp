@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-#include "../../point/detail_/point_pimpl.hpp"
 #include "atomic_basis_set_pimpl.hpp"
-#include "chemist/basis_set/atomic_basis_set.hpp"
-#include <cassert>
+#include <chemist/basis_set/atomic_basis_set/atomic_basis_set.hpp>
+
 namespace chemist {
 
 template<typename T>

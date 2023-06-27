@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-#include "../../point/detail_/point_pimpl.hpp"
-#include "chemist/basis_set/shell_view.hpp"
-#include "shell_pimpl.hpp"
+#include <chemist/basis_set/shell/shell_view.hpp>
 
 namespace chemist {
 namespace detail_ {
