@@ -234,4 +234,18 @@ TEST_CASE("Nuclei") {
         }
         REQUIRE(defaulted == nuclei);
     }
+
+    SECTION("Printing") {
+        std::stringstream ss;
+        ss << nuclei;
+
+        std::string corr =
+          "H 1.000000000000000 2.000000000000000 3.000000000000000\n";
+        corr.append(
+          "He 5.000000000000000 6.000000000000000 7.000000000000000\n");
+        corr.append(
+          "He 5.000000000000000 6.000000000000000 7.000000000000000\n");
+
+        REQUIRE(ss.str() == corr);
+    }
 }

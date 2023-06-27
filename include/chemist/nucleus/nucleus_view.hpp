@@ -18,6 +18,10 @@
 #include <chemist/detail_/view/traits.hpp>
 #include <chemist/nucleus/nucleus.hpp>
 #include <chemist/point_charge/point_charge_view.hpp>
+#include <iomanip>
+#include <iostream>
+#include <limits>
+#include <string>
 
 namespace chemist {
 
@@ -86,6 +90,9 @@ public:
 
     /// Type of a read-only reference to the mass
     using const_mass_reference = typename nucleus_type::const_mass_reference;
+
+    /// Type of the nucleus' coordiantes
+    using coord_type = typename nucleus_type::coord_type;
 
     // -- PointCharge types ----------------------------------------------------
 
@@ -247,6 +254,20 @@ private:
     /// Pointer to the aliased mass
     ptr_type<mass_type> m_pmass_;
 };
+
+/**
+ * @relates NucleusView
+ * @brief Makes it so the NucleusView class can be printed out.
+ *
+ * @param os The output stream to print to.
+ * @param ni The NucleusView instance to print to the stream.
+ * @return The output stream containing the Nucleus instance.
+ * @throws std::ios_base::failure if anything goes wrong while writing. Weak
+ *         throw guarantee.
+ */
+template<typename NucleusType>
+std::ostream& operator<<(std::ostream& os,
+                         const NucleusView<NucleusType>& view);
 
 /// Same as NucleusView::operator==, but when a Nucleus is the LHS
 template<typename NucleusType>

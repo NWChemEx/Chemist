@@ -17,6 +17,9 @@
 #pragma once
 #include <cereal/types/string.hpp>
 #include <chemist/point_charge/point_charge.hpp>
+#include <iomanip>
+#include <iostream>
+#include <limits>
 #include <string>
 
 namespace chemist {
@@ -246,6 +249,18 @@ private:
     /// The nucleus's mass (in a.u.)
     mass_type m_mass_;
 };
+
+/**
+ * @relates Nucleus
+ * @brief Makes it so the Nucleus class can be printed out.
+ *
+ * @param os The output stream to print to.
+ * @param ni The Nucleus instance to print to the stream.
+ * @return The output stream containing the Nucleus instance.
+ * @throws std::ios_base::failure if anything goes wrong while writing. Weak
+ *         throw guarantee.
+ */
+std::ostream& operator<<(std::ostream& os, const Nucleus& ni);
 
 } // namespace chemist
 

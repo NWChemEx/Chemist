@@ -195,6 +195,20 @@ private:
     pimpl_pointer m_pimpl_;
 };
 
+/**
+ * @relates Nuclei
+ * @brief Overloads the stream insertion operator so that nuclei can be
+ *        printed.
+ *
+ * @param os The ostream instance to write to.
+ * @param nukes The Nuclei instance to write to the stream.
+ * @return The ostream instance containing the text representation of the
+ *         nuclei.
+ * @throws std::ios_base::failure if anything goes wrong while writing.  Weak
+ *         throw guarantee.
+ */
+std::ostream& operator<<(std::ostream& os, const Nuclei& nukes);
+
 template<typename Archive>
 void Nuclei::save(Archive& ar) const {
     ar& size();

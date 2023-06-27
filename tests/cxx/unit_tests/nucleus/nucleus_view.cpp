@@ -190,4 +190,14 @@ TEST_CASE("NucleusView") {
         REQUIRE(pn1 != pq2);
         REQUIRE(pq2 != pn1);
     }
+
+    SECTION("Printing") {
+        std::stringstream ss;
+        ss << pn0;
+
+        std::string corr =
+          "H 2.000000000000000 3.000000000000000 4.000000000000000";
+
+        REQUIRE(ss.str() == corr);
+    }
 }

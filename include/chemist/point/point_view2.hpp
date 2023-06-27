@@ -18,6 +18,10 @@
 #include <array>
 #include <chemist/detail_/view/traits.hpp>
 #include <chemist/point/point.hpp>
+#include <iomanip>
+#include <iostream>
+#include <limits>
+#include <string>
 #include <type_traits>
 
 namespace chemist {
@@ -213,6 +217,16 @@ bool operator==(const Point<CoordType>& lhs, const PointView2<PointType>& rhs) {
 template<typename CoordType, typename PointType>
 bool operator!=(const Point<CoordType>& lhs, const PointView2<PointType>& rhs) {
     return rhs != lhs;
+}
+
+/// Allows a Point to be printed
+template<typename PointType>
+std::ostream& operator<<(std::ostream& os, const PointView2<PointType>& view) {
+    using coord_type = typename PointView2<PointType>::coord_type;
+    os << std::fixed
+       << std::setprecision(std::numeric_limits<coord_type>::digits10)
+       << view.coord(0) << " " << view.coord(1) << " " << view.coord(2);
+    return os;
 }
 
 } // namespace chemist

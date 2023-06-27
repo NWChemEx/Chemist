@@ -15,6 +15,7 @@
  */
 
 #include "detail_/nuclei_pimpl.hpp"
+#include <iostream> //For std::endl
 #include <utility>
 
 namespace chemist {
@@ -64,5 +65,13 @@ typename Nuclei::size_type Nuclei::size_() const noexcept {
 }
 
 bool Nuclei::has_pimpl_() const noexcept { return m_pimpl_ != nullptr; }
+
+// -- Free functions ---------------------------------------------------------
+
+std::ostream& operator<<(std::ostream& os, const chemist::Nuclei& nukes) {
+    using nucleus_t = typename chemist::Nuclei::value_type;
+    for(auto i = 0; i < nukes.size(); i++) { os << nukes[i] << std::endl; }
+    return os;
+}
 
 } // namespace chemist
