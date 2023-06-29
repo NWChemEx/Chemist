@@ -15,31 +15,33 @@
  */
 
 #pragma once
-#include <chemist/basis_set/shell/shell_view.hpp>
-#include <utilities/containers/indexable_container_base.hpp>
+#include <chemist/basis_set/atomic_basis_set/atomic_basis_set.hpp>
+#include <chemist/detail_/view/traits.hpp>
 
 namespace chemist {
 namespace detail_ {
 template<typename ShellType>
-class AtomicBasisSetPIMPL;
+class AtomicBasisSetViewPIMPL;
 }
 
 template<typename ShellType>
-class AtomicBasisSet
-  : public utilities::IndexableContainerBase<AtomicBasisSet<ShellType>> {
+class AtomicBasisSetView {
 private:
     /// Type of this class
-    using my_type = AtomicBasisSet<ShellType>;
+    using my_type = AtomicBasisSetView<ShellType>;
 
-    /// Type of the IndexableContainerBase base class
-    using container_base = utilities::IndexableContainerBase<my_type>;
+    /// Type of the view traits which does the TMP for us
+    using traits_type = ViewTraits<ShellType>;
 
 public:
     /// Type of the PIMPL
-    using pimpl_type = detail_::AtomicBasisSetPIMPL<ShellType>;
+    using pimpl_type = detail_::AtomicBasisSetViewPIMPL<ShellType>;
 
     /// Type of a pointer to a PIMPL
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
+
+    /// Type this is a view of
+    using atomic_basis_set_type = AtomicBasisSet<traits_type::type>;
 
     /// String-like type used to store the basis set name
     using name_type = std::string;

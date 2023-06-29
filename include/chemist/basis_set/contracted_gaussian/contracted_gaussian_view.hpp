@@ -108,6 +108,13 @@ public:
     /// Type of a possibly mutable reference to the exponent
     using exponent_reference = typename reference::exponent_reference;
 
+    /// Type of a vector of coefficients
+    using coefficient_vector =
+      typename contracted_gaussian_type::coefficient_vector;
+
+    /// Type of a vector of exponents
+    using exponent_vector = typename contracted_gaussian_type::exponent_vector;
+
     /** @brief Creates a ContractedGaussianView that aliases the provided state.
      *
      *  This ctor assumes that the state it is aliasing is stored contiguously

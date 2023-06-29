@@ -98,6 +98,12 @@ public:
     /// Floating point type each primitive uses for the exponent
     using exponent_type = typename value_type::exponent_type;
 
+    /// Type of a std::vector of coefficents
+    using coefficient_vector = std::vector<coefficient_type>;
+
+    /// Type of a std;:vector of exponents
+    using exponent_vector = std::vector<exponent_type>;
+
     /** @brief Makes a null ContractedGaussian.
      *
      *  The default ctor makes a null ContractedGaussian instance which means
@@ -126,8 +132,7 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to allocate the
      *         PIMPL. Strong throw guarantee.
      */
-    ContractedGaussian(std::vector<coefficient_type> coefs,
-                       std::vector<exponent_type> exps, coord_type x,
+    ContractedGaussian(coefficient_type coefs, exponent_type exps, coord_type x,
                        coord_type y, coord_type z);
 
     /** @brief Constructs a ContractedGaussian from the provided parameters.
@@ -145,8 +150,8 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to allocate the
      *         PIMPL. Strong throw guarantee.
      */
-    ContractedGaussian(std::vector<coefficient_type> coefs,
-                       std::vector<exponent_type> exps, center_type center);
+    ContractedGaussian(coefficient_type coefs, exponent_type exps,
+                       center_type center);
 
     /** @brief Constructs a new ContractedGaussian instance by copying the state
      *         of @p rhs.

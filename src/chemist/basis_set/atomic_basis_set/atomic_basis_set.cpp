@@ -18,149 +18,201 @@
 
 namespace chemist {
 
-template<typename T>
-AtomicBasisSet<T>::AtomicBasisSet() :
-  AtomicBasisSet(std::make_unique<center_pimpl_t>(),
-                 std::make_unique<point_pimpl_t>()) {}
+#define ATOMIC_BASIS_SET AtomicBasisSet<ShellType>
 
-template<typename T>
-AtomicBasisSet<T>::AtomicBasisSet(const AtomicBasisSet<T>& rhs) :
-  AtomicBasisSet(std::make_unique<center_pimpl_t>(*rhs.m_pimpl_),
-                 std::make_unique<point_pimpl_t>(rhs.x(), rhs.y(), rhs.z())) {}
+// -----------------------------------------------------------------------------
+// -- Ctors, assignment, and dtor
+// -----------------------------------------------------------------------------
 
-template<typename T>
-AtomicBasisSet<T>::AtomicBasisSet(AtomicBasisSet<T>&& rhs) noexcept = default;
+template<typename ShellType>
+ATOMIC_BASIS_SET::AtomicBasisSet() noexcept = default;
 
-template<typename T>
-AtomicBasisSet<T>::AtomicBasisSet(const std::string& name, size_type atomic_n,
-                                  T x, T y, T z) :
-  AtomicBasisSet(std::make_unique<center_pimpl_t>(name, atomic_n),
-                 std::make_unique<point_pimpl_t>(x, y, z)) {}
+template<typename ShellType>
+ATOMIC_BASIS_SET::AtomicBasisSet(const AtomicBasisSet& rhs) :
+  AtomicBasisSet(
+    rhs.has_pimpl_() ? std::make_unique<pipml_type>(*rhs.m_pimpl_) : nullptr) {}
 
-template<typename T>
-AtomicBasisSet<T>::AtomicBasisSet(T x, T y, T z) :
-  AtomicBasisSet(std::make_unique<center_pimpl_t>(),
-                 std::make_unique<point_pimpl_t>(x, y, z)) {}
+template<typename ShellType>
+ATOMIC_BASIS_SET::AtomicBasisSet(AtomicBasisSet&& rhs) noexcept = default;
 
-template<typename T>
-AtomicBasisSet<T>::AtomicBasisSet(const std::string& name, size_type atomic_n) :
-  AtomicBasisSet(std::make_unique<center_pimpl_t>(name, atomic_n),
-                 std::make_unique<point_pimpl_t>()) {}
-
-template<typename T>
-AtomicBasisSet<T>::AtomicBasisSet(center_pimpl_ptr_t cpimpl,
-                                  point_pimpl_ptr_t ppimpl) noexcept :
-  m_pimpl_(std::move(cpimpl)),
-  Point<T>(std::move(ppimpl)),
-  utilities::IndexableContainerBase<AtomicBasisSet<T>>() {}
-
-template<typename T>
-AtomicBasisSet<T>& AtomicBasisSet<T>::operator=(const AtomicBasisSet<T>& rhs) {
-    return *this = std::move(AtomicBasisSet<T>(rhs));
+template<typename ShellType>
+ATOMIC_BASIS_SET& ATOMIC_BASIS_SET::operator=(const AtomicBasisSet& rhs) {
+    if(&rhs != this) AtomicBasisSet(rhs).swap(*this);
+    return *this;
 }
 
-template<typename T>
-AtomicBasisSet<T>& AtomicBasisSet<T>::operator=(
-  AtomicBasisSet<T>&& rhs) noexcept = default;
+template<typename ShellType>
+ATOMIC_BASIS_SET& ATOMIC_BASIS_SET::operator=(AtomicBasisSet&& rhs) noexcept =
+  default;
 
-template<typename T>
-AtomicBasisSet<T>::~AtomicBasisSet() noexcept = default;
+template<typename ShellType>
+ATOMIC_BASIS_SET::AtomicBasisSet(const_name_reference name,
+                                 atomic_number_type atomic_n, coord_type x,
+                                 coord_type y, coord_type z) :
+  AtomicBasisSet(std::make_unique<pimpl_pointer>(center_type(x, y, z))) {}
 
-template<typename T>
-void AtomicBasisSet<T>::add_shell(pure_type pure, am_type l, param_set cs,
-                                  param_set es) {
+template<typename ShellType>
+ATOMIC_BASIS_SET::AtomicBasisSet(coord_type x, coord_type y, coord_type z) :
+  AtomicBasisSet(std::make_unique<pimpl_pointer>(center_type(x, y, z))) {}
+
+template<typename ShellType>
+ATOMIC_BASIS_SET::AtomicBasisSet(const_name_reference name,
+                                 atomic_number_type atomic_n) :
+  AtomicBasisSet(name, atomic_n, 0.0, 0.0, 0.0) {}
+
+template<typename ShellType>
+ATOMIC_BASIS_SET::~AtomicBasisSet() noexcept = default;
+
+// -----------------------------------------------------------------------------
+// -- Getters and setters
+// -----------------------------------------------------------------------------
+
+template<typename ShellType>
+bool ATOMIC_BASIS_SET::has_name() const noexcept {
+    if(is_null()) return false;
+    return m_pimpl_->m_name.has_value();
+}
+
+template<typename ShellType>
+typename ATOMIC_BASIS_SET::name_reference ATOMIC_BASIS_SET::basis_set_name() {
+    if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>(0.0, 0.0, 0.0);
+    if(!m_pimpl_->m_name.has_value()) m_pimpl_->m_name.emplace("");
+    return m_pimpl_->m_name.value();
+}
+
+template<typename ShellType>
+typename ATOMIC_BASIS_SET::const_name_reference
+ATOMIC_BASIS_SET::basis_set_name() const {
+    if(has_name()) return m_pimpl_->m_name.value();
+    throw std::runtime_error("The current AtomicBasisSet does not have a name");
+}
+
+template<typename ShellType>
+bool ATOMIC_BASIS_SET::has_atomic_number() const noexcept {
+    if(is_null()) return false;
+    return m_pimpl_->m_z.has_value();
+}
+
+template<typename ShellType>
+typename ATOMIC_BASIS_SET::atomic_number_reference
+ATOMIC_BASIS_SET::atomic_number() {
+    if(is_null()) return m_pimpl_ = std::make_unique<pimpl_type>(0.0, 0.0, 0.0);
+    if(!m_pimpl_->m_z.has_value()) m_pimpl_->m_z.emplace(0);
+    return m_pimpl_->m_z.value();
+}
+
+template<typename ShellType>
+typename ATOMIC_BASIS_SET::const_atomic_number_reference
+ATOMIC_BASIS_SET::atomic_number() const {
+    if(has_atomic_number()) return m_pimpl_->m_z.value());
+    throw std::runtime_error("The current AtomicBasisSet does not have an "
+                             "atomic number");
+}
+
+template<typename ShellType>
+void ATOMIC_BASIS_SET::add_shell(pure_type pure, angular_momentum_type l,
+                                 coefficient_vector cs, exponent_vector es) {
     assert(m_pimpl_ != nullptr);
     m_pimpl_->add_shell(pure, l, std::move(cs), std::move(es));
 }
 
-template<typename T>
-std::string AtomicBasisSet<T>::basis_set_name() const {
-    assert(m_pimpl_ != nullptr);
-    return m_pimpl_->basis_set_name();
-}
-
-template<typename T>
-typename AtomicBasisSet<T>::size_type AtomicBasisSet<T>::atomic_number() const {
-    assert(m_pimpl_ != nullptr);
-    return m_pimpl_->atomic_number();
-}
-
-template<typename T>
-typename AtomicBasisSet<T>::size_type AtomicBasisSet<T>::n_aos()
-  const noexcept {
+template<typename ShellType>
+typename ATOMIC_BASIS_SET::size_type ATOMIC_BASIS_SET::n_aos() const noexcept {
     size_type counter = 0;
     for(auto&& shell_i : *this) counter += shell_i.size();
     return counter;
 }
 
-template<typename T>
-typename AtomicBasisSet<T>::ao_reference AtomicBasisSet<T>::ao(size_type i) {
-    for(ShellView<T> shell_i : *this) {
-        if(i < shell_i.size())
-            return shell_i[i];
-        else
-            i -= shell_i.size();
-    }
-    throw std::out_of_range("Requested i: " + std::to_string(i) +
-                            " is not in the range [0, naos())");
-}
+// Disabled until AO class is written
+// template<typename ShellType>
+// typename ATOMIC_BASIS_SET::ao_reference ATOMIC_BASIS_SET::ao(size_type i) {
+//     for(ShellView<T> shell_i : *this) {
+//         if(i < shell_i.size())
+//             return shell_i[i];
+//         else
+//             i -= shell_i.size();
+//     }
+//     throw std::out_of_range("Requested i: " + std::to_string(i) +
+//                             " is not in the range [0, naos())");
+// }
 
-template<typename T>
-typename AtomicBasisSet<T>::const_ao_reference AtomicBasisSet<T>::ao(
-  size_type i) const {
-    for(auto&& shell_i : *this) {
-        if(i < shell_i.size())
-            return shell_i[i];
-        else
-            i -= shell_i.size();
-    }
-    throw std::out_of_range("Requested i: " + std::to_string(i) +
-                            " is not in the range [0, naos())");
-}
+// template<typename ShellType>
+// typename ATOMIC_BASIS_SET::const_ao_reference ATOMIC_BASIS_SET::ao(
+//   size_type i) const {
+//     for(auto&& shell_i : *this) {
+//         if(i < shell_i.size())
+//             return shell_i[i];
+//         else
+//             i -= shell_i.size();
+//     }
+//     throw std::out_of_range("Requested i: " + std::to_string(i) +
+//                             " is not in the range [0, naos())");
+// }
 
-template<typename T>
-typename AtomicBasisSet<T>::size_type AtomicBasisSet<T>::n_unique_primitives()
+template<typename ShellType>
+typename ATOMIC_BASIS_SET::size_type ATOMIC_BASIS_SET::n_primitives()
   const noexcept {
     size_type counter = 0;
-    for(auto&& shell_i : *this) counter += shell_i.n_unique_primitives();
+    for(auto&& shell_i : *this) counter += shell_i.n_primitives();
     return counter;
 }
 
-template<typename T>
-typename AtomicBasisSet<T>::primitive_reference
-AtomicBasisSet<T>::unique_primitive(size_type i) {
-    for(ShellView<T> shell_i : *this) {
-        if(i < shell_i.n_unique_primitives())
-            return shell_i.unique_primitive(i);
-        else
-            i -= shell_i.n_unique_primitives();
+template<typename ShellType>
+typename ATOMIC_BASIS_SET::primitive_reference ATOMIC_BASIS_SET::primitive(
+  size_type i) {
+    if(i >= n_primitives()) {
+        throw std::out_of_range("Requested i: " + std::to_string(i) +
+                                " is not in the range [0, n_primitives())");
     }
-    throw std::out_of_range("Requested i: " + std::to_string(i) +
-                            " is not in the range [0, n_unique_primitives())");
+    return m_pimpl_->primitive(i);
 }
 
-template<typename T>
-typename AtomicBasisSet<T>::const_primitive_reference
-AtomicBasisSet<T>::unique_primitive(size_type i) const {
-    for(auto&& shell_i : *this) {
-        if(i < shell_i.n_unique_primitives())
-            return shell_i.unique_primitive(i);
-        else
-            i -= shell_i.n_unique_primitives();
+template<typename ShellType>
+typename ATOMIC_BASIS_SET::const_primitive_reference
+ATOMIC_BASIS_SET::primitive(size_type i) const {
+    if(i >= n_primitives()) {
+        throw std::out_of_range("Requested i: " + std::to_string(i) +
+                                " is not in the range [0, n_primitives())");
     }
-    throw std::out_of_range("Requested i: " + std::to_string(i) +
-                            " is not in the range [0, n_unique_primitives())");
+    return m_pimpl_->primitive(i);
 }
 
-template<typename T>
-typename AtomicBasisSet<T>::size_type AtomicBasisSet<T>::size_()
-  const noexcept {
+// -----------------------------------------------------------------------------
+// -- Utility methods
+// -----------------------------------------------------------------------------
+
+template<typename ShellType>
+void ATOMIC_BASIS_SET::swap(AtomicBasisSet& other) noexcept {
+    m_pimpl_.swap(other.m_pimpl_);
+}
+
+template<typename ShellType>
+bool ATOMIC_BASIS_SET::is_null() const noexcept {
+    return !has_pimpl_();
+}
+
+template<typename ShellType>
+bool ATOMIC_BASIS_SET::operator==(const AtomicBasisSet& rhs) const noexcept {
+    if(is_null() != rhs.is_null()) return false;
+    if(is_null()) return true; // Both are null
+    return *m_pimpl_ == *rhs.m_pimpl_;
+}
+
+// -----------------------------------------------------------------------------
+// -- Protected and private members
+// -----------------------------------------------------------------------------
+template<typename ShellType>
+ATOMIC_BASIS_SET::AtomicBasisSet(pimpl_pointer pimpl) noexcept :
+  m_pimpl_(std::move(pimpl)) {}
+
+template<typename ShellType>
+typename ATOMIC_BASIS_SET::size_type ATOMIC_BASIS_SET::size_() const noexcept {
     assert(m_pimpl_ != nullptr);
     return m_pimpl_->size();
 }
 
-template<typename T>
-typename AtomicBasisSet<T>::reference AtomicBasisSet<T>::at_(size_type i) {
+template<typename ShellType>
+typename ATOMIC_BASIS_SET::reference ATOMIC_BASIS_SET::at_(size_type i) {
     assert(m_pimpl_ != nullptr);
     auto ptr1 = m_pimpl_->at(i);
     auto ptr2 = this->point_alias();
@@ -168,8 +220,8 @@ typename AtomicBasisSet<T>::reference AtomicBasisSet<T>::at_(size_type i) {
     return reference(std::move(shell));
 }
 
-template<typename T>
-typename AtomicBasisSet<T>::const_reference AtomicBasisSet<T>::at_(
+template<typename ShellType>
+typename ATOMIC_BASIS_SET::const_reference ATOMIC_BASIS_SET::at_(
   size_type i) const {
     assert(m_pimpl_ != nullptr);
     auto ptr1 = m_pimpl_->at(i);
