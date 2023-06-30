@@ -20,18 +20,28 @@
 
 namespace chemist {
 namespace detail_ {
-template<typename ShellType>
+template<typename AtomicBasisSetType>
 class AtomicBasisSetViewPIMPL;
 }
 
-template<typename ShellType>
+template<typename AtomicBasisSetType>
 class AtomicBasisSetView {
 private:
     /// Type of this class
-    using my_type = AtomicBasisSetView<ShellType>;
+    using my_type = AtomicBasisSetView<AtomicBasisSetType>;
 
     /// Type of the view traits which does the TMP for us
-    using traits_type = ViewTraits<ShellType>;
+    using traits_type = ViewTraits<AtomicBasisSetType>;
+
+    /// Typedefs so we don't need "typename" and "template" below
+    template<typename T>
+    using apply_const = typename traits_type::template apply_const<T>;
+
+    template<typename T>
+    using apply_const_ref = typename traits_type::template apply_const_ref<T>;
+
+    template<typename T>
+    using ptr_type = typename traits_type::template apply_const_ptr<T>;
 
 public:
     /// Type of the PIMPL
@@ -41,50 +51,62 @@ public:
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
 
     /// Type this is a view of
-    using atomic_basis_set_type = AtomicBasisSet<traits_type::type>;
+    using atomic_basis_set_type = traits_type::type;
 
     /// String-like type used to store the basis set name
-    using name_type = std::string;
+    using name_type = typename atomic_basis_set_type::name_type;
 
     /// Mutable reference to the basis set's name
-    using name_reference = name_type&;
+    using name_reference = apply_const_ref<name_type>;
 
     /// Read-only reference to the basis set's name
-    using const_name_reference = const name_type&;
+    using const_name_reference =
+      typename atomic_basis_set_type::const_name_reference;
+
+    /// Type of a pointer to the basis set's name
+    using name_pointer = ptr_type<name_type>;
 
     /// Unsigned integral type used to store the atomic number
-    using atomic_number_type = std::size_t;
+    using atomic_number_type =
+      typename atomic_basis_set_type::atomic_number_type;
 
     /// Mutable reference to the basis set's atomic number
-    using atomic_number_reference = atomic_number_type&;
+    using atomic_number_reference = apply_const_ref<name_type>;
 
     /// Read-only reference to the basis set's atomic number
-    using const_atomic_number_reference = const atomic_number_type&;
+    using const_atomic_number_reference =
+      typename atomic_basis_set_type::const_atomic_number_reference;
+
+    /// Type of a pointer to the atomic number
+    using atomic_number_pointer = ptr_type<atomic_number_type>;
 
     /// Unsigned integral type used for indexing/offsets
-    using size_type = typename container_base::size_type;
+    using size_type = typename atomic_basis_set::size_type;
+
+    /// Type of a pointer to a read-only set of sizes
+    using const_size_pointer = const size_type*;
 
     /// Type used to return index ranges
-    using range_type = std::pair<size_type, size_type>;
+    using range_type = typename atomic_basis_set::range_type;
 
     // -------------------------------------------------------------------------
     // -- Shell types
     // -------------------------------------------------------------------------
 
     /// Type of the Shells on this AtomicBasisSet
-    using value_type = ShellType;
+    using value_type = typename atomic_basis_set::value_type;
 
     /// Type of a read-/write-able reference to a AtomicBasisSet
-    using reference = ShellView<value_type>;
+    using reference = ShellView<apply_const<value_type>>;
 
     /// Type of a read-only reference to a AtomicBasisSet
     using const_reference = ShellView<const value_type>;
 
     /// Type used to specify angular momentum
-    using angular_momentum = typename value_type::angular_momentum;
+    using angular_momentum = typename reference::angular_momentum;
 
     /// Type used to specify whether a Shell is pure or not
-    using pure_type = typename value_type::pure_type;
+    using pure_type = typename reference::pure_type;
 
     // -------------------------------------------------------------------------
     // -- AO types
@@ -105,63 +127,85 @@ public:
 
     /// Type of a reference to a contracted Gaussian function
     using contracted_gaussian_reference =
-      typename value_type::contracted_gaussian_reference;
+      typename reference::contracted_gaussian_reference;
 
     /// Type of a vector of coefficients
-    using coefficient_vector =
-      typename contracted_gaussian_reference::coefficient_vector;
+    using coefficient_vector = typename reference::coefficient_vector;
 
     /// Type of a vector of exponents
-    using exponent_vector =
-      typename contracted_gaussian_reference::exponent_vector;
+    using exponent_vector = typename reference::exponent_vector;
 
     // -------------------------------------------------------------------------
     // -- Primitive types
     // -------------------------------------------------------------------------
 
     /// Type of a mutable reference to a primitive
-    using primitive_reference = typename value_type::primitive_reference;
+    using primitive_reference = typename reference::primitive_reference;
 
     /// Type of a read-only reference to a primitive
     using const_primitive_reference =
-      typename value_type::const_primitive_reference;
+      typename reference::const_primitive_reference;
 
     /// Rank-1 tensor-like object holding the center
-    using center_type = typename primitive_reference::center_type;
+    using center_type = typename reference::center_type;
 
     /// Floating-point type used for specifying the center's coordinates
-    using coord_type = typename center_type::coord_type;
+    using coord_type = typename reference::coord_type;
+
+    /// Type of a reference to a center's coordinates
+    using center_reference = typename reference::center_reference;
 
     /// Floating-point type used for expansion coefficients of the primitive
-    using coefficient_type = typename primitive_reference::coefficient_type;
+    using coefficient_type = typename reference::coefficient_type;
+
+    /// Type of a reference to a coefficient
+    using coefficient_reference = apply_const_ref<coefficient_type>;
+
+    /// Type of a pointer to a coefficient
+    using coefficient_pointer = ptr_type<coefficient_type>;
 
     /// Floating-point type used for primitive exponents
-    using exponent_type = typename primitive_reference::exponent_type;
+    using exponent_type = typename reference::exponent_type;
+
+    /// Type of a reference to an exponent
+    using exponent_reference = apply_const_ref<exponent_type>;
+
+    /// Type of a pointer to an exponent
+    using exponent_pointer = ptr_type<exponent_type>;
 
     // -------------------------------------------------------------------------
     // -- Ctors, assignment, and dtor
     // -------------------------------------------------------------------------
 
-    /** @brief Creates a null AtomicBasisSet object.
+    /** @brief Creates a view of a null AtomicBasisSet object.
      *
      *  A null AtomicBasisSet has no shells, is not centered anywhere, has no
      *  name, and is not associated with an atomic number.
      *
      *  @throw None No throw guarantee
      */
-    AtomicBasisSet() noexcept;
+    AtomicBasisSetView() noexcept;
 
-    /** @brief Creates a new AtomicBasisSet by deep copying another instance.
+    /** @brief Creates a new view by deep copying another instance.
      *
-     *  @param[in] rhs The AtomicBasisSet instance to deep copy.
+     *  Deep copy in this context refers to the state in the view, not what
+     *  the view is aliasing. In other words, the view resulting from this
+     *  ctor will be a view of same AtomicBasisSet as @p rhs, but *this can
+     *  be made to alias a different AtomicBasisSet without affecting @p rhs.
+     *
+     *  @param[in] rhs The instance to deep copy.
      *
      *  @throw std::bad_alloc if there is insufficient memory to create the new
      *                        instance. Strong throw guarantee.
      */
-    AtomicBasisSet(const AtomicBasisSet& rhs);
+    AtomicBasisSetView(const AtomicBasisSetView& rhs);
 
-    /** @brief Creates a new AtomicBasisSet instance by taking ownership of an
+    /** @brief Creates a new view instance by taking ownership of an
      *         already existing instance's state.
+     *
+     *  This ctor simply transfers the state in @p rhs to *this. The resulting
+     *  view will still alias the same state and all references to that state
+     *  will remain valid.
      *
      *  @param[in, out] rhs The instance to take the state from. After this ctor
      *                      @p rhs will no longer contain a PIMPL and can not
@@ -170,25 +214,27 @@ public:
      *
      *  @throw None no throw guarantee.
      */
-    AtomicBasisSet(AtomicBasisSet&& rhs) noexcept;
+    AtomicBasisSetView(AtomicBasisSetView&& rhs) noexcept;
 
-    /** @brief Causes the current AtomicBasisSet to contain a deep copy of
-     *         another AtomicBasisSet.
+    /** @brief Causes *this to contain a deep copy of @p rhs.
      *
-     *  This function will assign to the current AtomicBasisSet a deep copy of
-     *  another instance. This instance's previous state will be released.
+     *  This function will assign to *this a deep copy of another instance.
+     *  This instance's previous state will be released in the process. Deep
+     *  copy in this sense is identical to the copy ctor, *i.e.*, the resulting
+     *  copy will still alias the same AtomicBasisSet, but will do so with newly
+     *  allocated state.
      *
-     *  @param[in] rhs The AtomicBasisSet instance to deep copy.
+     *  @param[in] rhs The instance to deep copy.
      *
      *  @return The current instance after setting it to a deep copy of @p rhs.
      *
      *  @throw std::bad_alloc if there is insufficient memory to create the new
      *                        instance. Strong throw guarantee.
      */
-    AtomicBasisSet& operator=(const AtomicBasisSet& rhs);
+    AtomicBasisSetView& operator=(const AtomicBasisSetView& rhs);
 
-    /** @brief Causes the current AtomicBasisSet instance to take ownership of
-     *         an already existing instance's state.
+    /** @brief Causes *this to take ownership of an already existing instance's
+     *         state.
      *
      *  @param[in, out] rhs The instance to take the state from. After this ctor
      *                      @p rhs will no longer contain a PIMPL and can not
@@ -199,57 +245,62 @@ public:
      *
      *  @throw None no throw guarantee.
      */
-    AtomicBasisSet& operator=(AtomicBasisSet&& rhs) noexcept;
+    AtomicBasisSetView& operator=(AtomicBasisSetView&& rhs) noexcept;
 
-    /** @brief Creates a new AtomicBasisSet centered on the provided point.
+    /** @brief Creates a new view with the provided state.
      *
-     *  This ctor is used to create a new AtomicBasisSet instance with the
-     *  provided Cartesian coordinates, basis set name, and atomic number.
+     *  This ctor is used to create a new view of an AtomicBasisSet instance
+     *  by aliasing the provided Cartesian coordinates, basis set name, and
+     *  atomic number.
      *
      *  @param[in] name The name associated with the basis set.
      *  @param[in] atomic_n The atomic number associated with the basis set.
-     *  @param[in] x The x-coordinate for the resulting AtomicBasisSet
-     *  @param[in] y The y-coordinate for the resulting AtomicBasisSet
-     *  @param[in] z The z-coordinate for the resulting AtomicBasisSet
+     *  @param[in] nshells The number of shells in the basis set
+     *  @param[in] prims_per_shell A reference to the number of primitives in
+     *                             the 0-th shell. The number of primitives in
+     *                             shell i is assumed to be obtainable by
+     *                             `(&prims_per_shell)[i]`.
+     *  @param[in] cs The coefficient for the first primitive. The coefficients
+     *                for the i-th primitive in the basis set are assumed to be
+     *                obtainable by `(&cs)[i]`.
+     *  @param[in] exp The exponent for the first primitive. The exponents
+     *                for the i-th primitive in the basis set are assumed to be
+     *                obtainable by `(&exp)[i]`.
      *
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    AtomicBasisSet(const_name_reference name, atomic_number_type atomic_n,
-                   coord_type x, coord_type y, coord_type z);
+    AtomicBasisSetView(name_reference name, atomic_number_reference atomic_n,
+                       size_type nshells, const_size_reference prims_per_shell,
+                       coefficient_reference cs, exponent_reference exp,
+                       center_reference center);
 
-    /** @brief Creates a new AtomicBasisSet centered on the provided point.
+    /** @brief Creates a new view of an AtomicBasisSet.
      *
-     *  This ctor is used to create a new AtomicBasisSet instance with the
-     *  provided Cartesian coordinates, while the basis set name and atomic
-     *  number are defaulted. The name can be set later by calling `name()`.
-     *  Similarly the atomic number can be set later by calling
+     *  This ctor is used to create a new view of an AtomicBasisSet by
+     *  aliasing the state provided to the ctor.
      *
-     *  @param[in] x The x-coordinate for the resulting AtomicBasisSet
-     *  @param[in] y The y-coordinate for the resulting AtomicBasisSet
-     *  @param[in] z The z-coordinate for the resulting AtomicBasisSet
-     *
-     *  @throw std::bad_alloc if there is insufficient memory to create the
-     *                        PIMPL. Strong throw guarantee.
-     */
-    AtomicBasisSet(coord_type x, coord_type y, coord_types z);
-
-    /** @brief Creates a new AtomicBasisSet with the provided name and atomic
-     *         number.
-     *
-     *  This ctor is used to create a new AtomicBasisSet instance, centered
-     *  on the origin, with the provided basis set name and atomic number.
-     *
-     *  @param[in] name The name associated with the basis set.
-     *  @param[in] atomic_n The atomic number associated with the basis set.
+     *  @param[in] nshells The number of shells in the basis set
+     *  @param[in] prims_per_shell A reference to the number of primitives in
+     *                             the 0-th shell. The number of primitives in
+     *                             shell i is assumed to be obtainable by
+     *                             `(&prims_per_shell)[i]`.
+     *  @param[in] cs The coefficient for the first primitive. The coefficients
+     *                for the i-th primitive in the basis set are assumed to be
+     *                obtainable by `(&cs)[i]`.
+     *  @param[in] exp The exponent for the first primitive. The exponents
+     *                for the i-th primitive in the basis set are assumed to be
+     *                obtainable by `(&exp)[i]`.
      *
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    AtomicBasisSet(const_name_reference name, atomic_number_type atomic_n);
+    AtomicBasisSetView(size_type nshells, const_size_reference prims_per_shell,
+                       coefficient_reference cs, exponent_reference exp,
+                       center_reference center);
 
     /// Defaulted no throw dtor
-    ~AtomicBasisSet() noexcept override;
+    ~AtomicBasisSetView() noexcept override;
 
     // -------------------------------------------------------------------------
     // -- Getters and setters
@@ -370,24 +421,6 @@ public:
      */
     const_atomic_number_reference atomic_number() const;
 
-    /** @brief Adds a shell to the center.
-     *
-     *  This function will create a Shell instance, with the specified
-     *  parameters, on the current AtomicBasisSet.
-     *
-     *  @param[in] pure Whether the new shell is pure or not.
-     *  @param[in] l The total angular momentum of the new shell.
-     *  @param[in] cs The contraction coefficients for the primitives comprising
-     *                the new shell's CGTO.
-     *  @param[in] es The exponents for the primitives comprising the new
-     *                shell's CGTO.
-     *
-     *  @throw std::bad_alloc if there is insufficient memory to create the new
-     *                        Shell. Weak throw guarantee.
-     */
-    void add_shell(pure_type pure, am_type l, coefficient_vector cs,
-                   exponent_vector es);
-
     /** @brief Returns the total number of AOs on this center.
      *
      *  Each shell is comprised of AOs. This function will add up the total
@@ -395,7 +428,7 @@ public:
      *
      *  @return The total number of AOs on this center.
      *
-     *  @throw None no throw gurantee.
+     *  @throw None no throw guarantee.
      */
     size_type n_aos() const noexcept;
 
@@ -527,36 +560,36 @@ public:
      *
      * @throw None No throw guarantee
      */
-    void swap(AtomicBasisSet& other) noexcept;
+    void swap(AtomicBasisSetView& other) noexcept;
 
-    /** @brief Is this AtomicBasisSet null?
+    /** @brief Is this a view of a null AtomicBasisSet?
      *
-     *  AtomicBasisSet objects can be null if they are default constructed or
-     *  if they are moved from.
-     *
+     *  AtomicBasisSet objects can be null, meaning *this can be a view of a
+     *  null object.
      *  @return True if *this is a null basis set and false otherwise.
      *
      *  @throw None No throw guarantee
      */
     bool is_null() const noexcept;
 
-    /** @brief Compares two AtomicBasisSet instances for equality.
+    /** @brief Compares two view instances for equality.
      *
-     *  Two AtomicBasisSet instances are considered equal if they contain the
-     *  same number of shells and if the i-th shell of *this is value equal to
-     *  the i-th shell of @p rhs for all i in the range `[0, size())`. This
+     *  Two views are considered equal if they both alias AtomicBasisSet objects
+     *  with the same number of shells and if the i-th shell of *this is value
+     *  equal to the i-th shell of @p rhs for all i in the range `[0, size())`.
+     *  This
      *  function will also compare the metadata (basis set name and atomic
      *  number.)
      *
-     *  @param[in] rhs The AtomicBasisSet being compared to *this.
+     *  @param[in] rhs The object being compared to *this.
      *
      *  @return True if *this is value equal to @p rhs and false otherwise.
      *
      *  @throw None No throw guarantee.
      */
-    bool operator==(const AtomicBasisSet& rhs) const noexcept;
+    bool operator==(const AtomicBasisSetView& rhs) const noexcept;
 
-    /** @brief Determines if two AtomicBasisSet objects are different.
+    /** @brief Determines if *this and @p rhs are different.
      *
      *  We define different as being not value equal. See operator== for the
      *  definition of value equal.
@@ -567,7 +600,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    bool operator!=(const AtomicBasisSet& rhs) const noexcept {
+    bool operator!=(const AtomicBasisSetView& rhs) const noexcept {
         return !(*this == rhs);
     }
 
@@ -575,17 +608,17 @@ private:
     /// Allows the IndexableContainerBase to access implementations
     friend container_base;
 
-    /** @brief Creates a new AtomicBasisSet with the provided state.
+    /** @brief Creates a new view of an AtomicBasisSet with the provided state.
      *
-     *  This ctor can be used to create a AtomicBasisSet which uses the provided
-     *  PIMPL.
+     *  This ctor can be used to create a AtomicBasisSetView which uses the
+     * provided PIMPL.
      *
-     *  @param[in] pimpl The PIMPL to use for the AtomicBasisSet part of the
+     *  @param[in] pimpl The PIMPL to use for the AtomicBasisSetView part of the
      *                    resulting instance.
      *
      *  @throw None no throw guarantee.
      */
-    AtomicBasisSet(pimpl_pointer pimpl) noexcept;
+    AtomicBasisSetView(pimpl_pointer pimpl) noexcept;
 
     /// True if *this has a PIMPL and false otherwise
     bool has_pimpl_() const noexcept;
@@ -600,10 +633,12 @@ private:
     const_reference at_(size_type i) const;
 
     /// The instance that actually implements this class
-    center_pimpl_ptr_t m_pimpl_;
+    pimpl_pointer m_pimpl_;
 };
 
-extern template class AtomicBasisSet<double>;
-extern template class AtomicBasisSet<float>;
+extern template class AtomicBasisSetView<AtomicBasisSetD>;
+extern template class AtomicBasisSetView<const AtomicBasisSetD>;
+extern template class AtomicBasisSetView<AtomicBasisSetF>;
+extern template class AtomicBasisSetView<const AtomicBasisSetF>;
 
 } // namespace chemist

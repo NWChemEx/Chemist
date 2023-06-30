@@ -68,6 +68,18 @@ public:
         const_shell_reference(m_pure_[i], m_l_[i], cg(i));
     }
 
+    contracted_gaussian_reference cg(size_type i) {
+        return contracted_gaussian_reference(
+          m_prims_per_cg_[i], m_coefs_[m_cg_offsets_[i]],
+          m_exps_[m_cg_offsets_[i]], m_center.value());
+    }
+
+    const_cg_reference cg(size_type i) const {
+        return const_cg_reference(m_prims_per_cg_[i],
+                                  m_coefs_[m_cg_offsets_[i]],
+                                  m_exps_[m_cg_offsets_[i]], m_center.value());
+    }
+
     range_type primitive_range(size_type shell) const {
         const auto begin   = m_cg_offsets_[shell];
         const bool is_last = shell < size();

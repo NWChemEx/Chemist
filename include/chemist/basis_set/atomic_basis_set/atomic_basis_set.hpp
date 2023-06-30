@@ -601,6 +601,12 @@ private:
     center_pimpl_ptr_t m_pimpl_;
 };
 
+/// An atomic basis set where all parameters are doubles
+using AtomicBasisSetD = AtomicBasisSet<double>;
+
+/// An atomic basis set where all parameters are floats
+using AtomicBasisSetF = AtomicBasisSet<float>;
+
 extern template class AtomicBasisSet<double>;
 extern template class AtomicBasisSet<float>;
 
