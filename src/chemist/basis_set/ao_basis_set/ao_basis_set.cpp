@@ -89,26 +89,14 @@ typename AO_BS::size_type AO_BS::n_shells() const noexcept {
 
 AO_BS_TPARAMS
 typename AO_BS::shell_reference AO_BS::shell(size_type i) {
-    for(auto&& x : *this) {
-        if(i < x.size())
-            return x[i];
-        else
-            i -= x.size();
-    }
-    throw std::out_of_range("Requested i: " + std::to_string(i) +
-                            " is not in the range [0, n_shells())");
+    assert_shell_index_(i);
+    return m_pimpl_->shell(i);
 }
 
 AO_BS_TPARAMS
 typename AO_BS::const_shell_reference AO_BS::shell(size_type i) const {
-    for(auto&& x : *this) {
-        if(i < x.size())
-            return x[i];
-        else
-            i -= x.size();
-    }
-    throw std::out_of_range("Requested i: " + std::to_string(i) +
-                            " is not in the range [0, n_shells())");
+    assert_shell_index_(i);
+    return m_pimpl_->shell(i);
 }
 
 AO_BS_TPARAMS
@@ -141,14 +129,8 @@ typename AO_BS::size_type AO_BS::n_primitives() const noexcept {
 
 AO_BS_TPARAMS
 typename AO_BS::primitive_reference AO_BS::primitive(size_type i) {
-    for(auto&& x : *this) {
-        if(i < x.n_unique_primitives())
-            return x.unique_primitive(i);
-        else
-            i -= x.n_unique_primitives();
-    }
-    throw std::out_of_range("Requested i: " + std::to_string(i) +
-                            " is not in the range [0, n_unique_primitives())");
+    assert_primitive_index_(i);
+    return m_pimpl_->primitive(i);
 }
 
 AO_BS_TPARAMS
