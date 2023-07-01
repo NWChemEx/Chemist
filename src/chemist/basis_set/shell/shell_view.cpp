@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+#include "../detail_/compute_n_aos.hpp"
 #include <chemist/basis_set/shell/shell_view.hpp>
 
 namespace chemist {
@@ -210,12 +210,7 @@ bool assert_non_null_() const {
 template<typename ShellType>
 typename SHELL_VIEW::size_type size_() const noexcept {
     if(is_null()) return 0;
-    const auto L     = l();
-    const auto p_val = 2ul * L + 1ul;
-    // closed form for 2+L choose 2
-    const auto c_val   = (L * L + 3ul * L + 2ul) / 2ul;
-    const bool is_pure = pure() == ShellType::pure;
-    return is_pure ? p_val : c_val;
+    return detail_::compute_n_aos(l(), pure());
 }
 
 

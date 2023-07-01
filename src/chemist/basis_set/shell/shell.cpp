@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <cassert>
+#include "../detail_/compute_n_aos.hpp"
 #include <chemist/basis_set/shell/shell.hpp>
 
 namespace chemist {
@@ -216,12 +216,7 @@ void SHELL::assert_pimpl_() const {
 template<typename CGType>
 typename SHELL::size_type SHELL::size_() const noexcept {
     if(is_null()) return 0;
-    const auto L     = l();
-    const auto p_val = 2ul * L + 1ul;
-    // closed form for 2+L choose 2
-    const auto c_val   = (L * L + 3ul * L + 2ul) / 2ul;
-    const bool is_pure = pure() == ShellType::pure;
-    return is_pure ? p_val : c_val;
+    return detail_::compute_n_aos(l(), pure());
 }
 
 // template<typename CGType>

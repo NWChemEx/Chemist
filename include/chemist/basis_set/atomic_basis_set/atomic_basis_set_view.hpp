@@ -17,6 +17,7 @@
 #pragma once
 #include <chemist/basis_set/atomic_basis_set/atomic_basis_set.hpp>
 #include <chemist/detail_/view/traits.hpp>
+#include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
 namespace detail_ {
@@ -25,10 +26,14 @@ class AtomicBasisSetViewPIMPL;
 }
 
 template<typename AtomicBasisSetType>
-class AtomicBasisSetView {
+class AtomicBasisSetView : public utilities::IndexableContainerBase<
+                             AtomicBasisSetView<AtomicBasisSetType>> {
 private:
     /// Type of this class
     using my_type = AtomicBasisSetView<AtomicBasisSetType>;
+
+    /// Type of the base class implementing the container API
+    using container_base = utilities::IndexableContainerBase<my_type>;
 
     /// Type of the view traits which does the TMP for us
     using traits_type = ViewTraits<AtomicBasisSetType>;
@@ -83,6 +88,9 @@ public:
     /// Unsigned integral type used for indexing/offsets
     using size_type = typename atomic_basis_set::size_type;
 
+    /// Type of a read-only reference to a size
+    using const_size_reference = const size_type&;
+
     /// Type of a pointer to a read-only set of sizes
     using const_size_pointer = const size_type*;
 
@@ -103,10 +111,30 @@ public:
     using const_reference = ShellView<const value_type>;
 
     /// Type used to specify angular momentum
-    using angular_momentum = typename reference::angular_momentum;
+    using angular_momentum_type = typename reference::angular_momentum_type;
+
+    /// Type of a possibly mutable reference to the angular momentum
+    using angular_momentum_reference =
+      typename reference::angumar_momentum_reference;
+
+    /// Type of a read-only reference to the angular momentum
+    using const_angular_momentum_reference =
+      typename reference::const_angular_momentum_reference;
+
+    /// Type of a pointer to a possibly mutable angular momentum
+    using angular_momentum_pointer = ptr_type<angular_momentum>;
 
     /// Type used to specify whether a Shell is pure or not
     using pure_type = typename reference::pure_type;
+
+    /// Type of a possibly mutable reference to the purity of the shell
+    using pure_reference = typename reference::pure_reference;
+
+    /// Type of a read-only reference to the purity of the shell
+    using const_pure_reference = typename reference::const_pure_reference;
+
+    /// Type of a pointer to a possibly mutable purity
+    using pure_pointer = ptr_type<pure_type>;
 
     // -------------------------------------------------------------------------
     // -- AO types
@@ -256,6 +284,13 @@ public:
      *  @param[in] name The name associated with the basis set.
      *  @param[in] atomic_n The atomic number associated with the basis set.
      *  @param[in] nshells The number of shells in the basis set
+     *  @param[in] pure_per_shell The purity of the 0-th shell. The purity of
+     *                            the i-th shell is assumed to be obtainable
+     *                            by `(&pure_per_shell)[i]`
+     *  @param[in] l_per_shell A reference to the angular momentum of the 0-th
+     *                         shell. The angular momentum of the i-th shell
+     *                         is assumed to be obtainable by
+     *                         `(&l_per_shell)`.
      *  @param[in] prims_per_shell A reference to the number of primitives in
      *                             the 0-th shell. The number of primitives in
      *                             shell i is assumed to be obtainable by
@@ -271,7 +306,9 @@ public:
      *                        PIMPL. Strong throw guarantee.
      */
     AtomicBasisSetView(name_reference name, atomic_number_reference atomic_n,
-                       size_type nshells, const_size_reference prims_per_shell,
+                       size_type nshells, pure_reference pure_per_shell,
+                       angular_momentum_reference l_per_shell,
+                       const_size_reference prims_per_shell,
                        coefficient_reference cs, exponent_reference exp,
                        center_reference center);
 
@@ -281,6 +318,13 @@ public:
      *  aliasing the state provided to the ctor.
      *
      *  @param[in] nshells The number of shells in the basis set
+     *  @param[in] pure_per_shell The purity of the 0-th shell. The purity of
+     *                            the i-th shell is assumed to be obtainable by
+     *                            `(&pure_per_shell)[i]`
+     *  @param[in] l_per_shell A reference to the angular momentum of the 0-th
+     *                         shell. The angular momentum of the i-th shell
+     *                         is assumed to be obtainable by
+     *                         `(&l_per_shell)`.
      *  @param[in] prims_per_shell A reference to the number of primitives in
      *                             the 0-th shell. The number of primitives in
      *                             shell i is assumed to be obtainable by
@@ -295,7 +339,9 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    AtomicBasisSetView(size_type nshells, const_size_reference prims_per_shell,
+    AtomicBasisSetView(size_type nshells, pure_reference pure_per_shell,
+                       angular_momentum_reference l_per_shell,
+                       const_size_reference prims_per_shell,
                        coefficient_reference cs, exponent_reference exp,
                        center_reference center);
 
@@ -327,9 +373,7 @@ public:
      *
      *  Many atomic basis sets are part of a named set, where "name" refers to
      *  monikers such as 6-31G* or cc-pVDZ. If the name has been set, this
-     *  method will return the name. If *this is a null atomic basis set, this
-     *  method will allocate a new state and then return a reference to the
-     *  name attribute of that state (which will be an empty string).
+     *  method will return the name.
      *
      *  @warning We suggest treating the name of a basis set as metadata. In
      *           particular *this makes no checks to ensure that the parameters
@@ -338,8 +382,8 @@ public:
      *
      * @return The name of this basis set.
      *
-     * @throw std::bad_alloc if *this is a null AtomicBasisSet and allocating
-     *                       the state fails. Strong throw guarantee.
+     * @throw std::runtime_error if *this does not have a basis set name.
+     *                           Strong throw guarantee
      */
     name_reference basis_set_name();
 
@@ -619,6 +663,21 @@ private:
      *  @throw None no throw guarantee.
      */
     AtomicBasisSetView(pimpl_pointer pimpl) noexcept;
+
+    /// Throws std::runtime_error if there's no aliased name
+    void assert_name_() const;
+
+    /// Throws std::runtime_error if there's no aliased atomic number
+    void assert_atomic_number_() const;
+
+    /// Throws std::runtime_error if this aliases a null basis
+    void assert_non_null_() const;
+
+    /// Throws std::out_of_range if primitive index is not valid
+    void assert_primitive_index_(size_type i) const;
+
+    /// Throws std::out_of_range if shell index is not valid
+    void assert_shell_index_(size_type i) const;
 
     /// True if *this has a PIMPL and false otherwise
     bool has_pimpl_() const noexcept;

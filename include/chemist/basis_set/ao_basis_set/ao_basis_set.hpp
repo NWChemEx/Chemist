@@ -15,47 +15,106 @@
  */
 
 #pragma once
-#include "chemist/basis_set/atomic_basis_set.hpp"
-#include "chemist/basis_set/detail_/flattened_view.hpp"
+#include <chemist/basis_set/atomic_basis_set/atomic_basis_set.hpp>
+#include <chemist/basis_set/atomic_basis_set/atomic_basis_set_view.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
 namespace detail_ {
-template<typename T>
+template<typename AtomicBasisSetType>
 class AOBasisSetPIMPL;
 } // namespace detail_
 
-template<typename T>
-class AOBasisSet : public utilities::IndexableContainerBase<AOBasisSet<T>> {
+template<typename AtomicBasisSetType>
+class AOBasisSet
+  : public utilities::IndexableContainerBase<AOBasisSet<AtomicBasisSetType>> {
 private:
     /// Type of this instance
-    using my_type = AOBasisSet<T>;
+    using my_type = AOBasisSet<AtomicBasisSetType>;
+
     /// Type of the base class implementing Container API
     using base_type = utilities::IndexableContainerBase<my_type>;
-    /// Type of the PIMPL implementing this class
-    using pimpl_type = detail_::AOBasisSetPIMPL<T>;
 
 public:
-    /// Type of the centers in this basis set
-    using value_type = AtomicBasisSet<T>;
-    /// Type of a read-/write-able reference to a AtomicBasisSet
-    using reference = AtomicBasisSet<T>&;
-    /// Type of a read-only reference to a AtomicBasisSet
-    using const_reference = const AtomicBasisSet<T>&;
+    /// Type of the PIMPL implementing this class
+    using pimpl_type = detail_::AOBasisSetPIMPL<AtomicBasisSetType>;
+
+    /// Type of a pointer to the PIMPL
+    using pimpl_pointer = std::unique_ptr<pimpl_type>;
+
     /// Unsigned integral type used for indexing/offsets
     using size_type = typename base_type::size_type;
+
+    /// Type of an index range
+    using range_type = std::pair<size_type, size_type>;
+
+    // -------------------------------------------------------------------------
+    // -- AtomicBasisSet types
+    // -------------------------------------------------------------------------
+
+    /// Type of the centers in this basis set
+    using value_type = AtomicBasisSetType;
+
+    /// Type of a read-/write-able reference to a AtomicBasisSet
+    using reference = AtomicBasisSetView<value_type>;
+
+    /// Type of a read-only reference to a AtomicBasisSet
+    using const_reference = AtomicBasisSetView<const value_type>;
+
+    // -------------------------------------------------------------------------
+    // -- Shell types
+    // -------------------------------------------------------------------------
+
+    /// Type used to model a Shell
+    using shell_type = typename value_type::value_type;
+
+    /// Type used to model a read-/write-able reference to a Shell
+    using shell_reference = typename reference::reference;
+
+    /// Type used to model a read-only reference to a Shell
+    using const_shell_reference = typename reference::const_reference;
+
+    // -------------------------------------------------------------------------
+    // -- AO types
+    // -------------------------------------------------------------------------
+
+    /// Type used to model an AO
+    // using ao_type = typename value_type::ao_type;
+
+    /// Type of a read-/write-able reference to an AO
+    // using ao_reference = typename value_type::ao_reference;
+
+    /// Type of a read-only reference to an AO
+    // using const_ao_reference = typename value_type::const_ao_reference;
+
+    // -------------------------------------------------------------------------
+    // -- Primitive types
+    // -------------------------------------------------------------------------
+
+    /// Type used to model a primitive Gaussian
+    using primitive_type = typename value_type::primitive_type;
+
+    /// Type used to model a read-/write-able reference to a primitive
+    using primitive_reference = typename reference::primitive_reference;
+
+    /// Type used to model a read-only reference to a primitive
+    using const_primitive_reference =
+      typename reference::const_primitive_reference;
+
+    // -------------------------------------------------------------------------
+    // -- Ctors, assignment, and dtor
+    // -------------------------------------------------------------------------
 
     /** @brief Creates a new AOBasisSet instance containing no centers.
      *
      *  This ctor can be used to create a new AOBasisSet instance which contains
      *  no centers. Centers can be added by calling `add_center`.
      *
-     *  @throw std::bad_alloc if there is insufficient memory to create the
-     *                        PIMPL. Strong throw guarantee.
+     *  @throw None No throw guarantee
      *
      *  Complexity: Constant
      */
-    AOBasisSet();
+    AOBasisSet() noexcept;
 
     /** @brief Creates a new AOBasisSet by deep copying another instance.
      *
@@ -69,7 +128,7 @@ public:
      *
      *  Complexity: Linear in the size of @p rhs.
      */
-    AOBasisSet(const AOBasisSet<T>& rhs);
+    AOBasisSet(const AOBasisSet& rhs);
 
     /** @brief Creates a new AOBasisSet instance which takes ownership of
      *         another instance's state.
@@ -87,7 +146,7 @@ public:
      *
      *  Complexity: Constant.
      */
-    AOBasisSet(AOBasisSet<T>&& rhs) noexcept;
+    AOBasisSet(AOBasisSet&& rhs) noexcept;
 
     /** @brief Makes the current instance contain a deep copy of another
      *         AOBasisSet.
@@ -105,7 +164,7 @@ public:
      *
      *  Complexity: Linear in the size of @p rhs.
      */
-    AOBasisSet& operator=(const AOBasisSet<T>& rhs);
+    AOBasisSet& operator=(const AOBasisSet& rhs);
 
     /** @brief Makes the current instance take ownership of another AOBasisSet
      *         instance's state.
@@ -122,10 +181,14 @@ public:
      *
      *  Complexity: Constant.
      */
-    AOBasisSet& operator=(AOBasisSet<T>&& rhs) noexcept;
+    AOBasisSet& operator=(AOBasisSet&& rhs) noexcept;
 
     /// Defaulted no-throw dtor
     ~AOBasisSet() noexcept;
+
+    // -------------------------------------------------------------------------
+    // -- AtomicBasisSet getters/setters
+    // -------------------------------------------------------------------------
 
     /** @brief Adds an additional AtomicBasisSet instance to this basis set.
      *
@@ -136,6 +199,19 @@ public:
      *                        throw guarantee.
      */
     void add_center(value_type center);
+
+    /** @brief Returns the range of shell indices for the requested center
+     *
+     *  @return A pair whose first element is the index of the first shell which
+     *          is part of the center and whose second index is the first shell
+     *          part of the next center.
+     *
+     */
+    range_type shell_range(size_type center) const;
+
+    // -------------------------------------------------------------------------
+    // -- Shell getters/setters
+    // -------------------------------------------------------------------------
 
     /** @brief Determines the largest total angular momentum of the shells in
      *         the basis set.
@@ -155,20 +231,6 @@ public:
      *        opt to throw if this function is called on an empty basis set.
      */
     size_type max_l() const;
-
-    // ------------------------- Shells ----------------------------------------
-    /// Type used to model a Shell
-    using shell_type = typename value_type::value_type;
-    /// Type used to model a read-/write-able reference to a Shell
-    using shell_reference = typename value_type::reference;
-    /// Type used to model a read-only reference to a Shell
-    using const_shell_reference = typename value_type::const_reference;
-    /// Type of a read-/write-able view of the basis set as a set of Shells
-    using flattened_shells =
-      detail_::FlattenedView<shell_reference, const_shell_reference>;
-    /// Type of a read-only view of the basis set as a set of Shells
-    using const_flattened_shells =
-      detail_::FlattenedView<const_shell_reference, const_shell_reference>;
 
     /** @brief Returns the total number of shells in this basis set.
      *
@@ -216,59 +278,11 @@ public:
      */
     const_shell_reference shell(size_type i) const;
 
-    /** @brief Returns a proxy container to facilitate looping over shells in a
-     *         foreach loop.
-     *
-     *  This member function is used to loop over the shells in this basis set
-     *  in a foreach loop like: `for(auto&& shell_i : bs.shells())`, where `bs`
-     * is this instance and `shell_i` will be a read-/write-able reference to a
-     * shell in this basis set.
-     *
-     *  @return A container which simulates being filled with all of the shells
-     *          in this basis set to facilitate usage in a foreach loop.
-     *
-     *  @throw None No throw guarantee.
-     */
-    flattened_shells shells() noexcept;
+    range_type primitive_range(size_type shell) const;
 
-    /** @brief Returns a proxy container to facilitate looping over shells in a
-     *         foreach loop.
-     *
-     *  This member function is used to loop over the shells in this basis set
-     *  in a foreach loop like: `for(auto&& shell_i : bs.shells())`, where `bs`
-     * is this instance and `shell_i` will be a read-only reference to a shell
-     * in this basis set.
-     *
-     *  @return A container which simulates being filled with all of the shells
-     *          in this basis set to facilitate usage in a foreach loop.
-     *
-     *  @throw None No throw guarantee.
-     */
-    const_flattened_shells shells() const noexcept;
-
-    /** @brief Returns a vector of shell offsets per center
-     *
-     *  This function returns a vector whose elements are such that the i-th
-     *  element is the first shell on the i-th center in the set and the final
-     *  element is the total number of shells.
-     *
-     *  @return A vector of shell offsets
-     */
-    std::vector<size_type> shell_offsets() const;
-
-    // ---------------------------- AOs ----------------------------------------
-    /// Type used to model an AO
-    using ao_type = typename value_type::ao_type;
-    /// Type of a read-/write-able reference to an AO
-    using ao_reference = typename value_type::ao_reference;
-    /// Type of a read-only reference to an AO
-    using const_ao_reference = typename value_type::const_ao_reference;
-    /// Type of a read-/write-able view of the basis set as a set of AOs
-    using flattened_aos =
-      detail_::FlattenedView<ao_reference, const_ao_reference>;
-    /// Type of a read-only view of the basis set as a set of AOs
-    using const_flattened_aos =
-      detail_::FlattenedView<const_ao_reference, const_ao_reference>;
+    // -------------------------------------------------------------------------
+    // -- AO getters/setters
+    // -------------------------------------------------------------------------
 
     /** @brief Returns the total number of AOs in this basis set.
      *
@@ -297,7 +311,7 @@ public:
      *  @throw std::out_of_range if the requested AO is not in the range [0,
      *                           n_aos()). Strong throw guarantee.
      */
-    ao_reference ao(size_type i);
+    // ao_reference ao(size_type i);
 
     /** @brief Returns the @p i-th AO in this basis set.
      *
@@ -314,63 +328,9 @@ public:
      *  @throw std::out_of_range if the requested AO is not in the range [0,
      *                           n_aos()). Strong throw guarantee.
      */
-    const_ao_reference ao(size_type i) const;
-
-    /** @brief Returns a proxy container to facilitate looping over AOs in a
-     *         foreach loop.
-     *
-     *  This member function is used to loop over the AOs in this basis set
-     *  in a foreach loop like: `for(auto&& ao_i : bs.aos())`, where `bs` is
-     *  this instance and `ao_i` will be a read-/write-able reference to an AO
-     *  in this basis set.
-     *
-     *  @return A container which simulates being filled with all of the AOs
-     *          in this basis set to facilitate usage in a foreach loop.
-     *
-     *  @throw None No throw guarantee.
-     */
-    flattened_aos aos() noexcept;
-
-    /** @brief Returns a proxy container to facilitate looping over AOs in a
-     *         foreach loop.
-     *
-     *  This member function is used to loop over the AOs in this basis set
-     *  in a foreach loop like: `for(auto&& ao_i : bs.aos())`, where `bs` is
-     *  this instance and `ao_i` will be a read-only reference to an AO
-     *  in this basis set.
-     *
-     *  @return A container which simulates being filled with all of the AOs
-     *          in this basis set to facilitate usage in a foreach loop.
-     *
-     *  @throw None No throw guarantee.
-     */
-    const_flattened_aos aos() const noexcept;
-
-    /** @brief Returns a vector of AO offsets per center
-     *
-     *  This function returns a vector whose elements are such that the i-th
-     *  element is the first AO on the i-th center in the set and the final
-     *  element is the total number of AOs.
-     *
-     *  @return A vector of shell offsets
-     */
-    std::vector<size_type> ao_offsets() const;
+    // const_ao_reference ao(size_type i) const;
 
     // ---------------------------- Primitives ---------------------------------
-    /// Type used to model a primitive Gaussian
-    using primitive_type = typename value_type::primitive_type;
-    /// Type used to model a read-/write-able reference to a primitive
-    using primitive_reference = typename value_type::primitive_reference;
-    /// Type used to model a read-only reference to a primitive
-    using const_primitive_reference =
-      typename value_type::const_primitive_reference;
-    /// Type of a read-/write-able view of the basis set as a set of primitives
-    using flattened_primitives =
-      detail_::FlattenedView<primitive_reference, const_primitive_reference>;
-    /// Type of a read-only view of the basis set as a set of primitives
-    using const_flattened_primitives =
-      detail_::FlattenedView<const_primitive_reference,
-                             const_primitive_reference>;
 
     /** @brief Returns the total number of unique primitives in this basis set.
      *
@@ -383,7 +343,7 @@ public:
      *
      *  Complexity: Linear in the number of unique AOs
      */
-    size_type n_unique_primitives() const noexcept;
+    size_type n_primitives() const noexcept;
 
     /** @brief Returns the @p i-th unique primitive in this basis set.
      *
@@ -401,7 +361,7 @@ public:
      *                           range [0, n_unique_primitives()). Strong throw
      *                           guarantee.
      */
-    primitive_reference unique_primitive(size_type i);
+    primitive_reference primitive(size_type i);
 
     /** @brief Returns the @p i-th unique primitive in this basis set.
      *
@@ -419,66 +379,11 @@ public:
      *                           range [0, n_unique_primitives()). Strong throw
      *                           guarantee.
      */
-    const_primitive_reference unique_primitive(size_type i) const;
+    const_primitive_reference primitive(size_type i) const;
 
-    /** @brief Returns a proxy container to facilitate looping over unique
-     *         primitives in a foreach loop.
-     *
-     *  This member function is used to loop over the unique_primitives in this
-     *  basis set in a foreach loop like:
-     *  `for(auto&& prim_i : bs.unique_primitives())`, where `bs` is this
-     *  instance and `prim_i` will be a read-/write-able reference to a unique
-     *  primitive in this basis set.
-     *
-     *  @return A container which simulates being filled with all of the unique
-     *          primitives in this basis set to facilitate usage in a foreach
-     *          loop.
-     *
-     *  @throw None No throw guarantee.
-     */
-    flattened_primitives unique_primitives() noexcept;
-
-    /** @brief Returns a proxy container to facilitate looping over unique
-     *         primitives in a foreach loop.
-     *
-     *  This member function is used to loop over the unique_primitives in this
-     *  basis set in a foreach loop like:
-     *  `for(auto&& prim_i : bs.unique_primitives())`, where `bs` is this
-     *  instance and `prim_i` will be a read-only reference to a unique
-     *  primitive in this basis set.
-     *
-     *  @return A container which simulates being filled with all of the unique
-     *          primitives in this basis set to facilitate usage in a foreach
-     *          loop.
-     *
-     *  @throw None No throw guarantee.
-     */
-    const_flattened_primitives unique_primitives() const noexcept;
-
-    /** @brief Serialize AOBasisSet instance
-     *
-     * @param ar The archive object
-     */
-    template<typename Archive>
-    void save(Archive& ar) const {
-        ar& this->size();
-        for(const auto& c : *this) { ar& c; }
-    }
-
-    /** @brief Deserialize for AOBasisSet instance
-     *
-     * @param ar The archive object
-     */
-    template<typename Archive>
-    void load(Archive& ar) {
-        size_type nc;
-        ar& nc;
-        chemist::AtomicBasisSet<T> c;
-        for(int ci = 0; ci < nc; ++ci) {
-            ar& c;
-            this->add_center(std::move(c));
-        }
-    }
+    // -------------------------------------------------------------------------
+    // -- Utility functions
+    // -------------------------------------------------------------------------
 
     /** @brief Makes this AOBasisSet the union of this set and @p rhs.
      *
@@ -513,29 +418,37 @@ public:
 private:
     /// Allows the base class to implement container API
     friend base_type;
+
+    AOBasisSet(pimpl_pointer pimpl) noexcept;
+
+    bool has_pimpl_() const noexcept;
+
+    /// Raise std::out_of_range if invalid center index
+    void assert_center_index_(size_type center) const;
+
+    /// Raise std::out_of_range if invalid shell index
+    void assert_shell_index_(size_type shell) const;
+
+    /// Raise std::out_of_range if invalid primitive index
+    void assert_primitive_index_(size_type primitive) const;
+
     /// Implements `size()` function
     size_type size_() const noexcept;
+
     /// Implements `operator[](size_type i)`
     reference at_(size_type i);
+
     /// Implements `operator[](size_type i)const`
     const_reference at_(size_type i) const;
+
     /// The instance actually implementing the API
-    std::unique_ptr<detail_::AOBasisSetPIMPL<T>> m_pimpl_;
+    pimpl_pointer m_pimpl_;
 }; // class AOBasisSet
 
-template<typename T>
-AOBasisSet<T>& AOBasisSet<T>::operator+=(const AOBasisSet<T>& rhs) {
-    for(const auto& ci : rhs) add_center(ci);
-    return *this;
-}
+using AOBasisSetD = AOBasisSet<AtomicBasisSetD>;
+using AOBasisSetF = AOBasisSet<AtomicBasisSetF>;
 
-template<typename T>
-AOBasisSet<T> AOBasisSet<T>::operator+(const AOBasisSet<T>& rhs) const {
-    AOBasisSet<T> rv(*this);
-    return rv += rhs;
-}
-
-extern template class AOBasisSet<double>;
-extern template class AOBasisSet<float>;
+extern template class AOBasisSet<AtomicBasisSetD>;
+extern template class AOBasisSet<AtomicBasisSetF>;
 
 } // namespace chemist

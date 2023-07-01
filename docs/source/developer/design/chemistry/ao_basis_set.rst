@@ -67,6 +67,8 @@ Performance
    - float vs. double. Integrals are a performance critical piece of the code,
      being able to use floats, instead of doubles, leads to significant speed
      ups (when doing so does not compromise accuracy).
+   - views also allow others to use existing basis sets seamlessly with our
+     infrastructure, without copying!  
 
 .. _ao_spherical_vs_cartesian:
 
@@ -116,6 +118,34 @@ Atomic Basis Name
    - We note that mixing basis sets, say using cc-pVDZ on hydrogens and
      aug-cc-pVDZ on non-hydrogens, is not unheard of. Thus we may need to
      specify the basis name per center.
+
+.. _ao_atomic_number:
+
+Atomic number tracking
+   In practice one usually specifies an atomic basis set on a per atom basis.
+   This requires the name of the basis set and the atomic number of the atom.
+
+.. _ao_hierarchical:
+
+Hierarchical
+   While we think of atom-centered basis sets as simple sets of basis functions,
+   the reality is those functions have a somewhat complicated hierarchical
+   form, *i.e.*, primitives often combine to form contracted Gaussian functions
+   which then are paired with either a Cartesian or spherical piece to form
+   atomic orbitals which are then grouped into shells which are then grouped
+   into atomic basis sets which finally are combined to form molecular basis
+   sets. Our classes should also be able to represent this hierarchy.
+
+.. _ao_class_flattening:
+
+Class flattening
+   For better or worse much of the infrastructure written to support AO
+   integrals is function-based and not object-oriented. Point being to use an
+   object-oriented basis set with existing infrastructure we often need to
+   operate with the primitives directly. For convenience each level of the
+   hierarchy should be able to flatten itself, *i.e.*, we should be able to
+   iterate over primitives in an object, regardless of the nesting.
+
 
 Out of Scope
 ============

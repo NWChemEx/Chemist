@@ -119,7 +119,8 @@ void ATOMIC_BASIS_SET::add_shell(pure_type pure, angular_momentum_type l,
 template<typename ShellType>
 typename ATOMIC_BASIS_SET::size_type ATOMIC_BASIS_SET::n_aos() const noexcept {
     size_type counter = 0;
-    for(auto&& shell_i : *this) counter += shell_i.size();
+    for(size_type i = 0; i < size(); ++i)
+        counter += detail_::compute_n_aos(m_pimpl_->l(i), m_pimpl_->pure(i));
     return counter;
 }
 

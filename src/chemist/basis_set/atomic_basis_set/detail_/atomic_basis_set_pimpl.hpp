@@ -61,12 +61,22 @@ public:
                    contracted_gaussian_reference cg);
 
     shell_reference operator[](size_type i) {
-        shell_reference(m_pure_[i], m_l_[i], cg(i));
+        shell_reference(pure(i), l(i), cg(i));
     }
 
     const_shell_reference operator[](size_type i) const {
-        const_shell_reference(m_pure_[i], m_l_[i], cg(i));
+        const_shell_reference(pure(i), l(i), cg(i));
     }
+
+    angular_momentum_reference l(size_type i) noexcept { return m_l_[i]; }
+
+    const_angular_momentum_reference l(size_type i) const noexcept {
+        return m_l_[i];
+    }
+
+    pure_reference pure(size_type i) noexcept { return m_pure_[i]; }
+
+    const_pure_reference pure(size_type i) const noexcept { return m_pure_[i]; }
 
     contracted_gaussian_reference cg(size_type i) {
         return contracted_gaussian_reference(
