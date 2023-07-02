@@ -21,6 +21,7 @@ namespace detail_ {
 
 template<typename PrimitiveType>
 class ContractedGaussianPIMPL {
+public:
     /// Type *this is implementing
     using parent_type = ContractedGaussian<PrimitiveType>;
 
@@ -44,7 +45,7 @@ class ContractedGaussianPIMPL {
                             center_type r0) :
       m_center_(std::move(r0)),
       m_coefs_(std::move(cs)),
-      m_exp_(std::move(exp)) {}
+      m_exp_(std::move(exps)) {}
 
     center_reference center() noexcept { return m_center_; }
 
@@ -58,11 +59,13 @@ class ContractedGaussianPIMPL {
         return const_reference(m_coefs_[i], m_exp_[i], m_center_);
     }
 
-    bool operator==(const ContractedGaussian& rhs) const noexcept {
+    bool operator==(const ContractedGaussianPIMPL& rhs) const noexcept {
         auto lhs_state = std::tie(m_center_, m_coefs_, m_exp_);
         auto rhs_state = std::tie(rhs.m_center_, rhs.m_coefs_, rhs.m_exp_);
         return lhs_state == rhs_state;
     }
+
+    size_type size() const noexcept { return m_coefs_.size(); }
 
 private:
     /// Where the contracted Gaussian is centered
@@ -87,16 +90,15 @@ template<typename PrimitiveType>
 CG::ContractedGaussian() noexcept = default;
 
 template<typename PrimitiveType>
-CG::ContractedGaussian(std::vector<coefficient_type> coefs,
-                       std::vector<exponent_type> exps, coord_type x,
-                       coord_type y, coord_type z) :
+CG::ContractedGaussian(coefficient_vector coefs, exponent_vector exps,
+                       coord_type x, coord_type y, coord_type z) :
   ContractedGaussian(std::move(coefs), std::move(exps), center_type(x, y, z)) {}
 
 template<typename PrimitiveType>
-CG::ContractedGaussian(std::vector<coefficient_type> coefs,
-                       std::vector<exponent_type> exps, center_type center) :
-  ContractedGaussian(m_pimpl_(std::make_unique<pimpl_type>(
-    std::move(coefs), std::move(exps), std::move(center)))) {}
+CG::ContractedGaussian(coefficient_vector coefs, exponent_vector exps,
+                       center_type center) :
+  ContractedGaussian(std::make_unique<pimpl_type>(
+    std::move(coefs), std::move(exps), std::move(center))) {}
 
 template<typename PrimitiveType>
 CG::ContractedGaussian(const my_type& rhs) :

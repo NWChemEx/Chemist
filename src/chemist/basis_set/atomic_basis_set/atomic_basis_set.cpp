@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "atomic_basis_set_pimpl.hpp"
+#include "../detail_/compute_n_aos.hpp"
+#include "detail_/atomic_basis_set_pimpl.hpp"
 #include <chemist/basis_set/atomic_basis_set/atomic_basis_set.hpp>
 
 namespace chemist {
@@ -30,7 +31,7 @@ ATOMIC_BASIS_SET::AtomicBasisSet() noexcept = default;
 template<typename ShellType>
 ATOMIC_BASIS_SET::AtomicBasisSet(const AtomicBasisSet& rhs) :
   AtomicBasisSet(
-    rhs.has_pimpl_() ? std::make_unique<pipml_type>(*rhs.m_pimpl_) : nullptr) {}
+    rhs.has_pimpl_() ? std::make_unique<pimpl_type>(*rhs.m_pimpl_) : nullptr) {}
 
 template<typename ShellType>
 ATOMIC_BASIS_SET::AtomicBasisSet(AtomicBasisSet&& rhs) noexcept = default;
@@ -49,11 +50,11 @@ template<typename ShellType>
 ATOMIC_BASIS_SET::AtomicBasisSet(const_name_reference name,
                                  atomic_number_type atomic_n, coord_type x,
                                  coord_type y, coord_type z) :
-  AtomicBasisSet(std::make_unique<pimpl_pointer>(center_type(x, y, z))) {}
+  AtomicBasisSet(std::make_unique<pimpl_type>(center_type(x, y, z))) {}
 
 template<typename ShellType>
 ATOMIC_BASIS_SET::AtomicBasisSet(coord_type x, coord_type y, coord_type z) :
-  AtomicBasisSet(std::make_unique<pimpl_pointer>(center_type(x, y, z))) {}
+  AtomicBasisSet(std::make_unique<pimpl_type>(center_type(x, y, z))) {}
 
 template<typename ShellType>
 ATOMIC_BASIS_SET::AtomicBasisSet(const_name_reference name,
@@ -96,7 +97,7 @@ bool ATOMIC_BASIS_SET::has_atomic_number() const noexcept {
 template<typename ShellType>
 typename ATOMIC_BASIS_SET::atomic_number_reference
 ATOMIC_BASIS_SET::atomic_number() {
-    if(is_null()) return m_pimpl_ = std::make_unique<pimpl_type>(0.0, 0.0, 0.0);
+    if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>(0.0, 0.0, 0.0);
     if(!m_pimpl_->m_z.has_value()) m_pimpl_->m_z.emplace(0);
     return m_pimpl_->m_z.value();
 }
@@ -104,7 +105,7 @@ ATOMIC_BASIS_SET::atomic_number() {
 template<typename ShellType>
 typename ATOMIC_BASIS_SET::const_atomic_number_reference
 ATOMIC_BASIS_SET::atomic_number() const {
-    if(has_atomic_number()) return m_pimpl_->m_z.value());
+    if(has_atomic_number()) return m_pimpl_->m_z.value();
     throw std::runtime_error("The current AtomicBasisSet does not have an "
                              "atomic number");
 }
@@ -112,14 +113,14 @@ ATOMIC_BASIS_SET::atomic_number() const {
 template<typename ShellType>
 void ATOMIC_BASIS_SET::add_shell(pure_type pure, angular_momentum_type l,
                                  coefficient_vector cs, exponent_vector es) {
-    assert(m_pimpl_ != nullptr);
+    if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>(0.0, 0.0, 0.0);
     m_pimpl_->add_shell(pure, l, std::move(cs), std::move(es));
 }
 
 template<typename ShellType>
 typename ATOMIC_BASIS_SET::size_type ATOMIC_BASIS_SET::n_aos() const noexcept {
     size_type counter = 0;
-    for(size_type i = 0; i < size(); ++i)
+    for(size_type i = 0; i < size_(); ++i)
         counter += detail_::compute_n_aos(m_pimpl_->l(i), m_pimpl_->pure(i));
     return counter;
 }
@@ -231,7 +232,7 @@ typename ATOMIC_BASIS_SET::const_reference ATOMIC_BASIS_SET::at_(
     return const_reference(std::move(shell));
 }
 
-template class AtomicBasisSet<double>;
-template class AtomicBasisSet<float>;
+template class AtomicBasisSet<ShellD>;
+template class AtomicBasisSet<ShellF>;
 
 } // namespace chemist

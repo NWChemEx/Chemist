@@ -22,8 +22,9 @@ namespace detail_ {
 
 template<typename CGType>
 class ShellPIMPL {
+public:
     /// Type *this implements
-    using parent_type = SHELL;
+    using parent_type = Shell<CGType>;
 
     /// Type of a contracted Gaussian
     using contracted_gaussian_type =
@@ -37,10 +38,9 @@ class ShellPIMPL {
 
     ShellPIMPL() noexcept = default;
 
-    ShellPIMPL(pure_type pure,
-               angular_momentum_type l,
+    ShellPIMPL(pure_type pure, angular_momentum_type l,
                contracted_gaussian_type cg) noexcept :
-               m_cg(std::move(cg), m_l(std::move(l)), m_pure(std::move(pure)) {}
+      m_cg(std::move(cg)), m_l(std::move(l)), m_pure(std::move(pure)) {}
 
     bool operator==(const ShellPIMPL& rhs) const noexcept {
         auto lstate = std::tie(m_cg, m_l, m_pure);
@@ -52,7 +52,7 @@ class ShellPIMPL {
 
     angular_momentum_type m_l = 0;
 
-    pure_type m_pure = pure_type::Spherical;
+    pure_type m_pure = pure_type::pure;
 };
 
 } // namespace detail_
@@ -74,19 +74,19 @@ SHELL::Shell() noexcept = default;
 
 template<typename CGType>
 SHELL::Shell(const Shell& rhs) :
-  Shell(make_shell_pimpl<CGType>(rhs.has_pimpl_() ? *rhs.m_pimpl_ : nullptr)) {}
+  Shell(rhs.has_pimpl_() ? make_shell_pimpl<CGType>(*rhs.m_pimpl_) : nullptr) {}
 
 template<typename CGType>
 SHELL::Shell(Shell&& rhs) noexcept = default;
 
 template<typename CGType>
-Shell& SHELL::operator=(const Shell& rhs) {
+SHELL& SHELL::operator=(const Shell& rhs) {
     if(&rhs != this) Shell(rhs).swap(*this);
     return *this;
 }
 
 template<typename CGType>
-Shell& SHELL::operator=(Shell&& rhs) noexcept = default;
+SHELL& SHELL::operator=(Shell&& rhs) noexcept = default;
 
 template<typename CGType>
 SHELL::Shell(pure_type pure, angular_momentum_type l,
@@ -208,7 +208,7 @@ bool SHELL::has_pimpl_() const noexcept {
 
 template<typename CGType>
 void SHELL::assert_pimpl_() const {
-    if(has_pimpl_) return;
+    if(has_pimpl_()) return;
     throw std::runtime_error("Shell has no PIMPL. Was it default constructed or"
                              " moved from?");
 }
@@ -239,7 +239,7 @@ typename SHELL::size_type SHELL::size_() const noexcept {
 
 #undef SHELL
 
-template class Shell<double>;
-template class Shell<float>;
+template class Shell<ContractedGaussianD>;
+template class Shell<ContractedGaussianF>;
 
 } // namespace chemist

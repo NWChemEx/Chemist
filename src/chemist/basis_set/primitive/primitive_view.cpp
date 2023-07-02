@@ -18,9 +18,9 @@
 
 namespace chemist {
 
-template class PrimitiveView<double>;
-template class PrimitiveView<const double>;
-template class PrimitiveView<float>;
-template class PrimitiveView<const float>;
+template class PrimitiveView<PrimitiveD>;
+template class PrimitiveView<const PrimitiveD>;
+template class PrimitiveView<PrimitiveF>;
+template class PrimitiveView<const PrimitiveF>;
 
 } // namespace chemist

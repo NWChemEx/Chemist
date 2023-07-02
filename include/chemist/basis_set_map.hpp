@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include "chemist/basis_set/ao_basis_set.hpp"
+#include "chemist/basis_set/ao_basis_set/ao_basis_set.hpp"
 #include <utility> //std::pair
 #include <vector>
 

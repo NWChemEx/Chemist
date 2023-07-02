@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include "chemist/basis_set/ao_basis_set/ao_basis_set.hpp"
+#include <chemist/basis_set/ao_basis_set/ao_basis_set.hpp>
 
 namespace chemist::detail_ {
 
@@ -37,6 +37,12 @@ public:
 
     /// Unsigned integer type used for indexing/offsets
     using size_type = typename bs_type::size_type;
+
+    using const_shell_reference = typename bs_type::const_shell_reference;
+    using const_primitive_reference =
+      typename bs_type::const_primitive_reference;
+
+    using range_type = typename bs_type::range_type;
 
     /** @brief Returns the number of centers in this basis set.
      *
@@ -164,102 +170,108 @@ public:
      *  @throw None No throw guarantee.
      */
     const_reference at(size_type i) const {
-        reference at(size_type i) {
-            auto [shell_begin, shell_end] = shell_range(i);
-            auto [p_begin, p_end]         = primitive_range(shell_begin);
+        auto [shell_begin, shell_end] = shell_range(i);
+        auto [p_begin, p_end]         = primitive_range(shell_begin);
 
-            return const_reference(
-              m_shells_per_center_[i], m_pure_[shell_begin], m_l_[shell_begin],
-              m_primitives_per_shell_[shell_begin], m_coefs_[p_begin],
-              m_exps_[p_begin], center(i););
-        }
+        return const_reference(m_shells_per_center_[i], m_pure_[shell_begin],
+                               m_l_[shell_begin],
+                               m_primitives_per_shell_[shell_begin],
+                               m_coefs_[p_begin], m_exps_[p_begin], center(i););
+    }
 
-        auto shell(size_type i) {
-            using shell_reference = typename bs_type::shell_reference;
-            auto center_i         = center(shell_to_center(i));
-            return shell_reference(m_pure_[i], m_l_[i], cg(i));
-        }
+    reference at(size_type i) {
+        auto [shell_begin, shell_end] = shell_range(i);
+        auto [p_begin, p_end]         = primitive_range(shell_begin);
 
-        auto shell(size_type i) const {
-            using const_shell_reference =
-              typename bs_type::const_shell_reference;
-            auto center_i = center(shell_to_center(i));
-            return const_shell_reference(m_pure_[i], m_l_[i], cg(i));
-        }
+        return const_reference(m_shells_per_center_[i], m_pure_[shell_begin],
+                               m_l_[shell_begin],
+                               m_primitives_per_shell_[shell_begin],
+                               m_coefs_[p_begin], m_exps_[p_begin], center(i););
+    }
 
-        auto cg(size_type i) {
-            using cg_reference =
-              typename bs_type::contracted_gaussian_reference;
-            auto center_i = center(shell_to_center(i));
-            auto p_off    = m_primitive_offset_[i];
-            return cg_reference(m_primitives_per_shell_[i], m_coef_[p_off],
-                                m_exp_[p_off], center_i);
-        }
+    auto shell(size_type i) {
+        using shell_reference = typename bs_type::shell_reference;
+        auto center_i         = center(shell_to_center(i));
+        return shell_reference(m_pure_[i], m_l_[i], cg(i));
+    }
 
-        auto cg(size_type i) const {
-            using cg_reference = typename bs_type::const_cg_reference;
-            auto center_i      = center(shell_to_center(i));
-            auto p_off         = m_primitive_offset_[i];
-            return cg_reference(m_primitives_per_shell_[i], m_coef_[p_off],
-                                m_exp_[p_off], center_i);
-        }
+    auto shell(size_type i) const {
+        using const_shell_reference = typename bs_type::const_shell_reference;
+        auto center_i               = center(shell_to_center(i));
+        return const_shell_reference(m_pure_[i], m_l_[i], cg(i));
+    }
 
-        auto primitive(size_type i) {
-            using primitive_reference = typename bs_type::primitive_reference;
-            auto center_i             = center(primitive_to_center(i));
-            return primitive_reference(m_coefs_[i], m_exps_[i], center_i);
-        }
+    auto cg(size_type i) {
+        using cg_reference = typename bs_type::contracted_gaussian_reference;
+        auto center_i      = center(shell_to_center(i));
+        auto p_off         = m_primitive_offset_[i];
+        return cg_reference(m_primitives_per_shell_[i], m_coef_[p_off],
+                            m_exp_[p_off], center_i);
+    }
 
-        auto primitive(size_type i) const {
-            using const_primitive_reference =
-              typename bs_type::const_primitive_reference;
-            uto center_i = center(primitive_to_center(i));
-            return const_primitive_reference(m_coefs_[i], m_exps_[i], center_i);
-        }
+    auto cg(size_type i) const {
+        using cg_reference = typename bs_type::const_cg_reference;
+        auto center_i      = center(shell_to_center(i));
+        auto p_off         = m_primitive_offset_[i];
+        return cg_reference(m_primitives_per_shell_[i], m_coef_[p_off],
+                            m_exp_[p_off], center_i);
+    }
 
-        auto center(size_type i) {
-            using center_reference = typename bs_type::center_reference;
-            return center_reference(m_x_[i], m_y_[i], m_z_[i]);
-        }
+    auto primitive(size_type i) {
+        using primitive_reference = typename bs_type::primitive_reference;
+        auto center_i             = center(primitive_to_center(i));
+        return primitive_reference(m_coefs_[i], m_exps_[i], center_i);
+    }
 
-        auto center(size_type i) const {
-            using const_center_reference =
-              typename bs_type::const_center_reference;
-            return const_center_reference(m_x_[i], m_y_[i], m_z_[i]);
-        }
+    auto primitive(size_type i) const {
+        using const_primitive_reference =
+          typename bs_type::const_primitive_reference;
+        uto center_i = center(primitive_to_center(i));
+        return const_primitive_reference(m_coefs_[i], m_exps_[i], center_i);
+    }
 
-    private:
-        // -- Unpacked AtomicBasisSet State
+    auto center(size_type i) {
+        using center_reference = typename bs_type::center_reference;
+        return center_reference(m_x_[i], m_y_[i], m_z_[i]);
+    }
 
-        std::vector<size_type> m_shells_per_center_;
+    auto center(size_type i) const {
+        using const_center_reference = typename bs_type::const_center_reference;
+        return const_center_reference(m_x_[i], m_y_[i], m_z_[i]);
+    }
 
-        std::vector<size_type> m_shell_offsets_;
+private:
+    // -- Unpacked AtomicBasisSet State
 
-        std::vector<std::optional<name_type>> m_names_;
+    std::vector<size_type> m_shells_per_center_;
 
-        std::vector<std::optional<atomic_number_type>> m_atomic_numbers_;
+    std::vector<size_type> m_shell_offsets_;
 
-        std::vector<coord_type> m_x_;
+    std::vector<std::optional<name_type>> m_names_;
 
-        std::vector<coord_type> m_y_;
+    std::vector<std::optional<atomic_number_type>> m_atomic_numbers_;
 
-        std::vector<coord_type> m_z_;
+    std::vector<coord_type> m_x_;
 
-        // -- Unpacked Shell state
+    std::vector<coord_type> m_y_;
 
-        std::vector<pure_type> m_pure_;
+    std::vector<coord_type> m_z_;
 
-        std::vector<angular_momentum_type> m_l_;
+    // -- Unpacked Shell state
 
-        std::vector<size_type> m_primitives_per_shell_;
+    std::vector<pure_type> m_pure_;
 
-        std::vector<size_type> m_primitive_offset_;
+    std::vector<angular_momentum_type> m_l_;
 
-        //-- Unpacked primitive state
+    std::vector<size_type> m_primitives_per_shell_;
 
-        std::vector<coefficient_type> m_coefs_;
+    std::vector<size_type> m_primitive_offset_;
 
-        std::vector<exponent_type> m_exps_;
-    }; // class AOBasisSetPIMPL
+    //-- Unpacked primitive state
+
+    std::vector<coefficient_type> m_coefs_;
+
+    std::vector<exponent_type> m_exps_;
+}; // class AOBasisSetPIMPL
 
 } // namespace chemist::detail_

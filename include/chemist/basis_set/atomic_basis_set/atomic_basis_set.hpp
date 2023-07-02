@@ -79,10 +79,20 @@ public:
     using const_reference = ShellView<const value_type>;
 
     /// Type used to specify angular momentum
-    using angular_momentum = typename value_type::angular_momentum;
+    using angular_momentum_type = typename value_type::angular_momentum_type;
+
+    using angular_momentum_reference =
+      typename value_type::angular_momentum_reference;
+
+    using const_angular_momentum_reference =
+      typename value_type::const_angular_momentum_reference;
 
     /// Type used to specify whether a Shell is pure or not
     using pure_type = typename value_type::pure_type;
+
+    using pure_reference = typename reference::pure_reference;
+
+    using const_pure_reference = typename reference::const_pure_reference;
 
     // -------------------------------------------------------------------------
     // -- AO types
@@ -104,6 +114,8 @@ public:
     /// Type of a reference to a contracted Gaussian function
     using contracted_gaussian_reference =
       typename value_type::contracted_gaussian_reference;
+
+    using const_cg_reference = typename value_type::const_cg_reference;
 
     /// Type of a vector of coefficients
     using coefficient_vector =
@@ -230,7 +242,7 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    AtomicBasisSet(coord_type x, coord_type y, coord_types z);
+    AtomicBasisSet(coord_type x, coord_type y, coord_type z);
 
     /** @brief Creates a new AtomicBasisSet with the provided name and atomic
      *         number.
@@ -247,7 +259,7 @@ public:
     AtomicBasisSet(const_name_reference name, atomic_number_type atomic_n);
 
     /// Defaulted no throw dtor
-    ~AtomicBasisSet() noexcept override;
+    ~AtomicBasisSet() noexcept;
 
     // -------------------------------------------------------------------------
     // -- Getters and setters
@@ -383,8 +395,8 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the new
      *                        Shell. Weak throw guarantee.
      */
-    void add_shell(pure_type pure, am_type l, coefficient_vector cs,
-                   exponent_vector es);
+    void add_shell(pure_type pure, angular_momentum_type l,
+                   coefficient_vector cs, exponent_vector es);
 
     /** @brief Returns the total number of AOs on this center.
      *
@@ -598,16 +610,16 @@ private:
     const_reference at_(size_type i) const;
 
     /// The instance that actually implements this class
-    center_pimpl_ptr_t m_pimpl_;
+    pimpl_pointer m_pimpl_;
 };
 
 /// An atomic basis set where all parameters are doubles
-using AtomicBasisSetD = AtomicBasisSet<double>;
+using AtomicBasisSetD = AtomicBasisSet<ShellD>;
 
 /// An atomic basis set where all parameters are floats
-using AtomicBasisSetF = AtomicBasisSet<float>;
+using AtomicBasisSetF = AtomicBasisSet<ShellF>;
 
-extern template class AtomicBasisSet<double>;
-extern template class AtomicBasisSet<float>;
+extern template class AtomicBasisSet<ShellD>;
+extern template class AtomicBasisSet<ShellF>;
 
 } // namespace chemist

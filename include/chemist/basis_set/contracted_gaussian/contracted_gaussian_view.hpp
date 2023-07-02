@@ -44,7 +44,7 @@ private:
     using base_type = utilities::IndexableContainerBase<my_type>;
 
     /// Used to work out view types
-    using traits_type = ViewTraits<CGType>;
+    using traits_type = detail_::ViewTraits<CGType>;
 
     /// Is CGType const-qualified?
     static constexpr bool is_const_v = traits_type::is_const_v;
@@ -61,13 +61,16 @@ private:
 
 public:
     /// Type of the PIMPL implementing *this
-    using pimpl_type = detail_::ContractedGaussianPIMPL<CGType>;
+    using pimpl_type = detail_::ContractedGaussianViewPIMPL<CGType>;
 
     /// Type of a pointer to the PIMPL
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
 
     /// The type *this is a view of
     using contracted_gaussian_type = typename traits_type::type;
+
+    using const_cg_reference =
+      ContractedGaussianView<const contracted_gaussian_type>;
 
     /// Type of a primitive in *this
     using value_type = typename contracted_gaussian_type::value_type;
@@ -134,6 +137,8 @@ public:
     ContractedGaussianView(size_type n_prims, coefficient_reference coef_begin,
                            exponent_reference exp_begin,
                            center_reference center);
+
+    ContractedGaussianView(contracted_gaussian_type cg);
 
     /** @brief Makes a copy of *this which aliases the same state.
      *
@@ -302,6 +307,11 @@ public:
      *  @throw None No throw guarantee.
      */
     bool operator!=(const contracted_gaussian_type& rhs) const noexcept;
+
+    operator const_cg_reference() const {
+        return const_cg_reference(size_(), at_(0).coefficient(),
+                                  at_(0).exponent(), center());
+    }
 
 private:
     /// Allows the base class to implement the container API

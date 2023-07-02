@@ -113,7 +113,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    ContractedGaussian();
+    ContractedGaussian() noexcept;
 
     /** @brief Constructs a ContractedGaussian from the provided parameters.
      *
@@ -132,8 +132,8 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to allocate the
      *         PIMPL. Strong throw guarantee.
      */
-    ContractedGaussian(coefficient_type coefs, exponent_type exps, coord_type x,
-                       coord_type y, coord_type z);
+    ContractedGaussian(coefficient_vector coefs, exponent_vector exps,
+                       coord_type x, coord_type y, coord_type z);
 
     /** @brief Constructs a ContractedGaussian from the provided parameters.
      *
@@ -150,7 +150,7 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to allocate the
      *         PIMPL. Strong throw guarantee.
      */
-    ContractedGaussian(coefficient_type coefs, exponent_type exps,
+    ContractedGaussian(coefficient_vector coefs, exponent_vector exps,
                        center_type center);
 
     /** @brief Constructs a new ContractedGaussian instance by copying the state
@@ -333,8 +333,8 @@ public:
         size_type mysize;
         center_type center;
         ar& mysize& center;
-        std::vector<T> cs(mysize, 0);
-        std::vector<T> es(mysize, 0);
+        std::vector<coefficient_type> cs(mysize, 0);
+        std::vector<exponent_type> es(mysize, 0);
         for(int i = 0; i < mysize; ++i) { ar& cs[i] & es[i]; }
 
         ContractedGaussian(cs, es, center).swap(*this);

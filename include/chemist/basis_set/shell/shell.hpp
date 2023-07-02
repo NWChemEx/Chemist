@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include <chemist/basis_set/contracted_gaussian/contracted_gaussian.hpp>
+#include <chemist/basis_set/contracted_gaussian/contracted_gaussian_view.hpp>
 #include <chemist/enums.hpp>
 
 // TODO: Add AO classes and make Shell a container.
@@ -66,10 +66,12 @@ public:
     using contracted_gaussian_type = CGType;
 
     /// Type of a read/write reference to the contracted Gaussian function
-    using contracted_gaussian_reference = contracted_gaussian_type&;
+    using contracted_gaussian_reference =
+      ContractedGaussianView<contracted_gaussian_type>;
 
     /// Type of a read-only reference to the contracted Gaussian function
-    using const_cg_reference = const contracted_gaussian_type&;
+    using const_cg_reference =
+      ContractedGaussianView<const contracted_gaussian_type>;
 
     /// Unsigned integral type used for indexing and offsets
     using size_type = std::size_t;
@@ -250,7 +252,7 @@ public:
     Shell(pure_type pure, angular_momentum_type l, contracted_gaussian_type cg);
 
     /// Default, no-throw dtor
-    ~Shell() noexcept override;
+    ~Shell() noexcept;
 
     // -------------------------------------------------------------------------
     // -- Getters/setters
@@ -468,8 +470,10 @@ private:
      *
      * @param[in] my_pimpl The PIMPL implementing the non-Point part of the
      *                     instance.
+     *
+     * @thrown None No throw guarantee
      */
-    Shell(pimpl_pointer my_pimpl);
+    Shell(pimpl_pointer my_pimpl) noexcept;
 
     /// True if *this has a PIMPL and false otherwise
     bool has_pimpl_() const noexcept;
@@ -516,12 +520,12 @@ bool operator!=(const Shell<CGType>& lhs, const Shell<CGType>& rhs) {
 }
 
 /// Shell where all parameters use doubles
-using ShellD = Shell<double>;
+using ShellD = Shell<ContractedGaussianD>;
 
 /// Shell where all parameters use floats
-using ShellF = Shell<float>;
+using ShellF = Shell<ContractedGaussianF>;
 
-extern template class Shell<double>;
-extern template class Shell<float>;
+extern template class Shell<ContractedGaussianD>;
+extern template class Shell<ContractedGaussianF>;
 
 } // namespace chemist

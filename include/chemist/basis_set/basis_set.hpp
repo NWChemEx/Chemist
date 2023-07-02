@@ -26,7 +26,7 @@
 
 namespace chemist {
 
-using AOBasisSetD = AOBasisSet<double>;
-using AOBasisSetF = AOBasisSet<float>;
+using AOBasisSetD = AOBasisSet<AtomicBasisSetD>;
+using AOBasisSetF = AOBasisSet<AtomicBasisSetF>;
 
 } // namespace chemist

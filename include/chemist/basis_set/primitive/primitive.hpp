@@ -35,7 +35,7 @@ class PrimitivePIMPL;
  *
  *  where @f$c@f$ is the coefficient or weight of the Gaussian (usually in a
  *  linear combination, but could also be a normalization factor), @f$\alpha@f$
- *  is the exponent, and @f$\vec{r_0}@f$ is the point in Cartesian space that 
+ *  is the exponent, and @f$\vec{r_0}@f$ is the point in Cartesian space that
  *  the Gaussian is centered on.
  *
  * @tparam T The type used to hold the parameters of the Primitive and the
@@ -177,7 +177,7 @@ public:
 
     /** @brief Provides mutable access to the the point where *this is centered
      *
-     *  This function provides access to the point where *this is centered. The 
+     *  This function provides access to the point where *this is centered. The
      *  returned instance is modifiable. If *this has no
      *  PIMPL, then this method will create a PIMPL and then return a reference
      *  to the newly created PIMPL's center (which will be set to the origin).
@@ -258,22 +258,22 @@ public:
     // -------------------------------------------------------------------------
 
     /** @brief Is *this null?
-     * 
+     *
      *  *this is in a null state if it has no PIMPL. A null state is possible
      *  by either default constructing *this or moving from *this.
-     * 
+     *
      *  @return Whether *this is null or not.
-     * 
+     *
      *  @throw None No throw guarantee.
      */
     bool is_null() const noexcept { return !has_pimpl_(); }
 
     /** @brief Exchanges the state of *this with that of @p rhs.
-     * 
+     *
      *  @param[in,out] rhs The instance to exchange state with. After this call
      *                 @p rhs will have the state which previously resided in
      *                 *this.
-     * 
+     *
      *  @throw None No throw guarantee.
      */
     void swap(Primitive<T>& rhs) noexcept;
@@ -283,9 +283,9 @@ public:
      *  @relates Primitive
      *
      *  Two Primitive instances are defined as equal if they are centered on the
-     *  same point, and they have the same parameters (coefficient and exponent).
-     *  Equality in all cases is defined as having exactly the same value to 
-     *  machine precision.
+     *  same point, and they have the same parameters (coefficient and
+     * exponent). Equality in all cases is defined as having exactly the same
+     * value to machine precision.
      *
      *  @tparam T The type used to store the parameters and coordinates of the
      *          Primitive. Assumed to be a floating-point POD type.
@@ -304,14 +304,18 @@ public:
      * @param ar The archive object
      */
     template<typename Archive>
-    void save(Archive& ar) const { ar& coefficient() & exponent() & center(); }
+    void save(Archive& ar) const {
+        ar& coefficient() & exponent() & center();
+    }
 
     /** @brief Deserialize for Primitive instance
      *
      * @param ar The archive object
      */
     template<typename Archive>
-    void load(Archive& ar) { ar& coefficient() & exponent() & center(); }
+    void load(Archive& ar) {
+        ar& coefficient() & exponent() & center();
+    }
 
 private:
     /// Sets state of *this to already created PIMPL

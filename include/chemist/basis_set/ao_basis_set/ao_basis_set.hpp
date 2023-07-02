@@ -92,7 +92,7 @@ public:
     // -------------------------------------------------------------------------
 
     /// Type used to model a primitive Gaussian
-    using primitive_type = typename value_type::primitive_type;
+    using primitive_type = typename reference::primitive_type;
 
     /// Type used to model a read-/write-able reference to a primitive
     using primitive_reference = typename reference::primitive_reference;
@@ -398,7 +398,7 @@ public:
      *  @throw std::bad_alloc if there is a problem allocating memory for the
      *                        new basis functions. Weak throw guarantee.
      */
-    AOBasisSet<T>& operator+=(const AOBasisSet<T>& rhs);
+    AOBasisSet& operator+=(const AOBasisSet& rhs);
 
     /** @brief Computes the AOBasisSet which is the union of this and @p rhs.
      *
@@ -413,7 +413,7 @@ public:
      *  @throw std::bad_alloc if there is a problem allocating memory for the
      *                        new basis functions. Strong throw guarantee.
      */
-    AOBasisSet<T> operator+(const AOBasisSet<T>& rhs) const;
+    AOBasisSet operator+(const AOBasisSet& rhs) const;
 
 private:
     /// Allows the base class to implement container API

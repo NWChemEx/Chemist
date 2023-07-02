@@ -36,7 +36,7 @@ private:
     using container_base = utilities::IndexableContainerBase<my_type>;
 
     /// Type of the view traits which does the TMP for us
-    using traits_type = ViewTraits<AtomicBasisSetType>;
+    using traits_type = detail_::ViewTraits<AtomicBasisSetType>;
 
     /// Typedefs so we don't need "typename" and "template" below
     template<typename T>
@@ -56,7 +56,7 @@ public:
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
 
     /// Type this is a view of
-    using atomic_basis_set_type = traits_type::type;
+    using atomic_basis_set_type = typename traits_type::type;
 
     /// String-like type used to store the basis set name
     using name_type = typename atomic_basis_set_type::name_type;
@@ -86,7 +86,7 @@ public:
     using atomic_number_pointer = ptr_type<atomic_number_type>;
 
     /// Unsigned integral type used for indexing/offsets
-    using size_type = typename atomic_basis_set::size_type;
+    using size_type = typename atomic_basis_set_type::size_type;
 
     /// Type of a read-only reference to a size
     using const_size_reference = const size_type&;
@@ -95,14 +95,14 @@ public:
     using const_size_pointer = const size_type*;
 
     /// Type used to return index ranges
-    using range_type = typename atomic_basis_set::range_type;
+    using range_type = typename atomic_basis_set_type::range_type;
 
     // -------------------------------------------------------------------------
     // -- Shell types
     // -------------------------------------------------------------------------
 
     /// Type of the Shells on this AtomicBasisSet
-    using value_type = typename atomic_basis_set::value_type;
+    using value_type = typename atomic_basis_set_type::value_type;
 
     /// Type of a read-/write-able reference to a AtomicBasisSet
     using reference = ShellView<apply_const<value_type>>;
@@ -115,14 +115,14 @@ public:
 
     /// Type of a possibly mutable reference to the angular momentum
     using angular_momentum_reference =
-      typename reference::angumar_momentum_reference;
+      typename reference::angular_momentum_reference;
 
     /// Type of a read-only reference to the angular momentum
     using const_angular_momentum_reference =
       typename reference::const_angular_momentum_reference;
 
     /// Type of a pointer to a possibly mutable angular momentum
-    using angular_momentum_pointer = ptr_type<angular_momentum>;
+    using angular_momentum_pointer = ptr_type<angular_momentum_type>;
 
     /// Type used to specify whether a Shell is pure or not
     using pure_type = typename reference::pure_type;
@@ -157,15 +157,12 @@ public:
     using contracted_gaussian_reference =
       typename reference::contracted_gaussian_reference;
 
-    /// Type of a vector of coefficients
-    using coefficient_vector = typename reference::coefficient_vector;
-
-    /// Type of a vector of exponents
-    using exponent_vector = typename reference::exponent_vector;
-
     // -------------------------------------------------------------------------
     // -- Primitive types
     // -------------------------------------------------------------------------
+
+    /// Type of a primitive
+    using primitive_type = typename reference::primitive_type;
 
     /// Type of a mutable reference to a primitive
     using primitive_reference = typename reference::primitive_reference;
@@ -346,7 +343,7 @@ public:
                        center_reference center);
 
     /// Defaulted no throw dtor
-    ~AtomicBasisSetView() noexcept override;
+    ~AtomicBasisSetView() noexcept;
 
     // -------------------------------------------------------------------------
     // -- Getters and setters

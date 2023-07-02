@@ -113,6 +113,19 @@ public:
         const_primitive_reference(m_coefs_[i], m_exps_[i], m_center_);
     }
 
+    bool operator==(const AtomicBasisSetViewPIMPL& rhs) const noexcept {
+        if(has_name() != rhs.has_name()) return false;
+        if(has_name() && name() != rhs.name()) return false;
+        if(has_atomic_number() != rhs.has_atomic_number()) return false;
+        if(has_atomic_number() && atomic_number() != rhs.atomic_number())
+            return false;
+        if(m_n_shells_ != rhs.m_n_shells_) return false;
+        for(size_type i = 0; i < m_n_shells_; ++i) {
+            if((*this)[i] != rhs[i]) return false;
+        }
+        return true;
+    }
+
 private:
     /// The name of the basis set (if set)
     name_pointer m_name_ = nullptr;

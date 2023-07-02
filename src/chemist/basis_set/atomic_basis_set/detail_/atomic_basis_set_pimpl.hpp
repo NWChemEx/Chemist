@@ -15,6 +15,7 @@
  */
 
 #include <chemist/basis_set/atomic_basis_set/atomic_basis_set.hpp>
+#include <optional>
 
 namespace chemist::detail_ {
 
@@ -35,15 +36,26 @@ public:
     using name_type             = typename parent_type::name_type;
     using atomic_number_type    = typename parent_type::atomic_number_type;
     using pure_type             = typename parent_type::pure_type;
+    using pure_reference        = typename parent_type::pure_reference;
+    using const_pure_reference  = typename parent_type::const_pure_reference;
     using angular_momentum_type = typename parent_type::angular_momentum_type;
-    using center_type           = typename parent_type::center_type;
-    using coefficient_type      = typename parent_type::coefficient_type;
+    using angular_momentum_reference =
+      typename parent_type::angular_momentum_reference;
+    using const_angular_momentum_reference =
+      typename parent_type::const_angular_momentum_reference;
+    using center_type      = typename parent_type::center_type;
+    using coefficient_type = typename parent_type::coefficient_type;
+    using exponent_type    = typename parent_type::exponent_type;
     using contracted_gaussian_reference =
-      typename parent_type::using shell_reference =
-        typename parent_type::shell_reference;
-    using const_shell_reference = typename parent_type::const_shell_reference;
+      typename parent_type::contracted_gaussian_reference;
+    using const_cg_reference    = typename parent_type::const_cg_reference;
+    using shell_reference       = typename parent_type::reference;
+    using const_shell_reference = typename parent_type::const_reference;
     using size_type             = typename parent_type::size_type;
     using range_type            = typename parent_type::range_type;
+    using primitive_reference   = typename parent_type::primitive_reference;
+    using const_primitive_reference =
+      typename parent_type::const_primitive_reference;
 
     explicit AtomicBasisSetPIMPL(center_type center) noexcept :
       m_center(std::move(center)) {}
@@ -100,7 +112,7 @@ public:
     size_type prim2shell(size_type i) const { return m_prim2shell_[i]; }
 
     primitive_reference primitive(size_type i) {
-        primitive_reference(m_coefs_[i], m_exps_[i]);
+        primitive_reference(m_coefs_[i], m_exps_[i], m_center.value());
     }
 
     const_primitive_reference primitive(size_type i) const {

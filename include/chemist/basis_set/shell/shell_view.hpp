@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <chemist/basis_set/contracted_gaussian/contracted_gaussian_view.hpp>
 #include <chemist/basis_set/shell/shell.hpp>
 #include <chemist/detail_/view/traits.hpp>
 
@@ -39,11 +40,11 @@ template<typename ShellType>
 class ShellView {
 private:
     /// Works out view types for us
-    using traits_type = ViewTraits<ShellType>;
+    using traits_type = detail_::ViewTraits<ShellType>;
 
     /// Typedef so we don't need "typename" and "template" below
     template<typename U>
-    using const_type = typename traits_type::template const_type<U>;
+    using apply_const = typename traits_type::template apply_const<U>;
 
     template<typename U>
     using apply_const_ref = typename traits_type::template apply_const_ref<U>;
@@ -73,7 +74,7 @@ public:
 
     /// The type of a mutable reference to a contracted Gaussian
     using contracted_gaussian_reference =
-      ContractedGaussianView<const_type<contracted_gaussian_type>>;
+      ContractedGaussianView<apply_const<contracted_gaussian_type>>;
 
     /// The type of a read-only reference to a contracted Gaussian
     using const_cg_reference =
@@ -109,11 +110,26 @@ public:
 
     /// Type of a possibly mutable reference to a primitive
     using primitive_reference =
-      typename contracted_gaussian_reference::primitive_reference;
+      typename contracted_gaussian_reference::reference;
 
     /// Type of a read-only reference to a primitive
     using const_primitive_reference =
-      typename constracted_gaussian_reference::const_primitive_reference;
+      typename contracted_gaussian_reference::const_reference;
+
+    using center_type = typename primitive_reference::center_type;
+
+    using center_reference = typename primitive_reference::center_reference;
+
+    using coord_type = typename primitive_reference::coord_type;
+
+    using coefficient_type = typename primitive_reference::coefficient_type;
+
+    using coefficient_reference =
+      typename primitive_reference::coefficient_reference;
+
+    using exponent_type = typename primitive_reference::exponent_type;
+
+    using exponent_reference = typename primitive_reference::exponent_reference;
 
     // -------------------------------------------------------------------------
     // -- Ctors, assignment, and dtor
@@ -379,6 +395,8 @@ public:
     }
 
 private:
+    ShellView(pimpl_pointer pimpl) noexcept;
+
     /// True if *this has a PIMPL and false otherwise
     bool has_pimpl_() const noexcept;
 
@@ -392,15 +410,6 @@ private:
     pimpl_pointer m_pimpl_;
 
 }; // ShellView class
-
-namespace detail_ {
-
-extern template class ShellViewPIMPL<ShellD>;
-extern template class ShellViewPIMPL<const ShellD>;
-extern template class ShellViewPIMPL<ShellF>;
-extern template class ShellViewPIMPL<const ShellF>;
-
-} // namespace detail_
 
 extern template class ShellView<ShellD>;
 extern template class ShellView<const ShellD>;
