@@ -1,4 +1,4 @@
-#include "detail_/atomic_basis_set_pimpl.hpp"
+#include "detail_/atomic_basis_set_view_pimpl.hpp"
 #include <chemist/basis_set/atomic_basis_set/atomic_basis_set_view.hpp>
 
 namespace chemist {
@@ -34,21 +34,31 @@ ATOMIC_BS_VIEW& ATOMIC_BS_VIEW::operator=(AtomicBasisSetView&& rhs) noexcept =
 ATOMIC_BS_TPARAMS
 ATOMIC_BS_VIEW::AtomicBasisSetView(
   name_reference name, atomic_number_reference atomic_n, size_type nshells,
-  pure_reference pure_per_shell, angular_momentum_reference l_per_shell,
-  const_size_reference prims_per_shell, coefficient_reference cs,
-  exponent_reference exp, center_reference center) :
+  typename shell_traits::pure_reference pure_per_shell,
+  typename shell_traits::angular_momentum_reference l_per_shell,
+  const_size_reference prims_per_shell,
+  typename shell_traits::coefficient_reference cs,
+  typename shell_traits::exponent_reference exp,
+  typename shell_traits::center_reference center) :
   AtomicBasisSetView(std::make_unique<pimpl_type>(
-    &name, &atomic_n, nshells, &pure_per_shell, &l_per_shell, &prims_per_shell,
-    &cs, &exp, center)) {}
+    name, atomic_n, nshells, pure_per_shell, l_per_shell, &prims_per_shell, cs,
+    exp, center)) {}
 
 ATOMIC_BS_TPARAMS
 ATOMIC_BS_VIEW::AtomicBasisSetView(
-  size_type nshells, pure_reference pure_per_shell,
-  angular_momentum_reference l_per_shell, const_size_reference prims_per_shell,
-  coefficient_reference cs, exponent_reference exp, center_reference center) :
+  size_type nshells, typename shell_traits::pure_reference pure_per_shell,
+  typename shell_traits::angular_momentum_reference l_per_shell,
+  const_size_reference prims_per_shell,
+  typename shell_traits::coefficient_reference cs,
+  typename shell_traits::exponent_reference exp,
+  typename shell_traits::center_reference center) :
   AtomicBasisSetView(std::make_unique<pimpl_type>(
-    nullptr, nullptr, nshells, &pure_per_shell, &l_per_shell, &prims_per_shell,
-    &cs, &exp, center)) {}
+    nshells, pure_per_shell, l_per_shell, &prims_per_shell, cs, exp, center)) {}
+
+ATOMIC_BS_TPARAMS
+ATOMIC_BS_VIEW::AtomicBasisSetView(atomic_basis_set_reference bs) {
+    throw std::runtime_error("NYI!!!!");
+}
 
 ATOMIC_BS_TPARAMS
 ATOMIC_BS_VIEW::~AtomicBasisSetView() noexcept = default;
@@ -124,15 +134,15 @@ typename ATOMIC_BS_VIEW::size_type ATOMIC_BS_VIEW::primitive_to_shell(
 }
 
 ATOMIC_BS_TPARAMS
-typename ATOMIC_BS_VIEW::primitive_reference ATOMIC_BS_VIEW::primitive(
-  size_type i) {
+typename ATOMIC_BS_VIEW::shell_traits::primitive_reference
+ATOMIC_BS_VIEW::primitive(size_type i) {
     assert_primitive_index_(i);
     return m_pimpl_->primitive(i);
 }
 
 ATOMIC_BS_TPARAMS
-typename ATOMIC_BS_VIEW::const_primitive_reference ATOMIC_BS_VIEW::primitive(
-  size_type i) const {
+typename ATOMIC_BS_VIEW::shell_traits::const_primitive_reference
+ATOMIC_BS_VIEW::primitive(size_type i) const {
     assert_primitive_index_(i);
     return m_pimpl_->primitive(i);
 }

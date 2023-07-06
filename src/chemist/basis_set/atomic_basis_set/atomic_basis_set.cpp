@@ -48,13 +48,21 @@ ATOMIC_BASIS_SET& ATOMIC_BASIS_SET::operator=(AtomicBasisSet&& rhs) noexcept =
 
 template<typename ShellType>
 ATOMIC_BASIS_SET::AtomicBasisSet(const_name_reference name,
-                                 atomic_number_type atomic_n, coord_type x,
-                                 coord_type y, coord_type z) :
-  AtomicBasisSet(std::make_unique<pimpl_type>(center_type(x, y, z))) {}
+                                 atomic_number_type atomic_n,
+                                 typename shell_traits::coord_type x,
+                                 typename shell_traits::coord_type y,
+                                 typename shell_traits::coord_type z) :
+  AtomicBasisSet(
+    std::make_unique<pimpl_type>(typename shell_traits::center_type(x, y, z))) {
+}
 
 template<typename ShellType>
-ATOMIC_BASIS_SET::AtomicBasisSet(coord_type x, coord_type y, coord_type z) :
-  AtomicBasisSet(std::make_unique<pimpl_type>(center_type(x, y, z))) {}
+ATOMIC_BASIS_SET::AtomicBasisSet(typename shell_traits::coord_type x,
+                                 typename shell_traits::coord_type y,
+                                 typename shell_traits::coord_type z) :
+  AtomicBasisSet(
+    std::make_unique<pimpl_type>(typename shell_traits::center_type(x, y, z))) {
+}
 
 template<typename ShellType>
 ATOMIC_BASIS_SET::AtomicBasisSet(const_name_reference name,
@@ -111,10 +119,37 @@ ATOMIC_BASIS_SET::atomic_number() const {
 }
 
 template<typename ShellType>
-void ATOMIC_BASIS_SET::add_shell(pure_type pure, angular_momentum_type l,
-                                 coefficient_vector cs, exponent_vector es) {
+bool ATOMIC_BASIS_SET::has_center() const noexcept {
+    if(is_null()) return false;
+    return m_pimpl_->m_center.has_value();
+}
+
+template<typename ShellType>
+typename ATOMIC_BASIS_SET::shell_traits::center_reference
+ATOMIC_BASIS_SET::center() {
     if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>(0.0, 0.0, 0.0);
-    m_pimpl_->add_shell(pure, l, std::move(cs), std::move(es));
+    if(!m_pimpl_->m_center.has_value())
+        m_pimpl_->m_center.emplace(0.0, 0.0, 0.0);
+    return m_pimpl_->m_center.value();
+}
+
+template<typename ShellType>
+typename ATOMIC_BASIS_SET::shell_traits::const_center_reference
+ATOMIC_BASIS_SET::center() const {
+    if(has_center()) return m_pimpl_->m_center.value();
+    throw std::runtime_error("The current AtomicBasisSet does not have a "
+                             "center set.");
+}
+
+template<typename ShellType>
+void ATOMIC_BASIS_SET::add_shell(typename shell_traits::pure_type pure,
+                                 typename shell_traits::angular_momentum_type l,
+                                 typename shell_traits::coefficient_vector cs,
+                                 typename shell_traits::exponent_vector es) {
+    if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>(0.0, 0.0, 0.0);
+    typename shell_traits::contracted_gaussian_reference cg(cs.size(), cs[0],
+                                                            es[0], center());
+    m_pimpl_->add_shell(pure, l, std::move(cg));
 }
 
 template<typename ShellType>
@@ -160,8 +195,8 @@ typename ATOMIC_BASIS_SET::size_type ATOMIC_BASIS_SET::n_primitives()
 }
 
 template<typename ShellType>
-typename ATOMIC_BASIS_SET::primitive_reference ATOMIC_BASIS_SET::primitive(
-  size_type i) {
+typename ATOMIC_BASIS_SET::shell_traits::primitive_reference
+ATOMIC_BASIS_SET::primitive(size_type i) {
     if(i >= n_primitives()) {
         throw std::out_of_range("Requested i: " + std::to_string(i) +
                                 " is not in the range [0, n_primitives())");
@@ -170,7 +205,7 @@ typename ATOMIC_BASIS_SET::primitive_reference ATOMIC_BASIS_SET::primitive(
 }
 
 template<typename ShellType>
-typename ATOMIC_BASIS_SET::const_primitive_reference
+typename ATOMIC_BASIS_SET::shell_traits::const_primitive_reference
 ATOMIC_BASIS_SET::primitive(size_type i) const {
     if(i >= n_primitives()) {
         throw std::out_of_range("Requested i: " + std::to_string(i) +
@@ -208,28 +243,25 @@ ATOMIC_BASIS_SET::AtomicBasisSet(pimpl_pointer pimpl) noexcept :
   m_pimpl_(std::move(pimpl)) {}
 
 template<typename ShellType>
+bool ATOMIC_BASIS_SET::has_pimpl_() const noexcept {
+    return static_cast<bool>(m_pimpl_);
+}
+
+template<typename ShellType>
 typename ATOMIC_BASIS_SET::size_type ATOMIC_BASIS_SET::size_() const noexcept {
-    assert(m_pimpl_ != nullptr);
+    if(!has_pimpl_()) return 0;
     return m_pimpl_->size();
 }
 
 template<typename ShellType>
 typename ATOMIC_BASIS_SET::reference ATOMIC_BASIS_SET::at_(size_type i) {
-    assert(m_pimpl_ != nullptr);
-    auto ptr1 = m_pimpl_->at(i);
-    auto ptr2 = this->point_alias();
-    Shell<T> shell(std::move(ptr1), std::move(ptr2));
-    return reference(std::move(shell));
+    return (*m_pimpl_)[i];
 }
 
 template<typename ShellType>
 typename ATOMIC_BASIS_SET::const_reference ATOMIC_BASIS_SET::at_(
   size_type i) const {
-    assert(m_pimpl_ != nullptr);
-    auto ptr1 = m_pimpl_->at(i);
-    auto ptr2 = this->point_alias();
-    Shell<T> shell(std::move(ptr1), std::move(ptr2));
-    return const_reference(std::move(shell));
+    return std::as_const(*m_pimpl_)[i];
 }
 
 template class AtomicBasisSet<ShellD>;

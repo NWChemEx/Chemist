@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <chemist/basis_set/primitive/primitive_traits.hpp>
 #include <chemist/basis_set/primitive/primitive_view.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 #include <vector>
@@ -80,29 +81,15 @@ public:
     /// -- Primitive types
     /// ------------------------------------------------------------------------
 
-    /// Rank 1 tensor-like type used for the center
-    using center_type = typename value_type::center_type;
-
-    /// Type of a mutable reference to the center
-    using center_reference = center_type&;
-
-    /// Type of a read-only reference to the center
-    using const_center_reference = const center_type&;
-
-    /// Floating-point type used to hold the coordinates of the center
-    using coord_type = typename center_type::coord_type;
-
-    /// Floating point type each primitive uses for the coefficient
-    using coefficient_type = typename value_type::coefficient_type;
-
-    /// Floating point type each primitive uses for the exponent
-    using exponent_type = typename value_type::exponent_type;
+    using primitive_traits = PrimitiveTraits<reference>;
 
     /// Type of a std::vector of coefficents
-    using coefficient_vector = std::vector<coefficient_type>;
+    using coefficient_vector =
+      std::vector<typename primitive_traits::coefficient_type>;
 
     /// Type of a std;:vector of exponents
-    using exponent_vector = std::vector<exponent_type>;
+    using exponent_vector =
+      std::vector<typename primitive_traits::exponent_type>;
 
     /** @brief Makes a null ContractedGaussian.
      *
@@ -133,7 +120,9 @@ public:
      *         PIMPL. Strong throw guarantee.
      */
     ContractedGaussian(coefficient_vector coefs, exponent_vector exps,
-                       coord_type x, coord_type y, coord_type z);
+                       typename primitive_traits::coord_type x,
+                       typename primitive_traits::coord_type y,
+                       typename primitive_traits::coord_type z);
 
     /** @brief Constructs a ContractedGaussian from the provided parameters.
      *
@@ -151,7 +140,7 @@ public:
      *         PIMPL. Strong throw guarantee.
      */
     ContractedGaussian(coefficient_vector coefs, exponent_vector exps,
-                       center_type center);
+                       typename primitive_traits::center_type center);
 
     /** @brief Constructs a new ContractedGaussian instance by copying the state
      *         of @p rhs.
@@ -243,7 +232,7 @@ public:
      *  @throw std::bad_alloc if *this is a null instance and allocating the
      *                        PIMPL fails. Strong throw guarantee.
      */
-    center_reference center();
+    typename primitive_traits::center_reference center();
 
     /** @brief Returns the location where *this is centered.
      *
@@ -254,7 +243,7 @@ public:
      *
      *  @throw std::runtime_error if *this is null. Strong throw guarantee.
      */
-    const_center_reference center() const;
+    typename primitive_traits::const_center_reference center() const;
 
     // -------------------------------------------------------------------------
     // -- Utility functions
@@ -331,10 +320,10 @@ public:
     template<typename Archive>
     void load(Archive& ar) {
         size_type mysize;
-        center_type center;
+        typename primitive_traits::center_type center;
         ar& mysize& center;
-        std::vector<coefficient_type> cs(mysize, 0);
-        std::vector<exponent_type> es(mysize, 0);
+        coefficient_vector cs(mysize, 0);
+        exponent_vector es(mysize, 0);
         for(int i = 0; i < mysize; ++i) { ar& cs[i] & es[i]; }
 
         ContractedGaussian(cs, es, center).swap(*this);

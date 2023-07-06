@@ -1,6 +1,9 @@
 #pragma once
 #include "../../detail_/compute_n_aos.hpp"
+#include <chemist/basis_set/atomic_basis_set/atomic_basis_set_traits.hpp>
 #include <chemist/basis_set/atomic_basis_set/atomic_basis_set_view.hpp>
+#include <optional>
+#include <utility>
 
 namespace chemist::detail_ {
 
@@ -10,59 +13,87 @@ public:
     /// The type *this is implementing
     using parent_type = AtomicBasisSetView<AtomicBasisSetType>;
 
-    // Pull in types from the class we are implementing
-    using contracted_gaussian_reference =
-      typename parent_type::contracted_gaussian_reference;
-    using reference            = typename parent_type::reference;
-    using const_reference      = typename parent_type::const_reference;
-    using name_reference       = typename parent_type::name_reference;
-    using const_name_reference = typename parent_type::const_name_reference;
-    using name_pointer         = typename parent_type::name_pointer;
-    using atomic_number_reference =
-      typename parent_type::atomic_number_reference;
-    using const_atomic_number_reference =
-      typename parent_type::const_atomic_number_reference;
-    using atomic_number_pointer = typename atomic_number_pointer;
-    using const_cg_reference    = typename parent_type::const_cg_reference;
-    using primitive_reference   = typename parent_type::primitive_reference;
-    using const_primitive_reference =
-      typename parent_type::const_primitive_reference;
-    using center_reference    = typename parent_type::center_reference;
-    using coefficient_pointer = typename parent_type::coefficient_pointer;
-    using exponent_pointer    = typename parent_type::exponent_pointer;
-    using size_type           = typename parent_type::size_type;
-    using const_size_pointer  = typename parent_type::const_size_pointer;
-    using angular_momentum_pointer =
-      typename parent_type::angular_momentum_pointer;
-    using pure_pointer = typename parent_type::pure_pointer;
+    using abs_traits = AtomicBasisSetTraits<parent_type>;
 
-    AtomicBasisSetView() = delete;
+    using size_type = typename parent_type::size_type;
 
-    AtomicBasisSetViewPIMPL(name_pointer name, atomic_number_pointer z,
-                            size_type nshells, pure_pointer pure_per_shell,
-                            angular_momentum_pointer l_per_shell,
-                            const_size_pointer prims_per_shell,
-                            coefficient_pointer coefs, exponent_pointer exps,
-                            center_reference center);
+    AtomicBasisSetViewPIMPL() = delete;
 
-    bool has_name() const noexcept { return m_name_ != nullptr; }
+    AtomicBasisSetViewPIMPL(
+      size_type nshells, typename abs_traits::pure_reference pure_per_shell,
+      typename abs_traits::angular_momentum_reference l_per_shell,
+      typename parent_type::const_size_pointer prims_per_shell,
+      typename abs_traits::coefficient_reference coefs,
+      typename abs_traits::exponent_pointer exps,
+      typename abs_traits::center_reference center);
 
-    name_reference name() { return *m_name_; }
+    AtomicBasisSetViewPIMPL(
+      typename abs_traits::name_reference name,
+      typename abs_traits::atomic_number_reference z, size_type nshells,
+      typename abs_traits::pure_reference pure_per_shell,
+      typename abs_traits::angular_momentum_reference l_per_shell,
+      typename parent_type::const_size_pointer prims_per_shell,
+      typename abs_traits::coefficient_reference coefs,
+      typename abs_traits::exponent_pointer exps,
+      typename abs_traits::center_reference center);
 
-    const_name_reference name() const { return *m_name_; }
+    bool has_name() const noexcept { return m_name_.has_value(); }
 
-    bool has_atomic_number() const noexcept { return m_z_ != nullptr; }
+    typename abs_traits::name_reference name() { return m_name_.value().get(); }
 
-    atomic_number_reference atomic_number() { return *m_z_; }
+    typename abs_traits::const_name_reference name() const {
+        return m_name_.value().get();
+    }
 
-    const_atomic_number_reference atomic_number() const { return *m_z_; }
+    bool has_atomic_number() const noexcept { return m_z_.has_value(); }
 
-    size_type size() const noexcept { return m_nshells_; }
+    typename abs_traits::atomic_number_reference atomic_number() {
+        return m_z_.value().get();
+    }
+
+    typename abs_traits::const_atomic_number_reference atomic_number() const {
+        return m_z_.value().get();
+    }
+
+    typename abs_traits::pure_reference pure(size_type shell_i) {
+        return (&m_pure_)[shell_i];
+    }
+
+    typename abs_traits::const_pure_reference pure(size_type shell_i) const {
+        return (&m_pure_)[shell_i];
+    }
+
+    typename abs_traits::angular_momentum_reference l(size_type shell_i) {
+        return (&m_l_)[shell_i];
+    }
+
+    typename abs_traits::const_angular_momentum_reference l(
+      size_type shell_i) const {
+        return (&m_l_)[shell_i];
+    }
+
+    typename abs_traits::coefficient_reference coef(size_type i) {
+        return (&m_coefs_)[i];
+    }
+
+    typename abs_traits::const_coefficient_reference coef(size_type i) const {
+        return (&m_coefs_)[i];
+    }
+
+    typename abs_traits::exponent_reference exponent(size_type i) {
+        return (&m_exps_)[i];
+    }
+
+    typename abs_traits::const_exponent_reference exponent(size_type i) const {
+        return (&m_exps_)[i];
+    }
+
+    size_type size() const noexcept { return m_n_shells_; }
 
     size_type n_aos() const noexcept {
         size_type counter = 0;
         for(size_type i = 0; i < size(); ++i)
-            counter += detail_::compute_n_aos(m_l_[i], m_pure_[i]);
+            counter += detail_::compute_n_aos(l(i), pure(i));
         return counter;
     }
 
@@ -72,9 +103,9 @@ public:
         return counter;
     }
 
-    range_type primitive_range(size_type shell) const {
-        auto begin = m_cg_offset_[shell];
-        auto end   = (shell + 1 < size()) ? m_cg_offset_[shell + 1] : size();
+    typename abs_traits::range_type primitive_range(size_type shell) const {
+        auto begin = m_cg_offsets_[shell];
+        auto end   = (shell + 1 < size()) ? m_cg_offsets_[shell + 1] : size();
         return range_type(begin, end);
     }
 
@@ -87,30 +118,33 @@ public:
         // it was in bounds.
     }
 
-    reference operator[](size_type i) { reference(m_pure_[i], m_l_[i], cg(i)); }
-
-    const_reference operator[](size_type i) const {
-        const_reference(m_pure_[i], m_l_[i], cg(i));
+    auto operator[](size_type i) {
+        return typename parent_type::reference(pure(i), l(i), cg(i));
     }
 
-    contracted_gaussian_reference cg(size_type i) {
-        return contracted_gaussian_reference(m_prims_per_shell_[i],
-                                             m_coefs_[m_cg_offsets_[i]],
-                                             m_exps_[m_cg_offsets_[i]]);
+    auto operator[](size_type i) const {
+        return typename parent_type::const_reference(pure(i), l(i), cg(i));
     }
 
-    const_cg_reference cg(size_type i) const {
-        return const_cg_reference(m_prims_per_cg_[i],
-                                  m_coefs_[m_cg_offsets_[i]],
-                                  m_exps_[m_cg_offsets_[i]]);
+    auto cg(size_type i) {
+        return typename abs_traits::contracted_gaussian_reference(
+          m_prims_per_shell_[i], coef(m_cg_offsets_[i]),
+          exponent(m_cg_offsets_[i]), m_center_);
     }
 
-    primitive_reference primitive(size_type i) {
-        primitive_reference(m_coefs_[i], m_exps_[i], m_center_);
+    auto cg(size_type i) const {
+        return typename abs_traits::const_cg_reference(
+          m_prims_per_shell_[i], coef(m_cg_offsets_[i]),
+          exponent(m_cg_offsets_[i]), m_center_);
     }
 
-    const_primitive_reference primitive(size_type i) const {
-        const_primitive_reference(m_coefs_[i], m_exps_[i], m_center_);
+    auto primitive(size_type i) {
+        return abs_traits::primitive_reference(coef(i), exponent(i), m_center_);
+    }
+
+    auto primitive(size_type i) const {
+        return abs_traits::const_primitive_reference(coef(i), exponent(i),
+                                                     m_center_);
     }
 
     bool operator==(const AtomicBasisSetViewPIMPL& rhs) const noexcept {
@@ -127,39 +161,74 @@ public:
     }
 
 private:
+    using wrapped_name_type =
+      std::reference_wrapper<typename abs_traits::name_reference>;
+
+    using wrapped_z_type =
+      std::reference_wrapper<typename abs_traits::atomic_number_reference>;
+
     /// The name of the basis set (if set)
-    name_pointer m_name_ = nullptr;
+    std::optional<wrapped_name_type> m_name_ = nullptr;
 
     /// The atomic number of the basis set (if set)
-    atomic_number_pointer m_z_ = nullptr;
+    std::optional<wrapped_z_type> m_z_ = nullptr;
 
     /// The number of shells in *this
     size_type m_n_shells_;
 
+    /// The purity of the shells
+    typename abs_traits::pure_reference m_pure_;
+
+    /// The angular momentum of the shells
+    typename abs_traits::angular_momentum_reference m_l_;
+
     /// The number of primitives per shell
-    const_size_pointer m_prims_per_shell_;
+    typename parent_type::const_size_pointer m_prims_per_shell_;
 
     /// The offsets for primitives in a shell
     std::vector<size_type> m_cg_offsets_;
 
     /// The coefficients of the primitives
-    coefficient_pointer m_coefs_;
+    typename abs_traits::coefficient_reference m_coefs_;
 
     /// The exponents of the primitives
-    exponent_pointer m_exps_;
+    typename abs_traits::exponent_reference m_exps_;
 
     /// Where *this is centered
-    center_reference m_center_;
+    typename abs_traits::center_reference m_center_;
 };
 
 template<typename AtomicBasisSetType>
 AtomicBasisSetViewPIMPL<AtomicBasisSetType>::AtomicBasisSetViewPIMPL(
-  name_pointer name, atomic_number_pointer z, size_type nshells,
-  pure_pointer pure_per_shell, angular_momentum_pointer l_per_shell,
-  const_size_pointer prims_per_shell, coefficient_pointer coefs,
-  exponent_pointer exps, center_reference center) :
+  typename abs_traits::name_reference name,
+  typename abs_traits::atomic_number_reference z, size_type nshells,
+  typename abs_traits::pure_reference pure_per_shell,
+  typename abs_traits::angular_momentum_reference l_per_shell,
+  typename parent_type::const_size_pointer prims_per_shell,
+  typename abs_traits::coefficient_reference coefs,
+  typename abs_traits::exponent_pointer exps,
+  typename abs_traits::center_reference center) :
   m_name_(name),
   m_z_(z),
+  m_n_shells_(nshells),
+  m_prims_per_shell_(prims_per_shell),
+  m_cg_offsets_(nshells),
+  m_coefs_(coefs),
+  m_exps_(exps),
+  m_center_(std::move(center)) {
+    for(size_type i = 1; i < nshells; ++i) {
+        m_cg_offsets_[i] = m_cg_offsets_[i - 1] + m_prims_per_shell_[i];
+    }
+}
+
+template<typename AtomicBasisSetType>
+AtomicBasisSetViewPIMPL<AtomicBasisSetType>::AtomicBasisSetViewPIMPL(
+  size_type nshells, typename abs_traits::pure_reference pure_per_shell,
+  typename abs_traits::angular_momentum_reference l_per_shell,
+  typename parent_type::const_size_pointer prims_per_shell,
+  typename abs_traits::coefficient_reference coefs,
+  typename abs_traits::exponent_pointer exps,
+  typename abs_traits::center_reference center) :
   m_n_shells_(nshells),
   m_prims_per_shell_(prims_per_shell),
   m_cg_offsets_(nshells),

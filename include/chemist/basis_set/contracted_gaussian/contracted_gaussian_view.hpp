@@ -90,26 +90,7 @@ public:
     /// -- Primitive types
     /// ------------------------------------------------------------------------
 
-    /// Rank 1 tensor-like type used for the center
-    using center_type = typename value_type::center_type;
-
-    /// Type of a potentially mutable view to the center
-    using center_reference = typename reference::center_reference;
-
-    /// Type of a read-only view to the center
-    using const_center_reference = typename reference::const_center_reference;
-
-    /// Floating-point type used to hold the expansion coefficients
-    using coefficient_type = typename reference::coefficient_type;
-
-    /// Type of a possibly mutable reference to a coefficient
-    using coefficient_reference = typename reference::coefficient_reference;
-
-    /// Floating-point type used to hold the exponents
-    using exponent_type = typename reference::exponent_type;
-
-    /// Type of a possibly mutable reference to the exponent
-    using exponent_reference = typename reference::exponent_reference;
+    using primitive_traits = PrimitiveTraits<reference>;
 
     /// Type of a vector of coefficients
     using coefficient_vector =
@@ -134,9 +115,11 @@ public:
      *  @throw std::bad_alloc if there's a problem allocating the PIMPL. Strong
      *                        throw guarantee.
      */
-    ContractedGaussianView(size_type n_prims, coefficient_reference coef_begin,
-                           exponent_reference exp_begin,
-                           center_reference center);
+    ContractedGaussianView(
+      size_type n_prims,
+      typename primitive_traits::coefficient_reference coef_begin,
+      typename primitive_traits::exponent_reference exp_begin,
+      typename primitive_traits::center_reference center);
 
     ContractedGaussianView(contracted_gaussian_type cg);
 
@@ -209,7 +192,7 @@ public:
      *  @throw std::runtime_error if *this is a reference to a null object.
      *                            Strong throw guarantee.
      */
-    center_reference center();
+    typename primitive_traits::center_reference center();
 
     /** @brief Returns a read-only reference to the center.
      *
@@ -221,7 +204,7 @@ public:
      *  @throw std::runtime_error if *this is a view of a null object. Strong
      *                            throw guarantee.
      */
-    const_center_reference center() const;
+    typename primitive_traits::const_center_reference center() const;
 
     // -------------------------------------------------------------------------
     // -- Utility functions

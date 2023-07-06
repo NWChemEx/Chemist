@@ -16,6 +16,7 @@
 
 #include "../detail_/compute_n_aos.hpp"
 #include <chemist/basis_set/shell/shell.hpp>
+#include <chemist/basis_set/shell/shell_traits.hpp>
 
 namespace chemist {
 namespace detail_ {
@@ -26,20 +27,13 @@ public:
     /// Type *this implements
     using parent_type = Shell<CGType>;
 
-    /// Type of a contracted Gaussian
-    using contracted_gaussian_type =
-      typename parent_type::contracted_gaussian_type;
-
-    /// Type of the angular momentum
-    using angular_momentum_type = typename parent_type::angular_momentum_type;
-
-    /// Type of the AOs
-    using pure_type = typename parent_type::pure_type;
+    using shell_traits = ShellTraits<parent_type>;
 
     ShellPIMPL() noexcept = default;
 
-    ShellPIMPL(pure_type pure, angular_momentum_type l,
-               contracted_gaussian_type cg) noexcept :
+    ShellPIMPL(typename shell_traits::pure_type pure,
+               typename shell_traits::angular_momentum_type l,
+               typename shell_traits::contracted_gaussian_type cg) noexcept :
       m_cg(std::move(cg)), m_l(std::move(l)), m_pure(std::move(pure)) {}
 
     bool operator==(const ShellPIMPL& rhs) const noexcept {
@@ -48,11 +42,11 @@ public:
         return lstate == rstate;
     }
 
-    contracted_gaussian_type m_cg;
+    typename shell_traits::contracted_gaussian_type m_cg;
 
-    angular_momentum_type m_l = 0;
+    typename shell_traits::angular_momentum_type m_l = 0;
 
-    pure_type m_pure = pure_type::pure;
+    typename shell_traits::pure_type m_pure = shell_traits::pure_type::pure;
 };
 
 } // namespace detail_
@@ -90,15 +84,18 @@ SHELL& SHELL::operator=(Shell&& rhs) noexcept = default;
 
 template<typename CGType>
 SHELL::Shell(pure_type pure, angular_momentum_type l,
-             std::vector<coefficient_type> coefs,
-             std::vector<exponent_type> exps, coord_type x, coord_type y,
-             coord_type z) :
-  Shell(pure, l, std::move(coefs), std::move(exps), center_type(x, y, z)) {}
+             typename cg_traits::coefficient_vector coefs,
+             typename cg_traits::exponent_vector exps,
+             typename cg_traits::coord_type x, typename cg_traits::coord_type y,
+             typename cg_traits::coord_type z) :
+  Shell(pure, l, std::move(coefs), std::move(exps),
+        typename cg_traits::center_type(x, y, z)) {}
 
 template<typename CGType>
 SHELL::Shell(pure_type pure, angular_momentum_type l,
-             std::vector<coefficient_type> coefs,
-             std::vector<exponent_type> exps, center_type center) :
+             typename cg_traits::coefficient_vector coefs,
+             typename cg_traits::exponent_vector exps,
+             typename cg_traits::center_type center) :
   Shell(pure, l,
         contracted_gaussian_type(std::move(coefs), std::move(exps),
                                  std::move(center))) {}
@@ -158,12 +155,13 @@ typename SHELL::size_type SHELL::n_primitives() const noexcept {
 }
 
 template<typename CGType>
-typename SHELL::primitive_reference SHELL::primitive(size_type i) {
+typename SHELL::cg_traits::primitive_reference SHELL::primitive(size_type i) {
     return contracted_gaussian().at(i);
 }
 
 template<typename CGType>
-typename SHELL::const_primitive_reference SHELL::primitive(size_type i) const {
+typename SHELL::cg_traits::const_primitive_reference SHELL::primitive(
+  size_type i) const {
     if(i < n_primitives()) return contracted_gaussian().at(i);
     throw std::out_of_range("i is not in the range [0, n_primitives()).");
 }

@@ -30,6 +30,11 @@ struct PrimitivePIMPL {
     using coefficient_type = typename parent_type::coefficient_type;
     using exponent_type    = typename parent_type::exponent_type;
 
+    PrimitivePIMPL() = default;
+
+    PrimitivePIMPL(center_type center, coefficient_type c, exponent_type e) :
+      m_center(std::move(center)), m_coefficient(c), m_exponent(e) {}
+
     bool operator==(const PrimitivePIMPL& rhs) const noexcept {
         auto lhs_state = std::tie(m_center, m_coefficient, m_exponent);
         auto rhs_state =

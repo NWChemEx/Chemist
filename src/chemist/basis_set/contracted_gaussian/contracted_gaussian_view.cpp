@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include <chemist/basis_set/contracted_gaussian/contracted_gaussian_traits.hpp>
 #include <chemist/basis_set/contracted_gaussian/contracted_gaussian_view.hpp>
 #include <vector>
 
@@ -28,68 +29,69 @@ public:
     /// Type of *this
     using my_type = ContractedGaussianViewPIMPL<CGType>;
 
-    /// Traits type used to do the TMP
-    using traits_type = ViewTraits<CGType>;
-
-    /// Avoid needing "typename" and "template" below
-    template<typename T>
-    using ptr_type = typename traits_type::template apply_const_ptr<T>;
-
-    /// Type *this is implementing
+    /// Type this is implementing
     using parent_type = ContractedGaussianView<CGType>;
 
-    /// Type used to hold a contraction coefficient
-    using coefficient_type = typename parent_type::coefficient_type;
+    /// Traits class containing the types for parent_type
+    using cg_traits = ContractedGaussianTraits<parent_type>;
 
-    /// Type of a possibly mutable pointer to a coefficient
-    using coefficient_pointer = ptr_type<coefficient_type>;
-
-    /// Type used to hold an exponent
-    using exponent_type = typename parent_type::exponent_type;
-
-    /// Type of a possibly mutable pointer to an exponent
-    using exponent_pointer = ptr_type<exponent_type>;
-
-    /// Type of a reference to a center
-    using center_reference = typename parent_type::center_reference;
-
-    /// Type of a pointer to an object of type *this
-    using pimpl_pointer = typename parent_type::pimpl_pointer;
-
+    /// Type parent uses for indexing and offsets
     using size_type = typename parent_type::size_type;
 
-    ContractedGaussianViewPIMPL(size_type n_prims, coefficient_pointer c0,
-                                exponent_pointer e0, center_reference center) :
-      m_coefs(n_prims), m_exps(n_prims), m_center(std::move(center)) {
-        for(size_type i = 0; i < n_prims; ++i) {
-            m_coefs[i] = &c0[i];
-            m_exps[i]  = &e0[i];
-        }
+    ContractedGaussianViewPIMPL(const ContractedGaussianViewPIMPL& other) :
+      ContractedGaussianViewPIMPL(other.m_n_prims, other.m_coef, other.m_exps,
+                                  other.m_center) {}
+
+    ContractedGaussianViewPIMPL(size_type n_prims,
+                                typename cg_traits::coefficient_reference c0,
+                                typename cg_traits::exponent_reference e0,
+                                typename cg_traits::center_reference center) :
+      m_n_prims(n_prims),
+      m_coefs(c0),
+      m_exps(e0),
+      m_center(std::move(center)) {}
+
+    auto size() const noexcept { return m_n_prims; }
+
+    decltype(auto) coefficient(size_type i) { return (&m_coefs)[i]; }
+
+    decltype(auto) coefficient(size_type i) const { return (&m_coefs)[i]; }
+
+    decltype(auto) exponent(size_type i) { return (&m_exps)[i]; }
+
+    decltype(auto) exponent(size_type i) const { return (&m_exps)[i]; }
+
+    auto operator[](size_type i) {
+        return typename cg_traits::primitive_reference(coefficient(i),
+                                                       exponent(i), m_center);
     }
 
-    /// Makes a deep copy of *this, on the heap
-    pimpl_pointer clone() const { return std::make_unique<my_type>(*this); }
-
-    auto size() const noexcept { return m_coefs.size(); }
+    auto operator[](size_type i) const {
+        return typename cg_traits::const_primitive_reference(
+          coefficient(i), exponent(i), m_center);
+    }
 
     bool operator==(const ContractedGaussianViewPIMPL& rhs) const noexcept {
-        if(m_center != rhs.m_center) return false;
         if(size() != rhs.size()) return false;
-        for(decltype(m_coefs.size()) i = 0; i < m_coefs.size(); ++i) {
-            if(*m_coefs[i] != *rhs.m_coefs[i]) return false;
-            if(*m_exps[i] != *rhs.m_exps[i]) return false;
+        if(m_center != rhs.m_center) return false;
+        for(auto i = 0; i < size(); ++i) {
+            if(coefficient(i) != rhs.coefficient(i)) return false;
+            if(exponent(i) != rhs.exponent(i)) return false;
         }
         return true;
     }
 
-    /// Pointers to the coefficients
-    std::vector<coefficient_pointer> m_coefs;
+    /// Number of primitives
+    size_type m_n_prims;
 
-    /// Pointers to the exponents
-    std::vector<exponent_pointer> m_exps;
+    /// Reference to the first coefficient
+    typename cg_traits::coefficient_reference m_coefs;
 
-    /// The center common to all contracted gaussians
-    center_reference m_center;
+    /// Reference to the first exponent
+    typename cg_traits::exponent_reference m_exps;
+
+    /// The center common to all primitives
+    typename cg_traits::center_reference m_center;
 };
 
 } // namespace detail_
@@ -101,12 +103,13 @@ public:
 /// ----------------------------------------------------------------------------
 
 template<typename CGType>
-CG_VIEW::ContractedGaussianView(size_type n_prims,
-                                coefficient_reference coef_begin,
-                                exponent_reference exp_begin,
-                                center_reference center) :
+CG_VIEW::ContractedGaussianView(
+  size_type n_prims,
+  typename primitive_traits::coefficient_reference coef_begin,
+  typename primitive_traits::exponent_reference exp_begin,
+  typename primitive_traits::center_reference center) :
   ContractedGaussianView(std::make_unique<pimpl_type>(
-    n_prims, &coef_begin, &exp_begin, std::move(center))) {}
+    n_prims, coef_begin, exp_begin, std::move(center))) {}
 
 template<typename CGType>
 CG_VIEW::ContractedGaussianView(contracted_gaussian_type cg) :
@@ -115,7 +118,8 @@ CG_VIEW::ContractedGaussianView(contracted_gaussian_type cg) :
 
 template<typename CGType>
 CG_VIEW::ContractedGaussianView(const ContractedGaussianView& other) :
-  m_pimpl_(other.has_pimpl_() ? other.m_pimpl_->clone() : nullptr) {}
+  m_pimpl_(other.has_pimpl_() ? std::make_unique<pimpl_type>(other.m_pimpl_) :
+                                nullptr) {}
 
 template<typename CGType>
 CG_VIEW::ContractedGaussianView(ContractedGaussianView&& other) noexcept =
@@ -138,13 +142,14 @@ CG_VIEW::~ContractedGaussianView() noexcept = default;
 /// ----------------------------------------------------------------------------
 
 template<typename CGType>
-typename CG_VIEW::center_reference CG_VIEW::center() {
+typename CG_VIEW::primitive_traits::center_reference CG_VIEW::center() {
     assert_pimpl_();
     return m_pimpl_->m_center;
 }
 
 template<typename CGType>
-typename CG_VIEW::const_center_reference CG_VIEW::center() const {
+typename CG_VIEW::primitive_traits::const_center_reference CG_VIEW::center()
+  const {
     assert_pimpl_();
     return m_pimpl_->m_center;
 }
@@ -209,21 +214,17 @@ void CG_VIEW::assert_pimpl_() const {
 template<typename CGType>
 typename CG_VIEW::size_type CG_VIEW::size_() const noexcept {
     if(!is_null()) return 0;
-    return m_pimpl_->m_coefs.size();
+    return m_pimpl_->size();
 }
 
 template<typename CGType>
 typename CG_VIEW::reference CG_VIEW::at_(size_type i) noexcept {
-    auto c_i   = m_pimpl_->m_coefs[i];
-    auto exp_i = m_pimpl_->m_exps[i];
-    return reference(*c_i, *exp_i, m_pimpl_->m_center);
+    return (*m_pimpl_)[i];
 }
 
 template<typename CGType>
 typename CG_VIEW::const_reference CG_VIEW::at_(size_type i) const noexcept {
-    auto c_i   = m_pimpl_->m_coefs[i];
-    auto exp_i = m_pimpl_->m_exps[i];
-    return const_reference(*c_i, *exp_i, m_pimpl_->m_center);
+    return std::as_const(*m_pimpl_)[i];
 }
 
 #undef CG_VIEW

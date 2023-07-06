@@ -16,6 +16,7 @@
 
 #pragma once
 #include <chemist/basis_set/atomic_basis_set/atomic_basis_set.hpp>
+#include <chemist/basis_set/atomic_basis_set/atomic_basis_set_traits.hpp>
 #include <chemist/basis_set/atomic_basis_set/atomic_basis_set_view.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
@@ -45,13 +46,6 @@ public:
     /// Unsigned integral type used for indexing/offsets
     using size_type = typename base_type::size_type;
 
-    /// Type of an index range
-    using range_type = std::pair<size_type, size_type>;
-
-    // -------------------------------------------------------------------------
-    // -- AtomicBasisSet types
-    // -------------------------------------------------------------------------
-
     /// Type of the centers in this basis set
     using value_type = AtomicBasisSetType;
 
@@ -61,45 +55,8 @@ public:
     /// Type of a read-only reference to a AtomicBasisSet
     using const_reference = AtomicBasisSetView<const value_type>;
 
-    // -------------------------------------------------------------------------
-    // -- Shell types
-    // -------------------------------------------------------------------------
-
-    /// Type used to model a Shell
-    using shell_type = typename value_type::value_type;
-
-    /// Type used to model a read-/write-able reference to a Shell
-    using shell_reference = typename reference::reference;
-
-    /// Type used to model a read-only reference to a Shell
-    using const_shell_reference = typename reference::const_reference;
-
-    // -------------------------------------------------------------------------
-    // -- AO types
-    // -------------------------------------------------------------------------
-
-    /// Type used to model an AO
-    // using ao_type = typename value_type::ao_type;
-
-    /// Type of a read-/write-able reference to an AO
-    // using ao_reference = typename value_type::ao_reference;
-
-    /// Type of a read-only reference to an AO
-    // using const_ao_reference = typename value_type::const_ao_reference;
-
-    // -------------------------------------------------------------------------
-    // -- Primitive types
-    // -------------------------------------------------------------------------
-
-    /// Type used to model a primitive Gaussian
-    using primitive_type = typename reference::primitive_type;
-
-    /// Type used to model a read-/write-able reference to a primitive
-    using primitive_reference = typename reference::primitive_reference;
-
-    /// Type used to model a read-only reference to a primitive
-    using const_primitive_reference =
-      typename reference::const_primitive_reference;
+    /// Traits class holding all of the types related to the AtomicBasisSet
+    using abs_traits = AtomicBasisSetTraits<reference>;
 
     // -------------------------------------------------------------------------
     // -- Ctors, assignment, and dtor
@@ -207,7 +164,7 @@ public:
      *          part of the next center.
      *
      */
-    range_type shell_range(size_type center) const;
+    typename abs_traits::range_type shell_range(size_type center) const;
 
     // -------------------------------------------------------------------------
     // -- Shell getters/setters
@@ -259,7 +216,7 @@ public:
      *  @throw std::out_of_range if @p i is not in the range [0, n_shells()).
      *                           Strong throw guarantee.
      */
-    shell_reference shell(size_type i);
+    typename abs_traits::shell_reference shell(size_type i);
 
     /** @brief Returns the @p i-th shell in the basis set.
      *
@@ -276,9 +233,9 @@ public:
      *  @throw std::out_of_range if @p i is not in the range [0, n_shells()).
      *                           Strong throw guarantee.
      */
-    const_shell_reference shell(size_type i) const;
+    typename abs_traits::const_shell_reference shell(size_type i) const;
 
-    range_type primitive_range(size_type shell) const;
+    typename abs_traits::range_type primitive_range(size_type shell) const;
 
     // -------------------------------------------------------------------------
     // -- AO getters/setters
@@ -361,7 +318,7 @@ public:
      *                           range [0, n_unique_primitives()). Strong throw
      *                           guarantee.
      */
-    primitive_reference primitive(size_type i);
+    typename abs_traits::primitive_reference primitive(size_type i);
 
     /** @brief Returns the @p i-th unique primitive in this basis set.
      *
@@ -379,11 +336,13 @@ public:
      *                           range [0, n_unique_primitives()). Strong throw
      *                           guarantee.
      */
-    const_primitive_reference primitive(size_type i) const;
+    typename abs_traits::const_primitive_reference primitive(size_type i) const;
 
     // -------------------------------------------------------------------------
     // -- Utility functions
     // -------------------------------------------------------------------------
+
+    void swap(AOBasisSet& other) noexcept;
 
     /** @brief Makes this AOBasisSet the union of this set and @p rhs.
      *

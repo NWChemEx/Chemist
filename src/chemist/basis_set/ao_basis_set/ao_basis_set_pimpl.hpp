@@ -16,6 +16,7 @@
 
 #pragma once
 #include <chemist/basis_set/ao_basis_set/ao_basis_set.hpp>
+#include <optional>
 
 namespace chemist::detail_ {
 
@@ -26,6 +27,13 @@ private:
     using bs_type = AOBasisSet<AtomicBasisSetType>;
 
 public:
+    /// Unsigned integer type used for indexing/offsets
+    using size_type = typename bs_type::size_type;
+
+    // -------------------------------------------------------------------------
+    // --  AtomicBasisSet Types
+    // -------------------------------------------------------------------------
+
     /// The objects comprising the Basis set
     using value_type = typename bs_type::value_type;
 
@@ -35,14 +43,7 @@ public:
     /// Read-only references to elements in the basis
     using const_reference = typename bs_type::const_reference;
 
-    /// Unsigned integer type used for indexing/offsets
-    using size_type = typename bs_type::size_type;
-
-    using const_shell_reference = typename bs_type::const_shell_reference;
-    using const_primitive_reference =
-      typename bs_type::const_primitive_reference;
-
-    using range_type = typename bs_type::range_type;
+    using abs_traits = AtomicBasisSetTraits<reference>;
 
     /** @brief Returns the number of centers in this basis set.
      *
@@ -50,7 +51,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    size_type size() const noexcept { return m_centers_.size(); }
+    size_type size() const noexcept { return m_shells_per_center_.size(); }
 
     /** @brief Adds a AtomicBasisSet to the current basis set.
      *
@@ -60,41 +61,43 @@ public:
      *                        there is insufficient memory. Strong throw
      *                        guarantee.
      */
-    void add_atomic_basis_set(value_type c) {
-        std::optional<name_type> name;
+    void add_atomic_basis_set(const_reference c) {
+        std::optional<typename abs_traits::name_type> name;
         if(c.has_name()) name.emplace(c.basis_set_name());
 
-        std::optional<atomic_number_type> z;
-        if(c.has_atomic_number()) z.emplace(c.atomic_number());
+        std::optional<typename abs_traits::atomic_number_type> z;
+        // if(c.has_atomic_number()) z.emplace(c.atomic_number());
 
         m_shells_per_center_.push_back(c.size());
-        m_shell_offset_.push_back(n_shells());
+        m_shell_offsets_.push_back(n_shells());
 
         m_names_.push_back(name);
         m_atomic_numbers_.push_back(z);
-        m_x_.push_back(c.center().x());
-        m_y_.push_back(c.center().y());
-        m_z_.push_back(c.center().z());
+
+        // TODO: re-enable
+        // m_x_.push_back(c.center().x());
+        // m_y_.push_back(c.center().y());
+        // m_z_.push_back(c.center().z());
 
         for(const auto& shell_i : c) add_shell(shell_i);
     }
 
     /** @brief Adds shells to the last center*/
-    void add_shell(const_shell_reference s) {
-        m_pure_.push_back(shell_i.pure());
-        m_l_.push_back(shell_i.l());
+    void add_shell(typename abs_traits::const_shell_reference s) {
+        m_pure_.push_back(s.pure());
+        m_l_.push_back(s.l());
 
-        const auto prims_in_shell = shell_i.n_primitives();
+        const auto prims_in_shell = s.n_primitives();
 
         m_primitives_per_shell_.push_back(prims_in_shell);
         m_primitive_offset_.push_back(n_primitives());
-        for(size_type i = 0; i < prims_in_shell; ++shell_i) {
+        for(size_type i = 0; i < prims_in_shell; ++i) {
             add_primitive(s.primitive(i));
         }
     }
 
     /** @brief Adds primitives to the last shell. */
-    void add_primitive(const_primitive_reference p) {
+    void add_primitive(typename abs_traits::const_primitive_reference p) {
         m_coefs_.push_back(p.coefficient());
         m_exps_.push_back(p.exponent());
     }
@@ -103,19 +106,19 @@ public:
 
     size_type n_primitives() const noexcept { return m_coefs_.size(); }
 
-    range_type shell_range(size_type center) const {
-        size_type begin = m_shell_offset_[center];
+    auto shell_range(size_type center) const {
+        size_type begin = m_shell_offsets_[center];
         size_type end   = begin + m_shells_per_center_[center];
-        return range_type{begin, end};
+        return typename abs_traits::range_type{begin, end};
     }
 
-    range_type primitive_range(size_type shell) const {
+    auto primitive_range(size_type shell) const {
         size_type begin = m_primitive_offset_[shell];
         size_type end   = begin + m_primitives_per_shell_[shell];
-        return range_type{begin, end};
+        return typename abs_traits::range_type{begin, end};
     }
 
-    size_type shell_to_center(size_type shell) {
+    size_type shell_to_center(size_type shell) const {
         for(size_type i = 0; i < size(); ++i) {
             auto [shell_begin, shell_end] = shell_range(i);
             if(shell >= shell_begin && shell < shell_end) return i;
@@ -123,11 +126,11 @@ public:
         // Shouldn't get here since parent checked index
     }
 
-    size_type primitive_to_center(size_type primitive) {
+    size_type primitive_to_center(size_type primitive) const {
         return shell_to_center(primitive_to_shell(primitive));
     }
 
-    size_type primitive_to_shell(size_type primitive) {
+    size_type primitive_to_shell(size_type primitive) const {
         for(size_type i = 0; i < n_shells(); ++i) {
             auto [p_begin, p_end] = primitive_range(i);
             if(primitive >= p_begin && primitive < p_end) return i;
@@ -147,14 +150,14 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    reference at(size_type i) {
+    auto at(size_type i) {
         auto [shell_begin, shell_end] = shell_range(i);
         auto [p_begin, p_end]         = primitive_range(shell_begin);
 
         return reference(m_shells_per_center_[i], m_pure_[shell_begin],
                          m_l_[shell_begin],
                          m_primitives_per_shell_[shell_begin],
-                         m_coefs_[p_begin], m_exps_[p_begin], center(i););
+                         m_coefs_[p_begin], m_exps_[p_begin], center(i));
     }
 
     /** @brief Returns the @p i-th center in the basis set.
@@ -169,99 +172,95 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    const_reference at(size_type i) const {
+    auto at(size_type i) const {
         auto [shell_begin, shell_end] = shell_range(i);
         auto [p_begin, p_end]         = primitive_range(shell_begin);
 
         return const_reference(m_shells_per_center_[i], m_pure_[shell_begin],
                                m_l_[shell_begin],
                                m_primitives_per_shell_[shell_begin],
-                               m_coefs_[p_begin], m_exps_[p_begin], center(i););
-    }
-
-    reference at(size_type i) {
-        auto [shell_begin, shell_end] = shell_range(i);
-        auto [p_begin, p_end]         = primitive_range(shell_begin);
-
-        return const_reference(m_shells_per_center_[i], m_pure_[shell_begin],
-                               m_l_[shell_begin],
-                               m_primitives_per_shell_[shell_begin],
-                               m_coefs_[p_begin], m_exps_[p_begin], center(i););
+                               m_coefs_[p_begin], m_exps_[p_begin], center(i));
     }
 
     auto shell(size_type i) {
-        using shell_reference = typename bs_type::shell_reference;
+        using shell_reference = typename abs_traits::shell_reference;
         auto center_i         = center(shell_to_center(i));
         return shell_reference(m_pure_[i], m_l_[i], cg(i));
     }
 
     auto shell(size_type i) const {
-        using const_shell_reference = typename bs_type::const_shell_reference;
-        auto center_i               = center(shell_to_center(i));
+        using const_shell_reference =
+          typename abs_traits::const_shell_reference;
+        auto center_i = center(shell_to_center(i));
         return const_shell_reference(m_pure_[i], m_l_[i], cg(i));
     }
 
     auto cg(size_type i) {
-        using cg_reference = typename bs_type::contracted_gaussian_reference;
+        using cg_reference = typename abs_traits::contracted_gaussian_reference;
         auto center_i      = center(shell_to_center(i));
         auto p_off         = m_primitive_offset_[i];
-        return cg_reference(m_primitives_per_shell_[i], m_coef_[p_off],
-                            m_exp_[p_off], center_i);
+        return cg_reference(m_primitives_per_shell_[i], m_coefs_[p_off],
+                            m_exps_[p_off], center_i);
     }
 
     auto cg(size_type i) const {
-        using cg_reference = typename bs_type::const_cg_reference;
+        using cg_reference = typename abs_traits::const_cg_reference;
         auto center_i      = center(shell_to_center(i));
         auto p_off         = m_primitive_offset_[i];
-        return cg_reference(m_primitives_per_shell_[i], m_coef_[p_off],
-                            m_exp_[p_off], center_i);
+        return cg_reference(m_primitives_per_shell_[i], m_coefs_[p_off],
+                            m_exps_[p_off], center_i);
     }
 
     auto primitive(size_type i) {
-        using primitive_reference = typename bs_type::primitive_reference;
+        using primitive_reference = typename abs_traits::primitive_reference;
         auto center_i             = center(primitive_to_center(i));
         return primitive_reference(m_coefs_[i], m_exps_[i], center_i);
     }
 
     auto primitive(size_type i) const {
         using const_primitive_reference =
-          typename bs_type::const_primitive_reference;
-        uto center_i = center(primitive_to_center(i));
+          typename abs_traits::const_primitive_reference;
+        auto center_i = center(primitive_to_center(i));
         return const_primitive_reference(m_coefs_[i], m_exps_[i], center_i);
     }
 
     auto center(size_type i) {
-        using center_reference = typename bs_type::center_reference;
+        using center_reference = typename abs_traits::center_reference;
         return center_reference(m_x_[i], m_y_[i], m_z_[i]);
     }
 
     auto center(size_type i) const {
-        using const_center_reference = typename bs_type::const_center_reference;
+        using const_center_reference =
+          typename abs_traits::const_center_reference;
         return const_center_reference(m_x_[i], m_y_[i], m_z_[i]);
     }
 
 private:
+    using optional_name = std::optional<typename abs_traits::name_type>;
+
+    using optional_z = std::optional<typename abs_traits::atomic_number_type>;
+
     // -- Unpacked AtomicBasisSet State
 
     std::vector<size_type> m_shells_per_center_;
 
     std::vector<size_type> m_shell_offsets_;
 
-    std::vector<std::optional<name_type>> m_names_;
+    std::vector<optional_name> m_names_;
 
-    std::vector<std::optional<atomic_number_type>> m_atomic_numbers_;
+    std::vector<optional_z> m_atomic_numbers_;
 
-    std::vector<coord_type> m_x_;
+    std::vector<typename abs_traits::coord_type> m_x_;
 
-    std::vector<coord_type> m_y_;
+    std::vector<typename abs_traits::coord_type> m_y_;
 
-    std::vector<coord_type> m_z_;
+    std::vector<typename abs_traits::coord_type> m_z_;
 
     // -- Unpacked Shell state
 
-    std::vector<pure_type> m_pure_;
+    std::vector<typename abs_traits::pure_type> m_pure_;
 
-    std::vector<angular_momentum_type> m_l_;
+    std::vector<typename abs_traits::angular_momentum_type> m_l_;
 
     std::vector<size_type> m_primitives_per_shell_;
 
@@ -269,9 +268,9 @@ private:
 
     //-- Unpacked primitive state
 
-    std::vector<coefficient_type> m_coefs_;
+    std::vector<typename abs_traits::coefficient_type> m_coefs_;
 
-    std::vector<exponent_type> m_exps_;
+    std::vector<typename abs_traits::exponent_type> m_exps_;
 }; // class AOBasisSetPIMPL
 
 } // namespace chemist::detail_

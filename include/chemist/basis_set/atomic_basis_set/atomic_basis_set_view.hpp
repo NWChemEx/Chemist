@@ -50,13 +50,15 @@ private:
 
 public:
     /// Type of the PIMPL
-    using pimpl_type = detail_::AtomicBasisSetViewPIMPL<ShellType>;
+    using pimpl_type = detail_::AtomicBasisSetViewPIMPL<AtomicBasisSetType>;
 
     /// Type of a pointer to a PIMPL
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
 
     /// Type this is a view of
     using atomic_basis_set_type = typename traits_type::type;
+
+    using atomic_basis_set_reference = apply_const_ref<atomic_basis_set_type>;
 
     /// String-like type used to store the basis set name
     using name_type = typename atomic_basis_set_type::name_type;
@@ -97,10 +99,6 @@ public:
     /// Type used to return index ranges
     using range_type = typename atomic_basis_set_type::range_type;
 
-    // -------------------------------------------------------------------------
-    // -- Shell types
-    // -------------------------------------------------------------------------
-
     /// Type of the Shells on this AtomicBasisSet
     using value_type = typename atomic_basis_set_type::value_type;
 
@@ -110,93 +108,7 @@ public:
     /// Type of a read-only reference to a AtomicBasisSet
     using const_reference = ShellView<const value_type>;
 
-    /// Type used to specify angular momentum
-    using angular_momentum_type = typename reference::angular_momentum_type;
-
-    /// Type of a possibly mutable reference to the angular momentum
-    using angular_momentum_reference =
-      typename reference::angular_momentum_reference;
-
-    /// Type of a read-only reference to the angular momentum
-    using const_angular_momentum_reference =
-      typename reference::const_angular_momentum_reference;
-
-    /// Type of a pointer to a possibly mutable angular momentum
-    using angular_momentum_pointer = ptr_type<angular_momentum_type>;
-
-    /// Type used to specify whether a Shell is pure or not
-    using pure_type = typename reference::pure_type;
-
-    /// Type of a possibly mutable reference to the purity of the shell
-    using pure_reference = typename reference::pure_reference;
-
-    /// Type of a read-only reference to the purity of the shell
-    using const_pure_reference = typename reference::const_pure_reference;
-
-    /// Type of a pointer to a possibly mutable purity
-    using pure_pointer = ptr_type<pure_type>;
-
-    // -------------------------------------------------------------------------
-    // -- AO types
-    // -------------------------------------------------------------------------
-
-    /// The type of the AOs comprising a shell
-    // using ao_type = typename value_type::value_type;
-
-    /// A read-/write-able reference to an AO
-    // using ao_reference = typename value_type::reference;
-
-    /// A read-only reference to an AO
-    //  using const_ao_reference = typename value_type::const_reference;
-
-    // -------------------------------------------------------------------------
-    // -- Contracted Gaussian Function types
-    // -------------------------------------------------------------------------
-
-    /// Type of a reference to a contracted Gaussian function
-    using contracted_gaussian_reference =
-      typename reference::contracted_gaussian_reference;
-
-    // -------------------------------------------------------------------------
-    // -- Primitive types
-    // -------------------------------------------------------------------------
-
-    /// Type of a primitive
-    using primitive_type = typename reference::primitive_type;
-
-    /// Type of a mutable reference to a primitive
-    using primitive_reference = typename reference::primitive_reference;
-
-    /// Type of a read-only reference to a primitive
-    using const_primitive_reference =
-      typename reference::const_primitive_reference;
-
-    /// Rank-1 tensor-like object holding the center
-    using center_type = typename reference::center_type;
-
-    /// Floating-point type used for specifying the center's coordinates
-    using coord_type = typename reference::coord_type;
-
-    /// Type of a reference to a center's coordinates
-    using center_reference = typename reference::center_reference;
-
-    /// Floating-point type used for expansion coefficients of the primitive
-    using coefficient_type = typename reference::coefficient_type;
-
-    /// Type of a reference to a coefficient
-    using coefficient_reference = apply_const_ref<coefficient_type>;
-
-    /// Type of a pointer to a coefficient
-    using coefficient_pointer = ptr_type<coefficient_type>;
-
-    /// Floating-point type used for primitive exponents
-    using exponent_type = typename reference::exponent_type;
-
-    /// Type of a reference to an exponent
-    using exponent_reference = apply_const_ref<exponent_type>;
-
-    /// Type of a pointer to an exponent
-    using exponent_pointer = ptr_type<exponent_type>;
+    using shell_traits = ShellTraits<reference>;
 
     // -------------------------------------------------------------------------
     // -- Ctors, assignment, and dtor
@@ -302,12 +214,14 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    AtomicBasisSetView(name_reference name, atomic_number_reference atomic_n,
-                       size_type nshells, pure_reference pure_per_shell,
-                       angular_momentum_reference l_per_shell,
-                       const_size_reference prims_per_shell,
-                       coefficient_reference cs, exponent_reference exp,
-                       center_reference center);
+    AtomicBasisSetView(
+      name_reference name, atomic_number_reference atomic_n, size_type nshells,
+      typename shell_traits::pure_reference pure_per_shell,
+      typename shell_traits::angular_momentum_reference l_per_shell,
+      const_size_reference prims_per_shell,
+      typename shell_traits::coefficient_reference cs,
+      typename shell_traits::exponent_reference exp,
+      typename shell_traits::center_reference center);
 
     /** @brief Creates a new view of an AtomicBasisSet.
      *
@@ -336,11 +250,15 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    AtomicBasisSetView(size_type nshells, pure_reference pure_per_shell,
-                       angular_momentum_reference l_per_shell,
-                       const_size_reference prims_per_shell,
-                       coefficient_reference cs, exponent_reference exp,
-                       center_reference center);
+    AtomicBasisSetView(
+      size_type nshells, typename shell_traits::pure_reference pure_per_shell,
+      typename shell_traits::angular_momentum_reference l_per_shell,
+      const_size_reference prims_per_shell,
+      typename shell_traits::coefficient_reference cs,
+      typename shell_traits::exponent_reference exp,
+      typename shell_traits::center_reference center);
+
+    AtomicBasisSetView(atomic_basis_set_reference bs);
 
     /// Defaulted no throw dtor
     ~AtomicBasisSetView() noexcept;
@@ -565,7 +483,7 @@ public:
      *                        guarantee.
      *
      */
-    primitive_reference primitive(size_type i);
+    typename shell_traits::primitive_reference primitive(size_type i);
 
     /** @brief Returns the @p i-th unique primitive on the center.
      *
@@ -586,7 +504,8 @@ public:
      *                        guarantee.
      *
      */
-    const_primitive_reference primitive(size_type i) const;
+    typename shell_traits::const_primitive_reference primitive(
+      size_type i) const;
 
     // -------------------------------------------------------------------------
     // -- Utility methods

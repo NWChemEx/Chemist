@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <chemist/basis_set/contracted_gaussian/contracted_gaussian_traits.hpp>
 #include <chemist/basis_set/contracted_gaussian/contracted_gaussian_view.hpp>
 #include <chemist/enums.hpp>
 
@@ -62,17 +63,6 @@ public:
     /// Type of a pointer to this class's PIMPL
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
 
-    /// The type of the contracted Gaussian function *this uses
-    using contracted_gaussian_type = CGType;
-
-    /// Type of a read/write reference to the contracted Gaussian function
-    using contracted_gaussian_reference =
-      ContractedGaussianView<contracted_gaussian_type>;
-
-    /// Type of a read-only reference to the contracted Gaussian function
-    using const_cg_reference =
-      ContractedGaussianView<const contracted_gaussian_type>;
-
     /// Unsigned integral type used for indexing and offsets
     using size_type = std::size_t;
 
@@ -95,31 +85,21 @@ public:
     using const_pure_reference = const pure_type&;
 
     // -------------------------------------------------------------------------
-    // -- Primitive types
+    // -- Sub types
     // -------------------------------------------------------------------------
 
-    /// Type of a primitive
-    using primitive_type = typename contracted_gaussian_type::value_type;
+    /// The type of the contracted Gaussian function *this uses
+    using contracted_gaussian_type = CGType;
 
-    /// Type of a reference to a primitive
-    using primitive_reference = typename contracted_gaussian_type::reference;
+    /// Type of a read/write reference to the contracted Gaussian function
+    using contracted_gaussian_reference =
+      ContractedGaussianView<contracted_gaussian_type>;
 
-    /// Type of a const reference to a primitive
-    using const_primitive_reference =
-      typename contracted_gaussian_type::const_reference;
+    /// Type of a read-only reference to the contracted Gaussian function
+    using const_cg_reference =
+      ContractedGaussianView<const contracted_gaussian_type>;
 
-    /// Rank 1 tensor-like type used for the center
-    using center_type = typename contracted_gaussian_type::center_type;
-
-    /// Floating-point type used for the center's coordinates
-    using coord_type = typename contracted_gaussian_type::coord_type;
-
-    /// Floating-point type used for coefficients
-    using coefficient_type =
-      typename contracted_gaussian_type::coefficient_type;
-
-    /// Floating-point type used for exponents
-    using exponent_type = typename contracted_gaussian_type::exponent_type;
+    using cg_traits = ContractedGaussianTraits<contracted_gaussian_reference>;
 
     // -------------------------------------------------------------------------
     // -- Ctors/assignment/dtor
@@ -214,8 +194,10 @@ public:
      *                        PIMPL. Strong throw guarantee.
      */
     Shell(pure_type pure, angular_momentum_type l,
-          std::vector<coefficient_type> coefs, std::vector<exponent_type> exps,
-          coord_type x, coord_type y, coord_type z);
+          typename cg_traits::coefficient_vector coefs,
+          typename cg_traits::exponent_vector exps,
+          typename cg_traits::coord_type x, typename cg_traits::coord_type y,
+          typename cg_traits::coord_type z);
 
     /** @brief Creates a new Shell with the provided state.
      *
@@ -234,8 +216,9 @@ public:
      *                        PIMPL. Strong throw guarantee.
      */
     Shell(pure_type pure, angular_momentum_type l,
-          std::vector<coefficient_type> coefs, std::vector<exponent_type> exps,
-          center_type center);
+          typename cg_traits::coefficient_vector coefs,
+          typename cg_traits::exponent_vector exps,
+          typename cg_traits::center_type center);
 
     /** @brief Creates a new Shell with the provided state.
      *
@@ -372,7 +355,7 @@ public:
      *
      *  Complexity: Constant.
      */
-    primitive_reference primitive(size_type i);
+    typename cg_traits::primitive_reference primitive(size_type i);
 
     /** @brief Returns the @p i-th unique primitive in this shell.
      *
@@ -386,7 +369,7 @@ public:
      *
      *  Complexity: Constant.
      */
-    const_primitive_reference primitive(size_type i) const;
+    typename cg_traits::const_primitive_reference primitive(size_type i) const;
 
     /** @brief The number of AOs in *this.
      *

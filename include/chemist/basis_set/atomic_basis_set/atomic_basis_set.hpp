@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <chemist/basis_set/shell/shell_traits.hpp>
 #include <chemist/basis_set/shell/shell_view.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
@@ -78,75 +79,8 @@ public:
     /// Type of a read-only reference to a AtomicBasisSet
     using const_reference = ShellView<const value_type>;
 
-    /// Type used to specify angular momentum
-    using angular_momentum_type = typename value_type::angular_momentum_type;
-
-    using angular_momentum_reference =
-      typename value_type::angular_momentum_reference;
-
-    using const_angular_momentum_reference =
-      typename value_type::const_angular_momentum_reference;
-
-    /// Type used to specify whether a Shell is pure or not
-    using pure_type = typename value_type::pure_type;
-
-    using pure_reference = typename reference::pure_reference;
-
-    using const_pure_reference = typename reference::const_pure_reference;
-
-    // -------------------------------------------------------------------------
-    // -- AO types
-    // -------------------------------------------------------------------------
-
-    /// The type of the AOs comprising a shell
-    // using ao_type = typename value_type::value_type;
-
-    /// A read-/write-able reference to an AO
-    // using ao_reference = typename value_type::reference;
-
-    /// A read-only reference to an AO
-    //  using const_ao_reference = typename value_type::const_reference;
-
-    // -------------------------------------------------------------------------
-    // -- Contracted Gaussian Function types
-    // -------------------------------------------------------------------------
-
-    /// Type of a reference to a contracted Gaussian function
-    using contracted_gaussian_reference =
-      typename value_type::contracted_gaussian_reference;
-
-    using const_cg_reference = typename value_type::const_cg_reference;
-
-    /// Type of a vector of coefficients
-    using coefficient_vector =
-      typename contracted_gaussian_reference::coefficient_vector;
-
-    /// Type of a vector of exponents
-    using exponent_vector =
-      typename contracted_gaussian_reference::exponent_vector;
-
-    // -------------------------------------------------------------------------
-    // -- Primitive types
-    // -------------------------------------------------------------------------
-
-    /// Type of a mutable reference to a primitive
-    using primitive_reference = typename value_type::primitive_reference;
-
-    /// Type of a read-only reference to a primitive
-    using const_primitive_reference =
-      typename value_type::const_primitive_reference;
-
-    /// Rank-1 tensor-like object holding the center
-    using center_type = typename primitive_reference::center_type;
-
-    /// Floating-point type used for specifying the center's coordinates
-    using coord_type = typename center_type::coord_type;
-
-    /// Floating-point type used for expansion coefficients of the primitive
-    using coefficient_type = typename primitive_reference::coefficient_type;
-
-    /// Floating-point type used for primitive exponents
-    using exponent_type = typename primitive_reference::exponent_type;
+    /// Traits containing all the types related to a Shell
+    using shell_traits = ShellTraits<reference>;
 
     // -------------------------------------------------------------------------
     // -- Ctors, assignment, and dtor
@@ -226,7 +160,9 @@ public:
      *                        PIMPL. Strong throw guarantee.
      */
     AtomicBasisSet(const_name_reference name, atomic_number_type atomic_n,
-                   coord_type x, coord_type y, coord_type z);
+                   typename shell_traits::coord_type x,
+                   typename shell_traits::coord_type y,
+                   typename shell_traits::coord_type z);
 
     /** @brief Creates a new AtomicBasisSet centered on the provided point.
      *
@@ -242,7 +178,9 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    AtomicBasisSet(coord_type x, coord_type y, coord_type z);
+    AtomicBasisSet(typename shell_traits::coord_type x,
+                   typename shell_traits::coord_type y,
+                   typename shell_traits::coord_type z);
 
     /** @brief Creates a new AtomicBasisSet with the provided name and atomic
      *         number.
@@ -395,8 +333,10 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the new
      *                        Shell. Weak throw guarantee.
      */
-    void add_shell(pure_type pure, angular_momentum_type l,
-                   coefficient_vector cs, exponent_vector es);
+    void add_shell(typename shell_traits::pure_type pure,
+                   typename shell_traits::angular_momentum_type l,
+                   typename shell_traits::coefficient_vector cs,
+                   typename shell_traits::exponent_vector es);
 
     /** @brief Returns the total number of AOs on this center.
      *
@@ -501,7 +441,7 @@ public:
      *                        guarantee.
      *
      */
-    primitive_reference primitive(size_type i);
+    typename shell_traits::primitive_reference primitive(size_type i);
 
     /** @brief Returns the @p i-th unique primitive on the center.
      *
@@ -522,7 +462,14 @@ public:
      *                        guarantee.
      *
      */
-    const_primitive_reference primitive(size_type i) const;
+    typename shell_traits::const_primitive_reference primitive(
+      size_type i) const;
+
+    bool has_center() const noexcept;
+
+    typename shell_traits::center_reference center();
+
+    typename shell_traits::const_center_reference center() const;
 
     // -------------------------------------------------------------------------
     // -- Utility methods

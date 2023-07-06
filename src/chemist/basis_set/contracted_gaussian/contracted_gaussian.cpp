@@ -15,6 +15,7 @@
  */
 
 #include <chemist/basis_set/contracted_gaussian/contracted_gaussian.hpp>
+#include <chemist/basis_set/contracted_gaussian/contracted_gaussian_traits.hpp>
 
 namespace chemist {
 namespace detail_ {
@@ -25,38 +26,33 @@ public:
     /// Type *this is implementing
     using parent_type = ContractedGaussian<PrimitiveType>;
 
-    /// Pull in the types the parent class uses
-    using center_type            = typename parent_type::center_type;
-    using center_reference       = typename parent_type::center_reference;
-    using const_center_reference = typename parent_type::const_center_reference;
-    using coefficient_type       = typename parent_type::coefficient_type;
-    using exponent_type          = typename parent_type::exponent_type;
-    using reference              = typename parent_type::reference;
-    using const_reference        = typename parent_type::const_reference;
-    using size_type              = typename parent_type::size_type;
+    /// Type the parent uses for sizes and indexing
+    using size_type = typename parent_type::size_type;
 
-    /// How we have chosen to store the coefficients
-    using coefficient_vector = std::vector<coefficient_type>;
+    /// Traits class with all the types for a ContractedGaussian
+    using cg_traits = ContractedGaussianTraits<parent_type>;
 
-    /// How we have chosen to store the exponents
-    using exponent_vector = std::vector<exponent_type>;
-
-    ContractedGaussianPIMPL(coefficient_vector cs, exponent_vector exps,
-                            center_type r0) :
+    ContractedGaussianPIMPL(typename cg_traits::coefficient_vector cs,
+                            typename cg_traits::exponent_vector exps,
+                            typename cg_traits::center_type r0) :
       m_center_(std::move(r0)),
       m_coefs_(std::move(cs)),
       m_exp_(std::move(exps)) {}
 
-    center_reference center() noexcept { return m_center_; }
+    typename cg_traits::center_reference center() noexcept { return m_center_; }
 
-    const_center_reference center() const noexcept { return m_center_; }
-
-    reference operator[](size_type i) noexcept {
-        return reference(m_coefs_[i], m_exp_[i], m_center_);
+    typename cg_traits::const_center_reference center() const noexcept {
+        return m_center_;
     }
 
-    const_reference operator[](size_type i) const noexcept {
-        return const_reference(m_coefs_[i], m_exp_[i], m_center_);
+    auto operator[](size_type i) noexcept {
+        return
+          typename parent_type::reference(m_coefs_[i], m_exp_[i], m_center_);
+    }
+
+    auto operator[](size_type i) const noexcept {
+        return typename parent_type::const_reference(m_coefs_[i], m_exp_[i],
+                                                     m_center_);
     }
 
     bool operator==(const ContractedGaussianPIMPL& rhs) const noexcept {
@@ -65,17 +61,17 @@ public:
         return lhs_state == rhs_state;
     }
 
-    size_type size() const noexcept { return m_coefs_.size(); }
+    auto size() const noexcept { return m_coefs_.size(); }
 
 private:
     /// Where the contracted Gaussian is centered
-    center_type m_center_;
+    typename cg_traits::center_type m_center_;
 
     /// The contraction coefficients
-    coefficient_vector m_coefs_;
+    typename cg_traits::coefficient_vector m_coefs_;
 
     /// The exponents
-    exponent_vector m_exp_;
+    typename cg_traits::exponent_vector m_exp_;
 };
 
 } // namespace detail_
@@ -91,12 +87,15 @@ CG::ContractedGaussian() noexcept = default;
 
 template<typename PrimitiveType>
 CG::ContractedGaussian(coefficient_vector coefs, exponent_vector exps,
-                       coord_type x, coord_type y, coord_type z) :
-  ContractedGaussian(std::move(coefs), std::move(exps), center_type(x, y, z)) {}
+                       typename primitive_traits::coord_type x,
+                       typename primitive_traits::coord_type y,
+                       typename primitive_traits::coord_type z) :
+  ContractedGaussian(std::move(coefs), std::move(exps),
+                     typename primitive_traits::center_type(x, y, z)) {}
 
 template<typename PrimitiveType>
 CG::ContractedGaussian(coefficient_vector coefs, exponent_vector exps,
-                       center_type center) :
+                       typename primitive_traits::center_type center) :
   ContractedGaussian(std::make_unique<pimpl_type>(
     std::move(coefs), std::move(exps), std::move(center))) {}
 
@@ -124,13 +123,13 @@ CG::~ContractedGaussian() noexcept = default;
 // -----------------------------------------------------------------------------
 
 template<typename PrimitiveType>
-typename CG::center_reference CG::center() {
+typename CG::primitive_traits::center_reference CG::center() {
     if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>();
     return m_pimpl_->center();
 }
 
 template<typename PrimitiveType>
-typename CG::const_center_reference CG::center() const {
+typename CG::primitive_traits::const_center_reference CG::center() const {
     assert_pimpl_();
     return m_pimpl_->center();
 }

@@ -68,17 +68,8 @@ public:
     /// The type of a read-only reference to a Shell
     using const_shell_reference = const shell_type&;
 
-    /// The type of the contracted Gaussian common to AOs in *this
-    using contracted_gaussian_type =
-      typename shell_type::contracted_gaussian_type;
-
-    /// The type of a mutable reference to a contracted Gaussian
-    using contracted_gaussian_reference =
-      ContractedGaussianView<apply_const<contracted_gaussian_type>>;
-
-    /// The type of a read-only reference to a contracted Gaussian
-    using const_cg_reference =
-      ContractedGaussianView<const contracted_gaussian_type>;
+    /// Unsigned integral type used for indexing and offsets
+    using size_type = typename shell_type::size_type;
 
     /// Type used for storing the angular momentum
     using angular_momentum_type = typename shell_type::angular_momentum_type;
@@ -105,31 +96,20 @@ public:
     /// Type of a read-only reference to the purity
     using const_pure_reference = typename shell_type::const_pure_reference;
 
-    /// Unsigned integral type used for indexing and offsets
-    using size_type = typename shell_type::size_type;
+    /// The type of the contracted Gaussian common to AOs in *this
+    using contracted_gaussian_type =
+      typename shell_type::contracted_gaussian_type;
 
-    /// Type of a possibly mutable reference to a primitive
-    using primitive_reference =
-      typename contracted_gaussian_reference::reference;
+    /// The type of a mutable reference to a contracted Gaussian
+    using contracted_gaussian_reference =
+      ContractedGaussianView<apply_const<contracted_gaussian_type>>;
 
-    /// Type of a read-only reference to a primitive
-    using const_primitive_reference =
-      typename contracted_gaussian_reference::const_reference;
+    /// The type of a read-only reference to a contracted Gaussian
+    using const_cg_reference =
+      ContractedGaussianView<const contracted_gaussian_type>;
 
-    using center_type = typename primitive_reference::center_type;
-
-    using center_reference = typename primitive_reference::center_reference;
-
-    using coord_type = typename primitive_reference::coord_type;
-
-    using coefficient_type = typename primitive_reference::coefficient_type;
-
-    using coefficient_reference =
-      typename primitive_reference::coefficient_reference;
-
-    using exponent_type = typename primitive_reference::exponent_type;
-
-    using exponent_reference = typename primitive_reference::exponent_reference;
+    /// The types associated with a Contracted Gaussian
+    using cg_traits = ContractedGaussianTraits<contracted_gaussian_reference>;
 
     // -------------------------------------------------------------------------
     // -- Ctors, assignment, and dtor
@@ -313,7 +293,7 @@ public:
      *
      *  Complexity: Constant.
      */
-    primitive_reference primitive(size_type i);
+    typename cg_traits::primitive_reference primitive(size_type i);
 
     /** @brief Returns the @p i-th unique primitive in this ShellView.
      *
@@ -327,7 +307,7 @@ public:
      *
      *  Complexity: Constant.
      */
-    const_primitive_reference primitive(size_type i) const;
+    typename cg_traits::const_primitive_reference primitive(size_type i) const;
 
     /** @brief Returns the number of AOs in *this.
      *

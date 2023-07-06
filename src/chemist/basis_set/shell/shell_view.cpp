@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 #include "../detail_/compute_n_aos.hpp"
+#include <chemist/basis_set/shell/shell_traits.hpp>
 #include <chemist/basis_set/shell/shell_view.hpp>
 
 namespace chemist {
@@ -26,34 +27,24 @@ public:
     using parent_type = ShellView<ShellType>;
 
     /// Pull in types from the parent class
-    using contracted_gaussian_reference =
-      typename parent_type::contracted_gaussian_reference;
+    using shell_traits = ShellTraits<parent_type>;
 
-    using angular_momentum_pointer =
-      typename parent_type::angular_momentum_pointer;
-
-    using angular_momentum_reference =
-      typename parent_type::angular_momentum_reference;
-
-    using pure_reference = typename parent_type::pure_reference;
-
-    using pure_pointer = typename parent_type::pure_pointer;
-
-    ShellViewPIMPL(pure_reference pure, angular_momentum_reference l,
-                   contracted_gaussian_reference cg) :
-      m_ppure(&pure), m_pl(&l), m_cg(std::move(cg)) {}
+    ShellViewPIMPL(typename shell_traits::pure_reference pure,
+                   typename shell_traits::angular_momentum_reference l,
+                   typename shell_traits::contracted_gaussian_reference cg) :
+      m_pure(pure), m_l(l), m_cg(std::move(cg)) {}
 
     bool operator==(const ShellViewPIMPL& rhs) const noexcept {
-        auto lstate = std::tie(*m_ppure, *m_pl, m_cg);
-        auto rstate = std::tie(*rhs.m_ppure, *rhs.m_pl, rhs.m_cg);
+        auto lstate = std::tie(m_pure, m_l, m_cg);
+        auto rstate = std::tie(rhs.m_pure, rhs.m_l, rhs.m_cg);
         return lstate == rstate;
     }
 
-    pure_pointer m_ppure;
+    typename shell_traits::pure_reference m_pure;
 
-    angular_momentum_pointer m_pl;
+    typename shell_traits::angular_momentum_reference m_l;
 
-    contracted_gaussian_reference m_cg;
+    typename shell_traits::contracted_gaussian_reference m_cg;
 };
 
 } // namespace detail_
@@ -107,25 +98,25 @@ SHELL_VIEW::~ShellView() noexcept = default;
 template<typename ShellType>
 typename SHELL_VIEW::pure_reference SHELL_VIEW::pure() {
     assert_non_null_();
-    return *m_pimpl_->m_ppure;
+    return m_pimpl_->m_pure;
 }
 
 template<typename ShellType>
 typename SHELL_VIEW::const_pure_reference SHELL_VIEW::pure() const {
     assert_non_null_();
-    return *m_pimpl_->m_ppure;
+    return m_pimpl_->m_pure;
 }
 
 template<typename ShellType>
 typename SHELL_VIEW::angular_momentum_reference SHELL_VIEW::l() {
     assert_non_null_();
-    return *m_pimpl_->m_pl;
+    return m_pimpl_->m_l;
 }
 
 template<typename ShellType>
 typename SHELL_VIEW::const_angular_momentum_reference SHELL_VIEW::l() const {
     assert_non_null_();
-    return *m_pimpl_->m_pl;
+    return m_pimpl_->m_l;
 }
 
 template<typename ShellType>
@@ -149,13 +140,14 @@ typename SHELL_VIEW::size_type SHELL_VIEW::n_primitives() const noexcept {
 }
 
 template<typename ShellType>
-typename SHELL_VIEW::primitive_reference SHELL_VIEW::primitive(size_type i) {
+typename SHELL_VIEW::cg_traits::primitive_reference SHELL_VIEW::primitive(
+  size_type i) {
     if(has_pimpl_()) return m_pimpl_->m_cg.at(i);
     throw std::out_of_range("Index i is not in the range [0, n_primitives()))");
 }
 
 template<typename ShellType>
-typename SHELL_VIEW::const_primitive_reference SHELL_VIEW::primitive(
+typename SHELL_VIEW::cg_traits::const_primitive_reference SHELL_VIEW::primitive(
   size_type i) const {
     if(has_pimpl_()) return m_pimpl_->m_cg.at(i);
     throw std::out_of_range("Index i is not in the range [0, n_primitives()))");
@@ -211,14 +203,6 @@ typename SHELL_VIEW::size_type SHELL_VIEW::size_() const noexcept {
     if(is_null()) return 0;
     return detail_::compute_n_aos(l(), pure());
 }
-
-namespace detail_ {
-template class ShellViewPIMPL<ShellD>;
-template class ShellViewPIMPL<const ShellD>;
-template class ShellViewPIMPL<ShellF>;
-template class ShellViewPIMPL<const ShellF>;
-
-} // namespace detail_
 
 template class ShellView<ShellD>;
 template class ShellView<const ShellD>;
