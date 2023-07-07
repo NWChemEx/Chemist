@@ -116,9 +116,10 @@ public:
     /** @brief Creates a new Primitive with the specified parameters.
      *
      *  This ctor can be used to create a Primitive with the provided
-     *  parameters.
+     *  parameters. In particular this ctor does not require the user to have
+     *  the center residing in a `Point` object already.
      *
-     * @param[in] coef The contraction coefficient of the primitive.
+     * @param[in] coef The weight of the primitive.
      * @param[in] exp The exponent of the primitive
      * @param[in] x The x-coordinate of the primitive's center
      * @param[in] y The y-coordinate of the primitive's center
@@ -127,7 +128,23 @@ public:
      * @throw std::bad_alloc if there is insufficient memory to make the PIMPL.
      *        Strong throw guarantee.
      */
-    Primitive(T coef, T exp, T x, T y, T z);
+    Primitive(coefficient_type coef, exponent_type exp,
+              typename center_type::coord_type x,
+              typename center_type::coord_type y,
+              typename center_type::coord_type z);
+
+    /** @brief Creates a new Primitive with the specified parameters.
+     *
+     *  This ctor creates a new Primitive based around an existing point.
+     *
+     *  @param[in] coef The weight of the primitive.
+     *  @param[in] exp The exponent of the primitive.
+     *  @param[in] r0 The point where the primitive is centered.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the memory for
+     *                        the PIMPL. Strong throw guarantee.
+     */
+    Primitive(coefficient_type coef, exponent_type exp, center_type r0);
 
     /** @brief Makes a new Primitive which is a deep copy of @p rhs.
      *
@@ -321,24 +338,6 @@ public:
      *  @throw none No throw guarantee.
      */
     bool operator==(const Primitive<T>& rhs) const noexcept;
-
-    /** @brief Serialize Primitive instance
-     *
-     * @param ar The archive object
-     */
-    template<typename Archive>
-    void save(Archive& ar) const {
-        ar& coefficient() & exponent() & center();
-    }
-
-    /** @brief Deserialize for Primitive instance
-     *
-     * @param ar The archive object
-     */
-    template<typename Archive>
-    void load(Archive& ar) {
-        ar& coefficient() & exponent() & center();
-    }
 
 private:
     /// Sets state of *this to already created PIMPL

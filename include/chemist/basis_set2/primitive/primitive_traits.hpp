@@ -1,6 +1,6 @@
 #pragma once
 
-namespace chemist {
+namespace chemist::basis_set {
 
 template<typename PrimitiveType>
 struct PrimitiveTraits {
@@ -41,4 +41,4 @@ struct PrimitiveTraits {
     using const_coord_reference = typename center_type::const_coord_reference;
 };
 
-} // namespace chemist
+} // namespace chemist::basis_set

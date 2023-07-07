@@ -15,11 +15,12 @@
  */
 
 #pragma once
-#include <chemist/basis_set/primitive/primitive.hpp>
+#include <chemist/basis_set2/primitive/primitive.hpp>
 #include <chemist/detail_/view/traits.hpp>
 #include <chemist/point/point_view2.hpp>
+#include <optional>
 
-namespace chemist {
+namespace chemist::basis_set {
 
 /** @brief Models a reference to a Gaussian Primitive.
  *
@@ -33,13 +34,12 @@ template<typename PrimitiveType>
 class PrimitiveView {
 private:
     /// Used to work out view types
-    using traits_type = detail_::ViewTraits<PrimitiveType>;
+    using traits_type = chemist::detail_::ViewTraits<PrimitiveType>;
 
     /// Is the type of *this acting like it's const?
     static constexpr bool is_const_v = traits_type::is_const_v;
 
     /// Typedefs so we don't need "typename" and "template" below
-
     template<typename T>
     using apply_const = typename traits_type::template apply_const<T>;
 
@@ -53,8 +53,13 @@ public:
     /// The unqualified type *this is a view of
     using primitive_type = typename traits_type::type;
 
-    /// A read-only view of a primitive
+    /// A type acting like a possibly read-only reference to a primitive
+    using primitive_reference = PrimitiveView<primitive_type>;
+
+    /// A type acting like a read-only reference to a primitive
     using const_primitive_reference = PrimitiveView<const primitive_type>;
+
+    // -- Types associated with where the primitive is centered
 
     /// rank 1 tensor-like type used to hold the center
     using center_type = typename primitive_type::center_type;
@@ -62,12 +67,10 @@ public:
     /// Type of a possibly mutable reference to the center
     using center_reference = PointView2<apply_const<center_type>>;
 
-    using coord_type = typename center_reference::coord_type;
-
-    using coord_reference = typename center_reference::coord_reference;
-
     /// Type of a read-only reference to the center
     using const_center_reference = PointView2<const center_type>;
+
+    // -- Types associated with the Primitive's coefficient
 
     /// Floating-point type used to hold coefficient
     using coefficient_type = typename primitive_type::coefficient_type;
@@ -78,6 +81,15 @@ public:
     /// Type of a read-only reference to the coefficient
     using const_coefficient_reference = const coefficient_type&;
 
+    /// Type of a pointer to a possibly mutable coefficient
+    using coefficient_pointer = ptr_type<coefficient_type>;
+
+    /// Type of a read-only pointer to a coefficient
+    using const_coefficient_pointer =
+      typename primitive_type::const_coefficient_pointer;
+
+    // -- Types associated with the Primitive's exponent
+
     /// Floating-point type used to hold exponent
     using exponent_type = typename primitive_type::exponent_type;
 
@@ -86,6 +98,19 @@ public:
 
     /// Type of a read-only reference to the exponent
     using const_exponent_reference = const exponent_type&;
+
+    /// Type of a pointer to a possibly mutable coefficient
+    using exponent_pointer = ptr_type<exponent_type>;
+
+    /// Type of a read-only pointer to a coefficient
+    using const_exponent_pointer =
+      typename primitive_type::const_exponent_pointer;
+
+    // -------------------------------------------------------------------------
+    // -- Ctors, assignment, and dtor
+    // -------------------------------------------------------------------------
+
+    PrimitiveView() noexcept = default;
 
     /** @brief Creates a PrimitiveView that aliases the provided Primitive
      *
@@ -103,8 +128,9 @@ public:
      *  @throw None No throw guarantee.
      */
     PrimitiveView(coefficient_reference coef, exponent_reference exp,
-                  coord_reference x, coord_reference y,
-                  coord_reference z) noexcept :
+                  typename center_type::coord_reference x,
+                  typename center_type::coord_reference y,
+                  typename center_type::coord_reference z) noexcept :
       PrimitiveView(coef, exp, center_reference(x, y, z)) {}
 
     /** @brief Creates a PrimitiveView that aliases the provided Primitive
@@ -122,7 +148,21 @@ public:
      */
     PrimitiveView(coefficient_reference coef, exponent_reference exp,
                   center_reference center) noexcept :
-      m_center_(center), m_coef_(&coef), m_exp_(&exp) {}
+      m_center_(std::move(center)), m_coef_(&coef), m_exp_(&exp) {}
+
+    /** @brief Creates a view of an existing Primitive object.
+     *
+     *  @note This is NOT the copy constructor!
+     *
+     *  @param[in] prim The Primitive we are aliasing.
+     *
+     *  @throw None No throw guarantee
+     */
+    PrimitiveView(apply_const_ref<typename traits_type::type> prim) noexcept;
+
+    // -------------------------------------------------------------------------
+    // -- Getters and setters
+    // -------------------------------------------------------------------------
 
     /** @brief Returns a possibly mutable view of the center.
      *
@@ -132,9 +172,10 @@ public:
      *
      *  @return A view of the primitive's center.
      *
-     *  @throw None No throw guarantee.
+     *  @throw std::runtime_error if *this is a view of a null primitive. Strong
+     *                            throw guarantee.
      */
-    center_reference center() noexcept { return m_center_; }
+    center_reference center();
 
     /** @brief Returns a read-only view of the center
      *
@@ -143,9 +184,10 @@ public:
      *
      *  @return A read-only view of the point where the primitive is centered.
      *
-     *  @throw None No throw guarantee.
+     *  @throw std::runtime_error if *this is a view of a null primitive.
+     *                            Strong throw guarantee.
      */
-    const_center_reference center() const noexcept { return m_center_; }
+    const_center_reference center() const;
 
     /** @brief Returns the coefficient of the aliased Primitive.
      *
@@ -196,6 +238,8 @@ public:
      */
     const_exponent_reference exponent() const noexcept { return *m_exp_; }
 
+    bool is_null() const noexcept;
+
     /** @brief Allows *this to be implicitly converted to a read-only view.
      *
      *  @return a read-only view of the same state aliased by *this.
@@ -203,7 +247,7 @@ public:
      *  @throw None No throw guarantee
      */
     operator const_primitive_reference() const noexcept {
-        return const_primitive_reference(*m_coef_, *m_exp_, m_center_);
+        return const_primitive_reference(coefficient(), exponent(), center());
     }
 
     /** @brief Determines if *this is value equal to @p rhs.
@@ -268,14 +312,16 @@ public:
     }
 
 private:
+    void assert_non_null_() const;
+
     /// The point in space where *this is centered
-    center_reference m_center_;
+    std::optional<center_reference> m_center_;
 
     /// The scale factor on *this
-    ptr_type<coefficient_type> m_coef_;
+    ptr_type<coefficient_type> m_coef_ = nullptr;
 
     /// The exponent on *ths
-    ptr_type<exponent_type> m_exp_;
+    ptr_type<exponent_type> m_exp_ = nullptr;
 };
 
 // Ensures PrimitiveType can appear on the left side of operator==
@@ -318,4 +364,4 @@ extern template class PrimitiveView<const PrimitiveD>;
 extern template class PrimitiveView<PrimitiveF>;
 extern template class PrimitiveView<const PrimitiveF>;
 
-} // namespace chemist
+} // namespace chemist::basis_set

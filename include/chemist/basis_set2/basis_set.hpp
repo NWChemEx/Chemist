@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include <chemist/basis_set/primitive/primitive.hpp>
-#include <chemist/basis_set/primitive/primitive_view.hpp>
+#include <chemist/basis_set2/primitive/primitive.hpp>
+#include <chemist/basis_set2/primitive/primitive_view.hpp>
 
 namespace chemist::basis_set {} // namespace chemist::basis_set
