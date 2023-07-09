@@ -50,9 +50,29 @@ typename PRIMITIVE_VIEW::const_center_reference PRIMITIVE_VIEW::center() const {
 }
 
 PRIMITIVE_TPARAMS
-void PRIMITIVE_VIEW::assert_non_null_() const {
-    if(!is_null()) return;
-    throw std::runtime_error("This is a view of a null primitive.");
+typename PRIMITIVE_VIEW::coefficient_reference PRIMITIVE_VIEW::coefficient() {
+    assert_non_null_();
+    return *m_coef_;
+}
+
+PRIMITIVE_TPARAMS
+typename PRIMITIVE_VIEW::const_coefficient_reference
+PRIMITIVE_VIEW::coefficient() const {
+    assert_non_null_();
+    return *m_coef_;
+}
+
+PRIMITIVE_TPARAMS
+typename PRIMITIVE_VIEW::exponent_reference PRIMITIVE_VIEW::exponent() {
+    assert_non_null_();
+    return *m_exp_;
+}
+
+PRIMITIVE_TPARAMS
+typename PRIMITIVE_VIEW::const_exponent_reference PRIMITIVE_VIEW::exponent()
+  const {
+    assert_non_null_();
+    return *m_exp_;
 }
 
 // -----------------------------------------------------------------------------
@@ -61,6 +81,36 @@ void PRIMITIVE_VIEW::assert_non_null_() const {
 
 PRIMITIVE_TPARAMS
 bool PRIMITIVE_VIEW::is_null() const noexcept { return !m_center_.has_value(); }
+
+PRIMITIVE_TPARAMS
+bool PRIMITIVE_VIEW::operator==(const PrimitiveView& rhs) const noexcept {
+    if(is_null() != rhs.is_null()) return false;
+    if(is_null()) return true; // Both are null
+    if(m_center_ != rhs.m_center_) return false;
+    if(coefficient() != rhs.coefficient()) return false;
+    if(exponent() != rhs.exponent()) return false;
+    return true;
+}
+
+PRIMITIVE_TPARAMS
+bool PRIMITIVE_VIEW::operator==(const primitive_type& rhs) const noexcept {
+    if(is_null() != rhs.is_null()) return false;
+    if(is_null()) return true; // Both are null
+    if(m_center_ != rhs.center()) return false;
+    if(coefficient() != rhs.coefficient()) return false;
+    if(exponent() != rhs.exponent()) return false;
+    return true;
+}
+
+// -----------------------------------------------------------------------------
+// -- Protected/Private functions
+// -----------------------------------------------------------------------------
+
+PRIMITIVE_TPARAMS
+void PRIMITIVE_VIEW::assert_non_null_() const {
+    if(!is_null()) return;
+    throw std::runtime_error("This is a view of a null primitive.");
+}
 
 #undef PRIMITIVE_VIEW
 #undef PRIMITIVE_TPARAMS

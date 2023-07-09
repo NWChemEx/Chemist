@@ -222,4 +222,159 @@ TEMPLATE_TEST_CASE("PrimitiveView", "", float, double) {
             REQUIRE(pconst_values_move == &const_values_move);
         }
     }
+
+    SECTION("getters/setters") {
+        using re = std::runtime_error;
+
+        SECTION("center()") {
+            REQUIRE_THROWS_AS(defaulted_view.center(), re);
+            REQUIRE_THROWS_AS(const_defaulted_view.center(), re);
+
+            REQUIRE(values_view.center() == r0);
+            REQUIRE(const_values_view.center() == r0);
+        }
+
+        SECTION("center() const") {
+            REQUIRE_THROWS_AS(std::as_const(defaulted_view).center(), re);
+            REQUIRE_THROWS_AS(std::as_const(const_defaulted_view).center(), re);
+
+            REQUIRE(std::as_const(values_view).center() == r0);
+            REQUIRE(std::as_const(const_values_view).center() == r0);
+        }
+
+        SECTION("coefficient()") {
+            REQUIRE_THROWS_AS(defaulted_view.coefficient(), re);
+            REQUIRE_THROWS_AS(const_defaulted_view.coefficient(), re);
+
+            REQUIRE(values_view.coefficient() == 4.0);
+            REQUIRE(const_values_view.coefficient() == 4.0);
+        }
+
+        SECTION("coefficient() const") {
+            REQUIRE_THROWS_AS(std::as_const(defaulted_view).coefficient(), re);
+            REQUIRE_THROWS_AS(std::as_const(const_defaulted_view).coefficient(),
+                              re);
+
+            REQUIRE(std::as_const(values_view).coefficient() == 4.0);
+            REQUIRE(std::as_const(const_values_view).coefficient() == 4.0);
+        }
+
+        SECTION("exponent()") {
+            REQUIRE_THROWS_AS(defaulted_view.exponent(), re);
+            REQUIRE_THROWS_AS(const_defaulted_view.exponent(), re);
+
+            REQUIRE(values_view.exponent() == 5.0);
+            REQUIRE(const_values_view.exponent() == 5.0);
+        }
+
+        SECTION("exponent() const") {
+            REQUIRE_THROWS_AS(std::as_const(defaulted_view).exponent(), re);
+            REQUIRE_THROWS_AS(std::as_const(const_defaulted_view).exponent(),
+                              re);
+
+            REQUIRE(std::as_const(values_view).exponent() == 5.0);
+            REQUIRE(std::as_const(const_values_view).exponent() == 5.0);
+        }
+    }
+
+    SECTION("utility functions") {
+        SECTION("is_null") {
+            REQUIRE(defaulted_view.is_null());
+            REQUIRE_FALSE(values_view.is_null());
+            REQUIRE(const_defaulted_view.is_null());
+            REQUIRE_FALSE(const_values_view.is_null());
+        }
+
+        SECTION("operator==(PrimitiveView)") {
+            // null vs null
+            REQUIRE(defaulted_view == view_type{});
+            REQUIRE(const_defaulted_view == const_view{});
+
+            // null vs non-null
+            REQUIRE_FALSE(defaulted_view == values_view);
+            REQUIRE_FALSE(const_defaulted_view == const_values_view);
+
+            // non-null: same values
+            REQUIRE(values_view == view_type(values));
+            REQUIRE(const_values_view == const_view(values));
+
+            // non-null: different coefficient
+            prim_type diff_coef(6.0, 5.0, r0);
+            REQUIRE_FALSE(values_view == view_type(diff_coef));
+            REQUIRE_FALSE(const_values_view == const_view(diff_coef));
+
+            // non-null: different exponent
+            prim_type diff_exp(4.0, 6.0, r0);
+            REQUIRE_FALSE(values_view == view_type(diff_exp));
+            REQUIRE_FALSE(const_values_view == const_view(diff_exp));
+
+            // non-null: different center
+            prim_type diff_center(4.0, 5.0, center_type{});
+            REQUIRE_FALSE(values_view == view_type(diff_center));
+            REQUIRE_FALSE(const_values_view == const_view(diff_center));
+
+            // Can mix mutable and read-only views symmetrically
+            REQUIRE(values_view == const_values_view);
+            REQUIRE(const_values_view == values_view);
+        }
+
+        SECTION("operator==(Primitive)") {
+            // N.B. We need to check each operation for symmetry too
+
+            // null vs null
+            REQUIRE(defaulted_view == prim_type{});
+            REQUIRE(prim_type{} == defaulted_view);
+            REQUIRE(const_defaulted_view == prim_type{});
+            REQUIRE(prim_type{} == const_defaulted_view);
+
+            // null vs non-null
+            REQUIRE_FALSE(defaulted_view == values);
+            REQUIRE_FALSE(values == defaulted_view);
+            REQUIRE_FALSE(const_defaulted_view == values);
+            REQUIRE_FALSE(values == const_defaulted_view);
+
+            // non-null: same values
+            REQUIRE(values_view == values);
+            REQUIRE(values == values_view);
+            REQUIRE(const_values_view == values);
+            REQUIRE(values == const_values_view);
+
+            // non-null: different coefficient
+            prim_type diff_coef(6.0, 5.0, r0);
+            REQUIRE_FALSE(values_view == diff_coef);
+            REQUIRE_FALSE(diff_coef == values_view);
+            REQUIRE_FALSE(const_values_view == diff_coef);
+            REQUIRE_FALSE(diff_coef == const_values_view);
+
+            // non-null: different exponent
+            prim_type diff_exp(4.0, 6.0, r0);
+            REQUIRE_FALSE(values_view == diff_exp);
+            REQUIRE_FALSE(diff_exp == values_view);
+            REQUIRE_FALSE(const_values_view == diff_exp);
+            REQUIRE_FALSE(diff_exp == const_values_view);
+
+            // non-null: different center
+            prim_type diff_center(4.0, 5.0, center_type{});
+            REQUIRE_FALSE(values_view == diff_center);
+            REQUIRE_FALSE(diff_center == values_view);
+            REQUIRE_FALSE(const_values_view == diff_center);
+            REQUIRE_FALSE(diff_center == const_values_view);
+
+            // Can mix mutable and read-only views symmetrically
+            REQUIRE(values == const_values_view);
+            REQUIRE(const_values_view == values);
+        }
+
+        SECTION("operator!=(PrimitiveView)") {
+            // Operator!= simply negates operator==, suffices to spot check
+            REQUIRE_FALSE(values_view != const_values_view);
+            REQUIRE_FALSE(const_values_view != values_view);
+        }
+
+        SECTION("operator!=(Primitive)") {
+            // Operator!= simply negates operator==, suffices to spot check
+            REQUIRE_FALSE(values != const_values_view);
+            REQUIRE_FALSE(const_values_view != values);
+        }
+    }
 }

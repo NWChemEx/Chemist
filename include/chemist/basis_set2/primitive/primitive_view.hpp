@@ -49,16 +49,28 @@ private:
     template<typename T>
     using ptr_type = typename traits_type::template apply_const_ptr<T>;
 
-    /// Is @p OtherType the same as PrimitiveType<Primitive<T>>?
+    /// Is @p OtherType the same type as PrimitiveType<Primitive<T>>?
     template<typename OtherType>
     static constexpr auto other_is_mutable_view =
       std::is_same_v<OtherType, PrimitiveView<typename traits_type::type>>;
+
+    /// Is @p OtherType the same type as PrimitiveType<const Primitive<T>>?
+    template<typename OtherType>
+    static constexpr auto other_is_const_view =
+      std::is_same_v<OtherType,
+                     PrimitiveView<const typename traits_type::type>>;
 
     /// Disables a function if *this is not read-only and @p OtherType isn't
     /// a mutable view
     template<typename OtherType>
     using enable_if_this_const_other_mutable =
       std::enable_if_t<is_const_v && other_is_mutable_view<OtherType>>;
+
+    /// Disables a function if *this is read-only and @p OtherType is
+    /// a mutable view
+    template<typename OtherType>
+    using enable_if_this_mutable_other_const =
+      std::enable_if_t<!is_const_v && other_is_const_view<OtherType>>;
 
 public:
     /// The unqualified type *this is a view of
@@ -233,9 +245,10 @@ public:
      *  @return The aliased Primitive's coefficient in a (possibly) read/write
      *          format.
      *
-     *  @throw none No throw guarantee.
+     *  @throw std::runtime_error if *this is a view of a null primitive.
+     *                            Strong throw guarantee.
      */
-    coefficient_reference coefficient() noexcept { return *m_coef_; }
+    coefficient_reference coefficient();
 
     /** @brief Returns the coefficient of the aliased Primitive.
      *
@@ -244,11 +257,10 @@ public:
      *
      *  @return The aliased Primitive's coefficient in a read-only format.
      *
-     *  @throw none No throw guarantee.
+     *  @throw std::runtime_error if *this is a view of a null primitive.
+     *                            Strong throw guarantee.
      */
-    const_coefficient_reference coefficient() const noexcept {
-        return *m_coef_;
-    }
+    const_coefficient_reference coefficient() const;
 
     /** @brief Returns the exponent of the aliased Primitive.
      *
@@ -258,9 +270,11 @@ public:
      *
      *  @return The aliased Primitive's exponent in a (possibly) read/write
      *          format.
-     *  @throw none No throw guarantee.
+     *
+     *  @throw std::runtime_error if *this is a view of a null primitive.
+     *                            Strong throw guarantee
      */
-    exponent_reference exponent() noexcept { return *m_exp_; }
+    exponent_reference exponent();
 
     /** @brief Returns the exponent of the aliased Primitive.
      *
@@ -269,10 +283,28 @@ public:
      *
      *  @return The aliased Primitive's exponent in a read-only format.
      *
-     *  @throw none No throw guarantee.
+     *  @throw std::runtime_error if *this is a view of a null primitive.
+     *                            Strong throw guarantee.
      */
-    const_exponent_reference exponent() const noexcept { return *m_exp_; }
+    const_exponent_reference exponent() const;
 
+    // -------------------------------------------------------------------------
+    // -- Utility functions
+    // -------------------------------------------------------------------------
+
+    /** @brief Is *this a view of a null primitive?
+     *
+     *  Primitives may be in a null state. Therefore it is also possible for a
+     *  view of a primitive to be aliasing a null primitive. This is subtly
+     *  different than a null view in that a PrimitiveView of a null primitive
+     *  is still a view of a primitive, whereas a null view (if it were
+     *  possible) would not be associated with a primitive.
+     *
+     *  @return True if *this is view of a null primitive and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     *
+     */
     bool is_null() const noexcept;
 
     /** @brief Determines if *this is value equal to @p rhs.
@@ -291,6 +323,30 @@ public:
      *  @throw None No throw guarantee.
      */
     bool operator==(const PrimitiveView& rhs) const noexcept;
+
+    /** @brief Allows comparing a mutable view to a read-only view.
+     *
+     *  This works the same as the other operator==(const PrimitiveView&)
+     *  method except it allows the rhs to be a view of a read-only primitive.
+     *
+     *  @note The reverse comparison, read-only view to a mutable view works
+     *        already because mutable views are implicitly convertible to
+     *        read-only views.
+     *
+     *  @tparam OtherType Must be PrimitiveView<const Primitive<T>> to not be
+     *                    disabled by SFINAE.
+     *
+     *  @tparam <anonymous> Parameter used for SFINAE.
+     *
+     *  @return True if *this is value equal to @p rhs and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    template<typename OtherType,
+             typename = enable_if_this_mutable_other_const<OtherType>>
+    bool operator==(const OtherType& rhs) const noexcept {
+        return rhs == *this;
+    }
 
     /** @brief Determines if *this is value equal to @p rhs.
      *
@@ -321,6 +377,30 @@ public:
         return !(*this == rhs);
     }
 
+    /** @brief Allows comparing a mutable view to a read-only view.
+     *
+     *  This works the same as the other operator!=(const PrimitiveView&)
+     *  method except it allows the rhs to be a view of a read-only primitive.
+     *
+     *  @note The reverse comparison, read-only view to a mutable view works
+     *        already because mutable views are implicitly convertible to
+     *        read-only views.
+     *
+     *  @tparam OtherType Must be PrimitiveView<const Primitive<T>> to not be
+     *                    disabled by SFINAE.
+     *
+     *  @tparam <anonymous> Parameter used for SFINAE.
+     *
+     *  @return False if *this is value equal to @p rhs and true otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    template<typename OtherType,
+             typename = enable_if_this_mutable_other_const<OtherType>>
+    bool operator!=(const OtherType& rhs) const noexcept {
+        return rhs != *this;
+    }
+
     /** @brief Determines if *this is different from @p rhs.
      *
      *  This method simply defines different as not value equal. See the
@@ -337,6 +417,7 @@ public:
     }
 
 private:
+    /// Throws std::runtime_error if *this is a view of a null primitive
     void assert_non_null_() const;
 
     /// The point in space where *this is centered
@@ -361,27 +442,6 @@ template<typename PrimitiveType>
 bool operator!=(const std::decay_t<PrimitiveType>& lhs,
                 const PrimitiveView<PrimitiveType>& rhs) {
     return rhs != lhs;
-}
-
-// ------------------------------------Implemenations--------------------------
-
-template<typename PrimitiveType>
-bool PrimitiveView<PrimitiveType>::operator==(
-  const PrimitiveView& rhs) const noexcept {
-    if(m_center_ != rhs.m_center_) return false;
-    if(coefficient() != rhs.coefficient()) return false;
-    if(exponent() != rhs.exponent()) return false;
-    return true;
-}
-
-template<typename PrimitiveType>
-bool PrimitiveView<PrimitiveType>::operator==(
-  const primitive_type& rhs) const noexcept {
-    if(rhs.is_null()) return false;
-    if(m_center_ != rhs.center()) return false;
-    if(coefficient() != rhs.coefficient()) return false;
-    if(exponent() != rhs.exponent()) return false;
-    return true;
 }
 
 extern template class PrimitiveView<PrimitiveD>;
