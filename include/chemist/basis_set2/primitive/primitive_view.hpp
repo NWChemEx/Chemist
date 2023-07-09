@@ -49,6 +49,17 @@ private:
     template<typename T>
     using ptr_type = typename traits_type::template apply_const_ptr<T>;
 
+    /// Is @p OtherType the same as PrimitiveType<Primitive<T>>?
+    template<typename OtherType>
+    static constexpr auto other_is_mutable_view =
+      std::is_same_v<OtherType, PrimitiveView<typename traits_type::type>>;
+
+    /// Disables a function if *this is not read-only and @p OtherType isn't
+    /// a mutable view
+    template<typename OtherType>
+    using enable_if_this_const_other_mutable =
+      std::enable_if_t<is_const_v && other_is_mutable_view<OtherType>>;
+
 public:
     /// The unqualified type *this is a view of
     using primitive_type = typename traits_type::type;
@@ -154,11 +165,35 @@ public:
      *
      *  @note This is NOT the copy constructor!
      *
+     *  This method takes a `Primitive<T>` object and creates a view of it.
+     *
      *  @param[in] prim The Primitive we are aliasing.
      *
      *  @throw None No throw guarantee
      */
-    PrimitiveView(apply_const_ref<typename traits_type::type> prim) noexcept;
+    PrimitiveView(apply_const_ref<primitive_type> prim) noexcept;
+
+    /** @brief Allows mutable views to be implicitly converted to read-only
+     *         views.
+     *
+     *  This ctor is only enabled with the type of *this is a read-only view and
+     *  the type of @p other is a mutable view.
+     *
+     *  @tparam OtherType The type of the other view. If OtherType is any type
+     *                    other than PrimitiveView<Primitive<T>> SFINAE will
+     *                    disable this ctor.
+     *
+     *  @tparam <anonymous> Type used for SFINAE.
+     *
+     *  @throw None No throw guarantee
+     */
+
+    template<typename OtherType,
+             typename = enable_if_this_const_other_mutable<OtherType>>
+    PrimitiveView(const OtherType& other) :
+      m_center_(other.center()),
+      m_coef_(&other.coefficient()),
+      m_exp_(&other.exponent()) {}
 
     // -------------------------------------------------------------------------
     // -- Getters and setters
@@ -239,16 +274,6 @@ public:
     const_exponent_reference exponent() const noexcept { return *m_exp_; }
 
     bool is_null() const noexcept;
-
-    /** @brief Allows *this to be implicitly converted to a read-only view.
-     *
-     *  @return a read-only view of the same state aliased by *this.
-     *
-     *  @throw None No throw guarantee
-     */
-    operator const_primitive_reference() const noexcept {
-        return const_primitive_reference(coefficient(), exponent(), center());
-    }
 
     /** @brief Determines if *this is value equal to @p rhs.
      *

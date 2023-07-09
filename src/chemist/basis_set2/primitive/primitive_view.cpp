@@ -28,10 +28,10 @@ namespace chemist::basis_set {
 PRIMITIVE_TPARAMS
 PRIMITIVE_VIEW::PrimitiveView(
   apply_const_ref<typename traits_type::type> prim) noexcept :
-  PrimitiveView(!prim.is_null() ?
-                  const_primitive_reference(prim.coefficient(), prim.exponent(),
-                                            prim.center()) :
-                  const_primitive_reference{}) {}
+  PrimitiveView(
+    !prim.is_null() ?
+      PrimitiveView(prim.coefficient(), prim.exponent(), prim.center()) :
+      PrimitiveView()) {}
 
 // -----------------------------------------------------------------------------
 // -- Getters and setters
