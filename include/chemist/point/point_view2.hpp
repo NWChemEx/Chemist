@@ -60,6 +60,9 @@ public:
     /// Type of a read-only reference to a Point<T> object
     using const_point_reference = const point_type&;
 
+    /// Type of a PointView to a read-only point
+    using const_point_view = PointView2<const point_type>;
+
     /// Forward types from Point<T> class
     ///@{
     using coord_type            = typename point_type::coord_type;
@@ -197,6 +200,16 @@ public:
      *                        PIMPL. Strong throw guarantee.
      */
     point_type as_point() const { return point_type(x(), y(), z()); }
+
+    /** @brief Implicit conversion from a mutable view to a const view.
+     *
+     *  @return A view of a read-only Point object.
+     *
+     *  @throw None No throw guarantee.
+     */
+    operator const_point_view() const {
+        return const_point_view(x(), y(), z());
+    }
 
 private:
     /// The type of pointer used to alias a coordinate
