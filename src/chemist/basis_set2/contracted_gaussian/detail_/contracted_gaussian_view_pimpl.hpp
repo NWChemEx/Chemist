@@ -16,6 +16,7 @@
 #pragma once
 #include <chemist/basis_set2/contracted_gaussian/contracted_gaussian_traits.hpp>
 #include <chemist/basis_set2/contracted_gaussian/contracted_gaussian_view.hpp>
+#include <optional>
 #include <vector>
 
 namespace chemist::basis_set::detail_ {
@@ -37,38 +38,69 @@ public:
     /// Type parent uses for indexing and offsets
     using size_type = typename parent_type::size_type;
 
+    // -------------------------------------------------------------------------
+    // -- Ctors and assignment
+    // -------------------------------------------------------------------------
+
+    /// Null state
+    ContractedGaussianViewPIMPL() = default;
+
+    /// Assumes contiguous state for c0 and e0
     ContractedGaussianViewPIMPL(size_type n_prims,
                                 typename cg_traits::coefficient_reference c0,
                                 typename cg_traits::exponent_reference e0,
                                 typename cg_traits::center_reference center) :
-      m_n_prims(n_prims),
-      m_pcoefs(&c0),
-      m_pexps(&e0),
-      m_center(std::move(center)) {}
+      m_n_prims_(n_prims),
+      m_pcoefs_(&c0),
+      m_pexps_(&e0),
+      m_center_(std::move(center)) {}
 
-    auto size() const noexcept { return m_n_prims; }
+    // -------------------------------------------------------------------------
+    // -- Getters and setters
+    // -------------------------------------------------------------------------
 
-    decltype(auto) coefficient(size_type i) { return m_pcoefs[i]; }
+    // Number of primitives
+    auto size() const noexcept { return m_n_prims_; }
 
-    decltype(auto) coefficient(size_type i) const { return m_pcoefs[i]; }
+    // reference to mutable i-th primitive's coefficient
+    decltype(auto) coefficient(size_type i) { return m_pcoefs_[i]; }
 
-    decltype(auto) exponent(size_type i) { return m_pexps[i]; }
+    // reference to read-only i-th primitive coefficient
+    decltype(auto) coefficient(size_type i) const { return m_pcoefs_[i]; }
 
-    decltype(auto) exponent(size_type i) const { return m_pexps[i]; }
+    // reference to mutable exponent for the i-th primitive
+    decltype(auto) exponent(size_type i) { return m_pexps_[i]; }
 
+    // reference to read-only exponent for the i-th primitive
+    decltype(auto) exponent(size_type i) const { return m_pexps_[i]; }
+
+    // mutable reference to where these primitives are centered
+    typename cg_traits::center_reference center() { return m_center_.value(); }
+
+    // read-only reference to where these primitives are centered
+    typename cg_traits::const_center_reference center() const {
+        return m_center_.value();
+    }
+
+    // mutable reference to i-th primitive
     auto operator[](size_type i) {
         return typename cg_traits::primitive_reference(coefficient(i),
-                                                       exponent(i), m_center);
+                                                       exponent(i), center());
     }
 
+    // read-only reference to the i-th primitive
     auto operator[](size_type i) const {
         return typename cg_traits::const_primitive_reference(
-          coefficient(i), exponent(i), m_center);
+          coefficient(i), exponent(i), center());
     }
+
+    // -------------------------------------------------------------------------
+    // -- Utility
+    // -------------------------------------------------------------------------
 
     bool operator==(const ContractedGaussianViewPIMPL& rhs) const noexcept {
         if(size() != rhs.size()) return false;
-        if(m_center != rhs.m_center) return false;
+        if(m_center_ != rhs.m_center_) return false;
         for(auto i = 0; i < size(); ++i) {
             if(coefficient(i) != rhs.coefficient(i)) return false;
             if(exponent(i) != rhs.exponent(i)) return false;
@@ -76,17 +108,18 @@ public:
         return true;
     }
 
+private:
     /// Number of primitives
-    size_type m_n_prims;
+    size_type m_n_prims_ = 0;
 
     /// Pointer to the first coefficient
-    typename cg_traits::coefficient_pointer m_pcoefs;
+    typename cg_traits::coefficient_pointer m_pcoefs_ = nullptr;
 
     /// Pointer to the first exponent
-    typename cg_traits::exponent_pointer m_pexps;
+    typename cg_traits::exponent_pointer m_pexps_ = nullptr;
 
     /// The center common to all primitives
-    typename cg_traits::center_reference m_center;
+    std::optional<typename cg_traits::center_reference> m_center_;
 };
 
 } // namespace chemist::basis_set::detail_

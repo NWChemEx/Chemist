@@ -24,6 +24,9 @@ namespace chemist::basis_set {
 /// ----------------------------------------------------------------------------
 
 template<typename CGType>
+CG_VIEW::ContractedGaussianView() noexcept = default;
+
+template<typename CGType>
 CG_VIEW::ContractedGaussianView(
   size_type n_prims,
   typename primitive_traits::coefficient_reference coef_begin,
@@ -65,14 +68,14 @@ CG_VIEW::~ContractedGaussianView() noexcept = default;
 template<typename CGType>
 typename CG_VIEW::primitive_traits::center_reference CG_VIEW::center() {
     assert_pimpl_();
-    return m_pimpl_->m_center;
+    return m_pimpl_->center();
 }
 
 template<typename CGType>
 typename CG_VIEW::primitive_traits::const_center_reference CG_VIEW::center()
   const {
     assert_pimpl_();
-    return m_pimpl_->m_center;
+    return m_pimpl_->center();
 }
 
 // -----------------------------------------------------------------------------

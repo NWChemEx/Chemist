@@ -86,7 +86,12 @@ public:
     /// Unsigned integral type used for indexing and offsets
     using size_type = typename base_type::size_type;
 
+private:
+    /// Type of the traits giving *this the Primitive types
     using primitive_traits = PrimitiveTraits<reference>;
+
+public:
+    ContractedGaussianView() noexcept;
 
     /** @brief Creates a ContractedGaussianView that aliases the provided state.
      *

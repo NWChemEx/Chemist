@@ -28,7 +28,8 @@ CG::ContractedGaussian() noexcept = default;
 
 template<typename PrimitiveType>
 CG::ContractedGaussian(const my_type& rhs) :
-  m_pimpl_(std::make_unique<pimpl_type>(*rhs.m_pimpl_)) {}
+  m_pimpl_(rhs.has_pimpl_() ? std::make_unique<pimpl_type>(*rhs.m_pimpl_) :
+                              nullptr) {}
 
 template<typename PrimitiveType>
 CG::ContractedGaussian(my_type&& rhs) noexcept = default;
