@@ -109,20 +109,26 @@ TEMPLATE_TEST_CASE("ContractedGaussianPIMPL", "", float, double) {
     }
 
     SECTION("Getters/setters") {
-        // N.B. Bounds checking is left to the CG class itself
+        // N.B. Bounds checking is left to the CG class itself, so calling
+        //      for coefficients or exponents of cg0 will likely cause segfaults
 
         SECTION("add_primitive") {
             cg0.add_primitive(1.0, 4.0);
             REQUIRE(cg0.size() == 1);
             REQUIRE(cg0.coefficient(0) == 1.0);
             REQUIRE(cg0.exponent(0) == 4.0);
+
+            cg1.add_primitive(4.0, 7.0);
+            REQUIRE(cg1.size() == 4);
+            REQUIRE(cg1.coefficient(3) == 4.0);
+            REQUIRE(cg1.exponent(3) == 7.0);
         }
 
         SECTION("center()") {
             REQUIRE(cg0.center() == center_type{});
             REQUIRE(cg1.center() == r0);
 
-            // Is writable
+            // Is writable?
             cg0.center() = r0;
             REQUIRE(cg0.center() == r0);
         }
@@ -131,5 +137,93 @@ TEMPLATE_TEST_CASE("ContractedGaussianPIMPL", "", float, double) {
             REQUIRE(std::as_const(cg0).center() == center_type{});
             REQUIRE(std::as_const(cg1).center() == r0);
         }
+
+        SECTION("coefficient()") {
+            REQUIRE(cg1.coefficient(0) == 1.0);
+            REQUIRE(cg1.coefficient(1) == 2.0);
+            REQUIRE(cg1.coefficient(2) == 3.0);
+
+            // Is writeable?
+            cg1.coefficient(0) = 4.0;
+            REQUIRE(cg1.coefficient(0) == 4.0);
+        }
+
+        SECTION("coefficient() const") {
+            REQUIRE(std::as_const(cg1).coefficient(0) == 1.0);
+            REQUIRE(std::as_const(cg1).coefficient(1) == 2.0);
+            REQUIRE(std::as_const(cg1).coefficient(2) == 3.0);
+        }
+
+        SECTION("exponent()") {
+            REQUIRE(cg1.exponent(0) == 4.0);
+            REQUIRE(cg1.exponent(1) == 5.0);
+            REQUIRE(cg1.exponent(2) == 6.0);
+
+            // Is writeable?
+            cg1.exponent(0) = 7.0;
+            REQUIRE(cg1.exponent(0) == 7.0);
+        }
+
+        SECTION("exponent() const") {
+            REQUIRE(std::as_const(cg1).exponent(0) == 4.0);
+            REQUIRE(std::as_const(cg1).exponent(1) == 5.0);
+            REQUIRE(std::as_const(cg1).exponent(2) == 6.0);
+        }
+
+        SECTION("operator[]") {
+            REQUIRE(cg1[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(&cg1[0].coefficient() == &cg1.coefficient(0));
+            REQUIRE(&cg1[0].exponent() == &cg1.exponent(0));
+            REQUIRE(cg1[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(&cg1[1].coefficient() == &cg1.coefficient(1));
+            REQUIRE(&cg1[1].exponent() == &cg1.exponent(1));
+            REQUIRE(cg1[2] == prim_type(3.0, 6.0, r0));
+            REQUIRE(&cg1[2].coefficient() == &cg1.coefficient(2));
+            REQUIRE(&cg1[2].exponent() == &cg1.exponent(2));
+
+            // Is writeable?
+            cg1[0] = prim_type(4.0, 7.0, center_type());
+            REQUIRE(cg1.coefficient(0) == 4.0);
+            REQUIRE(cg1.exponent(0) == 7.0);
+            REQUIRE(cg1.center() == center_type{});
+        }
+
+        SECTION("operator[] const") {
+            const auto& const_cg1 = std::as_const(cg1);
+            REQUIRE(const_cg1[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(&const_cg1[0].coefficient() == &const_cg1.coefficient(0));
+            REQUIRE(&const_cg1[0].exponent() == &const_cg1.exponent(0));
+            REQUIRE(const_cg1[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(&const_cg1[1].coefficient() == &const_cg1.coefficient(1));
+            REQUIRE(&const_cg1[1].exponent() == &const_cg1.exponent(1));
+            REQUIRE(const_cg1[2] == prim_type(3.0, 6.0, r0));
+            REQUIRE(&const_cg1[2].coefficient() == &const_cg1.coefficient(2));
+            REQUIRE(&const_cg1[2].exponent() == &const_cg1.exponent(2));
+        }
+
+        SECTION("size") {
+            REQUIRE(cg0.size() == 0);
+            REQUIRE(cg1.size() == 3);
+        }
+    }
+
+    SECTION("operator==") {
+        // Default v default
+        REQUIRE(cg0 == cg_type{});
+
+        // Default v non-default
+        REQUIRE_FALSE(cg0 == cg1);
+
+        // Non-default: same values
+        REQUIRE(cg1 == cg_type(cs, es, r0));
+
+        // Non-default: different coefficients
+        REQUIRE_FALSE(cg1 == cg_type(es, cs, r0));
+
+        // Non-default: different exponents
+        REQUIRE_FALSE(cg1 == cg_type(cs, cs, r0));
+
+        // Non-default: different center
+        REQUIRE_FALSE(cg1 == cg_type(cs, es, center_type{}));
     }
 }

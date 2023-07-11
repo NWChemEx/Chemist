@@ -29,17 +29,25 @@ public:
     /// Type used to store exponents
     using exponent_vector = std::vector<typename cg_traits::exponent_type>;
 
-    // No primitives, centered at origin
+    // -------------------------------------------------------------------------
+    // -- Ctors
+    // -------------------------------------------------------------------------
+
+    /// No primitives, centered at origin
     ContractedGaussianPIMPL() noexcept = default;
 
-    // With provided primitives and center (no check cs.size() == exps.size())
+    /// With provided primitives and center (no check cs.size() == exps.size())
     ContractedGaussianPIMPL(coefficient_vector cs, exponent_vector exps,
                             typename cg_traits::center_type r0) :
       m_center_(std::move(r0)),
       m_coefs_(std::move(cs)),
       m_exp_(std::move(exps)) {}
 
-    // Adds a new primitive (assumed to be centered on `center()`)
+    // -------------------------------------------------------------------------
+    // -- Getters/setters
+    // -------------------------------------------------------------------------
+
+    /// Adds a new primitive (assumed to be centered on `center()`)
     void add_primitive(typename cg_traits::coefficient_type c,
                        typename cg_traits::exponent_type e) {
         m_coefs_.reserve(m_coefs_.size() + 1);
@@ -48,49 +56,62 @@ public:
         m_exp_.push_back(e);
     }
 
+    /// Reference to mutable center
     typename cg_traits::center_reference center() noexcept { return m_center_; }
 
+    /// Reference to read-only center
     typename cg_traits::const_center_reference center() const noexcept {
         return m_center_;
     }
 
+    /// Reference to mutable coefficient
     typename cg_traits::coefficient_reference coefficient(
       size_type i) noexcept {
         return m_coefs_[i];
     }
 
+    /// Reference to read-only coefficient
     typename cg_traits::const_coefficient_reference coefficient(
       size_type i) const noexcept {
         return m_coefs_[i];
     }
 
+    /// Reference to mutable exponent
     typename cg_traits::exponent_reference exponent(size_type i) noexcept {
         return m_exp_[i];
     }
 
+    /// Reference to read-only exponent
     typename cg_traits::const_exponent_reference exponent(
       size_type i) const noexcept {
         return m_exp_[i];
     }
 
+    /// Reference to mutable Primitive
     auto operator[](size_type i) noexcept {
         using prim_ref = typename cg_traits::primitive_reference;
         return prim_ref(coefficient(i), exponent(i), center());
     }
 
+    /// Reference to read-only Primitive
     auto operator[](size_type i) const noexcept {
         using prim_ref = typename cg_traits::const_primitive_reference;
         return prim_ref(coefficient(i), exponent(i), center());
     }
 
+    /// The number of primitives in *this
+    auto size() const noexcept { return m_coefs_.size(); }
+
+    // -------------------------------------------------------------------------
+    // -- Utility
+    // -------------------------------------------------------------------------
+
+    /// Compares values in two CGs for equality
     bool operator==(const ContractedGaussianPIMPL& rhs) const noexcept {
         auto lhs_state = std::tie(m_center_, m_coefs_, m_exp_);
         auto rhs_state = std::tie(rhs.m_center_, rhs.m_coefs_, rhs.m_exp_);
         return lhs_state == rhs_state;
     }
-
-    /// The number of primitives in *this
-    auto size() const noexcept { return m_coefs_.size(); }
 
 private:
     /// Where the contracted Gaussian is centered

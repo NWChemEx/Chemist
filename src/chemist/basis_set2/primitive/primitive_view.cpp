@@ -26,8 +26,7 @@ namespace chemist::basis_set {
 // -----------------------------------------------------------------------------
 
 PRIMITIVE_TPARAMS
-PRIMITIVE_VIEW::PrimitiveView(
-  apply_const_ref<typename traits_type::type> prim) noexcept :
+PRIMITIVE_VIEW::PrimitiveView(apply_const_ref<primitive_type> prim) noexcept :
   PrimitiveView(
     !prim.is_null() ?
       PrimitiveView(prim.coefficient(), prim.exponent(), prim.center()) :
@@ -78,6 +77,13 @@ typename PRIMITIVE_VIEW::const_exponent_reference PRIMITIVE_VIEW::exponent()
 // -----------------------------------------------------------------------------
 // -- Utility functions
 // -----------------------------------------------------------------------------
+
+PRIMITIVE_TPARAMS
+void PRIMITIVE_VIEW::swap(PrimitiveView& other) noexcept {
+    m_center_.swap(other.m_center_);
+    std::swap(m_coef_, other.m_coef_);
+    std::swap(m_exp_, other.m_exp_);
+}
 
 PRIMITIVE_TPARAMS
 bool PRIMITIVE_VIEW::is_null() const noexcept { return !m_center_.has_value(); }
