@@ -36,9 +36,11 @@ CG_VIEW::ContractedGaussianView(
     n_prims, coef_begin, exp_begin, std::move(center))) {}
 
 template<typename CGType>
-CG_VIEW::ContractedGaussianView(contracted_gaussian_type cg) :
-  ContractedGaussianView(cg.size(), cg.at(0).coefficient(), cg.at(0).exponent(),
-                         cg.center()) {}
+CG_VIEW::ContractedGaussianView(apply_const_ref<contracted_gaussian_type> cg) :
+  ContractedGaussianView(
+    !cg.is_null() ? ContractedGaussianView(cg.size(), cg.at(0).coefficient(),
+                                           cg.at(0).exponent(), cg.center()) :
+                    ContractedGaussianView()) {}
 
 template<typename CGType>
 CG_VIEW::ContractedGaussianView(const ContractedGaussianView& other) :
@@ -134,6 +136,13 @@ bool CG_VIEW::has_pimpl_() const noexcept {
 }
 
 template<typename CGType>
+void CG_VIEW::assert_non_null_() const {
+    if(!is_null()) return;
+    throw std::runtime_error(
+      "ContractedGaussianView is a view of a null Contracted Gaussian");
+}
+
+template<typename CGType>
 void CG_VIEW::assert_pimpl_() const {
     if(has_pimpl_()) return;
     throw std::runtime_error("ContractedGaussianView does not have a PIMPL. Did"
@@ -142,7 +151,7 @@ void CG_VIEW::assert_pimpl_() const {
 
 template<typename CGType>
 typename CG_VIEW::size_type CG_VIEW::size_() const noexcept {
-    if(!is_null()) return 0;
+    if(is_null()) return 0;
     return m_pimpl_->size();
 }
 

@@ -476,9 +476,9 @@ PrimitiveView<PrimitiveType>& PrimitiveView<PrimitiveType>::operator=(
   const PrimType2& rhs) {
     assert_non_null_();
     if(rhs.is_null())
-        throw std::runtime_error(
-          "Assigning a null Primitive to a PrimitiveView is currently not "
-          "supported.");
+        throw std::runtime_error("Assigning a null Primitive to a non-null "
+                                 "PrimitiveView is currently not "
+                                 "supported.");
     center().x()  = rhs.center().x();
     center().y()  = rhs.center().y();
     center().z()  = rhs.center().z();

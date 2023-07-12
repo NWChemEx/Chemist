@@ -59,6 +59,30 @@ private:
     template<typename T>
     using ptr_type = typename traits_type::template apply_const_ptr<T>;
 
+    /// Is @p OtherType a mutable view?
+    template<typename OtherType>
+    static constexpr auto other_is_mutable_view =
+      std::is_same_v<OtherType,
+                     ContractedGaussianView<typename traits_type::type>>;
+
+    /// Is @p OtherType a read-only view?
+    template<typename OtherType>
+    static constexpr auto other_is_const_view =
+      std::is_same_v<OtherType,
+                     ContractedGaussianView<const typename traits_type::type>>;
+
+    /// Disables a function if *this is not read-only and @p OtherType isn't
+    /// a mutable view
+    template<typename OtherType>
+    using enable_if_this_const_other_mutable =
+      std::enable_if_t<is_const_v && other_is_mutable_view<OtherType>>;
+
+    /// Disables a function if *this is read-only and @p OtherType is
+    /// a mutable view
+    template<typename OtherType>
+    using enable_if_this_mutable_other_const =
+      std::enable_if_t<!is_const_v && other_is_const_view<OtherType>>;
+
 public:
     /// Type of the PIMPL implementing *this
     using pimpl_type = detail_::ContractedGaussianViewPIMPL<CGType>;
@@ -91,6 +115,17 @@ private:
     using primitive_traits = PrimitiveTraits<reference>;
 
 public:
+    // -------------------------------------------------------------------------
+    // -- Ctors, assignment, and dtor
+    // -------------------------------------------------------------------------
+
+    /** @brief Aliases a null ContractedGaussian.
+     *
+     *  A default view aliases a null ContractedGaussian (a ContractedGaussian
+     *  with no center and no primitives).
+     *
+     *  @throw None No throw guarantee.
+     */
     ContractedGaussianView() noexcept;
 
     /** @brief Creates a ContractedGaussianView that aliases the provided state.
@@ -99,6 +134,9 @@ public:
      *  elsewhere. More specifically it assumes that `(&coef_begin +i)` and
      *  `(&exp_begin + i)` respectively are the coefficient and exponent for
      *  the `i`-th primitive, `i` in the range [0, n_prims).
+     *
+     *  @note This ctor can NOT be used to create a view of a null
+     *        ContractedGaussian. Use the default ctor instead.
      *
      *  @param[in] n_prims The number of primitives being contracted to form
      *                     *this.
@@ -115,7 +153,73 @@ public:
       typename primitive_traits::exponent_reference exp_begin,
       typename primitive_traits::center_reference center);
 
-    ContractedGaussianView(contracted_gaussian_type cg);
+    /** @brief Creates a view of the ContractedGaussian @p cg.
+     *
+     *  This ctor allows existing ContractedGaussian objects to be used
+     *  interchangeably with ContractedGaussianView objects by creating a view
+     *  which aliases the state of the ContractedGaussian object.
+     *
+     *  @note This ctor is NOT explicit to allow the conversion from
+     *        ContractedGaussian to ContractedGaussianView to happen
+     *        automatically. Also note this is NOT the copy ctor.
+     *
+     *  @param[in] cg The contracted Gaussian function *this will alias.
+     *
+     *  @throw std::bad_alloc if there's a problem allocating the PIMPL. Strong
+     *                        throw guarantee.
+     */
+    ContractedGaussianView(apply_const_ref<contracted_gaussian_type> cg);
+
+    /** @brief Sets the already aliased ContractedGaussian's state to a copy
+     *         of @p rhs.
+     *
+     *  This operator will set the state of the ContractedGaussian aliased by
+     *  *this to a copy of @p rhs. In particular, this operator will NOT
+     *  alias the state in @p rhs. To make *this alias the state in @p rhs,
+     *  use the copy assignment operator.
+     *
+     *  @tparam CGType2 The type of the ContractedGaussian whose state is being
+     *                  copied. Should always be non-cv-qualified @p CGType.
+     *  @tparam <anonymous> Used to disable this function when the type of *this
+     *                      is a view of read-only ContractedGaussian.
+     *
+     *  @param[in] rhs The ContractedGaussian whose state is being assigned to
+     *                 *this. @p rhs must be non-null and must contain the same
+     *                 number of primitive Gaussian functions as *this.
+     *
+     *  @return *this after modifying the aliased state.
+     *
+     *  @throw std::runtime_error if *this is a view of a null
+     *             ContractedGaussian, @p rhs is a null ContractedGaussian, or
+     *             if the sizes of *this and @p rhs are different. Strong throw
+     *             guarantee.
+     *
+     */
+    template<typename CGType2 = std::decay_t<CGType>,
+             typename         = std::enable_if<std::is_same_v<CGType2, CGType>>>
+    ContractedGaussianView& operator=(const CGType2& rhs);
+
+    /** @brief Implicit conversion of a mutable view to a read-only view
+     *
+     *  @note This is NOT the copy ctor.
+     *
+     *  This ctor can be used to convert a ContractedGaussianView of a mutable
+     *  contracted Gaussian to a view of a read-only contracted Gaussian.
+     *
+     *  @tparam OtherType The type of the other view. @p OtherType is assumed to
+     *                    be ContractedGaussianView<ContractedGaussian<T>>.
+     *  @tparam <anonymous> Used to disable this function when *this is mutable
+     *                      or when @p OtherType is read-only
+     *
+     *  @param[in] other The view we are implicitly converting to a read-only
+     *                   view.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the PIMPL. Strong
+     *                        throw guarantee.
+     */
+    template<typename OtherType,
+             typename = enable_if_this_const_other_mutable<OtherType>>
+    ContractedGaussianView(const OtherType& other);
 
     /** @brief Makes a copy of *this which aliases the same state.
      *
@@ -285,11 +389,6 @@ public:
      */
     bool operator!=(const contracted_gaussian_type& rhs) const noexcept;
 
-    operator const_cg_reference() const {
-        return const_cg_reference(size_(), at_(0).coefficient(),
-                                  at_(0).exponent(), center());
-    }
-
 private:
     /// Allows the base class to implement the container API
     friend base_type;
@@ -304,6 +403,9 @@ private:
      *  @throw None No throw guarantee.
      */
     ContractedGaussianView(pimpl_pointer pimpl) noexcept;
+
+    /// Raises std::runtime_error if this is a view of a null CG
+    void assert_non_null_() const;
 
     /// Returns true if *this has a PIMPL and false otherwise
     bool has_pimpl_() const noexcept;
@@ -343,3 +445,5 @@ extern template class ContractedGaussianView<ContractedGaussianF>;
 extern template class ContractedGaussianView<const ContractedGaussianF>;
 
 } // namespace chemist::basis_set
+
+#include "contracted_gaussian_view.ipp"
