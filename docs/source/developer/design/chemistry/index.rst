@@ -31,3 +31,4 @@ familiar to quantum chemists (which we put in the physics sublibrary).
    fragmented_molecule
    caps
    fragmented_nuclei
+   ao_basis_set

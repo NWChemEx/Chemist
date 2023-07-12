@@ -113,6 +113,16 @@ TEMPLATE_TEST_CASE("PrimitiveView", "", float, double) {
             REQUIRE(const_values_view.center() == r0);
         }
 
+        SECTION("assign Primitive") {
+            REQUIRE_THROWS_AS(defaulted_view = values, std::runtime_error);
+            REQUIRE_THROWS_AS(values_view = defaulted, std::runtime_error);
+
+            values_view = prim_type(1.0, 2.0, 3.0, 4.0, 5.0);
+            REQUIRE(values_view.coefficient() == 1.0);
+            REQUIRE(values_view.exponent() == 2.0);
+            REQUIRE(values_view.center() == center_type(3.0, 4.0, 5.0));
+        }
+
         SECTION("mutable view to read-only") {
             const_view cp(values_view);
 
@@ -294,6 +304,12 @@ TEMPLATE_TEST_CASE("PrimitiveView", "", float, double) {
     }
 
     SECTION("utility functions") {
+        SECTION("swap") {
+            defaulted_view.swap(values_view);
+            compare_addresses(defaulted_view, values);
+            REQUIRE(values_view.is_null());
+        }
+
         SECTION("is_null") {
             REQUIRE(defaulted_view.is_null());
             REQUIRE_FALSE(values_view.is_null());

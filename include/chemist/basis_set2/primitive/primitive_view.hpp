@@ -185,6 +185,34 @@ public:
      */
     PrimitiveView(apply_const_ref<primitive_type> prim) noexcept;
 
+    /** @brief Allows assigning Primitives to *this.
+     *
+     *  @note This is NOT copy assignment.
+     *
+     *  As long as *this is a view of a mutable Primitive it should be possible
+     *  to assign Primitives objects to the aliased Primitive. This method does
+     *  NOT alias @p rhs, but instead sets the aliased state to a copy of the
+     *  state in @p rhs. If you want to copy @p rhs, use copy assignment
+     *  instead.
+     *
+     *  @tparam PrimType2 The type of the primitive whose state is being copied
+     *                    into *this. PrimType2 must be Primitive<T> for this
+     *                    function to not be disabled. Defaults to Primitive<T>
+     *  @tparam <anonymous> Used to disable this function when the type of
+     *                      *this is not PrimitiveView<Primitive<T>> and
+     *                      PrimType2 is not Primitive<T>.
+     *
+     *  @return *this after copying the state of @p rhs into the state aliased
+     *          by *this.
+     *
+     *  @throw std::runtime_error if *this is a view of a null Primitive or if
+     *                            @p rhs is a null Primitive.
+     */
+    template<
+      typename PrimType2 = std::decay_t<PrimitiveType>,
+      typename = std::enable_if<std::is_same_v<PrimType2, PrimitiveType>>>
+    PrimitiveView& operator=(const PrimType2& rhs);
+
     /** @brief Allows mutable views to be implicitly converted to read-only
      *         views.
      *
@@ -291,6 +319,18 @@ public:
     // -------------------------------------------------------------------------
     // -- Utility functions
     // -------------------------------------------------------------------------
+
+    /** @brief Exchanges the Primitives aliased by *this and @p other.
+     *
+     *  @param[in,out] other The view to swap state with. After this call
+     *                       @p other will alias the Primitive which was
+     *                       previously aliased by *this, and *this will alias
+     *                       the primitive @p other previously aliased.
+     *
+     *  @throw None No throw guarantee.
+     *
+     */
+    void swap(PrimitiveView& other) noexcept;
 
     /** @brief Is *this a view of a null primitive?
      *
@@ -429,6 +469,23 @@ private:
     /// The exponent on *ths
     ptr_type<exponent_type> m_exp_ = nullptr;
 };
+
+template<typename PrimitiveType>
+template<typename PrimType2, typename>
+PrimitiveView<PrimitiveType>& PrimitiveView<PrimitiveType>::operator=(
+  const PrimType2& rhs) {
+    assert_non_null_();
+    if(rhs.is_null())
+        throw std::runtime_error("Assigning a null Primitive to a non-null "
+                                 "PrimitiveView is currently not "
+                                 "supported.");
+    center().x()  = rhs.center().x();
+    center().y()  = rhs.center().y();
+    center().z()  = rhs.center().z();
+    coefficient() = rhs.coefficient();
+    exponent()    = rhs.exponent();
+    return *this;
+}
 
 // Ensures PrimitiveType can appear on the left side of operator==
 template<typename PrimitiveType>

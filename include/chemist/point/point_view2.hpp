@@ -101,6 +101,41 @@ public:
     PointView2(coord_reference x, coord_reference y, coord_reference z) :
       m_pr_{&x, &y, &z} {}
 
+    /** @brief Sets the value of the aliased Point to @p point
+     *
+     *  @note This is NOT the copy assignment operator!
+     *
+     *  This operator does not cause *this to alias @p point, but instead
+     *  modifies the values of the Point aliased by *this. i.e. if before
+     *  calling this method *this has state
+     *  `{px, py, pz}` with `*px = 1.0`, `*py = 2.0`, and `*pz = 3.0` (`px`,
+     *  `py`, and `pz` being pointers to the x, y, and z coordinates
+     *  respectively) then after calling this method, `px`, `py`, and `pz`
+     *  will still point to the same memory locations, but now
+     *  `*px = point.x()`, `*py = point.y()`, and `*pz = point.z()`.
+     *
+     *  If you want to change the Point *this aliases you need to call the
+     *  copy assignment operator, *i.e.* do something like:
+     *
+     *  ```.cpp
+     *  Point r0, r1;
+     *  PointView me(r0);
+     *  r0 = PointView(r1);
+     *  ```
+     *
+     *  @param[in] point The value we want to assign to the aliased Point.
+     *
+     *  @return *this after modifying the aliased Point.
+     *
+     *  @throw None No throw guarantee.
+     */
+    PointView2& operator=(point_reference point) noexcept {
+        (*m_pr_[0]) = point.x();
+        (*m_pr_[1]) = point.y();
+        (*m_pr_[2]) = point.z();
+        return *this;
+    }
+
     /** @brief Retrieve's the PointView's coordinates by offset.
      *
      *  @param[in] q which coordinate (i.e., x, y, or z) to return. @p q must

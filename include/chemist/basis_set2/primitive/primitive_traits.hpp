@@ -30,6 +30,13 @@ struct PrimitiveTraits {
     using const_coefficient_reference =
       typename PrimitiveType::const_coefficient_reference;
 
+    /// Type of a pointer to a mutable coefficient
+    using coefficient_pointer = typename PrimitiveType::coefficient_pointer;
+
+    /// Type of a pointer to a read-only coefficient
+    using const_coefficient_pointer =
+      typename PrimitiveType::const_coefficient_pointer;
+
     /// Floating-point type used to hold the exponent
     using exponent_type = typename PrimitiveType::exponent_type;
 
@@ -39,6 +46,13 @@ struct PrimitiveTraits {
     /// Type of a read-only reference to a parameter
     using const_exponent_reference =
       typename PrimitiveType::const_exponent_reference;
+
+    /// Type of a pointer to a mutable exponent
+    using exponent_pointer = typename PrimitiveType::exponent_pointer;
+
+    /// Type of a pointer to a read-only exponent
+    using const_exponent_pointer =
+      typename PrimitiveType::const_exponent_pointer;
 
     /// Rank 1 tensor-like type used to hold the center
     using center_type = typename PrimitiveType::center_type;
@@ -50,10 +64,13 @@ struct PrimitiveTraits {
     using const_center_reference =
       typename PrimitiveType::const_center_reference;
 
+    /// Floating point type used for storing the center's coordinates
     using coord_type = typename center_type::coord_type;
 
+    /// Type of a reference to a mutable coordinate
     using coord_reference = typename center_type::coord_reference;
 
+    /// Type of a reference to a read-only coordinate
     using const_coord_reference = typename center_type::const_coord_reference;
 };
 
