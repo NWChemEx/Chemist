@@ -50,7 +50,7 @@ public:
     // -------------------------------------------------------------------------
 
     /// No primitives, centered at origin
-    ContractedGaussianPIMPL() noexcept = default;
+    ContractedGaussianPIMPL() = default;
 
     /// With provided primitives and center (no check cs.size() == exps.size())
     ContractedGaussianPIMPL(coefficient_vector cs, exponent_vector exps,

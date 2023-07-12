@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 #include "detail_/contracted_gaussian_view_pimpl.hpp"
+#include <utility>
 
 namespace chemist::basis_set {
 
