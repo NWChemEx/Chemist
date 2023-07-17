@@ -157,6 +157,11 @@ TEST_CASE("FragmentedMolecule") {
         REQUIRE(std::as_const(has_frags).multiplicity(1) == 1);
     }
 
+    SECTION("const_fragmented_nuclei_reference const") {
+        const FragmentedNuclei test(frags);
+        REQUIRE(has_frags.fragmented_nuclei() == test);
+    }
+
     SECTION("at_") {
         // N.B. This is tested through operator[], which relies on at_
 

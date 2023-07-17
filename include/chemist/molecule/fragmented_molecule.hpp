@@ -69,7 +69,7 @@ public:
     using fragmented_nuclei_type = FragmentedNuclei;
 
     /// Type of a read-only reference to the fragmented nuclei
-    using const_fragmented_nuclei_reference = fragmented_nuclei_type::const_reference;
+    using const_fragmented_nuclei_reference = const fragmented_nuclei_type&;
 
     /// Type of the object holding the caps fro a fragment
     using cap_set_type = CapSet;
