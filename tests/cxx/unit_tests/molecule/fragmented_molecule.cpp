@@ -158,8 +158,7 @@ TEST_CASE("FragmentedMolecule") {
     }
 
     SECTION("const_fragmented_nuclei_reference const") {
-        const FragmentedNuclei test(frags);
-        REQUIRE(has_frags.fragmented_nuclei() == test);
+        REQUIRE(has_frags.fragmented_nuclei() == frags);
     }
 
     SECTION("at_") {
