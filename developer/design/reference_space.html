@@ -163,9 +163,9 @@ took the determinant).</p>
 <h2>Overview of Reference Space Component<a class="headerlink" href="#overview-of-reference-space-component" title="Permalink to this heading"></a></h2>
 <div class="figure align-center" id="id1">
 <span id="fig-ref-space"></span><img alt="../../_images/reference_space.png" src="../../_images/reference_space.png" />
-<p class="caption"><span class="caption-number">Fig. 6 </span><span class="caption-text">The fundamental classes comprising Chemist’s reference space component.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+<p class="caption"><span class="caption-number">Fig. 7 </span><span class="caption-text">The fundamental classes comprising Chemist’s reference space component.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
 </div>
-<p><a class="reference internal" href="#fig-ref-space"><span class="std std-numref">Fig. 6</span></a> shows the major pieces of Chemist’s reference space
+<p><a class="reference internal" href="#fig-ref-space"><span class="std std-numref">Fig. 7</span></a> shows the major pieces of Chemist’s reference space
 component. Compared to <a class="reference internal" href="vector_spaces.html#vsd-design"><span class="std std-ref">Vector Space Design</span></a>, the reference space component is
 relatively simple; a fact that stems from realizing that most of the variation
 in modern electronic structure methods comes from how to choose the orbitals,
@@ -230,7 +230,7 @@ consideration.</p>
 </div>
 <div class="section" id="example-reference-spaces">
 <h3>Example Reference Spaces<a class="headerlink" href="#example-reference-spaces" title="Permalink to this heading"></a></h3>
-<p>The remainder of <a class="reference internal" href="#fig-ref-space"><span class="std std-numref">Fig. 6</span></a> shows some template specializations
+<p>The remainder of <a class="reference internal" href="#fig-ref-space"><span class="std std-numref">Fig. 7</span></a> shows some template specializations
 and strong types for those specializations. We have opted for strong types,
 rather than typedefs, primarily to minimize the use of templates in user-facing
 classes (which also has the advantage of cleaner compiler errors). Briefly,
@@ -251,7 +251,7 @@ considered in methods typically labeled as “restricted”.</p></li>
 </dl>
 </li>
 </ul>
-<p>Also denoted in <a class="reference internal" href="#fig-ref-space"><span class="std std-numref">Fig. 6</span></a> is that <code class="docutils literal notranslate"><span class="pre">RDeterminant&lt;T&gt;</span></code> should be
+<p>Also denoted in <a class="reference internal" href="#fig-ref-space"><span class="std std-numref">Fig. 7</span></a> is that <code class="docutils literal notranslate"><span class="pre">RDeterminant&lt;T&gt;</span></code> should be
 implicitly convertible to an object of type <code class="docutils literal notranslate"><span class="pre">RODeterminant&lt;T&gt;</span></code>, which itself
 should be implicitly convertible to an object of type <code class="docutils literal notranslate"><span class="pre">UDeterminant&lt;T&gt;</span></code>.
 The decision to use implicit conversions is to avoid multiple inheritance, but

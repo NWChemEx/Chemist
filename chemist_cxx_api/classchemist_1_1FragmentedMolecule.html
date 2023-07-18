@@ -112,6 +112,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>const_reference</b> 
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1FragmentedMolecule.html#a6aed456736ea30681a13aab3f87c0c4f">fragmented_nuclei_type</a> = <a class="el" href="classchemist_1_1FragmentedNuclei.html">FragmentedNuclei</a></td></tr>
 <tr class="memdesc:a6aed456736ea30681a13aab3f87c0c4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the object storing how the nuclei are fragmented. <br /></td></tr>
 <tr class="separator:a6aed456736ea30681a13aab3f87c0c4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51d267b447958bf65de72ee06b708d8f"><td class="memItemLeft" align="right" valign="top"><a id="a51d267b447958bf65de72ee06b708d8f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1FragmentedMolecule.html#a51d267b447958bf65de72ee06b708d8f">const_fragmented_nuclei_reference</a> = const <a class="el" href="classchemist_1_1FragmentedMolecule.html#a6aed456736ea30681a13aab3f87c0c4f">fragmented_nuclei_type</a> &amp;</td></tr>
+<tr class="memdesc:a51d267b447958bf65de72ee06b708d8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to the fragmented nuclei. <br /></td></tr>
+<tr class="separator:a51d267b447958bf65de72ee06b708d8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3bc7e4405c0e3cb405533afea8a4ded"><td class="memItemLeft" align="right" valign="top"><a id="ac3bc7e4405c0e3cb405533afea8a4ded"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1FragmentedMolecule.html#ac3bc7e4405c0e3cb405533afea8a4ded">cap_set_type</a> = <a class="el" href="classchemist_1_1CapSet.html">CapSet</a></td></tr>
 <tr class="memdesc:ac3bc7e4405c0e3cb405533afea8a4ded"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the object holding the caps fro a fragment. <br /></td></tr>
@@ -168,6 +172,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a72fade19d156fa9b40c7c171b30a8c29"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1FragmentedMolecule.html#acbe8abcea46870ebaf45ca980760782b">const_multiplicity_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1FragmentedMolecule.html#a72fade19d156fa9b40c7c171b30a8c29">multiplicity</a> (<a class="el" href="classchemist_1_1FragmentedMolecule.html#a5767b5f323954be0fa765184424c2a37">size_type</a> i) const</td></tr>
 <tr class="memdesc:a72fade19d156fa9b40c7c171b30a8c29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the multiplicity of fragment <code>i</code>.  <a href="classchemist_1_1FragmentedMolecule.html#a72fade19d156fa9b40c7c171b30a8c29">More...</a><br /></td></tr>
 <tr class="separator:a72fade19d156fa9b40c7c171b30a8c29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac386fd5787b51ec1832ff1294bec649d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1FragmentedMolecule.html#a51d267b447958bf65de72ee06b708d8f">const_fragmented_nuclei_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1FragmentedMolecule.html#ac386fd5787b51ec1832ff1294bec649d">fragmented_nuclei</a> () const</td></tr>
+<tr class="memdesc:ac386fd5787b51ec1832ff1294bec649d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a cosntant reference to its fragments.  <a href="classchemist_1_1FragmentedMolecule.html#ac386fd5787b51ec1832ff1294bec649d">More...</a><br /></td></tr>
+<tr class="separator:ac386fd5787b51ec1832ff1294bec649d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a molecule which has been decomposed into fragments. </p>
@@ -322,6 +329,40 @@ Public Member Functions</h2></td></tr>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if <code>i</code> is not in the range [0, <a class="el" href="types_8hpp.html#a9ee3ebc8fa20e70336ca452fe2a719e2" title="Type used for offsets and indexing.">size()</a>). Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac386fd5787b51ec1832ff1294bec649d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac386fd5787b51ec1832ff1294bec649d">&#9670;&nbsp;</a></span>fragmented_nuclei()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1FragmentedMolecule.html#a51d267b447958bf65de72ee06b708d8f">const_fragmented_nuclei_reference</a> chemist::FragmentedMolecule::fragmented_nuclei </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a cosntant reference to its fragments. </p>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the fragmented nuclei.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>

@@ -104,6 +104,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointView2.html#a11b0bcc39a911f9d39165b284561e065">const_point_reference</a> = const <a class="el" href="classchemist_1_1PointView2.html#a65f525a81f0c0e82f72437119881c45d">point_type</a> &amp;</td></tr>
 <tr class="memdesc:a11b0bcc39a911f9d39165b284561e065"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to a Point&lt;T&gt; object. <br /></td></tr>
 <tr class="separator:a11b0bcc39a911f9d39165b284561e065"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7411bed3c2f50e4373558d42cd935b57"><td class="memItemLeft" align="right" valign="top"><a id="a7411bed3c2f50e4373558d42cd935b57"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointView2.html#a7411bed3c2f50e4373558d42cd935b57">const_point_view</a> = <a class="el" href="classchemist_1_1PointView2.html">PointView2</a>&lt; const <a class="el" href="classchemist_1_1PointView2.html#a65f525a81f0c0e82f72437119881c45d">point_type</a> &gt;</td></tr>
+<tr class="memdesc:a7411bed3c2f50e4373558d42cd935b57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a <a class="el" href="classchemist_1_1PointView.html" title="Implements reference-like semantics with respect to a Point instance.">PointView</a> to a read-only point. <br /></td></tr>
+<tr class="separator:a7411bed3c2f50e4373558d42cd935b57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03e852be5e3cc7b7a61cb2c5eb56207c"><td class="memItemLeft" align="right" valign="top"><a id="a03e852be5e3cc7b7a61cb2c5eb56207c"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointView2.html#a03e852be5e3cc7b7a61cb2c5eb56207c">coord_reference</a> = apply_const_ref&lt; <a class="el" href="classchemist_1_1PointView2.html#ac9d59769069942cc87ab188276453c00">coord_type</a> &gt;</td></tr>
 <tr class="memdesc:a03e852be5e3cc7b7a61cb2c5eb56207c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a coordinate reference returned when *this is non-const. <br /></td></tr>
@@ -126,12 +130,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2ff7d660d4edab525c81c65100391666"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointView2.html#a2ff7d660d4edab525c81c65100391666">PointView2</a> (<a class="el" href="classchemist_1_1PointView2.html#a03e852be5e3cc7b7a61cb2c5eb56207c">coord_reference</a> <a class="el" href="classchemist_1_1PointView2.html#a009aff02895ab4baef5a7edc4685cf5c">x</a>, <a class="el" href="classchemist_1_1PointView2.html#a03e852be5e3cc7b7a61cb2c5eb56207c">coord_reference</a> y, <a class="el" href="classchemist_1_1PointView2.html#a03e852be5e3cc7b7a61cb2c5eb56207c">coord_reference</a> z)</td></tr>
 <tr class="memdesc:a2ff7d660d4edab525c81c65100391666"><td class="mdescLeft">&#160;</td><td class="mdescRight">Value ctor.  <a href="classchemist_1_1PointView2.html#a2ff7d660d4edab525c81c65100391666">More...</a><br /></td></tr>
 <tr class="separator:a2ff7d660d4edab525c81c65100391666"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b047ab481e597ddb454cf2af1847e67"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointView2.html">PointView2</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointView2.html#a9b047ab481e597ddb454cf2af1847e67">operator=</a> (<a class="el" href="classchemist_1_1PointView2.html#ad60f0de8f07aad2ab13af1cb56287ea7">point_reference</a> point) noexcept</td></tr>
+<tr class="memdesc:a9b047ab481e597ddb454cf2af1847e67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value of the aliased <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> to <code>point</code>.  <a href="classchemist_1_1PointView2.html#a9b047ab481e597ddb454cf2af1847e67">More...</a><br /></td></tr>
+<tr class="separator:a9b047ab481e597ddb454cf2af1847e67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c68195ac308780173d5bd0e1050cc97"><td class="memItemLeft" align="right" valign="top"><a id="a4c68195ac308780173d5bd0e1050cc97"></a>
 <a class="el" href="classchemist_1_1PointView2.html#ac9d59769069942cc87ab188276453c00">coord_type</a>&#160;</td><td class="memItemRight" valign="bottom"><b>magnitude</b> () const noexcept</td></tr>
 <tr class="separator:a4c68195ac308780173d5bd0e1050cc97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a282d136c8eddf1bbc7d497473718e9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointView2.html#a65f525a81f0c0e82f72437119881c45d">point_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointView2.html#a2a282d136c8eddf1bbc7d497473718e9">as_point</a> () const</td></tr>
 <tr class="memdesc:a2a282d136c8eddf1bbc7d497473718e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion to a <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> object.  <a href="classchemist_1_1PointView2.html#a2a282d136c8eddf1bbc7d497473718e9">More...</a><br /></td></tr>
 <tr class="separator:a2a282d136c8eddf1bbc7d497473718e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f36ad4feaecaf6b84060a9b581f2cf7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointView2.html#a8f36ad4feaecaf6b84060a9b581f2cf7">operator const_point_view</a> () const</td></tr>
+<tr class="memdesc:a8f36ad4feaecaf6b84060a9b581f2cf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implicit conversion from a mutable view to a const view.  <a href="classchemist_1_1PointView2.html#a8f36ad4feaecaf6b84060a9b581f2cf7">More...</a><br /></td></tr>
+<tr class="separator:a8f36ad4feaecaf6b84060a9b581f2cf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
 <tr class="memitem:a260b454c206442ac8a925e724c8890ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointView2.html#a03e852be5e3cc7b7a61cb2c5eb56207c">coord_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointView2.html#a260b454c206442ac8a925e724c8890ee">coord</a> (size_type q)</td></tr>
 <tr class="memdesc:a260b454c206442ac8a925e724c8890ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve's the <a class="el" href="classchemist_1_1PointView.html" title="Implements reference-like semantics with respect to a Point instance.">PointView</a>'s coordinates by offset.  <a href="classchemist_1_1PointView2.html#a260b454c206442ac8a925e724c8890ee">More...</a><br /></td></tr>
@@ -392,6 +402,42 @@ template&lt;typename PointType &gt; </div>
 
 </div>
 </div>
+<a id="a8f36ad4feaecaf6b84060a9b581f2cf7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f36ad4feaecaf6b84060a9b581f2cf7">&#9670;&nbsp;</a></span>operator const_point_view()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename PointType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1PointView2.html">chemist::PointView2</a>&lt; PointType &gt;::operator <a class="el" href="classchemist_1_1PointView2.html#a7411bed3c2f50e4373558d42cd935b57">const_point_view</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implicit conversion from a mutable view to a const view. </p>
+<dl class="section return"><dt>Returns</dt><dd>A view of a read-only <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> object.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ad7be74462f67385aaf29072da387d3f0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad7be74462f67385aaf29072da387d3f0">&#9670;&nbsp;</a></span>operator!=()</h2>
 
@@ -427,6 +473,55 @@ template&lt;typename PointType &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>False if the coordinates in *this are value equal to those in <code>rhs</code> and true otherwise.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9b047ab481e597ddb454cf2af1847e67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b047ab481e597ddb454cf2af1847e67">&#9670;&nbsp;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename PointType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1PointView2.html">PointView2</a>&amp; <a class="el" href="classchemist_1_1PointView2.html">chemist::PointView2</a>&lt; PointType &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1PointView2.html#ad60f0de8f07aad2ab13af1cb56287ea7">point_reference</a>&#160;</td>
+          <td class="paramname"><em>point</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the value of the aliased <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> to <code>point</code>. </p>
+<dl class="section note"><dt>Note</dt><dd>This is NOT the copy assignment operator!</dd></dl>
+<p>This operator does not cause *this to alias <code>point</code>, but instead modifies the values of the <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> aliased by *this. i.e. if before calling this method *this has state <code>{px, py, pz}</code> with <code>*px = 1.0</code>, <code>*py = 2.0</code>, and <code>*pz = 3.0</code> (<code>px</code>, <code>py</code>, and <code>pz</code> being pointers to the x, y, and z coordinates respectively) then after calling this method, <code>px</code>, <code>py</code>, and <code>pz</code> will still point to the same memory locations, but now <code>*px = point.x()</code>, <code>*py = point.y()</code>, and <code>*pz = point.z()</code>.</p>
+<p>If you want to change the <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> <em>this aliases you need to call the copy assignment operator, *i.e.</em> do something like:</p>
+<div class="fragment"><div class="line">Point r0, r1;</div>
+<div class="line">PointView me(r0);</div>
+<div class="line">r0 = PointView(r1);</div>
+</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">point</td><td>The value we want to assign to the aliased <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>*this after modifying the aliased <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a>.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
