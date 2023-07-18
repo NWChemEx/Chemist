@@ -420,28 +420,6 @@ public:
 
     bool operator==(const Shell& rhs) const noexcept;
 
-    /** @brief Serialize Shell instance
-     *
-     * @param ar The archive object
-     */
-    template<typename Archive>
-    void save(Archive& ar) const {
-        ar& pure() & l() & contracted_gaussian();
-    }
-
-    /** @brief Deserialize for Shell instance
-     *
-     * @param ar The archive object
-     */
-    template<typename Archive>
-    void load(Archive& ar) {
-        pure_type is_pure;
-        angular_momentum_type l;
-        value_type cg;
-        ar& is_pure& l& cg;
-        my_type(is_pure, l, cg);
-    }
-
 private:
     /** @brief Creates a new Shell instance with the provided PIMPLs.
      *
@@ -501,10 +479,10 @@ Shell<CGType>::Shell(pure_type pure, angular_momentum_type l,
                      ExpBeginItr&& ebegin, ExpEndItr&& eend,
                      typename cg_traits::center_type center) :
   Shell(pure, l,
-        contracted_gaussian_type(
-          std::forward<CoefBeginItr>(cbegin), std::forward<CoefEndItr>(cend),
-          std::forward<ExpBeginItr>(ebegin), std::forward<ExpEndItr>(eend),
-          std::move(center))) {}
+        value_type(std::forward<CoefBeginItr>(cbegin),
+                   std::forward<CoefEndItr>(cend),
+                   std::forward<ExpBeginItr>(ebegin),
+                   std::forward<ExpEndItr>(eend), std::move(center))) {}
 
 /** @brief Determines if two Shell instances are different.
  *

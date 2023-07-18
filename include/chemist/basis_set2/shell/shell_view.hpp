@@ -108,7 +108,7 @@ public:
     using const_pure_reference = typename shell_type::const_pure_reference;
 
     /// The type of the contracted Gaussian common to AOs in *this
-    using cg_type = typename shell_type::value_type;
+    using cg_type = value_type;
 
     /// The type of a mutable reference to a contracted Gaussian
     using cg_reference = ContractedGaussianView<apply_const<cg_type>>;
