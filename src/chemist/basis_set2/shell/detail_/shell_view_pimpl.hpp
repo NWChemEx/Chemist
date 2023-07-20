@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#pragma once
 #include <chemist/basis_set2/shell/shell_traits.hpp>
 #include <chemist/basis_set2/shell/shell_view.hpp>
 
@@ -41,13 +42,13 @@ public:
         return lstate == rstate;
     }
 
-    /// The contracted gaussian associated with this shell
+    /// Whether the shell is pure or not
     typename shell_traits::pure_reference m_pure;
 
     /// The total angular momentum of this shell
     typename shell_traits::angular_momentum_reference m_l;
 
-    /// Whether the shell is pure or not
+    /// The contracted gaussian associated with this shell
     typename shell_traits::cg_reference m_cg;
 };
 
