@@ -68,6 +68,9 @@ public:
     /// Type of the object storing how the nuclei are fragmented
     using fragmented_nuclei_type = FragmentedNuclei;
 
+    /// Type of a read-only reference to the fragmented nuclei
+    using const_fragmented_nuclei_reference = const fragmented_nuclei_type&;
+
     /// Type of the object holding the caps fro a fragment
     using cap_set_type = CapSet;
 
@@ -189,6 +192,16 @@ public:
      */
     const_multiplicity_reference multiplicity(size_type i) const {
         return m_multiplicities_.at(i);
+    }
+
+    /** @brief Returns a cosntant reference to its fragments
+     *
+     *  @return A reference to the fragmented nuclei.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const_fragmented_nuclei_reference fragmented_nuclei() const {
+        return m_nuclei_;
     }
 
 private:
