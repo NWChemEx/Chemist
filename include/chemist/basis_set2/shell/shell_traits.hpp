@@ -26,12 +26,12 @@ namespace chemist::basis_set {
  */
 template<typename ShellType>
 struct ShellTraits
-  : public ContractedGaussianTraits<typename ShellType::reference> {
-    using cg_type = typename ShellType::value_type;
+  : public ContractedGaussianTraits<typename ShellType::cg_view> {
+    using cg_type = typename ShellType::cg_type;
 
-    using cg_reference = typename ShellType::reference;
+    using cg_view = typename ShellType::cg_view;
 
-    using const_cg_reference = typename ShellType::const_reference;
+    using const_cg_view = typename ShellType::const_cg_view;
 
     using angular_momentum_type = typename ShellType::angular_momentum_type;
 

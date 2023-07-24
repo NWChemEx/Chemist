@@ -32,7 +32,7 @@ public:
     // With provided purity, angular momentum, and contracted gaussian
     ShellViewPIMPL(typename shell_traits::pure_reference pure,
                    typename shell_traits::angular_momentum_reference l,
-                   typename shell_traits::cg_reference cg) :
+                   typename shell_traits::cg_view cg) :
       m_pure(pure), m_l(l), m_cg(std::move(cg)) {}
 
     /// Compare *this and another shell for equality
@@ -49,7 +49,7 @@ public:
     typename shell_traits::angular_momentum_reference m_l;
 
     /// The contracted gaussian associated with this shell
-    typename shell_traits::cg_reference m_cg;
+    typename shell_traits::cg_view m_cg;
 };
 
 } // namespace chemist::basis_set::detail_

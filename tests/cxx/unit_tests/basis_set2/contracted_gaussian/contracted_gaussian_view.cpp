@@ -135,7 +135,7 @@ TEMPLATE_TEST_CASE("ContractedGaussianView", "", float, double) {
             REQUIRE(pcg1_view == &cg1_view);
         }
 
-        SECTION("Cost from non-const") {
+        SECTION("Const from non-const") {
             const_view const_null(cg0_view);
             REQUIRE(const_null.is_null());
             REQUIRE(const_null.size() == 0);

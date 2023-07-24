@@ -67,13 +67,13 @@ public:
     using pimpl_ptr = std::unique_ptr<pimpl_type>;
 
     /// The type of the contracted Gaussian function *this uses
-    using value_type = CGType;
+    using cg_type = CGType;
 
     /// Type of a read/write reference to the contracted Gaussian function
-    using reference = ContractedGaussianView<value_type>;
+    using cg_view = ContractedGaussianView<cg_type>;
 
     /// Type of a read-only reference to the contracted Gaussian function
-    using const_reference = ContractedGaussianView<const value_type>;
+    using const_cg_view = ContractedGaussianView<const cg_type>;
 
     /// Unsigned integral type used for indexing and offsets
     using size_type = std::size_t;
@@ -229,7 +229,7 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    Shell(pure_type pure, angular_momentum_type l, value_type cg);
+    Shell(pure_type pure, angular_momentum_type l, cg_type cg);
 
     /// Default, no-throw dtor
     ~Shell() noexcept;
@@ -306,7 +306,7 @@ public:
      *  @throw std::bad_alloc if *this is a null shell and allocating the PIMPL
      *                        fails. Strong throw guarantee.
      */
-    reference contracted_gaussian();
+    cg_view contracted_gaussian();
 
     /** @brief Accesses the ContractedGaussian *this is defined in terms of.
      *
@@ -319,7 +319,7 @@ public:
      *  @throw std::runtime_error if *this is a null shell. Strong throw
      *                            guarantee.
      */
-    const_reference contracted_gaussian() const;
+    const_cg_view contracted_gaussian() const;
 
     /** @brief Returns the number of primitives in the contracted Gaussian.
      *
@@ -479,10 +479,10 @@ Shell<CGType>::Shell(pure_type pure, angular_momentum_type l,
                      ExpBeginItr&& ebegin, ExpEndItr&& eend,
                      typename cg_traits::center_type center) :
   Shell(pure, l,
-        value_type(std::forward<CoefBeginItr>(cbegin),
-                   std::forward<CoefEndItr>(cend),
-                   std::forward<ExpBeginItr>(ebegin),
-                   std::forward<ExpEndItr>(eend), std::move(center))) {}
+        cg_type(std::forward<CoefBeginItr>(cbegin),
+                std::forward<CoefEndItr>(cend),
+                std::forward<ExpBeginItr>(ebegin),
+                std::forward<ExpEndItr>(eend), std::move(center))) {}
 
 /** @brief Determines if two Shell instances are different.
  *

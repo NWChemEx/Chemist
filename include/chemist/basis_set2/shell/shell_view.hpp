@@ -70,14 +70,16 @@ public:
     using const_shell_reference = const shell_type&;
 
     /// The type of the contracted Gaussian function *this uses
-    using value_type = typename shell_type::value_type;
+    using cg_type = typename shell_type::cg_type;
 
-    /// Type of a read-only view to a contracted Gaussian
-    using const_reference = typename shell_type::const_reference;
+    /// The type of a mutable reference to a contracted Gaussian
+    using cg_view = ContractedGaussianView<apply_const<cg_type>>;
 
-    /// Type of a potentially mutable view to a contracted Gaussian
-    using reference = std::conditional_t<is_const_v, const_reference,
-                                         typename shell_type::reference>;
+    /// The type of a read-only reference to a contracted Gaussian
+    using const_cg_view = ContractedGaussianView<const cg_type>;
+
+    /// The types associated with a Contracted Gaussian
+    using cg_traits = ContractedGaussianTraits<cg_view>;
 
     /// Unsigned integral type used for indexing and offsets
     using size_type = typename shell_type::size_type;
@@ -106,18 +108,6 @@ public:
 
     /// Type of a read-only reference to the purity
     using const_pure_reference = typename shell_type::const_pure_reference;
-
-    /// The type of the contracted Gaussian common to AOs in *this
-    using cg_type = value_type;
-
-    /// The type of a mutable reference to a contracted Gaussian
-    using cg_reference = ContractedGaussianView<apply_const<cg_type>>;
-
-    /// The type of a read-only reference to a contracted Gaussian
-    using const_cg_reference = ContractedGaussianView<const cg_type>;
-
-    /// The types associated with a Contracted Gaussian
-    using cg_traits = ContractedGaussianTraits<cg_reference>;
 
     // -------------------------------------------------------------------------
     // -- Ctors, assignment, and dtor
@@ -153,8 +143,7 @@ public:
      *  @throw std::bad_alloc if there is a problem allocating the PIMPL.
      *                        Strong throw guarantee.
      */
-    ShellView(pure_reference ao_type, angular_momentum_reference l,
-              cg_reference cg);
+    ShellView(pure_reference ao_type, angular_momentum_reference l, cg_view cg);
 
     /** @brief Creates a new view of the same shell.
      *
@@ -260,7 +249,7 @@ public:
      *  @throw std::runtime_error if *this is a view of a null shell. Strong
      *                            throw guarantee.
      */
-    cg_reference contracted_gaussian();
+    cg_view contracted_gaussian();
 
     /** @brief The segmented contracted Gaussian function.
      *
@@ -272,7 +261,7 @@ public:
      *  @throw std::runtime_error if *this is a view of a null shell. Strong
      *                            throw guarantee.
      */
-    const_cg_reference contracted_gaussian() const;
+    const_cg_view contracted_gaussian() const;
 
     /** @brief Returns the number of primitives in the contracted Gaussian.
      *

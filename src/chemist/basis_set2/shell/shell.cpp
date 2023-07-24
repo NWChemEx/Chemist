@@ -51,7 +51,7 @@ template<typename CGType>
 SHELL& SHELL::operator=(Shell&& rhs) noexcept = default;
 
 template<typename CGType>
-SHELL::Shell(pure_type pure, angular_momentum_type l, value_type cg) :
+SHELL::Shell(pure_type pure, angular_momentum_type l, cg_type cg) :
   m_pimpl_(make_shell_pimpl<CGType>(pure, l, std::move(cg))) {}
 
 template<typename CGType>
@@ -86,13 +86,13 @@ typename SHELL::const_angular_momentum_reference SHELL::l() const {
 }
 
 template<typename CGType>
-typename SHELL::reference SHELL::contracted_gaussian() {
+typename SHELL::cg_view SHELL::contracted_gaussian() {
     if(is_null()) m_pimpl_ = make_shell_pimpl<CGType>();
     return m_pimpl_->m_cg;
 }
 
 template<typename CGType>
-typename SHELL::const_reference SHELL::contracted_gaussian() const {
+typename SHELL::const_cg_view SHELL::contracted_gaussian() const {
     assert_pimpl_();
     return m_pimpl_->m_cg;
 }
