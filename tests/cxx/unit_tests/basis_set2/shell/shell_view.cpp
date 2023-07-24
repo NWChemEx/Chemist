@@ -59,7 +59,7 @@ TEMPLATE_TEST_CASE("ShellView", "", float, double) {
 
     // Inputs for ctors
     pure_type cart{0}, pure{1};
-    l_type l{1};
+    l_type zero{0}, l{1};
     coord_type x{7.0}, y{8.0}, z{9.0};
     center_type r0{x, y, z};
     coeff_vector cs{1.0, 2.0, 3.0};
@@ -120,18 +120,30 @@ TEMPLATE_TEST_CASE("ShellView", "", float, double) {
             compare_cgs(const_with_const_cg.contracted_gaussian(), cg);
         }
         SECTION("Assign Shell") {
-            // view_type null_view;
-            // REQUIRE()
+            view_type null_view;
+            REQUIRE_THROWS_AS(null_view = shell1, std::runtime_error);
+            REQUIRE_THROWS_AS(view1 = shell0, std::runtime_error);
+
+            cg_type cg2(es.begin(), es.end(), cs.begin(), cs.end(), r0);
+            shell_type shell2(pure, zero, cg2);
+
+            auto pshell2_view = &(view1 = shell2);
+            REQUIRE(view1.pure() == pure);
+            REQUIRE(view1.l() == zero);
+            REQUIRE(view1.contracted_gaussian() == cg2);
+            compare_addresses(view1, shell1);
+            REQUIRE(pshell2_view == &view1);
         }
         SECTION("Const from non-const") {
-            // const_view const_copy0(view0);
-            // REQUIRE(const_copy0.size() == 0);
-            // REQUIRE(const_copy0.is_null());
+            const_view const_copy0(view0);
+            REQUIRE(const_copy0.size() == 0);
+            REQUIRE(const_copy0.is_null());
 
-            // const_view const_copy1(view1);
-            // REQUIRE(const_copy1.pure() == cart);
-            // REQUIRE(const_copy1.l() == l);
-            // REQUIRE(const_copy1.contracted_gaussian() == cg);
+            const_view const_copy1(view1);
+            REQUIRE(const_copy1.pure() == cart);
+            REQUIRE(const_copy1.l() == l);
+            REQUIRE(const_copy1.contracted_gaussian() == cg);
+            compare_addresses(const_copy1, shell1);
         }
         SECTION("Copy") {
             view_type view0_copy(view0);
@@ -365,7 +377,6 @@ TEMPLATE_TEST_CASE("ShellView", "", float, double) {
                 REQUIRE_FALSE(const_view1 == const_view{pure, l, cg});
             }
             SECTION("Different angular momentum") {
-                l_type zero{0};
                 REQUIRE_FALSE(view1 == view_type{cart, zero, cg});
                 REQUIRE_FALSE(const_view1 == const_view{cart, zero, cg});
             }
@@ -392,7 +403,6 @@ TEMPLATE_TEST_CASE("ShellView", "", float, double) {
                 REQUIRE_FALSE(shell1 == const_view{pure, l, cg});
             }
             SECTION("Different angular momentum") {
-                l_type zero{0};
                 REQUIRE_FALSE(shell1 == view_type{cart, zero, cg});
                 REQUIRE_FALSE(shell1 == const_view{cart, zero, cg});
             }

@@ -56,14 +56,12 @@ private:
     /// Is @p OtherType a mutable view?
     template<typename OtherType>
     static constexpr auto other_is_mutable_view =
-      std::is_same_v<OtherType,
-                     ContractedGaussianView<typename traits_type::type>>;
+      std::is_same_v<OtherType, ShellView<typename traits_type::type>>;
 
     /// Is @p OtherType a read-only view?
     template<typename OtherType>
     static constexpr auto other_is_const_view =
-      std::is_same_v<OtherType,
-                     ContractedGaussianView<const typename traits_type::type>>;
+      std::is_same_v<OtherType, ShellView<const typename traits_type::type>>;
 
     /// Disables a function if *this is not read-only and @p OtherType isn't
     /// a mutable view
@@ -195,6 +193,28 @@ public:
      */
     ShellView(ShellView&& other) noexcept;
 
+    /** @brief Implicit conversion of a mutable view to a read-only view
+     *
+     *  @note This is NOT the copy ctor.
+     *
+     *  This ctor can be used to convert a ShellView of a mutable Shell to a
+     *  view of a read-only Shell.
+     *
+     *  @tparam OtherType The type of the other view. @p OtherType is assumed to
+     *                    be ShellView<Shell<T>>.
+     *  @tparam <anonymous> Used to disable this function when *this is mutable
+     *                      or when @p OtherType is read-only
+     *
+     *  @param[in] other The view we are implicitly converting to a read-only
+     *                   view.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the PIMPL. Strong
+     *                        throw guarantee.
+     */
+    template<typename OtherType,
+             typename = enable_if_this_const_other_mutable<OtherType>>
+    ShellView(const OtherType& other);
+
     /** @brief Overrides the state in *this with a copy of @p rhs.
      *
      *  This method will create a copy of the state in @p rhs, release the state
@@ -222,6 +242,29 @@ public:
      *  @throw None No throw guarantee.
      */
     ShellView& operator=(ShellView&& rhs) noexcept;
+
+    /** @brief Sets the already aliased Shell's state to a copy of @p rhs.
+     *
+     *  This operator will set the state of the Shell aliased by *this to a copy
+     *  of @p rhs. In particular, this operator will NOT alias the state in
+     *  @p rhs. To make *this alias the state in @p rhs, use the copy assignment
+     *  operator.
+     *
+     *  @tparam Shellype2 The type of the Shell whose state is being copied.
+     *                    Should always be non-cv-qualified @p ShellType.
+     *  @tparam <anonymous> Used to disable this function when the type of *this
+     *                      is a view of read-only Shell.
+     *
+     *  @param[in] rhs The Shell whose state is being assigned to *this.
+     *
+     *  @return *this after modifying the aliased state.
+     *
+     *  @throw None No throw guarantee.
+     *
+     */
+    template<typename ShellType2 = std::decay_t<ShellType>,
+             typename = std::enable_if<std::is_same_v<ShellType2, ShellType>>>
+    ShellView& operator=(const ShellType2& rhs);
 
     /// Default no-throw dtor
     ~ShellView() noexcept;
@@ -437,6 +480,26 @@ private:
     pimpl_pointer m_pimpl_;
 
 }; // End class ShellView
+
+template<typename ShellType>
+template<typename OtherType, typename>
+ShellView<ShellType>::ShellView(const OtherType& other) :
+  ShellView(!other.is_null() ?
+              ShellView(other.pure(), other.l(), other.contracted_gaussian()) :
+              ShellView()) {}
+
+template<typename ShellType>
+template<typename ShellType2, typename>
+ShellView<ShellType>& ShellView<ShellType>::operator=(const ShellType2& rhs) {
+    assert_non_null_();
+    if(rhs.is_null())
+        throw std::runtime_error("Assigning a null Shell to a non-null "
+                                 "ShellView is currently not supported");
+    pure()                = rhs.pure();
+    l()                   = rhs.l();
+    contracted_gaussian() = rhs.contracted_gaussian();
+    return *this;
+}
 
 /// Ensures operator== is symmetric for when Shell is on the left
 template<typename ShellType>
