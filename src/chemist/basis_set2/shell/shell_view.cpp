@@ -30,11 +30,11 @@ SHELL_VIEW::ShellView() noexcept = default;
 
 template<typename ShellType>
 SHELL_VIEW::ShellView(shell_reference shell2alias) :
-  ShellView(!shell2alias.is_null() ?
-              std::make_unique<pimpl_type>(
-                shell2alias.pure(), shell2alias.l(),
-                cg_view(shell2alias.contracted_gaussian())) :
-              nullptr) {}
+  ShellView(
+    !shell2alias.is_null() ?
+      std::make_unique<pimpl_type>(shell2alias.pure(), shell2alias.l(),
+                                   cg_view(shell2alias.contracted_gaussian())) :
+      nullptr) {}
 
 template<typename ShellType>
 SHELL_VIEW::ShellView(pure_reference ao_type, angular_momentum_reference l,
@@ -145,6 +145,14 @@ bool SHELL_VIEW::operator==(const ShellView& rhs) const noexcept {
     if(is_null() != rhs.is_null()) return false;
     if(is_null()) return true; // Both are views of the null shell
     return *m_pimpl_ == *rhs.m_pimpl_;
+}
+
+template<typename ShellType>
+bool SHELL_VIEW::operator==(const shell_type& rhs) const noexcept {
+    if(is_null() != rhs.is_null()) return false;
+    if(is_null()) return true; // Both are views of the null shell
+    return l() == rhs.l() && pure() == rhs.pure() &&
+           contracted_gaussian() == rhs.contracted_gaussian();
 }
 
 // -----------------------------------------------------------------------------

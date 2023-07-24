@@ -53,6 +53,30 @@ private:
     template<typename U>
     using ptr_type = typename traits_type::template apply_const_ptr<U>;
 
+    /// Is @p OtherType a mutable view?
+    template<typename OtherType>
+    static constexpr auto other_is_mutable_view =
+      std::is_same_v<OtherType,
+                     ContractedGaussianView<typename traits_type::type>>;
+
+    /// Is @p OtherType a read-only view?
+    template<typename OtherType>
+    static constexpr auto other_is_const_view =
+      std::is_same_v<OtherType,
+                     ContractedGaussianView<const typename traits_type::type>>;
+
+    /// Disables a function if *this is not read-only and @p OtherType isn't
+    /// a mutable view
+    template<typename OtherType>
+    using enable_if_this_const_other_mutable =
+      std::enable_if_t<is_const_v && other_is_mutable_view<OtherType>>;
+
+    /// Disables a function if *this is read-only and @p OtherType is
+    /// a mutable view
+    template<typename OtherType>
+    using enable_if_this_mutable_other_const =
+      std::enable_if_t<!is_const_v && other_is_const_view<OtherType>>;
+
 public:
     /// The type of the PIMPL
     using pimpl_type = detail_::ShellViewPIMPL<ShellType>;
@@ -356,6 +380,18 @@ public:
      */
     bool operator==(const ShellView& rhs) const noexcept;
 
+    /** @brief Determines if *this is value equal to @p rhs.
+     *
+     *  Same as above, but for Shell instead of ShellView
+     *
+     *  @param[in] rhs The shell being compared to *this.
+     *
+     *  @return True if *this is value equal to @p rhs and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool operator==(const shell_type& rhs) const noexcept;
+
     /** @brief Determines if *this is a view of a different Shell than @p rhs.
      *
      *  We define two ShellViews to be different if they are not value equal.
@@ -368,6 +404,20 @@ public:
      *  @throw None No throw guarantee.
      */
     bool operator!=(const ShellView& rhs) const noexcept {
+        return !(*this == rhs);
+    }
+
+    /** @brief Determines if *this is a view of a different Shell than @p rhs.
+     *
+     *  Same as above, but for Shell instead of ShellView
+     *
+     *  @param[in] rhs The shell being compared to *this.
+     *
+     *  @return False if *this is value equal to @p rhs and true otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool operator!=(const shell_type& rhs) const noexcept {
         return !(*this == rhs);
     }
 
@@ -387,6 +437,32 @@ private:
     pimpl_pointer m_pimpl_;
 
 }; // End class ShellView
+
+/// Ensures operator== is symmetric for when Shell is on the left
+template<typename ShellType>
+bool operator==(const ShellType& lhs,
+                const ShellView<ShellType>& rhs) noexcept {
+    return rhs == lhs;
+}
+
+template<typename ShellType>
+bool operator==(const ShellType& lhs,
+                const ShellView<const ShellType>& rhs) noexcept {
+    return rhs == lhs;
+}
+
+/// Ensures operator!= is symmetric for when Shell is on the left
+template<typename ShellType>
+bool operator!=(const ShellType& lhs,
+                const ShellView<ShellType>& rhs) noexcept {
+    return rhs != lhs;
+}
+
+template<typename ShellType>
+bool operator!=(const ShellType& lhs,
+                const ShellView<const ShellType>& rhs) noexcept {
+    return rhs != lhs;
+}
 
 extern template class ShellView<ShellD>;
 extern template class ShellView<const ShellD>;
