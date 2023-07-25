@@ -17,6 +17,7 @@
 #pragma once
 #include <chemist/basis_set2/contracted_gaussian/contracted_gaussian.hpp>
 #include <chemist/detail_/view/traits.hpp>
+
 namespace chemist::basis_set {
 namespace detail_ {
 template<typename CGType>

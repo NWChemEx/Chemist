@@ -96,11 +96,14 @@ public:
      *  This ctor is largely intended for constructing a ContractedGaussian when
      *  the parameters are not already stored in Primitives.
      *
-     *  @param[in] coefs  An @f$N@f$ element array such that the @f$i@f$-th
-     *                    element is the contraction coefficient for the
-     *                    @f$i@f$-th primitive.
-     *  @param[in] exps An @f$N@f$ element array such that the @f$i@f$-th
-     *                  element is the exponent for the @f$i@f$-th primitive.
+     *  @param[in] cbegin Iterator to the beginning of the container holding the
+     *                    coefficients.
+     *  @param[in] cend Iterator to the end of the container holding the
+     *                  coefficients.
+     *  @param[in] ebegin Iterator to the beginning of the container holding the
+     *                    exponents.
+     *  @param[in] eend Iterator to the end of the container holding the
+     *                  exponents.
      *  @param[in] x The x-coordinate where *this will be centered.
      *  @param[in] y The y-coordinate where *this will be centered.
      *  @param[in] z The z-coordinate where *this will be centered.
@@ -121,11 +124,14 @@ public:
      *  This ctor is largely intended for constructing a ContractedGaussian when
      *  the parameters are not already stored in Primitives.
      *
-     *  @param[in] coefs  An @f$N@f$ element array such that the @f$i@f$-th
-     *                    element is the contraction coefficient for the
-     *                    @f$i@f$-th primitive.
-     *  @param[in] exps An @f$N@f$ element array such that the @f$i@f$-th
-     *                  element is the exponent for the @f$i@f$-th primitive.
+     *  @param[in] cbegin Iterator to the beginning of the container holding the
+     *                    coefficients.
+     *  @param[in] cend Iterator to the end of the container holding the
+     *                  coefficients.
+     *  @param[in] ebegin Iterator to the beginning of the container holding the
+     *                    exponents.
+     *  @param[in] eend Iterator to the end of the container holding the
+     *                  exponents.
      *  @param[in] center Where *this is centered in Cartesian space.
      *
      *  @throw std::bad_alloc if there is insufficient memory to allocate the
