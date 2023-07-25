@@ -15,7 +15,13 @@
  */
 
 #pragma once
+#include <chemist/basis_set2/atomic_basis_set/atomic_basis_set.hpp>
+#include <chemist/basis_set2/atomic_basis_set/atomic_basis_set_view.hpp>
+#include <chemist/basis_set2/contracted_gaussian/contracted_gaussian.hpp>
+#include <chemist/basis_set2/contracted_gaussian/contracted_gaussian_view.hpp>
 #include <chemist/basis_set2/primitive/primitive.hpp>
 #include <chemist/basis_set2/primitive/primitive_view.hpp>
+#include <chemist/basis_set2/shell/shell.hpp>
+#include <chemist/basis_set2/shell/shell_view.hpp>
 
 namespace chemist::basis_set {} // namespace chemist::basis_set
