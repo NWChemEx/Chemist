@@ -277,8 +277,10 @@ template&lt;typename CoefBeginItr , typename CoefEndItr , typename ExpBeginItr ,
 <p>This ctor is largely intended for constructing a <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html" title="Represents a (segmented) contracted Gaussian function.">ContractedGaussian</a> when the parameters are not already stored in Primitives.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">coefs</td><td>An <img class="formulaInl" alt="$N$" src="form_11.png"/> element array such that the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th element is the contraction coefficient for the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th primitive. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">exps</td><td>An <img class="formulaInl" alt="$N$" src="form_11.png"/> element array such that the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th element is the exponent for the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th primitive. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cbegin</td><td>Iterator to the beginning of the container holding the coefficients. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cend</td><td>Iterator to the end of the container holding the coefficients. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ebegin</td><td>Iterator to the beginning of the container holding the exponents. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">eend</td><td>Iterator to the end of the container holding the exponents. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The x-coordinate where *this will be centered. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The y-coordinate where *this will be centered. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">z</td><td>The z-coordinate where *this will be centered.</td></tr>
@@ -346,8 +348,10 @@ template&lt;typename CoefBeginItr , typename CoefEndItr , typename ExpBeginItr ,
 <p>This ctor is largely intended for constructing a <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html" title="Represents a (segmented) contracted Gaussian function.">ContractedGaussian</a> when the parameters are not already stored in Primitives.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">coefs</td><td>An <img class="formulaInl" alt="$N$" src="form_11.png"/> element array such that the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th element is the contraction coefficient for the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th primitive. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">exps</td><td>An <img class="formulaInl" alt="$N$" src="form_11.png"/> element array such that the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th element is the exponent for the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th primitive. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cbegin</td><td>Iterator to the beginning of the container holding the coefficients. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cend</td><td>Iterator to the end of the container holding the coefficients. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ebegin</td><td>Iterator to the beginning of the container holding the exponents. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">eend</td><td>Iterator to the end of the container holding the exponents. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">center</td><td>Where *this is centered in Cartesian space.</td></tr>
   </table>
   </dd>
