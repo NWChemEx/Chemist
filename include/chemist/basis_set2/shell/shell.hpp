@@ -70,10 +70,10 @@ public:
     using cg_type = CGType;
 
     /// Type of a read/write reference to the contracted Gaussian function
-    using cg_view = ContractedGaussianView<cg_type>;
+    using cg_reference = ContractedGaussianView<cg_type>;
 
     /// Type of a read-only reference to the contracted Gaussian function
-    using const_cg_view = ContractedGaussianView<const cg_type>;
+    using const_cg_reference = ContractedGaussianView<const cg_type>;
 
     /// Unsigned integral type used for indexing and offsets
     using size_type = std::size_t;
@@ -104,8 +104,7 @@ public:
      *
      *  The Shell instance resulting from this ctor
      *
-     *  @throw std::bad_alloc if there is insufficient memory to allocate the
-     *                        PIMPL. Strong throw guarantee.
+     *  @throw None No throw guarantee
      */
     Shell() noexcept;
 
@@ -129,9 +128,7 @@ public:
      *
      *  @param[in,out] rhs The instance whose state is being transferred to the
      *                     new Shell instance. After the operation @p rhs will
-     *                     not contain a PIMPL and thus will not be usable.
-     *                     @p rhs can be returned to a valid state by copy/move
-     *                     assignment from a valid Shell instance.
+     *                     be a null Shell.
      *
      * @throw none No throw guarantee.
      */
@@ -161,9 +158,8 @@ public:
      *  to the present instance.
      *
      *  @param[in,out] rhs The instance whose state is being transferred to the
-     *                     present instance. After the operation @p rhs will not
-     *                     contain a PIMPL and will thus not be usable until a
-     *                     new PIMPL is assigned to it via move/copy assignment.
+     *                     present instance. After the operation @p rhs will be
+     *                     a null Shell.
      *
      *  @return The current instance after taking ownership of @p rhs's state.
      */
@@ -174,13 +170,16 @@ public:
      *  This is the ctor that will be primarily used to create new Shell
      *  instances. Its arguments are the state of the Shell to create.
      *
-     *  @param[in] pure True if the shell is a pure shell and false if it is
-     *                  Cartesian.
+     *  @param[in] pure Whether the shell is spherical or cartesian.
      *  @param[in] l The total angular momentum of the shell.
-     *  @param[in] coefs The contraction coefficients for the CGTO common to all
-     *                   AOs in the shell.
-     *  @param[in] exps The exponents of each primitive Gaussian in the common
-     *                  CGTO.
+     *  @param[in] cbegin Iterator to the beginning of the container holding the
+     *                    coefficients.
+     *  @param[in] cend Iterator to the end of the container holding the
+     *                  coefficients.
+     *  @param[in] ebegin Iterator to the beginning of the container holding the
+     *                    exponents.
+     *  @param[in] eend Iterator to the end of the container holding the
+     *                  exponents.
      *  @param[in] x The x coordinate this shell is centered on.
      *  @param[in] y The y coordinate this shell is centered on.
      *  @param[in] z The z coordinate this shell is centered on.
@@ -198,13 +197,16 @@ public:
     /** @brief Creates a new Shell with the provided state.
      *
      *
-     *  @param[in] pure True if the shell is a pure shell and false if it is
-     *                  Cartesian.
+     *  @param[in] pure Whether the shell is spherical or cartesian.
      *  @param[in] l The total angular momentum of the shell.
-     *  @param[in] coefs The contraction coefficients for the CGTO common to all
-     *                   AOs in the shell.
-     *  @param[in] exps The exponents of each primitive Gaussian in the common
-     *                  CGTO.
+     *  @param[in] cbegin Iterator to the beginning of the container holding the
+     *                    coefficients.
+     *  @param[in] cend Iterator to the end of the container holding the
+     *                  coefficients.
+     *  @param[in] ebegin Iterator to the beginning of the container holding the
+     *                    exponents.
+     *  @param[in] eend Iterator to the end of the container holding the
+     *                  exponents.
      *  @param[in] center The point in Cartesian space where *this will be
      *                    centered.
      *
@@ -306,7 +308,7 @@ public:
      *  @throw std::bad_alloc if *this is a null shell and allocating the PIMPL
      *                        fails. Strong throw guarantee.
      */
-    cg_view contracted_gaussian();
+    cg_reference contracted_gaussian();
 
     /** @brief Accesses the ContractedGaussian *this is defined in terms of.
      *
@@ -319,7 +321,7 @@ public:
      *  @throw std::runtime_error if *this is a null shell. Strong throw
      *                            guarantee.
      */
-    const_cg_view contracted_gaussian() const;
+    const_cg_reference contracted_gaussian() const;
 
     /** @brief Returns the number of primitives in the contracted Gaussian.
      *
@@ -446,10 +448,10 @@ private:
     size_type size_() const noexcept;
 
     /// Implements non-const version of operator[]/at
-    // contracted_gaussian_reference at_(size_type index);
+    // reference at_(size_type index);
 
     /// Implements const-version of operator[]/at
-    // const_cg_reference at_(size_type index) const;
+    // const_reference at_(size_type index) const;
 
     /// The instance that actually implements this class
     pimpl_ptr m_pimpl_;

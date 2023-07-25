@@ -86,13 +86,13 @@ typename SHELL::const_angular_momentum_reference SHELL::l() const {
 }
 
 template<typename CGType>
-typename SHELL::cg_view SHELL::contracted_gaussian() {
+typename SHELL::cg_reference SHELL::contracted_gaussian() {
     if(is_null()) m_pimpl_ = make_shell_pimpl<CGType>();
     return m_pimpl_->m_cg;
 }
 
 template<typename CGType>
-typename SHELL::const_cg_view SHELL::contracted_gaussian() const {
+typename SHELL::const_cg_reference SHELL::contracted_gaussian() const {
     assert_pimpl_();
     return m_pimpl_->m_cg;
 }

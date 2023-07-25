@@ -30,15 +30,15 @@ SHELL_VIEW::ShellView() noexcept = default;
 
 template<typename ShellType>
 SHELL_VIEW::ShellView(shell_reference shell2alias) :
-  ShellView(
-    !shell2alias.is_null() ?
-      std::make_unique<pimpl_type>(shell2alias.pure(), shell2alias.l(),
-                                   cg_view(shell2alias.contracted_gaussian())) :
-      nullptr) {}
+  ShellView(!shell2alias.is_null() ?
+              std::make_unique<pimpl_type>(
+                shell2alias.pure(), shell2alias.l(),
+                cg_reference(shell2alias.contracted_gaussian())) :
+              nullptr) {}
 
 template<typename ShellType>
 SHELL_VIEW::ShellView(pure_reference ao_type, angular_momentum_reference l,
-                      cg_view cg) :
+                      cg_reference cg) :
   ShellView(std::make_unique<pimpl_type>(ao_type, l, std::move(cg))) {}
 
 template<typename ShellType>
@@ -90,13 +90,14 @@ typename SHELL_VIEW::const_angular_momentum_reference SHELL_VIEW::l() const {
 }
 
 template<typename ShellType>
-typename SHELL_VIEW::cg_view SHELL_VIEW::contracted_gaussian() {
+typename SHELL_VIEW::cg_reference SHELL_VIEW::contracted_gaussian() {
     assert_non_null_();
     return m_pimpl_->m_cg;
 }
 
 template<typename ShellType>
-typename SHELL_VIEW::const_cg_view SHELL_VIEW::contracted_gaussian() const {
+typename SHELL_VIEW::const_cg_reference SHELL_VIEW::contracted_gaussian()
+  const {
     assert_non_null_();
     return m_pimpl_->m_cg;
 }

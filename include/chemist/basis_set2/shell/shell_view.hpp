@@ -95,13 +95,13 @@ public:
     using cg_type = typename shell_type::cg_type;
 
     /// The type of a mutable reference to a contracted Gaussian
-    using cg_view = ContractedGaussianView<apply_const<cg_type>>;
+    using cg_reference = ContractedGaussianView<apply_const<cg_type>>;
 
     /// The type of a read-only reference to a contracted Gaussian
-    using const_cg_view = ContractedGaussianView<const cg_type>;
+    using const_cg_reference = ContractedGaussianView<const cg_type>;
 
     /// The types associated with a Contracted Gaussian
-    using cg_traits = ContractedGaussianTraits<cg_view>;
+    using cg_traits = ContractedGaussianTraits<cg_reference>;
 
     /// Unsigned integral type used for indexing and offsets
     using size_type = typename shell_type::size_type;
@@ -165,7 +165,8 @@ public:
      *  @throw std::bad_alloc if there is a problem allocating the PIMPL.
      *                        Strong throw guarantee.
      */
-    ShellView(pure_reference ao_type, angular_momentum_reference l, cg_view cg);
+    ShellView(pure_reference ao_type, angular_momentum_reference l,
+              cg_reference cg);
 
     /** @brief Creates a new view of the same shell.
      *
@@ -224,7 +225,8 @@ public:
      *
      *  @return *this, but with its state set to a copy of the state in @p rhs.
      *
-     *  @throw std::bad_alloc if there is a problem allocating the
+     *  @throw std::bad_alloc if there is insufficient memory to copy the state
+     *                        of @p rhs. Strong throw guarantee.
      */
     ShellView& operator=(const ShellView& rhs);
 
@@ -286,7 +288,8 @@ public:
      *
      *  @return A read-only reference to whether the aliased shell is pure.
      *
-     *  @throw std::runtime_error if *this is a view of a null shell
+     *  @throw std::runtime_error if *this is a view of the null shell. Strong
+     *                            throw guarantee.
      */
     const_pure_reference pure() const;
 
@@ -296,7 +299,8 @@ public:
      *          reference if @p T is non-const and a read-only reference if it
      *          is const.
      *
-     *  @throw none No throw guarantee.
+     *  @throw std::runtime_error if *this is a view of the null shell. Strong
+     *                            throw guarantee.
      */
     angular_momentum_reference l();
 
@@ -316,7 +320,7 @@ public:
      *  @throw std::runtime_error if *this is a view of a null shell. Strong
      *                            throw guarantee.
      */
-    cg_view contracted_gaussian();
+    cg_reference contracted_gaussian();
 
     /** @brief The segmented contracted Gaussian function.
      *
@@ -328,7 +332,7 @@ public:
      *  @throw std::runtime_error if *this is a view of a null shell. Strong
      *                            throw guarantee.
      */
-    const_cg_view contracted_gaussian() const;
+    const_cg_reference contracted_gaussian() const;
 
     /** @brief Returns the number of primitives in the contracted Gaussian.
      *
@@ -480,6 +484,8 @@ private:
     pimpl_pointer m_pimpl_;
 
 }; // End class ShellView
+
+// -- Inline implementations
 
 template<typename ShellType>
 template<typename OtherType, typename>
