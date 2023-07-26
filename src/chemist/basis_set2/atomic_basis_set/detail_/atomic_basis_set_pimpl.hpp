@@ -38,14 +38,23 @@ public:
 
     using exponent_type = typename abs_traits::exponent_type;
 
+    AtomicBasisSetPIMPL() = default;
+
     explicit AtomicBasisSetPIMPL(
       typename abs_traits::center_type center) noexcept :
       m_center(std::move(center)) {}
 
+    AtomicBasisSetPIMPL(
+      typename abs_traits::name_type name,
+      typename abs_traits::atomic_number_type atomic_n) noexcept :
+      m_name(std::move(name)), m_z(std::move(atomic_n)) {}
+
     AtomicBasisSetPIMPL(typename abs_traits::name_type name,
                         typename abs_traits::atomic_number_type atomic_n,
                         typename abs_traits::center_type center) noexcept :
-      m_name(name), m_z(atomic_n), m_center(std::move(center)) {}
+      m_name(std::move(name)),
+      m_z(std::move(atomic_n)),
+      m_center(std::move(center)) {}
 
     /// If set, will be the name of the basis set
     std::optional<typename abs_traits::name_type> m_name;
