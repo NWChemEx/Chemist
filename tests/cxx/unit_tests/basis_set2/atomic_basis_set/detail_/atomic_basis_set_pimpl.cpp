@@ -33,6 +33,7 @@ TEMPLATE_TEST_CASE("AtomicBasisSetPIMPL", "", float, double) {
     using center_type        = typename abs_traits::center_type;
     using name_type          = typename abs_traits::name_type;
     using atomic_number_type = typename abs_traits::atomic_number_type;
+    using range_type         = typename abs_traits::range_type;
     using coeff_vector = std::vector<typename abs_traits::coefficient_type>;
     using exp_vector   = std::vector<typename abs_traits::exponent_type>;
 
@@ -42,14 +43,20 @@ TEMPLATE_TEST_CASE("AtomicBasisSetPIMPL", "", float, double) {
     center_type r0, r1{7.0, 8.0, 9.0};
     coeff_vector cs{1.0, 2.0, 3.0};
     exp_vector es{4.0, 5.0, 6.0};
-    cg_type cg0, cg1(cs.begin(), cs.end(), es.begin(), es.end(), r1);
+    prim_type p0{cs[0], es[0], r1}, p1{cs[1], es[1], r1}, p2{cs[2], es[2], r1};
+    cg_type cg0(cs.begin(), cs.begin() + 1, es.begin(), es.begin() + 1, r1);
+    cg_type cg1(cs.begin(), cs.end(), es.begin(), es.end(), r1);
     name_type name0, name1{"name1"};
     atomic_number_type z0{0}, z1{1};
+    shell_type shell0{cart, l0, cg0}, shell1{pure, l1, cg1};
 
     pimpl_type pimpl0;
     pimpl_type pimpl1(r1);
     pimpl_type pimpl2(name1, z1);
     pimpl_type pimpl3(name1, z1, r1);
+    pimpl_type has_shells(name1, z1, r1);
+    has_shells.add_shell(cart, l0, cg0);
+    has_shells.add_shell(pure, l1, cg1);
 
     SECTION("Ctors") {
         SECTION("Defaulted") {
@@ -83,19 +90,134 @@ TEMPLATE_TEST_CASE("AtomicBasisSetPIMPL", "", float, double) {
     }
     SECTION("Getters/setters") {
         SECTION("add_shell") {
+            // Add shell to centerless pimpl
             pimpl0.add_shell(cart, l1, cg1);
             REQUIRE(pimpl0.m_center.value() == r1);
             REQUIRE(pimpl0.size() == 1);
             REQUIRE(pimpl0.n_primitives() == 3);
 
+            // Add shell to pimp with center
             pimpl1.add_shell(cart, l1, cg1);
             REQUIRE(pimpl0.size() == 1);
             REQUIRE(pimpl0.n_primitives() == 3);
 
+            // Throw if pimpl and contracted gaussian have different centers
             pimpl_type different_center(r0);
             REQUIRE_THROWS_AS(different_center.add_shell(cart, l1, cg1),
                               std::runtime_error);
         }
+        SECTION("operator[]") {
+            REQUIRE(has_shells[0] == shell0);
+            REQUIRE(has_shells[1] == shell1);
+        }
+        SECTION("operator[] const") {
+            REQUIRE(std::as_const(has_shells)[0] == shell0);
+            REQUIRE(std::as_const(has_shells)[1] == shell1);
+        }
+        SECTION("l") {
+            REQUIRE(has_shells.l(0) == l0);
+            REQUIRE(has_shells.l(1) == l1);
+        }
+        SECTION("l const") {
+            REQUIRE(std::as_const(has_shells).l(0) == l0);
+            REQUIRE(std::as_const(has_shells).l(1) == l1);
+        }
+        SECTION("pure") {
+            REQUIRE(has_shells.pure(0) == cart);
+            REQUIRE(has_shells.pure(1) == pure);
+        }
+        SECTION("pure const") {
+            REQUIRE(std::as_const(has_shells).pure(0) == cart);
+            REQUIRE(std::as_const(has_shells).pure(1) == pure);
+        }
+        SECTION("cg") {
+            REQUIRE(has_shells.cg(0) == cg0);
+            REQUIRE(has_shells.cg(1) == cg1);
+        }
+        SECTION("cg const") {
+            REQUIRE(std::as_const(has_shells).cg(0) == cg0);
+            REQUIRE(std::as_const(has_shells).cg(1) == cg1);
+        }
+        SECTION("primitive_range") {
+            REQUIRE(has_shells.primitive_range(0) == range_type{0, 1});
+            REQUIRE(has_shells.primitive_range(1) == range_type{1, 4});
+            REQUIRE_THROWS_AS(has_shells.primitive_range(2),
+                              std::runtime_error);
+        }
+        SECTION("prim2shell") {
+            REQUIRE(has_shells.prim2shell(0) == 0);
+            REQUIRE(has_shells.prim2shell(1) == 1);
+            REQUIRE(has_shells.prim2shell(2) == 1);
+            REQUIRE(has_shells.prim2shell(3) == 1);
+        }
+        SECTION("primitive") {
+            REQUIRE(has_shells.primitive(0) == p0);
+            REQUIRE(has_shells.primitive(1) == p0);
+            REQUIRE(has_shells.primitive(2) == p1);
+            REQUIRE(has_shells.primitive(3) == p2);
+        }
+        SECTION("primitive const") {
+            REQUIRE(std::as_const(has_shells).primitive(0) == p0);
+            REQUIRE(std::as_const(has_shells).primitive(1) == p0);
+            REQUIRE(std::as_const(has_shells).primitive(2) == p1);
+            REQUIRE(std::as_const(has_shells).primitive(3) == p2);
+        }
+        SECTION("size") { REQUIRE(has_shells.size() == 2); }
+        SECTION("n_primitives") { REQUIRE(has_shells.n_primitives() == 4); }
     }
-    SECTION("Utility") {}
+    SECTION("Utility") {
+        SECTION("operator==") {
+            SECTION("are equal") {
+                pimpl_type has_shells2(name1, z1, r1);
+                has_shells2.add_shell(cart, l0, cg0);
+                has_shells2.add_shell(pure, l1, cg1);
+
+                REQUIRE(pimpl0 == pimpl_type{});
+                REQUIRE(has_shells == has_shells2);
+            }
+            SECTION("Different name") {
+                REQUIRE_FALSE(pimpl3 == pimpl_type{name0, z1, r1});
+            }
+            SECTION("Different z") {
+                REQUIRE_FALSE(pimpl3 == pimpl_type{name1, z0, r1});
+            }
+            SECTION("Different center") {
+                REQUIRE_FALSE(pimpl3 == pimpl_type{name1, z1, r0});
+            }
+            SECTION("Different primitives on contracted gaussian") {
+                pimpl_type diff_prims_per_cg(name1, z1, r1);
+                diff_prims_per_cg.add_shell(cart, l0, cg1);
+                diff_prims_per_cg.add_shell(pure, l1, cg1);
+                REQUIRE_FALSE(has_shells == diff_prims_per_cg);
+            }
+            SECTION("Different coeffs") {
+                cg_type cg(cs.begin() + 1, cs.begin() + 2, es.begin(),
+                           es.begin() + 1, r1);
+                pimpl_type diff_coeffs(name1, z1, r1);
+                diff_coeffs.add_shell(cart, l0, cg);
+                diff_coeffs.add_shell(pure, l1, cg1);
+                REQUIRE_FALSE(has_shells == diff_coeffs);
+            }
+            SECTION("Different exponents") {
+                cg_type cg(cs.begin(), cs.begin() + 1, es.begin() + 1,
+                           es.begin() + 2, r1);
+                pimpl_type diff_exps(name1, z1, r1);
+                diff_exps.add_shell(cart, l0, cg);
+                diff_exps.add_shell(pure, l1, cg1);
+                REQUIRE_FALSE(has_shells == diff_exps);
+            }
+            SECTION("Different purity") {
+                pimpl_type diff_pure(name1, z1, r1);
+                diff_pure.add_shell(pure, l0, cg0);
+                diff_pure.add_shell(pure, l1, cg1);
+                REQUIRE_FALSE(has_shells == diff_pure);
+            }
+            SECTION("Different l") {
+                pimpl_type diff_pure(name1, z1, r1);
+                diff_pure.add_shell(cart, l1, cg0);
+                diff_pure.add_shell(pure, l1, cg1);
+                REQUIRE_FALSE(has_shells == diff_pure);
+            }
+        }
+    }
 }

@@ -107,9 +107,11 @@ public:
     }
 
     typename abs_traits::range_type primitive_range(size_type shell) const {
+        if(shell >= size())
+            throw std::runtime_error("Non-existent shell requested");
         const auto begin   = m_cg_offsets_[shell];
-        const bool is_last = shell < size();
-        const auto end = (is_last ? m_cg_offsets_[shell + 1] : n_primitives());
+        const bool is_last = shell == (size() - 1);
+        const auto end = (is_last ? n_primitives() : m_cg_offsets_[shell + 1]);
         return typename abs_traits::range_type{begin, end};
     }
 
@@ -121,8 +123,8 @@ public:
     }
 
     auto primitive(size_type i) const {
-        return typename abs_traits::const_primitive_reference(m_coefs_[i],
-                                                              m_exps_[i]);
+        return typename abs_traits::const_primitive_reference(
+          m_coefs_[i], m_exps_[i], m_center.value());
     }
 
     size_type size() const noexcept { return m_pure_.size(); }
