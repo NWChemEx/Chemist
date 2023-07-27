@@ -52,16 +52,19 @@ ATOMIC_BASIS_SET::AtomicBasisSet(const_name_reference name,
                                  typename shell_traits::coord_type x,
                                  typename shell_traits::coord_type y,
                                  typename shell_traits::coord_type z) :
-  AtomicBasisSet(std::make_unique<pimpl_type>(
-    name, atomic_n, typename shell_traits::center_type(x, y, z))) {}
+  AtomicBasisSet(name, atomic_n, typename shell_traits::center_type(x, y, z)) {}
+
+template<typename ShellType>
+ATOMIC_BASIS_SET::AtomicBasisSet(const_name_reference name,
+                                 atomic_number_type atomic_n,
+                                 typename shell_traits::center_type center) :
+  AtomicBasisSet(std::make_unique<pimpl_type>(name, atomic_n, center)) {}
 
 template<typename ShellType>
 ATOMIC_BASIS_SET::AtomicBasisSet(typename shell_traits::coord_type x,
                                  typename shell_traits::coord_type y,
                                  typename shell_traits::coord_type z) :
-  AtomicBasisSet(
-    std::make_unique<pimpl_type>(typename shell_traits::center_type(x, y, z))) {
-}
+  AtomicBasisSet(typename shell_traits::center_type(x, y, z)) {}
 
 template<typename ShellType>
 ATOMIC_BASIS_SET::AtomicBasisSet(typename shell_traits::center_type center) :
@@ -148,21 +151,6 @@ ATOMIC_BASIS_SET::center() const {
     if(has_center()) return m_pimpl_->m_center.value();
     throw std::runtime_error("The current AtomicBasisSet does not have a "
                              "center set.");
-}
-
-template<typename ShellType>
-template<typename CoefBeginItr, typename CoefEndItr, typename ExpBeginItr,
-         typename ExpEndItr>
-void ATOMIC_BASIS_SET::add_shell(typename shell_traits::pure_type pure,
-                                 typename shell_traits::angular_momentum_type l,
-                                 CoefBeginItr&& cbegin, CoefEndItr&& cend,
-                                 ExpBeginItr&& ebegin, ExpEndItr&& eend) {
-    if(is_null())
-        m_pimpl_ = std::make_unique<pimpl_type>(
-          typename shell_traits::center_type(0.0, 0.0, 0.0));
-    typename shell_traits::contracted_gaussian_reference cg(
-      cbegin, cend, ebegin, eend, center());
-    m_pimpl_->add_shell(pure, l, std::move(cg));
 }
 
 template<typename ShellType>

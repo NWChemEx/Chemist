@@ -167,6 +167,21 @@ public:
     /** @brief Creates a new AtomicBasisSet centered on the provided point.
      *
      *  This ctor is used to create a new AtomicBasisSet instance with the
+     *  provided center, basis set name, and atomic number.
+     *
+     *  @param[in] name The name associated with the basis set.
+     *  @param[in] atomic_n The atomic number associated with the basis set.
+     *  @param[in] center The point the basis set is centered on.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to create the
+     *                        PIMPL. Strong throw guarantee.
+     */
+    AtomicBasisSet(const_name_reference name, atomic_number_type atomic_n,
+                   typename shell_traits::center_type center);
+
+    /** @brief Creates a new AtomicBasisSet centered on the provided point.
+     *
+     *  This ctor is used to create a new AtomicBasisSet instance with the
      *  provided Cartesian coordinates, while the basis set name and atomic
      *  number are defaulted. The name can be set later by calling `name()`.
      *  Similarly the atomic number can be set later by calling
@@ -182,6 +197,18 @@ public:
                    typename shell_traits::coord_type y,
                    typename shell_traits::coord_type z);
 
+    /** @brief Creates a new AtomicBasisSet centered on the provided point.
+     *
+     *  This ctor is used to create a new AtomicBasisSet instance with the
+     *  provided center, while the basis set name and atomic number are
+     *  defaulted. The name can be set later by calling `name()`. Similarly the
+     *  atomic number can be set later by calling `atomic_number()`.
+     *
+     *  @param[in] center The point the basis set is centered on.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to create the
+     *                        PIMPL. Strong throw guarantee.
+     */
     AtomicBasisSet(typename shell_traits::center_type center);
 
     /** @brief Creates a new AtomicBasisSet with the provided name and atomic
@@ -563,6 +590,23 @@ private:
     /// The instance that actually implements this class
     pimpl_pointer m_pimpl_;
 };
+
+// -- Inline implementations
+
+template<typename ShellType>
+template<typename CoefBeginItr, typename CoefEndItr, typename ExpBeginItr,
+         typename ExpEndItr>
+void AtomicBasisSet<ShellType>::add_shell(
+  typename shell_traits::pure_type pure,
+  typename shell_traits::angular_momentum_type l, CoefBeginItr&& cbegin,
+  CoefEndItr&& cend, ExpBeginItr&& ebegin, ExpEndItr&& eend) {
+    if(is_null())
+        m_pimpl_ = std::make_unique<pimpl_type>(
+          typename shell_traits::center_type(0.0, 0.0, 0.0));
+    typename shell_traits::cg_reference cg(cbegin, cend, ebegin, eend,
+                                           center());
+    m_pimpl_->add_shell(pure, l, std::move(cg));
+}
 
 /// An atomic basis set where all parameters are doubles
 using AtomicBasisSetD = AtomicBasisSet<ShellD>;
