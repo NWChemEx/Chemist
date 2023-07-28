@@ -53,7 +53,7 @@ TEMPLATE_TEST_CASE("AtomicBasisSet", "", float, double) {
 
     abs_type abs0;
     abs_type abs1(name1, z1, r1);
-    abs1.add_shell(cart, l1, cs.begin(), cs.end(), es.begin(), es.end());
+    abs1.add_shell(cart, l1, cg1);
 
     SECTION("Ctor and assignment") {
         SECTION("Default") {
@@ -62,16 +62,118 @@ TEMPLATE_TEST_CASE("AtomicBasisSet", "", float, double) {
             REQUIRE_FALSE(abs0.has_name());
             REQUIRE_FALSE(abs0.has_atomic_number());
             REQUIRE_FALSE(abs0.has_center());
+
+            REQUIRE_FALSE(abs1.is_null());
+            REQUIRE(abs1.size() == 1);
+            REQUIRE(abs1.basis_set_name() == name1);
+            REQUIRE(abs1.atomic_number() == z1);
+            REQUIRE(abs1.center() == r1);
         }
-        SECTION("Copy") {}
-        SECTION("Copy Assignment") {}
-        SECTION("Move") {}
-        SECTION("Move Assignment") {}
-        SECTION("With name, z, and coords") {}
-        SECTION("With name, z, and center") {}
-        SECTION("With coords") {}
-        SECTION("With center") {}
-        SECTION("With name and z") {}
+        SECTION("Copy") {
+            abs_type abs0_copy(abs0);
+            REQUIRE(abs0_copy.is_null());
+            REQUIRE(abs0_copy.size() == 0);
+            REQUIRE_FALSE(abs0_copy.has_name());
+            REQUIRE_FALSE(abs0_copy.has_atomic_number());
+            REQUIRE_FALSE(abs0_copy.has_center());
+
+            abs_type abs1_copy(abs1);
+            REQUIRE_FALSE(abs1_copy.is_null());
+            REQUIRE(abs1_copy.size() == 1);
+            REQUIRE(abs1_copy.basis_set_name() == name1);
+            REQUIRE(abs1_copy.atomic_number() == z1);
+            REQUIRE(abs1_copy.center() == r1);
+        }
+        SECTION("Copy Assignment") {
+            abs_type abs0_copy;
+            auto pabs0_copy = &(abs0_copy = abs0);
+            REQUIRE(abs0_copy.is_null());
+            REQUIRE(abs0_copy.size() == 0);
+            REQUIRE_FALSE(abs0_copy.has_name());
+            REQUIRE_FALSE(abs0_copy.has_atomic_number());
+            REQUIRE_FALSE(abs0_copy.has_center());
+            REQUIRE(pabs0_copy == &abs0_copy);
+
+            abs_type abs1_copy;
+            auto pabs1_copy = &(abs1_copy = abs1);
+            REQUIRE_FALSE(abs1_copy.is_null());
+            REQUIRE(abs1_copy.size() == 1);
+            REQUIRE(abs1_copy.basis_set_name() == name1);
+            REQUIRE(abs1_copy.atomic_number() == z1);
+            REQUIRE(abs1_copy.center() == r1);
+            REQUIRE(pabs1_copy == &abs1_copy);
+        }
+        SECTION("Move") {
+            abs_type abs0_move(std::move(abs0));
+            REQUIRE(abs0_move.is_null());
+            REQUIRE(abs0_move.size() == 0);
+            REQUIRE_FALSE(abs0_move.has_name());
+            REQUIRE_FALSE(abs0_move.has_atomic_number());
+            REQUIRE_FALSE(abs0_move.has_center());
+            REQUIRE(abs0.is_null());
+
+            abs_type abs1_move(std::move(abs1));
+            REQUIRE_FALSE(abs1_move.is_null());
+            REQUIRE(abs1_move.size() == 1);
+            REQUIRE(abs1_move.basis_set_name() == name1);
+            REQUIRE(abs1_move.atomic_number() == z1);
+            REQUIRE(abs1_move.center() == r1);
+            REQUIRE(abs1.is_null());
+        }
+        SECTION("Move Assignment") {
+            abs_type abs0_copy;
+            auto pabs0_copy = &(abs0_copy = std::move(abs0));
+            REQUIRE(abs0_copy.is_null());
+            REQUIRE(abs0_copy.size() == 0);
+            REQUIRE_FALSE(abs0_copy.has_name());
+            REQUIRE_FALSE(abs0_copy.has_atomic_number());
+            REQUIRE_FALSE(abs0_copy.has_center());
+            REQUIRE(pabs0_copy == &abs0_copy);
+
+            abs_type abs1_copy;
+            auto pabs1_copy = &(abs1_copy = std::move(abs1));
+            REQUIRE_FALSE(abs1_copy.is_null());
+            REQUIRE(abs1_copy.size() == 1);
+            REQUIRE(abs1_copy.basis_set_name() == name1);
+            REQUIRE(abs1_copy.atomic_number() == z1);
+            REQUIRE(abs1_copy.center() == r1);
+            REQUIRE(pabs1_copy == &abs1_copy);
+        }
+        SECTION("With name, z, and coords") {
+            abs_type name_z_coords(name1, z1, 7.0, 8.0, 9.0);
+            REQUIRE_FALSE(name_z_coords.is_null());
+            REQUIRE(name_z_coords.basis_set_name() == name1);
+            REQUIRE(name_z_coords.atomic_number() == z1);
+            REQUIRE(name_z_coords.center() == r1);
+        }
+        SECTION("With name, z, and center") {
+            abs_type with_name_z_center(name1, z1, r1);
+            REQUIRE_FALSE(with_name_z_center.is_null());
+            REQUIRE(with_name_z_center.basis_set_name() == name1);
+            REQUIRE(with_name_z_center.atomic_number() == z1);
+            REQUIRE(with_name_z_center.center() == r1);
+        }
+        SECTION("With coords") {
+            abs_type with_coords(7.0, 8.0, 9.0);
+            REQUIRE_FALSE(with_coords.is_null());
+            REQUIRE_FALSE(with_coords.has_name());
+            REQUIRE_FALSE(with_coords.has_atomic_number());
+            REQUIRE(with_coords.center() == r1);
+        }
+        SECTION("With center") {
+            abs_type with_center(r1);
+            REQUIRE_FALSE(with_center.is_null());
+            REQUIRE_FALSE(with_center.has_name());
+            REQUIRE_FALSE(with_center.has_atomic_number());
+            REQUIRE(with_center.center() == r1);
+        }
+        SECTION("With name and z") {
+            abs_type with_name_z(name1, z1);
+            REQUIRE_FALSE(with_name_z.is_null());
+            REQUIRE(with_name_z.basis_set_name() == name1);
+            REQUIRE(with_name_z.atomic_number() == z1);
+            REQUIRE(with_name_z.center() == r0);
+        }
     }
     SECTION("Getters/setters") {
         SECTION("has_name") {}

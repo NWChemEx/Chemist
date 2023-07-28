@@ -362,12 +362,9 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the new
      *                        Shell. Weak throw guarantee.
      */
-    template<typename CoefBeginItr, typename CoefEndItr, typename ExpBeginItr,
-             typename ExpEndItr>
     void add_shell(typename shell_traits::pure_type pure,
                    typename shell_traits::angular_momentum_type l,
-                   CoefBeginItr&& cbegin, CoefEndItr&& cend,
-                   ExpBeginItr&& ebegin, ExpEndItr&& eend);
+                   typename shell_traits::cg_reference cg);
 
     /** @brief Returns the total number of AOs on this center.
      *
@@ -590,23 +587,6 @@ private:
     /// The instance that actually implements this class
     pimpl_pointer m_pimpl_;
 };
-
-// -- Inline implementations
-
-template<typename ShellType>
-template<typename CoefBeginItr, typename CoefEndItr, typename ExpBeginItr,
-         typename ExpEndItr>
-void AtomicBasisSet<ShellType>::add_shell(
-  typename shell_traits::pure_type pure,
-  typename shell_traits::angular_momentum_type l, CoefBeginItr&& cbegin,
-  CoefEndItr&& cend, ExpBeginItr&& ebegin, ExpEndItr&& eend) {
-    if(is_null())
-        m_pimpl_ = std::make_unique<pimpl_type>(
-          typename shell_traits::center_type(0.0, 0.0, 0.0));
-    typename shell_traits::cg_reference cg(cbegin, cend, ebegin, eend,
-                                           center());
-    m_pimpl_->add_shell(pure, l, std::move(cg));
-}
 
 /// An atomic basis set where all parameters are doubles
 using AtomicBasisSetD = AtomicBasisSet<ShellD>;

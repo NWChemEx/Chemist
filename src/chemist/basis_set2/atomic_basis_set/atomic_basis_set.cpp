@@ -90,9 +90,7 @@ bool ATOMIC_BASIS_SET::has_name() const noexcept {
 
 template<typename ShellType>
 typename ATOMIC_BASIS_SET::name_reference ATOMIC_BASIS_SET::basis_set_name() {
-    if(is_null())
-        m_pimpl_ = std::make_unique<pimpl_type>(
-          typename shell_traits::center_type(0.0, 0.0, 0.0));
+    if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>();
     if(!m_pimpl_->m_name.has_value()) m_pimpl_->m_name.emplace("");
     return m_pimpl_->m_name.value();
 }
@@ -113,9 +111,7 @@ bool ATOMIC_BASIS_SET::has_atomic_number() const noexcept {
 template<typename ShellType>
 typename ATOMIC_BASIS_SET::atomic_number_reference
 ATOMIC_BASIS_SET::atomic_number() {
-    if(is_null())
-        m_pimpl_ = std::make_unique<pimpl_type>(
-          typename shell_traits::center_type(0.0, 0.0, 0.0));
+    if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>();
     if(!m_pimpl_->m_z.has_value()) m_pimpl_->m_z.emplace(0);
     return m_pimpl_->m_z.value();
 }
@@ -129,6 +125,14 @@ ATOMIC_BASIS_SET::atomic_number() const {
 }
 
 template<typename ShellType>
+void ATOMIC_BASIS_SET::add_shell(typename shell_traits::pure_type pure,
+                                 typename shell_traits::angular_momentum_type l,
+                                 typename shell_traits::cg_reference cg) {
+    if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>();
+    m_pimpl_->add_shell(pure, l, std::move(cg));
+}
+
+template<typename ShellType>
 bool ATOMIC_BASIS_SET::has_center() const noexcept {
     if(is_null()) return false;
     return m_pimpl_->m_center.has_value();
@@ -137,9 +141,7 @@ bool ATOMIC_BASIS_SET::has_center() const noexcept {
 template<typename ShellType>
 typename ATOMIC_BASIS_SET::shell_traits::center_reference
 ATOMIC_BASIS_SET::center() {
-    if(is_null())
-        m_pimpl_ = std::make_unique<pimpl_type>(
-          typename shell_traits::center_type(0.0, 0.0, 0.0));
+    if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>();
     if(!m_pimpl_->m_center.has_value())
         m_pimpl_->m_center.emplace(0.0, 0.0, 0.0);
     return m_pimpl_->m_center.value();
