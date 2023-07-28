@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 NWChemEx-Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #pragma once
 #include "../../detail_/compute_n_aos.hpp"
 #include <chemist/basis_set2/atomic_basis_set/atomic_basis_set_traits.hpp>
@@ -53,6 +69,16 @@ public:
 
     typename abs_traits::const_atomic_number_reference atomic_number() const {
         return m_z_.value().get();
+    }
+
+    bool has_center() const noexcept { return m_center_.has_value(); }
+
+    typename abs_traits::center_reference center() {
+        return m_center_.value().get();
+    }
+
+    typename abs_traits::const_center_reference center() const {
+        return m_center_.value().get();
     }
 
     typename abs_traits::pure_reference pure(size_type shell_i) {
@@ -129,22 +155,22 @@ public:
     auto cg(size_type i) {
         return typename abs_traits::contracted_gaussian_reference(
           m_prims_per_shell_[i], coef(m_cg_offsets_[i]),
-          exponent(m_cg_offsets_[i]), m_center_);
+          exponent(m_cg_offsets_[i]), center());
     }
 
     auto cg(size_type i) const {
         return typename abs_traits::const_cg_reference(
           m_prims_per_shell_[i], coef(m_cg_offsets_[i]),
-          exponent(m_cg_offsets_[i]), m_center_);
+          exponent(m_cg_offsets_[i]), center());
     }
 
     auto primitive(size_type i) {
-        return abs_traits::primitive_reference(coef(i), exponent(i), m_center_);
+        return abs_traits::primitive_reference(coef(i), exponent(i), center());
     }
 
     auto primitive(size_type i) const {
         return abs_traits::const_primitive_reference(coef(i), exponent(i),
-                                                     m_center_);
+                                                     center());
     }
 
     bool operator==(const AtomicBasisSetViewPIMPL& rhs) const noexcept {
@@ -167,20 +193,20 @@ private:
     using wrapped_z_type =
       std::reference_wrapper<typename abs_traits::atomic_number_reference>;
 
+    using wrapped_center_type =
+      std::reference_wrapper<typename abs_traits::center_reference>;
+
     /// The name of the basis set (if set)
     std::optional<wrapped_name_type> m_name_ = nullptr;
 
     /// The atomic number of the basis set (if set)
     std::optional<wrapped_z_type> m_z_ = nullptr;
 
+    /// Where *this is centered (if set)
+    std::optional<wrapped_center_type> m_center_ = nullptr;
+
     /// The number of shells in *this
     size_type m_n_shells_;
-
-    /// The purity of the shells
-    typename abs_traits::pure_reference m_pure_;
-
-    /// The angular momentum of the shells
-    typename abs_traits::angular_momentum_reference m_l_;
 
     /// The number of primitives per shell
     typename parent_type::const_size_pointer m_prims_per_shell_;
@@ -194,8 +220,11 @@ private:
     /// The exponents of the primitives
     typename abs_traits::exponent_reference m_exps_;
 
-    /// Where *this is centered
-    typename abs_traits::center_reference m_center_;
+    /// The purity of the shells
+    typename abs_traits::pure_reference m_pure_;
+
+    /// The angular momentum of the shells
+    typename abs_traits::angular_momentum_reference m_l_;
 };
 
 template<typename AtomicBasisSetType>

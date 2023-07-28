@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 NWChemEx-Project
+ * Copyright 2023 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include <chemist/basis_set/atomic_basis_set/atomic_basis_set.hpp>
+#include <chemist/basis_set2/atomic_basis_set/atomic_basis_set.hpp>
 #include <chemist/detail_/view/traits.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
@@ -36,7 +36,10 @@ private:
     using container_base = utilities::IndexableContainerBase<my_type>;
 
     /// Type of the view traits which does the TMP for us
-    using traits_type = detail_::ViewTraits<AtomicBasisSetType>;
+    using traits_type = chemist::detail_::ViewTraits<AtomicBasisSetType>;
+
+    /// Is ShellType const-qualified?
+    static constexpr bool is_const_v = traits_type::is_const_v;
 
     /// Typedefs so we don't need "typename" and "template" below
     template<typename T>
@@ -47,6 +50,29 @@ private:
 
     template<typename T>
     using ptr_type = typename traits_type::template apply_const_ptr<T>;
+
+    /// Is @p OtherType a mutable view?
+    template<typename OtherType>
+    static constexpr auto other_is_mutable_view =
+      std::is_same_v<OtherType, AtomicBasisSetView<typename traits_type::type>>;
+
+    /// Is @p OtherType a read-only view?
+    template<typename OtherType>
+    static constexpr auto other_is_const_view =
+      std::is_same_v<OtherType,
+                     AtomicBasisSetView<const typename traits_type::type>>;
+
+    /// Disables a function if *this is not read-only and @p OtherType isn't
+    /// a mutable view
+    template<typename OtherType>
+    using enable_if_this_const_other_mutable =
+      std::enable_if_t<is_const_v && other_is_mutable_view<OtherType>>;
+
+    /// Disables a function if *this is read-only and @p OtherType is
+    /// a mutable view
+    template<typename OtherType>
+    using enable_if_this_mutable_other_const =
+      std::enable_if_t<!is_const_v && other_is_const_view<OtherType>>;
 
 public:
     /// Type of the PIMPL
@@ -380,6 +406,43 @@ public:
      */
     const_atomic_number_reference atomic_number() const;
 
+    /** @brief Does *this have a center associated with it?
+     *
+     *  This method can be used to determine if *this is associated with a
+     *  specific center.
+     *
+     * @return True If the center of *this has been set and false otherwise.
+     *
+     * @throw None No throw guarantee.
+     */
+    bool has_center() const noexcept;
+
+    /** @brief Returns the center associated with *this.
+     *
+     *  This method can be used to get and set the center. If *this is a null
+     *  object, this method will first allocate state and then return the center
+     *  in that state (which will be set to the origin).
+     *
+     *  @return A mutable reference to the center.
+     *
+     *  @throw std::bad_alloc if *this is null and allocating the state fails.
+     *                        Strong throw guarantee.
+     */
+    typename shell_traits::center_reference center();
+
+    /** @brief Returns the center associated with *this.
+     *
+     *  This function is similar to the non-const version, except an error is
+     *  raised if *this is a null basis set (and that the resulting reference
+     *  is read-only).
+     *
+     *  @return A read-only reference to the center.
+     *
+     *  @throw std::runtime_error if *this does not have a basis set assigned to
+     *                            it. Strong throw guarantee.
+     */
+    typename shell_traits::const_center_reference center() const;
+
     /** @brief Returns the total number of AOs on this center.
      *
      *  Each shell is comprised of AOs. This function will add up the total
@@ -585,6 +648,9 @@ private:
 
     /// Throws std::runtime_error if there's no aliased atomic number
     void assert_atomic_number_() const;
+
+    /// Throws std::runtime_error if there's no aliased center
+    void assert_center_() const;
 
     /// Throws std::runtime_error if this aliases a null basis
     void assert_non_null_() const;

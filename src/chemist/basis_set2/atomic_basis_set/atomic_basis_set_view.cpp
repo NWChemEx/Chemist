@@ -1,5 +1,21 @@
+/*
+ * Copyright 2023 NWChemEx-Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #include "detail_/atomic_basis_set_view_pimpl.hpp"
-#include <chemist/basis_set/atomic_basis_set/atomic_basis_set_view.hpp>
+#include <chemist/basis_set2/atomic_basis_set/atomic_basis_set_view.hpp>
 
 namespace chemist::basis_set {
 
@@ -107,6 +123,26 @@ ATOMIC_BS_VIEW::atomic_number() const {
 }
 
 ATOMIC_BS_TPARAMS
+bool ATOMIC_BS_VIEW::has_center() const noexcept {
+    if(is_null()) return false;
+    return m_pimpl_->has_center();
+}
+
+ATOMIC_BS_TPARAMS
+typename ATOMIC_BS_VIEW::shell_traits::center_reference
+ATOMIC_BS_VIEW::center() {
+    assert_center_();
+    return m_pimpl_->center();
+}
+
+ATOMIC_BS_TPARAMS
+typename ATOMIC_BS_VIEW::shell_traits::const_center_reference
+ATOMIC_BS_VIEW::center() const {
+    assert_center_();
+    return m_pimpl_->center();
+}
+
+ATOMIC_BS_TPARAMS
 typename ATOMIC_BS_VIEW::size_type ATOMIC_BS_VIEW::n_aos() const noexcept {
     if(is_null()) return 0;
     return m_pimpl_->n_aos();
@@ -184,10 +220,18 @@ void ATOMIC_BS_VIEW::assert_name_() const {
 
 ATOMIC_BS_TPARAMS
 void ATOMIC_BS_VIEW::assert_atomic_number_() const {
-    if(has_name()) return;
+    if(has_atomic_number()) return;
     throw std::runtime_error(
       "The AtomicBasisSet aliased by this "
       "AtomicBasisSetView does not have an atomic number assigned to it.");
+}
+
+ATOMIC_BS_TPARAMS
+void ATOMIC_BS_VIEW::assert_center_() const {
+    if(has_center()) return;
+    throw std::runtime_error(
+      "The AtomicBasisSet aliased by this "
+      "AtomicBasisSetView does not have a center assigned to it.");
 }
 
 ATOMIC_BS_TPARAMS

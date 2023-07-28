@@ -17,7 +17,7 @@
 #include <catch2/catch.hpp>
 #include <chemist/basis_set2/atomic_basis_set/atomic_basis_set.hpp>
 #include <chemist/basis_set2/atomic_basis_set/atomic_basis_set_traits.hpp>
-// #include <chemist/basis_set2/atomic_basis_set/atomic_basis_set_view.hpp>
+#include <chemist/basis_set2/atomic_basis_set/atomic_basis_set_view.hpp>
 
 using namespace chemist::basis_set;
 
@@ -27,7 +27,7 @@ TEMPLATE_TEST_CASE("AtomicBasisSetTraits", "", float, double) {
 
     AtomicBasisSetTraits<abs_type> abs_traits;
 
-    // AtomicBasisSetTraits<AtomicBasisSetView<abs_type>> abs_view_traits;
+    AtomicBasisSetTraits<AtomicBasisSetView<abs_type>> abs_view_traits;
 
-    // AtomicBasisSetTraits<AtomicBasisSetView<const abs_type>> const_abs_traits;
+    AtomicBasisSetTraits<AtomicBasisSetView<const abs_type>> const_abs_traits;
 }

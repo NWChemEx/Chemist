@@ -183,8 +183,9 @@ public:
      *
      *  This ctor is used to create a new AtomicBasisSet instance with the
      *  provided Cartesian coordinates, while the basis set name and atomic
-     *  number are defaulted. The name can be set later by calling `name()`.
+     *  number are unset. The name can be set later by calling `name()`.
      *  Similarly the atomic number can be set later by calling
+     *  `atomic_number()`.
      *
      *  @param[in] x The x-coordinate for the resulting AtomicBasisSet
      *  @param[in] y The y-coordinate for the resulting AtomicBasisSet
@@ -201,7 +202,7 @@ public:
      *
      *  This ctor is used to create a new AtomicBasisSet instance with the
      *  provided center, while the basis set name and atomic number are
-     *  defaulted. The name can be set later by calling `name()`. Similarly the
+     *  unset. The name can be set later by calling `name()`. Similarly the
      *  atomic number can be set later by calling `atomic_number()`.
      *
      *  @param[in] center The point the basis set is centered on.
@@ -347,10 +348,41 @@ public:
      */
     const_atomic_number_reference atomic_number() const;
 
+    /** @brief Does *this have a center associated with it?
+     *
+     *  This method can be used to determine if *this is associated with a
+     *  specific center.
+     *
+     * @return True If the center of *this has been set and false otherwise.
+     *
+     * @throw None No throw guarantee.
+     */
     bool has_center() const noexcept;
 
+    /** @brief Returns the center associated with *this.
+     *
+     *  This method can be used to get and set the center. If *this is a null
+     *  object, this method will first allocate state and then return the center
+     *  in that state (which will be set to the origin).
+     *
+     *  @return A mutable reference to the center.
+     *
+     *  @throw std::bad_alloc if *this is null and allocating the state fails.
+     *                        Strong throw guarantee.
+     */
     typename shell_traits::center_reference center();
 
+    /** @brief Returns the center associated with *this.
+     *
+     *  This function is similar to the non-const version, except an error is
+     *  raised if *this is a null basis set (and that the resulting reference
+     *  is read-only).
+     *
+     *  @return A read-only reference to the center.
+     *
+     *  @throw std::runtime_error if *this does not have a basis set assigned to
+     *                            it. Strong throw guarantee.
+     */
     typename shell_traits::const_center_reference center() const;
 
     /** @brief Adds a shell to the center.
@@ -360,10 +392,7 @@ public:
      *
      *  @param[in] pure Whether the new shell is pure or not.
      *  @param[in] l The total angular momentum of the new shell.
-     *  @param[in] cs The contraction coefficients for the primitives comprising
-     *                the new shell's CGTO.
-     *  @param[in] es The exponents for the primitives comprising the new
-     *                shell's CGTO.
+     *  @param[in] cg The contracted gaussian of the new shell.
      *
      *  @throw std::bad_alloc if there is insufficient memory to create the new
      *                        Shell. Weak throw guarantee.
@@ -442,6 +471,11 @@ public:
      *
      *  @param[in] shell the index of the shell we want the primitive range for.
      *                   Must be in the range [0, size())
+     *
+     *  @return The range of primitives associated with the shell
+     *
+     *  @throw std::out_of_range if @p shell is not in the range [0, size()).
+     *                           Strong throw guarantee.
      */
     range_type primitive_range(size_type shell) const;
 
@@ -453,6 +487,8 @@ public:
      *  @return The index of the shell primitive number @p primitive belongs
      *          to.
      *
+     *  @throw std::out_of_range if @p primitive is not in the range
+     *                           [0, n_primitives()). Strong throw guarantee.
      */
     size_type primitive_to_shell(size_type primitive) const;
 
@@ -470,10 +506,6 @@ public:
      *
      *  @throw std::out_of_range if @p i is not in the range [0, n_aos()).
      *                            Strong throw guarantee.
-     *  @throw std::bad_alloc if there is insufficient memory to create the
-     *                        PIMPL for the resulting view. Strong throw
-     *                        guarantee.
-     *
      */
     typename shell_traits::primitive_reference primitive(size_type i);
 
@@ -491,10 +523,6 @@ public:
      *
      *  @throw std::out_of_range if @p i is not in the range [0, n_aos()).
      *                            Strong throw guarantee.
-     *  @throw std::bad_alloc if there is insufficient memory to create the
-     *                        PIMPL for the resulting view. Strong throw
-     *                        guarantee.
-     *
      */
     typename shell_traits::const_primitive_reference primitive(
       size_type i) const;
