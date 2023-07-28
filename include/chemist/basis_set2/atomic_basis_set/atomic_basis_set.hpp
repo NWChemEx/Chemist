@@ -347,6 +347,12 @@ public:
      */
     const_atomic_number_reference atomic_number() const;
 
+    bool has_center() const noexcept;
+
+    typename shell_traits::center_reference center();
+
+    typename shell_traits::const_center_reference center() const;
+
     /** @brief Adds a shell to the center.
      *
      *  This function will create a Shell instance, with the specified
@@ -492,12 +498,6 @@ public:
      */
     typename shell_traits::const_primitive_reference primitive(
       size_type i) const;
-
-    bool has_center() const noexcept;
-
-    typename shell_traits::center_reference center();
-
-    typename shell_traits::const_center_reference center() const;
 
     // -------------------------------------------------------------------------
     // -- Utility methods

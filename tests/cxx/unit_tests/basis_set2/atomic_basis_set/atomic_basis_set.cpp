@@ -176,29 +176,113 @@ TEMPLATE_TEST_CASE("AtomicBasisSet", "", float, double) {
         }
     }
     SECTION("Getters/setters") {
-        SECTION("has_name") {}
-        SECTION("basis_set_name") {}
-        SECTION("basis_set_name const") {}
-        SECTION("has_atomic_number") {}
-        SECTION("atomic_number") {}
-        SECTION("atomic_number const") {}
-        SECTION("add_shell") {}
-        SECTION("n_aos") {}
-        SECTION("n_primitives") {}
-        SECTION("primitive_range") {}
-        SECTION("primitive_to_shell") {}
-        SECTION("primitive") {}
-        SECTION("primitive const") {}
-        SECTION("has_center") {}
-        SECTION("center") {}
-        SECTION("center const") {}
+        SECTION("has_name") {
+            REQUIRE_FALSE(abs0.has_name());
+            REQUIRE(abs1.has_name());
+        }
+        SECTION("basis_set_name") {
+            REQUIRE(abs0.basis_set_name() == "");
+            REQUIRE(abs1.basis_set_name() == name1);
+        }
+        SECTION("basis_set_name const") {
+            REQUIRE_THROWS_AS(std::as_const(abs0).basis_set_name(),
+                              std::runtime_error);
+            REQUIRE(std::as_const(abs1).basis_set_name() == name1);
+        }
+        SECTION("has_atomic_number") {
+            REQUIRE_FALSE(abs0.has_atomic_number());
+            REQUIRE(abs1.has_atomic_number());
+        }
+        SECTION("atomic_number") {
+            REQUIRE(abs0.atomic_number() == z0);
+            REQUIRE(abs1.atomic_number() == z1);
+        }
+        SECTION("atomic_number const") {
+            REQUIRE_THROWS_AS(std::as_const(abs0).atomic_number(),
+                              std::runtime_error);
+            REQUIRE(std::as_const(abs1).atomic_number() == z1);
+        }
+        SECTION("has_center") {
+            REQUIRE_FALSE(abs0.has_center());
+            REQUIRE(abs1.has_name());
+        }
+        SECTION("center") {
+            REQUIRE(abs0.center() == r0);
+            REQUIRE(abs1.center() == r1);
+        }
+        SECTION("center const") {
+            REQUIRE_THROWS_AS(std::as_const(abs0).center(), std::runtime_error);
+            REQUIRE(std::as_const(abs1).center() == r1);
+        }
+        SECTION("add_shell") {
+            REQUIRE(abs0.is_null());
+            REQUIRE(abs0.size() == 0);
+            abs0.add_shell(cart, l1, cg1);
+            REQUIRE(abs0.size() == 1);
+            REQUIRE_FALSE(abs0.is_null());
+
+            REQUIRE(abs1.size() == 1);
+            abs1.add_shell(cart, l1, cg1);
+            REQUIRE(abs1.size() == 2);
+        }
+        SECTION("n_aos") {
+            REQUIRE(abs0.n_aos() == 0);
+            REQUIRE(abs1.n_aos() == 3);
+        }
+        SECTION("n_primitives") {
+            REQUIRE(abs0.n_primitives() == 0);
+            REQUIRE(abs1.n_primitives() == 3);
+        }
+        SECTION("primitive_range") {
+            REQUIRE_THROWS_AS(abs0.primitive_range(0), std::out_of_range);
+            REQUIRE(abs1.primitive_range(0) == range_type{0, 3});
+            REQUIRE_THROWS_AS(abs1.primitive_range(1), std::out_of_range);
+        }
+        SECTION("primitive_to_shell") {
+            REQUIRE_THROWS_AS(abs0.primitive_to_shell(0), std::out_of_range);
+            REQUIRE(abs1.primitive_to_shell(0) == 0);
+            REQUIRE(abs1.primitive_to_shell(1) == 0);
+            REQUIRE(abs1.primitive_to_shell(2) == 0);
+            REQUIRE_THROWS_AS(abs1.primitive_to_shell(3), std::out_of_range);
+        }
+        SECTION("primitive") {
+            REQUIRE_THROWS_AS(abs0.primitive(0), std::out_of_range);
+            REQUIRE(abs1.primitive(0) == p0);
+            REQUIRE(abs1.primitive(1) == p1);
+            REQUIRE(abs1.primitive(2) == p2);
+            REQUIRE_THROWS_AS(abs1.primitive(4), std::out_of_range);
+        }
+        SECTION("primitive const") {
+            REQUIRE_THROWS_AS(std::as_const(abs0).primitive(0),
+                              std::out_of_range);
+            REQUIRE(std::as_const(abs1).primitive(0) == p0);
+            REQUIRE(std::as_const(abs1).primitive(1) == p1);
+            REQUIRE(std::as_const(abs1).primitive(2) == p2);
+            REQUIRE_THROWS_AS(std::as_const(abs1).primitive(4),
+                              std::out_of_range);
+        }
     }
     SECTION("Utility") {
-        SECTION("swap") {}
-        SECTION("is_null") {}
-        SECTION("operator==") {
-            SECTION("equivalent") {}
+        SECTION("swap") {
+            abs_type abs0_copy(abs0);
+            abs_type abs1_copy(abs1);
+            abs0.swap(abs1);
+            REQUIRE(abs0_copy == abs1);
+            REQUIRE(abs1_copy == abs0);
         }
-        SECTION("operator!=") {}
+        SECTION("is_null") {
+            REQUIRE(abs0.is_null());
+            REQUIRE_FALSE(abs1.is_null());
+        }
+        SECTION("operator==") {
+            SECTION("equivalent") {
+                abs_type abs2(abs1);
+                REQUIRE(abs0 == abs_type{});
+                REQUIRE(abs1 == abs2);
+                // Rest of the state is handled by the comparison of the PIMPLS
+            }
+            SECTION("null and non-null") { REQUIRE_FALSE(abs0 == abs1); }
+        }
+        SECTION("operator!=") { REQUIRE(abs0 != abs1); }
     }
 }

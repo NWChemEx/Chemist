@@ -125,14 +125,6 @@ ATOMIC_BASIS_SET::atomic_number() const {
 }
 
 template<typename ShellType>
-void ATOMIC_BASIS_SET::add_shell(typename shell_traits::pure_type pure,
-                                 typename shell_traits::angular_momentum_type l,
-                                 typename shell_traits::cg_reference cg) {
-    if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>();
-    m_pimpl_->add_shell(pure, l, std::move(cg));
-}
-
-template<typename ShellType>
 bool ATOMIC_BASIS_SET::has_center() const noexcept {
     if(is_null()) return false;
     return m_pimpl_->m_center.has_value();
@@ -153,6 +145,14 @@ ATOMIC_BASIS_SET::center() const {
     if(has_center()) return m_pimpl_->m_center.value();
     throw std::runtime_error("The current AtomicBasisSet does not have a "
                              "center set.");
+}
+
+template<typename ShellType>
+void ATOMIC_BASIS_SET::add_shell(typename shell_traits::pure_type pure,
+                                 typename shell_traits::angular_momentum_type l,
+                                 typename shell_traits::cg_reference cg) {
+    if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>();
+    m_pimpl_->add_shell(pure, l, std::move(cg));
 }
 
 template<typename ShellType>
@@ -195,6 +195,26 @@ typename ATOMIC_BASIS_SET::size_type ATOMIC_BASIS_SET::n_primitives()
     size_type counter = 0;
     for(auto&& shell_i : *this) counter += shell_i.n_primitives();
     return counter;
+}
+
+template<typename ShellType>
+typename ATOMIC_BASIS_SET::range_type ATOMIC_BASIS_SET::primitive_range(
+  size_type shell) const {
+    if(shell >= size_()) {
+        throw std::out_of_range("Requested i: " + std::to_string(shell) +
+                                " is not in the range [0, size())");
+    }
+    return m_pimpl_->primitive_range(shell);
+}
+
+template<typename ShellType>
+typename ATOMIC_BASIS_SET::size_type ATOMIC_BASIS_SET::primitive_to_shell(
+  size_type primitive) const {
+    if(primitive >= n_primitives()) {
+        throw std::out_of_range("Requested i: " + std::to_string(primitive) +
+                                " is not in the range [0, n_primitives())");
+    }
+    return m_pimpl_->prim2shell(primitive);
 }
 
 template<typename ShellType>
