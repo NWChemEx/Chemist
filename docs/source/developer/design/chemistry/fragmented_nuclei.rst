@@ -85,3 +85,59 @@ Empty states.
    The default constructed object should represent a truly empty state, such a
    state does not even have a supersystem set. There is also an empty state
    where the supersystem is set, but the object may not contain any fragments.
+
+.. _fn_caps:
+
+Caps.
+   As a direct result of the :ref:`fs_generality` consideration raised for the
+   ``FragmentedSystem`` class, the  ``FragmenteNuclei`` object may contain
+   caps. Most caps contain a nucleus and one or more electrons. The
+   ``FragmentedNuclei`` class is responsible for the nucleus of the cap.
+
+   - Determining cap placement requires a ``FragmentedNuclei`` object so we
+     know which nuclei are in which sets. The caps must thus be in addition to
+     the ``FragmentedNuclei`` class.
+
+***********************
+FragmentedNuclei Design
+***********************
+
+.. _fig_fragmented_nuclei_design:
+
+.. figure:: assets/fragmented_nuclei.png
+   :align: center
+
+   The classes involved in implementing the ``FragmentedNuclei`` component.
+
+To a large extent the ``FragmentedNuclei`` class parallels the ``Nuclei``
+class. More specifically it is the base of the ``FragmentedSystem`` hierarchy
+and worries about how the ``Nuclei`` object of the original system is
+fragmented.
+
+Capping requires a ``FragmentedNuclei`` object to cap. For this reason, we
+put the ``CapSet`` in a class derived from ``FragmentedNuclei``, 
+``CappedFragmentedNuclei``.
+
+*************
+Proposed APIs
+*************
+
+The next code block summarizes how we expect users to fill in a 
+``FragmentedNuclei`` and a ``CappedFragmentedNuclei`` object.
+
+.. code-block:: c++
+
+   Nuclei nukes           = get_nuclei(); //Usually defined by the end-user
+   FragmentedNuclei frags = fragment_nuclei_object(nukes);  
+   CapSet caps            = cap_fragmented_nuclei(frags);
+   CappedFragmentedNuclei capped_frags(frags, caps);
+
+************************
+FragmentedNuclei Summary
+************************
+
+:ref:`fn_caps`
+   The ``FragmentedNuclei`` class will contain a ``Caps`` object which
+   represents the broken bonds and what they are replaced with. Discussion of
+   the design of the ``Caps`` class can be found 
+   :ref:`designing_the_caps_class`.
