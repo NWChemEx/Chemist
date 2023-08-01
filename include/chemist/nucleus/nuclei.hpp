@@ -53,7 +53,7 @@ public:
     /// Read-only reference to an element
     using const_reference = NucleusView<const value_type>;
 
-    /// -- PointCharge types ---------------------------------------------------
+    // -- PointCharge types ---------------------------------------------------
 
     /// The type used to store the charge
     using charge_type = typename value_type::charge_type;
