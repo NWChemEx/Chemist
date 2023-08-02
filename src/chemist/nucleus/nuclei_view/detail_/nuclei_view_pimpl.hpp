@@ -3,10 +3,23 @@
 
 namespace chemist::detail_ {
 
-class NuceliViewPIMPL {
+
+/** @brief Defines the API all NucleiView PIMPLs must implement.
+ * 
+ *  To implement a new NucleiView derive from this class and implement:
+ *  - pimpl_pointer clone() const
+ *  - reference get_nukes(size_type)
+ *  - const_reference get_nukes(size_type) const
+ *  - size_type size() const noexcept
+ *  - bool are_equal(const NucleiViewPIMPL&) const noexcept
+ */
+class NucleiViewPIMPL {
 public:
     /// Type *this implements
     using nuclei_view_type = NucleiView;
+
+    /// Type nuclei_view_type is a view of
+    using nuclei_type = typename nuclei_view_type::nuclei_type;
 
     /// Type of a pointer to *this
     using pimpl_pointer = typename nuclei_view_type::pimpl_pointer;
@@ -20,7 +33,11 @@ public:
     /// Type nuclei_view_type uses for indexing
     using size_type = typename nuclei_view_type::size_type;
 
-    virutal ~NucleiViewPIMPL() noexcpet = default;
+    /// No-op because *this has no state
+    NucleiViewPIMPL() noexcept = default;
+
+    /// No-op polymorphic dtor,
+    virtual ~NucleiViewPIMPL() noexcept = default;
 
     pimpl_pointer clone() const { return clone_(); }
 
@@ -32,9 +49,13 @@ public:
 
     size_type size() const noexcept { return size_(); }
 
+    bool are_equal(const NucleiViewPIMPL& rhs)const noexcept{
+        return are_equal_(rhs) && rhs.are_equal_(*this);
+    }
+
 protected:
     /// Derived class overrides to implement clone
-    virtual clone_() const = 0;
+    virtual pimpl_pointer clone_() const = 0;
 
     /// Derived class overrides to implement get_nuke()
     virtual reference get_nuke_(size_type i) = 0;
@@ -44,6 +65,9 @@ protected:
 
     /// Derived class overrides to implement size
     virtual size_type size_() const noexcept = 0;
+
+    /// Derived class overrides to implement are_equal
+    virtual bool are_equal_() const noexcept = 0;
 };
 
 }

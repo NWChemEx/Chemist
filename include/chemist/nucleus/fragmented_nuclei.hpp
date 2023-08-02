@@ -20,6 +20,10 @@
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
+namespace detail_ {
+class FragmentedNucleiPIMPL;
+}
+
 
 /** @brief Class describing super-/sub-set relationship among sets of `Nucleus`
  *         objects.
@@ -31,6 +35,10 @@ namespace chemist {
  */
 class FragmentedNuclei
   : public utilities::IndexableContainerBase<FragmentedNuclei> {
+private:
+    /// Type *this inherits from
+    using base_type = utilities::IndexableContainerBase<FragmentedNuclei>;
+
 public:
     /// *this holds fragments from an object of supersystem_type
     using supersystem_type = Nuclei;
@@ -38,9 +46,6 @@ public:
     /// Type of a read-only reference to the supersystem
     using const_supersystem_reference = const supersystem_type&;
 
-private:
-    /// Type *this inherits from
-    using base_type = utilities::IndexableContainerBase<FragmentedNuclei>;
 
     /// This is the type of the object used to implement *this
     using impl_type = set_theory::FamilyOfSets<supersystem_type>;
