@@ -125,7 +125,7 @@ public:
 
     size_type n_primitives() const noexcept {
         size_type counter = 0;
-        for(size_type i = 0; i < size(); ++i) counter += m_prims_per_shell_[i];
+        for(size_type i = 0; i < size(); ++i) counter += m_prims_per_cg_[i];
         return counter;
     }
 
@@ -154,13 +154,13 @@ public:
 
     auto cg(size_type i) {
         return typename abs_traits::contracted_gaussian_reference(
-          m_prims_per_shell_[i], coef(m_cg_offsets_[i]),
+          m_prims_per_cg_[i], coef(m_cg_offsets_[i]),
           exponent(m_cg_offsets_[i]), center());
     }
 
     auto cg(size_type i) const {
         return typename abs_traits::const_cg_reference(
-          m_prims_per_shell_[i], coef(m_cg_offsets_[i]),
+          m_prims_per_cg_[i], coef(m_cg_offsets_[i]),
           exponent(m_cg_offsets_[i]), center());
     }
 
@@ -209,7 +209,7 @@ private:
     size_type m_n_shells_;
 
     /// The number of primitives per shell
-    typename parent_type::const_size_pointer m_prims_per_shell_;
+    typename parent_type::const_size_pointer m_prims_per_cg_;
 
     /// The offsets for primitives in a shell
     std::vector<size_type> m_cg_offsets_;
@@ -237,16 +237,18 @@ AtomicBasisSetViewPIMPL<AtomicBasisSetType>::AtomicBasisSetViewPIMPL(
   typename abs_traits::coefficient_reference coefs,
   typename abs_traits::exponent_pointer exps,
   typename abs_traits::center_reference center) :
-  m_name_(name),
-  m_z_(z),
+  m_name_(std::move(name)),
+  m_z_(std::move(z)),
   m_n_shells_(nshells),
-  m_prims_per_shell_(prims_per_shell),
-  m_cg_offsets_(nshells),
+  m_pure_(pure_per_shell),
+  m_l_(l_per_shell),
+  m_prims_per_cg_(prims_per_shell),
+  m_cg_offsets_(nshells, 0),
   m_coefs_(coefs),
   m_exps_(exps),
   m_center_(std::move(center)) {
     for(size_type i = 1; i < nshells; ++i) {
-        m_cg_offsets_[i] = m_cg_offsets_[i - 1] + m_prims_per_shell_[i];
+        m_cg_offsets_[i] = m_cg_offsets_[i - 1] + m_prims_per_cg_[i];
     }
 }
 
@@ -259,13 +261,15 @@ AtomicBasisSetViewPIMPL<AtomicBasisSetType>::AtomicBasisSetViewPIMPL(
   typename abs_traits::exponent_pointer exps,
   typename abs_traits::center_reference center) :
   m_n_shells_(nshells),
-  m_prims_per_shell_(prims_per_shell),
-  m_cg_offsets_(nshells),
+  m_pure_(pure_per_shell),
+  m_l_(l_per_shell),
+  m_prims_per_cg_(prims_per_shell),
+  m_cg_offsets_(nshells, 0),
   m_coefs_(coefs),
   m_exps_(exps),
   m_center_(std::move(center)) {
     for(size_type i = 1; i < nshells; ++i) {
-        m_cg_offsets_[i] = m_cg_offsets_[i - 1] + m_prims_per_shell_[i];
+        m_cg_offsets_[i] = m_cg_offsets_[i - 1] + m_prims_per_cg_[i];
     }
 }
 

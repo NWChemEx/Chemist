@@ -104,7 +104,7 @@ public:
       typename atomic_basis_set_type::atomic_number_type;
 
     /// Mutable reference to the basis set's atomic number
-    using atomic_number_reference = apply_const_ref<name_type>;
+    using atomic_number_reference = apply_const_ref<atomic_number_type>;
 
     /// Read-only reference to the basis set's atomic number
     using const_atomic_number_reference =

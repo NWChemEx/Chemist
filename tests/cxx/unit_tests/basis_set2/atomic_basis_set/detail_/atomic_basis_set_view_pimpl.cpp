@@ -26,7 +26,7 @@ TEMPLATE_TEST_CASE("AtomicBasisSetViewPIMPL", "", float, double) {
     using shell_type = Shell<cg_type>;
     using abs_type   = AtomicBasisSet<shell_type>;
     using abs_traits = AtomicBasisSetTraits<abs_type>;
-    using pimpl_type = AtomicBasisSetViewPIMPL<shell_type>;
+    using pimpl_type = AtomicBasisSetViewPIMPL<abs_type>;
 
     using pure_type          = typename abs_traits::pure_type;
     using l_type             = typename abs_traits::angular_momentum_type;
@@ -49,7 +49,7 @@ TEMPLATE_TEST_CASE("AtomicBasisSetViewPIMPL", "", float, double) {
     name_type name0, name1{"name1"};
     atomic_number_type z0{0}, z1{1};
     shell_type shell0{cart, l0, cg0}, shell1{pure, l1, cg1};
-    abs_type abs(name1, z1, r1);
+    abs_type abs1(name1, z1, r1);
     abs1.add_shell(cart, l1, cg1);
 
     // pimpl_type pimpl1{};
