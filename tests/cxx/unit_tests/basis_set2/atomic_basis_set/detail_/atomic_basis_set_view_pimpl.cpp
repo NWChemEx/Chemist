@@ -34,8 +34,10 @@ TEMPLATE_TEST_CASE("AtomicBasisSetViewPIMPL", "", float, double) {
     using name_type          = typename abs_traits::name_type;
     using atomic_number_type = typename abs_traits::atomic_number_type;
     using range_type         = typename abs_traits::range_type;
-    using coeff_vector = std::vector<typename abs_traits::coefficient_type>;
-    using exp_vector   = std::vector<typename abs_traits::exponent_type>;
+    using shell_ref_type     = typename abs_type::const_reference;
+    using coeff_vector     = std::vector<typename abs_traits::coefficient_type>;
+    using exp_vector       = std::vector<typename abs_traits::exponent_type>;
+    using shell_ref_vector = std::vector<shell_ref_type>;
 
     // Inputs for ctors
     pure_type cart{0}, pure{1};
@@ -52,7 +54,10 @@ TEMPLATE_TEST_CASE("AtomicBasisSetViewPIMPL", "", float, double) {
     abs_type abs1(name1, z1, r1);
     abs1.add_shell(cart, l1, cg1);
 
-    // pimpl_type pimpl1{};
+    pimpl_type pimpl1{shell_ref_vector{abs1.begin(), abs1.end()}};
+    pimpl_type pimpl2{abs1.basis_set_name(), abs1.atomic_number(),
+                      abs1.center(),
+                      shell_ref_vector{abs1.begin(), abs1.end()}};
 
     SECTION("Ctors") {
         SECTION("Values 1") {}
@@ -72,10 +77,6 @@ TEMPLATE_TEST_CASE("AtomicBasisSetViewPIMPL", "", float, double) {
         SECTION("pure const") {}
         SECTION("l") {}
         SECTION("l const") {}
-        SECTION("coef") {}
-        SECTION("coef const") {}
-        SECTION("exponent") {}
-        SECTION("exponent const") {}
         SECTION("size") {}
         SECTION("n_aos") {}
         SECTION("n_primitives") {}
