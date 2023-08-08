@@ -56,6 +56,16 @@ public:
       m_z(std::move(atomic_n)),
       m_center(std::move(center)) {}
 
+    AtomicBasisSetPIMPL(
+      typename abs_traits::center_type center,
+      std::vector<typename abs_traits::const_shell_reference> shells);
+
+    AtomicBasisSetPIMPL(
+      typename abs_traits::name_type name,
+      typename abs_traits::atomic_number_type atomic_n,
+      typename abs_traits::center_type center,
+      std::vector<typename abs_traits::const_shell_reference> shells);
+
     /// If set, will be the name of the basis set
     std::optional<typename abs_traits::name_type> m_name;
 
@@ -67,7 +77,7 @@ public:
 
     void add_shell(typename abs_traits::pure_type pure,
                    typename abs_traits::angular_momentum_type l,
-                   typename abs_traits::cg_reference cg);
+                   typename abs_traits::const_cg_reference cg);
 
     auto operator[](size_type i) {
         return typename abs_traits::shell_reference(pure(i), l(i), cg(i));
@@ -159,10 +169,34 @@ private:
 #define ATOMIC_BASIS_SET_PIMPL AtomicBasisSetPIMPL<ShellType>
 
 template<typename ShellType>
+ATOMIC_BASIS_SET_PIMPL::AtomicBasisSetPIMPL(
+  typename abs_traits::center_type center,
+  std::vector<typename abs_traits::const_shell_reference> shells) :
+  m_center(std::move(center)) {
+    for(auto& i : shells) {
+        this->add_shell(i.pure(), i.l(), i.contracted_gaussian());
+    }
+}
+
+template<typename ShellType>
+ATOMIC_BASIS_SET_PIMPL::AtomicBasisSetPIMPL(
+  typename abs_traits::name_type name,
+  typename abs_traits::atomic_number_type atomic_n,
+  typename abs_traits::center_type center,
+  std::vector<typename abs_traits::const_shell_reference> shells) :
+  m_name(std::move(name)),
+  m_z(std::move(atomic_n)),
+  m_center(std::move(center)) {
+    for(auto& i : shells) {
+        this->add_shell(i.pure(), i.l(), i.contracted_gaussian());
+    }
+}
+
+template<typename ShellType>
 void ATOMIC_BASIS_SET_PIMPL::add_shell(
   typename abs_traits::pure_type pure,
   typename abs_traits::angular_momentum_type l,
-  typename abs_traits::cg_reference cg) {
+  typename abs_traits::const_cg_reference cg) {
     set_or_check_center_(cg.center());
 
     // This shell will have index...

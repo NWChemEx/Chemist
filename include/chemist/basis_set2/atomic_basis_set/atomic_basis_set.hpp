@@ -226,6 +226,15 @@ public:
      */
     AtomicBasisSet(const_name_reference name, atomic_number_type atomic_n);
 
+    template<typename ShellsBeginItr, typename ShellsEndItr>
+    AtomicBasisSet(typename shell_traits::center_type center,
+                   ShellsBeginItr&& sbegin, ShellsEndItr&& send);
+
+    template<typename ShellsBeginItr, typename ShellsEndItr>
+    AtomicBasisSet(const_name_reference name, atomic_number_type atomic_n,
+                   typename shell_traits::center_type center,
+                   ShellsBeginItr&& sbegin, ShellsEndItr&& send);
+
     /// Defaulted no throw dtor
     ~AtomicBasisSet() noexcept;
 
@@ -600,6 +609,13 @@ private:
      */
     AtomicBasisSet(pimpl_pointer pimpl) noexcept;
 
+    explicit AtomicBasisSet(typename shell_traits::center_type center,
+                            std::vector<const_reference> shell_views);
+
+    AtomicBasisSet(const_name_reference name, atomic_number_type atomic_n,
+                   typename shell_traits::center_type center,
+                   std::vector<const_reference> shell_views);
+
     /// True if *this has a PIMPL and false otherwise
     bool has_pimpl_() const noexcept;
 
@@ -615,6 +631,26 @@ private:
     /// The instance that actually implements this class
     pimpl_pointer m_pimpl_;
 };
+
+template<typename ShellType>
+template<typename ShellsBeginItr, typename ShellsEndItr>
+AtomicBasisSet<ShellType>::AtomicBasisSet(
+  typename shell_traits::center_type center, ShellsBeginItr&& sbegin,
+  ShellsEndItr&& send) :
+  AtomicBasisSet(
+    center, std::vector<const_reference>(std::forward<ShellsBeginItr>(sbegin),
+                                         std::forward<ShellsEndItr>(send))) {}
+
+template<typename ShellType>
+template<typename ShellsBeginItr, typename ShellsEndItr>
+AtomicBasisSet<ShellType>::AtomicBasisSet(
+  const_name_reference name, atomic_number_type atomic_n,
+  typename shell_traits::center_type center, ShellsBeginItr&& sbegin,
+  ShellsEndItr&& send) :
+  AtomicBasisSet(
+    name, atomic_n, center,
+    std::vector<const_reference>(std::forward<ShellsBeginItr>(sbegin),
+                                 std::forward<ShellsEndItr>(send))) {}
 
 /// An atomic basis set where all parameters are doubles
 using AtomicBasisSetD = AtomicBasisSet<ShellD>;

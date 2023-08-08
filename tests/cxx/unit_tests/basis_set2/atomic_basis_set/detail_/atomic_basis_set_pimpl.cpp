@@ -34,6 +34,7 @@ TEMPLATE_TEST_CASE("AtomicBasisSetPIMPL", "", float, double) {
     using name_type          = typename abs_traits::name_type;
     using atomic_number_type = typename abs_traits::atomic_number_type;
     using range_type         = typename abs_traits::range_type;
+    using shell_view_type    = typename abs_traits::const_shell_reference;
     using coeff_vector = std::vector<typename abs_traits::coefficient_type>;
     using exp_vector   = std::vector<typename abs_traits::exponent_type>;
 
@@ -49,6 +50,7 @@ TEMPLATE_TEST_CASE("AtomicBasisSetPIMPL", "", float, double) {
     name_type name0, name1{"name1"};
     atomic_number_type z0{0}, z1{1};
     shell_type shell0{cart, l0, cg0}, shell1{pure, l1, cg1};
+    std::vector<shell_view_type> shell_views{shell0, shell1};
 
     pimpl_type pimpl0;
     pimpl_type pimpl1(r1);
@@ -86,6 +88,26 @@ TEMPLATE_TEST_CASE("AtomicBasisSetPIMPL", "", float, double) {
             REQUIRE(pimpl3.m_center.value() == r1);
             REQUIRE(pimpl3.size() == 0);
             REQUIRE(pimpl3.n_primitives() == 0);
+        }
+        SECTION("With center and shells") {
+            pimpl_type from_inputs(r1, shell_views);
+            REQUIRE(from_inputs.m_name.has_value() == false);
+            REQUIRE(from_inputs.m_z.has_value() == false);
+            REQUIRE(from_inputs.m_center.value() == r1);
+            REQUIRE(from_inputs.size() == 2);
+            REQUIRE(from_inputs.n_primitives() == 4);
+            REQUIRE(from_inputs[0] == shell0);
+            REQUIRE(from_inputs[1] == shell1);
+        }
+        SECTION("With name, z, and shells") {
+            pimpl_type from_inputs(name1, z1, r1, shell_views);
+            REQUIRE(from_inputs.m_name.value() == name1);
+            REQUIRE(from_inputs.m_z.value() == z1);
+            REQUIRE(from_inputs.m_center.value() == r1);
+            REQUIRE(from_inputs.size() == 2);
+            REQUIRE(from_inputs.n_primitives() == 4);
+            REQUIRE(from_inputs[0] == shell0);
+            REQUIRE(from_inputs[1] == shell1);
         }
     }
     SECTION("Getters/setters") {

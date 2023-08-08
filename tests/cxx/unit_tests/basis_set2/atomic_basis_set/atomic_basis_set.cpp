@@ -50,6 +50,7 @@ TEMPLATE_TEST_CASE("AtomicBasisSet", "", float, double) {
     name_type name0, name1{"name1"};
     atomic_number_type z0{0}, z1{1};
     shell_type shell0{cart, l0, cg0}, shell1{pure, l1, cg1};
+    std::vector<shell_type> shells{shell0, shell1};
 
     abs_type abs0;
     abs_type abs1(name1, z1, r1);
@@ -173,6 +174,23 @@ TEMPLATE_TEST_CASE("AtomicBasisSet", "", float, double) {
             REQUIRE(with_name_z.basis_set_name() == name1);
             REQUIRE(with_name_z.atomic_number() == z1);
             REQUIRE(with_name_z.center() == r0);
+        }
+        SECTION("With center and shells") {
+            abs_type with_inputs(r1, shells.begin(), shells.end());
+            REQUIRE_FALSE(with_inputs.is_null());
+            REQUIRE_FALSE(with_inputs.has_name());
+            REQUIRE_FALSE(with_inputs.has_atomic_number());
+            REQUIRE(with_inputs.center() == r1);
+            REQUIRE(with_inputs.center() == r1);
+            REQUIRE(with_inputs.size() == 2);
+        }
+        SECTION("With name, z, center, and shells") {
+            abs_type with_inputs(name1, z1, r1, shells.begin(), shells.end());
+            REQUIRE_FALSE(with_inputs.is_null());
+            REQUIRE(with_inputs.basis_set_name() == name1);
+            REQUIRE(with_inputs.atomic_number() == z1);
+            REQUIRE(with_inputs.center() == r1);
+            REQUIRE(with_inputs.size() == 2);
         }
     }
     SECTION("Getters/setters") {

@@ -266,6 +266,19 @@ ATOMIC_BASIS_SET::AtomicBasisSet(pimpl_pointer pimpl) noexcept :
   m_pimpl_(std::move(pimpl)) {}
 
 template<typename ShellType>
+ATOMIC_BASIS_SET::AtomicBasisSet(typename shell_traits::center_type center,
+                                 std::vector<const_reference> shell_views) :
+  AtomicBasisSet(std::make_unique<pimpl_type>(center, shell_views)) {}
+
+template<typename ShellType>
+ATOMIC_BASIS_SET::AtomicBasisSet(const_name_reference name,
+                                 atomic_number_type atomic_n,
+                                 typename shell_traits::center_type center,
+                                 std::vector<const_reference> shell_views) :
+  AtomicBasisSet(
+    std::make_unique<pimpl_type>(name, atomic_n, center, shell_views)) {}
+
+template<typename ShellType>
 bool ATOMIC_BASIS_SET::has_pimpl_() const noexcept {
     return static_cast<bool>(m_pimpl_);
 }
