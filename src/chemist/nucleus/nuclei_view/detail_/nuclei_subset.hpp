@@ -1,6 +1,5 @@
 #pragma once
-
-#include<chemist/nucleus/detail_/nuclei_view_pimpl.hpp>
+#include "nuclei_view_pimpl.hpp"
 
 namespace chemist::detail_ {
 
@@ -50,16 +49,25 @@ public:
 
     bool operator==(const NucleiSubset& rhs) const noexcept;
 
+    /** @brief Does *this contain state?
+     *
+     *  For a NucleiSubset object to be null it has to not be associated with
+     *  a supersystem (in which case it also does not have any nuclei).
+     * 
+     *  @return True if *this is null and false otherwise.
+     * 
+     *  @throw None No throw guarantee.
+     */ 
     bool is_null() const noexcept { return static_cast<bool>(m_nukes_); }
 protected:
     /// Implementes clone
     pimpl_pointer clone_() const override {
-        return std::make_shared<NucleiSubset>(*this);
+        return std::make_unique<NucleiSubset>(*this);
     }
 
     /// Implements getting a mutable Nucleus
     reference get_nuke_(size_type i) override { 
-        return *m_nukes_[m_members_[i]]; 
+        return (*m_nukes_)[m_members_[i]]; 
     }
 
     /// Implements getting a read-only Nucleus

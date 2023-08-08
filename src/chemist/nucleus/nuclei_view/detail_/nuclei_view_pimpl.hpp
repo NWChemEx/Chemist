@@ -24,6 +24,9 @@ public:
     /// Type of a pointer to *this
     using pimpl_pointer = typename nuclei_view_type::pimpl_pointer;
 
+    /// Type used to represent a nucleus
+    using value_type = typename nuclei_view_type::value_type;
+
     /// Mutable reference to a nucleus
     using reference = typename nuclei_view_type::reference;
 
@@ -47,8 +50,21 @@ public:
         return get_nuke_(i);
     }
 
+    /** @brief Determines the number of nuclei in *this
+     *  
+     *  This method is ultimately implemented by overrideing size_.
+     * 
+     *  @return The number of nuclei in *this.
+     * 
+     *  @throw None No throw guarantee.
+     */
     size_type size() const noexcept { return size_(); }
 
+    /** @brief Polymorphic value equality.
+     * 
+     *  This method will traverse the class hierarchy of *this ensuring that
+     *  @p rhs has the same hierarchy. 
+    */
     bool are_equal(const NucleiViewPIMPL& rhs)const noexcept{
         return are_equal_(rhs) && rhs.are_equal_(*this);
     }
@@ -67,7 +83,7 @@ protected:
     virtual size_type size_() const noexcept = 0;
 
     /// Derived class overrides to implement are_equal
-    virtual bool are_equal_() const noexcept = 0;
+    virtual bool are_equal_(const NucleiViewPIMPL& rhs) const noexcept = 0;
 };
 
 }
