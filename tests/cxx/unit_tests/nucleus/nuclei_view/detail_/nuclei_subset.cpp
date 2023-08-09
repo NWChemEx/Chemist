@@ -85,6 +85,11 @@ TEST_CASE("NucleiSubset"){
         NucleiSubset has_values2(pnukes, indices.begin(), indices.end());
         REQUIRE(has_values == has_values2);
 
+        // Different instance of same supersystem
+        auto pnukes1 = std::make_shared<nuclei_type>(nuclei_type{h0, h1, h2});
+        NucleiSubset has_values3(pnukes1, indices.begin(), indices.end());
+        REQUIRE(has_values == has_values3);
+
         // Different supersystem (same atoms)
         nucleus_type h3("H", 1ul, 0.0, 1.1, 2.2, 3.3, 4.4);
         auto pnukes2 = std::make_shared<nuclei_type>(nuclei_type{h3, h1, h2});
