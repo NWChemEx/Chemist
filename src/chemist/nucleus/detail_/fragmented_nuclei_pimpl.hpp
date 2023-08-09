@@ -2,8 +2,6 @@
 
 namespace chemist::detail_ {
 
-class FragmentedNucleiPIMPL {
+class FragmentedNucleiPIMPL {};
 
-};
-
-}
+} // namespace chemist::detail_

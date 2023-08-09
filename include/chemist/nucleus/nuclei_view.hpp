@@ -2,7 +2,6 @@
 #include <chemist/nucleus/nuclei.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
-
 namespace chemist {
 namespace detail_ {
 class NucleiViewPIMPL;
@@ -41,11 +40,6 @@ public:
 
     /// Type used to store the charge
     using charge_type = typename nuclei_type::charge_type;
-
-    
-
-
-
 };
 
-}
+} // namespace chemist

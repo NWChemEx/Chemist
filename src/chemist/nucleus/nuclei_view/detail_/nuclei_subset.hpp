@@ -11,13 +11,13 @@ namespace chemist::detail_ {
  * ``NucleiView`` objects which are views of the supersystem. The views can
  * be implemented quite efficiently by storing a pointer to the supersystem
  * and the indices of the nuclei in the view.
- * 
+ *
  *  @note we have declared the types in a manner which will work if the class
  *        needs to be templated down the line. Without templating we do not
  *        technically need to pull in the base class's types, nor do we need
- *        typename. 
-*/
-class NucleiSubset: public NucleiViewPIMPL {
+ *        typename.
+ */
+class NucleiSubset : public NucleiViewPIMPL {
 private:
     /// Type of the base class
     using base_type = NucleiViewPIMPL;
@@ -43,44 +43,44 @@ public:
 
     /// Type nuclei_type uses for indexing and offsets
     using size_type = typename nuclei_type::size_type;
-    
+
     /// Makes a null subset
     NucleiSubset() noexcept = default;
 
     /** @brief Creates a NucleiViewPIMPL which holds a subset of a Nuclei object
-     * 
+     *
      *  @tparam BeginItr The type of the iterator pointing to the index of the
      *                   first nucleus.
      *  @tparam EndItr The type of the iterator pointing to just past the index
      *                 of the last nucleus.
-     * 
+     *
      *  @param[in] supersystem The *this will be a subset of.
      *  @param[in] begin An iterator which points to the index of the first
      *                   nucleus.
      *  @param[in] end An iterator which points to just past the index of the
      *                 last nucleus.
-     * 
+     *
      * @throw std::bad_alloc if there is a problem allocating the memory. Strong
      *                       throw guarantee.
-     * 
-    */
+     *
+     */
     template<typename BeginItr, typename EndItr>
-    NucleiSubset(nuclei_pointer supersystem, BeginItr&& begin, EndItr&& end) : 
-        m_nukes_(supersystem), 
-        m_members_(std::forward<BeginItr>(begin), std::forward<EndItr>(end)) {}
+    NucleiSubset(nuclei_pointer supersystem, BeginItr&& begin, EndItr&& end) :
+      m_nukes_(supersystem),
+      m_members_(std::forward<BeginItr>(begin), std::forward<EndItr>(end)) {}
 
     /** @brief Initializes *this to a deep copy of @p other.
-     * 
+     *
      *  The copy ctor deep copies the indices of @p other, and stores a
      *  copy of the pointer pointing to the supersystem. In turn, the resulting
      *  object aliases the same supersystem (which is consistent with *this
      *  bein the implementaiton of a view).
-     * 
+     *
      *  @param[in] other The object we are copying.
-     * 
+     *
      *  @throw std::bad_alloc if there is a problem allocating the new state
      *                        for *this. Strong throw guarantee.
-    */
+     */
     NucleiSubset(const NucleiSubset& other) = default;
 
     // Deleted to avoid accidental slicing
@@ -91,19 +91,19 @@ public:
     ///@}
 
     /** @brief Determines if *this is value equal to @p rhs.
-     * 
+     *
      *  We define two NucleiSubset objects as being value equal if they both
      *  are null, or if they both are the same subset of the same supersystem.
      *  Supersystems are comapred by value, meaning they do NOT have to be the
      *  same instance.
-     * 
+     *
      *  @param[in] rhs The NucleiSubset we are comparing to.
-     * 
+     *
      *  @return True if *this is value equal to @p rhs and false
      *          otherwise.
-     * 
-     *  @throw None No throw guarantee. 
-     * 
+     *
+     *  @throw None No throw guarantee.
+     *
      */
     bool operator==(const NucleiSubset& rhs) const noexcept;
 
@@ -111,12 +111,13 @@ public:
      *
      *  For a NucleiSubset object to be null it has to not be associated with
      *  a supersystem (in which case it also does not have any nuclei).
-     * 
+     *
      *  @return True if *this is null and false otherwise.
-     * 
+     *
      *  @throw None No throw guarantee.
-     */ 
+     */
     bool is_null() const noexcept { return !static_cast<bool>(m_nukes_); }
+
 protected:
     /// Implementes clone
     pimpl_pointer clone_() const override {
@@ -124,8 +125,8 @@ protected:
     }
 
     /// Implements getting a mutable Nucleus
-    reference get_nuke_(size_type i) override { 
-        return (*m_nukes_)[m_members_[i]]; 
+    reference get_nuke_(size_type i) override {
+        return (*m_nukes_)[m_members_[i]];
     }
 
     /// Implements getting a read-only Nucleus
@@ -134,9 +135,7 @@ protected:
     }
 
     /// Impelments size
-    size_type size_() const noexcept override {
-        return m_members_.size();
-    }
+    size_type size_() const noexcept override { return m_members_.size(); }
 
     /// Implements are_equal
     bool are_equal_(const base_type& rhs) const noexcept override {
@@ -157,7 +156,7 @@ private:
 // -- Implementations
 // -----------------------------------------------------------------------------
 
-bool NucleiSubset::operator==(const NucleiSubset& rhs) const noexcept{
+bool NucleiSubset::operator==(const NucleiSubset& rhs) const noexcept {
     if(m_members_ != rhs.m_members_) return false;
 
     // Try to avoid comparing the Nuclei by checking for the same address
@@ -167,7 +166,7 @@ bool NucleiSubset::operator==(const NucleiSubset& rhs) const noexcept{
     if(is_null() || rhs.is_null()) return false;
 
     // Both are non-null, so compare the Nuclei
-    return *m_nukes_ == *rhs.m_nukes_; 
+    return *m_nukes_ == *rhs.m_nukes_;
 }
 
-}
+} // namespace chemist::detail_

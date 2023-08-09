@@ -3,7 +3,7 @@
 
 using namespace chemist::detail_;
 
-TEST_CASE("NucleiSubset"){
+TEST_CASE("NucleiSubset") {
     // Create some Nucleus objects. Objects do not need to be physical, just
     // distinct.
     using nucleus_type = typename NucleiSubset::value_type;
@@ -14,7 +14,7 @@ TEST_CASE("NucleiSubset"){
 
     // Create a Nuclei object
     using nuclei_type = typename NucleiSubset::nuclei_type;
-    auto pnukes = std::make_shared<nuclei_type>(nuclei_type{h0, h1, h2});
+    auto pnukes       = std::make_shared<nuclei_type>(nuclei_type{h0, h1, h2});
 
     // Create NucleiSubset objects
     using size_type = typename NucleiSubset::size_type;
@@ -23,20 +23,20 @@ TEST_CASE("NucleiSubset"){
     std::vector<size_type> indices{1, 2};
     NucleiSubset has_values(pnukes, indices.begin(), indices.end());
 
-    SECTION("Ctors"){
-        SECTION("Default"){
+    SECTION("Ctors") {
+        SECTION("Default") {
             REQUIRE(defaulted.size() == 0);
             REQUIRE(defaulted.is_null());
         }
 
-        SECTION("value"){
+        SECTION("value") {
             REQUIRE_FALSE(has_values.is_null());
             REQUIRE(has_values.size() == 2);
             REQUIRE(has_values.get_nuke(0) == (*pnukes)[1]);
             REQUIRE(has_values.get_nuke(1) == (*pnukes)[2]);
         }
 
-        SECTION("copy"){
+        SECTION("copy") {
             NucleiSubset defaulted_copy(defaulted);
             REQUIRE(defaulted_copy.size() == 0);
             REQUIRE(defaulted.is_null());
@@ -49,7 +49,7 @@ TEST_CASE("NucleiSubset"){
         }
     }
 
-    SECTION("clone"){
+    SECTION("clone") {
         auto pdefaulted = defaulted.clone();
         REQUIRE(pdefaulted->size() == 0);
 
@@ -59,25 +59,25 @@ TEST_CASE("NucleiSubset"){
         REQUIRE(phas_value->get_nuke(1) == (*pnukes)[2]);
     }
 
-    SECTION("get_nuke"){
-       REQUIRE(has_values.get_nuke(0) == (*pnukes)[1]);
-       REQUIRE(has_values.get_nuke(1) == (*pnukes)[2]);
+    SECTION("get_nuke") {
+        REQUIRE(has_values.get_nuke(0) == (*pnukes)[1]);
+        REQUIRE(has_values.get_nuke(1) == (*pnukes)[2]);
     }
 
-    SECTION("get_nuke()const"){
+    SECTION("get_nuke()const") {
         REQUIRE(std::as_const(has_values).get_nuke(0) == (*pnukes)[1]);
         REQUIRE(std::as_const(has_values).get_nuke(1) == (*pnukes)[2]);
     }
 
-    SECTION("size"){
+    SECTION("size") {
         REQUIRE(defaulted.size() == 0);
         REQUIRE(has_values.size() == 2);
     }
 
-    SECTION("operator=="){
+    SECTION("operator==") {
         // Defaulted == defaulted
         REQUIRE(defaulted == NucleiSubset{});
-        
+
         // Defaulted != non-default
         REQUIRE_FALSE(defaulted == has_values);
 
@@ -94,11 +94,11 @@ TEST_CASE("NucleiSubset"){
         nucleus_type h3("H", 1ul, 0.0, 1.1, 2.2, 3.3, 4.4);
         auto pnukes2 = std::make_shared<nuclei_type>(nuclei_type{h3, h1, h2});
         NucleiSubset diff_ss(pnukes2, indices.begin(), indices.end());
-        REQUIRE_FALSE(has_values == diff_ss); 
+        REQUIRE_FALSE(has_values == diff_ss);
 
         // Different atoms
         std::vector<size_type> indices2{0, 1};
         NucleiSubset diff_atoms(pnukes, indices2.begin(), indices2.end());
-        REQUIRE_FALSE(has_values == diff_atoms);        
+        REQUIRE_FALSE(has_values == diff_atoms);
     }
 }
