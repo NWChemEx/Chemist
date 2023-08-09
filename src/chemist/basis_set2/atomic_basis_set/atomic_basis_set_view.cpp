@@ -48,30 +48,6 @@ ATOMIC_BS_VIEW& ATOMIC_BS_VIEW::operator=(AtomicBasisSetView&& rhs) noexcept =
   default;
 
 ATOMIC_BS_TPARAMS
-ATOMIC_BS_VIEW::AtomicBasisSetView(
-  name_reference name, atomic_number_reference atomic_n, size_type nshells,
-  typename shell_traits::pure_reference pure_per_shell,
-  typename shell_traits::angular_momentum_reference l_per_shell,
-  const_size_reference prims_per_shell,
-  typename shell_traits::coefficient_reference cs,
-  typename shell_traits::exponent_reference exp,
-  typename shell_traits::center_reference center) :
-  AtomicBasisSetView(std::make_unique<pimpl_type>(
-    name, atomic_n, nshells, pure_per_shell, l_per_shell, &prims_per_shell, cs,
-    exp, center)) {}
-
-ATOMIC_BS_TPARAMS
-ATOMIC_BS_VIEW::AtomicBasisSetView(
-  size_type nshells, typename shell_traits::pure_reference pure_per_shell,
-  typename shell_traits::angular_momentum_reference l_per_shell,
-  const_size_reference prims_per_shell,
-  typename shell_traits::coefficient_reference cs,
-  typename shell_traits::exponent_reference exp,
-  typename shell_traits::center_reference center) :
-  AtomicBasisSetView(std::make_unique<pimpl_type>(
-    nshells, pure_per_shell, l_per_shell, &prims_per_shell, cs, exp, center)) {}
-
-ATOMIC_BS_TPARAMS
 ATOMIC_BS_VIEW::AtomicBasisSetView(atomic_basis_set_reference bs) {
     throw std::runtime_error("NYI!!!!");
 }
@@ -84,61 +60,43 @@ ATOMIC_BS_VIEW::~AtomicBasisSetView() noexcept = default;
 // -----------------------------------------------------------------------------
 
 ATOMIC_BS_TPARAMS
-bool ATOMIC_BS_VIEW::has_name() const noexcept {
-    if(is_null()) return false;
-    return m_pimpl_->has_name();
-}
-
-ATOMIC_BS_TPARAMS
 typename ATOMIC_BS_VIEW::name_reference ATOMIC_BS_VIEW::basis_set_name() {
-    assert_name_();
-    return m_pimpl_->name();
+    assert_non_null_();
+    return m_pimpl_->basis_set_name();
 }
 
 ATOMIC_BS_TPARAMS
 typename ATOMIC_BS_VIEW::const_name_reference ATOMIC_BS_VIEW::basis_set_name()
   const {
-    assert_name_();
-    return m_pimpl_->name();
-}
-
-ATOMIC_BS_TPARAMS
-bool ATOMIC_BS_VIEW::has_atomic_number() const noexcept {
-    if(is_null()) return false;
-    return m_pimpl_->has_atomic_number();
+    assert_non_null_();
+    return m_pimpl_->basis_set_name();
 }
 
 ATOMIC_BS_TPARAMS
 typename ATOMIC_BS_VIEW::atomic_number_reference
 ATOMIC_BS_VIEW::atomic_number() {
-    assert_atomic_number_();
+    assert_non_null_();
     return m_pimpl_->atomic_number();
 }
 
 ATOMIC_BS_TPARAMS
 typename ATOMIC_BS_VIEW::const_atomic_number_reference
 ATOMIC_BS_VIEW::atomic_number() const {
-    assert_atomic_number_();
+    assert_non_null_();
     return m_pimpl_->atomic_number();
-}
-
-ATOMIC_BS_TPARAMS
-bool ATOMIC_BS_VIEW::has_center() const noexcept {
-    if(is_null()) return false;
-    return m_pimpl_->has_center();
 }
 
 ATOMIC_BS_TPARAMS
 typename ATOMIC_BS_VIEW::shell_traits::center_reference
 ATOMIC_BS_VIEW::center() {
-    assert_center_();
+    assert_non_null_();
     return m_pimpl_->center();
 }
 
 ATOMIC_BS_TPARAMS
 typename ATOMIC_BS_VIEW::shell_traits::const_center_reference
 ATOMIC_BS_VIEW::center() const {
-    assert_center_();
+    assert_non_null_();
     return m_pimpl_->center();
 }
 
@@ -165,7 +123,7 @@ typename ATOMIC_BS_VIEW::range_type ATOMIC_BS_VIEW::primitive_range(
 ATOMIC_BS_TPARAMS
 typename ATOMIC_BS_VIEW::size_type ATOMIC_BS_VIEW::primitive_to_shell(
   size_type primitive) const {
-    assert_primtive_index_(primitive);
+    assert_primitive_index_(primitive);
     return m_pimpl_->primitive_to_shell(primitive);
 }
 
@@ -211,34 +169,10 @@ ATOMIC_BS_VIEW::AtomicBasisSetView(pimpl_pointer pimpl) noexcept :
   m_pimpl_(std::move(pimpl)) {}
 
 ATOMIC_BS_TPARAMS
-void ATOMIC_BS_VIEW::assert_name_() const {
-    if(has_name()) return;
-    throw std::runtime_error(
-      "The AtomicBasisSet aliased by this "
-      "AtomicBasisSetView does not have a name assigned to it.");
-}
-
-ATOMIC_BS_TPARAMS
-void ATOMIC_BS_VIEW::assert_atomic_number_() const {
-    if(has_atomic_number()) return;
-    throw std::runtime_error(
-      "The AtomicBasisSet aliased by this "
-      "AtomicBasisSetView does not have an atomic number assigned to it.");
-}
-
-ATOMIC_BS_TPARAMS
-void ATOMIC_BS_VIEW::assert_center_() const {
-    if(has_center()) return;
-    throw std::runtime_error(
-      "The AtomicBasisSet aliased by this "
-      "AtomicBasisSetView does not have a center assigned to it.");
-}
-
-ATOMIC_BS_TPARAMS
 void ATOMIC_BS_VIEW::assert_non_null_() const {
     if(!is_null()) return;
-    throw std::runtime_error("The AtomicBasisSet aliased by this "
-                             "AtomicBasisSetView is null.");
+    throw std::runtime_error(
+      "AtomicBasisSetView instance is a view of a null AtomicBasisSet.");
 }
 
 ATOMIC_BS_TPARAMS
@@ -283,5 +217,10 @@ typename ATOMIC_BS_VIEW::const_reference ATOMIC_BS_VIEW::at_(
 
 #undef ATOMIC_BS_VIEW
 #undef ATOMIC_BS_TPARAMS
+
+template class AtomicBasisSetView<AtomicBasisSetD>;
+template class AtomicBasisSetView<const AtomicBasisSetD>;
+template class AtomicBasisSetView<AtomicBasisSetF>;
+template class AtomicBasisSetView<const AtomicBasisSetF>;
 
 } // namespace chemist::basis_set

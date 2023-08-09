@@ -277,6 +277,8 @@ typename ATOMIC_BASIS_SET::const_reference ATOMIC_BASIS_SET::at_(
     return std::as_const(*m_pimpl_)[i];
 }
 
+#undef ATOMIC_BASIS_SET
+
 template class AtomicBasisSet<ShellD>;
 template class AtomicBasisSet<ShellF>;
 

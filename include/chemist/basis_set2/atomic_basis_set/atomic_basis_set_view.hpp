@@ -210,80 +210,6 @@ public:
      */
     AtomicBasisSetView& operator=(AtomicBasisSetView&& rhs) noexcept;
 
-    /** @brief Creates a new view with the provided state.
-     *
-     *  This ctor is used to create a new view of an AtomicBasisSet instance
-     *  by aliasing the provided Cartesian coordinates, basis set name, and
-     *  atomic number.
-     *
-     *  @param[in] name The name associated with the basis set.
-     *  @param[in] atomic_n The atomic number associated with the basis set.
-     *  @param[in] nshells The number of shells in the basis set
-     *  @param[in] pure_per_shell The purity of the 0-th shell. The purity of
-     *                            the i-th shell is assumed to be obtainable
-     *                            by `(&pure_per_shell)[i]`
-     *  @param[in] l_per_shell A reference to the angular momentum of the 0-th
-     *                         shell. The angular momentum of the i-th shell
-     *                         is assumed to be obtainable by
-     *                         `(&l_per_shell)`.
-     *  @param[in] prims_per_shell A reference to the number of primitives in
-     *                             the 0-th shell. The number of primitives in
-     *                             shell i is assumed to be obtainable by
-     *                             `(&prims_per_shell)[i]`.
-     *  @param[in] cs The coefficient for the first primitive. The coefficients
-     *                for the i-th primitive in the basis set are assumed to be
-     *                obtainable by `(&cs)[i]`.
-     *  @param[in] exp The exponent for the first primitive. The exponents
-     *                for the i-th primitive in the basis set are assumed to be
-     *                obtainable by `(&exp)[i]`.
-     *
-     *  @throw std::bad_alloc if there is insufficient memory to create the
-     *                        PIMPL. Strong throw guarantee.
-     */
-    AtomicBasisSetView(
-      name_reference name, atomic_number_reference atomic_n, size_type nshells,
-      typename shell_traits::pure_reference pure_per_shell,
-      typename shell_traits::angular_momentum_reference l_per_shell,
-      const_size_reference prims_per_shell,
-      typename shell_traits::coefficient_reference cs,
-      typename shell_traits::exponent_reference exp,
-      typename shell_traits::center_reference center);
-
-    /** @brief Creates a new view of an AtomicBasisSet.
-     *
-     *  This ctor is used to create a new view of an AtomicBasisSet by
-     *  aliasing the state provided to the ctor.
-     *
-     *  @param[in] nshells The number of shells in the basis set
-     *  @param[in] pure_per_shell The purity of the 0-th shell. The purity of
-     *                            the i-th shell is assumed to be obtainable by
-     *                            `(&pure_per_shell)[i]`
-     *  @param[in] l_per_shell A reference to the angular momentum of the 0-th
-     *                         shell. The angular momentum of the i-th shell
-     *                         is assumed to be obtainable by
-     *                         `(&l_per_shell)`.
-     *  @param[in] prims_per_shell A reference to the number of primitives in
-     *                             the 0-th shell. The number of primitives in
-     *                             shell i is assumed to be obtainable by
-     *                             `(&prims_per_shell)[i]`.
-     *  @param[in] cs The coefficient for the first primitive. The coefficients
-     *                for the i-th primitive in the basis set are assumed to be
-     *                obtainable by `(&cs)[i]`.
-     *  @param[in] exp The exponent for the first primitive. The exponents
-     *                for the i-th primitive in the basis set are assumed to be
-     *                obtainable by `(&exp)[i]`.
-     *
-     *  @throw std::bad_alloc if there is insufficient memory to create the
-     *                        PIMPL. Strong throw guarantee.
-     */
-    AtomicBasisSetView(
-      size_type nshells, typename shell_traits::pure_reference pure_per_shell,
-      typename shell_traits::angular_momentum_reference l_per_shell,
-      const_size_reference prims_per_shell,
-      typename shell_traits::coefficient_reference cs,
-      typename shell_traits::exponent_reference exp,
-      typename shell_traits::center_reference center);
-
     AtomicBasisSetView(atomic_basis_set_reference bs);
 
     /// Defaulted no throw dtor
@@ -292,23 +218,6 @@ public:
     // -------------------------------------------------------------------------
     // -- Getters and setters
     // -------------------------------------------------------------------------
-
-    /** @brief Does the basis set have a name assigned to it?
-     *
-     *  Many atomic basis sets are part of a named set, where "name" refers to
-     *  monikers such as 6-31G* or cc-pVDZ. This method will tell you whether
-     *  or not the name of *this was set.
-     *
-     *  @warning We suggest treating the name of a basis set as metadata. In
-     *           particular *this makes no effort to assign the name of the
-     *           basis set, *i.e.*, just because an instance of AtomicBasisSet
-     *           does not have a name, does not mean it is a custom basis set.
-     *
-     *  @return True if *this has a name and false otherwise.
-     *
-     *  @throw None No throw guarantee.
-     */
-    bool has_name() const noexcept;
 
     /** @brief Returns the name of the basis set.
      *
@@ -345,27 +254,6 @@ public:
      *                           it. Strong throw guarantee.
      */
     const_name_reference basis_set_name() const;
-
-    /** @brief Does *this have an atomic number associated with it?
-     *
-     *  All of the shells in *this are centered at a single point in space.
-     *  Typically there is also a nucleus at this point too. Often the atomic
-     *  number of that nucleus dictates what shells are in *this. This method
-     *  can be used to determine if the functions in *this are associated with
-     *  a specific atomic number.
-     *
-     *  @warning We suggest treating the atomic number of the basis set as
-     *           metadata. In particular *this makes no attempt to assign the
-     *           atomic number associated with the data, *i.e.*, just because
-     *           the atomic number is not set, does not mean that the shells
-     *           in *this are not associated with an atomic number.
-     *
-     * @return True If the atomic number of *this has been set and false
-     *              otherwise.
-     *
-     * @throw None No throw guarantee.
-     */
-    bool has_atomic_number() const noexcept;
 
     /** @brief Returns the atomic number associated with *this.
      *
@@ -405,17 +293,6 @@ public:
      *                        Strong throw guarantee.
      */
     const_atomic_number_reference atomic_number() const;
-
-    /** @brief Does *this have a center associated with it?
-     *
-     *  This method can be used to determine if *this is associated with a
-     *  specific center.
-     *
-     * @return True If the center of *this has been set and false otherwise.
-     *
-     * @throw None No throw guarantee.
-     */
-    bool has_center() const noexcept;
 
     /** @brief Returns the center associated with *this.
      *
@@ -642,15 +519,6 @@ private:
      *  @throw None no throw guarantee.
      */
     AtomicBasisSetView(pimpl_pointer pimpl) noexcept;
-
-    /// Throws std::runtime_error if there's no aliased name
-    void assert_name_() const;
-
-    /// Throws std::runtime_error if there's no aliased atomic number
-    void assert_atomic_number_() const;
-
-    /// Throws std::runtime_error if there's no aliased center
-    void assert_center_() const;
 
     /// Throws std::runtime_error if this aliases a null basis
     void assert_non_null_() const;
