@@ -43,7 +43,7 @@ public:
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
 
     /// String-like type used to store the basis set name
-    using name_type = std::string;
+    using name_type = std::optional<std::string>;
 
     /// Mutable reference to the basis set's name
     using name_reference = name_type&;
@@ -52,7 +52,7 @@ public:
     using const_name_reference = const name_type&;
 
     /// Unsigned integral type used to store the atomic number
-    using atomic_number_type = std::size_t;
+    using atomic_number_type = std::optional<std::size_t>;
 
     /// Mutable reference to the basis set's atomic number
     using atomic_number_reference = atomic_number_type&;
@@ -159,7 +159,7 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    AtomicBasisSet(const_name_reference name, atomic_number_type atomic_n,
+    AtomicBasisSet(name_type name, atomic_number_type atomic_n,
                    typename shell_traits::coord_type x,
                    typename shell_traits::coord_type y,
                    typename shell_traits::coord_type z);
@@ -176,7 +176,7 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    AtomicBasisSet(const_name_reference name, atomic_number_type atomic_n,
+    AtomicBasisSet(name_type name, atomic_number_type atomic_n,
                    typename shell_traits::center_type center);
 
     /** @brief Creates a new AtomicBasisSet centered on the provided point.
@@ -224,14 +224,43 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        PIMPL. Strong throw guarantee.
      */
-    AtomicBasisSet(const_name_reference name, atomic_number_type atomic_n);
+    AtomicBasisSet(name_type name, atomic_number_type atomic_n);
 
+    /** @brief Creates a new AtomicBasisSet with the provided shells at the
+     *         provided point.
+     *
+     *  @param[in] center The point the basis set is centered on.
+     *  @param[in] sbegin Iterator to the beginning of the container holding the
+     *                    shells.
+     *  @param[in] send Iterator to the end of the container holding the
+     *                  shells.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to create the
+     *                        PIMPL. Strong throw guarantee.
+     */
     template<typename ShellsBeginItr, typename ShellsEndItr>
     AtomicBasisSet(typename shell_traits::center_type center,
                    ShellsBeginItr&& sbegin, ShellsEndItr&& send);
 
+    /** @brief Creates a new AtomicBasisSet with the provided shells at the
+     *         provided point.
+     *
+     *  Similar to the previous ctor, but with the basis set name and atomic
+     *  number included this time.
+     *
+     *  @param[in] name The name associated with the basis set.
+     *  @param[in] atomic_n The atomic number associated with the basis set.
+     *  @param[in] center The point the basis set is centered on.
+     *  @param[in] sbegin Iterator to the beginning of the container holding the
+     *                    shells.
+     *  @param[in] send Iterator to the end of the container holding the
+     *                  shells.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to create the
+     *                        PIMPL. Strong throw guarantee.
+     */
     template<typename ShellsBeginItr, typename ShellsEndItr>
-    AtomicBasisSet(const_name_reference name, atomic_number_type atomic_n,
+    AtomicBasisSet(name_type name, atomic_number_type atomic_n,
                    typename shell_traits::center_type center,
                    ShellsBeginItr&& sbegin, ShellsEndItr&& send);
 
@@ -242,37 +271,20 @@ public:
     // -- Getters and setters
     // -------------------------------------------------------------------------
 
-    /** @brief Does the basis set have a name assigned to it?
-     *
-     *  Many atomic basis sets are part of a named set, where "name" refers to
-     *  monikers such as 6-31G* or cc-pVDZ. This method will tell you whether
-     *  or not the name of *this was set.
-     *
-     *  @warning We suggest treating the name of a basis set as metadata. In
-     *           particular *this makes no effort to assign the name of the
-     *           basis set, *i.e.*, just because an instance of AtomicBasisSet
-     *           does not have a name, does not mean it is a custom basis set.
-     *
-     *  @return True if *this has a name and false otherwise.
-     *
-     *  @throw None No throw guarantee.
-     */
-    bool has_name() const noexcept;
-
-    /** @brief Returns the name of the basis set.
+    /** @brief Returns the name of the basis set, if set.
      *
      *  Many atomic basis sets are part of a named set, where "name" refers to
      *  monikers such as 6-31G* or cc-pVDZ. If the name has been set, this
      *  method will return the name. If *this is a null atomic basis set, this
      *  method will allocate a new state and then return a reference to the
-     *  name attribute of that state (which will be an empty string).
+     *  name attribute of that state.
      *
      *  @warning We suggest treating the name of a basis set as metadata. In
      *           particular *this makes no checks to ensure that the parameters
      *           stored in it are actually the parameters associated with the
      *           name returned by this method.
      *
-     * @return The name of this basis set.
+     * @return An optional that contains the basis set name, if set.
      *
      * @throw std::bad_alloc if *this is a null AtomicBasisSet and allocating
      *                       the state fails. Strong throw guarantee.
@@ -290,33 +302,12 @@ public:
      *           stored in it are actually the parameters associated with the
      *           name returned by this method.
      *
-     * @return The name of this basis set.
+     * @return An optional that contains the basis set name, if set.
      *
      * @throw std::runtime_error if *this does not have a basis set assigned to
      *                           it. Strong throw guarantee.
      */
     const_name_reference basis_set_name() const;
-
-    /** @brief Does *this have an atomic number associated with it?
-     *
-     *  All of the shells in *this are centered at a single point in space.
-     *  Typically there is also a nucleus at this point too. Often the atomic
-     *  number of that nucleus dictates what shells are in *this. This method
-     *  can be used to determine if the functions in *this are associated with
-     *  a specific atomic number.
-     *
-     *  @warning We suggest treating the atomic number of the basis set as
-     *           metadata. In particular *this makes no attempt to assign the
-     *           atomic number associated with the data, *i.e.*, just because
-     *           the atomic number is not set, does not mean that the shells
-     *           in *this are not associated with an atomic number.
-     *
-     * @return True If the atomic number of *this has been set and false
-     *              otherwise.
-     *
-     * @throw None No throw guarantee.
-     */
-    bool has_atomic_number() const noexcept;
 
     /** @brief Returns the atomic number associated with *this.
      *
@@ -325,14 +316,14 @@ public:
      *  number of that nucleus dictates what shells are in *this. This method
      *  can be used to get and set the atomic number. If *this is a null object,
      *  this method will first allocate state and then return the atomic
-     *  number in that state (which will be set to 0).
+     *  number in that state.
      *
      *  @warning We suggest treating the atomic number of the basis set as
      *           metadata. In particular, *this makes no effort to ensure that
      *           the basis set in *this is actually consistent with the atomic
      *           number.
      *
-     *  @return A mutable reference to the atomic number.
+     *  @return An optional that contains the atomic number, if set.
      *
      *  @throw std::bad_alloc if *this is null and allocating the state fails.
      *                        Strong throw guarantee.
@@ -350,23 +341,12 @@ public:
      *           the basis set in *this is actually consistent with the atomic
      *           number.
      *
-     *  @return A read-only reference to the atomic number.
+     *  @return An optional that contains the atomic number, if set.
      *
      *  @throw std::runtime_error if *this does not have a basis set assigned to
      *                            it. Strong throw guarantee.
      */
     const_atomic_number_reference atomic_number() const;
-
-    /** @brief Does *this have a center associated with it?
-     *
-     *  This method can be used to determine if *this is associated with a
-     *  specific center.
-     *
-     * @return True If the center of *this has been set and false otherwise.
-     *
-     * @throw None No throw guarantee.
-     */
-    bool has_center() const noexcept;
 
     /** @brief Returns the center associated with *this.
      *
@@ -644,11 +624,11 @@ AtomicBasisSet<ShellType>::AtomicBasisSet(
 template<typename ShellType>
 template<typename ShellsBeginItr, typename ShellsEndItr>
 AtomicBasisSet<ShellType>::AtomicBasisSet(
-  const_name_reference name, atomic_number_type atomic_n,
+  name_type name, atomic_number_type atomic_n,
   typename shell_traits::center_type center, ShellsBeginItr&& sbegin,
   ShellsEndItr&& send) :
   AtomicBasisSet(
-    name, atomic_n, center,
+    std::move(name), std::move(atomic_n), std::move(center),
     std::vector<const_reference>(std::forward<ShellsBeginItr>(sbegin),
                                  std::forward<ShellsEndItr>(send))) {}
 

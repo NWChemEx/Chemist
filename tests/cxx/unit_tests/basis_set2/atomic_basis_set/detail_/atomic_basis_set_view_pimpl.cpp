@@ -34,7 +34,7 @@ TEMPLATE_TEST_CASE("AtomicBasisSetViewPIMPL", "", float, double) {
     using name_type          = typename abs_traits::name_type;
     using atomic_number_type = typename abs_traits::atomic_number_type;
     using range_type         = typename abs_traits::range_type;
-    using shell_ref_type     = typename abs_type::const_reference;
+    using shell_ref_type     = typename abs_type::reference;
     using coeff_vector     = std::vector<typename abs_traits::coefficient_type>;
     using exp_vector       = std::vector<typename abs_traits::exponent_type>;
     using shell_ref_vector = std::vector<shell_ref_type>;
@@ -50,56 +50,95 @@ TEMPLATE_TEST_CASE("AtomicBasisSetViewPIMPL", "", float, double) {
     cg_type cg1(cs.begin(), cs.end(), es.begin(), es.end(), r1);
     name_type name0, name1{"name1"};
     atomic_number_type z0{0}, z1{1};
-    shell_type shell0{cart, l0, cg0}, shell1{pure, l1, cg1};
+    shell_type shell1{cart, l1, cg1};
     abs_type abs1(name1, z1, r1);
     abs1.add_shell(cart, l1, cg1);
+    abs1.add_shell(pure, l0, cg0);
 
-    pimpl_type pimpl1{shell_ref_vector{abs1.begin(), abs1.end()}};
-    pimpl_type pimpl2{abs1.basis_set_name(), abs1.atomic_number(),
+    pimpl_type pimpl1{abs1.basis_set_name(), abs1.atomic_number(),
                       abs1.center(),
                       shell_ref_vector{abs1.begin(), abs1.end()}};
 
-    SECTION("Ctors") {
-        SECTION("Values 1") {}
-        SECTION("Values 2") {}
+    SECTION("Ctor") {
+        REQUIRE(pimpl1.basis_set_name() == abs1.basis_set_name());
+        REQUIRE(pimpl1.atomic_number() == abs1.atomic_number());
+        REQUIRE(pimpl1.center() == abs1.center());
+        REQUIRE(pimpl1.size() == abs1.size());
+        REQUIRE(pimpl1[0] == abs1[0]);
     }
     SECTION("Getters/setters") {
-        SECTION("has_name") {}
-        SECTION("name") {}
-        SECTION("name const") {}
-        SECTION("has_atomic_number") {}
-        SECTION("atomic_number") {}
-        SECTION("atomic_number const") {}
-        SECTION("has_center") {}
-        SECTION("center") {}
-        SECTION("center const") {}
-        SECTION("pure") {}
-        SECTION("pure const") {}
-        SECTION("l") {}
-        SECTION("l const") {}
-        SECTION("size") {}
-        SECTION("n_aos") {}
-        SECTION("n_primitives") {}
-        SECTION("primitive_range") {}
-        SECTION("primitive_to_shell") {}
-        SECTION("operator[]") {}
-        SECTION("operator[] const") {}
-        SECTION("cg") {}
-        SECTION("cg const") {}
-        SECTION("primitive") {}
-        SECTION("primitive const") {}
+        SECTION("basis_set_name") { REQUIRE(pimpl1.basis_set_name() == name1); }
+        SECTION("basis_set_name const") {
+            REQUIRE(std::as_const(pimpl1).basis_set_name() == name1);
+        }
+        SECTION("atomic_number") { REQUIRE(pimpl1.atomic_number() == z1); }
+        SECTION("atomic_number const") {
+            REQUIRE(std::as_const(pimpl1).atomic_number() == z1);
+        }
+        SECTION("center") { REQUIRE(pimpl1.center() == r1); }
+        SECTION("center const") {
+            REQUIRE(std::as_const(pimpl1).center() == r1);
+        }
+        SECTION("pure") { REQUIRE(pimpl1.pure(0) == cart); }
+        SECTION("pure const") {
+            REQUIRE(std::as_const(pimpl1).pure(0) == cart);
+        }
+        SECTION("l") { REQUIRE(pimpl1.l(0) == l1); }
+        SECTION("l const") { REQUIRE(std::as_const(pimpl1).l(0) == l1); }
+        SECTION("size") { REQUIRE(pimpl1.size() == 2); }
+        SECTION("n_aos") { REQUIRE(pimpl1.n_aos() == 4); }
+        SECTION("n_primitives") { REQUIRE(pimpl1.n_primitives() == 4); }
+        SECTION("primitive_range") {
+            REQUIRE(pimpl1.primitive_range(0) == range_type{0, 3});
+        }
+        SECTION("primitive_to_shell") {
+            REQUIRE(pimpl1.primitive_to_shell(0) == 0);
+            REQUIRE(pimpl1.primitive_to_shell(1) == 0);
+            REQUIRE(pimpl1.primitive_to_shell(2) == 0);
+            REQUIRE(pimpl1.primitive_to_shell(3) == 1);
+            REQUIRE_THROWS_AS(pimpl1.primitive_to_shell(4), std::runtime_error);
+        }
+        SECTION("operator[]") { REQUIRE(pimpl1[0] == shell1); }
+        SECTION("operator[] const") {
+            REQUIRE(std::as_const(pimpl1)[0] == shell1);
+        }
+        SECTION("cg") { REQUIRE(pimpl1.cg(0) == cg1); }
+        SECTION("cg const") { REQUIRE(std::as_const(pimpl1).cg(0) == cg1); }
+        SECTION("primitive") { REQUIRE(pimpl1.primitive(0) == p0); }
+        SECTION("primitive const") {
+            REQUIRE(std::as_const(pimpl1).primitive(0) == p0);
+        }
     }
     SECTION("Utility") {
         SECTION("operator==") {
-            SECTION("are equal") {}
-            SECTION("Different name") {}
-            SECTION("Different z") {}
-            SECTION("Different center") {}
-            SECTION("Different primitives on contracted gaussian") {}
-            SECTION("Different coeffs") {}
-            SECTION("Different exponents") {}
-            SECTION("Different purity") {}
-            SECTION("Different l") {}
+            SECTION("are equal") {
+                pimpl_type pimpl2{abs1.basis_set_name(), abs1.atomic_number(),
+                                  abs1.center(),
+                                  shell_ref_vector{abs1.begin(), abs1.end()}};
+                REQUIRE(pimpl1 == pimpl2);
+            }
+            SECTION("Different name") {
+                pimpl_type pimpl2{name0, abs1.atomic_number(), abs1.center(),
+                                  shell_ref_vector{abs1.begin(), abs1.end()}};
+                REQUIRE_FALSE(pimpl1 == pimpl2);
+            }
+            SECTION("Different z") {
+                pimpl_type pimpl2{abs1.basis_set_name(), z0, abs1.center(),
+                                  shell_ref_vector{abs1.begin(), abs1.end()}};
+                REQUIRE_FALSE(pimpl1 == pimpl2);
+            }
+            SECTION("Different center") {
+                pimpl_type pimpl2{abs1.basis_set_name(), abs1.atomic_number(),
+                                  r0,
+                                  shell_ref_vector{abs1.begin(), abs1.end()}};
+                REQUIRE_FALSE(pimpl1 == pimpl2);
+            }
+            SECTION("Different shells") {
+                pimpl_type pimpl2{
+                  abs1.basis_set_name(), abs1.atomic_number(), abs1.center(),
+                  shell_ref_vector{abs1.begin(), abs1.begin() + 1}};
+                REQUIRE_FALSE(pimpl1 == pimpl2);
+            }
         }
     }
 }

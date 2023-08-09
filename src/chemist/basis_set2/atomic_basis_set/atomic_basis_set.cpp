@@ -47,33 +47,32 @@ ATOMIC_BASIS_SET& ATOMIC_BASIS_SET::operator=(AtomicBasisSet&& rhs) noexcept =
   default;
 
 template<typename ShellType>
-ATOMIC_BASIS_SET::AtomicBasisSet(const_name_reference name,
-                                 atomic_number_type atomic_n,
+ATOMIC_BASIS_SET::AtomicBasisSet(name_type name, atomic_number_type atomic_n,
                                  typename shell_traits::coord_type x,
                                  typename shell_traits::coord_type y,
                                  typename shell_traits::coord_type z) :
-  AtomicBasisSet(name, atomic_n, typename shell_traits::center_type(x, y, z)) {}
+  AtomicBasisSet(std::move(name), std::move(atomic_n),
+                 std::move(typename shell_traits::center_type(x, y, z))) {}
 
 template<typename ShellType>
-ATOMIC_BASIS_SET::AtomicBasisSet(const_name_reference name,
-                                 atomic_number_type atomic_n,
+ATOMIC_BASIS_SET::AtomicBasisSet(name_type name, atomic_number_type atomic_n,
                                  typename shell_traits::center_type center) :
-  AtomicBasisSet(std::make_unique<pimpl_type>(name, atomic_n, center)) {}
+  AtomicBasisSet(std::make_unique<pimpl_type>(
+    std::move(name), std::move(atomic_n), std::move(center))) {}
 
 template<typename ShellType>
 ATOMIC_BASIS_SET::AtomicBasisSet(typename shell_traits::coord_type x,
                                  typename shell_traits::coord_type y,
                                  typename shell_traits::coord_type z) :
-  AtomicBasisSet(typename shell_traits::center_type(x, y, z)) {}
+  AtomicBasisSet(std::move(typename shell_traits::center_type(x, y, z))) {}
 
 template<typename ShellType>
 ATOMIC_BASIS_SET::AtomicBasisSet(typename shell_traits::center_type center) :
-  AtomicBasisSet(std::make_unique<pimpl_type>(center)) {}
+  AtomicBasisSet(std::make_unique<pimpl_type>(std::move(center))) {}
 
 template<typename ShellType>
-ATOMIC_BASIS_SET::AtomicBasisSet(const_name_reference name,
-                                 atomic_number_type atomic_n) :
-  AtomicBasisSet(name, atomic_n, 0.0, 0.0, 0.0) {}
+ATOMIC_BASIS_SET::AtomicBasisSet(name_type name, atomic_number_type atomic_n) :
+  AtomicBasisSet(std::move(name), std::move(atomic_n), 0.0, 0.0, 0.0) {}
 
 template<typename ShellType>
 ATOMIC_BASIS_SET::~AtomicBasisSet() noexcept = default;
@@ -83,66 +82,44 @@ ATOMIC_BASIS_SET::~AtomicBasisSet() noexcept = default;
 // -----------------------------------------------------------------------------
 
 template<typename ShellType>
-bool ATOMIC_BASIS_SET::has_name() const noexcept {
-    if(is_null()) return false;
-    return m_pimpl_->m_name.has_value();
-}
-
-template<typename ShellType>
 typename ATOMIC_BASIS_SET::name_reference ATOMIC_BASIS_SET::basis_set_name() {
     if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>();
-    if(!m_pimpl_->m_name.has_value()) m_pimpl_->m_name.emplace("");
-    return m_pimpl_->m_name.value();
+    return m_pimpl_->basis_set_name();
 }
 
 template<typename ShellType>
 typename ATOMIC_BASIS_SET::const_name_reference
 ATOMIC_BASIS_SET::basis_set_name() const {
-    if(has_name()) return m_pimpl_->m_name.value();
+    if(!is_null()) return m_pimpl_->basis_set_name();
     throw std::runtime_error("The current AtomicBasisSet does not have a name");
-}
-
-template<typename ShellType>
-bool ATOMIC_BASIS_SET::has_atomic_number() const noexcept {
-    if(is_null()) return false;
-    return m_pimpl_->m_z.has_value();
 }
 
 template<typename ShellType>
 typename ATOMIC_BASIS_SET::atomic_number_reference
 ATOMIC_BASIS_SET::atomic_number() {
     if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>();
-    if(!m_pimpl_->m_z.has_value()) m_pimpl_->m_z.emplace(0);
-    return m_pimpl_->m_z.value();
+    return m_pimpl_->atomic_number();
 }
 
 template<typename ShellType>
 typename ATOMIC_BASIS_SET::const_atomic_number_reference
 ATOMIC_BASIS_SET::atomic_number() const {
-    if(has_atomic_number()) return m_pimpl_->m_z.value();
+    if(!is_null()) return m_pimpl_->atomic_number();
     throw std::runtime_error("The current AtomicBasisSet does not have an "
                              "atomic number");
-}
-
-template<typename ShellType>
-bool ATOMIC_BASIS_SET::has_center() const noexcept {
-    if(is_null()) return false;
-    return m_pimpl_->m_center.has_value();
 }
 
 template<typename ShellType>
 typename ATOMIC_BASIS_SET::shell_traits::center_reference
 ATOMIC_BASIS_SET::center() {
     if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>();
-    if(!m_pimpl_->m_center.has_value())
-        m_pimpl_->m_center.emplace(0.0, 0.0, 0.0);
-    return m_pimpl_->m_center.value();
+    return m_pimpl_->center();
 }
 
 template<typename ShellType>
 typename ATOMIC_BASIS_SET::shell_traits::const_center_reference
 ATOMIC_BASIS_SET::center() const {
-    if(has_center()) return m_pimpl_->m_center.value();
+    if(!is_null()) return m_pimpl_->center();
     throw std::runtime_error("The current AtomicBasisSet does not have a "
                              "center set.");
 }

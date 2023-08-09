@@ -54,46 +54,38 @@ TEMPLATE_TEST_CASE("AtomicBasisSetPIMPL", "", float, double) {
 
     pimpl_type pimpl0;
     pimpl_type pimpl1(r1);
-    pimpl_type pimpl2(name1, z1);
-    pimpl_type pimpl3(name1, z1, r1);
+    pimpl_type pimpl2(name1, z1, r1);
     pimpl_type has_shells(name1, z1, r1);
     has_shells.add_shell(cart, l0, cg0);
     has_shells.add_shell(pure, l1, cg1);
 
     SECTION("Ctors") {
         SECTION("Defaulted") {
-            REQUIRE(pimpl0.m_name.has_value() == false);
-            REQUIRE(pimpl0.m_z.has_value() == false);
-            REQUIRE(pimpl0.m_center.has_value() == false);
+            REQUIRE_FALSE(pimpl0.basis_set_name().has_value());
+            REQUIRE_FALSE(pimpl0.atomic_number().has_value());
+            REQUIRE(pimpl0.center() == r0);
             REQUIRE(pimpl0.size() == 0);
             REQUIRE(pimpl0.n_primitives() == 0);
         }
         SECTION("With center") {
-            REQUIRE(pimpl1.m_name.has_value() == false);
-            REQUIRE(pimpl1.m_z.has_value() == false);
-            REQUIRE(pimpl1.m_center.value() == r1);
+            REQUIRE_FALSE(pimpl1.basis_set_name().has_value());
+            REQUIRE_FALSE(pimpl1.atomic_number().has_value());
+            REQUIRE(pimpl1.center() == r1);
             REQUIRE(pimpl1.size() == 0);
             REQUIRE(pimpl1.n_primitives() == 0);
         }
-        SECTION("With name and z") {
-            REQUIRE(pimpl2.m_name.value() == name1);
-            REQUIRE(pimpl2.m_z.value() == z1);
-            REQUIRE(pimpl2.m_center.has_value() == false);
+        SECTION("With name, z, and center") {
+            REQUIRE(pimpl2.basis_set_name().value() == name1);
+            REQUIRE(pimpl2.atomic_number().value() == z1);
+            REQUIRE(pimpl2.center() == r1);
             REQUIRE(pimpl2.size() == 0);
             REQUIRE(pimpl2.n_primitives() == 0);
         }
-        SECTION("With name, z, and center") {
-            REQUIRE(pimpl3.m_name.value() == name1);
-            REQUIRE(pimpl3.m_z.value() == z1);
-            REQUIRE(pimpl3.m_center.value() == r1);
-            REQUIRE(pimpl3.size() == 0);
-            REQUIRE(pimpl3.n_primitives() == 0);
-        }
         SECTION("With center and shells") {
             pimpl_type from_inputs(r1, shell_views);
-            REQUIRE(from_inputs.m_name.has_value() == false);
-            REQUIRE(from_inputs.m_z.has_value() == false);
-            REQUIRE(from_inputs.m_center.value() == r1);
+            REQUIRE_FALSE(from_inputs.basis_set_name().has_value());
+            REQUIRE_FALSE(from_inputs.atomic_number().has_value());
+            REQUIRE(from_inputs.center() == r1);
             REQUIRE(from_inputs.size() == 2);
             REQUIRE(from_inputs.n_primitives() == 4);
             REQUIRE(from_inputs[0] == shell0);
@@ -101,9 +93,9 @@ TEMPLATE_TEST_CASE("AtomicBasisSetPIMPL", "", float, double) {
         }
         SECTION("With name, z, and shells") {
             pimpl_type from_inputs(name1, z1, r1, shell_views);
-            REQUIRE(from_inputs.m_name.value() == name1);
-            REQUIRE(from_inputs.m_z.value() == z1);
-            REQUIRE(from_inputs.m_center.value() == r1);
+            REQUIRE(from_inputs.basis_set_name().value() == name1);
+            REQUIRE(from_inputs.atomic_number().value() == z1);
+            REQUIRE(from_inputs.center() == r1);
             REQUIRE(from_inputs.size() == 2);
             REQUIRE(from_inputs.n_primitives() == 4);
             REQUIRE(from_inputs[0] == shell0);
@@ -112,21 +104,27 @@ TEMPLATE_TEST_CASE("AtomicBasisSetPIMPL", "", float, double) {
     }
     SECTION("Getters/setters") {
         SECTION("add_shell") {
-            // Add shell to centerless pimpl
             pimpl0.add_shell(cart, l1, cg1);
-            REQUIRE(pimpl0.m_center.value() == r1);
             REQUIRE(pimpl0.size() == 1);
             REQUIRE(pimpl0.n_primitives() == 3);
-
-            // Add shell to pimp with center
-            pimpl1.add_shell(cart, l1, cg1);
-            REQUIRE(pimpl0.size() == 1);
-            REQUIRE(pimpl0.n_primitives() == 3);
-
-            // Throw if pimpl and contracted gaussian have different centers
-            pimpl_type different_center(r0);
-            REQUIRE_THROWS_AS(different_center.add_shell(cart, l1, cg1),
-                              std::runtime_error);
+        }
+        SECTION("basis_set_name") {
+            REQUIRE(has_shells.basis_set_name() == std::make_optional(name1));
+        }
+        SECTION("basis_set_name const") {
+            REQUIRE(std::as_const(has_shells).basis_set_name() ==
+                    std::make_optional(name1));
+        }
+        SECTION("atomic_number") {
+            REQUIRE(has_shells.atomic_number() == std::make_optional(z1));
+        }
+        SECTION("atomic_number const") {
+            REQUIRE(std::as_const(has_shells).atomic_number() ==
+                    std::make_optional(z1));
+        }
+        SECTION("center") { REQUIRE(has_shells.center() == r1); }
+        SECTION("center const") {
+            REQUIRE(std::as_const(has_shells).center() == r1);
         }
         SECTION("operator[]") {
             REQUIRE(has_shells[0] == shell0);
@@ -198,13 +196,13 @@ TEMPLATE_TEST_CASE("AtomicBasisSetPIMPL", "", float, double) {
                 REQUIRE(has_shells == has_shells2);
             }
             SECTION("Different name") {
-                REQUIRE_FALSE(pimpl3 == pimpl_type{name0, z1, r1});
+                REQUIRE_FALSE(pimpl2 == pimpl_type{name0, z1, r1});
             }
             SECTION("Different z") {
-                REQUIRE_FALSE(pimpl3 == pimpl_type{name1, z0, r1});
+                REQUIRE_FALSE(pimpl2 == pimpl_type{name1, z0, r1});
             }
             SECTION("Different center") {
-                REQUIRE_FALSE(pimpl3 == pimpl_type{name1, z1, r0});
+                REQUIRE_FALSE(pimpl2 == pimpl_type{name1, z1, r0});
             }
             SECTION("Different primitives on contracted gaussian") {
                 pimpl_type diff_prims_per_cg(name1, z1, r1);
