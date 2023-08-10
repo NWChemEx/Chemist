@@ -42,7 +42,7 @@ public:
     /// Type of a pointer to a PIMPL
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
 
-    /// String-like type used to store the basis set name
+    /// Optional string type used to store the basis set name
     using name_type = std::optional<std::string>;
 
     /// Mutable reference to the basis set's name
@@ -51,7 +51,7 @@ public:
     /// Read-only reference to the basis set's name
     using const_name_reference = const name_type&;
 
-    /// Unsigned integral type used to store the atomic number
+    /// Optional unsigned integral type used to store the atomic number
     using atomic_number_type = std::optional<std::size_t>;
 
     /// Mutable reference to the basis set's atomic number
@@ -377,7 +377,8 @@ public:
     /** @brief Adds a shell to the center.
      *
      *  This function will create a Shell instance, with the specified
-     *  parameters, on the current AtomicBasisSet.
+     *  parameters, on the current AtomicBasisSet. Note that the new shell and
+     *  related contracted Gaussian will be located at this basis set's center.
      *
      *  @param[in] pure Whether the new shell is pure or not.
      *  @param[in] l The total angular momentum of the new shell.
@@ -612,6 +613,7 @@ private:
     pimpl_pointer m_pimpl_;
 };
 
+// -- Inline implementations
 template<typename ShellType>
 template<typename ShellsBeginItr, typename ShellsEndItr>
 AtomicBasisSet<ShellType>::AtomicBasisSet(

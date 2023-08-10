@@ -90,7 +90,7 @@ public:
     /// The type used to store the basis set name
     using name_type = typename atomic_basis_set_type::name_type;
 
-    /// Mutable reference to the basis set's name
+    /// Potentially mutable reference to the basis set's name
     using name_reference = apply_const_ref<name_type>;
 
     /// Read-only reference to the basis set's name
@@ -101,7 +101,7 @@ public:
     using atomic_number_type =
       typename atomic_basis_set_type::atomic_number_type;
 
-    /// Mutable reference to the basis set's atomic number
+    /// Potentially mutable reference to the basis set's atomic number
     using atomic_number_reference = apply_const_ref<atomic_number_type>;
 
     /// Read-only reference to the basis set's atomic number
@@ -117,7 +117,7 @@ public:
     /// Type of the Shells on this AtomicBasisSet
     using value_type = typename atomic_basis_set_type::value_type;
 
-    /// Type of a read-/write-able reference to a AtomicBasisSet
+    /// Type of a potentially mutable reference to a AtomicBasisSet
     using reference = ShellView<apply_const<value_type>>;
 
     /// Type of a read-only reference to a AtomicBasisSet
@@ -210,15 +210,71 @@ public:
      */
     AtomicBasisSetView& operator=(AtomicBasisSetView&& rhs) noexcept;
 
+    /** @brief Creates a new view instance with the provided state.
+     *
+     *  @param[in] name The name associated with the basis set.
+     *  @param[in] atomic_n The atomic number associated with the basis set.
+     *  @param[in] center The point the basis set is centered on.
+     *  @param[in] shells The shells of the basis set this views.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to create the
+     *                        PIMPL. Strong throw guarantee.
+     */
     AtomicBasisSetView(name_reference name, atomic_number_reference z,
                        center_reference r, std::vector<reference> shells);
 
+    /** @brief Creates a new view instance that views the provided basis set.
+     *
+     *  @param[in] bs The basis set this will reference.
+     *
+     *  @throw std::bad_alloc if there is insufficient memory to create the
+     *                        PIMPL. Strong throw guarantee.
+     */
     AtomicBasisSetView(atomic_basis_set_reference bs);
 
+    /** @brief Implicit conversion of a mutable view to a read-only view
+     *
+     *  @note This is NOT the copy ctor.
+     *
+     *  This ctor can be used to convert a AtomicBasisSetView of a mutable
+     *  AtomicBasisSet to a view of a read-only AtomicBasisSet.
+     *
+     *  @tparam OtherType The type of the other view. @p OtherType is assumed to
+     *                    be AtomicBasisSetView<AtomicBasisSet<T>>.
+     *  @tparam <anonymous> Used to disable this function when *this is mutable
+     *                      or when @p OtherType is read-only
+     *
+     *  @param[in] other The view we are implicitly converting to a read-only
+     *                   view.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the PIMPL. Strong
+     *                        throw guarantee.
+     */
     template<typename OtherType,
              typename = enable_if_this_const_other_mutable<OtherType>>
     AtomicBasisSetView(const OtherType& other);
 
+    /** @brief Sets the aliased AtomicBasisSet's state to a copy of @p rhs.
+     *
+     *  This operator will set the state of the AtomicBasisSet aliased by *this
+     *  to a copy of @p rhs. In particular, this operator will NOT alias the
+     *  state in @p rhs. To make *this alias the state in @p rhs, use the copy
+     *  assignment operator.
+     *
+     *  @tparam ABSType2 The type of the AtomicBasisSet whose state is being
+     *                   copied. Should always be non-cv-qualified
+     *                   @p AtomicBasisSetType.
+     *  @tparam <anonymous> Used to disable this function when the type of *this
+     *                      is a view of read-only Shell.
+     *
+     *  @param[in] rhs The AtomicBasisSet whose state is being assigned to
+     *                 *this.
+     *
+     *  @return *this after modifying the aliased state.
+     *
+     *  @throw None No throw guarantee.
+     *
+     */
     template<
       typename ABSType2 = std::decay_t<AtomicBasisSetType>,
       typename = std::enable_if<std::is_same_v<ABSType2, AtomicBasisSetType>>>
@@ -234,8 +290,8 @@ public:
     /** @brief Returns the name of the basis set.
      *
      *  Many atomic basis sets are part of a named set, where "name" refers to
-     *  monikers such as 6-31G* or cc-pVDZ. If the name has been set, this
-     *  method will return the name.
+     *  monikers such as 6-31G* or cc-pVDZ. This method will return a mutable
+     *  reference to the name optional.
      *
      *  @warning We suggest treating the name of a basis set as metadata. In
      *           particular *this makes no checks to ensure that the parameters
@@ -244,16 +300,15 @@ public:
      *
      * @return The name of this basis set.
      *
-     * @throw std::runtime_error if *this does not have a basis set name.
-     *                           Strong throw guarantee
+     * @throw std::runtime_error if *this is null. Strong throw guarantee.
      */
     name_reference basis_set_name();
 
     /** @brief Returns the name of the basis set.
      *
      *  Many atomic basis sets are part of a named set, where "name" refers to
-     *  monikers such as 6-31G* or cc-pVDZ. If the name has been set, this
-     *  method will return the name.
+     *  monikers such as 6-31G* or cc-pVDZ. This method will return a read-only
+     *  reference to the name optional.
      *
      *  @warning We suggest treating the name of a basis set as metadata. In
      *           particular *this makes no checks to ensure that the parameters
@@ -262,8 +317,7 @@ public:
      *
      * @return The name of this basis set.
      *
-     * @throw std::runtime_error if *this does not have a basis set assigned to
-     *                           it. Strong throw guarantee.
+     * @throw std::runtime_error if *this is null. Strong throw guarantee.
      */
     const_name_reference basis_set_name() const;
 
@@ -272,9 +326,7 @@ public:
      *  All of the shells in *this are centered at a single point in space.
      *  Typically there is also a nucleus at this point too. Often the atomic
      *  number of that nucleus dictates what shells are in *this. This method
-     *  can be used to get and set the atomic number. If *this is a null object,
-     *  this method will first allocate state and then return the atomic
-     *  number in that state (which will be set to 0).
+     *  can be used to get and set the atomic number.
      *
      *  @warning We suggest treating the atomic number of the basis set as
      *           metadata. In particular, *this makes no effort to ensure that
@@ -283,16 +335,16 @@ public:
      *
      *  @return A mutable reference to the atomic number.
      *
-     *  @throw std::bad_alloc if *this is null and allocating the state fails.
-     *                        Strong throw guarantee.
+     *  @throw std::bad_alloc if *this is null. Strong throw guarantee.
      */
     atomic_number_reference atomic_number();
 
     /** @brief Returns the atomic number associated with *this.
      *
-     *  This function is similar to the non-const version, except an error is
-     *  raised if *this is a null basis set (and that the resulting reference
-     *  is read-only).
+     *  All of the shells in *this are centered at a single point in space.
+     *  Typically there is also a nucleus at this point too. Often the atomic
+     *  number of that nucleus dictates what shells are in *this. This method
+     *  can be used to get a read-only reference to the atomic number.
      *
      *  @warning We suggest treating the atomic number of the basis set as
      *           metadata. In particular, *this makes no effort to ensure that
@@ -301,34 +353,27 @@ public:
      *
      *  @return A read-only reference to the atomic number.
      *
-     *  @throw std::bad_alloc if *this is null and allocating the state fails.
-     *                        Strong throw guarantee.
+     *  @throw std::bad_alloc if *this is null. Strong throw guarantee.
      */
     const_atomic_number_reference atomic_number() const;
 
     /** @brief Returns the center associated with *this.
      *
-     *  This method can be used to get and set the center. If *this is a null
-     *  object, this method will first allocate state and then return the center
-     *  in that state (which will be set to the origin).
+     *  This method can be used to get and set the center.
      *
      *  @return A mutable reference to the center.
      *
-     *  @throw std::bad_alloc if *this is null and allocating the state fails.
-     *                        Strong throw guarantee.
+     *  @throw std::bad_alloc if *this is null. Strong throw guarantee.
      */
     center_reference center();
 
     /** @brief Returns the center associated with *this.
      *
-     *  This function is similar to the non-const version, except an error is
-     *  raised if *this is a null basis set (and that the resulting reference
-     *  is read-only).
+     *  This method can be used to get a read-only reference the center.
      *
      *  @return A read-only reference to the center.
      *
-     *  @throw std::runtime_error if *this does not have a basis set assigned to
-     *                            it. Strong throw guarantee.
+     *  @throw std::runtime_error if *this is null. Strong throw guarantee.
      */
     const_center_reference center() const;
 
@@ -402,6 +447,11 @@ public:
      *
      *  @param[in] shell the index of the shell we want the primitive range for.
      *                   Must be in the range [0, size())
+     *
+     *  @return The range of primitives associated with the shell index.
+     *
+     *  @throw std::out_of_range if the @p shell is outside the range of shells
+     *                           on this basis set. Strong throw guarantee.
      */
     range_type primitive_range(size_type shell) const;
 
@@ -413,26 +463,25 @@ public:
      *  @return The index of the shell primitive number @p primitive belongs
      *          to.
      *
+     *  @throw std::out_of_range if the @p primitive is outside the range of
+     *                           primitives on this basis set. Strong throw
+     *                           guarantee.
      */
     size_type primitive_to_shell(size_type primitive) const;
 
     /** @brief Returns the @p i-th unique primitive on the center.
      *
      *  Primitives on the center are numbered by flattening out the shells and
-     *  then flattening out the unique primitives comprising the AOs. Typically
-     *  there is only one set of unique primitives per shell, nevertheless this
-     *  function encapsulates that detail.
+     *  then flattening out the primitives comprising the AOs.
      *
      *  @param[in] i The index of the requested primitive. Must be in the range
-     *               [0, n_unique_primitives()).
+     *               [0, n_primitives()).
      *
      *  @return A read-/write-able reference to the requested primitive
      *
-     *  @throw std::out_of_range if @p i is not in the range [0, n_aos()).
-     *                            Strong throw guarantee.
-     *  @throw std::bad_alloc if there is insufficient memory to create the
-     *                        PIMPL for the resulting view. Strong throw
-     *                        guarantee.
+     *  @throw std::out_of_range if the @p primitive is outside the range of
+     *                           primitives on this basis set. Strong throw
+     *                           guarantee.
      *
      */
     typename shell_traits::primitive_reference primitive(size_type i);
@@ -440,20 +489,16 @@ public:
     /** @brief Returns the @p i-th unique primitive on the center.
      *
      *  Primitives on the center are numbered by flattening out the shells and
-     *  then flattening out the unique primitives comprising the AOs. Typically
-     *  there is only one set of unique primitives per shell, nevertheless this
-     *  function encapsulates that detail.
+     *  then flattening out the primitives comprising the AOs.
      *
      *  @param[in] i The index of the requested primitive. Must be in the range
-     *               [0, n_unique_primitives()).
+     *               [0, n_primitives()).
      *
      *  @return A read-only reference to the requested primitive
      *
-     *  @throw std::out_of_range if @p i is not in the range [0, n_aos()).
-     *                            Strong throw guarantee.
-     *  @throw std::bad_alloc if there is insufficient memory to create the
-     *                        PIMPL for the resulting view. Strong throw
-     *                        guarantee.
+     *  @throw std::out_of_range if the @p primitive is outside the range of
+     *                           primitives on this basis set. Strong throw
+     *                           guarantee.
      *
      */
     typename shell_traits::const_primitive_reference primitive(
