@@ -57,9 +57,12 @@ TEMPLATE_TEST_CASE("AtomicBasisSetView", "", float, double) {
 
     view_type view0;
     const_view cview0;
+    view_type view1(abs1);
+    const_view cview1(abs1);
 
     SECTION("Ctor and assignment") {
         SECTION("Default") {}
+        SECTION("From input value") {}
         SECTION("From AtomicBasisSet") {}
         SECTION("Assign AtomicBasisSet") {}
         SECTION("Const from non-const") {}

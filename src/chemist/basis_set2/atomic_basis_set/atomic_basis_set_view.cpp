@@ -48,9 +48,18 @@ ATOMIC_BS_VIEW& ATOMIC_BS_VIEW::operator=(AtomicBasisSetView&& rhs) noexcept =
   default;
 
 ATOMIC_BS_TPARAMS
-ATOMIC_BS_VIEW::AtomicBasisSetView(atomic_basis_set_reference bs) {
-    throw std::runtime_error("NYI!!!!");
-}
+ATOMIC_BS_VIEW::AtomicBasisSetView(name_reference name,
+                                   atomic_number_reference z,
+                                   center_reference r,
+                                   std::vector<reference> shells) :
+  AtomicBasisSetView(
+    std::make_unique<pimpl_type>(name, z, r, std::move(shells))) {}
+
+ATOMIC_BS_TPARAMS
+ATOMIC_BS_VIEW::AtomicBasisSetView(atomic_basis_set_reference bs) :
+  AtomicBasisSetView(bs.basis_set_name(), bs.atomic_number(),
+                     std::move(bs.center()),
+                     std::move(std::vector<reference>{bs.begin(), bs.end()})) {}
 
 ATOMIC_BS_TPARAMS
 ATOMIC_BS_VIEW::~AtomicBasisSetView() noexcept = default;

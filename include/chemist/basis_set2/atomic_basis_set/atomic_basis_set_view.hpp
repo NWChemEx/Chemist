@@ -84,9 +84,10 @@ public:
     /// Type this is a view of
     using atomic_basis_set_type = typename traits_type::type;
 
+    /// Reference to an instance of the viewed type
     using atomic_basis_set_reference = apply_const_ref<atomic_basis_set_type>;
 
-    /// String-like type used to store the basis set name
+    /// The type used to store the basis set name
     using name_type = typename atomic_basis_set_type::name_type;
 
     /// Mutable reference to the basis set's name
@@ -95,9 +96,6 @@ public:
     /// Read-only reference to the basis set's name
     using const_name_reference =
       typename atomic_basis_set_type::const_name_reference;
-
-    /// Type of a pointer to the basis set's name
-    using name_pointer = ptr_type<name_type>;
 
     /// Unsigned integral type used to store the atomic number
     using atomic_number_type =
@@ -110,17 +108,8 @@ public:
     using const_atomic_number_reference =
       typename atomic_basis_set_type::const_atomic_number_reference;
 
-    /// Type of a pointer to the atomic number
-    using atomic_number_pointer = ptr_type<atomic_number_type>;
-
     /// Unsigned integral type used for indexing/offsets
     using size_type = typename atomic_basis_set_type::size_type;
-
-    /// Type of a read-only reference to a size
-    using const_size_reference = const size_type&;
-
-    /// Type of a pointer to a read-only set of sizes
-    using const_size_pointer = const size_type*;
 
     /// Type used to return index ranges
     using range_type = typename atomic_basis_set_type::range_type;
@@ -134,7 +123,18 @@ public:
     /// Type of a read-only reference to a AtomicBasisSet
     using const_reference = ShellView<const value_type>;
 
+    /// Traits from the ShellView class
     using shell_traits = ShellTraits<reference>;
+
+    /// Type used for the center of this basis set
+    using center_type = typename shell_traits::center_type;
+
+    /// A possibly mutable reference to the center
+    using center_reference = typename shell_traits::center_reference;
+
+    /// A read-only reference to the center
+    using const_center_reference =
+      typename shell_traits::const_center_reference;
 
     // -------------------------------------------------------------------------
     // -- Ctors, assignment, and dtor
@@ -209,6 +209,9 @@ public:
      *  @throw None no throw guarantee.
      */
     AtomicBasisSetView& operator=(AtomicBasisSetView&& rhs) noexcept;
+
+    AtomicBasisSetView(name_reference name, atomic_number_reference z,
+                       center_reference r, std::vector<reference> shells);
 
     AtomicBasisSetView(atomic_basis_set_reference bs);
 
