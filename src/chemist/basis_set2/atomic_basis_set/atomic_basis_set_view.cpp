@@ -169,6 +169,20 @@ bool ATOMIC_BS_VIEW::operator==(const AtomicBasisSetView& rhs) const noexcept {
     return *m_pimpl_ == *rhs.m_pimpl_;
 }
 
+ATOMIC_BS_TPARAMS
+bool ATOMIC_BS_VIEW::operator==(const AtomicBasisSetType& rhs) const noexcept {
+    if(is_null() != rhs.is_null()) return false;
+    if(is_null()) return true; // Both alias null
+    if(this->size() != rhs.size()) return false;
+    if(basis_set_name() != rhs.basis_set_name()) return false;
+    if(atomic_number() != rhs.atomic_number()) return false;
+    if(center() != rhs.center()) return false;
+    for(auto shell = 0; shell < this->size(); ++shell) {
+        if((*this)[shell] != rhs[shell]) return false;
+    }
+    return true;
+}
+
 // -----------------------------------------------------------------------------
 // -- Protected and private
 // -----------------------------------------------------------------------------

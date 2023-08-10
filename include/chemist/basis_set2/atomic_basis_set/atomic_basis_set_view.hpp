@@ -215,6 +215,15 @@ public:
 
     AtomicBasisSetView(atomic_basis_set_reference bs);
 
+    template<typename OtherType,
+             typename = enable_if_this_const_other_mutable<OtherType>>
+    AtomicBasisSetView(const OtherType& other);
+
+    template<
+      typename ABSType2 = std::decay_t<AtomicBasisSetType>,
+      typename = std::enable_if<std::is_same_v<ABSType2, AtomicBasisSetType>>>
+    AtomicBasisSetView& operator=(const ABSType2& rhs);
+
     /// Defaulted no throw dtor
     ~AtomicBasisSetView() noexcept;
 
@@ -308,7 +317,7 @@ public:
      *  @throw std::bad_alloc if *this is null and allocating the state fails.
      *                        Strong throw guarantee.
      */
-    typename shell_traits::center_reference center();
+    center_reference center();
 
     /** @brief Returns the center associated with *this.
      *
@@ -321,7 +330,7 @@ public:
      *  @throw std::runtime_error if *this does not have a basis set assigned to
      *                            it. Strong throw guarantee.
      */
-    typename shell_traits::const_center_reference center() const;
+    const_center_reference center() const;
 
     /** @brief Returns the total number of AOs on this center.
      *
@@ -492,6 +501,8 @@ public:
      */
     bool operator==(const AtomicBasisSetView& rhs) const noexcept;
 
+    bool operator==(const AtomicBasisSetType& rhs) const noexcept;
+
     /** @brief Determines if *this and @p rhs are different.
      *
      *  We define different as being not value equal. See operator== for the
@@ -504,6 +515,10 @@ public:
      *  @throw None No throw guarantee.
      */
     bool operator!=(const AtomicBasisSetView& rhs) const noexcept {
+        return !(*this == rhs);
+    }
+
+    bool operator!=(const AtomicBasisSetType& rhs) const noexcept {
         return !(*this == rhs);
     }
 
@@ -547,6 +562,71 @@ private:
     /// The instance that actually implements this class
     pimpl_pointer m_pimpl_;
 };
+
+// -- Inline implementations
+template<typename AtomicBasisSetType>
+template<typename OtherType, typename>
+AtomicBasisSetView<AtomicBasisSetType>::AtomicBasisSetView(
+  const OtherType& other) :
+  AtomicBasisSetView(
+    !other.is_null() ?
+      AtomicBasisSetView(
+        other.basis_set_name(), other.atomic_number(),
+        std::move(other.center()),
+        std::move(std::vector<reference>{other.begin(), other.end()})) :
+      AtomicBasisSetView()) {}
+
+template<typename AtomicBasisSetType>
+template<typename ABSType2, typename>
+AtomicBasisSetView<AtomicBasisSetType>&
+AtomicBasisSetView<AtomicBasisSetType>::operator=(const ABSType2& rhs) {
+    assert_non_null_();
+    if(rhs.is_null())
+        throw std::runtime_error(
+          "Assigning a null AtomicBasisSet to a non-null AtomicBasisSet is "
+          "currently not supported");
+    if(rhs.size() != this->size())
+        throw std::runtime_error(
+          "AtomicBasisSet to assign must be the same size as the aliased one");
+
+    basis_set_name() = rhs.basis_set_name();
+    atomic_number()  = rhs.atomic_number();
+    center().x()     = rhs.center().x();
+    center().y()     = rhs.center().y();
+    center().z()     = rhs.center().z();
+    for(auto shell = 0; shell < this->size(); ++shell) {
+        (*this)[shell] = rhs[shell];
+    }
+    return *this;
+}
+
+/// Ensures operator== is symmetric for when AtomicBasisSet is on the left
+template<typename AtomicBasisSetType>
+bool operator==(const AtomicBasisSetType& lhs,
+                const AtomicBasisSetView<AtomicBasisSetType>& rhs) noexcept {
+    return rhs == lhs;
+}
+
+template<typename AtomicBasisSetType>
+bool operator==(
+  const AtomicBasisSetType& lhs,
+  const AtomicBasisSetView<const AtomicBasisSetType>& rhs) noexcept {
+    return rhs == lhs;
+}
+
+/// Ensures operator!= is symmetric for when AtomicBasisSet is on the left
+template<typename AtomicBasisSetType>
+bool operator!=(const AtomicBasisSetType& lhs,
+                const AtomicBasisSetView<AtomicBasisSetType>& rhs) noexcept {
+    return rhs != lhs;
+}
+
+template<typename AtomicBasisSetType>
+bool operator!=(
+  const AtomicBasisSetType& lhs,
+  const AtomicBasisSetView<const AtomicBasisSetType>& rhs) noexcept {
+    return rhs != lhs;
+}
 
 extern template class AtomicBasisSetView<AtomicBasisSetD>;
 extern template class AtomicBasisSetView<const AtomicBasisSetD>;
