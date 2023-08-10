@@ -24,7 +24,6 @@ namespace detail_ {
 class FragmentedNucleiPIMPL;
 }
 
-
 /** @brief Class describing super-/sub-set relationship among sets of `Nucleus`
  *         objects.
  *
@@ -45,7 +44,6 @@ public:
 
     /// Type of a read-only reference to the supersystem
     using const_supersystem_reference = const supersystem_type&;
-
 
     /// This is the type of the object used to implement *this
     using impl_type = set_theory::FamilyOfSets<supersystem_type>;

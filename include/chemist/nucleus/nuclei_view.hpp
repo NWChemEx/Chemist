@@ -2,7 +2,6 @@
 #include <chemist/nucleus/nuclei.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
-
 namespace chemist {
 namespace detail_ {
 class NucleiViewPIMPL;
@@ -72,4 +71,4 @@ private:
 
 };
 
-}
+} // namespace chemist

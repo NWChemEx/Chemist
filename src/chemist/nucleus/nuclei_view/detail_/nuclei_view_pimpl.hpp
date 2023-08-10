@@ -3,9 +3,8 @@
 
 namespace chemist::detail_ {
 
-
 /** @brief Defines the API all NucleiView PIMPLs must implement.
- * 
+ *
  *  To implement a new NucleiView derive from this class and implement:
  *  - pimpl_pointer clone() const
  *  - reference get_nukes(size_type)
@@ -32,7 +31,7 @@ public:
 
     /// Read-only reference to a nucleus
     using const_reference = typename nuclei_view_type::const_reference;
- 
+
     /// Type nuclei_view_type uses for indexing
     using size_type = typename nuclei_view_type::size_type;
 
@@ -75,6 +74,7 @@ public:
     */
     reference get_nuke(size_type i) { return get_nuke_(i); }
 
+<<<<<<< HEAD
     /** @brief Retrieves Nucleus @p i.
      * 
      *  This function behaves identically to the non-const version except that
@@ -91,23 +91,26 @@ public:
     const_reference get_nuke(size_type i) const {
         return get_nuke_(i);
     }
+=======
+    const_reference get_nuke(size_type i) const { return get_nuke_(i); }
+>>>>>>> b9494a8e43a334b3d1db1e85e361a3da09adc4e6
 
     /** @brief Determines the number of nuclei in *this
-     *  
+     *
      *  This method is ultimately implemented by overrideing size_.
-     * 
+     *
      *  @return The number of nuclei in *this.
-     * 
+     *
      *  @throw None No throw guarantee.
      */
     size_type size() const noexcept { return size_(); }
 
     /** @brief Polymorphic value equality.
-     * 
+     *
      *  This method will traverse the class hierarchy of *this ensuring that
-     *  @p rhs has the same hierarchy. 
-    */
-    bool are_equal(const NucleiViewPIMPL& rhs)const noexcept{
+     *  @p rhs has the same hierarchy.
+     */
+    bool are_equal(const NucleiViewPIMPL& rhs) const noexcept {
         return are_equal_(rhs) && rhs.are_equal_(*this);
     }
 
@@ -128,4 +131,4 @@ protected:
     virtual bool are_equal_(const NucleiViewPIMPL& rhs) const noexcept = 0;
 };
 
-}
+} // namespace chemist::detail_
