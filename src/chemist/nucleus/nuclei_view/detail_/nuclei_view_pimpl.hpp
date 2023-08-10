@@ -42,55 +42,53 @@ public:
     virtual ~NucleiViewPIMPL() noexcept = default;
 
     /** @brief Makes a polymorphic deep copy of *this.
-     * 
+     *
      *  When called this method will engage the copy ctor of the most derived
      *  class in order to create a deep copy of *this. The copy is returned
      *  polymorphically via a pointer to the base class.
-     * 
+     *
      *  This method is ultimately implemented by calling clone_. The derived
      *  class is responsible for overriding clone_ appropriately.
-     * 
+     *
      *  @return A pointer to a deep copy of *this.
-     * 
+     *
      *  @throw std::bad_alloc if there is a problem allocating the return.
      *                        Strong throw guarantee.
-    */
+     */
     pimpl_pointer clone() const { return clone_(); }
 
     /** @brief Returns a reference to Nucleus @p i.
-     * 
+     *
      *  This function is implemented by calling get_nuke_. The derived class is
      *  responsible for overriding get_nuke_ in order to implement this
      *  function.
-     * 
+     *
      *  @param[in] i The offset of the requested nucleus. @p i should be in the
      *             range [0, size()).
-     * 
+     *
      *  @return A reference to the requested Nucleus. The Nucleus is mutable.
-     * 
+     *
      *  @throw None This function performs no bounds checks (bounds checks are
      *              deferred to the NucleiView class). Passing a value of @p i
      *              which is out of bounds will lead to undefined behavior.
-    */
+     */
     reference get_nuke(size_type i) { return get_nuke_(i); }
 
 <<<<<<< HEAD
     /** @brief Retrieves Nucleus @p i.
-     * 
+     *
      *  This function behaves identically to the non-const version except that
      *  the resulting reference is read-only and can not be mutated.
-     * 
+     *
      *  @param[in] i The offset of the requested nucleus. @p i should be in
      *               the range [0, size())
-     * 
+     *
      *  @return A read-only reference to the @p i-th nucleus.
-     * 
+     *
      *  @throw None No thow guarantee; however, accessing a nucleus which is
      *              out of bounds results in undefined behavior.
-    */
-    const_reference get_nuke(size_type i) const {
-        return get_nuke_(i);
-    }
+     */
+    const_reference get_nuke(size_type i) const { return get_nuke_(i); }
 =======
     const_reference get_nuke(size_type i) const { return get_nuke_(i); }
 >>>>>>> b9494a8e43a334b3d1db1e85e361a3da09adc4e6

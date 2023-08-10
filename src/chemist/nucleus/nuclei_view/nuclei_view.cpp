@@ -7,7 +7,7 @@ namespace chemist {
 // -----------------------------------------------------------------------------
 
 NucleiView::NucleiView(pimpl_pointer pimpl) noexcept :
-    m_pimpl_(std::move(pimpl)) {}
+  m_pimpl_(std::move(pimpl)) {}
 
 NucleiView::~NucleiView() noexcept = default;
 
@@ -32,4 +32,4 @@ bool NucleiView::has_pimpl_() const noexcept {
     return static_cast<bool>(m_pimpl_);
 }
 
-}
+} // namespace chemist

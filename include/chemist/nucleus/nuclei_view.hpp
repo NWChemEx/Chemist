@@ -50,6 +50,7 @@ public:
 
     /// Default no throw dtor
     ~NucleiView() noexcept;
+
 private:
     /// Allows the base class to access at_ and size_
     friend base_type;
@@ -68,7 +69,6 @@ private:
 
     /// The object implementing *this
     pimpl_pointer m_pimpl_;
-
 };
 
 } // namespace chemist
