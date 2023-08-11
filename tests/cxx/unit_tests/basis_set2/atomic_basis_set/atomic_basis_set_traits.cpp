@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 NWChemEx-Project
+ * Copyright 2023 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,20 @@
  * limitations under the License.
  */
 
-#pragma once
+#include <catch2/catch.hpp>
 #include <chemist/basis_set2/atomic_basis_set/atomic_basis_set.hpp>
+#include <chemist/basis_set2/atomic_basis_set/atomic_basis_set_traits.hpp>
 #include <chemist/basis_set2/atomic_basis_set/atomic_basis_set_view.hpp>
-#include <chemist/basis_set2/contracted_gaussian/contracted_gaussian.hpp>
-#include <chemist/basis_set2/contracted_gaussian/contracted_gaussian_view.hpp>
-#include <chemist/basis_set2/primitive/primitive.hpp>
-#include <chemist/basis_set2/primitive/primitive_view.hpp>
-#include <chemist/basis_set2/shell/shell.hpp>
-#include <chemist/basis_set2/shell/shell_view.hpp>
 
-namespace chemist::basis_set {} // namespace chemist::basis_set
+using namespace chemist::basis_set;
+
+TEMPLATE_TEST_CASE("AtomicBasisSetTraits", "", float, double) {
+    using abs_type =
+      AtomicBasisSet<Shell<ContractedGaussian<Primitive<TestType>>>>;
+
+    AtomicBasisSetTraits<abs_type> abs_traits;
+
+    AtomicBasisSetTraits<AtomicBasisSetView<abs_type>> abs_view_traits;
+
+    AtomicBasisSetTraits<AtomicBasisSetView<const abs_type>> const_abs_traits;
+}

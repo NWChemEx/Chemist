@@ -15,7 +15,6 @@
  */
 
 #include <catch2/catch.hpp>
-#include <cereal/archives/binary.hpp>
 #include <chemist/basis_set2/shell/shell.hpp>
 #include <chemist/basis_set2/shell/shell_traits.hpp>
 #include <sstream>
