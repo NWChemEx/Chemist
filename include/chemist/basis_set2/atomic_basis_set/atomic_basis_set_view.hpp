@@ -28,7 +28,7 @@ class AtomicBasisSetViewPIMPL;
 /** @brief Behaves like a reference to an AtomicBasisSet.
  *
  *  AtomicBasisSet instances own their state. AtomicBasisSetView instances alias
- *  their state, but otherwise have the same API as a Shell instance.
+ *  their state, but otherwise have the same API as a AtomicBasisSet instance.
  *
  *  @tparam AtomicBasisSetType The type of AtomicBasisSet this is a view of.
  *                             @p AtomicBasisSetType is expected to be a
