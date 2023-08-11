@@ -16,6 +16,7 @@
 #include "../detail_/compute_n_aos.hpp"
 #include "detail_/atomic_basis_set_pimpl.hpp"
 #include <chemist/basis_set2/atomic_basis_set/atomic_basis_set.hpp>
+#include <utility>
 
 namespace chemist::basis_set {
 
