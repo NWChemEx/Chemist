@@ -7,7 +7,7 @@ namespace chemist {
 // -----------------------------------------------------------------------------
 
 NucleiView::NucleiView(pimpl_pointer pimpl) noexcept :
-    m_pimpl_(std::move(pimpl)) {}
+  m_pimpl_(std::move(pimpl)) {}
 
 NucleiView::Nucleiview(const NucleiView& other) :
     m_pimpl_(other.has_pimpl_() ? other.m_pimpl_->clone() : nullptr) {}
@@ -56,4 +56,4 @@ std::ostream& operator<<(std::ostream& os, const NucleiView& nukes) {
     return os;
 }
 
-}
+} // namespace chemist

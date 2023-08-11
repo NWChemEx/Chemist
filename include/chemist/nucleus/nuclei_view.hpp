@@ -90,7 +90,6 @@ private:
 
     /// The object implementing *this
     pimpl_pointer m_pimpl_;
-
 };
 
 /** @brief Allows a NucleiView object to be printed akin to a Nuclei object.
