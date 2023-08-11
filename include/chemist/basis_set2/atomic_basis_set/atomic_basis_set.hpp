@@ -25,6 +25,16 @@ template<typename ShellType>
 class AtomicBasisSetPIMPL;
 }
 
+/** @brief Models a set of shells associated with a specific atomic center.
+ *
+ *  An atomic basis set is made up of the shells associated with a particular 
+ *  center, which is generally associated with an atom. This class contains a
+ *  group of shells that are all associated with a given center. Atomic basis
+ *  sets may additionally be have an associated atomic number and/or name,
+ *  which are optionally included by this class.
+ *
+ *  @tparam ShellType The type of the shells in this atomic basis set.
+ */
 template<typename ShellType>
 class AtomicBasisSet
   : public utilities::IndexableContainerBase<AtomicBasisSet<ShellType>> {
@@ -484,10 +494,8 @@ public:
 
     /** @brief Returns the @p i-th unique primitive on the center.
      *
-     *  Primitives on the center are numbered by flattening out the shells and
-     *  then flattening out the unique primitives comprising the AOs. Typically
-     *  there is only one set of unique primitives per shell, nevertheless this
-     *  function encapsulates that detail.
+     *  Primitives in *this are numbered by flattening out the contracted
+     *  Gaussians in each shell.
      *
      *  @param[in] i The index of the requested primitive. Must be in the range
      *               [0, n_unique_primitives()).
@@ -501,10 +509,8 @@ public:
 
     /** @brief Returns the @p i-th unique primitive on the center.
      *
-     *  Primitives on the center are numbered by flattening out the shells and
-     *  then flattening out the unique primitives comprising the AOs. Typically
-     *  there is only one set of unique primitives per shell, nevertheless this
-     *  function encapsulates that detail.
+     *  Primitives in *this are numbered by flattening out the contracted
+     *  Gaussians in each shell.
      *
      *  @param[in] i The index of the requested primitive. Must be in the range
      *               [0, n_unique_primitives()).

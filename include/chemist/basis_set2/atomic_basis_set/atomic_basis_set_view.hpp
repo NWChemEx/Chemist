@@ -25,6 +25,16 @@ template<typename AtomicBasisSetType>
 class AtomicBasisSetViewPIMPL;
 }
 
+/** @brief Behaves like a reference to an AtomicBasisSet.
+ *
+ *  AtomicBasisSet instances own their state. AtomicBasisSetView instances alias
+ *  their state, but otherwise have the same API as a Shell instance.
+ *
+ *  @tparam AtomicBasisSetType The type of AtomicBasisSet this is a view of.
+ *                             @p AtomicBasisSetType is expected to be a
+ *                             (possibly) cv-qualified instantiation of
+ *                             AtomicBasisSet
+ */
 template<typename AtomicBasisSetType>
 class AtomicBasisSetView : public utilities::IndexableContainerBase<
                              AtomicBasisSetView<AtomicBasisSetType>> {
@@ -117,10 +127,10 @@ public:
     /// Type of the Shells on this AtomicBasisSet
     using value_type = typename atomic_basis_set_type::value_type;
 
-    /// Type of a potentially mutable reference to a AtomicBasisSet
+    /// Type of a potentially mutable reference to a shell
     using reference = ShellView<apply_const<value_type>>;
 
-    /// Type of a read-only reference to a AtomicBasisSet
+    /// Type of a read-only reference to a shell
     using const_reference = ShellView<const value_type>;
 
     /// Traits from the ShellView class
@@ -214,7 +224,7 @@ public:
      *
      *  @param[in] name The name associated with the basis set.
      *  @param[in] atomic_n The atomic number associated with the basis set.
-     *  @param[in] center The point the basis set is centered on.
+     *  @param[in] r The point the basis set is centered on.
      *  @param[in] shells The shells of the basis set this views.
      *
      *  @throw std::bad_alloc if there is insufficient memory to create the
@@ -471,8 +481,8 @@ public:
 
     /** @brief Returns the @p i-th unique primitive on the center.
      *
-     *  Primitives on the center are numbered by flattening out the shells and
-     *  then flattening out the primitives comprising the AOs.
+     *  Primitives in *this are numbered by flattening out the contracted
+     *  Gaussians in each shell.
      *
      *  @param[in] i The index of the requested primitive. Must be in the range
      *               [0, n_primitives()).
@@ -488,8 +498,8 @@ public:
 
     /** @brief Returns the @p i-th unique primitive on the center.
      *
-     *  Primitives on the center are numbered by flattening out the shells and
-     *  then flattening out the primitives comprising the AOs.
+     *  Primitives in *this are numbered by flattening out the contracted
+     *  Gaussians in each shell.
      *
      *  @param[in] i The index of the requested primitive. Must be in the range
      *               [0, n_primitives()).
@@ -546,6 +556,18 @@ public:
      */
     bool operator==(const AtomicBasisSetView& rhs) const noexcept;
 
+    /** @brief Compares *this to an AtomicBasisSet object for equality.
+     *
+     *  An AtomicBasisSetView and an AtomicBasisSet object are equal
+     *  if the AtomicBasisSet aliased by the AtomicBasisSetView
+     *  compares equal to the AtomicBasisSet object.
+     *
+     *  @param[in] rhs The object being compared to *this.
+     *
+     *  @return True if *this is value equal to @p rhs and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
     bool operator==(const AtomicBasisSetType& rhs) const noexcept;
 
     /** @brief Determines if *this and @p rhs are different.
@@ -563,6 +585,17 @@ public:
         return !(*this == rhs);
     }
 
+    /** @brief Determines if *this and @p rhs are different.
+     *
+     *  We define different as being not value equal. See operator== for the
+     *  definition of value equal.
+     *
+     *  @param[in] rhs The object being compared to *this.
+     *
+     *  @return False if *this is value equal to @p rhs and true otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
     bool operator!=(const AtomicBasisSetType& rhs) const noexcept {
         return !(*this == rhs);
     }
