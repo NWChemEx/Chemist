@@ -27,7 +27,7 @@ class AtomicBasisSetPIMPL;
 
 /** @brief Models a set of shells associated with a specific atomic center.
  *
- *  An atomic basis set is made up of the shells associated with a particular 
+ *  An atomic basis set is made up of the shells associated with a particular
  *  center, which is generally associated with an atom. This class contains a
  *  group of shells that are all associated with a given center. Atomic basis
  *  sets may additionally be have an associated atomic number and/or name,
