@@ -16,6 +16,7 @@
 
 #include <catch2/catch.hpp>
 #include <chemist/basis_set2/atomic_basis_set/detail_/atomic_basis_set_pimpl.hpp>
+#include <utility>
 
 using namespace chemist::basis_set;
 using namespace chemist::basis_set::detail_;
