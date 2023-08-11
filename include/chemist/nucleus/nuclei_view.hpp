@@ -45,20 +45,20 @@ public:
     using charge_type = typename nuclei_type::charge_type;
 
     // -- Ctors, Assignment, and dtor ------------------------------------------
-    
+
     /** @brief Creates a view to an empty Nuclei object.
-     * 
+     *
      *  @throw None No throw guarantee.
-    */
+     */
     NucleiView() noexcept;
 
     /** @brief Creates a new view powered by the provided PIMPL.
-     * 
+     *
      *  @param[in] pimpl A pointer to the istance's state. If @p pimpl is null
      *             then the resulting view is the same as if it had been
      *             default initialized.
-     * 
-     *  @throw None No throw guarantee. 
+     *
+     *  @throw None No throw guarantee.
      */
     explicit NucleiView(pimpl_pointer pimpl) noexcept;
 
@@ -72,6 +72,7 @@ public:
     ~NucleiView() noexcept;
 
     void swap(NucleiView& other) noexcept;
+
 private:
     /// Allows the base class to access at_ and size_
     friend base_type;
@@ -93,11 +94,11 @@ private:
 };
 
 /** @brief Allows a NucleiView object to be printed akin to a Nuclei object.
- * 
+ *
  *  @relates NucleiView
- * 
+ *
  *  This method allows NucleiView objects to be printed.
- * 
+ *
  *  @param[in,out] os The stream we are printing to. After the operation @p os
  *                    will contain a textual representation of @p nukes.
  *  @param[in] nukes The NucleiView to print.

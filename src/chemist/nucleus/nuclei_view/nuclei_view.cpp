@@ -10,7 +10,7 @@ NucleiView::NucleiView(pimpl_pointer pimpl) noexcept :
   m_pimpl_(std::move(pimpl)) {}
 
 NucleiView::Nucleiview(const NucleiView& other) :
-    m_pimpl_(other.has_pimpl_() ? other.m_pimpl_->clone() : nullptr) {}
+  m_pimpl_(other.has_pimpl_() ? other.m_pimpl_->clone() : nullptr) {}
 
 NucleiView::Nucleiview(NucleiView&& other) noexcept = default;
 

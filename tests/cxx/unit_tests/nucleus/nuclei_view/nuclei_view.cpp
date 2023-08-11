@@ -16,8 +16,8 @@
 
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
-#include <chemist/nucleus/nuclei_view.hpp>
 #include <chemist/nucleus/detail_/nuclei_subset.hpp>
+#include <chemist/nucleus/nuclei_view.hpp>
 #include <sstream>
 
 using namespace chemist;
@@ -48,8 +48,10 @@ TEST_CASE("NucleiView") {
     auto defaulted_pimpl = std::make_unique<pimpl_type>(defaulted_ss);
     std::vector<std::size_t> v01{0, 1};
     std::vector<std::size_t> v12{1, 2};
-    auto n01_pimpl = std::make_unique<pimpl_type>(nuclei_ss, v01.begin(), v01.end());
-    auto n12_pimpl = std::make_unique<pimpl_type>(nuclei_ss, v12.begin(), v12.end());
+    auto n01_pimpl =
+      std::make_unique<pimpl_type>(nuclei_ss, v01.begin(), v01.end());
+    auto n12_pimpl =
+      std::make_unique<pimpl_type>(nuclei_ss, v12.begin(), v12.end());
 
     NucleiView no_pimpl;
     NucleiView null_pimpl(nullptr);
@@ -58,11 +60,9 @@ TEST_CASE("NucleiView") {
     NucleiView n12(std::move(n12_pimpl));
 
     SECTION("Ctor") {
-        SECTION("default") { 
-            REQUIRE(no_pimpl.size() == 0); 
-        }
+        SECTION("default") { REQUIRE(no_pimpl.size() == 0); }
 
-        SECTION("pimpl_pointer"){
+        SECTION("pimpl_pointer") {
             REQUIRE(null_pimpl.size() == 0);
             REQUIRE(defaulted.size() == 0);
 
@@ -90,15 +90,11 @@ TEST_CASE("NucleiView") {
             REQUIRE(n10.at(1) == n1);
         }
 
-        SECTION("Move") {
-        }
+        SECTION("Move") {}
 
-        SECTION("Copy assignment") {
-        }
+        SECTION("Copy assignment") {}
 
-        SECTION("Move assignment") {
-
-        }
+        SECTION("Move assignment") {}
     }
 
     SECTION("at_()") {
