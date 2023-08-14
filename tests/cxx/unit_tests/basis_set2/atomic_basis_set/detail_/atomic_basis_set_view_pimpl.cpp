@@ -46,7 +46,7 @@ TEMPLATE_TEST_CASE("AtomicBasisSetViewPIMPL", "", float, double) {
     center_type r0, r1{7.0, 8.0, 9.0};
     coeff_vector cs{1.0, 2.0, 3.0};
     exp_vector es{4.0, 5.0, 6.0};
-    prim_type p0{cs[0], es[0], r1}, p1{cs[1], es[1], r1}, p2{cs[2], es[2], r1};
+    prim_type p0{cs[0], es[0], r1};
     cg_type cg0(cs.begin(), cs.begin() + 1, es.begin(), es.begin() + 1, r1);
     cg_type cg1(cs.begin(), cs.end(), es.begin(), es.end(), r1);
     name_type name0, name1{"name1"};
