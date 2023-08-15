@@ -15,7 +15,7 @@
  */
 
 #include "export_basis_set.hpp"
- 
+
 namespace chemist {
 namespace detail_ {
 
