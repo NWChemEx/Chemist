@@ -29,7 +29,6 @@ TEMPLATE_TEST_CASE("Shell", "", float, double) {
 
     using pure_type    = typename shell_traits::pure_type;
     using l_type       = typename shell_traits::angular_momentum_type;
-    using coord_type   = typename shell_traits::coord_type;
     using center_type  = typename shell_traits::center_type;
     using coeff_vector = std::vector<typename shell_traits::coefficient_type>;
     using exp_vector   = std::vector<typename shell_traits::exponent_type>;
@@ -37,8 +36,7 @@ TEMPLATE_TEST_CASE("Shell", "", float, double) {
     // Inputs for ctors
     pure_type cart{0}, pure{1};
     l_type l{1};
-    coord_type x{7.0}, y{8.0}, z{9.0};
-    center_type r0{x, y, z};
+    center_type r0{7.0, 8.0, 9.0};
     coeff_vector cs{1.0, 2.0, 3.0};
     exp_vector es{4.0, 5.0, 6.0};
     cg_type cg(cs.begin(), cs.end(), es.begin(), es.end(), r0);
@@ -67,7 +65,7 @@ TEMPLATE_TEST_CASE("Shell", "", float, double) {
         }
         SECTION("With coeffs, exponents, and cartesian coordinates") {
             shell_type with_cg(cart, l, cs.begin(), cs.end(), es.begin(),
-                               es.end(), x, y, z);
+                               es.end(), 7.0, 8.0, 9.0);
             REQUIRE(with_cg.pure() == cart);
             REQUIRE(with_cg.l() == l);
             REQUIRE(with_cg.contracted_gaussian() == cg);
