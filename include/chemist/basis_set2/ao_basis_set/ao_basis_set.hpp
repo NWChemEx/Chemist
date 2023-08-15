@@ -26,6 +26,13 @@ template<typename AtomicBasisSetType>
 class AOBasisSetPIMPL;
 } // namespace detail_
 
+/** @brief Models a set of atomic basis sets.
+ *
+ *  An AO basis set is a collection one-electron orbitals, represented here as a
+ *  container of atomic basis sets.
+ *
+ *  @tparam AtomicBasisSetType The type of an atomic basis set.
+ */
 template<typename AtomicBasisSetType>
 class AOBasisSet
   : public utilities::IndexableContainerBase<AOBasisSet<AtomicBasisSetType>> {
