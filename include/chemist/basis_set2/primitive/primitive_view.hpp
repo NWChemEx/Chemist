@@ -93,6 +93,15 @@ public:
     /// Type of a read-only reference to the center
     using const_center_reference = PointView2<const center_type>;
 
+    /// Floating point type used for storing the center's coordinates
+    using coord_type = typename center_type::coord_type;
+
+    /// Type of a reference to a mutable coordinate
+    using coord_reference = typename center_type::coord_reference;
+
+    /// Type of a reference to a read-only coordinate
+    using const_coord_reference = typename center_type::const_coord_reference;
+
     // -- Types associated with the Primitive's coefficient
 
     /// Floating-point type used to hold coefficient
@@ -151,9 +160,8 @@ public:
      *  @throw None No throw guarantee.
      */
     PrimitiveView(coefficient_reference coef, exponent_reference exp,
-                  typename center_type::coord_reference x,
-                  typename center_type::coord_reference y,
-                  typename center_type::coord_reference z) noexcept :
+                  coord_reference x, coord_reference y,
+                  coord_reference z) noexcept :
       PrimitiveView(coef, exp, center_reference(x, y, z)) {}
 
     /** @brief Creates a PrimitiveView that aliases the provided Primitive

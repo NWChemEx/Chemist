@@ -62,6 +62,15 @@ public:
     /// Type of a read-only reference to the center
     using const_center_reference = PointView2<const center_type>;
 
+    /// Floating point type used for storing the center's coordinates
+    using coord_type = typename center_type::coord_type;
+
+    /// Type of a reference to a mutable coordinate
+    using coord_reference = typename center_type::coord_reference;
+
+    /// Type of a reference to a read-only coordinate
+    using const_coord_reference = typename center_type::const_coord_reference;
+
     // -- Types associated with the Primitive's coefficients
 
     /// Floating-point type used to hold the coefficient
@@ -128,10 +137,8 @@ public:
      * @throw std::bad_alloc if there is insufficient memory to make the PIMPL.
      *        Strong throw guarantee.
      */
-    Primitive(coefficient_type coef, exponent_type exp,
-              typename center_type::coord_type x,
-              typename center_type::coord_type y,
-              typename center_type::coord_type z);
+    Primitive(coefficient_type coef, exponent_type exp, coord_type x,
+              coord_type y, coord_type z);
 
     /** @brief Creates a new Primitive with the specified parameters.
      *

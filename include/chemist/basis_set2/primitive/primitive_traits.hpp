@@ -65,13 +65,13 @@ struct PrimitiveTraits {
       typename PrimitiveType::const_center_reference;
 
     /// Floating point type used for storing the center's coordinates
-    using coord_type = typename center_type::coord_type;
+    using coord_type = typename PrimitiveType::coord_type;
 
     /// Type of a reference to a mutable coordinate
-    using coord_reference = typename center_type::coord_reference;
+    using coord_reference = typename PrimitiveType::coord_reference;
 
     /// Type of a reference to a read-only coordinate
-    using const_coord_reference = typename center_type::const_coord_reference;
+    using const_coord_reference = typename PrimitiveType::const_coord_reference;
 };
 
 } // namespace chemist::basis_set
