@@ -14,27 +14,16 @@
  * limitations under the License.
  */
 
-#include "basis_set/export_basis_set.hpp"
-#include "chemical_system/export_chemical_system.hpp"
-#include "molecule/export_molecule.hpp"
-#include "nucleus/export_nucleus.hpp"
-#include "point/export_point.hpp"
-#include "point_charge/export_point_charge.hpp"
-#include "pychemist.hpp"
-
+#include "export_basis_set.hpp"
+ 
 namespace chemist {
+namespace detail_ {
 
-PYBIND11_MODULE(chemist, m) {
-    m.doc() = "PyChemist : Python bindings for Chemist";
+template<typename T>
+void export_ao_basis_set_(python_module_reference m) {}
 
-    // Need to be exported in hierarchical order
-    export_point(m);
-    export_point_charge(m);
-    export_nucleus(m);
-    export_molecule(m);
-    export_chemical_system(m);
+} // namespace detail_
 
-    export_basis_set(m);
-}
+void export_ao_basis_set(python_module_reference m) {}
 
 } // namespace chemist
