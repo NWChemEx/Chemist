@@ -16,6 +16,7 @@
 
 #include "basis_set/export_basis_set.hpp"
 #include "chemical_system/export_chemical_system.hpp"
+#include "enums.hpp"
 #include "molecule/export_molecule.hpp"
 #include "nucleus/export_nucleus.hpp"
 #include "point/export_point.hpp"
@@ -23,6 +24,16 @@
 #include "pychemist.hpp"
 
 namespace chemist {
+
+void export_chemist_enums(python_module_reference m) {
+    python_enum_type<ShellType>(m, "ShellType")
+      .value("cartesian", ShellType::cartesian)
+      .value("pure", ShellType::pure);
+
+    python_enum_type<GaugeType>(m, "GaugeType")
+      .value("length", GaugeType::length)
+      .value("velocity", GaugeType::velocity);
+}
 
 PYBIND11_MODULE(chemist, m) {
     m.doc() = "PyChemist : Python bindings for Chemist";
@@ -34,6 +45,7 @@ PYBIND11_MODULE(chemist, m) {
     export_molecule(m);
     export_chemical_system(m);
 
+    export_chemist_enums(m);
     export_basis_set(m);
 }
 
