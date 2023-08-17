@@ -79,6 +79,11 @@ def make_primitive_test_case(prim_type, center_type):
             self.assertEqual(self.defaulted, other_default)
             self.assertFalse(self.defaulted != other_default)
 
+            # Non-default equals
+            other_from_coords = prim_type(0.0, 1.0, 2.0, 3.0, 4.0)
+            self.assertEqual(self.from_coords, other_from_coords)
+            self.assertFalse(self.from_coords != other_from_coords)
+
             # Different Coefficient
             p1 = prim_type(100.0, 1.0, 2.0, 3.0, 4.0)
             self.assertNotEqual(self.from_coords, p1)
