@@ -31,11 +31,9 @@ void export_atomic_basis_set_(const char* name, python_module_reference m) {
     using coord_type            = typename primitive_type::coord_type;
     using pure_type             = typename shell_type::pure_type;
     using angular_momentum_type = typename shell_type::angular_momentum_type;
-    using cg_ref_type           = typename shell_type::cg_reference;
     using size_type             = typename abs_type::size_type;
     using name_type             = typename abs_type::name_type;
     using atomic_number_type    = typename abs_type::atomic_number_type;
-    using range_type            = typename abs_type::range_type;
 
     python_class_type<abs_type>(m, name)
       .def(pybind11::init<>())

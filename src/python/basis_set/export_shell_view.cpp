@@ -31,7 +31,6 @@ void export_shell_view_(const char* name, python_module_reference m) {
     using angular_momentum_type = typename shell_type::angular_momentum_type;
     using center_type           = typename primitive_type::center_type;
     using coord_type            = typename primitive_type::coord_type;
-    using vector_type           = std::vector<T>;
 
     python_class_type<shell_view_type>(m, name)
       .def(pybind11::init<>())

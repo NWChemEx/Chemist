@@ -47,14 +47,26 @@ def make_shell_view_test_case(shell_view_type):
                              self.prim_type(0.0, 1.0, 2.0, 3.0, 4.0))
 
         def test_pure(self):
-            self.assertEqual(self.from_shell.pure, ShellType.pure)
+            self.assertEqual(self.from_shell.pure, self.pure)
+            self.from_shell.pure = self.cart
+            self.assertEqual(self.from_shell.pure, self.cart)
+            self.assertEqual(self.shell.pure, self.cart)
 
         def test_l(self):
             self.assertEqual(self.from_shell.l, 0)
+            self.from_shell.l = 1
+            self.assertEqual(self.from_shell.l, 1)
+            self.assertEqual(self.shell.l, 1)
 
         def test_contracted_gaussian(self):
             self.assertEqual(self.from_shell.contracted_gaussian,
                              self.cg_type([0.0], [1.0], 2.0, 3.0, 4.0))
+            self.from_shell.contracted_gaussian = self.cg_type(
+                [1.0], [1.0], 2.0, 3.0, 4.0)
+            self.assertEqual(self.from_shell.contracted_gaussian,
+                             self.cg_type([1.0], [1.0], 2.0, 3.0, 4.0))
+            self.assertEqual(self.shell.contracted_gaussian,
+                             self.cg_type([1.0], [1.0], 2.0, 3.0, 4.0))
 
         def test_n_primitives(self):
             self.assertEqual(self.defaulted.n_primitives(), 0)
