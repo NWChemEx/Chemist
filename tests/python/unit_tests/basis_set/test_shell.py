@@ -31,22 +31,105 @@ def make_shell_test_case(shell_type):
 
     class TestShell(unittest.TestCase):
         def test_ctor(self):
-            pass
+            self.assertTrue(self.defaulted.is_null())
+            self.assertEqual(self.defaulted.size(), 0)
+            self.assertEqual(self.defaulted.n_primitives(), 0)
 
-        def test_empty(self):
-            pass
+            self.assertFalse(self.with_inputs1.is_null())
+            self.assertEqual(self.with_inputs1.size(), 1)
+            self.assertEqual(self.with_inputs1.n_primitives(), 1)
+            self.assertEqual(self.with_inputs1.pure, ShellType.pure)
+            self.assertEqual(self.with_inputs1.l, 0)
+            self.assertEqual(self.with_inputs1.contracted_gaussian,
+                             self.cg_type([0.0], [1.0], 2.0, 3.0, 4.0))
+            self.assertEqual(self.with_inputs1.primitive(0),
+                             self.prim_type(0.0, 1.0, 2.0, 3.0, 4.0))
+
+            self.assertFalse(self.with_inputs2.is_null())
+            self.assertEqual(self.with_inputs2.size(), 3)
+            self.assertEqual(self.with_inputs2.n_primitives(), 1)
+            self.assertEqual(self.with_inputs2.pure, ShellType.cartesian)
+            self.assertEqual(self.with_inputs2.l, 1)
+            self.assertEqual(self.with_inputs2.contracted_gaussian,
+                             self.cg_type([5.0], [6.0], 7.0, 8.0, 9.0))
+            self.assertEqual(self.with_inputs2.primitive(0),
+                             self.prim_type(5.0, 6.0, 7.0, 8.0, 9.0))
+
+            self.assertFalse(self.with_inputs3.is_null())
+            self.assertEqual(self.with_inputs3.size(), 6)
+            self.assertEqual(self.with_inputs3.n_primitives(), 1)
+            self.assertEqual(self.with_inputs3.pure, ShellType.cartesian)
+            self.assertEqual(self.with_inputs3.l, 2)
+            self.assertEqual(self.with_inputs3.contracted_gaussian,
+                             self.cg_type([10.0], [11.0], 7.0, 8.0, 9.0))
+            self.assertEqual(self.with_inputs3.primitive(0),
+                             self.prim_type(10.0, 11.0, 7.0, 8.0, 9.0))
+
+        def test_pure(self):
+            self.assertTrue(self.defaulted.is_null())
+            self.assertEqual(self.defaulted.pure, ShellType.pure)
+            self.assertFalse(self.defaulted.is_null())
+
+            self.assertEqual(self.with_inputs1.pure, ShellType.pure)
+
+        def test_l(self):
+            self.assertTrue(self.defaulted.is_null())
+            self.assertEqual(self.defaulted.l, 0)
+            self.assertFalse(self.defaulted.is_null())
+
+            self.assertEqual(self.with_inputs1.l, 0)
+
+        def test_contracted_gaussian(self):
+            self.assertTrue(self.defaulted.is_null())
+            self.assertEqual(self.defaulted.contracted_gaussian,
+                             self.cg_type())
+            self.assertFalse(self.defaulted.is_null())
+
+            self.assertEqual(self.with_inputs1.contracted_gaussian,
+                             self.cg_type([0.0], [1.0], 2.0, 3.0, 4.0))
+
+        def test_n_primitives(self):
+            self.assertEqual(self.defaulted.n_primitives(), 0)
+            self.assertEqual(self.with_inputs1.n_primitives(), 1)
+
+        def test_primitive(self):
+            self.assertEqual(self.with_inputs1.primitive(0),
+                             self.prim_type(0.0, 1.0, 2.0, 3.0, 4.0))
 
         def test_size(self):
-            pass
+            self.assertEqual(self.defaulted.size(), 0)
+            self.assertEqual(self.with_inputs1.size(), 1)
 
         def test_is_null(self):
-            pass
+            self.assertTrue(self.defaulted.is_null())
+            self.assertFalse(self.with_inputs1.is_null())
 
         def test_comparisons(self):
             # Default
+            other_default = shell_type()
+            self.assertEqual(self.defaulted, other_default)
+            self.assertFalse(self.defaulted != other_default)
 
             # Non-default
-            pass
+            other_with_inputs = shell_type(
+                self.pure, 0, [0.0], [1.0], 2.0, 3.0, 4.0)
+            self.assertEqual(self.with_inputs1, other_with_inputs)
+            self.assertFalse(self.with_inputs1 != other_with_inputs)
+
+            # Different purity
+            shell1 = shell_type(self.cart, 0, [0.0], [1.0], 2.0, 3.0, 4.0)
+            self.assertNotEqual(self.with_inputs1, shell1)
+            self.assertTrue(self.with_inputs1 != shell1)
+
+            # Different angular momentum
+            shell2 = shell_type(self.pure, 1, [0.0], [1.0], 2.0, 3.0, 4.0)
+            self.assertNotEqual(self.with_inputs1, shell2)
+            self.assertTrue(self.with_inputs1 != shell2)
+
+            # Different contracted Gaussian
+            shell3 = shell_type(self.pure, 0, self.cg)
+            self.assertNotEqual(self.with_inputs1, shell3)
+            self.assertTrue(self.with_inputs1 != shell3)
 
         def setUp(self):
             # "typedefs"
