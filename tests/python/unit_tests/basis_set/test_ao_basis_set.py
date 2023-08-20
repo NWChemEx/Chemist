@@ -84,18 +84,36 @@ def make_aobs_test_case(aobs_type):
             self.assertEqual(self.has_abs.size(), 1)
 
         def test_addition(self):
-            pass
+            defaulted_plus_has_abs = self.defaulted + self.has_abs
+            self.assertEqual(defaulted_plus_has_abs, self.has_abs)
 
         def test_addition_inplace(self):
-            pass
+            defaulted_plus_has_abs = self.defaulted
+            defaulted_plus_has_abs += self.has_abs
+            self.assertEqual(defaulted_plus_has_abs, self.has_abs)
 
         def test_comparisons(self):
             # Default
+            other_defaulted = aobs_type()
+            self.assertEqual(self.defaulted, other_defaulted)
+            self.assertFalse(self.defaulted != other_defaulted)
 
             # Non-default
+            other_has_abs = aobs_type()
+            other_has_abs.add_center(self.abs)
+            self.assertEqual(self.has_abs, other_has_abs)
+            self.assertFalse(self.has_abs != other_has_abs)
 
             # Different atomic basis set
-            pass
+            self.assertNotEqual(self.defaulted, self.has_abs)
+            self.assertTrue(self.defaulted != self.has_abs)
+
+            other_abs = self.abs_type(
+                "name", 1, self.center_type(2.0, 2.1, 2.2), [self.shell])
+            has_different_abs = aobs_type()
+            has_different_abs.add_center(other_abs)
+            self.assertNotEqual(self.has_abs, has_different_abs)
+            self.assertTrue(self.has_abs != has_different_abs)
 
         def setUp(self):
             # "typedefs"
