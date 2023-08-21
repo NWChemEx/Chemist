@@ -31,15 +31,17 @@ void export_primitive(python_module_reference m);
 void export_primitive_view(python_module_reference m);
 
 inline void export_basis_set(python_module_reference m) {
-    export_primitive(m);
-    export_primitive_view(m);
-    export_contracted_gaussian(m);
-    export_contracted_gaussian_view(m);
-    export_shell(m);
-    export_shell_view(m);
-    export_atomic_basis_set(m);
-    export_atomic_basis_set_view(m);
-    export_ao_basis_set(m);
+    auto mbasis_set = m.def_submodule("basis_set");
+
+    export_primitive(mbasis_set);
+    export_primitive_view(mbasis_set);
+    export_contracted_gaussian(mbasis_set);
+    export_contracted_gaussian_view(mbasis_set);
+    export_shell(mbasis_set);
+    export_shell_view(mbasis_set);
+    export_atomic_basis_set(mbasis_set);
+    export_atomic_basis_set_view(mbasis_set);
+    export_ao_basis_set(mbasis_set);
 }
 
 } // namespace chemist

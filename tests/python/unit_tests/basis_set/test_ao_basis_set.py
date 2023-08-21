@@ -12,20 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-from chemist import AOBasisSetF, AOBasisSetD
-from chemist import AtomicBasisSetF, AtomicBasisSetD
-from chemist import ShellF, ShellD
-from chemist import ContractedGaussianF, ContractedGaussianD
-from chemist import PrimitiveF, PrimitiveD
+from chemist.basis_set import AOBasisSetF, AOBasisSetD
+from chemist.basis_set import AtomicBasisSetF, AtomicBasisSetD
+from chemist.basis_set import ShellF, ShellD
+from chemist.basis_set import ContractedGaussianF, ContractedGaussianD
+from chemist.basis_set import PrimitiveF, PrimitiveD
 from chemist import PointF, PointD
 from chemist import ShellType
 import unittest

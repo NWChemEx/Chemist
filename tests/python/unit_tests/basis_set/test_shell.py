@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist import ShellF, ShellD
-from chemist import ContractedGaussianF, ContractedGaussianD
-from chemist import PrimitiveF, PrimitiveD
+from chemist.basis_set import ShellF, ShellD
+from chemist.basis_set import ContractedGaussianF, ContractedGaussianD
+from chemist.basis_set import PrimitiveF, PrimitiveD
 from chemist import PointF, PointD
 from chemist import ShellType
 import unittest

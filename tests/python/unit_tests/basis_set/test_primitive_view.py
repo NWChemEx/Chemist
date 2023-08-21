@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist import PrimitiveViewF, PrimitiveViewD
-from chemist import PrimitiveF, PrimitiveD
+from chemist.basis_set import PrimitiveViewF, PrimitiveViewD
+from chemist.basis_set import PrimitiveF, PrimitiveD
 from chemist import PointF, PointD
 import unittest
 
