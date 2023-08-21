@@ -7,6 +7,12 @@ namespace detail_ {
 class NucleiViewPIMPL;
 }
 
+/** @brief Allows existing state to be used as if it were a Nuclei object.
+ * 
+ *  Nuclei objects own their state. The NucleiView class aliases existing state,
+ *  but allows the user to interact with the aliased state as if it were in a
+ *  Nuclei object.
+*/
 class NucleiView : public utilities::IndexableContainerBase<NucleiView> {
 private:
     /// Type of *this
@@ -73,6 +79,34 @@ public:
 
     void swap(NucleiView& other) noexcept;
 
+    /** @brief Determines if *this is value equal to an existing Nuclei object.
+     * 
+     *  *This method compares the Nuclei object *this is a view of to the
+     *   provided Nuclei object. The Nuclei objects are compared for value
+     *   equality as defined by Nuclei::operator==.
+     * 
+     *   @param[in] rhs The Nuclei object to compare to.
+     * 
+     *   @return True if *this compares value equal to @p rhs and false
+     *           otherwise.
+     * 
+     *   @throw None No throw guarantee.
+    */
+    bool operator==(const nuclei_type& rhs) const noexcept;
+    
+    /** @brief Determines if *this differs from an existing Nuclei object.
+     * 
+     *  The NucleiView class defines different as not value equal. Value equal
+     *  is defined by the corresponding operator==. This method simply negates
+     *  the result of calling operator==.
+     * 
+     *  @param[in] rhs The Nuclei object to compare to.
+     * 
+     *  @return False if *this is value equal to @p rhs and true otherwise.
+     * 
+     *  @throw None No throw guarantee.
+    */
+    bool operator!=(const nuclei_type& rhs) const noexcept;
 private:
     /// Allows the base class to access at_ and size_
     friend base_type;
@@ -92,6 +126,16 @@ private:
     /// The object implementing *this
     pimpl_pointer m_pimpl_;
 };
+
+inline bool operator==(const typename NucleiView::nuclei_type& lhs,
+                const NucleiView& rhs) noexcept {
+    return rhs == lhs;
+}
+
+inline bool operator!=(const typename NucleiView::nuclei_type& lhs,
+                const NucleiView& rhs) noexcept {
+    return rhs != lhs;
+}
 
 /** @brief Allows a NucleiView object to be printed akin to a Nuclei object.
  *

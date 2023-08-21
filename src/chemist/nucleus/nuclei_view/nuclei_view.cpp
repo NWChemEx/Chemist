@@ -9,10 +9,10 @@ namespace chemist {
 NucleiView::NucleiView(pimpl_pointer pimpl) noexcept :
   m_pimpl_(std::move(pimpl)) {}
 
-NucleiView::Nucleiview(const NucleiView& other) :
+NucleiView::NucleiView(const NucleiView& other) :
   m_pimpl_(other.has_pimpl_() ? other.m_pimpl_->clone() : nullptr) {}
 
-NucleiView::Nucleiview(NucleiView&& other) noexcept = default;
+NucleiView::NucleiView(NucleiView&& other) noexcept = default;
 
 NucleiView& NucleiView::operator=(const NucleiView& rhs) {
     if(this != &rhs) NucleiView(rhs).swap(*this);
@@ -25,6 +25,18 @@ NucleiView::~NucleiView() noexcept = default;
 
 void NucleiView::swap(NucleiView& other) noexcept {
     m_pimpl_.swap(other.m_pimpl_);
+}
+
+bool NucleiView::operator==(const nuclei_type& rhs) const noexcept {
+    if(size() != rhs.size()) return false;
+    for(size_type i = 0; i < size(); ++i){
+        if((*this)[i] != rhs[i]) return false;
+    }
+    return true;
+}
+
+bool NucleiView::operator!=(const nuclei_type& rhs) const noexcept {
+    return !(*this == rhs);
 }
 
 // -----------------------------------------------------------------------------
@@ -48,6 +60,7 @@ bool NucleiView::has_pimpl_() const noexcept {
     return static_cast<bool>(m_pimpl_);
 }
 
+// -----------------------------------------------------------------------------
 // -- Free functions
 // -----------------------------------------------------------------------------
 

@@ -16,7 +16,7 @@
 
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
-#include <chemist/nucleus/detail_/nuclei_subset.hpp>
+#include <chemist/nucleus/nuclei_view/detail_/nuclei_subset.hpp>
 #include <chemist/nucleus/nuclei_view.hpp>
 #include <sstream>
 
@@ -77,24 +77,103 @@ TEST_CASE("NucleiView") {
 
         SECTION("Copy") {
             view_type no_pimpl_copy(no_pimpl);
-            view_type null_pimpl(null_pimpl);
+            view_type null_pimpl_copy(null_pimpl);
             view_type defaulted_copy(defaulted);
             view_type n01_copy(n01);
             view_type n12_copy(n12);
 
             REQUIRE(no_pimpl_copy.size() == 0);
-            REQUIRE(null_pimpl.size() == 0);
+            REQUIRE(null_pimpl_copy.size() == 0);
             REQUIRE(defaulted_copy.size() == 0);
             REQUIRE(n01_copy.size() == 2);
-            REQUIRE(n01.at(0) == n0);
-            REQUIRE(n10.at(1) == n1);
+            REQUIRE(n01_copy.at(0) == n0);
+            REQUIRE(n01_copy.at(1) == n1);
+            REQUIRE(n12_copy.size() == 2);
+            REQUIRE(n12_copy.at(0) == n1);
+            REQUIRE(n12_copy.at(1) == n1);
         }
 
-        SECTION("Move") {}
+        SECTION("Move") {
+            view_type no_pimpl_move(std::move(no_pimpl));
+            view_type null_pimpl_move(std::move(null_pimpl));
+            view_type defaulted_move(std::move(defaulted));
+            view_type n01_move(std::move(n01));
+            view_type n12_move(std::move(n12));
 
-        SECTION("Copy assignment") {}
+            REQUIRE(no_pimpl_move.size() == 0);
+            REQUIRE(null_pimpl_move.size() == 0);
+            REQUIRE(defaulted_move.size() == 0);
+            REQUIRE(n01_move.size() == 2);
+            REQUIRE(n01_move.at(0) == n0);
+            REQUIRE(n01_move.at(1) == n1);
+            REQUIRE(n12_move.size() == 2);
+            REQUIRE(n12_move.at(0) == n1);
+            REQUIRE(n12_move.at(1) == n1);
+        }
 
-        SECTION("Move assignment") {}
+        SECTION("Copy assignment") {
+            view_type no_pimpl_copy;
+            auto pno_pimpl_copy = &(no_pimpl_copy = no_pimpl);
+            view_type null_pimpl_copy;
+            auto pnull_pimpl_copy = &(null_pimpl_copy = null_pimpl);
+            view_type defaulted_copy;
+            auto pdefaulted_copy = &(defaulted_copy = defaulted);
+            view_type n01_copy;
+            auto pn01_copy = &(n01_copy = n01);
+            view_type n12_copy;
+            auto pn12_copy = &(n12_copy = n12);
+
+            REQUIRE(pno_pimpl_copy ==  &no_pimpl_copy);
+            REQUIRE(no_pimpl_copy.size() == 0);
+
+            REQUIRE(pnull_pimpl_copy == &null_pimpl_copy);
+            REQUIRE(null_pimpl_copy.size() == 0);
+
+            REQUIRE(pdefaulted_copy == &defaulted_copy);
+            REQUIRE(defaulted_copy.size() == 0);
+
+            REQUIRE(pn01_copy == &n01_copy);
+            REQUIRE(n01_copy.size() == 2);
+            REQUIRE(n01_copy.at(0) == n0);
+            REQUIRE(n01_copy.at(1) == n1);
+
+            REQUIRE(pn12_copy == &n12_copy);
+            REQUIRE(n12_copy.size() == 2);
+            REQUIRE(n12_copy.at(0) == n1);
+            REQUIRE(n12_copy.at(1) == n1);
+        }
+
+        SECTION("Move assignment") {
+            view_type no_pimpl_move;
+            auto pno_pimpl_move = &(no_pimpl_move = std::move(no_pimpl));
+            view_type null_pimpl_move;
+            auto pnull_pimpl_move = &(null_pimpl_move = std::move(null_pimpl));
+            view_type defaulted_move;
+            auto pdefaulted_move = &(defaulted_move = std::move(defaulted));
+            view_type n01_move;
+            auto pn01_move = &(n01_move = std::move(n01));
+            view_type n12_move;
+            auto pn12_move = &(n12_move = std::move(n12));
+
+            REQUIRE(pno_pimpl_move ==  &no_pimpl_move);
+            REQUIRE(no_pimpl_move.size() == 0);
+
+            REQUIRE(pnull_pimpl_move == &null_pimpl_move);
+            REQUIRE(null_pimpl_move.size() == 0);
+
+            REQUIRE(pdefaulted_move == &defaulted_move);
+            REQUIRE(defaulted_move.size() == 0);
+
+            REQUIRE(pn01_move == &n01_move);
+            REQUIRE(n01_move.size() == 2);
+            REQUIRE(n01_move.at(0) == n0);
+            REQUIRE(n01_move.at(1) == n1);
+
+            REQUIRE(pn12_move == &n12_move);
+            REQUIRE(n12_move.size() == 2);
+            REQUIRE(n12_move.at(0) == n1);
+            REQUIRE(n12_move.at(1) == n1);
+        }
     }
 
     SECTION("at_()") {
@@ -118,8 +197,58 @@ TEST_CASE("NucleiView") {
         REQUIRE(null_pimpl.size() == 0);
         REQUIRE(defaulted.size() == 0);
         REQUIRE(n01.size() == 2);
-        REQUIRE(n10.size() == 2);
+        REQUIRE(n12.size() == 2);
     }
+
+    SECTION("swap"){
+        no_pimpl.swap(n01);
+        REQUIRE(no_pimpl.size() == 2);
+        REQUIRE(no_pimpl.at(0) == n0);
+        REQUIRE(no_pimpl.at(1) == n1);
+        REQUIRE(n01.size() == 0);
+    }
+
+    SECTION("operator==(Nuclei)"){
+        // Empty v empty
+        set_type defaulted_nuclei;
+        REQUIRE(no_pimpl == defaulted_nuclei);
+        REQUIRE(null_pimpl == defaulted_nuclei);
+        REQUIRE(defaulted == defaulted_nuclei);
+
+        // Non-empty v empty
+        REQUIRE_FALSE(n01 == defaulted_nuclei);
+
+        // Empty v non-empty
+        set_type n01_nuclei{n0, n1};
+        REQUIRE_FALSE(no_pimpl == n01_nuclei);
+        REQUIRE_FALSE(null_pimpl == n01_nuclei);
+        REQUIRE_FALSE(defaulted == n01_nuclei);
+
+        // Non-empty v non-empty
+        REQUIRE(n01 == n01_nuclei); // Same non-empty
+        REQUIRE_FALSE(n12 == n01_nuclei); // Different non-empty
+
+        // Ensure can be called symmetrically (implementation just reverses
+        // argument order so  no need to revisit all possibilities as long as
+        // operator==(Nuclei) works)
+
+        REQUIRE(defaulted_nuclei == no_pimpl);
+        REQUIRE_FALSE(defaulted_nuclei == n01);
+    }
+
+    SECTION("operator!=(Nuclei)"){
+        // Just negates operator==, suffice to spot check
+        REQUIRE_FALSE(no_pimpl != set_type{});
+        REQUIRE(n01 != set_type{});
+
+        // Ensure can be called symmetrically (implementation just reverses
+        // argument order so no need to revisit all possibilities as long as
+        // operator!=(Nuclei) works)
+        REQUIRE_FALSE(set_type{} != no_pimpl);
+        REQUIRE(set_type{} != n01);
+    }
+
+
 
     // SECTION("serialization") {
     //     std::stringstream ss;

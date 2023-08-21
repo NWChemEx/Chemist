@@ -74,24 +74,23 @@ public:
      */
     reference get_nuke(size_type i) { return get_nuke_(i); }
 
-<<<<<<< HEAD
-    /** @brief Retrieves Nucleus @p i.
-     *
-     *  This function behaves identically to the non-const version except that
-     *  the resulting reference is read-only and can not be mutated.
-     *
-     *  @param[in] i The offset of the requested nucleus. @p i should be in
-     *               the range [0, size())
-     *
+    /** @brief Returns a read-only reference to Nucleus @p i.
+     * 
+     *  This method is the same as the non-const version except that it
+     *  returns a read-only reference.
+     * 
+     *  @param[in] i The offset of the requested nucleus. Must be in the range
+     *             [0, size()).
+     * 
      *  @return A read-only reference to the @p i-th nucleus.
-     *
-     *  @throw None No thow guarantee; however, accessing a nucleus which is
-     *              out of bounds results in undefined behavior.
+     * 
+     *  @throw None This function performs no bounds checks (bounds checks are
+     *              done by the NucleiView class which calls the PIMPL). While
+     *              passing an out of bounds value for @p i will not raise an
+     *              error, it is undefined behavior and the program is likely
+     *              to crash. 
      */
     const_reference get_nuke(size_type i) const { return get_nuke_(i); }
-=======
-    const_reference get_nuke(size_type i) const { return get_nuke_(i); }
->>>>>>> b9494a8e43a334b3d1db1e85e361a3da09adc4e6
 
     /** @brief Determines the number of nuclei in *this
      *
