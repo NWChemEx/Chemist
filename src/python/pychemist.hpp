@@ -26,4 +26,7 @@ using python_module_reference = python_module_type&;
 template<typename... Args>
 using python_class_type = pybind11::class_<Args...>;
 
+template<typename... Args>
+using python_enum_type = pybind11::enum_<Args...>;
+
 } // namespace chemist
