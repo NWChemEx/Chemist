@@ -204,28 +204,14 @@ The ``PointCharge`` class serves as:
 Nucleus Class
 -------------
 
+Main discussion: :ref:`designing_the_nucleus_component`.
+
 Quantum chemistry overwhelming views nuclei as massive point-charges. The
 ``Nucleus`` class adds mass and atomic number to the ``PointCharge`` base
 class. In practice, given consideration :ref:`md_quantum_electrons`, we
 expect ``Nucleus`` objects to be the descretization of the ``Molecule`` class,
 and thus much of the state of ``Molecule`` will be tied up in ``Nucleus``
-objects. There are a couple points to note about the design:
-
-- Despite inheriting charge from the base class, and despite the fact that (in
-  atomic units) the charge is usually the same as the atomic number, we have
-  also added the atomic number. At the very least separating the two provides
-  different methods for retrieving the value as a ``double`` vs.
-  ``std::size_t``. Another potential reason was alluded to by the parenthetical,
-  namely the equality between atomic number and charge is only true in atomic
-  units. If we add unit literals (as planned), the charge depends on the unit,
-  but the atomic number does not.
-- We opted to have ``Nucleus`` add BOTH mass and atomic number to avoid
-  multiple inheritance. Arguably, inheriting from ``PointCharge`` and
-  a ``PointMass`` class would have better symmetry in the sense that each
-  class would add only one property; however, since in atomic units the
-  electron has a mass of 1, the only point masses we routinely need
-  the mass of are nuclei. Hence we could not justify the extra class at
-  this time.
+objects.
 
 Atom Class
 ----------

@@ -35,7 +35,7 @@ TEST_CASE("NucleiView") {
     using set_type   = Nuclei;
     using value_type = typename set_type::value_type;
     using view_type  = NucleiView;
-    using pimpl_type = typename view_type::pimpl_type;
+    using pimpl_type = detail_::NucleiSubset;
 
     value_type n0("H", 1ul, 0.0, 1.0, 2.0, 3.0, 4.0);
     value_type n1("He", 2ul, 4.0, 5.0, 6.0, 7.0, 5.0);
@@ -45,13 +45,16 @@ TEST_CASE("NucleiView") {
     auto defaulted_ss = std::make_shared<set_type>();
     auto nuclei_ss    = std::make_shared<set_type>(set_type{n0, n1, n1});
 
-    auto defaulted_pimpl = std::make_unique<pimpl_type>(defaulted_ss);
     std::vector<std::size_t> v01{0, 1};
     std::vector<std::size_t> v12{1, 2};
+
+    // We intentionally use begin as the end iterator to get an empty set
+    auto defaulted_pimpl = 
+        std::make_unique<pimpl_type>(defaulted_ss, v01.begin(), v01.begin());
     auto n01_pimpl =
-      std::make_unique<pimpl_type>(nuclei_ss, v01.begin(), v01.end());
+        std::make_unique<pimpl_type>(nuclei_ss, v01.begin(), v01.end());
     auto n12_pimpl =
-      std::make_unique<pimpl_type>(nuclei_ss, v12.begin(), v12.end());
+        std::make_unique<pimpl_type>(nuclei_ss, v12.begin(), v12.end());
 
     NucleiView no_pimpl;
     NucleiView null_pimpl(nullptr);
