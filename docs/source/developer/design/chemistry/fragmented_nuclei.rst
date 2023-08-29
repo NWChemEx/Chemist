@@ -38,7 +38,10 @@ When we break molecules up into fragments, we usually do this by assigning
 atoms to fragments (atoms here implying nucleus plus electrons). In practice,
 once the atoms have combined to form molecular systems, we get a ``Nuclei``
 object and the overall electronic properties (charge and multiplicity) of the
-system.
+system. In order to disentangle the electrons we can first break the ``Nuclei``
+into subsets. In the subsequent steps we will then assign electrons to the
+nuclei in the subsets based on the atomic number of each nucleus and the charge
+of the system.
 
 ********************************
 Fragmented Nuclei Considerations
@@ -72,7 +75,7 @@ Immutable superset.
 
 Immutable subsets.
    Each subset is thought of as a literal. So while you can add new subsets to
-   the ``FragmentedNuclei``, but can't modify the subset once it's added.
+   the ``FragmentedNuclei``, we can't modify the subset once it's added.
 
    - Subsets are guaranteed to be unique and are sorted. Allowing subset
      modifications would get tricky since in the process of adding/removing
@@ -88,11 +91,9 @@ Empty states.
 
 .. _fn_caps:
 
-Caps.
-   As a direct result of the :ref:`fs_generality` consideration raised for the
-   ``FragmentedSystem`` class, the  ``FragmenteNuclei`` object may contain
-   caps. Most caps contain a nucleus and one or more electrons. The
-   ``FragmentedNuclei`` class is responsible for the nucleus of the cap.
+Caps
+   When fragments are formed we may sever covalent bonds. To repair the valency
+   we can add caps.
 
    - Determining cap placement requires a ``FragmentedNuclei`` object so we
      know which nuclei are in which sets. The caps must thus be in addition to
@@ -108,11 +109,6 @@ FragmentedNuclei Design
    :align: center
 
    The classes involved in implementing the ``FragmentedNuclei`` component.
-
-To a large extent the ``FragmentedNuclei`` class parallels the ``Nuclei``
-class. More specifically it is the base of the ``FragmentedSystem`` hierarchy
-and worries about how the ``Nuclei`` object of the original system is
-fragmented.
 
 Capping requires a ``FragmentedNuclei`` object to cap. For this reason, we
 put the ``CapSet`` in a class derived from ``FragmentedNuclei``, 
@@ -137,7 +133,7 @@ FragmentedNuclei Summary
 ************************
 
 :ref:`fn_caps`
-   The ``FragmentedNuclei`` class will contain a ``Caps`` object which
+   The ``FragmentedNuclei`` class will contain a ``CapSet`` object which
    represents the broken bonds and what they are replaced with. Discussion of
-   the design of the ``Caps`` class can be found 
+   the design of the ``CapSet`` class can be found 
    :ref:`designing_the_caps_class`.

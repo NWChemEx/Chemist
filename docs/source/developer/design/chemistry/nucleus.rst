@@ -25,15 +25,22 @@ the nuclei indpendent of the electrons. Having separate classes for the nuclei
 makes this easier. Second, while the nuclei are often treated as point charges,
 they need not be. High accuracy work may take into account the finite size of 
 the nucleus and even its quantum mechanical nature. These different descriptions
-require different parameters (and therefore different classes).
+require different parameters (and therefore different classes). Our final
+motivation for having a separate ``Nucleus`` class is that when it comes time
+to take derivatives or define operators with respect to particles we can use
+the ``Nucleus`` and ``Nuclei`` classes in the types of the derivative/operator.
 
 **********************
 Nucleus Considerations
 **********************
 
+.. _n_basic_parameters:
+
 basic parameters
    Nuclei are assumed to be centered on a point, have a mass, an atomic number,
    an overall charge, and an atomic symbol. 
+
+.. _n_atomic_number_v_charge:
 
 atomic number vs. charge
    In atomic units the atomic number of a nucleus is the same as the charge.
@@ -48,16 +55,7 @@ atomic number vs. charge
      integers and floating-poing values can be converted somewhat easily, having
      separate functions helps avoid compiler warnings. 
 
-point charge like
-   For most computational chemistry applications the nucleus of an atom is
-   essentially a point charge.
-
-   - The ramification of this statement is that the ``Nucleus`` class should
-     derive from (or at least be compatible with) the ``PointCharge`` class. 
-   - Compared to a point charge, a nucleus additionally knows the number of 
-     protons/neutrons, its mass, and its atomic number.
-   - This consideration only applies when we have point charge nuclei. For
-     other nuclei types it may make sense to only derive from ``Point``.   
+.. _n_views:
 
 Views
    Traditionally the molecular system has been stored as a structure of arrays.
@@ -72,12 +70,17 @@ Views
    - Views also enable external libraries to wrap their data in an API
      compatible with Chemist.
 
+
+.. _n_fragmented_nuclei:
+
 fragmented nuclei
    There are a number of methods which require us to divide the nuclei into
    sets. The resulting structure essentially behaves like a container of
-   ``Nuclei``. There are enough additional considerations pertaining to
-   designing the ``FragmentedNuclei`` class the design is treated
-   separately. See :ref:`designing_fragmented_nuclei` for more details. 
+   ``Nuclei``.
+
+   - There are a number of additional considerations which went into the design 
+     of the ``FragmentedNuclei`` class; they are discussed in
+     :ref:`designing_fragmented_nuclei`.
 
 Out of Scope
 ============
@@ -93,7 +96,22 @@ non-point charge like nuclei
 Nucleus Design
 **************
 
-TODO: diagram which includes the PIMPLs
+.. _fig_nucleus_component:
+
+.. figure:: assets/nucleus.png
+   :align: center
+
+   Classes comprising the Nucleus component of Chemist.
+
+FragmentedNuclei
+================
+
+Main discussion: :ref:`designing_fragmented_nuclei`.
+
+Given a ``Nuclei`` object we sometimes want to only consider subsets of that
+object. Each of those subsets is also a ``Nuclei`` object. The 
+``FragmentedNuclei`` class is a container which holds the supersystem ``Nuclei``
+object and each of the subsystem ``Nuclei`` objects.
 
 *******
 Summary
