@@ -16,8 +16,8 @@
 
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
-#include <chemist/nucleus/nuclei_view/detail_/nuclei_subset.hpp>
 #include <chemist/nucleus/nuclei_view.hpp>
+#include <chemist/nucleus/nuclei_view/detail_/nuclei_subset.hpp>
 #include <sstream>
 
 using namespace chemist;
@@ -34,8 +34,8 @@ using namespace chemist;
 TEST_CASE("NucleiView") {
     using set_type   = Nuclei;
     using value_type = typename set_type::value_type;
-    using view_type  = NucleiView;
-    using pimpl_type = detail_::NucleiSubset;
+    using view_type  = NucleiView<set_type>;
+    using pimpl_type = detail_::NucleiSubset<set_type>;
 
     value_type n0("H", 1ul, 0.0, 1.0, 2.0, 3.0, 4.0);
     value_type n1("He", 2ul, 4.0, 5.0, 6.0, 7.0, 5.0);
@@ -49,18 +49,18 @@ TEST_CASE("NucleiView") {
     std::vector<std::size_t> v12{1, 2};
 
     // We intentionally use begin as the end iterator to get an empty set
-    auto defaulted_pimpl = 
-        std::make_unique<pimpl_type>(defaulted_ss, v01.begin(), v01.begin());
+    auto defaulted_pimpl =
+      std::make_unique<pimpl_type>(defaulted_ss, v01.begin(), v01.begin());
     auto n01_pimpl =
-        std::make_unique<pimpl_type>(nuclei_ss, v01.begin(), v01.end());
+      std::make_unique<pimpl_type>(nuclei_ss, v01.begin(), v01.end());
     auto n12_pimpl =
-        std::make_unique<pimpl_type>(nuclei_ss, v12.begin(), v12.end());
+      std::make_unique<pimpl_type>(nuclei_ss, v12.begin(), v12.end());
 
-    NucleiView no_pimpl;
-    NucleiView null_pimpl(nullptr);
-    NucleiView defaulted(std::move(defaulted_pimpl));
-    NucleiView n01(std::move(n01_pimpl));
-    NucleiView n12(std::move(n12_pimpl));
+    view_type no_pimpl;
+    view_type null_pimpl(nullptr);
+    view_type defaulted(std::move(defaulted_pimpl));
+    view_type n01(std::move(n01_pimpl));
+    view_type n12(std::move(n12_pimpl));
 
     SECTION("Ctor") {
         SECTION("default") { REQUIRE(no_pimpl.size() == 0); }
@@ -126,7 +126,7 @@ TEST_CASE("NucleiView") {
             view_type n12_copy;
             auto pn12_copy = &(n12_copy = n12);
 
-            REQUIRE(pno_pimpl_copy ==  &no_pimpl_copy);
+            REQUIRE(pno_pimpl_copy == &no_pimpl_copy);
             REQUIRE(no_pimpl_copy.size() == 0);
 
             REQUIRE(pnull_pimpl_copy == &null_pimpl_copy);
@@ -158,7 +158,7 @@ TEST_CASE("NucleiView") {
             view_type n12_move;
             auto pn12_move = &(n12_move = std::move(n12));
 
-            REQUIRE(pno_pimpl_move ==  &no_pimpl_move);
+            REQUIRE(pno_pimpl_move == &no_pimpl_move);
             REQUIRE(no_pimpl_move.size() == 0);
 
             REQUIRE(pnull_pimpl_move == &null_pimpl_move);
@@ -203,7 +203,7 @@ TEST_CASE("NucleiView") {
         REQUIRE(n12.size() == 2);
     }
 
-    SECTION("swap"){
+    SECTION("swap") {
         no_pimpl.swap(n01);
         REQUIRE(no_pimpl.size() == 2);
         REQUIRE(no_pimpl.at(0) == n0);
@@ -211,7 +211,7 @@ TEST_CASE("NucleiView") {
         REQUIRE(n01.size() == 0);
     }
 
-    SECTION("operator==(Nuclei)"){
+    SECTION("operator==(Nuclei)") {
         // Empty v empty
         set_type defaulted_nuclei;
         REQUIRE(no_pimpl == defaulted_nuclei);
@@ -228,7 +228,7 @@ TEST_CASE("NucleiView") {
         REQUIRE_FALSE(defaulted == n01_nuclei);
 
         // Non-empty v non-empty
-        REQUIRE(n01 == n01_nuclei); // Same non-empty
+        REQUIRE(n01 == n01_nuclei);       // Same non-empty
         REQUIRE_FALSE(n12 == n01_nuclei); // Different non-empty
 
         // Ensure can be called symmetrically (implementation just reverses
@@ -239,7 +239,7 @@ TEST_CASE("NucleiView") {
         REQUIRE_FALSE(defaulted_nuclei == n01);
     }
 
-    SECTION("operator!=(Nuclei)"){
+    SECTION("operator!=(Nuclei)") {
         // Just negates operator==, suffice to spot check
         REQUIRE_FALSE(no_pimpl != set_type{});
         REQUIRE(n01 != set_type{});
@@ -250,8 +250,6 @@ TEST_CASE("NucleiView") {
         REQUIRE_FALSE(set_type{} != no_pimpl);
         REQUIRE(set_type{} != n01);
     }
-
-
 
     // SECTION("serialization") {
     //     std::stringstream ss;

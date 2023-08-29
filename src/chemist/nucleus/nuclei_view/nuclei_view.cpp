@@ -2,40 +2,55 @@
 
 namespace chemist {
 
+#define TPARAMS template<typename NucleiType>
+#define NUCLEI_VIEW NucleiView<NucleiType>
+
 // -----------------------------------------------------------------------------
 // -- CTors, Assignment, and Dtor
 // -----------------------------------------------------------------------------
 
-NucleiView::NucleiView(pimpl_pointer pimpl) noexcept :
+TPARAMS
+NUCLEI_VIEW::NucleiView() noexcept = default;
+
+TPARAMS
+NUCLEI_VIEW::NucleiView(pimpl_pointer pimpl) noexcept :
   m_pimpl_(std::move(pimpl)) {}
 
-NucleiView::NucleiView(const NucleiView& other) :
+TPARAMS
+NUCLEI_VIEW::NucleiView(const NucleiView& other) :
   m_pimpl_(other.has_pimpl_() ? other.m_pimpl_->clone() : nullptr) {}
 
-NucleiView::NucleiView(NucleiView&& other) noexcept = default;
+TPARAMS
+NUCLEI_VIEW::NucleiView(NucleiView&& other) noexcept = default;
 
-NucleiView& NucleiView::operator=(const NucleiView& rhs) {
-    if(this != &rhs) NucleiView(rhs).swap(*this);
+TPARAMS
+NUCLEI_VIEW& NUCLEI_VIEW::operator=(const NucleiView& rhs) {
+    if(this != &rhs) NUCLEI_VIEW(rhs).swap(*this);
     return *this;
 }
 
-NucleiView& NucleiView::operator=(NucleiView&& rhs) noexcept = default;
+TPARAMS
+NUCLEI_VIEW& NUCLEI_VIEW::operator=(NucleiView&& rhs) noexcept = default;
 
-NucleiView::~NucleiView() noexcept = default;
+TPARAMS
+NUCLEI_VIEW::~NucleiView() noexcept = default;
 
-void NucleiView::swap(NucleiView& other) noexcept {
+TPARAMS
+void NUCLEI_VIEW::swap(NucleiView& other) noexcept {
     m_pimpl_.swap(other.m_pimpl_);
 }
 
-bool NucleiView::operator==(const nuclei_type& rhs) const noexcept {
-    if(size() != rhs.size()) return false;
-    for(size_type i = 0; i < size(); ++i){
+TPARAMS
+bool NUCLEI_VIEW::operator==(const nuclei_type& rhs) const noexcept {
+    if(this->size() != rhs.size()) return false;
+    for(size_type i = 0; i < this->size(); ++i) {
         if((*this)[i] != rhs[i]) return false;
     }
     return true;
 }
 
-bool NucleiView::operator!=(const nuclei_type& rhs) const noexcept {
+TPARAMS
+bool NUCLEI_VIEW::operator!=(const nuclei_type& rhs) const noexcept {
     return !(*this == rhs);
 }
 
@@ -43,30 +58,31 @@ bool NucleiView::operator!=(const nuclei_type& rhs) const noexcept {
 // -- Protected and Private members
 // -----------------------------------------------------------------------------
 
-typename NucleiView::reference NucleiView::at_(size_type i) {
+TPARAMS
+typename NUCLEI_VIEW::reference NUCLEI_VIEW::at_(size_type i) {
     return m_pimpl_->get_nuke(i);
 }
 
-typename NucleiView::const_reference NucleiView::at_(size_type i) const {
+TPARAMS
+typename NUCLEI_VIEW::const_reference NUCLEI_VIEW::at_(size_type i) const {
     return std::as_const(*m_pimpl_).get_nuke(i);
 }
 
-typename NucleiView::size_type NucleiView::size_() const noexcept {
+TPARAMS
+typename NUCLEI_VIEW::size_type NUCLEI_VIEW::size_() const noexcept {
     if(has_pimpl_()) return m_pimpl_->size();
     return 0;
 }
 
-bool NucleiView::has_pimpl_() const noexcept {
+TPARAMS
+bool NUCLEI_VIEW::has_pimpl_() const noexcept {
     return static_cast<bool>(m_pimpl_);
 }
 
-// -----------------------------------------------------------------------------
-// -- Free functions
-// -----------------------------------------------------------------------------
+#undef NUCLEI_VIEW
+#undef TPARAMS
 
-std::ostream& operator<<(std::ostream& os, const NucleiView& nukes) {
-    for(const auto& nuke_i : nukes) os << nuke_i << std::endl;
-    return os;
-}
+template class NucleiView<Nuclei>;
+template class NucleiView<const Nuclei>;
 
 } // namespace chemist

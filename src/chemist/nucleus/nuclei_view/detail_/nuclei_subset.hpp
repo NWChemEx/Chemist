@@ -17,10 +17,11 @@ namespace chemist::detail_ {
  *        technically need to pull in the base class's types, nor do we need
  *        typename.
  */
-class NucleiSubset : public NucleiViewPIMPL {
+template<typename NucleiType>
+class NucleiSubset : public NucleiViewPIMPL<NucleiType> {
 private:
     /// Type of the base class
-    using base_type = NucleiViewPIMPL;
+    using base_type = NucleiViewPIMPL<NucleiType>;
 
 public:
     /// Type the view is acting as a reference of
@@ -85,9 +86,9 @@ public:
 
     // Deleted to avoid accidental slicing
     ///@{
-    NucleiSubset(NucleiSubset&&) = delete;
+    NucleiSubset(NucleiSubset&&)                     = delete;
     NucleiSubset& operator=(const NucleiSubset& rhs) = delete;
-    NucleiSubset& operator=(NucleiSubset&& rhs) = delete;
+    NucleiSubset& operator=(NucleiSubset&& rhs)      = delete;
     ///@}
 
     /** @brief Determines if *this is value equal to @p rhs.
@@ -156,7 +157,9 @@ private:
 // -- Implementations
 // -----------------------------------------------------------------------------
 
-bool NucleiSubset::operator==(const NucleiSubset& rhs) const noexcept {
+template<typename NucleiType>
+inline bool NucleiSubset<NucleiType>::operator==(
+  const NucleiSubset& rhs) const noexcept {
     if(m_members_ != rhs.m_members_) return false;
 
     // Try to avoid comparing the Nuclei by checking for the same address

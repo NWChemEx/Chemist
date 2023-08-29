@@ -12,10 +12,11 @@ namespace chemist::detail_ {
  *  - size_type size() const noexcept
  *  - bool are_equal(const NucleiViewPIMPL&) const noexcept
  */
+template<typename NucleiType>
 class NucleiViewPIMPL {
 public:
     /// Type *this implements
-    using nuclei_view_type = NucleiView;
+    using nuclei_view_type = NucleiView<NucleiType>;
 
     /// Type nuclei_view_type is a view of
     using nuclei_type = typename nuclei_view_type::nuclei_type;
@@ -75,20 +76,20 @@ public:
     reference get_nuke(size_type i) { return get_nuke_(i); }
 
     /** @brief Returns a read-only reference to Nucleus @p i.
-     * 
+     *
      *  This method is the same as the non-const version except that it
      *  returns a read-only reference.
-     * 
+     *
      *  @param[in] i The offset of the requested nucleus. Must be in the range
      *             [0, size()).
-     * 
+     *
      *  @return A read-only reference to the @p i-th nucleus.
-     * 
+     *
      *  @throw None This function performs no bounds checks (bounds checks are
      *              done by the NucleiView class which calls the PIMPL). While
      *              passing an out of bounds value for @p i will not raise an
      *              error, it is undefined behavior and the program is likely
-     *              to crash. 
+     *              to crash.
      */
     const_reference get_nuke(size_type i) const { return get_nuke_(i); }
 
