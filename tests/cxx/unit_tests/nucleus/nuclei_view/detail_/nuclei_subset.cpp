@@ -6,6 +6,7 @@ using namespace chemist::detail_;
 TEST_CASE("NucleiSubset") {
     using nuclei_type = chemist::Nuclei;
     using pimpl_type  = NucleiSubset<nuclei_type>;
+    using const_pimpl = NucleiSubset<const nuclei_type>;
 
     // Create some Nucleus objects. Objects do not need to be physical, just
     // distinct.
@@ -21,14 +22,19 @@ TEST_CASE("NucleiSubset") {
     // Create pimpl_type objects
     using size_type = typename pimpl_type::size_type;
     pimpl_type defaulted;
+    const_pimpl const_defaulted;
 
     std::vector<size_type> indices{1, 2};
     pimpl_type has_values(pnukes, indices.begin(), indices.end());
+    const_pimpl const_has_values(pnukes, indices.begin(), indices.end());
 
     SECTION("Ctors") {
         SECTION("Default") {
             REQUIRE(defaulted.size() == 0);
             REQUIRE(defaulted.is_null());
+
+            REQUIRE(const_defaulted.size() == 0);
+            REQUIRE(const_defaulted.is_null());
         }
 
         SECTION("value") {
@@ -36,6 +42,11 @@ TEST_CASE("NucleiSubset") {
             REQUIRE(has_values.size() == 2);
             REQUIRE(has_values.get_nuke(0) == (*pnukes)[1]);
             REQUIRE(has_values.get_nuke(1) == (*pnukes)[2]);
+
+            REQUIRE_FALSE(const_has_values.is_null());
+            REQUIRE(const_has_values.size() == 2);
+            REQUIRE(const_has_values.get_nuke(0) == (*pnukes)[1]);
+            REQUIRE(const_has_values.get_nuke(1) == (*pnukes)[2]);
         }
 
         SECTION("copy") {
@@ -43,11 +54,21 @@ TEST_CASE("NucleiSubset") {
             REQUIRE(defaulted_copy.size() == 0);
             REQUIRE(defaulted.is_null());
 
+            const_pimpl const_defaulted_copy(const_defaulted);
+            REQUIRE(const_defaulted_copy.size() == 0);
+            REQUIRE(const_defaulted.is_null());
+
             pimpl_type has_values_copy(has_values);
             REQUIRE_FALSE(has_values_copy.is_null());
             REQUIRE(has_values_copy.size() == 2);
             REQUIRE(has_values_copy.get_nuke(0) == (*pnukes)[1]);
             REQUIRE(has_values_copy.get_nuke(1) == (*pnukes)[2]);
+
+            const_pimpl const_has_values_copy(const_has_values);
+            REQUIRE_FALSE(const_has_values_copy.is_null());
+            REQUIRE(const_has_values_copy.size() == 2);
+            REQUIRE(const_has_values_copy.get_nuke(0) == (*pnukes)[1]);
+            REQUIRE(const_has_values_copy.get_nuke(1) == (*pnukes)[2]);
         }
     }
 
@@ -55,25 +76,42 @@ TEST_CASE("NucleiSubset") {
         auto pdefaulted = defaulted.clone();
         REQUIRE(pdefaulted->size() == 0);
 
+        auto pconst_defaulted = const_defaulted.clone();
+        REQUIRE(pconst_defaulted->size() == 0);
+
         auto phas_value = has_values.clone();
         REQUIRE(phas_value->size() == 2);
         REQUIRE(phas_value->get_nuke(0) == (*pnukes)[1]);
         REQUIRE(phas_value->get_nuke(1) == (*pnukes)[2]);
+
+        auto pconst_has_value = const_has_values.clone();
+        REQUIRE(pconst_has_value->size() == 2);
+        REQUIRE(pconst_has_value->get_nuke(0) == (*pnukes)[1]);
+        REQUIRE(pconst_has_value->get_nuke(1) == (*pnukes)[2]);
     }
 
     SECTION("get_nuke") {
         REQUIRE(has_values.get_nuke(0) == (*pnukes)[1]);
         REQUIRE(has_values.get_nuke(1) == (*pnukes)[2]);
+
+        REQUIRE(const_has_values.get_nuke(0) == (*pnukes)[1]);
+        REQUIRE(const_has_values.get_nuke(1) == (*pnukes)[2]);
     }
 
     SECTION("get_nuke()const") {
         REQUIRE(std::as_const(has_values).get_nuke(0) == (*pnukes)[1]);
         REQUIRE(std::as_const(has_values).get_nuke(1) == (*pnukes)[2]);
+
+        REQUIRE(std::as_const(const_has_values).get_nuke(0) == (*pnukes)[1]);
+        REQUIRE(std::as_const(const_has_values).get_nuke(1) == (*pnukes)[2]);
     }
 
     SECTION("size") {
         REQUIRE(defaulted.size() == 0);
+        REQUIRE(const_defaulted.size() == 0);
+
         REQUIRE(has_values.size() == 2);
+        REQUIRE(const_has_values.size() == 2);
     }
 
     SECTION("operator==") {

@@ -32,10 +32,12 @@ using namespace chemist;
  */
 
 TEST_CASE("NucleiView") {
-    using set_type   = Nuclei;
-    using value_type = typename set_type::value_type;
-    using view_type  = NucleiView<set_type>;
-    using pimpl_type = detail_::NucleiSubset<set_type>;
+    using set_type    = Nuclei;
+    using value_type  = typename set_type::value_type;
+    using view_type   = NucleiView<set_type>;
+    using const_view  = NucleiView<const set_type>;
+    using pimpl_type  = detail_::NucleiSubset<set_type>;
+    using const_pimpl = detail_::NucleiSubset<const set_type>;
 
     value_type n0("H", 1ul, 0.0, 1.0, 2.0, 3.0, 4.0);
     value_type n1("He", 2ul, 4.0, 5.0, 6.0, 7.0, 5.0);
@@ -56,26 +58,53 @@ TEST_CASE("NucleiView") {
     auto n12_pimpl =
       std::make_unique<pimpl_type>(nuclei_ss, v12.begin(), v12.end());
 
+    auto const_defaulted_pimpl =
+      std::make_unique<const_pimpl>(defaulted_ss, v01.begin(), v01.begin());
+    auto const_n01_pimpl =
+      std::make_unique<const_pimpl>(nuclei_ss, v01.begin(), v01.end());
+    auto const_n12_pimpl =
+      std::make_unique<const_pimpl>(nuclei_ss, v12.begin(), v12.end());
+
     view_type no_pimpl;
     view_type null_pimpl(nullptr);
     view_type defaulted(std::move(defaulted_pimpl));
     view_type n01(std::move(n01_pimpl));
     view_type n12(std::move(n12_pimpl));
 
+    const_view const_no_pimpl;
+    const_view const_null_pimpl(nullptr);
+    const_view const_defaulted(std::move(const_defaulted_pimpl));
+    const_view const_n01(std::move(const_n01_pimpl));
+    const_view const_n12(std::move(const_n12_pimpl));
+
     SECTION("Ctor") {
-        SECTION("default") { REQUIRE(no_pimpl.size() == 0); }
+        SECTION("default") {
+            REQUIRE(no_pimpl.size() == 0);
+            REQUIRE(const_no_pimpl.size() == 0);
+        }
 
         SECTION("pimpl_pointer") {
             REQUIRE(null_pimpl.size() == 0);
             REQUIRE(defaulted.size() == 0);
 
+            REQUIRE(const_null_pimpl.size() == 0);
+            REQUIRE(const_defaulted.size() == 0);
+
             REQUIRE(n01.size() == 2);
             REQUIRE(n01.at(0) == n0);
             REQUIRE(n01.at(1) == n1);
 
+            REQUIRE(const_n01.size() == 2);
+            REQUIRE(const_n01.at(0) == n0);
+            REQUIRE(const_n01.at(1) == n1);
+
             REQUIRE(n12.size() == 2);
             REQUIRE(n12.at(0) == n1);
             REQUIRE(n12.at(1) == n1);
+
+            REQUIRE(const_n12.size() == 2);
+            REQUIRE(const_n12.at(0) == n1);
+            REQUIRE(const_n12.at(1) == n1);
         }
 
         SECTION("Copy") {
@@ -84,6 +113,12 @@ TEST_CASE("NucleiView") {
             view_type defaulted_copy(defaulted);
             view_type n01_copy(n01);
             view_type n12_copy(n12);
+
+            const_view const_no_pimpl_copy(const_no_pimpl);
+            const_view const_null_pimpl_copy(const_null_pimpl);
+            const_view const_defaulted_copy(const_defaulted);
+            const_view const_n01_copy(const_n01);
+            const_view const_n12_copy(const_n12);
 
             REQUIRE(no_pimpl_copy.size() == 0);
             REQUIRE(null_pimpl_copy.size() == 0);
@@ -94,6 +129,16 @@ TEST_CASE("NucleiView") {
             REQUIRE(n12_copy.size() == 2);
             REQUIRE(n12_copy.at(0) == n1);
             REQUIRE(n12_copy.at(1) == n1);
+
+            REQUIRE(const_no_pimpl_copy.size() == 0);
+            REQUIRE(const_null_pimpl_copy.size() == 0);
+            REQUIRE(const_defaulted_copy.size() == 0);
+            REQUIRE(const_n01_copy.size() == 2);
+            REQUIRE(const_n01_copy.at(0) == n0);
+            REQUIRE(const_n01_copy.at(1) == n1);
+            REQUIRE(const_n12_copy.size() == 2);
+            REQUIRE(const_n12_copy.at(0) == n1);
+            REQUIRE(const_n12_copy.at(1) == n1);
         }
 
         SECTION("Move") {
@@ -102,6 +147,12 @@ TEST_CASE("NucleiView") {
             view_type defaulted_move(std::move(defaulted));
             view_type n01_move(std::move(n01));
             view_type n12_move(std::move(n12));
+
+            const_view const_no_pimpl_move(std::move(const_no_pimpl));
+            const_view const_null_pimpl_move(std::move(const_null_pimpl));
+            const_view const_defaulted_move(std::move(const_defaulted));
+            const_view const_n01_move(std::move(const_n01));
+            const_view const_n12_move(std::move(const_n12));
 
             REQUIRE(no_pimpl_move.size() == 0);
             REQUIRE(null_pimpl_move.size() == 0);
@@ -112,6 +163,16 @@ TEST_CASE("NucleiView") {
             REQUIRE(n12_move.size() == 2);
             REQUIRE(n12_move.at(0) == n1);
             REQUIRE(n12_move.at(1) == n1);
+
+            REQUIRE(const_no_pimpl_move.size() == 0);
+            REQUIRE(const_null_pimpl_move.size() == 0);
+            REQUIRE(const_defaulted_move.size() == 0);
+            REQUIRE(const_n01_move.size() == 2);
+            REQUIRE(const_n01_move.at(0) == n0);
+            REQUIRE(const_n01_move.at(1) == n1);
+            REQUIRE(const_n12_move.size() == 2);
+            REQUIRE(const_n12_move.at(0) == n1);
+            REQUIRE(const_n12_move.at(1) == n1);
         }
 
         SECTION("Copy assignment") {
@@ -125,6 +186,19 @@ TEST_CASE("NucleiView") {
             auto pn01_copy = &(n01_copy = n01);
             view_type n12_copy;
             auto pn12_copy = &(n12_copy = n12);
+
+            const_view const_no_pimpl_copy;
+            auto pconst_no_pimpl_copy = &(const_no_pimpl_copy = const_no_pimpl);
+            const_view const_null_pimpl_copy;
+            auto pconst_null_pimpl_copy =
+              &(const_null_pimpl_copy = const_null_pimpl);
+            const_view const_defaulted_copy;
+            auto pconst_defaulted_copy =
+              &(const_defaulted_copy = const_defaulted);
+            const_view const_n01_copy;
+            auto pconst_n01_copy = &(const_n01_copy = const_n01);
+            const_view const_n12_copy;
+            auto pconst_n12_copy = &(const_n12_copy = const_n12);
 
             REQUIRE(pno_pimpl_copy == &no_pimpl_copy);
             REQUIRE(no_pimpl_copy.size() == 0);
@@ -144,6 +218,25 @@ TEST_CASE("NucleiView") {
             REQUIRE(n12_copy.size() == 2);
             REQUIRE(n12_copy.at(0) == n1);
             REQUIRE(n12_copy.at(1) == n1);
+
+            REQUIRE(pconst_no_pimpl_copy == &const_no_pimpl_copy);
+            REQUIRE(const_no_pimpl_copy.size() == 0);
+
+            REQUIRE(pconst_null_pimpl_copy == &const_null_pimpl_copy);
+            REQUIRE(const_null_pimpl_copy.size() == 0);
+
+            REQUIRE(pconst_defaulted_copy == &const_defaulted_copy);
+            REQUIRE(const_defaulted_copy.size() == 0);
+
+            REQUIRE(pconst_n01_copy == &const_n01_copy);
+            REQUIRE(const_n01_copy.size() == 2);
+            REQUIRE(const_n01_copy.at(0) == n0);
+            REQUIRE(const_n01_copy.at(1) == n1);
+
+            REQUIRE(pconst_n12_copy == &const_n12_copy);
+            REQUIRE(const_n12_copy.size() == 2);
+            REQUIRE(const_n12_copy.at(0) == n1);
+            REQUIRE(const_n12_copy.at(1) == n1);
         }
 
         SECTION("Move assignment") {
@@ -157,6 +250,20 @@ TEST_CASE("NucleiView") {
             auto pn01_move = &(n01_move = std::move(n01));
             view_type n12_move;
             auto pn12_move = &(n12_move = std::move(n12));
+
+            const_view const_no_pimpl_move;
+            auto pconst_no_pimpl_move =
+              &(const_no_pimpl_move = std::move(const_no_pimpl));
+            const_view const_null_pimpl_move;
+            auto pconst_null_pimpl_move =
+              &(const_null_pimpl_move = std::move(const_null_pimpl));
+            const_view const_defaulted_move;
+            auto pconst_defaulted_move =
+              &(const_defaulted_move = std::move(const_defaulted));
+            const_view const_n01_move;
+            auto pconst_n01_move = &(const_n01_move = std::move(const_n01));
+            const_view const_n12_move;
+            auto pconst_n12_move = &(const_n12_move = std::move(const_n12));
 
             REQUIRE(pno_pimpl_move == &no_pimpl_move);
             REQUIRE(no_pimpl_move.size() == 0);
@@ -176,6 +283,25 @@ TEST_CASE("NucleiView") {
             REQUIRE(n12_move.size() == 2);
             REQUIRE(n12_move.at(0) == n1);
             REQUIRE(n12_move.at(1) == n1);
+
+            REQUIRE(pconst_no_pimpl_move == &const_no_pimpl_move);
+            REQUIRE(const_no_pimpl_move.size() == 0);
+
+            REQUIRE(pconst_null_pimpl_move == &const_null_pimpl_move);
+            REQUIRE(const_null_pimpl_move.size() == 0);
+
+            REQUIRE(pconst_defaulted_move == &const_defaulted_move);
+            REQUIRE(const_defaulted_move.size() == 0);
+
+            REQUIRE(pconst_n01_move == &const_n01_move);
+            REQUIRE(const_n01_move.size() == 2);
+            REQUIRE(const_n01_move.at(0) == n0);
+            REQUIRE(const_n01_move.at(1) == n1);
+
+            REQUIRE(pconst_n12_move == &const_n12_move);
+            REQUIRE(const_n12_move.size() == 2);
+            REQUIRE(const_n12_move.at(0) == n1);
+            REQUIRE(const_n12_move.at(1) == n1);
         }
     }
 
@@ -185,6 +311,12 @@ TEST_CASE("NucleiView") {
 
         REQUIRE(n12.at(0) == n1);
         REQUIRE(n12.at(1) == n1);
+
+        REQUIRE(const_n01.at(0) == n0);
+        REQUIRE(const_n01.at(1) == n1);
+
+        REQUIRE(const_n12.at(0) == n1);
+        REQUIRE(const_n12.at(1) == n1);
     }
 
     SECTION("at_() const") {
@@ -193,6 +325,12 @@ TEST_CASE("NucleiView") {
 
         REQUIRE(std::as_const(n12).at(0) == n1);
         REQUIRE(std::as_const(n12).at(1) == n1);
+
+        REQUIRE(std::as_const(const_n01).at(0) == n0);
+        REQUIRE(std::as_const(const_n01).at(1) == n1);
+
+        REQUIRE(std::as_const(const_n12).at(0) == n1);
+        REQUIRE(std::as_const(const_n12).at(1) == n1);
     }
 
     SECTION("size_") {
@@ -201,6 +339,12 @@ TEST_CASE("NucleiView") {
         REQUIRE(defaulted.size() == 0);
         REQUIRE(n01.size() == 2);
         REQUIRE(n12.size() == 2);
+
+        REQUIRE(const_no_pimpl.size() == 0);
+        REQUIRE(const_null_pimpl.size() == 0);
+        REQUIRE(const_defaulted.size() == 0);
+        REQUIRE(const_n01.size() == 2);
+        REQUIRE(const_n12.size() == 2);
     }
 
     SECTION("swap") {
@@ -209,6 +353,12 @@ TEST_CASE("NucleiView") {
         REQUIRE(no_pimpl.at(0) == n0);
         REQUIRE(no_pimpl.at(1) == n1);
         REQUIRE(n01.size() == 0);
+
+        const_no_pimpl.swap(const_n01);
+        REQUIRE(const_no_pimpl.size() == 2);
+        REQUIRE(const_no_pimpl.at(0) == n0);
+        REQUIRE(const_no_pimpl.at(1) == n1);
+        REQUIRE(const_n01.size() == 0);
     }
 
     SECTION("operator==(Nuclei)") {
