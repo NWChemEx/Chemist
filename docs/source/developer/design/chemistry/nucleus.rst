@@ -18,17 +18,21 @@ to represent a single nucleus as well as a set of nuclei.
 Why do we need a Nucleus Component?
 ***********************************
 
-Anecdotally most quantum chemistry pacakges do not bother with classes for
+Anecdotally most quantum chemistry packages do not bother with classes for
 describing the nucleus, so why should we? There's a couple reasons. First,
 particularly when it comes to manipulating the chemical system we often treat
-the nuclei indpendent of the electrons. Having separate classes for the nuclei
-makes this easier. Second, while the nuclei are often treated as point charges,
-they need not be. High accuracy work may take into account the finite size of 
-the nucleus and even its quantum mechanical nature. These different descriptions
+the nuclei independent of the electrons (*i.e.* we invoke the Born-Oppenheimer
+approximation). Having separate classes for the nuclei and the electrons makes 
+this easier as we have literal different objects we can manipulate. Second, 
+while the nuclei are often treated as point charges, they need not be. High 
+accuracy work may take into account the finite size of the nucleus and even its 
+quantum mechanical nature. These different descriptions
 require different parameters (and therefore different classes). Our final
 motivation for having a separate ``Nucleus`` class is that when it comes time
 to take derivatives or define operators with respect to particles we can use
-the ``Nucleus`` and ``Nuclei`` classes in the types of the derivative/operator.
+the ``Nucleus`` and ``Nuclei`` classes in the types of the derivative/operator
+thus obtaining separate types for taking derivatives with respect to nuclei vs
+electrons (and different  operators).
 
 **********************
 Nucleus Considerations
@@ -91,7 +95,6 @@ non-point charge like nuclei
    point charge-like nuclei only for right now. Additional classes can be
    added to the hierarchy to handle more realistic approximations.
 
-
 **************
 Nucleus Design
 **************
@@ -103,6 +106,37 @@ Nucleus Design
 
    Classes comprising the Nucleus component of Chemist.
 
+The classes of the Nucleus component are shown in 
+:numref:`_fig_nucleus_component`. The figure divides the classes into two
+categories those which are part of the public API and those which are needed to
+implement the public API. The following subsections contain more details about
+the various classes.
+
+Nucleus/NucleusView
+===================
+
+The ``Nucleus`` class is the fundamental class of the hierarchy. Consistent with
+the :ref:`n_basic_parameters` consideration it will derive from ``PointCharge``.
+On top of ``PointCharge``'s state we add the mass, atomic number, and atomic
+symbol. The ``NucleusView`` class, consistent with :ref:`n_views` allows users
+to wrap existing data in objects and have those objects be used as if they are
+``Nucleus`` objects.
+
+Nuclei/NucleiView
+=================
+
+Generally speaking we do not usually deal with a single nucleus, we deal with a
+set of nuclei. The ``Nuclei`` object serves as a container for ``Nucleus``
+objects. A separate class, versus say an STL container, is needed because 
+internally the ``Nuclei`` object will usually unpack the data found in the
+``Nucleus`` objects it contains. This is for performance (vectorization
+specifically). The ``NucleusView`` class then serves a convenient mechanism for
+the ``Nuclei`` class to alias the unpacked state, while maintaining the 
+``Nucleus`` API. 
+
+Similar to ``NucleusView``, ``NucleiView`` is designed to facilitate using
+existing data as if it were a ``Nuclei`` object.
+
 FragmentedNuclei
 ================
 
@@ -111,8 +145,36 @@ Main discussion: :ref:`designing_fragmented_nuclei`.
 Given a ``Nuclei`` object we sometimes want to only consider subsets of that
 object. Each of those subsets is also a ``Nuclei`` object. The 
 ``FragmentedNuclei`` class is a container which holds the supersystem ``Nuclei``
-object and each of the subsystem ``Nuclei`` objects.
+object and each of the subsystem ``Nuclei`` objects.  Derived from 
+``FragmentedNuclei`` is ``CappedFragmentedNuclei`` which additionally stores
+caps via a ``CapSet``. Ultimately ``FragmentedNuclei`` is added to satisfy
+the :ref:`n_fragmented_nuclei` consideration.
+
+PIMPLs
+======
+
+With the exception of the ``Nucleus`` class (and its corresponding view), all
+classes rely on the PIMPL idiom to separate their API from their implementation.
+This is primarily for performance reasons. In particular the way ``Nuclei`` 
+stores data may need to be optimized later, similarly we may need to expand the
+various ways users can wrap existing data in the ``Nuclei`` API, *i.e.*, ways
+that ``NucleiView`` objects can hold their data.
 
 *******
 Summary
 *******
+
+:ref:`n_basic_parameters`
+   The ``Nucleus`` class contains the specified parameters.
+
+:ref:`n_atomic_number_v_charge:`
+   The ``Nucleus`` object stores the atomic number as separate state. By default
+   the charge is set to the atomic number (and the units are assumed to be
+   atomic units).
+
+:ref:`n_views`
+  The ``Nucleus``, and ``Nuclei`` classes are paired with ``NucleusView``
+  and ``NucleiView``. 
+
+:ref:`n_fragmented_nuclei`
+   This consideration was addressed by having a ``FragmentedNuclei`` class.
