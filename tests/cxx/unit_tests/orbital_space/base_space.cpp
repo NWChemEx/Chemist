@@ -52,7 +52,7 @@ TEST_CASE("BaseSpace") {
     // Make a non-empty basis to distinguish the two instances at the AOSpace
     // level
     basis_type non_empty;
-    non_empty.add_center(center_type{});
+    non_empty.add_center(center_type{"", 0, 1.0, 2.0, 3.0});
 
     AOSpaceD lhs;
     AOSpaceD rhs(non_empty);
