@@ -14,115 +14,179 @@
  * limitations under the License.
  */
 
-#include "../../point/detail_/point_pimpl.hpp"
-#include "chemist/basis_set/shell.hpp"
-#include "shell_pimpl.hpp"
-#include <cassert>
+#include "../detail_/compute_n_aos.hpp"
+#include "detail_/shell_pimpl.hpp"
 
-namespace chemist {
+namespace chemist::basis_set {
 
-template<typename T>
-Shell<T>::Shell() :
-  m_pimpl_(std::make_unique<pimpl_t>()),
-  Point<T>(),
-  utilities::IndexableContainerBase<Shell<T>>() {}
+#define SHELL Shell<CGType>
 
-template<typename T>
-Shell<T>::Shell(const Shell<T>& rhs) :
-  Shell(std::make_unique<pimpl_t>(*rhs.m_pimpl_),
-        std::make_unique<point_pimpl_t>(rhs.x(), rhs.y(), rhs.z())) {}
-
-template<typename T>
-Shell<T>::Shell(Shell<T>&& rhs) noexcept = default;
-
-template<typename T>
-Shell<T>& Shell<T>::operator=(const Shell<T>& rhs) {
-    return *this = std::move(Shell<T>(rhs));
+template<typename CGType, typename... Args>
+auto make_shell_pimpl(Args&&... args) {
+    using pimpl_type = typename Shell<CGType>::pimpl_type;
+    return std::make_unique<pimpl_type>(std::forward<Args>(args)...);
 }
 
-template<typename T>
-Shell<T>& Shell<T>::operator=(Shell<T>&& rhs) noexcept = default;
+// -----------------------------------------------------------------------------
+// -- Ctors/dtor
+// -----------------------------------------------------------------------------
 
-template<typename T>
-Shell<T>::Shell(ShellType pure, int l, std::vector<T> coefs,
-                std::vector<T> exps, T x, T y, T z) :
-  Shell(std::make_unique<pimpl_t>(pure, l, std::move(coefs), std::move(exps)),
-        std::make_unique<point_pimpl_t>(x, y, z)) {}
+template<typename CGType>
+SHELL::Shell() noexcept = default;
 
-template<typename T>
-Shell<T>::Shell(pimpl_ptr_t my_pimpl, point_pimpl_ptr_t base_pimpl) :
-  m_pimpl_(std::move(my_pimpl)),
-  Point<T>(std::move(base_pimpl)),
-  utilities::IndexableContainerBase<Shell<T>>() {}
+template<typename CGType>
+SHELL::Shell(const Shell& rhs) :
+  Shell(rhs.has_pimpl_() ? make_shell_pimpl<CGType>(*rhs.m_pimpl_) : nullptr) {}
 
-template<typename T>
-Shell<T>::~Shell<T>() noexcept = default;
+template<typename CGType>
+SHELL::Shell(Shell&& rhs) noexcept = default;
 
-template<typename T>
-typename Shell<T>::pure_type& Shell<T>::pure() noexcept {
-    assert(m_pimpl_ != nullptr);
-    return m_pimpl_->purity();
+template<typename CGType>
+SHELL& SHELL::operator=(const Shell& rhs) {
+    if(&rhs != this) Shell(rhs).swap(*this);
+    return *this;
 }
 
-template<typename T>
-const typename Shell<T>::pure_type& Shell<T>::pure() const noexcept {
-    assert(m_pimpl_ != nullptr);
-    return m_pimpl_->purity();
+template<typename CGType>
+SHELL& SHELL::operator=(Shell&& rhs) noexcept = default;
+
+template<typename CGType>
+SHELL::Shell(pure_type pure, angular_momentum_type l, cg_type cg) :
+  m_pimpl_(make_shell_pimpl<CGType>(pure, l, std::move(cg))) {}
+
+template<typename CGType>
+SHELL::~Shell() noexcept = default;
+
+// -----------------------------------------------------------------------------
+// -- Getters/setters
+// -----------------------------------------------------------------------------
+
+template<typename CGType>
+typename SHELL::pure_reference SHELL::pure() {
+    if(is_null()) m_pimpl_ = make_shell_pimpl<CGType>();
+    return m_pimpl_->m_pure;
 }
 
-template<typename T>
-typename Shell<T>::size_type& Shell<T>::l() noexcept {
-    assert(m_pimpl_ != nullptr);
-    return m_pimpl_->l();
+template<typename CGType>
+typename SHELL::const_pure_reference SHELL::pure() const {
+    assert_pimpl_();
+    return m_pimpl_->m_pure;
 }
 
-template<typename T>
-const typename Shell<T>::size_type& Shell<T>::l() const noexcept {
-    assert(m_pimpl_ != nullptr);
-    return m_pimpl_->l();
+template<typename CGType>
+typename SHELL::angular_momentum_reference SHELL::l() {
+    if(is_null()) m_pimpl_ = make_shell_pimpl<CGType>();
+    return m_pimpl_->m_l;
 }
 
-template<typename T>
-typename Shell<T>::size_type Shell<T>::n_unique_primitives() const noexcept {
-    return at_(0).size();
+template<typename CGType>
+typename SHELL::const_angular_momentum_reference SHELL::l() const {
+    assert_pimpl_();
+    return m_pimpl_->m_l;
 }
 
-template<typename T>
-typename Shell<T>::primitive_reference Shell<T>::unique_primitive(size_type i) {
-    return (*this)[0][i];
+template<typename CGType>
+typename SHELL::cg_reference SHELL::contracted_gaussian() {
+    if(is_null()) m_pimpl_ = make_shell_pimpl<CGType>();
+    return m_pimpl_->m_cg;
 }
 
-template<typename T>
-typename Shell<T>::const_primitive_reference Shell<T>::unique_primitive(
+template<typename CGType>
+typename SHELL::const_cg_reference SHELL::contracted_gaussian() const {
+    assert_pimpl_();
+    return m_pimpl_->m_cg;
+}
+
+template<typename CGType>
+typename SHELL::size_type SHELL::n_primitives() const noexcept {
+    if(is_null()) return 0;
+    return m_pimpl_->m_cg.size();
+}
+
+template<typename CGType>
+typename SHELL::cg_traits::primitive_reference SHELL::primitive(size_type i) {
+    return contracted_gaussian().at(i);
+}
+
+template<typename CGType>
+typename SHELL::cg_traits::const_primitive_reference SHELL::primitive(
   size_type i) const {
-    return (*this)[0][i];
+    if(i < n_primitives()) return contracted_gaussian().at(i);
+    throw std::out_of_range("i is not in the range [0, n_primitives()).");
 }
 
-template<typename T>
-typename Shell<T>::size_type Shell<T>::size_() const noexcept {
-    assert(m_pimpl_ != nullptr);
-    return m_pimpl_->size();
+template<typename CGType>
+typename SHELL::size_type SHELL::size() const noexcept {
+    return size_();
 }
 
-template<typename T>
-typename Shell<T>::reference Shell<T>::at_(size_type index) {
-    assert(m_pimpl_ != nullptr);
-    auto ptr1 = m_pimpl_->at(index);
-    auto ptr2 = this->point_alias();
-    ContractedGaussian<T> temp(std::move(ptr1), std::move(ptr2));
-    return reference(std::move(temp));
+// -----------------------------------------------------------------------------
+// -- Utility functions
+// -----------------------------------------------------------------------------
+
+template<typename CGType>
+void SHELL::swap(Shell& other) noexcept {
+    m_pimpl_.swap(other.m_pimpl_);
 }
 
-template<typename T>
-typename Shell<T>::const_reference Shell<T>::at_(size_type index) const {
-    assert(m_pimpl_ != nullptr);
-    auto ptr1 = m_pimpl_->at(index);
-    auto ptr2 = this->point_alias();
-    ContractedGaussian<T> temp(std::move(ptr1), std::move(ptr2));
-    return const_reference(std::move(temp));
+template<typename CGType>
+bool SHELL::is_null() const noexcept {
+    return !has_pimpl_();
 }
 
-template class Shell<double>;
-template class Shell<float>;
+template<typename CGType>
+bool SHELL::operator==(const Shell& rhs) const noexcept {
+    if(is_null() != rhs.is_null()) return false;
+    if(is_null()) return true; // Both are null
+    return (*m_pimpl_) == (*rhs.m_pimpl_);
+}
 
-} // namespace chemist
+// -----------------------------------------------------------------------------
+// -- Protected/Private functions
+// -----------------------------------------------------------------------------
+
+template<typename CGType>
+SHELL::Shell(pimpl_ptr my_pimpl) noexcept : m_pimpl_(std::move(my_pimpl)) {}
+
+template<typename CGType>
+bool SHELL::has_pimpl_() const noexcept {
+    return static_cast<bool>(m_pimpl_);
+}
+
+template<typename CGType>
+void SHELL::assert_pimpl_() const {
+    if(has_pimpl_()) return;
+    throw std::runtime_error("Shell has no PIMPL. Was it default constructed or"
+                             " moved from?");
+}
+
+template<typename CGType>
+typename SHELL::size_type SHELL::size_() const noexcept {
+    if(is_null()) return 0;
+    return detail_::compute_n_aos(l(), pure());
+}
+
+// template<typename CGType>
+// typename SHELL::contracted_gaussian_reference SHELL::at_(size_type index) {
+//     assert(m_pimpl_ != nullptr);
+//     auto ptr1 = m_pimpl_->at(index);
+//     auto ptr2 = this->point_alias();
+//     ContractedGaussian<T> temp(std::move(ptr1), std::move(ptr2));
+//     return reference(std::move(temp));
+// }
+
+// template<typename CGType>
+// typename SHELL::const_cg_reference SHELL::at_(size_type index) const {
+//     assert(m_pimpl_ != nullptr);
+//     auto ptr1 = m_pimpl_->at(index);
+//     auto ptr2 = this->point_alias();
+//     ContractedGaussian<T> temp(std::move(ptr1), std::move(ptr2));
+//     return const_reference(std::move(temp));
+// }
+
+#undef SHELL
+
+template class Shell<ContractedGaussianD>;
+template class Shell<ContractedGaussianF>;
+
+} // namespace chemist::basis_set

@@ -14,231 +14,201 @@
  * limitations under the License.
  */
 
-#include "ao_basis_set_pimpl.hpp"
-#include "chemist/basis_set/ao_basis_set.hpp"
+#include "chemist/basis_set/ao_basis_set/ao_basis_set.hpp"
+#include "detail_/ao_basis_set_pimpl.hpp"
 #include <cassert>
 #include <utility>
 
-namespace chemist {
+namespace chemist::basis_set {
 
-#define AO_BS AOBasisSet<T>
+#define AO_BS_TPARAMS template<typename AtomicBasisSetType>
+#define AO_BS AOBasisSet<AtomicBasisSetType>
 
-// ------------------ Constructors/Assignment Operators -----------------------
-template<typename T>
-AO_BS::AOBasisSet() : m_pimpl_(std::make_unique<pimpl_type>()) {}
+// -----------------------------------------------------------------------------
+// -- Constructors, Assignment, dtor
+// -----------------------------------------------------------------------------
 
-template<typename T>
-AO_BS::AOBasisSet(const AO_BS& rhs) :
-  m_pimpl_(std::make_unique<pimpl_type>(*(rhs.m_pimpl_))) {}
+AO_BS_TPARAMS
+AO_BS::AOBasisSet() noexcept = default;
 
-template<typename T>
-AO_BS::AOBasisSet(AO_BS&& rhs) noexcept = default;
+AO_BS_TPARAMS
+AO_BS::AOBasisSet(const AOBasisSet& rhs) :
+  m_pimpl_(rhs.has_pimpl_() ? std::make_unique<pimpl_type>(*(rhs.m_pimpl_)) :
+                              nullptr) {}
 
-template<typename T>
-AO_BS& AO_BS::operator=(const AO_BS& rhs) {
-    return *this = std::move(AOBasisSet<T>(rhs));
+AO_BS_TPARAMS
+AO_BS::AOBasisSet(AOBasisSet&& rhs) noexcept = default;
+
+AO_BS_TPARAMS
+AO_BS& AO_BS::operator=(const AOBasisSet& rhs) {
+    if(&rhs != this) AOBasisSet(rhs).swap(*this);
+    return *this;
 }
 
-template<typename T>
-AO_BS& AO_BS::operator=(AO_BS&& rhs) noexcept = default;
+AO_BS_TPARAMS
+AO_BS& AO_BS::operator=(AOBasisSet&& rhs) noexcept = default;
 
-template<typename T>
+AO_BS_TPARAMS
 AO_BS::~AOBasisSet() noexcept = default;
 
-template<typename T>
+// -----------------------------------------------------------------------------
+// -- AtomicBasisSet getters/setters
+// -----------------------------------------------------------------------------
+
+AO_BS_TPARAMS
 void AO_BS::add_center(value_type center) {
-    assert(m_pimpl_ != nullptr);
-    m_pimpl_->add_center(std::move(center));
+    if(!has_pimpl_()) m_pimpl_ = std::make_unique<pimpl_type>();
+    m_pimpl_->add_atomic_basis_set(std::move(center));
 }
 
-template<typename T>
+AO_BS_TPARAMS
+typename AO_BS::abs_traits::range_type AO_BS::shell_range(
+  size_type center) const {
+    assert_center_index_(center);
+    return m_pimpl_->shell_range(center);
+}
+
+// -----------------------------------------------------------------------------
+// -- Shell getters/setters
+// -----------------------------------------------------------------------------
+
+AO_BS_TPARAMS
 typename AO_BS::size_type AO_BS::max_l() const {
-    if(this->empty())
+    if(!has_pimpl_() || !m_pimpl_->n_shells())
         throw std::runtime_error("Basis set contains no shells!!!");
-    size_type l = 0;
-    for(auto&& shell_i : shells()) l = std::max(l, shell_i.l());
-    return l;
+    return m_pimpl_->max_l();
 }
 
-// ------------------------- Shell Fxns ----------------------------------------
-template<typename T>
+AO_BS_TPARAMS
 typename AO_BS::size_type AO_BS::n_shells() const noexcept {
-    size_type counter = 0;
-    for(auto&& x : *this) counter += x.size();
-    return counter;
+    if(!has_pimpl_()) return 0;
+    return m_pimpl_->n_shells();
 }
 
-template<typename T>
-typename AO_BS::shell_reference AO_BS::shell(size_type i) {
-    for(auto&& x : *this) {
-        if(i < x.size())
-            return x[i];
-        else
-            i -= x.size();
-    }
-    throw std::out_of_range("Requested i: " + std::to_string(i) +
-                            " is not in the range [0, n_shells())");
+AO_BS_TPARAMS
+typename AO_BS::abs_traits::shell_reference AO_BS::shell(size_type i) {
+    assert_shell_index_(i);
+    return m_pimpl_->shell(i);
 }
 
-template<typename T>
-typename AO_BS::const_shell_reference AO_BS::shell(size_type i) const {
-    for(auto&& x : *this) {
-        if(i < x.size())
-            return x[i];
-        else
-            i -= x.size();
-    }
-    throw std::out_of_range("Requested i: " + std::to_string(i) +
-                            " is not in the range [0, n_shells())");
+AO_BS_TPARAMS
+typename AO_BS::abs_traits::const_shell_reference AO_BS::shell(
+  size_type i) const {
+    assert_shell_index_(i);
+    return std::as_const(*m_pimpl_).shell(i);
 }
 
-template<typename T>
-typename AO_BS::flattened_shells AO_BS::shells() noexcept {
-    return flattened_shells(
-      [&]() { return n_shells(); }, [&](size_type i) { return shell(i); },
-      [&](size_type i) { return std::as_const(*this).shell(i); });
+AO_BS_TPARAMS
+typename AO_BS::abs_traits::range_type AO_BS::primitive_range(
+  size_type shell) const {
+    assert_shell_index_(shell);
+    return m_pimpl_->primitive_range(shell);
 }
 
-template<typename T>
-typename AO_BS::const_flattened_shells AO_BS::shells() const noexcept {
-    return const_flattened_shells([&]() { return n_shells(); },
-                                  [&](size_type i) { return shell(i); },
-                                  [&](size_type i) { return shell(i); });
-}
+// -----------------------------------------------------------------------------
+// -- AO getters/setters
+// -----------------------------------------------------------------------------
 
-template<typename T>
-std::vector<typename AO_BS::size_type> AO_BS::shell_offsets() const {
-    std::vector<size_type> rv{0};
-    for(auto&& x : *this) { rv.push_back(rv.back() + x.size()); }
-    return rv;
-}
-
-// ---------------------------- AOs --------------------------------------------
-
-template<typename T>
+AO_BS_TPARAMS
 typename AO_BS::size_type AO_BS::n_aos() const noexcept {
     size_type counter = 0;
     for(auto&& x : *this) counter += x.n_aos();
     return counter;
 }
 
-template<typename T>
-typename AO_BS::ao_reference AO_BS::ao(size_type i) {
-    for(auto&& x : *this) {
-        if(i < x.n_aos())
-            return x.ao(i);
-        else
-            i -= x.n_aos();
-    }
-    throw std::out_of_range("Requested i: " + std::to_string(i) +
-                            " is not in the range [0, n_aos())");
+// -----------------------------------------------------------------------------
+// --- Primitive getters/setters
+// -----------------------------------------------------------------------------
+
+AO_BS_TPARAMS
+typename AO_BS::size_type AO_BS::n_primitives() const noexcept {
+    if(!has_pimpl_()) return 0;
+    return m_pimpl_->n_primitives();
 }
 
-template<typename T>
-typename AO_BS::const_ao_reference AO_BS::ao(size_type i) const {
-    for(auto&& x : *this) {
-        if(i < x.n_aos())
-            return x.ao(i);
-        else
-            i -= x.n_aos();
-    }
-    throw std::out_of_range("Requested i: " + std::to_string(i) +
-                            " is not in the range [0, n_aos())");
+AO_BS_TPARAMS
+typename AO_BS::abs_traits::primitive_reference AO_BS::primitive(size_type i) {
+    assert_primitive_index_(i);
+    return m_pimpl_->primitive(i);
 }
 
-template<typename T>
-typename AOBasisSet<T>::flattened_aos AO_BS::aos() noexcept {
-    return flattened_aos(
-      [&]() { return n_aos(); }, [&](size_type i) { return ao(i); },
-      [&](size_type i) { return std::as_const(*this).ao(i); });
-}
-
-template<typename T>
-typename AOBasisSet<T>::const_flattened_aos AO_BS::aos() const noexcept {
-    return const_flattened_aos([&]() { return n_aos(); },
-                               [&](size_type i) { return ao(i); },
-                               [&](size_type i) { return ao(i); });
-}
-
-template<typename T>
-std::vector<typename AO_BS::size_type> AO_BS::ao_offsets() const {
-    std::vector<size_type> rv{0};
-    for(auto&& x : *this) { rv.push_back(rv.back() + x.n_aos()); }
-    return rv;
-}
-
-// -------------------------- Primitives --------------------------------------
-
-template<typename T>
-typename AO_BS::size_type AO_BS::n_unique_primitives() const noexcept {
-    size_type counter = 0;
-    for(auto&& x : *this) counter += x.n_unique_primitives();
-    return counter;
-}
-
-template<typename T>
-typename AO_BS::primitive_reference AO_BS::unique_primitive(size_type i) {
-    for(auto&& x : *this) {
-        if(i < x.n_unique_primitives())
-            return x.unique_primitive(i);
-        else
-            i -= x.n_unique_primitives();
-    }
-    throw std::out_of_range("Requested i: " + std::to_string(i) +
-                            " is not in the range [0, n_unique_primitives())");
-}
-
-template<typename T>
-typename AO_BS::const_primitive_reference AO_BS::unique_primitive(
+AO_BS_TPARAMS
+typename AO_BS::abs_traits::const_primitive_reference AO_BS::primitive(
   size_type i) const {
-    for(auto&& x : *this) {
-        if(i < x.n_unique_primitives())
-            return x.unique_primitive(i);
-        else
-            i -= x.n_unique_primitives();
-    }
-    throw std::out_of_range("Requested i: " + std::to_string(i) +
-                            " is not in the range [0, n_unique_primitives())");
+    assert_primitive_index_(i);
+    return std::as_const(*m_pimpl_).primitive(i);
 }
 
-template<typename T>
-typename AOBasisSet<T>::flattened_primitives
-AO_BS::unique_primitives() noexcept {
-    return flattened_primitives(
-      [&]() { return n_unique_primitives(); },
-      [&](size_type i) { return unique_primitive(i); },
-      [&](size_type i) { return std::as_const(*this).unique_primitive(i); });
+// -----------------------------------------------------------------------------
+// -- Utility functions
+// -----------------------------------------------------------------------------
+
+AO_BS_TPARAMS
+void AO_BS::swap(AOBasisSet& other) noexcept { m_pimpl_.swap(other.m_pimpl_); }
+
+AO_BS_TPARAMS
+AO_BS& AO_BS::operator+=(const AOBasisSet& rhs) {
+    if(!has_pimpl_()) m_pimpl_ = std::make_unique<pimpl_type>();
+    for(const auto& atomic_bs : rhs) m_pimpl_->add_atomic_basis_set(atomic_bs);
+    return *this;
 }
 
-template<typename T>
-typename AOBasisSet<T>::const_flattened_primitives AO_BS::unique_primitives()
-  const noexcept {
-    return const_flattened_primitives(
-      [&]() { return n_unique_primitives(); },
-      [&](size_type i) { return unique_primitive(i); },
-      [&](size_type i) { return unique_primitive(i); });
+AO_BS_TPARAMS
+AO_BS AO_BS::operator+(const AOBasisSet& rhs) const {
+    return AOBasisSet(*this) += rhs;
 }
 
-// -------------------------- Private Fxns -------------------------------------
-template<typename T>
-typename AOBasisSet<T>::size_type AO_BS::size_() const noexcept {
-    assert(m_pimpl_ != nullptr);
+// -----------------------------------------------------------------------------
+// -- Protected and Private Fxns
+// -----------------------------------------------------------------------------
+
+AO_BS_TPARAMS
+bool AO_BS::has_pimpl_() const noexcept { return static_cast<bool>(m_pimpl_); }
+
+AO_BS_TPARAMS
+void AO_BS::assert_center_index_(size_type center) const {
+    if(center < size_()) return;
+    throw std::out_of_range("Center i = " + std::to_string(center) +
+                            "is not in the range [0, size()) with size() = " +
+                            std::to_string(size_()));
+}
+
+AO_BS_TPARAMS
+void AO_BS::assert_shell_index_(size_type shell) const {
+    if(shell < n_shells()) return;
+    throw std::out_of_range(
+      "Shell i = " + std::to_string(shell) +
+      "is not in the range [0, n_shells()) with n_shells() = " +
+      std::to_string(n_shells()));
+}
+
+AO_BS_TPARAMS
+void AO_BS::assert_primitive_index_(size_type primitive) const {
+    if(primitive < n_primitives()) return;
+    throw std::out_of_range(
+      "Primitive i = " + std::to_string(primitive) +
+      "is not in the range [0, n_primitives()) with n_primitives() = " +
+      std::to_string(n_primitives()));
+}
+
+AO_BS_TPARAMS
+typename AO_BS::size_type AO_BS::size_() const noexcept {
+    if(!has_pimpl_()) return 0;
     return m_pimpl_->size();
 }
 
-template<typename T>
-typename AOBasisSet<T>::reference AO_BS::at_(size_type i) {
-    assert(m_pimpl_ != nullptr);
-    return m_pimpl_->at(i);
+AO_BS_TPARAMS
+typename AO_BS::reference AO_BS::at_(size_type i) { return m_pimpl_->at(i); }
+
+AO_BS_TPARAMS
+typename AO_BS::const_reference AO_BS::at_(size_type i) const {
+    return std::as_const(*m_pimpl_).at(i);
 }
 
-template<typename T>
-typename AOBasisSet<T>::const_reference AO_BS::at_(size_type i) const {
-    assert(m_pimpl_ != nullptr);
-    return m_pimpl_->at(i);
-}
+#undef AO_BS
+#undef AO_BS_TPARAMS
 
-template class AOBasisSet<double>;
-template class AOBasisSet<float>;
+template class AOBasisSet<AtomicBasisSetD>;
+template class AOBasisSet<AtomicBasisSetF>;
 
-} // namespace chemist
+} // namespace chemist::basis_set

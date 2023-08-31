@@ -15,7 +15,7 @@
  */
 
 #include "export_basis_set.hpp"
-#include <chemist/basis_set2/primitive/primitive.hpp>
+#include <chemist/basis_set/primitive/primitive.hpp>
 
 namespace chemist {
 namespace detail_ {

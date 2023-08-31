@@ -13,80 +13,125 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "detail_/contracted_gaussian_pimpl.hpp"
 
-#include "../../point/detail_/point_pimpl.hpp"
-#include "cgto_pimpl.hpp"
-#include "chemist/basis_set/contracted_gaussian.hpp"
-#include <cassert>
+namespace chemist::basis_set {
 
-namespace chemist {
+#define CG ContractedGaussian<PrimitiveType>
 
-template<typename T>
-ContractedGaussian<T>::ContractedGaussian() :
-  m_pimpl_(std::make_unique<pimpl_type>()),
-  Point<T>(),
-  utilities::IndexableContainerBase<ContractedGaussian>() {}
+// -----------------------------------------------------------------------------
+// -- Ctors and Dtor
+// -----------------------------------------------------------------------------
 
-template<typename T>
-ContractedGaussian<T>::ContractedGaussian(std::vector<T> coefs,
-                                          std::vector<T> exps, T x, T y, T z) :
-  m_pimpl_(std::make_unique<pimpl_type>(std::move(coefs), std::move(exps))),
-  Point<T>(x, y, z),
-  utilities::IndexableContainerBase<ContractedGaussian>() {}
+template<typename PrimitiveType>
+CG::ContractedGaussian() noexcept = default;
 
-template<typename T>
-ContractedGaussian<T>::ContractedGaussian(pimpl_ptr my_pimpl,
-                                          point_pimpl_ptr point_pimpl) noexcept
-  :
-  m_pimpl_(std::move(my_pimpl)),
-  Point<T>(std::move(point_pimpl)),
-  utilities::IndexableContainerBase<ContractedGaussian>() {}
+template<typename PrimitiveType>
+CG::ContractedGaussian(const my_type& rhs) :
+  m_pimpl_(rhs.has_pimpl_() ? std::make_unique<pimpl_type>(*rhs.m_pimpl_) :
+                              nullptr) {}
 
-template<typename T>
-ContractedGaussian<T>::ContractedGaussian(const my_type& rhs) :
-  m_pimpl_(std::make_unique<pimpl_type>(*rhs.m_pimpl_)),
-  Point<T>(rhs),
-  utilities::IndexableContainerBase<ContractedGaussian>() {}
+template<typename PrimitiveType>
+CG::ContractedGaussian(my_type&& rhs) noexcept = default;
 
-template<typename T>
-ContractedGaussian<T>::ContractedGaussian(my_type&& rhs) noexcept = default;
-
-template<typename T>
-ContractedGaussian<T>& ContractedGaussian<T>::operator=(const my_type& rhs) {
-    return *this = std::move(my_type(rhs));
+template<typename PrimitiveType>
+CG& CG::operator=(const my_type& rhs) {
+    if(&rhs != this) ContractedGaussian(rhs).swap(*this);
+    return *this;
 }
 
-template<typename T>
-ContractedGaussian<T>& ContractedGaussian<T>::operator=(
-  my_type&& rhs) noexcept = default;
+template<typename PrimitiveType>
+CG& CG::operator=(my_type&& rhs) noexcept = default;
 
-template<typename T>
-ContractedGaussian<T>::~ContractedGaussian() noexcept = default;
+template<typename PrimitiveType>
+CG::~ContractedGaussian() noexcept = default;
 
-template<typename T>
-typename ContractedGaussian<T>::size_type ContractedGaussian<T>::size_()
-  const noexcept {
-    assert(m_pimpl_ != nullptr);
+// -----------------------------------------------------------------------------
+// -- Getters/Setters
+// -----------------------------------------------------------------------------
+
+template<typename PrimitiveType>
+typename CG::primitive_traits::center_reference CG::center() {
+    if(is_null()) m_pimpl_ = std::make_unique<pimpl_type>();
+    return m_pimpl_->center();
+}
+
+template<typename PrimitiveType>
+typename CG::primitive_traits::const_center_reference CG::center() const {
+    assert_pimpl_();
+    return m_pimpl_->center();
+}
+
+// -----------------------------------------------------------------------------
+// -- Utility functions
+// -----------------------------------------------------------------------------
+
+template<typename PrimitiveType>
+void CG::swap(my_type& rhs) noexcept {
+    m_pimpl_.swap(rhs.m_pimpl_);
+}
+
+template<typename PrimitiveType>
+bool CG::operator==(const my_type& rhs) const noexcept {
+    // N.B. The base class's operator== is inefficient because it will compare
+    //      the centers of each primitive.
+
+    if(is_null() != rhs.is_null()) return false;
+    if(is_null()) return true; // Both are null
+    return (*m_pimpl_) == (*rhs.m_pimpl_);
+}
+
+template<typename PrimitiveType>
+bool CG::operator!=(const my_type& rhs) const noexcept {
+    return !(*this == rhs);
+}
+
+// -----------------------------------------------------------------------------
+// -- Protected/Private functions
+// -----------------------------------------------------------------------------
+
+template<typename PrimitiveType>
+CG::ContractedGaussian(coefficient_vector cs, exponent_vector es,
+                       typename primitive_traits::center_type center) :
+  ContractedGaussian(std::make_unique<pimpl_type>(std::move(cs), std::move(es),
+                                                  std::move(center))) {}
+
+template<typename PrimitiveType>
+CG::ContractedGaussian(pimpl_ptr my_pimpl) noexcept :
+  utilities::IndexableContainerBase<CG>(), m_pimpl_(std::move(my_pimpl)) {}
+
+template<typename PrimitiveType>
+bool CG::has_pimpl_() const noexcept {
+    return static_cast<bool>(m_pimpl_);
+}
+
+template<typename PrimitiveType>
+void CG::assert_pimpl_() const {
+    if(has_pimpl_()) return;
+    throw std::runtime_error(
+      "ContractedGaussian does not have a PIMPL. This is"
+      " usually the case if it was default constructed or moved from.");
+}
+
+template<typename PrimitiveType>
+typename CG::size_type CG::size_() const noexcept {
+    if(is_null()) return 0;
     return m_pimpl_->size();
 }
 
-template<typename T>
-typename ContractedGaussian<T>::reference ContractedGaussian<T>::at_(
-  size_type i) {
-    assert(m_pimpl_ != nullptr);
-    return PrimitiveView<T>(
-      Primitive<T>(std::move(m_pimpl_->at(i)), std::move(this->point_alias())));
+template<typename PrimitiveType>
+typename CG::reference CG::at_(size_type i) noexcept {
+    return (*m_pimpl_)[i];
 }
 
-template<typename T>
-typename ContractedGaussian<T>::const_reference ContractedGaussian<T>::at_(
-  size_type i) const {
-    assert(m_pimpl_ != nullptr);
-    return PrimitiveView<const T>(
-      Primitive<T>(std::move(m_pimpl_->at(i)), std::move(this->point_alias())));
+template<typename PrimitiveType>
+typename CG::const_reference CG::at_(size_type i) const noexcept {
+    return (*m_pimpl_)[i];
 }
 
-template class ContractedGaussian<double>;
-template class ContractedGaussian<float>;
+#undef CG
 
-} // namespace chemist
+template class ContractedGaussian<PrimitiveD>;
+template class ContractedGaussian<PrimitiveF>;
+
+} // namespace chemist::basis_set

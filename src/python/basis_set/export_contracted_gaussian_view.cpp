@@ -15,7 +15,7 @@
  */
 
 #include "export_basis_set.hpp"
-#include <chemist/basis_set2/contracted_gaussian/contracted_gaussian_view.hpp>
+#include <chemist/basis_set/contracted_gaussian/contracted_gaussian_view.hpp>
 
 namespace chemist {
 namespace detail_ {

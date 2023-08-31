@@ -15,7 +15,7 @@
  */
 
 #include "export_basis_set.hpp"
-#include <chemist/basis_set2/shell/shell_view.hpp>
+#include <chemist/basis_set/shell/shell_view.hpp>
 
 namespace chemist {
 namespace detail_ {
