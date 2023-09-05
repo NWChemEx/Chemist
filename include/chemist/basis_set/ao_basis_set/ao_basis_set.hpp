@@ -162,7 +162,7 @@ public:
      *                        there is insufficient memory to do so. Strong
      *                        throw guarantee.
      */
-    void add_center(value_type center);
+    void add_center(const_reference center);
 
     /** @brief Returns the range of shell indices for the requested center
      *

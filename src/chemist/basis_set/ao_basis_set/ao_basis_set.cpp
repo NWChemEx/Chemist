@@ -56,7 +56,7 @@ AO_BS::~AOBasisSet() noexcept = default;
 // -----------------------------------------------------------------------------
 
 AO_BS_TPARAMS
-void AO_BS::add_center(value_type center) {
+void AO_BS::add_center(const_reference center) {
     if(!has_pimpl_()) m_pimpl_ = std::make_unique<pimpl_type>();
     m_pimpl_->add_atomic_basis_set(std::move(center));
 }
