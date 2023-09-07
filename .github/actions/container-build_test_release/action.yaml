@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: container action to build ParallelZone
+name: container action to build Chemist
 
-description: container action from the base image to build ParallelZone
+description: container action from the base image to build Chemist
 
 inputs:
   base_tag:

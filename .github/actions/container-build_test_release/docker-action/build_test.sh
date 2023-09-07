@@ -27,14 +27,13 @@ set -e # Exit with error if any command fails
 
 # checkout repo with the current branch (not master!)
 
-git clone -b ${env_branch_name} https://github.com/NWChemEx-Project/Chemist.git
+git clone -b ${env_branch_name} https://$env_user:$env_cr_pat@github.com/NWChemEx-Project/Chemist.git
 cd Chemist
 
 cmake_command=cmake
 ctest_command=ctest
 toolchain_file=$(pwd)/toolchain.cmake
 
-#pybind11_path=$(python3 -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])')
 
 echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
 {
@@ -56,6 +55,7 @@ echo "set(BUILD_TESTING ON)" > "${toolchain_file}"
   echo 'set(ScaLAPACK_LIBRARIES  "-L${LIBDIR} -lscalapack-openmpi ${LAPACK_LIBRARIES}")'
   echo 'set(NWX_MODULE_DIRECTORY "./NWX_PyModules")'
 } >> "${toolchain_file}"
+
 
 # if clang_build is true set clang and 
 # clang++ as default c and cxx compiler
@@ -118,8 +118,6 @@ fi
 #${ctest_command} -VV -R *docs
 
 # python testing
-#export PYTHONPATH=$PYTHONPATH:/install
-#echo "PYTHONPATH = " $PYTHONPATH
 #echo "Running python tests..."
 #${ctest_command} -VV -R py
 cd ..
