@@ -111,20 +111,20 @@ FragmentedNuclei Design
    The classes involved in implementing the ``FragmentedNuclei`` component.
 
 Capping requires a ``FragmentedNuclei`` object to cap. For this reason, we
-put the ``CapSet`` in a class derived from ``FragmentedNuclei``, 
+put the ``CapSet`` in a class derived from ``FragmentedNuclei``,
 ``CappedFragmentedNuclei``.
 
 *************
 Proposed APIs
 *************
 
-The next code block summarizes how we expect users to fill in a 
+The next code block summarizes how we expect users to fill in a
 ``FragmentedNuclei`` and a ``CappedFragmentedNuclei`` object.
 
 .. code-block:: c++
 
-   Nuclei nukes           = get_nuclei(); //Usually defined by the end-user
-   FragmentedNuclei frags = fragment_nuclei_object(nukes);  
+   Nuclei nuclei          = get_nuclei(); //Usually defined by the end-user
+   FragmentedNuclei frags = fragment_nuclei_object(nuclei);
    CapSet caps            = cap_fragmented_nuclei(frags);
    CappedFragmentedNuclei capped_frags(frags, caps);
 
@@ -135,5 +135,5 @@ FragmentedNuclei Summary
 :ref:`fn_caps`
    The ``FragmentedNuclei`` class will contain a ``CapSet`` object which
    represents the broken bonds and what they are replaced with. Discussion of
-   the design of the ``CapSet`` class can be found 
+   the design of the ``CapSet`` class can be found
    :ref:`designing_the_caps_class`.

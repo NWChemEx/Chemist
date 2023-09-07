@@ -271,16 +271,16 @@ inline bool operator!=(const typename NucleiView<NucleiType>::nuclei_type& lhs,
  *  This method allows NucleiView objects to be printed.
  *
  *  @param[in,out] os The stream we are printing to. After the operation @p os
- *                    will contain a textual representation of @p nukes.
- *  @param[in] nukes The NucleiView to print.
- *  @return Returns @p os, after adding @p nukes to it.
+ *                    will contain a textual representation of @p nuclei.
+ *  @param[in] nuclei The NucleiView to print.
+ *  @return Returns @p os, after adding @p nuclei to it.
  *  @throw std::ios_base::failure if anything goes wrong while writing. Weak
  *                                throw guarantee.
  */
 template<typename NucleiType>
 std::ostream& operator<<(std::ostream& os,
-                         const NucleiView<NucleiType>& nukes) {
-    for(const auto& nuke_i : nukes) os << nuke_i << std::endl;
+                         const NucleiView<NucleiType>& nuclei) {
+    for(const auto& nuke_i : nuclei) os << nuke_i << std::endl;
     return os;
 }
 

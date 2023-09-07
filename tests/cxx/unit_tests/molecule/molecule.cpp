@@ -45,8 +45,8 @@ TEST_CASE("Molecule Class") {
     Molecule hd{h, d};
     Molecule qm(1, 2, {h, d});
 
-    Molecule::nuclei_type nukes{h.nucleus(), d.nucleus()};
-    Molecule qm2(1, 2, nukes);
+    Molecule::nuclei_type nuclei{h.nucleus(), d.nucleus()};
+    Molecule qm2(1, 2, nuclei);
 
     SECTION("CTors") {
         SECTION("Default CTor") {
@@ -141,12 +141,12 @@ TEST_CASE("Molecule Class") {
         REQUIRE(mol.n_electrons() == 2);
     }
 
-    Nuclei corr_nukes{atoms[0].nucleus(), atoms[1].nucleus()};
+    Nuclei corr_nuclei{atoms[0].nucleus(), atoms[1].nucleus()};
 
-    SECTION("nuclei") { REQUIRE(hd.nuclei() == corr_nukes); }
+    SECTION("nuclei") { REQUIRE(hd.nuclei() == corr_nuclei); }
 
     SECTION("nuclei() const") {
-        REQUIRE(std::as_const(hd).nuclei() == corr_nukes);
+        REQUIRE(std::as_const(hd).nuclei() == corr_nuclei);
     }
 
     SECTION("n_electrons") {

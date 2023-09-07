@@ -23,8 +23,8 @@ namespace chemist::detail_ {
  *
  *  To implement a new NucleiView derive from this class and implement:
  *  - pimpl_pointer clone() const
- *  - reference get_nukes(size_type)
- *  - const_reference get_nukes(size_type) const
+ *  - reference get_nuclei(size_type)
+ *  - const_reference get_nuclei(size_type) const
  *  - size_type size() const noexcept
  *  - bool are_equal(const NucleiViewPIMPL&) const noexcept
  */

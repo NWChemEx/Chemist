@@ -83,7 +83,7 @@ public:
      */
     template<typename BeginItr, typename EndItr>
     NucleiSubset(nuclei_pointer supersystem, BeginItr&& begin, EndItr&& end) :
-      m_nukes_(supersystem),
+      m_nuclei_(supersystem),
       m_members_(std::forward<BeginItr>(begin), std::forward<EndItr>(end)) {}
 
     /** @brief Initializes *this to a deep copy of @p other.
@@ -102,9 +102,9 @@ public:
 
     // Deleted to avoid accidental slicing
     ///@{
-    NucleiSubset(NucleiSubset&&) = delete;
+    NucleiSubset(NucleiSubset&&)                     = delete;
     NucleiSubset& operator=(const NucleiSubset& rhs) = delete;
-    NucleiSubset& operator=(NucleiSubset&& rhs) = delete;
+    NucleiSubset& operator=(NucleiSubset&& rhs)      = delete;
     ///@}
 
     /** @brief Determines if *this is value equal to @p rhs.
@@ -133,7 +133,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    bool is_null() const noexcept { return !static_cast<bool>(m_nukes_); }
+    bool is_null() const noexcept { return !static_cast<bool>(m_nuclei_); }
 
 protected:
     /// Implementes clone
@@ -143,12 +143,12 @@ protected:
 
     /// Implements getting a mutable Nucleus
     reference get_nuke_(size_type i) override {
-        return (*m_nukes_)[m_members_[i]];
+        return (*m_nuclei_)[m_members_[i]];
     }
 
     /// Implements getting a read-only Nucleus
     const_reference get_nuke_(size_type i) const override {
-        return std::as_const(*m_nukes_)[m_members_[i]];
+        return std::as_const(*m_nuclei_)[m_members_[i]];
     }
 
     /// Impelments size
@@ -163,7 +163,7 @@ protected:
 
 private:
     /// The full set of nuclei
-    nuclei_pointer m_nukes_;
+    nuclei_pointer m_nuclei_;
 
     /// The indices in *this
     std::vector<size_type> m_members_;
@@ -179,13 +179,13 @@ inline bool NucleiSubset<NucleiType>::operator==(
     if(m_members_ != rhs.m_members_) return false;
 
     // Try to avoid comparing the Nuclei by checking for the same address
-    if(m_nukes_ == rhs.m_nukes_) return true;
+    if(m_nuclei_ == rhs.m_nuclei_) return true;
 
     // Above works if they're both null, now see if only one is null
     if(is_null() || rhs.is_null()) return false;
 
     // Both are non-null, so compare the Nuclei
-    return *m_nukes_ == *rhs.m_nukes_;
+    return *m_nuclei_ == *rhs.m_nuclei_;
 }
 
 } // namespace chemist::detail_
