@@ -68,7 +68,7 @@ atomic number vs. charge
    - As alluded to, the two are only equal in atomic units. We intend to add
      unit support at a later time.
    - The atomic number is always an integer and is often used as the key in
-     maps. While the charge is an integer in atomic units, it is sill often used
+     maps. While the charge is an integer in atomic units, it is still often used
      in mathematical contexts where it needs to be a floating point type. While
      integers and floating-poing values can be converted somewhat easily, having
      separate functions helps avoid compiler warnings. 
