@@ -19,7 +19,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Molecule Design" href="molecule.html" />
+    <link rel="next" title="Designing the Nucleus Component" href="nucleus.html" />
     <link rel="prev" title="Architecture of Chemist" href="../architecture.html" /> 
 </head>
 
@@ -100,6 +100,31 @@ contrasted with concepts like wavefunctions and operators which are more
 familiar to quantum chemists (which we put in the physics sublibrary).</p>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="nucleus.html">Designing the Nucleus Component</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nucleus.html#what-is-the-nucleus-component">What is the Nucleus Component?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nucleus.html#why-do-we-need-a-nucleus-component">Why do we need a Nucleus Component?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nucleus.html#nucleus-considerations">Nucleus Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nucleus.html#nucleus-design">Nucleus Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nucleus.html#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fragmented_nuclei.html">Designing the Fragmented Nuclei Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fragmented_nuclei.html#what-is-a-fragmented-nuclei">What is a fragmented nuclei?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fragmented_nuclei.html#why-do-we-need-fragmented-nuclei">Why do we need fragmented nuclei?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fragmented_nuclei.html#fragmented-nuclei-considerations">Fragmented Nuclei Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fragmented_nuclei.html#fragmentednuclei-design">FragmentedNuclei Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fragmented_nuclei.html#proposed-apis">Proposed APIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fragmented_nuclei.html#fragmentednuclei-summary">FragmentedNuclei Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="caps.html">Designing the CapSet Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="caps.html#what-is-a-cap">What is a cap?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caps.html#why-do-we-need-caps">Why do we need caps?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caps.html#caps-considerations">Caps considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caps.html#capset-design">CapSet Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caps.html#caps-design-summary">Caps Design Summary</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="molecule.html">Molecule Design</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="molecule.html#what-is-a-molecule">What is a Molecule?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="molecule.html#why-do-we-need-a-molecule-component">Why do we need a Molecule (component)?</a></li>
@@ -107,6 +132,14 @@ familiar to quantum chemists (which we put in the physics sublibrary).</p>
 <li class="toctree-l2"><a class="reference internal" href="molecule.html#overview-of-molecule-design">Overview of Molecule Design</a></li>
 <li class="toctree-l2"><a class="reference internal" href="molecule.html#molecule-design-summary">Molecule Design Summary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="molecule.html#future-considerations">Future Considerations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fragmented_molecule.html">Designing the FragmentedMolecule Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fragmented_molecule.html#what-is-a-fragmented-molecule">What is a fragmented molecule?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fragmented_molecule.html#why-do-we-need-fragmented-molecules">Why do we need fragmented molecules?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fragmented_molecule.html#fragmentedmolecule-class-considerations">FragmentedMolecule Class Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fragmented_molecule.html#fragmentedmolecule-design">FragmentedMolecule Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fragmented_molecule.html#fragmentedmolecule-summary">FragmentedMolecule Summary</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="system.html">Chemical System Design</a><ul>
@@ -120,28 +153,6 @@ familiar to quantum chemists (which we put in the physics sublibrary).</p>
 <li class="toctree-l2"><a class="reference internal" href="fragmented_system.html#fragmentedsystem-considerations">FragmentedSystem Considerations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fragmented_system.html#fragmented-system-design">Fragmented System Design</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fragmented_system.html#fragmentedsystem-summary">FragmentedSystem Summary</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="fragmented_molecule.html">Designing the FragmentedMolecule Class</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_molecule.html#what-is-a-fragmented-molecule">What is a fragmented molecule?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_molecule.html#why-do-we-need-fragmented-molecules">Why do we need fragmented molecules?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_molecule.html#fragmentedmolecule-class-considerations">FragmentedMolecule Class Considerations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_molecule.html#fragmentedmolecule-design">FragmentedMolecule Design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_molecule.html#fragmentedmolecule-summary">FragmentedMolecule Summary</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="caps.html">Designing the CapSet Class</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="caps.html#what-is-a-cap">What is a cap?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="caps.html#why-do-we-need-caps">Why do we need caps?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="caps.html#caps-considerations">Caps considerations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="caps.html#capset-design">CapSet Design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="caps.html#caps-design-summary">Caps Design Summary</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="fragmented_nuclei.html">Designing the Fragmented Nuclei Class</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_nuclei.html#what-is-a-fragmented-nuclei">What is a fragmented nuclei?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_nuclei.html#why-do-we-need-fragmented-nuclei">Why do we need fragmented nuclei?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_nuclei.html#fragmented-nuclei-considerations">Fragmented Nuclei Considerations</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ao_basis_set.html">Designing the AOBasisSet Component</a><ul>
@@ -161,7 +172,7 @@ familiar to quantum chemists (which we put in the physics sublibrary).</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../architecture.html" class="btn btn-neutral float-left" title="Architecture of Chemist" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="molecule.html" class="btn btn-neutral float-right" title="Molecule Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="nucleus.html" class="btn btn-neutral float-right" title="Designing the Nucleus Component" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -103,6 +103,18 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#af972b103903110d28579954d41b46da7">const_center_reference</a> = <a class="el" href="classchemist_1_1PointView2.html">PointView2</a>&lt; const <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#a42b18d4564a0b279348b5f6581706c9e">center_type</a> &gt;</td></tr>
 <tr class="memdesc:af972b103903110d28579954d41b46da7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to the center. <br /></td></tr>
 <tr class="separator:af972b103903110d28579954d41b46da7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae939bfeaa329f2e3b5b7439455f947dc"><td class="memItemLeft" align="right" valign="top"><a id="ae939bfeaa329f2e3b5b7439455f947dc"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#ae939bfeaa329f2e3b5b7439455f947dc">coord_type</a> = typename <a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">center_type::coord_type</a></td></tr>
+<tr class="memdesc:ae939bfeaa329f2e3b5b7439455f947dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Floating point type used for storing the center's coordinates. <br /></td></tr>
+<tr class="separator:ae939bfeaa329f2e3b5b7439455f947dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accfbf53fbf1cbbf171935144a7eb04d0"><td class="memItemLeft" align="right" valign="top"><a id="accfbf53fbf1cbbf171935144a7eb04d0"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#accfbf53fbf1cbbf171935144a7eb04d0">coord_reference</a> = typename <a class="el" href="classchemist_1_1Point.html#aaac2b59400d7eb45d075f0eb2b2827ec">center_type::coord_reference</a></td></tr>
+<tr class="memdesc:accfbf53fbf1cbbf171935144a7eb04d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a reference to a mutable coordinate. <br /></td></tr>
+<tr class="separator:accfbf53fbf1cbbf171935144a7eb04d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa658ef2e3dbe2e09c645f35c2e719273"><td class="memItemLeft" align="right" valign="top"><a id="aa658ef2e3dbe2e09c645f35c2e719273"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#aa658ef2e3dbe2e09c645f35c2e719273">const_coord_reference</a> = typename <a class="el" href="classchemist_1_1Point.html#ad7eebd0fcd90d39c2211bbb7fec9f9b9">center_type::const_coord_reference</a></td></tr>
+<tr class="memdesc:aa658ef2e3dbe2e09c645f35c2e719273"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a reference to a read-only coordinate. <br /></td></tr>
+<tr class="separator:aa658ef2e3dbe2e09c645f35c2e719273"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a372d02dfa80586cd32e954f13285f961"><td class="memItemLeft" align="right" valign="top"><a id="a372d02dfa80586cd32e954f13285f961"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#a372d02dfa80586cd32e954f13285f961">coefficient_type</a> = T</td></tr>
 <tr class="memdesc:a372d02dfa80586cd32e954f13285f961"><td class="mdescLeft">&#160;</td><td class="mdescRight">Floating-point type used to hold the coefficient. <br /></td></tr>
@@ -149,9 +161,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1ec14c0dfb83592487b6c429c42d9448"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#a1ec14c0dfb83592487b6c429c42d9448">Primitive</a> () noexcept</td></tr>
 <tr class="memdesc:a1ec14c0dfb83592487b6c429c42d9448"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new null <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html" title="Models a Gaussian Primitive by value.">Primitive</a> instance.  <a href="classchemist_1_1basis__set_1_1Primitive.html#a1ec14c0dfb83592487b6c429c42d9448">More...</a><br /></td></tr>
 <tr class="separator:a1ec14c0dfb83592487b6c429c42d9448"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d06b5e2714f4185c3a91e7773f33aba"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#a3d06b5e2714f4185c3a91e7773f33aba">Primitive</a> (<a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#a372d02dfa80586cd32e954f13285f961">coefficient_type</a> coef, <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#a2f1c6222b295fd6ee1e9bc2441f771ad">exponent_type</a> exp, typename <a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">center_type::coord_type</a> x, typename <a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">center_type::coord_type</a> y, typename <a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">center_type::coord_type</a> z)</td></tr>
-<tr class="memdesc:a3d06b5e2714f4185c3a91e7773f33aba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html" title="Models a Gaussian Primitive by value.">Primitive</a> with the specified parameters.  <a href="classchemist_1_1basis__set_1_1Primitive.html#a3d06b5e2714f4185c3a91e7773f33aba">More...</a><br /></td></tr>
-<tr class="separator:a3d06b5e2714f4185c3a91e7773f33aba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69e5e0878b8db77a35fece7ee35d6cdd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#a69e5e0878b8db77a35fece7ee35d6cdd">Primitive</a> (<a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#a372d02dfa80586cd32e954f13285f961">coefficient_type</a> coef, <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#a2f1c6222b295fd6ee1e9bc2441f771ad">exponent_type</a> exp, <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#ae939bfeaa329f2e3b5b7439455f947dc">coord_type</a> x, <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#ae939bfeaa329f2e3b5b7439455f947dc">coord_type</a> y, <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#ae939bfeaa329f2e3b5b7439455f947dc">coord_type</a> z)</td></tr>
+<tr class="memdesc:a69e5e0878b8db77a35fece7ee35d6cdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html" title="Models a Gaussian Primitive by value.">Primitive</a> with the specified parameters.  <a href="classchemist_1_1basis__set_1_1Primitive.html#a69e5e0878b8db77a35fece7ee35d6cdd">More...</a><br /></td></tr>
+<tr class="separator:a69e5e0878b8db77a35fece7ee35d6cdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcff6bb8c7592876505288bba856cf9a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#afcff6bb8c7592876505288bba856cf9a">Primitive</a> (<a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#a372d02dfa80586cd32e954f13285f961">coefficient_type</a> coef, <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#a2f1c6222b295fd6ee1e9bc2441f771ad">exponent_type</a> exp, <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#a42b18d4564a0b279348b5f6581706c9e">center_type</a> r0)</td></tr>
 <tr class="memdesc:afcff6bb8c7592876505288bba856cf9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html" title="Models a Gaussian Primitive by value.">Primitive</a> with the specified parameters.  <a href="classchemist_1_1basis__set_1_1Primitive.html#afcff6bb8c7592876505288bba856cf9a">More...</a><br /></td></tr>
 <tr class="separator:afcff6bb8c7592876505288bba856cf9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -259,8 +271,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a3d06b5e2714f4185c3a91e7773f33aba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d06b5e2714f4185c3a91e7773f33aba">&#9670;&nbsp;</a></span>Primitive() <span class="overload">[2/5]</span></h2>
+<a id="a69e5e0878b8db77a35fece7ee35d6cdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69e5e0878b8db77a35fece7ee35d6cdd">&#9670;&nbsp;</a></span>Primitive() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -282,19 +294,19 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">typename <a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">center_type::coord_type</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#ae939bfeaa329f2e3b5b7439455f947dc">coord_type</a>&#160;</td>
           <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">typename <a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">center_type::coord_type</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#ae939bfeaa329f2e3b5b7439455f947dc">coord_type</a>&#160;</td>
           <td class="paramname"><em>y</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">typename <a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">center_type::coord_type</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#ae939bfeaa329f2e3b5b7439455f947dc">coord_type</a>&#160;</td>
           <td class="paramname"><em>z</em>&#160;</td>
         </tr>
         <tr>

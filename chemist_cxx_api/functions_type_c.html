@@ -116,6 +116,7 @@ $(function() {
 , <a class="el" href="classchemist_1_1FragmentedMolecule.html#a83a718f56958f97e44036b6a21abc941">chemist::FragmentedMolecule</a>
 , <a class="el" href="classchemist_1_1Molecule.html#a7d1a39d4547a346472d8794efc88f0a5">chemist::Molecule</a>
 , <a class="el" href="classchemist_1_1Nuclei.html#a07258871e5bcaf411d51630a1c0ebb85">chemist::Nuclei</a>
+, <a class="el" href="classchemist_1_1NucleiView.html#a6c1802f1de4109a0179332d75aaf2759">chemist::NucleiView&lt; NucleiType &gt;</a>
 , <a class="el" href="classchemist_1_1Nucleus.html#aa35f7247d6f8ef47828c597cf38241a6">chemist::Nucleus</a>
 , <a class="el" href="classchemist_1_1PointCharge.html#a3089ae60e56cd7de19900867be99680d">chemist::PointCharge&lt; ScalarType &gt;</a>
 , <a class="el" href="classchemist_1_1PointChargeView.html#afa3b9eece39b0f8b200a8bc5f1bafbce">chemist::PointChargeView&lt; ChargeType &gt;</a>
@@ -212,7 +213,9 @@ $(function() {
 </li>
 <li>const_coord_reference
 : <a class="el" href="classchemist_1_1Atom.html#a7d6eadae16099917eb3f688192f42c0a">chemist::Atom</a>
-, <a class="el" href="structchemist_1_1basis__set_1_1PrimitiveTraits.html#aea51bd3af4c40560f7b088b7a310d3d7">chemist::basis_set::PrimitiveTraits&lt; PrimitiveType &gt;</a>
+, <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#aa658ef2e3dbe2e09c645f35c2e719273">chemist::basis_set::Primitive&lt; T &gt;</a>
+, <a class="el" href="structchemist_1_1basis__set_1_1PrimitiveTraits.html#a16f976f73506f6373152057332f018ec">chemist::basis_set::PrimitiveTraits&lt; PrimitiveType &gt;</a>
+, <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a18d161284ccf82a28d44e6dd15bf06d9">chemist::basis_set::PrimitiveView&lt; PrimitiveType &gt;</a>
 , <a class="el" href="classchemist_1_1Point.html#ad7eebd0fcd90d39c2211bbb7fec9f9b9">chemist::Point&lt; T &gt;</a>
 </li>
 <li>const_energy_reference
@@ -335,11 +338,14 @@ $(function() {
 , <a class="el" href="classchemist_1_1detail___1_1AOBasisSetPIMPL.html#a50d3bbe13a99968e0f10c7526094d7c4">chemist::detail_::AOBasisSetPIMPL&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1detail___1_1AoSElement.html#a35700c34a4769857d73b5034d6ec4e7f">chemist::detail_::AoSElement&lt; Fields &gt;</a>
 , <a class="el" href="classchemist_1_1detail___1_1AoSFacade_3_01AoSElement_3_01Fields_8_8_8_01_4_01_4.html#a6002bb81d7cd8dbde5366e8249a3fd0c">chemist::detail_::AoSFacade&lt; AoSElement&lt; Fields... &gt; &gt;</a>
+, <a class="el" href="classchemist_1_1detail___1_1NucleiSubset.html#a95404bfcc30f3f28ae775e9aaf0f065b">chemist::detail_::NucleiSubset&lt; NucleiType &gt;</a>
+, <a class="el" href="classchemist_1_1detail___1_1NucleiViewPIMPL.html#ad74caa225d680e8f905b123bee92caa5">chemist::detail_::NucleiViewPIMPL&lt; NucleiType &gt;</a>
 , <a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ac1c499453918c8626526e3efb9b195fa">chemist::detail_::PointPIMPL&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1detail___1_1PrimitivePIMPL.html#a9383b953bd06de92ad2fc835b473f7ec">chemist::detail_::PrimitivePIMPL&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1FragmentedNuclei.html#a103b5a385f221ed67b32b0efa56055a6">chemist::FragmentedNuclei</a>
 , <a class="el" href="classchemist_1_1Molecule.html#acaf286d9fb84f108d5e48dcfea849dd7">chemist::Molecule</a>
 , <a class="el" href="classchemist_1_1Nuclei.html#a6cd9fb8a857d606fc32e193bfd33c130">chemist::Nuclei</a>
+, <a class="el" href="classchemist_1_1NucleiView.html#ab2347ebc3439f2fa227e4ffd750b8b12">chemist::NucleiView&lt; NucleiType &gt;</a>
 , <a class="el" href="classchemist_1_1PointSet.html#a15272167c151b23153ed8776230fdf1a">chemist::PointSet&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1Primitive.html#a5b8dc19bae0ef5053ec2ebeb65815174">chemist::Primitive&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a9ee6f9e6eab1411f80409d815d19a6f4">chemist::set_theory::FamilyOfSets&lt; SetType &gt;</a>
@@ -386,14 +392,18 @@ $(function() {
 </li>
 <li>coord_reference
 : <a class="el" href="classchemist_1_1Atom.html#a0f3c26598dde9d9b4f437ea9066cbd19">chemist::Atom</a>
-, <a class="el" href="structchemist_1_1basis__set_1_1PrimitiveTraits.html#a354ba278bb10b56e5d57fd0db7619c90">chemist::basis_set::PrimitiveTraits&lt; PrimitiveType &gt;</a>
+, <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#accfbf53fbf1cbbf171935144a7eb04d0">chemist::basis_set::Primitive&lt; T &gt;</a>
+, <a class="el" href="structchemist_1_1basis__set_1_1PrimitiveTraits.html#addcb4cbe0296b58b1317d8eee6fd4d8e">chemist::basis_set::PrimitiveTraits&lt; PrimitiveType &gt;</a>
+, <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a3ce4d96b8b6a830bfc1c1dbc9eaa671d">chemist::basis_set::PrimitiveView&lt; PrimitiveType &gt;</a>
 , <a class="el" href="classchemist_1_1Point.html#aaac2b59400d7eb45d075f0eb2b2827ec">chemist::Point&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1PointChargeView.html#a39ecce392bca8d5e5422d6531008a4ff">chemist::PointChargeView&lt; ChargeType &gt;</a>
 , <a class="el" href="classchemist_1_1PointView2.html#a03e852be5e3cc7b7a61cb2c5eb56207c">chemist::PointView2&lt; PointType &gt;</a>
 </li>
 <li>coord_type
 : <a class="el" href="classchemist_1_1Atom.html#a26e57dccca0d7c6ccb56b3e94d1f2b4b">chemist::Atom</a>
-, <a class="el" href="structchemist_1_1basis__set_1_1PrimitiveTraits.html#ac9a70cca1ffeb2068939dd44cfc28a73">chemist::basis_set::PrimitiveTraits&lt; PrimitiveType &gt;</a>
+, <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#ae939bfeaa329f2e3b5b7439455f947dc">chemist::basis_set::Primitive&lt; T &gt;</a>
+, <a class="el" href="structchemist_1_1basis__set_1_1PrimitiveTraits.html#a03a947b48c865443c4210644343f1e99">chemist::basis_set::PrimitiveTraits&lt; PrimitiveType &gt;</a>
+, <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a94a2476aa35b9881246d5a0112b8abb1">chemist::basis_set::PrimitiveView&lt; PrimitiveType &gt;</a>
 , <a class="el" href="classchemist_1_1Charges.html#a0bf7f41e0f8a816e3653951853ceb879">chemist::Charges&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1Nucleus.html#a1ec930425c456f26f8eba064bccf6fef">chemist::Nucleus</a>
 , <a class="el" href="classchemist_1_1NucleusView.html#a226448e1a2b8408a77369a420516a521">chemist::NucleusView&lt; NucleusType &gt;</a>

@@ -106,6 +106,18 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#ac0d653b5583af31dd95d6ecdb39bb2cd">const_center_reference</a> = <a class="el" href="classchemist_1_1PointView2.html">PointView2</a>&lt; const <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a98fbc93d24a440c322d679c65c732b42">center_type</a> &gt;</td></tr>
 <tr class="memdesc:ac0d653b5583af31dd95d6ecdb39bb2cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to the center. <br /></td></tr>
 <tr class="separator:ac0d653b5583af31dd95d6ecdb39bb2cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94a2476aa35b9881246d5a0112b8abb1"><td class="memItemLeft" align="right" valign="top"><a id="a94a2476aa35b9881246d5a0112b8abb1"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a94a2476aa35b9881246d5a0112b8abb1">coord_type</a> = typename center_type::coord_type</td></tr>
+<tr class="memdesc:a94a2476aa35b9881246d5a0112b8abb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Floating point type used for storing the center's coordinates. <br /></td></tr>
+<tr class="separator:a94a2476aa35b9881246d5a0112b8abb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ce4d96b8b6a830bfc1c1dbc9eaa671d"><td class="memItemLeft" align="right" valign="top"><a id="a3ce4d96b8b6a830bfc1c1dbc9eaa671d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a3ce4d96b8b6a830bfc1c1dbc9eaa671d">coord_reference</a> = typename center_type::coord_reference</td></tr>
+<tr class="memdesc:a3ce4d96b8b6a830bfc1c1dbc9eaa671d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a reference to a mutable coordinate. <br /></td></tr>
+<tr class="separator:a3ce4d96b8b6a830bfc1c1dbc9eaa671d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18d161284ccf82a28d44e6dd15bf06d9"><td class="memItemLeft" align="right" valign="top"><a id="a18d161284ccf82a28d44e6dd15bf06d9"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a18d161284ccf82a28d44e6dd15bf06d9">const_coord_reference</a> = typename center_type::const_coord_reference</td></tr>
+<tr class="memdesc:a18d161284ccf82a28d44e6dd15bf06d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a reference to a read-only coordinate. <br /></td></tr>
+<tr class="separator:a18d161284ccf82a28d44e6dd15bf06d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2cf9a676801e3dcd3c3e6d7b539985fa"><td class="memItemLeft" align="right" valign="top"><a id="a2cf9a676801e3dcd3c3e6d7b539985fa"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a2cf9a676801e3dcd3c3e6d7b539985fa">coefficient_type</a> = typename primitive_type::coefficient_type</td></tr>
 <tr class="memdesc:a2cf9a676801e3dcd3c3e6d7b539985fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Floating-point type used to hold coefficient. <br /></td></tr>
@@ -149,9 +161,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a43711c5cc195dd7d1cb039f5cd68cdf6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a43711c5cc195dd7d1cb039f5cd68cdf6">PrimitiveView</a> (<a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a4d7381ae2470ca3a965d27d16316c143">coefficient_reference</a> coef, <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#afdd3458ba704317e147dfee0732ae7be">exponent_reference</a> exp, typename center_type::coord_reference x, typename center_type::coord_reference y, typename center_type::coord_reference z) noexcept</td></tr>
-<tr class="memdesc:a43711c5cc195dd7d1cb039f5cd68cdf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html" title="Models a reference to a Gaussian Primitive.">PrimitiveView</a> that aliases the provided <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html" title="Models a Gaussian Primitive by value.">Primitive</a>.  <a href="classchemist_1_1basis__set_1_1PrimitiveView.html#a43711c5cc195dd7d1cb039f5cd68cdf6">More...</a><br /></td></tr>
-<tr class="separator:a43711c5cc195dd7d1cb039f5cd68cdf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a092271b59ac8853050922f67f08f67b3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a092271b59ac8853050922f67f08f67b3">PrimitiveView</a> (<a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a4d7381ae2470ca3a965d27d16316c143">coefficient_reference</a> coef, <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#afdd3458ba704317e147dfee0732ae7be">exponent_reference</a> exp, <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a3ce4d96b8b6a830bfc1c1dbc9eaa671d">coord_reference</a> x, <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a3ce4d96b8b6a830bfc1c1dbc9eaa671d">coord_reference</a> y, <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a3ce4d96b8b6a830bfc1c1dbc9eaa671d">coord_reference</a> z) noexcept</td></tr>
+<tr class="memdesc:a092271b59ac8853050922f67f08f67b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html" title="Models a reference to a Gaussian Primitive.">PrimitiveView</a> that aliases the provided <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html" title="Models a Gaussian Primitive by value.">Primitive</a>.  <a href="classchemist_1_1basis__set_1_1PrimitiveView.html#a092271b59ac8853050922f67f08f67b3">More...</a><br /></td></tr>
+<tr class="separator:a092271b59ac8853050922f67f08f67b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4797a71890a2dbd46a9fbc5b8dece9e3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a4797a71890a2dbd46a9fbc5b8dece9e3">PrimitiveView</a> (<a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a4d7381ae2470ca3a965d27d16316c143">coefficient_reference</a> coef, <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#afdd3458ba704317e147dfee0732ae7be">exponent_reference</a> exp, <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a30d2f749044fcec0bb5ce2ae6d0852e3">center_reference</a> <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#afa7b6973567283ef94bf9cbf31864a33">center</a>) noexcept</td></tr>
 <tr class="memdesc:a4797a71890a2dbd46a9fbc5b8dece9e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html" title="Models a reference to a Gaussian Primitive.">PrimitiveView</a> that aliases the provided <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html" title="Models a Gaussian Primitive by value.">Primitive</a>.  <a href="classchemist_1_1basis__set_1_1PrimitiveView.html#a4797a71890a2dbd46a9fbc5b8dece9e3">More...</a><br /></td></tr>
 <tr class="separator:a4797a71890a2dbd46a9fbc5b8dece9e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -228,8 +240,8 @@ class chemist::basis_set::PrimitiveView&lt; PrimitiveType &gt;</h3>
   </dd>
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a43711c5cc195dd7d1cb039f5cd68cdf6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a43711c5cc195dd7d1cb039f5cd68cdf6">&#9670;&nbsp;</a></span>PrimitiveView() <span class="overload">[1/4]</span></h2>
+<a id="a092271b59ac8853050922f67f08f67b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a092271b59ac8853050922f67f08f67b3">&#9670;&nbsp;</a></span>PrimitiveView() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -254,19 +266,19 @@ template&lt;typename PrimitiveType &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">typename center_type::coord_reference&#160;</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a3ce4d96b8b6a830bfc1c1dbc9eaa671d">coord_reference</a>&#160;</td>
           <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">typename center_type::coord_reference&#160;</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a3ce4d96b8b6a830bfc1c1dbc9eaa671d">coord_reference</a>&#160;</td>
           <td class="paramname"><em>y</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">typename center_type::coord_reference&#160;</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a3ce4d96b8b6a830bfc1c1dbc9eaa671d">coord_reference</a>&#160;</td>
           <td class="paramname"><em>z</em>&#160;</td>
         </tr>
         <tr>

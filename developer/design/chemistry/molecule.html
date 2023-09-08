@@ -20,8 +20,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Chemical System Design" href="system.html" />
-    <link rel="prev" title="Designing the Chemistry Sublibrary" href="index.html" /> 
+    <link rel="next" title="Designing the FragmentedMolecule Class" href="fragmented_molecule.html" />
+    <link rel="prev" title="Designing the CapSet Class" href="caps.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -211,11 +211,11 @@ have opted to store the topology in a different class as well (the
 <h2>Overview of Molecule Design<a class="headerlink" href="#overview-of-molecule-design" title="Permalink to this heading"></a></h2>
 <div class="figure align-center" id="id2">
 <span id="fig-molecule-design"></span><img alt="../../../_images/molecule.png" src="../../../_images/molecule.png" />
-<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">Major pieces of the molecule component of Chemist.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
+<p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">Major pieces of the molecule component of Chemist.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
 </div>
 <p>Subject to the considerations raised in <a class="reference internal" href="#molecule-considerations"><span class="std std-ref">Molecule Considerations</span></a>, the
 overall design of the molecule component is shown in
-<a class="reference internal" href="#fig-molecule-design"><span class="std std-numref">Fig. 1</span></a>. The component is comprised of two related
+<a class="reference internal" href="#fig-molecule-design"><span class="std std-numref">Fig. 4</span></a>. The component is comprised of two related
 class hierarchies. The point hierarchy describes the individual descretized
 units of the system, whereas the point-set hierarchy represents the overall
 set of descretized units.</p>
@@ -255,29 +255,13 @@ nuclei or actual point charges.</p></li>
 </div>
 <div class="section" id="nucleus-class">
 <h4>Nucleus Class<a class="headerlink" href="#nucleus-class" title="Permalink to this heading"></a></h4>
+<p>Main discussion: <a class="reference internal" href="nucleus.html#designing-the-nucleus-component"><span class="std std-ref">Designing the Nucleus Component</span></a>.</p>
 <p>Quantum chemistry overwhelming views nuclei as massive point-charges. The
 <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class adds mass and atomic number to the <code class="docutils literal notranslate"><span class="pre">PointCharge</span></code> base
 class. In practice, given consideration <a class="reference internal" href="#md-quantum-electrons"><span class="std std-ref">Quantum electrons.</span></a>, we
 expect <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> objects to be the descretization of the <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> class,
 and thus much of the state of <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> will be tied up in <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code>
-objects. There are a couple points to note about the design:</p>
-<ul class="simple">
-<li><p>Despite inheriting charge from the base class, and despite the fact that (in
-atomic units) the charge is usually the same as the atomic number, we have
-also added the atomic number. At the very least separating the two provides
-different methods for retrieving the value as a <code class="docutils literal notranslate"><span class="pre">double</span></code> vs.
-<code class="docutils literal notranslate"><span class="pre">std::size_t</span></code>. Another potential reason was alluded to by the parenthetical,
-namely the equality between atomic number and charge is only true in atomic
-units. If we add unit literals (as planned), the charge depends on the unit,
-but the atomic number does not.</p></li>
-<li><p>We opted to have <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> add BOTH mass and atomic number to avoid
-multiple inheritance. Arguably, inheriting from <code class="docutils literal notranslate"><span class="pre">PointCharge</span></code> and
-a <code class="docutils literal notranslate"><span class="pre">PointMass</span></code> class would have better symmetry in the sense that each
-class would add only one property; however, since in atomic units the
-electron has a mass of 1, the only point masses we routinely need
-the mass of are nuclei. Hence we could not justify the extra class at
-this time.</p></li>
-</ul>
+objects.</p>
 </div>
 <div class="section" id="atom-class">
 <h4>Atom Class<a class="headerlink" href="#atom-class" title="Permalink to this heading"></a></h4>
@@ -405,8 +389,8 @@ mechanically.</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Designing the Chemistry Sublibrary" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="system.html" class="btn btn-neutral float-right" title="Chemical System Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="caps.html" class="btn btn-neutral float-left" title="Designing the CapSet Class" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="fragmented_molecule.html" class="btn btn-neutral float-right" title="Designing the FragmentedMolecule Class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

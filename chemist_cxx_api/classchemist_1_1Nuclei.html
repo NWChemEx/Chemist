@@ -109,8 +109,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Nuclei.html#a6cd9fb8a857d606fc32e193bfd33c130">const_reference</a> = <a class="el" href="classchemist_1_1NucleusView.html">NucleusView</a>&lt; const <a class="el" href="classchemist_1_1Nuclei.html#a734e0d9234c2b6ab8bbe2ae3807bf493">value_type</a> &gt;</td></tr>
 <tr class="memdesc:a6cd9fb8a857d606fc32e193bfd33c130"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only reference to an element. <br /></td></tr>
 <tr class="separator:a6cd9fb8a857d606fc32e193bfd33c130"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07258871e5bcaf411d51630a1c0ebb85"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Nuclei.html#a07258871e5bcaf411d51630a1c0ebb85">charge_type</a> = typename <a class="el" href="classchemist_1_1Nucleus.html#aa35f7247d6f8ef47828c597cf38241a6">value_type::charge_type</a></td></tr>
-<tr class="memdesc:a07258871e5bcaf411d51630a1c0ebb85"><td class="mdescLeft">&#160;</td><td class="mdescRight">&ndash; <a class="el" href="classchemist_1_1PointCharge.html" title="Models a point charge.">PointCharge</a> types ------------------------------------------------&mdash;  <a href="classchemist_1_1Nuclei.html#a07258871e5bcaf411d51630a1c0ebb85">More...</a><br /></td></tr>
+<tr class="memitem:a07258871e5bcaf411d51630a1c0ebb85"><td class="memItemLeft" align="right" valign="top"><a id="a07258871e5bcaf411d51630a1c0ebb85"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Nuclei.html#a07258871e5bcaf411d51630a1c0ebb85">charge_type</a> = typename <a class="el" href="classchemist_1_1Nucleus.html#aa35f7247d6f8ef47828c597cf38241a6">value_type::charge_type</a></td></tr>
+<tr class="memdesc:a07258871e5bcaf411d51630a1c0ebb85"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type used to store the charge. <br /></td></tr>
 <tr class="separator:a07258871e5bcaf411d51630a1c0ebb85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7883ab0f3e568afa27d3e58ddd29ecc7"><td class="memItemLeft" align="right" valign="top"><a id="a7883ab0f3e568afa27d3e58ddd29ecc7"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Nuclei.html#a7883ab0f3e568afa27d3e58ddd29ecc7">charge_set_type</a> = <a class="el" href="classchemist_1_1Charges.html">Charges</a>&lt; <a class="el" href="classchemist_1_1Nuclei.html#a07258871e5bcaf411d51630a1c0ebb85">charge_type</a> &gt;</td></tr>
@@ -165,32 +166,14 @@ Public Member Functions</h2></td></tr>
 Related Functions</h2></td></tr>
 <tr><td class="ititle" colspan="2"><p>(Note that these are not member functions.) </p>
 </td></tr>
-<tr class="memitem:af0cd0a7e7643752e79cbd40c40e02441"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Nuclei.html#af0cd0a7e7643752e79cbd40c40e02441">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classchemist_1_1Nuclei.html">Nuclei</a> &amp;nukes)</td></tr>
-<tr class="memdesc:af0cd0a7e7643752e79cbd40c40e02441"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloads the stream insertion operator so that nuclei can be printed.  <a href="classchemist_1_1Nuclei.html#af0cd0a7e7643752e79cbd40c40e02441">More...</a><br /></td></tr>
-<tr class="separator:af0cd0a7e7643752e79cbd40c40e02441"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00a2076a106a361ffc1a66617eead7f8"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Nuclei.html#a00a2076a106a361ffc1a66617eead7f8">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classchemist_1_1Nuclei.html">Nuclei</a> &amp;nuclei)</td></tr>
+<tr class="memdesc:a00a2076a106a361ffc1a66617eead7f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloads the stream insertion operator so that nuclei can be printed.  <a href="classchemist_1_1Nuclei.html#a00a2076a106a361ffc1a66617eead7f8">More...</a><br /></td></tr>
+<tr class="separator:a00a2076a106a361ffc1a66617eead7f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a container of <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a> objects. </p>
 <p>Conceptually the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> class behaves like a std::vector&lt;Nucleus&lt;T&gt;&gt;; however, the backend involves a fair amount of redirection for performance reasons. </p>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a07258871e5bcaf411d51630a1c0ebb85"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07258871e5bcaf411d51630a1c0ebb85">&#9670;&nbsp;</a></span>charge_type</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="classchemist_1_1Nuclei.html#a07258871e5bcaf411d51630a1c0ebb85">chemist::Nuclei::charge_type</a> =  typename <a class="el" href="classchemist_1_1Nucleus.html#aa35f7247d6f8ef47828c597cf38241a6">value_type::charge_type</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>&ndash; <a class="el" href="classchemist_1_1PointCharge.html" title="Models a point charge.">PointCharge</a> types ------------------------------------------------&mdash; </p>
-<p>The type used to store the charge </p>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a963ec064e0b5e66b7bc033dbf2ee6f1a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a963ec064e0b5e66b7bc033dbf2ee6f1a">&#9670;&nbsp;</a></span>Nuclei() <span class="overload">[1/4]</span></h2>
 
@@ -506,8 +489,8 @@ template&lt;typename Archive &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a id="af0cd0a7e7643752e79cbd40c40e02441"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0cd0a7e7643752e79cbd40c40e02441">&#9670;&nbsp;</a></span>operator&lt;&lt;()</h2>
+<a id="a00a2076a106a361ffc1a66617eead7f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00a2076a106a361ffc1a66617eead7f8">&#9670;&nbsp;</a></span>operator&lt;&lt;()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -525,7 +508,7 @@ template&lt;typename Archive &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="classchemist_1_1Nuclei.html">Nuclei</a> &amp;&#160;</td>
-          <td class="paramname"><em>nukes</em>&#160;</td>
+          <td class="paramname"><em>nuclei</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -544,7 +527,7 @@ template&lt;typename Archive &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">os</td><td>The ostream instance to write to. </td></tr>
-    <tr><td class="paramname">nukes</td><td>The <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> instance to write to the stream. </td></tr>
+    <tr><td class="paramname">nuclei</td><td>The <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> instance to write to the stream. </td></tr>
   </table>
   </dd>
 </dl>

@@ -1,12 +1,14 @@
 var searchData=
 [
-  ['gauge_5forigin_246',['gauge_origin',['../classchemist_1_1operators_1_1Multipole.html#a535bc7b731e439d59863cc047da2c0b0',1,'chemist::operators::Multipole::gauge_origin() const'],['../classchemist_1_1operators_1_1Multipole.html#a5a884db2b366c59686b8b873b2440ac5',1,'chemist::operators::Multipole::gauge_origin()']]],
-  ['gaugetype_247',['GaugeType',['../namespacechemist.html#a337d35ce75b252c07113b9f6d74b0c19',1,'chemist']]],
-  ['get_5fanchor_5findex_248',['get_anchor_index',['../classchemist_1_1Cap.html#adfac7f29b44942572c31a38b2eae6a90',1,'chemist::Cap']]],
-  ['get_5fconst_5freturn_5ftype_249',['get_const_return_type',['../classchemist_1_1operators_1_1detail___1_1LinearCombination.html#a3a96579a5790cba61d9678a0b781188f',1,'chemist::operators::detail_::LinearCombination']]],
-  ['get_5felem_5fi_250',['get_elem_i',['../structchemist_1_1set__theory_1_1SetTraits.html#a768a6337d839f4e758fe927ed6f23c89',1,'chemist::set_theory::SetTraits']]],
-  ['get_5findex_251',['get_index',['../structchemist_1_1set__theory_1_1SetTraits.html#a156354195fe313278c929f0ec3472496',1,'chemist::set_theory::SetTraits']]],
-  ['get_5freplaced_5findex_252',['get_replaced_index',['../classchemist_1_1Cap.html#a17b3404de2d14e6b032b19a97f1aa244',1,'chemist::Cap']]],
-  ['get_5freturn_5ftype_253',['get_return_type',['../classchemist_1_1operators_1_1detail___1_1LinearCombination.html#af31f8ae4f25b0a5c3acc9f521cfc428c',1,'chemist::operators::detail_::LinearCombination']]],
-  ['get_5fterms_254',['get_terms',['../classchemist_1_1operators_1_1detail___1_1LinearCombinationPIMPL.html#aae64a99a8fe8146d0486dc8a775cd961',1,'chemist::operators::detail_::LinearCombinationPIMPL::get_terms()'],['../classchemist_1_1operators_1_1detail___1_1LinearCombination.html#a9cd93dedc3da24fd988e1b639c4ce05a',1,'chemist::operators::detail_::LinearCombination::get_terms()']]]
+  ['gauge_5forigin_247',['gauge_origin',['../classchemist_1_1operators_1_1Multipole.html#a5a884db2b366c59686b8b873b2440ac5',1,'chemist::operators::Multipole::gauge_origin()'],['../classchemist_1_1operators_1_1Multipole.html#a535bc7b731e439d59863cc047da2c0b0',1,'chemist::operators::Multipole::gauge_origin() const']]],
+  ['gaugetype_248',['GaugeType',['../namespacechemist.html#a337d35ce75b252c07113b9f6d74b0c19',1,'chemist']]],
+  ['get_5fanchor_5findex_249',['get_anchor_index',['../classchemist_1_1Cap.html#adfac7f29b44942572c31a38b2eae6a90',1,'chemist::Cap']]],
+  ['get_5fconst_5freturn_5ftype_250',['get_const_return_type',['../classchemist_1_1operators_1_1detail___1_1LinearCombination.html#a3a96579a5790cba61d9678a0b781188f',1,'chemist::operators::detail_::LinearCombination']]],
+  ['get_5felem_5fi_251',['get_elem_i',['../structchemist_1_1set__theory_1_1SetTraits.html#a768a6337d839f4e758fe927ed6f23c89',1,'chemist::set_theory::SetTraits']]],
+  ['get_5findex_252',['get_index',['../structchemist_1_1set__theory_1_1SetTraits.html#a156354195fe313278c929f0ec3472496',1,'chemist::set_theory::SetTraits']]],
+  ['get_5fnuke_253',['get_nuke',['../classchemist_1_1detail___1_1NucleiViewPIMPL.html#abfd0d1a719da4fbc2c369284dfdc0f41',1,'chemist::detail_::NucleiViewPIMPL::get_nuke(size_type i)'],['../classchemist_1_1detail___1_1NucleiViewPIMPL.html#aa375f8b6c77f1c604231584df04bd0d0',1,'chemist::detail_::NucleiViewPIMPL::get_nuke(size_type i) const']]],
+  ['get_5fnuke_5f_254',['get_nuke_',['../classchemist_1_1detail___1_1NucleiSubset.html#afddd478ca662d37471eefd3605abe648',1,'chemist::detail_::NucleiSubset::get_nuke_(size_type i) override'],['../classchemist_1_1detail___1_1NucleiSubset.html#ad8bfc62c126c77024185832c28102485',1,'chemist::detail_::NucleiSubset::get_nuke_(size_type i) const override'],['../classchemist_1_1detail___1_1NucleiViewPIMPL.html#aed4f4867da27422fd192ad2d832f32ea',1,'chemist::detail_::NucleiViewPIMPL::get_nuke_(size_type i)=0'],['../classchemist_1_1detail___1_1NucleiViewPIMPL.html#a911f8b748bcff9168ed26e00f062e16b',1,'chemist::detail_::NucleiViewPIMPL::get_nuke_(size_type i) const =0']]],
+  ['get_5freplaced_5findex_255',['get_replaced_index',['../classchemist_1_1Cap.html#a17b3404de2d14e6b032b19a97f1aa244',1,'chemist::Cap']]],
+  ['get_5freturn_5ftype_256',['get_return_type',['../classchemist_1_1operators_1_1detail___1_1LinearCombination.html#af31f8ae4f25b0a5c3acc9f521cfc428c',1,'chemist::operators::detail_::LinearCombination']]],
+  ['get_5fterms_257',['get_terms',['../classchemist_1_1operators_1_1detail___1_1LinearCombinationPIMPL.html#aae64a99a8fe8146d0486dc8a775cd961',1,'chemist::operators::detail_::LinearCombinationPIMPL::get_terms()'],['../classchemist_1_1operators_1_1detail___1_1LinearCombination.html#a9cd93dedc3da24fd988e1b639c4ce05a',1,'chemist::operators::detail_::LinearCombination::get_terms()']]]
 ];

@@ -138,6 +138,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Nuclei.html">Nuclei</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a container of <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a> objects.  <a href="classchemist_1_1Nuclei.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows existing state to be used as if it were a <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object.  <a href="classchemist_1_1NucleiView.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Nucleus.html">Nucleus</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing the (point) nucleus of an atom.  <a href="classchemist_1_1Nucleus.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -225,6 +228,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>python_module_refere
 template&lt;typename... Args&gt; </td></tr>
 <tr class="memitem:a390acb4b5fa938f37988ad1ec2d21699"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><b>python_class_type</b> = pybind11::class_&lt; Args... &gt;</td></tr>
 <tr class="separator:a390acb4b5fa938f37988ad1ec2d21699"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a542a8fdf0c585c206b61bee9c5e1aa43"><td class="memTemplParams" colspan="2"><a id="a542a8fdf0c585c206b61bee9c5e1aa43"></a>
+template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:a542a8fdf0c585c206b61bee9c5e1aa43"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><b>python_enum_type</b> = pybind11::enum_&lt; Args... &gt;</td></tr>
+<tr class="separator:a542a8fdf0c585c206b61bee9c5e1aa43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96d048528cb7b99ed4be473f8548f361"><td class="memItemLeft" align="right" valign="top"><a id="a96d048528cb7b99ed4be473f8548f361"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>AOBasisSetD</b> = <a class="el" href="classchemist_1_1AOBasisSet.html">AOBasisSet</a>&lt; double &gt;</td></tr>
 <tr class="separator:a96d048528cb7b99ed4be473f8548f361"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -266,12 +273,45 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 <tr class="memitem:ga59bef977d0ef3e59a64fdf1dd3f148b0"><td class="memItemLeft" align="right" valign="top">
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;lhs, const <a class="el" href="classchemist_1_1Molecule.html">Molecule</a> &amp;rhs) noexcept</td></tr>
 <tr class="separator:ga59bef977d0ef3e59a64fdf1dd3f148b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a927bcdaf3d054cbf5e5d5479d204f3d3"><td class="memItemLeft" align="right" valign="top"><a id="a927bcdaf3d054cbf5e5d5479d204f3d3"></a>
-std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;os, const <a class="el" href="classchemist_1_1Nuclei.html">chemist::Nuclei</a> &amp;nukes)</td></tr>
-<tr class="separator:a927bcdaf3d054cbf5e5d5479d204f3d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad472585c406aebe2e9216d94419eaab5"><td class="memItemLeft" align="right" valign="top"><a id="ad472585c406aebe2e9216d94419eaab5"></a>
+std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;os, const <a class="el" href="classchemist_1_1Nuclei.html">chemist::Nuclei</a> &amp;nuclei)</td></tr>
+<tr class="separator:ad472585c406aebe2e9216d94419eaab5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a487ed6d292ea9df11fdae189f8064b24"><td class="memItemLeft" align="right" valign="top"><a id="a487ed6d292ea9df11fdae189f8064b24"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_ao_basis_set</b> (python_module_reference m)</td></tr>
+<tr class="separator:a487ed6d292ea9df11fdae189f8064b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6361ced629e147af79b7350b830ef060"><td class="memItemLeft" align="right" valign="top"><a id="a6361ced629e147af79b7350b830ef060"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_atomic_basis_set</b> (python_module_reference m)</td></tr>
+<tr class="separator:a6361ced629e147af79b7350b830ef060"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad36e359f750603aa3c41732a1f3aac57"><td class="memItemLeft" align="right" valign="top"><a id="ad36e359f750603aa3c41732a1f3aac57"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_atomic_basis_set_view</b> (python_module_reference m)</td></tr>
+<tr class="separator:ad36e359f750603aa3c41732a1f3aac57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e7dcaeb3956a11ff57d16f3a52c6c17"><td class="memItemLeft" align="right" valign="top"><a id="a8e7dcaeb3956a11ff57d16f3a52c6c17"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_shell</b> (python_module_reference m)</td></tr>
+<tr class="separator:a8e7dcaeb3956a11ff57d16f3a52c6c17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08ce76a8269fe34cf803abfcd0785147"><td class="memItemLeft" align="right" valign="top"><a id="a08ce76a8269fe34cf803abfcd0785147"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_shell_view</b> (python_module_reference m)</td></tr>
+<tr class="separator:a08ce76a8269fe34cf803abfcd0785147"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12fc5ea751e929ec8d4a289c5acc5ec1"><td class="memItemLeft" align="right" valign="top"><a id="a12fc5ea751e929ec8d4a289c5acc5ec1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_contracted_gaussian</b> (python_module_reference m)</td></tr>
+<tr class="separator:a12fc5ea751e929ec8d4a289c5acc5ec1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54eeb07350497662838ce9b4fabe009f"><td class="memItemLeft" align="right" valign="top"><a id="a54eeb07350497662838ce9b4fabe009f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_contracted_gaussian_view</b> (python_module_reference m)</td></tr>
+<tr class="separator:a54eeb07350497662838ce9b4fabe009f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afad85af34d2ceed07d695a1d01b6df01"><td class="memItemLeft" align="right" valign="top"><a id="afad85af34d2ceed07d695a1d01b6df01"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_primitive</b> (python_module_reference m)</td></tr>
+<tr class="separator:afad85af34d2ceed07d695a1d01b6df01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a476592a7e5090581bc7d010e20a5905d"><td class="memItemLeft" align="right" valign="top"><a id="a476592a7e5090581bc7d010e20a5905d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_primitive_view</b> (python_module_reference m)</td></tr>
+<tr class="separator:a476592a7e5090581bc7d010e20a5905d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04f69e25b34c3f959105922715ab32ea"><td class="memItemLeft" align="right" valign="top"><a id="a04f69e25b34c3f959105922715ab32ea"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_basis_set</b> (python_module_reference m)</td></tr>
+<tr class="separator:a04f69e25b34c3f959105922715ab32ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87775100fed4c5bb937171fbe95711bd"><td class="memItemLeft" align="right" valign="top"><a id="a87775100fed4c5bb937171fbe95711bd"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>export_chemical_system</b> (python_module_reference m)</td></tr>
 <tr class="separator:a87775100fed4c5bb937171fbe95711bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c5349274bcd8836a45d32ed4d715396"><td class="memItemLeft" align="right" valign="top"><a id="a9c5349274bcd8836a45d32ed4d715396"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_chemist_enums</b> (python_module_reference m)</td></tr>
+<tr class="separator:a9c5349274bcd8836a45d32ed4d715396"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a186d3bc9be37640cace919191d1feb66"><td class="memItemLeft" align="right" valign="top"><a id="a186d3bc9be37640cace919191d1feb66"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>PYBIND11_MODULE</b> (chemist, m)</td></tr>
 <tr class="separator:a186d3bc9be37640cace919191d1feb66"><td class="memSeparator" colspan="2">&#160;</td></tr>

@@ -16,8 +16,9 @@ var searchData=
   ['fragmented_5fnuclei_5ftype_239',['fragmented_nuclei_type',['../classchemist_1_1FragmentedMolecule.html#a6aed456736ea30681a13aab3f87c0c4f',1,'chemist::FragmentedMolecule']]],
   ['fragmentedmolecule_240',['FragmentedMolecule',['../classchemist_1_1FragmentedMolecule.html',1,'chemist::FragmentedMolecule'],['../classchemist_1_1FragmentedMolecule.html#ad2cb8d01598ed224f452086a61133cf6',1,'chemist::FragmentedMolecule::FragmentedMolecule()']]],
   ['fragmentednuclei_241',['FragmentedNuclei',['../classchemist_1_1FragmentedNuclei.html',1,'chemist::FragmentedNuclei'],['../classchemist_1_1FragmentedNuclei.html#a93ac374b68af22ee288ad3b68115f671',1,'chemist::FragmentedNuclei::FragmentedNuclei()=default'],['../classchemist_1_1FragmentedNuclei.html#a80f2c1c752eda2fb1d4552bdaf514b4e',1,'chemist::FragmentedNuclei::FragmentedNuclei(supersystem_type supersystem)']]],
-  ['from_5fspace_242',['from_space',['../classchemist_1_1orbital__space_1_1DerivedSpace.html#a8ffaac5e9048adcec729b03dfb5ccd25',1,'chemist::orbital_space::DerivedSpace']]],
-  ['from_5fspace_5fdata_243',['from_space_data',['../classchemist_1_1orbital__space_1_1DerivedSpace.html#a519fd760a98c22cd3b6e5fa9bdef8bbe',1,'chemist::orbital_space::DerivedSpace']]],
-  ['from_5fspace_5fptr_244',['from_space_ptr',['../classchemist_1_1orbital__space_1_1DerivedSpace.html#a5086253e719f8387ca118f667240e126',1,'chemist::orbital_space::DerivedSpace']]],
-  ['from_5fspace_5ftype_245',['from_space_type',['../classchemist_1_1orbital__space_1_1DerivedSpace.html#a2f516ba209484f595e9b9a358e3b73c2',1,'chemist::orbital_space::DerivedSpace']]]
+  ['fragmentednucleipimpl_242',['FragmentedNucleiPIMPL',['../classchemist_1_1detail___1_1FragmentedNucleiPIMPL.html',1,'chemist::detail_']]],
+  ['from_5fspace_243',['from_space',['../classchemist_1_1orbital__space_1_1DerivedSpace.html#a8ffaac5e9048adcec729b03dfb5ccd25',1,'chemist::orbital_space::DerivedSpace']]],
+  ['from_5fspace_5fdata_244',['from_space_data',['../classchemist_1_1orbital__space_1_1DerivedSpace.html#a519fd760a98c22cd3b6e5fa9bdef8bbe',1,'chemist::orbital_space::DerivedSpace']]],
+  ['from_5fspace_5fptr_245',['from_space_ptr',['../classchemist_1_1orbital__space_1_1DerivedSpace.html#a5086253e719f8387ca118f667240e126',1,'chemist::orbital_space::DerivedSpace']]],
+  ['from_5fspace_5ftype_246',['from_space_type',['../classchemist_1_1orbital__space_1_1DerivedSpace.html#a2f516ba209484f595e9b9a358e3b73c2',1,'chemist::orbital_space::DerivedSpace']]]
 ];
