@@ -22,11 +22,11 @@ using namespace chemist;
 TEST_CASE("FragmentedNuclei") {
     FragmentedNuclei defaulted;
     FragmentedNuclei empty(chemist::Nuclei{});
-    Nuclei nukes;
-    nukes.push_back(Nuclei::value_type("H", 1ul, 1.0, 0.0, 0.0, 0.0, 1.0));
-    nukes.push_back(Nuclei::value_type("He", 2ul, 4.0, 1.0, 2.0, 3.0, 2.0));
-    nukes.push_back(Nuclei::value_type("C", 6ul, 12.0, 4.0, 5.0, 6.0, 6.0));
-    FragmentedNuclei full(nukes);
+    Nuclei nuclei;
+    nuclei.push_back(Nuclei::value_type("H", 1ul, 1.0, 0.0, 0.0, 0.0, 1.0));
+    nuclei.push_back(Nuclei::value_type("He", 2ul, 4.0, 1.0, 2.0, 3.0, 2.0));
+    nuclei.push_back(Nuclei::value_type("C", 6ul, 12.0, 4.0, 5.0, 6.0, 6.0));
+    FragmentedNuclei full(nuclei);
     full.add_fragment({0});
     full.add_fragment({1});
     full.add_fragment({2});
@@ -38,7 +38,7 @@ TEST_CASE("FragmentedNuclei") {
             REQUIRE(empty.supersystem() == Nuclei{});
 
             REQUIRE(full.size() == 3);
-            REQUIRE(full.supersystem() == nukes);
+            REQUIRE(full.supersystem() == nuclei);
         }
         SECTION("copy") {
             FragmentedNuclei other_defaulted(defaulted);
@@ -145,7 +145,7 @@ TEST_CASE("FragmentedNuclei") {
     SECTION("supersystem") {
         REQUIRE_THROWS_AS(defaulted.supersystem(), std::runtime_error);
         REQUIRE(empty.supersystem() == chemist::Nuclei());
-        REQUIRE(full.supersystem() == nukes);
+        REQUIRE(full.supersystem() == nuclei);
     }
 
     SECTION("comparisons") {
@@ -162,18 +162,18 @@ TEST_CASE("FragmentedNuclei") {
         REQUIRE_FALSE(empty != FragmentedNuclei(Nuclei()));
 
         // Different Nuclei objects
-        FragmentedNuclei other_nukes(nukes);
-        REQUIRE_FALSE(empty == other_nukes);
-        REQUIRE(empty != FragmentedNuclei(nukes));
+        FragmentedNuclei other_nuclei(nuclei);
+        REQUIRE_FALSE(empty == other_nuclei);
+        REQUIRE(empty != FragmentedNuclei(nuclei));
 
         // Same Nuclei objects, different sets
-        REQUIRE_FALSE(full == other_nukes);
-        REQUIRE(full != other_nukes);
+        REQUIRE_FALSE(full == other_nuclei);
+        REQUIRE(full != other_nuclei);
 
-        other_nukes.add_fragment({0});
-        other_nukes.add_fragment({1});
-        other_nukes.add_fragment({2});
-        REQUIRE(full == other_nukes);
-        REQUIRE_FALSE(full != other_nukes);
+        other_nuclei.add_fragment({0});
+        other_nuclei.add_fragment({1});
+        other_nuclei.add_fragment({2});
+        REQUIRE(full == other_nuclei);
+        REQUIRE_FALSE(full != other_nuclei);
     }
 }

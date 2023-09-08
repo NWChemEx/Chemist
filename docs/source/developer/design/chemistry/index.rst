@@ -25,10 +25,11 @@ familiar to quantum chemists (which we put in the physics sublibrary).
 .. toctree::
    :maxdepth: 2
 
+   nucleus
+   fragmented_nuclei
+   caps
    molecule
+   fragmented_molecule
    system
    fragmented_system
-   fragmented_molecule
-   caps
-   fragmented_nuclei
    ao_basis_set
