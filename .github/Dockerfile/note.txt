@@ -1,0 +1,8 @@
+# change the number below if you want to rebuild the base image
+# when make changes change "0" to "1" or "1" to "0"
+# either "0" or "1" does not carry special meaning
+# what matters is whether it gets changed
+#0
+
+# Chemist can be built using the base image of TensorWrapper, so
+# no specific dockerfiles are necessary in this directory.

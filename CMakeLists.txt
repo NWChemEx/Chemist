@@ -86,8 +86,14 @@ if("${BUILD_TESTING}")
         VERSION ${NWX_CATCH2_VERSION}
     )
     cmaize_add_tests(
-        test_chemist
+        test_unit_chemist
         SOURCE_DIR "${CXX_TEST_DIR}/unit_tests"
+        INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/src/chemist"
+        DEPENDS Catch2 chemist
+    )
+    cmaize_add_tests(
+        test_integration_chemist
+        SOURCE_DIR "${CXX_TEST_DIR}/integration_tests"
         INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/src/chemist"
         DEPENDS Catch2 chemist
     )

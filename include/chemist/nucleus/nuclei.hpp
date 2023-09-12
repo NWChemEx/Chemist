@@ -53,7 +53,7 @@ public:
     /// Read-only reference to an element
     using const_reference = NucleusView<const value_type>;
 
-    /// -- PointCharge types ---------------------------------------------------
+    // -- PointCharge types ---------------------------------------------------
 
     /// The type used to store the charge
     using charge_type = typename value_type::charge_type;
@@ -201,13 +201,13 @@ private:
  *        printed.
  *
  * @param os The ostream instance to write to.
- * @param nukes The Nuclei instance to write to the stream.
+ * @param nuclei The Nuclei instance to write to the stream.
  * @return The ostream instance containing the text representation of the
  *         nuclei.
  * @throws std::ios_base::failure if anything goes wrong while writing.  Weak
  *         throw guarantee.
  */
-std::ostream& operator<<(std::ostream& os, const Nuclei& nukes);
+std::ostream& operator<<(std::ostream& os, const Nuclei& nuclei);
 
 template<typename Archive>
 void Nuclei::save(Archive& ar) const {

@@ -169,7 +169,9 @@ subsets of ``Nuclei``. As shown in :numref:`fig_fragmented_system_design` the
 actual elements are ``NucleiView`` objects, which behave like a ``Nuclei``
 object, but do not own their state. As users create fragments from the 
 ``Nuclei`` class they add them to the ``FragmentedNuclei`` object, which tracks
-them.
+them. The ``Caps`` object is needed to deal with severed
+valencies.
+
 
 FragmentedMolecule Class
 ========================
@@ -180,8 +182,7 @@ As shown in :numref:`fig_fragmented_system_design` the ``FragmentedMolecule``
 class has three components: a ``FragmentedNuclei`` object, the caps for each
 element in the ``FragmentedNuclei`` object, and a mapping from
 the elements of the ``FragmentedNuclei`` to their respective 
-charge/multiplicities. The ``Caps`` object is needed to deal with severed
-valencies.
+charge/multiplicities. 
 
 FragmentedSystem Class
 ======================

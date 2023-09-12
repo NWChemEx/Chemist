@@ -65,12 +65,8 @@ Charge and multiplicity.
 
 Caps.
    As a direct result of the :ref:`fs_generality` consideration raised for the
-   ``FragmentedSystem`` class, the  ``FragmentedMolecule`` class must be able 
-   to handle fragmentation patterns which break covalent-bonds. The usual way
-   of dealing with severed bonds is by capping. 
-
-   - Computing caps only requires a FragmentedNuclei object (and the Nuclei)
-     object it refers back to.
+   ``FragmentedSystem`` class, the  ``FragmenteNuclei`` object may contain
+   caps. The ``FragmentedMolecule`` must be able to add electrons to the caps.
 
 .. _fm_type_dispatch:
 
@@ -101,7 +97,7 @@ Below we summarize how our design addresses the considerations raised above.
    fragment.
 
 :ref:`fm_caps`
-   The ``FragmentedMolecule`` class will contain a ``Caps`` object which
+   The ``FragmentedNuclei`` class will contain a ``Caps`` object which
    represents the broken bonds and what they are replaced with. Discussion of
    the design of the ``Caps`` class can be found 
    :ref:`designing_the_caps_class`.
