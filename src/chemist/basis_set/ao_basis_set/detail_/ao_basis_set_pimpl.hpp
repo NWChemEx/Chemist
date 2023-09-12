@@ -151,11 +151,12 @@ public:
      */
     auto at(size_type i) const {
         using reference_type = typename abs_traits::const_shell_reference;
-        std::vector<reference_type> shells(m_shells_per_center_[i]);
+        std::vector<reference_type> shells;
+        shells.reserve(m_shells_per_center_[i]);
 
         auto [shell_begin, shell_end] = shell_range(i);
         for(auto shell_i = shell_begin; shell_i < shell_end; ++shell_i) {
-            shells[shell_i] = std::move(shell(shell_i));
+            shells.emplace_back(std::move(shell(shell_i)));
         }
 
         return const_reference(m_names_[i], m_atomic_numbers_[i], center(i),
