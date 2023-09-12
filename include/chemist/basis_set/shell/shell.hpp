@@ -326,8 +326,8 @@ public:
     /** @brief Returns the location where *this is centered.
      *
      *  This method can be used to retrieve a reference to the point where *this
-     *  is centered. If *this is a null instance, this method will first 
-     *  allocate state and then return the default initialized center (which 
+     *  is centered. If *this is a null instance, this method will first
+     *  allocate state and then return the default initialized center (which
      *  will be oriented at the origin).
      *
      *  It should be noted that modifying where *this is centered, either

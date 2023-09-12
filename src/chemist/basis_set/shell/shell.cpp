@@ -104,7 +104,7 @@ typename SHELL::cg_traits::center_reference SHELL::center() {
 }
 
 template<typename CGType>
-typename SHELL::cg_traits::const_center_reference SHELL::center() const{
+typename SHELL::cg_traits::const_center_reference SHELL::center() const {
     assert_pimpl_();
     return m_pimpl_->m_cg.center();
 }
