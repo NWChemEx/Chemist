@@ -323,6 +323,35 @@ public:
      */
     const_cg_reference contracted_gaussian() const;
 
+    /** @brief Returns the location where *this is centered.
+     *
+     *  This method can be used to retrieve a reference to the point where *this
+     *  is centered. If *this is a null instance, this method will first 
+     *  allocate state and then return the default initialized center (which 
+     *  will be oriented at the origin).
+     *
+     *  It should be noted that modifying where *this is centered, either
+     *  through this method or by directly accessing any of the primitives,
+     *  changes where all primitives are centered.
+     *
+     *  @return The point in Cartesian space where *this is located.
+     *
+     *  @throw std::bad_alloc if *this is a null instance and allocating the
+     *                        PIMPL fails. Strong throw guarantee.
+     */
+    typename cg_traits::center_reference center();
+
+    /** @brief Returns the location where *this is centered.
+     *
+     *  This method is the same as the non-const version except that an error
+     *  is raised if *this is null and the resulting center is read-only.
+     *
+     *  @return A read-only reference to the point where *this is centered.
+     *
+     *  @throw std::runtime_error if *this is null. Strong throw guarantee.
+     */
+    typename cg_traits::const_center_reference center() const;
+
     /** @brief Returns the number of primitives in the contracted Gaussian.
      *
      *  Each AO in this shell is defined in terms of a single contracted

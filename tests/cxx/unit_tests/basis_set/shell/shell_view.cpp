@@ -297,6 +297,20 @@ TEMPLATE_TEST_CASE("ShellView", "", float, double) {
             REQUIRE(std::as_const(view1).contracted_gaussian() == cg);
             REQUIRE(std::as_const(const_view1).contracted_gaussian() == cg);
         }
+        SECTION("center") {
+            REQUIRE_THROWS_AS(view0.center(), std::runtime_error);
+            REQUIRE_THROWS_AS(const_view0.center(), std::runtime_error);
+            REQUIRE(view1.center() == r0);
+            REQUIRE(const_view1.center() == r0);
+        }
+        SECTION("center const") {
+            REQUIRE_THROWS_AS(std::as_const(view0).center(),
+                              std::runtime_error);
+            REQUIRE_THROWS_AS(std::as_const(const_view0).center(),
+                              std::runtime_error);
+            REQUIRE(std::as_const(view1).center() == r0);
+            REQUIRE(std::as_const(const_view1).center() == r0);
+        }
         SECTION("n_primitives") {
             REQUIRE(view0.n_primitives() == 0);
             REQUIRE(view0.n_primitives() == 0);

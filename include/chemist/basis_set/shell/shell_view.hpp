@@ -334,6 +334,26 @@ public:
      */
     const_cg_reference contracted_gaussian() const;
 
+    /** @brief Returns the location where *this is centered.
+     *
+     *  @return The point in Cartesian space where *this is located.
+     *
+     *  @throw std::runtime_error if *this is a view of a null shell. Strong
+     *                            throw guarantee.
+     */
+    typename cg_traits::center_reference center();
+
+    /** @brief Returns the location where *this is centered.
+     *
+     *  This method behaves similar to the non-const version except that the
+     *  returned reference is guaranteed to be read-only.
+     *
+     *  @return A read-only reference to the point where *this is centered.
+     *
+     *  @throw std::runtime_error if *this is null. Strong throw guarantee.
+     */
+    typename cg_traits::const_center_reference center() const;
+
     /** @brief Returns the number of primitives in the contracted Gaussian.
      *
      *  Each Shell is associated with a single contracted Gaussian, which in

@@ -68,6 +68,13 @@ def make_shell_view_test_case(shell_view_type):
             self.assertEqual(self.shell.contracted_gaussian,
                              self.cg_type([1.0], [1.0], 2.0, 3.0, 4.0))
 
+        def test_center(self):
+            self.assertEqual(self.from_shell.center,
+                             self.center_type(2.0, 3.0, 4.0))
+            self.from_shell.center = self.center_type(7.0, 8.0, 9.0)
+            self.assertEqual(self.from_shell.center, self.center)
+            self.assertEqual(self.shell.center, self.center)
+
         def test_n_primitives(self):
             self.assertEqual(self.defaulted.n_primitives(), 0)
             self.assertEqual(self.from_shell.n_primitives(), 1)

@@ -156,6 +156,17 @@ TEMPLATE_TEST_CASE("Shell", "", float, double) {
                               std::runtime_error);
             REQUIRE(std::as_const(shell1).contracted_gaussian() == cg);
         }
+        SECTION("center") {
+            REQUIRE(shell0.is_null());
+            REQUIRE(shell0.center() == center_type{});
+            REQUIRE(shell1.center() == r0);
+            REQUIRE_FALSE(shell0.is_null());
+        }
+        SECTION("center const") {
+            REQUIRE_THROWS_AS(std::as_const(shell0).center(),
+                              std::runtime_error);
+            REQUIRE(std::as_const(shell1).center() == r0);
+        }
         SECTION("n_primitives") {
             REQUIRE(shell0.n_primitives() == 0);
             REQUIRE(shell1.n_primitives() == 3);

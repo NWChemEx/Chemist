@@ -57,6 +57,9 @@ void export_shell_(const char* name, python_module_reference m) {
         "contracted_gaussian",
         [](shell_type& s) { return s.contracted_gaussian(); },
         [](shell_type& s, cg_type cg) { s.contracted_gaussian() = cg; })
+      .def_property(
+        "center", [](shell_type& s) { return s.center(); },
+        [](shell_type& s, center_type r) { s.center() = r; })
       .def("n_primitives", [](shell_type& s) { return s.n_primitives(); })
       .def("primitive",
            [](shell_type& s, size_type i) { return s.primitive(i); })

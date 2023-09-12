@@ -103,6 +103,19 @@ typename SHELL_VIEW::const_cg_reference SHELL_VIEW::contracted_gaussian()
 }
 
 template<typename ShellType>
+typename SHELL_VIEW::cg_traits::center_reference SHELL_VIEW::center() {
+    assert_non_null_();
+    return m_pimpl_->m_cg.center();
+}
+
+template<typename ShellType>
+typename SHELL_VIEW::cg_traits::const_center_reference SHELL_VIEW::center()
+  const {
+    assert_non_null_();
+    return m_pimpl_->m_cg.center();
+}
+
+template<typename ShellType>
 typename SHELL_VIEW::size_type SHELL_VIEW::n_primitives() const noexcept {
     if(is_null()) return 0;
     return m_pimpl_->m_cg.size();
