@@ -48,7 +48,7 @@ public:
 
 protected:
     /// Gives a more traditional representation than the default implementation
-    std::string as_string_impl() const override { return "k\u0302"; }
+    std::string as_string_impl() const override { return "k"; }
 };
 
 /// Type of Hartree-Fock Exchange

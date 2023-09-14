@@ -44,7 +44,7 @@ public:
 
 protected:
     /// Gives a more traditional representation than the default implementation
-    std::string as_string_impl() const override { return "δ\u0302(r₁ - r₂)"; }
+    std::string as_string_impl() const override { return "δ(r₁ - r₂)"; }
 };
 
 /// Type of an electronic Dirac Delta

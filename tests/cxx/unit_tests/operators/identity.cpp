@@ -75,5 +75,5 @@ TEMPLATE_LIST_TEST_CASE("Identity", "", type_list) {
         }
     }
 
-    SECTION("as_string") { REQUIRE(defaulted.as_string() == "Î"); }
+    SECTION("as_string") { REQUIRE(defaulted.as_string() == "I"); }
 }

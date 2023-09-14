@@ -86,7 +86,7 @@ TEST_CASE("Core Hamiltonian") {
         }
     }
 
-    SECTION("as_string") { REQUIRE(defaulted.as_string() == "Ô"); }
+    SECTION("as_string") { REQUIRE(defaulted.as_string() == "O"); }
 
     SECTION("size") {
         REQUIRE(defaulted.size() == 0);
