@@ -1,3 +1,4 @@
+#include <cassert>
 #include <cereal/archives/binary.hpp>
 #include <chemist/nucleus/nucleus.hpp>
 #include <iostream>
@@ -6,6 +7,7 @@
 
 using namespace chemist;
 namespace chemist_examples {
+
 int nucleus_example() {
     // Creating Nucleus objects using different constructors
     // Default constructor, properties are initialized to:
@@ -23,20 +25,31 @@ int nucleus_example() {
     // Accessing the properties of a Nucleus object
     // Accessing the name
     std::string n1_name = n1.name();
+    assert(n1_name == "H");
+    assert(n0.name() == "");
     // Accessing the atomic number
     std::size_t n1_Z = n1.Z();
+    assert(n1_Z == 1ul);
+    assert(n0.Z() == 0ul);
     // Accessing the mass
     double n1_mass = n1.mass();
+    assert(n1_mass == 1.0079);
+    assert(n0.mass() == 0.0);
     // Accessing the coordinates
     double n1_x = n1.x();
     double n1_y = n1.y();
     double n1_z = n1.z();
+    assert(n1_x == 0.0);
+    assert(n0_x == 0.0);
     // Accessing the charge
     double n1_charge = n1.charge();
-
+    assert(n1_charge == 1.0);
+    assert(n0_charge == 0.0);
     // Comparing Nucleus objects
-    // Since all properties are equal, n1_eq_n2 is true
-    bool n1_eq_n2 = n1 == n2;
+    // Since n0 has no state while n1 has
+    assert(n0 != n1);
+    // Since all properties are equal, n1 == n2 is true
+    assert(n1 == n2);
 
     // Modifying the properties of a Nucleus object
     // We can convert H into He (coolest fusion ever!)
@@ -50,6 +63,8 @@ int nucleus_example() {
     n1.x() = 1.0;
     n1.y() = 2.0;
     n1.z() = 3.0;
+    // Since we modified the state of n1, n1 is no longer equal to n2
+    assert(n1 != n2);
 
     // Printing a Nucleus object
     std::stringstream ss;
@@ -59,15 +74,16 @@ int nucleus_example() {
     // Serializing a Nucleus object
     std::stringstream ss2;
     {
-        cereal::BinaryOutputArchive oarchive(ss2);
-        oarchive(n1);
+        cereal::BinaryOutputArchive output_archive(ss2);
+        output_archive(n1);
     }
     // Deserializing a Nucleus object
     Nucleus n3;
     {
-        cereal::BinaryInputArchive iarchive(ss2);
-        iarchive(n3);
+        cereal::BinaryInputArchive input_archive(ss2);
+        input_archive(n3);
     }
+    assert(n1 == n3);
     return 0;
 } // nucleus_example
 } // namespace chemist_examples
