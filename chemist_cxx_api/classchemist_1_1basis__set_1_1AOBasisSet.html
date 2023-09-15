@@ -78,7 +78,7 @@ $(function() {
 <p>Models a set of atomic basis sets.  
  <a href="classchemist_1_1basis__set_1_1AOBasisSet.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="basis__set2_2ao__basis__set_2ao__basis__set_8hpp_source.html">ao_basis_set.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="ao__basis__set_8hpp_source.html">ao_basis_set.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for chemist::basis_set::AOBasisSet&lt; AtomicBasisSetType &gt;:</div>
 <div class="dyncontent">
@@ -138,9 +138,9 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a4914d543fe85bfacc6d312270bd82b31">~AOBasisSet</a> () noexcept</td></tr>
 <tr class="memdesc:a4914d543fe85bfacc6d312270bd82b31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defaulted no-throw dtor. <br /></td></tr>
 <tr class="separator:a4914d543fe85bfacc6d312270bd82b31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d30a02732715ce98d33d084fd242775"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a6d30a02732715ce98d33d084fd242775">add_center</a> (<a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a850475975a4cca9b5531bdcfffcb9c8a">value_type</a> center)</td></tr>
-<tr class="memdesc:a6d30a02732715ce98d33d084fd242775"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds an additional <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSet.html" title="Models a set of shells associated with a specific atomic center.">AtomicBasisSet</a> instance to this basis set.  <a href="classchemist_1_1basis__set_1_1AOBasisSet.html#a6d30a02732715ce98d33d084fd242775">More...</a><br /></td></tr>
-<tr class="separator:a6d30a02732715ce98d33d084fd242775"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67727ab0e3aea61a4d644e4b9a4bce52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a67727ab0e3aea61a4d644e4b9a4bce52">add_center</a> (<a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a99cddf2d216af9320c7ba0e217fed3c8">const_reference</a> center)</td></tr>
+<tr class="memdesc:a67727ab0e3aea61a4d644e4b9a4bce52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds an additional <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSet.html" title="Models a set of shells associated with a specific atomic center.">AtomicBasisSet</a> instance to this basis set.  <a href="classchemist_1_1basis__set_1_1AOBasisSet.html#a67727ab0e3aea61a4d644e4b9a4bce52">More...</a><br /></td></tr>
+<tr class="separator:a67727ab0e3aea61a4d644e4b9a4bce52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6e86c18ebd15d01b1d13001fca0b8a2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structchemist_1_1basis__set_1_1AtomicBasisSetTraits.html#acd8ecd9d672155f8605d909af697a38d">abs_traits::range_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#af6e86c18ebd15d01b1d13001fca0b8a2">shell_range</a> (<a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a4c51f36b5f3b1ae185fe8678cfce064f">size_type</a> center) const</td></tr>
 <tr class="memdesc:af6e86c18ebd15d01b1d13001fca0b8a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the range of shell indices for the requested center.  <a href="classchemist_1_1basis__set_1_1AOBasisSet.html#af6e86c18ebd15d01b1d13001fca0b8a2">More...</a><br /></td></tr>
 <tr class="separator:af6e86c18ebd15d01b1d13001fca0b8a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -312,8 +312,8 @@ template&lt;typename AtomicBasisSetType &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a6d30a02732715ce98d33d084fd242775"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d30a02732715ce98d33d084fd242775">&#9670;&nbsp;</a></span>add_center()</h2>
+<a id="a67727ab0e3aea61a4d644e4b9a4bce52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67727ab0e3aea61a4d644e4b9a4bce52">&#9670;&nbsp;</a></span>add_center()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -323,7 +323,7 @@ template&lt;typename AtomicBasisSetType &gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html">chemist::basis_set::AOBasisSet</a>&lt; AtomicBasisSetType &gt;::add_center </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a850475975a4cca9b5531bdcfffcb9c8a">value_type</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a99cddf2d216af9320c7ba0e217fed3c8">const_reference</a>&#160;</td>
           <td class="paramname"><em>center</em></td><td>)</td>
           <td></td>
         </tr>
@@ -440,7 +440,7 @@ template&lt;typename AtomicBasisSetType &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the <code>i-th</code> AO in this basis set. </p>
-<p>The AOs in this basis set are numbered such that the first <img class="formulaInl" alt="$n_{0}$" src="form_7.png"/> in this basis set's 0-th shell are numbered 0 to <img class="formulaInl" alt="$n_{0} -1$" src="form_8.png"/>. The <img class="formulaInl" alt="$n_{1}$" src="form_9.png"/> AOs in the basis set's 1-st shell are numbered <img class="formulaInl" alt="$n_0$" src="form_3.png"/> to <img class="formulaInl" alt="$n_0 + n_1 -1$" src="form_10.png"/>, etc.</p>
+<p>The AOs in this basis set are numbered such that the first <img class="formulaInl" alt="$n_{0}$" src="form_4.png"/> in this basis set's 0-th shell are numbered 0 to <img class="formulaInl" alt="$n_{0} -1$" src="form_5.png"/>. The <img class="formulaInl" alt="$n_{1}$" src="form_6.png"/> AOs in the basis set's 1-st shell are numbered <img class="formulaInl" alt="$n_0$" src="form_0.png"/> to <img class="formulaInl" alt="$n_0 + n_1 -1$" src="form_7.png"/>, etc.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The index of the requested AO. Must be in the range [0, <a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#ad292e4196e10804791e2afbae76665d0" title="Returns the total number of AOs in this basis set.">n_aos()</a>). </td></tr>
@@ -455,7 +455,7 @@ template&lt;typename AtomicBasisSetType &gt; </div>
   </dd>
 </dl>
 <p>Returns the <code>i-th</code> AO in this basis set.</p>
-<p>The AOs in this basis set are numbered such that the first <img class="formulaInl" alt="$n_{0}$" src="form_7.png"/> in this basis set's 0-th shell are numbered 0 to <img class="formulaInl" alt="$n_{0} -1$" src="form_8.png"/>. The <img class="formulaInl" alt="$n_{1}$" src="form_9.png"/> AOs in the basis set's 1-st shell are numbered <img class="formulaInl" alt="$n_0$" src="form_3.png"/> to <img class="formulaInl" alt="$n_0 + n_1 -1$" src="form_10.png"/>, etc.</p>
+<p>The AOs in this basis set are numbered such that the first <img class="formulaInl" alt="$n_{0}$" src="form_4.png"/> in this basis set's 0-th shell are numbered 0 to <img class="formulaInl" alt="$n_{0} -1$" src="form_5.png"/>. The <img class="formulaInl" alt="$n_{1}$" src="form_6.png"/> AOs in the basis set's 1-st shell are numbered <img class="formulaInl" alt="$n_0$" src="form_0.png"/> to <img class="formulaInl" alt="$n_0 + n_1 -1$" src="form_7.png"/>, etc.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The index of the requested AO. Must be in the range [0, <a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#ad292e4196e10804791e2afbae76665d0" title="Returns the total number of AOs in this basis set.">n_aos()</a>).</td></tr>
@@ -684,7 +684,7 @@ template&lt;typename AtomicBasisSetType &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the <code>i-th</code> primitive in this basis set. </p>
-<p>The primitives in this basis set are numbered such that the first <img class="formulaInl" alt="$n_{0}$" src="form_7.png"/> in this basis set's 0-th AO are numbered 0 to <img class="formulaInl" alt="$n_{0} -1$" src="form_8.png"/>. The <img class="formulaInl" alt="$n_{1}$" src="form_9.png"/> primitives in the basis set's 1-st AO are numbered <img class="formulaInl" alt="$n_0$" src="form_3.png"/> to <img class="formulaInl" alt="$n_0 + n_1 -1$" src="form_10.png"/>, etc.</p>
+<p>The primitives in this basis set are numbered such that the first <img class="formulaInl" alt="$n_{0}$" src="form_4.png"/> in this basis set's 0-th AO are numbered 0 to <img class="formulaInl" alt="$n_{0} -1$" src="form_5.png"/>. The <img class="formulaInl" alt="$n_{1}$" src="form_6.png"/> primitives in the basis set's 1-st AO are numbered <img class="formulaInl" alt="$n_0$" src="form_0.png"/> to <img class="formulaInl" alt="$n_0 + n_1 -1$" src="form_7.png"/>, etc.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The index of the requested primitive. Must be in the range [0, <a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a79add3032a6650215df2f23796fd4e5c" title="Returns the i-th AO in this basis set.">n_primitives()</a>).</td></tr>
@@ -720,7 +720,7 @@ template&lt;typename AtomicBasisSetType &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the <code>i-th</code> primitive in this basis set. </p>
-<p>The primitives in this basis set are numbered such that the first <img class="formulaInl" alt="$n_{0}$" src="form_7.png"/> in this basis set's 0-th AO are numbered 0 to <img class="formulaInl" alt="$n_{0} -1$" src="form_8.png"/>. The <img class="formulaInl" alt="$n_{1}$" src="form_9.png"/> primitives in the basis set's 1-st AO are numbered <img class="formulaInl" alt="$n_0$" src="form_3.png"/> to <img class="formulaInl" alt="$n_0 + n_1 -1$" src="form_10.png"/>, etc.</p>
+<p>The primitives in this basis set are numbered such that the first <img class="formulaInl" alt="$n_{0}$" src="form_4.png"/> in this basis set's 0-th AO are numbered 0 to <img class="formulaInl" alt="$n_{0} -1$" src="form_5.png"/>. The <img class="formulaInl" alt="$n_{1}$" src="form_6.png"/> primitives in the basis set's 1-st AO are numbered <img class="formulaInl" alt="$n_0$" src="form_0.png"/> to <img class="formulaInl" alt="$n_0 + n_1 -1$" src="form_7.png"/>, etc.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The index of the requested primitive. Must be in the range [0, <a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a79add3032a6650215df2f23796fd4e5c" title="Returns the i-th AO in this basis set.">n_primitives()</a>).</td></tr>
@@ -785,7 +785,7 @@ template&lt;typename AtomicBasisSetType &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the <code>i-th</code> shell in the basis set. </p>
-<p>Shells are numbered by flattening out the centers comprising the basis set. The <img class="formulaInl" alt="$n_0$" src="form_3.png"/> shells belonging to the 0-th center comprise shells 0 to <img class="formulaInl" alt="$n_0 -1$" src="form_4.png"/>, the <img class="formulaInl" alt="$n_1$" src="form_5.png"/> shells belonging to the 1-st center comprise shells <img class="formulaInl" alt="$n_0$" src="form_3.png"/> through <img class="formulaInl" alt="$n_0 + n_1 - 1$" src="form_6.png"/>, etc.</p>
+<p>Shells are numbered by flattening out the centers comprising the basis set. The <img class="formulaInl" alt="$n_0$" src="form_0.png"/> shells belonging to the 0-th center comprise shells 0 to <img class="formulaInl" alt="$n_0 -1$" src="form_1.png"/>, the <img class="formulaInl" alt="$n_1$" src="form_2.png"/> shells belonging to the 1-st center comprise shells <img class="formulaInl" alt="$n_0$" src="form_0.png"/> through <img class="formulaInl" alt="$n_0 + n_1 - 1$" src="form_3.png"/>, etc.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The index of the requested shell. Must be in the range [0, <a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#ac373997a43ff11519dab1d49552fe7e6" title="Returns the total number of shells in this basis set.">n_shells()</a>). </td></tr>
@@ -821,7 +821,7 @@ template&lt;typename AtomicBasisSetType &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the <code>i-th</code> shell in the basis set. </p>
-<p>Shells are numbered by flattening out the centers comprising the basis set. The <img class="formulaInl" alt="$n_0$" src="form_3.png"/> shells belonging to the 0-th center comprise shells 0 to <img class="formulaInl" alt="$n_0 -1$" src="form_4.png"/>, the <img class="formulaInl" alt="$n_1$" src="form_5.png"/> shells belonging to the 1-st center comprise shells <img class="formulaInl" alt="$n_0$" src="form_3.png"/> through <img class="formulaInl" alt="$n_0 + n_1 - 1$" src="form_6.png"/>, etc.</p>
+<p>Shells are numbered by flattening out the centers comprising the basis set. The <img class="formulaInl" alt="$n_0$" src="form_0.png"/> shells belonging to the 0-th center comprise shells 0 to <img class="formulaInl" alt="$n_0 -1$" src="form_1.png"/>, the <img class="formulaInl" alt="$n_1$" src="form_2.png"/> shells belonging to the 1-st center comprise shells <img class="formulaInl" alt="$n_0$" src="form_0.png"/> through <img class="formulaInl" alt="$n_0 + n_1 - 1$" src="form_3.png"/>, etc.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The index of the requested shell. Must be in the range [0, <a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#ac373997a43ff11519dab1d49552fe7e6" title="Returns the total number of shells in this basis set.">n_shells()</a>).</td></tr>
@@ -904,7 +904,7 @@ template&lt;typename AtomicBasisSetType &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/chemist/basis_set2/ao_basis_set/<a class="el" href="basis__set2_2ao__basis__set_2ao__basis__set_8hpp_source.html">ao_basis_set.hpp</a></li>
+<li>include/chemist/basis_set/ao_basis_set/<a class="el" href="ao__basis__set_8hpp_source.html">ao_basis_set.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['kinetic_630',['Kinetic',['../classchemist_1_1operators_1_1Kinetic.html',1,'chemist::operators']]],
-  ['kohnshamexchangecorrelation_631',['KohnShamExchangeCorrelation',['../classchemist_1_1operators_1_1KohnShamExchangeCorrelation.html',1,'chemist::operators']]]
+  ['kinetic_587',['Kinetic',['../classchemist_1_1operators_1_1Kinetic.html',1,'chemist::operators']]],
+  ['kohnshamexchangecorrelation_588',['KohnShamExchangeCorrelation',['../classchemist_1_1operators_1_1KohnShamExchangeCorrelation.html',1,'chemist::operators']]]
 ];

@@ -141,17 +141,17 @@ $(function() {
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;}</div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160; </div>
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> LHSAO, <span class="keyword">typename</span> RHSAO&gt;</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="namespacechemist.html#a330b4119afeda5d8124160d058c4c72e">operator!=</a>(<span class="keyword">const</span> AOSpace&lt;LHSAO&gt;&amp; lhs, <span class="keyword">const</span> AOSpace&lt;RHSAO&gt;&amp; rhs) {</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> operator!=(<span class="keyword">const</span> AOSpace&lt;LHSAO&gt;&amp; lhs, <span class="keyword">const</span> AOSpace&lt;RHSAO&gt;&amp; rhs) {</div>
 <div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keywordflow">return</span> !(lhs == rhs);</div>
 <div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;}</div>
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160; </div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;<span class="comment">// ------------------------------ Typedefs -------------------------------------</span></div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;<span class="keyword">using</span> AOSpaceD = AOSpace&lt;AOBasisSetD&gt;;</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;<span class="keyword">using</span> AOSpaceF = AOSpace&lt;AOBasisSetF&gt;;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;<span class="keyword">using</span> AOSpaceD = AOSpace&lt;basis_set::AOBasisSetD&gt;;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;<span class="keyword">using</span> AOSpaceF = AOSpace&lt;basis_set::AOBasisSetF&gt;;</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="comment">// ----------------- Forward Declare Explicit Instantiations -------------------</span></div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="keyword">extern</span> <span class="keyword">template</span> <span class="keyword">class </span>AOSpace&lt;AOBasisSetD&gt;;</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="keyword">extern</span> <span class="keyword">template</span> <span class="keyword">class </span>AOSpace&lt;AOBasisSetF&gt;;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="keyword">extern</span> <span class="keyword">template</span> <span class="keyword">class </span>AOSpace&lt;basis_set::AOBasisSetD&gt;;</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="keyword">extern</span> <span class="keyword">template</span> <span class="keyword">class </span>AOSpace&lt;basis_set::AOBasisSetF&gt;;</div>
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160; </div>
 <div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;} <span class="comment">// namespace chemist::orbital_space</span></div>
 <div class="ttc" id="aclasschemist_1_1orbital__space_1_1AOSpace_html"><div class="ttname"><a href="classchemist_1_1orbital__space_1_1AOSpace.html">chemist::orbital_space::AOSpace</a></div><div class="ttdoc">Models a space spanned by atomic orbitals.</div><div class="ttdef"><b>Definition:</b> ao_space.hpp:33</div></div>
@@ -171,7 +171,6 @@ $(function() {
 <div class="ttc" id="aclasschemist_1_1orbital__space_1_1BaseSpace_html"><div class="ttname"><a href="classchemist_1_1orbital__space_1_1BaseSpace.html">chemist::orbital_space::BaseSpace</a></div><div class="ttdoc">Common base class for all orbital spaces.</div><div class="ttdef"><b>Definition:</b> base_space.hpp:30</div></div>
 <div class="ttc" id="aclasschemist_1_1orbital__space_1_1BaseSpace_html_a66656ea0394c49331e62516dd38209b7"><div class="ttname"><a href="classchemist_1_1orbital__space_1_1BaseSpace.html#a66656ea0394c49331e62516dd38209b7">chemist::orbital_space::BaseSpace::size_type</a></div><div class="ttdeci">type::size size_type</div><div class="ttdoc">Type used for indexing and offsets.</div><div class="ttdef"><b>Definition:</b> base_space.hpp:33</div></div>
 <div class="ttc" id="aclasschemist_1_1orbital__space_1_1BaseSpace_html_ae450c7b1bd619d0f59fcf44d72180361"><div class="ttname"><a href="classchemist_1_1orbital__space_1_1BaseSpace.html#ae450c7b1bd619d0f59fcf44d72180361">chemist::orbital_space::BaseSpace::mode_container</a></div><div class="ttdeci">std::vector&lt; type::size &gt; mode_container</div><div class="ttdoc">Type of a container of mode indices.</div><div class="ttdef"><b>Definition:</b> base_space.hpp:101</div></div>
-<div class="ttc" id="anamespacechemist_html_a330b4119afeda5d8124160d058c4c72e"><div class="ttname"><a href="namespacechemist.html#a330b4119afeda5d8124160d058c4c72e">chemist::operator!=</a></div><div class="ttdeci">bool operator!=(const AtomicBasisSet&lt; T &gt; &amp;lhs, const AtomicBasisSet&lt; T &gt; &amp;rhs)</div><div class="ttdoc">Determines if two AtomicBasisSet instances are different.</div><div class="ttdef"><b>Definition:</b> atomic_basis_set.hpp:419</div></div>
 <div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdoc">TODO: Roll our own reference wrapper with these operations defined.</div><div class="ttdef"><b>Definition:</b> family_of_sets.hpp:24</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

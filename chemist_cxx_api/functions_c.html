@@ -91,9 +91,11 @@ $(function() {
 , <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSetView.html#ace26b6c38d0036db9f73afd1118c63c0">chemist::basis_set::AtomicBasisSetView&lt; AtomicBasisSetType &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#ab31dfd1feb62d1a8b65fb19b22f888cf">chemist::basis_set::ContractedGaussian&lt; PrimitiveType &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussianView.html#af47ee1f93864aecef876cf6c34ce4fb5">chemist::basis_set::ContractedGaussianView&lt; CGType &gt;</a>
-, <a class="el" href="classchemist_1_1basis__set_1_1detail___1_1ContractedGaussianPIMPL.html#a7aba8621bf6e7ed4823e28d0e61df853">chemist::basis_set::detail_::ContractedGaussianPIMPL&lt; PrimitiveType &gt;</a>
+, <a class="el" href="classchemist_1_1basis__set_1_1detail___1_1ContractedGaussianPIMPL.html#a67ebba3b6b776f70cb3f7c664ef9b529">chemist::basis_set::detail_::ContractedGaussianPIMPL&lt; PrimitiveType &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#a1dc08e38bd24415256ca244752fe39d7">chemist::basis_set::Primitive&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#afa7b6973567283ef94bf9cbf31864a33">chemist::basis_set::PrimitiveView&lt; PrimitiveType &gt;</a>
+, <a class="el" href="classchemist_1_1basis__set_1_1Shell.html#a70854dca75c573c0550cad0e13e83a5b">chemist::basis_set::Shell&lt; CGType &gt;</a>
+, <a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#a0e5979585d95185cc446995976886d46">chemist::basis_set::ShellView&lt; ShellType &gt;</a>
 </li>
 <li>center_reference
 : <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSetView.html#a27eb1210cb823d8b7a27fa85cb7e6e00">chemist::basis_set::AtomicBasisSetView&lt; AtomicBasisSetType &gt;</a>
@@ -120,15 +122,9 @@ $(function() {
 : <a class="el" href="classchemist_1_1basis__set_1_1Shell.html#a604835aa74736f08a71728c6305e2043">chemist::basis_set::Shell&lt; CGType &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#ae9f7f8234f0531dbfa26304483fb8901">chemist::basis_set::ShellView&lt; ShellType &gt;</a>
 </li>
-<li>cgto_set
-: <a class="el" href="classchemist_1_1detail___1_1ShellPIMPL.html#a6da76b71bee3e6ae4e77472fef2f5446">chemist::detail_::ShellPIMPL&lt; T &gt;</a>
-</li>
-<li>CGTOPIMPL()
-: <a class="el" href="classchemist_1_1detail___1_1CGTOPIMPL.html#ae232a4c2818499dc212162af4b683e7f">chemist::detail_::CGTOPIMPL&lt; T &gt;</a>
-</li>
 <li>charge()
 : <a class="el" href="classchemist_1_1ChemicalSystem.html#a3135d9236713fa9c25596cafb2a4adbb">chemist::ChemicalSystem</a>
-, <a class="el" href="classchemist_1_1FragmentedMolecule.html#a4969b073bb13bfaef5e698d59c600128">chemist::FragmentedMolecule</a>
+, <a class="el" href="classchemist_1_1FragmentedMolecule.html#ab5f58756f4f93ad8872bcaef232f379e">chemist::FragmentedMolecule</a>
 , <a class="el" href="classchemist_1_1Molecule.html#ab5c8cfd5f367fd068ff81d2fe1edcc02">chemist::Molecule</a>
 , <a class="el" href="classchemist_1_1PointCharge.html#ad3cb2d6462313575f0339af73c99b831">chemist::PointCharge&lt; ScalarType &gt;</a>
 , <a class="el" href="classchemist_1_1PointChargeView.html#a5e9137e18c72a96e76d4ee1874417379">chemist::PointChargeView&lt; ChargeType &gt;</a>
@@ -164,7 +160,7 @@ $(function() {
 : <a class="el" href="classchemist_1_1NucleusView.html#acebab4291f3476e121a7a746ddbe0cce">chemist::NucleusView&lt; NucleusType &gt;</a>
 </li>
 <li>Charges()
-: <a class="el" href="classchemist_1_1Charges.html#a0aa8814b490d0476fa1fa66fe2baaf8c">chemist::Charges&lt; T &gt;</a>
+: <a class="el" href="classchemist_1_1Charges.html#a6ae6439678ad4095416726a61443b08b">chemist::Charges&lt; T &gt;</a>
 </li>
 <li>chem_sys_t
 : <a class="el" href="classchemist_1_1detail___1_1ChemicalSystemPIMPL.html#aa1539dd3412fd813140463e8a09d2f99">chemist::detail_::ChemicalSystemPIMPL</a>
@@ -196,16 +192,11 @@ $(function() {
 , <a class="el" href="classchemist_1_1operators_1_1Hamiltonian.html#aed0a342d09215d5202a75d3e4ba71f49">chemist::operators::Hamiltonian</a>
 , <a class="el" href="classchemist_1_1operators_1_1Multipole.html#af18db7d0cf776a94080de6209421ec64">chemist::operators::Multipole&lt; L, ParticleType, Basis, Gauge &gt;</a>
 </li>
-<li>coef()
-: <a class="el" href="classchemist_1_1detail___1_1PrimitivePIMPL.html#a026122df1012312545e3c59d045fe028">chemist::detail_::PrimitivePIMPL&lt; T &gt;</a>
-</li>
 <li>coefficient()
-: <a class="el" href="classchemist_1_1basis__set_1_1detail___1_1ContractedGaussianPIMPL.html#aa73326ff1915f636133af84ae7107df2">chemist::basis_set::detail_::ContractedGaussianPIMPL&lt; PrimitiveType &gt;</a>
+: <a class="el" href="classchemist_1_1basis__set_1_1detail___1_1ContractedGaussianPIMPL.html#a093e0a8feca4d08da1810ada1a1d3fa1">chemist::basis_set::detail_::ContractedGaussianPIMPL&lt; PrimitiveType &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#ad036e4504fef2710ff7bbbfe753415db">chemist::basis_set::Primitive&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a927709d9ad32e36e3da16331acf2cf4c">chemist::basis_set::PrimitiveView&lt; PrimitiveType &gt;</a>
 , <a class="el" href="structchemist_1_1operators_1_1SlaterTypeGeminal.html#a488365ca0b0c67e2dbc53dd34933dd77">chemist::operators::SlaterTypeGeminal&lt; Particle1, Particle2 &gt;</a>
-, <a class="el" href="classchemist_1_1Primitive.html#a5c8e155aaf0997db044a0f82214175c2">chemist::Primitive&lt; T &gt;</a>
-, <a class="el" href="classchemist_1_1PrimitiveView.html#a6bccec90cda640bf6a96baf8b08e6a09">chemist::PrimitiveView&lt; T &gt;</a>
 </li>
 <li>coefficient_pointer
 : <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#ab5a65f2e1aea978bed680a1d2bf6a5ab">chemist::basis_set::Primitive&lt; T &gt;</a>
@@ -245,10 +236,6 @@ $(function() {
 <li>const_angular_momentum_reference
 : <a class="el" href="classchemist_1_1basis__set_1_1Shell.html#a491a02496763f0691a98372b1ef238d6">chemist::basis_set::Shell&lt; CGType &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#a1d49a23bb2ad551690719f8c5260cbff">chemist::basis_set::ShellView&lt; ShellType &gt;</a>
-</li>
-<li>const_ao_reference
-: <a class="el" href="classchemist_1_1AOBasisSet.html#a97c8bb9c7badd9f435ad156018e33dd6">chemist::AOBasisSet&lt; T &gt;</a>
-, <a class="el" href="classchemist_1_1AtomicBasisSet.html#a65407648090865113d872a7950638170">chemist::AtomicBasisSet&lt; T &gt;</a>
 </li>
 <li>const_atom_reference
 : <a class="el" href="classchemist_1_1Cap.html#a5c12f3a954440109a3ceebdd29e58995">chemist::Cap</a>
@@ -324,15 +311,6 @@ $(function() {
 , <a class="el" href="structchemist_1_1basis__set_1_1PrimitiveTraits.html#a672f97c5510b16afb97f79bad31cb3f1">chemist::basis_set::PrimitiveTraits&lt; PrimitiveType &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#ad54384035817500e876992c228c5b289">chemist::basis_set::PrimitiveView&lt; PrimitiveType &gt;</a>
 </li>
-<li>const_flattened_aos
-: <a class="el" href="classchemist_1_1AOBasisSet.html#ad43942c5178d2b644ea4b19a73506160">chemist::AOBasisSet&lt; T &gt;</a>
-</li>
-<li>const_flattened_primitives
-: <a class="el" href="classchemist_1_1AOBasisSet.html#aa45a34d09d477791edb75ad52ea4117f">chemist::AOBasisSet&lt; T &gt;</a>
-</li>
-<li>const_flattened_shells
-: <a class="el" href="classchemist_1_1AOBasisSet.html#a6a416c766069af64e303e93a75cca7b8">chemist::AOBasisSet&lt; T &gt;</a>
-</li>
 <li>const_fock_pointer
 : <a class="el" href="classchemist_1_1wavefunction_1_1DeterminantSpace.html#a735f27ef04dad9abc755fcb53ee01b19">chemist::wavefunction::DeterminantSpace&lt; OccupiedSpaceType, VirtualSpaceType &gt;</a>
 </li>
@@ -402,20 +380,15 @@ $(function() {
 , <a class="el" href="classchemist_1_1detail___1_1AoSFacade_3_01AoSElement_3_01Fields_8_8_8_01_4_01_4.html#a6d13abdf5ff1cc947a0fc6cfbe132c42">chemist::detail_::AoSFacade&lt; AoSElement&lt; Fields... &gt; &gt;</a>
 </li>
 <li>const_primitive_reference
-: <a class="el" href="classchemist_1_1AOBasisSet.html#ad411f84b3fa0226b9fe10ce66d0cd48e">chemist::AOBasisSet&lt; T &gt;</a>
-, <a class="el" href="classchemist_1_1AtomicBasisSet.html#a76e92cbb1618f348cad4c9b225d8fed1">chemist::AtomicBasisSet&lt; T &gt;</a>
-, <a class="el" href="structchemist_1_1basis__set_1_1ContractedGaussianTraits.html#afd3fd9cab78c16eaf6bc5d430f2424f9">chemist::basis_set::ContractedGaussianTraits&lt; CGType &gt;</a>
+: <a class="el" href="structchemist_1_1basis__set_1_1ContractedGaussianTraits.html#afd3fd9cab78c16eaf6bc5d430f2424f9">chemist::basis_set::ContractedGaussianTraits&lt; CGType &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1PrimitiveView.html#a1ff2793247158f7a5492584d6de2014f">chemist::basis_set::PrimitiveView&lt; PrimitiveType &gt;</a>
-, <a class="el" href="classchemist_1_1Shell.html#a0b9161b611c243202399565b979cc7d0">chemist::Shell&lt; T &gt;</a>
 </li>
 <li>const_pure_reference
 : <a class="el" href="classchemist_1_1basis__set_1_1Shell.html#a0c3c075ba6484aec4d9ff4e86eaabe5f">chemist::basis_set::Shell&lt; CGType &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#aa3f7077437966edef951ff5acd3bdb79">chemist::basis_set::ShellView&lt; ShellType &gt;</a>
 </li>
 <li>const_reference
-: <a class="el" href="classchemist_1_1AOBasisSet.html#aacf5fe2c9faea95e9f3614d9163ae6c8">chemist::AOBasisSet&lt; T &gt;</a>
-, <a class="el" href="classchemist_1_1AtomicBasisSet.html#af594b540478d444e3b8474b803afa650">chemist::AtomicBasisSet&lt; T &gt;</a>
-, <a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a99cddf2d216af9320c7ba0e217fed3c8">chemist::basis_set::AOBasisSet&lt; AtomicBasisSetType &gt;</a>
+: <a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a99cddf2d216af9320c7ba0e217fed3c8">chemist::basis_set::AOBasisSet&lt; AtomicBasisSetType &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSet.html#a2923cf7f37259ba84a5e878ac346281b">chemist::basis_set::AtomicBasisSet&lt; ShellType &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSetView.html#ac5572292bdd22638d0962e436ed409a1">chemist::basis_set::AtomicBasisSetView&lt; AtomicBasisSetType &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a4f76f0b4ef5424887b4803f1a1848611">chemist::basis_set::ContractedGaussian&lt; PrimitiveType &gt;</a>
@@ -423,25 +396,20 @@ $(function() {
 , <a class="el" href="classchemist_1_1basis__set_1_1detail___1_1AOBasisSetPIMPL.html#a59f71f75ff312f158ffb4658ff12a017">chemist::basis_set::detail_::AOBasisSetPIMPL&lt; AtomicBasisSetType &gt;</a>
 , <a class="el" href="classchemist_1_1CapSet.html#a6b5e52ec5236314811b9542202d68c78">chemist::CapSet</a>
 , <a class="el" href="classchemist_1_1Charges.html#ab41880a3beeb0f77e6bc9608dbb78b8f">chemist::Charges&lt; T &gt;</a>
-, <a class="el" href="classchemist_1_1ContractedGaussian.html#af8f6ee6478ffbe03c5fa511afdd99296">chemist::ContractedGaussian&lt; T &gt;</a>
-, <a class="el" href="classchemist_1_1detail___1_1AOBasisSetPIMPL.html#a50d3bbe13a99968e0f10c7526094d7c4">chemist::detail_::AOBasisSetPIMPL&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1detail___1_1AoSElement.html#a35700c34a4769857d73b5034d6ec4e7f">chemist::detail_::AoSElement&lt; Fields &gt;</a>
 , <a class="el" href="classchemist_1_1detail___1_1AoSFacade_3_01AoSElement_3_01Fields_8_8_8_01_4_01_4.html#a6002bb81d7cd8dbde5366e8249a3fd0c">chemist::detail_::AoSFacade&lt; AoSElement&lt; Fields... &gt; &gt;</a>
 , <a class="el" href="classchemist_1_1detail___1_1NucleiSubset.html#a95404bfcc30f3f28ae775e9aaf0f065b">chemist::detail_::NucleiSubset&lt; NucleiType &gt;</a>
 , <a class="el" href="classchemist_1_1detail___1_1NucleiViewPIMPL.html#ad74caa225d680e8f905b123bee92caa5">chemist::detail_::NucleiViewPIMPL&lt; NucleiType &gt;</a>
 , <a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ac1c499453918c8626526e3efb9b195fa">chemist::detail_::PointPIMPL&lt; T &gt;</a>
-, <a class="el" href="classchemist_1_1detail___1_1PrimitivePIMPL.html#a9383b953bd06de92ad2fc835b473f7ec">chemist::detail_::PrimitivePIMPL&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1FragmentedNuclei.html#a103b5a385f221ed67b32b0efa56055a6">chemist::FragmentedNuclei</a>
 , <a class="el" href="classchemist_1_1Molecule.html#acaf286d9fb84f108d5e48dcfea849dd7">chemist::Molecule</a>
 , <a class="el" href="classchemist_1_1Nuclei.html#a6cd9fb8a857d606fc32e193bfd33c130">chemist::Nuclei</a>
 , <a class="el" href="classchemist_1_1NucleiView.html#ab2347ebc3439f2fa227e4ffd750b8b12">chemist::NucleiView&lt; NucleiType &gt;</a>
 , <a class="el" href="classchemist_1_1PointSet.html#a15272167c151b23153ed8776230fdf1a">chemist::PointSet&lt; T &gt;</a>
-, <a class="el" href="classchemist_1_1Primitive.html#a5b8dc19bae0ef5053ec2ebeb65815174">chemist::Primitive&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1set__theory_1_1FamilyOfSets.html#a9ee6f9e6eab1411f80409d815d19a6f4">chemist::set_theory::FamilyOfSets&lt; SetType &gt;</a>
 , <a class="el" href="structchemist_1_1set__theory_1_1FamilyOfSetsTraits.html#a764ae65df0938a78dfb50c111a5b1932">chemist::set_theory::FamilyOfSetsTraits&lt; SetType &gt;</a>
 , <a class="el" href="structchemist_1_1set__theory_1_1SetTraits.html#a718554d330bb4427c2cf5141d140db05">chemist::set_theory::SetTraits&lt; SetType &gt;</a>
 , <a class="el" href="classchemist_1_1set__theory_1_1Subset.html#a783d1df1c997ac7abb0085dcea4527dd">chemist::set_theory::Subset&lt; SetType &gt;</a>
-, <a class="el" href="classchemist_1_1Shell.html#a844d0547fb55f6f70c1dbe97e7f4e6d3">chemist::Shell&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1topology_1_1Distance.html#ac0b798cb6f33af98fc9963af3c1de320">chemist::topology::Distance</a>
 </li>
 <li>const_reference_wf_pointer
@@ -451,8 +419,7 @@ $(function() {
 : <a class="el" href="classchemist_1_1wavefunction_1_1ManyBody.html#af3014629ca095a6e070b4f4cd17d9e1b">chemist::wavefunction::ManyBody&lt; ReferenceType, TensorType &gt;</a>
 </li>
 <li>const_shell_reference
-: <a class="el" href="classchemist_1_1AOBasisSet.html#afd7d78826d2c40dcf196231ba4099801">chemist::AOBasisSet&lt; T &gt;</a>
-, <a class="el" href="structchemist_1_1basis__set_1_1AtomicBasisSetTraits.html#a38f84945c7e5126ca3d069734382557c">chemist::basis_set::AtomicBasisSetTraits&lt; AtomicBSType &gt;</a>
+: <a class="el" href="structchemist_1_1basis__set_1_1AtomicBasisSetTraits.html#a38f84945c7e5126ca3d069734382557c">chemist::basis_set::AtomicBasisSetTraits&lt; AtomicBSType &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#a9e83efaefe7c806dbbbf543425ba1d46">chemist::basis_set::ShellView&lt; ShellType &gt;</a>
 </li>
 <li>const_superset_reference
@@ -480,29 +447,27 @@ $(function() {
 : <a class="el" href="classchemist_1_1detail___1_1ContainerPIMPL.html#a14e88ab076ee87ab5daa49dcc5cf3507">chemist::detail_::ContainerPIMPL&lt; T &gt;</a>
 </li>
 <li>contracted_gaussian()
-: <a class="el" href="classchemist_1_1basis__set_1_1Shell.html#accae8b17aec402d8e1ac580af6409f64">chemist::basis_set::Shell&lt; CGType &gt;</a>
+: <a class="el" href="classchemist_1_1basis__set_1_1Shell.html#a4cdf198ea55220626eeb753e8dae43fb">chemist::basis_set::Shell&lt; CGType &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#ab831bf5e0bb63da5547520bb5938ee82">chemist::basis_set::ShellView&lt; ShellType &gt;</a>
 </li>
 <li>contracted_gaussian_type
 : <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussianView.html#a2c145948f81c41ceb73ef48f6a8b9ea5">chemist::basis_set::ContractedGaussianView&lt; CGType &gt;</a>
 </li>
 <li>ContractedGaussian()
-: <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#aa013fc2baf6fb596a0e4a4049f03970e">chemist::basis_set::ContractedGaussian&lt; PrimitiveType &gt;</a>
-, <a class="el" href="classchemist_1_1ContractedGaussian.html#a2955cfbd876d1549951dc16b4c63a606">chemist::ContractedGaussian&lt; T &gt;</a>
+: <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#af2aa19b2853bec54c7ee99be1e17c760">chemist::basis_set::ContractedGaussian&lt; PrimitiveType &gt;</a>
 </li>
 <li>ContractedGaussianPIMPL()
 : <a class="el" href="classchemist_1_1basis__set_1_1detail___1_1ContractedGaussianPIMPL.html#a25119c2b5653501559af39a56a09a162">chemist::basis_set::detail_::ContractedGaussianPIMPL&lt; PrimitiveType &gt;</a>
 </li>
 <li>ContractedGaussianView()
-: <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussianView.html#abf3eb18920df9394056f600750228653">chemist::basis_set::ContractedGaussianView&lt; CGType &gt;</a>
-, <a class="el" href="classchemist_1_1ContractedGaussianView.html#acaa3c786e771f26eebb72df8676df0e0">chemist::ContractedGaussianView&lt; T &gt;</a>
+: <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussianView.html#a3f72d2b1cc270192f41f9b3a627e3577">chemist::basis_set::ContractedGaussianView&lt; CGType &gt;</a>
 </li>
 <li>ContractedGaussianViewPIMPL()
 : <a class="el" href="classchemist_1_1basis__set_1_1detail___1_1ContractedGaussianViewPIMPL.html#adbb0e28155cb85b08f4032ad002e5123">chemist::basis_set::detail_::ContractedGaussianViewPIMPL&lt; CGType &gt;</a>
 </li>
 <li>coord()
 : <a class="el" href="classchemist_1_1Atom.html#a4ec3957fc433a75d7d3f2e47d77453c6">chemist::Atom</a>
-, <a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#ab3be08323a0ae61500229daa1e2d11dd">chemist::detail_::PointPIMPL&lt; T &gt;</a>
+, <a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#a99ada229d4d8d01b186e492dcd96c149">chemist::detail_::PointPIMPL&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1Point.html#a94f714915c2da4ecf66e8787afbc53d3">chemist::Point&lt; T &gt;</a>
 , <a class="el" href="classchemist_1_1PointView2.html#a260b454c206442ac8a925e724c8890ee">chemist::PointView2&lt; PointType &gt;</a>
 , <a class="el" href="classchemist_1_1PointView.html#af365df33726e0633126861fc60ee56a7">chemist::PointView&lt; T, AliasedType &gt;</a>

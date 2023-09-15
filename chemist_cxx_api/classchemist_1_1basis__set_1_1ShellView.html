@@ -78,7 +78,7 @@ $(function() {
 <p>Behaves like a reference to a <a class="el" href="classchemist_1_1basis__set_1_1Shell.html" title="Models a set of AOs with a common center, the same total angular momentum, and the same contracted Ga...">Shell</a>.  
  <a href="classchemist_1_1basis__set_1_1ShellView.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="basis__set2_2shell_2shell__view_8hpp_source.html">shell_view.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="shell__view_8hpp_source.html">shell_view.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -208,6 +208,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7cf4050ea6f7409d50bca1b2cfcd97ba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#a1549e4dba94fab13ad4d3cdeb162cbc1">const_cg_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#a7cf4050ea6f7409d50bca1b2cfcd97ba">contracted_gaussian</a> () const</td></tr>
 <tr class="memdesc:a7cf4050ea6f7409d50bca1b2cfcd97ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">The segmented contracted Gaussian function.  <a href="classchemist_1_1basis__set_1_1ShellView.html#a7cf4050ea6f7409d50bca1b2cfcd97ba">More...</a><br /></td></tr>
 <tr class="separator:a7cf4050ea6f7409d50bca1b2cfcd97ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e5979585d95185cc446995976886d46"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structchemist_1_1basis__set_1_1PrimitiveTraits.html#ad1705d5edbd0ad47cc25aaa59cd99444">cg_traits::center_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#a0e5979585d95185cc446995976886d46">center</a> ()</td></tr>
+<tr class="memdesc:a0e5979585d95185cc446995976886d46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the location where *this is centered.  <a href="classchemist_1_1basis__set_1_1ShellView.html#a0e5979585d95185cc446995976886d46">More...</a><br /></td></tr>
+<tr class="separator:a0e5979585d95185cc446995976886d46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3443c3aaab48f0c909b93ee74672642"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structchemist_1_1basis__set_1_1PrimitiveTraits.html#a89614447826891853fcd4986eb2e41b7">cg_traits::const_center_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#ac3443c3aaab48f0c909b93ee74672642">center</a> () const</td></tr>
+<tr class="memdesc:ac3443c3aaab48f0c909b93ee74672642"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the location where *this is centered.  <a href="classchemist_1_1basis__set_1_1ShellView.html#ac3443c3aaab48f0c909b93ee74672642">More...</a><br /></td></tr>
+<tr class="separator:ac3443c3aaab48f0c909b93ee74672642"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a090c8198b7fcc58612385fe428fd60dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#acdd2930fec6fd72021a1b550ed98c0cf">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#a090c8198b7fcc58612385fe428fd60dd">n_primitives</a> () const noexcept</td></tr>
 <tr class="memdesc:a090c8198b7fcc58612385fe428fd60dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of primitives in the contracted Gaussian.  <a href="classchemist_1_1basis__set_1_1ShellView.html#a090c8198b7fcc58612385fe428fd60dd">More...</a><br /></td></tr>
 <tr class="separator:a090c8198b7fcc58612385fe428fd60dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -503,6 +509,63 @@ template&lt;typename OtherType , typename &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a0e5979585d95185cc446995976886d46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e5979585d95185cc446995976886d46">&#9670;&nbsp;</a></span>center() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ShellType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structchemist_1_1basis__set_1_1PrimitiveTraits.html#ad1705d5edbd0ad47cc25aaa59cd99444">cg_traits::center_reference</a> <a class="el" href="classchemist_1_1basis__set_1_1ShellView.html">chemist::basis_set::ShellView</a>&lt; ShellType &gt;::center </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the location where *this is centered. </p>
+<dl class="section return"><dt>Returns</dt><dd>The point in Cartesian space where *this is located.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if *this is a view of a null shell. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac3443c3aaab48f0c909b93ee74672642"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3443c3aaab48f0c909b93ee74672642">&#9670;&nbsp;</a></span>center() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ShellType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structchemist_1_1basis__set_1_1PrimitiveTraits.html#a89614447826891853fcd4986eb2e41b7">cg_traits::const_center_reference</a> <a class="el" href="classchemist_1_1basis__set_1_1ShellView.html">chemist::basis_set::ShellView</a>&lt; ShellType &gt;::center </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the location where *this is centered. </p>
+<p>This method behaves similar to the non-const version except that the returned reference is guaranteed to be read-only.</p>
+<dl class="section return"><dt>Returns</dt><dd>A read-only reference to the point where *this is centered.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if *this is null. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ab831bf5e0bb63da5547520bb5938ee82"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab831bf5e0bb63da5547520bb5938ee82">&#9670;&nbsp;</a></span>contracted_gaussian() <span class="overload">[1/2]</span></h2>
 
@@ -1198,7 +1261,7 @@ template&lt;typename ShellType &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/chemist/basis_set2/shell/<a class="el" href="basis__set2_2shell_2shell__view_8hpp_source.html">shell_view.hpp</a></li>
+<li>include/chemist/basis_set/shell/<a class="el" href="shell__view_8hpp_source.html">shell_view.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

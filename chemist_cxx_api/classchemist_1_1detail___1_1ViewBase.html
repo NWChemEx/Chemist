@@ -70,7 +70,6 @@ $(function() {
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#related">Related Functions</a> &#124;
 <a href="classchemist_1_1detail___1_1ViewBase-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">chemist::detail_::ViewBase&lt; is_const, AliasedType &gt; Class Template Reference</div>  </div>
@@ -81,18 +80,6 @@ $(function() {
  <a href="classchemist_1_1detail___1_1ViewBase.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="view__base_8hpp_source.html">view_base.hpp</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for chemist::detail_::ViewBase&lt; is_const, AliasedType &gt;:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="classchemist_1_1detail___1_1ViewBase.png" usemap="#chemist::detail_5F::ViewBase_3C_20is_5Fconst_2C_20AliasedType_20_3E_map" alt=""/>
-  <map id="chemist::detail_5F::ViewBase_3C_20is_5Fconst_2C_20AliasedType_20_3E_map" name="chemist::detail_5F::ViewBase_3C_20is_5Fconst_2C_20AliasedType_20_3E_map">
-<area href="classchemist_1_1PointView.html" alt="chemist::PointView&lt; T, Primitive&lt; std::remove_cv_t&lt; T &gt; &gt; &gt;" shape="rect" coords="0,56,383,80"/>
-<area href="classchemist_1_1PointView.html" alt="chemist::PointView&lt; T, AliasedType&lt; std::remove_cv_t&lt; T &gt; &gt; &gt;" shape="rect" coords="393,56,776,80"/>
-<area href="classchemist_1_1PrimitiveView.html" title="Models a Gaussian Primitive by reference." alt="chemist::PrimitiveView&lt; T &gt;" shape="rect" coords="0,112,383,136"/>
-<area href="classchemist_1_1detail___1_1AOBasisViewBase.html" title="Code factorization for the various view classes associated with the AOBasisSet class." alt="chemist::detail_::AOBasisViewBase&lt; T, AliasedType, ViewType &gt;" shape="rect" coords="393,112,776,136"/>
-  </map>
-</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -148,17 +135,6 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a902544b214a6994fdc5fd35bcb354edf"><td class="memItemLeft" align="right" valign="top">const_alias&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1detail___1_1ViewBase.html#a902544b214a6994fdc5fd35bcb354edf">pimpl</a> () const noexcept</td></tr>
 <tr class="memdesc:a902544b214a6994fdc5fd35bcb354edf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a read-only reference to the wrapped instance.  <a href="classchemist_1_1detail___1_1ViewBase.html#a902544b214a6994fdc5fd35bcb354edf">More...</a><br /></td></tr>
 <tr class="separator:a902544b214a6994fdc5fd35bcb354edf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Related Functions</h2></td></tr>
-<tr><td class="ititle" colspan="2"><p>(Note that these are not member functions.) </p>
-</td></tr>
-<tr class="memitem:a96363b1a2f2dfb56aa36e5fa7db38218"><td class="memItemLeft" align="right" valign="top">VIEW_BASE_TEMPLATE bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1detail___1_1ViewBase.html#a96363b1a2f2dfb56aa36e5fa7db38218">operator==</a> (const AliasedType&lt; std::remove_cv_t&lt; T &gt;&gt; &amp;lhs, const VIEW_BASE_TYPE &amp;rhs) noexcept</td></tr>
-<tr class="memdesc:a96363b1a2f2dfb56aa36e5fa7db38218"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the type aliased by a view to be on the left side of a comparison with a view.  <a href="classchemist_1_1detail___1_1ViewBase.html#a96363b1a2f2dfb56aa36e5fa7db38218">More...</a><br /></td></tr>
-<tr class="separator:a96363b1a2f2dfb56aa36e5fa7db38218"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3f38156249cb45e714318f0d8d105f4"><td class="memItemLeft" align="right" valign="top">VIEW_BASE_TEMPLATE bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1detail___1_1ViewBase.html#ac3f38156249cb45e714318f0d8d105f4">operator!=</a> (const AliasedType&lt; std::remove_cv_t&lt; T &gt;&gt; &amp;lhs, const VIEW_BASE_TYPE &amp;rhs) noexcept</td></tr>
-<tr class="memdesc:ac3f38156249cb45e714318f0d8d105f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the type aliased by a view to be on the left side of a comparison with a view.  <a href="classchemist_1_1detail___1_1ViewBase.html#ac3f38156249cb45e714318f0d8d105f4">More...</a><br /></td></tr>
-<tr class="separator:ac3f38156249cb45e714318f0d8d105f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;bool is_const, typename AliasedType&gt;<br />
@@ -677,136 +653,8 @@ template&lt;bool is_const, typename AliasedType &gt; </div>
 
 </div>
 </div>
-<h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a id="ac3f38156249cb45e714318f0d8d105f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3f38156249cb45e714318f0d8d105f4">&#9670;&nbsp;</a></span>operator!=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;bool is_const, typename AliasedType &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">VIEW_BASE_TEMPLATE bool operator!= </td>
-          <td>(</td>
-          <td class="paramtype">const AliasedType&lt; std::remove_cv_t&lt; T &gt;&gt; &amp;&#160;</td>
-          <td class="paramname"><em>lhs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const VIEW_BASE_TYPE &amp;&#160;</td>
-          <td class="paramname"><em>rhs</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Allows the type aliased by a view to be on the left side of a comparison with a view. </p>
-<p>This function ensures that <code>aliased_type != view</code> works. This function ultimately works by negating <code>lhs == rhs</code>.</p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>The cv-qualified type used for the parameters in the view </td></tr>
-    <tr><td class="paramname">AliasedType</td><td>The class the view implements an alias of </td></tr>
-    <tr><td class="paramname">ViewType</td><td>The derived class <a class="el" href="classchemist_1_1detail___1_1ViewBase.html" title="Code factorization for implementing a view of an object.">ViewBase</a> is implementing</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">lhs</td><td>The instance on the left-side of the operator. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The instance on the right-side of the operator.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>False if the aliased type's operator== returns true and true otherwise.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">none</td><td>No throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a96363b1a2f2dfb56aa36e5fa7db38218"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96363b1a2f2dfb56aa36e5fa7db38218">&#9670;&nbsp;</a></span>operator==()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;bool is_const, typename AliasedType &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">VIEW_BASE_TEMPLATE bool operator== </td>
-          <td>(</td>
-          <td class="paramtype">const AliasedType&lt; std::remove_cv_t&lt; T &gt;&gt; &amp;&#160;</td>
-          <td class="paramname"><em>lhs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const VIEW_BASE_TYPE &amp;&#160;</td>
-          <td class="paramname"><em>rhs</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Allows the type aliased by a view to be on the left side of a comparison with a view. </p>
-<p>This function ensures that <code>aliased_type == view</code> works. This function ultimately works by calling <code>rhs == lhs</code>.</p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>The cv-qualified type used for the parameters in the view </td></tr>
-    <tr><td class="paramname">AliasedType</td><td>The class the view implements an alias of </td></tr>
-    <tr><td class="paramname">ViewType</td><td>The derived class <a class="el" href="classchemist_1_1detail___1_1ViewBase.html" title="Code factorization for implementing a view of an object.">ViewBase</a> is implementing</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">lhs</td><td>The instance on the left-side of the operator. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The instance on the right-side of the operator.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the aliased type's operator== returns true and false otherwise.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">none</td><td>No throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/chemist/detail_/<a class="el" href="view__base_8hpp_source.html">view_base.hpp</a></li>
-<li>include/chemist/basis_set/detail_/<a class="el" href="ao__basis__view__base_8hpp_source.html">ao_basis_view_base.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

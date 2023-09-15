@@ -78,7 +78,7 @@ $(function() {
 <p>Represents a (segmented) contracted Gaussian function.  
  <a href="classchemist_1_1basis__set_1_1ContractedGaussian.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="basis__set2_2contracted__gaussian_2contracted__gaussian_8hpp_source.html">contracted_gaussian.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="contracted__gaussian_8hpp_source.html">contracted_gaussian.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for chemist::basis_set::ContractedGaussian&lt; PrimitiveType &gt;:</div>
 <div class="dyncontent">
@@ -166,9 +166,9 @@ Public Member Functions</h2></td></tr>
 class chemist::basis_set::ContractedGaussian&lt; PrimitiveType &gt;</h3>
 
 <p>Represents a (segmented) contracted Gaussian function. </p>
-<p>A (segmented) contracted Gaussian function, $\chi$, is a linear combination of <img class="formulaInl" alt="$N$" src="form_11.png"/> primitive Gaussians and is given by:</p>
+<p>A (segmented) contracted Gaussian function, $\chi$, is a linear combination of <img class="formulaInl" alt="$N$" src="form_8.png"/> primitive Gaussians and is given by:</p>
 <p>@f{ \chi(\vec{r};\vec{r_0}, \vec{c}, \vec{\alpha}) = \sum_{i=1}^N c_ie^{-\alpha_i (\vec{r}-\vec{r_0})^2}</p>
-<p>@f}. Here, <img class="formulaInl" alt="$\vec{r_0}$" src="form_20.png"/> is the point where it is centered, <img class="formulaInl" alt="$c_i$" src="form_21.png"/> is the expansion coefficient of the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th primitive, and <img class="formulaInl" alt="$\alpha_i$" src="form_22.png"/> is the exponent of the <img class="formulaInl" alt="$i$" src="form_13.png"/>-th primitive.</p>
+<p>@f}. Here, <img class="formulaInl" alt="$\vec{r_0}$" src="form_9.png"/> is the point where it is centered, <img class="formulaInl" alt="$c_i$" src="form_10.png"/> is the expansion coefficient of the <img class="formulaInl" alt="$i$" src="form_11.png"/>-th primitive, and <img class="formulaInl" alt="$\alpha_i$" src="form_12.png"/> is the exponent of the <img class="formulaInl" alt="$i$" src="form_11.png"/>-th primitive.</p>
 <p>Conceptually the <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html" title="Represents a (segmented) contracted Gaussian function.">ContractedGaussian</a> class is simply a container of <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html" title="Models a Gaussian Primitive by value.">Primitive</a> instances which enforces that the primitives must be centered on the same point in space. It should be noted that modifying where *this is centered through calling <code>center</code> or by directly modifying where a specific primitive is centered, will affect where all primitives are centered.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -691,7 +691,7 @@ template&lt;typename PrimitiveType &gt; </div>
 </div><div class="memdoc">
 
 <p>Determines if *this is value equal to <code>rhs</code>. </p>
-<p>We define non-null <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html" title="Represents a (segmented) contracted Gaussian function.">ContractedGaussian</a> instances to be value equal if: they contain the same number of primitives <img class="formulaInl" alt="$N$" src="form_11.png"/> and if for each <img class="formulaInl" alt="$i$" src="form_13.png"/> in the range [0, <img class="formulaInl" alt="$N$" src="form_11.png"/>) <code>(*this)[i] == rhs[i]</code>. Notably, this means the primitives must be in the same order and that the parameters in the primitives are also compared for value equality (<em>i.e.</em>, the parameters must be bitwise equivalent).</p>
+<p>We define non-null <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html" title="Represents a (segmented) contracted Gaussian function.">ContractedGaussian</a> instances to be value equal if: they contain the same number of primitives <img class="formulaInl" alt="$N$" src="form_8.png"/> and if for each <img class="formulaInl" alt="$i$" src="form_11.png"/> in the range [0, <img class="formulaInl" alt="$N$" src="form_8.png"/>) <code>(*this)[i] == rhs[i]</code>. Notably, this means the primitives must be in the same order and that the parameters in the primitives are also compared for value equality (<em>i.e.</em>, the parameters must be bitwise equivalent).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html" title="Represents a (segmented) contracted Gaussian function.">ContractedGaussian</a> we are comparing to.</td></tr>
@@ -751,7 +751,7 @@ template&lt;typename PrimitiveType &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/chemist/basis_set2/contracted_gaussian/<a class="el" href="basis__set2_2contracted__gaussian_2contracted__gaussian_8hpp_source.html">contracted_gaussian.hpp</a></li>
+<li>include/chemist/basis_set/contracted_gaussian/<a class="el" href="contracted__gaussian_8hpp_source.html">contracted_gaussian.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
