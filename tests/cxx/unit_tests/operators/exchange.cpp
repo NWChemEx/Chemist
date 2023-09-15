@@ -84,5 +84,5 @@ TEMPLATE_LIST_TEST_CASE("Exchange", "", type_list) {
         }
     }
 
-    SECTION("as_string") { REQUIRE(defaulted.as_string() == "k̂"); }
+    SECTION("as_string") { REQUIRE(defaulted.as_string() == "k"); }
 }

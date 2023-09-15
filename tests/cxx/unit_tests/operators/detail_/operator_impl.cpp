@@ -84,5 +84,5 @@ TEMPLATE_LIST_TEST_CASE("OperatorImpl", "", testing::all_operator_impls) {
 
 TEST_CASE("OperatorImpl : as_string()") {
     BogusOperator<int> bogus;
-    REQUIRE(bogus.as_string() == "Ô");
+    REQUIRE(bogus.as_string() == "O");
 }

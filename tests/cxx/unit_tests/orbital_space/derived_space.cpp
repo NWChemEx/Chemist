@@ -28,6 +28,7 @@
 
 using namespace chemist;
 using namespace chemist::orbital_space;
+using namespace chemist::basis_set;
 
 TEST_CASE("DerivedSpace") {
     // Work out types we will need
@@ -38,6 +39,8 @@ TEST_CASE("DerivedSpace") {
     using base_space  = BaseSpace;
     using vector_il   = TA::detail::vector_il<double>;
     using matrix_il   = TA::detail::matrix_il<double>;
+    using aobs_type   = AOBasisSetD;
+    using abs_type    = typename aobs_type::value_type;
 
     SECTION("Typedefs") {
         SECTION("transform_type") {
@@ -64,8 +67,8 @@ TEST_CASE("DerivedSpace") {
     tensor_type C(matrix_il{vector_il{1.0, 2.0}, vector_il{3.0, 4.0}});
 
     space_type default_ao(C, from_space{});
-    AOBasisSetD bs;
-    bs.add_center(chemist::AtomicBasisSet<scalar_type>("", 0, 1.0, 2.0, 3.0));
+    aobs_type bs;
+    bs.add_center(abs_type("", 0, 1.0, 2.0, 3.0));
     from_space aos(std::move(bs));
     space_type non_default_aos(tensor_type{}, aos);
     space_type non_default(C, aos);

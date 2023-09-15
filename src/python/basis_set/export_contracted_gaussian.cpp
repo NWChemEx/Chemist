@@ -15,7 +15,7 @@
  */
 
 #include "export_basis_set.hpp"
-#include <chemist/basis_set2/contracted_gaussian/contracted_gaussian.hpp>
+#include <chemist/basis_set/contracted_gaussian/contracted_gaussian.hpp>
 #include <pybind11/stl.h>
 
 namespace chemist {

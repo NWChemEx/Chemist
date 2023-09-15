@@ -132,7 +132,7 @@ std::unique_ptr<OperatorBase> OPERATOR_IMPL::clone_impl() const {
 
 template<template<typename...> typename DerivedClass, typename... Particles>
 std::string OPERATOR_IMPL::as_string_impl() const {
-    return "O\u0302";
+    return "O";
 }
 
 #undef OPERATOR_IMPL

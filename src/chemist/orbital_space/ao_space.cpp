@@ -25,8 +25,8 @@ bool AOSPACE::equal_(const BaseSpace& rhs) const noexcept {
     return this->equal_common(*this, rhs);
 }
 
-template class AOSpace<AOBasisSetD>;
-template class AOSpace<AOBasisSetF>;
+template class AOSpace<basis_set::AOBasisSetD>;
+template class AOSpace<basis_set::AOBasisSetF>;
 
 #undef AOSPACE
 } // namespace chemist::orbital_space

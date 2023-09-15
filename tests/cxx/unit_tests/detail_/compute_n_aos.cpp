@@ -15,7 +15,7 @@
  */
 
 #include <catch2/catch.hpp>
-#include <chemist/basis_set2/detail_/compute_n_aos.hpp>
+#include <chemist/basis_set/detail_/compute_n_aos.hpp>
 
 using chemist::ShellType;
 using namespace chemist::basis_set::detail_;

@@ -73,7 +73,7 @@ bool LinearCombination::is_equal_impl(
     return pother ? (*this) == (*pother) : false;
 }
 
-std::string LinearCombination::as_string_impl() const { return "O\u0302"; }
+std::string LinearCombination::as_string_impl() const { return "O"; }
 
 LinearCombinationPIMPL& LinearCombination::pimpl_() {
     if(!m_pimpl_) m_pimpl_ = std::make_unique<LinearCombinationPIMPL>();
