@@ -67,13 +67,13 @@ Nucleus class provides access to the following properties:
 
    .. tab:: C++
 
-      .. literalinclude:: ../../../../tests/cxx/doc_snippets/nucleus_tutorial.cpp
+      .. literalinclude:: ../../../../tests/cxx/doc_snippets/nucleus_example.cpp
          :language: c++
          :lines: 26-52
 
    .. tab:: Python
 
-      .. literalinclude:: ../../../../tests/python/doc_snippets/nucleus_tutorial.py
+      .. literalinclude:: ../../../../tests/python/doc_snippets/nucleus_example.py
          :language: python
          :lines: 9-25
 
@@ -88,12 +88,12 @@ how you can modify the properties of a Nucleus object and compare two Nucleus ob
 
    .. tab:: C++
 
-      .. literalinclude:: ../../../../tests/cxx/doc_snippets/nucleus_tutorial.cpp
+      .. literalinclude:: ../../../../tests/cxx/doc_snippets/nucleus_example.cpp
          :language: c++
          :lines: 56-67
 
    .. tab:: Python
 
-      .. literalinclude:: ../../../../tests/python/doc_snippets/nucleus_tutorial.py
+      .. literalinclude:: ../../../../tests/python/doc_snippets/nucleus_example.py
          :language: python
          :lines: 32-38
