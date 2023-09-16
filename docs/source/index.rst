@@ -22,5 +22,6 @@ Chemist
 
    overview
    sparse_maps/index
+   background/index
    developer/index
    C++ API <https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html>
