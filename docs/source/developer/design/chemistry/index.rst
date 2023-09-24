@@ -26,10 +26,7 @@ familiar to quantum chemists (which we put in the physics sublibrary).
    :maxdepth: 2
 
    nucleus
-   fragmented_nuclei
-   caps
    molecule
-   fragmented_molecule
    system
-   fragmented_system
    ao_basis_set
+   fragmenting/index

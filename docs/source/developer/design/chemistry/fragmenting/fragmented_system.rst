@@ -19,7 +19,7 @@ Designing the Fragmented System Component
 #########################################
 
 The point of this page is to record the design process of the 
-``FragmentedSystem`` class and affiliated classes.
+``FragmentedPIMPL<ChemicalSystem>`` class and affiliated classes.
 
 ****************************
 What is a Fragmented System?
@@ -30,26 +30,27 @@ represents the physical system we are trying to model. For traditional
 electronic structure calculations the ``ChemicalSystem`` is the part of the
 input independent from the method/model specification. Many approximate
 methods require breaking the target chemical system up into subsets. We term
-those subsets fragments and a ``FragmentedSystem`` is a ``ChemicalSystem``
-which has been decomposed into fragment/field pairs.
+those subsets fragments and a ``Fragmented<ChemicalSystem>`` is a 
+``ChemicalSystem`` which has been decomposed into fragment/field pairs.
 
-**********************************
-Why do we need a FragmentedSystem?
-**********************************
+***********************************
+Why do we need a Fragmented System?
+***********************************
 
 As mentioned, there are a number of approximate methods --- *e.g.*, QM/MM,
-fragment based-methods, electronic embedding, and symmetry-adpated perturbation
+fragment based-methods, electronic embedding, and symmetry-adapted perturbation
 theory --- which require fragmenting the physical system of interest into a
-series of subsystems. The ``FragmentedSystem`` class allows us to represent
-fragments of the original ``Molecule`` along with the field the fragment is
-embedded in.
+series of subsystems. The ``Fragmented<ChemicalSystem>`` class allows us to 
+represent fragments of the original ``Molecule`` along with the field the 
+fragment is embedded in. The ``FragmentedPIMPL<ChemicalSystem>`` is charged with
+implementing the ``Fragmented<ChemicalSystem>`` class.
 
-*******************************
-FragmentedSystem Considerations
-*******************************
+********************************
+Fragmented System Considerations
+********************************
 
-Ultimately the ``FragmentedSystem`` class will end up paralleling the 
-``ChemicalSystem`` class and thus many of the considerations in 
+Ultimately the ``FragmentedPIMPL<ChemicalSystem>`` class will end up 
+paralleling the  ``ChemicalSystem`` class and thus many of the considerations in 
 :ref:`csd_considerations` apply here too. In addition:
 
 .. _fs_hierarchy:
@@ -108,34 +109,7 @@ ChemicalSystem compatability.
    to pass elements of the container to algorithms which expect 
    ``ChemicqlSystem`` objects. 
 
-Out of Scope
-============
 
-Expansion coefficients.
-   Usually the properties of the fragments are combined as a linear combination.
-   The weights of this linear expansion will be stored elsewhere. Part of the
-   motivation for not including the weights here is that in many cases the
-   weights depend on more than just the fragment/field, *e.g.*, they may also
-   depend on the AO basis set (think basis set superposition error corrections)
-   and/or level of theory (think QM/MM or other multi-layered theories).
-
-AO Basis Sets.
-   For the same reason we considered the AO Basis Set out of scope from the
-   ``ChemicalSystem``, it is also out of scope here. See 
-   :ref:`csd_considerations` for more details.
-
-:math:`n`-mers.
-   In fragment-based methods based off of the many-body expansion, one often
-   starts with a set of fragments. Typically these fragments are chosen to 
-   contain atoms residing proximal to one another. To capture many-body
-   interactions among the fragments, one then forms unions of pairs, triples,
-   up to :math:`n`-tuples of fragments. The resulting unions are termed 
-   :math:`n`-mers. From the perspective of running calculations :math:`n`-mers
-   are no different tha a non-disjoint use of ``FragmentedSystem``. That said,
-   having a class which can express the :math:`n`-mer relationship is useful 
-   for other purposes, e.g., screening the final set of :math:`n`-mers and 
-   basis-set superposition corrections, and thus should exist. Here we simply
-   advocate for that class being different than the ``FragmentedSystem`` class.
 
 ************************
 Fragmented System Design

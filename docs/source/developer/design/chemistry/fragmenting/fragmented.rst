@@ -18,7 +18,8 @@
 Designing the Fragmented Class
 ##############################
 
-This page describes the design of the ``Fragmented`` class. This discussion
+This page describes the design of the ``Fragmented`` class and the classes
+associated with it, e.g., ``FragmentView``. This discussion
 started as part of 
 `Chemist PR#361 <https://github.com/NWChemEx-Project/Chemist/pull/361>`_.
 
@@ -66,19 +67,49 @@ chemistry specific
    - Target values of ``T`` are: ``Nuclei``, ``Molecule``, ``ChemicalSystem``,
      and ``AOBasisSet``. 
 
+.. _fc_empty_states:
+
+Empty states.
+   The default constructed object should represent a truly empty state, such a
+   state does not even have a supersystem set. There is also an empty state
+   where the supersystem is set, but the object may not contain any fragments.
+
 .. _fc_caps:
 
 caps
   The consideration :ref:`fc_chemistry_specific` originally arose because of the
   need to cap broken bonds. Caps are state that are not part of the superset, 
-  but instead belong to the ``Fragmented<T>`` object (the same cap may be 
-  needed to cap more than one fragment).
+  but instead belong to the ``Fragmented<T>`` object.
 
   - A full discussion of cap considerations is beyond the current page (see
     :ref:`designing_the_caps_class`).
   - For the purposes of designing ``Fragmented<T>`` this consideration amounts
     to needing to store caps in the ``Fragmented<T>`` object.
 
+Out of Scope
+============
+
+Expansion coefficients.
+   Usually the properties of the fragments are combined as a linear combination.
+   The weights of this linear expansion will be stored elsewhere. Part of the
+   motivation for not including the weights here is that in many cases the
+   weights depend on more than just the fragment/field, *e.g.*, they may also
+   depend on the AO basis set (think basis set superposition error corrections)
+   and/or level of theory (think QM/MM or other multi-layered theories).
+
+AO Basis Sets.
+   For the same reason we considered the AO Basis Set out of scope from the
+   ``ChemicalSystem``, it is also out of scope here. See 
+   :ref:`csd_considerations` for more details.
+
+:math:`n`-mers.
+   In fragment-based methods based off of the many-body expansion, one often
+   starts with a set of fragments. Typically these fragments are chosen to 
+   contain atoms residing proximal to one another. To capture many-body
+   interactions among the fragments, one then forms unions of pairs, triples,
+   up to :math:`n`-tuples of fragments. The resulting unions are termed 
+   :math:`n`-mers. From the perspective of running calculations :math:`n`-mers
+   are no different than a non-disjoint use of ``Fragmented<ChemicalSystem>``.
 
 *****************
 Fragmented Design
@@ -95,3 +126,18 @@ and any common implementations it can. The ``FragmentedPIMPL<T>`` class would
 then be specialized for each ``T``. The ``FragmentedPIMPL<T>`` objects would
 be responsible for creating ``NucleiView``, ``MoleculeView``, etc. for each
 fragment.
+
+Fragmented Nuclei PIMPL
+=======================
+
+Full discussion: :ref:`designing_fragmented_nuclei`.
+
+Fragmented Molecule PIMPL
+=========================
+
+Full discussion: :ref:`designing_fragmented_molecule_class`.
+
+Fragmented ChemicalSystem PIMPL
+===============================
+
+Full discussion: :ref:`designing_fragmented_system`.

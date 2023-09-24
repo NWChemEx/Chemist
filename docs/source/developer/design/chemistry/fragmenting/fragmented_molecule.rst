@@ -20,8 +20,7 @@ Designing the FragmentedMolecule Class
 
 .. |n| replace:: :math:`n`
 
-Following the discussion in :ref:`designing_fragmented_system` we need a class
-``FragmentedMolecule`` to track how the ``Molecule`` piece of the 
+``Fragmented<Molecule>`` tracks how the ``Molecule`` piece of the 
 ``ChemicalSystem`` is decomposed. This page discusses the design of that class.
 
 ******************************
@@ -30,9 +29,8 @@ What is a fragmented molecule?
 
 In computational chemistry parlance, a molecule is the set of atoms we are
 running a computation on. Sometimes we need to describe a "piece of a 
-molecule." These pieces are fragments, and when we decompose a molecules into
-a set of fragments, we say that the set forms a fragmented molecule if each
-atom in the original molecule appears in at least one of the fragments. 
+molecule." These pieces are fragments, and the set of these fragments is the
+fragmented molecule.
 
 ************************************
 Why do we need fragmented molecules?
@@ -51,9 +49,10 @@ FragmentedMolecule Class Considerations
 
 .. _fm_molecule:
 
-Molecule compatability.
-   Chemist defines the ``Molecule`` class. The ``FragmentedMolecule`` class
-   should behave like a container of ``Molecule`` objects.
+Molecule compatibility.
+   Chemist defines the ``Molecule`` class. The ``Fragmented<Molecule>`` class
+   should behave like a container of ``Molecule`` objects. The 
+   ``FragmentedPIMPL<Molecule>`` class is responsible for implementing this.
 
 .. _fm_charge_mult:
 
@@ -61,48 +60,8 @@ Charge and multiplicity.
    In fragmenting the molecule, the charge/multiplicity must also be fragmented.
    More specifically we must assign a charge/multiplicity to each fragment.
 
-.. _fm_caps:
-
-Caps.
-   As a direct result of the :ref:`fs_generality` consideration raised for the
-   ``FragmentedSystem`` class, the  ``FragmenteNuclei`` object may contain
-   caps. The ``FragmentedMolecule`` must be able to add electrons to the caps.
-
-.. _fm_type_dispatch:
-
-Type dispatch.   
-   Modules recieving ``Molecule`` objects as input do not need to worry about
-   fragments, whereas modules recieving ``FragmentedMolecule`` objects do need
-   to worry about the fact that there is (in general) a set of fragments.
-
 *************************
 FragmentedMolecule Design
 *************************
 
-The high-level design aspects of the ``FragmentedMolecule`` class were
-already covered by :numref:`fig_fragmented_system_design`.
-
-**************************
-FragmentedMolecule Summary
-**************************
-
-Below we summarize how our design addresses the considerations raised above.
-
-:ref:`fm_molecule`
-   The elements of the ``FragmentedMolecule`` class are ``MoleculeView`` 
-   objects, which are API-compatible with ``Molecule`` instances.
-
-:ref:`fm_charge_mult`
-   The ``FragmentedMolecule`` class stores the charge/multiplicty of each
-   fragment.
-
-:ref:`fm_caps`
-   The ``FragmentedNuclei`` class will contain a ``Caps`` object which
-   represents the broken bonds and what they are replaced with. Discussion of
-   the design of the ``Caps`` class can be found 
-   :ref:`designing_the_caps_class`.
-
-
-:ref:`fm_type_dispatch`
-   The ``FragmentedMolecule`` class is different from the ``Molecule`` class
-   and thus can be used for type-based dispatching.
+TODO: update.
