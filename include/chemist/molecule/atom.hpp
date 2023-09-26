@@ -141,6 +141,22 @@ public:
     Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
          coord_type y, coord_type z, charge_type q);
 
+    /** @brief Primary ctor
+     *
+     *  This ctor allows the caller to set all of the Atom's state directly.
+     * 
+     * @param[in] s The (case-sensitive) atomic symbol for the nucleus.
+     * @param[in] Z The number of protons in the nucleus, i.e. the atomic
+     *              number.
+     * @param[in] m The mass of the nucleus (in a.u.)
+     * @param[in] x The x-coordinate where the nucleus is centered (in a.u.)
+     * @param[in] y The y-coordinate where the nucleus is centered (in a.u.)
+     * @param[in] z The z-coordinate where the nucleus is centered (in a.u.)
+     * @param[in] q The charge of the nucleus (in a.u.)
+     * @param[in] n_electrons The number of electrons.
+     *
+     * @throw TODO: work out the exception, if any.   
+     */               
     Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
          coord_type y, coord_type z, charge_type q, size_type n_electrons);
     ///@}
