@@ -248,7 +248,7 @@ private:
     nucleus_type m_nuke_;
 
     /// Number of electrons
-    std::size_t n_electrons_;
+    size_type n_electrons_;
 
 }; // End Atom
 
