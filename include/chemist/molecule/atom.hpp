@@ -283,11 +283,10 @@ private:
  * @relates Atom
  * @brief Allows one to compare two atom instances for exact equality.
  *
- * Two atom instances are defined as equal if they have the same atomic
- * number, the same mass, and the same coordinates.  The name field is
- * considered metadata and is not considered in the comparison.  *N.B* that
- * floating-point comparisons are bit-wise with zero tolerance for
- * deviation, *i.e.*, 1.99999999999999 != 2.00000000000000
+ * Two atom instances are defined as equal if their nuclei are identical and the
+ * number of electrons are the same. *N.B* that floating-point comparisons are
+ * bit-wise with zero tolerance for deviation, *i.e.*, 1.99999999999999
+ * != 2.00000000000000
  *
  * @param[in] lhs The Atom instance on the left of the equivalence operation
  * @param[in] rhs The Atom instance on the right of the equivalence

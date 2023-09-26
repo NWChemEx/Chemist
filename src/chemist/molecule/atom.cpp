@@ -25,7 +25,7 @@ using mass_type  = typename Atom::mass_type;
 
 bool operator==(const Atom& lhs, const Atom& rhs) noexcept {
     if(lhs.nucleus() != rhs.nucleus()) return false;
-    return lhs.name() == rhs.name();
+    return lhs.n_electrons() == rhs.n_electrons();
 }
 
 std::ostream& operator<<(std::ostream& os, const Atom& ai) {
