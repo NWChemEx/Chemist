@@ -48,11 +48,11 @@ inline typename Atom::const_charge_reference Atom::nuclear_charge()
 
 template<typename Archive>
 void Atom::save(Archive& ar) const {
-    ar& m_nuke_;
+    ar& m_nuke_& n_electrons_;
 }
 
 template<typename Archive>
 void Atom::load(Archive& ar) {
-    ar& m_nuke_;
+    ar& m_nuke_& n_electrons_;
 }
 } // namespace chemist
