@@ -55,8 +55,9 @@ void export_atom(python_module_reference m) {
         "mass", [](atom_reference self) { return self.mass(); },
         [](atom_reference self, mass_type m) { self.mass() = m; })
       .def_property(
-        "charge", [](atom_reference self) { return self.charge(); },
-        [](atom_reference self, charge_type q) { self.charge() = q; })
+        "nuclear_charge",
+        [](atom_reference self) { return self.nuclear_charge(); },
+        [](atom_reference self, charge_type q) { self.nuclear_charge() = q; })
       .def("coord", static_cast<coord_fxn>(&Atom::coord))
       .def_property(
         "x", [](atom_reference self) { return self.x(); },

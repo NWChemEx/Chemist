@@ -39,7 +39,8 @@ inline typename Atom::const_coord_reference Atom::coord(size_type q) const {
     return nucleus().coord(q);
 }
 
-inline typename Atom::const_charge_reference Atom::charge() const noexcept {
+inline typename Atom::const_charge_reference Atom::nuclear_charge()
+  const noexcept {
     return nucleus().charge();
 }
 

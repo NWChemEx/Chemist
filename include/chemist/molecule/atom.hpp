@@ -128,11 +128,10 @@ public:
      * @param[in] x The x coordinate of the Atom
      * @param[in] y The y coordinate of the Atom
      * @param[in] z The z coordinate of the Atom
-     * @param[in] q The charge on the Atom. Defaults to the atomic number if not
-     *              provided
+     * @param[in] q The charge of the nucleus (in a.u.) Defaults to the atomic
+     * number.
      *
-     * @throw std::bad_alloc The copy ctor/assignment operator throws if
-     * there is insufficient memory to perform the copy.
+     * @throw std::bad_alloc if the allocation fails. Strong throw guarantee.
      */
     ///@{
     Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
@@ -153,9 +152,10 @@ public:
      * @param[in] y The y-coordinate where the nucleus is centered (in a.u.)
      * @param[in] z The z-coordinate where the nucleus is centered (in a.u.)
      * @param[in] q The charge of the nucleus (in a.u.)
-     * @param[in] n_electrons The number of electrons.
+     * @param[in] n_electrons The number of electrons in the atom (defaults to
+     * Z)
      *
-     * @throw TODO: work out the exception, if any.
+     * @throw std::bad_alloc if the allocation fails. Strong throw guarantee.
      */
     Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
          coord_type y, coord_type z, charge_type q, size_type n_electrons);
@@ -189,8 +189,8 @@ public:
     mass_reference mass() noexcept { return nucleus().mass(); }
     const_mass_reference mass() const noexcept { return nucleus().mass(); }
 
-    charge_reference charge() noexcept { return nucleus().charge(); }
-    const_charge_reference charge() const noexcept;
+    charge_reference nuclear_charge() noexcept { return nucleus().charge(); }
+    const_charge_reference nuclear_charge() const noexcept;
 
     /** @brief Returns the number of electrons.
      *
@@ -211,7 +211,7 @@ public:
      * @throw None No throw guarantee.
      * @return The net charge of the atom.
      */
-    charge_type net_charge() const noexcept {
+    charge_type charge() const noexcept {
         return nucleus().charge() - n_electrons_;
     }
 
