@@ -192,13 +192,11 @@ public:
     }
 
     /**
-     * @brief Set the number of electrons of the atom.
+     * @brief Get/set the number of electrons.
      *
-     * @param new_n_electrons
+     * @return A mutable reference to the number of electrons.
      */
-    void set_n_electrons(size_type new_n_electrons) noexcept {
-        n_electrons_ = new_n_electrons;
-    }
+    size_type& n_electrons() noexcept { return n_electrons_; }
 
     ///@}
 
