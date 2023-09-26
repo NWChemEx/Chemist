@@ -89,7 +89,7 @@ class TestAtom(unittest.TestCase):
         self.assertEqual(self.defaulted.n_electrons, 0)
         self.assertEqual(self.h.n_electrons, 1)
         self.assertEqual(self.he.n_electrons, 2)
-        self.assertEqual(self.c.n_electrons, 6)
+        self.assertEqual(self.c.n_electrons, 7)
 
         # Can write to it
         self.defaulted.n_electrons = 42
@@ -143,7 +143,7 @@ class TestAtom(unittest.TestCase):
         self.assertEqual(self.h.z, 4.0)
         self.assertEqual(self.he.z, 5.0)
         self.assertEqual(self.c.z, 5.0)
-        
+
         # Can write to it
         self.defaulted.z = -1.23
         self.assertEqual(self.defaulted.z, -1.23)
