@@ -111,9 +111,9 @@ public:
      * there is insufficient memory to perform the copy.
      */
     ///@{
-    Atom(const Atom& rhs)     = default;
-    Atom(Atom&& rhs) noexcept = default;
-    Atom& operator=(const Atom& rhs) = default;
+    Atom(const Atom& rhs)                = default;
+    Atom(Atom&& rhs) noexcept            = default;
+    Atom& operator=(const Atom& rhs)     = default;
     Atom& operator=(Atom&& rhs) noexcept = default;
     ///@}
 
@@ -203,8 +203,8 @@ public:
      *
      * The net charge (in atomic units) on the atom is defined as the
      * nuclear charge (also in atomic units) minus the number of electrons.
-     * For example, a helium atom (nuclear charge of +4) with 3 electrons,
-     * has a charge of +1.
+     * For example, a helium atom (nuclear charge of +2.0) with 3 electrons,
+     * has a charge of -1.0.
      *
      * @return The net charge of the atom.
      *
