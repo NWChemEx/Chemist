@@ -179,6 +179,7 @@ public:
     /** @brief Returns the number of electrons.
      *
      * @return The number of electrons.
+     * @throw None No throw guarantee
      */
     size_type n_electrons() const noexcept { return n_electrons_; }
 
