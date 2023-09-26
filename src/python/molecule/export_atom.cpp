@@ -40,6 +40,8 @@ void export_atom(python_module_reference m) {
                           coord_type, coord_type>())
       .def(pybind11::init<name_type, atomic_number_type, mass_type, coord_type,
                           coord_type, coord_type, charge_type>())
+      .def(pybind11::init<name_type, atomic_number_type, mass_type, coord_type,
+                          coord_type, coord_type, charge_type, size_type>())
       .def_property(
         "name", [](atom_reference self) { return self.name(); },
         [](atom_reference self, name_type name) { self.name() = name; })
@@ -58,6 +60,10 @@ void export_atom(python_module_reference m) {
         "nuclear_charge",
         [](atom_reference self) { return self.nuclear_charge(); },
         [](atom_reference self, charge_type q) { self.nuclear_charge() = q; })
+      .def_property(
+        "n_electrons", [](atom_reference self) { return self.n_electrons(); },
+        [](atom_reference self, size_type n) { self.n_electrons() = n; })
+      .def("charge", [](atom_reference self) { return self.charge(); })
       .def("coord", static_cast<coord_fxn>(&Atom::coord))
       .def_property(
         "x", [](atom_reference self) { return self.x(); },

@@ -96,7 +96,9 @@ public:
      *
      * @throw None No throw guarantee.
      */
-    Atom() = default;
+    Atom() :
+      m_nuke_(), n_electrons_(0){} // Explicitly initialize members
+    ;
 
     /**
      * @defgroup Copy/Move CTors and Assignment Operators
@@ -272,7 +274,7 @@ private:
     nucleus_type m_nuke_;
 
     /// Number of electrons
-    size_type n_electrons_;
+    size_type n_electrons_ = 0;
 
 }; // End Atom
 
