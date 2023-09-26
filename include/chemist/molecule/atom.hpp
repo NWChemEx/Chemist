@@ -180,7 +180,7 @@ public:
      *
      * @return The number of electrons.
      */
-    std::size_t n_electrons() const noexcept { return n_electrons_; }
+    size_type n_electrons() const noexcept { return n_electrons_; }
 
     /** @brief Returns the net charge of the atom.
      *
