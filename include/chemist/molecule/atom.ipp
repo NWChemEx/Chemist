@@ -22,11 +22,16 @@ namespace chemist {
 
 inline Atom::Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
                   coord_type y, coord_type z) :
-  m_nuke_(s, Z, m, x, y, z) {}
+  m_nuke_(s, Z, m, x, y, z), n_electrons_(Z) {}
 
 inline Atom::Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
                   coord_type y, coord_type z, charge_type q) :
-  m_nuke_(s, Z, m, x, y, z, q) {}
+  m_nuke_(s, Z, m, x, y, z, q), n_electrons_(Z) {}
+
+inline Atom::Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
+                  coord_type y, coord_type z, charge_type q,
+                  size_type n_electrons) :
+  m_nuke_(s, Z, m, x, y, z, q), n_electrons_(n_electrons) {}
 
 // -- Accessors ----------------------------------------------------------------
 

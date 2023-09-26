@@ -111,9 +111,9 @@ public:
      * there is insufficient memory to perform the copy.
      */
     ///@{
-    Atom(const Atom& rhs)     = default;
-    Atom(Atom&& rhs) noexcept = default;
-    Atom& operator=(const Atom& rhs) = default;
+    Atom(const Atom& rhs)                = default;
+    Atom(Atom&& rhs) noexcept            = default;
+    Atom& operator=(const Atom& rhs)     = default;
     Atom& operator=(Atom&& rhs) noexcept = default;
     ///@}
 
@@ -140,6 +140,9 @@ public:
 
     Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
          coord_type y, coord_type z, charge_type q);
+
+    Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
+         coord_type y, coord_type z, charge_type q, size_type n_electrons);
     ///@}
 
     /// Default dtor
@@ -172,6 +175,29 @@ public:
 
     charge_reference charge() noexcept { return nucleus().charge(); }
     const_charge_reference charge() const noexcept;
+
+    /** @brief Returns the number of electrons.
+     *
+     * @return The number of electrons.
+     */
+    std::size_t n_electrons() const noexcept { return n_electrons_; }
+
+    /** @brief Returns the net charge of the atom.
+     *
+     * @return The net charge of the atom.
+     */
+    charge_type net_charge() const noexcept {
+        return nucleus().charge() - n_electrons_;
+    }
+
+    /**
+     * @brief Set the number of electrons of the atom.
+     *
+     * @param new_n_electrons
+     */
+    void set_n_electrons(size_type new_n_electrons) noexcept {
+        n_electrons_ = new_n_electrons;
+    }
 
     ///@}
 
@@ -221,6 +247,9 @@ public:
 private:
     /// The atom's nucleus
     nucleus_type m_nuke_;
+
+    /// Number of electrons
+    std::size_t n_electrons_;
 
 }; // End Atom
 
