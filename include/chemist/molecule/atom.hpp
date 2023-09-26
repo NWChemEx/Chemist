@@ -202,7 +202,7 @@ public:
     /** @brief Returns the net charge of the atom.
      *
      * The net charge (in atomic units) on the atom is defined as the
-     * nuclear charge (also in atomic units) minus the number of electrons. 
+     * nuclear charge (also in atomic units) minus the number of electrons.
      * For example, a helium atom (nuclear charge of +4) with 3 electrons,
      * has a charge of +1.
      *
