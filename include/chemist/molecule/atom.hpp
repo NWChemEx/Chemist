@@ -88,6 +88,12 @@ public:
     /// The type of a counting number
     using size_type = nucleus_type::size_type;
 
+    /// A read/write reference to a countable
+    using size_reference = size_type&;
+
+    /// A read-only reference to a countable
+    using const_size_reference = const size_type&;
+
     /**
      * @brief Makes a default constructed Atom instance.
      *
@@ -113,9 +119,9 @@ public:
      * there is insufficient memory to perform the copy.
      */
     ///@{
-    Atom(const Atom& rhs)     = default;
-    Atom(Atom&& rhs) noexcept = default;
-    Atom& operator=(const Atom& rhs) = default;
+    Atom(const Atom& rhs)                = default;
+    Atom(Atom&& rhs) noexcept            = default;
+    Atom& operator=(const Atom& rhs)     = default;
     Atom& operator=(Atom&& rhs) noexcept = default;
     ///@}
 
@@ -194,12 +200,9 @@ public:
     charge_reference nuclear_charge() noexcept { return nucleus().charge(); }
     const_charge_reference nuclear_charge() const noexcept;
 
-    /** @brief Returns the number of electrons.
-     *
-     * @return The number of electrons.
-     * @throw None No throw guarantee
-     */
-    size_type n_electrons() const noexcept { return n_electrons_; }
+    size_reference n_electrons() noexcept { return n_electrons_; }
+    const_size_reference n_electrons() const noexcept { return n_electrons_; }
+    ///@}
 
     /** @brief Returns the net charge of the atom.
      *
@@ -216,15 +219,6 @@ public:
     charge_type charge() const noexcept {
         return nucleus().charge() - n_electrons_;
     }
-
-    /**
-     * @brief Get/set the number of electrons.
-     *
-     * @return A mutable reference to the number of electrons.
-     */
-    size_type& n_electrons() noexcept { return n_electrons_; }
-
-    ///@}
 
     /** @brief Nuclear coordinate getter/setters
      *
