@@ -211,7 +211,9 @@ private:
 inline ChemicalSystemPIMPL::ChemicalSystemPIMPL(molecule_t mol,
                                                 size_type n_electrons,
                                                 epot_t epot) noexcept :
-  m_mol_(std::move(mol)), m_n_electrons_(n_electrons), m_epot_(std::move(epot)) {}
+  m_mol_(std::move(mol)),
+  m_n_electrons_(n_electrons),
+  m_epot_(std::move(epot)) {}
 
 inline bool ChemicalSystemPIMPL::operator==(
   const ChemicalSystemPIMPL& rhs) const noexcept {
