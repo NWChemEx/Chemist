@@ -80,27 +80,125 @@ Functions</h2></td></tr>
 <tr class="memitem:gac4479ee7f577508599dff120ff68d73b"><td class="memItemLeft" align="right" valign="top"><a id="gac4479ee7f577508599dff120ff68d73b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>chemist::Atom::Atom</b> (<a class="el" href="classchemist_1_1Atom.html#aa852cc3673b9d7852ac4857dbd7379e4">name_type</a> s, <a class="el" href="classchemist_1_1Atom.html#a74deb8d6ef02fa939005566a3dfae3b9">atomic_number_type</a> Z, <a class="el" href="classchemist_1_1Atom.html#a5a592f5224453667f92bcfcf48e0d4fb">mass_type</a> m, <a class="el" href="classchemist_1_1Atom.html#a26e57dccca0d7c6ccb56b3e94d1f2b4b">coord_type</a> x, <a class="el" href="classchemist_1_1Atom.html#a26e57dccca0d7c6ccb56b3e94d1f2b4b">coord_type</a> y, <a class="el" href="classchemist_1_1Atom.html#a26e57dccca0d7c6ccb56b3e94d1f2b4b">coord_type</a> z, <a class="el" href="classchemist_1_1Atom.html#a5b1cb47a18abe5583d5af2ecc0b32fb0">charge_type</a> q)</td></tr>
 <tr class="separator:gac4479ee7f577508599dff120ff68d73b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga67643dfc3867b1cb7094f60c81a30c3d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__State-based.html#ga67643dfc3867b1cb7094f60c81a30c3d">chemist::Atom::Atom</a> (<a class="el" href="classchemist_1_1Atom.html#aa852cc3673b9d7852ac4857dbd7379e4">name_type</a> s, <a class="el" href="classchemist_1_1Atom.html#a74deb8d6ef02fa939005566a3dfae3b9">atomic_number_type</a> Z, <a class="el" href="classchemist_1_1Atom.html#a5a592f5224453667f92bcfcf48e0d4fb">mass_type</a> m, <a class="el" href="classchemist_1_1Atom.html#a26e57dccca0d7c6ccb56b3e94d1f2b4b">coord_type</a> x, <a class="el" href="classchemist_1_1Atom.html#a26e57dccca0d7c6ccb56b3e94d1f2b4b">coord_type</a> y, <a class="el" href="classchemist_1_1Atom.html#a26e57dccca0d7c6ccb56b3e94d1f2b4b">coord_type</a> z, <a class="el" href="classchemist_1_1Atom.html#a5b1cb47a18abe5583d5af2ecc0b32fb0">charge_type</a> q, <a class="el" href="classchemist_1_1Atom.html#acc8aba83bc15cebaf5112f3257c0cd98">size_type</a> n_electrons)</td></tr>
+<tr class="memdesc:ga67643dfc3867b1cb7094f60c81a30c3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Primary ctor.  <a href="group__State-based.html#ga67643dfc3867b1cb7094f60c81a30c3d">More...</a><br /></td></tr>
+<tr class="separator:ga67643dfc3867b1cb7094f60c81a30c3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>CTors for providing the initial state of the <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instance. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">s</td><td>The name/symbol of the <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>The atomic number of the <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The mass of the <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The x coordinate of the <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The y coordinate of the <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">z</td><td>The z coordinate of the <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">q</td><td>The charge on the <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a>. Defaults to the atomic number if not provided</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">s</td><td>The (case-sensitive) atomic symbol for the nucleus. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>The number of protons in the nucleus, i.e. the atomic number. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The mass of the nucleus (in a.u.) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The x-coordinate where the nucleus is centered (in a.u.) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The y-coordinate where the nucleus is centered (in a.u.) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">z</td><td>The z-coordinate where the nucleus is centered (in a.u.) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">q</td><td>The charge of the nucleus (in a.u.)</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::bad_alloc</td><td>The copy ctor/assignment operator throws if there is insufficient memory to perform the copy. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if the allocation fails. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ga67643dfc3867b1cb7094f60c81a30c3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga67643dfc3867b1cb7094f60c81a30c3d">&#9670;&nbsp;</a></span>Atom()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">chemist::Atom::Atom </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Atom.html#aa852cc3673b9d7852ac4857dbd7379e4">name_type</a>&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Atom.html#a74deb8d6ef02fa939005566a3dfae3b9">atomic_number_type</a>&#160;</td>
+          <td class="paramname"><em>Z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Atom.html#a5a592f5224453667f92bcfcf48e0d4fb">mass_type</a>&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Atom.html#a26e57dccca0d7c6ccb56b3e94d1f2b4b">coord_type</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Atom.html#a26e57dccca0d7c6ccb56b3e94d1f2b4b">coord_type</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Atom.html#a26e57dccca0d7c6ccb56b3e94d1f2b4b">coord_type</a>&#160;</td>
+          <td class="paramname"><em>z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Atom.html#a5b1cb47a18abe5583d5af2ecc0b32fb0">charge_type</a>&#160;</td>
+          <td class="paramname"><em>q</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Atom.html#acc8aba83bc15cebaf5112f3257c0cd98">size_type</a>&#160;</td>
+          <td class="paramname"><em>n_electrons</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Primary ctor. </p>
+<p>This ctor allows the caller to set all of the <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a>'s state directly.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">s</td><td>The (case-sensitive) atomic symbol for the nucleus. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>The number of protons in the nucleus, i.e. the atomic number. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The mass of the nucleus (in a.u.) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The x-coordinate where the nucleus is centered (in a.u.) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The y-coordinate where the nucleus is centered (in a.u.) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">z</td><td>The z-coordinate where the nucleus is centered (in a.u.) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">q</td><td>The charge of the nucleus (in a.u.) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">n_electrons</td><td>The number of electrons in the atom (defaults to Z)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if the allocation fails. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

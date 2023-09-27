@@ -380,7 +380,7 @@ pimpl_ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 <li>A defaulted nucleus (all properties set to zero).</li>
 <li>A nucleus sitting at the origin (charge equal to atomic number).</li>
 <li>A nucleus sitting at a specified point (charge still equal to atomic number).</li>
-<li>A nucleus sitting at a specified point, with a user-spefied charge.</li>
+<li>A nucleus sitting at a specified point, with a user-specified charge.</li>
 </ol>
 <dl class="section note"><dt>Note</dt><dd>A priori users may wonder why overload 4 even exists. At the moment the main answer is because the class hierarchy naturally admits it. Theoretically, we would like to expand Chemist to include unit literals. If we do that, then note that the charge of the nucleus only equals the atomic number in atomic units; i.e., in many other unit systems they are not equal and different methods are needed. More practically, the atomic number is guaranteed to be an integer and is thus easier to use for indexing, where as charge is guaranteed to be floating-point and is thus easier to use in computations.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -389,8 +389,8 @@ pimpl_ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
     <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>The atomic number, i.e., Z==1 for hydrogen, Z==2 for helium, etc. If not specified defaults to 0. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The mass (in atomic units) of the nucleus. If not specified defaults to 0.0. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The x-coordinate of where the nucleus is centered. If not specified defaults to the origin. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The y-coordinate of where the nucleus is centered. If not specified defaults to the orgin. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">z</td><td>The z-coordinate of where the nucleus is centered. If not specefied defaults to the origin. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The y-coordinate of where the nucleus is centered. If not specified defaults to the origin. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">z</td><td>The z-coordinate of where the nucleus is centered. If not specified defaults to the origin. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">q</td><td>The charge of the nucleus (in atomic units). If not specified defaults to <code>Z</code>.</td></tr>
   </table>
   </dd>

@@ -83,7 +83,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>chemist::operator!=</
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Allows one to compare two atom instances for exact equality. </p>
-<p>Two atom instances are defined as equal if they have the same atomic number, the same mass, and the same coordinates. The name field is considered metadata and is not considered in the comparison. <em>N.B</em> that floating-point comparisons are bit-wise with zero tolerance for deviation, <em>i.e.</em>, 1.99999999999999 != 2.00000000000000</p>
+<p>Two atom instances are defined as equal if their nuclei are identical and the number of electrons are the same. <em>N.B</em> that floating-point comparisons are bit-wise with zero tolerance for deviation, <em>i.e.</em>, 1.99999999999999 != 2.00000000000000</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">lhs</td><td>The <a class="el" href="classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit.">Atom</a> instance on the left of the equivalence operation </td></tr>
