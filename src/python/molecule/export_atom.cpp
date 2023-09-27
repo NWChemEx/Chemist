@@ -63,7 +63,7 @@ void export_atom(python_module_reference m) {
       .def_property(
         "n_electrons", [](atom_reference self) { return self.n_electrons(); },
         [](atom_reference self, size_type n) { self.n_electrons() = n; })
-      .def("charge", [](atom_reference self) { return self.charge(); })
+      .def("charge", &Atom::charge)
       .def("coord", static_cast<coord_fxn>(&Atom::coord))
       .def_property(
         "x", [](atom_reference self) { return self.x(); },
