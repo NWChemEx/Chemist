@@ -268,7 +268,7 @@ private:
     nucleus_type m_nuke_;
 
     /// Number of electrons
-    size_type n_electrons_ = 0;
+    size_type m_n_electrons_ = 0;
 
 }; // End Atom
 
