@@ -113,9 +113,9 @@ public:
      * there is insufficient memory to perform the copy.
      */
     ///@{
-    Atom(const Atom& rhs)     = default;
-    Atom(Atom&& rhs) noexcept = default;
-    Atom& operator=(const Atom& rhs) = default;
+    Atom(const Atom& rhs)                = default;
+    Atom(Atom&& rhs) noexcept            = default;
+    Atom& operator=(const Atom& rhs)     = default;
     Atom& operator=(Atom&& rhs) noexcept = default;
     ///@}
 
@@ -124,14 +124,14 @@ public:
      *
      * @brief CTors for providing the initial state of the Atom instance.
      *
-     * @param[in] s The name/symbol of the Atom
-     * @param[in] Z The atomic number of the Atom
-     * @param[in] m The mass of the Atom
-     * @param[in] x The x coordinate of the Atom
-     * @param[in] y The y coordinate of the Atom
-     * @param[in] z The z coordinate of the Atom
-     * @param[in] q The charge of the nucleus (in a.u.) Defaults to the atomic
-     * number.
+     * @param[in] s The (case-sensitive) atomic symbol for the nucleus.
+     * @param[in] Z The number of protons in the nucleus, i.e. the atomic
+     *              number.
+     * @param[in] m The mass of the nucleus (in a.u.)
+     * @param[in] x The x-coordinate where the nucleus is centered (in a.u.)
+     * @param[in] y The y-coordinate where the nucleus is centered (in a.u.)
+     * @param[in] z The z-coordinate where the nucleus is centered (in a.u.)
+     * @param[in] q The charge of the nucleus (in a.u.)
      *
      * @throw std::bad_alloc if the allocation fails. Strong throw guarantee.
      */
