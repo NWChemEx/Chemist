@@ -27,7 +27,7 @@ TEST_CASE("Hamiltonian Class") {
         Hamiltonian ham;
         CHECK(ham.get_terms<ElectronKinetic>().size() == 0);
         CHECK(ham.size() == 0);
-        CHECK(ham.nelectrons() == 0);
+        CHECK(ham.n_electrons() == 0);
     }
 
     SECTION("One Operator Construction") {
@@ -35,7 +35,7 @@ TEST_CASE("Hamiltonian Class") {
         CHECK(ham.has_term<NElectronKinetic>());
         CHECK(ham.get_terms<NElectronKinetic>().size() == 1);
         CHECK(ham.size() == 1);
-        CHECK(ham.nelectrons() == 2);
+        CHECK(ham.n_electrons() == 2);
     }
 
     SECTION("Two Operator Construction") {

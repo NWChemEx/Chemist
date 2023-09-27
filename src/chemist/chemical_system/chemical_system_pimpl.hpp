@@ -59,12 +59,12 @@ public:
     /** @brief Creates a PIMPL with the provided state.
      *
      *  @param[in] mol The nuclear framework in the system.
-     *  @param[in] nelectrons The number of electrons
+     *  @param[in] n_electrons The number of electrons
      *  @param[in] epot The external electrostatic potential
      *
      *  @throw None No throw guarantee.
      */
-    explicit ChemicalSystemPIMPL(molecule_t mol, size_type nelectrons,
+    explicit ChemicalSystemPIMPL(molecule_t mol, size_type n_electrons,
                                  epot_t epot = {}) noexcept;
 
     /// Standard defaulted polymorphic dtor
@@ -123,7 +123,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    size_type& nelectrons() noexcept { return m_nelectrons_; }
+    size_type& n_electrons() noexcept { return m_n_electrons_; }
 
     /** @brief The number of electrons.
      *
@@ -131,7 +131,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    size_type nelectrons() const noexcept { return m_nelectrons_; }
+    size_type n_electrons() const noexcept { return m_n_electrons_; }
 
     /** @brief Accessor for the contained electrostatic potential.
      *
@@ -171,7 +171,7 @@ public:
      */
     template<typename Archive>
     void save(Archive& ar) const {
-        ar& m_mol_& m_nelectrons_& m_epot_;
+        ar& m_mol_& m_n_electrons_& m_epot_;
     }
 
     /** @brief Deserializes the ChemicalSystemPIMPL
@@ -182,7 +182,7 @@ public:
      */
     template<typename Archive>
     void load(Archive& ar) {
-        ar& m_mol_& m_nelectrons_& m_epot_;
+        ar& m_mol_& m_n_electrons_& m_epot_;
     }
 
 protected:
@@ -200,7 +200,7 @@ private:
     molecule_t m_mol_;
 
     /// The number of electrons
-    size_type m_nelectrons_ = 0;
+    size_type m_n_electrons_ = 0;
 
     /// The electrostatic potential external to the molecular framework
     epot_t m_epot_;
@@ -209,9 +209,9 @@ private:
 // ------------------- Out-of-line inline definitions --------------------------
 
 inline ChemicalSystemPIMPL::ChemicalSystemPIMPL(molecule_t mol,
-                                                size_type nelectrons,
+                                                size_type n_electrons,
                                                 epot_t epot) noexcept :
-  m_mol_(std::move(mol)), m_nelectrons_(nelectrons), m_epot_(std::move(epot)) {}
+  m_mol_(std::move(mol)), m_n_electrons_(n_electrons), m_epot_(std::move(epot)) {}
 
 inline bool ChemicalSystemPIMPL::operator==(
   const ChemicalSystemPIMPL& rhs) const noexcept {
@@ -226,8 +226,8 @@ inline typename ChemicalSystemPIMPL::pimpl_ptr_t ChemicalSystemPIMPL::clone_()
 
 inline bool ChemicalSystemPIMPL::are_equal_(
   const ChemicalSystemPIMPL& rhs) const noexcept {
-    return std::tie(m_mol_, m_nelectrons_, m_epot_) ==
-           std::tie(rhs.m_mol_, rhs.m_nelectrons_, rhs.m_epot_);
+    return std::tie(m_mol_, m_n_electrons_, m_epot_) ==
+           std::tie(rhs.m_mol_, rhs.m_n_electrons_, rhs.m_epot_);
 }
 
 } // namespace chemist::detail_
