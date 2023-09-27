@@ -34,7 +34,7 @@ using charge_type = typename Atom::charge_type;
 using coords_type = std::array<coord_type, 3>;
 
 void check_atom(Atom& ai, const coords_type& coords, size_type Z, mass_type m,
-                name_type name, double q) {
+                name_type name, double q, int n) {
     const Atom& const_ai = ai;
 
     REQUIRE(ai.x() == coords[0]);
@@ -45,8 +45,13 @@ void check_atom(Atom& ai, const coords_type& coords, size_type Z, mass_type m,
     REQUIRE(const_ai.y() == coords[1]);
     REQUIRE(const_ai.z() == coords[2]);
 
-    REQUIRE(ai.charge() == q);
-    REQUIRE(const_ai.charge() == q);
+    REQUIRE(ai.nuclear_charge() == q);
+    REQUIRE(const_ai.nuclear_charge() == q);
+
+    REQUIRE(ai.n_electrons() == n);
+    REQUIRE(const_ai.n_electrons() == n);
+
+    REQUIRE(const_ai.charge() == q - n);
 
     REQUIRE(ai.name() == name);
     REQUIRE(const_ai.name() == name);
@@ -74,24 +79,28 @@ TEST_CASE("Atom Class") {
 
     SECTION("Default Ctor") {
         Atom ai;
-        check_atom(ai, coords_type{}, 0, 0.0, "", 0.0);
+        check_atom(ai, coords_type{}, 0, 0.0, "", 0.0, 0);
     }
 
     SECTION("State Ctors") {
         SECTION("With charge") {
             Atom ai(h, Z, m, 1.0, 2.0, 3.0, 4.0);
-            check_atom(ai, carts, Z, m, h, 4.0);
+            check_atom(ai, carts, Z, m, h, 4.0, Z);
+        }
+        SECTION("With n_electrons") {
+            Atom ai(h, Z, m, 1.0, 2.0, 3.0, 4.0, 2);
+            check_atom(ai, carts, Z, m, h, 4.0, 2);
         }
         SECTION("Without charge") {
             Atom ai(h, Z, m, 1.0, 2.0, 3.0);
-            check_atom(ai, carts, Z, m, h, 1.0);
+            check_atom(ai, carts, Z, m, h, 1.0, Z);
         }
     }
 
     Atom ai(h, Z, m, 1.0, 2.0, 3.0);
     SECTION("Copy Ctor") {
         Atom a2(ai);
-        check_atom(a2, carts, Z, m, h, 1.0);
+        check_atom(a2, carts, Z, m, h, 1.0, Z);
         REQUIRE(a2 == ai);
         REQUIRE(!(a2 != ai));
     }
@@ -101,7 +110,7 @@ TEST_CASE("Atom Class") {
         REQUIRE(a2 != ai);
         REQUIRE(!(a2 == ai));
         Atom& pai = (a2 = ai);
-        check_atom(a2, carts, Z, m, h, 1.0);
+        check_atom(a2, carts, Z, m, h, 1.0, Z);
         REQUIRE(a2 == ai);
         REQUIRE(!(a2 != ai));
         REQUIRE(&pai == &a2);
@@ -109,13 +118,13 @@ TEST_CASE("Atom Class") {
 
     SECTION("Move Ctor") {
         Atom a2(std::move(ai));
-        check_atom(a2, carts, Z, m, h, 1.0);
+        check_atom(a2, carts, Z, m, h, 1.0, Z);
     }
 
     SECTION("Move Assignment") {
         Atom a2;
         Atom& pai = (a2 = std::move(ai));
-        check_atom(a2, carts, Z, m, h, 1.0);
+        check_atom(a2, carts, Z, m, h, 1.0, Z);
         REQUIRE(&pai == &a2);
     }
 

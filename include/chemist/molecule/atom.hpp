@@ -88,6 +88,12 @@ public:
     /// The type of a counting number
     using size_type = nucleus_type::size_type;
 
+    /// A read/write reference to a countable
+    using size_reference = size_type&;
+
+    /// A read-only reference to a countable
+    using const_size_reference = const size_type&;
+
     /**
      * @brief Makes a default constructed Atom instance.
      *
@@ -96,7 +102,9 @@ public:
      *
      * @throw None No throw guarantee.
      */
-    Atom() = default;
+    Atom() :
+      m_nuke_(), m_n_electrons_(0){} // Explicitly initialize members
+    ;
 
     /**
      * @defgroup Copy/Move CTors and Assignment Operators
@@ -122,17 +130,16 @@ public:
      *
      * @brief CTors for providing the initial state of the Atom instance.
      *
-     * @param[in] s The name/symbol of the Atom
-     * @param[in] Z The atomic number of the Atom
-     * @param[in] m The mass of the Atom
-     * @param[in] x The x coordinate of the Atom
-     * @param[in] y The y coordinate of the Atom
-     * @param[in] z The z coordinate of the Atom
-     * @param[in] q The charge on the Atom. Defaults to the atomic number if not
-     *              provided
+     * @param[in] s The (case-sensitive) atomic symbol for the nucleus.
+     * @param[in] Z The number of protons in the nucleus, i.e. the atomic
+     *              number.
+     * @param[in] m The mass of the nucleus (in a.u.)
+     * @param[in] x The x-coordinate where the nucleus is centered (in a.u.)
+     * @param[in] y The y-coordinate where the nucleus is centered (in a.u.)
+     * @param[in] z The z-coordinate where the nucleus is centered (in a.u.)
+     * @param[in] q The charge of the nucleus (in a.u.)
      *
-     * @throw std::bad_alloc The copy ctor/assignment operator throws if
-     * there is insufficient memory to perform the copy.
+     * @throw std::bad_alloc if the allocation fails. Strong throw guarantee.
      */
     ///@{
     Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
@@ -140,6 +147,26 @@ public:
 
     Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
          coord_type y, coord_type z, charge_type q);
+
+    /** @brief Primary ctor
+     *
+     *  This ctor allows the caller to set all of the Atom's state directly.
+     *
+     * @param[in] s The (case-sensitive) atomic symbol for the nucleus.
+     * @param[in] Z The number of protons in the nucleus, i.e. the atomic
+     *              number.
+     * @param[in] m The mass of the nucleus (in a.u.)
+     * @param[in] x The x-coordinate where the nucleus is centered (in a.u.)
+     * @param[in] y The y-coordinate where the nucleus is centered (in a.u.)
+     * @param[in] z The z-coordinate where the nucleus is centered (in a.u.)
+     * @param[in] q The charge of the nucleus (in a.u.)
+     * @param[in] n_electrons The number of electrons in the atom (defaults to
+     * Z)
+     *
+     * @throw std::bad_alloc if the allocation fails. Strong throw guarantee.
+     */
+    Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
+         coord_type y, coord_type z, charge_type q, size_type n_electrons);
     ///@}
 
     /// Default dtor
@@ -170,10 +197,28 @@ public:
     mass_reference mass() noexcept { return nucleus().mass(); }
     const_mass_reference mass() const noexcept { return nucleus().mass(); }
 
-    charge_reference charge() noexcept { return nucleus().charge(); }
-    const_charge_reference charge() const noexcept;
+    charge_reference nuclear_charge() noexcept { return nucleus().charge(); }
+    const_charge_reference nuclear_charge() const noexcept;
 
+    size_reference n_electrons() noexcept { return m_n_electrons_; }
+    const_size_reference n_electrons() const noexcept { return m_n_electrons_; }
     ///@}
+
+    /** @brief Returns the net charge of the atom.
+     *
+     * The net charge (in atomic units) on the atom is defined as the
+     * nuclear charge (also in atomic units) minus the number of electrons.
+     * For example, a helium atom (nuclear charge of +2.0) with 3 electrons,
+     * has a charge of -1.0.
+     *
+     * @return The net charge of the atom.
+     *
+     * @throw None No throw guarantee.
+     * @return The net charge of the atom.
+     */
+    charge_type charge() const noexcept {
+        return nucleus().charge() - m_n_electrons_;
+    }
 
     /** @brief Nuclear coordinate getter/setters
      *
@@ -222,6 +267,9 @@ private:
     /// The atom's nucleus
     nucleus_type m_nuke_;
 
+    /// Number of electrons
+    size_type m_n_electrons_ = 0;
+
 }; // End Atom
 
 /**
@@ -229,11 +277,10 @@ private:
  * @relates Atom
  * @brief Allows one to compare two atom instances for exact equality.
  *
- * Two atom instances are defined as equal if they have the same atomic
- * number, the same mass, and the same coordinates.  The name field is
- * considered metadata and is not considered in the comparison.  *N.B* that
- * floating-point comparisons are bit-wise with zero tolerance for
- * deviation, *i.e.*, 1.99999999999999 != 2.00000000000000
+ * Two atom instances are defined as equal if their nuclei are identical and the
+ * number of electrons are the same. *N.B* that floating-point comparisons are
+ * bit-wise with zero tolerance for deviation, *i.e.*, 1.99999999999999
+ * != 2.00000000000000
  *
  * @param[in] lhs The Atom instance on the left of the equivalence operation
  * @param[in] rhs The Atom instance on the right of the equivalence
