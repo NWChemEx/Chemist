@@ -113,9 +113,9 @@ public:
      * there is insufficient memory to perform the copy.
      */
     ///@{
-    Atom(const Atom& rhs)                = default;
-    Atom(Atom&& rhs) noexcept            = default;
-    Atom& operator=(const Atom& rhs)     = default;
+    Atom(const Atom& rhs)     = default;
+    Atom(Atom&& rhs) noexcept = default;
+    Atom& operator=(const Atom& rhs) = default;
     Atom& operator=(Atom&& rhs) noexcept = default;
     ///@}
 
