@@ -103,7 +103,7 @@ public:
      * @throw None No throw guarantee.
      */
     Atom() :
-      m_nuke_(), n_electrons_(0){} // Explicitly initialize members
+      m_nuke_(), m_n_electrons_(0){} // Explicitly initialize members
     ;
 
     /**
@@ -119,9 +119,9 @@ public:
      * there is insufficient memory to perform the copy.
      */
     ///@{
-    Atom(const Atom& rhs)     = default;
-    Atom(Atom&& rhs) noexcept = default;
-    Atom& operator=(const Atom& rhs) = default;
+    Atom(const Atom& rhs)                = default;
+    Atom(Atom&& rhs) noexcept            = default;
+    Atom& operator=(const Atom& rhs)     = default;
     Atom& operator=(Atom&& rhs) noexcept = default;
     ///@}
 
@@ -200,8 +200,8 @@ public:
     charge_reference nuclear_charge() noexcept { return nucleus().charge(); }
     const_charge_reference nuclear_charge() const noexcept;
 
-    size_reference n_electrons() noexcept { return n_electrons_; }
-    const_size_reference n_electrons() const noexcept { return n_electrons_; }
+    size_reference n_electrons() noexcept { return m_n_electrons_; }
+    const_size_reference n_electrons() const noexcept { return m_n_electrons_; }
     ///@}
 
     /** @brief Returns the net charge of the atom.
@@ -217,7 +217,7 @@ public:
      * @return The net charge of the atom.
      */
     charge_type charge() const noexcept {
-        return nucleus().charge() - n_electrons_;
+        return nucleus().charge() - m_n_electrons_;
     }
 
     /** @brief Nuclear coordinate getter/setters

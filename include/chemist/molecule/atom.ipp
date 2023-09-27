@@ -22,7 +22,7 @@ namespace chemist {
 
 inline Atom::Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
                   coord_type y, coord_type z) :
-  m_nuke_(s, Z, m, x, y, z), n_electrons_(Z) {}
+  m_nuke_(s, Z, m, x, y, z), m_n_electrons_(Z) {}
 
 inline Atom::Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
                   coord_type y, coord_type z, charge_type q) :
@@ -31,7 +31,7 @@ inline Atom::Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
 inline Atom::Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
                   coord_type y, coord_type z, charge_type q,
                   size_type n_electrons) :
-  m_nuke_(s, Z, m, x, y, z, q), n_electrons_(n_electrons) {}
+  m_nuke_(s, Z, m, x, y, z, q), m_n_electrons_(n_electrons) {}
 
 // -- Accessors ----------------------------------------------------------------
 
@@ -48,11 +48,11 @@ inline typename Atom::const_charge_reference Atom::nuclear_charge()
 
 template<typename Archive>
 void Atom::save(Archive& ar) const {
-    ar& m_nuke_& n_electrons_;
+    ar& m_nuke_& m_n_electrons_;
 }
 
 template<typename Archive>
 void Atom::load(Archive& ar) {
-    ar& m_nuke_& n_electrons_;
+    ar& m_nuke_& m_n_electrons_;
 }
 } // namespace chemist
