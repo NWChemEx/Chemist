@@ -86,14 +86,14 @@ TEST_CASE("ChemicalSystemPIMPL") {
     SECTION("Default ctor") {
         chem_sys_pimpl_t pimpl;
         REQUIRE(pimpl.molecule() == default_mol);
-        REQUIRE(pimpl.nelectrons() == 0);
+        REQUIRE(pimpl.n_electrons() == 0);
         REQUIRE(pimpl.external_electrostatic_potential() == default_v);
     }
 
     SECTION("Value ctor") {
         chem_sys_pimpl_t pimpl(h, 2, v);
         REQUIRE(pimpl.molecule() == h);
-        REQUIRE(pimpl.nelectrons() == 2);
+        REQUIRE(pimpl.n_electrons() == 2);
         REQUIRE(pimpl.external_electrostatic_potential() == v);
     }
 
@@ -141,14 +141,14 @@ TEST_CASE("ChemicalSystemPIMPL") {
         }
     }
 
-    SECTION("nelectrons") {
+    SECTION("n_electrons") {
         chem_sys_pimpl_t pimpl(h, 2, v);
-        REQUIRE(pimpl.nelectrons() == 2);
+        REQUIRE(pimpl.n_electrons() == 2);
     }
 
-    SECTION("nelectrons() const") {
+    SECTION("n_electrons() const") {
         const chem_sys_pimpl_t pimpl(h, 2, v);
-        REQUIRE(pimpl.nelectrons() == 2);
+        REQUIRE(pimpl.n_electrons() == 2);
     }
 
     SECTION("external_electrostatic_potential()") {

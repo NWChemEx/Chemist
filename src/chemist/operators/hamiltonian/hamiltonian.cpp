@@ -30,7 +30,7 @@ Hamiltonian& Hamiltonian::operator=(const Hamiltonian& other) = default;
 
 Hamiltonian& Hamiltonian::operator=(Hamiltonian&& other) noexcept = default;
 
-size_type Hamiltonian::nelectrons() const noexcept {
+size_type Hamiltonian::n_electrons() const noexcept {
     using T_type = NElectronKinetic;
     if(!has_term<T_type>()) return 0;
     auto T = get_terms<T_type>();

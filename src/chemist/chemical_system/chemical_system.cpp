@@ -42,12 +42,13 @@ ChemicalSystem::ChemicalSystem(ChemicalSystem&& other) noexcept = default;
 
 ChemicalSystem::ChemicalSystem(molecule_t mol, epot_t v) :
   ChemicalSystem(std::move(mol), 0, std::move(v)) {
-    nelectrons() = sum_z(molecule());
+    n_electrons() = sum_z(molecule());
 }
 
-ChemicalSystem::ChemicalSystem(molecule_t mol, size_type nelectrons, epot_t v) :
+ChemicalSystem::ChemicalSystem(molecule_t mol, size_type n_electrons,
+                               epot_t v) :
   m_pimpl_(
-    std::make_unique<pimpl_t>(std::move(mol), nelectrons, std::move(v))) {}
+    std::make_unique<pimpl_t>(std::move(mol), n_electrons, std::move(v))) {}
 
 ChemicalSystem::~ChemicalSystem() noexcept = default;
 
@@ -71,14 +72,14 @@ const molecule_t& ChemicalSystem::molecule() const {
     return pimpl_().molecule();
 }
 
-size_type& ChemicalSystem::nelectrons() { return pimpl_().nelectrons(); }
+size_type& ChemicalSystem::n_electrons() { return pimpl_().n_electrons(); }
 
-size_type ChemicalSystem::nelectrons() const { return pimpl_().nelectrons(); }
+size_type ChemicalSystem::n_electrons() const { return pimpl_().n_electrons(); }
 
 typename ChemicalSystem::charge_type ChemicalSystem::charge() const noexcept {
     if(!m_pimpl_) return charge_type{0};
     std::size_t neutral = 0;
-    const auto nes      = nelectrons();
+    const auto nes      = n_electrons();
     for(const auto& atomi : molecule()) neutral += atomi.Z();
     if(neutral < nes) return -1 * charge_type(nes - neutral);
     return charge_type(neutral - nes);
