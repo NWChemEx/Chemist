@@ -10,6 +10,7 @@ of Chemist.
 
    overview
    fragmented
+   fragment_view
    caps
    fragmented_nuclei
    fragmented_molecule
