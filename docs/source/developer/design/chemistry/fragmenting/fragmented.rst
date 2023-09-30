@@ -122,9 +122,7 @@ whatever arguments the user provided.
 
 .. note::
 
-   Full PIMPL design discussions: :ref:`designing_fragmented_nuclei`,
-   :ref:`designing_fragmented_molecule_class`, and
-   :ref:`designing_fragmented_system`.
+   Full PIMPL design discussions: :ref:`designing_fragmented_pimpls`.
 
 While the exact details of the PIMPLs are out of scope for this discussion, we
 note that the PIMPL design will be similar to the design of the

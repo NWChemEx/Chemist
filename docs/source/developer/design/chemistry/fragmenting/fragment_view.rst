@@ -129,14 +129,14 @@ The more interesting construction APIs are for the PIMPLs.
    auto psupersystem = get_pointer_to_supersystem_from_fragmented_object();
    auto pcap0        = get_pointer_to_the_first_cap();
    auto pcap1        = get_pointer_to_the_second_cap();
-   auto nuclei       = {0, 1, 2}; // Fragment contains nuclei 0, 1, and 2
+   auto pnuclei      = get_pointer_to_nuclei_set(); // Fragment contains nuclei 0, 1, and 2
    FragmentViewPIMPL<NucleiViewPIMPL> nuclei_pimpl(psupersystem, 
-                                                   nuclei, 
+                                                   pnuclei, 
                                                    {pcap0, pcap1});
 
    // We could have also built the same object using member functions
    nuclei_pimpl.set_supersystem(get_supersystem_from_fragmented_object());
-   nuclei_pimpl.insert_nuclei({0, 1, 2}); // Adds nuclei 0, 1, and 2
+   nuclei_pimpl.nuclei_data() = pnuclei; // Assign pointer
    nuclei_pimpl.insert_cap(pcap0);
    nuclei_pimpl.insert_cap(pcap1);
 
@@ -154,7 +154,6 @@ The more interesting construction APIs are for the PIMPLs.
    // Again could have use member functions
    mol_pimpl.charge_data()       = pcharge;
    mol_pimpl.multiplicity_data() = pmult;
-
 
    auto pfield0 = get_pointer_to_first_field();
    auto pfield1 = get_pointer_to_second_field();

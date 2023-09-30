@@ -14,16 +14,16 @@
 
 .. _designing_the_caps_class:
 
-##########################
-Designing the CapSet Class
-##########################
+#############################
+Designing the Capping Classes
+#############################
 
 In :ref:`designing_fragmented_class` consideration :ref:`lc_caps`
 gave rise to the need to represent caps. This page describes the design of
-the ``CapSet<T>`` class.
+the ``Cap`` and ``CapSet`` classes.
 
 **************
-What is a cap?
+What is a Cap?
 **************
 
 .. |A| replace:: :math:`A`
@@ -42,7 +42,7 @@ between |A| and an added monovalent atom (usually hydrogen). The
 monovalent atom (or sometimes group of atoms) is referred to as a "cap".
 
 ********************
-Why do we need caps?
+Why Do We Need Caps?
 ********************
 
 If we want to apply fragment-based methods to large covalently-bonded systems
