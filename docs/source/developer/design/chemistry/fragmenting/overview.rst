@@ -114,7 +114,7 @@ Expansion coefficients.
    motivation for not including the weights here is that in many cases the
    weights depend on more than just the fragment/field, *e.g.*, they may also
    depend on the AO basis set (think basis set superposition error corrections)
-   and/or level of theory (think :ref:`QM/MM` or other multi-layered theories).
+   and/or level of theory (think :term:`QM/MM` or other multi-layered theories).
 
 ******************
 Fragmenting Design
@@ -137,7 +137,7 @@ Fragmented Class
 
 Full discussion: :ref:`designing_fragmented_class`.
 
-Together considerations :ref:`chemical_system_class` and
+Together considerations :ref:`fc_chemical_system_class` and
 :ref:`fc_chemical_system_hierarchy` mean that the Fragmenting component needs
 to be able support fragmenting not just ``ChemicalSystem`` objects, but several
 other classes as well. This is addressed by templating the ``Fragmented<T>``
@@ -146,7 +146,7 @@ class on the type of object being fragmented.
 FragmentView Class
 ==================
 
-Full discussion: :ref:`designing_fragmented_view_class`.
+Full discussion: :ref:`designing_the_fragment_view_class`.
 
 Given the :ref:`fc_performance` consideration the state inside a
 ``Fragmented<T>`` object will NOT simply be akin to a ``std::vector<T>``.

@@ -129,7 +129,7 @@ Summary
    At present the only non-fragment state are the caps. 
    ``FragmentedPIMPL<Nuclei>`` is capable of storing the caps.
 
-:ref:`_fp_non_disjoint`
+:ref:`fp_non_disjoint`
    The nuclei in each fragment are stored in ``FragmentedPIMPL<Nuclei>``. The
    storage mechanism allows the same nucleus to appear in more than one
    fragment.

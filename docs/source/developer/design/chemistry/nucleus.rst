@@ -88,18 +88,6 @@ Views
    - Views also enable external libraries to wrap their data in an API
      compatible with Chemist.
 
-
-.. _n_fragmented_nuclei:
-
-fragmented nuclei
-   There are a number of methods which require us to divide the nuclei into
-   sets. The resulting structure essentially behaves like a container of
-   ``Nuclei``.
-
-   - There are a number of additional considerations which went into the design 
-     of the ``FragmentedNuclei`` class; they are discussed in
-     :ref:`designing_fragmented_nuclei`.
-
 Out of Scope
 ============
 
@@ -121,7 +109,7 @@ Nucleus Design
    Classes comprising the Nucleus component of Chemist.
 
 The classes of the Nucleus component are shown in 
-:numref:`_fig_nucleus_component`. The figure divides the classes into two
+:numref:`fig_nucleus_component`. The figure divides the classes into two
 categories those which are part of the public API and those which are needed to
 implement the public API. The following subsections contain more details about
 the various classes.
@@ -151,19 +139,6 @@ the ``Nuclei`` class to alias the unpacked state, while maintaining the
 Similar to ``NucleusView``, ``NucleiView`` is designed to facilitate using
 existing data as if it were a ``Nuclei`` object.
 
-FragmentedNuclei
-================
-
-Main discussion: :ref:`designing_fragmented_nuclei`.
-
-Given a ``Nuclei`` object we sometimes want to only consider subsets of that
-object. Each of those subsets is also a ``Nuclei`` object. The 
-``FragmentedNuclei`` class is a container which holds the supersystem ``Nuclei``
-object and each of the subsystem ``Nuclei`` objects.  Derived from 
-``FragmentedNuclei`` is ``CappedFragmentedNuclei`` which additionally stores
-caps via a ``CapSet``. Ultimately ``FragmentedNuclei`` is added to satisfy
-the :ref:`n_fragmented_nuclei` consideration.
-
 PIMPLs
 ======
 
@@ -181,7 +156,7 @@ Summary
 :ref:`n_basic_parameters`
    The ``Nucleus`` class contains the specified parameters.
 
-:ref:`n_atomic_number_v_charge:`
+:ref:`n_atomic_number_v_charge`
    The ``Nucleus`` object stores the atomic number as separate state. By default
    the charge is set to the atomic number (and the units are assumed to be
    atomic units).
@@ -189,6 +164,3 @@ Summary
 :ref:`n_views`
   The ``Nucleus``, and ``Nuclei`` classes are paired with ``NucleusView``
   and ``NucleiView``. 
-
-:ref:`n_fragmented_nuclei`
-   This consideration was addressed by having a ``FragmentedNuclei`` class.

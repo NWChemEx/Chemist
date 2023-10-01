@@ -44,7 +44,7 @@ indirection in the implementation.
 Fragmented Considerations
 *************************
 
-.. _ fc_additional_state:
+.. _fc_additional_state:
 
 additional state
    The overall design of the Fragmenting component
@@ -94,7 +94,7 @@ Fragmented Design
 
 .. _fig_fragmented_class:
 
-.. figure:: assets/fragmented.pn
+.. figure:: assets/fragmented.png
    :align: center
 
    Classes related to implementing the ``Fragmented<T>`` class template.
@@ -126,13 +126,13 @@ whatever arguments the user provided.
 
 While the exact details of the PIMPLs are out of scope for this discussion, we
 note that the PIMPL design will be similar to the design of the
-``Molecule`` and ``ChemicalSystem`` classes (see :ref:`molecule_design`
+``Molecule`` and ``ChemicalSystem`` classes (see :ref:`md_molecule_design`
 and :ref:`csd_chemical_system_design` respectively). More specifically, the
 ``FragmentedPIMPL<Molecule>`` class will contain a ``Fragmented<Nuclei>``
 instance plus the additional ``Molecule`` state for each fragment, and the
 ``FragmentedPIMPL<ChemicalSystem>`` will contain a ``Fragmented<Molecule>``
 instance plus the additional ``ChemicalSystem`` state for each fragment.
-
+ 
 **************
 Fragmented API
 **************

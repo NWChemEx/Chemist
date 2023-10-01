@@ -18,7 +18,7 @@
 Designing the Capping Classes
 #############################
 
-In :ref:`designing_fragmented_class` consideration :ref:`lc_caps`
+In :ref:`designing_the_fragmenting_component` consideration :ref:`fc_caps`
 gave rise to the need to represent caps. This page describes the design of
 the ``Cap`` and ``CapSet`` classes.
 
@@ -51,6 +51,11 @@ to treat the resulting fragments as radicals, we will also need to cap the
 fragments. Caps also show up in a number of other methods which partition
 and/or break-up large covalently-bonded systems including QM/MM and ONIOM.
 
+We need the ``Cap`` class because the ``Nuclei`` class does not contain state
+for remembering the anchor and replaced nuclei. We need the ``CapSet`` class
+to wrap the process of retrieving caps for either a particular anchor or a
+particular replaced atom.
+
 *******************
 Caps considerations
 *******************
@@ -67,8 +72,7 @@ replaced type
    When we fragment an object of type ``Nuclei`` we break bonds between
    ``Nucleus`` objects. The cap we add to fix this bond will have state 
    consistent with a ``Nucleus`` object (or more generally a ``Nuclei`` object,
-   *vide infra*). Similarly fragmenting a ``Molecule`` or an ``AOBasisSet``
-   leads to different considerations for the cap.
+   *vide infra*).
 
 .. _cc_new_objects:
 
@@ -83,7 +87,7 @@ new objects
 asymmetry
    Given a severed bond |AB|, let caps |C| and |D| respectively replace |A|
    and |B|. It is generally the case that |CB| and |AD| will in general lead
-   to two caps because |C| and |D| will not usually be equal.
+   to two caps because |C| and |D| will not usually be value equal.
 
 .. _cc_bond_memory:
 
@@ -101,39 +105,37 @@ multiple caps
 
 .. _cc_multiple_objects:
  
- multiple objects
-    Caps are usually monovalent. They also are usually comprised of a single
-    center; however, this is not always the case. In general the caps needed
-    for breaking up objects of type ``T`` will also be of type ``T``.
+multiple objects
+   Caps are usually monovalent. They also are usually comprised of a single
+   center; however, this is not always the case. In general the caps needed
+   for breaking up ``Nuclei`` objects will also be ``Nuclei`` objects.
 
 .. _cc_container:
 
 container
-   The ``CapSet<T>`` class should be container-like with the elements being the
+   The ``CapSet`` class should be container-like with the elements being the
    individual caps. It is assumed that each cap is only added once (thus it
-   is set-like), but is also indexable. The template type parameter ``T`` will
-   be the type of the object being fragmented.
+   is set-like), but is also indexable.
 
-.. _cc_polymorphic_objects:
+Out of Scope
+============
 
-polymorphic objects
-   The objects that ``Cap<T>`` and ``CapSet<T>`` are templated on are in general
-   polymorphic. Assuming ``A`` derives from ``B`` it will not be
-   the case that ``Cap<A>`` derives from ``Cap<B>``. In other words the 
-   ``Cap<T>`` class does not mirror the class hierarchy of the objects.
+electrons
+   We treat caps purely as nuclei. The motivation is that typically users
+   assign the number of electrons and multiplicity to the *capped* system, i.e.,
+   electrons are not individually added to the uncapped system and then the
+   caps.
 
-   - This is the similar to using STL containers with polymorphic objects.
-
-*************
-CapSet Design
-*************
+**********************
+Capping Classes Design
+**********************
 
 .. _fig_caps_design:
 
 .. figure:: assets/caps.png
    :align: center
 
-   Overview of the ``Cap<T>`` and ``CapSet<T>`` classes as well as the purposed
+   Overview of the ``Cap`` and ``CapSet`` classes as well as the purposed
    terminology.
 
 The right side of :numref:`fig_caps_design` shows a typical capping scenario.
@@ -145,49 +147,40 @@ between carbons two and three. In this scenario we refer to carbon two as the
 "anchor atom", since it is the atom the cap will be anchored to and carbon three
 as the "replaced" atom.
 
-Following the :ref:`cc_container` consideration, the ``CapSet<T>`` object is a
-container-like object whose elements are instances of the ``Cap<T>`` class. Each
-``Cap<T>`` object knows the identity of the anchor object, and the object(s) 
-replaced by the cap(s). This satisfies the :ref:`cc_bond_memory`, 
-:ref:`cc_multiple_caps`, and :ref:`cc_multiple_objects`` considerations. 
-Consideration :ref:`cc_asymmetry` is handled by adding two ``Cap<T>`` instances 
-to the ``CapSet<T>`` object, each having a different anchor atom. Finally, to 
-satisfy :ref:`cc_new_objects` each ``Cap<T>`` holds a ``T`` object for the new 
-object(s).
-
-In practice the :ref:`cc_polymorphic_objects` consideration will not affect
-users because the
-``CapSet<T>`` objects will live inside of ``FragmentedPIMPL<T>`` objects
-(see :ref:`designing_fragmented_class`). Since each ``FragmentedPIMPL<T>`` will
-have different implementations for each ``T``, and thus each implementation can
-be tailored to the level of the class hierarchy it implements.
+Following the :ref:`cc_container` consideration, the ``CapSet`` object is a
+container-like object whose elements are instances of the ``Cap`` class. Each
+``Cap`` object knows the identity of the anchor object, the identity of the
+replaced object, and the nuclei forming the cap. This satisfies the 
+:ref:`cc_bond_memory` and :ref:`cc_multiple_objects` considerations. 
+The :ref:`cc_multiple_caps` consideration is addressed by adding multiple caps,
+with the same anchor, to the ``CapSet`` object. In a similar vein, the 
+:ref:`cc_asymmetry` consideration is addressed by adding two ``Cap`` instances 
+to the ``CapSet`` object, each having a different anchor atom. Finally, to 
+satisfy :ref:`cc_new_objects` each ``Cap`` holds a ``Nuclei`` object for the new 
+nucleus or nuclei.
 
 *******************
 Caps Design Summary
 *******************
 
 :ref:`cc_replaced_type`
-   The ``Cap<T>`` class ``CapSet<T>`` class are both templated on the type of
+   The ``Cap`` class ``CapSet`` class are both templated on the type of
    the object being fragmented.
 
 :ref:`cc_new_objects`
-   Each ``Cap<T>`` object holds the object(s) used to cap the broken bond.
+   Each ``Cap`` object holds the object(s) used to cap the broken bond.
 
 :ref:`cc_asymmetry`
-   The asymmetry of capping a bond is handled by adding multiple ``Cap<T>`` 
-   objects to the ``CapSet<T>`` object.
+   The asymmetry of capping a bond is handled by adding multiple ``Cap`` 
+   objects to the ``CapSet`` object.
 
 :ref:`cc_bond_memory`
-   The ``Cap<T>`` object holds the indices of the anchor and replaced objects 
+   The ``Cap`` object holds the indices of the anchor and replaced objects 
    in addition to the literal state of the cap.
 
 :ref:`cc_multiple_caps`
-   ``Cap<T>`` objects can be created for each of the replaced atoms.
+   ``Cap`` objects can be created for each of the replaced atoms.
 
 :ref:`cc_container`
-   The ``CapSet<T>`` class is container-like.
-
-:ref:`cc_polymorphic_objects`
-   Since ``CapSet<T>`` objects will live inside ``FragmentedPIMPL<T>`` objects,
-   each of which has a custom implementation, the ``FragmentedPIMPL<T>``
-   implementation can manually managed polymorphic conversions if necessary.
+   The ``CapSet`` class is container-like with additional functionality for
+   retrieving caps by anchor index/replaced index.
