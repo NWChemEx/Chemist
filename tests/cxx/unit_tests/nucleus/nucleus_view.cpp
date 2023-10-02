@@ -77,6 +77,8 @@ TEST_CASE("NucleusView") {
             check_addresses(copy1, move1);
         }
 
+        SECTION("Assign from Nucleus") { pn0 = n1; }
+
         SECTION("copy assignment") {
             // No default ctor, so we initialize to the opposite state we
             // expect

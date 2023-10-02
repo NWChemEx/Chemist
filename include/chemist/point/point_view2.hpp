@@ -246,6 +246,16 @@ public:
         return const_point_view(x(), y(), z());
     }
 
+    /** @brief Exchanges the state of *this with that of @p other.
+     *
+     *  @param[in,out] other The PointView to exchange state with. After this
+     *                       method has been called @p other will contain the
+     *                       state which previously was in *this.
+     *
+     *  @throw None no throw guarantee.
+     */
+    void swap(PointView2& other) noexcept { m_pr_.swap(other.m_pr_); }
+
 private:
     /// The type of pointer used to alias a coordinate
     using internal_pointer =

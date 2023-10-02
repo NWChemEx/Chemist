@@ -115,6 +115,24 @@ public:
     PointChargeView(charge_reference q, coord_reference x, coord_reference y,
                     coord_reference z);
 
+    /** @brief Makes an existing PointChargeView alias a PointCharge.
+     *
+     *  This method is used to set the aliased state of *this to the state
+     *  in @p charge.
+     *
+     *  @tparam ChargeType2 The type of @p charge. ChargeType2 needs to be
+     *                      PointCharge for this method to participate in
+     *                      overload resolution.
+     *
+     */
+    template<typename ChargeType2 = std::decay_t<ChargeType>,
+             typename = std::enable_if<std::is_same_v<ChargeType2, ChargeType>>>
+    PointChargeView& operator=(ChargeType2& charge) {
+        PointChargeView(charge.charge(), charge.x(), charge.y(), charge.z())
+          .swap(*this);
+        return *this;
+    }
+
     /** @brief Returns the aliased charge.
      *
      *  This method is used to retrieve the aliased charge. The const-ness of
@@ -182,6 +200,19 @@ public:
      */
     point_charge_type as_point_charge() const {
         return point_charge_type(charge(), this->x(), this->y(), this->z());
+    }
+
+    /** @brief Exchanges the state of *this with that of @p other.
+     *
+     *  @param[in,out] other The PointChargeView to exchange state with. After
+     *                       this method has been called @p other will contain
+     *                       the state which previously was in *this.
+     *
+     *  @throw None no throw guarantee.
+     */
+    void swap(PointChargeView& other) noexcept {
+        point_view_type::swap(other);
+        std::swap(m_pq_, other.m_pq_);
     }
 
 private:

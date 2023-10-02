@@ -138,6 +138,13 @@ public:
     NucleusView(name_reference name, atomic_number_reference Z,
                 mass_reference m, charge_view_type q);
 
+    template<
+      typename NucleusType2 = std::decay_t<NucleusType>,
+      typename = std::enable_if<std::is_same_v<NucleusType2, NucleusType>>>
+    NucleusView& operator=(NucleusType2& other) {
+        NucleusView(other.name(), other.Z(), other.mass(), other).swap(*this);
+        return *this;
+    }
     // -- Accessors ------------------------------------------------------------
 
     /** @brief Provides access to the name.
@@ -243,6 +250,16 @@ public:
     nucleus_type as_nucleus() const;
 
     operator NucleusView<const nucleus_type>() const noexcept;
+
+    /** @brief Exchanges the state of *this with that of @p other.
+     *
+     *  @param[in,out] other The NucleusView to exchange state with. After this
+     *                       method has been called @p other will contain the
+     *                       state which previously was in *this.
+     *
+     *  @throw None no throw guarantee.
+     */
+    void swap(NucleusView& other) noexcept;
 
 private:
     /// Pointer to the aliased name

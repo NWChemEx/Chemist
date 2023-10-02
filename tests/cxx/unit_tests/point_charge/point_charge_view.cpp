@@ -63,6 +63,14 @@ TEMPLATE_TEST_CASE("PointChargeView", "", float, double) {
             REQUIRE(&pq1.z() == &q1.z());
         }
 
+        SECTION("Assign from PointCharge") {
+            pq0 = q1;
+            REQUIRE(&pq0.charge() == &q1.charge());
+            REQUIRE(&pq0.x() == &q1.x());
+            REQUIRE(&pq0.y() == &q1.y());
+            REQUIRE(&pq0.z() == &q1.z());
+        }
+
         SECTION("copy") {
             view_type copy0(pq0);
             const_view copy1(pq1);

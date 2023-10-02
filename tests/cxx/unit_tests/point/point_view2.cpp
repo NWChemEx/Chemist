@@ -216,4 +216,15 @@ TEMPLATE_TEST_CASE("PointView2", "", Point<double>, Point<float>) {
         REQUIRE(pr0.as_point() == r0);
         REQUIRE(pr1.as_point() == r1);
     }
+
+    SECTION("swap") {
+        view_type copy_pr0(pr0);
+        view_type pr2(r1.x(), r1.y(), r1.z());
+        view_type copy_pr2(pr2);
+
+        pr0.swap(pr2);
+
+        REQUIRE(pr0 == copy_pr2);
+        REQUIRE(pr2 == copy_pr0);
+    }
 }
