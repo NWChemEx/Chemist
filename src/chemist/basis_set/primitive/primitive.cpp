@@ -14,34 +14,42 @@
  * limitations under the License.
  */
 
-#include "../../point/detail_/point_pimpl.hpp"
-#include "chemist/basis_set/primitive.hpp"
-#include "primitive_pimpl.hpp"
-#include <cassert>
+#include "detail_/primitive_pimpl.hpp"
+#include <stdexcept>
 
-namespace chemist {
+namespace chemist::basis_set {
 
 #define PRIM_TYPE Primitive<T>
 
-template<typename T>
-PRIM_TYPE::Primitive() : Primitive(0.0, 0.0, 0.0, 0.0, 0.0) {}
+// -----------------------------------------------------------------------------
+// -- Ctors/Dtor
+// -----------------------------------------------------------------------------
 
 template<typename T>
-PRIM_TYPE::Primitive(T coef, T exp, T x, T y, T z) :
-  m_pimpl_(std::make_unique<my_pimpl>(coef, exp)), Point<T>(x, y, z) {}
+PRIM_TYPE::Primitive() noexcept = default;
+
+template<typename T>
+PRIM_TYPE::Primitive(coefficient_type coef, exponent_type exp,
+                     typename center_type::coord_type x,
+                     typename center_type::coord_type y,
+                     typename center_type::coord_type z) :
+  Primitive(coef, exp, center_type(x, y, z)) {}
+
+template<typename T>
+PRIM_TYPE::Primitive(coefficient_type coef, exponent_type exp, center_type r0) :
+  Primitive(std::make_unique<pimpl_type>(std::move(r0), coef, exp)) {}
 
 template<typename T>
 PRIM_TYPE::Primitive(const PRIM_TYPE& rhs) :
-  Primitive(rhs.coefficient(), rhs.exponent(), rhs.x(), rhs.y(), rhs.z()) {}
+  Primitive(rhs.has_pimpl_() ? std::make_unique<pimpl_type>(*rhs.m_pimpl_) :
+                               nullptr) {}
 
 template<typename T>
 PRIM_TYPE::Primitive(PRIM_TYPE&& rhs) noexcept = default;
 
 template<typename T>
 PRIM_TYPE& PRIM_TYPE::operator=(const PRIM_TYPE& rhs) noexcept {
-    Point<T>::operator=(rhs);
-    m_pimpl_->coef()  = rhs.coefficient();
-    m_pimpl_->exp()   = rhs.exponent();
+    if(&rhs != this) Primitive(rhs).swap(*this);
     return *this;
 }
 
@@ -49,35 +57,86 @@ template<typename T>
 PRIM_TYPE& PRIM_TYPE::operator=(PRIM_TYPE&& rhs) noexcept = default;
 
 template<typename T>
-PRIM_TYPE::Primitive(my_pimpl_ptr my_pimpl, base_pimpl_ptr point_pimpl) noexcept
-  :
-  m_pimpl_(std::move(my_pimpl)), Point<T>(std::move(point_pimpl)) {}
-
-template<typename T>
 PRIM_TYPE::~Primitive() noexcept = default;
 
+// -----------------------------------------------------------------------------
+// -- Getters/Setters
+// -----------------------------------------------------------------------------
+
 template<typename T>
-typename PRIM_TYPE::reference PRIM_TYPE::coefficient() noexcept {
-    assert(m_pimpl_ != nullptr);
-    return m_pimpl_->coef();
+typename PRIM_TYPE::center_reference PRIM_TYPE::center() {
+    if(!has_pimpl_()) m_pimpl_ = make_pimpl_();
+    return m_pimpl_->m_center;
 }
 
 template<typename T>
-typename PRIM_TYPE::const_reference PRIM_TYPE::exponent() const noexcept {
-    assert(m_pimpl_ != nullptr);
-    return m_pimpl_->exp();
+typename PRIM_TYPE::const_center_reference PRIM_TYPE::center() const {
+    assert_pimpl_();
+    return m_pimpl_->m_center;
 }
 
 template<typename T>
-typename PRIM_TYPE::reference PRIM_TYPE::exponent() noexcept {
-    assert(m_pimpl_ != nullptr);
-    return m_pimpl_->exp();
+typename PRIM_TYPE::coefficient_reference PRIM_TYPE::coefficient() {
+    if(!has_pimpl_()) m_pimpl_ = make_pimpl_();
+    return m_pimpl_->m_coefficient;
 }
 
 template<typename T>
-typename PRIM_TYPE::const_reference PRIM_TYPE::coefficient() const noexcept {
-    assert(m_pimpl_ != nullptr);
-    return m_pimpl_->coef();
+typename PRIM_TYPE::const_coefficient_reference PRIM_TYPE::coefficient() const {
+    assert_pimpl_();
+    return m_pimpl_->m_coefficient;
+}
+
+template<typename T>
+typename PRIM_TYPE::exponent_reference PRIM_TYPE::exponent() {
+    if(!has_pimpl_()) m_pimpl_ = make_pimpl_();
+    return m_pimpl_->m_exponent;
+}
+
+template<typename T>
+typename PRIM_TYPE::const_exponent_reference PRIM_TYPE::exponent() const {
+    assert_pimpl_();
+    return m_pimpl_->m_exponent;
+}
+
+// -----------------------------------------------------------------------------
+// -- Utility Functions
+// -----------------------------------------------------------------------------
+
+template<typename T>
+void PRIM_TYPE::swap(PRIM_TYPE& rhs) noexcept {
+    m_pimpl_.swap(rhs.m_pimpl_);
+}
+
+template<typename T>
+bool PRIM_TYPE::operator==(const PRIM_TYPE& rhs) const noexcept {
+    if(has_pimpl_() != rhs.has_pimpl_()) return false;
+    if(!has_pimpl_()) return true; // Both are null
+    return *m_pimpl_ == *rhs.m_pimpl_;
+}
+
+// -----------------------------------------------------------------------------
+// -- Protected/Private
+// -----------------------------------------------------------------------------
+
+template<typename T>
+PRIM_TYPE::Primitive(pimpl_pointer pimpl) noexcept :
+  m_pimpl_(std::move(pimpl)) {}
+
+template<typename T>
+void PRIM_TYPE::assert_pimpl_() const {
+    if(has_pimpl_()) return;
+    throw std::runtime_error("Primitive<T> does not have a PIMPL.");
+}
+
+template<typename T>
+typename PRIM_TYPE::pimpl_pointer PRIM_TYPE::make_pimpl_() const {
+    return std::make_unique<pimpl_type>();
+}
+
+template<typename T>
+bool PRIM_TYPE::has_pimpl_() const noexcept {
+    return static_cast<bool>(m_pimpl_);
 }
 
 #undef PRIM_TYPE
@@ -85,4 +144,4 @@ typename PRIM_TYPE::const_reference PRIM_TYPE::coefficient() const noexcept {
 template class Primitive<double>;
 template class Primitive<float>;
 
-} // namespace chemist
+} // namespace chemist::basis_set

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 NWChemEx-Project
+ * Copyright 2023 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,86 +14,416 @@
  * limitations under the License.
  */
 
-#include "chemist/basis_set/contracted_gaussian_view.hpp"
 #include <catch2/catch.hpp>
+#include <chemist/basis_set/contracted_gaussian/contracted_gaussian_traits.hpp>
+#include <chemist/basis_set/contracted_gaussian/contracted_gaussian_view.hpp>
 
-using namespace chemist;
-using prim_t = Primitive<double>;
+using namespace chemist::basis_set;
 
-/* Testing strategy
- *
- * Testing the IndexableContainerBase class also tests most of
- * ContractedGaussianView's API. Most of ContractedGaussianView's implementation
- * is tested for us by virtue of wrapping a ContractedGaussian instance. We need
- * to still test:
- *
- * - ctors
- * - implicit-conversions
- * - const-correctness
- */
+template<typename LHSType, typename RHSType>
+void compare_addresses(LHSType&& lhs, RHSType&& rhs) {
+    REQUIRE(&lhs.center().x() == &rhs.center().x());
+    REQUIRE(&lhs.center().y() == &rhs.center().y());
+    REQUIRE(&lhs.center().z() == &rhs.center().z());
 
-template<typename T, typename U>
-static void compare_state(T&& view, U&& corr) {
-    SECTION("Size") { REQUIRE(view.size() == corr.size()); }
-    SECTION("State") {
-        for(std::size_t i = 0; i < view.size(); ++i) {
-            REQUIRE(view[i].coefficient() == corr[i].coefficient());
-            REQUIRE(view[i].exponent() == corr[i].exponent());
-            REQUIRE(view[i] == corr[i]);
+    for(std::size_t prim_i = 0; prim_i < lhs.size(); ++prim_i) {
+        REQUIRE(&lhs[prim_i].coefficient() == &rhs[prim_i].coefficient());
+        REQUIRE(&lhs[prim_i].exponent() == &rhs[prim_i].exponent());
+    }
+}
+
+TEMPLATE_TEST_CASE("ContractedGaussianView", "", float, double) {
+    using prim_type  = Primitive<TestType>;
+    using cg_type    = ContractedGaussian<prim_type>;
+    using view_type  = ContractedGaussianView<cg_type>;
+    using const_view = ContractedGaussianView<const cg_type>;
+    using cg_traits  = ContractedGaussianTraits<cg_type>;
+
+    using center_type = typename cg_traits::center_type;
+    using coefficient_vector =
+      std::vector<typename cg_traits::coefficient_type>;
+    using exponent_vector = std::vector<typename cg_traits::exponent_type>;
+
+    coefficient_vector cs{1.0, 2.0, 3.0};
+    exponent_vector es{4.0, 5.0, 6.0};
+    center_type r0{7.0, 8.0, 9.0};
+
+    cg_type cg0;
+    cg_type cg1(cs.begin(), cs.end(), es.begin(), es.end(), r0);
+
+    auto& c0 = cg1[0].coefficient();
+    auto& e0 = cg1[0].exponent();
+
+    view_type cg0_view;
+    const_view const_cg0_view;
+
+    view_type cg1_view(cg1);
+    const_view const_cg1_view(cg1);
+
+    SECTION("Ctor and assignment") {
+        SECTION("Default") {
+            REQUIRE(cg0_view.size() == 0);
+            REQUIRE(cg0_view.is_null());
+
+            REQUIRE(const_cg0_view.size() == 0);
+            REQUIRE(const_cg0_view.is_null());
+        }
+
+        SECTION("n_prims, c0, e0, r") {
+            view_type cg2_view(3, c0, e0, cg1.center());
+
+            REQUIRE(cg2_view.size() == 3);
+            REQUIRE(cg2_view[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(cg2_view[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(cg2_view[2] == prim_type(3.0, 6.0, r0));
+            compare_addresses(cg2_view, cg1);
+
+            const_view const_cg2_view(3, c0, e0, cg1.center());
+
+            REQUIRE(const_cg2_view.size() == 3);
+            REQUIRE(const_cg2_view[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(const_cg2_view[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(const_cg2_view[2] == prim_type(3.0, 6.0, r0));
+            compare_addresses(cg2_view, cg1);
+        }
+
+        SECTION("ContractedGaussian") {
+            view_type null_view(cg0);
+            REQUIRE(null_view.is_null());
+            REQUIRE(null_view.size() == 0);
+
+            const_view const_null_view(cg0);
+            REQUIRE(const_null_view.is_null());
+            REQUIRE(const_null_view.size() == 0);
+
+            REQUIRE(cg1_view.size() == 3);
+            REQUIRE(cg1_view[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(cg1_view[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(cg1_view[2] == prim_type(3.0, 6.0, r0));
+            compare_addresses(cg1_view, cg1);
+
+            REQUIRE(const_cg1_view.size() == 3);
+            REQUIRE(const_cg1_view[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(const_cg1_view[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(const_cg1_view[2] == prim_type(3.0, 6.0, r0));
+            compare_addresses(cg1_view, cg1);
+        }
+
+        SECTION("Assign ContractedGaussian") {
+            view_type null_view;
+            // Throws if assigning to a null view
+            REQUIRE_THROWS_AS(null_view = cg1, std::runtime_error);
+
+            // Throws if assigning a null CG
+            REQUIRE_THROWS_AS(cg1_view = cg0, std::runtime_error);
+
+            auto ebegin = es.begin();
+            auto cbegin = cs.begin();
+
+            // Throws if sizes don't match
+            cg_type cg2(ebegin, ebegin + 1, cbegin, cbegin + 1, r0);
+            REQUIRE_THROWS_AS(cg1_view = cg2, std::runtime_error);
+
+            cg2 = cg_type(ebegin, es.end(), cbegin, cs.end(), r0);
+
+            auto pcg1_view = &(cg1_view = cg2);
+            REQUIRE(cg1_view.size() == 3);
+            REQUIRE(cg1_view[0] == prim_type(4.0, 1.0, r0));
+            REQUIRE(cg1_view[1] == prim_type(5.0, 2.0, r0));
+            REQUIRE(cg1_view[2] == prim_type(6.0, 3.0, r0));
+            compare_addresses(cg1_view, cg1);
+            REQUIRE(pcg1_view == &cg1_view);
+        }
+
+        SECTION("Const from non-const") {
+            const_view const_null(cg0_view);
+            REQUIRE(const_null.is_null());
+            REQUIRE(const_null.size() == 0);
+
+            const_view const_cg2_view(cg1_view);
+            REQUIRE(const_cg2_view.size() == 3);
+            REQUIRE(const_cg2_view[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(const_cg2_view[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(const_cg2_view[2] == prim_type(3.0, 6.0, r0));
+            compare_addresses(const_cg2_view, cg1);
+        }
+
+        SECTION("Copy") {
+            view_type cg0_copy(cg0_view);
+            REQUIRE(cg0_copy.size() == 0);
+            REQUIRE(cg0_copy.is_null());
+
+            const_view const_cg0_copy(const_cg0_view);
+            REQUIRE(const_cg0_copy.size() == 0);
+            REQUIRE(const_cg0_copy.is_null());
+
+            view_type cg1_copy(cg1_view);
+            REQUIRE(cg1_copy.size() == 3);
+            REQUIRE(cg1_copy[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(cg1_copy[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(cg1_copy[2] == prim_type(3.0, 6.0, r0));
+            compare_addresses(cg1_copy, cg1);
+
+            const_view const_cg1_copy(const_cg1_view);
+            REQUIRE(const_cg1_copy.size() == 3);
+            REQUIRE(const_cg1_copy[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(const_cg1_copy[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(const_cg1_copy[2] == prim_type(3.0, 6.0, r0));
+            compare_addresses(const_cg1_copy, cg1);
+        }
+
+        SECTION("Copy assignment") {
+            view_type cg0_copy;
+            auto pcg0_copy = &(cg0_copy = cg0_view);
+            REQUIRE(cg0_copy.size() == 0);
+            REQUIRE(cg0_copy.is_null());
+            REQUIRE(pcg0_copy == &cg0_copy);
+
+            const_view const_cg0_copy;
+            auto pconst_cg0_copy = &(const_cg0_copy = const_cg0_view);
+            REQUIRE(const_cg0_copy.size() == 0);
+            REQUIRE(const_cg0_copy.is_null());
+            REQUIRE(pconst_cg0_copy == &const_cg0_copy);
+
+            view_type cg1_copy;
+            auto pcg1_copy = &(cg1_copy = cg1_view);
+            REQUIRE(cg1_copy.size() == 3);
+            REQUIRE(cg1_copy[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(cg1_copy[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(cg1_copy[2] == prim_type(3.0, 6.0, r0));
+            compare_addresses(cg1_copy, cg1);
+            REQUIRE(pcg1_copy == &cg1_copy);
+
+            const_view const_cg1_copy;
+            auto pconst_cg1_copy = &(const_cg1_copy = const_cg1_view);
+            REQUIRE(const_cg1_copy.size() == 3);
+            REQUIRE(const_cg1_copy[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(const_cg1_copy[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(const_cg1_copy[2] == prim_type(3.0, 6.0, r0));
+            compare_addresses(const_cg1_copy, cg1);
+            REQUIRE(pconst_cg1_copy == &const_cg1_copy);
+        }
+
+        SECTION("Move") {
+            view_type cg0_move(std::move(cg0_view));
+            REQUIRE(cg0_move.size() == 0);
+            REQUIRE(cg0_move.is_null());
+
+            const_view const_cg0_move(std::move(const_cg0_view));
+            REQUIRE(const_cg0_move.size() == 0);
+            REQUIRE(const_cg0_move.is_null());
+
+            view_type cg1_move(std::move(cg1_view));
+            REQUIRE(cg1_move.size() == 3);
+            REQUIRE(cg1_move[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(cg1_move[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(cg1_move[2] == prim_type(3.0, 6.0, r0));
+            compare_addresses(cg1_move, cg1);
+
+            const_view const_cg1_move(std::move(const_cg1_view));
+            REQUIRE(const_cg1_move.size() == 3);
+            REQUIRE(const_cg1_move[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(const_cg1_move[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(const_cg1_move[2] == prim_type(3.0, 6.0, r0));
+            compare_addresses(const_cg1_move, cg1);
+        }
+
+        SECTION("move assignment") {
+            view_type cg0_move;
+            auto pcg0_move = &(cg0_move = std::move(cg0_view));
+            REQUIRE(cg0_move.size() == 0);
+            REQUIRE(cg0_move.is_null());
+            REQUIRE(pcg0_move == &cg0_move);
+
+            const_view const_cg0_move;
+            auto pconst_cg0_move =
+              &(const_cg0_move = std::move(const_cg0_view));
+            REQUIRE(const_cg0_move.size() == 0);
+            REQUIRE(const_cg0_move.is_null());
+            REQUIRE(pconst_cg0_move == &const_cg0_move);
+
+            view_type cg1_move;
+            auto pcg1_move = &(cg1_move = std::move(cg1_view));
+            REQUIRE(cg1_move.size() == 3);
+            REQUIRE(cg1_move[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(cg1_move[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(cg1_move[2] == prim_type(3.0, 6.0, r0));
+            compare_addresses(cg1_move, cg1);
+            REQUIRE(pcg1_move == &cg1_move);
+
+            const_view const_cg1_move;
+            auto pconst_cg1_move =
+              &(const_cg1_move = std::move(const_cg1_view));
+            REQUIRE(const_cg1_move.size() == 3);
+            REQUIRE(const_cg1_move[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(const_cg1_move[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(const_cg1_move[2] == prim_type(3.0, 6.0, r0));
+            compare_addresses(const_cg1_move, cg1);
+            REQUIRE(pconst_cg1_move == &const_cg1_move);
         }
     }
-}
 
-template<typename T>
-static auto make_ctgo() {
-    prim_t p0{1.0, 2.0, 7.0, 8.0, 9.0};
-    prim_t p1{3.0, 4.0, 7.0, 8.0, 9.0};
-    prim_t p2{5.0, 6.0, 7.0, 8.0, 9.0};
-    std::vector<double> cs{1.0, 3.0, 5.0};
-    std::vector<double> es{2.0, 4.0, 6.0};
-    ContractedGaussian<double> g(cs, es, 7.0, 8.0, 9.0);
-    ContractedGaussianView<T> g2(std::move(g));
-    return std::make_pair(std::array{p0, p1, p2}, g2);
-}
+    SECTION("Getters/setters") {
+        SECTION("center()") {
+            REQUIRE_THROWS_AS(cg0_view.center(), std::runtime_error);
+            REQUIRE_THROWS_AS(const_cg0_view.center(), std::runtime_error);
 
-TEST_CASE("ContractedGaussianView<double> : default ctor") {
-    ContractedGaussianView<double> v; // Basically just making sure it compiles
-}
+            REQUIRE(cg1_view.center() == r0);
+            REQUIRE(const_cg1_view.center() == r0);
 
-TEST_CASE("ContractedGaussianView<double> : value ctor") {
-    auto&& [prims, g] = make_ctgo<double>();
-    compare_state(prims, g);
-    SECTION("Is read-/write-able") {
-        STATIC_REQUIRE(std::is_same_v<PrimitiveView<double>, decltype(g[0])>);
+            // Is writable?
+            center_type origin;
+            cg1_view.center() = origin;
+            REQUIRE(cg1.center() == origin);
+        }
+
+        SECTION("center() const") {
+            using re = std::runtime_error;
+            REQUIRE_THROWS_AS(std::as_const(cg0_view).center(), re);
+            REQUIRE_THROWS_AS(std::as_const(const_cg0_view).center(), re);
+            REQUIRE(std::as_const(cg1_view).center() == r0);
+            REQUIRE(std::as_const(const_cg1_view).center() == r0);
+        }
+
+        SECTION("operator[]") {
+            REQUIRE(cg1_view[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(cg1_view[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(cg1_view[2] == prim_type(3.0, 6.0, r0));
+
+            REQUIRE(const_cg1_view[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(const_cg1_view[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(const_cg1_view[2] == prim_type(3.0, 6.0, r0));
+
+            // Is writeable?
+            cg1_view[0] = prim_type(4.0, 7.0, center_type());
+            REQUIRE(cg1_view[0].coefficient() == 4.0);
+            REQUIRE(cg1_view[0].exponent() == 7.0);
+            REQUIRE(cg1_view.center() == center_type{});
+        }
+
+        SECTION("operator[] const") {
+            const auto& const_cg1 = std::as_const(cg1_view);
+            REQUIRE(const_cg1[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(const_cg1[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(const_cg1[2] == prim_type(3.0, 6.0, r0));
+
+            const auto& const_const_cg1 = std::as_const(const_cg1_view);
+            REQUIRE(const_const_cg1[0] == prim_type(1.0, 4.0, r0));
+            REQUIRE(const_const_cg1[1] == prim_type(2.0, 5.0, r0));
+            REQUIRE(const_const_cg1[2] == prim_type(3.0, 6.0, r0));
+        }
+
+        SECTION("size") {
+            REQUIRE(cg0_view.size() == 0);
+            REQUIRE(const_cg0_view.size() == 0);
+            REQUIRE(cg1_view.size() == 3);
+            REQUIRE(const_cg1_view.size() == 3);
+        }
     }
-}
 
-TEST_CASE("ContractedGaussianView<const double> : alias ctor") {
-    auto&& [prims, g] = make_ctgo<double>();
-    compare_state(prims, g);
-    SECTION("Is read-/write-able") {
-        STATIC_REQUIRE(std::is_same_v<PrimitiveView<double>, decltype(g[0])>);
+    SECTION("utility") {
+        SECTION("swap") {
+            view_type cg0_copy(cg0_view);
+            view_type cg1_copy(cg1_view);
+
+            cg0_view.swap(cg1_view);
+
+            REQUIRE(cg0_copy == cg1_view);
+            REQUIRE(cg1_copy == cg0_view);
+
+            const_view const_cg0_copy(const_cg0_view);
+            const_view const_cg1_copy(const_cg1_view);
+
+            const_cg0_view.swap(const_cg1_view);
+
+            REQUIRE(const_cg0_copy == const_cg1_view);
+            REQUIRE(const_cg1_copy == const_cg0_view);
+        }
+
+        SECTION("is_null") {
+            REQUIRE(cg0_view.is_null());
+            REQUIRE(const_cg0_view.is_null());
+            REQUIRE_FALSE(cg1_view.is_null());
+            REQUIRE_FALSE(const_cg1_view.is_null());
+        }
+
+        SECTION("operator==(ContractedGaussianView)") {
+            // Default v default
+            REQUIRE(cg0_view == view_type{});
+            REQUIRE(const_cg0_view == const_view{});
+
+            // Default v non-default
+            REQUIRE_FALSE(cg0_view == cg1_view);
+            REQUIRE_FALSE(const_cg0_view == const_cg1_view);
+
+            auto& c0 = cs[0];
+            auto& e0 = es[0];
+
+            // Non-default: same value
+            REQUIRE(cg1_view == view_type(3, c0, e0, cg1.center()));
+            REQUIRE(const_cg1_view == const_view(3, c0, e0, cg1.center()));
+
+            // Non-default: different coefficients
+            REQUIRE_FALSE(cg1_view == view_type(3, e0, e0, cg1.center()));
+            REQUIRE_FALSE(const_cg1_view ==
+                          const_view(3, e0, e0, cg1.center()));
+
+            // Non-default: different exponents
+            REQUIRE_FALSE(cg1_view == view_type(3, c0, c0, cg1.center()));
+            REQUIRE_FALSE(const_cg1_view ==
+                          const_view(3, c0, c0, cg1.center()));
+
+            // Non-default: different center
+            REQUIRE_FALSE(cg1_view == view_type(3, c0, e0, cg0.center()));
+            REQUIRE_FALSE(const_cg1_view ==
+                          const_view(3, c0, e0, cg0.center()));
+        }
+
+        SECTION("operator==(ContractedGaussian)") {
+            // Default v default
+            REQUIRE(cg0_view == cg0);
+            REQUIRE(const_cg0_view == cg0);
+
+            // Default v non-default
+            REQUIRE_FALSE(cg0_view == cg1);
+            REQUIRE_FALSE(const_cg0_view == cg1);
+
+            auto cbegin = cs.begin();
+            auto cend   = cs.end();
+            auto ebegin = es.begin();
+            auto eend   = es.end();
+
+            // Non-default: same value
+            REQUIRE(cg1_view == cg_type(cbegin, cend, ebegin, eend, r0));
+            REQUIRE(const_cg1_view == cg_type(cbegin, cend, ebegin, eend, r0));
+
+            // Non-default: different coefficients
+            REQUIRE_FALSE(cg1_view == cg_type(ebegin, eend, ebegin, eend, r0));
+            REQUIRE_FALSE(const_cg1_view ==
+                          cg_type(ebegin, eend, ebegin, eend, r0));
+
+            // Non-default: different exponents
+            REQUIRE_FALSE(cg1_view == cg_type(cbegin, cend, cbegin, cend, r0));
+            REQUIRE_FALSE(const_cg1_view ==
+                          cg_type(cbegin, cend, cbegin, cend, r0));
+
+            // Non-default: different center
+            REQUIRE_FALSE(cg1_view ==
+                          cg_type(cbegin, cend, ebegin, eend, center_type{}));
+            REQUIRE_FALSE(const_cg1_view ==
+                          cg_type(cbegin, cend, ebegin, eend, center_type{}));
+        }
+
+        SECTION("operator!=(ContractedGaussianView)") {
+            // Just negates operator== so okay to spot check
+            REQUIRE(cg0_view != cg1_view);
+            REQUIRE(const_cg0_view != const_cg1_view);
+        }
+
+        SECTION("operator!=(ContractedGaussian)") {
+            // Just negates operator== so okay to spot check
+            REQUIRE(cg0_view != cg1);
+            REQUIRE(const_cg0_view != cg1);
+        }
     }
-}
-
-TEST_CASE("ContractedGaussianView<double> : implicit conversion") {
-    auto&& [prims, g] = make_ctgo<double>();
-    const ContractedGaussian<double>& g2(g);
-    compare_state(g2, prims);
-}
-
-TEST_CASE("ContractedGaussianView<double> : operator==") {
-    auto [ps, g] = make_ctgo<double>();
-    ContractedGaussian<double> g2;
-    SECTION("View == Value") { REQUIRE_FALSE(g == g2); }
-    SECTION("Value == View") { REQUIRE_FALSE(g2 == g); }
-    SECTION("View == View") { REQUIRE(g == g); }
-}
-
-TEST_CASE("ContractedGaussianView<double> : operator!=") {
-    auto [ps, g] = make_ctgo<double>();
-    ContractedGaussian<double> g2;
-    SECTION("View != Value") { REQUIRE(g != g2); }
-    SECTION("Value != View") { REQUIRE(g2 != g); }
-    SECTION("View != View") { REQUIRE_FALSE(g != g); }
 }

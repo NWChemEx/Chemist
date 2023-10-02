@@ -85,7 +85,7 @@ TEST_CASE("Electronic Hamiltonian") {
         }
     }
 
-    SECTION("as_string") { REQUIRE(defaulted.as_string() == "Ô"); }
+    SECTION("as_string") { REQUIRE(defaulted.as_string() == "O"); }
 
     SECTION("size") {
         REQUIRE(defaulted.size() == 0);

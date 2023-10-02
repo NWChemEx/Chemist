@@ -22,11 +22,16 @@ namespace chemist {
 
 inline Atom::Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
                   coord_type y, coord_type z) :
-  m_nuke_(s, Z, m, x, y, z) {}
+  m_nuke_(s, Z, m, x, y, z), m_n_electrons_(Z) {}
 
 inline Atom::Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
                   coord_type y, coord_type z, charge_type q) :
-  m_nuke_(s, Z, m, x, y, z, q) {}
+  Atom(s, Z, m, x, y, z, q, Z) {}
+
+inline Atom::Atom(name_type s, atomic_number_type Z, mass_type m, coord_type x,
+                  coord_type y, coord_type z, charge_type q,
+                  size_type n_electrons) :
+  m_nuke_(s, Z, m, x, y, z, q), m_n_electrons_(n_electrons) {}
 
 // -- Accessors ----------------------------------------------------------------
 
@@ -34,7 +39,8 @@ inline typename Atom::const_coord_reference Atom::coord(size_type q) const {
     return nucleus().coord(q);
 }
 
-inline typename Atom::const_charge_reference Atom::charge() const noexcept {
+inline typename Atom::const_charge_reference Atom::nuclear_charge()
+  const noexcept {
     return nucleus().charge();
 }
 
@@ -42,11 +48,11 @@ inline typename Atom::const_charge_reference Atom::charge() const noexcept {
 
 template<typename Archive>
 void Atom::save(Archive& ar) const {
-    ar& m_nuke_;
+    ar& m_nuke_& m_n_electrons_;
 }
 
 template<typename Archive>
 void Atom::load(Archive& ar) {
-    ar& m_nuke_;
+    ar& m_nuke_& m_n_electrons_;
 }
 } // namespace chemist

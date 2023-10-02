@@ -39,7 +39,7 @@ public:
 
 protected:
     /// Gives a more traditional representation than the default implementation
-    std::string as_string_impl() const { return "I\u0302"; }
+    std::string as_string_impl() const { return "I"; }
 };
 
 /// The type of the electronic identity function

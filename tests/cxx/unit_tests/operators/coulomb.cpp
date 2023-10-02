@@ -80,7 +80,7 @@ TEMPLATE_LIST_TEST_CASE("CoulombInteraction", "", testing::all_coulomb) {
         }
     }
 
-    SECTION("as_string") { REQUIRE(r12.as_string() == "(r̂₁₂)⁻¹"); }
+    SECTION("as_string") { REQUIRE(r12.as_string() == "(r₁₂)⁻¹"); }
 
     // r12 and non_default can be the same if the particles are stateless
     bool is_diff = std::tie(p0, p1) != std::tie(p0_default, p1_default);

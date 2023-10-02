@@ -154,7 +154,7 @@ public:
              typename = disable_if_me_t<std::decay_t<OpType>>>
     explicit Hamiltonian(OpType&& op0, Args&&... args);
 
-    size_type nelectrons() const noexcept;
+    size_type n_electrons() const noexcept;
 
 protected:
     bool is_equal_impl(const OperatorBase& other) const noexcept override;

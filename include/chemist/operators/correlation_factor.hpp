@@ -64,7 +64,7 @@ public:
 
 protected:
     /// Overrides to be consistent with typical notation
-    std::string as_string_impl() const override { return "f\u0302₁₂"; }
+    std::string as_string_impl() const override { return "f₁₂"; }
 };
 
 /// CorrelationFactor which uses a two-electron STG

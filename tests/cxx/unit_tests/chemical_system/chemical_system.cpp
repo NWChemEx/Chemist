@@ -91,7 +91,7 @@ TEST_CASE("ChemicalSystem") {
     SECTION("Default ctor") {
         ChemicalSystem sys;
         REQUIRE(sys.molecule() == default_mol);
-        REQUIRE(sys.nelectrons() == 0);
+        REQUIRE(sys.n_electrons() == 0);
         REQUIRE(sys.charge() == 0);
         REQUIRE(sys.external_electrostatic_potential() == default_v);
     }
@@ -101,7 +101,7 @@ TEST_CASE("ChemicalSystem") {
         ChemicalSystem copy(sys);
         REQUIRE(sys == copy);
         REQUIRE(copy.molecule() == h);
-        REQUIRE(copy.nelectrons() == 2);
+        REQUIRE(copy.n_electrons() == 2);
         REQUIRE(copy.charge() == -1);
         REQUIRE(copy.external_electrostatic_potential() == v);
     }
@@ -110,23 +110,23 @@ TEST_CASE("ChemicalSystem") {
         ChemicalSystem sys(h, 2, v);
         ChemicalSystem moved(std::move(sys));
         REQUIRE(moved.molecule() == h);
-        REQUIRE(moved.nelectrons() == 2);
+        REQUIRE(moved.n_electrons() == 2);
         REQUIRE(moved.charge() == -1);
         REQUIRE(moved.external_electrostatic_potential() == v);
     }
 
     SECTION("value ctors") {
-        SECTION("Default nelectrons and potential") {
+        SECTION("Default n_electrons and potential") {
             ChemicalSystem sys(h);
             REQUIRE(sys.molecule() == h);
-            REQUIRE(sys.nelectrons() == 1);
+            REQUIRE(sys.n_electrons() == 1);
             REQUIRE(sys.charge() == 0);
             REQUIRE(sys.external_electrostatic_potential() == default_v);
         }
         SECTION("Default potential") {
             ChemicalSystem sys(h, 2);
             REQUIRE(sys.molecule() == h);
-            REQUIRE(sys.nelectrons() == 2);
+            REQUIRE(sys.n_electrons() == 2);
             REQUIRE(sys.charge() == -1);
             REQUIRE(sys.external_electrostatic_potential() == default_v);
         }
@@ -134,7 +134,7 @@ TEST_CASE("ChemicalSystem") {
         SECTION("Set all") {
             ChemicalSystem sys(h, 2, v);
             REQUIRE(sys.molecule() == h);
-            REQUIRE(sys.nelectrons() == 2);
+            REQUIRE(sys.n_electrons() == 2);
             REQUIRE(sys.charge() == -1);
             REQUIRE(sys.external_electrostatic_potential() == v);
         }
@@ -147,7 +147,7 @@ TEST_CASE("ChemicalSystem") {
         REQUIRE(sys == copy);
         REQUIRE(pcopy == &copy);
         REQUIRE(copy.molecule() == h);
-        REQUIRE(copy.nelectrons() == 2);
+        REQUIRE(copy.n_electrons() == 2);
         REQUIRE(copy.external_electrostatic_potential() == v);
     }
 
@@ -157,7 +157,7 @@ TEST_CASE("ChemicalSystem") {
         auto pmoved = &(moved = std::move(sys));
         REQUIRE(pmoved == &moved);
         REQUIRE(moved.molecule() == h);
-        REQUIRE(moved.nelectrons() == 2);
+        REQUIRE(moved.n_electrons() == 2);
         REQUIRE(moved.external_electrostatic_potential() == v);
     }
 
@@ -189,31 +189,31 @@ TEST_CASE("ChemicalSystem") {
         }
     }
 
-    SECTION("nelectrons()") {
+    SECTION("n_electrons()") {
         ChemicalSystem sys(h, 2);
 
-        SECTION("value") { REQUIRE(sys.nelectrons() == 2); }
+        SECTION("value") { REQUIRE(sys.n_electrons() == 2); }
 
         SECTION("is read/write") {
-            sys.nelectrons() = 3;
-            REQUIRE(sys.nelectrons() == 3);
+            sys.n_electrons() = 3;
+            REQUIRE(sys.n_electrons() == 3);
         }
 
         SECTION("Allocates new PIMPL if no PIMPL") {
             ChemicalSystem buffer(std::move(sys));
-            REQUIRE(sys.nelectrons() == 0);
+            REQUIRE(sys.n_electrons() == 0);
         }
     }
 
-    SECTION("nelectrons() const") {
+    SECTION("n_electrons() const") {
         ChemicalSystem sys(h, 2);
 
-        SECTION("value") { REQUIRE(std::as_const(sys).nelectrons() == 2); }
+        SECTION("value") { REQUIRE(std::as_const(sys).n_electrons() == 2); }
 
         SECTION("Throws if no PIMPL") {
             ChemicalSystem buffer(std::move(sys));
             const auto& csys = sys;
-            REQUIRE_THROWS_AS(csys.nelectrons(), std::runtime_error);
+            REQUIRE_THROWS_AS(csys.n_electrons(), std::runtime_error);
         }
     }
 

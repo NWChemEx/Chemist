@@ -83,7 +83,7 @@ public:
      *  2. A nucleus sitting at the origin (charge equal to atomic number).
      *  3. A nucleus sitting at a specified point (charge still equal to
      *     atomic number).
-     *  4. A nucleus sitting at a specified point, with a user-spefied charge.
+     *  4. A nucleus sitting at a specified point, with a user-specified charge.
      *
      *  @note A priori users may wonder why overload 4 even exists. At the
      *        moment the main answer is because the class hierarchy naturally
@@ -106,9 +106,9 @@ public:
      *  @param[in] x The x-coordinate of where the nucleus is centered.
      *               If not specified defaults to the origin.
      *  @param[in] y The y-coordinate of where the nucleus is centered.
-     *               If not specified defaults to the orgin.
+     *               If not specified defaults to the origin.
      *  @param[in] z The z-coordinate of where the nucleus is centered.
-     *               If not specefied defaults to the origin.
+     *               If not specified defaults to the origin.
      *  @param[in] q The charge of the nucleus (in atomic units). If not
      *               specified defaults to @p Z.
      *

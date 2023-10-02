@@ -85,5 +85,5 @@ TEMPLATE_LIST_TEST_CASE("DiracDelta", "", type_list) {
         }
     }
 
-    SECTION("as_string") { REQUIRE(defaulted.as_string() == "δ̂(r₁ - r₂)"); }
+    SECTION("as_string") { REQUIRE(defaulted.as_string() == "δ(r₁ - r₂)"); }
 }

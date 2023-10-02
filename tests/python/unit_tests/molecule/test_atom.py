@@ -30,11 +30,13 @@ class TestAtom(unittest.TestCase):
     def test_nucleus(self):
         corr_h_nuke = chemist.Nucleus('H', 1, 1.0, 2.0, 3.0, 4.0)
         corr_he_nuke = chemist.Nucleus('He', 2, 4.0, 3.0, 4.0, 5.0, 1.0)
+        corr_c_nuke = chemist.Nucleus('C', 6, 12.0, 3.0, 4.0, 5.0, 6.0)
 
         # Check initial values
         self.assertEqual(self.defaulted.nucleus, chemist.Nucleus())
         self.assertEqual(self.h.nucleus, corr_h_nuke)
         self.assertEqual(self.he.nucleus, corr_he_nuke)
+        self.assertEqual(self.c.nucleus, corr_c_nuke)
 
         # Can write to it
         self.he.nucleus = corr_h_nuke
@@ -46,6 +48,7 @@ class TestAtom(unittest.TestCase):
         self.assertEqual(self.defaulted.Z, 0)
         self.assertEqual(self.h.Z, 1)
         self.assertEqual(self.he.Z, 2)
+        self.assertEqual(self.c.Z, 6)
 
         # Can write to it
         self.defaulted.Z = 1
@@ -57,21 +60,40 @@ class TestAtom(unittest.TestCase):
         self.assertEqual(self.defaulted.mass, 0.0)
         self.assertEqual(self.h.mass, 1.0)
         self.assertEqual(self.he.mass, 4.0)
+        self.assertEqual(self.c.mass, 12.0)
 
         # Can write to it
         self.defaulted.mass = 42.0
         self.assertEqual(self.defaulted.mass, 42.0)
 
+    def test_nuclear_charge(self):
+        # Check initial values
+        self.assertEqual(self.defaulted.nuclear_charge, 0.0)
+        self.assertEqual(self.h.nuclear_charge, 1.0)
+        self.assertEqual(self.he.nuclear_charge, 1.0)
+        self.assertEqual(self.c.nuclear_charge, 6.0)
+
+        # Can write to it
+        self.defaulted.nuclear_charge = -42.0
+        self.assertEqual(self.defaulted.nuclear_charge, -42.0)
 
     def test_charge(self):
         # Check initial values
-        self.assertEqual(self.defaulted.charge, 0.0)
-        self.assertEqual(self.h.charge, 1.0)
-        self.assertEqual(self.he.charge, 1.0)
+        self.assertEqual(self.defaulted.charge(), 0.0)
+        self.assertEqual(self.h.charge(), 0.0)
+        self.assertEqual(self.he.charge(), -1.0)
+        self.assertEqual(self.c.charge(), -1.0)
+
+    def test_n_electrons(self):
+        # Check initial values
+        self.assertEqual(self.defaulted.n_electrons, 0)
+        self.assertEqual(self.h.n_electrons, 1)
+        self.assertEqual(self.he.n_electrons, 2)
+        self.assertEqual(self.c.n_electrons, 7)
 
         # Can write to it
-        self.defaulted.charge = -42.0
-        self.assertEqual(self.defaulted.charge, -42.0)
+        self.defaulted.n_electrons = 42
+        self.assertEqual(self.defaulted.n_electrons, 42)
 
 
     def test_coord(self):
@@ -87,12 +109,16 @@ class TestAtom(unittest.TestCase):
         self.assertEqual(self.he.coord(1), 4.0)
         self.assertEqual(self.he.coord(2), 5.0)
 
+        self.assertEqual(self.c.coord(0), 3.0)
+        self.assertEqual(self.c.coord(1), 4.0)
+        self.assertEqual(self.c.coord(2), 5.0)
 
     def test_x(self):
         # Check initial values
         self.assertEqual(self.defaulted.x, 0.0)
         self.assertEqual(self.h.x, 2.0)
         self.assertEqual(self.he.x, 3.0)
+        self.assertEqual(self.c.x, 3.0)
 
         # Can write to it
         self.defaulted.x = -1.23
@@ -104,6 +130,7 @@ class TestAtom(unittest.TestCase):
         self.assertEqual(self.defaulted.y, 0.0)
         self.assertEqual(self.h.y, 3.0)
         self.assertEqual(self.he.y, 4.0)
+        self.assertEqual(self.c.y, 4.0)
 
         # Can write to it
         self.defaulted.y = -1.23
@@ -115,6 +142,7 @@ class TestAtom(unittest.TestCase):
         self.assertEqual(self.defaulted.z, 0.0)
         self.assertEqual(self.h.z, 4.0)
         self.assertEqual(self.he.z, 5.0)
+        self.assertEqual(self.c.z, 5.0)
 
         # Can write to it
         self.defaulted.z = -1.23
@@ -176,3 +204,4 @@ class TestAtom(unittest.TestCase):
         self.defaulted = chemist.Atom()
         self.h = chemist.Atom('H', 1, 1.0, 2.0, 3.0, 4.0)
         self.he = chemist.Atom('He', 2, 4.0, 3.0, 4.0, 5.0, 1.0)
+        self.c = chemist.Atom('C', 6, 12.0, 3.0, 4.0, 5.0, 6.0, 7)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 NWChemEx-Project
+ * Copyright 2023 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,207 +14,211 @@
  * limitations under the License.
  */
 
-#include "chemist/basis_set/shell.hpp"
-#include "chemist/basis_set/shell/shell_pimpl.hpp"
-#include "chemist/point/detail_/point_pimpl.hpp"
 #include <catch2/catch.hpp>
-#include <cereal/archives/binary.hpp>
+#include <chemist/basis_set/shell/shell.hpp>
+#include <chemist/basis_set/shell/shell_traits.hpp>
 #include <sstream>
 
-/* Testing Strategy:
- *
- * By using the Point and IndexableContainerBase mix-ins we already know that
- * most of the API works (assuming we implemented the hooks correctly). We also
- * know by using ShellPIMPL that the implementations for the Shell class work.
- * Thus we need to test:
- *
- * - ctors
- * - accessors/hooks call appropriate implementation
- * - comparison
- */
+using namespace chemist::basis_set;
 
-using namespace chemist;
-using vector_t = std::vector<double>;
+TEMPLATE_TEST_CASE("Shell", "", float, double) {
+    using prim_type    = Primitive<TestType>;
+    using cg_type      = ContractedGaussian<prim_type>;
+    using shell_type   = Shell<cg_type>;
+    using shell_traits = ShellTraits<shell_type>;
 
-static inline auto make_shell() {
-    vector_t cs{1.0, 2.0, 3.0};
-    vector_t es{4.0, 5.0, 6.0};
-    ContractedGaussian<double> cg(cs, es, 7.0, 8.0, 9.0);
-    Shell<double> s(ShellType::pure, 2, cs, es, 7.0, 8.0, 9.0);
-    return std::make_pair(s, cg);
-}
+    using pure_type    = typename shell_traits::pure_type;
+    using l_type       = typename shell_traits::angular_momentum_type;
+    using center_type  = typename shell_traits::center_type;
+    using coeff_vector = std::vector<typename shell_traits::coefficient_type>;
+    using exp_vector   = std::vector<typename shell_traits::exponent_type>;
 
-template<typename T1, typename T2>
-static void check_state(T1&& s, ShellType pure, std::size_t l, T2&& corr) {
-    SECTION("Purity") { REQUIRE(s.pure() == pure); }
-    SECTION("Angular Momentum") { REQUIRE(s.l() == l); }
-    SECTION("CGTO") { REQUIRE(s[0] == corr); }
-}
+    // Inputs for ctors
+    pure_type cart{0}, pure{1};
+    l_type l{1};
+    center_type r0{7.0, 8.0, 9.0};
+    coeff_vector cs{1.0, 2.0, 3.0};
+    exp_vector es{4.0, 5.0, 6.0};
+    cg_type cg(cs.begin(), cs.end(), es.begin(), es.end(), r0);
 
-TEST_CASE("Shell : default ctor") {
-    Shell<double> s;
-    ContractedGaussian<double> cg(vector_t{}, vector_t{}, 0.0, 0.0, 0.0);
-    check_state(s, ShellType::cartesian, 0, cg);
-}
+    // Construct test instances
+    shell_type shell0;
+    shell_type shell1(cart, l, cg);
 
-TEST_CASE("Shell : copy ctor") {
-    auto [s, cg] = make_shell();
-    Shell<double> s2(s);
-    check_state(s2, ShellType::pure, 2, cg);
-}
+    SECTION("Ctor and assignment") {
+        SECTION("Default") {
+            REQUIRE(shell0.size() == 0);
+            REQUIRE(shell0.is_null());
+        }
+        SECTION("With contracted Gaussian") {
+            shell_type with_cg(cart, l, cg);
+            REQUIRE(with_cg.pure() == cart);
+            REQUIRE(with_cg.l() == l);
+            REQUIRE(with_cg.contracted_gaussian() == cg);
+        }
+        SECTION("With coeffs, exponents, and center") {
+            shell_type with_cg(cart, l, cs.begin(), cs.end(), es.begin(),
+                               es.end(), r0);
+            REQUIRE(with_cg.pure() == cart);
+            REQUIRE(with_cg.l() == l);
+            REQUIRE(with_cg.contracted_gaussian() == cg);
+        }
+        SECTION("With coeffs, exponents, and cartesian coordinates") {
+            shell_type with_cg(cart, l, cs.begin(), cs.end(), es.begin(),
+                               es.end(), 7.0, 8.0, 9.0);
+            REQUIRE(with_cg.pure() == cart);
+            REQUIRE(with_cg.l() == l);
+            REQUIRE(with_cg.contracted_gaussian() == cg);
+        }
+        SECTION("Copy") {
+            shell_type shell0_copy(shell0);
+            REQUIRE(shell0_copy.size() == 0);
+            REQUIRE(shell0_copy.is_null());
 
-TEST_CASE("Shell : move ctor") {
-    auto [s, cg] = make_shell();
-    Shell<double> s2(std::move(s));
-    check_state(s2, ShellType::pure, 2, cg);
-}
+            shell_type shell1_copy(shell1);
+            REQUIRE(shell1_copy.pure() == cart);
+            REQUIRE(shell1_copy.l() == l);
+            REQUIRE(shell1_copy.contracted_gaussian() == cg);
+        }
+        SECTION("Copy Assignment") {
+            shell_type shell0_copy;
+            auto pshell0_copy = &(shell0_copy = shell0);
+            REQUIRE(shell0_copy.size() == 0);
+            REQUIRE(shell0_copy.is_null());
+            REQUIRE(pshell0_copy == &shell0_copy);
 
-TEST_CASE("Shell : copy assignment") {
-    auto [s, cg] = make_shell();
-    Shell<double> s2;
-    auto ps2 = &(s2 = s);
-    check_state(s2, ShellType::pure, 2, cg);
-    SECTION("Returns this") { REQUIRE(ps2 == &s2); }
-}
+            shell_type shell1_copy;
+            auto pshell1_copy = &(shell1_copy = shell1);
+            REQUIRE(shell1_copy.pure() == cart);
+            REQUIRE(shell1_copy.l() == l);
+            REQUIRE(shell1_copy.contracted_gaussian() == cg);
+            REQUIRE(pshell1_copy == &shell1_copy);
+        }
+        SECTION("Move") {
+            shell_type shell0_move(std::move(shell0));
+            REQUIRE(shell0_move.size() == 0);
+            REQUIRE(shell0_move.is_null());
+            REQUIRE(shell0.is_null());
 
-TEST_CASE("Shell : move assignment") {
-    auto [s, cg] = make_shell();
-    Shell<double> s2;
-    auto ps2 = &(s2 = std::move(s));
-    check_state(s2, ShellType::pure, 2, cg);
-    SECTION("Returns this") { REQUIRE(ps2 == &s2); }
-}
+            shell_type shell1_move(std::move(shell1));
+            REQUIRE(shell1_move.pure() == cart);
+            REQUIRE(shell1_move.l() == l);
+            REQUIRE(shell1_move.contracted_gaussian() == cg);
+            REQUIRE(shell1.is_null());
+        }
+        SECTION("Move Assignment") {
+            shell_type shell0_move;
+            auto pshell0_move = &(shell0_move = std::move(shell0));
+            REQUIRE(shell0_move.size() == 0);
+            REQUIRE(shell0_move.is_null());
+            REQUIRE(pshell0_move == &shell0_move);
+            REQUIRE(shell0.is_null());
 
-TEST_CASE("Shell : value ctor") {
-    auto [s, cg] = make_shell();
-    check_state(s, ShellType::pure, 2, cg);
-}
-
-TEST_CASE("Shell : PIMPL ctor") {
-    vector_t cs{1.0, 2.0, 3.0};
-    vector_t es{4.0, 5.0, 6.0};
-    auto ptr1 = std::make_unique<detail_::ShellPIMPL<double>>(ShellType::pure,
-                                                              2, &cs, &es);
-    auto ptr2 = std::make_unique<detail_::PointPIMPL<double>>(7.0, 8.0, 9.0);
-    Shell<double> s(std::move(ptr1), std::move(ptr2));
-    auto [shell2, cg] = make_shell();
-    check_state(s, ShellType::pure, 2, cg);
-}
-
-TEST_CASE("Shell : pure()") {
-    auto [s, cg] = make_shell();
-    REQUIRE(s.pure() == ShellType::pure);
-    SECTION("Is read-/write-able") {
-        STATIC_REQUIRE(std::is_same_v<ShellType&, decltype(s.pure())>);
+            shell_type shell1_move;
+            auto pshell1_move = &(shell1_move = std::move(shell1));
+            REQUIRE(shell1_move.pure() == cart);
+            REQUIRE(shell1_move.l() == l);
+            REQUIRE(shell1_move.contracted_gaussian() == cg);
+            REQUIRE(pshell1_move == &shell1_move);
+            REQUIRE(shell1.is_null());
+        }
     }
-}
 
-TEST_CASE("Shell : pure() const") {
-    const auto [s, cg] = make_shell();
-    REQUIRE(s.pure() == ShellType::pure);
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const ShellType&, decltype(s.pure())>);
+    SECTION("Getters/setters") {
+        SECTION("pure") {
+            REQUIRE(shell0.is_null());
+            REQUIRE(shell0.pure() == pure);
+            REQUIRE(shell1.pure() == cart);
+            REQUIRE_FALSE(shell0.is_null());
+        }
+        SECTION("pure const") {
+            REQUIRE_THROWS_AS(std::as_const(shell0).pure(), std::runtime_error);
+            REQUIRE(std::as_const(shell1).pure() == cart);
+        }
+        SECTION("l") {
+            REQUIRE(shell0.is_null());
+            REQUIRE(shell0.l() == 0);
+            REQUIRE(shell1.l() == l);
+            REQUIRE_FALSE(shell0.is_null());
+        }
+        SECTION("l const") {
+            REQUIRE_THROWS_AS(std::as_const(shell0).l(), std::runtime_error);
+            REQUIRE(std::as_const(shell1).l() == l);
+        }
+        SECTION("contracted_gaussian") {
+            REQUIRE(shell0.is_null());
+            REQUIRE(shell0.contracted_gaussian() == cg_type{});
+            REQUIRE(shell1.contracted_gaussian() == cg);
+            REQUIRE_FALSE(shell0.is_null());
+        }
+        SECTION("contracted_gaussian const") {
+            REQUIRE_THROWS_AS(std::as_const(shell0).contracted_gaussian(),
+                              std::runtime_error);
+            REQUIRE(std::as_const(shell1).contracted_gaussian() == cg);
+        }
+        SECTION("center") {
+            REQUIRE(shell0.is_null());
+            REQUIRE(shell0.center() == center_type{});
+            REQUIRE(shell1.center() == r0);
+            REQUIRE_FALSE(shell0.is_null());
+        }
+        SECTION("center const") {
+            REQUIRE_THROWS_AS(std::as_const(shell0).center(),
+                              std::runtime_error);
+            REQUIRE(std::as_const(shell1).center() == r0);
+        }
+        SECTION("n_primitives") {
+            REQUIRE(shell0.n_primitives() == 0);
+            REQUIRE(shell1.n_primitives() == 3);
+        }
+        SECTION("primitive") {
+            REQUIRE_THROWS_AS(shell0.primitive(0), std::out_of_range);
+            REQUIRE(shell1.primitive(0) == cg.at(0));
+            REQUIRE(shell1.primitive(1) == cg.at(1));
+            REQUIRE(shell1.primitive(2) == cg.at(2));
+            REQUIRE_THROWS_AS(shell0.primitive(3), std::out_of_range);
+        }
+        SECTION("primitive const") {
+            REQUIRE_THROWS_AS(std::as_const(shell0).primitive(0),
+                              std::out_of_range);
+            REQUIRE(std::as_const(shell1).primitive(0) == cg.at(0));
+            REQUIRE(std::as_const(shell1).primitive(1) == cg.at(1));
+            REQUIRE(std::as_const(shell1).primitive(2) == cg.at(2));
+            REQUIRE_THROWS_AS(std::as_const(shell1).primitive(3),
+                              std::out_of_range);
+        }
+        SECTION("size") {
+            REQUIRE(shell0.size() == 0);
+            REQUIRE(shell1.size() == 3);
+        }
     }
-}
-
-TEST_CASE("Shell : l()") {
-    auto [s, cg] = make_shell();
-    REQUIRE(s.l() == 2);
-    SECTION("Is read-/write-able") {
-        STATIC_REQUIRE(std::is_same_v<std::size_t&, decltype(s.l())>);
+    SECTION("Utility") {
+        SECTION("swap") {
+            shell_type shell0_copy(shell0);
+            shell_type shell1_copy(shell1);
+            shell0.swap(shell1);
+            REQUIRE(shell0_copy == shell1);
+            REQUIRE(shell1_copy == shell0);
+        }
+        SECTION("is_null") {
+            REQUIRE(shell0.is_null());
+            REQUIRE_FALSE(shell1.is_null());
+        }
+        SECTION("operator==") {
+            SECTION("equivalent") {
+                REQUIRE(shell0 == shell_type{});
+                REQUIRE(shell1 == shell_type{cart, l, cg});
+            }
+            SECTION("Different contracted Gaussian") {
+                REQUIRE_FALSE(shell1 == shell_type{cart, l, cg_type{}});
+            }
+            SECTION("Different purity") {
+                REQUIRE_FALSE(shell1 == shell_type{pure, l, cg});
+            }
+            SECTION("Different angular momentum") {
+                REQUIRE_FALSE(shell1 == shell_type{cart, 0, cg});
+            }
+        }
+        SECTION("operator!=") { REQUIRE(shell0 != shell1); }
     }
-}
-
-TEST_CASE("Shell : l() const") {
-    const auto [s, cg] = make_shell();
-    REQUIRE(s.l() == 2);
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const std::size_t&, decltype(s.l())>);
-    }
-}
-
-TEST_CASE("Shell : n_unique_primitives") {
-    const auto [s, cg] = make_shell();
-    REQUIRE(s.n_unique_primitives() == 3);
-}
-
-TEST_CASE("Shell : unique_primitive") {
-    auto [s, cg] = make_shell();
-    REQUIRE(s.unique_primitive(0) == cg[0]);
-    REQUIRE(s.unique_primitive(1) == cg[1]);
-    REQUIRE(s.unique_primitive(2) == cg[2]);
-}
-
-TEST_CASE("Shell : unique_primitive() const") {
-    const auto [s, cg] = make_shell();
-    REQUIRE(s.unique_primitive(0) == cg[0]);
-    REQUIRE(s.unique_primitive(1) == cg[1]);
-    REQUIRE(s.unique_primitive(2) == cg[2]);
-}
-
-TEST_CASE("Shell : size_()") {
-    auto [s, cg] = make_shell();
-    REQUIRE(s.size() == 5);
-}
-
-TEST_CASE("Shell : at_()") {
-    auto [s, cg] = make_shell();
-    REQUIRE(s[0] == cg);
-}
-
-TEST_CASE("Shell : at_() const") {
-    const auto [s, cg] = make_shell();
-    REQUIRE(s[0] == cg);
-}
-
-TEST_CASE("Shell : comparisons") {
-    vector_t cs{1.0, 2.0, 3.0};
-    vector_t es{4.0, 5.0, 6.0};
-    ContractedGaussian<double> cg(cs, es, 7.0, 8.0, 9.0);
-    Shell<double> s(ShellType::pure, 2, cs, es, 7.0, 8.0, 9.0);
-
-    SECTION("Same shell") {
-        REQUIRE(s == s);
-        REQUIRE_FALSE(s != s);
-    }
-    SECTION("Different purity") {
-        Shell<double> s2(ShellType::cartesian, 2, cs, es, 7.0, 8.0, 9.0);
-        REQUIRE_FALSE(s == s2);
-        REQUIRE(s != s2);
-    }
-    SECTION("Different total angular momentum") {
-        Shell<double> s2(ShellType::pure, 3, cs, es, 7.0, 8.0, 9.0);
-        REQUIRE_FALSE(s == s2);
-        REQUIRE(s != s2);
-    }
-    SECTION("Different contraction coefficients") {
-        Shell<double> s2(ShellType::pure, 2, es, es, 7.0, 8.0, 9.0);
-        REQUIRE_FALSE(s == s2);
-        REQUIRE(s != s2);
-    }
-    SECTION("Different exponents") {
-        Shell<double> s2(ShellType::pure, 2, cs, cs, 7.0, 8.0, 9.0);
-        REQUIRE_FALSE(s == s2);
-        REQUIRE(s != s2);
-    }
-    SECTION("Different center") {
-        Shell<double> s2(ShellType::pure, 2, cs, es, 8.0, 8.0, 9.0);
-        REQUIRE_FALSE(s == s2);
-        REQUIRE(s != s2);
-    }
-}
-
-TEST_CASE("Shell serialization") {
-    auto [s, cg] = make_shell();
-    Shell<double> s2;
-    std::stringstream ss;
-    {
-        cereal::BinaryOutputArchive oarchive(ss);
-        oarchive(s);
-    }
-    {
-        cereal::BinaryInputArchive iarchive(ss);
-        iarchive(s2);
-    }
-    REQUIRE(s == s2);
 }

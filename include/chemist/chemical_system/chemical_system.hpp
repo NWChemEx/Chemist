@@ -29,7 +29,7 @@ class ChemicalSystemPIMPL;
  *  The Molecule class models the electrons and nuclei in the system; however,
  *  there are often additional pieces of the system beyond the atoms. Typically
  *  these additional pieces are fields (e.g. electric fields from point
- *  charges), but concievably the ChemicalSystem class could also be used to
+ *  charges), but conceivably the ChemicalSystem class could also be used to
  *  hold information such as lattice parameters and the symmetry of the system.
  */
 class ChemicalSystem {
@@ -125,7 +125,7 @@ public:
      *                        Strong throw guarantee.
      */
 
-    ChemicalSystem(molecule_t mol, size_type nelectrons, epot_t v = {});
+    ChemicalSystem(molecule_t mol, size_type n_electrons, epot_t v = {});
 
     /// Default destructor, voids all references to member data
     ~ChemicalSystem() noexcept;
@@ -169,7 +169,7 @@ public:
      *
      *  @return The molecular system in a read-only state.
      *  @throws std::runtime_error if the class has no PIMPL. Strong throw
-     *                             gurantee.
+     *                             guarantee.
      */
     const_mol_ref_t molecule() const;
 
@@ -180,7 +180,7 @@ public:
      *  @throw std::bad_alloc if the class has no PIMPL and there's a problem
      *                        allocating one. Strong throw guarantee.
      */
-    size_type& nelectrons();
+    size_type& n_electrons();
 
     /** @brief Returns the number of electrons in the system.
      *
@@ -189,7 +189,7 @@ public:
      *  @throw std::runtime_error if the class has no PIMPL. Strong throw
      *         guarantee.
      */
-    size_type nelectrons() const;
+    size_type n_electrons() const;
 
     /** @brief Returns the electronic charge of the system.
      *
@@ -232,8 +232,8 @@ public:
      *
      *  Two ChemicalSystem instances are equal if all of their members compare
      *  equal. It is worth noting that since these members contain
-     * floating-point data this implies exact floating-point comparisons,
-     * i.e. 1.0000 != 1.0001.
+     *  floating-point data this implies exact floating-point comparisons,
+     *  i.e. 1.0000 != 1.0001.
      *
      *  @param[in] rhs The ChemicalSystem on the right of the equality operator.
      *

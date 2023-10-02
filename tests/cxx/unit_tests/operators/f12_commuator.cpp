@@ -91,5 +91,5 @@ TEMPLATE_LIST_TEST_CASE("F12Commutator", "", type_list) {
         }
     }
 
-    SECTION("as_string") { REQUIRE(defaulted.as_string() == "Ô"); }
+    SECTION("as_string") { REQUIRE(defaulted.as_string() == "O"); }
 }

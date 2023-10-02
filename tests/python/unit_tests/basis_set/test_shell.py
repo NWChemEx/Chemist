@@ -88,6 +88,14 @@ def make_shell_test_case(shell_type):
             self.assertEqual(self.with_inputs1.contracted_gaussian,
                              self.cg_type([0.0], [1.0], 2.0, 3.0, 4.0))
 
+        def test_center(self):
+            self.assertTrue(self.defaulted.is_null())
+            self.assertEqual(self.defaulted.center, self.center_type())
+            self.assertFalse(self.defaulted.is_null())
+
+            self.assertEqual(self.with_inputs1.center,
+                             self.center_type(2.0, 3.0, 4.0))
+
         def test_n_primitives(self):
             self.assertEqual(self.defaulted.n_primitives(), 0)
             self.assertEqual(self.with_inputs1.n_primitives(), 1)

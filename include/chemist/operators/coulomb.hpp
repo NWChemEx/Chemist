@@ -51,7 +51,7 @@ public:
 
 protected:
     /// Gives a more traditional representation than the default implementation
-    std::string as_string_impl() const override { return "(r\u0302₁₂)⁻¹"; }
+    std::string as_string_impl() const override { return "(r₁₂)⁻¹"; }
 };
 
 /// Type of the two-electron repulsion operator

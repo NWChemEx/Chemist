@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 NWChemEx-Project
+ * Copyright 2023 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,439 +14,399 @@
  * limitations under the License.
  */
 
-#include "chemist/basis_set/primitive_view.hpp"
 #include <catch2/catch.hpp>
+#include <chemist/basis_set/primitive/primitive_view.hpp>
 
-using namespace chemist;
+using namespace chemist::basis_set;
 
-template<typename T, typename U>
-static void compare_state(T&& view, U&& corr) {
-    SECTION("coefficient") { REQUIRE(&view.coefficient() == &corr[0]); }
-    SECTION("exponent") { REQUIRE(&view.exponent() == &corr[1]); }
-    SECTION("x-coordinate") { REQUIRE(&view.x() == &corr[2]); }
-    SECTION("y-coordinate") { REQUIRE(&view.y() == &corr[3]); }
-    SECTION("z-coordinate") { REQUIRE(&view.z() == &corr[4]); }
+template<typename TypeBeingTested, typename CorrType>
+void compare_addresses(TypeBeingTested&& lhs, CorrType&& rhs) {
+    // Check exponent and coefficients are an alias
+    REQUIRE(&lhs.coefficient() == &rhs.coefficient());
+    REQUIRE(&lhs.exponent() == &rhs.exponent());
+
+    // Ensure coordinates are aliases
+    REQUIRE(&lhs.center().x() == &rhs.center().x());
+    REQUIRE(&lhs.center().y() == &rhs.center().y());
+    REQUIRE(&lhs.center().z() == &rhs.center().z());
 }
 
-TEST_CASE("PrimitiveView<double> : default ctor") {
-    PrimitiveView<double> p; // Basically just making sure it compiles
-}
+TEMPLATE_TEST_CASE("PrimitiveView", "", float, double) {
+    using prim_type   = Primitive<TestType>;
+    using center_type = typename prim_type::center_type;
+    using view_type   = PrimitiveView<prim_type>;
+    using const_view  = PrimitiveView<const prim_type>;
 
-TEST_CASE("PrimitiveView<double> : aliasing ctor") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    compare_state(pv, v);
-}
+    center_type r0(1.0, 2.0, 3.0);
+    prim_type defaulted;
+    prim_type values(4.0, 5.0, r0);
 
-TEST_CASE("PrimitiveView<const double> : aliasing ctor") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    compare_state(pv, v);
-}
+    view_type defaulted_view(defaulted);
+    view_type values_view(values);
 
-TEST_CASE("PrimitiveView<double> : copy ctor") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    PrimitiveView<double> pv2(pv);
-    compare_state(pv2, v);
-}
+    const_view const_defaulted_view(defaulted);
+    const_view const_values_view(values);
 
-TEST_CASE("PrimitiveView<const double> : copy ctor") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    PrimitiveView<const double> pv2(pv);
-    compare_state(pv2, v);
-}
+    SECTION("Ctors and assignment") {
+        SECTION("coef, exp, x, y, z") {
+            view_type p(values.coefficient(), values.exponent(),
+                        values.center().x(), values.center().y(),
+                        values.center().z());
 
-TEST_CASE("PrimitiveView<double> : move ctor") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    PrimitiveView<double> pv2(std::move(pv));
-    compare_state(pv2, v);
-}
+            compare_addresses(p, values);
 
-TEST_CASE("PrimitiveView<const double> : move ctor") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    PrimitiveView<const double> pv2(std::move(pv));
-    compare_state(pv2, v);
-}
+            // Check values as a sanity check
+            REQUIRE(p.coefficient() == 4.0);
+            REQUIRE(p.exponent() == 5.0);
+            REQUIRE(p.center() == r0);
 
-TEST_CASE("PrimitiveView<double> : copy assignment") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    PrimitiveView<double> pv2;
-    auto ppv2 = &(pv2 = pv);
-    compare_state(pv2, v);
-    SECTION("Returns this") { REQUIRE(ppv2 == &pv2); }
-}
+            const_view cp(values.coefficient(), values.exponent(),
+                          values.center().x(), values.center().y(),
+                          values.center().z());
 
-TEST_CASE("PrimitiveView<const double> : copy assignment") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    PrimitiveView<const double> pv2;
-    auto ppv2 = &(pv2 = pv);
-    compare_state(pv2, v);
-    SECTION("Returns this") { REQUIRE(ppv2 == &pv2); }
-}
-
-TEST_CASE("PrimitiveView<double> : move assignment") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    PrimitiveView<double> pv2;
-    auto ppv2 = &(pv2 = std::move(pv));
-    compare_state(pv2, v);
-    SECTION("Returns this") { REQUIRE(ppv2 == &pv2); }
-}
-
-TEST_CASE("PrimitiveView<const double> : move assignment") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    PrimitiveView<const double> pv2;
-    auto ppv2 = &(pv2 = std::move(pv));
-    compare_state(pv2, v);
-    SECTION("Returns this") { REQUIRE(ppv2 == &pv2); }
-}
-
-TEST_CASE("PrimitiveView<double> : coefficient") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.coefficient() == &v[0]); }
-    SECTION("Is read/write") {
-        STATIC_REQUIRE(std::is_same_v<double&, decltype(pv.coefficient())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<const double> : coefficient") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.coefficient() == &v[0]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(
-          std::is_same_v<const double&, decltype(pv.coefficient())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<double> : coefficient const") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    const PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.coefficient() == &v[0]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(
-          std::is_same_v<const double&, decltype(pv.coefficient())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<const double> : coefficient const") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    const PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.coefficient() == &v[0]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(
-          std::is_same_v<const double&, decltype(pv.coefficient())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<double> : exponent") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.exponent() == &v[1]); }
-    SECTION("Is read/write") {
-        STATIC_REQUIRE(std::is_same_v<double&, decltype(pv.exponent())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<const double> : exponent") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.exponent() == &v[1]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.exponent())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<double> : exponent const") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    const PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.exponent() == &v[1]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.exponent())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<const double> : exponent const") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    const PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.exponent() == &v[1]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.exponent())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<double> : coord") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.coord(1) == &v[3]); }
-    SECTION("Is read/write") {
-        STATIC_REQUIRE(std::is_same_v<double&, decltype(pv.coord(1))>);
-    }
-}
-
-TEST_CASE("PrimitiveView<const double> : coord") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.coord(1) == &v[3]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.coord(1))>);
-    }
-}
-
-TEST_CASE("PrimitiveView<double> : coord const") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    const PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.coord(1) == &v[3]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.coord(2))>);
-    }
-}
-
-TEST_CASE("PrimitiveView<const double> : coord const") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    const PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.coord(1) == &v[3]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.coord(1))>);
-    }
-}
-
-TEST_CASE("PrimitiveView<double> : x") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.x() == &v[2]); }
-    SECTION("Is read/write") {
-        STATIC_REQUIRE(std::is_same_v<double&, decltype(pv.x())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<const double> : x") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.x() == &v[2]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.x())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<double> : x const") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    const PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.x() == &v[2]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.x())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<const double> : x const") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    const PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.x() == &v[2]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.x())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<double> : y") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.y() == &v[3]); }
-    SECTION("Is read/write") {
-        STATIC_REQUIRE(std::is_same_v<double&, decltype(pv.y())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<const double> : y") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.y() == &v[3]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.y())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<double> : y const") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    const PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.y() == &v[3]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.y())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<const double> : y const") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    const PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.y() == &v[3]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.y())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<double> : z") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.z() == &v[4]); }
-    SECTION("Is read/write") {
-        STATIC_REQUIRE(std::is_same_v<double&, decltype(pv.z())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<const double> : z") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.z() == &v[4]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.z())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<double> : z const") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    const PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.z() == &v[4]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.z())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<const double> : z const") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    const PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    SECTION("Is alias") { REQUIRE(&pv.z() == &v[4]); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.z())>);
-    }
-}
-
-TEST_CASE("PrimitiveView<double> : implicit conversion") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-
-    SECTION("To const Primitive<double>&") {
-        const Primitive<double>& p(pv);
-        compare_state(p, v);
-    }
-    SECTION("To Primitive<double>") {
-        Primitive<double> p(pv);
-        SECTION("State") {
-            SECTION("Coefficient") { REQUIRE(p.coefficient() == v[0]); }
-            SECTION("Exponent") { REQUIRE(p.exponent() == v[1]); }
-            SECTION("x-coordinate") { REQUIRE(p.x() == v[2]); }
-            SECTION("y-coordinate") { REQUIRE(p.y() == v[3]); }
-            SECTION("z-coordinate") { REQUIRE(p.z() == v[4]); }
+            compare_addresses(cp, values);
+            // Check values as a sanity check
+            REQUIRE(cp.coefficient() == 4.0);
+            REQUIRE(cp.exponent() == 5.0);
+            REQUIRE(cp.center() == r0);
         }
-        SECTION("Is deep copy") {
-            SECTION("Coefficient") { REQUIRE(&p.coefficient() != &v[0]); }
-            SECTION("Exponent") { REQUIRE(&p.exponent() != &v[1]); }
-            SECTION("x-coordinate") { REQUIRE(&p.x() != &v[2]); }
-            SECTION("y-coordinate") { REQUIRE(&p.y() != &v[3]); }
-            SECTION("z-coordinate") { REQUIRE(&p.z() != &v[4]); }
+
+        SECTION("coef, exp, r0") {
+            view_type p(values.coefficient(), values.exponent(),
+                        values.center());
+
+            compare_addresses(p, values);
+
+            // Sanity check values
+            REQUIRE(p.coefficient() == 4.0);
+            REQUIRE(p.exponent() == 5.0);
+            REQUIRE(p.center() == r0);
+
+            const_view cp(values.coefficient(), values.exponent(),
+                          values.center());
+
+            compare_addresses(cp, values);
+
+            // Sanity check values
+            REQUIRE(cp.coefficient() == 4.0);
+            REQUIRE(cp.exponent() == 5.0);
+            REQUIRE(cp.center() == r0);
+        }
+
+        SECTION("primitive") {
+            // View of a mutable null Primitive
+            REQUIRE(defaulted_view.is_null());
+
+            // View of a mutable non-null Primitive
+            compare_addresses(values_view, values);
+            REQUIRE(values_view.coefficient() == 4.0);
+            REQUIRE(values_view.exponent() == 5.0);
+            REQUIRE(values_view.center() == r0);
+
+            // View of a read-only null Primitive
+            REQUIRE(const_defaulted_view.is_null());
+
+            // View of a read-only non-null Primitive
+            compare_addresses(const_values_view, values);
+            REQUIRE(const_values_view.coefficient() == 4.0);
+            REQUIRE(const_values_view.exponent() == 5.0);
+            REQUIRE(const_values_view.center() == r0);
+        }
+
+        SECTION("assign Primitive") {
+            REQUIRE_THROWS_AS(defaulted_view = values, std::runtime_error);
+            REQUIRE_THROWS_AS(values_view = defaulted, std::runtime_error);
+
+            values_view = prim_type(1.0, 2.0, 3.0, 4.0, 5.0);
+            REQUIRE(values_view.coefficient() == 1.0);
+            REQUIRE(values_view.exponent() == 2.0);
+            REQUIRE(values_view.center() == center_type(3.0, 4.0, 5.0));
+        }
+
+        SECTION("mutable view to read-only") {
+            const_view cp(values_view);
+
+            compare_addresses(cp, values);
+            REQUIRE(cp.coefficient() == 4.0);
+            REQUIRE(cp.exponent() == 5.0);
+            REQUIRE(cp.center() == r0);
+        }
+
+        SECTION("copy") {
+            // Mutable view of a null Primitive
+            view_type defaulted_copy(defaulted_view);
+            REQUIRE(defaulted_copy.is_null());
+
+            // Mutable view of a non-null Primitive
+            view_type values_copy(values_view);
+            compare_addresses(values_copy, values);
+            REQUIRE(values_copy.coefficient() == 4.0);
+            REQUIRE(values_copy.exponent() == 5.0);
+            REQUIRE(values_copy.center() == r0);
+
+            // Read-only view of a null primitive
+            const_view const_defaulted_copy(const_defaulted_view);
+            REQUIRE(const_defaulted_copy.is_null());
+
+            // Read-only view of a non-null Primitive
+            const_view const_values_copy(const_values_view);
+            compare_addresses(const_values_copy, values);
+            REQUIRE(const_values_copy.coefficient() == 4.0);
+            REQUIRE(const_values_copy.exponent() == 5.0);
+            REQUIRE(const_values_copy.center() == r0);
+        }
+
+        SECTION("copy assignment") {
+            // Mutable view of a null Primitive
+            view_type defaulted_copy;
+            auto pdefaulted_copy = &(defaulted_copy = defaulted_view);
+            REQUIRE(defaulted_copy.is_null());
+            REQUIRE(pdefaulted_copy == &defaulted_copy);
+
+            // Mutable view of a non-null Primitive
+            view_type values_copy;
+            auto pvalues_copy = &(values_copy = values_view);
+            compare_addresses(values_copy, values);
+            REQUIRE(values_copy.coefficient() == 4.0);
+            REQUIRE(values_copy.exponent() == 5.0);
+            REQUIRE(values_copy.center() == r0);
+            REQUIRE(pvalues_copy == &values_copy);
+
+            // Read-only view of a null primitive
+            const_view const_defaulted_copy;
+            auto pconst_defaulted_copy =
+              &(const_defaulted_copy = const_defaulted_view);
+            REQUIRE(const_defaulted_copy.is_null());
+            REQUIRE(pconst_defaulted_copy == &const_defaulted_copy);
+
+            // Read-only view of a non-null Primitive
+            const_view const_values_copy;
+            auto pconst_values_copy = &(const_values_copy = const_values_view);
+            compare_addresses(const_values_copy, values);
+            REQUIRE(const_values_copy.coefficient() == 4.0);
+            REQUIRE(const_values_copy.exponent() == 5.0);
+            REQUIRE(const_values_copy.center() == r0);
+            REQUIRE(pconst_values_copy == &const_values_copy);
+        }
+
+        SECTION("move") {
+            // Mutable view of a null Primitive
+            view_type defaulted_move(std::move(defaulted_view));
+            REQUIRE(defaulted_move.is_null());
+
+            // Mutable view of a non-null Primitive
+            view_type values_move(std::move(values_view));
+            compare_addresses(values_move, values);
+            REQUIRE(values_move.coefficient() == 4.0);
+            REQUIRE(values_move.exponent() == 5.0);
+            REQUIRE(values_move.center() == r0);
+
+            // Read-only view of a null primitive
+            const_view const_defaulted_move(std::move(const_defaulted_view));
+            REQUIRE(const_defaulted_move.is_null());
+
+            // Read-only view of a non-null Primitive
+            const_view const_values_move(std::move(const_values_view));
+            compare_addresses(const_values_move, values);
+            REQUIRE(const_values_move.coefficient() == 4.0);
+            REQUIRE(const_values_move.exponent() == 5.0);
+            REQUIRE(const_values_move.center() == r0);
+        }
+
+        SECTION("move assignment") {
+            // Mutable view of a null Primitive
+            view_type defaulted_move;
+            auto pdefaulted_move =
+              &(defaulted_move = std::move(defaulted_view));
+            REQUIRE(defaulted_move.is_null());
+            REQUIRE(pdefaulted_move == &defaulted_move);
+
+            // Mutable view of a non-null Primitive
+            view_type values_move;
+            auto pvalues_move = &(values_move = std::move(values_view));
+            compare_addresses(values_move, values);
+            REQUIRE(values_move.coefficient() == 4.0);
+            REQUIRE(values_move.exponent() == 5.0);
+            REQUIRE(values_move.center() == r0);
+            REQUIRE(pvalues_move == &values_move);
+
+            // Read-only view of a null primitive
+            const_view const_defaulted_move;
+            auto pconst_defaulted_move =
+              &(const_defaulted_move = std::move(const_defaulted_view));
+            REQUIRE(const_defaulted_move.is_null());
+            REQUIRE(pconst_defaulted_move == &const_defaulted_move);
+
+            // Read-only view of a non-null Primitive
+            const_view const_values_move;
+            auto pconst_values_move =
+              &(const_values_move = std::move(const_values_view));
+            compare_addresses(const_values_move, values);
+            REQUIRE(const_values_move.coefficient() == 4.0);
+            REQUIRE(const_values_move.exponent() == 5.0);
+            REQUIRE(const_values_move.center() == r0);
+            REQUIRE(pconst_values_move == &const_values_move);
         }
     }
-}
 
-TEST_CASE("PrimitiveView<const double> : implicit conversion") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
+    SECTION("getters/setters") {
+        using re = std::runtime_error;
 
-    SECTION("To const Primitive<double>&") {
-        const Primitive<double>& p(pv);
-        compare_state(p, v);
-    }
-    SECTION("To Primitive<double>") {
-        Primitive<double> p(pv);
-        SECTION("State") {
-            SECTION("Coefficient") { REQUIRE(p.coefficient() == v[0]); }
-            SECTION("Exponent") { REQUIRE(p.exponent() == v[1]); }
-            SECTION("x-coordinate") { REQUIRE(p.x() == v[2]); }
-            SECTION("y-coordinate") { REQUIRE(p.y() == v[3]); }
-            SECTION("z-coordinate") { REQUIRE(p.z() == v[4]); }
+        SECTION("center()") {
+            REQUIRE_THROWS_AS(defaulted_view.center(), re);
+            REQUIRE_THROWS_AS(const_defaulted_view.center(), re);
+
+            REQUIRE(values_view.center() == r0);
+            REQUIRE(const_values_view.center() == r0);
         }
-        SECTION("Is deep copy") {
-            SECTION("Coefficient") { REQUIRE(&p.coefficient() != &v[0]); }
-            SECTION("Exponent") { REQUIRE(&p.exponent() != &v[1]); }
-            SECTION("x-coordinate") { REQUIRE(&p.x() != &v[2]); }
-            SECTION("y-coordinate") { REQUIRE(&p.y() != &v[3]); }
-            SECTION("z-coordinate") { REQUIRE(&p.z() != &v[4]); }
+
+        SECTION("center() const") {
+            REQUIRE_THROWS_AS(std::as_const(defaulted_view).center(), re);
+            REQUIRE_THROWS_AS(std::as_const(const_defaulted_view).center(), re);
+
+            REQUIRE(std::as_const(values_view).center() == r0);
+            REQUIRE(std::as_const(const_values_view).center() == r0);
+        }
+
+        SECTION("coefficient()") {
+            REQUIRE_THROWS_AS(defaulted_view.coefficient(), re);
+            REQUIRE_THROWS_AS(const_defaulted_view.coefficient(), re);
+
+            REQUIRE(values_view.coefficient() == 4.0);
+            REQUIRE(const_values_view.coefficient() == 4.0);
+        }
+
+        SECTION("coefficient() const") {
+            REQUIRE_THROWS_AS(std::as_const(defaulted_view).coefficient(), re);
+            REQUIRE_THROWS_AS(std::as_const(const_defaulted_view).coefficient(),
+                              re);
+
+            REQUIRE(std::as_const(values_view).coefficient() == 4.0);
+            REQUIRE(std::as_const(const_values_view).coefficient() == 4.0);
+        }
+
+        SECTION("exponent()") {
+            REQUIRE_THROWS_AS(defaulted_view.exponent(), re);
+            REQUIRE_THROWS_AS(const_defaulted_view.exponent(), re);
+
+            REQUIRE(values_view.exponent() == 5.0);
+            REQUIRE(const_values_view.exponent() == 5.0);
+        }
+
+        SECTION("exponent() const") {
+            REQUIRE_THROWS_AS(std::as_const(defaulted_view).exponent(), re);
+            REQUIRE_THROWS_AS(std::as_const(const_defaulted_view).exponent(),
+                              re);
+
+            REQUIRE(std::as_const(values_view).exponent() == 5.0);
+            REQUIRE(std::as_const(const_values_view).exponent() == 5.0);
         }
     }
-}
 
-TEST_CASE("PrimitiveView<double> : operator==") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    Primitive<double> p{1.0, 2.0, 3.0, 4.0, 5.0};
-    SECTION("PrimitiveView<double> == PrimitiveView<double>") {
-        REQUIRE(pv == pv);
-    }
-    SECTION("PrimitiveView<double> == Primitive<double>") { REQUIRE(pv == p); }
-    SECTION("Primitive<double> == PrimitiveView<double>") { REQUIRE(p == pv); }
-}
+    SECTION("utility functions") {
+        SECTION("swap") {
+            defaulted_view.swap(values_view);
+            compare_addresses(defaulted_view, values);
+            REQUIRE(values_view.is_null());
+        }
 
-TEST_CASE("PrimitiveView<const double> : operator==") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    PrimitiveView<double> pv2(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    Primitive<double> p{1.0, 2.0, 3.0, 4.0, 5.0};
-    SECTION("PrimitiveView<const double> == PrimitiveView<const double>") {
-        REQUIRE(pv == pv);
-    }
-    SECTION("PrimitiveView<const double> == PrimitiveView<double>") {
-        REQUIRE(pv == pv2);
-    }
-    SECTION("PrimitiveView<double> == PrimitiveView<const double>") {
-        REQUIRE(pv2 == pv);
-    }
-    SECTION("PrimitiveView<const double> == Primitive<double>") {
-        REQUIRE(pv == p);
-    }
-    SECTION("Primitive<double> == PrimitiveView<const double>") {
-        REQUIRE(p == pv);
-    }
-}
+        SECTION("is_null") {
+            REQUIRE(defaulted_view.is_null());
+            REQUIRE_FALSE(values_view.is_null());
+            REQUIRE(const_defaulted_view.is_null());
+            REQUIRE_FALSE(const_values_view.is_null());
+        }
 
-TEST_CASE("PrimitiveView<double> : operator!=") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    Primitive<double> p{1.0, 2.0, 3.0, 4.0, 5.0};
-    SECTION("PrimitiveView<double> != PrimitiveView<double>") {
-        REQUIRE_FALSE(pv != pv);
-    }
-    SECTION("PrimitiveView<double> != Primitive<double>") {
-        REQUIRE_FALSE(pv != p);
-    }
-    SECTION("Primitive<double> == PrimitiveView<double>") {
-        REQUIRE_FALSE(p != pv);
-    }
-}
+        SECTION("operator==(PrimitiveView)") {
+            // null vs null
+            REQUIRE(defaulted_view == view_type{});
+            REQUIRE(const_defaulted_view == const_view{});
 
-TEST_CASE("PrimitiveView<const double> : operator!=") {
-    std::vector<double> v{1.0, 2.0, 3.0, 4.0, 5.0};
-    PrimitiveView<const double> pv(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    PrimitiveView<double> pv2(&v[0], &v[1], &v[2], &v[3], &v[4]);
-    Primitive<double> p{1.0, 2.0, 3.0, 4.0, 5.0};
-    SECTION("PrimitiveView<const double> != PrimitiveView<const double>") {
-        REQUIRE_FALSE(pv != pv);
-    }
-    SECTION("PrimitiveView<const double> != PrimitiveView<double>") {
-        REQUIRE_FALSE(pv != pv2);
-    }
-    SECTION("PrimitiveView<double> != PrimitiveView<const double>") {
-        REQUIRE_FALSE(pv2 != pv);
-    }
-    SECTION("PrimitiveView<const double> != Primitive<double>") {
-        REQUIRE_FALSE(pv != p);
-    }
-    SECTION("Primitive<double> != PrimitiveView<const double>") {
-        REQUIRE_FALSE(p != pv);
+            // null vs non-null
+            REQUIRE_FALSE(defaulted_view == values_view);
+            REQUIRE_FALSE(const_defaulted_view == const_values_view);
+
+            // non-null: same values
+            REQUIRE(values_view == view_type(values));
+            REQUIRE(const_values_view == const_view(values));
+
+            // non-null: different coefficient
+            prim_type diff_coef(6.0, 5.0, r0);
+            REQUIRE_FALSE(values_view == view_type(diff_coef));
+            REQUIRE_FALSE(const_values_view == const_view(diff_coef));
+
+            // non-null: different exponent
+            prim_type diff_exp(4.0, 6.0, r0);
+            REQUIRE_FALSE(values_view == view_type(diff_exp));
+            REQUIRE_FALSE(const_values_view == const_view(diff_exp));
+
+            // non-null: different center
+            prim_type diff_center(4.0, 5.0, center_type{});
+            REQUIRE_FALSE(values_view == view_type(diff_center));
+            REQUIRE_FALSE(const_values_view == const_view(diff_center));
+
+            // Can mix mutable and read-only views symmetrically
+            REQUIRE(values_view == const_values_view);
+            REQUIRE(const_values_view == values_view);
+        }
+
+        SECTION("operator==(Primitive)") {
+            // N.B. We need to check each operation for symmetry too
+
+            // null vs null
+            REQUIRE(defaulted_view == prim_type{});
+            REQUIRE(prim_type{} == defaulted_view);
+            REQUIRE(const_defaulted_view == prim_type{});
+            REQUIRE(prim_type{} == const_defaulted_view);
+
+            // null vs non-null
+            REQUIRE_FALSE(defaulted_view == values);
+            REQUIRE_FALSE(values == defaulted_view);
+            REQUIRE_FALSE(const_defaulted_view == values);
+            REQUIRE_FALSE(values == const_defaulted_view);
+
+            // non-null: same values
+            REQUIRE(values_view == values);
+            REQUIRE(values == values_view);
+            REQUIRE(const_values_view == values);
+            REQUIRE(values == const_values_view);
+
+            // non-null: different coefficient
+            prim_type diff_coef(6.0, 5.0, r0);
+            REQUIRE_FALSE(values_view == diff_coef);
+            REQUIRE_FALSE(diff_coef == values_view);
+            REQUIRE_FALSE(const_values_view == diff_coef);
+            REQUIRE_FALSE(diff_coef == const_values_view);
+
+            // non-null: different exponent
+            prim_type diff_exp(4.0, 6.0, r0);
+            REQUIRE_FALSE(values_view == diff_exp);
+            REQUIRE_FALSE(diff_exp == values_view);
+            REQUIRE_FALSE(const_values_view == diff_exp);
+            REQUIRE_FALSE(diff_exp == const_values_view);
+
+            // non-null: different center
+            prim_type diff_center(4.0, 5.0, center_type{});
+            REQUIRE_FALSE(values_view == diff_center);
+            REQUIRE_FALSE(diff_center == values_view);
+            REQUIRE_FALSE(const_values_view == diff_center);
+            REQUIRE_FALSE(diff_center == const_values_view);
+
+            // Can mix mutable and read-only views symmetrically
+            REQUIRE(values == const_values_view);
+            REQUIRE(const_values_view == values);
+        }
+
+        SECTION("operator!=(PrimitiveView)") {
+            // Operator!= simply negates operator==, suffices to spot check
+            REQUIRE_FALSE(values_view != const_values_view);
+            REQUIRE_FALSE(const_values_view != values_view);
+        }
+
+        SECTION("operator!=(Primitive)") {
+            // Operator!= simply negates operator==, suffices to spot check
+            REQUIRE_FALSE(values != const_values_view);
+            REQUIRE_FALSE(const_values_view != values);
+        }
     }
 }

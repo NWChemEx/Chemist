@@ -225,11 +225,11 @@ inline bool operator!=(const AOSpace<LHSAO>& lhs, const AOSpace<RHSAO>& rhs) {
 }
 
 // ------------------------------ Typedefs -------------------------------------
-using AOSpaceD = AOSpace<AOBasisSetD>;
-using AOSpaceF = AOSpace<AOBasisSetF>;
+using AOSpaceD = AOSpace<basis_set::AOBasisSetD>;
+using AOSpaceF = AOSpace<basis_set::AOBasisSetF>;
 
 // ----------------- Forward Declare Explicit Instantiations -------------------
-extern template class AOSpace<AOBasisSetD>;
-extern template class AOSpace<AOBasisSetF>;
+extern template class AOSpace<basis_set::AOBasisSetD>;
+extern template class AOSpace<basis_set::AOBasisSetF>;
 
 } // namespace chemist::orbital_space

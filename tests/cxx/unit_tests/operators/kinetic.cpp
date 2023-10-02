@@ -74,5 +74,5 @@ TEMPLATE_LIST_TEST_CASE("Kinetic", "", type_list) {
         }
     }
 
-    SECTION("as_string") { REQUIRE(defaulted.as_string() == "Ô"); }
+    SECTION("as_string") { REQUIRE(defaulted.as_string() == "O"); }
 }

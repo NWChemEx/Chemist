@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 NWChemEx-Project
+ * Copyright 2023 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,162 +14,227 @@
  * limitations under the License.
  */
 
-#include "chemist/basis_set/primitive.hpp"
 #include <catch2/catch.hpp>
-#include <cereal/archives/binary.hpp>
-#include <sstream>
+#include <chemist/basis_set/primitive/primitive.hpp>
 
-using namespace chemist;
+TEMPLATE_TEST_CASE("Primitive", "", float, double) {
+    using prim_type   = chemist::basis_set::Primitive<TestType>;
+    using center_type = typename prim_type::center_type;
 
-TEST_CASE("Primitive<double> : default ctor") {
-    Primitive<double> p;
-    SECTION("Coefficient") { REQUIRE(p.coefficient() == 0.0); }
-    SECTION("Exponent") { REQUIRE(p.exponent() == 0.0); }
-    SECTION("Point") { REQUIRE(p == Point<double>(0.0, 0.0, 0.0)); }
-}
+    center_type origin, r0(1.0, 2.0, 3.0);
 
-TEST_CASE("Primitive<double> : value ctor") {
-    Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    SECTION("Coefficient") { REQUIRE(p.coefficient() == 1.0); }
-    SECTION("Exponent") { REQUIRE(p.exponent() == 2.0); }
-    SECTION("Point") { REQUIRE(p == Point<double>(3.0, 4.0, 5.0)); }
-}
+    prim_type defaulted;
+    prim_type values(4.0, 5.0, r0);
 
-TEST_CASE("Primitive<double> : copy ctor") {
-    Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    Primitive<double> p2(p);
-    SECTION("State") { REQUIRE(p2 == p); }
-    SECTION("Deep copy") {
-        REQUIRE(&p2.coefficient() != &p.coefficient());
-        REQUIRE(&p2.exponent() != &p.exponent());
-    }
-}
+    SECTION("Ctors and assignment") {
+        SECTION("default") { REQUIRE(defaulted.is_null()); }
 
-TEST_CASE("Primitive<double> : move ctor") {
-    Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    Primitive<double> p2(p);
-    std::array<double*, 2> pp{&p.coefficient(), &p.exponent()};
-    Primitive<double> p3(std::move(p));
-    SECTION("State") { REQUIRE(p3 == p2); }
-    SECTION("References remain valid") {
-        REQUIRE(&p3.coefficient() == pp[0]);
-        REQUIRE(&p3.exponent() == pp[1]);
-    }
-}
+        SECTION("T, T, T, T, T") {
+            prim_type prim(4.0, 5.0, 1.0, 2.0, 3.0);
+            REQUIRE(prim.coefficient() == 4.0);
+            REQUIRE(prim.exponent() == 5.0);
+            REQUIRE(prim.center() == r0);
+        }
 
-TEST_CASE("Primitive<double> : copy assignment") {
-    Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    Primitive<double> p2;
-    auto pp2 = &(p2 = p);
-    SECTION("State") { REQUIRE(p == p2); }
-    SECTION("Returns this") { REQUIRE(pp2 == &p2); }
-    SECTION("Deep copy") {
-        REQUIRE(&p2.coefficient() != &p.coefficient());
-        REQUIRE(&p2.exponent() != &p.exponent());
-    }
-}
+        SECTION("T, T, PointView") {
+            REQUIRE(values.coefficient() == 4.0);
+            REQUIRE(values.exponent() == 5.0);
 
-TEST_CASE("Primitive<double> : move assignment") {
-    Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    Primitive<double> p2(p);
-    std::array<double*, 2> pp{&p.coefficient(), &p.exponent()};
-    Primitive<double> p3;
-    auto pp3 = &(p3 = std::move(p));
-    SECTION("State") { REQUIRE(p3 == p2); }
-    SECTION("Returns this") { REQUIRE(pp3 == &p3); }
-    SECTION("References remain valid") {
-        REQUIRE(&p3.coefficient() == pp[0]);
-        REQUIRE(&p3.exponent() == pp[1]);
-    }
-}
+            // Check center's value and ensure deep copy of center
+            REQUIRE(values.center() == r0);
+            REQUIRE(&values.center().x() != &r0.x());
+            REQUIRE(&values.center().y() != &r0.y());
+            REQUIRE(&values.center().z() != &r0.z());
+        }
 
-TEST_CASE("Primitive<double> : coefficient") {
-    Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    REQUIRE(p.coefficient() == 1.0);
-    SECTION("Is read/write") {
-        STATIC_REQUIRE(std::is_same_v<decltype(p.coefficient()), double&>);
-    }
-}
+        SECTION("Copy") {
+            prim_type defaulted_copy(defaulted);
+            REQUIRE(defaulted_copy.is_null());
 
-TEST_CASE("Primitive<double> : coefficient const") {
-    const Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    REQUIRE(p.coefficient() == 1.0);
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(
-          std::is_same_v<decltype(p.coefficient()), const double&>);
-    }
-}
+            prim_type values_copy(values);
+            REQUIRE(values_copy.coefficient() == 4.0);
+            REQUIRE(values_copy.exponent() == 5.0);
+            REQUIRE(values_copy.center() == r0);
+        }
 
-TEST_CASE("Primitive<double> : exponent") {
-    Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    REQUIRE(p.exponent() == 2.0);
-    SECTION("Is read/write") {
-        STATIC_REQUIRE(std::is_same_v<decltype(p.exponent()), double&>);
-    }
-}
+        SECTION("Copy assignment") {
+            prim_type defaulted_copy;
+            auto pdefaulted_copy = &(defaulted_copy = defaulted);
+            REQUIRE(defaulted_copy.is_null());
+            REQUIRE(pdefaulted_copy == &defaulted_copy);
 
-TEST_CASE("Primitive<double> : exponent const") {
-    const Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    REQUIRE(p.exponent() == 2.0);
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<decltype(p.exponent()), const double&>);
-    }
-}
+            prim_type values_copy;
+            auto pvalues_copy = &(values_copy = values);
+            REQUIRE(values_copy.coefficient() == 4.0);
+            REQUIRE(values_copy.exponent() == 5.0);
+            REQUIRE(values_copy.center() == r0);
+            REQUIRE(pvalues_copy == &values_copy);
+        }
 
-TEST_CASE("Primitive<double> : operator==") {
-    Primitive<double> p;
-    SECTION("Same instance") { REQUIRE(p == p); }
-    SECTION("Different instance, same value") {
-        Primitive<double> p2;
-        REQUIRE(p == p2);
-    }
-    SECTION("Different coefficient") {
-        Primitive<double> p2(1.0, 0.0, 0.0, 0.0, 0.0);
-        REQUIRE_FALSE(p == p2);
-    }
-    SECTION("Different exponent") {
-        Primitive<double> p2(0.0, 1.0, 0.0, 0.0, 0.0);
-        REQUIRE_FALSE(p == p2);
-    }
-    SECTION("Different Point") {
-        Primitive<double> p2(0.0, 0.0, 1.0, 2.0, 3.0);
-        REQUIRE_FALSE(p == p2);
-    }
-}
+        SECTION("Move") {
+            prim_type defaulted_move(std::move(defaulted));
+            REQUIRE(defaulted_move.is_null());
 
-TEST_CASE("Primitive<double> : operator!=") {
-    Primitive<double> p;
-    SECTION("Same instance") { REQUIRE_FALSE(p != p); }
-    SECTION("Different instance, same value") {
-        Primitive<double> p2;
-        REQUIRE_FALSE(p != p2);
-    }
-    SECTION("Different coefficient") {
-        Primitive<double> p2(1.0, 0.0, 0.0, 0.0, 0.0);
-        REQUIRE(p != p2);
-    }
-    SECTION("Different exponent") {
-        Primitive<double> p2(0.0, 1.0, 0.0, 0.0, 0.0);
-        REQUIRE(p != p2);
-    }
-    SECTION("Different Point") {
-        Primitive<double> p2(0.0, 0.0, 1.0, 2.0, 3.0);
-        REQUIRE(p != p2);
-    }
-}
+            prim_type values_move(std::move(values));
+            REQUIRE(values_move.coefficient() == 4.0);
+            REQUIRE(values_move.exponent() == 5.0);
+            REQUIRE(values_move.center() == r0);
+        }
 
-TEST_CASE("Primitive serialization") {
-    Primitive<double> p(1.0, 2.0, 3.0, 4.0, 5.0);
-    const char* file = "archive.dat";
-    Primitive<double> p2;
-    std::stringstream ss;
-    {
-        cereal::BinaryOutputArchive oarchive(ss);
-        oarchive(p);
+        SECTION("Move assignment") {
+            prim_type defaulted_move;
+            auto pdefaulted_move = &(defaulted_move = std::move(defaulted));
+            REQUIRE(defaulted_move.is_null());
+            REQUIRE(pdefaulted_move == &defaulted_move);
+
+            prim_type values_move;
+            auto pvalues_move = &(values_move = std::move(values));
+            REQUIRE(values_move.coefficient() == 4.0);
+            REQUIRE(values_move.exponent() == 5.0);
+            REQUIRE(values_move.center() == r0);
+            REQUIRE(pvalues_move == &values_move);
+        }
     }
-    {
-        cereal::BinaryInputArchive iarchive(ss);
-        iarchive(p2);
+
+    SECTION("center") {
+        // For default objects, this should allocate a PIMPL and then return
+        // the origin (it also should have set the coefficient and exponent to
+        // 0)
+        REQUIRE(defaulted.center() == origin);
+        REQUIRE(defaulted.coefficient() == 0.0);
+        REQUIRE(defaulted.exponent() == 0.0);
+
+        // We should be able to write to the instance too
+        defaulted.center().x() = 1.0;
+        defaulted.center().y() = 2.0;
+        defaulted.center().z() = 3.0;
+        REQUIRE(defaulted.center() == r0);
+
+        // Calling center on an already set object shouldn't change anythign
+        REQUIRE(values.center() == r0);
+        REQUIRE(values.coefficient() == 4.0);
+        REQUIRE(values.exponent() == 5.0);
     }
-    REQUIRE(p == p2);
+
+    SECTION("center() const") {
+        // For default objects, this should throw
+        const auto& cdefaulted = std::as_const(defaulted);
+        REQUIRE_THROWS_AS(cdefaulted.center(), std::runtime_error);
+        REQUIRE(std::as_const(values).center() == r0);
+    }
+
+    SECTION("coefficient()") {
+        // For default objects, this should allocate a PIMPL and then return 0
+        // (it also should have set the exponent to 0 and the center to the
+        // origin)
+        REQUIRE(defaulted.coefficient() == 0.0);
+        REQUIRE(defaulted.exponent() == 0.0);
+        REQUIRE(defaulted.center() == origin);
+
+        // We should be able to write to the instance too
+        defaulted.coefficient() = 4.0;
+        REQUIRE(defaulted.coefficient() == 4.0);
+
+        // Calling center on an already set object shouldn't change anything
+        REQUIRE(values.coefficient() == 4.0);
+        REQUIRE(values.exponent() == 5.0);
+        REQUIRE(values.center() == r0);
+    }
+
+    SECTION("center() const") {
+        // For default objects, this should throw
+        const auto& cdefaulted = std::as_const(defaulted);
+        REQUIRE_THROWS_AS(cdefaulted.coefficient(), std::runtime_error);
+        REQUIRE(std::as_const(values).coefficient() == 4.0);
+    }
+
+    SECTION("exponent()") {
+        // For default objects, this should allocate a PIMPL and then return 0
+        // (it also should have set the coefficient to 0 and the center to the
+        // origin)
+        REQUIRE(defaulted.exponent() == 0.0);
+        REQUIRE(defaulted.center() == origin);
+        REQUIRE(defaulted.coefficient() == 0.0);
+
+        // We should be able to write to the instance too
+        defaulted.exponent() = 5.0;
+        REQUIRE(defaulted.exponent() == 5.0);
+
+        // Calling center on an already set object shouldn't change anything
+        REQUIRE(values.exponent() == 5.0);
+        REQUIRE(values.center() == r0);
+        REQUIRE(values.coefficient() == 4.0);
+    }
+
+    SECTION("center() const") {
+        // For default objects, this should throw
+        const auto& cdefaulted = std::as_const(defaulted);
+        REQUIRE_THROWS_AS(cdefaulted.exponent(), std::runtime_error);
+        REQUIRE(std::as_const(values).exponent() == 5.0);
+    }
+
+    SECTION("is_null") {
+        REQUIRE(defaulted.is_null());
+
+        SECTION("Calling center() on a null object makes it non-null") {
+            defaulted.center();
+            REQUIRE_FALSE(defaulted.is_null());
+        }
+
+        SECTION("Calling coefficient() on a null object makes it non-null") {
+            defaulted.coefficient();
+            REQUIRE_FALSE(defaulted.is_null());
+        }
+
+        SECTION("Calling exponent() on a null object makes it non-null") {
+            defaulted.exponent();
+            REQUIRE_FALSE(defaulted.is_null());
+        }
+
+        REQUIRE_FALSE(values.is_null());
+    }
+
+    SECTION("swap") {
+        prim_type defaulted_copy(defaulted);
+        prim_type values_copy(values);
+
+        defaulted.swap(values);
+
+        REQUIRE(defaulted == values_copy);
+        REQUIRE(values == defaulted_copy);
+    }
+
+    SECTION("operator==") {
+        // Default vs. default
+        REQUIRE(defaulted == prim_type{});
+
+        // Default vs. non-default
+        REQUIRE_FALSE(defaulted == values);
+
+        // Default vs. zero
+        REQUIRE_FALSE(defaulted == prim_type(0.0, 0.0, 0.0, 0.0, 0.0));
+
+        // Non-default: same values
+        REQUIRE(values == prim_type(4.0, 5.0, 1.0, 2.0, 3.0));
+
+        // Non-default: different coefficient
+        REQUIRE_FALSE(values == prim_type(6.0, 5.0, 1.0, 2.0, 3.0));
+
+        // Non-default: different exponent
+        REQUIRE_FALSE(values == prim_type(4.0, 6.0, 1.0, 2.0, 3.0));
+
+        // Non-default: different x
+        REQUIRE_FALSE(values == prim_type(4.0, 5.0, 6.0, 2.0, 3.0));
+
+        // Non-default: different y
+        REQUIRE_FALSE(values == prim_type(4.0, 5.0, 1.0, 6.0, 3.0));
+
+        // Non-default: different z
+        REQUIRE_FALSE(values == prim_type(4.0, 5.0, 1.0, 2.0, 6.0));
+    }
+
+    SECTION("operator!=") {
+        // This just negates operator==, so okay to spot check
+        REQUIRE(defaulted != values);
+    }
 }

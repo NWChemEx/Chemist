@@ -19,15 +19,17 @@
 #include <utility>
 
 using namespace chemist::orbital_space;
+using namespace chemist::basis_set;
 
-TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
+TEMPLATE_TEST_CASE("AOSpace", "", AOBasisSetF, AOBasisSetD) {
     // Determine the types for this unit test
-    using basis_set_type = chemist::AOBasisSet<TestType>;
-    using space_type     = AOSpace<basis_set_type>;
+    using basis_set_type        = TestType;
+    using atomic_basis_set_type = typename basis_set_type::value_type;
+    using space_type            = AOSpace<basis_set_type>;
 
     auto& world = TA::get_default_world();
     basis_set_type bs;
-    bs.add_center(chemist::AtomicBasisSet<TestType>("", 0, 1.0, 2.0, 3.0));
+    bs.add_center(atomic_basis_set_type("", 0, 1.0, 2.0, 3.0));
 
     SECTION("Typedefs") {
         SECTION("basis_type") {
@@ -109,12 +111,12 @@ TEMPLATE_TEST_CASE("AOSpace", "", float, double) {
 
     SECTION("comparisons") {
         SECTION("Different types") {
-            if constexpr(std::is_same_v<TestType, double>) {
-                AOSpace<chemist::AOBasisSetF> other;
+            if constexpr(std::is_same_v<TestType, AOBasisSetD>) {
+                AOSpace<AOBasisSetF> other;
                 REQUIRE_FALSE(defaulted == other);
                 REQUIRE(defaulted != other);
             } else {
-                AOSpace<chemist::AOBasisSetD> other;
+                AOSpace<AOBasisSetD> other;
                 REQUIRE_FALSE(defaulted == other);
                 REQUIRE(defaulted != other);
             }

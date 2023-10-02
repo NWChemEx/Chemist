@@ -27,7 +27,7 @@ void inline export_chemical_system(python_module_reference m) {
     using molecule_type             = typename chemical_system_type::molecule_t;
 
     // N.B. We only expose the parts of the ChemicalSystem's API which have
-    //      been finalized (nelectrons/charge are moving to molecule) and the
+    //      been finalized (n_electrons/charge are moving to molecule) and the
     //      potential class is not finished.
 
     python_class_type<ChemicalSystem>(m, "ChemicalSystem")
