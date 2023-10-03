@@ -115,6 +115,10 @@ if("${BUILD_TESTING}")
         py_chemist "${PYTHON_TEST_DIR}/unit_tests/test_chemist.py"
         SUBMODULES parallelzone
     )
+    nwx_pybind11_tests(
+        py_${PROJECT_NAME}_docs "${PYTHON_TEST_DIR}/doc_snippets/test_doc_snippets.py"
+        SUBMODULES parallelzone
+    )
 endif()
 
 

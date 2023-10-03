@@ -15,7 +15,11 @@
  */
 
 #include <cassert>
+// Begin cereal includes
 #include <cereal/archives/binary.hpp>
+#include <cereal/archives/json.hpp>
+#include <cereal/archives/xml.hpp>
+// End cereal includes
 #include <chemist/molecule/atom.hpp>
 #include <iostream>
 #include <sstream>
@@ -24,69 +28,102 @@
 using namespace chemist;
 namespace chemist_examples {
 // Creating Atom objects using different constructors
+// Begin constructors
 // Default constructor, properties are initialized to:
 // name = '', atomic_number = 0, mass = 0.0
-// x = 0.0, y = 0.0, z = 0.0, charge = 0.0
+// x = 0.0, y = 0.0, z = 0.0, nuclear_charge = 0.0, n_electrons = 0.
 Atom a0;
-// Constructor with name, atomic number, mass, and x, y, z coordinates
-// charge = 0.0
+// Constructor with given name, atomic number, mass, and x, y, z coordinates.
+// Nuclear charge and number of electrons are both set to the atomic number.
 Atom a1("H", 1ul, 1.0079, 0.0, 0.0, 0.0);
-// Constructor with name, atomic number, mass, and x, y, z coordinates
-// charge = 0.0
-Atom a2("H", 1ul, 1.0079, 0.0, 0.0, 0.0, 0.0);
+// Constructor with given name, atomic number, mass, x, y, z, and  nuclear
+// charge. Number of electrons is set to the atomic number.
+Atom a2("H", 1ul, 1.0079, 0.0, 0.0, 0.0, 1.0);
+// Constructor with given name, atomic number, mass, x, y, z, nuclear
+// charge and number of electrons.
+Atom a3("H", 1ul, 1.0079, 0.0, 0.0, 0.0, 1.0, 2);
 // Copy constructor
-Atom a3(a1);
+Atom a4(a3);
+// End constructors
+
 int atom_example() {
     // Accessing the properties of an Atom object
-    // Accessing the name
-    std::string a1_name = a1.name();
-    // Accessing the atomic number
-    std::size_t a1_Z = a1.Z();
-    // Accessing the mass
-    double a1_mass = a1.mass();
+    // Begin properties
+    // Default constructor
+    Atom a5;
+    // Explicit constructor with the given states
+    Atom a6("He", 2ul, 4.0026, 0.0, 0.0, 1.0, 2.0, 3);
+    // a5 and a6 are not equal
+    assert(a5 != a6);
+    // Accessing the name (std::string)
+    assert(a5.name() == "");
+    assert(a6.name() == "He");
+    a5.name() = "He";
+    assert(a5.name() == a6.name());
+    // Accessing the atomic number (unsigned integer)
+    assert(a5.Z() == 0ul);
+    assert(a6.Z() == 2ul);
+    a5.Z() = 2ul;
+    assert(a5.Z() == a6.Z());
+    // Accessing the mass (double)
+    assert(a5.mass() == 0.0);
+    assert(a6.mass() == 4.0026);
+    a5.mass() = 4.0026;
+    assert(a5.mass() == a6.mass());
     // Accessing the coordinates
-    double a1_x = a1.x();
-    double a1_y = a1.y();
-    double a1_z = a1.z();
-    // Accessing the charge
-    double a1_charge = a1.charge();
+    assert(a5.x() == 0.0);
+    assert(a5.y() == 0.0);
+    assert(a5.z() == 0.0);
+    assert(a6.z() == 1.0);
+    a5.z() = 1.0;
+    assert(a5.z() == a6.z());
+    // Accessing the nuclear charge (double)
+    assert(a5.nuclear_charge() == 0.0);
+    assert(a6.nuclear_charge() == 2.0);
+    a5.nuclear_charge() = 2.0;
+    assert(a5.nuclear_charge() == a6.nuclear_charge());
+    // Accessing the number of electrons (unsigned integer)
+    assert(a5.n_electrons() == 0ul);
+    assert(a6.n_electrons() == 3ul);
+    a5.n_electrons() = 3ul;
+    assert(a5.n_electrons() == a6.n_electrons());
+    // Accessing the charge (double, read only)
+    assert(a5.charge() == -1.0);
+    assert(a6.charge() == -1.0);
+    // After the changes above, a5 and a6 are equal
+    assert(a5 == a6);
+    // End properties
 
-    // Comparing Atom objects
-    // Since a0 has not state while a1 has
-    assert(a0 != a1);
-    // Since all properties are equal, a1 == a2 is true
-    assert(a1 == a2);
-    // Modifying the properties of an Atom object
-    // We can convert H into He (coolest fusion ever!)
-    // Modifying the name
-    a1.name() = "He";
-    // Modifying the atomic number
-    a1.Z() = 2ul;
-    // Modifying the mass
-    a1.mass() = 4.0026;
-    // Modifying the coordinates
-    a1.x() = 1.0;
-    a1.y() = 2.0;
-    a1.z() = 3.0;
-
-    // Printing an Atom object
+    // Begin printing
     std::stringstream ss;
     // ss will be: He 1.000000000000000 2.000000000000000 3.000000000000000
     ss << a1;
+    // End printing
 
-    // Serializing an Atom object
-    std::stringstream ss2;
+    // Begin serializing
+    std::stringstream ssb, ssj, ssx;
     {
-        cereal::BinaryOutputArchive output_archive(ss2);
-        output_archive(a1);
+        cereal::BinaryOutputArchive output_binary_archive(ssb);
+        cereal::JSONOutputArchive output_json_archive(ssj);
+        cereal::XMLOutputArchive output_xml_archive(ssx);
+        output_binary_archive(a3);
+        output_json_archive(a3);
+        output_xml_archive(a3);
     }
     // Deserializing an Atom object
-    Atom a4;
+    Atom a7, a8, a9;
     {
-        cereal::BinaryInputArchive input_archive(ss2);
-        input_archive(a4);
+        cereal::BinaryInputArchive input_binary_archive(ssb);
+        cereal::JSONInputArchive input_json_archive(ssj);
+        cereal::XMLInputArchive input_xml_archive(ssx);
+        input_binary_archive(a7);
+        input_json_archive(a8);
+        input_xml_archive(a9);
     }
-    assert(a1 == a4);
+    assert(a3 == a7);
+    assert(a3 == a8);
+    assert(a3 == a9);
+    // End serializing
     return 0;
 } // atom_example()
 } // namespace chemist_examples
