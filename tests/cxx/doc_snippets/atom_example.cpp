@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-#include <cassert>
 // Begin cereal includes
 #include <cereal/archives/binary.hpp>
 #include <cereal/archives/json.hpp>
 #include <cereal/archives/xml.hpp>
 // End cereal includes
+#include <catch2/catch.hpp>
 #include <chemist/molecule/atom.hpp>
 #include <iostream>
 #include <sstream>
@@ -54,44 +54,44 @@ int atom_example() {
     // Explicit constructor with the given states
     Atom a6("He", 2ul, 4.0026, 0.0, 0.0, 1.0, 2.0, 3);
     // a5 and a6 are not equal
-    assert(a5 != a6);
+    REQUIRE(a5 != a6);
     // Accessing the name (std::string)
-    assert(a5.name() == "");
-    assert(a6.name() == "He");
+    REQUIRE(a5.name() == "");
+    REQUIRE(a6.name() == "He");
     a5.name() = "He";
-    assert(a5.name() == a6.name());
+    REQUIRE(a5.name() == a6.name());
     // Accessing the atomic number (unsigned integer)
-    assert(a5.Z() == 0ul);
-    assert(a6.Z() == 2ul);
+    REQUIRE(a5.Z() == 0ul);
+    REQUIRE(a6.Z() == 2ul);
     a5.Z() = 2ul;
-    assert(a5.Z() == a6.Z());
+    REQUIRE(a5.Z() == a6.Z());
     // Accessing the mass (double)
-    assert(a5.mass() == 0.0);
-    assert(a6.mass() == 4.0026);
+    REQUIRE(a5.mass() == 0.0);
+    REQUIRE(a6.mass() == 4.0026);
     a5.mass() = 4.0026;
-    assert(a5.mass() == a6.mass());
+    REQUIRE(a5.mass() == a6.mass());
     // Accessing the coordinates
-    assert(a5.x() == 0.0);
-    assert(a5.y() == 0.0);
-    assert(a5.z() == 0.0);
-    assert(a6.z() == 1.0);
+    REQUIRE(a5.x() == 0.0);
+    REQUIRE(a5.y() == 0.0);
+    REQUIRE(a5.z() == 0.0);
+    REQUIRE(a6.z() == 1.0);
     a5.z() = 1.0;
-    assert(a5.z() == a6.z());
+    REQUIRE(a5.z() == a6.z());
     // Accessing the nuclear charge (double)
-    assert(a5.nuclear_charge() == 0.0);
-    assert(a6.nuclear_charge() == 2.0);
+    REQUIRE(a5.nuclear_charge() == 0.0);
+    REQUIRE(a6.nuclear_charge() == 2.0);
     a5.nuclear_charge() = 2.0;
-    assert(a5.nuclear_charge() == a6.nuclear_charge());
+    REQUIRE(a5.nuclear_charge() == a6.nuclear_charge());
     // Accessing the number of electrons (unsigned integer)
-    assert(a5.n_electrons() == 0ul);
-    assert(a6.n_electrons() == 3ul);
+    REQUIRE(a5.n_electrons() == 0ul);
+    REQUIRE(a6.n_electrons() == 3ul);
     a5.n_electrons() = 3ul;
-    assert(a5.n_electrons() == a6.n_electrons());
+    REQUIRE(a5.n_electrons() == a6.n_electrons());
     // Accessing the charge (double, read only)
-    assert(a5.charge() == -1.0);
-    assert(a6.charge() == -1.0);
+    REQUIRE(a5.charge() == -1.0);
+    REQUIRE(a6.charge() == -1.0);
     // After the changes above, a5 and a6 are equal
-    assert(a5 == a6);
+    REQUIRE(a5 == a6);
     // End properties
 
     // Begin printing
@@ -120,9 +120,9 @@ int atom_example() {
         input_json_archive(a8);
         input_xml_archive(a9);
     }
-    assert(a3 == a7);
-    assert(a3 == a8);
-    assert(a3 == a9);
+    REQUIRE(a3 == a7);
+    REQUIRE(a3 == a8);
+    REQUIRE(a3 == a9);
     // End serializing
     return 0;
 } // atom_example()
