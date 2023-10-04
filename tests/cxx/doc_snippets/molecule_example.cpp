@@ -28,8 +28,6 @@
 using namespace chemist;
 namespace chemist_examples {
 int molecule_example() {
-    Atom a_O1("O", 8ul, 15.9994, 0.0, 1.0, 0.0);
-
     // Begin constructors
     // Creating Molecule objects using different constructors
     // Default constructor, no atoms, charge = 0.0, multiplicity = 1
@@ -47,7 +45,7 @@ int molecule_example() {
     Nucleus n_H1("H", 1ul, 1.0079, 0.0, 0.0, 0.0);
     Nucleus n_H2("H", 1ul, 1.0079, 1.0, 0.0, 0.0);
     Nuclei n_set{n_H1, n_H2};
-    Molecule m3(1., 2, n_set);
+    Molecule m3(1, 2, n_set);
     // Copy constructor
     Molecule m4(m1);
     // End constructors
@@ -60,9 +58,9 @@ int molecule_example() {
     REQUIRE(m0.size() == 0ul);
     // Accessing the charge
     double m1_charge = m1.charge();
-    REQUIRE(m0.charge() == 0.0);
-    REQUIRE(m1.charge() == 0.0);
-    REQUIRE(m2.charge() == 1.0);
+    REQUIRE(m0.charge() == 0);
+    REQUIRE(m1.charge() == 0);
+    REQUIRE(m2.charge() == 1);
     // Accessing the multiplicity
     std::size_t m1_multiplicity = m1.multiplicity();
     REQUIRE(m1_multiplicity == 1ul);
@@ -85,8 +83,10 @@ int molecule_example() {
     m1.set_multiplicity(2ul);
     REQUIRE(m1 == m2);
     // We can add atoms to a Molecule object
+    Atom a_O1("O", 8ul, 15.9994, 0.0, 1.0, 0.0);
     m1.push_back(a_O1);
     REQUIRE(m1.size() == 3ul);
+    REQUIRE(m1.n_electrons() == 9ul);
     // End properties
 
     // Printing an Molecule object

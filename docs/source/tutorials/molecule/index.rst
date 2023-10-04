@@ -28,12 +28,14 @@ Construction
 *************
 
 There are five different ways of constructing a ``Molecule`` object including
-the default and copy constructors to create an Atom object. The codes below
-shows these methods for both C++ and Python. The most explicit constructor
+the default and copy constructors in C++. The codes below show these methods for
+C++ and the available constructors for Python. The most explicit constructor
 enables a user to set the charge and multiplicity of the molecule, which would
-be set to 0 and 1 if not given. It should also be noted that once a molecule
-object is created, the atoms that create the molecule cannot be accessed or
-modified directly, only the nuclei can be accessed.
+be set to 0 and 1 if not given. One can add more atoms, or modify the charge and
+multiplicity of the molecule after it is created. It should also be noted that
+once a molecule object is created, the atoms that create the molecule cannot be
+accessed or modified directly, only the nuclei can be accessed. 
+
 .. tabs::
 
    .. tab:: C++
@@ -58,7 +60,7 @@ Molecule class provides read access to the charge, multiplicity, and number of
 electrons of a molecule object with ``charge()``, ``multiplicity()``, and
 ``n_electrons()`` methods, respectively. One can modify the charge and multiplicity of a
 molecule with ``set_charge(int)`` and ``set_multiplicity(int)`` methods. The
-code below shows how to access and modify these properties in both C++ and Python.
+codes below show how to access and modify these properties in both C++ and Python.
 
 .. tabs::
 

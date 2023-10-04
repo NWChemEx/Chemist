@@ -4,7 +4,6 @@ import unittest
 class TestStringMethods(unittest.TestCase):
     def testAtom(self):
         # Creating Atom objects using different constructors
-        # Creating Atom objects using different constructors
         # Begin constructors
         # Default constructor, properties are initialized to:
         # name = '', atomic_number = 0, mass = 0.0
@@ -19,8 +18,6 @@ class TestStringMethods(unittest.TestCase):
         # Constructor with given name, atomic number, mass, x, y, z, nuclear
         # charge and number of electrons.
         a3 = chemist.Atom("H", 1, 1.0079, 0.0, 0.0, 0.0, 1.0, 2)
-        # Copy constructor, not that you don't call the constructor directly
-        a4 = a1
         # End constructors
 
         # Accessing the properties of an Atom object
