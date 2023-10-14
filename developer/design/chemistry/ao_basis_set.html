@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Designing the AOBasisSet Component &mdash; Chemist 0.0.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -63,6 +65,7 @@
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex-project.github.io/.github/">Developing for the NWChemEx Organization</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Chemist Tutorials</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
 </ul>
 
@@ -93,7 +96,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="designing-the-aobasisset-component">
+  <section id="designing-the-aobasisset-component">
 <span id="designing-the-ao-basis-set-component"></span><h1>Designing the AOBasisSet Component<a class="headerlink" href="#designing-the-aobasisset-component" title="Permalink to this heading"></a></h1>
 <p>Following from <a class="reference internal" href="molecule.html#md-quantum-electrons"><span class="std std-ref">Quantum electrons.</span></a>, the <code class="docutils literal notranslate"><span class="pre">Atom</span></code>, <code class="docutils literal notranslate"><span class="pre">Molecule</span></code>, and
 <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> classes store their electrons implicitly. This usually
@@ -102,7 +105,7 @@ to model the actual electrons one needs to build wavefunctions (or densities).
 The first step in this process is defining a basis set. For the purpose of this
 page we assume that the basis set will be comprised of atom-centered atomic
 orbitals (AOs).</p>
-<div class="section" id="what-is-an-aobasisset">
+<section id="what-is-an-aobasisset">
 <h2>What is an AOBasisSet?<a class="headerlink" href="#what-is-an-aobasisset" title="Permalink to this heading"></a></h2>
 <p>AOs are the one-electron orbitals describing electrons within an atom. By an AO
 basis set we mean a set of AOs used as a basis set for forming molecular
@@ -110,16 +113,16 @@ orbitals (MOs). The AO basis set is limited to representing the parameters
 necessary to construct the set of AOs, <em>i.e.</em>, representing the space spanned
 by the AOs is outside the scope of the <code class="docutils literal notranslate"><span class="pre">AOBasisSet</span></code> class (as detailed in
 <a class="reference internal" href="../vector_spaces.html#vsd-design"><span class="std std-ref">Vector Space Design</span></a> representing this space falls to the <code class="docutils literal notranslate"><span class="pre">AOSpace</span></code> class).</p>
-</div>
-<div class="section" id="why-do-we-need-an-aobasisset">
+</section>
+<section id="why-do-we-need-an-aobasisset">
 <h2>Why do we need an AOBasisSet?<a class="headerlink" href="#why-do-we-need-an-aobasisset" title="Permalink to this heading"></a></h2>
 <p>To compute integrals involving AOs we must be able to construct the AOs. This
 requires us to know the parameters defining those AOs. The <code class="docutils literal notranslate"><span class="pre">AOBasisSet</span></code> class
 is a one-stop shop for those parameters. Most users will construct an
 <code class="docutils literal notranslate"><span class="pre">AOBasisSet</span></code> (usually by specifying its name, <em>e.g.</em>, 6-31G*) and never need
 to otherwise manipulate the AOBasisSet.</p>
-</div>
-<div class="section" id="aobasisset-considerations">
+</section>
+<section id="aobasisset-considerations">
 <span id="ao-basis-set-considerations"></span><h2>AOBasisSet Considerations<a class="headerlink" href="#aobasisset-considerations" title="Permalink to this heading"></a></h2>
 <p>Topics in this section were considered in designing the AOBasisSet component
 of Chemist and ultimately were addressed by the design.</p>
@@ -209,7 +212,7 @@ hierarchy should be able to flatten itself, <em>i.e.</em>, we should be able to
 iterate over primitives in an object, regardless of the nesting.</p>
 </dd>
 </dl>
-<div class="section" id="out-of-scope">
+<section id="out-of-scope">
 <h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Permalink to this heading"></a></h3>
 <p>Topics in this section were considered, but ultimately do not play a role in
 the current implementation of the <code class="docutils literal notranslate"><span class="pre">AOBasisSet</span></code> class. Many of these
@@ -249,14 +252,16 @@ conventions and would thus be API breaking.</p></li>
 </ul>
 </dd>
 </dl>
-</div>
-</div>
-<div class="section" id="aobasisset-design">
+</section>
+</section>
+<section id="aobasisset-design">
 <h2>AOBasisSet Design<a class="headerlink" href="#aobasisset-design" title="Permalink to this heading"></a></h2>
-<div class="figure align-center" id="id1">
+<figure class="align-center" id="id1">
 <span id="fig-ao-basis-set-design"></span><img alt="../../../_images/ao_basis_set.png" src="../../../_images/ao_basis_set.png" />
-<p class="caption"><span class="caption-number">Fig. 6 </span><span class="caption-text">Major classes involved in Chemist’s basis set component.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Major classes involved in Chemist’s basis set component.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
 <p><a class="reference internal" href="#fig-ao-basis-set-design"><span class="std std-numref">Fig. 6</span></a> pictorially describes the AOBasisSet
 component of Chemist. The top-level class is the <code class="docutils literal notranslate"><span class="pre">AOBasisSet</span></code> class (located
 in the top-right corner of the diagram). The
@@ -287,8 +292,8 @@ ownership semantics. In particular, the view versions alias their state whereas
 the non-views own it. The view versions are necessary to maintain an array-of-
 structure API, while actually implementing a structure-of-arrays to be
 consistent with <a class="reference internal" href="#ao-bs-performance"><span class="std std-ref">Performance</span></a>.</p>
-</div>
-<div class="section" id="summary">
+</section>
+<section id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading"></a></h2>
 <p>Briefly, the design of the AOBasisSet component addresses the considerations
 raised in <a class="reference internal" href="#ao-basis-set-considerations"><span class="std std-ref">AOBasisSet Considerations</span></a> by:</p>
@@ -314,8 +319,8 @@ which reside on the same center.</p>
 set.</p>
 </dd>
 </dl>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

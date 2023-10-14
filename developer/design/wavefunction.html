@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wavefunction Design &mdash; Chemist 0.0.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -65,6 +67,7 @@
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex-project.github.io/.github/">Developing for the NWChemEx Organization</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Chemist Tutorials</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
 </ul>
 
@@ -94,17 +97,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="wavefunction-design">
+  <section id="wavefunction-design">
 <h1>Wavefunction Design<a class="headerlink" href="#wavefunction-design" title="Permalink to this heading"></a></h1>
 <p>This section describes the design process of Chemist’s wavefunction component.</p>
-<div class="section" id="what-is-a-wavefunction">
+<section id="what-is-a-wavefunction">
 <h2>What is a Wavefunction?<a class="headerlink" href="#what-is-a-wavefunction" title="Permalink to this heading"></a></h2>
 <p>In quantum mechanics the wavefunction is a mathematical description of the
 state of a system. Knowledge of a system’s wavefunction allows one to compute
 any knowable property of interest. Thus most of electronic structure theory is
 based on either the explicit or implicit computation of wavefunctions.</p>
-</div>
-<div class="section" id="why-do-we-need-a-wavefunction">
+</section>
+<section id="why-do-we-need-a-wavefunction">
 <h2>Why Do We Need a Wavefunction?<a class="headerlink" href="#why-do-we-need-a-wavefunction" title="Permalink to this heading"></a></h2>
 <p>At a theoretical level many of the differences in electronic structure methods
 come down to how one approximates the system’s wavefunction. Having a fleshed-
@@ -112,8 +115,8 @@ out wavefunction component allows us to dispatch among various electronic
 structure methods based on C++’s type system. The representation of the
 wavefunction is also used to compute properties, and the wavefunction classes
 are used to shuttle the representations among functions.</p>
-</div>
-<div class="section" id="wavefunction-considerations">
+</section>
+<section id="wavefunction-considerations">
 <span id="wd-considerations"></span><h2>Wavefunction Considerations<a class="headerlink" href="#wavefunction-considerations" title="Permalink to this heading"></a></h2>
 <p>This section lists the considerations which went into the design of Chemist’s
 wavefunction component.</p>
@@ -154,7 +157,7 @@ as well as for specific wavefunctions. For example, think dispatching
 between a correlated method driver and the CCSD correlation energy.</p>
 </dd>
 </dl>
-<div class="section" id="not-in-scope">
+<section id="not-in-scope">
 <h3>Not in Scope<a class="headerlink" href="#not-in-scope" title="Permalink to this heading"></a></h3>
 <p>Many object-oriented quantum chemistry codes have classes named wavefunction,
 and thus users coming from those codes may have pre-concieved notions of what
@@ -169,20 +172,22 @@ projects the wavefunction onto the reference), than to try to store them in
 the wavefunction.</p>
 </dd>
 </dl>
-</div>
-</div>
-<div class="section" id="overview-of-the-wavefunction-component">
+</section>
+</section>
+<section id="overview-of-the-wavefunction-component">
 <h2>Overview of the Wavefunction Component<a class="headerlink" href="#overview-of-the-wavefunction-component" title="Permalink to this heading"></a></h2>
 <p>This section summarizes the design of Chemist’s Wavefunction component, in
 particular noting how the design addresses the considerations brought up by
 <a class="reference internal" href="#wd-considerations"><span class="std std-ref">Wavefunction Considerations</span></a>.</p>
-<div class="figure align-center" id="id1">
+<figure class="align-center" id="id1">
 <span id="fig-wavefunction"></span><img alt="../../_images/wavefunction.png" src="../../_images/wavefunction.png" />
-<p class="caption"><span class="caption-number">Fig. 10 </span><span class="caption-text">The classes forming the core of Chemist’s wavefunction component.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 10 </span><span class="caption-text">The classes forming the core of Chemist’s wavefunction component.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
 <p>The fundamental classes of Chemist’s wavefunction component are shown in
 <a class="reference internal" href="#fig-wavefunction"><span class="std std-numref">Fig. 10</span></a>.</p>
-<div class="section" id="wavefunction-base-class">
+<section id="wavefunction-base-class">
 <h3>Wavefunction Base Class<a class="headerlink" href="#wavefunction-base-class" title="Permalink to this heading"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">Wavefunction&lt;D&gt;</span></code> class is envisioned as a common base class for all
 wavefunctions; it’s primarily seen as a container for the wavefunction’s
@@ -196,12 +201,12 @@ wavefunctions have the Hartree-Fock wavefunction as a component</p></li>
 of determinants (<em>n.b.</em>, the product of two determinants is not the same
 as taking the determinant of the orbital product).</p></li>
 </ul>
-</div>
-<div class="section" id="initial-wavefunctions">
+</section>
+<section id="initial-wavefunctions">
 <h3>Initial Wavefunctions<a class="headerlink" href="#initial-wavefunctions" title="Permalink to this heading"></a></h3>
 <p>The wavefunction class hierarchy has two branches: the initial wavefunction and
 the correlated wavefunction branches.</p>
-<div class="section" id="multi-reference-wavefunction-class">
+<section id="multi-reference-wavefunction-class">
 <h4>Multi-Reference Wavefunction Class<a class="headerlink" href="#multi-reference-wavefunction-class" title="Permalink to this heading"></a></h4>
 <p>All wavefunctions which are used as initial wavefunctions contain one or more
 references. The <code class="docutils literal notranslate"><span class="pre">MultiReference&lt;D&gt;</span></code> class expands on the <code class="docutils literal notranslate"><span class="pre">Wavefunction&lt;D&gt;</span></code>
@@ -214,21 +219,21 @@ ambiguity, which in the future could be expressed by also expressing the
 <code class="docutils literal notranslate"><span class="pre">MultiReference&lt;D&gt;</span></code> class in terms of a <code class="docutils literal notranslate"><span class="pre">Transformed&lt;O,</span> <span class="pre">R&gt;</span></code> class. Note,
 that true multi-reference wavefunctions do contain (static) correlation and
 thus the reuse of the <code class="docutils literal notranslate"><span class="pre">Transformed&lt;O,</span> <span class="pre">R&gt;</span></code> class is thus justified.</p>
-</div>
-<div class="section" id="single-reference-wavefunction-class">
+</section>
+<section id="single-reference-wavefunction-class">
 <h4>Single Reference Wavefunction Class<a class="headerlink" href="#single-reference-wavefunction-class" title="Permalink to this heading"></a></h4>
 <p>A common scenario is that the initial wavefunction contains a single reference.
 This leads to a number of simplifications. The <code class="docutils literal notranslate"><span class="pre">SingleReference&lt;D&gt;</span></code> class is
 a strong type denoting this common scenario.</p>
-</div>
-<div class="section" id="general-active-space-gas-wavefunction">
+</section>
+<section id="general-active-space-gas-wavefunction">
 <h4>General Active Space (GAS) Wavefunction<a class="headerlink" href="#general-active-space-gas-wavefunction" title="Permalink to this heading"></a></h4>
 <p>Just as it’s important to know when the initial state is a single reference, it
 is important to know when the wavefunction is guaranteed to have at least one
 active space. The <code class="docutils literal notranslate"><span class="pre">GAS&lt;D&gt;</span></code> strong type indicates that the initial wavefunction
 has at least one active space.</p>
-</div>
-<div class="section" id="restricted-active-space-ras-wavefunction">
+</section>
+<section id="restricted-active-space-ras-wavefunction">
 <h4>Restricted Active Space (RAS) Wavefunction<a class="headerlink" href="#restricted-active-space-ras-wavefunction" title="Permalink to this heading"></a></h4>
 <p>A common active space partitioning defines three active spaces. The first
 active space has a limit on how many holes it may have, the second has a
@@ -237,38 +242,40 @@ any number of holes and particles, so long as one does not violate the
 restrictions on the first two active spaces. This active space choice is
 typically known as RAS, and the strong type denoting this scenario is
 thus <code class="docutils literal notranslate"><span class="pre">RAS&lt;D&gt;</span></code>.</p>
-</div>
-<div class="section" id="complete-active-space-cas-wavefunction">
+</section>
+<section id="complete-active-space-cas-wavefunction">
 <h4>Complete Active Space (CAS) Wavefunction<a class="headerlink" href="#complete-active-space-cas-wavefunction" title="Permalink to this heading"></a></h4>
 <p>Another common active space partitioning is to define a single active space
 and consider all possible excitations within that active space. This defines
 the CAS method for defining an active space and the corresponding strong type
 is denoted <code class="docutils literal notranslate"><span class="pre">CAS&lt;D&gt;</span></code>.</p>
-</div>
-<div class="section" id="example-initial-wavefunctions">
+</section>
+<section id="example-initial-wavefunctions">
 <h4>Example Initial Wavefunctions<a class="headerlink" href="#example-initial-wavefunctions" title="Permalink to this heading"></a></h4>
-<div class="figure align-center" id="id2">
+<figure class="align-center" id="id2">
 <span id="fig-initial-wavefunctions"></span><img alt="../../_images/reference_wavefunctions.png" src="../../_images/reference_wavefunctions.png" />
-<p class="caption"><span class="caption-number">Fig. 11 </span><span class="caption-text">How common initial reference wavefunctions are defined using Chemist’s
+<figcaption>
+<p><span class="caption-number">Fig. 11 </span><span class="caption-text">How common initial reference wavefunctions are defined using Chemist’s
 wavefunction component.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
-</div>
+</figcaption>
+</figure>
 <p><a class="reference internal" href="#fig-initial-wavefunctions"><span class="std std-numref">Fig. 11</span></a> shows types for common reference
 wavefunctions fit into Chemist’s wavefunction component.</p>
-</div>
-</div>
-<div class="section" id="correlated-wavefunctions">
+</section>
+</section>
+<section id="correlated-wavefunctions">
 <h3>Correlated Wavefunctions<a class="headerlink" href="#correlated-wavefunctions" title="Permalink to this heading"></a></h3>
 <p>For our purposes correlated wavefunctions are those which are defined relative
 to some reference wavefunction.</p>
-<div class="section" id="correlated-base-class">
+<section id="correlated-base-class">
 <h4>Correlated Base Class<a class="headerlink" href="#correlated-base-class" title="Permalink to this heading"></a></h4>
 <p>From consideration <a class="reference internal" href="#wd-correlation"><span class="std std-ref">Correlated Wavefunction</span></a> we need a means of distinguishing
 when a wavefunction is correlated or not. To that end, we introduce the
 <code class="docutils literal notranslate"><span class="pre">Correlated&lt;R&gt;</span></code> class, which is templated on the type of the initial
 wavefunction being correlated. Compared to the <code class="docutils literal notranslate"><span class="pre">Wavefunction&lt;D&gt;</span></code> base,
 the additional state is the initial wavefunction.</p>
-</div>
-<div class="section" id="transformed-wavefunction">
+</section>
+<section id="transformed-wavefunction">
 <h4>Transformed Wavefunction<a class="headerlink" href="#transformed-wavefunction" title="Permalink to this heading"></a></h4>
 <p>Most (all?) correlated wavefunctions are expressed as transformations of the
 initial wavefunction. The <code class="docutils literal notranslate"><span class="pre">Transformed&lt;O,</span> <span class="pre">R&gt;</span></code> class extends the
@@ -277,23 +284,25 @@ transform the initial wavefunction. By templating <code class="docutils literal 
 operator it should be relatively easy to extend the wavefunction hierarchy
 without deriving new wavefunction types, in accordance with the
 <a class="reference internal" href="#wd-easily-extended"><span class="std std-ref">Easily Extended.</span></a> consideration.</p>
-</div>
-<div class="section" id="example-correlated-wavefunctions">
+</section>
+<section id="example-correlated-wavefunctions">
 <h4>Example Correlated Wavefunctions<a class="headerlink" href="#example-correlated-wavefunctions" title="Permalink to this heading"></a></h4>
 <p>For the purposes of defining example wavefunctions, we assume the operators
 shown in <a class="reference internal" href="operators.html#fig-many-electron-operators"><span class="std std-numref">Fig. 13</span></a> have already been defined.</p>
-<div class="figure align-center" id="id3">
+<figure class="align-center" id="id3">
 <span id="fig-correlated-wavefunctions"></span><img alt="../../_images/correlated_wavefunctions.png" src="../../_images/correlated_wavefunctions.png" />
-<p class="caption"><span class="caption-number">Fig. 12 </span><span class="caption-text">Common wavefunction approximations within electronic structure theory and
+<figcaption>
+<p><span class="caption-number">Fig. 12 </span><span class="caption-text">Common wavefunction approximations within electronic structure theory and
 how they are releated to the classes in Chemist’s wavefunction component.</span><a class="headerlink" href="#id3" title="Permalink to this image"></a></p>
-</div>
+</figcaption>
+</figure>
 <p><a class="reference internal" href="#fig-correlated-wavefunctions"><span class="std std-numref">Fig. 12</span></a> shows some of the wavefunctions
 commonly occurring in quantum chemistry and how they are related to classes
 in Chemist’s wavefunction and operator components.</p>
-</div>
-</div>
-</div>
-<div class="section" id="wavefunction-design-summary">
+</section>
+</section>
+</section>
+<section id="wavefunction-design-summary">
 <h2>Wavefunction Design Summary<a class="headerlink" href="#wavefunction-design-summary" title="Permalink to this heading"></a></h2>
 <p>To briefly summarize how our current design addresses the considerations raised
 in <a class="reference internal" href="#wd-considerations"><span class="std std-ref">Wavefunction Considerations</span></a>:</p>
@@ -315,8 +324,8 @@ terminology widely used in the field.</p>
 should allow for general algorithms, as well as theory-specific ones.</p>
 </dd>
 </dl>
-</div>
-<div class="section" id="future-considerations">
+</section>
+<section id="future-considerations">
 <h2>Future Considerations<a class="headerlink" href="#future-considerations" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>As mentioned, the various multiple reference strong types could concievably
@@ -324,8 +333,8 @@ be specified as transformed wavefunctions. If one wants to go that route,
 then it makes sense for <code class="docutils literal notranslate"><span class="pre">Transformed&lt;O,</span> <span class="pre">R&gt;</span></code> to be a mix-in (replace <code class="docutils literal notranslate"><span class="pre">R</span></code>
 with a template type <code class="docutils literal notranslate"><span class="pre">B</span></code>, which is the type of the base class).</p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

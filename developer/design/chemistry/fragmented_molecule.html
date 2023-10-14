@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Designing the FragmentedMolecule Class &mdash; Chemist 0.0.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -63,6 +65,7 @@
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex-project.github.io/.github/">Developing for the NWChemEx Organization</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Chemist Tutorials</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
 </ul>
 
@@ -93,20 +96,20 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="designing-the-fragmentedmolecule-class">
+  <section id="designing-the-fragmentedmolecule-class">
 <span id="designing-fragmented-molecule-class"></span><h1>Designing the FragmentedMolecule Class<a class="headerlink" href="#designing-the-fragmentedmolecule-class" title="Permalink to this heading"></a></h1>
 <p>Following the discussion in <a class="reference internal" href="fragmented_system.html#designing-fragmented-system"><span class="std std-ref">Designing the Fragmented System Component</span></a> we need a class
 <code class="docutils literal notranslate"><span class="pre">FragmentedMolecule</span></code> to track how the <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> piece of the
 <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> is decomposed. This page discusses the design of that class.</p>
-<div class="section" id="what-is-a-fragmented-molecule">
+<section id="what-is-a-fragmented-molecule">
 <h2>What is a fragmented molecule?<a class="headerlink" href="#what-is-a-fragmented-molecule" title="Permalink to this heading"></a></h2>
 <p>In computational chemistry parlance, a molecule is the set of atoms we are
 running a computation on. Sometimes we need to describe a “piece of a
 molecule.” These pieces are fragments, and when we decompose a molecules into
 a set of fragments, we say that the set forms a fragmented molecule if each
 atom in the original molecule appears in at least one of the fragments.</p>
-</div>
-<div class="section" id="why-do-we-need-fragmented-molecules">
+</section>
+<section id="why-do-we-need-fragmented-molecules">
 <h2>Why do we need fragmented molecules?<a class="headerlink" href="#why-do-we-need-fragmented-molecules" title="Permalink to this heading"></a></h2>
 <p>In computational chemistry there are a number of methods which require breaking
 the molecule up into two or more pieces. While at some point many of these
@@ -114,8 +117,8 @@ methods will rely on the fact that the fragments are themselves perfectly good
 molecules, most times the algorithm will also need to use the fact that the
 fragments are pieces of a larger system. In turn, we need a way to represent
 the fragments, while not forgetting the molecule the fragments come from.</p>
-</div>
-<div class="section" id="fragmentedmolecule-class-considerations">
+</section>
+<section id="fragmentedmolecule-class-considerations">
 <h2>FragmentedMolecule Class Considerations<a class="headerlink" href="#fragmentedmolecule-class-considerations" title="Permalink to this heading"></a></h2>
 <dl class="simple" id="fm-molecule">
 <dt>Molecule compatability.</dt><dd><p>Chemist defines the <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> class. The <code class="docutils literal notranslate"><span class="pre">FragmentedMolecule</span></code> class
@@ -139,13 +142,13 @@ fragments, whereas modules recieving <code class="docutils literal notranslate">
 to worry about the fact that there is (in general) a set of fragments.</p>
 </dd>
 </dl>
-</div>
-<div class="section" id="fragmentedmolecule-design">
+</section>
+<section id="fragmentedmolecule-design">
 <h2>FragmentedMolecule Design<a class="headerlink" href="#fragmentedmolecule-design" title="Permalink to this heading"></a></h2>
 <p>The high-level design aspects of the <code class="docutils literal notranslate"><span class="pre">FragmentedMolecule</span></code> class were
 already covered by <a class="reference internal" href="fragmented_system.html#fig-fragmented-system-design"><span class="std std-numref">Fig. 5</span></a>.</p>
-</div>
-<div class="section" id="fragmentedmolecule-summary">
+</section>
+<section id="fragmentedmolecule-summary">
 <h2>FragmentedMolecule Summary<a class="headerlink" href="#fragmentedmolecule-summary" title="Permalink to this heading"></a></h2>
 <p>Below we summarize how our design addresses the considerations raised above.</p>
 <dl class="simple">
@@ -164,8 +167,8 @@ the design of the <code class="docutils literal notranslate"><span class="pre">C
 and thus can be used for type-based dispatching.</p>
 </dd>
 </dl>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

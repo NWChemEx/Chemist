@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Designing the Nucleus Component &mdash; Chemist 0.0.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -62,6 +64,7 @@
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex-project.github.io/.github/">Developing for the NWChemEx Organization</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Chemist Tutorials</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
 </ul>
 
@@ -92,16 +95,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="designing-the-nucleus-component">
+  <section id="designing-the-nucleus-component">
 <span id="id1"></span><h1>Designing the Nucleus Component<a class="headerlink" href="#designing-the-nucleus-component" title="Permalink to this heading"></a></h1>
 <p>This section contains notes on the design of Chemist’s nucleus component.</p>
-<div class="section" id="what-is-the-nucleus-component">
+<section id="what-is-the-nucleus-component">
 <h2>What is the Nucleus Component?<a class="headerlink" href="#what-is-the-nucleus-component" title="Permalink to this heading"></a></h2>
 <p>In the present context a nucleus is the core of an atom and is comprised of
 neutrons and protons. The nucleus component contains the abstractions needed
 to represent a single nucleus as well as a set of nuclei.</p>
-</div>
-<div class="section" id="why-do-we-need-a-nucleus-component">
+</section>
+<section id="why-do-we-need-a-nucleus-component">
 <h2>Why do we need a Nucleus Component?<a class="headerlink" href="#why-do-we-need-a-nucleus-component" title="Permalink to this heading"></a></h2>
 <p>Anecdotally most quantum chemistry packages do not bother with classes for
 describing the nucleus, so why should we? There’s a couple reasons. First,
@@ -118,8 +121,8 @@ to take derivatives or define operators with respect to particles we can use
 the <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> and <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> classes in the types of the derivative/operator
 thus obtaining separate types for taking derivatives with respect to nuclei vs
 electrons (and different  operators).</p>
-</div>
-<div class="section" id="nucleus-considerations">
+</section>
+<section id="nucleus-considerations">
 <h2>Nucleus Considerations<a class="headerlink" href="#nucleus-considerations" title="Permalink to this heading"></a></h2>
 <dl class="simple" id="n-basic-parameters">
 <dt>basic parameters</dt><dd><p>Nuclei are assumed to be centered on a point, have a mass, an atomic number,
@@ -167,7 +170,7 @@ of the <code class="docutils literal notranslate"><span class="pre">FragmentedNu
 </ul>
 </dd>
 </dl>
-<div class="section" id="out-of-scope">
+<section id="out-of-scope">
 <h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>non-point charge like nuclei</dt><dd><p>While we recognize that nuclei need not always be treated as point charges,
@@ -176,20 +179,22 @@ point charge-like nuclei only for right now. Additional classes can be
 added to the hierarchy to handle more realistic approximations.</p>
 </dd>
 </dl>
-</div>
-</div>
-<div class="section" id="nucleus-design">
+</section>
+</section>
+<section id="nucleus-design">
 <h2>Nucleus Design<a class="headerlink" href="#nucleus-design" title="Permalink to this heading"></a></h2>
-<div class="figure align-center" id="id2">
+<figure class="align-center" id="id2">
 <span id="fig-nucleus-component"></span><img alt="../../../_images/nucleus.png" src="../../../_images/nucleus.png" />
-<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">Classes comprising the Nucleus component of Chemist.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Classes comprising the Nucleus component of Chemist.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
 <p>The classes of the Nucleus component are shown in
 <code class="xref std std-numref docutils literal notranslate"><span class="pre">_fig_nucleus_component</span></code>. The figure divides the classes into two
 categories those which are part of the public API and those which are needed to
 implement the public API. The following subsections contain more details about
 the various classes.</p>
-<div class="section" id="nucleus-nucleusview">
+<section id="nucleus-nucleusview">
 <h3>Nucleus/NucleusView<a class="headerlink" href="#nucleus-nucleusview" title="Permalink to this heading"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class is the fundamental class of the hierarchy. Consistent with
 the <a class="reference internal" href="#n-basic-parameters"><span class="std std-ref">basic parameters</span></a> consideration it will derive from <code class="docutils literal notranslate"><span class="pre">PointCharge</span></code>.
@@ -197,8 +202,8 @@ On top of <code class="docutils literal notranslate"><span class="pre">PointChar
 symbol. The <code class="docutils literal notranslate"><span class="pre">NucleusView</span></code> class, consistent with <a class="reference internal" href="#n-views"><span class="std std-ref">Views</span></a> allows users
 to wrap existing data in objects and have those objects be used as if they are
 <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> objects.</p>
-</div>
-<div class="section" id="nuclei-nucleiview">
+</section>
+<section id="nuclei-nucleiview">
 <h3>Nuclei/NucleiView<a class="headerlink" href="#nuclei-nucleiview" title="Permalink to this heading"></a></h3>
 <p>Generally speaking we do not usually deal with a single nucleus, we deal with a
 set of nuclei. The <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object serves as a container for <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code>
@@ -210,8 +215,8 @@ the <code class="docutils literal notranslate"><span class="pre">Nuclei</span></
 <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> API.</p>
 <p>Similar to <code class="docutils literal notranslate"><span class="pre">NucleusView</span></code>, <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code> is designed to facilitate using
 existing data as if it were a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object.</p>
-</div>
-<div class="section" id="fragmentednuclei">
+</section>
+<section id="fragmentednuclei">
 <h3>FragmentedNuclei<a class="headerlink" href="#fragmentednuclei" title="Permalink to this heading"></a></h3>
 <p>Main discussion: <a class="reference internal" href="fragmented_nuclei.html#designing-fragmented-nuclei"><span class="std std-ref">Designing the Fragmented Nuclei Class</span></a>.</p>
 <p>Given a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object we sometimes want to only consider subsets of that
@@ -221,8 +226,8 @@ object and each of the subsystem <code class="docutils literal notranslate"><spa
 <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> is <code class="docutils literal notranslate"><span class="pre">CappedFragmentedNuclei</span></code> which additionally stores
 caps via a <code class="docutils literal notranslate"><span class="pre">CapSet</span></code>. Ultimately <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> is added to satisfy
 the <a class="reference internal" href="#n-fragmented-nuclei"><span class="std std-ref">fragmented nuclei</span></a> consideration.</p>
-</div>
-<div class="section" id="pimpls">
+</section>
+<section id="pimpls">
 <h3>PIMPLs<a class="headerlink" href="#pimpls" title="Permalink to this heading"></a></h3>
 <p>With the exception of the <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class (and its corresponding view), all
 classes rely on the PIMPL idiom to separate their API from their implementation.
@@ -230,9 +235,9 @@ This is primarily for performance reasons. In particular the way <code class="do
 stores data may need to be optimized later, similarly we may need to expand the
 various ways users can wrap existing data in the <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> API, <em>i.e.</em>, ways
 that <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code> objects can hold their data.</p>
-</div>
-</div>
-<div class="section" id="summary">
+</section>
+</section>
+<section id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading"></a></h2>
 <dl class="simple">
 <dt><a class="reference internal" href="#n-basic-parameters"><span class="std std-ref">basic parameters</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class contains the specified parameters.</p>
@@ -247,8 +252,8 @@ and <code class="docutils literal notranslate"><span class="pre">NucleiView</spa
 <dt><a class="reference internal" href="#n-fragmented-nuclei"><span class="std std-ref">fragmented nuclei</span></a></dt><dd><p>This consideration was addressed by having a <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> class.</p>
 </dd>
 </dl>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

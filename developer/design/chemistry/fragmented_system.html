@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Designing the Fragmented System Component &mdash; Chemist 0.0.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -63,6 +65,7 @@
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex-project.github.io/.github/">Developing for the NWChemEx Organization</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Chemist Tutorials</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
 </ul>
 
@@ -93,11 +96,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="designing-the-fragmented-system-component">
+  <section id="designing-the-fragmented-system-component">
 <span id="designing-fragmented-system"></span><h1>Designing the Fragmented System Component<a class="headerlink" href="#designing-the-fragmented-system-component" title="Permalink to this heading"></a></h1>
 <p>The point of this page is to record the design process of the
 <code class="docutils literal notranslate"><span class="pre">FragmentedSystem</span></code> class and affiliated classes.</p>
-<div class="section" id="what-is-a-fragmented-system">
+<section id="what-is-a-fragmented-system">
 <h2>What is a Fragmented System?<a class="headerlink" href="#what-is-a-fragmented-system" title="Permalink to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> (main discussion: <a class="reference internal" href="system.html#csd-chemical-system-design"><span class="std std-ref">Chemical System Design</span></a>)
 represents the physical system we are trying to model. For traditional
@@ -106,8 +109,8 @@ input independent from the method/model specification. Many approximate
 methods require breaking the target chemical system up into subsets. We term
 those subsets fragments and a <code class="docutils literal notranslate"><span class="pre">FragmentedSystem</span></code> is a <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code>
 which has been decomposed into fragment/field pairs.</p>
-</div>
-<div class="section" id="why-do-we-need-a-fragmentedsystem">
+</section>
+<section id="why-do-we-need-a-fragmentedsystem">
 <h2>Why do we need a FragmentedSystem?<a class="headerlink" href="#why-do-we-need-a-fragmentedsystem" title="Permalink to this heading"></a></h2>
 <p>As mentioned, there are a number of approximate methods — <em>e.g.</em>, QM/MM,
 fragment based-methods, electronic embedding, and symmetry-adpated perturbation
@@ -115,8 +118,8 @@ theory — which require fragmenting the physical system of interest into a
 series of subsystems. The <code class="docutils literal notranslate"><span class="pre">FragmentedSystem</span></code> class allows us to represent
 fragments of the original <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> along with the field the fragment is
 embedded in.</p>
-</div>
-<div class="section" id="fragmentedsystem-considerations">
+</section>
+<section id="fragmentedsystem-considerations">
 <h2>FragmentedSystem Considerations<a class="headerlink" href="#fragmentedsystem-considerations" title="Permalink to this heading"></a></h2>
 <p>Ultimately the <code class="docutils literal notranslate"><span class="pre">FragmentedSystem</span></code> class will end up paralleling the
 <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> class and thus many of the considerations in
@@ -174,7 +177,7 @@ to pass elements of the container to algorithms which expect
 <code class="docutils literal notranslate"><span class="pre">ChemicqlSystem</span></code> objects.</p>
 </dd>
 </dl>
-<div class="section" id="out-of-scope">
+<section id="out-of-scope">
 <h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>Expansion coefficients.</dt><dd><p>Usually the properties of the fragments are combined as a linear combination.
@@ -201,15 +204,17 @@ basis-set superposition corrections, and thus should exist. Here we simply
 advocate for that class being different than the <code class="docutils literal notranslate"><span class="pre">FragmentedSystem</span></code> class.</p>
 </dd>
 </dl>
-</div>
-</div>
-<div class="section" id="fragmented-system-design">
+</section>
+</section>
+<section id="fragmented-system-design">
 <h2>Fragmented System Design<a class="headerlink" href="#fragmented-system-design" title="Permalink to this heading"></a></h2>
-<div class="figure align-center" id="id1">
+<figure class="align-center" id="id1">
 <span id="fig-fragmented-system-design"></span><img alt="../../../_images/fragmented_system.png" src="../../../_images/fragmented_system.png" />
-<p class="caption"><span class="caption-number">Fig. 5 </span><span class="caption-text">How the major pieces of the <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> map to pieces of the
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">How the major pieces of the <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> map to pieces of the
 fragmented system.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
-</div>
+</figcaption>
+</figure>
 <p>As <a class="reference internal" href="#fig-fragmented-system-design"><span class="std std-numref">Fig. 5</span></a> shows, in satisfying
 <a class="reference internal" href="#fs-hierarchy"><span class="std std-ref">Hierarchy</span></a> we have opted to mirror the existing <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code>
 hierarchy. More specifically, what was the <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> in the original
@@ -218,7 +223,7 @@ nuclei), what was the <code class="docutils literal notranslate"><span class="pr
 of the original atoms), and what was the <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> becomes the
 <code class="docutils literal notranslate"><span class="pre">FragmentedChemicalSystem</span></code>. These three major components are described briefly
 in the following subsections.</p>
-<div class="section" id="fragmentednuclei-class">
+<section id="fragmentednuclei-class">
 <h3>FragmentedNuclei Class<a class="headerlink" href="#fragmentednuclei-class" title="Permalink to this heading"></a></h3>
 <p>Main page: <a class="reference internal" href="fragmented_nuclei.html#designing-fragmented-nuclei"><span class="std std-ref">Designing the Fragmented Nuclei Class</span></a>.</p>
 <p>Most algorithms for fragmenting a molecular system focus on the nuclei. Given
@@ -229,8 +234,8 @@ object, but do not own their state. As users create fragments from the
 <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> class they add them to the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> object, which tracks
 them. The <code class="docutils literal notranslate"><span class="pre">Caps</span></code> object is needed to deal with severed
 valencies.</p>
-</div>
-<div class="section" id="fragmentedmolecule-class">
+</section>
+<section id="fragmentedmolecule-class">
 <h3>FragmentedMolecule Class<a class="headerlink" href="#fragmentedmolecule-class" title="Permalink to this heading"></a></h3>
 <p>Main page: <a class="reference internal" href="fragmented_molecule.html#designing-fragmented-molecule-class"><span class="std std-ref">Designing the FragmentedMolecule Class</span></a>.</p>
 <p>As shown in <a class="reference internal" href="#fig-fragmented-system-design"><span class="std std-numref">Fig. 5</span></a> the <code class="docutils literal notranslate"><span class="pre">FragmentedMolecule</span></code>
@@ -238,15 +243,15 @@ class has three components: a <code class="docutils literal notranslate"><span c
 element in the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> object, and a mapping from
 the elements of the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> to their respective
 charge/multiplicities.</p>
-</div>
-<div class="section" id="fragmentedsystem-class">
+</section>
+<section id="fragmentedsystem-class">
 <h3>FragmentedSystem Class<a class="headerlink" href="#fragmentedsystem-class" title="Permalink to this heading"></a></h3>
 <p>As shown in <a class="reference internal" href="#fig-fragmented-system-design"><span class="std std-numref">Fig. 5</span></a>, the <code class="docutils literal notranslate"><span class="pre">FragmentedSystem</span></code>
 class has two pieces: a <code class="docutils literal notranslate"><span class="pre">FragmentedMolecule</span></code> object and a mapping from the
 elements of the <code class="docutils literal notranslate"><span class="pre">FragmentedMolecule</span></code> object to their respective fields. At</p>
-</div>
-</div>
-<div class="section" id="fragmentedsystem-summary">
+</section>
+</section>
+<section id="fragmentedsystem-summary">
 <h2>FragmentedSystem Summary<a class="headerlink" href="#fragmentedsystem-summary" title="Permalink to this heading"></a></h2>
 <dl class="simple">
 <dt><a class="reference internal" href="#fs-hierarchy"><span class="std std-ref">Hierarchy</span></a></dt><dd><p>As <a class="reference internal" href="#fig-fragmented-system-design"><span class="std std-numref">Fig. 5</span></a> shows the nesting of the
@@ -273,8 +278,8 @@ API of the <code class="docutils literal notranslate"><span class="pre">Chemical
 class needs to be easily converted to a <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> class.</p>
 </dd>
 </dl>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

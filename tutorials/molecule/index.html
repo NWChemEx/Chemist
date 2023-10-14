@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Molecule &mdash; Chemist 0.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/tabs.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Atom" href="../atom/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Chemist
+          </a>
+              <div class="version">
+                0.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview of Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer/index.html">Developer Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Chemist Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../nucleus/index.html">Nucleus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atom/index.html">Atom</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Molecule</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#construction">Construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#properties">Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#serializing">Serializing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Chemist</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Chemist Tutorials</a></li>
+      <li class="breadcrumb-item active">Molecule</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tutorials/molecule/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="molecule">
+<span id="id1"></span><h1>Molecule<a class="headerlink" href="#molecule" title="Permalink to this heading"></a></h1>
+<p>In its formal definition, a molecule is a group of two or more atoms held
+together by chemical bonds. In Chemist, <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> class represents any group
+of atoms (set of <code class="docutils literal notranslate"><span class="pre">Atom</span></code> objects) or nuclei (set of <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> objects forming
+<code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object) without any restrictions about bonding.</p>
+<section id="construction">
+<h2>Construction<a class="headerlink" href="#construction" title="Permalink to this heading"></a></h2>
+<p>There are five different ways of constructing a <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> object including
+the default and copy constructors in C++. The codes below show these methods for
+C++ and the available constructors for Python. The most explicit constructor
+enables a user to set the charge and multiplicity of the molecule, which would
+be set to 0 and 1 if not given. One can add more atoms, or modify the charge and
+multiplicity of the molecule after it is created. It should also be noted that
+once a molecule object is created, the atoms that create the molecule cannot be
+accessed or modified directly, only the nuclei can be accessed.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1">// Creating Molecule objects using different constructors</span>
+<span class="w">    </span><span class="c1">// Default constructor, no atoms, charge = 0.0, multiplicity = 1</span>
+<span class="w">    </span><span class="n">Molecule</span><span class="w"> </span><span class="n">m0</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// Creating Molecule with an initializer list of atoms</span>
+<span class="w">    </span><span class="c1">// charge = 0.0, multiplicity = 1</span>
+<span class="w">    </span><span class="n">Atom</span><span class="w"> </span><span class="n">a_H1</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1ul</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Atom</span><span class="w"> </span><span class="n">a_H2</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1ul</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Molecule</span><span class="w"> </span><span class="n">m1</span><span class="p">{</span><span class="n">a_H1</span><span class="p">,</span><span class="w"> </span><span class="n">a_H2</span><span class="p">};</span>
+<span class="w">    </span><span class="c1">// Creating Molecule with a specific charge and multiplicity and an</span>
+<span class="w">    </span><span class="c1">// initializer list of atoms</span>
+<span class="w">    </span><span class="n">Molecule</span><span class="w"> </span><span class="nf">m2</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="n">a_H1</span><span class="p">,</span><span class="w"> </span><span class="n">a_H2</span><span class="p">});</span>
+<span class="w">    </span><span class="c1">// Creating Molecule with a specific charge and multiplicity and an</span>
+<span class="w">    </span><span class="c1">// initializer list of nuclei</span>
+<span class="w">    </span><span class="n">Nucleus</span><span class="w"> </span><span class="n">n_H1</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1ul</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Nucleus</span><span class="w"> </span><span class="n">n_H2</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1ul</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Nuclei</span><span class="w"> </span><span class="n">n_set</span><span class="p">{</span><span class="n">n_H1</span><span class="p">,</span><span class="w"> </span><span class="n">n_H2</span><span class="p">};</span>
+<span class="w">    </span><span class="n">Molecule</span><span class="w"> </span><span class="nf">m3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">n_set</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// Copy constructor</span>
+<span class="w">    </span><span class="n">Molecule</span><span class="w"> </span><span class="nf">m4</span><span class="p">(</span><span class="n">m1</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"></div></div>
+</section>
+<section id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this heading"></a></h2>
+<p>Molecule class provides read access to the charge, multiplicity, and number of
+electrons of a molecule object with <code class="docutils literal notranslate"><span class="pre">charge()</span></code>, <code class="docutils literal notranslate"><span class="pre">multiplicity()</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">n_electrons()</span></code> methods, respectively. One can modify the charge and multiplicity of a
+molecule with <code class="docutils literal notranslate"><span class="pre">set_charge(int)</span></code> and <code class="docutils literal notranslate"><span class="pre">set_multiplicity(int)</span></code> methods. The
+codes below show how to access and modify these properties in both C++ and Python.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1">// Accessing the properties of a Molecule object</span>
+<span class="w">    </span><span class="c1">// Accessing the size (number of atoms)</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">m1_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m1</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m1_size</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2ul</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m0</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0ul</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// Accessing the charge</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">m1_charge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m1</span><span class="p">.</span><span class="n">charge</span><span class="p">();</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m0</span><span class="p">.</span><span class="n">charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m1</span><span class="p">.</span><span class="n">charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m2</span><span class="p">.</span><span class="n">charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// Accessing the multiplicity</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">m1_multiplicity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m1</span><span class="p">.</span><span class="n">multiplicity</span><span class="p">();</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m1_multiplicity</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1ul</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m0</span><span class="p">.</span><span class="n">multiplicity</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1ul</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// Accessing the number of electrons</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m0</span><span class="p">.</span><span class="n">n_electrons</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0ul</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m1</span><span class="p">.</span><span class="n">n_electrons</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2ul</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m2</span><span class="p">.</span><span class="n">n_electrons</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1ul</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Comparing Molecule objects</span>
+<span class="w">    </span><span class="c1">// Since m0 has no state</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m0</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">m1</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// Since m1 and m2 has different states</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m1</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">m2</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// Since all states are equal, m2 == m3 is true</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">m3</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Modifying the properties of an Molecule object</span>
+<span class="w">    </span><span class="n">m1</span><span class="p">.</span><span class="n">set_charge</span><span class="p">(</span><span class="mf">1.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">m1</span><span class="p">.</span><span class="n">set_multiplicity</span><span class="p">(</span><span class="mi">2ul</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">m2</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// We can add atoms to a Molecule object</span>
+<span class="w">    </span><span class="n">Atom</span><span class="w"> </span><span class="n">a_O1</span><span class="p">(</span><span class="s">&quot;O&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">8ul</span><span class="p">,</span><span class="w"> </span><span class="mf">15.9994</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">m1</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">a_O1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m1</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3ul</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">m1</span><span class="p">.</span><span class="n">n_electrons</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">9ul</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"></div></div>
+</section>
+<section id="serializing">
+<h2>Serializing<a class="headerlink" href="#serializing" title="Permalink to this heading"></a></h2>
+<p>Users can serialize a <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> object into a binary, XML, or JSON archive and
+deserialize accordingly with the C++ interface. We use Cereal library for
+serialization. Note that corresponding Cereal header files need to be included.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-2-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-2-2-0" name="2-0" role="tab" tabindex="0">C++</button></div><div aria-labelledby="tab-2-2-0" class="sphinx-tabs-panel" id="panel-2-2-0" name="2-0" role="tabpanel" tabindex="0"></div></div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../atom/index.html" class="btn btn-neutral float-left" title="Atom" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, NWChemEx Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

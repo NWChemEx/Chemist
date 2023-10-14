@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chemical System Design &mdash; Chemist 0.0.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -62,6 +64,7 @@
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex-project.github.io/.github/">Developing for the NWChemEx Organization</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Chemist Tutorials</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
 </ul>
 
@@ -92,11 +95,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="chemical-system-design">
+  <section id="chemical-system-design">
 <span id="csd-chemical-system-design"></span><h1>Chemical System Design<a class="headerlink" href="#chemical-system-design" title="Permalink to this heading"></a></h1>
 <p>The purpose of this page is to collect notes pertaining to the design of the
 <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> class and its affiliated classes.</p>
-<div class="section" id="what-is-a-chemical-system">
+<section id="what-is-a-chemical-system">
 <span id="csd-what-is-a-chemical-system"></span><h2>What is a Chemical System?<a class="headerlink" href="#what-is-a-chemical-system" title="Permalink to this heading"></a></h2>
 <p>Many quantum chemistry codes talk about the “molecule” as being the input to
 the code; however, in chemistry, molecules are simply sets of atoms. Even with
@@ -105,8 +108,8 @@ additional parts to the system being studied – for example external fields –
 that are not captured by the “molecule” concept. We define the chemical system
 to be the entire system we are trying to model. This will almost always
 include a molecule.</p>
-</div>
-<div class="section" id="chemical-system-design-considerations">
+</section>
+<section id="chemical-system-design-considerations">
 <span id="csd-considerations"></span><h2>Chemical System Design Considerations<a class="headerlink" href="#chemical-system-design-considerations" title="Permalink to this heading"></a></h2>
 <dl class="simple" id="cs-molecule">
 <dt>Molecule</dt><dd><p>Following usual quantum chemistry conventions we define the molecule as all
@@ -131,7 +134,7 @@ in, we often treat that environment via a field. Important examples include:</p>
 </ul>
 </dd>
 </dl>
-<div class="section" id="out-of-scope-considerations">
+<section id="out-of-scope-considerations">
 <h3>Out of Scope Considerations<a class="headerlink" href="#out-of-scope-considerations" title="Permalink to this heading"></a></h3>
 <p>The considerations in this section were considered in the design, but ultimately
 ignored or thought to be better addressed by another component.</p>
@@ -142,9 +145,9 @@ separate from the chemical system when they can be clearly distinguished.
 Of note the AO basis set is considered separately.</p>
 </dd>
 </dl>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
