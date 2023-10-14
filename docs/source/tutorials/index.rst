@@ -12,16 +12,20 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-#######
-Chemist
-#######
+.. _chemist_tutorials:
+
+##################
+Chemist Tutorials
+##################
+
+These tutorials aim to familiarize users with the Chemist C++ and Python API by providing examples of typical use cases.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   overview
-   sparse_maps/index
-   developer/index
-   tutorials/index
-   C++ API <https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html>
+   nucleus/index
+   atom/index
+   molecule/index
+   system/index
+   basis_set/index
