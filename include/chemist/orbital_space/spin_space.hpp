@@ -23,13 +23,13 @@ namespace chemist::orbital_space {
  *
  *  Here the spin space is not the space consist of the spin eigenfunctions
  *  of an N-electron system with a dimension of 2^N.
- * 
+ *
  *  @tparam N Dimension of the space.
  */
 class SpinSpace : public BaseSpace {
 private:
     /// enum variable to represent alpha and beta spin functions
-    enum spin_type {alpha, beta};
+    enum spin_type { alpha, beta };
     spin_type spin;
     double tot_spin = 0.5;
 
@@ -37,10 +37,10 @@ public:
     /// Type used for indexing and offsets
     using size_type = typename BaseSpace::size_type;
 
-    /** @brief Creates a SpinSpace. 
+    /** @brief Creates a SpinSpace.
      *
-     *  @throw ??? Throws if initialization of the enum and double 
-     *  variables throws. 
+     *  @throw ??? Throws if initialization of the enum and double
+     *  variables throws.
      */
     SpinSpace(){};
 
@@ -52,6 +52,5 @@ public:
 
     size_type size_() const noexcept { return 2; }
 };
-
 
 } // namespace chemist::orbital_space

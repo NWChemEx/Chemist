@@ -22,7 +22,8 @@
 
 namespace chemist::orbital_space {
 
-/** @brief Models an orbital space defined as a direct product of two orbital spaces.
+/** @brief Models an orbital space defined as a direct product of two orbital
+ * spaces.
  *
  *  In practice most orbital spaces are defined as a transformation from another
  *  space. For example the MOs are usually defined as a linear combination of
@@ -38,7 +39,6 @@ namespace chemist::orbital_space {
  */
 template<typename ProductSpaceA, typename ProductSpaceB>
 class ProductSpace : public BaseSpace {
-
 public:
     /// Types of the orbital spaces which make the product
     using space_type_a = ProductSpaceA;
@@ -113,7 +113,8 @@ public:
     /** @brief Replaces the internal state with a copy of another ProductSpace
      *         instance's state.
      *
-     *  This copy is a shallow copy. The members of a ProductSpace are read-only.
+     *  This copy is a shallow copy. The members of a ProductSpace are
+     * read-only.
      *
      *  @note This operator is not polymorphic, i.e. the resulting instance
      *        may slice @p other.
@@ -190,7 +191,7 @@ public:
      */
     bool operator==(const ProductSpace& rhs) const noexcept;
 
-    protected:
+protected:
     /** @brief Implements size() using the sizes of the two spaces.
      *
      *  size = size(ProductSpaceA) * size(ProductSpaceB)
@@ -213,7 +214,6 @@ private:
     using my_type = ProductSpace<ProductSpaceA, ProductSpaceB>;
     space_type_a m_pSpaceA_;
     space_type_b m_pSpaceB_;
-
 };
 
 /** @brief Compares ProductSpace instances non-polymorphically.
@@ -230,8 +230,7 @@ private:
  *
  *  @return True if @p lhs equals @p rhs and false otherwise.
  */
-template<typename LSpaceA, typename LSpaceB, typename RSpaceA,
-         typename RSpaceB>
+template<typename LSpaceA, typename LSpaceB, typename RSpaceA, typename RSpaceB>
 bool operator==(const ProductSpace<LSpaceA, LSpaceB>& lhs,
                 const ProductSpace<RSpaceA, RSpaceB>& rhs) {
     if constexpr(!std::is_same_v<decltype(lhs), decltype(rhs)>)
@@ -256,8 +255,7 @@ bool operator==(const ProductSpace<LSpaceA, LSpaceB>& lhs,
  *
  *  @return False if @p lhs equals @p rhs and true otherwise.
  */
-template<typename LSpaceA, typename LSpaceB, typename RSpaceA,
-         typename RSpaceB>
+template<typename LSpaceA, typename LSpaceB, typename RSpaceA, typename RSpaceB>
 bool operator!=(const ProductSpace<LSpaceA, LSpaceB>& lhs,
                 const ProductSpace<RSpaceA, RSpaceB>& rhs) {
     return !(lhs == rhs);
@@ -265,10 +263,10 @@ bool operator!=(const ProductSpace<LSpaceA, LSpaceB>& lhs,
 
 // ------------------------- Typedefs ------------------------------------------
 
-using ASOSpaceD   = ProductSpace<AOSpaceD, SpinSpace>;
+using ASOSpaceD = ProductSpace<AOSpaceD, SpinSpace>;
 
 // ---------------- Explicit Template Instantiations ---------------------------
 
 extern template class ProductSpace<AOSpaceD, SpinSpace>;
 
-}
+} // namespace chemist::orbital_space
