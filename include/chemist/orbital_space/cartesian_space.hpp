@@ -55,7 +55,7 @@ protected:
      *
      *  @return The dimension.
      */
-    
+
     size_type size_() const noexcept override { return m_N_; }
     bool equal_(const BaseSpace& rhs) const noexcept override;
 };
