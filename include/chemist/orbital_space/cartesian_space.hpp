@@ -30,7 +30,7 @@ namespace chemist::orbital_space {
 class CartesianSpace : public BaseSpace {
 private:
     /// enum variable to label the x, y, z axes
-    enum axes_type {0, 1, 2};
+    enum axes_type { 0, 1, 2 };
     axes_type axes;
     /// dimension of the space
     int m_N_;
@@ -42,13 +42,13 @@ public:
     /// array of enums representing the space
     axes_type axis_arr[m_N_];
 
-    /** @brief Creates an N-dimensinal CartesianSpace. 
+    /** @brief Creates an N-dimensinal CartesianSpace.
      *
      *  @param[in] N The dimension of the space.
-     * 
-     *  @throw ??? Throws if initialization of the enum array throws. 
+     *
+     *  @throw ??? Throws if initialization of the enum array throws.
      */
-    CartesianSpace(int N): m_N_(N) {};
+    CartesianSpace(int N) : m_N_(N){};
 
 protected:
     /** @brief Dimension of the cartesian space
@@ -56,7 +56,7 @@ protected:
      *  @return The dimension.
      */
     
-    size_type size_() const noexcept { return m_N_; }
+    size_type size_() const noexcept override { return m_N_; }
     bool equal_(const BaseSpace& rhs) const noexcept override;
 };
 
@@ -67,8 +67,8 @@ protected:
  *  @param[in] lhs The instance on the left of the equality.
  *  @param[in] rhs The instance on the right of the equality.
  *
- *  @return True if the CartesianSpace part of @p lhs compares equal to the CartesianSpace
- *          part of @p rhs. False otherwise.
+ *  @return True if the CartesianSpace part of @p lhs compares equal to the
+ * CartesianSpace part of @p rhs. False otherwise.
  *
  *  @throw ??? Throws if comparing the base classes throws. Same throw
  *             guarantee.

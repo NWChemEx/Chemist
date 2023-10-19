@@ -41,13 +41,15 @@ PRODUCT_SPACE::ProductSpace(std::shared_ptr<const ProductSpaceA> pSpaceA,
 // -----------------------------------------------------------------------------
 
 template<typename ProductSpaceA, typename ProductSpaceB>
-typename PRODUCT_SPACE::const_space_reference_a PRODUCT_SPACE::SpaceRefA() const {
+typename PRODUCT_SPACE::const_space_reference_a PRODUCT_SPACE::SpaceRefA()
+  const {
     if(m_pSpaceA_) return *m_pSpaceA_;
     throw std::runtime_error("No first space available!");
 }
 
 template<typename ProductSpaceA, typename ProductSpaceB>
-typename PRODUCT_SPACE::const_space_reference_b PRODUCT_SPACE::SpaceRefB() const {
+typename PRODUCT_SPACE::const_space_reference_b PRODUCT_SPACE::SpaceRefB()
+  const {
     if(m_pSpaceB_) return *m_pSpaceB_;
     throw std::runtime_error("No second space available!");
 }
@@ -63,8 +65,8 @@ bool PRODUCT_SPACE::operator==(const ProductSpace& rhs) const noexcept {
     auto prhs_a = rhs.space_data_a();
     auto prhs_b = rhs.space_data_b();
     if(plhs_a && plhs_b && prhs_a && prhs_b) { // Both have from_spaces
-        if((SpaceRefA() != rhs.SpaceRefA()) || 
-           (SpaceRefB() != rhs.SpaceRefB())) return false;
+        if((SpaceRefA() != rhs.SpaceRefA()) || (SpaceRefB() != rhs.SpaceRefB()))
+            return false;
     } else if(plhs_a && !prhs_a)
         return false; // LHS has from, RHS doesn't
     else if(plhs_b && !prhs_b)
@@ -78,7 +80,7 @@ bool PRODUCT_SPACE::operator==(const ProductSpace& rhs) const noexcept {
     if(size() != rhs.size()) return false;
     // We know they either both have orbitals or both don't
     // else case here covers they both don't
-    //return size() ? C() == rhs.C() : true;
+    // return size() ? C() == rhs.C() : true;
 }
 
 // Get the space array representing the direct product of two spaces
@@ -114,4 +116,4 @@ bool PRODUCT_SPACE::equal_(const BaseSpace& rhs) const noexcept {
 
 template class ProductSpace<AOSpaceD, SpinSpace>;
 
-}
+} // namespace chemist::orbital_space
