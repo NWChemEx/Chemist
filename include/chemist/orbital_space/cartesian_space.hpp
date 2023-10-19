@@ -50,13 +50,14 @@ public:
      */
     CartesianSpace(int N): m_N_(N) {};
 
+protected:
     /** @brief Dimension of the cartesian space
      *
      *  @return The dimension.
      */
     
     size_type size_() const noexcept { return m_N_; }
-
+    bool equal_(const BaseSpace& rhs) const noexcept override;
 };
 
 /** @brief Comapres two CartesianSpace instances for equality.

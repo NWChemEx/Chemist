@@ -50,7 +50,9 @@ public:
      */
     auto TSpin() { return tot_spin; }
 
-    size_type size_() const noexcept { return 2; }
+protected:
+    size_type size_() const noexcept override { return 2; }
+    bool equal_(const BaseSpace& rhs) const noexcept override;
 };
 
 

@@ -27,12 +27,13 @@ namespace chemist::orbital_space {
 // -----------------------------------------------------------------------------
 
 template<typename ProductSpaceA, typename ProductSpaceB>
-PPODUCT_SPACE::ProductSpace(space_type_a SpaceA, space_type_b SpaceB) :
+PRODUCT_SPACE::ProductSpace(ProductSpaceA SpaceA, ProductSpaceB SpaceB) :
   ProductSpace(std::make_shared<space_type_a>(std::move(SpaceA)),
                std::make_shared<space_type_b>(std::move(SpaceB))) {}
 
 template<typename ProductSpaceA, typename ProductSpaceB>
-PRODUCT_SPACE::ProductSpace(space_ptr_a pSpaceA, space_ptr_b pSpaceB) :
+PRODUCT_SPACE::ProductSpace(std::shared_ptr<const ProductSpaceA> pSpaceA, 
+                            std::shared_ptr<const ProductSpaceB> pSpaceB) :
   m_pSpaceA_(pSpaceA), m_pSpaceB_(pSpaceB) {}
 
 // -----------------------------------------------------------------------------
@@ -82,10 +83,10 @@ bool PRODUCT_SPACE::operator==(const ProductSpace& rhs) const noexcept {
 
 // Get the space array representing the direct product of two spaces
 template<typename ProductSpaceA, typename ProductSpaceB>
-space_type_a* PRODUCT_SPACE::getSpaceVec(SpaceVec& PSpace) {
-    PSpace.reserve(SpaceRefA.size() * SpaceRefB.size());
+ProductSpaceA* PRODUCT_SPACE::getSpaceVec(SpaceVec& PSpace) {
+    PSpace.reserve(SpaceRefA().size() * SpaceRefB().size());
     for (int i = 0;i < SpaceRefB().size();i++) {
-        PSpace[i] = ProductSpaceA(SpaceRefA())
+        PSpace[i] = ProductSpaceA(SpaceRefA());
     }
     return PSpace;
 }
