@@ -77,6 +77,7 @@ endif()
 if("${BUILD_TESTING}")
     set(CXX_TEST_DIR "${CMAKE_CURRENT_LIST_DIR}/tests/cxx")
     set(PYTHON_TEST_DIR "${CMAKE_CURRENT_LIST_DIR}/tests/python")
+    set(EXAMPLES_SRC_DIR "${CXX_TEST_DIR}/doc_snippets")
 
     cmaize_find_or_build_dependency(
         Catch2
@@ -84,6 +85,12 @@ if("${BUILD_TESTING}")
         BUILD_TARGET Catch2
         FIND_TARGET Catch2::Catch2
         VERSION ${NWX_CATCH2_VERSION}
+    )
+    cmaize_add_library(
+        ${PROJECT_NAME}_examples
+        SOURCE_DIR ${EXAMPLES_SRC_DIR}
+        INCLUDE_DIRS ${EXAMPLES_SRC_DIR}
+        DEPENDS Catch2::Catch2 ${PROJECT_NAME}
     )
     cmaize_add_tests(
         test_unit_chemist
@@ -97,9 +104,19 @@ if("${BUILD_TESTING}")
         INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/src/chemist"
         DEPENDS Catch2 chemist
     )
+    cmaize_add_tests(
+        test_${PROJECT_NAME}_docs
+        SOURCE_DIR ${EXAMPLES_SRC_DIR}
+        INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/src/${PROJECT_NAME}
+        DEPENDS Catch2::Catch2 ${PROJECT_NAME}
+    )
     # N.B. these are no-ops if BUILD_PYBIND11_PYBINDINGS is not turned on
     nwx_pybind11_tests(
         py_chemist "${PYTHON_TEST_DIR}/unit_tests/test_chemist.py"
+        SUBMODULES parallelzone
+    )
+    nwx_pybind11_tests(
+        py_${PROJECT_NAME}_docs "${PYTHON_TEST_DIR}/doc_snippets/test_doc_snippets.py"
         SUBMODULES parallelzone
     )
 endif()
