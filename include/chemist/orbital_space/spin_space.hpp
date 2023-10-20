@@ -52,7 +52,9 @@ public:
 
 protected:
     size_type size_() const noexcept override { return 2; }
-    bool equal_(const BaseSpace& rhs) const noexcept override;
+    bool equal_(const BaseSpace& rhs) const noexcept override {
+        return this->equal_common(*this, rhs);
+    }
 };
 
 } // namespace chemist::orbital_space

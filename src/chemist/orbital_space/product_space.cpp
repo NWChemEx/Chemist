@@ -85,7 +85,7 @@ bool PRODUCT_SPACE::operator==(const ProductSpace& rhs) const noexcept {
 
 // Get the space array representing the direct product of two spaces
 template<typename ProductSpaceA, typename ProductSpaceB>
-ProductSpaceA* PRODUCT_SPACE::getSpaceVec(SpaceVec& PSpace) {
+std::vector<ProductSpaceA> PRODUCT_SPACE::getSpaceVec(SpaceVec& PSpace) {
     PSpace.reserve(SpaceRefA().size() * SpaceRefB().size());
     for (int i = 0;i < SpaceRefB().size();i++) {
         PSpace[i] = ProductSpaceA(SpaceRefA());

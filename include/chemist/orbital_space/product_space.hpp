@@ -207,13 +207,13 @@ protected:
 
     /// Construct a vector of space A (direct product of A and B)
     using SpaceVec = std::vector<space_type_a>;
-    space_type_a* getSpaceVec(SpaceVec& PSpace);
+    SpaceVec getSpaceVec(SpaceVec& PSpace);
 
 private:
     /// Type of an instance of this class
     using my_type = ProductSpace<ProductSpaceA, ProductSpaceB>;
-    space_type_a m_pSpaceA_;
-    space_type_b m_pSpaceB_;
+    space_ptr_a m_pSpaceA_;
+    space_ptr_b m_pSpaceB_;
 };
 
 /** @brief Compares ProductSpace instances non-polymorphically.
