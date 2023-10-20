@@ -32,7 +32,7 @@ PRODUCT_SPACE::ProductSpace(ProductSpaceA SpaceA, ProductSpaceB SpaceB) :
                std::make_shared<space_type_b>(std::move(SpaceB))) {}
 
 template<typename ProductSpaceA, typename ProductSpaceB>
-PRODUCT_SPACE::ProductSpace(std::shared_ptr<const ProductSpaceA> pSpaceA, 
+PRODUCT_SPACE::ProductSpace(std::shared_ptr<const ProductSpaceA> pSpaceA,
                             std::shared_ptr<const ProductSpaceB> pSpaceB) :
   m_pSpaceA_(pSpaceA), m_pSpaceB_(pSpaceB) {}
 
@@ -87,7 +87,7 @@ bool PRODUCT_SPACE::operator==(const ProductSpace& rhs) const noexcept {
 template<typename ProductSpaceA, typename ProductSpaceB>
 std::vector<ProductSpaceA> PRODUCT_SPACE::getSpaceVec(SpaceVec& PSpace) {
     PSpace.reserve(SpaceRefA().size() * SpaceRefB().size());
-    for (int i = 0;i < SpaceRefB().size();i++) {
+    for(int i = 0; i < SpaceRefB().size(); i++) {
         PSpace[i] = ProductSpaceA(SpaceRefA());
     }
     return PSpace;
