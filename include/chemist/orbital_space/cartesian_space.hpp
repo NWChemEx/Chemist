@@ -57,7 +57,7 @@ protected:
      */
 
     size_type size_() const noexcept override { return m_N_; }
-    bool equal_(const BaseSpace& rhs) const noexcept override{
+    bool equal_(const BaseSpace& rhs) const noexcept override {
         return this->equal_common(*this, rhs);
     }
 };
