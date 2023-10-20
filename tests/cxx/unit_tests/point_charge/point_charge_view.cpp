@@ -64,11 +64,32 @@ TEMPLATE_TEST_CASE("PointChargeView", "", float, double) {
         }
 
         SECTION("Assign from PointCharge") {
-            pq0 = q1;
-            REQUIRE(&pq0.charge() == &q1.charge());
-            REQUIRE(&pq0.x() == &q1.x());
-            REQUIRE(&pq0.y() == &q1.y());
-            REQUIRE(&pq0.z() == &q1.z());
+            SECTION("From a reference") {
+                pq0 = q1;
+
+                // Still aliases q0
+                REQUIRE(&pq0.charge() == &q0.charge());
+                REQUIRE(&pq0.x() == &q0.x());
+                REQUIRE(&pq0.y() == &q0.y());
+                REQUIRE(&pq0.z() == &q0.z());
+
+                // Value is q1 though
+                REQUIRE(pq0 == q1);
+                REQUIRE(q0 == q1);
+            }
+            SECTION("From a temporary") {
+                pq0 = value_type(q1);
+
+                // Still aliases q0
+                REQUIRE(&pq0.charge() == &q0.charge());
+                REQUIRE(&pq0.x() == &q0.x());
+                REQUIRE(&pq0.y() == &q0.y());
+                REQUIRE(&pq0.z() == &q0.z());
+
+                // Value is q1 though
+                REQUIRE(pq0 == q1);
+                REQUIRE(q0 == q1);
+            }
         }
 
         SECTION("copy") {
@@ -216,5 +237,13 @@ TEMPLATE_TEST_CASE("PointChargeView", "", float, double) {
     SECTION("as_point_charge") {
         REQUIRE(pq0.as_point_charge() == q0);
         REQUIRE(pq1.as_point_charge() == q1);
+    }
+
+    SECTION("swap") {
+        view_type pq1_non_const(q1);
+        pq0.swap(pq1_non_const);
+
+        REQUIRE(pq0 == view_type(q1));
+        REQUIRE(pq1_non_const == view_type(q0));
     }
 }

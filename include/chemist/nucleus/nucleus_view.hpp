@@ -138,11 +138,28 @@ public:
     NucleusView(name_reference name, atomic_number_reference Z,
                 mass_reference m, charge_view_type q);
 
-    template<
-      typename NucleusType2 = std::decay_t<NucleusType>,
-      typename = std::enable_if<std::is_same_v<NucleusType2, NucleusType>>>
-    NucleusView& operator=(NucleusType2& other) {
-        NucleusView(other.name(), other.Z(), other.mass(), other).swap(*this);
+    /** @brief Makes *this alias @p other
+     *
+     *  This ctor will change the Nucleus object *this aliases so that it
+     *  aliases @p other.
+     *
+     *  @tparam NucleusType2 The type of the @p other.
+     *  @tparam <Anonymous> This template parameter is used to disable this
+     *                      function from consideration when the type of
+     *                      @p other is not a Nucleus object with compatible
+     *                      cv-qualifiers.
+     *
+     *  @param[in] other The Nucleus we are aliasing.
+     *
+     *  @throw None No throw guarantee.
+     */
+    template<typename NucleusType2, typename = std::enable_if_t<std::is_same_v<
+                                      std::decay_t<NucleusType2>, NucleusType>>>
+    NucleusView& operator=(NucleusType2&& other) {
+        charge_view_type::operator=(std::forward<point_charge_type>(other));
+        (*m_pname_) = other.name();
+        (*m_pZ_)    = other.Z();
+        (*m_pmass_) = other.mass();
         return *this;
     }
     // -- Accessors ------------------------------------------------------------

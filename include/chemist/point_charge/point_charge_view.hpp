@@ -115,21 +115,31 @@ public:
     PointChargeView(charge_reference q, coord_reference x, coord_reference y,
                     coord_reference z);
 
-    /** @brief Makes an existing PointChargeView alias a PointCharge.
+    /** @brief Sets the state of the aliased PointCharge to a copy of the state
+     *         in @p charge.
      *
-     *  This method is used to set the aliased state of *this to the state
-     *  in @p charge.
+     *  @note This is NOT copy assignment.
+     *
+     *  This method is used to make the PointCharge aliased by *this contain a
+     *  copy of the state in @p charge.
      *
      *  @tparam ChargeType2 The type of @p charge. ChargeType2 needs to be
-     *                      PointCharge for this method to participate in
-     *                      overload resolution.
+     *                      PointCharge or a reference to a PointCharge for this
+     *                      method to participate in overload resolution.
+     *  @tparam <Anonymous> Used to disable this function in the event that
+     *                      ChargeType2 is any type other than PointCharge or
+     *                      PointCharge& and/or if *this aliases a read-only
+     *                      PointCharge.
      *
+     *  @param[in] charge The PointCharge to copy.
+     *
+     *  @throw None No throw guarantee.
      */
-    template<typename ChargeType2 = std::decay_t<ChargeType>,
-             typename = std::enable_if<std::is_same_v<ChargeType2, ChargeType>>>
-    PointChargeView& operator=(ChargeType2& charge) {
-        PointChargeView(charge.charge(), charge.x(), charge.y(), charge.z())
-          .swap(*this);
+    template<typename ChargeType2, typename = std::enable_if_t<std::is_same_v<
+                                     std::decay_t<ChargeType2>, ChargeType>>>
+    PointChargeView& operator=(ChargeType2&& charge) {
+        point_view_type::operator=(std::forward<point_type>(charge));
+        (*m_pq_) = charge.charge();
         return *this;
     }
 

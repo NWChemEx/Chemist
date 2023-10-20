@@ -46,10 +46,19 @@ TEMPLATE_TEST_CASE("PointView2", "", Point<double>, Point<float>) {
         }
 
         SECTION("Assign from point") {
-            pr0 = r1;
-            for(std::size_t i = 0; i < 3; ++i) {
-                REQUIRE(&pr0.coord(i) == &r0.coord(i)); // Still aliases r0?
-                REQUIRE(r0.coord(i) == r1.coord(i));    // Has r1's values?
+            SECTION("From reference") {
+                pr0 = r1;
+                for(std::size_t i = 0; i < 3; ++i) {
+                    REQUIRE(&pr0.coord(i) == &r0.coord(i)); // Still aliases r0?
+                    REQUIRE(r0.coord(i) == r1.coord(i));    // Has r1's values?
+                }
+            }
+            SECTION("From temporary") {
+                pr0 = TestType(r1);
+                for(std::size_t i = 0; i < 3; ++i) {
+                    REQUIRE(&pr0.coord(i) == &r0.coord(i)); // Still aliases r0?
+                    REQUIRE(r0.coord(i) == r1.coord(i));    // Has r1's values?
+                }
             }
         }
 
