@@ -26,7 +26,7 @@ TEST_CASE("ProductSpace") {
     using scalar_type = double;
     using space_type  = ASOSpaceD;
     using tensor_type = chemist::type::tensor;
-    using space_a  = AOSpaceD;
+    using space_a     = AOSpaceD;
     using base_space  = BaseSpace;
     using vector_il   = TA::detail::vector_il<double>;
     using matrix_il   = TA::detail::matrix_il<double>;
@@ -38,17 +38,17 @@ TEST_CASE("ProductSpace") {
         }
         SECTION("space_b_type") {
             using space_b_type = typename space_type::space_type_b;
-            using corr            = SpinSpace;
+            using corr         = SpinSpace;
             STATIC_REQUIRE(std::is_same_v<space_b_type, corr>);
         }
         SECTION("space_ptr_a") {
             using space_a_ptr = typename space_type::space_ptr_a;
-            using corr           = std::shared_ptr<const space_a>;
+            using corr        = std::shared_ptr<const space_a>;
             STATIC_REQUIRE(std::is_same_v<space_a_ptr, corr>);
         }
         SECTION("space_ptr_b") {
             using space_b_ptr = typename space_type::space_ptr_b;
-            using corr           = std::shared_ptr<const SpinSpace>;
+            using corr        = std::shared_ptr<const SpinSpace>;
             STATIC_REQUIRE(std::is_same_v<space_b_ptr, corr>);
         }
         SECTION("size_type") {
@@ -77,7 +77,7 @@ TEST_CASE("ProductSpace") {
             REQUIRE(non_default_aso.SpaceRefA() == aos);
             REQUIRE(non_default_aso.SpaceRefB() == spin_space);
         }
-        
+
         SECTION("Aliasing Ctor") {
             auto p_spin_space = std::make_shared<SpinSpace>(spin_space);
             space_type alias(default_aso.space_data_a(), p_spin_space);
