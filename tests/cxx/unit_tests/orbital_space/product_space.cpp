@@ -149,6 +149,13 @@ TEST_CASE("ProductSpace") {
             REQUIRE(non_default_aso.SpaceRefB().size() == 2);
             REQUIRE(non_default_aso.size() == 2);
         }
+
+        SECTION("Space Array"){
+            std::vector<AOSpaceD> space_arr(2);
+            non_default_aso.getSpaceVec(space_arr);
+            REQUIRE(space_arr[0] == aos);
+            REQUIRE(space_arr[1] == aos);
+        }
     }
 
     SECTION("comparisons") {

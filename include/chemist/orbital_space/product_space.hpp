@@ -191,6 +191,10 @@ public:
      */
     bool operator==(const ProductSpace& rhs) const noexcept;
 
+    /// Construct a vector of space A (direct product of A and B)
+    using SpaceVec = std::vector<space_type_a>;
+    SpaceVec getSpaceVec(SpaceVec& PSpace);
+
 protected:
     /** @brief Implements size() using the sizes of the two spaces.
      *
@@ -204,10 +208,6 @@ protected:
 
     /// Include the transformation and the from space in the comparison
     virtual bool equal_(const BaseSpace& rhs) const noexcept override;
-
-    /// Construct a vector of space A (direct product of A and B)
-    using SpaceVec = std::vector<space_type_a>;
-    SpaceVec getSpaceVec(SpaceVec& PSpace);
 
 private:
     /// Type of an instance of this class

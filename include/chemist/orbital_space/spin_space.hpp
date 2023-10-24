@@ -30,7 +30,7 @@ class SpinSpace : public BaseSpace {
 private:
     /// enum variable to represent alpha and beta spin functions
     enum spin_type { alpha, beta };
-    spin_type spin;
+    //spin_type spin;
     double tot_spin = 0.5;
 
 public:
@@ -50,6 +50,15 @@ public:
      */
     auto TSpin() { return tot_spin; }
 
+    const char* EnumToStr(spin_type type){
+        switch (type) {
+        case spin_type::alpha:   return "alpha";
+        case spin_type::beta:   return "beta";
+        }
+    }
+
+    auto SpinType(int i) { return EnumToStr(static_cast<spin_type>(i)); }
+
 protected:
     size_type size_() const noexcept override { return 2; }
     bool equal_(const BaseSpace& rhs) const noexcept override {
@@ -57,8 +66,8 @@ protected:
     }
 };
 
-bool operator==(const SpinSpace& lhs,const SpinSpace& rhs) {
-    return true;
-}
+// bool operator==(const SpinSpace& lhs,const SpinSpace& rhs) {
+//     return true;
+//}
 
 } // namespace chemist::orbital_space
