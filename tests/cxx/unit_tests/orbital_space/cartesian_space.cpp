@@ -25,13 +25,13 @@ TEST_CASE("CartesianSpace") {
     SECTION("CTors") {
         SECTION("Axes not set") {
             auto s = CartesianSpace(3);
-            REQUIRE(s.size() == 3);    
+            REQUIRE(s.size() == 3);
         }
     }
 
     SECTION("Accessors") {
         SECTION("Axis Types") {
-            std::vector<int> val{2,0,1};
+            std::vector<int> val{2, 0, 1};
             auto s = CartesianSpace(3, val);
             REQUIRE(s.EnumToStr(s.axis_arr[0]) == "z");
             REQUIRE(s.EnumToStr(s.axis_arr[1]) == "x");
@@ -42,7 +42,7 @@ TEST_CASE("CartesianSpace") {
     SECTION("Comparison") {
         auto s2_1 = CartesianSpace(2);
         auto s2_2 = CartesianSpace(2);
-        auto s3 = CartesianSpace(3);
+        auto s3   = CartesianSpace(3);
         REQUIRE(s2_1 == s2_2);
         REQUIRE_FALSE(s2_1 == s3);
     }
