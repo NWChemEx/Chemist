@@ -80,8 +80,9 @@ bool PRODUCT_SPACE::operator==(const ProductSpace& rhs) const noexcept {
     if(size() != rhs.size()) return false;
     // We know they either both have orbitals or both don't
     // else case here covers they both don't
-    return size() ? ((SpaceRefA() == rhs.SpaceRefA()) && 
-                     (SpaceRefB() == rhs.SpaceRefB())) : true;
+    return size() ? ((SpaceRefA() == rhs.SpaceRefA()) &&
+                     (SpaceRefB() == rhs.SpaceRefB())) :
+                    true;
 }
 
 // Get the space array representing the direct product of two spaces
