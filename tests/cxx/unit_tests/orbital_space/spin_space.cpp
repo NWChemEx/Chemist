@@ -30,7 +30,7 @@ TEST_CASE("SpinSpace") {
     SECTION("Accessors") {
         SECTION("Total Spin") {
             SpinSpace s;
-            REQUIRE_THAT(s.TSpin(), WithinAbs(0.5, 0.00001));   
+            REQUIRE_THAT(s.TSpin(), WithinAbs(0.5, 0.00001));
         }
 
         SECTION("Spin Types") {

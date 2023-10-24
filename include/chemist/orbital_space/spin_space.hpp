@@ -30,7 +30,7 @@ class SpinSpace : public BaseSpace {
 private:
     /// enum variable to represent alpha and beta spin functions
     enum spin_type { alpha, beta };
-    //spin_type spin;
+    // spin_type spin;
     double tot_spin = 0.5;
 
 public:
@@ -50,10 +50,10 @@ public:
      */
     auto TSpin() { return tot_spin; }
 
-    const char* EnumToStr(spin_type type){
-        switch (type) {
-        case spin_type::alpha:   return "alpha";
-        case spin_type::beta:   return "beta";
+    const char* EnumToStr(spin_type type) {
+        switch(type) {
+            case spin_type::alpha: return "alpha";
+            case spin_type::beta: return "beta";
         }
     }
 

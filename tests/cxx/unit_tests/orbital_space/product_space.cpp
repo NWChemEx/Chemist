@@ -150,7 +150,7 @@ TEST_CASE("ProductSpace") {
             REQUIRE(non_default_aso.size() == 2);
         }
 
-        SECTION("Space Array"){
+        SECTION("Space Array") {
             std::vector<AOSpaceD> space_arr(2);
             non_default_aso.getSpaceVec(space_arr);
             REQUIRE(space_arr[0] == aos);
