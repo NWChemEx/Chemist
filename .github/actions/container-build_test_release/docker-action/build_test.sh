@@ -78,7 +78,7 @@ fi
 
 #Step 2: Configure
 if [ "${env_install}" = true ]; then
-  export INSTALL_PATH=/install_chemist
+  export INSTALL_PATH=/install
   if [ "${env_ninja_build}" = true ] ; then
     ${cmake_command} -GNinja -H. -Bbuild -DCMAKE_TOOLCHAIN_FILE="${toolchain_file}" -DCMAKE_INSTALL_PREFIX=${INSTALL_PATH}
   else
