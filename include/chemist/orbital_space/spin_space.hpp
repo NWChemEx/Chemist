@@ -66,12 +66,8 @@ protected:
     }
 };
 
-<<<<<<< HEAD
 // bool operator==(const SpinSpace& lhs,const SpinSpace& rhs) {
 //     return true;
 //}
-=======
-bool operator==(const SpinSpace& lhs, const SpinSpace& rhs) { return true; }
->>>>>>> 510dc3915486f1930879a9945b4d883550c8a1c4
 
 } // namespace chemist::orbital_space
