@@ -31,7 +31,7 @@ class CartesianSpace : public BaseSpace {
 private:
     /// enum variable to label the x, y, z axes
     enum axis_type { x, y, z };
-    //axis_type axes;
+    // axis_type axes;
     /// dimension of the space
     int m_N_;
     std::vector<int> m_val_;
@@ -54,28 +54,28 @@ public:
     /** @brief Creates an N-dimensinal CartesianSpace with axes being given.
      *
      *  @param[in] N The dimension of the space.
-     * 
+     *
      *  @param[in] val[] The label (0 -> x, 1 -> y and 2 -> z) array
      *                   to set up the axes
      *
      *  @throw ??? Throws if initialization of the enum array throws.
      */
-    CartesianSpace(const int N, const std::vector<int> val) : m_N_(N), 
-                   m_val_(val){ 
-                    for (int i=0;i<m_N_;i++) {
-                        axis_arr.push_back(static_cast<axis_type>(m_val_[i]));
-                   }
-                };
+    CartesianSpace(const int N, const std::vector<int> val) :
+      m_N_(N), m_val_(val) {
+        for(int i = 0; i < m_N_; i++) {
+            axis_arr.push_back(static_cast<axis_type>(m_val_[i]));
+        }
+    };
 
-    const char* EnumToStr(axis_type type){
-        switch (type) {
-        case axis_type::x:   return "x";
-        case axis_type::y:   return "y";
-        case axis_type::z:   return "z";
+    const char* EnumToStr(axis_type type) {
+        switch(type) {
+            case axis_type::x: return "x";
+            case axis_type::y: return "y";
+            case axis_type::z: return "z";
         }
     }
 
-    //auto AxisType(int i) { return EnumToStr(static_cast<axis_type>(i));
+    // auto AxisType(int i) { return EnumToStr(static_cast<axis_type>(i));
 
 protected:
     /** @brief Dimension of the cartesian space
