@@ -64,23 +64,24 @@ bool PRODUCT_SPACE::operator==(const ProductSpace& rhs) const noexcept {
     auto plhs_b = space_data_b();
     auto prhs_a = rhs.space_data_a();
     auto prhs_b = rhs.space_data_b();
-    if(plhs_a && plhs_b && prhs_a && prhs_b) { // Both have from_spaces
+    if(plhs_a && plhs_b && prhs_a && prhs_b) { // Both have Space A and B
         if((SpaceRefA() != rhs.SpaceRefA()) || (SpaceRefB() != rhs.SpaceRefB()))
             return false;
     } else if(plhs_a && !prhs_a)
-        return false; // LHS has from, RHS doesn't
+        return false; // LHS has space A, RHS doesn't
     else if(plhs_b && !prhs_b)
-        return false; // LHS has from, RHS doesn't
+        return false; // LHS has space B, RHS doesn't
     else if(!plhs_a && prhs_a)
-        return false; // RHS has from, LHS doesn't
+        return false; // RHS has space A, LHS doesn't
     else if(!plhs_b && prhs_b)
-        return false; // RHS has from, LHS doesn't
+        return false; // RHS has space B, LHS doesn't
     // else is both don't have from-space
 
     if(size() != rhs.size()) return false;
     // We know they either both have orbitals or both don't
     // else case here covers they both don't
-    // return size() ? C() == rhs.C() : true;
+    return size() ? ((SpaceRefA() == rhs.SpaceRefA()) && 
+                     (SpaceRefB() == rhs.SpaceRefB())) : true;
 }
 
 // Get the space array representing the direct product of two spaces
