@@ -1,4 +1,4 @@
-.. Copyright 2022 NWChemEx-Project
+.. Copyright 2023 NWChemEx-Project
 ..
 .. Licensed under the Apache License, Version 2.0 (the "License");
 .. you may not use this file except in compliance with the License.
@@ -12,17 +12,18 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-#######
-Chemist
-#######
+########################
+Fragmenting Subcomponent
+########################
+
+The topics in this section describe the design of the Fragmenting subcomponent
+of Chemist.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
    overview
-   sparse_maps/index
-   background/index
-   developer/index
-   tutorials/index
-   C++ API <https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html>
+   fragmented
+   fragmented_pimpls
+   fragment_view
+   caps

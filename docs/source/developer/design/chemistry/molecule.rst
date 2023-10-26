@@ -12,7 +12,7 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-.. _ md_molecule_design:
+.. _md_molecule_design:
 
 ###############
 Molecule Design
