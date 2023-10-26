@@ -46,7 +46,7 @@ public:
      *         base class is also default initialized.
      *
      *  @throw ??? Throws if initialization of the base class throws. Same throw
-     *             gurantee.
+     *             guarantee.
      */
     AOSpace() = default;
 
@@ -66,7 +66,7 @@ public:
 
     /** @brief Creates a new AOSpace by taking ownership of @p rhs.
      *
-     *  This ctor creates a new AOSpace instance by taking ownerhip of the
+     *  This ctor creates a new AOSpace instance by taking ownership of the
      *  state inside the AOSpace part of the polymorphic object @p rhs. Note
      *  that the "AOSpace part" includes the class AOSpace derives from and that
      *  if the most derived type of @p rhs is not AOSpace, this will cause a
@@ -166,7 +166,7 @@ private:
     basis_type m_bs_;
 };
 
-/** @brief Comapres two AOSpace instances for equality.
+/** @brief Compares two AOSpace instances for equality.
  *
  *  Two AOSpace instances are equal if the AOBasisSet instances they contain are
  *  the same and if the state of the base classes are the same. In particular
