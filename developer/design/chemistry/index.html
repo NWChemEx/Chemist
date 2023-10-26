@@ -51,6 +51,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview of Chemist</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../index.html#overview">Overview</a><ul class="current">
@@ -111,23 +112,6 @@ familiar to quantum chemists (which we put in the physics sublibrary).</p>
 <li class="toctree-l2"><a class="reference internal" href="nucleus.html#summary">Summary</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="fragmented_nuclei.html">Designing the Fragmented Nuclei Class</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_nuclei.html#what-is-a-fragmented-nuclei">What is a fragmented nuclei?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_nuclei.html#why-do-we-need-fragmented-nuclei">Why do we need fragmented nuclei?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_nuclei.html#fragmented-nuclei-considerations">Fragmented Nuclei Considerations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_nuclei.html#fragmentednuclei-design">FragmentedNuclei Design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_nuclei.html#proposed-apis">Proposed APIs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_nuclei.html#fragmentednuclei-summary">FragmentedNuclei Summary</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="caps.html">Designing the CapSet Class</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="caps.html#what-is-a-cap">What is a cap?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="caps.html#why-do-we-need-caps">Why do we need caps?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="caps.html#caps-considerations">Caps considerations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="caps.html#capset-design">CapSet Design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="caps.html#caps-design-summary">Caps Design Summary</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="molecule.html">Molecule Design</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="molecule.html#what-is-a-molecule">What is a Molecule?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="molecule.html#why-do-we-need-a-molecule-component">Why do we need a Molecule (component)?</a></li>
@@ -137,25 +121,9 @@ familiar to quantum chemists (which we put in the physics sublibrary).</p>
 <li class="toctree-l2"><a class="reference internal" href="molecule.html#future-considerations">Future Considerations</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="fragmented_molecule.html">Designing the FragmentedMolecule Class</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_molecule.html#what-is-a-fragmented-molecule">What is a fragmented molecule?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_molecule.html#why-do-we-need-fragmented-molecules">Why do we need fragmented molecules?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_molecule.html#fragmentedmolecule-class-considerations">FragmentedMolecule Class Considerations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_molecule.html#fragmentedmolecule-design">FragmentedMolecule Design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_molecule.html#fragmentedmolecule-summary">FragmentedMolecule Summary</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="system.html">Chemical System Design</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="system.html#what-is-a-chemical-system">What is a Chemical System?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="system.html#chemical-system-design-considerations">Chemical System Design Considerations</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="fragmented_system.html">Designing the Fragmented System Component</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_system.html#what-is-a-fragmented-system">What is a Fragmented System?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_system.html#why-do-we-need-a-fragmentedsystem">Why do we need a FragmentedSystem?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_system.html#fragmentedsystem-considerations">FragmentedSystem Considerations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_system.html#fragmented-system-design">Fragmented System Design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fragmented_system.html#fragmentedsystem-summary">FragmentedSystem Summary</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ao_basis_set.html">Designing the AOBasisSet Component</a><ul>
@@ -164,6 +132,14 @@ familiar to quantum chemists (which we put in the physics sublibrary).</p>
 <li class="toctree-l2"><a class="reference internal" href="ao_basis_set.html#aobasisset-considerations">AOBasisSet Considerations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ao_basis_set.html#aobasisset-design">AOBasisSet Design</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ao_basis_set.html#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fragmenting/index.html">Fragmenting Subcomponent</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fragmenting/overview.html">Designing the Fragmenting Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fragmenting/fragmented.html">Designing the Fragmented Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fragmenting/fragmented_pimpls.html">Designing the Fragmented PIMPL Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fragmenting/fragment_view.html">Designing the FragmentView Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fragmenting/caps.html">Designing the Capping Classes</a></li>
 </ul>
 </li>
 </ul>

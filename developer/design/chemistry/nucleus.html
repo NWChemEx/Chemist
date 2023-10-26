@@ -21,7 +21,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Designing the Fragmented Nuclei Class" href="fragmented_nuclei.html" />
+    <link rel="next" title="Molecule Design" href="molecule.html" />
     <link rel="prev" title="Designing the Chemistry Sublibrary" href="index.html" /> 
 </head>
 
@@ -51,6 +51,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview of Chemist</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../index.html#overview">Overview</a><ul class="current">
@@ -159,17 +160,6 @@ compatible with Chemist.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="simple" id="n-fragmented-nuclei">
-<dt>fragmented nuclei</dt><dd><p>There are a number of methods which require us to divide the nuclei into
-sets. The resulting structure essentially behaves like a container of
-<code class="docutils literal notranslate"><span class="pre">Nuclei</span></code>.</p>
-<ul class="simple">
-<li><p>There are a number of additional considerations which went into the design
-of the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> class; they are discussed in
-<a class="reference internal" href="fragmented_nuclei.html#designing-fragmented-nuclei"><span class="std std-ref">Designing the Fragmented Nuclei Class</span></a>.</p></li>
-</ul>
-</dd>
-</dl>
 <section id="out-of-scope">
 <h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Permalink to this heading"></a></h3>
 <dl class="simple">
@@ -190,7 +180,7 @@ added to the hierarchy to handle more realistic approximations.</p>
 </figcaption>
 </figure>
 <p>The classes of the Nucleus component are shown in
-<code class="xref std std-numref docutils literal notranslate"><span class="pre">_fig_nucleus_component</span></code>. The figure divides the classes into two
+<a class="reference internal" href="#fig-nucleus-component"><span class="std std-numref">Fig. 1</span></a>. The figure divides the classes into two
 categories those which are part of the public API and those which are needed to
 implement the public API. The following subsections contain more details about
 the various classes.</p>
@@ -216,17 +206,6 @@ the <code class="docutils literal notranslate"><span class="pre">Nuclei</span></
 <p>Similar to <code class="docutils literal notranslate"><span class="pre">NucleusView</span></code>, <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code> is designed to facilitate using
 existing data as if it were a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object.</p>
 </section>
-<section id="fragmentednuclei">
-<h3>FragmentedNuclei<a class="headerlink" href="#fragmentednuclei" title="Permalink to this heading"></a></h3>
-<p>Main discussion: <a class="reference internal" href="fragmented_nuclei.html#designing-fragmented-nuclei"><span class="std std-ref">Designing the Fragmented Nuclei Class</span></a>.</p>
-<p>Given a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object we sometimes want to only consider subsets of that
-object. Each of those subsets is also a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object. The
-<code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> class is a container which holds the supersystem <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code>
-object and each of the subsystem <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> objects.  Derived from
-<code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> is <code class="docutils literal notranslate"><span class="pre">CappedFragmentedNuclei</span></code> which additionally stores
-caps via a <code class="docutils literal notranslate"><span class="pre">CapSet</span></code>. Ultimately <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> is added to satisfy
-the <a class="reference internal" href="#n-fragmented-nuclei"><span class="std std-ref">fragmented nuclei</span></a> consideration.</p>
-</section>
 <section id="pimpls">
 <h3>PIMPLs<a class="headerlink" href="#pimpls" title="Permalink to this heading"></a></h3>
 <p>With the exception of the <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class (and its corresponding view), all
@@ -242,14 +221,12 @@ that <code class="docutils literal notranslate"><span class="pre">NucleiView</sp
 <dl class="simple">
 <dt><a class="reference internal" href="#n-basic-parameters"><span class="std std-ref">basic parameters</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class contains the specified parameters.</p>
 </dd>
-<dt><span class="xref std std-ref">n_atomic_number_v_charge:</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> object stores the atomic number as separate state. By default
+<dt><a class="reference internal" href="#n-atomic-number-v-charge"><span class="std std-ref">atomic number vs. charge</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> object stores the atomic number as separate state. By default
 the charge is set to the atomic number (and the units are assumed to be
 atomic units).</p>
 </dd>
 <dt><a class="reference internal" href="#n-views"><span class="std std-ref">Views</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code>, and <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> classes are paired with <code class="docutils literal notranslate"><span class="pre">NucleusView</span></code>
 and <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code>.</p>
-</dd>
-<dt><a class="reference internal" href="#n-fragmented-nuclei"><span class="std std-ref">fragmented nuclei</span></a></dt><dd><p>This consideration was addressed by having a <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> class.</p>
 </dd>
 </dl>
 </section>
@@ -260,7 +237,7 @@ and <code class="docutils literal notranslate"><span class="pre">NucleiView</spa
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Designing the Chemistry Sublibrary" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="fragmented_nuclei.html" class="btn btn-neutral float-right" title="Designing the Fragmented Nuclei Class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="molecule.html" class="btn btn-neutral float-right" title="Molecule Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

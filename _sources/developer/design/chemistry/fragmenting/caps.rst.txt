@@ -14,17 +14,16 @@
 
 .. _designing_the_caps_class:
 
-##########################
-Designing the CapSet Class
-##########################
+#############################
+Designing the Capping Classes
+#############################
 
-In :ref:`designing_fragmented_molecule_class` consideration :ref:`fm_caps`
-gave rise to the need for a ``CapSet`` class (the name is chosen to avoid
-having two classes which differ by only an "s"). This page describes the design
-of the ``CapSet``
+In :ref:`designing_the_fragmenting_component` consideration :ref:`fc_caps`
+gave rise to the need to represent caps. This page describes the design of
+the ``Cap`` and ``CapSet`` classes.
 
 **************
-What is a cap?
+What is a Cap?
 **************
 
 .. |A| replace:: :math:`A`
@@ -43,13 +42,19 @@ between |A| and an added monovalent atom (usually hydrogen). The
 monovalent atom (or sometimes group of atoms) is referred to as a "cap".
 
 ********************
-Why do we need caps?
+Why Do We Need Caps?
 ********************
 
 If we want to apply fragment-based methods to large covalently-bonded systems
 then we will necessarily have to break covalent bonds. Since we will not want
 to treat the resulting fragments as radicals, we will also need to cap the
-fragments.
+fragments. Caps also show up in a number of other methods which partition
+and/or break-up large covalently-bonded systems including QM/MM and ONIOM.
+
+We need the ``Cap`` class because the ``Nuclei`` class does not contain state
+for remembering the anchor and replaced nuclei. We need the ``CapSet`` class
+to wrap the process of retrieving caps for either a particular anchor or a
+particular replaced atom.
 
 *******************
 Caps considerations
@@ -61,50 +66,69 @@ Caps considerations
 .. |AD| replace:: :math:`A-D`
 .. |AC| replace:: :math:`A-C`
 
-.. _cc_new_atoms:
+.. _cc_replaced_type:
 
-New atoms.
-   Caps typically are placed in locations in space where no supersystem atom
-   resides (they usually are not placed directly where the atom they replace
-   resided). This means that the caps will have to be treated as new atoms
+replaced type
+   When we fragment an object of type ``Nuclei`` we break bonds between
+   ``Nucleus`` objects. The cap we add to fix this bond will have state 
+   consistent with a ``Nucleus`` object (or more generally a ``Nuclei`` object,
+   *vide infra*).
+
+.. _cc_new_objects:
+
+new objects
+   Caps typically are placed in locations in space where no supersystem object
+   resides (they usually are not placed directly where the replaced object
+   resided). This means that the caps will have to be treated as new objects
    since they are not actually present in the target supersystem.
-
-   - As a corollary, this consideration implies that caps are ``Atom`` or
-     potentially ``Molecule`` instances depending on how many atoms comprise
-     the cap.
 
 .. _cc_asymmetry:
 
-Asymmetry.
-   Given a severed bond |AB|, let caps |C| and |D| repsectively replace |A|
+asymmetry
+   Given a severed bond |AB|, let caps |C| and |D| respectively replace |A|
    and |B|. It is generally the case that |CB| and |AD| will in general lead
-   to dtwo caps because |C| and |D| will not usually reside at the same
-   place.
+   to two caps because |C| and |D| will not usually be value equal.
 
 .. _cc_bond_memory:
 
-Bond memory.
-   It is important for a cap to remember what atom it replaced and what atom
+bond memory
+   It is important for a cap to remember what object it replaced and what object
    it is bonded to.
 
 .. _cc_multiple_caps:
 
-Multiple caps.
-   An atom |A| may make bonds to several atoms which are not in the fragment.
+multiple caps
+   An object |A| may make bonds to several atoms which are not in the fragment.
    If |A| is bonded to |B| and |C|, and |B| and |C| are both not in the
    fragment we need caps to address fragmenting the |AB| bond, but also the
    |AC| bond
 
+.. _cc_multiple_objects:
+ 
+multiple objects
+   Caps are usually monovalent. They also are usually comprised of a single
+   center; however, this is not always the case. In general the caps needed
+   for breaking up ``Nuclei`` objects will also be ``Nuclei`` objects.
+
 .. _cc_container:
 
-Container.
+container
    The ``CapSet`` class should be container-like with the elements being the
    individual caps. It is assumed that each cap is only added once (thus it
    is set-like), but is also indexable.
 
-*************
-CapSet Design
-*************
+Out of Scope
+============
+
+electrons
+   We treat caps purely as nuclei. The motivation is that typically users
+   assign the number of electrons and multiplicity to the *capped* system, i.e.,
+   electrons are not individually added to the uncapped system and then the
+   caps.
+
+**********************
+Capping Classes Design
+**********************
 
 .. _fig_caps_design:
 
@@ -125,34 +149,38 @@ as the "replaced" atom.
 
 Following the :ref:`cc_container` consideration, the ``CapSet`` object is a
 container-like object whose elements are instances of the ``Cap`` class. Each
-``Cap`` object knows the identity of the anchor atom, and the atom(s) replaced
-by the cap(s). This satisfies the :ref:`cc_bond_memory` and
-:ref:`cc_multiple_caps` considerations. Consideration :ref:`cc_asymmetry` is
-handled by adding two ``Cap`` instances to the ``CapSet`` object, each having a
-different anchor atom. Finally, to satisfy :ref:`cc_new_atoms` each ``Cap``
-holds ``Atom`` objects for the new atom(s).
+``Cap`` object knows the identity of the anchor object, the identity of the
+replaced object, and the nuclei forming the cap. This satisfies the 
+:ref:`cc_bond_memory` and :ref:`cc_multiple_objects` considerations. 
+The :ref:`cc_multiple_caps` consideration is addressed by adding multiple caps,
+with the same anchor, to the ``CapSet`` object. In a similar vein, the 
+:ref:`cc_asymmetry` consideration is addressed by adding two ``Cap`` instances 
+to the ``CapSet`` object, each having a different anchor atom. Finally, to 
+satisfy :ref:`cc_new_objects` each ``Cap`` holds a ``Nuclei`` object for the new 
+nucleus or nuclei.
 
 *******************
 Caps Design Summary
 *******************
 
-:ref:`cc_new_atoms`
-   Each ``Cap`` object holds the atom(s) used to cap the broken bond.
+:ref:`cc_replaced_type`
+   The ``Cap`` class ``CapSet`` class are both templated on the type of
+   the object being fragmented.
+
+:ref:`cc_new_objects`
+   Each ``Cap`` object holds the object(s) used to cap the broken bond.
 
 :ref:`cc_asymmetry`
-   The asymmetry of capping a bond is handled by adding multiple ``Cap`` objects
-   ot the ``CapSet`` object.
+   The asymmetry of capping a bond is handled by adding multiple ``Cap`` 
+   objects to the ``CapSet`` object.
 
 :ref:`cc_bond_memory`
-   The ``Cap`` object holds the anchor and replaced atoms in addition to the
-   literal cap.
-
-Bond memory.
-   It is important for a cap to remember what atom it replaced and what atom
-   it is bonded to.
+   The ``Cap`` object holds the indices of the anchor and replaced objects 
+   in addition to the literal state of the cap.
 
 :ref:`cc_multiple_caps`
    ``Cap`` objects can be created for each of the replaced atoms.
 
 :ref:`cc_container`
-   The ``CapSet`` class is container-like.
+   The ``CapSet`` class is container-like with additional functionality for
+   retrieving caps by anchor index/replaced index.

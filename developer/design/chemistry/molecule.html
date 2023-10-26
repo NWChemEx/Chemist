@@ -22,8 +22,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Designing the FragmentedMolecule Class" href="fragmented_molecule.html" />
-    <link rel="prev" title="Designing the CapSet Class" href="caps.html" /> 
+    <link rel="next" title="Chemical System Design" href="system.html" />
+    <link rel="prev" title="Designing the Nucleus Component" href="nucleus.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,6 +52,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview of Chemist</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../index.html#overview">Overview</a><ul class="current">
@@ -97,7 +98,7 @@
            <div itemprop="articleBody">
              
   <section id="molecule-design">
-<h1>Molecule Design<a class="headerlink" href="#molecule-design" title="Permalink to this heading"></a></h1>
+<span id="md-molecule-design"></span><h1>Molecule Design<a class="headerlink" href="#molecule-design" title="Permalink to this heading"></a></h1>
 <p>This section contains notes on the design of Chemist’s molecule component.</p>
 <section id="what-is-a-molecule">
 <span id="md-what-is-a-molecule"></span><h2>What is a Molecule?<a class="headerlink" href="#what-is-a-molecule" title="Permalink to this heading"></a></h2>
@@ -215,12 +216,12 @@ have opted to store the topology in a different class as well (the
 <figure class="align-center" id="id2">
 <span id="fig-molecule-design"></span><img alt="../../../_images/molecule.png" src="../../../_images/molecule.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Major pieces of the molecule component of Chemist.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Major pieces of the molecule component of Chemist.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
 </figcaption>
 </figure>
 <p>Subject to the considerations raised in <a class="reference internal" href="#molecule-considerations"><span class="std std-ref">Molecule Considerations</span></a>, the
 overall design of the molecule component is shown in
-<a class="reference internal" href="#fig-molecule-design"><span class="std std-numref">Fig. 4</span></a>. The component is comprised of two related
+<a class="reference internal" href="#fig-molecule-design"><span class="std std-numref">Fig. 2</span></a>. The component is comprised of two related
 class hierarchies. The point hierarchy describes the individual descretized
 units of the system, whereas the point-set hierarchy represents the overall
 set of descretized units.</p>
@@ -394,8 +395,8 @@ mechanically.</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="caps.html" class="btn btn-neutral float-left" title="Designing the CapSet Class" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="fragmented_molecule.html" class="btn btn-neutral float-right" title="Designing the FragmentedMolecule Class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="nucleus.html" class="btn btn-neutral float-left" title="Designing the Nucleus Component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="system.html" class="btn btn-neutral float-right" title="Chemical System Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

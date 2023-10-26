@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designing the Capping Classes &mdash; Chemist 0.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Vector Space Design" href="../../vector_spaces.html" />
+    <link rel="prev" title="Designing the FragmentView Class" href="fragment_view.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Chemist
+          </a>
+              <div class="version">
+                0.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview of Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Chemist Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">Design Documentation</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#overview">Overview</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html">Designing the Chemistry Sublibrary</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#physics">Physics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex-project.github.io/.github/">Developing for the NWChemEx Organization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Chemist Tutorials</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Chemist</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Developer Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Design Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Designing the Chemistry Sublibrary</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Fragmenting Subcomponent</a></li>
+      <li class="breadcrumb-item active">Designing the Capping Classes</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/developer/design/chemistry/fragmenting/caps.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="designing-the-capping-classes">
+<span id="designing-the-caps-class"></span><h1>Designing the Capping Classes<a class="headerlink" href="#designing-the-capping-classes" title="Permalink to this heading"></a></h1>
+<p>In <a class="reference internal" href="overview.html#designing-the-fragmenting-component"><span class="std std-ref">Designing the Fragmenting Component</span></a> consideration <a class="reference internal" href="overview.html#fc-caps"><span class="std std-ref">caps</span></a>
+gave rise to the need to represent caps. This page describes the design of
+the <code class="docutils literal notranslate"><span class="pre">Cap</span></code> and <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> classes.</p>
+<section id="what-is-a-cap">
+<h2>What is a Cap?<a class="headerlink" href="#what-is-a-cap" title="Permalink to this heading"></a></h2>
+<p>When fragmenting large covalently bonded systems it is usually the case that
+there exists at least one bond between say atoms <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>,
+such that there is a fragment which contains <span class="math notranslate nohighlight">\(A\)</span>, but not <span class="math notranslate nohighlight">\(B\)</span>.
+In this case we say that in forming the fragments we have broken the
+<span class="math notranslate nohighlight">\(A-B\)</span> bond. The resulting fragments would be radicals (assuming the
+electrons in the bond are split evenly). Treating the fragments as radicals
+would lead to substantially different electronic structure, and we instead
+usually prefer to instead approximate the severed bond as existing
+between <span class="math notranslate nohighlight">\(A\)</span> and an added monovalent atom (usually hydrogen). The
+monovalent atom (or sometimes group of atoms) is referred to as a “cap”.</p>
+</section>
+<section id="why-do-we-need-caps">
+<h2>Why Do We Need Caps?<a class="headerlink" href="#why-do-we-need-caps" title="Permalink to this heading"></a></h2>
+<p>If we want to apply fragment-based methods to large covalently-bonded systems
+then we will necessarily have to break covalent bonds. Since we will not want
+to treat the resulting fragments as radicals, we will also need to cap the
+fragments. Caps also show up in a number of other methods which partition
+and/or break-up large covalently-bonded systems including QM/MM and ONIOM.</p>
+<p>We need the <code class="docutils literal notranslate"><span class="pre">Cap</span></code> class because the <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> class does not contain state
+for remembering the anchor and replaced nuclei. We need the <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> class
+to wrap the process of retrieving caps for either a particular anchor or a
+particular replaced atom.</p>
+</section>
+<section id="caps-considerations">
+<h2>Caps considerations<a class="headerlink" href="#caps-considerations" title="Permalink to this heading"></a></h2>
+<dl class="simple" id="cc-replaced-type">
+<dt>replaced type</dt><dd><p>When we fragment an object of type <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> we break bonds between
+<code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> objects. The cap we add to fix this bond will have state
+consistent with a <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> object (or more generally a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object,
+<em>vide infra</em>).</p>
+</dd>
+</dl>
+<dl class="simple" id="cc-new-objects">
+<dt>new objects</dt><dd><p>Caps typically are placed in locations in space where no supersystem object
+resides (they usually are not placed directly where the replaced object
+resided). This means that the caps will have to be treated as new objects
+since they are not actually present in the target supersystem.</p>
+</dd>
+</dl>
+<dl class="simple" id="cc-asymmetry">
+<dt>asymmetry</dt><dd><p>Given a severed bond <span class="math notranslate nohighlight">\(A-B\)</span>, let caps <span class="math notranslate nohighlight">\(C\)</span> and <span class="math notranslate nohighlight">\(D\)</span> respectively replace <span class="math notranslate nohighlight">\(A\)</span>
+and <span class="math notranslate nohighlight">\(B\)</span>. It is generally the case that <span class="math notranslate nohighlight">\(C-B\)</span> and <span class="math notranslate nohighlight">\(A-D\)</span> will in general lead
+to two caps because <span class="math notranslate nohighlight">\(C\)</span> and <span class="math notranslate nohighlight">\(D\)</span> will not usually be value equal.</p>
+</dd>
+</dl>
+<dl class="simple" id="cc-bond-memory">
+<dt>bond memory</dt><dd><p>It is important for a cap to remember what object it replaced and what object
+it is bonded to.</p>
+</dd>
+</dl>
+<dl class="simple" id="cc-multiple-caps">
+<dt>multiple caps</dt><dd><p>An object <span class="math notranslate nohighlight">\(A\)</span> may make bonds to several atoms which are not in the fragment.
+If <span class="math notranslate nohighlight">\(A\)</span> is bonded to <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(C\)</span>, and <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(C\)</span> are both not in the
+fragment we need caps to address fragmenting the <span class="math notranslate nohighlight">\(A-B\)</span> bond, but also the
+<span class="math notranslate nohighlight">\(A-C\)</span> bond</p>
+</dd>
+</dl>
+<dl class="simple" id="cc-multiple-objects">
+<dt>multiple objects</dt><dd><p>Caps are usually monovalent. They also are usually comprised of a single
+center; however, this is not always the case. In general the caps needed
+for breaking up <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> objects will also be <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> objects.</p>
+</dd>
+</dl>
+<dl class="simple" id="cc-container">
+<dt>container</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> class should be container-like with the elements being the
+individual caps. It is assumed that each cap is only added once (thus it
+is set-like), but is also indexable.</p>
+</dd>
+</dl>
+<section id="out-of-scope">
+<h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>electrons</dt><dd><p>We treat caps purely as nuclei. The motivation is that typically users
+assign the number of electrons and multiplicity to the <em>capped</em> system, i.e.,
+electrons are not individually added to the uncapped system and then the
+caps.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="capping-classes-design">
+<h2>Capping Classes Design<a class="headerlink" href="#capping-classes-design" title="Permalink to this heading"></a></h2>
+<figure class="align-center" id="id1">
+<span id="fig-caps-design"></span><img alt="../../../../_images/caps.png" src="../../../../_images/caps.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 8 </span><span class="caption-text">Overview of the <code class="docutils literal notranslate"><span class="pre">Cap</span></code> and <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> classes as well as the purposed
+terminology.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>The right side of <a class="reference internal" href="#fig-caps-design"><span class="std std-numref">Fig. 8</span></a> shows a typical capping scenario.
+Assuming the molecule is pentane, we are forming a fragment which contains the
+first two carbon atoms and their attached hydrogen atoms. Carbons three, four,
+and five, as well as the hydrogen atoms attached to those carbons are not in
+the fragment. In turn, this fragmentation choice results in breaking the bond
+between carbons two and three. In this scenario we refer to carbon two as the
+“anchor atom”, since it is the atom the cap will be anchored to and carbon three
+as the “replaced” atom.</p>
+<p>Following the <a class="reference internal" href="#cc-container"><span class="std std-ref">container</span></a> consideration, the <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> object is a
+container-like object whose elements are instances of the <code class="docutils literal notranslate"><span class="pre">Cap</span></code> class. Each
+<code class="docutils literal notranslate"><span class="pre">Cap</span></code> object knows the identity of the anchor object, the identity of the
+replaced object, and the nuclei forming the cap. This satisfies the
+<a class="reference internal" href="#cc-bond-memory"><span class="std std-ref">bond memory</span></a> and <a class="reference internal" href="#cc-multiple-objects"><span class="std std-ref">multiple objects</span></a> considerations.
+The <a class="reference internal" href="#cc-multiple-caps"><span class="std std-ref">multiple caps</span></a> consideration is addressed by adding multiple caps,
+with the same anchor, to the <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> object. In a similar vein, the
+<a class="reference internal" href="#cc-asymmetry"><span class="std std-ref">asymmetry</span></a> consideration is addressed by adding two <code class="docutils literal notranslate"><span class="pre">Cap</span></code> instances
+to the <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> object, each having a different anchor atom. Finally, to
+satisfy <a class="reference internal" href="#cc-new-objects"><span class="std std-ref">new objects</span></a> each <code class="docutils literal notranslate"><span class="pre">Cap</span></code> holds a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object for the new
+nucleus or nuclei.</p>
+</section>
+<section id="caps-design-summary">
+<h2>Caps Design Summary<a class="headerlink" href="#caps-design-summary" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt><a class="reference internal" href="#cc-replaced-type"><span class="std std-ref">replaced type</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Cap</span></code> class <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> class are both templated on the type of
+the object being fragmented.</p>
+</dd>
+<dt><a class="reference internal" href="#cc-new-objects"><span class="std std-ref">new objects</span></a></dt><dd><p>Each <code class="docutils literal notranslate"><span class="pre">Cap</span></code> object holds the object(s) used to cap the broken bond.</p>
+</dd>
+<dt><a class="reference internal" href="#cc-asymmetry"><span class="std std-ref">asymmetry</span></a></dt><dd><p>The asymmetry of capping a bond is handled by adding multiple <code class="docutils literal notranslate"><span class="pre">Cap</span></code>
+objects to the <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> object.</p>
+</dd>
+<dt><a class="reference internal" href="#cc-bond-memory"><span class="std std-ref">bond memory</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Cap</span></code> object holds the indices of the anchor and replaced objects
+in addition to the literal state of the cap.</p>
+</dd>
+<dt><a class="reference internal" href="#cc-multiple-caps"><span class="std std-ref">multiple caps</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">Cap</span></code> objects can be created for each of the replaced atoms.</p>
+</dd>
+<dt><a class="reference internal" href="#cc-container"><span class="std std-ref">container</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> class is container-like with additional functionality for
+retrieving caps by anchor index/replaced index.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="fragment_view.html" class="btn btn-neutral float-left" title="Designing the FragmentView Class" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../vector_spaces.html" class="btn btn-neutral float-right" title="Vector Space Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, NWChemEx Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

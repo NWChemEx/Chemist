@@ -22,8 +22,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Vector Space Design" href="../vector_spaces.html" />
-    <link rel="prev" title="Designing the Fragmented System Component" href="fragmented_system.html" /> 
+    <link rel="next" title="Fragmenting Subcomponent" href="fragmenting/index.html" />
+    <link rel="prev" title="Chemical System Design" href="system.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,6 +52,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview of Chemist</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../index.html#overview">Overview</a><ul class="current">
@@ -259,10 +260,10 @@ conventions and would thus be API breaking.</p></li>
 <figure class="align-center" id="id1">
 <span id="fig-ao-basis-set-design"></span><img alt="../../../_images/ao_basis_set.png" src="../../../_images/ao_basis_set.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Major classes involved in Chemist’s basis set component.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Major classes involved in Chemist’s basis set component.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
 </figcaption>
 </figure>
-<p><a class="reference internal" href="#fig-ao-basis-set-design"><span class="std std-numref">Fig. 6</span></a> pictorially describes the AOBasisSet
+<p><a class="reference internal" href="#fig-ao-basis-set-design"><span class="std std-numref">Fig. 3</span></a> pictorially describes the AOBasisSet
 component of Chemist. The top-level class is the <code class="docutils literal notranslate"><span class="pre">AOBasisSet</span></code> class (located
 in the top-right corner of the diagram). The
 remaining classes in the diagram form the internal, hierarchical structure of
@@ -282,7 +283,7 @@ Cartesian or spherical (in turn satisfying <a class="reference internal" href="#
 <p>The <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> class is a container around a set of <code class="docutils literal notranslate"><span class="pre">Primitive</span></code>
 objects. The <code class="docutils literal notranslate"><span class="pre">Primitive</span></code> class holds the exponent, where the <code class="docutils literal notranslate"><span class="pre">Primitive</span></code>
 is centered, and coefficient.</p>
-<p>Not shown in <a class="reference internal" href="#fig-ao-basis-set-design"><span class="std std-numref">Fig. 6</span></a> are the respective view classes.
+<p>Not shown in <a class="reference internal" href="#fig-ao-basis-set-design"><span class="std std-numref">Fig. 3</span></a> are the respective view classes.
 Associated with <code class="docutils literal notranslate"><span class="pre">Primitive</span></code>, <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code>, and <code class="docutils literal notranslate"><span class="pre">Shell</span></code> are
 the classes <code class="docutils literal notranslate"><span class="pre">PrimitiveView</span></code>, <code class="docutils literal notranslate"><span class="pre">ContractedGaussianView</span></code>, and <code class="docutils literal notranslate"><span class="pre">ShellView</span></code>.
 Additional views could be added for the <code class="docutils literal notranslate"><span class="pre">AO</span></code> class and the <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>
@@ -326,8 +327,8 @@ set.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="fragmented_system.html" class="btn btn-neutral float-left" title="Designing the Fragmented System Component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../vector_spaces.html" class="btn btn-neutral float-right" title="Vector Space Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="system.html" class="btn btn-neutral float-left" title="Chemical System Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="fragmenting/index.html" class="btn btn-neutral float-right" title="Fragmenting Subcomponent" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

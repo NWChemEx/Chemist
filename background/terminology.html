@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Developer Documentation &mdash; Chemist 0.0.0 documentation</title>
+  <title>Terminology and Abbreviations &mdash; Chemist 0.0.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
@@ -21,8 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Design Documentation" href="design/index.html" />
-    <link rel="prev" title="Terminology and Abbreviations" href="../background/terminology.html" /> 
+    <link rel="next" title="Developer Documentation" href="../developer/index.html" />
+    <link rel="prev" title="Chemist Background" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,12 +51,14 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview of Chemist</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Chemist Background</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Developer Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="design/index.html">Design Documentation</a></li>
-<li class="toctree-l2"><a class="reference external" href="https://nwchemex-project.github.io/.github/">Developing for the NWChemEx Organization</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Chemist Background</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Terminology and Abbreviations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#abbreviations">Abbreviations</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Developer Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Chemist Tutorials</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
 </ul>
@@ -75,9 +77,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Developer Documentation</li>
+          <li class="breadcrumb-item"><a href="index.html">Chemist Background</a></li>
+      <li class="breadcrumb-item active">Terminology and Abbreviations</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/developer/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/background/terminology.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -85,29 +88,43 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="developer-documentation">
-<h1>Developer Documentation<a class="headerlink" href="#developer-documentation" title="Permalink to this heading"></a></h1>
-<p>Topics in this section are concerned with helping the reader understand the
-design of Chemist, and how to develop/contribute to the Chemist repository.</p>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="design/index.html">Design Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="design/index.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="design/index.html#physics">Physics</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference external" href="https://nwchemex-project.github.io/.github/">Developing for the NWChemEx Organization</a></li>
-</ul>
-</div>
+  <section id="terminology-and-abbreviations">
+<h1>Terminology and Abbreviations<a class="headerlink" href="#terminology-and-abbreviations" title="Permalink to this heading"></a></h1>
+<dl class="glossary simple">
+<dt id="term-chemical-system">chemical system<a class="headerlink" href="#term-chemical-system" title="Permalink to this term"></a></dt><dd><p>We use the term “chemical system” to refer to chemistry objects being
+simulated. A chemical system includes the set of atoms and the fields
+the atoms are embedded in.</p>
+</dd>
+<dt id="term-fragment">fragment<a class="headerlink" href="#term-fragment" title="Permalink to this term"></a></dt><dd><p>A distinction applied to a set of nuclei, a molecule, or a
+<a class="reference internal" href="#term-chemical-system"><span class="xref std std-term">chemical system</span></a> which establishes that the set of nuclei,
+molecule, or chemical system is a subset of another set of nuclei,
+molecule, or chemical system, respectively.</p>
+</dd>
+</dl>
+<section id="abbreviations">
+<h2>Abbreviations<a class="headerlink" href="#abbreviations" title="Permalink to this heading"></a></h2>
+<dl class="glossary simple">
+<dt id="term-API">API<a class="headerlink" href="#term-API" title="Permalink to this term"></a></dt><dd><p>Stands for application programming interface. This is the interface a
+program exposes so that it can be called by other software.</p>
+</dd>
+<dt id="term-ONIOM">ONIOM<a class="headerlink" href="#term-ONIOM" title="Permalink to this term"></a></dt><dd><p>Stands for “Our own N-layered Integrated molecular Orbital and Molecular
+mechanics”. The ONIOM method is a generalization of <a class="reference internal" href="#term-QM-MM"><span class="xref std std-term">QM/MM</span></a>, to an
+arbitrary number of methods.</p>
+</dd>
+<dt id="term-QM-MM">QM/MM<a class="headerlink" href="#term-QM-MM" title="Permalink to this term"></a></dt><dd><p>Stands for “Quantum Mechanics/Molecular Mechanics”. QM/MM is a technique
+where part of a target system is modeled with quantum mechanics and the
+rest is modeled with molecular mechanics.</p>
+</dd>
+</dl>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../background/terminology.html" class="btn btn-neutral float-left" title="Terminology and Abbreviations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="design/index.html" class="btn btn-neutral float-right" title="Design Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Chemist Background" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../developer/index.html" class="btn btn-neutral float-right" title="Developer Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
