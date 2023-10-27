@@ -2,6 +2,8 @@
 #include "chemist/orbital_space/ao_space.hpp"
 #include "chemist/orbital_space/base_space.hpp"
 #include "export_ao_space.hpp"
+#include <pybind11/operators.h>
+
 namespace chemist {
 namespace detail_ {
 
@@ -21,11 +23,8 @@ void export_ao_space_(const char* name, python_module_reference m) {
         [](aos_type& self, basis_type& basis) {
             self.basis_set() = std::move(basis);
         })
-      .def("__eq__", [](const aos_type& self,
-                        const aos_type& other) { return self == other; })
-      .def("__ne__", [](const aos_type& self, const aos_type& other) {
-          return self != other;
-      });
+      .def(pybind11::self == pybind11::self)
+      .def(pybind11::self != pybind11::self);
 }
 
 } // namespace detail_
