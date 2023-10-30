@@ -63,13 +63,11 @@ public:
      */
     CartesianSpace(const int N, const std::vector<std::string> val) :
       m_N_(N), m_val_(val) {
-	if (m_val_.size() != m_N_) 
-	   throw "Label vector length not equal to the dimension of the space!";
-        for(int i = 0; i < m_N_; i++) {
-            axis_arr.push_back(m_val_[i]);
-        }
+        if(m_val_.size() != m_N_)
+            throw "Label vector length not equal to the dimension of the "
+                  "space!";
+        for(int i = 0; i < m_N_; i++) { axis_arr.push_back(m_val_[i]); }
     };
-
 
 protected:
     /** @brief Dimension of the cartesian space
@@ -98,26 +96,29 @@ protected:
  */
 inline bool operator==(const CartesianSpace& lhs, const CartesianSpace& rhs) {
     // Must have the same dimension
-    if (lhs.size() != rhs.size()) return false;
+    if(lhs.size() != rhs.size())
+        return false;
     else {
-	if (lhs.axis_arr.empty() == true) {
-		if (rhs.axis_arr.empty() == true) return true;
-		else return false;
-	}
-	else if (lhs.axis_arr.empty() == true) return false;
-	else {
-		int len_l = lhs.axis_arr.size();
-		int len_r = rhs.axis_arr.size();
-		if (len_l != len_r) return false;
-		else {
-			for(int i=0;i<len_l;i++) {
-				if (lhs.axis_arr[i] != rhs.axis_arr[i]) return false;
-			}
-			return true;
-		}
-	}		
+        if(lhs.axis_arr.empty() == true) {
+            if(rhs.axis_arr.empty() == true)
+                return true;
+            else
+                return false;
+        } else if(lhs.axis_arr.empty() == true)
+            return false;
+        else {
+            int len_l = lhs.axis_arr.size();
+            int len_r = rhs.axis_arr.size();
+            if(len_l != len_r)
+                return false;
+            else {
+                for(int i = 0; i < len_l; i++) {
+                    if(lhs.axis_arr[i] != rhs.axis_arr[i]) return false;
+                }
+                return true;
+            }
+        }
     }
 }
 
 } // namespace chemist::vector_space
-
