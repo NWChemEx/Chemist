@@ -46,10 +46,19 @@ TEMPLATE_TEST_CASE("PointView2", "", Point<double>, Point<float>) {
         }
 
         SECTION("Assign from point") {
-            pr0 = r1;
-            for(std::size_t i = 0; i < 3; ++i) {
-                REQUIRE(&pr0.coord(i) == &r0.coord(i)); // Still aliases r0?
-                REQUIRE(r0.coord(i) == r1.coord(i));    // Has r1's values?
+            SECTION("From reference") {
+                pr0 = r1;
+                for(std::size_t i = 0; i < 3; ++i) {
+                    REQUIRE(&pr0.coord(i) == &r0.coord(i)); // Still aliases r0?
+                    REQUIRE(r0.coord(i) == r1.coord(i));    // Has r1's values?
+                }
+            }
+            SECTION("From temporary") {
+                pr0 = TestType(r1);
+                for(std::size_t i = 0; i < 3; ++i) {
+                    REQUIRE(&pr0.coord(i) == &r0.coord(i)); // Still aliases r0?
+                    REQUIRE(r0.coord(i) == r1.coord(i));    // Has r1's values?
+                }
             }
         }
 
@@ -215,5 +224,16 @@ TEMPLATE_TEST_CASE("PointView2", "", Point<double>, Point<float>) {
     SECTION("as_point") {
         REQUIRE(pr0.as_point() == r0);
         REQUIRE(pr1.as_point() == r1);
+    }
+
+    SECTION("swap") {
+        view_type copy_pr0(pr0);
+        view_type pr2(r1.x(), r1.y(), r1.z());
+        view_type copy_pr2(pr2);
+
+        pr0.swap(pr2);
+
+        REQUIRE(pr0 == copy_pr2);
+        REQUIRE(pr2 == copy_pr0);
     }
 }

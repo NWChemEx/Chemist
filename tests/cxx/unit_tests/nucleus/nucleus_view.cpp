@@ -77,6 +77,29 @@ TEST_CASE("NucleusView") {
             check_addresses(copy1, move1);
         }
 
+        SECTION("Assign from Nucleus") {
+            SECTION("Assign from a value") {
+                pn0 = n1;
+
+                // Addresses should still match that of n0
+                check_addresses(pn0, n0);
+
+                // State of pn0 and n0 should now compare equal to that of n1
+                REQUIRE(pn0 == n1);
+                REQUIRE(n0 == n1);
+            }
+            SECTION("Assign from a temporary") {
+                pn0 = value_type(n1);
+
+                // Addresses should still match that of n0
+                check_addresses(pn0, n0);
+
+                // State of pn0 and n0 should now compare equal to that of n1
+                REQUIRE(pn0 == n1);
+                REQUIRE(n0 == n1);
+            }
+        }
+
         SECTION("copy assignment") {
             // No default ctor, so we initialize to the opposite state we
             // expect
@@ -199,5 +222,13 @@ TEST_CASE("NucleusView") {
           "H 2.000000000000000 3.000000000000000 4.000000000000000";
 
         REQUIRE(ss.str() == corr);
+    }
+
+    SECTION("swap") {
+        view_type pn1_non_const(n1);
+        pn0.swap(pn1_non_const);
+
+        REQUIRE(pn0 == view_type(n1));
+        REQUIRE(pn1_non_const == view_type(n0));
     }
 }

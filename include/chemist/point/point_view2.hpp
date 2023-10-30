@@ -136,6 +136,30 @@ public:
         return *this;
     }
 
+    /** @brief Makes the aliased Point a copy of @p point
+     *
+     *  This method is used to make the state of the Point aliased by *this be
+     *  a copy of the state in @p point.
+     *
+     *  @tparam PointType2 The type of @p point. Must be either Point<T> or
+     *                     a reference to Point<T>.
+     *  @tparam <Anonymous> Used to disable this method when *this aliases a
+     *                      read-only Point<T> object and/or when PointType2 is
+     *                      not  Point<T> (or a reference to Point<T>).
+     *
+     *  @param[in] point The object whose state will be copied.
+     *
+     *  @throw None No throw guarantee.
+     */
+    template<typename PointType2, typename = std::enable_if_t<std::is_same_v<
+                                    std::decay_t<PointType2>, PointType>>>
+    PointView2& operator=(PointType2&& point) {
+        (*m_pr_[0]) = point.x();
+        (*m_pr_[1]) = point.y();
+        (*m_pr_[2]) = point.z();
+        return *this;
+    }
+
     /** @brief Retrieve's the PointView's coordinates by offset.
      *
      *  @param[in] q which coordinate (i.e., x, y, or z) to return. @p q must
@@ -245,6 +269,16 @@ public:
     operator const_point_view() const {
         return const_point_view(x(), y(), z());
     }
+
+    /** @brief Exchanges the state of *this with that of @p other.
+     *
+     *  @param[in,out] other The PointView to exchange state with. After this
+     *                       method has been called @p other will contain the
+     *                       state which previously was in *this.
+     *
+     *  @throw None no throw guarantee.
+     */
+    void swap(PointView2& other) noexcept { m_pr_.swap(other.m_pr_); }
 
 private:
     /// The type of pointer used to alias a coordinate
