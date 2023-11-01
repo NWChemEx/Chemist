@@ -35,10 +35,10 @@ TEST_CASE("CartesianSpace") {
             REQUIRE_THROWS(CartesianSpace(3, val));
         }
 
-	SECTION("Copy constructor") {
-            std::vector<std::string> val{"x","y","z"};
-	    auto s3_1 = CartesianSpace(3,val);
-	    auto s3_2 = CartesianSpace(s3_1);
+        SECTION("Copy constructor") {
+            std::vector<std::string> val{"x", "y", "z"};
+            auto s3_1 = CartesianSpace(3, val);
+            auto s3_2 = CartesianSpace(s3_1);
             REQUIRE(s3_2.axis_vec[1] == "y");
         }
     }

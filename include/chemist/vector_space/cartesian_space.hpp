@@ -23,9 +23,9 @@ namespace chemist::vector_space {
 
 /** @brief Models a space spanned by cartesian axes (R^N).
  *
- *  R^N is the N-dimensional real space spanned by N orthogonal axes. 
- *  In practice, N is often 3, in which case the basis functions are usually 
- *  labeled "x", "y", and "z". However, the user may customize the number of 
+ *  R^N is the N-dimensional real space spanned by N orthogonal axes.
+ *  In practice, N is often 3, in which case the basis functions are usually
+ *  labeled "x", "y", and "z". However, the user may customize the number of
  *  basis functions and their labels.
  *
  *  @tparam N Dimension of the space.
@@ -62,12 +62,12 @@ public:
      *             throws.
      */
 <<<<<<< HEAD
-    CartesianSpace(const unsigned int& N, axis_label& val) :
-      m_N_(N) {
-	if (val.size() != m_N_) 
-	   throw std::invalid_argument("Label vector length not equal to the" 
-                 "dimension of the space!");
-	for (std::vector<std::string>::iterator it=val.begin(); it<val.end(); it++) {
+    CartesianSpace(const unsigned int& N, axis_label& val) : m_N_(N) {
+        if(val.size() != m_N_)
+            throw std::invalid_argument("Label vector length not equal to the"
+                                        "dimension of the space!");
+        for(std::vector<std::string>::iterator it = val.begin(); it < val.end();
+            it++) {
             axis_vec.push_back(*it);
         }
     };
@@ -79,8 +79,8 @@ public:
      *  @throw None No throw gurantee.
      */
     CartesianSpace(const CartesianSpace& rhs) : BaseSpace(rhs) {
-    	this -> m_N_ = rhs.m_N_;
-	this -> axis_vec = rhs.axis_vec;
+        this->m_N_     = rhs.m_N_;
+        this->axis_vec = rhs.axis_vec;
     };
 
 =======
@@ -93,6 +93,7 @@ public:
     };
 
 >>>>>>> 37c18e66d35f86640b4c10c1f8e4fc88b6f625f4
+
 protected:
     /** @brief Dimension of the cartesian space
      *
@@ -124,8 +125,9 @@ inline bool operator==(const CartesianSpace& lhs, const CartesianSpace& rhs) {
         return false;
     else {
 <<<<<<< HEAD
-         return (lhs.axis_vec.size() == rhs.axis_vec.size() && 
-	         std::equal(lhs.axis_vec.begin(), lhs.axis_vec.end(), rhs.axis_vec.begin()));		
+        return (lhs.axis_vec.size() == rhs.axis_vec.size() &&
+                std::equal(lhs.axis_vec.begin(), lhs.axis_vec.end(),
+                           rhs.axis_vec.begin()));		
 =======
         if(lhs.axis_arr.empty() == true) {
             if(rhs.axis_arr.empty() == true)
