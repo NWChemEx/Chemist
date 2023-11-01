@@ -35,7 +35,7 @@ void export_ao_space_(const char* name, python_module_reference m) {
       .def("size", &aos_type::size)
       .def_property(
         "basis_set",
-        static_cast<basis_type& (aos_type::*)()>(&aos_type::basis_set),
+        [](aos_type& self) -> basis_type& { return self.basis_set(); },
         [](aos_type& self, basis_type& basis) {
             self.basis_set() = std::move(basis);
         })
