@@ -61,6 +61,7 @@ public:
      *             dimension of the space or initialization of the string vector
      *             throws.
      */
+<<<<<<< HEAD
     CartesianSpace(const unsigned int& N, axis_label& val) :
       m_N_(N) {
 	if (val.size() != m_N_) 
@@ -82,6 +83,16 @@ public:
 	this -> axis_vec = rhs.axis_vec;
     };
 
+=======
+    CartesianSpace(const int N, const std::vector<std::string> val) :
+      m_N_(N), m_val_(val) {
+        if(m_val_.size() != m_N_)
+            throw "Label vector length not equal to the dimension of the "
+                  "space!";
+        for(int i = 0; i < m_N_; i++) { axis_arr.push_back(m_val_[i]); }
+    };
+
+>>>>>>> 37c18e66d35f86640b4c10c1f8e4fc88b6f625f4
 protected:
     /** @brief Dimension of the cartesian space
      *
@@ -109,12 +120,34 @@ protected:
  */
 inline bool operator==(const CartesianSpace& lhs, const CartesianSpace& rhs) {
     // Must have the same dimension
-    if (lhs.size() != rhs.size()) return false;
+    if(lhs.size() != rhs.size())
+        return false;
     else {
+<<<<<<< HEAD
          return (lhs.axis_vec.size() == rhs.axis_vec.size() && 
 	         std::equal(lhs.axis_vec.begin(), lhs.axis_vec.end(), rhs.axis_vec.begin()));		
+=======
+        if(lhs.axis_arr.empty() == true) {
+            if(rhs.axis_arr.empty() == true)
+                return true;
+            else
+                return false;
+        } else if(lhs.axis_arr.empty() == true)
+            return false;
+        else {
+            int len_l = lhs.axis_arr.size();
+            int len_r = rhs.axis_arr.size();
+            if(len_l != len_r)
+                return false;
+            else {
+                for(int i = 0; i < len_l; i++) {
+                    if(lhs.axis_arr[i] != rhs.axis_arr[i]) return false;
+                }
+                return true;
+            }
+        }
+>>>>>>> 37c18e66d35f86640b4c10c1f8e4fc88b6f625f4
     }
 }
 
 } // namespace chemist::vector_space
-
