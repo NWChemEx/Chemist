@@ -27,11 +27,7 @@ TEST_CASE("CartesianSpace") {
         SECTION("Axes not set") {
             auto s = CartesianSpace(3);
             REQUIRE(s.size() == 3);
-<<<<<<< HEAD
 	    REQUIRE(s.axis_vec == decltype(s.axis_vec){});
-=======
-            REQUIRE(s.axis_arr.empty() == true);
->>>>>>> 37c18e66d35f86640b4c10c1f8e4fc88b6f625f4
         }
 
         SECTION("Axes set") {
@@ -60,21 +56,12 @@ TEST_CASE("CartesianSpace") {
         SECTION("Tensor labels") {
             std::vector<std::string> val{"xx", "yy", "zz", "xy", "yz", "zx"};
             auto s = CartesianSpace(6, val);
-<<<<<<< HEAD
             REQUIRE(s.axis_vec[0] == "xx");
             REQUIRE(s.axis_vec[1] == "yy");
             REQUIRE(s.axis_vec[2] == "zz");
             REQUIRE(s.axis_vec[3] == "xy");
 	    REQUIRE(s.axis_vec[4] == "yz");
 	    REQUIRE(s.axis_vec[5] == "zx");
-=======
-            REQUIRE(s.axis_arr[0] == "xx");
-            REQUIRE(s.axis_arr[1] == "yy");
-            REQUIRE(s.axis_arr[2] == "zz");
-            REQUIRE(s.axis_arr[3] == "xy");
-            REQUIRE(s.axis_arr[4] == "yz");
-            REQUIRE(s.axis_arr[5] == "zx");
->>>>>>> 37c18e66d35f86640b4c10c1f8e4fc88b6f625f4
         }
     }
 
