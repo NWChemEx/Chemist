@@ -17,59 +17,70 @@
 #pragma once
 #include "chemist/vector_space/base_space.hpp"
 #include <string>
+#include <vector>
 
 namespace chemist::vector_space {
 
 /** @brief Models a space spanned by cartesian axes (R^N).
  *
- *  R^N represents an N-dimensional space of cartesian axes x, y,
- *  and z. It can be used in calculating the components of properties
- *  depending on multiple positions, e. g., energy gradients.
+ *  R^N is the N-dimensional real space spanned by N orthogonal axes. 
+ *  In practice, N is often 3, in which case the basis functions are usually 
+ *  labeled "x", "y", and "z". However, the user may customize the number of 
+ *  basis functions and their labels.
  *
  *  @tparam N Dimension of the space.
  */
 class CartesianSpace : public BaseSpace {
 private:
     /// dimension of the space
-    int m_N_;
-    /// string vector to label the axes
-    std::vector<std::string> m_val_;
+    BaseSpace::size_type m_N_;
 
 public:
     /// Type used for indexing and offsets
     using size_type = typename BaseSpace::size_type;
 
     /// array of enums representing the space
-    std::vector<std::string> axis_arr;
+    using axis_label = std::vector<std::string>;
+    axis_label axis_vec;
 
     /** @brief Creates an N-dimensinal CartesianSpace with axes not given.
      *
      *  @param[in] N The dimension of the space.
      *
-     *  @throw ??? Throws if initialization of the enum array throws.
+     *  @throw ??? No throws guarantee.
      */
-    CartesianSpace(const int N) : m_N_(N){};
+    CartesianSpace(const unsigned int& N) : m_N_(N){};
 
     /** @brief Creates an N-dimensinal CartesianSpace with axes being given.
      *
      *  @param[in] N The dimension of the space.
      *
-     *  @param[in] val[] The label (0 -> x, 1 -> y and 2 -> z) array
-     *                   to set up the axes
+     *  @param[in] val[] The label vector to set up the axes.
      *
      *  @throw ??? Throws if the length of string vector is not equal to the
      *             dimension of the space or initialization of the string vector
      *             throws.
      */
-    CartesianSpace(const int N, const std::vector<std::string> val) :
-      m_N_(N), m_val_(val) {
-	if (m_val_.size() != m_N_) 
-	   throw "Label vector length not equal to the dimension of the space!";
-        for(int i = 0; i < m_N_; i++) {
-            axis_arr.push_back(m_val_[i]);
+    CartesianSpace(const unsigned int& N, axis_label& val) :
+      m_N_(N) {
+	if (val.size() != m_N_) 
+	   throw std::invalid_argument("Label vector length not equal to the" 
+                 "dimension of the space!");
+	for (std::vector<std::string>::iterator it=val.begin(); it<val.end(); it++) {
+            axis_vec.push_back(*it);
         }
     };
 
+    /** @brief Copy constructor. Copy another CartesianSpace.
+     *
+     *  @param[in] rhs The CartesianSpace to be copied.
+     *
+     *  @throw None No throw gurantee.
+     */
+    CartesianSpace(const CartesianSpace& rhs) : BaseSpace(rhs) {
+    	this -> m_N_ = rhs.m_N_;
+	this -> axis_vec = rhs.axis_vec;
+    };
 
 protected:
     /** @brief Dimension of the cartesian space
@@ -100,22 +111,8 @@ inline bool operator==(const CartesianSpace& lhs, const CartesianSpace& rhs) {
     // Must have the same dimension
     if (lhs.size() != rhs.size()) return false;
     else {
-	if (lhs.axis_arr.empty() == true) {
-		if (rhs.axis_arr.empty() == true) return true;
-		else return false;
-	}
-	else if (lhs.axis_arr.empty() == true) return false;
-	else {
-		int len_l = lhs.axis_arr.size();
-		int len_r = rhs.axis_arr.size();
-		if (len_l != len_r) return false;
-		else {
-			for(int i=0;i<len_l;i++) {
-				if (lhs.axis_arr[i] != rhs.axis_arr[i]) return false;
-			}
-			return true;
-		}
-	}		
+         return (lhs.axis_vec.size() == rhs.axis_vec.size() && 
+	         std::equal(lhs.axis_vec.begin(), lhs.axis_vec.end(), rhs.axis_vec.begin()));		
     }
 }
 

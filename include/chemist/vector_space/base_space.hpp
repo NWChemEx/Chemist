@@ -19,13 +19,13 @@
 
 namespace chemist::vector_space {
 
-/** @brief Common base class for all orbital spaces.
+/** @brief Common base class for all vector spaces.
  *
- *  BaseSpace provides a generic API for working with an orbital space. In
+ *  BaseSpace provides a generic API for working with a vector space. In
  *  particular this API provides members for:
- *  - the number of orbitals via `size()`
- *  - transforming a tensor to the space `transform()`
- *  - polymorphically comparing the orbital spaces `equal()` and `not_equal()`
+ *  - the number of basis function via `size()`
+ *  - transforming a tensor to the space `transform()` (apply only for some spaces)
+ *  - polymorphically comparing the vector spaces `equal()` and `not_equal()`
  */
 class BaseSpace {
 public:
@@ -35,61 +35,61 @@ public:
     /// Default polymorphic dtor
     virtual ~BaseSpace() noexcept = default;
 
-    /** @brief Returns the number of orbitals in this space.
+    /** @brief Returns the number of basis functions in this space.
      *
-     *  The size of an orbital space is the total number of orbitals in that
+     *  The size of a vector space is the total number of basis functions in that
      *  space.
      *
      *  @throw None No throw guarantee.
      */
     auto size() const { return size_(); }
 
-    /** @brief Polymorphically compares two orbital spaces to determine if they
+    /** @brief Polymorphically compares two vector spaces to determine if they
      *         are equal.
      *
-     *  Exactly what it means for two orbital spaces to be equal depends on what
-     *  the most derived classes of the spaces are. In general two orbital
+     *  Exactly what it means for two vector spaces to be equal depends on what
+     *  the most derived classes of the spaces are. In general two vector
      *  spaces are equal if they:
      *  - have the same most derived class
      *    - e.g., a `DerivedSpace` instance and a `CanonicalSpace` compared
      *      through a common base class are not equal.
-     *  - contain the same number of orbitals
-     *  - the orbitals are ordered the same
-     *  - the parameters associated with the orbitals are the same
+     *  - contain the same number of basis functions
+     *  - the basis functions are ordered the same
+     *  - the parameters associated with the basis functions are the same
      *
      *  Note that all floating-point comparisons are exact with no threshold
      *  tolerance. Meaning a parameter of 1.000000 is different than 1.000001.
      *
-     *  @param[in] rhs The orbital space we are comparing to.
+     *  @param[in] rhs The vector space we are comparing to.
      *
-     *  @return True if this orbital space is equivalent to @p rhs and false
+     *  @return True if this vector space is equivalent to @p rhs and false
      *          otherwise.
      *
      *  @throw None No throw guarantee.
      */
     bool equal(const BaseSpace& rhs) const noexcept;
 
-    /** @brief Polymorphically compares two orbital spaces to determine if they
+    /** @brief Polymorphically compares two vector spaces to determine if they
      *         are different.
      *
      *  @relates BaseSpace
      *
-     *  Exactly what it means for two orbital spaces to be equal depends on what
-     *  the most derived classes of the spaces are. In general two orbital
+     *  Exactly what it means for two vector spaces to be equal depends on what
+     *  the most derived classes of the spaces are. In general two vector
      *  spaces are equal if they:
      *  - have the same most derived class
      *    - e.g., a `DerivedSpace` instance and a `CanonicalSpace` compared
      *      through a common base class are not equal.
-     *  - contain the same number of orbitals
-     *  - the orbitals are ordered the same
-     *  - the parameters associated with the orbitals are the same
+     *  - contain the same number of basis functions
+     *  - the basis functions are ordered the same
+     *  - the parameters associated with the basis functions are the same
      *
      *  Note that all floating-point comparisons are exact with no threshold
      *  tolerance. Meaning a parameter of 1.000000 is different than 1.000001.
      *
-     *  @param[in] rhs The orbital space we are comparing to.
+     *  @param[in] rhs The vector space we are comparing to.
      *
-     *  @return False if this orbital spaces is equivalent to @p rhs and true
+     *  @return False if this vector spaces is equivalent to @p rhs and true
      *          otherwise.
      *
      *  @throw None No throw guarantee.
@@ -97,9 +97,6 @@ public:
     bool not_equal(const BaseSpace& rhs) const noexcept { return !equal(rhs); }
 
 protected:
-    /// Type of a container of mode indices
-    using mode_container = std::vector<type::size>;
-
     /** @brief Creates a BaseSpace
      *
      *  Users will never directly create a BaseSpace instance because it is an
@@ -159,7 +156,7 @@ protected:
      */
     BaseSpace& operator=(BaseSpace&& rhs) = default;
 
-    /** @brief Implements polymorphic comparisons of orbital spaces.
+    /** @brief Implements polymorphic comparisons of vector spaces.
      *
      *  `equal_common` takes care of:
      *  - ensuring that this instance's derived type appears in @p rhs's class
@@ -172,7 +169,7 @@ protected:
      *          Assumed to be derived from `BaseSpace`.
      *
      *  @param[in] lhs When called from the derived class should be `*this`.
-     *  @param[in] rhs The orbital space we are compring to @p lhs.
+     *  @param[in] rhs The vector space we are compring to @p lhs.
      *
      *  @return True if @p rhs can be downcast to `DerivedType` and if the
      *          resulting `DerivedType` instance compares equal to @p lhs; false
@@ -190,12 +187,16 @@ protected:
      *  correct size for its respective space.
      *  - For AOSpace this is the number of AOs (radial plus angular, not just
      *    radial).
-     *  - For DependentSpace this is the sum of the sizes of the orbital spaces
+     *  - For DependentSpace this is the sum of the sizes of the vector spaces
      *    for each independent index.
      *  - For DerivedSpace derived directly from BaseSpace (as opposed to
      *    derived from `DependentSpace`) this is simply the number of orbitals.
+     *  - For CartesianSpace this is just the dimension of the space.
+     *  - For SpinSpace this is 2 (alpha and beta spin channel).
+     *  - For ProductSpace this is the product of the sizes of the two spaces which
+     *    make the product.
      *
-     *  @return The number of orbitals in the space.
+     *  @return The number of basis functions in the space.
      *
      *  @throw None No throw guarantee.
      */
@@ -216,9 +217,9 @@ protected:
      *        without resorting to CRTP (thereby eliminating the common base
      *        class), BaseSpace does not know the type of the derived class.
      *
-     *  @param[in] rhs The orbital space we are comparing to.
+     *  @param[in] rhs The vector space we are comparing to.
      *
-     *  @return True if this orbital space is equivalent to @p rhs and false
+     *  @return True if this vector space is equivalent to @p rhs and false
      *          otherwise.
      *
      *  @throw None No throw guarantee.
@@ -230,43 +231,42 @@ protected:
  *
  *  @relates BaseSpace
  *
- *  This comparison is not done polymorphically (use `BaseSpace::equal` for
- *  that), rather it compares the state unique to the BaseSpace part of the
- *  class hierarchy. Since there is no state unique in the BaseSpace part this
- *  function always returns true.
+ *  This operator compares all accessible state, even if that state isn't stored in 
+ *  the base class. Point being this operator should account for the size.
  *
  *  @note This function is defined so that derived classes do not need to worry
  *        about whether they derive directly from BaseSpace.
  *
- *  @param[in] <anonymous> The instance on the left of the equality operator.
- *  @param[in] <anonymous> The instance on the right of the equality operator.
+ *  @param[in] lhs The instance on the left of the equality operator.
+ *  @param[in] rhs The instance on the right of the equality operator.
  *
  *  @return True for all BaseSpace instances.
  *
  *  @throw None No throw guarantee.
  */
-inline bool operator==(const BaseSpace&, const BaseSpace&) { return true; }
+inline bool operator==(const BaseSpace& lhs, const BaseSpace& rhs) { 
+	return (lhs.size() == rhs.size());
+}
 
 /** @brief Determines if two BaseSpace instances are different.
  *
  *  @relates BaseSpace
  *
- *  This comparison is not done polymorphically (use `BaseSpace::equal` for
- *  that), rather it compares the state unique to the BaseSpace part of the
- *  class hierarchy. Since there is no state unique in the BaseSpace part this
- *  function always returns false.
+ *  This operator compares all accessible state, even if that state isn't stored in 
+ *  the base class. Point being this operator should account for the size.
  *
  *  @note This function is defined so that derived classes do not need to worry
  *        about whether they derive directly from BaseSpace.
  *
- *  @param[in] <anonymous> The instance on the left of the inequality operator.
- *  @param[in] <anonymous> The instance on the right of the inequality operator.
+ *  @param[in] lhs The instance on the left of the inequality operator.
+ *  @param[in] rhs The instance on the right of the inequality operator.
  *
  *  @return False for all BaseSpace instances.
  *
  *  @throw None No throw guarantee.
  */
-inline bool operator!=(const BaseSpace&, const BaseSpace&) { return false; }
+inline bool operator!=(const BaseSpace& lhs, const BaseSpace& rhs) { 
+	return !(lhs.size() == rhs.size()); }
 
 //------------------------- Implementations -----------------------------------
 
