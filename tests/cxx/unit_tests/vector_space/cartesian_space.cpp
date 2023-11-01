@@ -27,7 +27,7 @@ TEST_CASE("CartesianSpace") {
         SECTION("Axes not set") {
             auto s = CartesianSpace(3);
             REQUIRE(s.size() == 3);
-	    REQUIRE(s.axis_vec == decltype(s.axis_vec){});
+            REQUIRE(s.axis_vec == decltype(s.axis_vec){});
         }
 
         SECTION("Axes set") {
@@ -60,8 +60,8 @@ TEST_CASE("CartesianSpace") {
             REQUIRE(s.axis_vec[1] == "yy");
             REQUIRE(s.axis_vec[2] == "zz");
             REQUIRE(s.axis_vec[3] == "xy");
-	    REQUIRE(s.axis_vec[4] == "yz");
-	    REQUIRE(s.axis_vec[5] == "zx");
+            REQUIRE(s.axis_vec[4] == "yz");
+            REQUIRE(s.axis_vec[5] == "zx");
         }
     }
 
