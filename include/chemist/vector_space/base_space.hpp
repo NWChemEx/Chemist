@@ -24,7 +24,8 @@ namespace chemist::vector_space {
  *  BaseSpace provides a generic API for working with a vector space. In
  *  particular this API provides members for:
  *  - the number of basis function via `size()`
- *  - transforming a tensor to the space `transform()` (apply only for some spaces)
+ *  - transforming a tensor to the space `transform()` (apply only for some
+ * spaces)
  *  - polymorphically comparing the vector spaces `equal()` and `not_equal()`
  */
 class BaseSpace {
@@ -37,8 +38,8 @@ public:
 
     /** @brief Returns the number of basis functions in this space.
      *
-     *  The size of a vector space is the total number of basis functions in that
-     *  space.
+     *  The size of a vector space is the total number of basis functions in
+     * that space.
      *
      *  @throw None No throw guarantee.
      */
@@ -193,8 +194,8 @@ protected:
      *    derived from `DependentSpace`) this is simply the number of orbitals.
      *  - For CartesianSpace this is just the dimension of the space.
      *  - For SpinSpace this is 2 (alpha and beta spin channel).
-     *  - For ProductSpace this is the product of the sizes of the two spaces which
-     *    make the product.
+     *  - For ProductSpace this is the product of the sizes of the two spaces
+     * which make the product.
      *
      *  @return The number of basis functions in the space.
      *
@@ -231,8 +232,8 @@ protected:
  *
  *  @relates BaseSpace
  *
- *  This operator compares all accessible state, even if that state isn't stored in 
- *  the base class. Point being this operator should account for the size.
+ *  This operator compares all accessible state, even if that state isn't stored
+ * in the base class. Point being this operator should account for the size.
  *
  *  @note This function is defined so that derived classes do not need to worry
  *        about whether they derive directly from BaseSpace.
@@ -244,16 +245,16 @@ protected:
  *
  *  @throw None No throw guarantee.
  */
-inline bool operator==(const BaseSpace& lhs, const BaseSpace& rhs) { 
-	return (lhs.size() == rhs.size());
+inline bool operator==(const BaseSpace& lhs, const BaseSpace& rhs) {
+    return (lhs.size() == rhs.size());
 }
 
 /** @brief Determines if two BaseSpace instances are different.
  *
  *  @relates BaseSpace
  *
- *  This operator compares all accessible state, even if that state isn't stored in 
- *  the base class. Point being this operator should account for the size.
+ *  This operator compares all accessible state, even if that state isn't stored
+ * in the base class. Point being this operator should account for the size.
  *
  *  @note This function is defined so that derived classes do not need to worry
  *        about whether they derive directly from BaseSpace.
@@ -265,8 +266,9 @@ inline bool operator==(const BaseSpace& lhs, const BaseSpace& rhs) {
  *
  *  @throw None No throw guarantee.
  */
-inline bool operator!=(const BaseSpace& lhs, const BaseSpace& rhs) { 
-	return !(lhs.size() == rhs.size()); }
+inline bool operator!=(const BaseSpace& lhs, const BaseSpace& rhs) {
+    return !(lhs.size() == rhs.size());
+}
 
 //------------------------- Implementations -----------------------------------
 

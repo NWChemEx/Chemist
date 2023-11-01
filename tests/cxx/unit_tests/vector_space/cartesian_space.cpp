@@ -28,7 +28,7 @@ TEST_CASE("CartesianSpace") {
             auto s = CartesianSpace(3);
             REQUIRE(s.size() == 3);
 <<<<<<< HEAD
-	    REQUIRE(s.axis_vec == decltype(s.axis_vec){});
+            REQUIRE(s.axis_vec == decltype(s.axis_vec){});
 =======
             REQUIRE(s.axis_arr.empty() == true);
 >>>>>>> 37c18e66d35f86640b4c10c1f8e4fc88b6f625f4
@@ -39,10 +39,10 @@ TEST_CASE("CartesianSpace") {
             REQUIRE_THROWS(CartesianSpace(3, val));
         }
 
-	SECTION("Copy constructor") {
-            std::vector<std::string> val{"x","y","z"};
-	    auto s3_1 = CartesianSpace(3,val);
-	    auto s3_2 = CartesianSpace(s3_1);
+        SECTION("Copy constructor") {
+            std::vector<std::string> val{"x", "y", "z"};
+            auto s3_1 = CartesianSpace(3, val);
+            auto s3_2 = CartesianSpace(s3_1);
             REQUIRE(s3_2.axis_vec[1] == "y");
         }
     }
@@ -65,8 +65,8 @@ TEST_CASE("CartesianSpace") {
             REQUIRE(s.axis_vec[1] == "yy");
             REQUIRE(s.axis_vec[2] == "zz");
             REQUIRE(s.axis_vec[3] == "xy");
-	    REQUIRE(s.axis_vec[4] == "yz");
-	    REQUIRE(s.axis_vec[5] == "zx");
+            REQUIRE(s.axis_vec[4] == "yz");
+            REQUIRE(s.axis_vec[5] == "zx");
 =======
             REQUIRE(s.axis_arr[0] == "xx");
             REQUIRE(s.axis_arr[1] == "yy");
