@@ -33,8 +33,8 @@ namespace chemist::vector_space {
 class CartesianSpace : public BaseSpace {
 public:
     /// Type used for indexing and offsets
-    using size_type = typename BaseSpace::size_type;
-    using label_type = std::string;
+    using size_type       = typename BaseSpace::size_type;
+    using label_type      = std::string;
     using label_container = std::vector<label_type>;
 
     /** @brief Creates an N-dimensinal CartesianSpace with axes not given.
@@ -43,7 +43,7 @@ public:
      *
      *  @throw ??? No throws guarantee.
      */
-    CartesianSpace(const unsigned int& N) : m_N_(N){}
+    CartesianSpace(const unsigned int& N) : m_N_(N) {}
 
     /** @brief Creates an N-dimensinal CartesianSpace with axes being given.
      *
@@ -55,20 +55,20 @@ public:
      *             dimension of the space or initialization of the string vector
      *             throws.
      */
-template <typename ItType = std::vector<std::string>::iterator>
-    CartesianSpace(const size_type& N, ItType& beginIt, ItType& endIt) : m_N_(N),
-                   axis_vec(beginIt, endIt) {
-       if(axis_vec.size() != m_N_)
+    template<typename ItType = std::vector<std::string>::iterator>
+    CartesianSpace(const size_type& N, ItType& beginIt, ItType& endIt) :
+      m_N_(N), axis_vec(beginIt, endIt) {
+        if(axis_vec.size() != m_N_)
             throw std::invalid_argument("Label vector length not equal to the"
                                         "dimension of the space!");
     }
 
-template <typename ItType = std::vector<std::string>::iterator>    
-    CartesianSpace(const size_type& N, ItType&& beginIt, ItType&& endIt) : m_N_(N), 
-	           axis_vec(beginIt, endIt) {
-       if(axis_vec.size() != m_N_)
+    template<typename ItType = std::vector<std::string>::iterator>
+    CartesianSpace(const size_type& N, ItType&& beginIt, ItType&& endIt) :
+      m_N_(N), axis_vec(beginIt, endIt) {
+        if(axis_vec.size() != m_N_)
             throw std::invalid_argument("Label vector length not equal to the"
-                                        "dimension of the space!");		   
+                                        "dimension of the space!");
     }
 
     /** @brief Copy constructor. Copy another CartesianSpace.
@@ -85,10 +85,10 @@ template <typename ItType = std::vector<std::string>::iterator>
      *
      *  @throw Throws if vector asignment fails.
      */
-     label_container* get_axis_label() const {
-	label_container* labels = new label_container;
+    label_container* get_axis_label() const {
+        label_container* labels = new label_container;
         (*labels).assign(axis_vec.begin(), axis_vec.end());
-	return labels;
+        return labels;
     }
 
 protected:
@@ -123,11 +123,12 @@ private:
  *             guarantee.
  */
 inline bool operator==(const CartesianSpace& lhs, const CartesianSpace& rhs) {
-    if (*(lhs.get_axis_label())!= (*(rhs.get_axis_label()))) return false;
+    if(*(lhs.get_axis_label()) != (*(rhs.get_axis_label())))
+        return false;
     else {
-       const BaseSpace& lhs_base = lhs;
-       const BaseSpace& rhs_base = rhs;
-       return (lhs_base == rhs_base);
+        const BaseSpace& lhs_base = lhs;
+        const BaseSpace& rhs_base = rhs;
+        return (lhs_base == rhs_base);
     }
 }
 
@@ -135,7 +136,9 @@ inline bool operator==(const CartesianSpace& lhs, const CartesianSpace& rhs) {
 // ----------------------------- Template Instantiations -----------------------
 // -----------------------------------------------------------------------------
 using label_itor = std::vector<std::string>::iterator;
-template CartesianSpace::CartesianSpace<label_itor>(const size_type&, label_itor&, label_itor&);
-template CartesianSpace::CartesianSpace<label_itor>(const size_type&, label_itor&&, label_itor&&);
+template CartesianSpace::CartesianSpace<label_itor>(const size_type&,
+                                                    label_itor&, label_itor&);
+template CartesianSpace::CartesianSpace<label_itor>(const size_type&,
+                                                    label_itor&&, label_itor&&);
 
 } // namespace chemist::vector_space

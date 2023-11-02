@@ -29,8 +29,8 @@ TEST_CASE("CartesianSpace") {
         SECTION("Axes not set") {
             auto s = CartesianSpace(3);
             REQUIRE(s.size() == 3);
-	    auto s_axis_lables = s.get_axis_label();
-	    REQUIRE(*s_axis_lables == label_container{});
+            auto s_axis_lables = s.get_axis_label();
+            REQUIRE(*s_axis_lables == label_container{});
         }
 
         SECTION("Axes set") {
@@ -40,9 +40,9 @@ TEST_CASE("CartesianSpace") {
 
         SECTION("Copy constructor") {
             std::vector<std::string> val{"x", "y", "z"};
-            auto s3_1 = CartesianSpace(3, val.begin(), val.end());
-            auto s3_2 = CartesianSpace(s3_1);
-	    auto s3_2_axis_lables = s3_2.get_axis_label();
+            auto s3_1             = CartesianSpace(3, val.begin(), val.end());
+            auto s3_2             = CartesianSpace(s3_1);
+            auto s3_2_axis_lables = s3_2.get_axis_label();
             REQUIRE((*s3_2_axis_lables)[1] == "y");
         }
     }
@@ -50,8 +50,8 @@ TEST_CASE("CartesianSpace") {
     SECTION("Accessors") {
         SECTION("Axis labels") {
             std::vector<std::string> val{"z", "x", "y", "z"};
-            auto s = CartesianSpace(4, val.begin(), val.end());
-	    auto s_axis_lables = s.get_axis_label();
+            auto s             = CartesianSpace(4, val.begin(), val.end());
+            auto s_axis_lables = s.get_axis_label();
             REQUIRE((*s_axis_lables)[0] == "z");
             REQUIRE((*s_axis_lables)[1] == "x");
             REQUIRE((*s_axis_lables)[2] == "y");
@@ -60,14 +60,14 @@ TEST_CASE("CartesianSpace") {
 
         SECTION("Tensor labels") {
             std::vector<std::string> val{"xx", "yy", "zz", "xy", "yz", "zx"};
-            auto s = CartesianSpace(6, val.begin(), val.end());
+            auto s             = CartesianSpace(6, val.begin(), val.end());
             auto s_axis_lables = s.get_axis_label();
             REQUIRE((*s_axis_lables)[0] == "xx");
             REQUIRE((*s_axis_lables)[1] == "yy");
             REQUIRE((*s_axis_lables)[2] == "zz");
             REQUIRE((*s_axis_lables)[3] == "xy");
-	    REQUIRE((*s_axis_lables)[4] == "yz");
-	    REQUIRE((*s_axis_lables)[5] == "zx");
+            REQUIRE((*s_axis_lables)[4] == "yz");
+            REQUIRE((*s_axis_lables)[5] == "zx");
         }
     }
 
