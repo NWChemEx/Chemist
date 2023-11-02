@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include "chemist/vector_space/base_space.hpp"
+#include <chemist/vector_space/base_space.hpp>
 #include <string>
 #include <vector>
 
@@ -31,17 +31,11 @@ namespace chemist::vector_space {
  *  @tparam N Dimension of the space.
  */
 class CartesianSpace : public BaseSpace {
-private:
-    /// dimension of the space
-    BaseSpace::size_type m_N_;
-
 public:
     /// Type used for indexing and offsets
     using size_type = typename BaseSpace::size_type;
-
-    /// array of enums representing the space
-    using axis_label = std::vector<std::string>;
-    axis_label axis_vec;
+    using label_type = std::string;
+    using label_container = std::vector<label_type>;
 
     /** @brief Creates an N-dimensinal CartesianSpace with axes not given.
      *
@@ -49,7 +43,7 @@ public:
      *
      *  @throw ??? No throws guarantee.
      */
-    CartesianSpace(const unsigned int& N) : m_N_(N){};
+    CartesianSpace(const unsigned int& N) : m_N_(N){}
 
     /** @brief Creates an N-dimensinal CartesianSpace with axes being given.
      *
@@ -61,16 +55,21 @@ public:
      *             dimension of the space or initialization of the string vector
      *             throws.
      */
-<<<<<<< HEAD
-    CartesianSpace(const unsigned int& N, axis_label& val) : m_N_(N) {
-        if(val.size() != m_N_)
+template <typename ItType = std::vector<std::string>::iterator>
+    CartesianSpace(const size_type& N, ItType& beginIt, ItType& endIt) : m_N_(N),
+                   axis_vec(beginIt, endIt) {
+       if(axis_vec.size() != m_N_)
             throw std::invalid_argument("Label vector length not equal to the"
                                         "dimension of the space!");
-        for(std::vector<std::string>::iterator it = val.begin(); it < val.end();
-            it++) {
-            axis_vec.push_back(*it);
-        }
-    };
+    }
+
+template <typename ItType = std::vector<std::string>::iterator>    
+    CartesianSpace(const size_type& N, ItType&& beginIt, ItType&& endIt) : m_N_(N), 
+	           axis_vec(beginIt, endIt) {
+       if(axis_vec.size() != m_N_)
+            throw std::invalid_argument("Label vector length not equal to the"
+                                        "dimension of the space!");		   
+    }
 
     /** @brief Copy constructor. Copy another CartesianSpace.
      *
@@ -78,21 +77,19 @@ public:
      *
      *  @throw None No throw gurantee.
      */
-    CartesianSpace(const CartesianSpace& rhs) : BaseSpace(rhs) {
-        this->m_N_     = rhs.m_N_;
-        this->axis_vec = rhs.axis_vec;
-    };
+    CartesianSpace(const CartesianSpace& rhs) = default;
 
-=======
-    CartesianSpace(const int N, const std::vector<std::string> val) :
-      m_N_(N), m_val_(val) {
-        if(m_val_.size() != m_N_)
-            throw "Label vector length not equal to the dimension of the "
-                  "space!";
-        for(int i = 0; i < m_N_; i++) { axis_arr.push_back(m_val_[i]); }
-    };
-
->>>>>>> 37c18e66d35f86640b4c10c1f8e4fc88b6f625f4
+    /** @brief Function to access the axis labels.
+     *
+     *  @param[in/out] labels The vector of the axis labels.
+     *
+     *  @throw Throws if vector asignment fails.
+     */
+     label_container* get_axis_label() const {
+	label_container* labels = new label_container;
+        (*labels).assign(axis_vec.begin(), axis_vec.end());
+	return labels;
+    }
 
 protected:
     /** @brief Dimension of the cartesian space
@@ -104,6 +101,12 @@ protected:
     bool equal_(const BaseSpace& rhs) const noexcept override {
         return this->equal_common(*this, rhs);
     }
+
+private:
+    /// dimension of the space
+    size_type m_N_;
+    /// vector of axis labels
+    label_container axis_vec;
 };
 
 /** @brief Comapres two CartesianSpace instances for equality.
@@ -120,36 +123,19 @@ protected:
  *             guarantee.
  */
 inline bool operator==(const CartesianSpace& lhs, const CartesianSpace& rhs) {
-    // Must have the same dimension
-    if(lhs.size() != rhs.size())
-        return false;
+    if (*(lhs.get_axis_label())!= (*(rhs.get_axis_label()))) return false;
     else {
-<<<<<<< HEAD
-        return (lhs.axis_vec.size() == rhs.axis_vec.size() &&
-                std::equal(lhs.axis_vec.begin(), lhs.axis_vec.end(),
-                           rhs.axis_vec.begin()));		
-=======
-        if(lhs.axis_arr.empty() == true) {
-            if(rhs.axis_arr.empty() == true)
-                return true;
-            else
-                return false;
-        } else if(lhs.axis_arr.empty() == true)
-            return false;
-        else {
-            int len_l = lhs.axis_arr.size();
-            int len_r = rhs.axis_arr.size();
-            if(len_l != len_r)
-                return false;
-            else {
-                for(int i = 0; i < len_l; i++) {
-                    if(lhs.axis_arr[i] != rhs.axis_arr[i]) return false;
-                }
-                return true;
-            }
-        }
->>>>>>> 37c18e66d35f86640b4c10c1f8e4fc88b6f625f4
+       const BaseSpace& lhs_base = lhs;
+       const BaseSpace& rhs_base = rhs;
+       return (lhs_base == rhs_base);
     }
 }
+
+// -----------------------------------------------------------------------------
+// ----------------------------- Template Instantiations -----------------------
+// -----------------------------------------------------------------------------
+using label_itor = std::vector<std::string>::iterator;
+template CartesianSpace::CartesianSpace<label_itor>(const size_type&, label_itor&, label_itor&);
+template CartesianSpace::CartesianSpace<label_itor>(const size_type&, label_itor&&, label_itor&&);
 
 } // namespace chemist::vector_space

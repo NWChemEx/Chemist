@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include "chemist/types.hpp"
+#include <chemist/types.hpp>
 
 namespace chemist::vector_space {
 
@@ -24,8 +24,6 @@ namespace chemist::vector_space {
  *  BaseSpace provides a generic API for working with a vector space. In
  *  particular this API provides members for:
  *  - the number of basis function via `size()`
- *  - transforming a tensor to the space `transform()` (apply only for some
- * spaces)
  *  - polymorphically comparing the vector spaces `equal()` and `not_equal()`
  */
 class BaseSpace {
@@ -241,7 +239,7 @@ protected:
  *  @param[in] lhs The instance on the left of the equality operator.
  *  @param[in] rhs The instance on the right of the equality operator.
  *
- *  @return True for all BaseSpace instances.
+ *  @return True if the BaseSpace instances are equal.
  *
  *  @throw None No throw guarantee.
  */
@@ -262,12 +260,12 @@ inline bool operator==(const BaseSpace& lhs, const BaseSpace& rhs) {
  *  @param[in] lhs The instance on the left of the inequality operator.
  *  @param[in] rhs The instance on the right of the inequality operator.
  *
- *  @return False for all BaseSpace instances.
+ *  @return False If the two BaseSpace instances are different.
  *
  *  @throw None No throw guarantee.
  */
 inline bool operator!=(const BaseSpace& lhs, const BaseSpace& rhs) {
-    return !(lhs.size() == rhs.size());
+    return !(lhs == rhs);
 }
 
 //------------------------- Implementations -----------------------------------
