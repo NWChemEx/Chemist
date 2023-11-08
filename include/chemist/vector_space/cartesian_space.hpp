@@ -75,7 +75,7 @@ template <typename ItType = std::vector<std::string>::iterator>
 	           m_axis_vec_(std::forward<ItType>(beginIt), std::forward<ItType>(endIt)) {
        if(m_axis_vec_.size() != m_N_)
             throw std::invalid_argument("Label vector length not equal to the"
-                                        "dimension of the space!");		   
+                                        "dimension of the space!");
     }
 
     /** @brief Copy constructor. Copy another CartesianSpace.
@@ -183,9 +183,9 @@ private:
 inline bool operator==(const CartesianSpace& lhs, const CartesianSpace& rhs) {
     if (lhs.get_axis_label() != rhs.get_axis_label()) return false;
     else {
-       const BaseSpace& lhs_base = lhs;
-       const BaseSpace& rhs_base = rhs;
-       return (lhs_base == rhs_base);
+        const BaseSpace& lhs_base = lhs;
+        const BaseSpace& rhs_base = rhs;
+        return (lhs_base == rhs_base);
     }
 }
 

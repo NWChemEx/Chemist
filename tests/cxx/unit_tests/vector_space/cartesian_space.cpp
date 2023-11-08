@@ -60,7 +60,6 @@ TEST_CASE("CartesianSpace") {
         auto s3_1 = CartesianSpace(3, val.begin(), val.end());
         auto ps3_2 = s3_1.clone();
         REQUIRE(ps3_2->size() == 3);
-
     }
 
     SECTION("Accessors") {
@@ -76,7 +75,7 @@ TEST_CASE("CartesianSpace") {
 
         SECTION("Tensor labels") {
             std::vector<std::string> val{"xx", "yy", "zz", "xy", "yz", "zx"};
-            auto s = CartesianSpace(6, val.begin(), val.end());
+            auto s             = CartesianSpace(6, val.begin(), val.end());
             auto s_axis_lables = s.get_axis_label();
             REQUIRE(s_axis_lables[0] == "xx");
             REQUIRE(s_axis_lables[1] == "yy");
