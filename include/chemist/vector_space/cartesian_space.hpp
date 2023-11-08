@@ -34,39 +34,46 @@ class CartesianSpace : public BaseSpace {
 public:
     /// Type used for indexing and offsets
     using size_type = typename BaseSpace::size_type;
+
+    /// String-like type used for labeling basis functions
     using label_type = std::string;
     using label_container = std::vector<label_type>;
+    using const_label_reference = const label_container&;
 
     /** @brief Creates an N-dimensinal CartesianSpace with axes not given.
      *
      *  @param[in] N The dimension of the space.
      *
-     *  @throw ??? No throws guarantee.
+     *  @throw None No throws guarantee.
      */
-    CartesianSpace(const unsigned int& N) : m_N_(N){}
+    CartesianSpace(size_type N) : m_N_(N){}
 
-    /** @brief Creates an N-dimensinal CartesianSpace with axes being given.
+    /** @brief Creates an N-dimensinal CartesianSpace with axis labels being given.
      *
      *  @param[in] N The dimension of the space.
      *
-     *  @param[in] val[] The label vector to set up the axes.
+     *  @param[in] ItType The type of the begin and end iterator of the label vector 
+     *             to set up the axes. Default to be std::vector<std::string>::iterator>.
      *
-     *  @throw ??? Throws if the length of string vector is not equal to the
-     *             dimension of the space or initialization of the string vector
-     *             throws.
+     *  @param[in] beginIt, endIt The begin and end iterator of the label vector 
+     *             to set up the axes.
+     *
+     *  @throw Throws if the length of string vector is not equal to the
+     *         dimension of the space (invalid_argument) or initialization of the 
+     *         string vector throws.
      */
 template <typename ItType = std::vector<std::string>::iterator>
     CartesianSpace(const size_type& N, ItType& beginIt, ItType& endIt) : m_N_(N),
-                   axis_vec(beginIt, endIt) {
-       if(axis_vec.size() != m_N_)
+                   m_axis_vec_(std::forward<ItType>(beginIt), std::forward<ItType>(endIt)) {
+       if(m_axis_vec_.size() != m_N_)
             throw std::invalid_argument("Label vector length not equal to the"
                                         "dimension of the space!");
     }
 
 template <typename ItType = std::vector<std::string>::iterator>    
     CartesianSpace(const size_type& N, ItType&& beginIt, ItType&& endIt) : m_N_(N), 
-	           axis_vec(beginIt, endIt) {
-       if(axis_vec.size() != m_N_)
+	           m_axis_vec_(std::forward<ItType>(beginIt), std::forward<ItType>(endIt)) {
+       if(m_axis_vec_.size() != m_N_)
             throw std::invalid_argument("Label vector length not equal to the"
                                         "dimension of the space!");		   
     }
@@ -79,16 +86,59 @@ template <typename ItType = std::vector<std::string>::iterator>
      */
     CartesianSpace(const CartesianSpace& rhs) = default;
 
-    /** @brief Function to access the axis labels.
+    /** @brief Initializes this instance by taking the state of @p other.
      *
-     *  @param[in/out] labels The vector of the axis labels.
+     *  The move ctor is a standard move ctor. After this call the new instance
+     *  will contain the same transformation as @p other and alias the same
+     *  from space as @p other.
+     *
+     *  @param[in,out] other The CartesianSpace instance that we are taking the
+     *                       state of. After this call @p other will be in a
+     *                       valid, but otherwise undefined state.
+     *  @throw Throws if the moving the base class throws. Same throw
+     *             guarantee.
+     */
+    CartesianSpace(CartesianSpace&& other) = default;
+
+    /** @brief Replaces the internal state with a copy of another CartesianSpace
+     *         instance's state.
+     *
+     *  @note This operator is not polymorphic, i.e. the resulting instance
+     *        may slice @p other.
+     *
+     *  @param[in] rhs The CartesianSpace instance we are copying
+     *
+     *  @return The current instance, after replacing its state with a copy of
+     *          the state in @p rhs.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the new
+     *                        axis labels. Strong throw guarantee.
+     */
+    CartesianSpace& operator=(const CartesianSpace& rhs) = default;
+
+    /** @brief Replaces this instance's state with that of @p other.
+     *
+     *  This move assignment is the default move assignment. After this call the
+     *  new instance will contain the same axis labels as @p other.
+     *
+     *  @param[in,out] other The CartesianSpace instance that we are taking the
+     *                       state of. After this call @p other will be in a
+     *                       valid, but otherwise undefined state.
+     *
+     *  @return The current instance, after taking ownership of the state in
+     *          @p rhs.
+     *
+     *  @throw Throws if the moving the base class throws. Same throw
+     *             guarantee.
+     */
+    CartesianSpace& operator=(CartesianSpace&& rhs) = default;
+
+    /** @brief Function to access the axis labels.
      *
      *  @throw Throws if vector asignment fails.
      */
-     label_container* get_axis_label() const {
-	label_container* labels = new label_container;
-        (*labels).assign(axis_vec.begin(), axis_vec.end());
-	return labels;
+    const_label_reference get_axis_label() const {
+	return m_axis_vec_;
     }
 
 protected:
@@ -96,17 +146,25 @@ protected:
      *
      *  @return The dimension.
      */
-
     size_type size_() const noexcept override { return m_N_; }
+
     bool equal_(const BaseSpace& rhs) const noexcept override {
         return this->equal_common(*this, rhs);
     }
+
+    /** @brief To  clone the entire object.
+     *
+     *  @return A unique pointer of the cloned object.
+     *
+     *  @throw Throw if the clone action fail.
+     */
+    std::unique_ptr<BaseSpace> clone_() override { return std::make_unique<CartesianSpace>(*this); }
 
 private:
     /// dimension of the space
     size_type m_N_;
     /// vector of axis labels
-    label_container axis_vec;
+    label_container m_axis_vec_;
 };
 
 /** @brief Comapres two CartesianSpace instances for equality.
@@ -119,23 +177,16 @@ private:
  *  @return True if the CartesianSpace part of @p lhs compares equal to the
  * CartesianSpace part of @p rhs. False otherwise.
  *
- *  @throw ??? Throws if comparing the base classes throws. Same throw
+ *  @throw Throws if comparing the base classes throws. Same throw
  *             guarantee.
  */
 inline bool operator==(const CartesianSpace& lhs, const CartesianSpace& rhs) {
-    if (*(lhs.get_axis_label())!= (*(rhs.get_axis_label()))) return false;
+    if (lhs.get_axis_label() != rhs.get_axis_label()) return false;
     else {
        const BaseSpace& lhs_base = lhs;
        const BaseSpace& rhs_base = rhs;
        return (lhs_base == rhs_base);
     }
 }
-
-// -----------------------------------------------------------------------------
-// ----------------------------- Template Instantiations -----------------------
-// -----------------------------------------------------------------------------
-using label_itor = std::vector<std::string>::iterator;
-template CartesianSpace::CartesianSpace<label_itor>(const size_type&, label_itor&, label_itor&);
-template CartesianSpace::CartesianSpace<label_itor>(const size_type&, label_itor&&, label_itor&&);
 
 } // namespace chemist::vector_space

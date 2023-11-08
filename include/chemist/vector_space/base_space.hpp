@@ -37,11 +37,21 @@ public:
     /** @brief Returns the number of basis functions in this space.
      *
      *  The size of a vector space is the total number of basis functions in
-     * that space.
+     *  that space.
+     *
+     *  @return The number of basis functions in *this.
      *
      *  @throw None No throw guarantee.
      */
     auto size() const { return size_(); }
+
+    /** @brief Clone the current object.
+     *
+     *  @return The pointer to the current object in *this.
+     *
+     *  @throw Throw when making the unique pointer of the object fails.
+     */
+    auto clone() { return clone_(); }
 
     /** @brief Polymorphically compares two vector spaces to determine if they
      *         are equal.
@@ -71,24 +81,12 @@ public:
     /** @brief Polymorphically compares two vector spaces to determine if they
      *         are different.
      *
-     *  @relates BaseSpace
-     *
-     *  Exactly what it means for two vector spaces to be equal depends on what
-     *  the most derived classes of the spaces are. In general two vector
-     *  spaces are equal if they:
-     *  - have the same most derived class
-     *    - e.g., a `DerivedSpace` instance and a `CanonicalSpace` compared
-     *      through a common base class are not equal.
-     *  - contain the same number of basis functions
-     *  - the basis functions are ordered the same
-     *  - the parameters associated with the basis functions are the same
-     *
-     *  Note that all floating-point comparisons are exact with no threshold
-     *  tolerance. Meaning a parameter of 1.000000 is different than 1.000001.
+     *  This function simply negates the result of `this->equal`. See `equal`
+     *  for a description of how equality is defined.
      *
      *  @param[in] rhs The vector space we are comparing to.
      *
-     *  @return False if this vector spaces is equivalent to @p rhs and true
+     *  @return False if *this is equivalent to @p rhs and true
      *          otherwise.
      *
      *  @throw None No throw guarantee.
@@ -224,6 +222,15 @@ protected:
      *  @throw None No throw guarantee.
      */
     virtual bool equal_(const BaseSpace& rhs) const noexcept = 0;
+
+    /** @brief To be overridden in the derived vector space to implement the clone the
+     *         the entire object.
+     *
+     *  @return A unique pointer of the cloned object.
+     *
+     *  @throw Throw if the clone action fail in the derived vector space.
+     */
+    virtual std::unique_ptr<BaseSpace> clone_() { }
 };
 
 /** @brief Compares two BaseSpace instances for equality.
@@ -251,11 +258,9 @@ inline bool operator==(const BaseSpace& lhs, const BaseSpace& rhs) {
  *
  *  @relates BaseSpace
  *
- *  This operator compares all accessible state, even if that state isn't stored
- * in the base class. Point being this operator should account for the size.
- *
- *  @note This function is defined so that derived classes do not need to worry
- *        about whether they derive directly from BaseSpace.
+ *  This operator simply negates the result of `operator==`. See
+ *  the documentation for `operator==` for the definition of
+ *  equality.
  *
  *  @param[in] lhs The instance on the left of the inequality operator.
  *  @param[in] rhs The instance on the right of the inequality operator.
