@@ -36,8 +36,8 @@ public:
     using size_type = typename BaseSpace::size_type;
 
     /// String-like type used for labeling basis functions
-    using label_type = std::string;
-    using label_container = std::vector<label_type>;
+    using label_type            = std::string;
+    using label_container       = std::vector<label_type>;
     using const_label_reference = const label_container&;
 
     /** @brief Creates an N-dimensinal CartesianSpace with axes not given.
@@ -46,34 +46,38 @@ public:
      *
      *  @throw None No throws guarantee.
      */
-    CartesianSpace(size_type N) : m_N_(N){}
+    CartesianSpace(size_type N) : m_N_(N) {}
 
-    /** @brief Creates an N-dimensinal CartesianSpace with axis labels being given.
+    /** @brief Creates an N-dimensinal CartesianSpace with axis labels being
+     * given.
      *
      *  @param[in] N The dimension of the space.
      *
-     *  @param[in] ItType The type of the begin and end iterator of the label vector 
-     *             to set up the axes. Default to be std::vector<std::string>::iterator>.
+     *  @param[in] ItType The type of the begin and end iterator of the label
+     * vector to set up the axes. Default to be
+     * std::vector<std::string>::iterator>.
      *
-     *  @param[in] beginIt, endIt The begin and end iterator of the label vector 
+     *  @param[in] beginIt, endIt The begin and end iterator of the label vector
      *             to set up the axes.
      *
      *  @throw Throws if the length of string vector is not equal to the
-     *         dimension of the space (invalid_argument) or initialization of the 
-     *         string vector throws.
+     *         dimension of the space (invalid_argument) or initialization of
+     * the string vector throws.
      */
-template <typename ItType = std::vector<std::string>::iterator>
-    CartesianSpace(const size_type& N, ItType& beginIt, ItType& endIt) : m_N_(N),
-                   m_axis_vec_(std::forward<ItType>(beginIt), std::forward<ItType>(endIt)) {
-       if(m_axis_vec_.size() != m_N_)
+    template<typename ItType = std::vector<std::string>::iterator>
+    CartesianSpace(const size_type& N, ItType& beginIt, ItType& endIt) :
+      m_N_(N),
+      m_axis_vec_(std::forward<ItType>(beginIt), std::forward<ItType>(endIt)) {
+        if(m_axis_vec_.size() != m_N_)
             throw std::invalid_argument("Label vector length not equal to the"
                                         "dimension of the space!");
     }
 
-template <typename ItType = std::vector<std::string>::iterator>    
-    CartesianSpace(const size_type& N, ItType&& beginIt, ItType&& endIt) : m_N_(N), 
-	           m_axis_vec_(std::forward<ItType>(beginIt), std::forward<ItType>(endIt)) {
-       if(m_axis_vec_.size() != m_N_)
+    template<typename ItType = std::vector<std::string>::iterator>
+    CartesianSpace(const size_type& N, ItType&& beginIt, ItType&& endIt) :
+      m_N_(N),
+      m_axis_vec_(std::forward<ItType>(beginIt), std::forward<ItType>(endIt)) {
+        if(m_axis_vec_.size() != m_N_)
             throw std::invalid_argument("Label vector length not equal to the"
                                         "dimension of the space!");
     }
@@ -137,9 +141,7 @@ template <typename ItType = std::vector<std::string>::iterator>
      *
      *  @throw Throws if vector asignment fails.
      */
-    const_label_reference get_axis_label() const {
-	return m_axis_vec_;
-    }
+    const_label_reference get_axis_label() const { return m_axis_vec_; }
 
 protected:
     /** @brief Dimension of the cartesian space
@@ -158,7 +160,9 @@ protected:
      *
      *  @throw Throw if the clone action fail.
      */
-    std::unique_ptr<BaseSpace> clone_() override { return std::make_unique<CartesianSpace>(*this); }
+    std::unique_ptr<BaseSpace> clone_() override {
+        return std::make_unique<CartesianSpace>(*this);
+    }
 
 private:
     /// dimension of the space
@@ -181,7 +185,8 @@ private:
  *             guarantee.
  */
 inline bool operator==(const CartesianSpace& lhs, const CartesianSpace& rhs) {
-    if (lhs.get_axis_label() != rhs.get_axis_label()) return false;
+    if(lhs.get_axis_label() != rhs.get_axis_label())
+        return false;
     else {
         const BaseSpace& lhs_base = lhs;
         const BaseSpace& rhs_base = rhs;

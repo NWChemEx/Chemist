@@ -223,14 +223,14 @@ protected:
      */
     virtual bool equal_(const BaseSpace& rhs) const noexcept = 0;
 
-    /** @brief To be overridden in the derived vector space to implement the clone the
-     *         the entire object.
+    /** @brief To be overridden in the derived vector space to implement the
+     * clone the the entire object.
      *
      *  @return A unique pointer of the cloned object.
      *
      *  @throw Throw if the clone action fail in the derived vector space.
      */
-    virtual std::unique_ptr<BaseSpace> clone_() { }
+    virtual std::unique_ptr<BaseSpace> clone_() {}
 };
 
 /** @brief Compares two BaseSpace instances for equality.
