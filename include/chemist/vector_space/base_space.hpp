@@ -30,6 +30,7 @@ class BaseSpace {
 public:
     /// Type used for indexing and offsets
     using size_type = type::size;
+    using clone_type = std::unique_ptr<BaseSpace>;
 
     /// Default polymorphic dtor
     virtual ~BaseSpace() noexcept = default;
@@ -47,11 +48,11 @@ public:
 
     /** @brief Clone the current object.
      *
-     *  @return The pointer to the current object in *this.
+     *  @return A deep (polymorphic) copy of *this.
      *
-     *  @throw Throw when making the unique pointer of the object fails.
+     *  @throw std::bad_alloc when making the unique pointer of the object fails.
      */
-    auto clone() { return clone_(); }
+    auto clone() const { return clone_(); } 
 
     /** @brief Polymorphically compares two vector spaces to determine if they
      *         are equal.
@@ -223,14 +224,14 @@ protected:
      */
     virtual bool equal_(const BaseSpace& rhs) const noexcept = 0;
 
-    /** @brief To be overridden in the derived vector space to implement the clone the
-     *         the entire object.
+    /** @brief To be overridden in the derived vector space to implement the clone 
+     *         method.
      *
      *  @return A unique pointer of the cloned object.
      *
-     *  @throw Throw if the clone action fail in the derived vector space.
+     *  @throw  std::bad_alloc if the clone action fail in the derived vector space.
      */
-    virtual std::unique_ptr<BaseSpace> clone_() { }
+    virtual clone_type clone_() const = 0;
 };
 
 /** @brief Compares two BaseSpace instances for equality.
