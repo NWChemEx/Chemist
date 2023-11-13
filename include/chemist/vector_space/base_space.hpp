@@ -50,9 +50,10 @@ public:
      *
      *  @return A deep (polymorphic) copy of *this.
      *
-     *  @throw std::bad_alloc when making the unique pointer of the object fails.
+     *  @throw std::bad_alloc when making the unique pointer of the object
+     * fails.
      */
-    auto clone() const { return clone_(); } 
+    auto clone() const { return clone_(); }
 
     /** @brief Polymorphically compares two vector spaces to determine if they
      *         are equal.
@@ -224,12 +225,13 @@ protected:
      */
     virtual bool equal_(const BaseSpace& rhs) const noexcept = 0;
 
-    /** @brief To be overridden in the derived vector space to implement the clone 
-     *         method.
+    /** @brief To be overridden in the derived vector space to implement the
+     * clone method.
      *
      *  @return A unique pointer of the cloned object.
      *
-     *  @throw  std::bad_alloc if the clone action fail in the derived vector space.
+     *  @throw  std::bad_alloc if the clone action fail in the derived vector
+     * space.
      */
     virtual base_pointer clone_() const = 0;
 };

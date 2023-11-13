@@ -29,7 +29,6 @@ namespace chemist::vector_space {
  *  basis functions and their labels.
  */
 class CartesianSpace : public BaseSpace {
-
 private:
     /// String-like type used for labeling basis functions
     using label_type            = std::string;
@@ -136,36 +135,26 @@ template <typename ItType = std::vector<std::string>::iterator>
      */
     CartesianSpace& operator=(CartesianSpace&& rhs) = default;
 
-    /** @brief Function to access the entire axis label vector.
-     *
-     *  @return A reference of the axis label vector.
-     *
-     *  @throw None No throws guarantee.
-     */
-    //const_label_reference get_axis_labels() const {
-    //	return m_axis_vec_;
-    //}
-
-    /** @brief Function to access the an axis label. 
+    /** @brief Function to access the an axis label.
      *         With this function one may be able to set the label.
      *
      *  @param[in] i The index of the axis lable to be accessed.
      *
      *  @return The i-th axis label.
      *
-     *  @throw std::out_of_range if the index is out of the range of the 
+     *  @throw std::out_of_range if the index is out of the range of the
      *         label vector.
      */
     label_type& label(size_type i) { return m_axis_vec_.at(i); }
 
-    /** @brief Function to access the an axis label. 
+    /** @brief Function to access the an axis label.
      *         With this function one cannot set the label.
      *
      *  @param[in] i The index of the axis lable to be accessed.
      *
      *  @return The i-th axis label.
      *
-     *  @throw std::out_of_range if the index is out of the range of the 
+     *  @throw std::out_of_range if the index is out of the range of the
      *         label vector.
      */
     label_type const_label(size_type i) const { return m_axis_vec_.at(i); }

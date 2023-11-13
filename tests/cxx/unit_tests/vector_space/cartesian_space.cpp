@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-#include <chemist/vector_space/cartesian_space.hpp>
 #include <catch2/catch.hpp>
+#include <chemist/vector_space/cartesian_space.hpp>
 #include <string>
 
 using namespace chemist;
 using namespace chemist::vector_space;
 using namespace Catch::Matchers;
-
 
 TEST_CASE("CartesianSpace") {
     using label_container = std::vector<std::string>;
@@ -66,7 +65,7 @@ TEST_CASE("CartesianSpace") {
     SECTION("Clone") {
         auto s3_1 = CartesianSpace(3, val_r3.begin(), val_r3.end());
         auto ps3_2 = s3_1.clone();
-	REQUIRE(ps3_2->size() == 3);
+        REQUIRE(ps3_2->size() == 3);
     }
 
     SECTION("Accessors") {
