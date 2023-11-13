@@ -31,9 +31,9 @@ namespace chemist::vector_space {
 class CartesianSpace : public BaseSpace {
 private:
     /// String-like type used for labeling basis functions
-    using label_type            = std::string;
-    using label_container       = std::vector<label_type>;
-    //using const_label_reference = const label_container&;
+    using label_type      = std::string;
+    using label_container = std::vector<label_type>;
+    // using const_label_reference = const label_container&;
 
     /// dimension of the space
     size_type m_N_;
@@ -67,17 +67,19 @@ public:
      * vector to set up the axes. Default to be
      * std::vector<std::string>::iterator>.
      *
-     *  @param[in] begin_it, end_it The begin and end iterator of the label vector
-     *             to set up the axes.
+     *  @param[in] begin_it, end_it The begin and end iterator of the label
+     * vector to set up the axes.
      *
-     *  @throw std::invalid_argument if the length of string vector is not equal to the
-     *         dimension of the space.
-     *         std::bad_alloc if the initialization of the string vector fails.
+     *  @throw std::invalid_argument if the length of string vector is not equal
+     * to the dimension of the space. std::bad_alloc if the initialization of
+     * the string vector fails.
      */
-template <typename ItType = std::vector<std::string>::iterator>    
-    CartesianSpace(const size_type& N, ItType&& begin_it, ItType&& end_it) : m_N_(N), 
-	           m_axis_vec_(std::forward<ItType>(begin_it), std::forward<ItType>(end_it)) {
-       if(m_axis_vec_.size() != m_N_)
+    template<typename ItType = std::vector<std::string>::iterator>
+    CartesianSpace(const size_type& N, ItType&& begin_it, ItType&& end_it) :
+      m_N_(N),
+      m_axis_vec_(std::forward<ItType>(begin_it),
+                  std::forward<ItType>(end_it)) {
+        if(m_axis_vec_.size() != m_N_)
             throw std::invalid_argument("Label vector length not equal to the"
                                         "dimension of the space!");
     }
@@ -176,8 +178,9 @@ protected:
      *
      *  @throw Throw if the clone action fail.
      */
-    base_pointer clone_() const override { return std::make_unique<CartesianSpace>(*this); }
-
+    base_pointer clone_() const override {
+        return std::make_unique<CartesianSpace>(*this);
+    }
 };
 
 /** @brief Comapres two CartesianSpace instances for equality.
@@ -194,8 +197,8 @@ protected:
  *             guarantee.
  */
 inline bool operator==(const CartesianSpace& lhs, const CartesianSpace& rhs) {
-    for (BaseSpace::size_type i = 0; i < lhs.size(); i++) {
-        if (lhs.const_label(i) != rhs.const_label(i)) return false;
+    for(BaseSpace::size_type i = 0; i < lhs.size(); i++) {
+        if(lhs.const_label(i) != rhs.const_label(i)) return false;
     }
     const BaseSpace& lhs_base = lhs;
     const BaseSpace& rhs_base = rhs;

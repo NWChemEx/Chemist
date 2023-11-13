@@ -31,39 +31,39 @@ TEST_CASE("CartesianSpace") {
         SECTION("Axes not set") {
             auto s = CartesianSpace(3);
             REQUIRE(s.size() == 3);
-	    REQUIRE(s.const_label(0) == "");
-	    REQUIRE(s.const_label(1) == "");
-	    REQUIRE(s.const_label(2) == "");
+            REQUIRE(s.const_label(0) == "");
+            REQUIRE(s.const_label(1) == "");
+            REQUIRE(s.const_label(2) == "");
         }
 
         SECTION("Axes set") {
-	    auto s4 = CartesianSpace(4, val_r4.begin(), val_r4.end());
+            auto s4 = CartesianSpace(4, val_r4.begin(), val_r4.end());
             REQUIRE(s4.const_label(0) == "z");
-	    REQUIRE(s4.const_label(1) == "x");
-	    REQUIRE(s4.const_label(2) == "y");
-	    REQUIRE(s4.const_label(3) == "z");
+            REQUIRE(s4.const_label(1) == "x");
+            REQUIRE(s4.const_label(2) == "y");
+            REQUIRE(s4.const_label(3) == "z");
             REQUIRE_THROWS(CartesianSpace(3, val_r4.begin(), val_r4.end()));
         }
 
         SECTION("Copy constructor") {
             auto s3_1 = CartesianSpace(3, val_r3.begin(), val_r3.end());
             auto s3_2 = CartesianSpace(s3_1);
-	    for (int i=0;i<3;i++) {
+            for(int i = 0; i < 3; i++) {
                 REQUIRE(s3_1.const_label(i) == s3_2.const_label(i));
-	    }
+            }
         }
 
         SECTION("Move constructor") {
             auto s3_1 = CartesianSpace(3, val_r3.begin(), val_r3.end());
             auto s3_2 = CartesianSpace(std::move(s3_1));
-	    REQUIRE(s3_2.const_label(0) == "x");
+            REQUIRE(s3_2.const_label(0) == "x");
             REQUIRE(s3_2.const_label(1) == "y");
-	    REQUIRE(s3_2.const_label(2) == "z");
+            REQUIRE(s3_2.const_label(2) == "z");
         }
     }
 
     SECTION("Clone") {
-        auto s3_1 = CartesianSpace(3, val_r3.begin(), val_r3.end());
+        auto s3_1  = CartesianSpace(3, val_r3.begin(), val_r3.end());
         auto ps3_2 = s3_1.clone();
         REQUIRE(ps3_2->size() == 3);
     }
@@ -74,8 +74,8 @@ TEST_CASE("CartesianSpace") {
             REQUIRE(s.const_label(2) == "y");
         }
 
-	SECTION("Get and set one label") {
-            auto s = CartesianSpace(4, val_r4.begin(), val_r4.end());
+        SECTION("Get and set one label") {
+            auto s     = CartesianSpace(4, val_r4.begin(), val_r4.end());
             s.label(3) = "not z";
             REQUIRE(s.const_label(3) == "not z");
         }
@@ -87,28 +87,28 @@ TEST_CASE("CartesianSpace") {
             REQUIRE(s.const_label(1) == "yy");
             REQUIRE(s.const_label(2) == "zz");
             REQUIRE(s.const_label(3) == "xy");
-	    REQUIRE(s.const_label(4) == "yz");
-	    REQUIRE(s.const_label(5) == "zx");
+            REQUIRE(s.const_label(4) == "yz");
+            REQUIRE(s.const_label(5) == "zx");
         }
     }
 
     SECTION("Assignment") {
         SECTION("Copy assignment") {
-            auto s3_1 = CartesianSpace(3, val_r3.begin(), val_r3.end());
-	    auto copy = CartesianSpace(3);
+            auto s3_1  = CartesianSpace(3, val_r3.begin(), val_r3.end());
+            auto copy  = CartesianSpace(3);
             auto ps3_2 = &(copy = s3_1);
-	    REQUIRE(ps3_2 == &copy);
-	    REQUIRE(ps3_2->const_label(0) == "x");
+            REQUIRE(ps3_2 == &copy);
+            REQUIRE(ps3_2->const_label(0) == "x");
             REQUIRE(ps3_2->const_label(1) == "y");
-	    REQUIRE(ps3_2->const_label(2) == "z");
-	}
+            REQUIRE(ps3_2->const_label(2) == "z");
+        }
 
-	SECTION("Move assignment") {
-            auto s3_1 = CartesianSpace(3, val_r3.begin(), val_r3.end());
-	    auto moved = CartesianSpace(3);
+        SECTION("Move assignment") {
+            auto s3_1  = CartesianSpace(3, val_r3.begin(), val_r3.end());
+            auto moved = CartesianSpace(3);
             auto ps3_2 = &(moved = std::move(s3_1));
-	    REQUIRE(ps3_2 == &moved);
-	    REQUIRE(ps3_2->const_label(0) == "x");
+            REQUIRE(ps3_2 == &moved);
+            REQUIRE(ps3_2->const_label(0) == "x");
             REQUIRE(ps3_2->const_label(1) == "y");
             REQUIRE(ps3_2->const_label(2) == "z");
         }
