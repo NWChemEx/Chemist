@@ -30,7 +30,7 @@ class BaseSpace {
 public:
     /// Type used for indexing and offsets
     using size_type = type::size;
-    using clone_type = std::unique_ptr<BaseSpace>;
+    using base_pointer = std::unique_ptr<BaseSpace>;
 
     /// Default polymorphic dtor
     virtual ~BaseSpace() noexcept = default;
@@ -231,7 +231,7 @@ protected:
      *
      *  @throw  std::bad_alloc if the clone action fail in the derived vector space.
      */
-    virtual clone_type clone_() const = 0;
+    virtual base_pointer clone_() const = 0;
 };
 
 /** @brief Compares two BaseSpace instances for equality.

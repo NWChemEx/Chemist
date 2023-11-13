@@ -34,7 +34,7 @@ private:
     /// String-like type used for labeling basis functions
     using label_type            = std::string;
     using label_container       = std::vector<label_type>;
-    using const_label_reference = const label_container&;
+    //using const_label_reference = const label_container&;
 
     /// dimension of the space
     size_type m_N_;
@@ -45,16 +45,19 @@ public:
     /// Type used for indexing and offsets
     using size_type = typename BaseSpace::size_type;
 
-    /** @brief Creates an N-dimensinal CartesianSpace with axes set as "None".
+    /** @brief Default constructor to create R^0 (null object).
+     *
+     *  @throw None No throws guarantee.
+     */
+    CartesianSpace() = default;
+
+    /** @brief Creates an N-dimensinal CartesianSpace with axes set as null.
      *
      *  @param[in] N The dimension of the space.
      *
      *  @throw std::bad_alloc if changing of the capacity of the vector fails.
      */
-    CartesianSpace(size_type N) : m_N_(N){ 
-	m_axis_vec_.reserve(m_N_);
-        m_axis_vec_.assign(m_N_,"None");
-    }
+    CartesianSpace(size_type N) : m_N_(N), m_axis_vec_(N, "") {}
 
     /** @brief Creates an N-dimensinal CartesianSpace with axis labels being
      * given.
@@ -65,16 +68,16 @@ public:
      * vector to set up the axes. Default to be
      * std::vector<std::string>::iterator>.
      *
-     *  @param[in] beginIt, endIt The begin and end iterator of the label vector
+     *  @param[in] begin_it, end_it The begin and end iterator of the label vector
      *             to set up the axes.
      *
-     *  @throw Throws if the length of string vector is not equal to the
-     *         dimension of the space (invalid_argument) or initialization of
-     * the string vector throws.
+     *  @throw std::invalid_argument if the length of string vector is not equal to the
+     *         dimension of the space.
+     *         std::bad_alloc if the initialization of the string vector fails.
      */
 template <typename ItType = std::vector<std::string>::iterator>    
-    CartesianSpace(const size_type& N, ItType&& beginIt, ItType&& endIt) : m_N_(N), 
-	           m_axis_vec_(std::forward<ItType>(beginIt), std::forward<ItType>(endIt)) {
+    CartesianSpace(const size_type& N, ItType&& begin_it, ItType&& end_it) : m_N_(N), 
+	           m_axis_vec_(std::forward<ItType>(begin_it), std::forward<ItType>(end_it)) {
        if(m_axis_vec_.size() != m_N_)
             throw std::invalid_argument("Label vector length not equal to the"
                                         "dimension of the space!");
@@ -84,7 +87,7 @@ template <typename ItType = std::vector<std::string>::iterator>
      *
      *  @param[in] rhs The CartesianSpace to be copied.
      *
-     *  @throw None No throw gurantee.
+     *  @throw std::bad_alloc if the creation of the new object fails.
      */
     CartesianSpace(const CartesianSpace& rhs) = default;
 
@@ -139,9 +142,9 @@ template <typename ItType = std::vector<std::string>::iterator>
      *
      *  @throw None No throws guarantee.
      */
-    const_label_reference get_axis_labels() const {
-	return m_axis_vec_;
-    }
+    //const_label_reference get_axis_labels() const {
+    //	return m_axis_vec_;
+    //}
 
     /** @brief Function to access the an axis label. 
      *         With this function one may be able to set the label.
@@ -153,7 +156,7 @@ template <typename ItType = std::vector<std::string>::iterator>
      *  @throw std::out_of_range if the index is out of the range of the 
      *         label vector.
      */
-    label_type get_set_label(size_type i) { return m_axis_vec_.at(i); }
+    label_type& label(size_type i) { return m_axis_vec_.at(i); }
 
     /** @brief Function to access the an axis label. 
      *         With this function one cannot set the label.
@@ -165,7 +168,7 @@ template <typename ItType = std::vector<std::string>::iterator>
      *  @throw std::out_of_range if the index is out of the range of the 
      *         label vector.
      */
-    label_type get_label(size_type i) const { return m_axis_vec_.at(i); }
+    label_type const_label(size_type i) const { return m_axis_vec_.at(i); }
 
 protected:
     /** @brief Dimension of the cartesian space
@@ -184,7 +187,7 @@ protected:
      *
      *  @throw Throw if the clone action fail.
      */
-    clone_type clone_() const override { return std::make_unique<CartesianSpace>(*this); }
+    base_pointer clone_() const override { return std::make_unique<CartesianSpace>(*this); }
 
 };
 
@@ -202,12 +205,12 @@ protected:
  *             guarantee.
  */
 inline bool operator==(const CartesianSpace& lhs, const CartesianSpace& rhs) {
-    if (lhs.get_axis_labels() != rhs.get_axis_labels()) return false;
-    else {
-        const BaseSpace& lhs_base = lhs;
-        const BaseSpace& rhs_base = rhs;
-        return (lhs_base == rhs_base);
+    for (BaseSpace::size_type i = 0; i < lhs.size(); i++) {
+        if (lhs.const_label(i) != rhs.const_label(i)) return false;
     }
+    const BaseSpace& lhs_base = lhs;
+    const BaseSpace& rhs_base = rhs;
+    return (lhs_base == rhs_base);
 }
 
 } // namespace chemist::vector_space
