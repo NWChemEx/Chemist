@@ -32,8 +32,8 @@ class CartesianSpace : public BaseSpace {
 
 private:
     /// String-like type used for labeling basis functions
-    using label_type = std::string;
-    using label_container = std::vector<label_type>;
+    using label_type            = std::string;
+    using label_container       = std::vector<label_type>;
     using const_label_reference = const label_container&;
 
     /// dimension of the space
@@ -56,19 +56,21 @@ public:
         m_axis_vec_.assign(m_N_,"None");
     }
 
-    /** @brief Creates an N-dimensinal CartesianSpace with axis labels being given.
+    /** @brief Creates an N-dimensinal CartesianSpace with axis labels being
+     * given.
      *
      *  @param[in] N The dimension of the space.
      *
-     *  @param[in] ItType The type of the begin and end iterator of the label vector 
-     *             to set up the axes. Default to be std::vector<std::string>::iterator>.
+     *  @param[in] ItType The type of the begin and end iterator of the label
+     * vector to set up the axes. Default to be
+     * std::vector<std::string>::iterator>.
      *
-     *  @param[in] beginIt, endIt The begin and end iterator of the label vector 
+     *  @param[in] beginIt, endIt The begin and end iterator of the label vector
      *             to set up the axes.
      *
      *  @throw Throws if the length of string vector is not equal to the
-     *         dimension of the space (invalid_argument) or initialization of the 
-     *         string vector throws.
+     *         dimension of the space (invalid_argument) or initialization of
+     * the string vector throws.
      */
 template <typename ItType = std::vector<std::string>::iterator>    
     CartesianSpace(const size_type& N, ItType&& beginIt, ItType&& endIt) : m_N_(N), 
