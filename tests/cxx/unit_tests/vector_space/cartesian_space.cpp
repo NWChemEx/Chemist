@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-#include <chemist/vector_space/cartesian_space.hpp>
 #include <catch2/catch.hpp>
+#include <chemist/vector_space/cartesian_space.hpp>
 #include <string>
 
 using namespace chemist;
 using namespace chemist::vector_space;
 using namespace Catch::Matchers;
-
 
 TEST_CASE("CartesianSpace") {
     using label_container = std::vector<std::string>;
@@ -30,11 +29,11 @@ TEST_CASE("CartesianSpace") {
         SECTION("Axes not set") {
             auto s = CartesianSpace(3);
             REQUIRE(s.size() == 3);
-	    auto s_axis_labels = s.get_axis_labels();
-	    REQUIRE(s_axis_labels.capacity() == 3);
-	    REQUIRE(s_axis_labels[0] == "None");
-	    REQUIRE(s_axis_labels[1] == "None");
-	    REQUIRE(s_axis_labels[2] == "None");
+            auto s_axis_labels = s.get_axis_labels();
+            REQUIRE(s_axis_labels.capacity() == 3);
+            REQUIRE(s_axis_labels[0] == "None");
+            REQUIRE(s_axis_labels[1] == "None");
+            REQUIRE(s_axis_labels[2] == "None");
         }
 
         SECTION("Axes set") {
@@ -44,36 +43,36 @@ TEST_CASE("CartesianSpace") {
 
         SECTION("Copy constructor") {
             label_container val{"x", "y", "z"};
-            auto s3_1 = CartesianSpace(3, val.begin(), val.end());
-	    auto s3_1_axis_labels = s3_1.get_axis_labels();
-            auto s3_2 = CartesianSpace(s3_1);
+            auto s3_1             = CartesianSpace(3, val.begin(), val.end());
+            auto s3_1_axis_labels = s3_1.get_axis_labels();
+            auto s3_2             = CartesianSpace(s3_1);
             auto s3_2_axis_labels = s3_2.get_axis_labels();
             REQUIRE(s3_1_axis_labels == s3_2_axis_labels);
         }
 
         SECTION("Move constructor") {
             label_container val{"x", "y", "z"};
-            auto s3_1 = CartesianSpace(3, val.begin(), val.end());
-            auto s3_2 = CartesianSpace(std::move(s3_1));
+            auto s3_1             = CartesianSpace(3, val.begin(), val.end());
+            auto s3_2             = CartesianSpace(std::move(s3_1));
             auto s3_2_axis_labels = s3_2.get_axis_labels();
-	    REQUIRE(s3_2_axis_labels[0] == "x");
+            REQUIRE(s3_2_axis_labels[0] == "x");
             REQUIRE(s3_2_axis_labels[1] == "y");
-	    REQUIRE(s3_2_axis_labels[2] == "z");
+            REQUIRE(s3_2_axis_labels[2] == "z");
         }
     }
 
     SECTION("Clone") {
         label_container val{"x", "y", "z"};
-        auto s3_1 = CartesianSpace(3, val.begin(), val.end());
+        auto s3_1  = CartesianSpace(3, val.begin(), val.end());
         auto ps3_2 = s3_1.clone();
-	REQUIRE(ps3_2->size() == 3);
+        REQUIRE(ps3_2->size() == 3);
     }
 
     SECTION("Accessors") {
         SECTION("Axis labels") {
             label_container val{"z", "x", "y", "z"};
-            auto s = CartesianSpace(4, val.begin(), val.end());
-	    auto s_axis_labels = s.get_axis_labels();
+            auto s             = CartesianSpace(4, val.begin(), val.end());
+            auto s_axis_labels = s.get_axis_labels();
             REQUIRE(s_axis_labels[0] == "z");
             REQUIRE(s_axis_labels[1] == "x");
             REQUIRE(s_axis_labels[2] == "y");
@@ -82,49 +81,49 @@ TEST_CASE("CartesianSpace") {
 
         SECTION("Get one label") {
             label_container val{"z", "x", "y", "z"};
-            auto s = CartesianSpace(4, val.begin(), val.end());
+            auto s       = CartesianSpace(4, val.begin(), val.end());
             auto label_i = s.get_label(2);
             REQUIRE(label_i == "y");
         }
 
-	SECTION("Get and set one label") {
+        SECTION("Get and set one label") {
             label_container val{"z", "x", "y", "z"};
-            auto s = CartesianSpace(4, val.begin(), val.end());
+            auto s       = CartesianSpace(4, val.begin(), val.end());
             auto label_i = s.get_set_label(3);
             REQUIRE(label_i == "z");
-	    REQUIRE_NOTHROW(label_i = "y");
+            REQUIRE_NOTHROW(label_i = "y");
         }
 
         SECTION("Tensor labels") {
             label_container val{"xx", "yy", "zz", "xy", "yz", "zx"};
-            auto s = CartesianSpace(6, val.begin(), val.end());
+            auto s             = CartesianSpace(6, val.begin(), val.end());
             auto s_axis_labels = s.get_axis_labels();
             REQUIRE(s_axis_labels[0] == "xx");
             REQUIRE(s_axis_labels[1] == "yy");
             REQUIRE(s_axis_labels[2] == "zz");
             REQUIRE(s_axis_labels[3] == "xy");
-	    REQUIRE(s_axis_labels[4] == "yz");
-	    REQUIRE(s_axis_labels[5] == "zx");
+            REQUIRE(s_axis_labels[4] == "yz");
+            REQUIRE(s_axis_labels[5] == "zx");
         }
     }
 
     SECTION("Assignment") {
         SECTION("Copy assignment") {
             label_container val{"x", "y", "z"};
-            auto s3_1 = CartesianSpace(3, val.begin(), val.end());
-	    auto copy = CartesianSpace(3);
+            auto s3_1  = CartesianSpace(3, val.begin(), val.end());
+            auto copy  = CartesianSpace(3);
             auto ps3_2 = &(copy = s3_1);
-	    REQUIRE(ps3_2 == &copy);
+            REQUIRE(ps3_2 == &copy);
             auto s3_2_axis_labels = ps3_2->get_axis_labels();
             REQUIRE(s3_2_axis_labels[1] == "y");
-	}
+        }
 
-	SECTION("Move assignment") {
+        SECTION("Move assignment") {
             label_container val{"x", "y", "z"};
-            auto s3_1 = CartesianSpace(3, val.begin(), val.end());
-	    auto moved = CartesianSpace(3);
+            auto s3_1  = CartesianSpace(3, val.begin(), val.end());
+            auto moved = CartesianSpace(3);
             auto ps3_2 = &(moved = std::move(s3_1));
-	    REQUIRE(ps3_2 == &moved);
+            REQUIRE(ps3_2 == &moved);
             auto s3_2_axis_labels = ps3_2->get_axis_labels();
             REQUIRE(s3_2_axis_labels[1] == "y");
         }
