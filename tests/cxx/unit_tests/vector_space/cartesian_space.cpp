@@ -99,8 +99,8 @@ TEST_CASE("CartesianSpace") {
             REQUIRE(s.label(2) == "y");
         }
 
-	SECTION("Get and set one label") {
-            auto s = CartesianSpace(4, val_r4.begin(), val_r4.end());
+        SECTION("Get and set one label") {
+            auto s     = CartesianSpace(4, val_r4.begin(), val_r4.end());
             s.label(3) = "not z";
             REQUIRE(s.label(3) == "not z");
         }

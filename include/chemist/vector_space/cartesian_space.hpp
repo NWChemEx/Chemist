@@ -77,10 +77,12 @@ public:
      *
      *  @throw std::bad_alloc if the initialization of the string vector fails.
      */
-template <typename ItType = std::vector<std::string>::iterator>    
-    CartesianSpace(const size_type& N, ItType&& begin_it, ItType&& end_it) : m_N_(N), 
-	           m_axis_vec_(std::forward<ItType>(begin_it), std::forward<ItType>(end_it)) {
-       if(m_axis_vec_.size() != m_N_)
+    template<typename ItType = std::vector<std::string>::iterator>
+    CartesianSpace(const size_type& N, ItType&& begin_it, ItType&& end_it) :
+      m_N_(N),
+      m_axis_vec_(std::forward<ItType>(begin_it),
+                  std::forward<ItType>(end_it)) {
+        if(m_axis_vec_.size() != m_N_)
             throw std::invalid_argument("Label vector length not equal to the"
                                         "dimension of the space!");
     }
@@ -187,8 +189,9 @@ protected:
      *
      *  @throw Throw if the clone action fail.
      */
-    base_pointer clone_() const override { return std::make_unique<CartesianSpace>(*this); }
-
+    base_pointer clone_() const override {
+        return std::make_unique<CartesianSpace>(*this);
+    }
 };
 
 /** @brief Comapres two CartesianSpace instances for equality.

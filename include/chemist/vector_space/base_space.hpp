@@ -29,7 +29,7 @@ namespace chemist::vector_space {
 class BaseSpace {
 public:
     /// Type used for indexing and offsets
-    using size_type = type::size;
+    using size_type    = type::size;
     using base_pointer = std::unique_ptr<BaseSpace>;
 
     /// Default polymorphic dtor
