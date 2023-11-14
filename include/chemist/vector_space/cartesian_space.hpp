@@ -49,7 +49,8 @@ public:
      */
     CartesianSpace() = default;
 
-    /** @brief Creates an N-dimensinal CartesianSpace with axes set as null.
+    /** @brief Creates an N-dimensinal CartesianSpace with all the N axes set as null.
+     *         Users can set the labels by call the function label().
      *
      *  @param[in] N The dimension of the space.
      *
