@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['canonicalspace_540',['CanonicalSpace',['../classchemist_1_1orbital__space_1_1CanonicalSpace.html',1,'chemist::orbital_space']]],
-  ['cap_541',['Cap',['../classchemist_1_1Cap.html',1,'chemist::Cap'],['../classchemist_1_1fragmenting_1_1Cap.html',1,'chemist::fragmenting::Cap']]],
-  ['capset_542',['CapSet',['../classchemist_1_1CapSet.html',1,'chemist::CapSet'],['../classchemist_1_1fragmenting_1_1CapSet.html',1,'chemist::fragmenting::CapSet']]],
+  ['canonicalspace_539',['CanonicalSpace',['../classchemist_1_1orbital__space_1_1CanonicalSpace.html',1,'chemist::orbital_space']]],
+  ['cap_540',['Cap',['../classchemist_1_1Cap.html',1,'chemist::Cap'],['../classchemist_1_1fragmenting_1_1Cap.html',1,'chemist::fragmenting::Cap']]],
+  ['capset_541',['CapSet',['../classchemist_1_1CapSet.html',1,'chemist::CapSet'],['../classchemist_1_1fragmenting_1_1CapSet.html',1,'chemist::fragmenting::CapSet']]],
+  ['cartesianspace_542',['CartesianSpace',['../classchemist_1_1vector__space_1_1CartesianSpace.html',1,'chemist::vector_space']]],
   ['charges_543',['Charges',['../classchemist_1_1Charges.html',1,'chemist']]],
   ['chargespimpl_544',['ChargesPIMPL',['../classchemist_1_1detail___1_1ChargesPIMPL.html',1,'chemist::detail_']]],
   ['chemicalsystem_545',['ChemicalSystem',['../classchemist_1_1ChemicalSystem.html',1,'chemist']]],
