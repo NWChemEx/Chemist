@@ -40,41 +40,41 @@ TEST_CASE("CartesianSpace") {
         SECTION("Axes not set") {
             auto s = CartesianSpace(3);
             REQUIRE(s.size() == 3);
-	    REQUIRE(s.label(0) == "");
-	    REQUIRE(s.label(1) == "");
-	    REQUIRE(s.label(2) == "");
+            REQUIRE(s.label(0) == "");
+            REQUIRE(s.label(1) == "");
+            REQUIRE(s.label(2) == "");
         }
 
         SECTION("Axes set") {
-	    auto s4 = CartesianSpace(4, val_r4.begin(), val_r4.end());
+            auto s4 = CartesianSpace(4, val_r4.begin(), val_r4.end());
             REQUIRE(s4.label(0) == "z");
-	    REQUIRE(s4.label(1) == "x");
-	    REQUIRE(s4.label(2) == "y");
-	    REQUIRE(s4.label(3) == "z");
+            REQUIRE(s4.label(1) == "x");
+            REQUIRE(s4.label(2) == "y");
+            REQUIRE(s4.label(3) == "z");
             REQUIRE_THROWS(CartesianSpace(3, val_r4.begin(), val_r4.end()));
         }
 
         SECTION("Copy constructor") {
             auto s3_1 = CartesianSpace(3, val_r3.begin(), val_r3.end());
             auto s3_2 = CartesianSpace(s3_1);
-	    for (int i=0;i<3;i++) {
+            for(int i = 0; i < 3; i++) {
                 REQUIRE(s3_1.label(i) == s3_2.label(i));
-	    }
+            }
         }
 
         SECTION("Move constructor") {
             auto s3_1 = CartesianSpace(3, val_r3.begin(), val_r3.end());
             auto s3_2 = CartesianSpace(std::move(s3_1));
-	    REQUIRE(s3_2.label(0) == "x");
+            REQUIRE(s3_2.label(0) == "x");
             REQUIRE(s3_2.label(1) == "y");
-	    REQUIRE(s3_2.label(2) == "z");
+            REQUIRE(s3_2.label(2) == "z");
         }
     }
 
     SECTION("Assignment") {
         SECTION("Copy assignment") {
-            auto s3_1 = CartesianSpace(3, val_r3.begin(), val_r3.end());
-            auto copy = CartesianSpace(3);
+            auto s3_1  = CartesianSpace(3, val_r3.begin(), val_r3.end());
+            auto copy  = CartesianSpace(3);
             auto ps3_2 = &(copy = s3_1);
             REQUIRE(ps3_2 == &copy);
             REQUIRE(ps3_2->label(0) == "x");
@@ -83,7 +83,7 @@ TEST_CASE("CartesianSpace") {
         }
 
         SECTION("Move assignment") {
-            auto s3_1 = CartesianSpace(3, val_r3.begin(), val_r3.end());
+            auto s3_1  = CartesianSpace(3, val_r3.begin(), val_r3.end());
             auto moved = CartesianSpace(3);
             auto ps3_2 = &(moved = std::move(s3_1));
             REQUIRE(ps3_2 == &moved);
@@ -105,11 +105,11 @@ TEST_CASE("CartesianSpace") {
             REQUIRE(s.label(3) == "not z");
         }
 
-	SECTION("Cannot set labels in a constant object") {
+        SECTION("Cannot set labels in a constant object") {
             const auto& s = CartesianSpace(4, val_r4.begin(), val_r4.end());
-	    s.label(3) = "not z";
+            s.label(3)    = "not z";
             REQUIRE_FALSE(s.label(3) == "not z");
-	}
+        }
 
         SECTION("Tensor labels") {
             auto s = CartesianSpace(6, val.begin(), val.end());
@@ -117,15 +117,15 @@ TEST_CASE("CartesianSpace") {
             REQUIRE(s.label(1) == "yy");
             REQUIRE(s.label(2) == "zz");
             REQUIRE(s.label(3) == "xy");
-	    REQUIRE(s.label(4) == "yz");
-	    REQUIRE(s.label(5) == "zx");
+            REQUIRE(s.label(4) == "yz");
+            REQUIRE(s.label(5) == "zx");
         }
     }
 
     SECTION("Clone") {
-        auto s3_1 = CartesianSpace(3, val_r3.begin(), val_r3.end());
+        auto s3_1  = CartesianSpace(3, val_r3.begin(), val_r3.end());
         auto ps3_2 = s3_1.clone();
-	REQUIRE(ps3_2->equal(s3_1) == true);
+        REQUIRE(ps3_2->equal(s3_1) == true);
     }
 
     SECTION("Comparison") {
@@ -155,7 +155,7 @@ TEST_CASE("CartesianSpace") {
             REQUIRE_FALSE(s3_1 == s3_3);
         }
 
-	SECTION("Operator !=") {
+        SECTION("Operator !=") {
             auto s3_1 = CartesianSpace(3, val_r3.begin(), val_r3.end());
             auto s3_2 = CartesianSpace(3, val_r3.begin(), val_r3.end());
             auto s3_3 = CartesianSpace(3, val3_2.begin(), val3_2.end());

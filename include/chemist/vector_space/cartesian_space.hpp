@@ -31,7 +31,7 @@ namespace chemist::vector_space {
 class CartesianSpace : public BaseSpace {
 private:
     /// String-like type used for labeling basis functions
-    using label_container       = std::vector<std::string>;
+    using label_container = std::vector<std::string>;
 
     /// dimension of the space
     size_type m_N_;
@@ -40,7 +40,7 @@ private:
 
 public:
     /// Type used for indexing and offsets
-    using size_type = typename BaseSpace::size_type;
+    using size_type  = typename BaseSpace::size_type;
     using label_type = std::string;
 
     /** @brief Default constructor to create R^0 with 0 dimension and no labels.
@@ -57,13 +57,14 @@ public:
      */
     CartesianSpace(size_type N) : m_N_(N), m_axis_vec_(N, "") {}
 
-    /** @brief Creates a CartesianSpace with axis labels being given. The dimension 
-     *         is N and the labels are stored in a N-element vector of strings. 
+    /** @brief Creates a CartesianSpace with axis labels being given. The
+     * dimension is N and the labels are stored in a N-element vector of
+     * strings.
      *
      *  @param[in] N The dimension of the space.
      *
      *  @taram ItType The type of the begin and end iterator of the label
-     *                vector to set up the axes. Default to be 
+     *                vector to set up the axes. Default to be
      *                std::vector<std::string>::iterator>.
      *
      *  @param[in] begin_it The begin iterator of the label vector
@@ -72,8 +73,8 @@ public:
      *  @param[in] end_it The end iterator of the label vector
      *             to set up the axes.
      *
-     *  @throw std::invalid_argument if the length of string vector is not equal to the
-     *         dimension of the space.
+     *  @throw std::invalid_argument if the length of string vector is not equal
+     * to the dimension of the space.
      *
      *  @throw std::bad_alloc if the initialization of the string vector fails.
      */
@@ -150,10 +151,12 @@ public:
      *  @throw std::out_of_range if the index is out of the range of the
      *         label vector.
      */
-    label_type& label(size_type i) { 
-	if ((i+1) > size()) throw std::out_of_range("Index out of the range of"
-		       " the label vector.");	
-	else return m_axis_vec_.at(i); 
+    label_type& label(size_type i) {
+        if((i + 1) > size())
+            throw std::out_of_range("Index out of the range of"
+                                    " the label vector.");
+        else
+            return m_axis_vec_.at(i);
     }
 
     /** @brief Function to access the an axis label.
@@ -166,10 +169,12 @@ public:
      *  @throw std::out_of_range if the index is out of the range of the
      *         label vector.
      */
-    label_type label(size_type i) const { 
-        if ((i+1) > size()) throw std::out_of_range("Index out of the range of"               
-                       " the label vector.");    
-        else return m_axis_vec_.at(i); 
+    label_type label(size_type i) const {
+        if((i + 1) > size())
+            throw std::out_of_range("Index out of the range of"
+                                    " the label vector.");
+        else
+            return m_axis_vec_.at(i);
     }
 
 protected:
@@ -208,8 +213,8 @@ protected:
  *             guarantee.
  */
 inline bool operator==(const CartesianSpace& lhs, const CartesianSpace& rhs) {
-    for (BaseSpace::size_type i = 0; i < lhs.size(); i++) {
-        if (lhs.label(i) != rhs.label(i)) return false;
+    for(BaseSpace::size_type i = 0; i < lhs.size(); i++) {
+        if(lhs.label(i) != rhs.label(i)) return false;
     }
     const BaseSpace& lhs_base = lhs;
     const BaseSpace& rhs_base = rhs;
