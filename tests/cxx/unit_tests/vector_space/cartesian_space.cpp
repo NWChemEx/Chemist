@@ -100,14 +100,14 @@ TEST_CASE("CartesianSpace") {
         }
 
         SECTION("Get and set one label") {
-            auto s = CartesianSpace(4, val_r4.begin(), val_r4.end());
+            auto s     = CartesianSpace(4, val_r4.begin(), val_r4.end());
             s.label(3) = "not z";
             REQUIRE(s.label(3) == "not z");
         }
 
-	SECTION("Cannot set labels in a constant object") {
+        SECTION("Cannot set labels in a constant object") {
             const auto s = CartesianSpace(4, val_r4.begin(), val_r4.end());
-	    s.label(3) = "not z";
+            s.label(3)   = "not z";
             REQUIRE_FALSE(s.label(3) == "not z");
         }
 
@@ -125,7 +125,7 @@ TEST_CASE("CartesianSpace") {
     SECTION("Clone") {
         auto s3_1  = CartesianSpace(3, val_r3.begin(), val_r3.end());
         auto ps3_2 = s3_1.clone();
-	REQUIRE(ps3_2->equal(s3_1));
+        REQUIRE(ps3_2->equal(s3_1));
     }
 
     SECTION("Comparison") {

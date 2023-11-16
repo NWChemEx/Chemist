@@ -21,11 +21,11 @@ namespace chemist::vector_space {
 
 /** @brief Models a space spanned by the spin states of a system.
  *
- *  The common case is the space representing the alpha and beta spin channels 
- *  of an electron. In general, if the total spin of the system is S, the 
+ *  The common case is the space representing the alpha and beta spin channels
+ *  of an electron. In general, if the total spin of the system is S, the
  *  dimension of the spin space is (2*S + 1). To avoid the floating point error
- *  all spin values in this class are in the unit of 1/2 spin quantum (2S). In this
- *  way all spin values can be represented by integers.
+ *  all spin values in this class are in the unit of 1/2 spin quantum (2S). In
+ * this way all spin values can be represented by integers.
  *
  */
 class SpinSpace : public BaseSpace {
@@ -39,28 +39,30 @@ public:
     /// Type used for indexing and offsets
     using size_type = typename BaseSpace::size_type;
 
-    /** @brief Default ctor. Creates an empty SpinSpace with total spin 0 and no spin
-     *         channels.
+    /** @brief Default ctor. Creates an empty SpinSpace with total spin 0 and no
+     * spin channels.
      *
      *  @return A null object of SpinSpace.
      *
      *  @throw None No throws guarantee.
      */
     SpinSpace() = default;
-    /** @brief Ctor to create a SpinSpace to represent the spin channels of a system with
-     *         the total spin as in input.
+    /** @brief Ctor to create a SpinSpace to represent the spin channels of a
+     * system with the total spin as in input.
      *
-     *  @param[in] t_spin Total spin of the system in the unit of 1/2 quantum (2S).
+     *  @param[in] t_spin Total spin of the system in the unit of 1/2 quantum
+     * (2S).
      *
      *  @return The SpinSpace of a system with the specified total spin.
      *
-     *  @throw std::bad_alloc if the initialization of the tot_spin and spin_channel
-     *         variables fails.
+     *  @throw std::bad_alloc if the initialization of the tot_spin and
+     * spin_channel variables fails.
      */
     SpinSpace(size_type t_spin) : m_tot_spin_(t_spin) {
-	 m_spin_chan_.reserve(m_tot_spin_ + 1);
-         m_spin_chan_[0] = m_tot_spin_;
-         for (int i = 1; i < (m_tot_spin_ + 1); i++) m_spin_chan_[i] = m_spin_chan_[i-1] - 2;
+        m_spin_chan_.reserve(m_tot_spin_ + 1);
+        m_spin_chan_[0] = m_tot_spin_;
+        for(int i = 1; i < (m_tot_spin_ + 1); i++)
+            m_spin_chan_[i] = m_spin_chan_[i - 1] - 2;
     }
 
     /** @brief Copy constructor. Copy another SpinSpace.
@@ -71,10 +73,10 @@ public:
      */
     SpinSpace(const SpinSpace& rhs) {
         m_tot_spin_ = rhs.m_tot_spin_;
-	m_spin_chan_.reserve(m_tot_spin_ + 1);
-	for (int i = 0; i<(m_tot_spin_ + 1); i++) {
-	    m_spin_chan_[i] = rhs.m_spin_chan_[i];
-	}
+        m_spin_chan_.reserve(m_tot_spin_ + 1);
+        for(int i = 0; i < (m_tot_spin_ + 1); i++) {
+            m_spin_chan_[i] = rhs.m_spin_chan_[i];
+        }
     }
 
     /** @brief Initializes this instance by taking the state of @p other.
@@ -107,10 +109,10 @@ public:
     SpinSpace& operator=(const SpinSpace& rhs) {
         this->m_tot_spin_ = rhs.m_tot_spin_;
         this->m_spin_chan_.reserve(this->m_tot_spin_ + 1);
-	for (int i = 0; i<(this->m_tot_spin_+1);i++) {
-	    this->m_spin_chan_[i] = rhs.m_spin_chan_[i];
-	}
-	return *this;
+        for(int i = 0; i < (this->m_tot_spin_ + 1); i++) {
+            this->m_spin_chan_[i] = rhs.m_spin_chan_[i];
+        }
+        return *this;
     }
 
     /** @brief Replaces this instance's state with that of @p other.
@@ -139,12 +141,12 @@ public:
      *  @throw std::out_of_range if the index is out of the range of the
      *         label vector.
      */
-    int spin_chan(size_type i) const { 
-	if((i + 1) > size())
+    int spin_chan(size_type i) const {
+        if((i + 1) > size())
             throw std::out_of_range("Index out of the range of"
                                     " the label vector.");
-	else return m_spin_chan_[i]; 
-	
+        else
+            return m_spin_chan_[i];
     }
 
     /** @brief Get the total spin of the space.
@@ -163,9 +165,11 @@ protected:
      *
      *  @throw None No throws guarantee.
      */
-    size_type size_() const noexcept override { 
-	if (m_tot_spin_ == 0) return 0;
-	else return (m_tot_spin_ + 1); 
+    size_type size_() const noexcept override {
+        if(m_tot_spin_ == 0)
+            return 0;
+        else
+            return (m_tot_spin_ + 1);
     }
 
     bool equal_(const BaseSpace& rhs) const noexcept override {

@@ -23,71 +23,71 @@ using namespace Catch::Matchers;
 
 TEST_CASE("SpinSpace") {
     using chan_container = std::vector<int>;
-    chan_container spin_chan_1{ 1, -1 };
-    chan_container spin_chan_2{ 2, 0, -2 };
-    chan_container spin_chan_3{ 3, 1, -1,-3 };
+    chan_container spin_chan_1{1, -1};
+    chan_container spin_chan_2{2, 0, -2};
+    chan_container spin_chan_3{3, 1, -1, -3};
 
     SECTION("CTors") {
         SECTION("Default") {
             const auto s = SpinSpace();
             REQUIRE(s.size() == 0);
-	    REQUIRE_THROWS(s.spin_chan(0));
-	}
+            REQUIRE_THROWS(s.spin_chan(0));
+        }
 
-	SECTION("With total spin") {
+        SECTION("With total spin") {
             auto s = SpinSpace(2);
             REQUIRE(s.size() == 3);
             REQUIRE(s.spin_chan(0) == spin_chan_2[0]);
-	    REQUIRE(s.spin_chan(1) == spin_chan_2[1]);
-	    REQUIRE(s.spin_chan(2) == spin_chan_2[2]);
+            REQUIRE(s.spin_chan(1) == spin_chan_2[1]);
+            REQUIRE(s.spin_chan(2) == spin_chan_2[2]);
         }
 
-	SECTION("Copy constructor") {
+        SECTION("Copy constructor") {
             auto s3_1 = SpinSpace(3);
-	    auto s3_2 = SpinSpace(s3_1);
-	    REQUIRE(s3_2.size() == 4);
+            auto s3_2 = SpinSpace(s3_1);
+            REQUIRE(s3_2.size() == 4);
             REQUIRE(s3_2.spin_chan(0) == spin_chan_3[0]);
-	    REQUIRE(s3_2.spin_chan(1) == spin_chan_3[1]);
-	    REQUIRE(s3_2.spin_chan(2) == spin_chan_3[2]);
-	    REQUIRE(s3_2.spin_chan(3) == spin_chan_3[3]);
-	}
-
-	SECTION("Move constructor") {
-            auto s3_1 = SpinSpace(3);
-	    auto s3_2 = SpinSpace(std::move(s3_1));
-	    REQUIRE(s3_2.size() == 4);
-            REQUIRE(s3_2.spin_chan(0) == spin_chan_3[0]);
-	    REQUIRE(s3_2.spin_chan(1) == spin_chan_3[1]);
+            REQUIRE(s3_2.spin_chan(1) == spin_chan_3[1]);
             REQUIRE(s3_2.spin_chan(2) == spin_chan_3[2]);
             REQUIRE(s3_2.spin_chan(3) == spin_chan_3[3]);
-	}
+        }
+
+        SECTION("Move constructor") {
+            auto s3_1 = SpinSpace(3);
+            auto s3_2 = SpinSpace(std::move(s3_1));
+            REQUIRE(s3_2.size() == 4);
+            REQUIRE(s3_2.spin_chan(0) == spin_chan_3[0]);
+            REQUIRE(s3_2.spin_chan(1) == spin_chan_3[1]);
+            REQUIRE(s3_2.spin_chan(2) == spin_chan_3[2]);
+            REQUIRE(s3_2.spin_chan(3) == spin_chan_3[3]);
+        }
     }
 
     SECTION("Assignment") {
         SECTION("Copy assignment") {
-            auto s1_1 = SpinSpace(1);
-	    auto copy  = SpinSpace();
+            auto s1_1  = SpinSpace(1);
+            auto copy  = SpinSpace();
             auto ps1_2 = &(copy = s1_1);
-	    REQUIRE(ps1_2 == &copy);
-	    REQUIRE(ps1_2->spin_chan(0) == spin_chan_1[0]);
-	    REQUIRE(ps1_2->spin_chan(1) == spin_chan_1[1]);
-	}
-
-	SECTION("Move assignment") {
-            auto s1_1 = SpinSpace(1);
-	    auto moved = SpinSpace();
-	    auto ps1_2 = &(moved = std::move(s1_1));
-	    REQUIRE(ps1_2 == &moved);
+            REQUIRE(ps1_2 == &copy);
             REQUIRE(ps1_2->spin_chan(0) == spin_chan_1[0]);
-	    REQUIRE(ps1_2->spin_chan(1) == spin_chan_1[1]);
-	}
+            REQUIRE(ps1_2->spin_chan(1) == spin_chan_1[1]);
+        }
+
+        SECTION("Move assignment") {
+            auto s1_1  = SpinSpace(1);
+            auto moved = SpinSpace();
+            auto ps1_2 = &(moved = std::move(s1_1));
+            REQUIRE(ps1_2 == &moved);
+            REQUIRE(ps1_2->spin_chan(0) == spin_chan_1[0]);
+            REQUIRE(ps1_2->spin_chan(1) == spin_chan_1[1]);
+        }
     }
 
     SECTION("Accessors") {
         SECTION("Total Spin") {
             auto s = SpinSpace(3);
-	    REQUIRE(s.TSpin() == 3);
-	}
+            REQUIRE(s.TSpin() == 3);
+        }
 
         SECTION("Spin channel: out of range") {
             auto s = SpinSpace(3);
@@ -108,9 +108,9 @@ TEST_CASE("SpinSpace") {
             auto s3   = SpinSpace(3);
             REQUIRE(s2_1 == s2_2);
             REQUIRE_FALSE(s2_1 == s3);
-	}
+        }
 
-	SECTION("Operator !=") {
+        SECTION("Operator !=") {
             auto s2_1 = SpinSpace(2);
             auto s2_2 = SpinSpace(2);
             auto s3   = SpinSpace(3);
@@ -118,5 +118,4 @@ TEST_CASE("SpinSpace") {
             REQUIRE(s2_1 != s3);
         }
     }
-
 }
