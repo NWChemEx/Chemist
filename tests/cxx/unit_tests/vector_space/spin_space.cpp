@@ -22,7 +22,6 @@ using namespace chemist::vector_space;
 using namespace Catch::Matchers;
 
 TEST_CASE("SpinSpace") {
-
     SECTION("CTors") {
         SECTION("Default") {
             const auto s = SpinSpace();
@@ -106,9 +105,9 @@ TEST_CASE("SpinSpace") {
             auto s3   = SpinSpace(3);
             REQUIRE(s2_1 == s2_2);
             REQUIRE_FALSE(s2_1 == s3);
-	}
+        }
 
-	SECTION("Operator !=") {
+        SECTION("Operator !=") {
             auto s2_1 = SpinSpace(2);
             auto s2_2 = SpinSpace(2);
             auto s3   = SpinSpace(3);
@@ -116,5 +115,4 @@ TEST_CASE("SpinSpace") {
             REQUIRE(s2_1 != s3);
         }
     }
-
 }
