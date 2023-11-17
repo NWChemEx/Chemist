@@ -21,8 +21,8 @@ namespace chemist::vector_space {
 
 /** @brief Models a space spanned by the spin states of a system.
  *
- *  The common case is the space representing the alpha and beta spin channels 
- *  of an electron. In general, if the total spin of the system is S, the 
+ *  The common case is the space representing the alpha and beta spin channels
+ *  of an electron. In general, if the total spin of the system is S, the
  *  dimension of the spin space is (2*S + 1).
  *
  */
