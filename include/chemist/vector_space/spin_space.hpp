@@ -35,15 +35,15 @@ public:
     using size_type = typename BaseSpace::size_type;
     using spin_type = double;
 
-    /** @brief Default ctor. Creates an empty SpinSpace with no spin channel (a null
-     *                       object).
+    /** @brief Default ctor. Creates an empty SpinSpace with no spin channel (a
+     * null object).
      *
      *  @throw None No throws guarantee.
      */
     SpinSpace() = default;
 
-    /** @brief Ctor to create a SpinSpace to represent the spin channels of a system with
-     *         the multiplicity as an input.
+    /** @brief Ctor to create a SpinSpace to represent the spin channels of a
+     * system with the multiplicity as an input.
      *
      *  @param[in] mult The multiplicity of the system (2S + 1).
      *
@@ -112,11 +112,12 @@ public:
      *  @throw std::out_of_range if the index is out of the range of the
      *         spin channels.
      */
-    spin_type spin_channel(size_type i) const { 
-	if((i + 1) > size())
+    spin_type spin_channel(size_type i) const {
+        if((i + 1) > size())
             throw std::out_of_range("Index out of the range of"
                                     " the spin channels.");
-	else return ((spin_type(m_mult_) - 1.0)/2.0 - i); 
+        else
+            return ((spin_type(m_mult_) - 1.0) / 2.0 - i);
     }
 
     /** @brief Get the total spin of the space.
@@ -126,7 +127,7 @@ public:
      *  @throw None No throws guarantee.
      *
      */
-    double total_spin() const { return (double(m_mult_) - 1.0)/2.0; }
+    double total_spin() const { return (double(m_mult_) - 1.0) / 2.0; }
 
 protected:
     /** @brief Dimension of the spin space.
