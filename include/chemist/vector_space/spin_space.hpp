@@ -33,22 +33,21 @@ private:
 public:
     /// Type used for indexing and offsets
     using size_type = typename BaseSpace::size_type;
+    using spin_type = double;
 
-    /** @brief Default ctor. Creates an empty SpinSpace with no spin channel.
-     *
-     *  @return A null object of SpinSpace.
+    /** @brief Default ctor. Creates an empty SpinSpace with no spin channel (a null
+     *                       object).
      *
      *  @throw None No throws guarantee.
      */
     SpinSpace() = default;
+
     /** @brief Ctor to create a SpinSpace to represent the spin channels of a system with
      *         the multiplicity as an input.
      *
      *  @param[in] mult The multiplicity of the system (2S + 1).
      *
-     *  @return The SpinSpace of a system with the specified multiplicity.
-     *
-     *  @throw std::bad_alloc if the initialization of the m_mult_ variable fails.
+     *  @throw None No throws guarantee.
      */
     explicit SpinSpace(size_type mult) : m_mult_(mult) {}
 
@@ -56,7 +55,7 @@ public:
      *
      *  @param[in] rhs The SpinSpace to be copied.
      *
-     *  @throw std::bad_alloc if the creation of the new object fails.
+     *  @throw None No throws guarantee.
      */
     SpinSpace(const SpinSpace& rhs) = default;
 
@@ -84,8 +83,7 @@ public:
      *  @return The current instance, after replacing its state with a copy of
      *          the state in @p rhs.
      *
-     *  @throw std::bad_alloc if there is a problem allocating the new tot_spin
-     *                        and spin channels. Strong throw guarantee.
+     *  @throw None No throws guarantee.
      */
     SpinSpace& operator=(const SpinSpace& rhs) = default;
 
@@ -114,11 +112,11 @@ public:
      *  @throw std::out_of_range if the index is out of the range of the
      *         spin channels.
      */
-    double spin_channel(size_type i) const { 
+    spin_type spin_channel(size_type i) const { 
 	if((i + 1) > size())
             throw std::out_of_range("Index out of the range of"
-                                    " the label vector.");
-	else return ((double(m_mult_) - 1.0)/2.0 - i); 
+                                    " the spin channels.");
+	else return ((spin_type(m_mult_) - 1.0)/2.0 - i); 
     }
 
     /** @brief Get the total spin of the space.
@@ -128,7 +126,7 @@ public:
      *  @throw None No throws guarantee.
      *
      */
-    double TotalSpin() const { return (double(m_mult_) - 1.0)/2.0; }
+    double total_spin() const { return (double(m_mult_) - 1.0)/2.0; }
 
 protected:
     /** @brief Dimension of the spin space.
