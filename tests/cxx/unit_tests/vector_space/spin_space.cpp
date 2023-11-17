@@ -22,76 +22,74 @@ using namespace chemist::vector_space;
 using namespace Catch::Matchers;
 
 TEST_CASE("SpinSpace") {
-    using chan_container = std::vector<int>;
-    chan_container spin_chan_1{ 1, -1 };
-    chan_container spin_chan_2{ 2, 0, -2 };
-    chan_container spin_chan_3{ 3, 1, -1,-3 };
 
     SECTION("CTors") {
         SECTION("Default") {
             const auto s = SpinSpace();
             REQUIRE(s.size() == 0);
-	    REQUIRE_THROWS(s.spin_chan(0));
+	    REQUIRE_THROWS(s.spin_channel(0));
 	}
 
 	SECTION("With total spin") {
-            auto s = SpinSpace(2);
+            auto s = SpinSpace(3);
             REQUIRE(s.size() == 3);
-            REQUIRE(s.spin_chan(0) == spin_chan_2[0]);
-	    REQUIRE(s.spin_chan(1) == spin_chan_2[1]);
-	    REQUIRE(s.spin_chan(2) == spin_chan_2[2]);
+            REQUIRE_THAT(s.spin_channel(0), WithinAbs(1.0, 0.00001));
+	    REQUIRE_THAT(s.spin_channel(1), WithinAbs(0.0, 0.00001));
+	    REQUIRE_THAT(s.spin_channel(2), WithinAbs(-1.0, 0.00001));
         }
 
 	SECTION("Copy constructor") {
-            auto s3_1 = SpinSpace(3);
+            auto s3_1 = SpinSpace(4);
 	    auto s3_2 = SpinSpace(s3_1);
 	    REQUIRE(s3_2.size() == 4);
-            REQUIRE(s3_2.spin_chan(0) == spin_chan_3[0]);
-	    REQUIRE(s3_2.spin_chan(1) == spin_chan_3[1]);
-	    REQUIRE(s3_2.spin_chan(2) == spin_chan_3[2]);
-	    REQUIRE(s3_2.spin_chan(3) == spin_chan_3[3]);
+            REQUIRE_THAT(s3_2.spin_channel(0), WithinAbs(1.5, 0.00001));
+	    REQUIRE_THAT(s3_2.spin_channel(1), WithinAbs(0.5, 0.00001));
+	    REQUIRE_THAT(s3_2.spin_channel(2), WithinAbs(-0.5, 0.00001));
+	    REQUIRE_THAT(s3_2.spin_channel(3), WithinAbs(-1.5, 0.00001));
 	}
 
 	SECTION("Move constructor") {
-            auto s3_1 = SpinSpace(3);
+            auto s3_1 = SpinSpace(4);
 	    auto s3_2 = SpinSpace(std::move(s3_1));
 	    REQUIRE(s3_2.size() == 4);
-            REQUIRE(s3_2.spin_chan(0) == spin_chan_3[0]);
-	    REQUIRE(s3_2.spin_chan(1) == spin_chan_3[1]);
-            REQUIRE(s3_2.spin_chan(2) == spin_chan_3[2]);
-            REQUIRE(s3_2.spin_chan(3) == spin_chan_3[3]);
+	    REQUIRE_THAT(s3_2.spin_channel(0), WithinAbs(1.5, 0.00001));
+            REQUIRE_THAT(s3_2.spin_channel(1), WithinAbs(0.5, 0.00001));
+            REQUIRE_THAT(s3_2.spin_channel(2), WithinAbs(-0.5, 0.00001));
+            REQUIRE_THAT(s3_2.spin_channel(3), WithinAbs(-1.5, 0.00001));
 	}
     }
 
     SECTION("Assignment") {
         SECTION("Copy assignment") {
-            auto s1_1 = SpinSpace(1);
+            auto s1_1 = SpinSpace(2);
 	    auto copy  = SpinSpace();
             auto ps1_2 = &(copy = s1_1);
 	    REQUIRE(ps1_2 == &copy);
-	    REQUIRE(ps1_2->spin_chan(0) == spin_chan_1[0]);
-	    REQUIRE(ps1_2->spin_chan(1) == spin_chan_1[1]);
+	    REQUIRE(ps1_2->size() == 2);
+	    REQUIRE_THAT(ps1_2->spin_channel(0), WithinAbs(0.5, 0.00001));
+	    REQUIRE_THAT(ps1_2->spin_channel(1), WithinAbs(-0.5, 0.00001));
 	}
 
 	SECTION("Move assignment") {
-            auto s1_1 = SpinSpace(1);
+            auto s1_1 = SpinSpace(2);
 	    auto moved = SpinSpace();
 	    auto ps1_2 = &(moved = std::move(s1_1));
 	    REQUIRE(ps1_2 == &moved);
-            REQUIRE(ps1_2->spin_chan(0) == spin_chan_1[0]);
-	    REQUIRE(ps1_2->spin_chan(1) == spin_chan_1[1]);
+	    REQUIRE(ps1_2->size() == 2);
+	    REQUIRE_THAT(ps1_2->spin_channel(0), WithinAbs(0.5, 0.00001));
+            REQUIRE_THAT(ps1_2->spin_channel(1), WithinAbs(-0.5, 0.00001));
 	}
     }
 
     SECTION("Accessors") {
         SECTION("Total Spin") {
             auto s = SpinSpace(3);
-	    REQUIRE(s.TSpin() == 3);
+	    REQUIRE_THAT(s.TotalSpin(), WithinAbs(1.0, 0.00001));
 	}
 
         SECTION("Spin channel: out of range") {
             auto s = SpinSpace(3);
-            REQUIRE_THROWS(s.spin_chan(4));
+            REQUIRE_THROWS(s.spin_channel(4));
         }
     }
 
