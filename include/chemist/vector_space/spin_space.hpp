@@ -21,8 +21,8 @@ namespace chemist::vector_space {
 
 /** @brief Models a space spanned by the spin states of a system.
  *
- *  The common case is the space representing the alpha and beta spin channels 
- *  of an electron. In general, if the total spin of the system is S, the 
+ *  The common case is the space representing the alpha and beta spin channels
+ *  of an electron. In general, if the total spin of the system is S, the
  *  dimension of the spin space is (2*S + 1).
  *
  */
@@ -41,14 +41,15 @@ public:
      *  @throw None No throws guarantee.
      */
     SpinSpace() = default;
-    /** @brief Ctor to create a SpinSpace to represent the spin channels of a system with
-     *         the multiplicity as an input.
+    /** @brief Ctor to create a SpinSpace to represent the spin channels of a
+     * system with the multiplicity as an input.
      *
      *  @param[in] mult The multiplicity of the system (2S + 1).
      *
      *  @return The SpinSpace of a system with the specified multiplicity.
      *
-     *  @throw std::bad_alloc if the initialization of the m_mult_ variable fails.
+     *  @throw std::bad_alloc if the initialization of the m_mult_ variable
+     * fails.
      */
     explicit SpinSpace(size_type mult) : m_mult_(mult) {}
 
@@ -114,11 +115,12 @@ public:
      *  @throw std::out_of_range if the index is out of the range of the
      *         spin channels.
      */
-    double spin_channel(size_type i) const { 
-	if((i + 1) > size())
+    double spin_channel(size_type i) const {
+        if((i + 1) > size())
             throw std::out_of_range("Index out of the range of"
                                     " the label vector.");
-	else return ((double(m_mult_) - 1.0)/2.0 - i); 
+        else
+            return ((double(m_mult_) - 1.0) / 2.0 - i);
     }
 
     /** @brief Get the total spin of the space.
@@ -128,7 +130,7 @@ public:
      *  @throw None No throws guarantee.
      *
      */
-    double TotalSpin() const { return (double(m_mult_) - 1.0)/2.0; }
+    double TotalSpin() const { return (double(m_mult_) - 1.0) / 2.0; }
 
 protected:
     /** @brief Dimension of the spin space.
