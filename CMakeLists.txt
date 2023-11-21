@@ -61,6 +61,8 @@ cmaize_add_library(
     DEPENDS tensorwrapper Boost::boost
 )
 
+cmaize_add_package(${PROJECT_NAME} NAMESPACE nwx::)
+
 # N.B. this is a no-op if BUILD_PYBIND11_PYBINDINGS is not turned on
 include(nwx_pybind11)
 nwx_add_pybind11_module(
@@ -120,6 +122,3 @@ if("${BUILD_TESTING}")
         SUBMODULES parallelzone
     )
 endif()
-
-
-cmaize_add_package(${PROJECT_NAME} NAMESPACE nwx::)
