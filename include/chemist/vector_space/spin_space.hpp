@@ -23,7 +23,7 @@ namespace chemist::vector_space {
  *
  *  The common case is the space representing the alpha and beta spin channels
  *  of an electron. In general, if the total spin of the system is S, the
- *  dimension of the spin space is (2*S + 1).
+ *  dimension of the spin space is (2*S + 1) (multiplicity).
  *
  */
 class SpinSpace : public BaseSpace {
