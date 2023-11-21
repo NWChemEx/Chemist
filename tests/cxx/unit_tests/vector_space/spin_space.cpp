@@ -83,8 +83,8 @@ TEST_CASE("SpinSpace") {
     SECTION("Accessors") {
         SECTION("Total Spin") {
             auto s = SpinSpace(3);
-	    REQUIRE_THAT(s.total_spin(), WithinAbs(1.0, 0.00001));
-	}
+            REQUIRE_THAT(s.total_spin(), WithinAbs(1.0, 0.00001));
+        }
 
         SECTION("Spin channel: out of range") {
             auto s = SpinSpace(3);
