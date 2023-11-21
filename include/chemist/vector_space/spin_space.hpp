@@ -117,17 +117,19 @@ public:
             throw std::out_of_range("Index out of the range of"
                                     " the spin channels.");
         else
-            return ((spin_type(m_mult_) - 1.0) / 2.0 - i);
+            return ( total_spin() - i);
     }
 
     /** @brief Get the total spin of the space.
      *
      *  @return The total spin.
      *
-     *  @throw None No throws guarantee.
+     *  @throw std::invalid_argument if multiplicity = 0.
      *
      */
-    double total_spin() const { return (double(m_mult_) - 1.0) / 2.0; }
+    spin_type total_spin() const { 
+	 if (m_mult_ == 0) throw std::invalid_argument("No spin!");
+	 else return (spin_type(m_mult_) - 1.0) / 2.0; }
 
 protected:
     /** @brief Dimension of the spin space.
