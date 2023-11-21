@@ -82,7 +82,7 @@ TEST_CASE("SpinSpace") {
 
     SECTION("Accessors") {
         SECTION("Total Spin") {
-	    auto s0 = SpinSpace();
+            auto s0 = SpinSpace();
             REQUIRE_THROWS(s0.total_spin());
             auto s = SpinSpace(3);
             REQUIRE_THAT(s.total_spin(), WithinAbs(1.0, 0.00001));
