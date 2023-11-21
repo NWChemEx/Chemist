@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title=" " alt="" coords="5,115,117,142"/>
+<area shape="rect" id="node2" href="$structchemist_1_1orbital__space_1_1detail___1_1IsCanonicalSpace_3_01CanonicalSpace_3_01OrbitalEnergy_00_01BaseType_01_4_01_4.html" title="Specializes IsCanonicalSpace for when T is a CanonicalSpace." alt="" coords="167,5,415,76"/>
+<area shape="rect" id="node3" href="$structchemist_1_1orbital__space_1_1detail___1_1IsIndependentSpace_3_01IndependentSpace_3_01T_01_4_01_4.html" title=" " alt="" coords="185,101,398,157"/>
+<area shape="rect" id="node4" href="$structchemist_1_1set__theory_1_1detail___1_1IsFamilyOfSets_3_01set__theory_1_1FamilyOfSets_3_01T_01_4_01_4.html" title="Specialization of IsFamilyOfSets for when type T is a FamilyOfSets." alt="" coords="165,181,417,237"/>
+</map>

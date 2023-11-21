@@ -15,9 +15,7 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
-        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -98,11 +96,11 @@
            <div itemprop="articleBody">
              
   <section id="designing-the-fragmenting-component">
-<span id="id1"></span><h1>Designing the Fragmenting Component<a class="headerlink" href="#designing-the-fragmenting-component" title="Permalink to this heading"></a></h1>
+<span id="id1"></span><h1>Designing the Fragmenting Component<a class="headerlink" href="#designing-the-fragmenting-component" title="Permalink to this headline"></a></h1>
 <p>This page records the high-level design decisions which went into Chemist’s
 Fragmenting component.</p>
 <section id="what-is-the-fragmenting-component">
-<h2>What is the Fragmenting Component?<a class="headerlink" href="#what-is-the-fragmenting-component" title="Permalink to this heading"></a></h2>
+<h2>What is the Fragmenting Component?<a class="headerlink" href="#what-is-the-fragmenting-component" title="Permalink to this headline"></a></h2>
 <p>Most computational chemistry energy methods compute the energy of a target
 <a class="reference internal" href="../../../../background/terminology.html#term-chemical-system"><span class="xref std std-term">chemical system</span></a>. Some methods do this by breaking the target chemical
 system into pieces. Each piece, or “<a class="reference internal" href="../../../../background/terminology.html#term-fragment"><span class="xref std std-term">fragment</span></a>” is meant to simulate a
@@ -112,7 +110,7 @@ Chemist’s Fragmenting component is charged with providing classes for
 representing fragments.</p>
 </section>
 <section id="why-do-we-need-a-fragmenting-component">
-<h2>Why Do We Need a Fragmenting Component?<a class="headerlink" href="#why-do-we-need-a-fragmenting-component" title="Permalink to this heading"></a></h2>
+<h2>Why Do We Need a Fragmenting Component?<a class="headerlink" href="#why-do-we-need-a-fragmenting-component" title="Permalink to this headline"></a></h2>
 <p>In addition to fragment-based methods, i.e., methods which approximate the
 target system’s properties via the (generalized) many-body expansion, a number
 of other methods also require the system to be fragmented. Two notable
@@ -121,7 +119,7 @@ component in order to be able to represent how the user wants to decompose the
 target chemical system.</p>
 </section>
 <section id="fragmenting-considerations">
-<h2>Fragmenting Considerations<a class="headerlink" href="#fragmenting-considerations" title="Permalink to this heading"></a></h2>
+<h2>Fragmenting Considerations<a class="headerlink" href="#fragmenting-considerations" title="Permalink to this headline"></a></h2>
 <dl class="simple" id="fc-chemical-system-class">
 <dt>chemical system class</dt><dd><p>As mentioned above fragments stem from decomposing a <a class="reference internal" href="../../../../background/terminology.html#term-chemical-system"><span class="xref std std-term">chemical system</span></a>.
 In Chemist, chemical systems are modeled by the <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> class
@@ -141,7 +139,7 @@ within the <code class="docutils literal notranslate"><span class="pre">Chemical
 objects to make <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> objects, and then assign external fields to
 the <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> objects to create <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> objects.</p>
 <ul class="simple">
-<li><p>Similar to <a class="reference internal" href="#fc-chemical-system-class"><span class="std std-ref">chemical system class</span></a> we want fragments of <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code>
+<li><p>Similar to <span class="xref std std-ref">fc_chemical_system_class</span> we want fragments of <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code>
 and <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> objects to be usable wherever <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> and <code class="docutils literal notranslate"><span class="pre">Molecule</span></code>
 objects are usable.</p></li>
 </ul>
@@ -183,13 +181,13 @@ a particular method of fragmentation strategy.</p>
 </dd>
 </dl>
 <section id="out-of-scope">
-<h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Permalink to this heading"></a></h3>
+<h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Permalink to this headline"></a></h3>
 <dl class="simple">
 <dt>n-mers</dt><dd><p>A lot of (generalized) many-body expansion methods distinguish between
 fragments and unions of fragments (an “n-mer” being the union of n
 fragments). In practice, if one views a set of n-mers as set of non-disjoint
 fragments, the “n-mer” distinction becomes somewhat immaterial. Thus,
-because of the <a class="reference internal" href="#fc-non-disjoint"><span class="std std-ref">non-disjoint fragments</span></a> consideration we feel that the
+because of the <span class="xref std std-ref">fc_non_disjoint</span> consideration we feel that the
 Fragmenting component does not need to distinguish between fragments and
 n-mers.</p>
 </dd>
@@ -204,7 +202,7 @@ and/or level of theory (think <a class="reference internal" href="../../../../ba
 </section>
 </section>
 <section id="fragmenting-design">
-<h2>Fragmenting Design<a class="headerlink" href="#fragmenting-design" title="Permalink to this heading"></a></h2>
+<h2>Fragmenting Design<a class="headerlink" href="#fragmenting-design" title="Permalink to this headline"></a></h2>
 <figure class="align-center" id="id3">
 <span id="fig-fragmenting-overview"></span><img alt="../../../../_images/overview.png" src="../../../../_images/overview.png" />
 <figcaption>
@@ -216,31 +214,31 @@ Fragmenting component. The <code class="docutils literal notranslate"><span clas
 container of fragments. Each fragment is represented by a <code class="docutils literal notranslate"><span class="pre">FragmentView&lt;U&gt;</span></code>
 object. Caps are modeled by the <code class="docutils literal notranslate"><span class="pre">Cap</span></code> class.</p>
 <section id="fragmented-class">
-<h3>Fragmented Class<a class="headerlink" href="#fragmented-class" title="Permalink to this heading"></a></h3>
+<h3>Fragmented Class<a class="headerlink" href="#fragmented-class" title="Permalink to this headline"></a></h3>
 <p>Full discussion: <a class="reference internal" href="fragmented.html#designing-fragmented-class"><span class="std std-ref">Designing the Fragmented Class</span></a>.</p>
-<p>Together considerations <a class="reference internal" href="#fc-chemical-system-class"><span class="std std-ref">chemical system class</span></a> and
-<a class="reference internal" href="#fc-chemical-system-hierarchy"><span class="std std-ref">chemical system hierarchy</span></a> mean that the Fragmenting component needs
+<p>Together considerations <span class="xref std std-ref">fc_chemical_system_class</span> and
+<span class="xref std std-ref">fc_chemical_system_hierarchy</span> mean that the Fragmenting component needs
 to be able support fragmenting not just <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> objects, but several
 other classes as well. This is addressed by templating the <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code>
 class on the type of object being fragmented.</p>
 </section>
 <section id="fragmentview-class">
-<h3>FragmentView Class<a class="headerlink" href="#fragmentview-class" title="Permalink to this heading"></a></h3>
+<h3>FragmentView Class<a class="headerlink" href="#fragmentview-class" title="Permalink to this headline"></a></h3>
 <p>Full discussion: <a class="reference internal" href="fragment_view.html#designing-the-fragment-view-class"><span class="std std-ref">Designing the FragmentView Class</span></a>.</p>
-<p>Given the <a class="reference internal" href="#fc-performance"><span class="std std-ref">performance</span></a> consideration the state inside a
+<p>Given the <span class="xref std std-ref">fc_performance</span> consideration the state inside a
 <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> object will NOT simply be akin to a <code class="docutils literal notranslate"><span class="pre">std::vector&lt;T&gt;</span></code>.
 In turn, actually returning fragments which behave like <code class="docutils literal notranslate"><span class="pre">T</span></code> objects will
 minimally require returning <code class="docutils literal notranslate"><span class="pre">U</span></code> objects, where <code class="docutils literal notranslate"><span class="pre">U</span></code> is the view associated
-with <code class="docutils literal notranslate"><span class="pre">T</span></code>. Because of the <a class="reference internal" href="#fc-caps"><span class="std std-ref">caps</span></a> consideration, fragments will in
+with <code class="docutils literal notranslate"><span class="pre">T</span></code>. Because of the <span class="xref std std-ref">fc_caps</span> consideration, fragments will in
 general contain additional state beyond that of a <code class="docutils literal notranslate"><span class="pre">U</span></code> object. We introduce
 the <code class="docutils literal notranslate"><span class="pre">FragmentView&lt;U&gt;</span></code> class to manage the <code class="docutils literal notranslate"><span class="pre">U</span></code> object and the additional
 state such as the caps.</p>
 </section>
 <section id="cap-class">
-<h3>Cap Class<a class="headerlink" href="#cap-class" title="Permalink to this heading"></a></h3>
+<h3>Cap Class<a class="headerlink" href="#cap-class" title="Permalink to this headline"></a></h3>
 <p>Full discussion: <a class="reference internal" href="caps.html#designing-the-caps-class"><span class="std std-ref">Designing the Capping Classes</span></a>.</p>
 <p>The other key piece of the Fragmenting component is the <code class="docutils literal notranslate"><span class="pre">Cap</span></code> class, which
-is introduced in response to the <a class="reference internal" href="#fc-caps"><span class="std std-ref">caps</span></a> consideration. We intentionally
+is introduced in response to the <span class="xref std std-ref">fc_caps</span> consideration. We intentionally
 store the <code class="docutils literal notranslate"><span class="pre">Cap</span></code> objects in a <code class="docutils literal notranslate"><span class="pre">FragmentView&lt;U&gt;</span></code> class, rather than say
 adding additional <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> objects to a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object, so that
 <code class="docutils literal notranslate"><span class="pre">FragmentView&lt;U&gt;</span></code> is able to tell the caps from the objects stemming
@@ -250,23 +248,23 @@ is made.</p>
 </section>
 </section>
 <section id="fragmenting-api">
-<span id="id2"></span><h2>Fragmenting API<a class="headerlink" href="#fragmenting-api" title="Permalink to this heading"></a></h2>
+<span id="id2"></span><h2>Fragmenting API<a class="headerlink" href="#fragmenting-api" title="Permalink to this headline"></a></h2>
 <p>Most fragmentation workflows start with an already created <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code>
 class and then fragment that. Below is the proposed workflow and APIs for
 fragmenting a <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code>.</p>
 <div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Opaquely creates the system to fragment</span>
-<span class="n">ChemicalSystem</span><span class="w"> </span><span class="n">sys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_chemical_system</span><span class="p">();</span>
+<span class="n">ChemicalSystem</span><span class="w"> </span><span class="n">sys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_chemical_system</span><span class="p">();</span><span class="w"></span>
 
 <span class="c1">// Step 1. We start by assigning nuclei to fragments.</span>
 
 <span class="c1">// This will be the sets of nuclei in each fragment</span>
-<span class="n">Fragmented</span><span class="o">&lt;</span><span class="n">Nuclei</span><span class="o">&gt;</span><span class="w"> </span><span class="n">frag_nuclei</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">molecule</span><span class="p">().</span><span class="n">nuclei</span><span class="p">());</span>
+<span class="n">Fragmented</span><span class="o">&lt;</span><span class="n">Nuclei</span><span class="o">&gt;</span><span class="w"> </span><span class="n">frag_nuclei</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">molecule</span><span class="p">().</span><span class="n">nuclei</span><span class="p">());</span><span class="w"></span>
 
 <span class="c1">// Usually assigning nuclei to fragments is much more complicated than this</span>
 <span class="c1">// but for illustrative purposes we just make each fragment a single nucleus</span>
-<span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">mol</span><span class="p">.</span><span class="n">nuclei</span><span class="p">().</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">){</span>
-<span class="w">    </span><span class="n">frag_nuclei</span><span class="p">.</span><span class="n">insert</span><span class="p">({</span><span class="n">i</span><span class="p">});</span>
-<span class="p">}</span>
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">mol</span><span class="p">.</span><span class="n">nuclei</span><span class="p">().</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="n">frag_nuclei</span><span class="p">.</span><span class="n">insert</span><span class="p">({</span><span class="n">i</span><span class="p">});</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="c1">// Step 2. In many cases fragmenting will break covalent bonds and we will</span>
 <span class="c1">// need to cap the nuclei.</span>
@@ -279,53 +277,53 @@ fragmenting a <code class="docutils literal notranslate"><span class="pre">Chemi
 <span class="c1">// Step 3. Need to assign electrons to the fragments</span>
 
 <span class="c1">// This will hold the &quot;Molecule&quot; piece of each fragment</span>
-<span class="n">Fragmented</span><span class="o">&lt;</span><span class="n">Molecule</span><span class="o">&gt;</span><span class="w"> </span><span class="n">frag_mol</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">molecule</span><span class="p">());</span>
+<span class="n">Fragmented</span><span class="o">&lt;</span><span class="n">Molecule</span><span class="o">&gt;</span><span class="w"> </span><span class="n">frag_mol</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">molecule</span><span class="p">());</span><span class="w"></span>
 
-<span class="k">for</span><span class="p">(</span><span class="n">FragmentView</span><span class="o">&lt;</span><span class="n">NucleiView</span><span class="o">&gt;</span><span class="w"> </span><span class="n">frag_i</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">frag_nuclei</span><span class="p">){</span>
+<span class="k">for</span><span class="p">(</span><span class="n">FragmentView</span><span class="o">&lt;</span><span class="n">NucleiView</span><span class="o">&gt;</span><span class="w"> </span><span class="n">frag_i</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">frag_nuclei</span><span class="p">){</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// Adds nuclei (and caps) and declares it as a neutral singlet</span>
-<span class="w">    </span><span class="n">frag_mol</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">frag_i</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="n">frag_mol</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">frag_i</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="c1">// Step 4. Assign fields to each fragment</span>
 
 <span class="c1">// This will hold the final fragments (which are each a ChemicalSystem)</span>
-<span class="n">Fragmented</span><span class="o">&lt;</span><span class="n">ChemicalSystem</span><span class="o">&gt;</span><span class="w"> </span><span class="n">frag_sys</span><span class="p">(</span><span class="n">sys</span><span class="p">);</span>
+<span class="n">Fragmented</span><span class="o">&lt;</span><span class="n">ChemicalSystem</span><span class="o">&gt;</span><span class="w"> </span><span class="n">frag_sys</span><span class="p">(</span><span class="n">sys</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">for</span><span class="p">(</span><span class="n">FragmentView</span><span class="o">&lt;</span><span class="n">Molecule</span><span class="o">&gt;</span><span class="w"> </span><span class="n">frag_i</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">frag_mol</span><span class="p">){</span>
+<span class="k">for</span><span class="p">(</span><span class="n">FragmentView</span><span class="o">&lt;</span><span class="n">Molecule</span><span class="o">&gt;</span><span class="w"> </span><span class="n">frag_i</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">frag_mol</span><span class="p">){</span><span class="w"></span>
 <span class="w"> </span><span class="c1">// Adds molecule and its external field</span>
-<span class="w"> </span><span class="n">frag_sys</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">frag_i</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
-<span class="p">}</span>
+<span class="w"> </span><span class="n">frag_sys</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">frag_i</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="summary">
-<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading"></a></h2>
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline"></a></h2>
 <dl class="simple">
-<dt><a class="reference internal" href="#fc-chemical-system-class"><span class="std std-ref">chemical system class</span></a></dt><dd><p>Fragmenting a <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> results in a container-like object of type
+<dt><span class="xref std std-ref">fc_chemical_system_class</span></dt><dd><p>Fragmenting a <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> results in a container-like object of type
 <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;ChemicalSystem&gt;</span></code>, the elements of the resulting object are
 the fragments of the supersystem. Fragments are implicitly convertible to
 <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> references in order to leverage existing algorithms.</p>
 </dd>
-<dt><a class="reference internal" href="#fc-chemical-system-hierarchy"><span class="std std-ref">chemical system hierarchy</span></a></dt><dd><p>This consideration is essentially a generalization of
-<a class="reference internal" href="#fc-chemical-system-class"><span class="std std-ref">chemical system class</span></a> and is addressed by <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> being
+<dt><span class="xref std std-ref">fc_chemical_system_hierarchy</span></dt><dd><p>This consideration is essentially a generalization of
+<span class="xref std std-ref">fc_chemical_system_class</span> and is addressed by <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> being
 templated on <code class="docutils literal notranslate"><span class="pre">T</span></code>, the type of object being fragmented. Similarly the
 fragments are objects of type <code class="docutils literal notranslate"><span class="pre">FragmentView&lt;U&gt;</span></code> where <code class="docutils literal notranslate"><span class="pre">U</span></code> is a type
 implicitly convertible to a <code class="docutils literal notranslate"><span class="pre">T</span></code> reference.</p>
 </dd>
-<dt><a class="reference internal" href="#fc-caps"><span class="std std-ref">caps</span></a></dt><dd><p>State of the <code class="docutils literal notranslate"><span class="pre">FragmentView&lt;U&gt;</span></code> object is partitioned into state stemming
+<dt><span class="xref std std-ref">fc_caps</span></dt><dd><p>State of the <code class="docutils literal notranslate"><span class="pre">FragmentView&lt;U&gt;</span></code> object is partitioned into state stemming
 from the supersystem and state stemming from the caps. The caps are
 modeled by <code class="docutils literal notranslate"><span class="pre">Cap</span></code> objects. By deriving from <code class="docutils literal notranslate"><span class="pre">U</span></code> the partitioning of the
 state can be ignored by functions wanting to work with <code class="docutils literal notranslate"><span class="pre">U</span></code> objects.</p>
 </dd>
-<dt><a class="reference internal" href="#fc-non-disjoint"><span class="std std-ref">non-disjoint fragments</span></a></dt><dd><p>This consideration is ultimately a design consideration of the
+<dt><span class="xref std std-ref">fc_non_disjoint</span></dt><dd><p>This consideration is ultimately a design consideration of the
 <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">FragmentView&lt;U&gt;</span></code> class templates and addressed
 on the <a class="reference internal" href="fragmented.html#designing-fragmented-class"><span class="std std-ref">Designing the Fragmented Class</span></a> page.</p>
 </dd>
-<dt><a class="reference internal" href="#fc-performance"><span class="std std-ref">performance</span></a></dt><dd><p>Ultimately performance is a function-by-function consideration; however,
+<dt><span class="xref std std-ref">fc_performance</span></dt><dd><p>Ultimately performance is a function-by-function consideration; however,
 the use of <code class="docutils literal notranslate"><span class="pre">FragmentView&lt;U&gt;</span></code> objects facilitates a decoupling of each
 fragment’s state from how it is accessed.</p>
 </dd>
-<dt><a class="reference internal" href="#fc-general-use"><span class="std std-ref">general use</span></a></dt><dd><p>The Fragmenting component is largely made up of a container-like object and
+<dt><span class="xref std std-ref">fc_general_use</span></dt><dd><p>The Fragmenting component is largely made up of a container-like object and
 objects supporting that container. The <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> class template,
 and its members use generic language which is widely applicable across
 scenarios.</p>
@@ -333,7 +331,7 @@ scenarios.</p>
 </dl>
 </section>
 <section id="additional-notes">
-<h2>Additional Notes<a class="headerlink" href="#additional-notes" title="Permalink to this heading"></a></h2>
+<h2>Additional Notes<a class="headerlink" href="#additional-notes" title="Permalink to this headline"></a></h2>
 <p>This design discussion was started as part of
 <a class="reference external" href="https://github.com/NWChemEx-Project/Chemist/pull/361">Chemist PR#361</a>.</p>
 </section>

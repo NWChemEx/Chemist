@@ -1,0 +1,5 @@
+<map id="chemist::operators::Identity&lt; Particles &gt;" name="chemist::operators::Identity&lt; Particles &gt;">
+<area shape="rect" id="node1" title="Models the identity function." alt="" coords="11,199,177,240"/>
+<area shape="rect" id="node2" href="$classchemist_1_1operators_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="5,95,183,151"/>
+<area shape="rect" id="node3" href="$classchemist_1_1operators_1_1detail___1_1OperatorBase.html" title="An abstract base class for Operator types." alt="" coords="9,5,179,47"/>
+</map>

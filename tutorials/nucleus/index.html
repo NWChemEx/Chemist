@@ -15,9 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
         <script src="../../_static/tabs.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -94,7 +92,7 @@
            <div itemprop="articleBody">
              
   <section id="nucleus">
-<span id="id1"></span><h1>Nucleus<a class="headerlink" href="#nucleus" title="Permalink to this heading"></a></h1>
+<span id="id1"></span><h1>Nucleus<a class="headerlink" href="#nucleus" title="Permalink to this headline"></a></h1>
 <p>Nucleus is the core of an atom. Basically, it is the part of the atom that
 remains if you remove all the electrons. In Chemist, Nucleus class extends the
 PointCharge class with mass (<code class="docutils literal notranslate"><span class="pre">mass()</span></code>) and atomic number (<code class="docutils literal notranslate"><span class="pre">Z</span></code>) while
@@ -102,7 +100,7 @@ inheriting the coordinates (<code class="docutils literal notranslate"><span cla
 (<code class="docutils literal notranslate"><span class="pre">charge()</span></code>). In this tutorial, we will learn how to create a Nucleus object,
 how to access its properties, and how to manipulate them.</p>
 <section id="construction">
-<h2>Construction<a class="headerlink" href="#construction" title="Permalink to this heading"></a></h2>
+<h2>Construction<a class="headerlink" href="#construction" title="Permalink to this headline"></a></h2>
 <p>There are four different ways to create a Nucleus object. #. The first one is
 the default constructor, which creates a Nucleus object centered at the origin
 (0.0, 0.0, 0.0) with zero mass and charge. #. The second one is the constructor
@@ -114,74 +112,74 @@ floats. #. The fourth constructor takes additionally the charge of the Nucleus
 object. Note that this is a point charge assigned to the Nucleus object, no
 charged particles added or removed.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">See</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">License</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">specific</span><span class="w"> </span><span class="n">language</span><span class="w"> </span><span class="n">governing</span><span class="w"> </span><span class="n">permissions</span><span class="w"> </span><span class="k">and</span>
-<span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">limitations</span><span class="w"> </span><span class="n">under</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">License</span><span class="p">.</span>
-<span class="w"> </span><span class="o">*/</span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">See</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">License</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">specific</span><span class="w"> </span><span class="n">language</span><span class="w"> </span><span class="n">governing</span><span class="w"> </span><span class="n">permissions</span><span class="w"> </span><span class="n">and</span><span class="w"></span>
+<span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">limitations</span><span class="w"> </span><span class="n">under</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">License</span><span class="p">.</span><span class="w"></span>
+<span class="w"> </span><span class="o">*/</span><span class="w"></span>
 
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;catch2/catch.hpp&gt;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cereal/archives/binary.hpp&gt;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;chemist/nucleus/nucleus.hpp&gt;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sstream&gt;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;catch2/catch.hpp&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cereal/archives/binary.hpp&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;chemist/nucleus/nucleus.hpp&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sstream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span><span class="cp"></span>
 </pre></div>
 </div>
 </div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"></div></div>
 </section>
 <section id="properties">
-<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this heading"></a></h2>
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <p>Nucleus class provides access to the following properties: - name: name of the
 nucleus - Z: atomic number of the nucleus - mass: mass of the nucleus in atomic
 units - x: x-coordinate of the nucleus - y: y-coordinate of the nucleus - z:
 z-coordinate of the nucleus - charge: charge of the nucleus in atomic units</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">nucleus_example</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">nucleus_example</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// Creating Nucleus objects using different constructors</span>
 <span class="w">    </span><span class="c1">// Default constructor, properties are initialized to:</span>
 <span class="w">    </span><span class="c1">// name = &#39;&#39;, atomic_number = 0, mass = 0.0</span>
 <span class="w">    </span><span class="c1">// x = 0.0, y = 0.0, z = 0.0, charge = 0.0</span>
-<span class="w">    </span><span class="n">Nucleus</span><span class="w"> </span><span class="n">n0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Nucleus</span><span class="w"> </span><span class="n">n0</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// Constructor with name, atomic number, and mass</span>
 <span class="w">    </span><span class="c1">// Coordinates are initialized to: x = 0.0, y = 0.0, z = 0.0</span>
 <span class="w">    </span><span class="c1">// Charge is initialized to atomic_number cast to a double, i.e., 1.0</span>
-<span class="w">    </span><span class="n">Nucleus</span><span class="w"> </span><span class="n">n1</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1ul</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Nucleus</span><span class="w"> </span><span class="n">n1</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1ul</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// Constructor with name, atomic number, mass, and x, y, z coordinates</span>
 <span class="w">    </span><span class="c1">// Charge is initialized to atomic_number cast to a double, i.e., 1.0</span>
-<span class="w">    </span><span class="n">Nucleus</span><span class="w"> </span><span class="n">n2</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1ul</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Nucleus</span><span class="w"> </span><span class="n">n2</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1ul</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span><span class="w"></span>
 
 <span class="w">    </span><span class="c1">// Accessing the properties of a Nucleus object</span>
 <span class="w">    </span><span class="c1">// Accessing the name</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">n1_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n1</span><span class="p">.</span><span class="n">name</span><span class="p">();</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n1_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;H&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n0</span><span class="p">.</span><span class="n">name</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">n1_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n1</span><span class="p">.</span><span class="n">name</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n1_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;H&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n0</span><span class="p">.</span><span class="n">name</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// Accessing the atomic number</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">n1_Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n1</span><span class="p">.</span><span class="n">Z</span><span class="p">();</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n1_Z</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1ul</span><span class="p">);</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n0</span><span class="p">.</span><span class="n">Z</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0ul</span><span class="p">);</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">n1_Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n1</span><span class="p">.</span><span class="n">Z</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n1_Z</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1ul</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n0</span><span class="p">.</span><span class="n">Z</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0ul</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// Accessing the mass</span>
-<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">n1_mass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n1</span><span class="p">.</span><span class="n">mass</span><span class="p">();</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n1_mass</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">n1_mass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n1</span><span class="p">.</span><span class="n">mass</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n1_mass</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 </div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"></div></div>
 </section>
 <section id="modifying-properties">
-<h2>Modifying properties<a class="headerlink" href="#modifying-properties" title="Permalink to this heading"></a></h2>
+<h2>Modifying properties<a class="headerlink" href="#modifying-properties" title="Permalink to this headline"></a></h2>
 <p>Users can modify all the properties of a Nucleus object. Below, you can find how
 you can modify the properties of a Nucleus object and compare two Nucleus
 objects.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-2-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-2-2-0" name="2-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-2-2-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-2-2-1" name="2-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-2-2-0" class="sphinx-tabs-panel" id="panel-2-2-0" name="2-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">n1_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n1</span><span class="p">.</span><span class="n">y</span><span class="p">();</span>
-<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">n1_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n1</span><span class="p">.</span><span class="n">z</span><span class="p">();</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n1_x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n0</span><span class="p">.</span><span class="n">x</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-2-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-2-2-0" name="2-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-2-2-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-2-2-1" name="2-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-2-2-0" class="sphinx-tabs-panel" id="panel-2-2-0" name="2-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">n1_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n1</span><span class="p">.</span><span class="n">y</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">n1_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n1</span><span class="p">.</span><span class="n">z</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n1_x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n0</span><span class="p">.</span><span class="n">x</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// Accessing the charge</span>
-<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">n1_charge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n1</span><span class="p">.</span><span class="n">charge</span><span class="p">();</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n1_charge</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n0</span><span class="p">.</span><span class="n">charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">n1_charge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n1</span><span class="p">.</span><span class="n">charge</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n1_charge</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n0</span><span class="p">.</span><span class="n">charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// Comparing Nucleus objects</span>
 <span class="w">    </span><span class="c1">// Since n0 has no state while n1 has</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n0</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">n1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n0</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">n1</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// Since all properties are equal, n1 == n2 is true</span>
 </pre></div>
 </div>

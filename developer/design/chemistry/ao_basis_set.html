@@ -15,9 +15,7 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -98,8 +96,8 @@
            <div itemprop="articleBody">
              
   <section id="designing-the-aobasisset-component">
-<span id="designing-the-ao-basis-set-component"></span><h1>Designing the AOBasisSet Component<a class="headerlink" href="#designing-the-aobasisset-component" title="Permalink to this heading"></a></h1>
-<p>Following from <a class="reference internal" href="molecule.html#md-quantum-electrons"><span class="std std-ref">Quantum electrons.</span></a>, the <code class="docutils literal notranslate"><span class="pre">Atom</span></code>, <code class="docutils literal notranslate"><span class="pre">Molecule</span></code>, and
+<span id="designing-the-ao-basis-set-component"></span><h1>Designing the AOBasisSet Component<a class="headerlink" href="#designing-the-aobasisset-component" title="Permalink to this headline"></a></h1>
+<p>Following from <span class="xref std std-ref">md_quantum_electrons</span>, the <code class="docutils literal notranslate"><span class="pre">Atom</span></code>, <code class="docutils literal notranslate"><span class="pre">Molecule</span></code>, and
 <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> classes store their electrons implicitly. This usually
 entails storing the number of electrons and the total spin. When it comes time
 to model the actual electrons one needs to build wavefunctions (or densities).
@@ -107,7 +105,7 @@ The first step in this process is defining a basis set. For the purpose of this
 page we assume that the basis set will be comprised of atom-centered atomic
 orbitals (AOs).</p>
 <section id="what-is-an-aobasisset">
-<h2>What is an AOBasisSet?<a class="headerlink" href="#what-is-an-aobasisset" title="Permalink to this heading"></a></h2>
+<h2>What is an AOBasisSet?<a class="headerlink" href="#what-is-an-aobasisset" title="Permalink to this headline"></a></h2>
 <p>AOs are the one-electron orbitals describing electrons within an atom. By an AO
 basis set we mean a set of AOs used as a basis set for forming molecular
 orbitals (MOs). The AO basis set is limited to representing the parameters
@@ -116,7 +114,7 @@ by the AOs is outside the scope of the <code class="docutils literal notranslate
 <a class="reference internal" href="../vector_spaces.html#vsd-design"><span class="std std-ref">Vector Space Design</span></a> representing this space falls to the <code class="docutils literal notranslate"><span class="pre">AOSpace</span></code> class).</p>
 </section>
 <section id="why-do-we-need-an-aobasisset">
-<h2>Why do we need an AOBasisSet?<a class="headerlink" href="#why-do-we-need-an-aobasisset" title="Permalink to this heading"></a></h2>
+<h2>Why do we need an AOBasisSet?<a class="headerlink" href="#why-do-we-need-an-aobasisset" title="Permalink to this headline"></a></h2>
 <p>To compute integrals involving AOs we must be able to construct the AOs. This
 requires us to know the parameters defining those AOs. The <code class="docutils literal notranslate"><span class="pre">AOBasisSet</span></code> class
 is a one-stop shop for those parameters. Most users will construct an
@@ -124,7 +122,7 @@ is a one-stop shop for those parameters. Most users will construct an
 to otherwise manipulate the AOBasisSet.</p>
 </section>
 <section id="aobasisset-considerations">
-<span id="ao-basis-set-considerations"></span><h2>AOBasisSet Considerations<a class="headerlink" href="#aobasisset-considerations" title="Permalink to this heading"></a></h2>
+<span id="ao-basis-set-considerations"></span><h2>AOBasisSet Considerations<a class="headerlink" href="#aobasisset-considerations" title="Permalink to this headline"></a></h2>
 <p>Topics in this section were considered in designing the AOBasisSet component
 of Chemist and ultimately were addressed by the design.</p>
 <dl class="simple" id="ao-bs-performance">
@@ -214,7 +212,7 @@ iterate over primitives in an object, regardless of the nesting.</p>
 </dd>
 </dl>
 <section id="out-of-scope">
-<h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Permalink to this heading"></a></h3>
+<h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Permalink to this headline"></a></h3>
 <p>Topics in this section were considered, but ultimately do not play a role in
 the current implementation of the <code class="docutils literal notranslate"><span class="pre">AOBasisSet</span></code> class. Many of these
 considerations may need to</p>
@@ -256,7 +254,7 @@ conventions and would thus be API breaking.</p></li>
 </section>
 </section>
 <section id="aobasisset-design">
-<h2>AOBasisSet Design<a class="headerlink" href="#aobasisset-design" title="Permalink to this heading"></a></h2>
+<h2>AOBasisSet Design<a class="headerlink" href="#aobasisset-design" title="Permalink to this headline"></a></h2>
 <figure class="align-center" id="id1">
 <span id="fig-ao-basis-set-design"></span><img alt="../../../_images/ao_basis_set.png" src="../../../_images/ao_basis_set.png" />
 <figcaption>
@@ -270,16 +268,16 @@ remaining classes in the diagram form the internal, hierarchical structure of
 the <code class="docutils literal notranslate"><span class="pre">AOBasisSet</span></code> class. The <code class="docutils literal notranslate"><span class="pre">AOBasisSet</span></code> class itself is little more than a
 container of <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code> objects.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code> class groups AOs by center. This is
-in response to consideration <a class="reference internal" href="#ao-ao-to-center-mapping"><span class="std std-ref">AO to Center Mapping</span></a>. More specifically,
+in response to consideration <span class="xref std std-ref">ao_ao_to_center_mapping</span>. More specifically,
 all members of the same <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code> object are centered on the same
 point.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">Shell</span></code> class represents all the AOs with a given total angular momentum
 which can be formed from a <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> object. At present, the AOs
 in the <code class="docutils literal notranslate"><span class="pre">Shell</span></code> class are implicit and can not be individually accessed.
 Allowing the user to directly access the <code class="docutils literal notranslate"><span class="pre">AO</span></code> objects would satisfy
-consideration <a class="reference internal" href="#ao-tracking-order"><span class="std std-ref">Tracking Order</span></a>. In practice, the <code class="docutils literal notranslate"><span class="pre">Shell</span></code> class adds
+consideration <span class="xref std std-ref">ao_tracking_order</span>. In practice, the <code class="docutils literal notranslate"><span class="pre">Shell</span></code> class adds
 two pieces of state: the total angular momentum and whether the AOs are
-Cartesian or spherical (in turn satisfying <a class="reference internal" href="#ao-spherical-vs-cartesian"><span class="std std-ref">Spherical vs. Cartesian</span></a>).</p>
+Cartesian or spherical (in turn satisfying <span class="xref std std-ref">ao_spherical_vs_cartesian</span>).</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> class is a container around a set of <code class="docutils literal notranslate"><span class="pre">Primitive</span></code>
 objects. The <code class="docutils literal notranslate"><span class="pre">Primitive</span></code> class holds the exponent, where the <code class="docutils literal notranslate"><span class="pre">Primitive</span></code>
 is centered, and coefficient.</p>
@@ -292,31 +290,31 @@ classes. Each view has the same API as its namesake class (<em>e.g.</em>,
 ownership semantics. In particular, the view versions alias their state whereas
 the non-views own it. The view versions are necessary to maintain an array-of-
 structure API, while actually implementing a structure-of-arrays to be
-consistent with <a class="reference internal" href="#ao-bs-performance"><span class="std std-ref">Performance</span></a>.</p>
+consistent with <span class="xref std std-ref">ao_bs_performance</span>.</p>
 </section>
 <section id="summary">
-<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading"></a></h2>
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline"></a></h2>
 <p>Briefly, the design of the AOBasisSet component addresses the considerations
 raised in <a class="reference internal" href="#ao-basis-set-considerations"><span class="std std-ref">AOBasisSet Considerations</span></a> by:</p>
 <dl class="simple">
-<dt><a class="reference internal" href="#ao-bs-performance"><span class="std std-ref">Performance</span></a></dt><dd><p>Our design addresses performance primarily by a separation of the API from
+<dt><span class="xref std std-ref">ao_bs_performance</span></dt><dd><p>Our design addresses performance primarily by a separation of the API from
 the implementation. More specifically, the containers behave like arrays of
 structures, but under the hood are implemented as structures of arrays. The
 trick</p>
 </dd>
-<dt><a class="reference internal" href="#ao-spherical-vs-cartesian"><span class="std std-ref">Spherical vs. Cartesian</span></a></dt><dd><p>The design contains two provisions for spherical AOs vs. Cartesian AOs.
+<dt><span class="xref std std-ref">ao_spherical_vs_cartesian</span></dt><dd><p>The design contains two provisions for spherical AOs vs. Cartesian AOs.
 The first is in the <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> and <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> classes which are
 envisioned as providing direct access to the parameters defining a
 particular AO. The second is the <code class="docutils literal notranslate"><span class="pre">Shell</span></code> class which knows if the AOs
 forming the shell are spherical or Cartesian.</p>
 </dd>
-<dt><a class="reference internal" href="#ao-tracking-order"><span class="std std-ref">Tracking Order</span></a></dt><dd><p>The design calls for the <code class="docutils literal notranslate"><span class="pre">AO</span></code>, <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code>, and <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code>
+<dt><span class="xref std std-ref">ao_tracking_order</span></dt><dd><p>The design calls for the <code class="docutils literal notranslate"><span class="pre">AO</span></code>, <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code>, and <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code>
 classes, which can be used to iterate over the AOs in a <code class="docutils literal notranslate"><span class="pre">Shell</span></code>.</p>
 </dd>
-<dt><a class="reference internal" href="#ao-ao-to-center-mapping"><span class="std std-ref">AO to Center Mapping</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code> class stores all of the AOs (grouped into shells)
+<dt><span class="xref std std-ref">ao_ao_to_center_mapping</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code> class stores all of the AOs (grouped into shells)
 which reside on the same center.</p>
 </dd>
-<dt><a class="reference internal" href="#ao-atomic-basis-name"><span class="std std-ref">Atomic Basis Name</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code> class is capable of storing the name of the basis
+<dt><span class="xref std std-ref">ao_atomic_basis_name</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code> class is capable of storing the name of the basis
 set.</p>
 </dd>
 </dl>

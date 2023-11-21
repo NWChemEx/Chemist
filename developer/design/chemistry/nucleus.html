@@ -15,9 +15,7 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -97,16 +95,16 @@
            <div itemprop="articleBody">
              
   <section id="designing-the-nucleus-component">
-<span id="id1"></span><h1>Designing the Nucleus Component<a class="headerlink" href="#designing-the-nucleus-component" title="Permalink to this heading"></a></h1>
+<span id="id1"></span><h1>Designing the Nucleus Component<a class="headerlink" href="#designing-the-nucleus-component" title="Permalink to this headline"></a></h1>
 <p>This section contains notes on the design of Chemist’s nucleus component.</p>
 <section id="what-is-the-nucleus-component">
-<h2>What is the Nucleus Component?<a class="headerlink" href="#what-is-the-nucleus-component" title="Permalink to this heading"></a></h2>
+<h2>What is the Nucleus Component?<a class="headerlink" href="#what-is-the-nucleus-component" title="Permalink to this headline"></a></h2>
 <p>In the present context a nucleus is the core of an atom and is comprised of
 neutrons and protons. The nucleus component contains the abstractions needed
 to represent a single nucleus as well as a set of nuclei.</p>
 </section>
 <section id="why-do-we-need-a-nucleus-component">
-<h2>Why do we need a Nucleus Component?<a class="headerlink" href="#why-do-we-need-a-nucleus-component" title="Permalink to this heading"></a></h2>
+<h2>Why do we need a Nucleus Component?<a class="headerlink" href="#why-do-we-need-a-nucleus-component" title="Permalink to this headline"></a></h2>
 <p>Anecdotally most quantum chemistry packages do not bother with classes for
 describing the nucleus, so why should we? There’s a couple reasons. First,
 particularly when it comes to manipulating the chemical system we often treat
@@ -124,7 +122,7 @@ thus obtaining separate types for taking derivatives with respect to nuclei vs
 electrons (and different  operators).</p>
 </section>
 <section id="nucleus-considerations">
-<h2>Nucleus Considerations<a class="headerlink" href="#nucleus-considerations" title="Permalink to this heading"></a></h2>
+<h2>Nucleus Considerations<a class="headerlink" href="#nucleus-considerations" title="Permalink to this headline"></a></h2>
 <dl class="simple" id="n-basic-parameters">
 <dt>basic parameters</dt><dd><p>Nuclei are assumed to be centered on a point, have a mass, an atomic number,
 an overall charge, and an atomic symbol.</p>
@@ -161,7 +159,7 @@ compatible with Chemist.</p></li>
 </dd>
 </dl>
 <section id="out-of-scope">
-<h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Permalink to this heading"></a></h3>
+<h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Permalink to this headline"></a></h3>
 <dl class="simple">
 <dt>non-point charge like nuclei</dt><dd><p>While we recognize that nuclei need not always be treated as point charges,
 given how often they are treated as point charges, we are focusing on
@@ -172,7 +170,7 @@ added to the hierarchy to handle more realistic approximations.</p>
 </section>
 </section>
 <section id="nucleus-design">
-<h2>Nucleus Design<a class="headerlink" href="#nucleus-design" title="Permalink to this heading"></a></h2>
+<h2>Nucleus Design<a class="headerlink" href="#nucleus-design" title="Permalink to this headline"></a></h2>
 <figure class="align-center" id="id2">
 <span id="fig-nucleus-component"></span><img alt="../../../_images/nucleus.png" src="../../../_images/nucleus.png" />
 <figcaption>
@@ -185,16 +183,16 @@ categories those which are part of the public API and those which are needed to
 implement the public API. The following subsections contain more details about
 the various classes.</p>
 <section id="nucleus-nucleusview">
-<h3>Nucleus/NucleusView<a class="headerlink" href="#nucleus-nucleusview" title="Permalink to this heading"></a></h3>
+<h3>Nucleus/NucleusView<a class="headerlink" href="#nucleus-nucleusview" title="Permalink to this headline"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class is the fundamental class of the hierarchy. Consistent with
-the <a class="reference internal" href="#n-basic-parameters"><span class="std std-ref">basic parameters</span></a> consideration it will derive from <code class="docutils literal notranslate"><span class="pre">PointCharge</span></code>.
+the <span class="xref std std-ref">n_basic_parameters</span> consideration it will derive from <code class="docutils literal notranslate"><span class="pre">PointCharge</span></code>.
 On top of <code class="docutils literal notranslate"><span class="pre">PointCharge</span></code>’s state we add the mass, atomic number, and atomic
-symbol. The <code class="docutils literal notranslate"><span class="pre">NucleusView</span></code> class, consistent with <a class="reference internal" href="#n-views"><span class="std std-ref">Views</span></a> allows users
+symbol. The <code class="docutils literal notranslate"><span class="pre">NucleusView</span></code> class, consistent with <span class="xref std std-ref">n_views</span> allows users
 to wrap existing data in objects and have those objects be used as if they are
 <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> objects.</p>
 </section>
 <section id="nuclei-nucleiview">
-<h3>Nuclei/NucleiView<a class="headerlink" href="#nuclei-nucleiview" title="Permalink to this heading"></a></h3>
+<h3>Nuclei/NucleiView<a class="headerlink" href="#nuclei-nucleiview" title="Permalink to this headline"></a></h3>
 <p>Generally speaking we do not usually deal with a single nucleus, we deal with a
 set of nuclei. The <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object serves as a container for <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code>
 objects. A separate class, versus say an STL container, is needed because
@@ -207,7 +205,7 @@ the <code class="docutils literal notranslate"><span class="pre">Nuclei</span></
 existing data as if it were a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object.</p>
 </section>
 <section id="pimpls">
-<h3>PIMPLs<a class="headerlink" href="#pimpls" title="Permalink to this heading"></a></h3>
+<h3>PIMPLs<a class="headerlink" href="#pimpls" title="Permalink to this headline"></a></h3>
 <p>With the exception of the <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class (and its corresponding view), all
 classes rely on the PIMPL idiom to separate their API from their implementation.
 This is primarily for performance reasons. In particular the way <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code>
@@ -217,15 +215,15 @@ that <code class="docutils literal notranslate"><span class="pre">NucleiView</sp
 </section>
 </section>
 <section id="summary">
-<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading"></a></h2>
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline"></a></h2>
 <dl class="simple">
-<dt><a class="reference internal" href="#n-basic-parameters"><span class="std std-ref">basic parameters</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class contains the specified parameters.</p>
+<dt><span class="xref std std-ref">n_basic_parameters</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class contains the specified parameters.</p>
 </dd>
-<dt><a class="reference internal" href="#n-atomic-number-v-charge"><span class="std std-ref">atomic number vs. charge</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> object stores the atomic number as separate state. By default
+<dt><span class="xref std std-ref">n_atomic_number_v_charge</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> object stores the atomic number as separate state. By default
 the charge is set to the atomic number (and the units are assumed to be
 atomic units).</p>
 </dd>
-<dt><a class="reference internal" href="#n-views"><span class="std std-ref">Views</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code>, and <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> classes are paired with <code class="docutils literal notranslate"><span class="pre">NucleusView</span></code>
+<dt><span class="xref std std-ref">n_views</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code>, and <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> classes are paired with <code class="docutils literal notranslate"><span class="pre">NucleusView</span></code>
 and <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code>.</p>
 </dd>
 </dl>

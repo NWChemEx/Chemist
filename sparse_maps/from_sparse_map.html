@@ -15,9 +15,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -93,11 +91,11 @@
            <div itemprop="articleBody">
              
   <section id="sparsifying-a-tensor">
-<h1>Sparsifying a Tensor<a class="headerlink" href="#sparsifying-a-tensor" title="Permalink to this heading"></a></h1>
+<h1>Sparsifying a Tensor<a class="headerlink" href="#sparsifying-a-tensor" title="Permalink to this headline"></a></h1>
 <p>This page details the algorithms used to create a tensor-of-tensors from a
 SparseMap and a tensor.</p>
 <section id="things-to-note">
-<h2>Things to note<a class="headerlink" href="#things-to-note" title="Permalink to this heading"></a></h2>
+<h2>Things to note<a class="headerlink" href="#things-to-note" title="Permalink to this headline"></a></h2>
 <p>We are creating an object, <code class="docutils literal notranslate"><span class="pre">t</span></code> of type <code class="docutils literal notranslate"><span class="pre">DistArray&lt;Tensor&lt;Tensor&lt;T&gt;&gt;&gt;</span></code> from
 an object <code class="docutils literal notranslate"><span class="pre">T</span></code> of type <code class="docutils literal notranslate"><span class="pre">DistArray&lt;Tensor&lt;T&gt;&gt;</span></code>. Since the tiles are not the
 same type we are going to have to copy data. At best we are going to be able to
@@ -109,7 +107,7 @@ us the most flexibility in defining tiles. Specialized kernels may be added at
 a later point for other types of SparseMap instances.</p>
 </section>
 <section id="assumptions">
-<h2>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this heading"></a></h2>
+<h2>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this headline"></a></h2>
 <p>Assume we are given a <code class="docutils literal notranslate"><span class="pre">SparseMap</span></code> instance, <code class="docutils literal notranslate"><span class="pre">sm</span></code> and a tensor <code class="docutils literal notranslate"><span class="pre">T</span></code>. Our
 present goal is to create a tensor-of-tensors (ToT), <code class="docutils literal notranslate"><span class="pre">t</span></code>,  out of <code class="docutils literal notranslate"><span class="pre">T</span></code>. The
 outer rank of <code class="docutils literal notranslate"><span class="pre">t</span></code> is given by <code class="docutils literal notranslate"><span class="pre">sm.ind_rank()</span></code> and the inner rank of <code class="docutils literal notranslate"><span class="pre">t</span></code> is
@@ -136,7 +134,7 @@ second if we have no injections. Thus as long as we code up the second scenario
 in such a manner that it works with no injections we cover both scenarios.</p>
 </section>
 <section id="make-tot-tile-algorithm">
-<h2><code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code> Algorithm<a class="headerlink" href="#make-tot-tile-algorithm" title="Permalink to this heading"></a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code> Algorithm<a class="headerlink" href="#make-tot-tile-algorithm" title="Permalink to this headline"></a></h2>
 <p>The guts of the <code class="docutils literal notranslate"><span class="pre">from_sparse_tensor</span></code> function are contained in
 <code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code>. <code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code> is more-or-less a lambda which will be
 passed to <code class="docutils literal notranslate"><span class="pre">TA::make_array</span></code> to form the tensor-of-tensors. <code class="docutils literal notranslate"><span class="pre">make_tot_tile_</span></code>

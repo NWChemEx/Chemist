@@ -1,0 +1,6 @@
+<map id="chemist::basis_set::AtomicBasisSetTraits&lt; AtomicBSType &gt;" name="chemist::basis_set::AtomicBasisSetTraits&lt; AtomicBSType &gt;">
+<area shape="rect" id="node1" title="Propagates types associated with an AtomicBaseSet of type AtomicBSType." alt="" coords="25,317,192,373"/>
+<area shape="rect" id="node2" href="$structchemist_1_1basis__set_1_1ShellTraits.html" title=" " alt="" coords="6,213,211,269"/>
+<area shape="rect" id="node3" href="$structchemist_1_1basis__set_1_1ContractedGaussianTraits.html" title=" " alt="" coords="5,109,212,165"/>
+<area shape="rect" id="node4" href="$structchemist_1_1basis__set_1_1PrimitiveTraits.html" title=" " alt="" coords="15,5,203,61"/>
+</map>

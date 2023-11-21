@@ -15,9 +15,7 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
-        <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -98,16 +96,16 @@
            <div itemprop="articleBody">
              
   <section id="designing-the-fragmented-class">
-<span id="designing-fragmented-class"></span><h1>Designing the Fragmented Class<a class="headerlink" href="#designing-the-fragmented-class" title="Permalink to this heading"></a></h1>
+<span id="designing-fragmented-class"></span><h1>Designing the Fragmented Class<a class="headerlink" href="#designing-the-fragmented-class" title="Permalink to this headline"></a></h1>
 <p>This page describes the design of the <code class="docutils literal notranslate"><span class="pre">Fragmented</span></code> class.</p>
 <section id="what-is-the-fragmented-class">
-<h2>What is the Fragmented Class?<a class="headerlink" href="#what-is-the-fragmented-class" title="Permalink to this heading"></a></h2>
+<h2>What is the Fragmented Class?<a class="headerlink" href="#what-is-the-fragmented-class" title="Permalink to this headline"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> class represents a “superset” <code class="docutils literal notranslate"><span class="pre">T</span></code> object which has
 been broken into subsets. The elements in the <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> class are
 the pieces of the superset, i.e., the fragments.</p>
 </section>
 <section id="why-do-we-need-a-fragmented-class">
-<h2>Why Do We Need a Fragmented Class?<a class="headerlink" href="#why-do-we-need-a-fragmented-class" title="Permalink to this heading"></a></h2>
+<h2>Why Do We Need a Fragmented Class?<a class="headerlink" href="#why-do-we-need-a-fragmented-class" title="Permalink to this headline"></a></h2>
 <p>The overall architecture of the Fragmenting component
 (see <a class="reference internal" href="overview.html#designing-the-fragmenting-component"><span class="std std-ref">Designing the Fragmenting Component</span></a>) requires a <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code>
 class template in order to represent a fragmented <code class="docutils literal notranslate"><span class="pre">T</span></code> object. More generally,
@@ -117,7 +115,7 @@ want to avoid copying members of the superset <code class="docutils literal notr
 indirection in the implementation.</p>
 </section>
 <section id="fragmented-considerations">
-<h2>Fragmented Considerations<a class="headerlink" href="#fragmented-considerations" title="Permalink to this heading"></a></h2>
+<h2>Fragmented Considerations<a class="headerlink" href="#fragmented-considerations" title="Permalink to this headline"></a></h2>
 <dl class="simple" id="fc-additional-state">
 <dt>additional state</dt><dd><p>The overall design of the Fragmenting component
 (<a class="reference internal" href="overview.html#designing-the-fragmenting-component"><span class="std std-ref">Designing the Fragmenting Component</span></a>) laid out the container-like
@@ -163,14 +161,14 @@ must contain:</p>
 </dl>
 </section>
 <section id="fragmented-design">
-<h2>Fragmented Design<a class="headerlink" href="#fragmented-design" title="Permalink to this heading"></a></h2>
+<h2>Fragmented Design<a class="headerlink" href="#fragmented-design" title="Permalink to this headline"></a></h2>
 <figure class="align-center" id="id1">
 <span id="fig-fragmented-class"></span><img alt="../../../../_images/fragmented.png" src="../../../../_images/fragmented.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 5 </span><span class="caption-text">Classes related to implementing the <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> class template.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
 </figcaption>
 </figure>
-<p>Consideration <a class="reference internal" href="#fc-additional-state"><span class="std std-ref">additional state</span></a> means that <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> will need
+<p>Consideration <span class="xref std std-ref">fc_additional_state</span> means that <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> will need
 to contain <code class="docutils literal notranslate"><span class="pre">T</span></code>-specific state. While specialization is an option,
 specialization of a class template requires redefining all members of the class
 for every specialization. Since we anticipate needing to do this for every
@@ -183,7 +181,7 @@ rather its PIMPL, <code class="docutils literal notranslate"><span class="pre">F
 implement common functionality in the <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> class template in terms
 of a common set of functions each specialization of <code class="docutils literal notranslate"><span class="pre">FragmentedPIMPL&lt;T&gt;</span></code>
 must implement. In turn the <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> class relies on static
-polymorphism to address the <a class="reference internal" href="#fc-additional-state"><span class="std std-ref">additional state</span></a> consideration.
+polymorphism to address the <span class="xref std std-ref">fc_additional_state</span> consideration.
 Conceptually, the static polymorphism in this case works similar to duck-typing
 in Python, namely the
 <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> object doesn’t really care about the exact signatures of the
@@ -203,23 +201,23 @@ instance plus the additional <code class="docutils literal notranslate"><span cl
 instance plus the additional <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> state for each fragment.</p>
 </section>
 <section id="fragmented-api">
-<h2>Fragmented API<a class="headerlink" href="#fragmented-api" title="Permalink to this heading"></a></h2>
+<h2>Fragmented API<a class="headerlink" href="#fragmented-api" title="Permalink to this headline"></a></h2>
 <p>To construct a <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> object:</p>
 <div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// In this code snippet T is assumed to be Nuclei, Molecule, or</span>
 <span class="c1">// ChemicalSystem</span>
 
 <span class="c1">// We somehow make a supersystem object</span>
-<span class="n">T</span><span class="w"> </span><span class="n">supersys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_supersystem</span><span class="p">();</span>
+<span class="n">T</span><span class="w"> </span><span class="n">supersys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_supersystem</span><span class="p">();</span><span class="w"></span>
 
 <span class="c1">// Fragmented objects need to know the supersystem the refer to</span>
 <span class="c1">// (could also move to avoid the copy)</span>
-<span class="n">Fragmented</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fragments</span><span class="p">(</span><span class="n">supersys</span><span class="p">);</span>
+<span class="n">Fragmented</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fragments</span><span class="p">(</span><span class="n">supersys</span><span class="p">);</span><span class="w"></span>
 
 <span class="c1">// Default construction is null, not empty</span>
-<span class="n">Fragmented</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">null</span><span class="p">;</span>
+<span class="n">Fragmented</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">null</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Following from consideration <a class="reference internal" href="#fc-null-and-empty-states"><span class="std std-ref">null and empty states</span></a>, <code class="docutils literal notranslate"><span class="pre">fragments</span></code> will
+<p>Following from consideration <span class="xref std std-ref">fc_null_and_empty_states</span>, <code class="docutils literal notranslate"><span class="pre">fragments</span></code> will
 be an empty set of fragments whereas <code class="docutils literal notranslate"><span class="pre">null</span></code> will be a null object. Because
 fragment creation is somewhat involved we do not anticipate users having a set
 of fragments ready when creating a <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> object. Rather we expect
@@ -227,32 +225,32 @@ fragments to be added dynamically via an algorithm; examples of filling in
 fragments were shown in <a class="reference internal" href="overview.html#fragmenting-api"><span class="std std-ref">Fragmenting API</span></a>. Once <code class="docutils literal notranslate"><span class="pre">fragments</span></code> is filled
 in we expect users to want to be able to access its state:</p>
 <div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// How many fragments?</span>
-<span class="n">fragments</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="n">fragments</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"></span>
 
 <span class="c1">// Access the supersystem</span>
-<span class="n">assert</span><span class="p">(</span><span class="n">fragments</span><span class="p">.</span><span class="n">supersystem</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">supersys</span><span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">fragments</span><span class="p">.</span><span class="n">supersystem</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">supersys</span><span class="p">);</span><span class="w"></span>
 
 <span class="c1">// Loop over fragments and print them</span>
-<span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">frag_i</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">fragments</span><span class="p">)</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">frag_i</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">frag_i</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">fragments</span><span class="p">)</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">frag_i</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="summary">
-<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading"></a></h2>
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline"></a></h2>
 <dl class="simple">
-<dt><a class="reference internal" href="#fc-additional-state"><span class="std std-ref">additional state</span></a></dt><dd><p>The fact that some supersystems contain state beyond simply being a container
+<dt><span class="xref std std-ref">fc_additional_state</span></dt><dd><p>The fact that some supersystems contain state beyond simply being a container
 is handled by specializing <code class="docutils literal notranslate"><span class="pre">FragmentedPIMPL&lt;T&gt;</span></code> for each <code class="docutils literal notranslate"><span class="pre">T</span></code>.</p>
 </dd>
-<dt><a class="reference internal" href="#fc-non-disjoint2"><span class="std std-ref">non-disjoint</span></a></dt><dd><p>This consideration will primarily apply to <code class="docutils literal notranslate"><span class="pre">FragmentedPIMPL&lt;Nuclei&gt;</span></code> which
+<dt><span class="xref std std-ref">fc_non_disjoint2</span></dt><dd><p>This consideration will primarily apply to <code class="docutils literal notranslate"><span class="pre">FragmentedPIMPL&lt;Nuclei&gt;</span></code> which
 is charged with knowing which <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> objects are assigned to which
 fragments. Common functionality implemented in the <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> class
 template will not assume that fragments are disjoint, nor will it enforce
 disjointedness.</p>
 </dd>
-<dt><a class="reference internal" href="#fc-null-and-empty-states"><span class="std std-ref">null and empty states</span></a></dt><dd><p>The default constructor will create a null object, whereas the constructor
+<dt><span class="xref std std-ref">fc_null_and_empty_states</span></dt><dd><p>The default constructor will create a null object, whereas the constructor
 which takes a superset creates an empty object.</p>
 </dd>
-<dt><a class="reference internal" href="#fc-overall-state"><span class="std std-ref">overall state</span></a></dt><dd><p>Storing the state of the <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> object largely falls to the
+<dt><span class="xref std std-ref">fc_overall_state</span></dt><dd><p>Storing the state of the <code class="docutils literal notranslate"><span class="pre">Fragmented&lt;T&gt;</span></code> object largely falls to the
 various PIMPL classes.</p>
 </dd>
 </dl>

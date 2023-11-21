@@ -1,0 +1,5 @@
+<map id="chemist::Nucleus" name="chemist::Nucleus">
+<area shape="rect" id="node1" title="Class representing the (point) nucleus of an atom." alt="" coords="33,169,167,196"/>
+<area shape="rect" id="node2" href="$classchemist_1_1PointCharge.html" title=" " alt="" coords="19,80,181,121"/>
+<area shape="rect" id="node3" href="$classchemist_1_1Point.html" title=" " alt="" coords="5,5,195,32"/>
+</map>

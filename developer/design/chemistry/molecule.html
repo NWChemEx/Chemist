@@ -15,9 +15,7 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -98,17 +96,17 @@
            <div itemprop="articleBody">
              
   <section id="molecule-design">
-<span id="md-molecule-design"></span><h1>Molecule Design<a class="headerlink" href="#molecule-design" title="Permalink to this heading"></a></h1>
+<span id="md-molecule-design"></span><h1>Molecule Design<a class="headerlink" href="#molecule-design" title="Permalink to this headline"></a></h1>
 <p>This section contains notes on the design of Chemist’s molecule component.</p>
 <section id="what-is-a-molecule">
-<span id="md-what-is-a-molecule"></span><h2>What is a Molecule?<a class="headerlink" href="#what-is-a-molecule" title="Permalink to this heading"></a></h2>
+<span id="md-what-is-a-molecule"></span><h2>What is a Molecule?<a class="headerlink" href="#what-is-a-molecule" title="Permalink to this headline"></a></h2>
 <p>In chemistry molecules are sets of atoms which are covalently bonded. In
 computational chemistry, particularly quantum chemistry, the covalently-bonded
 requirement is usually dropped, <em>i.e.</em>, a molecule is simply a set of atoms.
 Our present discussion assumes the computational chemistry definition.</p>
 </section>
 <section id="why-do-we-need-a-molecule-component">
-<h2>Why do we need a Molecule (component)?<a class="headerlink" href="#why-do-we-need-a-molecule-component" title="Permalink to this heading"></a></h2>
+<h2>Why do we need a Molecule (component)?<a class="headerlink" href="#why-do-we-need-a-molecule-component" title="Permalink to this headline"></a></h2>
 <p>Computational chemistry aims to predict chemical phenomena. Part of the input
 to a computational chemistry package will always be some sort of chemical
 system. The molecule is used to represent the atomic part of that chemical
@@ -116,7 +114,7 @@ system. Thus we need a molecule component so that users can specify the atoms
 in their system.</p>
 </section>
 <section id="molecule-considerations">
-<span id="id1"></span><h2>Molecule Considerations<a class="headerlink" href="#molecule-considerations" title="Permalink to this heading"></a></h2>
+<span id="id1"></span><h2>Molecule Considerations<a class="headerlink" href="#molecule-considerations" title="Permalink to this headline"></a></h2>
 <p>The concept of a molecule class, is widely ingrained in most, if not all,
 object-oriented computational chemistry packages. As such, many developers
 have an implicit idea of what the molecule should do. In this section we
@@ -155,7 +153,7 @@ will perform better.</p>
 </dd>
 </dl>
 <section id="not-in-scope">
-<h3>Not In Scope<a class="headerlink" href="#not-in-scope" title="Permalink to this heading"></a></h3>
+<h3>Not In Scope<a class="headerlink" href="#not-in-scope" title="Permalink to this headline"></a></h3>
 <p>Given the prevalence of the molecule class in other software packages, we have
 also explicitly listed other design points which were considered, but we
 ultimately decided to be out of scope for the molecule component.</p>
@@ -212,7 +210,7 @@ have opted to store the topology in a different class as well (the
 </section>
 </section>
 <section id="overview-of-molecule-design">
-<h2>Overview of Molecule Design<a class="headerlink" href="#overview-of-molecule-design" title="Permalink to this heading"></a></h2>
+<h2>Overview of Molecule Design<a class="headerlink" href="#overview-of-molecule-design" title="Permalink to this headline"></a></h2>
 <figure class="align-center" id="id2">
 <span id="fig-molecule-design"></span><img alt="../../../_images/molecule.png" src="../../../_images/molecule.png" />
 <figcaption>
@@ -226,13 +224,13 @@ class hierarchies. The point hierarchy describes the individual descretized
 units of the system, whereas the point-set hierarchy represents the overall
 set of descretized units.</p>
 <section id="point-hierarchy">
-<h3>Point Hierarchy<a class="headerlink" href="#point-hierarchy" title="Permalink to this heading"></a></h3>
-<p>In addressing the <a class="reference internal" href="#md-nuclei-reuse"><span class="std std-ref">Nuclei reuse.</span></a> consideration, we have opted to design
+<h3>Point Hierarchy<a class="headerlink" href="#point-hierarchy" title="Permalink to this headline"></a></h3>
+<p>In addressing the <span class="xref std std-ref">md_nuclei_reuse</span> consideration, we have opted to design
 the <code class="docutils literal notranslate"><span class="pre">Atom</span></code> class as a derived class in a hierarchy. This allows each of the
 base classes to be reused for other concepts. The design of the <code class="docutils literal notranslate"><span class="pre">Atom</span></code> and
 its base classes are summarized in the following subsections.</p>
 <section id="point-class">
-<h4>Point Class<a class="headerlink" href="#point-class" title="Permalink to this heading"></a></h4>
+<h4>Point Class<a class="headerlink" href="#point-class" title="Permalink to this headline"></a></h4>
 <p>In scientific simulations we often have a number of point-like objects (point
 multipole moments, point masses, grid points, etc.). While we rarely only
 care about the location of these points, <em>i.e.</em>, each point also usually has
@@ -247,7 +245,7 @@ object’s coordinates</p></li>
 </ul>
 </section>
 <section id="point-charge-class">
-<h4>Point Charge Class<a class="headerlink" href="#point-charge-class" title="Permalink to this heading"></a></h4>
+<h4>Point Charge Class<a class="headerlink" href="#point-charge-class" title="Permalink to this headline"></a></h4>
 <p>When we associate a charge with a point in space we get a point charge, and the
 <code class="docutils literal notranslate"><span class="pre">PointCharge</span></code> class is designed to represent such a charge. Relative to the
 <code class="docutils literal notranslate"><span class="pre">Point</span></code> class, the <code class="docutils literal notranslate"><span class="pre">PointCharge</span></code> class adds the charge of the point charge.</p>
@@ -260,17 +258,17 @@ nuclei or actual point charges.</p></li>
 </ul>
 </section>
 <section id="nucleus-class">
-<h4>Nucleus Class<a class="headerlink" href="#nucleus-class" title="Permalink to this heading"></a></h4>
+<h4>Nucleus Class<a class="headerlink" href="#nucleus-class" title="Permalink to this headline"></a></h4>
 <p>Main discussion: <a class="reference internal" href="nucleus.html#designing-the-nucleus-component"><span class="std std-ref">Designing the Nucleus Component</span></a>.</p>
 <p>Quantum chemistry overwhelming views nuclei as massive point-charges. The
 <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class adds mass and atomic number to the <code class="docutils literal notranslate"><span class="pre">PointCharge</span></code> base
-class. In practice, given consideration <a class="reference internal" href="#md-quantum-electrons"><span class="std std-ref">Quantum electrons.</span></a>, we
+class. In practice, given consideration <span class="xref std std-ref">md_quantum_electrons</span>, we
 expect <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> objects to be the descretization of the <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> class,
 and thus much of the state of <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> will be tied up in <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code>
 objects.</p>
 </section>
 <section id="atom-class">
-<h4>Atom Class<a class="headerlink" href="#atom-class" title="Permalink to this heading"></a></h4>
+<h4>Atom Class<a class="headerlink" href="#atom-class" title="Permalink to this headline"></a></h4>
 <p>In practice, when people build molecules they do so by specifying atoms. In
 electronic structure theory, an atom is a set of electrons and a nucleus. We
 introduce the <code class="docutils literal notranslate"><span class="pre">Atom</span></code> class to represent isolated atoms. We primarily see
@@ -289,12 +287,12 @@ are nuclei AND electrons.</p>
 </section>
 </section>
 <section id="point-set-hierarchy">
-<h3>Point Set Hierarchy<a class="headerlink" href="#point-set-hierarchy" title="Permalink to this heading"></a></h3>
+<h3>Point Set Hierarchy<a class="headerlink" href="#point-set-hierarchy" title="Permalink to this headline"></a></h3>
 <p>The point set hierarchy mirrors the point hierarchy, except that each class
 contains one or more of its namesake descretized units. As explained in more
 detail below, the introduction of new classes (as opposed to simply just using
 <code class="docutils literal notranslate"><span class="pre">std::vector&lt;Point&gt;</span></code>, for example) is in anticipation of the
-<a class="reference internal" href="#md-performance"><span class="std std-ref">Performance.</span></a> consideration. More specifically, by having actual
+<span class="xref std std-ref">md_performance</span> consideration. More specifically, by having actual
 classes we are able to define an API, which is decoupled from the
 implementation, whereas if we declare <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> as a typedef of
 <code class="docutils literal notranslate"><span class="pre">std::vector&lt;Atom&gt;</span></code>.</p>
@@ -307,7 +305,7 @@ derive from <code class="docutils literal notranslate"><span class="pre">PointSe
 references of the bases</p>
 </div>
 <section id="point-set-class">
-<h4>Point Set Class<a class="headerlink" href="#point-set-class" title="Permalink to this heading"></a></h4>
+<h4>Point Set Class<a class="headerlink" href="#point-set-class" title="Permalink to this headline"></a></h4>
 <p>When one has more than one <code class="docutils literal notranslate"><span class="pre">Point</span></code> object, we say they have a set of points.
 The <code class="docutils literal notranslate"><span class="pre">PointSet</span></code> class is introduced to represent a container of <code class="docutils literal notranslate"><span class="pre">Point</span></code>
 objects. In particular <code class="docutils literal notranslate"><span class="pre">PointSet</span></code> is envisioned as:</p>
@@ -320,7 +318,7 @@ state),</p></li>
 </ul>
 </section>
 <section id="charges-class">
-<h4>Charges Class<a class="headerlink" href="#charges-class" title="Permalink to this heading"></a></h4>
+<h4>Charges Class<a class="headerlink" href="#charges-class" title="Permalink to this headline"></a></h4>
 <p>The <code class="docutils literal notranslate"><span class="pre">Charges</span></code> class is simply the generalization of the <code class="docutils literal notranslate"><span class="pre">PointSet</span></code> class.
 The main design points:</p>
 <ul class="simple">
@@ -330,51 +328,51 @@ The main design points:</p>
 </ul>
 </section>
 <section id="nuclei-class">
-<h4>Nuclei Class<a class="headerlink" href="#nuclei-class" title="Permalink to this heading"></a></h4>
+<h4>Nuclei Class<a class="headerlink" href="#nuclei-class" title="Permalink to this headline"></a></h4>
 <p>When our container contains <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> objects, the container is now a
 <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object. Notably:</p>
 <ul class="simple">
-<li><p>deriving form <code class="docutils literal notranslate"><span class="pre">Charges</span></code> satisfies <a class="reference internal" href="#md-nuclei-reuse"><span class="std std-ref">Nuclei reuse.</span></a>,</p></li>
+<li><p>deriving form <code class="docutils literal notranslate"><span class="pre">Charges</span></code> satisfies <span class="xref std std-ref">md_nuclei_reuse</span>,</p></li>
 <li><p>mass and atomic numbers can be collected into contiguous arrays,</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">NucleusView</span></code> for maintaining an array-of-structures API.</p></li>
 </ul>
 </section>
 <section id="molecule-class">
-<h4>Molecule Class<a class="headerlink" href="#molecule-class" title="Permalink to this heading"></a></h4>
+<h4>Molecule Class<a class="headerlink" href="#molecule-class" title="Permalink to this headline"></a></h4>
 <p>The namesake of the molecule component, the <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> class is the
 culmination of the design so far. Notably the <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> class:</p>
 <ul class="simple">
 <li><p>acts like an array of <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> objects consistent
-with <a class="reference internal" href="#md-quantum-electrons"><span class="std std-ref">Quantum electrons.</span></a>,</p></li>
+with <span class="xref std std-ref">md_quantum_electrons</span>,</p></li>
 <li><p>stores the electronic charge of the system (the net number of
 electrons), which is different than the total charge of the nuclei,</p></li>
 <li><p>stores the multiplicity of the electrons</p></li>
-<li><p>access to the nuclei as a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object addresses <a class="reference internal" href="#md-nuclei-reuse"><span class="std std-ref">Nuclei reuse.</span></a></p></li>
+<li><p>access to the nuclei as a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object addresses <span class="xref std std-ref">md_nuclei_reuse</span></p></li>
 </ul>
 </section>
 </section>
 </section>
 <section id="molecule-design-summary">
-<h2>Molecule Design Summary<a class="headerlink" href="#molecule-design-summary" title="Permalink to this heading"></a></h2>
+<h2>Molecule Design Summary<a class="headerlink" href="#molecule-design-summary" title="Permalink to this headline"></a></h2>
 <p>To summarize how Chemist’s molecule component addresses the considerations
 raised in <a class="reference internal" href="#molecule-considerations"><span class="std std-ref">Molecule Considerations</span></a>:</p>
 <dl class="simple">
-<dt><a class="reference internal" href="#md-data-structure"><span class="std std-ref">Data structure.</span></a></dt><dd><p>This consideration factored more into deciding what was and was not part of
+<dt><span class="xref std std-ref">md_data_structure</span></dt><dd><p>This consideration factored more into deciding what was and was not part of
 the molecule component. In particular, the desire for the classes to be
 data structures precluded inclusion of complicated methods, such as those
 for determining topology or connectivity.</p>
 </dd>
-<dt><a class="reference internal" href="#md-nuclei-reuse"><span class="std std-ref">Nuclei reuse.</span></a></dt><dd><p>The fact that <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> and <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> respectively derive from
+<dt><span class="xref std std-ref">md_nuclei_reuse</span></dt><dd><p>The fact that <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> and <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> respectively derive from
 <code class="docutils literal notranslate"><span class="pre">PointCharge</span></code> and <code class="docutils literal notranslate"><span class="pre">Charges</span></code> class, means the classes can be used
 seamlessly wherever <code class="docutils literal notranslate"><span class="pre">PointCharge</span></code> and <code class="docutils literal notranslate"><span class="pre">Charges</span></code> are used.</p>
 </dd>
-<dt><a class="reference internal" href="#md-quantum-electrons"><span class="std std-ref">Quantum electrons.</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> class contains a set of <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> objects, not a set of
+<dt><span class="xref std std-ref">md_quantum_electrons</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> class contains a set of <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> objects, not a set of
 <code class="docutils literal notranslate"><span class="pre">Atoms</span></code>. This reflects the fact that once we create the <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> we
 can no longer, unambiguously, assign electrons to centers. The (quantum)
 electrons in the <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> class are stored implicitly via charge
 and multiplicity.</p>
 </dd>
-<dt><a class="reference internal" href="#md-performance"><span class="std std-ref">Performance.</span></a></dt><dd><p>By opting for full-fledged classes for the sets in the component, we are
+<dt><span class="xref std std-ref">md_performance</span></dt><dd><p>By opting for full-fledged classes for the sets in the component, we are
 able to separate the API of the class from its implementation, which would
 not be as easy if we had opted to represent a molecule as a
 <code class="docutils literal notranslate"><span class="pre">std::vector&lt;Atom&gt;</span></code> for example.</p>
@@ -382,7 +380,7 @@ not be as easy if we had opted to represent a molecule as a
 </dl>
 </section>
 <section id="future-considerations">
-<h2>Future Considerations<a class="headerlink" href="#future-considerations" title="Permalink to this heading"></a></h2>
+<h2>Future Considerations<a class="headerlink" href="#future-considerations" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Could template <code class="docutils literal notranslate"><span class="pre">Atom</span></code> on the type of the nucleus and introduce additional
 nucleus types in cases where the nucleus is to be treated quantum

@@ -15,9 +15,7 @@
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
-        <script src="../../../../_static/sphinx_highlight.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
@@ -99,12 +97,12 @@
            <div itemprop="articleBody">
              
   <section id="designing-the-capping-classes">
-<span id="designing-the-caps-class"></span><h1>Designing the Capping Classes<a class="headerlink" href="#designing-the-capping-classes" title="Permalink to this heading"></a></h1>
-<p>In <a class="reference internal" href="overview.html#designing-the-fragmenting-component"><span class="std std-ref">Designing the Fragmenting Component</span></a> consideration <a class="reference internal" href="overview.html#fc-caps"><span class="std std-ref">caps</span></a>
+<span id="designing-the-caps-class"></span><h1>Designing the Capping Classes<a class="headerlink" href="#designing-the-capping-classes" title="Permalink to this headline"></a></h1>
+<p>In <a class="reference internal" href="overview.html#designing-the-fragmenting-component"><span class="std std-ref">Designing the Fragmenting Component</span></a> consideration <span class="xref std std-ref">fc_caps</span>
 gave rise to the need to represent caps. This page describes the design of
 the <code class="docutils literal notranslate"><span class="pre">Cap</span></code> and <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> classes.</p>
 <section id="what-is-a-cap">
-<h2>What is a Cap?<a class="headerlink" href="#what-is-a-cap" title="Permalink to this heading"></a></h2>
+<h2>What is a Cap?<a class="headerlink" href="#what-is-a-cap" title="Permalink to this headline"></a></h2>
 <p>When fragmenting large covalently bonded systems it is usually the case that
 there exists at least one bond between say atoms <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>,
 such that there is a fragment which contains <span class="math notranslate nohighlight">\(A\)</span>, but not <span class="math notranslate nohighlight">\(B\)</span>.
@@ -117,7 +115,7 @@ between <span class="math notranslate nohighlight">\(A\)</span> and an added mon
 monovalent atom (or sometimes group of atoms) is referred to as a “cap”.</p>
 </section>
 <section id="why-do-we-need-caps">
-<h2>Why Do We Need Caps?<a class="headerlink" href="#why-do-we-need-caps" title="Permalink to this heading"></a></h2>
+<h2>Why Do We Need Caps?<a class="headerlink" href="#why-do-we-need-caps" title="Permalink to this headline"></a></h2>
 <p>If we want to apply fragment-based methods to large covalently-bonded systems
 then we will necessarily have to break covalent bonds. Since we will not want
 to treat the resulting fragments as radicals, we will also need to cap the
@@ -129,7 +127,7 @@ to wrap the process of retrieving caps for either a particular anchor or a
 particular replaced atom.</p>
 </section>
 <section id="caps-considerations">
-<h2>Caps considerations<a class="headerlink" href="#caps-considerations" title="Permalink to this heading"></a></h2>
+<h2>Caps considerations<a class="headerlink" href="#caps-considerations" title="Permalink to this headline"></a></h2>
 <dl class="simple" id="cc-replaced-type">
 <dt>replaced type</dt><dd><p>When we fragment an object of type <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> we break bonds between
 <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> objects. The cap we add to fix this bond will have state
@@ -175,7 +173,7 @@ is set-like), but is also indexable.</p>
 </dd>
 </dl>
 <section id="out-of-scope">
-<h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Permalink to this heading"></a></h3>
+<h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Permalink to this headline"></a></h3>
 <dl class="simple">
 <dt>electrons</dt><dd><p>We treat caps purely as nuclei. The motivation is that typically users
 assign the number of electrons and multiplicity to the <em>capped</em> system, i.e.,
@@ -186,7 +184,7 @@ caps.</p>
 </section>
 </section>
 <section id="capping-classes-design">
-<h2>Capping Classes Design<a class="headerlink" href="#capping-classes-design" title="Permalink to this heading"></a></h2>
+<h2>Capping Classes Design<a class="headerlink" href="#capping-classes-design" title="Permalink to this headline"></a></h2>
 <figure class="align-center" id="id1">
 <span id="fig-caps-design"></span><img alt="../../../../_images/caps.png" src="../../../../_images/caps.png" />
 <figcaption>
@@ -202,35 +200,35 @@ the fragment. In turn, this fragmentation choice results in breaking the bond
 between carbons two and three. In this scenario we refer to carbon two as the
 “anchor atom”, since it is the atom the cap will be anchored to and carbon three
 as the “replaced” atom.</p>
-<p>Following the <a class="reference internal" href="#cc-container"><span class="std std-ref">container</span></a> consideration, the <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> object is a
+<p>Following the <span class="xref std std-ref">cc_container</span> consideration, the <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> object is a
 container-like object whose elements are instances of the <code class="docutils literal notranslate"><span class="pre">Cap</span></code> class. Each
 <code class="docutils literal notranslate"><span class="pre">Cap</span></code> object knows the identity of the anchor object, the identity of the
 replaced object, and the nuclei forming the cap. This satisfies the
-<a class="reference internal" href="#cc-bond-memory"><span class="std std-ref">bond memory</span></a> and <a class="reference internal" href="#cc-multiple-objects"><span class="std std-ref">multiple objects</span></a> considerations.
-The <a class="reference internal" href="#cc-multiple-caps"><span class="std std-ref">multiple caps</span></a> consideration is addressed by adding multiple caps,
+<span class="xref std std-ref">cc_bond_memory</span> and <span class="xref std std-ref">cc_multiple_objects</span> considerations.
+The <span class="xref std std-ref">cc_multiple_caps</span> consideration is addressed by adding multiple caps,
 with the same anchor, to the <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> object. In a similar vein, the
-<a class="reference internal" href="#cc-asymmetry"><span class="std std-ref">asymmetry</span></a> consideration is addressed by adding two <code class="docutils literal notranslate"><span class="pre">Cap</span></code> instances
+<span class="xref std std-ref">cc_asymmetry</span> consideration is addressed by adding two <code class="docutils literal notranslate"><span class="pre">Cap</span></code> instances
 to the <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> object, each having a different anchor atom. Finally, to
-satisfy <a class="reference internal" href="#cc-new-objects"><span class="std std-ref">new objects</span></a> each <code class="docutils literal notranslate"><span class="pre">Cap</span></code> holds a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object for the new
+satisfy <span class="xref std std-ref">cc_new_objects</span> each <code class="docutils literal notranslate"><span class="pre">Cap</span></code> holds a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object for the new
 nucleus or nuclei.</p>
 </section>
 <section id="caps-design-summary">
-<h2>Caps Design Summary<a class="headerlink" href="#caps-design-summary" title="Permalink to this heading"></a></h2>
+<h2>Caps Design Summary<a class="headerlink" href="#caps-design-summary" title="Permalink to this headline"></a></h2>
 <dl class="simple">
-<dt><a class="reference internal" href="#cc-replaced-type"><span class="std std-ref">replaced type</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Cap</span></code> class <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> class are both templated on the type of
+<dt><span class="xref std std-ref">cc_replaced_type</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Cap</span></code> class <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> class are both templated on the type of
 the object being fragmented.</p>
 </dd>
-<dt><a class="reference internal" href="#cc-new-objects"><span class="std std-ref">new objects</span></a></dt><dd><p>Each <code class="docutils literal notranslate"><span class="pre">Cap</span></code> object holds the object(s) used to cap the broken bond.</p>
+<dt><span class="xref std std-ref">cc_new_objects</span></dt><dd><p>Each <code class="docutils literal notranslate"><span class="pre">Cap</span></code> object holds the object(s) used to cap the broken bond.</p>
 </dd>
-<dt><a class="reference internal" href="#cc-asymmetry"><span class="std std-ref">asymmetry</span></a></dt><dd><p>The asymmetry of capping a bond is handled by adding multiple <code class="docutils literal notranslate"><span class="pre">Cap</span></code>
+<dt><span class="xref std std-ref">cc_asymmetry</span></dt><dd><p>The asymmetry of capping a bond is handled by adding multiple <code class="docutils literal notranslate"><span class="pre">Cap</span></code>
 objects to the <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> object.</p>
 </dd>
-<dt><a class="reference internal" href="#cc-bond-memory"><span class="std std-ref">bond memory</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Cap</span></code> object holds the indices of the anchor and replaced objects
+<dt><span class="xref std std-ref">cc_bond_memory</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Cap</span></code> object holds the indices of the anchor and replaced objects
 in addition to the literal state of the cap.</p>
 </dd>
-<dt><a class="reference internal" href="#cc-multiple-caps"><span class="std std-ref">multiple caps</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">Cap</span></code> objects can be created for each of the replaced atoms.</p>
+<dt><span class="xref std std-ref">cc_multiple_caps</span></dt><dd><p><code class="docutils literal notranslate"><span class="pre">Cap</span></code> objects can be created for each of the replaced atoms.</p>
 </dd>
-<dt><a class="reference internal" href="#cc-container"><span class="std std-ref">container</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> class is container-like with additional functionality for
+<dt><span class="xref std std-ref">cc_container</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> class is container-like with additional functionality for
 retrieving caps by anchor index/replaced index.</p>
 </dd>
 </dl>

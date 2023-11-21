@@ -1,0 +1,5 @@
+<map id="chemist::PointView2&lt; PointType &gt;" name="chemist::PointView2&lt; PointType &gt;">
+<area shape="rect" id="node1" title="Allows viewing data as if it was a PointType object." alt="" coords="5,27,160,69"/>
+<area shape="rect" id="node2" href="$classchemist_1_1PointChargeView.html" title=" " alt="" coords="208,5,409,91"/>
+<area shape="rect" id="node3" href="$classchemist_1_1NucleusView.html" title="Allows representing data as if it were a Nucleus object." alt="" coords="457,27,624,69"/>
+</map>

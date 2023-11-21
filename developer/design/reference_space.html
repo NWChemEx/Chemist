@@ -15,9 +15,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -99,10 +97,10 @@
            <div itemprop="articleBody">
              
   <section id="reference-space-design">
-<span id="rsd-design"></span><h1>Reference Space Design<a class="headerlink" href="#reference-space-design" title="Permalink to this heading"></a></h1>
+<span id="rsd-design"></span><h1>Reference Space Design<a class="headerlink" href="#reference-space-design" title="Permalink to this headline"></a></h1>
 <p>This page describes the design of the reference space component of Chemist.</p>
 <section id="what-is-a-reference-space">
-<h2>What is a Reference Space?<a class="headerlink" href="#what-is-a-reference-space" title="Permalink to this heading"></a></h2>
+<h2>What is a Reference Space?<a class="headerlink" href="#what-is-a-reference-space" title="Permalink to this headline"></a></h2>
 <p>Many-electron wavefunctions are expressed in terms of many-electron basis
 functions. We define a reference space as the space of many-electron basis
 functions which can be used to form a wavefunction. Arguably the most important
@@ -122,7 +120,7 @@ the <span class="math notranslate nohighlight">\(j\)</span>-th electron in the <
 </div>
 </section>
 <section id="why-do-we-need-a-reference-space">
-<h2>Why Do We Need a Reference Space?<a class="headerlink" href="#why-do-we-need-a-reference-space" title="Permalink to this heading"></a></h2>
+<h2>Why Do We Need a Reference Space?<a class="headerlink" href="#why-do-we-need-a-reference-space" title="Permalink to this headline"></a></h2>
 <p>Vector spaces describe basis sets for one-electron wavefunctions, reference
 spaces generalize these concepts to many-electron wavefunctios. In particular,
 the reference space component provides us a representation of the space our
@@ -130,7 +128,7 @@ wavefunction will live in, but more notably the reference space
 will provide us the basis vectors we will build our wavefunction from.</p>
 </section>
 <section id="reference-space-considerations">
-<span id="rsd-considerations"></span><h2>Reference Space Considerations<a class="headerlink" href="#reference-space-considerations" title="Permalink to this heading"></a></h2>
+<span id="rsd-considerations"></span><h2>Reference Space Considerations<a class="headerlink" href="#reference-space-considerations" title="Permalink to this headline"></a></h2>
 <dl class="simple" id="rsd-ov">
 <dt>Occupied/Virtual</dt><dd><p>As mentioned in the previous section the determinant class is primarily
 envisioned as a means of storing how we partitioned the orbitals into
@@ -164,7 +162,7 @@ took the determinant).</p>
 </dl>
 </section>
 <section id="overview-of-reference-space-component">
-<h2>Overview of Reference Space Component<a class="headerlink" href="#overview-of-reference-space-component" title="Permalink to this heading"></a></h2>
+<h2>Overview of Reference Space Component<a class="headerlink" href="#overview-of-reference-space-component" title="Permalink to this headline"></a></h2>
 <figure class="align-center" id="id1">
 <span id="fig-ref-space"></span><img alt="../../_images/reference_space.png" src="../../_images/reference_space.png" />
 <figcaption>
@@ -178,10 +176,10 @@ in modern electronic structure methods comes from how to choose the orbitals,
 or how to approximate the many-electron wavefunction. In other words, there’s
 comparatively few ways to create <span class="math notranslate nohighlight">\(N\)</span>-electron basis functions from orbitals.</p>
 <section id="reference-space-class">
-<h3>Reference Space Class<a class="headerlink" href="#reference-space-class" title="Permalink to this heading"></a></h3>
+<h3>Reference Space Class<a class="headerlink" href="#reference-space-class" title="Permalink to this headline"></a></h3>
 <p>The base class of the hierarchy is the <code class="docutils literal notranslate"><span class="pre">ReferenceSpace&lt;V&gt;</span></code> class
 (here <code class="docutils literal notranslate"><span class="pre">V</span></code> is the type of a vector space representing the orbital space).
-To address the <a class="reference internal" href="#rsd-ov"><span class="std std-ref">Occupied/Virtual</span></a> consideration, this class stores a reference to
+To address the <span class="xref std std-ref">rsd_ov</span> consideration, this class stores a reference to
 the (full) orbital space the basis functions can be created from (<em>i.e.</em>, it
 is not just the occupied orbitals) and the orbital occupations.
 Admittedly, in many cases, orbital occupations are somewhat trivial to
@@ -191,8 +189,8 @@ explicitly stored (usually only necessary for excited states or fractional
 occupations).</p>
 </section>
 <section id="product-space-class">
-<h3>Product Space Class<a class="headerlink" href="#product-space-class" title="Permalink to this heading"></a></h3>
-<p>Consideration <a class="reference internal" href="#rsd-product"><span class="std std-ref">Product spaces.</span></a> leads to needing a class for reference spaces
+<h3>Product Space Class<a class="headerlink" href="#product-space-class" title="Permalink to this headline"></a></h3>
+<p>Consideration <span class="xref std std-ref">rsd_product</span> leads to needing a class for reference spaces
 that are formed from products of other reference spaces. We introduce the
 <code class="docutils literal notranslate"><span class="pre">ProductSpace&lt;R...&gt;</span></code> class for this purpose. It is assumed that
 <code class="docutils literal notranslate"><span class="pre">ProductSpace&lt;R...&gt;</span></code> will only be used when there are at most a few parameters
@@ -201,21 +199,21 @@ of spaces (or an indeterminate number), additional classes should be
 added.</p>
 </section>
 <section id="csf-class">
-<h3>CSF Class<a class="headerlink" href="#csf-class" title="Permalink to this heading"></a></h3>
+<h3>CSF Class<a class="headerlink" href="#csf-class" title="Permalink to this headline"></a></h3>
 <p>At this stage the <code class="docutils literal notranslate"><span class="pre">CSF&lt;V&gt;</span></code> class is not very fleshed out. We simply note that
 CSFs can be used as alternatives to determinants in many theories. The advantage
 of CSFs is that they are eigenfunction of the spin-projection operator
 regardless of whether or not we have a high-spin wavefunction. The disadvantage
 is they are significantly more complicated than determinants. The addition of
-<code class="docutils literal notranslate"><span class="pre">CSF&lt;V&gt;</span></code> directly addresses the <a class="reference internal" href="#rsd-csf"><span class="std std-ref">Configuration state functions (CSFs)</span></a> consideration.</p>
+<code class="docutils literal notranslate"><span class="pre">CSF&lt;V&gt;</span></code> directly addresses the <span class="xref std std-ref">rsd_csf</span> consideration.</p>
 </section>
 <section id="determinant-class">
-<h3>Determinant Class<a class="headerlink" href="#determinant-class" title="Permalink to this heading"></a></h3>
+<h3>Determinant Class<a class="headerlink" href="#determinant-class" title="Permalink to this headline"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">Determinant&lt;V&gt;</span></code> class is a strong type guaranteeing that the basis
 functions in the reference space are single determinants.</p>
 </section>
 <section id="high-spin-class">
-<h3>High Spin Class<a class="headerlink" href="#high-spin-class" title="Permalink to this heading"></a></h3>
+<h3>High Spin Class<a class="headerlink" href="#high-spin-class" title="Permalink to this headline"></a></h3>
 <p>A number of electronic structure methods assume that the determinant is in a
 high-spin state (all unpaired electrons have the same spin). While we could
 carry around the spins of each electron, and determine on-the-fly if we have
@@ -223,19 +221,19 @@ a high-spin state, we instead have created a strong type <code class="docutils l
 denote when a determinant is in a high-spin state. This is justified by the
 fact that the user makes this decision (implicitly) based on what method they
 select. Combined with the <code class="docutils literal notranslate"><span class="pre">ClosedShell&lt;V&gt;</span></code> class introduced below, the
-<code class="docutils literal notranslate"><span class="pre">HighSpin&lt;V&gt;</span></code> class addresses the <a class="reference internal" href="#rsd-occ-restrict"><span class="std std-ref">Occupation Restriction</span></a> consideration.</p>
+<code class="docutils literal notranslate"><span class="pre">HighSpin&lt;V&gt;</span></code> class addresses the <span class="xref std std-ref">rsd_occ_restrict</span> consideration.</p>
 </section>
 <section id="closed-shell-class">
-<h3>Closed Shell Class<a class="headerlink" href="#closed-shell-class" title="Permalink to this heading"></a></h3>
+<h3>Closed Shell Class<a class="headerlink" href="#closed-shell-class" title="Permalink to this headline"></a></h3>
 <p>A special (trivial) case of a high-spin determinant is one with no unpaired
 electrons. Knowing that there are no unpaired electrons again leads to
 simplifications in the resulting theories, which is why we opt to denote this
 condition by the <code class="docutils literal notranslate"><span class="pre">ClosedShell&lt;V&gt;</span></code> strong type. Together with the
-<code class="docutils literal notranslate"><span class="pre">HighSpin&lt;V&gt;</span></code> class, <code class="docutils literal notranslate"><span class="pre">ClosedShell&lt;V&gt;</span></code> addresses the <a class="reference internal" href="#rsd-occ-restrict"><span class="std std-ref">Occupation Restriction</span></a>
+<code class="docutils literal notranslate"><span class="pre">HighSpin&lt;V&gt;</span></code> class, <code class="docutils literal notranslate"><span class="pre">ClosedShell&lt;V&gt;</span></code> addresses the <span class="xref std std-ref">rsd_occ_restrict</span>
 consideration.</p>
 </section>
 <section id="example-reference-spaces">
-<h3>Example Reference Spaces<a class="headerlink" href="#example-reference-spaces" title="Permalink to this heading"></a></h3>
+<h3>Example Reference Spaces<a class="headerlink" href="#example-reference-spaces" title="Permalink to this headline"></a></h3>
 <p>The remainder of <a class="reference internal" href="#fig-ref-space"><span class="std std-numref">Fig. 11</span></a> shows some template specializations
 and strong types for those specializations. We have opted for strong types,
 rather than typedefs, primarily to minimize the use of templates in user-facing
@@ -267,21 +265,21 @@ a special case of an <code class="docutils literal notranslate"><span class="pre
 </section>
 </section>
 <section id="reference-space-design-summary">
-<h2>Reference Space Design Summary<a class="headerlink" href="#reference-space-design-summary" title="Permalink to this heading"></a></h2>
+<h2>Reference Space Design Summary<a class="headerlink" href="#reference-space-design-summary" title="Permalink to this headline"></a></h2>
 <p>The design of the determinant component satisfies the considerations raised in
 section <a class="reference internal" href="#rsd-considerations"><span class="std std-ref">Reference Space Considerations</span></a> by:</p>
 <dl class="simple">
-<dt><a class="reference internal" href="#rsd-ov"><span class="std std-ref">Occupied/Virtual</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Determinant&lt;V&gt;</span></code> class stores a reference to the full orbital space
+<dt><span class="xref std std-ref">rsd_ov</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Determinant&lt;V&gt;</span></code> class stores a reference to the full orbital space
 and the occupation vector.</p>
 </dd>
-<dt><a class="reference internal" href="#rsd-occ-restrict"><span class="std std-ref">Occupation Restriction</span></a></dt><dd><p>The strong types <code class="docutils literal notranslate"><span class="pre">HighSpin&lt;V&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">ClosedShell&lt;V&gt;</span></code> add occupation
+<dt><span class="xref std std-ref">rsd_occ_restrict</span></dt><dd><p>The strong types <code class="docutils literal notranslate"><span class="pre">HighSpin&lt;V&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">ClosedShell&lt;V&gt;</span></code> add occupation
 restriction information to the type, facilitating type dispatching based
 on how the orbitals are occupied.</p>
 </dd>
-<dt><a class="reference internal" href="#rsd-csf"><span class="std std-ref">Configuration state functions (CSFs)</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">CSF&lt;V&gt;</span></code> class was added to the hierarchy to ensure we have a means
+<dt><span class="xref std std-ref">rsd_csf</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">CSF&lt;V&gt;</span></code> class was added to the hierarchy to ensure we have a means
 of representing many-electron spaces which use CSFs as basis functions.</p>
 </dd>
-<dt><a class="reference internal" href="#rsd-product"><span class="std std-ref">Product spaces.</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">ProductSpace</span></code> class allows us to form reference spaces which are
+<dt><span class="xref std std-ref">rsd_product</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">ProductSpace</span></code> class allows us to form reference spaces which are
 products of other reference spaces.</p>
 </dd>
 </dl>
