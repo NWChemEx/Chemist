@@ -14,9 +14,9 @@
 
 .. _vsd_design:
 
-###################
-Vector Space Design
-###################
+############################
+Vector Space Design Overview
+############################
 
 This page documents the design of the vector space component of Chemist. In
 practice this component really focuses in on the basis spanning a general 
@@ -142,7 +142,7 @@ Fundamental Classes
 
 .. _fig_fundamental_spaces:
 
-.. figure:: assets/fundamental_spaces.png
+.. figure:: ../assets/fundamental_spaces.png
    :align: center
 
    The fundamental classes comprising Chemist's vector space component. The
@@ -161,7 +161,7 @@ Base Class
 At the base of the class hierarchy is the ``BaseSpace`` class. This class is
 primarily meant to provide code factorization for the derived classes. It is
 also useful in a few places where we try to write very generic algorithms
-(*e.g.*, for transforming tensors).
+(*e.g.*, for transforming tensors). 
 
 Cartesian Space
 ---------------
@@ -177,7 +177,8 @@ with the coordinate axes usually labelled as "x", "y" and "z". For a quadrupole
 or polarizability tensor, a ``CartesianSpace`` :math:`\mathbb{R}^6` with the
 coordinate possible axes such as "xx", "yy", "zz", "xy", "yz", "zx" is 
 necessary. The user should have the freedom to label the axes in their own 
-ways.
+ways. For the detailed design of ``CartesianSpace`` please see 
+:doc:`CartesianSpace Design <cartesian_space>`.
 
 Spin Space
 ----------
