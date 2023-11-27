@@ -161,7 +161,8 @@ Base Class
 At the base of the class hierarchy is the ``BaseSpace`` class. This class is
 primarily meant to provide code factorization for the derived classes. It is
 also useful in a few places where we try to write very generic algorithms
-(*e.g.*, for transforming tensors). 
+(*e.g.*, for transforming tensors). For the detailed design of ``BaseSpace`` 
+please see :doc:`BaseSpace Design <base_space>`.
 
 Cartesian Space
 ---------------
