@@ -18,6 +18,9 @@
 Cartesian Space Design
 ######################
 
+Structure
+=========
+
 In ``CartesianSpace``, ``label_container`` (the type of the container for 
 Cartesian axes labels), ``m_N_`` (no. of basis functions) and ``m_axis_vec_``
 (vector of axis labels) are declared as private. ``size_type`` from 
@@ -53,3 +56,34 @@ The UML diagram of this class can be seen as below.
    :align: center
 
    The UML diagram of the CartesianSpace class.
+
+Usage
+=====
+
+``CartesianSpace`` objects contain the information of Cartesian coordinate 
+axes, so they can be used to evaluate vector or tensor properties, for example,
+dipole (vector with :math:`x, y, z` components), polarizability (tensor with
+:math:`xx, yy, zz, xy, yz, zx` components) and energy gradient of an N-atom
+molecule (vector with :math:`3N` components possibly labelled as 
+:math:`x1, y1, z1, x2, y2, z2,...,xN, yN, zN`).
+
+For example, to create a ``CartesianSpace`` with user-specified axis labels, one can simply
+run
+
+..  code-block:: c++
+
+    // create a label vector
+    std::vector<std::string> val{"xx", "yy", "zz", "xy", "yz", "zx"}; 
+    // create a Cartesian space with labels set up with the label vector iterators
+    auto s = CartesianSpace(6, val.begin(), val.end()); 
+
+The dimension of the created ``CartesianSpace`` can be checked with the method
+``size()``, and the i-th axis label can be accessed through the method 
+``label(i)``:
+
+..  code-block:: c++
+
+    assert(s.size() == 6);
+    sssert(s.label(0) == "xx");
+    sssert(s.label(1) == "yy");
+    ...
