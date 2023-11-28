@@ -190,7 +190,8 @@ The need for this class also stems from consideration :ref:`vsd_basis_set`.
 In the most common scenario, an instance of ``SpinSpace`` represents the spins 
 of an electron and thus contains two spin functions. State of the 
 ``SpinSpace`` class is the multiplicity (:math:`2S+1`, dimension) of the space,
-from which the total spin :math:`S` of the system can be determined. 
+from which the total spin :math:`S` of the system can be determined. For the 
+detailed design of `SpinSpace` please see :doc:`SpinSpace Design <spin_space>`. 
 
 Atomic Orbitals (AOs)
 ---------------------

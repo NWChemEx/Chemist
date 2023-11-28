@@ -12,7 +12,7 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-.. _vsd_design:
+.. _cartesianspace_design:
 
 ######################
 Cartesian Space Design
@@ -45,6 +45,7 @@ Protected methods include
 
 The comparison operators ``==`` and ``!=`` are also implemented.
 
+The UML diagram of this class can be seen as below.
 
 .. _umldiagram_base_space:
 

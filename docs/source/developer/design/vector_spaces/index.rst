@@ -24,3 +24,4 @@ Topics in this section record the design process for the vector space classes.
    overview
    base_space
    cartesian_space
+   spin_space

@@ -12,7 +12,7 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-.. _vsd_design:
+.. _basespace_design:
 
 ######################
 Base Space Design
