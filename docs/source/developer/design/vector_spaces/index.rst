@@ -25,3 +25,4 @@ Topics in this section record the design process for the vector space classes.
    base_space
    cartesian_space
    spin_space
+   product_space

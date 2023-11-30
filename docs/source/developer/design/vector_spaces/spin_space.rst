@@ -18,6 +18,9 @@
 Spin Space Design
 ######################
 
+Structure
+=========
+
 The ``SpinSpace`` class has the all attributes and methods defined in 
 ``BaseSpace``. In addition, it has a private attribute ``m_mult_``, which 
 describes the multiplicity of the spin system (:math:`2S+1`). It also has a 
@@ -52,3 +55,30 @@ The UML diagram of this class can be seen as below.
    :align: center
 
    The UML diagram of the SpinSpace class.
+
+Usage
+=====
+
+A ``SpinSpace`` can be created by providing the multiplicity number 
+(:math:`2S+1`):
+
+..  code-block:: c++
+
+    auto s = SpinSpace(3);
+
+The dimension (multiplicity) of a ``SpinSpace`` can be found through the method
+`size()`:
+
+..  code-block:: c++
+
+    assert(s.size() == 3);
+
+The spin value (as `double`) of the i-th spin channels in the ``SpinSpace``
+above can be retrieved with the method `spin_channel(i)`. For example:
+
+..  code-block:: c++
+
+    assert(s.spin_channel(0) == 1.0);
+
+One major application of ``SpinSpace`` is to construct spin orbital space with
+other orbital spaces such as ``AOSpace`` and ``MOSpace``.

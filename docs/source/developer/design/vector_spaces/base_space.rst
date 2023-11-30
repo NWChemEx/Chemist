@@ -25,7 +25,11 @@ the size of the space) and ``base_pointer`` (pointer pointing to the
 destructor, the ``size()`` method (to obtain the no. of the basis functions of 
 the space),  the ``clone()`` method (to clone the current object), the 
 ``equal()`` and ``not_equal()`` methods are also public and virtual. They would
-be implemented polymorphically in the derived classes.
+be implemented polymorphically in the derived classes. In many usage case of a
+vector space one need to label the basis functions, so a generic ``label(i)``
+method is also implemented to retrieve the label (in string) of the i-th basis
+function. In ``BaseSpace`` labels are set as simple number strings such as "0",
+"1", "2",.... These labels could be re-set specifically in the derived class.
 
 The default and copy constructors, the copy and move assignment operators are
 protected. The ``==`` and ``!=`` operators and the ``equal_common()`` method 

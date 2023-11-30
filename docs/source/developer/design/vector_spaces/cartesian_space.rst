@@ -62,9 +62,9 @@ Usage
 
 ``CartesianSpace`` objects contain the information of Cartesian coordinate 
 axes, so they can be used to evaluate vector or tensor properties, for example,
-dipole (vector with :math:`x, y, z` components), polarizability (tensor with
-:math:`xx, yy, zz, xy, yz, zx` components) and energy gradient of an N-atom
-molecule (vector with :math:`3N` components possibly labelled as 
+dipole (vector with :math:`x, y, z` components), quadrupole or polarizability 
+(tensor with :math:`xx, yy, zz, xy, yz, zx` components) and energy gradient of 
+an N-atom molecule (vector with :math:`3N` components possibly labelled as 
 :math:`x1, y1, z1, x2, y2, z2,...,xN, yN, zN`).
 
 For example, to create a ``CartesianSpace`` with user-specified axis labels, one can simply
@@ -87,3 +87,23 @@ The dimension of the created ``CartesianSpace`` can be checked with the method
     sssert(s.label(0) == "xx");
     sssert(s.label(1) == "yy");
     ...
+
+
+In order to evaluate tensor properties such as quadrupole, one may use a 
+``CartesianSpace`` object as the following:
+
+..  code-block:: c++
+
+    std::vector<std::string> val{"xx", "yy", "zz", "xy", "yz", "zx"}; 
+    // Create a CartesianSpace holding the tensor indices
+    auto s = CartesianSpace(6, val.begin(), val.end());
+
+    AOSpace aos = get_aos(); // Get the AO basis functions
+    // Suppose we have implemented the quadrupole operator
+    Quadrupole<Electron> qq; 
+    // module for calculating quadrupole integrals
+    auto mod = module_quadrupole_integrals(); 
+    auto q_xmn = tensor_representation(mod, s, aos, qq, aos);
+
+The pseudocodes above create and calculate the quadrupole tensor with the 
+coordinate axis indices in mode 0, and the AO dimensions are in mode 1 and 2.

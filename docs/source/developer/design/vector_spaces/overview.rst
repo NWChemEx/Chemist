@@ -39,7 +39,7 @@ Why do we need vector spaces?
 *****************************
 
 Quantum chemistry equations are tensorial in nature (please see 
-`here <en.wikipedia.org/wiki/Tensor>`__ for the definition of a tensor. To 
+`here <en.wikipedia.org/wiki/Tensor>`__ for the definition of a tensor.) To 
 actually compute quantities we need tensor representations (*i.e.*, arrays 
 of numbers). Forming a tensor representation requires us to pick a basis set 
 (in the general sense, *i.e.*, we are not limiting ourselves to things like 
@@ -70,6 +70,16 @@ Basis Set
 
    - Cartesian axes
    - Spin
+
+   For basis functions with explicit analytic or numerical expressions one need
+   to store their expressions in the defined vector space. However, for abstract
+   basis functions without involving specific numbers, such as Cartesian axes 
+   (:math:`x, y, z`) or spin functions (:math:`\alpha` and :math:`\beta`), they 
+   are not necessarily stored in the vector space class. To address these 
+   abstract basis functions, labels of them are available in the class. Basis
+   function labels are supposed to be strings. They can be default to simple
+   numbers such as "0", "1", "2", ..., and then get overriden in the derived
+   class to gain specific names.
 
 .. _vsd_parameters:
 
@@ -171,7 +181,7 @@ Cartesian Space
 
 The ``CartesianSpace`` class is meant to represent |N|-dimensional
 Cartesian space, *i.e.*, :math:`\mathbb{R}^N`. The need for ``CartesianSpace``
-stems from Consideration :ref:`vsd_basis_set`.In practice, this class's 
+stems from Consideration :ref:`vsd_basis_set`. In practice, this class's 
 state is the value of |N| and the labels of the coordinate axes. For example,
 To represent a dipole one needs the ``CartesianSpace`` :math:`\mathbb{R}^3` 
 with the coordinate axes usually labelled as "x", "y" and "z". For a quadrupole 
@@ -204,16 +214,18 @@ from which all other orbital spaces are usually derived. The need for the
 ``AOSpace`` class primarily stems from consideration :ref:`vsd_parameters`.
 
 It is worth noting that in practice what we call AOs are often transformed,
-contracted Gaussian type orbitals. In theory we could better consolidate the
-``AOBasisSet`` class (which describes the parameters associated with those
-orbitals) with the various vector space classes by defining:
+contracted Gaussian type orbitals, which can be generated using the 
+``DerivedSpace<T,R>`` class (see :ref:`derived_space`). In theory we could 
+better consolidate the ``AOBasisSet`` class (which describes the parameters 
+associated with those orbitals) with the various vector space classes by 
+defining:
 
 - ``PrimitiveGaussianSpace`` holds the centers, angular momenta, and exponents
   for each primitive (Cartesian) Gaussian function.
-- ``CGTOSpace=TransformedSpace<T, PrimitiveGaussianSpace>`` stores the
+- ``CGTOSpace=DerivedSpace<T, PrimitiveGaussianSpace>`` stores the
   contraction coefficients for going from primitive Gaussians to contracted
   (Cartesian) Gaussian type orbitals.
-- ``SphericalGTOSpace = TransformedSpace<T, CGTOSpace>`` holds the spherical
+- ``SphericalGTOSpace = DerivedSpace<T, CGTOSpace>`` holds the spherical
   transform for going from contracted (Cartesian) Gaussian type orbitals to
   spherical Gaussian type orbitals.
 
@@ -225,6 +237,8 @@ relativistic calculations which typically un-contract the contracted Gaussians.
 It may be worth revisiting the design of the ``AOBasisSet`` class if one is
 interested in use cases which use more fundamental orbitals than the ones
 represented by the ``AOSpace``.
+
+.. _derived_space:
 
 Derived Space
 -------------
@@ -239,21 +253,26 @@ vectors in the space being transformed), but we don't strictly enforce this
 code factorization for the variety of spaces which are defined as linear
 transformations; by introducing ``DerivedSpace<T, R>``, many of those spaces
 are simply strong types. For example, ``MOSpace`` can be thought as a
-``DerivedSpace`` from ``AOSpace`` (see :numref:`fig_fundamental_spaces`).
+``DerivedSpace`` from ``AOSpace`` (see :numref:`fig_orbital_spaces`).
 
 Product Space
 -------------
 
 There are several important vector spaces which are obtained by taking 
 `tensor products <en.wikipedia.org/wiki/Tensor_product>`__ of other spaces.
-(Yu: or we can also use 
-`Cartesian product <en.wikipedia.org/wiki/Cartesian_product>`__?)
 The ``ProductSpace<R...>`` class represents a space resulting from the tensor 
-product of the spaces ``R...`` (assumed to be two or more other spaces). In the
-``ProductSpace<R...>`` the basis is the prodcut of the basis of all the spaces
-which form the product. Like ``DerivedSpace<T, R>``, ``ProductSpace<R...>``` 
-is introduced as a means of code factorization so that the derived classes 
-become strong types.
+product of the spaces ``R...`` (assumed to be two or more other spaces). If all
+the spaces forming the product have explicit basis functions, in the resulted 
+``ProductSpace<R...>`` the basis is the prodcut of the basis of all the spaces.
+If some spaces only have abstract basis functions which are not explicitly 
+present in the corresponding spaces, the basis functions of the resulted 
+``ProductSpace`` would omit the terms from these abstract basis functions. 
+However, the labels of the ``ProductSpace`` are always the combinations of all
+labels from the spaces forming this product. Currently Like 
+``DerivedSpace<T, R>``, ``ProductSpace<R...>`` is introduced as a means of code
+factorization so that the derived classes become strong types. For the
+detailed design of `ProductSpace` please see 
+:doc:`ProductSpace Design <product_space>`.
 
 Natural Space
 -------------
@@ -263,7 +282,7 @@ requiring the resulting orbitals to diagonalize a particular tensor. In these
 cases the resulting orbitals are often said to be the "natural" basis set on
 account of the fact that they simplify equations involving the diagonalized
 quantity. Compared to a ``DerivedSpace<T, R>`` object, the additional state
-contained in a ``NaturalSpace<T, B>`` is the diagonalized tensor (which is
+contained in a ``NaturalSpace<T, B>`` is the diagonalized tensor (which is1
 assumed to be stored in a tensor of type ``T``). Rather than deriving directly
 from ``DerivedSpace<T,R>`` we allow the user to specify the base class to
 derive from, this allows it to be used with a variety of the orbital space
@@ -306,7 +325,7 @@ represent those named spaces.
 
 .. _fig_orbital_spaces:
 
-.. figure:: assets/orbital_spaces.png
+.. figure:: ../assets/orbital_spaces.png
    :align: center
 
    The named orbital spaces residing in Chemist's vector space component.
