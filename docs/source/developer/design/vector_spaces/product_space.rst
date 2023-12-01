@@ -28,7 +28,24 @@ through a composite construction process, e. g.,
 ..  code-block:: c++
     ProductSpace(A, B, C) = ProductSpace(A, ProductSpace(B, C));
 
+The two factor spaces of a ProductSpace should be mutable, which means
 
+..  code-block:: c++
+    ProductSpace(A, B) = ProductSpace(B, A);
+
+If all the factor spaces of the product have explicit basis functions, in the 
+resulted ``ProductSpace<R...>`` the basis functions are the prodcut of the basis 
+functions of all the factor spaces. If some factor spaces only have abstract 
+basis functions which are not explicitly present in the factor spaces, the 
+basis functions of the resulted ``ProductSpace`` would omit the terms from 
+the abstract basis functions. However, the labels of the ``ProductSpace`` are 
+always the combinations of the labels from all the factor spaces. Remember the
+factor spaces are mutable, so two equal ``ProductSpaces`` may have labels with
+different combinational orders. Hence in the comparison of two 
+``ProductSpaces``, one should not check their basis functions and labels 
+directly but check their two factor spaces in both orders. The size of a 
+``ProductSpace`` is the product of the no.s of basis functions of the two 
+factor spaces.
 
 The UML diagram of this class can be seen as below.
 
@@ -46,5 +63,16 @@ A ``ProductSpace`` can be created by:
 
 ..  code-block:: c++
 
-    auto s = ProductSpace(3);
+    auto s = ProductSpace(A, B);
+
+where A and B are the two factor spaces. Examples of generating new useful 
+orbital spaces with ``ProductSpace`` in quantum chemistry are 
+
+..  code-block:: c++
+
+    // Generating atomic/molecular spin orbital spaces from 
+    // atomic/molecular orbital spaces and spin spaces
+    auto aso_space = ProductSpace<AOSpace_a, SpinSpace_b>;
+    auto mso_space = ProductSpace<MOSpace_a, SpinSpace_b>;
+
 

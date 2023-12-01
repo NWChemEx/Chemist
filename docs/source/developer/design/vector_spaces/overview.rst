@@ -261,14 +261,10 @@ Product Space
 There are several important vector spaces which are obtained by taking 
 `tensor products <en.wikipedia.org/wiki/Tensor_product>`__ of other spaces.
 The ``ProductSpace<R...>`` class represents a space resulting from the tensor 
-product of the spaces ``R...`` (assumed to be two or more other spaces). If all
-the spaces forming the product have explicit basis functions, in the resulted 
-``ProductSpace<R...>`` the basis is the prodcut of the basis of all the spaces.
-If some spaces only have abstract basis functions which are not explicitly 
-present in the corresponding spaces, the basis functions of the resulted 
-``ProductSpace`` would omit the terms from these abstract basis functions. 
-However, the labels of the ``ProductSpace`` are always the combinations of all
-labels from the spaces forming this product. Currently Like 
+product of the spaces ``R...`` (assumed to be two or more other spaces). In 
+general, the basis functions of a ``ProductSpace`` are just the product of the
+basis functions of the factor spaces, and the labels of a ``ProductSpace`` are
+combinations of the labels of the factor spaces. Currently Like 
 ``DerivedSpace<T, R>``, ``ProductSpace<R...>`` is introduced as a means of code
 factorization so that the derived classes become strong types. For the
 detailed design of `ProductSpace` please see 
