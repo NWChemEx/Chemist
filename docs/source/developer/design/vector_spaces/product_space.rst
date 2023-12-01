@@ -28,7 +28,7 @@ through a composite construction process, e. g.,
 ..  code-block:: c++
     ProductSpace(A, B, C) = ProductSpace(A, ProductSpace(B, C));
 
-The two factor spaces of a ProductSpace should be mutable, which means
+The two factor spaces of a ProductSpace should be commutable, which means
 
 ..  code-block:: c++
     ProductSpace(A, B) = ProductSpace(B, A);
