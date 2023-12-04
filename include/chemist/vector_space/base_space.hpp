@@ -33,7 +33,7 @@ public:
     /// Type used for indexing and offsets
     using size_type    = type::size;
     using base_pointer = std::unique_ptr<BaseSpace>;
-    using label_type = std::string;
+    using label_type   = std::string;
 
     /// Default polymorphic dtor
     virtual ~BaseSpace() noexcept = default;
@@ -112,8 +112,8 @@ public:
     virtual label_type& label(size_type i) = 0;
 
     /** @brief Virtual function to access the a basis funciton label.
-     *         With this function one is NOT able to set the label. This function
-     *         will be implemented polymorphically in the derived class.
+     *         With this function one is NOT able to set the label. This
+     * function will be implemented polymorphically in the derived class.
      *
      *  @param[in] i The index of the axis label to be accessed.
      *

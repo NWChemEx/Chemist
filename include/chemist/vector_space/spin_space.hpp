@@ -34,8 +34,8 @@ private:
 
 public:
     /// Type used for indexing and offsets
-    using size_type = typename BaseSpace::size_type;
-    using spin_type = double;
+    using size_type  = typename BaseSpace::size_type;
+    using spin_type  = double;
     using label_type = std::string;
 
     /** @brief Default ctor. Creates an empty SpinSpace with no spin channel (a
@@ -46,20 +46,22 @@ public:
     SpinSpace() = default;
 
     /** @brief Ctor to create a SpinSpace to represent the spin channels of a
-     *  system with the multiplicity as an input. Spin channel labels are initialized
-     *  as blank strings. For the case of 1-electron spin system, the labels are
-     *  defaulted as "alpha" and "beta". Users can set the labels by call the function 
-     *  label(i).
+     *  system with the multiplicity as an input. Spin channel labels are
+     * initialized as blank strings. For the case of 1-electron spin system, the
+     * labels are defaulted as "alpha" and "beta". Users can set the labels by
+     * call the function label(i).
      *
      *  @param[in] mult The multiplicity of the system (2S + 1).
      *
-     *  @throw std::bad_alloc if changing of the capacity of the label vector fails.
+     *  @throw std::bad_alloc if changing of the capacity of the label vector
+     * fails.
      */
-    explicit SpinSpace(size_type mult) : m_mult_(mult), m_spin_channels_(mult, "") {
-        if (mult == 2) {
-	   m_spin_channels_[0] = "alpha";
-	   m_spin_channels_[1] = "beta";
-	}
+    explicit SpinSpace(size_type mult) :
+      m_mult_(mult), m_spin_channels_(mult, "") {
+        if(mult == 2) {
+            m_spin_channels_[0] = "alpha";
+            m_spin_channels_[1] = "beta";
+        }
     }
 
     /** @brief Creates a SpinSpace with spin channel labels being given. The
@@ -68,7 +70,7 @@ public:
      *
      *  @param[in] mult The dimension of the space.
      *
-     *  @taram ItType The type of the begin and end iterator of the 
+     *  @taram ItType The type of the begin and end iterator of the
      *                vector to label the spin channels. Default to be
      *                std::vector<std::string>::iterator>.
      *
@@ -87,7 +89,7 @@ public:
     SpinSpace(const size_type& mult, ItType&& begin_it, ItType&& end_it) :
       m_mult_(mult),
       m_spin_channels_(std::forward<ItType>(begin_it),
-                  std::forward<ItType>(end_it)) {
+                       std::forward<ItType>(end_it)) {
         if(m_spin_channels_.size() != m_mult_)
             throw std::invalid_argument("Label vector length not equal to the"
                                         "dimension of the space!");
@@ -159,7 +161,7 @@ public:
             throw std::out_of_range("Index out of the range of"
                                     " the spin channels.");
         else
-            return ( total_spin() - i);
+            return (total_spin() - i);
     }
 
     /** @brief Get the total spin of the space.
@@ -169,9 +171,12 @@ public:
      *  @throw std::invalid_argument if multiplicity = 0.
      *
      */
-    spin_type total_spin() const { 
-	 if (m_mult_ == 0) throw std::invalid_argument("No spin!");
-	 else return (spin_type(m_mult_) - 1.0) / 2.0; }
+    spin_type total_spin() const {
+        if(m_mult_ == 0)
+            throw std::invalid_argument("No spin!");
+        else
+            return (spin_type(m_mult_) - 1.0) / 2.0;
+    }
 
     /** @brief Function to access the a spin channel label.
      *         With this function one is able to set the label.
