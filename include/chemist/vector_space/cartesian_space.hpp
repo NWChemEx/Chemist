@@ -50,13 +50,13 @@ public:
     CartesianSpace() = default;
 
     /** @brief Creates an N-dimensinal CartesianSpace with all the N axes set as
-     * null. Users can set the labels by call the function label().
+     * null. Users can set the labels by call the function label(i).
      *
      *  @param[in] N The dimension of the space.
      *
      *  @throw std::bad_alloc if changing of the capacity of the vector fails.
      */
-    CartesianSpace(size_type N) : m_N_(N), m_axis_vec_(N, "") {}
+    explicit CartesianSpace(size_type N) : m_N_(N), m_axis_vec_(N, "") {}
 
     /** @brief Creates a CartesianSpace with axis labels being given. The
      * dimension is N and the labels are stored in a N-element vector of
@@ -75,7 +75,7 @@ public:
      *             to set up the axes.
      *
      *  @throw std::invalid_argument if the length of string vector is not equal
-     * to the dimension of the space.
+     *                               to the dimension of the space.
      *
      *  @throw std::bad_alloc if the initialization of the string vector fails.
      */
@@ -145,7 +145,7 @@ public:
     /** @brief Function to access the an axis label.
      *         With this function one is able to set the label.
      *
-     *  @param[in] i The index of the axis lable to be accessed.
+     *  @param[in] i The index of the axis label to be accessed.
      *
      *  @return The i-th axis label.
      *
@@ -202,16 +202,17 @@ protected:
 
 /** @brief Comapres two CartesianSpace instances for equality.
  *
- *  Two CartesianSpace instances are equal if they have the same dimension.
+ *  Two CartesianSpace instances are equal if they have the same dimension and
+ *  their labels are identical.
  *
  *  @param[in] lhs The instance on the left of the equality.
  *  @param[in] rhs The instance on the right of the equality.
  *
  *  @return True if the CartesianSpace part of @p lhs compares equal to the
- * CartesianSpace part of @p rhs. False otherwise.
+ *          CartesianSpace part of @p rhs. False otherwise.
  *
  *  @throw Throws if comparing the base classes throws. Same throw
- *             guarantee.
+ *         guarantee.
  */
 inline bool operator==(const CartesianSpace& lhs, const CartesianSpace& rhs) {
     for(BaseSpace::size_type i = 0; i < lhs.size(); i++) {

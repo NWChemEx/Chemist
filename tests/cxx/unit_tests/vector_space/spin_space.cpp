@@ -37,6 +37,21 @@ TEST_CASE("SpinSpace") {
             REQUIRE_THAT(s.spin_channel(2), WithinAbs(-1.0, 0.00001));
         }
 
+	SECTION("Spin channel labels") {
+            auto s2 = SpinSpace(2);
+	    auto s3_1 = SpinSpace(3);
+	    std::vector<std::string> labels{"spin_channel_1", "spin_channel_2", "spin_channel_3"};
+	    auto s3_2 = SpinSpace(3, labels.begin(), labels.end()); 
+	    REQUIRE(s2.label(0) == "alpha");
+	    REQUIRE(s2.label(1) == "beta");
+	    REQUIRE(s3_1.label(0) == "");
+	    REQUIRE(s3_1.label(1) == "");
+	    REQUIRE(s3_1.label(2) == "");
+            REQUIRE(s3_2.label(0) == "spin_channel_1");
+	    REQUIRE(s3_2.label(1) == "spin_channel_2");
+	    REQUIRE(s3_2.label(2) == "spin_channel_3");
+	}
+
         SECTION("Copy constructor") {
             auto s3_1 = SpinSpace(4);
             auto s3_2 = SpinSpace(s3_1);
@@ -92,6 +107,18 @@ TEST_CASE("SpinSpace") {
             auto s = SpinSpace(3);
             REQUIRE_THROWS(s.spin_channel(4));
         }
+
+        SECTION("Get and set one label") {
+            auto s = SpinSpace(2);
+            s.label(1) = "b";
+            REQUIRE(s.label(1) == "b");
+        }
+
+        SECTION("Cannot set labels in a constant object") {
+            const auto s = SpinSpace(2);
+            s.label(1)   = "b";
+            REQUIRE_FALSE(s.label(1) == "b");
+        }
     }
 
     SECTION("Clone") {
@@ -104,17 +131,23 @@ TEST_CASE("SpinSpace") {
         SECTION("Operator ==") {
             auto s2_1 = SpinSpace(2);
             auto s2_2 = SpinSpace(2);
+	    std::vector<std::string> labels{"a","b"};
+	    auto s2_3 = SpinSpace(2, labels.begin(), labels.end());
             auto s3   = SpinSpace(3);
             REQUIRE(s2_1 == s2_2);
             REQUIRE_FALSE(s2_1 == s3);
+	    REQUIRE_FALSE(s2_1 == s2_3);
         }
 
         SECTION("Operator !=") {
             auto s2_1 = SpinSpace(2);
             auto s2_2 = SpinSpace(2);
+	    std::vector<std::string> labels{"a","b"};
+            auto s2_3 = SpinSpace(2, labels.begin(), labels.end());
             auto s3   = SpinSpace(3);
             REQUIRE_FALSE(s2_1 != s2_2);
             REQUIRE(s2_1 != s3);
+	    REQUIRE(s2_1 != s2_3);
         }
     }
 }

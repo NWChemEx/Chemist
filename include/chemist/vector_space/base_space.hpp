@@ -24,6 +24,8 @@ namespace chemist::vector_space {
  *  BaseSpace provides a generic API for working with a vector space. In
  *  particular this API provides members for:
  *  - the number of basis function via `size()`
+ *  - the label of the i-th basis function via `label(i)`. This method would
+ *    be implemented polymorphically in the derived classes.
  *  - polymorphically comparing the vector spaces `equal()` and `not_equal()`
  */
 class BaseSpace {
@@ -31,6 +33,7 @@ public:
     /// Type used for indexing and offsets
     using size_type    = type::size;
     using base_pointer = std::unique_ptr<BaseSpace>;
+    using label_type = std::string;
 
     /// Default polymorphic dtor
     virtual ~BaseSpace() noexcept = default;
@@ -94,6 +97,32 @@ public:
      *  @throw None No throw guarantee.
      */
     bool not_equal(const BaseSpace& rhs) const noexcept { return !equal(rhs); }
+
+    /** @brief Virtual function to access the a basis funciton label.
+     *         With this function one is able to set the label. This function
+     *         will be implemented polymorphically in the derived class.
+     *
+     *  @param[in] i The index of the axis label to be accessed.
+     *
+     *  @return The i-th basis function label.
+     *
+     *  @throw std::out_of_range if the index is out of the range of the
+     *         label vector.
+     */
+    virtual label_type& label(size_type i) = 0;
+
+    /** @brief Virtual function to access the a basis funciton label.
+     *         With this function one is NOT able to set the label. This function
+     *         will be implemented polymorphically in the derived class.
+     *
+     *  @param[in] i The index of the axis label to be accessed.
+     *
+     *  @return The i-th basis function label.
+     *
+     *  @throw std::out_of_range if the index is out of the range of the
+     *         label vector.
+     */
+    virtual label_type label(size_type i) const = 0;
 
 protected:
     /** @brief Creates a BaseSpace
