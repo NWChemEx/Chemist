@@ -72,6 +72,14 @@ NUCLEUS_VIEW::operator NucleusView<const nucleus_type>() const noexcept {
       const_charge_view(this->charge(), this->x(), this->y(), this->z()));
 }
 
+template<typename NucleusType>
+void NUCLEUS_VIEW::swap(NucleusView& other) noexcept {
+    charge_view_type::swap(other);
+    std::swap(m_pname_, other.m_pname_);
+    std::swap(m_pZ_, other.m_pZ_);
+    std::swap(m_pmass_, other.m_pmass_);
+}
+
 #undef NUCLEUS_VIEW
 
 } // namespace chemist

@@ -115,6 +115,34 @@ public:
     PointChargeView(charge_reference q, coord_reference x, coord_reference y,
                     coord_reference z);
 
+    /** @brief Sets the state of the aliased PointCharge to a copy of the state
+     *         in @p charge.
+     *
+     *  @note This is NOT copy assignment.
+     *
+     *  This method is used to make the PointCharge aliased by *this contain a
+     *  copy of the state in @p charge.
+     *
+     *  @tparam ChargeType2 The type of @p charge. ChargeType2 needs to be
+     *                      PointCharge or a reference to a PointCharge for this
+     *                      method to participate in overload resolution.
+     *  @tparam <Anonymous> Used to disable this function in the event that
+     *                      ChargeType2 is any type other than PointCharge or
+     *                      PointCharge& and/or if *this aliases a read-only
+     *                      PointCharge.
+     *
+     *  @param[in] charge The PointCharge to copy.
+     *
+     *  @throw None No throw guarantee.
+     */
+    template<typename ChargeType2, typename = std::enable_if_t<std::is_same_v<
+                                     std::decay_t<ChargeType2>, ChargeType>>>
+    PointChargeView& operator=(ChargeType2&& charge) {
+        point_view_type::operator=(std::forward<point_type>(charge));
+        (*m_pq_)                 = charge.charge();
+        return *this;
+    }
+
     /** @brief Returns the aliased charge.
      *
      *  This method is used to retrieve the aliased charge. The const-ness of
@@ -182,6 +210,19 @@ public:
      */
     point_charge_type as_point_charge() const {
         return point_charge_type(charge(), this->x(), this->y(), this->z());
+    }
+
+    /** @brief Exchanges the state of *this with that of @p other.
+     *
+     *  @param[in,out] other The PointChargeView to exchange state with. After
+     *                       this method has been called @p other will contain
+     *                       the state which previously was in *this.
+     *
+     *  @throw None no throw guarantee.
+     */
+    void swap(PointChargeView& other) noexcept {
+        point_view_type::swap(other);
+        std::swap(m_pq_, other.m_pq_);
     }
 
 private:
