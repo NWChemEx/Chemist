@@ -27,11 +27,6 @@ namespace chemist::vector_space {
  *
  */
 class SpinSpace : public BaseSpace {
-private:
-    size_type m_mult_; // Multiplicity of the system = 2S + 1.
-    using label_container = std::vector<std::string>;
-    label_container m_spin_channels_; // vector of spin channel labels
-
 public:
     /// Type used for indexing and offsets
     using size_type = typename BaseSpace::size_type;
@@ -55,10 +50,10 @@ public:
      *
      *  @throw std::bad_alloc if changing of the capacity of the label vector fails.
      */
-    explicit SpinSpace(size_type mult) : m_mult_(mult), m_spin_channels_(mult, "") {
+    explicit SpinSpace(size_type mult) :  BaseSpace(mult) {
         if (mult == 2) {
-	   m_spin_channels_[0] = "alpha";
-	   m_spin_channels_[1] = "beta";
+	   m_labels_[0] = "alpha";
+	   m_labels_[1] = "beta";
 	}
     }
 
@@ -85,13 +80,7 @@ public:
      */
     template<typename ItType = std::vector<std::string>::iterator>
     SpinSpace(const size_type& mult, ItType&& begin_it, ItType&& end_it) :
-      m_mult_(mult),
-      m_spin_channels_(std::forward<ItType>(begin_it),
-                  std::forward<ItType>(end_it)) {
-        if(m_spin_channels_.size() != m_mult_)
-            throw std::invalid_argument("Label vector length not equal to the"
-                                        "dimension of the space!");
-    }
+      BaseSpace(mult, begin_it, end_it) {}
 
     /** @brief Copy constructor. Copy another SpinSpace.
      *
@@ -170,44 +159,8 @@ public:
      *
      */
     spin_type total_spin() const { 
-	 if (m_mult_ == 0) throw std::invalid_argument("No spin!");
-	 else return (spin_type(m_mult_) - 1.0) / 2.0; }
-
-    /** @brief Function to access the a spin channel label.
-     *         With this function one is able to set the label.
-     *
-     *  @param[in] i The index of the axis label to be accessed.
-     *
-     *  @return The i-th spin channel label.
-     *
-     *  @throw std::out_of_range if the index is out of the range of the
-     *         label vector.
-     */
-    label_type& label(size_type i) {
-        if((i + 1) > size())
-            throw std::out_of_range("Index out of the range of"
-                                    " the label vector.");
-        else
-            return m_spin_channels_.at(i);
-    }
-
-    /** @brief Function to access the a spin channel label.
-     *         With this function one is NOT able to set the label.
-     *
-     *  @param[in] i The index of the axis label to be accessed.
-     *
-     *  @return The i-th spin channel label.
-     *
-     *  @throw std::out_of_range if the index is out of the range of the
-     *         label vector.
-     */
-    label_type label(size_type i) const {
-        if((i + 1) > size())
-            throw std::out_of_range("Index out of the range of"
-                                    " the label vector.");
-        else
-            return m_spin_channels_.at(i);
-    }
+	 if (m_size_ == 0) throw std::invalid_argument("No spin!");
+	 else return (spin_type(m_size_) - 1.0) / 2.0; }
 
 protected:
     /** @brief Dimension of the spin space.
@@ -216,7 +169,7 @@ protected:
      *
      *  @throw None No throws guarantee.
      */
-    size_type size_() const noexcept override { return m_mult_; }
+    size_type size_() const noexcept override { return m_size_; }
 
     bool equal_(const BaseSpace& rhs) const noexcept override {
         return this->equal_common(*this, rhs);
@@ -248,9 +201,6 @@ protected:
  *         guarantee.
  */
 inline bool operator==(const SpinSpace& lhs, const SpinSpace& rhs) {
-    for(BaseSpace::size_type i = 0; i < lhs.size(); i++) {
-        if(lhs.label(i) != rhs.label(i)) return false;
-    }
     const BaseSpace& lhs_base = lhs;
     const BaseSpace& rhs_base = rhs;
     return (lhs_base == rhs_base);

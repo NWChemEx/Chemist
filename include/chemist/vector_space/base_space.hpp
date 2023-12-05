@@ -35,6 +35,7 @@ public:
     using base_pointer = std::unique_ptr<BaseSpace>;
     using label_type = std::string;
 
+
     /// Default polymorphic dtor
     virtual ~BaseSpace() noexcept = default;
 
@@ -98,9 +99,8 @@ public:
      */
     bool not_equal(const BaseSpace& rhs) const noexcept { return !equal(rhs); }
 
-    /** @brief Virtual function to access the a basis funciton label.
-     *         With this function one is able to set the label. This function
-     *         will be implemented polymorphically in the derived class.
+    /** @brief Function to access the a basis funciton label.
+     *         With this function one is able to set the label. 
      *
      *  @param[in] i The index of the axis label to be accessed.
      *
@@ -109,11 +109,16 @@ public:
      *  @throw std::out_of_range if the index is out of the range of the
      *         label vector.
      */
-    virtual label_type& label(size_type i) = 0;
+    label_type& label(size_type i) {
+	if((i + 1) > size())
+            throw std::out_of_range("Index out of the range of"
+                                    " the label vector.");
+        else
+            return m_labels_.at(i);
+    }
 
-    /** @brief Virtual function to access the a basis funciton label.
-     *         With this function one is NOT able to set the label. This function
-     *         will be implemented polymorphically in the derived class.
+    /** @brief Function to access the a basis funciton label.
+     *         With this function one is NOT able to set the label. 
      *
      *  @param[in] i The index of the axis label to be accessed.
      *
@@ -122,7 +127,13 @@ public:
      *  @throw std::out_of_range if the index is out of the range of the
      *         label vector.
      */
-    virtual label_type label(size_type i) const = 0;
+    label_type label(size_type i) const {
+	if((i + 1) > size())
+            throw std::out_of_range("Index out of the range of"
+                                    " the label vector.");
+        else
+            return m_labels_.at(i);
+    }
 
 protected:
     /** @brief Creates a BaseSpace
@@ -134,6 +145,45 @@ protected:
      *  @throw None no throw guarantee.
      */
     BaseSpace() = default;
+
+    /** @brief Creates an N-dimensinal BaseSpace with all basis function labels 
+     *  set as null. Users can set the labels by call the function label(i).
+     *
+     *  @param[in] N The dimension of the space.
+     *
+     *  @throw std::bad_alloc if changing of the capacity of the vector fails.
+     */
+    BaseSpace(size_type N) : m_size_(N), m_labels_(N, "") {}
+
+    /** @brief Creates a BaseSpace with basis function labels being given. The
+     *  dimension is N and the labels are stored in a N-element vector of
+     *  strings.
+     *
+     *  @param[in] N The dimension of the space.
+     *
+     *  @taram ItType The type of the begin and end iterator of the label
+     *                vector to set up the axes. Default to be
+     *                std::vector<std::string>::iterator>.
+     *
+     *  @param[in] begin_it The begin iterator of the label vector
+     *             to set up the axes.
+     *
+     *  @param[in] end_it The end iterator of the label vector
+     *             to set up the axes.
+     *
+     *  @throw std::invalid_argument if the length of string vector is not equal
+     *                               to the dimension of the space.
+     *
+     *  @throw std::bad_alloc if the initialization of the string vector fails.
+     */
+    template<typename ItType = std::vector<std::string>::iterator>
+    BaseSpace(const size_type& N, ItType&& begin_it, ItType&& end_it) :
+              m_size_(N), m_labels_(std::forward<ItType>(begin_it),
+                  std::forward<ItType>(end_it)) {
+        if(m_labels_.size() != m_size_)
+            throw std::invalid_argument("Label vector length not equal to the"
+                                        "dimension of the space!");
+    }
 
     /** @brief Makes this `BaseSpace` instance by copying @p rhs.
      *
@@ -263,6 +313,10 @@ protected:
      * space.
      */
     virtual base_pointer clone_() const = 0;
+
+    size_type m_size_;
+    using label_container = std::vector<std::string>;
+    label_container m_labels_; // vector of basis function labels
 };
 
 /** @brief Compares two BaseSpace instances for equality.
@@ -283,6 +337,9 @@ protected:
  *  @throw None No throw guarantee.
  */
 inline bool operator==(const BaseSpace& lhs, const BaseSpace& rhs) {
+    for(BaseSpace::size_type i = 0; i < lhs.size(); i++) {
+        if(lhs.label(i) != rhs.label(i)) return false;
+    }
     return (lhs.size() == rhs.size());
 }
 
