@@ -35,7 +35,6 @@ public:
     using base_pointer = std::unique_ptr<BaseSpace>;
     using label_type   = std::string;
 
-
     /// Default polymorphic dtor
     virtual ~BaseSpace() noexcept = default;
 
@@ -100,7 +99,7 @@ public:
     bool not_equal(const BaseSpace& rhs) const noexcept { return !equal(rhs); }
 
     /** @brief Function to access the a basis funciton label.
-     *         With this function one is able to set the label. 
+     *         With this function one is able to set the label.
      *
      *  @param[in] i The index of the axis label to be accessed.
      *
@@ -110,7 +109,7 @@ public:
      *         label vector.
      */
     label_type& label(size_type i) {
-	if((i + 1) > size())
+        if((i + 1) > size())
             throw std::out_of_range("Index out of the range of"
                                     " the label vector.");
         else
@@ -118,7 +117,7 @@ public:
     }
 
     /** @brief Function to access the a basis funciton label.
-     *         With this function one is NOT able to set the label. 
+     *         With this function one is NOT able to set the label.
      *
      *  @param[in] i The index of the axis label to be accessed.
      *
@@ -128,7 +127,7 @@ public:
      *         label vector.
      */
     label_type label(size_type i) const {
-	if((i + 1) > size())
+        if((i + 1) > size())
             throw std::out_of_range("Index out of the range of"
                                     " the label vector.");
         else
@@ -146,7 +145,7 @@ protected:
      */
     BaseSpace() = default;
 
-    /** @brief Creates an N-dimensinal BaseSpace with all basis function labels 
+    /** @brief Creates an N-dimensinal BaseSpace with all basis function labels
      *  set as null. Users can set the labels by call the function label(i).
      *
      *  @param[in] N The dimension of the space.
@@ -178,8 +177,8 @@ protected:
      */
     template<typename ItType = std::vector<std::string>::iterator>
     BaseSpace(const size_type& N, ItType&& begin_it, ItType&& end_it) :
-              m_size_(N), m_labels_(std::forward<ItType>(begin_it),
-                  std::forward<ItType>(end_it)) {
+      m_size_(N),
+      m_labels_(std::forward<ItType>(begin_it), std::forward<ItType>(end_it)) {
         if(m_labels_.size() != m_size_)
             throw std::invalid_argument("Label vector length not equal to the"
                                         "dimension of the space!");
