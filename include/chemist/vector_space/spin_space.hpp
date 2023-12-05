@@ -51,11 +51,11 @@ public:
      *  @throw std::bad_alloc if changing of the capacity of the label vector
      * fails.
      */
-    explicit SpinSpace(size_type mult) :  BaseSpace(mult) {
-        if (mult == 2) {
-	   m_labels_[0] = "alpha";
-	   m_labels_[1] = "beta";
-	}
+    explicit SpinSpace(size_type mult) : BaseSpace(mult) {
+        if(mult == 2) {
+            m_labels_[0] = "alpha";
+            m_labels_[1] = "beta";
+        }
     }
 
     /** @brief Creates a SpinSpace with spin channel labels being given. The
@@ -159,9 +159,12 @@ public:
      *  @throw std::invalid_argument if multiplicity = 0.
      *
      */
-    spin_type total_spin() const { 
-	 if (m_size_ == 0) throw std::invalid_argument("No spin!");
-	 else return (spin_type(m_size_) - 1.0) / 2.0; }
+    spin_type total_spin() const {
+        if(m_size_ == 0)
+            throw std::invalid_argument("No spin!");
+        else
+            return (spin_type(m_size_) - 1.0) / 2.0;
+    }
 
 protected:
     /** @brief Dimension of the spin space.
