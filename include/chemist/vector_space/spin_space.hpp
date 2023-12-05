@@ -29,8 +29,8 @@ namespace chemist::vector_space {
 class SpinSpace : public BaseSpace {
 public:
     /// Type used for indexing and offsets
-    using size_type = typename BaseSpace::size_type;
-    using spin_type = double;
+    using size_type  = typename BaseSpace::size_type;
+    using spin_type  = double;
     using label_type = std::string;
 
     /** @brief Default ctor. Creates an empty SpinSpace with no spin channel (a
@@ -41,14 +41,15 @@ public:
     SpinSpace() = default;
 
     /** @brief Ctor to create a SpinSpace to represent the spin channels of a
-     *  system with the multiplicity as an input. Spin channel labels are initialized
-     *  as blank strings. For the case of 1-electron spin system, the labels are
-     *  defaulted as "alpha" and "beta". Users can set the labels by call the function 
-     *  label(i).
+     *  system with the multiplicity as an input. Spin channel labels are
+     * initialized as blank strings. For the case of 1-electron spin system, the
+     * labels are defaulted as "alpha" and "beta". Users can set the labels by
+     * call the function label(i).
      *
      *  @param[in] mult The multiplicity of the system (2S + 1).
      *
-     *  @throw std::bad_alloc if changing of the capacity of the label vector fails.
+     *  @throw std::bad_alloc if changing of the capacity of the label vector
+     * fails.
      */
     explicit SpinSpace(size_type mult) :  BaseSpace(mult) {
         if (mult == 2) {
@@ -63,7 +64,7 @@ public:
      *
      *  @param[in] mult The dimension of the space.
      *
-     *  @taram ItType The type of the begin and end iterator of the 
+     *  @taram ItType The type of the begin and end iterator of the
      *                vector to label the spin channels. Default to be
      *                std::vector<std::string>::iterator>.
      *
@@ -148,7 +149,7 @@ public:
             throw std::out_of_range("Index out of the range of"
                                     " the spin channels.");
         else
-            return ( total_spin() - i);
+            return (total_spin() - i);
     }
 
     /** @brief Get the total spin of the space.

@@ -33,7 +33,7 @@ public:
     /// Type used for indexing and offsets
     using size_type    = type::size;
     using base_pointer = std::unique_ptr<BaseSpace>;
-    using label_type = std::string;
+    using label_type   = std::string;
 
 
     /// Default polymorphic dtor
