@@ -31,7 +31,7 @@ public:
     /// Type used for indexing and offsets
     using size_type  = typename BaseSpace::size_type;
     using spin_type  = double;
-    using label_type = std::string;
+    using label_type = typename BaseSpace::label_type;
 
     /** @brief Default ctor. Creates an empty SpinSpace with no spin channel (a
      * null object).

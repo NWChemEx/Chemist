@@ -336,10 +336,13 @@ protected:
  *  @throw None No throw guarantee.
  */
 inline bool operator==(const BaseSpace& lhs, const BaseSpace& rhs) {
-    for(BaseSpace::size_type i = 0; i < lhs.size(); i++) {
-        if(lhs.label(i) != rhs.label(i)) return false;
+    if (lhs.size() != rhs.size()) return false;
+    else {
+        for(BaseSpace::size_type i = 0; i < lhs.size(); i++) {
+            if(lhs.label(i) != rhs.label(i)) return false;
+        }
+        return true;
     }
-    return (lhs.size() == rhs.size());
 }
 
 /** @brief Determines if two BaseSpace instances are different.
