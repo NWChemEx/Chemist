@@ -30,7 +30,7 @@ namespace chemist {
  *  on this by also detailing how the electrons are fragmented.
  *
  *  For design details see:
- *  https://nwchemex-project.github.io/Chemist/developer/design/chemistry/fragmented_molecule.html
+ *  https://nwchemex.github.io/Chemist/developer/design/chemistry/fragmented_molecule.html
  */
 class FragmentedMolecule
   : public utilities::IndexableContainerBase<FragmentedMolecule> {

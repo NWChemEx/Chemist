@@ -20,7 +20,7 @@ project(chemist VERSION "${VERSION}" LANGUAGES CXX)
 include(FetchContent)
 FetchContent_Declare(
     nwx_cmake
-    GIT_REPOSITORY https://github.com/NWChemEx-Project/NWXCMake
+    GIT_REPOSITORY https://github.com/NWChemEx/NWXCMake
 )
 FetchContent_MakeAvailable(nwx_cmake)
 list(APPEND CMAKE_MODULE_PATH "${nwx_cmake_SOURCE_DIR}/cmake")
@@ -43,7 +43,7 @@ option(BUILD_CPPYY_PYBINDINGS "Build Python bindings with Cppyy?" OFF)
 
 cmaize_find_or_build_dependency(
     tensorwrapper
-    URL github.com/NWChemEx-Project/TensorWrapper
+    URL github.com/NWChemEx/TensorWrapper
     PRIVATE TRUE
     VERSION ${NWX_TENSORWRAPPER_VERSION}
     BUILD_TARGET tensorwrapper

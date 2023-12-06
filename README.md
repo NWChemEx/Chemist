@@ -14,9 +14,9 @@
   ~ limitations under the License.
 -->
 
-[![Actions](https://github.com/NWChemEx-Project/LibChemist/workflows/C_C++_CI/badge.svg)](https://github.com/NWChemEx-Project/LibChemist)
+[![Actions](https://github.com/NWChemEx/LibChemist/workflows/C_C++_CI/badge.svg)](https://github.com/NWChemEx/LibChemist)
 
-[![Codecov](https://codecov.io/github/NWChemEx-Project/LibChemist/branch/master/graphs/sunburst.svg?token=MwvRQD5eUW)](https://codecov.io/github/NWChemEx-Project/LibChemist/branch/master)
+[![Codecov](https://codecov.io/github/NWChemEx/LibChemist/branch/master/graphs/sunburst.svg?token=MwvRQD5eUW)](https://codecov.io/github/NWChemEx/LibChemist/branch/master)
 
 # Chemist
 

@@ -27,7 +27,7 @@ class PointPIMPL;
 /** @brief An object that is associated with a point in 3-D Cartesian space.
  *
  *  See
- * https://nwchemex-project.github.io/Chemist/developer/design/molecule.html for
+ * https://nwchemex.github.io/Chemist/developer/design/molecule.html for
  * design.
  *
  *  Conceptually a point is nothing more than three floating point values, which

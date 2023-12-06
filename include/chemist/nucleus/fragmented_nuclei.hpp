@@ -28,7 +28,7 @@ class FragmentedNucleiPIMPL;
  *         objects.
  *
  *  See
- * https://nwchemex-project.github.io/Chemist/developer/design/chemistry/fragmented_nuclei.html
+ * https://nwchemex.github.io/Chemist/developer/design/chemistry/fragmented_nuclei.html
  *  for design details.
  *
  */
