@@ -26,26 +26,49 @@ space factors. The product space of more than two spaces can be obtained
 through a composite construction process, e. g., 
 
 ..  code-block:: c++
+
     ProductSpace(A, B, C) = ProductSpace(A, ProductSpace(B, C));
 
-The two factor spaces of a ProductSpace should be commutable, which means
+In the current design, the two factor spaces of a ProductSpace are not 
+commutable, which means
 
 ..  code-block:: c++
-    ProductSpace(A, B) = ProductSpace(B, A);
+
+    ProductSpace(A, B) != ProductSpace(B, A);
+
+This is due to the fact that the order of the factor spaces determines the 
+order of the basis functions in the ``ProductSpace``. For example, we have an
+``AOSpace`` and a ``SpinSpace`` as the factor spaces to form a ``ProductSpace`` 
+called ``ASOSpace``:
+
+..  code-block:: c++
+
+    // ao_1, ao_2 are atomic basis functions
+    ao_space_1 = AOSpace{ao_1, ao_2}; 
+    // alpha and beta are spin basis functions
+    spin_space = SpinSpace{alpha, beta}; 
+
+    product_space_1 = ProductSpace(ao_space_1, spin_space) 
+                    = {ao_1*alpha, ao_2*alpha, ao_1*beta, ao_2*beta};
+    product_space_2 = ProductSpace(spin_space, ao_space_1)
+                    = {alpha*ao_1, beta*ao_1, alpha*ao_2, beta*a0_2};
+
+One can see that although ``product_space_1`` and ``product_space_2`` share the
+same set of basis functions, the basis functions are in different order. Hence 
+we do not assume the commutativity of the two factor spaces of a 
+``ProductSpace``.
 
 If all the factor spaces of the product have explicit basis functions, in the 
 resulted ``ProductSpace<R...>`` the basis functions are the prodcut of the basis 
 functions of all the factor spaces. If some factor spaces only have abstract 
-basis functions which are not explicitly present in the factor spaces, the 
-basis functions of the resulted ``ProductSpace`` would omit the terms from 
-the abstract basis functions. However, the labels of the ``ProductSpace`` are 
-always the combinations of the labels from all the factor spaces. Remember the
-factor spaces are mutable, so two equal ``ProductSpaces`` may have labels with
-different combinational orders. Hence in the comparison of two 
-``ProductSpaces``, one should not check their basis functions and labels 
-directly but check their two factor spaces in both orders. The size of a 
-``ProductSpace`` is the product of the no.s of basis functions of the two 
-factor spaces.
+basis functions not explicitly present in the factor spaces, the basis 
+functions of the resulted ``ProductSpace`` would omit the terms from the 
+abstract basis functions. However, the labels of the ``ProductSpace`` are 
+always the combinations of the labels from all the factor spaces, e. g., 
+"product_space_label" = "factor_space_1_label":"factor_space_2_label". In order
+to compare two ``ProductSpaces``, one should just check their two factor spaces.
+The size of a ``ProductSpace`` is the product of the no.s of basis functions of
+the two factor spaces.
 
 The UML diagram of this class can be seen as below.
 
