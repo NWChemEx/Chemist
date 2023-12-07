@@ -72,7 +72,7 @@ public:
      */
     template<typename ItType = std::vector<std::string>::iterator>
     CartesianSpace(const size_type& N, ItType&& begin_it, ItType&& end_it) :
-      BaseSpace(N, begin_it, end_it) {}
+      BaseSpace(N, std::forward<ItType>(begin_it), std::forward<ItType>(end_it)) {}
 
     /** @brief Copy constructor. Copy another CartesianSpace.
      *
@@ -128,12 +128,6 @@ public:
     CartesianSpace& operator=(CartesianSpace&& rhs) = default;
 
 protected:
-    /** @brief Dimension of the cartesian space
-     *
-     *  @return The dimension.
-     */
-    size_type size_() const noexcept override { return m_size_; }
-
     bool equal_(const BaseSpace& rhs) const noexcept override {
         return this->equal_common(*this, rhs);
     }

@@ -109,7 +109,7 @@ public:
      *         label vector.
      */
     label_type& label(size_type i) {
-        if((i + 1) > size())
+        if(i >= size())
             throw std::out_of_range("Index out of the range of"
                                     " the label vector.");
         else
@@ -127,11 +127,7 @@ public:
      *         label vector.
      */
     label_type label(size_type i) const {
-        if((i + 1) > size())
-            throw std::out_of_range("Index out of the range of"
-                                    " the label vector.");
-        else
-            return m_labels_.at(i);
+	return (const_cast<BaseSpace&>(*this)).label(i);
     }
 
 protected:
@@ -277,7 +273,7 @@ protected:
      *
      *  @throw None No throw guarantee.
      */
-    virtual size_type size_() const noexcept = 0;
+    virtual size_type size_() const noexcept { return m_size_; };
 
     /** @brief To be overridden by the derived class to implement `equal`
      *

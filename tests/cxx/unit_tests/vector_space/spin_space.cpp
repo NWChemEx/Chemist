@@ -38,13 +38,10 @@ TEST_CASE("SpinSpace") {
         }
 
         SECTION("Spin channel labels") {
-            auto s2   = SpinSpace(2);
             auto s3_1 = SpinSpace(3);
             std::vector<std::string> labels{"spin_channel_1", "spin_channel_2",
                                             "spin_channel_3"};
             auto s3_2 = SpinSpace(3, labels.begin(), labels.end());
-            REQUIRE(s2.label(0) == "alpha");
-            REQUIRE(s2.label(1) == "beta");
             REQUIRE(s3_1.label(0) == "");
             REQUIRE(s3_1.label(1) == "");
             REQUIRE(s3_1.label(2) == "");
@@ -76,23 +73,23 @@ TEST_CASE("SpinSpace") {
 
     SECTION("Assignment") {
         SECTION("Copy assignment") {
-            auto s1_1  = SpinSpace(2);
+            auto s2_1  = SpinSpace(2);
             auto copy  = SpinSpace();
-            auto ps1_2 = &(copy = s1_1);
-            REQUIRE(ps1_2 == &copy);
-            REQUIRE(ps1_2->size() == 2);
-            REQUIRE_THAT(ps1_2->spin_channel(0), WithinAbs(0.5, 0.00001));
-            REQUIRE_THAT(ps1_2->spin_channel(1), WithinAbs(-0.5, 0.00001));
+            auto ps2_2 = &(copy = s2_1);
+            REQUIRE(ps2_2 == &copy);
+            REQUIRE(ps2_2->size() == 2);
+            REQUIRE_THAT(ps2_2->spin_channel(0), WithinAbs(0.5, 0.00001));
+            REQUIRE_THAT(ps2_2->spin_channel(1), WithinAbs(-0.5, 0.00001));
         }
 
         SECTION("Move assignment") {
-            auto s1_1  = SpinSpace(2);
+            auto s2_1  = SpinSpace(2);
             auto moved = SpinSpace();
-            auto ps1_2 = &(moved = std::move(s1_1));
-            REQUIRE(ps1_2 == &moved);
-            REQUIRE(ps1_2->size() == 2);
-            REQUIRE_THAT(ps1_2->spin_channel(0), WithinAbs(0.5, 0.00001));
-            REQUIRE_THAT(ps1_2->spin_channel(1), WithinAbs(-0.5, 0.00001));
+            auto ps2_2 = &(moved = std::move(s2_1));
+            REQUIRE(ps2_2 == &moved);
+            REQUIRE(ps2_2->size() == 2);
+            REQUIRE_THAT(ps2_2->spin_channel(0), WithinAbs(0.5, 0.00001));
+            REQUIRE_THAT(ps2_2->spin_channel(1), WithinAbs(-0.5, 0.00001));
         }
     }
 
@@ -110,7 +107,7 @@ TEST_CASE("SpinSpace") {
         }
 
         SECTION("Get and set one label") {
-            auto s     = SpinSpace(2);
+            auto s = SpinSpace(2);
             s.label(1) = "b";
             REQUIRE(s.label(1) == "b");
         }

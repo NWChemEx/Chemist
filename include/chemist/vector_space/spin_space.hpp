@@ -51,12 +51,7 @@ public:
      *  @throw std::bad_alloc if changing of the capacity of the label vector
      * fails.
      */
-    explicit SpinSpace(size_type mult) : BaseSpace(mult) {
-        if(mult == 2) {
-            m_labels_[0] = "alpha";
-            m_labels_[1] = "beta";
-        }
-    }
+    explicit SpinSpace(size_type mult) : BaseSpace(mult) {}
 
     /** @brief Creates a SpinSpace with spin channel labels being given. The
      * dimension is mult and the labels are stored in a mult-element vector of
@@ -81,7 +76,7 @@ public:
      */
     template<typename ItType = std::vector<std::string>::iterator>
     SpinSpace(const size_type& mult, ItType&& begin_it, ItType&& end_it) :
-      BaseSpace(mult, begin_it, end_it) {}
+      BaseSpace(mult, std::forward<ItType>(begin_it), std::forward<ItType>(end_it)) {}
 
     /** @brief Copy constructor. Copy another SpinSpace.
      *
@@ -160,21 +155,13 @@ public:
      *
      */
     spin_type total_spin() const {
-        if(m_size_ == 0)
+        if(size() == 0)
             throw std::invalid_argument("No spin!");
         else
-            return (spin_type(m_size_) - 1.0) / 2.0;
+            return (spin_type(size()) - 1.0) / 2.0;
     }
 
 protected:
-    /** @brief Dimension of the spin space.
-     *
-     *  @return The dimension.
-     *
-     *  @throw None No throws guarantee.
-     */
-    size_type size_() const noexcept override { return m_size_; }
-
     bool equal_(const BaseSpace& rhs) const noexcept override {
         return this->equal_common(*this, rhs);
     }
