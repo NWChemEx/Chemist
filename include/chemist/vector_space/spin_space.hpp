@@ -76,7 +76,8 @@ public:
      */
     template<typename ItType = std::vector<std::string>::iterator>
     SpinSpace(const size_type& mult, ItType&& begin_it, ItType&& end_it) :
-      BaseSpace(mult, std::forward<ItType>(begin_it), std::forward<ItType>(end_it)) {}
+      BaseSpace(mult, std::forward<ItType>(begin_it),
+                std::forward<ItType>(end_it)) {}
 
     /** @brief Copy constructor. Copy another SpinSpace.
      *

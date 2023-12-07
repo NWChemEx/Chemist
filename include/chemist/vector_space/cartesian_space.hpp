@@ -72,7 +72,8 @@ public:
      */
     template<typename ItType = std::vector<std::string>::iterator>
     CartesianSpace(const size_type& N, ItType&& begin_it, ItType&& end_it) :
-      BaseSpace(N, std::forward<ItType>(begin_it), std::forward<ItType>(end_it)) {}
+      BaseSpace(N, std::forward<ItType>(begin_it),
+                std::forward<ItType>(end_it)) {}
 
     /** @brief Copy constructor. Copy another CartesianSpace.
      *
