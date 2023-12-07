@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include "chemist/vector_space/base_space.hpp"
+#include <chemist/vector_space/base_space.hpp>
 
 namespace chemist::vector_space {
 
@@ -27,13 +27,11 @@ namespace chemist::vector_space {
  *
  */
 class SpinSpace : public BaseSpace {
-private:
-    size_type m_mult_; // Multiplicity of the system = 2S + 1.
-
 public:
     /// Type used for indexing and offsets
-    using size_type = typename BaseSpace::size_type;
-    using spin_type = double;
+    using size_type  = typename BaseSpace::size_type;
+    using spin_type  = double;
+    using label_type = typename BaseSpace::label_type;
 
     /** @brief Default ctor. Creates an empty SpinSpace with no spin channel (a
      * null object).
@@ -43,13 +41,43 @@ public:
     SpinSpace() = default;
 
     /** @brief Ctor to create a SpinSpace to represent the spin channels of a
-     * system with the multiplicity as an input.
+     *  system with the multiplicity as an input. Spin channel labels are
+     * initialized as blank strings. For the case of 1-electron spin system, the
+     * labels are defaulted as "alpha" and "beta". Users can set the labels by
+     * call the function label(i).
      *
      *  @param[in] mult The multiplicity of the system (2S + 1).
      *
-     *  @throw None No throws guarantee.
+     *  @throw std::bad_alloc if changing of the capacity of the label vector
+     * fails.
      */
-    explicit SpinSpace(size_type mult) : m_mult_(mult) {}
+    explicit SpinSpace(size_type mult) : BaseSpace(mult) {}
+
+    /** @brief Creates a SpinSpace with spin channel labels being given. The
+     * dimension is mult and the labels are stored in a mult-element vector of
+     * strings.
+     *
+     *  @param[in] mult The dimension of the space.
+     *
+     *  @taram ItType The type of the begin and end iterator of the
+     *                vector to label the spin channels. Default to be
+     *                std::vector<std::string>::iterator>.
+     *
+     *  @param[in] begin_it The begin iterator of the vector
+     *             to label the spin channels.
+     *
+     *  @param[in] end_it The end iterator of the vector
+     *             to label the spin channels.
+     *
+     *  @throw std::invalid_argument if the length of string vector is not equal
+     *                               to the dimension of the space.
+     *
+     *  @throw std::bad_alloc if the initialization of the string vector fails.
+     */
+    template<typename ItType = std::vector<std::string>::iterator>
+    SpinSpace(const size_type& mult, ItType&& begin_it, ItType&& end_it) :
+      BaseSpace(mult, std::forward<ItType>(begin_it),
+                std::forward<ItType>(end_it)) {}
 
     /** @brief Copy constructor. Copy another SpinSpace.
      *
@@ -128,21 +156,13 @@ public:
      *
      */
     spin_type total_spin() const {
-        if(m_mult_ == 0)
+        if(size() == 0)
             throw std::invalid_argument("No spin!");
         else
-            return (spin_type(m_mult_) - 1.0) / 2.0;
+            return (spin_type(size()) - 1.0) / 2.0;
     }
 
 protected:
-    /** @brief Dimension of the spin space.
-     *
-     *  @return The dimension.
-     *
-     *  @throw None No throws guarantee.
-     */
-    size_type size_() const noexcept override { return m_mult_; }
-
     bool equal_(const BaseSpace& rhs) const noexcept override {
         return this->equal_common(*this, rhs);
     }
@@ -160,16 +180,17 @@ protected:
 
 /** @brief Comapres two SpinSpace instances for equality.
  *
- *  Two SpinSpace instances are equal if they have the same dimension.
+ *  Two SpinSpace instances are equal if they have the same dimension and
+ *  identical spin channel labels.
  *
  *  @param[in] lhs The instance on the left of the equality.
  *  @param[in] rhs The instance on the right of the equality.
  *
  *  @return True if the SpinSpace part of @p lhs compares equal to the
- * CartesianSpace part of @p rhs. False otherwise.
+ *          SpinSpace part of @p rhs. False otherwise.
  *
  *  @throw Throws if comparing the base classes throws. Same throw
- *             guarantee.
+ *         guarantee.
  */
 inline bool operator==(const SpinSpace& lhs, const SpinSpace& rhs) {
     const BaseSpace& lhs_base = lhs;

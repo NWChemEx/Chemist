@@ -29,15 +29,6 @@ namespace chemist::vector_space {
  *  basis functions and their labels.
  */
 class CartesianSpace : public BaseSpace {
-private:
-    /// String-like type used for labeling basis functions
-    using label_container = std::vector<std::string>;
-
-    /// dimension of the space
-    size_type m_N_;
-    /// vector of axis labels
-    label_container m_axis_vec_;
-
 public:
     /// Type used for indexing and offsets
     using size_type  = typename BaseSpace::size_type;
@@ -50,13 +41,13 @@ public:
     CartesianSpace() = default;
 
     /** @brief Creates an N-dimensinal CartesianSpace with all the N axes set as
-     * null. Users can set the labels by call the function label().
+     * null. Users can set the labels by call the function label(i).
      *
      *  @param[in] N The dimension of the space.
      *
      *  @throw std::bad_alloc if changing of the capacity of the vector fails.
      */
-    CartesianSpace(size_type N) : m_N_(N), m_axis_vec_(N, "") {}
+    explicit CartesianSpace(size_type N) : BaseSpace(N) {}
 
     /** @brief Creates a CartesianSpace with axis labels being given. The
      * dimension is N and the labels are stored in a N-element vector of
@@ -75,19 +66,14 @@ public:
      *             to set up the axes.
      *
      *  @throw std::invalid_argument if the length of string vector is not equal
-     * to the dimension of the space.
+     *                               to the dimension of the space.
      *
      *  @throw std::bad_alloc if the initialization of the string vector fails.
      */
     template<typename ItType = std::vector<std::string>::iterator>
     CartesianSpace(const size_type& N, ItType&& begin_it, ItType&& end_it) :
-      m_N_(N),
-      m_axis_vec_(std::forward<ItType>(begin_it),
-                  std::forward<ItType>(end_it)) {
-        if(m_axis_vec_.size() != m_N_)
-            throw std::invalid_argument("Label vector length not equal to the"
-                                        "dimension of the space!");
-    }
+      BaseSpace(N, std::forward<ItType>(begin_it),
+                std::forward<ItType>(end_it)) {}
 
     /** @brief Copy constructor. Copy another CartesianSpace.
      *
@@ -142,49 +128,7 @@ public:
      */
     CartesianSpace& operator=(CartesianSpace&& rhs) = default;
 
-    /** @brief Function to access the an axis label.
-     *         With this function one is able to set the label.
-     *
-     *  @param[in] i The index of the axis lable to be accessed.
-     *
-     *  @return The i-th axis label.
-     *
-     *  @throw std::out_of_range if the index is out of the range of the
-     *         label vector.
-     */
-    label_type& label(size_type i) {
-        if((i + 1) > size())
-            throw std::out_of_range("Index out of the range of"
-                                    " the label vector.");
-        else
-            return m_axis_vec_.at(i);
-    }
-
-    /** @brief Function to access the an axis label.
-     *         With this function one cannot set the label.
-     *
-     *  @param[in] i The index of the axis lable to be accessed.
-     *
-     *  @return The i-th axis label.
-     *
-     *  @throw std::out_of_range if the index is out of the range of the
-     *         label vector.
-     */
-    label_type label(size_type i) const {
-        if((i + 1) > size())
-            throw std::out_of_range("Index out of the range of"
-                                    " the label vector.");
-        else
-            return m_axis_vec_.at(i);
-    }
-
 protected:
-    /** @brief Dimension of the cartesian space
-     *
-     *  @return The dimension.
-     */
-    size_type size_() const noexcept override { return m_N_; }
-
     bool equal_(const BaseSpace& rhs) const noexcept override {
         return this->equal_common(*this, rhs);
     }
@@ -202,21 +146,19 @@ protected:
 
 /** @brief Comapres two CartesianSpace instances for equality.
  *
- *  Two CartesianSpace instances are equal if they have the same dimension.
+ *  Two CartesianSpace instances are equal if they have the same dimension and
+ *  their labels are identical.
  *
  *  @param[in] lhs The instance on the left of the equality.
  *  @param[in] rhs The instance on the right of the equality.
  *
  *  @return True if the CartesianSpace part of @p lhs compares equal to the
- * CartesianSpace part of @p rhs. False otherwise.
+ *          CartesianSpace part of @p rhs. False otherwise.
  *
  *  @throw Throws if comparing the base classes throws. Same throw
- *             guarantee.
+ *         guarantee.
  */
 inline bool operator==(const CartesianSpace& lhs, const CartesianSpace& rhs) {
-    for(BaseSpace::size_type i = 0; i < lhs.size(); i++) {
-        if(lhs.label(i) != rhs.label(i)) return false;
-    }
     const BaseSpace& lhs_base = lhs;
     const BaseSpace& rhs_base = rhs;
     return (lhs_base == rhs_base);
