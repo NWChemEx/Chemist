@@ -108,6 +108,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr class="memitem:af1067d87a3393c979672875439d0cff8"><td class="memItemLeft" align="right" valign="top"><a id="af1067d87a3393c979672875439d0cff8"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>spin_type</b> = double</td></tr>
 <tr class="separator:af1067d87a3393c979672875439d0cff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0c696e7a5228391a53bf575f530d7dd"><td class="memItemLeft" align="right" valign="top"><a id="af0c696e7a5228391a53bf575f530d7dd"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>label_type</b> = typename BaseSpace::label_type</td></tr>
+<tr class="separator:af0c696e7a5228391a53bf575f530d7dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_classchemist_1_1vector__space_1_1BaseSpace"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classchemist_1_1vector__space_1_1BaseSpace')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html">chemist::vector_space::BaseSpace</a></td></tr>
 <tr class="memitem:a5a09401c862135015ac7377089ac6e9b inherit pub_types_classchemist_1_1vector__space_1_1BaseSpace"><td class="memItemLeft" align="right" valign="top"><a id="a5a09401c862135015ac7377089ac6e9b"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a5a09401c862135015ac7377089ac6e9b">size_type</a> = <a class="el" href="types_8hpp.html#a9ee3ebc8fa20e70336ca452fe2a719e2">type::size</a></td></tr>
@@ -116,6 +119,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr class="memitem:a636afaee4f708f4ec559bb1585641490 inherit pub_types_classchemist_1_1vector__space_1_1BaseSpace"><td class="memItemLeft" align="right" valign="top"><a id="a636afaee4f708f4ec559bb1585641490"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>base_pointer</b> = std::unique_ptr&lt; <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html">BaseSpace</a> &gt;</td></tr>
 <tr class="separator:a636afaee4f708f4ec559bb1585641490 inherit pub_types_classchemist_1_1vector__space_1_1BaseSpace"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9aa8959722bb9b7a019b124053f9976e inherit pub_types_classchemist_1_1vector__space_1_1BaseSpace"><td class="memItemLeft" align="right" valign="top"><a id="a9aa8959722bb9b7a019b124053f9976e"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>label_type</b> = std::string</td></tr>
+<tr class="separator:a9aa8959722bb9b7a019b124053f9976e inherit pub_types_classchemist_1_1vector__space_1_1BaseSpace"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -123,8 +129,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aff539f6d03a588a615105132997c287a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default ctor. Creates an empty <a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html" title="Models a space spanned by the spin states of a system.">SpinSpace</a> with no spin channel (a null object).  <a href="classchemist_1_1vector__space_1_1SpinSpace.html#aff539f6d03a588a615105132997c287a">More...</a><br /></td></tr>
 <tr class="separator:aff539f6d03a588a615105132997c287a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09f728894926fb0cba26f9ccbbb6a57b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html#a09f728894926fb0cba26f9ccbbb6a57b">SpinSpace</a> (<a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a5a09401c862135015ac7377089ac6e9b">size_type</a> mult)</td></tr>
-<tr class="memdesc:a09f728894926fb0cba26f9ccbbb6a57b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ctor to create a <a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html" title="Models a space spanned by the spin states of a system.">SpinSpace</a> to represent the spin channels of a system with the multiplicity as an input.  <a href="classchemist_1_1vector__space_1_1SpinSpace.html#a09f728894926fb0cba26f9ccbbb6a57b">More...</a><br /></td></tr>
+<tr class="memdesc:a09f728894926fb0cba26f9ccbbb6a57b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ctor to create a <a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html" title="Models a space spanned by the spin states of a system.">SpinSpace</a> to represent the spin channels of a system with the multiplicity as an input. Spin channel labels are initialized as blank strings. For the case of 1-electron spin system, the labels are defaulted as "alpha" and "beta". Users can set the labels by call the function label(i).  <a href="classchemist_1_1vector__space_1_1SpinSpace.html#a09f728894926fb0cba26f9ccbbb6a57b">More...</a><br /></td></tr>
 <tr class="separator:a09f728894926fb0cba26f9ccbbb6a57b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaabe0b3787c2e9cea2d750255b4db38"><td class="memTemplParams" colspan="2">template&lt;typename ItType  = std::vector&lt;std::string&gt;::iterator&gt; </td></tr>
+<tr class="memitem:acaabe0b3787c2e9cea2d750255b4db38"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html#acaabe0b3787c2e9cea2d750255b4db38">SpinSpace</a> (const <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a5a09401c862135015ac7377089ac6e9b">size_type</a> &amp;mult, ItType &amp;&amp;begin_it, ItType &amp;&amp;end_it)</td></tr>
+<tr class="memdesc:acaabe0b3787c2e9cea2d750255b4db38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html" title="Models a space spanned by the spin states of a system.">SpinSpace</a> with spin channel labels being given. The dimension is mult and the labels are stored in a mult-element vector of strings.  <a href="classchemist_1_1vector__space_1_1SpinSpace.html#acaabe0b3787c2e9cea2d750255b4db38">More...</a><br /></td></tr>
+<tr class="separator:acaabe0b3787c2e9cea2d750255b4db38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a343b4aa9fdc2365448ac6303aa24bab0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html#a343b4aa9fdc2365448ac6303aa24bab0">SpinSpace</a> (const <a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html">SpinSpace</a> &amp;rhs)=default</td></tr>
 <tr class="memdesc:a343b4aa9fdc2365448ac6303aa24bab0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor. Copy another <a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html" title="Models a space spanned by the spin states of a system.">SpinSpace</a>.  <a href="classchemist_1_1vector__space_1_1SpinSpace.html#a343b4aa9fdc2365448ac6303aa24bab0">More...</a><br /></td></tr>
 <tr class="separator:a343b4aa9fdc2365448ac6303aa24bab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,12 +170,15 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr class="memitem:ade4b95c272437cd6cd794385ed9581f1 inherit pub_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#ade4b95c272437cd6cd794385ed9581f1">not_equal</a> (const <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html">BaseSpace</a> &amp;rhs) const noexcept</td></tr>
 <tr class="memdesc:ade4b95c272437cd6cd794385ed9581f1 inherit pub_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Polymorphically compares two vector spaces to determine if they are different.  <a href="classchemist_1_1vector__space_1_1BaseSpace.html#ade4b95c272437cd6cd794385ed9581f1">More...</a><br /></td></tr>
 <tr class="separator:ade4b95c272437cd6cd794385ed9581f1 inherit pub_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac31dfb8f051845b74202d74260d705aa inherit pub_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memItemLeft" align="right" valign="top">label_type &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#ac31dfb8f051845b74202d74260d705aa">label</a> (<a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a5a09401c862135015ac7377089ac6e9b">size_type</a> i)</td></tr>
+<tr class="memdesc:ac31dfb8f051845b74202d74260d705aa inherit pub_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to access the a basis funciton label. With this function one is able to set the label.  <a href="classchemist_1_1vector__space_1_1BaseSpace.html#ac31dfb8f051845b74202d74260d705aa">More...</a><br /></td></tr>
+<tr class="separator:ac31dfb8f051845b74202d74260d705aa inherit pub_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e109b52b0586de107bd32329162c1cf inherit pub_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memItemLeft" align="right" valign="top">label_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a4e109b52b0586de107bd32329162c1cf">label</a> (<a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a5a09401c862135015ac7377089ac6e9b">size_type</a> i) const</td></tr>
+<tr class="memdesc:a4e109b52b0586de107bd32329162c1cf inherit pub_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to access the a basis funciton label. With this function one is NOT able to set the label.  <a href="classchemist_1_1vector__space_1_1BaseSpace.html#a4e109b52b0586de107bd32329162c1cf">More...</a><br /></td></tr>
+<tr class="separator:a4e109b52b0586de107bd32329162c1cf inherit pub_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a93cc1abc7b3433e5cffb7cf75ac63a13"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a5a09401c862135015ac7377089ac6e9b">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html#a93cc1abc7b3433e5cffb7cf75ac63a13">size_</a> () const noexcept override</td></tr>
-<tr class="memdesc:a93cc1abc7b3433e5cffb7cf75ac63a13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dimension of the spin space.  <a href="classchemist_1_1vector__space_1_1SpinSpace.html#a93cc1abc7b3433e5cffb7cf75ac63a13">More...</a><br /></td></tr>
-<tr class="separator:a93cc1abc7b3433e5cffb7cf75ac63a13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e5c78afbe833a3ba3dcd459ace7ab31"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html#a2e5c78afbe833a3ba3dcd459ace7ab31">equal_</a> (const <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html">BaseSpace</a> &amp;rhs) const noexcept override</td></tr>
 <tr class="memdesc:a2e5c78afbe833a3ba3dcd459ace7ab31"><td class="mdescLeft">&#160;</td><td class="mdescRight">To be overridden by the derived class to implement <code>equal</code>  <a href="classchemist_1_1vector__space_1_1SpinSpace.html#a2e5c78afbe833a3ba3dcd459ace7ab31">More...</a><br /></td></tr>
 <tr class="separator:a2e5c78afbe833a3ba3dcd459ace7ab31"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -176,6 +189,13 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a18e7d765943c5a5808c56380fc7d774e inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a18e7d765943c5a5808c56380fc7d774e">BaseSpace</a> ()=default</td></tr>
 <tr class="memdesc:a18e7d765943c5a5808c56380fc7d774e inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html" title="Common base class for all vector spaces.">BaseSpace</a>.  <a href="classchemist_1_1vector__space_1_1BaseSpace.html#a18e7d765943c5a5808c56380fc7d774e">More...</a><br /></td></tr>
 <tr class="separator:a18e7d765943c5a5808c56380fc7d774e inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6aa544e77f8f54d0e5b36f345fdb9226 inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a6aa544e77f8f54d0e5b36f345fdb9226">BaseSpace</a> (<a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a5a09401c862135015ac7377089ac6e9b">size_type</a> N)</td></tr>
+<tr class="memdesc:a6aa544e77f8f54d0e5b36f345fdb9226 inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an N-dimensinal <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html" title="Common base class for all vector spaces.">BaseSpace</a> with all basis function labels set as null. Users can set the labels by call the function label(i).  <a href="classchemist_1_1vector__space_1_1BaseSpace.html#a6aa544e77f8f54d0e5b36f345fdb9226">More...</a><br /></td></tr>
+<tr class="separator:a6aa544e77f8f54d0e5b36f345fdb9226 inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ec6778f6c60b2a38496c37fea727325 inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memTemplParams" colspan="2">template&lt;typename ItType  = std::vector&lt;std::string&gt;::iterator&gt; </td></tr>
+<tr class="memitem:a9ec6778f6c60b2a38496c37fea727325 inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a9ec6778f6c60b2a38496c37fea727325">BaseSpace</a> (const <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a5a09401c862135015ac7377089ac6e9b">size_type</a> &amp;N, ItType &amp;&amp;begin_it, ItType &amp;&amp;end_it)</td></tr>
+<tr class="memdesc:a9ec6778f6c60b2a38496c37fea727325 inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html" title="Common base class for all vector spaces.">BaseSpace</a> with basis function labels being given. The dimension is N and the labels are stored in a N-element vector of strings.  <a href="classchemist_1_1vector__space_1_1BaseSpace.html#a9ec6778f6c60b2a38496c37fea727325">More...</a><br /></td></tr>
+<tr class="separator:a9ec6778f6c60b2a38496c37fea727325 inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2e8b1c20846ae9e4736b30254dff50a inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#af2e8b1c20846ae9e4736b30254dff50a">BaseSpace</a> (const <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html">BaseSpace</a> &amp;rhs)=default</td></tr>
 <tr class="memdesc:af2e8b1c20846ae9e4736b30254dff50a inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes this <code><a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html" title="Common base class for all vector spaces.">BaseSpace</a></code> instance by copying <code>rhs</code>.  <a href="classchemist_1_1vector__space_1_1BaseSpace.html#af2e8b1c20846ae9e4736b30254dff50a">More...</a><br /></td></tr>
 <tr class="separator:af2e8b1c20846ae9e4736b30254dff50a inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -192,9 +212,23 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a8af6a2f9f52887c36458b315e4d13bd0 inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a8af6a2f9f52887c36458b315e4d13bd0">equal_common</a> (const DerivedType &amp;lhs, const <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html">BaseSpace</a> &amp;rhs) const noexcept</td></tr>
 <tr class="memdesc:a8af6a2f9f52887c36458b315e4d13bd0 inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements polymorphic comparisons of vector spaces.  <a href="classchemist_1_1vector__space_1_1BaseSpace.html#a8af6a2f9f52887c36458b315e4d13bd0">More...</a><br /></td></tr>
 <tr class="separator:a8af6a2f9f52887c36458b315e4d13bd0 inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57bb1cd9e463bd88634b54d6634e6d60 inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a5a09401c862135015ac7377089ac6e9b">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a57bb1cd9e463bd88634b54d6634e6d60">size_</a> () const noexcept</td></tr>
+<tr class="memdesc:a57bb1cd9e463bd88634b54d6634e6d60 inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="mdescLeft">&#160;</td><td class="mdescRight">To be overridden by the derived class to implement <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#af0e8d246ff8278bfc05173eac5ab2073" title="Returns the number of basis functions in this space.">size()</a>.  <a href="classchemist_1_1vector__space_1_1BaseSpace.html#a57bb1cd9e463bd88634b54d6634e6d60">More...</a><br /></td></tr>
+<tr class="separator:a57bb1cd9e463bd88634b54d6634e6d60 inherit pro_methods_classchemist_1_1vector__space_1_1BaseSpace"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_types_classchemist_1_1vector__space_1_1BaseSpace"><td colspan="2" onclick="javascript:toggleInherit('pro_types_classchemist_1_1vector__space_1_1BaseSpace')"><img src="closed.png" alt="-"/>&#160;Protected Types inherited from <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html">chemist::vector_space::BaseSpace</a></td></tr>
+<tr class="memitem:a531ed0e0b1348f2544650e984d4163b4 inherit pro_types_classchemist_1_1vector__space_1_1BaseSpace"><td class="memItemLeft" align="right" valign="top"><a id="a531ed0e0b1348f2544650e984d4163b4"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>label_container</b> = std::vector&lt; std::string &gt;</td></tr>
+<tr class="separator:a531ed0e0b1348f2544650e984d4163b4 inherit pro_types_classchemist_1_1vector__space_1_1BaseSpace"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classchemist_1_1vector__space_1_1BaseSpace"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classchemist_1_1vector__space_1_1BaseSpace')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html">chemist::vector_space::BaseSpace</a></td></tr>
+<tr class="memitem:ae63b7bbead7ff8179053df42e6b7227b inherit pro_attribs_classchemist_1_1vector__space_1_1BaseSpace"><td class="memItemLeft" align="right" valign="top"><a id="ae63b7bbead7ff8179053df42e6b7227b"></a>
+<a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a5a09401c862135015ac7377089ac6e9b">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_size_</b></td></tr>
+<tr class="separator:ae63b7bbead7ff8179053df42e6b7227b inherit pro_attribs_classchemist_1_1vector__space_1_1BaseSpace"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adeb76697e9ea20de9a4eabfef8bef7bb inherit pro_attribs_classchemist_1_1vector__space_1_1BaseSpace"><td class="memItemLeft" align="right" valign="top"><a id="adeb76697e9ea20de9a4eabfef8bef7bb"></a>
+label_container&#160;</td><td class="memItemRight" valign="bottom"><b>m_labels_</b></td></tr>
+<tr class="separator:adeb76697e9ea20de9a4eabfef8bef7bb inherit pro_attribs_classchemist_1_1vector__space_1_1BaseSpace"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header related_classchemist_1_1vector__space_1_1BaseSpace"><td colspan="2" onclick="javascript:toggleInherit('related_classchemist_1_1vector__space_1_1BaseSpace')"><img src="closed.png" alt="-"/>&#160;Related Functions inherited from <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html">chemist::vector_space::BaseSpace</a></td></tr>
 <tr class="memitem:ab63589526c54cc7b7299e97e7fd5ebf7 inherit related_classchemist_1_1vector__space_1_1BaseSpace"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#ab63589526c54cc7b7299e97e7fd5ebf7">operator==</a> (const <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html">BaseSpace</a> &amp;lhs, const <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html">BaseSpace</a> &amp;rhs)</td></tr>
 <tr class="memdesc:ab63589526c54cc7b7299e97e7fd5ebf7 inherit related_classchemist_1_1vector__space_1_1BaseSpace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares two <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html" title="Common base class for all vector spaces.">BaseSpace</a> instances for equality.  <a href="classchemist_1_1vector__space_1_1BaseSpace.html#ab63589526c54cc7b7299e97e7fd5ebf7">More...</a><br /></td></tr>
@@ -208,7 +242,7 @@ Additional Inherited Members</h2></td></tr>
 <p>The common case is the space representing the alpha and beta spin channels of an electron. In general, if the total spin of the system is S, the dimension of the spin space is (2*S + 1) (multiplicity). </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aff539f6d03a588a615105132997c287a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff539f6d03a588a615105132997c287a">&#9670;&nbsp;</a></span>SpinSpace() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aff539f6d03a588a615105132997c287a">&#9670;&nbsp;</a></span>SpinSpace() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -241,7 +275,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <a id="a09f728894926fb0cba26f9ccbbb6a57b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a09f728894926fb0cba26f9ccbbb6a57b">&#9670;&nbsp;</a></span>SpinSpace() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a09f728894926fb0cba26f9ccbbb6a57b">&#9670;&nbsp;</a></span>SpinSpace() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -264,7 +298,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Ctor to create a <a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html" title="Models a space spanned by the spin states of a system.">SpinSpace</a> to represent the spin channels of a system with the multiplicity as an input. </p>
+<p>Ctor to create a <a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html" title="Models a space spanned by the spin states of a system.">SpinSpace</a> to represent the spin channels of a system with the multiplicity as an input. Spin channel labels are initialized as blank strings. For the case of 1-electron spin system, the labels are defaulted as "alpha" and "beta". Users can set the labels by call the function label(i). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">mult</td><td>The multiplicity of the system (2S + 1).</td></tr>
@@ -273,7 +307,74 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">None</td><td>No throws guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if changing of the capacity of the label vector fails. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="acaabe0b3787c2e9cea2d750255b4db38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaabe0b3787c2e9cea2d750255b4db38">&#9670;&nbsp;</a></span>SpinSpace() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ItType  = std::vector&lt;std::string&gt;::iterator&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">chemist::vector_space::SpinSpace::SpinSpace </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a5a09401c862135015ac7377089ac6e9b">size_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>mult</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ItType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>begin_it</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ItType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>end_it</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a <a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html" title="Models a space spanned by the spin states of a system.">SpinSpace</a> with spin channel labels being given. The dimension is mult and the labels are stored in a mult-element vector of strings. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">mult</td><td>The dimension of the space.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>@taram ItType The type of the begin and end iterator of the vector to label the spin channels. Default to be std::vector&lt;std::string&gt;::iterator&gt;.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">begin_it</td><td>The begin iterator of the vector to label the spin channels.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">end_it</td><td>The end iterator of the vector to label the spin channels.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>if the length of string vector is not equal to the dimension of the space.</td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if the initialization of the string vector fails. </td></tr>
   </table>
   </dd>
 </dl>
@@ -281,7 +382,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <a id="a343b4aa9fdc2365448ac6303aa24bab0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a343b4aa9fdc2365448ac6303aa24bab0">&#9670;&nbsp;</a></span>SpinSpace() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a343b4aa9fdc2365448ac6303aa24bab0">&#9670;&nbsp;</a></span>SpinSpace() <span class="overload">[4/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -321,7 +422,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <a id="ab941b9e45403ceb4a222c7027c113678"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab941b9e45403ceb4a222c7027c113678">&#9670;&nbsp;</a></span>SpinSpace() <span class="overload">[4/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab941b9e45403ceb4a222c7027c113678">&#9670;&nbsp;</a></span>SpinSpace() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -427,8 +528,8 @@ Additional Inherited Members</h2></td></tr>
 <div class="fragment"><div class="line"><span class="keywordtype">bool</span> <a class="code" href="classchemist_1_1vector__space_1_1SpinSpace.html#a2e5c78afbe833a3ba3dcd459ace7ab31">equal_</a>(<span class="keyword">const</span> BaseType&amp; rhs) <span class="keyword">const</span> noexcept {</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="classchemist_1_1vector__space_1_1BaseSpace.html#a8af6a2f9f52887c36458b315e4d13bd0">equal_common</a>(*<span class="keyword">this</span>, rhs);</div>
 <div class="line">}</div>
-<div class="ttc" id="aclasschemist_1_1vector__space_1_1BaseSpace_html_a8af6a2f9f52887c36458b315e4d13bd0"><div class="ttname"><a href="classchemist_1_1vector__space_1_1BaseSpace.html#a8af6a2f9f52887c36458b315e4d13bd0">chemist::vector_space::BaseSpace::equal_common</a></div><div class="ttdeci">bool equal_common(const DerivedType &amp;lhs, const BaseSpace &amp;rhs) const noexcept</div><div class="ttdoc">Implements polymorphic comparisons of vector spaces.</div><div class="ttdef"><b>Definition:</b> base_space.hpp:286</div></div>
-<div class="ttc" id="aclasschemist_1_1vector__space_1_1SpinSpace_html_a2e5c78afbe833a3ba3dcd459ace7ab31"><div class="ttname"><a href="classchemist_1_1vector__space_1_1SpinSpace.html#a2e5c78afbe833a3ba3dcd459ace7ab31">chemist::vector_space::SpinSpace::equal_</a></div><div class="ttdeci">bool equal_(const BaseSpace &amp;rhs) const noexcept override</div><div class="ttdoc">To be overridden by the derived class to implement equal</div><div class="ttdef"><b>Definition:</b> spin_space.hpp:146</div></div>
+<div class="ttc" id="aclasschemist_1_1vector__space_1_1BaseSpace_html_a8af6a2f9f52887c36458b315e4d13bd0"><div class="ttname"><a href="classchemist_1_1vector__space_1_1BaseSpace.html#a8af6a2f9f52887c36458b315e4d13bd0">chemist::vector_space::BaseSpace::equal_common</a></div><div class="ttdeci">bool equal_common(const DerivedType &amp;lhs, const BaseSpace &amp;rhs) const noexcept</div><div class="ttdoc">Implements polymorphic comparisons of vector spaces.</div><div class="ttdef"><b>Definition:</b> base_space.hpp:371</div></div>
+<div class="ttc" id="aclasschemist_1_1vector__space_1_1SpinSpace_html_a2e5c78afbe833a3ba3dcd459ace7ab31"><div class="ttname"><a href="classchemist_1_1vector__space_1_1SpinSpace.html#a2e5c78afbe833a3ba3dcd459ace7ab31">chemist::vector_space::SpinSpace::equal_</a></div><div class="ttdeci">bool equal_(const BaseSpace &amp;rhs) const noexcept override</div><div class="ttdoc">To be overridden by the derived class to implement equal</div><div class="ttdef"><b>Definition:</b> spin_space.hpp:166</div></div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>This little bit of boilerplate is required because otherwise, and without resorting to CRTP (thereby eliminating the common base class), <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html" title="Common base class for all vector spaces.">BaseSpace</a> does not know the type of the derived class.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -529,42 +630,6 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="a93cc1abc7b3433e5cffb7cf75ac63a13"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93cc1abc7b3433e5cffb7cf75ac63a13">&#9670;&nbsp;</a></span>size_()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a5a09401c862135015ac7377089ac6e9b">size_type</a> chemist::vector_space::SpinSpace::size_ </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Dimension of the spin space. </p>
-<dl class="section return"><dt>Returns</dt><dd>The dimension.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td>No throws guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implements <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#a3e133b20f34a42e34c80581ad43b7416">chemist::vector_space::BaseSpace</a>.</p>
 
 </div>
 </div>
