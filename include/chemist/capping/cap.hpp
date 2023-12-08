@@ -23,7 +23,7 @@ namespace chemist {
 /** @brief Caps a severed bond.
  *
  *  See
- *  https://nwchemex-project.github.io/Chemist/developer/design/chemistry/caps.html
+ *  https://nwchemex.github.io/Chemist/developer/design/chemistry/caps.html
  *  for design details.
  *
  */

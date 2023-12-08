@@ -25,7 +25,7 @@ namespace chemist {
  *
  *  When a fragment of a molecule severs covalent bonds, those bonds must be
  *  capped. This class is used to track the caps. For design details see:
- *  https://nwchemex-project.github.io/Chemist/developer/design/chemistry/caps.html
+ *  https://nwchemex.github.io/Chemist/developer/design/chemistry/caps.html
  */
 class CapSet : public utilities::IndexableContainerBase<CapSet> {
 private:
