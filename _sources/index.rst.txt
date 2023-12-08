@@ -25,4 +25,4 @@ Chemist
    background/index
    developer/index
    tutorials/index
-   C++ API <https://nwchemex-project.github.io/Chemist/chemist_cxx_api/index.html>
+   C++ API <https://nwchemex.github.io/Chemist/chemist_cxx_api/index.html>

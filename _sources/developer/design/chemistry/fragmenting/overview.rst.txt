@@ -283,4 +283,4 @@ Additional Notes
 ****************
 
 This design discussion was started as part of
-`Chemist PR#361 <https://github.com/NWChemEx-Project/Chemist/pull/361>`_.
+`Chemist PR#361 <https://github.com/NWChemEx/Chemist/pull/361>`_.
