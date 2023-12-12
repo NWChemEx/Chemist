@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include <chemist/vector_space/ao_space.hpp>
 #include <catch2/catch.hpp>
+#include <chemist/vector_space/ao_space.hpp>
 #include <utility>
 
 using namespace chemist::vector_space;
@@ -88,11 +88,11 @@ TEMPLATE_TEST_CASE("vector_space::AOSpace", "", AOBasisSetF, AOBasisSetD) {
     }
 
     SECTION("Check Default Labels") {
-       multi_bs.default_basis_label();
-       REQUIRE(multi_bs.size() == 3);
-       REQUIRE(multi_bs.label(0) == "ao_1");
-       REQUIRE(multi_bs.label(1) == "ao_2");
-       REQUIRE(multi_bs.label(2) == "ao_3");
+        multi_bs.default_basis_label();
+        REQUIRE(multi_bs.size() == 3);
+        REQUIRE(multi_bs.label(0) == "ao_1");
+        REQUIRE(multi_bs.label(1) == "ao_2");
+        REQUIRE(multi_bs.label(2) == "ao_3");
     }
 
     SECTION("basis_set") { REQUIRE(non_default_bs.basis_set() == bs); }

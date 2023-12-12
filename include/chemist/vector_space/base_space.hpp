@@ -127,7 +127,7 @@ public:
      *         label vector.
      */
     label_type label(size_type i) const {
-	return (const_cast<BaseSpace&>(*this)).label(i);
+        return (const_cast<BaseSpace&>(*this)).label(i);
     }
 
 protected:

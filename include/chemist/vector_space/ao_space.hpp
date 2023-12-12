@@ -140,10 +140,10 @@ public:
      *  @return No return. The label vector would be changed.
      */
     void default_basis_label() {
-	if (m_labels_.empty()) m_labels_.resize(size(), ""); 
-	for (size_type i = 0; i<size(); i++) {
-            m_labels_[i] = "ao_"+std::to_string(i+1);
-	}
+        if(m_labels_.empty()) m_labels_.resize(size(), "");
+        for(size_type i = 0; i < size(); i++) {
+            m_labels_[i] = "ao_" + std::to_string(i + 1);
+        }
     }
 
 protected:

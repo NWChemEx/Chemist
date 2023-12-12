@@ -107,7 +107,7 @@ TEST_CASE("SpinSpace") {
         }
 
         SECTION("Get and set one label") {
-            auto s = SpinSpace(2);
+            auto s     = SpinSpace(2);
             s.label(1) = "b";
             REQUIRE(s.label(1) == "b");
         }
