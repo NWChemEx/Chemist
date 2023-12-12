@@ -131,6 +131,9 @@ public:
     }
 
 protected:
+    /// Type of a container of mode indices
+    using mode_container = std::vector<type::size>;
+
     /** @brief Creates a BaseSpace
      *
      *  Users will never directly create a BaseSpace instance because it is an
