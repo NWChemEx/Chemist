@@ -121,35 +121,37 @@ public:
      *
      * @param[in] bs The parameters of the atomic orbitals.
      */
-    explicit AOSpace(basis_type bs) : m_bs_(std::move(bs)) {}
-
-    /** @brief Accessor for read/write access to the basis set parameters
-     *
-     *  @return The basis set parameters in a read/write state.
-     */
-    auto& basis_set() { return m_bs_; }
+    explicit AOSpace(basis_type bs) : m_bs_(std::move(bs)) {
+	// Initialize the label vector in BaseSpace
+        if (m_labels_.empty()) m_labels_.resize(size(), "");
+	//Set simple default labels for atomic orbitals
+        for (size_type i = 0; i<size(); i++) {
+            m_labels_[i] = "ao_"+std::to_string(i);
+        }
+    }
 
     /** @brief Accessor for read-only access to the basis set parameters
      *
      *  @return The basis set parameters in a read-only state.
      */
-    const auto& basis_set() const { return m_bs_; }
+    const auto& get_basis_set() const { return m_bs_; }
 
-    /** @brief Set simple default labels for atomic orbitals
+    /** @brief Accessor for setting the basis set parameters.
+     *     
+     *  The labels are updated according to the basis set.
      *
-     *  @return No return. The label vector would be changed.
      */
-    void default_basis_label() {
-	if (m_labels_.empty()) m_labels_.resize(size(), ""); 
-	for (size_type i = 0; i<size(); i++) {
-            m_labels_[i] = "ao_"+std::to_string(i+1);
-	}
+    void set_basis_set(basis_type bs) { 
+        m_bs_ = bs;
+	// Set the default labels. In the future the labels will be
+	// generated using the basis set info.
+        if (m_labels_.empty()) m_labels_.resize(size(), "");
+        for (size_type i = 0; i<size(); i++) {
+            m_labels_[i] = "ao_"+std::to_string(i);
+        }
     }
 
 protected:
-    /// Get the type of the container holding the mode offsets from the base
-    using mode_container = typename BaseSpace::mode_container;
-
     /** @brief Overrides the size member so that it returns the number of AOs.
      *
      *  This function returns the number of AOs in the basis set unless it
@@ -215,7 +217,12 @@ inline bool operator==(const AOSpace<LHSAO>& lhs, const AOSpace<RHSAO>& rhs) {
         return false;
     else {
         // Compare the basis sets
-        return lhs.basis_set() == rhs.basis_set();
+        if (lhs.get_basis_set() != rhs.get_basis_set()) return false;
+	// Compare labels
+	for (BaseSpace::size_type i = 0; i< lhs.size(); i++) {
+            if (lhs.label(i) != rhs.label(i)) return false;
+	}
+	return true;
     }
 }
 

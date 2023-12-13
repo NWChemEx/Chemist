@@ -52,7 +52,7 @@ TEMPLATE_TEST_CASE("vector_space::AOSpace", "", AOBasisSetF, AOBasisSetD) {
 
     SECTION("Default Ctor") {
         REQUIRE(defaulted.size() == 0);
-        REQUIRE(defaulted.basis_set() == basis_set_type{});
+        REQUIRE(defaulted.get_basis_set() == basis_set_type{});
     }
 
     space_type non_default_bs(bs);
@@ -60,45 +60,51 @@ TEMPLATE_TEST_CASE("vector_space::AOSpace", "", AOBasisSetF, AOBasisSetD) {
 
     SECTION("Value Ctor") {
         REQUIRE(non_default_bs.size() == 1);
-        REQUIRE(non_default_bs.basis_set() == bs);
+        REQUIRE(non_default_bs.get_basis_set() == bs);
     }
 
     SECTION("Copy Ctor") {
         space_type copy(non_default_bs);
-        REQUIRE(copy.basis_set() == bs);
+        REQUIRE(copy.get_basis_set() == bs);
     }
 
     SECTION("Move") {
         space_type moved(std::move(non_default_bs));
-        REQUIRE(moved.basis_set() == bs);
+        REQUIRE(moved.get_basis_set() == bs);
     }
 
     SECTION("Copy Assignment") {
         space_type copy;
         auto pcopy = &(copy = non_default_bs);
         REQUIRE(pcopy == &copy);
-        REQUIRE(copy.basis_set() == bs);
+        REQUIRE(copy.get_basis_set() == bs);
     }
 
     SECTION("Move Assignment") {
         space_type moved;
         auto pmoved = &(moved = std::move(non_default_bs));
         REQUIRE(pmoved == &moved);
-        REQUIRE(moved.basis_set() == bs);
+        REQUIRE(moved.get_basis_set() == bs);
     }
 
     SECTION("Check Default Labels") {
-       multi_bs.default_basis_label();
        REQUIRE(multi_bs.size() == 3);
-       REQUIRE(multi_bs.label(0) == "ao_1");
-       REQUIRE(multi_bs.label(1) == "ao_2");
-       REQUIRE(multi_bs.label(2) == "ao_3");
+       REQUIRE(multi_bs.label(0) == "ao_0");
+       REQUIRE(multi_bs.label(1) == "ao_1");
+       REQUIRE(multi_bs.label(2) == "ao_2");
     }
 
-    SECTION("basis_set") { REQUIRE(non_default_bs.basis_set() == bs); }
+    SECTION("Basis set getter") {
+        REQUIRE(std::as_const(non_default_bs).get_basis_set() == bs);
+    }
 
-    SECTION("basis_set() const") {
-        REQUIRE(std::as_const(non_default_bs).basis_set() == bs);
+    SECTION("Basis set setter") {
+        space_type multi_bs2;
+	multi_bs2.set_basis_set(bs3); // set the basis set
+        REQUIRE(multi_bs2.size() == 3);
+        REQUIRE(multi_bs2.label(0) == "ao_0");
+        REQUIRE(multi_bs2.label(1) == "ao_1");
+        REQUIRE(multi_bs2.label(2) == "ao_2");
     }
 
     SECTION("size") {
@@ -152,6 +158,11 @@ TEMPLATE_TEST_CASE("vector_space::AOSpace", "", AOBasisSetF, AOBasisSetD) {
             space_type rhs{bs};
             REQUIRE(non_default_bs == rhs);
             REQUIRE_FALSE(non_default_bs != rhs);
+	    // compare labels
+            space_type multi_bs2(bs3);
+	    multi_bs2.label(0) = "ao_rev_0";
+	    REQUIRE_FALSE(multi_bs2 == multi_bs);
+	    REQUIRE(multi_bs2 != multi_bs);
         }
     }
 }
