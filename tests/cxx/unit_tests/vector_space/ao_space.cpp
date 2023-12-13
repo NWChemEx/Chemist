@@ -88,10 +88,10 @@ TEMPLATE_TEST_CASE("vector_space::AOSpace", "", AOBasisSetF, AOBasisSetD) {
     }
 
     SECTION("Check Default Labels") {
-       REQUIRE(multi_bs.size() == 3);
-       REQUIRE(multi_bs.label(0) == "ao_0");
-       REQUIRE(multi_bs.label(1) == "ao_1");
-       REQUIRE(multi_bs.label(2) == "ao_2");
+        REQUIRE(multi_bs.size() == 3);
+        REQUIRE(multi_bs.label(0) == "ao_0");
+        REQUIRE(multi_bs.label(1) == "ao_1");
+        REQUIRE(multi_bs.label(2) == "ao_2");
     }
 
     SECTION("Basis set getter") {
@@ -100,7 +100,7 @@ TEMPLATE_TEST_CASE("vector_space::AOSpace", "", AOBasisSetF, AOBasisSetD) {
 
     SECTION("Basis set setter") {
         space_type multi_bs2;
-	multi_bs2.set_basis_set(bs3); // set the basis set
+        multi_bs2.set_basis_set(bs3); // set the basis set
         REQUIRE(multi_bs2.size() == 3);
         REQUIRE(multi_bs2.label(0) == "ao_0");
         REQUIRE(multi_bs2.label(1) == "ao_1");
@@ -158,11 +158,11 @@ TEMPLATE_TEST_CASE("vector_space::AOSpace", "", AOBasisSetF, AOBasisSetD) {
             space_type rhs{bs};
             REQUIRE(non_default_bs == rhs);
             REQUIRE_FALSE(non_default_bs != rhs);
-	    // compare labels
+            // compare labels
             space_type multi_bs2(bs3);
-	    multi_bs2.label(0) = "ao_rev_0";
-	    REQUIRE_FALSE(multi_bs2 == multi_bs);
-	    REQUIRE(multi_bs2 != multi_bs);
+            multi_bs2.label(0) = "ao_rev_0";
+            REQUIRE_FALSE(multi_bs2 == multi_bs);
+            REQUIRE(multi_bs2 != multi_bs);
         }
     }
 }
