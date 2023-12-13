@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include <chemist/vector_space/ao_space.hpp>
 #include <catch2/catch.hpp>
+#include <chemist/vector_space/ao_space.hpp>
 #include <utility>
 
 using namespace chemist::vector_space;
