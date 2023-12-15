@@ -121,9 +121,7 @@ public:
      *
      * @param[in] bs The parameters of the atomic orbitals.
      */
-    explicit AOSpace(basis_type bs) {
-        set_basis_set(std::move(bs));
-    }
+    explicit AOSpace(basis_type bs) { set_basis_set(std::move(bs)); }
 
     /** @brief Accessor for read-only access to the basis set parameters
      *
@@ -137,12 +135,12 @@ public:
      *
      */
     void set_basis_set(basis_type bs) {
-	decltype(m_labels_) temp_labels(bs.size());
+        decltype(m_labels_) temp_labels(bs.size());
         for(size_type i = 0; i < bs.size(); i++) {
             temp_labels[i] = "ao_" + std::to_string(i);
-	}
+        }
         m_bs_.swap(bs);
-        m_labels_.swap(temp_labels); 
+        m_labels_.swap(temp_labels);
     }
 
 protected:
@@ -213,8 +211,8 @@ inline bool operator==(const AOSpace<LHSAO>& lhs, const AOSpace<RHSAO>& rhs) {
         return false;
     else {
         // Compare the basis sets
-        if (lhs.get_basis_set() != rhs.get_basis_set()) return false;
-	const BaseSpace& lhs_base = lhs;
+        if(lhs.get_basis_set() != rhs.get_basis_set()) return false;
+        const BaseSpace& lhs_base = lhs;
         const BaseSpace& rhs_base = rhs;
         return (lhs_base == rhs_base);
     }

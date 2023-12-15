@@ -61,7 +61,7 @@ TEMPLATE_TEST_CASE("vector_space::AOSpace", "", AOBasisSetF, AOBasisSetD) {
     SECTION("Value Ctor") {
         REQUIRE(non_default_bs.size() == 1);
         REQUIRE(non_default_bs.get_basis_set() == bs);
-	REQUIRE(non_default_bs.label(0) == "ao_0");
+        REQUIRE(non_default_bs.label(0) == "ao_0");
     }
 
     SECTION("Copy Ctor") {
