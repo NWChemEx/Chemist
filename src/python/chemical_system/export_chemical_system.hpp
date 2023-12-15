@@ -48,6 +48,18 @@ void inline export_chemical_system(python_module_reference m) {
         [](chemical_system_reference self, size_type n) {
             self.n_electrons() = n;
         })
+      .def("__str__",
+           [](const chemist::ChemicalSystem& cs) {
+               std::ostringstream stream;
+               stream << cs;
+               return stream.str();
+           })
+      .def("__repr__",
+           [](const chemist::ChemicalSystem& cs) {
+               std::ostringstream stream;
+               stream << cs;
+               return stream.str();
+           })
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
 }

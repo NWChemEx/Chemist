@@ -74,6 +74,18 @@ void export_atom(python_module_reference m) {
       .def_property(
         "z", [](atom_reference self) { return self.z(); },
         [](atom_reference self, coord_type z) { self.z() = z; })
+      .def("__str__",
+           [](const chemist::Atom& atom) {
+               std::ostringstream stream;
+               stream << atom;
+               return stream.str();
+           })
+      .def("__repr__",
+           [](const chemist::Atom& atom) {
+               std::ostringstream stream;
+               stream << atom;
+               return stream.str();
+           })
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
 }

@@ -48,6 +48,18 @@ void export_nucleus(python_module_reference m) {
       .def_property(
         "mass", [](nucleus_reference self) { return self.mass(); },
         [](nucleus_reference self, mass_type m) { self.mass() = m; })
+      .def("__str__",
+           [](const chemist::Nucleus& nuc) {
+               std::ostringstream stream;
+               stream << nuc;
+               return stream.str();
+           })
+      .def("__repr__",
+           [](const chemist::Nucleus& nuc) {
+               std::ostringstream stream;
+               stream << nuc;
+               return stream.str();
+           })
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
 
