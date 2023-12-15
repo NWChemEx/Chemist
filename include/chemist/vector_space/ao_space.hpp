@@ -132,7 +132,7 @@ public:
     const auto& get_basis_set() const { return m_bs_; }
 
     /** @brief Accessor for setting the basis set parameters.
-     *     
+     *
      *  The labels are updated according to the basis set.
      *
      */
