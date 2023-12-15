@@ -121,13 +121,8 @@ public:
      *
      * @param[in] bs The parameters of the atomic orbitals.
      */
-    explicit AOSpace(basis_type bs) : m_bs_(std::move(bs)) {
-	// Initialize the label vector in BaseSpace
-        if (m_labels_.empty()) m_labels_.resize(size(), "");
-	//Set simple default labels for atomic orbitals
-        for (size_type i = 0; i<size(); i++) {
-            m_labels_[i] = "ao_"+std::to_string(i);
-        }
+    explicit AOSpace(basis_type bs) {
+        set_basis_set(std::move(bs));
     }
 
     /** @brief Accessor for read-only access to the basis set parameters
@@ -141,14 +136,13 @@ public:
      *  The labels are updated according to the basis set.
      *
      */
-    void set_basis_set(basis_type bs) { 
-        m_bs_ = bs;
-	// Set the default labels. In the future the labels will be
-	// generated using the basis set info.
-        if (m_labels_.empty()) m_labels_.resize(size(), "");
-        for (size_type i = 0; i<size(); i++) {
-            m_labels_[i] = "ao_"+std::to_string(i);
-        }
+    void set_basis_set(basis_type bs) {
+	decltype(m_labels_) temp_labels(bs.size());
+        for(size_type i = 0; i < bs.size(); i++) {
+            temp_labels[i] = "ao_" + std::to_string(i);
+	}
+        m_bs_.swap(bs);
+        m_labels_.swap(temp_labels); 
     }
 
 protected:
@@ -172,7 +166,9 @@ protected:
      *
      *  @throw None No throw guarantee.
      */
-    virtual bool equal_(const BaseSpace& rhs) const noexcept override;
+    bool equal_(const BaseSpace& rhs) const noexcept {
+        return this->equal_common(*this, rhs);
+    }
 
     /** @brief To  clone the entire object.
      *
@@ -218,11 +214,9 @@ inline bool operator==(const AOSpace<LHSAO>& lhs, const AOSpace<RHSAO>& rhs) {
     else {
         // Compare the basis sets
         if (lhs.get_basis_set() != rhs.get_basis_set()) return false;
-	// Compare labels
-	for (BaseSpace::size_type i = 0; i< lhs.size(); i++) {
-            if (lhs.label(i) != rhs.label(i)) return false;
-	}
-	return true;
+	const BaseSpace& lhs_base = lhs;
+        const BaseSpace& rhs_base = rhs;
+        return (lhs_base == rhs_base);
     }
 }
 
@@ -251,13 +245,5 @@ template<typename LHSAO, typename RHSAO>
 inline bool operator!=(const AOSpace<LHSAO>& lhs, const AOSpace<RHSAO>& rhs) {
     return !(lhs == rhs);
 }
-
-// ------------------------------ Typedefs -------------------------------------
-using AOSpaceD = AOSpace<basis_set::AOBasisSetD>;
-using AOSpaceF = AOSpace<basis_set::AOBasisSetF>;
-
-// ----------------- Forward Declare Explicit Instantiations -------------------
-extern template class AOSpace<basis_set::AOBasisSetD>;
-extern template class AOSpace<basis_set::AOBasisSetF>;
 
 } // namespace chemist::vector_space

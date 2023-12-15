@@ -52,7 +52,7 @@ TEMPLATE_TEST_CASE("vector_space::AOSpace", "", AOBasisSetF, AOBasisSetD) {
 
     SECTION("Default Ctor") {
         REQUIRE(defaulted.size() == 0);
-        REQUIRE(defaulted.get_basis_set() == basis_set_type{});
+        REQUIRE(std::as_const(defaulted).get_basis_set() == basis_set_type{});
     }
 
     space_type non_default_bs(bs);
@@ -61,6 +61,7 @@ TEMPLATE_TEST_CASE("vector_space::AOSpace", "", AOBasisSetF, AOBasisSetD) {
     SECTION("Value Ctor") {
         REQUIRE(non_default_bs.size() == 1);
         REQUIRE(non_default_bs.get_basis_set() == bs);
+	REQUIRE(non_default_bs.label(0) == "ao_0");
     }
 
     SECTION("Copy Ctor") {
