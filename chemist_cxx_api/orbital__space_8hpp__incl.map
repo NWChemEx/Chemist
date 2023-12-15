@@ -1,6 +1,6 @@
 <map id="include/chemist/orbital_space/orbital_space.hpp" name="include/chemist/orbital_space/orbital_space.hpp">
 <area shape="rect" id="node1" title="Convenience header for including the orbital space component of LibChemist." alt="" coords="327,5,513,47"/>
-<area shape="rect" id="node2" href="$ao__space_8hpp_source.html" title=" " alt="" coords="397,273,563,315"/>
+<area shape="rect" id="node2" href="$orbital__space_2ao__space_8hpp_source.html" title=" " alt="" coords="397,273,563,315"/>
 <area shape="rect" id="node32" href="$orbital__space_2base__space_8hpp_source.html" title=" " alt="" coords="235,363,400,404"/>
 <area shape="rect" id="node36" href="$canonical__space_8hpp_source.html" title=" " alt="" coords="107,95,272,136"/>
 <area shape="rect" id="node37" href="$derived__space_8hpp_source.html" title=" " alt="" coords="157,184,323,225"/>

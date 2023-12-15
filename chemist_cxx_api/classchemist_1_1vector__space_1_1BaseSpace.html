@@ -88,9 +88,10 @@ Inheritance diagram for chemist::vector_space::BaseSpace:</div>
 <div class="dyncontent">
 <div class="center"><img src="classchemist_1_1vector__space_1_1BaseSpace__inherit__graph.png" border="0" usemap="#achemist_1_1vector__space_1_1BaseSpace_inherit__map" alt="Inheritance graph"/></div>
 <map name="achemist_1_1vector__space_1_1BaseSpace_inherit__map" id="achemist_1_1vector__space_1_1BaseSpace_inherit__map">
-<area shape="rect" title="Common base class for all vector spaces." alt="" coords="101,5,269,47"/>
-<area shape="rect" href="classchemist_1_1vector__space_1_1CartesianSpace.html" title="Models a space spanned by cartesian axes (R^N)." alt="" coords="5,95,173,136"/>
-<area shape="rect" href="classchemist_1_1vector__space_1_1SpinSpace.html" title="Models a space spanned by the spin states of a system." alt="" coords="197,95,365,136"/>
+<area shape="rect" title="Common base class for all vector spaces." alt="" coords="5,71,173,112"/>
+<area shape="rect" href="classchemist_1_1vector__space_1_1AOSpace.html" title="Models a space spanned by atomic orbitals." alt="" coords="221,5,404,47"/>
+<area shape="rect" href="classchemist_1_1vector__space_1_1CartesianSpace.html" title="Models a space spanned by cartesian axes (R^N)." alt="" coords="229,71,397,112"/>
+<area shape="rect" href="classchemist_1_1vector__space_1_1SpinSpace.html" title="Models a space spanned by the spin states of a system." alt="" coords="229,136,397,177"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -494,7 +495,7 @@ template&lt;typename ItType  = std::vector&lt;std::string&gt;::iterator&gt; </di
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html#a079f2cc2f23d5a14cef8fd89c7037a8d">chemist::vector_space::SpinSpace</a>, and <a class="el" href="classchemist_1_1vector__space_1_1CartesianSpace.html#aeb06c6b80e448c6109bdd0d181d55e20">chemist::vector_space::CartesianSpace</a>.</p>
+<p>Implemented in <a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html#a079f2cc2f23d5a14cef8fd89c7037a8d">chemist::vector_space::SpinSpace</a>, <a class="el" href="classchemist_1_1vector__space_1_1CartesianSpace.html#aeb06c6b80e448c6109bdd0d181d55e20">chemist::vector_space::CartesianSpace</a>, and <a class="el" href="classchemist_1_1vector__space_1_1AOSpace.html#a68a17267ed1d8fdabd49f073ca99fa5e">chemist::vector_space::AOSpace&lt; BasisType &gt;</a>.</p>
 
 </div>
 </div>
@@ -595,7 +596,7 @@ template&lt;typename ItType  = std::vector&lt;std::string&gt;::iterator&gt; </di
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html#a2e5c78afbe833a3ba3dcd459ace7ab31">chemist::vector_space::SpinSpace</a>, and <a class="el" href="classchemist_1_1vector__space_1_1CartesianSpace.html#a0a893af9927e7aa4a764171763b04e07">chemist::vector_space::CartesianSpace</a>.</p>
+<p>Implemented in <a class="el" href="classchemist_1_1vector__space_1_1SpinSpace.html#a2e5c78afbe833a3ba3dcd459ace7ab31">chemist::vector_space::SpinSpace</a>, <a class="el" href="classchemist_1_1vector__space_1_1CartesianSpace.html#a0a893af9927e7aa4a764171763b04e07">chemist::vector_space::CartesianSpace</a>, and <a class="el" href="classchemist_1_1vector__space_1_1AOSpace.html#afa4aa6107220b74779fc1b704ecb2265">chemist::vector_space::AOSpace&lt; BasisType &gt;</a>.</p>
 
 </div>
 </div>
@@ -931,7 +932,7 @@ template&lt;typename DerivedType &gt; </div>
 
 <p>To be overridden by the derived class to implement <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html#af0e8d246ff8278bfc05173eac5ab2073" title="Returns the number of basis functions in this space.">size()</a>. </p>
 <p>The derived class is responsible for ensuring this function returns the correct size for its respective space.</p><ul>
-<li>For AOSpace this is the number of AOs (radial plus angular, not just radial).</li>
+<li>For <a class="el" href="classchemist_1_1vector__space_1_1AOSpace.html" title="Models a space spanned by atomic orbitals.">AOSpace</a> this is the number of AOs (radial plus angular, not just radial).</li>
 <li>For DependentSpace this is the sum of the sizes of the vector spaces for each independent index.</li>
 <li>For DerivedSpace derived directly from <a class="el" href="classchemist_1_1vector__space_1_1BaseSpace.html" title="Common base class for all vector spaces.">BaseSpace</a> (as opposed to derived from <code>DependentSpace</code>) this is simply the number of orbitals.</li>
 <li>For <a class="el" href="classchemist_1_1vector__space_1_1CartesianSpace.html" title="Models a space spanned by cartesian axes (R^N).">CartesianSpace</a> this is just the dimension of the space.</li>
@@ -945,6 +946,8 @@ template&lt;typename DerivedType &gt; </div>
   </table>
   </dd>
 </dl>
+
+<p>Reimplemented in <a class="el" href="classchemist_1_1vector__space_1_1AOSpace.html#a3a65a12eacdb1d18f6c99f479f008c3d">chemist::vector_space::AOSpace&lt; BasisType &gt;</a>.</p>
 
 </div>
 </div>
