@@ -28,13 +28,7 @@
 #include "chemist/basis_set/basis_set.hpp"
 #include "chemist/chemical_system/chemical_system.hpp"
 #include "chemist/enums.hpp"
-#include "chemist/integral_factory/integral_factory.hpp"
-#include "chemist/integral_factory/integral_factory_pimpl.hpp"
 #include "chemist/molecule/molecule.hpp"
-#include "chemist/operators/operators.hpp"
-#include "chemist/orbital_space/orbital_space.hpp"
-#include "chemist/topology/topology.hpp"
-#include "chemist/wavefunction/wavefunction.hpp"
 
 /**
  * @brief The primary namespace for the chemist library
