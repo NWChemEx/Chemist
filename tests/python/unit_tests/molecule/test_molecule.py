@@ -78,6 +78,21 @@ class TestMolecule(unittest.TestCase):
         self.assertNotEqual(self.has_value, diff_order)
         self.assertFalse(self.has_value == diff_order)
 
+    def test_iter(self):
+        # Default
+        for atom in self.defaulted:
+            self.fail('Should not iterate over empty molecule')
+
+        # Has value
+        for i, atom in enumerate(self.has_value):
+            self.assertEqual(atom, self.has_value.at(i))
+    
+    def test_str(self):
+        # Default
+       self.assertEqual(str(self.defaulted), '')
+
+        # Has value
+       self.assertEqual(str(self.has_value), ' 0.000000000000000 0.000000000000000 0.000000000000000\nH 2.000000000000000 3.000000000000000 4.000000000000000\n')
 
     def setUp(self):
         self.defaulted = chemist.Molecule()
@@ -86,3 +101,4 @@ class TestMolecule(unittest.TestCase):
         self.has_value = chemist.Molecule()
         self.has_value.push_back(self.a0)
         self.has_value.push_back(self.a1)
+

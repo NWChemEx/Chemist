@@ -52,6 +52,18 @@ void export_molecule(python_module_reference m) {
       .def("multiplicity", &Molecule::multiplicity)
       .def("set_multiplicity", [](molecule_reference self,
                                   size_type m) { self.set_multiplicity(m); })
+      .def("__str__",
+           [](const chemist::Molecule& mol) {
+               std::ostringstream stream;
+               stream << mol;
+               return stream.str();
+           })
+      .def(
+        "__iter__",
+        [](molecule_reference self) {
+            return pybind11::make_iterator(self.begin(), self.end());
+        },
+        pybind11::keep_alive<0, 1>())
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
 }
