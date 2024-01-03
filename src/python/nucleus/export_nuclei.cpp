@@ -47,6 +47,12 @@ void export_nuclei(python_module_reference m) {
                stream << nuc;
                return stream.str();
            })
+      .def(
+        "__iter__",
+        [](nuclei_reference self) {
+            return pybind11::make_iterator(self.begin(), self.end());
+        },
+        pybind11::keep_alive<0, 1>())
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
 }

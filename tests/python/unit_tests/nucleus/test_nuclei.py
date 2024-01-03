@@ -79,11 +79,21 @@ class TestNuclei(unittest.TestCase):
         self.assertFalse(self.has_value == diff_order)
 
 
+    def test_iter(self):
+        # Empty
+        for n in self.defaulted:
+            self.fail('Empty Nuclei should not iterate')
+
+        # Non-empty
+        for n in self.has_value:
+            self.assertTrue(n == self.n0 or n == self.n1)
+
+            
     def test_str(self):
         self.assertEqual(str(self.defaulted), '')
         self.assertEqual(str(self.has_value), ' 0.000000000000000 0.000000000000000 0.000000000000000\nH 2.000000000000000 3.000000000000000 4.000000000000000\n')
 
-        
+
     def setUp(self):
         self.defaulted = chemist.Nuclei()
         self.n0 = chemist.Nucleus()

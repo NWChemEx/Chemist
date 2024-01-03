@@ -24,29 +24,7 @@ namespace chemist {
 
 void export_molecule(python_module_reference m) {
     export_atom(m);
-    struct MoleculeIterator {
-        pybind11::object molecule;
-        size_t index;
 
-        MoleculeIterator(const pybind11::object& molecule,
-                         size_t start_index = 0) :
-          molecule(molecule), index(start_index) {}
-
-        pybind11::object next() {
-            chemist::Molecule& mol = molecule.cast<chemist::Molecule&>();
-            if(index < mol.size()) {
-                return pybind11::cast(mol.at(index++));
-            } else {
-                throw pybind11::stop_iteration();
-            }
-        }
-    };
-
-    pybind11::class_<MoleculeIterator>(m, "MoleculeIterator")
-      .def(pybind11::init<const pybind11::object&, size_t>())
-      .def("__iter__",
-           [](MoleculeIterator& it) -> MoleculeIterator& { return it; })
-      .def("__next__", &MoleculeIterator::next);
     using molecule_type         = Molecule;
     using molecule_reference    = molecule_type&;
     using atom_type             = typename Molecule::atom_type;
@@ -80,10 +58,12 @@ void export_molecule(python_module_reference m) {
                stream << mol;
                return stream.str();
            })
-      .def("__iter__",
-           [](const chemist::Molecule& molecule) {
-               return MoleculeIterator(pybind11::cast(molecule));
-           })
+      .def(
+        "__iter__",
+        [](molecule_reference self) {
+            return pybind11::make_iterator(self.begin(), self.end());
+        },
+        pybind11::keep_alive<0, 1>())
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
 }
