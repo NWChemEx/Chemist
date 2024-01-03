@@ -189,6 +189,14 @@ class TestNucleus(unittest.TestCase):
         self.assertNotEqual(q0_view, self.u_view)
 
 
+    def test_str(self):
+        # Default
+        self.assertEqual(str(self.defaulted_view), ' 0.000000000000000 0.000000000000000 0.000000000000000')
+
+        # Has value
+        self.assertEqual(str(self.u_view), 'U 2.000000000000000 3.000000000000000 4.000000000000000')
+
+        
     def setUp(self):
         self.defaulted = chemist.Nucleus()
         self.defaulted_view = chemist.NucleusView(self.defaulted)
