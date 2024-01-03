@@ -47,12 +47,6 @@ void export_nuclei(python_module_reference m) {
                stream << nuc;
                return stream.str();
            })
-      .def("__repr__",
-           [](const chemist::Nuclei& nuc) {
-               std::ostringstream stream;
-               stream << nuc;
-               return stream.str();
-           })
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
 }

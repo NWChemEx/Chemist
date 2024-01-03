@@ -49,12 +49,6 @@ void export_nucleus_view(python_module_reference m) {
                stream << nv;
                return stream.str();
            })
-      .def("__repr__",
-           [](const view_type& nv) {
-               std::ostringstream stream;
-               stream << nv;
-               return stream.str();
-           })
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self == nucleus_type())
       .def(nucleus_type() == pybind11::self)

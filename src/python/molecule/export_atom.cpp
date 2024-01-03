@@ -80,12 +80,6 @@ void export_atom(python_module_reference m) {
                stream << atom;
                return stream.str();
            })
-      .def("__repr__",
-           [](const chemist::Atom& atom) {
-               std::ostringstream stream;
-               stream << atom;
-               return stream.str();
-           })
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
 }

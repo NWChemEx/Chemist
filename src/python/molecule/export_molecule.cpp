@@ -80,12 +80,6 @@ void export_molecule(python_module_reference m) {
                stream << mol;
                return stream.str();
            })
-      .def("__repr__",
-           [](const chemist::Molecule& mol) {
-               std::ostringstream stream;
-               stream << mol;
-               return stream.str();
-           })
       .def("__iter__",
            [](const chemist::Molecule& molecule) {
                return MoleculeIterator(pybind11::cast(molecule));
