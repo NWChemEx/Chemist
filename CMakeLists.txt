@@ -25,11 +25,16 @@ project(chemist VERSION "${chemist_version}" LANGUAGES CXX)
 
 include(nwx_versions)
 include(get_cmaize)
-
-
 include(nwx_cxx_api_docs)
-nwx_cxx_api_docs("${CMAKE_CURRENT_SOURCE_DIR}/src"
-                 "${CMAKE_CURRENT_SOURCE_DIR}/include")
+
+### Paths ###
+set(CHEMIST_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
+set(CHEMIST_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
+set(CHEMIST_TESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests")
+set(CHEMIST_EXP_DIR "${CMAKE_CURRENT_SOURCE_DIR}/experimental")
+
+
+nwx_cxx_api_docs("${CHEMIST_SOURCE_DIR}" "${CHEMIST_INCLUDE_DIR}")
 
 ### Options ###
 cmaize_option_List(
@@ -38,6 +43,7 @@ cmaize_option_List(
     ENABLE_EXPERIMENTAL_FEATURES OFF "Build features which are not 1.0-ed yet?"
 )
 
+### Dependencies ###
 cmaize_find_or_build_dependency(
     pluginplay
     URL github.com/NWChemEx/PluginPlay
@@ -45,7 +51,6 @@ cmaize_find_or_build_dependency(
     FIND_TARGET nwx::pluginplay
     CMAKE_ARGS BUILD_TESTING=OFF
 )
-
 
 cmaize_find_or_build_optional_dependency(
     tensorwrapper
@@ -62,36 +67,33 @@ find_package(Boost REQUIRED)
 
 cmaize_add_library(
     ${PROJECT_NAME}
-    SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/chemist"
-    INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/include/chemist"
+    SOURCE_DIR "${CHEMIST_SOURCE_DIR}/chemist"
+    INCLUDE_DIRS "${CHEMIST_INCLUDE_DIR}/chemist"
     DEPENDS pluginplay Boost::boost
 )
 
 if("${ENABLE_EXPERIMENTAL_FEATURES}")
     cmaize_add_library(
         experimental_${PROJECT_NAME}
-        SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/experimental/src/chemist"
-        INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/experimental/include/chemist"
+        SOURCE_DIR "${CHEMIST_EXP_DIR}/src/chemist"
+        INCLUDE_DIRS "${CHEMIST_EXP_DIR}/include/chemist"
         DEPENDS ${PROJECT_NAME} tensorwrapper
     )
-
-    if("${BUILD_TESTING}")
-        cmaize_add_library()
-
-    endif()
+else()
+    add_library(experimental_${PROJECT_NAME} INTERFACE)
 endif()
 
 # N.B. this is a no-op if BUILD_PYBIND11_PYBINDINGS is not turned on
 include(nwx_pybind11)
 nwx_add_pybind11_module(
     ${PROJECT_NAME}
-    SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/src/python"
+    SOURCE_DIR "${CHEMIST_SOURCE_DIR}/python"
     DEPENDS "${PROJECT_NAME}"
 )
 
 if("${BUILD_TESTING}")
-    set(CXX_TEST_DIR "${CMAKE_CURRENT_LIST_DIR}/tests/cxx")
-    set(PYTHON_TEST_DIR "${CMAKE_CURRENT_LIST_DIR}/tests/python")
+    set(CXX_TEST_DIR "${CHEMIST_TESTS_DIR}/cxx")
+    set(PYTHON_TEST_DIR "${CHEMIST_TESTS_DIR}/python")
     set(EXAMPLES_SRC_DIR "${CXX_TEST_DIR}/doc_snippets")
 
     cmaize_find_or_build_dependency(
@@ -110,13 +112,13 @@ if("${BUILD_TESTING}")
     cmaize_add_tests(
         test_unit_chemist
         SOURCE_DIR "${CXX_TEST_DIR}/unit_tests"
-        INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/src/chemist"
+        INCLUDE_DIRS "${CHEMIST_SOURCE_DIR}/chemist"
         DEPENDS Catch2 chemist
     )
     cmaize_add_tests(
         test_${PROJECT_NAME}_docs
         SOURCE_DIR ${EXAMPLES_SRC_DIR}
-        INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/src/${PROJECT_NAME}
+        INCLUDE_DIRS ${CHEMIST_SOURCE_DIR}/${PROJECT_NAME}
         DEPENDS Catch2::Catch2 ${PROJECT_NAME}
     )
     # N.B. these are no-ops if BUILD_PYBIND11_PYBINDINGS is not turned on
@@ -132,14 +134,14 @@ if("${BUILD_TESTING}")
     if("${ENABLE_EXPERIMENTAL_FEATURES}")
         cmaize_add_tests(
             test_unit_experimental_${PROJECT_NAME}
-            SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/experimental/tests/cxx/unit_tests"
-            INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/experimental/src/chemist"
+            SOURCE_DIR "${CHEMIST_EXP_DIR}/tests/cxx/unit_tests"
+            INCLUDE_DIRS "${CHEMIST_EXP_DIR}/src/chemist"
             DEPENDS Catch2::Catch2 experimental_${PROJECT_NAME}
         )
 
         nwx_pybind11_tests(
             py_experimental_${PROJECT_NAME}
-            "${CMAKE_CURRENT_LIST_DIR}/experimental/tests/python/unit_tests/test_python.py"
+            "${CHEMIST_EXP_DIR}/tests/python/unit_tests/test_python.py"
         )
 
     endif()
@@ -147,4 +149,6 @@ if("${BUILD_TESTING}")
 endif()
 
 
-cmaize_add_package(${PROJECT_NAME} NAMESPACE nwx::)
+cmaize_add_package(
+    ${PROJECT_NAME} experimental_${PROJECT_NAME} NAMESPACE nwx::
+)
