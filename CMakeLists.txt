@@ -138,10 +138,12 @@ if("${BUILD_TESTING}")
     nwx_pybind11_tests(
         py_chemist
         "${PYTHON_TEST_DIR}/unit_tests/test_chemist.py"
+        SUBMODULES parallelzone
     )
     nwx_pybind11_tests(
         py_${PROJECT_NAME}_docs
         "${PYTHON_TEST_DIR}/doc_snippets/test_doc_snippets.py"
+        SUBMODULES parallelzone
     )
 
     if("${ENABLE_EXPERIMENTAL_FEATURES}")
@@ -155,6 +157,7 @@ if("${BUILD_TESTING}")
         nwx_pybind11_tests(
             py_experimental_${PROJECT_NAME}
             "${CHEMIST_EXP_DIR}/tests/python/unit_tests/test_python.py"
+            SUBMODULES parallelzone
         )
 
     endif()
