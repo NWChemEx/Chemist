@@ -167,6 +167,16 @@ class TestNucleus(unittest.TestCase):
         self.assertNotEqual(chemist.PointChargeD(), self.he)
 
 
+    def test_str(self):
+        # Default
+        self.assertEqual(str(self.defaulted), ' 0.000000000000000 0.000000000000000 0.000000000000000')
+
+        # Has value
+        self.assertEqual(str(self.h), 'H 0.000000000000000 0.000000000000000 0.000000000000000')
+        self.assertEqual(str(self.he), 'He 1.000000000000000 2.000000000000000 3.000000000000000')
+        self.assertEqual(str(self.u), 'U 2.000000000000000 3.000000000000000 4.000000000000000')
+
+        
     def setUp(self):
         self.defaulted = chemist.Nucleus()
         self.h = chemist.Nucleus("H", 1, 1.0)

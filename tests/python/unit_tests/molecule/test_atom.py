@@ -199,6 +199,13 @@ class TestAtom(unittest.TestCase):
         self.assertNotEqual(self.h, other_h)
         self.assertFalse(self.h == other_h)
 
+    def test_str(self):
+        # Default
+        self.assertEqual(str(self.defaulted), ' 0.000000000000000 0.000000000000000 0.000000000000000')
+
+        # Has value
+        self.assertEqual(str(self.h), 'H 2.000000000000000 3.000000000000000 4.000000000000000')
+
 
     def setUp(self):
         self.defaulted = chemist.Atom()

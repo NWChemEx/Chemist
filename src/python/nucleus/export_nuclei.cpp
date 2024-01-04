@@ -41,6 +41,18 @@ void export_nuclei(python_module_reference m) {
            })
       .def("at", [](nuclei_reference self, size_type i) { return self[i]; })
       .def("size", [](nuclei_reference self) { return self.size(); })
+      .def("__str__",
+           [](const chemist::Nuclei& nuc) {
+               std::ostringstream stream;
+               stream << nuc;
+               return stream.str();
+           })
+      .def(
+        "__iter__",
+        [](nuclei_reference self) {
+            return pybind11::make_iterator(self.begin(), self.end());
+        },
+        pybind11::keep_alive<0, 1>())
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
 }
