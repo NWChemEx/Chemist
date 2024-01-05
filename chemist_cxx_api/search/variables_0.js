@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['coefficient_915',['coefficient',['../structchemist_1_1operators_1_1SlaterTypeGeminal.html#a488365ca0b0c67e2dbc53dd34933dd77',1,'chemist::operators::SlaterTypeGeminal']]]
+  ['is_5fconst_5fv_476',['is_const_v',['../structchemist_1_1detail___1_1ViewTraits.html#abb470f9da43655a9eea6404e64a20d62',1,'chemist::detail_::ViewTraits']]]
 ];

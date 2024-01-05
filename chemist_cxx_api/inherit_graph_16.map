@@ -1,17 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,347,244,373"/>
-<area shape="rect" id="node2" href="$classchemist_1_1CapSet.html" title="The set of caps associated with a fragment." alt="" coords="340,5,468,32"/>
-<area shape="rect" id="node3" href="$classchemist_1_1Charges.html" title="Represents a container of PointCharge objects." alt="" coords="317,56,491,83"/>
-<area shape="rect" id="node4" href="$classchemist_1_1FragmentedMolecule.html" title="Represents a molecule which has been decomposed into fragments." alt="" coords="295,107,513,133"/>
-<area shape="rect" id="node5" href="$classchemist_1_1FragmentedNuclei.html" title="Class describing super&#45;/sub&#45;set relationship among sets of Nucleus objects." alt="" coords="303,157,505,184"/>
-<area shape="rect" id="node6" href="$classchemist_1_1Molecule.html" title="Represents a set of atoms." alt="" coords="333,208,475,235"/>
-<area shape="rect" id="node7" href="$classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects." alt="" coords="343,259,465,285"/>
-<area shape="rect" id="node8" href="$classchemist_1_1NucleiView.html" title="Allows existing state to be used as if it were a Nuclei object." alt="" coords="327,310,481,351"/>
-<area shape="rect" id="node9" href="$classchemist_1_1PointSet.html" title="A container filled with Point objects." alt="" coords="317,376,491,403"/>
-<area shape="rect" id="node10" href="$classchemist_1_1basis__set_1_1AOBasisSet.html" title="Models a set of atomic basis sets." alt="" coords="293,427,515,483"/>
-<area shape="rect" id="node11" href="$classchemist_1_1basis__set_1_1AtomicBasisSet.html" title="Models a set of shells associated with a specific atomic center." alt="" coords="292,507,516,549"/>
-<area shape="rect" id="node12" href="$classchemist_1_1basis__set_1_1AtomicBasisSetView.html" title="Behaves like a reference to an AtomicBasisSet." alt="" coords="312,573,496,629"/>
-<area shape="rect" id="node13" href="$classchemist_1_1basis__set_1_1ContractedGaussian.html" title="Represents a (segmented) contracted Gaussian function." alt="" coords="323,653,485,709"/>
-<area shape="rect" id="node14" href="$classchemist_1_1basis__set_1_1ContractedGaussianView.html" title="Models a reference to a ContractedGaussian." alt="" coords="307,733,501,789"/>
-<area shape="rect" id="node15" href="$classchemist_1_1fragmenting_1_1CapSet.html" title="The set of caps associated with a fragment." alt="" coords="323,814,485,855"/>
+<area shape="rect" id="node1" href="$classchemist_1_1ChemicalSystem.html" title="Class describing the entire chemical system to be modeled." alt="" coords="5,5,197,32"/>
 </map>

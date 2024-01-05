@@ -1,5 +1,0 @@
-<map id="chemist::operators::DiracDelta&lt; Particle1, Particle2 &gt;" name="chemist::operators::DiracDelta&lt; Particle1, Particle2 &gt;">
-<area shape="rect" id="node1" title="Models a Dirac Delta function." alt="" coords="5,213,180,269"/>
-<area shape="rect" id="node2" href="$classchemist_1_1operators_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="5,95,180,165"/>
-<area shape="rect" id="node3" href="$classchemist_1_1operators_1_1detail___1_1OperatorBase.html" title="An abstract base class for Operator types." alt="" coords="7,5,178,47"/>
-</map>

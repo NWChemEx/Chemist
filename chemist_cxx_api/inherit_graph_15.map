@@ -1,3 +1,13 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classchemist_1_1Cap.html" title="Caps a severed bond." alt="" coords="5,5,112,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,257,244,284"/>
+<area shape="rect" id="node2" href="$classchemist_1_1Charges.html" title="Represents a container of PointCharge objects." alt="" coords="317,5,491,32"/>
+<area shape="rect" id="node3" href="$classchemist_1_1Molecule.html" title="Represents a set of atoms." alt="" coords="333,56,475,83"/>
+<area shape="rect" id="node4" href="$classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects." alt="" coords="343,107,465,133"/>
+<area shape="rect" id="node5" href="$classchemist_1_1NucleiView.html" title="Allows existing state to be used as if it were a Nuclei object." alt="" coords="327,158,481,199"/>
+<area shape="rect" id="node6" href="$classchemist_1_1PointSet.html" title="A container filled with Point objects." alt="" coords="317,224,491,251"/>
+<area shape="rect" id="node7" href="$classchemist_1_1basis__set_1_1AOBasisSet.html" title="Models a set of atomic basis sets." alt="" coords="293,275,515,331"/>
+<area shape="rect" id="node8" href="$classchemist_1_1basis__set_1_1AtomicBasisSet.html" title="Models a set of shells associated with a specific atomic center." alt="" coords="292,355,516,397"/>
+<area shape="rect" id="node9" href="$classchemist_1_1basis__set_1_1AtomicBasisSetView.html" title="Behaves like a reference to an AtomicBasisSet." alt="" coords="312,421,496,477"/>
+<area shape="rect" id="node10" href="$classchemist_1_1basis__set_1_1ContractedGaussian.html" title="Represents a (segmented) contracted Gaussian function." alt="" coords="323,501,485,557"/>
+<area shape="rect" id="node11" href="$classchemist_1_1basis__set_1_1ContractedGaussianView.html" title="Models a reference to a ContractedGaussian." alt="" coords="307,581,501,637"/>
 </map>

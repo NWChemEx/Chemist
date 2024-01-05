@@ -1,6 +1,0 @@
-<map id="chemist::vector_space::BaseSpace" name="chemist::vector_space::BaseSpace">
-<area shape="rect" id="node1" title="Common base class for all vector spaces." alt="" coords="5,71,173,112"/>
-<area shape="rect" id="node2" href="$classchemist_1_1vector__space_1_1AOSpace.html" title="Models a space spanned by atomic orbitals." alt="" coords="221,5,404,47"/>
-<area shape="rect" id="node3" href="$classchemist_1_1vector__space_1_1CartesianSpace.html" title="Models a space spanned by cartesian axes (R^N)." alt="" coords="229,71,397,112"/>
-<area shape="rect" id="node4" href="$classchemist_1_1vector__space_1_1SpinSpace.html" title="Models a space spanned by the spin states of a system." alt="" coords="229,136,397,177"/>
-</map>

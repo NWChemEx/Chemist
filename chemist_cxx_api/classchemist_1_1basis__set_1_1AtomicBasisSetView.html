@@ -1140,7 +1140,7 @@ template&lt;typename AtomicBasisSetType &gt; </div>
 </div><div class="memdoc">
 
 <p>Compares two view instances for equality. </p>
-<p>Two views are considered equal if they both alias <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSet.html" title="Models a set of shells associated with a specific atomic center.">AtomicBasisSet</a> objects with the same number of shells and if the i-th shell of *this is value equal to the i-th shell of <code>rhs</code> for all i in the range <code>[0, <a class="el" href="types_8hpp.html#a9ee3ebc8fa20e70336ca452fe2a719e2" title="Type used for offsets and indexing.">size()</a>)</code>. This function will also compare the metadata (basis set name and atomic number.)</p>
+<p>Two views are considered equal if they both alias <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSet.html" title="Models a set of shells associated with a specific atomic center.">AtomicBasisSet</a> objects with the same number of shells and if the i-th shell of *this is value equal to the i-th shell of <code>rhs</code> for all i in the range <code>[0, size())</code>. This function will also compare the metadata (basis set name and atomic number.)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The object being compared to *this.</td></tr>
@@ -1250,7 +1250,7 @@ template&lt;typename AtomicBasisSetType &gt; </div>
 <p>Returns the index range for the primitives in the shell with index <code>shell</code>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">shell</td><td>the index of the shell we want the primitive range for. Must be in the range [0, <a class="el" href="types_8hpp.html#a9ee3ebc8fa20e70336ca452fe2a719e2" title="Type used for offsets and indexing.">size()</a>)</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">shell</td><td>the index of the shell we want the primitive range for. Must be in the range [0, size())</td></tr>
   </table>
   </dd>
 </dl>

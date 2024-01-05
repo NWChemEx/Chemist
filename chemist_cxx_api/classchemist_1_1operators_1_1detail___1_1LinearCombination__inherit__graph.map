@@ -1,8 +1,0 @@
-<map id="chemist::operators::detail_::LinearCombination" name="chemist::operators::detail_::LinearCombination">
-<area shape="rect" id="node1" title="Code factorization for a container filled with operators." alt="" coords="59,95,264,136"/>
-<area shape="rect" id="node3" href="$classchemist_1_1operators_1_1Fock.html" title="A class to store and manipulate Fock operators." alt="" coords="5,184,149,225"/>
-<area shape="rect" id="node4" href="$classchemist_1_1operators_1_1Hamiltonian.html" title="A class to store and manipulate molecular Hamiltonians." alt="" coords="173,184,317,225"/>
-<area shape="rect" id="node2" href="$classchemist_1_1operators_1_1detail___1_1OperatorBase.html" title="An abstract base class for Operator types." alt="" coords="76,5,247,47"/>
-<area shape="rect" id="node5" href="$classchemist_1_1operators_1_1ElectronicHamiltonian.html" title="Hamiltonian focused exclusively on interactions involving electrons." alt="" coords="158,273,333,315"/>
-<area shape="rect" id="node6" href="$classchemist_1_1operators_1_1CoreHamiltonian.html" title="Models the one&#45;electron core (electronic) Hamiltonian." alt="" coords="173,363,317,404"/>
-</map>

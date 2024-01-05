@@ -1280,7 +1280,7 @@ template&lt;typename ShellType &gt; </div>
 </div><div class="memdoc">
 
 <p>Compares two <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSet.html" title="Models a set of shells associated with a specific atomic center.">AtomicBasisSet</a> instances for equality. </p>
-<p>Two <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSet.html" title="Models a set of shells associated with a specific atomic center.">AtomicBasisSet</a> instances are considered equal if they contain the same number of shells and if the i-th shell of *this is value equal to the i-th shell of <code>rhs</code> for all i in the range <code>[0, <a class="el" href="types_8hpp.html#a9ee3ebc8fa20e70336ca452fe2a719e2" title="Type used for offsets and indexing.">size()</a>)</code>. This function will also compare the metadata (basis set name and atomic number.)</p>
+<p>Two <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSet.html" title="Models a set of shells associated with a specific atomic center.">AtomicBasisSet</a> instances are considered equal if they contain the same number of shells and if the i-th shell of *this is value equal to the i-th shell of <code>rhs</code> for all i in the range <code>[0, size())</code>. This function will also compare the metadata (basis set name and atomic number.)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSet.html" title="Models a set of shells associated with a specific atomic center.">AtomicBasisSet</a> being compared to *this.</td></tr>
@@ -1390,14 +1390,14 @@ template&lt;typename ShellType &gt; </div>
 <p>Returns the index range for the primitives in the shell with index <code>shell</code>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">shell</td><td>the index of the shell we want the primitive range for. Must be in the range [0, <a class="el" href="types_8hpp.html#a9ee3ebc8fa20e70336ca452fe2a719e2" title="Type used for offsets and indexing.">size()</a>)</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">shell</td><td>the index of the shell we want the primitive range for. Must be in the range [0, size())</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The range of primitives associated with the shell</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::out_of_range</td><td>if <code>shell</code> is not in the range [0, <a class="el" href="types_8hpp.html#a9ee3ebc8fa20e70336ca452fe2a719e2" title="Type used for offsets and indexing.">size()</a>). Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::out_of_range</td><td>if <code>shell</code> is not in the range [0, size()). Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>

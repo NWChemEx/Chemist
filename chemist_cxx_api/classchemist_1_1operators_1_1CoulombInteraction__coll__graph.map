@@ -1,5 +1,0 @@
-<map id="chemist::operators::CoulombInteraction&lt; Particles &gt;" name="chemist::operators::CoulombInteraction&lt; Particles &gt;">
-<area shape="rect" id="node1" title="Describes the electrostatic interaction among particles." alt="" coords="53,199,212,255"/>
-<area shape="rect" id="node2" href="$classchemist_1_1operators_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="5,95,260,151"/>
-<area shape="rect" id="node3" href="$classchemist_1_1operators_1_1detail___1_1OperatorBase.html" title="An abstract base class for Operator types." alt="" coords="47,5,218,47"/>
-</map>

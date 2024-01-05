@@ -154,7 +154,7 @@ $(function() {
 <div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160; </div>
 <div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;VIEW_BASE_TEMPLATE_PARAMS</div>
 <div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;VIEW_BASE::ViewBase(AliasedType pimpl) :</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;  m_pimpl_(<a class="code" href="namespacestd.html">std</a>::make_shared&lt;AliasedType&gt;(<a class="code" href="namespacestd.html">std</a>::move(pimpl))) {}</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;  m_pimpl_(std::make_shared&lt;AliasedType&gt;(std::move(pimpl))) {}</div>
 <div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160; </div>
 <div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;VIEW_BASE_TEMPLATE_PARAMS</div>
 <div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;<span class="keywordtype">bool</span> VIEW_BASE::operator==(const_alias rhs)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> pimpl() == rhs; }</div>
@@ -191,7 +191,6 @@ $(function() {
 <div class="ttc" id="aclasschemist_1_1detail___1_1ViewBase_html_aad811d50806074fbfb48c573692bcdbe"><div class="ttname"><a href="classchemist_1_1detail___1_1ViewBase.html#aad811d50806074fbfb48c573692bcdbe">chemist::detail_::ViewBase::ViewBase</a></div><div class="ttdeci">ViewBase(my_type &amp;&amp;rhs) noexcept=default</div><div class="ttdoc">Creates a new ViewBase which takes over ownership of rhs's state.</div></div>
 <div class="ttc" id="aclasschemist_1_1detail___1_1ViewBase_html_ac19716e83dd13cfe627a29a5aaf13902"><div class="ttname"><a href="classchemist_1_1detail___1_1ViewBase.html#ac19716e83dd13cfe627a29a5aaf13902">chemist::detail_::ViewBase::operator!=</a></div><div class="ttdeci">bool operator!=(const other_base&lt; rhs_const &gt; &amp;rhs) const</div><div class="ttdoc">Allows comparing to other views.</div></div>
 <div class="ttc" id="aclasschemist_1_1detail___1_1ViewBase_html_aee9c7139ba46641e615ebbef9aa1179d"><div class="ttname"><a href="classchemist_1_1detail___1_1ViewBase.html#aee9c7139ba46641e615ebbef9aa1179d">chemist::detail_::ViewBase::operator=</a></div><div class="ttdeci">ViewBase &amp; operator=(const my_type &amp;rhs) noexcept=default</div><div class="ttdoc">Makes the current ViewBase alias the same state as rhs.</div></div>
-<div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdoc">TODO: Roll our own reference wrapper with these operations defined.</div><div class="ttdef"><b>Definition:</b> family_of_sets.hpp:24</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
