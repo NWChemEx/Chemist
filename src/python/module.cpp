@@ -19,7 +19,6 @@
 #include "enums.hpp"
 #include "molecule/export_molecule.hpp"
 #include "nucleus/export_nucleus.hpp"
-#include "orbital_space/export_ao_space.hpp"
 #include "point/export_point.hpp"
 #include "point_charge/export_point_charge.hpp"
 #include "pychemist.hpp"
@@ -48,8 +47,6 @@ PYBIND11_MODULE(chemist, m) {
 
     export_chemist_enums(m);
     export_basis_set(m);
-
-    export_ao_space(m);
 }
 
 } // namespace chemist

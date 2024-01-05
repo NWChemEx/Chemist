@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 NWChemEx-Project
+ * Copyright 2022 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-#define CATCH_CONFIG_MAIN
+#define CATCH_CONFIG_RUNNER
 #include <catch2/catch.hpp>
-#include <iostream>
+#include <tiledarray.h>
 
-int print_and_return(int ii) {
-    std::cout << "This is only a blank model for an integration test."
-              << std::endl;
-    return 0;
+int main(int argc, char* argv[]) {
+    auto& world = TA::initialize(argc, argv);
+
+    int res = Catch::Session().run(argc, argv);
+
+    TA::finalize();
+    return res;
 }
-
-TEST_CASE("Blank test", "[classic]") { REQUIRE(print_and_return(0) == 0); }
