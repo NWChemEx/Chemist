@@ -1,4 +1,4 @@
-.. Copyright 2022 NWChemEx-Project
+.. Copyright 2023 NWChemEx-Project
 ..
 .. Licensed under the Apache License, Version 2.0 (the "License");
 .. you may not use this file except in compliance with the License.
@@ -12,30 +12,17 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-####################
-Design Documentation
-####################
+#############
+Vector Spaces
+#############
 
-Topics in this section record the design process for the Chemist library.
-
-********
-Overview
-********
+Topics in this section record the design process for the vector space classes.
 
 .. toctree::
    :maxdepth: 2
 
-   architecture
-   chemistry/index
-
-*******
-Physics
-*******
-
-.. toctree::
-   :maxdepth: 2
-
-   vector_spaces/index
-   reference_space
-   wavefunction
-   operators
+   overview
+   base_space
+   cartesian_space
+   spin_space
+   product_space

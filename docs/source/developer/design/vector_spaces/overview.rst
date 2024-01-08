@@ -14,14 +14,16 @@
 
 .. _vsd_design:
 
-###################
-Vector Space Design
-###################
+############################
+Vector Space Design Overview
+############################
 
 This page documents the design of the vector space component of Chemist. In
-practice this component really focuses in on the basis set defining the vector
-space; however, in quantum chemistry the term "basis set" is usually associated
-specifically with quantities like `6-31G*` and we wish to avoid confusion.
+practice this component really focuses in on the basis spanning a general 
+vector space; however, in quantum chemistry the term "basis set" is usually 
+associated specifically with mathematical function collections like `6-31G*` 
+and we wish to emphasize that "basis" in this section carries more general
+meaning.
 
 ************************
 What are vector spaces?
@@ -36,14 +38,16 @@ given vector space one needs to define a basis set.
 Why do we need vector spaces?
 *****************************
 
-Quantum chemistry equations are tensorial in nature. To actually compute
-quantities we need tensor representations (*i.e.*, arrays of numbers). Forming
-a tensor representation requires us to pick a basis set (in the general sense,
-*i.e.*, we are not limiting ourselves to things like `6-31G*`). For a given
-vector space there are usually an infinite number of basis sets, and
-unfortunately each (in general) results in a different tensor representation.
-The point being, in order to programatically express which basis set we are
-using, we need a class (or series of classes) to convey this information.
+Quantum chemistry equations are tensorial in nature (please see 
+`here <en.wikipedia.org/wiki/Tensor>`__ for the definition of a tensor.) To 
+actually compute quantities we need tensor representations (*i.e.*, arrays 
+of numbers). Forming a tensor representation requires us to pick a basis set 
+(in the general sense, *i.e.*, we are not limiting ourselves to things like 
+`6-31G*`). For a given vector space there are usually an infinite number of 
+basis sets, and unfortunately each (in general) results in a different tensor 
+representation. The point being, in order to programatically express which 
+basis set we are using, we need a class (or series of classes) to convey this 
+information.
 
 
 .. _vsd_considerations:
@@ -61,10 +65,21 @@ Basis Set
    In practice, we're really designing basis sets (all of which can be used
    to define vector spaces, but that's not really what we care about). The
    vector space component needs to support arbitrary basis functions, not just
-   basis functions which are orbitals. Notable examples:
+   basis functions to represent the spatial orbitals of particles. Notable 
+   examples for non-orbital functions are:
 
    - Cartesian axes
    - Spin
+
+   For basis functions with explicit analytic or numerical expressions one need
+   to store their expressions in the defined vector space. However, for abstract
+   basis functions without involving specific numbers, such as Cartesian axes 
+   (:math:`x, y, z`) or spin functions (:math:`\alpha` and :math:`\beta`), they 
+   are not necessarily stored in the vector space class. To address these 
+   abstract basis functions, labels of them are available in the class. Basis
+   function labels are supposed to be strings. They can be default to simple
+   numbers such as "0", "1", "2", ..., and then get overriden in the derived
+   class to gain specific names.
 
 .. _vsd_parameters:
 
@@ -102,7 +117,7 @@ Type Dispatch
    Programatically the vector spaces will be used to construct property types.
    The types for the vector space should aim for generality, while still
    containing sufficient information to ensure that a property type can only
-   be called with vector spaces possessing the correct properties. Examples:
+   be called with the vector spaces possessing the correct properties. Examples:
 
    - If an algorithm assumes that the provided orbitals are canonical
      molecular orbitals, we in general do not want to call such an algorithm
@@ -137,7 +152,7 @@ Fundamental Classes
 
 .. _fig_fundamental_spaces:
 
-.. figure:: assets/fundamental_spaces.png
+.. figure:: ../assets/fundamental_spaces.png
    :align: center
 
    The fundamental classes comprising Chemist's vector space component. The
@@ -156,7 +171,8 @@ Base Class
 At the base of the class hierarchy is the ``BaseSpace`` class. This class is
 primarily meant to provide code factorization for the derived classes. It is
 also useful in a few places where we try to write very generic algorithms
-(*e.g.*, for transforming tensors).
+(*e.g.*, for transforming tensors). For the detailed design of ``BaseSpace`` 
+please see :doc:`BaseSpace Design <base_space>`.
 
 Cartesian Space
 ---------------
@@ -164,19 +180,28 @@ Cartesian Space
 .. |N| replace:: :math:`N`
 
 The ``CartesianSpace`` class is meant to represent |N|-dimensional
-Cartesian space, *i.e.*, :math:`\mathbb{R}^N`. In practice, this class's only
-state is the value of |N|. The need for ``CartesianSpace`` stems from
-Consideration :ref:`vsd_basis_set`.
+Cartesian space, *i.e.*, :math:`\mathbb{R}^N`. The need for ``CartesianSpace``
+stems from Consideration :ref:`vsd_basis_set`. In practice, this class's 
+state is the value of |N| and the labels of the coordinate axes. For example,
+To represent a dipole one needs the ``CartesianSpace`` :math:`\mathbb{R}^3` 
+with the coordinate axes usually labelled as "x", "y" and "z". For a quadrupole 
+or polarizability tensor, a ``CartesianSpace`` :math:`\mathbb{R}^6` with the
+coordinate possible axes such as "xx", "yy", "zz", "xy", "yz", "zx" is 
+necessary. The user should have the freedom to label the axes in their own 
+ways. For the detailed design of ``CartesianSpace`` please see 
+:doc:`CartesianSpace Design <cartesian_space>`.
 
 Spin Space
 ----------
 
 Conceptually similar to ``CartesianSpace``, the ``SpinSpace`` class represents
-the space spanned by a series of spin functions. In the most common scenario,
-an instance of ``SpinSpace`` represents the spins of an electron and thus
-contains two functions. State of the ``SpinSpace`` class is the total spin,
-which would be 1/2 for an electron. The need for this class also stems from
-consideration :ref:`vsd_basis_set`.
+the space spanned by a series of spin functions with a series of spin values. 
+The need for this class also stems from consideration :ref:`vsd_basis_set`.
+In the most common scenario, an instance of ``SpinSpace`` represents the spins 
+of an electron and thus contains two spin functions. State of the 
+``SpinSpace`` class is the multiplicity (:math:`2S+1`, dimension) of the space,
+from which the total spin :math:`S` of the system can be determined. For the 
+detailed design of `SpinSpace` please see :doc:`SpinSpace Design <spin_space>`. 
 
 Atomic Orbitals (AOs)
 ---------------------
@@ -189,16 +214,18 @@ from which all other orbital spaces are usually derived. The need for the
 ``AOSpace`` class primarily stems from consideration :ref:`vsd_parameters`.
 
 It is worth noting that in practice what we call AOs are often transformed,
-contracted Gaussian type orbitals. In theory we could better consolidate the
-``AOBasisSet`` class (which describes the parameters associated with those
-orbitals) with the various vector space classes by defining:
+contracted Gaussian type orbitals, which can be generated using the 
+``DerivedSpace<T,R>`` class (see :ref:`derived_space`). In theory we could 
+better consolidate the ``AOBasisSet`` class (which describes the parameters 
+associated with those orbitals) with the various vector space classes by 
+defining:
 
 - ``PrimitiveGaussianSpace`` holds the centers, angular momenta, and exponents
   for each primitive (Cartesian) Gaussian function.
-- ``CGTOSpace=TransformedSpace<T, PrimitiveGaussianSpace>`` stores the
+- ``CGTOSpace=DerivedSpace<T, PrimitiveGaussianSpace>`` stores the
   contraction coefficients for going from primitive Gaussians to contracted
   (Cartesian) Gaussian type orbitals.
-- ``SphericalGTOSpace = TransformedSpace<T, CGTOSpace>`` holds the spherical
+- ``SphericalGTOSpace = DerivedSpace<T, CGTOSpace>`` holds the spherical
   transform for going from contracted (Cartesian) Gaussian type orbitals to
   spherical Gaussian type orbitals.
 
@@ -211,29 +238,37 @@ It may be worth revisiting the design of the ``AOBasisSet`` class if one is
 interested in use cases which use more fundamental orbitals than the ones
 represented by the ``AOSpace``.
 
+.. _derived_space:
+
 Derived Space
 -------------
 
-Many of the spaces we are interested in our defined as linear transformations
+Many of the spaces we are interested in are defined as linear transformations
 of one another. The ``DerivedSpace<T,R>`` class represents a space obtained by
 transforming a space of type ``R`` (``R`` is typically ``AOSpace``) by a
 transformation of type ``T`` (``T`` is a tensor-like type). Usually the
-transformation is a rotation (meaning it preserves lengths and angles of the
-space being transformed), but we don't strictly enforce this (one could). In
-practice, the ``DerivedSpace<T, R>`` class primarily serves as code
-factorization for the variety of spaces which are defined as linear
+transformation is a rotation (meaning it preserves lengths and angles of the 
+vectors in the space being transformed), but we don't strictly enforce this 
+(one could). In practice, the ``DerivedSpace<T, R>`` class primarily serves as
+code factorization for the variety of spaces which are defined as linear
 transformations; by introducing ``DerivedSpace<T, R>``, many of those spaces
-are simply strong types.
+are simply strong types. For example, ``MOSpace`` can be thought as a
+``DerivedSpace`` from ``AOSpace`` (see :numref:`fig_orbital_spaces`).
 
 Product Space
 -------------
 
-There are several important vector spaces which are obtained by taking tensor
-products of other spaces. The ``ProductSpace<R...>`` class represents a
-space resulting from the product of the spaces ``R...`` (assumed to be two or
-more other spaces). Like ``DerivedSpace<T, R>``, ``ProductSpace<R...>``` is
-introduced as a means of code factorization so that the derived classes
-become strong types.
+There are several important vector spaces which are obtained by taking 
+`tensor products <en.wikipedia.org/wiki/Tensor_product>`__ of other spaces.
+The ``ProductSpace<R...>`` class represents a space resulting from the tensor 
+product of the spaces ``R...`` (assumed to be two or more other spaces). In 
+general, the basis functions of a ``ProductSpace`` are just the product of the
+basis functions of the factor spaces, and the labels of a ``ProductSpace`` are
+combinations of the labels of the factor spaces. Currently Like 
+``DerivedSpace<T, R>``, ``ProductSpace<R...>`` is introduced as a means of code
+factorization so that the derived classes become strong types. For the
+detailed design of `ProductSpace` please see 
+:doc:`ProductSpace Design <product_space>`.
 
 Natural Space
 -------------
@@ -243,7 +278,7 @@ requiring the resulting orbitals to diagonalize a particular tensor. In these
 cases the resulting orbitals are often said to be the "natural" basis set on
 account of the fact that they simplify equations involving the diagonalized
 quantity. Compared to a ``DerivedSpace<T, R>`` object, the additional state
-contained in a ``NaturalSpace<T, B>`` is the diagonalized tensor (which is
+contained in a ``NaturalSpace<T, B>`` is the diagonalized tensor (which is1
 assumed to be stored in a tensor of type ``T``). Rather than deriving directly
 from ``DerivedSpace<T,R>`` we allow the user to specify the base class to
 derive from, this allows it to be used with a variety of the orbital space
@@ -255,7 +290,9 @@ Localized Space
 
 ``LocalizedSpace<B>`` is a strong type used to denote that the orbitals have
 been spatially localized according to some metric. At present we do not
-discern what that metric is. Like ``NaturalSpace<T,B>``, ``LocalizedSpace<B>``
+discern what that metric is. 
+(Yu: should this metric included in the class of a ``LocalizedSpace<B>``?) 
+Like ``NaturalSpace<T,B>``, ``LocalizedSpace<B>``
 is templated on the class it derives from so that it can be used with any of
 the orbital space classes below.
 
@@ -284,7 +321,7 @@ represent those named spaces.
 
 .. _fig_orbital_spaces:
 
-.. figure:: assets/orbital_spaces.png
+.. figure:: ../assets/orbital_spaces.png
    :align: center
 
    The named orbital spaces residing in Chemist's vector space component.
@@ -297,6 +334,16 @@ The ``ASOSpace`` is a strong type for the product space formed from combining
 AOs and spin functions. AFAIU, ASOs are the starting point for most theory
 formulations assuming atom-centered basis functions. The actual ``ASOSpace``
 class is envisioned to be more of an actionable typedef than anything else.
+(Yu: I have a question about this definition of ``ASOSpace``. As stated
+above, the basis of a ``ASOSpace`` should be the products of spatial and spin
+functions, and a general vector in a ``ASOSpace`` would be a linear combination
+such spatial-spin function products. However, in common cases, orbitals with
+different spins do not mix up except in spin-orbit coupling calculations. 
+Suppose we have |N| AOs in a ``AOSpace``, and the ``SpinSpace`` has a dimension
+of 2 (spin up and down). In the end we will have a ``ASOSpace`` with a 
+dimension of :math:`N\times 2`. In most of the cases we only use half of the 
+space for spin-pure orbitals. Is there a better definition for ``ASOSpace`` to
+efficiently address the common cases in quantum chemistry?)
 
 Spinor Space
 ------------
@@ -307,8 +354,14 @@ Spinor Space
 
 The ``SpinorSpace<T>`` class is a strong type of a derived space whose
 reference state is comprised of ASOs. For |N| AOs this means we have |2N| ASOs,
-which get transformed into |2N| spinors. In turn the we have a |2N| by |2N|
-transformation matrix.
+which get transformed into |2N| spinors (Yu: I would still say |N| instead of 
+|2N| spinors, as a spinor is of dimension 2 in nature. Maybe never mind in 
+practical calculations). In turn the we have a |2N| by |2N| transformation 
+matrix. (Yu: with this definition, how can one distinguish a spinor from a
+spin-mixed orbital in SOC calculations? In my opinion, a ``SpinorSpace`` is 
+just a tensor product of a ``AOSpace`` with a Cartesian product of the 
+:math:`\alpha` and :math:`\beta` componenets of a simple ``SpinSpace`` for one
+electron.) 
 
 
 Molecular Spin Orbitals (MSOs)
@@ -321,7 +374,9 @@ In turn, each of the resulting |2N| MSOs are defined in terms of |N|
 coefficients and our transformation is |N| by |2N|, not |2N| by |2N| like
 ``SpinorSpace<T>``. The inheritance of MSOs from spinors satisfies the
 :ref:`vsd_generalization` consideration, since MSOs are just spinors with
-zeroed out mixed spin blocks.
+zeroed out mixed spin blocks. (Yu: I will see ``MSOSpace`` as a 
+``DerivedSpace`` from ``ASOSpace``, not from ``SpinorSpace``. I'm also confused
+that if a spinor has non-zero mixed spin blocks. Please help me to clarify.)
 
 
 Molecular Orbitals (MOs)
@@ -383,7 +438,8 @@ our design to those considerations is summarized below.
 :ref:`vsd_basis_set`
    The design includes a number of non-orbital vector spaces and the
    ``BaseSpace`` class does not assume that classes which derives from it
-   actually contain orbitals.
+   actually contain orbitals. (Yu: Is it necessary to derive both the orbital
+   and non-orbital vector spaces from the same ``BaseSpace``?)
 
 :ref:`vsd_parameters`
    The class hierarchy derives a new class anytime the definition of the
