@@ -39,16 +39,24 @@ nwx_cxx_api_docs("${CHEMIST_SOURCE_DIR}" "${CHEMIST_INCLUDE_DIR}")
 ### Options ###
 cmaize_option_List(
     BUILD_TESTING OFF "Should we build the tests?"
-    BUILD_PYBIND11_PYBINDINGS OFF "Build Python bdinings with pybind11?"
+    BUILD_PYBIND11_PYBINDINGS ON "Build Python bindings with pybind11?"
     ENABLE_EXPERIMENTAL_FEATURES OFF "Build features which are not 1.0-ed yet?"
 )
 
 ### Dependencies ###
 cmaize_find_or_build_dependency(
-    pluginplay
-    URL github.com/NWChemEx/PluginPlay
-    BUILD_TARGET pluginplay
-    FIND_TARGET nwx::pluginplay
+    parallelzone
+    URL github.com/NWChemEx/ParallelZone
+    BUILD_TARGET parallelzone
+    FIND_TARGET nwx::parallelzone
+    CMAKE_ARGS BUILD_TESTING=OFF
+)
+
+cmaize_find_or_build_dependency(
+    utilities
+    URL github.com/NWChemEx/utilities
+    BUILD_TARGET utilities
+    FIND_TARGET nwx::utilities
     CMAKE_ARGS BUILD_TESTING=OFF
 )
 
@@ -71,7 +79,7 @@ cmaize_add_library(
     ${PROJECT_NAME}
     SOURCE_DIR "${CHEMIST_SOURCE_DIR}/chemist"
     INCLUDE_DIRS "${CHEMIST_INCLUDE_DIR}/chemist"
-    DEPENDS pluginplay Boost::boost
+    DEPENDS parallelzone utilities Boost::boost
 )
 
 if("${ENABLE_EXPERIMENTAL_FEATURES}")
