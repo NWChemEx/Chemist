@@ -1,4 +1,4 @@
-.. Copyright 2023 NWChemEx-Project
+.. Copyright 2024 NWChemEx-Project
 ..
 .. Licensed under the Apache License, Version 2.0 (the "License");
 .. you may not use this file except in compliance with the License.
@@ -12,12 +12,21 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
+.. _chemist_motivation:
+
 ##################
-Chemist Background
+Chemist Motivation
 ##################
 
-.. toctree::
-   :maxdepth: 2
+TL;DR Chemist was written to fill a need in the computational chemistry
+community for a library which:
 
-   motivation
-   terminology 
+- is modular,
+- provides abstractions for chemistry concepts,
+- decouples chemistry concepts to the extent possible,
+- can serve as a :term:`DSL`` across *all* of computational chemistry,
+- is performant (including data exchange with other formats)
+- is user-friendly
+
+TODO: explain why these concepts are important and examine what other options
+are out there.

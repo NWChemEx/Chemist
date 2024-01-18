@@ -21,7 +21,7 @@ Terminology and Abbreviations
    chemical system
       We use the term "chemical system" to refer to chemistry objects being
       simulated. A chemical system includes the set of atoms and the fields
-      the atoms are embedded in.
+      the atoms are embedded in. It's the model of the experiment.
 
    fragment
       A distinction applied to a set of nuclei, a molecule, or a
@@ -39,6 +39,14 @@ Abbreviations
    API
       Stands for application programming interface. This is the interface a
       program exposes so that it can be called by other software.
+
+   DSL
+      Stands for domain-specific language. A DSL is a series of objects, and
+      operations on those objects, which facilitates expressing ideas from a
+      specific domain. For example, a quantum chemistry DSL should make it easy 
+      to build and construct quantum mechanical models of chemistry. Notably
+      DSLs are used to express intent, they usually do not actually carry out 
+      the computation themselves.
 
    ONIOM
       Stands for "Our own N-layered Integrated molecular Orbital and Molecular

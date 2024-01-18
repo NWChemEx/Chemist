@@ -32,6 +32,9 @@ Overview
 Physics
 *******
 
+Topics in the Physics section of Chemist are still experimental and are subject
+to change.
+
 .. toctree::
    :maxdepth: 2
 
