@@ -16,9 +16,12 @@
 Architecture of Chemist
 #######################
 
+
+
 ***********************************
 Chemist Architecture Considerations
 ***********************************
+
 
 Chemical systems.
    It is natural to express the phenomena we want to describe using chemistry

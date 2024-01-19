@@ -40,12 +40,16 @@ Abbreviations
       Stands for application programming interface. This is the interface a
       program exposes so that it can be called by other software.
 
+   DFT
+      Stands for density-functional theory. DFT is usually differentiated from
+      wavefunction-based theories.
+
    DSL
       Stands for domain-specific language. A DSL is a series of objects, and
       operations on those objects, which facilitates expressing ideas from a
-      specific domain. For example, a quantum chemistry DSL should make it easy 
+      specific domain. For example, a quantum chemistry DSL should make it easy
       to build and construct quantum mechanical models of chemistry. Notably
-      DSLs are used to express intent, they usually do not actually carry out 
+      DSLs are used to express intent, they usually do not actually carry out
       the computation themselves.
 
    ONIOM
@@ -57,3 +61,8 @@ Abbreviations
       Stands for "Quantum Mechanics/Molecular Mechanics". QM/MM is a technique
       where part of a target system is modeled with quantum mechanics and the
       rest is modeled with molecular mechanics.
+
+   UI
+      Stands for user interface. This is how end users interact with a software
+      component. The UI may be the same or different from the API (how other
+      software interacts with the component).
