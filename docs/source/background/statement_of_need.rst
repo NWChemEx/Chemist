@@ -1,4 +1,4 @@
-.. Copyright 2022 NWChemEx-Project
+.. Copyright 2023 NWChemEx-Project
 ..
 .. Licensed under the Apache License, Version 2.0 (the "License");
 .. you may not use this file except in compliance with the License.
@@ -12,21 +12,20 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-####################
-Design Documentation
-####################
+.. _statement_of_need:
 
-Topics in this section record the design process for the Chemist library.
+#################
+Statement of Need
+#################
 
-********
-Overview
-********
+TL;DR Chemist was written to fill a need in the computational chemistry
+community for a library which:
 
-.. toctree::
-   :maxdepth: 2
+- is modular,
+- provides abstractions for chemistry concepts,
+- decouples chemistry concepts to the extent possible,
+- can serve as a :term:`DSL`` across *all* of computational chemistry,
+- is performant (including data exchange with other formats)
+- is user-friendly
 
-   architecture
-   chemical_system/index
-   ao_basis_set/index
-   operator/index
-   wavefunction/index
+TODO: more details.

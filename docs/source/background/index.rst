@@ -20,4 +20,6 @@ Chemist Background
    :maxdepth: 2
 
    motivation
+   statement_of_need
+   overview
    terminology 

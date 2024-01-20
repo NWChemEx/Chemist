@@ -28,5 +28,4 @@ familiar to quantum chemists (which we put in the physics sublibrary).
    nucleus
    molecule
    system
-   ao_basis_set
    fragmenting/index

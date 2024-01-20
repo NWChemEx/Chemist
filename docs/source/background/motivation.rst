@@ -18,15 +18,13 @@
 Chemist Motivation
 ##################
 
-TL;DR Chemist was written to fill a need in the computational chemistry
-community for a library which:
+.. note::
 
-- is modular,
-- provides abstractions for chemistry concepts,
-- decouples chemistry concepts to the extent possible,
-- can serve as a :term:`DSL`` across *all* of computational chemistry,
-- is performant (including data exchange with other formats)
-- is user-friendly
+   Some of the todos on this page are partially addressed in the overview and 
+   should be moved here.
 
-TODO: explain why these concepts are important and examine what other options
-are out there.
+TODO: explain traditional stack (UI to computation)
+
+TODO: explain problem with the stack
+
+TODO: explain how DSL solves the problem
