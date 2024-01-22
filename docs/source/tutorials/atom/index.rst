@@ -46,7 +46,7 @@ of an atom.
 
    .. tab:: Python
 
-      .. literalinclude:: ../../../../tests/python/doc_snippets/atom_example.py
+      .. literalinclude:: ../../../../tests/python/doc_snippets/test_atom_example.py
          :language: python
          :start-after: # Begin constructors
          :end-before: # End constructors
@@ -78,7 +78,7 @@ can also see that two ``Atom`` objects can be compared using the ``==`` operator
          :end-before: // End properties
    .. tab:: Python
 
-      .. literalinclude:: ../../../../tests/python/doc_snippets/atom_example.py
+      .. literalinclude:: ../../../../tests/python/doc_snippets/test_atom_example.py
          :language: python
          :start-after: # Begin properties
          :end-before: # End properties
@@ -98,5 +98,5 @@ serialization. Note that corresponding Cereal header files need to be included.
 
       .. literalinclude:: ../../../../tests/cxx/doc_snippets/atom_example.cpp
          :language: c++
-         :start-after: // Begin serialization
-         :end-before: // End serialization
+         :start-after: // Begin serializing
+         :end-before: // End serializing

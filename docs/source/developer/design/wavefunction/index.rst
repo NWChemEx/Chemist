@@ -19,6 +19,12 @@ Wavefunction Component Design Documentation
 Topics in this section record the design process for the Wavefunction component
 of Chemist.
 
+.. note::
+
+   The wavefunction component of Chemist is currently under heavy-development
+   and considered experimental. APIs using the wavefunction component are
+   subject to change.
+
 ********
 Overview
 ********
@@ -28,5 +34,5 @@ Overview
 
    architecture
    vector_space
-   reference_space
-   wavefunction 
+   reference_spaces
+   wavefunction

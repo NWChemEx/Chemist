@@ -69,11 +69,11 @@ TODO: summarize the high-level architecture
    High-level architecture of Chemist. Chemist is at present split into three
    components: Chemical System, Operators, and Wavefunctions.
 
-The overall architecture of Chemist is depicted in :figref:`fig_architecture`
+The overall architecture of Chemist is depicted in :numref:`fig_architecture`
 and the individual components are summarized below.
 
 Chemical System Component
-------------------------- 
+-------------------------
 
 Main Discussion: :ref:`architecture_of_chemical_system`.
 

@@ -27,5 +27,3 @@ These tutorials aim to familiarize users with the Chemist C++ and Python API by 
    nucleus/index
    atom/index
    molecule/index
-   system/index
-   basis_set/index
