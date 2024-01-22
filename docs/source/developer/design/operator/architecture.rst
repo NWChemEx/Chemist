@@ -20,3 +20,5 @@ Architecture of Operator Component
 
 The need for the Operator component stemmed from the high-level
 architecture details described :ref:`architecture_of_chemist`.
+
+TODO: Write me!!!

@@ -12,9 +12,11 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-###########################################
-Wavefunction Component Design Documentation
-###########################################
+.. _design_of_the_wavefunction_component:
+
+####################################
+Design of the Wavefunction Component
+####################################
 
 Topics in this section record the design process for the Wavefunction component
 of Chemist.
@@ -25,14 +27,10 @@ of Chemist.
    and considered experimental. APIs using the wavefunction component are
    subject to change.
 
-********
-Overview
-********
-
 .. toctree::
    :maxdepth: 2
 
    architecture
-   vector_space
-   reference_spaces
+   vector_spaces
+   reference_space
    wavefunction

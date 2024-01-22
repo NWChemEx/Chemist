@@ -143,7 +143,7 @@ What is a typical Chemist workflow?
    Traditional workflow of a Gaussian-based quantum chemistry method.
 
 The typical Chemist workflow is pictorially given in
-:numref:`fig_guassian_input` (in the context of Gaussian-based quantum
+:numref:`fig_gaussian_input` (in the context of Gaussian-based quantum
 chemistry). The first step is to create a ``ChemicalSystem`` class (TODO: link).
 For the example workflow shown in :numref:`fig_gaussian_input` this step is
 depicted by the benzene molecule. The ``ChemicalSystem`` class describes the
@@ -156,7 +156,7 @@ system. For Gaussian-based quantum chemistry this has two parts creating a
 molecular basis set (pictorially represented in :numref:`fig_gaussian_input`
 by the *p*-orbitals superimposed on benzene) and specifying an approximation
 to the Schroedinger equation (pictorially represented in
-:numref:`fig_guassian_input` by the time-independent Schroedinger equation). In
+:numref:`fig_gaussian_input` by the time-independent Schroedinger equation). In
 Chemist we rely on the ``AOBasisSet`` class for describing molecular basis sets
 and a combination of ``Operator`` and ``Wavefunction`` objects to express the
 physical approximations (disclaimer ``Operator`` and ``Wavefunction`` are

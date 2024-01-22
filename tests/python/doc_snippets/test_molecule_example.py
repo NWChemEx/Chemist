@@ -21,7 +21,7 @@ class TestStringMethods(unittest.TestCase):
         # Default constructor, no atoms, charge = 0.0, multiplicity = 1
         m0 = chemist.Molecule()
 
-        # PyBind11 doesn't support constructors with an initializer list 
+        # PyBind11 doesn't support constructors with an initializer list
         # Therefore, using the push_back method to add atoms to the molecule
         a_H1 = chemist.Atom("H", 1, 1.0079, 0.0, 0.0, 0.0)
         a_H2 = chemist.Atom("H", 1, 1.0079, 1.0, 0.0, 0.0)
@@ -70,8 +70,9 @@ class TestStringMethods(unittest.TestCase):
         m1.set_multiplicity(2)
         assert m1 == m2
 
-        # We can add atoms to a Molecule object        
+        # We can add atoms to a Molecule object
         a_O1 = chemist.Atom("O", 8, 15.9994, 2.0, 0.0, 0.0)
         m1.push_back(a_O1)
         assert m1.size() == 3
         assert m1.n_electrons() == 9
+        # End properties

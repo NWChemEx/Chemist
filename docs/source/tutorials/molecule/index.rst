@@ -21,7 +21,7 @@ Molecule
 In its formal definition, a molecule is a group of two or more atoms held
 together by chemical bonds. In Chemist, ``Molecule`` class represents any group
 of atoms (set of ``Atom`` objects) or nuclei (set of ``Nucleus`` objects forming
-``Nuclei`` object) without any restrictions about bonding. 
+``Nuclei`` object) without any restrictions about bonding.
 
 *************
 Construction
@@ -34,7 +34,7 @@ enables a user to set the charge and multiplicity of the molecule, which would
 be set to 0 and 1 if not given. One can add more atoms, or modify the charge and
 multiplicity of the molecule after it is created. It should also be noted that
 once a molecule object is created, the atoms that create the molecule cannot be
-accessed or modified directly, only the nuclei can be accessed. 
+accessed or modified directly, only the nuclei can be accessed.
 
 .. tabs::
 
@@ -47,7 +47,7 @@ accessed or modified directly, only the nuclei can be accessed.
 
    .. tab:: Python
 
-      .. literalinclude:: ../../../../tests/python/doc_snippets/molecule_example.py
+      .. literalinclude:: ../../../../tests/python/doc_snippets/test_molecule_example.py
          :language: python
          :start-after: # Begin constructors
          :end-before: # End constructors
@@ -72,7 +72,7 @@ codes below show how to access and modify these properties in both C++ and Pytho
          :end-before: // End properties
    .. tab:: Python
 
-      .. literalinclude:: ../../../../tests/python/doc_snippets/molecule_example.py
+      .. literalinclude:: ../../../../tests/python/doc_snippets/test_molecule_example.py
          :language: python
          :start-after: # Begin properties
          :end-before: # End properties
@@ -92,5 +92,5 @@ serialization. Note that corresponding Cereal header files need to be included.
 
       .. literalinclude:: ../../../../tests/cxx/doc_snippets/molecule_example.cpp
          :language: c++
-         :start-after: // Begin serialization
-         :end-before: // End serialization
+         :start-after: // Begin serializing
+         :end-before: // End serializing

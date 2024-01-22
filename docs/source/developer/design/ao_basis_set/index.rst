@@ -12,9 +12,11 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-##################################
-Designing the AOBasisSet Component
-##################################
+.. _design_of_the_ao_basis_set_component:
+
+####################################
+Design of the AO Basis Set Component
+####################################
 
 .. toctree::
    :maxdepth: 2

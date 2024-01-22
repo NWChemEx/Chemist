@@ -42,6 +42,13 @@ Chemical systems.
    problem in terms of these chemical concepts. We therefore must have a
    software representation of the relevant concepts.
 
+Atomic orbital basis sets.
+   Our first target is Gaussian-based quantum chemistry. This requires
+   describing electrons with atom-centered Gaussian functions.
+
+   - N.b. many methods which don't use Gaussian basis sets still need chemical
+     system objects. Motivation for keeping them separate.
+
 Quantum mechanics.
    The heart of quantum chemistry is that chemistry is fully described by
    quantum mechanics. Thus whatever chemical question we have, quantum
@@ -75,14 +82,19 @@ and the individual components are summarized below.
 Chemical System Component
 -------------------------
 
-Main Discussion: :ref:`architecture_of_chemical_system`.
+Main Discussion: :ref:`design_of_the_chemical_system_component`.
+
+AO Basis Set Component
+----------------------
+
+Main Discussion: :ref:`design_of_the_ao_basis_set_component`.
 
 Operator Component
 -------------------
 
-Main Discussion: :ref:`architecture_of_operator`.
+Main Discussion: :ref:`design_of_the_operator_component`.
 
 Wavefunction Component
 ----------------------
 
-Main Discussion: :ref:`architecture_of_wavefunction`.
+Main Discussion: :ref:`design_of_the_wavefunction_component`.

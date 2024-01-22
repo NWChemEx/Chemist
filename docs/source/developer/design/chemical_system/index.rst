@@ -12,19 +12,27 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-##################################
-Designing the Chemistry Sublibrary
-##################################
+.. _design_of_the_chemical_system_component:
 
-The chemistry sublibrary of Chemist is comprised of classes designed to
+#######################################
+Design of the Chemical System Component
+#######################################
+
+The chemical system component of Chemist is comprised of classes designed to
 represent concepts more familiar to traditional chemists. These concepts
 include things like atoms, molecules, chemical bonds, etc. This should be
 contrasted with concepts like wavefunctions and operators which are more
-familiar to quantum chemists (which we put in the physics sublibrary).
+familiar to physical chemists
+
+.. note::
+
+   Infrastructure for fragmenting chemical systems is still undergoing heavy
+   development and is thus considered experimental.
 
 .. toctree::
    :maxdepth: 2
 
+   architecture
    nucleus
    molecule
    system

@@ -12,16 +12,20 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-#############################
-Operator Design Documentation
-#############################
+.. _design_of_the_operator_component:
+
+################################
+Design of the Operator Component
+################################
 
 Topics in this section record the design process for the Operator component of
 Chemist.
 
-********
-Overview
-********
+.. note::
+
+   The operator component is under heavy-development and considered
+   experimental. This means that the API is not considered stable and is subject
+   to change without notice.
 
 .. toctree::
    :maxdepth: 2

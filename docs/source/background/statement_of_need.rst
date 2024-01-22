@@ -24,7 +24,7 @@ community for a library which:
 - is modular,
 - provides abstractions for chemistry concepts,
 - decouples chemistry concepts to the extent possible,
-- can serve as a :term:`DSL`` across *all* of computational chemistry,
+- can serve as a :term:`DSL` across *all* of computational chemistry,
 - is performant (including data exchange with other formats)
 - is user-friendly
 
