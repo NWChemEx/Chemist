@@ -16,12 +16,17 @@
 
 #pragma once
 #include "../pychemist.hpp"
+#include "molecule/export_molecule.hpp"
+#include "nucleus/export_nucleus.hpp"
 #include <chemist/chemical_system/chemical_system.hpp>
 #include <pybind11/operators.h>
 
 namespace chemist {
 
 void inline export_chemical_system(python_module_reference m) {
+    export_nucleus(m);
+    export_molecule(m);
+
     using chemical_system_type      = ChemicalSystem;
     using chemical_system_reference = chemical_system_type&;
     using molecule_type             = typename chemical_system_type::molecule_t;

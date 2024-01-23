@@ -15,6 +15,5 @@
  */
 
 #pragma once
-#include <chemist/chemical_system/chemical_system_class.hpp>
-#include <chemist/chemical_system/molecule/molecule.hpp>
-#include <chemist/chemical_system/nucleus/nucleus.hpp>
+#include <chemist/chemical_system/molecule/atom.hpp>
+#include <chemist/chemical_system/molecule/molecule_class.hpp>

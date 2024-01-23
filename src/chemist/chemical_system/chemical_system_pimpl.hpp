@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include "chemist/chemical_system/chemical_system.hpp"
+#include <chemist/chemical_system/chemical_system_class.hpp>
 
 namespace chemist::detail_ {
 
@@ -39,15 +39,6 @@ public:
     /// Type used for the system's overall charge
     using size_type = typename chem_sys_t::size_type;
 
-    /// The type used to model the external electrostatic potential
-    using epot_t = typename chem_sys_t::epot_t;
-
-    /// A read/write reference to the external electrostatic potential
-    using epot_ref_t = typename chem_sys_t::epot_ref_t;
-
-    /// A read-only reference to the electrostatic potential
-    using const_epot_ref_t = typename chem_sys_t::const_epot_ref_t;
-
     /** @brief Makes a ChemicalSystemPIMPL with an empty molecule, no electrons,
      *         and no external potentials.
      *
@@ -58,14 +49,11 @@ public:
 
     /** @brief Creates a PIMPL with the provided state.
      *
-     *  @param[in] mol The nuclear framework in the system.
-     *  @param[in] n_electrons The number of electrons
-     *  @param[in] epot The external electrostatic potential
+     *  @param[in] mol The molecule
      *
      *  @throw None No throw guarantee.
      */
-    explicit ChemicalSystemPIMPL(molecule_t mol, size_type n_electrons,
-                                 epot_t epot = {}) noexcept;
+    explicit ChemicalSystemPIMPL(molecule_t mol) noexcept;
 
     /// Standard defaulted polymorphic dtor
     virtual ~ChemicalSystemPIMPL() noexcept = default;
@@ -117,38 +105,6 @@ public:
      */
     const auto& molecule() const noexcept { return m_mol_; }
 
-    /** @brief The number of electrons.
-     *
-     *  @return A read/write reference to the number of electrons.
-     *
-     *  @throw None No throw guarantee.
-     */
-    size_type& n_electrons() noexcept { return m_n_electrons_; }
-
-    /** @brief The number of electrons.
-     *
-     *  @return The number of elctrons.
-     *
-     *  @throw None No throw guarantee.
-     */
-    size_type n_electrons() const noexcept { return m_n_electrons_; }
-
-    /** @brief Accessor for the contained electrostatic potential.
-     *
-     *  @return The held electrostatic potential in a modifiable state.
-     *
-     *  @throw None No throw guarantee.
-     */
-    auto& external_electrostatic_potential() { return m_epot_; }
-
-    /** @brief Accessor for the contained electrostatic potential.
-     *
-     *  @return The held electrostatic potential in a read-only state.
-     *
-     *  @throw None No throw guarantee.
-     */
-    const auto& external_electrostatic_potential() const { return m_epot_; }
-
     /** @brief Polymorphically compares two ChemicalSystemPIMPLs.
      *
      *  Two ChemicalSystemPIMPLs are equal if their respective molecule
@@ -171,7 +127,7 @@ public:
      */
     template<typename Archive>
     void save(Archive& ar) const {
-        ar& m_mol_& m_n_electrons_& m_epot_;
+        ar& m_mol_;
     }
 
     /** @brief Deserializes the ChemicalSystemPIMPL
@@ -182,7 +138,7 @@ public:
      */
     template<typename Archive>
     void load(Archive& ar) {
-        ar& m_mol_& m_n_electrons_& m_epot_;
+        ar& m_mol_;
     }
 
 protected:
@@ -198,22 +154,12 @@ protected:
 private:
     /// The nuclear framework
     molecule_t m_mol_;
-
-    /// The number of electrons
-    size_type m_n_electrons_ = 0;
-
-    /// The electrostatic potential external to the molecular framework
-    epot_t m_epot_;
 };
 
 // ------------------- Out-of-line inline definitions --------------------------
 
-inline ChemicalSystemPIMPL::ChemicalSystemPIMPL(molecule_t mol,
-                                                size_type n_electrons,
-                                                epot_t epot) noexcept :
-  m_mol_(std::move(mol)),
-  m_n_electrons_(n_electrons),
-  m_epot_(std::move(epot)) {}
+inline ChemicalSystemPIMPL::ChemicalSystemPIMPL(molecule_t mol) noexcept :
+  m_mol_(std::move(mol)) {}
 
 inline bool ChemicalSystemPIMPL::operator==(
   const ChemicalSystemPIMPL& rhs) const noexcept {
@@ -228,8 +174,7 @@ inline typename ChemicalSystemPIMPL::pimpl_ptr_t ChemicalSystemPIMPL::clone_()
 
 inline bool ChemicalSystemPIMPL::are_equal_(
   const ChemicalSystemPIMPL& rhs) const noexcept {
-    return std::tie(m_mol_, m_n_electrons_, m_epot_) ==
-           std::tie(rhs.m_mol_, rhs.m_n_electrons_, rhs.m_epot_);
+    return std::tie(m_mol_) == std::tie(rhs.m_mol_);
 }
 
 } // namespace chemist::detail_

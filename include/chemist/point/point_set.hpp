@@ -30,8 +30,8 @@ class PointSetPIMPL;
  *  Conceptually this class behaves like a std::vector<Point<T>>; however, the
  *  backend is more complicated than that, which is why we wrote a new class.
  *
- *  @note Despite the name, this class will allow you to add the same point
- *        multiple times.
+ *  @note Despite the "set" in the name, this class will allow you to add the
+ *        same point multiple times.
  *
  *  @tparam T The floating-point type used to store the coordinates of the
  *            points. Assumed to be either float or double.

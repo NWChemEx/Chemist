@@ -21,16 +21,7 @@ namespace chemist {
 
 using pimpl_t    = typename ChemicalSystem::pimpl_t;
 using molecule_t = typename ChemicalSystem::molecule_t;
-using epot_t     = typename ChemicalSystem::epot_t;
 using size_type  = typename ChemicalSystem::size_type;
-
-namespace {
-auto sum_z(const Molecule& mol) {
-    size_type n = 0;
-    for(const auto& atom : mol) n += atom.Z();
-    return n;
-}
-} // namespace
 
 ChemicalSystem::ChemicalSystem() : m_pimpl_(std::make_unique<pimpl_t>()) {}
 
@@ -40,15 +31,8 @@ ChemicalSystem::ChemicalSystem(const ChemicalSystem& other) :
 
 ChemicalSystem::ChemicalSystem(ChemicalSystem&& other) noexcept = default;
 
-ChemicalSystem::ChemicalSystem(molecule_t mol, epot_t v) :
-  ChemicalSystem(std::move(mol), 0, std::move(v)) {
-    n_electrons() = sum_z(molecule());
-}
-
-ChemicalSystem::ChemicalSystem(molecule_t mol, size_type n_electrons,
-                               epot_t v) :
-  m_pimpl_(
-    std::make_unique<pimpl_t>(std::move(mol), n_electrons, std::move(v))) {}
+ChemicalSystem::ChemicalSystem(molecule_t mol) :
+  m_pimpl_(std::make_unique<pimpl_t>(std::move(mol))) {}
 
 ChemicalSystem::~ChemicalSystem() noexcept = default;
 
@@ -70,27 +54,6 @@ molecule_t& ChemicalSystem::molecule() { return pimpl_().molecule(); }
 
 const molecule_t& ChemicalSystem::molecule() const {
     return pimpl_().molecule();
-}
-
-size_type& ChemicalSystem::n_electrons() { return pimpl_().n_electrons(); }
-
-size_type ChemicalSystem::n_electrons() const { return pimpl_().n_electrons(); }
-
-typename ChemicalSystem::charge_type ChemicalSystem::charge() const noexcept {
-    if(!m_pimpl_) return charge_type{0};
-    std::size_t neutral = 0;
-    const auto nes      = n_electrons();
-    for(const auto& atomi : molecule()) neutral += atomi.Z();
-    if(neutral < nes) return -1 * charge_type(nes - neutral);
-    return charge_type(neutral - nes);
-}
-
-epot_t& ChemicalSystem::external_electrostatic_potential() {
-    return pimpl_().external_electrostatic_potential();
-}
-
-const epot_t& ChemicalSystem::external_electrostatic_potential() const {
-    return pimpl_().external_electrostatic_potential();
 }
 
 bool ChemicalSystem::operator==(const ChemicalSystem& rhs) const noexcept {

@@ -32,9 +32,6 @@ namespace chemist {
  *  the state inside a PointView is an alias of data owned by another object
  *  (usually a PointSet or related classes).
  *
- *  TODO: This class should replace PointView, at which point we should drop the
- *        2 from the name. This requires switching over Chemist's basis set
- *        component.
  *
  *  @tparam PointType The type of Point<T> object this class is behaving like a
  *                    view of. Assumed to be either Point<T> or const Point<T>

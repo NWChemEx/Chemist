@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include "chemist/chemical_system/chemical_system.hpp"
 #include <catch2/catch.hpp>
+#include <chemist/chemical_system/chemical_system_class.hpp>
 #include <utility>
 
 using namespace chemist;
@@ -58,24 +58,6 @@ TEST_CASE("ChemicalSystem") {
             STATIC_REQUIRE(std::is_same_v<t, corr>);
         }
 
-        SECTION("epot_t") {
-            using epot_t = typename ChemicalSystem::epot_t;
-            using corr_t = potentials::Electrostatic;
-            STATIC_REQUIRE(std::is_same_v<epot_t, corr_t>);
-        }
-
-        SECTION("epot_ref_t") {
-            using epot_ref_t = typename ChemicalSystem::epot_ref_t;
-            using corr_t     = potentials::Electrostatic&;
-            STATIC_REQUIRE(std::is_same_v<epot_ref_t, corr_t>);
-        }
-
-        SECTION("const_epot_ref_t") {
-            using const_epot_ref_t = typename ChemicalSystem::const_epot_ref_t;
-            using corr_t           = const potentials::Electrostatic&;
-            STATIC_REQUIRE(std::is_same_v<const_epot_ref_t, corr_t>);
-        }
-
         SECTION("charge_type") {
             using corr_t      = int;
             using charge_type = typename ChemicalSystem::charge_type;
@@ -85,80 +67,46 @@ TEST_CASE("ChemicalSystem") {
     chemist::Atom atom("H", 1ul, 0.0, 0.0, 0.0, 0.0); // Mass-less hydrogen
     chemist::Molecule default_mol, h{atom};
 
-    chemist::potentials::Electrostatic default_v, v;
-    v.add_charge(chemist::PointCharge<double>());
-
     SECTION("Default ctor") {
         ChemicalSystem sys;
         REQUIRE(sys.molecule() == default_mol);
-        REQUIRE(sys.n_electrons() == 0);
-        REQUIRE(sys.charge() == 0);
-        REQUIRE(sys.external_electrostatic_potential() == default_v);
     }
 
     SECTION("Copy ctor") {
-        ChemicalSystem sys(h, 2, v);
+        ChemicalSystem sys(h);
         ChemicalSystem copy(sys);
         REQUIRE(sys == copy);
         REQUIRE(copy.molecule() == h);
-        REQUIRE(copy.n_electrons() == 2);
-        REQUIRE(copy.charge() == -1);
-        REQUIRE(copy.external_electrostatic_potential() == v);
     }
 
     SECTION("Move ctor") {
-        ChemicalSystem sys(h, 2, v);
+        ChemicalSystem sys(h);
         ChemicalSystem moved(std::move(sys));
         REQUIRE(moved.molecule() == h);
-        REQUIRE(moved.n_electrons() == 2);
-        REQUIRE(moved.charge() == -1);
-        REQUIRE(moved.external_electrostatic_potential() == v);
     }
 
     SECTION("value ctors") {
         SECTION("Default n_electrons and potential") {
             ChemicalSystem sys(h);
             REQUIRE(sys.molecule() == h);
-            REQUIRE(sys.n_electrons() == 1);
-            REQUIRE(sys.charge() == 0);
-            REQUIRE(sys.external_electrostatic_potential() == default_v);
-        }
-        SECTION("Default potential") {
-            ChemicalSystem sys(h, 2);
-            REQUIRE(sys.molecule() == h);
-            REQUIRE(sys.n_electrons() == 2);
-            REQUIRE(sys.charge() == -1);
-            REQUIRE(sys.external_electrostatic_potential() == default_v);
-        }
-
-        SECTION("Set all") {
-            ChemicalSystem sys(h, 2, v);
-            REQUIRE(sys.molecule() == h);
-            REQUIRE(sys.n_electrons() == 2);
-            REQUIRE(sys.charge() == -1);
-            REQUIRE(sys.external_electrostatic_potential() == v);
         }
     }
 
     SECTION("copy assignment") {
-        ChemicalSystem sys(h, 2, v);
+        ChemicalSystem sys(h);
         ChemicalSystem copy;
         auto pcopy = &(copy = sys);
         REQUIRE(sys == copy);
         REQUIRE(pcopy == &copy);
         REQUIRE(copy.molecule() == h);
-        REQUIRE(copy.n_electrons() == 2);
-        REQUIRE(copy.external_electrostatic_potential() == v);
     }
 
     SECTION("move assignment") {
-        ChemicalSystem sys(h, 2, v);
+        ChemicalSystem sys(h);
         ChemicalSystem moved;
         auto pmoved = &(moved = std::move(sys));
         REQUIRE(pmoved == &moved);
         REQUIRE(moved.molecule() == h);
-        REQUIRE(moved.n_electrons() == 2);
-        REQUIRE(moved.external_electrostatic_potential() == v);
     }
 
     SECTION("molecule()") {
@@ -189,86 +137,6 @@ TEST_CASE("ChemicalSystem") {
         }
     }
 
-    SECTION("n_electrons()") {
-        ChemicalSystem sys(h, 2);
-
-        SECTION("value") { REQUIRE(sys.n_electrons() == 2); }
-
-        SECTION("is read/write") {
-            sys.n_electrons() = 3;
-            REQUIRE(sys.n_electrons() == 3);
-        }
-
-        SECTION("Allocates new PIMPL if no PIMPL") {
-            ChemicalSystem buffer(std::move(sys));
-            REQUIRE(sys.n_electrons() == 0);
-        }
-    }
-
-    SECTION("n_electrons() const") {
-        ChemicalSystem sys(h, 2);
-
-        SECTION("value") { REQUIRE(std::as_const(sys).n_electrons() == 2); }
-
-        SECTION("Throws if no PIMPL") {
-            ChemicalSystem buffer(std::move(sys));
-            const auto& csys = sys;
-            REQUIRE_THROWS_AS(csys.n_electrons(), std::runtime_error);
-        }
-    }
-
-    SECTION("charge()") {
-        SECTION("Default") {
-            ChemicalSystem sys;
-            REQUIRE(sys.charge() == 0);
-        }
-
-        SECTION("Cation") {
-            ChemicalSystem sys(h, 0);
-            REQUIRE(sys.charge() == 1);
-        }
-
-        SECTION("Anion") {
-            ChemicalSystem sys(h, 100);
-            REQUIRE(sys.charge() == -99);
-        }
-    }
-
-    SECTION("external_electrostatic_potential()") {
-        ChemicalSystem sys(h, 2, v);
-
-        SECTION("value") {
-            REQUIRE(sys.external_electrostatic_potential() == v);
-        }
-
-        SECTION("is read/write") {
-            potentials::Electrostatic new_v;
-            sys.external_electrostatic_potential() = new_v;
-            REQUIRE(sys.external_electrostatic_potential() == new_v);
-        }
-
-        SECTION("Allocates new PIPML if no PIMPL") {
-            ChemicalSystem buffer(std::move(sys));
-            potentials::Electrostatic corr;
-            REQUIRE(sys.external_electrostatic_potential() == corr);
-        }
-    }
-
-    SECTION("external_electrostatic_potential() const") {
-        ChemicalSystem sys(h, 2, v);
-
-        SECTION("value") {
-            REQUIRE(std::as_const(sys).external_electrostatic_potential() == v);
-        }
-
-        SECTION("Throws if no PIMPL") {
-            ChemicalSystem buffer(std::move(sys));
-            const ChemicalSystem& csys = sys;
-            REQUIRE_THROWS_AS(csys.external_electrostatic_potential(),
-                              std::runtime_error);
-        }
-    }
-
     SECTION("operator==") {
         SECTION("LHS is default") {
             ChemicalSystem lhs;
@@ -280,16 +148,6 @@ TEST_CASE("ChemicalSystem") {
 
             SECTION("RHS has a different molecule") {
                 ChemicalSystem rhs(h);
-                REQUIRE_FALSE(lhs == rhs);
-            }
-
-            SECTION("RHS has a different number of electrons") {
-                ChemicalSystem rhs(default_mol, 2);
-                REQUIRE_FALSE(lhs == rhs);
-            }
-
-            SECTION("RHS has a different potential") {
-                ChemicalSystem rhs(default_mol, 1, v);
                 REQUIRE_FALSE(lhs == rhs);
             }
         }

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include "chemist/chemical_system/chemical_system_pimpl.hpp"
 #include <catch2/catch.hpp>
+#include <chemist/chemical_system/chemical_system_pimpl.hpp>
 
 TEST_CASE("ChemicalSystemPIMPL") {
     using chem_sys_t       = chemist::ChemicalSystem;
@@ -23,9 +23,6 @@ TEST_CASE("ChemicalSystemPIMPL") {
 
     chemist::Atom atom("H", 1ul, 0.0, 0.0, 0.0, 0.0); // Mass-less hydrogen
     chemist::Molecule default_mol, h{atom};
-
-    chemist::potentials::Electrostatic default_v, v;
-    v.add_charge(chemist::PointCharge<double>());
 
     // For all of these typedefs we are just ensuring that the ChemicalSystem
     // and the ChemicalSystemPIMPL class are synched
@@ -63,38 +60,16 @@ TEST_CASE("ChemicalSystemPIMPL") {
             using corr = typename chem_sys_t::size_type;
             STATIC_REQUIRE(std::is_same_v<t, corr>);
         }
-
-        SECTION("epot_t") {
-            using t    = typename chem_sys_pimpl_t::epot_t;
-            using corr = typename chem_sys_t::epot_t;
-            STATIC_REQUIRE(std::is_same_v<t, corr>);
-        }
-
-        SECTION("epot_ref_t") {
-            using t    = typename chem_sys_pimpl_t::epot_ref_t;
-            using corr = typename chem_sys_t::epot_ref_t;
-            STATIC_REQUIRE(std::is_same_v<t, corr>);
-        }
-
-        SECTION("const_epot_ref_t") {
-            using t    = typename chem_sys_pimpl_t::const_epot_ref_t;
-            using corr = typename chem_sys_t::const_epot_ref_t;
-            STATIC_REQUIRE(std::is_same_v<t, corr>);
-        }
     }
 
     SECTION("Default ctor") {
         chem_sys_pimpl_t pimpl;
         REQUIRE(pimpl.molecule() == default_mol);
-        REQUIRE(pimpl.n_electrons() == 0);
-        REQUIRE(pimpl.external_electrostatic_potential() == default_v);
     }
 
     SECTION("Value ctor") {
-        chem_sys_pimpl_t pimpl(h, 2, v);
+        chem_sys_pimpl_t pimpl(h);
         REQUIRE(pimpl.molecule() == h);
-        REQUIRE(pimpl.n_electrons() == 2);
-        REQUIRE(pimpl.external_electrostatic_potential() == v);
     }
 
     SECTION("clone") {
@@ -105,7 +80,7 @@ TEST_CASE("ChemicalSystemPIMPL") {
         }
 
         SECTION("Non-default") {
-            chem_sys_pimpl_t pimpl(h, 2, v);
+            chem_sys_pimpl_t pimpl(h);
             auto copy = pimpl.clone();
             REQUIRE(*copy == pimpl);
         }
@@ -118,7 +93,7 @@ TEST_CASE("ChemicalSystemPIMPL") {
         }
 
         SECTION("Has value") {
-            chem_sys_pimpl_t pimpl(h, 2, v);
+            chem_sys_pimpl_t pimpl(h);
             REQUIRE(pimpl.molecule() == h);
         }
 
@@ -136,50 +111,8 @@ TEST_CASE("ChemicalSystemPIMPL") {
         }
 
         SECTION("Has value") {
-            const chem_sys_pimpl_t pimpl(h, 2, v);
+            const chem_sys_pimpl_t pimpl(h);
             REQUIRE(pimpl.molecule() == h);
-        }
-    }
-
-    SECTION("n_electrons") {
-        chem_sys_pimpl_t pimpl(h, 2, v);
-        REQUIRE(pimpl.n_electrons() == 2);
-    }
-
-    SECTION("n_electrons() const") {
-        const chem_sys_pimpl_t pimpl(h, 2, v);
-        REQUIRE(pimpl.n_electrons() == 2);
-    }
-
-    SECTION("external_electrostatic_potential()") {
-        SECTION("default") {
-            chem_sys_pimpl_t pimpl;
-            chemist::potentials::Electrostatic corr;
-            REQUIRE(pimpl.external_electrostatic_potential() == corr);
-        }
-
-        SECTION("Has value") {
-            chem_sys_pimpl_t pimpl(h, 2, v);
-            REQUIRE(pimpl.external_electrostatic_potential() == v);
-        }
-
-        SECTION("Is writeable") {
-            chem_sys_pimpl_t pimpl;
-            pimpl.external_electrostatic_potential() = v;
-            REQUIRE(pimpl.external_electrostatic_potential() == v);
-        }
-    }
-
-    SECTION("external_electrostatic_potential() const") {
-        SECTION("default") {
-            const chem_sys_pimpl_t pimpl;
-            chemist::potentials::Electrostatic corr;
-            REQUIRE(pimpl.external_electrostatic_potential() == corr);
-        }
-
-        SECTION("Has value") {
-            const chem_sys_pimpl_t pimpl(h, 2, v);
-            REQUIRE(pimpl.external_electrostatic_potential() == v);
         }
     }
 
@@ -193,17 +126,7 @@ TEST_CASE("ChemicalSystemPIMPL") {
             }
 
             SECTION("RHS has a different molecule") {
-                chem_sys_pimpl_t rhs(h, 0, default_v);
-                REQUIRE_FALSE(lhs == rhs);
-            }
-
-            SECTION("RHS has a different number of electrons") {
-                chem_sys_pimpl_t rhs(default_mol, 2, default_v);
-                REQUIRE_FALSE(lhs == rhs);
-            }
-
-            SECTION("RHS has a different potential") {
-                chem_sys_pimpl_t rhs(default_mol, 1, v);
+                chem_sys_pimpl_t rhs(h);
                 REQUIRE_FALSE(lhs == rhs);
             }
         }

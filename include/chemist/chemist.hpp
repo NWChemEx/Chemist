@@ -25,11 +25,9 @@
  * functions defined in this header file).
  */
 
-#include "chemist/atom/atom.hpp"
-#include "chemist/basis_set/basis_set.hpp"
-#include "chemist/chemical_system/chemical_system.hpp"
-#include "chemist/enums.hpp"
-#include "chemist/molecule/molecule.hpp"
+#include <chemist/basis_set/basis_set.hpp>
+#include <chemist/chemical_system/chemical_system.hpp>
+#include <chemist/enums.hpp>
 
 /**
  * @brief The primary namespace for the chemist library
