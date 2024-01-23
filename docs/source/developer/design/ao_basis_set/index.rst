@@ -1,4 +1,4 @@
-.. Copyright 2022 NWChemEx-Project
+.. Copyright 2024 NWChemEx-Project
 ..
 .. Licensed under the Apache License, Version 2.0 (the "License");
 .. you may not use this file except in compliance with the License.
@@ -12,21 +12,13 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-####################
-Design Documentation
-####################
+.. _design_of_the_ao_basis_set_component:
 
-Topics in this section record the design process for the Chemist library.
-
-********
-Overview
-********
+####################################
+Design of the AO Basis Set Component
+####################################
 
 .. toctree::
    :maxdepth: 2
 
-   architecture
-   chemical_system/index
-   ao_basis_set/index
-   operator/index
-   wavefunction/index
+   ao_basis_set

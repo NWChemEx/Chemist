@@ -1,4 +1,4 @@
-.. Copyright 2022 NWChemEx-Project
+.. Copyright 2024 NWChemEx-Project
 ..
 .. Licensed under the Apache License, Version 2.0 (the "License");
 .. you may not use this file except in compliance with the License.
@@ -12,21 +12,19 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-####################
-Design Documentation
-####################
+.. _chemist_motivation:
 
-Topics in this section record the design process for the Chemist library.
+##################
+Chemist Motivation
+##################
 
-********
-Overview
-********
+.. note::
 
-.. toctree::
-   :maxdepth: 2
+   Some of the todos on this page are partially addressed in the overview and 
+   should be moved here.
 
-   architecture
-   chemical_system/index
-   ao_basis_set/index
-   operator/index
-   wavefunction/index
+TODO: explain traditional stack (UI to computation)
+
+TODO: explain problem with the stack
+
+TODO: explain how DSL solves the problem

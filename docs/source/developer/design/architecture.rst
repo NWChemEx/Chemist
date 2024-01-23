@@ -12,19 +12,42 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
+.. _architecture_of_chemist:
+
 #######################
 Architecture of Chemist
 #######################
 
-***********************************
-Chemist Architecture Considerations
-***********************************
+:ref:`statement_of_need` summarizes what Chemist needs to do. The point of this
+page is to use these needs to motivate the architecture of Chemist.
+
+***************************
+Architecture Considerations
+***************************
+
+Performance.
+   Quantum chemistry is computationally expensive. Software used in the stack
+   must be performant on not only current hardware, but should also be
+   readily adaptable to performant execution on future hardware. An admittedly
+   tall order without knowledge of said future hardware. (TODO: point to
+   high-level argument)
+
+Object-oriented
+   We believe that the complexity of quantum chemistry mandates the need for
+   object-oriented programming (TODO: point to high-level argument)
 
 Chemical systems.
    It is natural to express the phenomena we want to describe using chemistry
    concepts. Hence many users will feel most comfortable specifying their
    problem in terms of these chemical concepts. We therefore must have a
    software representation of the relevant concepts.
+
+Atomic orbital basis sets.
+   Our first target is Gaussian-based quantum chemistry. This requires
+   describing electrons with atom-centered Gaussian functions.
+
+   - N.b. many methods which don't use Gaussian basis sets still need chemical
+     system objects. Motivation for keeping them separate.
 
 Quantum mechanics.
    The heart of quantum chemistry is that chemistry is fully described by
@@ -34,8 +57,44 @@ Quantum mechanics.
    and we thus also need a software representation of quantum mechanical
    concepts.
 
-Performance.
-   Quantum chemistry is computationally expensive. Software used in the stack
-   must be performant on not only current hardware, but should also be
-   readily adaptable to performant execution on future hardware. An admittedly
-   tall order without knowledge of said future hardware.
+Classical mechanics.
+   Quantum is expensive some mix of QM and classical mechanics is likely to be
+   inevitable for the foreseeable future. We need the ability to seamlessly
+   transition between domains.
+
+*********************
+Architecture Overview
+*********************
+
+TODO: summarize the high-level architecture
+
+.. _fig_architecture:
+
+.. figure:: assets/architecture.png
+   :align: center
+
+   High-level architecture of Chemist. Chemist is at present split into three
+   components: Chemical System, Operators, and Wavefunctions.
+
+The overall architecture of Chemist is depicted in :numref:`fig_architecture`
+and the individual components are summarized below.
+
+Chemical System Component
+-------------------------
+
+Main Discussion: :ref:`design_of_the_chemical_system_component`.
+
+AO Basis Set Component
+----------------------
+
+Main Discussion: :ref:`design_of_the_ao_basis_set_component`.
+
+Operator Component
+-------------------
+
+Main Discussion: :ref:`design_of_the_operator_component`.
+
+Wavefunction Component
+----------------------
+
+Main Discussion: :ref:`design_of_the_wavefunction_component`.

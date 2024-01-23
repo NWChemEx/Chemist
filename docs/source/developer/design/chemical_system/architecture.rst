@@ -1,4 +1,4 @@
-.. Copyright 2022 NWChemEx-Project
+.. Copyright 2024 NWChemEx-Project
 ..
 .. Licensed under the Apache License, Version 2.0 (the "License");
 .. you may not use this file except in compliance with the License.
@@ -12,14 +12,11 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-######################
-Sparse Maps Sublibrary
-######################
+.. _architecture_of_chemical_system:
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents
+#########################################
+Architecture of Chemical System Component
+#########################################
 
-   background
-   design
-   from_sparse_map
+The need for the Chemical System component stemmed from the high-level
+architecture details described :ref:`architecture_of_chemist`.
