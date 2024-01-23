@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include <chemist/point/point_view2.hpp>
+#include <chemist/point/point_view.hpp>
 #include <memory>
 #include <utilities/containers/indexable_container_base.hpp>
 
@@ -53,10 +53,10 @@ public:
     using value_type = Point<T>;
 
     /// Read/write reference to an element
-    using reference = PointView2<value_type>;
+    using reference = PointView<value_type>;
 
     /// Read-only reference to an element
-    using const_reference = PointView2<const value_type>;
+    using const_reference = PointView<const value_type>;
 
     /// Integral type used for indexing
     using size_type = typename base_type::size_type;

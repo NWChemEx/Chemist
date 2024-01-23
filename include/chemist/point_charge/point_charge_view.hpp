@@ -16,7 +16,7 @@
 
 #pragma once
 #include <chemist/detail_/view/traits.hpp>
-#include <chemist/point/point_view2.hpp>
+#include <chemist/point/point_view.hpp>
 #include <chemist/point_charge/point_charge.hpp>
 #include <type_traits>
 
@@ -34,7 +34,7 @@ namespace chemist {
  */
 template<typename ChargeType>
 class PointChargeView
-  : public PointView2<typename detail_::ViewTraits<
+  : public PointView<typename detail_::ViewTraits<
       ChargeType>::template apply_const<typename ChargeType::point_type>> {
 private:
     /// Traits type helping us with TMP
@@ -70,10 +70,10 @@ public:
 
     /// Type of a view to a Point object with const-ness paralleling *this
     using point_view_type =
-      PointView2<typename traits_type::template apply_const<point_type>>;
+      PointView<typename traits_type::template apply_const<point_type>>;
 
     /// Type of a read-only view of a Point object
-    using const_point_view = PointView2<const point_type>;
+    using const_point_view = PointView<const point_type>;
 
     /// Type of a reference to one of the base's coordinates
     using coord_reference = typename point_view_type::coord_reference;
@@ -139,7 +139,7 @@ public:
                                      std::decay_t<ChargeType2>, ChargeType>>>
     PointChargeView& operator=(ChargeType2&& charge) {
         point_view_type::operator=(std::forward<point_type>(charge));
-        (*m_pq_)                 = charge.charge();
+        (*m_pq_) = charge.charge();
         return *this;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 NWChemEx-Project
+ * Copyright 2023 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,131 +15,300 @@
  */
 
 #pragma once
-#include "chemist/detail_/view_base.hpp"
-#include "chemist/point/point.hpp"
+#include <array>
+#include <chemist/detail_/view/traits.hpp>
+#include <chemist/point/point.hpp>
+#include <iomanip>
+#include <iostream>
+#include <limits>
+#include <string>
+#include <type_traits>
 
 namespace chemist {
 
-/** @brief Implements reference-like semantics with respect to a Point instance.
+/** @brief Allows viewing data as if it was a PointType object.
  *
- *  This class extends the ViewBase API to include forwarding of the Point API.
+ *  PointView objects act like references to a Point object. More specifically,
+ *  the state inside a PointView is an alias of data owned by another object
+ *  (usually a PointSet or related classes).
  *
- *  @tparam T The type used to hold the coordinates of the aliased Point. Should
- *          be cv-qualified to match the Point instance it is aliasing.
+ *  TODO: This class should replace PointView, at which point we should drop the
+ *        2 from the name. This requires switching over Chemist's basis set
+ *        component.
  *
- *  @tparam AliasedType The type the derived-most class is a view of.
- *                      @p AliasedType is assumed to have been derived from
- *                      Point.
+ *  @tparam PointType The type of Point<T> object this class is behaving like a
+ *                    view of. Assumed to be either Point<T> or const Point<T>
+ *                    (T being either float or double).
  */
-template<typename T, typename AliasedType>
-class PointView : public detail_::ViewBase<std::is_const_v<T>, AliasedType> {
+template<typename PointType>
+class PointView {
 private:
-    /// Type of @p T w/o cv-qualifiers
-    using no_cv_t = std::remove_cv_t<T>;
-    /// True if @p T is const-qualified
-    static constexpr bool is_const = std::is_const_v<T>;
-    /// Type of the base class
-    using base_type = detail_::ViewBase<is_const, AliasedType>;
+    /// Type helping us do the template meta-programming
+    using traits_type = detail_::ViewTraits<PointType>;
+
+    /// Pull in apply_const_xxx (so we can drop typename and template)
+    template<typename U>
+    using apply_const_ref = typename traits_type::template apply_const_ref<U>;
 
 public:
-    /// Unsigned integral type used for indexing/offsets
-    using size_type = typename AliasedType::size_type;
+    /// Type of a non-CV qualified Point<T> object
+    using point_type = typename traits_type::type;
 
-    /// Forward the base's ctors
-    using detail_::ViewBase<is_const, AliasedType>::ViewBase;
+    /// Type of reference to a Point<T> object with parallel const of *this
+    using point_reference = apply_const_ref<point_type>;
 
-    /** @brief Returns the @p q-th coordinate of the aliased Point
+    /// Type of a read-only reference to a Point<T> object
+    using const_point_reference = const point_type&;
+
+    /// Type of a PointView to a read-only point
+    using const_point_view = PointView<const point_type>;
+
+    /// Forward types from Point<T> class
+    ///@{
+    using coord_type            = typename point_type::coord_type;
+    using const_coord_reference = typename point_type::const_coord_reference;
+    using size_type             = typename point_type::size_type;
+    ///@}
+
+    /// Type of a coordinate reference returned when *this is non-const
+    using coord_reference = apply_const_ref<coord_type>;
+
+    /** @brief Value to reference converter.
      *
-     *  This function can be used to retrieve one of the components of the
-     *  aliased Point. The resulting component is read-/write-able if @p T is
-     *  non-const. Since the returned component is an alias, modifying it will
-     *  also modify the parent Point.
+     *  This ctor allows you to make a PointView which aliases an existing
+     *  Point object.
      *
-     *  @param[in] q Which component should we return? Must be in the range
-     *             [0, 3).
-     *  @return The requested component, (possibly) in a read-/write-able
-     *          format.
-     *  @throw std::out_of_range if @p q is not in the range [0, 3)
+     *  @param[in] point The Point object *this is a view of.
+     *
+     *  @throw None No throw guarantee.
      */
-    decltype(auto) coord(size_type q) { return this->pimpl().coord(q); }
+    PointView(point_reference point) :
+      PointView(point.x(), point.y(), point.z()) {}
 
-    /** @brief Returns the @p q-th coordinate of the aliased Point
+    /** @brief Value ctor.
      *
-     *  This function can be used to retrieve one of the components of the
-     *  aliased Point. The resulting component is read-only.
+     *  This ctor will create a PointView which aliases the provided
+     *  coordinates. The coordinates are held by reference and the caller is
+     *  responsible for ensuring the memory of the coordinates remains in
+     *  scope for the lifetime of the PointView.
      *
-     *  @param[in] q Which component should we return? Must be in the range
-     *             [0, 3).
-     *  @return The requested component, in a read-only format.
+     *  @param[in] x The x-coordinate of the PointView
+     *  @param[in] y The y-coordinate of the PointView
+     *  @param[in] z The z-coordinate of the PointView
      *
-     *  @throw std::out_of_range if @p q is not in the range [0, 3)
+     *  @throw None No throw guarantee.
      */
-    decltype(auto) coord(size_type q) const { return this->pimpl().coord(q); }
+    PointView(coord_reference x, coord_reference y, coord_reference z) :
+      m_pr_{&x, &y, &z} {}
 
-    /** @brief Returns the x-coordinate of the aliased Point.
+    /** @brief Sets the value of the aliased Point to @p point
      *
-     *  This function is a convenience wrapper around `coord(0)`.
+     *  @note This is NOT the copy assignment operator!
      *
-     *  @return The x-coordinate of the aliased Point in a (possibly)
-     *          read-/write-able state.
+     *  This operator does not cause *this to alias @p point, but instead
+     *  modifies the values of the Point aliased by *this. i.e. if before
+     *  calling this method *this has state
+     *  `{px, py, pz}` with `*px = 1.0`, `*py = 2.0`, and `*pz = 3.0` (`px`,
+     *  `py`, and `pz` being pointers to the x, y, and z coordinates
+     *  respectively) then after calling this method, `px`, `py`, and `pz`
+     *  will still point to the same memory locations, but now
+     *  `*px = point.x()`, `*py = point.y()`, and `*pz = point.z()`.
      *
-     *  @throw none No throw guarantee.
+     *  If you want to change the Point *this aliases you need to call the
+     *  copy assignment operator, *i.e.* do something like:
+     *
+     *  ```.cpp
+     *  Point r0, r1;
+     *  PointView me(r0);
+     *  r0 = PointView(r1);
+     *  ```
+     *
+     *  @param[in] point The value we want to assign to the aliased Point.
+     *
+     *  @return *this after modifying the aliased Point.
+     *
+     *  @throw None No throw guarantee.
      */
-    decltype(auto) x() noexcept { return coord(0); }
+    PointView& operator=(point_reference point) noexcept {
+        (*m_pr_[0]) = point.x();
+        (*m_pr_[1]) = point.y();
+        (*m_pr_[2]) = point.z();
+        return *this;
+    }
 
-    /** @brief Returns the x-coordinate of the aliased Point.
+    /** @brief Makes the aliased Point a copy of @p point
      *
-     *  This function is a convenience wrapper around `coord(0) const`.
+     *  This method is used to make the state of the Point aliased by *this be
+     *  a copy of the state in @p point.
      *
-     *  @return The x-coordinate of the aliased Point in a read-only state.
+     *  @tparam PointType2 The type of @p point. Must be either Point<T> or
+     *                     a reference to Point<T>.
+     *  @tparam <Anonymous> Used to disable this method when *this aliases a
+     *                      read-only Point<T> object and/or when PointType2 is
+     *                      not  Point<T> (or a reference to Point<T>).
      *
-     *  @throw none No throw guarantee.
+     *  @param[in] point The object whose state will be copied.
+     *
+     *  @throw None No throw guarantee.
      */
-    decltype(auto) x() const noexcept { return coord(0); }
+    template<typename PointType2, typename = std::enable_if_t<std::is_same_v<
+                                    std::decay_t<PointType2>, PointType>>>
+    PointView& operator=(PointType2&& point) {
+        (*m_pr_[0]) = point.x();
+        (*m_pr_[1]) = point.y();
+        (*m_pr_[2]) = point.z();
+        return *this;
+    }
 
-    /** @brief Returns the y-coordinate of the aliased Point.
+    /** @brief Retrieve's the PointView's coordinates by offset.
      *
-     *  This function is a convenience wrapper around `coord(1)`.
+     *  @param[in] q which coordinate (i.e., x, y, or z) to return. @p q must
+     *               be in the range [0, 3).
      *
-     *  @return The y-coordinate of the aliased Point in a (possibly)
-     *          read-/write-able state.
+     *  @return A reference to the requested coordinate. If *this is const, the
+     *          returned reference will be read-only, otherwise whether or not
+     *          the reference is read-only or read/write respectively depends
+     *          on whether or not PointType is const-qualified.
      *
-     *  @throw none No throw guarantee.
+     *  @throw None No throw guarantee.
      */
-    decltype(auto) y() noexcept { return coord(1); }
+    ///@{
+    coord_reference coord(size_type q) { return *m_pr_[q]; }
+    const_coord_reference coord(size_type q) const { return *m_pr_[q]; }
+    ///@}
 
-    /** @brief Returns the y-coordinate of the aliased Point.
+    /** @brief Retrieves the method's namesake coordinate.
      *
-     *  This function is a convenience wrapper around `coord(1) const`.
+     *  The `x()` method is an alias for calling `coord(0)`, `y()` is an alias
+     *  of `coord(1)`, and `z()` is an alias of `coord(1)`.
      *
-     *  @return The y-coordinate of the aliased Point in a read-only state.
+     *  @return Non-const versions return (possibly) read/write references,
+     *          whereas const versions always return read-only references. The
+     *          non-const versions return read-only references if @p PointType
+     *          is const-qualified.
      *
-     *  @throw none No throw guarantee.
+     *  @throw None No-throw guarantee
      */
-    decltype(auto) y() const noexcept { return coord(1); }
+    ///@{
+    coord_reference x() noexcept { return coord(0); }
+    coord_reference y() noexcept { return coord(1); }
+    coord_reference z() noexcept { return coord(2); }
 
-    /** @brief Returns the z-coordinate of the aliased Point.
+    const_coord_reference x() const noexcept { return coord(0); }
+    const_coord_reference y() const noexcept { return coord(1); }
+    const_coord_reference z() const noexcept { return coord(2); }
+    ///@}
+
+    coord_type magnitude() const noexcept {
+        return std::sqrt(x() * x() + y() * y() + z() * z());
+    }
+
+    /** @brief Value comparison.
      *
-     *  This function is a convenience wrapper around `coord(2)`.
+     *  This method compares the coordinates aliased by *this to the coordinates
+     *  owned by @p rhs.
      *
-     *  @return The z-coordinate of the aliased Point in a (possibly)
-     *          read-/write-able state.
+     *  @param[in] rhs The Point-like object we are comparing to.
      *
-     *  @throw none No throw guarantee.
+     *  @return True if the coordinates in *this are value equal to those in
+     *          @p rhs and false otherwise.
+     *
+     *  @throw None No throw guarantee.
      */
-    decltype(auto) z() noexcept { return coord(2); }
+    ///@{
+    bool operator==(const_point_reference& rhs) const noexcept {
+        return std::tie(x(), y(), z()) == std::tie(rhs.x(), rhs.y(), rhs.z());
+    }
 
-    /** @brief Returns the z-coordinate of the aliased Point.
+    template<typename T>
+    bool operator==(const PointView<T>& rhs) const noexcept {
+        return std::tie(x(), y(), z()) == std::tie(rhs.x(), rhs.y(), rhs.z());
+    }
+    ///@}
+
+    /** @brief Determines if *this represents a different point than @p rhs.
      *
-     *  This function is a convenience wrapper around `coord(2) const`.
+     *  This method compares the coordinates aliased by *this to the coordinates
+     *  owned by @p rhs.
      *
-     *  @return The x-coordinate of the aliased Point in a read-only state.
+     *  @param[in] rhs The Point-like object we are comparing to.
      *
-     *  @throw none No throw guarantee.
+     *  @return False if the coordinates in *this are value equal to those in
+     *          @p rhs and true otherwise.
+     *
+     *  @throw None No throw guarantee.
      */
-    decltype(auto) z() const noexcept { return coord(2); }
+    ///@{
+    bool operator!=(const_point_reference& rhs) const noexcept {
+        return !(*this == rhs);
+    }
 
-    operator const Point<no_cv_t>&() const { return this->pimpl(); }
-}; // class PointView
+    template<typename T>
+    bool operator!=(const PointView<T>& rhs) const noexcept {
+        return !(*this == rhs);
+    }
+    ///@}
+
+    /** @brief Conversion to a Point object.
+     *
+     *  This method will deep copy the aliased state in to a new Point object.
+     *
+     *  @return A new Point instance which owns its coordinates.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the Point's
+     *                        PIMPL. Strong throw guarantee.
+     */
+    point_type as_point() const { return point_type(x(), y(), z()); }
+
+    /** @brief Implicit conversion from a mutable view to a const view.
+     *
+     *  @return A view of a read-only Point object.
+     *
+     *  @throw None No throw guarantee.
+     */
+    operator const_point_view() const {
+        return const_point_view(x(), y(), z());
+    }
+
+    /** @brief Exchanges the state of *this with that of @p other.
+     *
+     *  @param[in,out] other The PointView to exchange state with. After this
+     *                       method has been called @p other will contain the
+     *                       state which previously was in *this.
+     *
+     *  @throw None no throw guarantee.
+     */
+    void swap(PointView& other) noexcept { m_pr_.swap(other.m_pr_); }
+
+private:
+    /// The type of pointer used to alias a coordinate
+    using internal_pointer =
+      typename traits_type::template apply_const_ptr<coord_type>;
+
+    /// Pointers to the x, y, and z coordinates (respectively)
+    std::array<internal_pointer, 3> m_pr_;
+};
+
+/// Same as PointView::operator==, but when a Point is the LHS
+template<typename CoordType, typename PointType>
+bool operator==(const Point<CoordType>& lhs, const PointView<PointType>& rhs) {
+    return rhs == lhs;
+}
+
+/// Same as PointView::operator!=, but when a Point is the LHS
+template<typename CoordType, typename PointType>
+bool operator!=(const Point<CoordType>& lhs, const PointView<PointType>& rhs) {
+    return rhs != lhs;
+}
+
+/// Allows a Point to be printed
+template<typename PointType>
+std::ostream& operator<<(std::ostream& os, const PointView<PointType>& view) {
+    using coord_type = typename PointView<PointType>::coord_type;
+    os << std::fixed
+       << std::setprecision(std::numeric_limits<coord_type>::digits10)
+       << view.coord(0) << " " << view.coord(1) << " " << view.coord(2);
+    return os;
+}
 
 } // namespace chemist

@@ -16,7 +16,6 @@
 
 #pragma once
 #include "chemist/molecule/molecule.hpp"
-#include "chemist/potentials/electrostatic.hpp"
 #include <memory>
 
 namespace chemist {
@@ -27,10 +26,9 @@ class ChemicalSystemPIMPL;
 /** @brief Class describing the entire chemical system to be modeled.
  *
  *  The Molecule class models the electrons and nuclei in the system; however,
- *  there are often additional pieces of the system beyond the atoms. Typically
- *  these additional pieces are fields (e.g. electric fields from point
- *  charges), but conceivably the ChemicalSystem class could also be used to
- *  hold information such as lattice parameters and the symmetry of the system.
+ *  there are often additional pieces of the system beyond the molecule.
+ *  Typically these additional pieces are fields (e.g. electric fields from
+ *  point charges), but they could also be non-atomistically modeled solvent
  */
 class ChemicalSystem {
 public:
@@ -48,15 +46,6 @@ public:
 
     /// A read-only reference to the object describing the set of atoms
     using const_mol_ref_t = const molecule_t&;
-
-    /// The type used to model the external electrostatic potential
-    using epot_t = potentials::Electrostatic;
-
-    /// A read/write reference to the external electrostatic potential
-    using epot_ref_t = epot_t&;
-
-    /// A read-only reference to the electrostatic potential
-    using const_epot_ref_t = const epot_t&;
 
     /// Type used for counting/indexing
     using size_type = std::size_t;
@@ -100,32 +89,14 @@ public:
 
     /** @brief Creates a new ChemicalSystem with the provided state.
      *
-     *  The resulting ChemicalSystem will contain the provided molecule and
-     *  external potential. The number of electrons will be determined by
-     *  summing up the atomic numbers of the atoms in @p mol.
+     *  The resulting ChemicalSystem will contain the provided molecule.
      *
      *  @param[in] mol    The molecular system to add to this system.
-     *  @param[in] v      The external electrostatic potential that the system
-     *                    lives in. Defaults to no potential.
      *
      *  @throw std::bad_alloc if there is error while allocating the PIMPL.
      *                        Strong throw guarantee.
      */
-    explicit ChemicalSystem(molecule_t mol, epot_t v = {});
-
-    /** @brief Creates a new ChemicalSystem with the provided state.
-     *
-     *  The resulting ChemicalSystem will contain the provided molecule, number
-     * of
-     *  @param[in] mol    The molecular system to add to this system.
-     *  @param[in] v      The external electrostatic potential that the system
-     *                    lives in. Defaults to no potential.
-     *
-     *  @throw std::bad_alloc if there is error while allocating the PIMPL.
-     *                        Strong throw guarantee.
-     */
-
-    ChemicalSystem(molecule_t mol, size_type n_electrons, epot_t v = {});
+    explicit ChemicalSystem(molecule_t mol);
 
     /// Default destructor, voids all references to member data
     ~ChemicalSystem() noexcept;
@@ -172,60 +143,6 @@ public:
      *                             guarantee.
      */
     const_mol_ref_t molecule() const;
-
-    /** @brief Returns the number of electrons in the system.
-     *
-     *  @return A read/write reference to the number of electrons in the system.
-     *
-     *  @throw std::bad_alloc if the class has no PIMPL and there's a problem
-     *                        allocating one. Strong throw guarantee.
-     */
-    size_type& n_electrons();
-
-    /** @brief Returns the number of electrons in the system.
-     *
-     *  @return The number of electrons in the system.
-     *
-     *  @throw std::runtime_error if the class has no PIMPL. Strong throw
-     *         guarantee.
-     */
-    size_type n_electrons() const;
-
-    /** @brief Returns the electronic charge of the system.
-     *
-     *  The charge of the system is based off of the number of electrons and
-     *  the atomic numbers of the nuclei. To change the charge of the system,
-     *  change the number of electrons (or add/remove nuclei).
-     *
-     *  @note By fiat we define an empty system to have no charge.
-     *
-     *  @return -1 times the net number of electrons (relative to the neutral
-     *          system).
-     *
-     *  @throw None no throw guarantee.
-     */
-    charge_type charge() const noexcept;
-
-    /** @brief Returns the external electrostatic potential in a read/write
-     *         state.
-     *
-     *  @return The electrostatic potential that the molecule is embedded in.
-     *
-     *  @throws std::bad_alloc if the class has no PIMPL and an error arise
-     *                         while allocating one. Strong throw guarantee.
-     *
-     */
-    epot_ref_t external_electrostatic_potential();
-
-    /** @brief Returns the external electrostatic potential in a read-only
-     *         state.
-     *
-     *  @returns The electrostatic potential that the molecule is embedded in.
-     *
-     *  @throws std::runtime_error if the class has no PIMPL. Strong throw
-     *                             guarantee.
-     */
-    const_epot_ref_t external_electrostatic_potential() const;
 
     /** @brief Determines if two ChemicalSystem instances are the same.
      *

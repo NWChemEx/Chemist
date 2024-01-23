@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include <chemist/molecule/atom.hpp>
+#include <chemist/atom/atom.hpp>
 #include <chemist/nucleus/nuclei.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
