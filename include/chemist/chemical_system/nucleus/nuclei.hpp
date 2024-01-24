@@ -16,7 +16,7 @@
 
 #pragma once
 #include <chemist/chemical_system/nucleus/nucleus_view.hpp>
-#include <chemist/point_charge/charges.hpp>
+#include <chemist/chemical_system/point_charge/charges.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {

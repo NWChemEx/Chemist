@@ -16,7 +16,7 @@
 
 #pragma once
 #include <cereal/types/string.hpp>
-#include <chemist/point_charge/point_charge.hpp>
+#include <chemist/chemical_system/point_charge/point_charge_class.hpp>
 #include <iomanip>
 #include <iostream>
 #include <limits>

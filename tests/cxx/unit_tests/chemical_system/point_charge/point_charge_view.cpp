@@ -15,7 +15,7 @@
  */
 
 #include <catch2/catch.hpp>
-#include <chemist/point_charge/point_charge_view.hpp>
+#include <chemist/chemical_system/point_charge/point_charge_view.hpp>
 
 using namespace chemist;
 

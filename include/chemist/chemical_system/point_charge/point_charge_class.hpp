@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include "chemist/point/point.hpp"
+#include <chemist/point/point.hpp>
 
 namespace chemist {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 NWChemEx-Project
+ * Copyright 2024 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,6 @@
  */
 
 #pragma once
-#include "../pychemist.hpp"
-#include <chemist/point_charge/point_charge.hpp>
-
-namespace chemist {
-
-void export_charge_view(python_module_reference m);
-void export_charges(python_module_reference m);
-void export_point_charge(python_module_reference m);
-
-} // namespace chemist
+#include <chemist/chemical_system/point_charge/charges.hpp>
+#include <chemist/chemical_system/point_charge/point_charge_class.hpp>
+#include <chemist/chemical_system/point_charge/point_charge_view.hpp>

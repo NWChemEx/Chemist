@@ -16,7 +16,7 @@
 
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
-#include <chemist/point_charge/charges.hpp>
+#include <chemist/chemical_system/point_charge/charges.hpp>
 #include <sstream>
 
 using namespace chemist;

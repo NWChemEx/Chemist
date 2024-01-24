@@ -17,9 +17,7 @@
 #include "basis_set/export_basis_set.hpp"
 #include "chemical_system/export_chemical_system.hpp"
 #include "enums.hpp"
-
 #include "point/export_point.hpp"
-#include "point_charge/export_point_charge.hpp"
 #include "pychemist.hpp"
 
 namespace chemist {
@@ -39,7 +37,6 @@ PYBIND11_MODULE(chemist, m) {
 
     // Need to be exported in hierarchical order
     export_point(m);
-    export_point_charge(m);
 
     export_chemical_system(m);
 

@@ -15,7 +15,7 @@
  */
 
 #include "export_point_charge.hpp"
-#include <chemist/point_charge/point_charge_view.hpp>
+#include <chemist/chemical_system/point_charge/point_charge_view.hpp>
 #include <pybind11/operators.h>
 
 namespace chemist {

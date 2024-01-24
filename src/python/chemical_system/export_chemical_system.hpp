@@ -18,12 +18,14 @@
 #include "../pychemist.hpp"
 #include "molecule/export_molecule.hpp"
 #include "nucleus/export_nucleus.hpp"
+#include "point_charge/export_point_charge.hpp"
 #include <chemist/chemical_system/chemical_system.hpp>
 #include <pybind11/operators.h>
 
 namespace chemist {
 
 void inline export_chemical_system(python_module_reference m) {
+    export_point_charge(m);
     export_nucleus(m);
     export_molecule(m);
 

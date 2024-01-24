@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-#include "chemist/point_charge/point_charge.hpp"
 #include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
+#include <chemist/chemical_system/point_charge/point_charge_class.hpp>
 #include <sstream>
 
 TEMPLATE_TEST_CASE("PointCharge", "", double, float) {

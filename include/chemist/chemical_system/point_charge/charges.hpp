@@ -16,7 +16,7 @@
 
 #pragma once
 #include <chemist/point/point_set.hpp>
-#include <chemist/point_charge/point_charge_view.hpp>
+#include <chemist/chemical_system/point_charge/point_charge_view.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {

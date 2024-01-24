@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "chemist/point_charge/point_charge.hpp"
+#include <chemist/chemical_system/point_charge/point_charge_class.hpp>
 
 namespace chemist {
 
