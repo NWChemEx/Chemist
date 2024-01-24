@@ -18,6 +18,14 @@ Terminology and Abbreviations
 
 .. glossary::
 
+   atomic basis set
+      An atomic (electronic) basis set describes the electrons on an isolated
+      atom. Strictly speaking labels like "6-31G*" and "aug-cc-pVDZ" refer to
+      atomic basis sets. Use of labels like "6-31G*" to label molecular basis
+      sets is justifiable because there is often a straightforward mapping from
+      the atomic basis set to the molecular basis set (see
+      :term:`molecular basis set` for more information).
+
    chemical system
       We use the term "chemical system" to refer to chemistry objects being
       simulated. A chemical system includes the set of atoms and the fields
@@ -28,6 +36,24 @@ Terminology and Abbreviations
       :term:`chemical system` which establishes that the set of nuclei,
       molecule, or chemical system is a subset of another set of nuclei,
       molecule, or chemical system, respectively.
+
+   level of theory
+      In quantum chemistry a level of theory is the specification of an
+      approximation to the Schroedinger equation. This requires specifying
+      the approximate equations (e.g., Hartree-Fock, density functional theory,
+      or coupled cluster) and the basis set in which the equations will be
+      solved.
+
+   molecular basis set
+      An electronic basis set meant to describe a set of electrons interacting
+      with multiple nuclei. The molecular basis set is usually just the union
+      of the :term:`atomic basis set` on each atom.
+
+   physics model
+      We use the term "physics model" to generalize the idea of a
+      :term:`level of theory` (which has quantum chemistry connotations) to
+      whatever set of equations, parameters, and basis sets are being used to
+      compute properties of the :term:`chemical system`.
 
 
 *************

@@ -16,7 +16,7 @@
 
 #pragma once
 #include <chemist/point/point.hpp>
-#include <chemist/point/point_view2.hpp>
+#include <chemist/point/point_view.hpp>
 #include <memory>
 
 namespace chemist::basis_set {
@@ -57,10 +57,10 @@ public:
     using center_type = Point<T>;
 
     /// Type of a mutable reference to the center
-    using center_reference = PointView2<center_type>;
+    using center_reference = PointView<center_type>;
 
     /// Type of a read-only reference to the center
-    using const_center_reference = PointView2<const center_type>;
+    using const_center_reference = PointView<const center_type>;
 
     /// Floating point type used for storing the center's coordinates
     using coord_type = typename center_type::coord_type;

@@ -16,20 +16,23 @@
 
 #pragma once
 #include "../pychemist.hpp"
+#include "molecule/export_molecule.hpp"
+#include "nucleus/export_nucleus.hpp"
+#include "point_charge/export_point_charge.hpp"
 #include <chemist/chemical_system/chemical_system.hpp>
 #include <pybind11/operators.h>
 
 namespace chemist {
 
 void inline export_chemical_system(python_module_reference m) {
+    export_point_charge(m);
+    export_nucleus(m);
+    export_molecule(m);
+
     using chemical_system_type      = ChemicalSystem;
     using chemical_system_reference = chemical_system_type&;
     using molecule_type             = typename chemical_system_type::molecule_t;
     using size_type                 = typename chemical_system_type::size_type;
-
-    // N.B. We only expose the parts of the ChemicalSystem's API which have
-    //      been finalized (n_electrons/charge are moving to molecule) and the
-    //      potential class is not finished.
 
     python_class_type<ChemicalSystem>(m, "ChemicalSystem")
       .def(pybind11::init<>())
@@ -39,14 +42,6 @@ void inline export_chemical_system(python_module_reference m) {
         [](chemical_system_reference self) { return self.molecule(); },
         [](chemical_system_reference self, molecule_type mol) {
             self.molecule() = std::move(mol);
-        })
-      .def("charge", &ChemicalSystem::charge)
-      // .def("n_electrons", &ChemicalSystem::n_electrons)
-      .def_property(
-        "n_electrons",
-        [](chemical_system_reference self) { return self.n_electrons(); },
-        [](chemical_system_reference self, size_type n) {
-            self.n_electrons() = n;
         })
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);

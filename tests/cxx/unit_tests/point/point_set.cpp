@@ -28,6 +28,9 @@ using namespace chemist;
  * (since we wrote the implementation), and obtaining the size, but do not need
  * to retest all the ways one can access the points (i.e., operator[], at, and
  * iterators).
+ *
+ * The PointSet class doesn't guarantee contiguous storage. Such a guarantee is
+ * left up to the backend.
  */
 TEMPLATE_TEST_CASE("PointSet", "", float, double) {
     using set_type   = PointSet<TestType>;
@@ -38,14 +41,6 @@ TEMPLATE_TEST_CASE("PointSet", "", float, double) {
 
     set_type defaulted;
     set_type points{p0, p1, p1}; // <- ensure we can add same point 2x
-
-    // Collect the addresses for testing aliasing/references
-    std::vector<TestType*> old_addresses;
-    for(std::size_t point_i = 0; point_i < 3; ++point_i) {
-        for(std::size_t coord_i = 0; coord_i < 3; ++coord_i) {
-            old_addresses.push_back(&points[point_i].coord(coord_i));
-        }
-    }
 
     SECTION("Ctor") {
         SECTION("default") { REQUIRE(defaulted.size() == 0); }
@@ -75,15 +70,6 @@ TEMPLATE_TEST_CASE("PointSet", "", float, double) {
             // Check the values
             REQUIRE(copy0 == move0);
             REQUIRE(copy1 == move1);
-
-            // Check that original references are still valid
-            for(std::size_t point_i = 0; point_i < 3; ++point_i) {
-                for(std::size_t coord_i = 0; coord_i < 3; ++coord_i) {
-                    const auto idx = point_i * 3 + coord_i;
-                    const auto p   = &move1[point_i].coord(coord_i);
-                    REQUIRE(old_addresses[idx] == p);
-                }
-            }
         }
 
         SECTION("Copy assignment") {
@@ -118,15 +104,6 @@ TEMPLATE_TEST_CASE("PointSet", "", float, double) {
             // Check returns *this for chaining
             REQUIRE(pmove0 == &move0);
             REQUIRE(pmove1 == &move1);
-
-            // Check that original references are still valid
-            for(std::size_t point_i = 0; point_i < 3; ++point_i) {
-                for(std::size_t coord_i = 0; coord_i < 3; ++coord_i) {
-                    const auto idx = point_i * 3 + coord_i;
-                    const auto p   = &move1[point_i].coord(coord_i);
-                    REQUIRE(old_addresses[idx] == p);
-                }
-            }
         }
     }
 
@@ -147,7 +124,6 @@ TEMPLATE_TEST_CASE("PointSet", "", float, double) {
                 auto& coord = points[point_i].coord(coord_i);
 
                 REQUIRE(coord == corr.coord(coord_i));
-                REQUIRE(old_addresses[point_i * 3 + coord_i] == &coord);
             }
         }
     }
@@ -163,7 +139,6 @@ TEMPLATE_TEST_CASE("PointSet", "", float, double) {
                 auto& coord = std::as_const(points)[point_i].coord(coord_i);
 
                 REQUIRE(coord == corr.coord(coord_i));
-                REQUIRE(old_addresses[point_i * 3 + coord_i] == &coord);
             }
         }
     }

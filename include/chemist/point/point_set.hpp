@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include <chemist/point/point_view2.hpp>
+#include <chemist/point/point_view.hpp>
 #include <memory>
 #include <utilities/containers/indexable_container_base.hpp>
 
@@ -30,8 +30,8 @@ class PointSetPIMPL;
  *  Conceptually this class behaves like a std::vector<Point<T>>; however, the
  *  backend is more complicated than that, which is why we wrote a new class.
  *
- *  @note Despite the name, this class will allow you to add the same point
- *        multiple times.
+ *  @note Despite the "set" in the name, this class will allow you to add the
+ *        same point multiple times.
  *
  *  @tparam T The floating-point type used to store the coordinates of the
  *            points. Assumed to be either float or double.
@@ -53,10 +53,10 @@ public:
     using value_type = Point<T>;
 
     /// Read/write reference to an element
-    using reference = PointView2<value_type>;
+    using reference = PointView<value_type>;
 
     /// Read-only reference to an element
-    using const_reference = PointView2<const value_type>;
+    using const_reference = PointView<const value_type>;
 
     /// Integral type used for indexing
     using size_type = typename base_type::size_type;

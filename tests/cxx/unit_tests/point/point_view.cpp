@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 NWChemEx-Project
+ * Copyright 2023 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,248 +14,226 @@
  * limitations under the License.
  */
 
-#include "chemist/point/point_view.hpp"
 #include <catch2/catch.hpp>
-
-/* Testing Strategy:
- *
- * The PointView class works by wrapping an instance that implements the Point
- * API around aliased data. Most of the machinery is actually implemented by the
- * ViewBase class so all we need to test is that the Point-specific functions
- * are implemented correctly.
- *
- */
+#include <chemist/point/point_view.hpp>
 
 using namespace chemist;
 
-using point_t      = Point<double>;
-using view_t       = PointView<double, point_t>;
-using const_view_t = PointView<const double, point_t>;
+TEMPLATE_TEST_CASE("PointView", "", Point<double>, Point<float>) {
+    using view_type       = PointView<TestType>;
+    using const_view_type = PointView<const TestType>;
 
-TEST_CASE("PointView: coord()") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.x();
-    double* p1 = &p.y();
-    double* p2 = &p.z();
-    view_t pv(std::move(p));
-    SECTION("Correct values") {
-        REQUIRE(pv.coord(0) == 1.0);
-        REQUIRE(pv.coord(1) == 2.0);
-        REQUIRE(pv.coord(2) == 3.0);
-    }
-    SECTION("Are aliases") {
-        REQUIRE(&pv.coord(0) == p0);
-        REQUIRE(&pv.coord(1) == p1);
-        REQUIRE(&pv.coord(2) == p2);
-    }
-    SECTION("Is read/write") {
-        STATIC_REQUIRE(std::is_same_v<double&, decltype(pv.coord(0))>);
-    }
-    SECTION("Throws if out of range") {
-        REQUIRE_THROWS_AS(pv.coord(3), std::out_of_range);
-    }
-}
+    TestType r0(0.0, 1.0, 2.0);
+    TestType r1(3.0, 4.0, 5.0);
 
-TEST_CASE("const PointView: coord()") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.x();
-    double* p1 = &p.y();
-    double* p2 = &p.z();
-    const_view_t pv(std::move(p));
-    SECTION("Correct values") {
-        REQUIRE(pv.coord(0) == 1.0);
-        REQUIRE(pv.coord(1) == 2.0);
-        REQUIRE(pv.coord(2) == 3.0);
-    }
-    SECTION("Are aliases") {
-        REQUIRE(&pv.coord(0) == p0);
-        REQUIRE(&pv.coord(1) == p1);
-        REQUIRE(&pv.coord(2) == p2);
-    }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.coord(0))>);
-    }
-    SECTION("Throws if out of range") {
-        REQUIRE_THROWS_AS(pv.coord(3), std::out_of_range);
-    }
-}
+    view_type pr0(r0.x(), r0.y(), r0.z());
+    const_view_type pr1(r1.x(), r1.y(), r1.z());
 
-TEST_CASE("PointView: coord() const") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.x();
-    double* p1 = &p.y();
-    double* p2 = &p.z();
-    const view_t pv(std::move(p));
-    SECTION("Correct values") {
-        REQUIRE(pv.coord(0) == 1.0);
-        REQUIRE(pv.coord(1) == 2.0);
-        REQUIRE(pv.coord(2) == 3.0);
-    }
-    SECTION("Are aliases") {
-        REQUIRE(&pv.coord(0) == p0);
-        REQUIRE(&pv.coord(1) == p1);
-        REQUIRE(&pv.coord(2) == p2);
-    }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.coord(0))>);
-    }
-    SECTION("Throws if out of range") {
-        REQUIRE_THROWS_AS(pv.coord(3), std::out_of_range);
-    }
-}
+    SECTION("CTors and assignment") {
+        SECTION("Point reference ctor") {
+            view_type pr2(r0);
 
-TEST_CASE("const PointView: coord() const") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.x();
-    double* p1 = &p.y();
-    double* p2 = &p.z();
-    const const_view_t pv(std::move(p));
-    SECTION("Correct values") {
-        REQUIRE(pv.coord(0) == 1.0);
-        REQUIRE(pv.coord(1) == 2.0);
-        REQUIRE(pv.coord(2) == 3.0);
-    }
-    SECTION("Are aliases") {
-        REQUIRE(&pv.coord(0) == p0);
-        REQUIRE(&pv.coord(1) == p1);
-        REQUIRE(&pv.coord(2) == p2);
-    }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.coord(0))>);
-    }
-    SECTION("Throws if out of range") {
-        REQUIRE_THROWS_AS(pv.coord(3), std::out_of_range);
-    }
-}
+            for(std::size_t i = 0; i < 3; ++i)
+                REQUIRE(&pr2.coord(i) == &r0.coord(i));
+        }
 
-TEST_CASE("PointView: x()") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.x();
-    view_t pv(std::move(p));
-    SECTION("Correct value") { REQUIRE(pv.x() == 1.0); }
-    SECTION("Is an alias") { REQUIRE(&pv.x() == p0); }
-    SECTION("Is read-/write-able") {
-        STATIC_REQUIRE(std::is_same_v<double&, decltype(pv.x())>);
-    }
-}
+        SECTION("Value ctor") {
+            // Check address to verify aliasing
+            for(std::size_t i = 0; i < 3; ++i) {
+                REQUIRE(&pr0.coord(i) == &r0.coord(i));
+                REQUIRE(&pr1.coord(i) == &r1.coord(i));
+            }
+        }
 
-TEST_CASE("const PointView: x()") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.x();
-    const_view_t pv(std::move(p));
-    SECTION("Correct value") { REQUIRE(pv.x() == 1.0); }
-    SECTION("Is an alias") { REQUIRE(&pv.x() == p0); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.x())>);
-    }
-}
+        SECTION("Assign from point") {
+            SECTION("From reference") {
+                pr0 = r1;
+                for(std::size_t i = 0; i < 3; ++i) {
+                    REQUIRE(&pr0.coord(i) == &r0.coord(i)); // Still aliases r0?
+                    REQUIRE(r0.coord(i) == r1.coord(i));    // Has r1's values?
+                }
+            }
+            SECTION("From temporary") {
+                pr0 = TestType(r1);
+                for(std::size_t i = 0; i < 3; ++i) {
+                    REQUIRE(&pr0.coord(i) == &r0.coord(i)); // Still aliases r0?
+                    REQUIRE(r0.coord(i) == r1.coord(i));    // Has r1's values?
+                }
+            }
+        }
 
-TEST_CASE("PointView: x() const") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.x();
-    const view_t pv(std::move(p));
-    SECTION("Correct value") { REQUIRE(pv.x() == 1.0); }
-    SECTION("Is an alias") { REQUIRE(&pv.x() == p0); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.x())>);
-    }
-}
+        SECTION("Copy ctor") {
+            // The copy ctor should still alias the original point
+            view_type copy0(pr0);
+            const_view_type copy1(pr1);
 
-TEST_CASE("const PointView: x() const") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.x();
-    const const_view_t pv(std::move(p));
-    SECTION("Correct value") { REQUIRE(pv.x() == 1.0); }
-    SECTION("Is an alias") { REQUIRE(&pv.x() == p0); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.x())>);
-    }
-}
+            // Check address to verify aliasing
+            for(std::size_t i = 0; i < 3; ++i) {
+                REQUIRE(&copy0.coord(i) == &r0.coord(i));
+                REQUIRE(&copy1.coord(i) == &r1.coord(i));
+            }
+        }
 
-TEST_CASE("PointView: y()") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.y();
-    view_t pv(std::move(p));
-    SECTION("Correct value") { REQUIRE(pv.y() == 2.0); }
-    SECTION("Is an alias") { REQUIRE(&pv.y() == p0); }
-    SECTION("Is read-/write-able") {
-        STATIC_REQUIRE(std::is_same_v<double&, decltype(pv.y())>);
-    }
-}
+        SECTION("Move ctor") {
+            // The move ctor should still alias the original point
+            view_type moved0(std::move(pr0));
+            const_view_type moved1(std::move(pr1));
 
-TEST_CASE("const PointView: y()") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.y();
-    const_view_t pv(std::move(p));
-    SECTION("Correct value") { REQUIRE(pv.y() == 2.0); }
-    SECTION("Is an alias") { REQUIRE(&pv.y() == p0); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.y())>);
-    }
-}
+            // Check address to verify aliasing
+            for(std::size_t i = 0; i < 3; ++i) {
+                REQUIRE(&moved0.coord(i) == &r0.coord(i));
+                REQUIRE(&moved1.coord(i) == &r1.coord(i));
+            }
+        }
 
-TEST_CASE("PointView: y() const") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.y();
-    const view_t pv(std::move(p));
-    SECTION("Correct value") { REQUIRE(pv.y() == 2.0); }
-    SECTION("Is an alias") { REQUIRE(&pv.y() == p0); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.y())>);
-    }
-}
+        SECTION("Copy assignment") {
+            // The copy assignment should still alias the original point
+            view_type copy0(r1.x(), r1.y(), r1.z());
+            auto ppr0 = &(copy0 = pr0);
+            const_view_type copy1(r0.x(), r0.y(), r0.z());
+            auto ppr1 = &(copy1 = pr1);
 
-TEST_CASE("const PointView: y() const") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.y();
-    const const_view_t pv(std::move(p));
-    SECTION("Correct value") { REQUIRE(pv.y() == 2.0); }
-    SECTION("Is an alias") { REQUIRE(&pv.y() == p0); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.y())>);
-    }
-}
+            // Return *this for chaining
+            REQUIRE(ppr0 == &copy0);
+            REQUIRE(ppr1 == &copy1);
 
-TEST_CASE("PointView: z()") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.z();
-    view_t pv(std::move(p));
-    SECTION("Correct value") { REQUIRE(pv.z() == 3.0); }
-    SECTION("Is an alias") { REQUIRE(&pv.z() == p0); }
-    SECTION("Is read-/write-able") {
-        STATIC_REQUIRE(std::is_same_v<double&, decltype(pv.z())>);
-    }
-}
+            // Check address to verify aliasing
+            for(std::size_t i = 0; i < 3; ++i) {
+                REQUIRE(&copy0.coord(i) == &r0.coord(i));
+                REQUIRE(&copy1.coord(i) == &r1.coord(i));
+            }
+        }
 
-TEST_CASE("const PointView: z()") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.z();
-    const_view_t pv(std::move(p));
-    SECTION("Correct value") { REQUIRE(pv.z() == 3.0); }
-    SECTION("Is an alias") { REQUIRE(&pv.z() == p0); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.z())>);
-    }
-}
+        SECTION("Move assignment") {
+            // The move assignment should still alias the original point
+            view_type moved0(r1.x(), r1.y(), r1.z());
+            auto ppr0 = &(moved0 = std::move(pr0));
+            const_view_type moved1(r0.x(), r0.y(), r0.z());
+            auto ppr1 = &(moved1 = std::move(pr1));
 
-TEST_CASE("PointView: z() const") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.z();
-    const view_t pv(std::move(p));
-    SECTION("Correct value") { REQUIRE(pv.z() == 3.0); }
-    SECTION("Is an alias") { REQUIRE(&pv.z() == p0); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.z())>);
-    }
-}
+            // Return *this for chaining
+            REQUIRE(ppr0 == &moved0);
+            REQUIRE(ppr1 == &moved1);
 
-TEST_CASE("const PointView: z() const") {
-    Point<double> p{1.0, 2.0, 3.0};
-    double* p0 = &p.z();
-    const const_view_t pv(std::move(p));
-    SECTION("Correct value") { REQUIRE(pv.z() == 3.0); }
-    SECTION("Is an alias") { REQUIRE(&pv.z() == p0); }
-    SECTION("Is read-only") {
-        STATIC_REQUIRE(std::is_same_v<const double&, decltype(pv.z())>);
+            // Check address to verify aliasing
+            for(std::size_t i = 0; i < 3; ++i) {
+                REQUIRE(&moved0.coord(i) == &r0.coord(i));
+                REQUIRE(&moved1.coord(i) == &r1.coord(i));
+            }
+        }
+    }
+
+    SECTION("coord()") {
+        // Check address to verify aliasing
+        for(std::size_t i = 0; i < 3; ++i) {
+            REQUIRE(&pr0.coord(i) == &r0.coord(i));
+            REQUIRE(&pr1.coord(i) == &r1.coord(i));
+        }
+    }
+
+    SECTION("coord() const") {
+        // Check address to verify aliasing
+        for(std::size_t i = 0; i < 3; ++i) {
+            REQUIRE(&std::as_const(pr0).coord(i) == &r0.coord(i));
+            REQUIRE(&std::as_const(pr1).coord(i) == &r1.coord(i));
+        }
+    }
+
+    SECTION("x()") {
+        REQUIRE(&pr0.x() == &r0.x());
+        REQUIRE(&pr1.x() == &r1.x());
+    }
+
+    SECTION("y()") {
+        REQUIRE(&pr0.y() == &r0.y());
+        REQUIRE(&pr1.y() == &r1.y());
+    }
+
+    SECTION("z()") {
+        REQUIRE(&pr0.z() == &r0.z());
+        REQUIRE(&pr1.z() == &r1.z());
+    }
+
+    SECTION("x() const") {
+        REQUIRE(&std::as_const(pr0).x() == &r0.x());
+        REQUIRE(&std::as_const(pr1).x() == &r1.x());
+    }
+
+    SECTION("y() const") {
+        REQUIRE(&std::as_const(pr0).y() == &r0.y());
+        REQUIRE(&std::as_const(pr1).y() == &r1.y());
+    }
+
+    SECTION("z() const") {
+        REQUIRE(&std::as_const(pr0).z() == &r0.z());
+        REQUIRE(&std::as_const(pr1).z() == &r1.z());
+    }
+
+    SECTION("magnitude") {
+        REQUIRE(pr0.magnitude() == r0.magnitude());
+        REQUIRE(pr1.magnitude() == r1.magnitude());
+    }
+
+    SECTION("Comparisons") {
+        // N.B. We test the symmetry of the operator to ensure the view works
+        //      seamlessly with Point
+
+        // Compare to same Point
+        REQUIRE(pr0 == r0);
+        REQUIRE(r0 == pr0);
+        REQUIRE_FALSE(pr0 != r0);
+        REQUIRE_FALSE(r0 != pr0);
+        REQUIRE(pr1 == r1);
+        REQUIRE(r1 == pr1);
+        REQUIRE_FALSE(pr1 != r1);
+        REQUIRE_FALSE(r1 != pr1);
+
+        // Compare to different Point
+        REQUIRE_FALSE(pr0 == r1);
+        REQUIRE_FALSE(r1 == pr0);
+        REQUIRE(pr0 != r1);
+        REQUIRE(r1 != pr0);
+        REQUIRE_FALSE(pr1 == r0);
+        REQUIRE_FALSE(r0 == pr1);
+        REQUIRE(pr1 != r0);
+        REQUIRE(r0 != pr1);
+
+        // Compare to same PointView
+        view_type pr2(r0.x(), r0.y(), r0.z());
+        const_view_type pr3(r1.x(), r1.y(), r1.z());
+        REQUIRE(pr0 == pr2);
+        REQUIRE(pr2 == pr0);
+        REQUIRE_FALSE(pr0 != pr2);
+        REQUIRE_FALSE(pr2 != pr0);
+        REQUIRE(pr1 == pr3);
+        REQUIRE(pr3 == pr1);
+        REQUIRE_FALSE(pr1 != pr3);
+        REQUIRE_FALSE(pr3 != pr1);
+
+        // Compare to different PointView (including different const-ness)
+        REQUIRE_FALSE(pr0 == pr3);
+        REQUIRE_FALSE(pr3 == pr0);
+        REQUIRE(pr0 != pr3);
+        REQUIRE(pr3 != pr0);
+        REQUIRE_FALSE(pr1 == pr2);
+        REQUIRE_FALSE(pr2 == pr1);
+        REQUIRE(pr1 != pr2);
+        REQUIRE(pr2 != pr1);
+    }
+
+    SECTION("as_point") {
+        REQUIRE(pr0.as_point() == r0);
+        REQUIRE(pr1.as_point() == r1);
+    }
+
+    SECTION("swap") {
+        view_type copy_pr0(pr0);
+        view_type pr2(r1.x(), r1.y(), r1.z());
+        view_type copy_pr2(pr2);
+
+        pr0.swap(pr2);
+
+        REQUIRE(pr0 == copy_pr2);
+        REQUIRE(pr2 == copy_pr0);
     }
 }

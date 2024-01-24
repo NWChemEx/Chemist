@@ -20,7 +20,7 @@
 #include <cereal/archives/xml.hpp>
 // End cereal includes
 #include <catch2/catch.hpp>
-#include <chemist/molecule/molecule.hpp>
+#include <chemist/chemical_system/molecule/molecule.hpp>
 #include <iostream>
 #include <sstream>
 #include <string>

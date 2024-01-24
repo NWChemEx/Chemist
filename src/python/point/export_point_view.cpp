@@ -15,7 +15,7 @@
  */
 
 #include "export_point.hpp"
-#include <chemist/point/point_view2.hpp>
+#include <chemist/point/point_view.hpp>
 #include <pybind11/operators.h>
 
 namespace chemist {
@@ -24,7 +24,7 @@ namespace detail_ {
 template<typename T>
 inline void export_point_view_(const char* name, python_module_reference m) {
     using point_type      = Point<T>;
-    using point_view_type = PointView2<point_type>;
+    using point_view_type = PointView<point_type>;
     using coord_type      = typename point_view_type::coord_type;
     using coord_reference = typename point_view_type::coord_reference;
     using size_type       = typename point_view_type::size_type;

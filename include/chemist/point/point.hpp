@@ -26,10 +26,6 @@ class PointPIMPL;
 
 /** @brief An object that is associated with a point in 3-D Cartesian space.
  *
- *  See
- * https://nwchemex.github.io/Chemist/developer/design/molecule.html for
- * design.
- *
  *  Conceptually a point is nothing more than three floating point values, which
  *  respectively indicate its Cartesian `x`, `y`, and `z` coordinates. By
  *  convention these coordinates can also be thought of respectively as the
@@ -71,7 +67,7 @@ public:
      *
      *  This ctor will create a new Point instance. The instance will sit at the
      *  origin and can be translated by directly modifying the references
-     *  returned through `coord` or any of the convience `x`, `y`, `z`
+     *  returned through `coord` or any of the convenience `x`, `y`, `z`
      *  functions.
      *
      *  @throw std::bad_alloc if there is insufficient memory to allocate the

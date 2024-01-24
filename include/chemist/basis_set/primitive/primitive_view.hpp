@@ -17,7 +17,7 @@
 #pragma once
 #include <chemist/basis_set/primitive/primitive.hpp>
 #include <chemist/detail_/view/traits.hpp>
-#include <chemist/point/point_view2.hpp>
+#include <chemist/point/point_view.hpp>
 #include <optional>
 
 namespace chemist::basis_set {
@@ -88,10 +88,10 @@ public:
     using center_type = typename primitive_type::center_type;
 
     /// Type of a possibly mutable reference to the center
-    using center_reference = PointView2<apply_const<center_type>>;
+    using center_reference = PointView<apply_const<center_type>>;
 
     /// Type of a read-only reference to the center
-    using const_center_reference = PointView2<const center_type>;
+    using const_center_reference = PointView<const center_type>;
 
     /// Floating point type used for storing the center's coordinates
     using coord_type = typename center_type::coord_type;
