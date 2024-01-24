@@ -18,6 +18,7 @@
 Chemist Motivation
 ##################
 
+
 .. note::
 
    Some of the todos on this page are partially addressed in the overview and 
@@ -28,3 +29,5 @@ TODO: explain traditional stack (UI to computation)
 TODO: explain problem with the stack
 
 TODO: explain how DSL solves the problem
+
+TODO: Explain role of object-oriented programming in solution.
