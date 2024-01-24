@@ -16,12 +16,22 @@
 Chemist
 #######
 
+Quantum chemistry seeks to predict and explain phenomena from a large number of
+domains including (among others): chemistry, physics, biology, chemical
+engineering, and materials science. The unifying theme of most quantum chemistry
+techniques is that the system being modeled is described with atomic resolution,
+i.e., the model accounts for individual nuclei and electrons. In practice,
+quantum chemistry then goes on to define a number of other concepts such as
+atoms (the combination of a nucleus with electrons), molecules (a set of
+atoms), and chemical systems (a molecule plus its environment). Chemist is
+charged with providing robust, performant, abstractions for concepts commonly
+encountered in quantum chemistry.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   overview
-   sparse_maps/index
+   install
    background/index
    developer/index
    tutorials/index

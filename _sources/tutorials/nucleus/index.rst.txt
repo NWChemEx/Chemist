@@ -50,7 +50,7 @@ charged particles added or removed.
 
    .. tab:: Python
 
-      .. literalinclude:: ../../../../tests/python/doc_snippets/nucleus_example.py
+      .. literalinclude:: ../../../../tests/python/doc_snippets/test_nucleus_example.py
          :language: python
          :lines: 4-6
 
@@ -73,7 +73,7 @@ z-coordinate of the nucleus - charge: charge of the nucleus in atomic units
 
    .. tab:: Python
 
-      .. literalinclude:: ../../../../tests/python/doc_snippets/nucleus_example.py
+      .. literalinclude:: ../../../../tests/python/doc_snippets/test_nucleus_example.py
          :language: python
          :lines: 9-25
 
@@ -95,6 +95,6 @@ objects.
 
    .. tab:: Python
 
-      .. literalinclude:: ../../../../tests/python/doc_snippets/nucleus_example.py
+      .. literalinclude:: ../../../../tests/python/doc_snippets/test_nucleus_example.py
          :language: python
          :lines: 32-38

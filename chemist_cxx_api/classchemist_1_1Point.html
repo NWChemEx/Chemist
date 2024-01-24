@@ -188,7 +188,6 @@ Related Functions</h2></td></tr>
 class chemist::Point&lt; T &gt;</h3>
 
 <p>An object that is associated with a point in 3-D Cartesian space. </p>
-<p>See <a href="https://nwchemex.github.io/Chemist/developer/design/molecule.html">https://nwchemex.github.io/Chemist/developer/design/molecule.html</a> for design.</p>
 <p>Conceptually a point is nothing more than three floating point values, which respectively indicate its Cartesian <code>x</code>, <code>y</code>, and <code>z</code> coordinates. By convention these coordinates can also be thought of respectively as the 0-th, 1-st, and 2-nd components of a three-dimensional vector. The API of the <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> class allows for both views by aliasing <code><a class="el" href="classchemist_1_1Point.html#a04335db0a2cf4e3a24f908d83007cd2f" title="Returns the x-coordinate of the point in a read/write format.">x()</a></code>, <code><a class="el" href="classchemist_1_1Point.html#a17cd94f5c2a8f6ac9b98cb9d8a9b1b05" title="Returns the y-coordinate of the point in a read/write format.">y()</a></code> and <code><a class="el" href="classchemist_1_1Point.html#a4f1c64e1d91a98abfb72d7a70df7569d" title="Returns the z-coordinate of the point in a read/write format.">z()</a></code> to <code>coord(0)</code>, <code>coord(1)</code>, and <code>coord(2)</code> respectively.</p>
 <dl class="section note"><dt>Note</dt><dd>The implementation of this class is contained in point.cpp. Thus to use this class with a new type one needs to add an explicit template instantiation for that type to point.cpp (and declare it in this file).</dd></dl>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -213,7 +212,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Creates a new <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> instance situated at the origin. </p>
-<p>This ctor will create a new <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> instance. The instance will sit at the origin and can be translated by directly modifying the references returned through <code>coord</code> or any of the convience <code>x</code>, <code>y</code>, <code>z</code> functions.</p>
+<p>This ctor will create a new <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> instance. The instance will sit at the origin and can be translated by directly modifying the references returned through <code>coord</code> or any of the convenience <code>x</code>, <code>y</code>, <code>z</code> functions.</p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to allocate the PIMPL. Strong throw guarantee. </td></tr>
@@ -250,7 +249,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Ctor which allows users to specify the PIMPL used by the Poin. </p>
-<p>This ctor allows the user to control the PIMPL used for the <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a>. Right now the only use case is for making Points that actually contain aliases. This is done by the <a class="el" href="classchemist_1_1PointView.html" title="Implements reference-like semantics with respect to a Point instance.">PointView</a> class as well as the various basis set views.</p>
+<p>This ctor allows the user to control the PIMPL used for the <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a>. Right now the only use case is for making Points that actually contain aliases. This is done by the <a class="el" href="classchemist_1_1PointView.html" title="Allows viewing data as if it was a PointType object.">PointView</a> class as well as the various basis set views.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">pimpl</td><td>The object that is actually providing the implementation. </td></tr>

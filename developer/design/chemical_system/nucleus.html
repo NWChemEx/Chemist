@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designing the Nucleus Component &mdash; Chemist v1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=76e2d817"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Molecule Design" href="molecule.html" />
+    <link rel="prev" title="Architecture of Chemical System Component" href="architecture.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Chemist
+          </a>
+              <div class="version">
+                v1.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installing Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#overview">Overview</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../operator/index.html">Design of the Operator Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../wavefunction/index.html">Design of the Wavefunction Component</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Chemist Tutorials</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Chemist</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Developer Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Design Documentation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Design of the Chemical System Component</a></li>
+      <li class="breadcrumb-item active">Designing the Nucleus Component</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/developer/design/chemical_system/nucleus.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="designing-the-nucleus-component">
+<span id="id1"></span><h1>Designing the Nucleus Component<a class="headerlink" href="#designing-the-nucleus-component" title="Link to this heading"></a></h1>
+<p>This section contains notes on the design of Chemist’s nucleus component.</p>
+<section id="what-is-the-nucleus-component">
+<h2>What is the Nucleus Component?<a class="headerlink" href="#what-is-the-nucleus-component" title="Link to this heading"></a></h2>
+<p>In the present context a nucleus is the core of an atom and is comprised of
+neutrons and protons. The nucleus component contains the abstractions needed
+to represent a single nucleus as well as a set of nuclei.</p>
+</section>
+<section id="why-do-we-need-a-nucleus-component">
+<h2>Why do we need a Nucleus Component?<a class="headerlink" href="#why-do-we-need-a-nucleus-component" title="Link to this heading"></a></h2>
+<p>Anecdotally most quantum chemistry packages do not bother with classes for
+describing the nucleus, so why should we? There’s a couple reasons. First,
+particularly when it comes to manipulating the chemical system we often treat
+the nuclei independent of the electrons (<em>i.e.</em> we invoke the Born-Oppenheimer
+approximation). Having separate classes for the nuclei and the electrons makes
+this easier as we have literal different objects we can manipulate. Second,
+while the nuclei are often treated as point charges, they need not be. High
+accuracy work may take into account the finite size of the nucleus and even its
+quantum mechanical nature. These different descriptions
+require different parameters (and therefore different classes). Our final
+motivation for having a separate <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class is that when it comes time
+to take derivatives or define operators with respect to particles we can use
+the <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> and <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> classes in the types of the derivative/operator
+thus obtaining separate types for taking derivatives with respect to nuclei vs
+electrons (and different  operators).</p>
+</section>
+<section id="nucleus-considerations">
+<h2>Nucleus Considerations<a class="headerlink" href="#nucleus-considerations" title="Link to this heading"></a></h2>
+<dl class="simple" id="n-basic-parameters">
+<dt>basic parameters</dt><dd><p>Nuclei are assumed to be centered on a point, have a mass, an atomic number,
+an overall charge, and an atomic symbol.</p>
+</dd>
+</dl>
+<dl class="simple" id="n-atomic-number-v-charge">
+<dt>atomic number vs. charge</dt><dd><p>In atomic units the atomic number of a nucleus is the same as the charge.
+As such it is reasonable to not distinguish among the two; however, there
+are a couple reasons to separate them:</p>
+<ul class="simple">
+<li><p>As alluded to, the two are only equal in atomic units. We intend to add
+unit support at a later time.</p></li>
+<li><p>The atomic number is always an integer and is often used as the key in
+maps. While the charge is an integer in atomic units, it is still often used
+in mathematical contexts where it needs to be a floating point type. While
+integers and floating-poing values can be converted somewhat easily, having
+separate functions helps avoid compiler warnings.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="n-views">
+<dt>Views</dt><dd><p>Traditionally the molecular system has been stored as a structure of arrays.
+This is primarily for performance reasons. From a user-perspective an array
+of structures is easier to use. By introducing views we can have both. The
+view objects act like the values, but only alias their state.</p>
+<ul class="simple">
+<li><p>We need views of <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> to be used as references into the <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code>
+container.</p></li>
+<li><p>We need views of <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> to be used in containers like
+<code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> where the elements are meant to be <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> objects.</p></li>
+<li><p>Views also enable external libraries to wrap their data in an API
+compatible with Chemist.</p></li>
+</ul>
+</dd>
+</dl>
+<section id="out-of-scope">
+<h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>non-point charge like nuclei</dt><dd><p>While we recognize that nuclei need not always be treated as point charges,
+given how often they are treated as point charges, we are focusing on
+point charge-like nuclei only for right now. Additional classes can be
+added to the hierarchy to handle more realistic approximations.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="nucleus-design">
+<h2>Nucleus Design<a class="headerlink" href="#nucleus-design" title="Link to this heading"></a></h2>
+<figure class="align-center" id="id2">
+<span id="fig-nucleus-component"></span><img alt="../../../_images/nucleus.png" src="../../../_images/nucleus.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Classes comprising the Nucleus component of Chemist.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The classes of the Nucleus component are shown in
+<a class="reference internal" href="#fig-nucleus-component"><span class="std std-numref">Fig. 4</span></a>. The figure divides the classes into two
+categories those which are part of the public API and those which are needed to
+implement the public API. The following subsections contain more details about
+the various classes.</p>
+<section id="nucleus-nucleusview">
+<h3>Nucleus/NucleusView<a class="headerlink" href="#nucleus-nucleusview" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class is the fundamental class of the hierarchy. Consistent with
+the <a class="reference internal" href="#n-basic-parameters"><span class="std std-ref">basic parameters</span></a> consideration it will derive from <code class="docutils literal notranslate"><span class="pre">PointCharge</span></code>.
+On top of <code class="docutils literal notranslate"><span class="pre">PointCharge</span></code>’s state we add the mass, atomic number, and atomic
+symbol. The <code class="docutils literal notranslate"><span class="pre">NucleusView</span></code> class, consistent with <a class="reference internal" href="#n-views"><span class="std std-ref">Views</span></a> allows users
+to wrap existing data in objects and have those objects be used as if they are
+<code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> objects.</p>
+</section>
+<section id="nuclei-nucleiview">
+<h3>Nuclei/NucleiView<a class="headerlink" href="#nuclei-nucleiview" title="Link to this heading"></a></h3>
+<p>Generally speaking we do not usually deal with a single nucleus, we deal with a
+set of nuclei. The <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object serves as a container for <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code>
+objects. A separate class, versus say an STL container, is needed because
+internally the <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object will usually unpack the data found in the
+<code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> objects it contains. This is for performance (vectorization
+specifically). The <code class="docutils literal notranslate"><span class="pre">NucleusView</span></code> class then serves a convenient mechanism for
+the <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> class to alias the unpacked state, while maintaining the
+<code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> API.</p>
+<p>Similar to <code class="docutils literal notranslate"><span class="pre">NucleusView</span></code>, <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code> is designed to facilitate using
+existing data as if it were a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object.</p>
+</section>
+<section id="pimpls">
+<h3>PIMPLs<a class="headerlink" href="#pimpls" title="Link to this heading"></a></h3>
+<p>With the exception of the <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class (and its corresponding view), all
+classes rely on the PIMPL idiom to separate their API from their implementation.
+This is primarily for performance reasons. In particular the way <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code>
+stores data may need to be optimized later, similarly we may need to expand the
+various ways users can wrap existing data in the <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> API, <em>i.e.</em>, ways
+that <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code> objects can hold their data.</p>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><a class="reference internal" href="#n-basic-parameters"><span class="std std-ref">basic parameters</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class contains the specified parameters.</p>
+</dd>
+<dt><a class="reference internal" href="#n-atomic-number-v-charge"><span class="std std-ref">atomic number vs. charge</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> object stores the atomic number as separate state. By default
+the charge is set to the atomic number (and the units are assumed to be
+atomic units).</p>
+</dd>
+<dt><a class="reference internal" href="#n-views"><span class="std std-ref">Views</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code>, and <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> classes are paired with <code class="docutils literal notranslate"><span class="pre">NucleusView</span></code>
+and <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code>.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="architecture.html" class="btn btn-neutral float-left" title="Architecture of Chemical System Component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="molecule.html" class="btn btn-neutral float-right" title="Molecule Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, NWChemEx Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -12,6 +12,8 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
+.. _chemist_background:
+
 ##################
 Chemist Background
 ##################
@@ -19,4 +21,7 @@ Chemist Background
 .. toctree::
    :maxdepth: 2
 
-   terminology 
+   motivation
+   statement_of_need
+   overview
+   terminology

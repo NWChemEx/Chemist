@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['y_260',['y',['../classchemist_1_1Point.html#a17cd94f5c2a8f6ac9b98cb9d8a9b1b05',1,'chemist::Point::y() noexcept'],['../classchemist_1_1Point.html#a68def16c5b4b5ec5b7c4001daa81eefd',1,'chemist::Point::y() const noexcept'],['../classchemist_1_1PointView.html#a1f33fcd6844be53c324fa26bf317e5c5',1,'chemist::PointView::y() noexcept'],['../classchemist_1_1PointView.html#aeac1899bd9ea2d20934c4895b380af9d',1,'chemist::PointView::y() const noexcept']]]
+  ['z_245',['z',['../classchemist_1_1Point.html#a4f1c64e1d91a98abfb72d7a70df7569d',1,'chemist::Point::z() noexcept'],['../classchemist_1_1Point.html#a407f5796c6ce9aca65292417673ad026',1,'chemist::Point::z() const noexcept']]],
+  ['z_246',['Z',['../classchemist_1_1Nucleus.html#ae9e69914f48e368498ea43dfb066e563',1,'chemist::Nucleus::Z() noexcept'],['../classchemist_1_1Nucleus.html#a8bd32f47d8cc744b7fb6b4312ecf7edd',1,'chemist::Nucleus::Z() const noexcept'],['../classchemist_1_1NucleusView.html#a4189bb31408841910725bcb123a66248',1,'chemist::NucleusView::Z()']]]
 ];

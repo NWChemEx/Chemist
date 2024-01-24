@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terminology and Abbreviations &mdash; Chemist v0.1.21 documentation</title>
+  <title>Terminology and Abbreviations &mdash; Chemist v1.0.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
@@ -12,15 +12,16 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=76e2d817"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Developer Documentation" href="../developer/index.html" />
-    <link rel="prev" title="Chemist Background" href="index.html" /> 
+    <link rel="prev" title="Overview of Chemist" href="overview.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -35,7 +36,7 @@
             Chemist
           </a>
               <div class="version">
-                v0.1.21
+                v1.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -47,9 +48,11 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview of Chemist</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installing Chemist</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Chemist Background</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="motivation.html">Chemist Motivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statement_of_need.html">Statement of Need</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview of Chemist</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Terminology and Abbreviations</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#abbreviations">Abbreviations</a></li>
 </ul>
@@ -87,31 +90,67 @@
            <div itemprop="articleBody">
              
   <section id="terminology-and-abbreviations">
-<h1>Terminology and Abbreviations<a class="headerlink" href="#terminology-and-abbreviations" title="Permalink to this headline"></a></h1>
-<dl class="glossary simple">
-<dt id="term-chemical-system">chemical system<a class="headerlink" href="#term-chemical-system" title="Permalink to this term"></a></dt><dd><p>We use the term “chemical system” to refer to chemistry objects being
-simulated. A chemical system includes the set of atoms and the fields
-the atoms are embedded in.</p>
+<h1>Terminology and Abbreviations<a class="headerlink" href="#terminology-and-abbreviations" title="Link to this heading"></a></h1>
+<dl class="simple glossary">
+<dt id="term-atomic-basis-set">atomic basis set<a class="headerlink" href="#term-atomic-basis-set" title="Link to this term"></a></dt><dd><p>An atomic (electronic) basis set describes the electrons on an isolated
+atom. Strictly speaking labels like “6-31G*” and “aug-cc-pVDZ” refer to
+atomic basis sets. Use of labels like “6-31G*” to label molecular basis
+sets is justifiable because there is often a straightforward mapping from
+the atomic basis set to the molecular basis set (see
+<a class="reference internal" href="#term-molecular-basis-set"><span class="xref std std-term">molecular basis set</span></a> for more information).</p>
 </dd>
-<dt id="term-fragment">fragment<a class="headerlink" href="#term-fragment" title="Permalink to this term"></a></dt><dd><p>A distinction applied to a set of nuclei, a molecule, or a
+<dt id="term-chemical-system">chemical system<a class="headerlink" href="#term-chemical-system" title="Link to this term"></a></dt><dd><p>We use the term “chemical system” to refer to chemistry objects being
+simulated. A chemical system includes the set of atoms and the fields
+the atoms are embedded in. It’s the model of the experiment.</p>
+</dd>
+<dt id="term-fragment">fragment<a class="headerlink" href="#term-fragment" title="Link to this term"></a></dt><dd><p>A distinction applied to a set of nuclei, a molecule, or a
 <a class="reference internal" href="#term-chemical-system"><span class="xref std std-term">chemical system</span></a> which establishes that the set of nuclei,
 molecule, or chemical system is a subset of another set of nuclei,
 molecule, or chemical system, respectively.</p>
 </dd>
+<dt id="term-level-of-theory">level of theory<a class="headerlink" href="#term-level-of-theory" title="Link to this term"></a></dt><dd><p>In quantum chemistry a level of theory is the specification of an
+approximation to the Schroedinger equation. This requires specifying
+the approximate equations (e.g., Hartree-Fock, density functional theory,
+or coupled cluster) and the basis set in which the equations will be
+solved.</p>
+</dd>
+<dt id="term-molecular-basis-set">molecular basis set<a class="headerlink" href="#term-molecular-basis-set" title="Link to this term"></a></dt><dd><p>An electronic basis set meant to describe a set of electrons interacting
+with multiple nuclei. The molecular basis set is usually just the union
+of the <a class="reference internal" href="#term-atomic-basis-set"><span class="xref std std-term">atomic basis set</span></a> on each atom.</p>
+</dd>
+<dt id="term-physics-model">physics model<a class="headerlink" href="#term-physics-model" title="Link to this term"></a></dt><dd><p>We use the term “physics model” to generalize the idea of a
+<a class="reference internal" href="#term-level-of-theory"><span class="xref std std-term">level of theory</span></a> (which has quantum chemistry connotations) to
+whatever set of equations, parameters, and basis sets are being used to
+compute properties of the <a class="reference internal" href="#term-chemical-system"><span class="xref std std-term">chemical system</span></a>.</p>
+</dd>
 </dl>
 <section id="abbreviations">
-<h2>Abbreviations<a class="headerlink" href="#abbreviations" title="Permalink to this headline"></a></h2>
-<dl class="glossary simple">
-<dt id="term-API">API<a class="headerlink" href="#term-API" title="Permalink to this term"></a></dt><dd><p>Stands for application programming interface. This is the interface a
+<h2>Abbreviations<a class="headerlink" href="#abbreviations" title="Link to this heading"></a></h2>
+<dl class="simple glossary">
+<dt id="term-API">API<a class="headerlink" href="#term-API" title="Link to this term"></a></dt><dd><p>Stands for application programming interface. This is the interface a
 program exposes so that it can be called by other software.</p>
 </dd>
-<dt id="term-ONIOM">ONIOM<a class="headerlink" href="#term-ONIOM" title="Permalink to this term"></a></dt><dd><p>Stands for “Our own N-layered Integrated molecular Orbital and Molecular
+<dt id="term-DFT">DFT<a class="headerlink" href="#term-DFT" title="Link to this term"></a></dt><dd><p>Stands for density-functional theory. DFT is usually differentiated from
+wavefunction-based theories.</p>
+</dd>
+<dt id="term-DSL">DSL<a class="headerlink" href="#term-DSL" title="Link to this term"></a></dt><dd><p>Stands for domain-specific language. A DSL is a series of objects, and
+operations on those objects, which facilitates expressing ideas from a
+specific domain. For example, a quantum chemistry DSL should make it easy
+to build and construct quantum mechanical models of chemistry. Notably
+DSLs are used to express intent, they usually do not actually carry out
+the computation themselves.</p>
+</dd>
+<dt id="term-ONIOM">ONIOM<a class="headerlink" href="#term-ONIOM" title="Link to this term"></a></dt><dd><p>Stands for “Our own N-layered Integrated molecular Orbital and Molecular
 mechanics”. The ONIOM method is a generalization of <a class="reference internal" href="#term-QM-MM"><span class="xref std std-term">QM/MM</span></a>, to an
 arbitrary number of methods.</p>
 </dd>
-<dt id="term-QM-MM">QM/MM<a class="headerlink" href="#term-QM-MM" title="Permalink to this term"></a></dt><dd><p>Stands for “Quantum Mechanics/Molecular Mechanics”. QM/MM is a technique
+<dt id="term-QM-MM">QM/MM<a class="headerlink" href="#term-QM-MM" title="Link to this term"></a></dt><dd><p>Stands for “Quantum Mechanics/Molecular Mechanics”. QM/MM is a technique
 where part of a target system is modeled with quantum mechanics and the
 rest is modeled with molecular mechanics.</p>
+</dd>
+<dt id="term-UI">UI<a class="headerlink" href="#term-UI" title="Link to this term"></a></dt><dd><p>Stands for user interface. This is how end users interact with a software
+component. The UI may be the same or different from the API (how other
+software interacts with the component).</p>
 </dd>
 </dl>
 </section>
@@ -121,7 +160,7 @@ rest is modeled with molecular mechanics.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Chemist Background" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="overview.html" class="btn btn-neutral float-left" title="Overview of Chemist" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../developer/index.html" class="btn btn-neutral float-right" title="Developer Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

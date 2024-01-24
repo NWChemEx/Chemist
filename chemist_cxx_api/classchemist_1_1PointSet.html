@@ -112,14 +112,14 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a63376f7ab0239e3b0cf09de184d45683">value_type</a> = <a class="el" href="classchemist_1_1Point.html">Point</a>&lt; T &gt;</td></tr>
 <tr class="memdesc:a63376f7ab0239e3b0cf09de184d45683"><td class="mdescLeft">&#160;</td><td class="mdescRight">The elements in the container. <br /></td></tr>
 <tr class="separator:a63376f7ab0239e3b0cf09de184d45683"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad718c9afc9bef1485c08440f63ab0353"><td class="memItemLeft" align="right" valign="top"><a id="ad718c9afc9bef1485c08440f63ab0353"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#ad718c9afc9bef1485c08440f63ab0353">reference</a> = <a class="el" href="classchemist_1_1PointView2.html">PointView2</a>&lt; <a class="el" href="classchemist_1_1PointSet.html#a63376f7ab0239e3b0cf09de184d45683">value_type</a> &gt;</td></tr>
-<tr class="memdesc:ad718c9afc9bef1485c08440f63ab0353"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read/write reference to an element. <br /></td></tr>
-<tr class="separator:ad718c9afc9bef1485c08440f63ab0353"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15272167c151b23153ed8776230fdf1a"><td class="memItemLeft" align="right" valign="top"><a id="a15272167c151b23153ed8776230fdf1a"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a15272167c151b23153ed8776230fdf1a">const_reference</a> = <a class="el" href="classchemist_1_1PointView2.html">PointView2</a>&lt; const <a class="el" href="classchemist_1_1PointSet.html#a63376f7ab0239e3b0cf09de184d45683">value_type</a> &gt;</td></tr>
-<tr class="memdesc:a15272167c151b23153ed8776230fdf1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only reference to an element. <br /></td></tr>
-<tr class="separator:a15272167c151b23153ed8776230fdf1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72ef2c94b9ab0a37a67b13c12cee04f9"><td class="memItemLeft" align="right" valign="top"><a id="a72ef2c94b9ab0a37a67b13c12cee04f9"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a72ef2c94b9ab0a37a67b13c12cee04f9">reference</a> = <a class="el" href="classchemist_1_1PointView.html">PointView</a>&lt; <a class="el" href="classchemist_1_1PointSet.html#a63376f7ab0239e3b0cf09de184d45683">value_type</a> &gt;</td></tr>
+<tr class="memdesc:a72ef2c94b9ab0a37a67b13c12cee04f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read/write reference to an element. <br /></td></tr>
+<tr class="separator:a72ef2c94b9ab0a37a67b13c12cee04f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5338750fb64b635e954ebdfc8b3b1f77"><td class="memItemLeft" align="right" valign="top"><a id="a5338750fb64b635e954ebdfc8b3b1f77"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a5338750fb64b635e954ebdfc8b3b1f77">const_reference</a> = <a class="el" href="classchemist_1_1PointView.html">PointView</a>&lt; const <a class="el" href="classchemist_1_1PointSet.html#a63376f7ab0239e3b0cf09de184d45683">value_type</a> &gt;</td></tr>
+<tr class="memdesc:a5338750fb64b635e954ebdfc8b3b1f77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only reference to an element. <br /></td></tr>
+<tr class="separator:a5338750fb64b635e954ebdfc8b3b1f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9c1974639724cac9493982a3ffc93db"><td class="memItemLeft" align="right" valign="top"><a id="ab9c1974639724cac9493982a3ffc93db"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#ab9c1974639724cac9493982a3ffc93db">size_type</a> = typename base_type::size_type</td></tr>
 <tr class="memdesc:ab9c1974639724cac9493982a3ffc93db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integral type used for indexing. <br /></td></tr>
@@ -167,7 +167,7 @@ class chemist::PointSet&lt; T &gt;</h3>
 
 <p>A container filled with <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> objects. </p>
 <p>Conceptually this class behaves like a std::vector&lt;Point&lt;T&gt;&gt;; however, the backend is more complicated than that, which is why we wrote a new class.</p>
-<dl class="section note"><dt>Note</dt><dd>Despite the name, this class will allow you to add the same point multiple times.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Despite the "set" in the name, this class will allow you to add the same point multiple times.</dd></dl>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The floating-point type used to store the coordinates of the points. Assumed to be either float or double. </td></tr>

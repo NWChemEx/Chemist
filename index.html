@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chemist &mdash; Chemist v0.1.21 documentation</title>
+  <title>Chemist &mdash; Chemist v1.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
@@ -12,14 +12,15 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=76e2d817"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Overview of Chemist" href="overview.html" /> 
+    <link rel="next" title="Installing Chemist" href="install.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -34,7 +35,7 @@
             Chemist
           </a>
               <div class="version">
-                v0.1.21
+                v1.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -46,8 +47,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview of Chemist</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing Chemist</a></li>
 <li class="toctree-l1"><a class="reference internal" href="background/index.html">Chemist Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developer/index.html">Developer Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Chemist Tutorials</a></li>
@@ -79,24 +79,36 @@
            <div itemprop="articleBody">
              
   <section id="chemist">
-<h1>Chemist<a class="headerlink" href="#chemist" title="Permalink to this headline"></a></h1>
+<h1>Chemist<a class="headerlink" href="#chemist" title="Link to this heading"></a></h1>
+<p>Quantum chemistry seeks to predict and explain phenomena from a large number of
+domains including (among others): chemistry, physics, biology, chemical
+engineering, and materials science. The unifying theme of most quantum chemistry
+techniques is that the system being modeled is described with atomic resolution,
+i.e., the model accounts for individual nuclei and electrons. In practice,
+quantum chemistry then goes on to define a number of other concepts such as
+atoms (the combination of a nucleus with electrons), molecules (a set of
+atoms), and chemical systems (a molecule plus its environment). Chemist is
+charged with providing robust, performant, abstractions for concepts commonly
+encountered in quantum chemistry.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview of Chemist</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sparse_maps/index.html">Sparse Maps Sublibrary</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="sparse_maps/background.html">SparseMap Background</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sparse_maps/design.html">Sparse Map Library Design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sparse_maps/from_sparse_map.html">Sparsifying a Tensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing Chemist</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install.html#install-command">Install Command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#configuration-options">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#chemist-dependencies">Chemist Dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="background/index.html">Chemist Background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="background/motivation.html">Chemist Motivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background/statement_of_need.html">Statement of Need</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background/overview.html">Overview of Chemist</a></li>
 <li class="toctree-l2"><a class="reference internal" href="background/terminology.html">Terminology and Abbreviations</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developer/index.html">Developer Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="developer/design/index.html">Design Documentation</a></li>
-<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">Developing for the NWChemEx Organization</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Chemist Tutorials</a><ul>
@@ -114,7 +126,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="overview.html" class="btn btn-neutral float-right" title="Overview of Chemist" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="install.html" class="btn btn-neutral float-right" title="Installing Chemist" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

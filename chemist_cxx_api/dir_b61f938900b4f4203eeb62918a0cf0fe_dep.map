@@ -1,11 +1,8 @@
 <map id="src/chemist" name="src/chemist">
-<area shape="rect" id="node2" href="dir_04b6d42b52d7788c63562d945c49ad32.html" title="basis_set" alt="" coords="723,63,805,111"/>
-<area shape="rect" id="node3" href="dir_7f54e244aef52767a84fd171ce83f67a.html" title="chemical_system" alt="" coords="563,63,699,111"/>
-<area shape="rect" id="node4" href="dir_14ddb1d34b07a9e790404f1fddc64533.html" title="detail_" alt="" coords="467,63,539,111"/>
-<area shape="rect" id="node5" href="dir_fc77eb7b3c8875d5db9e0134196ab4cc.html" title="molecule" alt="" coords="360,63,443,111"/>
-<area shape="rect" id="node6" href="dir_c3f581c52bb06c4c99a17d2f65cf3267.html" title="nucleus" alt="" coords="264,63,336,111"/>
-<area shape="rect" id="node7" href="dir_97814487d1359aae4bf9f6e1813858b3.html" title="point" alt="" coords="168,63,240,111"/>
-<area shape="rect" id="node8" href="dir_68e2542fcf0c2675ce5369f669467578.html" title="point_charge" alt="" coords="37,63,144,111"/>
-<area shape="rect" id="clust2" href="dir_b61f938900b4f4203eeb62918a0cf0fe.html" alt="" coords="27,52,915,121"/>
-<area shape="rect" id="clust1" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html" title="src" alt="" coords="16,16,925,132"/>
+<area shape="rect" id="node2" href="dir_04b6d42b52d7788c63562d945c49ad32.html" title="basis_set" alt="" coords="389,63,472,111"/>
+<area shape="rect" id="node3" href="dir_7f54e244aef52767a84fd171ce83f67a.html" title="chemical_system" alt="" coords="229,63,365,111"/>
+<area shape="rect" id="node4" href="dir_14ddb1d34b07a9e790404f1fddc64533.html" title="detail_" alt="" coords="133,63,205,111"/>
+<area shape="rect" id="node5" href="dir_97814487d1359aae4bf9f6e1813858b3.html" title="point" alt="" coords="37,63,109,111"/>
+<area shape="rect" id="clust2" href="dir_b61f938900b4f4203eeb62918a0cf0fe.html" alt="" coords="27,52,581,121"/>
+<area shape="rect" id="clust1" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html" title="src" alt="" coords="16,16,592,132"/>
 </map>

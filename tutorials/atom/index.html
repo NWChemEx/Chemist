@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Atom &mdash; Chemist v0.1.21 documentation</title>
+  <title>Atom &mdash; Chemist v1.0.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
@@ -12,11 +12,12 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/tabs.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=76e2d817"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/tabs.js?v=3030b3cb"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -36,7 +37,7 @@
             Chemist
           </a>
               <div class="version">
-                v0.1.21
+                v1.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -48,8 +49,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview of Chemist</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installing Chemist</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Chemist Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../developer/index.html">Developer Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Chemist Tutorials</a><ul class="current">
@@ -92,7 +92,7 @@
            <div itemprop="articleBody">
              
   <section id="atom">
-<span id="id1"></span><h1>Atom<a class="headerlink" href="#atom" title="Permalink to this headline"></a></h1>
+<span id="id1"></span><h1>Atom<a class="headerlink" href="#atom" title="Link to this heading"></a></h1>
 <p>Atoms are the fundamental building blocks of all matter. In Chemist, the
 <code class="docutils literal notranslate"><span class="pre">Atom</span></code> class represents an individual atom. This class is composed of the
 <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class, which facilitates the access and modification of
@@ -100,7 +100,7 @@ nucleus-specific properties. In addition, the <code class="docutils literal notr
 atom-centric properties such as <code class="docutils literal notranslate"><span class="pre">n_electrons()</span></code>, denoting the number of
 electrons, and <code class="docutils literal notranslate"><span class="pre">charge()</span></code>, representing the net charge on the atom.</p>
 <section id="construction">
-<h2>Construction<a class="headerlink" href="#construction" title="Permalink to this headline"></a></h2>
+<h2>Construction<a class="headerlink" href="#construction" title="Link to this heading"></a></h2>
 <p>There are five different ways including the default and copy constructors to create an Atom object.
 The codes below shows how to create a Hydrogen atom using different constructors
 for both C++ and Python. The most explicit constructor enables a user to set the
@@ -110,24 +110,39 @@ of an atom.</p>
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Default constructor, properties are initialized to:</span>
 <span class="c1">// name = &#39;&#39;, atomic_number = 0, mass = 0.0</span>
 <span class="c1">// x = 0.0, y = 0.0, z = 0.0, nuclear_charge = 0.0, n_electrons = 0.</span>
-<span class="n">Atom</span><span class="w"> </span><span class="n">a0</span><span class="p">;</span><span class="w"></span>
+<span class="n">Atom</span><span class="w"> </span><span class="n">a0</span><span class="p">;</span>
 <span class="c1">// Constructor with given name, atomic number, mass, and x, y, z coordinates.</span>
 <span class="c1">// Nuclear charge and number of electrons are both set to the atomic number.</span>
-<span class="n">Atom</span><span class="w"> </span><span class="nf">a1</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1ul</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span><span class="w"></span>
+<span class="n">Atom</span><span class="w"> </span><span class="n">a1</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1ul</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
 <span class="c1">// Constructor with given name, atomic number, mass, x, y, z, and  nuclear</span>
 <span class="c1">// charge. Number of electrons is set to the atomic number.</span>
-<span class="n">Atom</span><span class="w"> </span><span class="nf">a2</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1ul</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span><span class="w"></span>
+<span class="n">Atom</span><span class="w"> </span><span class="n">a2</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1ul</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
 <span class="c1">// Constructor with given name, atomic number, mass, x, y, z, nuclear</span>
 <span class="c1">// charge and number of electrons.</span>
-<span class="n">Atom</span><span class="w"> </span><span class="nf">a3</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1ul</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="n">Atom</span><span class="w"> </span><span class="n">a3</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1ul</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0079</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
 <span class="c1">// Copy constructor</span>
-<span class="n">Atom</span><span class="w"> </span><span class="nf">a4</span><span class="p">(</span><span class="n">a3</span><span class="p">);</span><span class="w"></span>
+<span class="n">Atom</span><span class="w"> </span><span class="nf">a4</span><span class="p">(</span><span class="n">a3</span><span class="p">);</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"></div></div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="c1"># Default constructor, properties are initialized to:</span>
+        <span class="c1"># name = &#39;&#39;, atomic_number = 0, mass = 0.0</span>
+        <span class="c1"># x = 0.0, y = 0.0, z = 0.0, nuclear_charge = 0.0, n_electrons = 0.</span>
+        <span class="n">a0</span> <span class="o">=</span> <span class="n">chemist</span><span class="o">.</span><span class="n">Atom</span><span class="p">()</span>
+        <span class="c1"># Constructor with given name, atomic number, mass, and x, y, z coordinates.</span>
+        <span class="c1"># Nuclear charge and number of electrons are both set to the atomic number.</span>
+        <span class="n">a1</span> <span class="o">=</span> <span class="n">chemist</span><span class="o">.</span><span class="n">Atom</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.0079</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="c1"># Constructor with given name, atomic number, mass, x, y, z, and  nuclear</span>
+        <span class="c1"># charge. Number of electrons is set to the atomic number.</span>
+        <span class="n">a2</span> <span class="o">=</span> <span class="n">chemist</span><span class="o">.</span><span class="n">Atom</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.0079</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="c1"># Constructor with given name, atomic number, mass, x, y, z, nuclear</span>
+        <span class="c1"># charge and number of electrons.</span>
+        <span class="n">a3</span> <span class="o">=</span> <span class="n">chemist</span><span class="o">.</span><span class="n">Atom</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.0079</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
 </section>
 <section id="properties">
-<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
+<h2>Properties<a class="headerlink" href="#properties" title="Link to this heading"></a></h2>
 <p>Atom class provides read and write access to the following properties:
 - name: name of the atom
 - Z: atomic number of the atom
@@ -142,59 +157,137 @@ and modify them when possible both through the C++ and Python interfaces. You
 can also see that two <code class="docutils literal notranslate"><span class="pre">Atom</span></code> objects can be compared using the <code class="docutils literal notranslate"><span class="pre">==</span></code> operator.</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1">// Default constructor</span>
-<span class="w">    </span><span class="n">Atom</span><span class="w"> </span><span class="n">a5</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">Atom</span><span class="w"> </span><span class="n">a5</span><span class="p">;</span>
 <span class="w">    </span><span class="c1">// Explicit constructor with the given states</span>
-<span class="w">    </span><span class="n">Atom</span><span class="w"> </span><span class="nf">a6</span><span class="p">(</span><span class="s">&quot;He&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2ul</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0026</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">Atom</span><span class="w"> </span><span class="n">a6</span><span class="p">(</span><span class="s">&quot;He&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2ul</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0026</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
 <span class="w">    </span><span class="c1">// a5 and a6 are not equal</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">a6</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">a6</span><span class="p">);</span>
 <span class="w">    </span><span class="c1">// Accessing the name (std::string)</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">name</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a6</span><span class="p">.</span><span class="n">name</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;He&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">a5</span><span class="p">.</span><span class="n">name</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;He&quot;</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">name</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a6</span><span class="p">.</span><span class="n">name</span><span class="p">());</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">name</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a6</span><span class="p">.</span><span class="n">name</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;He&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">a5</span><span class="p">.</span><span class="n">name</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;He&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">name</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a6</span><span class="p">.</span><span class="n">name</span><span class="p">());</span>
 <span class="w">    </span><span class="c1">// Accessing the atomic number (unsigned integer)</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">Z</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0ul</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a6</span><span class="p">.</span><span class="n">Z</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2ul</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">a5</span><span class="p">.</span><span class="n">Z</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2ul</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">Z</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a6</span><span class="p">.</span><span class="n">Z</span><span class="p">());</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">Z</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0ul</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a6</span><span class="p">.</span><span class="n">Z</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2ul</span><span class="p">);</span>
+<span class="w">    </span><span class="n">a5</span><span class="p">.</span><span class="n">Z</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2ul</span><span class="p">;</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">Z</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a6</span><span class="p">.</span><span class="n">Z</span><span class="p">());</span>
 <span class="w">    </span><span class="c1">// Accessing the mass (double)</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">mass</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a6</span><span class="p">.</span><span class="n">mass</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">4.0026</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">a5</span><span class="p">.</span><span class="n">mass</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4.0026</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">mass</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a6</span><span class="p">.</span><span class="n">mass</span><span class="p">());</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">mass</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a6</span><span class="p">.</span><span class="n">mass</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">4.0026</span><span class="p">);</span>
+<span class="w">    </span><span class="n">a5</span><span class="p">.</span><span class="n">mass</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4.0026</span><span class="p">;</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">mass</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a6</span><span class="p">.</span><span class="n">mass</span><span class="p">());</span>
 <span class="w">    </span><span class="c1">// Accessing the coordinates</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">x</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">y</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">z</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a6</span><span class="p">.</span><span class="n">z</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">a5</span><span class="p">.</span><span class="n">z</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">z</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a6</span><span class="p">.</span><span class="n">z</span><span class="p">());</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">x</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">y</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">z</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a6</span><span class="p">.</span><span class="n">z</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">a5</span><span class="p">.</span><span class="n">z</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">z</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a6</span><span class="p">.</span><span class="n">z</span><span class="p">());</span>
 <span class="w">    </span><span class="c1">// Accessing the nuclear charge (double)</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">nuclear_charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a6</span><span class="p">.</span><span class="n">nuclear_charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">2.0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">a5</span><span class="p">.</span><span class="n">nuclear_charge</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">nuclear_charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a6</span><span class="p">.</span><span class="n">nuclear_charge</span><span class="p">());</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">nuclear_charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a6</span><span class="p">.</span><span class="n">nuclear_charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">2.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">a5</span><span class="p">.</span><span class="n">nuclear_charge</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">nuclear_charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a6</span><span class="p">.</span><span class="n">nuclear_charge</span><span class="p">());</span>
 <span class="w">    </span><span class="c1">// Accessing the number of electrons (unsigned integer)</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">n_electrons</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0ul</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a6</span><span class="p">.</span><span class="n">n_electrons</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3ul</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">a5</span><span class="p">.</span><span class="n">n_electrons</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3ul</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">n_electrons</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a6</span><span class="p">.</span><span class="n">n_electrons</span><span class="p">());</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">n_electrons</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0ul</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a6</span><span class="p">.</span><span class="n">n_electrons</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3ul</span><span class="p">);</span>
+<span class="w">    </span><span class="n">a5</span><span class="p">.</span><span class="n">n_electrons</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3ul</span><span class="p">;</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">n_electrons</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a6</span><span class="p">.</span><span class="n">n_electrons</span><span class="p">());</span>
 <span class="w">    </span><span class="c1">// Accessing the charge (double, read only)</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">-1.0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a6</span><span class="p">.</span><span class="n">charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">-1.0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="p">.</span><span class="n">charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">-1.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a6</span><span class="p">.</span><span class="n">charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">-1.0</span><span class="p">);</span>
 <span class="w">    </span><span class="c1">// After the changes above, a5 and a6 are equal</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a6</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a5</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a6</span><span class="p">);</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"></div></div>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="c1"># Default constructor</span>
+        <span class="n">a5</span> <span class="o">=</span> <span class="n">chemist</span><span class="o">.</span><span class="n">Atom</span><span class="p">()</span>
+        <span class="c1"># Explicit constructor with the given states</span>
+        <span class="n">a6</span> <span class="o">=</span> <span class="n">chemist</span><span class="o">.</span><span class="n">Atom</span><span class="p">(</span><span class="s2">&quot;He&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">4.0026</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+        <span class="c1"># a5 and a6 are different atoms</span>
+        <span class="k">assert</span> <span class="n">a5</span> <span class="o">!=</span> <span class="n">a6</span>
+
+        <span class="c1"># Accessing the name</span>
+        <span class="k">assert</span> <span class="n">a5</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">a6</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;He&quot;</span>
+        <span class="n">a5</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;He&quot;</span>
+        <span class="k">assert</span> <span class="n">a5</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">a6</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="c1"># Accessing the atomic number</span>
+        <span class="k">assert</span> <span class="n">a5</span><span class="o">.</span><span class="n">Z</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="k">assert</span> <span class="n">a6</span><span class="o">.</span><span class="n">Z</span> <span class="o">==</span> <span class="mi">2</span>
+        <span class="n">a5</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">assert</span> <span class="n">a5</span><span class="o">.</span><span class="n">Z</span> <span class="o">==</span> <span class="n">a6</span><span class="o">.</span><span class="n">Z</span>
+
+        <span class="c1"># Accessing the mass</span>
+        <span class="k">assert</span> <span class="n">a5</span><span class="o">.</span><span class="n">mass</span> <span class="o">==</span> <span class="mf">0.0</span>
+        <span class="k">assert</span> <span class="n">a6</span><span class="o">.</span><span class="n">mass</span> <span class="o">==</span> <span class="mf">4.0026</span>
+        <span class="n">a5</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="mf">4.0026</span>
+        <span class="k">assert</span> <span class="n">a5</span><span class="o">.</span><span class="n">mass</span> <span class="o">==</span> <span class="n">a6</span><span class="o">.</span><span class="n">mass</span>
+
+        <span class="c1"># Accessing the coordinates</span>
+        <span class="k">assert</span> <span class="n">a5</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mf">0.0</span>
+        <span class="k">assert</span> <span class="n">a5</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="mf">0.0</span>
+        <span class="k">assert</span> <span class="n">a5</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="mf">0.0</span>
+        <span class="k">assert</span> <span class="n">a6</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="mf">1.0</span>
+        <span class="n">a5</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">assert</span> <span class="n">a5</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="n">a6</span><span class="o">.</span><span class="n">z</span>
+
+        <span class="c1"># Accessing the nuclear charge</span>
+        <span class="k">assert</span> <span class="n">a5</span><span class="o">.</span><span class="n">nuclear_charge</span> <span class="o">==</span> <span class="mf">0.0</span>
+        <span class="k">assert</span> <span class="n">a6</span><span class="o">.</span><span class="n">nuclear_charge</span> <span class="o">==</span> <span class="mf">2.0</span>
+        <span class="n">a5</span><span class="o">.</span><span class="n">nuclear_charge</span> <span class="o">=</span> <span class="mf">2.0</span>
+        <span class="k">assert</span> <span class="n">a5</span><span class="o">.</span><span class="n">nuclear_charge</span> <span class="o">==</span> <span class="n">a6</span><span class="o">.</span><span class="n">nuclear_charge</span>
+
+        <span class="c1"># Accessing the number of electrons</span>
+        <span class="k">assert</span> <span class="n">a5</span><span class="o">.</span><span class="n">n_electrons</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="k">assert</span> <span class="n">a6</span><span class="o">.</span><span class="n">n_electrons</span> <span class="o">==</span> <span class="mi">3</span>
+        <span class="n">a5</span><span class="o">.</span><span class="n">n_electrons</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="k">assert</span> <span class="n">a5</span><span class="o">.</span><span class="n">n_electrons</span> <span class="o">==</span> <span class="n">a6</span><span class="o">.</span><span class="n">n_electrons</span>
+
+        <span class="c1"># Accessing the charge, note the parenthesis (read only)</span>
+        <span class="k">assert</span> <span class="n">a5</span><span class="o">.</span><span class="n">charge</span><span class="p">()</span> <span class="o">==</span> <span class="o">-</span><span class="mf">1.0</span>
+        <span class="k">assert</span> <span class="n">a6</span><span class="o">.</span><span class="n">charge</span><span class="p">()</span> <span class="o">==</span> <span class="o">-</span><span class="mf">1.0</span>
+
+        <span class="c1"># After all the changes above, a5 and a6 are now equal</span>
+        <span class="k">assert</span> <span class="n">a5</span> <span class="o">==</span> <span class="n">a6</span>
+</pre></div>
+</div>
+</div></div>
 </section>
 <section id="serializing">
-<h2>Serializing<a class="headerlink" href="#serializing" title="Permalink to this headline"></a></h2>
+<h2>Serializing<a class="headerlink" href="#serializing" title="Link to this heading"></a></h2>
 <p>Users can serialize an <code class="docutils literal notranslate"><span class="pre">Atom</span></code> object into a binary, XML, or JSON archive and
 deserialize accordingly with the C++ interface. We use Cereal library for
 serialization. Note that corresponding Cereal header files need to be included.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-2-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-2-2-0" name="2-0" role="tab" tabindex="0">C++</button></div><div aria-labelledby="tab-2-2-0" class="sphinx-tabs-panel" id="panel-2-2-0" name="2-0" role="tabpanel" tabindex="0"></div></div>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-2-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-2-2-0" name="2-0" role="tab" tabindex="0">C++</button></div><div aria-labelledby="tab-2-2-0" class="sphinx-tabs-panel" id="panel-2-2-0" name="2-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">stringstream</span><span class="w"> </span><span class="n">ssb</span><span class="p">,</span><span class="w"> </span><span class="n">ssj</span><span class="p">,</span><span class="w"> </span><span class="n">ssx</span><span class="p">;</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cereal</span><span class="o">::</span><span class="n">BinaryOutputArchive</span><span class="w"> </span><span class="nf">output_binary_archive</span><span class="p">(</span><span class="n">ssb</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cereal</span><span class="o">::</span><span class="n">JSONOutputArchive</span><span class="w"> </span><span class="nf">output_json_archive</span><span class="p">(</span><span class="n">ssj</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cereal</span><span class="o">::</span><span class="n">XMLOutputArchive</span><span class="w"> </span><span class="nf">output_xml_archive</span><span class="p">(</span><span class="n">ssx</span><span class="p">);</span>
+<span class="w">        </span><span class="n">output_binary_archive</span><span class="p">(</span><span class="n">a3</span><span class="p">);</span>
+<span class="w">        </span><span class="n">output_json_archive</span><span class="p">(</span><span class="n">a3</span><span class="p">);</span>
+<span class="w">        </span><span class="n">output_xml_archive</span><span class="p">(</span><span class="n">a3</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// Deserializing an Atom object</span>
+<span class="w">    </span><span class="n">Atom</span><span class="w"> </span><span class="n">a7</span><span class="p">,</span><span class="w"> </span><span class="n">a8</span><span class="p">,</span><span class="w"> </span><span class="n">a9</span><span class="p">;</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cereal</span><span class="o">::</span><span class="n">BinaryInputArchive</span><span class="w"> </span><span class="nf">input_binary_archive</span><span class="p">(</span><span class="n">ssb</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cereal</span><span class="o">::</span><span class="n">JSONInputArchive</span><span class="w"> </span><span class="nf">input_json_archive</span><span class="p">(</span><span class="n">ssj</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cereal</span><span class="o">::</span><span class="n">XMLInputArchive</span><span class="w"> </span><span class="nf">input_xml_archive</span><span class="p">(</span><span class="n">ssx</span><span class="p">);</span>
+<span class="w">        </span><span class="n">input_binary_archive</span><span class="p">(</span><span class="n">a7</span><span class="p">);</span>
+<span class="w">        </span><span class="n">input_json_archive</span><span class="p">(</span><span class="n">a8</span><span class="p">);</span>
+<span class="w">        </span><span class="n">input_xml_archive</span><span class="p">(</span><span class="n">a9</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a3</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a7</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a3</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a8</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">a3</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">a9</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></div>
 </section>
 </section>
 

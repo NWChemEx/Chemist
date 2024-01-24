@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>chemist: include/chemist/nucleus/nuclei.hpp Source File</title>
+<title>chemist: include/chemist/chemical_system/nucleus/nuclei.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,7 +62,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_40200ac6b74f7d1507a33db5931c41e1.html">chemist</a></li><li class="navelem"><a class="el" href="dir_dca00dc5c9d62f79f564a4150cbe816d.html">nucleus</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_40200ac6b74f7d1507a33db5931c41e1.html">chemist</a></li><li class="navelem"><a class="el" href="dir_e69fa0c37d0ee6968a00e93518ef9357.html">chemical_system</a></li><li class="navelem"><a class="el" href="dir_408236c427e157f8fde6852548ca5d1a.html">nucleus</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -87,8 +87,8 @@ $(function() {
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;chemist/nucleus/nucleus_view.hpp&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;chemist/point_charge/charges.hpp&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;chemist/chemical_system/nucleus/nucleus_view.hpp&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;chemist/chemical_system/point_charge/charges.hpp&gt;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;utilities/containers/indexable_container_base.hpp&gt;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacechemist.html">chemist</a> {</div>
@@ -193,8 +193,8 @@ $(function() {
 <div class="ttc" id="aclasschemist_1_1Nuclei_html_ac42ea3524c43509ef9796286bbf6425c"><div class="ttname"><a href="classchemist_1_1Nuclei.html#ac42ea3524c43509ef9796286bbf6425c">chemist::Nuclei::save</a></div><div class="ttdeci">void save(Archive &amp;ar) const</div><div class="ttdoc">Serialize Nuclei instance.</div><div class="ttdef"><b>Definition:</b> nuclei.hpp:213</div></div>
 <div class="ttc" id="aclasschemist_1_1Nuclei_html_af311f091c11609bbc62bc65b615a73b6"><div class="ttname"><a href="classchemist_1_1Nuclei.html#af311f091c11609bbc62bc65b615a73b6">chemist::Nuclei::pimpl_pointer</a></div><div class="ttdeci">std::unique_ptr&lt; pimpl_type &gt; pimpl_pointer</div><div class="ttdoc">The type of a pointer to a PIMPL.</div><div class="ttdef"><b>Definition:</b> nuclei.hpp:43</div></div>
 <div class="ttc" id="aclasschemist_1_1NucleusView_html"><div class="ttname"><a href="classchemist_1_1NucleusView.html">chemist::NucleusView</a></div><div class="ttdoc">Allows representing data as if it were a Nucleus object.</div><div class="ttdef"><b>Definition:</b> nucleus_view.hpp:41</div></div>
-<div class="ttc" id="aclasschemist_1_1Nucleus_html"><div class="ttname"><a href="classchemist_1_1Nucleus.html">chemist::Nucleus</a></div><div class="ttdoc">Class representing the (point) nucleus of an atom.</div><div class="ttdef"><b>Definition:</b> nucleus.hpp:33</div></div>
-<div class="ttc" id="aclasschemist_1_1Nucleus_html_aa35f7247d6f8ef47828c597cf38241a6"><div class="ttname"><a href="classchemist_1_1Nucleus.html#aa35f7247d6f8ef47828c597cf38241a6">chemist::Nucleus::charge_type</a></div><div class="ttdeci">typename point_charge_type::charge_type charge_type</div><div class="ttdoc">Type of the point charge's charge.</div><div class="ttdef"><b>Definition:</b> nucleus.hpp:70</div></div>
+<div class="ttc" id="aclasschemist_1_1Nucleus_html"><div class="ttname"><a href="classchemist_1_1Nucleus.html">chemist::Nucleus</a></div><div class="ttdoc">Class representing the (point) nucleus of an atom.</div><div class="ttdef"><b>Definition:</b> nucleus_class.hpp:33</div></div>
+<div class="ttc" id="aclasschemist_1_1Nucleus_html_aa35f7247d6f8ef47828c597cf38241a6"><div class="ttname"><a href="classchemist_1_1Nucleus.html#aa35f7247d6f8ef47828c597cf38241a6">chemist::Nucleus::charge_type</a></div><div class="ttdeci">typename point_charge_type::charge_type charge_type</div><div class="ttdoc">Type of the point charge's charge.</div><div class="ttdef"><b>Definition:</b> nucleus_class.hpp:70</div></div>
 <div class="ttc" id="aclasschemist_1_1detail___1_1NucleiPIMPL_html"><div class="ttname"><a href="classchemist_1_1detail___1_1NucleiPIMPL.html">chemist::detail_::NucleiPIMPL</a></div><div class="ttdoc">Implements the Nuclei class.</div><div class="ttdef"><b>Definition:</b> nuclei_pimpl.hpp:30</div></div>
 <div class="ttc" id="anamespacechemist_html"><div class="ttname"><a href="namespacechemist.html">chemist</a></div><div class="ttdoc">The primary namespace for the chemist library.</div><div class="ttdef"><b>Definition:</b> ao_basis_set.cpp:22</div></div>
 </div><!-- fragment --></div><!-- contents -->

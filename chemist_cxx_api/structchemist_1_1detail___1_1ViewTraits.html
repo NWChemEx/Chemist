@@ -118,7 +118,7 @@ struct chemist::detail_::ViewTraits&lt; T &gt;</h3>
 <p>A pattern commonly used throughout Chemist involves a container returning views of its elements instead of the actual elements. Each view is typically a class like <code>View&lt;T&gt;</code> with the idea being that the template class <code>View</code><code>acts like a reference to an object of type</code>T<code>. If</code>T` is an unqualified type (notably is not const-qualified), than the view acts like a read/write reference. If <code>T</code> is however a const-qualified type, than the view behaves like a read-only reference. Suffice it to say that properly implementing a const-correct view requires some template meta-programming, which we have factored out into the <code><a class="el" href="structchemist_1_1detail___1_1ViewTraits.html" title="Code factorization for TMP associated with views.">ViewTraits</a></code> class.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td>The type the view is a view of, e.g. for <a class="el" href="classchemist_1_1PointView.html" title="Implements reference-like semantics with respect to a Point instance.">PointView</a><u> T would be U. </u></td></tr>
+    <tr><td class="paramname">T</td><td>The type the view is a view of, e.g. for <a class="el" href="classchemist_1_1PointView.html" title="Allows viewing data as if it was a PointType object.">PointView</a><u> T would be U. </u></td></tr>
   </table>
   </dd>
 </dl>

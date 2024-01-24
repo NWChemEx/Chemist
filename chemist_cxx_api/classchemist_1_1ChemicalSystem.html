@@ -79,7 +79,7 @@ $(function() {
 <p>Class describing the entire chemical system to be modeled.  
  <a href="classchemist_1_1ChemicalSystem.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="chemical__system_8hpp_source.html">chemical_system.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="chemical__system__class_8hpp_source.html">chemical_system_class.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -103,18 +103,6 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#a926a336d700382ae35a2720d6de0d5cc">const_mol_ref_t</a> = const <a class="el" href="classchemist_1_1ChemicalSystem.html#a4f8774bb726afeef45e7ccb49340ddaf">molecule_t</a> &amp;</td></tr>
 <tr class="memdesc:a926a336d700382ae35a2720d6de0d5cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">A read-only reference to the object describing the set of atoms. <br /></td></tr>
 <tr class="separator:a926a336d700382ae35a2720d6de0d5cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1691c345e021b1b43f8d675cadaf72ae"><td class="memItemLeft" align="right" valign="top"><a id="a1691c345e021b1b43f8d675cadaf72ae"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#a1691c345e021b1b43f8d675cadaf72ae">epot_t</a> = <a class="el" href="classchemist_1_1potentials_1_1Electrostatic.html">potentials::Electrostatic</a></td></tr>
-<tr class="memdesc:a1691c345e021b1b43f8d675cadaf72ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type used to model the external electrostatic potential. <br /></td></tr>
-<tr class="separator:a1691c345e021b1b43f8d675cadaf72ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab53027da1bdfe11d40112ed10b780e9f"><td class="memItemLeft" align="right" valign="top"><a id="ab53027da1bdfe11d40112ed10b780e9f"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#ab53027da1bdfe11d40112ed10b780e9f">epot_ref_t</a> = <a class="el" href="classchemist_1_1ChemicalSystem.html#a1691c345e021b1b43f8d675cadaf72ae">epot_t</a> &amp;</td></tr>
-<tr class="memdesc:ab53027da1bdfe11d40112ed10b780e9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A read/write reference to the external electrostatic potential. <br /></td></tr>
-<tr class="separator:ab53027da1bdfe11d40112ed10b780e9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3459c67fa05054489ad23a47cffe44ff"><td class="memItemLeft" align="right" valign="top"><a id="a3459c67fa05054489ad23a47cffe44ff"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#a3459c67fa05054489ad23a47cffe44ff">const_epot_ref_t</a> = const <a class="el" href="classchemist_1_1ChemicalSystem.html#a1691c345e021b1b43f8d675cadaf72ae">epot_t</a> &amp;</td></tr>
-<tr class="memdesc:a3459c67fa05054489ad23a47cffe44ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">A read-only reference to the electrostatic potential. <br /></td></tr>
-<tr class="separator:a3459c67fa05054489ad23a47cffe44ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ca9a3b79a05da141f6d9c069d19fcef"><td class="memItemLeft" align="right" valign="top"><a id="a1ca9a3b79a05da141f6d9c069d19fcef"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#a1ca9a3b79a05da141f6d9c069d19fcef">size_type</a> = std::size_t</td></tr>
 <tr class="memdesc:a1ca9a3b79a05da141f6d9c069d19fcef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used for counting/indexing. <br /></td></tr>
@@ -135,12 +123,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae1495d1b4692d562dcee7cc25c893ce7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#ae1495d1b4692d562dcee7cc25c893ce7">ChemicalSystem</a> (<a class="el" href="classchemist_1_1ChemicalSystem.html">ChemicalSystem</a> &amp;&amp;other) noexcept</td></tr>
 <tr class="memdesc:ae1495d1b4692d562dcee7cc25c893ce7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes ownership of another <a class="el" href="classchemist_1_1ChemicalSystem.html" title="Class describing the entire chemical system to be modeled.">ChemicalSystem</a>'s state.  <a href="classchemist_1_1ChemicalSystem.html#ae1495d1b4692d562dcee7cc25c893ce7">More...</a><br /></td></tr>
 <tr class="separator:ae1495d1b4692d562dcee7cc25c893ce7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d10949e5ac9d47ec854fad7ed66fc59"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#a6d10949e5ac9d47ec854fad7ed66fc59">ChemicalSystem</a> (<a class="el" href="classchemist_1_1ChemicalSystem.html#a4f8774bb726afeef45e7ccb49340ddaf">molecule_t</a> mol, <a class="el" href="classchemist_1_1ChemicalSystem.html#a1691c345e021b1b43f8d675cadaf72ae">epot_t</a> v={})</td></tr>
-<tr class="memdesc:a6d10949e5ac9d47ec854fad7ed66fc59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="classchemist_1_1ChemicalSystem.html" title="Class describing the entire chemical system to be modeled.">ChemicalSystem</a> with the provided state.  <a href="classchemist_1_1ChemicalSystem.html#a6d10949e5ac9d47ec854fad7ed66fc59">More...</a><br /></td></tr>
-<tr class="separator:a6d10949e5ac9d47ec854fad7ed66fc59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad571a8d517bff583f82a001bedaa9b4e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#ad571a8d517bff583f82a001bedaa9b4e">ChemicalSystem</a> (<a class="el" href="classchemist_1_1ChemicalSystem.html#a4f8774bb726afeef45e7ccb49340ddaf">molecule_t</a> mol, <a class="el" href="classchemist_1_1ChemicalSystem.html#a1ca9a3b79a05da141f6d9c069d19fcef">size_type</a> <a class="el" href="classchemist_1_1ChemicalSystem.html#a692d5a6f9548cf21bfab5965327d93b1">n_electrons</a>, <a class="el" href="classchemist_1_1ChemicalSystem.html#a1691c345e021b1b43f8d675cadaf72ae">epot_t</a> v={})</td></tr>
-<tr class="memdesc:ad571a8d517bff583f82a001bedaa9b4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="classchemist_1_1ChemicalSystem.html" title="Class describing the entire chemical system to be modeled.">ChemicalSystem</a> with the provided state.  <a href="classchemist_1_1ChemicalSystem.html#ad571a8d517bff583f82a001bedaa9b4e">More...</a><br /></td></tr>
-<tr class="separator:ad571a8d517bff583f82a001bedaa9b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9f625310dab99bb099e43f4cd151765"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#ad9f625310dab99bb099e43f4cd151765">ChemicalSystem</a> (<a class="el" href="classchemist_1_1ChemicalSystem.html#a4f8774bb726afeef45e7ccb49340ddaf">molecule_t</a> mol)</td></tr>
+<tr class="memdesc:ad9f625310dab99bb099e43f4cd151765"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="classchemist_1_1ChemicalSystem.html" title="Class describing the entire chemical system to be modeled.">ChemicalSystem</a> with the provided state.  <a href="classchemist_1_1ChemicalSystem.html#ad9f625310dab99bb099e43f4cd151765">More...</a><br /></td></tr>
+<tr class="separator:ad9f625310dab99bb099e43f4cd151765"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55715d3013cd78e89add1c3c10e34850"><td class="memItemLeft" align="right" valign="top"><a id="a55715d3013cd78e89add1c3c10e34850"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#a55715d3013cd78e89add1c3c10e34850">~ChemicalSystem</a> () noexcept</td></tr>
 <tr class="memdesc:a55715d3013cd78e89add1c3c10e34850"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor, voids all references to member data. <br /></td></tr>
@@ -157,21 +142,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a68b3ed77ff3439f0d387eeeb306122e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1ChemicalSystem.html#a926a336d700382ae35a2720d6de0d5cc">const_mol_ref_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#a68b3ed77ff3439f0d387eeeb306122e0">molecule</a> () const</td></tr>
 <tr class="memdesc:a68b3ed77ff3439f0d387eeeb306122e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the molecular system associated with this system.  <a href="classchemist_1_1ChemicalSystem.html#a68b3ed77ff3439f0d387eeeb306122e0">More...</a><br /></td></tr>
 <tr class="separator:a68b3ed77ff3439f0d387eeeb306122e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a692d5a6f9548cf21bfab5965327d93b1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1ChemicalSystem.html#a1ca9a3b79a05da141f6d9c069d19fcef">size_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#a692d5a6f9548cf21bfab5965327d93b1">n_electrons</a> ()</td></tr>
-<tr class="memdesc:a692d5a6f9548cf21bfab5965327d93b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of electrons in the system.  <a href="classchemist_1_1ChemicalSystem.html#a692d5a6f9548cf21bfab5965327d93b1">More...</a><br /></td></tr>
-<tr class="separator:a692d5a6f9548cf21bfab5965327d93b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3362aea01a7d00411ed4eff6d1108271"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1ChemicalSystem.html#a1ca9a3b79a05da141f6d9c069d19fcef">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#a3362aea01a7d00411ed4eff6d1108271">n_electrons</a> () const</td></tr>
-<tr class="memdesc:a3362aea01a7d00411ed4eff6d1108271"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of electrons in the system.  <a href="classchemist_1_1ChemicalSystem.html#a3362aea01a7d00411ed4eff6d1108271">More...</a><br /></td></tr>
-<tr class="separator:a3362aea01a7d00411ed4eff6d1108271"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3135d9236713fa9c25596cafb2a4adbb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1ChemicalSystem.html#a6182f9c2941e2c8daf07da4578412f57">charge_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#a3135d9236713fa9c25596cafb2a4adbb">charge</a> () const noexcept</td></tr>
-<tr class="memdesc:a3135d9236713fa9c25596cafb2a4adbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the electronic charge of the system.  <a href="classchemist_1_1ChemicalSystem.html#a3135d9236713fa9c25596cafb2a4adbb">More...</a><br /></td></tr>
-<tr class="separator:a3135d9236713fa9c25596cafb2a4adbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0883f4dfcc348e57d6c1fed1e1ab7162"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1ChemicalSystem.html#ab53027da1bdfe11d40112ed10b780e9f">epot_ref_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#a0883f4dfcc348e57d6c1fed1e1ab7162">external_electrostatic_potential</a> ()</td></tr>
-<tr class="memdesc:a0883f4dfcc348e57d6c1fed1e1ab7162"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the external electrostatic potential in a read/write state.  <a href="classchemist_1_1ChemicalSystem.html#a0883f4dfcc348e57d6c1fed1e1ab7162">More...</a><br /></td></tr>
-<tr class="separator:a0883f4dfcc348e57d6c1fed1e1ab7162"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adae664766e5cd7e6373be62443d1b737"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1ChemicalSystem.html#a3459c67fa05054489ad23a47cffe44ff">const_epot_ref_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#adae664766e5cd7e6373be62443d1b737">external_electrostatic_potential</a> () const</td></tr>
-<tr class="memdesc:adae664766e5cd7e6373be62443d1b737"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the external electrostatic potential in a read-only state.  <a href="classchemist_1_1ChemicalSystem.html#adae664766e5cd7e6373be62443d1b737">More...</a><br /></td></tr>
-<tr class="separator:adae664766e5cd7e6373be62443d1b737"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6f63a6fd556572c2c86ab4ebb2643a0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChemicalSystem.html#ac6f63a6fd556572c2c86ab4ebb2643a0">operator==</a> (const <a class="el" href="classchemist_1_1ChemicalSystem.html">ChemicalSystem</a> &amp;rhs) const noexcept</td></tr>
 <tr class="memdesc:ac6f63a6fd556572c2c86ab4ebb2643a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if two <a class="el" href="classchemist_1_1ChemicalSystem.html" title="Class describing the entire chemical system to be modeled.">ChemicalSystem</a> instances are the same.  <a href="classchemist_1_1ChemicalSystem.html#ac6f63a6fd556572c2c86ab4ebb2643a0">More...</a><br /></td></tr>
 <tr class="separator:ac6f63a6fd556572c2c86ab4ebb2643a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,10 +156,10 @@ Related Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class describing the entire chemical system to be modeled. </p>
-<p>The <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> class models the electrons and nuclei in the system; however, there are often additional pieces of the system beyond the atoms. Typically these additional pieces are fields (e.g. electric fields from point charges), but conceivably the <a class="el" href="classchemist_1_1ChemicalSystem.html" title="Class describing the entire chemical system to be modeled.">ChemicalSystem</a> class could also be used to hold information such as lattice parameters and the symmetry of the system. </p>
+<p>The <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> class models the electrons and nuclei in the system; however, there are often additional pieces of the system beyond the molecule. Typically these additional pieces are fields (e.g. electric fields from point charges), but they could also be non-atomistically modeled solvent </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aba199693e30572215ec5ef41082eecf8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba199693e30572215ec5ef41082eecf8">&#9670;&nbsp;</a></span>ChemicalSystem() <span class="overload">[1/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aba199693e30572215ec5ef41082eecf8">&#9670;&nbsp;</a></span>ChemicalSystem() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -214,7 +184,7 @@ Related Functions</h2></td></tr>
 </div>
 </div>
 <a id="adb4f26de00b380b0c420b1ad6876c2e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb4f26de00b380b0c420b1ad6876c2e0">&#9670;&nbsp;</a></span>ChemicalSystem() <span class="overload">[2/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#adb4f26de00b380b0c420b1ad6876c2e0">&#9670;&nbsp;</a></span>ChemicalSystem() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -247,7 +217,7 @@ Related Functions</h2></td></tr>
 </div>
 </div>
 <a id="ae1495d1b4692d562dcee7cc25c893ce7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1495d1b4692d562dcee7cc25c893ce7">&#9670;&nbsp;</a></span>ChemicalSystem() <span class="overload">[3/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1495d1b4692d562dcee7cc25c893ce7">&#9670;&nbsp;</a></span>ChemicalSystem() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -287,8 +257,8 @@ Related Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a6d10949e5ac9d47ec854fad7ed66fc59"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d10949e5ac9d47ec854fad7ed66fc59">&#9670;&nbsp;</a></span>ChemicalSystem() <span class="overload">[4/5]</span></h2>
+<a id="ad9f625310dab99bb099e43f4cd151765"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9f625310dab99bb099e43f4cd151765">&#9670;&nbsp;</a></span>ChemicalSystem() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -300,18 +270,8 @@ Related Functions</h2></td></tr>
           <td class="memname">chemist::ChemicalSystem::ChemicalSystem </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classchemist_1_1ChemicalSystem.html#a4f8774bb726afeef45e7ccb49340ddaf">molecule_t</a>&#160;</td>
-          <td class="paramname"><em>mol</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>mol</em></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classchemist_1_1ChemicalSystem.html#a1691c345e021b1b43f8d675cadaf72ae">epot_t</a>&#160;</td>
-          <td class="paramname"><em>v</em> = <code>{}</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -322,60 +282,10 @@ Related Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Creates a new <a class="el" href="classchemist_1_1ChemicalSystem.html" title="Class describing the entire chemical system to be modeled.">ChemicalSystem</a> with the provided state. </p>
-<p>The resulting <a class="el" href="classchemist_1_1ChemicalSystem.html" title="Class describing the entire chemical system to be modeled.">ChemicalSystem</a> will contain the provided molecule and external potential. The number of electrons will be determined by summing up the atomic numbers of the atoms in <code>mol</code>.</p>
+<p>The resulting <a class="el" href="classchemist_1_1ChemicalSystem.html" title="Class describing the entire chemical system to be modeled.">ChemicalSystem</a> will contain the provided molecule.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">mol</td><td>The molecular system to add to this system. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">v</td><td>The external electrostatic potential that the system lives in. Defaults to no potential.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">std::bad_alloc</td><td>if there is error while allocating the PIMPL. Strong throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ad571a8d517bff583f82a001bedaa9b4e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad571a8d517bff583f82a001bedaa9b4e">&#9670;&nbsp;</a></span>ChemicalSystem() <span class="overload">[5/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">chemist::ChemicalSystem::ChemicalSystem </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classchemist_1_1ChemicalSystem.html#a4f8774bb726afeef45e7ccb49340ddaf">molecule_t</a>&#160;</td>
-          <td class="paramname"><em>mol</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classchemist_1_1ChemicalSystem.html#a1ca9a3b79a05da141f6d9c069d19fcef">size_type</a>&#160;</td>
-          <td class="paramname"><em>n_electrons</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classchemist_1_1ChemicalSystem.html#a1691c345e021b1b43f8d675cadaf72ae">epot_t</a>&#160;</td>
-          <td class="paramname"><em>v</em> = <code>{}</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Creates a new <a class="el" href="classchemist_1_1ChemicalSystem.html" title="Class describing the entire chemical system to be modeled.">ChemicalSystem</a> with the provided state. </p>
-<p>The resulting <a class="el" href="classchemist_1_1ChemicalSystem.html" title="Class describing the entire chemical system to be modeled.">ChemicalSystem</a> will contain the provided molecule, number of </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">mol</td><td>The molecular system to add to this system. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">v</td><td>The external electrostatic potential that the system lives in. Defaults to no potential.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">mol</td><td>The molecular system to add to this system.</td></tr>
   </table>
   </dd>
 </dl>
@@ -389,94 +299,6 @@ Related Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3135d9236713fa9c25596cafb2a4adbb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3135d9236713fa9c25596cafb2a4adbb">&#9670;&nbsp;</a></span>charge()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1ChemicalSystem.html#a6182f9c2941e2c8daf07da4578412f57">ChemicalSystem::charge_type</a> chemist::ChemicalSystem::charge </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the electronic charge of the system. </p>
-<p>The charge of the system is based off of the number of electrons and the atomic numbers of the nuclei. To change the charge of the system, change the number of electrons (or add/remove nuclei).</p>
-<dl class="section note"><dt>Note</dt><dd>By fiat we define an empty system to have no charge.</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>-1 times the net number of electrons (relative to the neutral system).</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td>no throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a0883f4dfcc348e57d6c1fed1e1ab7162"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0883f4dfcc348e57d6c1fed1e1ab7162">&#9670;&nbsp;</a></span>external_electrostatic_potential() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1ChemicalSystem.html#a1691c345e021b1b43f8d675cadaf72ae">epot_t</a> &amp; chemist::ChemicalSystem::external_electrostatic_potential </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the external electrostatic potential in a read/write state. </p>
-<dl class="section return"><dt>Returns</dt><dd>The electrostatic potential that the molecule is embedded in.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">std::bad_alloc</td><td>if the class has no PIMPL and an error arise while allocating one. Strong throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="adae664766e5cd7e6373be62443d1b737"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adae664766e5cd7e6373be62443d1b737">&#9670;&nbsp;</a></span>external_electrostatic_potential() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classchemist_1_1ChemicalSystem.html#a1691c345e021b1b43f8d675cadaf72ae">epot_t</a> &amp; chemist::ChemicalSystem::external_electrostatic_potential </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the external electrostatic potential in a read-only state. </p>
-<dl class="section return"><dt>Returns</dt><dd>The electrostatic potential that the molecule is embedded in.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">std::runtime_error</td><td>if the class has no PIMPL. Strong throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="a7e0fd035f21aee8d737c23d93afebf52"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7e0fd035f21aee8d737c23d93afebf52">&#9670;&nbsp;</a></span>molecule() <span class="overload">[1/2]</span></h2>
 
@@ -520,58 +342,6 @@ Related Functions</h2></td></tr>
 
 <p>Returns the molecular system associated with this system. </p>
 <dl class="section return"><dt>Returns</dt><dd>The molecular system in a read-only state. </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">std::runtime_error</td><td>if the class has no PIMPL. Strong throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a692d5a6f9548cf21bfab5965327d93b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a692d5a6f9548cf21bfab5965327d93b1">&#9670;&nbsp;</a></span>n_electrons() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1ChemicalSystem.html#a1ca9a3b79a05da141f6d9c069d19fcef">size_type</a> &amp; chemist::ChemicalSystem::n_electrons </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the number of electrons in the system. </p>
-<dl class="section return"><dt>Returns</dt><dd>A read/write reference to the number of electrons in the system.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">std::bad_alloc</td><td>if the class has no PIMPL and there's a problem allocating one. Strong throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a3362aea01a7d00411ed4eff6d1108271"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3362aea01a7d00411ed4eff6d1108271">&#9670;&nbsp;</a></span>n_electrons() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1ChemicalSystem.html#a1ca9a3b79a05da141f6d9c069d19fcef">size_type</a> chemist::ChemicalSystem::n_electrons </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the number of electrons in the system. </p>
-<dl class="section return"><dt>Returns</dt><dd>The number of electrons in the system.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::runtime_error</td><td>if the class has no PIMPL. Strong throw guarantee. </td></tr>
@@ -752,7 +522,7 @@ Related Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>include/chemist/chemical_system/<a class="el" href="chemical__system_8hpp_source.html">chemical_system.hpp</a></li>
+<li>include/chemist/chemical_system/<a class="el" href="chemical__system__class_8hpp_source.html">chemical_system_class.hpp</a></li>
 <li>src/chemist/chemical_system/chemical_system.cpp</li>
 </ul>
 </div><!-- contents -->

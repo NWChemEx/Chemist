@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['electrostatic_306',['Electrostatic',['../classchemist_1_1potentials_1_1Electrostatic.html',1,'chemist::potentials']]]
+  ['molecule_284',['Molecule',['../classchemist_1_1Molecule.html',1,'chemist']]],
+  ['molpimpl_285',['MolPIMPL',['../classchemist_1_1detail___1_1MolPIMPL.html',1,'chemist::detail_']]]
 ];

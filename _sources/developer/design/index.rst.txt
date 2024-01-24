@@ -26,16 +26,7 @@ Overview
    :maxdepth: 2
 
    architecture
-   chemistry/index
-
-*******
-Physics
-*******
-
-.. toctree::
-   :maxdepth: 2
-
-   vector_spaces
-   reference_space
-   wavefunction
-   operators
+   chemical_system/index
+   ao_basis_set/index
+   operator/index
+   wavefunction/index

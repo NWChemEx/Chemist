@@ -1,4 +1,10 @@
 var searchData=
 [
-  ['fragmentednucleipimpl_307',['FragmentedNucleiPIMPL',['../classchemist_1_1detail___1_1FragmentedNucleiPIMPL.html',1,'chemist::detail_']]]
+  ['nuclei_286',['Nuclei',['../classchemist_1_1Nuclei.html',1,'chemist']]],
+  ['nucleipimpl_287',['NucleiPIMPL',['../classchemist_1_1detail___1_1NucleiPIMPL.html',1,'chemist::detail_']]],
+  ['nucleisubset_288',['NucleiSubset',['../classchemist_1_1detail___1_1NucleiSubset.html',1,'chemist::detail_']]],
+  ['nucleiview_289',['NucleiView',['../classchemist_1_1NucleiView.html',1,'chemist']]],
+  ['nucleiviewpimpl_290',['NucleiViewPIMPL',['../classchemist_1_1detail___1_1NucleiViewPIMPL.html',1,'chemist::detail_']]],
+  ['nucleus_291',['Nucleus',['../classchemist_1_1Nucleus.html',1,'chemist']]],
+  ['nucleusview_292',['NucleusView',['../classchemist_1_1NucleusView.html',1,'chemist']]]
 ];

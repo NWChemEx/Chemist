@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Design Documentation &mdash; Chemist v0.1.21 documentation</title>
+  <title>Design Documentation &mdash; Chemist v1.0.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
@@ -12,10 +12,11 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=76e2d817"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -35,7 +36,7 @@
             Chemist
           </a>
               <div class="version">
-                v0.1.21
+                v1.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -47,26 +48,21 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview of Chemist</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installing Chemist</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Chemist Background</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Design Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="architecture.html">Architecture of Chemist</a></li>
-<li class="toctree-l4"><a class="reference internal" href="chemistry/index.html">Designing the Chemistry Sublibrary</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#physics">Physics</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="vector_spaces.html">Vector Space Design</a></li>
-<li class="toctree-l4"><a class="reference internal" href="reference_space.html">Reference Space Design</a></li>
-<li class="toctree-l4"><a class="reference internal" href="wavefunction.html">Wavefunction Design</a></li>
-<li class="toctree-l4"><a class="reference internal" href="operators.html">Operator Component Design</a></li>
+<li class="toctree-l4"><a class="reference internal" href="chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="operator/index.html">Design of the Operator Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wavefunction/index.html">Design of the Wavefunction Component</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">Developing for the NWChemEx Organization</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Chemist Tutorials</a></li>
@@ -99,58 +95,41 @@
            <div itemprop="articleBody">
              
   <section id="design-documentation">
-<h1>Design Documentation<a class="headerlink" href="#design-documentation" title="Permalink to this headline"></a></h1>
+<h1>Design Documentation<a class="headerlink" href="#design-documentation" title="Link to this heading"></a></h1>
 <p>Topics in this section record the design process for the Chemist library.</p>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture of Chemist</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#chemist-architecture-considerations">Chemist Architecture Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#architecture-considerations">Architecture Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#architecture-overview">Architecture Overview</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="chemistry/index.html">Designing the Chemistry Sublibrary</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="chemistry/nucleus.html">Designing the Nucleus Component</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemistry/molecule.html">Molecule Design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemistry/system.html">Chemical System Design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemistry/ao_basis_set.html">Designing the AOBasisSet Component</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chemistry/fragmenting/index.html">Fragmenting Subcomponent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemical_system/index.html">Design of the Chemical System Component</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chemical_system/architecture.html">Architecture of Chemical System Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemical_system/nucleus.html">Designing the Nucleus Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemical_system/molecule.html">Molecule Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemical_system/system.html">Chemical System Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chemical_system/fragmenting/index.html">Fragmenting Subcomponent</a></li>
 </ul>
 </li>
-</ul>
-</div>
-</section>
-<section id="physics">
-<h2>Physics<a class="headerlink" href="#physics" title="Permalink to this headline"></a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="vector_spaces.html">Vector Space Design</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="vector_spaces.html#what-are-vector-spaces">What are vector spaces?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vector_spaces.html#why-do-we-need-vector-spaces">Why do we need vector spaces?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vector_spaces.html#vector-space-considerations">Vector Space Considerations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vector_spaces.html#id1">Vector Space Design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vector_spaces.html#vector-space-summary">Vector Space Summary</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vector_spaces.html#future-considerations">Future Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ao_basis_set/index.html">Design of the AO Basis Set Component</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ao_basis_set/ao_basis_set.html">Designing the AOBasisSet Component</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="reference_space.html">Reference Space Design</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="reference_space.html#what-is-a-reference-space">What is a Reference Space?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference_space.html#why-do-we-need-a-reference-space">Why Do We Need a Reference Space?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference_space.html#reference-space-considerations">Reference Space Considerations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference_space.html#overview-of-reference-space-component">Overview of Reference Space Component</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference_space.html#reference-space-design-summary">Reference Space Design Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operator/index.html">Design of the Operator Component</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="operator/architecture.html">Architecture of Operator Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operator/operators.html">Operator Component Design</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="wavefunction.html">Wavefunction Design</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="wavefunction.html#what-is-a-wavefunction">What is a Wavefunction?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="wavefunction.html#why-do-we-need-a-wavefunction">Why Do We Need a Wavefunction?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="wavefunction.html#wavefunction-considerations">Wavefunction Considerations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="wavefunction.html#overview-of-the-wavefunction-component">Overview of the Wavefunction Component</a></li>
-<li class="toctree-l2"><a class="reference internal" href="wavefunction.html#wavefunction-design-summary">Wavefunction Design Summary</a></li>
-<li class="toctree-l2"><a class="reference internal" href="wavefunction.html#future-considerations">Future Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wavefunction/index.html">Design of the Wavefunction Component</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="wavefunction/architecture.html">Architecture of Wavefunction Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wavefunction/vector_spaces.html">Vector Space Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wavefunction/reference_space.html">Reference Space Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wavefunction/wavefunction.html">Wavefunction Design</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="operators.html">Operator Component Design</a></li>
 </ul>
 </div>
 </section>

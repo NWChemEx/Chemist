@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture of Chemical System Component &mdash; Chemist v1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=76e2d817"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Designing the Nucleus Component" href="nucleus.html" />
+    <link rel="prev" title="Design of the Chemical System Component" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Chemist
+          </a>
+              <div class="version">
+                v1.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installing Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#overview">Overview</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../operator/index.html">Design of the Operator Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../wavefunction/index.html">Design of the Wavefunction Component</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Chemist Tutorials</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Chemist</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Developer Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Design Documentation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Design of the Chemical System Component</a></li>
+      <li class="breadcrumb-item active">Architecture of Chemical System Component</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/developer/design/chemical_system/architecture.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="architecture-of-chemical-system-component">
+<span id="architecture-of-chemical-system"></span><h1>Architecture of Chemical System Component<a class="headerlink" href="#architecture-of-chemical-system-component" title="Link to this heading"></a></h1>
+<p>The need for the Chemical System component stemmed from the high-level
+architecture details described <a class="reference internal" href="../architecture.html#architecture-of-chemist"><span class="std std-ref">Architecture of Chemist</span></a>.</p>
+<section id="considerations-for-the-chemical-system-component">
+<h2>Considerations for the Chemical System Component<a class="headerlink" href="#considerations-for-the-chemical-system-component" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>System building</dt><dd><p>The overall point of the chemical system component is to provide an object-
+oriented DSL which the user can use to build up the <a class="reference internal" href="../../../background/terminology.html#term-chemical-system"><span class="xref std std-term">chemical system</span></a>
+they want to model. The component is focused on specifying the system, not
+the specifics of the <a class="reference internal" href="../../../background/terminology.html#term-physics-model"><span class="xref std std-term">physics model</span></a>.</p>
+<ul class="simple">
+<li><p>There is admittedly a fine-line between specifying the system and
+specifying the physics model. For example, one may reasonably argue that
+the specification of the <a class="reference internal" href="../../../background/terminology.html#term-atomic-basis-set"><span class="xref std std-term">atomic basis set</span></a> is a means of specifying
+the electrons on an atom. Ultimately the delimitation between chemical
+system and physics model is a convention and meant to parallel actual
+usage.</p></li>
+</ul>
+</dd>
+<dt>Fundamental particles</dt><dd><p>An object-oriented DSL for building up a chemical system should enable the
+user to combine fundamental particles (for the moment defined as nuclei and
+electrons) to build up the system.</p>
+<ul class="simple">
+<li><p>Requiring the user to say actually add say 92 <code class="docutils literal notranslate"><span class="pre">Electron</span></code> objects to an
+<code class="docutils literal notranslate"><span class="pre">Atom</span></code> object in order to create uranium is overkill. While conceptually
+this is what the user is doing, user-friendly APIs should exist.</p></li>
+<li><p>Exactly what defines a fundamental particle should be allowed to change.
+For example, extensions which actually resolve the nucleon structure of
+the nucleus are conceivable. Similarly excitons</p></li>
+</ul>
+</dd>
+<dt>Fields</dt><dd><p>Particularly when modeling chemical systems in condensed phase there is a
+tradition to think of parts of the system as being a field (usually an
+electrostatic field) rather than their true chemical identity. For example,
+one may replace the solvent with a field meant simulate the bulk.</p>
+<ul class="simple">
+<li><p>Interactions with light could fall under this category two.</p></li>
+</ul>
+</dd>
+<dt>Quantum vs. classical</dt><dd><p>The chemical system component should be capable of describing which parts of
+the system are treated classically and which are treated quantum
+mechanically.</p>
+<ul class="simple">
+<li><p>Concepts like molecules look different depending on the physics used to
+model them. For example, many quantum chemistry methods assume a molecule
+is a set of nuclei (modeled as classical point charges) interacting with a
+set of quantum mechanical electrons; notably this means we can not uniquely
+associate any particular electron with a particular nucleus (as would be
+required to define atoms). Conversely, a classical molecule does assign
+electrons to nuclei (most force fields do this by assigning net charges).</p></li>
+</ul>
+</dd>
+</dl>
+<section id="out-of-scope">
+<h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Basis Sets</dt><dd><p>In an attempt to decouple how quantum mechanical objects are described from
+identifying which objects are quantum mechanical, we opt for the basis sets
+to be modeled separately.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="overview-of-the-chemical-system-component">
+<h2>Overview of the Chemical System Component<a class="headerlink" href="#overview-of-the-chemical-system-component" title="Link to this heading"></a></h2>
+<figure class="align-center" id="id1">
+<span id="fig-chemical-system-architecture"></span><img alt="../../../_images/architecture1.png" src="../../../_images/architecture1.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Major subcomponents and classes of the Chemist’s Chemical System component.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<section id="nucleus-subcomponent">
+<h3>Nucleus Subcomponent<a class="headerlink" href="#nucleus-subcomponent" title="Link to this heading"></a></h3>
+<p>Main discussion: <a class="reference internal" href="nucleus.html#designing-the-nucleus-component"><span class="std std-ref">Designing the Nucleus Component</span></a>.</p>
+</section>
+<section id="molecule-subcomponent">
+<h3>Molecule Subcomponent<a class="headerlink" href="#molecule-subcomponent" title="Link to this heading"></a></h3>
+<p>Main discussion: <a class="reference internal" href="molecule.html#md-molecule-design"><span class="std std-ref">Molecule Design</span></a>.</p>
+</section>
+<section id="chemical-system-classes">
+<h3>Chemical System Classes<a class="headerlink" href="#chemical-system-classes" title="Link to this heading"></a></h3>
+<p>Main discussion: <a class="reference internal" href="system.html#csd-chemical-system-design"><span class="std std-ref">Chemical System Design</span></a></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Design of the Chemical System Component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nucleus.html" class="btn btn-neutral float-right" title="Designing the Nucleus Component" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, NWChemEx Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

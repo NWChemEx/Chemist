@@ -1,4 +1,5 @@
-<map id="chemist::PointView&lt; T, AliasedType &gt;" name="chemist::PointView&lt; T, AliasedType &gt;">
-<area shape="rect" id="node1" title="Implements reference&#45;like semantics with respect to a Point instance." alt="" coords="31,109,178,151"/>
-<area shape="rect" id="node2" href="$classchemist_1_1detail___1_1ViewBase.html" title=" " alt="" coords="5,5,204,61"/>
+<map id="chemist::PointView&lt; PointType &gt;" name="chemist::PointView&lt; PointType &gt;">
+<area shape="rect" id="node1" title="Allows viewing data as if it was a PointType object." alt="" coords="5,27,152,69"/>
+<area shape="rect" id="node2" href="$classchemist_1_1PointChargeView.html" title=" " alt="" coords="200,5,401,91"/>
+<area shape="rect" id="node3" href="$classchemist_1_1NucleusView.html" title="Allows representing data as if it were a Nucleus object." alt="" coords="449,27,616,69"/>
 </map>

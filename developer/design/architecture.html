@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Architecture of Chemist &mdash; Chemist v0.1.21 documentation</title>
+  <title>Architecture of Chemist &mdash; Chemist v1.0.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
@@ -12,14 +12,15 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=76e2d817"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Designing the Chemistry Sublibrary" href="chemistry/index.html" />
+    <link rel="next" title="Design of the Chemical System Component" href="chemical_system/index.html" />
     <link rel="prev" title="Design Documentation" href="index.html" /> 
 </head>
 
@@ -35,7 +36,7 @@
             Chemist
           </a>
               <div class="version">
-                v0.1.21
+                v1.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -47,20 +48,21 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview of Chemist</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../sparse_maps/index.html">Sparse Maps Sublibrary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installing Chemist</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Chemist Background</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">Design Documentation</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="index.html#overview">Overview</a><ul class="current">
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Architecture of Chemist</a></li>
-<li class="toctree-l4"><a class="reference internal" href="chemistry/index.html">Designing the Chemistry Sublibrary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="operator/index.html">Design of the Operator Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wavefunction/index.html">Design of the Wavefunction Component</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="index.html#physics">Physics</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">Developing for the NWChemEx Organization</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Chemist Tutorials</a></li>
@@ -94,14 +96,32 @@
            <div itemprop="articleBody">
              
   <section id="architecture-of-chemist">
-<h1>Architecture of Chemist<a class="headerlink" href="#architecture-of-chemist" title="Permalink to this headline"></a></h1>
-<section id="chemist-architecture-considerations">
-<h2>Chemist Architecture Considerations<a class="headerlink" href="#chemist-architecture-considerations" title="Permalink to this headline"></a></h2>
+<span id="id1"></span><h1>Architecture of Chemist<a class="headerlink" href="#architecture-of-chemist" title="Link to this heading"></a></h1>
+<p><a class="reference internal" href="../../background/statement_of_need.html#statement-of-need"><span class="std std-ref">Statement of Need</span></a> summarizes what Chemist needs to do. The point of this
+page is to use these needs to motivate the architecture of Chemist.</p>
+<section id="architecture-considerations">
+<h2>Architecture Considerations<a class="headerlink" href="#architecture-considerations" title="Link to this heading"></a></h2>
 <dl class="simple">
+<dt>Performance.</dt><dd><p>Quantum chemistry is computationally expensive. Software used in the stack
+must be performant on not only current hardware, but should also be
+readily adaptable to performant execution on future hardware. An admittedly
+tall order without knowledge of said future hardware. (TODO: point to
+high-level argument)</p>
+</dd>
+<dt>Object-oriented</dt><dd><p>We believe that the complexity of quantum chemistry mandates the need for
+object-oriented programming (TODO: point to high-level argument)</p>
+</dd>
 <dt>Chemical systems.</dt><dd><p>It is natural to express the phenomena we want to describe using chemistry
 concepts. Hence many users will feel most comfortable specifying their
 problem in terms of these chemical concepts. We therefore must have a
 software representation of the relevant concepts.</p>
+</dd>
+<dt>Atomic orbital basis sets.</dt><dd><p>Our first target is Gaussian-based quantum chemistry. This requires
+describing electrons with atom-centered Gaussian functions.</p>
+<ul class="simple">
+<li><p>N.b. many methods which don’t use Gaussian basis sets still need chemical
+system objects. Motivation for keeping them separate.</p></li>
+</ul>
 </dd>
 <dt>Quantum mechanics.</dt><dd><p>The heart of quantum chemistry is that chemistry is fully described by
 quantum mechanics. Thus whatever chemical question we have, quantum
@@ -110,12 +130,40 @@ quantum mechanics, it’s best to phrase the question using quantum mechanics,
 and we thus also need a software representation of quantum mechanical
 concepts.</p>
 </dd>
-<dt>Performance.</dt><dd><p>Quantum chemistry is computationally expensive. Software used in the stack
-must be performant on not only current hardware, but should also be
-readily adaptable to performant execution on future hardware. An admittedly
-tall order without knowledge of said future hardware.</p>
+<dt>Classical mechanics.</dt><dd><p>Quantum is expensive some mix of QM and classical mechanics is likely to be
+inevitable for the foreseeable future. We need the ability to seamlessly
+transition between domains.</p>
 </dd>
 </dl>
+</section>
+<section id="architecture-overview">
+<h2>Architecture Overview<a class="headerlink" href="#architecture-overview" title="Link to this heading"></a></h2>
+<p>TODO: summarize the high-level architecture</p>
+<figure class="align-center" id="id2">
+<span id="fig-architecture"></span><img alt="../../_images/architecture.png" src="../../_images/architecture.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">High-level architecture of Chemist. Chemist is at present split into three
+components: Chemical System, Operators, and Wavefunctions.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The overall architecture of Chemist is depicted in <a class="reference internal" href="#fig-architecture"><span class="std std-numref">Fig. 2</span></a>
+and the individual components are summarized below.</p>
+<section id="chemical-system-component">
+<h3>Chemical System Component<a class="headerlink" href="#chemical-system-component" title="Link to this heading"></a></h3>
+<p>Main Discussion: <a class="reference internal" href="chemical_system/index.html#design-of-the-chemical-system-component"><span class="std std-ref">Design of the Chemical System Component</span></a>.</p>
+</section>
+<section id="ao-basis-set-component">
+<h3>AO Basis Set Component<a class="headerlink" href="#ao-basis-set-component" title="Link to this heading"></a></h3>
+<p>Main Discussion: <a class="reference internal" href="ao_basis_set/index.html#design-of-the-ao-basis-set-component"><span class="std std-ref">Design of the AO Basis Set Component</span></a>.</p>
+</section>
+<section id="operator-component">
+<h3>Operator Component<a class="headerlink" href="#operator-component" title="Link to this heading"></a></h3>
+<p>Main Discussion: <a class="reference internal" href="operator/index.html#design-of-the-operator-component"><span class="std std-ref">Design of the Operator Component</span></a>.</p>
+</section>
+<section id="wavefunction-component">
+<h3>Wavefunction Component<a class="headerlink" href="#wavefunction-component" title="Link to this heading"></a></h3>
+<p>Main Discussion: <a class="reference internal" href="wavefunction/index.html#design-of-the-wavefunction-component"><span class="std std-ref">Design of the Wavefunction Component</span></a>.</p>
+</section>
 </section>
 </section>
 
@@ -124,7 +172,7 @@ tall order without knowledge of said future hardware.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Design Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="chemistry/index.html" class="btn btn-neutral float-right" title="Designing the Chemistry Sublibrary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="chemical_system/index.html" class="btn btn-neutral float-right" title="Design of the Chemical System Component" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

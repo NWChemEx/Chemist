@@ -91,7 +91,7 @@ $(function() {
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;chemist/basis_set/shell/shell.hpp&gt;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;chemist/detail_/view/traits.hpp&gt;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span>chemist::basis_set {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacechemist_1_1basis__set.html">chemist::basis_set</a> {</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">namespace </span>detail_ {</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ShellType&gt;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">class </span>ShellViewPIMPL;</div>
@@ -280,8 +280,8 @@ $(function() {
 <div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;}</div>
 <div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160; </div>
 <div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ShellType&gt;</div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classchemist_1_1basis__set_1_1ShellView.html#a49f6d669745f527864e5a46622ccf8a9">operator==</a>(<span class="keyword">const</span> ShellType&amp; lhs,</div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;                <span class="keyword">const</span> ShellView&lt;ShellType&gt;&amp; rhs) noexcept {</div>
+<div class="line"><a name="l00532"></a><span class="lineno"><a class="line" href="namespacechemist_1_1basis__set.html#a6ef90f12c197041b747d26e2540ba2a4">  532</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classchemist_1_1basis__set_1_1ShellView.html#a49f6d669745f527864e5a46622ccf8a9">operator==</a>(<span class="keyword">const</span> ShellType&amp; lhs,</div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;                <span class="keyword">const</span> <a class="code" href="classchemist_1_1basis__set_1_1ShellView.html">ShellView&lt;ShellType&gt;</a>&amp; rhs) noexcept {</div>
 <div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;    <span class="keywordflow">return</span> rhs == lhs;</div>
 <div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;}</div>
 <div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160; </div>
@@ -292,8 +292,8 @@ $(function() {
 <div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;}</div>
 <div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160; </div>
 <div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ShellType&gt;</div>
-<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classchemist_1_1basis__set_1_1ShellView.html#a81ede5963c96744b2d83c0a47cb84c1a">operator!=</a>(<span class="keyword">const</span> ShellType&amp; lhs,</div>
-<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;                <span class="keyword">const</span> ShellView&lt;ShellType&gt;&amp; rhs) noexcept {</div>
+<div class="line"><a name="l00545"></a><span class="lineno"><a class="line" href="namespacechemist_1_1basis__set.html#aa3678d58b2bf9175f04136125fb251f3">  545</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classchemist_1_1basis__set_1_1ShellView.html#a81ede5963c96744b2d83c0a47cb84c1a">operator!=</a>(<span class="keyword">const</span> ShellType&amp; lhs,</div>
+<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;                <span class="keyword">const</span> <a class="code" href="classchemist_1_1basis__set_1_1ShellView.html">ShellView&lt;ShellType&gt;</a>&amp; rhs) noexcept {</div>
 <div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;    <span class="keywordflow">return</span> rhs != lhs;</div>
 <div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;}</div>
 <div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160; </div>
@@ -340,6 +340,7 @@ $(function() {
 <div class="ttc" id="aclasschemist_1_1basis__set_1_1ShellView_html_af8882c7172a37c02b63c2121618455da"><div class="ttname"><a href="classchemist_1_1basis__set_1_1ShellView.html#af8882c7172a37c02b63c2121618455da">chemist::basis_set::ShellView::ShellView</a></div><div class="ttdeci">ShellView() noexcept</div><div class="ttdoc">Creates a ShellView which is an alias of a null shell.</div></div>
 <div class="ttc" id="aclasschemist_1_1basis__set_1_1ShellView_html_affed728c1721116223b470d23d1292cd"><div class="ttname"><a href="classchemist_1_1basis__set_1_1ShellView.html#affed728c1721116223b470d23d1292cd">chemist::basis_set::ShellView::operator=</a></div><div class="ttdeci">ShellView &amp; operator=(const ShellView &amp;rhs)</div><div class="ttdoc">Overrides the state in *this with a copy of rhs.</div></div>
 <div class="ttc" id="aclasschemist_1_1basis__set_1_1detail___1_1ShellViewPIMPL_html"><div class="ttname"><a href="classchemist_1_1basis__set_1_1detail___1_1ShellViewPIMPL.html">chemist::basis_set::detail_::ShellViewPIMPL</a></div><div class="ttdef"><b>Definition:</b> shell_view_pimpl.hpp:24</div></div>
+<div class="ttc" id="anamespacechemist_1_1basis__set_html"><div class="ttname"><a href="namespacechemist_1_1basis__set.html">chemist::basis_set</a></div><div class="ttdoc">Contains classes associated with the electronic basis set.</div><div class="ttdef"><b>Definition:</b> ao_basis_set.cpp:22</div></div>
 <div class="ttc" id="astructchemist_1_1basis__set_1_1ContractedGaussianTraits_html"><div class="ttname"><a href="structchemist_1_1basis__set_1_1ContractedGaussianTraits.html">chemist::basis_set::ContractedGaussianTraits</a></div><div class="ttdoc">Propagates types associated with a ContractedGaussian of type CGType.</div><div class="ttdef"><b>Definition:</b> contracted_gaussian_traits.hpp:35</div></div>
 <div class="ttc" id="astructchemist_1_1detail___1_1ViewTraits_html"><div class="ttname"><a href="structchemist_1_1detail___1_1ViewTraits.html">chemist::detail_::ViewTraits</a></div><div class="ttdoc">Code factorization for TMP associated with views.</div><div class="ttdef"><b>Definition:</b> traits.hpp:38</div></div>
 <div class="ttc" id="astructchemist_1_1detail___1_1ViewTraits_html_a1eea9914fa8a00021cd54238f2bd3d53"><div class="ttname"><a href="structchemist_1_1detail___1_1ViewTraits.html#a1eea9914fa8a00021cd54238f2bd3d53">chemist::detail_::ViewTraits::type</a></div><div class="ttdeci">std::remove_cv_t&lt; T &gt; type</div><div class="ttdoc">The non-cv-qualified version of T.</div><div class="ttdef"><b>Definition:</b> traits.hpp:40</div></div>

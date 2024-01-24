@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>chemist: include/chemist/nucleus/nucleus_view.hpp Source File</title>
+<title>chemist: include/chemist/chemical_system/nucleus/nucleus_view.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,7 +62,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_40200ac6b74f7d1507a33db5931c41e1.html">chemist</a></li><li class="navelem"><a class="el" href="dir_dca00dc5c9d62f79f564a4150cbe816d.html">nucleus</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_40200ac6b74f7d1507a33db5931c41e1.html">chemist</a></li><li class="navelem"><a class="el" href="dir_e69fa0c37d0ee6968a00e93518ef9357.html">chemical_system</a></li><li class="navelem"><a class="el" href="dir_408236c427e157f8fde6852548ca5d1a.html">nucleus</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -87,9 +87,9 @@ $(function() {
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;chemist/detail_/view/traits.hpp&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;chemist/nucleus/nucleus.hpp&gt;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;chemist/point_charge/point_charge_view.hpp&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;chemist/chemical_system/nucleus/nucleus_class.hpp&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;chemist/chemical_system/point_charge/point_charge_view.hpp&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;chemist/detail_/view/traits.hpp&gt;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;iomanip&gt;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;limits&gt;</span></div>
@@ -247,7 +247,7 @@ $(function() {
 <div class="ttc" id="aclasschemist_1_1NucleusView_html_ae0bc3053b9d48c2d1bdf9f4f61518215"><div class="ttname"><a href="classchemist_1_1NucleusView.html#ae0bc3053b9d48c2d1bdf9f4f61518215">chemist::NucleusView::NucleusView</a></div><div class="ttdeci">NucleusView(nucleus_reference nuke)</div><div class="ttdoc">Creates a new NucleusView which is a view of nuke.</div></div>
 <div class="ttc" id="aclasschemist_1_1NucleusView_html_af597f92624aa09dcdbacc4158688e267"><div class="ttname"><a href="classchemist_1_1NucleusView.html#af597f92624aa09dcdbacc4158688e267">chemist::NucleusView::atomic_number_type</a></div><div class="ttdeci">typename nucleus_type::atomic_number_type atomic_number_type</div><div class="ttdoc">Type of the atomic number.</div><div class="ttdef"><b>Definition:</b> nucleus_view.hpp:76</div></div>
 <div class="ttc" id="aclasschemist_1_1NucleusView_html_afe93849b69099f9db1987bab640e9508"><div class="ttname"><a href="classchemist_1_1NucleusView.html#afe93849b69099f9db1987bab640e9508">chemist::NucleusView::NucleusView</a></div><div class="ttdeci">NucleusView(name_reference name, atomic_number_reference Z, mass_reference m, charge_view_type q)</div><div class="ttdoc">Creates a new NucleusView with the provided state.</div></div>
-<div class="ttc" id="aclasschemist_1_1Nucleus_html"><div class="ttname"><a href="classchemist_1_1Nucleus.html">chemist::Nucleus</a></div><div class="ttdoc">Class representing the (point) nucleus of an atom.</div><div class="ttdef"><b>Definition:</b> nucleus.hpp:33</div></div>
+<div class="ttc" id="aclasschemist_1_1Nucleus_html"><div class="ttname"><a href="classchemist_1_1Nucleus.html">chemist::Nucleus</a></div><div class="ttdoc">Class representing the (point) nucleus of an atom.</div><div class="ttdef"><b>Definition:</b> nucleus_class.hpp:33</div></div>
 <div class="ttc" id="aclasschemist_1_1PointChargeView_html"><div class="ttname"><a href="classchemist_1_1PointChargeView.html">chemist::PointChargeView</a></div><div class="ttdoc">Allows viewing data as if it was a PointCharge object.</div><div class="ttdef"><b>Definition:</b> point_charge_view.hpp:38</div></div>
 <div class="ttc" id="aclasschemist_1_1PointChargeView_html_a8c3de4062176613ea9ebdc09f25f3299"><div class="ttname"><a href="classchemist_1_1PointChargeView.html#a8c3de4062176613ea9ebdc09f25f3299">chemist::PointChargeView::operator=</a></div><div class="ttdeci">PointChargeView &amp; operator=(ChargeType2 &amp;&amp;charge)</div><div class="ttdoc">Sets the state of the aliased PointCharge to a copy of the state in charge.</div><div class="ttdef"><b>Definition:</b> point_charge_view.hpp:140</div></div>
 <div class="ttc" id="anamespacechemist_html"><div class="ttname"><a href="namespacechemist.html">chemist</a></div><div class="ttdoc">The primary namespace for the chemist library.</div><div class="ttdef"><b>Definition:</b> ao_basis_set.cpp:22</div></div>
