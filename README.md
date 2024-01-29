@@ -54,7 +54,7 @@ More detailed install instructions can be found
 
 - [Contributor Guidelines](https://github.com/NWChemEx/.github/blob/1a883d64519f62da7c8ba2b28aabda7c6f196b2c/.github/CONTRIBUTING.md)
 - [Contributor License Agreement](https://github.com/NWChemEx/.github/blob/master/.github/CONTRIBUTING.md#contributor-license-agreement-cla)
-- [Developer Documentation](https://nwchemex.github.io/PluginPlay/developer/index.html)
+- [Developer Documentation](https://nwchemex.github.io/Chemist/developer/index.html)
 - [Code of Conduct](https://github.com/NWChemEx/.github/blob/master/.github/CODE_OF_CONDUCT.md)
 
 # Acknowledgments
