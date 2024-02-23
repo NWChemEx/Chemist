@@ -26,4 +26,4 @@ of Chemist.
    fragmented
    fragmented_pimpls
    fragment_view
-   caps
+   capping/index

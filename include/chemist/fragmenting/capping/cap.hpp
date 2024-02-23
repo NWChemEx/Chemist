@@ -15,8 +15,9 @@
  */
 
 #pragma once
-#include <chemist/nucleus/nuclei.hpp>
+#include <chemist/chemical_system/nucleus/nuclei.hpp>
 #include <optional>
+#include <type_traits>
 
 namespace chemist::fragmenting {
 
@@ -28,10 +29,20 @@ namespace chemist::fragmenting {
  *
  */
 class Cap {
-public:
+private:
     /// Type of the object holding the nucleus or nuclei comprising the cap
     using nuclei_type = Nuclei;
 
+    /// Used to determine if a different type is a nuclei
+    template<typename T>
+    static constexpr bool is_nucleus_v =
+      std::is_same_v<nuclei_type::value_type, T>;
+
+    /// Disables a function via SFINAE if T == Nucleus
+    template<typename T>
+    using disable_if_nucleus_t = std::enable_if_t<!is_nucleus_v<T>>;
+
+public:
     /// Type of each nucleus comprising the cap
     using value_type = typename nuclei_type::value_type;
 
@@ -76,6 +87,17 @@ public:
     template<typename... Args>
     Cap(size_type anchor, size_type replaced, Args&&... nuclei) :
       m_nuclei_{std::forward<Args>(nuclei)...},
+      m_anchor_(anchor),
+      m_replaced_(replaced) {}
+
+    /** @brief Creates a cap given a range of nuclei to add.
+     *
+     *
+     */
+    template<typename BeginItr, typename EndItr,
+             typename = disable_if_nucleus_t<std::decay_t<BeginItr>>>
+    Cap(size_type anchor, size_type replaced, BeginItr&& begin, EndItr&& end) :
+      m_nuclei_(std::forward<BeginItr>(begin), std::forward<EndItr>(end)),
       m_anchor_(anchor),
       m_replaced_(replaced) {}
 

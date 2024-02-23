@@ -17,6 +17,7 @@
 #include "basis_set/export_basis_set.hpp"
 #include "chemical_system/export_chemical_system.hpp"
 #include "enums.hpp"
+#include "fragmenting/export_fragmenting.hpp"
 #include "point/export_point.hpp"
 #include "pychemist.hpp"
 
@@ -42,6 +43,8 @@ PYBIND11_MODULE(chemist, m) {
 
     export_chemist_enums(m);
     export_basis_set(m);
+
+    fragmenting::export_fragmenting(m);
 }
 
 } // namespace chemist

@@ -53,6 +53,13 @@ TEST_CASE("Nuclei") {
             REQUIRE(nuclei[3] == n2);
         }
 
+        SECTION("range") {
+            std::vector<value_type> buffer{n0, n1, n1, n2};
+
+            set_type range(buffer.begin(), buffer.end());
+            REQUIRE(range == nuclei);
+        }
+
         SECTION("Copy") {
             set_type copy0(defaulted);
             set_type copy1(nuclei);
