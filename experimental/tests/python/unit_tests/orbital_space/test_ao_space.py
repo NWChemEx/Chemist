@@ -15,7 +15,9 @@
 import unittest
 import chemist
 
+
 class TestAOSpace(unittest.TestCase):
+
     def test_ao_space(self):
         # Test initialization
         ao_space_d = chemist.AOSpaceD()

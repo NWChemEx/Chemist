@@ -15,6 +15,7 @@
 from chemist import PointF, PointD
 import unittest
 
+
 def make_point_test_case(point_type):
     """
     The test cases for PointF and PointD are basically the same aside from the
@@ -25,6 +26,7 @@ def make_point_test_case(point_type):
     """
 
     class TestPoint(unittest.TestCase):
+
         def test_ctor(self):
             self.assertEqual(self.defaulted.x, 0.0)
             self.assertEqual(self.defaulted.y, 0.0)
@@ -38,12 +40,10 @@ def make_point_test_case(point_type):
             self.assertEqual(self.r0.y, 2.0)
             self.assertEqual(self.r0.z, 3.0)
 
-
         def test_coord(self):
             # Test the initial value
             for i in range(3):
                 self.assertEqual(self.defaulted.coord(i), 0.0)
-
 
         def test_x(self):
             # Test the initial value
@@ -55,7 +55,6 @@ def make_point_test_case(point_type):
             # Test that our change took
             self.assertEqual(self.r0.x, 2.0)
 
-
         def test_y(self):
             # Test the initial value
             self.assertEqual(self.r0.y, 2.0)
@@ -65,7 +64,6 @@ def make_point_test_case(point_type):
 
             # Test that our change took
             self.assertEqual(self.r0.y, 3.0)
-
 
         def test_z(self):
             # Test the initial value
@@ -77,7 +75,6 @@ def make_point_test_case(point_type):
             # Test that our change took
             self.assertEqual(self.r0.z, 4.0)
 
-
         def test_magnitude(self):
             self.assertEqual(self.defaulted.magnitude(), 0.0)
             self.assertEqual(self.origin.magnitude(), 0.0)
@@ -88,13 +85,11 @@ def make_point_test_case(point_type):
             corr = 14.0**0.5
             self.assertAlmostEqual(self.r0.magnitude(), corr, places=p)
 
-
         def test_subtraction(self):
             r1 = self.origin - self.r0
             self.assertEqual(r1.x, -1.0)
             self.assertEqual(r1.y, -2.0)
             self.assertEqual(r1.z, -3.0)
-
 
         def test_comparisons(self):
             # Default v default
@@ -120,7 +115,6 @@ def make_point_test_case(point_type):
             r1 = point_type(1.0, 2.0, 0.0)
             self.assertNotEqual(self.r0, r1)
             self.assertFalse(self.r0 == r1)
-
 
         def setUp(self):
             self.defaulted = point_type()

@@ -15,7 +15,9 @@
 import chemist
 import unittest
 
+
 class TestStringMethods(unittest.TestCase):
+
     def testAtom(self):
         # Creating Atom objects using different constructors
         # Begin constructors

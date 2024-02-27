@@ -22,7 +22,6 @@ namespace chemist::fragmenting {
 void export_cap(python_module_reference m);
 void export_cap_set(python_module_reference m);
 
-
 inline void export_capping(python_module_reference m) {
     export_cap(m);
     export_cap_set(m);

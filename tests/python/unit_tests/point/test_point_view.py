@@ -15,6 +15,7 @@
 from chemist import PointF, PointD, PointViewF, PointViewD
 import unittest
 
+
 def make_point_view_test_case(point_type, point_view_type):
     """
     The test cases for PointViewF vs PointViewD are basically the same aside
@@ -26,7 +27,9 @@ def make_point_view_test_case(point_type, point_view_type):
                             ``PointViewD`` if ``point_type`` is ``PointD``.
 
     """
+
     class TestPointView(unittest.TestCase):
+
         def test_ctor(self):
             self.assertEqual(self.defaulted_view.x, 0.0)
             self.assertEqual(self.defaulted_view.y, 0.0)
@@ -36,12 +39,10 @@ def make_point_view_test_case(point_type, point_view_type):
             self.assertEqual(self.r0_view.y, 2.0)
             self.assertEqual(self.r0_view.z, 3.0)
 
-
         def test_coord(self):
             # Test the initial value
             for i in range(3):
                 self.assertEqual(self.defaulted_view.coord(i), 0.0)
-
 
         def test_x(self):
             # Test the initial value
@@ -59,7 +60,6 @@ def make_point_view_test_case(point_type, point_view_type):
             self.assertEqual(self.r0.x, 3.0)
             self.assertEqual(self.r0_view.x, 3.0)
 
-
         def test_y(self):
             # Test the initial value
             self.assertEqual(self.r0_view.y, 2.0)
@@ -75,7 +75,6 @@ def make_point_view_test_case(point_type, point_view_type):
             self.r0.y = 4.0
             self.assertEqual(self.r0.y, 4.0)
             self.assertEqual(self.r0_view.y, 4.0)
-
 
         def test_z(self):
             # Test the initial value
@@ -93,7 +92,6 @@ def make_point_view_test_case(point_type, point_view_type):
             self.assertEqual(self.r0.z, 5.0)
             self.assertEqual(self.r0_view.z, 5.0)
 
-
         def test_magnitude(self):
             self.assertEqual(self.defaulted_view.magnitude(), 0.0)
             # N.B. Python used doubles not floats, so in Python the C++ value
@@ -102,7 +100,6 @@ def make_point_view_test_case(point_type, point_view_type):
             p = 6 if point_type == PointF else 10
             corr = 14.0**0.5
             self.assertAlmostEqual(self.r0_view.magnitude(), corr, places=p)
-
 
         def test_comparisons(self):
             # Default view vs default view
@@ -136,10 +133,9 @@ def make_point_view_test_case(point_type, point_view_type):
             self.assertNotEqual(self.r0_view, r1_view)
             self.assertFalse(self.r0_view == r1_view)
 
-
         def setUp(self):
             self.defaulted = point_type()
-            self.defaulted_view = point_view_type (self.defaulted)
+            self.defaulted_view = point_view_type(self.defaulted)
             self.r0 = point_type(1.0, 2.0, 3.0)
             self.r0_view = point_view_type(self.r0)
 

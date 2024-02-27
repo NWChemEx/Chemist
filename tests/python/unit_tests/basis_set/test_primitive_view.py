@@ -28,6 +28,7 @@ def make_primitive_view_test_case(view_type):
     """
 
     class TestPrimitive(unittest.TestCase):
+
         def test_ctor(self):
             self.assertTrue(self.defaulted.is_null())
 

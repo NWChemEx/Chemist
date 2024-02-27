@@ -30,6 +30,7 @@ def make_shell_test_case(shell_type):
     """
 
     class TestShell(unittest.TestCase):
+
         def test_ctor(self):
             self.assertTrue(self.defaulted.is_null())
             self.assertEqual(self.defaulted.size(), 0)
@@ -119,8 +120,8 @@ def make_shell_test_case(shell_type):
             self.assertFalse(self.defaulted != other_default)
 
             # Non-default
-            other_with_inputs = shell_type(
-                self.pure, 0, [0.0], [1.0], 2.0, 3.0, 4.0)
+            other_with_inputs = shell_type(self.pure, 0, [0.0], [1.0], 2.0,
+                                           3.0, 4.0)
             self.assertEqual(self.with_inputs1, other_with_inputs)
             self.assertFalse(self.with_inputs1 != other_with_inputs)
 
@@ -158,10 +159,10 @@ def make_shell_test_case(shell_type):
 
             # The instances being tested
             self.defaulted = shell_type()
-            self.with_inputs1 = shell_type(
-                self.pure, 0, [0.0], [1.0], 2.0, 3.0, 4.0)
-            self.with_inputs2 = shell_type(
-                self.cart, 1, [5.0], [6.0], self.center)
+            self.with_inputs1 = shell_type(self.pure, 0, [0.0], [1.0], 2.0,
+                                           3.0, 4.0)
+            self.with_inputs2 = shell_type(self.cart, 1, [5.0], [6.0],
+                                           self.center)
             self.with_inputs3 = shell_type(self.cart, 2, self.cg)
 
     return TestShell

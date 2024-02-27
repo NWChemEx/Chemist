@@ -15,7 +15,9 @@
 import chemist
 import unittest
 
+
 class TestNucleus(unittest.TestCase):
+
     def test_base(self):
         """
         This test makes sure we can access the base class's member
@@ -49,7 +51,6 @@ class TestNucleus(unittest.TestCase):
         self.assertEqual(self.u_view.coord(2), 4.0)
         self.assertAlmostEqual(self.u_view.magnitude(), 29.0**0.5)
 
-
     def test_name(self):
         # Test original values
         self.assertEqual(self.defaulted_view.name, '')
@@ -61,7 +62,6 @@ class TestNucleus(unittest.TestCase):
 
         # Changes object it's a view of
         self.assertEqual(self.defaulted.name, 'Ez')
-
 
     def test_Z(self):
         # Test original values
@@ -75,7 +75,6 @@ class TestNucleus(unittest.TestCase):
         # Changes object it's a view of
         self.assertEqual(self.defaulted.Z, 6)
 
-
     def test_mass(self):
         # Test original values
         self.assertEqual(self.defaulted_view.mass, 0.0)
@@ -87,7 +86,6 @@ class TestNucleus(unittest.TestCase):
 
         # Changes object it's a view of
         self.assertEqual(self.defaulted.mass, 1.234)
-
 
     def test_comparisons(self):
         # Default view vs. default view
@@ -188,15 +186,17 @@ class TestNucleus(unittest.TestCase):
         self.assertNotEqual(self.u_view, q0_view)
         self.assertNotEqual(q0_view, self.u_view)
 
-
     def test_str(self):
         # Default
-        self.assertEqual(str(self.defaulted_view), ' 0.000000000000000 0.000000000000000 0.000000000000000')
+        self.assertEqual(
+            str(self.defaulted_view),
+            ' 0.000000000000000 0.000000000000000 0.000000000000000')
 
         # Has value
-        self.assertEqual(str(self.u_view), 'U 2.000000000000000 3.000000000000000 4.000000000000000')
+        self.assertEqual(
+            str(self.u_view),
+            'U 2.000000000000000 3.000000000000000 4.000000000000000')
 
-        
     def setUp(self):
         self.defaulted = chemist.Nucleus()
         self.defaulted_view = chemist.NucleusView(self.defaulted)

@@ -30,6 +30,7 @@ def make_cg_view_test_case(cg_view_type):
     """
 
     class TestContractedGaussianView(unittest.TestCase):
+
         def test_ctor(self):
             self.assertTrue(self.defaulted.is_null())
             self.assertTrue(self.defaulted.empty())
@@ -68,8 +69,7 @@ def make_cg_view_test_case(cg_view_type):
             self.from_cg.center = self.center_type(7.0, 8.0, 9.0)
             self.assertEqual(self.from_cg.center,
                              self.center_type(7.0, 8.0, 9.0))
-            self.assertEqual(self.cg.center,
-                             self.center_type(7.0, 8.0, 9.0))
+            self.assertEqual(self.cg.center, self.center_type(7.0, 8.0, 9.0))
 
         def test_is_null(self):
             self.assertTrue(self.defaulted.is_null())
@@ -139,9 +139,11 @@ def make_cg_view_test_case(cg_view_type):
     return TestContractedGaussianView
 
 
-class TestContractedGaussianViewF(make_cg_view_test_case(ContractedGaussianViewF)):
+class TestContractedGaussianViewF(
+        make_cg_view_test_case(ContractedGaussianViewF)):
     pass
 
 
-class TestContractedGaussianViewD(make_cg_view_test_case(ContractedGaussianViewD)):
+class TestContractedGaussianViewD(
+        make_cg_view_test_case(ContractedGaussianViewD)):
     pass
