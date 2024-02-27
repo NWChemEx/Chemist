@@ -27,6 +27,6 @@ Overview
 .. toctree::
    :maxdepth: 2
 
-    architecture
-    cap
-    cap_set
+   architecture
+   cap
+   cap_set

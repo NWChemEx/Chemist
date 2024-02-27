@@ -16,7 +16,9 @@ from chemist.fragmenting import Cap
 from chemist import Nucleus
 import unittest
 
+
 class TestCap(unittest.TestCase):
+
     def test_default_ctor(self):
         self.assertEqual(len(self.defaulted), 0)
 
@@ -55,7 +57,6 @@ class TestCap(unittest.TestCase):
         self.c12[0] = self.atom0
         self.assertEqual(self.c12[0], self.atom0)
 
-
     def test_size(self):
         self.assertEqual(len(self.defaulted), 0)
         self.assertEqual(self.defaulted.size(), 0)
@@ -63,7 +64,6 @@ class TestCap(unittest.TestCase):
         self.assertEqual(self.c12.size(), 1)
         self.assertEqual(len(self.c23), 2)
         self.assertEqual(self.c23.size(), 2)
-
 
     def test_set_anchor_index(self):
         self.defaulted.set_anchor_index(1)
@@ -127,7 +127,6 @@ class TestCap(unittest.TestCase):
         other_c23 = Cap(2, 3, self.atom1, self.atom0)
         self.assertTrue(self.c23 != other_c23)
         self.assertFalse(self.c23 == other_c23)
-
 
     def setUp(self):
         self.defaulted = Cap()

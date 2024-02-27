@@ -19,6 +19,8 @@ Capping Architecture
 In :ref:`designing_the_fragmenting_component` consideration :ref:`fc_caps`
 gave rise to the need to represent caps.
 
+.. _ca_what_is_a_cap:
+
 **************
 What is a Cap?
 **************
@@ -29,7 +31,7 @@ What is a Cap?
 
 .. _fig_caps_design:
 
-.. figure:: assets/caps.png
+.. figure:: assets/cap_overview.png
    :align: center
 
    Overview of capping and the terminology used.
@@ -74,6 +76,16 @@ container
 ************
 Architecture
 ************
+
+.. _fig_ca_architecture:
+
+.. figure:: assets/architecture.png
+   :align: center
+
+   Architecture of the capping component.
+
+:numref:`_fig_ca_architecture` shows the architecture of the capping component
+and how the classes are related. The classes are summarized below.
 
 Cap
 ===

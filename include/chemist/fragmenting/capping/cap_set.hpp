@@ -70,6 +70,10 @@ public:
      */
     explicit CapSet(std::initializer_list<value_type> il) : m_caps_(il) {}
 
+    template<typename BeginItr, typename EndItr>
+    CapSet(BeginItr&& begin, EndItr&& end) :
+      m_caps_(std::forward<BeginItr>(begin), std::forward<EndItr>(end)) {}
+
     /** @brief Adds @p cap to *this.
      *
      *  This method can be used to add an already created Cap instance to
@@ -88,17 +92,19 @@ public:
     /** @brief Used to construct a cap in place.
      *
      *  @tparam Args The types of the atoms comprising the caps. Must be
-     *               implicitly convertible to atom_type.
+     *               implicitly convertible to atom_type or to the type of
+     *               an iterator over atom_type objects.
      *
      *  @param[in] anchor The index of atom the cap is attached to.
      *  @param[in] replaced The index of the atom the cap is replacing.
-     *  @param[in] atoms The atoms comprising the cap.
+     *  @param[in] atoms The atoms comprising the cap or a pair of iterators.
+     *
      *
      *  @throw std::bad_alloc if there is a problem creating the cap or adding
      *                        it to *this. Strong throw guarantee.
      */
     template<typename... Args>
-    void add_cap(size_type anchor, size_type replaced, Args&&... atoms) {
+    void emplace_back(size_type anchor, size_type replaced, Args&&... atoms) {
         push_back(value_type(anchor, replaced, std::forward<Args>(atoms)...));
     }
 

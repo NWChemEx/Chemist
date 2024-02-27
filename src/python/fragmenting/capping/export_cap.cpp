@@ -32,9 +32,7 @@ void export_cap(python_module_reference m) {
       .def(pybind11::init<>())
       .def(pybind11::init(
         [](size_type anchor, size_type replaced, pybind11::args args) {
-            std::vector<nucleus_type> buffer(args.size());
-            for(decltype(args.size()) i = 0; i < args.size(); ++i)
-                buffer[i] = args[i].cast<nucleus_type>();
+            auto buffer = args_to_buffer<nucleus_type>(std::move(args));
             return Cap(anchor, replaced, buffer.begin(), buffer.end());
         }))
       .def("insert", &Cap::insert)

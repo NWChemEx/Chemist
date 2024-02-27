@@ -36,6 +36,14 @@ TEST_CASE("CapSet") {
             REQUIRE(has_values.at(0) == cap0);
             REQUIRE(has_values.at(1) == cap1);
         }
+        SECTION("Range") {
+            std::vector<Cap> caps{cap0, cap1};
+            CapSet range(caps.begin(), caps.end());
+
+            REQUIRE(range.size() == 2);
+            REQUIRE(range.at(0) == cap0);
+            REQUIRE(range.at(1) == cap1);
+        }
 
         SECTION("Copy") {
             CapSet other_defaulted(defaulted);
@@ -88,20 +96,25 @@ TEST_CASE("CapSet") {
         REQUIRE(defaulted == has_values);
     }
 
-    SECTION("add_cap") {
+    SECTION("emplace_back") {
         defaulted.push_back(cap0);
 
         // Cap with no atoms
-        defaulted.add_cap(1, 2);
+        defaulted.emplace_back(1, 2);
         REQUIRE(defaulted == has_values);
 
         // Cap with one atom
-        defaulted.add_cap(2, 3, atom0);
+        defaulted.emplace_back(2, 3, atom0);
         REQUIRE(defaulted[2] == Cap(2, 3, atom0));
 
         // Cap with two atoms
-        defaulted.add_cap(3, 4, atom0, atom0);
+        defaulted.emplace_back(3, 4, atom0, atom0);
         REQUIRE(defaulted[3] == Cap(3, 4, atom0, atom0));
+
+        // Cap with two atoms coming from container
+        std::vector<CapSet::nucleus_type> buffer{atom0, atom0, atom0};
+        defaulted.emplace_back(4, 5, buffer.begin(), buffer.end());
+        REQUIRE(defaulted[4] == Cap(4, 5, buffer.begin(), buffer.end()));
     }
 
     SECTION("at_") {
