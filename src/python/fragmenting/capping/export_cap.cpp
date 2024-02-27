@@ -24,7 +24,10 @@ using nucleus_type = Cap::value_type;
 using size_type    = Cap::size_type;
 using reference    = Cap::reference;
 using at_fxn       = reference (Cap::*)(size_type);
+
 void export_cap(python_module_reference m) {
+    auto rvp = pybind11::return_value_policy::reference_internal;
+
     python_class_type<Cap>(m, "Cap")
       .def(pybind11::init<>())
       .def(pybind11::init(
@@ -35,11 +38,16 @@ void export_cap(python_module_reference m) {
             return Cap(anchor, replaced, buffer.begin(), buffer.end());
         }))
       .def("insert", &Cap::insert)
-      .def("at", static_cast<at_fxn>(&Cap::at))
-      .def("__getitem__", static_cast<at_fxn>(&Cap::at))
+      .def("at", static_cast<at_fxn>(&Cap::at), rvp)
+      .def("__getitem__", static_cast<at_fxn>(&Cap::at), rvp)
+      .def("__setitem__",
+           [](Cap& self, size_type i, nucleus_type atom) { self.at(i) = atom; })
       .def("size", &Cap::size)
       .def("__len__", &Cap::size)
       .def("set_anchor_index", &Cap::set_anchor_index)
+      .def("get_anchor_index", &Cap::get_anchor_index)
+      .def("set_replaced_index", &Cap::set_replaced_index)
+      .def("get_replaced_index", &Cap::get_replaced_index)
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
 }
