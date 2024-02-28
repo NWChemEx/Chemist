@@ -31,6 +31,7 @@ def make_abs_test_case(abs_type):
     """
 
     class TestAtomicBasisSet(unittest.TestCase):
+
         def test_ctor(self):
             self.assertEqual(self.defaulted.n_aos(), 0)
             self.assertEqual(self.defaulted.n_primitives(), 0)
@@ -138,8 +139,8 @@ def make_abs_test_case(abs_type):
 
         def test_add_shell(self):
             self.assertTrue(self.defaulted.is_null())
-            self.defaulted.add_shell(
-                self.pure, 0, self.cg_type([0.0], [1.0], 2.0, 3.0, 4.0))
+            self.defaulted.add_shell(self.pure, 0,
+                                     self.cg_type([0.0], [1.0], 2.0, 3.0, 4.0))
 
             self.assertFalse(self.defaulted.is_null())
             self.assertEqual(self.defaulted.center,
@@ -172,9 +173,9 @@ def make_abs_test_case(abs_type):
             self.assertFalse(self.with_inputs6.empty())
 
         def test_at(self):
-            self.assertEqual(self.with_inputs6.at(0),
-                             self.shell_type(
-                self.pure, 0, [0.0], [1.0], 6.0, 6.1, 6.2))
+            self.assertEqual(
+                self.with_inputs6.at(0),
+                self.shell_type(self.pure, 0, [0.0], [1.0], 6.0, 6.1, 6.2))
 
         def test_size(self):
             self.assertEqual(self.defaulted.size(), 0)
@@ -191,26 +192,27 @@ def make_abs_test_case(abs_type):
             self.assertFalse(self.defaulted != other_default)
 
             # Non-default
-            other_with_inputs = abs_type(
-                "name", 6, self.center_type(6.0, 6.1, 6.2), [self.shell])
+            other_with_inputs = abs_type("name", 6,
+                                         self.center_type(6.0, 6.1, 6.2),
+                                         [self.shell])
             self.assertEqual(self.with_inputs6, other_with_inputs)
             self.assertFalse(self.with_inputs6 != other_with_inputs)
 
             # Different name
-            abs1 = abs_type(
-                "other name", 6, self.center_type(6.0, 6.1, 6.2), [self.shell])
+            abs1 = abs_type("other name", 6, self.center_type(6.0, 6.1, 6.2),
+                            [self.shell])
             self.assertNotEqual(self.with_inputs6, abs1)
             self.assertTrue(self.with_inputs6 != abs1)
 
             # Different atomic number
-            abs2 = abs_type(
-                "name", 7, self.center_type(6.0, 6.1, 6.2), [self.shell])
+            abs2 = abs_type("name", 7, self.center_type(6.0, 6.1, 6.2),
+                            [self.shell])
             self.assertNotEqual(self.with_inputs6, abs2)
             self.assertTrue(self.with_inputs6 != abs2)
 
             # Different center
-            abs3 = abs_type(
-                "name", 6, self.center_type(9.0, 6.1, 6.2), [self.shell])
+            abs3 = abs_type("name", 6, self.center_type(9.0, 6.1, 6.2),
+                            [self.shell])
             self.assertNotEqual(self.with_inputs6, abs3)
             self.assertTrue(self.with_inputs6 != abs3)
 
@@ -235,21 +237,22 @@ def make_abs_test_case(abs_type):
 
             # Some inputs
             self.pure = ShellType.pure
-            self.shell = self.shell_type(
-                self.pure, 0, [0.0], [1.0], 0.0, 0.0, 0.0)
+            self.shell = self.shell_type(self.pure, 0, [0.0], [1.0], 0.0, 0.0,
+                                         0.0)
 
             # The instances being tested
             self.defaulted = abs_type()
             self.with_inputs0 = abs_type("name", 0, 0.0, 0.1, 0.2)
-            self.with_inputs1 = abs_type(
-                "name", 1, self.center_type(1.0, 1.1, 1.2))
+            self.with_inputs1 = abs_type("name", 1,
+                                         self.center_type(1.0, 1.1, 1.2))
             self.with_inputs2 = abs_type(2.0, 2.1, 2.2)
             self.with_inputs3 = abs_type(self.center_type(3.0, 3.1, 3.2))
             self.with_inputs4 = abs_type("name", 4)
-            self.with_inputs5 = abs_type(
-                self.center_type(5.0, 5.1, 5.2), [self.shell])
-            self.with_inputs6 = abs_type(
-                "name", 6, self.center_type(6.0, 6.1, 6.2), [self.shell])
+            self.with_inputs5 = abs_type(self.center_type(5.0, 5.1, 5.2),
+                                         [self.shell])
+            self.with_inputs6 = abs_type("name", 6,
+                                         self.center_type(6.0, 6.1, 6.2),
+                                         [self.shell])
 
     return TestAtomicBasisSet
 

@@ -27,12 +27,12 @@ def make_primitive_test_case(prim_type, center_type):
     """
 
     class TestPrimitive(unittest.TestCase):
+
         def test_ctor(self):
             self.assertTrue(self.defaulted.is_null())
             self.assertEqual(self.defaulted.coefficient, 0.0)
             self.assertEqual(self.defaulted.exponent, 0.0)
-            self.assertEqual(self.defaulted.center,
-                             center_type(0.0, 0.0, 0.0))
+            self.assertEqual(self.defaulted.center, center_type(0.0, 0.0, 0.0))
             self.assertFalse(self.defaulted.is_null())
 
             self.assertEqual(self.from_coords.coefficient, 0.0)

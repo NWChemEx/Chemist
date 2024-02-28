@@ -57,7 +57,6 @@ version = str(last_tag)
 # "release candidate")
 release = version
 
-
 # -- General configuration ---------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -68,15 +67,10 @@ needs_sphinx = '1.3'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.githubpages',
-    'sphinx.ext.autosummary',
-    'sphinx_rtd_theme',
-    'sphinxcontrib.bibtex',
+    'sphinx.ext.autodoc', 'sphinx.ext.mathjax', 'sphinx.ext.githubpages',
+    'sphinx.ext.autosummary', 'sphinx_rtd_theme', 'sphinxcontrib.bibtex',
     'sphinx_tabs.tabs'
 ]
-
 
 # Add any paths that contain templates here, relative to this directory.
 #templates_path = ['_templates']
@@ -135,7 +129,6 @@ html_theme = 'sphinx_rtd_theme'
 # 'searchbox.html']``.
 #
 # html_sidebars = {}
-
 
 # -- Options for HTMLHelp output ---------------------------------------------
 

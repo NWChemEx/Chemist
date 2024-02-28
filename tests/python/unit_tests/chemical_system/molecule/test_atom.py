@@ -15,7 +15,9 @@
 import chemist
 import unittest
 
+
 class TestAtom(unittest.TestCase):
+
     def test_name(self):
         # Check initial values
         self.assertEqual(self.defaulted.name, '')
@@ -25,7 +27,6 @@ class TestAtom(unittest.TestCase):
         # Can write to it
         self.defaulted.name = 'foo'
         self.assertEqual(self.defaulted.name, 'foo')
-
 
     def test_nucleus(self):
         corr_h_nuke = chemist.Nucleus('H', 1, 1.0, 2.0, 3.0, 4.0)
@@ -42,7 +43,6 @@ class TestAtom(unittest.TestCase):
         self.he.nucleus = corr_h_nuke
         self.assertEqual(self.he.nucleus, corr_h_nuke)
 
-
     def test_Z(self):
         # Check initial values
         self.assertEqual(self.defaulted.Z, 0)
@@ -53,7 +53,6 @@ class TestAtom(unittest.TestCase):
         # Can write to it
         self.defaulted.Z = 1
         self.assertEqual(self.defaulted.Z, 1)
-
 
     def test_mass(self):
         # Check initial values
@@ -95,7 +94,6 @@ class TestAtom(unittest.TestCase):
         self.defaulted.n_electrons = 42
         self.assertEqual(self.defaulted.n_electrons, 42)
 
-
     def test_coord(self):
         self.assertEqual(self.defaulted.coord(0), 0.0)
         self.assertEqual(self.defaulted.coord(1), 0.0)
@@ -124,7 +122,6 @@ class TestAtom(unittest.TestCase):
         self.defaulted.x = -1.23
         self.assertEqual(self.defaulted.x, -1.23)
 
-
     def test_y(self):
         # Check initial values
         self.assertEqual(self.defaulted.y, 0.0)
@@ -135,7 +132,6 @@ class TestAtom(unittest.TestCase):
         # Can write to it
         self.defaulted.y = -1.23
         self.assertEqual(self.defaulted.y, -1.23)
-
 
     def test_z(self):
         # Check initial values
@@ -148,7 +144,6 @@ class TestAtom(unittest.TestCase):
         self.defaulted.z = -1.23
         self.assertEqual(self.defaulted.z, -1.23)
 
-
     def test_comparisons(self):
         # Default vs. default
         self.assertEqual(self.defaulted, chemist.Atom())
@@ -157,7 +152,6 @@ class TestAtom(unittest.TestCase):
         # Default vs. non-default
         self.assertNotEqual(self.defaulted, self.h)
         self.assertFalse(self.defaulted == self.h)
-
 
         # Same non-default
         other_h = chemist.Atom('H', 1, 1.0, 2.0, 3.0, 4.0, 1.0)
@@ -201,11 +195,14 @@ class TestAtom(unittest.TestCase):
 
     def test_str(self):
         # Default
-        self.assertEqual(str(self.defaulted), ' 0.000000000000000 0.000000000000000 0.000000000000000')
+        self.assertEqual(
+            str(self.defaulted),
+            ' 0.000000000000000 0.000000000000000 0.000000000000000')
 
         # Has value
-        self.assertEqual(str(self.h), 'H 2.000000000000000 3.000000000000000 4.000000000000000')
-
+        self.assertEqual(
+            str(self.h),
+            'H 2.000000000000000 3.000000000000000 4.000000000000000')
 
     def setUp(self):
         self.defaulted = chemist.Atom()

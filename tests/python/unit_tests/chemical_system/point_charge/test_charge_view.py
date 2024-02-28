@@ -15,8 +15,11 @@
 import chemist
 import unittest
 
+
 def make_charge_view_test(charge_type):
+
     class TestChargeView(unittest.TestCase):
+
         def test_base(self):
             """
             This test makes sure we can access the base class's member
@@ -49,7 +52,6 @@ def make_charge_view_test(charge_type):
             p = 6 if charge_type == chemist.PointChargeF else 10
             self.assertAlmostEqual(self.q1_view.magnitude(), 29**0.5, places=p)
 
-
         def test_charge(self):
             # Test original values
             self.assertEqual(self.q0_view.charge, 0.0)
@@ -61,7 +63,6 @@ def make_charge_view_test(charge_type):
 
             # Changes the actual charge
             self.assertEqual(self.q0.charge, -42.0)
-
 
         def test_comparisons(self):
             # Default view vs. default view
@@ -116,7 +117,6 @@ def make_charge_view_test(charge_type):
             self.assertNotEqual(self.q1, r0_view)
             self.assertNotEqual(r0_view, self.q1)
 
-
         def setUp(self):
             if charge_type == chemist.PointChargeF:
                 self.charge_view_type = chemist.PointChargeViewF
@@ -131,7 +131,6 @@ def make_charge_view_test(charge_type):
             self.q0_view = self.charge_view_type(self.q0)
             self.q1 = charge_type(1.0, 2.0, 3.0, 4.0)
             self.q1_view = self.charge_view_type(self.q1)
-
 
     return TestChargeView
 

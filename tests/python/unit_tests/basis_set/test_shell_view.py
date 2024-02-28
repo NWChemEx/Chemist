@@ -31,6 +31,7 @@ def make_shell_view_test_case(shell_view_type):
     """
 
     class TestShellView(unittest.TestCase):
+
         def test_ctor(self):
             self.assertTrue(self.defaulted.is_null())
             self.assertEqual(self.defaulted.size(), 0)
@@ -61,8 +62,8 @@ def make_shell_view_test_case(shell_view_type):
         def test_contracted_gaussian(self):
             self.assertEqual(self.from_shell.contracted_gaussian,
                              self.cg_type([0.0], [1.0], 2.0, 3.0, 4.0))
-            self.from_shell.contracted_gaussian = self.cg_type(
-                [1.0], [1.0], 2.0, 3.0, 4.0)
+            self.from_shell.contracted_gaussian = self.cg_type([1.0], [1.0],
+                                                               2.0, 3.0, 4.0)
             self.assertEqual(self.from_shell.contracted_gaussian,
                              self.cg_type([1.0], [1.0], 2.0, 3.0, 4.0))
             self.assertEqual(self.shell.contracted_gaussian,
@@ -104,8 +105,8 @@ def make_shell_view_test_case(shell_view_type):
 
             # Compare with viewed type
             default_viewed = self.shell_type()
-            other_viewed = self.shell_type(
-                self.pure, 0, [0.0], [1.0], 2.0, 3.0, 4.0)
+            other_viewed = self.shell_type(self.pure, 0, [0.0], [1.0], 2.0,
+                                           3.0, 4.0)
 
             self.assertEqual(self.defaulted, default_viewed)
             self.assertFalse(self.defaulted != default_viewed)
@@ -153,8 +154,8 @@ def make_shell_view_test_case(shell_view_type):
             self.cart = ShellType.cartesian
             self.center = self.center_type(7.0, 8.0, 9.0)
             self.cg = self.cg_type([10.0], [11.0], self.center)
-            self.shell = self.shell_type(
-                self.pure, 0, [0.0], [1.0], 2.0, 3.0, 4.0)
+            self.shell = self.shell_type(self.pure, 0, [0.0], [1.0], 2.0, 3.0,
+                                         4.0)
 
             # The instances being tested
             self.defaulted = shell_view_type()

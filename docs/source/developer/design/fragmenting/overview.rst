@@ -174,7 +174,7 @@ state such as the caps.
 Cap Class
 =========
 
-Full discussion: :ref:`designing_the_caps_class`.
+Full discussion: :ref:`designing_the_cap_class`.
 
 The other key piece of the Fragmenting component is the ``Cap`` class, which
 is introduced in response to the :ref:`fc_caps` consideration. We intentionally

@@ -1,4 +1,4 @@
-.. Copyright 2023 NWChemEx-Project
+.. Copyright 2024 NWChemEx-Project
 ..
 .. Licensed under the Apache License, Version 2.0 (the "License");
 .. you may not use this file except in compliance with the License.
@@ -12,18 +12,21 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-########################
-Fragmenting Subcomponent
-########################
+##############
+Capping Design
+##############
 
-The topics in this section describe the design of the Fragmenting subcomponent
-of Chemist.
+In :ref:`designing_the_fragmenting_component` consideration :ref:`fc_caps`
+gave rise to the need to represent caps. The capping sub component is charged
+with representing caps encountered when fragmenting chemical systems.
+
+********
+Overview
+********
 
 .. toctree::
    :maxdepth: 2
 
-   overview
-   fragmented
-   fragmented_pimpls
-   fragment_view
-   caps
+   architecture
+   cap
+   cap_set

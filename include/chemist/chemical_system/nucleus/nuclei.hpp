@@ -89,6 +89,29 @@ public:
      */
     explicit Nuclei(std::initializer_list<value_type> qs);
 
+    /** @brief Creates a Nuclei object from a pair of iterators.
+     *
+     *  @tparam BeginItr The type of the iterator pointing to the first Nucleus.
+     *  @tparam EndItr   The type of the iterator pointing to just past the
+     *                   last Nucleus.
+     *
+     *  This constructor will add all of the Nucleus objects in the range
+     *  [begin, end()) to *this.
+     *
+     *  @param[in] begin An iterator pointing to the first Nucleus.
+     *  @param[in] end   An iterator pointing to just past the last Nucleus
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the internal
+     *                        state of *this. Strong throw guarantee.
+     */
+    template<typename BeginItr, typename EndItr>
+    Nuclei(BeginItr&& begin, EndItr&& end) : Nuclei() {
+        while(begin != end) {
+            push_back(*begin);
+            ++begin;
+        }
+    }
+
     /** @brief Creates a new Nuclei by deep copying @p rhs.
      *
      *  @param[in] other the object we are copying.

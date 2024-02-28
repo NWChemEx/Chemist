@@ -15,8 +15,11 @@
 from chemist import PointF, PointD, PointChargeF, PointChargeD
 import unittest
 
+
 def make_point_charge_test(charge_type, point_type):
+
     class TestPointCharge(unittest.TestCase):
+
         def test_base(self):
             """
             This test makes sure we can access the base class's member
@@ -57,7 +60,6 @@ def make_point_charge_test(charge_type, point_type):
             r1 = point_type() - self.q0
             self.assertEqual(r1, point_type(-2.0, -3.0, -4.0))
 
-
         def test_charge(self):
             # Test original values
             self.assertEqual(self.defaulted.charge, 0.0)
@@ -66,7 +68,6 @@ def make_point_charge_test(charge_type, point_type):
             # Can change it
             self.defaulted.charge = -42.0
             self.assertEqual(self.defaulted.charge, -42.0)
-
 
         def test_comparisons(self):
             # Default vs. default
@@ -106,11 +107,9 @@ def make_point_charge_test(charge_type, point_type):
             self.assertNotEqual(self.q0, point_type())
             self.assertNotEqual(point_type(), self.q0)
 
-
         def setUp(self):
             self.defaulted = charge_type()
             self.q0 = charge_type(1.0, 2.0, 3.0, 4.0)
-
 
     return TestPointCharge
 

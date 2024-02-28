@@ -28,6 +28,7 @@ def make_cg_test_case(cg_type):
     """
 
     class TestContractedGaussian(unittest.TestCase):
+
         def test_ctor(self):
             self.assertTrue(self.defaulted.is_null())
             self.assertTrue(self.defaulted.empty())
@@ -118,8 +119,8 @@ def make_cg_test_case(cg_type):
 
             self.defaulted = cg_type()
             self.with_inputs1 = cg_type([0.0], [1.0], 2.0, 3.0, 4.0)
-            self.with_inputs2 = cg_type(
-                [5.0, 5.1], [6.0, 6.1], self.center_type(7.0, 8.0, 9.0))
+            self.with_inputs2 = cg_type([5.0, 5.1], [6.0, 6.1],
+                                        self.center_type(7.0, 8.0, 9.0))
 
     return TestContractedGaussian
 

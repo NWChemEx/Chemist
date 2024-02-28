@@ -15,7 +15,9 @@
 import chemist
 import unittest
 
+
 class TestStringMethods(unittest.TestCase):
+
     def testAtom(self):
         # Creating Nucleus objects using different constructors
         n0 = chemist.Nucleus()
@@ -53,5 +55,3 @@ class TestStringMethods(unittest.TestCase):
         n1.y = 2.0
         n1.z = 3.0
         assert n1 != n2
-
-

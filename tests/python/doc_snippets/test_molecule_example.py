@@ -15,7 +15,9 @@
 import chemist
 import unittest
 
+
 class TestStringMethods(unittest.TestCase):
+
     def testMolecule(self):
         # Begin constructors
         # Default constructor, no atoms, charge = 0.0, multiplicity = 1

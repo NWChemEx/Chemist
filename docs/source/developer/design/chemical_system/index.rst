@@ -36,4 +36,3 @@ familiar to physical chemists
    nucleus
    molecule
    system
-   fragmenting/index

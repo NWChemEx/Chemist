@@ -27,6 +27,7 @@ Overview
 
    architecture
    chemical_system/index
+   fragmenting/index
    ao_basis_set/index
    operator/index
    wavefunction/index

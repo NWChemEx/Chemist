@@ -32,6 +32,7 @@ def make_aobs_test_case(aobs_type):
     """
 
     class TestAOBasisSet(unittest.TestCase):
+
         def test_ctor(self):
             self.assertEqual(self.defaulted.n_shells(), 0)
             self.assertEqual(self.defaulted.n_aos(), 0)
@@ -59,8 +60,9 @@ def make_aobs_test_case(aobs_type):
             self.assertEqual(self.has_abs.n_shells(), 1)
 
         def test_shell(self):
-            self.assertEqual(self.has_abs.shell(0), self.shell_type(
-                self.pure, 0, [0.0], [0.1], 1.0, 1.1, 1.2))
+            self.assertEqual(
+                self.has_abs.shell(0),
+                self.shell_type(self.pure, 0, [0.0], [0.1], 1.0, 1.1, 1.2))
 
         def test_primitive_range(self):
             self.assertEqual(self.has_abs.primitive_range(0), (0, 1))
@@ -113,8 +115,9 @@ def make_aobs_test_case(aobs_type):
             self.assertNotEqual(self.defaulted, self.has_abs)
             self.assertTrue(self.defaulted != self.has_abs)
 
-            other_abs = self.abs_type(
-                "name", 1, self.center_type(2.0, 2.1, 2.2), [self.shell])
+            other_abs = self.abs_type("name", 1,
+                                      self.center_type(2.0, 2.1,
+                                                       2.2), [self.shell])
             has_different_abs = aobs_type()
             has_different_abs.add_center(other_abs)
             self.assertNotEqual(self.has_abs, has_different_abs)
@@ -137,10 +140,11 @@ def make_aobs_test_case(aobs_type):
 
             # Some inputs
             self.pure = ShellType.pure
-            self.shell = self.shell_type(
-                self.pure, 0, [0.0], [0.1], 0.2, 0.3, 0.4)
-            self.abs = self.abs_type(
-                "name", 1, self.center_type(1.0, 1.1, 1.2), [self.shell])
+            self.shell = self.shell_type(self.pure, 0, [0.0], [0.1], 0.2, 0.3,
+                                         0.4)
+            self.abs = self.abs_type("name", 1,
+                                     self.center_type(1.0, 1.1,
+                                                      1.2), [self.shell])
 
             # The instances being tested
             self.defaulted = aobs_type()

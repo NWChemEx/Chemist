@@ -15,11 +15,12 @@
 import chemist
 import unittest
 
+
 class TestMolecule(unittest.TestCase):
+
     def test_empty(self):
         self.assertTrue(self.defaulted.empty())
         self.assertFalse(self.has_value.empty())
-
 
     def test_push_back(self):
         # Sanity check
@@ -37,7 +38,6 @@ class TestMolecule(unittest.TestCase):
         self.assertEqual(self.defaulted.at(1), self.a1.nucleus)
         self.assertEqual(self.defaulted, self.has_value)
 
-
     def test_at(self):
         # Check values
         n0 = self.has_value.at(0)
@@ -49,11 +49,9 @@ class TestMolecule(unittest.TestCase):
         n0.x = 42.0
         self.assertEqual(self.has_value.at(0).x, 42.0)
 
-
     def test_size(self):
         self.assertEqual(self.defaulted.size(), 0)
         self.assertEqual(self.has_value.size(), 2)
-
 
     def test_comparisons(self):
         # Default vs default
@@ -86,13 +84,16 @@ class TestMolecule(unittest.TestCase):
         # Has value
         for i, atom in enumerate(self.has_value):
             self.assertEqual(atom, self.has_value.at(i))
-    
+
     def test_str(self):
         # Default
-       self.assertEqual(str(self.defaulted), '')
+        self.assertEqual(str(self.defaulted), '')
 
         # Has value
-       self.assertEqual(str(self.has_value), ' 0.000000000000000 0.000000000000000 0.000000000000000\nH 2.000000000000000 3.000000000000000 4.000000000000000\n')
+        self.assertEqual(
+            str(self.has_value),
+            ' 0.000000000000000 0.000000000000000 0.000000000000000\nH 2.000000000000000 3.000000000000000 4.000000000000000\n'
+        )
 
     def setUp(self):
         self.defaulted = chemist.Molecule()
@@ -101,4 +102,3 @@ class TestMolecule(unittest.TestCase):
         self.has_value = chemist.Molecule()
         self.has_value.push_back(self.a0)
         self.has_value.push_back(self.a1)
-

@@ -15,15 +15,15 @@
  */
 
 #include <catch2/catch.hpp>
-#include <chemist/capping/cap.hpp>
+#include <chemist/fragmenting/capping/cap.hpp>
 
-using namespace chemist;
+using namespace chemist::fragmenting;
 
-using atom_type = Cap::atom_type;
+using nucleus_type = Cap::value_type;
 
 TEST_CASE("Cap") {
     Cap defaulted;
-    atom_type atom0, atom1{"H", 1ul, 1837.289, 1.0, 2.0, 3.0};
+    nucleus_type atom0, atom1{"H", 1ul, 1837.289, 1.0, 2.0, 3.0};
 
     // Single-atom cap
     Cap c12(1, 2, atom0);
@@ -33,17 +33,24 @@ TEST_CASE("Cap") {
 
     SECTION("CTors") {
         SECTION("default") { REQUIRE(defaulted.size() == 0); }
+
         SECTION("Value") {
             REQUIRE(c12.size() == 1);
             REQUIRE(c12.get_anchor_index() == 1);
             REQUIRE(c12.get_replaced_index() == 2);
-            REQUIRE(c12.cap_atom(0) == atom0);
+            REQUIRE(c12.at(0) == atom0);
 
             REQUIRE(c23.size() == 2);
             REQUIRE(c23.get_anchor_index() == 2);
             REQUIRE(c23.get_replaced_index() == 3);
-            REQUIRE(c23.cap_atom(0) == atom0);
-            REQUIRE(c23.cap_atom(1) == atom1);
+            REQUIRE(c23.at(0) == atom0);
+            REQUIRE(c23.at(1) == atom1);
+        }
+
+        SECTION("range") {
+            std::vector<nucleus_type> atoms{atom0, atom1};
+            Cap crange(2, 3, atoms.begin(), atoms.end());
+            REQUIRE(crange == c23);
         }
 
         SECTION("Copy") {
@@ -109,39 +116,38 @@ TEST_CASE("Cap") {
         }
     }
 
-    SECTION("add_cap_atom") {
+    SECTION("insert") {
         Cap other_c23(2, 3, atom0);
         REQUIRE(other_c23 != c23);
 
-        other_c23.add_cap_atom(atom1);
+        other_c23.insert(atom1);
         REQUIRE(other_c23 == c23);
     }
 
-    SECTION("cap_atom") {
-        REQUIRE_THROWS_AS(defaulted.cap_atom(0), std::out_of_range);
+    SECTION("at") {
+        REQUIRE_THROWS_AS(defaulted.at(0), std::out_of_range);
 
-        REQUIRE(c12.cap_atom(0) == atom0);
-        REQUIRE_THROWS_AS(c12.cap_atom(1), std::out_of_range);
+        REQUIRE(c12.at(0) == atom0);
+        REQUIRE_THROWS_AS(c12.at(1), std::out_of_range);
 
-        REQUIRE(c23.cap_atom(0) == atom0);
-        REQUIRE(c23.cap_atom(1) == atom1);
-        REQUIRE_THROWS_AS(c23.cap_atom(2), std::out_of_range);
+        REQUIRE(c23.at(0) == atom0);
+        REQUIRE(c23.at(1) == atom1);
+        REQUIRE_THROWS_AS(c23.at(2), std::out_of_range);
 
         // Is writeable?
-        c12.cap_atom(0) = atom1;
-        REQUIRE(c12.cap_atom(0) == atom1);
+        c12.at(0) = atom1;
+        REQUIRE(c12.at(0) == atom1);
     }
 
-    SECTION("cap_atom() const") {
-        REQUIRE_THROWS_AS(std::as_const(defaulted).cap_atom(0),
-                          std::out_of_range);
+    SECTION("at() const") {
+        REQUIRE_THROWS_AS(std::as_const(defaulted).at(0), std::out_of_range);
 
-        REQUIRE(std::as_const(c12).cap_atom(0) == atom0);
-        REQUIRE_THROWS_AS(std::as_const(c12).cap_atom(1), std::out_of_range);
+        REQUIRE(std::as_const(c12).at(0) == atom0);
+        REQUIRE_THROWS_AS(std::as_const(c12).at(1), std::out_of_range);
 
-        REQUIRE(std::as_const(c23).cap_atom(0) == atom0);
-        REQUIRE(std::as_const(c23).cap_atom(1) == atom1);
-        REQUIRE_THROWS_AS(std::as_const(c23).cap_atom(2), std::out_of_range);
+        REQUIRE(std::as_const(c23).at(0) == atom0);
+        REQUIRE(std::as_const(c23).at(1) == atom1);
+        REQUIRE_THROWS_AS(std::as_const(c23).at(2), std::out_of_range);
     }
 
     SECTION("size") {
@@ -210,7 +216,7 @@ TEST_CASE("Cap") {
         REQUIRE_FALSE(c14 == c12);
 
         // Different atom
-        other_c12.cap_atom(0) = atom1;
+        other_c12.at(0) = atom1;
         REQUIRE(c12 != other_c12);
         REQUIRE_FALSE(c12 == other_c12);
 
