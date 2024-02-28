@@ -84,7 +84,7 @@ Architecture
 
    Architecture of the capping component.
 
-:numref:`_fig_ca_architecture` shows the architecture of the capping component
+:numref:`fig_ca_architecture` shows the architecture of the capping component
 and how the classes are related. The classes are summarized below.
 
 Cap
