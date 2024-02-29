@@ -12,9 +12,7 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-#######
-Chemist
-#######
+.. image:: assets/logo.png
 
 Quantum chemistry seeks to predict and explain phenomena from a large number of
 domains including (among others): chemistry, physics, biology, chemical
