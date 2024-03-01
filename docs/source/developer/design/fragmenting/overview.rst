@@ -173,9 +173,9 @@ fragmenting a ``ChemicalSystem``.
    // Step 3. Need to assign electrons to the fragments
 
    // This will hold the "Molecule" piece of each fragment
-   Fragmented<Molecule> frag_mol(sys.molecule());
+   FragmentedMolecule frag_mol(sys.molecule());
 
-   for(FragmentView<NucleiView> frag_i : frag_nuclei){
+   for(NucleiView frag_i : frag_nuclei){
        // Adds nuclei (and caps) and declares it as a neutral singlet
        frag_mol.insert(frag_i, 0, 1);
    }
@@ -183,9 +183,9 @@ fragmenting a ``ChemicalSystem``.
    // Step 4. Assign fields to each fragment
 
    // This will hold the final fragments (which are each a ChemicalSystem)
-   Fragmented<ChemicalSystem> frag_sys(sys);
+   FragmentedChemicalSystem frag_sys(sys);
 
-   for(FragmentView<Molecule> frag_i : frag_mol){
+   for(MoleculeView frag_i : frag_mol){
     // Adds molecule and its external field
     frag_sys.insert(frag_i, ...);
    }
@@ -246,7 +246,14 @@ FragmentedNuclei Class
 
 Full discussion: :ref:`designing_fragmented_nuclei_class`.
 
-:ref:`fc_caps`
+Stemming from :ref:`fc_chemical_system_hierarchy` we know we will have to
+fragment each piece of the ``ChemicalSystem`` hierarchy. The most fundamental
+piece is the ``Nuclei`` part of the ``ChemicalSystem`` class and the
+``FragmentedNuclei`` class is charged with representing a fragmented
+``Nuclei`` object. The ``FragmentedNuclei`` object determines whether the
+fragments are disjoint or not. This is done based on whether or not any given
+nucleus appears in more than one fragment. If a system contains caps, the nuclei
+for those caps live in the ``FragmentedNuclei`` object.
 
 FragmentedMolecule Class
 ========================
@@ -277,33 +284,29 @@ Summary
 
 :ref:`fc_chemical_system_class`
    Fragmenting a ``ChemicalSystem`` results in a container-like object of type
-   ``Fragmented<ChemicalSystem>``, the elements of the resulting object are
+   ``FragmentedChemicalSystem``, the elements of the resulting object are
    the fragments of the supersystem. Fragments are implicitly convertible to
    ``ChemicalSystem`` references in order to leverage existing algorithms.
 
 :ref:`fc_chemical_system_hierarchy`
    This consideration is essentially a generalization of
-   :ref:`fc_chemical_system_class` and is addressed by ``Fragmented<T>`` being
-   templated on ``T``, the type of object being fragmented. Similarly the
-   fragments are objects of type ``FragmentView<U>`` where ``U`` is a type
-   implicitly convertible to a ``T`` reference.
+   :ref:`fc_chemical_system_class` and is addressed by ``FragmentedNuclei``,
+   ``FragmentedMolecule``, and ``FragmentedChemicalSystem``. Each of which maps
+   to a respective class in the ``ChemicalSystem`` class hierarchy.
 
 :ref:`fc_caps`
-   State of the ``FragmentView<U>`` object is partitioned into state stemming
-   from the supersystem and state stemming from the caps. The caps are
-   modeled by ``Cap`` objects. By deriving from ``U`` the partitioning of the
-   state can be ignored by functions wanting to work with ``U`` objects.
+   The capping component is charged with representing the caps. The nuclei for
+   the caps are added to the system in the ``FragmentedNuclei`` object. The
+   electrons are added in the ``FragmentedMolecule`` object.
 
 :ref:`fc_non_disjoint`
    This consideration is ultimately a design consideration of the
-   ``Fragmented<T>`` and ``FragmentView<U>`` class templates and addressed
-   on the :ref:`designing_fragmented_class` page.
+   ``FragmentedNuclei`` class.
 
 :ref:`fc_general_use`
    The Fragmenting component is largely made up of a container-like object and
-   objects supporting that container. The ``Fragmented<T>`` class template,
-   and its members use generic language which is widely applicable across
-   scenarios.
+   objects supporting that container. The classes use generic language which is
+   widely applicable across scenarios.
 
 ****************
 Additional Notes

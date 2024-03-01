@@ -21,13 +21,17 @@ Designing the FragmentedMolecule Class
 The point of this page is to document the design decisions which went into
 the ``FragmentedMolecule`` class.
 
-*************************************
-What is the FragmentedMolecule Class?
-*************************************
-
 ******************************************
 Why Do We Need a FragmentedMolecule Class?
 ******************************************
+
+
+The need for the ``FragmentedMolecule`` class was motivated by the
+:ref:`fc_chemical_system_hierarchy` consideration of
+:ref:`designing_the_fragmenting_component`. In short, each layer of the
+``ChemicalSystem`` class will require a corresponding container for holding
+fragments. This is because each layer of the ``ChemicalSystem`` introduces new
+state.
 
 *********************************
 FragmentedMolecule Considerations
@@ -44,10 +48,11 @@ FragmentView Design
 
 .. _fig_fragmented_molecule_class:
 
-.. figure:: assets/fragmented_view.png
+.. figure:: assets/fragmented_molecule.png
    :align: center
 
-   Classes related to implementing ``FragmentView<U>``.
+   State of the ``FragmentedMolecule`` class and its relationship to related
+   classes.
 
 
 *******
