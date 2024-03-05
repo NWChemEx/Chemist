@@ -106,7 +106,7 @@ A couple of notes on the above:
   object can determine this mapping from ``nuclei_to_frag_map`` and the
   ``CapSet`` object.
 
-Following from the first note, users will need to be able to add fragments and
+Following from the second note, users will need to be able to add fragments and
 caps to the ``FragmentedNuclei`` object. To that end we propose the following
 APIs:
 
