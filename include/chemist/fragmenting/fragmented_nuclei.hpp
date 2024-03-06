@@ -15,42 +15,37 @@
  */
 
 #pragma once
-#include <chemist/nucleus/nuclei.hpp>
-#include <chemist/set_theory/family_of_sets.hpp>
-#include <utilities/containers/indexable_container_base.hpp>
+#include <chemist/chemical_system/nucleus/nuclei_view.hpp>
+#include <chemist/fragmenting/detail_/fragmented_base.hpp>
 
-namespace chemist {
+namespace chemist::fragmenting {
 namespace detail_ {
 class FragmentedNucleiPIMPL;
 }
 
-/** @brief Class describing super-/sub-set relationship among sets of `Nucleus`
+/** @brief Class describing super-/sub-set relationship among sets of `Nuclei`
  *         objects.
  *
- *  See
- * https://nwchemex.github.io/Chemist/developer/design/chemistry/fragmented_nuclei.html
- *  for design details.
+ *  See https://tinyurl.com/3ukrf6t8 for design details.
  *
  */
-class FragmentedNuclei
-  : public utilities::IndexableContainerBase<FragmentedNuclei> {
+class FragmentedNuclei : public FragmentingBase<FragmentedNuclei> {
 private:
     /// Type *this inherits from
-    using base_type = utilities::IndexableContainerBase<FragmentedNuclei>;
+    using base_type = FragmentingBase<FragmentedNuclei>;
+
+    /// Type of the pimpl
+    using pimpl_type = detail_::FragmentedNucleiPIMPL;
 
 public:
-    /// *this holds fragments from an object of supersystem_type
-    using supersystem_type = Nuclei;
+    /// Type of both the fragments and the supersystem
+    using value_type = Nuclei;
 
-    /// Type of a read-only reference to the supersystem
-    using const_supersystem_reference = const supersystem_type&;
+    /// Type of a mutable reference to a fragment
+    using reference = NucleiView<value_type>;
 
-    /// This is the type of the object used to implement *this
-    using impl_type = set_theory::FamilyOfSets<supersystem_type>;
-
-public:
-    /// Type of a fragment
-    using value_type = typename impl_type::value_type;
+    /// Type of a read-only reference to a fragment
+    using const_reference = NucleiView<const value_type>;
 
     /// Type of a reference to a fragment returned by non-const *this, will be
     /// read-only.
@@ -60,10 +55,14 @@ public:
     using const_reference = typename impl_type::const_reference;
 
     /// Type used for referring to nuclei indices, unsigned integral type
-    using index_type = impl_type::size_type;
+    using index_type = size_type;
 
     /// Type used for referring to fragments by index, unsigned integral type
     using size_type = base_type::size_type;
+
+    // -------------------------------------------------------------------------
+    // --- Ctors, Assignment, and dtor
+    // -------------------------------------------------------------------------
 
     /** @brief Creates a null FragmentedNuclei object.
      *
@@ -73,7 +72,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    FragmentedNuclei() = default;
+    FragmentedNuclei() noexcept;
 
     /** @brief Creates a FragmentedNuclei object associated with @p supersystem
      *
@@ -86,13 +85,25 @@ public:
      *  @throw std::bad_alloc if there is a problem creating the internal state.
      *                        Strong throw guarantee.
      */
-    explicit FragmentedNuclei(supersystem_type supersystem) :
-      m_frags_(std::move(supersystem)) {}
+    explicit FragmentedNuclei(supersystem_type supersystem);
+
+    FragmentedNuclei(const FragmentedNuclei& other);
+    FragmentedNuclei& operator=(const FragmentedNuclei& rhs);
+    FragmentedNuclei(FragmentedNuclei&& other) noexcept;
+    FragmentedNuclei& operator=(FragmentedNuclei&& rhs) noexcept;
+
+    /// Defaulted no-throw dtor
+    ~FragmentedNuclei() noexcept;
+
+    // -------------------------------------------------------------------------
+    // -- Getters/Setters
+    // -------------------------------------------------------------------------
 
     /** @brief Adds a fragment given an initializer list of indices.
      *
      *  This method is used primarily in unit testing, but it allows you to
-     *  add fragments to *this by providing an initializer list of atom indices.
+     *  add fragments to *this by providing an initializer list of atom
+     * indices.
      *
      *  For example, to add a fragment containing atoms 0, 4, and 5 (indicies
      *  refer to offsets in the object returned by `this->supersystem()`)
@@ -113,9 +124,7 @@ public:
      *  @throw std::bad_alloc if there is a problem creating the fragment.
      *                        Strong throw guarantee.
      */
-    void add_fragment(std::initializer_list<size_type> il) {
-        add_fragment(il.begin(), il.end());
-    }
+    void add_fragment(std::initializer_list<index_type> il);
 
     /** @brief Adds a fragment given iterators to a range of indices.
      *
@@ -178,6 +187,8 @@ public:
         return m_frags_.object();
     }
 
+    void swap(FragmentedNuclei& other) noexcept;
+
     /** @brief Determines if two FragmentedNuclei instances are equal.
      *
      *  In order for two FragmentedNuclei instances to be considered equal they
@@ -230,4 +241,4 @@ private:
     impl_type m_frags_;
 };
 
-} // namespace chemist
+} // namespace chemist::fragmenting
