@@ -260,10 +260,19 @@ FragmentedMolecule Class
 
 Full discussion: :ref:`designing_fragmented_molecule_class`.
 
+The ``FragmentedMolecule`` class is responsible for holding fragments taken
+from a ``Molecule`` object. It is composed of a ``FragmentedNuclei`` object, the
+charges of each fragment, and the multiplicities of each fragment.
+
 FragmentedChemicalSystem Class
 ==============================
 
 Full discussion: :ref:`designing_fragmented_chemical_system_class`.
+
+The ``FragmentedChemicalSystem`` class is designed to hold fragments taken from
+a ``ChemicalSystem`` object. At present this simply entails holding a
+``FragmentedMolecule`` object, but will eventually include holding the fields
+for each fragment as well.
 
 Capping Component
 =================

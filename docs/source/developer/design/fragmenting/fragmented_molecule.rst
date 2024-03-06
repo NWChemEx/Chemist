@@ -12,7 +12,7 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-.. _designing_the_fragmented_molecule_class:
+.. _designing_fragmented_molecule_class:
 
 ######################################
 Designing the FragmentedMolecule Class
@@ -111,7 +111,7 @@ FragmentView Design
    State of the ``FragmentedMolecule`` class and its relationship to related
    classes.
 
-:numref:`_fig_fragmented_molecule_class` shows the design of the
+:numref:`fig_fragmented_molecule_class` shows the design of the
 ``FragmentedMolecule`` class and its relationship to other classes in Chemist.
 Stemming from the :ref:`fmc_molecule_state` consideration, the
 ``FragmentedMolecule`` class contains a ``FragmentedNuclei`` object and two
