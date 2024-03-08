@@ -18,11 +18,12 @@ Developer Documentation
 
 Topics in this section are concerned with helping the reader understand the
 design of Chemist, and how to develop/contribute to the Chemist repository. It
-assumed that the reader is already familiar with :ref:`chemist_background`.
+is assumed that the reader is already familiar with :ref:`chemist_background`.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    design/index
+   developing_the_chemical_system_component
    NWChemEx author documentation <https://nwchemex.github.io/.github/>

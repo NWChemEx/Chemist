@@ -18,16 +18,12 @@ Design Documentation
 
 Topics in this section record the design process for the Chemist library.
 
-********
-Overview
-********
-
 .. toctree::
    :maxdepth: 2
 
    architecture
    chemical_system/index
-   fragmenting/index
    ao_basis_set/index
+   fragmenting/index
    operator/index
    wavefunction/index
