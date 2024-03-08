@@ -44,7 +44,7 @@ public:
     using nuclei_type = typename base_type::nuclei_type;
 
     /// Type of a shared pointer to a nuclei_type object
-    using nuclei_pointer = std::shared_ptr<nuclei_type>;
+    using nuclei_pointer = std::shared_ptr<NucleiType>;
 
     /// Type of a pointer to the base PIMPL
     using pimpl_pointer = typename base_type::pimpl_pointer;
@@ -102,9 +102,9 @@ public:
 
     // Deleted to avoid accidental slicing
     ///@{
-    NucleiSubset(NucleiSubset&&) = delete;
+    NucleiSubset(NucleiSubset&&)                     = delete;
     NucleiSubset& operator=(const NucleiSubset& rhs) = delete;
-    NucleiSubset& operator=(NucleiSubset&& rhs) = delete;
+    NucleiSubset& operator=(NucleiSubset&& rhs)      = delete;
     ///@}
 
     /** @brief Determines if *this is value equal to @p rhs.

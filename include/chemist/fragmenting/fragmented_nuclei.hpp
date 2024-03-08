@@ -29,36 +29,39 @@ class FragmentedNucleiPIMPL;
  *  See https://tinyurl.com/3ukrf6t8 for design details.
  *
  */
-class FragmentedNuclei : public FragmentingBase<FragmentedNuclei> {
+class FragmentedNuclei
+  : public detail_::FragmentedBase<FragmentedNuclei, Nuclei> {
 private:
     /// Type *this inherits from
-    using base_type = FragmentingBase<FragmentedNuclei>;
-
-    /// Type of the pimpl
-    using pimpl_type = detail_::FragmentedNucleiPIMPL;
+    using base_type = detail_::FragmentedBase<FragmentedNuclei, Nuclei>;
 
 public:
+    /// Type of this class's PIMPL
+    using pimpl_type = detail_::FragmentedNucleiPIMPL;
+
+    /// Type of a pointer to this class's PIMPL
+    using pimpl_pointer = std::unique_ptr<pimpl_type>;
+
     /// Type of both the fragments and the supersystem
-    using value_type = Nuclei;
+    using value_type = typename base_type::value_type;
 
     /// Type of a mutable reference to a fragment
-    using reference = NucleiView<value_type>;
+    using reference = typename base_type::reference;
 
     /// Type of a read-only reference to a fragment
-    using const_reference = NucleiView<const value_type>;
+    using const_reference = typename base_type::const_reference;
 
-    /// Type of a reference to a fragment returned by non-const *this, will be
-    /// read-only.
-    using reference = typename impl_type::const_reference;
+    /// Type of a fragment's PIMPL
+    using fragment_pimpl_type = typename reference::pimpl_type;
 
-    /// Type of a read-only reference to a fragment
-    using const_reference = typename impl_type::const_reference;
-
-    /// Type used for referring to nuclei indices, unsigned integral type
-    using index_type = size_type;
+    /// Type of a pointer to a fragment's PIMPL
+    using fragment_pimpl_pointer = typename reference::pimpl_pointer;
 
     /// Type used for referring to fragments by index, unsigned integral type
     using size_type = base_type::size_type;
+
+    /// Type used for referring to nuclei indices, unsigned integral type
+    using index_type = size_type;
 
     // -------------------------------------------------------------------------
     // --- Ctors, Assignment, and dtor
@@ -82,10 +85,8 @@ public:
      *
      *  @param[in] supersystem The supersystem we are fragmenting.
      *
-     *  @throw std::bad_alloc if there is a problem creating the internal state.
-     *                        Strong throw guarantee.
      */
-    explicit FragmentedNuclei(supersystem_type supersystem);
+    explicit FragmentedNuclei(value_type supersystem) noexcept;
 
     FragmentedNuclei(const FragmentedNuclei& other);
     FragmentedNuclei& operator=(const FragmentedNuclei& rhs);
@@ -158,34 +159,16 @@ public:
      *  @throw std::bad_alloc if there is a problem creating the fragment.
      *                        Strong throw guarantee.
      */
-    template<typename BeginItr, typename EndItr>
-    void add_fragment(BeginItr&& b, EndItr&& e) {
-        auto s = m_frags_.new_subset();
-        for(; b != e; ++b) s.insert(*b);
-        m_frags_.insert(std::move(s));
-    }
+    // template<typename BeginItr, typename EndItr>
+    // void add_fragment(BeginItr&& b, EndItr&& e) {
+    //     auto s = m_frags_.new_subset();
+    //     for(; b != e; ++b) s.insert(*b);
+    //     m_frags_.insert(std::move(s));
+    // }
 
-    /// Does *this have a supersystem?
-    bool has_supersystem() const noexcept {
-        return &m_frags_.object() != nullptr;
-    }
-
-    /** @brief Provides access to the supersystem.
-     *
-     *  If *this has a supersystem associated with it, this method can be used
-     *  to access the supersystem.
-     *
-     *  @returns A read-only reference to the supersystem *this is fragmenting.
-     *
-     *  @throw std::runtime_error if *this is not associated with a supersystem.
-     *                            Strong throw guarantee.
-     */
-
-    const_supersystem_reference supersystem() const {
-        if(!has_supersystem())
-            throw std::runtime_error("Supersystem was not set!");
-        return m_frags_.object();
-    }
+    // -------------------------------------------------------------------------
+    // -- Utility methods
+    // -------------------------------------------------------------------------
 
     void swap(FragmentedNuclei& other) noexcept;
 
@@ -203,9 +186,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    bool operator==(const FragmentedNuclei& rhs) const noexcept {
-        return m_frags_ == rhs.m_frags_;
-    }
+    bool operator==(const FragmentedNuclei& rhs) const noexcept;
 
     /** @brief Determines if two FragmentedNuclei instances are different.
      *
@@ -226,19 +207,36 @@ public:
 
 private:
     /// Allows the base class to access at_/size_ for the CRTP
-    friend base_type;
+    friend base_type::icb_type;
+
+    /** @brief Used to determine if *this has a PIMPL or not.
+     *
+     *  @return True if *this has a pimpl and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool has_pimpl_() const noexcept;
+
+    /** @brief Initializes m_pimpl_ if it is a nullptr.
+     *
+     *  This is a no-op if m_pimpl_ has been initialized.
+     *
+     *  @throw std::bad_alloc if there is a problem initializing m_pimpl_.
+     *         Strong throw guarantee.
+     */
+    void make_pimpl_();
 
     /// Implements non-const versions of operator[]/at
-    reference at_(size_type i) noexcept { return m_frags_[i]; }
+    reference at_(size_type i) noexcept;
 
     /// Implements const versions of operator[]/at
-    const_reference at_(size_type i) const noexcept { return m_frags_[i]; }
+    const_reference at_(size_type i) const noexcept;
 
     /// Implements size
-    size_type size_() const noexcept { return m_frags_.size(); }
+    size_type size_() const noexcept;
 
     /// Object actually managing the sets
-    impl_type m_frags_;
+    pimpl_pointer m_pimpl_;
 };
 
 } // namespace chemist::fragmenting

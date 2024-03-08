@@ -14,10 +14,24 @@
  * limitations under the License.
  */
 
+#include "detail_/nuclei_subset.hpp"
 #include "detail_/nuclei_view_pimpl.hpp"
+#include <numeric>
 
 namespace chemist {
+namespace detail_ {
 
+// TODO: This PIMPL is inefficient for wrapping an entire Nuclei object.
+template<typename NucleiType>
+auto wrap_nuclei(NucleiType& nuclei) {
+    std::vector<std::size_t> buffer(nuclei.size());
+    std::iota(buffer.begin(), buffer.end(), 0);
+    auto pnuclei     = std::make_shared<NucleiType>(nuclei);
+    using pimpl_type = NucleiSubset<NucleiType>;
+    return std::make_unique<pimpl_type>(pnuclei, buffer.begin(), buffer.end());
+}
+
+} // namespace detail_
 #define TPARAMS template<typename NucleiType>
 #define NUCLEI_VIEW NucleiView<NucleiType>
 
@@ -29,7 +43,10 @@ TPARAMS
 NUCLEI_VIEW::NucleiView() noexcept = default;
 
 TPARAMS
-NUCLEI_VIEW::NucleiView(pimpl_pointer pimpl) noexcept :
+NUCLEI_VIEW::NucleiView(apply_const_ref<nuclei_type> nuclei) :
+  NucleiView(detail_::wrap_nuclei(nuclei)) {}
+
+TPARAMS NUCLEI_VIEW::NucleiView(pimpl_pointer pimpl) noexcept :
   m_pimpl_(std::move(pimpl)) {}
 
 TPARAMS

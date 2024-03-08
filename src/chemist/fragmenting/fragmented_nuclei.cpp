@@ -14,40 +14,41 @@
  * limitations under the License.
  */
 
+#include "../chemical_system/nucleus/detail_/nuclei_subset.hpp"
 #include <boost/container/flat_set.hpp>
 #include <chemist/fragmenting/fragmented_nuclei.hpp>
-
-namespace {
-
-template<typename... Args>
-auto make_pimpl(Args&&... args) {
-    using pimpl_type = chemist::fragmenting::detail_::FragmentedNucleiPIMPL;
-    return std::make_unique<pimpl_type>(std::forward<Args>(args)...)
-}
-
-} // namespace
+#include <utility>
 
 namespace chemist::fragmenting {
 namespace detail_ {
 
 class FragmentedNucleiPIMPL {
 public:
-    // Type used to index nuclei
-    using index_type = FragmentedNuclei::index_type;
+    // Type of the class *this implements
+    using parent_type = FragmentedNuclei;
 
-    // Type of each fragment
-    using index_set_type = boost::container::flat_set<index_type>;
+    // Type of a view of a fragment
+    using reference = parent_type::reference;
 
     // Type of the container of fragments
-    using fragment_container_type = std::vector<index_set_type>;
+    using fragment_container_type = std::vector<reference>;
 
-    // Type of a pointer to a PIMPL
-    using pimpl_pointer = FragmentedNuclei::pimpl_pointer;
+    // Type of a pointer to the FragmentedNuclei PIMPL
+    using pimpl_pointer = parent_type::pimpl_pointer;
+
+    // Type of a pointer to a fragment's PIMPL
+    using fragment_pimpl_pointer = parent_type::fragment_pimpl_pointer;
 
     // The actual fragments
     fragment_container_type m_fragments;
 
-    pimpl_pointer clone() const { return make_pimpl(*this); }
+    void insert(fragment_pimpl_pointer pimpl) {
+        m_fragments.emplace_back(reference(std::move(pimpl)));
+    }
+
+    pimpl_pointer clone() const {
+        return std::make_unique<FragmentedNucleiPIMPL>(*this);
+    }
 };
 
 } // namespace detail_
@@ -57,15 +58,15 @@ public:
 // -----------------------------------------------------------------------------
 FragmentedNuclei::FragmentedNuclei() noexcept = default;
 
-FragmentedNuclei::FragmentedNuclei(supersystem_type supersystem) :
-  base_type(std::move(supersystem)), m_pimpl_(make_pimpl()) {}
+FragmentedNuclei::FragmentedNuclei(value_type supersystem) noexcept :
+  base_type(std::move(supersystem)) {}
 
 FragmentedNuclei::FragmentedNuclei(const FragmentedNuclei& other) :
   base_type(other),
-  m_pimpl_(other.has_pimpl() ? other.m_pimpl_->clone() : nullptr) {}
+  m_pimpl_(other.has_pimpl_() ? other.m_pimpl_->clone() : nullptr) {}
 
-FragmentedNuclei& FragmentedNuclei::operator=(const FragmentedNuclei& other) {
-    if(this != &rhs) FragmentedNuclei(other).swap(*this);
+FragmentedNuclei& FragmentedNuclei::operator=(const FragmentedNuclei& rhs) {
+    if(this != &rhs) FragmentedNuclei(rhs).swap(*this);
     return *this;
 }
 
@@ -81,9 +82,13 @@ FragmentedNuclei::~FragmentedNuclei() noexcept = default;
 // -----------------------------------------------------------------------------
 
 void FragmentedNuclei::add_fragment(std::initializer_list<index_type> il) {
-    if(!has_pimpl()) m_pimpl_.swap(make_pimpl());
-    pimpl_type::index_set temp(il.begin(), il.end());
-    m_pimpl_.m_fragments.emplace_back(std::move(temp));
+    make_pimpl_();
+    auto psupersystem = supersystem_data();
+    auto begin_itr    = il.begin();
+    auto end_itr      = il.end();
+    using pimpl_t     = chemist::detail_::NucleiSubset<value_type>;
+    m_pimpl_->insert(
+      std::make_unique<pimpl_t>(psupersystem, begin_itr, end_itr));
 }
 
 // -----------------------------------------------------------------------------
@@ -95,8 +100,40 @@ void FragmentedNuclei::swap(FragmentedNuclei& other) noexcept {
     m_pimpl_.swap(other.m_pimpl_);
 }
 
+bool FragmentedNuclei::operator==(const FragmentedNuclei& rhs) const noexcept {
+    if(!base_type::operator==(rhs)) return false;
+    if(size() != rhs.size()) return false;
+    if(size() == 0) return true;
+    return m_pimpl_->m_fragments == rhs.m_pimpl_->m_fragments;
+}
+
 // -----------------------------------------------------------------------------
 // --- Private methods
 // -----------------------------------------------------------------------------
+
+bool FragmentedNuclei::has_pimpl_() const noexcept {
+    return static_cast<bool>(m_pimpl_);
+}
+
+void FragmentedNuclei::make_pimpl_() {
+    if(has_pimpl_()) return;
+    m_pimpl_ = std::make_unique<pimpl_type>();
+}
+
+// n.b., IndexableContainerBase implements bounds checking, i.e., these wont'
+// be called unless i is a valid index (implying we have a PIMPL too)
+FragmentedNuclei::reference FragmentedNuclei::at_(size_type i) noexcept {
+    return m_pimpl_->m_fragments[i];
+}
+
+FragmentedNuclei::const_reference FragmentedNuclei::at_(
+  size_type i) const noexcept {
+    return m_pimpl_->m_fragments[i];
+}
+
+FragmentedNuclei::size_type FragmentedNuclei::size_() const noexcept {
+    if(!has_pimpl_()) return 0;
+    return m_pimpl_->m_fragments.size();
+}
 
 } // namespace chemist::fragmenting

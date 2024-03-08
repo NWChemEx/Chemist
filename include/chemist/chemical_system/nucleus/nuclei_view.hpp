@@ -22,7 +22,8 @@ namespace chemist {
 namespace detail_ {
 template<typename NucleiType>
 class NucleiViewPIMPL;
-}
+
+} // namespace detail_
 
 /** @brief Allows existing state to be used as if it were a Nuclei object.
  *
@@ -89,6 +90,8 @@ public:
      *  @throw None No throw guarantee.
      */
     NucleiView() noexcept;
+
+    NucleiView(apply_const_ref<nuclei_type> nuclei);
 
     /** @brief Creates a new view powered by the provided PIMPL.
      *
