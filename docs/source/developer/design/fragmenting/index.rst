@@ -12,18 +12,21 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-########################
-Fragmenting Subcomponent
-########################
+.. _design_of_the_fragmenting_component:
 
-The topics in this section describe the design of the Fragmenting subcomponent
+###################################
+Design of the Fragmenting Component
+###################################
+
+The topics in this section describe the design of the Fragmenting component
 of Chemist.
 
 .. toctree::
    :maxdepth: 2
 
    overview
-   fragmented
-   fragmented_pimpls
-   fragment_view
+   fragmented_base
    capping/index
+   fragmented_nuclei
+   fragmented_molecule
+   fragmented_chemical_system
