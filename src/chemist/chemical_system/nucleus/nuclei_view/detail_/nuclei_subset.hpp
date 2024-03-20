@@ -64,11 +64,14 @@
 //     /// Makes a null subset
 //     NucleiSubset() noexcept = default;
 
-//     /** @brief Creates a NucleiViewPIMPL which holds a subset of a Nuclei object
+//     /** @brief Creates a NucleiViewPIMPL which holds a subset of a Nuclei
+//     object
 //      *
-//      *  @tparam BeginItr The type of the iterator pointing to the index of the
+//      *  @tparam BeginItr The type of the iterator pointing to the index of
+//      the
 //      *                   first nucleus.
-//      *  @tparam EndItr The type of the iterator pointing to just past the index
+//      *  @tparam EndItr The type of the iterator pointing to just past the
+//      index
 //      *                 of the last nucleus.
 //      *
 //      *  @param[in] supersystem The *this will be a subset of.
@@ -77,19 +80,22 @@
 //      *  @param[in] end An iterator which points to just past the index of the
 //      *                 last nucleus.
 //      *
-//      * @throw std::bad_alloc if there is a problem allocating the memory. Strong
+//      * @throw std::bad_alloc if there is a problem allocating the memory.
+//      Strong
 //      *                       throw guarantee.
 //      *
 //      */
 //     template<typename BeginItr, typename EndItr>
-//     NucleiSubset(nuclei_pointer supersystem, BeginItr&& begin, EndItr&& end) :
+//     NucleiSubset(nuclei_pointer supersystem, BeginItr&& begin, EndItr&& end)
+//     :
 //       m_nuclei_(supersystem),
 //       m_members_(std::forward<BeginItr>(begin), std::forward<EndItr>(end)) {}
 
 //     /** @brief Initializes *this to a deep copy of @p other.
 //      *
 //      *  The copy ctor deep copies the indices of @p other, and stores a
-//      *  copy of the pointer pointing to the supersystem. In turn, the resulting
+//      *  copy of the pointer pointing to the supersystem. In turn, the
+//      resulting
 //      *  object aliases the same supersystem (which is consistent with *this
 //      *  bein the implementaiton of a view).
 //      *
@@ -110,8 +116,10 @@
 //     /** @brief Determines if *this is value equal to @p rhs.
 //      *
 //      *  We define two NucleiSubset objects as being value equal if they both
-//      *  are null, or if they both are the same subset of the same supersystem.
-//      *  Supersystems are comapred by value, meaning they do NOT have to be the
+//      *  are null, or if they both are the same subset of the same
+//      supersystem.
+//      *  Supersystems are comapred by value, meaning they do NOT have to be
+//      the
 //      *  same instance.
 //      *
 //      *  @param[in] rhs The NucleiSubset we are comparing to.
@@ -169,9 +177,11 @@
 //     std::vector<size_type> m_members_;
 // };
 
-// // -----------------------------------------------------------------------------
+// //
+// -----------------------------------------------------------------------------
 // // -- Implementations
-// // -----------------------------------------------------------------------------
+// //
+// -----------------------------------------------------------------------------
 
 // template<typename NucleiType>
 // inline bool NucleiSubset<NucleiType>::operator==(

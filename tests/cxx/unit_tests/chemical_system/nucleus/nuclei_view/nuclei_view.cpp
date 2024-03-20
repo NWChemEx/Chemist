@@ -16,7 +16,8 @@
 
 // #include <catch2/catch.hpp>
 // #include <cereal/archives/binary.hpp>
-// #include <chemist/chemical_system/nucleus/nuclei_view/detail_/nuclei_subset.hpp>
+// #include
+// <chemist/chemical_system/nucleus/nuclei_view/detail_/nuclei_subset.hpp>
 // #include <chemist/chemical_system/nucleus/nuclei_view/nuclei_view.hpp>
 // #include <sstream>
 
@@ -25,10 +26,14 @@
 // /* Testing Notes:
 //  *
 //  * We assume the base class has been tested and works correctly. Subject to
-//  * that assumption, we need to test the ability to access elements by reference
-//  * (since we wrote the implementation), and obtaining the size, but do not need
-//  * to retest all the ways one can access the elements (i.e., operator[], at, and
-//  * iterators). Also we note that NucleiView does NOT guarantee that the data it
+//  * that assumption, we need to test the ability to access elements by
+//  reference
+//  * (since we wrote the implementation), and obtaining the size, but do not
+//  need
+//  * to retest all the ways one can access the elements (i.e., operator[], at,
+//  and
+//  * iterators). Also we note that NucleiView does NOT guarantee that the data
+//  it
 //  * aliases are stored contiguously, though some PIMPLs will provide such a
 //  * guarantee.
 //  */
@@ -190,9 +195,9 @@
 //             auto pn12_copy = &(n12_copy = n12);
 
 //             const_view const_no_pimpl_copy;
-//             auto pconst_no_pimpl_copy = &(const_no_pimpl_copy = const_no_pimpl);
-//             const_view const_null_pimpl_copy;
-//             auto pconst_null_pimpl_copy =
+//             auto pconst_no_pimpl_copy = &(const_no_pimpl_copy =
+//             const_no_pimpl); const_view const_null_pimpl_copy; auto
+//             pconst_null_pimpl_copy =
 //               &(const_null_pimpl_copy = const_null_pimpl);
 //             const_view const_defaulted_copy;
 //             auto pconst_defaulted_copy =
@@ -245,9 +250,9 @@
 //             view_type no_pimpl_move;
 //             auto pno_pimpl_move = &(no_pimpl_move = std::move(no_pimpl));
 //             view_type null_pimpl_move;
-//             auto pnull_pimpl_move = &(null_pimpl_move = std::move(null_pimpl));
-//             view_type defaulted_move;
-//             auto pdefaulted_move = &(defaulted_move = std::move(defaulted));
+//             auto pnull_pimpl_move = &(null_pimpl_move =
+//             std::move(null_pimpl)); view_type defaulted_move; auto
+//             pdefaulted_move = &(defaulted_move = std::move(defaulted));
 //             view_type n01_move;
 //             auto pn01_move = &(n01_move = std::move(n01));
 //             view_type n12_move;
