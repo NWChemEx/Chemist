@@ -17,7 +17,8 @@
 #pragma once
 #include <array>
 #include <chemist/detail_/view/traits.hpp>
-#include <chemist/point/point.hpp>
+#include <chemist/point/point_class.hpp>
+#include <cmath>
 #include <iomanip>
 #include <iostream>
 #include <limits>

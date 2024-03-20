@@ -1,0 +1,80 @@
+#pragma once
+#include <chemist/point/point_set_view/point_set_view.hpp>
+
+namespace chemist::detail_ {
+
+/** @brief Establishes the common API for all PIMPLs implementing PointSetView
+ *
+ *  @tparam PointSetType Type of the PointSet being aliased.
+ *
+ *  This class is an abstract base class which defines the API for all PIMPLs
+ *  that implement PointSetView objects. New PIMPLs are made by inheriting from
+ *  this class template.
+ */
+template<typename PointSetType>
+class PointSetViewPIMPL {
+private:
+    /// Type of this class
+    using my_type = PointSetViewPIMPL<PointSetType>;
+
+public:
+    /// Type *this implements
+    using parent_type = PointSetView<PointSetType>;
+
+    /// Type of pointer the parent uses to hold *this
+    using pimpl_pointer = typename parent_type::pimpl_pointer;
+
+    /// Type defining the types associated with a Point in *this
+    using point_traits_type = typename parent_type::point_traits_type;
+
+    /// Type used for indexing and offsets
+    using size_type = typename parent_type::size_type;
+
+    /// Type of a mutable reference to an element of *this
+    using reference = typename parent_type::reference;
+
+    /// Type of a read-only reference to an element in *this
+    using const_reference = typename parent_type::const_reference;
+
+    /// No-op default ctor
+    PointSetViewPIMPL() = default;
+
+    /// No-op copy ctor (no state to copy)
+    PointSetViewPIMPL(const PointSetViewPIMPL&) = default;
+
+    /// Implemented generically by PointSetView
+    PointSetViewPIMPL& operator=(const PointSetViewPIMPL&) = delete;
+
+    /// Implemented generically by PointSetView
+    PointSetViewPIMPL(PointSetViewPIMPL&&) = delete;
+
+    /// Implemented generically by PointSetView
+    PointSetViewPIMPL& operator=(PointSetViewPIMPL&&) = delete;
+
+    /// Shallow polymorhic copy
+    pimpl_pointer clone() const { return clone_(); }
+
+    /// Returns the number of elements in *this
+    size_type size() const noexcept { return size_(); }
+
+    /// Returns a mutable reference to the i-th element in *this
+    reference operator[](size_type i) { return at_(i); }
+
+    /// Returns a read-only reference to the i-th element in *this
+    const_reference operator[](size_type i) const { return at_(i); }
+
+protected:
+    /// Derived class overwrites to implement clone
+    virtual pimpl_pointer clone_() const = 0;
+
+    /// Derived class overwrites to implement size
+    virtual size_type size_() const noexcept = 0;
+
+    /// Derived class overwrites to implement mutable element access
+    virtual reference at_(size_type i) = 0;
+
+    /// Derived class overwrites to implement read-only element access
+    virtual const_reference at_(size_type i) const = 0;
+};
+
+} // namespace chemist::detail_
