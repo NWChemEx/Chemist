@@ -28,8 +28,11 @@ public:
     /// Traits associated with the Points in *this
     using point_traits_type = typename traits_type::point_traits;
 
-    /// Type *this is behaving like
+    /// *this behaves like a reference to an object of this type
     using point_set_type = typename traits_type::value_type;
+
+    /// *this behaves like this type (acts like point_set_type&)
+    using point_set_reference = typename traits_type::reference;
 
     /// Type of a point stored in *this
     using value_type = typename point_traits_type::value_type;
@@ -58,6 +61,8 @@ public:
      *  @throw None No throw guarantee
      */
     PointSetView() noexcept;
+
+    explicit PointSetView(point_set_reference ps);
 
     explicit PointSetView(pimpl_pointer pimpl) noexcept;
 

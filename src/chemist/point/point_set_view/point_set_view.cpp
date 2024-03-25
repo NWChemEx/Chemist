@@ -13,6 +13,13 @@ TPARAMS
 POINT_SET_VIEW::PointSetView() noexcept = default;
 
 TPARAMS
+POINT_SET_VIEW::PointSetView(point_set_reference ps) :
+  m_pimpl_(std::make_unique<detail_::PointSetContiguous<PointSetType>>(
+    ps.size(), ps.size() > 0 ? &ps[0].x() : nullptr,
+    ps.size() > 0 ? &ps[0].y() : nullptr,
+    ps.size() > 0 ? &ps[1].z() : nullptr)) {}
+
+TPARAMS
 POINT_SET_VIEW::PointSetView(pimpl_pointer pimpl) noexcept :
   m_pimpl_(std::move(pimpl)) {}
 

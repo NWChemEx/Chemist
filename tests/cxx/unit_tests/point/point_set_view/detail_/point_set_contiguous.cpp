@@ -2,9 +2,10 @@
 #include <chemist/point/point_set_view/detail_/point_set_contiguous.hpp>
 #include <vector>
 
-TEMPLATE_TEST_CASE("PointSetContiguous<T>", "", float, double) {
-    using coord_type     = TestType;
-    using point_set_type = chemist::PointSet<coord_type>;
+template<typename PointSetType>
+void test_point_set_contiguous_guts() {
+    using point_set_type = PointSetType;
+    using coord_type     = typename point_set_type::value_type::coord_type;
     using pimpl_type     = chemist::detail_::PointSetContiguous<point_set_type>;
     using reference      = typename pimpl_type::reference;
     using const_reference = typename pimpl_type::const_reference;
@@ -22,6 +23,10 @@ TEMPLATE_TEST_CASE("PointSetContiguous<T>", "", float, double) {
     reference p0(x.data()[0], y.data()[0], z.data()[0]);
     reference p1(x.data()[1], y.data()[1], z.data()[1]);
     reference p2(x.data()[2], y.data()[2], z.data()[2]);
+
+    const_reference cp0(x.data()[0], y.data()[0], z.data()[0]);
+    const_reference cp1(x.data()[1], y.data()[1], z.data()[1]);
+    const_reference cp2(x.data()[2], y.data()[2], z.data()[2]);
 
     SECTION("Ctors") {
         SECTION("Default") { REQUIRE(defaulted.size() == 0); }
@@ -60,13 +65,52 @@ TEMPLATE_TEST_CASE("PointSetContiguous<T>", "", float, double) {
         }
     }
 
-    SECTION("clone") {}
+    SECTION("clone") {
+        auto defaulted_copy = defaulted.clone();
+        REQUIRE(defaulted_copy->are_equal(defaulted));
 
-    SECTION("size") {}
+        auto no_points_copy = no_points.clone();
+        REQUIRE(no_points_copy->are_equal(no_points));
 
-    SECTION("operator[]") {}
+        auto one_point_copy = one_point.clone();
+        REQUIRE(one_point_copy->are_equal(one_point));
 
-    SECTION("operator[]const") {}
+        auto two_points_copy = two_points.clone();
+        REQUIRE(two_points_copy->are_equal(two_points));
+
+        auto three_points_copy = three_points.clone();
+        REQUIRE(three_points_copy->are_equal(three_points));
+    }
+
+    SECTION("size") {
+        REQUIRE(defaulted.size() == 0);
+        REQUIRE(no_points.size() == 0);
+        REQUIRE(one_point.size() == 1);
+        REQUIRE(two_points.size() == 2);
+        REQUIRE(three_points.size() == 3);
+    }
+
+    SECTION("operator[]") {
+        REQUIRE(one_point[0] == p0);
+
+        REQUIRE(two_points[0] == p0);
+        REQUIRE(two_points[1] == p1);
+
+        REQUIRE(three_points[0] == p0);
+        REQUIRE(three_points[1] == p1);
+        REQUIRE(three_points[2] == p2);
+    }
+
+    SECTION("operator[] const") {
+        REQUIRE(std::as_const(one_point)[0] == cp0);
+
+        REQUIRE(std::as_const(two_points)[0] == cp0);
+        REQUIRE(std::as_const(two_points)[1] == cp1);
+
+        REQUIRE(std::as_const(three_points)[0] == p0);
+        REQUIRE(std::as_const(three_points)[1] == p1);
+        REQUIRE(std::as_const(three_points)[2] == p2);
+    }
 
     SECTION("operator==") {
         // N.b. for logical consistency all checks in this section must prepare
@@ -104,4 +148,16 @@ TEMPLATE_TEST_CASE("PointSetContiguous<T>", "", float, double) {
             REQUIRE_FALSE(two_points == other_two);
         }
     }
+}
+
+TEMPLATE_TEST_CASE("PointSetContiguous<T>", "", float, double) {
+    using point_type     = TestType;
+    using point_set_type = chemist::PointSet<point_type>;
+    test_point_set_contiguous_guts<point_set_type>();
+}
+
+TEMPLATE_TEST_CASE("PointSetContiguous<const T>", "", float, double) {
+    using point_type     = TestType;
+    using point_set_type = chemist::PointSet<point_type>;
+    test_point_set_contiguous_guts<const point_set_type>();
 }

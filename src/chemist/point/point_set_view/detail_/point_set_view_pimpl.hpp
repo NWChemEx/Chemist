@@ -63,7 +63,20 @@ public:
     /// Returns a read-only reference to the i-th element in *this
     const_reference operator[](size_type i) const { return at_(i); }
 
+    /// Polymorphic views alias value equal points
+    bool are_equal(const PointSetViewPIMPL& other) const noexcept {
+        return are_equal_(other);
+    }
+
 protected:
+    /// Derived classes should implement are_equal_ by calling this method and
+    /// setting DerivedType to their type.
+    template<typename DerivedType>
+    bool are_equal_impl_(const PointSetViewPIMPL& other) const noexcept;
+
+    /// Dervied class should overwrite to implement are_equal
+    virtual bool are_equal_(const PointSetViewPIMPL& other) const noexcept = 0;
+
     /// Derived class overwrites to implement clone
     virtual pimpl_pointer clone_() const = 0;
 
@@ -76,5 +89,33 @@ protected:
     /// Derived class overwrites to implement read-only element access
     virtual const_reference at_(size_type i) const = 0;
 };
+
+// -----------------------------------------------------------------------------
+// -- Out of line definitions
+// -----------------------------------------------------------------------------
+
+template<typename PointSetType>
+template<typename DerivedType>
+bool PointSetViewPIMPL<PointSetType>::are_equal_impl_(
+  const PointSetViewPIMPL& other) const noexcept {
+    const auto* pthis = dynamic_cast<const DerivedType*>(this);
+    assert(pthis != nullptr); // Coding error if this happens
+    const auto* pother = dynamic_cast<const DerivedType*>(&other);
+
+    // Same derived type can just delegate to operator==
+    if(pother != nullptr) { return (*pthis) == (*pother); }
+
+    // Need to manually check through common API.
+
+    // Short-circuit if different sizes
+    if(size() != other.size()) return false;
+
+    // Compare elements in the range [0, size()), n.b. is no-op if size() == 0
+    for(size_type i = 0; i < size(); ++i)
+        if((*this)[i] != other[i]) return false;
+
+    // Getting here means they're the same
+    return true;
+}
 
 } // namespace chemist::detail_

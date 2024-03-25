@@ -78,6 +78,10 @@ public:
     bool operator==(const PointSetContiguous& rhs) const noexcept;
 
 protected:
+    bool are_equal_(const base_type& other) const noexcept override {
+        return base_type::template are_equal_impl_<my_type>(other);
+    }
+
     pimpl_pointer clone_() const override {
         return std::make_unique<my_type>(*this);
     }
