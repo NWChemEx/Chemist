@@ -43,10 +43,7 @@ public:
     ChargesContiguous(point_set_reference points, charge_pointer pcharges) :
       m_points_(std::move(points)), m_pcharges_(pcharges) {}
 
-    bool operator==(const ChargesContiguous& rhs) noexcept {
-        // Must have same size
-        if(size() != rhs.size()) return false;
-    }
+    bool operator==(const ChargesContiguous& rhs) const noexcept;
 
 protected:
     pimpl_pointer clone_() const { return std::make_unique<my_type>(*this); }
@@ -73,12 +70,12 @@ private:
 
 template<typename ChargesType>
 bool ChargesContiguous<ChargesType>::operator==(
-  const ChargesContiguous& rhs) noexcept {
+  const ChargesContiguous& rhs) const noexcept {
     // Must have same size
-    if(size() != rhs.size()) return false;
+    if(size_() != rhs.size()) return false;
 
     // If they're both empty, then they are both the same
-    if(size() == 0) return true;
+    if(size_() == 0) return true;
 
     // Now we now they both have the same non-zero size
 
@@ -89,7 +86,7 @@ bool ChargesContiguous<ChargesType>::operator==(
     if(m_pcharges_ == rhs.m_pcharges_) return true;
 
     // Have to manually compare the charges
-    return std::equal(m_pcharges_, m_pcharges_ + size(), rhs.m_pcharges_);
+    return std::equal(m_pcharges_, m_pcharges_ + size_(), rhs.m_pcharges_);
 }
 
 } // namespace chemist::detail_

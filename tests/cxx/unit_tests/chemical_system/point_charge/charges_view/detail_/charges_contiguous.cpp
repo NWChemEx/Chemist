@@ -49,70 +49,66 @@ void test_case_guts() {
             pimpl_type charges_copy(charges);
             REQUIRE(charges_copy == charges);
         }
+    }
 
-        SECTION("clone") {
-            auto defaulted_copy = defaulted.clone();
-            //     REQUIRE(defaulted == defaulted_copy);
+    SECTION("clone") {
+        auto defaulted_copy = defaulted.clone();
+        //     REQUIRE(defaulted == defaulted_copy);
 
-            //     pimpl_type no_charges_copy(no_charges);
-            //     REQUIRE(no_charges_copy == no_charges);
+        //     pimpl_type no_charges_copy(no_charges);
+        //     REQUIRE(no_charges_copy == no_charges);
 
-            //     pimpl_type charges_copy(charges);
-            //     REQUIRE(charges_copy == charges);
-            // }
+        //     pimpl_type charges_copy(charges);
+        //     REQUIRE(charges_copy == charges);
+        // }
+    }
+
+    SECTION("operator==") {
+        SECTION("Default vs default") { REQUIRE(defaulted == pimpl_type{}); }
+        SECTION("Default vs. empty") { REQUIRE(defaulted == no_charges); }
+        SECTION("Default vs. non-empty") {
+            REQUIRE_FALSE(defaulted == charges);
         }
-
-        SECTION("operator==") {
-            SECTION("Default vs default") {
-                REQUIRE(defaulted == pimpl_type{});
-            }
-            SECTION("Default vs. empty") { REQUIRE(defaulted == no_charges); }
-            SECTION("Default vs. non-empty") {
-                REQUIRE_FALSE(defaulted == charges);
-            }
-            SECTION("Empty vs. empty") {
-                // N.b., non-null address to verify addresses aren't compared
-                pimpl_type no_charges2(point_set_reference(no_points),
-                                       qs.data());
-                REQUIRE(no_charges == no_charges2);
-            }
-            SECTION("Empty vs. non-empty") {
-                REQUIRE_FALSE(no_charges == charges);
-            }
-            SECTION("Same non-empty state") {
-                pimpl_type charges2(point_set_reference(points), qs.data());
-                REQUIRE(charges == charges2);
-            }
-            SECTION("Same non-empty state, different charge address") {
-                std::vector<charge_type> qs2(qs);
-                pimpl_type charges2(point_set_reference(points), qs2.data());
-                REQUIRE(charges == charges2);
-            }
-            SECTION("Same non-empty state, different PointSet") {
-                point_set_type points2{p0, p1, p2};
-                pimpl_type charges2(point_set_reference(points2), qs.data());
-                REQUIRE(charges == charges2);
-            }
-            SECTION("Different points") {
-                // n.b. we switched the order
-                point_set_type points2{p1, p0, p2};
-                pimpl_type charges2(point_set_reference(points2), qs.data());
-                REQUIRE_FALSE(charges == charges2);
-            }
-            SECTION("Different charges") {
-                std::vector<charge_type> qs2{-9.9, -8.8, -7.7};
-                pimpl_type charges2(point_set_reference(points), qs2.data());
-                REQUIRE_FALSE(charges == charges2);
-            }
+        SECTION("Empty vs. empty") {
+            // N.b., non-null address to verify addresses aren't compared
+            pimpl_type no_charges2(point_set_reference(no_points), qs.data());
+            REQUIRE(no_charges == no_charges2);
+        }
+        SECTION("Empty vs. non-empty") { REQUIRE_FALSE(no_charges == charges); }
+        SECTION("Same non-empty state") {
+            pimpl_type charges2(point_set_reference(points), qs.data());
+            REQUIRE(charges == charges2);
+        }
+        SECTION("Same non-empty state, different charge address") {
+            std::vector<charge_type> qs2(qs);
+            pimpl_type charges2(point_set_reference(points), qs2.data());
+            REQUIRE(charges == charges2);
+        }
+        SECTION("Same non-empty state, different PointSet") {
+            point_set_type points2{p0, p1, p2};
+            pimpl_type charges2(point_set_reference(points2), qs.data());
+            REQUIRE(charges == charges2);
+        }
+        SECTION("Different points") {
+            // n.b. we switched the order
+            point_set_type points2{p1, p0, p2};
+            pimpl_type charges2(point_set_reference(points2), qs.data());
+            REQUIRE_FALSE(charges == charges2);
+        }
+        SECTION("Different charges") {
+            std::vector<charge_type> qs2{-9.9, -8.8, -7.7};
+            pimpl_type charges2(point_set_reference(points), qs2.data());
+            REQUIRE_FALSE(charges == charges2);
         }
     }
+}
 
-    TEMPLATE_TEST_CASE("ChargesContiguous<T>", "", float, double) {
-        using charges_type = chemist::Charges<TestType>;
-        test_case_guts<charges_type>();
-    }
+TEMPLATE_TEST_CASE("ChargesContiguous<T>", "", float, double) {
+    using charges_type = chemist::Charges<TestType>;
+    test_case_guts<charges_type>();
+}
 
-    TEMPLATE_TEST_CASE("ChargesContiguous<const T>", "", float, double) {
-        using charges_type = chemist::Charges<TestType>;
-        test_case_guts<const charges_type>();
-    }
+TEMPLATE_TEST_CASE("ChargesContiguous<const T>", "", float, double) {
+    using charges_type = chemist::Charges<TestType>;
+    test_case_guts<const charges_type>();
+}
