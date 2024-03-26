@@ -30,8 +30,8 @@ class PointSetView;
 template<typename T>
 struct ChemistClassTraits<Point<T>> {
     using value_type            = Point<T>;
-    using reference             = PointView<value_type>;
-    using const_reference       = PointView<const value_type>;
+    using view_type             = PointView<value_type>;
+    using const_view_type       = PointView<const value_type>;
     using coord_reference       = T&;
     using const_coord_reference = const T&;
     using coord_pointer         = T*;
@@ -41,8 +41,8 @@ struct ChemistClassTraits<Point<T>> {
 template<typename T>
 struct ChemistClassTraits<const Point<T>> {
     using value_type            = Point<T>;
-    using reference             = PointView<const value_type>;
-    using const_reference       = PointView<const value_type>;
+    using view_type             = PointView<const value_type>;
+    using const_view_type       = PointView<const value_type>;
     using coord_reference       = const T&;
     using const_coord_reference = const T&;
     using coord_pointer         = const T*;
@@ -52,16 +52,20 @@ struct ChemistClassTraits<const Point<T>> {
 template<typename T>
 struct ChemistClassTraits<PointSet<T>> {
     using value_type      = PointSet<T>;
-    using reference       = PointSetView<value_type>;
-    using const_reference = PointSetView<const value_type>;
+    using reference       = PointSet<T>&;
+    using const_reference = const PointSet<T>&;
+    using view_type       = PointSetView<value_type>;
+    using const_view_type = PointSetView<const value_type>;
     using point_traits    = ChemistClassTraits<Point<T>>;
 };
 
 template<typename T>
 struct ChemistClassTraits<const PointSet<T>> {
     using value_type      = PointSet<T>;
-    using reference       = PointSetView<const value_type>;
-    using const_reference = PointSetView<const value_type>;
+    using reference       = const PointSet<T>&;
+    using const_reference = const PointSet<T>&;
+    using view_type       = PointSetView<const value_type>;
+    using const_view_type = PointSetView<const value_type>;
     using point_traits    = ChemistClassTraits<const Point<T>>;
 };
 

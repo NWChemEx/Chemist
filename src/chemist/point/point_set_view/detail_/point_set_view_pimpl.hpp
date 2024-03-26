@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <cassert>
 #include <chemist/point/point_set_view/point_set_view.hpp>
 
 namespace chemist::detail_ {

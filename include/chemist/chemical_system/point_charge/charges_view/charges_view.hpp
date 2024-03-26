@@ -28,15 +28,17 @@ public:
 
     using charges_traits = ChemistClassTraits<ChargesType>;
 
-    using point_charge_traits = typename charges_traits::point_charge_traits;
-
     using point_set_traits = typename charges_traits::point_set_traits;
 
     using point_set_type = typename point_set_traits::value_type;
 
-    using reference = typename point_charge_traits::reference;
+    using point_set_reference = typename point_set_traits::view_type;
 
-    using const_reference = typename point_charge_traits::const_reference;
+    using point_charge_traits = typename charges_traits::point_charge_traits;
+
+    using reference = typename point_charge_traits::view_type;
+
+    using const_reference = typename point_charge_traits::const_view_type;
 
     using charge_pointer = typename point_charge_traits::charge_pointer;
 

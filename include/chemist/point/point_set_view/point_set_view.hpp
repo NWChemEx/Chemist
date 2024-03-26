@@ -44,20 +44,20 @@ public:
     /// Traits associated with the Points in *this
     using point_traits_type = typename traits_type::point_traits;
 
-    /// *this behaves like a reference to an object of this type
+    /// The non-cv qualified type *this is a view of
     using point_set_type = typename traits_type::value_type;
 
-    /// *this behaves like this type (acts like point_set_type&)
+    /// reference to a point_set_type with cv-qualifiers matching PointSetType
     using point_set_reference = typename traits_type::reference;
 
     /// Type of a point stored in *this
     using value_type = typename point_traits_type::value_type;
 
     /// Type of a reference to a point in *this
-    using reference = typename point_traits_type::reference;
+    using reference = typename point_traits_type::view_type;
 
     /// Type of a read-only reference
-    using const_reference = typename point_traits_type::const_reference;
+    using const_reference = typename point_traits_type::const_view_type;
 
     /// Type of a PIMPL
     using pimpl_type = detail_::PointSetViewPIMPL<PointSetType>;
@@ -99,8 +99,13 @@ public:
     void swap(PointSetView& other) noexcept;
 
 private:
+    /// Allow base class to access implementations
+    friend base_type;
+
+    /// Used internally to determine if *this has a PIMPL or not
     bool has_pimpl_() const noexcept;
 
+    /// Wraps cloning the PIMPL, accounting for when there isn't one
     pimpl_pointer clone_pimpl_() const;
 
     /// Implements at/operator[] for the base class

@@ -79,6 +79,9 @@ public:
      */
     PointCharge(PointCharge&& other) noexcept = default;
 
+    PointCharge(charge_type q, point_type p) :
+      PointCharge(q, p.x(), p.y(), p.z()) {}
+
     /** @brief Creates a new PointCharge instance with the specified state.
      *
      *  @param[in] q The charge of the PointCharge (in a.u.)

@@ -30,7 +30,7 @@ public:
 
     using point_set_traits = typename charges_traits::point_set_traits;
 
-    using point_set_reference = typename charges_traits::reference;
+    using point_set_reference = typename point_set_traits::view_type;
 
     using charge_pointer = typename point_charge_traits::charge_pointer;
 
@@ -42,6 +42,11 @@ public:
 
     ChargesContiguous(point_set_reference points, charge_pointer pcharges) :
       m_points_(std::move(points)), m_pcharges_(pcharges) {}
+
+    bool operator==(const ChargesContiguous& rhs) noexcept {
+        // Must have same size
+        if(size() != rhs.size()) return false;
+    }
 
 protected:
     pimpl_pointer clone_() const { return std::make_unique<my_type>(*this); }
@@ -61,5 +66,30 @@ private:
 
     charge_pointer m_pcharges_;
 };
+
+// -----------------------------------------------------------------------------
+// -- Out of line definitions
+// -----------------------------------------------------------------------------
+
+template<typename ChargesType>
+bool ChargesContiguous<ChargesType>::operator==(
+  const ChargesContiguous& rhs) noexcept {
+    // Must have same size
+    if(size() != rhs.size()) return false;
+
+    // If they're both empty, then they are both the same
+    if(size() == 0) return true;
+
+    // Now we now they both have the same non-zero size
+
+    // Start by comparing the points
+    if(m_points_ != rhs.m_points_) return false;
+
+    // If aliasing the same memory for the charges then they're the same
+    if(m_pcharges_ == rhs.m_pcharges_) return true;
+
+    // Have to manually compare the charges
+    return std::equal(m_pcharges_, m_pcharges_ + size(), rhs.m_pcharges_);
+}
 
 } // namespace chemist::detail_

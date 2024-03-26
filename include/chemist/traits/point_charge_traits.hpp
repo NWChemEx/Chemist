@@ -15,8 +15,8 @@ class ChargesView;
 template<typename T>
 struct ChemistClassTraits<PointCharge<T>> {
     using value_type             = PointCharge<T>;
-    using reference              = PointChargeView<value_type>;
-    using const_reference        = PointChargeView<const value_type>;
+    using view_type              = PointChargeView<value_type>;
+    using const_view_type        = PointChargeView<const value_type>;
     using charge_type            = T;
     using charge_reference       = charge_type&;
     using const_charge_reference = const charge_type&;
@@ -28,8 +28,8 @@ struct ChemistClassTraits<PointCharge<T>> {
 template<typename T>
 struct ChemistClassTraits<const PointCharge<T>> {
     using value_type             = PointCharge<T>;
-    using reference              = PointChargeView<const value_type>;
-    using const_reference        = PointChargeView<const value_type>;
+    using view_type              = PointChargeView<const value_type>;
+    using const_view_type        = PointChargeView<const value_type>;
     using charge_type            = T;
     using charge_reference       = const charge_type&;
     using const_charge_reference = const charge_type&;
@@ -41,8 +41,10 @@ struct ChemistClassTraits<const PointCharge<T>> {
 template<typename T>
 struct ChemistClassTraits<Charges<T>> {
     using value_type          = Charges<T>;
-    using reference           = ChargesView<value_type>;
-    using const_reference     = ChargesView<const value_type>;
+    using reference           = Charges<T>&;
+    using const_reference     = const Charges<T>&;
+    using view_type           = ChargesView<value_type>;
+    using const_view_type     = ChargesView<const value_type>;
     using point_charge_traits = ChemistClassTraits<PointCharge<T>>;
     using point_set_traits    = ChemistClassTraits<PointSet<T>>;
 };
@@ -50,8 +52,10 @@ struct ChemistClassTraits<Charges<T>> {
 template<typename T>
 struct ChemistClassTraits<const Charges<T>> {
     using value_type          = Charges<T>;
-    using reference           = ChargesView<const value_type>;
-    using const_reference     = ChargesView<const value_type>;
+    using reference           = const Charges<T>&;
+    using const_reference     = const Charges<T>&;
+    using view_type           = ChargesView<const value_type>;
+    using const_view_type     = ChargesView<const value_type>;
     using point_charge_traits = ChemistClassTraits<const PointCharge<T>>;
     using point_set_traits    = ChemistClassTraits<const PointSet<T>>;
 };

@@ -13,16 +13,16 @@ class NucleiView;
 template<>
 struct ChemistClassTraits<Nucleus> {
     using value_type          = Nucleus;
-    using reference           = NucleusView<value_type>;
-    using const_reference     = NucleusView<const value_type>;
+    using view_type           = NucleusView<value_type>;
+    using const_view_type     = NucleusView<const value_type>;
     using point_charge_traits = ChemistClassTraits<PointCharge<double>>;
 };
 
 template<>
 struct ChemistClassTraits<const Nucleus> {
     using value_type          = Nucleus;
-    using reference           = NucleusView<const value_type>;
-    using const_reference     = NucleusView<const value_type>;
+    using view_type           = NucleusView<const value_type>;
+    using const_view_type     = NucleusView<const value_type>;
     using point_charge_traits = ChemistClassTraits<const PointCharge<double>>;
 };
 

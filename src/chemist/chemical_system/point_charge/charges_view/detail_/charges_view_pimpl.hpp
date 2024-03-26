@@ -20,8 +20,6 @@ public:
 
     using point_charge_traits = typename parent_type::point_charge_traits;
 
-    using point_set_type = typename parent_type::point_set_type;
-
     using size_type = typename parent_type::size_type;
 
     // -------------------------------------------------------------------------
