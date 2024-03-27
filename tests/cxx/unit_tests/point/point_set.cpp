@@ -114,6 +114,39 @@ TEMPLATE_TEST_CASE("PointSet", "", float, double) {
         REQUIRE(defaulted == points);
     }
 
+    SECTION("x_data()") {
+        REQUIRE(defaulted.x_data() == nullptr);
+        REQUIRE(points.x_data() == &points[0].x());
+    }
+
+    SECTION("x_data() const") {
+        REQUIRE(std::as_const(defaulted).x_data() == nullptr);
+        const auto& cpoints = points;
+        REQUIRE(cpoints.x_data() == &cpoints[0].x());
+    }
+
+    SECTION("y_data()") {
+        REQUIRE(defaulted.y_data() == nullptr);
+        REQUIRE(points.y_data() == &points[0].y());
+    }
+
+    SECTION("y_data() const") {
+        REQUIRE(std::as_const(defaulted).y_data() == nullptr);
+        const auto& cpoints = points;
+        REQUIRE(cpoints.y_data() == &cpoints[0].y());
+    }
+
+    SECTION("z_data()") {
+        REQUIRE(defaulted.z_data() == nullptr);
+        REQUIRE(points.z_data() == &points[0].z());
+    }
+
+    SECTION("z_data() const") {
+        REQUIRE(std::as_const(defaulted).z_data() == nullptr);
+        const auto& cpoints = points;
+        REQUIRE(cpoints.z_data() == &cpoints[0].z());
+    }
+
     SECTION("at_()") {
         using rtype = decltype(points[0]);
         STATIC_REQUIRE(std::is_same_v<rtype, typename set_type::reference>);

@@ -33,11 +33,13 @@ public:
 
     /// Reuse parent class's types
     ///@{
-    using pimpl_pointer   = typename parent_type::pimpl_pointer;
-    using value_type      = typename parent_type::value_type;
-    using reference       = typename parent_type::reference;
-    using const_reference = typename parent_type::const_reference;
-    using size_type       = typename parent_type::size_type;
+    using pimpl_pointer       = typename parent_type::pimpl_pointer;
+    using value_type          = typename parent_type::value_type;
+    using reference           = typename parent_type::reference;
+    using const_reference     = typename parent_type::const_reference;
+    using coord_pointer       = typename parent_type::coord_pointer;
+    using const_coord_pointer = typename parent_type::const_coord_pointer;
+    using size_type           = typename parent_type::size_type;
     ///@}
 
     /// Implements adding a Point<T> to the PointSet<T>
@@ -55,6 +57,30 @@ public:
     /// Implements retrieving a read-only reference to a Point<T>
     const_reference operator[](size_type i) const {
         return const_reference(m_x_.at(i), m_y_.at(i), m_z_.at(i));
+    }
+
+    coord_pointer x_data() noexcept {
+        return size() != 0 ? m_x_.data() : nullptr;
+    }
+
+    const_coord_pointer x_data() const noexcept {
+        return size() != 0 ? m_x_.data() : nullptr;
+    }
+
+    coord_pointer y_data() noexcept {
+        return size() != 0 ? m_y_.data() : nullptr;
+    }
+
+    const_coord_pointer y_data() const noexcept {
+        return size() != 0 ? m_y_.data() : nullptr;
+    }
+
+    coord_pointer z_data() noexcept {
+        return size() != 0 ? m_z_.data() : nullptr;
+    }
+
+    const_coord_pointer z_data() const noexcept {
+        return size() != 0 ? m_z_.data() : nullptr;
     }
 
     /// Implements PointSet<T>::size()

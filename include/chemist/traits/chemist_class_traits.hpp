@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 NWChemEx-Project
+ * Copyright 2024 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,13 @@
  * limitations under the License.
  */
 
-#include "detail_/fragmented_nuclei_pimpl.hpp"
+#pragma once
 
-namespace chemist {}
+namespace chemist {
+
+template<typename T>
+class ChemistClassTraits;
+
+#define CHEMIST_CLASS_TRAITS(CLASS_NAME)
+
+} // namespace chemist

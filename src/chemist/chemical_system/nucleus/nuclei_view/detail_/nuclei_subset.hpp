@@ -44,7 +44,7 @@ public:
     using nuclei_type = typename base_type::nuclei_type;
 
     /// Type of a shared pointer to a nuclei_type object
-    using nuclei_pointer = std::shared_ptr<nuclei_type>;
+    using nuclei_pointer = std::shared_ptr<NucleiType>;
 
     /// Type of a pointer to the base PIMPL
     using pimpl_pointer = typename base_type::pimpl_pointer;
@@ -142,7 +142,7 @@ protected:
     }
 
     /// Implements getting a mutable Nucleus
-    reference get_nuke_(size_type i) override {
+    const_reference get_nuke_(size_type i) override {
         return (*m_nuclei_)[m_members_[i]];
     }
 

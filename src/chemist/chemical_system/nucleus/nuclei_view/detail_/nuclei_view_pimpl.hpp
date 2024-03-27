@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include <chemist/chemical_system/nucleus/nuclei_view.hpp>
+#include <chemist/chemical_system/nucleus/nuclei_view/nuclei_view.hpp>
 
 namespace chemist::detail_ {
 
@@ -76,33 +76,40 @@ public:
 
     /** @brief Returns a reference to Nucleus @p i.
      *
-     *  This function is implemented by calling get_nuke_. The derived class is
+     *  This function is implemented by calling get_nuke_. The derived class
+     is
      *  responsible for overriding get_nuke_ in order to implement this
      *  function.
      *
-     *  @param[in] i The offset of the requested nucleus. @p i should be in the
+     *  @param[in] i The offset of the requested nucleus. @p i should be in
+     the
      *             range [0, size()).
      *
      *  @return A reference to the requested Nucleus. The Nucleus is mutable.
      *
-     *  @throw None This function performs no bounds checks (bounds checks are
-     *              deferred to the NucleiView class). Passing a value of @p i
+     *  @throw None This function performs no bounds checks (bounds checks
+     are
+     *              deferred to the NucleiView class). Passing a value of @p
+     i
      *              which is out of bounds will lead to undefined behavior.
      */
-    reference get_nuke(size_type i) { return get_nuke_(i); }
+    const_reference get_nuke(size_type i) { return get_nuke_(i); }
 
     /** @brief Returns a read-only reference to Nucleus @p i.
      *
      *  This method is the same as the non-const version except that it
      *  returns a read-only reference.
      *
-     *  @param[in] i The offset of the requested nucleus. Must be in the range
+     *  @param[in] i The offset of the requested nucleus. Must be in the
+     range
      *             [0, size()).
      *
      *  @return A read-only reference to the @p i-th nucleus.
      *
-     *  @throw None This function performs no bounds checks (bounds checks are
-     *              done by the NucleiView class which calls the PIMPL). While
+     *  @throw None This function performs no bounds checks (bounds checks
+     are
+     *              done by the NucleiView class which calls the PIMPL).
+     While
      *              passing an out of bounds value for @p i will not raise an
      *              error, it is undefined behavior and the program is likely
      *              to crash.
@@ -133,7 +140,7 @@ protected:
     virtual pimpl_pointer clone_() const = 0;
 
     /// Derived class overrides to implement get_nuke()
-    virtual reference get_nuke_(size_type i) = 0;
+    virtual const_reference get_nuke_(size_type i) = 0;
 
     /// Derived class overrides to implement get_nuke() const
     virtual const_reference get_nuke_(size_type i) const = 0;

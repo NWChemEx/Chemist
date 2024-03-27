@@ -66,6 +66,38 @@ void POINT_SET::push_back(value_type r) {
     m_pimpl_->push_back(std::move(r));
 }
 
+// -- Accessors ----------------------------------------------------------------
+
+TEMPLATE_PARAMS
+typename POINT_SET::coord_pointer POINT_SET::x_data() noexcept {
+    return has_pimpl_() ? m_pimpl_->x_data() : nullptr;
+}
+
+TEMPLATE_PARAMS
+typename POINT_SET::const_coord_pointer POINT_SET::x_data() const noexcept {
+    return has_pimpl_() ? m_pimpl_->x_data() : nullptr;
+}
+
+TEMPLATE_PARAMS
+typename POINT_SET::coord_pointer POINT_SET::y_data() noexcept {
+    return has_pimpl_() ? m_pimpl_->y_data() : nullptr;
+}
+
+TEMPLATE_PARAMS
+typename POINT_SET::const_coord_pointer POINT_SET::y_data() const noexcept {
+    return has_pimpl_() ? m_pimpl_->y_data() : nullptr;
+}
+
+TEMPLATE_PARAMS
+typename POINT_SET::coord_pointer POINT_SET::z_data() noexcept {
+    return has_pimpl_() ? m_pimpl_->z_data() : nullptr;
+}
+
+TEMPLATE_PARAMS
+typename POINT_SET::const_coord_pointer POINT_SET::z_data() const noexcept {
+    return has_pimpl_() ? m_pimpl_->z_data() : nullptr;
+}
+
 // -- Private ------------------------------------------------------------------
 
 TEMPLATE_PARAMS

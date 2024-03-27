@@ -13,9 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-#pragma once
-#include <chemist/chemical_system/nucleus/nuclei.hpp>
-#include <chemist/chemical_system/nucleus/nuclei_view/nuclei_view.hpp>
-#include <chemist/chemical_system/nucleus/nucleus_class.hpp>
-#include <chemist/chemical_system/nucleus/nucleus_view.hpp>
