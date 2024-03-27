@@ -69,14 +69,33 @@ void test_case_guts() {
 
     SECTION("clone") {
         auto defaulted_copy = defaulted.clone();
-        //     REQUIRE(defaulted == defaulted_copy);
+        REQUIRE(defaulted_copy->are_equal(defaulted));
 
-        //     pimpl_type no_charges_copy(no_charges);
-        //     REQUIRE(no_charges_copy == no_charges);
+        auto no_charges_copy = no_charges.clone();
+        REQUIRE(no_charges_copy->are_equal(no_charges));
 
-        //     pimpl_type charges_copy(charges);
-        //     REQUIRE(charges_copy == charges);
-        // }
+        auto charges_copy = charges.clone();
+        REQUIRE(charges_copy->are_equal(charges));
+    }
+
+    // n.b. base class does bounds checks our checks should be in bounds
+
+    SECTION("at_()") {
+        REQUIRE(charges[0] == q0);
+        REQUIRE(charges[1] == q1);
+        REQUIRE(charges[2] == q2);
+    }
+
+    SECTION("at_() const") {
+        REQUIRE(std::as_const(charges)[0] == q0);
+        REQUIRE(std::as_const(charges)[1] == q1);
+        REQUIRE(std::as_const(charges)[2] == q2);
+    }
+
+    SECTION("size_()") {
+        REQUIRE(defaulted.size() == 0);
+        REQUIRE(no_charges.size() == 0);
+        REQUIRE(charges.size() == 3);
     }
 
     SECTION("operator==") {

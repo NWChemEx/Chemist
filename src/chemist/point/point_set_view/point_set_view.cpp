@@ -66,12 +66,26 @@ void POINT_SET_VIEW::swap(PointSetView& other) noexcept {
     m_pimpl_.swap(other.m_pimpl_);
 }
 
+TPARAMS
+bool POINT_SET_VIEW::empty() const noexcept { return size_() == 0; }
+
+TPARAMS
+bool POINT_SET_VIEW::operator==(const PointSetView& rhs) const noexcept {
+    if(empty() != rhs.empty()) return false;
+    if(empty()) return true;
+    return m_pimpl_->are_equal(*rhs.m_pimpl_);
+}
+
+TPARAMS
+bool POINT_SET_VIEW::operator!=(const PointSetView& rhs) const noexcept {
+    return !(*this == rhs);
+}
+
 // -----------------------------------------------------------------------------
 // -- Private member functions
 // -----------------------------------------------------------------------------
 
-TPARAMS
-bool POINT_SET_VIEW::has_pimpl_() const noexcept {
+TPARAMS bool POINT_SET_VIEW::has_pimpl_() const noexcept {
     return static_cast<bool>(m_pimpl_);
 }
 

@@ -22,6 +22,9 @@ namespace chemist::detail_ {
 /** @brief Used to alias the charges for a Charges object when the charges
  *         are in a contiguous array.
  *
+ *  This class stores the PointSet part of the Charges object as a
+ *  PointSetView and the literal charge values in a contiguous array.
+ *
  *  @tparam ChargesType the type *this is acting like it aliases.
  */
 template<typename ChargesType>
@@ -34,49 +37,107 @@ private:
     using base_type = ChargesViewPIMPL<ChargesType>;
 
 public:
+    /// Type of a mutable view of a point charge
     using typename base_type::reference;
 
+    /// Type of a read-only view of a point charge
     using typename base_type::const_reference;
 
+    /// Traits class defining types associated with a PointCharge object
     using typename base_type::point_charge_traits;
 
+    /// Type of a pointer to the base of *this
     using typename base_type::pimpl_pointer;
 
+    /// Traits class defining types associated with a Charges object
     using charges_traits = typename base_type::charges_traits;
 
+    /// Traits class defining types associated with a PointSet object
     using point_set_traits = typename charges_traits::point_set_traits;
 
+    /// Type of a mutable reference to the PointSet piece of *this
     using point_set_reference = typename point_set_traits::view_type;
 
+    /// Type of a mutable pointer to a charge
     using charge_pointer = typename point_charge_traits::charge_pointer;
 
+    /// Type used for indexing and offsets
     using typename base_type::size_type;
 
+    /** @brief Creates an empty ChargesContiguous object.
+     *
+     *  The object created with this ctor acts like it aliases an empty Charges
+     *  object.
+     *
+     *  @throw None No throw guarantee
+     */
     ChargesContiguous() = default;
 
+    /** @brief Creates a copy of *this which aliases the same state.
+     *
+     *  @param[in] other The object we want to copy.
+     *
+     *  @throw std::bad_alloc if there is an issue copying the reference to
+     *         other's PointSet. Strong throw guarantee.
+     */
     ChargesContiguous(const ChargesContiguous& other) = default;
 
+    /** @brief Creates *this from existing state.
+     *
+     *  @param[in] points A reference to what will be the PointSet part of
+     *                    *this.
+     *  @param[in] pcharges A pointer to the first point charge's charge. It is
+     *                      assumed that the charge of the i-th point charge
+     *                      can be obtained as pcharges[i].
+     *
+     *  @throw None No throw guarantee.
+     */
     ChargesContiguous(point_set_reference points, charge_pointer pcharges) :
       m_points_(std::move(points)), m_pcharges_(pcharges) {}
 
+    /** @brief Compares two ChargesContiguous objects for equality.
+     *
+     *  This method compares the Charges object aliased by *this to that being
+     *  aliased by @p rhs. The method will return true if the aliased Charges
+     *  objects compare equal. In particular, note that this does NOT require
+     *  the aliased Charged objects to use the same memory (as comparing the
+     *  ChargesContiguous objects would).
+     *
+     *  @param[in] rhs The object we compare to.
+     *
+     *  @return True if *this compares equal to @p rhs and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
     bool operator==(const ChargesContiguous& rhs) const noexcept;
 
 protected:
+    /// Simply calls the copy ctor
     pimpl_pointer clone_() const { return std::make_unique<my_type>(*this); }
 
+    /// Creates a mutable reference on the fly
     reference at_(size_type i) noexcept override {
         return reference(m_pcharges_[i], m_points_[i]);
     }
 
+    /// Creates a read-only reference on the fly
     const_reference at_(size_type i) const noexcept override {
         return const_reference(m_pcharges_[i], m_points_[i]);
     }
 
+    /// Defers to the PointSet piece of *this for the number of point charges
     size_type size_() const noexcept override { return m_points_.size(); }
 
+    /// Calls the base class's are_equal_impl_ to implement are_equal
+    bool are_equal_(const base_type& rhs) const noexcept override {
+        return base_type::template are_equal_impl_<my_type>(rhs);
+    }
+
 private:
+    /// Mutable reference to the PointSet part of *this
     point_set_reference m_points_;
 
+    /// Pointer to the first point charge's charge
     charge_pointer m_pcharges_;
 };
 
