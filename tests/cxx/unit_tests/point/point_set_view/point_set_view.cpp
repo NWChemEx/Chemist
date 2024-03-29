@@ -256,6 +256,20 @@ TEMPLATE_TEST_CASE("PointSetView<T>", "", float, double) {
     using point_type     = TestType;
     using point_set_type = chemist::PointSet<point_type>;
     test_point_set_view_guts<point_set_type>();
+
+    SECTION("Can mutate elements") {
+        using view_type = chemist::PointSetView<point_set_type>;
+
+        chemist::Point<point_type> p0{1.1, 2.1, 3.1};
+        point_set_type one_point_ps{p0};
+        view_type one_point(one_point_ps);
+
+        REQUIRE(one_point[0].x() == point_type{1.1});
+        REQUIRE(one_point_ps[0].x() == point_type{1.1});
+        one_point[0].x() = point_type{42.0};
+        REQUIRE(one_point[0].x() == point_type{42.0});
+        REQUIRE(one_point_ps[0].x() == point_type{42.0});
+    }
 }
 
 TEMPLATE_TEST_CASE("PointSetView<const T>", "", float, double) {

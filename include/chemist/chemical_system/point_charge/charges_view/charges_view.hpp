@@ -21,12 +21,18 @@
 
 namespace chemist {
 namespace detail_ {
-
 template<typename ChargesType>
 class ChargesViewPIMPL;
-
 }
 
+/** @brief Enables treating state like it's a reference to a Charges object.
+ *
+ *  @tparam ChargesType The cv-qualified type *this is acting like.
+ *
+ *  ChargesView objects act like an alias of a Charges object. In practice, the
+ *  Charges object need not actually exist and the ChargesView object can
+ *  allocate state which is not tied to a Charges object.
+ */
 template<typename ChargesType>
 class ChargesView
   : public utilities::IndexableContainerBase<ChargesView<ChargesType>> {
@@ -38,33 +44,65 @@ private:
     using base_type = utilities::IndexableContainerBase<my_type>;
 
 public:
+    /// Base type of all PIMPLs capable of implementing *this
     using pimpl_type = detail_::ChargesViewPIMPL<ChargesType>;
 
+    /// Type of a pointer to a PIMPL's base piece
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
 
+    /// Traits of the Charges object *this aliases
     using charges_traits = ChemistClassTraits<ChargesType>;
 
+    /// Type of an actual mutable reference to a Charges object (not a view)
+    using charges_reference = typename charges_traits::reference;
+
+    /// Traits of the PointSet piece of *this
     using point_set_traits = typename charges_traits::point_set_traits;
 
+    /// Type of the PointSet piece of *this
     using point_set_type = typename point_set_traits::value_type;
 
+    /// Type acting like a mutable reference to the PointSet piece of *this
     using point_set_reference = typename point_set_traits::view_type;
 
+    /// Traits of the PointCharge objects in *this
     using point_charge_traits = typename charges_traits::point_charge_traits;
 
+    /// Type of the PointCharge objects in *this
+    using value_type = typename point_charge_traits::value_type;
+
+    /// Type acting like a mutable reference to a PointCharge object in *this
     using reference = typename point_charge_traits::view_type;
 
+    /// Type acting like a read-only reference to a PointCharge object in *this
     using const_reference = typename point_charge_traits::const_view_type;
 
+    /// Type of a mutable pointer to a point charge's charge
     using charge_pointer = typename point_charge_traits::charge_pointer;
 
+    /// Unsigned integer type used for indexing and offsets
     using typename base_type::size_type;
 
     /** @brief Aliases an empty Charges object
      *
-     * @throw None No throw guarantee
+     *  Default created ChargesView objects act like they alias empty Charges
+     *  objects.
+     *
+     *  @throw None No throw guarantee
      */
     ChargesView() noexcept;
+
+    /** @brief Creates a ChargesView object which aliases @p charges.
+     *
+     *  This ctor allows a traditional reference to a Charges object to be used
+     *  like it is a ChargesView object.
+     *
+     *  @param[in] charges The object *this will alias.
+     *
+     *  @throw std::bad_alloc if there is
+     *
+     */
+    explicit ChargesView(charges_reference charges);
 
     ChargesView(const ChargesView& other);
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "detail_/charges_view_pimpl.hpp"
+#include "detail_/charges_contiguous.hpp"
 
 namespace chemist {
 
@@ -27,6 +27,11 @@ namespace chemist {
 
 TPARAMS
 CHARGES_VIEW::ChargesView() noexcept = default;
+
+TPARAMS
+CHARGES_VIEW::ChargesView(charges_reference charges) :
+  m_pimpl_(std::make_unique<detail_::ChargesContiguous<ChargesType>>(
+    charges.point_set(), charges.charge_data())) {}
 
 TPARAMS
 CHARGES_VIEW::ChargesView(const ChargesView& other) :

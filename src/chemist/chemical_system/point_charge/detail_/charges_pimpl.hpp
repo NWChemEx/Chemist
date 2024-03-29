@@ -42,18 +42,28 @@ public:
 
     /// Reuse parent class's types
     ///@{
-    using pimpl_pointer   = typename parent_type::pimpl_pointer;
-    using value_type      = typename parent_type::value_type;
-    using reference       = typename parent_type::reference;
-    using const_reference = typename parent_type::const_reference;
-    using point_set_type  = typename parent_type::point_set_type;
+    using pimpl_pointer       = typename parent_type::pimpl_pointer;
+    using value_type          = typename parent_type::value_type;
+    using reference           = typename parent_type::reference;
+    using const_reference     = typename parent_type::const_reference;
+    using point_set_type      = typename parent_type::point_set_type;
+    using point_set_reference = typename parent_type::point_set_reference;
     using const_point_set_reference =
       typename parent_type::const_point_set_reference;
-    using size_type = typename parent_type::size_type;
+    using charge_pointer       = typename parent_type::charge_pointer;
+    using const_charge_pointer = typename parent_type::const_charge_pointer;
+    using size_type            = typename parent_type::size_type;
     ///@}
 
     /// The type used to store the charge
     using charge_type = typename value_type::charge_type;
+
+    /// Creates a PIMPL capable of powering an empty Charges object
+    ChargesPIMPL() = default;
+
+    /// Create a Charges object from a set of points and their charges
+    ChargesPIMPL(point_set_type points, std::vector<charge_type> charges) :
+      m_points_(std::move(points)), m_charges_(std::move(charges)) {}
 
     /// Implements push_back
     void push_back(value_type q) {
@@ -74,8 +84,21 @@ public:
     /// Implements determining the number of point charges
     size_type size() const noexcept { return m_charges_.size(); }
 
-    /// Allows "upcasting" to a PointSet
-    const_point_set_reference as_point_set() { return m_points_; }
+    /// Retrieves the (mutable) PointSet part of *this
+    point_set_reference as_point_set() {
+        return point_set_reference(m_points_);
+    }
+
+    /// Retrieves the read-only PointSet part of *this
+    const_point_set_reference as_point_set() const {
+        return const_point_set_reference(m_points_);
+    }
+
+    /// Retrieves a mutable pointer to the first charge
+    charge_pointer charge_data() { return m_charges_.data(); }
+
+    /// Retrieves a read-only pointer to the first charge
+    const_charge_pointer charge_data() const { return m_charges_.data(); }
 
     /// Implements comparisons for Charges
     bool operator==(const ChargesPIMPL& rhs) const {

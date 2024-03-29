@@ -13,3 +13,102 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+#include <catch2/catch.hpp>
+#include <chemist/chemical_system/point_charge/charges_view/charges_view.hpp>
+
+template<typename ChargesType>
+void test_charges_view_guts() {
+    using charges_type      = ChargesType;
+    using view_type         = chemist::ChargesView<charges_type>;
+    using point_charge_type = typename view_type::value_type;
+    // using float_type = typename view_type::point_charge_traits::charge_type;
+    // using point_set_reference = typename pimpl_type::point_set_reference;
+    // using point_set_type = typename pimpl_type::point_set_traits::value_type;
+    // using point_type     = typename point_set_type::value_type;
+    // using reference      = typename pimpl_type::reference;
+
+    // Make some Point objects and put them in a PointSet
+    point_charge_type q0{0.0, 0.0, 0.0, 0.0}, q1{-1.1, 1.0, 2.0, 3.0},
+      q2{-2.2, 4.0, 5.0, 6.0};
+    charges_type defaulted_qs;
+    charges_type charges_qs{q0, q1, q2};
+
+    view_type defaulted;
+    view_type no_charges(defaulted_qs);
+    view_type charges(charges_qs);
+
+    SECTION("Ctors") {
+        SECTION("Default") { REQUIRE(defaulted.size() == 0); }
+
+        SECTION("Value") {
+            REQUIRE(no_charges.size() == 0);
+            REQUIRE(charges.size() == 3);
+            REQUIRE(charges[0] == q0);
+            REQUIRE(charges[1] == q1);
+            REQUIRE(charges[2] == q2);
+        }
+
+        SECTION("Copy") {
+            view_type defaulted_copy(defaulted);
+            REQUIRE(defaulted == defaulted_copy);
+
+            view_type no_charges_copy(no_charges);
+            REQUIRE(no_charges_copy == no_charges);
+
+            view_type charges_copy(charges);
+            REQUIRE(charges_copy == charges);
+        }
+    }
+
+    SECTION("at_()") {
+        REQUIRE(charges[0] == q0);
+        REQUIRE(charges[1] == q1);
+        REQUIRE(charges[2] == q2);
+    }
+
+    SECTION("at_() const") {
+        REQUIRE(std::as_const(charges)[0] == q0);
+        REQUIRE(std::as_const(charges)[1] == q1);
+        REQUIRE(std::as_const(charges)[2] == q2);
+    }
+
+    SECTION("size_()") {
+        REQUIRE(defaulted.size() == 0);
+        REQUIRE(no_charges.size() == 0);
+        REQUIRE(charges.size() == 3);
+    }
+
+    SECTION("operator==") {
+        SECTION("Default vs default") { REQUIRE(defaulted == view_type{}); }
+        SECTION("Default vs. empty") { REQUIRE(defaulted == no_charges); }
+        SECTION("Default vs. non-empty") {
+            REQUIRE_FALSE(defaulted == charges);
+        }
+        SECTION("Empty vs. empty") {
+            view_type no_charges2(defaulted_qs);
+            REQUIRE(no_charges == no_charges2);
+        }
+        SECTION("Empty vs. non-empty") { REQUIRE_FALSE(no_charges == charges); }
+        SECTION("Same non-empty state") {
+            view_type charges2(charges_qs);
+            REQUIRE(charges == charges2);
+        }
+        SECTION("Different charges") {
+            // n.b. we swapped the order
+            charges_type qs2{q1, q0, q2};
+            view_type charges2(qs2);
+            REQUIRE_FALSE(charges == charges2);
+        }
+    }
+}
+
+TEMPLATE_TEST_CASE("ChargesView<T>", "", float, double) {
+    using charges_type = chemist::Charges<TestType>;
+    test_charges_view_guts<charges_type>();
+}
+
+TEMPLATE_TEST_CASE("ChargesView<const T>", "", float, double) {
+    using charges_type = chemist::Charges<TestType>;
+    test_charges_view_guts<const charges_type>();
+}

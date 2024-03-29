@@ -49,7 +49,7 @@ struct ChemistClassTraits<const PointCharge<T>> {
     using charge_type            = T;
     using charge_reference       = const charge_type&;
     using const_charge_reference = const charge_type&;
-    using charge_pointer         = T*;
+    using charge_pointer         = const T*;
     using const_charge_pointer   = const T*;
     using point_traits           = ChemistClassTraits<const Point<double>>;
 };

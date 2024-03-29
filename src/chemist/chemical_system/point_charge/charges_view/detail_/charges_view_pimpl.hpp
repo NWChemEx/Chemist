@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <cassert>
 #include <chemist/chemical_system/point_charge/charges_view/charges_view.hpp>
 
 namespace chemist::detail_ {
