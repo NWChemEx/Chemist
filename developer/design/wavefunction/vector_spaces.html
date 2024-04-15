@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vector Space Design &mdash; Chemist v1.0.2 documentation</title>
+  <title>Vector Space Design &mdash; Chemist v1.0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
@@ -14,7 +14,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=e562d664"></script>
+        <script src="../../../_static/documentation_options.js?v=411a527d"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -33,11 +33,12 @@
 
           
           
-          <a href="../../../index.html" class="icon icon-home">
-            Chemist
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                v1.0.2
+                v1.0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -53,16 +54,21 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../index.html#overview">Overview</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../chemical_system/index.html">Design of the Chemical System Component</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../operator/index.html">Design of the Operator Component</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="index.html">Design of the Wavefunction Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fragmenting/index.html">Design of the Fragmenting Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../operator/index.html">Design of the Operator Component</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Design of the Wavefunction Component</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="architecture.html">Architecture of Wavefunction Component</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Vector Space Design</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference_space.html">Reference Space Design</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wavefunction.html">Wavefunction Design</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
 </ul>
 </li>
@@ -205,12 +211,12 @@ distinctions among the classes are physical in nature.</p>
 <figure class="align-center" id="id2">
 <span id="fig-fundamental-spaces"></span><img alt="../../../_images/fundamental_spaces.png" src="../../../_images/fundamental_spaces.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 13 </span><span class="caption-text">The fundamental classes comprising Chemist’s vector space component. The
+<p><span class="caption-number">Fig. 15 </span><span class="caption-text">The fundamental classes comprising Chemist’s vector space component. The
 vector space component is envisioned as having many classes, but the heavy
 lifting is done by these “fundamental” classes.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
 </figcaption>
 </figure>
-<p><a class="reference internal" href="#fig-fundamental-spaces"><span class="std std-numref">Fig. 13</span></a> shows the design of classes fundamental to the
+<p><a class="reference internal" href="#fig-fundamental-spaces"><span class="std std-numref">Fig. 15</span></a> shows the design of classes fundamental to the
 vector space component of Chemist. The fundamental classes try to distill the
 fundamental properties of the various spaces down to “properties”. The spaces
 we know and love then become more-or-less strong types to distinguish among the
@@ -336,7 +342,7 @@ represent those named spaces.</p>
 <figure class="align-center" id="id3">
 <span id="fig-orbital-spaces"></span><img alt="../../../_images/orbital_spaces.png" src="../../../_images/orbital_spaces.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 14 </span><span class="caption-text">The named orbital spaces residing in Chemist’s vector space component.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+<p><span class="caption-number">Fig. 16 </span><span class="caption-text">The named orbital spaces residing in Chemist’s vector space component.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <section id="atomic-spin-orbital-aso-space">
@@ -462,7 +468,7 @@ those spaces when the time comes.</p></li>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2020, NWChemEx Team.</p>
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

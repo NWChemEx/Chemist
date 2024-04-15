@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Designing the AOBasisSet Component &mdash; Chemist v1.0.2 documentation</title>
+  <title>Designing the AOBasisSet Component &mdash; Chemist v1.0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
@@ -14,14 +14,14 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=e562d664"></script>
+        <script src="../../../_static/documentation_options.js?v=411a527d"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Design of the Operator Component" href="../operator/index.html" />
+    <link rel="next" title="Design of the Fragmenting Component" href="../fragmenting/index.html" />
     <link rel="prev" title="Design of the AO Basis Set Component" href="index.html" /> 
 </head>
 
@@ -33,11 +33,12 @@
 
           
           
-          <a href="../../../index.html" class="icon icon-home">
-            Chemist
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                v1.0.2
+                v1.0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -53,16 +54,18 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../index.html#overview">Overview</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../chemical_system/index.html">Design of the Chemical System Component</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="index.html">Design of the AO Basis Set Component</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../operator/index.html">Design of the Operator Component</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../wavefunction/index.html">Design of the Wavefunction Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Design of the AO Basis Set Component</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Designing the AOBasisSet Component</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../fragmenting/index.html">Design of the Fragmenting Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../operator/index.html">Design of the Operator Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wavefunction/index.html">Design of the Wavefunction Component</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
 </ul>
 </li>
@@ -260,10 +263,10 @@ conventions and would thus be API breaking.</p></li>
 <figure class="align-center" id="id1">
 <span id="fig-ao-basis-set-design"></span><img alt="../../../_images/ao_basis_set.png" src="../../../_images/ao_basis_set.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 11 </span><span class="caption-text">Major classes involved in Chemist’s basis set component.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Major classes involved in Chemist’s basis set component.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
 </figure>
-<p><a class="reference internal" href="#fig-ao-basis-set-design"><span class="std std-numref">Fig. 11</span></a> pictorially describes the AOBasisSet
+<p><a class="reference internal" href="#fig-ao-basis-set-design"><span class="std std-numref">Fig. 6</span></a> pictorially describes the AOBasisSet
 component of Chemist. The top-level class is the <code class="docutils literal notranslate"><span class="pre">AOBasisSet</span></code> class (located
 in the top-right corner of the diagram). The
 remaining classes in the diagram form the internal, hierarchical structure of
@@ -283,7 +286,7 @@ Cartesian or spherical (in turn satisfying <a class="reference internal" href="#
 <p>The <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> class is a container around a set of <code class="docutils literal notranslate"><span class="pre">Primitive</span></code>
 objects. The <code class="docutils literal notranslate"><span class="pre">Primitive</span></code> class holds the exponent, where the <code class="docutils literal notranslate"><span class="pre">Primitive</span></code>
 is centered, and coefficient.</p>
-<p>Not shown in <a class="reference internal" href="#fig-ao-basis-set-design"><span class="std std-numref">Fig. 11</span></a> are the respective view classes.
+<p>Not shown in <a class="reference internal" href="#fig-ao-basis-set-design"><span class="std std-numref">Fig. 6</span></a> are the respective view classes.
 Associated with <code class="docutils literal notranslate"><span class="pre">Primitive</span></code>, <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code>, and <code class="docutils literal notranslate"><span class="pre">Shell</span></code> are
 the classes <code class="docutils literal notranslate"><span class="pre">PrimitiveView</span></code>, <code class="docutils literal notranslate"><span class="pre">ContractedGaussianView</span></code>, and <code class="docutils literal notranslate"><span class="pre">ShellView</span></code>.
 Additional views could be added for the <code class="docutils literal notranslate"><span class="pre">AO</span></code> class and the <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>
@@ -328,13 +331,13 @@ set.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Design of the AO Basis Set Component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../operator/index.html" class="btn btn-neutral float-right" title="Design of the Operator Component" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../fragmenting/index.html" class="btn btn-neutral float-right" title="Design of the Fragmenting Component" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2020, NWChemEx Team.</p>
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

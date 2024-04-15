@@ -146,6 +146,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9ea4a54a7cc309839045300bab90cb46"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Nuclei.html#a9ea4a54a7cc309839045300bab90cb46">Nuclei</a> (std::initializer_list&lt; <a class="el" href="classchemist_1_1Nuclei.html#a734e0d9234c2b6ab8bbe2ae3807bf493">value_type</a> &gt; qs)</td></tr>
 <tr class="memdesc:a9ea4a54a7cc309839045300bab90cb46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes *this with the provided <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a> objects.  <a href="classchemist_1_1Nuclei.html#a9ea4a54a7cc309839045300bab90cb46">More...</a><br /></td></tr>
 <tr class="separator:a9ea4a54a7cc309839045300bab90cb46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a165fe6c8717a516b64f2b93a9363e50e"><td class="memTemplParams" colspan="2">template&lt;typename BeginItr , typename EndItr &gt; </td></tr>
+<tr class="memitem:a165fe6c8717a516b64f2b93a9363e50e"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1Nuclei.html#a165fe6c8717a516b64f2b93a9363e50e">Nuclei</a> (BeginItr &amp;&amp;begin, EndItr &amp;&amp;end)</td></tr>
+<tr class="memdesc:a165fe6c8717a516b64f2b93a9363e50e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object from a pair of iterators.  <a href="classchemist_1_1Nuclei.html#a165fe6c8717a516b64f2b93a9363e50e">More...</a><br /></td></tr>
+<tr class="separator:a165fe6c8717a516b64f2b93a9363e50e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7a73fdefbeb37eda241f83b12fa037e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Nuclei.html#af7a73fdefbeb37eda241f83b12fa037e">Nuclei</a> (const <a class="el" href="classchemist_1_1Nuclei.html">Nuclei</a> &amp;other)</td></tr>
 <tr class="memdesc:af7a73fdefbeb37eda241f83b12fa037e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> by deep copying <code>rhs</code>.  <a href="classchemist_1_1Nuclei.html#af7a73fdefbeb37eda241f83b12fa037e">More...</a><br /></td></tr>
 <tr class="separator:af7a73fdefbeb37eda241f83b12fa037e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -187,7 +191,7 @@ Related Functions</h2></td></tr>
 <p>Conceptually the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> class behaves like a std::vector&lt;Nucleus&lt;T&gt;&gt;; however, the backend can involve a fair amount of redirection for performance reasons (e.g., ensuring contiguous storage). </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a963ec064e0b5e66b7bc033dbf2ee6f1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a963ec064e0b5e66b7bc033dbf2ee6f1a">&#9670;&nbsp;</a></span>Nuclei() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a963ec064e0b5e66b7bc033dbf2ee6f1a">&#9670;&nbsp;</a></span>Nuclei() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -221,7 +225,7 @@ Related Functions</h2></td></tr>
 </div>
 </div>
 <a id="a9ea4a54a7cc309839045300bab90cb46"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ea4a54a7cc309839045300bab90cb46">&#9670;&nbsp;</a></span>Nuclei() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ea4a54a7cc309839045300bab90cb46">&#9670;&nbsp;</a></span>Nuclei() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -261,8 +265,69 @@ Related Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a165fe6c8717a516b64f2b93a9363e50e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a165fe6c8717a516b64f2b93a9363e50e">&#9670;&nbsp;</a></span>Nuclei() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BeginItr , typename EndItr &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">chemist::Nuclei::Nuclei </td>
+          <td>(</td>
+          <td class="paramtype">BeginItr &amp;&amp;&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EndItr &amp;&amp;&#160;</td>
+          <td class="paramname"><em>end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object from a pair of iterators. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">BeginItr</td><td>The type of the iterator pointing to the first <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a>. </td></tr>
+    <tr><td class="paramname">EndItr</td><td>The type of the iterator pointing to just past the last <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This constructor will add all of the <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a> objects in the range [begin, end()) to *this.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">begin</td><td>An iterator pointing to the first <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">end</td><td>An iterator pointing to just past the last <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the internal state of *this. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="af7a73fdefbeb37eda241f83b12fa037e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af7a73fdefbeb37eda241f83b12fa037e">&#9670;&nbsp;</a></span>Nuclei() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af7a73fdefbeb37eda241f83b12fa037e">&#9670;&nbsp;</a></span>Nuclei() <span class="overload">[4/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -294,7 +359,7 @@ Related Functions</h2></td></tr>
 </div>
 </div>
 <a id="abd0d1d466125a55f197e0c8ae015465b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd0d1d466125a55f197e0c8ae015465b">&#9670;&nbsp;</a></span>Nuclei() <span class="overload">[4/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abd0d1d466125a55f197e0c8ae015465b">&#9670;&nbsp;</a></span>Nuclei() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

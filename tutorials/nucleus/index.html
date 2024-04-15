@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nucleus &mdash; Chemist v1.0.2 documentation</title>
+  <title>Nucleus &mdash; Chemist v1.0.3 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
@@ -14,7 +14,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=e562d664"></script>
+        <script src="../../_static/documentation_options.js?v=411a527d"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -33,11 +33,12 @@
 
           
           
-          <a href="../../index.html" class="icon icon-home">
-            Chemist
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                v1.0.2
+                v1.0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -175,14 +176,14 @@ z-coordinate of the nucleus - charge: charge of the nucleus in atomic units</p>
 <span class="kn">import</span> <span class="nn">chemist</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
 
+
 <span class="k">class</span> <span class="nc">TestStringMethods</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
     <span class="k">def</span> <span class="nf">testAtom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Creating Nucleus objects using different constructors</span>
         <span class="n">n0</span> <span class="o">=</span> <span class="n">chemist</span><span class="o">.</span><span class="n">Nucleus</span><span class="p">()</span>
         <span class="n">n1</span> <span class="o">=</span> <span class="n">chemist</span><span class="o">.</span><span class="n">Nucleus</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.0079</span><span class="p">)</span>
         <span class="n">n2</span> <span class="o">=</span> <span class="n">chemist</span><span class="o">.</span><span class="n">Nucleus</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.0079</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-
-        <span class="c1"># Accessing the properties of a Nucleus object</span>
 </pre></div>
 </div>
 </div></div>
@@ -207,13 +208,13 @@ objects.</p>
 <span class="w">    </span><span class="c1">// Since all properties are equal, n1 == n2 is true</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-2-2-1" class="sphinx-tabs-panel" hidden="true" id="panel-2-2-1" name="2-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="c1"># Accessing the mass</span>
+</div><div aria-labelledby="tab-2-2-1" class="sphinx-tabs-panel" hidden="true" id="panel-2-2-1" name="2-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">assert</span> <span class="n">n0</span><span class="o">.</span><span class="n">Z</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="k">assert</span> <span class="n">n1</span><span class="o">.</span><span class="n">Z</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="c1"># Accessing the mass</span>
         <span class="k">assert</span> <span class="n">n0</span><span class="o">.</span><span class="n">mass</span> <span class="o">==</span> <span class="mf">0.0</span>
         <span class="k">assert</span> <span class="n">n1</span><span class="o">.</span><span class="n">mass</span> <span class="o">==</span> <span class="mf">1.0079</span>
         <span class="c1"># Accessing the position</span>
         <span class="k">assert</span> <span class="n">n0</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mf">0.0</span>
-        <span class="k">assert</span> <span class="n">n0</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="mf">0.0</span>
-        <span class="k">assert</span> <span class="n">n0</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="mf">0.0</span>
 </pre></div>
 </div>
 </div></div>
@@ -231,7 +232,7 @@ objects.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2020, NWChemEx Team.</p>
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

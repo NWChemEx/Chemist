@@ -78,6 +78,11 @@ Abbreviations
       DSLs are used to express intent, they usually do not actually carry out
       the computation themselves.
 
+   MBE
+      The "many-body expansion". The MBE is a mathematical identity which allows
+      one to exactly express the property of a :term:`chemical system` in terms
+      of the properties of its subsystems.
+
    ONIOM
       Stands for "Our own N-layered Integrated molecular Orbital and Molecular
       mechanics". The ONIOM method is a generalization of :term:`QM/MM`, to an
@@ -87,6 +92,10 @@ Abbreviations
       Stands for "Quantum Mechanics/Molecular Mechanics". QM/MM is a technique
       where part of a target system is modeled with quantum mechanics and the
       rest is modeled with molecular mechanics.
+
+   SAPT
+      Stands for symmetry adapted perturbation theory. SAPT is a technique for
+      decomposing intermolecular interactions into their energetic components.
 
    UI
       Stands for user interface. This is how end users interact with a software

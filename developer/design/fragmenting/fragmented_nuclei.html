@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designing the FragmentedNuclei Class &mdash; Chemist v1.0.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=411a527d"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Designing the FragmentedMolecule Class" href="fragmented_molecule.html" />
+    <link rel="prev" title="Designing the CapSet Class" href="capping/cap_set.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                v1.0.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installing Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Design of the Fragmenting Component</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="overview.html">Designing the Fragmenting Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fragmented_base.html">Designing the FragmentedBase Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="capping/index.html">Capping Design</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Designing the FragmentedNuclei Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fragmented_molecule.html">Designing the FragmentedMolecule Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fragmented_chemical_system.html">Designing the FragmentedChemicalSystem Class</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../operator/index.html">Design of the Operator Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wavefunction/index.html">Design of the Wavefunction Component</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Chemist Tutorials</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Chemist</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Developer Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Design Documentation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Design of the Fragmenting Component</a></li>
+      <li class="breadcrumb-item active">Designing the FragmentedNuclei Class</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/developer/design/fragmenting/fragmented_nuclei.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="designing-the-fragmentednuclei-class">
+<span id="designing-fragmented-nuclei-class"></span><h1>Designing the FragmentedNuclei Class<a class="headerlink" href="#designing-the-fragmentednuclei-class" title="Link to this heading"></a></h1>
+<p>This page describes the design of the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> class.</p>
+<section id="why-do-we-need-the-fragmentednuclei-class">
+<h2>Why Do We Need the FragmentedNuclei Class?<a class="headerlink" href="#why-do-we-need-the-fragmentednuclei-class" title="Link to this heading"></a></h2>
+<p>The need for the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> class was motivated by the
+<a class="reference internal" href="overview.html#fc-chemical-system-hierarchy"><span class="std std-ref">chemical system hierarchy</span></a> consideration of
+<a class="reference internal" href="overview.html#designing-the-fragmenting-component"><span class="std std-ref">Designing the Fragmenting Component</span></a>. In short, each layer of the
+<code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> class will require a corresponding container for holding
+fragments. This is because each layer of the <code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> introduces new
+state.</p>
+</section>
+<section id="fragmentednuclei-considerations">
+<h2>FragmentedNuclei Considerations<a class="headerlink" href="#fragmentednuclei-considerations" title="Link to this heading"></a></h2>
+<dl class="simple" id="fn-nuclei-to-fragment-map">
+<dt>nuclei to fragment map</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> must track which nuclei are in which fragments.</p>
+</dd>
+</dl>
+<dl class="simple" id="fn-caps">
+<dt>caps</dt><dd><p>Responsibility for satisfying the <a class="reference internal" href="overview.html#fc-caps"><span class="std std-ref">caps</span></a> consideration from
+<a class="reference internal" href="overview.html#designing-the-fragmenting-component"><span class="std std-ref">Designing the Fragmenting Component</span></a> was given to the
+<code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> class.</p>
+<ul class="simple">
+<li><p>The same cap may appear multiple times in a set of fragments. The
+<code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> object should store a single set of caps and map
+each fragment to the caps it needs.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="fn-non-disjoint">
+<dt>non-disjoint</dt><dd><p>The <a class="reference internal" href="overview.html#fc-non-disjoint"><span class="std std-ref">non-disjoint fragments</span></a> consideration from
+<a class="reference internal" href="overview.html#designing-the-fragmenting-component"><span class="std std-ref">Designing the Fragmenting Component</span></a> is ultimately the responsibility
+of the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> object.</p>
+</dd>
+</dl>
+<dl class="simple" id="fn-usable-as-nuclei">
+<dt>fragments can be used as Nuclei objects</dt><dd><p>Once a <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> object has been created users will likely want
+to call routines expecting <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> objects in a loop. This is facilitated
+by ensuring that the fragments can be implicitly converted to <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code>
+objects.</p>
+</dd>
+</dl>
+</section>
+<section id="fragmentednuclei-api">
+<h2>FragmentedNuclei API<a class="headerlink" href="#fragmentednuclei-api" title="Link to this heading"></a></h2>
+<p>To construct a <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code>:</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// It&#39;s assumed that users already have a Nuclei object</span>
+<span class="n">Nuclei</span><span class="w"> </span><span class="n">some_nuclei</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_a_nuclei_object</span><span class="p">();</span>
+
+<span class="n">FragmentedNuclei</span><span class="w"> </span><span class="n">null</span><span class="p">;</span><span class="w"> </span><span class="c1">// See FragmentedBase for more details</span>
+<span class="n">FragmentedNuclei</span><span class="w"> </span><span class="nf">empty</span><span class="p">(</span><span class="n">some_nuclei</span><span class="p">);</span><span class="w"> </span><span class="c1">// Empty</span>
+
+<span class="c1">// Two fragments, first contains nuclei 0, 1, and 2, the second contains</span>
+<span class="c1">// nuclei 3, 4, and 5</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">nuclei_to_frag_map</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="p">{{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">}};</span>
+<span class="n">FragmentedNuclei</span><span class="w"> </span><span class="nf">has_frags</span><span class="p">(</span><span class="n">some_nuclei</span><span class="p">,</span><span class="w"> </span><span class="n">nuclei_to_frag_map</span><span class="p">);</span>
+
+<span class="c1">// If the user already has caps they&#39;re in a CapSet</span>
+<span class="n">CapSet</span><span class="w"> </span><span class="n">caps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_a_cap_set_object</span><span class="p">();</span>
+
+<span class="c1">// Same as &quot;has_frags&quot;, but also has caps</span>
+<span class="n">FragmentedNuclei</span><span class="w"> </span><span class="nf">has_frags_and_caps</span><span class="p">(</span><span class="n">some_nuclei</span><span class="p">,</span><span class="w"> </span><span class="n">nuclei_to_frag_map</span><span class="p">,</span><span class="w"> </span><span class="n">caps</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>A couple of notes on the above:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">make_an_nuclei_object</span></code> and <code class="docutils literal notranslate"><span class="pre">make_cap_a_cap_set_object</span></code> are opaque
+functions meant to respectively encapsulate the process of creating a
+<code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> and <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> object. The state of the <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> and <code class="docutils literal notranslate"><span class="pre">CapSet</span></code>
+objects are largely irrelevant for our present purposes.</p></li>
+<li><p>We think most users will create an empty <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> object and then
+fill it as part of an algorithm versus having all the state already
+available at construction. By analogy think of filling <code class="docutils literal notranslate"><span class="pre">std::vector</span></code> via
+<code class="docutils literal notranslate"><span class="pre">push_back</span></code> vs. the initializer-list or range constructor.</p></li>
+<li><p>It is not necessary for the user to tell the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> object
+which fragments have which caps. This is because the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code>
+object can determine this mapping from <code class="docutils literal notranslate"><span class="pre">nuclei_to_frag_map</span></code> and the
+<code class="docutils literal notranslate"><span class="pre">CapSet</span></code> object.</p></li>
+</ul>
+<p>Following from the second note, users will need to be able to add fragments and
+caps to the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> object. To that end we propose the following
+APIs:</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a fragment which contains nuclei with offsets 0, 1, and 2</span>
+<span class="n">empty</span><span class="p">.</span><span class="n">insert</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">});</span>
+
+<span class="c1">// Can also be added as a range, and the user can use the actual nucleus</span>
+<span class="c1">// objects (n.b., mapping to indices will involve floating point values so it</span>
+<span class="c1">// is best to use the ``some_nuclei`` directly)</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">itr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">some_nuclei</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span>
+<span class="n">empty</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">itr</span><span class="p">,</span><span class="w"> </span><span class="n">itr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+
+<span class="c1">// Adds a Cap</span>
+<span class="n">some_nuclei</span><span class="p">.</span><span class="n">add_cap</span><span class="p">(</span><span class="n">Cap</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nucleus</span><span class="p">{...}));</span>
+
+<span class="c1">// Short-hand for...</span>
+<span class="n">some_nuclei</span><span class="p">.</span><span class="n">cap_set</span><span class="p">().</span><span class="n">push_back</span><span class="p">(</span><span class="n">Cap</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Nucleus</span><span class="p">{...}));</span>
+</pre></div>
+</div>
+<p>Accessing the state:</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Range-based for loop over fragments</span>
+<span class="k">for</span><span class="p">(</span><span class="n">NucleiView</span><span class="w"> </span><span class="n">frag_i</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">fragments</span><span class="p">){</span>
+<span class="w">    </span><span class="c1">// fragments are interchangeable with Nuclei</span>
+<span class="w">    </span><span class="n">function_expecting_nuclei_object</span><span class="p">(</span><span class="n">frag_i</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Offset access</span>
+<span class="n">NucleiView</span><span class="w"> </span><span class="n">frag_0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fragments</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</pre></div>
+</div>
+<p>Note that accessing fragments as <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code> objects means that the user will
+get an object which is the union of actual nuclei and the nuclei from the caps.
+This is what is needed to satisfy the <a class="reference internal" href="#fn-usable-as-nuclei"><span class="std std-ref">fragments can be used as Nuclei objects</span></a> consideration.
+As shown above, if the user needs to determine which nuclei in the
+<code class="docutils literal notranslate"><span class="pre">NucleiView</span></code> are real vs. from a cap the user can directly access the
+<code class="docutils literal notranslate"><span class="pre">CapSet</span></code>.</p>
+</section>
+<section id="fragmentednuclei-design">
+<h2>FragmentedNuclei Design<a class="headerlink" href="#fragmentednuclei-design" title="Link to this heading"></a></h2>
+<figure class="align-center" id="id1">
+<span id="fig-fragmented-nuclei-design"></span><img alt="../../../_images/fragmented_nuclei.png" src="../../../_images/fragmented_nuclei.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 11 </span><span class="caption-text">The state of the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> class and its relation to other
+classes.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#fig-fragmented-nuclei-design"><span class="std std-numref">Fig. 11</span></a> shows the design of the
+<code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> class and how the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> class relates to
+other classes. Internally <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> stores each fragment’s members
+by offset, which saves memory and satisfies <a class="reference internal" href="#fn-nuclei-to-fragment-map"><span class="std std-ref">nuclei to fragment map</span></a>.
+When a user requests a fragment they get back a <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code> object (the
+<a class="reference internal" href="#fn-usable-as-nuclei"><span class="std std-ref">fragments can be used as Nuclei objects</span></a> consideration). The remaining piece of state in the
+<code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> object is a <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> object (stems from the
+<a class="reference internal" href="#fn-caps"><span class="std std-ref">caps</span></a> consideration).</p>
+</section>
+<section id="fragmentednuclei-summary">
+<h2>FragmentedNuclei Summary<a class="headerlink" href="#fragmentednuclei-summary" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><a class="reference internal" href="#fn-nuclei-to-fragment-map"><span class="std std-ref">nuclei to fragment map</span></a></dt><dd><p>Internally the <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> class tracks the nuclei in each fragment
+via their offset in the supersystem.</p>
+</dd>
+<dt><a class="reference internal" href="#fn-caps"><span class="std std-ref">caps</span></a></dt><dd><p>Each <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> object will contain a <code class="docutils literal notranslate"><span class="pre">CapSet</span></code> object. The
+<code class="docutils literal notranslate"><span class="pre">CapSet</span></code> object is responsible for managing the caps a <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code>
+object needs.</p>
+</dd>
+<dt><a class="reference internal" href="#fn-non-disjoint"><span class="std std-ref">non-disjoint</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> class makes no assumptions about whether or not the
+fragments are disjoint.</p>
+</dd>
+<dt><a class="reference internal" href="#fn-usable-as-nuclei"><span class="std std-ref">fragments can be used as Nuclei objects</span></a></dt><dd><p>Fragments are returned as <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code> objects. <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code> objects
+are implicitly convertible to <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> objects.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="capping/cap_set.html" class="btn btn-neutral float-left" title="Designing the CapSet Class" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="fragmented_molecule.html" class="btn btn-neutral float-right" title="Designing the FragmentedMolecule Class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

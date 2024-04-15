@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designing the FragmentedBase Class &mdash; Chemist v1.0.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=411a527d"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Capping Design" href="capping/index.html" />
+    <link rel="prev" title="Designing the Fragmenting Component" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                v1.0.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installing Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Design of the Fragmenting Component</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="overview.html">Designing the Fragmenting Component</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Designing the FragmentedBase Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="capping/index.html">Capping Design</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fragmented_nuclei.html">Designing the FragmentedNuclei Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fragmented_molecule.html">Designing the FragmentedMolecule Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fragmented_chemical_system.html">Designing the FragmentedChemicalSystem Class</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../operator/index.html">Design of the Operator Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wavefunction/index.html">Design of the Wavefunction Component</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Chemist Tutorials</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Chemist</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Developer Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Design Documentation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Design of the Fragmenting Component</a></li>
+      <li class="breadcrumb-item active">Designing the FragmentedBase Class</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/developer/design/fragmenting/fragmented_base.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="designing-the-fragmentedbase-class">
+<span id="designing-fragmented-base-class"></span><h1>Designing the FragmentedBase Class<a class="headerlink" href="#designing-the-fragmentedbase-class" title="Link to this heading"></a></h1>
+<p>This page describes the design of the <code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> class template.</p>
+<section id="why-do-we-need-a-fragmentedbase-class">
+<h2>Why Do We Need a FragmentedBase Class?<a class="headerlink" href="#why-do-we-need-a-fragmentedbase-class" title="Link to this heading"></a></h2>
+<p>As motivated in <a class="reference internal" href="overview.html#designing-the-fragmenting-component"><span class="std std-ref">Designing the Fragmenting Component</span></a>, the
+<code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> class template is introduced to factor shared
+functionality from <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code>, <code class="docutils literal notranslate"><span class="pre">FragmentedMolecule</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">FragmentedChemicalSystem</span></code>.</p>
+</section>
+<section id="fragmentedbase-considerations">
+<h2>FragmentedBase Considerations<a class="headerlink" href="#fragmentedbase-considerations" title="Link to this heading"></a></h2>
+<dl class="simple" id="fc-container">
+<dt>container</dt><dd><p>All <code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> objects should satisfy the concept of</p>
+</dd>
+</dl>
+<dl class="simple" id="fc-supersystem">
+<dt>supersystem</dt><dd><p><code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code>, <code class="docutils literal notranslate"><span class="pre">FragmentedMolecule</span></code>, etc. have in common that they
+contain subsets of a superset. The <code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> factors out the
+infrastructure for holding the superset and interacting with it.</p>
+</dd>
+</dl>
+<dl class="simple" id="fc-immutable-superset">
+<dt>immutable superset</dt><dd><p>For the purposes of the super-/sub-set relation we assume that the
+superset has been fully initialized and will not change.</p>
+<ul class="simple">
+<li><p>If the superset changes it will invalidate the elements of the
+entire class hierarchy, which is difficult to recover from.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="fc-null-and-empty-states">
+<dt>null and empty states</dt><dd><p>The state of <code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> is defined in reference to a supersystem.
+This raises a conundrum, how can we tell a <code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> with no
+supersystem (and also no fragments) from one with a supersystem, but no
+fragments? We opt for distinguishing between null and empty. Null meaning
+there is no supersystem and empty meaning there is a supersystem, but no
+fragments.</p>
+</dd>
+</dl>
+</section>
+<section id="fragmentedbase-api">
+<h2>FragmentedBase API<a class="headerlink" href="#fragmentedbase-api" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While the examples shown here should work, we do not expect users to create
+<code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> objects directly. Rather, users will typically create
+objects of type <code class="docutils literal notranslate"><span class="pre">T</span></code> which inherit from <code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code>.</p>
+</div>
+<p>To construct a <code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> object:</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Assumed to be a Nuclei, Molecule, or instance ChemicalSystem</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">supersys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_supersystem</span><span class="p">();</span>
+
+<span class="c1">// T will respectively be FragmentedNuclei, FragmentedMolecule, or</span>
+<span class="c1">// FragmentedChemicalSystem if supersys is a Nuclei, Molecule, or</span>
+<span class="c1">// ChemicalSystem. This creates an empty object, NOT null</span>
+
+<span class="n">FragmentedBase</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fragments</span><span class="p">(</span><span class="n">supersys</span><span class="p">);</span>
+
+<span class="c1">// Default construction is null, NOT empty</span>
+<span class="n">Fragmented</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">null</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Following from consideration <a class="reference internal" href="#fc-null-and-empty-states"><span class="std std-ref">null and empty states</span></a>, <code class="docutils literal notranslate"><span class="pre">fragments</span></code> will
+be an empty set of fragments whereas <code class="docutils literal notranslate"><span class="pre">null</span></code> will be a null object. Actually
+adding fragments to the object will occur via the derived class. The remainder
+of the <code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> API:</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Access the supersystem</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">fragments</span><span class="p">.</span><span class="n">supersystem</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">supersys</span><span class="p">);</span>
+
+<span class="c1">// Is the object null?</span>
+<span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="n">fragments</span><span class="p">.</span><span class="n">is_null</span><span class="p">());</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">null</span><span class="p">.</span><span class="n">is_null</span><span class="p">());</span>
+</pre></div>
+</div>
+</section>
+<section id="fragmentedbase-design">
+<h2>FragmentedBase Design<a class="headerlink" href="#fragmentedbase-design" title="Link to this heading"></a></h2>
+<figure class="align-center" id="id1">
+<span id="fig-fragmented-base-class"></span><img alt="../../../_images/fragmented_base.png" src="../../../_images/fragmented_base.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 8 </span><span class="caption-text">Classes related to the implementation of the <code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> class.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#fig-fragmented-base-class"><span class="std std-numref">Fig. 8</span></a> shows the classes involved in implementing
+<code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code>. To satisfy <a class="reference internal" href="#fc-container"><span class="std std-ref">container</span></a>, <code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code>
+inherits from  <code class="docutils literal notranslate"><span class="pre">utilities::IndexableContainer&lt;T&gt;</span></code> class. In accordance with
+<a class="reference internal" href="#fc-supersystem"><span class="std std-ref">supersystem</span></a>, <code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> contains an object of type <code class="docutils literal notranslate"><span class="pre">U</span></code>
+such that <code class="docutils literal notranslate"><span class="pre">U</span></code> is the class from the chemical system component <code class="docutils literal notranslate"><span class="pre">T</span></code> fragments.</p>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><a class="reference internal" href="#fc-container"><span class="std std-ref">container</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> inherits from <code class="docutils literal notranslate"><span class="pre">utilities::IndexableContainer&lt;T&gt;</span></code> to
+satisfy this consideration.</p>
+</dd>
+<dt><a class="reference internal" href="#fc-supersystem"><span class="std std-ref">supersystem</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> manages a supersystem object.</p>
+</dd>
+<dt><a class="reference internal" href="#fc-immutable-superset"><span class="std std-ref">immutable superset</span></a></dt><dd><p>Addressed by storing the superset as a read-only object.</p>
+</dd>
+<dt><a class="reference internal" href="#fc-null-and-empty-states"><span class="std std-ref">null and empty states</span></a></dt><dd><p>The default constructor will create a null object, whereas the constructor
+which takes a superset creates an empty object.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="overview.html" class="btn btn-neutral float-left" title="Designing the Fragmenting Component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="capping/index.html" class="btn btn-neutral float-right" title="Capping Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

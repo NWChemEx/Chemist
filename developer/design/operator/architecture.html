@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Architecture of Operator Component &mdash; Chemist v1.0.2 documentation</title>
+  <title>Architecture of Operator Component &mdash; Chemist v1.0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
@@ -14,7 +14,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=e562d664"></script>
+        <script src="../../../_static/documentation_options.js?v=411a527d"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -32,11 +32,12 @@
 
           
           
-          <a href="../../../index.html" class="icon icon-home">
-            Chemist
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                v1.0.2
+                v1.0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -52,16 +53,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../index.html#overview">Overview</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../chemical_system/index.html">Design of the Chemical System Component</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="index.html">Design of the Operator Component</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../wavefunction/index.html">Design of the Wavefunction Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fragmenting/index.html">Design of the Fragmenting Component</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Design of the Operator Component</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Architecture of Operator Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="operators.html">Operator Component Design</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../wavefunction/index.html">Design of the Wavefunction Component</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
 </ul>
 </li>
@@ -114,7 +118,7 @@ architecture details described <a class="reference internal" href="../architectu
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2020, NWChemEx Team.</p>
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

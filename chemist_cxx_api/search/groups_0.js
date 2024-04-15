@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['_2fmove_20ctors_20and_20assignment_20operators_558',['/Move CTors and Assignment Operators',['../group__Copy.html',1,'']]],
-  ['_2fsetters_559',['/Setters',['../group__Getters.html',1,'']]]
+  ['_2fmove_20ctors_20and_20assignment_20operators_578',['/Move CTors and Assignment Operators',['../group__Copy.html',1,'']]],
+  ['_2fsetters_579',['/Setters',['../group__Getters.html',1,'']]]
 ];

@@ -278,6 +278,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>export_point_view</b>
 <tr class="memitem:a9f7199f284e98322c45169fab247b73f"><td class="memItemLeft" align="right" valign="top"><a id="a9f7199f284e98322c45169fab247b73f"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>export_point</b> (python_module_reference m)</td></tr>
 <tr class="separator:a9f7199f284e98322c45169fab247b73f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a043a90efd1fc2555ed703eb94fc79781"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a043a90efd1fc2555ed703eb94fc79781"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacechemist.html#a043a90efd1fc2555ed703eb94fc79781">args_to_buffer</a> (pybind11::args args)</td></tr>
+<tr class="memdesc:a043a90efd1fc2555ed703eb94fc79781"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function for converting pybind11::args into a std::vector.  <a href="namespacechemist.html#a043a90efd1fc2555ed703eb94fc79781">More...</a><br /></td></tr>
+<tr class="separator:a043a90efd1fc2555ed703eb94fc79781"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab1613216f8aad92cfd3eee693fc17f94"><td class="memItemLeft" align="right" valign="top">
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;lhs, const <a class="el" href="classchemist_1_1Atom.html">Atom</a> &amp;rhs) noexcept</td></tr>
 <tr class="separator:gab1613216f8aad92cfd3eee693fc17f94"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -335,6 +339,48 @@ template&lt;typename PointType &gt; </td></tr>
 <div class="textblock"><p>The primary namespace for the chemist library. </p>
 <p>All functionality of the chemist library intended for end user consumption is defined within this namespace. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a043a90efd1fc2555ed703eb94fc79781"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a043a90efd1fc2555ed703eb94fc79781">&#9670;&nbsp;</a></span>args_to_buffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto chemist::args_to_buffer </td>
+          <td>(</td>
+          <td class="paramtype">pybind11::args&#160;</td>
+          <td class="paramname"><em>args</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convenience function for converting pybind11::args into a std::vector. </p>
+<p>When creating Python bindings for C++ functions which take a variadic number of inputs, the Python arguments will come into C++ as a pybind11::args object. This function wraps the process of unwrapping the pybind11::args object into a buffer, assuming that each object has the same C++ type.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The C++ type each member of <code>args</code> is expected to be. The user must specify <code>T</code> because the compiler can not deduce it.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">args</td><td>The pack of variadic python arguments to unpack. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A std::vector&lt;T&gt; containing the unwrapped arguments.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there's a problem allocating the buffer. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="af092d6d471b5d47ebf7f838431e0c9a2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af092d6d471b5d47ebf7f838431e0c9a2">&#9670;&nbsp;</a></span>operator-()</h2>
 
@@ -372,7 +418,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Vector difference of two points. </p>
-<p>This function returns the vector difference of two points, <em>i.e.</em>, for points <img class="formulaInl" alt="$\vec{a}$" src="form_24.png"/> and <img class="formulaInl" alt="$\vec{b}$" src="form_25.png"/>, this function returns a point <img class="formulaInl" alt="$\vec{c}$" src="form_26.png"/> such that the <img class="formulaInl" alt="$i$" src="form_11.png"/>-th component of <img class="formulaInl" alt="$\vec{c}$" src="form_26.png"/> is given by: @f{ c_i = a_i - b_i @f}</p>
+<p>This function returns the vector difference of two points, <em>i.e.</em>, for points <img class="formulaInl" alt="$\vec{a}$" src="form_26.png"/> and <img class="formulaInl" alt="$\vec{b}$" src="form_27.png"/>, this function returns a point <img class="formulaInl" alt="$\vec{c}$" src="form_28.png"/> such that the <img class="formulaInl" alt="$i$" src="form_11.png"/>-th component of <img class="formulaInl" alt="$\vec{c}$" src="form_28.png"/> is given by: @f{ c_i = a_i - b_i @f}</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The scalar type used to hold the components of the point.</td></tr>

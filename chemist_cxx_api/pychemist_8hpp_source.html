@@ -101,8 +101,17 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Args&gt;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">using</span> python_enum_type = pybind11::enum_&lt;Args...&gt;;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;} <span class="comment">// namespace chemist</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="namespacechemist.html#a043a90efd1fc2555ed703eb94fc79781">   49</a></span>&#160;<span class="keyword">auto</span> <a class="code" href="namespacechemist.html#a043a90efd1fc2555ed703eb94fc79781">args_to_buffer</a>(pybind11::args args) {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    std::vector&lt;T&gt; buffer(args.size());</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">for</span>(decltype(args.size()) i = 0; i &lt; args.size(); ++i)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        buffer[i] = args[i].cast&lt;T&gt;();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">return</span> buffer;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;} <span class="comment">// namespace chemist</span></div>
 <div class="ttc" id="anamespacechemist_html"><div class="ttname"><a href="namespacechemist.html">chemist</a></div><div class="ttdoc">The primary namespace for the chemist library.</div><div class="ttdef"><b>Definition:</b> ao_basis_set.cpp:22</div></div>
+<div class="ttc" id="anamespacechemist_html_a043a90efd1fc2555ed703eb94fc79781"><div class="ttname"><a href="namespacechemist.html#a043a90efd1fc2555ed703eb94fc79781">chemist::args_to_buffer</a></div><div class="ttdeci">auto args_to_buffer(pybind11::args args)</div><div class="ttdoc">Convenience function for converting pybind11::args into a std::vector.</div><div class="ttdef"><b>Definition:</b> pychemist.hpp:49</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

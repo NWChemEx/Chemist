@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reference Space Design &mdash; Chemist v1.0.2 documentation</title>
+  <title>Reference Space Design &mdash; Chemist v1.0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
@@ -14,7 +14,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=e562d664"></script>
+        <script src="../../../_static/documentation_options.js?v=411a527d"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -33,11 +33,12 @@
 
           
           
-          <a href="../../../index.html" class="icon icon-home">
-            Chemist
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                v1.0.2
+                v1.0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -53,16 +54,21 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../index.html#overview">Overview</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../chemical_system/index.html">Design of the Chemical System Component</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../operator/index.html">Design of the Operator Component</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="index.html">Design of the Wavefunction Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fragmenting/index.html">Design of the Fragmenting Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../operator/index.html">Design of the Operator Component</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Design of the Wavefunction Component</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="architecture.html">Architecture of Wavefunction Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vector_spaces.html">Vector Space Design</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Reference Space Design</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wavefunction.html">Wavefunction Design</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
 </ul>
 </li>
@@ -167,10 +173,10 @@ took the determinant).</p>
 <figure class="align-center" id="id1">
 <span id="fig-ref-space"></span><img alt="../../../_images/reference_space.png" src="../../../_images/reference_space.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 15 </span><span class="caption-text">The fundamental classes comprising Chemist’s reference space component.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+<p><span class="caption-number">Fig. 17 </span><span class="caption-text">The fundamental classes comprising Chemist’s reference space component.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
 </figure>
-<p><a class="reference internal" href="#fig-ref-space"><span class="std std-numref">Fig. 15</span></a> shows the major pieces of Chemist’s reference space
+<p><a class="reference internal" href="#fig-ref-space"><span class="std std-numref">Fig. 17</span></a> shows the major pieces of Chemist’s reference space
 component. Compared to <a class="reference internal" href="vector_spaces.html#vsd-design"><span class="std std-ref">Vector Space Design</span></a>, the reference space component is
 relatively simple; a fact that stems from realizing that most of the variation
 in modern electronic structure methods comes from how to choose the orbitals,
@@ -235,7 +241,7 @@ consideration.</p>
 </section>
 <section id="example-reference-spaces">
 <h3>Example Reference Spaces<a class="headerlink" href="#example-reference-spaces" title="Link to this heading"></a></h3>
-<p>The remainder of <a class="reference internal" href="#fig-ref-space"><span class="std std-numref">Fig. 15</span></a> shows some template specializations
+<p>The remainder of <a class="reference internal" href="#fig-ref-space"><span class="std std-numref">Fig. 17</span></a> shows some template specializations
 and strong types for those specializations. We have opted for strong types,
 rather than typedefs, primarily to minimize the use of templates in user-facing
 classes (which also has the advantage of cleaner compiler errors). Briefly,
@@ -256,7 +262,7 @@ considered in methods typically labeled as “restricted”.</p></li>
 </dl>
 </li>
 </ul>
-<p>Also denoted in <a class="reference internal" href="#fig-ref-space"><span class="std std-numref">Fig. 15</span></a> is that <code class="docutils literal notranslate"><span class="pre">RDeterminant&lt;T&gt;</span></code> should be
+<p>Also denoted in <a class="reference internal" href="#fig-ref-space"><span class="std std-numref">Fig. 17</span></a> is that <code class="docutils literal notranslate"><span class="pre">RDeterminant&lt;T&gt;</span></code> should be
 implicitly convertible to an object of type <code class="docutils literal notranslate"><span class="pre">RODeterminant&lt;T&gt;</span></code>, which itself
 should be implicitly convertible to an object of type <code class="docutils literal notranslate"><span class="pre">UDeterminant&lt;T&gt;</span></code>.
 The decision to use implicit conversions is to avoid multiple inheritance, but
@@ -298,7 +304,7 @@ products of other reference spaces.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2020, NWChemEx Team.</p>
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
