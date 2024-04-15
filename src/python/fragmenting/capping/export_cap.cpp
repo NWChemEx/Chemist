@@ -43,9 +43,23 @@ void export_cap(python_module_reference m) {
       .def("size", &Cap::size)
       .def("__len__", &Cap::size)
       .def("set_anchor_index", &Cap::set_anchor_index)
-      .def("get_anchor_index", &Cap::get_anchor_index)
+      .def("get_anchor_index",
+           [](Cap& self) {
+               try {
+                   return self.get_anchor_index();
+               } catch(const std::bad_optional_access& e) {
+                   throw std::runtime_error("No Anchor Set");
+               }
+           })
       .def("set_replaced_index", &Cap::set_replaced_index)
-      .def("get_replaced_index", &Cap::get_replaced_index)
+      .def("get_replaced_index",
+           [](Cap& self) {
+               try {
+                   return self.get_replaced_index();
+               } catch(const std::bad_optional_access& e) {
+                   throw std::runtime_error("No Replacement Set");
+               }
+           })
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
 }
