@@ -23,6 +23,13 @@ class TestChemicalSystem(unittest.TestCase):
         self.assertEqual(self.has_default_mol.molecule, self.default_mol)
         self.assertEqual(self.has_mol.molecule, self.mol)
 
+        # Molecule is referenced
+        self.assertEqual(self.has_mol.molecule.size(), 1)
+        mol_ref = self.has_mol.molecule
+        mol_ref.push_back(chemist.Atom())
+        self.assertEqual(self.has_mol.molecule.size(), 2)
+        self.assertEqual(mol_ref, self.has_mol.molecule)
+
         # Can write to it
         self.defaulted.molecule = self.mol
         self.assertEqual(self.defaulted.molecule, self.mol)
