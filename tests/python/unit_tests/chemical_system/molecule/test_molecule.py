@@ -97,12 +97,12 @@ class TestMolecule(unittest.TestCase):
         # Has value
         self.assertEqual(
             str(self.has_value),
-            'H 1.000000000000000 1.000000000000000 1.000000000000000\nH 2.000000000000000 3.000000000000000 4.000000000000000\n'
+            ' 0.000000000000000 0.000000000000000 0.000000000000000\nH 2.000000000000000 3.000000000000000 4.000000000000000\n'
         )
 
     def setUp(self):
         self.defaulted = chemist.Molecule()
-        self.a0 = chemist.Atom('H', 1, 1.0, 1.0, 1.0, 1.0, 1.0)
+        self.a0 = chemist.Atom()
         self.a1 = chemist.Atom('H', 1, 1.0, 2.0, 3.0, 4.0, 5.0)
         self.has_value = chemist.Molecule()
         self.has_value.push_back(self.a0)
