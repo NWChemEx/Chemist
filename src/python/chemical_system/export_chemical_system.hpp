@@ -39,7 +39,7 @@ void inline export_chemical_system(python_module_reference m) {
       .def(pybind11::init<molecule_type>())
       .def_property(
         "molecule",
-        [](chemical_system_reference self) { return self.molecule(); },
+        [](chemical_system_reference self) { return &self.molecule(); },
         [](chemical_system_reference self, molecule_type mol) {
             self.molecule() = std::move(mol);
         })

@@ -45,6 +45,11 @@ class TestMolecule(unittest.TestCase):
         self.assertEqual(n0, self.a0.nucleus)
         self.assertEqual(n1, self.a1.nucleus)
 
+        # Fails if livetime not maintained
+        chem_sys = chemist.ChemicalSystem(self.has_value)
+        self.assertEqual(chem_sys.molecule.at(0), self.a0.nucleus)
+        self.assertEqual(chem_sys.molecule.at(1), self.a1.nucleus)
+
         # Are views
         n0.x = 42.0
         self.assertEqual(self.has_value.at(0).x, 42.0)
@@ -92,12 +97,12 @@ class TestMolecule(unittest.TestCase):
         # Has value
         self.assertEqual(
             str(self.has_value),
-            ' 0.000000000000000 0.000000000000000 0.000000000000000\nH 2.000000000000000 3.000000000000000 4.000000000000000\n'
+            'H 1.000000000000000 1.000000000000000 1.000000000000000\nH 2.000000000000000 3.000000000000000 4.000000000000000\n'
         )
 
     def setUp(self):
         self.defaulted = chemist.Molecule()
-        self.a0 = chemist.Atom()
+        self.a0 = chemist.Atom('H', 1, 1.0, 1.0, 1.0, 1.0, 1.0)
         self.a1 = chemist.Atom('H', 1, 1.0, 2.0, 3.0, 4.0, 5.0)
         self.has_value = chemist.Molecule()
         self.has_value.push_back(self.a0)
