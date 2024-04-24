@@ -45,7 +45,7 @@ class TestMolecule(unittest.TestCase):
         self.assertEqual(n0, self.a0.nucleus)
         self.assertEqual(n1, self.a1.nucleus)
 
-        # Fails if livetime not maintained
+        # Fails if lifetime not maintained
         chem_sys = chemist.ChemicalSystem(self.has_value)
         self.assertEqual(chem_sys.molecule.at(0), self.a0.nucleus)
         self.assertEqual(chem_sys.molecule.at(1), self.a1.nucleus)
