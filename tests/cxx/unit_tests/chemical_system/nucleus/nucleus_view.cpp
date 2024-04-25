@@ -16,6 +16,7 @@
 
 #include <catch2/catch.hpp>
 #include <chemist/chemical_system/nucleus/nucleus_view.hpp>
+#include <sstream>
 
 using namespace chemist;
 

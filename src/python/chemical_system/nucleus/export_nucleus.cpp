@@ -17,6 +17,7 @@
 #include "export_nucleus.hpp"
 #include <chemist/chemical_system/nucleus/nucleus.hpp>
 #include <pybind11/operators.h>
+#include <sstream>
 
 namespace chemist {
 
