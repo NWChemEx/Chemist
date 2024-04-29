@@ -43,13 +43,23 @@ private:
     /// Type of *this
     using my_type = NucleusView<NucleusType>;
 
-    /// Type *this inherits from
-    using base_type = PointChargeView < ChemistClassTraits<NucleusType> public :
-      // -- Nucleus types
-      // --------------------------------------------------------
+    /// Type defining the traits for the elements of *this
+    using traits_type = ChemistClassTraits<NucleusType>;
 
-      /// Type of an un-qualified Nucleus object
-      using nucleus_type = typename traits_type::type;
+    /// Type defining the traits for the charge part of *this
+    using point_charge_traits = typename traits_type::point_charge_traits;
+
+    /// Type of the base
+    using base_type = PointChargeView<typename point_charge_traits::point_charge_type>;
+
+  public :
+
+
+
+    // -- Nucleus type--------------------------------------------------------
+
+    /// Type of an un-qualified Nucleus object
+    using nucleus_type = typename traits_type::type;
 
     /// Type of a Nucleus reference with const-ness paralleling @p NucleusType
     using nucleus_reference = apply_const_ref<nucleus_type>;
