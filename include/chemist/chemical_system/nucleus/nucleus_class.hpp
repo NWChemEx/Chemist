@@ -17,6 +17,7 @@
 #pragma once
 #include <cereal/types/string.hpp>
 #include <chemist/chemical_system/point_charge/point_charge_class.hpp>
+#include <chemist/traits/nucleus_traits.hpp>
 #include <iomanip>
 #include <iostream>
 #include <limits>
@@ -32,42 +33,49 @@ namespace chemist {
  */
 class Nucleus : public PointCharge<double> {
 public:
+    /// Class defining the types of *this
+    using traits_type = ChemistClassTraits<Nucleus>;
+
     // -- Nucleus types -------------------------------------------------------
 
     /// A string-like type for storing the name
-    using name_type = std::string;
+    using name_type = typename traits_type::name_type;
 
     /// A read/write reference to the name
-    using name_reference = name_type&;
+    using name_reference = typename traits_type::name_reference;
 
     /// A read-only reference to the name
-    using const_name_reference = const name_type&;
+    using const_name_reference = typename traits_type::const_name_reference;
 
     /// Integral type used to store the atomic number
-    using atomic_number_type = std::size_t;
+    using atomic_number_type = typename traits_type::atomic_number_type;
 
     /// Type used for read/write references to the atomic number
-    using atomic_number_reference = atomic_number_type&;
+    using atomic_number_reference =
+      typename traits_type::atomic_number_reference;
 
     /// Type used for read-only references to the atomic number
-    using const_atomic_number_reference = const atomic_number_type&;
+    using const_atomic_number_reference =
+      typename traits_type::const_atomic_number_reference;
 
     /// Floating-point type used to store the mass
-    using mass_type = double;
+    using mass_type = typename traits_type::mass_type;
 
     /// Type used for read/write references to the nucleus's mass
-    using mass_reference = mass_type&;
+    using mass_reference = typename traits_type::mass_reference;
 
     /// Type for read-only references to the mass
-    using const_mass_reference = const mass_type&;
+    using const_mass_reference = typename traits_type::const_mass_reference;
 
     // -- PointCharge types ----------------------------------------------------
 
+    using point_charge_traits = typename traits_type::point_charge_traits;
+
     /// Type of a point charge, i.e., the class *this inherits from
-    using point_charge_type = PointCharge<double>;
+    using point_charge_type = typename point_charge_traits::value_type;
 
     /// Type of the point charge's charge
-    using charge_type = typename point_charge_type::charge_type;
+    using charge_type = typename point_charge_traits::charge_type;
 
     // -- Point types ----------------------------------------------------------
 

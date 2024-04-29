@@ -146,6 +146,13 @@ void test_charges_view_guts() {
             view_type charges2(qs2);
             REQUIRE_FALSE(charges == charges2);
         }
+
+        SECTION("ChargesView vs. Charges") {
+            REQUIRE(charges == charges_qs);
+            REQUIRE(charges_qs == charges);
+            REQUIRE(charges != defaulted_qs);
+            REQUIRE(defaulted_qs != charges);
+        }
     }
 }
 

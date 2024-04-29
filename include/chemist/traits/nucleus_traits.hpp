@@ -28,35 +28,51 @@ class NucleiView;
 
 template<>
 struct ChemistClassTraits<Nucleus> {
-    using value_type                  = Nucleus;
-    using view_type                   = NucleusView<value_type>;
-    using const_view_type             = NucleusView<const value_type>;
-    using name_type                   = std::string;
-    using name_pointer                = name_type*;
-    using const_name_pointer          = const name_type*;
-    using atomic_number_type          = unsigned int;
-    using atomic_number_pointer       = atomic_number_type*;
-    using const_atomic_number_pointer = const atomic_number_type*;
-    using mass_type                   = double;
-    using mass_pointer                = mass_type*;
-    using const_mass_pointer          = const mass_type*;
-    using point_charge_traits         = ChemistClassTraits<PointCharge<double>>;
+    using value_type                    = Nucleus;
+    using reference                     = Nucleus&;
+    using const_reference               = const Nucleus&;
+    using view_type                     = NucleusView<value_type>;
+    using const_view_type               = NucleusView<const value_type>;
+    using name_type                     = std::string;
+    using name_reference                = name_type&;
+    using const_name_reference          = const name_type&;
+    using name_pointer                  = name_type*;
+    using const_name_pointer            = const name_type*;
+    using atomic_number_type            = unsigned int;
+    using atomic_number_reference       = atomic_number_type&;
+    using const_atomic_number_reference = const atomic_number_type&;
+    using atomic_number_pointer         = atomic_number_type*;
+    using const_atomic_number_pointer   = const atomic_number_type*;
+    using mass_type                     = double;
+    using mass_reference                = mass_type&;
+    using const_mass_reference          = const mass_type&;
+    using mass_pointer                  = mass_type*;
+    using const_mass_pointer            = const mass_type*;
+    using point_charge_traits = ChemistClassTraits<PointCharge<double>>;
 };
 
 template<>
 struct ChemistClassTraits<const Nucleus> {
-    using value_type                  = Nucleus;
-    using view_type                   = NucleusView<const value_type>;
-    using const_view_type             = NucleusView<const value_type>;
-    using name_type                   = std::string;
-    using name_pointer                = const name_type*;
-    using const_name_pointer          = const name_type*;
-    using atomic_number_type          = unsigned int;
-    using atomic_number_pointer       = const atomic_number_type*;
-    using const_atomic_number_pointer = const atomic_number_type*;
-    using mass_type                   = double;
-    using mass_pointer                = const mass_type*;
-    using const_mass_pointer          = const mass_type*;
+    using value_type                    = Nucleus;
+    using reference                     = const Nucleus&;
+    using const_reference               = const Nucleus&;
+    using view_type                     = NucleusView<const value_type>;
+    using const_view_type               = NucleusView<const value_type>;
+    using name_type                     = std::string;
+    using name_reference                = const name_type&;
+    using const_name_reference          = const name_type&;
+    using name_pointer                  = const name_type*;
+    using const_name_pointer            = const name_type*;
+    using atomic_number_type            = unsigned int;
+    using atomic_number_reference       = const atomic_number_type&;
+    using const_atomic_number_reference = const atomic_number_type&;
+    using atomic_number_pointer         = const atomic_number_type*;
+    using const_atomic_number_pointer   = const atomic_number_type*;
+    using mass_type                     = double;
+    using mass_reference                = const mass_type&;
+    using const_mass_reference          = const mass_type&;
+    using mass_pointer                  = const mass_type*;
+    using const_mass_pointer            = const mass_type*;
     using point_charge_traits = ChemistClassTraits<const PointCharge<double>>;
 };
 

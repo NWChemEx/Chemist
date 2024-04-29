@@ -15,6 +15,7 @@
  */
 
 #include "detail_/point_set_contiguous.hpp"
+#include <utility>
 
 namespace chemist {
 

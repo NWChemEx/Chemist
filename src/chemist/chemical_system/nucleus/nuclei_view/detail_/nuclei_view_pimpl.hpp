@@ -189,7 +189,7 @@ bool NucleiViewPIMPL<NucleiType>::are_equal_impl_(
 
     // Compare elements in the range [0, size()), n.b. is no-op if size() == 0
     for(size_type i = 0; i < size(); ++i)
-        if((*this)[i] != other[i]) return false;
+        if(this->get_nuke(i) != other.get_nuke(i)) return false;
 
     // Getting here means they're the same
     return true;

@@ -38,11 +38,12 @@ public:
 
     /// Reuse parent class's types
     ///@{
-    using pimpl_pointer   = typename parent_type::pimpl_pointer;
-    using value_type      = typename parent_type::value_type;
-    using reference       = typename parent_type::reference;
-    using const_reference = typename parent_type::const_reference;
-    using charge_set_type = typename parent_type::charge_set_type;
+    using pimpl_pointer        = typename parent_type::pimpl_pointer;
+    using value_type           = typename parent_type::value_type;
+    using reference            = typename parent_type::reference;
+    using const_reference      = typename parent_type::const_reference;
+    using charge_set_type      = typename parent_type::charge_set_type;
+    using charge_set_reference = typename parent_type::charge_set_reference;
     using const_charge_set_reference =
       typename parent_type::const_charge_set_reference;
     using size_type = typename parent_type::size_type;
@@ -77,8 +78,24 @@ public:
     /// Implements determining the number of point Nuclei
     size_type size() const noexcept { return m_charges_.size(); }
 
+    auto name_data() { return m_names_.data(); }
+
+    auto name_data() const { return m_names_.data(); }
+
+    auto atomic_number_data() { return m_Zs_.data(); }
+
+    auto atomic_number_data() const { return m_Zs_.data(); }
+
+    auto mass_data() { return m_mass_.data(); }
+
+    auto mass_data() const { return m_mass_.data(); }
+
     /// Allows "upcasting" to a Charges
-    const_charge_set_reference as_charges() {
+    charge_set_reference as_charges() {
+        return charge_set_reference(m_charges_);
+    }
+
+    const_charge_set_reference as_charges() const {
         return const_charge_set_reference(m_charges_);
     }
 

@@ -31,6 +31,8 @@ class ChargesView;
 template<typename T>
 struct ChemistClassTraits<PointCharge<T>> {
     using value_type             = PointCharge<T>;
+    using reference              = value_type&;
+    using const_reference        = const value_type&;
     using view_type              = PointChargeView<value_type>;
     using const_view_type        = PointChargeView<const value_type>;
     using charge_type            = T;
@@ -44,6 +46,8 @@ struct ChemistClassTraits<PointCharge<T>> {
 template<typename T>
 struct ChemistClassTraits<const PointCharge<T>> {
     using value_type             = PointCharge<T>;
+    using reference              = const value_type&;
+    using const_reference        = const value_type&;
     using view_type              = PointChargeView<const value_type>;
     using const_view_type        = PointChargeView<const value_type>;
     using charge_type            = T;

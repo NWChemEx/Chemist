@@ -17,6 +17,7 @@ void contiguous_nuclei_guts() {
     point_charge_type q1(1.0, 3.0, 4.0, 5.0);
     point_charge_type q2(0.0, 6.0, 7.0, 8.0);
 
+    charges_type defaulted_qs{};
     charges_type qs{q0, q1, q2};
     std::vector<name_type> names{"H", "He", "Li"};
     std::vector<atomic_number_type> zs{1, 2, 3};
@@ -24,7 +25,7 @@ void contiguous_nuclei_guts() {
 
     // Values we're testing
     pimpl_type defaulted;
-    pimpl_type no_values(charges_type{}, nullptr, nullptr, nullptr);
+    pimpl_type no_values(defaulted_qs, nullptr, nullptr, nullptr);
     pimpl_type values(qs, names.data(), zs.data(), masses.data());
 
     // Correct values
@@ -36,9 +37,9 @@ void contiguous_nuclei_guts() {
         SECTION("Default") { REQUIRE(defaulted.size() == 0); }
         SECTION("Value") {
             REQUIRE(values.size() == 3);
-            REQUIRE(values[0] == h);
-            REQUIRE(values[1] == he);
-            REQUIRE(values[2] == li);
+            REQUIRE(values.get_nuke(0) == h);
+            REQUIRE(values.get_nuke(1) == he);
+            REQUIRE(values.get_nuke(2) == li);
         }
         SECTION("Copy") {
             pimpl_type defaulted_copy(defaulted);
@@ -64,7 +65,7 @@ void contiguous_nuclei_guts() {
         }
 
         SECTION("Empty vs. empty") {
-            pimpl_type other(charges_type{}, nullptr, nullptr, nullptr);
+            pimpl_type other(defaulted_qs, nullptr, nullptr, nullptr);
             REQUIRE(other == no_values);
         }
 

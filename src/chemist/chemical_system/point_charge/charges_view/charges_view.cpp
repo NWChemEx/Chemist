@@ -15,6 +15,7 @@
  */
 
 #include "detail_/charges_contiguous.hpp"
+#include <utility>
 
 namespace chemist {
 
@@ -57,6 +58,14 @@ bool CHARGES_VIEW::operator==(const ChargesView& rhs) const noexcept {
     if(this->empty() != rhs.empty()) return false;
     if(this->empty()) return true;
     return m_pimpl_->are_equal(*rhs.m_pimpl_);
+}
+
+TPARAMS
+bool CHARGES_VIEW::operator==(const_charges_reference rhs) const {
+    if(this->size() != rhs.size()) return false;
+    for(size_type i = 0; i < this->size(); ++i)
+        if((*this)[i] != rhs[i]) return false;
+    return true;
 }
 
 // -----------------------------------------------------------------------------

@@ -60,13 +60,13 @@ public:
     ContiguousNucleiView(const ContiguousNucleiView& other) = default;
 
     /// Implemented generically by NucleiView
-    ContiguousNucleiView& operator==(const ContiguousNucleiView&) = delete;
+    ContiguousNucleiView& operator=(const ContiguousNucleiView&) = delete;
 
     /// Implemented generically by NucleiView
     ContiguousNucleiView(ContiguousNucleiView&&) = delete;
 
     /// Implemented generically by NucleiView
-    ContiguousNucleiView& operator==(ContiguousNucleiView&&) = delete;
+    ContiguousNucleiView& operator=(ContiguousNucleiView&&) = delete;
 
     // -------------------------------------------------------------------------
     // -- Utility methods

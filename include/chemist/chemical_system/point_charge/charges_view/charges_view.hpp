@@ -53,8 +53,14 @@ public:
     /// Traits of the Charges object *this aliases
     using charges_traits = ChemistClassTraits<ChargesType>;
 
+    /// Type of the non-cv-qualified Charges object aliased by *this
+    using charges_type = typename charges_traits::value_type;
+
     /// Type of an actual mutable reference to a Charges object (not a view)
     using charges_reference = typename charges_traits::reference;
+
+    /// Type of a read-only reference to a Charges object (not a view)
+    using const_charges_reference = typename charges_traits::const_reference;
 
     /// Traits of the PointSet piece of *this
     using point_set_traits = typename charges_traits::point_set_traits;
@@ -102,7 +108,7 @@ public:
      *  @throw std::bad_alloc if there is a problem allocating the state. Strong
      *                        throw guarantee.
      */
-    explicit ChargesView(charges_reference charges);
+    ChargesView(charges_reference charges);
 
     /** @brief Creates a new alias to the Charges object aliased by @p other.
      *
@@ -176,6 +182,36 @@ public:
      */
     bool operator==(const ChargesView& rhs) const noexcept;
 
+    /** @brief Compares *this to an actual Charges object.
+     *
+     *  This method compares the charges object aliased by *this to the one
+     *  contained in @p rhs.
+     *
+     *  @param[in] rhs The object to compare *this to.
+     *
+     *  @return True if *this aliases an object which compares equal to @p rhs
+     *          and false otherwise.
+     *
+     *  @throw std::bad_alloc if at_() throws when called. Strong throw
+     *         guarantee.
+     */
+    bool operator==(const_charges_reference rhs) const;
+
+    /** @brief Determines if *this is different than an actual Charges object
+     *
+     *  This method simply negates ChargesView::operator==(Charges).
+     *
+     *  @param[in] rhs The Charges object to compare to.
+     *
+     *  @return False if *this aliases an object that is equal to @p rhs and
+     *          true otherwise.
+     *
+     *  @throw std::bad_alloc if operator== throws. Strong throw guarantee.
+     */
+    bool operator!=(const_charges_reference rhs) const {
+        return !(*this == rhs);
+    }
+
 private:
     // Allows base class to access implementations
     friend base_type;
@@ -198,6 +234,48 @@ private:
     /// The actual object holding the state of *this
     pimpl_pointer m_pimpl_;
 };
+
+/** @brief Compares a Charges to a ChargesView for equality.
+ *
+ *  This is the same method as ChargesView::operator==(const Charges&) except
+ *  that the Charges object is on the left side of the ==.
+ *
+ *  @param[in] lhs The Charges object to compare against the object aliased by
+ *                 @p rhs/
+ *  @param[in] rhs The ChargesView object to compare against @p lhs.
+ *
+ *  @return True if @p lhs compares equal to the Charges object aliased by
+ *          @p rhs and false otherwise.
+ *
+ *  @throw std::bad_alloc if ChargeView::operator==(Charges) throws. Strong
+ *                        throw guarantee.
+ */
+template<typename ChargeType1, typename ChargesType2>
+bool operator==(const Charges<ChargeType1>& lhs,
+                const ChargesView<ChargesType2>& rhs) {
+    return rhs == lhs;
+}
+
+/** @brief Determines if @p lhs is different than @p rhs
+ *
+ *  This simply negates the result of operator== with the same input types.
+ *
+ *  @param[in] lhs The Charges object being compared to the Charges object
+ *                 aliased by @p rhs.
+ *  @param[in] rhs The view associated with the Charges object to compare to
+ *                 @p lhs.
+ *
+ *  @return False if @p lhs compares equal to the value aliased by @p rhs and
+ *          true otherwise.
+ *
+ *  @throw std::bad_alloc if ChargeView::operator==(Charges) throws. Strong
+ *                        throw guarantee.
+ */
+template<typename ChargeType1, typename ChargesType2>
+bool operator!=(const Charges<ChargeType1>& lhs,
+                const ChargesView<ChargesType2>& rhs) {
+    return !(lhs == rhs);
+}
 
 extern template class ChargesView<Charges<float>>;
 extern template class ChargesView<const Charges<float>>;

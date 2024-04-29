@@ -22,6 +22,7 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include <type_traits>
 
 namespace chemist {
 
@@ -36,9 +37,8 @@ namespace chemist {
  */
 template<typename NucleusType>
 class NucleusView
-  : public PointChargeView<
-      typename detail_::ViewTraits<NucleusType>::template apply_const<
-        typename NucleusType::point_charge_type>> {
+  : public PointChargeView<std::remove_reference_t<typename ChemistClassTraits<
+      NucleusType>::point_charge_traits::reference>> {
 private:
     /// Type of *this
     using my_type = NucleusView<NucleusType>;
@@ -49,51 +49,59 @@ private:
     /// Type defining the traits for the charge part of *this
     using point_charge_traits = typename traits_type::point_charge_traits;
 
-    /// Type of the base
-    using base_type = PointChargeView<typename point_charge_traits::point_charge_type>;
+    /// Type *this inherits from
+    using base_type = PointChargeView<
+      std::remove_reference_t<typename point_charge_traits::reference>>;
 
-  public :
-
-
-
+public:
     // -- Nucleus type--------------------------------------------------------
 
     /// Type of an un-qualified Nucleus object
-    using nucleus_type = typename traits_type::type;
+    using nucleus_type = typename traits_type::value_type;
 
     /// Type of a Nucleus reference with const-ness paralleling @p NucleusType
-    using nucleus_reference = apply_const_ref<nucleus_type>;
+    using nucleus_reference = typename traits_type::reference;
 
     /// Type of a read-only reference to a Nucleus
-    using const_nucleus_reference = const nucleus_type&;
+    using const_nucleus_reference = typename traits_type::const_reference;
 
     /// Type of the name
-    using name_type = typename nucleus_type::name_type;
+    using name_type = typename traits_type::name_type;
 
     /// Reference to the name with const-ness paralleling @p NucleusType
-    using name_reference = apply_const_ref<name_type>;
+    using name_reference = typename traits_type::name_reference;
 
     /// Type of a read-only reference to the name
-    using const_name_reference = typename nucleus_type::const_name_reference;
+    using const_name_reference = typename traits_type::const_name_reference;
+
+    /// Type of a mutable pointer to the name
+    using name_pointer = typename traits_type::name_pointer;
 
     /// Type of the atomic number
-    using atomic_number_type = typename nucleus_type::atomic_number_type;
+    using atomic_number_type = typename traits_type::atomic_number_type;
 
     /// Reference to atomic number with const-ness paralleling @p NucleusType
-    using atomic_number_reference = apply_const_ref<atomic_number_type>;
+    using atomic_number_reference =
+      typename traits_type::atomic_number_reference;
 
     /// Type of a read-only reference to the atomic number
     using const_atomic_number_reference =
-      typename nucleus_type::const_atomic_number_reference;
+      typename traits_type::const_atomic_number_reference;
+
+    /// Type of a mutable pointer to the atomic_number
+    using atomic_number_pointer = typename traits_type::atomic_number_pointer;
 
     /// Type of the nucleus's mass
-    using mass_type = typename nucleus_type::mass_type;
+    using mass_type = typename traits_type::mass_type;
 
     /// Reference to mass with const-ness paralleling @p NucleusType
-    using mass_reference = apply_const_ref<mass_type>;
+    using mass_reference = typename traits_type::mass_reference;
 
     /// Type of a read-only reference to the mass
-    using const_mass_reference = typename nucleus_type::const_mass_reference;
+    using const_mass_reference = typename traits_type::const_mass_reference;
+
+    /// Pointer to a mutable mass
+    using mass_pointer = typename traits_type::mass_pointer;
 
     /// Type of the nucleus' coordiantes
     using coord_type = typename nucleus_type::coord_type;
@@ -101,14 +109,13 @@ private:
     // -- PointCharge types ----------------------------------------------------
 
     /// Type of PointCharge an object of type @p nucleus_type inherits from
-    using point_charge_type = typename nucleus_type::point_charge_type;
+    using point_charge_type = typename point_charge_traits::charge_type;
 
     /// PointChargeView with const-ness paralleling @p NucleusType
-    using charge_view_type = PointChargeView<
-      typename traits_type::template apply_const<point_charge_type>>;
+    using charge_view_type = typename point_charge_traits::view_type;
 
     /// Type of a read-only PointChargeView
-    using const_charge_view = PointChargeView<const point_charge_type>;
+    using const_charge_view = typename point_charge_traits::const_view_type;
 
     // -- CTors ----------------------------------------------------------------
 
@@ -160,12 +167,13 @@ private:
     template<typename NucleusType2, typename = std::enable_if_t<std::is_same_v<
                                       std::decay_t<NucleusType2>, NucleusType>>>
     NucleusView& operator=(NucleusType2&& other) {
-        charge_view_type::operator=(std::forward<point_charge_type>(other));
+        base_type::operator=(std::forward<charge_view_type>(other));
         (*m_pname_) = other.name();
         (*m_pZ_)    = other.Z();
         (*m_pmass_) = other.mass();
         return *this;
     }
+
     // -- Accessors ------------------------------------------------------------
 
     /** @brief Provides access to the name.
@@ -284,13 +292,13 @@ private:
 
 private:
     /// Pointer to the aliased name
-    ptr_type<name_type> m_pname_;
+    name_pointer m_pname_;
 
     /// Pointer to the aliased atomic number
-    ptr_type<atomic_number_type> m_pZ_;
+    atomic_number_pointer m_pZ_;
 
     /// Pointer to the aliased mass
-    ptr_type<mass_type> m_pmass_;
+    mass_pointer m_pmass_;
 };
 
 /**
