@@ -43,7 +43,9 @@ void export_molecule(python_module_reference m) {
            [](molecule_reference self, atom_type v) {
                return self.push_back(std::move(v));
            })
-      .def("at", [](molecule_reference self, size_type i) { return self[i]; })
+      .def(
+        "at", [](molecule_reference self, size_type i) { return self[i]; },
+        pybind11::keep_alive<0, 1>())
       .def("size", [](molecule_reference self) { return self.size(); })
       .def("charge", &Molecule::charge)
       .def("n_electrons", &Molecule::n_electrons)
