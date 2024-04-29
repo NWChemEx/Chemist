@@ -16,6 +16,8 @@
 
 #pragma once
 #include <chemist/chemical_system/nucleus/nuclei.hpp>
+#include <chemist/chemical_system/point_charge/charges_view/charges_view.hpp>
+#include <chemist/traits/nucleus_traits.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
@@ -43,15 +45,6 @@ private:
     /// Type of the base
     using base_type = utilities::IndexableContainerBase<my_type>;
 
-    /// Traits type helping out with the TMP
-    using traits_type = detail_::ViewTraits<NucleiType>;
-
-    static constexpr bool is_const = traits_type::is_const_v;
-
-    /// Typedef so we don't need "typename" and "template" for references
-    template<typename U>
-    using apply_const_ref = typename traits_type::template apply_const_ref<U>;
-
 public:
     /// Type of the PIMPL
     using pimpl_type = detail_::NucleiViewPIMPL<NucleiType>;
@@ -64,24 +57,37 @@ public:
 
     // -- Nuclei/Nucleus types -------------------------------------------------
 
+    /// Class containing the types for the aliased Nuclei object
+    using nuclei_traits = ChemistClassTraits<NucleiType>;
+
     /// Type *this is behaving like
-    using nuclei_type = typename traits_type::type;
+    using nuclei_type = typename nuclei_traits::value_type;
+
+    /// Type of a reference to a nuclei object
+    using nuclei_reference = typename nuclei_traits::reference;
+
+    /// Class containing the types of the Nucleus objects in the aliased Nuclei
+    using nucleus_traits = typename nuclei_traits::nucleus_traits;
 
     /// Type of an element in *this
-    using value_type = typename nuclei_type::value_type;
+    using value_type = typename nucleus_traits::value_type;
 
     /// Mutable reference to an element in *this
-    using reference =
-      std::conditional_t<is_const, typename nuclei_type::reference,
-                         typename nuclei_type::const_reference>;
+    using reference = typename nucleus_traits::view_type;
 
     /// Read-only reference to an element in *this
-    using const_reference = typename nuclei_type::const_reference;
+    using const_reference = typename nucleus_traits::const_view_type;
 
     // -- PointCharge types ----------------------------------------------------
 
+    /// Class providing types for the Charges object *this aliases
+    using charges_traits = typename nuclei_traits::charges_traits;
+
+    /// Type of a mutable reference to a Charges object
+    using charges_reference = typename charges_traits::reference;
+
     /// Type used to store the charge
-    using charge_type = typename nuclei_type::charge_type;
+    using charge_type = typename value_type::charge_type;
 
     // -- Ctors, Assignment, and dtor ------------------------------------------
 
@@ -91,7 +97,7 @@ public:
      */
     NucleiView() noexcept;
 
-    NucleiView(apply_const_ref<nuclei_type> nuclei);
+    NucleiView(nuclei_reference nuclei);
 
     /** @brief Creates a new view powered by the provided PIMPL.
      *

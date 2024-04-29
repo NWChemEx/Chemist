@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "detail_/contiguous_nuclei_view.hpp"
 #include "detail_/nuclei_subset.hpp"
 #include "detail_/nuclei_view_pimpl.hpp"
 #include <numeric>
@@ -24,11 +25,10 @@ namespace detail_ {
 // TODO: This PIMPL is inefficient for wrapping an entire Nuclei object.
 template<typename NucleiType>
 auto wrap_nuclei(NucleiType& nuclei) {
-    std::vector<std::size_t> buffer(nuclei.size());
-    std::iota(buffer.begin(), buffer.end(), 0);
-    auto pnuclei     = std::make_shared<NucleiType>(nuclei);
-    using pimpl_type = NucleiSubset<NucleiType>;
-    return std::make_unique<pimpl_type>(pnuclei, buffer.begin(), buffer.end());
+    using pimpl_type = detail_::ContiguousNucleiView<NucleiType>;
+    return std::make_unique<pimpl_type>(nuclei.charges(), nuclei.name_data(),
+                                        nuclei.atomic_number_data(),
+                                        nuclei.mass_data());
 }
 
 } // namespace detail_
@@ -43,7 +43,7 @@ TPARAMS
 NUCLEI_VIEW::NucleiView() noexcept = default;
 
 TPARAMS
-NUCLEI_VIEW::NucleiView(apply_const_ref<nuclei_type> nuclei) :
+NUCLEI_VIEW::NucleiView(nuclei_reference nuclei) :
   NucleiView(detail_::wrap_nuclei(nuclei)) {}
 
 TPARAMS NUCLEI_VIEW::NucleiView(pimpl_pointer pimpl) noexcept :

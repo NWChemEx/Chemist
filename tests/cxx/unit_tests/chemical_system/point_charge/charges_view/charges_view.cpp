@@ -22,11 +22,6 @@ void test_charges_view_guts() {
     using charges_type      = ChargesType;
     using view_type         = chemist::ChargesView<charges_type>;
     using point_charge_type = typename view_type::value_type;
-    // using float_type = typename view_type::point_charge_traits::charge_type;
-    // using point_set_reference = typename pimpl_type::point_set_reference;
-    // using point_set_type = typename pimpl_type::point_set_traits::value_type;
-    // using point_type     = typename point_set_type::value_type;
-    // using reference      = typename pimpl_type::reference;
 
     // Make some Point objects and put them in a PointSet
     point_charge_type q0{0.0, 0.0, 0.0, 0.0}, q1{-1.1, 1.0, 2.0, 3.0},
@@ -58,6 +53,57 @@ void test_charges_view_guts() {
 
             view_type charges_copy(charges);
             REQUIRE(charges_copy == charges);
+        }
+
+        SECTION("Copy assignment") {
+            view_type defaulted_copy;
+            auto pdefaulted_copy = &(defaulted_copy = defaulted);
+            REQUIRE(defaulted == defaulted_copy);
+            REQUIRE(pdefaulted_copy == &defaulted_copy);
+
+            view_type no_charges_copy;
+            auto pno_charges_copy = &(no_charges_copy = no_charges);
+            REQUIRE(no_charges_copy == no_charges);
+            REQUIRE(pno_charges_copy == &no_charges_copy);
+
+            view_type charges_copy;
+            auto pcharges_copy = &(charges_copy = charges);
+            REQUIRE(charges_copy == charges);
+            REQUIRE(pcharges_copy == &charges_copy);
+        }
+
+        SECTION("Move") {
+            view_type defaulted_copy(defaulted);
+            view_type defaulted_move(std::move(defaulted));
+            REQUIRE(defaulted_move == defaulted_copy);
+
+            view_type no_charges_copy(no_charges);
+            view_type no_charges_move(std::move(no_charges));
+            REQUIRE(no_charges_copy == no_charges_move);
+
+            view_type charges_copy(charges);
+            view_type charges_move(std::move(charges));
+            REQUIRE(charges_copy == charges_move);
+        }
+
+        SECTION("Move assignment") {
+            view_type defaulted_copy(defaulted);
+            view_type defaulted_move;
+            auto pdefaulted_move = &(defaulted_move = std::move(defaulted));
+            REQUIRE(defaulted_move == defaulted_copy);
+            REQUIRE(pdefaulted_move == &defaulted_move);
+
+            view_type no_charges_copy(no_charges);
+            view_type no_charges_move;
+            auto pno_charges_move = &(no_charges_move = std::move(no_charges));
+            REQUIRE(no_charges_copy == no_charges_move);
+            REQUIRE(pno_charges_move == &no_charges_move);
+
+            view_type charges_copy(charges);
+            view_type charges_move;
+            auto pcharges_move = &(charges_move = std::move(charges));
+            REQUIRE(charges_copy == charges_move);
+            REQUIRE(pcharges_move == &charges_move);
         }
     }
 

@@ -73,12 +73,12 @@ typename CHARGES::const_point_set_reference CHARGES::point_set() const {
 }
 
 TPARAMS
-typename CHARGES::charge_pointer CHARGES::charge_data() {
+typename CHARGES::charge_pointer CHARGES::charge_data() noexcept {
     return has_pimpl_() ? m_pimpl_->charge_data() : nullptr;
 }
 
 TPARAMS
-typename CHARGES::const_charge_pointer CHARGES::charge_data() const {
+typename CHARGES::const_charge_pointer CHARGES::charge_data() const noexcept {
     return has_pimpl_() ? std::as_const(*m_pimpl_).charge_data() : nullptr;
 }
 

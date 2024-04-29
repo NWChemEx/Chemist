@@ -99,21 +99,82 @@ public:
      *
      *  @param[in] charges The object *this will alias.
      *
-     *  @throw std::bad_alloc if there is
-     *
+     *  @throw std::bad_alloc if there is a problem allocating the state. Strong
+     *                        throw guarantee.
      */
     explicit ChargesView(charges_reference charges);
 
+    /** @brief Creates a new alias to the Charges object aliased by @p other.
+     *
+     *  This ctor is a shallow copy of the aliased Charges object and a deep
+     *  copy of the state in @p other used to alias the Charges object. In other
+     *  words after this call *this will alias the same Charges object as
+     *  @p other, but *this can be made to alias a different Charges object
+     *  without affecting @p other.
+     *
+     *  @param[in] other The ChargesView being copied.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the state. Strong
+     *                        throw guarantee.
+     *
+     */
     ChargesView(const ChargesView& other);
 
+    /** @brief Causes *this to alias the same Charges object as @p rhs.
+     *
+     *  This method overwrites the state in *this with a copy of @p rhs. See
+     *  the copy ctor's description for details on the copy process.
+     *
+     *  @param[in] rhs The ChargesView being copied.
+     *
+     *  @return *this after replacing its state with a copy of @p rhs.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the state. Strong
+     *                        throw guarantee.
+     */
     ChargesView& operator=(const ChargesView& rhs);
 
+    /** @brief Creates a new ChargesView by taking ownership of the state in
+     *         @p other
+     *
+     *  @param[in,out] other The ChargesView object to take the state from.
+     *                       After calling this ctor @p other will be in a state
+     *                       consistent with aliasing an empty Charges object.
+     *
+     *  @throw None No throw guarantee.
+     */
     ChargesView(ChargesView&& other) noexcept;
 
+    /** @brief Overwrites the state in *this with that in @p rhs.
+     *
+     *  @param[in,out] rhs The ChargesView object to take the state from.
+     *                     After calling this ctor @p rhs will be in a state
+     *                     consistent with aliasing an empty Charges object.
+     *
+     *  @return *this after transferring ownership of the state in @p rhs to
+     *          *this.
+     *
+     *  @throw None No throw guarantee.
+     */
     ChargesView& operator=(ChargesView&& rhs) noexcept;
 
     /// Default no-throw dtor
     ~ChargesView() noexcept;
+
+    /** @brief Determines if *this aliases the same Charges object as @p rhs.
+     *
+     *  This method will compare the Charges objects aliased by *this and
+     *  @p rhs NOT the state used to alias the Charges object. Thinking of
+     *  ChargesView as pointer-like that's to say that this method compares the
+     *  value being pointed to NOT the addresses of those values.
+     *
+     *  @param[in] rhs The object to compare to.
+     *
+     *  @return True if *this compares equal to @p rhs and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool operator==(const ChargesView& rhs) const noexcept;
 
 private:
     // Allows base class to access implementations

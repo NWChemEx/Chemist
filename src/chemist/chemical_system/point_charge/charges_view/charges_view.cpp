@@ -52,6 +52,13 @@ CHARGES_VIEW& CHARGES_VIEW::operator=(ChargesView&& rhs) noexcept = default;
 TPARAMS
 CHARGES_VIEW::~ChargesView() noexcept = default;
 
+TPARAMS
+bool CHARGES_VIEW::operator==(const ChargesView& rhs) const noexcept {
+    if(this->empty() != rhs.empty()) return false;
+    if(this->empty()) return true;
+    return m_pimpl_->are_equal(*rhs.m_pimpl_);
+}
+
 // -----------------------------------------------------------------------------
 // -- Private methods
 // -----------------------------------------------------------------------------

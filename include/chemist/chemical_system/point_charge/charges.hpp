@@ -201,13 +201,52 @@ public:
      */
     void push_back(value_type q);
 
+    /** @brief Returns the PointSet piece of *this.
+     *
+     *  Conceptually a Charges object is a PointSet plus the charges of each
+     *  point charge. This method allows you to access the PointSet piece.
+     *
+     *  @return A reference to a mutable PointSet object.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the reference.
+     *                        Strong throw guarantee.
+     */
     point_set_reference point_set();
 
+    /** @brief Returns the PointSet piece of *this.
+     *
+     *  Same as the non-const version except that resulting reference is
+     *  read-only.
+     *
+     *  @return A reference to a read-only PointSet object.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the reference.
+     *                        Strong throw guarantee.
+     */
     const_point_set_reference point_set() const;
 
-    charge_pointer charge_data();
+    /** @brief Returns a mutable pointer to the first charge.
+     *
+     *  If the charges are stored contiguously this method will return a pointer
+     *  to the first charge. If they are not, or if there are no charges, this
+     *  method will return a null pointer.
+     *
+     *  @return A pointer to the first charge or a null pointer.
+     *
+     *  @throw None No throw guarantee.
+     */
+    charge_pointer charge_data() noexcept;
 
-    const_charge_pointer charge_data() const;
+    /** @brief Returns a read-only pointer to the first charge.
+     *
+     *  This method is similar to the non-const version except that the
+     *  resulting pointer is read-only.
+     *
+     *  @return A pointer to the first charge or a null pointer.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const_charge_pointer charge_data() const noexcept;
 
     /** @brief Serialize Charges instance
      *
