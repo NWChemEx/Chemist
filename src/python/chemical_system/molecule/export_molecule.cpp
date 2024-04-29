@@ -18,6 +18,7 @@
 #include <chemist/chemical_system/molecule/molecule.hpp>
 #include <chemist/chemical_system/nucleus/nuclei.hpp>
 #include <pybind11/operators.h>
+#include <sstream>
 #include <vector>
 
 namespace chemist {

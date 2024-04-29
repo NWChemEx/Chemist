@@ -17,6 +17,7 @@
 #include "export_molecule.hpp"
 #include <chemist/chemical_system/molecule/atom.hpp>
 #include <pybind11/operators.h>
+#include <sstream>
 
 namespace chemist {
 
