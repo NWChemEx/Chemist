@@ -78,7 +78,9 @@ public:
     size_type size() const noexcept { return m_charges_.size(); }
 
     /// Allows "upcasting" to a Charges
-    const_charge_set_reference as_charges() { return m_charges_; }
+    const_charge_set_reference as_charges() {
+        return const_charge_set_reference(m_charges_);
+    }
 
     /// Implements comparisons for Nuclei
     bool operator==(const NucleiPIMPL& rhs) const {

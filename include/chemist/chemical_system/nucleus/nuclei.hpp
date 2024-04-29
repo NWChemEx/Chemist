@@ -16,7 +16,8 @@
 
 #pragma once
 #include <chemist/chemical_system/nucleus/nucleus_view.hpp>
-#include <chemist/chemical_system/point_charge/charges.hpp>
+#include <chemist/chemical_system/point_charge/charges_view/charges_view.hpp>
+#include <chemist/traits/nucleus_traits.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
@@ -65,6 +66,23 @@ public:
     /// Type of a mutable pointer to a Nucleus's name
     using name_pointer = typename nucleus_traits::name_pointer;
 
+    /// Type of a read-only pointer to a Nucleus's name
+    using const_name_pointer = typename nucleus_traits::const_name_pointer;
+
+    /// Type of a mutable pointer to a Nucleus's atomic number
+    using atomic_number_pointer =
+      typename nucleus_traits::atomic_number_pointer;
+
+    /// Type of a read-only pointer to a Nucleus's atomic number
+    using const_atomic_number_pointer =
+      typename nucleus_traits::const_atomic_number_pointer;
+
+    /// Type of a mutable pointer to a Nucleus's mass
+    using mass_pointer = typename nucleus_traits::mass_pointer;
+
+    /// Type of a read-only pointer to a Nucleus's mass
+    using const_mass_pointer = typename nucleus_traits::const_mass_pointer;
+
     // -- PointCharge types
 
     // Class defining the types of the Charges subset of *this
@@ -74,7 +92,7 @@ public:
     using point_charge_traits = typename nucleus_traits::point_charge_traits;
 
     /// The type used to store the charge
-    using charge_type = typename point_charge_traits::charge_;
+    using charge_type = typename point_charge_traits::charge_type;
 
     /// The type of the Charges *this conceptually derives from
     using charge_set_type = typename charges_traits::value_type;
@@ -209,9 +227,9 @@ public:
 
     const_charge_set_reference charges() const;
 
-    name_pointer names_data() noexcept;
+    name_pointer name_data() noexcept;
 
-    const_name_pointer names_data() const noexcept;
+    const_name_pointer name_data() const noexcept;
 
     atomic_number_pointer atomic_number_data() noexcept;
 

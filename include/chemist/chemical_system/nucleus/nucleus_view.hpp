@@ -40,22 +40,16 @@ class NucleusView
       typename detail_::ViewTraits<NucleusType>::template apply_const<
         typename NucleusType::point_charge_type>> {
 private:
-    /// Traits type helping out with TMP
-    using traits_type = detail_::ViewTraits<NucleusType>;
+    /// Type of *this
+    using my_type = NucleusView<NucleusType>;
 
-    /// Typedef so we don't need "typename" and "template" for references
-    template<typename U>
-    using apply_const_ref = typename traits_type::template apply_const_ref<U>;
+    /// Type *this inherits from
+    using base_type = PointChargeView < ChemistClassTraits<NucleusType> public :
+      // -- Nucleus types
+      // --------------------------------------------------------
 
-    /// Typedef so we don't need "typename" and "template" for pointers
-    template<typename U>
-    using ptr_type = typename traits_type::template apply_const_ptr<U>;
-
-public:
-    // -- Nucleus types --------------------------------------------------------
-
-    /// Type of an un-qualified Nucleus object
-    using nucleus_type = typename traits_type::type;
+      /// Type of an un-qualified Nucleus object
+      using nucleus_type = typename traits_type::type;
 
     /// Type of a Nucleus reference with const-ness paralleling @p NucleusType
     using nucleus_reference = apply_const_ref<nucleus_type>;
@@ -157,9 +151,9 @@ public:
                                       std::decay_t<NucleusType2>, NucleusType>>>
     NucleusView& operator=(NucleusType2&& other) {
         charge_view_type::operator=(std::forward<point_charge_type>(other));
-        (*m_pname_)               = other.name();
-        (*m_pZ_)                  = other.Z();
-        (*m_pmass_)               = other.mass();
+        (*m_pname_) = other.name();
+        (*m_pZ_)    = other.Z();
+        (*m_pmass_) = other.mass();
         return *this;
     }
     // -- Accessors ------------------------------------------------------------
