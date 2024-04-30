@@ -47,8 +47,31 @@ public:
     /// Type of a pointer to the base of the PIMPL
     using typename base_type::pimpl_pointer;
 
+    /** @brief Aliases an empty Nuclei object.
+     *
+     *  The default ctor will create a PIMPL which aliases an empty Nuclei
+     *  object.
+     *
+     *  @throw None No throw guarantee.
+     */
     ContiguousNucleiView() = default;
 
+    /** @brief Wraps the state associated with the aliased Nuclei object.
+     *
+     *  This is the primary ctor for creating a stateful PIMPL. This ctor
+     *  assumes that every point charge in @p charges is associated with a
+     *  nuclei such that charges[i] is the i-th point charge piece of the i-th
+     *  nucleus.
+     *
+     *  @param[in] charges A reference to the piece of the Nuclei class acting
+     *                     as a Charges object.
+     *  @param[in] pnames A pointer to the first nucleus's name.
+     *  @param[in] patomic_numbers A pointer to the first nucleus's atomic
+     *                             number.
+     *  @param[in] pmasses A pointer to the first nucleus's mass.
+     *
+     *  @throw None No throw guarantee
+     */
     ContiguousNucleiView(charges_reference charges, name_pointer pnames,
                          atomic_number_pointer patomic_numbers,
                          mass_pointer pmasses) :
@@ -57,6 +80,19 @@ public:
       m_patomic_numbers_(patomic_numbers),
       m_pmasses_(pmasses) {}
 
+    /** @brief Creates a new PIMPL by copying the state of @p other.
+     *
+     *  It should be noted that this PIMPL deep copies the state in @p other,
+     *  but only shallow copies the aliased Nuclei object. In other words,
+     *  the resulting PIMPL aliases the same Nuclei object as @p other, but
+     *  causing *this to point to a different Nuclei object will not affect
+     *  @p other.
+     *
+     *  @param[in] other The view to copy.
+     *
+     *  @throw std::bad_alloc if copying the state fails. Strong throw
+     *                        gurantee.
+     */
     ContiguousNucleiView(const ContiguousNucleiView& other) = default;
 
     /// Implemented generically by NucleiView
@@ -72,6 +108,20 @@ public:
     // -- Utility methods
     // -------------------------------------------------------------------------
 
+    /** @brief Determins if *this and @p rhs alias equivalent Nuclei objects.
+     *
+     *  This method compares the Nuclei object aliases by *this to the object
+     *  aliased by @p rhs. This method does not exclusively compare whether
+     *  *this and @p rhs alias the same memory (though it tries to exploit it
+     *  for faster comparisons), but will actually compare the values too.
+     *
+     *  @param[in] rhs The view to compare against.
+     *
+     *  @return True if the Nuclei object aliased by *this is value equal to the
+     *          Nuclei object aliased by @p rhs and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
     bool operator==(const ContiguousNucleiView& rhs) const noexcept;
 
 protected:
@@ -129,7 +179,7 @@ bool ContiguousNucleiView<NucleiType>::operator==(
     if(m_pnames_ != rhs.m_pnames_) {
         const auto* plhs = m_pnames_;
         const auto* prhs = rhs.m_pnames_;
-        if(!std::equal(prhs, plhs + n, prhs)) return false;
+        if(!std::equal(plhs, plhs + n, prhs)) return false;
     }
 
     if(m_patomic_numbers_ != rhs.m_patomic_numbers_) {

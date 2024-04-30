@@ -29,9 +29,9 @@ void contiguous_nuclei_guts() {
     pimpl_type values(qs, names.data(), zs.data(), masses.data());
 
     // Correct values
-    nucleus_type h("H", 1, -1.1, 0.0, 1.0, 2.0);
-    nucleus_type he("He", 2, 1.0, 3.0, 4.0, 5.0);
-    nucleus_type li("Li", 3, 0.0, 6.0, 7.0, 8.0);
+    nucleus_type h("H", 1, 1.0, 0.0, 1.0, 2.0, -1.1);
+    nucleus_type he("He", 2, 4.0, 3.0, 4.0, 5.0, 1.0);
+    nucleus_type li("Li", 3, 7.0, 6.0, 7.0, 8.0, 0.0);
 
     SECTION("Ctors") {
         SECTION("Default") { REQUIRE(defaulted.size() == 0); }
@@ -51,6 +51,44 @@ void contiguous_nuclei_guts() {
             pimpl_type values_copy(values);
             REQUIRE(values_copy == values);
         }
+    }
+
+    SECTION("clone") {
+        auto pdefaulted_copy = defaulted.clone();
+        REQUIRE(pdefaulted_copy->are_equal(defaulted));
+
+        auto pno_values_copy = no_values.clone();
+        REQUIRE(pno_values_copy->are_equal(no_values));
+
+        auto pvalues_copy = values.clone();
+        REQUIRE(pvalues_copy->are_equal(values));
+    }
+
+    SECTION("get_nuke()") {
+        REQUIRE(values.get_nuke(0) == h);
+        REQUIRE(values.get_nuke(1) == he);
+        REQUIRE(values.get_nuke(2) == li);
+
+        // Is it writeable?
+        using type_wo_cv = std::remove_cv_t<NucleiType>;
+        if constexpr(std::is_same_v<NucleiType, type_wo_cv>) {
+            auto h_inside   = values.get_nuke(0);
+            h_inside.mass() = 99.0;
+            REQUIRE(h_inside.mass() == 99.0);
+            REQUIRE(values.get_nuke(0).mass() == 99.0);
+        }
+    }
+
+    SECTION("get_nuke() const") {
+        REQUIRE(std::as_const(values).get_nuke(0) == h);
+        REQUIRE(std::as_const(values).get_nuke(1) == he);
+        REQUIRE(std::as_const(values).get_nuke(2) == li);
+    }
+
+    SECTION("size") {
+        REQUIRE(defaulted.size() == 0);
+        REQUIRE(no_values.size() == 0);
+        REQUIRE(values.size() == 3);
     }
 
     SECTION("operator==") {
@@ -105,7 +143,7 @@ void contiguous_nuclei_guts() {
 
         SECTION("Different masses") {
             std::vector<mass_type> masses2{1.23, 2.34, 3.45};
-            pimpl_type other(qs, names.data(), zs.data(), masses.data());
+            pimpl_type other(qs, names.data(), zs.data(), masses2.data());
             REQUIRE_FALSE(other == values);
         }
     }
