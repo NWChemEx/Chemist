@@ -168,9 +168,9 @@ public:
                                       std::decay_t<NucleusType2>, NucleusType>>>
     NucleusView& operator=(NucleusType2&& other) {
         base_type::operator=(std::forward<point_charge_type>(other));
-        (*m_pname_) = other.name();
-        (*m_pZ_)    = other.Z();
-        (*m_pmass_) = other.mass();
+        (*m_pname_)        = other.name();
+        (*m_pZ_)           = other.Z();
+        (*m_pmass_)        = other.mass();
         return *this;
     }
 
