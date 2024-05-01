@@ -79,6 +79,9 @@ public:
      */
     PointCharge(PointCharge&& other) noexcept = default;
 
+    PointCharge(charge_type q, point_type p) :
+      PointCharge(q, p.x(), p.y(), p.z()) {}
+
     /** @brief Creates a new PointCharge instance with the specified state.
      *
      *  @param[in] q The charge of the PointCharge (in a.u.)
@@ -214,6 +217,42 @@ template<typename LHSType, typename RHSType>
 bool operator!=(const PointCharge<LHSType>& lhs,
                 const PointCharge<RHSType>& rhs) {
     return !(lhs == rhs);
+}
+
+/** @brief Adds a string representation of @p q to @p os.
+ *
+ *  This function is used to add a string representation of a PointCharge to a
+ *  stream. The resulting format will be of the form:
+ *
+ *  ```
+ *  charge : <charge value>,
+ *  <point base representation>
+ *  ```
+ *  Charge weill be printed with all significant figures.
+ *
+ *  @warning The string representation is primarily for logging purposes. It is
+ *           not considered stable and should not be used for archiving at this
+ *           point.
+ *
+ *  @param[in,out] os The stream to add the string representation of @p q to.
+ *  @param[in] q The PointCharge to convert to a string.
+ *
+ *  @return @p os after adding the string representation of @p q to it.
+ *
+ *  @throw ??? if an error arises in adding @p q to @p os an exception may be
+ *             thrown. If this happens @p os is in a valid, but otherwise
+ *             undefined state. Weak throw guarantee.
+ */
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const PointCharge<T>& q) {
+    // Number of sig figs in a floating point number of type T
+    static constexpr auto digits = std::numeric_limits<T>::digits10;
+    auto old_precision           = os.precision();
+    os << std::setprecision(digits);
+    os << "charge : " << q.charge() << "," << std::endl;
+    os << static_cast<const Point<T>&>(q);
+    os << std::setprecision(old_precision);
+    return os;
 }
 
 // ----------------------- Implementations -------------------------------------

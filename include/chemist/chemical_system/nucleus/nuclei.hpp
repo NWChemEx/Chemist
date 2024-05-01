@@ -16,7 +16,8 @@
 
 #pragma once
 #include <chemist/chemical_system/nucleus/nucleus_view.hpp>
-#include <chemist/chemical_system/point_charge/charges.hpp>
+#include <chemist/chemical_system/point_charge/charges_view/charges_view.hpp>
+#include <chemist/traits/nucleus_traits.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
@@ -32,8 +33,11 @@ class NucleiPIMPL;
  */
 class Nuclei : public utilities::IndexableContainerBase<Nuclei> {
 private:
+    /// Type of *this
+    using my_type = Nuclei;
+
     /// Type implementing the container API of *this
-    using base_type = utilities::IndexableContainerBase<Nuclei>;
+    using base_type = utilities::IndexableContainerBase<my_type>;
 
 public:
     /// The type of the PIMPL
@@ -42,27 +46,62 @@ public:
     /// The type of a pointer to a PIMPL
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
 
+    /// Class defining types associated with *this
+    using nuclei_traits = ChemistClassTraits<my_type>;
+
     // -- Nucleus types ----------------------------------------------------
 
+    /// Class defining the types of the elements in *this
+    using nucleus_traits = typename nuclei_traits::nucleus_traits;
+
     /// The elements in the container
-    using value_type = Nucleus;
+    using value_type = typename nucleus_traits::value_type;
 
     /// Read/write reference to an element
-    using reference = NucleusView<value_type>;
+    using reference = typename nucleus_traits::view_type;
 
     /// Read-only reference to an element
-    using const_reference = NucleusView<const value_type>;
+    using const_reference = typename nucleus_traits::const_view_type;
 
-    // -- PointCharge types ---------------------------------------------------
+    /// Type of a mutable pointer to a Nucleus's name
+    using name_pointer = typename nucleus_traits::name_pointer;
+
+    /// Type of a read-only pointer to a Nucleus's name
+    using const_name_pointer = typename nucleus_traits::const_name_pointer;
+
+    /// Type of a mutable pointer to a Nucleus's atomic number
+    using atomic_number_pointer =
+      typename nucleus_traits::atomic_number_pointer;
+
+    /// Type of a read-only pointer to a Nucleus's atomic number
+    using const_atomic_number_pointer =
+      typename nucleus_traits::const_atomic_number_pointer;
+
+    /// Type of a mutable pointer to a Nucleus's mass
+    using mass_pointer = typename nucleus_traits::mass_pointer;
+
+    /// Type of a read-only pointer to a Nucleus's mass
+    using const_mass_pointer = typename nucleus_traits::const_mass_pointer;
+
+    // -- PointCharge types
+
+    // Class defining the types of the Charges subset of *this
+    using charges_traits = typename nuclei_traits::charges_traits;
+
+    // Class defining the types of PointCharge piece of each Nucleus
+    using point_charge_traits = typename nucleus_traits::point_charge_traits;
 
     /// The type used to store the charge
-    using charge_type = typename value_type::charge_type;
+    using charge_type = typename point_charge_traits::charge_type;
 
     /// The type of the Charges *this conceptually derives from
-    using charge_set_type = Charges<charge_type>;
+    using charge_set_type = typename charges_traits::value_type;
 
-    /// Type of a read-only reference to the conceptual base class
-    using const_charge_set_reference = const charge_set_type&;
+    /// Type of a mutable reference to the Charges piece of *this
+    using charge_set_reference = typename charges_traits::view_type;
+
+    /// Type of a read-only reference to the Charges piece of *this
+    using const_charge_set_reference = typename charges_traits::const_view_type;
 
     /// Integral type used for indexing
     using size_type = typename base_type::size_type;
@@ -183,6 +222,22 @@ public:
      *                        guarantee.
      */
     void push_back(value_type q);
+
+    charge_set_reference charges();
+
+    const_charge_set_reference charges() const;
+
+    name_pointer name_data() noexcept;
+
+    const_name_pointer name_data() const noexcept;
+
+    atomic_number_pointer atomic_number_data() noexcept;
+
+    const_atomic_number_pointer atomic_number_data() const noexcept;
+
+    mass_pointer mass_data() noexcept;
+
+    const_mass_pointer mass_data() const noexcept;
 
     /** @brief Serialize Nuclei instance
      *

@@ -195,14 +195,36 @@ TEST_CASE("Nucleus") {
         }
         REQUIRE(defaulted == zmxyzq);
     }
+}
 
-    SECTION("Printing") {
-        std::stringstream ss;
-        ss << zmxyz;
+TEST_CASE("operator<<(ostream, Nucleus)") {
+    chemist::Nucleus p0{"H",
+                        1,
+                        1.0987654321098765,
+                        2.1098765432109876,
+                        3.2109876543210987,
+                        4.3210987654321098,
+                        5.4321098765432109};
 
-        std::string corr =
-          "C 1.000000000000000 2.000000000000000 3.000000000000000";
+    std::stringstream corr;
+    corr << "name : H," << std::endl;
+    corr << "atomic number : 1," << std::endl;
+    corr << "mass : 1.09876543210988," << std::endl;
+    corr << "charge : 5.43210987654321," << std::endl;
+    corr << "x : 2.10987654321099," << std::endl;
+    corr << "y : 3.2109876543211," << std::endl;
+    corr << "z : 4.32109876543211";
 
-        REQUIRE(ss.str() == corr);
-    }
+    std::stringstream ss;
+    ss << std::setprecision(1);
+    auto pss = &(ss << p0);
+
+    // Check value
+    REQUIRE(ss.str() == corr.str());
+
+    // Make sure it set precision back
+    REQUIRE(ss.precision() == 1);
+
+    // Make sure it return ss
+    REQUIRE(pss == &ss);
 }

@@ -16,6 +16,7 @@
 
 #pragma once
 #include <chemist/point/point_view.hpp>
+#include <chemist/traits/point_traits.hpp>
 #include <memory>
 #include <utilities/containers/indexable_container_base.hpp>
 
@@ -39,8 +40,11 @@ class PointSetPIMPL;
 template<typename T>
 class PointSet : public utilities::IndexableContainerBase<PointSet<T>> {
 private:
+    /// The type of *this
+    using my_type = PointSet<T>;
+
     /// The type of the base class implementing the container API
-    using base_type = utilities::IndexableContainerBase<PointSet<T>>;
+    using base_type = utilities::IndexableContainerBase<my_type>;
 
 public:
     /// The type of the PIMPL used to implement *this
@@ -49,14 +53,26 @@ public:
     /// The type of a pointer to a PIMPL
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
 
+    /// struct determining the type traits of *this
+    using point_set_traits = ChemistClassTraits<my_type>;
+
+    /// struct determining the traits of elements in *this
+    using point_traits = typename point_set_traits::point_traits;
+
     /// The elements in the container
-    using value_type = Point<T>;
+    using value_type = typename point_traits::value_type;
 
     /// Read/write reference to an element
-    using reference = PointView<value_type>;
+    using reference = typename point_traits::view_type;
 
     /// Read-only reference to an element
-    using const_reference = PointView<const value_type>;
+    using const_reference = typename point_traits::const_view_type;
+
+    /// Type of a pointer to a coordinate
+    using coord_pointer = typename point_traits::coord_pointer;
+
+    /// Type of a read-only pointer to a coordinate
+    using const_coord_pointer = typename point_traits::const_coord_pointer;
 
     /// Integral type used for indexing
     using size_type = typename base_type::size_type;
@@ -153,6 +169,92 @@ public:
      *                        throw guarantee.
      */
     void push_back(value_type r);
+
+    // -------------------------------------------------------------------------
+    // -- Accessors
+    // -------------------------------------------------------------------------
+
+    /** @brief Returns the address of the first x-coordinate.
+     *
+     *  If the PointSet backend stores the x, y, and z coordinates contiguously,
+     *  then this method can be used to obtain the address of the 0-th point's
+     *  x-coordinate.
+     *
+     *  @return The address of the 0-th point's x-coordinate. If *this has no
+     *          points this method returns a nullptr.
+     *
+     *  @throw No throw guarantee.
+     */
+    coord_pointer x_data() noexcept;
+
+    /** @brief Returns the address of the first x-coordinate.
+     *
+     *  If the PointSet backend stores the x, y, and z coordinates contiguously,
+     *  then this method can be used to obtain the address of the 0-th point's
+     *  x-coordinate.
+     *
+     *  @return The address of the 0-th point's x-coordinate. If *this has no
+     *          points this method returns a nullptr.
+     *
+     *  @throw No throw guarantee.
+     */
+    const_coord_pointer x_data() const noexcept;
+
+    /** @brief Returns the address of the first y-coordinate.
+     *
+     *  If the PointSet backend stores the x, y, and z coordinates contiguously,
+     *  then this method can be used to obtain the address of the 0-th point's
+     *  y-coordinate.
+     *
+     *  @return The address of the 0-th point's y-coordinate. If *this has no
+     *          points this method returns a nullptr.
+     *
+     *  @throw No throw guarantee.
+     */
+    coord_pointer y_data() noexcept;
+
+    /** @brief Returns the address of the first y-coordinate.
+     *
+     *  If the PointSet backend stores the x, y, and z coordinates contiguously.
+     *  then this method can be used to obtain the address of the 0-th point's
+     *  y-coordinate.
+     *
+     *  @return The address of the 0-th point's y-coordinate. If *this has no
+     *          points this method returns a nullptr.
+     *
+     *  @throw No throw guarantee.
+     */
+    const_coord_pointer y_data() const noexcept;
+
+    /** @brief Returns the address of the first z-coordinate.
+     *
+     *  If the PointSet backend stores the x, y, and z coordinates contiguously,
+     *  then this method can be used to obtain the address of the 0-th point's
+     *  z-coordinate.
+     *
+     *  @return The address of the 0-th point's z-coordinate. If *this has no
+     *          points this method returns a nullptr.
+     *
+     *  @throw No throw guarantee.
+     */
+    coord_pointer z_data() noexcept;
+
+    /** @brief Returns the address of the first z-coordinate.
+     *
+     *  If the PointSet backend stores the x, y, and z coordinates contiguously,
+     *  then this method can be used to obtain the address of the 0-th point's
+     *  z-coordinate.
+     *
+     *  @return The address of the 0-th point's z-coordinate. If *this has no
+     *          points this method returns a nullptr.
+     *
+     *  @throw No throw guarantee.
+     */
+    const_coord_pointer z_data() const noexcept;
+
+    // -------------------------------------------------------------------------
+    // -- Utility
+    // -------------------------------------------------------------------------
 
     /** @brief Serialize PointSet instance
      *

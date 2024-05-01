@@ -51,6 +51,41 @@ void Nuclei::push_back(value_type q) {
     m_pimpl_->push_back(std::move(q));
 }
 
+typename Nuclei::charge_set_reference Nuclei::charges() {
+    return has_pimpl_() ? m_pimpl_->as_charges() : charge_set_reference{};
+}
+
+typename Nuclei::const_charge_set_reference Nuclei::charges() const {
+    return has_pimpl_() ? std::as_const(*m_pimpl_).as_charges() :
+                          const_charge_set_reference{};
+}
+
+typename Nuclei::name_pointer Nuclei::name_data() noexcept {
+    return has_pimpl_() ? m_pimpl_->name_data() : nullptr;
+}
+
+typename Nuclei::const_name_pointer Nuclei::name_data() const noexcept {
+    return has_pimpl_() ? std::as_const(*m_pimpl_).name_data() : nullptr;
+}
+
+typename Nuclei::atomic_number_pointer Nuclei::atomic_number_data() noexcept {
+    return has_pimpl_() ? m_pimpl_->atomic_number_data() : nullptr;
+}
+
+typename Nuclei::const_atomic_number_pointer Nuclei::atomic_number_data()
+  const noexcept {
+    return has_pimpl_() ? std::as_const(*m_pimpl_).atomic_number_data() :
+                          nullptr;
+}
+
+typename Nuclei::mass_pointer Nuclei::mass_data() noexcept {
+    return has_pimpl_() ? m_pimpl_->mass_data() : nullptr;
+}
+
+typename Nuclei::const_mass_pointer Nuclei::mass_data() const noexcept {
+    return has_pimpl_() ? std::as_const(*m_pimpl_).mass_data() : nullptr;
+}
+
 // -- Private methods ---------------------------------------------------------
 
 typename Nuclei::reference Nuclei::at_(size_type i) { return (*m_pimpl_)[i]; }

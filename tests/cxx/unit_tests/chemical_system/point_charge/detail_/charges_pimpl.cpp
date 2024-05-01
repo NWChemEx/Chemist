@@ -20,8 +20,10 @@
 using namespace chemist::detail_;
 
 TEMPLATE_TEST_CASE("ChargesPIMPL", "", float, double) {
-    using pimpl_type = ChargesPIMPL<TestType>;
-    using value_type = typename pimpl_type::value_type;
+    using pimpl_type     = ChargesPIMPL<TestType>;
+    using value_type     = typename pimpl_type::value_type;
+    using point_set_type = typename pimpl_type::point_set_type;
+    using charge_type    = typename pimpl_type::charge_type;
 
     value_type q0(1.0, 2.0, 3.0, 4.0);
     value_type q1(5.0, 6.0, 7.0, 8.0);
@@ -33,6 +35,15 @@ TEMPLATE_TEST_CASE("ChargesPIMPL", "", float, double) {
 
     SECTION("Ctors") {
         SECTION("default") { REQUIRE(defaulted.size() == 0); }
+
+        SECTION("PointSet and charge vector") {
+            point_set_type ps{q0, q1};
+            std::vector<charge_type> charges{1.0, 5.0};
+            pimpl_type qs2(ps, charges);
+            REQUIRE(qs2.size() == 2);
+            REQUIRE(qs2[0] == q0);
+            REQUIRE(qs2[1] == q1);
+        }
 
         SECTION("copy") {
             pimpl_type copy0(defaulted);
@@ -106,11 +117,29 @@ TEMPLATE_TEST_CASE("ChargesPIMPL", "", float, double) {
         REQUIRE(qs.size() == 2);
     }
 
-    SECTION("as_point_set") {
-        using point_set_type = typename pimpl_type::point_set_type;
+    SECTION("as_point_set()") {
+        using point_set_reference = typename pimpl_type::point_set_reference;
+        point_set_type points{q0, q1};
 
-        REQUIRE(defaulted.as_point_set() == point_set_type{});
-        REQUIRE(qs.as_point_set() == point_set_type{q0, q1});
+        REQUIRE(defaulted.as_point_set() == point_set_reference{});
+        REQUIRE(qs.as_point_set() == point_set_reference(points));
+    }
+
+    SECTION("as_point_set() const") {
+        using const_point_set_reference =
+          typename pimpl_type::const_point_set_reference;
+
+        point_set_type points{q0, q1};
+        const_point_set_reference cdefaulted;
+        const_point_set_reference cpoints(points);
+
+        REQUIRE(std::as_const(defaulted).as_point_set() == cdefaulted);
+        REQUIRE(std::as_const(qs).as_point_set() == cpoints);
+    }
+
+    SECTION("charge_data()") {
+        REQUIRE(defaulted.charge_data() == nullptr);
+        REQUIRE(qs.charge_data() == &qs[0].charge());
     }
 
     SECTION("Comparisons") {

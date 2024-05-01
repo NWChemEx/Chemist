@@ -86,7 +86,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    PointChargeView(point_charge_reference q);
+    explicit PointChargeView(point_charge_reference q);
 
     /** @brief Point ctor
      *

@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
+#include "detail_/contiguous_nuclei_view.hpp"
+#include "detail_/nuclei_subset.hpp"
 #include "detail_/nuclei_view_pimpl.hpp"
+#include <numeric>
 
 namespace chemist {
 
@@ -29,7 +32,18 @@ TPARAMS
 NUCLEI_VIEW::NucleiView() noexcept = default;
 
 TPARAMS
-NUCLEI_VIEW::NucleiView(pimpl_pointer pimpl) noexcept :
+NUCLEI_VIEW::NucleiView(nuclei_reference nuclei) :
+  NucleiView(nuclei.charges(), nuclei.name_data(), nuclei.atomic_number_data(),
+             nuclei.mass_data()) {}
+
+TPARAMS
+NUCLEI_VIEW::NucleiView(charges_reference charges, name_pointer pnames,
+                        atomic_number_pointer patomic_numbers,
+                        mass_pointer pmasses) :
+  NucleiView(std::make_unique<detail_::ContiguousNucleiView<NucleiType>>(
+    charges, pnames, patomic_numbers, pmasses)) {}
+
+TPARAMS NUCLEI_VIEW::NucleiView(pimpl_pointer pimpl) noexcept :
   m_pimpl_(std::move(pimpl)) {}
 
 TPARAMS
@@ -54,6 +68,13 @@ NUCLEI_VIEW::~NucleiView() noexcept = default;
 TPARAMS
 void NUCLEI_VIEW::swap(NucleiView& other) noexcept {
     m_pimpl_.swap(other.m_pimpl_);
+}
+
+TPARAMS
+bool NUCLEI_VIEW::operator==(const NucleiView& other) const noexcept {
+    if(this->size() != other.size()) return false;
+    if(this->size() == 0) return true;
+    return this->m_pimpl_->are_equal(*other.m_pimpl_);
 }
 
 TPARAMS

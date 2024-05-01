@@ -17,7 +17,9 @@
 #pragma once
 #include <chemist/chemical_system/point_charge/point_charge_view.hpp>
 #include <chemist/point/point_set.hpp>
+#include <chemist/traits/point_charge_traits.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
+#include <vector>
 
 namespace chemist {
 namespace detail_ {
@@ -40,6 +42,9 @@ private:
     /// Type implementing the container API of *this
     using base_type = utilities::IndexableContainerBase<Charges<T>>;
 
+    /// Type of *this
+    using my_type = Charges<T>;
+
 public:
     /// The type of the PIMPL
     using pimpl_type = detail_::ChargesPIMPL<T>;
@@ -47,27 +52,51 @@ public:
     /// The type of a pointer to a PIMPL
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
 
+    /// Class defining the types for *this
+    using charges_traits = ChemistClassTraits<my_type>;
+
+    /// Class defining types for the PointSet part of *this
+    using point_set_traits = typename charges_traits::point_set_traits;
+
+    /// Class defining the types for elements of *this
+    using point_charge_traits = typename charges_traits::point_charge_traits;
+
+    // -- PointSet types -------------------------------------------------------
+
+    using point_set_type = typename point_set_traits::value_type;
+
+    /// Type of a mutable reference to PointSet piece of *this
+    using point_set_reference = typename point_set_traits::view_type;
+
+    /// Type of a read-only reference to PointSet piece of *this
+    using const_point_set_reference =
+      typename point_set_traits::const_view_type;
+
     // -- PointCharge types ----------------------------------------------------
 
-    /// The elements in the container
-    using value_type = PointCharge<T>;
+    /// Type of the elements in the container
+    using value_type = typename point_charge_traits::value_type;
 
     /// Read/write reference to an element
-    using reference = PointChargeView<value_type>;
+    using reference = typename point_charge_traits::view_type;
 
     /// Read-only reference to an element
-    using const_reference = PointChargeView<const value_type>;
+    using const_reference = typename point_charge_traits::const_view_type;
+
+    /// Floating point type used to hold charge values
+    using charge_type = typename point_charge_traits::charge_type;
+
+    /// Type of a pointer to a mutable charge
+    using charge_pointer = typename point_charge_traits::charge_pointer;
+
+    /// Type of a pointer to a read-only charge
+    using const_charge_pointer =
+      typename point_charge_traits::const_charge_pointer;
 
     // -- Point types ----------------------------------------------------------
 
     /// The type used to store the coordinates
     using coord_type = typename value_type::coord_type;
-
-    /// The type of the PointSet *this conceptually derives from
-    using point_set_type = PointSet<coord_type>;
-
-    /// Type of a read-only reference to the conceptual base class
-    using const_point_set_reference = const point_set_type&;
 
     /// Integral type used for indexing
     using size_type = typename base_type::size_type;
@@ -93,6 +122,12 @@ public:
      *                        store the charges. Strong throw guarantee.
      */
     explicit Charges(std::initializer_list<value_type> qs);
+
+    template<typename BeginItr, typename EndItr>
+    Charges(point_set_type points, BeginItr&& begin, EndItr&& end) :
+      Charges(std::move(points),
+              std::vector<charge_type>(std::forward<BeginItr>(begin),
+                                       std::forward<EndItr>(end))) {}
 
     /** @brief Creates a new Charges by deep copying @p rhs.
      *
@@ -166,6 +201,53 @@ public:
      */
     void push_back(value_type q);
 
+    /** @brief Returns the PointSet piece of *this.
+     *
+     *  Conceptually a Charges object is a PointSet plus the charges of each
+     *  point charge. This method allows you to access the PointSet piece.
+     *
+     *  @return A reference to a mutable PointSet object.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the reference.
+     *                        Strong throw guarantee.
+     */
+    point_set_reference point_set();
+
+    /** @brief Returns the PointSet piece of *this.
+     *
+     *  Same as the non-const version except that resulting reference is
+     *  read-only.
+     *
+     *  @return A reference to a read-only PointSet object.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the reference.
+     *                        Strong throw guarantee.
+     */
+    const_point_set_reference point_set() const;
+
+    /** @brief Returns a mutable pointer to the first charge.
+     *
+     *  If the charges are stored contiguously this method will return a pointer
+     *  to the first charge. If they are not, or if there are no charges, this
+     *  method will return a null pointer.
+     *
+     *  @return A pointer to the first charge or a null pointer.
+     *
+     *  @throw None No throw guarantee.
+     */
+    charge_pointer charge_data() noexcept;
+
+    /** @brief Returns a read-only pointer to the first charge.
+     *
+     *  This method is similar to the non-const version except that the
+     *  resulting pointer is read-only.
+     *
+     *  @return A pointer to the first charge or a null pointer.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const_charge_pointer charge_data() const noexcept;
+
     /** @brief Serialize Charges instance
      *
      * @param ar The archive object
@@ -183,6 +265,9 @@ public:
 private:
     /// Allows the base class to access at_ and size_
     friend base_type;
+
+    /// Internally used to pass separated state to PIMPL
+    Charges(point_set_type points, std::vector<charge_type> charges);
 
     /// Used by base to implement retrieving elements by read/write reference
     reference at_(size_type i);

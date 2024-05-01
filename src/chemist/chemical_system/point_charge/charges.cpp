@@ -61,10 +61,37 @@ void CHARGES::push_back(value_type q) {
     m_pimpl_->push_back(std::move(q));
 }
 
+TPARAMS
+typename CHARGES::point_set_reference CHARGES::point_set() {
+    return has_pimpl_() ? m_pimpl_->as_point_set() : point_set_reference{};
+}
+
+TPARAMS
+typename CHARGES::const_point_set_reference CHARGES::point_set() const {
+    return has_pimpl_() ? std::as_const(*m_pimpl_).as_point_set() :
+                          const_point_set_reference{};
+}
+
+TPARAMS
+typename CHARGES::charge_pointer CHARGES::charge_data() noexcept {
+    return has_pimpl_() ? m_pimpl_->charge_data() : nullptr;
+}
+
+TPARAMS
+typename CHARGES::const_charge_pointer CHARGES::charge_data() const noexcept {
+    return has_pimpl_() ? std::as_const(*m_pimpl_).charge_data() : nullptr;
+}
+
 // -- Private methods ---------------------------------------------------------
 
 TPARAMS
-typename CHARGES::reference CHARGES::at_(size_type i) { return (*m_pimpl_)[i]; }
+CHARGES::Charges(point_set_type points, std::vector<charge_type> charges) :
+  m_pimpl_(
+    std::make_unique<pimpl_type>(std::move(points), std::move(charges))) {}
+
+TPARAMS typename CHARGES::reference CHARGES::at_(size_type i) {
+    return (*m_pimpl_)[i];
+}
 
 TPARAMS
 typename CHARGES::const_reference CHARGES::at_(size_type i) const {

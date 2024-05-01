@@ -16,13 +16,16 @@
 
 #pragma once
 #include <chemist/chemical_system/nucleus/nuclei.hpp>
+#include <chemist/chemical_system/point_charge/charges_view/charges_view.hpp>
+#include <chemist/traits/nucleus_traits.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
 namespace detail_ {
 template<typename NucleiType>
 class NucleiViewPIMPL;
-}
+
+} // namespace detail_
 
 /** @brief Allows existing state to be used as if it were a Nuclei object.
  *
@@ -42,15 +45,6 @@ private:
     /// Type of the base
     using base_type = utilities::IndexableContainerBase<my_type>;
 
-    /// Traits type helping out with the TMP
-    using traits_type = detail_::ViewTraits<NucleiType>;
-
-    static constexpr bool is_const = traits_type::is_const_v;
-
-    /// Typedef so we don't need "typename" and "template" for references
-    template<typename U>
-    using apply_const_ref = typename traits_type::template apply_const_ref<U>;
-
 public:
     /// Type of the PIMPL
     using pimpl_type = detail_::NucleiViewPIMPL<NucleiType>;
@@ -63,24 +57,47 @@ public:
 
     // -- Nuclei/Nucleus types -------------------------------------------------
 
+    /// Class containing the types for the aliased Nuclei object
+    using nuclei_traits = ChemistClassTraits<NucleiType>;
+
     /// Type *this is behaving like
-    using nuclei_type = typename traits_type::type;
+    using nuclei_type = typename nuclei_traits::value_type;
+
+    /// Type of a reference to a nuclei object
+    using nuclei_reference = typename nuclei_traits::reference;
+
+    /// Class containing the types of the Nucleus objects in the aliased Nuclei
+    using nucleus_traits = typename nuclei_traits::nucleus_traits;
 
     /// Type of an element in *this
-    using value_type = typename nuclei_type::value_type;
+    using value_type = typename nucleus_traits::value_type;
 
     /// Mutable reference to an element in *this
-    using reference =
-      std::conditional_t<is_const, typename nuclei_type::reference,
-                         typename nuclei_type::const_reference>;
+    using reference = typename nucleus_traits::view_type;
 
     /// Read-only reference to an element in *this
-    using const_reference = typename nuclei_type::const_reference;
+    using const_reference = typename nucleus_traits::const_view_type;
 
-    // -- PointCharge types ----------------------------------------------------
+    /// Type of a pointer to a nucleus's name
+    using name_pointer = typename nucleus_traits::name_pointer;
+
+    /// Type of a pointer to an atomic number
+    using atomic_number_pointer =
+      typename nucleus_traits::atomic_number_pointer;
+
+    /// Type of a pointer to a nucleus's mass
+    using mass_pointer = typename nucleus_traits::mass_pointer;
+
+    // -- PointCharge types----------------------------------------------------
+
+    /// Class providing types for the Charges object *this aliases
+    using charges_traits = typename nuclei_traits::charges_traits;
+
+    /// Type of a mutable reference to a Charges object
+    using charges_reference = typename charges_traits::view_type;
 
     /// Type used to store the charge
-    using charge_type = typename nuclei_type::charge_type;
+    using charge_type = typename value_type::charge_type;
 
     // -- Ctors, Assignment, and dtor ------------------------------------------
 
@@ -90,15 +107,33 @@ public:
      */
     NucleiView() noexcept;
 
-    /** @brief Creates a new view powered by the provided PIMPL.
+    /** @brief Creates a view which aliases @p nuclei
      *
-     *  @param[in] pimpl A pointer to the istance's state. If @p pimpl is null
-     *             then the resulting view is the same as if it had been
-     *             default initialized.
+     *  This ctor allows Nuclei objects to be implicitly converted to
+     *  NucleiView objects.
      *
-     *  @throw None No throw guarantee.
+     *  @param[in] nuclei The Nuclei object to alias.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the internal
+     *                        state of *this. Strong throw guarantee.
      */
-    explicit NucleiView(pimpl_pointer pimpl) noexcept;
+    NucleiView(nuclei_reference nuclei);
+
+    /** @brief Creates a NucleiView from contiguous data.
+     *
+     *  This ctor allows the user to use existing contiguous arrays of data as
+     *  if it were a Nuclei object. The number of Nucleus objects will be taken
+     *  from @p charges and each pointer `p` is assumed to be laid out so that
+     *  the property for the `i`-th nucleus is `p[i]`.
+     *
+     *  @param[in] charges A ChargesView to use as the "Charges" part of *this
+     *  @param[in] pnames A pointer to the first nucleus's name.
+     *  @param[in] patomic_numbers A pointer to the first nucleus's atomic
+     *                             number.
+     *  @param[in] pmasses A pointer to the first nucleus's mass.
+     */
+    NucleiView(charges_reference charges, name_pointer pnames,
+               atomic_number_pointer patomic_numbers, mass_pointer pmasses);
 
     /** @brief Makes *this a view of the same Nuclei as @p other.
      *
@@ -172,9 +207,26 @@ public:
      */
     void swap(NucleiView& other) noexcept;
 
-    /** @brief Determines if *this is value equal to an existing Nuclei object.
+    /** @brief Determines if the Nuclei aliased by *this and @p rhs are equal.
      *
-     *  *This method compares the Nuclei object *this is a view of to the
+     *  This method compares the Nuclei object aliased by *this to the Nuclei
+     *  object aliased by @p other. The aliased Nuclei objects are compared by
+     *  value. Notably, this means that *this and @p other do not need to alias
+     *  the same Nuclei object for this method to be true.
+     *
+     *  @param[in] rhs The NucleiView to compare against.
+     *
+     *  @return True if *this and @p rhs alias Nuclei objects that are value
+     *          equal and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool operator==(const NucleiView& rhs) const noexcept;
+
+    /** @brief Determines if *this is value equal to an existing Nuclei
+     * object.
+     *
+     *   This method compares the Nuclei object *this is a view of to the
      *   provided Nuclei object. The Nuclei objects are compared for value
      *   equality as defined by Nuclei::operator==.
      *
@@ -202,6 +254,16 @@ public:
     bool operator!=(const nuclei_type& rhs) const noexcept;
 
 private:
+    /** @brief Creates a new view powered by the provided PIMPL.
+     *
+     *  @param[in] pimpl A pointer to the istance's state. If @p pimpl is null
+     *             then the resulting view is the same as if it had been
+     *             default initialized.
+     *
+     *  @throw None No throw guarantee.
+     */
+    explicit NucleiView(pimpl_pointer pimpl) noexcept;
+
     /// Allows the base class to access at_ and size_
     friend base_type;
 
@@ -220,6 +282,31 @@ private:
     /// The object implementing *this
     pimpl_pointer m_pimpl_;
 };
+
+/** @brief Determines if the Nuclei aliased by @p lhs and @p rhs are different.
+ *
+ *  @relates NucleiView
+ *
+ *  @tparam NucleiType1 The cv-qualified type that @p lhs aliases.
+ *  @tparam NucleiType2 The cv-qualified type that @p rhs aliases.
+ *
+ *  For the purposes of this function, "different" is defined as "not value
+ *  equal" and this function simply negates the result of
+ *  NucleiView::operator==(NucleiView). See the documentation for more detail.
+ *
+ *  @param[in] lhs The NucleiView on the left side of the operator.
+ *  @param[in] rhs The NucleiView on the right side of the operator.
+ *
+ *  @return False if @p lhs and @p rhs alias Nuclei objects which are value
+ *          equal and true otherwise.
+ *
+ *  @throw None No throw guarantee.
+ */
+template<typename NucleiType1, typename NucleiType2>
+bool operator!=(const NucleiView<NucleiType1>& lhs,
+                const NucleiView<NucleiType2>& rhs) noexcept {
+    return !(lhs == rhs);
+}
 
 /** @brief Compares a Nuclei object to a NucleiView object.
  *
