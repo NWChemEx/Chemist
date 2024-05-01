@@ -16,6 +16,7 @@
 
 #pragma once
 #include <cmath>
+#include <iomanip>
 #include <memory>
 
 namespace chemist {
@@ -363,6 +364,44 @@ bool operator==(const Point<T>& lhs, const Point<T>& rhs) noexcept {
 template<typename T>
 bool operator!=(const Point<T>& lhs, const Point<T>& rhs) noexcept {
     return !(lhs == rhs);
+}
+
+/** @brief Adds a string representation of @p p to @p os.
+ *
+ *  This function is used to print a point to a string. The resulting format
+ *  will be of the form:
+ *
+ *  ```
+ *  x : <x-value>,
+ *  y : <y-value>,
+ *  z : <z-value>
+ *  ```
+ *  Coordinates will be printed with all significant figures.
+ *
+ *  @warning The string representation is primarily for logging purposes. It is
+ *           not considered stable and should not be used for archiving at this
+ *           point.
+ *
+ *  @param[in,out] os The stream to add the string representation of @p p to.
+ *  @param[in] p The Point to convert to a string.
+ *
+ *  @return @p os after adding the string representation of @p p to it.
+ *
+ *  @throw ??? if an error arises in adding @p p to @p os an exception may be
+ *             thrown. If this happens @p os is in a valid, but otherwise
+ *             undefined state. Weak throw guarantee.
+ */
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const Point<T>& p) {
+    // Number of sig figs in a floating point number of type T
+    static constexpr auto digits = std::numeric_limits<T>::digits10;
+    auto old_precision           = os.precision();
+    os << std::setprecision(digits);
+    os << "x : " << p.x() << "," << std::endl;
+    os << "y : " << p.y() << "," << std::endl;
+    os << "z : " << p.z() << "";
+    os << std::setprecision(old_precision);
+    return os;
 }
 
 extern template class Point<double>;

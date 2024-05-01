@@ -20,18 +20,7 @@
 #include <numeric>
 
 namespace chemist {
-namespace detail_ {
 
-// TODO: This PIMPL is inefficient for wrapping an entire Nuclei object.
-template<typename NucleiType>
-auto wrap_nuclei(NucleiType& nuclei) {
-    using pimpl_type = detail_::ContiguousNucleiView<NucleiType>;
-    return std::make_unique<pimpl_type>(nuclei.charges(), nuclei.name_data(),
-                                        nuclei.atomic_number_data(),
-                                        nuclei.mass_data());
-}
-
-} // namespace detail_
 #define TPARAMS template<typename NucleiType>
 #define NUCLEI_VIEW NucleiView<NucleiType>
 
@@ -44,7 +33,15 @@ NUCLEI_VIEW::NucleiView() noexcept = default;
 
 TPARAMS
 NUCLEI_VIEW::NucleiView(nuclei_reference nuclei) :
-  NucleiView(detail_::wrap_nuclei(nuclei)) {}
+  NucleiView(nuclei.charges(), nuclei.name_data(), nuclei.atomic_number_data(),
+             nuclei.mass_data()) {}
+
+TPARAMS
+NUCLEI_VIEW::NucleiView(charges_reference charges, name_pointer pnames,
+                        atomic_number_pointer patomic_numbers,
+                        mass_pointer pmasses) :
+  NucleiView(std::make_unique<detail_::ContiguousNucleiView<NucleiType>>(
+    charges, pnames, patomic_numbers, pmasses)) {}
 
 TPARAMS NUCLEI_VIEW::NucleiView(pimpl_pointer pimpl) noexcept :
   m_pimpl_(std::move(pimpl)) {}
@@ -74,6 +71,13 @@ void NUCLEI_VIEW::swap(NucleiView& other) noexcept {
 }
 
 TPARAMS
+bool NUCLEI_VIEW::operator==(const NucleiView& other) const noexcept {
+    if(this->size() != other.size()) return false;
+    if(this->size() == 0) return true;
+    return this->m_pimpl_->are_equal(*other.m_pimpl_);
+}
+
+TPARAMS
 bool NUCLEI_VIEW::operator==(const nuclei_type& rhs) const noexcept {
     if(this->size() != rhs.size()) return false;
     for(size_type i = 0; i < this->size(); ++i) {
@@ -92,7 +96,7 @@ bool NUCLEI_VIEW::operator!=(const nuclei_type& rhs) const noexcept {
 // -----------------------------------------------------------------------------
 
 TPARAMS
-typename NUCLEI_VIEW::const_reference NUCLEI_VIEW::at_(size_type i) {
+typename NUCLEI_VIEW::reference NUCLEI_VIEW::at_(size_type i) {
     return m_pimpl_->get_nuke(i);
 }
 

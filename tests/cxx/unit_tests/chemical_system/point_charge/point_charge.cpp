@@ -197,3 +197,52 @@ TEMPLATE_TEST_CASE("PointCharge comparisons", "", double, float) {
         REQUIRE(lhs != rhs);
     }
 }
+
+TEST_CASE("operator<<(ostream, PointCharge)") {
+    SECTION("float") {
+        chemist::PointCharge<float> p0{1.0234567, 9.1023456, 8.9102345,
+                                       7.8910234};
+
+        std::stringstream corr;
+        corr << "charge : 1.02346," << std::endl;
+        corr << "x : 9.10235," << std::endl;
+        corr << "y : 8.91023," << std::endl;
+        corr << "z : 7.89102";
+
+        std::stringstream ss;
+        ss << std::setprecision(1);
+        auto pss = &(ss << p0);
+
+        // Check value
+        REQUIRE(ss.str() == corr.str());
+
+        // Make sure it set precision back
+        REQUIRE(ss.precision() == 1);
+
+        // Make sure it return ss
+        REQUIRE(pss == &ss);
+    }
+    SECTION("double") {
+        chemist::PointCharge<double> p0{1.0987654321098765, 2.1098765432109876,
+                                        3.2109876543210987, 4.3210987654321098};
+
+        std::stringstream corr;
+        corr << "charge : 1.09876543210988," << std::endl;
+        corr << "x : 2.10987654321099," << std::endl;
+        corr << "y : 3.2109876543211," << std::endl;
+        corr << "z : 4.32109876543211";
+
+        std::stringstream ss;
+        ss << std::setprecision(1);
+        auto pss = &(ss << p0);
+
+        // Check value
+        REQUIRE(ss.str() == corr.str());
+
+        // Make sure it set precision back
+        REQUIRE(ss.precision() == 1);
+
+        // Make sure it return ss
+        REQUIRE(pss == &ss);
+    }
+}

@@ -258,15 +258,32 @@ private:
     mass_type m_mass_;
 };
 
-/**
- * @relates Nucleus
- * @brief Makes it so the Nucleus class can be printed out.
+/** @brief Adds a string representation of @p ni to @p os.
+ *  @relates Nucleus
  *
- * @param os The output stream to print to.
- * @param ni The Nucleus instance to print to the stream.
- * @return The output stream containing the Nucleus instance.
- * @throws std::ios_base::failure if anything goes wrong while writing. Weak
- *         throw guarantee.
+ *  This function is used to add a string representation of a Nucleus to a
+ *  stream. The resulting format will be of the form:
+ *
+ *  ```
+ *  name : <name value>,
+ *  atomic number : <atomic number value>,
+ *  mass : <mass value>,
+ *  <PointCharge base representation>
+ *  ```
+ *  Charge weill be printed with all significant figures.
+ *
+ *  @warning The string representation is primarily for logging purposes. It is
+ *           not considered stable and should not be used for archiving at this
+ *           point.
+ *
+ *  @param[in,out] os The stream to add the string representation of @p q to.
+ *  @param[in] q The PointCharge to convert to a string.
+ *
+ *  @return @p os after adding the string representation of @p q to it.
+ *
+ *  @throw ??? if an error arises in adding @p q to @p os an exception may be
+ *             thrown. If this happens @p os is in a valid, but otherwise
+ *             undefined state. Weak throw guarantee.
  */
 std::ostream& operator<<(std::ostream& os, const Nucleus& ni);
 

@@ -109,7 +109,7 @@ public:
     // -- PointCharge types ----------------------------------------------------
 
     /// Type of PointCharge an object of type @p nucleus_type inherits from
-    using point_charge_type = typename point_charge_traits::charge_type;
+    using point_charge_type = typename point_charge_traits::value_type;
 
     /// PointChargeView with const-ness paralleling @p NucleusType
     using charge_view_type = typename point_charge_traits::view_type;
@@ -167,7 +167,7 @@ public:
     template<typename NucleusType2, typename = std::enable_if_t<std::is_same_v<
                                       std::decay_t<NucleusType2>, NucleusType>>>
     NucleusView& operator=(NucleusType2&& other) {
-        base_type::operator=(std::forward<charge_view_type>(other));
+        base_type::operator=(std::forward<point_charge_type>(other));
         (*m_pname_) = other.name();
         (*m_pZ_)    = other.Z();
         (*m_pmass_) = other.mass();

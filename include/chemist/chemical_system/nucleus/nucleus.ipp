@@ -50,10 +50,14 @@ inline bool Nucleus::operator!=(const Nucleus& rhs) const noexcept {
 // -- Printing --------------------------------------------------------------
 
 inline std::ostream& operator<<(std::ostream& os, const Nucleus& ni) {
-    using coord_type = Nucleus::coord_type;
-    os << ni.name() << std::fixed
-       << std::setprecision(std::numeric_limits<coord_type>::digits10);
-    for(auto c = 0; c < 3; ++c) os << " " << ni.coord(c);
+    static constexpr auto digits = std::numeric_limits<double>::digits10;
+    auto old_precision           = os.precision();
+    os << std::setprecision(digits);
+    os << "name : " << ni.name() << "," << std::endl;
+    os << "atomic number : " << ni.Z() << "," << std::endl;
+    os << "mass : " << ni.mass() << "," << std::endl;
+    os << static_cast<const PointCharge<double>&>(ni);
+    os << std::setprecision(old_precision);
     return os;
 }
 

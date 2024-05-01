@@ -86,7 +86,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    PointChargeView(point_charge_reference q);
+    explicit PointChargeView(point_charge_reference q);
 
     /** @brief Point ctor
      *
@@ -139,7 +139,7 @@ public:
                                      std::decay_t<ChargeType2>, ChargeType>>>
     PointChargeView& operator=(ChargeType2&& charge) {
         point_view_type::operator=(std::forward<point_type>(charge));
-        (*m_pq_)                 = charge.charge();
+        (*m_pq_) = charge.charge();
         return *this;
     }
 

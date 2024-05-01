@@ -215,3 +215,49 @@ TEST_CASE("Point<double> : magnitude") {
     double corr = 3.741657387;
     REQUIRE(p0.magnitude() == Approx(corr));
 }
+
+TEST_CASE("operator<<(ostream, Point)") {
+    SECTION("float") {
+        Point<float> p0{1.023456789, 9.102345678, 8.910234567};
+
+        std::stringstream corr;
+        corr << "x : 1.02346," << std::endl;
+        corr << "y : 9.10235," << std::endl;
+        corr << "z : 8.91023";
+
+        std::stringstream ss;
+        ss << std::setprecision(1);
+        auto pss = &(ss << p0);
+
+        // Check value
+        REQUIRE(ss.str() == corr.str());
+
+        // Make sure it set precision back
+        REQUIRE(ss.precision() == 1);
+
+        // Make sure it return ss
+        REQUIRE(pss == &ss);
+    }
+    SECTION("double") {
+        Point<double> p0{1.0987654321098765, 2.1098765432109876,
+                         3.2109876543210987};
+
+        std::stringstream corr;
+        corr << "x : 1.09876543210988," << std::endl;
+        corr << "y : 2.10987654321099," << std::endl;
+        corr << "z : 3.2109876543211";
+
+        std::stringstream ss;
+        ss << std::setprecision(1);
+        auto pss = &(ss << p0);
+
+        // Check value
+        REQUIRE(ss.str() == corr.str());
+
+        // Make sure it set precision back
+        REQUIRE(ss.precision() == 1);
+
+        // Make sure it return ss
+        REQUIRE(pss == &ss);
+    }
+}
