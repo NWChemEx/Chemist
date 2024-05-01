@@ -35,9 +35,10 @@ using namespace chemist;
 
 template<typename NucleiType>
 void test_nuclei_view() {
-    using set_type   = NucleiType;
-    using value_type = typename set_type::value_type;
-    using view_type  = NucleiView<set_type>;
+    using set_type         = NucleiType;
+    using value_type       = typename set_type::value_type;
+    using view_type        = NucleiView<set_type>;
+    using member_list_type = typename view_type::member_list_type;
 
     value_type n0("H", 1ul, 0.0, 1.0, 2.0, 3.0, 4.0);
     value_type n1("He", 2ul, 4.0, 5.0, 6.0, 7.0, 5.0);
@@ -72,6 +73,25 @@ void test_nuclei_view() {
             REQUIRE(pointers.size() == 2);
             REQUIRE(pointers[0] == n0);
             REQUIRE(pointers[1] == n1);
+        }
+
+        SECTION("Subset") {
+            view_type empty_subset(value, member_list_type{});
+            REQUIRE(empty_subset.size() == 0);
+
+            view_type proper_subset(value, member_list_type{1});
+            REQUIRE(proper_subset.size() == 1);
+            REQUIRE(proper_subset[0] == n1);
+
+            view_type subset(value, member_list_type{0, 1});
+            REQUIRE(subset.size() == 2);
+            REQUIRE(subset[0] == n0);
+            REQUIRE(subset[1] == n1);
+
+            view_type reverse_subset(value, member_list_type{1, 0});
+            REQUIRE(reverse_subset.size() == 2);
+            REQUIRE(reverse_subset[0] == n1);
+            REQUIRE(reverse_subset[1] == n0);
         }
 
         SECTION("Copy") {
@@ -241,6 +261,12 @@ void test_nuclei_view() {
         // operator!=(Nuclei) works)
         REQUIRE_FALSE(set_type{} != defaulted);
         REQUIRE(set_type{} != value);
+    }
+
+    SECTION("Can mix and match PIMPLs") {
+        view_type subset(value, member_list_type{0, 1});
+
+        REQUIRE(subset == value);
     }
 }
 

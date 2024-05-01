@@ -32,13 +32,13 @@ namespace chemist::detail_ {
 template<typename NucleiType>
 class NucleiViewPIMPL {
 private:
-    /// Type *this implements
-    using parent_type = NucleiView<NucleiType>;
-
     /// Type of *this
     using my_type = NucleiViewPIMPL<NucleiType>;
 
 public:
+    /// Type *this implements
+    using parent_type = NucleiView<NucleiType>;
+
     /// Type nuclei_view_type is a view of
     using nuclei_type = typename parent_type::nuclei_type;
 

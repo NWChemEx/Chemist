@@ -55,6 +55,9 @@ public:
     /// Type used for indexing and offsets
     using size_type = typename base_type::size_type;
 
+    /// Type for specifying members by offset
+    using member_list_type = std::vector<size_type>;
+
     // -- Nuclei/Nucleus types -------------------------------------------------
 
     /// Class containing the types for the aliased Nuclei object
@@ -135,6 +138,65 @@ public:
     NucleiView(charges_reference charges, name_pointer pnames,
                atomic_number_pointer patomic_numbers, mass_pointer pmasses);
 
+    /** @brief Holds a subset of the provided Nuclei object
+     *
+     *  @tparam BeginItr The type of the iterator pointing to the index of the
+     *                   first nucleus.
+     *  @tparam EndItr The type of the iterator pointing to just past the index
+     *                 of the last nucleus.
+     *
+     *  This ctor fills in a container of type `member_list_type` and dispatches
+     *  to the NucleiView(NucleiView, member_list_type) ctor. See that ctor
+     *  for more information.
+     *
+     *  @param[in] supersystem The Nuclei object *this will be a subset of.
+     *  @param[in] begin An iterator which points to the index of the first
+     *                   nucleus.
+     *  @param[in] end An iterator which points to just past the index of the
+     *                 last nucleus.
+     *
+     * @throw std::bad_alloc if there is a problem allocating the memory. Strong
+     *                       throw guarantee.
+     *
+     */
+    template<typename BeginItr, typename EndItr>
+    NucleiView(NucleiView supersystem, BeginItr&& begin, EndItr&& end) :
+      NucleiView(std::move(supersystem),
+                 member_list_type(std::forward<BeginItr>(begin),
+                                  std::forward<EndItr>(end))) {}
+
+    /** @brief Holds a subset of the provided Nuclei object
+     *
+     *  This ctor will create a view of @p supersystem which only includes a
+     *  subset of the nuclei in @p supersystem. More specifically the resulting
+     *  view will alias a Nuclei object which contains `members.size()` nuclei.
+     *  The i-th nuclei in the aliased Nuclei object will be
+     *  supersystem[members[i]]. For example, say @p supersystem has at least
+     *  four nuclei. Then:
+     *  ```
+     *  NucleiView supersystem = get_a_nuclei_object_from_somewhere();
+     *  member_list_type members{0, 2, 3};
+     *  NucleiView subset(supersystem, members);
+     *  ```
+     * `subset` will be a view of a three element Nuclei object, such that
+     *  `subset[0] == supersystem[0]`, `subset[1] = supersystem[2]`, and
+     *  `subset[2] == supersystem[3]`.
+     *
+     *  @param[in] supersystem An alias of the supersystem. The NucleusView
+     *                         objects in *this will be aliases of the Nucleus
+     *                         objects in @p supersystem.
+     *  @param[in] members The elements of the Nuclei object aliased by
+     *                     @p supersystem which will be in the Nuclei object
+     *                     aliased by *this.
+     *
+     *  @note If the data @p supersystem aliases is invalidated it will also
+     *        invalidate *this.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the PIMPL. Strong
+     *                        throw guarantee.
+     */
+    NucleiView(NucleiView supersystem, member_list_type members);
+
     /** @brief Makes *this a view of the same Nuclei as @p other.
      *
      *  This ctor will make a new NucleiView which is a deep copy of @p other.
@@ -148,6 +210,7 @@ public:
      *
      *  @throw std::bad_alloc if there is a problem allocating the state for
      *         *this. Strong throw guarantee.
+     *
      */
     NucleiView(const NucleiView& other);
 
