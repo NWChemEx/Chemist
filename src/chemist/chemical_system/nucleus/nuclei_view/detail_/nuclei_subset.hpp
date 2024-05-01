@@ -93,9 +93,9 @@ public:
 
     // Deleted to avoid accidental slicing, NucleiView implements them for user
     ///@{
-    NucleiSubset(NucleiSubset&&)                     = delete;
+    NucleiSubset(NucleiSubset&&) = delete;
     NucleiSubset& operator=(const NucleiSubset& rhs) = delete;
-    NucleiSubset& operator=(NucleiSubset&& rhs)      = delete;
+    NucleiSubset& operator=(NucleiSubset&& rhs) = delete;
     ///@}
 
     /** @brief Determines if *this is value equal to @p rhs.
