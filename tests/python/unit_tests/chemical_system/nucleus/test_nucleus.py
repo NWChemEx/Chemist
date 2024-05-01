@@ -168,18 +168,22 @@ class TestNucleus(unittest.TestCase):
         # Default
         self.assertEqual(
             str(self.defaulted),
-            ' 0.000000000000000 0.000000000000000 0.000000000000000')
+            'name : ,\natomic number : 0,\nmass : 0,\ncharge : 0,\n'
+            'x : 0,\ny : 0,\nz : 0')
 
         # Has value
         self.assertEqual(
             str(self.h),
-            'H 0.000000000000000 0.000000000000000 0.000000000000000')
+            'name : H,\natomic number : 1,\nmass : 1,\ncharge : 1,\n'
+            'x : 0,\ny : 0,\nz : 0')
         self.assertEqual(
             str(self.he),
-            'He 1.000000000000000 2.000000000000000 3.000000000000000')
+            'name : He,\natomic number : 2,\nmass : 4,\ncharge : 2,\n'
+            'x : 1,\ny : 2,\nz : 3')
         self.assertEqual(
             str(self.u),
-            'U 2.000000000000000 3.000000000000000 4.000000000000000')
+            'name : U,\natomic number : 92,\nmass : 238,\ncharge : 91,\n'
+            'x : 2,\ny : 3,\nz : 4')
 
     def setUp(self):
         self.defaulted = chemist.Nucleus()

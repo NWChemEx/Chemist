@@ -18,9 +18,15 @@
 
 namespace chemist {
 
+/** @brief Used to set the member types for a chemist object of type @p T.
+ *
+ *  @tparam T The cv-qualified type of the object whose types we want.
+ *
+ *  In order to set the member types of each chemist object once and then have
+ *  them propagate throughout the library we specialize ChemistClassTraits for
+ *  every object in the Chemist library.
+ */
 template<typename T>
 class ChemistClassTraits;
-
-#define CHEMIST_CLASS_TRAITS(CLASS_NAME)
 
 } // namespace chemist
