@@ -1,0 +1,4 @@
+<map id="chemist::detail_::ChargesViewPIMPL&lt; ChargesType &gt;" name="chemist::detail_::ChargesViewPIMPL&lt; ChargesType &gt;">
+<area shape="rect" id="node1" title="Establishes the API for all PIMPLs used to implement ChargesView." alt="" coords="6,5,213,47"/>
+<area shape="rect" id="node2" href="$classchemist_1_1detail___1_1ChargesContiguous.html" title="Used to alias the charges for a Charges object when the charges are in a contiguous array." alt="" coords="5,95,213,136"/>
+</map>

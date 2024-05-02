@@ -108,18 +108,34 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a2909f0f3bf314dea33353af7be3c6b9c">pimpl_pointer</a> = std::unique_ptr&lt; <a class="el" href="classchemist_1_1PointSet.html#ab3409c10042428d66a4698b9f96555e6">pimpl_type</a> &gt;</td></tr>
 <tr class="memdesc:a2909f0f3bf314dea33353af7be3c6b9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a pointer to a PIMPL. <br /></td></tr>
 <tr class="separator:a2909f0f3bf314dea33353af7be3c6b9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63376f7ab0239e3b0cf09de184d45683"><td class="memItemLeft" align="right" valign="top"><a id="a63376f7ab0239e3b0cf09de184d45683"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a63376f7ab0239e3b0cf09de184d45683">value_type</a> = <a class="el" href="classchemist_1_1Point.html">Point</a>&lt; T &gt;</td></tr>
-<tr class="memdesc:a63376f7ab0239e3b0cf09de184d45683"><td class="mdescLeft">&#160;</td><td class="mdescRight">The elements in the container. <br /></td></tr>
-<tr class="separator:a63376f7ab0239e3b0cf09de184d45683"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72ef2c94b9ab0a37a67b13c12cee04f9"><td class="memItemLeft" align="right" valign="top"><a id="a72ef2c94b9ab0a37a67b13c12cee04f9"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a72ef2c94b9ab0a37a67b13c12cee04f9">reference</a> = <a class="el" href="classchemist_1_1PointView.html">PointView</a>&lt; <a class="el" href="classchemist_1_1PointSet.html#a63376f7ab0239e3b0cf09de184d45683">value_type</a> &gt;</td></tr>
-<tr class="memdesc:a72ef2c94b9ab0a37a67b13c12cee04f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read/write reference to an element. <br /></td></tr>
-<tr class="separator:a72ef2c94b9ab0a37a67b13c12cee04f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5338750fb64b635e954ebdfc8b3b1f77"><td class="memItemLeft" align="right" valign="top"><a id="a5338750fb64b635e954ebdfc8b3b1f77"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a5338750fb64b635e954ebdfc8b3b1f77">const_reference</a> = <a class="el" href="classchemist_1_1PointView.html">PointView</a>&lt; const <a class="el" href="classchemist_1_1PointSet.html#a63376f7ab0239e3b0cf09de184d45683">value_type</a> &gt;</td></tr>
-<tr class="memdesc:a5338750fb64b635e954ebdfc8b3b1f77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only reference to an element. <br /></td></tr>
-<tr class="separator:a5338750fb64b635e954ebdfc8b3b1f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bd5d36b22ccbd26636f73140aca6b56"><td class="memItemLeft" align="right" valign="top"><a id="a3bd5d36b22ccbd26636f73140aca6b56"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a3bd5d36b22ccbd26636f73140aca6b56">point_set_traits</a> = <a class="el" href="classchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt; <a class="el" href="classchemist_1_1PointSet.html">my_type</a> &gt;</td></tr>
+<tr class="memdesc:a3bd5d36b22ccbd26636f73140aca6b56"><td class="mdescLeft">&#160;</td><td class="mdescRight">struct determining the type traits of *this <br /></td></tr>
+<tr class="separator:a3bd5d36b22ccbd26636f73140aca6b56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c37e51786e058eee39677edf961444c"><td class="memItemLeft" align="right" valign="top"><a id="a3c37e51786e058eee39677edf961444c"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a3c37e51786e058eee39677edf961444c">point_traits</a> = typename point_set_traits::point_traits</td></tr>
+<tr class="memdesc:a3c37e51786e058eee39677edf961444c"><td class="mdescLeft">&#160;</td><td class="mdescRight">struct determining the traits of elements in *this <br /></td></tr>
+<tr class="separator:a3c37e51786e058eee39677edf961444c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6fe548f439237dea64cd0a9b4ca4137"><td class="memItemLeft" align="right" valign="top"><a id="ad6fe548f439237dea64cd0a9b4ca4137"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#ad6fe548f439237dea64cd0a9b4ca4137">value_type</a> = typename point_traits::value_type</td></tr>
+<tr class="memdesc:ad6fe548f439237dea64cd0a9b4ca4137"><td class="mdescLeft">&#160;</td><td class="mdescRight">The elements in the container. <br /></td></tr>
+<tr class="separator:ad6fe548f439237dea64cd0a9b4ca4137"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa827eccd64a4bcc37db9f032b1e7d6c"><td class="memItemLeft" align="right" valign="top"><a id="aaa827eccd64a4bcc37db9f032b1e7d6c"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#aaa827eccd64a4bcc37db9f032b1e7d6c">reference</a> = typename point_traits::view_type</td></tr>
+<tr class="memdesc:aaa827eccd64a4bcc37db9f032b1e7d6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read/write reference to an element. <br /></td></tr>
+<tr class="separator:aaa827eccd64a4bcc37db9f032b1e7d6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f3e238e44a0367ce7a723b544037701"><td class="memItemLeft" align="right" valign="top"><a id="a8f3e238e44a0367ce7a723b544037701"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a8f3e238e44a0367ce7a723b544037701">const_reference</a> = typename point_traits::const_view_type</td></tr>
+<tr class="memdesc:a8f3e238e44a0367ce7a723b544037701"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only reference to an element. <br /></td></tr>
+<tr class="separator:a8f3e238e44a0367ce7a723b544037701"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a663b9eaaccba4b74fe9d5df0104d1421"><td class="memItemLeft" align="right" valign="top"><a id="a663b9eaaccba4b74fe9d5df0104d1421"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a663b9eaaccba4b74fe9d5df0104d1421">coord_pointer</a> = typename point_traits::coord_pointer</td></tr>
+<tr class="memdesc:a663b9eaaccba4b74fe9d5df0104d1421"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a pointer to a coordinate. <br /></td></tr>
+<tr class="separator:a663b9eaaccba4b74fe9d5df0104d1421"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9480eeaa697af0e4a5b82431394cc28"><td class="memItemLeft" align="right" valign="top"><a id="ad9480eeaa697af0e4a5b82431394cc28"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#ad9480eeaa697af0e4a5b82431394cc28">const_coord_pointer</a> = typename point_traits::const_coord_pointer</td></tr>
+<tr class="memdesc:ad9480eeaa697af0e4a5b82431394cc28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only pointer to a coordinate. <br /></td></tr>
+<tr class="separator:ad9480eeaa697af0e4a5b82431394cc28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9c1974639724cac9493982a3ffc93db"><td class="memItemLeft" align="right" valign="top"><a id="ab9c1974639724cac9493982a3ffc93db"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#ab9c1974639724cac9493982a3ffc93db">size_type</a> = typename base_type::size_type</td></tr>
 <tr class="memdesc:ab9c1974639724cac9493982a3ffc93db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integral type used for indexing. <br /></td></tr>
@@ -130,7 +146,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a97ecfa219bc8d2b028fc6d55c76bfa78"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a97ecfa219bc8d2b028fc6d55c76bfa78">PointSet</a> () noexcept</td></tr>
 <tr class="memdesc:a97ecfa219bc8d2b028fc6d55c76bfa78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an empty <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a>.  <a href="classchemist_1_1PointSet.html#a97ecfa219bc8d2b028fc6d55c76bfa78">More...</a><br /></td></tr>
 <tr class="separator:a97ecfa219bc8d2b028fc6d55c76bfa78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4cfffa24b2e1ec49104253e5094006a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#ac4cfffa24b2e1ec49104253e5094006a">PointSet</a> (std::initializer_list&lt; <a class="el" href="classchemist_1_1PointSet.html#a63376f7ab0239e3b0cf09de184d45683">value_type</a> &gt; points)</td></tr>
+<tr class="memitem:ac4cfffa24b2e1ec49104253e5094006a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#ac4cfffa24b2e1ec49104253e5094006a">PointSet</a> (std::initializer_list&lt; <a class="el" href="classchemist_1_1PointSet.html#ad6fe548f439237dea64cd0a9b4ca4137">value_type</a> &gt; points)</td></tr>
 <tr class="memdesc:ac4cfffa24b2e1ec49104253e5094006a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> filled with provided points.  <a href="classchemist_1_1PointSet.html#ac4cfffa24b2e1ec49104253e5094006a">More...</a><br /></td></tr>
 <tr class="separator:ac4cfffa24b2e1ec49104253e5094006a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af363f5a65d521fcd3d3430872be84d1e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#af363f5a65d521fcd3d3430872be84d1e">PointSet</a> (const <a class="el" href="classchemist_1_1PointSet.html">PointSet</a> &amp;other)</td></tr>
@@ -149,9 +165,27 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#af314f22b048de6471829252198f0e64f">~PointSet</a> () noexcept</td></tr>
 <tr class="memdesc:af314f22b048de6471829252198f0e64f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defaulted dtor. <br /></td></tr>
 <tr class="separator:af314f22b048de6471829252198f0e64f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1c8f71839dd05a2a2a31b67a6fde3bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#ac1c8f71839dd05a2a2a31b67a6fde3bd">push_back</a> (<a class="el" href="classchemist_1_1PointSet.html#a63376f7ab0239e3b0cf09de184d45683">value_type</a> r)</td></tr>
+<tr class="memitem:ac1c8f71839dd05a2a2a31b67a6fde3bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#ac1c8f71839dd05a2a2a31b67a6fde3bd">push_back</a> (<a class="el" href="classchemist_1_1PointSet.html#ad6fe548f439237dea64cd0a9b4ca4137">value_type</a> r)</td></tr>
 <tr class="memdesc:ac1c8f71839dd05a2a2a31b67a6fde3bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds <code>r</code> to *this.  <a href="classchemist_1_1PointSet.html#ac1c8f71839dd05a2a2a31b67a6fde3bd">More...</a><br /></td></tr>
 <tr class="separator:ac1c8f71839dd05a2a2a31b67a6fde3bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b924ee2630e41fd55700000c316154e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointSet.html#a663b9eaaccba4b74fe9d5df0104d1421">coord_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a1b924ee2630e41fd55700000c316154e">x_data</a> () noexcept</td></tr>
+<tr class="memdesc:a1b924ee2630e41fd55700000c316154e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the address of the first x-coordinate.  <a href="classchemist_1_1PointSet.html#a1b924ee2630e41fd55700000c316154e">More...</a><br /></td></tr>
+<tr class="separator:a1b924ee2630e41fd55700000c316154e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7096311a2a3c157797f8972be8fe6db0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointSet.html#ad9480eeaa697af0e4a5b82431394cc28">const_coord_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a7096311a2a3c157797f8972be8fe6db0">x_data</a> () const noexcept</td></tr>
+<tr class="memdesc:a7096311a2a3c157797f8972be8fe6db0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the address of the first x-coordinate.  <a href="classchemist_1_1PointSet.html#a7096311a2a3c157797f8972be8fe6db0">More...</a><br /></td></tr>
+<tr class="separator:a7096311a2a3c157797f8972be8fe6db0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b4f21b859a3a86bda892a67753922da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointSet.html#a663b9eaaccba4b74fe9d5df0104d1421">coord_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a6b4f21b859a3a86bda892a67753922da">y_data</a> () noexcept</td></tr>
+<tr class="memdesc:a6b4f21b859a3a86bda892a67753922da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the address of the first y-coordinate.  <a href="classchemist_1_1PointSet.html#a6b4f21b859a3a86bda892a67753922da">More...</a><br /></td></tr>
+<tr class="separator:a6b4f21b859a3a86bda892a67753922da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd9ec997db71950a06997a5c60a1644c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointSet.html#ad9480eeaa697af0e4a5b82431394cc28">const_coord_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#acd9ec997db71950a06997a5c60a1644c">y_data</a> () const noexcept</td></tr>
+<tr class="memdesc:acd9ec997db71950a06997a5c60a1644c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the address of the first y-coordinate.  <a href="classchemist_1_1PointSet.html#acd9ec997db71950a06997a5c60a1644c">More...</a><br /></td></tr>
+<tr class="separator:acd9ec997db71950a06997a5c60a1644c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dc897a7194b7e0f9ec6d01083506347"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointSet.html#a663b9eaaccba4b74fe9d5df0104d1421">coord_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a7dc897a7194b7e0f9ec6d01083506347">z_data</a> () noexcept</td></tr>
+<tr class="memdesc:a7dc897a7194b7e0f9ec6d01083506347"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the address of the first z-coordinate.  <a href="classchemist_1_1PointSet.html#a7dc897a7194b7e0f9ec6d01083506347">More...</a><br /></td></tr>
+<tr class="separator:a7dc897a7194b7e0f9ec6d01083506347"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a108c0d0a2b421626f7cd7ce321fe395f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointSet.html#ad9480eeaa697af0e4a5b82431394cc28">const_coord_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#a108c0d0a2b421626f7cd7ce321fe395f">z_data</a> () const noexcept</td></tr>
+<tr class="memdesc:a108c0d0a2b421626f7cd7ce321fe395f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the address of the first z-coordinate.  <a href="classchemist_1_1PointSet.html#a108c0d0a2b421626f7cd7ce321fe395f">More...</a><br /></td></tr>
+<tr class="separator:a108c0d0a2b421626f7cd7ce321fe395f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adda335be0c50a6295aad9cc1fdaeb89a"><td class="memTemplParams" colspan="2">template&lt;typename Archive &gt; </td></tr>
 <tr class="memitem:adda335be0c50a6295aad9cc1fdaeb89a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSet.html#adda335be0c50a6295aad9cc1fdaeb89a">save</a> (Archive &amp;ar) const</td></tr>
 <tr class="memdesc:adda335be0c50a6295aad9cc1fdaeb89a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialize <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> instance.  <a href="classchemist_1_1PointSet.html#adda335be0c50a6295aad9cc1fdaeb89a">More...</a><br /></td></tr>
@@ -225,7 +259,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classchemist_1_1PointSet.html">chemist::PointSet</a>&lt; T &gt;::<a class="el" href="classchemist_1_1PointSet.html">PointSet</a> </td>
           <td>(</td>
-          <td class="paramtype">std::initializer_list&lt; <a class="el" href="classchemist_1_1PointSet.html#a63376f7ab0239e3b0cf09de184d45683">value_type</a> &gt;&#160;</td>
+          <td class="paramtype">std::initializer_list&lt; <a class="el" href="classchemist_1_1PointSet.html#ad6fe548f439237dea64cd0a9b4ca4137">value_type</a> &gt;&#160;</td>
           <td class="paramname"><em>points</em></td><td>)</td>
           <td></td>
         </tr>
@@ -453,7 +487,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classchemist_1_1PointSet.html">chemist::PointSet</a>&lt; T &gt;::push_back </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classchemist_1_1PointSet.html#a63376f7ab0239e3b0cf09de184d45683">value_type</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1PointSet.html#ad6fe548f439237dea64cd0a9b4ca4137">value_type</a>&#160;</td>
           <td class="paramname"><em>r</em></td><td>)</td>
           <td></td>
         </tr>
@@ -501,6 +535,228 @@ template&lt;typename Archive &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">ar</td><td>The archive object </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7096311a2a3c157797f8972be8fe6db0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7096311a2a3c157797f8972be8fe6db0">&#9670;&nbsp;</a></span>x_data() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1PointSet.html#ad9480eeaa697af0e4a5b82431394cc28">const_coord_pointer</a> <a class="el" href="classchemist_1_1PointSet.html">chemist::PointSet</a>&lt; T &gt;::x_data </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the address of the first x-coordinate. </p>
+<p>If the <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> backend stores the x, y, and z coordinates contiguously, then this method can be used to obtain the address of the 0-th point's x-coordinate.</p>
+<dl class="section return"><dt>Returns</dt><dd>The address of the 0-th point's x-coordinate. If *this has no points this method returns a nullptr.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">No</td><td>throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1b924ee2630e41fd55700000c316154e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b924ee2630e41fd55700000c316154e">&#9670;&nbsp;</a></span>x_data() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1PointSet.html#a663b9eaaccba4b74fe9d5df0104d1421">coord_pointer</a> <a class="el" href="classchemist_1_1PointSet.html">chemist::PointSet</a>&lt; T &gt;::x_data </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the address of the first x-coordinate. </p>
+<p>If the <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> backend stores the x, y, and z coordinates contiguously, then this method can be used to obtain the address of the 0-th point's x-coordinate.</p>
+<dl class="section return"><dt>Returns</dt><dd>The address of the 0-th point's x-coordinate. If *this has no points this method returns a nullptr.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">No</td><td>throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="acd9ec997db71950a06997a5c60a1644c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd9ec997db71950a06997a5c60a1644c">&#9670;&nbsp;</a></span>y_data() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1PointSet.html#ad9480eeaa697af0e4a5b82431394cc28">const_coord_pointer</a> <a class="el" href="classchemist_1_1PointSet.html">chemist::PointSet</a>&lt; T &gt;::y_data </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the address of the first y-coordinate. </p>
+<p>If the <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> backend stores the x, y, and z coordinates contiguously. then this method can be used to obtain the address of the 0-th point's y-coordinate.</p>
+<dl class="section return"><dt>Returns</dt><dd>The address of the 0-th point's y-coordinate. If *this has no points this method returns a nullptr.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">No</td><td>throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6b4f21b859a3a86bda892a67753922da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b4f21b859a3a86bda892a67753922da">&#9670;&nbsp;</a></span>y_data() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1PointSet.html#a663b9eaaccba4b74fe9d5df0104d1421">coord_pointer</a> <a class="el" href="classchemist_1_1PointSet.html">chemist::PointSet</a>&lt; T &gt;::y_data </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the address of the first y-coordinate. </p>
+<p>If the <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> backend stores the x, y, and z coordinates contiguously, then this method can be used to obtain the address of the 0-th point's y-coordinate.</p>
+<dl class="section return"><dt>Returns</dt><dd>The address of the 0-th point's y-coordinate. If *this has no points this method returns a nullptr.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">No</td><td>throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a108c0d0a2b421626f7cd7ce321fe395f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a108c0d0a2b421626f7cd7ce321fe395f">&#9670;&nbsp;</a></span>z_data() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1PointSet.html#ad9480eeaa697af0e4a5b82431394cc28">const_coord_pointer</a> <a class="el" href="classchemist_1_1PointSet.html">chemist::PointSet</a>&lt; T &gt;::z_data </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the address of the first z-coordinate. </p>
+<p>If the <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> backend stores the x, y, and z coordinates contiguously, then this method can be used to obtain the address of the 0-th point's z-coordinate.</p>
+<dl class="section return"><dt>Returns</dt><dd>The address of the 0-th point's z-coordinate. If *this has no points this method returns a nullptr.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">No</td><td>throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7dc897a7194b7e0f9ec6d01083506347"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dc897a7194b7e0f9ec6d01083506347">&#9670;&nbsp;</a></span>z_data() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1PointSet.html#a663b9eaaccba4b74fe9d5df0104d1421">coord_pointer</a> <a class="el" href="classchemist_1_1PointSet.html">chemist::PointSet</a>&lt; T &gt;::z_data </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the address of the first z-coordinate. </p>
+<p>If the <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> backend stores the x, y, and z coordinates contiguously, then this method can be used to obtain the address of the 0-th point's z-coordinate.</p>
+<dl class="section return"><dt>Returns</dt><dd>The address of the 0-th point's z-coordinate. If *this has no points this method returns a nullptr.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">No</td><td>throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>

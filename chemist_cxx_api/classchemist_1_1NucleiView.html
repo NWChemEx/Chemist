@@ -113,35 +113,81 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a352be16fb0b8b0ea0546665c9a15a92f">size_type</a> = typename base_type::size_type</td></tr>
 <tr class="memdesc:a352be16fb0b8b0ea0546665c9a15a92f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used for indexing and offsets. <br /></td></tr>
 <tr class="separator:a352be16fb0b8b0ea0546665c9a15a92f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0bf233d33de4d6e69977a0faf1e6fc7"><td class="memItemLeft" align="right" valign="top"><a id="af0bf233d33de4d6e69977a0faf1e6fc7"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#af0bf233d33de4d6e69977a0faf1e6fc7">nuclei_type</a> = typename <a class="el" href="structchemist_1_1detail___1_1ViewTraits.html#a1eea9914fa8a00021cd54238f2bd3d53">traits_type::type</a></td></tr>
-<tr class="memdesc:af0bf233d33de4d6e69977a0faf1e6fc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type *this is behaving like. <br /></td></tr>
-<tr class="separator:af0bf233d33de4d6e69977a0faf1e6fc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e69c42063468c357e8df9142a0723b1"><td class="memItemLeft" align="right" valign="top"><a id="a1e69c42063468c357e8df9142a0723b1"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a1e69c42063468c357e8df9142a0723b1">value_type</a> = typename nuclei_type::value_type</td></tr>
-<tr class="memdesc:a1e69c42063468c357e8df9142a0723b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of an element in *this. <br /></td></tr>
-<tr class="separator:a1e69c42063468c357e8df9142a0723b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f541579107c456bb7b556584fa65d70"><td class="memItemLeft" align="right" valign="top"><a id="a2f541579107c456bb7b556584fa65d70"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a2f541579107c456bb7b556584fa65d70">reference</a> = std::conditional_t&lt; is_const, typename nuclei_type::reference, typename nuclei_type::const_reference &gt;</td></tr>
-<tr class="memdesc:a2f541579107c456bb7b556584fa65d70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutable reference to an element in *this. <br /></td></tr>
-<tr class="separator:a2f541579107c456bb7b556584fa65d70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2347ebc3439f2fa227e4ffd750b8b12"><td class="memItemLeft" align="right" valign="top"><a id="ab2347ebc3439f2fa227e4ffd750b8b12"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#ab2347ebc3439f2fa227e4ffd750b8b12">const_reference</a> = typename nuclei_type::const_reference</td></tr>
-<tr class="memdesc:ab2347ebc3439f2fa227e4ffd750b8b12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only reference to an element in *this. <br /></td></tr>
-<tr class="separator:ab2347ebc3439f2fa227e4ffd750b8b12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c1802f1de4109a0179332d75aaf2759"><td class="memItemLeft" align="right" valign="top"><a id="a6c1802f1de4109a0179332d75aaf2759"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a6c1802f1de4109a0179332d75aaf2759">charge_type</a> = typename nuclei_type::charge_type</td></tr>
-<tr class="memdesc:a6c1802f1de4109a0179332d75aaf2759"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to store the charge. <br /></td></tr>
-<tr class="separator:a6c1802f1de4109a0179332d75aaf2759"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addc7144d27d15779b70df171994b05f4"><td class="memItemLeft" align="right" valign="top"><a id="addc7144d27d15779b70df171994b05f4"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#addc7144d27d15779b70df171994b05f4">member_list_type</a> = std::vector&lt; <a class="el" href="classchemist_1_1NucleiView.html#a352be16fb0b8b0ea0546665c9a15a92f">size_type</a> &gt;</td></tr>
+<tr class="memdesc:addc7144d27d15779b70df171994b05f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type for specifying members by offset. <br /></td></tr>
+<tr class="separator:addc7144d27d15779b70df171994b05f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f1d6a274fc172035c87f7545c21db45"><td class="memItemLeft" align="right" valign="top"><a id="a5f1d6a274fc172035c87f7545c21db45"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a5f1d6a274fc172035c87f7545c21db45">nuclei_traits</a> = <a class="el" href="classchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt; NucleiType &gt;</td></tr>
+<tr class="memdesc:a5f1d6a274fc172035c87f7545c21db45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class containing the types for the aliased <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object. <br /></td></tr>
+<tr class="separator:a5f1d6a274fc172035c87f7545c21db45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8f2c405cc09f1ffa25bb14191dfbbb7"><td class="memItemLeft" align="right" valign="top"><a id="ac8f2c405cc09f1ffa25bb14191dfbbb7"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#ac8f2c405cc09f1ffa25bb14191dfbbb7">nuclei_type</a> = typename nuclei_traits::value_type</td></tr>
+<tr class="memdesc:ac8f2c405cc09f1ffa25bb14191dfbbb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type *this is behaving like. <br /></td></tr>
+<tr class="separator:ac8f2c405cc09f1ffa25bb14191dfbbb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab570c65dc8c95e9cc8be97f6b0d09ec3"><td class="memItemLeft" align="right" valign="top"><a id="ab570c65dc8c95e9cc8be97f6b0d09ec3"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#ab570c65dc8c95e9cc8be97f6b0d09ec3">nuclei_reference</a> = typename nuclei_traits::reference</td></tr>
+<tr class="memdesc:ab570c65dc8c95e9cc8be97f6b0d09ec3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a reference to a nuclei object. <br /></td></tr>
+<tr class="separator:ab570c65dc8c95e9cc8be97f6b0d09ec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab88558fe7c151b699a6d287afee6b4b6"><td class="memItemLeft" align="right" valign="top"><a id="ab88558fe7c151b699a6d287afee6b4b6"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#ab88558fe7c151b699a6d287afee6b4b6">nucleus_traits</a> = typename nuclei_traits::nucleus_traits</td></tr>
+<tr class="memdesc:ab88558fe7c151b699a6d287afee6b4b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class containing the types of the <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a> objects in the aliased <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a>. <br /></td></tr>
+<tr class="separator:ab88558fe7c151b699a6d287afee6b4b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47ed9c6f400acb7377706f0ab4d7d73e"><td class="memItemLeft" align="right" valign="top"><a id="a47ed9c6f400acb7377706f0ab4d7d73e"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a47ed9c6f400acb7377706f0ab4d7d73e">value_type</a> = typename nucleus_traits::value_type</td></tr>
+<tr class="memdesc:a47ed9c6f400acb7377706f0ab4d7d73e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of an element in *this. <br /></td></tr>
+<tr class="separator:a47ed9c6f400acb7377706f0ab4d7d73e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7e517dc65d1e0c52d6fdd1f8cb30a9d"><td class="memItemLeft" align="right" valign="top"><a id="ae7e517dc65d1e0c52d6fdd1f8cb30a9d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#ae7e517dc65d1e0c52d6fdd1f8cb30a9d">reference</a> = typename nucleus_traits::view_type</td></tr>
+<tr class="memdesc:ae7e517dc65d1e0c52d6fdd1f8cb30a9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutable reference to an element in *this. <br /></td></tr>
+<tr class="separator:ae7e517dc65d1e0c52d6fdd1f8cb30a9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afce49c575438271cccca585e49be9fe9"><td class="memItemLeft" align="right" valign="top"><a id="afce49c575438271cccca585e49be9fe9"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#afce49c575438271cccca585e49be9fe9">const_reference</a> = typename nucleus_traits::const_view_type</td></tr>
+<tr class="memdesc:afce49c575438271cccca585e49be9fe9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only reference to an element in *this. <br /></td></tr>
+<tr class="separator:afce49c575438271cccca585e49be9fe9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a506cb2c5614d92258c680b90802beb03"><td class="memItemLeft" align="right" valign="top"><a id="a506cb2c5614d92258c680b90802beb03"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a506cb2c5614d92258c680b90802beb03">name_pointer</a> = typename nucleus_traits::name_pointer</td></tr>
+<tr class="memdesc:a506cb2c5614d92258c680b90802beb03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a pointer to a nucleus's name. <br /></td></tr>
+<tr class="separator:a506cb2c5614d92258c680b90802beb03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a616609629bbefe4dbdb425d2b6d0e69c"><td class="memItemLeft" align="right" valign="top"><a id="a616609629bbefe4dbdb425d2b6d0e69c"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a616609629bbefe4dbdb425d2b6d0e69c">atomic_number_pointer</a> = typename nucleus_traits::atomic_number_pointer</td></tr>
+<tr class="memdesc:a616609629bbefe4dbdb425d2b6d0e69c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a pointer to an atomic number. <br /></td></tr>
+<tr class="separator:a616609629bbefe4dbdb425d2b6d0e69c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2dcc44752bfe02efeeb0bf4a3c7d0db3"><td class="memItemLeft" align="right" valign="top"><a id="a2dcc44752bfe02efeeb0bf4a3c7d0db3"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a2dcc44752bfe02efeeb0bf4a3c7d0db3">mass_pointer</a> = typename nucleus_traits::mass_pointer</td></tr>
+<tr class="memdesc:a2dcc44752bfe02efeeb0bf4a3c7d0db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a pointer to a nucleus's mass. <br /></td></tr>
+<tr class="separator:a2dcc44752bfe02efeeb0bf4a3c7d0db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0e42341e7d8a73b62ca56dbbb874be2"><td class="memItemLeft" align="right" valign="top"><a id="ab0e42341e7d8a73b62ca56dbbb874be2"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#ab0e42341e7d8a73b62ca56dbbb874be2">charges_traits</a> = typename nuclei_traits::charges_traits</td></tr>
+<tr class="memdesc:ab0e42341e7d8a73b62ca56dbbb874be2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class providing types for the <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> object *this aliases. <br /></td></tr>
+<tr class="separator:ab0e42341e7d8a73b62ca56dbbb874be2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fc9db592436c1923d995b4391e82903"><td class="memItemLeft" align="right" valign="top"><a id="a6fc9db592436c1923d995b4391e82903"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a6fc9db592436c1923d995b4391e82903">charges_reference</a> = typename charges_traits::view_type</td></tr>
+<tr class="memdesc:a6fc9db592436c1923d995b4391e82903"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a mutable reference to a <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> object. <br /></td></tr>
+<tr class="separator:a6fc9db592436c1923d995b4391e82903"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa40b14a7df5259ea7be4ccce0702c629"><td class="memItemLeft" align="right" valign="top"><a id="aa40b14a7df5259ea7be4ccce0702c629"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#aa40b14a7df5259ea7be4ccce0702c629">charge_type</a> = typename value_type::charge_type</td></tr>
+<tr class="memdesc:aa40b14a7df5259ea7be4ccce0702c629"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to store the charge. <br /></td></tr>
+<tr class="separator:aa40b14a7df5259ea7be4ccce0702c629"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aee08a0d30fbf606b495c4d13ca304296"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#aee08a0d30fbf606b495c4d13ca304296">NucleiView</a> () noexcept</td></tr>
 <tr class="memdesc:aee08a0d30fbf606b495c4d13ca304296"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a view to an empty <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object.  <a href="classchemist_1_1NucleiView.html#aee08a0d30fbf606b495c4d13ca304296">More...</a><br /></td></tr>
 <tr class="separator:aee08a0d30fbf606b495c4d13ca304296"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59e28abb4f0e235364cbf6d993e79d4a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a59e28abb4f0e235364cbf6d993e79d4a">NucleiView</a> (<a class="el" href="classchemist_1_1NucleiView.html#a81983370545c9bf6bf00893e52b60632">pimpl_pointer</a> pimpl) noexcept</td></tr>
-<tr class="memdesc:a59e28abb4f0e235364cbf6d993e79d4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new view powered by the provided PIMPL.  <a href="classchemist_1_1NucleiView.html#a59e28abb4f0e235364cbf6d993e79d4a">More...</a><br /></td></tr>
-<tr class="separator:a59e28abb4f0e235364cbf6d993e79d4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bfb4c9c75dfd92d81d42a3301b56224"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a4bfb4c9c75dfd92d81d42a3301b56224">NucleiView</a> (<a class="el" href="classchemist_1_1NucleiView.html#ab570c65dc8c95e9cc8be97f6b0d09ec3">nuclei_reference</a> nuclei)</td></tr>
+<tr class="memdesc:a4bfb4c9c75dfd92d81d42a3301b56224"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a view which aliases <code>nuclei</code>.  <a href="classchemist_1_1NucleiView.html#a4bfb4c9c75dfd92d81d42a3301b56224">More...</a><br /></td></tr>
+<tr class="separator:a4bfb4c9c75dfd92d81d42a3301b56224"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab02186bb2351c6e1a64b6a9704f7f448"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#ab02186bb2351c6e1a64b6a9704f7f448">NucleiView</a> (<a class="el" href="classchemist_1_1NucleiView.html#a6fc9db592436c1923d995b4391e82903">charges_reference</a> charges, <a class="el" href="classchemist_1_1NucleiView.html#a506cb2c5614d92258c680b90802beb03">name_pointer</a> pnames, <a class="el" href="classchemist_1_1NucleiView.html#a616609629bbefe4dbdb425d2b6d0e69c">atomic_number_pointer</a> patomic_numbers, <a class="el" href="classchemist_1_1NucleiView.html#a2dcc44752bfe02efeeb0bf4a3c7d0db3">mass_pointer</a> pmasses)</td></tr>
+<tr class="memdesc:ab02186bb2351c6e1a64b6a9704f7f448"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1NucleiView.html" title="Allows existing state to be used as if it were a Nuclei object.">NucleiView</a> from contiguous data.  <a href="classchemist_1_1NucleiView.html#ab02186bb2351c6e1a64b6a9704f7f448">More...</a><br /></td></tr>
+<tr class="separator:ab02186bb2351c6e1a64b6a9704f7f448"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6adae62f3a297451d875618ee9b7b36a"><td class="memTemplParams" colspan="2">template&lt;typename BeginItr , typename EndItr &gt; </td></tr>
+<tr class="memitem:a6adae62f3a297451d875618ee9b7b36a"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a6adae62f3a297451d875618ee9b7b36a">NucleiView</a> (<a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a> supersystem, BeginItr &amp;&amp;begin, EndItr &amp;&amp;end)</td></tr>
+<tr class="memdesc:a6adae62f3a297451d875618ee9b7b36a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds a subset of the provided <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object.  <a href="classchemist_1_1NucleiView.html#a6adae62f3a297451d875618ee9b7b36a">More...</a><br /></td></tr>
+<tr class="separator:a6adae62f3a297451d875618ee9b7b36a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae23bf4bd60a764bdddb6717f11fa2f56"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#ae23bf4bd60a764bdddb6717f11fa2f56">NucleiView</a> (<a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a> supersystem, <a class="el" href="classchemist_1_1NucleiView.html#addc7144d27d15779b70df171994b05f4">member_list_type</a> members)</td></tr>
+<tr class="memdesc:ae23bf4bd60a764bdddb6717f11fa2f56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds a subset of the provided <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object.  <a href="classchemist_1_1NucleiView.html#ae23bf4bd60a764bdddb6717f11fa2f56">More...</a><br /></td></tr>
+<tr class="separator:ae23bf4bd60a764bdddb6717f11fa2f56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9129e12628e7ffea31fb25d05a89c6f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a9129e12628e7ffea31fb25d05a89c6f4">NucleiView</a> (const <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a> &amp;other)</td></tr>
 <tr class="memdesc:a9129e12628e7ffea31fb25d05a89c6f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes *this a view of the same <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> as <code>other</code>.  <a href="classchemist_1_1NucleiView.html#a9129e12628e7ffea31fb25d05a89c6f4">More...</a><br /></td></tr>
 <tr class="separator:a9129e12628e7ffea31fb25d05a89c6f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,10 +207,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a147b1fd55b52c9b4928479c3977d2f96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a147b1fd55b52c9b4928479c3977d2f96">swap</a> (<a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a> &amp;other) noexcept</td></tr>
 <tr class="memdesc:a147b1fd55b52c9b4928479c3977d2f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchanges the state of *this with <code>other</code>.  <a href="classchemist_1_1NucleiView.html#a147b1fd55b52c9b4928479c3977d2f96">More...</a><br /></td></tr>
 <tr class="separator:a147b1fd55b52c9b4928479c3977d2f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdd45d95f83d3be6033c1648bdb0bc04"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#abdd45d95f83d3be6033c1648bdb0bc04">operator==</a> (const <a class="el" href="classchemist_1_1NucleiView.html#af0bf233d33de4d6e69977a0faf1e6fc7">nuclei_type</a> &amp;rhs) const noexcept</td></tr>
+<tr class="memitem:ae1e5a2bc6e743947e6b0d6f567f0c62d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#ae1e5a2bc6e743947e6b0d6f567f0c62d">operator==</a> (const <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a> &amp;rhs) const noexcept</td></tr>
+<tr class="memdesc:ae1e5a2bc6e743947e6b0d6f567f0c62d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> aliased by *this and <code>rhs</code> are equal.  <a href="classchemist_1_1NucleiView.html#ae1e5a2bc6e743947e6b0d6f567f0c62d">More...</a><br /></td></tr>
+<tr class="separator:ae1e5a2bc6e743947e6b0d6f567f0c62d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdd45d95f83d3be6033c1648bdb0bc04"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#abdd45d95f83d3be6033c1648bdb0bc04">operator==</a> (const <a class="el" href="classchemist_1_1NucleiView.html#ac8f2c405cc09f1ffa25bb14191dfbbb7">nuclei_type</a> &amp;rhs) const noexcept</td></tr>
 <tr class="memdesc:abdd45d95f83d3be6033c1648bdb0bc04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if *this is value equal to an existing <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object.  <a href="classchemist_1_1NucleiView.html#abdd45d95f83d3be6033c1648bdb0bc04">More...</a><br /></td></tr>
 <tr class="separator:abdd45d95f83d3be6033c1648bdb0bc04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1486fbb7cfaa7058ed1c37cdf64f1249"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a1486fbb7cfaa7058ed1c37cdf64f1249">operator!=</a> (const <a class="el" href="classchemist_1_1NucleiView.html#af0bf233d33de4d6e69977a0faf1e6fc7">nuclei_type</a> &amp;rhs) const noexcept</td></tr>
+<tr class="memitem:a1486fbb7cfaa7058ed1c37cdf64f1249"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a1486fbb7cfaa7058ed1c37cdf64f1249">operator!=</a> (const <a class="el" href="classchemist_1_1NucleiView.html#ac8f2c405cc09f1ffa25bb14191dfbbb7">nuclei_type</a> &amp;rhs) const noexcept</td></tr>
 <tr class="memdesc:a1486fbb7cfaa7058ed1c37cdf64f1249"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if *this differs from an existing <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object.  <a href="classchemist_1_1NucleiView.html#a1486fbb7cfaa7058ed1c37cdf64f1249">More...</a><br /></td></tr>
 <tr class="separator:a1486fbb7cfaa7058ed1c37cdf64f1249"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -172,12 +221,16 @@ Public Member Functions</h2></td></tr>
 Related Functions</h2></td></tr>
 <tr><td class="ititle" colspan="2"><p>(Note that these are not member functions.) </p>
 </td></tr>
+<tr class="memitem:ada15c145dfda0204ee6734a7de7fe684"><td class="memTemplParams" colspan="2">template&lt;typename NucleiType1 , typename NucleiType2 &gt; </td></tr>
+<tr class="memitem:ada15c145dfda0204ee6734a7de7fe684"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#ada15c145dfda0204ee6734a7de7fe684">operator!=</a> (const <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType1 &gt; &amp;lhs, const <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType2 &gt; &amp;rhs) noexcept</td></tr>
+<tr class="memdesc:ada15c145dfda0204ee6734a7de7fe684"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> aliased by <code>lhs</code> and <code>rhs</code> are different.  <a href="classchemist_1_1NucleiView.html#ada15c145dfda0204ee6734a7de7fe684">More...</a><br /></td></tr>
+<tr class="separator:ada15c145dfda0204ee6734a7de7fe684"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa64fa6a937d67feef4ca067284134eeb"><td class="memTemplParams" colspan="2">template&lt;typename NucleiType &gt; </td></tr>
-<tr class="memitem:aa64fa6a937d67feef4ca067284134eeb"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#aa64fa6a937d67feef4ca067284134eeb">operator==</a> (const typename <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType &gt;::<a class="el" href="classchemist_1_1NucleiView.html#af0bf233d33de4d6e69977a0faf1e6fc7">nuclei_type</a> &amp;lhs, const <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType &gt; &amp;rhs) noexcept</td></tr>
+<tr class="memitem:aa64fa6a937d67feef4ca067284134eeb"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#aa64fa6a937d67feef4ca067284134eeb">operator==</a> (const typename <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType &gt;::<a class="el" href="classchemist_1_1NucleiView.html#ac8f2c405cc09f1ffa25bb14191dfbbb7">nuclei_type</a> &amp;lhs, const <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType &gt; &amp;rhs) noexcept</td></tr>
 <tr class="memdesc:aa64fa6a937d67feef4ca067284134eeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares a <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object to a <a class="el" href="classchemist_1_1NucleiView.html" title="Allows existing state to be used as if it were a Nuclei object.">NucleiView</a> object.  <a href="classchemist_1_1NucleiView.html#aa64fa6a937d67feef4ca067284134eeb">More...</a><br /></td></tr>
 <tr class="separator:aa64fa6a937d67feef4ca067284134eeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a660d3490f6cc2bb221cd6056139e6361"><td class="memTemplParams" colspan="2">template&lt;typename NucleiType &gt; </td></tr>
-<tr class="memitem:a660d3490f6cc2bb221cd6056139e6361"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a660d3490f6cc2bb221cd6056139e6361">operator!=</a> (const typename <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType &gt;::<a class="el" href="classchemist_1_1NucleiView.html#af0bf233d33de4d6e69977a0faf1e6fc7">nuclei_type</a> &amp;lhs, const <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType &gt; &amp;rhs) noexcept</td></tr>
+<tr class="memitem:a660d3490f6cc2bb221cd6056139e6361"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a660d3490f6cc2bb221cd6056139e6361">operator!=</a> (const typename <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType &gt;::<a class="el" href="classchemist_1_1NucleiView.html#ac8f2c405cc09f1ffa25bb14191dfbbb7">nuclei_type</a> &amp;lhs, const <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType &gt; &amp;rhs) noexcept</td></tr>
 <tr class="memdesc:a660d3490f6cc2bb221cd6056139e6361"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if a <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object is different than the the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object <code>rhs</code> is a view of.  <a href="classchemist_1_1NucleiView.html#a660d3490f6cc2bb221cd6056139e6361">More...</a><br /></td></tr>
 <tr class="separator:a660d3490f6cc2bb221cd6056139e6361"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5dcc581422109e3c4fcfc0c7bfe0b86"><td class="memTemplParams" colspan="2">template&lt;typename NucleiType &gt; </td></tr>
@@ -199,7 +252,7 @@ class chemist::NucleiView&lt; NucleiType &gt;</h3>
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aee08a0d30fbf606b495c4d13ca304296"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee08a0d30fbf606b495c4d13ca304296">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aee08a0d30fbf606b495c4d13ca304296">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[1/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -233,13 +286,104 @@ template&lt;typename NucleiType &gt; </div>
 
 </div>
 </div>
-<a id="a59e28abb4f0e235364cbf6d993e79d4a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59e28abb4f0e235364cbf6d993e79d4a">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[2/4]</span></h2>
+<a id="a4bfb4c9c75dfd92d81d42a3301b56224"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bfb4c9c75dfd92d81d42a3301b56224">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[2/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename NucleiType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1NucleiView.html">chemist::NucleiView</a>&lt; NucleiType &gt;::<a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1NucleiView.html#ab570c65dc8c95e9cc8be97f6b0d09ec3">nuclei_reference</a>&#160;</td>
+          <td class="paramname"><em>nuclei</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a view which aliases <code>nuclei</code>. </p>
+<p>This ctor allows <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> objects to be implicitly converted to <a class="el" href="classchemist_1_1NucleiView.html" title="Allows existing state to be used as if it were a Nuclei object.">NucleiView</a> objects.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">nuclei</td><td>The <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object to alias.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the internal state of *this. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab02186bb2351c6e1a64b6a9704f7f448"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab02186bb2351c6e1a64b6a9704f7f448">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[3/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename NucleiType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1NucleiView.html">chemist::NucleiView</a>&lt; NucleiType &gt;::<a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1NucleiView.html#a6fc9db592436c1923d995b4391e82903">charges_reference</a>&#160;</td>
+          <td class="paramname"><em>charges</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1NucleiView.html#a506cb2c5614d92258c680b90802beb03">name_pointer</a>&#160;</td>
+          <td class="paramname"><em>pnames</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1NucleiView.html#a616609629bbefe4dbdb425d2b6d0e69c">atomic_number_pointer</a>&#160;</td>
+          <td class="paramname"><em>patomic_numbers</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1NucleiView.html#a2dcc44752bfe02efeeb0bf4a3c7d0db3">mass_pointer</a>&#160;</td>
+          <td class="paramname"><em>pmasses</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a <a class="el" href="classchemist_1_1NucleiView.html" title="Allows existing state to be used as if it were a Nuclei object.">NucleiView</a> from contiguous data. </p>
+<p>This ctor allows the user to use existing contiguous arrays of data as if it were a <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object. The number of <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a> objects will be taken from <code>charges</code> and each pointer <code>p</code> is assumed to be laid out so that the property for the <code>i</code>-th nucleus is <code>p[i]</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">charges</td><td>A <a class="el" href="classchemist_1_1ChargesView.html" title="Enables treating state like it&#39;s a reference to a Charges object.">ChargesView</a> to use as the "Charges" part of *this </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pnames</td><td>A pointer to the first nucleus's name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">patomic_numbers</td><td>A pointer to the first nucleus's atomic number. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pmasses</td><td>A pointer to the first nucleus's mass. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6adae62f3a297451d875618ee9b7b36a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6adae62f3a297451d875618ee9b7b36a">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[4/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename NucleiType &gt; </div>
+<div class="memtemplate">
+template&lt;typename BeginItr , typename EndItr &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -247,28 +391,106 @@ template&lt;typename NucleiType &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classchemist_1_1NucleiView.html">chemist::NucleiView</a>&lt; NucleiType &gt;::<a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classchemist_1_1NucleiView.html#a81983370545c9bf6bf00893e52b60632">pimpl_pointer</a>&#160;</td>
-          <td class="paramname"><em>pimpl</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType &gt;&#160;</td>
+          <td class="paramname"><em>supersystem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">BeginItr &amp;&amp;&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EndItr &amp;&amp;&#160;</td>
+          <td class="paramname"><em>end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">explicit</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a new view powered by the provided PIMPL. </p>
+<p>Holds a subset of the provided <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">BeginItr</td><td>The type of the iterator pointing to the index of the first nucleus. </td></tr>
+    <tr><td class="paramname">EndItr</td><td>The type of the iterator pointing to just past the index of the last nucleus.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This ctor fills in a container of type <code>member_list_type</code> and dispatches to the <a class="el" href="classchemist_1_1NucleiView.html#ae23bf4bd60a764bdddb6717f11fa2f56" title="Holds a subset of the provided Nuclei object.">NucleiView(NucleiView, member_list_type)</a> ctor. See that ctor for more information.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">pimpl</td><td>A pointer to the istance's state. If <code>pimpl</code> is null then the resulting view is the same as if it had been default initialized.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">supersystem</td><td>The <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object *this will be a subset of. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">begin</td><td>An iterator which points to the index of the first nucleus. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">end</td><td>An iterator which points to just past the index of the last nucleus.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the memory. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae23bf4bd60a764bdddb6717f11fa2f56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae23bf4bd60a764bdddb6717f11fa2f56">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[5/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename NucleiType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1NucleiView.html">chemist::NucleiView</a>&lt; NucleiType &gt;::<a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType &gt;&#160;</td>
+          <td class="paramname"><em>supersystem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1NucleiView.html#addc7144d27d15779b70df171994b05f4">member_list_type</a>&#160;</td>
+          <td class="paramname"><em>members</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Holds a subset of the provided <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object. </p>
+<p>This ctor will create a view of <code>supersystem</code> which only includes a subset of the nuclei in <code>supersystem</code>. More specifically the resulting view will alias a <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object which contains <code>members.size()</code> nuclei. The i-th nuclei in the aliased <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object will be supersystem[members[i]]. For example, say <code>supersystem</code> has at least four nuclei. Then: </p><div class="fragment"><div class="line"><a class="code" href="classchemist_1_1NucleiView.html#aee08a0d30fbf606b495c4d13ca304296">NucleiView</a> supersystem = get_a_nuclei_object_from_somewhere();</div>
+<div class="line"><a class="code" href="classchemist_1_1NucleiView.html#addc7144d27d15779b70df171994b05f4">member_list_type</a> members{0, 2, 3};</div>
+<div class="line"><a class="code" href="classchemist_1_1NucleiView.html#aee08a0d30fbf606b495c4d13ca304296">NucleiView</a> subset(supersystem, members);</div>
+<div class="ttc" id="aclasschemist_1_1NucleiView_html_addc7144d27d15779b70df171994b05f4"><div class="ttname"><a href="classchemist_1_1NucleiView.html#addc7144d27d15779b70df171994b05f4">chemist::NucleiView::member_list_type</a></div><div class="ttdeci">std::vector&lt; size_type &gt; member_list_type</div><div class="ttdoc">Type for specifying members by offset.</div><div class="ttdef"><b>Definition:</b> nuclei_view.hpp:59</div></div>
+<div class="ttc" id="aclasschemist_1_1NucleiView_html_aee08a0d30fbf606b495c4d13ca304296"><div class="ttname"><a href="classchemist_1_1NucleiView.html#aee08a0d30fbf606b495c4d13ca304296">chemist::NucleiView::NucleiView</a></div><div class="ttdeci">NucleiView() noexcept</div><div class="ttdoc">Creates a view to an empty Nuclei object.</div></div>
+</div><!-- fragment --><p> <code>subset</code> will be a view of a three element <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object, such that <code>subset[0] == supersystem[0]</code>, <code>subset[1] = supersystem[2]</code>, and <code>subset[2] == supersystem[3]</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">supersystem</td><td>An alias of the supersystem. The <a class="el" href="classchemist_1_1NucleusView.html" title="Allows representing data as if it were a Nucleus object.">NucleusView</a> objects in *this will be aliases of the <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a> objects in <code>supersystem</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">members</td><td>The elements of the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object aliased by <code>supersystem</code> which will be in the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object aliased by *this.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>If the data <code>supersystem</code> aliases is invalidated it will also invalidate *this.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the PIMPL. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
@@ -276,7 +498,7 @@ template&lt;typename NucleiType &gt; </div>
 </div>
 </div>
 <a id="a9129e12628e7ffea31fb25d05a89c6f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9129e12628e7ffea31fb25d05a89c6f4">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9129e12628e7ffea31fb25d05a89c6f4">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[6/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -311,7 +533,7 @@ template&lt;typename NucleiType &gt; </div>
 </div>
 </div>
 <a id="ad7f522cef8b352d601d620d685f69e08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7f522cef8b352d601d620d685f69e08">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[4/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7f522cef8b352d601d620d685f69e08">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[7/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -368,7 +590,7 @@ template&lt;typename NucleiType &gt; </div>
         <tr>
           <td class="memname">bool <a class="el" href="classchemist_1_1NucleiView.html">chemist::NucleiView</a>&lt; NucleiType &gt;::operator!= </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classchemist_1_1NucleiView.html#af0bf233d33de4d6e69977a0faf1e6fc7">nuclei_type</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1NucleiView.html#ac8f2c405cc09f1ffa25bb14191dfbbb7">nuclei_type</a> &amp;&#160;</td>
           <td class="paramname"><em>rhs</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -478,7 +700,7 @@ template&lt;typename NucleiType &gt; </div>
 </div>
 </div>
 <a id="abdd45d95f83d3be6033c1648bdb0bc04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abdd45d95f83d3be6033c1648bdb0bc04">&#9670;&nbsp;</a></span>operator==()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abdd45d95f83d3be6033c1648bdb0bc04">&#9670;&nbsp;</a></span>operator==() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -491,7 +713,7 @@ template&lt;typename NucleiType &gt; </div>
         <tr>
           <td class="memname">bool <a class="el" href="classchemist_1_1NucleiView.html">chemist::NucleiView</a>&lt; NucleiType &gt;::operator== </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classchemist_1_1NucleiView.html#af0bf233d33de4d6e69977a0faf1e6fc7">nuclei_type</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1NucleiView.html#ac8f2c405cc09f1ffa25bb14191dfbbb7">nuclei_type</a> &amp;&#160;</td>
           <td class="paramname"><em>rhs</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -504,7 +726,7 @@ template&lt;typename NucleiType &gt; </div>
 </div><div class="memdoc">
 
 <p>Determines if *this is value equal to an existing <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object. </p>
-<p>*This method compares the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object *this is a view of to the provided <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object. The <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> objects are compared for value equality as defined by Nuclei::operator==.</p>
+<p>This method compares the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object *this is a view of to the provided <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object. The <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> objects are compared for value equality as defined by Nuclei::operator==.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object to compare to.</td></tr>
@@ -512,6 +734,50 @@ template&lt;typename NucleiType &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if *this compares value equal to <code>rhs</code> and false otherwise.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae1e5a2bc6e743947e6b0d6f567f0c62d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1e5a2bc6e743947e6b0d6f567f0c62d">&#9670;&nbsp;</a></span>operator==() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename NucleiType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classchemist_1_1NucleiView.html">chemist::NucleiView</a>&lt; NucleiType &gt;::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Determines if the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> aliased by *this and <code>rhs</code> are equal. </p>
+<p>This method compares the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object aliased by *this to the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object aliased by <code>other</code>. The aliased <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> objects are compared by value. Notably, this means that *this and <code>other</code> do not need to alias the same <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object for this method to be true.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The <a class="el" href="classchemist_1_1NucleiView.html" title="Allows existing state to be used as if it were a Nuclei object.">NucleiView</a> to compare against.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if *this and <code>rhs</code> alias <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> objects that are value equal and false otherwise.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
@@ -565,8 +831,71 @@ template&lt;typename NucleiType &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a id="ada15c145dfda0204ee6734a7de7fe684"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada15c145dfda0204ee6734a7de7fe684">&#9670;&nbsp;</a></span>operator!=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename NucleiType1 , typename NucleiType2 &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType1 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType2 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Determines if the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> aliased by <code>lhs</code> and <code>rhs</code> are different. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">NucleiType1</td><td>The cv-qualified type that <code>lhs</code> aliases. </td></tr>
+    <tr><td class="paramname">NucleiType2</td><td>The cv-qualified type that <code>rhs</code> aliases.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>For the purposes of this function, "different" is defined as "not value
+equal" and this function simply negates the result of NucleiView::operator==(NucleiView). See the documentation for more detail.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">lhs</td><td>The <a class="el" href="classchemist_1_1NucleiView.html" title="Allows existing state to be used as if it were a Nuclei object.">NucleiView</a> on the left side of the operator. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The <a class="el" href="classchemist_1_1NucleiView.html" title="Allows existing state to be used as if it were a Nuclei object.">NucleiView</a> on the right side of the operator.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>False if <code>lhs</code> and <code>rhs</code> alias <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> objects which are value equal and true otherwise.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a660d3490f6cc2bb221cd6056139e6361"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a660d3490f6cc2bb221cd6056139e6361">&#9670;&nbsp;</a></span>operator!=()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a660d3490f6cc2bb221cd6056139e6361">&#9670;&nbsp;</a></span>operator!=() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -579,7 +908,7 @@ template&lt;typename NucleiType &gt; </div>
         <tr>
           <td class="memname">bool operator!= </td>
           <td>(</td>
-          <td class="paramtype">const typename <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType &gt;::<a class="el" href="classchemist_1_1NucleiView.html#af0bf233d33de4d6e69977a0faf1e6fc7">nuclei_type</a> &amp;&#160;</td>
+          <td class="paramtype">const typename <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType &gt;::<a class="el" href="classchemist_1_1NucleiView.html#ac8f2c405cc09f1ffa25bb14191dfbbb7">nuclei_type</a> &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
         </tr>
         <tr>
@@ -689,7 +1018,7 @@ template&lt;typename NucleiType &gt; </div>
         <tr>
           <td class="memname">bool operator== </td>
           <td>(</td>
-          <td class="paramtype">const typename <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType &gt;::<a class="el" href="classchemist_1_1NucleiView.html#af0bf233d33de4d6e69977a0faf1e6fc7">nuclei_type</a> &amp;&#160;</td>
+          <td class="paramtype">const typename <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a>&lt; NucleiType &gt;::<a class="el" href="classchemist_1_1NucleiView.html#ac8f2c405cc09f1ffa25bb14191dfbbb7">nuclei_type</a> &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
         </tr>
         <tr>
@@ -712,7 +1041,7 @@ template&lt;typename NucleiType &gt; </div>
 </div><div class="memdoc">
 
 <p>Compares a <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object to a <a class="el" href="classchemist_1_1NucleiView.html" title="Allows existing state to be used as if it were a Nuclei object.">NucleiView</a> object. </p>
-<p>This function simply calls <a class="el" href="classchemist_1_1NucleiView.html#abdd45d95f83d3be6033c1648bdb0bc04" title="Determines if *this is value equal to an existing Nuclei object.">NucleiView::operator==()</a> on lhs. See the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> overload of <a class="el" href="classchemist_1_1NucleiView.html#abdd45d95f83d3be6033c1648bdb0bc04" title="Determines if *this is value equal to an existing Nuclei object.">NucleiView::operator==()</a> for more information.</p>
+<p>This function simply calls <a class="el" href="classchemist_1_1NucleiView.html#ae1e5a2bc6e743947e6b0d6f567f0c62d" title="Determines if the Nuclei aliased by *this and rhs are equal.">NucleiView::operator==()</a> on lhs. See the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> overload of <a class="el" href="classchemist_1_1NucleiView.html#ae1e5a2bc6e743947e6b0d6f567f0c62d" title="Determines if the Nuclei aliased by *this and rhs are equal.">NucleiView::operator==()</a> for more information.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">lhs</td><td>The <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object being compared to <code>rhs</code>. </td></tr>
@@ -730,8 +1059,9 @@ template&lt;typename NucleiType &gt; </div>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/chemist/chemical_system/nucleus/<a class="el" href="nuclei__view_8hpp_source.html">nuclei_view.hpp</a></li>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>include/chemist/chemical_system/<a class="el" href="chemial__system__traits_8hpp_source.html">chemial_system_traits.hpp</a></li>
+<li>include/chemist/chemical_system/nucleus/nuclei_view/<a class="el" href="nuclei__view_8hpp_source.html">nuclei_view.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

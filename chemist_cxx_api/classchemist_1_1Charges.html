@@ -108,30 +108,57 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a33986308cd2f30c3ee8dcb75cb6c5f17">pimpl_pointer</a> = std::unique_ptr&lt; <a class="el" href="classchemist_1_1Charges.html#aaa9cfc28ae2b675da3af2681910ff37f">pimpl_type</a> &gt;</td></tr>
 <tr class="memdesc:a33986308cd2f30c3ee8dcb75cb6c5f17"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of a pointer to a PIMPL. <br /></td></tr>
 <tr class="separator:a33986308cd2f30c3ee8dcb75cb6c5f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc3b15b5cc81121ff708fc07335e2091"><td class="memItemLeft" align="right" valign="top"><a id="adc3b15b5cc81121ff708fc07335e2091"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#adc3b15b5cc81121ff708fc07335e2091">value_type</a> = <a class="el" href="classchemist_1_1PointCharge.html">PointCharge</a>&lt; T &gt;</td></tr>
-<tr class="memdesc:adc3b15b5cc81121ff708fc07335e2091"><td class="mdescLeft">&#160;</td><td class="mdescRight">The elements in the container. <br /></td></tr>
-<tr class="separator:adc3b15b5cc81121ff708fc07335e2091"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add1e41a620ea383e63af100defda703f"><td class="memItemLeft" align="right" valign="top"><a id="add1e41a620ea383e63af100defda703f"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#add1e41a620ea383e63af100defda703f">reference</a> = <a class="el" href="classchemist_1_1PointChargeView.html">PointChargeView</a>&lt; <a class="el" href="classchemist_1_1Charges.html#adc3b15b5cc81121ff708fc07335e2091">value_type</a> &gt;</td></tr>
-<tr class="memdesc:add1e41a620ea383e63af100defda703f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read/write reference to an element. <br /></td></tr>
-<tr class="separator:add1e41a620ea383e63af100defda703f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab41880a3beeb0f77e6bc9608dbb78b8f"><td class="memItemLeft" align="right" valign="top"><a id="ab41880a3beeb0f77e6bc9608dbb78b8f"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#ab41880a3beeb0f77e6bc9608dbb78b8f">const_reference</a> = <a class="el" href="classchemist_1_1PointChargeView.html">PointChargeView</a>&lt; const <a class="el" href="classchemist_1_1Charges.html#adc3b15b5cc81121ff708fc07335e2091">value_type</a> &gt;</td></tr>
-<tr class="memdesc:ab41880a3beeb0f77e6bc9608dbb78b8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only reference to an element. <br /></td></tr>
-<tr class="separator:ab41880a3beeb0f77e6bc9608dbb78b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4aae0d12fc4418a92422be3578d0a2a2"><td class="memItemLeft" align="right" valign="top"><a id="a4aae0d12fc4418a92422be3578d0a2a2"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a4aae0d12fc4418a92422be3578d0a2a2">charges_traits</a> = <a class="el" href="classchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt; <a class="el" href="classchemist_1_1Charges.html">my_type</a> &gt;</td></tr>
+<tr class="memdesc:a4aae0d12fc4418a92422be3578d0a2a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class defining the types for *this. <br /></td></tr>
+<tr class="separator:a4aae0d12fc4418a92422be3578d0a2a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e99be5b45d5167c13b0cca583f15842"><td class="memItemLeft" align="right" valign="top"><a id="a5e99be5b45d5167c13b0cca583f15842"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a5e99be5b45d5167c13b0cca583f15842">point_set_traits</a> = typename charges_traits::point_set_traits</td></tr>
+<tr class="memdesc:a5e99be5b45d5167c13b0cca583f15842"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class defining types for the <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> part of *this. <br /></td></tr>
+<tr class="separator:a5e99be5b45d5167c13b0cca583f15842"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa344064c2e6919bb15c800e1f17401d4"><td class="memItemLeft" align="right" valign="top"><a id="aa344064c2e6919bb15c800e1f17401d4"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#aa344064c2e6919bb15c800e1f17401d4">point_charge_traits</a> = typename charges_traits::point_charge_traits</td></tr>
+<tr class="memdesc:aa344064c2e6919bb15c800e1f17401d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class defining the types for elements of *this. <br /></td></tr>
+<tr class="separator:aa344064c2e6919bb15c800e1f17401d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec6927e91a70488f16747a8690dfe20b"><td class="memItemLeft" align="right" valign="top"><a id="aec6927e91a70488f16747a8690dfe20b"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>point_set_type</b> = typename point_set_traits::value_type</td></tr>
+<tr class="separator:aec6927e91a70488f16747a8690dfe20b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af13760eb63b3ca85677a2eb420d02b9c"><td class="memItemLeft" align="right" valign="top"><a id="af13760eb63b3ca85677a2eb420d02b9c"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#af13760eb63b3ca85677a2eb420d02b9c">point_set_reference</a> = typename point_set_traits::view_type</td></tr>
+<tr class="memdesc:af13760eb63b3ca85677a2eb420d02b9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a mutable reference to <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> piece of *this. <br /></td></tr>
+<tr class="separator:af13760eb63b3ca85677a2eb420d02b9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac737bd18f5d394f9e151597c6f7738f2"><td class="memItemLeft" align="right" valign="top"><a id="ac737bd18f5d394f9e151597c6f7738f2"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#ac737bd18f5d394f9e151597c6f7738f2">const_point_set_reference</a> = typename point_set_traits::const_view_type</td></tr>
+<tr class="memdesc:ac737bd18f5d394f9e151597c6f7738f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> piece of *this. <br /></td></tr>
+<tr class="separator:ac737bd18f5d394f9e151597c6f7738f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57c3f0187709a069472461086c23d136"><td class="memItemLeft" align="right" valign="top"><a id="a57c3f0187709a069472461086c23d136"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a57c3f0187709a069472461086c23d136">value_type</a> = typename point_charge_traits::value_type</td></tr>
+<tr class="memdesc:a57c3f0187709a069472461086c23d136"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the elements in the container. <br /></td></tr>
+<tr class="separator:a57c3f0187709a069472461086c23d136"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ed27b97a8b987a700092ea016e2f721"><td class="memItemLeft" align="right" valign="top"><a id="a8ed27b97a8b987a700092ea016e2f721"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a8ed27b97a8b987a700092ea016e2f721">reference</a> = typename point_charge_traits::view_type</td></tr>
+<tr class="memdesc:a8ed27b97a8b987a700092ea016e2f721"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read/write reference to an element. <br /></td></tr>
+<tr class="separator:a8ed27b97a8b987a700092ea016e2f721"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c8dcd02a79992d74ba12575ae418f1d"><td class="memItemLeft" align="right" valign="top"><a id="a5c8dcd02a79992d74ba12575ae418f1d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a5c8dcd02a79992d74ba12575ae418f1d">const_reference</a> = typename point_charge_traits::const_view_type</td></tr>
+<tr class="memdesc:a5c8dcd02a79992d74ba12575ae418f1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only reference to an element. <br /></td></tr>
+<tr class="separator:a5c8dcd02a79992d74ba12575ae418f1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b96a1048a6a8c9842f9ccc7b14351ca"><td class="memItemLeft" align="right" valign="top"><a id="a0b96a1048a6a8c9842f9ccc7b14351ca"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a0b96a1048a6a8c9842f9ccc7b14351ca">charge_type</a> = typename point_charge_traits::charge_type</td></tr>
+<tr class="memdesc:a0b96a1048a6a8c9842f9ccc7b14351ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Floating point type used to hold charge values. <br /></td></tr>
+<tr class="separator:a0b96a1048a6a8c9842f9ccc7b14351ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0157fe810dd8fe6e716920ee0de6021d"><td class="memItemLeft" align="right" valign="top"><a id="a0157fe810dd8fe6e716920ee0de6021d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a0157fe810dd8fe6e716920ee0de6021d">charge_pointer</a> = typename point_charge_traits::charge_pointer</td></tr>
+<tr class="memdesc:a0157fe810dd8fe6e716920ee0de6021d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a pointer to a mutable charge. <br /></td></tr>
+<tr class="separator:a0157fe810dd8fe6e716920ee0de6021d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa47a856d3eea18242915bac8d1be6f6"><td class="memItemLeft" align="right" valign="top"><a id="aaa47a856d3eea18242915bac8d1be6f6"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#aaa47a856d3eea18242915bac8d1be6f6">const_charge_pointer</a> = typename point_charge_traits::const_charge_pointer</td></tr>
+<tr class="memdesc:aaa47a856d3eea18242915bac8d1be6f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a pointer to a read-only charge. <br /></td></tr>
+<tr class="separator:aaa47a856d3eea18242915bac8d1be6f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bf7f41e0f8a816e3653951853ceb879"><td class="memItemLeft" align="right" valign="top"><a id="a0bf7f41e0f8a816e3653951853ceb879"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a0bf7f41e0f8a816e3653951853ceb879">coord_type</a> = typename <a class="el" href="classchemist_1_1PointCharge.html#ac55479b9296c325bf7d1de85aa56549c">value_type::coord_type</a></td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a0bf7f41e0f8a816e3653951853ceb879">coord_type</a> = typename value_type::coord_type</td></tr>
 <tr class="memdesc:a0bf7f41e0f8a816e3653951853ceb879"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type used to store the coordinates. <br /></td></tr>
 <tr class="separator:a0bf7f41e0f8a816e3653951853ceb879"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7dc4ecb0077a573921674b5cc2bb187"><td class="memItemLeft" align="right" valign="top"><a id="ad7dc4ecb0077a573921674b5cc2bb187"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#ad7dc4ecb0077a573921674b5cc2bb187">point_set_type</a> = <a class="el" href="classchemist_1_1PointSet.html">PointSet</a>&lt; <a class="el" href="classchemist_1_1Charges.html#a0bf7f41e0f8a816e3653951853ceb879">coord_type</a> &gt;</td></tr>
-<tr class="memdesc:ad7dc4ecb0077a573921674b5cc2bb187"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of the <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> *this conceptually derives from. <br /></td></tr>
-<tr class="separator:ad7dc4ecb0077a573921674b5cc2bb187"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfd04bfc8890bed92bb9e1ac6bab0493"><td class="memItemLeft" align="right" valign="top"><a id="abfd04bfc8890bed92bb9e1ac6bab0493"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#abfd04bfc8890bed92bb9e1ac6bab0493">const_point_set_reference</a> = const <a class="el" href="classchemist_1_1Charges.html#ad7dc4ecb0077a573921674b5cc2bb187">point_set_type</a> &amp;</td></tr>
-<tr class="memdesc:abfd04bfc8890bed92bb9e1ac6bab0493"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to the conceptual base class. <br /></td></tr>
-<tr class="separator:abfd04bfc8890bed92bb9e1ac6bab0493"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd2f36efe66338e914fe9e73978f1a19"><td class="memItemLeft" align="right" valign="top"><a id="afd2f36efe66338e914fe9e73978f1a19"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#afd2f36efe66338e914fe9e73978f1a19">size_type</a> = typename base_type::size_type</td></tr>
 <tr class="memdesc:afd2f36efe66338e914fe9e73978f1a19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integral type used for indexing. <br /></td></tr>
@@ -142,9 +169,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3dc408020c86c4d0bf7a808cb4f272d8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a3dc408020c86c4d0bf7a808cb4f272d8">Charges</a> () noexcept</td></tr>
 <tr class="memdesc:a3dc408020c86c4d0bf7a808cb4f272d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an empty <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> object.  <a href="classchemist_1_1Charges.html#a3dc408020c86c4d0bf7a808cb4f272d8">More...</a><br /></td></tr>
 <tr class="separator:a3dc408020c86c4d0bf7a808cb4f272d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01ce659c9c269f4d004e318271fd6519"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a01ce659c9c269f4d004e318271fd6519">Charges</a> (std::initializer_list&lt; <a class="el" href="classchemist_1_1Charges.html#adc3b15b5cc81121ff708fc07335e2091">value_type</a> &gt; qs)</td></tr>
+<tr class="memitem:a01ce659c9c269f4d004e318271fd6519"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a01ce659c9c269f4d004e318271fd6519">Charges</a> (std::initializer_list&lt; <a class="el" href="classchemist_1_1Charges.html#a57c3f0187709a069472461086c23d136">value_type</a> &gt; qs)</td></tr>
 <tr class="memdesc:a01ce659c9c269f4d004e318271fd6519"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes *this with the provided <a class="el" href="classchemist_1_1PointCharge.html" title="Models a point charge.">PointCharge</a> objects.  <a href="classchemist_1_1Charges.html#a01ce659c9c269f4d004e318271fd6519">More...</a><br /></td></tr>
 <tr class="separator:a01ce659c9c269f4d004e318271fd6519"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a763a5569972e6c3f0877a5ff8b9e2fd3"><td class="memTemplParams" colspan="2"><a id="a763a5569972e6c3f0877a5ff8b9e2fd3"></a>
+template&lt;typename BeginItr , typename EndItr &gt; </td></tr>
+<tr class="memitem:a763a5569972e6c3f0877a5ff8b9e2fd3"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Charges</b> (point_set_type points, BeginItr &amp;&amp;begin, EndItr &amp;&amp;end)</td></tr>
+<tr class="separator:a763a5569972e6c3f0877a5ff8b9e2fd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0aa8814b490d0476fa1fa66fe2baaf8c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a0aa8814b490d0476fa1fa66fe2baaf8c">Charges</a> (const <a class="el" href="classchemist_1_1Charges.html">Charges</a> &amp;other)</td></tr>
 <tr class="memdesc:a0aa8814b490d0476fa1fa66fe2baaf8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> by deep copying <code>rhs</code>.  <a href="classchemist_1_1Charges.html#a0aa8814b490d0476fa1fa66fe2baaf8c">More...</a><br /></td></tr>
 <tr class="separator:a0aa8814b490d0476fa1fa66fe2baaf8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,9 +192,21 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a6f432ada02e005dd04ee46af167b1a67">~Charges</a> () noexcept</td></tr>
 <tr class="memdesc:a6f432ada02e005dd04ee46af167b1a67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default dtor. <br /></td></tr>
 <tr class="separator:a6f432ada02e005dd04ee46af167b1a67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad60d4a9dc8645c72e20248f32cdb6d1e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#ad60d4a9dc8645c72e20248f32cdb6d1e">push_back</a> (<a class="el" href="classchemist_1_1Charges.html#adc3b15b5cc81121ff708fc07335e2091">value_type</a> q)</td></tr>
+<tr class="memitem:ad60d4a9dc8645c72e20248f32cdb6d1e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#ad60d4a9dc8645c72e20248f32cdb6d1e">push_back</a> (<a class="el" href="classchemist_1_1Charges.html#a57c3f0187709a069472461086c23d136">value_type</a> q)</td></tr>
 <tr class="memdesc:ad60d4a9dc8645c72e20248f32cdb6d1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds <code>q</code> to *this.  <a href="classchemist_1_1Charges.html#ad60d4a9dc8645c72e20248f32cdb6d1e">More...</a><br /></td></tr>
 <tr class="separator:ad60d4a9dc8645c72e20248f32cdb6d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62ed36482dacd85a42c7aab7f4d7986c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Charges.html#af13760eb63b3ca85677a2eb420d02b9c">point_set_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a62ed36482dacd85a42c7aab7f4d7986c">point_set</a> ()</td></tr>
+<tr class="memdesc:a62ed36482dacd85a42c7aab7f4d7986c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> piece of *this.  <a href="classchemist_1_1Charges.html#a62ed36482dacd85a42c7aab7f4d7986c">More...</a><br /></td></tr>
+<tr class="separator:a62ed36482dacd85a42c7aab7f4d7986c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a272f1865ad69d1f895c125cbb1583eb0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Charges.html#ac737bd18f5d394f9e151597c6f7738f2">const_point_set_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#a272f1865ad69d1f895c125cbb1583eb0">point_set</a> () const</td></tr>
+<tr class="memdesc:a272f1865ad69d1f895c125cbb1583eb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> piece of *this.  <a href="classchemist_1_1Charges.html#a272f1865ad69d1f895c125cbb1583eb0">More...</a><br /></td></tr>
+<tr class="separator:a272f1865ad69d1f895c125cbb1583eb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecb44c6532d3c7a76bdbc65a2ed07cd4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Charges.html#a0157fe810dd8fe6e716920ee0de6021d">charge_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#aecb44c6532d3c7a76bdbc65a2ed07cd4">charge_data</a> () noexcept</td></tr>
+<tr class="memdesc:aecb44c6532d3c7a76bdbc65a2ed07cd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a mutable pointer to the first charge.  <a href="classchemist_1_1Charges.html#aecb44c6532d3c7a76bdbc65a2ed07cd4">More...</a><br /></td></tr>
+<tr class="separator:aecb44c6532d3c7a76bdbc65a2ed07cd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab89b7972e557c6161d0424e7a59ff5c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Charges.html#aaa47a856d3eea18242915bac8d1be6f6">const_charge_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#ab89b7972e557c6161d0424e7a59ff5c7">charge_data</a> () const noexcept</td></tr>
+<tr class="memdesc:ab89b7972e557c6161d0424e7a59ff5c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a read-only pointer to the first charge.  <a href="classchemist_1_1Charges.html#ab89b7972e557c6161d0424e7a59ff5c7">More...</a><br /></td></tr>
+<tr class="separator:ab89b7972e557c6161d0424e7a59ff5c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af471de596ed9c183295a38ccd7ad4726"><td class="memTemplParams" colspan="2">template&lt;typename Archive &gt; </td></tr>
 <tr class="memitem:af471de596ed9c183295a38ccd7ad4726"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1Charges.html#af471de596ed9c183295a38ccd7ad4726">save</a> (Archive &amp;ar) const</td></tr>
 <tr class="memdesc:af471de596ed9c183295a38ccd7ad4726"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialize <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> instance.  <a href="classchemist_1_1Charges.html#af471de596ed9c183295a38ccd7ad4726">More...</a><br /></td></tr>
@@ -236,7 +279,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classchemist_1_1Charges.html">chemist::Charges</a>&lt; T &gt;::<a class="el" href="classchemist_1_1Charges.html">Charges</a> </td>
           <td>(</td>
-          <td class="paramtype">std::initializer_list&lt; <a class="el" href="classchemist_1_1Charges.html#adc3b15b5cc81121ff708fc07335e2091">value_type</a> &gt;&#160;</td>
+          <td class="paramtype">std::initializer_list&lt; <a class="el" href="classchemist_1_1Charges.html#a57c3f0187709a069472461086c23d136">value_type</a> &gt;&#160;</td>
           <td class="paramname"><em>qs</em></td><td>)</td>
           <td></td>
         </tr>
@@ -343,6 +386,80 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab89b7972e557c6161d0424e7a59ff5c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab89b7972e557c6161d0424e7a59ff5c7">&#9670;&nbsp;</a></span>charge_data() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1Charges.html#aaa47a856d3eea18242915bac8d1be6f6">const_charge_pointer</a> <a class="el" href="classchemist_1_1Charges.html">chemist::Charges</a>&lt; T &gt;::charge_data </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a read-only pointer to the first charge. </p>
+<p>This method is similar to the non-const version except that the resulting pointer is read-only.</p>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the first charge or a null pointer.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aecb44c6532d3c7a76bdbc65a2ed07cd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecb44c6532d3c7a76bdbc65a2ed07cd4">&#9670;&nbsp;</a></span>charge_data() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1Charges.html#a0157fe810dd8fe6e716920ee0de6021d">charge_pointer</a> <a class="el" href="classchemist_1_1Charges.html">chemist::Charges</a>&lt; T &gt;::charge_data </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a mutable pointer to the first charge. </p>
+<p>If the charges are stored contiguously this method will return a pointer to the first charge. If they are not, or if there are no charges, this method will return a null pointer.</p>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the first charge or a null pointer.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a95cb99b38f0d15aa845d7712f538f7d0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a95cb99b38f0d15aa845d7712f538f7d0">&#9670;&nbsp;</a></span>load()</h2>
 
@@ -453,6 +570,64 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a62ed36482dacd85a42c7aab7f4d7986c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62ed36482dacd85a42c7aab7f4d7986c">&#9670;&nbsp;</a></span>point_set() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1Charges.html#af13760eb63b3ca85677a2eb420d02b9c">point_set_reference</a> <a class="el" href="classchemist_1_1Charges.html">chemist::Charges</a>&lt; T &gt;::point_set </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> piece of *this. </p>
+<p>Conceptually a <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> object is a <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> plus the charges of each point charge. This method allows you to access the <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> piece.</p>
+<dl class="section return"><dt>Returns</dt><dd>A reference to a mutable <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> object.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the reference. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a272f1865ad69d1f895c125cbb1583eb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a272f1865ad69d1f895c125cbb1583eb0">&#9670;&nbsp;</a></span>point_set() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1Charges.html#ac737bd18f5d394f9e151597c6f7738f2">const_point_set_reference</a> <a class="el" href="classchemist_1_1Charges.html">chemist::Charges</a>&lt; T &gt;::point_set </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> piece of *this. </p>
+<p>Same as the non-const version except that resulting reference is read-only.</p>
+<dl class="section return"><dt>Returns</dt><dd>A reference to a read-only <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> object.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the reference. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ad60d4a9dc8645c72e20248f32cdb6d1e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad60d4a9dc8645c72e20248f32cdb6d1e">&#9670;&nbsp;</a></span>push_back()</h2>
 
@@ -464,7 +639,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classchemist_1_1Charges.html">chemist::Charges</a>&lt; T &gt;::push_back </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classchemist_1_1Charges.html#adc3b15b5cc81121ff708fc07335e2091">value_type</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1Charges.html#a57c3f0187709a069472461086c23d136">value_type</a>&#160;</td>
           <td class="paramname"><em>q</em></td><td>)</td>
           <td></td>
         </tr>
