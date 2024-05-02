@@ -43,6 +43,11 @@ NUCLEI_VIEW::NucleiView(charges_reference charges, name_pointer pnames,
   NucleiView(std::make_unique<detail_::ContiguousNucleiView<NucleiType>>(
     charges, pnames, patomic_numbers, pmasses)) {}
 
+TPARAMS
+NUCLEI_VIEW::NucleiView(NucleiView supersystem, member_list_type members) :
+  NucleiView(std::make_unique<detail_::NucleiSubset<NucleiType>>(
+    std::move(supersystem), std::move(members))) {}
+
 TPARAMS NUCLEI_VIEW::NucleiView(pimpl_pointer pimpl) noexcept :
   m_pimpl_(std::move(pimpl)) {}
 
