@@ -17,6 +17,7 @@
 #include "detail_/contiguous_nuclei_view.hpp"
 #include "detail_/nuclei_subset.hpp"
 #include "detail_/nuclei_view_pimpl.hpp"
+#include "detail_/nucleus_view_list.hpp"
 #include <numeric>
 
 namespace chemist {
@@ -47,6 +48,11 @@ TPARAMS
 NUCLEI_VIEW::NucleiView(NucleiView supersystem, member_list_type members) :
   NucleiView(std::make_unique<detail_::NucleiSubset<NucleiType>>(
     std::move(supersystem), std::move(members))) {}
+
+TPARAMS
+NUCLEI_VIEW::NucleiView(reference_container members) :
+  NucleiView(std::make_unique<detail_::NucleusViewList<NucleiType>>(
+    std::move(members))) {}
 
 TPARAMS NUCLEI_VIEW::NucleiView(pimpl_pointer pimpl) noexcept :
   m_pimpl_(std::move(pimpl)) {}

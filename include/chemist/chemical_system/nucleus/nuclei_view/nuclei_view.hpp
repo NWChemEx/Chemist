@@ -81,6 +81,9 @@ public:
     /// Read-only reference to an element in *this
     using const_reference = typename nucleus_traits::const_view_type;
 
+    /// Type of a container filled with references to Nucleus objects
+    using reference_container = std::vector<reference>;
+
     /// Type of a pointer to a nucleus's name
     using name_pointer = typename nucleus_traits::name_pointer;
 
@@ -196,6 +199,19 @@ public:
      *                        throw guarantee.
      */
     NucleiView(NucleiView supersystem, member_list_type members);
+
+    /** @brief Creates a new NucleiView object containing @p members
+     *
+     *  Given a container of reference objects, @p members, this ctor will
+     *  initialize *this to use the elements of @p members as aliases for the
+     *  Nucleus objects in the Nuclei object aliased by *this.
+     *
+     *  @param[in] members References to the elements of *this.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the PIMPL. Strong
+     *                        throw guarantee.
+     */
+    explicit NucleiView(reference_container members);
 
     /** @brief Makes *this a view of the same Nuclei as @p other.
      *

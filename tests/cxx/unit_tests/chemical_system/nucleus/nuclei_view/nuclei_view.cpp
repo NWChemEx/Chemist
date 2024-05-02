@@ -94,6 +94,20 @@ void test_nuclei_view() {
             REQUIRE(reverse_subset[1] == n0);
         }
 
+        SECTION("NucleusView objects") {
+            using reference_container = typename view_type::reference_container;
+            using reference           = typename view_type::reference;
+
+            view_type empty2{reference_container{}};
+            REQUIRE(empty2.size() == 0);
+
+            reference_container c{reference(n0), reference(n1)};
+            view_type has_values2(c);
+            REQUIRE(has_values2.size() == 2);
+            REQUIRE(has_values2[0] == n0);
+            REQUIRE(has_values2[1] == n1);
+        }
+
         SECTION("Copy") {
             view_type defaulted_copy(defaulted);
             REQUIRE(defaulted_copy == defaulted);
