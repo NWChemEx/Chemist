@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Designing the AOBasisSet Component &mdash; Chemist v1.0.6 documentation</title>
+  <title>Designing the AOBasisSet Component &mdash; Chemist v1.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
@@ -14,7 +14,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=1913ccc3"></script>
+        <script src="../../../_static/documentation_options.js?v=0737924e"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -38,7 +38,7 @@
               <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                v1.0.6
+                v1.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -263,10 +263,10 @@ conventions and would thus be API breaking.</p></li>
 <figure class="align-center" id="id1">
 <span id="fig-ao-basis-set-design"></span><img alt="../../../_images/ao_basis_set.png" src="../../../_images/ao_basis_set.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Major classes involved in Chemist’s basis set component.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+<p><span class="caption-number">Fig. 7 </span><span class="caption-text">Major classes involved in Chemist’s basis set component.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
 </figure>
-<p><a class="reference internal" href="#fig-ao-basis-set-design"><span class="std std-numref">Fig. 6</span></a> pictorially describes the AOBasisSet
+<p><a class="reference internal" href="#fig-ao-basis-set-design"><span class="std std-numref">Fig. 7</span></a> pictorially describes the AOBasisSet
 component of Chemist. The top-level class is the <code class="docutils literal notranslate"><span class="pre">AOBasisSet</span></code> class (located
 in the top-right corner of the diagram). The
 remaining classes in the diagram form the internal, hierarchical structure of
@@ -286,7 +286,7 @@ Cartesian or spherical (in turn satisfying <a class="reference internal" href="#
 <p>The <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> class is a container around a set of <code class="docutils literal notranslate"><span class="pre">Primitive</span></code>
 objects. The <code class="docutils literal notranslate"><span class="pre">Primitive</span></code> class holds the exponent, where the <code class="docutils literal notranslate"><span class="pre">Primitive</span></code>
 is centered, and coefficient.</p>
-<p>Not shown in <a class="reference internal" href="#fig-ao-basis-set-design"><span class="std std-numref">Fig. 6</span></a> are the respective view classes.
+<p>Not shown in <a class="reference internal" href="#fig-ao-basis-set-design"><span class="std std-numref">Fig. 7</span></a> are the respective view classes.
 Associated with <code class="docutils literal notranslate"><span class="pre">Primitive</span></code>, <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code>, and <code class="docutils literal notranslate"><span class="pre">Shell</span></code> are
 the classes <code class="docutils literal notranslate"><span class="pre">PrimitiveView</span></code>, <code class="docutils literal notranslate"><span class="pre">ContractedGaussianView</span></code>, and <code class="docutils literal notranslate"><span class="pre">ShellView</span></code>.
 Additional views could be added for the <code class="docutils literal notranslate"><span class="pre">AO</span></code> class and the <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>

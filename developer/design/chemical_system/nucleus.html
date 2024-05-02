@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Designing the Nucleus Component &mdash; Chemist v1.0.6 documentation</title>
+  <title>Designing the Nucleus Component &mdash; Chemist v1.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
@@ -14,9 +14,10 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=1913ccc3"></script>
+        <script src="../../../_static/documentation_options.js?v=0737924e"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -37,7 +38,7 @@
               <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                v1.0.6
+                v1.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -201,6 +202,12 @@ to wrap existing data in objects and have those objects be used as if they are
 </section>
 <section id="nuclei-nucleiview">
 <h3>Nuclei/NucleiView<a class="headerlink" href="#nuclei-nucleiview" title="Link to this heading"></a></h3>
+<figure class="align-center" id="id3">
+<span id="fig-nuclei-view-pimpls"></span><img alt="../../../_images/nuclei_view_pimpls.png" src="../../../_images/nuclei_view_pimpls.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Class hierarchy implementing NucleiView.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 <p>Generally speaking we do not usually deal with a single nucleus, we deal with a
 set of nuclei. The <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object serves as a container for <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code>
 objects. A separate class, versus say an STL container, is needed because
@@ -210,16 +217,29 @@ specifically). The <code class="docutils literal notranslate"><span class="pre">
 the <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> class to alias the unpacked state, while maintaining the
 <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> API.</p>
 <p>Similar to <code class="docutils literal notranslate"><span class="pre">NucleusView</span></code>, <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code> is designed to facilitate using
-existing data as if it were a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object.</p>
-</section>
-<section id="pimpls">
-<h3>PIMPLs<a class="headerlink" href="#pimpls" title="Link to this heading"></a></h3>
-<p>With the exception of the <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class (and its corresponding view), all
-classes rely on the PIMPL idiom to separate their API from their implementation.
-This is primarily for performance reasons. In particular the way <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code>
-stores data may need to be optimized later, similarly we may need to expand the
-various ways users can wrap existing data in the <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> API, <em>i.e.</em>, ways
-that <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code> objects can hold their data.</p>
+existing data as if it were a <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> object. In practice, there are a lot
+of different ways to bring together a set of nuclei and <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code> will need
+optimized backends for each scenario. These implementations are summarized in
+<a class="reference internal" href="#fig-nuclei-view-pimpls"><span class="std std-ref">Class hierarchy implementing NucleiView.</span></a> and include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ContiguousNucleiView</span></code>. This is the “traditional” implementation found in
+most quantum chemistry codes. You have one array per property such that the
+<span class="math notranslate nohighlight">\(i\)</span>-th element of the array is the value of that property for the
+<span class="math notranslate nohighlight">\(i\)</span>-th nucleus (properties here include the accessible state of a
+<code class="docutils literal notranslate"><span class="pre">Nucleus</span></code> class).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NucleiSubset</span></code>. Many approximations partition the system of interest into
+subsets. This backend stores a view of the nuclei from the system of interest,
+i.e., a view of the supersystem, and the members of the superset that are
+in the subset. With the superset view present, offsets for the subset members
+suffices.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NucleusViewList</span></code>. Sometimes you just have a bunch of <code class="docutils literal notranslate"><span class="pre">NucleusView</span></code>
+objects you want to treat as the elements of a <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code>. This PIMPL
+holds a vector of <code class="docutils literal notranslate"><span class="pre">NucleusView</span></code> objects.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NucleiUnion</span></code>. A functional inverse of <code class="docutils literal notranslate"><span class="pre">NucleiSubset</span></code>. When you have
+pieces of a system you often want to combine them. While it’s always
+possible to use <code class="docutils literal notranslate"><span class="pre">NucleusViewList</span></code> for this purpose, it’s often just easier
+to store a vector of <code class="docutils literal notranslate"><span class="pre">NucleiView</span></code> objects.</p></li>
+</ul>
 </section>
 </section>
 <section id="summary">
