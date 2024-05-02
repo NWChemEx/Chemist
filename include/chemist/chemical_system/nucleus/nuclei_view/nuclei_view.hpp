@@ -216,6 +216,19 @@ public:
      */
     explicit NucleiView(reference_container members);
 
+    /** @brief Initializes *this to the union of @p members.
+     *
+     *  This ctor is used to create a NucleiView which aliases a Nuclei object
+     *  formed from the unions of the Nuclei objects aliased in @p members.
+     *
+     *  @param[in] members A container with aliases to the Nuclei objects to
+     *                     take the union of.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the PIMPL. Strong
+     *                        throw guarantee.
+     */
+    explicit NucleiView(nuclei_view_container members);
+
     /** @brief Makes *this a view of the same Nuclei as @p other.
      *
      *  This ctor will make a new NucleiView which is a deep copy of @p other.

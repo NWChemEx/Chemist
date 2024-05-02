@@ -108,6 +108,25 @@ void test_nuclei_view() {
             REQUIRE(has_values2[1] == n1);
         }
 
+        SECTION("NucleiView objects") {
+            using container = typename view_type::nuclei_view_container;
+            set_type c0{n0}, c1{n1};
+            container c{view_type{c0}, view_type{c1}};
+
+            view_type has_values2(c);
+            REQUIRE(has_values2.size() == 2);
+            REQUIRE(has_values2[0] == n0);
+            REQUIRE(has_values2[1] == n1);
+
+            view_type has_value3(container{});
+            REQUIRE(has_value3.size() == 0);
+
+            container c_1{view_type{c1}};
+            view_type has_values4(c_1);
+            REQUIRE(has_values4.size() == 1);
+            REQUIRE(has_values4[0] == n1);
+        }
+
         SECTION("Copy") {
             view_type defaulted_copy(defaulted);
             REQUIRE(defaulted_copy == defaulted);

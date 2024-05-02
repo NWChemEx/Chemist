@@ -16,6 +16,7 @@
 
 #include "detail_/contiguous_nuclei_view.hpp"
 #include "detail_/nuclei_subset.hpp"
+#include "detail_/nuclei_union.hpp"
 #include "detail_/nuclei_view_pimpl.hpp"
 #include "detail_/nucleus_view_list.hpp"
 #include <numeric>
@@ -53,6 +54,11 @@ TPARAMS
 NUCLEI_VIEW::NucleiView(reference_container members) :
   NucleiView(std::make_unique<detail_::NucleusViewList<NucleiType>>(
     std::move(members))) {}
+
+TPARAMS
+NUCLEI_VIEW::NucleiView(nuclei_view_container members) :
+  NucleiView(
+    std::make_unique<detail_::NucleiUnion<NucleiType>>(std::move(members))) {}
 
 TPARAMS NUCLEI_VIEW::NucleiView(pimpl_pointer pimpl) noexcept :
   m_pimpl_(std::move(pimpl)) {}
