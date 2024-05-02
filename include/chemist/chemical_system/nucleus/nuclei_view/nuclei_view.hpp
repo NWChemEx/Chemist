@@ -58,6 +58,9 @@ public:
     /// Type for specifying members by offset
     using member_list_type = std::vector<size_type>;
 
+    /// Type of a container filled with NucleiView objects
+    using nuclei_view_container = std::vector<my_type>;
+
     // -- Nuclei/Nucleus types -------------------------------------------------
 
     /// Class containing the types for the aliased Nuclei object
