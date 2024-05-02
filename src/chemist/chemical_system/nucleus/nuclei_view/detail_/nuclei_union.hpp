@@ -97,7 +97,6 @@ public:
     NucleiUnion& operator=(const NucleiUnion&) = delete;
     NucleiUnion& operator=(NucleiUnion&&) = delete;
 
-
     /** @brief Are the Nuclei aliased by *this and @p rhs value equal?
      *
      *  This method compares the Nuclei object aliased by *this to the one
