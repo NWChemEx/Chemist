@@ -92,10 +92,11 @@ public:
 
     /// Implemented generically by NucleiView, deleted to avoid slicing
     ///@{
-    NucleiUnion(NucleiUnion&&)                 = delete;
+
+    NucleiUnion(NucleiUnion&&) = delete;
     NucleiUnion& operator=(const NucleiUnion&) = delete;
-    NucleiUnion& operator=(NucleiUnion&&)      = delete;
-    ///@}
+    NucleiUnion& operator=(NucleiUnion&&) = delete;
+
 
     /** @brief Are the Nuclei aliased by *this and @p rhs value equal?
      *
