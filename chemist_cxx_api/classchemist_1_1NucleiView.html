@@ -117,6 +117,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#addc7144d27d15779b70df171994b05f4">member_list_type</a> = std::vector&lt; <a class="el" href="classchemist_1_1NucleiView.html#a352be16fb0b8b0ea0546665c9a15a92f">size_type</a> &gt;</td></tr>
 <tr class="memdesc:addc7144d27d15779b70df171994b05f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type for specifying members by offset. <br /></td></tr>
 <tr class="separator:addc7144d27d15779b70df171994b05f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3732969af073569941fd5527f630cef"><td class="memItemLeft" align="right" valign="top"><a id="ad3732969af073569941fd5527f630cef"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#ad3732969af073569941fd5527f630cef">nuclei_view_container</a> = std::vector&lt; <a class="el" href="classchemist_1_1NucleiView.html">my_type</a> &gt;</td></tr>
+<tr class="memdesc:ad3732969af073569941fd5527f630cef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a container filled with <a class="el" href="classchemist_1_1NucleiView.html" title="Allows existing state to be used as if it were a Nuclei object.">NucleiView</a> objects. <br /></td></tr>
+<tr class="separator:ad3732969af073569941fd5527f630cef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f1d6a274fc172035c87f7545c21db45"><td class="memItemLeft" align="right" valign="top"><a id="a5f1d6a274fc172035c87f7545c21db45"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a5f1d6a274fc172035c87f7545c21db45">nuclei_traits</a> = <a class="el" href="classchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt; NucleiType &gt;</td></tr>
 <tr class="memdesc:a5f1d6a274fc172035c87f7545c21db45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class containing the types for the aliased <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object. <br /></td></tr>
@@ -195,6 +199,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2848f63bba4829dda384bcef53c5e76c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a2848f63bba4829dda384bcef53c5e76c">NucleiView</a> (<a class="el" href="classchemist_1_1NucleiView.html#abf34a4adaf00da9ce7d4d082c20b5b2b">reference_container</a> members)</td></tr>
 <tr class="memdesc:a2848f63bba4829dda384bcef53c5e76c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="classchemist_1_1NucleiView.html" title="Allows existing state to be used as if it were a Nuclei object.">NucleiView</a> object containing <code>members</code>.  <a href="classchemist_1_1NucleiView.html#a2848f63bba4829dda384bcef53c5e76c">More...</a><br /></td></tr>
 <tr class="separator:a2848f63bba4829dda384bcef53c5e76c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2afd09ea716ef3edc67767bc8956ddcd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a2afd09ea716ef3edc67767bc8956ddcd">NucleiView</a> (<a class="el" href="classchemist_1_1NucleiView.html#ad3732969af073569941fd5527f630cef">nuclei_view_container</a> members)</td></tr>
+<tr class="memdesc:a2afd09ea716ef3edc67767bc8956ddcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes *this to the union of <code>members</code>.  <a href="classchemist_1_1NucleiView.html#a2afd09ea716ef3edc67767bc8956ddcd">More...</a><br /></td></tr>
+<tr class="separator:a2afd09ea716ef3edc67767bc8956ddcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9129e12628e7ffea31fb25d05a89c6f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleiView.html#a9129e12628e7ffea31fb25d05a89c6f4">NucleiView</a> (const <a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a> &amp;other)</td></tr>
 <tr class="memdesc:a9129e12628e7ffea31fb25d05a89c6f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes *this a view of the same <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> as <code>other</code>.  <a href="classchemist_1_1NucleiView.html#a9129e12628e7ffea31fb25d05a89c6f4">More...</a><br /></td></tr>
 <tr class="separator:a9129e12628e7ffea31fb25d05a89c6f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -259,7 +266,7 @@ class chemist::NucleiView&lt; NucleiType &gt;</h3>
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aee08a0d30fbf606b495c4d13ca304296"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee08a0d30fbf606b495c4d13ca304296">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[1/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aee08a0d30fbf606b495c4d13ca304296">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[1/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -294,7 +301,7 @@ template&lt;typename NucleiType &gt; </div>
 </div>
 </div>
 <a id="a4bfb4c9c75dfd92d81d42a3301b56224"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4bfb4c9c75dfd92d81d42a3301b56224">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[2/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bfb4c9c75dfd92d81d42a3301b56224">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[2/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -329,7 +336,7 @@ template&lt;typename NucleiType &gt; </div>
 </div>
 </div>
 <a id="ab02186bb2351c6e1a64b6a9704f7f448"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab02186bb2351c6e1a64b6a9704f7f448">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[3/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab02186bb2351c6e1a64b6a9704f7f448">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[3/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -383,7 +390,7 @@ template&lt;typename NucleiType &gt; </div>
 </div>
 </div>
 <a id="a6adae62f3a297451d875618ee9b7b36a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6adae62f3a297451d875618ee9b7b36a">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[4/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6adae62f3a297451d875618ee9b7b36a">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[4/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -453,7 +460,7 @@ template&lt;typename BeginItr , typename EndItr &gt; </div>
 </div>
 </div>
 <a id="ae23bf4bd60a764bdddb6717f11fa2f56"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae23bf4bd60a764bdddb6717f11fa2f56">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[5/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae23bf4bd60a764bdddb6717f11fa2f56">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[5/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -505,7 +512,7 @@ template&lt;typename NucleiType &gt; </div>
 </div>
 </div>
 <a id="a2848f63bba4829dda384bcef53c5e76c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2848f63bba4829dda384bcef53c5e76c">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[6/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2848f63bba4829dda384bcef53c5e76c">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[6/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -547,8 +554,51 @@ template&lt;typename NucleiType &gt; </div>
 
 </div>
 </div>
+<a id="a2afd09ea716ef3edc67767bc8956ddcd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2afd09ea716ef3edc67767bc8956ddcd">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[7/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename NucleiType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1NucleiView.html">chemist::NucleiView</a>&lt; NucleiType &gt;::<a class="el" href="classchemist_1_1NucleiView.html">NucleiView</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1NucleiView.html#ad3732969af073569941fd5527f630cef">nuclei_view_container</a>&#160;</td>
+          <td class="paramname"><em>members</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initializes *this to the union of <code>members</code>. </p>
+<p>This ctor is used to create a <a class="el" href="classchemist_1_1NucleiView.html" title="Allows existing state to be used as if it were a Nuclei object.">NucleiView</a> which aliases a <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object formed from the unions of the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> objects aliased in <code>members</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">members</td><td>A container with aliases to the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> objects to take the union of.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the PIMPL. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a9129e12628e7ffea31fb25d05a89c6f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9129e12628e7ffea31fb25d05a89c6f4">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[7/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9129e12628e7ffea31fb25d05a89c6f4">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[8/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -583,7 +633,7 @@ template&lt;typename NucleiType &gt; </div>
 </div>
 </div>
 <a id="ad7f522cef8b352d601d620d685f69e08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7f522cef8b352d601d620d685f69e08">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[8/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7f522cef8b352d601d620d685f69e08">&#9670;&nbsp;</a></span>NucleiView() <span class="overload">[9/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
