@@ -58,6 +58,9 @@ public:
     /// Type for specifying members by offset
     using member_list_type = std::vector<size_type>;
 
+    /// Type of a container filled with NucleiView objects
+    using nuclei_view_container = std::vector<my_type>;
+
     // -- Nuclei/Nucleus types -------------------------------------------------
 
     /// Class containing the types for the aliased Nuclei object
@@ -212,6 +215,19 @@ public:
      *                        throw guarantee.
      */
     explicit NucleiView(reference_container members);
+
+    /** @brief Initializes *this to the union of @p members.
+     *
+     *  This ctor is used to create a NucleiView which aliases a Nuclei object
+     *  formed from the unions of the Nuclei objects aliased in @p members.
+     *
+     *  @param[in] members A container with aliases to the Nuclei objects to
+     *                     take the union of.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the PIMPL. Strong
+     *                        throw guarantee.
+     */
+    explicit NucleiView(nuclei_view_container members);
 
     /** @brief Makes *this a view of the same Nuclei as @p other.
      *
