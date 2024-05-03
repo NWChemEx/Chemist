@@ -85,6 +85,9 @@ public:
      */
     PointSetContiguous(const PointSetContiguous& other) = default;
 
+    /// Defaulted no throw dtor
+    ~PointSetContiguous() noexcept = default;
+
     /** @brief Compares for equality.
      *
      *  This method is intended to parallel PointSet::operator== which means
@@ -104,11 +107,11 @@ protected:
 
     size_type size_() const noexcept override { return m_n_points_; }
 
-    reference at_(size_type i) {
+    reference at_(size_type i) override {
         return reference(m_px_[i], m_py_[i], m_pz_[i]);
     }
 
-    const_reference at_(size_type i) const {
+    const_reference at_(size_type i) const override {
         return const_reference(m_px_[i], m_py_[i], m_pz_[i]);
     }
 
