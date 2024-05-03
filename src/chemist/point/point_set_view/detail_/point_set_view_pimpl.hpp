@@ -68,6 +68,9 @@ public:
     /// Implemented generically by PointSetView
     PointSetViewPIMPL& operator=(PointSetViewPIMPL&&) = delete;
 
+    /// Default dtor
+    virtual ~PointSetViewPIMPL() noexcept = default;
+
     /// Shallow polymorhic copy
     pimpl_pointer clone() const { return clone_(); }
 

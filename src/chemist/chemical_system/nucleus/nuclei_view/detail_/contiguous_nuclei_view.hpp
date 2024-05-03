@@ -155,7 +155,7 @@ protected:
                                m_pmasses_[i], m_charges_[i]);
     }
 
-    size_type size_() const noexcept { return m_charges_.size(); }
+    size_type size_() const noexcept override { return m_charges_.size(); }
 
     bool are_equal_(const base_type& other) const noexcept override {
         return base_type::template are_equal_impl_<my_type>(other);

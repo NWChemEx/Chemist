@@ -113,7 +113,9 @@ public:
 
 protected:
     /// Simply calls the copy ctor
-    pimpl_pointer clone_() const { return std::make_unique<my_type>(*this); }
+    pimpl_pointer clone_() const override {
+        return std::make_unique<my_type>(*this);
+    }
 
     /// Creates a mutable reference on the fly
     reference at_(size_type i) noexcept override {
