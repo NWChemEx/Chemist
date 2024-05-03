@@ -20,12 +20,20 @@
 using namespace chemist::fragmenting;
 
 TEST_CASE("CapSet") {
+    using index_set_type         = typename CapSet::index_set_type;
+    using nuclei_reference       = typename CapSet::nuclei_reference;
+    using const_nuclei_reference = typename CapSet::const_nuclei_reference;
+
     CapSet defaulted;
 
     CapSet::nucleus_type atom0;
 
+    // TODO: better cap coverage testing
+
     Cap cap0;
     Cap cap1(1, 2);
+    Cap cap2(2, 3, atom0);
+    Cap cap3(3, 4, atom0, atom0);
 
     CapSet has_values{cap0, cap1};
 
@@ -117,6 +125,82 @@ TEST_CASE("CapSet") {
         REQUIRE(defaulted[4] == Cap(4, 5, buffer.begin(), buffer.end()));
     }
 
+    SECTION("get_cap_indices(range)") {
+        SECTION("Neither the anchor or replaced") {
+            index_set_type input{};
+            index_set_type corr;
+            auto rv = has_values.get_cap_indices(input.begin(), input.end());
+            REQUIRE(rv == corr);
+        }
+        SECTION("Anchor only") {
+            index_set_type input{1};
+            index_set_type corr{1};
+            auto rv = has_values.get_cap_indices(input.begin(), input.end());
+            REQUIRE(rv == corr);
+        }
+        SECTION("Replaced only") {
+            index_set_type input{2};
+            index_set_type corr;
+            auto rv = has_values.get_cap_indices(input.begin(), input.end());
+            REQUIRE(rv == corr);
+        }
+        SECTION("Both the anchor or replaced") {
+            index_set_type input{1, 2};
+            index_set_type corr;
+            auto rv = has_values.get_cap_indices(input.begin(), input.end());
+            REQUIRE(rv == corr);
+        }
+    }
+
+    SECTION("get_cap_indices(container) const") {
+        SECTION("Neither the anchor or replaced") {
+            index_set_type input{};
+            index_set_type corr;
+            auto rv = has_values.get_cap_indices(input);
+            REQUIRE(rv == corr);
+        }
+        SECTION("Anchor only") {
+            index_set_type input{1};
+            index_set_type corr{1};
+            auto rv = has_values.get_cap_indices(input);
+            REQUIRE(rv == corr);
+        }
+        SECTION("Replaced only") {
+            index_set_type input{2};
+            index_set_type corr;
+            auto rv = has_values.get_cap_indices(input);
+            REQUIRE(rv == corr);
+        }
+        SECTION("Both the anchor or replaced") {
+            index_set_type input{1, 2};
+            index_set_type corr;
+            auto rv = has_values.get_cap_indices(input);
+            REQUIRE(rv == corr);
+        }
+    }
+
+    SECTION("get_cap_nuclei(container)") {
+        SECTION("Neither anchor or replaced") {
+            index_set_type input;
+            auto rv = has_values.get_cap_nuclei(input);
+            REQUIRE(rv == nuclei_reference{});
+        }
+        SECTION("Anchor only") {
+            index_set_type input{2};
+            auto rv = has_values.get_cap_nuclei(input);
+            REQUIRE(rv == nuclei_reference{});
+        }
+        SECTION("Replaced only") {
+            index_set_type input{1};
+            auto rv = has_values.get_cap_nuclei(input);
+            REQUIRE(rv == nuclei_reference{});
+        }
+        SECTION("Both the anchor and replaced") {
+            index_set_type input{1, 2};
+            auto rv = has_values.get_cap_nuclei(input);
+            REQUIRE(rv == nuclei_reference{});
+        }
+    }
     SECTION("at_") {
         // N.B. at_ is used by the base class to implement element access. We
         // rely on the public API to test that we actually implemented it right.

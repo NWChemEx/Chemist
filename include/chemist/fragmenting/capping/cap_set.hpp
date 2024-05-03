@@ -16,6 +16,7 @@
 
 #pragma once
 #include <chemist/fragmenting/capping/cap.hpp>
+#include <set>
 #include <utilities/containers/indexable_container_base.hpp>
 #include <vector>
 
@@ -42,11 +43,23 @@ public:
     /// Type of a read-only reference to a cap
     using const_reference = const value_type&;
 
-    /// Type of the nuclei in the caps
-    using nucleus_type = value_type::value_type;
+    /// Type of a nucleus
+    using nucleus_type = Nucleus;
+
+    /// Type of a mutable reference to a set of cap nuclei
+    using nuclei_reference = NucleiView<Nuclei>;
+
+    /// Type of a read-only reference to a set of cap nuclei
+    using const_nuclei_reference = NucleiView<const Nuclei>;
+
+    /// Type of a const reference to a nucleus
+    using const_nucleus_reference = value_type::const_reference;
 
     /// Type used for indexing and offsets by this class. Unsigned integral.
     using size_type = typename base_type::size_type;
+
+    /// Type used to specify a set of indices
+    using index_set_type = std::set<size_type>;
 
     /** @brief Creates ane empty CapSet.
      *
@@ -107,6 +120,68 @@ public:
     void emplace_back(size_type anchor, size_type replaced, Args&&... atoms) {
         push_back(value_type(anchor, replaced, std::forward<Args>(atoms)...));
     }
+
+    /** @brief Retrieves the set of caps for a set of indices.
+     *
+     *  @tparam BeingItr The type of the iterator pointing to the first index.
+     *  @tparam EndItr   The type of the iterator pointing to just past the last
+     *                   index.
+     *
+     *  This method fills in an object of type `index_set_type` from the
+     *  provided iterators and then dispatches to get_caps(index_set_type).
+     *  See the description for get_caps(index_set_type) for more details.
+     *
+     *  @param[in] begin An iterator pointing to the first index.
+     *  @param[in] end   An iterator pointing to just past the last index.
+     *
+     *  @return A container with the indices of the caps needed to cap the
+     *          fragment.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the return.
+     *                        Strong throw guarantee.
+     */
+    template<typename BeginItr, typename EndItr>
+    index_set_type get_cap_indices(BeginItr&& begin, EndItr&& end) const {
+        return get_cap_indices(index_set_type(std::forward<BeginItr>(begin),
+                                              std::forward<EndItr>(end)));
+    }
+
+    /** @brief Retrieves the set of cap indices for a set fragment indices.
+     *
+     *  Typically fragments are specified by stating the indices of the elements
+     *  which  are in the fragment. If any of those indices is an anchor index
+     *  and the corresponding replaced index is not in the fragment, then a
+     *  bond has been broken. This method returns the indices of the caps
+     *  needed for the input fragment.
+     *
+     *  @param[in] fragment_indices Indices for the elements which are in the
+     *                              fragment.
+     *  @return A container with the indices of the caps needed for the
+     * fragment.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the return.
+     *                        Strong throw guarantee.
+     */
+    index_set_type get_cap_indices(
+      const index_set_type& fragment_indices) const;
+
+    template<typename BeginItr, typename EndItr>
+    nuclei_reference get_cap_nuclei(BeginItr&& begin, EndItr&& end) {
+        return get_cap_nuclei(index_set_type(std::forward<BeginItr>(begin),
+                                             std::forward<EndItr>(end)));
+    }
+
+    nuclei_reference get_cap_nuclei(const index_set_type& fragment_indices);
+
+    template<typename BeginItr, typename EndItr>
+    const_nuclei_reference get_cap_nuclei(BeginItr&& begin,
+                                          EndItr&& end) const {
+        return get_cap_nuclei(index_set_type(std::forward<BeginItr>(begin),
+                                             std::forward<EndItr>(end)));
+    }
+
+    const_nuclei_reference get_cap_nuclei(
+      const index_set_type& fragment_indices) const;
 
 private:
     /// Allows the base to implement *this via CRTP

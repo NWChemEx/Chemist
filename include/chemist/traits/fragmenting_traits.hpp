@@ -21,18 +21,34 @@
 namespace chemist {
 namespace fragmenting {
 class CapSet;
+template<typename NucleiType>
 class FragmentedNuclei;
 class FragmentedMolecule;
 class FragmentedChemicalSystem;
 } // namespace fragmenting
 
 template<>
-struct ChemistClassTraits<fragmenting::FragmentedNuclei> {
-    using value_type         = fragmenting::FragmentedNuclei;
+struct ChemistClassTraits<fragmenting::FragmentedNuclei<Nuclei>> {
+    using supersystem_type   = Nuclei;
+    using value_type         = fragmenting::FragmentedNuclei<supersystem_type>;
     using reference          = value_type&;
     using const_reference    = const value_type&;
-    using supersystem_type   = Nuclei;
-    using supersystem_traits = ChemistClassTraits<const supersystem_type>;
+    using supersystem_traits = ChemistClassTraits<supersystem_type>;
+    using fragment_type      = typename supersystem_traits::value_type;
+    using fragment_reference = typename supersystem_traits::view_type;
+    using const_fragment_reference =
+      typename supersystem_traits::const_view_type;
+    using cap_set_type = fragmenting::CapSet;
+};
+
+template<>
+struct ChemistClassTraits<fragmenting::FragmentedNuclei<const Nuclei>> {
+    using supersystem_type   = const Nuclei;
+    using value_type         = fragmenting::FragmentedNuclei<supersystem_type>;
+    using reference          = value_type&;
+    using const_reference    = const value_type&;
+    using supersystem_traits = ChemistClassTraits<supersystem_type>;
+    using fragment_type      = typename supersystem_traits::value_type;
     using fragment_reference = typename supersystem_traits::view_type;
     using const_fragment_reference =
       typename supersystem_traits::const_view_type;
