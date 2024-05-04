@@ -83,6 +83,24 @@ public:
      */
     explicit CapSet(std::initializer_list<value_type> il) : m_caps_(il) {}
 
+    /** @brief Creates a CapSet from a range of Cap objects.
+     *
+     *  @tparam BeginItr Type of the iterator pointing to the first cap.
+     *  @tparam EndItr Type of the iterator pointing to just past the last
+     *                 cap.
+     *
+     *  This ctor is used when the user already has the Caps in a container,
+     *  or when the caps are being created by a generator object. The resulting
+     *  CapSet object will contain the Cap objects in the range [begin, end()).
+     *
+     *  @param[in,out] begin The iterator pointing to the first cap. After this
+     *                       ctor has run @p begin will be equal to @p end.
+     *  @param[in,out] end The iterator pointing to just past the last cap.
+     *                     This ctor will not modify @p end.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the internal
+     *                        state. Strong throw guarantee.
+     */
     template<typename BeginItr, typename EndItr>
     CapSet(BeginItr&& begin, EndItr&& end) :
       m_caps_(std::forward<BeginItr>(begin), std::forward<EndItr>(end)) {}
@@ -131,14 +149,18 @@ public:
      *  provided iterators and then dispatches to get_caps(index_set_type).
      *  See the description for get_caps(index_set_type) for more details.
      *
-     *  @param[in] begin An iterator pointing to the first index.
-     *  @param[in] end   An iterator pointing to just past the last index.
+     *  @param[in,out] begin An iterator pointing to the first index. After
+     *                       this method is called @p begin will be equal to
+     *                       @p end.
+     *  @param[in,out] end   An iterator pointing to just past the last index.
+     *                       This method does not change @p end.
      *
      *  @return A container with the indices of the caps needed to cap the
      *          fragment.
      *
      *  @throw std::bad_alloc if there is a problem allocating the return.
-     *                        Strong throw guarantee.
+     *                        Weak throw guarantee because @p begin will be in
+     *                        a valid, but otherwise undefined state.
      */
     template<typename BeginItr, typename EndItr>
     index_set_type get_cap_indices(BeginItr&& begin, EndItr&& end) const {
@@ -165,14 +187,79 @@ public:
     index_set_type get_cap_indices(
       const index_set_type& fragment_indices) const;
 
+    /** @brief Returns the nuclei needed to cap the input fragment.
+     *
+     *  @tparam BeginItr The type of the iterator that points to the index of
+     *                   the first nucleus.
+     *  @tparam EndItr   The type of the iterator that points to just past the
+     *                   index of the last nucleus.
+     *
+     *  This method uses the provided iterators to initialize a container of
+     *  type index_set_type. The resulting container is then forwarded to
+     *  get_cap_nuclei(const index_set_type&). See the documentation of
+     *  get_cap_nuclei(const index_set_type&) for more details.
+     *
+     *  @param[in,out] begin The iterator which points to the index of the
+     *                       first nucleus in the fragment. After this method
+     *                       is called @p begin will equal @p end.
+     *  @param[in,out] end The iterator which points to just past the index of
+     *                     the last nucleus in the fragment. This method will
+     *                     leave @p end unchanged.
+     *
+     *  @return A mutable view of a Nuclei object containing the nuclei needed
+     *          to cap the input fragment.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the return. Weak
+     *                        throw guarantee as @p begin will be in a valid,
+     *                        but otherwise undefined state.
+     */
     template<typename BeginItr, typename EndItr>
     nuclei_reference get_cap_nuclei(BeginItr&& begin, EndItr&& end) {
         return get_cap_nuclei(index_set_type(std::forward<BeginItr>(begin),
                                              std::forward<EndItr>(end)));
     }
 
+    /** @brief Returns the nuclei needed to cap @p fragment_indices.
+     *
+     *  Given a set of indices corresponding to the nuclei in the fragment,
+     *  @p fragment_indices, this method will find the caps needed for the
+     *  fragment, combine the nuclei into a Nuclei object, and return a view
+     *  of the Nuclei object.
+     *
+     *  @param[in] fragment_indices The indices of the nuclei in the fragment.
+     *
+     *  @return A mutable view of a Nuclei object containing the nuclei needed
+     *          to cap the input fragment.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the return.
+     *                        Strong throw guarantee.
+     */
     nuclei_reference get_cap_nuclei(const index_set_type& fragment_indices);
 
+    /** @brief Returns the nuclei needed to cap the input fragment.
+     *
+     *  @tparam BeginItr The type of the iterator that points to the index of
+     *                   the first nucleus.
+     *  @tparam EndItr   The type of the iterator that points to just past the
+     *                   index of the last nucleus.
+     *
+     *  This method is the same as the non-const version except that the
+     *  resulting view is read-only.
+     *
+     *  @param[in,out] begin The iterator which points to the index of the
+     *                       first nucleus in the fragment. After this method
+     *                       is called @p begin will equal @p end.
+     *  @param[in,out] end The iterator which points to just past the index of
+     *                     the last nucleus in the fragment. This method will
+     *                     leave @p end unchanged.
+     *
+     *  @return A read-only view of a Nuclei object containing the nuclei needed
+     *          to cap the input fragment.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the return. Weak
+     *                        throw guarantee as @p begin will be in a valid,
+     *                        but otherwise undefined state.
+     */
     template<typename BeginItr, typename EndItr>
     const_nuclei_reference get_cap_nuclei(BeginItr&& begin,
                                           EndItr&& end) const {
@@ -180,6 +267,19 @@ public:
                                              std::forward<EndItr>(end)));
     }
 
+    /** @brief Returns the nuclei needed to cap @p fragment_indices.
+     *
+     *  This method is the same as the non-const version except that the
+     *  resulting view is read-only.
+     *
+     *  @param[in] fragment_indices The indices of the nuclei in the fragment.
+     *
+     *  @return A read-only view of a Nuclei object containing the nuclei needed
+     *          to cap the input fragment.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the return.
+     *                        Strong throw guarantee.
+     */
     const_nuclei_reference get_cap_nuclei(
       const index_set_type& fragment_indices) const;
 
