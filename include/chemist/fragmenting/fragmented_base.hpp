@@ -120,6 +120,18 @@ public:
         return m_supersystem_.value();
     }
 
+    /** @brief Exchanges the state of *this with that of @p other.
+     *
+     *  @param[in,out] other The object whose state is being exchanged with.
+     *                       After this method is called @p other will contain
+     *                       the state which was previously in *this.
+     *
+     *  @throw None No throw guarantee.
+     */
+    void swap(FragmentedBase& other) noexcept {
+        m_supersystem_.swap(other.m_supersystem_);
+    }
+
     /** @brief Is *this a null object?
      *
      *  Null objects have no supersystem associated with them. This method is

@@ -112,6 +112,14 @@ TEMPLATE_LIST_TEST_CASE("FragmentedBase<T>", "", types2test) {
         }
     }
 
+    SECTION("swap") {
+        class_type defaulted_copy(defaulted);
+        class_type value_copy(value);
+        defaulted.swap(value);
+        REQUIRE(defaulted == value_copy);
+        REQUIRE(value == defaulted_copy);
+    }
+
     SECTION("supersystem") {
         REQUIRE_THROWS_AS(defaulted.supersystem(), std::bad_optional_access);
 

@@ -106,11 +106,116 @@ public:
      */
     FragmentedNuclei(supersystem_type supersystem, nucleus_map_type frags);
 
+    /** @brief Initializes *this from fragments and a set of caps.
+     *
+     *  @param[in] supersystem The object being fragmented.
+     *  @param[in] frags A container-of-containers object such that
+     *                   `frags[i][j]` is the offset (with respect to
+     *                   @p supersystem) of the `j`-th nucleus in the `i`-th
+     *                   fragment.
+     *  @param[in] caps The caps for fixing severed bonds.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the initial
+     *                        state. Strong throw guarantee.
+     */
     FragmentedNuclei(supersystem_type supersystem, nucleus_map_type frags,
                      cap_set_type caps);
 
+    /** @brief Initializes *this to a copy of @p other.
+     *
+     *  This ctor will deep copy the supersystem of @p other, as well as the
+     *  mapping of nuclei to fragments and the caps.
+     *
+     *  @param[in] other The object whose state is being copied.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the new state.
+     *                        Strong throw guarantee.
+     */
+    FragmentedNuclei(const FragmentedNuclei& other);
+
+    /** @brief Takes ownership of the state in @p other.
+     *
+     *  This ctor will transfer the state in @p other to the newly constructed
+     *  object.
+     *
+     *  @param[in,out] other The object whose state is being taken. After this
+     *                       call @p other will be in a valid, but otherwise
+     *                       unspecified state.
+     *
+     *  @throw None No throw guarantee.
+     */
+    FragmentedNuclei(FragmentedNuclei&& other) noexcept;
+
+    /** @brief Replaces the state in *this with a copy of that in @p rhs.
+     *
+     *  This method will release the state in *this and replace it with a
+     *  copy of the state in @p rhs.
+     *
+     *  @param[in] rhs The object whose state is being taken.
+     *
+     *  @return *this with its state set to a deep copy of the state in @p rhs.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the new state.
+     *                        Strong throw guarantee.
+     */
+    FragmentedNuclei& operator=(const FragmentedNuclei& rhs);
+
+    /** @brief Replaces the state in *this with that in @p rhs.
+     *
+     *  This method will replace the state which currently resides in *this with
+     *  the state which is in @p rhs.
+     *
+     *  @param[in,out] rhs The object to take the state from. After this method
+     *                     is called @p rhs will be in a valid, but otherwise
+     *                     undefined state.
+     *
+     *  @return *this after taking the state of @p rhs.
+     *
+     *  @throw None No throw guarantee.
+     */
+    FragmentedNuclei& operator=(FragmentedNuclei&& rhs) noexcept;
+
     /// Defaulted no throw dtor
     ~FragmentedNuclei() noexcept;
+
+    /** @brief Exchanges the contents of *this with @p other.
+     *
+     *  @param[in,out] other The object to swap state with. After this call
+     *                       @p other will contain the state which was
+     *                       previously in *this
+     *  @throw None No throw guarantee.
+     */
+    void swap(FragmentedNuclei& other) noexcept;
+
+    /** @brief Is *this value equal to @p rhs?
+     *
+     *  This method defines value equal as both being null or both being
+     *  non-null. If both are non-null then they must also satisfy:
+     *  - Supersystems compare value equal
+     *  - Same number of fragments
+     *  - Same caps
+     *  - (*this)[i] == rhs[i] for all i in range [0, size())
+     *
+     *  @param[in] rhs Teh object to compare against.
+     *
+     *  @return True if *this is value equal to @p rhs and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool operator==(const FragmentedNuclei& rhs) const noexcept;
+
+    /** @brief Is *this different than @p rhs?
+     *
+     *  This method defines "different" as not value equal. See operator==
+     *  for the definition of value equal.
+     *
+     *  @param[in] rhs The object to compare against.
+     *
+     *  @return False if *this is value equal to @p rhs and true otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool operator!=(const FragmentedNuclei& rhs) const noexcept;
 
 protected:
     friend utilities::IndexableContainerBase<my_type>;

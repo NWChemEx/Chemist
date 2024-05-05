@@ -68,6 +68,11 @@ public:
         return cap_set().get_cap_nuclei(frag_i.begin(), frag_i.end());
     }
 
+    bool operator==(const FragmentedNucleiPIMPL& rhs) const noexcept {
+        return std::tie(m_frags_, m_caps_) ==
+               std::tie(rhs.m_frags_, rhs.m_caps_);
+    }
+
 private:
     nucleus_map_type m_frags_;
 
@@ -99,7 +104,47 @@ FRAGMENTED_NUCLEI::FragmentedNuclei(supersystem_type supersystem,
   base_type(std::move(supersystem)) {}
 
 TPARAMS
+FRAGMENTED_NUCLEI::FragmentedNuclei(const FragmentedNuclei& other) :
+  m_pimpl_(!this->is_null() ? std::make_unique<pimpl_type>(*other.m_pimpl_) :
+                              nullptr),
+  base_type(other) {}
+
+TPARAMS
+FRAGMENTED_NUCLEI::FragmentedNuclei(FragmentedNuclei&& other) noexcept =
+  default;
+
+TPARAMS
+FRAGMENTED_NUCLEI& FRAGMENTED_NUCLEI::operator=(const FragmentedNuclei& rhs) {
+    if(this != &rhs) FragmentedNuclei(rhs).swap(*this);
+    return *this;
+}
+
+TPARAMS
+FRAGMENTED_NUCLEI& FRAGMENTED_NUCLEI::operator=(
+  FragmentedNuclei&& rhs) noexcept = default;
+
+TPARAMS
 FRAGMENTED_NUCLEI::~FragmentedNuclei() noexcept = default;
+
+TPARAMS
+void FRAGMENTED_NUCLEI::swap(FragmentedNuclei& other) noexcept {
+    base_type::swap(other);
+    m_pimpl_.swap(other.m_pimpl_);
+}
+
+TPARAMS
+bool FRAGMENTED_NUCLEI::operator==(
+  const FragmentedNuclei& other) const noexcept {
+    if(this->is_null() != other.is_null()) return false;
+    if(this->is_null()) return true;
+    if(!base_type::operator==(other)) return false;
+    return (*m_pimpl_) == (*other.m_pimpl_);
+}
+
+TPARAMS
+bool FRAGMENTED_NUCLEI::operator!=(const FragmentedNuclei& rhs) const noexcept {
+    return !(*this == rhs);
+}
 
 // -- protected and private members
 
