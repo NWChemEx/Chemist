@@ -61,6 +61,10 @@ private:
     using enable_mutable_to_const =
       std::enable_if_t<am_i_const_v && std::is_same_v<const T, NucleiType>>;
 
+    template<typename Itr1, typename Itr2>
+    using enable_if_iterators_t = std::void_t<decltype(std::vector(
+      std::declval<Itr1>(), std::declval<Itr2>()))>;
+
 public:
     /// Type of the PIMPL
     using pimpl_type = detail_::NucleiViewPIMPL<NucleiType>;

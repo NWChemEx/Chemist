@@ -25,6 +25,19 @@ template<typename NucleiType>
 class FragmentedNucleiPIMPL;
 }
 
+/** @brief Represents a set of fragments derived from a Nuclei object.
+ *
+ *  @tparam NucleiType The cv-qualified type that is being fragmented. Expected
+ *                     to be either `Nuclei` or `const Nuclei`.
+ *
+ *  See https://tinyurl.com/mtba7n3w for design notes.
+ *
+ *  When we want to divide a ChemicalSystem into subsets we usually start by
+ *  dividing the nuclei into subsets. The FragmentedNuclei class describes how
+ *  the `Nuclei` part of the `ChemicalSystem` has been divided. It includes not
+ *  only the subsets of the nuclei, but also any nuclei needed to account for
+ *  broken bonds (i.e., caps).
+ */
 template<typename NucleiType>
 class FragmentedNuclei : public FragmentedBase<FragmentedNuclei<NucleiType>> {
 private:
@@ -58,6 +71,16 @@ public:
 
     /// Type of the object holding the caps for the fragments
     using cap_set_type = typename traits_type::cap_set_type;
+
+    /// Type of a mutable reference to an object of type cap_set_type
+    using cap_set_reference = typename traits_type::cap_set_reference;
+
+    /// Type of a read-only reference to an object of type cap_set_type
+    using const_cap_set_reference =
+      typename traits_type::const_cap_set_reference;
+
+    /// Type of a cap
+    using cap_type = typename cap_set_type::value_type;
 
     /// Type supersystem uses for indexing and offsets
     using size_type = typename supersystem_type::size_type;
@@ -178,6 +201,133 @@ public:
     /// Defaulted no throw dtor
     ~FragmentedNuclei() noexcept;
 
+    /** @brief Creates a fragment with the provided members.
+     *
+     *  @tparam BeginItr Type of the iterator pointing to the first member of
+     *                   the fragment.
+     *  @tparam EndItr Type of the iterator pointing to just past the last
+     *                 member of the fragment.
+     *
+     *  This method will add a SINGLE fragment whose members are given by
+     *  [begin, end). Of note this method can NOT be used to add multiple
+     *  fragments. The iterators may point to either the indices of the nuclei
+     *  to add or the actual Nucleus objects.
+     *
+     *  @param[in] begin The iterator pointing to the first member of the
+     *                       fragment.
+     *  @param[in] end The iterator pointint to just past the last member
+     *                     of the fragment.
+     *
+     *  @throw std::runtime_error if *this does not have a supersystem of if any
+     *                            of the members in the range are not members of
+     *                            the supersystem. Strong throw guarantee.
+     *  @throw std::bad_alloc if there is a problem allocating the new fragment.
+     *                        Strong throw guarantee.
+     */
+    template<typename BeginItr, typename EndItr>
+    void insert(BeginItr begin, EndItr end);
+
+    /** @brief Creates a fragment with the specified elements.
+     *
+     *  @tparam ElementType Type of the members of @p il. Expected to be either
+     *                      an integral type or convertible to `NucleusView`.
+     *
+     *  This method allows the user to manually specify the elements in a
+     *  fragment.
+     *
+     *  @param[in] il An initializer list containing the elements for the
+     *                fragment.
+     *
+     *  @throw std::runtime_error if *this does not have a supersystem or if
+     *                            any member of @p il can not be mapped to a
+     *                            nucleus in *this. Strong throw guarantee.
+     *  @throw std::bad_alloc if there is a problem allocating the new fragment.
+     *                        Strong throw guarantee.
+     */
+    template<typename ElementType>
+    void insert(std::initializer_list<ElementType> il) {
+        insert(il.begin(), il.end());
+    }
+
+    /** @brief Adds a fragment with the provided nuclei.
+     *
+     *  This method will create a new fragment which contains the elements in
+     *  @p nuclei. To map the elements in @p nuclei to the supersystem in *this,
+     *  this method relies on value equality. N.b., that such comparisons
+     *  involve floating point comparisons and thus users are strongly suggested
+     *  to use the elements of `supersystem()` directly.
+     *
+     *  @param[in] nuclei The objects to associate with the fragment.
+     *
+     *  @throw std::runtime_error if *this does not have a supersystem or if
+     *                            any member of @p nuclei can not be mapped to a
+     *                            nucleus in *this. Strong throw guarantee.
+     *  @throw std::bad_alloc if there is a problem allocating the new fragment.
+     *                        Strong throw guarantee.
+     */
+    void insert(const_reference nuclei);
+
+    /** @brief Adds a fragment whose members are given by supersystem offset.
+     *
+     *  Assuming the supersystem contains `N` nuclei, users can specify a
+     *  particular nucleus by giving an offset in the range [0, N). This method
+     *  is used to specify a fragment by giving nuclear offsets.
+     *
+     *  @param[in] nuclei The offsets of the fragment's members.
+     *
+     *  @throw std::runtime_error if *this does not have a supersystem or if
+     *                            any index in @p nuclei can not be mapped to a
+     *                            nucleus in *this. Strong throw guarantee.
+     *  @throw std::bad_alloc if there is a problem allocating the new fragment.
+     *                        Strong throw guarantee.
+     */
+    void insert(nucleus_index_set nuclei);
+
+    /** @brief Provides access to the caps in *this.
+     *
+     *  When fragmenting large, covalently bonded systems we often must sever
+     *  bonds. To rectify the resulting electronic structure of the fragments,
+     *  one typically adds caps. This method is used to retrieve the internal
+     *  `CapSet` object managing the caps for *this.
+     *
+     *  @return A mutable reference to the internal `CapSet` object.
+     *
+     *  @throw std::runtime_error if *this does not have a supersystem. Strong
+     *                        throw guarantee.
+     *  @throw std::bad_alloc if *this has a supersystem, but no PIMPL, and
+     *                        allocating the PIMPL fails. Strong throw
+     *                        guarantee.
+     */
+    cap_set_reference cap_set();
+
+    /** @brief The caps *this is currently managing.
+     *
+     *  Same as the non-const version, except that:
+     *  1. if *this does not have a PIMPL, one will not be created
+     *  2. the resulting object is read-only.
+     *
+     *  @return a read-only reference to the `CapSet` object *this is using to
+     *          hold the caps.
+     *
+     *  @throw std::runtime_error if *this does not have a supersystem or a
+     *                            PIMPL. Strong throw guarantee.
+     */
+    const_cap_set_reference cap_set() const;
+
+    /** @brief Adds a cap to *this.
+     *
+     *  This method is a convenience method for calling `cap_set` and inserting
+     *  a cap into the resulting CapSet object.
+     *
+     *  @param[in] cap The cap to add to *this.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating memory. Strong
+     *                        throw guarantee.
+     *  @throw std::runtime_error if *this does not have a supersystem. Strong
+     *                        throw guarantee.
+     */
+    void add_cap(cap_type cap) { cap_set().push_back(std::move(cap)); }
+
     /** @brief Exchanges the contents of *this with @p other.
      *
      *  @param[in,out] other The object to swap state with. After this call
@@ -233,9 +383,37 @@ private:
     /// Factors out the code for checking if *this has a PIMPL
     bool has_pimpl_() const noexcept;
 
+    /// Factors out the code for asserting that *this has a PIMPL
+    void assert_pimpl_() const;
+
     /// The object actually implementing *this
     pimpl_pointer m_pimpl_;
 };
+
+// -- Out of class inline implementations --------------------------------------
+
+template<typename NucleiType>
+template<typename BeginItr, typename EndItr>
+void FragmentedNuclei<NucleiType>::insert(BeginItr begin, EndItr end) {
+    // If we put the arguments directly into a vector this is what would result
+    using vec_t = decltype(std::vector(begin, end));
+
+    // These would be the elements
+    using input_type = typename vec_t::value_type;
+
+    // Were we given indices or nuclei?
+    if constexpr(std::is_integral_v<input_type>) {
+        nucleus_index_set inputs(begin, end);
+        insert(std::move(inputs));
+    } else {
+        // Assumed to be Nucleus or NucleusView objects
+        using input_t = typename const_reference::reference_container;
+        input_t inputs(begin, end);
+        insert(const_reference(inputs));
+    }
+}
+
+// -- Forward declare explicit template instantiations -------------------------
 
 extern template class FragmentedNuclei<Nuclei>;
 extern template class FragmentedNuclei<const Nuclei>;

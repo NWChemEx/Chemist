@@ -38,6 +38,9 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
     // Non-cv qualified type of each Nucleus
     using nucleus_type = typename supersystem_type::value_type;
 
+    // Type of a reference to a nucleus
+    using nucleus_reference = typename supersystem_type::reference;
+
     // Type used to map fragment index to a set of nuclei indices
     using fragment_map_type = typename set_type::nucleus_map_type;
 
@@ -226,6 +229,87 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
             REQUIRE(pnondisjoint_caps_move == &nondisjoint_caps_move);
             REQUIRE(nondisjoint_caps_copy == nondisjoint_caps_move);
         }
+    }
+
+    SECTION("insert(range)") {
+        // N.b. this just dispatches to const_reference/nucleus_index_set
+        // overloads so just spot check here
+
+        // Insert by index
+        no_frags.insert(i0.begin(), i0.end());
+        REQUIRE(no_frags.size() == 1);
+        REQUIRE(no_frags[0] == corr0);
+
+        // Insert by value
+        std::vector v{ss[1]};
+        no_frags.insert(v.begin(), v.end());
+        REQUIRE(no_frags.size() == 2);
+        REQUIRE(no_frags[0] == corr0);
+        REQUIRE(no_frags[1] == corr1);
+    }
+
+    SECTION("insert(initializer_list)") {
+        // N.b. just dispatches to range overload, so spot check only
+
+        // By index
+        no_frags.insert({0});
+        REQUIRE(no_frags.size() == 1);
+        REQUIRE(no_frags[0] == corr0);
+
+        // By value
+        no_frags.insert({ss[1]});
+        REQUIRE(no_frags.size() == 2);
+        REQUIRE(no_frags[0] == corr0);
+        REQUIRE(no_frags[1] == corr1);
+    }
+
+    SECTION("insert(by value)") {
+        using reference_container =
+          typename fragment_reference::reference_container;
+        fragment_reference frag(reference_container{ss[1]});
+        // No supersystem
+        REQUIRE_THROWS_AS(null_set.insert(frag), std::runtime_error);
+
+        // Atom not part of supersystem
+        nucleus_type u("U", 92ul, 238.0, 0.0, 0.0, 0.0);
+        fragment_reference frag2(reference_container{u});
+        REQUIRE_THROWS_AS(no_frags.insert(frag2), std::runtime_error);
+
+        no_frags.insert(frag);
+        REQUIRE(no_frags.size() == 1);
+        REQUIRE(no_frags[0] == corr1);
+    }
+
+    SECTION("insert(by index)") {
+        // No supersystem
+        REQUIRE_THROWS_AS(null_set.insert(i0), std::runtime_error);
+
+        index_set_type i9{9};
+        REQUIRE_THROWS_AS(no_frags.insert(i9), std::runtime_error);
+
+        no_frags.insert(i0);
+        REQUIRE(no_frags.size() == 1);
+        REQUIRE(no_frags[0] == corr0);
+    }
+
+    SECTION("cap_set()") {
+        REQUIRE_THROWS_AS(null_set.cap_set(), std::runtime_error);
+        REQUIRE(no_frags.cap_set() == cap_set_type{});
+        REQUIRE(nondisjoint_caps.cap_set() == caps);
+    }
+
+    SECTION("cap_set() const") {
+        REQUIRE_THROWS_AS(std::as_const(null_set).cap_set(),
+                          std::runtime_error);
+        REQUIRE(std::as_const(no_frags).cap_set() == cap_set_type{});
+        REQUIRE(std::as_const(nondisjoint_caps).cap_set() == caps);
+    }
+
+    SECTION("add_cap") {
+        REQUIRE_THROWS_AS(null_set.add_cap(c01), std::runtime_error);
+        no_frags.add_cap(c01);
+        no_frags.add_cap(c10);
+        REQUIRE(no_frags.cap_set() == caps);
     }
 
     SECTION("swap") {

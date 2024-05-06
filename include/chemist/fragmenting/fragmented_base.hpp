@@ -182,6 +182,13 @@ public:
         return !((*this) == rhs);
     }
 
+protected:
+    /// Code factorization for asserting *this has a supersystem
+    void assert_supersystem_() const {
+        if(!is_null()) return;
+        throw std::runtime_error("Does not have a supersystem!");
+    }
+
 private:
     /// The supersystem being fragmented
     std::optional<supersystem_type> m_supersystem_;

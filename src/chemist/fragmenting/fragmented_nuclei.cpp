@@ -32,6 +32,9 @@ public:
     /// Type of a read-only reference to a fragment
     using const_reference = typename parent_type::const_reference;
 
+    /// Storage format for a fragment
+    using nucleus_index_set = typename parent_type::nucleus_index_set;
+
     /// How we store the fragments
     using nucleus_map_type = typename parent_type::nucleus_map_type;
 
@@ -41,12 +44,18 @@ public:
     /// Type used for indexing and offsets
     using size_type = typename parent_type::size_type;
 
+    FragmentedNucleiPIMPL() = default;
+
     FragmentedNucleiPIMPL(nucleus_map_type frags, cap_set_type caps) :
       m_frags_(std::move(frags)), m_caps_(std::move(caps)) {}
 
     auto& frag(size_type i) { return m_frags_[i]; }
 
     const auto& frag(size_type i) const { return m_frags_[i]; }
+
+    void add_fragment(nucleus_index_set frag) {
+        m_frags_.emplace_back(std::move(frag));
+    }
 
     auto& cap_set() { return m_caps_; }
     const auto& cap_set() const { return m_caps_; }
@@ -84,7 +93,7 @@ private:
 #define TPARAMS template<typename NucleiType>
 #define FRAGMENTED_NUCLEI FragmentedNuclei<NucleiType>
 
-// -- CTors, assignment, and dtor
+// -- CTors, assignment, and dtor ----------------------------------------------
 TPARAMS
 FRAGMENTED_NUCLEI::FragmentedNuclei() noexcept = default;
 
@@ -126,6 +135,55 @@ FRAGMENTED_NUCLEI& FRAGMENTED_NUCLEI::operator=(
 TPARAMS
 FRAGMENTED_NUCLEI::~FragmentedNuclei() noexcept = default;
 
+// -- Getters and setters ------------------------------------------------------
+
+TPARAMS
+void FRAGMENTED_NUCLEI::insert(const_reference nuclei) {
+    this->assert_supersystem_();
+    nucleus_index_set nuclei2;
+    nuclei2.reserve(nuclei.size());
+    const auto& ss = this->supersystem();
+    for(const auto& ni : nuclei) {
+        for(size_type i = 0; i < ss.size(); ++i) {
+            if(ss[i] == ni) {
+                nuclei2.push_back(i);
+                break;
+            }
+            if(i + 1 == ss.size())
+                throw std::runtime_error("Nucleus not in supersystem");
+        }
+    }
+    insert(std::move(nuclei2));
+}
+
+TPARAMS
+void FRAGMENTED_NUCLEI::insert(nucleus_index_set nuclei) {
+    this->assert_supersystem_();
+    for(const auto& n : nuclei)
+        if(n >= this->supersystem().size())
+            throw std::runtime_error(
+              "Index not in range [0, supersystem().size())");
+    if(!has_pimpl_()) std::make_unique<pimpl_type>().swap(m_pimpl_);
+    m_pimpl_->add_fragment(std::move(nuclei));
+}
+
+TPARAMS
+typename FRAGMENTED_NUCLEI::cap_set_reference FRAGMENTED_NUCLEI::cap_set() {
+    this->assert_supersystem_();
+    if(!has_pimpl_()) std::make_unique<pimpl_type>().swap(m_pimpl_);
+    return m_pimpl_->cap_set();
+}
+
+TPARAMS
+typename FRAGMENTED_NUCLEI::const_cap_set_reference FRAGMENTED_NUCLEI::cap_set()
+  const {
+    this->assert_supersystem_();
+    assert_pimpl_();
+    return std::as_const(*m_pimpl_).cap_set();
+}
+
+// -- Utility ------------------------------------------------------------------
+
 TPARAMS
 void FRAGMENTED_NUCLEI::swap(FragmentedNuclei& other) noexcept {
     base_type::swap(other);
@@ -146,7 +204,7 @@ bool FRAGMENTED_NUCLEI::operator!=(const FragmentedNuclei& rhs) const noexcept {
     return !(*this == rhs);
 }
 
-// -- protected and private members
+// -- protected and private members -------------------------------------------
 
 TPARAMS
 typename FRAGMENTED_NUCLEI::reference FRAGMENTED_NUCLEI::at_(size_type i) {
@@ -176,8 +234,17 @@ bool FRAGMENTED_NUCLEI::has_pimpl_() const noexcept {
     return static_cast<bool>(m_pimpl_);
 }
 
+TPARAMS
+void FRAGMENTED_NUCLEI::assert_pimpl_() const {
+    if(has_pimpl_()) return;
+    throw std::runtime_error(
+      "FragmentedNuclei was not initialized with a superset");
+}
+
 #undef FRAGMENTED_NUCLEI
 #undef TPARAMS
+
+// -- Explicit template instantiations -----------------------------------------
 
 template class FragmentedNuclei<Nuclei>;
 template class FragmentedNuclei<const Nuclei>;

@@ -38,7 +38,9 @@ struct ChemistClassTraits<fragmenting::FragmentedNuclei<Nuclei>> {
     using fragment_reference = typename supersystem_traits::view_type;
     using const_fragment_reference =
       typename supersystem_traits::const_view_type;
-    using cap_set_type = fragmenting::CapSet;
+    using cap_set_type            = fragmenting::CapSet;
+    using cap_set_reference       = cap_set_type&;
+    using const_cap_set_reference = const cap_set_type&;
 };
 
 template<>
@@ -52,7 +54,9 @@ struct ChemistClassTraits<fragmenting::FragmentedNuclei<const Nuclei>> {
     using fragment_reference = typename supersystem_traits::view_type;
     using const_fragment_reference =
       typename supersystem_traits::const_view_type;
-    using cap_set_type = fragmenting::CapSet;
+    using cap_set_type            = fragmenting::CapSet;
+    using cap_set_reference       = cap_set_type&;
+    using const_cap_set_reference = const cap_set_type&;
 };
 
 } // namespace chemist
