@@ -175,7 +175,14 @@ bool operator==(const Molecule& lhs, const Molecule& rhs) noexcept {
     if(lhs.charge() != rhs.charge()) return false;
     if(lhs.multiplicity() != rhs.multiplicity()) return false;
 
-    return std::equal(lhs.begin(), lhs.end(), rhs.begin());
+    // LLVM Clang doesn't like this at the moment.
+    // TODO: figure out why Clang doesn't work with this.
+    // return std::equal(lhs.begin(), lhs.end(), rhs.begin());
+    
+    for(auto i = 0; i < lhs.size(); ++i) {
+        if(lhs[i] != rhs[i]) return false;
+    }
+    return true;
 }
 
 } // namespace chemist
