@@ -60,14 +60,13 @@ void test_nuclei_view() {
             REQUIRE(value[1] == n1);
         }
 
-        if constexpr(!std::is_same_v<NucleiType,
-                                     std::remove_cv_t<NucleiType>>) {
-            SECTION("mutable to const") {
-                using no_cv = std::remove_cv_t<NucleiType>;
-                no_cv no_cv_value_set(value_set);
-                NucleiView<no_cv> other(no_cv_value_set);
-                view_type other_const(other);
-                REQUIRE(other_const == value);
+        SECTION("mutable to read-only") {
+            using no_cv_t = std::remove_cv_t<NucleiType>;
+            if constexpr(std::is_same_v<NucleiType, const no_cv_t>) {
+                Nuclei value_set2{n0, n1};
+                NucleiView<Nuclei> is_mutable(value_set2);
+                view_type is_const_now(is_mutable);
+                REQUIRE(is_const_now == value);
             }
         }
 

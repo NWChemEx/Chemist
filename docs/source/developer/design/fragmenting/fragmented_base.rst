@@ -53,6 +53,13 @@ immutable superset
 
    - If the superset changes it will invalidate the elements of the
      entire class hierarchy, which is difficult to recover from.
+   - 5/6/2024 addendum. This consideration has been relaxed. Since the
+     ``FragmentedBase<T>`` object will own the supersystem it is fragmenting it
+     is conceivable that the user may want to update that supersystem directly
+     rather than needing to copy it out, modify it, and then create a new
+     ``FragmentedBase<T>`` (actually a ``T``) object with the new supersystem.
+     This still has the potential to invalidate the class hierarchy, but if the
+     user knows what they're doing it can still be okay...
 
 .. _fc_null_and_empty_states:
 

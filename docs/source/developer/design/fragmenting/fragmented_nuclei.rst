@@ -113,13 +113,13 @@ APIs:
 .. code-block:: C++
 
    // Create a fragment which contains nuclei with offsets 0, 1, and 2
-   empty.insert({0, 1, 2});
+   empty.emplace_back({0, 1, 2});
 
    // Can also be added as a range, and the user can use the actual nucleus
    // objects (n.b., mapping to indices will involve floating point values so it
    // is best to use the ``some_nuclei`` directly)
    auto itr = some_nuclei.begin()
-   empty.insert(itr, itr + 3);
+   empty.emplace_back(itr, itr + 3);
 
    // Adds a Cap
    some_nuclei.add_cap(Cap(0, 1, Nucleus{...}));
