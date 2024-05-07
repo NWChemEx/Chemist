@@ -1,4 +1,9 @@
 var searchData=
 [
-  ['viewtraits_410',['ViewTraits',['../structchemist_1_1detail___1_1ViewTraits.html',1,'chemist::detail_']]]
+  ['shell_433',['Shell',['../classchemist_1_1basis__set_1_1Shell.html',1,'chemist::basis_set']]],
+  ['shellpimpl_434',['ShellPIMPL',['../classchemist_1_1basis__set_1_1detail___1_1ShellPIMPL.html',1,'chemist::basis_set::detail_']]],
+  ['shelltraits_435',['ShellTraits',['../structchemist_1_1basis__set_1_1ShellTraits.html',1,'chemist::basis_set']]],
+  ['shelltraits_3c_20atomicbstype_3a_3areference_20_3e_436',['ShellTraits&lt; AtomicBSType::reference &gt;',['../structchemist_1_1basis__set_1_1ShellTraits.html',1,'chemist::basis_set']]],
+  ['shellview_437',['ShellView',['../classchemist_1_1basis__set_1_1ShellView.html',1,'chemist::basis_set']]],
+  ['shellviewpimpl_438',['ShellViewPIMPL',['../classchemist_1_1basis__set_1_1detail___1_1ShellViewPIMPL.html',1,'chemist::basis_set::detail_']]]
 ];

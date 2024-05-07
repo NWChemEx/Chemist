@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['y_307',['y',['../classchemist_1_1Point.html#a17cd94f5c2a8f6ac9b98cb9d8a9b1b05',1,'chemist::Point::y() noexcept'],['../classchemist_1_1Point.html#a68def16c5b4b5ec5b7c4001daa81eefd',1,'chemist::Point::y() const noexcept']]],
-  ['y_5fdata_308',['y_data',['../classchemist_1_1PointSet.html#a6b4f21b859a3a86bda892a67753922da',1,'chemist::PointSet::y_data() noexcept'],['../classchemist_1_1PointSet.html#acd9ec997db71950a06997a5c60a1644c',1,'chemist::PointSet::y_data() const noexcept']]]
+  ['x_327',['x',['../classchemist_1_1Point.html#a04335db0a2cf4e3a24f908d83007cd2f',1,'chemist::Point::x() noexcept'],['../classchemist_1_1Point.html#ac2f13868de3593e94d219e2a7a32166d',1,'chemist::Point::x() const noexcept'],['../classchemist_1_1PointView.html#ae886171d2d5ec97eaec8e7ad8c473b02',1,'chemist::PointView::x()']]],
+  ['x_5fdata_328',['x_data',['../classchemist_1_1PointSet.html#a1b924ee2630e41fd55700000c316154e',1,'chemist::PointSet::x_data() noexcept'],['../classchemist_1_1PointSet.html#a7096311a2a3c157797f8972be8fe6db0',1,'chemist::PointSet::x_data() const noexcept']]]
 ];
