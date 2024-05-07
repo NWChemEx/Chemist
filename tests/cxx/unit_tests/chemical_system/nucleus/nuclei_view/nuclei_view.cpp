@@ -60,6 +60,17 @@ void test_nuclei_view() {
             REQUIRE(value[1] == n1);
         }
 
+        if constexpr(!std::is_same_v<NucleiType,
+                                     std::remove_cv_t<NucleiType>>) {
+            SECTION("mutable to const") {
+                using no_cv = std::remove_cv_t<NucleiType>;
+                no_cv no_cv_value_set(value_set);
+                NucleiView<no_cv> other(no_cv_value_set);
+                view_type other_const(other);
+                REQUIRE(other_const == value);
+            }
+        }
+
         SECTION("Pointers") {
             view_type empty_pointers(defaulted_set.charges(), nullptr, nullptr,
                                      nullptr);

@@ -15,7 +15,9 @@
  */
 
 #pragma once
+#include <chemist/chemical_system/molecule/molecule_class.hpp>
 #include <chemist/traits/molecule_traits.hpp>
+#include <memory>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
@@ -51,6 +53,9 @@ public:
     /// Type of the struct defining types for the Nuclei piece of *this
     using nuclei_traits = typename traits_type::nuclei_traits;
 
+    /// Non-cv-qualified type of the Molecule object *this aliases
+    using molecule_type = typename traits_type::value_type;
+
     /// Type of a reference to a Molecule object
     using molecule_reference = typename traits_type::reference;
 
@@ -60,63 +65,59 @@ public:
     /// Type of a read-only reference to a Nuclei object
     using const_nuclei_reference = typename nuclei_traits::const_view_type;
 
-    /// Type used to count the number of electrons
-    using nelectron_type = typename atom_traits::nelectron_type;
-
-    /// Type of a pointer to the number of electrons
-    using nelectron_pointer = typename atom_traits::nelectron_pointer;
-
     /// Type used to hold the multiplicity
-    using multiplicity_type = typename atom_traits::multiplciity_pointer;
+    using multiplicity_type = typename atom_traits::multiplicity_type;
 
     /// Type of a pointer to the multiplicity of a Molecule
     using multiplicity_pointer = typename atom_traits::multiplicity_pointer;
 
     /// Type of the molecule's charge
-    using charge_type =
-      typename atom_traits::nucleus_traits::point_charge_traits::charge_type;
+    using charge_type = typename traits_type::charge_type;
 
-    // -- Ctors, assignment, and dtor -----------------------------------------
+    /// Type of a pointer to the molecule's charge
+    using charge_pointer = typename traits_type::charge_pointer;
 
-    MoleculeView() noexcept;
+    //     // -- Ctors, assignment, and dtor
+    //     --------------------------------------
 
-    MoleculeView(molecule_reference mol);
+    //     MoleculeView() noexcept;
 
-    MoleculeView(nuclei_reference nuclei, nelectron_pointer nelectrons,
-                 multiplicity_pointer multiplicity);
+    //     MoleculeView(molecule_reference mol);
 
-    MoleculeView(const MoleculeView& other);
+    //     MoleculeView(nuclei_reference nuclei, nelectron_pointer nelectrons,
+    //                  multiplicity_pointer multiplicity);
 
-    MoleculeView(MoleculeView&& other) noexcept;
+    //     MoleculeView(const MoleculeView& other);
 
-    MoleculeView& operator=(const MoleculeView& rhs);
+    //     MoleculeView(MoleculeView&& other) noexcept;
 
-    MoleculeView& operator=(MoleculeView&& rhs) noexcept;
+    //     MoleculeView& operator=(const MoleculeView& rhs);
 
-    ~MoleculeView() noexcept;
+    //     MoleculeView& operator=(MoleculeView&& rhs) noexcept;
 
-    // -- Getters and setters --------------------------------------------------
+    //     ~MoleculeView() noexcept;
 
-    nuclei_reference nuclei();
+    //     // -- Getters and setters -----------------------------------
+    //     nuclei_reference nuclei();
 
-    const_nuclei_reference nuclei() const;
+    //     const_nuclei_reference nuclei() const;
 
-    nelectrons_type n_electrons() const noexcept;
+    //     nelectrons_type n_electrons() const noexcept;
 
-    charge_type charge() const noexcept;
+    //     charge_type charge() const noexcept;
 
-    void set_charge(charge_type charge);
+    //     void set_charge(charge_type charge);
 
-    multiplicity_type multiplicity() const noexcept;
+    //     multiplicity_type multiplicity() const noexcept;
 
-    void set_multiplicity(multiplicity_type multiplicity);
+    //     void set_multiplicity(multiplicity_type multiplicity);
 
-private:
-    /// Type of the object implementing *this
-    pimpl_pointer m_pimpl_;
+    // private:
+    //     /// Type of the object implementing *this
+    //     pimpl_pointer m_pimpl_;
 };
 
-extern template class MoleculeView<Molecule>;
-extern template class MoleculeView<const Molecule>;
+// extern template class MoleculeView<Molecule>;
+// extern template class MoleculeView<const Molecule>;
 
 } // namespace chemist

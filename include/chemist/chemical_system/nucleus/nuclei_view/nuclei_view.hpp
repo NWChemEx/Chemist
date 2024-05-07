@@ -45,6 +45,14 @@ private:
     /// Type of the base
     using base_type = utilities::IndexableContainerBase<my_type>;
 
+    template<typename T>
+    static constexpr bool is_const_v = !std::is_same_v<std::remove_cv_t<T>, T>;
+
+    /// Disables a function unless *this aliases a const Nuclei and T doesn't
+    template<typename T>
+    using enable_if_i_const_other_not =
+      std::enable_if_t<is_const_v<NucleiType> && !is_const_v<T>>;
+
 public:
     /// Type of the PIMPL
     using pimpl_type = detail_::NucleiViewPIMPL<NucleiType>;
@@ -127,6 +135,31 @@ public:
      *                        state of *this. Strong throw guarantee.
      */
     NucleiView(nuclei_reference nuclei);
+
+    /** @brief Enables conversions from aliasing mutable Nuclei to aliasing
+     *         read-only nuclei.
+     *
+     *  @tparam NucleiType2 The type aliased by @p other. In order for this
+     *                      ctor to participate in overload resolution
+     *                      @p NucleiType2 must be non-cv-qualified.
+     *  @tparam <anonymous> Used to disable this ctor via SFINAE in the event
+     *                      that *this aliases a mutable object and/or if
+     *                      @p other aliases a read-only object.
+     *
+     *  @note This is NOT a copy constructor, but a conversion.
+     *
+     *  This ctor is used to implicitly convert a view of a mutable Nuclei
+     *  object to a view of a read-only Nuclei object.
+     *
+     *  @param[in] other The view we want to convert
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the state for the
+     *                        new view. Strong throw guarantee.
+     */
+    template<typename NucleiType2,
+             typename = enable_if_i_const_other_not<NucleiType2>>
+    NucleiView(const NucleiView<NucleiType2>& other) :
+      NucleiView(reference_container(other.begin(), other.end())) {}
 
     /** @brief Creates a NucleiView from contiguous data.
      *

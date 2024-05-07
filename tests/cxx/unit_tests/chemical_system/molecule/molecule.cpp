@@ -178,6 +178,16 @@ TEST_CASE("Molecule Class") {
         REQUIRE(hd.multiplicity() == 2);
     }
 
+    SECTION("charge_data()") {
+        REQUIRE(defaulted.charge_data() == nullptr);
+        REQUIRE(*mol.charge_data() == 0);
+    }
+
+    SECTION("charge_data() const") {
+        REQUIRE(defaulted.charge_data() == nullptr);
+        REQUIRE(*mol.charge_data() == 0);
+    }
+
     SECTION("multiplicity") {
         REQUIRE(mol.multiplicity() == 2);
         REQUIRE(hd.multiplicity() == 1);
@@ -187,6 +197,25 @@ TEST_CASE("Molecule Class") {
     SECTION("set_multiplicity") {
         hd.set_multiplicity(3);
         REQUIRE(hd.multiplicity() == 3);
+    }
+
+    SECTION("multiplicity_data()") {
+        REQUIRE(defaulted.multiplicity_data() == nullptr);
+        REQUIRE(*mol.multiplicity_data() == 2);
+    }
+
+    SECTION("charge_data() const") {
+        REQUIRE(defaulted.charge_data() == nullptr);
+        REQUIRE(*mol.charge_data() == 0);
+    }
+
+    SECTION("swap") {
+        Molecule defaulted_copy(defaulted);
+        Molecule mol_copy(mol);
+        defaulted.swap(mol);
+
+        REQUIRE(defaulted == mol_copy);
+        REQUIRE(mol == defaulted_copy);
     }
 
     SECTION("Printing") {
