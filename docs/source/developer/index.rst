@@ -26,5 +26,6 @@ is assumed that the reader is already familiar with :ref:`chemist_background`.
 
    design/index
    developing_the_chemical_system_component
+   writing_views
    the_traits_component
    NWChemEx author documentation <https://nwchemex.github.io/.github/>

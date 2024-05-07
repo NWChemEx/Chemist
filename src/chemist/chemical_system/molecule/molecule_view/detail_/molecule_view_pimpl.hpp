@@ -54,8 +54,8 @@ public:
 
     /// Direct access to state (no checks for nullptr; left to parent_type)
     /// @{
-    nuclei_reference nuclei() { return m_nuclei_; }
-    const_nuclei_reference nuclei() const { return m_nuclei_; }
+    auto& nuclei() { return m_nuclei_; }
+    const auto& nuclei() const { return m_nuclei_; }
     auto& charge() { return *m_pnet_electrons_; }
     const auto& charge() const { return *m_pnet_electrons_; }
     auto& multiplicity() { return *m_pmultiplicity_; }

@@ -27,6 +27,13 @@ class MoleculeViewPIMPL;
 
 }
 
+/** @brief Allows existing molecular state to be used as if it were a Molecule
+ *         object.
+ *
+ *  @tparam MoleculeType The type of molecule that *this will alias.
+ *                       @p MoleculeType is expected to be either Molecule or
+ *                       const Molecule.
+ */
 template<typename MoleculeType>
 class MoleculeView
   : public utilities::IndexableContainerBase<MoleculeView<MoleculeType>> {
@@ -36,6 +43,16 @@ private:
 
     /// Type of the base class
     using base_type = utilities::IndexableContainerBase<my_type>;
+
+    /// Type trait to work out if @p T is cv-qualified
+    template<typename T>
+    static constexpr bool is_cv_v = !std::is_same_v<T, std::remove_cv_t<T>>;
+
+    /// Enables a function if *this is aliasing const Molecule and @p T is
+    /// mutable
+    template<typename T>
+    using enable_read_only_conversion_t =
+      std::enable_if_t<is_cv_v<MoleculeType> && !is_cv_v<T>>;
 
 public:
     /// Type of the object implementing *this
@@ -65,11 +82,18 @@ public:
     /// Type of a read-only reference to a Nuclei object
     using const_nuclei_reference = typename nuclei_traits::const_view_type;
 
+    /// Type of a nucleus object
+    using value_type = typename atom_traits::nucleus_traits::value_type;
+
     /// Type used to hold the multiplicity
     using multiplicity_type = typename atom_traits::multiplicity_type;
 
     /// Type of a pointer to the multiplicity of a Molecule
     using multiplicity_pointer = typename atom_traits::multiplicity_pointer;
+
+    /// Type of a read-only pointer to a Molecule's multiplicity
+    using const_multiplicity_pointer =
+      typename atom_traits::const_multiplicity_pointer;
 
     /// Type of the molecule's charge
     using charge_type = typename traits_type::charge_type;
@@ -77,17 +101,92 @@ public:
     /// Type of a pointer to the molecule's charge
     using charge_pointer = typename traits_type::charge_pointer;
 
-    //     // -- Ctors, assignment, and dtor
-    //     --------------------------------------
+    /// Type of a read-only pointer to the aliased molecule's charge
+    using const_charge_pointer = typename traits_type::const_charge_pointer;
 
-    //     MoleculeView() noexcept;
+    /// Type used for indexing and offsets
+    using size_type = typename base_type::size_type;
 
-    //     MoleculeView(molecule_reference mol);
+    // -------------------------------------------------------------------------
+    // -- Ctors, assignment, and dtor
+    // -------------------------------------------------------------------------
 
-    //     MoleculeView(nuclei_reference nuclei, nelectron_pointer nelectrons,
-    //                  multiplicity_pointer multiplicity);
+    /** @brief Aliases an empty Molecule object.
+     *
+     *  This method creates a view which aliases an empty Molecule object.
+     *
+     *  @throw None No throw guarantee.
+     */
+    MoleculeView() noexcept;
 
-    //     MoleculeView(const MoleculeView& other);
+    /** @brief Creates a view of the Molecule object @p mol.
+     *
+     *  This ctor dispatches to the pointer ctor. See the documentation for the
+     *  pointer ctor for more information.
+     *
+     *  @param[in] mol A mutable reference to a Molecule object. Note this ctor
+     *                 is only used for references to Molecule objects, not
+     *                 views.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the PIMPL.
+     *                        Strong throw guarantee.
+     */
+    MoleculeView(molecule_reference mol);
+
+    /** @brief Creates a view of a Molecule given pointers to its state.
+     *
+     *  This ctor takes in a reference to a set of Nuclei and pointers to
+     *  the charge and multiplicity for the aliased Molecule.
+     *
+     *  @param[in] nuclei The nuclear framework the electrons are moving around
+     *                    in.
+     *  @param[in] pcharge A pointer to the Molecule's charge.
+     *  @param[in] pmultiplicity A pointer to the Molecule's multiplicity
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the PIMPL. Strong
+     *                        throw guarantee.
+     */
+    MoleculeView(nuclei_reference nuclei, charge_pointer pcharge,
+                 multiplicity_pointer pmultiplicity);
+
+    /** @brief Implicit conversion from a mutable view to a read-only view.
+     *
+     *  @tparam MoleculeType2 The type of Molecule object aliased by @p other.
+     *                        For this ctor to participate in overload
+     *                        resolution @p MoleculeType2 must be Molecule.
+     *  @tparam <anonymous> Used to disable this ctor via SFINAE if *this is
+     *                      not a view of a read-only Molecule object and/or if
+     *                      @p other is not a view of a mutable Molecule object.
+     *
+     *  This ctor is used to convert from a view of a mutable Molecule to a
+     *  view of a read-only Molecule. The conversion is akin to the conversion
+     *  from `T&` to `const T&` and is allowed to happen implicitly.
+     *
+     *  @param[in] other The MoleculeView we are converting from.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the PIMPL.
+     *                        Strong throw guarantee.
+     */
+    template<typename MoleculeType2,
+             typename = enable_read_only_conversion_t<MoleculeType2>>
+    MoleculeView(const MoleculeView<MoleculeType2>& other) :
+      MoleculeView(other.nuclei(), other.charge_data(),
+                   other.multiplicity_data()) {}
+
+    /** @brief Creates a new view of the object aliased by @p other.
+     *
+     *  This copy ctor will create new instances of the state needed to alias
+     *  a Molecule object and then point that state at the same Molecule aliased
+     *  by @p other. In other words, the resulting view will alias the same
+     *  Molecule as @p other, but pointing the resulting view at a different
+     *  Molecule object will not affect @p other.
+     *
+     *  @param[in] other The view whose Molecule *this will alias.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the PIMPL. Strong
+     *                        throw guarantee.
+     */
+    MoleculeView(const MoleculeView& other);
 
     //     MoleculeView(MoleculeView&& other) noexcept;
 
@@ -95,29 +194,148 @@ public:
 
     //     MoleculeView& operator=(MoleculeView&& rhs) noexcept;
 
-    //     ~MoleculeView() noexcept;
+    /// Defaulted no-throw dtor
+    ~MoleculeView() noexcept;
 
-    //     // -- Getters and setters -----------------------------------
-    //     nuclei_reference nuclei();
+    // -------------------------------------------------------------------------
+    // -- Getters and setters
+    // -------------------------------------------------------------------------
 
-    //     const_nuclei_reference nuclei() const;
+    /** @brief Provides access to the nuclear framework.
+     *
+     *  @return A mutable reference to the nuclei within *this.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the return
+     *                        value. Strong throw guarantee.
+     */
+    nuclei_reference nuclei();
+
+    /** @brief Provides access to the nuclear framework
+     *
+     *  This method is the same as the non-const version except that the
+     *  resulting reference is read-only.
+     *
+     *  @return A read-only reference to the nuclei within *this
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the return
+     *                        value. Strong throw guarantee.
+     *
+     */
+    const_nuclei_reference nuclei() const;
 
     //     nelectrons_type n_electrons() const noexcept;
 
-    //     charge_type charge() const noexcept;
+    /** @brief Returns the electronic charge of *this.
+     *
+     *  This method returns the difference between the sum of the atomic
+     *  numbers in this->nuclei() and the number of electrons.
+     *
+     *  @return The electronic charge of *this.
+     *
+     *  @throw None No throw guarantee.
+     */
+    charge_type charge() const noexcept;
 
     //     void set_charge(charge_type charge);
 
-    //     multiplicity_type multiplicity() const noexcept;
+    /** @brief Returns the multiplicity associated with *this.
+     *
+     *  The multiplicity of a Molecule is @f$2S+1@f$ where @f$S@f$ is the
+     *  total spin quantum number. Note that if *this has no electrons,
+     *  @f$S@fZ$ is 0 and the multiplicity is 1.
+     *
+     *  @return The multiplicity associated with *this.
+     *
+     *  @throw None No throw guarantee.
+     */
+    multiplicity_type multiplicity() const noexcept;
 
     //     void set_multiplicity(multiplicity_type multiplicity);
 
-    // private:
-    //     /// Type of the object implementing *this
-    //     pimpl_pointer m_pimpl_;
+    // -------------------------------------------------------------------------
+    // -- Utility methods
+    // -------------------------------------------------------------------------
+
+    /** @brief Returns the address where the charge is stored.
+     *
+     *  @return A read-only pointer to the charge. If *this is an empty
+     *          Molecule then this method returns a nullptr.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const_charge_pointer charge_data() const noexcept;
+
+    /** @brief Returns the address where the multiplicity is stored.
+     *
+     *  @return A read-only pointer to the multiplicity of *this.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const_multiplicity_pointer multiplicity_data() const noexcept;
+
+    /** @brief Exchanges the state of *this with that of @p other.
+     *
+     *
+     *  @param[in,out] other The object *this will take its state from. After
+     *                       this method @p other will contain the state which
+     *                       was previously in *this.
+     *
+     *  @throw None No throw guarantee.
+     */
+    void swap(MoleculeView& other) noexcept;
+
+    /** @brief Determines if *this and @p rhs both alias value equal objects.
+     *
+     *  This method will compare the Molecule aliased by *this to the Molecule
+     *  aliased by @p rhs. In particular this method does NOT determine if
+     *  *this aliases the same instance as @p rhs.
+     *
+     *  @param[in] rhs The view to compare to.
+     *
+     *  @return True if the Molecule aliased by *this and the one aliased by
+     *          @p rhs compare value equal and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool operator==(const MoleculeView& rhs) const noexcept;
+
+    /** @brief Determines if *this is different than @p rhs.
+     *
+     *  This method defines different as not value equal. See operator== for
+     *  the definition of value equal.
+     *
+     *  @param[in] rhs The view to compare to.
+     *
+     *  @return False if *this is value equal to @p rhs and true otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool operator!=(const MoleculeView& rhs) const noexcept {
+        return !(*this == rhs);
+    }
+
+protected:
+    /// Allows base class to access protected members implementing it
+    friend base_type;
+
+    /// Returns a mutable reference to the i-th nucleus in *this
+    auto at_(size_type i) { return nuclei()[i]; }
+
+    /// Returns a read-only reference to the i-th nucleus in *this
+    auto at_(size_type i) const { return nuclei()[i]; }
+
+    /// Returns the number of nuclei in *this
+    size_type size_() const noexcept { return nuclei().size(); }
+
+private:
+    /// Code factorization for determining if *this has a PIMPL or not
+    bool has_pimpl_() const noexcept;
+
+    /// Type of the object implementing *this
+    pimpl_pointer m_pimpl_;
 };
 
-// extern template class MoleculeView<Molecule>;
-// extern template class MoleculeView<const Molecule>;
+extern template class MoleculeView<Molecule>;
+extern template class MoleculeView<const Molecule>;
 
 } // namespace chemist
