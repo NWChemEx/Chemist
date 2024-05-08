@@ -184,8 +184,8 @@ TEST_CASE("Molecule Class") {
     }
 
     SECTION("charge_data() const") {
-        REQUIRE(defaulted.charge_data() == nullptr);
-        REQUIRE(*mol.charge_data() == 0);
+        REQUIRE(std::as_const(defaulted).charge_data() == nullptr);
+        REQUIRE(*std::as_const(mol).charge_data() == 0);
     }
 
     SECTION("multiplicity") {
@@ -204,9 +204,9 @@ TEST_CASE("Molecule Class") {
         REQUIRE(*mol.multiplicity_data() == 2);
     }
 
-    SECTION("charge_data() const") {
-        REQUIRE(defaulted.charge_data() == nullptr);
-        REQUIRE(*mol.charge_data() == 0);
+    SECTION("multiplicity_data() const") {
+        REQUIRE(std::as_const(defaulted).multiplicity_data() == nullptr);
+        REQUIRE(*std::as_const(mol).multiplicity_data() == 2);
     }
 
     SECTION("swap") {
