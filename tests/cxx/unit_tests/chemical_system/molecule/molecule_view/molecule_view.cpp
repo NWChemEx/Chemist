@@ -65,11 +65,20 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
             test_chemist::test_copy_ctor(value);
         }
 
-        SECTION("Move") {}
+        SECTION("Move") {
+            test_chemist::test_move_ctor(defaulted);
+            test_chemist::test_move_ctor(value);
+        }
 
-        SECTION("Copy assignment") {}
+        SECTION("Copy assignment") {
+            test_chemist::test_copy_assignment(defaulted);
+            test_chemist::test_copy_assignment(value);
+        }
 
-        SECTION("Move assignment") {}
+        SECTION("Move assignment") {
+            test_chemist::test_move_assignment(defaulted);
+            test_chemist::test_move_assignment(value);
+        }
     }
 
     SECTION("nuclei()") {
@@ -82,9 +91,33 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
         REQUIRE(std::as_const(value).nuclei() == value_mol.nuclei());
     }
 
+    SECTION("n_electrons") {
+        REQUIRE(defaulted.n_electrons() == 0);
+        REQUIRE(value.n_electrons() == 3);
+    }
+
     SECTION("charge") {
         REQUIRE(defaulted.charge() == q0);
         REQUIRE(value.charge() == q0);
+    }
+
+    SECTION("set_charge") {
+        if constexpr(std::is_same_v<TestType, std::remove_cv_t<TestType>>) {
+            charge_type q2{2}, q6{6}, q3{3};
+            // Can't set empty to non-zero charge
+            REQUIRE_THROWS_AS(defaulted.set_charge(q2), std::runtime_error);
+
+            // Can set empty to zero charge
+            defaulted.set_charge(q0);
+            REQUIRE(defaulted.charge() == q0);
+
+            // Can't set charge to more than number of electrons
+            REQUIRE_THROWS_AS(value.set_charge(q6), std::runtime_error);
+
+            // Can set it to number of electrons
+            value.set_charge(q3);
+            REQUIRE(value.charge() == q3);
+        }
     }
 
     SECTION("charge_data() const") {
@@ -95,6 +128,25 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
     SECTION("multiplicity") {
         REQUIRE(defaulted.multiplicity() == m1);
         REQUIRE(value.multiplicity() == m2);
+    }
+
+    SECTION("set_multiplicity") {
+        if constexpr(std::is_same_v<TestType, std::remove_cv_t<TestType>>) {
+            // Can't set empty to multiplicity different than 1
+            REQUIRE_THROWS_AS(defaulted.set_multiplicity(m2),
+                              std::runtime_error);
+
+            // Can set empty to singlet
+            defaulted.set_multiplicity(m1);
+            REQUIRE(defaulted.multiplicity() == m1);
+
+            // Can't set odd number of electrons to a single
+            REQUIRE_THROWS_AS(value.set_multiplicity(m1), std::runtime_error);
+
+            // Can set it to something else
+            value.set_multiplicity(multiplicity_type{4});
+            REQUIRE(value.multiplicity() == multiplicity_type{4});
+        }
     }
 
     SECTION("multiplicity_data() const") {
@@ -112,7 +164,39 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
         REQUIRE(value == lhs_copy);
     }
 
-    SECTION("operator==") {}
+    SECTION("operator==") {
+        SECTION("empty vs. empty") {
+            view_type other;
+            REQUIRE(defaulted == other);
+        }
+
+        SECTION("empty vs non-empty") { REQUIRE_FALSE(defaulted == value); }
+
+        SECTION("Same value") {
+            view_type other(value_mol);
+            REQUIRE(value == other);
+        }
+
+        SECTION("Different nuclei") {
+            molecule_type other_mol{h};
+            view_type other(other_mol.nuclei(), &q0, &m2);
+            REQUIRE_FALSE(value == other);
+        }
+
+        SECTION("Different charge") {
+            charge_type qm2{-2};
+            view_type other(value_mol.nuclei(), &qm2, &m2);
+            REQUIRE_FALSE(value == other);
+        }
+
+        SECTION("Different multiplicity") {
+            multiplicity_type m3{3};
+            molecule_type other_mol{he};
+            view_type lhs(other_mol.nuclei(), &q0, &m1);
+            view_type rhs(other_mol.nuclei(), &q0, &m3);
+            REQUIRE_FALSE(lhs == rhs);
+        }
+    }
 
     SECTION("operator!=") {
         // Just negates operator== so spot check

@@ -26,6 +26,18 @@ TPARAMS
 MOLECULE_VIEW::MoleculeView(const MoleculeView& other) :
   m_pimpl_(other.has_pimpl_() ? other.m_pimpl_->clone() : nullptr) {}
 
+TPARAMS
+MOLECULE_VIEW::MoleculeView(MoleculeView&& other) noexcept = default;
+
+TPARAMS
+MOLECULE_VIEW& MOLECULE_VIEW::operator=(const MoleculeView& rhs) {
+    if(this != &rhs) MoleculeView(rhs).swap(*this);
+    return *this;
+}
+
+TPARAMS
+MOLECULE_VIEW& MOLECULE_VIEW::operator=(MoleculeView&& rhs) noexcept = default;
+
 TPARAMS MOLECULE_VIEW::~MoleculeView() noexcept = default;
 
 // -----------------------------------------------------------------------------
@@ -44,14 +56,46 @@ typename MOLECULE_VIEW::const_nuclei_reference MOLECULE_VIEW::nuclei() const {
 }
 
 TPARAMS
+typename MOLECULE_VIEW::size_type MOLECULE_VIEW::n_electrons() const noexcept {
+    if(!has_pimpl_()) return 0;
+    auto sum = neutral_n_electrons_();
+    if(charge() < 0) return sum + size_type(-1 * charge());
+    return sum - static_cast<size_type>(charge());
+}
+
+TPARAMS
 typename MOLECULE_VIEW::charge_type MOLECULE_VIEW::charge() const noexcept {
     return has_pimpl_() ? std::as_const(*m_pimpl_).charge() : 0;
+}
+
+TPARAMS
+template<typename, typename>
+void MOLECULE_VIEW::set_charge(charge_type charge) {
+    charge_type q = charge;
+    if(!has_pimpl_() && q != 0)
+        throw std::runtime_error("Empty Molecule can only have a charge of 0");
+    if(neutral_n_electrons_() < q)
+        throw std::runtime_error("Molecule does not have enough electrons");
+    if(has_pimpl_()) m_pimpl_->charge() = q;
 }
 
 TPARAMS
 typename MOLECULE_VIEW::multiplicity_type MOLECULE_VIEW::multiplicity()
   const noexcept {
     return has_pimpl_() ? std::as_const(*m_pimpl_).multiplicity() : 1;
+}
+
+TPARAMS
+template<typename, typename>
+void MOLECULE_VIEW::set_multiplicity(multiplicity_type multiplicity) {
+    auto mult = static_cast<multiplicity_type>(multiplicity);
+    if(!has_pimpl_() && mult != 1)
+        throw std::runtime_error("Empty Molecule can only have a multiplicity"
+                                 " of 1.");
+    if(mult == 1 && n_electrons() % 2)
+        throw std::runtime_error(
+          "Singlet not possible for odd number of electrons");
+    if(has_pimpl_()) m_pimpl_->multiplicity() = mult;
 }
 
 // -----------------------------------------------------------------------------
@@ -91,10 +135,22 @@ bool MOLECULE_VIEW::has_pimpl_() const noexcept {
     return static_cast<bool>(m_pimpl_);
 }
 
+TPARAMS
+typename MOLECULE_VIEW::size_type MOLECULE_VIEW::neutral_n_electrons_()
+  const noexcept {
+    size_type sum = 0;
+    for(const auto& n0 : this->nuclei()) sum += n0.Z();
+    return sum;
+}
+
 #undef MOLECULE_VIEW
 #undef TPARAMS
 
 template class MoleculeView<Molecule>;
+template void MoleculeView<Molecule>::set_charge<Molecule>(
+  typename MoleculeView<Molecule>::charge_type);
+template void MoleculeView<Molecule>::set_multiplicity<Molecule>(
+  typename MoleculeView<Molecule>::multiplicity_type);
 template class MoleculeView<const Molecule>;
 
 } // namespace chemist

@@ -54,6 +54,10 @@ private:
     using enable_read_only_conversion_t =
       std::enable_if_t<is_cv_v<MoleculeType> && !is_cv_v<T>>;
 
+    template<typename T>
+    using disable_if_read_only_t =
+      std::enable_if_t<!is_cv_v<T> && std::is_same_v<T, MoleculeType>>;
+
 public:
     /// Type of the object implementing *this
     using pimpl_type = detail_::MoleculeViewPIMPL<MoleculeType>;
@@ -188,11 +192,48 @@ public:
      */
     MoleculeView(const MoleculeView& other);
 
-    //     MoleculeView(MoleculeView&& other) noexcept;
+    /** @brief Initializes *this with the state in @p other.
+     *
+     *  This ctor will take the state inside @p other and give it to *this.
+     *  Thus, after this call *this will alias the same Molecule as @p other.
+     *
+     *  @param[in,out] other The object to take the state from. After this call
+     *                       @p other will be in a valid, but otherwise
+     *                       undefined state.
+     *
+     *  @throw None No throw guarantee.
+     */
+    MoleculeView(MoleculeView&& other) noexcept;
 
-    //     MoleculeView& operator=(const MoleculeView& rhs);
+    /** @brief Replaces the state in *this with a copy of the state in @p rhs.
+     *
+     *  This method will release the state currently held by *this and replace
+     *  it with a copy (in the copy ctor sense of the word) of the state in
+     *  @p rhs.
+     *
+     *  @param[in] rhs The object whose state will be copied.
+     *
+     *  @return *this after setting its state to a copy of the state in @p rhs.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the new state.
+     *                        Strong throw guarantee.
+     */
+    MoleculeView& operator=(const MoleculeView& rhs);
 
-    //     MoleculeView& operator=(MoleculeView&& rhs) noexcept;
+    /** @brief Replaces the state in *this with the state in @p rhs.
+     *
+     *  This method will release the state currently held by *this and replace
+     *  it with the state currently held by @p rhs.
+     *
+     *  @param[in,out] rhs The object whose state will be taken. After this call
+     *                     @p rhs will be in a valid, but otherwise undefined
+     *                     state.
+     *
+     *  @return *this after taking the state of @p rhs.
+     *
+     *  @throw None No throw guarantee.
+     */
+    MoleculeView& operator=(MoleculeView&& rhs) noexcept;
 
     /// Defaulted no-throw dtor
     ~MoleculeView() noexcept;
@@ -223,7 +264,17 @@ public:
      */
     const_nuclei_reference nuclei() const;
 
-    //     nelectrons_type n_electrons() const noexcept;
+    /** @brief How many electrons does the aliased Molecule have?
+     *
+     *  This method will determine the number of electrons in the aliased
+     *  Molecule. This will be the sum of the atomic numbers of the nuclei less
+     *  the charge (n.b. a negative charge means extra electrons).
+     *
+     *  @return The number of electrons in the aliased Molecule.
+     *
+     *  @throw None No throw guarantee.
+     */
+    size_type n_electrons() const noexcept;
 
     /** @brief Returns the electronic charge of *this.
      *
@@ -236,7 +287,27 @@ public:
      */
     charge_type charge() const noexcept;
 
-    //     void set_charge(charge_type charge);
+    /** @brief Sets the charge of the aliased Molecule.
+     *
+     *  @tparam MoleculeType2 The type of the Molecule aliased by *this. This
+     *                        is a template type parameter of this function so
+     *                        we can disable the function. The user should
+     *                        ignore the template type parameters for this
+     *                        method.
+     *  @tparam <anonymous> Used to disable this method via SFINAE when
+     *                      @p MoleculeType2 does not equal @p MoleculeType and
+     *                      when @p MoleculeType is read-only.
+     *
+     *
+     *  @param[in] charge The new value for the Molecule's total electronic
+     *                    charge.
+     *
+     *  @throw std::runtime_error if the user attempts to set the charge to a
+     *                            non-physical value. Strong throw guarantee.
+     */
+    template<typename MoleculeType2 = MoleculeType,
+             typename               = disable_if_read_only_t<MoleculeType2>>
+    void set_charge(charge_type charge);
 
     /** @brief Returns the multiplicity associated with *this.
      *
@@ -250,7 +321,31 @@ public:
      */
     multiplicity_type multiplicity() const noexcept;
 
-    //     void set_multiplicity(multiplicity_type multiplicity);
+    /** @brief Sets the multiplicity of the aliased Molecule
+     *
+     *  @tparam MoleculeType2 The type of the Molecule aliased by *this. This
+     *                        is a template type parameter of this function so
+     *                        we can disable the function. The user should
+     *                        ignore the template type parameters for this
+     *                        method.
+     *  @tparam <anonymous> Used to disable this method via SFINAE when
+     *                      @p MoleculeType2 does not equal @p MoleculeType and
+     *                      when @p MoleculeType is read-only.
+     *
+     *  @note Users should set the number of electrons before setting the
+     *        multiplicity as the number of electrons is used to determine the
+     *        allowed value of the multiplicity.
+     *
+     *  @param[in] multiplicity The value to set the multiplicity to.
+     *
+     *  @throw std::runtime_error if the user attempts to set the multiplicity
+     *                            value to a non-physical value. Strong throw
+     *                            guarantee.
+     *
+     */
+    template<typename MoleculeType2 = MoleculeType,
+             typename               = disable_if_read_only_t<MoleculeType2>>
+    void set_multiplicity(multiplicity_type multiplicity);
 
     // -------------------------------------------------------------------------
     // -- Utility methods
@@ -330,6 +425,9 @@ protected:
 private:
     /// Code factorization for determining if *this has a PIMPL or not
     bool has_pimpl_() const noexcept;
+
+    /// The number of electrons *this would have if it is neutral
+    size_type neutral_n_electrons_() const noexcept;
 
     /// Type of the object implementing *this
     pimpl_pointer m_pimpl_;
