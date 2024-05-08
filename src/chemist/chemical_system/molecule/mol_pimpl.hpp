@@ -28,7 +28,7 @@ public:
     using nuclei_type            = typename parent_type::nuclei_type;
     using nuclei_reference       = typename parent_type::nuclei_reference;
     using const_nuclei_reference = typename parent_type::const_nuclei_reference;
-    using size_type              = typename parent_type::size_type;
+    using multiplicity_type      = typename parent_type::multiplicity_type;
     using charge_type            = typename parent_type::charge_type;
     ///@}
 
@@ -39,7 +39,7 @@ public:
     charge_type m_charge = 0;
 
     /// Multiplicity
-    size_type m_mult = 1;
+    multiplicity_type m_mult = 1;
 
 private:
     /// The nuclei

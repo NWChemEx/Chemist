@@ -17,6 +17,7 @@
 #pragma once
 #include <chemist/traits/chemist_class_traits.hpp>
 #include <chemist/traits/point_charge_traits.hpp>
+#include <string>
 
 namespace chemist {
 class Nucleus;

@@ -108,13 +108,30 @@ void Molecule::set_charge(charge_type n) {
     set_multiplicity_();
 }
 
-size_type Molecule::multiplicity() const noexcept {
+typename Molecule::charge_pointer Molecule::charge_data() noexcept {
+    return has_pimpl_() ? &(m_pimpl_->m_charge) : nullptr;
+}
+
+typename Molecule::const_charge_pointer Molecule::charge_data() const noexcept {
+    return has_pimpl_() ? &(std::as_const(*m_pimpl_).m_charge) : nullptr;
+}
+
+typename Molecule::multiplicity_type Molecule::multiplicity() const noexcept {
     return (has_pimpl_()) ? m_pimpl_->m_mult : 1;
 }
 
-void Molecule::set_multiplicity(size_type mult) {
+void Molecule::set_multiplicity(multiplicity_type mult) {
     if(!has_pimpl_()) m_pimpl_ = make_pimpl_();
     m_pimpl_->m_mult = mult;
+}
+
+typename Molecule::multiplicity_pointer Molecule::multiplicity_data() noexcept {
+    return has_pimpl_() ? &(m_pimpl_->m_mult) : nullptr;
+}
+
+typename Molecule::const_multiplicity_pointer Molecule::multiplicity_data()
+  const noexcept {
+    return has_pimpl_() ? &(std::as_const(*m_pimpl_).m_mult) : nullptr;
 }
 
 void Molecule::push_back(atom_type atom) {
@@ -124,6 +141,10 @@ void Molecule::push_back(atom_type atom) {
     set_multiplicity_();
     set_charge_();
 }
+
+// -- Utility methods ----------------------------------------------------------
+
+void Molecule::swap(Molecule& other) noexcept { m_pimpl_.swap(other.m_pimpl_); }
 
 // -- Private methods ----------------------------------------------------------
 

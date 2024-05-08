@@ -16,7 +16,8 @@
 
 #pragma once
 #include <chemist/chemical_system/molecule/atom.hpp>
-#include <chemist/chemical_system/nucleus/nuclei.hpp>
+#include <chemist/chemical_system/nucleus/nuclei_view/nuclei_view.hpp>
+#include <chemist/traits/molecule_traits.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
@@ -53,20 +54,29 @@ public:
     /// The type of a pointer to the PIMPL
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
 
+    /// Type of a class defining the types for *this
+    using traits_type = ChemistClassTraits<Molecule>;
+
+    /// Type of a class defining the types for the Nuclei part of *this
+    using nuclei_traits = typename traits_type::nuclei_traits;
+
+    /// Type of a class defining the types for an Atom object
+    using atom_traits = typename traits_type::atom_traits;
+
     /// Type of an atom contained in this class
-    using atom_type = Atom;
+    using atom_type = typename atom_traits::value_type;
 
     /// Type of an initializer list filled with Atom objects
     using atom_initializer_list = std::initializer_list<atom_type>;
 
     /// Type representing the set of nuclei
-    using nuclei_type = Nuclei;
+    using nuclei_type = typename nuclei_traits::value_type;
 
     /// Type of a reference to the set of nuclei
-    using nuclei_reference = nuclei_type&;
+    using nuclei_reference = typename nuclei_traits::reference;
 
     /// Type of a read-only reference to the set of nuclei
-    using const_nuclei_reference = const nuclei_type&;
+    using const_nuclei_reference = typename nuclei_traits::const_reference;
 
     /// Type of a nucleus
     using value_type = typename nuclei_type::value_type;
@@ -77,11 +87,24 @@ public:
     /// Type of a read-only reference to a nucleus
     using const_reference = typename nuclei_type::const_reference;
 
-    /// Type used to count things (like electrons and multiplicities)
-    using size_type = typename nuclei_type::size_type;
+    /// Type of the multiplicity
+    using multiplicity_type = typename atom_traits::multiplicity_type;
+
+    /// Type of a mutable pointer to the multiplicity
+    using multiplicity_pointer = typename atom_traits::multiplicity_pointer;
+
+    /// Type of a read-only pointer to the molecule's multiplicity
+    using const_multiplicity_pointer =
+      typename atom_traits::const_multiplicity_pointer;
 
     /// Signed-integral type used to hold the molecule's charge
-    using charge_type = int;
+    using charge_type = typename traits_type::charge_type;
+
+    /// Type of a mutable pointer to the molecule's charge
+    using charge_pointer = typename traits_type::charge_pointer;
+
+    /// Type of a read-only pointer to the molecule's charge
+    using const_charge_pointer = typename traits_type::const_charge_pointer;
 
     /** @brief Makes a molecule with no nuclei, no charge, and a multiplicity
      *         of 1
@@ -293,6 +316,29 @@ public:
      */
     void set_charge(charge_type n);
 
+    /** @brief Provides the address where the charge is stored.
+     *
+     *  @return If *this has a PIMPL this method returns the address of the
+     *          charge, but if *this does not have a PIMPL this method returns
+     *          a nullptr.
+     *
+     *  @throw None No throw guarantee.
+     */
+    charge_pointer charge_data() noexcept;
+
+    /** @brief Provides the address where the charge is stored.
+     *
+     *  Same as the non-const version, except that the resulting address is to
+     *  a read-only location.
+     *
+     *  @return If *this has a PIMPL this method returns the address of the
+     *          charge, but if *this does not have a PIMPL this method returns
+     *          a nullptr.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const_charge_pointer charge_data() const noexcept;
+
     /** @brief The multiplicity of *this.
      *
      *  The multiplicity of a molecule is @f$2S+1@f$ where @f$S@f$ is the total
@@ -303,7 +349,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    size_type multiplicity() const noexcept;
+    multiplicity_type multiplicity() const noexcept;
 
     /** @brief Used to override the multiplicity.
      *
@@ -318,7 +364,44 @@ public:
      *  @throw std::bad_alloc if *this has no PIMPL, and allocating a new PIMPL
      *                        fails. Strong throw guarantee.
      */
-    void set_multiplicity(size_type mult);
+    void set_multiplicity(multiplicity_type mult);
+
+    /** @brief Provides the address where the multiplicity is stored.
+     *
+     *  @return If *this has a PIMPL this method returns the address of the
+     *          multiplicity, but if *this does not have a PIMPL this method
+     *          returns a nullptr.
+     *
+     *  @throw None No throw guarantee.
+     */
+    multiplicity_pointer multiplicity_data() noexcept;
+
+    /** @brief Provides the address where the multiplicity is stored.
+     *
+     *  Same as the non-const version, except that the resulting address is for
+     *  a read-only location.
+     *
+     *  @return If *this has a PIMPL this method returns the address of the
+     *          multiplicity, but if *this does not have a PIMPL this method
+     *          returns a nullptr.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const_multiplicity_pointer multiplicity_data() const noexcept;
+
+    // -------------------------------------------------------------------------
+    // -- Utility methods
+    // -------------------------------------------------------------------------
+
+    /** @brief Exchanges the content of *this with @p other.
+     *
+     *  @param[in,out] other The object whose state *this will take. After this
+     *                       method is called @p other will contain the state
+     *                       which was previously in *this.
+     *
+     *  @throw None No throw guarantee
+     */
+    void swap(Molecule& other) noexcept;
 
     /** @brief Serialize Molecule instance
      *
@@ -413,7 +496,7 @@ void Molecule::save(Archive& ar) const {
     if(has_pimpl_()) {
         ar& charge();
         ar& multiplicity();
-        ar& nuclei();
+        ar& nuclei_type(nuclei());
     }
 }
 
@@ -423,12 +506,12 @@ void Molecule::load(Archive& ar) {
     ar& has_pimpl;
     if(has_pimpl) {
         charge_type q;
-        size_type m;
+        multiplicity_type m;
+        nuclei_type nuclei;
         ar& q;
         ar& m;
-        ar& nuclei();
-        set_charge(q);
-        set_multiplicity(m);
+        ar& nuclei;
+        Molecule(q, m, nuclei).swap(*this);
     }
 }
 
