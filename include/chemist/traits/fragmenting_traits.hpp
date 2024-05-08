@@ -16,21 +16,27 @@
 
 #pragma once
 #include <chemist/traits/chemist_class_traits.hpp>
+#include <chemist/traits/molecule_traits.hpp>
 #include <chemist/traits/nucleus_traits.hpp>
 
 namespace chemist {
 namespace fragmenting {
 class CapSet;
+template<typename DerivedType>
+class FragmentedBase;
 template<typename NucleiType>
 class FragmentedNuclei;
+template<typename MoleculeType>
 class FragmentedMolecule;
+template<typename ChemicalSystemType>
 class FragmentedChemicalSystem;
 } // namespace fragmenting
 
-template<>
-struct ChemistClassTraits<fragmenting::FragmentedNuclei<Nuclei>> {
-    using supersystem_type   = Nuclei;
-    using value_type         = fragmenting::FragmentedNuclei<supersystem_type>;
+template<template<typename> class DerivedType, typename SupersystemType>
+struct ChemistClassTraits<
+  fragmenting::FragmentedBase<DerivedType<SupersystemType>>> {
+    using supersystem_type   = SupersystemType;
+    using value_type         = DerivedType<supersystem_type>;
     using reference          = value_type&;
     using const_reference    = const value_type&;
     using supersystem_traits = ChemistClassTraits<supersystem_type>;
@@ -38,25 +44,44 @@ struct ChemistClassTraits<fragmenting::FragmentedNuclei<Nuclei>> {
     using fragment_reference = typename supersystem_traits::view_type;
     using const_fragment_reference =
       typename supersystem_traits::const_view_type;
-    using cap_set_type            = fragmenting::CapSet;
-    using cap_set_reference       = cap_set_type&;
-    using const_cap_set_reference = const cap_set_type&;
 };
 
+#define FRAGMENTED_NUCLEI fragmenting::FragmentedNuclei<Nuclei>
 template<>
-struct ChemistClassTraits<fragmenting::FragmentedNuclei<const Nuclei>> {
-    using supersystem_type   = const Nuclei;
-    using value_type         = fragmenting::FragmentedNuclei<supersystem_type>;
-    using reference          = value_type&;
-    using const_reference    = const value_type&;
-    using supersystem_traits = ChemistClassTraits<supersystem_type>;
-    using fragment_type      = typename supersystem_traits::value_type;
-    using fragment_reference = typename supersystem_traits::view_type;
-    using const_fragment_reference =
-      typename supersystem_traits::const_view_type;
+struct ChemistClassTraits<FRAGMENTED_NUCLEI>
+  : ChemistClassTraits<fragmenting::FragmentedBase<FRAGMENTED_NUCLEI>> {
     using cap_set_type            = fragmenting::CapSet;
     using cap_set_reference       = cap_set_type&;
     using const_cap_set_reference = const cap_set_type&;
 };
+#undef FRAGMENTED_NUCLEI
+
+#define CONST_FRAGMENTED_NUCLEI fragmenting::FragmentedNuclei<const Nuclei>
+template<>
+struct ChemistClassTraits<CONST_FRAGMENTED_NUCLEI>
+  : ChemistClassTraits<fragmenting::FragmentedBase<CONST_FRAGMENTED_NUCLEI>> {
+    using cap_set_type            = fragmenting::CapSet;
+    using cap_set_reference       = cap_set_type&;
+    using const_cap_set_reference = const cap_set_type&;
+};
+#undef CONST_FRAGMENTED_NUCLEI
+
+#define FRAG_MOLECULE fragmenting::FragmentedMolecule<Molecule>
+template<>
+struct ChemistClassTraits<FRAG_MOLECULE>
+  : ChemistClassTraits<fragmenting::FragmentedBase<FRAG_MOLECULE>> {
+    using fragmented_nuclei_traits =
+      ChemistClassTraits<fragmenting::FragmentedNuclei<Nuclei>>;
+};
+#undef FRAG_MOLECULE
+
+#define CONST_FRAG_MOLECULE fragmenting::FragmentedMolecule<const Molecule>
+template<>
+struct ChemistClassTraits<CONST_FRAG_MOLECULE>
+  : ChemistClassTraits<fragmenting::FragmentedBase<CONST_FRAG_MOLECULE>> {
+    using fragmented_nuclei_traits =
+      ChemistClassTraits<fragmenting::FragmentedNuclei<const Nuclei>>;
+};
+#undef CONST_FRAG_MOLECULE
 
 } // namespace chemist

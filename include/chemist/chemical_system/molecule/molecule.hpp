@@ -17,3 +17,4 @@
 #pragma once
 #include <chemist/chemical_system/molecule/atom.hpp>
 #include <chemist/chemical_system/molecule/molecule_class.hpp>
+#include <chemist/chemical_system/molecule/molecule_view.hpp>
