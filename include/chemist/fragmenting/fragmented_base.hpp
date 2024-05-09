@@ -57,34 +57,12 @@ public:
     using const_supersystem_reference =
       typename supersystem_traits::const_view_type;
 
-    /** @brief Creates a null object.
+    /** @brief Fragments an empty object.
      *
-     *  Null objects in this class hierarchy have no supersystem associated
-     *  with them. This should be contrasted with empty objects, which have a
-     *  supersystem, but no fragments.
      *
      *  @throw None No throw guarantee.
      */
     FragmentedBase() noexcept = default;
-
-    /** @brief Creates and object which will hold fragments of @p supersystem.
-     *
-     *  The FragmentedBase class stores the object to fragment. This ctor,
-     *  is used to initialize *this with the object to fragment. Of note, *this
-     *  will own the object. This is because the lifetime of the fragments will
-     *  be coupled to the object and to help ensure the user doesn't
-     *  accidentally invalidate the fragments by modifying @p supersystem.
-     *
-     *  @param[in] supersystem The object which will be fragmented.
-     *
-     *  @throw None No throw guarantee.
-     */
-    explicit FragmentedBase(supersystem_type supersystem) noexcept :
-      m_supersystem_(std::move(supersystem)) {}
-
-    // FragmentedBase& operator=(const FragmentedBase& rhs) = default;
-
-    // FragmentedBase& operator=(FragmentedBase&& rhs) noexcept = default;
 
     /** @brief Provides (possibly) mutable access to the supersystem.
      *
@@ -102,10 +80,9 @@ public:
      *
      *  @return A (possibly) mutable reference to the supersystem.
      *
-     *  @throw std::bad_optional_access if *this is a null object. Strong throw
-     *                                  guarantee.
+     *  @throw None No throw guarantee
      */
-    supersystem_reference supersystem() { return m_supersystem_.value(); }
+    supersystem_reference supersystem() { return supersystem_(); }
 
     /** @brief Provides read-only access to the supersystem.
      *
@@ -113,14 +90,13 @@ public:
      *
      *  @return A read-only reference to the supersystem.
      *
-     *  @throw std::bad_optional_access if *this is a null object. Strong throw
-     *                                  guarantee.
+     *  @throw None No throw guarantee
      */
-    const_supersystem_reference supersystem() const {
-        return m_supersystem_.value();
-    }
+    const_supersystem_reference supersystem() const { return supersystem_(); }
 
     /** @brief Exchanges the state of *this with that of @p other.
+     *
+     *  This is a no-op at the moment.
      *
      *  @param[in,out] other The object whose state is being exchanged with.
      *                       After this method is called @p other will contain
@@ -128,30 +104,12 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    void swap(FragmentedBase& other) noexcept {
-        m_supersystem_.swap(other.m_supersystem_);
-    }
-
-    /** @brief Is *this a null object?
-     *
-     *  Null objects have no supersystem associated with them. This method is
-     *  used to determine if *this is a null object, i.e., if it doesn't have a
-     *  supersystem.
-     *
-     *  @return True if *this is a null object and false otherwise.
-     *
-     *  @throw None No throw guarantee
-     *
-     */
-    bool is_null() const noexcept { return !m_supersystem_.has_value(); }
+    void swap(FragmentedBase& other) noexcept {}
 
     /** @brief Are *this and @p rhs value equal?
      *
-     *  *this and @p rhs will be considered value equal if one of the following
-     *  is true:
-     *
-     *  - Both are null
-     *  - Both have supersystems and the supersystems are value equal
+     *  *this and @p rhs will be considered value equal if both have
+     *  supersystems which compare value equal.
      *
      *  @param[in] rhs The object to compare *this against.
      *
@@ -160,8 +118,6 @@ public:
      *  @throw None No throw guarantee.
      */
     bool operator==(const FragmentedBase& rhs) const noexcept {
-        if(is_null() != rhs.is_null()) return false;
-        if(is_null()) return true;
         return supersystem() == rhs.supersystem();
     }
 
@@ -183,15 +139,11 @@ public:
     }
 
 protected:
-    /// Code factorization for asserting *this has a supersystem
-    void assert_supersystem_() const {
-        if(!is_null()) return;
-        throw std::runtime_error("Does not have a supersystem!");
-    }
+    /// Derived class should override to implement supersystem()
+    virtual supersystem_reference supersystem_() = 0;
 
-private:
-    /// The supersystem being fragmented
-    std::optional<supersystem_type> m_supersystem_;
+    /// Derived class should override to implement supersystem() const
+    virtual const_supersystem_reference supersystem_() const = 0;
 };
 
 } // namespace chemist::fragmenting

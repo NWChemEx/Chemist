@@ -429,9 +429,59 @@ private:
     /// The number of electrons *this would have if it is neutral
     size_type neutral_n_electrons_() const noexcept;
 
+    /// Throws if @p charge doesn't make sense
+    void check_charge_(charge_type charge) const;
+
+    /// Throws if @p multiplicity doesn't make sense
+    void check_multiplicity_(multiplicity_type multiplicity) const;
+
     /// Type of the object implementing *this
     pimpl_pointer m_pimpl_;
 };
+
+/// Compares the object aliased by @p lhs to @p rhs for value equality
+template<typename MoleculeType>
+bool operator==(const MoleculeView<MoleculeType>& lhs,
+                const std::remove_cv_t<MoleculeType>& rhs) {
+    return lhs == MoleculeView<const MoleculeType>(rhs);
+}
+
+/// Determines if the object aliased by @p lhs is different than @p rhs
+template<typename MoleculeType>
+bool operator!=(const MoleculeView<MoleculeType>& lhs,
+                const std::remove_cv_t<MoleculeType>& rhs) {
+    return !(lhs == rhs);
+}
+
+/// Compares @p lhs to the value aliased by @p rhs for value equality
+template<typename MoleculeType>
+bool operator==(const std::remove_cv_t<MoleculeType>& lhs,
+                const MoleculeView<MoleculeType>& rhs) {
+    return rhs == lhs;
+}
+
+/// Determines if @p lhs is different from the object aliased by @p rhs
+template<typename MoleculeType>
+bool operator!=(const std::remove_cv_t<MoleculeType>& lhs,
+                const MoleculeView<MoleculeType>& rhs) {
+    return rhs != lhs;
+}
+
+/// Equality comparison when MoleculeViews alias Molecules of different cv-ness
+template<typename MoleculeType1, typename MoleculeType2>
+bool operator==(const MoleculeView<MoleculeType1>& lhs,
+                const MoleculeView<MoleculeType2>& rhs) {
+    return MoleculeView<const MoleculeType1>(lhs) ==
+           MoleculeView<const MoleculeType2>(rhs);
+}
+
+/// Difference comparison for MoleculeViews alias Molecules of different cv-ness
+template<typename MoleculeType1, typename MoleculeType2>
+bool operator!=(const MoleculeView<MoleculeType1>& lhs,
+                const MoleculeView<MoleculeType2>& rhs) {
+    return MoleculeView<const MoleculeType1>(lhs) !=
+           MoleculeView<const MoleculeType2>(rhs);
+}
 
 extern template class MoleculeView<Molecule>;
 extern template class MoleculeView<const Molecule>;

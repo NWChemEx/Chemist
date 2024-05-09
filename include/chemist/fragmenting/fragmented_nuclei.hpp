@@ -60,6 +60,12 @@ public:
     /// Type of object *this is fragmenting
     using typename base_type::supersystem_type;
 
+    /// Type of a mutable reference to the supersystem
+    using typename base_type::supersystem_reference;
+
+    /// Type of a read-only reference to the supersystem
+    using typename base_type::const_supersystem_reference;
+
     /// Type of the fragments
     using value_type = typename traits_type::fragment_type;
 
@@ -93,11 +99,10 @@ public:
 
     // -- CTors, assignment, and dtor
 
-    /** @brief Creates a null object.
+    /** @brief Fragments an empty set that fragments the empty set of nuclei.
      *
-     *  Null FragmentedNuclei objects have no supersystem, not even an empty
-     *  one. Since they do not contain a supersystem they can not contain
-     *  fragments either.
+     *  This ctor will create an object with no fragments that is set up to
+     *  fragment the empty set of nuclei.
      *
      *  @throw None No throw guarantee.
      */
@@ -378,6 +383,12 @@ protected:
 
     /// Implements size_
     size_type size_() const noexcept;
+
+    /// Implements supersystem()
+    virtual supersystem_reference supersystem_() override;
+
+    /// Implements supersystem() const
+    virtual const_supersystem_reference supersystem_() const override;
 
 private:
     /// Factors out the code for checking if *this has a PIMPL
