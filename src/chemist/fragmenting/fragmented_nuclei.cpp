@@ -26,6 +26,16 @@ public:
     /// Type *this implements
     using parent_type = FragmentedNuclei<NucleiType>;
 
+    /// Type of the supersystem
+    using supersystem_type = typename parent_type::supersystem_type;
+
+    /// Type of a reference to the supersystem
+    using supersystem_reference = typename parent_type::supersystem_reference;
+
+    /// Type of a read-only reference to the supersystem
+    using const_supersystem_reference =
+      typename parent_type::const_supersystem_reference;
+
     /// Type of a reference to a fragment
     using reference = typename parent_type::reference;
 
@@ -46,8 +56,14 @@ public:
 
     FragmentedNucleiPIMPL() = default;
 
-    FragmentedNucleiPIMPL(nucleus_map_type frags, cap_set_type caps) :
-      m_frags_(std::move(frags)), m_caps_(std::move(caps)) {}
+    FragmentedNucleiPIMPL(supersystem_type ss, nucleus_map_type frags,
+                          cap_set_type caps) :
+      m_supersystem_(std::move(ss)),
+      m_frags_(std::move(frags)),
+      m_caps_(std::move(caps)) {}
+
+    supersystem_reference supersystem() { return m_supersystem_; }
+    const_supersystem_reference supersystem() const { return m_supersystem_; }
 
     auto& frag(size_type i) { return m_frags_[i]; }
 
@@ -78,11 +94,14 @@ public:
     }
 
     bool operator==(const FragmentedNucleiPIMPL& rhs) const noexcept {
-        return std::tie(m_frags_, m_caps_) ==
-               std::tie(rhs.m_frags_, rhs.m_caps_);
+        return std::tie(m_supersystem_, m_frags_, m_caps_) ==
+               std::tie(rhs.m_supersystem_, rhs.m_frags_, rhs.m_caps_);
     }
 
 private:
+    /// The supersystem being fragmented
+    supersystem_type m_supersystem_;
+
     nucleus_map_type m_frags_;
 
     cap_set_type m_caps_;
@@ -109,13 +128,13 @@ FRAGMENTED_NUCLEI::FragmentedNuclei(supersystem_type supersystem,
 TPARAMS
 FRAGMENTED_NUCLEI::FragmentedNuclei(supersystem_type supersystem,
                                     nucleus_map_type frags, cap_set_type caps) :
-  m_pimpl_(std::make_unique<pimpl_type>(std::move(frags), std::move(caps))),
-  base_type(std::move(supersystem)) {}
+  m_pimpl_(std::make_unique<pimpl_type>(std::move(supersystem),
+                                        std::move(frags), std::move(caps))) {}
 
 TPARAMS
 FRAGMENTED_NUCLEI::FragmentedNuclei(const FragmentedNuclei& other) :
-  m_pimpl_(!this->is_null() ? std::make_unique<pimpl_type>(*other.m_pimpl_) :
-                              nullptr),
+  m_pimpl_(other.has_pimpl_() ? std::make_unique<pimpl_type>(*other.m_pimpl_) :
+                                nullptr),
   base_type(other) {}
 
 TPARAMS
@@ -139,7 +158,6 @@ FRAGMENTED_NUCLEI::~FragmentedNuclei() noexcept = default;
 
 TPARAMS
 void FRAGMENTED_NUCLEI::insert(const_reference nuclei) {
-    this->assert_supersystem_();
     nucleus_index_set nuclei2;
     nuclei2.reserve(nuclei.size());
     const auto& ss = this->supersystem();
@@ -158,7 +176,6 @@ void FRAGMENTED_NUCLEI::insert(const_reference nuclei) {
 
 TPARAMS
 void FRAGMENTED_NUCLEI::insert(nucleus_index_set nuclei) {
-    this->assert_supersystem_();
     for(const auto& n : nuclei)
         if(n >= this->supersystem().size())
             throw std::runtime_error(
@@ -169,7 +186,6 @@ void FRAGMENTED_NUCLEI::insert(nucleus_index_set nuclei) {
 
 TPARAMS
 typename FRAGMENTED_NUCLEI::cap_set_reference FRAGMENTED_NUCLEI::cap_set() {
-    this->assert_supersystem_();
     if(!has_pimpl_()) std::make_unique<pimpl_type>().swap(m_pimpl_);
     return m_pimpl_->cap_set();
 }
@@ -177,7 +193,6 @@ typename FRAGMENTED_NUCLEI::cap_set_reference FRAGMENTED_NUCLEI::cap_set() {
 TPARAMS
 typename FRAGMENTED_NUCLEI::const_cap_set_reference FRAGMENTED_NUCLEI::cap_set()
   const {
-    this->assert_supersystem_();
     assert_pimpl_();
     return std::as_const(*m_pimpl_).cap_set();
 }
@@ -193,9 +208,10 @@ void FRAGMENTED_NUCLEI::swap(FragmentedNuclei& other) noexcept {
 TPARAMS
 bool FRAGMENTED_NUCLEI::operator==(
   const FragmentedNuclei& other) const noexcept {
-    if(this->is_null() != other.is_null()) return false;
-    if(this->is_null()) return true;
-    if(!base_type::operator==(other)) return false;
+    if(this->supersystem() != other.supersystem()) return false;
+    // If one or both don't have a PIMPL, but the supersystems compared equal,
+    // then they must both be fragmenting an empty set.
+    if(!this->has_pimpl_() || !other.has_pimpl_()) return true;
     return (*m_pimpl_) == (*other.m_pimpl_);
 }
 
@@ -204,7 +220,7 @@ bool FRAGMENTED_NUCLEI::operator!=(const FragmentedNuclei& rhs) const noexcept {
     return !(*this == rhs);
 }
 
-// -- protected and private members -------------------------------------------
+// -- protected members -------------------------------------------
 
 TPARAMS
 typename FRAGMENTED_NUCLEI::reference FRAGMENTED_NUCLEI::at_(size_type i) {
@@ -228,6 +244,21 @@ typename FRAGMENTED_NUCLEI::size_type FRAGMENTED_NUCLEI::size_()
   const noexcept {
     return has_pimpl_() ? m_pimpl_->size() : 0;
 }
+
+TPARAMS
+typename FRAGMENTED_NUCLEI::supersystem_reference
+FRAGMENTED_NUCLEI::supersystem_() {
+    return has_pimpl_() ? m_pimpl_->supersystem() : supersystem_reference{};
+}
+
+TPARAMS
+typename FRAGMENTED_NUCLEI::const_supersystem_reference
+FRAGMENTED_NUCLEI::supersystem_() const {
+    return has_pimpl_() ? std::as_const(*m_pimpl_).supersystem() :
+                          const_supersystem_reference{};
+}
+
+// -- Private members
 
 TPARAMS
 bool FRAGMENTED_NUCLEI::has_pimpl_() const noexcept {
