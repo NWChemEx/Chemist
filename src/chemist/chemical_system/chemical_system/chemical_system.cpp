@@ -19,9 +19,13 @@
 
 namespace chemist {
 
-using pimpl_t    = typename ChemicalSystem::pimpl_t;
-using molecule_t = typename ChemicalSystem::molecule_t;
-using size_type  = typename ChemicalSystem::size_type;
+using pimpl_t            = typename ChemicalSystem::pimpl_t;
+using molecule_t         = typename ChemicalSystem::molecule_t;
+using molecule_reference = typename ChemicalSystem::molecule_reference;
+using const_molecule_reference =
+  typename ChemicalSystem::const_molecule_reference;
+
+using size_type = typename ChemicalSystem::size_type;
 
 ChemicalSystem::ChemicalSystem() : m_pimpl_(std::make_unique<pimpl_t>()) {}
 
@@ -50,10 +54,12 @@ ChemicalSystem& ChemicalSystem::operator=(ChemicalSystem&& rhs) noexcept =
 
 // ---------------------------- Accessors --------------------------------------
 
-molecule_t& ChemicalSystem::molecule() { return pimpl_().molecule(); }
+molecule_reference ChemicalSystem::molecule() {
+    return has_pimpl_() ? pimpl_().molecule() : molecule_reference{};
+}
 
-const molecule_t& ChemicalSystem::molecule() const {
-    return pimpl_().molecule();
+const_molecule_reference ChemicalSystem::molecule() const {
+    return has_pimpl_() ? pimpl_().molecule() : const_molecule_reference{};
 }
 
 bool ChemicalSystem::operator==(const ChemicalSystem& rhs) const noexcept {
@@ -65,6 +71,10 @@ bool ChemicalSystem::operator==(const ChemicalSystem& rhs) const noexcept {
 }
 
 // ---------------------- Private Member Functions -----------------------------
+
+bool ChemicalSystem::has_pimpl_() const noexcept {
+    return static_cast<bool>(m_pimpl_);
+}
 
 pimpl_t& ChemicalSystem::pimpl_() {
     if(!m_pimpl_) m_pimpl_ = std::make_unique<pimpl_t>();

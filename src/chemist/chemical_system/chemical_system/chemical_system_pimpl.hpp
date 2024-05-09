@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include <chemist/chemical_system/chemical_system_class.hpp>
+#include <chemist/chemical_system/chemical_system/chemical_system_class.hpp>
 
 namespace chemist::detail_ {
 

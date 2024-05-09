@@ -15,7 +15,7 @@
  */
 
 #include <catch2/catch.hpp>
-#include <chemist/chemical_system/chemical_system_pimpl.hpp>
+#include <chemist/chemical_system/chemical_system/chemical_system_pimpl.hpp>
 
 TEST_CASE("ChemicalSystemPIMPL") {
     using chem_sys_t       = chemist::ChemicalSystem;
