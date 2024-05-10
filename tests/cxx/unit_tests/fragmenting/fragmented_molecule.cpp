@@ -37,7 +37,7 @@ TEMPLATE_LIST_TEST_CASE("FragmentedMolecule", "", types2test) {
     molecule_type empty_mol;
     molecule_type value_mol{h, he};
     molecule_type cation(1, 1, {h, he});
-    fragmented_nuclei_type frags(value_mol.nuclei());
+    fragmented_nuclei_type frags(value_mol.nuclei().as_nuclei());
     frags.insert({0});
     frags.insert({1});
 
@@ -205,7 +205,7 @@ TEMPLATE_LIST_TEST_CASE("FragmentedMolecule", "", types2test) {
             REQUIRE(value_frags == value_frags2);
         }
         SECTION("different fragments") {
-            fragmented_nuclei_type frags2(value_mol.nuclei());
+            fragmented_nuclei_type frags2(value_mol.nuclei().as_nuclei());
             frags2.insert({0, 1});
             class_type value_frags2(frags2, 0, 2);
             REQUIRE_FALSE(value_frags == value_frags2);
@@ -220,7 +220,7 @@ TEMPLATE_LIST_TEST_CASE("FragmentedMolecule", "", types2test) {
             charges_container charges2{0, 1};
             atom_type h1("h", 1ul, 1.0, 3.0, 4.0, 5.0);
             molecule_type h2(1, 2, {h, h1});
-            fragmented_nuclei_type frags2(h2.nuclei());
+            fragmented_nuclei_type frags2(h2.nuclei().as_nuclei());
             frags2.insert({0});
             frags2.insert({1});
             class_type lhs(frags2, 1, 2, qs, ms);

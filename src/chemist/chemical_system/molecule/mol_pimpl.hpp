@@ -25,15 +25,13 @@ public:
 
     /// Pull in parent types
     ///@{
-    using nuclei_type            = typename parent_type::nuclei_type;
-    using nuclei_reference       = typename parent_type::nuclei_reference;
-    using const_nuclei_reference = typename parent_type::const_nuclei_reference;
-    using multiplicity_type      = typename parent_type::multiplicity_type;
-    using charge_type            = typename parent_type::charge_type;
+    using nuclei_type       = typename parent_type::nuclei_type;
+    using multiplicity_type = typename parent_type::multiplicity_type;
+    using charge_type       = typename parent_type::charge_type;
     ///@}
 
-    nuclei_reference nuclei() { return m_nuclei_; }
-    const_nuclei_reference nuclei() const { return m_nuclei_; }
+    auto& nuclei() { return m_nuclei_; }
+    const auto& nuclei() const { return m_nuclei_; }
 
     /// Charge
     charge_type m_charge = 0;
