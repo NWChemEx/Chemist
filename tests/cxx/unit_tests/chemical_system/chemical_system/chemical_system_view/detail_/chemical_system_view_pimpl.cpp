@@ -6,7 +6,7 @@ using types2test = std::tuple<ChemicalSystem, const ChemicalSystem>;
 
 TEMPLATE_LIST_TEST_CASE("ChemicalSystemViewPIMPL", "", types2test) {
     // Are we testing an alias of a read-only ChemicalSystem?
-    constexpr bool is_const_alias =
+    constexpr bool is_mutable_alias =
       std::is_same_v<TestType, std::remove_cv_t<TestType>>;
 
     using pimpl_type         = detail_::ChemicalSystemViewPIMPL<TestType>;
@@ -32,6 +32,31 @@ TEMPLATE_LIST_TEST_CASE("ChemicalSystemViewPIMPL", "", types2test) {
             test_chemist::test_copy_ctor(empty);
             test_chemist::test_copy_ctor(values);
         }
+    }
+
+    SECTION("molecule") {
+        REQUIRE(empty.molecule() == empty_mol);
+        REQUIRE(values.molecule() == values_mol);
+
+        if constexpr(is_mutable_alias) {
+            // Verify it's writeable
+            values.molecule()[0].x() = 1.0;
+            REQUIRE(values.molecule()[0].x() == 1.0);
+            REQUIRE(values_mol[0].x() == 1.0);
+        }
+    }
+
+    SECTION("molecule() const") {
+        REQUIRE(std::as_const(empty).molecule() == empty_mol);
+        REQUIRE(std::as_const(values).molecule() == values_mol);
+    }
+
+    SECTION("clone") {
+        auto pempty = empty.clone();
+        REQUIRE(*pempty == empty);
+
+        auto pvalues = values.clone();
+        REQUIRE(*pvalues == values);
     }
 
     SECTION("operator==") {

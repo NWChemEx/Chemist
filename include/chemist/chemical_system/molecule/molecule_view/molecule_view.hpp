@@ -58,6 +58,17 @@ private:
     using disable_if_read_only_t =
       std::enable_if_t<!is_cv_v<T> && std::is_same_v<T, MoleculeType>>;
 
+    /**
+     * We allow assigning values to the aliased state when:
+     * - *this is mutable
+     * - the object to assign from is a Molecule object (with arbitrary
+     *   cv-qualifiers)
+     */
+    template<typename T>
+    using enable_assign_from_molecule_t = std::enable_if_t<
+      !is_cv_v<MoleculeType> &&
+      std::is_same_v<std::remove_cv_t<T>, std::remove_cv_t<MoleculeType>>>;
+
 public:
     /// Type of the object implementing *this
     using pimpl_type = detail_::MoleculeViewPIMPL<MoleculeType>;
@@ -205,6 +216,27 @@ public:
      */
     MoleculeView(MoleculeView&& other) noexcept;
 
+    /** @brief Sets the aliased state so it is value equal to @p rhs.
+     *
+     *  This method modifies the aliased state so that it is value equal to
+     *  the state of @p rhs. It does NOT allocate new state.
+     *
+     *  @param[in] rhs The Molecule we want the aliased Molecule to be value
+     *                 equal to.
+     *
+     *  @throw std::runtime_error if the Molecule aliased by *this does not have
+     *                            the same number of atoms as @p rhs. Strong
+     *                            throw guarantee.
+     */
+    template<typename MoleculeType2,
+             typename = enable_assign_from_molecule_t<MoleculeType2>>
+    MoleculeView& operator=(const MoleculeType2& rhs) {
+        nuclei() = rhs.nuclei();
+        set_charge(rhs.charge());
+        set_multiplicity(rhs.multiplicity());
+        return *this;
+    }
+
     /** @brief Replaces the state in *this with a copy of the state in @p rhs.
      *
      *  This method will release the state currently held by *this and replace
@@ -350,6 +382,20 @@ public:
     // -------------------------------------------------------------------------
     // -- Utility methods
     // -------------------------------------------------------------------------
+
+    /** @brief Converts *this into a Molecule object.
+     *
+     *  MoleculeView objects alias their state whereas Molecule objects own
+     *  their state. This method will deep copy the state owned by *this into
+     *  a newly created Molecule object.
+     *
+     *  @return A Molecule object which is a deep copy of the state aliased by
+     *          *this.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the return.
+     *                        Strong throw guarantee.
+     */
+    molecule_type as_molecule() const;
 
     /** @brief Returns the address where the charge is stored.
      *

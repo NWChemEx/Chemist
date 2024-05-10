@@ -22,6 +22,8 @@ using namespace chemist;
 using types2test = std::tuple<Molecule, const Molecule>;
 
 TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
+    constexpr bool is_const_v =
+      !std::is_same_v<TestType, std::remove_cv_t<TestType>>;
     using view_type              = MoleculeView<TestType>;
     using molecule_type          = typename view_type::molecule_type;
     using atom_type              = typename molecule_type::atom_type;
@@ -84,6 +86,19 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
         SECTION("Move") {
             test_chemist::test_move_ctor(defaulted);
             test_chemist::test_move_ctor(value);
+        }
+
+        SECTION("Assign from Molecule") {
+            if constexpr(!is_const_v) {
+                molecule_type value_mol2{he, h}; // Swap order
+                auto pvalue = &(value = value_mol2);
+                REQUIRE(pvalue == &value);
+                REQUIRE(value[0] == he.nucleus());
+                REQUIRE(value[1] == h.nucleus());
+                REQUIRE(value_mol == value_mol2);
+
+                REQUIRE_THROWS_AS(defaulted = value_mol, std::runtime_error);
+            }
         }
 
         SECTION("Copy assignment") {
@@ -169,6 +184,11 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
         REQUIRE(std::as_const(defaulted).multiplicity_data() == nullptr);
         const auto& cvalue = value;
         REQUIRE(cvalue.multiplicity_data() == value_mol.multiplicity_data());
+    }
+
+    SECTION("as_molecule") {
+        REQUIRE(defaulted.as_molecule() == molecule_type{});
+        REQUIRE(value.as_molecule() == value_mol);
     }
 
     SECTION("swap") {

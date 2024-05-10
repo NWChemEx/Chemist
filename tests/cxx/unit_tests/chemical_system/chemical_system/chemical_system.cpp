@@ -74,8 +74,9 @@ TEST_CASE("ChemicalSystem") {
         REQUIRE(sys.molecule() == h);
 
         SECTION("is read/write") {
-            sys.molecule() = Molecule{};
-            REQUIRE(sys.molecule() == Molecule{});
+            sys.molecule()[0].x() = 1.0;
+            h[0].x()              = 1.0;
+            REQUIRE(sys.molecule() == h);
         }
     }
 
@@ -83,8 +84,8 @@ TEST_CASE("ChemicalSystem") {
         ChemicalSystem defaulted;
         ChemicalSystem sys(h);
 
-        REQUIRE(std::as_same(defaulted).molecule() == Molecule{});
-        REQUIRE(std::as_const(sys).molecule() == sys);
+        REQUIRE(std::as_const(defaulted).molecule() == Molecule{});
+        REQUIRE(std::as_const(sys).molecule() == h);
     }
 
     SECTION("operator==") {

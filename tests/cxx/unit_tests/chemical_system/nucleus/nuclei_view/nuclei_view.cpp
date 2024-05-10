@@ -35,6 +35,8 @@ using namespace chemist;
 
 template<typename NucleiType>
 void test_nuclei_view() {
+    constexpr bool is_const_v =
+      !std::is_same_v<NucleiType, std::remove_cv_t<NucleiType>>;
     using set_type         = NucleiType;
     using value_type       = typename set_type::value_type;
     using view_type        = NucleiView<set_type>;
@@ -162,6 +164,19 @@ void test_nuclei_view() {
             REQUIRE(value_copy == value_move);
         }
 
+        SECTION("Assign from Nuclei") {
+            if constexpr(!is_const_v) {
+                set_type value1{n1, n0}; // Just swap the order
+                auto pvalue = &(value = value1);
+                REQUIRE(pvalue == &value);
+                REQUIRE(value[0] == n1);
+                REQUIRE(value[1] == n0);
+                REQUIRE(value_set == value1);
+
+                REQUIRE_THROWS_AS(defaulted = value1, std::runtime_error);
+            }
+        }
+
         SECTION("Copy assignment") {
             view_type defaulted_copy;
             auto pdefaulted_copy = &(defaulted_copy = defaulted);
@@ -232,6 +247,11 @@ void test_nuclei_view() {
 
         REQUIRE(defaulted == rhs_copy);
         REQUIRE(value == lhs_copy);
+    }
+
+    SECTION("as_nuclei") {
+        REQUIRE(defaulted.as_nuclei() == defaulted_set);
+        REQUIRE(value.as_nuclei() == value_set);
     }
 
     SECTION("operator==(NucleiView)") {

@@ -3,6 +3,17 @@
 
 namespace chemist::detail_ {
 
+/** @brief Defines the API for implementing ChemicalSystemView
+ *
+ *  @tparam ChemicalSystemType The type of the ChemicalSystem *this aliases.
+ *                             Assumed to be either `ChemicalSystem` or
+ *                             `const ChemicalSystem`.
+ *
+ *  As of right now there is only a single PIMPL for the ChemicalSystemView,
+ *  but if others are needed this class will become a base class that defines
+ *  the API all PIMPLs must implement.
+ *
+ */
 template<typename ChemicalSystemType>
 class ChemicalSystemViewPIMPL {
 private:
@@ -42,12 +53,16 @@ public:
     ChemicalSystemViewPIMPL& operator=(ChemicalSystemViewPIMPL&&)      = delete;
     ///@}
 
+    /// Mutable reference to the Molecule stored in *this
     molecule_reference molecule() { return m_molecule_; }
 
+    /// Read-only reference to the Molecule stored in *this
     const_molecule_reference molecule() const { return m_molecule_; }
 
+    /// Makes a (possibly eventually polymorphic) deep copy of *this
     pimpl_pointer clone() const { return std::make_unique<my_type>(*this); }
 
+    /// Compares the Molecule in *thi to the one in @p rhs
     bool operator==(const ChemicalSystemViewPIMPL& rhs) const noexcept {
         return m_molecule_ == rhs.m_molecule_;
     }

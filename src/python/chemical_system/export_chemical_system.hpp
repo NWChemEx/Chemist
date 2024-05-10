@@ -32,16 +32,18 @@ void inline export_chemical_system(python_module_reference m) {
     using chemical_system_type      = ChemicalSystem;
     using chemical_system_reference = chemical_system_type&;
     using molecule_type             = typename chemical_system_type::molecule_t;
-    using size_type                 = typename chemical_system_type::size_type;
+    using molecule_reference =
+      typename chemical_system_type::molecule_reference;
+    using size_type = typename chemical_system_type::size_type;
 
     python_class_type<ChemicalSystem>(m, "ChemicalSystem")
       .def(pybind11::init<>())
       .def(pybind11::init<molecule_type>())
       .def_property(
         "molecule",
-        [](chemical_system_reference self) { return &self.molecule(); },
+        [](chemical_system_reference self) { return self.molecule(); },
         [](chemical_system_reference self, molecule_type mol) {
-            self.molecule() = std::move(mol);
+            self.molecule() = mol;
         })
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);

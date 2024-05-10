@@ -149,10 +149,10 @@ public:
     NucleusView(name_reference name, atomic_number_reference Z,
                 mass_reference m, charge_view_type q);
 
-    /** @brief Makes *this alias @p other
+    /** @brief Sets the Nucleus aliased by *this to a copy of @p other
      *
-     *  This ctor will change the Nucleus object *this aliases so that it
-     *  aliases @p other.
+     *  This ctor will change the Nucleus object *this aliases so that it is
+     *  a copy of @p other.
      *
      *  @tparam NucleusType2 The type of the @p other.
      *  @tparam <Anonymous> This template parameter is used to disable this
@@ -168,9 +168,9 @@ public:
                                       std::decay_t<NucleusType2>, NucleusType>>>
     NucleusView& operator=(NucleusType2&& other) {
         base_type::operator=(std::forward<point_charge_type>(other));
-        (*m_pname_)        = other.name();
-        (*m_pZ_)           = other.Z();
-        (*m_pmass_)        = other.mass();
+        (*m_pname_) = other.name();
+        (*m_pZ_)    = other.Z();
+        (*m_pmass_) = other.mass();
         return *this;
     }
 
