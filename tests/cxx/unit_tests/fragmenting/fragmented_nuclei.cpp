@@ -69,7 +69,7 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
     nondisjoint.push_back(i01);
     nondisjoint.push_back(i12);
 
-    set_type null_set;
+    set_type empty_set;
     set_type no_frags(ss);
     set_type disjoint_no_caps(ss, disjoint);
     set_type nondisjoint_no_caps(ss, nondisjoint);
@@ -110,45 +110,40 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
 
     SECTION("CTors and assignment") {
         SECTION("Default") {
-            REQUIRE(null_set.is_null());
-            REQUIRE(null_set.size() == 0);
+            REQUIRE(empty_set.supersystem() == supersystem_type{});
+            REQUIRE(empty_set.size() == 0);
         }
 
         SECTION("Empty") {
-            REQUIRE_FALSE(no_frags.is_null());
             REQUIRE(no_frags.size() == 0);
             REQUIRE(no_frags.supersystem() == ss);
         }
 
         SECTION("Frags, but no caps") {
-            REQUIRE_FALSE(disjoint_no_caps.is_null());
             REQUIRE(disjoint_no_caps.size() == 3);
             REQUIRE(disjoint_no_caps[0] == corr0);
             REQUIRE(disjoint_no_caps[1] == corr1);
             REQUIRE(disjoint_no_caps[2] == corr2);
 
-            REQUIRE_FALSE(nondisjoint_no_caps.is_null());
             REQUIRE(nondisjoint_no_caps.size() == 2);
             REQUIRE(nondisjoint_no_caps[0] == corr01);
             REQUIRE(nondisjoint_no_caps[1] == corr12);
         }
 
         SECTION("Frags with caps") {
-            REQUIRE_FALSE(disjoint_caps.is_null());
             REQUIRE(disjoint_caps.size() == 3);
             REQUIRE(disjoint_caps[0] == corr0_cap);
             REQUIRE(disjoint_caps[1] == corr1_cap);
             REQUIRE(disjoint_caps[2] == corr2);
 
-            REQUIRE_FALSE(nondisjoint_caps.is_null());
             REQUIRE(nondisjoint_caps.size() == 2);
             REQUIRE(nondisjoint_caps[0] == corr01);
             REQUIRE(nondisjoint_caps[1] == corr12_cap);
         }
 
         SECTION("copy") {
-            set_type null_set_copy(null_set);
-            REQUIRE(null_set_copy == null_set);
+            set_type empty_set_copy(empty_set);
+            REQUIRE(empty_set_copy == empty_set);
 
             set_type no_frags_copy(no_frags);
             REQUIRE(no_frags_copy == no_frags);
@@ -161,9 +156,9 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
         }
 
         SECTION("move") {
-            set_type null_set_copy(null_set);
-            set_type null_set_move(std::move(null_set));
-            REQUIRE(null_set_copy == null_set_move);
+            set_type empty_set_copy(empty_set);
+            set_type empty_set_move(std::move(empty_set));
+            REQUIRE(empty_set_copy == empty_set_move);
 
             set_type no_frags_copy(no_frags);
             set_type no_frags_move(std::move(no_frags));
@@ -179,10 +174,10 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
         }
 
         SECTION("copy assignment") {
-            set_type null_set_copy;
-            auto pnull_set_copy = &(null_set_copy = null_set);
-            REQUIRE(pnull_set_copy == &null_set_copy);
-            REQUIRE(null_set_copy == null_set);
+            set_type empty_set_copy;
+            auto pempty_set_copy = &(empty_set_copy = empty_set);
+            REQUIRE(pempty_set_copy == &empty_set_copy);
+            REQUIRE(empty_set_copy == empty_set);
 
             set_type no_frags_copy;
             auto pno_frags_copy = &(no_frags_copy = no_frags);
@@ -203,11 +198,11 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
         }
 
         SECTION("move assignment") {
-            set_type null_set_copy(null_set);
-            set_type null_set_move;
-            auto pnull_set_move = &(null_set_move = std::move(null_set));
-            REQUIRE(pnull_set_move == &null_set_move);
-            REQUIRE(null_set_copy == null_set_move);
+            set_type empty_set_copy(empty_set);
+            set_type empty_set_move;
+            auto pempty_set_move = &(empty_set_move = std::move(empty_set));
+            REQUIRE(pempty_set_move == &empty_set_move);
+            REQUIRE(empty_set_copy == empty_set_move);
 
             set_type no_frags_copy(no_frags);
             set_type no_frags_move;
@@ -267,8 +262,6 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
         using reference_container =
           typename fragment_reference::reference_container;
         fragment_reference frag(reference_container{ss[1]});
-        // No supersystem
-        REQUIRE_THROWS_AS(null_set.insert(frag), std::runtime_error);
 
         // Atom not part of supersystem
         nucleus_type u("U", 92ul, 238.0, 0.0, 0.0, 0.0);
@@ -282,7 +275,7 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
 
     SECTION("insert(by index)") {
         // No supersystem
-        REQUIRE_THROWS_AS(null_set.insert(i0), std::runtime_error);
+        REQUIRE_THROWS_AS(empty_set.insert(i0), std::runtime_error);
 
         index_set_type i9{9};
         REQUIRE_THROWS_AS(no_frags.insert(i9), std::runtime_error);
@@ -293,20 +286,18 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
     }
 
     SECTION("cap_set()") {
-        REQUIRE_THROWS_AS(null_set.cap_set(), std::runtime_error);
         REQUIRE(no_frags.cap_set() == cap_set_type{});
         REQUIRE(nondisjoint_caps.cap_set() == caps);
     }
 
     SECTION("cap_set() const") {
-        REQUIRE_THROWS_AS(std::as_const(null_set).cap_set(),
+        REQUIRE_THROWS_AS(std::as_const(empty_set).cap_set(),
                           std::runtime_error);
         REQUIRE(std::as_const(no_frags).cap_set() == cap_set_type{});
         REQUIRE(std::as_const(nondisjoint_caps).cap_set() == caps);
     }
 
     SECTION("add_cap") {
-        REQUIRE_THROWS_AS(null_set.add_cap(c01), std::runtime_error);
         no_frags.add_cap(c01);
         no_frags.add_cap(c10);
         REQUIRE(no_frags.cap_set() == caps);
@@ -347,7 +338,7 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
     }
 
     SECTION("size_") {
-        REQUIRE(null_set.size() == 0);
+        REQUIRE(empty_set.size() == 0);
         REQUIRE(no_frags.size() == 0);
         REQUIRE(disjoint_no_caps.size() == 3);
         REQUIRE(nondisjoint_no_caps.size() == 2);
@@ -358,13 +349,13 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
     SECTION("operator==") {
         SECTION("null vs. null") {
             set_type rhs;
-            REQUIRE(null_set == rhs);
+            REQUIRE(empty_set == rhs);
         }
 
-        SECTION("null vs. empty") { REQUIRE_FALSE(null_set == no_frags); }
+        SECTION("null vs. empty") { REQUIRE_FALSE(empty_set == no_frags); }
 
         SECTION("null vs. value") {
-            REQUIRE_FALSE(null_set == disjoint_no_caps);
+            REQUIRE_FALSE(empty_set == disjoint_no_caps);
         }
 
         SECTION("empty vs. empty") {
@@ -392,7 +383,7 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
 
     SECTION("operator!=") {
         // N.b. defined in terms of operator== so just spot check
-        REQUIRE(null_set != disjoint_no_caps);
-        REQUIRE_FALSE(null_set != set_type{});
+        REQUIRE(empty_set != disjoint_no_caps);
+        REQUIRE_FALSE(empty_set != set_type{});
     }
 }

@@ -45,6 +45,16 @@ supersystem
    contain subsets of a superset. The ``FragmentedBase<T>`` factors out the
    infrastructure for holding the superset and interacting with it.
 
+   - Addendum 5/9/2024. Factoring out the supersystem leads to extra copies
+     when ``FragmentedMolecule`` is implemented in terms of
+     ``FragmentedNuclei``. This is because the bases of both
+     ``FragmentedNuclei`` and ``FragmentedMolecule`` assume they own the
+     supersystem. Accessing the supersystem is still done through the base,
+     but we instead opted for a virtual function to retrieve it from the derived
+     class (this allows ``FragmentedNuclei`` to own the ``Nuclei`` piece and
+     ``FragmentedMolecule`` to own the charge/multiplicity piece).
+
+
 .. _fc_immutable_superset:
 
 immutable superset
@@ -71,46 +81,10 @@ null and empty states
    there is no supersystem and empty meaning there is a supersystem, but no
    fragments.
 
-******************
-FragmentedBase API
-******************
-
-.. note::
-
-   While the examples shown here should work, we do not expect users to create
-   ``FragmentedBase<T>`` objects directly. Rather, users will typically create
-   objects of type ``T`` which inherit from ``FragmentedBase<T>``.
-
-To construct a ``FragmentedBase<T>`` object:
-
-.. code-block:: C++
-
-   // Assumed to be a Nuclei, Molecule, or instance ChemicalSystem
-
-   auto supersys = get_supersystem();
-
-   // T will respectively be FragmentedNuclei, FragmentedMolecule, or
-   // FragmentedChemicalSystem if supersys is a Nuclei, Molecule, or
-   // ChemicalSystem. This creates an empty object, NOT null
-
-   FragmentedBase<T> fragments(supersys);
-
-   // Default construction is null, NOT empty
-   Fragmented<T> null;
-
-Following from consideration :ref:`fc_null_and_empty_states`, ``fragments`` will
-be an empty set of fragments whereas ``null`` will be a null object. Actually
-adding fragments to the object will occur via the derived class. The remainder
-of the ``FragmentedBase<T>`` API:
-
-.. code-block:: C++
-
-   // Access the supersystem
-   assert(fragments.supersystem() == supersys);
-
-   // Is the object null?
-   assert(!fragments.is_null());
-   assert(null.is_null());
+   - Addendum 5/9/2024. The empty set is a universal constant and have opted
+     for null objects to instead fragment the empty set. An object with a non-
+     empty superset, but no fragments can be distinguished by comparing the
+     supersets.
 
 *********************
 FragmentedBase Design
@@ -144,5 +118,5 @@ Summary
    Addressed by storing the superset as a read-only object.
 
 :ref:`fc_null_and_empty_states`
-   The default constructor will create a null object, whereas the constructor
-   which takes a superset creates an empty object.
+   The default constructor will fragment an empty set object, whereas the
+   constructor which takes a superset creates an empty object.

@@ -219,4 +219,21 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
         REQUIRE(defaulted != value);
         REQUIRE_FALSE(defaulted != view_type{});
     }
+
+    SECTION("MoleculeView vs Molecule") {
+        REQUIRE(value == value_mol);
+        REQUIRE(value_mol == value); // Ensure symmetric
+        REQUIRE(value != molecule_type{});
+        REQUIRE(molecule_type{} != value);
+    }
+
+    SECTION("MoleculeView<Molecule> vs. MoleculeView<const Molecule>") {
+        if constexpr(std::is_same_v<Molecule, TestType>) {
+            MoleculeView<const TestType> rhs;
+            REQUIRE(defaulted == rhs);
+            REQUIRE(rhs == defaulted);
+            REQUIRE(value != rhs);
+            REQUIRE(rhs != value);
+        }
+    }
 }

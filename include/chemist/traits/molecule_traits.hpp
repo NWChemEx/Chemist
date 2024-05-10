@@ -62,6 +62,8 @@ struct ChemistClassTraits<Molecule> {
     using value_type           = Molecule;
     using reference            = value_type&;
     using const_reference      = const value_type&;
+    using view_type            = MoleculeView<value_type>;
+    using const_view_type      = MoleculeView<const value_type>;
     using charge_type          = short;
     using charge_pointer       = charge_type*;
     using const_charge_pointer = const charge_type*;
@@ -74,6 +76,8 @@ struct ChemistClassTraits<const Molecule> {
     using value_type           = Molecule;
     using reference            = const value_type&;
     using const_reference      = const value_type&;
+    using view_type            = MoleculeView<const value_type>;
+    using const_view_type      = MoleculeView<const value_type>;
     using charge_type          = short;
     using charge_pointer       = const charge_type*;
     using const_charge_pointer = const charge_type*;

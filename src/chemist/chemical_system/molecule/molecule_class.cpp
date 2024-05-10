@@ -79,8 +79,8 @@ nuclei_reference Molecule::nuclei() {
 }
 
 const_nuclei_reference Molecule::nuclei() const {
-    assert_pimpl_();
-    return m_pimpl_->nuclei();
+    return has_pimpl_() ? std::as_const(*m_pimpl_).nuclei() :
+                          const_nuclei_reference{};
 }
 
 size_type Molecule::n_electrons() const noexcept {
