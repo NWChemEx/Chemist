@@ -45,6 +45,7 @@ void export_point_charge(python_module_reference m) {
 
     export_charge_view(m);
     export_charges(m);
+    export_charges_view(m);
 }
 
 } // namespace chemist

@@ -60,6 +60,7 @@ void export_nucleus(python_module_reference m) {
 
     export_nucleus_view(m);
     export_nuclei(m);
+    export_nuclei_view(m);
 }
 
 } // namespace chemist

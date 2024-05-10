@@ -19,21 +19,23 @@ import unittest
 class TestChemicalSystem(unittest.TestCase):
 
     def test_molecule(self):
-        print(self.defaulted.molecule)
-        # self.assertEqual(self.defaulted.molecule, self.default_mol)
-        # self.assertEqual(self.has_default_mol.molecule, self.default_mol)
-        # self.assertEqual(self.has_mol.molecule, self.mol)
+        self.assertEqual(self.defaulted.molecule, self.default_mol)
+        self.assertEqual(self.has_default_mol.molecule, self.default_mol)
+        self.assertEqual(self.has_mol.molecule, self.mol)
 
-        # # Molecule is referenced
-        # self.assertEqual(self.has_mol.molecule.size(), 1)
-        # mol_ref = self.has_mol.molecule
-        # mol_ref.push_back(chemist.Atom())
-        # self.assertEqual(self.has_mol.molecule.size(), 2)
-        # self.assertEqual(mol_ref, self.has_mol.molecule)
+        # Molecule is referenced
+        self.assertEqual(self.has_mol.molecule.size(), 1)
+        mol_ref = self.has_mol.molecule
+        mol_ref.at(0).x = 42.0
+        self.assertEqual(self.has_mol.molecule.at(0).x, 42.0)
+        self.assertEqual(mol_ref, self.has_mol.molecule)
 
-        # # Can write to it
-        # self.defaulted.molecule = self.mol
-        # self.assertEqual(self.defaulted.molecule, self.mol)
+        # Can write to it
+        a0 = chemist.Atom("H", 1, 1.0, 1.0, 2.0, 3.0)
+        mol2 = chemist.Molecule()
+        mol2.push_back(a0)
+        self.has_mol.molecule = mol2
+        self.assertEqual(self.has_mol.molecule, mol2)
 
     def test_comparisons(self):
         # Default vs. default
