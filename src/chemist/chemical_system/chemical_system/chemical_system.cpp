@@ -54,9 +54,7 @@ ChemicalSystem& ChemicalSystem::operator=(ChemicalSystem&& rhs) noexcept =
 
 // ---------------------------- Accessors --------------------------------------
 
-molecule_reference ChemicalSystem::molecule() {
-    return pimpl_().molecule();
-}
+molecule_reference ChemicalSystem::molecule() { return pimpl_().molecule(); }
 
 const_molecule_reference ChemicalSystem::molecule() const {
     return has_pimpl_() ? pimpl_().molecule() : const_molecule_reference{};
