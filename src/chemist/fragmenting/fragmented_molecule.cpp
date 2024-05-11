@@ -145,7 +145,7 @@ FRAGMENTED_MOLECULE::FragmentedMolecule() noexcept = default;
 
 TPARAMS
 FRAGMENTED_MOLECULE::FragmentedMolecule(supersystem_type molecule) :
-  FragmentedMolecule(fragmented_nuclei_type(molecule.nuclei().as_nuclei()),
+  FragmentedMolecule(fragmented_nuclei_type(molecule.nuclei()),
                      molecule.charge(), molecule.multiplicity()) {}
 
 TPARAMS FRAGMENTED_MOLECULE::FragmentedMolecule(

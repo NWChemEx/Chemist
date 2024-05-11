@@ -49,10 +49,10 @@ public:
     using molecule_t = typename molecule_traits::value_type;
 
     /// Deprecated.
-    using mol_ref_t = typename molecule_traits::view_type;
+    using mol_ref_t = typename molecule_traits::reference;
 
     /// Type of a mutable reference to the Molecule object part of *this
-    using molecule_reference = typename molecule_traits::view_type;
+    using molecule_reference = typename molecule_traits::reference;
 
     /// Deprecated
     using const_mol_ref_t = typename molecule_traits::const_view_type;
