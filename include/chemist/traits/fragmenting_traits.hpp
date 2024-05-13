@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <chemist/traits/chemical_system_traits.hpp>
 #include <chemist/traits/chemist_class_traits.hpp>
 #include <chemist/traits/molecule_traits.hpp>
 #include <chemist/traits/nucleus_traits.hpp>
@@ -83,5 +84,25 @@ struct ChemistClassTraits<CONST_FRAG_MOLECULE>
       ChemistClassTraits<fragmenting::FragmentedNuclei<const Nuclei>>;
 };
 #undef CONST_FRAG_MOLECULE
+
+#define FRAG_CHEM_SYS fragmenting::FragmentedChemicalSystem<ChemicalSystem>
+template<>
+struct ChemistClassTraits<FRAG_CHEM_SYS>
+  : public ChemistClassTraits<fragmenting::FragmentedBase<FRAG_CHEM_SYS>> {
+    using fragmented_molecule_traits =
+      ChemistClassTraits<fragmenting::FragmentedMolecule<Molecule>>;
+};
+#undef FRAG_CHEM_SYS
+
+#define CONST_FRAG_CHEM_SYS \
+    fragmenting::FragmentedChemicalSystem<const ChemicalSystem>
+template<>
+struct ChemistClassTraits<CONST_FRAG_CHEM_SYS>
+  : public ChemistClassTraits<
+      fragmenting::FragmentedBase<CONST_FRAG_CHEM_SYS>> {
+    using fragmented_molecule_traits =
+      ChemistClassTraits<fragmenting::FragmentedMolecule<const Molecule>>;
+};
+#undef CONST_FRAG_CHEM_SYS
 
 } // namespace chemist
