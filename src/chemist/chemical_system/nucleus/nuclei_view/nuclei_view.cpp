@@ -88,6 +88,13 @@ void NUCLEI_VIEW::swap(NucleiView& other) noexcept {
 }
 
 TPARAMS
+typename NUCLEI_VIEW::nuclei_type NUCLEI_VIEW::as_nuclei() const {
+    nuclei_type rv;
+    for(const auto& ni : *this) rv.push_back(ni.as_nucleus());
+    return rv;
+}
+
+TPARAMS
 bool NUCLEI_VIEW::operator==(const NucleiView& other) const noexcept {
     if(this->size() != other.size()) return false;
     if(this->size() == 0) return true;

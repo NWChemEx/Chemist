@@ -22,23 +22,18 @@
 #include <vector>
 
 namespace chemist {
-
-void export_molecule(python_module_reference m) {
-    export_atom(m);
-
-    using molecule_type         = Molecule;
-    using molecule_reference    = molecule_type&;
-    using atom_type             = typename Molecule::atom_type;
-    using size_type             = typename Molecule::size_type;
-    using atom_initializer_list = std::initializer_list<atom_type>;
-    using charge_type           = typename Molecule::charge_type;
-    using nuclei_type           = typename Molecule::nuclei_type;
+namespace detail_ {
+void export_molecule_(python_module_reference m) {
+    using molecule_type      = Molecule;
+    using molecule_reference = molecule_type&;
+    using atom_type          = typename Molecule::atom_type;
+    using size_type          = typename Molecule::size_type;
+    using charge_type        = typename Molecule::charge_type;
+    using nuclei_type        = typename Molecule::nuclei_type;
 
     python_class_type<Molecule>(m, "Molecule")
       .def(pybind11::init<>())
       .def(pybind11::init<charge_type, size_type, nuclei_type>())
-      //.def(pybind11::init<atom_initializer_list>())
-      //   .def(pybind11::init<charge_type, size_type, atom_initializer_list>())
       .def("empty", [](molecule_reference self) { return self.empty(); })
       .def("push_back",
            [](molecule_reference self, atom_type v) {
@@ -69,6 +64,13 @@ void export_molecule(python_module_reference m) {
         pybind11::keep_alive<0, 1>())
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
+}
+} // namespace detail_
+
+void export_molecule(python_module_reference m) {
+    export_atom(m);
+    detail_::export_molecule_(m);
+    export_molecule_view(m);
 }
 
 } // namespace chemist

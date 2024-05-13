@@ -64,7 +64,7 @@ Molecule::Molecule(charge_type charge, size_type multiplicity,
 Molecule::Molecule(charge_type charge, size_type multiplicity,
                    nuclei_type nuclei) :
   m_pimpl_(make_pimpl_()) {
-    this->nuclei() = std::move(nuclei);
+    m_pimpl_->nuclei() = std::move(nuclei);
     set_charge(charge);
     set_multiplicity(multiplicity);
 }

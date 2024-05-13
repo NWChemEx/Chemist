@@ -15,7 +15,8 @@
  */
 
 #pragma once
-#include <chemist/chemical_system/molecule/molecule_class.hpp>
+#include <chemist/chemical_system/molecule/molecule.hpp>
+#include <chemist/traits/chemical_system_traits.hpp>
 #include <memory>
 
 namespace chemist {
@@ -38,20 +39,32 @@ public:
     /// The type of the pointer storing the PIMPL
     using pimpl_ptr_t = std::unique_ptr<pimpl_t>;
 
+    /// Type of the class defining the types for *this
+    using traits_type = ChemistClassTraits<ChemicalSystem>;
+
+    /// Type of the class defining the types for the molecule piece of *this
+    using molecule_traits = typename traits_type::molecule_traits;
+
     /// The type of the object describing the set of atoms
-    using molecule_t = Molecule;
+    using molecule_t = typename molecule_traits::value_type;
 
-    /// A read/write reference to the object describing the set of atoms
-    using mol_ref_t = molecule_t&;
+    /// Deprecated.
+    using mol_ref_t = typename molecule_traits::reference;
 
-    /// A read-only reference to the object describing the set of atoms
-    using const_mol_ref_t = const molecule_t&;
+    /// Type of a mutable reference to the Molecule object part of *this
+    using molecule_reference = typename molecule_traits::reference;
+
+    /// Deprecated
+    using const_mol_ref_t = typename molecule_traits::const_view_type;
+
+    /// Type of a read-only reference to the Molecule part of *this
+    using const_molecule_reference = typename molecule_traits::const_view_type;
 
     /// Type used for counting/indexing
     using size_type = std::size_t;
 
     /// Type used to store the charge of the system
-    using charge_type = int;
+    using charge_type = typename molecule_traits::charge_type;
 
     /** @brief Creates a new ChemicalSystem with default constructed members.
      *
@@ -131,18 +144,18 @@ public:
     /** @brief Returns the molecular system associated with this system.
      *
      *  @return A read/write reference to the molecular system
-     *  @throws std::bad_alloc if the class has no PIMPL and an error arises
-     *                         while allocating. Strong throw guarantee.
+     *  @throws std::bad_alloc if there is a problem allocating the return
+     *                         object. Strong throw guarantee.
      */
-    mol_ref_t molecule();
+    molecule_reference molecule();
 
     /** @brief Returns the molecular system associated with this system.
      *
      *  @return The molecular system in a read-only state.
-     *  @throws std::runtime_error if the class has no PIMPL. Strong throw
-     *                             guarantee.
+     *  @throws std::bad_alloc if there is a problem allocating the return
+     *                         object. Strong throw guarantee.
      */
-    const_mol_ref_t molecule() const;
+    const_molecule_reference molecule() const;
 
     /** @brief Determines if two ChemicalSystem instances are the same.
      *
@@ -161,6 +174,9 @@ public:
     bool operator==(const ChemicalSystem& rhs) const noexcept;
 
 private:
+    /// Code factorization for determining if *this has a PIMPL
+    bool has_pimpl_() const noexcept;
+
     /** @brief Returns the PIMPL in a read/write state.
      *
      *  If the instance already has a PIMPL this function simply dereferences

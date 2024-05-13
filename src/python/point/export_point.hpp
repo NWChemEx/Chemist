@@ -53,6 +53,7 @@ inline void export_point_(const char* name, python_module_reference m) {
 } // namespace detail_
 
 void export_point_set(python_module_reference m);
+void export_point_set_view(python_module_reference m);
 void export_point_view(python_module_reference m);
 
 inline void export_point(python_module_reference m) {
@@ -61,6 +62,7 @@ inline void export_point(python_module_reference m) {
 
     export_point_view(m);
     export_point_set(m);
+    export_point_set_view(m);
 }
 
 } // namespace chemist

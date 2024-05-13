@@ -15,55 +15,12 @@
  */
 
 #include <catch2/catch.hpp>
-#include <chemist/chemical_system/chemical_system_class.hpp>
+#include <chemist/chemical_system/chemical_system/chemical_system_class.hpp>
 #include <utility>
 
 using namespace chemist;
 
 TEST_CASE("ChemicalSystem") {
-    SECTION("Typedefs") {
-        SECTION("pimpl_t") {
-            using pimpl_t = typename ChemicalSystem::pimpl_t;
-            using corr_t  = detail_::ChemicalSystemPIMPL;
-            STATIC_REQUIRE(std::is_same_v<pimpl_t, corr_t>);
-        }
-
-        SECTION("pimpl_ptr_t") {
-            using pimpl_ptr_t = typename ChemicalSystem::pimpl_ptr_t;
-            using corr_t      = std::unique_ptr<detail_::ChemicalSystemPIMPL>;
-            STATIC_REQUIRE(std::is_same_v<pimpl_ptr_t, corr_t>);
-        }
-
-        SECTION("molecule_t") {
-            using molecule_t = typename ChemicalSystem::molecule_t;
-            using corr_t     = Molecule;
-            STATIC_REQUIRE(std::is_same_v<molecule_t, corr_t>);
-        }
-
-        SECTION("mol_ref_t") {
-            using mol_ref_t = typename ChemicalSystem::mol_ref_t;
-            using corr_t    = Molecule&;
-            STATIC_REQUIRE(std::is_same_v<mol_ref_t, corr_t>);
-        }
-
-        SECTION("const_mol_ref_t") {
-            using const_mol_ref_t = typename ChemicalSystem::const_mol_ref_t;
-            using corr_t          = const Molecule&;
-            STATIC_REQUIRE(std::is_same_v<const_mol_ref_t, corr_t>);
-        }
-
-        SECTION("size_type") {
-            using t    = typename ChemicalSystem::size_type;
-            using corr = std::size_t;
-            STATIC_REQUIRE(std::is_same_v<t, corr>);
-        }
-
-        SECTION("charge_type") {
-            using corr_t      = int;
-            using charge_type = typename ChemicalSystem::charge_type;
-        }
-    }
-
     chemist::Atom atom("H", 1ul, 0.0, 0.0, 0.0, 0.0); // Mass-less hydrogen
     chemist::Molecule default_mol, h{atom};
 
@@ -110,31 +67,25 @@ TEST_CASE("ChemicalSystem") {
     }
 
     SECTION("molecule()") {
+        ChemicalSystem defaulted;
         ChemicalSystem sys(h);
 
-        SECTION("value") { REQUIRE(sys.molecule() == h); }
+        REQUIRE(defaulted.molecule() == Molecule{});
+        REQUIRE(sys.molecule() == h);
 
         SECTION("is read/write") {
-            sys.molecule() = Molecule{};
-            REQUIRE(sys.molecule() == Molecule{});
-        }
-
-        SECTION("Allocates new PIMPL if no PIMPL") {
-            ChemicalSystem buffer(std::move(sys));
-            REQUIRE(sys.molecule() == Molecule{});
+            sys.molecule()[0].x() = 1.0;
+            h[0].x()              = 1.0;
+            REQUIRE(sys.molecule() == h);
         }
     }
 
     SECTION("molecule() const") {
+        ChemicalSystem defaulted;
         ChemicalSystem sys(h);
 
-        SECTION("value") { REQUIRE(std::as_const(sys).molecule() == h); }
-
-        SECTION("Throws if no PIMPL") {
-            ChemicalSystem buffer(std::move(sys));
-            const auto& csys = sys;
-            REQUIRE_THROWS_AS(csys.molecule(), std::runtime_error);
-        }
+        REQUIRE(std::as_const(defaulted).molecule() == Molecule{});
+        REQUIRE(std::as_const(sys).molecule() == h);
     }
 
     SECTION("operator==") {

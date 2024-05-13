@@ -113,6 +113,11 @@ void MOLECULE_VIEW::set_multiplicity(multiplicity_type multiplicity) {
 // -----------------------------------------------------------------------------
 
 TPARAMS
+typename MOLECULE_VIEW::molecule_type MOLECULE_VIEW::as_molecule() const {
+    return molecule_type(charge(), multiplicity(), nuclei().as_nuclei());
+}
+
+TPARAMS
 typename MOLECULE_VIEW::const_charge_pointer MOLECULE_VIEW::charge_data()
   const noexcept {
     return has_pimpl_() ? &(std::as_const(*m_pimpl_).charge()) : nullptr;

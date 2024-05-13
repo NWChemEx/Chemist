@@ -76,7 +76,7 @@ public:
     using nuclei_reference = typename nuclei_traits::reference;
 
     /// Type of a read-only reference to the set of nuclei
-    using const_nuclei_reference = typename nuclei_traits::const_reference;
+    using const_nuclei_reference = typename nuclei_traits::const_view_type;
 
     /// Type of a nucleus
     using value_type = typename nuclei_type::value_type;
@@ -496,7 +496,7 @@ void Molecule::save(Archive& ar) const {
     if(has_pimpl_()) {
         ar& charge();
         ar& multiplicity();
-        ar& nuclei_type(nuclei());
+        ar& nuclei_type(nuclei().as_nuclei());
     }
 }
 

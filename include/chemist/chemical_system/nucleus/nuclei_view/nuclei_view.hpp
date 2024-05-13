@@ -65,6 +65,11 @@ private:
     using enable_if_iterators_t = std::void_t<decltype(std::vector(
       std::declval<Itr1>(), std::declval<Itr2>()))>;
 
+    template<typename T>
+    using enable_if_assign_from_nuclei_t = std::enable_if_t<
+      !am_i_const_v &&
+      std::is_same_v<std::remove_cv_t<T>, std::remove_cv_t<NucleiType>>>;
+
 public:
     /// Type of the PIMPL
     using pimpl_type = detail_::NucleiViewPIMPL<NucleiType>;
@@ -300,6 +305,34 @@ public:
      */
     NucleiView(NucleiView&& other) noexcept;
 
+    /** @brief Assigns a copy of @p other to the aliased Nuclei.
+     *
+     *  @tparam NucleiType2 The type of @p other. Must be Nuclei or a cv-
+     *                      qualified variant of Nuclei in order to participate
+     *                      in overload resolution.
+     *  @tparam <anonymous> Used to disable this method via SFINAE if *this is
+     *                      not a view of a mutable Nuclei object or if
+     *                      @p NucleiTypw2 is not a cv-qualified variant of
+     *                      Nuclei.
+     *
+     *  This method is used to change the state of the Nuclei object aliased
+     *  by *this so that it is a deep copy of the state owned by @p other.
+     *
+     *  @return *this after updating the state of hte aliased Nuclei object.
+     *
+     *  @throw std::runtime_error if *this and @p other have different sizes.
+     *                            Strong throw guarantee.
+     */
+    template<typename NucleiType2,
+             typename = enable_if_assign_from_nuclei_t<NucleiType2>>
+    NucleiView& operator=(const NucleiType2& other) {
+        if(this->size() != other.size())
+            throw std::runtime_error("Must be same size");
+        for(size_type i = 0; i < other.size(); ++i)
+            (*this)[i] = other[i].as_nucleus();
+        return *this;
+    }
+
     /** @brief Overwrites the state in *this with a copy of @p rhs.
      *
      *  This function makes a deep copy of @p rhs via the copy ctor and then
@@ -343,6 +376,19 @@ public:
      *  @throw None No throw guarantee.
      */
     void swap(NucleiView& other) noexcept;
+
+    /** @brief Converts *this into a Nuclei object.
+     *
+     *  NucleiView objects alias their state. Nuclei objects own their state.
+     *  This method will turn a NucleiView object into a Nuclei object by
+     *  copying the state aliased by *this into a newly created Nuclei object.
+     *
+     *  @return A Nuclei object with a deep copy of the state aliased by *this.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the new state.
+     *                        Strong throw guarantee.
+     */
+    nuclei_type as_nuclei() const;
 
     /** @brief Determines if the Nuclei aliased by *this and @p rhs are equal.
      *
