@@ -29,7 +29,6 @@ void export_charges_(const char* name, python_module_reference m) {
     using charges_type      = Charges<T>;
     using charges_reference = charges_type&;
     using value_type        = typename charges_type::value_type;
-    using reference         = typename charges_type::reference;
     using size_type         = typename charges_type::size_type;
 
     python_class_type<charges_type>(m, name)

@@ -24,9 +24,6 @@ void export_chemical_system_class(python_module_reference m) {
     using chemical_system_type      = ChemicalSystem;
     using chemical_system_reference = chemical_system_type&;
     using molecule_type             = typename chemical_system_type::molecule_t;
-    using molecule_reference =
-      typename chemical_system_type::molecule_reference;
-    using size_type = typename chemical_system_type::size_type;
 
     python_class_type<ChemicalSystem>(m, "ChemicalSystem")
       .def(pybind11::init<>())

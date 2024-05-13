@@ -29,17 +29,11 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
     // Non-cv qualified supersystem type
     using supersystem_type = typename set_type::supersystem_type;
 
-    // Non-cv qualified type of a fragment
-    using fragment_type = typename set_type::value_type;
-
     // Type of a reference to a fragment
     using fragment_reference = typename set_type::reference;
 
     // Non-cv qualified type of each Nucleus
     using nucleus_type = typename supersystem_type::value_type;
-
-    // Type of a reference to a nucleus
-    using nucleus_reference = typename supersystem_type::reference;
 
     // Type used to map fragment index to a set of nuclei indices
     using fragment_map_type = typename set_type::nucleus_map_type;

@@ -28,8 +28,6 @@ void export_nuclei_view(python_module_reference m) {
     using nuclei_type       = Nuclei;
     using view_type         = NucleiView<nuclei_type>;
     using reference         = view_type&;
-    using value_type        = typename nuclei_type::value_type;
-    using nucleus_reference = typename nuclei_type::reference;
     using size_type         = typename nuclei_type::size_type;
 
     python_class_type<view_type>(m, "NucleiView")

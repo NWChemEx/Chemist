@@ -52,7 +52,6 @@ TEMPLATE_TEST_CASE("AtomicBasisSetView", "", float, double) {
 
     using pure_type          = typename abs_traits::pure_type;
     using l_type             = typename abs_traits::angular_momentum_type;
-    using coord_type         = typename abs_traits::coord_type;
     using center_type        = typename abs_traits::center_type;
     using name_type          = typename abs_traits::name_type;
     using atomic_number_type = typename abs_traits::atomic_number_type;

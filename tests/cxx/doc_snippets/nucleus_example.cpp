@@ -57,6 +57,10 @@ int nucleus_example() {
     double n1_z = n1.z();
     REQUIRE(n1_x == 0.0);
     REQUIRE(n0.x() == 0.0);
+    REQUIRE(n1_y == 0.0);
+    REQUIRE(n0.y() == 0.0);
+    REQUIRE(n1_z == 0.0);
+    REQUIRE(n0.z() == 0.0);
     // Accessing the charge
     double n1_charge = n1.charge();
     REQUIRE(n1_charge == 1.0);

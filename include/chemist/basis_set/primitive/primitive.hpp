@@ -22,7 +22,7 @@
 namespace chemist::basis_set {
 namespace detail_ {
 template<typename T>
-class PrimitivePIMPL;
+struct PrimitivePIMPL;
 }
 
 /** @brief Models a Gaussian Primitive by value.

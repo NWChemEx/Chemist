@@ -116,7 +116,6 @@ TEMPLATE_TEST_CASE("Charges", "", float, double) {
         STATIC_REQUIRE(std::is_same_v<rtype, typename set_type::reference>);
 
         for(std::size_t charge_i = 0; charge_i < 3; ++charge_i) {
-            const auto idx  = charge_i * 4;
             const auto corr = charge_i == 0 ? q0 : q1;
             auto qi         = charges[charge_i];
 
@@ -136,7 +135,6 @@ TEMPLATE_TEST_CASE("Charges", "", float, double) {
         STATIC_REQUIRE(std::is_same_v<rtype, corr>);
 
         for(std::size_t charge_i = 0; charge_i < 3; ++charge_i) {
-            const auto idx  = charge_i * 4;
             const auto corr = charge_i == 0 ? q0 : q1;
             auto qi         = std::as_const(charges)[charge_i];
 

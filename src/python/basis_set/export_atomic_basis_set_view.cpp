@@ -29,9 +29,6 @@ void export_abs_view_(const char* name, python_module_reference m) {
     using abs_type              = basis_set::AtomicBasisSet<shell_type>;
     using abs_view_type         = basis_set::AtomicBasisSetView<abs_type>;
     using center_type           = typename primitive_type::center_type;
-    using coord_type            = typename primitive_type::coord_type;
-    using pure_type             = typename shell_type::pure_type;
-    using angular_momentum_type = typename shell_type::angular_momentum_type;
     using size_type             = typename abs_type::size_type;
     using name_type             = typename abs_type::name_type;
     using atomic_number_type    = typename abs_type::atomic_number_type;
