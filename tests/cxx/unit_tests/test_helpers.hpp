@@ -60,4 +60,16 @@ void test_move_assignment(T&& object2test) {
     REQUIRE(object_copy == object_move);   // Check value
 }
 
+template<typename... Args>
+void test_copy_and_move(Args&&... args) {
+    SECTION("Copy Ctor") { (test_copy_ctor(std::forward<Args>(args)), ...); }
+    SECTION("Move Ctor") { (test_move_ctor(std::forward<Args>(args)), ...); }
+    SECTION("Copy Assignment") {
+        (test_copy_assignment(std::forward<Args>(args)), ...);
+    }
+    SECTION("Move Assignment") {
+        (test_move_assignment(std::forward<Args>(args)), ...);
+    }
+}
+
 } // namespace test_chemist

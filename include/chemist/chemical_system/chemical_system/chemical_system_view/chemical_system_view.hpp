@@ -48,7 +48,7 @@ private:
     /// Enables a function if const_alias_v and !is_cv_v<T>
     template<typename T>
     using is_read_only_conversion_t =
-      std::enable_if_t<const_alias_v && is_cv_v<T>>;
+      std::enable_if_t<const_alias_v && !is_cv_v<T>>;
 
 public:
     /// Type of the PIMPL
