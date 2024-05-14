@@ -104,7 +104,7 @@ bool Nuclei::has_pimpl_() const noexcept { return m_pimpl_ != nullptr; }
 // -- Free functions ---------------------------------------------------------
 
 std::ostream& operator<<(std::ostream& os, const chemist::Nuclei& nuclei) {
-    for(size_type i = 0; i < nuclei.size(); i++) {
+    for(decltype(nuclei.size()) i = 0; i < nuclei.size(); i++) {
         os << nuclei[i] << std::endl;
     }
     return os;

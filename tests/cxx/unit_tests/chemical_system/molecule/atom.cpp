@@ -34,7 +34,7 @@ using charge_type = typename Atom::charge_type;
 using coords_type = std::array<coord_type, 3>;
 
 void check_atom(Atom& ai, const coords_type& coords, size_type Z, mass_type m,
-                name_type name, double q, int n) {
+                name_type name, double q, size_type n) {
     const Atom& const_ai = ai;
 
     REQUIRE(ai.x() == coords[0]);
