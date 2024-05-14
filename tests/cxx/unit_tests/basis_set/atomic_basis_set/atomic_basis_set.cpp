@@ -30,7 +30,6 @@ TEMPLATE_TEST_CASE("AtomicBasisSet", "", float, double) {
 
     using pure_type          = typename abs_traits::pure_type;
     using l_type             = typename abs_traits::angular_momentum_type;
-    using coord_type         = typename abs_traits::coord_type;
     using center_type        = typename abs_traits::center_type;
     using name_type          = typename abs_traits::name_type;
     using atomic_number_type = typename abs_traits::atomic_number_type;
@@ -48,7 +47,7 @@ TEMPLATE_TEST_CASE("AtomicBasisSet", "", float, double) {
     cg_type cg0(cs.begin(), cs.begin() + 1, es.begin(), es.begin() + 1, r1);
     cg_type cg1(cs.begin(), cs.end(), es.begin(), es.end(), r1);
     name_type name0, name1{"name1"};
-    atomic_number_type z0{0}, z1{1};
+    atomic_number_type z1{1};
     shell_type shell0{cart, l0, cg0}, shell1{pure, l1, cg1};
     std::vector<shell_type> shells{shell0, shell1};
 

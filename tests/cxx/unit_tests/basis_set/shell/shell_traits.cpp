@@ -24,9 +24,9 @@ using namespace chemist::basis_set;
 TEMPLATE_TEST_CASE("ShellTraits", "", float, double) {
     using shell_type = Shell<ContractedGaussian<Primitive<TestType>>>;
 
-    ShellTraits<shell_type> shell_traits;
+    REQUIRE_NOTHROW(ShellTraits<shell_type>());
 
-    ShellTraits<ShellView<shell_type>> shell_view_traits;
+    REQUIRE_NOTHROW(ShellTraits<ShellView<shell_type>>());
 
-    ShellTraits<ShellView<const shell_type>> const_shell_traits;
+    REQUIRE_NOTHROW(ShellTraits<ShellView<const shell_type>>());
 }

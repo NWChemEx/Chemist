@@ -61,6 +61,7 @@ int molecule_example() {
     REQUIRE(m0.charge() == 0);
     REQUIRE(m1.charge() == 0);
     REQUIRE(m2.charge() == 1);
+    REQUIRE(m1_charge == 0);
     // Accessing the multiplicity
     std::size_t m1_multiplicity = m1.multiplicity();
     REQUIRE(m1_multiplicity == 1ul);

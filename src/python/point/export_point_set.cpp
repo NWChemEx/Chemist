@@ -28,7 +28,6 @@ void export_point_set_(const char* name, python_module_reference m) {
     using point_set_type      = PointSet<T>;
     using point_set_reference = point_set_type&;
     using value_type          = typename point_set_type::value_type;
-    using reference           = typename point_set_type::reference;
     using size_type           = typename point_set_type::size_type;
 
     python_class_type<point_set_type>(m, name)

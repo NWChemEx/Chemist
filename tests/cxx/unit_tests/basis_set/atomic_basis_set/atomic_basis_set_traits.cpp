@@ -21,13 +21,18 @@
 
 using namespace chemist::basis_set;
 
+template<typename T>
+void test_construction() {
+    T instance;
+}
+
 TEMPLATE_TEST_CASE("AtomicBasisSetTraits", "", float, double) {
     using abs_type =
       AtomicBasisSet<Shell<ContractedGaussian<Primitive<TestType>>>>;
 
-    AtomicBasisSetTraits<abs_type> abs_traits;
+    REQUIRE_NOTHROW(AtomicBasisSetTraits<abs_type>());
 
-    AtomicBasisSetTraits<AtomicBasisSetView<abs_type>> abs_view_traits;
+    REQUIRE_NOTHROW(AtomicBasisSetTraits<AtomicBasisSetView<abs_type>>());
 
-    AtomicBasisSetTraits<AtomicBasisSetView<const abs_type>> const_abs_traits;
+    REQUIRE_NOTHROW(AtomicBasisSetTraits<AtomicBasisSetView<const abs_type>>());
 }

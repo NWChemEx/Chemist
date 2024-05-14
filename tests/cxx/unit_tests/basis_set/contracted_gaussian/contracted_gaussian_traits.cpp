@@ -28,10 +28,11 @@ using namespace chemist::basis_set;
 TEMPLATE_TEST_CASE("ContractedGaussianTraits", "", float, double) {
     using cg_type = ContractedGaussian<Primitive<TestType>>;
 
-    ContractedGaussianTraits<cg_type> cg_traits;
+    REQUIRE_NOTHROW(ContractedGaussianTraits<cg_type>());
 
-    ContractedGaussianTraits<ContractedGaussianView<cg_type>> cg_view_traits;
+    REQUIRE_NOTHROW(
+      ContractedGaussianTraits<ContractedGaussianView<cg_type>>());
 
-    ContractedGaussianTraits<ContractedGaussianView<const cg_type>>
-      const_cg_view_traits;
+    REQUIRE_NOTHROW(
+      ContractedGaussianTraits<ContractedGaussianView<const cg_type>>());
 }

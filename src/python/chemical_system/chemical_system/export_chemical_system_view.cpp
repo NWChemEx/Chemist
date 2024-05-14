@@ -24,9 +24,6 @@ void export_chemical_system_view(python_module_reference m) {
     using view_type            = ChemicalSystemView<chemical_system_type>;
     using reference            = view_type&;
     using molecule_type        = typename chemical_system_type::molecule_t;
-    using molecule_reference =
-      typename chemical_system_type::molecule_reference;
-    using size_type = typename chemical_system_type::size_type;
 
     python_class_type<view_type>(m, "ChemicalSystemView")
       .def(pybind11::init<>())

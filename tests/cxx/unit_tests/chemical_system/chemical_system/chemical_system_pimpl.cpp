@@ -35,6 +35,7 @@ TEST_CASE("ChemicalSystemPIMPL") {
         SECTION("pimpl_ptr_t") {
             using t    = typename chem_sys_pimpl_t::pimpl_ptr_t;
             using corr = typename chem_sys_t::pimpl_ptr_t;
+            STATIC_REQUIRE(std::is_same_v<t, corr>);
         }
 
         SECTION("molecule_t") {

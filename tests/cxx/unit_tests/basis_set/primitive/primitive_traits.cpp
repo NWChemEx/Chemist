@@ -28,9 +28,9 @@ using namespace chemist::basis_set;
 TEMPLATE_TEST_CASE("PrimitiveTraits", "", float, double) {
     using prim_type = Primitive<TestType>;
 
-    PrimitiveTraits<prim_type> prim_traits;
+    REQUIRE_NOTHROW(PrimitiveTraits<prim_type>());
 
-    PrimitiveTraits<PrimitiveView<prim_type>> prim_view_traits;
+    REQUIRE_NOTHROW(PrimitiveTraits<PrimitiveView<prim_type>>());
 
-    PrimitiveTraits<PrimitiveView<const prim_type>> const_prim_view_traits;
+    REQUIRE_NOTHROW(PrimitiveTraits<PrimitiveView<const prim_type>>());
 }

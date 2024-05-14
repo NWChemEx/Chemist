@@ -35,14 +35,14 @@ TEMPLATE_TEST_CASE("ViewTraits", "", Point<float>, Charge<double>) {
         using u       = typename view_traits::type;
         using const_u = typename const_view_traits::type;
         STATIC_REQUIRE(std::is_same_v<u, T>);
-        STATIC_REQUIRE(std::is_same_v<u, T>);
+        STATIC_REQUIRE(std::is_same_v<const_u, T>);
     }
 
     SECTION("const_type") {
         using u       = typename view_traits::const_type;
         using const_u = typename const_view_traits::const_type;
         STATIC_REQUIRE(std::is_same_v<u, const_t>);
-        STATIC_REQUIRE(std::is_same_v<u, const_t>);
+        STATIC_REQUIRE(std::is_same_v<const_u, const_t>);
     }
 
     SECTION("is_const_v") {
