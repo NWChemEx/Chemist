@@ -95,7 +95,7 @@ $(function() {
 , <a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#a015059ffae31adec4f29bce190b0c48a">chemist::basis_set::ShellView&lt; ShellType &gt;</a>
 </li>
 <li>AOBasisSet()
-: <a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a57597f3f3a95b4eea6af6400444bb4fb">chemist::basis_set::AOBasisSet&lt; AtomicBasisSetType &gt;</a>
+: <a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a88c149befb0e234f434ffdf17027ee43">chemist::basis_set::AOBasisSet&lt; AtomicBasisSetType &gt;</a>
 </li>
 <li>apply_const
 : <a class="el" href="structchemist_1_1detail___1_1ViewTraits.html#a42f8ff3b3c412f80ee432c73a26acd35">chemist::detail_::ViewTraits&lt; T &gt;</a>
@@ -131,6 +131,9 @@ $(function() {
 <li>as_charges()
 : <a class="el" href="classchemist_1_1detail___1_1NucleiPIMPL.html#a12b21b960ef177dfa4a9aace1109bf0e">chemist::detail_::NucleiPIMPL</a>
 </li>
+<li>as_nuclei()
+: <a class="el" href="classchemist_1_1NucleiView.html#aa9ace563affb5fa3358615389b254b68">chemist::NucleiView&lt; NucleiType &gt;</a>
+</li>
 <li>as_nucleus()
 : <a class="el" href="classchemist_1_1NucleusView.html#a3f02bb966f7a01afecc3657bedda28c7">chemist::NucleusView&lt; NucleusType &gt;</a>
 </li>
@@ -141,10 +144,7 @@ $(function() {
 : <a class="el" href="classchemist_1_1PointChargeView.html#a2d0a6f6463f4b2b6a572f02e80730924">chemist::PointChargeView&lt; ChargeType &gt;</a>
 </li>
 <li>as_point_set()
-: <a class="el" href="classchemist_1_1detail___1_1ChargesPIMPL.html#a3921b091885135c0ce95f0aba9cbf338">chemist::detail_::ChargesPIMPL&lt; T &gt;</a>
-</li>
-<li>assert_supersystem_()
-: <a class="el" href="classchemist_1_1fragmenting_1_1FragmentedBase.html#a325dee048b51f968e6ae11fbafa1c88f">chemist::fragmenting::FragmentedBase&lt; DerivedClass &gt;</a>
+: <a class="el" href="classchemist_1_1detail___1_1ChargesPIMPL.html#a6f69b563be8af7df2604aa2263adcb9c">chemist::detail_::ChargesPIMPL&lt; T &gt;</a>
 </li>
 <li>at()
 : <a class="el" href="classchemist_1_1basis__set_1_1detail___1_1AOBasisSetPIMPL.html#a61fcb08af51168d63b65321db3405215">chemist::basis_set::detail_::AOBasisSetPIMPL&lt; AtomicBasisSetType &gt;</a>
@@ -153,9 +153,11 @@ $(function() {
 </li>
 <li>at_()
 : <a class="el" href="classchemist_1_1detail___1_1ChargesContiguous.html#ab86fbd951904c7b87e951ef0225140c7">chemist::detail_::ChargesContiguous&lt; ChargesType &gt;</a>
-, <a class="el" href="classchemist_1_1detail___1_1ChargesViewPIMPL.html#a08da77f1893738a198c152b0e3f36fee">chemist::detail_::ChargesViewPIMPL&lt; ChargesType &gt;</a>
+, <a class="el" href="classchemist_1_1detail___1_1ChargesViewPIMPL.html#af4b57c32ba48f8793da19312c1f54c97">chemist::detail_::ChargesViewPIMPL&lt; ChargesType &gt;</a>
 , <a class="el" href="classchemist_1_1detail___1_1PointSetContiguous.html#a12722544b437393fb69f423d2d4c13c1">chemist::detail_::PointSetContiguous&lt; PointSetType &gt;</a>
 , <a class="el" href="classchemist_1_1detail___1_1PointSetViewPIMPL.html#a8d3c4bab61b9e446498ab04d2ffb59ac">chemist::detail_::PointSetViewPIMPL&lt; PointSetType &gt;</a>
+, <a class="el" href="classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html#a73648b49088224eaef563930c07d68ed">chemist::fragmenting::FragmentedChemicalSystem&lt; ChemicalSystemType &gt;</a>
+, <a class="el" href="classchemist_1_1fragmenting_1_1FragmentedMolecule.html#afa4f8468aa2c315aadc14190501f5c39">chemist::fragmenting::FragmentedMolecule&lt; MoleculeType &gt;</a>
 , <a class="el" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html#a3bb5e1cf7df521bf13fb755428f79be5">chemist::fragmenting::FragmentedNuclei&lt; NucleiType &gt;</a>
 </li>
 <li>Atom()
@@ -164,8 +166,12 @@ $(function() {
 <li>atom_initializer_list
 : <a class="el" href="classchemist_1_1Molecule.html#a931c9f0ed27651ecd8611315b242c3f3">chemist::Molecule</a>
 </li>
+<li>atom_traits
+: <a class="el" href="classchemist_1_1Molecule.html#a559d19cae2a11226da7429ded824e3d7">chemist::Molecule</a>
+, <a class="el" href="classchemist_1_1MoleculeView.html#af45d79de78ff8001103d1b5d6bbf8715">chemist::MoleculeView&lt; MoleculeType &gt;</a>
+</li>
 <li>atom_type
-: <a class="el" href="classchemist_1_1Molecule.html#acb46128c3eb3adbc3a9516bac4a0f564">chemist::Molecule</a>
+: <a class="el" href="classchemist_1_1Molecule.html#ac5f73af898a8a5c0c9d917a96fe5c0d3">chemist::Molecule</a>
 </li>
 <li>atomic_basis_set_reference
 : <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSetView.html#ac051a253433fc8885a6f204e5ccc7bd9">chemist::basis_set::AtomicBasisSetView&lt; AtomicBasisSetType &gt;</a>
@@ -200,7 +206,7 @@ $(function() {
 , <a class="el" href="classchemist_1_1NucleusView.html#a0b4cf22582ccc916bb990b92cc4d756e">chemist::NucleusView&lt; NucleusType &gt;</a>
 </li>
 <li>AtomicBasisSet()
-: <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSet.html#a3b1843a418627fd4a42feb79376d5be3">chemist::basis_set::AtomicBasisSet&lt; ShellType &gt;</a>
+: <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSet.html#a38db9f39c70474fceb5dc1d6f70833cd">chemist::basis_set::AtomicBasisSet&lt; ShellType &gt;</a>
 </li>
 <li>AtomicBasisSetView()
 : <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSetView.html#a9493dbb06dda3f711d0490aad8491599">chemist::basis_set::AtomicBasisSetView&lt; AtomicBasisSetType &gt;</a>

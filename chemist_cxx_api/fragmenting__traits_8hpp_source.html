@@ -87,56 +87,100 @@ $(function() {
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;chemist/traits/chemist_class_traits.hpp&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;chemist/traits/nucleus_traits.hpp&gt;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacechemist.html">chemist</a> {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span>fragmenting {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">class </span>CapSet;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> NucleiType&gt;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">class </span>FragmentedNuclei;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">class </span>FragmentedMolecule;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">class </span>FragmentedChemicalSystem;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;} <span class="comment">// namespace fragmenting</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">template</span>&lt;&gt;</div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="structchemist_1_1ChemistClassTraits_3_01fragmenting_1_1FragmentedNuclei_3_01Nuclei_01_4_01_4.html">   31</a></span>&#160;<span class="keyword">struct </span><a class="code" href="classchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt;fragmenting::FragmentedNuclei&lt;Nuclei&gt;&gt; {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1Nuclei.html">supersystem_type</a>   = <a class="code" href="classchemist_1_1Nuclei.html">Nuclei</a>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html">value_type</a>         = <a class="code" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html">fragmenting::FragmentedNuclei&lt;supersystem_type&gt;</a>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html">reference</a>          = <a class="code" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html">value_type</a>&amp;;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html">const_reference</a>    = <span class="keyword">const</span> <a class="code" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html">value_type</a>&amp;;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1ChemistClassTraits.html">supersystem_traits</a> = <a class="code" href="classchemist_1_1ChemistClassTraits.html">ChemistClassTraits&lt;supersystem_type&gt;</a>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">using</span> fragment_type      = <span class="keyword">typename</span> supersystem_traits::value_type;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">using</span> fragment_reference = <span class="keyword">typename</span> supersystem_traits::view_type;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">using</span> const_fragment_reference =</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <span class="keyword">typename</span> supersystem_traits::const_view_type;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_type</a>            = <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">fragmenting::CapSet</a>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_reference</a>       = <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_type</a>&amp;;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">const_cap_set_reference</a> = <span class="keyword">const</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_type</a>&amp;;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;};</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">template</span>&lt;&gt;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="structchemist_1_1ChemistClassTraits_3_01fragmenting_1_1FragmentedNuclei_3_01const_01Nuclei_01_4_01_4.html">   47</a></span>&#160;<span class="keyword">struct </span><a class="code" href="classchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt;fragmenting::FragmentedNuclei&lt;const Nuclei&gt;&gt; {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1Nuclei.html">supersystem_type</a>   = <span class="keyword">const</span> <a class="code" href="classchemist_1_1Nuclei.html">Nuclei</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html">value_type</a>         = <a class="code" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html">fragmenting::FragmentedNuclei&lt;supersystem_type&gt;</a>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html">reference</a>          = <a class="code" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html">value_type</a>&amp;;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html">const_reference</a>    = <span class="keyword">const</span> <a class="code" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html">value_type</a>&amp;;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1ChemistClassTraits.html">supersystem_traits</a> = <a class="code" href="classchemist_1_1ChemistClassTraits.html">ChemistClassTraits&lt;supersystem_type&gt;</a>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">using</span> fragment_type      = <span class="keyword">typename</span> supersystem_traits::value_type;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">using</span> fragment_reference = <span class="keyword">typename</span> supersystem_traits::view_type;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">using</span> const_fragment_reference =</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="keyword">typename</span> supersystem_traits::const_view_type;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_type</a>            = <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">fragmenting::CapSet</a>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_reference</a>       = <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_type</a>&amp;;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">const_cap_set_reference</a> = <span class="keyword">const</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_type</a>&amp;;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;};</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;} <span class="comment">// namespace chemist</span></div>
-<div class="ttc" id="aclasschemist_1_1ChemistClassTraits_html"><div class="ttname"><a href="classchemist_1_1ChemistClassTraits.html">chemist::ChemistClassTraits</a></div><div class="ttdoc">Used to set the member types for a chemist object of type T.</div><div class="ttdef"><b>Definition:</b> chemist_class_traits.hpp:30</div></div>
-<div class="ttc" id="aclasschemist_1_1Nuclei_html"><div class="ttname"><a href="classchemist_1_1Nuclei.html">chemist::Nuclei</a></div><div class="ttdoc">Represents a container of Nucleus objects.</div><div class="ttdef"><b>Definition:</b> nuclei.hpp:34</div></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;chemist/traits/chemical_system_traits.hpp&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;chemist/traits/chemist_class_traits.hpp&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;chemist/traits/molecule_traits.hpp&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;chemist/traits/nucleus_traits.hpp&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacechemist.html">chemist</a> {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">namespace </span>fragmenting {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">class </span>CapSet;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> DerivedType&gt;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">class </span>FragmentedBase;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> NucleiType&gt;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">class </span>FragmentedNuclei;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> MoleculeType&gt;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">class </span>FragmentedMolecule;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChemicalSystemType&gt;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">class </span>FragmentedChemicalSystem;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;} <span class="comment">// namespace fragmenting</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">template</span>&lt;<span class="keyword">typename</span>&gt; <span class="keyword">class </span>DerivedType, <span class="keyword">typename</span> SupersystemType&gt;</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="structchemist_1_1ChemistClassTraits_3_01fragmenting_1_1FragmentedBase_3_01DerivedType_3_01SupersystemType_01_4_01_4_01_4.html">   37</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  fragmenting::FragmentedBase&lt;DerivedType&lt;SupersystemType&gt;&gt;&gt; {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">using</span> supersystem_type   = SupersystemType;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">using</span> value_type         = DerivedType&lt;supersystem_type&gt;;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">using</span> reference          = value_type&amp;;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">using</span> const_reference    = <span class="keyword">const</span> value_type&amp;;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">using</span> <a class="code" href="structchemist_1_1ChemistClassTraits.html">supersystem_traits</a> = <a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits&lt;supersystem_type&gt;</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">using</span> fragment_type      = <span class="keyword">typename</span> supersystem_traits::value_type;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">using</span> fragment_reference = <span class="keyword">typename</span> supersystem_traits::view_type;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">using</span> const_fragment_reference =</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keyword">typename</span> supersystem_traits::const_view_type;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;};</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#define FRAGMENTED_NUCLEI fragmenting::FragmentedNuclei&lt;Nuclei&gt;</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">template</span>&lt;&gt;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="structchemist_1_1ChemistClassTraits_3_01FRAGMENTED__NUCLEI_01_4.html">   52</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt;FRAGMENTED_NUCLEI&gt;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  : <a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt;fragmenting::FragmentedBase&lt;FRAGMENTED_NUCLEI&gt;&gt; {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_type</a>            = <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">fragmenting::CapSet</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_reference</a>       = <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_type</a>&amp;;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">const_cap_set_reference</a> = <span class="keyword">const</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_type</a>&amp;;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#undef FRAGMENTED_NUCLEI</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#define CONST_FRAGMENTED_NUCLEI fragmenting::FragmentedNuclei&lt;const Nuclei&gt;</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">template</span>&lt;&gt;</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="structchemist_1_1ChemistClassTraits_3_01CONST__FRAGMENTED__NUCLEI_01_4.html">   62</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt;CONST_FRAGMENTED_NUCLEI&gt;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  : <a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt;fragmenting::FragmentedBase&lt;CONST_FRAGMENTED_NUCLEI&gt;&gt; {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_type</a>            = <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">fragmenting::CapSet</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_reference</a>       = <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_type</a>&amp;;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">const_cap_set_reference</a> = <span class="keyword">const</span> <a class="code" href="classchemist_1_1fragmenting_1_1CapSet.html">cap_set_type</a>&amp;;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;};</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#undef CONST_FRAGMENTED_NUCLEI</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">#define FRAG_MOLECULE fragmenting::FragmentedMolecule&lt;Molecule&gt;</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">template</span>&lt;&gt;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="structchemist_1_1ChemistClassTraits_3_01FRAG__MOLECULE_01_4.html">   72</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt;FRAG_MOLECULE&gt;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  : <a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt;fragmenting::FragmentedBase&lt;FRAG_MOLECULE&gt;&gt; {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">using</span> <a class="code" href="structchemist_1_1ChemistClassTraits.html">fragmented_nuclei_traits</a> =</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits&lt;fragmenting::FragmentedNuclei&lt;Nuclei&gt;</a>&gt;;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#undef FRAG_MOLECULE</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#define CONST_FRAG_MOLECULE fragmenting::FragmentedMolecule&lt;const Molecule&gt;</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keyword">template</span>&lt;&gt;</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="structchemist_1_1ChemistClassTraits_3_01CONST__FRAG__MOLECULE_01_4.html">   81</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt;CONST_FRAG_MOLECULE&gt;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  : <a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt;fragmenting::FragmentedBase&lt;CONST_FRAG_MOLECULE&gt;&gt; {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">using</span> <a class="code" href="structchemist_1_1ChemistClassTraits.html">fragmented_nuclei_traits</a> =</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      <a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits&lt;fragmenting::FragmentedNuclei&lt;const Nuclei&gt;</a>&gt;;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;};</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#undef CONST_FRAG_MOLECULE</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#define FRAG_CHEM_SYS fragmenting::FragmentedChemicalSystem&lt;ChemicalSystem&gt;</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">template</span>&lt;&gt;</div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="structchemist_1_1ChemistClassTraits_3_01FRAG__CHEM__SYS_01_4.html">   90</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt;FRAG_CHEM_SYS&gt;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  : <span class="keyword">public</span> <a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt;fragmenting::FragmentedBase&lt;FRAG_CHEM_SYS&gt;&gt; {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keyword">using</span> <a class="code" href="structchemist_1_1ChemistClassTraits.html">fragmented_molecule_traits</a> =</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits&lt;fragmenting::FragmentedMolecule&lt;Molecule&gt;</a>&gt;;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;};</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="preprocessor">#undef FRAG_CHEM_SYS</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">#define CONST_FRAG_CHEM_SYS \</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">    fragmenting::FragmentedChemicalSystem&lt;const ChemicalSystem&gt;</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="keyword">template</span>&lt;&gt;</div>
+<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="structchemist_1_1ChemistClassTraits_3_01CONST__FRAG__CHEM__SYS_01_4.html">  100</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt;CONST_FRAG_CHEM_SYS&gt;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  : <span class="keyword">public</span> <a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      fragmenting::FragmentedBase&lt;CONST_FRAG_CHEM_SYS&gt;&gt; {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keyword">using</span> <a class="code" href="structchemist_1_1ChemistClassTraits.html">fragmented_molecule_traits</a> =</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      <a class="code" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits&lt;fragmenting::FragmentedMolecule&lt;const Molecule&gt;</a>&gt;;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;};</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#undef CONST_FRAG_CHEM_SYS</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;} <span class="comment">// namespace chemist</span></div>
 <div class="ttc" id="aclasschemist_1_1fragmenting_1_1CapSet_html"><div class="ttname"><a href="classchemist_1_1fragmenting_1_1CapSet.html">chemist::fragmenting::CapSet</a></div><div class="ttdoc">The set of caps associated with a fragment.</div><div class="ttdef"><b>Definition:</b> cap_set.hpp:31</div></div>
-<div class="ttc" id="aclasschemist_1_1fragmenting_1_1FragmentedNuclei_html"><div class="ttname"><a href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html">chemist::fragmenting::FragmentedNuclei</a></div><div class="ttdoc">Represents a set of fragments derived from a Nuclei object.</div><div class="ttdef"><b>Definition:</b> fragmented_nuclei.hpp:42</div></div>
 <div class="ttc" id="anamespacechemist_html"><div class="ttname"><a href="namespacechemist.html">chemist</a></div><div class="ttdoc">The primary namespace for the chemist library.</div><div class="ttdef"><b>Definition:</b> ao_basis_set.cpp:22</div></div>
+<div class="ttc" id="astructchemist_1_1ChemistClassTraits_html"><div class="ttname"><a href="structchemist_1_1ChemistClassTraits.html">chemist::ChemistClassTraits</a></div><div class="ttdoc">Used to set the member types for a chemist object of type T.</div><div class="ttdef"><b>Definition:</b> chemist_class_traits.hpp:30</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

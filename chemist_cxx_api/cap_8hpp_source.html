@@ -117,16 +117,16 @@ $(function() {
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Args&gt;</div>
 <div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="classchemist_1_1fragmenting_1_1Cap.html#a84623d8743893d782e45d03ae86cfa83">   88</a></span>&#160;    <a class="code" href="classchemist_1_1fragmenting_1_1Cap.html#a84623d8743893d782e45d03ae86cfa83">Cap</a>(<a class="code" href="classchemist_1_1fragmenting_1_1Cap.html#a3fc3ee65d60cfaf0d6c3533516a2aea4">size_type</a> anchor, <a class="code" href="classchemist_1_1fragmenting_1_1Cap.html#a3fc3ee65d60cfaf0d6c3533516a2aea4">size_type</a> replaced, Args&amp;&amp;... nuclei) :</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      m_nuclei_{std::forward&lt;Args&gt;(nuclei)...},</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      m_anchor_(anchor),</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      m_replaced_(replaced) {}</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      m_anchor_(anchor),</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      m_replaced_(replaced),</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      m_nuclei_{std::forward&lt;Args&gt;(nuclei)...} {}</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> BeginItr, <span class="keyword">typename</span> EndItr,</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;             <span class="keyword">typename</span> = disable_if_nucleus_t&lt;std::decay_t&lt;BeginItr&gt;&gt;&gt;</div>
 <div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="classchemist_1_1fragmenting_1_1Cap.html#a679e6e474e94685c482281c692f6ebf7">   99</a></span>&#160;    <a class="code" href="classchemist_1_1fragmenting_1_1Cap.html#a679e6e474e94685c482281c692f6ebf7">Cap</a>(<a class="code" href="classchemist_1_1fragmenting_1_1Cap.html#a3fc3ee65d60cfaf0d6c3533516a2aea4">size_type</a> anchor, <a class="code" href="classchemist_1_1fragmenting_1_1Cap.html#a3fc3ee65d60cfaf0d6c3533516a2aea4">size_type</a> replaced, BeginItr&amp;&amp; begin, EndItr&amp;&amp; end) :</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      m_nuclei_(std::forward&lt;BeginItr&gt;(begin), std::forward&lt;EndItr&gt;(end)),</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      m_anchor_(anchor),</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      m_replaced_(replaced) {}</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      m_anchor_(anchor),</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      m_replaced_(replaced),</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      m_nuclei_(std::forward&lt;BeginItr&gt;(begin), std::forward&lt;EndItr&gt;(end)) {}</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
 <div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="classchemist_1_1fragmenting_1_1Cap.html#a9b3e8f2eb4583a15833c782df037b369">  111</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classchemist_1_1fragmenting_1_1Cap.html#a9b3e8f2eb4583a15833c782df037b369">insert</a>(<a class="code" href="classchemist_1_1fragmenting_1_1Cap.html#a0bc4561cf8d0d0f7bece7a6d983ebcd3">value_type</a> nucleus) { m_nuclei_.<a class="code" href="classchemist_1_1Nuclei.html#ab016ac2156f264a3a3f5d7a828d607ba">push_back</a>(std::move(nucleus)); }</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>

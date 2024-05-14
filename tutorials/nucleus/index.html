@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nucleus &mdash; Chemist v1.2.2 documentation</title>
+  <title>Nucleus &mdash; Chemist v1.2.3 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
@@ -14,7 +14,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=06c842d6"></script>
+        <script src="../../_static/documentation_options.js?v=a2b0c6cf"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -38,7 +38,7 @@
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                v1.2.2
+                v1.2.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -198,14 +198,14 @@ objects.</p>
 <span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">n1_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n1</span><span class="p">.</span><span class="n">z</span><span class="p">();</span>
 <span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n1_x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
 <span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n0</span><span class="p">.</span><span class="n">x</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n1_y</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n0</span><span class="p">.</span><span class="n">y</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n1_z</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n0</span><span class="p">.</span><span class="n">z</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
 <span class="w">    </span><span class="c1">// Accessing the charge</span>
 <span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">n1_charge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n1</span><span class="p">.</span><span class="n">charge</span><span class="p">();</span>
 <span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n1_charge</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
 <span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n0</span><span class="p">.</span><span class="n">charge</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
-<span class="w">    </span><span class="c1">// Comparing Nucleus objects</span>
-<span class="w">    </span><span class="c1">// Since n0 has no state while n1 has</span>
-<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">n0</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">n1</span><span class="p">);</span>
-<span class="w">    </span><span class="c1">// Since all properties are equal, n1 == n2 is true</span>
 </pre></div>
 </div>
 </div><div aria-labelledby="tab-2-2-1" class="sphinx-tabs-panel" hidden="true" id="panel-2-2-1" name="2-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">assert</span> <span class="n">n0</span><span class="o">.</span><span class="n">Z</span> <span class="o">==</span> <span class="mi">0</span>

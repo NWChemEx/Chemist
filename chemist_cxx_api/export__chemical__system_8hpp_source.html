@@ -88,38 +88,23 @@ $(function() {
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;../pychemist.hpp&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;molecule/export_molecule.hpp&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;nucleus/export_nucleus.hpp&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;point_charge/export_point_charge.hpp&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;chemist/chemical_system/chemical_system.hpp&gt;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;pybind11/operators.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacechemist.html">chemist</a> {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> <span class="keyword">inline</span> export_chemical_system(python_module_reference m) {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    export_point_charge(m);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    export_nucleus(m);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    export_molecule(m);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">using</span> chemical_system_type      = ChemicalSystem;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">using</span> chemical_system_reference = chemical_system_type&amp;;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">using</span> molecule_type             = <span class="keyword">typename</span> chemical_system_type::molecule_t;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">using</span> size_type                 = <span class="keyword">typename</span> chemical_system_type::size_type;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    python_class_type&lt;ChemicalSystem&gt;(m, <span class="stringliteral">&quot;ChemicalSystem&quot;</span>)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      .def(pybind11::init&lt;&gt;())</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      .def(pybind11::init&lt;molecule_type&gt;())</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      .def_property(</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="stringliteral">&quot;molecule&quot;</span>,</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        [](chemical_system_reference <span class="keyword">self</span>) { <span class="keywordflow">return</span> &amp;<span class="keyword">self</span>.molecule(); },</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        [](chemical_system_reference <span class="keyword">self</span>, molecule_type mol) {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keyword">self</span>.molecule() = std::move(mol);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        })</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      .def(pybind11::self == pybind11::self)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      .def(pybind11::self != pybind11::self);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;} <span class="comment">// namespace chemist</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;chemical_system/export_chemical_system.hpp&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;molecule/export_molecule.hpp&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;nucleus/export_nucleus.hpp&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;point_charge/export_point_charge.hpp&quot;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;chemist/chemical_system/chemical_system.hpp&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;pybind11/operators.h&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacechemist.html">chemist</a> {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordtype">void</span> <span class="keyword">inline</span> export_chemical_system(python_module_reference m) {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    export_point_charge(m);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    export_nucleus(m);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    export_molecule(m);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    export_chemical_system_subcomponent(m);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;} <span class="comment">// namespace chemist</span></div>
 <div class="ttc" id="anamespacechemist_html"><div class="ttname"><a href="namespacechemist.html">chemist</a></div><div class="ttdoc">The primary namespace for the chemist library.</div><div class="ttdef"><b>Definition:</b> ao_basis_set.cpp:22</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

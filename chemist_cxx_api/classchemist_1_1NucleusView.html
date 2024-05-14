@@ -256,7 +256,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:afe93849b69099f9db1987bab640e9508"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6be14ee6cfaf798a9b6deb8c1c8d869"><td class="memTemplParams" colspan="2">template&lt;typename NucleusType2 , typename  = std::enable_if_t&lt;std::is_same_v&lt;                                      std::decay_t&lt;NucleusType2&gt;, NucleusType&gt;&gt;&gt; </td></tr>
 <tr class="memitem:ab6be14ee6cfaf798a9b6deb8c1c8d869"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1NucleusView.html">NucleusView</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleusView.html#ab6be14ee6cfaf798a9b6deb8c1c8d869">operator=</a> (NucleusType2 &amp;&amp;other)</td></tr>
-<tr class="memdesc:ab6be14ee6cfaf798a9b6deb8c1c8d869"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes *this alias <code>other</code>.  <a href="classchemist_1_1NucleusView.html#ab6be14ee6cfaf798a9b6deb8c1c8d869">More...</a><br /></td></tr>
+<tr class="memdesc:ab6be14ee6cfaf798a9b6deb8c1c8d869"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a> aliased by *this to a copy of <code>other</code>.  <a href="classchemist_1_1NucleusView.html#ab6be14ee6cfaf798a9b6deb8c1c8d869">More...</a><br /></td></tr>
 <tr class="separator:ab6be14ee6cfaf798a9b6deb8c1c8d869"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f02bb966f7a01afecc3657bedda28c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1NucleusView.html#a34df08b9a22f05c8fda5652b05b68bcc">nucleus_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1NucleusView.html#a3f02bb966f7a01afecc3657bedda28c7">as_nucleus</a> () const</td></tr>
 <tr class="memdesc:a3f02bb966f7a01afecc3657bedda28c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts *this into a <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a> object.  <a href="classchemist_1_1NucleusView.html#a3f02bb966f7a01afecc3657bedda28c7">More...</a><br /></td></tr>
@@ -699,8 +699,8 @@ template&lt;typename NucleusType2 , typename  = std::enable_if_t&lt;std::is_same
 </table>
 </div><div class="memdoc">
 
-<p>Makes *this alias <code>other</code>. </p>
-<p>This ctor will change the <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a> object *this aliases so that it aliases <code>other</code>.</p>
+<p>Sets the <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a> aliased by *this to a copy of <code>other</code>. </p>
+<p>This ctor will change the <a class="el" href="classchemist_1_1Nucleus.html" title="Class representing the (point) nucleus of an atom.">Nucleus</a> object *this aliases so that it is a copy of <code>other</code>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">NucleusType2</td><td>The type of the <code>other</code>. </td></tr>
@@ -901,8 +901,7 @@ template&lt;typename NucleusType &gt; </div>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li>include/chemist/chemical_system/<a class="el" href="chemial__system__traits_8hpp_source.html">chemial_system_traits.hpp</a></li>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/chemist/chemical_system/nucleus/<a class="el" href="nucleus__view_8hpp_source.html">nucleus_view.hpp</a></li>
 </ul>
 </div><!-- contents -->

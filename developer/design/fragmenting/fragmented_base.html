@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Designing the FragmentedBase Class &mdash; Chemist v1.2.2 documentation</title>
+  <title>Designing the FragmentedBase Class &mdash; Chemist v1.2.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
@@ -14,7 +14,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=06c842d6"></script>
+        <script src="../../../_static/documentation_options.js?v=a2b0c6cf"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                v1.2.2
+                v1.2.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -70,6 +70,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../writing_views.html">Creating a New View</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../the_traits_component.html">Understanding the Traits Component</a></li>
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
 </ul>
@@ -125,6 +126,16 @@ functionality from <code class="docutils literal notranslate"><span class="pre">
 <dt>supersystem</dt><dd><p><code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code>, <code class="docutils literal notranslate"><span class="pre">FragmentedMolecule</span></code>, etc. have in common that they
 contain subsets of a superset. The <code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> factors out the
 infrastructure for holding the superset and interacting with it.</p>
+<ul class="simple">
+<li><p>Addendum 5/9/2024. Factoring out the supersystem leads to extra copies
+when <code class="docutils literal notranslate"><span class="pre">FragmentedMolecule</span></code> is implemented in terms of
+<code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code>. This is because the bases of both
+<code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> and <code class="docutils literal notranslate"><span class="pre">FragmentedMolecule</span></code> assume they own the
+supersystem. Accessing the supersystem is still done through the base,
+but we instead opted for a virtual function to retrieve it from the derived
+class (this allows <code class="docutils literal notranslate"><span class="pre">FragmentedNuclei</span></code> to own the <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code> piece and
+<code class="docutils literal notranslate"><span class="pre">FragmentedMolecule</span></code> to own the charge/multiplicity piece).</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="simple" id="fc-immutable-superset">
@@ -150,44 +161,14 @@ supersystem (and also no fragments) from one with a supersystem, but no
 fragments? We opt for distinguishing between null and empty. Null meaning
 there is no supersystem and empty meaning there is a supersystem, but no
 fragments.</p>
+<ul class="simple">
+<li><p>Addendum 5/9/2024. The empty set is a universal constant and have opted
+for null objects to instead fragment the empty set. An object with a non-
+empty superset, but no fragments can be distinguished by comparing the
+supersets.</p></li>
+</ul>
 </dd>
 </dl>
-</section>
-<section id="fragmentedbase-api">
-<h2>FragmentedBase API<a class="headerlink" href="#fragmentedbase-api" title="Link to this heading"></a></h2>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>While the examples shown here should work, we do not expect users to create
-<code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> objects directly. Rather, users will typically create
-objects of type <code class="docutils literal notranslate"><span class="pre">T</span></code> which inherit from <code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code>.</p>
-</div>
-<p>To construct a <code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> object:</p>
-<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Assumed to be a Nuclei, Molecule, or instance ChemicalSystem</span>
-
-<span class="k">auto</span><span class="w"> </span><span class="n">supersys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_supersystem</span><span class="p">();</span>
-
-<span class="c1">// T will respectively be FragmentedNuclei, FragmentedMolecule, or</span>
-<span class="c1">// FragmentedChemicalSystem if supersys is a Nuclei, Molecule, or</span>
-<span class="c1">// ChemicalSystem. This creates an empty object, NOT null</span>
-
-<span class="n">FragmentedBase</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fragments</span><span class="p">(</span><span class="n">supersys</span><span class="p">);</span>
-
-<span class="c1">// Default construction is null, NOT empty</span>
-<span class="n">Fragmented</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">null</span><span class="p">;</span>
-</pre></div>
-</div>
-<p>Following from consideration <a class="reference internal" href="#fc-null-and-empty-states"><span class="std std-ref">null and empty states</span></a>, <code class="docutils literal notranslate"><span class="pre">fragments</span></code> will
-be an empty set of fragments whereas <code class="docutils literal notranslate"><span class="pre">null</span></code> will be a null object. Actually
-adding fragments to the object will occur via the derived class. The remainder
-of the <code class="docutils literal notranslate"><span class="pre">FragmentedBase&lt;T&gt;</span></code> API:</p>
-<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Access the supersystem</span>
-<span class="n">assert</span><span class="p">(</span><span class="n">fragments</span><span class="p">.</span><span class="n">supersystem</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">supersys</span><span class="p">);</span>
-
-<span class="c1">// Is the object null?</span>
-<span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="n">fragments</span><span class="p">.</span><span class="n">is_null</span><span class="p">());</span>
-<span class="n">assert</span><span class="p">(</span><span class="n">null</span><span class="p">.</span><span class="n">is_null</span><span class="p">());</span>
-</pre></div>
-</div>
 </section>
 <section id="fragmentedbase-design">
 <h2>FragmentedBase Design<a class="headerlink" href="#fragmentedbase-design" title="Link to this heading"></a></h2>
@@ -213,8 +194,8 @@ satisfy this consideration.</p>
 </dd>
 <dt><a class="reference internal" href="#fc-immutable-superset"><span class="std std-ref">immutable superset</span></a></dt><dd><p>Addressed by storing the superset as a read-only object.</p>
 </dd>
-<dt><a class="reference internal" href="#fc-null-and-empty-states"><span class="std std-ref">null and empty states</span></a></dt><dd><p>The default constructor will create a null object, whereas the constructor
-which takes a superset creates an empty object.</p>
+<dt><a class="reference internal" href="#fc-null-and-empty-states"><span class="std std-ref">null and empty states</span></a></dt><dd><p>The default constructor will fragment an empty set object, whereas the
+constructor which takes a superset creates an empty object.</p>
 </dd>
 </dl>
 </section>

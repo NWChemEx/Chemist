@@ -1,8 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structchemist_1_1basis__set_1_1PrimitiveTraits.html" title=" " alt="" coords="5,81,193,137"/>
-<area shape="rect" id="node2" href="$structchemist_1_1basis__set_1_1ContractedGaussianTraits.html" title=" " alt="" coords="241,41,448,97"/>
-<area shape="rect" id="node6" href="$structchemist_1_1basis__set_1_1ContractedGaussianTraits.html" title="Propagates types associated with a ContractedGaussian of type CGType." alt="" coords="247,121,443,177"/>
-<area shape="rect" id="node3" href="$structchemist_1_1basis__set_1_1ShellTraits.html" title=" " alt="" coords="496,5,701,61"/>
-<area shape="rect" id="node5" href="$structchemist_1_1basis__set_1_1ShellTraits.html" title="Propagates types associated with a Shell of type ShellType." alt="" coords="504,86,693,127"/>
-<area shape="rect" id="node4" href="$structchemist_1_1basis__set_1_1AtomicBasisSetTraits.html" title="Propagates types associated with an AtomicBaseSet of type AtomicBSType." alt="" coords="749,5,916,61"/>
+<area shape="rect" id="node1" href="$classchemist_1_1basis__set_1_1Primitive.html" title="Models a Gaussian Primitive by value." alt="" coords="5,5,148,47"/>
 </map>
