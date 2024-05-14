@@ -177,7 +177,7 @@ bool ATOMIC_BS_VIEW::operator==(const AtomicBasisSetType& rhs) const noexcept {
     if(basis_set_name() != rhs.basis_set_name()) return false;
     if(atomic_number() != rhs.atomic_number()) return false;
     if(center() != rhs.center()) return false;
-    for(auto shell = 0; shell < this->size(); ++shell) {
+    for(size_type shell = 0; shell < this->size(); ++shell) {
         if((*this)[shell] != rhs[shell]) return false;
     }
     return true;

@@ -28,7 +28,6 @@ void export_nuclei(python_module_reference m) {
     using nuclei_type      = Nuclei;
     using nuclei_reference = nuclei_type&;
     using value_type       = typename nuclei_type::value_type;
-    using reference        = typename nuclei_type::reference;
     using size_type        = typename nuclei_type::size_type;
 
     // Factor long functions out for readability

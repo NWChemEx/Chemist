@@ -35,7 +35,7 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
     atom_type h("H", 1ul, 1.0, 0.0, 0.0, 0.0);
     atom_type he("He", 2ul, 4.0, 1.0, 2.0, 3.0);
     multiplicity_type m1{1}, m2{2};
-    charge_type qm1{-1}, q0{0}, q1{1};
+    charge_type qm1{-1}, q0{0};
     molecule_type value_mol{h, he};
 
     view_type defaulted;

@@ -27,6 +27,6 @@ namespace chemist {
  *  every object in the Chemist library.
  */
 template<typename T>
-class ChemistClassTraits;
+struct ChemistClassTraits;
 
 } // namespace chemist

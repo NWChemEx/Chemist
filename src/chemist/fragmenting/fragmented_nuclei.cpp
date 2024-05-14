@@ -133,9 +133,9 @@ FRAGMENTED_NUCLEI::FragmentedNuclei(supersystem_type supersystem,
 
 TPARAMS
 FRAGMENTED_NUCLEI::FragmentedNuclei(const FragmentedNuclei& other) :
+  base_type(other),
   m_pimpl_(other.has_pimpl_() ? std::make_unique<pimpl_type>(*other.m_pimpl_) :
-                                nullptr),
-  base_type(other) {}
+                                nullptr) {}
 
 TPARAMS
 FRAGMENTED_NUCLEI::FragmentedNuclei(FragmentedNuclei&& other) noexcept =

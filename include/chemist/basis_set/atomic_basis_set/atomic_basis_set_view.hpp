@@ -672,7 +672,7 @@ AtomicBasisSetView<AtomicBasisSetType>::operator=(const ABSType2& rhs) {
     center().x()     = rhs.center().x();
     center().y()     = rhs.center().y();
     center().z()     = rhs.center().z();
-    for(auto shell = 0; shell < this->size(); ++shell) {
+    for(size_type shell = 0; shell < this->size(); ++shell) {
         (*this)[shell] = rhs[shell];
     }
     return *this;

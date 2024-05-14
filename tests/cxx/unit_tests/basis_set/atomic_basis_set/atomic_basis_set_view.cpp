@@ -29,12 +29,12 @@ void compare_addresses(LHSType&& lhs, RHSType&& rhs) {
     REQUIRE(&lhs.center().y() == &rhs.center().y());
     REQUIRE(&lhs.center().z() == &rhs.center().z());
 
-    for(auto i = 0; i < lhs.size(); ++i) {
+    for(decltype(lhs.size()) i = 0; i < lhs.size(); ++i) {
         REQUIRE(&lhs[i].pure() == &rhs[i].pure());
         REQUIRE(&lhs[i].l() == &rhs[i].l());
     }
 
-    for(auto i = 0; i < lhs.n_primitives(); ++i) {
+    for(decltype(lhs.n_primitives()) i = 0; i < lhs.n_primitives(); ++i) {
         REQUIRE(&lhs.primitive(i).exponent() == &rhs.primitive(i).exponent());
         REQUIRE(&lhs.primitive(i).coefficient() ==
                 &rhs.primitive(i).coefficient());
@@ -52,7 +52,6 @@ TEMPLATE_TEST_CASE("AtomicBasisSetView", "", float, double) {
 
     using pure_type          = typename abs_traits::pure_type;
     using l_type             = typename abs_traits::angular_momentum_type;
-    using coord_type         = typename abs_traits::coord_type;
     using center_type        = typename abs_traits::center_type;
     using name_type          = typename abs_traits::name_type;
     using atomic_number_type = typename abs_traits::atomic_number_type;

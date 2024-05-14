@@ -101,7 +101,7 @@ public:
     bool operator==(const ContractedGaussianViewPIMPL& rhs) const noexcept {
         if(size() != rhs.size()) return false;
         if(m_center_ != rhs.m_center_) return false;
-        for(auto i = 0; i < size(); ++i) {
+        for(size_type i = 0; i < size(); ++i) {
             if(coefficient(i) != rhs.coefficient(i)) return false;
             if(exponent(i) != rhs.exponent(i)) return false;
         }

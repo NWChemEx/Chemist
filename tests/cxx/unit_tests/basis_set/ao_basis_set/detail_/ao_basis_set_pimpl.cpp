@@ -27,7 +27,6 @@ TEMPLATE_TEST_CASE("AOBasisSetPIMPL", "", float, double) {
     using shell_type = Shell<cg_type>;
     using abs_type   = AtomicBasisSet<shell_type>;
     using abs_traits = AtomicBasisSetTraits<abs_type>;
-    using aobs_type  = AOBasisSet<abs_type>;
     using pimpl_type = AOBasisSetPIMPL<abs_type>;
 
     using pure_type          = typename abs_traits::pure_type;

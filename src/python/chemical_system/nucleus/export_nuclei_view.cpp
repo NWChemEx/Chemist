@@ -25,12 +25,10 @@ void export_nuclei_view(python_module_reference m) {
     // N.B. We don't want to export the base class so we use lambdas to
     //      call the methods.
 
-    using nuclei_type       = Nuclei;
-    using view_type         = NucleiView<nuclei_type>;
-    using reference         = view_type&;
-    using value_type        = typename nuclei_type::value_type;
-    using nucleus_reference = typename nuclei_type::reference;
-    using size_type         = typename nuclei_type::size_type;
+    using nuclei_type = Nuclei;
+    using view_type   = NucleiView<nuclei_type>;
+    using reference   = view_type&;
+    using size_type   = typename nuclei_type::size_type;
 
     python_class_type<view_type>(m, "NucleiView")
       .def(pybind11::init<>())

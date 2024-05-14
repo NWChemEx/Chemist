@@ -27,10 +27,8 @@ void export_molecule_view(python_module_reference m) {
     using molecule_type = Molecule;
     using view_type     = MoleculeView<molecule_type>;
     using reference     = view_type&;
-    using atom_type     = typename molecule_type::atom_type;
     using size_type     = typename molecule_type::size_type;
     using charge_type   = typename molecule_type::charge_type;
-    using nuclei_type   = typename molecule_type::nuclei_type;
 
     python_class_type<view_type>(m, "MoleculeView")
       .def(pybind11::init<>())

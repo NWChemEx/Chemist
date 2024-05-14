@@ -86,9 +86,9 @@ public:
      */
     template<typename... Args>
     Cap(size_type anchor, size_type replaced, Args&&... nuclei) :
-      m_nuclei_{std::forward<Args>(nuclei)...},
       m_anchor_(anchor),
-      m_replaced_(replaced) {}
+      m_replaced_(replaced),
+      m_nuclei_{std::forward<Args>(nuclei)...} {}
 
     /** @brief Creates a cap given a range of nuclei to add.
      *
@@ -97,9 +97,9 @@ public:
     template<typename BeginItr, typename EndItr,
              typename = disable_if_nucleus_t<std::decay_t<BeginItr>>>
     Cap(size_type anchor, size_type replaced, BeginItr&& begin, EndItr&& end) :
-      m_nuclei_(std::forward<BeginItr>(begin), std::forward<EndItr>(end)),
       m_anchor_(anchor),
-      m_replaced_(replaced) {}
+      m_replaced_(replaced),
+      m_nuclei_(std::forward<BeginItr>(begin), std::forward<EndItr>(end)) {}
 
     /** @brief Allows adding additional nuclei to the cap.
      *
