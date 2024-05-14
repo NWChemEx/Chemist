@@ -27,6 +27,17 @@ class FragmentedChemicalSystemPIMPL;
 
 }
 
+/** @brief Stores fragments of a ChemicalSystem object.
+ *
+ *  @tparam ChemicalSystemType The type of the ChemicalSystem object we are
+ *                             fragmenting. Expected to be either ChemicalSystem
+ *                             or const ChemicalSystem.
+ *
+ * This class holds a ChemicalSystem supersystem and the fragments of that
+ * object.
+ *
+ */
+
 template<typename ChemicalSystemType>
 class FragmentedChemicalSystem
   : public FragmentedBase<FragmentedChemicalSystem<ChemicalSystemType>> {
@@ -79,9 +90,81 @@ public:
     // -- Ctors, assignment, and dtor
     // -------------------------------------------------------------------------
 
+    /** @brief Fragments an empty ChemicalSystem.
+     *
+     *  The default ctor prepares *this in a state consistent with the
+     *  supersystem being an empty ChemicalSystem object and *this having no
+     *  fragments of that empty object.
+     *
+     *  @throw None No throw guarantee.
+     *
+     */
     FragmentedChemicalSystem() noexcept;
 
-    // FragmentedChemicalSystem(fragmented_molecule_type frags);
+    /** @brief Fragments are formed the provided state.
+     *
+     *  This method creates an object such that the Molecule piece of the
+     *  supersystem is `frags.supersystem()`. The supersystem is then fragmented
+     *  into `frags.size()` fragments such that the Molecule piece of the
+     * `i`-th fragment is `frags[i]`.
+     *
+     *  @param[in] frags How the Molecule piece of the supersystem is fragmented
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the PIMPL.
+     *                        Strong throw guarantee.
+     */
+    explicit FragmentedChemicalSystem(fragmented_molecule_type frags);
+
+    /** @brief Initializes *this with a deep copy of @p rhs.
+     *
+     *  @param[in] other The object to copy.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the new state.
+     *                        Strong throw guarantee.
+     */
+    FragmentedChemicalSystem(const FragmentedChemicalSystem& other);
+
+    /** @brief Initializes *this with the state in @p rhs.
+     *
+     *  This method will initialize *this by taking the state from @p rhs.
+     *
+     *  @param[in,out] rhs The object to take the state from. After this ctor
+     *                     is called @p rhs will be in a state consistent with
+     *                     being default initialized.
+     *
+     *  @throw None No throw guarantee.
+     */
+    FragmentedChemicalSystem(FragmentedChemicalSystem&& other) noexcept;
+
+    /** @brief Replaces the state in *this with a copy of the state in @p rhs.
+     *
+     *  This method releases the state in *this and replaces it with a copy of
+     *  the state in @p rhs.
+     *
+     *  @param[in] rhs The object to copy.
+     *
+     *  @return *this after setting its state to a copy of @p rhs.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating memory for the
+     *                        copy. Strong throw guarantee.
+     */
+    FragmentedChemicalSystem& operator=(const FragmentedChemicalSystem& rhs);
+
+    /** @brief Replaces the state in *this with the state in @p rhs.
+     *
+     *  This method will release the state currently held by *this and then
+     *  take the state from @p rhs.
+     *
+     *  @param[in,out] rhs The object to take the state from. After this method
+     *                     is called @p rhs will be in a state consistent with
+     *                     being default initialized.
+     *
+     *  @return *this after taking the state from @p rhs.
+     *
+     *  @throw None No throw guarantee.
+     */
+    FragmentedChemicalSystem& operator=(
+      FragmentedChemicalSystem&& rhs) noexcept;
 
     /// Defaulted no-throw dtor
     ~FragmentedChemicalSystem() noexcept;
@@ -100,8 +183,33 @@ public:
      */
     void swap(FragmentedChemicalSystem& other) noexcept;
 
+    /** @brief Is *this value equal to @p rhs?
+     *
+     *  Two FragmentedChemicalSystem objects are value equal if:
+     *  - the supersystems they fragment are value equal,
+     *  - they contain the same number of fragments,
+     *  - if the `i`-th fragment of *this is value equal to the `i`-th fragment
+     *    of @p rhs.
+     *
+     *  @param[in] rhs The FragmentedChemicalSystem to compare to *this.
+     *
+     *  @return True if *this is value equal to @p rhs and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
     bool operator==(const FragmentedChemicalSystem& rhs) const noexcept;
 
+    /** @brief Determines if *this is different than @p rhs.
+     *
+     *  This method defines "different" as not value equal. See operator== for
+     *  the definition of value equality.
+     *
+     *  @param[in] rhs The FragmentedChemicalSystem to compare against.
+     *
+     *  @return False if *this and @p rhs are value equal and true otherwise.
+     *
+     *  @throw None No throw guarantee
+     */
     bool operator!=(const FragmentedChemicalSystem& rhs) const noexcept;
 
 protected:

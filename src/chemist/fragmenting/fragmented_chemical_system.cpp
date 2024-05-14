@@ -20,8 +20,17 @@ public:
     using supersystem_reference = typename parent_type::supersystem_reference;
     using const_supersystem_reference =
       typename parent_type::const_supersystem_reference;
-    using size_type = typename parent_type::size_type;
+    using size_type     = typename parent_type::size_type;
+    using pimpl_pointer = typename parent_type::pimpl_pointer;
     ///@}
+
+    FragmentedChemicalSystemPIMPL(fragmented_molecule_type frags) :
+      m_frags_(std::move(frags)) {}
+
+    FragmentedChemicalSystemPIMPL(const FragmentedChemicalSystemPIMPL& other) =
+      default;
+
+    pimpl_pointer clone() const { return std::make_unique<my_type>(*this); }
 
     auto operator[](size_type i) { return supersystem_reference(m_frags_[i]); }
     const auto operator[](size_type i) const {
@@ -51,7 +60,32 @@ TPARAMS
 FRAGMENTED_CHEMICAL_SYSTEM::FragmentedChemicalSystem() noexcept = default;
 
 TPARAMS
-FRAGMENTED_CHEMICAL_SYSTEM::~FragmentedChemicalSystem() noexcept = default;
+FRAGMENTED_CHEMICAL_SYSTEM::FragmentedChemicalSystem(
+  fragmented_molecule_type frags) :
+  m_pimpl_(std::make_unique<pimpl_type>(std::move(frags))) {}
+
+TPARAMS
+FRAGMENTED_CHEMICAL_SYSTEM::FragmentedChemicalSystem(
+  const FragmentedChemicalSystem& other) :
+  m_pimpl_(other.has_pimpl_() ? other.m_pimpl_->clone() : nullptr) {}
+
+TPARAMS
+FRAGMENTED_CHEMICAL_SYSTEM::FragmentedChemicalSystem(
+  FragmentedChemicalSystem&& other) noexcept = default;
+
+TPARAMS
+FRAGMENTED_CHEMICAL_SYSTEM& FRAGMENTED_CHEMICAL_SYSTEM::operator=(
+  const FragmentedChemicalSystem& rhs) {
+    if(this != &rhs) FragmentedChemicalSystem(rhs).swap(*this);
+    return *this;
+}
+
+TPARAMS
+FRAGMENTED_CHEMICAL_SYSTEM& FRAGMENTED_CHEMICAL_SYSTEM::operator=(
+  FragmentedChemicalSystem&& rhs) noexcept = default;
+
+TPARAMS FRAGMENTED_CHEMICAL_SYSTEM::~FragmentedChemicalSystem() noexcept =
+  default;
 
 // -----------------------------------------------------------------------------
 // -- Utility methods
