@@ -20,9 +20,12 @@
 
 namespace chemist::fragmenting {
 
+void export_fragmented_nuclei(python_module_reference m);
+
 inline void export_fragmenting(python_module_reference m) {
     auto mfragmenting = m.def_submodule("fragmenting");
     export_capping(mfragmenting);
+    export_fragmented_nuclei(mfragmenting);
 }
 
 } // namespace chemist::fragmenting

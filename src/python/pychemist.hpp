@@ -29,6 +29,58 @@ using python_class_type = pybind11::class_<Args...>;
 template<typename... Args>
 using python_enum_type = pybind11::enum_<Args...>;
 
+/** @brief Convenience function for checking if a pybind11 object can be
+ *         cast to  type T
+ *
+ *  @tparam T The C++ type we are trying to convert the pybind11 object to.
+ *  @tparam U The type of the pybind11 object holding the Python object. Assumed
+ *            to be a type like `pybind11::object`
+ *
+ *  As far as we are aware, pybind11 does not provide a mechanism for
+ *  determining if a cast will pass without trying the cast. This function
+ *  wraps the process of trying the cast and reports whether or not the cast
+ *  passed.
+ *
+ *  @param[in] pybind_object The wrapped Python object we are trying to convert.
+ *
+ *  @return True if @p pybind_object can be converted to an object of type
+ *          @p T and false otherwise.
+ *
+ *  @throw None No throw guarantee.
+ */
+template<typename T, typename U>
+bool can_cast(U pybind_object) {
+    try {
+        pybind_object.template cast<T>();
+        return true;
+    } catch(...) {}
+    return false;
+}
+
+/** @brief Converts a pybind11 container to a std::vector<T>
+ *
+ *  @tparam T The C++ type of the resulting container's elements.
+ *  @tparam U The type of the pybind11 object we are converting. @p U is
+ *            expected to be a type like `pybind11::list` or `pybind11::args`.
+ *            Each element of @p U must be convertible to type @p T.
+ *
+ *  This function wraps the process of unwrapping a Python container into a
+ *  C++ container. Such processes must be done element-by-element.
+ *
+ *  @param[in] container The Python container to unwrap.
+ *
+ *  @return A C++ container filled with C++ objects of type @p T.
+ *
+ *  @throw std::bad_alloc if there is a problem allocating the return. Strong
+ *                        throw guarantee.
+ */
+template<typename T, typename U>
+auto pybind_to_buffer(U container) {
+    std::vector<T> buffer;
+    for(auto& element : container) buffer.push_back(element.template cast<T>());
+    return buffer;
+}
+
 /** @brief Convenience function for converting pybind11::args into a std::vector
  *
  *  When creating Python bindings for C++ functions which take a variadic number
@@ -47,10 +99,7 @@ using python_enum_type = pybind11::enum_<Args...>;
  */
 template<typename T>
 auto args_to_buffer(pybind11::args args) {
-    std::vector<T> buffer(args.size());
-    for(decltype(args.size()) i = 0; i < args.size(); ++i)
-        buffer[i] = args[i].cast<T>();
-    return buffer;
+    return pybind_to_buffer<T>(args);
 }
 
 } // namespace chemist

@@ -31,29 +31,40 @@ void export_nuclei(python_module_reference m) {
     using reference        = typename nuclei_type::reference;
     using size_type        = typename nuclei_type::size_type;
 
-    using at_fxn = reference (nuclei_type::*)(size_type);
+    // Factor long functions out for readability
+    //{
+    auto list_ctor = [](pybind11::list nuclei) {
+        std::vector<value_type> values;
+        for(auto& nucleus_py : nuclei) {
+            auto nucleus_i = nucleus_py.cast<value_type>();
+            values.push_back(nucleus_i);
+        }
+        return nuclei_type(values.begin(), values.end());
+    };
+
+    auto push_back = [](nuclei_reference self, value_type v) {
+        return self.push_back(std::move(v));
+    };
+    auto str_fxn = [](const chemist::Nuclei& nuc) {
+        std::ostringstream stream;
+        stream << nuc;
+        return stream.str();
+    };
+    auto iter_fxn = [](nuclei_reference self) {
+        return pybind11::make_iterator(self.begin(), self.end());
+    };
+    //}
 
     python_class_type<nuclei_type>(m, "Nuclei")
       .def(pybind11::init<>())
+      .def(pybind11::init(list_ctor))
       .def("empty", [](nuclei_reference self) { return self.empty(); })
-      .def("push_back",
-           [](nuclei_reference self, value_type v) {
-               return self.push_back(std::move(v));
-           })
+      .def("push_back", push_back)
       .def("at", [](nuclei_reference self, size_type i) { return self[i]; })
       .def("size", [](nuclei_reference self) { return self.size(); })
-      .def("__str__",
-           [](const chemist::Nuclei& nuc) {
-               std::ostringstream stream;
-               stream << nuc;
-               return stream.str();
-           })
-      .def(
-        "__iter__",
-        [](nuclei_reference self) {
-            return pybind11::make_iterator(self.begin(), self.end());
-        },
-        pybind11::keep_alive<0, 1>())
+      .def("__repr__", str_fxn)
+      .def("__str__", str_fxn)
+      .def("__iter__", iter_fxn, pybind11::keep_alive<0, 1>())
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
 }
