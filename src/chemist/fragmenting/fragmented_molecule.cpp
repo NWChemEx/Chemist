@@ -113,7 +113,7 @@ auto compute_multiplicities(NucleiType&& nuclei, ChargesType&& charges) {
     auto size = nuclei.size();
     typename FragmentedMolecule<Molecule>::multiplicity_container rv(size, 1);
     using atomic_number_type = typename Nucleus::atomic_number_type;
-    using charge_type = typename Nucleus::charge_type;
+    using charge_type        = typename Nucleus::charge_type;
 
     for(decltype(size) i = 0; i < size; ++i) {
         atomic_number_type n_electrons = 0;

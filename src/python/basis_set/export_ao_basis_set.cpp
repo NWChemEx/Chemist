@@ -23,12 +23,12 @@ namespace detail_ {
 
 template<typename T>
 void export_ao_basis_set_(const char* name, python_module_reference m) {
-    using primitive_type        = basis_set::Primitive<T>;
-    using cg_type               = basis_set::ContractedGaussian<primitive_type>;
-    using shell_type            = basis_set::Shell<cg_type>;
-    using abs_type              = basis_set::AtomicBasisSet<shell_type>;
-    using aobs_type             = basis_set::AOBasisSet<abs_type>;
-    using size_type             = typename abs_type::size_type;
+    using primitive_type = basis_set::Primitive<T>;
+    using cg_type        = basis_set::ContractedGaussian<primitive_type>;
+    using shell_type     = basis_set::Shell<cg_type>;
+    using abs_type       = basis_set::AtomicBasisSet<shell_type>;
+    using aobs_type      = basis_set::AOBasisSet<abs_type>;
+    using size_type      = typename abs_type::size_type;
 
     python_class_type<aobs_type>(m, name)
       .def(pybind11::init<>())
