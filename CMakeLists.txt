@@ -81,6 +81,7 @@ cmaize_add_library(
     INCLUDE_DIRS "${CHEMIST_INCLUDE_DIR}/chemist"
     DEPENDS parallelzone utilities Boost::boost
 )
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall)
 
 if("${ENABLE_EXPERIMENTAL_FEATURES}")
     cmaize_find_or_build_dependency(

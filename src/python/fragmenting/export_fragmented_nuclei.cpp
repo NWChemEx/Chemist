@@ -23,7 +23,6 @@ namespace chemist::fragmenting {
 void export_fragmented_nuclei(python_module_reference m) {
     using fragmented_nuclei_type = FragmentedNuclei<Nuclei>;
     using supersystem_type = typename fragmented_nuclei_type::supersystem_type;
-    using cap_type         = typename fragmented_nuclei_type::cap_type;
     using cap_set_type     = typename fragmented_nuclei_type::cap_set_type;
     using reference        = fragmented_nuclei_type&;
     using size_type        = typename fragmented_nuclei_type::size_type;

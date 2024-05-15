@@ -24,8 +24,6 @@ void export_fragmented_chemical_system(python_module_reference m) {
     using fragmented_chemical_system = FragmentedChemicalSystem<ChemicalSystem>;
     using fragmented_molecule_type =
       typename fragmented_chemical_system::fragmented_molecule_type;
-    using supersystem_type =
-      typename fragmented_chemical_system::supersystem_type;
     using reference = fragmented_chemical_system&;
     using size_type = typename fragmented_chemical_system::size_type;
 
