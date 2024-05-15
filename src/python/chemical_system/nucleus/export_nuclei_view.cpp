@@ -49,7 +49,9 @@ void export_nuclei_view(python_module_reference m) {
         },
         pybind11::keep_alive<0, 1>())
       .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(pybind11::self == nuclei_type{})
+      .def(pybind11::self != pybind11::self)
+      .def(pybind11::self != nuclei_type{});
 }
 
 } // namespace chemist

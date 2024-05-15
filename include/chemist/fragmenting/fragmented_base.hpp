@@ -64,6 +64,9 @@ public:
      */
     FragmentedBase() noexcept = default;
 
+    /// No throw default dtor
+    virtual ~FragmentedBase() noexcept = default;
+
     /** @brief Provides (possibly) mutable access to the supersystem.
      *
      *  This method is used to access the supersystem stored in *this. Whether

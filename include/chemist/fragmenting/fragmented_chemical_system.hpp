@@ -36,6 +36,8 @@ class FragmentedChemicalSystemPIMPL;
  * This class holds a ChemicalSystem supersystem and the fragments of that
  * object.
  *
+ * For design notes see https://tinyurl.com/4njpnsz5.
+ *
  */
 
 template<typename ChemicalSystemType>

@@ -27,6 +27,18 @@ class FragmentedMoleculePIMPL;
 
 }
 
+/** @brief Stores pieces of a Molecule object.
+ *
+ *  @tparam MoleculeType Type of the object being fragmented. Assumed to be
+ *                       either Molecule or const Molecule.
+ *
+ *  When fragmenting a Molecule object the resulting fragments are also
+ *  Molecule objects. This class stores the supersystem Molecule object and
+ *  the fragments. For each fragment this class stores the nuclei in the
+ *  fragment, the charge of the fragment, and the multiplicity of the fragment.
+ *
+ *  See https://tinyurl.com/32kezy43 for design notes.
+ */
 template<typename MoleculeType>
 class FragmentedMolecule
   : public FragmentedBase<FragmentedMolecule<MoleculeType>> {
@@ -206,10 +218,43 @@ public:
     // -- Utility methods
     // -------------------------------------------------------------------------
 
+    /** @brief Exchanges the state in *this with that in @p other.
+     *
+     *  @param[in,out] other The object whose state is being taken. After this
+     *                       method is called @p other will contain the state
+     *                       which was previously in *this.
+     *
+     *  @throw None No throw guarantee.
+     */
     void swap(FragmentedMolecule& other) noexcept;
 
+    /** @brief Determines if *this is value equal to @p rhs.
+     *
+     *  Two FragmentedMolecule objects are value equal if the supersystems they
+     *  fragment are value equal, the FragmentedMolecule objects contain the
+     *  same number of fragments, and if the `i`-th fragments in each
+     *  FragmentedMolecule are value equal.
+     *
+     *  @param[in] rhs The object to compare *this to.
+     *
+     *  @return True if *this is value equal to @p rhs and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
     bool operator==(const FragmentedMolecule& rhs) const noexcept;
 
+    /** @brief Is *this different than @p rhs?
+     *
+     *  Two FragmentedMolecule objects are different if they are not value
+     *  equal. Hence this method simply negates operator==. See operator==
+     *  for more details.
+     *
+     *  @param[in] rhs The object to compare to.
+     *
+     *  @return False if *this and @p rhs are value equal and true otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
     bool operator!=(const FragmentedMolecule& rhs) const noexcept;
 
 protected:
