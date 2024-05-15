@@ -32,7 +32,9 @@ void export_chemical_system_view(python_module_reference m) {
         "molecule", [](reference self) { return self.molecule(); },
         [](reference self, molecule_type mol) { self.molecule() = mol; })
       .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(pybind11::self == chemical_system_type{})
+      .def(pybind11::self != pybind11::self)
+      .def(pybind11::self != chemical_system_type{});
 }
 
 } // namespace chemist

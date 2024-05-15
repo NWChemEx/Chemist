@@ -12,12 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist import Atom, Molecule, Nuclei
-from chemist.fragmenting import FragmentedNuclei, FragmentedMolecule
+from chemist import Atom, Molecule, ChemicalSystem
+from chemist.fragmenting import FragmentedNuclei, FragmentedMolecule, \
+    FragmentedChemicalSystem
 import unittest
 
 
-class TestFragmentedMolecule(unittest.TestCase):
+class TestFragmentedChemicalSystem(unittest.TestCase):
 
     def test_ctors(self):
         self.assertEqual(self.defaulted.supersystem(), self.empty_ss)
@@ -30,12 +31,6 @@ class TestFragmentedMolecule(unittest.TestCase):
         self.assertEqual(self.frags.size(), 2)
         self.assertEqual(self.frags.at(0), self.frag0)
         self.assertEqual(self.frags.at(1), self.frag1)
-
-        other = FragmentedMolecule(self.frag_nuclei, 0, 2, [1, -1], [1, 2])
-        self.assertEqual(other.supersystem(), self.ss)
-        self.assertEqual(other.size(), 2)
-        self.assertEqual(other.at(0), Molecule(1, 1, [self.h]))
-        self.assertEqual(other.at(1), Molecule(-1, 2, [self.he]))
 
     def test_supersystem(self):
         self.assertEqual(self.defaulted.supersystem(), self.empty_ss)
@@ -53,11 +48,11 @@ class TestFragmentedMolecule(unittest.TestCase):
 
     def test_comparisons(self):
         # Default vs default
-        rhs = FragmentedMolecule()
+        rhs = FragmentedChemicalSystem()
         self.assertEqual(self.defaulted, rhs)
 
         # Default vs empty superset
-        rhs = FragmentedMolecule(self.empty_ss)
+        rhs = FragmentedChemicalSystem(FragmentedMolecule())
         self.assertEqual(self.defaulted, rhs)
 
         # Default vs empty
@@ -67,40 +62,40 @@ class TestFragmentedMolecule(unittest.TestCase):
         self.assertNotEqual(self.defaulted, self.frags)
 
         # Empty vs empty
-        rhs = FragmentedMolecule(self.ss)
+        rhs = FragmentedChemicalSystem(self.empty_frag_molecule)
         self.assertEqual(self.no_frags, rhs)
 
         # Empty vs value
         self.assertNotEqual(self.no_frags, self.frags)
 
         # Value vs value
-        rhs = FragmentedMolecule(self.frag_nuclei, 0, 2)
+        rhs = FragmentedChemicalSystem(self.frag_molecule)
         self.assertEqual(self.frags, rhs)
 
         # Different fragments
-        rhs_nuclei = FragmentedNuclei(self.ss.nuclei, [[0, 1]])
-        rhs = FragmentedMolecule(rhs_nuclei, 0, 2)
-        self.assertNotEqual(self.frags, rhs)
-
-        # Different charge and multiplicity
-        rhs = FragmentedMolecule(self.frag_nuclei, 1, 1)
+        rhs_nuclei = FragmentedNuclei(self.ss.molecule.nuclei, [[0, 1]])
+        rhs_mol = FragmentedMolecule(rhs_nuclei, 0, 2)
+        rhs = FragmentedChemicalSystem(rhs_mol)
         self.assertNotEqual(self.frags, rhs)
 
     def setUp(self):
         # Supersystems
         self.h = Atom('H', 1, 1.0, 2.0, 3.0, 4.0)
         self.he = Atom('He', 2, 4.0, 5.0, 6.0, 7.0)
-        self.ss = Molecule(0, 2, [self.h, self.he])
-        self.empty_ss = Molecule()
+        self.ss = ChemicalSystem(Molecule(0, 2, [self.h, self.he]))
+        self.empty_ss = ChemicalSystem()
 
-        # Fragmented nuclei
-        self.frag_nuclei = FragmentedNuclei(self.ss.nuclei, [[0], [1]])
+        # Fragmented nuclei and fragmented molecule
+        l01 = [[0], [1]]
+        self.frag_nuclei = FragmentedNuclei(self.ss.molecule.nuclei, l01)
+        self.frag_molecule = FragmentedMolecule(self.frag_nuclei, 0, 2)
+        self.empty_frag_molecule = FragmentedMolecule(self.ss.molecule)
 
         # Corr fragments
-        self.frag0 = Molecule(0, 2, [self.h])
-        self.frag1 = Molecule(0, 1, [self.he])
+        self.frag0 = ChemicalSystem(Molecule(0, 2, [self.h]))
+        self.frag1 = ChemicalSystem(Molecule(0, 1, [self.he]))
 
-        # Fragmented Molecule
-        self.defaulted = FragmentedMolecule()
-        self.no_frags = FragmentedMolecule(self.ss)
-        self.frags = FragmentedMolecule(self.frag_nuclei, 0, 2)
+        # Fragmented ChemicalSystem
+        self.defaulted = FragmentedChemicalSystem()
+        self.no_frags = FragmentedChemicalSystem(self.empty_frag_molecule)
+        self.frags = FragmentedChemicalSystem(self.frag_molecule)

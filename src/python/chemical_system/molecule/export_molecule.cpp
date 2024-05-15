@@ -47,7 +47,10 @@ void export_molecule_(python_module_reference m) {
         return self.push_back(std::move(v));
     };
 
-    auto nuclei_fxn = [](molecule_reference self) { return self.nuclei(); };
+    auto get_nuclei_fxn = [](molecule_reference self) { return self.nuclei(); };
+    auto set_nuclei_fxn = [](molecule_reference self, nuclei_type nuclei) {
+        self.nuclei() = nuclei;
+    };
     auto at_fxn = [](molecule_reference self, size_type i) { return self[i]; };
 
     auto set_charge = [](molecule_reference self, charge_type c) {
@@ -77,7 +80,7 @@ void export_molecule_(python_module_reference m) {
       .def(pybind11::init(value_ctor))
       .def("empty", [](molecule_reference self) { return self.empty(); })
       .def("push_back", push_back)
-      .def("nuclei", nuclei_fxn, ka)
+      .def_property("nuclei", get_nuclei_fxn, set_nuclei_fxn)
       .def("at", at_fxn, ka)
       .def("size", [](molecule_reference self) { return self.size(); })
       .def("charge", &Molecule::charge)
