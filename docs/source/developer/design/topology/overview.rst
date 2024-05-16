@@ -1,4 +1,4 @@
-.. Copyright 2022 NWChemEx-Project
+.. Copyright 2024 NWChemEx Community
 ..
 .. Licensed under the Apache License, Version 2.0 (the "License");
 .. you may not use this file except in compliance with the License.
@@ -12,19 +12,15 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-####################
-Design Documentation
-####################
+.. _designing_the_topology_component:
 
-Topics in this section record the design process for the Chemist library.
+################################
+Designing the Topology Component
+################################
 
-.. toctree::
-   :maxdepth: 2
+TODO: More formal write-up
 
-   architecture
-   chemical_system/index
-   ao_basis_set/index
-   topology/index
-   fragmenting/index
-   operator/index
-   wavefunction/index
+- Cheminformatics common to think of molecule as a graph
+- topology allows modeling molecule independent of representation
+- Needed for more familiar concepts like bonds, angles, torsions
+- Key to graph-representation is a list of edges, i.e., bonds

@@ -1,4 +1,4 @@
-.. Copyright 2022 NWChemEx-Project
+.. Copyright 2023 NWChemEx-Project
 ..
 .. Licensed under the Apache License, Version 2.0 (the "License");
 .. you may not use this file except in compliance with the License.
@@ -12,19 +12,16 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-####################
-Design Documentation
-####################
+.. _designing_the_connectivity_table:
 
-Topics in this section record the design process for the Chemist library.
+################################
+Designing the Connectivity Table
+################################
 
-.. toctree::
-   :maxdepth: 2
+TODO: More formal writeup
 
-   architecture
-   chemical_system/index
-   ao_basis_set/index
-   topology/index
-   fragmenting/index
-   operator/index
-   wavefunction/index
+- Initially deal with indices (convenient as long as Molecule near-by)
+- Need to think about how this interacts with angles, and torsions
+- Need to think about how thi interacts with the graph
+- Use std::array vs std::pair b/c former supports ``operator[]``
+- Should there be a ``Bond`` class?
