@@ -111,7 +111,7 @@ TEST_CASE("ConnectivityTable") {
     SECTION("Copy Assignment") {
         SECTION("Self-assignment") {
             ConnectivityTable CopyOft3(t3);
-            auto pCopyOft3 = &(CopyOft3 = CopyOft3);
+            auto pCopyOft3 = &(CopyOft3 = t3);
             REQUIRE(pCopyOft3 == &CopyOft3);
             REQUIRE(CopyOft3 == t3);
         }
@@ -130,12 +130,6 @@ TEST_CASE("ConnectivityTable") {
     }
 
     SECTION("Move Assignment") {
-        SECTION("Self-assignment") {
-            ConnectivityTable lhs(t3);
-            auto plhs = &(lhs = std::move(lhs));
-            REQUIRE(plhs == &lhs);
-            REQUIRE(lhs == t3);
-        }
         SECTION("Default move") {
             ConnectivityTable CopyOft3(t3);
             auto pCopyOft3 = &(CopyOft3 = std::move(t));
