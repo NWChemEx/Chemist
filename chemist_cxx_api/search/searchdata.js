@@ -3,10 +3,10 @@ var indexSectionsWithContent =
   0: "/abcefgilmnoprstvxyz~",
   1: "acfmnpsv",
   2: "c",
-  3: "cp",
+  3: "cpt",
   4: "abcefgilmnopsxyz~",
   5: "im",
-  6: "acefimnprstv",
+  6: "acefimnoprstv",
   7: "g",
   8: "p",
   9: "/c"

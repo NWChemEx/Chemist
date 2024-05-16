@@ -81,6 +81,9 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespacechemist_1_1basis__set"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechemist_1_1basis__set.html">basis_set</a></td></tr>
 <tr class="memdesc:namespacechemist_1_1basis__set"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains classes associated with the electronic basis set. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacechemist_1_1topology"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacechemist_1_1topology.html">topology</a></td></tr>
+<tr class="memdesc:namespacechemist_1_1topology"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace for classes and functions describing the topology of chemical systems. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -189,6 +192,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1ChemistClassTraits_3_01PointSet_3_01T_01_4_01_4.html">ChemistClassTraits&lt; PointSet&lt; T &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1ChemistClassTraits_3_01const_01PointSet_3_01T_01_4_01_4.html">ChemistClassTraits&lt; const PointSet&lt; T &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1ChemistClassTraits_3_01topology_1_1ConnectivityTable_01_4.html">ChemistClassTraits&lt; topology::ConnectivityTable &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -372,6 +377,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>export_point_view</b>
 <tr class="memitem:a9f7199f284e98322c45169fab247b73f"><td class="memItemLeft" align="right" valign="top"><a id="a9f7199f284e98322c45169fab247b73f"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>export_point</b> (python_module_reference m)</td></tr>
 <tr class="separator:a9f7199f284e98322c45169fab247b73f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a502f8037e90173a66fd9bb249c79f191"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a502f8037e90173a66fd9bb249c79f191"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacechemist.html#a502f8037e90173a66fd9bb249c79f191">can_cast</a> (U pybind_object)</td></tr>
+<tr class="memdesc:a502f8037e90173a66fd9bb249c79f191"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function for checking if a pybind11 object can be cast to type T.  <a href="namespacechemist.html#a502f8037e90173a66fd9bb249c79f191">More...</a><br /></td></tr>
+<tr class="separator:a502f8037e90173a66fd9bb249c79f191"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ad63f996cb08001385e02765dc71085"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a6ad63f996cb08001385e02765dc71085"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacechemist.html#a6ad63f996cb08001385e02765dc71085">pybind_to_buffer</a> (U container)</td></tr>
+<tr class="memdesc:a6ad63f996cb08001385e02765dc71085"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a pybind11 container to a std::vector&lt;T&gt;  <a href="namespacechemist.html#a6ad63f996cb08001385e02765dc71085">More...</a><br /></td></tr>
+<tr class="separator:a6ad63f996cb08001385e02765dc71085"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a043a90efd1fc2555ed703eb94fc79781"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a043a90efd1fc2555ed703eb94fc79781"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacechemist.html#a043a90efd1fc2555ed703eb94fc79781">args_to_buffer</a> (pybind11::args args)</td></tr>
 <tr class="memdesc:a043a90efd1fc2555ed703eb94fc79781"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function for converting pybind11::args into a std::vector.  <a href="namespacechemist.html#a043a90efd1fc2555ed703eb94fc79781">More...</a><br /></td></tr>
@@ -509,6 +522,49 @@ template&lt;typename T &gt; </div>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::bad_alloc</td><td>if there's a problem allocating the buffer. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a502f8037e90173a66fd9bb249c79f191"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a502f8037e90173a66fd9bb249c79f191">&#9670;&nbsp;</a></span>can_cast()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename U &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool chemist::can_cast </td>
+          <td>(</td>
+          <td class="paramtype">U&#160;</td>
+          <td class="paramname"><em>pybind_object</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convenience function for checking if a pybind11 object can be cast to type T. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The C++ type we are trying to convert the pybind11 object to. </td></tr>
+    <tr><td class="paramname">U</td><td>The type of the pybind11 object holding the Python object. Assumed to be a type like <code>pybind11::object</code></td></tr>
+  </table>
+  </dd>
+</dl>
+<p>As far as we are aware, pybind11 does not provide a mechanism for determining if a cast will pass without trying the cast. This function wraps the process of trying the cast and reports whether or not the cast passed.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pybind_object</td><td>The wrapped Python object we are trying to convert.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if <code>pybind_object</code> can be converted to an object of type <code>T</code> and false otherwise.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
@@ -761,6 +817,49 @@ template&lt;typename ChargeType1 , typename ChargesType2 &gt; </div>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::bad_alloc</td><td>if ChargeView::operator==(Charges) throws. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6ad63f996cb08001385e02765dc71085"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ad63f996cb08001385e02765dc71085">&#9670;&nbsp;</a></span>pybind_to_buffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename U &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto chemist::pybind_to_buffer </td>
+          <td>(</td>
+          <td class="paramtype">U&#160;</td>
+          <td class="paramname"><em>container</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converts a pybind11 container to a std::vector&lt;T&gt; </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The C++ type of the resulting container's elements. </td></tr>
+    <tr><td class="paramname">U</td><td>The type of the pybind11 object we are converting. <code>U</code> is expected to be a type like <code>pybind11::list</code> or <code>pybind11::args</code>. Each element of <code>U</code> must be convertible to type <code>T</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function wraps the process of unwrapping a Python container into a C++ container. Such processes must be done element-by-element.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">container</td><td>The Python container to unwrap.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A C++ container filled with C++ objects of type <code>T</code>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the return. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
