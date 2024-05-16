@@ -44,4 +44,4 @@
  *  The topology component of Chemist contains classes for working out and
  *  describing the topology of chemical systems.
  */
-namespace chemist::topology{}
+namespace chemist::topology {}
