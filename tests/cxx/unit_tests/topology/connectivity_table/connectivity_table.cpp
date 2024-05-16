@@ -152,6 +152,16 @@ TEST_CASE("ConnectivityTable") {
         }
     }
 
+    SECTION("swap") {
+        ConnectivityTable lhs_copy(t0);
+        ConnectivityTable rhs_copy(t2);
+
+        t0.swap(t2);
+
+        REQUIRE(t0 == rhs_copy);
+        REQUIRE(t2 == lhs_copy);
+    }
+
     SECTION("set_n_atoms/natoms") {
         REQUIRE(t0.natoms() == 0);
         t0.set_n_atoms(4);

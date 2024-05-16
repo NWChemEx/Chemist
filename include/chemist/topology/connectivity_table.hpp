@@ -123,6 +123,16 @@ public:
     /// Default no-throw dtor
     ~ConnectivityTable() noexcept;
 
+    /** @brief Exchanges the state of *this with that of @p other.
+     *
+     *  @param[in,out] other The object to exchange state with. After this
+     *                       method is called @p other will contain the state
+     *                       which previously was in @p *this.
+     *
+     *  @throw None No throw guarantee.
+     */
+    void swap(ConnectivityTable& other) noexcept;
+
     /** @brief Sets the number of atoms the connectivity table is for.
      *
      *  This works similar to std::vector reserve. Basically it will make the
