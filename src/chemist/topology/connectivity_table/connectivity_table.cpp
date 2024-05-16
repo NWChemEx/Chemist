@@ -19,9 +19,9 @@
 
 namespace chemist::topology {
 
-using pimpl_type     = typename ConnectivityTable::pimpl_type;
-using bond_list_type = typename ConnectivityTable::bond_list_type;
-using size_type      = typename ConnectivityTable::size_type;
+using pimpl_type       = typename ConnectivityTable::pimpl_type;
+using offset_pair_list = typename ConnectivityTable::offset_pair_list;
+using size_type        = typename ConnectivityTable::size_type;
 
 //---------------------------------- CTors -------------------------------------
 
@@ -74,12 +74,13 @@ size_type ConnectivityTable::nbonds() const noexcept {
     return 0;
 }
 
-bond_list_type ConnectivityTable::bonds() const {
+offset_pair_list ConnectivityTable::bonds() const {
     if(m_pimpl_) return m_pimpl_->bonds();
-    return bond_list_type{};
+    return offset_pair_list{};
 }
 
-std::set<size_type> ConnectivityTable::bonded_atoms(size_type i) const {
+typename ConnectivityTable::atom_indices_set ConnectivityTable::bonded_atoms(
+  size_type i) const {
     const auto n = natoms();
     if(i >= n)
         throw std::out_of_range("i = " + std::to_string(i) +

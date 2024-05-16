@@ -15,30 +15,47 @@
  */
 
 #pragma once
-#include <array>
-#include <iostream>
-#include <memory>
-#include <set>
-#include <vector>
+#include <chemist/traits/topology.hpp>
 
 namespace chemist::topology {
 namespace detail_ {
 class ConnectivityTablePIMPL;
 }
 
+/** @brief Stores the a list of bonds in a molecule.
+ *
+ *  From a graph theory point of view this class is essentially an adjacency
+ *  matrix, i.e., it knows what atoms in the molecule are connected.
+ *
+ *  At present the table does NOT contain a reference to the Molecule it
+ *  describes and thus deals entirely in terms of indices.
+ */
 class ConnectivityTable {
+private:
+    /// The type of *this
+    using my_type = ConnectivityTable;
+
 public:
     /// Type of an object which implements this class
     using pimpl_type = detail_::ConnectivityTablePIMPL;
+
     /// A pointer to a PIMPL instance
     using pimpl_ptr = std::unique_ptr<pimpl_type>;
 
-    /// Type used for indexing/sizes
-    using size_type = std::size_t;
-    /// Type used for a bond
-    using pair_type = std::array<size_type, 2>;
-    /// Type used for a list of bonds
-    using bond_list_type = std::vector<pair_type>;
+    /// Class defining the types for *this
+    using type_traits = ChemistClassTraits<my_type>;
+
+    /// Type used for indexing atoms and bonds
+    using size_type = typename type_traits::size_type;
+
+    /// Indexable container-like type used for specifying a bond by atom index
+    using offset_pair = typename type_traits::offset_pair;
+
+    /// Type used to hold a list of offset_pair objects
+    using offset_pair_list = typename type_traits::offset_pair_list;
+
+    /// Type used to return a set of atom indices
+    using atom_indices_set = typename type_traits::atom_indices_set;
 
     /** @brief Creates an empty ConnectivityTable.
      *
@@ -172,7 +189,7 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        return type. Strong throw guarantee.
      */
-    bond_list_type bonds() const;
+    offset_pair_list bonds() const;
 
     /** @brief Returns the set of atoms bonded to atom @p i.
      *
@@ -188,7 +205,7 @@ public:
      *  @throw std::out_of_range if @p i is not in the range [0, natoms()).
      *                           Strong throw guarantee.
      */
-    std::set<size_type> bonded_atoms(size_type i) const;
+    atom_indices_set bonded_atoms(size_type i) const;
 
 private:
     /** @brief Returns the PIMPL in a read/write state, making a PIMPL if the

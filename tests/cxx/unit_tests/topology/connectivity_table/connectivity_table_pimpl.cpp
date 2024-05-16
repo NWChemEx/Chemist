@@ -16,12 +16,13 @@
 
 #include "chemist/topology/connectivity_table/connectivity_table_pimpl.hpp"
 #include <catch2/catch.hpp>
+#include <type_traits>
 
 using namespace chemist::topology::detail_;
 
-using size_type      = typename ConnectivityTablePIMPL::size_type;
-using pair_type      = typename ConnectivityTablePIMPL::pair_type;
-using bond_list_type = typename ConnectivityTablePIMPL::bond_list_type;
+using size_type        = typename ConnectivityTablePIMPL::size_type;
+using offset_pair      = typename ConnectivityTablePIMPL::offset_pair;
+using offset_pair_list = typename ConnectivityTablePIMPL::offset_pair_list;
 
 TEST_CASE("ConnectivityTablePIMPL") {
     ConnectivityTablePIMPL defaulted;
@@ -30,9 +31,9 @@ TEST_CASE("ConnectivityTablePIMPL") {
         using ct_t = chemist::topology::ConnectivityTable;
         // Make sure the PIMPL uses the same type as the main class
         STATIC_REQUIRE(std::is_same_v<size_type, typename ct_t::size_type>);
-        STATIC_REQUIRE(std::is_same_v<pair_type, typename ct_t::pair_type>);
-        using corr_bond_list = typename ct_t::bond_list_type;
-        STATIC_REQUIRE(std::is_same_v<bond_list_type, corr_bond_list>);
+        STATIC_REQUIRE(std::is_same_v<offset_pair, typename ct_t::offset_pair>);
+        using corr_bond_list = typename ct_t::offset_pair_list;
+        STATIC_REQUIRE(std::is_same_v<offset_pair_list, corr_bond_list>);
     }
 
     SECTION("Default CTor") {
@@ -134,18 +135,18 @@ TEST_CASE("ConnectivityTablePIMPL") {
     }
 
     SECTION("bonds") {
-        SECTION("No bonds") { REQUIRE(p0.bonds() == bond_list_type{}); }
+        SECTION("No bonds") { REQUIRE(p0.bonds() == offset_pair_list{}); }
 
         SECTION("One bond") {
             p3.add_bond(0, 1);
-            bond_list_type corr{pair_type{0, 1}};
+            offset_pair_list corr{offset_pair{0, 1}};
             REQUIRE(p3.bonds() == corr);
         }
 
         SECTION("Two bonds") {
             p3.add_bond(0, 1);
             p3.add_bond(0, 2);
-            bond_list_type corr{pair_type{0, 1}, pair_type{0, 2}};
+            offset_pair_list corr{offset_pair{0, 1}, offset_pair{0, 2}};
             REQUIRE(p3.bonds() == corr);
         }
 
@@ -154,10 +155,10 @@ TEST_CASE("ConnectivityTablePIMPL") {
             p3.add_bond(0, 2);
             p3.add_bond(1, 2);
 
-            pair_type pair0{0, 1};
-            pair_type pair1{0, 2};
-            pair_type pair2{1, 2};
-            bond_list_type corr{pair0, pair1, pair2};
+            offset_pair pair0{0, 1};
+            offset_pair pair1{0, 2};
+            offset_pair pair2{1, 2};
+            offset_pair_list corr{pair0, pair1, pair2};
 
             REQUIRE(p3.bonds() == corr);
         }
