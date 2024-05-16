@@ -20,11 +20,11 @@
 
 using namespace chemist::topology;
 
-using pimpl_type     = typename ConnectivityTable::pimpl_type;
-using pimpl_ptr      = typename ConnectivityTable::pimpl_ptr;
-using size_type      = typename ConnectivityTable::size_type;
-using pair_type      = typename ConnectivityTable::pair_type;
-using bond_list_type = typename ConnectivityTable::bond_list_type;
+using pimpl_type       = typename ConnectivityTable::pimpl_type;
+using pimpl_ptr        = typename ConnectivityTable::pimpl_ptr;
+using size_type        = typename ConnectivityTable::size_type;
+using offset_pair      = typename ConnectivityTable::offset_pair;
+using offset_pair_list = typename ConnectivityTable::offset_pair_list;
 
 TEST_CASE("ConnectivityTable") {
     SECTION("Typedefs") {
@@ -37,11 +37,11 @@ TEST_CASE("ConnectivityTable") {
         using corr_size_type = std::size_t;
         STATIC_REQUIRE(std::is_same_v<size_type, corr_size_type>);
 
-        using corr_pair_type = std::array<corr_size_type, 2>;
-        STATIC_REQUIRE(std::is_same_v<pair_type, corr_pair_type>);
+        using corr_offset_pair = std::array<corr_size_type, 2>;
+        STATIC_REQUIRE(std::is_same_v<offset_pair, corr_offset_pair>);
 
-        using corr_bond_list = std::vector<corr_pair_type>;
-        STATIC_REQUIRE(std::is_same_v<bond_list_type, corr_bond_list>);
+        using corr_bond_list = std::vector<corr_offset_pair>;
+        STATIC_REQUIRE(std::is_same_v<offset_pair_list, corr_bond_list>);
     }
 
     ConnectivityTable t;
@@ -49,7 +49,7 @@ TEST_CASE("ConnectivityTable") {
     SECTION("Default Ctor") {
         REQUIRE(t.natoms() == 0);
         REQUIRE(t.nbonds() == 0);
-        REQUIRE(t.bonds() == bond_list_type{});
+        REQUIRE(t.bonds() == offset_pair_list{});
     }
 
     ConnectivityTable t0(0);
@@ -61,25 +61,25 @@ TEST_CASE("ConnectivityTable") {
         SECTION("0 Atoms") {
             REQUIRE(t0.natoms() == 0);
             REQUIRE(t0.nbonds() == 0);
-            REQUIRE(t0.bonds() == bond_list_type{});
+            REQUIRE(t0.bonds() == offset_pair_list{});
         }
 
         SECTION("1 Atom") {
             REQUIRE(t1.natoms() == 1);
             REQUIRE(t1.nbonds() == 0);
-            REQUIRE(t1.bonds() == bond_list_type{});
+            REQUIRE(t1.bonds() == offset_pair_list{});
         }
 
         SECTION("2 Atom") {
             REQUIRE(t2.natoms() == 2);
             REQUIRE(t2.nbonds() == 0);
-            REQUIRE(t2.bonds() == bond_list_type{});
+            REQUIRE(t2.bonds() == offset_pair_list{});
         }
 
         SECTION("3 Atom") {
             REQUIRE(t3.natoms() == 3);
             REQUIRE(t3.nbonds() == 0);
-            REQUIRE(t3.bonds() == bond_list_type{});
+            REQUIRE(t3.bonds() == offset_pair_list{});
         }
     }
 
@@ -88,13 +88,13 @@ TEST_CASE("ConnectivityTable") {
             ConnectivityTable CopyOft(t);
             REQUIRE(CopyOft.natoms() == 0);
             REQUIRE(CopyOft.nbonds() == 0);
-            REQUIRE(CopyOft.bonds() == bond_list_type{});
+            REQUIRE(CopyOft.bonds() == offset_pair_list{});
         }
         SECTION("Has state") {
             ConnectivityTable CopyOft3(t3);
             REQUIRE(CopyOft3.natoms() == 3);
             REQUIRE(CopyOft3.nbonds() == 0);
-            REQUIRE(CopyOft3.bonds() == bond_list_type{});
+            REQUIRE(CopyOft3.bonds() == offset_pair_list{});
         }
     }
 
@@ -102,16 +102,16 @@ TEST_CASE("ConnectivityTable") {
         ConnectivityTable Newt3(std::move(t3));
         REQUIRE(Newt3.natoms() == 3);
         REQUIRE(Newt3.nbonds() == 0);
-        REQUIRE(Newt3.bonds() == bond_list_type{});
+        REQUIRE(Newt3.bonds() == offset_pair_list{});
         REQUIRE(t3.natoms() == 0);
         REQUIRE(t3.nbonds() == 0);
-        REQUIRE(t3.bonds() == bond_list_type{});
+        REQUIRE(t3.bonds() == offset_pair_list{});
     }
 
     SECTION("Copy Assignment") {
         SECTION("Self-assignment") {
             ConnectivityTable CopyOft3(t3);
-            auto pCopyOft3 = &(CopyOft3 = CopyOft3);
+            auto pCopyOft3 = &(CopyOft3 = t3);
             REQUIRE(pCopyOft3 == &CopyOft3);
             REQUIRE(CopyOft3 == t3);
         }
@@ -130,12 +130,6 @@ TEST_CASE("ConnectivityTable") {
     }
 
     SECTION("Move Assignment") {
-        SECTION("Self-assignment") {
-            ConnectivityTable lhs(t3);
-            auto plhs = &(lhs = std::move(lhs));
-            REQUIRE(plhs == &lhs);
-            REQUIRE(lhs == t3);
-        }
         SECTION("Default move") {
             ConnectivityTable CopyOft3(t3);
             auto pCopyOft3 = &(CopyOft3 = std::move(t));
@@ -150,6 +144,16 @@ TEST_CASE("ConnectivityTable") {
             REQUIRE(lhs == t3);
             REQUIRE(CopyOft3 == t);
         }
+    }
+
+    SECTION("swap") {
+        ConnectivityTable lhs_copy(t0);
+        ConnectivityTable rhs_copy(t2);
+
+        t0.swap(t2);
+
+        REQUIRE(t0 == rhs_copy);
+        REQUIRE(t2 == lhs_copy);
     }
 
     SECTION("set_n_atoms/natoms") {

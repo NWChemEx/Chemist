@@ -31,10 +31,10 @@ public:
     using size_type = typename ConnectivityTable::size_type;
 
     /// Type used for an index pair
-    using pair_type = typename ConnectivityTable::pair_type;
+    using offset_pair = typename ConnectivityTable::offset_pair;
 
     /// Type used for a list of bonds
-    using bond_list_type = std::vector<pair_type>;
+    using offset_pair_list = typename ConnectivityTable::offset_pair_list;
 
     /** @brief Creates an empty PIMPL.
      *
@@ -136,7 +136,7 @@ public:
      *  @throw std::bad_alloc if there is insufficient memory to create the
      *                        return type. Strong throw guarantee.
      */
-    bond_list_type bonds() const;
+    offset_pair_list bonds() const;
 
 private:
     /// Ensures argument is less than `natoms()` and throws if it is not
@@ -156,12 +156,12 @@ private:
      *                           guarantee.
      *  @throw std::out_of_range if @p i equals @p j. Strong throw guarantee.
      */
-    pair_type sanitize_indices_(size_type i, size_type j) const;
+    offset_pair sanitize_indices_(size_type i, size_type j) const;
 
     /// The number of atoms this table is for.
     size_type m_natoms_ = 0;
 
-    // An m_natoms_ by m_natoms_ adjaceny matrix storing the connections
+    // An m_natoms_ by m_natoms_ adjacency matrix storing the connections
     std::vector<bool> m_connections_;
 };
 
@@ -195,15 +195,15 @@ inline void ConnectivityTablePIMPL::add_bond(size_type i, size_type j) {
     m_connections_[min * m_natoms_ + max] = true;
 }
 
-inline typename ConnectivityTablePIMPL::bond_list_type
+inline typename ConnectivityTablePIMPL::offset_pair_list
 ConnectivityTablePIMPL::bonds() const {
     const auto n_bonds = nbonds();
-    bond_list_type rv(n_bonds);
+    offset_pair_list rv(n_bonds);
 
     for(size_type i = 0, bonds_found = 0; i < m_natoms_; ++i) {
         for(size_type j = i + 1; j < m_natoms_; ++j) {
             if(are_bonded(i, j)) {
-                rv[bonds_found++] = pair_type{i, j};
+                rv[bonds_found++] = offset_pair{i, j};
                 if(bonds_found == n_bonds) return rv;
             }
         }
@@ -220,7 +220,7 @@ inline void ConnectivityTablePIMPL::bounds_check_(size_type atom_i) const {
     throw std::out_of_range(msg);
 }
 
-inline typename ConnectivityTablePIMPL::pair_type
+inline typename ConnectivityTablePIMPL::offset_pair
 ConnectivityTablePIMPL::sanitize_indices_(size_type i, size_type j) const {
     auto min = std::min(i, j);
     auto max = std::max(i, j);
@@ -231,7 +231,7 @@ ConnectivityTablePIMPL::sanitize_indices_(size_type i, size_type j) const {
         msg += std::to_string(i) + ").";
         throw std::out_of_range(msg);
     }
-    return pair_type{min, max};
+    return offset_pair{min, max};
 }
 
 } // namespace chemist::topology::detail_

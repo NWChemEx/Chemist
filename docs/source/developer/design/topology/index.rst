@@ -1,4 +1,4 @@
-.. Copyright 2022 NWChemEx-Project
+.. Copyright 2024 NWChemEx Community
 ..
 .. Licensed under the Apache License, Version 2.0 (the "License");
 .. you may not use this file except in compliance with the License.
@@ -12,19 +12,17 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-####################
-Design Documentation
-####################
+.. _design_of_the_topology_component:
 
-Topics in this section record the design process for the Chemist library.
+################################
+Design of the Topology Component
+################################
+
+The topics in this section describe the design of the Topolgy component
+of Chemist.
 
 .. toctree::
    :maxdepth: 2
 
-   architecture
-   chemical_system/index
-   ao_basis_set/index
-   topology/index
-   fragmenting/index
-   operator/index
-   wavefunction/index
+   overview
+   connectivity_table

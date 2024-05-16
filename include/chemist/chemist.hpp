@@ -28,7 +28,9 @@
 #include <chemist/basis_set/basis_set.hpp>
 #include <chemist/chemical_system/chemical_system.hpp>
 #include <chemist/enums.hpp>
+#include <chemist/fragmenting/fragmenting.hpp>
 #include <chemist/point/point.hpp>
+#include <chemist/topology/topology.hpp>
 
 /**
  * @brief The primary namespace for the chemist library

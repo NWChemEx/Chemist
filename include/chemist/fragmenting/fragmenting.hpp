@@ -15,4 +15,8 @@
  */
 
 #pragma once
-#include "capping/capping.hpp"
+#include <chemist/fragmenting/capping/capping.hpp>
+#include <chemist/fragmenting/fragmented_base.hpp>
+#include <chemist/fragmenting/fragmented_chemical_system.hpp>
+#include <chemist/fragmenting/fragmented_molecule.hpp>
+#include <chemist/fragmenting/fragmented_nuclei.hpp>
