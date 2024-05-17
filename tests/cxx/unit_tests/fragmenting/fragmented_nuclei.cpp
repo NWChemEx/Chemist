@@ -279,6 +279,17 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
         REQUIRE(no_frags[0] == corr0);
     }
 
+    SECTION("nuclear_indices") {
+        REQUIRE_THROWS_AS(empty_set.nuclear_indices(0), std::out_of_range);
+
+        REQUIRE(disjoint_no_caps.nuclear_indices(0) == i0);
+        REQUIRE(disjoint_no_caps.nuclear_indices(1) == i1);
+        REQUIRE(disjoint_no_caps.nuclear_indices(2) == i2);
+
+        REQUIRE(nondisjoint_caps.nuclear_indices(0) == i01);
+        REQUIRE(nondisjoint_caps.nuclear_indices(1) == i12);
+    }
+
     SECTION("cap_set()") {
         REQUIRE(no_frags.cap_set() == cap_set_type{});
         REQUIRE(nondisjoint_caps.cap_set() == caps);

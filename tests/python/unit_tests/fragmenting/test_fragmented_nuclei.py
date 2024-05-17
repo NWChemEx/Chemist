@@ -73,6 +73,16 @@ class TestFragmentedNuclei(unittest.TestCase):
         self.assertEqual(self.no_frags.size(), 2)
         self.assertEqual(self.no_frags.at(1), self.frag12)
 
+    def test_nuclear_indices(self):
+        self.assertRaises(IndexError, self.no_frags.nuclear_indices, 0)
+
+        self.assertEqual(self.disjoint.nuclear_indices(0), [0])
+        self.assertEqual(self.disjoint.nuclear_indices(1), [1])
+        self.assertEqual(self.disjoint.nuclear_indices(2), [2])
+
+        self.assertEqual(self.nondisjoint_caps.nuclear_indices(0), [0, 1])
+        self.assertEqual(self.nondisjoint_caps.nuclear_indices(1), [1, 2])
+
     def test_cap_set(self):
         self.assertEqual(self.defaulted.cap_set(), self.empty_caps)
         self.assertEqual(self.no_frags.cap_set(), self.empty_caps)

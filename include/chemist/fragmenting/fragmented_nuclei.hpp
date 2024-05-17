@@ -288,6 +288,23 @@ public:
      */
     void insert(nucleus_index_set nuclei);
 
+    /** @brief Returns the indices for the nuclei in the @p i -th fragment.
+     *
+     *  The `operator[]` and `at` methods return fragments as objects. Sometimes
+     *  we want to just know the offsets of the elements in the fragments. This
+     *  method can be used to retrieve the set of offsets for the @p i -th
+     *  fragment.
+     *
+     *  @param[in] i The offset of the fragment whose indices we want. @p i
+     *               must be in the range [0, size()).
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the result.
+     *                        Strong throw guarantee.
+     *  @throw std::out_of_range if @p i is not in the range [0, size()). Strong
+     *                           throw guarantee.
+     */
+    nucleus_index_set nuclear_indices(size_type i) const;
+
     /** @brief Provides access to the caps in *this.
      *
      *  When fragmenting large, covalently bonded systems we often must sever

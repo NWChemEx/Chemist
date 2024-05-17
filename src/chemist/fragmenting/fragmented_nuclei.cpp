@@ -185,6 +185,13 @@ void FRAGMENTED_NUCLEI::insert(nucleus_index_set nuclei) {
 }
 
 TPARAMS
+typename FRAGMENTED_NUCLEI::nucleus_index_set
+FRAGMENTED_NUCLEI::nuclear_indices(size_type i) const {
+    if(i < size_()) return m_pimpl_->frag(i);
+    throw std::out_of_range(std::to_string(i) + " >= size()");
+}
+
+TPARAMS
 typename FRAGMENTED_NUCLEI::cap_set_reference FRAGMENTED_NUCLEI::cap_set() {
     if(!has_pimpl_()) std::make_unique<pimpl_type>().swap(m_pimpl_);
     return m_pimpl_->cap_set();
