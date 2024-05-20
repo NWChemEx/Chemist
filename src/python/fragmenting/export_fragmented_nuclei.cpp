@@ -17,7 +17,7 @@
 #include "export_fragmenting.hpp"
 #include <chemist/fragmenting/fragmented_nuclei.hpp>
 #include <pybind11/operators.h>
-
+#include <pybind11/stl.h>
 namespace chemist::fragmenting {
 
 void export_fragmented_nuclei(python_module_reference m) {
@@ -76,6 +76,7 @@ void export_fragmented_nuclei(python_module_reference m) {
            pybind11::arg("nucleus_to_fragment"),
            pybind11::arg("caps") = cap_set_type{})
       .def("insert", insert_index)
+      .def("nuclear_indices", &fragmented_nuclei_type::nuclear_indices)
       .def("cap_set", cap_set, ka)
       .def("add_cap", &fragmented_nuclei_type::add_cap)
       .def("supersystem", supersystem, ka)
