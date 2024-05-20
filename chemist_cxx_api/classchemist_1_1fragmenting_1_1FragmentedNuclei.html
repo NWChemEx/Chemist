@@ -233,6 +233,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a23a08664ebfb166b178bcee5de96e4c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html#a23a08664ebfb166b178bcee5de96e4c1">insert</a> (<a class="el" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html#aebcb453e0c4a48138054c6611b5f6150">nucleus_index_set</a> nuclei)</td></tr>
 <tr class="memdesc:a23a08664ebfb166b178bcee5de96e4c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a fragment whose members are given by supersystem offset.  <a href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html#a23a08664ebfb166b178bcee5de96e4c1">More...</a><br /></td></tr>
 <tr class="separator:a23a08664ebfb166b178bcee5de96e4c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff2c91dc3d5c4e4bafa62efd237d4ac4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html#aebcb453e0c4a48138054c6611b5f6150">nucleus_index_set</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html#aff2c91dc3d5c4e4bafa62efd237d4ac4">nuclear_indices</a> (<a class="el" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html#a53b7b8975288aa6825aec8c98533a68a">size_type</a> i) const</td></tr>
+<tr class="memdesc:aff2c91dc3d5c4e4bafa62efd237d4ac4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the indices for the nuclei in the <code>i</code> -th fragment.  <a href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html#aff2c91dc3d5c4e4bafa62efd237d4ac4">More...</a><br /></td></tr>
+<tr class="separator:aff2c91dc3d5c4e4bafa62efd237d4ac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ff7bffc0c31597cfadc811c6c858834"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html#a6bfa2dc1c328bd9c86088a010392a03c">cap_set_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html#a8ff7bffc0c31597cfadc811c6c858834">cap_set</a> ()</td></tr>
 <tr class="memdesc:a8ff7bffc0c31597cfadc811c6c858834"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides access to the caps in *this.  <a href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html#a8ff7bffc0c31597cfadc811c6c858834">More...</a><br /></td></tr>
 <tr class="separator:a8ff7bffc0c31597cfadc811c6c858834"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -847,6 +850,42 @@ template&lt;typename ElementType &gt; </div>
   <table class="exception">
     <tr><td class="paramname">std::runtime_error</td><td>if *this does not have a supersystem or if any member of <code>il</code> can not be mapped to a nucleus in *this. Strong throw guarantee. </td></tr>
     <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the new fragment. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aff2c91dc3d5c4e4bafa62efd237d4ac4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff2c91dc3d5c4e4bafa62efd237d4ac4">&#9670;&nbsp;</a></span>nuclear_indices()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename NucleiType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html#aebcb453e0c4a48138054c6611b5f6150">nucleus_index_set</a> <a class="el" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html">chemist::fragmenting::FragmentedNuclei</a>&lt; NucleiType &gt;::nuclear_indices </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1fragmenting_1_1FragmentedNuclei.html#a53b7b8975288aa6825aec8c98533a68a">size_type</a>&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the indices for the nuclei in the <code>i</code> -th fragment. </p>
+<p>The <code>operator[]</code> and <code>at</code> methods return fragments as objects. Sometimes we want to just know the offsets of the elements in the fragments. This method can be used to retrieve the set of offsets for the <code>i</code> -th fragment.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The offset of the fragment whose indices we want. <code>i</code> must be in the range [0, size()).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the result. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::out_of_range</td><td>if <code>i</code> is not in the range [0, size()). Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
