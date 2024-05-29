@@ -198,6 +198,12 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html#a878acf6902d5fd8bf889fe44637f73a7">~FragmentedChemicalSystem</a> () noexcept</td></tr>
 <tr class="memdesc:a878acf6902d5fd8bf889fe44637f73a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defaulted no-throw dtor. <br /></td></tr>
 <tr class="separator:a878acf6902d5fd8bf889fe44637f73a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47f314e3a116edc4b42845723e0c2b87"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html#a8c5500e2bb9c1b0ebd747ebfa23388ff">fragmented_molecule_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html#a47f314e3a116edc4b42845723e0c2b87">fragmented_molecule</a> ()</td></tr>
+<tr class="memdesc:a47f314e3a116edc4b42845723e0c2b87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="classchemist_1_1fragmenting_1_1FragmentedMolecule.html" title="Stores pieces of a Molecule object.">FragmentedMolecule</a> piece of *this.  <a href="classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html#a47f314e3a116edc4b42845723e0c2b87">More...</a><br /></td></tr>
+<tr class="separator:a47f314e3a116edc4b42845723e0c2b87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab44f37c6e986294c9d4af7f46ccb5e4"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html#a8c5500e2bb9c1b0ebd747ebfa23388ff">fragmented_molecule_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html#aab44f37c6e986294c9d4af7f46ccb5e4">fragmented_molecule</a> () const</td></tr>
+<tr class="memdesc:aab44f37c6e986294c9d4af7f46ccb5e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="classchemist_1_1fragmenting_1_1FragmentedMolecule.html" title="Stores pieces of a Molecule object.">FragmentedMolecule</a> piece of *this.  <a href="classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html#aab44f37c6e986294c9d4af7f46ccb5e4">More...</a><br /></td></tr>
+<tr class="separator:aab44f37c6e986294c9d4af7f46ccb5e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a390b9c24b5d4fd4cc7f944f3146995c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html#a390b9c24b5d4fd4cc7f944f3146995c9">swap</a> (<a class="el" href="classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html">FragmentedChemicalSystem</a> &amp;other) noexcept</td></tr>
 <tr class="memdesc:a390b9c24b5d4fd4cc7f944f3146995c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchanges the state in *this with that in <code>other</code>.  <a href="classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html#a390b9c24b5d4fd4cc7f944f3146995c9">More...</a><br /></td></tr>
 <tr class="separator:a390b9c24b5d4fd4cc7f944f3146995c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -425,6 +431,62 @@ template&lt;typename ChemicalSystemType &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a47f314e3a116edc4b42845723e0c2b87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47f314e3a116edc4b42845723e0c2b87">&#9670;&nbsp;</a></span>fragmented_molecule() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ChemicalSystemType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html#a8c5500e2bb9c1b0ebd747ebfa23388ff">fragmented_molecule_type</a>&amp; <a class="el" href="classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html">chemist::fragmenting::FragmentedChemicalSystem</a>&lt; ChemicalSystemType &gt;::fragmented_molecule </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="classchemist_1_1fragmenting_1_1FragmentedMolecule.html" title="Stores pieces of a Molecule object.">FragmentedMolecule</a> piece of *this. </p>
+<dl class="section return"><dt>Returns</dt><dd>A mutable reference to <a class="el" href="classchemist_1_1fragmenting_1_1FragmentedMolecule.html" title="Stores pieces of a Molecule object.">FragmentedMolecule</a> piece of *this.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if *this does not have a PIMPL. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aab44f37c6e986294c9d4af7f46ccb5e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab44f37c6e986294c9d4af7f46ccb5e4">&#9670;&nbsp;</a></span>fragmented_molecule() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ChemicalSystemType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html#a8c5500e2bb9c1b0ebd747ebfa23388ff">fragmented_molecule_type</a>&amp; <a class="el" href="classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html">chemist::fragmenting::FragmentedChemicalSystem</a>&lt; ChemicalSystemType &gt;::fragmented_molecule </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="classchemist_1_1fragmenting_1_1FragmentedMolecule.html" title="Stores pieces of a Molecule object.">FragmentedMolecule</a> piece of *this. </p>
+<dl class="section return"><dt>Returns</dt><dd>A read-only reference to <a class="el" href="classchemist_1_1fragmenting_1_1FragmentedMolecule.html" title="Stores pieces of a Molecule object.">FragmentedMolecule</a> piece of *this.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if *this does not have a PIMPL. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a3227e7f9e77bf368ca8508eb8dffdb9c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3227e7f9e77bf368ca8508eb8dffdb9c">&#9670;&nbsp;</a></span>operator!=()</h2>
 
