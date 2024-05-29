@@ -118,6 +118,18 @@ TEMPLATE_LIST_TEST_CASE("FragmentedMolecule", "", types2test) {
         }
     }
 
+    SECTION("fragmented_nuclei()") {
+        REQUIRE_THROWS_AS(defaulted.fragmented_nuclei(), std::runtime_error);
+        REQUIRE(value.fragmented_nuclei() == frags);
+    }
+
+    SECTION("fragmented_nuclei() const") {
+        const auto& const_defaulted = std::as_const(defaulted);
+        using error_t               = std::runtime_error;
+        REQUIRE_THROWS_AS(const_defaulted.fragmented_nuclei(), error_t);
+        REQUIRE(std::as_const(value).fragmented_nuclei() == frags);
+    }
+
     SECTION("operator[]") {
         REQUIRE(value_frags[0] == frag0);
         REQUIRE(value_frags[1] == frag1);

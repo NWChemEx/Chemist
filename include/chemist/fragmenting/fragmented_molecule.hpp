@@ -215,6 +215,30 @@ public:
     ~FragmentedMolecule() noexcept;
 
     // -------------------------------------------------------------------------
+    // -- Getters and setters
+    // -------------------------------------------------------------------------
+
+    /** @brief Returns the FragmentedNuclei piece of *this
+     *
+     *
+     *  @return A mutable reference to FragmentedNuclei piece of *this.
+     *
+     *  @throw std::runtime_error if *this does not have a PIMPL. Strong throw
+     *                            guarantee.
+     */
+    fragmented_nuclei_type& fragmented_nuclei();
+
+    /** @brief Returns the FragmentedNuclei piece of *this
+     *
+     *
+     *  @return A read-onlyreference to FragmentedNuclei piece of *this.
+     *
+     *  @throw std::runtime_error if *this does not have a PIMPL. Strong throw
+     *                            guarantee.
+     */
+    const fragmented_nuclei_type& fragmented_nuclei() const;
+
+    // -------------------------------------------------------------------------
     // -- Utility methods
     // -------------------------------------------------------------------------
 
@@ -278,6 +302,9 @@ protected:
 private:
     /// Code factorization for determining if *this has a PIMPL or not
     bool has_pimpl_() const noexcept;
+
+    /// Throws std::runtime_error if *this has no PIMPL
+    void assert_pimpl_() const;
 
     /// The object which actually implements *this
     pimpl_pointer m_pimpl_;
