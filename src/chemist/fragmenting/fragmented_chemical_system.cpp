@@ -59,6 +59,9 @@ public:
         return const_supersystem_reference(m_frags_.supersystem());
     }
 
+    auto& frags() { return m_frags_; }
+    const auto& frags() const { return m_frags_; }
+
 private:
     fragmented_molecule_type m_frags_;
 };
@@ -102,6 +105,24 @@ FRAGMENTED_CHEMICAL_SYSTEM& FRAGMENTED_CHEMICAL_SYSTEM::operator=(
 
 TPARAMS FRAGMENTED_CHEMICAL_SYSTEM::~FragmentedChemicalSystem() noexcept =
   default;
+
+// -----------------------------------------------------------------------------
+// -- Getters and setters
+// -----------------------------------------------------------------------------
+
+TPARAMS
+typename FRAGMENTED_CHEMICAL_SYSTEM::fragmented_molecule_type&
+FRAGMENTED_CHEMICAL_SYSTEM::fragmented_molecule() {
+    assert_pimpl_();
+    return m_pimpl_->frags();
+}
+
+TPARAMS
+const typename FRAGMENTED_CHEMICAL_SYSTEM::fragmented_molecule_type&
+FRAGMENTED_CHEMICAL_SYSTEM::fragmented_molecule() const {
+    assert_pimpl_();
+    return std::as_const(*m_pimpl_).frags();
+}
 
 // -----------------------------------------------------------------------------
 // -- Utility methods
@@ -172,6 +193,12 @@ FRAGMENTED_CHEMICAL_SYSTEM::supersystem_() const {
 TPARAMS
 bool FRAGMENTED_CHEMICAL_SYSTEM::has_pimpl_() const noexcept {
     return static_cast<bool>(m_pimpl_);
+}
+
+TPARAMS
+void FRAGMENTED_CHEMICAL_SYSTEM::assert_pimpl_() const {
+    if(has_pimpl_()) return;
+    throw std::runtime_error("FragmentedChemicalSystem has no PIMPL");
 }
 
 #undef FRAGMENTED_CHEMICAL_SYSTEM

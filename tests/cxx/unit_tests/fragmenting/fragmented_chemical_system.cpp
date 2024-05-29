@@ -70,6 +70,18 @@ TEMPLATE_LIST_TEST_CASE("FragmentedChemicalSystem", "", types2check) {
         test_chemist::test_copy_and_move(defaulted, empty, value);
     }
 
+    SECTION("fragmented_molecule()") {
+        REQUIRE_THROWS_AS(defaulted.fragmented_molecule(), std::runtime_error);
+        REQUIRE(value.fragmented_molecule() == value_frags);
+    }
+
+    SECTION("fragmented_molecule() const") {
+        const auto& const_defaulted = std::as_const(defaulted);
+        using error_t               = std::runtime_error;
+        REQUIRE_THROWS_AS(const_defaulted.fragmented_molecule(), error_t);
+        REQUIRE(std::as_const(value).fragmented_molecule() == value_frags);
+    }
+
     SECTION("supersystem()") {
         REQUIRE(defaulted.supersystem() == empty_cs);
         REQUIRE(empty.supersystem() == empty_cs);

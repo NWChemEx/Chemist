@@ -92,6 +92,10 @@ public:
                                          m_charges_, m_multiplicities_);
     }
 
+    auto& frags() { return m_frags_; }
+
+    const auto& frags() const { return m_frags_; }
+
 private:
     fragmented_nuclei_type m_frags_;
 
@@ -192,6 +196,24 @@ TPARAMS
 FRAGMENTED_MOLECULE::~FragmentedMolecule() noexcept = default;
 
 // -----------------------------------------------------------------------------
+// -- Getters and setters
+// -----------------------------------------------------------------------------
+
+TPARAMS
+typename FRAGMENTED_MOLECULE::fragmented_nuclei_type&
+FRAGMENTED_MOLECULE::fragmented_nuclei() {
+    assert_pimpl_();
+    return m_pimpl_->frags();
+}
+
+TPARAMS
+const typename FRAGMENTED_MOLECULE::fragmented_nuclei_type&
+FRAGMENTED_MOLECULE::fragmented_nuclei() const {
+    assert_pimpl_();
+    return std::as_const(*m_pimpl_).frags();
+}
+
+// -----------------------------------------------------------------------------
 // -- Utility methods
 // -----------------------------------------------------------------------------
 
@@ -258,6 +280,12 @@ FRAGMENTED_MOLECULE::supersystem_() const {
 TPARAMS
 bool FRAGMENTED_MOLECULE::has_pimpl_() const noexcept {
     return static_cast<bool>(m_pimpl_);
+}
+
+TPARAMS
+void FRAGMENTED_MOLECULE::assert_pimpl_() const {
+    if(has_pimpl_()) return;
+    throw std::runtime_error("FragmentedMolecule object has no PIMPL");
 }
 
 #undef FRAGMENTED_MOLECULE
