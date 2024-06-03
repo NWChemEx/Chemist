@@ -129,11 +129,18 @@ TEST_CASE("Atom Class") {
     }
 
     SECTION("Printing") {
-        std::string corr =
-          "H 1.000000000000000 2.000000000000000 3.000000000000000";
+        std::stringstream corr;
+        corr << "nelectrons : 1," << std::endl;
+        corr << "name : H," << std::endl;
+        corr << "atomic number : 1," << std::endl;
+        corr << "mass : 0," << std::endl;
+        corr << "charge : 1," << std::endl;
+        corr << "x : 1," << std::endl;
+        corr << "y : 2," << std::endl;
+        corr << "z : 3";
         std::stringstream ss;
-        ss << Atom{h, 0ul, 0.0, 1.0, 2.0, 3.0};
-        REQUIRE(ss.str() == corr);
+        ss << Atom{h, 1ul, 0.0, 1.0, 2.0, 3.0};
+        REQUIRE(ss.str() == corr.str());
     }
 
 } // TEST_CASE("Atom Class")
