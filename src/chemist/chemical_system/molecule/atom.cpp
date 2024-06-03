@@ -29,8 +29,8 @@ bool operator==(const Atom& lhs, const Atom& rhs) noexcept {
 }
 
 std::ostream& operator<<(std::ostream& os, const Atom& ai) {
-    os << ai.name() << std::fixed << std::setprecision(15);
-    for(auto c = 0; c < 3; ++c) os << " " << ai.coord(c);
+    os << "nelectrons : " << ai.n_electrons() << "," << std::endl;
+    os << ai.nucleus();
     return os;
 }
 } // namespace chemist
