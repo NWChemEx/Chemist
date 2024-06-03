@@ -197,12 +197,14 @@ class TestAtom(unittest.TestCase):
         # Default
         self.assertEqual(
             str(self.defaulted),
-            ' 0.000000000000000 0.000000000000000 0.000000000000000')
+            'nelectrons : 0,\nname : ,\natomic number : 0,\nmass : 0,\n' +
+            'charge : 0,\nx : 0,\ny : 0,\nz : 0')
 
         # Has value
         self.assertEqual(
             str(self.h),
-            'H 2.000000000000000 3.000000000000000 4.000000000000000')
+            'nelectrons : 1,\nname : H,\natomic number : 1,\nmass : 1,\n' +
+            'charge : 1,\nx : 2,\ny : 3,\nz : 4')
 
     def setUp(self):
         self.defaulted = chemist.Atom()
