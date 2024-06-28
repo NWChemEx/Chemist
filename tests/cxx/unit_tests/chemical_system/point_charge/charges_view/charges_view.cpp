@@ -16,6 +16,7 @@
 
 #include <catch2/catch.hpp>
 #include <chemist/chemical_system/point_charge/charges_view/charges_view.hpp>
+#include <sstream>
 
 template<typename ChargesType>
 void test_charges_view_guts() {

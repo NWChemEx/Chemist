@@ -248,6 +248,17 @@ bool operator!=(const PointCharge<ChargeType>& lhs,
     return rhs != lhs;
 }
 
+/** @brief Prints a PointChargeView object
+ *
+ *  @tparam ChargeType The charge type.
+ *
+ *  @param[in] os The stream to print to.
+ *  @param[in] q The object to print out.
+ *
+ *  @return Returns @p os after adding @p q to it.
+ *  @throw std::ios_base_failure if anything goes wrong while writing. Weak
+ *                               throw guarantee.
+ */
 template<typename ChargeType>
 std::ostream& operator<<(std::ostream& os,
                          const PointChargeView<ChargeType>& q) {
