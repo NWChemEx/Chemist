@@ -28,13 +28,21 @@ void export_charges_view_(const char* name, python_module_reference m) {
     using reference    = view_type&;
     using size_type    = typename view_type::size_type;
 
+    auto str_fxn = [](const view_type& charges) {
+        std::ostringstream stream;
+        stream << charges;
+        return stream.str();
+    };
+
     python_class_type<view_type>(m, name)
       .def(pybind11::init<>())
       .def(pybind11::init<charges_type&>())
       .def("empty", [](reference self) { return self.empty(); })
       .def("at", [](reference self, size_type i) { return self[i]; })
       .def("size", [](reference self) { return self.size(); })
+      .def("__str__", str_fxn)
       .def(pybind11::self == pybind11::self)
+      .def(pybind11::self == charges_type())
       .def(pybind11::self != pybind11::self);
 }
 

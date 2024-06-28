@@ -139,7 +139,7 @@ public:
                                      std::decay_t<ChargeType2>, ChargeType>>>
     PointChargeView& operator=(ChargeType2&& charge) {
         point_view_type::operator=(std::forward<point_type>(charge));
-        (*m_pq_)                 = charge.charge();
+        (*m_pq_) = charge.charge();
         return *this;
     }
 
@@ -246,6 +246,12 @@ template<typename ChargeType, typename ChargeType2>
 bool operator!=(const PointCharge<ChargeType>& lhs,
                 const PointChargeView<ChargeType2>& rhs) {
     return rhs != lhs;
+}
+
+template<typename ChargeType>
+std::ostream& operator<<(std::ostream& os,
+                         const PointChargeView<ChargeType>& q) {
+    return os << q.as_point_charge();
 }
 
 // -- Inline implementations ---------------------------------------------------

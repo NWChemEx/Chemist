@@ -27,6 +27,7 @@ void export_nuclei(python_module_reference m) {
 
     using nuclei_type      = Nuclei;
     using nuclei_reference = nuclei_type&;
+    using charges_type     = typename nuclei_type::charge_set_type;
     using value_type       = typename nuclei_type::value_type;
     using size_type        = typename nuclei_type::size_type;
 
@@ -39,6 +40,11 @@ void export_nuclei(python_module_reference m) {
             values.push_back(nucleus_i);
         }
         return nuclei_type(values.begin(), values.end());
+    };
+
+    auto get_charges_fxn = [](nuclei_reference self) { return self.charges(); };
+    auto set_charges_fxn = [](nuclei_reference self, charges_type charges) {
+        self.charges() = charges;
     };
 
     auto push_back = [](nuclei_reference self, value_type v) {
@@ -57,6 +63,7 @@ void export_nuclei(python_module_reference m) {
     python_class_type<nuclei_type>(m, "Nuclei")
       .def(pybind11::init<>())
       .def(pybind11::init(list_ctor))
+      .def_property("charges", get_charges_fxn, set_charges_fxn)
       .def("empty", [](nuclei_reference self) { return self.empty(); })
       .def("push_back", push_back)
       .def("at", [](nuclei_reference self, size_type i) { return self[i]; })

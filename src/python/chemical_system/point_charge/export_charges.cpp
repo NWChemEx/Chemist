@@ -31,6 +31,12 @@ void export_charges_(const char* name, python_module_reference m) {
     using value_type        = typename charges_type::value_type;
     using size_type         = typename charges_type::size_type;
 
+    auto str_fxn = [](const charges_type& charges) {
+        std::ostringstream stream;
+        stream << charges;
+        return stream.str();
+    };
+
     python_class_type<charges_type>(m, name)
       .def(pybind11::init<>())
       .def("empty", [](charges_reference self) { return self.empty(); })
@@ -40,6 +46,7 @@ void export_charges_(const char* name, python_module_reference m) {
            })
       .def("at", [](charges_reference self, size_type i) { return self[i]; })
       .def("size", [](charges_reference self) { return self.size(); })
+      .def("__str__", str_fxn)
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
 }
