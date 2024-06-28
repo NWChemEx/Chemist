@@ -186,61 +186,67 @@ $(function() {
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="keywordflow">return</span> rhs != lhs;</div>
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;}</div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="comment">// -- Inline implementations ---------------------------------------------------</span></div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; </div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="preprocessor">#define POINT_CHARGE_VIEW PointChargeView&lt;ChargeType&gt;</span></div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160; </div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="comment">// -- Ctors --------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType&gt;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;POINT_CHARGE_VIEW::PointChargeView(point_charge_reference q) :</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;  PointChargeView(q.charge(), q.x(), q.y(), q.z()) {}</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160; </div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType&gt;</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;POINT_CHARGE_VIEW::PointChargeView(charge_reference q, point_view_type r) :</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;  point_view_type(r), m_pq_(&amp;q) {}</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160; </div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType&gt;</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;POINT_CHARGE_VIEW::PointChargeView(charge_reference q, coord_reference x,</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                                   coord_reference y, coord_reference z) :</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;  point_view_type(x, y, z), m_pq_(&amp;q) {}</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType&gt;</div>
+<div class="line"><a name="l00263"></a><span class="lineno"><a class="line" href="namespacechemist.html#a9ceeacb2cc885d189d2f8b38b8dcf459">  263</a></span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os,</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                         <span class="keyword">const</span> <a class="code" href="classchemist_1_1PointChargeView.html">PointChargeView&lt;ChargeType&gt;</a>&amp; q) {</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="keywordflow">return</span> os &lt;&lt; q.<a class="code" href="classchemist_1_1PointChargeView.html#a2d0a6f6463f4b2b6a572f02e80730924">as_point_charge</a>();</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;}</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160; </div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="comment">// -- Inline implementations ---------------------------------------------------</span></div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="comment">// -- Utility ------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="preprocessor">#define POINT_CHARGE_VIEW PointChargeView&lt;ChargeType&gt;</span></div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType&gt;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="keywordtype">bool</span> POINT_CHARGE_VIEW::operator==(</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;  <span class="keyword">const</span> point_charge_type&amp; rhs) <span class="keyword">const</span> noexcept {</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="keyword">const</span> point_view_type&amp; plhs = *<span class="keyword">this</span>;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    const_point_view prhs(rhs);</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="comment">// -- Ctors --------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160; </div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType&gt;</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;POINT_CHARGE_VIEW::PointChargeView(point_charge_reference q) :</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;  PointChargeView(q.charge(), q.x(), q.y(), q.z()) {}</div>
 <div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160; </div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <span class="keywordflow">return</span> std::tie(charge(), plhs) == std::tie(rhs.charge(), prhs);</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;}</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType&gt;</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="keywordtype">bool</span> POINT_CHARGE_VIEW::operator==(</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;  <span class="keyword">const</span> PointChargeView&lt;T&gt;&amp; rhs) <span class="keyword">const</span> noexcept {</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    <span class="keyword">const</span> point_view_type&amp; plhs = *<span class="keyword">this</span>;</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    const_point_view prhs(rhs.x(), rhs.y(), rhs.z());</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160; </div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    <span class="keywordflow">return</span> std::tie(charge(), plhs) == std::tie(rhs.charge(), prhs);</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;}</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160; </div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType&gt;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<span class="keywordtype">bool</span> POINT_CHARGE_VIEW::operator!=(</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;  <span class="keyword">const</span> point_charge_type&amp; rhs) <span class="keyword">const</span> noexcept {</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    <span class="keywordflow">return</span> !(*<span class="keyword">this</span> == rhs);</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;}</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160; </div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType&gt;</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="keywordtype">bool</span> POINT_CHARGE_VIEW::operator!=(</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;  <span class="keyword">const</span> PointChargeView&lt;T&gt;&amp; rhs) <span class="keyword">const</span> noexcept {</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    <span class="keywordflow">return</span> !(*<span class="keyword">this</span> == rhs);</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;}</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160; </div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="preprocessor">#undef POINT_CHARGE_VIEW</span></div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;} <span class="comment">// namespace chemist</span></div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType&gt;</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;POINT_CHARGE_VIEW::PointChargeView(charge_reference q, point_view_type r) :</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;  point_view_type(r), m_pq_(&amp;q) {}</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160; </div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType&gt;</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;POINT_CHARGE_VIEW::PointChargeView(charge_reference q, coord_reference x,</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                                   coord_reference y, coord_reference z) :</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;  point_view_type(x, y, z), m_pq_(&amp;q) {}</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160; </div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="comment">// -- Utility ------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160; </div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType&gt;</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="keywordtype">bool</span> POINT_CHARGE_VIEW::operator==(</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;  <span class="keyword">const</span> point_charge_type&amp; rhs) <span class="keyword">const</span> noexcept {</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    <span class="keyword">const</span> point_view_type&amp; plhs = *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    const_point_view prhs(rhs);</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; </div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    <span class="keywordflow">return</span> std::tie(charge(), plhs) == std::tie(rhs.charge(), prhs);</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;}</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160; </div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType&gt;</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="keywordtype">bool</span> POINT_CHARGE_VIEW::operator==(</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;  <span class="keyword">const</span> PointChargeView&lt;T&gt;&amp; rhs) <span class="keyword">const</span> noexcept {</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    <span class="keyword">const</span> point_view_type&amp; plhs = *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    const_point_view prhs(rhs.x(), rhs.y(), rhs.z());</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160; </div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    <span class="keywordflow">return</span> std::tie(charge(), plhs) == std::tie(rhs.charge(), prhs);</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;}</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160; </div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType&gt;</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="keywordtype">bool</span> POINT_CHARGE_VIEW::operator!=(</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;  <span class="keyword">const</span> point_charge_type&amp; rhs) <span class="keyword">const</span> noexcept {</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    <span class="keywordflow">return</span> !(*<span class="keyword">this</span> == rhs);</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;}</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType&gt;</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;<span class="keywordtype">bool</span> POINT_CHARGE_VIEW::operator!=(</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  <span class="keyword">const</span> PointChargeView&lt;T&gt;&amp; rhs) <span class="keyword">const</span> noexcept {</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    <span class="keywordflow">return</span> !(*<span class="keyword">this</span> == rhs);</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;}</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160; </div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="preprocessor">#undef POINT_CHARGE_VIEW</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;} <span class="comment">// namespace chemist</span></div>
 <div class="ttc" id="aclasschemist_1_1PointChargeView_html"><div class="ttname"><a href="classchemist_1_1PointChargeView.html">chemist::PointChargeView</a></div><div class="ttdoc">Allows viewing data as if it was a PointCharge object.</div><div class="ttdef"><b>Definition:</b> point_charge_view.hpp:38</div></div>
 <div class="ttc" id="aclasschemist_1_1PointChargeView_html_a0846e3ff30d68c895b998aa54bf46a1a"><div class="ttname"><a href="classchemist_1_1PointChargeView.html#a0846e3ff30d68c895b998aa54bf46a1a">chemist::PointChargeView::swap</a></div><div class="ttdeci">void swap(PointChargeView &amp;other) noexcept</div><div class="ttdoc">Exchanges the state of *this with that of other.</div><div class="ttdef"><b>Definition:</b> point_charge_view.hpp:223</div></div>
 <div class="ttc" id="aclasschemist_1_1PointChargeView_html_a27af0b44972107d4f1a186742586cd93"><div class="ttname"><a href="classchemist_1_1PointChargeView.html#a27af0b44972107d4f1a186742586cd93">chemist::PointChargeView::point_type</a></div><div class="ttdeci">typename point_charge_type::point_type point_type</div><div class="ttdoc">Type of an un-qualified Point object.</div><div class="ttdef"><b>Definition:</b> point_charge_view.hpp:69</div></div>

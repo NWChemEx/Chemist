@@ -177,6 +177,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0b88be30c5ecc588c8bbb3c698e915a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1ChargesView.html">ChargesView</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChargesView.html#a0b88be30c5ecc588c8bbb3c698e915a1">operator=</a> (<a class="el" href="classchemist_1_1ChargesView.html">ChargesView</a> &amp;&amp;rhs) noexcept</td></tr>
 <tr class="memdesc:a0b88be30c5ecc588c8bbb3c698e915a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overwrites the state in *this with that in <code>rhs</code>.  <a href="classchemist_1_1ChargesView.html#a0b88be30c5ecc588c8bbb3c698e915a1">More...</a><br /></td></tr>
 <tr class="separator:a0b88be30c5ecc588c8bbb3c698e915a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad76e466d24b76c7a083d1d931c2fb920"><td class="memTemplParams" colspan="2">template&lt;typename ChargesType2 , typename  = enable_if_assign_from_charges_t&lt;ChargesType2&gt;&gt; </td></tr>
+<tr class="memitem:ad76e466d24b76c7a083d1d931c2fb920"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1ChargesView.html">ChargesView</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChargesView.html#ad76e466d24b76c7a083d1d931c2fb920">operator=</a> (const ChargesType2 &amp;other)</td></tr>
+<tr class="memdesc:ad76e466d24b76c7a083d1d931c2fb920"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns a copy of <code>other</code> to the aliased <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> object.  <a href="classchemist_1_1ChargesView.html#ad76e466d24b76c7a083d1d931c2fb920">More...</a><br /></td></tr>
+<tr class="separator:ad76e466d24b76c7a083d1d931c2fb920"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f2abbab2ebbfdc53d2fe8f1ebab74d4"><td class="memItemLeft" align="right" valign="top"><a id="a4f2abbab2ebbfdc53d2fe8f1ebab74d4"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChargesView.html#a4f2abbab2ebbfdc53d2fe8f1ebab74d4">~ChargesView</a> () noexcept</td></tr>
 <tr class="memdesc:a4f2abbab2ebbfdc53d2fe8f1ebab74d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default no-throw dtor. <br /></td></tr>
@@ -398,7 +402,7 @@ template&lt;typename ChargesType &gt; </div>
 </div>
 </div>
 <a id="a0b88be30c5ecc588c8bbb3c698e915a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b88be30c5ecc588c8bbb3c698e915a1">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b88be30c5ecc588c8bbb3c698e915a1">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -440,8 +444,55 @@ template&lt;typename ChargesType &gt; </div>
 
 </div>
 </div>
+<a id="ad76e466d24b76c7a083d1d931c2fb920"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad76e466d24b76c7a083d1d931c2fb920">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ChargesType &gt; </div>
+<div class="memtemplate">
+template&lt;typename ChargesType2 , typename  = enable_if_assign_from_charges_t&lt;ChargesType2&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp; <a class="el" href="classchemist_1_1ChargesView.html">chemist::ChargesView</a>&lt; ChargesType &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const ChargesType2 &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Assigns a copy of <code>other</code> to the aliased <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> object. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ChargesType2</td><td>The type of <code>other</code>. Must be <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> or a cv- qualified variant of <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> in order to participate in overload resolution. </td></tr>
+    <tr><td class="paramname">&lt;anonymous&gt;</td><td>Used to disable this method via SFINAE if *this is not a view of a mutable <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> object or if <code>ChargesType2</code> is not a cv-qualified variant of <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This method is used to change the state of the <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> object aliased by *this so that it is a deep copy of the state owned by <code>other</code>.</p>
+<dl class="section return"><dt>Returns</dt><dd>*this after updating the state of the aliased <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> object.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if *this and <code>other</code> have different sizes. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a786139fd0b357ee00bf2cfc23af114f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a786139fd0b357ee00bf2cfc23af114f1">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a786139fd0b357ee00bf2cfc23af114f1">&#9670;&nbsp;</a></span>operator=() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
