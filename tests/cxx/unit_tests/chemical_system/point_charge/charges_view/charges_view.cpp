@@ -16,6 +16,7 @@
 
 #include <catch2/catch.hpp>
 #include <chemist/chemical_system/point_charge/charges_view/charges_view.hpp>
+#include <sstream>
 
 template<typename ChargesType>
 void test_charges_view_guts() {
@@ -32,6 +33,9 @@ void test_charges_view_guts() {
     view_type defaulted;
     view_type no_charges(defaulted_qs);
     view_type charges(charges_qs);
+
+    constexpr bool is_const_v =
+      !std::is_same_v<std::decay_t<ChargesType>, ChargesType>;
 
     SECTION("Ctors") {
         SECTION("Default") { REQUIRE(defaulted.size() == 0); }
@@ -105,6 +109,17 @@ void test_charges_view_guts() {
             REQUIRE(charges_copy == charges_move);
             REQUIRE(pcharges_move == &charges_move);
         }
+
+        SECTION("Can assign from Charges object") {
+            if constexpr(!is_const_v) {
+                // Must have same size
+                REQUIRE_THROWS_AS(charges = defaulted_qs, std::runtime_error);
+
+                charges_type charges_qs2{q1, q0, q2}; // Transposes first two qs
+                charges = charges_qs2;
+                REQUIRE(charges == charges_qs2);
+            }
+        }
     }
 
     SECTION("at_()") {
@@ -153,6 +168,26 @@ void test_charges_view_guts() {
             REQUIRE(charges != defaulted_qs);
             REQUIRE(defaulted_qs != charges);
         }
+    }
+
+    SECTION("operator<<") {
+        std::stringstream ss;
+        ss << charges;
+
+        std::string corr("charge : 0,\n");
+        corr.append("x : 0,\n");
+        corr.append("y : 0,\n");
+        corr.append("z : 0\n");
+        corr.append("charge : -1.1,\n");
+        corr.append("x : 1,\n");
+        corr.append("y : 2,\n");
+        corr.append("z : 3\n");
+        corr.append("charge : -2.2,\n");
+        corr.append("x : 4,\n");
+        corr.append("y : 5,\n");
+        corr.append("z : 6\n");
+
+        REQUIRE(ss.str() == corr);
     }
 }
 

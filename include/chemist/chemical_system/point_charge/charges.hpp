@@ -285,6 +285,28 @@ private:
     pimpl_pointer m_pimpl_;
 };
 
+/** @brief Prints a Charges object
+ *
+ *  @tparam T The floating point type.
+ *
+ *  This method simply loops over the PointCharge objects in @p charges
+ *  and prints them.
+ *
+ *  @param[in] os The stream to print to.
+ *  @param[in] charges The object to print out.
+ *
+ *  @return Returns @p os after adding @p charges to it.
+ *  @throw std::ios_base_failure if anything goes wrong while writing. Weak
+ *                               throw guarantee.
+ */
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const Charges<T>& charges) {
+    for(decltype(charges.size()) i = 0; i < charges.size(); i++) {
+        os << charges[i] << std::endl;
+    }
+    return os;
+}
+
 template<typename T>
 template<typename Archive>
 void Charges<T>::save(Archive& ar) const {

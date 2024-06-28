@@ -153,6 +153,26 @@ TEMPLATE_TEST_CASE("Charges", "", float, double) {
         REQUIRE(charges.size() == 3);
     }
 
+    SECTION("operator<<") {
+        std::stringstream ss;
+        ss << charges;
+
+        std::string corr("charge : 0,\n");
+        corr.append("x : 1,\n");
+        corr.append("y : 2,\n");
+        corr.append("z : 3\n");
+        corr.append("charge : 4,\n");
+        corr.append("x : 5,\n");
+        corr.append("y : 6,\n");
+        corr.append("z : 7\n");
+        corr.append("charge : 4,\n");
+        corr.append("x : 5,\n");
+        corr.append("y : 6,\n");
+        corr.append("z : 7\n");
+
+        REQUIRE(ss.str() == corr);
+    }
+
     SECTION("serialization") {
         std::stringstream ss;
         {

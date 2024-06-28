@@ -43,6 +43,16 @@ private:
     /// Type of the base class
     using base_type = utilities::IndexableContainerBase<my_type>;
 
+    /// Is @p ChargesType a const-qualified type?
+    static constexpr bool am_i_const_v =
+      std::is_same_v<const std::remove_cv_t<ChargesType>, ChargesType>;
+
+    /// Used to enable/disable conversions from Charges objects
+    template<typename T>
+    using enable_if_assign_from_charges_t = std::enable_if_t<
+      !am_i_const_v &&
+      std::is_same_v<std::remove_cv_t<T>, std::remove_cv_t<ChargesType>>>;
+
 public:
     /// Base type of all PIMPLs capable of implementing *this
     using pimpl_type = detail_::ChargesViewPIMPL<ChargesType>;
@@ -164,6 +174,34 @@ public:
      */
     ChargesView& operator=(ChargesView&& rhs) noexcept;
 
+    /** @brief Assigns a copy of @p other to the aliased Charges object.
+     *
+     *  @tparam ChargesType2 The type of @p other. Must be Charges or a cv-
+     *                      qualified variant of Charges in order to participate
+     *                      in overload resolution.
+     *  @tparam <anonymous> Used to disable this method via SFINAE if *this is
+     *                      not a view of a mutable Charges object or if
+     *                      @p ChargesType2 is not a cv-qualified variant of
+     *                      Charges.
+     *
+     *  This method is used to change the state of the Charges object aliased
+     *  by *this so that it is a deep copy of the state owned by @p other.
+     *
+     *  @return *this after updating the state of the aliased Charges object.
+     *
+     *  @throw std::runtime_error if *this and @p other have different sizes.
+     *                            Strong throw guarantee.
+     */
+    template<typename ChargesType2,
+             typename = enable_if_assign_from_charges_t<ChargesType2>>
+    ChargesView& operator=(const ChargesType2& other) {
+        if(this->size() != other.size())
+            throw std::runtime_error("Must be same size");
+        for(size_type i = 0; i < other.size(); ++i)
+            (*this)[i] = other[i].as_point_charge();
+        return *this;
+    }
+
     /// Default no-throw dtor
     ~ChargesView() noexcept;
 
@@ -275,6 +313,29 @@ template<typename ChargeType1, typename ChargesType2>
 bool operator!=(const Charges<ChargeType1>& lhs,
                 const ChargesView<ChargesType2>& rhs) {
     return !(lhs == rhs);
+}
+
+/** @brief Prints a ChargesView object
+ *
+ *  @tparam ChargesType The type of the Charges object aliased by @p charges.
+ *
+ *  This method simply loops over the PointChargeView objects in @p charges
+ *  and prints them.
+ *
+ *  @param[in] os The stream to print to.
+ *  @param[in] charges The object to print out.
+ *
+ *  @return Returns @p os after adding @p charges to it.
+ *  @throw std::ios_base_failure if anything goes wrong while writing. Weak
+ *                               throw guarantee.
+ */
+template<typename ChargesType>
+std::ostream& operator<<(std::ostream& os,
+                         const ChargesView<ChargesType>& charges) {
+    for(decltype(charges.size()) i = 0; i < charges.size(); i++) {
+        os << charges[i] << std::endl;
+    }
+    return os;
 }
 
 extern template class ChargesView<Charges<float>>;

@@ -22,6 +22,21 @@ class TestNuclei(unittest.TestCase):
         self.assertTrue(self.defaulted.empty())
         self.assertFalse(self.has_value.empty())
 
+    def test_charges(self):
+        self.assertEqual(self.defaulted.charges, chemist.ChargesD())
+
+        corr = chemist.ChargesD()
+        corr.push_back(chemist.PointChargeD())
+        corr.push_back(chemist.PointChargeD(5.0, 2.0, 3.0, 4.0))
+        self.assertEqual(self.has_value.charges, corr)
+
+        # Can write to it
+        corr2 = chemist.ChargesD()
+        corr2.push_back(chemist.PointChargeD(6.0, 7.0, 8.0, 9.0))
+        corr2.push_back(chemist.PointChargeD(5.0, 2.0, 3.0, 4.0))
+        self.has_value.charges = corr2
+        self.assertEqual(self.has_value.charges, corr2)
+
     def test_push_back(self):
         # Sanity check
         self.assertEqual(self.defaulted.size(), 0)
