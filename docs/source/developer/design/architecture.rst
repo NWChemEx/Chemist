@@ -72,13 +72,12 @@ Fragmenting
      system component.
 
 Quantum mechanics.
-   The heart of quantum chemistry is that chemistry is fully described by
-   quantum mechanics. Thus whatever chemical question we have, quantum
-   mechanics should be able to answer. Since we want to get an answer from
-   quantum mechanics, it's best to phrase the question using quantum mechanics,
+   Quantum chemistry is predicated on the fact that chemistry can be fully
+   described by the equations of quantum mechanics. Since we want to get an
+   answer from quantum mechanics, it's best to phrase the question in terms
+   of quantum mechanical objects such as operators and wavefunctions.
    and we thus also need a software representation of quantum mechanical
-   concepts. (TODO: this is supposed to motivate operator/wavefunction
-   components).
+   concepts.
 
 Classical mechanics.
    Quantum is expensive some mix of QM and classical mechanics is likely to be
