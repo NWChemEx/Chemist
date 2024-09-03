@@ -144,12 +144,7 @@ represents the relationship among a superset ``Nuclei`` object and subsets of
 that object. The fragmenting component also contains classes like ``Cap`` which
 arise because fragmenting can "break" covalent bonds.
 
-Operator component
--------------------
+Quantum mechanics component
+---------------------------
 
-Main Discussion: :ref:`design_of_the_operator_component`.
-
-Wavefunction component
-----------------------
-
-Main Discussion: :ref:`design_of_the_wavefunction_component`.
+Main Discussion: :ref:`design_of_the_quantum_mechanics_component`.
