@@ -35,20 +35,30 @@ manipulation of a chemical system's wavefunction.
 Why do we need a Wavefunction Component?
 ****************************************
 
-
+The wavefunction component is needed to express the state of the bra and ket
+and transfer that state to routines which evaluate tensor elements involving
+those bras and kets. It is also needed to facilitate the programmatic
+dispatching among electronic structure methods.
 
 ***************************
 Wavefunction Considerations
 ***************************
+
+.. _wf_orbitals:
 
 orbitals
    Orbitals are the building blocks of many-particle wavefunctions. We need to
    be able to represent the set of orbitals from which the many-particle
    wavefunction is built.
 
+.. _wf_determinants_and_permanents:
+
 determinants and permanents
    Determinants/permanents are the many-particle wavefunctions with the right
    spin symmetry for fermions/bosons respectively.
+
+
+.. _wf_basis_function_vs_basis_set:
 
 basis function vs basis set
    While the intermediates used to compute a property are often expressed as
@@ -56,16 +66,22 @@ basis function vs basis set
    We thus need a way to specify "compute the entire tensor representation" vs
    "compute the 0,0-th element".
 
+.. _wf_implicit_vs_explicit:
+
 implicit vs explicit
    Some basis functions are typically explicit (e.g., atomic orbitals,
    molecular orbitals) meaning they have state which must be explicitly
    specified. Other basis functions are considered implicit (e.g., spin,
    Cartesian axis).
 
+.. _wf_method_dispatching:
+
 method dispatching
    One use of the wavefunction is to dispatch to different methods. For example,
    having different types for restricted vs unrestricted self-consistent field
    theory wavefunctions makes it easier to dispatch to RSCF/USCF respectively.
+
+.. _wf_bra_ket_state:
 
 bra/ket state
    Aside from indicating the computation to do, the wavefunction will also be
@@ -75,7 +91,6 @@ bra/ket state
       - AO basis set parameters.
       - molecular orbital coefficients
       - orbital occupations
-
 
 *****************
 Example Use Cases
@@ -143,6 +158,113 @@ ease), but simply motivational.
    // orbitals 1 through n inclusive.
    udeterminant.set_reference(1, 2, 3, ..., n);
 
-   // It's common to specify determinants based on number of excitations. This
-   // slices the determinant space to limit it to double excitations
+   // We rarely want the full space of determinants. We can limit our
+   // excitations by slicing the determinant space. Here we limit it to
+   // single and double excitations
+   auto singles = rdeterminant.excitation_subspace<1>();
    auto doubles = rdeterminant.excitation_subspace<2>();
+
+   // More general slices can be accomplished by defining one or more active
+   // spaces. The argument is the orbitals involved in the active space (the
+   // class already knows whether those orbitals are occupied or not).
+   auto as = rdeterminant.active_space({10, 11, 12});
+
+************************************
+Design of the Wavefunction Component
+************************************
+
+.. note::
+
+   The design presently only includes classes which we plan to implement in
+   version 1.0 of the wavefunction component.
+
+.. figure:: assets/redesign.png
+   :align: center
+
+   Classes comprising the wavefunction component of Chemist. See documentation
+   for class descriptions.
+
+Fundamental Spaces
+==================
+
+.. note::
+
+   We have opted to use the term "vector space" instead of "basis set" to avoid
+   confusion with the more common practice of using "basis set" to refer to
+   the parameters defining the atomic orbitals.
+
+The classes in this sub-component of the wavefunction component represent the
+building blocks used to create the derived spaces via fundamental operations.
+Included in the fundamental spaces component are:
+
+- ``VectorSpace``. Base class signifying that something is a set of ``Vector``
+  objects. Provides code-factorization for derived classes.
+- ``AOSpace``. Wrapper around an ``AOBasisSet`` object. In order to conform to
+  expectations, we made the ``AOBasisSet`` object behave somewhat like the
+  basis set objects found in other quantum chemistry programs. The ``AOSpace``
+  class is needed to make it interoperable with the wavefunction component.
+- ``Implicit``. Code factorization for implementing a ``VectorSpace`` object
+  whose elements are implicit. Derived classes just need to define labels.
+- ``Cartesian``. Class defining an :math:`n` dimensional Cartesian space. Code
+  factorization for traditional :math:`\mathcal{R}^3` as well as other spaces
+  like :math:`\mathcal{R}^6` (space where the unique quadrupole moment
+  components live).
+- ``Spin``. Class defining the spin states for a particle given the particle's
+  total spin.
+- ``R3``. Specializes ``Cartesian`` to familiar "x", "y", "z" space.
+- ``ElectronSpin``. Specializes ``Spin`` to the case of an electron's spin,
+  i.e., calls the spins :math:`\alpha` and :math:`beta` in accordance with
+  usual practice.
+
+Vectors
+=======
+
+This sub-component of the wavefunction component contains classes defining
+classes that represent objects that span a vector space. In practice these
+objects are used to request a single element of a tensor via Dirac notation
+whereas ``VectorSpace`` objects are used to request the entire tensor.
+
+- ``Vector``. Base class signifying that something is an element of a
+  ``VectorSpace`` object. N.B. lives in the ``wavefunction`` namespace and
+  thus unlikely to conflict with ``std::vector`` or other tensor-like classes.
+- ``ImplicitVector``. Code factorization for representing a vector belonging to
+
+Other potential classes could include strong types for specific implicit vectors
+(e.g., an ``Alpha`` class) or explicit vectors that we don't immediately need
+individual tensor elements of at the moment (e.g., ``AO`` class)
+
+Operations
+==========
+
+- ``Transformed``. Indicates that the vector space :math:`V` is obtained from a
+  (usually) different vector space :math:`V'` via a linear transformation.
+
+*******
+Summary
+*******
+
+:ref:`wf_orbitals`
+   The wavefunction component contains classes for expressing atomic orbitals
+   (usually the most fundamental set of orbitals) as well as the myriad of
+   orbitals that can be derived from them.
+
+:ref:`wf_determinants_and_permanents`
+   Addressed by the ``Antisymmetrize`` and ``Symmetrize`` classes.
+
+:ref:`wf_basis_function_vs_basis_set`
+   Addressed with the ``Vector`` and ``VectorSpace`` classes, where the former
+   is an element of the latter.
+
+:ref:`wf_implicit_vs_explicit`
+   The ``ImplicitSpace`` and ``ImplicitVector`` classes are introduced to
+   respectively implement basis sets and basis functions that are typically
+   only distinguished from one another by names (e.g., "x" and "y" axes).
+
+:ref:`wf_method_dispatching`
+   The use of strong types allows tensor elements to have different types
+   depending on the wavefunctions the user provides. This in turn facilitates
+   dispatching based on function overloading.
+
+:ref:`wf_bra_ket_state`
+   Addressed by having the various classes in the wavefunction component possess
+   state.

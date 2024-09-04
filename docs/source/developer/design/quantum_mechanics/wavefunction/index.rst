@@ -31,6 +31,3 @@ of Chemist.
    :maxdepth: 2
 
    architecture
-   vector_spaces
-   reference_space
-   wavefunction

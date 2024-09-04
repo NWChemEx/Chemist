@@ -50,19 +50,61 @@ express them all, whether or not we have names for the approximation.
 QM Considerations
 *****************
 
+.. _qm_dirac_notation:
+
 Dirac notation
    The "natural" way to write QM equations is in Dirac notation. The QM
    component should start in Dirac notation and end in tensor equations
+
+.. _qm_tensor_equations:
 
 tensor equations
    Modern scientific computing is tensor-based. The resulting tensor equations
    should specify the tensor operations needed to compute the property of
    interest and know where to get the input values from.
 
+.. _qm_operators:
+
 operators
    To write Dirac notation we require two things: operators and wavefunctions.
    The operators describe the interactions/property to compute.
 
+.. _qm_wavefunctions:
+
 wavefunctions
    To write Dirac notation we require two things: operators and wavefunctions.
    The wavefunctions describe the QM state of the system.
+
+**************************
+Design of the QM Component
+**************************
+
+TODO: BraKet class for Dirac notation
+TODO: SeQuant connection for tensor equations.
+
+Operators
+=========
+
+Main article: :ref:`architecture_of_operator`.
+
+Wavefunctions
+=============
+
+Main article: :ref:`architecture_of_wavefunction`.
+
+
+**********
+QM Summary
+**********
+
+:ref:`qm_dirac_notation`
+   We have...
+
+:ref:`qm_tensor_equations`
+   We have...
+
+:ref:`qm_operators`
+   We have created the operator subcomponent to address this consideration.
+
+:ref:`qm_wavefunctions`
+   We have created the wavefunction subcomponent to address this consideration.
