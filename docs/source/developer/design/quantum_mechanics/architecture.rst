@@ -75,6 +75,35 @@ wavefunctions
    To write Dirac notation we require two things: operators and wavefunctions.
    The wavefunctions describe the QM state of the system.
 
+*****************
+Example Use Cases
+*****************
+
+The following pseudocode illustrates how pieces of the QM component are used to
+"calculate" quantities. This is an aspirational code snippet and may not
+reflect the final DSL.
+
+.. code-block:: c++
+
+   Hamiltonian<ManyElectron, Nuclei> H = make_molecular_hamiltonian();
+   RDeterminant Psi                    = get_determinant();
+
+   // actually declares a BraKet instance, E, relying on C++17's CTAD to work
+   // out the template type parameters.
+   auto E = BraKet(Psi, H, Psi);
+
+   // Again E_elec is a BraKet instance and not the actual energy
+   auto E_elec = BraKet(Psi, H.electronic(), Psi);
+
+   // Use other operators to get other terms
+   Kinetic<ManyElectron> T_e = get_many_electron_kinetic_energy_operator();
+   auto E_kinetic = BraKet(Psi, T_e, Psi);
+
+   CMOs cmos = get_orbitals(); // Get the orbitals used to build Psi
+   Kinetic<Electron> t_e = get_one_electron_kinetic_energy_operator();
+   auto t_matrix = BraKet(cmos, t_e, cmos);
+
+
 **************************
 Design of the QM Component
 **************************
