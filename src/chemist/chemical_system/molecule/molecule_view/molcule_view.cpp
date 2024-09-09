@@ -96,7 +96,10 @@ TPARAMS
 template<typename, typename>
 void MOLECULE_VIEW::set_charge(charge_type charge) {
     check_charge_(charge);
-    if(has_pimpl_()) m_pimpl_->charge() = charge;
+    if(has_pimpl_()) {
+        auto pcharge = m_pimpl_->charge_data();
+        if(pcharge) *pcharge = charge;
+    }
 }
 
 TPARAMS
@@ -113,7 +116,10 @@ TPARAMS
 template<typename, typename>
 void MOLECULE_VIEW::set_multiplicity(multiplicity_type multiplicity) {
     check_multiplicity_(multiplicity);
-    if(has_pimpl_()) m_pimpl_->multiplicity() = multiplicity;
+    if(has_pimpl_()) {
+        auto pmult = m_pimpl_->multiplicity_data();
+        if(pmult) *pmult = multiplicity;
+    }
 }
 
 // -----------------------------------------------------------------------------
