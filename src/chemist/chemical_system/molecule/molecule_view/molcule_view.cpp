@@ -85,7 +85,11 @@ typename MOLECULE_VIEW::size_type MOLECULE_VIEW::n_electrons() const noexcept {
 
 TPARAMS
 typename MOLECULE_VIEW::charge_type MOLECULE_VIEW::charge() const noexcept {
-    return has_pimpl_() ? std::as_const(*m_pimpl_).charge() : 0;
+    if(has_pimpl_()) {
+        auto pcharge = std::as_const(*m_pimpl_).charge_data();
+        if(pcharge) return *pcharge;
+    }
+    return 0;
 }
 
 TPARAMS
@@ -98,7 +102,11 @@ void MOLECULE_VIEW::set_charge(charge_type charge) {
 TPARAMS
 typename MOLECULE_VIEW::multiplicity_type MOLECULE_VIEW::multiplicity()
   const noexcept {
-    return has_pimpl_() ? std::as_const(*m_pimpl_).multiplicity() : 1;
+    if(has_pimpl_()) {
+        auto pmult = std::as_const(*m_pimpl_).multiplicity_data();
+        if(pmult) return *pmult;
+    }
+    return 1;
 }
 
 TPARAMS
@@ -120,13 +128,14 @@ typename MOLECULE_VIEW::molecule_type MOLECULE_VIEW::as_molecule() const {
 TPARAMS
 typename MOLECULE_VIEW::const_charge_pointer MOLECULE_VIEW::charge_data()
   const noexcept {
-    return has_pimpl_() ? &(std::as_const(*m_pimpl_).charge()) : nullptr;
+    return has_pimpl_() ? std::as_const(*m_pimpl_).charge_data() : nullptr;
 }
 
 TPARAMS
 typename MOLECULE_VIEW::const_multiplicity_pointer
 MOLECULE_VIEW::multiplicity_data() const noexcept {
-    return has_pimpl_() ? &(std::as_const(*m_pimpl_).multiplicity()) : nullptr;
+    return has_pimpl_() ? std::as_const(*m_pimpl_).multiplicity_data() :
+                          nullptr;
 }
 
 TPARAMS
