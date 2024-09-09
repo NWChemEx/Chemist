@@ -99,9 +99,9 @@ reflect the final DSL.
    Kinetic<ManyElectron> T_e = get_many_electron_kinetic_energy_operator();
    auto E_kinetic = BraKet(Psi, T_e, Psi);
 
-   CMOs cmos = get_orbitals(); // Get the orbitals used to build Psi
+   CMOs cmos             = get_orbitals(); // Get the orbitals used to build Psi
    Kinetic<Electron> t_e = get_one_electron_kinetic_energy_operator();
-   auto t_matrix = BraKet(cmos, t_e, cmos);
+   auto t_matrix         = BraKet(cmos, t_e, cmos);
 
 
 **************************
