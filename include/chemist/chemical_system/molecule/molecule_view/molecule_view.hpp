@@ -184,9 +184,7 @@ public:
      */
     template<typename MoleculeType2,
              typename = enable_read_only_conversion_t<MoleculeType2>>
-    MoleculeView(const MoleculeView<MoleculeType2>& other) :
-      MoleculeView(other.nuclei(), other.charge_data(),
-                   other.multiplicity_data()) {}
+    MoleculeView(const MoleculeView<MoleculeType2>& other);
 
     /** @brief Creates a new view of the object aliased by @p other.
      *

@@ -47,9 +47,9 @@ public:
 
     /// Deleted b/c parent_type implements generically
     ///@{
-    MoleculeViewPIMPL(MoleculeViewPIMPL&&) noexcept = delete;
+    MoleculeViewPIMPL(MoleculeViewPIMPL&&) noexcept        = delete;
     MoleculeViewPIMPL& operator=(const MoleculeViewPIMPL&) = delete;
-    MoleculeViewPIMPL& operator=(MoleculeViewPIMPL&&) = delete;
+    MoleculeViewPIMPL& operator=(MoleculeViewPIMPL&&)      = delete;
     ///@}
 
     /// Direct access to state (no checks for nullptr; left to parent_type)
@@ -82,10 +82,10 @@ private:
     nuclei_reference m_nuclei_;
 
     /// Pointer to the net number of electrons in *this
-    charge_pointer m_pnet_electrons_;
+    charge_pointer m_pnet_electrons_ = nullptr;
 
     /// Pointer to the multiplicity of *this
-    multiplicity_pointer m_pmultiplicity_;
+    multiplicity_pointer m_pmultiplicity_ = nullptr;
 };
 
 // -- Inline implementations

@@ -31,7 +31,7 @@ using charge_type            = typename Molecule::charge_type;
 
 // -- CTors --------------------------------------------------------------------
 
-Molecule::Molecule() noexcept = default;
+Molecule::Molecule() noexcept : m_pimpl_(nullptr) {}
 
 Molecule::Molecule(const Molecule& rhs) :
   m_pimpl_(rhs.has_pimpl_() ? std::make_unique<pimpl_type>(*rhs.m_pimpl_) :

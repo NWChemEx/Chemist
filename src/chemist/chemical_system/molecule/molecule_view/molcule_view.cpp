@@ -29,8 +29,12 @@ TPARAMS
 MOLECULE_VIEW::MoleculeView() noexcept = default;
 
 TPARAMS
-MOLECULE_VIEW::MoleculeView(molecule_reference mol) :
-  MoleculeView(mol.nuclei(), mol.charge_data(), mol.multiplicity_data()) {}
+MOLECULE_VIEW::MoleculeView(molecule_reference mol) {
+    // Need to ensure mol.nuclei is called first in case it allocates a PIMPL
+    auto nuclei_ref = mol.nuclei();
+    MoleculeView temp(nuclei_ref, mol.charge_data(), mol.multiplicity_data());
+    temp.swap(*this);
+}
 
 TPARAMS
 MOLECULE_VIEW::MoleculeView(nuclei_reference nuclei, charge_pointer pcharge,
@@ -40,6 +44,15 @@ MOLECULE_VIEW::MoleculeView(nuclei_reference nuclei, charge_pointer pcharge,
     // Sanity check that charge and multiplicity make sense
     if(pcharge != nullptr) check_charge_(*pcharge);
     if(pmultiplicity != nullptr) check_multiplicity_(*pmultiplicity);
+}
+
+TPARAMS
+template<typename MoleculeType2, typename>
+MOLECULE_VIEW::MoleculeView(const MoleculeView<MoleculeType2>& other) {
+    auto other_nuclei = other.nuclei();
+    MoleculeView t(other_nuclei, other.charge_data(),
+                   other.multiplicity_data());
+    t.swap(*this);
 }
 
 TPARAMS
@@ -169,6 +182,7 @@ TPARAMS
 typename MOLECULE_VIEW::size_type MOLECULE_VIEW::neutral_n_electrons_()
   const noexcept {
     size_type sum = 0;
+    // N.B. *this is const so nuclei won't allocate PIMPL
     for(const auto& n0 : this->nuclei()) sum += n0.Z();
     return sum;
 }
@@ -177,7 +191,9 @@ TPARAMS
 void MOLECULE_VIEW::check_charge_(charge_type charge) const {
     if(!has_pimpl_() && charge != 0)
         throw std::runtime_error("Empty Molecule can only have a charge of 0");
-    if(static_cast<charge_type>(neutral_n_electrons_()) < charge)
+
+    charge_type n_electrons = neutral_n_electrons_();
+    if(n_electrons < charge)
         throw std::runtime_error("Molecule does not have enough electrons");
 }
 
@@ -200,5 +216,7 @@ template void MoleculeView<Molecule>::set_charge<Molecule>(
 template void MoleculeView<Molecule>::set_multiplicity<Molecule>(
   typename MoleculeView<Molecule>::multiplicity_type);
 template class MoleculeView<const Molecule>;
+template MoleculeView<const Molecule>::MoleculeView<Molecule, void>(
+  const MoleculeView<Molecule>&);
 
 } // namespace chemist

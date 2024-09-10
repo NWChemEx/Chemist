@@ -45,7 +45,10 @@ TEMPLATE_LIST_TEST_CASE("MoleculeViewPIMPL", "", types2test) {
     molecule_type anion_mol(anion_q, m3, values_set);
     molecule_type cation_mol(cation_q, m1, cation_set);
 
-    pimpl_type empty(empty_mol.nuclei(), nullptr, nullptr);
+    // Calling nuclei allocates a PIMPL so do it before the fxn
+    auto empty_nuclei_reference = empty_mol.nuclei();
+    pimpl_type empty(empty_nuclei_reference, empty_mol.charge_data(),
+                     empty_mol.multiplicity_data());
     pimpl_type values(values_mol.nuclei(), values_mol.charge_data(),
                       values_mol.multiplicity_data());
     pimpl_type anion(anion_mol.nuclei(), anion_mol.charge_data(),
@@ -56,8 +59,8 @@ TEMPLATE_LIST_TEST_CASE("MoleculeViewPIMPL", "", types2test) {
     SECTION("Ctors") {
         SECTION("Default") {
             REQUIRE(empty.nuclei() == empty_mol.nuclei());
-            REQUIRE(empty.charge_data() == nullptr);
-            REQUIRE(empty.multiplicity_data() == nullptr);
+            REQUIRE(empty.charge_data() == empty_mol.charge_data());
+            REQUIRE(empty.multiplicity_data() == empty_mol.multiplicity_data());
         }
         SECTION("Value") {
             REQUIRE(values.nuclei() == values_mol.nuclei());
@@ -144,14 +147,14 @@ TEMPLATE_LIST_TEST_CASE("MoleculeViewPIMPL", "", types2test) {
     }
 
     SECTION("charge_data()") {
-        REQUIRE(empty.charge_data() == nullptr);
+        REQUIRE(empty.charge_data() == empty_mol.charge_data());
         REQUIRE(values.charge_data() == values_mol.charge_data());
         REQUIRE(anion.charge_data() == anion_mol.charge_data());
         REQUIRE(cation.charge_data() == cation_mol.charge_data());
     }
 
     SECTION("charge_data() const") {
-        REQUIRE(std::as_const(empty).charge_data() == nullptr);
+        REQUIRE(std::as_const(empty).charge_data() == empty_mol.charge_data());
         REQUIRE(std::as_const(values).charge_data() ==
                 values_mol.charge_data());
         REQUIRE(std::as_const(anion).charge_data() == anion_mol.charge_data());
@@ -160,14 +163,15 @@ TEMPLATE_LIST_TEST_CASE("MoleculeViewPIMPL", "", types2test) {
     }
 
     SECTION("multiplicity_data()") {
-        REQUIRE(empty.multiplicity_data() == nullptr);
+        REQUIRE(empty.multiplicity_data() == empty_mol.multiplicity_data());
         REQUIRE(values.multiplicity_data() == values_mol.multiplicity_data());
         REQUIRE(anion.multiplicity_data() == anion_mol.multiplicity_data());
         REQUIRE(cation.multiplicity_data() == cation_mol.multiplicity_data());
     }
 
     SECTION("multiplicity_data() const") {
-        REQUIRE(std::as_const(empty).multiplicity_data() == nullptr);
+        REQUIRE(std::as_const(empty).multiplicity_data() ==
+                empty_mol.multiplicity_data());
         REQUIRE(std::as_const(values).multiplicity_data() ==
                 values_mol.multiplicity_data());
         REQUIRE(std::as_const(anion).multiplicity_data() ==
