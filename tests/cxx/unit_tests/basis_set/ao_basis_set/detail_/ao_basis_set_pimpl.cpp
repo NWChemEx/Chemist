@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../../catch.hpp"
 #include <chemist/basis_set/ao_basis_set/detail_/ao_basis_set_pimpl.hpp>
 #include <utility>
 

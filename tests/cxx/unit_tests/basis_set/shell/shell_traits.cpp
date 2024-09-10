@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../catch.hpp"
 #include <chemist/basis_set/shell/shell.hpp>
 #include <chemist/basis_set/shell/shell_traits.hpp>
 #include <chemist/basis_set/shell/shell_view.hpp>

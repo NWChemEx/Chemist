@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../catch.hpp"
 #include <chemist/basis_set/atomic_basis_set/atomic_basis_set_traits.hpp>
 #include <chemist/basis_set/atomic_basis_set/atomic_basis_set_view.hpp>
 #include <utility>

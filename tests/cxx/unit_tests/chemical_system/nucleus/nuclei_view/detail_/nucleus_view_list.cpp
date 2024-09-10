@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../../../catch.hpp"
 #include <chemist/chemical_system/nucleus/nuclei_view/detail_/nucleus_view_list.hpp>
 
 template<typename NucleiType>

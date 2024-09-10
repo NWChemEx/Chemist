@@ -30,7 +30,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../catch.hpp"
 #include <chemist/point/point_set_view/point_set_view.hpp>
 #include <vector>
 

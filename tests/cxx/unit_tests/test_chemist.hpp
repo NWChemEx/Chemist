@@ -15,7 +15,6 @@
  */
 
 #include "chemist/types.hpp"
-#include <catch2/catch.hpp>
 
 namespace testing {
 

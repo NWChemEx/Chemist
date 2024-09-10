@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+#include "../catch.hpp"
 #include "chemist/point/point.hpp"
-#include <catch2/catch.hpp>
 #include <cereal/archives/binary.hpp>
 #include <sstream>
 
@@ -213,7 +213,7 @@ TEST_CASE("Point<double> : operator-") {
 TEST_CASE("Point<double> : magnitude") {
     Point<double> p0{1.0, 2.0, 3.0};
     double corr = 3.741657387;
-    REQUIRE(p0.magnitude() == Approx(corr));
+    REQUIRE(p0.magnitude() == Catch::Approx(corr));
 }
 
 TEST_CASE("operator<<(ostream, Point)") {

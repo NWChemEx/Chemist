@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../catch.hpp"
 #include <chemist/chemical_system/chemical_system/chemical_system_pimpl.hpp>
 
 TEST_CASE("ChemicalSystemPIMPL") {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../catch.hpp"
 #include <cereal/archives/binary.hpp>
 #include <chemist/chemical_system/molecule/molecule.hpp>
 #include <sstream>

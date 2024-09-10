@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../../catch.hpp"
 #include <chemist/basis_set/contracted_gaussian/detail_/contracted_gaussian_view_pimpl.hpp>
 #include <chemist/basis_set/primitive/primitive.hpp>
 

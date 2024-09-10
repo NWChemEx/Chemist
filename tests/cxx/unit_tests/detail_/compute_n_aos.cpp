@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../catch.hpp"
 #include <chemist/basis_set/detail_/compute_n_aos.hpp>
 
 using chemist::ShellType;
