@@ -229,6 +229,7 @@ public:
     template<typename MoleculeType2,
              typename = enable_assign_from_molecule_t<MoleculeType2>>
     MoleculeView& operator=(const MoleculeType2& rhs) {
+        // N.B. this assigns the VALUES in the Nuclei object
         nuclei() = rhs.nuclei().as_nuclei();
         set_charge(rhs.charge());
         set_multiplicity(rhs.multiplicity());

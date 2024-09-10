@@ -32,7 +32,8 @@ TPARAMS
 MOLECULE_VIEW::MoleculeView(molecule_reference mol) {
     // Need to ensure mol.nuclei is called first in case it allocates a PIMPL
     auto nuclei_ref = mol.nuclei();
-    MoleculeView temp(nuclei_ref, mol.charge_data(), mol.multiplicity_data());
+    MoleculeView temp(std::move(nuclei_ref), mol.charge_data(),
+                      mol.multiplicity_data());
     temp.swap(*this);
 }
 
@@ -182,7 +183,7 @@ TPARAMS
 typename MOLECULE_VIEW::size_type MOLECULE_VIEW::neutral_n_electrons_()
   const noexcept {
     size_type sum = 0;
-    // N.B. *this is const so nuclei won't allocate PIMPL
+    // N.B. *this is const so nuclei won't allocate a PIMPL
     for(const auto& n0 : this->nuclei()) sum += n0.Z();
     return sum;
 }
