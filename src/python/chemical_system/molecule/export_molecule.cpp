@@ -80,8 +80,7 @@ void export_molecule_(python_module_reference m) {
       .def(pybind11::init(value_ctor))
       .def("empty", [](molecule_reference self) { return self.empty(); })
       .def("push_back", push_back)
-      .def_property("nuclei", get_nuclei_fxn, set_nuclei_fxn,
-                    pybind11::return_value_policy::copy, ka)
+      .def_property("nuclei", get_nuclei_fxn, set_nuclei_fxn)
       .def("at", at_fxn, ka)
       .def("size", [](molecule_reference self) { return self.size(); })
       .def("charge", &Molecule::charge)
