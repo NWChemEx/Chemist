@@ -48,15 +48,6 @@ MOLECULE_VIEW::MoleculeView(nuclei_reference nuclei, charge_pointer pcharge,
 }
 
 TPARAMS
-template<typename MoleculeType2, typename>
-MOLECULE_VIEW::MoleculeView(const MoleculeView<MoleculeType2>& other) {
-    auto other_nuclei = other.nuclei();
-    MoleculeView t(other_nuclei, other.charge_data(),
-                   other.multiplicity_data());
-    t.swap(*this);
-}
-
-TPARAMS
 MOLECULE_VIEW::MoleculeView(const MoleculeView& other) :
   m_pimpl_(other.has_pimpl_() ? other.m_pimpl_->clone() : nullptr) {}
 
@@ -216,8 +207,7 @@ template void MoleculeView<Molecule>::set_charge<Molecule>(
   typename MoleculeView<Molecule>::charge_type);
 template void MoleculeView<Molecule>::set_multiplicity<Molecule>(
   typename MoleculeView<Molecule>::multiplicity_type);
+
 template class MoleculeView<const Molecule>;
-template MoleculeView<const Molecule>::MoleculeView<Molecule, void>(
-  const MoleculeView<Molecule>&);
 
 } // namespace chemist

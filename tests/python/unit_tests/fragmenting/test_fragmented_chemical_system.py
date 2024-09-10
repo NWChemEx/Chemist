@@ -73,7 +73,8 @@ class TestFragmentedChemicalSystem(unittest.TestCase):
         self.assertEqual(self.frags, rhs)
 
         # Different fragments
-        rhs_nuclei = FragmentedNuclei(self.ss.molecule.nuclei, [[0, 1]])
+        temp_nuclei = self.ss.molecule.nuclei
+        rhs_nuclei = FragmentedNuclei(temp_nuclei.as_nuclei(), [[0, 1]])
         rhs_mol = FragmentedMolecule(rhs_nuclei, 0, 2)
         rhs = FragmentedChemicalSystem(rhs_mol)
         self.assertNotEqual(self.frags, rhs)
@@ -87,7 +88,8 @@ class TestFragmentedChemicalSystem(unittest.TestCase):
 
         # Fragmented nuclei and fragmented molecule
         l01 = [[0], [1]]
-        self.frag_nuclei = FragmentedNuclei(self.ss.molecule.nuclei, l01)
+        temp_nuclei = self.ss.molecule.nuclei
+        self.frag_nuclei = FragmentedNuclei(temp_nuclei.as_nuclei(), l01)
         self.frag_molecule = FragmentedMolecule(self.frag_nuclei, 0, 2)
         self.empty_frag_molecule = FragmentedMolecule(self.ss.molecule)
 

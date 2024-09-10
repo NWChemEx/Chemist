@@ -36,6 +36,7 @@ void export_nuclei_view(python_module_reference m) {
       .def("empty", [](reference self) { return self.empty(); })
       .def("at", [](reference self, size_type i) { return self[i]; })
       .def("size", [](reference self) { return self.size(); })
+      .def("as_nuclei", &view_type::as_nuclei)
       .def("__str__",
            [](reference nuc) {
                std::ostringstream stream;
