@@ -29,11 +29,18 @@ void export_molecule_view(python_module_reference m) {
     using reference     = view_type&;
     using size_type     = typename molecule_type::size_type;
     using charge_type   = typename molecule_type::charge_type;
+    using nuclei_type   = typename molecule_type::nuclei_type;
+
+    auto get_nuclei_fxn = [](reference self) { return self.nuclei(); };
+    auto set_nuclei_fxn = [](reference self, nuclei_type nuclei) {
+        self.nuclei() = nuclei;
+    };
 
     python_class_type<view_type>(m, "MoleculeView")
       .def(pybind11::init<>())
       .def(pybind11::init<molecule_type&>())
       .def("empty", [](reference self) { return self.empty(); })
+      .def_property("nuclei", get_nuclei_fxn, set_nuclei_fxn)
       .def(
         "at", [](reference self, size_type i) { return self[i]; },
         pybind11::keep_alive<0, 1>())
