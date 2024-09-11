@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../../catch.hpp"
 #include <chemist/basis_set/shell/detail_/shell_view_pimpl.hpp>
 
 using namespace chemist::basis_set;

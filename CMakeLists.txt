@@ -87,7 +87,6 @@ if("${ENABLE_EXPERIMENTAL_FEATURES}")
         tensorwrapper
         URL github.com/NWChemEx/TensorWrapper
         PRIVATE TRUE
-        VERSION ${NWX_TENSORWRAPPER_VERSION}
         BUILD_TARGET tensorwrapper
         FIND_TARGET nwx::tensorwrapper
         CMAKE_ARGS BUILD_TESTING=OFF
@@ -122,7 +121,7 @@ if("${BUILD_TESTING}")
         URL github.com/catchorg/Catch2
         BUILD_TARGET Catch2
         FIND_TARGET Catch2::Catch2
-        VERSION ${NWX_CATCH2_VERSION}
+        VERSION v3.6.0
     )
     cmaize_add_library(
         ${PROJECT_NAME}_examples

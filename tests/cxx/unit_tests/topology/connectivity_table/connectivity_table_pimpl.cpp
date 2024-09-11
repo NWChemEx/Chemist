@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+#include "../../catch.hpp"
 #include "chemist/topology/connectivity_table/connectivity_table_pimpl.hpp"
-#include <catch2/catch.hpp>
 #include <type_traits>
 
 using namespace chemist::topology::detail_;

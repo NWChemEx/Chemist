@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../catch.hpp"
 #include <chemist/chemical_system/point_charge/point_charge_view.hpp>
 
 using namespace chemist;

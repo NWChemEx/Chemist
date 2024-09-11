@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../catch.hpp"
 #include <chemist/point/detail_/point_set_pimpl.hpp>
 
 using namespace chemist;

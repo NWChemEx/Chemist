@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+#include "../../catch.hpp"
 #include "chemist/topology/connectivity_table.hpp"
-#include <catch2/catch.hpp>
 #include <sstream>
 
 using namespace chemist::topology;

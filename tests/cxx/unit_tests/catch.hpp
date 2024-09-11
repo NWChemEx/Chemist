@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 NWChemEx-Project
+ * Copyright 2024 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,7 @@
  * limitations under the License.
  */
 
-#include "catch.hpp"
-#include "chemist_examples.hpp"
-
-using namespace chemist_examples;
-TEST_CASE("Doc snippets") {
-    REQUIRE(nucleus_example() == 0);
-    REQUIRE(atom_example() == 0);
-    REQUIRE(molecule_example() == 0);
-}
+#pragma once
+#include <catch2/catch_approx.hpp>
+#include <catch2/catch_template_test_macros.hpp>
+#include <catch2/catch_test_macros.hpp>

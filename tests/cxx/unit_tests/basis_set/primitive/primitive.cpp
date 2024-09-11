@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../catch.hpp"
 #include <chemist/basis_set/primitive/primitive.hpp>
 
 TEMPLATE_TEST_CASE("Primitive", "", float, double) {

@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include <catch2/catch.hpp>
+#include "catch.hpp"
 #include <type_traits>
 
 namespace test_chemist {

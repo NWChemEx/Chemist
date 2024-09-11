@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../catch.hpp"
 #include <cereal/archives/binary.hpp>
 #include <chemist/point/point_set.hpp>
 #include <sstream>
