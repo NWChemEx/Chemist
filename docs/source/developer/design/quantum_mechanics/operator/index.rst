@@ -31,4 +31,3 @@ Chemist.
    :maxdepth: 2
 
    architecture
-   operators
