@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture of Wavefunction Component &mdash; Chemist v1.2.10 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=b9d88732"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Design of the Operator Component" href="../operator/index.html" />
+    <link rel="prev" title="Design of the Wavefunction Component" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                v1.2.10
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installing Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Chemist Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">Design Documentation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../topology/index.html">Design of the Topology Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fragmenting/index.html">Design of the Fragmenting Component</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html">Design of the Quantum Mechanics (QM) Component</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../architecture.html">Architecture of the Quantum Mechanics (QM) Component</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html">Design of the Wavefunction Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../operator/index.html">Design of the Operator Component</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../writing_views.html">Creating a New View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../the_traits_component.html">Understanding the Traits Component</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Chemist Tutorials</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Chemist</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Developer Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Design Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Design of the Quantum Mechanics (QM) Component</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Design of the Wavefunction Component</a></li>
+      <li class="breadcrumb-item active">Architecture of Wavefunction Component</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/developer/design/quantum_mechanics/wavefunction/architecture.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="architecture-of-wavefunction-component">
+<span id="architecture-of-wavefunction"></span><h1>Architecture of Wavefunction Component<a class="headerlink" href="#architecture-of-wavefunction-component" title="Link to this heading"></a></h1>
+<p>The need for a wavefunction component was motivated in
+<a class="reference internal" href="../architecture.html#architecture-of-the-quantum-mechanics-component"><span class="std std-ref">Architecture of the Quantum Mechanics (QM) Component</span></a>.</p>
+<section id="what-is-the-wavefunction-component">
+<h2>What is the Wavefunction Component?<a class="headerlink" href="#what-is-the-wavefunction-component" title="Link to this heading"></a></h2>
+<p>In the traditional view of quantum chemistry, the wavefunction represents the
+(possibly time-dependent) state of the system. Properties of the system are
+computed as tensor elements involving wavefunctions and operators. The
+Wavefunction component contains classes which facilitate the creation and
+manipulation of a chemical system’s wavefunction.</p>
+</section>
+<section id="why-do-we-need-a-wavefunction-component">
+<h2>Why do we need a Wavefunction Component?<a class="headerlink" href="#why-do-we-need-a-wavefunction-component" title="Link to this heading"></a></h2>
+<p>The wavefunction component is needed to express the state of the bra and ket
+and transfer that state to routines which evaluate tensor elements involving
+those bras and kets. It is also needed to facilitate the programmatic
+dispatching among electronic structure methods.</p>
+</section>
+<section id="wavefunction-considerations">
+<h2>Wavefunction Considerations<a class="headerlink" href="#wavefunction-considerations" title="Link to this heading"></a></h2>
+<dl class="simple" id="wf-orbitals">
+<dt>orbitals</dt><dd><p>Orbitals are the building blocks of many-particle wavefunctions. We need to
+be able to represent the set of orbitals from which the many-particle
+wavefunction is built.</p>
+</dd>
+</dl>
+<dl class="simple" id="wf-determinants-and-permanents">
+<dt>determinants and permanents</dt><dd><p>Determinants/permanents are the many-particle wavefunctions with the right
+spin symmetry for fermions/bosons respectively.</p>
+</dd>
+</dl>
+<dl class="simple" id="wf-basis-function-vs-basis-set">
+<dt>basis function vs basis set</dt><dd><p>While the intermediates used to compute a property are often expressed as
+tensors, the property we want is often a single element of a larger tensor.
+We thus need a way to specify “compute the entire tensor representation” vs
+“compute the 0,0-th element”.</p>
+</dd>
+</dl>
+<dl class="simple" id="wf-implicit-vs-explicit">
+<dt>implicit vs explicit</dt><dd><p>Some basis functions are typically explicit (e.g., atomic orbitals,
+molecular orbitals) meaning they have state which must be explicitly
+specified. Other basis functions are considered implicit (e.g., spin,
+Cartesian axis).</p>
+</dd>
+</dl>
+<dl class="simple" id="wf-method-dispatching">
+<dt>method dispatching</dt><dd><p>One use of the wavefunction is to dispatch to different methods. For example,
+having different types for restricted vs unrestricted self-consistent field
+theory wavefunctions makes it easier to dispatch to RSCF/USCF respectively.</p>
+</dd>
+</dl>
+<dl id="wf-bra-ket-state">
+<dt>bra/ket state</dt><dd><p>Aside from indicating the computation to do, the wavefunction will also be
+used to pass the parameters needed to describe the state of the bra or ket.
+Examples include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>AO basis set parameters.</p></li>
+<li><p>molecular orbital coefficients</p></li>
+<li><p>orbital occupations</p></li>
+</ul>
+</div></blockquote>
+</dd>
+</dl>
+</section>
+<section id="example-use-cases">
+<h2>Example Use Cases<a class="headerlink" href="#example-use-cases" title="Link to this heading"></a></h2>
+<p>The following pseudocode snippet is designed to show some high level examples of
+using the wavefunction component. It is not meant to be true to the final
+Chemist library (e.g., many of the typedefs exist as strong types for user
+ease), but simply motivational.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">AOSpace</span><span class="w"> </span><span class="nf">aos</span><span class="p">(</span><span class="n">get_ao_parameters</span><span class="p">());</span>
+<span class="n">Spin</span><span class="w"> </span><span class="nf">spins</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ratio</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">));</span><span class="w"> </span><span class="c1">// Takes total spin of particle</span>
+
+<span class="c1">// Can &quot;slice&quot; spaces to make subspaces</span>
+<span class="n">Spin</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spins</span><span class="p">.</span><span class="n">subspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// Spins count down</span>
+<span class="n">Spin</span><span class="w"> </span><span class="n">beta</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">spins</span><span class="p">.</span><span class="n">subspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c1">// Spatial molecular orbitals (MOs) are formed by transforming AOs.</span>
+<span class="k">using</span><span class="w"> </span><span class="n">MOSpace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Transformed</span><span class="o">&lt;</span><span class="n">AOSpace</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="c1">// Input is the transformation and the &quot;from&quot; space</span>
+<span class="n">MOSpace</span><span class="w"> </span><span class="nf">mos</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">aos</span><span class="p">);</span>
+
+<span class="c1">// Spin atomic orbitals (SAOs) are products of AOs and spin</span>
+<span class="k">using</span><span class="w"> </span><span class="n">SAOSpace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Product</span><span class="o">&lt;</span><span class="n">AOSpace</span><span class="p">,</span><span class="w"> </span><span class="n">Spin</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="c1">// Input are the spaces to take the tensor product of</span>
+<span class="n">SAOSpace</span><span class="w"> </span><span class="nf">saos_alpha</span><span class="p">(</span><span class="n">aos</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="p">);</span>
+<span class="n">SAOSpace</span><span class="w"> </span><span class="nf">saos_beta</span><span class="p">(</span><span class="n">aos</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">);</span>
+<span class="n">SAOSpace</span><span class="w"> </span><span class="nf">saos</span><span class="p">(</span><span class="n">aos</span><span class="p">,</span><span class="w"> </span><span class="n">spins</span><span class="p">);</span><span class="w"> </span><span class="c1">//Union of saos_alpha and saos_beta</span>
+
+<span class="c1">// Could have also obtained saos_alpha/saos_beta by slicing saos</span>
+<span class="c1">// Could have also obtained saos by taking union of saos_alpha and saos_beta</span>
+
+<span class="c1">// Transforming SAOs in general leads to spinors. Spin (molecular) orbitals</span>
+<span class="c1">// (SOs) arise when coefficients can&#39;t mix spins</span>
+<span class="k">using</span><span class="w"> </span><span class="n">SOSpace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Transformed</span><span class="o">&lt;</span><span class="n">SAOSpace</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="n">SOSpace</span><span class="w"> </span><span class="nf">spinors</span><span class="p">(</span><span class="n">c_spinors</span><span class="p">,</span><span class="w"> </span><span class="n">saos</span><span class="p">);</span>
+<span class="n">SOSpace</span><span class="w"> </span><span class="nf">so_alpha</span><span class="p">(</span><span class="n">c_alpha</span><span class="p">,</span><span class="w"> </span><span class="n">saos_alpha</span><span class="p">);</span>
+<span class="n">SOSpace</span><span class="w"> </span><span class="nf">so_beta</span><span class="p">(</span><span class="n">c_beta</span><span class="p">,</span><span class="w"> </span><span class="n">saos_beta</span><span class="p">);</span>
+<span class="n">SOSpace</span><span class="w"> </span><span class="n">sos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">so_alpha</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">so_beta</span><span class="p">;</span><span class="w"> </span><span class="c1">// Can treat the SMOs as a unified space</span>
+
+<span class="c1">// Natural spaces diagonalize a quantity. Canonical means they diagonalize</span>
+<span class="c1">// the Fock matrix</span>
+<span class="k">using</span><span class="w"> </span><span class="n">CanonicalMOSpace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Natural</span><span class="o">&lt;</span><span class="n">MOSpace</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="n">CanonicalSOSpace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Natural</span><span class="o">&lt;</span><span class="n">SOSpace</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="c1">// Input is the diagonal elements and the orbitals</span>
+<span class="n">CanonicalMOSpace</span><span class="w"> </span><span class="nf">cmos</span><span class="p">(</span><span class="n">orbital_energies</span><span class="p">,</span><span class="w"> </span><span class="n">mos</span><span class="p">);</span>
+<span class="n">CanonicalSOSpace</span><span class="w"> </span><span class="nf">csos</span><span class="p">(</span><span class="n">spin_orbital_energies</span><span class="p">,</span><span class="w"> </span><span class="n">sos</span><span class="p">);</span>
+
+<span class="c1">// For an n-particle system, orbital products of n orbitals are then</span>
+<span class="c1">// antisymmetrized/symmetrized (for fermions/bosons respectively) to form</span>
+<span class="c1">// n-particle basis functions</span>
+<span class="k">using</span><span class="w"> </span><span class="n">RestrictedDeterminants</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Antisymmetrized</span><span class="o">&lt;</span><span class="n">CanonicalMOSpace</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="n">UnrestrictedDeterminants</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Antisymmetrized</span><span class="o">&lt;</span><span class="n">CanonicalSOSpace</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">RestrictedDeterminants</span><span class="w"> </span><span class="nf">rdeterminant</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">cmos</span><span class="p">);</span>
+<span class="n">UnrestrictedDeterminants</span><span class="w"> </span><span class="nf">udeterminant</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">csos</span><span class="p">);</span>
+
+<span class="c1">// By default the first n orbitals are used to form the reference state</span>
+<span class="c1">// Can change the reference. This call for example sets the reference to</span>
+<span class="c1">// orbitals 1 through n inclusive.</span>
+<span class="n">udeterminant</span><span class="p">.</span><span class="n">set_reference</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p">...,</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+
+<span class="c1">// We rarely want the full space of determinants. We can limit our</span>
+<span class="c1">// excitations by slicing the determinant space. Here we limit it to</span>
+<span class="c1">// single and double excitations</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">singles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rdeterminant</span><span class="p">.</span><span class="n">excitation_subspace</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">doubles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rdeterminant</span><span class="p">.</span><span class="n">excitation_subspace</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">();</span>
+
+<span class="c1">// More general slices can be accomplished by defining one or more active</span>
+<span class="c1">// spaces. The argument is the orbitals involved in the active space (the</span>
+<span class="c1">// class already knows whether those orbitals are occupied or not).</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">as</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rdeterminant</span><span class="p">.</span><span class="n">active_space</span><span class="p">({</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="design-of-the-wavefunction-component">
+<h2>Design of the Wavefunction Component<a class="headerlink" href="#design-of-the-wavefunction-component" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The design presently only includes classes which we plan to implement in
+version 1.0 of the wavefunction component.</p>
+</div>
+<figure class="align-center" id="id1">
+<img alt="../../../../_images/architecture4.png" src="../../../../_images/architecture4.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 15 </span><span class="caption-text">Classes comprising the wavefunction component of Chemist. See documentation
+for class descriptions.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<section id="fundamental-spaces">
+<h3>Fundamental Spaces<a class="headerlink" href="#fundamental-spaces" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We have opted to use the term “vector space” instead of “basis set” to avoid
+confusion with the more common practice of using “basis set” to refer to
+the parameters defining the atomic orbitals.</p>
+</div>
+<p>The classes in this sub-component of the wavefunction component represent the
+building blocks used to create the derived spaces via fundamental operations.
+Included in the fundamental spaces component are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code>. Base class signifying that something is a set of <code class="docutils literal notranslate"><span class="pre">Vector</span></code>
+objects. Provides code-factorization for derived classes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AOs</span></code>. Wrapper around an <code class="docutils literal notranslate"><span class="pre">AOBasisSet</span></code> object. In order to conform to
+expectations, we made the <code class="docutils literal notranslate"><span class="pre">AOBasisSet</span></code> object behave somewhat like the
+basis set objects found in other quantum chemistry programs. The <code class="docutils literal notranslate"><span class="pre">AOs</span></code>
+class is needed to make it interoperable with the wavefunction component.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ImplicitSpace</span></code>. Code factorization for implementing a <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code>
+object whose elements are implicit. Derived classes just need to define
+labels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Cartesian</span></code>. Class defining an <span class="math notranslate nohighlight">\(n\)</span> dimensional Cartesian space. Code
+factorization for traditional <span class="math notranslate nohighlight">\(\mathcal{R}^3\)</span> as well as other spaces
+like <span class="math notranslate nohighlight">\(\mathcal{R}^6\)</span> (space where the unique quadrupole moment
+components live).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Spin</span></code>. Class defining the spin states for a particle given the particle’s
+total spin.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">R3</span></code>. Specializes <code class="docutils literal notranslate"><span class="pre">Cartesian</span></code> to familiar “x”, “y”, “z” space.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ElectronSpin</span></code>. Specializes <code class="docutils literal notranslate"><span class="pre">Spin</span></code> to the case of an electron’s spin,
+i.e., calls the spins <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(beta\)</span> in accordance with
+usual practice.</p></li>
+</ul>
+</section>
+<section id="vectors">
+<h3>Vectors<a class="headerlink" href="#vectors" title="Link to this heading"></a></h3>
+<p>This sub-component of the wavefunction component contains classes defining
+classes that represent objects that span a vector space. In practice these
+objects are used to request a single element of a tensor via Dirac notation
+whereas <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code> objects are used to request the entire tensor.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Vector</span></code>. Base class signifying that something is an element of a
+<code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code> object. N.B. lives in the <code class="docutils literal notranslate"><span class="pre">wavefunction</span></code> namespace and
+thus unlikely to conflict with <code class="docutils literal notranslate"><span class="pre">std::vector</span></code> or other tensor-like classes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ImplicitVector</span></code>. Code factorization for representing a vector belonging to
+an <code class="docutils literal notranslate"><span class="pre">ImplicitSpace</span></code> object.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Determinant</span></code>. Code factorization for classes defining single reference
+multi-fermion wavefunctions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RDeterminant</span></code>. Denotes that the wavefunction is a Slater determinant formed
+from a product of restricted orbitals.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UDeterminant</span></code>. Denotes that the wavefunction is a Slater determinant formed
+from a product of unrestricted orbitals.</p></li>
+</ul>
+<p>Other potential classes could include strong types for specific implicit vectors
+(e.g., an <code class="docutils literal notranslate"><span class="pre">Alpha</span></code> class), explicit vectors that we don’t immediately need
+individual tensor elements of at the moment (e.g., <code class="docutils literal notranslate"><span class="pre">AO</span></code> class), or other
+multi-particle wavefunctions (e.g., <code class="docutils literal notranslate"><span class="pre">RODeterminant</span></code> or configuration state
+function).</p>
+</section>
+<section id="operations">
+<h3>Operations<a class="headerlink" href="#operations" title="Link to this heading"></a></h3>
+<p>To make the objects in the wavefunction component behave like their real
+life counterparts, we create an operations subcomponent that allows us to
+describe the mathematical relationships between vector spaces. All of these
+classes derive from <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Product</span></code>. Indicates that the resulting vector space is obtained by taking
+the tensor product of a series of vector spaces.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Transformed</span></code>. Indicates that the vector space <span class="math notranslate nohighlight">\(V\)</span> is obtained from a
+(usually) different vector space <span class="math notranslate nohighlight">\(V'\)</span> via a linear transformation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Natural</span></code>. Indicates that the vector space is spanned by the eigen vectors
+of a matrix. <code class="docutils literal notranslate"><span class="pre">Natural</span></code> essentially pairs a vector space with eigen values
+of a matrix.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Antisymmetrized</span></code>. Takes the tensor product of <span class="math notranslate nohighlight">\(n\)</span> copies of a vector
+space <span class="math notranslate nohighlight">\(V\)</span> and antisymmetrizes the result, i.e., it creates the space
+spanned by determinants formed from <span class="math notranslate nohighlight">\(n\)</span> orbitals.</p></li>
+</ul>
+<p>Other future operations could involve taking the union of vector spaces or
+symmetrized products (i.e., the space spanned by permanents).</p>
+</section>
+<section id="one-particle-derived-spaces">
+<h3>One-Particle Derived Spaces<a class="headerlink" href="#one-particle-derived-spaces" title="Link to this heading"></a></h3>
+<p>Classes in this subcomponent are obtained by applying operations to classes in
+the fundamental spaces subcomponent or to other one-particle dervied spaces.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">MOs</span></code>. A strong type to signal that a <code class="docutils literal notranslate"><span class="pre">Transformed&lt;AOs&gt;</span></code></dt><dd><p>object is being used as molecular orbitals.</p>
+</dd>
+</dl>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SAOs</span></code>. A strong type to signal that a <code class="docutils literal notranslate"><span class="pre">Product&lt;AOs,Spin&gt;</span></code> object is
+being used as spin atomic orbitals (admittedly this does not seem to be a
+common concept, but its a natural basis for spinors and more familiar
+molecular spin orbitals).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SOs</span></code>. A strong type signalling that a <code class="docutils literal notranslate"><span class="pre">Transformed&lt;SAOSpace&gt;</span></code> is a
+set of (molecular) spin orbitals.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMOs</span></code>. A strong type signalling that the molecular orbitals diagonalize
+the Fock matrix.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CSOs</span></code>. A strong type signalling that the spin orbitals diagonalize the
+Fock matrix.</p></li>
+</ul>
+<p>At conception this component is seen as largely involving a series of strong
+types. The strong types are important for two reasons: to simplify the types
+that appear in compiler errors etc. and to distinguish between, say, <code class="docutils literal notranslate"><span class="pre">MOs</span></code>
+that diagonalize the Fock matrix vs. <code class="docutils literal notranslate"><span class="pre">MOs</span></code> that diagonalize the density
+matrix.</p>
+</section>
+<section id="many-particle-derived-spaces">
+<h3>Many-Particle Derived Spaces<a class="headerlink" href="#many-particle-derived-spaces" title="Link to this heading"></a></h3>
+<p>Classes in this subcomponent are formed by taking products of one-particle
+vector spaces or by transforming other many-particle vector spaces. At present
+we do not use strong types for members because <code class="docutils literal notranslate"><span class="pre">CMOs</span></code> / <code class="docutils literal notranslate"><span class="pre">CSOs</span></code> are uniquely
+defined orbital spaces and thus the resulting <span class="math notranslate nohighlight">\(n\)</span>-particle spaces is
+also uniquely defined</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>AFAIK, there is no concise name for the various resulting spaces — e.g., I
+am unaware of a name for the <span class="math notranslate nohighlight">\(n\)</span>-fermion Hilbert space whose basis set
+is antisymmetrized tensor products of CMOs. The lack of such names is likely
+because the evaluation of the resulting equations only uses properties of the
+one-particle basis and thus it is far more important to be able to have
+terminology to distinguish among one-particle bases than many-particle bases.</p>
+</div>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><a class="reference internal" href="#wf-orbitals"><span class="std std-ref">orbitals</span></a></dt><dd><p>The wavefunction component contains classes for expressing atomic orbitals
+(usually the most fundamental set of orbitals) as well as the myriad of
+orbitals that can be derived from them.</p>
+</dd>
+<dt><a class="reference internal" href="#wf-determinants-and-permanents"><span class="std std-ref">determinants and permanents</span></a></dt><dd><p>Addressed by the <code class="docutils literal notranslate"><span class="pre">Antisymmetrize</span></code> and <code class="docutils literal notranslate"><span class="pre">Symmetrize</span></code> classes.</p>
+</dd>
+<dt><a class="reference internal" href="#wf-basis-function-vs-basis-set"><span class="std std-ref">basis function vs basis set</span></a></dt><dd><p>Addressed with the <code class="docutils literal notranslate"><span class="pre">Vector</span></code> and <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code> classes, where the former
+is an element of the latter.</p>
+</dd>
+<dt><a class="reference internal" href="#wf-implicit-vs-explicit"><span class="std std-ref">implicit vs explicit</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">ImplicitSpace</span></code> and <code class="docutils literal notranslate"><span class="pre">ImplicitVector</span></code> classes are introduced to
+respectively implement basis sets and basis functions that are typically
+only distinguished from one another by names (e.g., “x” and “y” axes).</p>
+</dd>
+<dt><a class="reference internal" href="#wf-method-dispatching"><span class="std std-ref">method dispatching</span></a></dt><dd><p>The use of strong types allows tensor elements to have different types
+depending on the wavefunctions the user provides. This in turn facilitates
+dispatching based on function overloading.</p>
+</dd>
+<dt><a class="reference internal" href="#wf-bra-ket-state"><span class="std std-ref">bra/ket state</span></a></dt><dd><p>Addressed by having the various classes in the wavefunction component possess
+state.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Design of the Wavefunction Component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../operator/index.html" class="btn btn-neutral float-right" title="Design of the Operator Component" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

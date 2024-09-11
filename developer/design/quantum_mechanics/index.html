@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Architecture of Operator Component &mdash; Chemist v1.2.9 documentation</title>
+  <title>Design of the Quantum Mechanics (QM) Component &mdash; Chemist v1.2.10 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
@@ -14,14 +14,14 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=12a3fbb3"></script>
+        <script src="../../../_static/documentation_options.js?v=b9d88732"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Operator Component Design" href="operators.html" />
-    <link rel="prev" title="Design of the Operator Component" href="index.html" /> 
+    <link rel="next" title="Architecture of the Quantum Mechanics (QM) Component" href="architecture.html" />
+    <link rel="prev" title="Designing the FragmentedChemicalSystem Class" href="../fragmenting/fragmented_chemical_system.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,7 +37,7 @@
               <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                v1.2.9
+                v1.2.10
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -58,12 +58,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../topology/index.html">Design of the Topology Component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../fragmenting/index.html">Design of the Fragmenting Component</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="index.html">Design of the Operator Component</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Architecture of Operator Component</a></li>
-<li class="toctree-l4"><a class="reference internal" href="operators.html">Operator Component Design</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Design of the Quantum Mechanics (QM) Component</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="architecture.html">Architecture of the Quantum Mechanics (QM) Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wavefunction/index.html">Design of the Wavefunction Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="operator/index.html">Design of the Operator Component</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../wavefunction/index.html">Design of the Wavefunction Component</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
@@ -92,10 +92,9 @@
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Developer Documentation</a></li>
           <li class="breadcrumb-item"><a href="../index.html">Design Documentation</a></li>
-          <li class="breadcrumb-item"><a href="index.html">Design of the Operator Component</a></li>
-      <li class="breadcrumb-item active">Architecture of Operator Component</li>
+      <li class="breadcrumb-item active">Design of the Quantum Mechanics (QM) Component</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../../_sources/developer/design/operator/architecture.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../../_sources/developer/design/quantum_mechanics/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -103,19 +102,45 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="architecture-of-operator-component">
-<span id="architecture-of-operator"></span><h1>Architecture of Operator Component<a class="headerlink" href="#architecture-of-operator-component" title="Link to this heading"></a></h1>
-<p>The need for the Operator component stemmed from the high-level
-architecture details described <a class="reference internal" href="../architecture.html#architecture-of-chemist"><span class="std std-ref">Architecture of Chemist</span></a>.</p>
-<p>TODO: Write me!!!</p>
+  <section id="design-of-the-quantum-mechanics-qm-component">
+<span id="design-of-the-quantum-mechanics-component"></span><h1>Design of the Quantum Mechanics (QM) Component<a class="headerlink" href="#design-of-the-quantum-mechanics-qm-component" title="Link to this heading"></a></h1>
+<p>Topics in this section record the design process for the QM component of
+Chemist.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The QM component of Chemist is currently under heavy-development
+and considered experimental. APIs using the QM component are
+subject to change.</p>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture of the Quantum Mechanics (QM) Component</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#what-is-the-qm-component">What is the QM Component?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#why-do-we-need-the-qm-component">Why do we need the QM component?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#qm-considerations">QM Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#example-use-cases">Example Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#design-of-the-qm-component">Design of the QM Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#qm-summary">QM Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wavefunction/index.html">Design of the Wavefunction Component</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="wavefunction/architecture.html">Architecture of Wavefunction Component</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="operator/index.html">Design of the Operator Component</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="operator/architecture.html">Architecture of Operator Component</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Design of the Operator Component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="operators.html" class="btn btn-neutral float-right" title="Operator Component Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../fragmenting/fragmented_chemical_system.html" class="btn btn-neutral float-left" title="Designing the FragmentedChemicalSystem Class" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="architecture.html" class="btn btn-neutral float-right" title="Architecture of the Quantum Mechanics (QM) Component" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,4 +1,4 @@
-.. Copyright 2023 NWChemEx-Project
+.. Copyright 2024 NWChemEx-Project
 ..
 .. Licensed under the Apache License, Version 2.0 (the "License");
 .. you may not use this file except in compliance with the License.
@@ -12,16 +12,24 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-#########################
-Operator Component Design
-#########################
+.. _design_of_the_quantum_mechanics_component:
 
-TODO: Flesh out in another PR.
+##############################################
+Design of the Quantum Mechanics (QM) Component
+##############################################
 
-.. _fig_many_electron_operators:
+Topics in this section record the design process for the QM component of
+Chemist.
 
-.. figure:: assets/many_electron_operators.png
-   :align: center
+.. note::
 
-   Class hierarchy and relationships among many-electron operators commonly
-   occurring in electronic structure theory.
+   The QM component of Chemist is currently under heavy-development
+   and considered experimental. APIs using the QM component are
+   subject to change.
+
+.. toctree::
+   :maxdepth: 2
+
+   architecture
+   wavefunction/index
+   operator/index

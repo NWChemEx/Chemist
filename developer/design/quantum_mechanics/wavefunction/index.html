@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Capping Design &mdash; Chemist v1.2.10 documentation</title>
+  <title>Design of the Wavefunction Component &mdash; Chemist v1.2.10 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/tabs.css" type="text/css" />
@@ -20,8 +20,8 @@
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="Capping Architecture" href="architecture.html" />
-    <link rel="prev" title="Designing the FragmentedBase Class" href="../fragmented_base.html" /> 
+    <link rel="next" title="Architecture of Wavefunction Component" href="architecture.html" />
+    <link rel="prev" title="Architecture of the Quantum Mechanics (QM) Component" href="../architecture.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -57,16 +57,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../../chemical_system/index.html">Design of the Chemical System Component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../topology/index.html">Design of the Topology Component</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../index.html">Design of the Fragmenting Component</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../overview.html">Designing the Fragmenting Component</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../fragmented_base.html">Designing the FragmentedBase Class</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Capping Design</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../fragmented_nuclei.html">Designing the FragmentedNuclei Class</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../fragmented_molecule.html">Designing the FragmentedMolecule Class</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../fragmented_chemical_system.html">Designing the FragmentedChemicalSystem Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fragmenting/index.html">Design of the Fragmenting Component</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html">Design of the Quantum Mechanics (QM) Component</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../architecture.html">Architecture of the Quantum Mechanics (QM) Component</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Design of the Wavefunction Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../operator/index.html">Design of the Operator Component</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../quantum_mechanics/index.html">Design of the Quantum Mechanics (QM) Component</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
@@ -95,10 +92,10 @@
       <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../index.html">Developer Documentation</a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Design Documentation</a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Design of the Fragmenting Component</a></li>
-      <li class="breadcrumb-item active">Capping Design</li>
+          <li class="breadcrumb-item"><a href="../index.html">Design of the Quantum Mechanics (QM) Component</a></li>
+      <li class="breadcrumb-item active">Design of the Wavefunction Component</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../../../_sources/developer/design/fragmenting/capping/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../../../_sources/developer/design/quantum_mechanics/wavefunction/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -106,50 +103,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="capping-design">
-<span id="id1"></span><h1>Capping Design<a class="headerlink" href="#capping-design" title="Link to this heading"></a></h1>
-<p>In <a class="reference internal" href="../overview.html#designing-the-fragmenting-component"><span class="std std-ref">Designing the Fragmenting Component</span></a> consideration <a class="reference internal" href="../overview.html#fc-caps"><span class="std std-ref">caps</span></a>
-gave rise to the need to represent caps. The capping sub component is charged
-with representing caps encountered when fragmenting chemical systems.</p>
-<section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+  <section id="design-of-the-wavefunction-component">
+<span id="id1"></span><h1>Design of the Wavefunction Component<a class="headerlink" href="#design-of-the-wavefunction-component" title="Link to this heading"></a></h1>
+<p>Topics in this section record the design process for the Wavefunction component
+of Chemist.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The wavefunction component of Chemist is currently under heavy-development
+and considered experimental. APIs using the wavefunction component are
+subject to change.</p>
+</div>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">Capping Architecture</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#what-is-a-cap">What is a Cap?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#why-do-we-need-caps">Why Do We Need Caps?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#capping-considerations">Capping Considerations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#architecture">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture of Wavefunction Component</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#what-is-the-wavefunction-component">What is the Wavefunction Component?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#why-do-we-need-a-wavefunction-component">Why do we need a Wavefunction Component?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#wavefunction-considerations">Wavefunction Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#example-use-cases">Example Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#design-of-the-wavefunction-component">Design of the Wavefunction Component</a></li>
 <li class="toctree-l2"><a class="reference internal" href="architecture.html#summary">Summary</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="cap.html">Designing the Cap Class</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cap.html#what-is-the-cap-class">What is the Cap class?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cap.html#why-do-we-need-the-cap-class">Why do we need the Cap class?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cap.html#cap-class-considerations">Cap class considerations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cap.html#capping-classes-design">Capping Classes Design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cap.html#caps-design-summary">Caps Design Summary</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="cap_set.html">Designing the CapSet Class</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cap_set.html#what-is-the-capset-class">What is the CapSet class?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cap_set.html#why-do-we-need-the-capset-class">Why do we need the CapSet class?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cap_set.html#capset-considerations">CapSet Considerations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cap_set.html#capset-design">CapSet Design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cap_set.html#capset-design-summary">CapSet Design Summary</a></li>
 </ul>
 </li>
 </ul>
 </div>
-</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../fragmented_base.html" class="btn btn-neutral float-left" title="Designing the FragmentedBase Class" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="architecture.html" class="btn btn-neutral float-right" title="Capping Architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../architecture.html" class="btn btn-neutral float-left" title="Architecture of the Quantum Mechanics (QM) Component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="architecture.html" class="btn btn-neutral float-right" title="Architecture of Wavefunction Component" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

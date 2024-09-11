@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture of Operator Component &mdash; Chemist v1.2.10 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=b9d88732"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Developing the Chemical System Component" href="../../../developing_the_chemical_system_component.html" />
+    <link rel="prev" title="Design of the Operator Component" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                v1.2.10
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installing Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Chemist Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">Design Documentation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../topology/index.html">Design of the Topology Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fragmenting/index.html">Design of the Fragmenting Component</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html">Design of the Quantum Mechanics (QM) Component</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../architecture.html">Architecture of the Quantum Mechanics (QM) Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../wavefunction/index.html">Design of the Wavefunction Component</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html">Design of the Operator Component</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../writing_views.html">Creating a New View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../the_traits_component.html">Understanding the Traits Component</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Chemist Tutorials</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Chemist</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Developer Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Design Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Design of the Quantum Mechanics (QM) Component</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Design of the Operator Component</a></li>
+      <li class="breadcrumb-item active">Architecture of Operator Component</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/developer/design/quantum_mechanics/operator/architecture.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="architecture-of-operator-component">
+<span id="architecture-of-operator"></span><h1>Architecture of Operator Component<a class="headerlink" href="#architecture-of-operator-component" title="Link to this heading"></a></h1>
+<dl class="simple">
+<dt>The need for the Operator component stemmed from discussions on the</dt><dd><p><a class="reference internal" href="../architecture.html#architecture-of-the-quantum-mechanics-component"><span class="std std-ref">Architecture of the Quantum Mechanics (QM) Component</span></a>.</p>
+</dd>
+</dl>
+<p>TODO: Write me!!!</p>
+<section id="operator-consideration">
+<h2>Operator Consideration<a class="headerlink" href="#operator-consideration" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>determinate vs. indeterminate</dt><dd><p>Most operators have a determinate form (i.e. a form that contains a set, well
+defined number of particles) and an indeterminate form (i.e., a form written
+in terms of a variable number of particles). Usually we refer to the
+indeterminate form as the “many-particle operator” and the determinate form
+as the “one-electron” (or “two-electron”) operator. Generally the
+indeterminate form is written as an indeterminate summation over determinate
+operators.</p>
+</dd>
+<dt>care with template types</dt><dd><p>In composing operators we want to be able to write something like <code class="docutils literal notranslate"><span class="pre">2J</span> <span class="pre">-</span> <span class="pre">K</span></code>
+and have that result in the same type as <code class="docutils literal notranslate"><span class="pre">-K</span> <span class="pre">+</span> <span class="pre">2J</span></code>.</p>
+</dd>
+</dl>
+</section>
+<section id="example-use-cases">
+<h2>Example Use Cases<a class="headerlink" href="#example-use-cases" title="Link to this heading"></a></h2>
+<p>The following pseudocode snippet is designed to show some high level examples
+of how we envision the operator component to be used. This snippet is used to
+motivate the design and may not actually represent the final version in Chemist.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Operators in QM are defined in terms of particles. We start by making</span>
+<span class="c1">// some particles. First for the one and two particle operators then for the</span>
+<span class="c1">// many-particle operators. Creation of particles is the responsibility of</span>
+<span class="c1">// the chemical system component</span>
+
+<span class="n">Electron</span><span class="w"> </span><span class="n">e</span><span class="p">;</span><span class="w"> </span><span class="c1">// Electrons are indistinguishable, no need to make more.</span>
+<span class="n">Nucleus</span><span class="w"> </span><span class="n">n0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_a_nucleus_object</span><span class="p">();</span>
+<span class="n">Nucleus</span><span class="w"> </span><span class="n">n1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_a_different_nucleus_object</span><span class="p">();</span>
+
+<span class="n">ManyElectrons</span><span class="w"> </span><span class="nf">electrons</span><span class="p">(</span><span class="n">n_electrons</span><span class="p">);</span>
+<span class="n">Nuclei</span><span class="w"> </span><span class="n">nuclei</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_many_nucleus_objects</span><span class="p">();</span>
+
+<span class="c1">// Creates zero-electron operators</span>
+<span class="n">Kinetic</span><span class="o">&lt;</span><span class="n">Nucleus</span><span class="o">&gt;</span><span class="w"> </span><span class="n">t_n</span><span class="p">(</span><span class="n">n0</span><span class="p">);</span><span class="w"> </span><span class="c1">// Born-Oppenheimer electronic structure won&#39;t use</span>
+<span class="n">Coulomb</span><span class="o">&lt;</span><span class="n">Nucleus</span><span class="p">,</span><span class="w"> </span><span class="n">Nucleus</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v_nn</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span><span class="w"> </span><span class="n">n1</span><span class="p">);</span>
+
+<span class="c1">// Create one-electron operators</span>
+<span class="n">Kinetic</span><span class="o">&lt;</span><span class="n">Electron</span><span class="o">&gt;</span><span class="w"> </span><span class="n">t_e</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+<span class="n">Coulomb</span><span class="o">&lt;</span><span class="n">Electron</span><span class="p">,</span><span class="w"> </span><span class="n">Nucleus</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v_enucleus</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">);</span><span class="w"> </span><span class="c1">// A piece of the next operator</span>
+<span class="n">Coulomb</span><span class="o">&lt;</span><span class="n">Electron</span><span class="p">,</span><span class="w"> </span><span class="n">Nuclei</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v_en</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">nuclei</span><span class="p">);</span>
+
+<span class="c1">// Create two-electron operator</span>
+<span class="c1">// N.b. using the same particle is fine when the particles are wave-like,</span>
+<span class="c1">// i.e., they don&#39;t have a set position</span>
+<span class="n">Coulomb</span><span class="o">&lt;</span><span class="n">Electron</span><span class="p">,</span><span class="w"> </span><span class="n">Electron</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v_ee</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">);</span>
+
+<span class="c1">// The above operators allow us to go tensor element by tensor element.</span>
+<span class="c1">// That&#39;s inefficient, but sometimes desired. In practice, we usually</span>
+<span class="c1">// create many-particle operators</span>
+
+<span class="c1">// N.b. for many particles providing the same object twice is allowed and</span>
+<span class="c1">// the i != j restriction is understood.</span>
+<span class="n">Coulomb</span><span class="o">&lt;</span><span class="n">Nuclei</span><span class="p">,</span><span class="w"> </span><span class="n">Nuclei</span><span class="o">&gt;</span><span class="w"> </span><span class="n">V_nn</span><span class="p">(</span><span class="n">nuclei</span><span class="p">,</span><span class="w"> </span><span class="n">nuclei</span><span class="p">);</span>
+<span class="n">Kinetic</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="o">&gt;</span><span class="w"> </span><span class="n">T_e</span><span class="p">(</span><span class="n">electrons</span><span class="p">);</span>
+<span class="n">Coulomb</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="p">,</span><span class="w"> </span><span class="n">Nuclei</span><span class="o">&gt;</span><span class="w"> </span><span class="n">V_en</span><span class="p">(</span><span class="n">electrons</span><span class="p">,</span><span class="w"> </span><span class="n">nuclei</span><span class="p">);</span>
+<span class="n">Coulomb</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="p">,</span><span class="w"> </span><span class="n">ManyElectron</span><span class="o">&gt;</span><span class="w"> </span><span class="n">V_ee</span><span class="p">(</span><span class="n">electrons</span><span class="p">,</span><span class="w"> </span><span class="n">electrons</span><span class="p">);</span>
+
+<span class="c1">// Make the Hamiltonian for the entire system</span>
+<span class="n">Hamiltonian</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="p">,</span><span class="w"> </span><span class="n">Nuclei</span><span class="o">&gt;</span><span class="w"> </span><span class="n">H</span><span class="p">(</span><span class="n">T_e</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">V_en</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">V_ee</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">V_nn</span><span class="p">);</span>
+
+<span class="c1">// Extract pieces</span>
+<span class="n">CoreH</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="p">,</span><span class="w"> </span><span class="n">Nuclei</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Hcore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">H</span><span class="p">.</span><span class="n">core</span><span class="p">();</span>
+<span class="n">ElectronicH</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="p">,</span><span class="w"> </span><span class="n">Nuclei</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Helec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">H</span><span class="p">.</span><span class="n">electronic</span><span class="p">();</span>
+
+<span class="c1">// Build (restricted) many-electron Fock operator</span>
+<span class="n">Density</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="o">&gt;</span><span class="w"> </span><span class="n">rho</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_one_electron_density</span><span class="p">();</span>
+<span class="n">Coulomb</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="p">,</span><span class="w"> </span><span class="n">Density</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">J</span><span class="p">(</span><span class="n">electrons</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">);</span>
+<span class="n">K_HF</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="p">,</span><span class="w"> </span><span class="n">Density</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">K</span><span class="p">(</span><span class="n">electrons</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">);</span>
+<span class="n">Fock</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="p">,</span><span class="w"> </span><span class="n">Nuclei</span><span class="o">&gt;</span><span class="w"> </span><span class="n">F</span><span class="p">(</span><span class="n">Hcore</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">J</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">K</span><span class="p">);</span>
+
+<span class="c1">// DFT</span>
+<span class="n">XC_KS</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="o">&gt;</span><span class="w"> </span><span class="n">XC</span><span class="p">(</span><span class="n">electrons</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">,</span><span class="w"> </span><span class="cm">/* enum defining the functional*/</span><span class="p">);</span>
+
+<span class="c1">// Non-hybrid DFT</span>
+<span class="n">Fock</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="p">,</span><span class="w"> </span><span class="n">Nuclei</span><span class="o">&gt;</span><span class="w"> </span><span class="n">K</span><span class="p">(</span><span class="n">Hcore</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">J</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">XC</span><span class="p">);</span>
+
+<span class="c1">// Hybrid DFT (0.5 should be replaced with the appropriate fraction of</span>
+<span class="c1">// exact exchange)</span>
+<span class="n">Fock</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="p">,</span><span class="w"> </span><span class="n">Nuclei</span><span class="o">&gt;</span><span class="w"> </span><span class="n">K_hybrid</span><span class="p">(</span><span class="n">HCore</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">J</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="n">K</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">XC</span><span class="p">);</span>
+
+<span class="c1">// Coulombic interaction with point charges</span>
+<span class="n">ChargeSet</span><span class="w"> </span><span class="n">charges</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_some_point_charges</span><span class="p">();</span>
+<span class="n">Coulomb</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="p">,</span><span class="w"> </span><span class="n">ChargeSet</span><span class="o">&gt;</span><span class="w"> </span><span class="n">V_eq</span><span class="p">(</span><span class="n">electrons</span><span class="p">,</span><span class="w"> </span><span class="n">charges</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="design-of-the-operator-component">
+<h2>Design of the Operator Component<a class="headerlink" href="#design-of-the-operator-component" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Many operators are templated on <code class="docutils literal notranslate"><span class="pre">T</span></code> the type of particle contributing to
+the operator. If <code class="docutils literal notranslate"><span class="pre">T</span></code> is the type of a class for a single particle (e.g.,
+<code class="docutils literal notranslate"><span class="pre">Electron</span></code> or <code class="docutils literal notranslate"><span class="pre">Nucleus</span></code>) then the operator is a single-particle
+operator. If <code class="docutils literal notranslate"><span class="pre">T</span></code> is the type of a class for an indeterminate number of
+particles (e.g., <code class="docutils literal notranslate"><span class="pre">ManyElectron</span></code> or <code class="docutils literal notranslate"><span class="pre">Nuclei</span></code>) then the operator is a
+many-particle operator. For operators involving more than one type of
+particle the same logic applies to the other template parameters.</p>
+</div>
+<figure class="align-center" id="id1">
+<img alt="../../../../_images/architecture3.png" src="../../../../_images/architecture3.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 16 </span><span class="caption-text">Classes comprising the operator component of Chemist.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">OperatorBase&lt;T...&gt;</span></code>. This class is used to factor out common functionality,
+like holding/accessing objects of type <code class="docutils literal notranslate"><span class="pre">T</span></code>, and also to store scale factors.</p></li>
+</ul>
+<section id="fundamental-operators">
+<h3>Fundamental Operators<a class="headerlink" href="#fundamental-operators" title="Link to this heading"></a></h3>
+<p>Operators in this sub component are comprised of single interaction (though it
+may be over an indefinite number of particles).</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Kinetic&lt;T&gt;</span></code>. Describes the kinetic energy of a type of particle.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Coulomb&lt;T,U&gt;</span></code>. Describes the charge-charge interaction between particles.
+The particles may have the same type (<code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">==</span> <span class="pre">U</span></code>) or they may be different
+(<code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">!=</span> <span class="pre">U</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">K_HF&lt;T,D&gt;</span></code>. Hartree-Fock exchange of a particle of type <code class="docutils literal notranslate"><span class="pre">T</span></code> with a
+density of type <code class="docutils literal notranslate"><span class="pre">D</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">XC_KS&lt;T,D&gt;</span></code>. Kohn-Sham exchange-correlation operator for a particle of type
+<code class="docutils literal notranslate"><span class="pre">T</span></code> with a density of type <code class="docutils literal notranslate"><span class="pre">D</span></code>.</p></li>
+</ul>
+<p>Other potential operators include Dirac delta function, identity operator, and
+multipole moment operator.</p>
+</section>
+<section id="derived-operators">
+<h3>Derived Operators<a class="headerlink" href="#derived-operators" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The operator and wavefunction component will leverage the same set of classes
+for denoting operations.</p>
+</div>
+<p>Operators in this component are obtained by combining fundamental operators or
+other derived operators.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Hamiltonian&lt;T...&gt;</span></code>. Represents the total Hamiltonian for the system. Can
+be decomposed into its various pieces.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Fock&lt;T,</span> <span class="pre">U...&gt;</span></code>. Represents an effective one-particle potential for a
+particle of type <code class="docutils literal notranslate"><span class="pre">T</span></code> that interacts with objects of type <code class="docutils literal notranslate"><span class="pre">U...</span></code>. For
+Hartree-Fock this is the true Fock operator, for density functional theory
+this is the Kohn-Sham operator.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ElectronicH&lt;T,</span> <span class="pre">U...&gt;</span></code>. Pieces of the Hamiltonian that depend explicitly on
+electrons of type <code class="docutils literal notranslate"><span class="pre">T</span></code> (assumed to be either <code class="docutils literal notranslate"><span class="pre">Electron</span></code> or
+<code class="docutils literal notranslate"><span class="pre">ManyElectron</span></code>) interacting with objects of type <code class="docutils literal notranslate"><span class="pre">U...</span></code>. Primarily a
+strong type to distinguish from the full Hamiltonian.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CoreH&lt;T,U,...&gt;</span></code>. Represents the exact Hamiltonian for a particle of type
+<code class="docutils literal notranslate"><span class="pre">T</span></code> interacting with objects of type <code class="docutils literal notranslate"><span class="pre">U...</span></code>.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Design of the Operator Component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../../developing_the_chemical_system_component.html" class="btn btn-neutral float-right" title="Developing the Chemical System Component" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

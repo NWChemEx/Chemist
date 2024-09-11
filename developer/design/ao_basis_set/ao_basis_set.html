@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Designing the AOBasisSet Component &mdash; Chemist v1.2.9 documentation</title>
+  <title>Designing the AOBasisSet Component &mdash; Chemist v1.2.10 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
@@ -14,7 +14,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=12a3fbb3"></script>
+        <script src="../../../_static/documentation_options.js?v=b9d88732"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -38,7 +38,7 @@
               <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                v1.2.9
+                v1.2.10
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -62,8 +62,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../topology/index.html">Design of the Topology Component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../fragmenting/index.html">Design of the Fragmenting Component</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../operator/index.html">Design of the Operator Component</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../wavefunction/index.html">Design of the Wavefunction Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quantum_mechanics/index.html">Design of the Quantum Mechanics (QM) Component</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
@@ -119,7 +118,8 @@ basis set we mean a set of AOs used as a basis set for forming molecular
 orbitals (MOs). The AO basis set is limited to representing the parameters
 necessary to construct the set of AOs, <em>i.e.</em>, representing the space spanned
 by the AOs is outside the scope of the <code class="docutils literal notranslate"><span class="pre">AOBasisSet</span></code> class (as detailed in
-<a class="reference internal" href="../wavefunction/vector_spaces.html#vsd-design"><span class="std std-ref">Vector Space Design</span></a> representing this space falls to the <code class="docutils literal notranslate"><span class="pre">AOSpace</span></code> class).</p>
+<a class="reference internal" href="../quantum_mechanics/wavefunction/architecture.html#architecture-of-wavefunction"><span class="std std-ref">Architecture of Wavefunction Component</span></a> representing this space falls to the
+<code class="docutils literal notranslate"><span class="pre">AOSpace</span></code> class).</p>
 </section>
 <section id="why-do-we-need-an-aobasisset">
 <h2>Why do we need an AOBasisSet?<a class="headerlink" href="#why-do-we-need-an-aobasisset" title="Link to this heading"></a></h2>

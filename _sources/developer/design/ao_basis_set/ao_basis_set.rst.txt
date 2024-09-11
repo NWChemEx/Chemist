@@ -35,7 +35,8 @@ basis set we mean a set of AOs used as a basis set for forming molecular
 orbitals (MOs). The AO basis set is limited to representing the parameters
 necessary to construct the set of AOs, *i.e.*, representing the space spanned
 by the AOs is outside the scope of the ``AOBasisSet`` class (as detailed in
-:ref:`vsd_design` representing this space falls to the ``AOSpace`` class).
+:ref:`architecture_of_wavefunction` representing this space falls to the
+``AOSpace`` class).
 
 *****************************
 Why do we need an AOBasisSet?
@@ -68,7 +69,7 @@ Performance
      being able to use floats, instead of doubles, leads to significant speed
      ups (when doing so does not compromise accuracy).
    - views also allow others to use existing basis sets seamlessly with our
-     infrastructure, without copying!  
+     infrastructure, without copying!
 
 .. _ao_spherical_vs_cartesian:
 

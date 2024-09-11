@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture of the Quantum Mechanics (QM) Component &mdash; Chemist v1.2.10 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=b9d88732"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Design of the Wavefunction Component" href="wavefunction/index.html" />
+    <link rel="prev" title="Design of the Quantum Mechanics (QM) Component" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                v1.2.10
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installing Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../topology/index.html">Design of the Topology Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fragmenting/index.html">Design of the Fragmenting Component</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Design of the Quantum Mechanics (QM) Component</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Architecture of the Quantum Mechanics (QM) Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wavefunction/index.html">Design of the Wavefunction Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="operator/index.html">Design of the Operator Component</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../writing_views.html">Creating a New View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../the_traits_component.html">Understanding the Traits Component</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Chemist Tutorials</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Chemist</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Developer Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Design Documentation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Design of the Quantum Mechanics (QM) Component</a></li>
+      <li class="breadcrumb-item active">Architecture of the Quantum Mechanics (QM) Component</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/developer/design/quantum_mechanics/architecture.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="architecture-of-the-quantum-mechanics-qm-component">
+<span id="architecture-of-the-quantum-mechanics-component"></span><h1>Architecture of the Quantum Mechanics (QM) Component<a class="headerlink" href="#architecture-of-the-quantum-mechanics-qm-component" title="Link to this heading"></a></h1>
+<p>The need for the QM component stemmed from the high-level
+architecture details described <a class="reference internal" href="../architecture.html#architecture-of-chemist"><span class="std std-ref">Architecture of Chemist</span></a>.</p>
+<section id="what-is-the-qm-component">
+<h2>What is the QM Component?<a class="headerlink" href="#what-is-the-qm-component" title="Link to this heading"></a></h2>
+<p>The chemical system component of Chemist is used to describe the chemistry the
+user wants to do. To compute the quantities of interest the chemical system
+must be mapped to quantum mechanical equations. The QM component is charged with
+describing the resulting equations.</p>
+</section>
+<section id="why-do-we-need-the-qm-component">
+<h2>Why do we need the QM component?<a class="headerlink" href="#why-do-we-need-the-qm-component" title="Link to this heading"></a></h2>
+<p>The QM component constitutes a <a class="reference internal" href="../../../background/terminology.html#term-DSL"><span class="xref std std-term">DSL</span></a> for specifying tensors and tensor
+elements using a bra-ket like syntax. This is the key to being able to specify
+electronic structure methods using programmatic abstractions that behave like
+the physics they implement.  For example, want to do DFT vs SCF? Add an operator
+for the exchange-correlation potential. Want to freeze the core electrons in
+the calculation of the correlation energy? Simply delete the terms involving
+core excitations. Want to do MP2-F12 vs traditional MP2? Add a term to the
+wavefunction that is linear in the electron-electron separation. Ultimately,
+there are a ton of potential methods which stem from combinations of
+enabling/disabling operators and wavefunction choices. A DSL allows us to
+express them all, whether or not we have names for the approximation.</p>
+</section>
+<section id="qm-considerations">
+<h2>QM Considerations<a class="headerlink" href="#qm-considerations" title="Link to this heading"></a></h2>
+<dl class="simple" id="qm-dirac-notation">
+<dt>Dirac notation</dt><dd><p>The “natural” way to write QM equations is in Dirac notation. The QM
+component should start in Dirac notation and end in tensor equations</p>
+</dd>
+</dl>
+<dl class="simple" id="qm-tensor-equations">
+<dt>tensor equations</dt><dd><p>Modern scientific computing is tensor-based. The resulting tensor equations
+should specify the tensor operations needed to compute the property of
+interest and know where to get the input values from.</p>
+</dd>
+</dl>
+<dl class="simple" id="qm-operators">
+<dt>operators</dt><dd><p>To write Dirac notation we require two things: operators and wavefunctions.
+The operators describe the interactions/property to compute.</p>
+</dd>
+</dl>
+<dl class="simple" id="qm-wavefunctions">
+<dt>wavefunctions</dt><dd><p>To write Dirac notation we require two things: operators and wavefunctions.
+The wavefunctions describe the QM state of the system.</p>
+</dd>
+</dl>
+</section>
+<section id="example-use-cases">
+<h2>Example Use Cases<a class="headerlink" href="#example-use-cases" title="Link to this heading"></a></h2>
+<p>The following pseudocode illustrates how pieces of the QM component are used to
+“calculate” quantities. This is an aspirational code snippet and may not
+reflect the final DSL.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">Hamiltonian</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="p">,</span><span class="w"> </span><span class="n">Nuclei</span><span class="o">&gt;</span><span class="w"> </span><span class="n">H</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_molecular_hamiltonian</span><span class="p">();</span>
+<span class="n">RDeterminant</span><span class="w"> </span><span class="n">Psi</span><span class="w">                    </span><span class="o">=</span><span class="w"> </span><span class="n">get_determinant</span><span class="p">();</span>
+
+<span class="c1">// actually declares a BraKet instance, E, relying on C++17&#39;s CTAD to work</span>
+<span class="c1">// out the template type parameters.</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BraKet</span><span class="p">(</span><span class="n">Psi</span><span class="p">,</span><span class="w"> </span><span class="n">H</span><span class="p">,</span><span class="w"> </span><span class="n">Psi</span><span class="p">);</span>
+
+<span class="c1">// Again E_elec is a BraKet instance and not the actual energy</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">E_elec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BraKet</span><span class="p">(</span><span class="n">Psi</span><span class="p">,</span><span class="w"> </span><span class="n">H</span><span class="p">.</span><span class="n">electronic</span><span class="p">(),</span><span class="w"> </span><span class="n">Psi</span><span class="p">);</span>
+
+<span class="c1">// Use other operators to get other terms</span>
+<span class="n">Kinetic</span><span class="o">&lt;</span><span class="n">ManyElectron</span><span class="o">&gt;</span><span class="w"> </span><span class="n">T_e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_many_electron_kinetic_energy_operator</span><span class="p">();</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">E_kinetic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BraKet</span><span class="p">(</span><span class="n">Psi</span><span class="p">,</span><span class="w"> </span><span class="n">T_e</span><span class="p">,</span><span class="w"> </span><span class="n">Psi</span><span class="p">);</span>
+
+<span class="n">CMOs</span><span class="w"> </span><span class="n">cmos</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="n">get_orbitals</span><span class="p">();</span><span class="w"> </span><span class="c1">// Get the orbitals used to build Psi</span>
+<span class="n">Kinetic</span><span class="o">&lt;</span><span class="n">Electron</span><span class="o">&gt;</span><span class="w"> </span><span class="n">t_e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_one_electron_kinetic_energy_operator</span><span class="p">();</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">t_matrix</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">BraKet</span><span class="p">(</span><span class="n">cmos</span><span class="p">,</span><span class="w"> </span><span class="n">t_e</span><span class="p">,</span><span class="w"> </span><span class="n">cmos</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="design-of-the-qm-component">
+<h2>Design of the QM Component<a class="headerlink" href="#design-of-the-qm-component" title="Link to this heading"></a></h2>
+<p>TODO: BraKet class for Dirac notation
+TODO: SeQuant connection for tensor equations.</p>
+<section id="operators">
+<h3>Operators<a class="headerlink" href="#operators" title="Link to this heading"></a></h3>
+<p>Main article: <a class="reference internal" href="operator/architecture.html#architecture-of-operator"><span class="std std-ref">Architecture of Operator Component</span></a>.</p>
+</section>
+<section id="wavefunctions">
+<h3>Wavefunctions<a class="headerlink" href="#wavefunctions" title="Link to this heading"></a></h3>
+<p>Main article: <a class="reference internal" href="wavefunction/architecture.html#architecture-of-wavefunction"><span class="std std-ref">Architecture of Wavefunction Component</span></a>.</p>
+</section>
+</section>
+<section id="qm-summary">
+<h2>QM Summary<a class="headerlink" href="#qm-summary" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><a class="reference internal" href="#qm-dirac-notation"><span class="std std-ref">Dirac notation</span></a></dt><dd><p>We have…</p>
+</dd>
+<dt><a class="reference internal" href="#qm-tensor-equations"><span class="std std-ref">tensor equations</span></a></dt><dd><p>We have…</p>
+</dd>
+<dt><a class="reference internal" href="#qm-operators"><span class="std std-ref">operators</span></a></dt><dd><p>We have created the operator subcomponent to address this consideration.</p>
+</dd>
+<dt><a class="reference internal" href="#qm-wavefunctions"><span class="std std-ref">wavefunctions</span></a></dt><dd><p>We have created the wavefunction subcomponent to address this consideration.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Design of the Quantum Mechanics (QM) Component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="wavefunction/index.html" class="btn btn-neutral float-right" title="Design of the Wavefunction Component" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

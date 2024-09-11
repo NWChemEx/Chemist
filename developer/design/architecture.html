@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Architecture of Chemist &mdash; Chemist v1.2.9 documentation</title>
+  <title>Architecture of Chemist &mdash; Chemist v1.2.10 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
@@ -14,7 +14,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=12a3fbb3"></script>
+        <script src="../../_static/documentation_options.js?v=b9d88732"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                v1.2.9
+                v1.2.10
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -62,8 +62,7 @@
 <li class="toctree-l3"><a class="reference internal" href="ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="topology/index.html">Design of the Topology Component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fragmenting/index.html">Design of the Fragmenting Component</a></li>
-<li class="toctree-l3"><a class="reference internal" href="operator/index.html">Design of the Operator Component</a></li>
-<li class="toctree-l3"><a class="reference internal" href="wavefunction/index.html">Design of the Wavefunction Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantum_mechanics/index.html">Design of the Quantum Mechanics (QM) Component</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
@@ -152,13 +151,12 @@ severed bonds. Such considerations can be decoupled from the chemical
 system component.</p></li>
 </ul>
 </dd>
-<dt>Quantum mechanics.</dt><dd><p>The heart of quantum chemistry is that chemistry is fully described by
-quantum mechanics. Thus whatever chemical question we have, quantum
-mechanics should be able to answer. Since we want to get an answer from
-quantum mechanics, it’s best to phrase the question using quantum mechanics,
+<dt>Quantum mechanics.</dt><dd><p>Quantum chemistry is predicated on the fact that chemistry can be fully
+described by the equations of quantum mechanics. Since we want to get an
+answer from quantum mechanics, it’s best to phrase the question in terms
+of quantum mechanical objects such as operators and wavefunctions.
 and we thus also need a software representation of quantum mechanical
-concepts. (TODO: this is supposed to motivate operator/wavefunction
-components).</p>
+concepts.</p>
 </dd>
 <dt>Classical mechanics.</dt><dd><p>Quantum is expensive some mix of QM and classical mechanics is likely to be
 inevitable for the foreseeable future. We need the ability to seamlessly
@@ -215,13 +213,9 @@ represents the relationship among a superset <code class="docutils literal notra
 that object. The fragmenting component also contains classes like <code class="docutils literal notranslate"><span class="pre">Cap</span></code> which
 arise because fragmenting can “break” covalent bonds.</p>
 </section>
-<section id="operator-component">
-<h3>Operator component<a class="headerlink" href="#operator-component" title="Link to this heading"></a></h3>
-<p>Main Discussion: <a class="reference internal" href="operator/index.html#design-of-the-operator-component"><span class="std std-ref">Design of the Operator Component</span></a>.</p>
-</section>
-<section id="wavefunction-component">
-<h3>Wavefunction component<a class="headerlink" href="#wavefunction-component" title="Link to this heading"></a></h3>
-<p>Main Discussion: <a class="reference internal" href="wavefunction/index.html#design-of-the-wavefunction-component"><span class="std std-ref">Design of the Wavefunction Component</span></a>.</p>
+<section id="quantum-mechanics-component">
+<h3>Quantum mechanics component<a class="headerlink" href="#quantum-mechanics-component" title="Link to this heading"></a></h3>
+<p>Main Discussion: <a class="reference internal" href="quantum_mechanics/index.html#design-of-the-quantum-mechanics-component"><span class="std std-ref">Design of the Quantum Mechanics (QM) Component</span></a>.</p>
 </section>
 </section>
 </section>
