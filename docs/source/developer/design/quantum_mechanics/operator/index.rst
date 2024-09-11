@@ -12,25 +12,22 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-.. _design_of_the_wavefunction_component:
+.. _design_of_the_operator_component:
 
-####################################
-Design of the Wavefunction Component
-####################################
+################################
+Design of the Operator Component
+################################
 
-Topics in this section record the design process for the Wavefunction component
-of Chemist.
+Topics in this section record the design process for the Operator component of
+Chemist.
 
 .. note::
 
-   The wavefunction component of Chemist is currently under heavy-development
-   and considered experimental. APIs using the wavefunction component are
-   subject to change.
+   The operator component is under heavy-development and considered
+   experimental. This means that the API is not considered stable and is subject
+   to change without notice.
 
 .. toctree::
    :maxdepth: 2
 
    architecture
-   vector_spaces
-   reference_space
-   wavefunction

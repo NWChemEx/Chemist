@@ -26,5 +26,4 @@ Topics in this section record the design process for the Chemist library.
    ao_basis_set/index
    topology/index
    fragmenting/index
-   operator/index
-   wavefunction/index
+   quantum_mechanics/index
