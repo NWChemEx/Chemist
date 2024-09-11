@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../catch.hpp"
 #include <chemist/fragmenting/capping/cap_set.hpp>
 
 using namespace chemist::fragmenting;

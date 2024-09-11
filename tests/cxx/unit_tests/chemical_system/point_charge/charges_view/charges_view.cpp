@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../../catch.hpp"
 #include <chemist/chemical_system/point_charge/charges_view/charges_view.hpp>
 #include <sstream>
 

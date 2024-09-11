@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../catch.hpp"
 #include <chemist/basis_set/primitive/primitive.hpp>
 #include <chemist/basis_set/primitive/primitive_traits.hpp>
 #include <chemist/basis_set/primitive/primitive_view.hpp>

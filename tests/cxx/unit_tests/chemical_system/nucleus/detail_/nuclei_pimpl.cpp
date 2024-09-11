@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <catch2/catch.hpp>
+#include "../../../catch.hpp"
 #include <chemist/chemical_system/nucleus/detail_/nuclei_pimpl.hpp>
 
 using namespace chemist::detail_;
