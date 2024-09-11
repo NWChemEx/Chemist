@@ -36,6 +36,10 @@ determinate vs. indeterminate
    indeterminate form is written as an indeterminate summation over determinate
    operators.
 
+care with template types
+   In composing operators we want to be able to write something like ``2J - K``
+   and have that result in the same type as ``-K + 2J``.
+
 *****************
 Example Use Cases
 *****************
@@ -92,6 +96,83 @@ motivate the design and may not actually represent the final version in Chemist.
 
     // Build (restricted) many-electron Fock operator
     Density<ManyElectron> rho = get_one_electron_density();
-    J_HF<ManyElectron> J(electrons, rho);
-    K_HF<ManyElectron> K(electrons, rho);
+    Coulomb<ManyElectron, Density<ManyElectron>> J(electrons, rho);
+    K_HF<ManyElectron, Density<ManyElectron>> K(electrons, rho);
     Fock<ManyElectron, Nuclei> F(Hcore + 2.0 * J - K);
+
+    // DFT
+    XC_KS<ManyElectron> XC(electrons, rho, /* enum defining the functional*/);
+
+    // Non-hybrid DFT
+    Fock<ManyElectron, Nuclei> K(Hcore + 2.0 * J + XC);
+
+    // Hybrid DFT (0.5 should be replaced with the appropriate fraction of
+    // exact exchange)
+    Fock<ManyElectron, Nuclei> K_hybrid(HCore + 2.0 * J - 0.5 *K + XC);
+
+    // Coulombic interaction with point charges
+    ChargeSet charges = get_some_point_charges();
+    Coulomb<ManyElectron, ChargeSet> V_eq(electrons, charges);
+
+********************************
+Design of the Operator Component
+********************************
+
+.. note::
+   Many operators are templated on ``T`` the type of particle contributing to
+   the operator. If ``T`` is the type of a class for a single particle (e.g.,
+   ``Electron`` or ``Nucleus``) then the operator is a single-particle
+   operator. If ``T`` is the type of a class for an indeterminate number of
+   particles (e.g., ``ManyElectron`` or ``Nuclei``) then the operator is a
+   many-particle operator. For operators involving more than one type of
+   particle the same logic applies to the other template parameters.
+
+.. figure:: assets/architecture.png
+   :align: center
+
+   Classes comprising the operator component of Chemist.
+
+- ``OperatorBase<T...>``. This class is used to factor out common functionality,
+  like holding/accessing objects of type ``T``, and also to store scale factors.
+
+Fundamental Operators
+=====================
+
+Operators in this sub component are comprised of single interaction (though it
+may be over an indefinite number of particles).
+
+- ``Kinetic<T>``. Describes the kinetic energy of a type of particle.
+- ``Coulomb<T,U>``. Describes the charge-charge interaction between particles.
+  The particles may have the same type (``T == U``) or they may be different
+  (``T != U``).
+- ``K_HF<T,D>``. Hartree-Fock exchange of a particle of type ``T`` with a
+  density of type ``D``.
+- ``XC_KS<T,D>``. Kohn-Sham exchange-correlation operator for a particle of type
+  ``T`` with a density of type ``D``.
+
+Other potential operators include Dirac delta function, identity operator, and
+multipole moment operator.
+
+Derived Operators
+=================
+
+.. note::
+
+   The operator and wavefunction component will leverage the same set of classes
+   for denoting operations.
+
+Operators in this component are obtained by combining fundamental operators or
+other derived operators.
+
+- ``Hamiltonian<T...>``. Represents the total Hamiltonian for the system. Can
+  be decomposed into its various pieces.
+- ``Fock<T, U...>``. Represents an effective one-particle potential for a
+  particle of type ``T`` that interacts with objects of type ``U...``. For
+  Hartree-Fock this is the true Fock operator, for density functional theory
+  this is the Kohn-Sham operator.
+- ``ElectronicH<T, U...>``. Pieces of the Hamiltonian that depend explicitly on
+  electrons of type ``T`` (assumed to be either ``Electron`` or
+  ``ManyElectron``) interacting with objects of type ``U...``. Primarily a
+  strong type to distinguish from the full Hamiltonian.
+- ``CoreH<T,U,...>``. Represents the exact Hamiltonian for a particle of type
+  ``T`` interacting with objects of type ``U...``.
