@@ -38,6 +38,14 @@ class TestMolecule(unittest.TestCase):
         self.assertEqual(self.defaulted.at(1), self.a1.nucleus)
         self.assertEqual(self.defaulted, self.has_value)
 
+    def test_nuclei(self):
+        corr_value = chemist.Nuclei()
+        self.assertEqual(self.defaulted.nuclei, corr_value)
+
+        corr_value.push_back(self.a0.nucleus)
+        corr_value.push_back(self.a1.nucleus)
+        self.assertEqual(self.has_value.nuclei, corr_value)
+
     def test_at(self):
         # Check values
         n0 = self.has_value.at(0)
