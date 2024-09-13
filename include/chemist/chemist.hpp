@@ -30,6 +30,7 @@
 #include <chemist/enums.hpp>
 #include <chemist/fragmenting/fragmenting.hpp>
 #include <chemist/point/point.hpp>
+#include <chemist/quantum_mechanics/quantum_mechanics.hpp>
 #include <chemist/topology/topology.hpp>
 
 /**

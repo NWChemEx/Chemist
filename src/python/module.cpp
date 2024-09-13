@@ -20,6 +20,7 @@
 #include "fragmenting/export_fragmenting.hpp"
 #include "point/export_point.hpp"
 #include "pychemist.hpp"
+#include "quantum_mechanics/export_quantum_mechanics.hpp"
 
 namespace chemist {
 
@@ -43,6 +44,7 @@ PYBIND11_MODULE(chemist, m) {
 
     export_chemist_enums(m);
     export_basis_set(m);
+    export_quantum_mechanics(m);
 
     fragmenting::export_fragmenting(m);
 }

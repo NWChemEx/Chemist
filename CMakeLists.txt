@@ -60,18 +60,14 @@ cmaize_find_or_build_dependency(
     CMAKE_ARGS BUILD_TESTING=OFF
 )
 
-# TODO: uncomment when higher version of CMaize is used by NWX
-# cmaize_find_or_build_optional_dependency(
-#     tensorwrapper
-#     ENABLE_EXPERIMENTAL_FEATURES
-#     URL github.com/NWChemEx/TensorWrapper
-#     PRIVATE TRUE
-#     VERSION ${NWX_TENSORWRAPPER_VERSION}
-#     BUILD_TARGET tensorwrapper
-#     FIND_TARGET nwx::tensorwrapper
-#     CMAKE_ARGS BUILD_TESTING=OFF
-# )
-
+cmaize_find_or_build_dependency(
+    tensorwrapper
+    URL github.com/NWChemEx/TensorWrapper
+    VERSION ${NWX_TENSORWRAPPER_VERSION}
+    BUILD_TARGET tensorwrapper
+    FIND_TARGET nwx::tensorwrapper
+    CMAKE_ARGS BUILD_TESTING=OFF
+)
 
 find_package(Boost REQUIRED)
 
@@ -79,19 +75,10 @@ cmaize_add_library(
     ${PROJECT_NAME}
     SOURCE_DIR "${CHEMIST_SOURCE_DIR}/chemist"
     INCLUDE_DIRS "${CHEMIST_INCLUDE_DIR}/chemist"
-    DEPENDS parallelzone utilities Boost::boost
+    DEPENDS tensorwrapper parallelzone utilities Boost::boost
 )
 
 if("${ENABLE_EXPERIMENTAL_FEATURES}")
-    cmaize_find_or_build_dependency(
-        tensorwrapper
-        URL github.com/NWChemEx/TensorWrapper
-        PRIVATE TRUE
-        BUILD_TARGET tensorwrapper
-        FIND_TARGET nwx::tensorwrapper
-        CMAKE_ARGS BUILD_TESTING=OFF
-    )
-
     cmaize_add_library(
         experimental_${PROJECT_NAME}
         SOURCE_DIR "${CHEMIST_EXP_DIR}/src/chemist"
