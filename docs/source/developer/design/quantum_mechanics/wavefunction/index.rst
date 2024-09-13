@@ -31,3 +31,4 @@ of Chemist.
    :maxdepth: 2
 
    architecture
+   vector_space
