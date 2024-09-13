@@ -78,6 +78,7 @@ var menudata={children:[
 {text:"o",url:"functions_func_o.html#index_o"},
 {text:"p",url:"functions_func_p.html#index_p"},
 {text:"s",url:"functions_func_s.html#index_s"},
+{text:"v",url:"functions_func_v.html#index_v"},
 {text:"x",url:"functions_func_x.html#index_x"},
 {text:"y",url:"functions_func_y.html#index_y"},
 {text:"z",url:"functions_func_z.html#index_z"},
@@ -85,6 +86,7 @@ var menudata={children:[
 {text:"Variables",url:"functions_vars.html"},
 {text:"Typedefs",url:"functions_type.html",children:[
 {text:"a",url:"functions_type.html#index_a"},
+{text:"b",url:"functions_type_b.html#index_b"},
 {text:"c",url:"functions_type_c.html#index_c"},
 {text:"e",url:"functions_type_e.html#index_e"},
 {text:"f",url:"functions_type_f.html#index_f"},
