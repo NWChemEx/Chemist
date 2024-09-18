@@ -15,12 +15,13 @@
 import chemist
 import unittest
 
+
 class TestManyElectrons(unittest.TestCase):
 
     def test_default_ctor(self):
         self.assertEqual(self.defaulted.size(), 0)
 
-    def test_value_ctor(self): 
+    def test_value_ctor(self):
         self.assertEqual(self.value.size(), 2)
         self.assertEqual(self.value.at(0), chemist.Electron())
         self.assertEqual(self.value.at(1), chemist.Electron())
@@ -36,7 +37,7 @@ class TestManyElectrons(unittest.TestCase):
     def test_value_equal(self):
         self.assertEqual(self.defaulted, chemist.ManyElectrons())
         self.assertEqual(self.value, chemist.ManyElectrons(2))
-    
+
     def test_different(self):
         self.assertNotEqual(self.defaulted, self.value)
         self.assertNotEqual(self.value, chemist.ManyElectrons(3))

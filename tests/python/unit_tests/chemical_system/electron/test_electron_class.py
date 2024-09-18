@@ -15,11 +15,12 @@
 import chemist
 import unittest
 
+
 class TestElectronClass(unittest.TestCase):
 
     def test_value_equal(self):
         self.assertEqual(self.e, chemist.Electron())
-    
+
     def test_different(self):
         self.assertFalse(self.e != chemist.Electron())
 
