@@ -1,4 +1,3 @@
-#
 # Copyright 2023 NWChemEx-Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,20 +11,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-import os
-import parallelzone as pz
-import sys
+import chemist
 import unittest
 
-if __name__ == '__main__':
-    rv = pz.runtime.RuntimeView()
+class TestElectronClass(unittest.TestCase):
 
-    my_dir = os.path.dirname(os.path.realpath(__file__))
+    def test_value_equal(self):
+        self.assertEqual(self.e, chemist.Electron())
+    
+    def test_different(self):
+        self.assertFalse(self.e != chemist.Electron())
 
-    loader = unittest.TestLoader()
-    tests = loader.discover(my_dir)
-    testrunner = unittest.runner.TextTestRunner()
-    ret = not testrunner.run(tests).wasSuccessful()
-    sys.exit(ret)
+    def setUp(self):
+        self.e = chemist.Electron()

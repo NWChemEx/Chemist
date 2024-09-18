@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 NWChemEx-Project
+ * Copyright 2023 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-#include "chemist/electrons/electron.hpp"
-#include <catch2/catch.hpp>
+#include "../../catch.hpp"
+#include "../../test_helpers.hpp"
+#include <chemist/chemical_system/electron/electron_class.hpp>
 
 TEST_CASE("Electron") {
-    chemist::Electron i, j;
+    using chemist::Electron;
 
-    SECTION("Comparisons") {
-        REQUIRE(i == j);
-        REQUIRE_FALSE(i != j);
+    Electron e;
+
+    SECTION("copy/move ctor/assignment") {
+        test_chemist::test_copy_and_move(e);
     }
+
+    SECTION("operator==") { REQUIRE(e == Electron{}); }
+    SECTION("operator!=") { REQUIRE_FALSE(e != Electron{}); }
 }
