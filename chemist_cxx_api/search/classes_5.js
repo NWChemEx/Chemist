@@ -1,23 +1,12 @@
 var searchData=
 [
-  ['point_532',['Point',['../classchemist_1_1Point.html',1,'chemist']]],
-  ['point_3c_20double_20_3e_533',['Point&lt; double &gt;',['../classchemist_1_1Point.html',1,'chemist']]],
-  ['pointcharge_534',['PointCharge',['../classchemist_1_1PointCharge.html',1,'chemist']]],
-  ['pointcharge_3c_20double_20_3e_535',['PointCharge&lt; double &gt;',['../classchemist_1_1PointCharge.html',1,'chemist']]],
-  ['pointchargeview_536',['PointChargeView',['../classchemist_1_1PointChargeView.html',1,'chemist']]],
-  ['pointchargeview_3c_20std_3a_3aremove_5freference_5ft_3c_20chemistclasstraits_3c_20nucleustype_20_3e_3a_3apoint_5fcharge_5ftraits_3a_3areference_20_3e_20_3e_537',['PointChargeView&lt; std::remove_reference_t&lt; ChemistClassTraits&lt; NucleusType &gt;::point_charge_traits::reference &gt; &gt;',['../classchemist_1_1PointChargeView.html',1,'chemist']]],
-  ['pointpimpl_538',['PointPIMPL',['../classchemist_1_1detail___1_1PointPIMPL.html',1,'chemist::detail_']]],
-  ['pointset_539',['PointSet',['../classchemist_1_1PointSet.html',1,'chemist']]],
-  ['pointsetcontiguous_540',['PointSetContiguous',['../classchemist_1_1detail___1_1PointSetContiguous.html',1,'chemist::detail_']]],
-  ['pointsetpimpl_541',['PointSetPIMPL',['../classchemist_1_1detail___1_1PointSetPIMPL.html',1,'chemist::detail_']]],
-  ['pointsetview_542',['PointSetView',['../classchemist_1_1PointSetView.html',1,'chemist']]],
-  ['pointsetviewpimpl_543',['PointSetViewPIMPL',['../classchemist_1_1detail___1_1PointSetViewPIMPL.html',1,'chemist::detail_']]],
-  ['pointview_544',['PointView',['../classchemist_1_1PointView.html',1,'chemist']]],
-  ['pointview_3c_20detail_5f_3a_3aviewtraits_3c_20chargetype_20_3e_3a_3atemplate_20apply_5fconst_3c_20chargetype_3a_3apoint_5ftype_20_3e_20_3e_545',['PointView&lt; detail_::ViewTraits&lt; ChargeType &gt;::template apply_const&lt; ChargeType::point_type &gt; &gt;',['../classchemist_1_1PointView.html',1,'chemist']]],
-  ['primitive_546',['Primitive',['../classchemist_1_1basis__set_1_1Primitive.html',1,'chemist::basis_set']]],
-  ['primitivepimpl_547',['PrimitivePIMPL',['../structchemist_1_1basis__set_1_1detail___1_1PrimitivePIMPL.html',1,'chemist::basis_set::detail_']]],
-  ['primitivetraits_548',['PrimitiveTraits',['../structchemist_1_1basis__set_1_1PrimitiveTraits.html',1,'chemist::basis_set']]],
-  ['primitivetraits_3c_20cgtype_3a_3areference_20_3e_549',['PrimitiveTraits&lt; CGType::reference &gt;',['../structchemist_1_1basis__set_1_1PrimitiveTraits.html',1,'chemist::basis_set']]],
-  ['primitiveview_550',['PrimitiveView',['../classchemist_1_1basis__set_1_1PrimitiveView.html',1,'chemist::basis_set']]],
-  ['pyvectorspace_551',['PyVectorSpace',['../classchemist_1_1wavefunction_1_1PyVectorSpace.html',1,'chemist::wavefunction']]]
+  ['nuclei_531',['Nuclei',['../classchemist_1_1Nuclei.html',1,'chemist']]],
+  ['nucleipimpl_532',['NucleiPIMPL',['../classchemist_1_1detail___1_1NucleiPIMPL.html',1,'chemist::detail_']]],
+  ['nucleisubset_533',['NucleiSubset',['../classchemist_1_1detail___1_1NucleiSubset.html',1,'chemist::detail_']]],
+  ['nucleiunion_534',['NucleiUnion',['../classchemist_1_1detail___1_1NucleiUnion.html',1,'chemist::detail_']]],
+  ['nucleiview_535',['NucleiView',['../classchemist_1_1NucleiView.html',1,'chemist']]],
+  ['nucleiviewpimpl_536',['NucleiViewPIMPL',['../classchemist_1_1detail___1_1NucleiViewPIMPL.html',1,'chemist::detail_']]],
+  ['nucleus_537',['Nucleus',['../classchemist_1_1Nucleus.html',1,'chemist']]],
+  ['nucleusview_538',['NucleusView',['../classchemist_1_1NucleusView.html',1,'chemist']]],
+  ['nucleusviewlist_539',['NucleusViewList',['../classchemist_1_1detail___1_1NucleusViewList.html',1,'chemist::detail_']]]
 ];
