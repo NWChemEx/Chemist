@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 NWChemEx-Project
+ * Copyright 2023 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-#include "chemist/orbital_space/ao_space.hpp"
+#include "../../catch.hpp"
+#include "../../test_helpers.hpp"
+#include <chemist/chemical_system/electron/electron_class.hpp>
 
-namespace chemist::orbital_space {
+TEST_CASE("Electron") {
+    using chemist::Electron;
 
-#define AOSPACE AOSpace<BasisType>
+    Electron e;
 
-template<typename BasisType>
-bool AOSPACE::equal_(const BaseSpace& rhs) const noexcept {
-    return this->equal_common(*this, rhs);
+    SECTION("copy/move ctor/assignment") {
+        test_chemist::test_copy_and_move(e);
+    }
+
+    SECTION("operator==") { REQUIRE(e == Electron{}); }
+    SECTION("operator!=") { REQUIRE_FALSE(e != Electron{}); }
 }
-
-template class AOSpace<basis_set::AOBasisSetD>;
-template class AOSpace<basis_set::AOBasisSetF>;
-
-#undef AOSPACE
-} // namespace chemist::orbital_space

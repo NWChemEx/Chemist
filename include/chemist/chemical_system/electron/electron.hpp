@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 NWChemEx-Project
+ * Copyright 2024 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,5 @@
  */
 
 #pragma once
-
-#include "chemist/electrons/electron.hpp"
-#include "chemist/electrons/many_electrons.hpp"
+#include <chemist/chemical_system/electron/electron_class.hpp>
+#include <chemist/chemical_system/electron/many_electrons.hpp>

@@ -16,6 +16,7 @@
 
 #pragma once
 #include <chemist/chemical_system/chemical_system/chemical_system.hpp>
+#include <chemist/chemical_system/electron/electron.hpp>
 #include <chemist/chemical_system/molecule/molecule.hpp>
 #include <chemist/chemical_system/nucleus/nucleus.hpp>
 #include <chemist/chemical_system/point_charge/point_charge.hpp>

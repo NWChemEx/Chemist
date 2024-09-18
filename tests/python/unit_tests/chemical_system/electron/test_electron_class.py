@@ -11,3 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+import chemist
+import unittest
+
+
+class TestElectronClass(unittest.TestCase):
+
+    def test_value_equal(self):
+        self.assertEqual(self.e, chemist.Electron())
+
+    def test_different(self):
+        self.assertFalse(self.e != chemist.Electron())
+
+    def setUp(self):
+        self.e = chemist.Electron()

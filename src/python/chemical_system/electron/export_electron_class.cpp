@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 NWChemEx-Project
+ * Copyright 2024 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
-#pragma once
-#include "../pychemist.hpp"
+#include "export_electron.hpp"
+#include <chemist/chemical_system/electron/electron_class.hpp>
+#include <pybind11/operators.h>
 
 namespace chemist {
 
-void export_ao_space(python_module_reference m);
+void export_electron_class(python_module_reference m) {
+    python_class_type<Electron>(m, "Electron")
+      .def(pybind11::init<>())
+      .def(pybind11::self == pybind11::self)
+      .def(pybind11::self != pybind11::self);
+}
 
 } // namespace chemist

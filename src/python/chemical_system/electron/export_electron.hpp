@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 NWChemEx-Project
+ * Copyright 2024 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-#include "chemist/electrons/electron.hpp"
-#include <catch2/catch.hpp>
+#pragma once
+#include "../../pychemist.hpp"
 
-TEST_CASE("Electron") {
-    chemist::Electron i, j;
+namespace chemist {
 
-    SECTION("Comparisons") {
-        REQUIRE(i == j);
-        REQUIRE_FALSE(i != j);
-    }
+void export_electron_class(python_module_reference m);
+void export_many_electrons(python_module_reference m);
+
+inline void export_electron(python_module_reference m) {
+    export_electron_class(m);
+    export_many_electrons(m);
 }
+
+} // namespace chemist

@@ -17,6 +17,7 @@
 #pragma once
 #include "../pychemist.hpp"
 #include "chemical_system/export_chemical_system.hpp"
+#include "electron/export_electron.hpp"
 #include "molecule/export_molecule.hpp"
 #include "nucleus/export_nucleus.hpp"
 #include "point_charge/export_point_charge.hpp"
@@ -26,6 +27,7 @@
 namespace chemist {
 
 void inline export_chemical_system(python_module_reference m) {
+    export_electron(m);
     export_point_charge(m);
     export_nucleus(m);
     export_molecule(m);
