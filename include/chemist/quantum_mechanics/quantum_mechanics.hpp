@@ -19,4 +19,5 @@
  *  Convenience header for including the QM component of chemist.
  */
 #pragma once
+#include <chemist/operator/operator.hpp>
 #include <chemist/wavefunction/wavefunction.hpp>
