@@ -19,4 +19,4 @@
  *  Convenience header for including the QM component of chemist.
  */
 #pragma once
-#include <chemist/wavefunction/wavefunction.hpp>
+#include <chemist/quantum_mechanics/wavefunction/wavefunction.hpp>
