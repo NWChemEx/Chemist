@@ -31,6 +31,11 @@ should be formalized at a later point.
     densities, triples of particles, or more exotic particles like muons).
   - Internally rely on ``std::vector<std::variant>``?
 
+- Provide a class ``OperatorImpl<T...>`` for factoring out the common template
+  pieces. ``OperatorImpl<T...>`` derives form ``OperatorBase``. APIs should
+  not rely on ``OperatorImpl<T...>``, rather they should rely on 
+  ``OperatorBase`` or the class that derives from ``OperatorImpl<T...>``.
+
 - Can't be in namespace ``operator`` (C++ keyword), so we opted for 
   ``qm_operator``.
 
