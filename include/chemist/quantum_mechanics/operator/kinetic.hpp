@@ -6,21 +6,16 @@
 namespace chemist::qm_operator {
 
 template<typename ParticleType>
-class Kinetic : public detail_::OperatorImpl<ParticleType> {
+class Kinetic
+  : public detail_::OperatorImpl<Kinetic<ParticleType>, ParticleType> {
 private:
     /// Type of *this
     using my_type = Kinetic<ParticleType>;
 
     /// Type *this directly derives from.
-    using base_type = detail_::OperatorImpl<ParticleType>;
+    using base_type = detail_::OperatorImpl<my_type, ParticleType>;
 
 public:
-    /// Pull in types from the base class
-    ///@{
-    using typename base_type::base_pointer;
-    using typename base_type::visitor_reference;
-    ///@}
-
     using value_type = typename base_type::template particle_type<0>;
     using reference  = typename base_type::template particle_reference<0>;
     using const_reference =
@@ -31,10 +26,6 @@ public:
 
     reference particle() { return base_type::template at<0>(); }
     const_reference particle() const { return base_type::template at<0>(); }
-
-private:
-    void visit_(visitor_reference visitor) const override;
-    base_pointer clone_() const override;
 };
 
 extern template class Kinetic<Electron>;

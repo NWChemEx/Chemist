@@ -2,11 +2,9 @@
 
 namespace chemist::qm_operator {
 
-#define OVERLOAD(T)                                                    \
-    void OperatorVisitor::run(T&) {                                    \
-        throw std::runtime_error(                                      \
-          std::string("Visitor does not support operators of type ") + \
-          std::string(#T));                                            \
+#define OVERLOAD(T)                                 \
+    void OperatorVisitor::run(T& visitor) {         \
+        return run(static_cast<const T&>(visitor)); \
     }
 
 #define CONST_OVERLOAD(T)                                                    \

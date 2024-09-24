@@ -1,5 +1,6 @@
 #pragma once
 #include <chemist/quantum_mechanics/operator/operator_base.hpp>
+#include <chemist/quantum_mechanics/operator/operator_visitor.hpp>
 #include <chemist/traits/electron_traits.hpp>
 #include <tuple>
 #include <type_traits>
@@ -23,11 +24,11 @@ namespace chemist::qm_operator::detail_ {
  *  @tparam Particles A list of the interacting particles the operator
  *                    describes.
  */
-template<typename... Particles>
+template<typename DerivedType, typename... Particles>
 class OperatorImpl : public OperatorBase {
 private:
     /// Type of *this
-    using my_type = OperatorImpl<Particles...>;
+    using my_type = OperatorImpl<DerivedType, Particles...>;
 
     /// Helper to determine if @p T is an Electron
     template<typename T>
@@ -100,6 +101,10 @@ protected:
     /// Type *this derives from
     using base_type = OperatorBase;
 
+    /// Pull in base types.
+    using typename base_type::base_pointer;
+    using typename base_type::const_base_reference;
+
     template<typename... ParticlesIn,
              typename = std::tuple<disable_if_me_t<ParticlesIn>...>>
     OperatorImpl(ParticlesIn&&... particles) noexcept :
@@ -107,7 +112,35 @@ protected:
 
     OperatorImpl(const OperatorImpl& other) = default;
 
+    /// Implements clone by calling derived class's copy ctor
+    typename base_type::base_pointer clone_() const override {
+        return std::make_unique<DerivedType>(downcast_());
+    }
+
+    /// Implements visit by passing the derived class to visitor.run
+    //@{
+    void visit_(visitor_reference visitor) override {
+        visitor.run(downcast_());
+    }
+    void visit_(visitor_reference visitor) const override {
+        visitor.run(downcast_());
+    }
+    //@}
+
+    bool are_equal_(const_base_reference other) {
+        auto pother = dynamic_cast<const my_type*>(&other);
+        if(pother == nullptr) return false; // Different types
+        return downcast_() == pother->downcast_();
+    }
+
 private:
+    /// Wraps the process of getting a mutable instance of the derived class
+    auto& downcast_() { return static_cast<DerivedType&>(*this); }
+
+    /// Wraps the process of getting a read-only instance of the derived class
+    const auto& downcast_() const {
+        return static_cast<const DerivedType&>(*this);
+    }
     /// These are the particles the operator describes
     std::tuple<Particles...> m_particles_;
 };

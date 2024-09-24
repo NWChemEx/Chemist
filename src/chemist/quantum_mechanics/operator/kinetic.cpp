@@ -9,15 +9,6 @@ namespace chemist::qm_operator {
 TPARAMS
 KINETIC::Kinetic(value_type particle) : base_type(std::move(particle)) {}
 
-TPARAMS void KINETIC::visit_(visitor_reference visitor) const {
-    visitor.run(*this);
-}
-
-TPARAMS
-typename KINETIC::base_pointer KINETIC::clone_() const {
-    return std::make_unique<my_type>(*this);
-}
-
 #undef KINETIC
 #undef TPARAMS
 

@@ -7,11 +7,13 @@ using namespace chemist::qm_operator;
 
 /* Testing strategy.
  *
- * Here we define a visitor that overrides both Kinetic<Electron> and
+ * Here we define one visitor that overrides both Kinetic<Electron> and
  * const Kinetic<Electron>, but only Kinetic<ManyElectron>. We then pass that
  * visitor to mutable and read-only verssions of two operators:
  * - Kinetic<Electron>
  * - Kinetic<ManyElectrons>
+ *
+ * and one visitor that only overrides the const version of Kinetic<Electron>
  */
 
 class TestVisitor : public OperatorVisitor {
@@ -28,6 +30,16 @@ private:
     Kinetic<ManyElectrons> m_T_;
 };
 
+class TestVisitor2 : public OperatorVisitor {
+public:
+    TestVisitor2(Kinetic<Electron>& t) : m_t_(t) {}
+
+    void run(const Kinetic<Electron>& t) { REQUIRE(t == m_t_); }
+
+private:
+    Kinetic<Electron> m_t_;
+};
+
 TEST_CASE("OperatorVisitor") {
     Kinetic<Electron> t;
     Kinetic<ManyElectrons> T(ManyElectrons{3});
@@ -38,16 +50,41 @@ TEST_CASE("OperatorVisitor") {
     const OperatorBase& const_T_base = T;
 
     TestVisitor visitor(t, T);
+    TestVisitor2 visitor2(t);
 
-    // Should dispatch to the mutable version in the derived class
-    SECTION("Mutable defined") {
-        t_base.visit(visitor);
-        T_base.visit(visitor);
+    SECTION("Mutable operator") {
+        SECTION("Visitor supports mutable and read-only defined") {
+            t_base.visit(visitor);
+        }
+
+        SECTION("Visitor supports mutable, but not read-only") {
+            T_base.visit(visitor);
+        }
+
+        SECTION("Visitor supports read-only, but not mutable") {
+            t_base.visit(visitor2);
+        }
+
+        SECTION("Visitor doesn't support either mutable or read-only") {
+            REQUIRE_THROWS_AS(T_base.visit(visitor2), std::runtime_error);
+        }
     }
 
-    SECTION("Read-only defined") { const_t_base.visit(visitor); }
+    SECTION("Read-only operator") {
+        SECTION("Visitor supports mutable and read-only defined") {
+            const_t_base.visit(visitor);
+        }
 
-    SECTION("Read-only not defined") {
-        REQUIRE_THROWS_AS(const_T_base.visit(visitor), std::runtime_error);
+        SECTION("Visitor supports mutable, but not read-only") {
+            REQUIRE_THROWS_AS(const_T_base.visit(visitor), std::runtime_error);
+        }
+
+        SECTION("Visitor supports read-only, but not mutable") {
+            const_t_base.visit(visitor2);
+        }
+
+        SECTION("Visitor doesn't support either mutable or read-only") {
+            REQUIRE_THROWS_AS(const_T_base.visit(visitor2), std::runtime_error);
+        }
     }
 }
