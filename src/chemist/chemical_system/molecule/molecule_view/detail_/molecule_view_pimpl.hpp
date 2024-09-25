@@ -62,6 +62,15 @@ public:
     const auto& multiplicity() const { return *m_pmultiplicity_; }
     ///@}
 
+    /// Direct access to the raw memory holding the charge/multiplicity
+    /// @{
+    auto* charge_data() { return m_pnet_electrons_; }
+    const auto* charge_data() const { return m_pnet_electrons_; }
+
+    auto* multiplicity_data() { return m_pmultiplicity_; }
+    const auto* multiplicity_data() const { return m_pmultiplicity_; }
+    ///@}
+
     /// Returns a deep (maybe eventually polymorphic) copy of *this
     pimpl_pointer clone() const { return std::make_unique<my_type>(*this); }
 
@@ -73,10 +82,10 @@ private:
     nuclei_reference m_nuclei_;
 
     /// Pointer to the net number of electrons in *this
-    charge_pointer m_pnet_electrons_;
+    charge_pointer m_pnet_electrons_ = nullptr;
 
     /// Pointer to the multiplicity of *this
-    multiplicity_pointer m_pmultiplicity_;
+    multiplicity_pointer m_pmultiplicity_ = nullptr;
 };
 
 // -- Inline implementations

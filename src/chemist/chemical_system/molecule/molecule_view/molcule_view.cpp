@@ -29,8 +29,13 @@ TPARAMS
 MOLECULE_VIEW::MoleculeView() noexcept = default;
 
 TPARAMS
-MOLECULE_VIEW::MoleculeView(molecule_reference mol) :
-  MoleculeView(mol.nuclei(), mol.charge_data(), mol.multiplicity_data()) {}
+MOLECULE_VIEW::MoleculeView(molecule_reference mol) {
+    // Need to ensure mol.nuclei is called first in case it allocates a PIMPL
+    auto nuclei_ref = mol.nuclei();
+    MoleculeView temp(std::move(nuclei_ref), mol.charge_data(),
+                      mol.multiplicity_data());
+    temp.swap(*this);
+}
 
 TPARAMS
 MOLECULE_VIEW::MoleculeView(nuclei_reference nuclei, charge_pointer pcharge,
@@ -85,27 +90,41 @@ typename MOLECULE_VIEW::size_type MOLECULE_VIEW::n_electrons() const noexcept {
 
 TPARAMS
 typename MOLECULE_VIEW::charge_type MOLECULE_VIEW::charge() const noexcept {
-    return has_pimpl_() ? std::as_const(*m_pimpl_).charge() : 0;
+    if(has_pimpl_()) {
+        auto pcharge = std::as_const(*m_pimpl_).charge_data();
+        if(pcharge) return *pcharge;
+    }
+    return 0;
 }
 
 TPARAMS
 template<typename, typename>
 void MOLECULE_VIEW::set_charge(charge_type charge) {
     check_charge_(charge);
-    if(has_pimpl_()) m_pimpl_->charge() = charge;
+    if(has_pimpl_()) {
+        auto pcharge = m_pimpl_->charge_data();
+        if(pcharge) *pcharge = charge;
+    }
 }
 
 TPARAMS
 typename MOLECULE_VIEW::multiplicity_type MOLECULE_VIEW::multiplicity()
   const noexcept {
-    return has_pimpl_() ? std::as_const(*m_pimpl_).multiplicity() : 1;
+    if(has_pimpl_()) {
+        auto pmult = std::as_const(*m_pimpl_).multiplicity_data();
+        if(pmult) return *pmult;
+    }
+    return 1;
 }
 
 TPARAMS
 template<typename, typename>
 void MOLECULE_VIEW::set_multiplicity(multiplicity_type multiplicity) {
     check_multiplicity_(multiplicity);
-    if(has_pimpl_()) m_pimpl_->multiplicity() = multiplicity;
+    if(has_pimpl_()) {
+        auto pmult = m_pimpl_->multiplicity_data();
+        if(pmult) *pmult = multiplicity;
+    }
 }
 
 // -----------------------------------------------------------------------------
@@ -120,13 +139,14 @@ typename MOLECULE_VIEW::molecule_type MOLECULE_VIEW::as_molecule() const {
 TPARAMS
 typename MOLECULE_VIEW::const_charge_pointer MOLECULE_VIEW::charge_data()
   const noexcept {
-    return has_pimpl_() ? &(std::as_const(*m_pimpl_).charge()) : nullptr;
+    return has_pimpl_() ? std::as_const(*m_pimpl_).charge_data() : nullptr;
 }
 
 TPARAMS
 typename MOLECULE_VIEW::const_multiplicity_pointer
 MOLECULE_VIEW::multiplicity_data() const noexcept {
-    return has_pimpl_() ? &(std::as_const(*m_pimpl_).multiplicity()) : nullptr;
+    return has_pimpl_() ? std::as_const(*m_pimpl_).multiplicity_data() :
+                          nullptr;
 }
 
 TPARAMS
@@ -154,6 +174,7 @@ TPARAMS
 typename MOLECULE_VIEW::size_type MOLECULE_VIEW::neutral_n_electrons_()
   const noexcept {
     size_type sum = 0;
+    // N.B. *this is const so nuclei won't allocate a PIMPL
     for(const auto& n0 : this->nuclei()) sum += n0.Z();
     return sum;
 }
@@ -162,7 +183,9 @@ TPARAMS
 void MOLECULE_VIEW::check_charge_(charge_type charge) const {
     if(!has_pimpl_() && charge != 0)
         throw std::runtime_error("Empty Molecule can only have a charge of 0");
-    if(static_cast<charge_type>(neutral_n_electrons_()) < charge)
+
+    charge_type n_electrons = neutral_n_electrons_();
+    if(n_electrons < charge)
         throw std::runtime_error("Molecule does not have enough electrons");
 }
 
@@ -184,6 +207,7 @@ template void MoleculeView<Molecule>::set_charge<Molecule>(
   typename MoleculeView<Molecule>::charge_type);
 template void MoleculeView<Molecule>::set_multiplicity<Molecule>(
   typename MoleculeView<Molecule>::multiplicity_type);
+
 template class MoleculeView<const Molecule>;
 
 } // namespace chemist

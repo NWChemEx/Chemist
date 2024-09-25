@@ -45,7 +45,10 @@ TEMPLATE_LIST_TEST_CASE("MoleculeViewPIMPL", "", types2test) {
     molecule_type anion_mol(anion_q, m3, values_set);
     molecule_type cation_mol(cation_q, m1, cation_set);
 
-    pimpl_type empty(empty_mol.nuclei(), nullptr, nullptr);
+    // Calling nuclei allocates a PIMPL so do it before the fxn
+    auto empty_nuclei_reference = empty_mol.nuclei();
+    pimpl_type empty(empty_nuclei_reference, empty_mol.charge_data(),
+                     empty_mol.multiplicity_data());
     pimpl_type values(values_mol.nuclei(), values_mol.charge_data(),
                       values_mol.multiplicity_data());
     pimpl_type anion(anion_mol.nuclei(), anion_mol.charge_data(),
@@ -54,19 +57,25 @@ TEMPLATE_LIST_TEST_CASE("MoleculeViewPIMPL", "", types2test) {
                       cation_mol.multiplicity_data());
 
     SECTION("Ctors") {
-        SECTION("Default") { REQUIRE(empty.nuclei() == empty_mol.nuclei()); }
+        SECTION("Default") {
+            REQUIRE(empty.nuclei() == empty_mol.nuclei());
+            REQUIRE(empty.charge_data() == empty_mol.charge_data());
+            REQUIRE(empty.multiplicity_data() == empty_mol.multiplicity_data());
+        }
         SECTION("Value") {
             REQUIRE(values.nuclei() == values_mol.nuclei());
-            REQUIRE(&values.charge() == values_mol.charge_data());
-            REQUIRE(&values.multiplicity() == values_mol.multiplicity_data());
+            REQUIRE(values.charge_data() == values_mol.charge_data());
+            REQUIRE(values.multiplicity_data() ==
+                    values_mol.multiplicity_data());
 
             REQUIRE(anion.nuclei() == anion_mol.nuclei());
-            REQUIRE(&anion.charge() == anion_mol.charge_data());
-            REQUIRE(&anion.multiplicity() == anion_mol.multiplicity_data());
+            REQUIRE(anion.charge_data() == anion_mol.charge_data());
+            REQUIRE(anion.multiplicity_data() == anion_mol.multiplicity_data());
 
             REQUIRE(cation.nuclei() == cation_mol.nuclei());
-            REQUIRE(&cation.charge() == cation_mol.charge_data());
-            REQUIRE(&cation.multiplicity() == cation_mol.multiplicity_data());
+            REQUIRE(cation.charge_data() == cation_mol.charge_data());
+            REQUIRE(cation.multiplicity_data() ==
+                    cation_mol.multiplicity_data());
         }
         SECTION("Copy") {
             test_chemist::test_copy_ctor(empty);
@@ -135,6 +144,40 @@ TEMPLATE_LIST_TEST_CASE("MoleculeViewPIMPL", "", types2test) {
         const auto& ccation = cation;
         REQUIRE(ccation.multiplicity() == m1);
         REQUIRE(&ccation.multiplicity() == cation_mol.multiplicity_data());
+    }
+
+    SECTION("charge_data()") {
+        REQUIRE(empty.charge_data() == empty_mol.charge_data());
+        REQUIRE(values.charge_data() == values_mol.charge_data());
+        REQUIRE(anion.charge_data() == anion_mol.charge_data());
+        REQUIRE(cation.charge_data() == cation_mol.charge_data());
+    }
+
+    SECTION("charge_data() const") {
+        REQUIRE(std::as_const(empty).charge_data() == empty_mol.charge_data());
+        REQUIRE(std::as_const(values).charge_data() ==
+                values_mol.charge_data());
+        REQUIRE(std::as_const(anion).charge_data() == anion_mol.charge_data());
+        REQUIRE(std::as_const(cation).charge_data() ==
+                cation_mol.charge_data());
+    }
+
+    SECTION("multiplicity_data()") {
+        REQUIRE(empty.multiplicity_data() == empty_mol.multiplicity_data());
+        REQUIRE(values.multiplicity_data() == values_mol.multiplicity_data());
+        REQUIRE(anion.multiplicity_data() == anion_mol.multiplicity_data());
+        REQUIRE(cation.multiplicity_data() == cation_mol.multiplicity_data());
+    }
+
+    SECTION("multiplicity_data() const") {
+        REQUIRE(std::as_const(empty).multiplicity_data() ==
+                empty_mol.multiplicity_data());
+        REQUIRE(std::as_const(values).multiplicity_data() ==
+                values_mol.multiplicity_data());
+        REQUIRE(std::as_const(anion).multiplicity_data() ==
+                anion_mol.multiplicity_data());
+        REQUIRE(std::as_const(cation).multiplicity_data() ==
+                cation_mol.multiplicity_data());
     }
 
     SECTION("clone") {

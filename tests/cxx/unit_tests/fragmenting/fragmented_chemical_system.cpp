@@ -36,7 +36,7 @@ TEMPLATE_LIST_TEST_CASE("FragmentedChemicalSystem", "", types2check) {
     atom_type h("H", 1ul, 1.0, 0.0, 0.0, 0.0);
     atom_type he("He", 2ul, 4.0, 1.0, 2.0, 3.0);
     molecule_type heh{he, h};
-    frag_nuclei_type nuclei_frags(heh.nuclei());
+    frag_nuclei_type nuclei_frags(heh.nuclei().as_nuclei());
     nuclei_frags.insert({0});
     nuclei_frags.insert({1});
     fragmented_molecule_type empty_frags;
@@ -139,7 +139,7 @@ TEMPLATE_LIST_TEST_CASE("FragmentedChemicalSystem", "", types2check) {
         SECTION("Different supersystem") {
             atom_type li("Li", 3ul, 7.0, 4.0, 5.0, 6.0);
             molecule_type hehli{he, h, li};
-            frag_nuclei_type other_frags(hehli.nuclei());
+            frag_nuclei_type other_frags(hehli.nuclei().as_nuclei());
             other_frags.insert({0});
             other_frags.insert({1});
 
@@ -148,7 +148,7 @@ TEMPLATE_LIST_TEST_CASE("FragmentedChemicalSystem", "", types2check) {
         }
 
         SECTION("Different fragments") {
-            frag_nuclei_type other_frags(heh.nuclei());
+            frag_nuclei_type other_frags(heh.nuclei().as_nuclei());
             other_frags.insert({0});
 
             class_type other(fragmented_molecule_type(other_frags, 0, 2));

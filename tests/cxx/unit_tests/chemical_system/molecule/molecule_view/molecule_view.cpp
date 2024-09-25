@@ -36,9 +36,11 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
     atom_type he("He", 2ul, 4.0, 1.0, 2.0, 3.0);
     multiplicity_type m1{1}, m2{2};
     charge_type qm1{-1}, q0{0};
+    molecule_type empty_mol;
     molecule_type value_mol{h, he};
 
     view_type defaulted;
+    view_type empty_value(empty_mol);
     view_type value(value_mol);
 
     SECTION("CTors and assignment") {
@@ -50,6 +52,10 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
         }
 
         SECTION("From Molecule") {
+            REQUIRE(empty_value.size() == 0);
+            REQUIRE(empty_value.charge() == q0);
+            REQUIRE(empty_value.multiplicity() == m1);
+
             REQUIRE(value.size() == 2);
             REQUIRE(value[0] == value_mol[0]);
             REQUIRE(value[1] == value_mol[1]);
@@ -80,11 +86,13 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
 
         SECTION("Copy") {
             test_chemist::test_copy_ctor(defaulted);
+            test_chemist::test_copy_ctor(empty_value);
             test_chemist::test_copy_ctor(value);
         }
 
         SECTION("Move") {
             test_chemist::test_move_ctor(defaulted);
+            test_chemist::test_move_ctor(empty_value);
             test_chemist::test_move_ctor(value);
         }
 
@@ -103,32 +111,39 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
 
         SECTION("Copy assignment") {
             test_chemist::test_copy_assignment(defaulted);
+            test_chemist::test_copy_assignment(empty_value);
             test_chemist::test_copy_assignment(value);
         }
 
         SECTION("Move assignment") {
             test_chemist::test_move_assignment(defaulted);
+            test_chemist::test_move_assignment(empty_value);
             test_chemist::test_move_assignment(value);
         }
     }
 
     SECTION("nuclei()") {
         REQUIRE(defaulted.nuclei() == nuclei_reference{});
+        REQUIRE(empty_value.nuclei() == nuclei_reference{});
         REQUIRE(value.nuclei() == value_mol.nuclei());
     }
 
     SECTION("nuclei() const") {
-        REQUIRE(std::as_const(defaulted).nuclei() == const_nuclei_reference{});
+        const_nuclei_reference corr;
+        REQUIRE(std::as_const(defaulted).nuclei() == corr);
+        REQUIRE(std::as_const(empty_value).nuclei() == corr);
         REQUIRE(std::as_const(value).nuclei() == value_mol.nuclei());
     }
 
     SECTION("n_electrons") {
         REQUIRE(defaulted.n_electrons() == 0);
+        REQUIRE(empty_value.n_electrons() == 0);
         REQUIRE(value.n_electrons() == 3);
     }
 
     SECTION("charge") {
         REQUIRE(defaulted.charge() == q0);
+        REQUIRE(empty_value.charge() == q0);
         REQUIRE(value.charge() == q0);
     }
 
@@ -142,6 +157,9 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
             defaulted.set_charge(q0);
             REQUIRE(defaulted.charge() == q0);
 
+            empty_value.set_charge(q0);
+            REQUIRE(empty_value.charge() == q0);
+
             // Can't set charge to more than number of electrons
             REQUIRE_THROWS_AS(value.set_charge(q6), std::runtime_error);
 
@@ -153,26 +171,33 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
 
     SECTION("charge_data() const") {
         REQUIRE(std::as_const(defaulted).charge_data() == nullptr);
+        REQUIRE(std::as_const(empty_value).charge_data() ==
+                empty_mol.charge_data());
         REQUIRE(std::as_const(value).charge_data() == value_mol.charge_data());
     }
 
     SECTION("multiplicity") {
         REQUIRE(defaulted.multiplicity() == m1);
+        REQUIRE(empty_value.multiplicity() == m1);
         REQUIRE(value.multiplicity() == m2);
     }
 
     SECTION("set_multiplicity") {
         if constexpr(std::is_same_v<TestType, std::remove_cv_t<TestType>>) {
+            using error_t = std::runtime_error;
+
             // Can't set empty to multiplicity different than 1
-            REQUIRE_THROWS_AS(defaulted.set_multiplicity(m2),
-                              std::runtime_error);
+            REQUIRE_THROWS_AS(defaulted.set_multiplicity(m2), error_t);
 
             // Can set empty to singlet
             defaulted.set_multiplicity(m1);
             REQUIRE(defaulted.multiplicity() == m1);
 
+            empty_value.set_multiplicity(m1);
+            REQUIRE(empty_value.multiplicity() == m1);
+
             // Can't set odd number of electrons to a single
-            REQUIRE_THROWS_AS(value.set_multiplicity(m1), std::runtime_error);
+            REQUIRE_THROWS_AS(value.set_multiplicity(m1), error_t);
 
             // Can set it to something else
             value.set_multiplicity(multiplicity_type{4});
@@ -182,12 +207,15 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
 
     SECTION("multiplicity_data() const") {
         REQUIRE(std::as_const(defaulted).multiplicity_data() == nullptr);
+        REQUIRE(std::as_const(empty_value).multiplicity_data() ==
+                empty_mol.multiplicity_data());
         const auto& cvalue = value;
         REQUIRE(cvalue.multiplicity_data() == value_mol.multiplicity_data());
     }
 
     SECTION("as_molecule") {
         REQUIRE(defaulted.as_molecule() == molecule_type{});
+        REQUIRE(empty_value.as_molecule() == molecule_type{});
         REQUIRE(value.as_molecule() == value_mol);
     }
 
@@ -204,6 +232,7 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
         SECTION("empty vs. empty") {
             view_type other;
             REQUIRE(defaulted == other);
+            REQUIRE(defaulted == empty_value);
         }
 
         SECTION("empty vs non-empty") { REQUIRE_FALSE(defaulted == value); }

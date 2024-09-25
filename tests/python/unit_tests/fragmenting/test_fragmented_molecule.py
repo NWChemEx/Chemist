@@ -78,7 +78,8 @@ class TestFragmentedMolecule(unittest.TestCase):
         self.assertEqual(self.frags, rhs)
 
         # Different fragments
-        rhs_nuclei = FragmentedNuclei(self.ss.nuclei, [[0, 1]])
+        temp_nuclei = self.ss.nuclei
+        rhs_nuclei = FragmentedNuclei(temp_nuclei.as_nuclei(), [[0, 1]])
         rhs = FragmentedMolecule(rhs_nuclei, 0, 2)
         self.assertNotEqual(self.frags, rhs)
 
@@ -94,7 +95,9 @@ class TestFragmentedMolecule(unittest.TestCase):
         self.empty_ss = Molecule()
 
         # Fragmented nuclei
-        self.frag_nuclei = FragmentedNuclei(self.ss.nuclei, [[0], [1]])
+        temp_nuclei = self.ss.nuclei
+        self.frag_nuclei = FragmentedNuclei(temp_nuclei.as_nuclei(),
+                                            [[0], [1]])
 
         # Corr fragments
         self.frag0 = Molecule(0, 2, [self.h])

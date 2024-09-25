@@ -31,7 +31,7 @@ using charge_type            = typename Molecule::charge_type;
 
 // -- CTors --------------------------------------------------------------------
 
-Molecule::Molecule() noexcept = default;
+Molecule::Molecule() noexcept : m_pimpl_(nullptr) {}
 
 Molecule::Molecule(const Molecule& rhs) :
   m_pimpl_(rhs.has_pimpl_() ? std::make_unique<pimpl_type>(*rhs.m_pimpl_) :
@@ -75,7 +75,7 @@ Molecule::~Molecule() noexcept = default;
 
 nuclei_reference Molecule::nuclei() {
     if(!has_pimpl_()) m_pimpl_ = make_pimpl_();
-    return m_pimpl_->nuclei();
+    return nuclei_reference(m_pimpl_->nuclei());
 }
 
 const_nuclei_reference Molecule::nuclei() const {

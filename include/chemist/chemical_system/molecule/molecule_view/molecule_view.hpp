@@ -185,21 +185,22 @@ public:
     template<typename MoleculeType2,
              typename = enable_read_only_conversion_t<MoleculeType2>>
     MoleculeView(const MoleculeView<MoleculeType2>& other) :
+      // N.B. this is okay b/c other is const
       MoleculeView(other.nuclei(), other.charge_data(),
                    other.multiplicity_data()) {}
 
     /** @brief Creates a new view of the object aliased by @p other.
      *
      *  This copy ctor will create new instances of the state needed to alias
-     *  a Molecule object and then point that state at the same Molecule aliased
-     *  by @p other. In other words, the resulting view will alias the same
-     *  Molecule as @p other, but pointing the resulting view at a different
-     *  Molecule object will not affect @p other.
+     *  a Molecule object and then point that state at the same Molecule
+     * aliased by @p other. In other words, the resulting view will alias the
+     * same Molecule as @p other, but pointing the resulting view at a
+     * different Molecule object will not affect @p other.
      *
      *  @param[in] other The view whose Molecule *this will alias.
      *
-     *  @throw std::bad_alloc if there is a problem allocating the PIMPL. Strong
-     *                        throw guarantee.
+     *  @throw std::bad_alloc if there is a problem allocating the PIMPL.
+     * Strong throw guarantee.
      */
     MoleculeView(const MoleculeView& other);
 
@@ -231,6 +232,7 @@ public:
     template<typename MoleculeType2,
              typename = enable_assign_from_molecule_t<MoleculeType2>>
     MoleculeView& operator=(const MoleculeType2& rhs) {
+        // N.B. this assigns the VALUES in the Nuclei object
         nuclei() = rhs.nuclei().as_nuclei();
         set_charge(rhs.charge());
         set_multiplicity(rhs.multiplicity());
