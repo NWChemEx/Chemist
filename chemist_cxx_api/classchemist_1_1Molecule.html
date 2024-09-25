@@ -133,10 +133,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a5cfe60b12a82991ed44525d57130f4dc">nuclei_type</a> = typename nuclei_traits::value_type</td></tr>
 <tr class="memdesc:a5cfe60b12a82991ed44525d57130f4dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type representing the set of nuclei. <br /></td></tr>
 <tr class="separator:a5cfe60b12a82991ed44525d57130f4dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af00eb8c43f47129bc03ddcbc469b712e"><td class="memItemLeft" align="right" valign="top"><a id="af00eb8c43f47129bc03ddcbc469b712e"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#af00eb8c43f47129bc03ddcbc469b712e">nuclei_reference</a> = typename nuclei_traits::reference</td></tr>
-<tr class="memdesc:af00eb8c43f47129bc03ddcbc469b712e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a reference to the set of nuclei. <br /></td></tr>
-<tr class="separator:af00eb8c43f47129bc03ddcbc469b712e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a636039950e5ca8e55e1bb4bac6f567b0"><td class="memItemLeft" align="right" valign="top"><a id="a636039950e5ca8e55e1bb4bac6f567b0"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a636039950e5ca8e55e1bb4bac6f567b0">nuclei_reference</a> = typename nuclei_traits::view_type</td></tr>
+<tr class="memdesc:a636039950e5ca8e55e1bb4bac6f567b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a reference to the set of nuclei. <br /></td></tr>
+<tr class="separator:a636039950e5ca8e55e1bb4bac6f567b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a450f4a33462ea6845b88f00aea914925"><td class="memItemLeft" align="right" valign="top"><a id="a450f4a33462ea6845b88f00aea914925"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a450f4a33462ea6845b88f00aea914925">const_nuclei_reference</a> = typename nuclei_traits::const_view_type</td></tr>
 <tr class="memdesc:a450f4a33462ea6845b88f00aea914925"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to the set of nuclei. <br /></td></tr>
@@ -211,7 +211,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a98158f543af684ae1a99e12011ebd5f5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a98158f543af684ae1a99e12011ebd5f5">push_back</a> (<a class="el" href="classchemist_1_1Molecule.html#ac5f73af898a8a5c0c9d917a96fe5c0d3">atom_type</a> value)</td></tr>
 <tr class="memdesc:a98158f543af684ae1a99e12011ebd5f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function used to add an additional atom to the molecule.  <a href="classchemist_1_1Molecule.html#a98158f543af684ae1a99e12011ebd5f5">More...</a><br /></td></tr>
 <tr class="separator:a98158f543af684ae1a99e12011ebd5f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace3acb1e62578c7431680a713c6f517c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Molecule.html#af00eb8c43f47129bc03ddcbc469b712e">nuclei_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#ace3acb1e62578c7431680a713c6f517c">nuclei</a> ()</td></tr>
+<tr class="memitem:ace3acb1e62578c7431680a713c6f517c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Molecule.html#a636039950e5ca8e55e1bb4bac6f567b0">nuclei_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#ace3acb1e62578c7431680a713c6f517c">nuclei</a> ()</td></tr>
 <tr class="memdesc:ace3acb1e62578c7431680a713c6f517c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides access to the set of nuclei.  <a href="classchemist_1_1Molecule.html#ace3acb1e62578c7431680a713c6f517c">More...</a><br /></td></tr>
 <tr class="separator:ace3acb1e62578c7431680a713c6f517c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98318ff5fa5fa14b07569aef5e0907ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Molecule.html#a450f4a33462ea6845b88f00aea914925">const_nuclei_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Molecule.html#a98318ff5fa5fa14b07569aef5e0907ea">nuclei</a> () const</td></tr>
@@ -287,7 +287,7 @@ Related Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -788,7 +788,7 @@ template&lt;typename Archive &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1Molecule.html#af00eb8c43f47129bc03ddcbc469b712e">nuclei_reference</a> chemist::Molecule::nuclei </td>
+          <td class="memname"><a class="el" href="classchemist_1_1Molecule.html#a636039950e5ca8e55e1bb4bac6f567b0">nuclei_reference</a> chemist::Molecule::nuclei </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
