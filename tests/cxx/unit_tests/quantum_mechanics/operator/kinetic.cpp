@@ -4,11 +4,11 @@
 using namespace chemist;
 using namespace chemist::qm_operator;
 
-using types2test = std::tuple<Electron, ManyElectrons>;
+using types2test = std::tuple<Electron, ManyElectrons, Nucleus>;
 
 TEMPLATE_LIST_TEST_CASE("Kinetic", "", types2test) {
     types2test defaulted_values;
-    types2test values{Electron{}, ManyElectrons{3}};
+    types2test values{Electron{}, ManyElectrons{3}, Nucleus{"H", 1ul, 1.0079}};
 
     auto corr_defaulted = std::get<TestType>(defaulted_values);
     auto corr_value     = std::get<TestType>(values);
@@ -24,5 +24,17 @@ TEMPLATE_LIST_TEST_CASE("Kinetic", "", types2test) {
         }
 
         SECTION("Value") { REQUIRE(value.particle() == corr_value); }
+
+        test_chemist::test_copy_and_move(defaulted, value);
+    }
+
+    SECTION("particle()") {
+        REQUIRE(defaulted.particle() == corr_defaulted);
+        REQUIRE(value.particle() == corr_value);
+    }
+
+    SECTION("particle() const") {
+        REQUIRE(std::as_const(defaulted).particle() == corr_defaulted);
+        REQUIRE(std::as_const(value).particle() == corr_value);
     }
 }

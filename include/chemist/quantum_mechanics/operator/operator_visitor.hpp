@@ -11,6 +11,11 @@ class Kinetic;
 #define OVERLOADS(T) \
     OVERLOAD(T);     \
     CONST_OVERLOAD(T)
+#define ONE_PARTICLE_OVERLOADS(T) \
+    OVERLOADS(T<Electron>);       \
+    OVERLOADS(T<ManyElectrons>);  \
+    OVERLOADS(T<Nucleus>);        \
+    OVERLOADS(T<Nuclei>)
 
 /** @brief Base class for all operator visitors.
  *
@@ -30,10 +35,10 @@ class Kinetic;
  */
 class OperatorVisitor {
 public:
-    OVERLOADS(Kinetic<Electron>);
-    OVERLOADS(Kinetic<ManyElectrons>);
+    ONE_PARTICLE_OVERLOADS(Kinetic);
 };
 
+#undef ONE_PARTICLE_OVERLOADS
 #undef OVERLOADS
 #undef CONST_OVERLOAD
 #undef OVERLOAD

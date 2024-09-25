@@ -46,6 +46,8 @@ should be formalized at a later point.
 Visitor Pattern Notes
 *********************
 
+For background see `here <https://en.wikipedia.org/wiki/Visitor_pattern>`__.
+
 We assume that ``OperatorBase`` defines an API like:
 
 .. code-block:: c++

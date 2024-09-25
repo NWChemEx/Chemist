@@ -18,9 +18,15 @@ namespace chemist::qm_operator {
     OVERLOAD(T);     \
     CONST_OVERLOAD(T)
 
-OVERLOADS(Kinetic<Electron>);
-OVERLOADS(Kinetic<ManyElectrons>);
+#define ONE_PARTICLE_OVERLOADS(T) \
+    OVERLOADS(T<Electron>);       \
+    OVERLOADS(T<ManyElectrons>);  \
+    OVERLOADS(T<Nucleus>);        \
+    OVERLOADS(T<Nuclei>)
 
+ONE_PARTICLE_OVERLOADS(Kinetic);
+
+#undef ONE_PARTICLE_OVERLOADS
 #undef OVERLOADS
 #undef CONST_OVERLOAD
 #undef OVERLOAD

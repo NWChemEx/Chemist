@@ -1,10 +1,17 @@
 #pragma once
-#include <chemist/chemical_system/electron/electron.hpp>
 #include <chemist/quantum_mechanics/operator/detail_/operator_impl.hpp>
-#include <chemist/traits/electron_traits.hpp>
 
 namespace chemist::qm_operator {
 
+/** @brief Describes the kinetic energy of a particle of type @p ParticleType.
+ *
+ *  This class is essentially a strong type to signify that a one-particle
+ *  operator describes the kinetic energy of the particle.
+ *
+ *  @tparam ParticleType The type of the particle. Assumed to be Electron,
+ *                       Nucleus or a type representing an indeterminate number
+ *                       of such particles.
+ */
 template<typename ParticleType>
 class Kinetic
   : public detail_::OperatorImpl<Kinetic<ParticleType>, ParticleType> {
@@ -16,19 +23,65 @@ private:
     using base_type = detail_::OperatorImpl<my_type, ParticleType>;
 
 public:
+    /// Make base class's types visible and conventional
+    ///@{
     using value_type = typename base_type::template particle_type<0>;
     using reference  = typename base_type::template particle_reference<0>;
     using const_reference =
       typename base_type::template const_particle_reference<0>;
+    ///@}
 
-    explicit Kinetic(value_type particle = value_type{});
+    /** @brief Creates a new Kinetic object describing the kinetic energy of
+     *         @p particle.
+     *
+     *  The resulting object will describe the kinetic energy of @p particle.
+     *
+     *  @param[in] particle The particle whose kinetic energy is described by
+     *                      *this.
+     *
+     *  @throw None No throw guarantee.
+     */
+    explicit Kinetic(value_type particle = value_type{}) noexcept;
+
+    /// All are implemented by OperatorImpl. This exposes them to the user.
+    ///@{
+    Kinetic(const Kinetic&)                    = default;
+    Kinetic(Kinetic&& rhs) noexcept            = default;
+    Kinetic& operator=(const Kinetic&)         = default;
+    Kinetic& operator=(Kinetic&& rhs) noexcept = default;
+    ///@}
+
+    /// Defaulted, nothrow dtor
     ~Kinetic() noexcept = default;
 
+    /** @brief Returns the particle
+     *
+     *  The kinetic energy is a single particle operator. This method can be
+     *  used to retrieve the particle whose kinetic energy is described by
+     *  *this.
+     *
+     *  This is a convenience function for calling the base class's at member.
+     *
+     *  @return A mutable reference to the particle.
+     *
+     *  @throw None No throw guarantee.
+     */
     reference particle() { return base_type::template at<0>(); }
+
+    /** @brief Returns a read-only reference to the particle.
+     *
+     *  This method is the same as the non-const version except that the result
+     *  is read-only.
+     *
+     *  @return A read-only reference to the particle.
+     *
+     *  @throw None No throw guarantee.
+     */
     const_reference particle() const { return base_type::template at<0>(); }
 };
 
 extern template class Kinetic<Electron>;
 extern template class Kinetic<ManyElectrons>;
-
+extern template class Kinetic<Nucleus>;
+extern template class Kinetic<Nuclei>;
 } // namespace chemist::qm_operator

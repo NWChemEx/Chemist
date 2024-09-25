@@ -7,12 +7,15 @@ namespace chemist::qm_operator {
 #define KINETIC Kinetic<ParticleType>
 
 TPARAMS
-KINETIC::Kinetic(value_type particle) : base_type(std::move(particle)) {}
+KINETIC::Kinetic(value_type particle) noexcept :
+  base_type(std::move(particle)) {}
 
 #undef KINETIC
 #undef TPARAMS
 
 template class Kinetic<Electron>;
 template class Kinetic<ManyElectrons>;
+template class Kinetic<Nucleus>;
+template class Kinetic<Nuclei>;
 
 } // namespace chemist::qm_operator
