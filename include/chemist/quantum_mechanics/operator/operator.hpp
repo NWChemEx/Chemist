@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-/** @file quantum_mechanics.hpp
- *
- *  Convenience header for including the QM component of chemist.
- */
 #pragma once
-#include <chemist/quantum_mechanics/operator/operator.hpp>
-#include <chemist/quantum_mechanics/wavefunction/wavefunction.hpp>
+#include <chemist/quantum_mechanics/operator/kinetic.hpp>
+#include <chemist/quantum_mechanics/operator/operator_base.hpp>
+#include <chemist/quantum_mechanics/operator/operator_visitor.hpp>
