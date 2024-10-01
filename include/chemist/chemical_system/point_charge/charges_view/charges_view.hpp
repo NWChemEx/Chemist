@@ -205,6 +205,10 @@ public:
     /// Default no-throw dtor
     ~ChargesView() noexcept;
 
+    point_set_reference point_set();
+
+    const_point_set_reference point_set() const;
+
     /** @brief Determines if *this aliases the same Charges object as @p rhs.
      *
      *  This method will compare the Charges objects aliased by *this and

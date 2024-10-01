@@ -82,6 +82,28 @@ public:
     // -- Accessors
     // -------------------------------------------------------------------------
 
+    /** @brief Returns the PointSet piece of *this
+     *
+     * Every Charges PIMPL contains the data to create a PointSet object. This
+     * method is used to access that data as if it were in a PointSet object.
+     *
+     * @return A view of the piece of *this which acts like a PointSet.
+     *
+     * @throw None No throw guarantee.
+     */
+    point_set_reference point_set() { return point_set_(); }
+
+    /** @brief Returns the PointSet piece of *this
+     *
+     * This is the same as the non-const version except that the resulting
+     * view is read-only.
+     *
+     * @return A view of the piece of *this which acts like a PointSet.
+     *
+     * @throw None No throw guarantee.
+     */
+    const_point_set_reference point_set() const { return point_set_(); }
+
     /// Returns mutable reference to the i-th point charge, implemented by at_
     reference operator[](size_type i) noexcept { return at_(i); }
 
@@ -107,6 +129,12 @@ protected:
 
     /// Derived class should override to implement clone
     virtual pimpl_pointer clone_() const = 0;
+
+    /// Derived class should override to implement point_set()
+    virtual point_set_reference point_set_() = 0;
+
+    /// Derived class should override to implement point_set() const
+    virtual const_point_set_reference point_set_() const = 0;
 
     /// Derived class should overrideto implement mutable at, operator[]
     virtual reference at_(size_type i) noexcept = 0;

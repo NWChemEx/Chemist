@@ -35,6 +35,13 @@ def make_test_charges_view(charges_view_type):
             q0.x = 42.0
             self.assertEqual(self.value_set.at(0).x, 42.0)
 
+        def test_point_set(self):
+            corr = self.point_set()
+            corr.push_back(self.point(0.0, 0.0, 0.0))
+            corr.push_back(self.point(2.0, 3.0, 4.0))
+            self.assertEqual(self.defaulted.point_set, self.point_set())
+            self.assertEqual(self.has_value.point_set, corr)
+
         def test_size(self):
             self.assertEqual(self.defaulted.size(), 0)
             self.assertEqual(self.has_value.size(), 2)
@@ -68,9 +75,13 @@ def make_test_charges_view(charges_view_type):
 
         def setUp(self):
             if charges_view_type == chemist.ChargesViewF:
+                self.point_set = chemist.PointSetF
+                self.point = chemist.PointF
                 self.charge_type = chemist.PointChargeF
                 self.charge_set = chemist.ChargesF
             else:
+                self.point_set = chemist.PointSetD
+                self.point = chemist.PointD
                 self.charge_type = chemist.PointChargeD
                 self.charge_set = chemist.ChargesD
 

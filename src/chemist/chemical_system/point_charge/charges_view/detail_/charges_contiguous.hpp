@@ -58,6 +58,10 @@ public:
     /// Type of a mutable reference to the PointSet piece of *this
     using point_set_reference = typename point_set_traits::view_type;
 
+    /// Type of a read-only reference to the PointSet piece of *this
+    using const_point_set_reference =
+      typename point_set_traits::const_view_type;
+
     /// Type of a mutable pointer to a charge
     using charge_pointer = typename point_charge_traits::charge_pointer;
 
@@ -126,6 +130,12 @@ protected:
     const_reference at_(size_type i) const noexcept override {
         return const_reference(m_pcharges_[i], m_points_[i]);
     }
+
+    /// Returns the PointSetView used to implement *this
+    point_set_reference point_set_() override { return m_points_; }
+
+    /// Returns a read-only view of the PointSetView used to implement *this
+    const_point_set_reference point_set() const override { return m_points_; }
 
     /// Defers to the PointSet piece of *this for the number of point charges
     size_type size_() const noexcept override { return m_points_.size(); }
