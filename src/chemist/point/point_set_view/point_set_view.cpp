@@ -87,6 +87,13 @@ bool POINT_SET_VIEW::operator!=(const PointSetView& rhs) const noexcept {
     return !(*this == rhs);
 }
 
+TPARAMS
+typename POINT_SET_VIEW::point_set_type POINT_SET_VIEW::as_points() const {
+    point_set_type rv;
+    for(const auto& x : *this) rv.push_back(x.as_point());
+    return rv;
+}
+
 // -----------------------------------------------------------------------------
 // -- Private member functions
 // -----------------------------------------------------------------------------

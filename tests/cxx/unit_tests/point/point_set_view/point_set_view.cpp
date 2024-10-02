@@ -280,6 +280,13 @@ void test_point_set_view_guts() {
         REQUIRE(defaulted != one_point);
         REQUIRE_FALSE(defaulted != no_points);
     }
+
+    SECTION("as_points") {
+        REQUIRE(defaulted.as_points() == defaulted_ps);
+        REQUIRE(one_point.as_points() == one_point_ps);
+        REQUIRE(two_points.as_points() == two_points_ps);
+        REQUIRE(three_points.as_points() == three_points_ps);
+    }
 }
 
 TEMPLATE_TEST_CASE("PointSetView<T>", "", float, double) {

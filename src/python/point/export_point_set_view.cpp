@@ -32,6 +32,7 @@ void export_point_set_view_(const char* name, python_module_reference m) {
       .def("empty", [](reference self) { return self.empty(); })
       .def("at", [](reference self, size_type i) { return self[i]; })
       .def("size", [](reference self) { return self.size(); })
+      .def("as_points", [](reference self) { return self.as_points(); })
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
 }

@@ -296,6 +296,19 @@ public:
      */
     bool operator!=(const PointSetView& rhs) const noexcept;
 
+    /** @brief Converts *this into a PointSet object.
+     *
+     *  PointSetViews alias their state, whereas PointSet objects own their
+     *  state. This method is used to convert *this from aliasing its state
+     *  to owning it (this happens by deep copying the internal state).
+     *
+     *  @return A new PointSet object containing a copy of the state in *this.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the return.
+     *                        Strong throw guarantee.
+     */
+    point_set_type as_points() const;
+
 private:
     /// Allow base class to access implementations
     friend base_type;
