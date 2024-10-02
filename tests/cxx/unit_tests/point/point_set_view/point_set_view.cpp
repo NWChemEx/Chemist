@@ -72,6 +72,36 @@ void test_point_set_view_guts() {
             REQUIRE(three_points[1] == p1);
             REQUIRE(three_points[2] == p2);
         }
+        SECTION("pointers") {
+            view_type empty(0, nullptr, nullptr, nullptr);
+            REQUIRE(empty.size() == 0);
+
+            view_type v1(1, one_point_ps.x_data(), one_point_ps.y_data(),
+                         one_point_ps.z_data());
+            REQUIRE(v1.size() == 1);
+            REQUIRE(v1[0] == one_point_ps[0]);
+        }
+        SECTION("mutable to read-only") {
+            if constexpr(!std::is_const_v<point_set_type>) {
+                using const_type = chemist::PointSetView<const point_set_type>;
+
+                const_type const_defaulted(defaulted);
+                REQUIRE(const_defaulted.size() == 0);
+
+                const_type const_no_points(no_points);
+                REQUIRE(const_no_points.size() == 0);
+
+                const_type const_one_point(one_point);
+                REQUIRE(const_one_point.size() == 1);
+                REQUIRE(const_one_point[0] == one_point[0]);
+
+                const_type const_two_points(two_points);
+                REQUIRE(const_two_points.size() == 2);
+                REQUIRE(const_two_points[0] == two_points[0]);
+                REQUIRE(const_two_points[1] == two_points[1]);
+            }
+        }
+
         SECTION("copy") {
             // N.b. operator== is checked by setting values directly and the
             //      the "value" section has confirmed it works

@@ -132,10 +132,12 @@ protected:
     }
 
     /// Returns the PointSetView used to implement *this
-    point_set_reference point_set_() override { return m_points_; }
+    point_set_reference point_set_() noexcept override { return m_points_; }
 
     /// Returns a read-only view of the PointSetView used to implement *this
-    const_point_set_reference point_set() const override { return m_points_; }
+    const_point_set_reference point_set_() const noexcept override {
+        return m_points_;
+    }
 
     /// Defers to the PointSet piece of *this for the number of point charges
     size_type size_() const noexcept override { return m_points_.size(); }

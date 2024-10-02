@@ -50,6 +50,13 @@ public:
     /// Traits class defining the types for the PointCharge class
     using point_charge_traits = typename parent_type::point_charge_traits;
 
+    /// Type parent uses to return the mutable PointSet piece
+    using point_set_reference = typename parent_type::point_set_reference;
+
+    /// Type parent uses to return the read-only PointSet piece
+    using const_point_set_reference =
+      typename parent_type::const_point_set_reference;
+
     /// Type used for indexing and offsets
     using size_type = typename parent_type::size_type;
 
@@ -91,7 +98,7 @@ public:
      *
      * @throw None No throw guarantee.
      */
-    point_set_reference point_set() { return point_set_(); }
+    point_set_reference point_set() noexcept { return point_set_(); }
 
     /** @brief Returns the PointSet piece of *this
      *
@@ -102,7 +109,9 @@ public:
      *
      * @throw None No throw guarantee.
      */
-    const_point_set_reference point_set() const { return point_set_(); }
+    const_point_set_reference point_set() const noexcept {
+        return point_set_();
+    }
 
     /// Returns mutable reference to the i-th point charge, implemented by at_
     reference operator[](size_type i) noexcept { return at_(i); }
@@ -131,10 +140,10 @@ protected:
     virtual pimpl_pointer clone_() const = 0;
 
     /// Derived class should override to implement point_set()
-    virtual point_set_reference point_set_() = 0;
+    virtual point_set_reference point_set_() noexcept = 0;
 
     /// Derived class should override to implement point_set() const
-    virtual const_point_set_reference point_set_() const = 0;
+    virtual const_point_set_reference point_set_() const noexcept = 0;
 
     /// Derived class should overrideto implement mutable at, operator[]
     virtual reference at_(size_type i) noexcept = 0;
