@@ -30,7 +30,6 @@ void export_charge_view_(const char* name, python_module_reference m) {
       typename charge_view_type::point_charge_reference;
     using point_view_type = typename charge_view_type::point_view_type;
 
-
     python_class_type<charge_view_type, point_view_type>(m, name)
       .def(pybind11::init<point_charge_reference>())
       .def_property(
