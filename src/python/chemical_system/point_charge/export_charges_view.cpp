@@ -24,10 +24,11 @@ namespace detail_ {
 
 template<typename T>
 void export_charges_view_(const char* name, python_module_reference m) {
-    using view_type    = ChargesView<Charges<T>>;
-    using charges_type = typename view_type::charges_type;
-    using reference    = view_type&;
-    using size_type    = typename view_type::size_type;
+    using view_type           = ChargesView<Charges<T>>;
+    using charges_type        = typename view_type::charges_type;
+    using reference           = view_type&;
+    using size_type           = typename view_type::size_type;
+    using point_set_reference = typename view_type::point_set_reference;
 
     auto str_fxn = [](const view_type& charges) {
         std::ostringstream stream;
@@ -38,6 +39,11 @@ void export_charges_view_(const char* name, python_module_reference m) {
     python_class_type<view_type>(m, name)
       .def(pybind11::init<>())
       .def(pybind11::init<charges_type&>())
+      .def_property(
+        "point_set", [](reference self) { return self.point_set(); },
+        [](reference self, point_set_reference points) {
+            self.point_set() = points;
+        })
       .def("empty", [](reference self) { return self.empty(); })
       .def("at", [](reference self, size_type i) { return self[i]; })
       .def("size", [](reference self) { return self.size(); })

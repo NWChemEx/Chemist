@@ -23,6 +23,8 @@ void test_case_guts() {
     using pimpl_type   = chemist::detail_::ChargesContiguous<charges_type>;
     using charge_type  = typename pimpl_type::point_charge_traits::charge_type;
     using point_set_reference = typename pimpl_type::point_set_reference;
+    using const_point_set_reference =
+      typename pimpl_type::const_point_set_reference;
     using point_set_type = typename pimpl_type::point_set_traits::value_type;
     using point_type     = typename point_set_type::value_type;
     using reference      = typename pimpl_type::reference;
@@ -79,6 +81,21 @@ void test_case_guts() {
     }
 
     // n.b. base class does bounds checks our checks should be in bounds
+
+    SECTION("point_set()") {
+        REQUIRE(defaulted.point_set() == point_set_reference{});
+        REQUIRE(no_charges.point_set() == point_set_reference{});
+        REQUIRE(charges.point_set() == point_set_reference{points});
+    }
+
+    SECTION("point_set() const") {
+        REQUIRE(std::as_const(defaulted).point_set() ==
+                const_point_set_reference{});
+        REQUIRE(std::as_const(no_charges).point_set() ==
+                const_point_set_reference{});
+        REQUIRE(std::as_const(charges).point_set() ==
+                const_point_set_reference{points});
+    }
 
     SECTION("at_()") {
         REQUIRE(charges[0] == q0);

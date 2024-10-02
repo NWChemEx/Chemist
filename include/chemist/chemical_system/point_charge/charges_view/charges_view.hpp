@@ -81,6 +81,10 @@ public:
     /// Type acting like a mutable reference to the PointSet piece of *this
     using point_set_reference = typename point_set_traits::view_type;
 
+    /// Type acting like a read-only reference to the PointSet piece of *this
+    using const_point_set_reference =
+      typename point_set_traits::const_view_type;
+
     /// Traits of the PointCharge objects in *this
     using point_charge_traits = typename charges_traits::point_charge_traits;
 
@@ -204,6 +208,31 @@ public:
 
     /// Default no-throw dtor
     ~ChargesView() noexcept;
+
+    /** @brief Returns a mutable reference to the PointSet piece of *this.
+     *
+     *  Charges objects are ultimately a set of points, each of which also
+     *  carries a charge. This method is used to access the PointSet piece of
+     *  *this.
+     *
+     *  @return A mutable reference to the piece of *this which behaves like a
+     *          PointSet object.
+     *
+     *  @throw None No throw guarantee.
+     */
+    point_set_reference point_set() noexcept;
+
+    /** @brief Returns a read-only reference to the PointSet piece of *this.
+     *
+     *  This method behaves identical to the non-const version except that the
+     *  resulting reference is read-only.
+     *
+     *  @return A read-only reference to the piece of *this which behaves like a
+     *          PointSet object.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const_point_set_reference point_set() const noexcept;
 
     /** @brief Determines if *this aliases the same Charges object as @p rhs.
      *

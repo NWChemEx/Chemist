@@ -20,9 +20,14 @@
 
 template<typename ChargesType>
 void test_charges_view_guts() {
-    using charges_type      = ChargesType;
-    using view_type         = chemist::ChargesView<charges_type>;
-    using point_charge_type = typename view_type::value_type;
+    using charges_type        = ChargesType;
+    using view_type           = chemist::ChargesView<charges_type>;
+    using point_charge_type   = typename view_type::value_type;
+    using point_set_type      = typename view_type::point_set_type;
+    using point_set_reference = typename view_type::point_set_reference;
+    using point_type          = typename point_set_reference::value_type;
+    using const_point_set_reference =
+      typename view_type::const_point_set_reference;
 
     // Make some Point objects and put them in a PointSet
     point_charge_type q0{0.0, 0.0, 0.0, 0.0}, q1{-1.1, 1.0, 2.0, 3.0},
@@ -132,6 +137,31 @@ void test_charges_view_guts() {
         REQUIRE(std::as_const(charges)[0] == q0);
         REQUIRE(std::as_const(charges)[1] == q1);
         REQUIRE(std::as_const(charges)[2] == q2);
+    }
+
+    SECTION("point_set()") {
+        REQUIRE(defaulted.point_set() == point_set_reference{});
+        REQUIRE(no_charges.point_set() == point_set_reference{});
+
+        point_type p0(0.0, 0.0, 0.0);
+        point_type p1(1.0, 2.0, 3.0);
+        point_type p2(4.0, 5.0, 6.0);
+        point_set_type corr{p0, p1, p2};
+        REQUIRE(charges.point_set() == point_set_reference{corr});
+    }
+
+    SECTION("point_set() const") {
+        REQUIRE(std::as_const(defaulted).point_set() ==
+                const_point_set_reference{});
+        REQUIRE(std::as_const(no_charges).point_set() ==
+                const_point_set_reference{});
+
+        point_type p0(0.0, 0.0, 0.0);
+        point_type p1(1.0, 2.0, 3.0);
+        point_type p2(4.0, 5.0, 6.0);
+        point_set_type corr{p0, p1, p2};
+        REQUIRE(std::as_const(charges).point_set() ==
+                const_point_set_reference{corr});
     }
 
     SECTION("size_()") {

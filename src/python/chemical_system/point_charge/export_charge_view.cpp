@@ -35,6 +35,7 @@ void export_charge_view_(const char* name, python_module_reference m) {
       .def_property(
         "charge", [](charge_view_type& self) { return self.charge(); },
         [](charge_view_type& self, charge_type q) { self.charge() = q; })
+
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self == point_charge_type())
       .def(point_charge_type() == pybind11::self)

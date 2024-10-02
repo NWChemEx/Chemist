@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <chemist/chemical_system/detail_/tmp_utils.hpp>
 #include <chemist/point/point_set.hpp>
 #include <chemist/traits/point_traits.hpp>
 #include <memory>
@@ -45,6 +46,10 @@ private:
     using base_type =
       utilities::IndexableContainerBase<PointSetView<PointSetType>>;
 
+    template<typename T>
+    using enable_mutable_to_const_t =
+      detail_::enable_mutable_to_const_t<T, PointSetType>;
+
 public:
     /// Traits associated with PointSetType
     using traits_type = ChemistClassTraits<PointSetType>;
@@ -72,6 +77,9 @@ public:
 
     /// Type of a pointer to a PIMPL
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
+
+    /// Type of a pointer to a mutable coordinate in a Point
+    using coord_pointer = typename point_traits_type::coord_pointer;
 
     /// Type used for indexing and offsets
     using typename base_type::size_type;
@@ -103,6 +111,53 @@ public:
      *                        state. Strong throw guarantee.
      */
     explicit PointSetView(point_set_reference ps);
+
+    /** @brief Creates a PointSetView from three contiguous buffers.
+     *
+     *  This ctor is used when you have three separate contiguous buffers, one
+     *  for each coordinate, and you want to treat those buffers as if they
+     *  were a PointSetView object.
+     *
+     *  @param[in] n_points The length of each buffer.
+     *  @param[in] px A pointer to the x-coordinate of the first point. Should
+     *                be a null pointer if @p n_points is 0.
+     *  @param[in] py A pointer to the y-coordinate of the first point. Should
+     *                be a null pointer if @p n_points is 0.
+     *  @param[in] pz A pointer to the z-coordinate of the first point. Should
+     *                be a null pointer if @p n_points is 0.
+     *
+     *  @throw None No throw guarantee.
+     */
+    PointSetView(size_type n_points, coord_pointer px, coord_pointer py,
+                 coord_pointer pz);
+
+    /** @brief Implicitly allows mutable PointSetView objects to be converted
+     *         to read-only PointSetView objects.
+     *
+     *  @tparam PointSetType2 The type @p other is serving as a view of. This
+     *                        ctor only participates in overload resolution when
+     *                        @p PointSetType2 is a non-const type and the type
+     *                        *this is a view of is read-only.
+     *  @tparam <anonymous> Used to disable/enable this ctor via SFINAE
+     *
+     *  This ctor allows views of mutable PointSet objects to be implicitly
+     *  converted to views of read-only PointSets. This is roughly the same
+     *  implicit conversion that occurs when a reference to a mutable object
+     *  is used by something that wants a reference to a read-only object.
+     *
+     *  @param[in] other The mutable view we want to implicitly convert to a
+     *                   read-only view.
+     *
+     *  @throw std::bad_alloc Throws if there is a problem allocating the PIMPL.
+     *                        Strong throw guarantee.
+     */
+    template<typename PointSetType2,
+             typename = enable_mutable_to_const_t<PointSetType2>>
+    PointSetView(const PointSetView<PointSetType2>& other) :
+      // N.b. this implementation will NOT work if we add more PIMPL types
+      PointSetView(other.size(), other.size() ? &other.at(0).coord(0) : nullptr,
+                   other.size() ? &other.at(0).coord(1) : nullptr,
+                   other.size() ? &other.at(0).coord(2) : nullptr) {}
 
     /** @brief Base ctor for stateful ctors.
      *
@@ -240,6 +295,19 @@ public:
      *  @throw None no throw guarantee.
      */
     bool operator!=(const PointSetView& rhs) const noexcept;
+
+    /** @brief Converts *this into a PointSet object.
+     *
+     *  PointSetViews alias their state, whereas PointSet objects own their
+     *  state. This method is used to convert *this from aliasing its state
+     *  to owning it (this happens by deep copying the internal state).
+     *
+     *  @return A new PointSet object containing a copy of the state in *this.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the return.
+     *                        Strong throw guarantee.
+     */
+    point_set_type as_point_set() const;
 
 private:
     /// Allow base class to access implementations

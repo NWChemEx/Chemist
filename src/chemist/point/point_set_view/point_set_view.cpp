@@ -31,8 +31,13 @@ POINT_SET_VIEW::PointSetView() noexcept = default;
 
 TPARAMS
 POINT_SET_VIEW::PointSetView(point_set_reference ps) :
+  PointSetView(ps.size(), ps.x_data(), ps.y_data(), ps.z_data()) {}
+
+TPARAMS
+POINT_SET_VIEW::PointSetView(size_type n_points, coord_pointer px,
+                             coord_pointer py, coord_pointer pz) :
   m_pimpl_(std::make_unique<detail_::PointSetContiguous<PointSetType>>(
-    ps.size(), ps.x_data(), ps.y_data(), ps.z_data())) {}
+    n_points, px, py, pz)) {}
 
 TPARAMS
 POINT_SET_VIEW::PointSetView(pimpl_pointer pimpl) noexcept :
@@ -80,6 +85,13 @@ bool POINT_SET_VIEW::operator==(const PointSetView& rhs) const noexcept {
 TPARAMS
 bool POINT_SET_VIEW::operator!=(const PointSetView& rhs) const noexcept {
     return !(*this == rhs);
+}
+
+TPARAMS
+typename POINT_SET_VIEW::point_set_type POINT_SET_VIEW::as_point_set() const {
+    point_set_type rv;
+    for(const auto& x : *this) rv.push_back(x.as_point());
+    return rv;
 }
 
 // -----------------------------------------------------------------------------

@@ -54,6 +54,18 @@ TPARAMS
 CHARGES_VIEW::~ChargesView() noexcept = default;
 
 TPARAMS
+typename CHARGES_VIEW::point_set_reference CHARGES_VIEW::point_set() noexcept {
+    return has_pimpl_() ? m_pimpl_->point_set() : point_set_reference{};
+}
+
+TPARAMS
+typename CHARGES_VIEW::const_point_set_reference CHARGES_VIEW::point_set()
+  const noexcept {
+    return has_pimpl_() ? std::as_const(*m_pimpl_).point_set() :
+                          const_point_set_reference{};
+}
+
+TPARAMS
 bool CHARGES_VIEW::operator==(const ChargesView& rhs) const noexcept {
     if(this->empty() != rhs.empty()) return false;
     if(this->empty()) return true;
