@@ -282,10 +282,10 @@ void test_point_set_view_guts() {
     }
 
     SECTION("as_points") {
-        REQUIRE(defaulted.as_points() == defaulted_ps);
-        REQUIRE(one_point.as_points() == one_point_ps);
-        REQUIRE(two_points.as_points() == two_points_ps);
-        REQUIRE(three_points.as_points() == three_points_ps);
+        REQUIRE(defaulted.as_point_set() == defaulted_ps);
+        REQUIRE(one_point.as_point_set() == one_point_ps);
+        REQUIRE(two_points.as_point_set() == two_points_ps);
+        REQUIRE(three_points.as_point_set() == three_points_ps);
     }
 }
 

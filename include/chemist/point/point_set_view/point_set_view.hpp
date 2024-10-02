@@ -307,7 +307,7 @@ public:
      *  @throw std::bad_alloc if there is a problem allocating the return.
      *                        Strong throw guarantee.
      */
-    point_set_type as_points() const;
+    point_set_type as_point_set() const;
 
 private:
     /// Allow base class to access implementations

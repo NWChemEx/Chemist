@@ -41,8 +41,8 @@ def make_test_point_set_view(point_type, point_set_type, point_set_view_type):
             self.assertEqual(self.has_value.size(), 2)
 
         def test_as_points(self):
-            self.assertEqual(self.defaulted.as_points(), point_set_type())
-            self.assertEqual(self.has_value.as_points(), self.has_value_set)
+            self.assertEqual(self.defaulted.as_point_set(), point_set_type())
+            self.assertEqual(self.has_value.as_point_set(), self.has_value_set)
 
         def test_comparisons(self):
             # Default vs default
