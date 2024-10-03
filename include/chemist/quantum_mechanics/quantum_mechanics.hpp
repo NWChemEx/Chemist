@@ -19,5 +19,6 @@
  *  Convenience header for including the QM component of chemist.
  */
 #pragma once
+#include <chemist/quantum_mechanics/braket/braket.hpp>
 #include <chemist/quantum_mechanics/operator/operator.hpp>
 #include <chemist/quantum_mechanics/wavefunction/wavefunction.hpp>
