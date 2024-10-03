@@ -1,3 +1,4 @@
+#include "../../test_helpers.hpp"
 #include "../test_qm.hpp"
 #include <chemist/quantum_mechanics/braket/braket_class.hpp>
 #include <chemist/quantum_mechanics/operator/kinetic.hpp>
@@ -32,6 +33,28 @@ TEST_CASE("BraKet<AOs, Kinetic<Electron>, AOs>") {
             REQUIRE(t_mn.bra() == h2_aos);
             REQUIRE(t_mn.the_operator() == t_e);
             REQUIRE(t_mn.ket() == no_aos);
+        }
+        SECTION("copy") {
+            BraKet copy_t_mn(t_mn);
+            REQUIRE(copy_t_mn == t_mn);
+        }
+        SECTION("move") {
+            BraKet copy_t_mn(t_mn);
+            BraKet move_t_mn(std::move(t_mn));
+            REQUIRE(copy_t_mn == move_t_mn);
+        }
+        SECTION("copy assignment") {
+            BraKet lhs(no_aos, t_e, no_aos);
+            auto plhs = &(lhs = t_mn);
+            REQUIRE(lhs == t_mn);
+            REQUIRE(plhs == &lhs);
+        }
+        SECTION("move assignment") {
+            BraKet lhs(no_aos, t_e, no_aos);
+            BraKet copy_t_mn(t_mn);
+            auto plhs = &(lhs = std::move(t_mn));
+            REQUIRE(lhs == copy_t_mn);
+            REQUIRE(plhs == &lhs);
         }
     }
 

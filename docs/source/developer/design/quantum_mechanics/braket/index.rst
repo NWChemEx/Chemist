@@ -52,9 +52,13 @@ component and should be formalized at some point.
           "VectorSpace, Operator, VectorSpace" to evaluate to a 
           tensor. 
         - Define ``TensorRepresentation`` for ``BraKet`` that evaluate to
-          tensors and ``TensorElement`` for ``BraKet`` that evaluate to scalars.
-        - Factor out common implementations into ``BraKetBase``
-        
+          tensors and ``TensorElement`` for ``BraKet`` that evaluate to an
+          element of the tensor.
+        - Factor out common implementations into ``BraKetBase``.
+
+- ``TensorRepresentation`` and ``TensorElement`` can be used to write generic
+  drivers.
+
 - Eventually ``BraKet`` should rely on a PIMPL to hold the state. PIMPLs can be
   used to optimize storage, e.g., only store the bra or the ket if its symmetric
 - We probably will need ``BraKetView`` to allow existing state to be used as if

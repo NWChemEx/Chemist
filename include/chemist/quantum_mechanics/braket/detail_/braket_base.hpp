@@ -45,19 +45,61 @@ public:
     /// No throw polymorphic dtor
     virtual ~BraKetBase() noexcept = default;
 
+    /** @brief Makes a deep polymorphic copy of *this.
+     *
+     *  @return A deep polymorphic copy of *this.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the copy. Strong
+     *                        throw guarantee.
+     */
     base_pointer clone() const { return clone_(); }
 
+    /** @brief Checks for polymorphic value equality.
+     *
+     *  *this and @p rhs are polymorphically value equal if:
+     *  - the most derived class of *this is the same most derived class of
+     *    @p rhs.
+     *  - When compared as objects of the most derived class *this and @p rhs
+     *    compare value equal.
+     *
+     *  @param[in] rhs The object to compare to.
+     *
+     *  @return True if *this is polymorphically value equal to @p rhs and false
+     *          otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
     bool are_equal(const_base_reference rhs) const noexcept {
-        return are_equal_(rhs) && rhs.are_equal_(*this);
+        auto plhs = static_cast<const DerivedType*>(this);
+        return are_equal_(rhs) && rhs.are_equal_(*plhs);
+    }
+
+    /** @brief Is *this polymorphically different than @p rhs?
+     *
+     *  This method defines "polymorphically different" as "not polymorphically
+     *  value equal". See the description for are_equal for the definition of
+     *  polymorphically value equal.
+     *
+     *  @param[in] rhs The object to compare to.
+     *
+     *  @return False if *this is polymorphically value equal to @p rhs and
+     *          true otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool are_different(const_base_reference rhs) const noexcept {
+        return !are_equal(rhs);
     }
 
 protected:
-    using bra_ket_base_type                      = BraKetBase<DerivedType>;
+    /// Protected so derived class can use them, but users can't (avoid slicing)
+    ///@{
     BraKetBase() noexcept                        = default;
     BraKetBase(const BraKetBase&)                = default;
     BraKetBase(BraKetBase&&) noexcept            = default;
     BraKetBase& operator=(const BraKetBase&)     = default;
     BraKetBase& operator=(BraKetBase&&) noexcept = default;
+    ///@}
 
     /// Override to be consistent with clone description
     virtual base_pointer clone_() const = 0;

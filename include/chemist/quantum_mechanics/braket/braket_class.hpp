@@ -22,7 +22,7 @@ namespace detail_ {
 template<typename BraType, typename OperatorType, typename KetType>
 using bra_ket_base_type =
   std::conditional_t<is_tensor_representation_v<BraType, OperatorType, KetType>,
-                     TensorRepresentation, TensorElement>;
+                     TensorRepresentation, TensorElement<double>>;
 } // namespace detail_
 
 /** @brief Specifies the calculation (or a piece of it) that the user wants.
@@ -47,6 +47,49 @@ public:
     /// Type of a read-only reference to an object fo type base_type
     using const_base_reference = typename base_type::const_base_reference;
 
+    /// Type of the bra object
+    using bra_type = BraType;
+
+    /// Type behaving like a mutable reference to a bra_type object
+    using bra_reference = bra_type&;
+
+    /// Type behaving like a read-only reference to a bra_type object
+    using const_bra_reference = const bra_type&;
+
+    /// Type of the operator
+    using operator_type = OperatorType;
+
+    /// Type of the ket object
+    using ket_type = KetType;
+
+    /// Type behaving like a mutable reference to a ket_type object
+    using ket_reference = ket_type&;
+
+    /// Type behaving like a read-only reference to a ket_type object
+    using const_ket_reference = const ket_type&;
+
+    /** @brief Constructs a BraKet with the given bra, operator, and ket.
+     *
+     *  @tparam BraType2 The type of @p bra. Must be implicitly convertible to
+     *          BraType.
+     *  @tparam OperatorType2 The type of @p op. Must be implicitly convertible
+     *          to OperatorType.
+     *  @tparam KetType2 The type of @p ket. Must be implicitly convertible to
+     *          KetType.
+     *
+     *  @note This function is templated so we can automatically handle copying
+     *        and moving of the inputs as appropriate.
+     *
+     *  This ctor is used to create a stateful BraKet object.
+     *
+     *  @param[in] bra The wavefunction or vector space associated with the bra.
+     *  @param[in] op The operator acting on the ket.
+     *  @param[in] ket The wavefunction or vector space associated with the ket.
+     *
+     *  @throw ??? Throws if forwarding any of the arguments throws. Same throw
+     *             guarantee.
+     */
+
     template<typename BraType2, typename OperatorType2, typename KetType2>
     BraKet(BraType2&& bra, OperatorType2&& op, KetType2&& ket) :
       m_bra_(std::forward<BraType2>(bra)),
@@ -55,17 +98,17 @@ public:
 
     BraKet(const BraKet& other) = default;
 
-    decltype(auto) bra() { return m_bra_; }
+    bra_reference bra() { return m_bra_; }
 
-    decltype(auto) bra() const { return m_bra_; }
+    const_bra_reference bra() const { return m_bra_; }
 
     decltype(auto) the_operator() { return m_operator_; }
 
     decltype(auto) the_operator() const { return m_operator_; }
 
-    decltype(auto) ket() { return m_ket_; }
+    ket_reference ket() { return m_ket_; }
 
-    decltype(auto) ket() const { return m_ket_; }
+    const_ket_reference ket() const { return m_ket_; }
 
     template<typename BraType2, typename OperatorType2, typename KetType2>
     bool operator==(
@@ -78,10 +121,12 @@ public:
     }
 
 protected:
+    /// Implements clone by calling copy ctor
     base_pointer clone_() const override {
         return std::make_unique<my_type>(*this);
     }
 
+    /// Implements are_equal by downcasting @p rhs and comparing via operator==
     bool are_equal_(const_base_reference rhs) const noexcept override {
         auto prhs = dynamic_cast<const my_type*>(&rhs);
         if(prhs == nullptr) return false; // Different types
@@ -89,8 +134,13 @@ protected:
     }
 
 private:
+    /// The vector space or wavefunction in the bra position
     BraType m_bra_;
+
+    /// The operator acting on the ket
     OperatorType m_operator_;
+
+    /// The vector space or wavefunction in the ket position
     KetType m_ket_;
 };
 
