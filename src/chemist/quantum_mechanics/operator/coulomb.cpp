@@ -14,9 +14,25 @@
  * limitations under the License.
  */
 
-#pragma once
 #include <chemist/quantum_mechanics/operator/coulomb.hpp>
-#include <chemist/quantum_mechanics/operator/kinetic.hpp>
-#include <chemist/quantum_mechanics/operator/operator_base.hpp>
 #include <chemist/quantum_mechanics/operator/operator_visitor.hpp>
-#include <chemist/quantum_mechanics/operator/typedefs.hpp>
+
+namespace chemist::qm_operator {
+
+#define TPARAMS template<typename LHSParticleType, typename RHSParticleType>
+#define COULOMB Coulomb<LHSParticleType, RHSParticleType>
+
+TPARAMS
+COULOMB::Coulomb(lhs_value_type p0, rhs_value_type p1) noexcept :
+  base_type(std::move(p0), std::move(p1)) {}
+
+#undef COULOMB
+#undef TPARAMS
+
+template class Coulomb<Electron, Electron>;
+template class Coulomb<ManyElectrons, ManyElectrons>;
+template class Coulomb<Electron, Nuclei>;
+template class Coulomb<ManyElectrons, Nuclei>;
+template class Coulomb<Nuclei, Nuclei>;
+
+} // namespace chemist::qm_operator

@@ -65,4 +65,17 @@ inline auto h2_basis() {
     return rv;
 }
 
+/// Creates a defaulted instance of each particle type we want to test
+inline auto defaulted_particles() {
+    return std::make_tuple(Electron{}, ManyElectrons{}, Nucleus{}, Nuclei{});
+}
+
+/// Creates a non-default instance of each particle type we want to test
+inline auto non_defaulted_particles() {
+    auto r = h2_coords();
+    Nucleus h0("H", 1ul, 1837.15264648179, r[0], r[1], r[2]);
+    Nucleus h1("H", 1ul, 1837.15264648179, r[3], r[4], r[5]);
+    return std::make_tuple(Electron{}, ManyElectrons{3}, h0, Nuclei{h0, h1});
+}
+
 } // namespace test_chemist
