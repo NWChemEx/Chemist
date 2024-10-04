@@ -21,6 +21,14 @@ Design of the BraKet Component
 This is a collection of notes on the design of the classes for the BraKet 
 component and should be formalized at some point.
 
+- In prototyping ``BraKet`` and ``TensorRepresentation`` were property types;
+  however, this was burdensome when vector spaces/wavefunctions exhibited
+  inheritance, e.g., if x inherits from y, then the property type 
+  ``BraKet<y, Kinetic<Electron>, y>`` was different from 
+  ``BraKet<x, Kinetic<Electron>, x>``. Moreover because the latter property
+  type did not inherit from the former, implicit conversion could not happen.
+  With ``BraKet`` (and ``TensorRepresentation``) being traditional classes we
+  can define our own implicit conversions easily.
 - Rigorously kets are vectors and bras are operations which project onto a 
   vector.
 - The "projection" part of the bra involves antilinear projection on to a 
@@ -64,7 +72,7 @@ component and should be formalized at some point.
 - We probably will need ``BraKetView`` to allow existing state to be used as if
   it were a ``BraKet`` without copying it.
 
-.. figure:: assets/braket_hierarcy.png
+.. figure:: assets/braket_hierarchy.png
    :align: center
 
    BraKet class hierarcy.

@@ -1,10 +1,12 @@
 #include "../../test_helpers.hpp"
 #include "../test_qm.hpp"
 #include <chemist/quantum_mechanics/braket/braket_class.hpp>
-#include <chemist/quantum_mechanics/operator/kinetic.hpp>
+#include <chemist/quantum_mechanics/operator/operator.hpp>
 #include <chemist/quantum_mechanics/wavefunction/aos.hpp>
 
 using namespace chemist;
+using namespace chemist::qm_operator;
+using namespace chemist::wavefunction;
 using namespace chemist::braket;
 
 TEST_CASE("bra_ket_base_type") {
@@ -18,76 +20,117 @@ TEST_CASE("bra_ket_base_type") {
     STATIC_REQUIRE(std::is_same_v<TensorRepresentation, tr_type>);
 }
 
-TEST_CASE("BraKet<AOs, Kinetic<Electron>, AOs>") {
-    using operator_type = qm_operator::Kinetic<Electron>;
-    using bra_type      = wavefunction::AOs;
-    using ket_type      = wavefunction::AOs;
+/* Testing strategy.
+ *
+ * Methods implemented via this class, but accessed via base classes (e.g.,
+ * clone and are_equal) are tested in test cases dedicated to those base
+ * classes. Here we only test methods defined and implemented in the BraKet
+ * class. Ultimately there are a lot of possible permutations of BraKet objects
+ * and we only spot check a few. In practice, while the BraKet class represents
+ * a fairly complicated object, aside from the template meta-programming, the
+ * BraKet class's implementation is actually fairly simple and we anticipate
+ * that our spot checking represents fairly thorough coverage.
+ */
 
-    operator_type t_e;
-    bra_type h2_aos(test_chemist::h2_basis());
-    ket_type no_aos;
-    BraKet t_mn(h2_aos, t_e, no_aos);
+using bra_ket_tuples =
+  std::tuple<std::tuple<AOs, t_e_type, AOs>, std::tuple<AOs, T_e_type, AOs>>;
+
+TEMPLATE_LIST_TEST_CASE("BraKet", "", bra_ket_tuples) {
+    using operator_type = std::tuple_element_t<1, TestType>;
+    using bra_type      = std::tuple_element_t<0, TestType>;
+    using ket_type      = std::tuple_element_t<2, TestType>;
+
+    auto operators     = std::make_tuple(t_e_type{}, T_e_type{});
+    auto bras_and_kets = std::make_tuple(AOs{test_chemist::h2_basis()});
+
+    // If the bra_type == ket_type we'll grab the ket out of this array to make
+    // sure they can be told a part
+    auto alt_bras_and_kets = std::make_tuple(AOs{});
+
+    auto op  = std::get<operator_type>(operators);
+    auto bra = std::get<bra_type>(bras_and_kets);
+    auto ket = std::get<ket_type>(bras_and_kets);
+    if constexpr(std::is_same_v<bra_type, ket_type>) {
+        ket = std::get<ket_type>(alt_bras_and_kets);
+    }
+
+    BraKet o_ij(bra, op, ket);
 
     SECTION("Ctors/assignment") {
         SECTION("value") {
-            REQUIRE(t_mn.bra() == h2_aos);
-            REQUIRE(t_mn.the_operator() == t_e);
-            REQUIRE(t_mn.ket() == no_aos);
+            REQUIRE(o_ij.bra() == bra);
+            REQUIRE(o_ij.op() == op);
+            REQUIRE(o_ij.ket() == ket);
         }
         SECTION("copy") {
-            BraKet copy_t_mn(t_mn);
-            REQUIRE(copy_t_mn == t_mn);
+            BraKet copy_o(o_ij);
+            REQUIRE(copy_o == o_ij);
         }
         SECTION("move") {
-            BraKet copy_t_mn(t_mn);
-            BraKet move_t_mn(std::move(t_mn));
-            REQUIRE(copy_t_mn == move_t_mn);
+            BraKet copy_o(o_ij);
+            BraKet move_o(std::move(o_ij));
+            REQUIRE(copy_o == move_o);
         }
         SECTION("copy assignment") {
-            BraKet lhs(no_aos, t_e, no_aos);
-            auto plhs = &(lhs = t_mn);
-            REQUIRE(lhs == t_mn);
+            BraKet lhs(ket, op, ket);
+            auto plhs = &(lhs = o_ij);
+            REQUIRE(lhs == o_ij);
             REQUIRE(plhs == &lhs);
         }
         SECTION("move assignment") {
-            BraKet lhs(no_aos, t_e, no_aos);
-            BraKet copy_t_mn(t_mn);
-            auto plhs = &(lhs = std::move(t_mn));
-            REQUIRE(lhs == copy_t_mn);
+            BraKet lhs(ket, op, ket);
+            BraKet copy_o(o_ij);
+            auto plhs = &(lhs = std::move(o_ij));
+            REQUIRE(lhs == copy_o);
             REQUIRE(plhs == &lhs);
         }
     }
 
+    SECTION("bra()") { REQUIRE(o_ij.bra() == bra); }
+
+    SECTION("bra() const") { REQUIRE(std::as_const(o_ij).bra() == bra); }
+
+    SECTION("op()") { REQUIRE(o_ij.op() == op); }
+
+    SECTION("op() const") { REQUIRE(std::as_const(o_ij).op() == op); }
+
+    SECTION("ket()") { REQUIRE(o_ij.ket() == ket); }
+
+    SECTION("ket() const") { REQUIRE(std::as_const(o_ij).ket() == ket); }
+
     SECTION("operator==") {
         SECTION("Same value") {
-            BraKet rhs(h2_aos, t_e, no_aos);
-            REQUIRE(t_mn == rhs);
+            BraKet rhs(bra, op, ket);
+            REQUIRE(o_ij == rhs);
         }
         SECTION("Bra and ket flipped") {
-            BraKet rhs(no_aos, t_e, h2_aos);
-            REQUIRE_FALSE(t_mn == rhs);
+            BraKet rhs(ket, op, bra);
+            REQUIRE_FALSE(o_ij == rhs);
         }
         SECTION("Different bra") {
-            BraKet rhs(no_aos, t_e, no_aos);
-            REQUIRE_FALSE(t_mn == rhs);
+            BraKet rhs(ket, op, bra);
+            REQUIRE_FALSE(o_ij == rhs);
         }
         SECTION("Different operator") {
-            qm_operator::Kinetic<ManyElectrons> T_e;
-            BraKet rhs(h2_aos, T_e, no_aos);
-            REQUIRE_FALSE(t_mn == rhs);
+            constexpr auto is_t_e = std::is_same_v<operator_type, t_e_type>;
+            using op2_type = std::conditional_t<is_t_e, T_e_type, t_e_type>;
+
+            auto op2 = std::get<op2_type>(operators);
+            BraKet rhs(bra, op2, ket);
+            REQUIRE_FALSE(o_ij == rhs);
         }
         SECTION("Different ket") {
-            BraKet rhs(h2_aos, t_e, h2_aos);
-            REQUIRE_FALSE(t_mn == rhs);
+            BraKet rhs(bra, op, bra);
+            REQUIRE_FALSE(o_ij == rhs);
         }
     }
 
     SECTION("operator!=") {
         // N.b. implemented in terms of operator== just spot check
-        BraKet same(h2_aos, t_e, no_aos);
-        REQUIRE_FALSE(t_mn != same);
+        BraKet same(bra, op, ket);
+        REQUIRE_FALSE(o_ij != same);
 
-        BraKet diff(no_aos, t_e, h2_aos);
-        REQUIRE(t_mn != diff);
+        BraKet diff(ket, op, bra);
+        REQUIRE(o_ij != diff);
     }
 }
