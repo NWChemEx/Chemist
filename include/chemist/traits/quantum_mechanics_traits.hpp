@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 NWChemEx-Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #pragma once
 #include <type_traits>
 
@@ -63,9 +79,8 @@ static constexpr auto is_vector_space_v =
  *  @tparam KetType The type of the object occupying hte ket slot of the BraKet.
  */
 template<typename BraType, typename OperatorType, typename KetType>
-static constexpr auto is_tensor_element_v =
-  is_wavefunction_v<BraType> && is_operator_v<OperatorType> &&
-  is_wavefunction_v<KetType>;
+static constexpr auto is_tensor_element_v = is_wavefunction_v<BraType>&&
+  is_operator_v<OperatorType>&& is_wavefunction_v<KetType>;
 
 /** @brief Determines if the template type parameters passed to a BraKet object
  *         make it result in the tensor representation of the operator.
@@ -82,8 +97,7 @@ static constexpr auto is_tensor_element_v =
  *  @tparam KetType The type of the object occupying hte ket slot of the BraKet.
  */
 template<typename BraType, typename OperatorType, typename KetType>
-static constexpr auto is_tensor_representation_v =
-  is_vector_space_v<BraType> && is_operator_v<OperatorType> &&
-  is_vector_space_v<KetType>;
+static constexpr auto is_tensor_representation_v = is_vector_space_v<BraType>&&
+  is_operator_v<OperatorType>&& is_vector_space_v<KetType>;
 
 } // namespace chemist
