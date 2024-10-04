@@ -25,7 +25,9 @@ public:
 
 protected:
     base_pointer clone_() const override {
-        return base_pointer{}; // Won't be exposed to Python so should be okay
+        // unique_ptr isn't exposed so can't use PYBIND11_OVERRIDE_PURE
+        // This is okay as long as Python classes don't call this function
+        return base_pointer{};
     }
 
     size_type size_() const noexcept override {
@@ -40,6 +42,7 @@ protected:
 void export_vector_space(python_module_reference m) {
     python_class_type<VectorSpace, PyVectorSpace>(m, "VectorSpace")
       .def(pybind11::init<>())
+      .def("clone", &VectorSpace::clone)
       .def("size", &VectorSpace::size)
       .def("are_equal", &VectorSpace::are_equal)
       .def("are_different", &VectorSpace::are_different);

@@ -15,7 +15,6 @@
  */
 
 #pragma once
-#include <chemist/quantum_mechanics/operator/kinetic.hpp>
-#include <chemist/quantum_mechanics/operator/operator_base.hpp>
-#include <chemist/quantum_mechanics/operator/operator_visitor.hpp>
-#include <chemist/quantum_mechanics/operator/typedefs.hpp>
+#include <chemist/quantum_mechanics/braket_class.hpp>
+#include <chemist/quantum_mechanics/tensor_element.hpp>
+#include <chemist/quantum_mechanics/tensor_representation.hpp>

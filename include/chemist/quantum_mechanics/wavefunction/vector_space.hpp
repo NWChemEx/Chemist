@@ -39,8 +39,17 @@ namespace chemist::wavefunction {
  */
 class VectorSpace {
 public:
+    /// Type all vector spaces derive from
+    using base_type = VectorSpace;
+
     /// Type of a pointer to an object of type *this. Type returned by clone
-    using base_pointer = std::unique_ptr<VectorSpace>;
+    using base_pointer = std::unique_ptr<base_type>;
+
+    /// Type behaving like a mutable reference to an object of type base_type
+    using base_reference = base_type&;
+
+    /// Type behaving like a read-only reference to an object of type base_type
+    using const_base_reference = const base_type&;
 
     /// Type used for indexing and offsets.
     using size_type = std::size_t;
