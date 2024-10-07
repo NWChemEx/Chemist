@@ -15,10 +15,24 @@
  */
 
 #pragma once
-#include <chemist/quantum_mechanics/operator/coulomb.hpp>
-#include <chemist/quantum_mechanics/operator/exchange.hpp>
-#include <chemist/quantum_mechanics/operator/exchange_correlation.hpp>
-#include <chemist/quantum_mechanics/operator/kinetic.hpp>
-#include <chemist/quantum_mechanics/operator/operator_base.hpp>
-#include <chemist/quantum_mechanics/operator/operator_visitor.hpp>
-#include <chemist/quantum_mechanics/operator/typedefs.hpp>
+
+/** @file operator_fwd.hpp
+ *
+ *  This file contains forward declarations of the operator types found in
+ *  Chemist.
+ */
+
+namespace chemist::qm_operator {
+template<typename T>
+class Kinetic;
+
+template<typename T, typename U>
+class Coulomb;
+
+template<typename T, typename U>
+class Exchange;
+
+template<typename T, typename U>
+class ExchangeCorrelation;
+
+} // namespace chemist::qm_operator

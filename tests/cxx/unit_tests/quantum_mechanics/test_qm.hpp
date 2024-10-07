@@ -23,6 +23,8 @@
 #pragma once
 #include "../catch.hpp"
 #include <chemist/basis_set/ao_basis_set/ao_basis_set.hpp>
+#include <chemist/chemical_system/electron/electron.hpp>
+#include <chemist/chemical_system/nucleus/nucleus.hpp>
 
 namespace test_chemist {
 
@@ -63,6 +65,21 @@ inline auto h2_basis() {
     rv.add_center(h1);
 
     return rv;
+}
+
+/// Creates a defaulted instance of each particle type we want to test
+inline auto defaulted_particles() {
+    return std::make_tuple(chemist::Electron{}, chemist::ManyElectrons{},
+                           chemist::Nucleus{}, chemist::Nuclei{});
+}
+
+/// Creates a non-default instance of each particle type we want to test
+inline auto non_defaulted_particles() {
+    auto r = h2_coords();
+    chemist::Nucleus h0("H", 1ul, 1837.15264648179, r[0], r[1], r[2]);
+    chemist::Nucleus h1("H", 1ul, 1837.15264648179, r[3], r[4], r[5]);
+    return std::make_tuple(chemist::Electron{}, chemist::ManyElectrons{3}, h0,
+                           chemist::Nuclei{h0, h1});
 }
 
 } // namespace test_chemist

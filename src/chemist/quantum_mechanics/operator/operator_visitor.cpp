@@ -18,30 +18,40 @@
 
 namespace chemist::qm_operator {
 
-#define OVERLOAD(T)                                 \
-    void OperatorVisitor::run(T& visitor) {         \
-        return run(static_cast<const T&>(visitor)); \
+#define OVERLOAD(...)                                         \
+    void OperatorVisitor::run(__VA_ARGS__& visitor) {         \
+        return run(static_cast<const __VA_ARGS__&>(visitor)); \
     }
 
-#define CONST_OVERLOAD(T)                                                    \
-    void OperatorVisitor::run(const T&) {                                    \
+#define CONST_OVERLOAD(...)                                                  \
+    void OperatorVisitor::run(const __VA_ARGS__&) {                          \
         throw std::runtime_error(                                            \
           std::string("Visitor does not support operators of type const ") + \
-          std::string(#T));                                                  \
+          std::string(#__VA_ARGS__));                                        \
     }
 
-#define OVERLOADS(T) \
-    OVERLOAD(T);     \
-    CONST_OVERLOAD(T)
+#define OVERLOADS(...)     \
+    OVERLOAD(__VA_ARGS__); \
+    CONST_OVERLOAD(__VA_ARGS__)
 
 #define ONE_PARTICLE_OVERLOADS(T) \
     OVERLOADS(T<Electron>);       \
     OVERLOADS(T<ManyElectrons>);  \
     OVERLOADS(T<Nucleus>);        \
     OVERLOADS(T<Nuclei>)
+#define TWO_PARTICLE_OVERLOADS(T)               \
+    OVERLOADS(T<Electron, Electron>);           \
+    OVERLOADS(T<ManyElectrons, ManyElectrons>); \
+    OVERLOADS(T<Electron, Nuclei>);             \
+    OVERLOADS(T<ManyElectrons, Nuclei>);        \
+    OVERLOADS(T<Nuclei, Nuclei>)
 
 ONE_PARTICLE_OVERLOADS(Kinetic);
+TWO_PARTICLE_OVERLOADS(Coulomb);
+TWO_PARTICLE_OVERLOADS(Exchange);
+TWO_PARTICLE_OVERLOADS(ExchangeCorrelation);
 
+#undef TWO_PARTICLE_OVERLOADS
 #undef ONE_PARTICLE_OVERLOADS
 #undef OVERLOADS
 #undef CONST_OVERLOAD

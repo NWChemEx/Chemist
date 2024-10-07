@@ -17,7 +17,7 @@
 #pragma once
 #include <chemist/chemical_system/electron/electron.hpp>
 #include <chemist/chemical_system/nucleus/nucleus.hpp>
-#include <chemist/quantum_mechanics/operator/kinetic.hpp>
+#include <chemist/quantum_mechanics/operator/operator_fwd.hpp>
 
 /** @file typedefs.hpp
  *
@@ -34,12 +34,10 @@
  *  - after the letter for the operator we denote the particles involved using
  *    the convention that e = electron(s) and n = nucleus or nuclei
  *  - t/T is kinetic energy operator
+ *  - v/V is Coulomb operator
+ *  - k/K is the (SCF) exchange operator
+ *  - xc/XC is DFT exchange-correlation operator
  *
- *  @note Right now this file includes the headers needed to instantiate
- *        instances of these typedefs; however, it is possible to declare these
- *        typedefs without including those files (this requires us writing
- *        forward declarations for each class). If that happens this file should
- *        probably use the forward declarations instead...
  */
 
 namespace chemist::qm_operator {
@@ -48,5 +46,23 @@ using t_e_type = Kinetic<Electron>;
 using T_e_type = Kinetic<ManyElectrons>;
 using t_n_type = Kinetic<Nucleus>;
 using T_n_type = Kinetic<Nuclei>;
+
+using v_ee_type = Coulomb<Electron, Electron>;
+using V_ee_type = Coulomb<ManyElectrons, ManyElectrons>;
+using v_en_type = Coulomb<Electron, Nuclei>;
+using V_en_type = Coulomb<ManyElectrons, Nuclei>;
+using V_nn_type = Coulomb<Nuclei, Nuclei>;
+
+using k_ee_type = Exchange<Electron, Electron>;
+using K_ee_type = Exchange<ManyElectrons, ManyElectrons>;
+using k_en_type = Exchange<Electron, Nuclei>;
+using K_en_type = Exchange<ManyElectrons, Nuclei>;
+using K_nn_type = Exchange<Nuclei, Nuclei>;
+
+using xc_ee_type = ExchangeCorrelation<Electron, Electron>;
+using XC_ee_type = ExchangeCorrelation<ManyElectrons, ManyElectrons>;
+using xc_en_type = ExchangeCorrelation<Electron, Nuclei>;
+using XC_en_type = ExchangeCorrelation<ManyElectrons, Nuclei>;
+using XC_nn_type = ExchangeCorrelation<Nuclei, Nuclei>;
 
 } // namespace chemist::qm_operator
