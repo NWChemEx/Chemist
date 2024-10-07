@@ -14,11 +14,25 @@
  * limitations under the License.
  */
 
-#pragma once
-#include <chemist/quantum_mechanics/operator/coulomb.hpp>
-#include <chemist/quantum_mechanics/operator/exchange.hpp>
 #include <chemist/quantum_mechanics/operator/exchange_correlation.hpp>
-#include <chemist/quantum_mechanics/operator/kinetic.hpp>
-#include <chemist/quantum_mechanics/operator/operator_base.hpp>
 #include <chemist/quantum_mechanics/operator/operator_visitor.hpp>
-#include <chemist/quantum_mechanics/operator/typedefs.hpp>
+
+namespace chemist::qm_operator {
+
+#define TPARAMS template<typename LHSParticleType, typename RHSParticleType>
+#define XC ExchangeCorrelation<LHSParticleType, RHSParticleType>
+
+TPARAMS
+XC::ExchangeCorrelation(lhs_value_type p0, rhs_value_type p1) noexcept :
+  base_type(std::move(p0), std::move(p1)) {}
+
+#undef XC
+#undef TPARAMS
+
+template class ExchangeCorrelation<Electron, Electron>;
+template class ExchangeCorrelation<ManyElectrons, ManyElectrons>;
+template class ExchangeCorrelation<Electron, Nuclei>;
+template class ExchangeCorrelation<ManyElectrons, Nuclei>;
+template class ExchangeCorrelation<Nuclei, Nuclei>;
+
+} // namespace chemist::qm_operator

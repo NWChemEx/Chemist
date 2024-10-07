@@ -20,11 +20,12 @@
 namespace chemist::qm_operator {
 
 template<typename LHSParticle, typename RHSParticle>
-class Coulomb : public detail_::OperatorImpl<Coulomb<LHSParticle, RHSParticle>,
-                                             LHSParticle, RHSParticle> {
+class Exchange
+  : public detail_::OperatorImpl<Exchange<LHSParticle, RHSParticle>,
+                                 LHSParticle, RHSParticle> {
 private:
     /// Type of *this
-    using my_type = Coulomb<LHSParticle, RHSParticle>;
+    using my_type = Exchange<LHSParticle, RHSParticle>;
 
     /// Type *this directly derives from
     using base_type = detail_::OperatorImpl<my_type, LHSParticle, RHSParticle>;
@@ -42,23 +43,23 @@ public:
       typename base_type::template const_particle_reference<1>;
     ///@}
 
-    explicit Coulomb(lhs_value_type p0 = lhs_value_type{},
-                     rhs_value_type p1 = rhs_value_type{}) noexcept;
+    explicit Exchange(lhs_value_type p0 = lhs_value_type{},
+                      rhs_value_type p1 = rhs_value_type{}) noexcept;
 
     /// All implemented by OperatorImpl. This exposes them to the user.
     ///@{
-    Coulomb(const Coulomb&)                    = default;
-    Coulomb(Coulomb&& rhs) noexcept            = default;
-    Coulomb& operator=(const Coulomb&)         = default;
-    Coulomb& operator=(Coulomb&& rhs) noexcept = default;
+    Exchange(const Exchange&)                    = default;
+    Exchange(Exchange&& rhs) noexcept            = default;
+    Exchange& operator=(const Exchange&)         = default;
+    Exchange& operator=(Exchange&& rhs) noexcept = default;
     ///@}
 
     /// Defaulted, nothrow dtor
-    ~Coulomb() noexcept = default;
+    ~Exchange() noexcept = default;
 
     /** @brief Returns the lhs particle
      *
-     *  The Coulomb energy is a two particle operator. We term the first
+     *  The Exchange energy is a two particle operator. We term the first
      *  particle the lhs particle (short for left hand side). This method can be
      *  used to retrieve the lhs particle.
      *
@@ -85,7 +86,7 @@ public:
 
     /** @brief Returns the rhs particle
      *
-     *  The Coulomb energy is a two particle operator. We term the second
+     *  The Exchange energy is a two particle operator. We term the second
      *  particle the rhs particle (short for right hand side). This method can
      *  be used to retrieve the rhs particle.
      *
@@ -111,10 +112,10 @@ public:
     }
 };
 
-extern template class Coulomb<Electron, Electron>;
-extern template class Coulomb<ManyElectrons, ManyElectrons>;
-extern template class Coulomb<Electron, Nuclei>;
-extern template class Coulomb<ManyElectrons, Nuclei>;
-extern template class Coulomb<Nuclei, Nuclei>;
+extern template class Exchange<Electron, Electron>;
+extern template class Exchange<ManyElectrons, ManyElectrons>;
+extern template class Exchange<Electron, Nuclei>;
+extern template class Exchange<ManyElectrons, Nuclei>;
+extern template class Exchange<Nuclei, Nuclei>;
 
 } // namespace chemist::qm_operator

@@ -17,21 +17,26 @@
 #pragma once
 #include <chemist/chemical_system/electron/electron.hpp>
 #include <chemist/chemical_system/nucleus/nucleus.hpp>
+#include <chemist/quantum_mechanics/operator/operator_fwd.hpp>
 
 namespace chemist::qm_operator {
-template<typename T>
-class Kinetic;
 
-#define OVERLOAD(T) virtual void run(T&)
-#define CONST_OVERLOAD(T) virtual void run(const T&);
-#define OVERLOADS(T) \
-    OVERLOAD(T);     \
-    CONST_OVERLOAD(T)
+#define OVERLOAD(...) virtual void run(__VA_ARGS__&)
+#define CONST_OVERLOAD(...) virtual void run(const __VA_ARGS__&);
+#define OVERLOADS(...)     \
+    OVERLOAD(__VA_ARGS__); \
+    CONST_OVERLOAD(__VA_ARGS__)
 #define ONE_PARTICLE_OVERLOADS(T) \
     OVERLOADS(T<Electron>);       \
     OVERLOADS(T<ManyElectrons>);  \
     OVERLOADS(T<Nucleus>);        \
     OVERLOADS(T<Nuclei>)
+#define TWO_PARTICLE_OVERLOADS(T)               \
+    OVERLOADS(T<Electron, Electron>);           \
+    OVERLOADS(T<ManyElectrons, ManyElectrons>); \
+    OVERLOADS(T<Electron, Nuclei>);             \
+    OVERLOADS(T<ManyElectrons, Nuclei>);        \
+    OVERLOADS(T<Nuclei, Nuclei>)
 
 /** @brief Base class for all operator visitors.
  *
@@ -52,8 +57,12 @@ class Kinetic;
 class OperatorVisitor {
 public:
     ONE_PARTICLE_OVERLOADS(Kinetic);
+    TWO_PARTICLE_OVERLOADS(Coulomb);
+    TWO_PARTICLE_OVERLOADS(Exchange);
+    TWO_PARTICLE_OVERLOADS(ExchangeCorrelation);
 };
 
+#undef TWO_PARTICLE_OVERLOADS
 #undef ONE_PARTICLE_OVERLOADS
 #undef OVERLOADS
 #undef CONST_OVERLOAD
