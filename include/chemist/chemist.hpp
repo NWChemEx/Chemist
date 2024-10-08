@@ -40,4 +40,9 @@
  * is defined within this namespace.
  *
  */
-namespace chemist {} // namespace chemist
+namespace chemist {
+
+/** @brief Collects useful type definitions from subdirectories */
+namespace types {} // namespace types
+
+} // namespace chemist

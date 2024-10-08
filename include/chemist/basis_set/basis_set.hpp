@@ -15,15 +15,17 @@
  */
 
 #pragma once
-#include <chemist/basis_set/ao_basis_set/ao_basis_set.hpp>
-#include <chemist/basis_set/atomic_basis_set/atomic_basis_set.hpp>
-#include <chemist/basis_set/atomic_basis_set/atomic_basis_set_view.hpp>
-#include <chemist/basis_set/contracted_gaussian/contracted_gaussian.hpp>
-#include <chemist/basis_set/contracted_gaussian/contracted_gaussian_view.hpp>
-#include <chemist/basis_set/primitive/primitive.hpp>
-#include <chemist/basis_set/primitive/primitive_view.hpp>
-#include <chemist/basis_set/shell/shell.hpp>
-#include <chemist/basis_set/shell/shell_view.hpp>
+#include <chemist/basis_set/ao_basis_set.hpp>
+#include <chemist/basis_set/atomic_basis_set.hpp>
+#include <chemist/basis_set/atomic_basis_set_view.hpp>
+#include <chemist/basis_set/contracted_gaussian.hpp>
+#include <chemist/basis_set/contracted_gaussian_view.hpp>
+#include <chemist/basis_set/primitive.hpp>
+#include <chemist/basis_set/primitive_view.hpp>
+#include <chemist/basis_set/shell.hpp>
+#include <chemist/basis_set/shell_view.hpp>
+
+namespace chemist {
 
 /** @brief Contains classes associated with the electronic basis set.
  *
@@ -31,7 +33,7 @@
  *  basis set component. The architecture of the basis set component is
  *  described in more detail (TODO: Add link)
  */
-namespace chemist::basis_set {
+namespace basis_set {}
 
 /** @brief Contains implementation details for the basis set component.
  *
@@ -44,4 +46,24 @@ namespace chemist::basis_set {
  */
 namespace detail_ {}
 
-} // namespace chemist::basis_set
+namespace types {
+/// Typedef of the AO Basis Set
+using ao_basis_set = basis_set::AOBasisSetD;
+
+/// Typedef of an Atomic Basis Set
+using atomic_basis_set = basis_set::AtomicBasisSetD;
+
+/// Typdef of a Shell
+using shell = basis_set::ShellD;
+
+/// Typedef of a Contracted Gaussian
+using contracted_gaussian = basis_set::ContractedGaussianD;
+
+/// Typdef of a Primitive
+using primitive = basis_set::PrimitiveD;
+
+/// Typedef of a cartesian point
+using point = Point<double>;
+} // namespace types
+
+} // namespace chemist
