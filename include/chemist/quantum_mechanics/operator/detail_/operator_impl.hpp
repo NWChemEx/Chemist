@@ -17,6 +17,7 @@
 #pragma once
 #include <chemist/chemical_system/electron/electron.hpp>
 #include <chemist/chemical_system/nucleus/nucleus.hpp>
+#include <chemist/dsl/dsl.hpp>
 #include <chemist/quantum_mechanics/operator/operator_base.hpp>
 #include <chemist/quantum_mechanics/operator/operator_visitor.hpp>
 #include <chemist/traits/electron_traits.hpp>
@@ -171,6 +172,11 @@ public:
      */
     bool operator!=(const OperatorImpl& rhs) const noexcept {
         return !(*this == rhs);
+    }
+
+    template<typename RHSType>
+    auto operator+(const RHSType& rhs) const {
+        return dsl::Add<const DerivedType, const RHSType>(downcast_(), rhs);
     }
 
 protected:
