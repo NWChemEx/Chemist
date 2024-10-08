@@ -16,7 +16,7 @@
 
 #pragma once
 #include <chemist/chemical_system/point_charge/point_charge_class.hpp>
-#include <chemist/detail_/view/traits.hpp>
+#include <chemist/detail_/view_traits.hpp>
 #include <chemist/point/point_view.hpp>
 #include <type_traits>
 

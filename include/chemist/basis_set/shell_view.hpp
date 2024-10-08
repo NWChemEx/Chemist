@@ -17,7 +17,7 @@
 #pragma once
 #include <chemist/basis_set/contracted_gaussian_view.hpp>
 #include <chemist/basis_set/shell.hpp>
-#include <chemist/detail_/view/traits.hpp>
+#include <chemist/detail_/view_traits.hpp>
 
 namespace chemist::basis_set {
 namespace detail_ {

@@ -16,7 +16,7 @@
 
 #pragma once
 #include <chemist/basis_set/atomic_basis_set.hpp>
-#include <chemist/detail_/view/traits.hpp>
+#include <chemist/detail_/view_traits.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist::basis_set {

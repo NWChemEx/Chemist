@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include "../../catch.hpp"
-#include <chemist/detail_/view/traits.hpp>
+#include "../catch.hpp"
+#include <chemist/detail_/view_traits.hpp>
 
 using namespace chemist::detail_;
 

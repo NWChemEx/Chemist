@@ -16,7 +16,7 @@
 
 #pragma once
 #include <chemist/basis_set/primitive.hpp>
-#include <chemist/detail_/view/traits.hpp>
+#include <chemist/detail_/view_traits.hpp>
 #include <chemist/point/point_view.hpp>
 #include <optional>
 
