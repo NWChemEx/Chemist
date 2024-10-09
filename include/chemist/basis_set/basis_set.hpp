@@ -25,15 +25,13 @@
 #include <chemist/basis_set/shell.hpp>
 #include <chemist/basis_set/shell_view.hpp>
 
-namespace chemist {
-
 /** @brief Contains classes associated with the electronic basis set.
  *
  *  The `basis_set` namespace encloses pieces of Chemist which are part of the
  *  basis set component. The architecture of the basis set component is
  *  described in more detail (TODO: Add link)
  */
-namespace basis_set {}
+namespace chemist::basis_set {
 
 /** @brief Contains implementation details for the basis set component.
  *
@@ -46,4 +44,4 @@ namespace basis_set {}
  */
 namespace detail_ {}
 
-} // namespace chemist
+} // namespace chemist::basis_set
