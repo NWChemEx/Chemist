@@ -40,7 +40,7 @@
  *
  */
 
-namespace chemist::qm_operator {
+namespace chemist::qm_operator::types {
 
 using t_e_type = Kinetic<Electron>;
 using T_e_type = Kinetic<ManyElectrons>;
@@ -65,4 +65,4 @@ using xc_en_type = ExchangeCorrelation<Electron, Nuclei>;
 using XC_en_type = ExchangeCorrelation<ManyElectrons, Nuclei>;
 using XC_nn_type = ExchangeCorrelation<Nuclei, Nuclei>;
 
-} // namespace chemist::qm_operator
+} // namespace chemist::qm_operator::types

@@ -22,6 +22,7 @@
 
 using namespace chemist;
 using namespace chemist::qm_operator;
+using namespace chemist::qm_operator::types;
 using namespace chemist::wavefunction;
 using namespace chemist::braket;
 

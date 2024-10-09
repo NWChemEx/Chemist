@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 NWChemEx-Project
+ * Copyright 202$ NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#pragma once
-#include <chemist/quantum_mechanics/braket/braket_class.hpp>
-#include <chemist/quantum_mechanics/braket/tensor_element.hpp>
-#include <chemist/quantum_mechanics/braket/tensor_representation.hpp>
+#include <chemist/chemist.hpp>
+
+// Here to catch potential issue with the courtesy header

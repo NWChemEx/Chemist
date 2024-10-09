@@ -46,24 +46,4 @@ namespace basis_set {}
  */
 namespace detail_ {}
 
-namespace types {
-/// Typedef of the AO Basis Set
-using ao_basis_set = basis_set::AOBasisSetD;
-
-/// Typedef of an Atomic Basis Set
-using atomic_basis_set = basis_set::AtomicBasisSetD;
-
-/// Typdef of a Shell
-using shell = basis_set::ShellD;
-
-/// Typedef of a Contracted Gaussian
-using contracted_gaussian = basis_set::ContractedGaussianD;
-
-/// Typdef of a Primitive
-using primitive = basis_set::PrimitiveD;
-
-/// Typedef of a cartesian point
-using point = Point<double>;
-} // namespace types
-
 } // namespace chemist
