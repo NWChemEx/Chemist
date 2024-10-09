@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include <chemist/chemical_system/detail_/tmp_utils.hpp>
+#include <chemist/detail_/tmp_utils.hpp>
 #include <chemist/point/point_set.hpp>
 #include <chemist/traits/point_traits.hpp>
 #include <memory>
