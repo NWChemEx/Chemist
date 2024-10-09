@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include "../../../catch.hpp"
-#include <chemist/point/point_set_view/detail_/point_set_contiguous.hpp>
+#include "../../catch.hpp"
+#include <chemist/point/detail_/point_set_contiguous.hpp>
 #include <vector>
 
 template<typename PointSetType>

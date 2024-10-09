@@ -30,8 +30,8 @@
  * limitations under the License.
  */
 
-#include "../../catch.hpp"
-#include <chemist/point/point_set_view/point_set_view.hpp>
+#include "../catch.hpp"
+#include <chemist/point/point_set_view.hpp>
 #include <vector>
 
 template<typename PointSetType>
