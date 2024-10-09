@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#include <chemist/point_charge/charges.hpp>
 #include <chemist/point/point_set.hpp>
+#include <chemist/point_charge/charges.hpp>
 #include <vector>
 
 namespace chemist::detail_ {

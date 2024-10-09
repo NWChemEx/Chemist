@@ -15,9 +15,9 @@
  */
 
 #pragma once
+#include <chemist/detail_/view_traits.hpp>
 #include <chemist/nucleus/nucleus_class.hpp>
 #include <chemist/point_charge/point_charge_view.hpp>
-#include <chemist/detail_/view_traits.hpp>
 #include <iomanip>
 #include <iostream>
 #include <limits>

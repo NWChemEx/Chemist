@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "detail_/compute_n_aos.hpp"
 #include "detail_/atomic_basis_set_pimpl.hpp"
+#include "detail_/compute_n_aos.hpp"
 #include <chemist/basis_set/atomic_basis_set.hpp>
 #include <utility>
 

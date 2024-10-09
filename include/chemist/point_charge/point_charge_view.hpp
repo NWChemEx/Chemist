@@ -15,9 +15,9 @@
  */
 
 #pragma once
-#include <chemist/point_charge/point_charge_class.hpp>
 #include <chemist/detail_/view_traits.hpp>
 #include <chemist/point/point_view.hpp>
+#include <chemist/point_charge/point_charge_class.hpp>
 #include <type_traits>
 
 namespace chemist {

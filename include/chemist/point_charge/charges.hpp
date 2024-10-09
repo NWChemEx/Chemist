@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#include <chemist/point_charge/point_charge_view.hpp>
 #include <chemist/point/point_set.hpp>
+#include <chemist/point_charge/point_charge_view.hpp>
 #include <chemist/traits/point_charge_traits.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 #include <vector>
