@@ -20,20 +20,20 @@
 
 namespace chemist::dsl {
 
-/** @brief Represents the addition of two terms.
+/** @brief Represents the multiplication of two terms.
  *
- *  @tparam LHSType The type of the object on the left of the plus sign.
- *  @tparam RHSType The type of the object on the right of the plus sign.
+ *  @tparam LHSType The type of the object on the left of the times sign.
+ *  @tparam RHSType The type of the object on the right of the times sign.
  *
  *  This class is essentially a strong type over top of BinaryOp to signal
- *  that the binary operation is addition (or at the least represented with a
- *  plus sign).
+ *  that the binary operation is multiplication (or at the least represented
+ *  with a times sign).
  */
 template<typename LHSType, typename RHSType>
-class Add : public BinaryOp<Add<LHSType, RHSType>, LHSType, RHSType> {
+class Multiply : public BinaryOp<Multiply<LHSType, RHSType>, LHSType, RHSType> {
 private:
     /// Type of *this
-    using my_type = Add<LHSType, RHSType>;
+    using my_type = Multiply<LHSType, RHSType>;
 
     /// Type *this inherits from
     using op_type = BinaryOp<my_type, LHSType, RHSType>;

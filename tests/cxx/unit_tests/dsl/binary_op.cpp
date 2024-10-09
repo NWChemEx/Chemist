@@ -77,4 +77,45 @@ TEMPLATE_LIST_TEST_CASE("BinaryOp", "", test_chemist::binary_types) {
         REQUIRE(std::as_const(a_xc).rhs() == rhs);
         REQUIRE(std::as_const(a_cc).rhs() == rhs);
     }
+
+    SECTION("operator==") {
+        SECTION("Same values") {
+            chemist::dsl::Add<lhs_type, rhs_type> add2(lhs, rhs);
+            REQUIRE(a_xx == add2);
+        }
+
+        SECTION("Different const-ness") {
+            REQUIRE(a_xx == a_cx);
+            REQUIRE(a_xx == a_xc);
+            REQUIRE(a_xx == a_cc);
+            REQUIRE(a_cx == a_xc);
+            REQUIRE(a_cx == a_cc);
+            REQUIRE(a_xc == a_cc);
+        }
+
+        SECTION("Different values") {
+            lhs_type lhs2;
+            rhs_type rhs2;
+            chemist::dsl::Add<lhs_type, rhs_type> add_l(lhs2, rhs);
+            chemist::dsl::Add<lhs_type, rhs_type> add_r(lhs, rhs2);
+            REQUIRE_FALSE(a_xx == add_l);
+            REQUIRE_FALSE(a_xx == add_r);
+        }
+
+        SECTION("Different type") {
+            char a = 'a';
+            chemist::dsl::Add<char, rhs_type> add_l(a, rhs);
+            chemist::dsl::Add<lhs_type, char> add_r(lhs, a);
+            REQUIRE_FALSE(a_xx == add_l);
+            REQUIRE_FALSE(a_xx == add_r);
+        }
+    }
+
+    SECTION("operator!=") {
+        // Just negates operator== so spot check
+        lhs_type lhs2;
+        chemist::dsl::Add<lhs_type, rhs_type> add_r(lhs2, rhs);
+        REQUIRE_FALSE(a_xx != a_cx);
+        REQUIRE(a_xx != add_r);
+    }
 }
