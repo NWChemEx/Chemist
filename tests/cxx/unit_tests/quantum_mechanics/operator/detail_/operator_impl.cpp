@@ -15,7 +15,7 @@
  */
 
 #include "../../../test_helpers.hpp"
-#include <chemist/chemical_system/electron/electron.hpp>
+#include <chemist/electron/electron.hpp>
 #include <chemist/quantum_mechanics/operator/kinetic.hpp>
 
 using namespace chemist;

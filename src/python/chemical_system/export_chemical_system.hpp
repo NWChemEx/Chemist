@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 NWChemEx-Project
+ * Copyright 2024 NWChemEx Community
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,15 @@
 
 #pragma once
 #include "../pychemist.hpp"
-#include "chemical_system/export_chemical_system.hpp"
-#include "electron/export_electron.hpp"
-#include "molecule/export_molecule.hpp"
-#include "nucleus/export_nucleus.hpp"
-#include "point_charge/export_point_charge.hpp"
-#include <chemist/chemical_system/chemical_system.hpp>
-#include <pybind11/operators.h>
 
 namespace chemist {
 
-void inline export_chemical_system(python_module_reference m) {
-    export_electron(m);
-    export_point_charge(m);
-    export_nucleus(m);
-    export_molecule(m);
-    export_chemical_system_subcomponent(m);
+void export_chemical_system_class(python_module_reference m);
+void export_chemical_system_view(python_module_reference m);
+
+inline void export_chemical_system(python_module_reference m) {
+    export_chemical_system_class(m);
+    export_chemical_system_view(m);
 }
 
 } // namespace chemist

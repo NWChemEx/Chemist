@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#include <chemist/chemical_system/electron/electron.hpp>
-#include <chemist/chemical_system/nucleus/nucleus.hpp>
+#include <chemist/electron/electron.hpp>
+#include <chemist/nucleus/nucleus.hpp>
 #include <chemist/quantum_mechanics/operator/operator_fwd.hpp>
 
 namespace chemist::qm_operator {

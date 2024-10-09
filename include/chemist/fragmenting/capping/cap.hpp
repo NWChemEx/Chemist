@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include <chemist/chemical_system/nucleus/nucleus.hpp>
+#include <chemist/nucleus/nucleus.hpp>
 #include <optional>
 #include <type_traits>
 

@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include <chemist/chemical_system/molecule/molecule.hpp>
+#include <chemist/molecule/molecule.hpp>
 #include <chemist/fragmenting/fragmented_base.hpp>
 #include <chemist/fragmenting/fragmented_nuclei.hpp>
 #include <chemist/traits/fragmenting_traits.hpp>

@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#include <chemist/chemical_system/electron/electron.hpp>
-#include <chemist/chemical_system/nucleus/nucleus.hpp>
+#include <chemist/electron/electron.hpp>
+#include <chemist/nucleus/nucleus.hpp>
 #include <chemist/quantum_mechanics/operator/operator_base.hpp>
 #include <chemist/quantum_mechanics/operator/operator_visitor.hpp>
 #include <chemist/traits/electron_traits.hpp>
