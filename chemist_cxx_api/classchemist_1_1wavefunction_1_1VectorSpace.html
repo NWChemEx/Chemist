@@ -93,10 +93,22 @@ Inheritance diagram for chemist::wavefunction::VectorSpace:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a32d1e3a800f507c05130e51e5cc63d4f"><td class="memItemLeft" align="right" valign="top"><a id="a32d1e3a800f507c05130e51e5cc63d4f"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a32d1e3a800f507c05130e51e5cc63d4f">base_pointer</a> = std::unique_ptr&lt; <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html">VectorSpace</a> &gt;</td></tr>
-<tr class="memdesc:a32d1e3a800f507c05130e51e5cc63d4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a pointer to an object of type *this. Type returned by clone. <br /></td></tr>
-<tr class="separator:a32d1e3a800f507c05130e51e5cc63d4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae59eb5eb8070179e613b5b0ede541050"><td class="memItemLeft" align="right" valign="top"><a id="ae59eb5eb8070179e613b5b0ede541050"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#ae59eb5eb8070179e613b5b0ede541050">base_type</a> = <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html">VectorSpace</a></td></tr>
+<tr class="memdesc:ae59eb5eb8070179e613b5b0ede541050"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type all vector spaces derive from. <br /></td></tr>
+<tr class="separator:ae59eb5eb8070179e613b5b0ede541050"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a444942d73b5ab62418c8bcea04f36914"><td class="memItemLeft" align="right" valign="top"><a id="a444942d73b5ab62418c8bcea04f36914"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a444942d73b5ab62418c8bcea04f36914">base_pointer</a> = std::unique_ptr&lt; <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#ae59eb5eb8070179e613b5b0ede541050">base_type</a> &gt;</td></tr>
+<tr class="memdesc:a444942d73b5ab62418c8bcea04f36914"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a pointer to an object of type *this. Type returned by clone. <br /></td></tr>
+<tr class="separator:a444942d73b5ab62418c8bcea04f36914"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8eb79a79cb77b05f369ab06a6a2a817"><td class="memItemLeft" align="right" valign="top"><a id="af8eb79a79cb77b05f369ab06a6a2a817"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#af8eb79a79cb77b05f369ab06a6a2a817">base_reference</a> = <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#ae59eb5eb8070179e613b5b0ede541050">base_type</a> &amp;</td></tr>
+<tr class="memdesc:af8eb79a79cb77b05f369ab06a6a2a817"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type behaving like a mutable reference to an object of type base_type. <br /></td></tr>
+<tr class="separator:af8eb79a79cb77b05f369ab06a6a2a817"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdeb9e059edd6c3d4910362c82c14d6f"><td class="memItemLeft" align="right" valign="top"><a id="abdeb9e059edd6c3d4910362c82c14d6f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#abdeb9e059edd6c3d4910362c82c14d6f">const_base_reference</a> = const <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#ae59eb5eb8070179e613b5b0ede541050">base_type</a> &amp;</td></tr>
+<tr class="memdesc:abdeb9e059edd6c3d4910362c82c14d6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type behaving like a read-only reference to an object of type base_type. <br /></td></tr>
+<tr class="separator:abdeb9e059edd6c3d4910362c82c14d6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a8b7c74d517a7f980d5f9fc74b7ed64"><td class="memItemLeft" align="right" valign="top"><a id="a6a8b7c74d517a7f980d5f9fc74b7ed64"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a6a8b7c74d517a7f980d5f9fc74b7ed64">size_type</a> = std::size_t</td></tr>
 <tr class="memdesc:a6a8b7c74d517a7f980d5f9fc74b7ed64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used for indexing and offsets. <br /></td></tr>
@@ -112,7 +124,7 @@ Public Member Functions</h2></td></tr>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#ab2aa17c467bb6e191ee39465744ef6b1">~VectorSpace</a> () noexcept=default</td></tr>
 <tr class="memdesc:ab2aa17c467bb6e191ee39465744ef6b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">No-op, no-throw, defaulted, polymorphic dtor. <br /></td></tr>
 <tr class="separator:ab2aa17c467bb6e191ee39465744ef6b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94953d6ee0c83267249401b3ae34e1ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a32d1e3a800f507c05130e51e5cc63d4f">base_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a94953d6ee0c83267249401b3ae34e1ed">clone</a> () const</td></tr>
+<tr class="memitem:a94953d6ee0c83267249401b3ae34e1ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a444942d73b5ab62418c8bcea04f36914">base_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a94953d6ee0c83267249401b3ae34e1ed">clone</a> () const</td></tr>
 <tr class="memdesc:a94953d6ee0c83267249401b3ae34e1ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a polymorphic deep copy of *this.  <a href="classchemist_1_1wavefunction_1_1VectorSpace.html#a94953d6ee0c83267249401b3ae34e1ed">More...</a><br /></td></tr>
 <tr class="separator:a94953d6ee0c83267249401b3ae34e1ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39e6dc8098a130b250cdcacb673e6fb8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a6a8b7c74d517a7f980d5f9fc74b7ed64">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a39e6dc8098a130b250cdcacb673e6fb8">size</a> () const noexcept</td></tr>
@@ -148,7 +160,7 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:a0bd842b8f1110bbacd1e13d68baed7dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Common implementation for are_equal_.  <a href="classchemist_1_1wavefunction_1_1VectorSpace.html#a0bd842b8f1110bbacd1e13d68baed7dc">More...</a><br /></td></tr>
 <tr class="separator:a0bd842b8f1110bbacd1e13d68baed7dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd713abe954f8ff2323efed49c5465ca"><td class="memItemLeft" align="right" valign="top"><a id="afd713abe954f8ff2323efed49c5465ca"></a>
-virtual <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a32d1e3a800f507c05130e51e5cc63d4f">base_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#afd713abe954f8ff2323efed49c5465ca">clone_</a> () const =0</td></tr>
+virtual <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a444942d73b5ab62418c8bcea04f36914">base_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#afd713abe954f8ff2323efed49c5465ca">clone_</a> () const =0</td></tr>
 <tr class="memdesc:afd713abe954f8ff2323efed49c5465ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Derived classes override this to be consistent with <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a94953d6ee0c83267249401b3ae34e1ed" title="Creates a polymorphic deep copy of *this.">clone()</a>'s docs. <br /></td></tr>
 <tr class="separator:afd713abe954f8ff2323efed49c5465ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fc156ef372c204b847f33709cfd5aff"><td class="memItemLeft" align="right" valign="top"><a id="a6fc156ef372c204b847f33709cfd5aff"></a>
@@ -320,7 +332,7 @@ template&lt;typename DerivedType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a32d1e3a800f507c05130e51e5cc63d4f">base_pointer</a> chemist::wavefunction::VectorSpace::clone </td>
+          <td class="memname"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a444942d73b5ab62418c8bcea04f36914">base_pointer</a> chemist::wavefunction::VectorSpace::clone </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>

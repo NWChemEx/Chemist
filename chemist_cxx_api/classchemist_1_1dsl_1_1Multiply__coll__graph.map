@@ -1,0 +1,5 @@
+<map id="chemist::dsl::Multiply&lt; LHSType, RHSType &gt;" name="chemist::dsl::Multiply&lt; LHSType, RHSType &gt;">
+<area shape="rect" id="node1" title="Represents the multiplication of two terms." alt="" coords="32,199,204,240"/>
+<area shape="rect" id="node2" href="$classchemist_1_1dsl_1_1BinaryOp.html" title=" " alt="" coords="5,95,231,151"/>
+<area shape="rect" id="node3" href="$classchemist_1_1dsl_1_1Term.html" title="Base class for all elements of the DSL." alt="" coords="47,5,189,47"/>
+</map>

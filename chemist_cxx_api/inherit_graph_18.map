@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structchemist_1_1ChemistClassTraits_3_01Atom_01_4.html" title=" " alt="" coords="5,5,212,47"/>
+<area shape="rect" id="node1" href="$classchemist_1_1braket_1_1detail___1_1BraKetBase.html" title=" " alt="" coords="5,5,228,61"/>
+<area shape="rect" id="node2" href="$classchemist_1_1braket_1_1TensorElement.html" title="Base class for all bra&#45;kets that are scalars." alt="" coords="276,13,503,54"/>
 </map>

@@ -136,6 +136,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSetView.html#a4d04c7f68deb6af2cfdaec34783b8a8a">pimpl_pointer</a> = std::unique_ptr&lt; <a class="el" href="classchemist_1_1PointSetView.html#a442995c4fbb23fd3a5b47b58e0c639b5">pimpl_type</a> &gt;</td></tr>
 <tr class="memdesc:a4d04c7f68deb6af2cfdaec34783b8a8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a pointer to a PIMPL. <br /></td></tr>
 <tr class="separator:a4d04c7f68deb6af2cfdaec34783b8a8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38275371958432fbe925670d7f0795e4"><td class="memItemLeft" align="right" valign="top"><a id="a38275371958432fbe925670d7f0795e4"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSetView.html#a38275371958432fbe925670d7f0795e4">coord_pointer</a> = typename point_traits_type::coord_pointer</td></tr>
+<tr class="memdesc:a38275371958432fbe925670d7f0795e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a pointer to a mutable coordinate in a <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a>. <br /></td></tr>
+<tr class="separator:a38275371958432fbe925670d7f0795e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -145,6 +149,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1309b759cafcd052214cc1645bfbef29"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSetView.html#a1309b759cafcd052214cc1645bfbef29">PointSetView</a> (<a class="el" href="classchemist_1_1PointSetView.html#a83ed9a699f8dd296542719ed234b1e01">point_set_reference</a> ps)</td></tr>
 <tr class="memdesc:a1309b759cafcd052214cc1645bfbef29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an object which aliases an existing <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a>.  <a href="classchemist_1_1PointSetView.html#a1309b759cafcd052214cc1645bfbef29">More...</a><br /></td></tr>
 <tr class="separator:a1309b759cafcd052214cc1645bfbef29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adabe8933661d1edb5e7c6791113d718d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSetView.html#adabe8933661d1edb5e7c6791113d718d">PointSetView</a> (size_type n_points, <a class="el" href="classchemist_1_1PointSetView.html#a38275371958432fbe925670d7f0795e4">coord_pointer</a> px, <a class="el" href="classchemist_1_1PointSetView.html#a38275371958432fbe925670d7f0795e4">coord_pointer</a> py, <a class="el" href="classchemist_1_1PointSetView.html#a38275371958432fbe925670d7f0795e4">coord_pointer</a> pz)</td></tr>
+<tr class="memdesc:adabe8933661d1edb5e7c6791113d718d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1PointSetView.html" title="Acts like a reference to a PointSet object.">PointSetView</a> from three contiguous buffers.  <a href="classchemist_1_1PointSetView.html#adabe8933661d1edb5e7c6791113d718d">More...</a><br /></td></tr>
+<tr class="separator:adabe8933661d1edb5e7c6791113d718d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69cef620c2a5d1ee97466faeb54dee13"><td class="memTemplParams" colspan="2">template&lt;typename PointSetType2 , typename  = enable_mutable_to_const_t&lt;PointSetType2&gt;&gt; </td></tr>
+<tr class="memitem:a69cef620c2a5d1ee97466faeb54dee13"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSetView.html#a69cef620c2a5d1ee97466faeb54dee13">PointSetView</a> (const <a class="el" href="classchemist_1_1PointSetView.html">PointSetView</a>&lt; PointSetType2 &gt; &amp;other)</td></tr>
+<tr class="memdesc:a69cef620c2a5d1ee97466faeb54dee13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implicitly allows mutable <a class="el" href="classchemist_1_1PointSetView.html" title="Acts like a reference to a PointSet object.">PointSetView</a> objects to be converted to read-only <a class="el" href="classchemist_1_1PointSetView.html" title="Acts like a reference to a PointSet object.">PointSetView</a> objects.  <a href="classchemist_1_1PointSetView.html#a69cef620c2a5d1ee97466faeb54dee13">More...</a><br /></td></tr>
+<tr class="separator:a69cef620c2a5d1ee97466faeb54dee13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a503a4e9eb06026853573b130de271ced"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSetView.html#a503a4e9eb06026853573b130de271ced">PointSetView</a> (<a class="el" href="classchemist_1_1PointSetView.html#a4d04c7f68deb6af2cfdaec34783b8a8a">pimpl_pointer</a> pimpl) noexcept</td></tr>
 <tr class="memdesc:a503a4e9eb06026853573b130de271ced"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base ctor for stateful ctors.  <a href="classchemist_1_1PointSetView.html#a503a4e9eb06026853573b130de271ced">More...</a><br /></td></tr>
 <tr class="separator:a503a4e9eb06026853573b130de271ced"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -176,6 +187,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a48518fa86d54a4d578077eaee210025d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSetView.html#a48518fa86d54a4d578077eaee210025d">operator!=</a> (const <a class="el" href="classchemist_1_1PointSetView.html">PointSetView</a> &amp;rhs) const noexcept</td></tr>
 <tr class="memdesc:a48518fa86d54a4d578077eaee210025d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if two views are different.  <a href="classchemist_1_1PointSetView.html#a48518fa86d54a4d578077eaee210025d">More...</a><br /></td></tr>
 <tr class="separator:a48518fa86d54a4d578077eaee210025d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2742aead967cbbd83b527b2cbcb52907"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointSetView.html#aa405c9199dc7bf504a5c659065aefb7d">point_set_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointSetView.html#a2742aead967cbbd83b527b2cbcb52907">as_point_set</a> () const</td></tr>
+<tr class="memdesc:a2742aead967cbbd83b527b2cbcb52907"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts *this into a <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> object.  <a href="classchemist_1_1PointSetView.html#a2742aead967cbbd83b527b2cbcb52907">More...</a><br /></td></tr>
+<tr class="separator:a2742aead967cbbd83b527b2cbcb52907"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename PointSetType&gt;<br />
@@ -191,7 +205,7 @@ class chemist::PointSetView&lt; PointSetType &gt;</h3>
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad6d9c7c74d724679ef8aa39362651384"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6d9c7c74d724679ef8aa39362651384">&#9670;&nbsp;</a></span>PointSetView() <span class="overload">[1/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6d9c7c74d724679ef8aa39362651384">&#9670;&nbsp;</a></span>PointSetView() <span class="overload">[1/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -227,7 +241,7 @@ template&lt;typename PointSetType &gt; </div>
 </div>
 </div>
 <a id="a1309b759cafcd052214cc1645bfbef29"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1309b759cafcd052214cc1645bfbef29">&#9670;&nbsp;</a></span>PointSetView() <span class="overload">[2/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1309b759cafcd052214cc1645bfbef29">&#9670;&nbsp;</a></span>PointSetView() <span class="overload">[2/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -269,8 +283,120 @@ template&lt;typename PointSetType &gt; </div>
 
 </div>
 </div>
+<a id="adabe8933661d1edb5e7c6791113d718d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adabe8933661d1edb5e7c6791113d718d">&#9670;&nbsp;</a></span>PointSetView() <span class="overload">[3/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename PointSetType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1PointSetView.html">chemist::PointSetView</a>&lt; PointSetType &gt;::<a class="el" href="classchemist_1_1PointSetView.html">PointSetView</a> </td>
+          <td>(</td>
+          <td class="paramtype">size_type&#160;</td>
+          <td class="paramname"><em>n_points</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1PointSetView.html#a38275371958432fbe925670d7f0795e4">coord_pointer</a>&#160;</td>
+          <td class="paramname"><em>px</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1PointSetView.html#a38275371958432fbe925670d7f0795e4">coord_pointer</a>&#160;</td>
+          <td class="paramname"><em>py</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1PointSetView.html#a38275371958432fbe925670d7f0795e4">coord_pointer</a>&#160;</td>
+          <td class="paramname"><em>pz</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a <a class="el" href="classchemist_1_1PointSetView.html" title="Acts like a reference to a PointSet object.">PointSetView</a> from three contiguous buffers. </p>
+<p>This ctor is used when you have three separate contiguous buffers, one for each coordinate, and you want to treat those buffers as if they were a <a class="el" href="classchemist_1_1PointSetView.html" title="Acts like a reference to a PointSet object.">PointSetView</a> object.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">n_points</td><td>The length of each buffer. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">px</td><td>A pointer to the x-coordinate of the first point. Should be a null pointer if <code>n_points</code> is 0. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">py</td><td>A pointer to the y-coordinate of the first point. Should be a null pointer if <code>n_points</code> is 0. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pz</td><td>A pointer to the z-coordinate of the first point. Should be a null pointer if <code>n_points</code> is 0.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a69cef620c2a5d1ee97466faeb54dee13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69cef620c2a5d1ee97466faeb54dee13">&#9670;&nbsp;</a></span>PointSetView() <span class="overload">[4/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename PointSetType &gt; </div>
+<div class="memtemplate">
+template&lt;typename PointSetType2 , typename  = enable_mutable_to_const_t&lt;PointSetType2&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1PointSetView.html">chemist::PointSetView</a>&lt; PointSetType &gt;::<a class="el" href="classchemist_1_1PointSetView.html">PointSetView</a> </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1PointSetView.html">PointSetView</a>&lt; PointSetType2 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implicitly allows mutable <a class="el" href="classchemist_1_1PointSetView.html" title="Acts like a reference to a PointSet object.">PointSetView</a> objects to be converted to read-only <a class="el" href="classchemist_1_1PointSetView.html" title="Acts like a reference to a PointSet object.">PointSetView</a> objects. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">PointSetType2</td><td>The type <code>other</code> is serving as a view of. This ctor only participates in overload resolution when <code>PointSetType2</code> is a non-const type and the type *this is a view of is read-only. </td></tr>
+    <tr><td class="paramname">&lt;anonymous&gt;</td><td>Used to disable/enable this ctor via SFINAE</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This ctor allows views of mutable <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> objects to be implicitly converted to views of read-only PointSets. This is roughly the same implicit conversion that occurs when a reference to a mutable object is used by something that wants a reference to a read-only object.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">other</td><td>The mutable view we want to implicitly convert to a read-only view.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>Throws if there is a problem allocating the PIMPL. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a503a4e9eb06026853573b130de271ced"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a503a4e9eb06026853573b130de271ced">&#9670;&nbsp;</a></span>PointSetView() <span class="overload">[3/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a503a4e9eb06026853573b130de271ced">&#9670;&nbsp;</a></span>PointSetView() <span class="overload">[5/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -313,7 +439,7 @@ template&lt;typename PointSetType &gt; </div>
 </div>
 </div>
 <a id="a57d9491f0f012ff350819d9fed96a0b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a57d9491f0f012ff350819d9fed96a0b3">&#9670;&nbsp;</a></span>PointSetView() <span class="overload">[4/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a57d9491f0f012ff350819d9fed96a0b3">&#9670;&nbsp;</a></span>PointSetView() <span class="overload">[6/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -348,7 +474,7 @@ template&lt;typename PointSetType &gt; </div>
 </div>
 </div>
 <a id="a661ef9225b1f78eb0c8c28777670a722"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a661ef9225b1f78eb0c8c28777670a722">&#9670;&nbsp;</a></span>PointSetView() <span class="overload">[5/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a661ef9225b1f78eb0c8c28777670a722">&#9670;&nbsp;</a></span>PointSetView() <span class="overload">[7/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -391,6 +517,35 @@ template&lt;typename PointSetType &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a2742aead967cbbd83b527b2cbcb52907"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2742aead967cbbd83b527b2cbcb52907">&#9670;&nbsp;</a></span>as_point_set()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename PointSetType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1PointSetView.html#aa405c9199dc7bf504a5c659065aefb7d">point_set_type</a> <a class="el" href="classchemist_1_1PointSetView.html">chemist::PointSetView</a>&lt; PointSetType &gt;::as_point_set </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converts *this into a <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> object. </p>
+<p>PointSetViews alias their state, whereas <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> objects own their state. This method is used to convert *this from aliasing its state to owning it (this happens by deep copying the internal state).</p>
+<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> object containing a copy of the state in *this.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the return. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="af46b749592a951cb5270f7e2ed70e127"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af46b749592a951cb5270f7e2ed70e127">&#9670;&nbsp;</a></span>empty()</h2>
 
@@ -640,7 +795,7 @@ template&lt;typename PointSetType &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/chemist/point/point_set_view/<a class="el" href="point__set__view_8hpp_source.html">point_set_view.hpp</a></li>
+<li>include/chemist/point/<a class="el" href="point__set__view_8hpp_source.html">point_set_view.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

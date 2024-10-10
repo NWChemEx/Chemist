@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>chemist: include/chemist/chemical_system/point_charge/charges_view/charges_view.hpp Source File</title>
+<title>chemist: include/chemist/point_charge/charges_view.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,7 +62,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_40200ac6b74f7d1507a33db5931c41e1.html">chemist</a></li><li class="navelem"><a class="el" href="dir_e69fa0c37d0ee6968a00e93518ef9357.html">chemical_system</a></li><li class="navelem"><a class="el" href="dir_cf90f572df22c8bb29507c43ea6cd387.html">point_charge</a></li><li class="navelem"><a class="el" href="dir_bb6de1a415f29df10e21e8cc1dfd340c.html">charges_view</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_40200ac6b74f7d1507a33db5931c41e1.html">chemist</a></li><li class="navelem"><a class="el" href="dir_f40f0c028d0436a4856c8ce5d3b4384d.html">point_charge</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -87,7 +87,7 @@ $(function() {
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;chemist/chemical_system/point_charge/charges.hpp&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;chemist/point_charge/charges.hpp&gt;</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;chemist/traits/point_charge_traits.hpp&gt;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;utilities/containers/indexable_container_base.hpp&gt;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
@@ -132,110 +132,119 @@ $(function() {
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
 <div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#aa08d0b769a7117e4b84221006c77cb48">   82</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1ChargesView.html#aa08d0b769a7117e4b84221006c77cb48">point_set_reference</a> = <span class="keyword">typename</span> point_set_traits::view_type;</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#ab962a0a881f153fca534bf9929a224e4">   85</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1ChargesView.html#ab962a0a881f153fca534bf9929a224e4">point_charge_traits</a> = <span class="keyword">typename</span> charges_traits::point_charge_traits;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a3fa95bd9e6d44fceedbfa1a1d99ff63c">   88</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1ChargesView.html#a3fa95bd9e6d44fceedbfa1a1d99ff63c">value_type</a> = <span class="keyword">typename</span> point_charge_traits::value_type;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#ac3017335d4fef25ea09f65859c4a5317">   91</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1ChargesView.html#ac3017335d4fef25ea09f65859c4a5317">reference</a> = <span class="keyword">typename</span> point_charge_traits::view_type;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a24b50324c00c60f539f4a23c080faf40">   94</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1ChargesView.html#a24b50324c00c60f539f4a23c080faf40">const_reference</a> = <span class="keyword">typename</span> point_charge_traits::const_view_type;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a57ed9c9831b565d859b83022af41464b">   97</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1ChargesView.html#a57ed9c9831b565d859b83022af41464b">charge_pointer</a> = <span class="keyword">typename</span> point_charge_traits::charge_pointer;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keyword">using</span> <span class="keyword">typename</span> base_type::size_type;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#ad8910157ed9515862c8d61201f54f56e">  109</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html#ad8910157ed9515862c8d61201f54f56e">ChargesView</a>() noexcept;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a5ae6659ad263bb3601cfe2b3d082f152">  121</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>(<a class="code" href="classchemist_1_1ChargesView.html#a02da413881641cf9b9b3310f793942dc">charges_reference</a> charges);</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
-<div class="line"><a name="l00137"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#adce67781caf14286f8b00e308ddba326">  137</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>(const <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp; other);</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a786139fd0b357ee00bf2cfc23af114f1">  151</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp; operator=(const <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp; rhs);</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
-<div class="line"><a name="l00162"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a5c1249d70bcf62bb886fefd612cbb58a">  162</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>(<a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp;&amp; other) noexcept;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
-<div class="line"><a name="l00175"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a0b88be30c5ecc588c8bbb3c698e915a1">  175</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp; operator=(<a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp;&amp; rhs) noexcept;</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    template&lt;typename ChargesType2,</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;             typename = enable_if_assign_from_charges_t&lt;ChargesType2&gt;&gt;</div>
-<div class="line"><a name="l00197"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#ad76e466d24b76c7a083d1d931c2fb920">  197</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp; operator=(const ChargesType2&amp; other) {</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        <span class="keywordflow">if</span>(this-&gt;size() != other.size())</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Must be same size&quot;</span>);</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <span class="keywordflow">for</span>(size_type i = 0; i &lt; other.size(); ++i)</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            (*<span class="keyword">this</span>)[i] = other[i].as_point_charge();</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    }</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
-<div class="line"><a name="l00206"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a4f2abbab2ebbfdc53d2fe8f1ebab74d4">  206</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html#a4f2abbab2ebbfdc53d2fe8f1ebab74d4">~ChargesView</a>() noexcept;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160; </div>
-<div class="line"><a name="l00221"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a233b77afb4c4ca1231adb3efd0960700">  221</a></span>&#160;    <span class="keywordtype">bool</span> operator==(const <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp; rhs) const noexcept;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160; </div>
-<div class="line"><a name="l00236"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a5d0d02f1a8df0e55b5c82b643f55b3bd">  236</a></span>&#160;    <span class="keywordtype">bool</span> operator==(<a class="code" href="classchemist_1_1ChargesView.html#a773ce3640776017d31a796da31d525de">const_charges_reference</a> rhs) const;</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160; </div>
-<div class="line"><a name="l00249"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#aa1c5505ee9fd133a5c448ed36f151e5a">  249</a></span>&#160;    <span class="keywordtype">bool</span> operator!=(<a class="code" href="classchemist_1_1ChargesView.html#a773ce3640776017d31a796da31d525de">const_charges_reference</a> rhs)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        <span class="keywordflow">return</span> !(*<span class="keyword">this</span> == rhs);</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    }</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; </div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="comment">// Allows base class to access implementations</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="keyword">friend</span> base_type;</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="keywordtype">bool</span> has_pimpl_() const noexcept;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160; </div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    pimpl_pointer clone_pimpl_() const;</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160; </div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    reference at_(size_type i);</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160; </div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    const_reference at_(size_type i) const;</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    size_type size_() const noexcept;</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    pimpl_pointer m_pimpl_;</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;};</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160; </div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;template&lt;typename ChargeType1, typename ChargesType2&gt;</div>
-<div class="line"><a name="l00292"></a><span class="lineno"><a class="line" href="namespacechemist.html#a7a9f01ed679f6454bcf9a9eab4c8e365">  292</a></span>&#160;<span class="keywordtype">bool</span> operator==(const <a class="code" href="classchemist_1_1Charges.html">Charges</a>&lt;ChargeType1&gt;&amp; lhs,</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;                const <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&lt;ChargesType2&gt;&amp; rhs) {</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    <span class="keywordflow">return</span> rhs == lhs;</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;}</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160; </div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType1, <span class="keyword">typename</span> ChargesType2&gt;</div>
-<div class="line"><a name="l00313"></a><span class="lineno"><a class="line" href="namespacechemist.html#a646787f528b2c07790683c03b0de3df6">  313</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classchemist_1_1ChargesView.html#aa1c5505ee9fd133a5c448ed36f151e5a">operator!=</a>(<span class="keyword">const</span> <a class="code" href="classchemist_1_1Charges.html">Charges&lt;ChargeType1&gt;</a>&amp; lhs,</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                <span class="keyword">const</span> <a class="code" href="classchemist_1_1ChargesView.html">ChargesView&lt;ChargesType2&gt;</a>&amp; rhs) {</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <span class="keywordflow">return</span> !(lhs == rhs);</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;}</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160; </div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargesType&gt;</div>
-<div class="line"><a name="l00333"></a><span class="lineno"><a class="line" href="namespacechemist.html#ae6701d7b013a3e55795efb5e95e56720">  333</a></span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os,</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                         <span class="keyword">const</span> <a class="code" href="classchemist_1_1ChargesView.html">ChargesView&lt;ChargesType&gt;</a>&amp; charges) {</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    <span class="keywordflow">for</span>(decltype(charges.size()) i = 0; i &lt; charges.size(); i++) {</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        os &lt;&lt; charges[i] &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    }</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    <span class="keywordflow">return</span> os;</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;}</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160; </div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="keyword">extern</span> <span class="keyword">template</span> <span class="keyword">class </span>ChargesView&lt;Charges&lt;float&gt;&gt;;</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="keyword">extern</span> <span class="keyword">template</span> <span class="keyword">class </span>ChargesView&lt;const Charges&lt;float&gt;&gt;;</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="keyword">extern</span> <span class="keyword">template</span> <span class="keyword">class </span>ChargesView&lt;Charges&lt;double&gt;&gt;;</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="keyword">extern</span> <span class="keyword">template</span> <span class="keyword">class </span>ChargesView&lt;const Charges&lt;double&gt;&gt;;</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160; </div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;} <span class="comment">// namespace chemist</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#adc06c0bac86b406a44ceb4c96c9ebe00">   85</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1ChargesView.html#adc06c0bac86b406a44ceb4c96c9ebe00">const_point_set_reference</a> =</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <span class="keyword">typename</span> point_set_traits::const_view_type;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#ab962a0a881f153fca534bf9929a224e4">   89</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1ChargesView.html#ab962a0a881f153fca534bf9929a224e4">point_charge_traits</a> = <span class="keyword">typename</span> charges_traits::point_charge_traits;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a3fa95bd9e6d44fceedbfa1a1d99ff63c">   92</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1ChargesView.html#a3fa95bd9e6d44fceedbfa1a1d99ff63c">value_type</a> = <span class="keyword">typename</span> point_charge_traits::value_type;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#ac3017335d4fef25ea09f65859c4a5317">   95</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1ChargesView.html#ac3017335d4fef25ea09f65859c4a5317">reference</a> = <span class="keyword">typename</span> point_charge_traits::view_type;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a24b50324c00c60f539f4a23c080faf40">   98</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1ChargesView.html#a24b50324c00c60f539f4a23c080faf40">const_reference</a> = <span class="keyword">typename</span> point_charge_traits::const_view_type;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a57ed9c9831b565d859b83022af41464b">  101</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1ChargesView.html#a57ed9c9831b565d859b83022af41464b">charge_pointer</a> = <span class="keyword">typename</span> point_charge_traits::charge_pointer;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keyword">using</span> <span class="keyword">typename</span> base_type::size_type;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#ad8910157ed9515862c8d61201f54f56e">  113</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html#ad8910157ed9515862c8d61201f54f56e">ChargesView</a>() noexcept;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a5ae6659ad263bb3601cfe2b3d082f152">  125</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>(<a class="code" href="classchemist_1_1ChargesView.html#a02da413881641cf9b9b3310f793942dc">charges_reference</a> charges);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#adce67781caf14286f8b00e308ddba326">  141</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>(const <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp; other);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
+<div class="line"><a name="l00155"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a786139fd0b357ee00bf2cfc23af114f1">  155</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp; operator=(const <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp; rhs);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
+<div class="line"><a name="l00166"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a5c1249d70bcf62bb886fefd612cbb58a">  166</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>(<a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp;&amp; other) noexcept;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
+<div class="line"><a name="l00179"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a0b88be30c5ecc588c8bbb3c698e915a1">  179</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp; operator=(<a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp;&amp; rhs) noexcept;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    template&lt;typename ChargesType2,</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;             typename = enable_if_assign_from_charges_t&lt;ChargesType2&gt;&gt;</div>
+<div class="line"><a name="l00201"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#ad76e466d24b76c7a083d1d931c2fb920">  201</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp; operator=(const ChargesType2&amp; other) {</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <span class="keywordflow">if</span>(this-&gt;size() != other.size())</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Must be same size&quot;</span>);</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        <span class="keywordflow">for</span>(size_type i = 0; i &lt; other.size(); ++i)</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            (*<span class="keyword">this</span>)[i] = other[i].as_point_charge();</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    }</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160; </div>
+<div class="line"><a name="l00210"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a4f2abbab2ebbfdc53d2fe8f1ebab74d4">  210</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html#a4f2abbab2ebbfdc53d2fe8f1ebab74d4">~ChargesView</a>() noexcept;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
+<div class="line"><a name="l00223"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a2cfb96ab513494949c3184645a5798c3">  223</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html#aa08d0b769a7117e4b84221006c77cb48">point_set_reference</a> <a class="code" href="classchemist_1_1ChargesView.html#a2cfb96ab513494949c3184645a5798c3">point_set</a>() noexcept;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160; </div>
+<div class="line"><a name="l00235"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a89f2c902a8bf78630463f09554a6ef75">  235</a></span>&#160;    <a class="code" href="classchemist_1_1ChargesView.html#adc06c0bac86b406a44ceb4c96c9ebe00">const_point_set_reference</a> <a class="code" href="classchemist_1_1ChargesView.html#a2cfb96ab513494949c3184645a5798c3">point_set</a>() const noexcept;</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160; </div>
+<div class="line"><a name="l00250"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a233b77afb4c4ca1231adb3efd0960700">  250</a></span>&#160;    <span class="keywordtype">bool</span> operator==(const <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&amp; rhs) const noexcept;</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160; </div>
+<div class="line"><a name="l00265"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#a5d0d02f1a8df0e55b5c82b643f55b3bd">  265</a></span>&#160;    <span class="keywordtype">bool</span> operator==(<a class="code" href="classchemist_1_1ChargesView.html#a773ce3640776017d31a796da31d525de">const_charges_reference</a> rhs) const;</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
+<div class="line"><a name="l00278"></a><span class="lineno"><a class="line" href="classchemist_1_1ChargesView.html#aa1c5505ee9fd133a5c448ed36f151e5a">  278</a></span>&#160;    <span class="keywordtype">bool</span> operator!=(<a class="code" href="classchemist_1_1ChargesView.html#a773ce3640776017d31a796da31d525de">const_charges_reference</a> rhs)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        <span class="keywordflow">return</span> !(*<span class="keyword">this</span> == rhs);</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    }</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160; </div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="comment">// Allows base class to access implementations</span></div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    <span class="keyword">friend</span> base_type;</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160; </div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    <span class="keywordtype">bool</span> has_pimpl_() const noexcept;</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160; </div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    pimpl_pointer clone_pimpl_() const;</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160; </div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    reference at_(size_type i);</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; </div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    const_reference at_(size_type i) const;</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160; </div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    size_type size_() const noexcept;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160; </div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    pimpl_pointer m_pimpl_;</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;};</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160; </div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;template&lt;typename ChargeType1, typename ChargesType2&gt;</div>
+<div class="line"><a name="l00321"></a><span class="lineno"><a class="line" href="namespacechemist.html#a7a9f01ed679f6454bcf9a9eab4c8e365">  321</a></span>&#160;<span class="keywordtype">bool</span> operator==(const <a class="code" href="classchemist_1_1Charges.html">Charges</a>&lt;ChargeType1&gt;&amp; lhs,</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;                const <a class="code" href="classchemist_1_1ChargesView.html">ChargesView</a>&lt;ChargesType2&gt;&amp; rhs) {</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <span class="keywordflow">return</span> rhs == lhs;</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;}</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160; </div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargeType1, <span class="keyword">typename</span> ChargesType2&gt;</div>
+<div class="line"><a name="l00342"></a><span class="lineno"><a class="line" href="namespacechemist.html#a646787f528b2c07790683c03b0de3df6">  342</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classchemist_1_1ChargesView.html#aa1c5505ee9fd133a5c448ed36f151e5a">operator!=</a>(<span class="keyword">const</span> <a class="code" href="classchemist_1_1Charges.html">Charges&lt;ChargeType1&gt;</a>&amp; lhs,</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;                <span class="keyword">const</span> <a class="code" href="classchemist_1_1ChargesView.html">ChargesView&lt;ChargesType2&gt;</a>&amp; rhs) {</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    <span class="keywordflow">return</span> !(lhs == rhs);</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;}</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160; </div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> ChargesType&gt;</div>
+<div class="line"><a name="l00362"></a><span class="lineno"><a class="line" href="namespacechemist.html#ae6701d7b013a3e55795efb5e95e56720">  362</a></span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os,</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;                         <span class="keyword">const</span> <a class="code" href="classchemist_1_1ChargesView.html">ChargesView&lt;ChargesType&gt;</a>&amp; charges) {</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    <span class="keywordflow">for</span>(decltype(charges.size()) i = 0; i &lt; charges.size(); i++) {</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;        os &lt;&lt; charges[i] &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    }</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <span class="keywordflow">return</span> os;</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;}</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160; </div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="keyword">extern</span> <span class="keyword">template</span> <span class="keyword">class </span>ChargesView&lt;Charges&lt;float&gt;&gt;;</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="keyword">extern</span> <span class="keyword">template</span> <span class="keyword">class </span>ChargesView&lt;const Charges&lt;float&gt;&gt;;</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="keyword">extern</span> <span class="keyword">template</span> <span class="keyword">class </span>ChargesView&lt;Charges&lt;double&gt;&gt;;</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="keyword">extern</span> <span class="keyword">template</span> <span class="keyword">class </span>ChargesView&lt;const Charges&lt;double&gt;&gt;;</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160; </div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;} <span class="comment">// namespace chemist</span></div>
 <div class="ttc" id="aclasschemist_1_1ChargesView_html"><div class="ttname"><a href="classchemist_1_1ChargesView.html">chemist::ChargesView</a></div><div class="ttdoc">Enables treating state like it's a reference to a Charges object.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:38</div></div>
 <div class="ttc" id="aclasschemist_1_1ChargesView_html_a02da413881641cf9b9b3310f793942dc"><div class="ttname"><a href="classchemist_1_1ChargesView.html#a02da413881641cf9b9b3310f793942dc">chemist::ChargesView::charges_reference</a></div><div class="ttdeci">typename charges_traits::reference charges_reference</div><div class="ttdoc">Type of an actual mutable reference to a Charges object (not a view)</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:70</div></div>
-<div class="ttc" id="aclasschemist_1_1ChargesView_html_a24b50324c00c60f539f4a23c080faf40"><div class="ttname"><a href="classchemist_1_1ChargesView.html#a24b50324c00c60f539f4a23c080faf40">chemist::ChargesView::const_reference</a></div><div class="ttdeci">typename point_charge_traits::const_view_type const_reference</div><div class="ttdoc">Type acting like a read-only reference to a PointCharge object in *this.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:94</div></div>
-<div class="ttc" id="aclasschemist_1_1ChargesView_html_a3fa95bd9e6d44fceedbfa1a1d99ff63c"><div class="ttname"><a href="classchemist_1_1ChargesView.html#a3fa95bd9e6d44fceedbfa1a1d99ff63c">chemist::ChargesView::value_type</a></div><div class="ttdeci">typename point_charge_traits::value_type value_type</div><div class="ttdoc">Type of the PointCharge objects in *this.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:88</div></div>
+<div class="ttc" id="aclasschemist_1_1ChargesView_html_a24b50324c00c60f539f4a23c080faf40"><div class="ttname"><a href="classchemist_1_1ChargesView.html#a24b50324c00c60f539f4a23c080faf40">chemist::ChargesView::const_reference</a></div><div class="ttdeci">typename point_charge_traits::const_view_type const_reference</div><div class="ttdoc">Type acting like a read-only reference to a PointCharge object in *this.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:98</div></div>
+<div class="ttc" id="aclasschemist_1_1ChargesView_html_a2cfb96ab513494949c3184645a5798c3"><div class="ttname"><a href="classchemist_1_1ChargesView.html#a2cfb96ab513494949c3184645a5798c3">chemist::ChargesView::point_set</a></div><div class="ttdeci">point_set_reference point_set() noexcept</div><div class="ttdoc">Returns a mutable reference to the PointSet piece of *this.</div></div>
+<div class="ttc" id="aclasschemist_1_1ChargesView_html_a3fa95bd9e6d44fceedbfa1a1d99ff63c"><div class="ttname"><a href="classchemist_1_1ChargesView.html#a3fa95bd9e6d44fceedbfa1a1d99ff63c">chemist::ChargesView::value_type</a></div><div class="ttdeci">typename point_charge_traits::value_type value_type</div><div class="ttdoc">Type of the PointCharge objects in *this.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:92</div></div>
 <div class="ttc" id="aclasschemist_1_1ChargesView_html_a492b578b48e1384caff42fbf10df5eeb"><div class="ttname"><a href="classchemist_1_1ChargesView.html#a492b578b48e1384caff42fbf10df5eeb">chemist::ChargesView::point_set_traits</a></div><div class="ttdeci">typename charges_traits::point_set_traits point_set_traits</div><div class="ttdoc">Traits of the PointSet piece of *this.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:76</div></div>
 <div class="ttc" id="aclasschemist_1_1ChargesView_html_a4f2abbab2ebbfdc53d2fe8f1ebab74d4"><div class="ttname"><a href="classchemist_1_1ChargesView.html#a4f2abbab2ebbfdc53d2fe8f1ebab74d4">chemist::ChargesView::~ChargesView</a></div><div class="ttdeci">~ChargesView() noexcept</div><div class="ttdoc">Default no-throw dtor.</div></div>
-<div class="ttc" id="aclasschemist_1_1ChargesView_html_a57ed9c9831b565d859b83022af41464b"><div class="ttname"><a href="classchemist_1_1ChargesView.html#a57ed9c9831b565d859b83022af41464b">chemist::ChargesView::charge_pointer</a></div><div class="ttdeci">typename point_charge_traits::charge_pointer charge_pointer</div><div class="ttdoc">Type of a mutable pointer to a point charge's charge.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:97</div></div>
+<div class="ttc" id="aclasschemist_1_1ChargesView_html_a57ed9c9831b565d859b83022af41464b"><div class="ttname"><a href="classchemist_1_1ChargesView.html#a57ed9c9831b565d859b83022af41464b">chemist::ChargesView::charge_pointer</a></div><div class="ttdeci">typename point_charge_traits::charge_pointer charge_pointer</div><div class="ttdoc">Type of a mutable pointer to a point charge's charge.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:101</div></div>
 <div class="ttc" id="aclasschemist_1_1ChargesView_html_a773ce3640776017d31a796da31d525de"><div class="ttname"><a href="classchemist_1_1ChargesView.html#a773ce3640776017d31a796da31d525de">chemist::ChargesView::const_charges_reference</a></div><div class="ttdeci">typename charges_traits::const_reference const_charges_reference</div><div class="ttdoc">Type of a read-only reference to a Charges object (not a view)</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:73</div></div>
 <div class="ttc" id="aclasschemist_1_1ChargesView_html_aa08d0b769a7117e4b84221006c77cb48"><div class="ttname"><a href="classchemist_1_1ChargesView.html#aa08d0b769a7117e4b84221006c77cb48">chemist::ChargesView::point_set_reference</a></div><div class="ttdeci">typename point_set_traits::view_type point_set_reference</div><div class="ttdoc">Type acting like a mutable reference to the PointSet piece of *this.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:82</div></div>
-<div class="ttc" id="aclasschemist_1_1ChargesView_html_aa1c5505ee9fd133a5c448ed36f151e5a"><div class="ttname"><a href="classchemist_1_1ChargesView.html#aa1c5505ee9fd133a5c448ed36f151e5a">chemist::ChargesView::operator!=</a></div><div class="ttdeci">bool operator!=(const_charges_reference rhs) const</div><div class="ttdoc">Determines if *this is different than an actual Charges object.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:249</div></div>
+<div class="ttc" id="aclasschemist_1_1ChargesView_html_aa1c5505ee9fd133a5c448ed36f151e5a"><div class="ttname"><a href="classchemist_1_1ChargesView.html#aa1c5505ee9fd133a5c448ed36f151e5a">chemist::ChargesView::operator!=</a></div><div class="ttdeci">bool operator!=(const_charges_reference rhs) const</div><div class="ttdoc">Determines if *this is different than an actual Charges object.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:278</div></div>
 <div class="ttc" id="aclasschemist_1_1ChargesView_html_aa1e7f3ce4a47779d70eeb54465cd2657"><div class="ttname"><a href="classchemist_1_1ChargesView.html#aa1e7f3ce4a47779d70eeb54465cd2657">chemist::ChargesView::point_set_type</a></div><div class="ttdeci">typename point_set_traits::value_type point_set_type</div><div class="ttdoc">Type of the PointSet piece of *this.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:79</div></div>
 <div class="ttc" id="aclasschemist_1_1ChargesView_html_ab56bc40b1d973f11c489263b06d5a74c"><div class="ttname"><a href="classchemist_1_1ChargesView.html#ab56bc40b1d973f11c489263b06d5a74c">chemist::ChargesView::charges_type</a></div><div class="ttdeci">typename charges_traits::value_type charges_type</div><div class="ttdoc">Type of the non-cv-qualified Charges object aliased by *this.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:67</div></div>
-<div class="ttc" id="aclasschemist_1_1ChargesView_html_ab962a0a881f153fca534bf9929a224e4"><div class="ttname"><a href="classchemist_1_1ChargesView.html#ab962a0a881f153fca534bf9929a224e4">chemist::ChargesView::point_charge_traits</a></div><div class="ttdeci">typename charges_traits::point_charge_traits point_charge_traits</div><div class="ttdoc">Traits of the PointCharge objects in *this.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:85</div></div>
-<div class="ttc" id="aclasschemist_1_1ChargesView_html_ac3017335d4fef25ea09f65859c4a5317"><div class="ttname"><a href="classchemist_1_1ChargesView.html#ac3017335d4fef25ea09f65859c4a5317">chemist::ChargesView::reference</a></div><div class="ttdeci">typename point_charge_traits::view_type reference</div><div class="ttdoc">Type acting like a mutable reference to a PointCharge object in *this.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:91</div></div>
+<div class="ttc" id="aclasschemist_1_1ChargesView_html_ab962a0a881f153fca534bf9929a224e4"><div class="ttname"><a href="classchemist_1_1ChargesView.html#ab962a0a881f153fca534bf9929a224e4">chemist::ChargesView::point_charge_traits</a></div><div class="ttdeci">typename charges_traits::point_charge_traits point_charge_traits</div><div class="ttdoc">Traits of the PointCharge objects in *this.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:89</div></div>
+<div class="ttc" id="aclasschemist_1_1ChargesView_html_ac3017335d4fef25ea09f65859c4a5317"><div class="ttname"><a href="classchemist_1_1ChargesView.html#ac3017335d4fef25ea09f65859c4a5317">chemist::ChargesView::reference</a></div><div class="ttdeci">typename point_charge_traits::view_type reference</div><div class="ttdoc">Type acting like a mutable reference to a PointCharge object in *this.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:95</div></div>
 <div class="ttc" id="aclasschemist_1_1ChargesView_html_ad84e682745451b3ee024fe72e2f923f0"><div class="ttname"><a href="classchemist_1_1ChargesView.html#ad84e682745451b3ee024fe72e2f923f0">chemist::ChargesView::pimpl_pointer</a></div><div class="ttdeci">std::unique_ptr&lt; pimpl_type &gt; pimpl_pointer</div><div class="ttdoc">Type of a pointer to a PIMPL's base piece.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:61</div></div>
 <div class="ttc" id="aclasschemist_1_1ChargesView_html_ad8910157ed9515862c8d61201f54f56e"><div class="ttname"><a href="classchemist_1_1ChargesView.html#ad8910157ed9515862c8d61201f54f56e">chemist::ChargesView::ChargesView</a></div><div class="ttdeci">ChargesView() noexcept</div><div class="ttdoc">Aliases an empty Charges object.</div></div>
+<div class="ttc" id="aclasschemist_1_1ChargesView_html_adc06c0bac86b406a44ceb4c96c9ebe00"><div class="ttname"><a href="classchemist_1_1ChargesView.html#adc06c0bac86b406a44ceb4c96c9ebe00">chemist::ChargesView::const_point_set_reference</a></div><div class="ttdeci">typename point_set_traits::const_view_type const_point_set_reference</div><div class="ttdoc">Type acting like a read-only reference to the PointSet piece of *this.</div><div class="ttdef"><b>Definition:</b> charges_view.hpp:86</div></div>
 <div class="ttc" id="aclasschemist_1_1Charges_html"><div class="ttname"><a href="classchemist_1_1Charges.html">chemist::Charges</a></div><div class="ttdoc">Represents a container of PointCharge objects.</div><div class="ttdef"><b>Definition:</b> charges.hpp:40</div></div>
 <div class="ttc" id="aclasschemist_1_1detail___1_1ChargesViewPIMPL_html"><div class="ttname"><a href="classchemist_1_1detail___1_1ChargesViewPIMPL.html">chemist::detail_::ChargesViewPIMPL</a></div><div class="ttdoc">Establishes the API for all PIMPLs used to implement ChargesView.</div><div class="ttdef"><b>Definition:</b> charges_view_pimpl.hpp:32</div></div>
 <div class="ttc" id="anamespacechemist_html"><div class="ttname"><a href="namespacechemist.html">chemist</a></div><div class="ttdoc">The primary namespace for the chemist library.</div><div class="ttdef"><b>Definition:</b> ao_basis_set.cpp:22</div></div>

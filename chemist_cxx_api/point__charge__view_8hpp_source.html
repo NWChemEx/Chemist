@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>chemist: include/chemist/chemical_system/point_charge/point_charge_view.hpp Source File</title>
+<title>chemist: include/chemist/point_charge/point_charge_view.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,7 +62,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_40200ac6b74f7d1507a33db5931c41e1.html">chemist</a></li><li class="navelem"><a class="el" href="dir_e69fa0c37d0ee6968a00e93518ef9357.html">chemical_system</a></li><li class="navelem"><a class="el" href="dir_cf90f572df22c8bb29507c43ea6cd387.html">point_charge</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_40200ac6b74f7d1507a33db5931c41e1.html">chemist</a></li><li class="navelem"><a class="el" href="dir_f40f0c028d0436a4856c8ce5d3b4384d.html">point_charge</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -87,9 +87,9 @@ $(function() {
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;chemist/chemical_system/point_charge/point_charge_class.hpp&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;chemist/detail_/view/traits.hpp&gt;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;chemist/point/point_view.hpp&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;chemist/detail_/view_traits.hpp&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;chemist/point/point_view.hpp&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;chemist/point_charge/point_charge_class.hpp&gt;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;type_traits&gt;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacechemist.html">chemist</a> {</div>
@@ -272,8 +272,8 @@ $(function() {
 <div class="ttc" id="aclasschemist_1_1PointView_html_ae886171d2d5ec97eaec8e7ad8c473b02"><div class="ttname"><a href="classchemist_1_1PointView.html#ae886171d2d5ec97eaec8e7ad8c473b02">chemist::PointView&lt; detail_::ViewTraits&lt; ChargeType &gt;::template apply_const&lt; ChargeType::point_type &gt; &gt;::x</a></div><div class="ttdeci">coord_reference x() noexcept</div><div class="ttdoc">Retrieves the method's namesake coordinate.</div><div class="ttdef"><b>Definition:</b> point_view.hpp:191</div></div>
 <div class="ttc" id="aclasschemist_1_1PointView_html_aff71792fedcd73543ce82a297e202496"><div class="ttname"><a href="classchemist_1_1PointView.html#aff71792fedcd73543ce82a297e202496">chemist::PointView::operator=</a></div><div class="ttdeci">PointView &amp; operator=(point_reference point) noexcept</div><div class="ttdoc">Sets the value of the aliased Point to point.</div><div class="ttdef"><b>Definition:</b> point_view.hpp:130</div></div>
 <div class="ttc" id="anamespacechemist_html"><div class="ttname"><a href="namespacechemist.html">chemist</a></div><div class="ttdoc">The primary namespace for the chemist library.</div><div class="ttdef"><b>Definition:</b> ao_basis_set.cpp:22</div></div>
-<div class="ttc" id="astructchemist_1_1detail___1_1ViewTraits_html"><div class="ttname"><a href="structchemist_1_1detail___1_1ViewTraits.html">chemist::detail_::ViewTraits</a></div><div class="ttdoc">Code factorization for TMP associated with views.</div><div class="ttdef"><b>Definition:</b> traits.hpp:38</div></div>
-<div class="ttc" id="astructchemist_1_1detail___1_1ViewTraits_html_a1eea9914fa8a00021cd54238f2bd3d53"><div class="ttname"><a href="structchemist_1_1detail___1_1ViewTraits.html#a1eea9914fa8a00021cd54238f2bd3d53">chemist::detail_::ViewTraits::type</a></div><div class="ttdeci">std::remove_cv_t&lt; T &gt; type</div><div class="ttdoc">The non-cv-qualified version of T.</div><div class="ttdef"><b>Definition:</b> traits.hpp:40</div></div>
+<div class="ttc" id="astructchemist_1_1detail___1_1ViewTraits_html"><div class="ttname"><a href="structchemist_1_1detail___1_1ViewTraits.html">chemist::detail_::ViewTraits</a></div><div class="ttdoc">Code factorization for TMP associated with views.</div><div class="ttdef"><b>Definition:</b> view_traits.hpp:38</div></div>
+<div class="ttc" id="astructchemist_1_1detail___1_1ViewTraits_html_a1eea9914fa8a00021cd54238f2bd3d53"><div class="ttname"><a href="structchemist_1_1detail___1_1ViewTraits.html#a1eea9914fa8a00021cd54238f2bd3d53">chemist::detail_::ViewTraits::type</a></div><div class="ttdeci">std::remove_cv_t&lt; T &gt; type</div><div class="ttdoc">The non-cv-qualified version of T.</div><div class="ttdef"><b>Definition:</b> view_traits.hpp:40</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

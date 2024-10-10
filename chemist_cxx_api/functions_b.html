@@ -66,15 +66,33 @@ $(function() {
 
 <h3><a id="index_b"></a>- b -</h3><ul>
 <li>base_pointer
-: <a class="el" href="classchemist_1_1wavefunction_1_1AOs.html#a32d1e3a800f507c05130e51e5cc63d4f">chemist::wavefunction::AOs</a>
-, <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a32d1e3a800f507c05130e51e5cc63d4f">chemist::wavefunction::VectorSpace</a>
+: <a class="el" href="classchemist_1_1braket_1_1BraKet.html#ad56fed9b245f4de3a6691019e1078853">chemist::braket::BraKet&lt; BraType, OperatorType, KetType &gt;</a>
+, <a class="el" href="classchemist_1_1braket_1_1detail___1_1BraKetBase.html#a8b9025f1d2f3898991b835ea0729d781">chemist::braket::detail_::BraKetBase&lt; DerivedType &gt;</a>
+, <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html#a43a1220af496b930ab9f9a18a361e364">chemist::qm_operator::detail_::OperatorImpl&lt; DerivedType, Particles &gt;</a>
+, <a class="el" href="classchemist_1_1qm__operator_1_1OperatorBase.html#a43a1220af496b930ab9f9a18a361e364">chemist::qm_operator::OperatorBase</a>
+, <a class="el" href="classchemist_1_1wavefunction_1_1AOs.html#a444942d73b5ab62418c8bcea04f36914">chemist::wavefunction::AOs</a>
+, <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a444942d73b5ab62418c8bcea04f36914">chemist::wavefunction::VectorSpace</a>
+</li>
+<li>base_reference
+: <a class="el" href="classchemist_1_1braket_1_1detail___1_1BraKetBase.html#abc20955796c9af6ad42f0ef5c921806e">chemist::braket::detail_::BraKetBase&lt; DerivedType &gt;</a>
+, <a class="el" href="classchemist_1_1qm__operator_1_1OperatorBase.html#a0a87e6f3d8c676ac0d88323fc75a0dec">chemist::qm_operator::OperatorBase</a>
+, <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#af8eb79a79cb77b05f369ab06a6a2a817">chemist::wavefunction::VectorSpace</a>
+, <a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a6d8a7c5483a68d9f4540c7fe04ae7901">chemist::wavefunction::Wavefunction</a>
 </li>
 <li>base_type
-: <a class="el" href="classchemist_1_1wavefunction_1_1AOs.html#a7bbf86c4106aa2cbf75c40bb4139e75c">chemist::wavefunction::AOs</a>
+: <a class="el" href="classchemist_1_1braket_1_1BraKet.html#a97ab8218229d9b242c6f4578b1d1e0af">chemist::braket::BraKet&lt; BraType, OperatorType, KetType &gt;</a>
+, <a class="el" href="classchemist_1_1braket_1_1detail___1_1BraKetBase.html#a8c60a3d1d202834c664c3caba9f57464">chemist::braket::detail_::BraKetBase&lt; DerivedType &gt;</a>
+, <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html#a85f25e812fcdaecd334926552b3a77eb">chemist::qm_operator::detail_::OperatorImpl&lt; DerivedType, Particles &gt;</a>
+, <a class="el" href="classchemist_1_1wavefunction_1_1AOs.html#a7bbf86c4106aa2cbf75c40bb4139e75c">chemist::wavefunction::AOs</a>
+, <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#ae59eb5eb8070179e613b5b0ede541050">chemist::wavefunction::VectorSpace</a>
+, <a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#af196a0b5350305f5abe797c92b186fcb">chemist::wavefunction::Wavefunction</a>
 </li>
 <li>basis_set_name()
 : <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSet.html#af3ecc3ec5d0c4582a75a874a7b776360">chemist::basis_set::AtomicBasisSet&lt; ShellType &gt;</a>
 , <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSetView.html#a956639e6c65162420a2afe4449740842">chemist::basis_set::AtomicBasisSetView&lt; AtomicBasisSetType &gt;</a>
+</li>
+<li>BinaryOp()
+: <a class="el" href="classchemist_1_1dsl_1_1BinaryOp.html#ae4eccd6e81bfd179e9118b397c181cf1">chemist::dsl::BinaryOp&lt; DerivedType, LHSType, RHSType &gt;</a>
 </li>
 <li>bonded_atoms()
 : <a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#a6fe7cc5cc974b3610a8864f4b0f3e017">chemist::topology::ConnectivityTable</a>
@@ -82,6 +100,21 @@ $(function() {
 <li>bonds()
 : <a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#a56a2f9208bf5d3423eb1d8ad2a8a155b">chemist::topology::ConnectivityTable</a>
 , <a class="el" href="classchemist_1_1topology_1_1detail___1_1ConnectivityTablePIMPL.html#aa9cc6256712c6d47b82aefa9f3ae13a7">chemist::topology::detail_::ConnectivityTablePIMPL</a>
+</li>
+<li>bra()
+: <a class="el" href="classchemist_1_1braket_1_1BraKet.html#a68576261254d387e131cae2f7894f42c">chemist::braket::BraKet&lt; BraType, OperatorType, KetType &gt;</a>
+</li>
+<li>bra_reference
+: <a class="el" href="classchemist_1_1braket_1_1BraKet.html#a1df8828ed29bc4581566273a24abcbf9">chemist::braket::BraKet&lt; BraType, OperatorType, KetType &gt;</a>
+</li>
+<li>bra_type
+: <a class="el" href="classchemist_1_1braket_1_1BraKet.html#af9853925bfb753288922ba28c1a5378e">chemist::braket::BraKet&lt; BraType, OperatorType, KetType &gt;</a>
+</li>
+<li>BraKet()
+: <a class="el" href="classchemist_1_1braket_1_1BraKet.html#ae6ca192ab140cfb811f42ae9cca6f964">chemist::braket::BraKet&lt; BraType, OperatorType, KetType &gt;</a>
+</li>
+<li>BraKetBase()
+: <a class="el" href="classchemist_1_1braket_1_1detail___1_1BraKetBase.html#ab5846eabd810052d302ad192c9972251">chemist::braket::detail_::BraKetBase&lt; DerivedType &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->

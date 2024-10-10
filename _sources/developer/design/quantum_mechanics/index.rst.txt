@@ -33,3 +33,4 @@ Chemist.
    architecture
    wavefunction/index
    operator/index
+   braket/index

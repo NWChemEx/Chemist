@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structchemist_1_1ChemistClassTraits_3_01Charges_3_01T_01_4_01_4.html" title=" " alt="" coords="5,5,212,47"/>
+<area shape="rect" id="node1" href="$classchemist_1_1braket_1_1detail___1_1BraKetBase.html" title=" " alt="" coords="5,5,288,47"/>
+<area shape="rect" id="node2" href="$classchemist_1_1braket_1_1TensorRepresentation.html" title="Denotes that a BraKet is a tensor representation of an operator." alt="" coords="336,13,608,39"/>
 </map>

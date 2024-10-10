@@ -1,12 +1,13 @@
 var searchData=
 [
-  ['nuclei_531',['Nuclei',['../classchemist_1_1Nuclei.html',1,'chemist']]],
-  ['nucleipimpl_532',['NucleiPIMPL',['../classchemist_1_1detail___1_1NucleiPIMPL.html',1,'chemist::detail_']]],
-  ['nucleisubset_533',['NucleiSubset',['../classchemist_1_1detail___1_1NucleiSubset.html',1,'chemist::detail_']]],
-  ['nucleiunion_534',['NucleiUnion',['../classchemist_1_1detail___1_1NucleiUnion.html',1,'chemist::detail_']]],
-  ['nucleiview_535',['NucleiView',['../classchemist_1_1NucleiView.html',1,'chemist']]],
-  ['nucleiviewpimpl_536',['NucleiViewPIMPL',['../classchemist_1_1detail___1_1NucleiViewPIMPL.html',1,'chemist::detail_']]],
-  ['nucleus_537',['Nucleus',['../classchemist_1_1Nucleus.html',1,'chemist']]],
-  ['nucleusview_538',['NucleusView',['../classchemist_1_1NucleusView.html',1,'chemist']]],
-  ['nucleusviewlist_539',['NucleusViewList',['../classchemist_1_1detail___1_1NucleusViewList.html',1,'chemist::detail_']]]
+  ['fragmentedbase_622',['FragmentedBase',['../classchemist_1_1fragmenting_1_1FragmentedBase.html',1,'chemist::fragmenting']]],
+  ['fragmentedbase_3c_20fragmentedchemicalsystem_3c_20chemicalsystemtype_20_3e_20_3e_623',['FragmentedBase&lt; FragmentedChemicalSystem&lt; ChemicalSystemType &gt; &gt;',['../classchemist_1_1fragmenting_1_1FragmentedBase.html',1,'chemist::fragmenting']]],
+  ['fragmentedbase_3c_20fragmentedmolecule_3c_20moleculetype_20_3e_20_3e_624',['FragmentedBase&lt; FragmentedMolecule&lt; MoleculeType &gt; &gt;',['../classchemist_1_1fragmenting_1_1FragmentedBase.html',1,'chemist::fragmenting']]],
+  ['fragmentedbase_3c_20fragmentednuclei_3c_20nucleitype_20_3e_20_3e_625',['FragmentedBase&lt; FragmentedNuclei&lt; NucleiType &gt; &gt;',['../classchemist_1_1fragmenting_1_1FragmentedBase.html',1,'chemist::fragmenting']]],
+  ['fragmentedchemicalsystem_626',['FragmentedChemicalSystem',['../classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html',1,'chemist::fragmenting']]],
+  ['fragmentedchemicalsystempimpl_627',['FragmentedChemicalSystemPIMPL',['../classchemist_1_1fragmenting_1_1detail___1_1FragmentedChemicalSystemPIMPL.html',1,'chemist::fragmenting::detail_']]],
+  ['fragmentedmolecule_628',['FragmentedMolecule',['../classchemist_1_1fragmenting_1_1FragmentedMolecule.html',1,'chemist::fragmenting']]],
+  ['fragmentedmoleculepimpl_629',['FragmentedMoleculePIMPL',['../classchemist_1_1fragmenting_1_1detail___1_1FragmentedMoleculePIMPL.html',1,'chemist::fragmenting::detail_']]],
+  ['fragmentednuclei_630',['FragmentedNuclei',['../classchemist_1_1fragmenting_1_1FragmentedNuclei.html',1,'chemist::fragmenting']]],
+  ['fragmentednucleipimpl_631',['FragmentedNucleiPIMPL',['../classchemist_1_1fragmenting_1_1detail___1_1FragmentedNucleiPIMPL.html',1,'chemist::fragmenting::detail_']]]
 ];

@@ -78,7 +78,7 @@ $(function() {
 <p>Code factorization for TMP associated with views.  
  <a href="structchemist_1_1detail___1_1ViewTraits.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="traits_8hpp_source.html">traits.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="view__traits_8hpp_source.html">view_traits.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -148,7 +148,7 @@ template&lt;typename U &gt; </div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Y will be const int</span></div>
 <div class="line"><span class="keyword">using</span> Y = <a class="code" href="structchemist_1_1detail___1_1ViewTraits.html#a42f8ff3b3c412f80ee432c73a26acd35">ViewTraits&lt;const T&gt;::apply_const</a>&lt;<span class="keywordtype">int</span>&gt;;</div>
-<div class="ttc" id="astructchemist_1_1detail___1_1ViewTraits_html_a42f8ff3b3c412f80ee432c73a26acd35"><div class="ttname"><a href="structchemist_1_1detail___1_1ViewTraits.html#a42f8ff3b3c412f80ee432c73a26acd35">chemist::detail_::ViewTraits::apply_const</a></div><div class="ttdeci">std::conditional_t&lt; is_const_v, const U, U &gt; apply_const</div><div class="ttdoc">Makes an un-qualified type U have the same const-ness as T.</div><div class="ttdef"><b>Definition:</b> traits.hpp:66</div></div>
+<div class="ttc" id="astructchemist_1_1detail___1_1ViewTraits_html_a42f8ff3b3c412f80ee432c73a26acd35"><div class="ttname"><a href="structchemist_1_1detail___1_1ViewTraits.html#a42f8ff3b3c412f80ee432c73a26acd35">chemist::detail_::ViewTraits::apply_const</a></div><div class="ttdeci">std::conditional_t&lt; is_const_v, const U, U &gt; apply_const</div><div class="ttdoc">Makes an un-qualified type U have the same const-ness as T.</div><div class="ttdef"><b>Definition:</b> view_traits.hpp:66</div></div>
 </div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">U</td><td>The type we want to parallel the const-ness of <code>T</code>. </td></tr>
@@ -183,7 +183,7 @@ template&lt;typename U &gt; </div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Y will be const int*</span></div>
 <div class="line"><span class="keyword">using</span> Y = <a class="code" href="structchemist_1_1detail___1_1ViewTraits.html#a9bbfbd2ae4025839f8c978800f4d9b86">ViewTraits&lt;const T&gt;::apply_const_ptr</a>&lt;<span class="keywordtype">int</span>&gt;;</div>
-<div class="ttc" id="astructchemist_1_1detail___1_1ViewTraits_html_a9bbfbd2ae4025839f8c978800f4d9b86"><div class="ttname"><a href="structchemist_1_1detail___1_1ViewTraits.html#a9bbfbd2ae4025839f8c978800f4d9b86">chemist::detail_::ViewTraits::apply_const_ptr</a></div><div class="ttdeci">std::conditional_t&lt; is_const_v, const U *, U * &gt; apply_const_ptr</div><div class="ttdoc">Makes an un-qualified type U into a pointer with the same const-ness as T.</div><div class="ttdef"><b>Definition:</b> traits.hpp:112</div></div>
+<div class="ttc" id="astructchemist_1_1detail___1_1ViewTraits_html_a9bbfbd2ae4025839f8c978800f4d9b86"><div class="ttname"><a href="structchemist_1_1detail___1_1ViewTraits.html#a9bbfbd2ae4025839f8c978800f4d9b86">chemist::detail_::ViewTraits::apply_const_ptr</a></div><div class="ttdeci">std::conditional_t&lt; is_const_v, const U *, U * &gt; apply_const_ptr</div><div class="ttdoc">Makes an un-qualified type U into a pointer with the same const-ness as T.</div><div class="ttdef"><b>Definition:</b> view_traits.hpp:112</div></div>
 </div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">U</td><td>The type to turn into a pointer with const-ness paralleling that of <code>T</code>. </td></tr>
@@ -218,7 +218,7 @@ template&lt;typename U &gt; </div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Y will be const int&amp;</span></div>
 <div class="line"><span class="keyword">using</span> Y = <a class="code" href="structchemist_1_1detail___1_1ViewTraits.html#a48c36483e6ae8aa7cd8ceba1dbe09812">ViewTraits&lt;const T&gt;::apply_const_ref</a>&lt;<span class="keywordtype">int</span>&gt;;</div>
-<div class="ttc" id="astructchemist_1_1detail___1_1ViewTraits_html_a48c36483e6ae8aa7cd8ceba1dbe09812"><div class="ttname"><a href="structchemist_1_1detail___1_1ViewTraits.html#a48c36483e6ae8aa7cd8ceba1dbe09812">chemist::detail_::ViewTraits::apply_const_ref</a></div><div class="ttdeci">std::conditional_t&lt; is_const_v, const U &amp;, U &amp; &gt; apply_const_ref</div><div class="ttdoc">Makes an un-qualified type U into a reference with the same const-ness as T.</div><div class="ttdef"><b>Definition:</b> traits.hpp:89</div></div>
+<div class="ttc" id="astructchemist_1_1detail___1_1ViewTraits_html_a48c36483e6ae8aa7cd8ceba1dbe09812"><div class="ttname"><a href="structchemist_1_1detail___1_1ViewTraits.html#a48c36483e6ae8aa7cd8ceba1dbe09812">chemist::detail_::ViewTraits::apply_const_ref</a></div><div class="ttdeci">std::conditional_t&lt; is_const_v, const U &amp;, U &amp; &gt; apply_const_ref</div><div class="ttdoc">Makes an un-qualified type U into a reference with the same const-ness as T.</div><div class="ttdef"><b>Definition:</b> view_traits.hpp:89</div></div>
 </div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">U</td><td>The type to turn into a reference with const-ness paralleling that of <code>T</code>. </td></tr>
@@ -229,7 +229,7 @@ template&lt;typename U &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/chemist/detail_/view/<a class="el" href="traits_8hpp_source.html">traits.hpp</a></li>
+<li>include/chemist/detail_/<a class="el" href="view__traits_8hpp_source.html">view_traits.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

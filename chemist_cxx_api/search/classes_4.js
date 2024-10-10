@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['manyelectrons_526',['ManyElectrons',['../classchemist_1_1ManyElectrons.html',1,'chemist']]],
-  ['molecule_527',['Molecule',['../classchemist_1_1Molecule.html',1,'chemist']]],
-  ['moleculeview_528',['MoleculeView',['../classchemist_1_1MoleculeView.html',1,'chemist']]],
-  ['moleculeviewpimpl_529',['MoleculeViewPIMPL',['../classchemist_1_1detail___1_1MoleculeViewPIMPL.html',1,'chemist::detail_']]],
-  ['molpimpl_530',['MolPIMPL',['../classchemist_1_1detail___1_1MolPIMPL.html',1,'chemist::detail_']]]
+  ['electron_619',['Electron',['../classchemist_1_1Electron.html',1,'chemist']]],
+  ['exchange_620',['Exchange',['../classchemist_1_1qm__operator_1_1Exchange.html',1,'chemist::qm_operator']]],
+  ['exchangecorrelation_621',['ExchangeCorrelation',['../classchemist_1_1qm__operator_1_1ExchangeCorrelation.html',1,'chemist::qm_operator']]]
 ];

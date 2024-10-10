@@ -31,3 +31,4 @@ Chemist.
    :maxdepth: 2
 
    architecture
+   operator_base

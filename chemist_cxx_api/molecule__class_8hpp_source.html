@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>chemist: include/chemist/chemical_system/molecule/molecule_class.hpp Source File</title>
+<title>chemist: include/chemist/molecule/molecule_class.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,7 +62,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_40200ac6b74f7d1507a33db5931c41e1.html">chemist</a></li><li class="navelem"><a class="el" href="dir_e69fa0c37d0ee6968a00e93518ef9357.html">chemical_system</a></li><li class="navelem"><a class="el" href="dir_b668ff51ee97e0a68e7cf402667e4c2d.html">molecule</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_40200ac6b74f7d1507a33db5931c41e1.html">chemist</a></li><li class="navelem"><a class="el" href="dir_b66970bb7545ae17d22a48f6840e5d9b.html">molecule</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -87,14 +87,14 @@ $(function() {
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;chemist/chemical_system/molecule/atom.hpp&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;chemist/chemical_system/nucleus/nuclei_view/nuclei_view.hpp&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;chemist/molecule/atom.hpp&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;chemist/nucleus/nuclei_view.hpp&gt;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;chemist/traits/molecule_traits.hpp&gt;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;utilities/containers/indexable_container_base.hpp&gt;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacechemist.html">chemist</a> {</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">namespace </span>detail_ {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">class </span>MolPIMPL;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">class </span>MoleculePIMPL;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;} <span class="comment">// namespace detail_</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
 <div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="classchemist_1_1Molecule.html">   45</a></span>&#160;<span class="keyword">class </span><a class="code" href="classchemist_1_1Molecule.html">Molecule</a> : <span class="keyword">public</span> utilities::IndexableContainerBase&lt;Molecule&gt; {</div>
@@ -102,7 +102,7 @@ $(function() {
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">using</span> base_type = utilities::IndexableContainerBase&lt;Molecule&gt;;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classchemist_1_1Molecule.html#a5ee8acb419e1a48fad774b1878369b50">   52</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1detail___1_1MolPIMPL.html">pimpl_type</a> = <a class="code" href="classchemist_1_1detail___1_1MolPIMPL.html">detail_::MolPIMPL</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classchemist_1_1Molecule.html#ad09148066eedff8e8818294b9eca9cb7">   52</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1detail___1_1MoleculePIMPL.html">pimpl_type</a> = <a class="code" href="classchemist_1_1detail___1_1MoleculePIMPL.html">detail_::MoleculePIMPL</a>;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
 <div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classchemist_1_1Molecule.html#a04f151d123f3e0ae1cc8333d956e107d">   55</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="classchemist_1_1Molecule.html#a04f151d123f3e0ae1cc8333d956e107d">pimpl_pointer</a> = std::unique_ptr&lt;pimpl_type&gt;;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
@@ -284,7 +284,7 @@ $(function() {
 <div class="ttc" id="aclasschemist_1_1Molecule_html_af0ac4964849114b488335f84f6cf34e8"><div class="ttname"><a href="classchemist_1_1Molecule.html#af0ac4964849114b488335f84f6cf34e8">chemist::Molecule::charge_data</a></div><div class="ttdeci">charge_pointer charge_data() noexcept</div><div class="ttdoc">Provides the address where the charge is stored.</div><div class="ttdef"><b>Definition:</b> molecule_class.cpp:111</div></div>
 <div class="ttc" id="aclasschemist_1_1Molecule_html_af645e1371b9c69927c54d124182c7c23"><div class="ttname"><a href="classchemist_1_1Molecule.html#af645e1371b9c69927c54d124182c7c23">chemist::Molecule::load</a></div><div class="ttdeci">void load(Archive &amp;ar)</div><div class="ttdoc">Deserialize for Molecule instance.</div><div class="ttdef"><b>Definition:</b> molecule_class.hpp:504</div></div>
 <div class="ttc" id="aclasschemist_1_1Molecule_html_afcc66aec1b51ded61f1135a2be954c89"><div class="ttname"><a href="classchemist_1_1Molecule.html#afcc66aec1b51ded61f1135a2be954c89">chemist::Molecule::save</a></div><div class="ttdeci">void save(Archive &amp;ar) const</div><div class="ttdoc">Serialize Molecule instance.</div><div class="ttdef"><b>Definition:</b> molecule_class.hpp:494</div></div>
-<div class="ttc" id="aclasschemist_1_1detail___1_1MolPIMPL_html"><div class="ttname"><a href="classchemist_1_1detail___1_1MolPIMPL.html">chemist::detail_::MolPIMPL</a></div><div class="ttdef"><b>Definition:</b> mol_pimpl.hpp:22</div></div>
+<div class="ttc" id="aclasschemist_1_1detail___1_1MoleculePIMPL_html"><div class="ttname"><a href="classchemist_1_1detail___1_1MoleculePIMPL.html">chemist::detail_::MoleculePIMPL</a></div><div class="ttdef"><b>Definition:</b> molecule_pimpl.hpp:22</div></div>
 <div class="ttc" id="anamespacechemist_html"><div class="ttname"><a href="namespacechemist.html">chemist</a></div><div class="ttdoc">The primary namespace for the chemist library.</div><div class="ttdef"><b>Definition:</b> ao_basis_set.cpp:22</div></div>
 <div class="ttc" id="astructchemist_1_1ChemistClassTraits_3_01Atom_01_4_html"><div class="ttname"><a href="structchemist_1_1ChemistClassTraits_3_01Atom_01_4.html">chemist::ChemistClassTraits&lt; Atom &gt;</a></div><div class="ttdef"><b>Definition:</b> molecule_traits.hpp:31</div></div>
 <div class="ttc" id="astructchemist_1_1ChemistClassTraits_3_01Molecule_01_4_html"><div class="ttname"><a href="structchemist_1_1ChemistClassTraits_3_01Molecule_01_4.html">chemist::ChemistClassTraits&lt; Molecule &gt;</a></div><div class="ttdef"><b>Definition:</b> molecule_traits.hpp:61</div></div>

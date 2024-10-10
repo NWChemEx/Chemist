@@ -1,0 +1,4 @@
+<map id="chemist::dsl::BinaryOp&lt; DerivedType, LHSType, RHSType &gt;" name="chemist::dsl::BinaryOp&lt; DerivedType, LHSType, RHSType &gt;">
+<area shape="rect" id="node1" title="Code factorization for binary operations." alt="" coords="5,95,191,151"/>
+<area shape="rect" id="node2" href="$classchemist_1_1dsl_1_1Term.html" title="Base class for all elements of the DSL." alt="" coords="27,5,169,47"/>
+</map>
