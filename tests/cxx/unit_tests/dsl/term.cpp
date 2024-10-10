@@ -22,7 +22,9 @@
  * The Term class ensures that it is possible to combine DSL objects without
  * having to overload operator+, operator*, etc. for every object type in the
  * DSL. Thus to test it, it suffices to have a DSL object that derives from
- * Term and then to operate on that object.
+ * Term and then to operate on that object. For this purpose we define an object
+ * "a" which represents adding 4 and 2. We then add, multiply, etc. to "a" the
+ * integer 42.
  */
 
 TEST_CASE("Term") {
@@ -35,8 +37,18 @@ TEST_CASE("Term") {
         REQUIRE((a + forty_two) == corr);
     }
 
+    SECTION("operator-") {
+        chemist::dsl::Subtract<lhs_type, int> corr(a, forty_two);
+        REQUIRE((a - forty_two) == corr);
+    }
+
     SECTION("operator*") {
         chemist::dsl::Multiply<lhs_type, int> corr(a, forty_two);
         REQUIRE((a * forty_two) == corr);
+    }
+
+    SECTION("operator/") {
+        chemist::dsl::Divide<lhs_type, int> corr(a, forty_two);
+        REQUIRE((a / forty_two) == corr);
     }
 }

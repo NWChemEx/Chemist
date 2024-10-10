@@ -76,6 +76,16 @@ TEST_CASE("OperatorImpl") {
         REQUIRE((t + t) == corr);
     }
 
+    SECTION("operator-") {
+        chemist::dsl::Subtract<t_e_type, t_e_type> corr(t, t);
+        REQUIRE((t - t) == corr);
+    }
+
+    SECTION("operator*") {
+        chemist::dsl::Multiply<t_e_type, t_e_type> corr(t, t);
+        REQUIRE((t * t) == corr);
+    }
+
     SECTION("clone") {
         auto pt = t.clone();
         REQUIRE(pt->are_equal(t));

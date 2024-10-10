@@ -32,7 +32,13 @@ template<typename DerivedType, typename LHSType, typename RHSType>
 class BinaryOp;
 
 template<typename LHSType, typename RHSType>
+class Divide;
+
+template<typename LHSType, typename RHSType>
 class Multiply;
+
+template<typename LHSType, typename RHSType>
+class Subtract;
 
 template<typename DerivedType>
 class Term;

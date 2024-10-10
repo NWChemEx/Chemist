@@ -16,5 +16,7 @@
 
 #pragma once
 #include <chemist/dsl/add.hpp>
+#include <chemist/dsl/divide.hpp>
 #include <chemist/dsl/multiply.hpp>
+#include <chemist/dsl/subtract.hpp>
 #include <chemist/dsl/term.hpp>

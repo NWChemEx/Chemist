@@ -190,6 +190,23 @@ public:
         return dsl::Add<const DerivedType, const RHSType>(downcast_(), rhs);
     }
 
+    /** @brief Subtracts @p rhs from *this.
+     *
+     *  @tparam RHSType The type of @p rhs. Assumed to be the type of an
+     *                  operator or the type of a DSL term involving operators.
+     *
+     *  @param[in] rhs The object to subtract from *this.
+     *
+     *  @return A DSL term describing the user's requested operation.
+     *
+     *  @throw None No throw guarantee.
+     */
+    template<typename RHSType>
+    auto operator-(const RHSType& rhs) const {
+        return dsl::Subtract<const DerivedType, const RHSType>(downcast_(),
+                                                               rhs);
+    }
+
     /** @brief Right multiplies *this by @p rhs.
      *
      *  @tparam RHSType The type of @p rhs. Assumed to be the type of an
