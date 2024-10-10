@@ -27,3 +27,4 @@ Topics in this section record the design process for the Chemist library.
    topology/index
    fragmenting/index
    quantum_mechanics/index
+   dsl
