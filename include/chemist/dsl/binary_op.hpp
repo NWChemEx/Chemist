@@ -17,6 +17,7 @@
 #pragma once
 #include <chemist/dsl/term.hpp>
 #include <chemist/dsl/term_traits.hpp>
+#include <tuple>
 #include <type_traits>
 
 namespace chemist::dsl {
