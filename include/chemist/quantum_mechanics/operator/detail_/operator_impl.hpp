@@ -173,6 +173,56 @@ public:
         return !(*this == rhs);
     }
 
+    /** @brief Adds @p rhs to *this.
+     *
+     *  @tparam RHSType The type of @p rhs. Assumed to be the type of an
+     *                  operator or the type of a DSL term involving operators.
+     *
+     *  @param[in] rhs The object to add to *this.
+     *
+     *  @return A DSL term describing the user's requested operation.
+     *
+     *  @throw None No throw guarantee.
+     */
+    template<typename RHSType>
+    auto operator+(const RHSType& rhs) const {
+        return dsl::Add<const DerivedType, const RHSType>(downcast_(), rhs);
+    }
+
+    /** @brief Subtracts @p rhs from *this.
+     *
+     *  @tparam RHSType The type of @p rhs. Assumed to be the type of an
+     *                  operator or the type of a DSL term involving operators.
+     *
+     *  @param[in] rhs The object to subtract from *this.
+     *
+     *  @return A DSL term describing the user's requested operation.
+     *
+     *  @throw None No throw guarantee.
+     */
+    template<typename RHSType>
+    auto operator-(const RHSType& rhs) const {
+        return dsl::Subtract<const DerivedType, const RHSType>(downcast_(),
+                                                               rhs);
+    }
+
+    /** @brief Right multiplies *this by @p rhs.
+     *
+     *  @tparam RHSType The type of @p rhs. Assumed to be the type of an
+     *                  operator or the type of a DSL term involving operators.
+     *
+     *  @param[in] rhs The object to multiply with *this.
+     *
+     *  @return A DSL term describing the user's requested operation.
+     *
+     *  @throw None No throw guarantee.
+     */
+    template<typename RHSType>
+    auto operator*(const RHSType& rhs) const {
+        return dsl::Multiply<const DerivedType, const RHSType>(downcast_(),
+                                                               rhs);
+    }
+
 protected:
     /// Type *this derives from
     using base_type = OperatorBase;
@@ -267,5 +317,23 @@ private:
     /// These are the particles the operator describes
     std::tuple<Particles...> m_particles_;
 };
+
+/** @brief Enables left multiplication by floating point values.
+ *
+ *  @tparam LHSType Type of the floating point value.
+ *  @tparam DerivedType Type OperatorImpl is implementing.
+ *  @tparam Particles Types of the particles DerivedType is templated on.
+ *  @tparam <anonymous> Used to disable this overload if @p LHSType is not a
+ *                      floating point type.
+ *
+ *  It is conventional to put scalars on the left of an operator. This function
+ *  overloads left multiplication of an operator by a scalar so that it works.
+ */
+template<typename LHSType, typename DerivedType, typename... Particles,
+         typename = std::enable_if_t<std::is_floating_point_v<LHSType>>>
+auto operator*(const LHSType& lhs,
+               const OperatorImpl<DerivedType, Particles...>& rhs) {
+    return dsl::Multiply<const LHSType, const DerivedType>(lhs, rhs);
+}
 
 } // namespace chemist::qm_operator::detail_

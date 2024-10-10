@@ -17,6 +17,7 @@
 #include "../../../test_helpers.hpp"
 #include <chemist/electron/electron.hpp>
 #include <chemist/quantum_mechanics/operator/kinetic.hpp>
+#include <chemist/quantum_mechanics/operator/typedefs.hpp>
 
 using namespace chemist;
 using namespace chemist::qm_operator;
@@ -37,8 +38,8 @@ using namespace chemist::qm_operator;
  */
 
 TEST_CASE("OperatorImpl") {
-    Kinetic<Electron> t;
-    Kinetic<ManyElectrons> T{ManyElectrons{2}};
+    t_e_type t;
+    T_e_type T{ManyElectrons{2}};
 
     SECTION("n_electrons") {
         STATIC_REQUIRE(t.n_electrons() == 1);
@@ -59,15 +60,30 @@ TEST_CASE("OperatorImpl") {
         // n.b. Kinetic does not shadow operator== so this goes through
         // OperatorImpl::operator==. Also note it won't compile if the left and
         // right sides have different types
-        REQUIRE(t == Kinetic<Electron>{});
-        REQUIRE(T == Kinetic<ManyElectrons>{ManyElectrons{2}});
-        REQUIRE_FALSE(T == Kinetic<ManyElectrons>{ManyElectrons{1}});
+        REQUIRE(t == t_e_type{});
+        REQUIRE(T == T_e_type{ManyElectrons{2}});
+        REQUIRE_FALSE(T == T_e_type{ManyElectrons{1}});
     }
 
     SECTION("operator!=") {
-        REQUIRE_FALSE(t != Kinetic<Electron>{});
-        REQUIRE_FALSE(T != Kinetic<ManyElectrons>{ManyElectrons{2}});
-        REQUIRE(T != Kinetic<ManyElectrons>{ManyElectrons{1}});
+        REQUIRE_FALSE(t != t_e_type{});
+        REQUIRE_FALSE(T != T_e_type{ManyElectrons{2}});
+        REQUIRE(T != T_e_type{ManyElectrons{1}});
+    }
+
+    SECTION("operator+") {
+        chemist::dsl::Add<t_e_type, t_e_type> corr(t, t);
+        REQUIRE((t + t) == corr);
+    }
+
+    SECTION("operator-") {
+        chemist::dsl::Subtract<t_e_type, t_e_type> corr(t, t);
+        REQUIRE((t - t) == corr);
+    }
+
+    SECTION("operator*") {
+        chemist::dsl::Multiply<t_e_type, t_e_type> corr(t, t);
+        REQUIRE((t * t) == corr);
     }
 
     SECTION("clone") {
@@ -79,12 +95,12 @@ TEST_CASE("OperatorImpl") {
     }
 
     SECTION("are_equal") {
-        REQUIRE(t.are_equal(Kinetic<Electron>{}));
+        REQUIRE(t.are_equal(t_e_type{}));
         REQUIRE_FALSE(t.are_equal(T));
     }
 
     SECTION("are_different") {
-        REQUIRE_FALSE(t.are_different(Kinetic<Electron>{}));
+        REQUIRE_FALSE(t.are_different(t_e_type{}));
         REQUIRE(t.are_different(T));
     }
 }
