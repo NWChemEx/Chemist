@@ -21,6 +21,7 @@
 
 using namespace chemist;
 using namespace chemist::qm_operator;
+using namespace chemist::qm_operator::types;
 
 /* Testing strategy
  *

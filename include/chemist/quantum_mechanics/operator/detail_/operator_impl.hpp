@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <chemist/dsl/dsl.hpp>
 #include <chemist/electron/electron.hpp>
 #include <chemist/nucleus/nucleus.hpp>
 #include <chemist/quantum_mechanics/operator/operator_base.hpp>

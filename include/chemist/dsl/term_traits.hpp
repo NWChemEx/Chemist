@@ -16,6 +16,7 @@
 
 #pragma once
 #include <chemist/dsl/dsl_fwd.hpp>
+#include <type_traits>
 
 namespace chemist::dsl {
 
