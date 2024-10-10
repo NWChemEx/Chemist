@@ -15,12 +15,13 @@
  */
 
 #include "../../../test_helpers.hpp"
-#include <chemist/chemical_system/electron/electron.hpp>
+#include <chemist/electron/electron.hpp>
 #include <chemist/quantum_mechanics/operator/kinetic.hpp>
 #include <chemist/quantum_mechanics/operator/typedefs.hpp>
 
 using namespace chemist;
 using namespace chemist::qm_operator;
+using namespace chemist::qm_operator::types;
 
 /* Testing strategy
  *

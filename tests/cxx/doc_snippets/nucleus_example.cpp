@@ -16,7 +16,7 @@
 
 #include "catch.hpp"
 #include <cereal/archives/binary.hpp>
-#include <chemist/chemical_system/nucleus/nucleus.hpp>
+#include <chemist/nucleus/nucleus.hpp>
 #include <iostream>
 #include <sstream>
 #include <string>

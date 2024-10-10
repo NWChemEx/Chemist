@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#include <chemist/chemical_system/electron/electron.hpp>
-#include <chemist/chemical_system/nucleus/nucleus.hpp>
+#include <chemist/electron/electron.hpp>
+#include <chemist/nucleus/nucleus.hpp>
 #include <chemist/quantum_mechanics/operator/operator_fwd.hpp>
 
 /** @file typedefs.hpp
@@ -40,7 +40,7 @@
  *
  */
 
-namespace chemist::qm_operator {
+namespace chemist::qm_operator::types {
 
 using t_e_type = Kinetic<Electron>;
 using T_e_type = Kinetic<ManyElectrons>;
@@ -65,4 +65,4 @@ using xc_en_type = ExchangeCorrelation<Electron, Nuclei>;
 using XC_en_type = ExchangeCorrelation<ManyElectrons, Nuclei>;
 using XC_nn_type = ExchangeCorrelation<Nuclei, Nuclei>;
 
-} // namespace chemist::qm_operator
+} // namespace chemist::qm_operator::types

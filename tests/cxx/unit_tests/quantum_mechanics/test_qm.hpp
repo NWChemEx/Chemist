@@ -22,9 +22,9 @@
 
 #pragma once
 #include "../catch.hpp"
-#include <chemist/basis_set/ao_basis_set/ao_basis_set.hpp>
-#include <chemist/chemical_system/electron/electron.hpp>
-#include <chemist/chemical_system/nucleus/nucleus.hpp>
+#include <chemist/basis_set/ao_basis_set.hpp>
+#include <chemist/electron/electron.hpp>
+#include <chemist/nucleus/nucleus.hpp>
 
 namespace test_chemist {
 

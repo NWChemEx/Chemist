@@ -15,7 +15,7 @@
  */
 
 #include "export_basis_set.hpp"
-#include <chemist/basis_set/ao_basis_set/ao_basis_set.hpp>
+#include <chemist/basis_set/ao_basis_set.hpp>
 #include <pybind11/stl.h>
 
 namespace chemist {

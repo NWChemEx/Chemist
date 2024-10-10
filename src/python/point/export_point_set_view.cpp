@@ -15,7 +15,7 @@
  */
 
 #include "export_point.hpp"
-#include <chemist/point/point_set_view/point_set_view.hpp>
+#include <chemist/point/point_set_view.hpp>
 
 namespace chemist {
 namespace detail_ {

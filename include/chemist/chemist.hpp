@@ -27,9 +27,13 @@
 
 #include <chemist/basis_set/basis_set.hpp>
 #include <chemist/chemical_system/chemical_system.hpp>
+#include <chemist/electron/electron.hpp>
 #include <chemist/enums.hpp>
 #include <chemist/fragmenting/fragmenting.hpp>
+#include <chemist/molecule/molecule.hpp>
+#include <chemist/nucleus/nucleus.hpp>
 #include <chemist/point/point.hpp>
+#include <chemist/point_charge/point_charge.hpp>
 #include <chemist/quantum_mechanics/quantum_mechanics.hpp>
 #include <chemist/topology/topology.hpp>
 

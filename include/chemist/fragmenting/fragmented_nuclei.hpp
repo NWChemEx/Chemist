@@ -15,9 +15,9 @@
  */
 
 #pragma once
-#include <chemist/chemical_system/nucleus/nucleus.hpp>
 #include <chemist/fragmenting/capping/capping.hpp>
 #include <chemist/fragmenting/fragmented_base.hpp>
+#include <chemist/nucleus/nucleus.hpp>
 
 namespace chemist::fragmenting {
 namespace detail_ {
