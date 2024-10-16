@@ -15,9 +15,9 @@
  */
 
 #pragma once
-#include "chemist/electrons/electrons.hpp"
-#include "chemist/orbital_space/ao_space.hpp"
-#include "chemist/types.hpp"
+#include <chemist/electron/electron.hpp>
+#include <chemist/quantum_mechanics/wavefunction/aos.hpp>
+#include <tensorwrapper/tensorwrapper.hpp>
 
 namespace chemist {
 
@@ -30,7 +30,10 @@ namespace chemist {
  *  an arbitrary number of arbitrary particles.
  *
  *  @note At the moment this class is basically a strong type which wraps a
- *        tensor.
+ *        tensor and an AOs object.
+ *
+ *  @note If we want to support Particles... != Electron... we will need to add
+ *        TMP to work out the basis type.
  *
  *  @tparam Particles The types of the particles described by this density. At
  *                    the moment the types are used purely for strong typing
@@ -41,35 +44,76 @@ template<typename... Particles>
 class Density {
 public:
     /// Type used to represent the numeric form of the density
-    using value_type = type::tensor;
+    using value_type = tensorwrapper::Tensor;
 
-    /// Type of the basis set
-    using aos_type = orbital_space::AOSpaceD;
+    /// Type of a mutable reference to the density matrix
+    using reference = value_type&;
+
+    /// Type of a read-only reference to the density matrix
+    using const_reference = const value_type&;
+
+    /// Type of the basis set for value_type
+    using basis_type = wavefunction::AOs;
+
+    /// Type of a mutable reference to an object of type basis_type
+    using basis_reference = basis_type&;
+
+    /// Type of a read-only reference to an object of basis_type
+    using const_basis_reference = const basis_type&;
 
     /// Default ctor
     explicit Density() = default;
 
-    /// Ctor with non-default values
-    Density(value_type rho, aos_type aos) :
-      m_orbs_(std::move(aos)), m_density_(std::move(rho)) {}
+    /** @brief Creates a new density object with the provided values.
+     *
+     *  @param[in] rho The tensor representation of the density matrix.
+     *  @param[in] orbs The basis set the density matrix is expressed in.
+     *
+     *  @throw None No throw guarantee.
+     */
+    Density(value_type rho, basis_type orbs) :
+      m_density_(std::move(rho)), m_orbs_(std::move(orbs)) {}
+
+    /** @brief Returns a mutable reference to the density matrix.
+     *
+     *  @return A mutable reference to the tensor representation of the density.
+     *
+     *  @throw None No throw guarantee.
+     */
+    reference value() noexcept { return m_density_; }
 
     /** @brief Provides read-only access to the density matrix.
+     *
+     *  Same as the non-const version except that the return is read-only. See
+     *  description of non-const version for more details.
      *
      *  @return The density value.
      *
      *  @throw None No throw guarantee.
      */
-    const auto& value() const noexcept { return m_density_; }
+    const_reference value() const noexcept { return m_density_; }
+
+    /** @brief Returns a mutable reference to the orbital basis set for the
+     *         density.
+     *
+     *  @return A mutable reference to the basis set for *this.
+     *
+     *  @throw None No throw guarantee.
+     */
+    basis_reference basis_set() noexcept { return m_orbs_; }
 
     /** @brief Provides read-only access to the orbital basis set used to define
      *         the density matrix.
+     *
+     *  Same as the non-const version except that the return is read-only. See
+     *  description of the non-const version for more details.
      *
      *  @return The orbital basis the density is formed in.
      *
      *  @throw ??? Throws if the derived class's implementation of `basis_set_`
      *             throws. Same throw guarantee.
      */
-    const auto& basis_set() const { return basis_set_(); }
+    const_basis_reference basis_set() const { return basis_set_(); }
 
 protected:
     /// The density tensor
@@ -87,11 +131,11 @@ protected:
      *
      *  @throw None No throw guarantee.
      */
-    virtual const aos_type& basis_set_() const { return m_orbs_; }
+    virtual const_basis_reference basis_set_() const { return m_orbs_; }
 
 private:
     /// The orbital space used to make the density
-    aos_type m_orbs_;
+    basis_type m_orbs_;
 };
 
 /** @brief Compares two Density instances for equality.
@@ -146,8 +190,5 @@ bool operator!=(const Density<LHSParticles...>& lhs,
                 const Density<RHSParticles...>& rhs) {
     return !(lhs == rhs);
 }
-
-/// Type of the one-Electron density
-using OneElectronDensity = Density<Electron>;
 
 } // namespace chemist
