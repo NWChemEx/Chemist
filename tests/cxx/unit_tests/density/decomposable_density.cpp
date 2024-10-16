@@ -1,148 +1,108 @@
-// /*
-//  * Copyright 2022 NWChemEx-Project
-//  *
-//  * Licensed under the Apache License, Version 2.0 (the "License");
-//  * you may not use this file except in compliance with the License.
-//  * You may obtain a copy of the License at
-//  *
-//  * http://www.apache.org/licenses/LICENSE-2.0
-//  *
-//  * Unless required by applicable law or agreed to in writing, software
-//  * distributed under the License is distributed on an "AS IS" BASIS,
-//  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//  * See the License for the specific language governing permissions and
-//  * limitations under the License.
-//  */
+/*
+ * Copyright 2022 NWChemEx-Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+#include "../quantum_mechanics/test_qm.hpp"
+#include "../test_helpers.hpp"
+#include <chemist/density/decomposable_density.hpp>
 
-// #include "chemist/density/decomposable_density.hpp"
-// #include "test_density.hpp"
+/* Testing Strategy.
+ *
+ * The DecomposableDensity class extends Density by adding a left_factor
+ * method and overriding the implementation of basis_set.
+ */
 
-// // Known Densities
-// using chemist::Decomposable1EDensity;
+using namespace chemist;
 
-// // Tuple containing the known densities
-// using density_types = std::tuple<Decomposable1EDensity>;
+// Tuple containing the known densities
+using density_types = std::tuple<Decomposable1EDensity>;
 
-// TEMPLATE_LIST_TEST_CASE("DecomposableDensity", "", density_types) {
-//     using density_type = TestType;
-//     using base_type    = typename density_type::base_type;
-//     using space_type   = typename density_type::space_type;
-//     using value_type   = typename density_type::value_type;
-//     using aos_type     = typename density_type::aos_type;
+TEMPLATE_LIST_TEST_CASE("DecomposableDensity", "", density_types) {
+    using density_type = TestType;
+    using value_type   = typename density_type::value_type;
+    using aos_type     = typename density_type::basis_type;
+    using transformed_basis_type =
+      typename density_type::transformed_basis_type;
 
-//     SECTION("Typedefs") {
-//         SECTION("base_type") {
-//             using corr = chemist::OneElectronDensity;
-//             STATIC_REQUIRE(std::is_same_v<base_type, corr>);
-//         }
+    value_type a_tensor{{1.0, 0.0}, {0.0, 1.0}};
+    value_type b_tensor{{2.0, 0.0}, {0.0, 2.0}};
+    aos_type aos(test_chemist::h2_basis());
+    transformed_basis_type mos(aos, b_tensor);
 
-//         SECTION("space_type") {
-//             using corr = chemist::orbital_space::DerivedSpaceD;
-//             STATIC_REQUIRE(std::is_same_v<space_type, corr>);
-//         }
+    density_type defaulted;
+    density_type has_value(a_tensor, mos);
 
-//         SECTION("value_type") {
-//             using corr = chemist::type::tensor;
-//             STATIC_REQUIRE(std::is_same_v<value_type, corr>);
-//         }
+    SECTION("CTors") {
+        SECTION("Default") {
+            REQUIRE(defaulted.value() == value_type{});
+            REQUIRE(defaulted.basis_set() == aos_type{});
+            REQUIRE(defaulted.left_factor() == value_type{});
+        }
 
-//         SECTION("aos_type") {
-//             using corr = chemist::orbital_space::AOSpaceD;
-//             STATIC_REQUIRE(std::is_same_v<aos_type, corr>);
-//         }
-//     }
+        SECTION("Space ctor") {
+            REQUIRE(has_value.value() == a_tensor);
+            REQUIRE(has_value.basis_set() == aos);
+            REQUIRE(has_value.left_factor() == b_tensor);
+        }
 
-//     density_type defaulted;
-//     auto a_tensor = testing::generate_tensor(2);
-//     auto space    = testing::non_default_space<space_type>();
-//     auto aos      = testing::non_default_space<aos_type>();
+        SECTION("Tensor ctor") {
+            density_type other(a_tensor, aos, b_tensor);
+            REQUIRE(other == has_value);
+        }
 
-//     density_type has_value(a_tensor, space);
+        test_chemist::test_copy_and_move(defaulted, has_value);
+    }
 
-//     SECTION("CTors") {
-//         SECTION("Default") {
-//             REQUIRE(defaulted.value() == value_type{});
-//             REQUIRE(defaulted.space() == space_type{});
-//             // Default DerivedSpace throws error when accessing from_space
-//             REQUIRE_THROWS_AS(defaulted.basis_set(), std::runtime_error);
-//         }
+    SECTION("basis_set") {
+        REQUIRE(defaulted.basis_set() == aos_type{});
+        REQUIRE(has_value.basis_set() == aos);
+    }
 
-//         SECTION("Value") {
-//             REQUIRE(has_value.value() == a_tensor);
-//             REQUIRE(has_value.basis_set() == aos);
-//             REQUIRE(has_value.space() == space);
-//         }
+    SECTION("left_factor") {
+        REQUIRE(defaulted.left_factor() == value_type{});
+        REQUIRE(has_value.left_factor() == b_tensor);
+    }
 
-//         SECTION("Copy") {
-//             density_type copy(has_value);
-//             REQUIRE(copy.value() == a_tensor);
-//             REQUIRE(copy.basis_set() == aos);
-//             REQUIRE(copy.space() == space);
-//         }
+    SECTION("Comparison") {
+        SECTION("Both default") {
+            density_type rhs;
+            REQUIRE(defaulted == rhs);
+            REQUIRE_FALSE(defaulted != rhs);
+        }
 
-//         SECTION("Move") {
-//             density_type moved(std::move(has_value));
-//             REQUIRE(moved.value() == a_tensor);
-//             REQUIRE(moved.basis_set() == aos);
-//             REQUIRE(moved.space() == space);
-//         }
-//     }
+        SECTION("Both have same value") {
+            density_type rhs(a_tensor, mos);
+            REQUIRE(has_value == rhs);
+            REQUIRE_FALSE(has_value != rhs);
+        }
 
-//     SECTION("Assignment") {
-//         SECTION("Copy") {
-//             density_type copy;
-//             auto pcopy = &(copy = has_value);
-//             REQUIRE(pcopy == &copy);
-//             REQUIRE(copy.value() == a_tensor);
-//             REQUIRE(copy.basis_set() == aos);
-//             REQUIRE(copy.space() == space);
-//         }
+        SECTION("Different tensors") {
+            density_type rhs(value_type{}, mos);
+            REQUIRE(rhs != has_value);
+            REQUIRE_FALSE(rhs == has_value);
+        }
 
-//         SECTION("Move") {
-//             density_type moved;
-//             auto pmoved = &(moved = std::move(has_value));
-//             REQUIRE(pmoved == &moved);
-//             REQUIRE(moved.value() == a_tensor);
-//             REQUIRE(moved.basis_set() == aos);
-//             REQUIRE(moved.space() == space);
-//         }
-//     }
+        SECTION("Different AOs") {
+            density_type rhs(a_tensor, transformed_basis_type{});
+            REQUIRE(rhs != has_value);
+            REQUIRE_FALSE(rhs == has_value);
+        }
 
-//     SECTION("value") { REQUIRE(has_value.value() == a_tensor); }
-
-//     SECTION("basis_set") { REQUIRE(has_value.basis_set() == aos); }
-
-//     SECTION("space") { REQUIRE(has_value.space() == space); }
-
-//     SECTION("Comparison") {
-//         SECTION("Both default") {
-//             density_type rhs;
-//             REQUIRE(defaulted == rhs);
-//             REQUIRE_FALSE(defaulted != rhs);
-//         }
-
-//         SECTION("Both have same value") {
-//             density_type rhs(a_tensor, space);
-//             REQUIRE(has_value == rhs);
-//             REQUIRE_FALSE(has_value != rhs);
-//         }
-
-//         SECTION("Different tensors") {
-//             density_type rhs(value_type{}, space);
-//             REQUIRE(rhs != has_value);
-//             REQUIRE_FALSE(rhs == has_value);
-//         }
-
-//         SECTION("Different AOs") {
-//             density_type rhs(a_tensor, space_type{});
-//             REQUIRE(rhs != has_value);
-//             REQUIRE_FALSE(rhs == has_value);
-//         }
-
-//         SECTION("With base_type") {
-//             base_type base_with_value(a_tensor, aos);
-//             REQUIRE(has_value == base_with_value);
-//             REQUIRE_FALSE(has_value != base_with_value);
-//         }
-//     }
-// }
+        SECTION("With base_type") {
+            Density<Electron> base_with_value(a_tensor, aos);
+            REQUIRE(has_value == base_with_value);
+            REQUIRE_FALSE(has_value != base_with_value);
+        }
+    }
+}

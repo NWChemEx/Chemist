@@ -131,11 +131,11 @@ protected:
     /// Protected to help avoid slicing
     VectorSpace(VectorSpace&& other) noexcept = default;
 
-    /// Deleted to help avoid slicing
-    VectorSpace& operator=(const VectorSpace& other) = delete;
+    /// Protected to help avoid slicing
+    VectorSpace& operator=(const VectorSpace& other) = default;
 
-    /// Deleted to help avoid slicing
-    VectorSpace& operator=(VectorSpace&& other) noexcept = delete;
+    /// Protected to help avoid slicing
+    VectorSpace& operator=(VectorSpace&& other) noexcept = default;
 
     /** @brief Common implementation for are_equal_
      *
@@ -165,7 +165,7 @@ protected:
 
         // This one can fail if rhs isn't the same derived type
         const auto* prhs = dynamic_cast<const DerivedType*>(&rhs);
-        if(pthis == nullptr) return false; // Different types
+        if(prhs == nullptr) return false; // Different types
         return (*pthis) == (*prhs);
     }
 
