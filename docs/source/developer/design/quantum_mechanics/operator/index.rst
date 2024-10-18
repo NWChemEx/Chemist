@@ -32,3 +32,4 @@ Chemist.
 
    architecture
    operator_base
+   hamiltonian

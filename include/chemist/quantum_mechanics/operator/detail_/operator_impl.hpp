@@ -334,7 +334,8 @@ template<typename LHSType, typename DerivedType, typename... Particles,
          typename = std::enable_if_t<std::is_floating_point_v<LHSType>>>
 auto operator*(const LHSType& lhs,
                const OperatorImpl<DerivedType, Particles...>& rhs) {
-    return dsl::Multiply<const LHSType, const DerivedType>(lhs, rhs);
+    return dsl::Multiply<const LHSType, const DerivedType>(
+      lhs, static_cast<const DerivedType&>(rhs));
 }
 
 } // namespace chemist::qm_operator::detail_
