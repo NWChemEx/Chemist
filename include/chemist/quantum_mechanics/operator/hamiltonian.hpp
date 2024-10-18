@@ -1,28 +1,36 @@
 #pragma once
-#include <chemist/quantum_mechanics/operator/detail_/operator_impl.hpp>
+#include <chemist/dsl/dsl.hpp>
+#include <chemist/quantum_mechanics/operator/detail_/linear_combination_impl.hpp>
 
 namespace chemist::qm_operator {
-namespace detail_ {
-class HamiltonianPIMPL;
-}
 
 /** @brief Describes the total energy of the system.
  *
  */
-// class Hamiltonian : public OperatorBase {
-// public:
-//     /// Pull in base class types
-//     ///@{
-//     using OperatorBase::base_pointer;
-//     using OperatorBase::visitor_reference;
-//     ///@}
+class Hamiltonian : public detail_::LinearCombinationImpl<Hamiltonian> {
+private:
+    /// Type *this actually inherits from
+    using impl_type = detail_::LinearCombinationImpl<Hamiltonian>;
 
-//     using pimpl_type    = detail_::HamiltonianPIMPL;
-//     using pimpl_pointer = std::unique_ptr<pimpl_type>;
+    /// Type of parser base expects *this to use
+    using typename impl_type::parser_type;
 
-// protected:
-//     base_pointer clone_() const override;
-//     void visit_(visitor_reference visitor) override;
-//     void visit_(visitor_reference visitor) const override;
-// };
+public:
+    /// Pull in base class types
+    ///@{
+    using typename impl_type::base_pointer;
+    using typename impl_type::visitor_reference;
+    ///@}
+
+    Hamiltonian() = default;
+
+    template<typename T>
+    explicit Hamiltonian(const dsl::Term<T>& expression) :
+      impl_type(parser_type(expression.downcast()).m_terms) {}
+
+    Hamiltonian(const Hamiltonian& other)                = default;
+    Hamiltonian(Hamiltonian&& other) noexcept            = default;
+    Hamiltonian& operator=(const Hamiltonian& other)     = default;
+    Hamiltonian& operator=(Hamiltonian&& other) noexcept = default;
+};
 } // namespace chemist::qm_operator

@@ -18,6 +18,7 @@
 #include <chemist/quantum_mechanics/operator/coulomb.hpp>
 #include <chemist/quantum_mechanics/operator/exchange.hpp>
 #include <chemist/quantum_mechanics/operator/exchange_correlation.hpp>
+#include <chemist/quantum_mechanics/operator/hamiltonian.hpp>
 #include <chemist/quantum_mechanics/operator/kinetic.hpp>
 #include <chemist/quantum_mechanics/operator/operator_base.hpp>
 #include <chemist/quantum_mechanics/operator/operator_visitor.hpp>

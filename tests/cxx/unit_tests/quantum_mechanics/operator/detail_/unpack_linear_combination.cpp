@@ -1,5 +1,5 @@
 #include "../../../catch.hpp"
-#include <chemist/quantum_mechanics/operator/detail_/unpack_operator.hpp>
+#include <chemist/quantum_mechanics/operator/detail_/unpack_linear_combination.hpp>
 #include <chemist/quantum_mechanics/operator/operator.hpp>
 
 using namespace chemist::qm_operator;
@@ -20,9 +20,9 @@ void compare_terms(LHSType& lhs, RHSType& rhs) {
 
 } // namespace
 
-TEST_CASE("UnpackOperator") {
-    using operator_pair  = typename detail_::UnpackOperator::operator_pair;
-    using container_type = std::vector<operator_pair>;
+TEST_CASE("UnpackLinearCombination") {
+    using container_type =
+      typename detail_::UnpackLinearCombination::container_type;
 
     types::T_e_type T_e;
     types::V_en_type V_en;
@@ -31,59 +31,79 @@ TEST_CASE("UnpackOperator") {
 
     SECTION("CTors") {
         SECTION("Default") {
-            detail_::UnpackOperator ops;
+            detail_::UnpackLinearCombination ops;
             REQUIRE(ops.m_terms == container_type{});
         }
 
         SECTION("Single operator") {
-            detail_::UnpackOperator ops(T_e);
+            detail_::UnpackLinearCombination ops(T_e);
             container_type corr;
             corr.emplace_back(std::make_pair(1.0, T_e.clone()));
             compare_terms(ops.m_terms, corr);
         }
 
         SECTION("Operator and scalar") {
-            detail_::UnpackOperator ops(T_e, 2.0);
+            detail_::UnpackLinearCombination ops(T_e, 2.0);
             container_type corr;
             corr.emplace_back(std::make_pair(2.0, T_e.clone()));
             compare_terms(ops.m_terms, corr);
         }
 
         SECTION("Scalar and operator") {
-            detail_::UnpackOperator ops(2.0, T_e);
+            detail_::UnpackLinearCombination ops(2.0, T_e);
             container_type corr;
             corr.emplace_back(std::make_pair(2.0, T_e.clone()));
             compare_terms(ops.m_terms, corr);
         }
 
         SECTION("Add") {
-            detail_::UnpackOperator ops(T_e + V_en);
+            detail_::UnpackLinearCombination ops(T_e + V_en);
             container_type corr;
             corr.emplace_back(std::make_pair(1.0, T_e.clone()));
             corr.emplace_back(std::make_pair(1.0, V_en.clone()));
             compare_terms(ops.m_terms, corr);
         }
 
-        // SECTION("Multiply (scalar, op)") {
-        //     detail_::UnpackOperator ops(3.0 * T_e);
-        //     container_type corr;
-        //     corr.emplace_back(std::make_pair(3.0, T_e.clone()));
-        //     compare_terms(ops.m_terms, corr);
-        // }
+        SECTION("Multiply (scalar, op)") {
+            detail_::UnpackLinearCombination ops(3.0 * T_e);
+            container_type corr;
+            corr.emplace_back(std::make_pair(3.0, T_e.clone()));
+            compare_terms(ops.m_terms, corr);
+        }
 
         SECTION("Multiply (op, scalar)") {
-            detail_::UnpackOperator ops(T_e * 3.0);
+            detail_::UnpackLinearCombination ops(T_e * 3.0);
             container_type corr;
             corr.emplace_back(std::make_pair(3.0, T_e.clone()));
             compare_terms(ops.m_terms, corr);
         }
 
         SECTION("Subtract") {
-            detail_::UnpackOperator ops(T_e - V_en);
+            detail_::UnpackLinearCombination ops(T_e - V_en);
             container_type corr;
             corr.emplace_back(std::make_pair(1.0, T_e.clone()));
             corr.emplace_back(std::make_pair(-1.0, V_en.clone()));
             compare_terms(ops.m_terms, corr);
         }
+    }
+
+    SECTION("unpack_into_mterms") {
+        detail_::UnpackLinearCombination ops(T_e - V_en);
+        ops.unpack_into_mterms(2.0, 4.0 * V_ee);
+        container_type corr;
+        corr.emplace_back(std::make_pair(1.0, T_e.clone()));
+        corr.emplace_back(std::make_pair(-1.0, V_en.clone()));
+        corr.emplace_back(std::make_pair(8.0, V_ee.clone()));
+        compare_terms(ops.m_terms, corr);
+    }
+
+    SECTION("Works with the actual Hamiltonian") {
+        detail_::UnpackLinearCombination ops(T_e + V_en + V_ee + V_nn);
+        container_type corr;
+        corr.emplace_back(std::make_pair(1.0, T_e.clone()));
+        corr.emplace_back(std::make_pair(1.0, V_en.clone()));
+        corr.emplace_back(std::make_pair(1.0, V_ee.clone()));
+        corr.emplace_back(std::make_pair(1.0, V_nn.clone()));
+        compare_terms(ops.m_terms, corr);
     }
 }
