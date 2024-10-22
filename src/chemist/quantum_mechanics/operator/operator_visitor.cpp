@@ -25,6 +25,7 @@ namespace chemist::qm_operator {
 
 #define CONST_OVERLOAD(...)                                                  \
     void OperatorVisitor::run(const __VA_ARGS__&) {                          \
+        if(!m_throw_) return;                                                \
         throw std::runtime_error(                                            \
           std::string("Visitor does not support operators of type const ") + \
           std::string(#__VA_ARGS__));                                        \

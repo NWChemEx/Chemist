@@ -108,6 +108,12 @@ public:
         using no_ref_t = std::remove_reference_t<RHSType>;
         return Divide<DerivedType, no_ref_t>(lhs, std::forward<RHSType>(rhs));
     }
+
+    decltype(auto) downcast() { return static_cast<DerivedType&>(*this); }
+
+    decltype(auto) downcast() const {
+        return static_cast<const DerivedType&>(*this);
+    }
 };
 
 } // namespace chemist::dsl
