@@ -15,9 +15,12 @@
  */
 
 #pragma once
+#include <chemist/quantum_mechanics/operator/core_hamiltonian.hpp>
 #include <chemist/quantum_mechanics/operator/coulomb.hpp>
+#include <chemist/quantum_mechanics/operator/electronic_hamiltonian.hpp>
 #include <chemist/quantum_mechanics/operator/exchange.hpp>
 #include <chemist/quantum_mechanics/operator/exchange_correlation.hpp>
+#include <chemist/quantum_mechanics/operator/fock.hpp>
 #include <chemist/quantum_mechanics/operator/hamiltonian.hpp>
 #include <chemist/quantum_mechanics/operator/kinetic.hpp>
 #include <chemist/quantum_mechanics/operator/operator_base.hpp>

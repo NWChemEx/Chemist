@@ -38,4 +38,14 @@ TEST_CASE("Hamiltonian") {
 
         test_chemist::test_copy_and_move(defaulted, H);
     }
+
+    SECTION("electronic_hamiltonian") {
+        ElectronicHamiltonian corr(T_e + V_en + V_ee);
+        REQUIRE(H.electronic_hamiltonian() == corr);
+    }
+
+    SECTION("core_hamiltonian") {
+        CoreHamiltonian corr(T_e + V_en);
+        REQUIRE(H.core_hamiltonian() == corr);
+    }
 }
