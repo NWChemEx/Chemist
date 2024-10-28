@@ -24,9 +24,6 @@ protected:
     /// Type parser_type unpacks into
     using container_type = typename parser_type::container_type;
 
-    /// How the container stores the coefficient/operator pairs
-    using value_type = typename container_type::value_type;
-
 public:
     /// Bring in base class types
     ///@{
@@ -35,6 +32,9 @@ public:
     using typename base_type::const_base_reference;
     using typename base_type::visitor_reference;
     ///@}
+
+    /// How the container stores the coefficient/operator pairs
+    using value_type = typename container_type::value_type;
 
     /// Type used for indexing and offsets
     using size_type = typename container_type::size_type;
