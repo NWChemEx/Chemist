@@ -30,6 +30,7 @@ into full documentation at some point.
 - We will want subsets of the terms.
 
 - What should the template parameters, if any, be?
+
   - On one hand, it would be nice to know ahead of time what terms the
     Hamiltonian has. On the other this will complicate interfaces.
   - Order of parameters can be managed by convention.
