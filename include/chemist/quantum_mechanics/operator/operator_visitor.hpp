@@ -56,10 +56,32 @@ namespace chemist::qm_operator {
  */
 class OperatorVisitor {
 public:
+    /** @brief Creates a new visitor with the provided error policy.
+     *
+     *  The OperatorVisitor class defines run members for every type of
+     *  operator recognized by Chemist. This ctor also takes a boolean which
+     *  determines the default error policy. If @p should_throw is set to
+     *  true (the default), the default implementation of the run method
+     *  throws if the method is not overridden by the derived class. If
+     *  @p should_throw is instead set to false the derived class ignores calls
+     *  to the run method not overridden in the derived class.
+     *
+     *  @param[in] should_throw Should the default behavior be to throw when
+     *                          the visitor finds an unsupported operator?
+     *                          Default is true.
+     *
+     *  @throw None No throw guarantee.
+     */
+    OperatorVisitor(bool should_throw = true) : m_throw_(should_throw) {}
+
     ONE_PARTICLE_OVERLOADS(Kinetic);
     TWO_PARTICLE_OVERLOADS(Coulomb);
     TWO_PARTICLE_OVERLOADS(Exchange);
     TWO_PARTICLE_OVERLOADS(ExchangeCorrelation);
+
+private:
+    /// Should *this throw if an unrecognized operator is found?
+    bool m_throw_ = true;
 };
 
 #undef TWO_PARTICLE_OVERLOADS

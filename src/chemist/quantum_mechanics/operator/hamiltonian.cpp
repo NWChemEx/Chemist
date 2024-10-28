@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-#pragma once
-#include <chemist/quantum_mechanics/operator/core_hamiltonian.hpp>
-#include <chemist/quantum_mechanics/operator/coulomb.hpp>
-#include <chemist/quantum_mechanics/operator/electronic_hamiltonian.hpp>
-#include <chemist/quantum_mechanics/operator/exchange.hpp>
-#include <chemist/quantum_mechanics/operator/exchange_correlation.hpp>
-#include <chemist/quantum_mechanics/operator/fock.hpp>
+#include "detail_/get_terms.hpp"
 #include <chemist/quantum_mechanics/operator/hamiltonian.hpp>
-#include <chemist/quantum_mechanics/operator/kinetic.hpp>
-#include <chemist/quantum_mechanics/operator/operator_base.hpp>
-#include <chemist/quantum_mechanics/operator/operator_visitor.hpp>
-#include <chemist/quantum_mechanics/operator/typedefs.hpp>
+
+namespace chemist::qm_operator {
+
+typename Hamiltonian::const_electronic_hamiltonian_reference
+Hamiltonian::electronic_hamiltonian() const {
+    return detail_::get_terms<electronic_hamiltonian_type, detail_::EHVisitor>(
+      *this);
+}
+
+Hamiltonian::const_core_hamiltonian_reference Hamiltonian::core_hamiltonian()
+  const {
+    return detail_::get_terms<core_hamiltonian_type, detail_::CHVisitor>(*this);
+}
+
+} // namespace chemist::qm_operator
