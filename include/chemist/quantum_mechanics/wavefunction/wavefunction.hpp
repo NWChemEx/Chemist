@@ -20,6 +20,8 @@
  */
 #pragma once
 #include <chemist/quantum_mechanics/wavefunction/aos.hpp>
+#include <chemist/quantum_mechanics/wavefunction/determinant.hpp>
 #include <chemist/quantum_mechanics/wavefunction/mos.hpp>
 #include <chemist/quantum_mechanics/wavefunction/transformed.hpp>
 #include <chemist/quantum_mechanics/wavefunction/vector_space.hpp>
+#include <chemist/quantum_mechanics/wavefunction/wavefunction_fwd.hpp>
