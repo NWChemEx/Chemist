@@ -25,6 +25,8 @@
 #include <chemist/basis_set/ao_basis_set.hpp>
 #include <chemist/electron/electron.hpp>
 #include <chemist/nucleus/nucleus.hpp>
+#include <chemist/quantum_mechanics/wavefunction/wavefunction.hpp>
+#include <cmath>
 
 namespace test_chemist {
 
@@ -65,6 +67,17 @@ inline auto h2_basis() {
     rv.add_center(h1);
 
     return rv;
+}
+
+/// AOs for H2 with STO-3G approximating the 1s orbitals
+inline auto h2_aos() { return chemist::wavefunction::AOs(h2_basis()); }
+
+/// MOs for H2 that are a 50-50 mix of the two 1s orbitals
+inline auto h2_mos() {
+    using mos_type    = chemist::wavefunction::MOs;
+    using tensor_type = typename mos_type::transform_type;
+    tensor_type c({{1.0 / std::sqrt(2.0), 0.0}, {0.0, 1.0 / std::sqrt(2.0)}});
+    return mos_type(h2_aos(), std::move(c));
 }
 
 /// Creates a defaulted instance of each particle type we want to test

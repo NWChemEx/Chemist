@@ -9,7 +9,11 @@
 namespace chemist::wavefunction {
 
 class AOs;
+template<typename OneParticleBasis>
+class Determinant;
 class MOs;
+template<typename FromSpaceType>
+class Natural;
 template<typename FromSpaceType>
 class Transformed;
 class VectorSpace;
