@@ -217,25 +217,25 @@ Included in the fundamental spaces component are:
   i.e., calls the spins :math:`\alpha` and :math:`beta` in accordance with
   usual practice.
 
-Vectors
-=======
+Wavefunction
+============
 
 This sub-component of the wavefunction component contains classes defining
 classes that represent objects that span a vector space. In practice these
 objects are used to request a single element of a tensor via Dirac notation
 whereas ``VectorSpace`` objects are used to request the entire tensor.
 
-- ``Vector``. Base class signifying that something is an element of a
-  ``VectorSpace`` object. N.B. lives in the ``wavefunction`` namespace and
-  thus unlikely to conflict with ``std::vector`` or other tensor-like classes.
-- ``ImplicitVector``. Code factorization for representing a vector belonging to
-  an ``ImplicitSpace`` object.
-- ``Determinant``. Code factorization for classes defining single reference
-  multi-fermion wavefunctions.
-- ``RDeterminant``. Denotes that the wavefunction is a Slater determinant formed
-  from a product of restricted orbitals.
-- ``UDeterminant``. Denotes that the wavefunction is a Slater determinant formed
-  from a product of unrestricted orbitals.
+- ``Wavefunction``. Base class signifying that something is an element of a
+  ``VectorSpace`` object. Strictly speaking this means that ``Wavefunction``
+  objects are vectors or basis functions an not everything derived from 
+  ``Wavefunction`` will strictly be a wavefunction. However, we felt the more 
+  apt names, ``Vector`` or ``BasisFunction``, were respectively too likely to 
+  collide with other libraries (including the standard library) or be 
+  misconstrued as AO-specific.  
+- ``ImplicitVector``. Code factorization for representing a wavefunction belongs 
+  to an ``ImplicitSpace`` object.
+- ``Determinant``. A class representing a wavefunction formed by taking
+  determinants of single-product wavefunctions.
 
 
 Other potential classes could include strong types for specific implicit vectors
@@ -322,8 +322,8 @@ Summary
    Addressed by the ``Antisymmetrize`` and ``Symmetrize`` classes.
 
 :ref:`wf_basis_function_vs_basis_set`
-   Addressed with the ``Vector`` and ``VectorSpace`` classes, where the former
-   is an element of the latter.
+   Addressed with the ``Wavefunction`` and ``VectorSpace`` classes, where the 
+   former is an element of the latter.
 
 :ref:`wf_implicit_vs_explicit`
    The ``ImplicitSpace`` and ``ImplicitVector`` classes are introduced to

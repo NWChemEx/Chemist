@@ -56,4 +56,46 @@ TEST_CASE("Natural") {
 
         test_chemist::test_copy_and_move(defaulted, value_defaulted, value);
     }
+
+    SECTION("diagonalized_matrix()") {
+        REQUIRE(defaulted.diagonalized_matrix() == c_default);
+        REQUIRE(value_defaulted.diagonalized_matrix() == c_default);
+        REQUIRE(value.diagonalized_matrix() == e);
+    }
+
+    SECTION("diagonalized_matrix() const") {
+        REQUIRE(std::as_const(defaulted).diagonalized_matrix() == c_default);
+        REQUIRE(std::as_const(value_defaulted).diagonalized_matrix() ==
+                c_default);
+        REQUIRE(std::as_const(value).diagonalized_matrix() == e);
+    }
+
+    SECTION("operator==") {
+        SECTION("Default vs. default") { REQUIRE(defaulted == natural_type{}); }
+
+        SECTION("Default vs. default value") {
+            REQUIRE(defaulted == value_defaulted);
+        }
+
+        SECTION("Default vs. value") { REQUIRE_FALSE(defaulted == value); }
+
+        SECTION("Value vs. same value") {
+            REQUIRE(value == natural_type(e, aos, c));
+        }
+
+        SECTION("Value vs. different diagonal") {
+            tensor_type e2({1.0, 1.0});
+            REQUIRE_FALSE(value == natural_type(e2, aos, c));
+        }
+
+        SECTION("Value vs. different Transform base") {
+            tensor_type c2({{1.0, 1.0}, {1.0, 1.0}});
+            REQUIRE_FALSE(value == natural_type(e, aos, c2));
+        }
+    }
+
+    SECTION("operator!=") {
+        REQUIRE(defaulted != value);
+        REQUIRE_FALSE(defaulted != value_defaulted);
+    }
 }

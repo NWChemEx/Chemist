@@ -62,30 +62,89 @@ public:
     using typename transformed_type::transform_type;
     ///@}
 
+    /** @brief Creates and empty Natural space.
+     *
+     *  The space resulting from the default ctor will diagonalize an empty
+     *  matrix and be obtained via a transformation from the empty space
+     *  (meaning the transformation matrix is also empty). This ctor is
+     *  equivalent to calling the value ctor with defaulted objects.
+     *
+     *  @throw None No throw guarantee.
+     */
     Natural() = default;
 
-    Natural(tensor_type diagonalized_matrix, from_space_type from_space,
+    /** @brief Creates a Natural space associated with the @p diagonal matrix.
+     *
+     *  Natural spaces are obtained by forming a basis set which diagonalizes a
+     *  selected matrix. This ctor will initialize *this so that it in the *this
+     *  basis set, the matrix's non-zero elements are @p diagonal and @p c is
+     *  the transformation from @p from_space to the space *this represents.
+     *
+     *  @param[in] diagonal The diagonal of the matrix *this diagonalizes (so it
+     *                      is assumed to be in *this basis set).
+     *  @param[in] from_space The space *this is a transformation from.
+     *  @param[in] c The transformation from @p from_space to *this.
+     *
+     *  @throw None No throw guarantee.
+     */
+    Natural(tensor_type diagonal, from_space_type from_space,
             transform_type c) :
       transformed_type(std::move(from_space), std::move(c)),
-      m_matrix_(std::move(diagonalized_matrix)) {}
+      m_matrix_(std::move(diagonal)) {}
 
     /** @brief The diagonal of the matrix *this diagonalizes.
      *
-     * @return The diagonal of the matrix *this diagonalizes.
+     *  This method provides mutable access to the diagonal of the matrix *this
+     *  diagonalizes.
      *
-     * @throw None No throw guarantee.
+     *  @return The diagonal of the matrix *this diagonalizes.
+     *
+     *  @throw None No throw guarantee.
      */
     tensor_reference diagonalized_matrix() noexcept { return m_matrix_; }
 
+    /** @brief The diagonal of the matrix *this diagonalizes.
+     *
+     *  This method is the same as the non-const version except that the result
+     *  is immutable.
+     *
+     *  @return The diagonal of the matrix *this diagonalizes.
+     *
+     *  @throw None No throw guarantee.
+     */
     const_tensor_reference diagonalized_matrix() const noexcept {
         return m_matrix_;
     }
 
+    /** @brief Determines if *this is value equal to @p rhs.
+     *
+     *  Two natural spaces are value equal if:
+     *  - the diagonal of the diagonalized matrix is the same,
+     *  - they are obtained by transforming from the same space, and
+     *  - the transformations are the same.
+     *
+     *  @param[in] rhs The space to compare to.
+     *
+     *  @return True if *this is value equal to @p rhs and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
     bool operator==(const Natural& rhs) const noexcept {
         if(m_matrix_ != rhs.m_matrix_) return false;
         return transformed_type::operator==(rhs);
     }
 
+    /** @brief Determines if *this is different from @p rhs.
+     *
+     *  This method defines "different" as not "value equal." See the
+     *  description for operator== for the definition of "value equal."
+     *
+     *  @param[in] rhs The object to compare to.
+     *
+     *  @return False if *this is value equal to @p rhs and true otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
     bool operator!=(const Natural& rhs) const noexcept {
         return !((*this) == rhs);
     }
