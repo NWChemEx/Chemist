@@ -14,15 +14,25 @@
  * limitations under the License.
  */
 
-/** @brief wavefunction.hpp
- *
- *  Convenience header for including the wavefunction component of Chemist.
- */
 #pragma once
-#include <chemist/quantum_mechanics/wavefunction/aos.hpp>
-#include <chemist/quantum_mechanics/wavefunction/cmos.hpp>
-#include <chemist/quantum_mechanics/wavefunction/determinant.hpp>
-#include <chemist/quantum_mechanics/wavefunction/mos.hpp>
-#include <chemist/quantum_mechanics/wavefunction/transformed.hpp>
-#include <chemist/quantum_mechanics/wavefunction/vector_space.hpp>
-#include <chemist/quantum_mechanics/wavefunction/wavefunction_fwd.hpp>
+
+/** @file wavefunction_fwd.hpp
+ *
+ *  This file contains forward declarations of the classes comprising the
+ *  wavefunction sub-component of Chemist.
+ */
+
+namespace chemist::wavefunction {
+
+class AOs;
+template<typename OneParticleBasis>
+class Determinant;
+class MOs;
+template<typename FromSpaceType>
+class Natural;
+template<typename FromSpaceType>
+class Transformed;
+class VectorSpace;
+class Wavefunction;
+
+} // namespace chemist::wavefunction
