@@ -40,7 +40,7 @@ private:
 
 public:
     /// Fundamental base type of *this
-    using Wavefunction::base_type;
+    using base_type = Wavefunction::base_type;
 
     /// Type of the orbitals in which the determinant is expanded
     using orbital_space_type = OneParticleBasis;
@@ -52,7 +52,7 @@ public:
     using const_orbital_space_reference = const orbital_space_type&;
 
     /// Type used for indexing and offsets
-    using Wavefunction::size_type;
+    using size_type = Wavefunction::size_type;
 
     /// Type of a set containing orbital indices
     using orbital_index_set_type = boost::container::flat_set<size_type>;
