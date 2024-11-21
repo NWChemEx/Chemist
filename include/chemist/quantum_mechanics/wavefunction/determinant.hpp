@@ -63,6 +63,9 @@ public:
     /// A read-only reference to an object of type orbital_index_set_type
     using const_orbital_index_set_reference = const orbital_index_set_type&;
 
+    /// Type of a vector holding orbital occupations
+    using occupation_vector_type = std::vector<unsigned short>;
+
     /** @brief Creates a determinant for a zero particle system.
      *
      *  The default ctor will create a Determinant which is associated with an
@@ -118,6 +121,27 @@ public:
      */
     const_orbital_index_set_reference orbital_indices() const {
         return m_occupied_;
+    }
+
+    /** @brief Returns the occupation number vector for *this.
+     *
+     *  `orbital_indices` returns an array containing the offsets of the
+     *  occupied orbitals. This function returns an array which is "number of
+     *  orbitals" long such that the  `i`-th element of return is the occupation
+     *  of orbital `i`.
+     *
+     *  @return An array providing the occupations of each orbital.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the return.
+     *                        Strong throw guarantee.
+     */
+    occupation_vector_type occupations() const {
+        occupation_vector_type rv(m_orbitals_.size(), 0);
+        // TODO: We need to generalize this using TMP, for now crash if not CMOs
+        static_assert(std::is_same_v<OneParticleBasis, CMOs> ||
+                      std::is_same_v<OneParticleBasis, MOs>);
+        for(auto i : orbital_indices()) rv[i] = 2;
+        return rv;
     }
 
     /** @brief Returns the set of orbitals from which the occupied orbitals are
