@@ -25,6 +25,7 @@
 namespace chemist::wavefunction {
 
 class AOs;
+class CMOs;
 template<typename OneParticleBasis>
 class Determinant;
 class MOs;

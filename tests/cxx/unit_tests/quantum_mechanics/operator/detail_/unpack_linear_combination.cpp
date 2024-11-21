@@ -16,7 +16,7 @@
 
 #include "../../../catch.hpp"
 #include <chemist/quantum_mechanics/operator/detail_/unpack_linear_combination.hpp>
-#include <chemist/quantum_mechanics/operator/operator.hpp>
+#include <chemist/quantum_mechanics/quantum_mechanics.hpp>
 
 using namespace chemist::qm_operator;
 

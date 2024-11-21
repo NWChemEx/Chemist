@@ -15,7 +15,7 @@
  */
 
 #include <chemist/quantum_mechanics/operator/operator.hpp>
-
+#include <chemist/quantum_mechanics/wavefunction/wavefunction.hpp>
 namespace chemist::qm_operator {
 
 #define OVERLOAD(...)                                         \
@@ -47,6 +47,8 @@ namespace chemist::qm_operator {
     OVERLOADS(T<ManyElectrons, Nuclei>);        \
     OVERLOADS(T<Nuclei, Nuclei>)
 
+OVERLOADS(Density<wavefunction::MOs, Electron>);
+OVERLOADS(Density<wavefunction::CMOs, Electron>);
 ONE_PARTICLE_OVERLOADS(Kinetic);
 TWO_PARTICLE_OVERLOADS(Coulomb);
 TWO_PARTICLE_OVERLOADS(Exchange);

@@ -17,6 +17,7 @@
 #pragma once
 #include <chemist/quantum_mechanics/operator/core_hamiltonian.hpp>
 #include <chemist/quantum_mechanics/operator/coulomb.hpp>
+#include <chemist/quantum_mechanics/operator/density.hpp>
 #include <chemist/quantum_mechanics/operator/electronic_hamiltonian.hpp>
 #include <chemist/quantum_mechanics/operator/exchange.hpp>
 #include <chemist/quantum_mechanics/operator/exchange_correlation.hpp>

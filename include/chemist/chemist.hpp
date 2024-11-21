@@ -27,6 +27,8 @@
 
 #include <chemist/basis_set/basis_set.hpp>
 #include <chemist/chemical_system/chemical_system.hpp>
+#include <chemist/density/decomposable_density.hpp>
+#include <chemist/density/density.hpp>
 #include <chemist/electron/electron.hpp>
 #include <chemist/enums.hpp>
 #include <chemist/fragmenting/fragmenting.hpp>

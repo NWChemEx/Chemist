@@ -57,6 +57,13 @@ TEST_CASE("Determinant<MOs>") {
         REQUIRE(std::as_const(value).orbital_indices() == i0);
     }
 
+    SECTION("occupations") {
+        using occ_vector = typename determinant_type::occupation_vector_type;
+        occ_vector occ_empty, occ_value{2, 0};
+        REQUIRE(defaulted.occupations() == occ_empty);
+        REQUIRE(value.occupations() == occ_value);
+    }
+
     SECTION("orbitals()") {
         REQUIRE(defaulted.orbitals() == defaulted_mos);
         REQUIRE(value.orbitals() == mos);

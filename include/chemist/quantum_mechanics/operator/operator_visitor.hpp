@@ -18,7 +18,7 @@
 #include <chemist/electron/electron.hpp>
 #include <chemist/nucleus/nucleus.hpp>
 #include <chemist/quantum_mechanics/operator/operator_fwd.hpp>
-
+#include <chemist/quantum_mechanics/wavefunction/wavefunction_fwd.hpp>
 namespace chemist::qm_operator {
 
 #define OVERLOAD(...) virtual void run(__VA_ARGS__&)
@@ -74,6 +74,8 @@ public:
      */
     OperatorVisitor(bool should_throw = true) : m_throw_(should_throw) {}
 
+    OVERLOADS(Density<wavefunction::MOs, Electron>);
+    OVERLOADS(Density<wavefunction::CMOs, Electron>);
     ONE_PARTICLE_OVERLOADS(Kinetic);
     TWO_PARTICLE_OVERLOADS(Coulomb);
     TWO_PARTICLE_OVERLOADS(Exchange);

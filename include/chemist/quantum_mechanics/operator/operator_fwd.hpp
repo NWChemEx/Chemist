@@ -23,6 +23,9 @@
  */
 
 namespace chemist::qm_operator {
+template<typename T, typename... Particles>
+class Density;
+
 template<typename T>
 class Kinetic;
 
