@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['ket_783',['ket',['../classchemist_1_1braket_1_1BraKet.html#a99fa182d1f92a74e5c3e568660f2542c',1,'chemist::braket::BraKet::ket()'],['../classchemist_1_1braket_1_1BraKet.html#ab209de9060b2a70642ac55f0d5060744',1,'chemist::braket::BraKet::ket() const']]],
-  ['kinetic_784',['Kinetic',['../classchemist_1_1qm__operator_1_1Kinetic.html#a2d8c8280f5d9595a39b81c29c7867be7',1,'chemist::qm_operator::Kinetic::Kinetic(value_type particle=value_type{}) noexcept'],['../classchemist_1_1qm__operator_1_1Kinetic.html#ab009873365cf4bd31ca5c63164b92c82',1,'chemist::qm_operator::Kinetic::Kinetic(const Kinetic &amp;)=default']]]
+  ['hamiltonian_894',['Hamiltonian',['../classchemist_1_1qm__operator_1_1Hamiltonian.html#a593de1176e9eb1ae3f17c115ca337657',1,'chemist::qm_operator::Hamiltonian::Hamiltonian()=default'],['../classchemist_1_1qm__operator_1_1Hamiltonian.html#a1aa62705dd921d4417f9b7d72394a8cc',1,'chemist::qm_operator::Hamiltonian::Hamiltonian(const dsl::Term&lt; T &gt; &amp;expression)'],['../classchemist_1_1qm__operator_1_1Hamiltonian.html#afd66694e009c7ff6a7b7a226086372f5',1,'chemist::qm_operator::Hamiltonian::Hamiltonian(const Hamiltonian &amp;other)=default'],['../classchemist_1_1qm__operator_1_1Hamiltonian.html#ae00d97fbe1c53aad06e11c34a995602e',1,'chemist::qm_operator::Hamiltonian::Hamiltonian(Hamiltonian &amp;&amp;other) noexcept=default']]]
 ];

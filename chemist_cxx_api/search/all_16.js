@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['x_495',['x',['../classchemist_1_1Point.html#a04335db0a2cf4e3a24f908d83007cd2f',1,'chemist::Point::x() noexcept'],['../classchemist_1_1Point.html#ac2f13868de3593e94d219e2a7a32166d',1,'chemist::Point::x() const noexcept'],['../classchemist_1_1PointView.html#ae886171d2d5ec97eaec8e7ad8c473b02',1,'chemist::PointView::x()']]],
-  ['x_5fdata_496',['x_data',['../classchemist_1_1PointSet.html#a1b924ee2630e41fd55700000c316154e',1,'chemist::PointSet::x_data() noexcept'],['../classchemist_1_1PointSet.html#a7096311a2a3c157797f8972be8fe6db0',1,'chemist::PointSet::x_data() const noexcept']]]
+  ['wavefunction_565',['Wavefunction',['../classchemist_1_1wavefunction_1_1Wavefunction.html',1,'chemist::wavefunction']]],
+  ['wavefunction_5ffwd_2ehpp_566',['wavefunction_fwd.hpp',['../wavefunction__fwd_8hpp.html',1,'']]],
+  ['wavefunctionimpl_567',['WavefunctionImpl',['../classchemist_1_1wavefunction_1_1detail___1_1WavefunctionImpl.html',1,'chemist::wavefunction::detail_']]],
+  ['wavefunctionimpl_3c_20determinant_3c_20oneparticlebasis_20_3e_20_3e_568',['WavefunctionImpl&lt; Determinant&lt; OneParticleBasis &gt; &gt;',['../classchemist_1_1wavefunction_1_1detail___1_1WavefunctionImpl.html',1,'chemist::wavefunction::detail_']]]
 ];

@@ -226,10 +226,11 @@ $(function() {
 <div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;         <span class="keyword">typename</span> = std::enable_if_t&lt;std::is_floating_point_v&lt;LHSType&gt;&gt;&gt;</div>
 <div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;<span class="keyword">auto</span> operator*(<span class="keyword">const</span> LHSType&amp; lhs,</div>
 <div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;               <span class="keyword">const</span> OperatorImpl&lt;DerivedType, Particles...&gt;&amp; rhs) {</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    <span class="keywordflow">return</span> dsl::Multiply&lt;const LHSType, const DerivedType&gt;(lhs, rhs);</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;}</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160; </div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;} <span class="comment">// namespace chemist::qm_operator::detail_</span></div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    <span class="keywordflow">return</span> dsl::Multiply&lt;const LHSType, const DerivedType&gt;(</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;      lhs, <span class="keyword">static_cast&lt;</span><span class="keyword">const </span>DerivedType&amp;<span class="keyword">&gt;</span>(rhs));</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;}</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160; </div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;} <span class="comment">// namespace chemist::qm_operator::detail_</span></div>
 <div class="ttc" id="aclasschemist_1_1dsl_1_1Add_html"><div class="ttname"><a href="classchemist_1_1dsl_1_1Add.html">chemist::dsl::Add</a></div><div class="ttdoc">Represents the addition of two terms.</div><div class="ttdef"><b>Definition:</b> add.hpp:33</div></div>
 <div class="ttc" id="aclasschemist_1_1dsl_1_1Multiply_html"><div class="ttname"><a href="classchemist_1_1dsl_1_1Multiply.html">chemist::dsl::Multiply</a></div><div class="ttdoc">Represents the multiplication of two terms.</div><div class="ttdef"><b>Definition:</b> multiply.hpp:33</div></div>
 <div class="ttc" id="aclasschemist_1_1dsl_1_1Subtract_html"><div class="ttname"><a href="classchemist_1_1dsl_1_1Subtract.html">chemist::dsl::Subtract</a></div><div class="ttdoc">Represents the subtraction of two terms.</div><div class="ttdef"><b>Definition:</b> subtract.hpp:33</div></div>

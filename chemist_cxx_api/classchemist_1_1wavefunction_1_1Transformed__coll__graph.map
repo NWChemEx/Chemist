@@ -1,0 +1,4 @@
+<map id="chemist::wavefunction::Transformed&lt; FromSpaceType &gt;" name="chemist::wavefunction::Transformed&lt; FromSpaceType &gt;">
+<area shape="rect" id="node1" title="Represents a space that is a linear transformation of another space." alt="" coords="5,95,248,136"/>
+<area shape="rect" id="node2" href="$classchemist_1_1wavefunction_1_1VectorSpace.html" title="Base class for all vector spaces in the wavefunction component." alt="" coords="41,5,212,47"/>
+</map>

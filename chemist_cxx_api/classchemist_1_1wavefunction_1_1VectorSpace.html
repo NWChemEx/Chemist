@@ -85,9 +85,15 @@ Inheritance diagram for chemist::wavefunction::VectorSpace:</div>
 <div class="dyncontent">
 <div class="center"><img src="classchemist_1_1wavefunction_1_1VectorSpace__inherit__graph.png" border="0" usemap="#achemist_1_1wavefunction_1_1VectorSpace_inherit__map" alt="Inheritance graph"/></div>
 <map name="achemist_1_1wavefunction_1_1VectorSpace_inherit__map" id="achemist_1_1wavefunction_1_1VectorSpace_inherit__map">
-<area shape="rect" title="Base class for all vector spaces in the wavefunction component." alt="" coords="127,5,298,47"/>
-<area shape="rect" href="classchemist_1_1wavefunction_1_1AOs.html" title="Attempts to span the problem space using atomic orbitals (AOs)" alt="" coords="5,102,209,129"/>
-<area shape="rect" href="classchemist_1_1wavefunction_1_1PyVectorSpace.html" title=" " alt="" coords="234,95,405,136"/>
+<area shape="rect" title="Base class for all vector spaces in the wavefunction component." alt="" coords="5,123,176,164"/>
+<area shape="rect" href="classchemist_1_1wavefunction_1_1Transformed.html" title=" " alt="" coords="260,35,431,76"/>
+<area shape="rect" href="classchemist_1_1wavefunction_1_1AOs.html" title="Attempts to span the problem space using atomic orbitals (AOs)" alt="" coords="243,101,447,127"/>
+<area shape="rect" href="classchemist_1_1wavefunction_1_1PyVectorSpace.html" title=" " alt="" coords="260,152,431,193"/>
+<area shape="rect" href="classchemist_1_1wavefunction_1_1Transformed.html" title="Represents a space that is a linear transformation of another space." alt="" coords="224,217,467,259"/>
+<area shape="rect" href="classchemist_1_1wavefunction_1_1Natural.html" title=" " alt="" coords="535,5,705,47"/>
+<area shape="rect" href="classchemist_1_1wavefunction_1_1MOs.html" title="Space spanned by the molecular orbitals (MOs)." alt="" coords="517,71,723,98"/>
+<area shape="rect" href="classchemist_1_1wavefunction_1_1CMOs.html" title="Space spanned by the canonical molecular orbitals (CMOs)." alt="" coords="773,5,944,47"/>
+<area shape="rect" href="classchemist_1_1wavefunction_1_1Natural.html" title="A space whose transformation is chosen such that it diagonalizes a matrix." alt="" coords="515,217,725,259"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -147,14 +153,14 @@ Protected Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a5fdfc2a2a6cf5b775f3249c527a2ab47">VectorSpace</a> (<a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html">VectorSpace</a> &amp;&amp;other) noexcept=default</td></tr>
 <tr class="memdesc:a5fdfc2a2a6cf5b775f3249c527a2ab47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Protected to help avoid slicing. <br /></td></tr>
 <tr class="separator:a5fdfc2a2a6cf5b775f3249c527a2ab47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebef0189b4c772860d1dec16d4f195b9"><td class="memItemLeft" align="right" valign="top"><a id="aebef0189b4c772860d1dec16d4f195b9"></a>
-<a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html">VectorSpace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#aebef0189b4c772860d1dec16d4f195b9">operator=</a> (const <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html">VectorSpace</a> &amp;other)=delete</td></tr>
-<tr class="memdesc:aebef0189b4c772860d1dec16d4f195b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deleted to help avoid slicing. <br /></td></tr>
-<tr class="separator:aebef0189b4c772860d1dec16d4f195b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeaf6e778f0459d57b5860a1485b8d521"><td class="memItemLeft" align="right" valign="top"><a id="aeaf6e778f0459d57b5860a1485b8d521"></a>
-<a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html">VectorSpace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#aeaf6e778f0459d57b5860a1485b8d521">operator=</a> (<a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html">VectorSpace</a> &amp;&amp;other) noexcept=delete</td></tr>
-<tr class="memdesc:aeaf6e778f0459d57b5860a1485b8d521"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deleted to help avoid slicing. <br /></td></tr>
-<tr class="separator:aeaf6e778f0459d57b5860a1485b8d521"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af76fea7f27ea57b5b1fca12c19cbeca7"><td class="memItemLeft" align="right" valign="top"><a id="af76fea7f27ea57b5b1fca12c19cbeca7"></a>
+<a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html">VectorSpace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#af76fea7f27ea57b5b1fca12c19cbeca7">operator=</a> (const <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html">VectorSpace</a> &amp;other)=default</td></tr>
+<tr class="memdesc:af76fea7f27ea57b5b1fca12c19cbeca7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Protected to help avoid slicing. <br /></td></tr>
+<tr class="separator:af76fea7f27ea57b5b1fca12c19cbeca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84db23d8250e1a360534ff229c6461bb"><td class="memItemLeft" align="right" valign="top"><a id="a84db23d8250e1a360534ff229c6461bb"></a>
+<a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html">VectorSpace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a84db23d8250e1a360534ff229c6461bb">operator=</a> (<a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html">VectorSpace</a> &amp;&amp;other) noexcept=default</td></tr>
+<tr class="memdesc:a84db23d8250e1a360534ff229c6461bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Protected to help avoid slicing. <br /></td></tr>
+<tr class="separator:a84db23d8250e1a360534ff229c6461bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bd842b8f1110bbacd1e13d68baed7dc"><td class="memTemplParams" colspan="2">template&lt;typename DerivedType &gt; </td></tr>
 <tr class="memitem:a0bd842b8f1110bbacd1e13d68baed7dc"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html#a0bd842b8f1110bbacd1e13d68baed7dc">are_equal_impl_</a> (const <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html">VectorSpace</a> &amp;rhs) const noexcept</td></tr>
 <tr class="memdesc:a0bd842b8f1110bbacd1e13d68baed7dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Common implementation for are_equal_.  <a href="classchemist_1_1wavefunction_1_1VectorSpace.html#a0bd842b8f1110bbacd1e13d68baed7dc">More...</a><br /></td></tr>

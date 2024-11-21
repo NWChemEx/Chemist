@@ -68,9 +68,11 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classchemist_1_1wavefunction_1_1Wavefunction-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">chemist::wavefunction::Wavefunction Class Reference</div>  </div>
+<div class="title">chemist::wavefunction::Wavefunction Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -78,6 +80,17 @@ $(function() {
  <a href="classchemist_1_1wavefunction_1_1Wavefunction.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="wavefunction__class_8hpp_source.html">wavefunction_class.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for chemist::wavefunction::Wavefunction:</div>
+<div class="dyncontent">
+<div class="center"><img src="classchemist_1_1wavefunction_1_1Wavefunction__inherit__graph.png" border="0" usemap="#achemist_1_1wavefunction_1_1Wavefunction_inherit__map" alt="Inheritance graph"/></div>
+<map name="achemist_1_1wavefunction_1_1Wavefunction_inherit__map" id="achemist_1_1wavefunction_1_1Wavefunction_inherit__map">
+<area shape="rect" title="Represents a wavefunction from a VectorSpace." alt="" coords="5,53,176,94"/>
+<area shape="rect" href="classchemist_1_1wavefunction_1_1detail___1_1WavefunctionImpl.html" title=" " alt="" coords="224,5,497,61"/>
+<area shape="rect" href="classchemist_1_1wavefunction_1_1detail___1_1WavefunctionImpl.html" title="Code factorization for implementing Wavefunction&#39;s virtual methods." alt="" coords="261,85,461,141"/>
+<area shape="rect" href="classchemist_1_1wavefunction_1_1Determinant.html" title="A fermionic multi&#45;particle wavefunction." alt="" coords="545,13,796,54"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -93,11 +106,166 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a29447c18f6965df3d32bf9d436911721">const_base_reference</a> = const <a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#af196a0b5350305f5abe797c92b186fcb">base_type</a> &amp;</td></tr>
 <tr class="memdesc:a29447c18f6965df3d32bf9d436911721"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type acting like a read-only reference to a base_type object. <br /></td></tr>
 <tr class="separator:a29447c18f6965df3d32bf9d436911721"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1fc4410b756da291cc0e50a80c279fa"><td class="memItemLeft" align="right" valign="top"><a id="ac1fc4410b756da291cc0e50a80c279fa"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#ac1fc4410b756da291cc0e50a80c279fa">base_pointer</a> = std::unique_ptr&lt; <a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#af196a0b5350305f5abe797c92b186fcb">base_type</a> &gt;</td></tr>
+<tr class="memdesc:ac1fc4410b756da291cc0e50a80c279fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a pointer to an object of base_type. <br /></td></tr>
+<tr class="separator:ac1fc4410b756da291cc0e50a80c279fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04a5ff2751073f69c72b4143795869e0"><td class="memItemLeft" align="right" valign="top"><a id="a04a5ff2751073f69c72b4143795869e0"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a04a5ff2751073f69c72b4143795869e0">size_type</a> = std::size_t</td></tr>
+<tr class="memdesc:a04a5ff2751073f69c72b4143795869e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used for indexing and offsets. <br /></td></tr>
+<tr class="separator:a04a5ff2751073f69c72b4143795869e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a7e69630dec02d8af40cbef5fb79dc0be"><td class="memItemLeft" align="right" valign="top"><a id="a7e69630dec02d8af40cbef5fb79dc0be"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a7e69630dec02d8af40cbef5fb79dc0be">~Wavefunction</a> () noexcept=default</td></tr>
+<tr class="memdesc:a7e69630dec02d8af40cbef5fb79dc0be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defaulted polymorphic dtor. <br /></td></tr>
+<tr class="separator:a7e69630dec02d8af40cbef5fb79dc0be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14cb24463ce996d55ca9c2861e4294ce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#ac1fc4410b756da291cc0e50a80c279fa">base_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a14cb24463ce996d55ca9c2861e4294ce">clone</a> () const</td></tr>
+<tr class="memdesc:a14cb24463ce996d55ca9c2861e4294ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a deep polymorphic copy of *this.  <a href="classchemist_1_1wavefunction_1_1Wavefunction.html#a14cb24463ce996d55ca9c2861e4294ce">More...</a><br /></td></tr>
+<tr class="separator:a14cb24463ce996d55ca9c2861e4294ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c2d8cd950bdb29f26fca354fb9dd3e0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a0c2d8cd950bdb29f26fca354fb9dd3e0">are_equal</a> (<a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a29447c18f6965df3d32bf9d436911721">const_base_reference</a> rhs) const noexcept</td></tr>
+<tr class="memdesc:a0c2d8cd950bdb29f26fca354fb9dd3e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements polymorphic value equality.  <a href="classchemist_1_1wavefunction_1_1Wavefunction.html#a0c2d8cd950bdb29f26fca354fb9dd3e0">More...</a><br /></td></tr>
+<tr class="separator:a0c2d8cd950bdb29f26fca354fb9dd3e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28bcacef2d0dcb8075483e519074d4f5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a28bcacef2d0dcb8075483e519074d4f5">are_different</a> (<a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a29447c18f6965df3d32bf9d436911721">const_base_reference</a> rhs) const noexcept</td></tr>
+<tr class="memdesc:a28bcacef2d0dcb8075483e519074d4f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if *this is polymorphically different than <code>rhs</code>.  <a href="classchemist_1_1wavefunction_1_1Wavefunction.html#a28bcacef2d0dcb8075483e519074d4f5">More...</a><br /></td></tr>
+<tr class="separator:a28bcacef2d0dcb8075483e519074d4f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a2fe434beb83800dcafc75cf7093af903"><td class="memItemLeft" align="right" valign="top"><a id="a2fe434beb83800dcafc75cf7093af903"></a>
+virtual <a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#ac1fc4410b756da291cc0e50a80c279fa">base_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a2fe434beb83800dcafc75cf7093af903">clone_</a> () const =0</td></tr>
+<tr class="memdesc:a2fe434beb83800dcafc75cf7093af903"><td class="mdescLeft">&#160;</td><td class="mdescRight">To be overridden by the derived class to be consistent with <a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a14cb24463ce996d55ca9c2861e4294ce" title="Returns a deep polymorphic copy of *this.">clone()</a> <br /></td></tr>
+<tr class="separator:a2fe434beb83800dcafc75cf7093af903"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fcb13b50380920a2db35809b31b3641"><td class="memItemLeft" align="right" valign="top"><a id="a3fcb13b50380920a2db35809b31b3641"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a3fcb13b50380920a2db35809b31b3641">are_equal_</a> (<a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a29447c18f6965df3d32bf9d436911721">const_base_reference</a> rhs) const noexcept=0</td></tr>
+<tr class="memdesc:a3fcb13b50380920a2db35809b31b3641"><td class="mdescLeft">&#160;</td><td class="mdescRight">To be overriden by the derived class to be consistent with <a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a0c2d8cd950bdb29f26fca354fb9dd3e0" title="Implements polymorphic value equality.">are_equal()</a> <br /></td></tr>
+<tr class="separator:a3fcb13b50380920a2db35809b31b3641"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a wavefunction from a <a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html" title="Base class for all vector spaces in the wavefunction component.">VectorSpace</a>. </p>
-<p>This class is at present a stub that we need so we can implement BraKet. It will be fleshed out in a forthcoming PR. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+<p><a class="el" href="classchemist_1_1wavefunction_1_1VectorSpace.html" title="Base class for all vector spaces in the wavefunction component.">VectorSpace</a> objects are spanned by vectors. This class represents one of those vectors with the name "wavefunction" chosen to avoid collisions with std::vector and/or vector classes which live in math libraries. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a28bcacef2d0dcb8075483e519074d4f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28bcacef2d0dcb8075483e519074d4f5">&#9670;&nbsp;</a></span>are_different()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool chemist::wavefunction::Wavefunction::are_different </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a29447c18f6965df3d32bf9d436911721">const_base_reference</a>&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Determines if *this is polymorphically different than <code>rhs</code>. </p>
+<p>Two <a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html" title="Represents a wavefunction from a VectorSpace.">Wavefunction</a> objects are polymorphically different if they are not polymorphically value equal. See <a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a0c2d8cd950bdb29f26fca354fb9dd3e0" title="Implements polymorphic value equality.">are_equal()</a> for the definition of polymorphically value_equal.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The object to compare to.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>False if *this is polymorphically value equal to <code>rhs</code> and true otherwise.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0c2d8cd950bdb29f26fca354fb9dd3e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c2d8cd950bdb29f26fca354fb9dd3e0">&#9670;&nbsp;</a></span>are_equal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool chemist::wavefunction::Wavefunction::are_equal </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#a29447c18f6965df3d32bf9d436911721">const_base_reference</a>&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements polymorphic value equality. </p>
+<p>Two <a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html" title="Represents a wavefunction from a VectorSpace.">Wavefunction</a> objects are polymorphically value equal if their most- derived parts are of the same type and if when compared via their most- derived class they compare value equal.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The wavefunction to compare to.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if *this is polymorphically value equal to <code>rhs</code> and false otherwise.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a14cb24463ce996d55ca9c2861e4294ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14cb24463ce996d55ca9c2861e4294ce">&#9670;&nbsp;</a></span>clone()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1wavefunction_1_1Wavefunction.html#ac1fc4410b756da291cc0e50a80c279fa">base_pointer</a> chemist::wavefunction::Wavefunction::clone </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a deep polymorphic copy of *this. </p>
+<p>A deep polymorphic copy of an object is a deep copy of an entire object including state which resides in derived classes. By contrast a non- polymorphic deep copy excludes state which resides in derived classes. This function performs a deep polymorphic copy; for non-polymorphic deep copies use the copy ctor.</p>
+<dl class="section return"><dt>Returns</dt><dd>A deep polymorphic copy of *this returned as a pointer to the base object.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the copy. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/chemist/quantum_mechanics/wavefunction/<a class="el" href="wavefunction__class_8hpp_source.html">wavefunction_class.hpp</a></li>
 </ul>
 </div><!-- contents -->

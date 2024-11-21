@@ -123,9 +123,15 @@ $(function() {
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keyword">using</span> no_ref_t = std::remove_reference_t&lt;RHSType&gt;;</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classchemist_1_1dsl_1_1Divide.html">Divide&lt;DerivedType, no_ref_t&gt;</a>(lhs, std::forward&lt;RHSType&gt;(rhs));</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    }</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;};</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;} <span class="comment">// namespace chemist::dsl</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    decltype(<span class="keyword">auto</span>) downcast() { <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>DerivedType&amp;<span class="keyword">&gt;</span>(*this); }</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    decltype(<span class="keyword">auto</span>) downcast()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keyword">const </span>DerivedType&amp;<span class="keyword">&gt;</span>(*this);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;};</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;} <span class="comment">// namespace chemist::dsl</span></div>
 <div class="ttc" id="aclasschemist_1_1dsl_1_1Add_html"><div class="ttname"><a href="classchemist_1_1dsl_1_1Add.html">chemist::dsl::Add</a></div><div class="ttdoc">Represents the addition of two terms.</div><div class="ttdef"><b>Definition:</b> add.hpp:33</div></div>
 <div class="ttc" id="aclasschemist_1_1dsl_1_1Divide_html"><div class="ttname"><a href="classchemist_1_1dsl_1_1Divide.html">chemist::dsl::Divide</a></div><div class="ttdoc">Represents the division of two terms.</div><div class="ttdef"><b>Definition:</b> divide.hpp:33</div></div>
 <div class="ttc" id="aclasschemist_1_1dsl_1_1Multiply_html"><div class="ttname"><a href="classchemist_1_1dsl_1_1Multiply.html">chemist::dsl::Multiply</a></div><div class="ttdoc">Represents the multiplication of two terms.</div><div class="ttdef"><b>Definition:</b> multiply.hpp:33</div></div>

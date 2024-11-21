@@ -1,0 +1,4 @@
+<map id="chemist::qm_operator::detail_::CHVisitor" name="chemist::qm_operator::detail_::CHVisitor">
+<area shape="rect" id="node1" title="Determines which terms are in the Core Hamiltonian." alt="" coords="5,95,171,136"/>
+<area shape="rect" id="node2" href="$classchemist_1_1qm__operator_1_1OperatorVisitor.html" title="Base class for all operator visitors." alt="" coords="5,5,171,47"/>
+</map>

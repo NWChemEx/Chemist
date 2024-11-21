@@ -78,9 +78,28 @@ $(function() {
  <a href="classchemist_1_1qm__operator_1_1OperatorVisitor.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="operator__visitor_8hpp_source.html">operator_visitor.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for chemist::qm_operator::OperatorVisitor:</div>
+<div class="dyncontent">
+<div class="center"><img src="classchemist_1_1qm__operator_1_1OperatorVisitor__inherit__graph.png" border="0" usemap="#achemist_1_1qm__operator_1_1OperatorVisitor_inherit__map" alt="Inheritance graph"/></div>
+<map name="achemist_1_1qm__operator_1_1OperatorVisitor_inherit__map" id="achemist_1_1qm__operator_1_1OperatorVisitor_inherit__map">
+<area shape="rect" title="Base class for all operator visitors." alt="" coords="100,5,265,47"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1CHVisitor.html" title="Determines which terms are in the Core Hamiltonian." alt="" coords="5,95,171,136"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1EHVisitor.html" title="Determines which terms are in the Electronic Hamiltonian." alt="" coords="195,95,360,136"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:ae637f06a1a170529f3bced472f2bbf78"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1qm__operator_1_1OperatorVisitor.html#ae637f06a1a170529f3bced472f2bbf78">OperatorVisitor</a> (bool should_throw=true)</td></tr>
+<tr class="memdesc:ae637f06a1a170529f3bced472f2bbf78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new visitor with the provided error policy.  <a href="classchemist_1_1qm__operator_1_1OperatorVisitor.html#ae637f06a1a170529f3bced472f2bbf78">More...</a><br /></td></tr>
+<tr class="separator:ae637f06a1a170529f3bced472f2bbf78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cb59918a773cd6a19f7c18ca8a1d058"><td class="memItemLeft" align="right" valign="top"><a id="a5cb59918a773cd6a19f7c18ca8a1d058"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>OVERLOADS</b> (<a class="el" href="classchemist_1_1qm__operator_1_1Density.html">Density</a>&lt; <a class="el" href="classchemist_1_1wavefunction_1_1MOs.html">wavefunction::MOs</a>, <a class="el" href="classchemist_1_1Electron.html">Electron</a> &gt;)</td></tr>
+<tr class="separator:a5cb59918a773cd6a19f7c18ca8a1d058"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac46ff073b992a62e097d829caf8fd3d7"><td class="memItemLeft" align="right" valign="top"><a id="ac46ff073b992a62e097d829caf8fd3d7"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>OVERLOADS</b> (<a class="el" href="classchemist_1_1qm__operator_1_1Density.html">Density</a>&lt; <a class="el" href="classchemist_1_1wavefunction_1_1CMOs.html">wavefunction::CMOs</a>, <a class="el" href="classchemist_1_1Electron.html">Electron</a> &gt;)</td></tr>
+<tr class="separator:ac46ff073b992a62e097d829caf8fd3d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a322a0ae97c37f85b6cbdfc8daf1a5375"><td class="memItemLeft" align="right" valign="top"><a id="a322a0ae97c37f85b6cbdfc8daf1a5375"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>ONE_PARTICLE_OVERLOADS</b> (<a class="el" href="classchemist_1_1qm__operator_1_1Kinetic.html">Kinetic</a>)</td></tr>
 <tr class="separator:a322a0ae97c37f85b6cbdfc8daf1a5375"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -102,7 +121,49 @@ Public Member Functions</h2></td></tr>
 <li><code>void run(const T&amp;)</code></li>
 </ol>
 <p>It should be noted that <a class="el" href="classchemist_1_1qm__operator_1_1OperatorVisitor.html" title="Base class for all operator visitors.">OperatorVisitor</a> defines the first overload to call the second, i.e., if you will not modify the operator just overload the read-only version. By default <a class="el" href="classchemist_1_1qm__operator_1_1OperatorVisitor.html" title="Base class for all operator visitors.">OperatorVisitor</a> implements the second overload to throw an error, i.e., if you don't want to handle an operator no need to overload the function. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ae637f06a1a170529f3bced472f2bbf78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae637f06a1a170529f3bced472f2bbf78">&#9670;&nbsp;</a></span>OperatorVisitor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">chemist::qm_operator::OperatorVisitor::OperatorVisitor </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>should_throw</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a new visitor with the provided error policy. </p>
+<p>The <a class="el" href="classchemist_1_1qm__operator_1_1OperatorVisitor.html" title="Base class for all operator visitors.">OperatorVisitor</a> class defines run members for every type of operator recognized by Chemist. This ctor also takes a boolean which determines the default error policy. If <code>should_throw</code> is set to true (the default), the default implementation of the run method throws if the method is not overridden by the derived class. If <code>should_throw</code> is instead set to false the derived class ignores calls to the run method not overridden in the derived class.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">should_throw</td><td>Should the default behavior be to throw when the visitor finds an unsupported operator? Default is true.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/chemist/quantum_mechanics/operator/<a class="el" href="operator__visitor_8hpp_source.html">operator_visitor.hpp</a></li>
 </ul>
 </div><!-- contents -->

@@ -1,12 +1,8 @@
 var searchData=
 [
-  ['nuclei_639',['Nuclei',['../classchemist_1_1Nuclei.html',1,'chemist']]],
-  ['nucleipimpl_640',['NucleiPIMPL',['../classchemist_1_1detail___1_1NucleiPIMPL.html',1,'chemist::detail_']]],
-  ['nucleisubset_641',['NucleiSubset',['../classchemist_1_1detail___1_1NucleiSubset.html',1,'chemist::detail_']]],
-  ['nucleiunion_642',['NucleiUnion',['../classchemist_1_1detail___1_1NucleiUnion.html',1,'chemist::detail_']]],
-  ['nucleiview_643',['NucleiView',['../classchemist_1_1NucleiView.html',1,'chemist']]],
-  ['nucleiviewpimpl_644',['NucleiViewPIMPL',['../classchemist_1_1detail___1_1NucleiViewPIMPL.html',1,'chemist::detail_']]],
-  ['nucleus_645',['Nucleus',['../classchemist_1_1Nucleus.html',1,'chemist']]],
-  ['nucleusview_646',['NucleusView',['../classchemist_1_1NucleusView.html',1,'chemist']]],
-  ['nucleusviewlist_647',['NucleusViewList',['../classchemist_1_1detail___1_1NucleusViewList.html',1,'chemist::detail_']]]
+  ['linearcombinationimpl_719',['LinearCombinationImpl',['../classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html',1,'chemist::qm_operator::detail_']]],
+  ['linearcombinationimpl_3c_20corehamiltonian_20_3e_720',['LinearCombinationImpl&lt; CoreHamiltonian &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html',1,'chemist::qm_operator::detail_']]],
+  ['linearcombinationimpl_3c_20electronichamiltonian_20_3e_721',['LinearCombinationImpl&lt; ElectronicHamiltonian &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html',1,'chemist::qm_operator::detail_']]],
+  ['linearcombinationimpl_3c_20fock_20_3e_722',['LinearCombinationImpl&lt; Fock &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html',1,'chemist::qm_operator::detail_']]],
+  ['linearcombinationimpl_3c_20hamiltonian_20_3e_723',['LinearCombinationImpl&lt; Hamiltonian &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html',1,'chemist::qm_operator::detail_']]]
 ];

@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['shell_675',['Shell',['../classchemist_1_1basis__set_1_1Shell.html',1,'chemist::basis_set']]],
-  ['shellpimpl_676',['ShellPIMPL',['../classchemist_1_1basis__set_1_1detail___1_1ShellPIMPL.html',1,'chemist::basis_set::detail_']]],
-  ['shelltraits_677',['ShellTraits',['../structchemist_1_1basis__set_1_1ShellTraits.html',1,'chemist::basis_set']]],
-  ['shelltraits_3c_20atomicbstype_3a_3areference_20_3e_678',['ShellTraits&lt; AtomicBSType::reference &gt;',['../structchemist_1_1basis__set_1_1ShellTraits.html',1,'chemist::basis_set']]],
-  ['shellview_679',['ShellView',['../classchemist_1_1basis__set_1_1ShellView.html',1,'chemist::basis_set']]],
-  ['shellviewpimpl_680',['ShellViewPIMPL',['../classchemist_1_1basis__set_1_1detail___1_1ShellViewPIMPL.html',1,'chemist::basis_set::detail_']]],
-  ['subtract_681',['Subtract',['../classchemist_1_1dsl_1_1Subtract.html',1,'chemist::dsl']]]
+  ['operatorbase_742',['OperatorBase',['../classchemist_1_1qm__operator_1_1OperatorBase.html',1,'chemist::qm_operator']]],
+  ['operatorimpl_743',['OperatorImpl',['../classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html',1,'chemist::qm_operator::detail_']]],
+  ['operatorimpl_3c_20coulomb_3c_20lhsparticle_2c_20rhsparticle_20_3e_2c_20lhsparticle_2c_20rhsparticle_20_3e_744',['OperatorImpl&lt; Coulomb&lt; LHSParticle, RHSParticle &gt;, LHSParticle, RHSParticle &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html',1,'chemist::qm_operator::detail_']]],
+  ['operatorimpl_3c_20exchange_3c_20lhsparticle_2c_20rhsparticle_20_3e_2c_20lhsparticle_2c_20rhsparticle_20_3e_745',['OperatorImpl&lt; Exchange&lt; LHSParticle, RHSParticle &gt;, LHSParticle, RHSParticle &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html',1,'chemist::qm_operator::detail_']]],
+  ['operatorimpl_3c_20exchangecorrelation_3c_20lhsparticle_2c_20rhsparticle_20_3e_2c_20lhsparticle_2c_20rhsparticle_20_3e_746',['OperatorImpl&lt; ExchangeCorrelation&lt; LHSParticle, RHSParticle &gt;, LHSParticle, RHSParticle &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html',1,'chemist::qm_operator::detail_']]],
+  ['operatorimpl_3c_20kinetic_3c_20particletype_20_3e_2c_20particletype_20_3e_747',['OperatorImpl&lt; Kinetic&lt; ParticleType &gt;, ParticleType &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html',1,'chemist::qm_operator::detail_']]],
+  ['operatorvisitor_748',['OperatorVisitor',['../classchemist_1_1qm__operator_1_1OperatorVisitor.html',1,'chemist::qm_operator']]]
 ];

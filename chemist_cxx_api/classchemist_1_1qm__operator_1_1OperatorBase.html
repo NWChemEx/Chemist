@@ -85,16 +85,25 @@ Inheritance diagram for chemist::qm_operator::OperatorBase:</div>
 <div class="dyncontent">
 <div class="center"><img src="classchemist_1_1qm__operator_1_1OperatorBase__inherit__graph.png" border="0" usemap="#achemist_1_1qm__operator_1_1OperatorBase_inherit__map" alt="Inheritance graph"/></div>
 <map name="achemist_1_1qm__operator_1_1OperatorBase_inherit__map" id="achemist_1_1qm__operator_1_1OperatorBase_inherit__map">
-<area shape="rect" title="Class defining the common API for all operators." alt="" coords="5,239,171,281"/>
-<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="226,5,427,91"/>
-<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="219,115,435,200"/>
-<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="239,225,414,295"/>
-<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="226,320,427,405"/>
-<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title="Operator code factorization requiring particle types." alt="" coords="229,429,425,485"/>
-<area shape="rect" href="classchemist_1_1qm__operator_1_1Coulomb.html" title=" " alt="" coords="497,20,677,76"/>
-<area shape="rect" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html" title=" " alt="" coords="483,129,691,185"/>
-<area shape="rect" href="classchemist_1_1qm__operator_1_1Kinetic.html" title="Describes the kinetic energy of a particle of type ParticleType." alt="" coords="495,239,678,281"/>
-<area shape="rect" href="classchemist_1_1qm__operator_1_1Exchange.html" title=" " alt="" coords="494,335,679,391"/>
+<area shape="rect" title="Class defining the common API for all operators." alt="" coords="5,402,171,443"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html" title=" " alt="" coords="229,5,434,61"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html" title=" " alt="" coords="229,85,434,141"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html" title=" " alt="" coords="219,165,444,221"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html" title=" " alt="" coords="229,245,434,301"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="231,325,432,411"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="223,435,439,520"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="244,545,419,615"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="231,640,432,725"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html" title="Implements operators which are linear combinations of operators." alt="" coords="229,749,434,805"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title="Operator code factorization requiring particle types." alt="" coords="233,829,429,885"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1Fock.html" title="Describes the total energy of the system." alt="" coords="513,13,679,54"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1CoreHamiltonian.html" title="A one&#45;electron Hamiltonian." alt="" coords="513,93,679,134"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1ElectronicHamiltonian.html" title="The subset of the Hamiltonian terms which depend on electrons." alt="" coords="509,173,683,214"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1Hamiltonian.html" title="Describes the total energy of the system." alt="" coords="513,253,679,294"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1Coulomb.html" title=" " alt="" coords="506,340,686,396"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html" title=" " alt="" coords="492,449,700,505"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1Kinetic.html" title="Describes the kinetic energy of a particle of type ParticleType." alt="" coords="505,559,687,601"/>
+<area shape="rect" href="classchemist_1_1qm__operator_1_1Exchange.html" title=" " alt="" coords="503,655,689,711"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -412,7 +421,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visit_</b> (<
 </div><div class="memdoc">
 <p>Derived class should override to be consist with <a class="el" href="classchemist_1_1qm__operator_1_1OperatorBase.html#a567f3a50c84e79ebc3d1590b450dacf5" title="Allows a user to interact with the derived class generically.">visit()</a>/visit() const </p>
 
-<p>Implemented in <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html#a307c72fe98cb33f02a60c724dcae4baa">chemist::qm_operator::detail_::OperatorImpl&lt; DerivedType, Particles &gt;</a>, <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html#a307c72fe98cb33f02a60c724dcae4baa">chemist::qm_operator::detail_::OperatorImpl&lt; Coulomb&lt; LHSParticle, RHSParticle &gt;, LHSParticle, RHSParticle &gt;</a>, <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html#a307c72fe98cb33f02a60c724dcae4baa">chemist::qm_operator::detail_::OperatorImpl&lt; ExchangeCorrelation&lt; LHSParticle, RHSParticle &gt;, LHSParticle, RHSParticle &gt;</a>, <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html#a307c72fe98cb33f02a60c724dcae4baa">chemist::qm_operator::detail_::OperatorImpl&lt; Kinetic&lt; ParticleType &gt;, ParticleType &gt;</a>, and <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html#a307c72fe98cb33f02a60c724dcae4baa">chemist::qm_operator::detail_::OperatorImpl&lt; Exchange&lt; LHSParticle, RHSParticle &gt;, LHSParticle, RHSParticle &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html#a307c72fe98cb33f02a60c724dcae4baa">chemist::qm_operator::detail_::OperatorImpl&lt; DerivedType, Particles &gt;</a>, <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html#a307c72fe98cb33f02a60c724dcae4baa">chemist::qm_operator::detail_::OperatorImpl&lt; Coulomb&lt; LHSParticle, RHSParticle &gt;, LHSParticle, RHSParticle &gt;</a>, <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html#a307c72fe98cb33f02a60c724dcae4baa">chemist::qm_operator::detail_::OperatorImpl&lt; ExchangeCorrelation&lt; LHSParticle, RHSParticle &gt;, LHSParticle, RHSParticle &gt;</a>, <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html#a307c72fe98cb33f02a60c724dcae4baa">chemist::qm_operator::detail_::OperatorImpl&lt; Kinetic&lt; ParticleType &gt;, ParticleType &gt;</a>, <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html#a307c72fe98cb33f02a60c724dcae4baa">chemist::qm_operator::detail_::OperatorImpl&lt; Exchange&lt; LHSParticle, RHSParticle &gt;, LHSParticle, RHSParticle &gt;</a>, <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#a9be0e644d2e4c224f8956c9ff3acd4e1">chemist::qm_operator::detail_::LinearCombinationImpl&lt; DerivedType &gt;</a>, <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#a9be0e644d2e4c224f8956c9ff3acd4e1">chemist::qm_operator::detail_::LinearCombinationImpl&lt; Fock &gt;</a>, <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#a9be0e644d2e4c224f8956c9ff3acd4e1">chemist::qm_operator::detail_::LinearCombinationImpl&lt; CoreHamiltonian &gt;</a>, <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#a9be0e644d2e4c224f8956c9ff3acd4e1">chemist::qm_operator::detail_::LinearCombinationImpl&lt; ElectronicHamiltonian &gt;</a>, and <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#a9be0e644d2e4c224f8956c9ff3acd4e1">chemist::qm_operator::detail_::LinearCombinationImpl&lt; Hamiltonian &gt;</a>.</p>
 
 </div>
 </div>

@@ -1,0 +1,5 @@
+<map id="chemist::qm_operator::ElectronicHamiltonian" name="chemist::qm_operator::ElectronicHamiltonian">
+<area shape="rect" id="node1" title="The subset of the Hamiltonian terms which depend on electrons." alt="" coords="31,199,205,240"/>
+<area shape="rect" id="node2" href="$classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html" title=" " alt="" coords="5,95,231,151"/>
+<area shape="rect" id="node3" href="$classchemist_1_1qm__operator_1_1OperatorBase.html" title="Class defining the common API for all operators." alt="" coords="35,5,201,47"/>
+</map>

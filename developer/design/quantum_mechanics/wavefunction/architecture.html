@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Architecture of Wavefunction Component &mdash; Chemist v1.3.3 documentation</title>
+  <title>Architecture of Wavefunction Component &mdash; Chemist v1.3.4 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=d3658c96"></script>
+        <script src="../../../../_static/documentation_options.js?v=18ec1c5b"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -37,7 +37,7 @@
               <img src="../../../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                v1.3.3
+                v1.3.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -294,24 +294,24 @@ i.e., calls the spins <span class="math notranslate nohighlight">\(\alpha\)</spa
 usual practice.</p></li>
 </ul>
 </section>
-<section id="vectors">
-<h3>Vectors<a class="headerlink" href="#vectors" title="Link to this heading"></a></h3>
+<section id="wavefunction">
+<h3>Wavefunction<a class="headerlink" href="#wavefunction" title="Link to this heading"></a></h3>
 <p>This sub-component of the wavefunction component contains classes defining
 classes that represent objects that span a vector space. In practice these
 objects are used to request a single element of a tensor via Dirac notation
 whereas <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code> objects are used to request the entire tensor.</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">Vector</span></code>. Base class signifying that something is an element of a
-<code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code> object. N.B. lives in the <code class="docutils literal notranslate"><span class="pre">wavefunction</span></code> namespace and
-thus unlikely to conflict with <code class="docutils literal notranslate"><span class="pre">std::vector</span></code> or other tensor-like classes.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ImplicitVector</span></code>. Code factorization for representing a vector belonging to
-an <code class="docutils literal notranslate"><span class="pre">ImplicitSpace</span></code> object.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Determinant</span></code>. Code factorization for classes defining single reference
-multi-fermion wavefunctions.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">RDeterminant</span></code>. Denotes that the wavefunction is a Slater determinant formed
-from a product of restricted orbitals.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">UDeterminant</span></code>. Denotes that the wavefunction is a Slater determinant formed
-from a product of unrestricted orbitals.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Wavefunction</span></code>. Base class signifying that something is an element of a
+<code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code> object. Strictly speaking this means that <code class="docutils literal notranslate"><span class="pre">Wavefunction</span></code>
+objects are vectors or basis functions an not everything derived from
+<code class="docutils literal notranslate"><span class="pre">Wavefunction</span></code> will strictly be a wavefunction. However, we felt the more
+apt names, <code class="docutils literal notranslate"><span class="pre">Vector</span></code> or <code class="docutils literal notranslate"><span class="pre">BasisFunction</span></code>, were respectively too likely to
+collide with other libraries (including the standard library) or be
+misconstrued as AO-specific.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ImplicitVector</span></code>. Code factorization for representing a wavefunction belongs
+to an <code class="docutils literal notranslate"><span class="pre">ImplicitSpace</span></code> object.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Determinant</span></code>. A class representing a wavefunction formed by taking
+determinants of single-product wavefunctions.</p></li>
 </ul>
 <p>Other potential classes could include strong types for specific implicit vectors
 (e.g., an <code class="docutils literal notranslate"><span class="pre">Alpha</span></code> class), explicit vectors that we don’t immediately need
@@ -394,8 +394,8 @@ orbitals that can be derived from them.</p>
 </dd>
 <dt><a class="reference internal" href="#wf-determinants-and-permanents"><span class="std std-ref">determinants and permanents</span></a></dt><dd><p>Addressed by the <code class="docutils literal notranslate"><span class="pre">Antisymmetrize</span></code> and <code class="docutils literal notranslate"><span class="pre">Symmetrize</span></code> classes.</p>
 </dd>
-<dt><a class="reference internal" href="#wf-basis-function-vs-basis-set"><span class="std std-ref">basis function vs basis set</span></a></dt><dd><p>Addressed with the <code class="docutils literal notranslate"><span class="pre">Vector</span></code> and <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code> classes, where the former
-is an element of the latter.</p>
+<dt><a class="reference internal" href="#wf-basis-function-vs-basis-set"><span class="std std-ref">basis function vs basis set</span></a></dt><dd><p>Addressed with the <code class="docutils literal notranslate"><span class="pre">Wavefunction</span></code> and <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code> classes, where the
+former is an element of the latter.</p>
 </dd>
 <dt><a class="reference internal" href="#wf-implicit-vs-explicit"><span class="std std-ref">implicit vs explicit</span></a></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">ImplicitSpace</span></code> and <code class="docutils literal notranslate"><span class="pre">ImplicitVector</span></code> classes are introduced to
 respectively implement basis sets and basis functions that are typically

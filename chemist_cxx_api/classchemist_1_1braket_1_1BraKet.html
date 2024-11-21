@@ -429,7 +429,7 @@ template&lt;typename BraType , typename OperatorType , typename KetType &gt; </d
 
 <p>Returns a mutable reference to the bra's state. </p>
 <p>TL;DR this function probably does exactly what you think it does, but the description is trying to be mathematically rigorous to avoid questions.</p>
-<p>Formally the bra of a bra-ket is a linear function mapping the ket to a scalar. The linear function responsible for this mapping is usually (always?) the inner product with the adjoint of the specified vector, e.g., <img class="formulaInl" alt="$\bra{u}$" src="form_29.png"/> is short hand for "multiply from the left by u
+<p>Formally the bra of a bra-ket is a linear function mapping the ket to a scalar. The linear function responsible for this mapping is usually (always?) the inner product with the adjoint of the specified vector, e.g., <img class="formulaInl" alt="$\bra{u}$" src="form_35.png"/> is short hand for "multiply from the left by u
 dagger".</p>
 <p>If this bra-ket is a tensor element, then this method returns the adjoint of the vector the linear function should multiply by (e.g., in the example above you get back "u" NOT "u dagger"), i.e., to evaluate the bra-ket represented by *this you need to take the adjoint of the return before left multiplying it with the ket).</p>
 <p>If this bra-ket is a tensor representation the tensor element description still applies, just now for every vector in the vector space. In other words, the returned vector space is in its "ket form", e.g., if the 0-th vector in the return is "u", then to form the 0-th row of the matrix *this represent you need to left multiply each ket vector by "u dagger".</p>

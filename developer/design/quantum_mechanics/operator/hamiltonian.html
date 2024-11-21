@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design of the Hamiltonian Class &mdash; Chemist v1.3.4 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=18ec1c5b"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Design of the BraKet Component" href="../braket/index.html" />
+    <link rel="prev" title="Design of the OperatorBase Class" href="operator_base.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                v1.3.4
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installing Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Chemist Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">Design Documentation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../topology/index.html">Design of the Topology Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fragmenting/index.html">Design of the Fragmenting Component</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html">Design of the Quantum Mechanics (QM) Component</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../architecture.html">Architecture of the Quantum Mechanics (QM) Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../wavefunction/index.html">Design of the Wavefunction Component</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html">Design of the Operator Component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../braket/index.html">Design of the BraKet Component</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../dsl.html">DSL Component</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../writing_views.html">Creating a New View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../the_traits_component.html">Understanding the Traits Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../adding_an_operator.html">Notes on Adding an Operator</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Chemist Tutorials</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Chemist</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Developer Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Design Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Design of the Quantum Mechanics (QM) Component</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Design of the Operator Component</a></li>
+      <li class="breadcrumb-item active">Design of the Hamiltonian Class</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/developer/design/quantum_mechanics/operator/hamiltonian.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="design-of-the-hamiltonian-class">
+<span id="id1"></span><h1>Design of the Hamiltonian Class<a class="headerlink" href="#design-of-the-hamiltonian-class" title="Link to this heading"></a></h1>
+<p>These are musings on the design of the Hamiltonian class and should be turned
+into full documentation at some point.</p>
+<ul>
+<li><p>The Hamiltonian will always be an indefinite operator.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>This is necessary because, in general, it will contain a mix of one- and
+two-particle operators. Bra-kets of such an operator only makes sense with
+many-particle wavefunctions.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>We will want subsets of the terms.</p></li>
+<li><p>What should the template parameters, if any, be?</p>
+<ul class="simple">
+<li><p>On one hand, it would be nice to know ahead of time what terms the
+Hamiltonian has. On the other this will complicate interfaces.</p></li>
+<li><p>Order of parameters can be managed by convention.</p></li>
+<li><p>Is it templated on operators present or particles present?</p></li>
+<li><p>If on particles, how do we know that it say contains not just single
+<code class="docutils literal notranslate"><span class="pre">Electron</span></code> terms, but also terms that depend on pairs of <code class="docutils literal notranslate"><span class="pre">Electron</span></code>
+objects?</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// These are the proposed templating schemes</span>
+
+<span class="c1">// Templated on operators (&quot;easily&quot; deduced from ctor)</span>
+<span class="n">Hamiltonian</span><span class="o">&lt;</span><span class="n">T_e_type</span><span class="p">,</span><span class="w"> </span><span class="n">V_en_type</span><span class="p">,</span><span class="w"> </span><span class="n">V_ee_type</span><span class="p">,</span><span class="w"> </span><span class="n">V_nn_type</span><span class="o">&gt;</span><span class="w"> </span><span class="n">H0</span><span class="p">;</span>
+
+<span class="c1">// Templated on particle types (no distinction of what definite terms appear)</span>
+<span class="n">Hamiltonian</span><span class="o">&lt;</span><span class="n">ManyElectrons</span><span class="p">,</span><span class="w"> </span><span class="n">Nuclei</span><span class="o">&gt;</span><span class="w"> </span><span class="n">H1</span>
+
+<span class="c1">// Templated on definite sizes</span>
+<span class="n">Hamiltonian</span><span class="o">&lt;</span><span class="n">ManyElectrons</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">ManyElectrons</span><span class="p">,</span><span class="w"> </span><span class="n">ManyElectrons</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="w"> </span><span class="n">H2</span><span class="p">;</span>
+
+<span class="c1">// Would also be forms for definite particle types</span>
+</pre></div>
+</div>
+<p>Creation, usage APIs:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="p">[</span><span class="n">T_e</span><span class="p">,</span><span class="w"> </span><span class="n">V_en</span><span class="p">,</span><span class="w"> </span><span class="n">V_ee</span><span class="p">,</span><span class="w"> </span><span class="n">V_en</span><span class="p">,</span><span class="w"> </span><span class="n">V_nn</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_operators</span><span class="p">();</span>
+
+<span class="c1">// Works with C++17, could deduce any of the above types</span>
+<span class="n">Hamiltonian</span><span class="w"> </span><span class="nf">H</span><span class="p">(</span><span class="n">T_e</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">V_en</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">V_ee</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">V_en</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">V_nn</span><span class="p">);</span>
+
+<span class="c1">// If templated, SFINAE could be used to enable/disable these functions</span>
+<span class="n">T_e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">H</span><span class="p">.</span><span class="n">T_e</span><span class="p">();</span><span class="w"> </span><span class="c1">// Takes an optional offset in case there&#39;s more than one</span>
+
+<span class="c1">// Can get commonly needed subsets of terms</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">H_e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">H</span><span class="p">.</span><span class="n">H_e</span><span class="p">();</span><span class="w"> </span><span class="c1">// Gets the electronic Hamiltonian</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">H_core</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">H</span><span class="p">.</span><span class="n">H_core</span><span class="p">();</span><span class="w"> </span><span class="c1">// Gets core Hamiltonian</span>
+
+<span class="n">Fock</span><span class="w"> </span><span class="nf">F</span><span class="p">(</span><span class="n">H</span><span class="p">);</span><span class="w"> </span><span class="c1">// Builds the Fock operator that is consistent with H</span>
+</pre></div>
+</div>
+<p>Defining property types:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add the terms you want to be able to handle.</span>
+<span class="k">using</span><span class="w"> </span><span class="n">H_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Hamiltonian</span><span class="o">&lt;</span><span class="n">sort_operators_t</span><span class="o">&lt;</span><span class="n">V_en_type</span><span class="p">,</span><span class="w"> </span><span class="n">T_e_type</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="n">pt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EvaluateBraKet</span><span class="o">&lt;</span><span class="n">BraKet</span><span class="o">&lt;</span><span class="n">Determinant</span><span class="p">,</span><span class="w"> </span><span class="n">H_type</span><span class="p">,</span><span class="w"> </span><span class="n">Determinant</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Problems is what happens when Hamiltonians contain a subset of terms. For
+example:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">H_type0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Hamiltonian</span><span class="o">&lt;</span><span class="n">sort_operators_t</span><span class="o">&lt;</span><span class="n">V_en_type</span><span class="p">,</span><span class="w"> </span><span class="n">T_e_type</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="n">H_type1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Hamiltonian</span><span class="o">&lt;</span><span class="n">sort_operator_t</span><span class="o">&lt;</span><span class="n">V_en_type</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="n">pt0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EvaluateBraKet</span><span class="o">&lt;</span><span class="n">BraKet</span><span class="o">&lt;</span><span class="n">Determinant</span><span class="p">,</span><span class="w"> </span><span class="n">H_type0</span><span class="p">,</span><span class="w"> </span><span class="n">Determinant</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="n">pt1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EvaluateBraKet</span><span class="o">&lt;</span><span class="n">BraKet</span><span class="o">&lt;</span><span class="n">Determinant</span><span class="p">,</span><span class="w"> </span><span class="n">H_type1</span><span class="p">,</span><span class="w"> </span><span class="n">Determinant</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Here Hamiltonians of <code class="docutils literal notranslate"><span class="pre">H_type0</span></code> could only be passed to <code class="docutils literal notranslate"><span class="pre">pt0</span></code> and
+Hamiltonians of <code class="docutils literal notranslate"><span class="pre">H_type1</span></code> could only be passed to <code class="docutils literal notranslate"><span class="pre">pt1</span></code>. More than likely
+<code class="docutils literal notranslate"><span class="pre">pt0</span></code> could handle Hamiltonians of <code class="docutils literal notranslate"><span class="pre">H_type1</span></code> (though it is unlikely that
+<code class="docutils literal notranslate"><span class="pre">pt1</span></code> could handle Hamiltonians of <code class="docutils literal notranslate"><span class="pre">H_type0</span></code>).</p>
+<p>Verdict: Go with type-erased to avoid combinatorial interaction of terms.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="operator_base.html" class="btn btn-neutral float-left" title="Design of the OperatorBase Class" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../braket/index.html" class="btn btn-neutral float-right" title="Design of the BraKet Component" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
