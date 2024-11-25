@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <chemist/electron/many_electrons.hpp>
 #include <chemist/molecule/atom.hpp>
 #include <chemist/nucleus/nuclei_view.hpp>
 #include <chemist/traits/molecule_traits.hpp>
@@ -60,6 +61,9 @@ public:
     /// Type of a class defining the types for the Nuclei part of *this
     using nuclei_traits = typename traits_type::nuclei_traits;
 
+    /// Type of a class defining the types for the electronic part of *this
+    using many_electrons_traits = typename traits_type::many_electrons_traits;
+
     /// Type of a class defining the types for an Atom object
     using atom_traits = typename traits_type::atom_traits;
 
@@ -77,6 +81,9 @@ public:
 
     /// Type of a read-only reference to the set of nuclei
     using const_nuclei_reference = typename nuclei_traits::const_view_type;
+
+    /// Type of an object representing the electrons
+    using many_electrons_type = typename many_electrons_traits::value_type;
 
     /// Type of a nucleus
     using value_type = typename nuclei_type::value_type;
@@ -257,6 +264,19 @@ public:
      *                            guarantee.
      */
     const_nuclei_reference nuclei() const;
+
+    /** @brief Returns the electronic part of *this.
+     *
+     *  A molecule is a collection of electrons and nuclei. This method returns
+     *  the set of electrons.
+     *
+     *  @return An object containing the electrons.
+     *
+     *  @throw None No throw guarantee.
+     */
+    many_electrons_type electrons() const {
+        return many_electrons_type{n_electrons()};
+    }
 
     /** @brief The number of electrons in this molecule.
      *
@@ -503,14 +523,14 @@ void Molecule::save(Archive& ar) const {
 template<typename Archive>
 void Molecule::load(Archive& ar) {
     bool has_pimpl = false;
-    ar& has_pimpl;
+    ar & has_pimpl;
     if(has_pimpl) {
         charge_type q;
         multiplicity_type m;
         nuclei_type nuclei;
-        ar& q;
-        ar& m;
-        ar& nuclei;
+        ar & q;
+        ar & m;
+        ar & nuclei;
         Molecule(q, m, nuclei).swap(*this);
     }
 }

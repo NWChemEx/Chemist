@@ -149,6 +149,13 @@ TEST_CASE("Molecule Class") {
         REQUIRE(std::as_const(hd).nuclei() == corr_nuclei);
     }
 
+    SECTION("electrons") {
+        using electrons_type = Molecule::many_electrons_type;
+        REQUIRE(mol.electrons() == electrons_type{1});
+        REQUIRE(hd.electrons() == electrons_type{2});
+        REQUIRE(qm.electrons() == electrons_type{1});
+    }
+
     SECTION("n_electrons") {
         REQUIRE(mol.n_electrons() == 1);
         REQUIRE(hd.n_electrons() == 2);

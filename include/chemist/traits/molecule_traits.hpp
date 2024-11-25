@@ -17,6 +17,7 @@
 #pragma once
 
 #include <chemist/traits/chemist_class_traits.hpp>
+#include <chemist/traits/electron_traits.hpp>
 #include <chemist/traits/nucleus_traits.hpp>
 
 namespace chemist {
@@ -40,6 +41,7 @@ struct ChemistClassTraits<Atom> {
     using multiplicity_pointer         = multiplicity_type*;
     using const_multiplicity_pointer   = const multiplicity_type*;
     using nucleus_traits               = ChemistClassTraits<Nucleus>;
+    using electron_traits              = ChemistClassTraits<Electron>;
 };
 
 template<>
@@ -55,34 +57,37 @@ struct ChemistClassTraits<const Atom> {
     using multiplicity_pointer         = const multiplicity_type*;
     using const_multiplicity_pointer   = const multiplicity_type*;
     using nucleus_traits               = ChemistClassTraits<const Nucleus>;
+    using electron_traits              = ChemistClassTraits<const Electron>;
 };
 
 template<>
 struct ChemistClassTraits<Molecule> {
-    using value_type           = Molecule;
-    using reference            = value_type&;
-    using const_reference      = const value_type&;
-    using view_type            = MoleculeView<value_type>;
-    using const_view_type      = MoleculeView<const value_type>;
-    using charge_type          = short;
-    using charge_pointer       = charge_type*;
-    using const_charge_pointer = const charge_type*;
-    using atom_traits          = ChemistClassTraits<Atom>;
-    using nuclei_traits        = ChemistClassTraits<Nuclei>;
+    using value_type            = Molecule;
+    using reference             = value_type&;
+    using const_reference       = const value_type&;
+    using view_type             = MoleculeView<value_type>;
+    using const_view_type       = MoleculeView<const value_type>;
+    using charge_type           = short;
+    using charge_pointer        = charge_type*;
+    using const_charge_pointer  = const charge_type*;
+    using atom_traits           = ChemistClassTraits<Atom>;
+    using nuclei_traits         = ChemistClassTraits<Nuclei>;
+    using many_electrons_traits = ChemistClassTraits<ManyElectrons>;
 };
 
 template<>
 struct ChemistClassTraits<const Molecule> {
-    using value_type           = Molecule;
-    using reference            = const value_type&;
-    using const_reference      = const value_type&;
-    using view_type            = MoleculeView<const value_type>;
-    using const_view_type      = MoleculeView<const value_type>;
-    using charge_type          = short;
-    using charge_pointer       = const charge_type*;
-    using const_charge_pointer = const charge_type*;
-    using atom_traits          = ChemistClassTraits<const Atom>;
-    using nuclei_traits        = ChemistClassTraits<const Nuclei>;
+    using value_type            = Molecule;
+    using reference             = const value_type&;
+    using const_reference       = const value_type&;
+    using view_type             = MoleculeView<const value_type>;
+    using const_view_type       = MoleculeView<const value_type>;
+    using charge_type           = short;
+    using charge_pointer        = const charge_type*;
+    using const_charge_pointer  = const charge_type*;
+    using atom_traits           = ChemistClassTraits<const Atom>;
+    using nuclei_traits         = ChemistClassTraits<const Nuclei>;
+    using many_electrons_traits = ChemistClassTraits<const ManyElectrons>;
 };
 
 } // namespace chemist
