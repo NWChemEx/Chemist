@@ -135,6 +135,13 @@ TEMPLATE_LIST_TEST_CASE("MoleculeView", "", types2test) {
         REQUIRE(std::as_const(value).nuclei() == value_mol.nuclei());
     }
 
+    SECTION("electrons") {
+        using many_electrons_type = typename view_type::many_electrons_type;
+        REQUIRE(defaulted.electrons() == many_electrons_type(0));
+        REQUIRE(empty_value.electrons() == many_electrons_type(0));
+        REQUIRE(value.electrons() == many_electrons_type(3));
+    }
+
     SECTION("n_electrons") {
         REQUIRE(defaulted.n_electrons() == 0);
         REQUIRE(empty_value.n_electrons() == 0);
