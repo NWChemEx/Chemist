@@ -85,6 +85,14 @@ TEST_CASE("LinearCombinationImpl") {
         REQUIRE_THROWS_AS(std::as_const(H).get_operator(4), std::out_of_range);
     }
 
+    SECTION("emplace_back") {
+        defaulted.emplace_back(H.coefficient(0), H.get_operator(0).clone());
+        defaulted.emplace_back(H.coefficient(1), H.get_operator(1).clone());
+        defaulted.emplace_back(H.coefficient(2), H.get_operator(2).clone());
+        defaulted.emplace_back(H.coefficient(3), H.get_operator(3).clone());
+        REQUIRE(defaulted == H);
+    }
+
     SECTION("clone") {
         REQUIRE(defaulted.clone()->are_equal(defaulted));
         REQUIRE(H.clone()->are_equal(H));

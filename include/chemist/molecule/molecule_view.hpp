@@ -85,6 +85,9 @@ public:
     /// Type of the struct defining types for the Nuclei piece of *this
     using nuclei_traits = typename traits_type::nuclei_traits;
 
+    /// Type of the struct defining types for the electrons
+    using many_electrons_traits = typename traits_type::many_electrons_traits;
+
     /// Non-cv-qualified type of the Molecule object *this aliases
     using molecule_type = typename traits_type::value_type;
 
@@ -96,6 +99,9 @@ public:
 
     /// Type of a read-only reference to a Nuclei object
     using const_nuclei_reference = typename nuclei_traits::const_view_type;
+
+    /// Type of the object holding the electronic part of *this
+    using many_electrons_type = typename many_electrons_traits::value_type;
 
     /// Type of a nucleus object
     using value_type = typename atom_traits::nucleus_traits::value_type;
@@ -297,6 +303,18 @@ public:
      *
      */
     const_nuclei_reference nuclei() const;
+
+    /** @brief Returns the electronic piece of *this.
+     *
+     *  This method can be used to retrieve the electrons of *this.braket
+     *
+     *  @return An object which contains the electronic piece of *this.
+     *
+     *  @throw None No throw guarantee.
+     */
+    many_electrons_type electrons() const {
+        return many_electrons_type(n_electrons());
+    }
 
     /** @brief How many electrons does the aliased Molecule have?
      *

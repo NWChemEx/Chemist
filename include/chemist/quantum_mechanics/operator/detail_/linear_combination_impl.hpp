@@ -93,6 +93,22 @@ public:
         return *(m_terms_.at(i).second);
     }
 
+    /** @brief Adds a term to the operator.
+     *
+     *  This method is used to add an operator to *this. The term is assumed
+     *  to be added to the terms already contained in *this (i.e., make @p c
+     *  negative if you want the term be subtracted).
+     *
+     *  @param[in] c  The weight of the term.
+     *  @param[in] op The term.
+     *
+     *  @throw std::bad_alloc if there is a problem adding the term. Strong
+     *                        throw guarantee.
+     */
+    void emplace_back(coefficient_type c, base_pointer op) {
+        m_terms_.emplace_back(std::make_pair(c, std::move(op)));
+    }
+
     /** @brief Is *this the same as @p rhs?
      *
      *  Two linear combinations are value equal if they:
