@@ -166,6 +166,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3dafb5c42f83903086daa8f3240fbf2e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1qm__operator_1_1OperatorBase.html#a7df2de3ee0d2f2d49c4ed755828d0a98">const_base_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#a3dafb5c42f83903086daa8f3240fbf2e">get_operator</a> (<a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#ac18b615711476343b4c983cd11fa2cec">size_type</a> i) const</td></tr>
 <tr class="memdesc:a3dafb5c42f83903086daa8f3240fbf2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <code>i-th</code> operator in the linear combination.  <a href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#a3dafb5c42f83903086daa8f3240fbf2e">More...</a><br /></td></tr>
 <tr class="separator:a3dafb5c42f83903086daa8f3240fbf2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1066b551fa67993249fcfccf105a91da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#a1066b551fa67993249fcfccf105a91da">emplace_back</a> (<a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#af6e2d7203bc6969dbf504c9c7e4e1e94">coefficient_type</a> c, <a class="el" href="classchemist_1_1qm__operator_1_1OperatorBase.html#a43a1220af496b930ab9f9a18a361e364">base_pointer</a> op)</td></tr>
+<tr class="memdesc:a1066b551fa67993249fcfccf105a91da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a term to the operator.  <a href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#a1066b551fa67993249fcfccf105a91da">More...</a><br /></td></tr>
+<tr class="separator:a1066b551fa67993249fcfccf105a91da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e2268a60a64c756ad4a440f2833fb5c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#a6e2268a60a64c756ad4a440f2833fb5c">operator==</a> (const <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html">LinearCombinationImpl</a> &amp;rhs) const noexcept</td></tr>
 <tr class="memdesc:a6e2268a60a64c756ad4a440f2833fb5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is *this the same as <code>rhs</code>?  <a href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#a6e2268a60a64c756ad4a440f2833fb5c">More...</a><br /></td></tr>
 <tr class="separator:a6e2268a60a64c756ad4a440f2833fb5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -408,6 +411,60 @@ template&lt;typename DerivedType &gt; </div>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if <code>i</code> is not in the range [0, <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#ad91728628aef7aa81b0ad2c2307f7135" title="Returns the number of terms in *this.">size()</a>). Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1066b551fa67993249fcfccf105a91da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1066b551fa67993249fcfccf105a91da">&#9670;&nbsp;</a></span>emplace_back()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename DerivedType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html">chemist::qm_operator::detail_::LinearCombinationImpl</a>&lt; DerivedType &gt;::emplace_back </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#af6e2d7203bc6969dbf504c9c7e4e1e94">coefficient_type</a>&#160;</td>
+          <td class="paramname"><em>c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1qm__operator_1_1OperatorBase.html#a43a1220af496b930ab9f9a18a361e364">base_pointer</a>&#160;</td>
+          <td class="paramname"><em>op</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds a term to the operator. </p>
+<p>This method is used to add an operator to *this. The term is assumed to be added to the terms already contained in *this (i.e., make <code>c</code> negative if you want the term be subtracted).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">c</td><td>The weight of the term. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">op</td><td>The term.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem adding the term. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>

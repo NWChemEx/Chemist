@@ -120,6 +120,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1MoleculeView.html#a67919b5438f8d4cb9a6565f67fba22b9">nuclei_traits</a> = typename traits_type::nuclei_traits</td></tr>
 <tr class="memdesc:a67919b5438f8d4cb9a6565f67fba22b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the struct defining types for the <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> piece of *this. <br /></td></tr>
 <tr class="separator:a67919b5438f8d4cb9a6565f67fba22b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0dad7779d2f76a16b0f8e7dfe884420"><td class="memItemLeft" align="right" valign="top"><a id="ab0dad7779d2f76a16b0f8e7dfe884420"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1MoleculeView.html#ab0dad7779d2f76a16b0f8e7dfe884420">many_electrons_traits</a> = typename traits_type::many_electrons_traits</td></tr>
+<tr class="memdesc:ab0dad7779d2f76a16b0f8e7dfe884420"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the struct defining types for the electrons. <br /></td></tr>
+<tr class="separator:ab0dad7779d2f76a16b0f8e7dfe884420"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc2a0acbdc3eae662f515d2c5035b58c"><td class="memItemLeft" align="right" valign="top"><a id="adc2a0acbdc3eae662f515d2c5035b58c"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1MoleculeView.html#adc2a0acbdc3eae662f515d2c5035b58c">molecule_type</a> = typename traits_type::value_type</td></tr>
 <tr class="memdesc:adc2a0acbdc3eae662f515d2c5035b58c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Non-cv-qualified type of the <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> object *this aliases. <br /></td></tr>
@@ -136,6 +140,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1MoleculeView.html#ae8d8f09b957c8a5b94513f7d3035cb0e">const_nuclei_reference</a> = typename nuclei_traits::const_view_type</td></tr>
 <tr class="memdesc:ae8d8f09b957c8a5b94513f7d3035cb0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to a <a class="el" href="classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects.">Nuclei</a> object. <br /></td></tr>
 <tr class="separator:ae8d8f09b957c8a5b94513f7d3035cb0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a814c04d9d25c541a9590f2020cbac672"><td class="memItemLeft" align="right" valign="top"><a id="a814c04d9d25c541a9590f2020cbac672"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1MoleculeView.html#a814c04d9d25c541a9590f2020cbac672">many_electrons_type</a> = typename many_electrons_traits::value_type</td></tr>
+<tr class="memdesc:a814c04d9d25c541a9590f2020cbac672"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the object holding the electronic part of *this. <br /></td></tr>
+<tr class="separator:a814c04d9d25c541a9590f2020cbac672"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4af65dfb92160363e57e883bc39d77f"><td class="memItemLeft" align="right" valign="top"><a id="aa4af65dfb92160363e57e883bc39d77f"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1MoleculeView.html#aa4af65dfb92160363e57e883bc39d77f">value_type</a> = typename atom_traits::nucleus_traits::value_type</td></tr>
 <tr class="memdesc:aa4af65dfb92160363e57e883bc39d77f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a nucleus object. <br /></td></tr>
@@ -210,6 +218,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5d1be06eca54209a33944ac8fd79d429"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1MoleculeView.html#ae8d8f09b957c8a5b94513f7d3035cb0e">const_nuclei_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1MoleculeView.html#a5d1be06eca54209a33944ac8fd79d429">nuclei</a> () const</td></tr>
 <tr class="memdesc:a5d1be06eca54209a33944ac8fd79d429"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides access to the nuclear framework.  <a href="classchemist_1_1MoleculeView.html#a5d1be06eca54209a33944ac8fd79d429">More...</a><br /></td></tr>
 <tr class="separator:a5d1be06eca54209a33944ac8fd79d429"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac86900b35880891a63374e7e3fd6acd2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1MoleculeView.html#a814c04d9d25c541a9590f2020cbac672">many_electrons_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1MoleculeView.html#ac86900b35880891a63374e7e3fd6acd2">electrons</a> () const</td></tr>
+<tr class="memdesc:ac86900b35880891a63374e7e3fd6acd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the electronic piece of *this.  <a href="classchemist_1_1MoleculeView.html#ac86900b35880891a63374e7e3fd6acd2">More...</a><br /></td></tr>
+<tr class="separator:ac86900b35880891a63374e7e3fd6acd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4840fae0585823af3d439ad2ef591d89"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1MoleculeView.html#a87a66316c6fa427f5a56cc72c4fe3ec7">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1MoleculeView.html#a4840fae0585823af3d439ad2ef591d89">n_electrons</a> () const noexcept</td></tr>
 <tr class="memdesc:a4840fae0585823af3d439ad2ef591d89"><td class="mdescLeft">&#160;</td><td class="mdescRight">How many electrons does the aliased <a class="el" href="classchemist_1_1Molecule.html" title="Represents a set of atoms.">Molecule</a> have?  <a href="classchemist_1_1MoleculeView.html#a4840fae0585823af3d439ad2ef591d89">More...</a><br /></td></tr>
 <tr class="separator:a4840fae0585823af3d439ad2ef591d89"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -516,6 +527,43 @@ template&lt;typename MoleculeType &gt; </div>
 <p>Returns the electronic charge of *this. </p>
 <p>This method returns the difference between the sum of the atomic numbers in this-&gt;<a class="el" href="classchemist_1_1MoleculeView.html#a1a8dd5fd58b7e0c2085cda18ecdab727" title="Provides access to the nuclear framework.">nuclei()</a> and the number of electrons.</p>
 <dl class="section return"><dt>Returns</dt><dd>The electronic charge of *this.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac86900b35880891a63374e7e3fd6acd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac86900b35880891a63374e7e3fd6acd2">&#9670;&nbsp;</a></span>electrons()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename MoleculeType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1MoleculeView.html#a814c04d9d25c541a9590f2020cbac672">many_electrons_type</a> <a class="el" href="classchemist_1_1MoleculeView.html">chemist::MoleculeView</a>&lt; MoleculeType &gt;::electrons </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the electronic piece of *this. </p>
+<p>This method can be used to retrieve the electrons of *this.braket</p>
+<dl class="section return"><dt>Returns</dt><dd>An object which contains the electronic piece of *this.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
