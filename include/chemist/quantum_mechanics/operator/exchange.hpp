@@ -112,10 +112,9 @@ public:
     }
 };
 
-extern template class Exchange<Electron, Electron>;
-extern template class Exchange<ManyElectrons, ManyElectrons>;
-extern template class Exchange<Electron, Nuclei>;
-extern template class Exchange<ManyElectrons, Nuclei>;
-extern template class Exchange<Nuclei, Nuclei>;
+extern template class Exchange<Electron, chemist::Density<Electron>>;
+extern template class Exchange<ManyElectrons, chemist::Density<Electron>>;
+extern template class Exchange<Electron, DecomposableDensity<Electron>>;
+extern template class Exchange<ManyElectrons, DecomposableDensity<Electron>>;
 
 } // namespace chemist::qm_operator

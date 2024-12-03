@@ -31,6 +31,10 @@ COULOMB::Coulomb(lhs_value_type p0, rhs_value_type p1) noexcept :
 
 template class Coulomb<Electron, Electron>;
 template class Coulomb<ManyElectrons, ManyElectrons>;
+template class Coulomb<Electron, chemist::Density<Electron>>;
+template class Coulomb<ManyElectrons, chemist::Density<Electron>>;
+template class Coulomb<Electron, DecomposableDensity<Electron>>;
+template class Coulomb<ManyElectrons, DecomposableDensity<Electron>>;
 template class Coulomb<Electron, Nuclei>;
 template class Coulomb<ManyElectrons, Nuclei>;
 template class Coulomb<Nuclei, Nuclei>;

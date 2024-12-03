@@ -29,10 +29,9 @@ EXCHANGE::Exchange(lhs_value_type p0, rhs_value_type p1) noexcept :
 #undef EXCHANGE
 #undef TPARAMS
 
-template class Exchange<Electron, Electron>;
-template class Exchange<ManyElectrons, ManyElectrons>;
-template class Exchange<Electron, Nuclei>;
-template class Exchange<ManyElectrons, Nuclei>;
-template class Exchange<Nuclei, Nuclei>;
+template class Exchange<Electron, chemist::Density<Electron>>;
+template class Exchange<ManyElectrons, chemist::Density<Electron>>;
+template class Exchange<Electron, DecomposableDensity<Electron>>;
+template class Exchange<ManyElectrons, DecomposableDensity<Electron>>;
 
 } // namespace chemist::qm_operator

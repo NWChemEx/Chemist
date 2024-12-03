@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <chemist/density/density.hpp>
 #include <chemist/electron/electron.hpp>
 #include <chemist/nucleus/nucleus.hpp>
 #include <chemist/quantum_mechanics/operator/operator_fwd.hpp>
@@ -53,11 +54,11 @@ using v_en_type = Coulomb<Electron, Nuclei>;
 using V_en_type = Coulomb<ManyElectrons, Nuclei>;
 using V_nn_type = Coulomb<Nuclei, Nuclei>;
 
-using k_ee_type = Exchange<Electron, Electron>;
-using K_ee_type = Exchange<ManyElectrons, ManyElectrons>;
-using k_en_type = Exchange<Electron, Nuclei>;
-using K_en_type = Exchange<ManyElectrons, Nuclei>;
-using K_nn_type = Exchange<Nuclei, Nuclei>;
+using j_e_type = Coulomb<Electron, DecomposableDensity<Electron>>;
+using J_e_type = Coulomb<ManyElectrons, DecomposableDensity<Electron>>;
+
+using k_e_type = Exchange<Electron, DecomposableDensity<Electron>>;
+using K_e_type = Exchange<ManyElectrons, DecomposableDensity<Electron>>;
 
 using xc_ee_type = ExchangeCorrelation<Electron, Electron>;
 using XC_ee_type = ExchangeCorrelation<ManyElectrons, ManyElectrons>;

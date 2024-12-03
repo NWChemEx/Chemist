@@ -23,6 +23,7 @@
 #pragma once
 #include "../catch.hpp"
 #include <chemist/basis_set/ao_basis_set.hpp>
+#include <chemist/density/density.hpp>
 #include <chemist/electron/electron.hpp>
 #include <chemist/nucleus/nucleus.hpp>
 #include <chemist/quantum_mechanics/wavefunction/wavefunction.hpp>
@@ -83,7 +84,9 @@ inline auto h2_mos() {
 /// Creates a defaulted instance of each particle type we want to test
 inline auto defaulted_particles() {
     return std::make_tuple(chemist::Electron{}, chemist::ManyElectrons{},
-                           chemist::Nucleus{}, chemist::Nuclei{});
+                           chemist::Nucleus{}, chemist::Nuclei{},
+                           chemist::Density<chemist::Electron>{},
+                           chemist::DecomposableDensity<chemist::Electron>{});
 }
 
 /// Creates a non-default instance of each particle type we want to test
@@ -91,8 +94,12 @@ inline auto non_defaulted_particles() {
     auto r = h2_coords();
     chemist::Nucleus h0("H", 1ul, 1837.15264648179, r[0], r[1], r[2]);
     chemist::Nucleus h1("H", 1ul, 1837.15264648179, r[3], r[4], r[5]);
+    using density_type = chemist::Density<chemist::Electron>;
+    typename density_type::value_type rho{{1.0, 0.0}, {0.0, 1.0}};
+    density_type rho_e(rho, h2_aos());
+    chemist::DecomposableDensity<chemist::Electron> rho_e2(rho, h2_mos());
     return std::make_tuple(chemist::Electron{}, chemist::ManyElectrons{3}, h0,
-                           chemist::Nuclei{h0, h1});
+                           chemist::Nuclei{h0, h1}, rho_e, rho_e2);
 }
 
 } // namespace test_chemist

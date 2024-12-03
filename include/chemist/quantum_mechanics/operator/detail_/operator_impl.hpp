@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <chemist/density/density.hpp>
 #include <chemist/dsl/dsl.hpp>
 #include <chemist/electron/electron.hpp>
 #include <chemist/nucleus/nucleus.hpp>
