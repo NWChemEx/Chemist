@@ -1,3 +1,12 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classchemist_1_1fragmenting_1_1detail___1_1FragmentedChemicalSystemPIMPL.html" title=" " alt="" coords="5,5,285,61"/>
+<area shape="rect" id="node1" href="$classchemist_1_1dsl_1_1Term.html" title="Base class for all elements of the DSL." alt="" coords="5,173,147,214"/>
+<area shape="rect" id="node2" href="$classchemist_1_1dsl_1_1BinaryOp.html" title=" " alt="" coords="195,5,421,61"/>
+<area shape="rect" id="node4" href="$classchemist_1_1dsl_1_1BinaryOp.html" title=" " alt="" coords="209,85,407,141"/>
+<area shape="rect" id="node6" href="$classchemist_1_1dsl_1_1BinaryOp.html" title=" " alt="" coords="195,165,421,221"/>
+<area shape="rect" id="node8" href="$classchemist_1_1dsl_1_1BinaryOp.html" title=" " alt="" coords="201,245,415,301"/>
+<area shape="rect" id="node10" href="$classchemist_1_1dsl_1_1BinaryOp.html" title="Code factorization for binary operations." alt="" coords="215,325,401,381"/>
+<area shape="rect" id="node3" href="$classchemist_1_1dsl_1_1Subtract.html" title="Represents the subtraction of two terms." alt="" coords="469,13,641,54"/>
+<area shape="rect" id="node5" href="$classchemist_1_1dsl_1_1Add.html" title="Represents the addition of two terms." alt="" coords="475,93,636,134"/>
+<area shape="rect" id="node7" href="$classchemist_1_1dsl_1_1Multiply.html" title="Represents the multiplication of two terms." alt="" coords="469,173,641,214"/>
+<area shape="rect" id="node9" href="$classchemist_1_1dsl_1_1Divide.html" title="Represents the division of two terms." alt="" coords="469,253,641,294"/>
 </map>

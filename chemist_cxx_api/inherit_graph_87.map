@@ -1,6 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classchemist_1_1wavefunction_1_1Wavefunction.html" title="Represents a wavefunction from a VectorSpace." alt="" coords="5,53,176,94"/>
-<area shape="rect" id="node2" href="$classchemist_1_1wavefunction_1_1detail___1_1WavefunctionImpl.html" title=" " alt="" coords="224,5,497,61"/>
-<area shape="rect" id="node4" href="$classchemist_1_1wavefunction_1_1detail___1_1WavefunctionImpl.html" title="Code factorization for implementing Wavefunction&#39;s virtual methods." alt="" coords="261,85,461,141"/>
-<area shape="rect" id="node3" href="$classchemist_1_1wavefunction_1_1Determinant.html" title="A fermionic multi&#45;particle wavefunction." alt="" coords="545,13,796,54"/>
+<area shape="rect" id="node1" href="$classchemist_1_1qm__operator_1_1OperatorVisitor.html" title="Base class for all operator visitors." alt="" coords="5,39,171,80"/>
+<area shape="rect" id="node2" href="$classchemist_1_1qm__operator_1_1detail___1_1CHVisitor.html" title="Determines which terms are in the Core Hamiltonian." alt="" coords="219,5,384,47"/>
+<area shape="rect" id="node3" href="$classchemist_1_1qm__operator_1_1detail___1_1EHVisitor.html" title="Determines which terms are in the Electronic Hamiltonian." alt="" coords="219,71,384,112"/>
 </map>
