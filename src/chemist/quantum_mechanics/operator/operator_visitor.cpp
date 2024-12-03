@@ -46,14 +46,21 @@ namespace chemist::qm_operator {
     OVERLOADS(T<Electron, Nuclei>);             \
     OVERLOADS(T<ManyElectrons, Nuclei>);        \
     OVERLOADS(T<Nuclei, Nuclei>)
+#define DENSITY_OVERLOADS(T)                                 \
+    OVERLOADS(T<Electron, chemist::Density<Electron>>);      \
+    OVERLOADS(T<ManyElectrons, chemist::Density<Electron>>); \
+    OVERLOADS(T<Electron, DecomposableDensity<Electron>>);   \
+    OVERLOADS(T<ManyElectrons, DecomposableDensity<Electron>>)
 
 OVERLOADS(Density<wavefunction::MOs, Electron>);
 OVERLOADS(Density<wavefunction::CMOs, Electron>);
 ONE_PARTICLE_OVERLOADS(Kinetic);
 TWO_PARTICLE_OVERLOADS(Coulomb);
-TWO_PARTICLE_OVERLOADS(Exchange);
+DENSITY_OVERLOADS(Coulomb);
+DENSITY_OVERLOADS(Exchange);
 TWO_PARTICLE_OVERLOADS(ExchangeCorrelation);
 
+#undef DENSITY_OVERLOADS
 #undef TWO_PARTICLE_OVERLOADS
 #undef ONE_PARTICLE_OVERLOADS
 #undef OVERLOADS

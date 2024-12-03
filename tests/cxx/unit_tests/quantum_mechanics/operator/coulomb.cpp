@@ -23,6 +23,10 @@ using namespace chemist::qm_operator;
 using types2test =
   std::tuple<std::pair<Electron, Electron>,
              std::pair<ManyElectrons, ManyElectrons>,
+             std::pair<Electron, chemist::Density<Electron>>,
+             std::pair<ManyElectrons, chemist::Density<Electron>>,
+             std::pair<Electron, DecomposableDensity<Electron>>,
+             std::pair<ManyElectrons, DecomposableDensity<Electron>>,
              std::pair<Electron, Nuclei>, std::pair<ManyElectrons, Nuclei>,
              std::pair<Nuclei, Nuclei>>;
 

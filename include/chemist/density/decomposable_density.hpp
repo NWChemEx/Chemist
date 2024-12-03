@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include <chemist/density/density.hpp>
+#include <chemist/density/density_class.hpp>
 #include <chemist/quantum_mechanics/wavefunction/transformed.hpp>
 
 namespace chemist {
@@ -171,5 +171,7 @@ bool operator!=(const DecomposableDensity<LHSParticles...>& lhs,
 
 /// Type of the one-Electron density
 using Decomposable1EDensity = DecomposableDensity<Electron>;
+
+extern template class DecomposableDensity<Electron>;
 
 } // namespace chemist

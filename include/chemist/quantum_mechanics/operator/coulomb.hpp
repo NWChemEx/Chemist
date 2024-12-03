@@ -47,9 +47,9 @@ public:
 
     /// All implemented by OperatorImpl. This exposes them to the user.
     ///@{
-    Coulomb(const Coulomb&)         = default;
-    Coulomb(Coulomb&& rhs) noexcept = default;
-    Coulomb& operator=(const Coulomb&) = default;
+    Coulomb(const Coulomb&)                    = default;
+    Coulomb(Coulomb&& rhs) noexcept            = default;
+    Coulomb& operator=(const Coulomb&)         = default;
     Coulomb& operator=(Coulomb&& rhs) noexcept = default;
     ///@}
 
@@ -113,6 +113,10 @@ public:
 
 extern template class Coulomb<Electron, Electron>;
 extern template class Coulomb<ManyElectrons, ManyElectrons>;
+extern template class Coulomb<Electron, chemist::Density<Electron>>;
+extern template class Coulomb<ManyElectrons, chemist::Density<Electron>>;
+extern template class Coulomb<Electron, DecomposableDensity<Electron>>;
+extern template class Coulomb<ManyElectrons, DecomposableDensity<Electron>>;
 extern template class Coulomb<Electron, Nuclei>;
 extern template class Coulomb<ManyElectrons, Nuclei>;
 extern template class Coulomb<Nuclei, Nuclei>;
