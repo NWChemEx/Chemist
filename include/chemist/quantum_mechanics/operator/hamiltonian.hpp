@@ -15,9 +15,9 @@
  */
 
 #pragma once
-#include <chemist/dsl/dsl.hpp>
 #include <chemist/quantum_mechanics/operator/detail_/linear_combination_impl.hpp>
 #include <chemist/quantum_mechanics/operator/electronic_hamiltonian.hpp>
+#include <utilities/dsl/dsl.hpp>
 
 namespace chemist::qm_operator {
 
@@ -79,7 +79,7 @@ public:
      *                        throw guarantee.
      */
     template<typename T>
-    explicit Hamiltonian(const dsl::Term<T>& expression) :
+    explicit Hamiltonian(const utilities::dsl::Term<T>& expression) :
       impl_type(parser_type(expression.downcast()).m_terms) {}
 
     /** @brief Returns the subset of *this which depends on the electrons.

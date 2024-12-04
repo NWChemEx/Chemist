@@ -16,7 +16,6 @@
 
 #pragma once
 #include <chemist/density/density.hpp>
-#include <chemist/dsl/dsl.hpp>
 #include <chemist/electron/electron.hpp>
 #include <chemist/nucleus/nucleus.hpp>
 #include <chemist/quantum_mechanics/operator/operator_base.hpp>
@@ -25,6 +24,7 @@
 #include <chemist/traits/nucleus_traits.hpp>
 #include <tuple>
 #include <type_traits>
+#include <utilities/dsl/dsl.hpp>
 
 namespace chemist::qm_operator::detail_ {
 
@@ -188,7 +188,8 @@ public:
      */
     template<typename RHSType>
     auto operator+(const RHSType& rhs) const {
-        return dsl::Add<const DerivedType, const RHSType>(downcast_(), rhs);
+        return utilities::dsl::Add<const DerivedType, const RHSType>(
+          downcast_(), rhs);
     }
 
     /** @brief Subtracts @p rhs from *this.
@@ -204,8 +205,8 @@ public:
      */
     template<typename RHSType>
     auto operator-(const RHSType& rhs) const {
-        return dsl::Subtract<const DerivedType, const RHSType>(downcast_(),
-                                                               rhs);
+        return utilities::dsl::Subtract<const DerivedType, const RHSType>(
+          downcast_(), rhs);
     }
 
     /** @brief Right multiplies *this by @p rhs.
@@ -221,8 +222,8 @@ public:
      */
     template<typename RHSType>
     auto operator*(const RHSType& rhs) const {
-        return dsl::Multiply<const DerivedType, const RHSType>(downcast_(),
-                                                               rhs);
+        return utilities::dsl::Multiply<const DerivedType, const RHSType>(
+          downcast_(), rhs);
     }
 
 protected:
@@ -335,7 +336,7 @@ template<typename LHSType, typename DerivedType, typename... Particles,
          typename = std::enable_if_t<std::is_floating_point_v<LHSType>>>
 auto operator*(const LHSType& lhs,
                const OperatorImpl<DerivedType, Particles...>& rhs) {
-    return dsl::Multiply<const LHSType, const DerivedType>(
+    return utilities::dsl::Multiply<const LHSType, const DerivedType>(
       lhs, static_cast<const DerivedType&>(rhs));
 }
 

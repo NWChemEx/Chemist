@@ -15,9 +15,9 @@
  */
 
 #pragma once
-#include <chemist/dsl/dsl.hpp>
 #include <chemist/quantum_mechanics/operator/operator_base.hpp>
 #include <tuple>
+#include <utilities/dsl/dsl.hpp>
 #include <vector>
 
 namespace chemist::qm_operator::detail_ {
@@ -118,7 +118,7 @@ struct UnpackLinearCombination {
      *  @throw ??? if unpacking the operation throws. Same through guarantee.
      */
     template<typename LHSType, typename RHSType>
-    UnpackLinearCombination(const dsl::Add<LHSType, RHSType>& op) :
+    UnpackLinearCombination(const utilities::dsl::Add<LHSType, RHSType>& op) :
       UnpackLinearCombination(op.lhs()) {
         unpack_into_mterms(1.0, op.rhs());
     }
@@ -136,7 +136,8 @@ struct UnpackLinearCombination {
      *  @throw ??? if unpacking the operation throws. Same through guarantee.
      */
     template<typename LHSType, typename RHSType>
-    UnpackLinearCombination(const dsl::Multiply<LHSType, RHSType>& op) :
+    UnpackLinearCombination(
+      const utilities::dsl::Multiply<LHSType, RHSType>& op) :
       UnpackLinearCombination(op.lhs(), op.rhs()) {}
 
     /** @brief Handles the subtraction of two terms.
@@ -149,7 +150,8 @@ struct UnpackLinearCombination {
      *  @throw ??? if unpacking the operation throws. Same through guarantee.
      */
     template<typename LHSType, typename RHSType>
-    UnpackLinearCombination(const dsl::Subtract<LHSType, RHSType>& op) :
+    UnpackLinearCombination(
+      const utilities::dsl::Subtract<LHSType, RHSType>& op) :
       UnpackLinearCombination(op.lhs()) {
         unpack_into_mterms(-1.0, op.rhs());
     }

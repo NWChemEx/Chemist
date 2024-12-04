@@ -15,9 +15,9 @@
  */
 
 #pragma once
-#include <chemist/dsl/dsl.hpp>
 #include <chemist/quantum_mechanics/operator/core_hamiltonian.hpp>
 #include <chemist/quantum_mechanics/operator/detail_/linear_combination_impl.hpp>
+#include <utilities/dsl/dsl.hpp>
 
 namespace chemist::qm_operator {
 
@@ -72,7 +72,7 @@ public:
      * Strong throw guarantee.
      */
     template<typename T>
-    explicit ElectronicHamiltonian(const dsl::Term<T>& expression) :
+    explicit ElectronicHamiltonian(const utilities::dsl::Term<T>& expression) :
       impl_type(parser_type(expression.downcast()).m_terms) {}
 
     /** @brief Initializes *this with a deep copy of @p other.
