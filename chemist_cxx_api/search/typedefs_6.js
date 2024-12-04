@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['holder_5ftype_1203',['holder_type',['../classchemist_1_1dsl_1_1TermTraits.html#a018004ac0ed097d05d32140feb67a68a',1,'chemist::dsl::TermTraits']]]
+  ['index_5fset_5ftype_1158',['index_set_type',['../classchemist_1_1fragmenting_1_1CapSet.html#a2d658d762436cea8a70e090ed07c2d6e',1,'chemist::fragmenting::CapSet']]]
 ];

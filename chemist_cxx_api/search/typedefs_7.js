@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['index_5fset_5ftype_1204',['index_set_type',['../classchemist_1_1fragmenting_1_1CapSet.html#a2d658d762436cea8a70e090ed07c2d6e',1,'chemist::fragmenting::CapSet']]]
+  ['ket_5freference_1159',['ket_reference',['../classchemist_1_1braket_1_1BraKet.html#a30cb3d7fee97d4e3483266931101f6e2',1,'chemist::braket::BraKet']]],
+  ['ket_5ftype_1160',['ket_type',['../classchemist_1_1braket_1_1BraKet.html#aa50b8ff30b527b5ae74f5ada55a8ee92',1,'chemist::braket::BraKet']]]
 ];
