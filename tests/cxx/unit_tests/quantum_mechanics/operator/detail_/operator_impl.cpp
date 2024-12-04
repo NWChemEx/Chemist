@@ -73,17 +73,17 @@ TEST_CASE("OperatorImpl") {
     }
 
     SECTION("operator+") {
-        chemist::dsl::Add<t_e_type, t_e_type> corr(t, t);
+        utilities::dsl::Add<t_e_type, t_e_type> corr(t, t);
         REQUIRE((t + t) == corr);
     }
 
     SECTION("operator-") {
-        chemist::dsl::Subtract<t_e_type, t_e_type> corr(t, t);
+        utilities::dsl::Subtract<t_e_type, t_e_type> corr(t, t);
         REQUIRE((t - t) == corr);
     }
 
     SECTION("operator*") {
-        chemist::dsl::Multiply<t_e_type, t_e_type> corr(t, t);
+        utilities::dsl::Multiply<t_e_type, t_e_type> corr(t, t);
         REQUIRE((t * t) == corr);
     }
 
