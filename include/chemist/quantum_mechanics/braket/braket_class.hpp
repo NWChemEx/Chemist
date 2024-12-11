@@ -52,6 +52,10 @@ private:
     /// Type of *this
     using my_type = BraKet<BraType, OperatorType, KetType>;
 
+    /// Type of a pointer to a base operator
+    using operator_base_pointer =
+      typename chemist::qm_operator::OperatorBase::base_pointer;
+
 public:
     /// Type *this inherits from
     using base_type =
@@ -117,8 +121,9 @@ public:
      */
     template<typename BraType2, typename OperatorType2, typename KetType2>
     BraKet(BraType2&& bra, OperatorType2&& op, KetType2&& ket) :
-      m_braket_{std::forward<BraType2>(bra), std::forward<OperatorType2>(op),
-                std::forward<KetType2>(ket)} {}
+      m_tuple_{std::forward<BraType2>(bra),
+               clone_op_(std::forward<OperatorType2>(op)),
+               std::forward<KetType2>(ket)} {}
 
     /** @brief Initializes *this with a deep copy of @p other.
      *
@@ -127,7 +132,8 @@ public:
      *  @throw std::bad_alloc if there is a problem allocating *this. Strong
      *                        throw guarantee.
      */
-    BraKet(const BraKet& other) = default;
+    BraKet(const BraKet& other) :
+      BraKet(other.bra(), other.op(), other.ket()){};
 
     /** @brief Initializes *this by taking the state from @p other.
      *
@@ -149,7 +155,10 @@ public:
      *  @throw std::bad_alloc if there is a problem allocating the copy. Strong
      *                        throw guarantee.
      */
-    BraKet& operator=(const BraKet& rhs) = default;
+    BraKet& operator=(const BraKet& rhs) {
+        m_tuple_ = tuple_type(rhs.bra(), clone_op_(rhs.op()), rhs.ket());
+        return *this;
+    };
 
     /** @brief Overwrites the state in *this with the state from @p rhs.
      *
@@ -196,7 +205,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    bra_reference bra() { return std::get<0>(m_braket_); }
+    bra_reference bra() { return std::get<0>(m_tuple_); }
 
     /** @brief Returns a read-only reference to the bra's state.
      *
@@ -208,7 +217,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    const_bra_reference bra() const { return std::get<0>(m_braket_); }
+    const_bra_reference bra() const { return std::get<0>(m_tuple_); }
 
     /** @brief Returns a mutable reference to the operator.
      *
@@ -223,7 +232,9 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    operator_reference op() { return std::get<1>(m_braket_); }
+    operator_reference op() {
+        return *(static_cast<operator_type*>(std::get<1>(m_tuple_).get()));
+    }
 
     /** @brief Returns a read-only reference to the operator.
      *
@@ -235,7 +246,9 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    const_operator_reference op() const { return std::get<1>(m_braket_); }
+    const_operator_reference op() const {
+        return *(static_cast<operator_type*>(std::get<1>(m_tuple_).get()));
+    }
 
     /** @brief Returns a mutable reference to the ket's state.
      *
@@ -249,7 +262,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    ket_reference ket() { return std::get<2>(m_braket_); }
+    ket_reference ket() { return std::get<2>(m_tuple_); }
 
     /** @brief Returns a read-only reference to the ket's state.
      *
@@ -261,7 +274,7 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    const_ket_reference ket() const { return std::get<2>(m_braket_); }
+    const_ket_reference ket() const { return std::get<2>(m_tuple_); }
 
     // -------------------------------------------------------------------------
     // -- Utility methods
@@ -331,10 +344,15 @@ protected:
 
 private:
     /// Type of the tuple which will store the state.
-    using braket_type = std::tuple<bra_type, operator_type, ket_type>;
+    using tuple_type = std::tuple<bra_type, operator_base_pointer, ket_type>;
 
     /// The actual state defining the bra-ket
-    braket_type m_braket_;
+    tuple_type m_tuple_;
+
+    /// Gets a clone pointer from the incoming operator
+    operator_base_pointer clone_op_(const operator_type& op) {
+        return op.clone();
+    }
 };
 
 /// Enables deducing the template type parameters from the value ctor.
@@ -356,7 +374,8 @@ bool BraKet<BraType, OperatorType, KetType>::operator==(
     constexpr bool same_ket_type = std::is_same_v<KetType, KetType2>;
 
     if constexpr(same_bra_type && same_op_type && same_ket_type) {
-        return m_braket_ == rhs.m_braket_;
+        return bra() == rhs.bra() && op().are_equal(rhs.op()) &&
+               ket() == rhs.ket();
     } else {
         return false;
     }
