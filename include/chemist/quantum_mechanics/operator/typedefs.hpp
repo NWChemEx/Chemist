@@ -45,6 +45,7 @@ namespace chemist::qm_operator::types {
 
 using op_base_type = OperatorBase;
 
+using s_e_type = Identity;
 using t_e_type = Kinetic<Electron>;
 using T_e_type = Kinetic<ManyElectrons>;
 using t_n_type = Kinetic<Nucleus>;
