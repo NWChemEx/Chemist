@@ -54,6 +54,7 @@ namespace chemist::qm_operator {
 
 OVERLOADS(Density<wavefunction::MOs, Electron>);
 OVERLOADS(Density<wavefunction::CMOs, Electron>);
+OVERLOADS(Identity);
 ONE_PARTICLE_OVERLOADS(Kinetic);
 TWO_PARTICLE_OVERLOADS(Coulomb);
 DENSITY_OVERLOADS(Coulomb);

@@ -23,7 +23,7 @@
 namespace chemist::qm_operator {
 
 #define OVERLOAD(...) virtual void run(__VA_ARGS__&)
-#define CONST_OVERLOAD(...) virtual void run(const __VA_ARGS__&);
+#define CONST_OVERLOAD(...) virtual void run(const __VA_ARGS__&)
 #define OVERLOADS(...)     \
     OVERLOAD(__VA_ARGS__); \
     CONST_OVERLOAD(__VA_ARGS__)
@@ -82,6 +82,7 @@ public:
 
     OVERLOADS(Density<wavefunction::MOs, Electron>);
     OVERLOADS(Density<wavefunction::CMOs, Electron>);
+    OVERLOADS(Identity);
     ONE_PARTICLE_OVERLOADS(Kinetic);
     TWO_PARTICLE_OVERLOADS(Coulomb);
     DENSITY_OVERLOADS(Coulomb);
