@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['vectorspace_761',['VectorSpace',['../classchemist_1_1wavefunction_1_1VectorSpace.html',1,'chemist::wavefunction']]],
-  ['viewtraits_762',['ViewTraits',['../structchemist_1_1detail___1_1ViewTraits.html',1,'chemist::detail_']]]
+  ['unpacklinearcombination_762',['UnpackLinearCombination',['../structchemist_1_1qm__operator_1_1detail___1_1UnpackLinearCombination.html',1,'chemist::qm_operator::detail_']]]
 ];

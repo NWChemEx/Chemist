@@ -1,0 +1,5 @@
+<map id="chemist::qm_operator::Identity" name="chemist::qm_operator::Identity">
+<area shape="rect" id="node1" title="Represents the identity operator." alt="" coords="7,199,172,240"/>
+<area shape="rect" id="node2" href="$classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="5,95,173,151"/>
+<area shape="rect" id="node3" href="$classchemist_1_1qm__operator_1_1OperatorBase.html" title="Class defining the common API for all operators." alt="" coords="7,5,172,47"/>
+</map>

@@ -1,10 +1,14 @@
 var searchData=
 [
-  ['operatorbase_723',['OperatorBase',['../classchemist_1_1qm__operator_1_1OperatorBase.html',1,'chemist::qm_operator']]],
-  ['operatorimpl_724',['OperatorImpl',['../classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html',1,'chemist::qm_operator::detail_']]],
-  ['operatorimpl_3c_20coulomb_3c_20lhsparticle_2c_20rhsparticle_20_3e_2c_20lhsparticle_2c_20rhsparticle_20_3e_725',['OperatorImpl&lt; Coulomb&lt; LHSParticle, RHSParticle &gt;, LHSParticle, RHSParticle &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html',1,'chemist::qm_operator::detail_']]],
-  ['operatorimpl_3c_20exchange_3c_20lhsparticle_2c_20rhsparticle_20_3e_2c_20lhsparticle_2c_20rhsparticle_20_3e_726',['OperatorImpl&lt; Exchange&lt; LHSParticle, RHSParticle &gt;, LHSParticle, RHSParticle &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html',1,'chemist::qm_operator::detail_']]],
-  ['operatorimpl_3c_20exchangecorrelation_3c_20lhsparticle_2c_20rhsparticle_20_3e_2c_20lhsparticle_2c_20rhsparticle_20_3e_727',['OperatorImpl&lt; ExchangeCorrelation&lt; LHSParticle, RHSParticle &gt;, LHSParticle, RHSParticle &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html',1,'chemist::qm_operator::detail_']]],
-  ['operatorimpl_3c_20kinetic_3c_20particletype_20_3e_2c_20particletype_20_3e_728',['OperatorImpl&lt; Kinetic&lt; ParticleType &gt;, ParticleType &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html',1,'chemist::qm_operator::detail_']]],
-  ['operatorvisitor_729',['OperatorVisitor',['../classchemist_1_1qm__operator_1_1OperatorVisitor.html',1,'chemist::qm_operator']]]
+  ['natural_713',['Natural',['../classchemist_1_1wavefunction_1_1Natural.html',1,'chemist::wavefunction']]],
+  ['natural_3c_20aos_20_3e_714',['Natural&lt; AOs &gt;',['../classchemist_1_1wavefunction_1_1Natural.html',1,'chemist::wavefunction']]],
+  ['nuclei_715',['Nuclei',['../classchemist_1_1Nuclei.html',1,'chemist']]],
+  ['nucleipimpl_716',['NucleiPIMPL',['../classchemist_1_1detail___1_1NucleiPIMPL.html',1,'chemist::detail_']]],
+  ['nucleisubset_717',['NucleiSubset',['../classchemist_1_1detail___1_1NucleiSubset.html',1,'chemist::detail_']]],
+  ['nucleiunion_718',['NucleiUnion',['../classchemist_1_1detail___1_1NucleiUnion.html',1,'chemist::detail_']]],
+  ['nucleiview_719',['NucleiView',['../classchemist_1_1NucleiView.html',1,'chemist']]],
+  ['nucleiviewpimpl_720',['NucleiViewPIMPL',['../classchemist_1_1detail___1_1NucleiViewPIMPL.html',1,'chemist::detail_']]],
+  ['nucleus_721',['Nucleus',['../classchemist_1_1Nucleus.html',1,'chemist']]],
+  ['nucleusview_722',['NucleusView',['../classchemist_1_1NucleusView.html',1,'chemist']]],
+  ['nucleusviewlist_723',['NucleusViewList',['../classchemist_1_1detail___1_1NucleusViewList.html',1,'chemist::detail_']]]
 ];

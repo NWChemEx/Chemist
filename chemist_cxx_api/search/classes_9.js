@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['manyelectrons_706',['ManyElectrons',['../classchemist_1_1ManyElectrons.html',1,'chemist']]],
-  ['molecule_707',['Molecule',['../classchemist_1_1Molecule.html',1,'chemist']]],
-  ['moleculepimpl_708',['MoleculePIMPL',['../classchemist_1_1detail___1_1MoleculePIMPL.html',1,'chemist::detail_']]],
-  ['moleculeview_709',['MoleculeView',['../classchemist_1_1MoleculeView.html',1,'chemist']]],
-  ['moleculeviewpimpl_710',['MoleculeViewPIMPL',['../classchemist_1_1detail___1_1MoleculeViewPIMPL.html',1,'chemist::detail_']]],
-  ['mos_711',['MOs',['../classchemist_1_1wavefunction_1_1MOs.html',1,'chemist::wavefunction']]]
+  ['linearcombinationimpl_702',['LinearCombinationImpl',['../classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html',1,'chemist::qm_operator::detail_']]],
+  ['linearcombinationimpl_3c_20corehamiltonian_20_3e_703',['LinearCombinationImpl&lt; CoreHamiltonian &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html',1,'chemist::qm_operator::detail_']]],
+  ['linearcombinationimpl_3c_20electronichamiltonian_20_3e_704',['LinearCombinationImpl&lt; ElectronicHamiltonian &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html',1,'chemist::qm_operator::detail_']]],
+  ['linearcombinationimpl_3c_20fock_20_3e_705',['LinearCombinationImpl&lt; Fock &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html',1,'chemist::qm_operator::detail_']]],
+  ['linearcombinationimpl_3c_20hamiltonian_20_3e_706',['LinearCombinationImpl&lt; Hamiltonian &gt;',['../classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html',1,'chemist::qm_operator::detail_']]]
 ];

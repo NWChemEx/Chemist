@@ -95,7 +95,7 @@ $(function() {
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">namespace </span>chemist::qm_operator {</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#define OVERLOAD(...) virtual void run(__VA_ARGS__&amp;)</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#define CONST_OVERLOAD(...) virtual void run(const __VA_ARGS__&amp;);</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#define CONST_OVERLOAD(...) virtual void run(const __VA_ARGS__&amp;)</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#define OVERLOADS(...)     \</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">    OVERLOAD(__VA_ARGS__); \</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">    CONST_OVERLOAD(__VA_ARGS__)</span></div>
@@ -122,27 +122,29 @@ $(function() {
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    OVERLOADS(<a class="code" href="classchemist_1_1qm__operator_1_1Density.html">Density&lt;wavefunction::MOs, Electron&gt;</a>);</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    OVERLOADS(<a class="code" href="classchemist_1_1qm__operator_1_1Density.html">Density&lt;wavefunction::CMOs, Electron&gt;</a>);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    ONE_PARTICLE_OVERLOADS(<a class="code" href="classchemist_1_1qm__operator_1_1Kinetic.html">Kinetic</a>);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    TWO_PARTICLE_OVERLOADS(<a class="code" href="classchemist_1_1qm__operator_1_1Coulomb.html">Coulomb</a>);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    DENSITY_OVERLOADS(<a class="code" href="classchemist_1_1qm__operator_1_1Coulomb.html">Coulomb</a>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    DENSITY_OVERLOADS(<a class="code" href="classchemist_1_1qm__operator_1_1Exchange.html">Exchange</a>);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    TWO_PARTICLE_OVERLOADS(<a class="code" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html">ExchangeCorrelation</a>);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">bool</span> m_throw_ = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;};</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor">#undef DENSITY_OVERLOADS</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">#undef TWO_PARTICLE_OVERLOADS</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#undef ONE_PARTICLE_OVERLOADS</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#undef OVERLOADS</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="preprocessor">#undef CONST_OVERLOAD</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="preprocessor">#undef OVERLOAD</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor">} </span><span class="comment">// namespace chemist::qm_operator</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    OVERLOADS(<a class="code" href="classchemist_1_1qm__operator_1_1Identity.html">Identity</a>);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    ONE_PARTICLE_OVERLOADS(<a class="code" href="classchemist_1_1qm__operator_1_1Kinetic.html">Kinetic</a>);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    TWO_PARTICLE_OVERLOADS(<a class="code" href="classchemist_1_1qm__operator_1_1Coulomb.html">Coulomb</a>);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    DENSITY_OVERLOADS(<a class="code" href="classchemist_1_1qm__operator_1_1Coulomb.html">Coulomb</a>);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    DENSITY_OVERLOADS(<a class="code" href="classchemist_1_1qm__operator_1_1Exchange.html">Exchange</a>);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    TWO_PARTICLE_OVERLOADS(<a class="code" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html">ExchangeCorrelation</a>);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">bool</span> m_throw_ = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;};</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">#undef DENSITY_OVERLOADS</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#undef TWO_PARTICLE_OVERLOADS</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#undef ONE_PARTICLE_OVERLOADS</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="preprocessor">#undef OVERLOADS</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="preprocessor">#undef CONST_OVERLOAD</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor">#undef OVERLOAD</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor">} </span><span class="comment">// namespace chemist::qm_operator</span></div>
 <div class="ttc" id="aclasschemist_1_1qm__operator_1_1Coulomb_html"><div class="ttname"><a href="classchemist_1_1qm__operator_1_1Coulomb.html">chemist::qm_operator::Coulomb</a></div><div class="ttdef"><b>Definition:</b> coulomb.hpp:24</div></div>
 <div class="ttc" id="aclasschemist_1_1qm__operator_1_1Density_html"><div class="ttname"><a href="classchemist_1_1qm__operator_1_1Density.html">chemist::qm_operator::Density</a></div><div class="ttdef"><b>Definition:</b> operator_fwd.hpp:27</div></div>
 <div class="ttc" id="aclasschemist_1_1qm__operator_1_1ExchangeCorrelation_html"><div class="ttname"><a href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html">chemist::qm_operator::ExchangeCorrelation</a></div><div class="ttdef"><b>Definition:</b> exchange_correlation.hpp:25</div></div>
 <div class="ttc" id="aclasschemist_1_1qm__operator_1_1Exchange_html"><div class="ttname"><a href="classchemist_1_1qm__operator_1_1Exchange.html">chemist::qm_operator::Exchange</a></div><div class="ttdef"><b>Definition:</b> exchange.hpp:25</div></div>
+<div class="ttc" id="aclasschemist_1_1qm__operator_1_1Identity_html"><div class="ttname"><a href="classchemist_1_1qm__operator_1_1Identity.html">chemist::qm_operator::Identity</a></div><div class="ttdoc">Represents the identity operator.</div><div class="ttdef"><b>Definition:</b> identity.hpp:28</div></div>
 <div class="ttc" id="aclasschemist_1_1qm__operator_1_1Kinetic_html"><div class="ttname"><a href="classchemist_1_1qm__operator_1_1Kinetic.html">chemist::qm_operator::Kinetic</a></div><div class="ttdoc">Describes the kinetic energy of a particle of type ParticleType.</div><div class="ttdef"><b>Definition:</b> kinetic.hpp:33</div></div>
 <div class="ttc" id="aclasschemist_1_1qm__operator_1_1OperatorVisitor_html"><div class="ttname"><a href="classchemist_1_1qm__operator_1_1OperatorVisitor.html">chemist::qm_operator::OperatorVisitor</a></div><div class="ttdoc">Base class for all operator visitors.</div><div class="ttdef"><b>Definition:</b> operator_visitor.hpp:63</div></div>
 <div class="ttc" id="aclasschemist_1_1qm__operator_1_1OperatorVisitor_html_ae637f06a1a170529f3bced472f2bbf78"><div class="ttname"><a href="classchemist_1_1qm__operator_1_1OperatorVisitor.html#ae637f06a1a170529f3bced472f2bbf78">chemist::qm_operator::OperatorVisitor::OperatorVisitor</a></div><div class="ttdeci">OperatorVisitor(bool should_throw=true)</div><div class="ttdoc">Creates a new visitor with the provided error policy.</div><div class="ttdef"><b>Definition:</b> operator_visitor.hpp:81</div></div>

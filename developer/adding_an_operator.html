@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Notes on Adding an Operator &mdash; Chemist v1.3.9 documentation</title>
+  <title>Notes on Adding an Operator &mdash; Chemist v1.3.10 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -13,7 +13,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=6376b1ea"></script>
+        <script src="../_static/documentation_options.js?v=ab1ebb28"></script>
         <script src="../_static/doctools.js?v=888ff710"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -36,7 +36,7 @@
               <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                v1.3.9
+                v1.3.10
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -96,20 +96,20 @@ are collected here for convenience.</p>
 <li><p>Forward declare it in
 include/chemist/quantum_mechanics/operator/operator_fwd.hpp</p></li>
 <li><p>Declare the class in
-include/chemist/quantum_mechanics/operator/operator_name.hpp</p></li>
-<li><p>Define the class in src/chemist/quantum_mechanics/operator/operator_name.cpp</p></li>
+include/chemist/quantum_mechanics/operator/&lt;operator_name&gt;.hpp</p></li>
+<li><p>Define the class in src/chemist/quantum_mechanics/operator/&lt;operator_name&gt;.cpp</p></li>
 <li><p>Add it to the OperatorVisitor class in
 include/chemist/quantum_mechanics/operator/operator_visitor.hpp</p></li>
 <li><p>Define the new OperatorVisitor functions in
 src/chemist/quantum_mechanics/operator/operator_visitor.cpp</p></li>
 <li><p>Add unit tests to
-tests/cxx/unit_tests/quantum_mechanics/operator/operator_name.cpp</p></li>
+tests/cxx/unit_tests/quantum_mechanics/operator/&lt;operator_name&gt;.cpp</p></li>
 <li><p>Add unit tests to
-tests/python/unit_tests/quantum_mechanics/operator/operator_name.py</p></li>
+tests/python/unit_tests/quantum_mechanics/operator/&lt;operator_name&gt;.py</p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>“operator_name” in the above file names should be replaced with your
+<p>“&lt;operator_name&gt;” in the above file names should be replaced with your
 operator’s actual name.</p>
 </div>
 <p>As a helpful hint, copy/paste <code class="docutils literal notranslate"><span class="pre">kinetic.hpp</span></code> / <code class="docutils literal notranslate"><span class="pre">kinetic.cpp</span></code> for one-

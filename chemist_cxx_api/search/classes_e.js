@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['tensorelement_756',['TensorElement',['../classchemist_1_1braket_1_1TensorElement.html',1,'chemist::braket']]],
-  ['tensorrepresentation_757',['TensorRepresentation',['../classchemist_1_1braket_1_1TensorRepresentation.html',1,'chemist::braket']]],
-  ['transformed_758',['Transformed',['../classchemist_1_1wavefunction_1_1Transformed.html',1,'chemist::wavefunction']]],
-  ['transformed_3c_20aos_20_3e_759',['Transformed&lt; AOs &gt;',['../classchemist_1_1wavefunction_1_1Transformed.html',1,'chemist::wavefunction']]]
+  ['shell_752',['Shell',['../classchemist_1_1basis__set_1_1Shell.html',1,'chemist::basis_set']]],
+  ['shellpimpl_753',['ShellPIMPL',['../classchemist_1_1basis__set_1_1detail___1_1ShellPIMPL.html',1,'chemist::basis_set::detail_']]],
+  ['shelltraits_754',['ShellTraits',['../structchemist_1_1basis__set_1_1ShellTraits.html',1,'chemist::basis_set']]],
+  ['shelltraits_3c_20atomicbstype_3a_3areference_20_3e_755',['ShellTraits&lt; AtomicBSType::reference &gt;',['../structchemist_1_1basis__set_1_1ShellTraits.html',1,'chemist::basis_set']]],
+  ['shellview_756',['ShellView',['../classchemist_1_1basis__set_1_1ShellView.html',1,'chemist::basis_set']]],
+  ['shellviewpimpl_757',['ShellViewPIMPL',['../classchemist_1_1basis__set_1_1detail___1_1ShellViewPIMPL.html',1,'chemist::basis_set::detail_']]]
 ];
