@@ -36,10 +36,10 @@ private:
 public:
     /// All are implemented by OperatorImpl. This exposes them to the user.
     ///@{
-    Identity() noexcept                          = default;
-    Identity(const Identity&)                    = default;
-    Identity(Identity&& rhs) noexcept            = default;
-    Identity& operator=(const Identity&)         = default;
+    Identity() noexcept               = default;
+    Identity(const Identity&)         = default;
+    Identity(Identity&& rhs) noexcept = default;
+    Identity& operator=(const Identity&) = default;
     Identity& operator=(Identity&& rhs) noexcept = default;
     ///@}
 
