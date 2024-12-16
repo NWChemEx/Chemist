@@ -14,30 +14,17 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "../../test_helpers.hpp"
+#include <chemist/quantum_mechanics/operator/identity.hpp>
 
-/** @file operator_fwd.hpp
- *
- *  This file contains forward declarations of the operator types found in
- *  Chemist.
- */
+using namespace chemist;
+using namespace chemist::qm_operator;
 
-namespace chemist::qm_operator {
-template<typename T, typename... Particles>
-class Density;
+TEST_CASE("Identity") {
+    Identity defaulted;
 
-template<typename T>
-class Kinetic;
-
-template<typename T, typename U>
-class Coulomb;
-
-template<typename T, typename U>
-class Exchange;
-
-template<typename T, typename U>
-class ExchangeCorrelation;
-
-class Identity;
-
-} // namespace chemist::qm_operator
+    SECTION("Ctors and assignment") {
+        REQUIRE(defaulted == Identity{});
+        test_chemist::test_copy_and_move(defaulted);
+    }
+}
