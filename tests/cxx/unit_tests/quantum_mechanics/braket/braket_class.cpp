@@ -79,6 +79,13 @@ TEMPLATE_LIST_TEST_CASE("BraKet", "", bra_ket_tuples) {
             REQUIRE(o_ij.op() == op);
             REQUIRE(o_ij.ket() == ket);
         }
+
+        SECTION("convert") {
+            BraKet<AOs, OperatorBase, AOs> o(o_ij);
+            REQUIRE(o.bra() == bra);
+            REQUIRE(o.op().are_equal(op));
+            REQUIRE(o.ket() == ket);
+        }
         SECTION("copy") {
             BraKet copy_o(o_ij);
             REQUIRE(copy_o == o_ij);
