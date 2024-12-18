@@ -39,6 +39,7 @@ template<typename BraType, typename OperatorType, typename KetType>
 using bra_ket_base_type =
   std::conditional_t<is_tensor_element_v<BraType, OperatorType, KetType>,
                      TensorElement<double>, TensorRepresentation>;
+
 } // namespace detail_
 
 /** @brief Specifies the calculation (or a piece of it) that the user wants.
@@ -55,6 +56,19 @@ private:
     /// Type of a pointer to a base operator
     using operator_base_pointer =
       typename chemist::qm_operator::OperatorBase::base_pointer;
+
+    template<typename FromBraType, typename FromOpType, typename FromKetType>
+    static constexpr auto braket_is_convertible_v =
+      (std::is_convertible_v<FromBraType*, BraType*> &&
+       std::is_convertible_v<FromOpType*, OperatorType*> &&
+       std::is_convertible_v<FromKetType*, KetType*>);
+
+    // template<typename OtherType>
+    // static constexpr auto is_my_type_v = std::is_same_t<my_type, OtherType>;
+
+    template<typename BraType2, typename OperatorType2, typename KetType2>
+    using enable_if_conversion_t = std::enable_if_t<
+      braket_is_convertible_v<BraType2, OperatorType2, KetType2>>;
 
 public:
     /// Type *this inherits from
@@ -124,6 +138,12 @@ public:
       m_tuple_{std::forward<BraType2>(bra),
                clone_op_(std::forward<OperatorType2>(op)),
                std::forward<KetType2>(ket)} {}
+
+    template<
+      typename BraType2, typename OperatorType2, typename KetType2,
+      typename = enable_if_conversion_t<BraType2, OperatorType2, KetType2>>
+    BraKet(const BraKet<BraType2, OperatorType2, KetType2>& other) :
+      BraKet(other.bra(), other.op(), other.ket()) {}
 
     /** @brief Initializes *this with a deep copy of @p other.
      *
