@@ -40,34 +40,14 @@ nwx_cxx_api_docs("${CHEMIST_SOURCE_DIR}" "${CHEMIST_INCLUDE_DIR}")
 cmaize_option_List(
     BUILD_TESTING OFF "Should we build the tests?"
     BUILD_PYBIND11_PYBINDINGS ON "Build Python bindings with pybind11?"
-    ENABLE_EXPERIMENTAL_FEATURES OFF "Build features which are not 1.0-ed yet?"
 )
 
 ### Dependencies ###
-cmaize_find_or_build_dependency(
-    parallelzone
-    URL github.com/NWChemEx/ParallelZone
-    BUILD_TARGET parallelzone
-    FIND_TARGET nwx::parallelzone
-    CMAKE_ARGS BUILD_TESTING=OFF
-)
+include(get_utilities)
 
-cmaize_find_or_build_dependency(
-    utilities
-    URL github.com/NWChemEx/utilities
-    BUILD_TARGET utilities
-    FIND_TARGET nwx::utilities
-    CMAKE_ARGS BUILD_TESTING=OFF
-)
+include(get_parallelzone)
 
-cmaize_find_or_build_dependency(
-    tensorwrapper
-    URL github.com/NWChemEx/TensorWrapper
-    VERSION ${NWX_TENSORWRAPPER_VERSION}
-    BUILD_TARGET tensorwrapper
-    FIND_TARGET nwx::tensorwrapper
-    CMAKE_ARGS BUILD_TESTING=OFF
-)
+include(get_tensorwrapper)
 
 find_package(Boost REQUIRED)
 
@@ -77,18 +57,6 @@ cmaize_add_library(
     INCLUDE_DIRS "${CHEMIST_INCLUDE_DIR}/chemist"
     DEPENDS tensorwrapper parallelzone utilities Boost::boost
 )
-
-if("${ENABLE_EXPERIMENTAL_FEATURES}")
-    cmaize_add_library(
-        experimental_${PROJECT_NAME}
-        SOURCE_DIR "${CHEMIST_EXP_DIR}/src/chemist"
-        INCLUDE_DIRS "${CHEMIST_EXP_DIR}/include/chemist"
-        DEPENDS ${PROJECT_NAME} tensorwrapper
-    )
-
-else()
-    add_library(experimental_${PROJECT_NAME} INTERFACE)
-endif()
 
 # N.B. this is a no-op if BUILD_PYBIND11_PYBINDINGS is not turned on
 include(nwx_pybind11)
@@ -103,62 +71,44 @@ if("${BUILD_TESTING}")
     set(PYTHON_TEST_DIR "${CHEMIST_TESTS_DIR}/python")
     set(EXAMPLES_SRC_DIR "${CXX_TEST_DIR}/doc_snippets")
 
-    cmaize_find_or_build_dependency(
-        Catch2
-        URL github.com/catchorg/Catch2
-        BUILD_TARGET Catch2
-        FIND_TARGET Catch2::Catch2
-        VERSION v3.6.0
-    )
+    include(get_catch2)
+
     cmaize_add_library(
         ${PROJECT_NAME}_examples
         SOURCE_DIR ${EXAMPLES_SRC_DIR}
         INCLUDE_DIRS ${EXAMPLES_SRC_DIR}
         DEPENDS Catch2::Catch2 ${PROJECT_NAME}
     )
+
     cmaize_add_tests(
         test_unit_chemist
         SOURCE_DIR "${CXX_TEST_DIR}/unit_tests"
         INCLUDE_DIRS "${CHEMIST_SOURCE_DIR}/chemist"
         DEPENDS Catch2 chemist
     )
+
     cmaize_add_tests(
         test_${PROJECT_NAME}_docs
         SOURCE_DIR ${EXAMPLES_SRC_DIR}
         INCLUDE_DIRS ${CHEMIST_SOURCE_DIR}/${PROJECT_NAME}
         DEPENDS Catch2::Catch2 ${PROJECT_NAME}
     )
+
     # N.B. these are no-ops if BUILD_PYBIND11_PYBINDINGS is not turned on
     nwx_pybind11_tests(
         py_chemist
         "${PYTHON_TEST_DIR}/unit_tests/test_chemist.py"
         SUBMODULES parallelzone
     )
+
     nwx_pybind11_tests(
         py_${PROJECT_NAME}_docs
         "${PYTHON_TEST_DIR}/doc_snippets/test_doc_snippets.py"
         SUBMODULES parallelzone
     )
-
-    if("${ENABLE_EXPERIMENTAL_FEATURES}")
-        cmaize_add_tests(
-            test_unit_experimental_${PROJECT_NAME}
-            SOURCE_DIR "${CHEMIST_EXP_DIR}/tests/cxx/unit_tests"
-            INCLUDE_DIRS "${CHEMIST_EXP_DIR}/src/chemist"
-            DEPENDS Catch2::Catch2 experimental_${PROJECT_NAME}
-        )
-
-        nwx_pybind11_tests(
-            py_experimental_${PROJECT_NAME}
-            "${CHEMIST_EXP_DIR}/tests/python/unit_tests/test_python.py"
-            SUBMODULES parallelzone
-        )
-
-    endif()
-
 endif()
 
 
 cmaize_add_package(
-    ${PROJECT_NAME} experimental_${PROJECT_NAME} NAMESPACE nwx::
+    ${PROJECT_NAME} NAMESPACE nwx::
 )
