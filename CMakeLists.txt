@@ -40,6 +40,7 @@ nwx_cxx_api_docs("${CHEMIST_SOURCE_DIR}" "${CHEMIST_INCLUDE_DIR}")
 cmaize_option_List(
     BUILD_TESTING OFF "Should we build the tests?"
     BUILD_PYBIND11_PYBINDINGS ON "Build Python bindings with pybind11?"
+    ENABLE_SIGMA OFF "Should we enable Sigma for uncertainty tracking?"
 )
 
 ### Dependencies ###
