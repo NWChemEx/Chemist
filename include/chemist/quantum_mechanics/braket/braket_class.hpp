@@ -153,7 +153,7 @@ public:
      *                        throw guarantee.
      */
     BraKet(const BraKet& other) :
-      BraKet(other.bra(), other.op(), other.ket()) {};
+      BraKet(other.bra(), other.op(), other.ket()){};
 
     /** @brief Initializes *this by taking the state from @p other.
      *
