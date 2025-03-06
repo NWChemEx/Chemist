@@ -38,7 +38,7 @@ namespace detail_ {
 template<typename BraType, typename OperatorType, typename KetType>
 using bra_ket_base_type =
   std::conditional_t<is_tensor_element_v<BraType, OperatorType, KetType>,
-                     TensorElement<double>, TensorRepresentation>;
+                     TensorRepresentation, TensorRepresentation>;
 
 } // namespace detail_
 
