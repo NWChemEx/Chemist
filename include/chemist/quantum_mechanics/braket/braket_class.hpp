@@ -38,7 +38,7 @@ namespace detail_ {
 template<typename BraType, typename OperatorType, typename KetType>
 using bra_ket_base_type =
   std::conditional_t<is_tensor_element_v<BraType, OperatorType, KetType>,
-                     TensorElement<double>, TensorRepresentation>;
+                     TensorRepresentation, TensorRepresentation>;
 
 } // namespace detail_
 
@@ -153,7 +153,7 @@ public:
      *                        throw guarantee.
      */
     BraKet(const BraKet& other) :
-      BraKet(other.bra(), other.op(), other.ket()){};
+      BraKet(other.bra(), other.op(), other.ket()) {};
 
     /** @brief Initializes *this by taking the state from @p other.
      *
