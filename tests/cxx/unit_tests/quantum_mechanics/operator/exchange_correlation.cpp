@@ -21,10 +21,10 @@ using namespace chemist;
 using namespace chemist::qm_operator;
 
 using types2test =
-  std::tuple<std::pair<Electron, Electron>,
-             std::pair<ManyElectrons, ManyElectrons>,
-             std::pair<Electron, Nuclei>, std::pair<ManyElectrons, Nuclei>,
-             std::pair<Nuclei, Nuclei>>;
+  std::tuple<std::pair<Electron, chemist::Density<Electron>>,
+             std::pair<ManyElectrons, chemist::Density<Electron>>,
+             std::pair<Electron, DecomposableDensity<Electron>>,
+             std::pair<ManyElectrons, DecomposableDensity<Electron>>>;
 
 TEMPLATE_LIST_TEST_CASE("ExchangeCorrelation", "", types2test) {
     auto defaulted_values = test_chemist::defaulted_particles();

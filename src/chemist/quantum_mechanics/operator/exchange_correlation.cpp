@@ -29,10 +29,10 @@ XC::ExchangeCorrelation(lhs_value_type p0, rhs_value_type p1) noexcept :
 #undef XC
 #undef TPARAMS
 
-template class ExchangeCorrelation<Electron, Electron>;
-template class ExchangeCorrelation<ManyElectrons, ManyElectrons>;
-template class ExchangeCorrelation<Electron, Nuclei>;
-template class ExchangeCorrelation<ManyElectrons, Nuclei>;
-template class ExchangeCorrelation<Nuclei, Nuclei>;
+template class ExchangeCorrelation<Electron, chemist::Density<Electron>>;
+template class ExchangeCorrelation<ManyElectrons, chemist::Density<Electron>>;
+template class ExchangeCorrelation<Electron, DecomposableDensity<Electron>>;
+template class ExchangeCorrelation<ManyElectrons,
+                                   DecomposableDensity<Electron>>;
 
 } // namespace chemist::qm_operator

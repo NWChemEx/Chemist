@@ -87,7 +87,7 @@ public:
     TWO_PARTICLE_OVERLOADS(Coulomb);
     DENSITY_OVERLOADS(Coulomb);
     DENSITY_OVERLOADS(Exchange);
-    TWO_PARTICLE_OVERLOADS(ExchangeCorrelation);
+    DENSITY_OVERLOADS(ExchangeCorrelation);
 
 private:
     /// Should *this throw if an unrecognized operator is found?

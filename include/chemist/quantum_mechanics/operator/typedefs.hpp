@@ -63,10 +63,8 @@ using J_e_type = Coulomb<ManyElectrons, DecomposableDensity<Electron>>;
 using k_e_type = Exchange<Electron, DecomposableDensity<Electron>>;
 using K_e_type = Exchange<ManyElectrons, DecomposableDensity<Electron>>;
 
-using xc_ee_type = ExchangeCorrelation<Electron, Electron>;
-using XC_ee_type = ExchangeCorrelation<ManyElectrons, ManyElectrons>;
-using xc_en_type = ExchangeCorrelation<Electron, Nuclei>;
-using XC_en_type = ExchangeCorrelation<ManyElectrons, Nuclei>;
-using XC_nn_type = ExchangeCorrelation<Nuclei, Nuclei>;
+using xc_e_type = ExchangeCorrelation<Electron, DecomposableDensity<Electron>>;
+using XC_ee_type =
+  ExchangeCorrelation<ManyElectrons, DecomposableDensity<Electron>>;
 
 } // namespace chemist::qm_operator::types
