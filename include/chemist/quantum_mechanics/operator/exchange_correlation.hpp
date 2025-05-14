@@ -19,6 +19,39 @@
 
 namespace chemist::qm_operator {
 
+/** @brief List of standardized XC functionals
+ *
+ *  In theory there are two ways to specify an XC functional:
+ *  1. Provide the explicit functional form including parameters.
+ *  2. Use one that has been "standardized" and named, and provide the name.
+ *
+ *  Overwhelmingly people tend to number 2. To aid in this effort we provide a
+ *  list of commonly encountered "standardized" functionals. Users can refer to
+ *  any of these functionals via the enum. If a user wants to use a functional,
+ *  standardized or not, for which we do not have enum they can specify "CUSTOM"
+ *  and provide the ExchangeCorrelation class with the functional form
+ *  (currently not supported).
+ *
+ *  @note The quotes around standardized are because they aren't as standardized
+ *        as people think they are...
+ */
+enum class xc_functional {
+    NONE,
+    CUSTOM,
+    SVWN3,
+    SVWN5,
+    BLYP,
+    B3LYP,
+    PBE,
+    revPBE,
+    PBE0
+};
+
+/** @brief Operator defining the exchange-correlation (XC) interaction.
+ *
+ *  @tparam LHSParticle The type of particle interacting with the XC potential.
+ *  @tparam RHSParticle The type of particle defining the XC potential.
+ */
 template<typename LHSParticle, typename RHSParticle>
 class ExchangeCorrelation
   : public detail_::OperatorImpl<ExchangeCorrelation<LHSParticle, RHSParticle>,
@@ -43,13 +76,24 @@ public:
       typename base_type::template const_particle_reference<1>;
     ///@}
 
-    explicit ExchangeCorrelation(lhs_value_type p0 = lhs_value_type{},
-                                 rhs_value_type p1 = rhs_value_type{}) noexcept;
+    /// Type used to specify the form of the XC functional
+    using functional_type = xc_functional;
+
+    /** @brief Creates an operator for the XC potential.
+     *
+     *  @param[in] func_name The name of the standardized XC functional to use.
+     *  @param[in] p0 The particle interacting with the potential.
+     *  @param[in] p1 The particle defining the potential.
+     */
+    explicit ExchangeCorrelation(
+      functional_type func_name = xc_functional::NONE,
+      lhs_value_type p0         = lhs_value_type{},
+      rhs_value_type p1         = rhs_value_type{}) noexcept;
 
     /// All implemented by OperatorImpl. This exposes them to the user.
     ///@{
-    ExchangeCorrelation(const ExchangeCorrelation&)         = default;
-    ExchangeCorrelation(ExchangeCorrelation&& rhs) noexcept = default;
+    ExchangeCorrelation(const ExchangeCorrelation&)            = default;
+    ExchangeCorrelation(ExchangeCorrelation&& rhs) noexcept    = default;
     ExchangeCorrelation& operator=(const ExchangeCorrelation&) = default;
     ExchangeCorrelation& operator=(ExchangeCorrelation&& rhs) noexcept =
       default;
@@ -111,6 +155,30 @@ public:
     const_rhs_reference rhs_particle() const {
         return base_type::template at<1>();
     }
+
+    /** @brief The name of the XC functional.
+     *
+     *  This will be something like PBE or BLYP.
+     *
+     *  @return A mutable reference to the name of the XC functional.
+     *
+     *  @throw None No throw guarantee.
+     */
+    auto& functional_name() noexcept { return m_xc_form_; }
+
+    /** @brief The name of the XC functional.
+     *
+     *  Same as the non-const version, except the result is read-only.
+     *
+     *  @return The name of the XC functional.
+     *
+     *  @throw None No throw guarantee.
+     */
+    auto functional_name() const noexcept { return m_xc_form_; }
+
+private:
+    /// The name of the XC functional's form.
+    functional_type m_xc_form_;
 };
 
 extern template class ExchangeCorrelation<Electron, chemist::Density<Electron>>;

@@ -41,17 +41,19 @@ TEMPLATE_LIST_TEST_CASE("ExchangeCorrelation", "", types2test) {
     using xc_type = ExchangeCorrelation<lhs_type, rhs_type>;
 
     xc_type defaulted;
-    xc_type value(corr_lhs_value, corr_rhs_value);
+    xc_type value(xc_functional::PBE, corr_lhs_value, corr_rhs_value);
 
     SECTION("Ctors and assignment") {
         SECTION("Defaulted") {
             REQUIRE(defaulted.lhs_particle() == corr_lhs_defaulted);
             REQUIRE(defaulted.rhs_particle() == corr_rhs_defaulted);
+            REQUIRE(defaulted.functional_name() == xc_functional::NONE);
         }
 
         SECTION("Value") {
             REQUIRE(value.lhs_particle() == corr_lhs_value);
             REQUIRE(value.rhs_particle() == corr_rhs_value);
+            REQUIRE(value.functional_name() == xc_functional::PBE);
         }
 
         test_chemist::test_copy_and_move(defaulted, value);
@@ -75,5 +77,16 @@ TEMPLATE_LIST_TEST_CASE("ExchangeCorrelation", "", types2test) {
     SECTION("rhs_particle() const") {
         REQUIRE(std::as_const(defaulted).rhs_particle() == corr_rhs_defaulted);
         REQUIRE(std::as_const(value).rhs_particle() == corr_rhs_value);
+    }
+
+    SECTION("functional_name()") {
+        REQUIRE(defaulted.functional_name() == xc_functional::NONE);
+        REQUIRE(value.functional_name() == xc_functional::PBE);
+    }
+
+    SECTION("functional_name() const") {
+        REQUIRE(std::as_const(defaulted).functional_name() ==
+                xc_functional::NONE);
+        REQUIRE(std::as_const(value).functional_name() == xc_functional::PBE);
     }
 }
