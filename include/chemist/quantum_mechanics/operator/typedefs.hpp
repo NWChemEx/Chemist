@@ -64,7 +64,7 @@ using k_e_type = Exchange<Electron, DecomposableDensity<Electron>>;
 using K_e_type = Exchange<ManyElectrons, DecomposableDensity<Electron>>;
 
 using xc_e_type = ExchangeCorrelation<Electron, DecomposableDensity<Electron>>;
-using XC_ee_type =
+using XC_e_type =
   ExchangeCorrelation<ManyElectrons, DecomposableDensity<Electron>>;
 
 } // namespace chemist::qm_operator::types
