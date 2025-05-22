@@ -23,16 +23,17 @@ namespace chemist::qm_operator {
 #define XC ExchangeCorrelation<LHSParticleType, RHSParticleType>
 
 TPARAMS
-XC::ExchangeCorrelation(lhs_value_type p0, rhs_value_type p1) noexcept :
-  base_type(std::move(p0), std::move(p1)) {}
+XC::ExchangeCorrelation(functional_type func_name, lhs_value_type p0,
+                        rhs_value_type p1) noexcept :
+  base_type(std::move(p0), std::move(p1)), m_xc_form_(func_name) {}
 
 #undef XC
 #undef TPARAMS
 
-template class ExchangeCorrelation<Electron, Electron>;
-template class ExchangeCorrelation<ManyElectrons, ManyElectrons>;
-template class ExchangeCorrelation<Electron, Nuclei>;
-template class ExchangeCorrelation<ManyElectrons, Nuclei>;
-template class ExchangeCorrelation<Nuclei, Nuclei>;
+template class ExchangeCorrelation<Electron, chemist::Density<Electron>>;
+template class ExchangeCorrelation<ManyElectrons, chemist::Density<Electron>>;
+template class ExchangeCorrelation<Electron, DecomposableDensity<Electron>>;
+template class ExchangeCorrelation<ManyElectrons,
+                                   DecomposableDensity<Electron>>;
 
 } // namespace chemist::qm_operator
