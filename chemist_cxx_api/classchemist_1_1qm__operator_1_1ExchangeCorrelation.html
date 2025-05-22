@@ -67,18 +67,24 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classchemist_1_1qm__operator_1_1ExchangeCorrelation-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">chemist::qm_operator::ExchangeCorrelation&lt; LHSParticle, RHSParticle &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Operator defining the exchange-correlation (XC) interaction.  
+ <a href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="exchange__correlation_8hpp_source.html">exchange_correlation.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for chemist::qm_operator::ExchangeCorrelation&lt; LHSParticle, RHSParticle &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classchemist_1_1qm__operator_1_1ExchangeCorrelation__inherit__graph.png" border="0" usemap="#achemist_1_1qm__operator_1_1ExchangeCorrelation_3_01LHSParticle_00_01RHSParticle_01_4_inherit__map" alt="Inheritance graph"/></div>
 <map name="achemist_1_1qm__operator_1_1ExchangeCorrelation_3_01LHSParticle_00_01RHSParticle_01_4_inherit__map" id="achemist_1_1qm__operator_1_1ExchangeCorrelation_3_01LHSParticle_00_01RHSParticle_01_4_inherit__map">
-<area shape="rect" title=" " alt="" coords="483,20,691,76"/>
+<area shape="rect" title="Operator defining the exchange&#45;correlation (XC) interaction." alt="" coords="483,20,691,76"/>
 <area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="219,5,435,91"/>
 <area shape="rect" href="classchemist_1_1qm__operator_1_1OperatorBase.html" title="Class defining the common API for all operators." alt="" coords="5,27,171,69"/>
 </map>
@@ -88,7 +94,7 @@ Collaboration diagram for chemist::qm_operator::ExchangeCorrelation&lt; LHSParti
 <div class="dyncontent">
 <div class="center"><img src="classchemist_1_1qm__operator_1_1ExchangeCorrelation__coll__graph.png" border="0" usemap="#achemist_1_1qm__operator_1_1ExchangeCorrelation_3_01LHSParticle_00_01RHSParticle_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="achemist_1_1qm__operator_1_1ExchangeCorrelation_3_01LHSParticle_00_01RHSParticle_01_4_coll__map" id="achemist_1_1qm__operator_1_1ExchangeCorrelation_3_01LHSParticle_00_01RHSParticle_01_4_coll__map">
-<area shape="rect" title=" " alt="" coords="483,20,691,76"/>
+<area shape="rect" title="Operator defining the exchange&#45;correlation (XC) interaction." alt="" coords="483,20,691,76"/>
 <area shape="rect" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="219,5,435,91"/>
 <area shape="rect" href="classchemist_1_1qm__operator_1_1OperatorBase.html" title="Class defining the common API for all operators." alt="" coords="5,27,171,69"/>
 </map>
@@ -96,6 +102,10 @@ Collaboration diagram for chemist::qm_operator::ExchangeCorrelation&lt; LHSParti
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
+<tr class="memitem:a824da288a7b3a2c7bc3edf9c00d8f7d3"><td class="memItemLeft" align="right" valign="top"><a id="a824da288a7b3a2c7bc3edf9c00d8f7d3"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a824da288a7b3a2c7bc3edf9c00d8f7d3">functional_type</a> = xc_functional</td></tr>
+<tr class="memdesc:a824da288a7b3a2c7bc3edf9c00d8f7d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to specify the form of the XC functional. <br /></td></tr>
+<tr class="separator:a824da288a7b3a2c7bc3edf9c00d8f7d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
 <tr class="memitem:a8f1842a9e406333c91c22f01c25092e3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a8f1842a9e406333c91c22f01c25092e3">lhs_value_type</a> = typename base_type::template <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html#a8a8bf9d2e8a126641b038f025b09331d">particle_type</a>&lt; 0 &gt;</td></tr>
 <tr class="separator:a8f1842a9e406333c91c22f01c25092e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -151,9 +161,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2fbea034a79bd05837dcd1361cb99512"><td class="memItemLeft" align="right" valign="top"><a id="a2fbea034a79bd05837dcd1361cb99512"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ExchangeCorrelation</b> (<a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a8f1842a9e406333c91c22f01c25092e3">lhs_value_type</a> p0=<a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a8f1842a9e406333c91c22f01c25092e3">lhs_value_type</a>{}, rhs_value_type p1=rhs_value_type{}) noexcept</td></tr>
-<tr class="separator:a2fbea034a79bd05837dcd1361cb99512"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f514264db12c5478fcd12bda98912f0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a9f514264db12c5478fcd12bda98912f0">ExchangeCorrelation</a> (<a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a824da288a7b3a2c7bc3edf9c00d8f7d3">functional_type</a> func_name=xc_functional::NONE, <a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a8f1842a9e406333c91c22f01c25092e3">lhs_value_type</a> p0=<a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a8f1842a9e406333c91c22f01c25092e3">lhs_value_type</a>{}, rhs_value_type p1=rhs_value_type{}) noexcept</td></tr>
+<tr class="memdesc:a9f514264db12c5478fcd12bda98912f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an operator for the XC potential.  <a href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a9f514264db12c5478fcd12bda98912f0">More...</a><br /></td></tr>
+<tr class="separator:a9f514264db12c5478fcd12bda98912f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8537bc6d88a408527e1d26815129f7f8"><td class="memItemLeft" align="right" valign="top"><a id="a8537bc6d88a408527e1d26815129f7f8"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a8537bc6d88a408527e1d26815129f7f8">~ExchangeCorrelation</a> () noexcept=default</td></tr>
 <tr class="memdesc:a8537bc6d88a408527e1d26815129f7f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defaulted, nothrow dtor. <br /></td></tr>
@@ -170,6 +180,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a13b4296fd75f0ca10d6568596dbbb790"><td class="memItemLeft" align="right" valign="top">const_rhs_reference&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a13b4296fd75f0ca10d6568596dbbb790">rhs_particle</a> () const</td></tr>
 <tr class="memdesc:a13b4296fd75f0ca10d6568596dbbb790"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a read-only reference to the rhs particle.  <a href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a13b4296fd75f0ca10d6568596dbbb790">More...</a><br /></td></tr>
 <tr class="separator:a13b4296fd75f0ca10d6568596dbbb790"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b52f5bce0d0d71f3b5f5fac346fa358"><td class="memItemLeft" align="right" valign="top">auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a7b52f5bce0d0d71f3b5f5fac346fa358">functional_name</a> () noexcept</td></tr>
+<tr class="memdesc:a7b52f5bce0d0d71f3b5f5fac346fa358"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name of the XC functional.  <a href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a7b52f5bce0d0d71f3b5f5fac346fa358">More...</a><br /></td></tr>
+<tr class="separator:a7b52f5bce0d0d71f3b5f5fac346fa358"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07c1bf37e57b4f9ceab9d93476cda018"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a07c1bf37e57b4f9ceab9d93476cda018">functional_name</a> () const noexcept</td></tr>
+<tr class="memdesc:a07c1bf37e57b4f9ceab9d93476cda018"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name of the XC functional.  <a href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a07c1bf37e57b4f9ceab9d93476cda018">More...</a><br /></td></tr>
+<tr class="separator:a07c1bf37e57b4f9ceab9d93476cda018"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
 <tr class="memitem:a59a5c1fbc991a04df72f599d6828c102"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a59a5c1fbc991a04df72f599d6828c102">ExchangeCorrelation</a> (const <a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html">ExchangeCorrelation</a> &amp;)=default</td></tr>
 <tr class="separator:a59a5c1fbc991a04df72f599d6828c102"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -300,7 +316,19 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>visit_</b> (<a class=
 <tr class="memdesc:a977d8454f2589a04a294cf491dc938bb inherit pro_methods_classchemist_1_1qm__operator_1_1OperatorBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">No-op, no throw move assignment to be used by derived class only! <br /></td></tr>
 <tr class="separator:a977d8454f2589a04a294cf491dc938bb inherit pro_methods_classchemist_1_1qm__operator_1_1OperatorBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Typedef Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename LHSParticle, typename RHSParticle&gt;<br />
+class chemist::qm_operator::ExchangeCorrelation&lt; LHSParticle, RHSParticle &gt;</h3>
+
+<p>Operator defining the exchange-correlation (XC) interaction. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">LHSParticle</td><td>The type of particle interacting with the XC potential. </td></tr>
+    <tr><td class="paramname">RHSParticle</td><td>The type of particle defining the XC potential. </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a8f1842a9e406333c91c22f01c25092e3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8f1842a9e406333c91c22f01c25092e3">&#9670;&nbsp;</a></span>lhs_value_type</h2>
 
@@ -319,8 +347,62 @@ template&lt;typename LHSParticle , typename RHSParticle &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a9f514264db12c5478fcd12bda98912f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f514264db12c5478fcd12bda98912f0">&#9670;&nbsp;</a></span>ExchangeCorrelation() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename LHSParticle , typename RHSParticle &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html">chemist::qm_operator::ExchangeCorrelation</a>&lt; LHSParticle, RHSParticle &gt;::<a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html">ExchangeCorrelation</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a824da288a7b3a2c7bc3edf9c00d8f7d3">functional_type</a>&#160;</td>
+          <td class="paramname"><em>func_name</em> = <code>xc_functional::NONE</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a8f1842a9e406333c91c22f01c25092e3">lhs_value_type</a>&#160;</td>
+          <td class="paramname"><em>p0</em> = <code><a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html#a8f1842a9e406333c91c22f01c25092e3">lhs_value_type</a>{}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">rhs_value_type&#160;</td>
+          <td class="paramname"><em>p1</em> = <code>rhs_value_type{}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates an operator for the XC potential. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">func_name</td><td>The name of the standardized XC functional to use. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">p0</td><td>The particle interacting with the potential. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">p1</td><td>The particle defining the potential. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a59a5c1fbc991a04df72f599d6828c102"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59a5c1fbc991a04df72f599d6828c102">&#9670;&nbsp;</a></span>ExchangeCorrelation()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a59a5c1fbc991a04df72f599d6828c102">&#9670;&nbsp;</a></span>ExchangeCorrelation() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -349,6 +431,80 @@ template&lt;typename LHSParticle , typename RHSParticle &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a07c1bf37e57b4f9ceab9d93476cda018"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07c1bf37e57b4f9ceab9d93476cda018">&#9670;&nbsp;</a></span>functional_name() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename LHSParticle , typename RHSParticle &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html">chemist::qm_operator::ExchangeCorrelation</a>&lt; LHSParticle, RHSParticle &gt;::functional_name </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The name of the XC functional. </p>
+<p>Same as the non-const version, except the result is read-only.</p>
+<dl class="section return"><dt>Returns</dt><dd>The name of the XC functional.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7b52f5bce0d0d71f3b5f5fac346fa358"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b52f5bce0d0d71f3b5f5fac346fa358">&#9670;&nbsp;</a></span>functional_name() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename LHSParticle , typename RHSParticle &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto&amp; <a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html">chemist::qm_operator::ExchangeCorrelation</a>&lt; LHSParticle, RHSParticle &gt;::functional_name </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The name of the XC functional. </p>
+<p>This will be something like PBE or BLYP.</p>
+<dl class="section return"><dt>Returns</dt><dd>A mutable reference to the name of the XC functional.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a87a7d52fac6195b4401a30c496080ee2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a87a7d52fac6195b4401a30c496080ee2">&#9670;&nbsp;</a></span>lhs_particle() <span class="overload">[1/2]</span></h2>
 
@@ -375,7 +531,7 @@ template&lt;typename LHSParticle , typename RHSParticle &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the lhs particle. </p>
-<p>The <a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html">ExchangeCorrelation</a> energy is a two particle operator. We term the first particle the lhs particle (short for left hand side). This method can be used to retrieve the lhs particle.</p>
+<p>The <a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html" title="Operator defining the exchange-correlation (XC) interaction.">ExchangeCorrelation</a> energy is a two particle operator. We term the first particle the lhs particle (short for left hand side). This method can be used to retrieve the lhs particle.</p>
 <p>This is a convenience function for calling the base class's at member.</p>
 <dl class="section return"><dt>Returns</dt><dd>A mutable reference to the lhs particle.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
@@ -450,7 +606,7 @@ template&lt;typename LHSParticle , typename RHSParticle &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the rhs particle. </p>
-<p>The <a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html">ExchangeCorrelation</a> energy is a two particle operator. We term the second particle the rhs particle (short for right hand side). This method can be used to retrieve the rhs particle.</p>
+<p>The <a class="el" href="classchemist_1_1qm__operator_1_1ExchangeCorrelation.html" title="Operator defining the exchange-correlation (XC) interaction.">ExchangeCorrelation</a> energy is a two particle operator. We term the second particle the rhs particle (short for right hand side). This method can be used to retrieve the rhs particle.</p>
 <p>This is a convenience function for calling the base class's at member.</p>
 <dl class="section return"><dt>Returns</dt><dd>A mutable reference to the rhs particle.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
