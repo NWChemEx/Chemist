@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nucleus &mdash; Chemist v1.3.15 documentation</title>
+  <title>Nucleus &mdash; Chemist v1.3.16 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
@@ -14,7 +14,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=f3172596"></script>
+        <script src="../../_static/documentation_options.js?v=c4efaffc"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -38,7 +38,7 @@
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                v1.3.15
+                v1.3.16
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -173,13 +173,13 @@ z-coordinate of the nucleus - charge: charge of the nucleus in atomic units</p>
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
 
-<span class="kn">import</span> <span class="nn">chemist</span>
-<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">chemist</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
 
 
-<span class="k">class</span> <span class="nc">TestStringMethods</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TestStringMethods</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">testAtom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">testAtom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Creating Nucleus objects using different constructors</span>
         <span class="n">n0</span> <span class="o">=</span> <span class="n">chemist</span><span class="o">.</span><span class="n">Nucleus</span><span class="p">()</span>
         <span class="n">n1</span> <span class="o">=</span> <span class="n">chemist</span><span class="o">.</span><span class="n">Nucleus</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.0079</span><span class="p">)</span>
