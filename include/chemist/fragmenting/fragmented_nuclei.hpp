@@ -121,6 +121,19 @@ public:
      */
     explicit FragmentedNuclei(supersystem_type supersystem);
 
+    /** @brief Creates an empty object.
+     *
+     *  This ctor works the same as the other ctor for creating an empty object,
+     *  except that it takes a view of the supersystem. See the description for
+     *  the by-value overload for more details.
+     *
+     *  @param[in] supersystem The object *this will hold fragments of.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating memory. Strong
+     *                        throw guarantee.
+     */
+    explicit FragmentedNuclei(const_supersystem_reference supersystem);
+
     /** @brief Initializes *this with the provided set of fragments.
      *
      *  @param[in] supersystem The object that is being fragmented.
@@ -133,6 +146,24 @@ public:
      *                        state. Strong throw guarantee.
      */
     FragmentedNuclei(supersystem_type supersystem, nucleus_map_type frags);
+
+    /** @brief Initializes *this with the provided set of fragments.
+     *
+     *  This overload dispatches to previous overload after copying
+     *  @p supersystem. See the description for the other overload for more
+     *  details.
+     *
+     *  @param[in] supersystem The object that is being fragmented.
+     *  @param[in] frags A container-of-containers object such that
+     *                   `frags[i][j]` is the offset (with respect to
+     *                   @p supersystem) of the `j`-th nucleus in the `i`-th
+     *                   fragment.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the initial
+     *                        state. Strong throw guarantee.
+     */
+    FragmentedNuclei(const_supersystem_reference supersystem,
+                     nucleus_map_type frags);
 
     /** @brief Initializes *this from fragments and a set of caps.
      *
@@ -148,6 +179,25 @@ public:
      */
     FragmentedNuclei(supersystem_type supersystem, nucleus_map_type frags,
                      cap_set_type caps);
+
+    /** @brief Initializes *this from fragments and a set of caps.
+     *
+     *  This overload dispatches to previous overload after copying
+     *  @p supersystem. See the description for the other overload for more
+     *  details.
+     *
+     *  @param[in] supersystem The object being fragmented.
+     *  @param[in] frags A container-of-containers object such that
+     *                   `frags[i][j]` is the offset (with respect to
+     *                   @p supersystem) of the `j`-th nucleus in the `i`-th
+     *                   fragment.
+     *  @param[in] caps The caps for fixing severed bonds.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the initial
+     *                        state. Strong throw guarantee.
+     */
+    FragmentedNuclei(const_supersystem_reference supersystem,
+                     nucleus_map_type frags, cap_set_type caps);
 
     /** @brief Initializes *this to a copy of @p other.
      *

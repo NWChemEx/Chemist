@@ -121,15 +121,30 @@ FRAGMENTED_NUCLEI::FragmentedNuclei(supersystem_type supersystem) :
   FragmentedNuclei(std::move(supersystem), nucleus_map_type{}) {}
 
 TPARAMS
+FRAGMENTED_NUCLEI::FragmentedNuclei(const_supersystem_reference supersystem) :
+  FragmentedNuclei(supersystem.as_nuclei()) {}
+
+TPARAMS
 FRAGMENTED_NUCLEI::FragmentedNuclei(supersystem_type supersystem,
                                     nucleus_map_type frags) :
   FragmentedNuclei(std::move(supersystem), std::move(frags), cap_set_type{}) {}
+
+TPARAMS
+FRAGMENTED_NUCLEI::FragmentedNuclei(const_supersystem_reference supersystem,
+                                    nucleus_map_type frags) :
+  FragmentedNuclei(supersystem.as_nuclei(), std::move(frags)) {}
 
 TPARAMS
 FRAGMENTED_NUCLEI::FragmentedNuclei(supersystem_type supersystem,
                                     nucleus_map_type frags, cap_set_type caps) :
   m_pimpl_(std::make_unique<pimpl_type>(std::move(supersystem),
                                         std::move(frags), std::move(caps))) {}
+
+TPARAMS
+FRAGMENTED_NUCLEI::FragmentedNuclei(const_supersystem_reference supersystem,
+                                    nucleus_map_type frags, cap_set_type caps) :
+  FragmentedNuclei(supersystem.as_nuclei(), std::move(frags), std::move(caps)) {
+}
 
 TPARAMS
 FRAGMENTED_NUCLEI::FragmentedNuclei(const FragmentedNuclei& other) :

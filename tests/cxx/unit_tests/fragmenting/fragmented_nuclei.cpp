@@ -29,6 +29,10 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
     // Non-cv qualified supersystem type
     using supersystem_type = typename set_type::supersystem_type;
 
+    // Type of a read-only reference to the supersystem
+    using const_supersystem_reference =
+      typename set_type::const_supersystem_reference;
+
     // Type of a reference to a fragment
     using fragment_reference = typename set_type::reference;
 
@@ -52,6 +56,7 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
     nucleus_type h2("H", 1ul, 1.0, 8.0, 9.0, 0.0);
 
     supersystem_type ss{h0, h1, h2};
+    const_supersystem_reference ss_ref(ss);
     index_set_type i0{0}, i1{1}, i2{2}, i01{0, 1}, i12{1, 2};
 
     fragment_map_type disjoint;
@@ -113,6 +118,12 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
             REQUIRE(no_frags.supersystem() == ss);
         }
 
+        SECTION("Empty (reference)") {
+            set_type no_frags_ref(ss_ref);
+            REQUIRE(no_frags_ref.size() == 0);
+            REQUIRE(no_frags_ref.supersystem() == ss);
+        }
+
         SECTION("Frags, but no caps") {
             REQUIRE(disjoint_no_caps.size() == 3);
             REQUIRE(disjoint_no_caps[0] == corr0);
@@ -124,6 +135,19 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
             REQUIRE(nondisjoint_no_caps[1] == corr12);
         }
 
+        SECTION("Frags, but no caps (reference)") {
+            set_type disjoint_no_caps_ref(ss_ref, disjoint);
+            REQUIRE(disjoint_no_caps_ref.size() == 3);
+            REQUIRE(disjoint_no_caps_ref[0] == corr0);
+            REQUIRE(disjoint_no_caps_ref[1] == corr1);
+            REQUIRE(disjoint_no_caps_ref[2] == corr2);
+
+            set_type nondisjoint_no_caps_ref(ss_ref, nondisjoint);
+            REQUIRE(nondisjoint_no_caps_ref.size() == 2);
+            REQUIRE(nondisjoint_no_caps_ref[0] == corr01);
+            REQUIRE(nondisjoint_no_caps_ref[1] == corr12);
+        }
+
         SECTION("Frags with caps") {
             REQUIRE(disjoint_caps.size() == 3);
             REQUIRE(disjoint_caps[0] == corr0_cap);
@@ -133,6 +157,19 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
             REQUIRE(nondisjoint_caps.size() == 2);
             REQUIRE(nondisjoint_caps[0] == corr01);
             REQUIRE(nondisjoint_caps[1] == corr12_cap);
+        }
+
+        SECTION("Frags with caps (reference)") {
+            set_type disjoint_caps_ref(ss_ref, disjoint, caps);
+            REQUIRE(disjoint_caps_ref.size() == 3);
+            REQUIRE(disjoint_caps_ref[0] == corr0_cap);
+            REQUIRE(disjoint_caps_ref[1] == corr1_cap);
+            REQUIRE(disjoint_caps_ref[2] == corr2);
+
+            set_type nondisjoint_caps_ref(ss_ref, nondisjoint, caps);
+            REQUIRE(nondisjoint_caps_ref.size() == 2);
+            REQUIRE(nondisjoint_caps_ref[0] == corr01);
+            REQUIRE(nondisjoint_caps_ref[1] == corr12_cap);
         }
 
         SECTION("copy") {
