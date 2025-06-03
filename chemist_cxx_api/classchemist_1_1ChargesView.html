@@ -169,6 +169,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5ae6659ad263bb3601cfe2b3d082f152"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChargesView.html#a5ae6659ad263bb3601cfe2b3d082f152">ChargesView</a> (<a class="el" href="classchemist_1_1ChargesView.html#a02da413881641cf9b9b3310f793942dc">charges_reference</a> charges)</td></tr>
 <tr class="memdesc:a5ae6659ad263bb3601cfe2b3d082f152"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1ChargesView.html" title="Enables treating state like it&#39;s a reference to a Charges object.">ChargesView</a> object which aliases <code>charges</code>.  <a href="classchemist_1_1ChargesView.html#a5ae6659ad263bb3601cfe2b3d082f152">More...</a><br /></td></tr>
 <tr class="separator:a5ae6659ad263bb3601cfe2b3d082f152"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23f9497bc839629f7f7f61e1a798cdbe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChargesView.html#a23f9497bc839629f7f7f61e1a798cdbe">ChargesView</a> (<a class="el" href="classchemist_1_1ChargesView.html#aa08d0b769a7117e4b84221006c77cb48">point_set_reference</a> points, <a class="el" href="classchemist_1_1ChargesView.html#a57ed9c9831b565d859b83022af41464b">charge_pointer</a> pq)</td></tr>
+<tr class="memdesc:a23f9497bc839629f7f7f61e1a798cdbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1ChargesView.html" title="Enables treating state like it&#39;s a reference to a Charges object.">ChargesView</a> that aliases <code>points</code> and <code>pq</code>.  <a href="classchemist_1_1ChargesView.html#a23f9497bc839629f7f7f61e1a798cdbe">More...</a><br /></td></tr>
+<tr class="separator:a23f9497bc839629f7f7f61e1a798cdbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adce67781caf14286f8b00e308ddba326"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1ChargesView.html#adce67781caf14286f8b00e308ddba326">ChargesView</a> (const <a class="el" href="classchemist_1_1ChargesView.html">ChargesView</a> &amp;other)</td></tr>
 <tr class="memdesc:adce67781caf14286f8b00e308ddba326"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new alias to the <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> object aliased by <code>other</code>.  <a href="classchemist_1_1ChargesView.html#adce67781caf14286f8b00e308ddba326">More...</a><br /></td></tr>
 <tr class="separator:adce67781caf14286f8b00e308ddba326"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -219,7 +222,7 @@ class chemist::ChargesView&lt; ChargesType &gt;</h3>
 <p><a class="el" href="classchemist_1_1ChargesView.html" title="Enables treating state like it&#39;s a reference to a Charges object.">ChargesView</a> objects act like an alias of a <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> object. In practice, the <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> object need not actually exist and the <a class="el" href="classchemist_1_1ChargesView.html" title="Enables treating state like it&#39;s a reference to a Charges object.">ChargesView</a> object can allocate state which is not tied to a <a class="el" href="classchemist_1_1Charges.html" title="Represents a container of PointCharge objects.">Charges</a> object. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad8910157ed9515862c8d61201f54f56e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8910157ed9515862c8d61201f54f56e">&#9670;&nbsp;</a></span>ChargesView() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8910157ed9515862c8d61201f54f56e">&#9670;&nbsp;</a></span>ChargesView() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -255,7 +258,7 @@ template&lt;typename ChargesType &gt; </div>
 </div>
 </div>
 <a id="a5ae6659ad263bb3601cfe2b3d082f152"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5ae6659ad263bb3601cfe2b3d082f152">&#9670;&nbsp;</a></span>ChargesView() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ae6659ad263bb3601cfe2b3d082f152">&#9670;&nbsp;</a></span>ChargesView() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -289,8 +292,54 @@ template&lt;typename ChargesType &gt; </div>
 
 </div>
 </div>
+<a id="a23f9497bc839629f7f7f61e1a798cdbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23f9497bc839629f7f7f61e1a798cdbe">&#9670;&nbsp;</a></span>ChargesView() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ChargesType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1ChargesView.html">chemist::ChargesView</a>&lt; ChargesType &gt;::<a class="el" href="classchemist_1_1ChargesView.html">ChargesView</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1ChargesView.html#aa08d0b769a7117e4b84221006c77cb48">point_set_reference</a>&#160;</td>
+          <td class="paramname"><em>points</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1ChargesView.html#a57ed9c9831b565d859b83022af41464b">charge_pointer</a>&#160;</td>
+          <td class="paramname"><em>pq</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a <a class="el" href="classchemist_1_1ChargesView.html" title="Enables treating state like it&#39;s a reference to a Charges object.">ChargesView</a> that aliases <code>points</code> and <code>pq</code>. </p>
+<p>This ctor is used to alias a <a class="el" href="classchemist_1_1PointSet.html" title="A container filled with Point objects.">PointSet</a> that is aliasing its points and a a set of contiguous charges.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">points</td><td>A view of the points. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pq</td><td>A pointer such that <code>*(pq + i)</code> is the charge for <code>points[i]</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the state. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="adce67781caf14286f8b00e308ddba326"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adce67781caf14286f8b00e308ddba326">&#9670;&nbsp;</a></span>ChargesView() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#adce67781caf14286f8b00e308ddba326">&#9670;&nbsp;</a></span>ChargesView() <span class="overload">[4/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -325,7 +374,7 @@ template&lt;typename ChargesType &gt; </div>
 </div>
 </div>
 <a id="a5c1249d70bcf62bb886fefd612cbb58a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c1249d70bcf62bb886fefd612cbb58a">&#9670;&nbsp;</a></span>ChargesView() <span class="overload">[4/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c1249d70bcf62bb886fefd612cbb58a">&#9670;&nbsp;</a></span>ChargesView() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
