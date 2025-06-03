@@ -53,6 +53,15 @@ void test_charges_view_guts() {
             REQUIRE(charges[2] == q2);
         }
 
+        SECTION("points and charges") {
+            view_type ps_and_qs(charges_qs.point_set(),
+                                charges_qs.charge_data());
+            REQUIRE(ps_and_qs.size() == 3);
+            REQUIRE(ps_and_qs[0] == q0);
+            REQUIRE(ps_and_qs[1] == q1);
+            REQUIRE(ps_and_qs[2] == q2);
+        }
+
         SECTION("Copy") {
             view_type defaulted_copy(defaulted);
             REQUIRE(defaulted == defaulted_copy);
