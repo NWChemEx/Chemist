@@ -124,6 +124,20 @@ public:
      */
     ChargesView(charges_reference charges);
 
+    /** @brief Creates a ChargesView that aliases @p points and @p pq.
+     *
+     *  This ctor is used to alias a PointSet that is aliasing its points and a
+     *  a set of contiguous charges.
+     *
+     *  @param[in] points A view of the points.
+     *  @param[in] pq A pointer such that `*(pq + i)` is the charge for
+     *                `points[i]`.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the state. Strong
+     *                        throw guarantee.
+     */
+    ChargesView(point_set_reference points, charge_pointer pq);
+
     /** @brief Creates a new alias to the Charges object aliased by @p other.
      *
      *  This ctor is a shallow copy of the aliased Charges object and a deep

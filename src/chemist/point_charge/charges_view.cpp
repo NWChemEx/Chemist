@@ -31,8 +31,12 @@ CHARGES_VIEW::ChargesView() noexcept = default;
 
 TPARAMS
 CHARGES_VIEW::ChargesView(charges_reference charges) :
+  ChargesView(charges.point_set(), charges.charge_data()) {}
+
+TPARAMS
+CHARGES_VIEW::ChargesView(point_set_reference points, charge_pointer pcharges) :
   m_pimpl_(std::make_unique<detail_::ChargesContiguous<ChargesType>>(
-    charges.point_set(), charges.charge_data())) {}
+    points, pcharges)) {}
 
 TPARAMS
 CHARGES_VIEW::ChargesView(const ChargesView& other) :
