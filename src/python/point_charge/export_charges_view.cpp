@@ -30,20 +30,27 @@ void export_charges_view_(const char* name, python_module_reference m) {
     using size_type           = typename view_type::size_type;
     using point_set_reference = typename view_type::point_set_reference;
 
+    auto get_point_set_fxn = [](reference self) { return self.point_set(); };
+    auto set_point_set_fxn = [](reference self, point_set_reference points) {
+        self.point_set() = points;
+    };
+
     auto str_fxn = [](const view_type& charges) {
         std::ostringstream stream;
         stream << charges;
         return stream.str();
     };
 
+    pybind11::keep_alive<0, 1> ka;
+
     python_class_type<view_type>(m, name)
       .def(pybind11::init<>())
       .def(pybind11::init<charges_type&>())
       .def_property(
-        "point_set", [](reference self) { return self.point_set(); },
-        [](reference self, point_set_reference points) {
-            self.point_set() = points;
-        })
+        "point_set",
+        pybind11::cpp_function(
+          get_point_set_fxn, pybind11::return_value_policy::take_ownership, ka),
+        pybind11::cpp_function(set_point_set_fxn))
       .def("empty", [](reference self) { return self.empty(); })
       .def("at", [](reference self, size_type i) { return self[i]; })
       .def("size", [](reference self) { return self.size(); })

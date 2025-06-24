@@ -60,17 +60,23 @@ void export_nuclei(python_module_reference m) {
     };
     //}
 
+    pybind11::keep_alive<0, 1> ka;
+
     python_class_type<nuclei_type>(m, "Nuclei")
       .def(pybind11::init<>())
       .def(pybind11::init(list_ctor))
-      .def_property("charges", get_charges_fxn, set_charges_fxn)
+      .def_property(
+        "charges",
+        pybind11::cpp_function(
+          get_charges_fxn, pybind11::return_value_policy::take_ownership, ka),
+        pybind11::cpp_function(set_charges_fxn))
       .def("empty", [](nuclei_reference self) { return self.empty(); })
       .def("push_back", push_back)
       .def("at", [](nuclei_reference self, size_type i) { return self[i]; })
       .def("size", [](nuclei_reference self) { return self.size(); })
       .def("__repr__", str_fxn)
       .def("__str__", str_fxn)
-      .def("__iter__", iter_fxn, pybind11::keep_alive<0, 1>())
+      .def("__iter__", iter_fxn, ka)
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self != pybind11::self);
 }
