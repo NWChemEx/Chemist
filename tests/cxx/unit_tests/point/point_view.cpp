@@ -16,6 +16,7 @@
 
 #include "../catch.hpp"
 #include <chemist/point/point_view.hpp>
+#include <utility>
 
 using namespace chemist;
 

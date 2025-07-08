@@ -16,6 +16,7 @@
 
 #include "../catch.hpp"
 #include <chemist/basis_set/primitive.hpp>
+#include <utility>
 
 TEMPLATE_TEST_CASE("Primitive", "", float, double) {
     using prim_type   = chemist::basis_set::Primitive<TestType>;

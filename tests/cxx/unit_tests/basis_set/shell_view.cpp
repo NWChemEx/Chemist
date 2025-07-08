@@ -17,6 +17,7 @@
 #include "../catch.hpp"
 #include <chemist/basis_set/shell_traits.hpp>
 #include <chemist/basis_set/shell_view.hpp>
+#include <utility>
 
 using namespace chemist::basis_set;
 

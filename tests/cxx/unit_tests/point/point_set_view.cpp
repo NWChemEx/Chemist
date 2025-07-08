@@ -32,6 +32,7 @@
 
 #include "../catch.hpp"
 #include <chemist/point/point_set_view.hpp>
+#include <utility>
 #include <vector>
 
 template<typename PointSetType>

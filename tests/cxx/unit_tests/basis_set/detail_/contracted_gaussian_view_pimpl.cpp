@@ -17,6 +17,7 @@
 #include "../../catch.hpp"
 #include <chemist/basis_set/detail_/contracted_gaussian_view_pimpl.hpp>
 #include <chemist/basis_set/primitive.hpp>
+#include <utility>
 
 using namespace chemist::basis_set;
 using namespace chemist::basis_set::detail_;

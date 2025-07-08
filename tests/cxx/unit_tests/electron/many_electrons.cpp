@@ -16,6 +16,7 @@
 
 #include "../test_helpers.hpp"
 #include <chemist/electron/many_electrons.hpp>
+#include <utility>
 
 TEST_CASE("ManyElectrons") {
     using chemist::ManyElectrons;
