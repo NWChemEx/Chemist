@@ -17,6 +17,7 @@
 #include "../../catch.hpp"
 #include <chemist/point/detail_/point_set_contiguous.hpp>
 #include <vector>
+#include <utility>
 
 template<typename PointSetType>
 void test_point_set_contiguous_guts() {

@@ -16,6 +16,7 @@
 
 #include "../catch.hpp"
 #include <chemist/point_charge/point_charge_view.hpp>
+#include <utility>
 
 using namespace chemist;
 

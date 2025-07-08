@@ -17,6 +17,7 @@
 #include "../catch.hpp"
 #include <chemist/basis_set/contracted_gaussian.hpp>
 #include <chemist/basis_set/contracted_gaussian_traits.hpp>
+#include <utility>
 
 using namespace chemist::basis_set;
 

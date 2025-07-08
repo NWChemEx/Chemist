@@ -16,6 +16,7 @@
 
 #include "../../catch.hpp"
 #include <chemist/point_charge/detail_/charges_pimpl.hpp>
+#include <utility>
 
 using namespace chemist::detail_;
 

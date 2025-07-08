@@ -16,6 +16,7 @@
 
 #include "../../catch.hpp"
 #include <chemist/point/detail_/point_set_pimpl.hpp>
+#include <utility>
 
 using namespace chemist;
 using namespace chemist::detail_;

@@ -16,6 +16,7 @@
 
 #include "../catch.hpp"
 #include <chemist/basis_set/primitive_view.hpp>
+#include <utility>
 
 using namespace chemist::basis_set;
 

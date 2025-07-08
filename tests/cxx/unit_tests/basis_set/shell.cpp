@@ -18,6 +18,7 @@
 #include <chemist/basis_set/shell.hpp>
 #include <chemist/basis_set/shell_traits.hpp>
 #include <sstream>
+#include <utility>
 
 using namespace chemist::basis_set;
 

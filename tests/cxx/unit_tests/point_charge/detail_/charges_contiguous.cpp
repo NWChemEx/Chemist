@@ -16,6 +16,7 @@
 
 #include "../../catch.hpp"
 #include <chemist/point_charge/detail_/charges_contiguous.hpp>
+#include <utility>
 
 template<typename ChargesType>
 void test_case_guts() {
