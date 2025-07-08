@@ -32,8 +32,8 @@
 
 #include "../catch.hpp"
 #include <chemist/point/point_set_view.hpp>
-#include <vector>
 #include <utility>
+#include <vector>
 
 template<typename PointSetType>
 void test_point_set_view_guts() {
