@@ -12,27 +12,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist.basis_set import AtomicBasisSetViewF, AtomicBasisSetViewD
-from chemist.basis_set import AtomicBasisSetF, AtomicBasisSetD
-from chemist.basis_set import ShellF, ShellD
-from chemist.basis_set import ContractedGaussianF, ContractedGaussianD
-from chemist.basis_set import PrimitiveF, PrimitiveD
-from chemist import PointF, PointD
-from chemist import ShellType
 import unittest
+
+from chemist import PointD, PointF, ShellType
+from chemist.basis_set import (
+    AtomicBasisSetD,
+    AtomicBasisSetF,
+    AtomicBasisSetViewD,
+    AtomicBasisSetViewF,
+    ContractedGaussianD,
+    ContractedGaussianF,
+    PrimitiveD,
+    PrimitiveF,
+    ShellD,
+    ShellF,
+)
 
 
 def make_abs_view_test_case(abs_view_type):
     """
     The test cases for AtomicBasisSetViewF and AtomicBasisSetViewD are basically
-    the same aside from the types of the class. This function essentially 
+    the same aside from the types of the class. This function essentially
     templates the test case on the type of the point.
 
     :param point_type: Either ``AtomicBasisSetViewF`` or ``AtomicBasisSetViewD``
     """
 
     class TestAtomicBasisSetView(unittest.TestCase):
-
         def test_ctor(self):
             self.assertEqual(self.defaulted.n_aos(), 0)
             self.assertEqual(self.defaulted.n_primitives(), 0)
@@ -42,8 +48,9 @@ def make_abs_view_test_case(abs_view_type):
 
             self.assertEqual(self.from_abs.basis_set_name, "name")
             self.assertEqual(self.from_abs.atomic_number, 0)
-            self.assertEqual(self.from_abs.center,
-                             self.center_type(0.0, 0.1, 0.2))
+            self.assertEqual(
+                self.from_abs.center, self.center_type(0.0, 0.1, 0.2)
+            )
             self.assertEqual(self.from_abs.n_aos(), 1)
             self.assertEqual(self.from_abs.n_primitives(), 1)
             self.assertFalse(self.from_abs.empty())
@@ -63,11 +70,13 @@ def make_abs_view_test_case(abs_view_type):
             self.assertEqual(self.abs.atomic_number, 1)
 
         def test_center(self):
-            self.assertEqual(self.from_abs.center,
-                             self.center_type(0.0, 0.1, 0.2))
+            self.assertEqual(
+                self.from_abs.center, self.center_type(0.0, 0.1, 0.2)
+            )
             self.from_abs.center = self.center_type(1.0, 0.1, 0.2)
-            self.assertEqual(self.from_abs.center,
-                             self.center_type(1.0, 0.1, 0.2))
+            self.assertEqual(
+                self.from_abs.center, self.center_type(1.0, 0.1, 0.2)
+            )
             self.assertEqual(self.abs.center, self.center_type(1.0, 0.1, 0.2))
 
         def test_n_aos(self):
@@ -85,8 +94,10 @@ def make_abs_view_test_case(abs_view_type):
             self.assertEqual(self.from_abs.primitive_to_shell(0), 0)
 
         def test_primitive(self):
-            self.assertEqual(self.from_abs.primitive(0),
-                             self.prim_type(0.0, 1.0, 0.0, 0.1, 0.2))
+            self.assertEqual(
+                self.from_abs.primitive(0),
+                self.prim_type(0.0, 1.0, 0.0, 0.1, 0.2),
+            )
 
         def test_empty(self):
             self.assertTrue(self.defaulted.empty())
@@ -95,7 +106,8 @@ def make_abs_view_test_case(abs_view_type):
         def test_at(self):
             self.assertEqual(
                 self.from_abs.at(0),
-                self.shell_type(self.pure, 0, [0.0], [1.0], 0.0, 0.1, 0.2))
+                self.shell_type(self.pure, 0, [0.0], [1.0], 0.0, 0.1, 0.2),
+            )
 
         def test_size(self):
             self.assertEqual(self.defaulted.size(), 0)
@@ -116,9 +128,9 @@ def make_abs_view_test_case(abs_view_type):
 
             # Compare with viewed type
             default_viewed = self.abs_type()
-            other_viewed = self.abs_type("name", 0,
-                                         self.center_type(0.0, 0.1, 0.2),
-                                         [self.shell])
+            other_viewed = self.abs_type(
+                "name", 0, self.center_type(0.0, 0.1, 0.2), [self.shell]
+            )
 
             self.assertEqual(self.defaulted, default_viewed)
             self.assertFalse(self.defaulted != default_viewed)
@@ -131,22 +143,28 @@ def make_abs_view_test_case(abs_view_type):
             self.assertFalse(self.from_abs == default_viewed)
 
             # Different name
-            abs1 = self.abs_type("different name", 0,
-                                 self.center_type(0.0, 0.1, 0.2), [self.shell])
+            abs1 = self.abs_type(
+                "different name",
+                0,
+                self.center_type(0.0, 0.1, 0.2),
+                [self.shell],
+            )
             absv1 = abs_view_type(abs1)
             self.assertNotEqual(self.from_abs, absv1)
             self.assertTrue(self.from_abs != absv1)
 
             # Different atomic number
-            abs2 = self.abs_type("name", 1, self.center_type(0.0, 0.1, 0.2),
-                                 [self.shell])
+            abs2 = self.abs_type(
+                "name", 1, self.center_type(0.0, 0.1, 0.2), [self.shell]
+            )
             absv2 = abs_view_type(abs2)
             self.assertNotEqual(self.from_abs, absv2)
             self.assertTrue(self.from_abs != absv2)
 
             # Different center
-            abs3 = self.abs_type("name", 0, self.center_type(1.0, 0.1, 0.2),
-                                 [self.shell])
+            abs3 = self.abs_type(
+                "name", 0, self.center_type(1.0, 0.1, 0.2), [self.shell]
+            )
             absv3 = abs_view_type(abs3)
             self.assertNotEqual(self.from_abs, absv3)
             self.assertTrue(self.from_abs != absv3)
@@ -175,11 +193,12 @@ def make_abs_view_test_case(abs_view_type):
 
             # Some inputs
             self.pure = ShellType.pure
-            self.shell = self.shell_type(self.pure, 0, [0.0], [1.0], 0.0, 0.0,
-                                         0.0)
-            self.abs = self.abs_type("name", 0,
-                                     self.center_type(0.0, 0.1,
-                                                      0.2), [self.shell])
+            self.shell = self.shell_type(
+                self.pure, 0, [0.0], [1.0], 0.0, 0.0, 0.0
+            )
+            self.abs = self.abs_type(
+                "name", 0, self.center_type(0.0, 0.1, 0.2), [self.shell]
+            )
 
             # The instances being tested
             self.defaulted = abs_view_type()

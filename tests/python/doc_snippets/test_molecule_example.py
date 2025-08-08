@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import chemist
 import unittest
+
+import chemist
 
 
 class TestStringMethods(unittest.TestCase):
-
     def testMolecule(self):
         # Begin constructors
         # Default constructor, no atoms, charge = 0.0, multiplicity = 1
@@ -49,6 +49,7 @@ class TestStringMethods(unittest.TestCase):
 
         # Accessing the charge
         m1_charge = m1.charge()
+        assert m1_charge == 0.0
         assert m0.charge() == 0.0
         assert m1.charge() == 0.0
         assert m2.charge() == 1.0
@@ -65,7 +66,7 @@ class TestStringMethods(unittest.TestCase):
         # Comparing Molecule objects
         assert m0 != m1
         assert m1 != m2
-        assert m2 == m2  # This might be a typo in the original C++ code. m2 is being compared to itself.
+        assert m2 == m2
 
         # Modifying the properties of a Molecule object
         m1.set_charge(1)

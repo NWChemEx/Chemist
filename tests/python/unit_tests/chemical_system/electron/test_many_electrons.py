@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import chemist
 import unittest
+
+import chemist
 
 
 class TestManyElectrons(unittest.TestCase):
-
     def test_default_ctor(self):
         self.assertEqual(self.defaulted.size(), 0)
 

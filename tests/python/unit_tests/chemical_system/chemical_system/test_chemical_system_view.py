@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import chemist
 import unittest
+
+import chemist
 
 
 class TestChemicalSystemView(unittest.TestCase):
-
     def test_molecule(self):
         self.assertEqual(self.defaulted.molecule, self.default_mol)
         self.assertEqual(self.has_default_mol.molecule, self.default_mol)

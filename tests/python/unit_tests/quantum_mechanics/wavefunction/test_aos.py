@@ -12,14 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist.wavefunction import AOs
-from chemist.basis_set import AOBasisSetD
 import unittest
+
+from chemist.wavefunction import AOs
+
+from chemist.basis_set import AOBasisSetD
+
 from ..test_qm import h2_basis
 
 
 class TestAOs(unittest.TestCase):
-
     def test_default_ctor(self):
         self.assertEqual(self.defaulted.size(), 0)
         self.assertEqual(self.defaulted.ao_basis_set, AOBasisSetD())

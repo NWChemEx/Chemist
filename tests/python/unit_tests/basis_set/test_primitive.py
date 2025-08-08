@@ -12,22 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist.basis_set import PrimitiveF, PrimitiveD
-from chemist import PointF, PointD
 import unittest
+
+from chemist import PointD, PointF
+from chemist.basis_set import PrimitiveD, PrimitiveF
 
 
 def make_primitive_test_case(prim_type, center_type):
     """
-    The test cases for PrimitiveF and PrimitiveD are basically the same aside 
-    from the types of the class. This function essentially templates the test 
+    The test cases for PrimitiveF and PrimitiveD are basically the same aside
+    from the types of the class. This function essentially templates the test
     case on the type of the point.
 
     :param point_type: Either ``PrimitiveF`` or ``PrimitiveD``
     """
 
     class TestPrimitive(unittest.TestCase):
-
         def test_ctor(self):
             self.assertTrue(self.defaulted.is_null())
             self.assertEqual(self.defaulted.coefficient, 0.0)
@@ -37,24 +37,28 @@ def make_primitive_test_case(prim_type, center_type):
 
             self.assertEqual(self.from_coords.coefficient, 0.0)
             self.assertEqual(self.from_coords.exponent, 1.0)
-            self.assertEqual(self.from_coords.center,
-                             center_type(2.0, 3.0, 4.0))
+            self.assertEqual(
+                self.from_coords.center, center_type(2.0, 3.0, 4.0)
+            )
             self.assertFalse(self.from_coords.is_null())
 
             self.assertEqual(self.from_center.coefficient, 5.0)
             self.assertEqual(self.from_center.exponent, 6.0)
-            self.assertEqual(self.from_center.center,
-                             center_type(7.0, 8.0, 9.0))
+            self.assertEqual(
+                self.from_center.center, center_type(7.0, 8.0, 9.0)
+            )
             self.assertFalse(self.from_center.is_null())
 
         def test_center(self):
-            self.assertEqual(self.from_coords.center,
-                             center_type(2.0, 3.0, 4.0))
+            self.assertEqual(
+                self.from_coords.center, center_type(2.0, 3.0, 4.0)
+            )
 
             self.from_coords.center = center_type(7.0, 8.0, 9.0)
 
-            self.assertEqual(self.from_coords.center,
-                             center_type(7.0, 8.0, 9.0))
+            self.assertEqual(
+                self.from_coords.center, center_type(7.0, 8.0, 9.0)
+            )
 
         def test_coefficient(self):
             self.assertEqual(self.from_coords.coefficient, 0.0)

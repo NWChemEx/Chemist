@@ -523,14 +523,14 @@ void Molecule::save(Archive& ar) const {
 template<typename Archive>
 void Molecule::load(Archive& ar) {
     bool has_pimpl = false;
-    ar& has_pimpl;
+    ar & has_pimpl;
     if(has_pimpl) {
         charge_type q;
         multiplicity_type m;
         nuclei_type nuclei;
-        ar& q;
-        ar& m;
-        ar& nuclei;
+        ar & q;
+        ar & m;
+        ar & nuclei;
         Molecule(q, m, nuclei).swap(*this);
     }
 }

@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import chemist
 import unittest
+
+import chemist
 
 
 class TestMoleculeView(unittest.TestCase):
-
     def test_empty(self):
         self.assertTrue(self.defaulted.empty())
         self.assertFalse(self.has_value.empty())
@@ -75,7 +75,7 @@ class TestMoleculeView(unittest.TestCase):
     def test_iter(self):
         # Default
         for atom in self.defaulted:
-            self.fail('Should not iterate over empty molecule')
+            self.fail("Should not iterate over empty molecule")
 
         # Has value
         for i, atom in enumerate(self.has_value):
@@ -85,7 +85,7 @@ class TestMoleculeView(unittest.TestCase):
         self.defaulted_mol = chemist.Molecule()
         self.defaulted = chemist.MoleculeView(self.defaulted_mol)
         self.a0 = chemist.Atom()
-        self.a1 = chemist.Atom('H', 1, 1.0, 2.0, 3.0, 4.0, 5.0)
+        self.a1 = chemist.Atom("H", 1, 1.0, 2.0, 3.0, 4.0, 5.0)
         self.has_value_mol = chemist.Molecule()
         self.has_value_mol.push_back(self.a0)
         self.has_value_mol.push_back(self.a1)

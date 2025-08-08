@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist.fragmenting import Cap
-from chemist import Nucleus
 import unittest
+
+from chemist import Nucleus
+from chemist.fragmenting import Cap
 
 
 class TestCap(unittest.TestCase):
-
     def test_default_ctor(self):
         self.assertEqual(len(self.defaulted), 0)
 

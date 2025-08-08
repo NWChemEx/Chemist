@@ -21,7 +21,7 @@ Chemist Motivation
 
 .. note::
 
-   Some of the todos on this page are partially addressed in the overview and 
+   Some of the todos on this page are partially addressed in the overview and
    should be moved here.
 
 TODO: explain traditional stack (UI to computation)

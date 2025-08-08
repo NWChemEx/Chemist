@@ -12,17 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist.basis_set import ShellF, ShellD
-from chemist.basis_set import ContractedGaussianF, ContractedGaussianD
-from chemist.basis_set import PrimitiveF, PrimitiveD
-from chemist import PointF, PointD
-from chemist import ShellType
 import unittest
+
+from chemist import PointD, PointF, ShellType
+from chemist.basis_set import (
+    ContractedGaussianD,
+    ContractedGaussianF,
+    PrimitiveD,
+    PrimitiveF,
+    ShellD,
+    ShellF,
+)
 
 
 def make_shell_test_case(shell_type):
     """
-    The test cases for ShellF and ShellD are basically the same aside from the 
+    The test cases for ShellF and ShellD are basically the same aside from the
     types of the class. This function essentially templates the test case on the
     type of the point.
 
@@ -30,7 +35,6 @@ def make_shell_test_case(shell_type):
     """
 
     class TestShell(unittest.TestCase):
-
         def test_ctor(self):
             self.assertTrue(self.defaulted.is_null())
             self.assertEqual(self.defaulted.size(), 0)
@@ -41,30 +45,42 @@ def make_shell_test_case(shell_type):
             self.assertEqual(self.with_inputs1.n_primitives(), 1)
             self.assertEqual(self.with_inputs1.pure, ShellType.pure)
             self.assertEqual(self.with_inputs1.l, 0)
-            self.assertEqual(self.with_inputs1.contracted_gaussian,
-                             self.cg_type([0.0], [1.0], 2.0, 3.0, 4.0))
-            self.assertEqual(self.with_inputs1.primitive(0),
-                             self.prim_type(0.0, 1.0, 2.0, 3.0, 4.0))
+            self.assertEqual(
+                self.with_inputs1.contracted_gaussian,
+                self.cg_type([0.0], [1.0], 2.0, 3.0, 4.0),
+            )
+            self.assertEqual(
+                self.with_inputs1.primitive(0),
+                self.prim_type(0.0, 1.0, 2.0, 3.0, 4.0),
+            )
 
             self.assertFalse(self.with_inputs2.is_null())
             self.assertEqual(self.with_inputs2.size(), 3)
             self.assertEqual(self.with_inputs2.n_primitives(), 1)
             self.assertEqual(self.with_inputs2.pure, ShellType.cartesian)
             self.assertEqual(self.with_inputs2.l, 1)
-            self.assertEqual(self.with_inputs2.contracted_gaussian,
-                             self.cg_type([5.0], [6.0], 7.0, 8.0, 9.0))
-            self.assertEqual(self.with_inputs2.primitive(0),
-                             self.prim_type(5.0, 6.0, 7.0, 8.0, 9.0))
+            self.assertEqual(
+                self.with_inputs2.contracted_gaussian,
+                self.cg_type([5.0], [6.0], 7.0, 8.0, 9.0),
+            )
+            self.assertEqual(
+                self.with_inputs2.primitive(0),
+                self.prim_type(5.0, 6.0, 7.0, 8.0, 9.0),
+            )
 
             self.assertFalse(self.with_inputs3.is_null())
             self.assertEqual(self.with_inputs3.size(), 6)
             self.assertEqual(self.with_inputs3.n_primitives(), 1)
             self.assertEqual(self.with_inputs3.pure, ShellType.cartesian)
             self.assertEqual(self.with_inputs3.l, 2)
-            self.assertEqual(self.with_inputs3.contracted_gaussian,
-                             self.cg_type([10.0], [11.0], 7.0, 8.0, 9.0))
-            self.assertEqual(self.with_inputs3.primitive(0),
-                             self.prim_type(10.0, 11.0, 7.0, 8.0, 9.0))
+            self.assertEqual(
+                self.with_inputs3.contracted_gaussian,
+                self.cg_type([10.0], [11.0], 7.0, 8.0, 9.0),
+            )
+            self.assertEqual(
+                self.with_inputs3.primitive(0),
+                self.prim_type(10.0, 11.0, 7.0, 8.0, 9.0),
+            )
 
         def test_pure(self):
             self.assertTrue(self.defaulted.is_null())
@@ -82,28 +98,34 @@ def make_shell_test_case(shell_type):
 
         def test_contracted_gaussian(self):
             self.assertTrue(self.defaulted.is_null())
-            self.assertEqual(self.defaulted.contracted_gaussian,
-                             self.cg_type())
+            self.assertEqual(
+                self.defaulted.contracted_gaussian, self.cg_type()
+            )
             self.assertFalse(self.defaulted.is_null())
 
-            self.assertEqual(self.with_inputs1.contracted_gaussian,
-                             self.cg_type([0.0], [1.0], 2.0, 3.0, 4.0))
+            self.assertEqual(
+                self.with_inputs1.contracted_gaussian,
+                self.cg_type([0.0], [1.0], 2.0, 3.0, 4.0),
+            )
 
         def test_center(self):
             self.assertTrue(self.defaulted.is_null())
             self.assertEqual(self.defaulted.center, self.center_type())
             self.assertFalse(self.defaulted.is_null())
 
-            self.assertEqual(self.with_inputs1.center,
-                             self.center_type(2.0, 3.0, 4.0))
+            self.assertEqual(
+                self.with_inputs1.center, self.center_type(2.0, 3.0, 4.0)
+            )
 
         def test_n_primitives(self):
             self.assertEqual(self.defaulted.n_primitives(), 0)
             self.assertEqual(self.with_inputs1.n_primitives(), 1)
 
         def test_primitive(self):
-            self.assertEqual(self.with_inputs1.primitive(0),
-                             self.prim_type(0.0, 1.0, 2.0, 3.0, 4.0))
+            self.assertEqual(
+                self.with_inputs1.primitive(0),
+                self.prim_type(0.0, 1.0, 2.0, 3.0, 4.0),
+            )
 
         def test_size(self):
             self.assertEqual(self.defaulted.size(), 0)
@@ -120,8 +142,9 @@ def make_shell_test_case(shell_type):
             self.assertFalse(self.defaulted != other_default)
 
             # Non-default
-            other_with_inputs = shell_type(self.pure, 0, [0.0], [1.0], 2.0,
-                                           3.0, 4.0)
+            other_with_inputs = shell_type(
+                self.pure, 0, [0.0], [1.0], 2.0, 3.0, 4.0
+            )
             self.assertEqual(self.with_inputs1, other_with_inputs)
             self.assertFalse(self.with_inputs1 != other_with_inputs)
 
@@ -159,10 +182,12 @@ def make_shell_test_case(shell_type):
 
             # The instances being tested
             self.defaulted = shell_type()
-            self.with_inputs1 = shell_type(self.pure, 0, [0.0], [1.0], 2.0,
-                                           3.0, 4.0)
-            self.with_inputs2 = shell_type(self.cart, 1, [5.0], [6.0],
-                                           self.center)
+            self.with_inputs1 = shell_type(
+                self.pure, 0, [0.0], [1.0], 2.0, 3.0, 4.0
+            )
+            self.with_inputs2 = shell_type(
+                self.cart, 1, [5.0], [6.0], self.center
+            )
             self.with_inputs3 = shell_type(self.cart, 2, self.cg)
 
     return TestShell

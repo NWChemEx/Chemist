@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import chemist
 import unittest
+
+import chemist
 
 
 class TestStringMethods(unittest.TestCase):
-
     def testAtom(self):
         # Creating Atom objects using different constructors
         # Begin constructors
@@ -42,6 +42,14 @@ class TestStringMethods(unittest.TestCase):
         a5 = chemist.Atom()
         # Explicit constructor with the given states
         a6 = chemist.Atom("He", 2, 4.0026, 0.0, 0.0, 1.0, 2.0, 3)
+
+        # a0 and a5 are the same
+        assert a0 == a5
+
+        # a0, a1, a2, and a3 are all different
+        assert a0 != a1
+        assert a0 != a2
+        assert a0 != a3
 
         # a5 and a6 are different atoms
         assert a5 != a6

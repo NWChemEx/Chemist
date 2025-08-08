@@ -48,9 +48,9 @@ public:
 
     /// All implemented by OperatorImpl. This exposes them to the user.
     ///@{
-    Exchange(const Exchange&)         = default;
-    Exchange(Exchange&& rhs) noexcept = default;
-    Exchange& operator=(const Exchange&) = default;
+    Exchange(const Exchange&)                    = default;
+    Exchange(Exchange&& rhs) noexcept            = default;
+    Exchange& operator=(const Exchange&)         = default;
     Exchange& operator=(Exchange&& rhs) noexcept = default;
     ///@}
 

@@ -12,27 +12,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist.basis_set import AOBasisSetF, AOBasisSetD
-from chemist.basis_set import AtomicBasisSetF, AtomicBasisSetD
-from chemist.basis_set import ShellF, ShellD
-from chemist.basis_set import ContractedGaussianF, ContractedGaussianD
-from chemist.basis_set import PrimitiveF, PrimitiveD
-from chemist import PointF, PointD
-from chemist import ShellType
 import unittest
+
+from chemist import PointD, PointF, ShellType
+from chemist.basis_set import (
+    AOBasisSetD,
+    AOBasisSetF,
+    AtomicBasisSetD,
+    AtomicBasisSetF,
+    ContractedGaussianD,
+    ContractedGaussianF,
+    PrimitiveD,
+    PrimitiveF,
+    ShellD,
+    ShellF,
+)
 
 
 def make_aobs_test_case(aobs_type):
     """
     The test cases for AOBasisSetF and AOBasisSetD are basically the same aside
-    from the types of the class. This function essentially templates the test 
+    from the types of the class. This function essentially templates the test
     case on the type of the point.
 
     :param point_type: Either ``AOBasisSetF`` or ``AOBasisSetD``
     """
 
     class TestAOBasisSet(unittest.TestCase):
-
         def test_ctor(self):
             self.assertEqual(self.defaulted.n_shells(), 0)
             self.assertEqual(self.defaulted.n_aos(), 0)
@@ -62,7 +68,8 @@ def make_aobs_test_case(aobs_type):
         def test_shell(self):
             self.assertEqual(
                 self.has_abs.shell(0),
-                self.shell_type(self.pure, 0, [0.0], [0.1], 1.0, 1.1, 1.2))
+                self.shell_type(self.pure, 0, [0.0], [0.1], 1.0, 1.1, 1.2),
+            )
 
         def test_primitive_range(self):
             self.assertEqual(self.has_abs.primitive_range(0), (0, 1))
@@ -76,8 +83,10 @@ def make_aobs_test_case(aobs_type):
             self.assertEqual(self.has_abs.n_primitives(), 1)
 
         def test_primitive(self):
-            self.assertEqual(self.has_abs.primitive(0),
-                             self.prim_type(0.0, 0.1, 1.0, 1.1, 1.2))
+            self.assertEqual(
+                self.has_abs.primitive(0),
+                self.prim_type(0.0, 0.1, 1.0, 1.1, 1.2),
+            )
 
         def test_empty(self):
             self.assertTrue(self.defaulted.empty())
@@ -115,9 +124,9 @@ def make_aobs_test_case(aobs_type):
             self.assertNotEqual(self.defaulted, self.has_abs)
             self.assertTrue(self.defaulted != self.has_abs)
 
-            other_abs = self.abs_type("name", 1,
-                                      self.center_type(2.0, 2.1,
-                                                       2.2), [self.shell])
+            other_abs = self.abs_type(
+                "name", 1, self.center_type(2.0, 2.1, 2.2), [self.shell]
+            )
             has_different_abs = aobs_type()
             has_different_abs.add_center(other_abs)
             self.assertNotEqual(self.has_abs, has_different_abs)
@@ -140,11 +149,12 @@ def make_aobs_test_case(aobs_type):
 
             # Some inputs
             self.pure = ShellType.pure
-            self.shell = self.shell_type(self.pure, 0, [0.0], [0.1], 0.2, 0.3,
-                                         0.4)
-            self.abs = self.abs_type("name", 1,
-                                     self.center_type(1.0, 1.1,
-                                                      1.2), [self.shell])
+            self.shell = self.shell_type(
+                self.pure, 0, [0.0], [0.1], 0.2, 0.3, 0.4
+            )
+            self.abs = self.abs_type(
+                "name", 1, self.center_type(1.0, 1.1, 1.2), [self.shell]
+            )
 
             # The instances being tested
             self.defaulted = aobs_type()

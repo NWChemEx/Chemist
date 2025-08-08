@@ -305,7 +305,7 @@ template<typename Archive>
 void PointSet<T>::save(Archive& ar) const {
     ar& this->size();
     if(this->size()) {
-        for(const auto& x : *this) ar& x.as_point();
+        for(const auto& x : *this) ar & x.as_point();
     }
 }
 
@@ -313,11 +313,11 @@ template<typename T>
 template<typename Archive>
 void PointSet<T>::load(Archive& ar) {
     size_type size;
-    ar& size;
+    ar & size;
     if(size) {
         value_type p;
         for(size_type _ = 0; _ < size; ++_) {
-            ar& p;
+            ar & p;
             push_back(p);
         }
     }

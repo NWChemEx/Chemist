@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import chemist
 import unittest
+
+import chemist
 
 
 class TestNucleiView(unittest.TestCase):
-
     def test_empty(self):
         self.assertTrue(self.defaulted.empty())
         self.assertFalse(self.has_value.empty())
@@ -67,23 +67,27 @@ class TestNucleiView(unittest.TestCase):
     def test_iter(self):
         # Empty
         for n in self.defaulted:
-            self.fail('Empty Nuclei should not iterate')
+            self.fail("Empty Nuclei should not iterate")
 
         # Non-empty
         for n in self.has_value:
             self.assertTrue(n == self.n0 or n == self.n1)
 
     def test_str(self):
-        self.assertEqual(str(self.defaulted), '')
-        self.assertEqual(
-            str(self.has_value),
-            ' 0.000000000000000 0.000000000000000 0.000000000000000\nH 2.000000000000000 3.000000000000000 4.000000000000000\n'
+        self.assertEqual(str(self.defaulted), "")
+
+        corr_string = " 0.000000000000000 0.000000000000000 0.000000000000000"
+        corr_string += "\n"
+        corr_string += (
+            "H 2.000000000000000 3.000000000000000 4.000000000000000"
         )
+        corr_string += "\n"
+        self.assertEqual(str(self.has_value), corr_string)
 
     def setUp(self):
         self.defaulted = chemist.NucleiView()
         self.n0 = chemist.Nucleus()
-        self.n1 = chemist.Nucleus('H', 1, 1.0, 2.0, 3.0, 4.0, 5.0)
+        self.n1 = chemist.Nucleus("H", 1, 1.0, 2.0, 3.0, 4.0, 5.0)
         self.value_set = chemist.Nuclei()
         self.value_set.push_back(self.n0)
         self.value_set.push_back(self.n1)

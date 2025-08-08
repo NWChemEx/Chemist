@@ -79,8 +79,9 @@ static constexpr auto is_vector_space_v =
  *  @tparam KetType The type of the object occupying hte ket slot of the BraKet.
  */
 template<typename BraType, typename OperatorType, typename KetType>
-static constexpr auto is_tensor_element_v = is_wavefunction_v<BraType>&&
-  is_operator_v<OperatorType>&& is_wavefunction_v<KetType>;
+static constexpr auto is_tensor_element_v =
+  is_wavefunction_v<BraType> && is_operator_v<OperatorType> &&
+  is_wavefunction_v<KetType>;
 
 /** @brief Determines if the template type parameters passed to a BraKet object
  *         make it result in the tensor representation of the operator.
@@ -97,7 +98,8 @@ static constexpr auto is_tensor_element_v = is_wavefunction_v<BraType>&&
  *  @tparam KetType The type of the object occupying hte ket slot of the BraKet.
  */
 template<typename BraType, typename OperatorType, typename KetType>
-static constexpr auto is_tensor_representation_v = is_vector_space_v<BraType>&&
-  is_operator_v<OperatorType>&& is_vector_space_v<KetType>;
+static constexpr auto is_tensor_representation_v =
+  is_vector_space_v<BraType> && is_operator_v<OperatorType> &&
+  is_vector_space_v<KetType>;
 
 } // namespace chemist

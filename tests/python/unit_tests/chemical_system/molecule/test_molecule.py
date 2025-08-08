@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import chemist
 import unittest
+
+import chemist
 
 
 class TestMolecule(unittest.TestCase):
-
     def test_empty(self):
         self.assertTrue(self.defaulted.empty())
         self.assertFalse(self.has_value.empty())
@@ -92,7 +92,7 @@ class TestMolecule(unittest.TestCase):
     def test_iter(self):
         # Default
         for atom in self.defaulted:
-            self.fail('Should not iterate over empty molecule')
+            self.fail("Should not iterate over empty molecule")
 
         # Has value
         for i, atom in enumerate(self.has_value):
@@ -100,20 +100,21 @@ class TestMolecule(unittest.TestCase):
 
     def test_str(self):
         # Default
-        self.assertEqual(str(self.defaulted), '')
+        self.assertEqual(str(self.defaulted), "")
 
         # Has value
         self.assertEqual(
             str(self.has_value),
-            'nelectrons : 0,\nname : ,\natomic number : 0,\nmass : 0,\n' +
-            'charge : 0,\nx : 0,\ny : 0,\nz : 0\n' +
-            'nelectrons : 1,\nname : H,\natomic number : 1,\nmass : 1,\n' +
-            'charge : 5,\nx : 2,\ny : 3,\nz : 4\n')
+            "nelectrons : 0,\nname : ,\natomic number : 0,\nmass : 0,\n"
+            + "charge : 0,\nx : 0,\ny : 0,\nz : 0\n"
+            + "nelectrons : 1,\nname : H,\natomic number : 1,\nmass : 1,\n"
+            + "charge : 5,\nx : 2,\ny : 3,\nz : 4\n",
+        )
 
     def setUp(self):
         self.defaulted = chemist.Molecule()
         self.a0 = chemist.Atom()
-        self.a1 = chemist.Atom('H', 1, 1.0, 2.0, 3.0, 4.0, 5.0)
+        self.a1 = chemist.Atom("H", 1, 1.0, 2.0, 3.0, 4.0, 5.0)
         self.has_value = chemist.Molecule()
         self.has_value.push_back(self.a0)
         self.has_value.push_back(self.a1)

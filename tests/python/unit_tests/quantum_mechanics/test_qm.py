@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist.basis_set import AOBasisSetD, AtomicBasisSetD, ShellD, ContractedGaussianD
 from chemist import PointD, ShellType
+from chemist.basis_set import AOBasisSetD, AtomicBasisSetD, ContractedGaussianD
 
 
 def h2_coords():
@@ -31,9 +31,9 @@ def h2_basis():
     h1_cg = ContractedGaussianD(coefs, exps, h1_coords)
 
     cartesian = ShellType.cartesian
-    h0 = AtomicBasisSetD('STO-3G', 1, h0_coords)
+    h0 = AtomicBasisSetD("STO-3G", 1, h0_coords)
     h0.add_shell(cartesian, 0, h0_cg)
-    h1 = AtomicBasisSetD('STO-3G', 1, h1_coords)
+    h1 = AtomicBasisSetD("STO-3G", 1, h1_coords)
     h1.add_shell(cartesian, 0, h1_cg)
 
     rv = AOBasisSetD()

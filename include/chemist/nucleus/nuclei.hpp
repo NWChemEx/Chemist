@@ -291,18 +291,18 @@ template<typename Archive>
 void Nuclei::save(Archive& ar) const {
     ar& size();
     if(size()) {
-        for(const auto& x : *this) ar& x.as_nucleus();
+        for(const auto& x : *this) ar & x.as_nucleus();
     }
 }
 
 template<typename Archive>
 void Nuclei::load(Archive& ar) {
     size_type size;
-    ar& size;
+    ar & size;
     if(size) {
         value_type p;
         for(size_type _ = 0; _ < size; ++_) {
-            ar& p;
+            ar & p;
             push_back(p);
         }
     }

@@ -12,26 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import chemist
 import unittest
+
+import chemist
 
 
 class TestAtom(unittest.TestCase):
-
     def test_name(self):
         # Check initial values
-        self.assertEqual(self.defaulted.name, '')
-        self.assertEqual(self.h.name, 'H')
-        self.assertEqual(self.he.name, 'He')
+        self.assertEqual(self.defaulted.name, "")
+        self.assertEqual(self.h.name, "H")
+        self.assertEqual(self.he.name, "He")
 
         # Can write to it
-        self.defaulted.name = 'foo'
-        self.assertEqual(self.defaulted.name, 'foo')
+        self.defaulted.name = "foo"
+        self.assertEqual(self.defaulted.name, "foo")
 
     def test_nucleus(self):
-        corr_h_nuke = chemist.Nucleus('H', 1, 1.0, 2.0, 3.0, 4.0)
-        corr_he_nuke = chemist.Nucleus('He', 2, 4.0, 3.0, 4.0, 5.0, 1.0)
-        corr_c_nuke = chemist.Nucleus('C', 6, 12.0, 3.0, 4.0, 5.0, 6.0)
+        corr_h_nuke = chemist.Nucleus("H", 1, 1.0, 2.0, 3.0, 4.0)
+        corr_he_nuke = chemist.Nucleus("He", 2, 4.0, 3.0, 4.0, 5.0, 1.0)
+        corr_c_nuke = chemist.Nucleus("C", 6, 12.0, 3.0, 4.0, 5.0, 6.0)
 
         # Check initial values
         self.assertEqual(self.defaulted.nucleus, chemist.Nucleus())
@@ -154,60 +154,62 @@ class TestAtom(unittest.TestCase):
         self.assertFalse(self.defaulted == self.h)
 
         # Same non-default
-        other_h = chemist.Atom('H', 1, 1.0, 2.0, 3.0, 4.0, 1.0)
+        other_h = chemist.Atom("H", 1, 1.0, 2.0, 3.0, 4.0, 1.0)
         self.assertEqual(self.h, other_h)
         self.assertFalse(self.h != other_h)
 
         # Different symbol
-        other_h = chemist.Atom('He', 1, 1.0, 2.0, 3.0, 4.0, 1.0)
+        other_h = chemist.Atom("He", 1, 1.0, 2.0, 3.0, 4.0, 1.0)
         self.assertNotEqual(self.h, other_h)
         self.assertFalse(self.h == other_h)
 
         # Different atomic number
-        other_h = chemist.Atom('H', 2, 1.0, 2.0, 3.0, 4.0, 1.0)
+        other_h = chemist.Atom("H", 2, 1.0, 2.0, 3.0, 4.0, 1.0)
         self.assertNotEqual(self.h, other_h)
         self.assertFalse(self.h == other_h)
 
         # Different mass
-        other_h = chemist.Atom('H', 1, 2.0, 2.0, 3.0, 4.0, 1.0)
+        other_h = chemist.Atom("H", 1, 2.0, 2.0, 3.0, 4.0, 1.0)
         self.assertNotEqual(self.h, other_h)
         self.assertFalse(self.h == other_h)
 
         # Different x-coordinate
-        other_h = chemist.Atom('H', 1, 1.0, 3.0, 3.0, 4.0, 1.0)
+        other_h = chemist.Atom("H", 1, 1.0, 3.0, 3.0, 4.0, 1.0)
         self.assertNotEqual(self.h, other_h)
         self.assertFalse(self.h == other_h)
 
         # Different y-coordinate
-        other_h = chemist.Atom('H', 1, 1.0, 2.0, 4.0, 4.0, 1.0)
+        other_h = chemist.Atom("H", 1, 1.0, 2.0, 4.0, 4.0, 1.0)
         self.assertNotEqual(self.h, other_h)
         self.assertFalse(self.h == other_h)
 
         # Different z-coordinate
-        other_h = chemist.Atom('H', 1, 1.0, 2.0, 3.0, 5.0, 1.0)
+        other_h = chemist.Atom("H", 1, 1.0, 2.0, 3.0, 5.0, 1.0)
         self.assertNotEqual(self.h, other_h)
         self.assertFalse(self.h == other_h)
 
         # Different nuclear charge
-        other_h = chemist.Atom('H', 1, 1.0, 2.0, 3.0, 4.0, 2.0)
+        other_h = chemist.Atom("H", 1, 1.0, 2.0, 3.0, 4.0, 2.0)
         self.assertNotEqual(self.h, other_h)
         self.assertFalse(self.h == other_h)
 
     def test_str(self):
         # Default
-        self.assertEqual(
-            str(self.defaulted),
-            'nelectrons : 0,\nname : ,\natomic number : 0,\nmass : 0,\n' +
-            'charge : 0,\nx : 0,\ny : 0,\nz : 0')
+        corr_string = (
+            "nelectrons : 0,\nname : ,\natomic number : 0,\nmass : 0,\n"
+            + "charge : 0,\nx : 0,\ny : 0,\nz : 0"
+        )
+        self.assertEqual(str(self.defaulted), corr_string)
 
         # Has value
         self.assertEqual(
             str(self.h),
-            'nelectrons : 1,\nname : H,\natomic number : 1,\nmass : 1,\n' +
-            'charge : 1,\nx : 2,\ny : 3,\nz : 4')
+            "nelectrons : 1,\nname : H,\natomic number : 1,\nmass : 1,\n"
+            + "charge : 1,\nx : 2,\ny : 3,\nz : 4",
+        )
 
     def setUp(self):
         self.defaulted = chemist.Atom()
-        self.h = chemist.Atom('H', 1, 1.0, 2.0, 3.0, 4.0)
-        self.he = chemist.Atom('He', 2, 4.0, 3.0, 4.0, 5.0, 1.0)
-        self.c = chemist.Atom('C', 6, 12.0, 3.0, 4.0, 5.0, 6.0, 7)
+        self.h = chemist.Atom("H", 1, 1.0, 2.0, 3.0, 4.0)
+        self.he = chemist.Atom("He", 2, 4.0, 3.0, 4.0, 5.0, 1.0)
+        self.c = chemist.Atom("C", 6, 12.0, 3.0, 4.0, 5.0, 6.0, 7)

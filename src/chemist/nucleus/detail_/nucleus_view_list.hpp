@@ -87,9 +87,9 @@ public:
 
     /// Implemented generically by NucleiView, deleted to avoid slicing
     ///@{
-    NucleusViewList(NucleusViewList&&) = delete;
+    NucleusViewList(NucleusViewList&&)                 = delete;
     NucleusViewList& operator=(const NucleusViewList&) = delete;
-    NucleusViewList& operator=(NucleusViewList&&) = delete;
+    NucleusViewList& operator=(NucleusViewList&&)      = delete;
     ///@}
 
     /** @brief Are the Nuclei aliased by *this and @p rhs value equal?

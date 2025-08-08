@@ -266,14 +266,14 @@ template<typename T>
 template<typename Archive>
 void PointCharge<T>::save(Archive& ar) const {
     point_type::save(ar);
-    ar& m_q_;
+    ar & m_q_;
 }
 
 template<typename T>
 template<typename Archive>
 void PointCharge<T>::load(Archive& ar) {
     point_type::load(ar);
-    ar& m_q_;
+    ar & m_q_;
 }
 
 extern template class PointCharge<double>;
