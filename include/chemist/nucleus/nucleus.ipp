@@ -66,17 +66,17 @@ inline std::ostream& operator<<(std::ostream& os, const Nucleus& ni) {
 template<typename Archive>
 void Nucleus::save(Archive& ar) const {
     point_charge_type::save(ar);
-    ar& m_name_;
-    ar& m_Z_;
-    ar& m_mass_;
+    ar & m_name_;
+    ar & m_Z_;
+    ar & m_mass_;
 }
 
 template<typename Archive>
 void Nucleus::load(Archive& ar) {
     point_charge_type::load(ar);
-    ar& m_name_;
-    ar& m_Z_;
-    ar& m_mass_;
+    ar & m_name_;
+    ar & m_Z_;
+    ar & m_mass_;
 }
 
 } // namespace chemist
