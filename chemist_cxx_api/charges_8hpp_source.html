@@ -212,7 +212,7 @@ $(function() {
 <div class="line"><a name="l00312"></a><span class="lineno"><a class="line" href="classchemist_1_1Charges.html#af471de596ed9c183295a38ccd7ad4726">  312</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classchemist_1_1Charges.html#af471de596ed9c183295a38ccd7ad4726">Charges&lt;T&gt;::save</a>(Archive&amp; ar)<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    ar&amp; this-&gt;size();</div>
 <div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    <span class="keywordflow">if</span>(this-&gt;size()) {</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        <span class="keywordflow">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; x : *<span class="keyword">this</span>) ar&amp; x.as_point_charge();</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        <span class="keywordflow">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; x : *<span class="keyword">this</span>) ar &amp; x.as_point_charge();</div>
 <div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    }</div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;}</div>
 <div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160; </div>
@@ -220,11 +220,11 @@ $(function() {
 <div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> Archive&gt;</div>
 <div class="line"><a name="l00321"></a><span class="lineno"><a class="line" href="classchemist_1_1Charges.html#a95cb99b38f0d15aa845d7712f538f7d0">  321</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classchemist_1_1Charges.html#a95cb99b38f0d15aa845d7712f538f7d0">Charges&lt;T&gt;::load</a>(Archive&amp; ar) {</div>
 <div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <a class="code" href="classchemist_1_1Charges.html#afd2f36efe66338e914fe9e73978f1a19">size_type</a> size;</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    ar&amp; size;</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    ar &amp; size;</div>
 <div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    <span class="keywordflow">if</span>(size) {</div>
 <div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        <a class="code" href="classchemist_1_1Charges.html#a57c3f0187709a069472461086c23d136">value_type</a> p;</div>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        <span class="keywordflow">for</span>(<a class="code" href="classchemist_1_1Charges.html#afd2f36efe66338e914fe9e73978f1a19">size_type</a> _ = 0; _ &lt; size; ++_) {</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;            ar&amp; p;</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;            ar &amp; p;</div>
 <div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;            <a class="code" href="classchemist_1_1Charges.html#ad60d4a9dc8645c72e20248f32cdb6d1e">push_back</a>(p);</div>
 <div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        }</div>
 <div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;    }</div>

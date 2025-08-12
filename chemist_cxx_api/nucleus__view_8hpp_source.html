@@ -168,9 +168,9 @@ $(function() {
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                                      std::decay_t&lt;NucleusType2&gt;, NucleusType&gt;&gt;&gt;</div>
 <div class="line"><a name="l00169"></a><span class="lineno"><a class="line" href="classchemist_1_1NucleusView.html#ab6be14ee6cfaf798a9b6deb8c1c8d869">  169</a></span>&#160;    <a class="code" href="classchemist_1_1NucleusView.html">NucleusView</a>&amp; <a class="code" href="classchemist_1_1NucleusView.html#ab6be14ee6cfaf798a9b6deb8c1c8d869">operator=</a>(NucleusType2&amp;&amp; other) {</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <a class="code" href="classchemist_1_1PointChargeView.html#a8c3de4062176613ea9ebdc09f25f3299">base_type::operator=</a>(std::forward&lt;point_charge_type&gt;(other));</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        (*m_pname_)        = other.name();</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        (*m_pZ_)           = other.Z();</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        (*m_pmass_)        = other.mass();</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        (*m_pname_) = other.name();</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        (*m_pZ_)    = other.Z();</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        (*m_pmass_) = other.mass();</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    }</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>

@@ -207,6 +207,14 @@ can also see that two <code class="docutils literal notranslate"><span class="pr
         <span class="c1"># Explicit constructor with the given states</span>
         <span class="n">a6</span> <span class="o">=</span> <span class="n">chemist</span><span class="o">.</span><span class="n">Atom</span><span class="p">(</span><span class="s2">&quot;He&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">4.0026</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
+        <span class="c1"># a0 and a5 are the same</span>
+        <span class="k">assert</span> <span class="n">a0</span> <span class="o">==</span> <span class="n">a5</span>
+
+        <span class="c1"># a0, a1, a2, and a3 are all different</span>
+        <span class="k">assert</span> <span class="n">a0</span> <span class="o">!=</span> <span class="n">a1</span>
+        <span class="k">assert</span> <span class="n">a0</span> <span class="o">!=</span> <span class="n">a2</span>
+        <span class="k">assert</span> <span class="n">a0</span> <span class="o">!=</span> <span class="n">a3</span>
+
         <span class="c1"># a5 and a6 are different atoms</span>
         <span class="k">assert</span> <span class="n">a5</span> <span class="o">!=</span> <span class="n">a6</span>
 

@@ -249,14 +249,14 @@ $(function() {
 <div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> Archive&gt;</div>
 <div class="line"><a name="l00524"></a><span class="lineno"><a class="line" href="classchemist_1_1Molecule.html#af645e1371b9c69927c54d124182c7c23">  524</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classchemist_1_1Molecule.html#af645e1371b9c69927c54d124182c7c23">Molecule::load</a>(Archive&amp; ar) {</div>
 <div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;    <span class="keywordtype">bool</span> has_pimpl = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;    ar&amp; has_pimpl;</div>
+<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;    ar &amp; has_pimpl;</div>
 <div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;    <span class="keywordflow">if</span>(has_pimpl) {</div>
 <div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;        <a class="code" href="classchemist_1_1Molecule.html#a8b2e714ee3c797a5fcd15d6c608756bf">charge_type</a> q;</div>
 <div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;        <a class="code" href="classchemist_1_1Molecule.html#aeba32a1b788c85174abc4e46ee88c6dc">multiplicity_type</a> m;</div>
 <div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;        <a class="code" href="classchemist_1_1Molecule.html#a5cfe60b12a82991ed44525d57130f4dc">nuclei_type</a> <a class="code" href="classchemist_1_1Molecule.html#ace3acb1e62578c7431680a713c6f517c">nuclei</a>;</div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;        ar&amp; q;</div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;        ar&amp; m;</div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;        ar&amp; <a class="code" href="classchemist_1_1Molecule.html#ace3acb1e62578c7431680a713c6f517c">nuclei</a>;</div>
+<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;        ar &amp; q;</div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;        ar &amp; m;</div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;        ar &amp; <a class="code" href="classchemist_1_1Molecule.html#ace3acb1e62578c7431680a713c6f517c">nuclei</a>;</div>
 <div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;        <a class="code" href="classchemist_1_1Molecule.html#a455142a13be38f6024fdc5fd26f3491b">Molecule</a>(q, m, <a class="code" href="classchemist_1_1Molecule.html#ace3acb1e62578c7431680a713c6f517c">nuclei</a>).swap(*<span class="keyword">this</span>);</div>
 <div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;    }</div>
 <div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;}</div>

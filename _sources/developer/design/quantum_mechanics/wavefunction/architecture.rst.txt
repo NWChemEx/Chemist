@@ -227,12 +227,12 @@ whereas ``VectorSpace`` objects are used to request the entire tensor.
 
 - ``Wavefunction``. Base class signifying that something is an element of a
   ``VectorSpace`` object. Strictly speaking this means that ``Wavefunction``
-  objects are vectors or basis functions an not everything derived from 
-  ``Wavefunction`` will strictly be a wavefunction. However, we felt the more 
-  apt names, ``Vector`` or ``BasisFunction``, were respectively too likely to 
-  collide with other libraries (including the standard library) or be 
-  misconstrued as AO-specific.  
-- ``ImplicitVector``. Code factorization for representing a wavefunction belongs 
+  objects are vectors or basis functions an not everything derived from
+  ``Wavefunction`` will strictly be a wavefunction. However, we felt the more
+  apt names, ``Vector`` or ``BasisFunction``, were respectively too likely to
+  collide with other libraries (including the standard library) or be
+  misconstrued as AO-specific.
+- ``ImplicitVector``. Code factorization for representing a wavefunction belongs
   to an ``ImplicitSpace`` object.
 - ``Determinant``. A class representing a wavefunction formed by taking
   determinants of single-product wavefunctions.
@@ -322,7 +322,7 @@ Summary
    Addressed by the ``Antisymmetrize`` and ``Symmetrize`` classes.
 
 :ref:`wf_basis_function_vs_basis_set`
-   Addressed with the ``Wavefunction`` and ``VectorSpace`` classes, where the 
+   Addressed with the ``Wavefunction`` and ``VectorSpace`` classes, where the
    former is an element of the latter.
 
 :ref:`wf_implicit_vs_explicit`

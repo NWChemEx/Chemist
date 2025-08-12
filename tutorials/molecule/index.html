@@ -206,6 +206,7 @@ codes below show how to access and modify these properties in both C++ and Pytho
 
         <span class="c1"># Accessing the charge</span>
         <span class="n">m1_charge</span> <span class="o">=</span> <span class="n">m1</span><span class="o">.</span><span class="n">charge</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">m1_charge</span> <span class="o">==</span> <span class="mf">0.0</span>
         <span class="k">assert</span> <span class="n">m0</span><span class="o">.</span><span class="n">charge</span><span class="p">()</span> <span class="o">==</span> <span class="mf">0.0</span>
         <span class="k">assert</span> <span class="n">m1</span><span class="o">.</span><span class="n">charge</span><span class="p">()</span> <span class="o">==</span> <span class="mf">0.0</span>
         <span class="k">assert</span> <span class="n">m2</span><span class="o">.</span><span class="n">charge</span><span class="p">()</span> <span class="o">==</span> <span class="mf">1.0</span>
@@ -222,7 +223,7 @@ codes below show how to access and modify these properties in both C++ and Pytho
         <span class="c1"># Comparing Molecule objects</span>
         <span class="k">assert</span> <span class="n">m0</span> <span class="o">!=</span> <span class="n">m1</span>
         <span class="k">assert</span> <span class="n">m1</span> <span class="o">!=</span> <span class="n">m2</span>
-        <span class="k">assert</span> <span class="n">m2</span> <span class="o">==</span> <span class="n">m2</span>  <span class="c1"># This might be a typo in the original C++ code. m2 is being compared to itself.</span>
+        <span class="k">assert</span> <span class="n">m2</span> <span class="o">==</span> <span class="n">m2</span>
 
         <span class="c1"># Modifying the properties of a Molecule object</span>
         <span class="n">m1</span><span class="o">.</span><span class="n">set_charge</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>

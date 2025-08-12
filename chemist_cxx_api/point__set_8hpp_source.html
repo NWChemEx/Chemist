@@ -189,7 +189,7 @@ $(function() {
 <div class="line"><a name="l00305"></a><span class="lineno"><a class="line" href="classchemist_1_1PointSet.html#adda335be0c50a6295aad9cc1fdaeb89a">  305</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classchemist_1_1PointSet.html">PointSet</a>&lt;T&gt;::<a class="code" href="classchemist_1_1PointSet.html#adda335be0c50a6295aad9cc1fdaeb89a">save</a>(Archive&amp; ar)<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    ar&amp; this-&gt;size();</div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <span class="keywordflow">if</span>(this-&gt;size()) {</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        <span class="keywordflow">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; x : *<span class="keyword">this</span>) ar&amp; x.as_point();</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        <span class="keywordflow">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; x : *<span class="keyword">this</span>) ar &amp; x.as_point();</div>
 <div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    }</div>
 <div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;}</div>
 <div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160; </div>
@@ -197,11 +197,11 @@ $(function() {
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> Archive&gt;</div>
 <div class="line"><a name="l00314"></a><span class="lineno"><a class="line" href="classchemist_1_1PointSet.html#a5000e7bf1377831322f98d7624f4a529">  314</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classchemist_1_1PointSet.html#a5000e7bf1377831322f98d7624f4a529">PointSet&lt;T&gt;::load</a>(Archive&amp; ar) {</div>
 <div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <a class="code" href="classchemist_1_1PointSet.html#ab9c1974639724cac9493982a3ffc93db">size_type</a> size;</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    ar&amp; size;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    ar &amp; size;</div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    <span class="keywordflow">if</span>(size) {</div>
 <div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        <a class="code" href="classchemist_1_1PointSet.html#ad6fe548f439237dea64cd0a9b4ca4137">value_type</a> p;</div>
 <div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        <span class="keywordflow">for</span>(<a class="code" href="classchemist_1_1PointSet.html#ab9c1974639724cac9493982a3ffc93db">size_type</a> _ = 0; _ &lt; size; ++_) {</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;            ar&amp; p;</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;            ar &amp; p;</div>
 <div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;            <a class="code" href="classchemist_1_1PointSet.html#ac1c8f71839dd05a2a2a31b67a6fde3bd">push_back</a>(p);</div>
 <div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        }</div>
 <div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    }</div>

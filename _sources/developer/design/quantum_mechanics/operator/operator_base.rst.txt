@@ -21,22 +21,22 @@ Design of the OperatorBase Class
 These are just some notes of things I thought about when I wrote the class. They
 should be formalized at a later point.
 
-- Architecture called for templating on particle type, i.e., 
+- Architecture called for templating on particle type, i.e.,
   ``OperatorBase<T...>``.
 
   - Problem for Python exposure unless we expose each separately.
   - Would have ``T...`` values of: ``Electron``, ``ManyElectron``, ``Nucleus``,
     ``Nuclei``, ``Density<Electron>``, ``ChargeSet``, and pairs of these.
-    That's already 42 possible types (assuming we don't ever need other 
+    That's already 42 possible types (assuming we don't ever need other
     densities, triples of particles, or more exotic particles like muons).
   - Internally rely on ``std::vector<std::variant>``?
 
 - Provide a class ``OperatorImpl<T...>`` for factoring out the common template
   pieces. ``OperatorImpl<T...>`` derives form ``OperatorBase``. APIs should
-  not rely on ``OperatorImpl<T...>``, rather they should rely on 
+  not rely on ``OperatorImpl<T...>``, rather they should rely on
   ``OperatorBase`` or the class that derives from ``OperatorImpl<T...>``.
 
-- Can't be in namespace ``operator`` (C++ keyword), so we opted for 
+- Can't be in namespace ``operator`` (C++ keyword), so we opted for
   ``qm_operator``.
 
 - Use visitor pattern to implement generic algorithms. Algorithms specific to
@@ -69,8 +69,8 @@ and each operator overloads it like:
        }
    };
 
-The visitor will then be called with the derived class. This requires the 
+The visitor will then be called with the derived class. This requires the
 visitor to define an overload for each operator it might get. The easiest
-solution is to brute force enumerate the possible overloads in 
+solution is to brute force enumerate the possible overloads in
 ``OperatorVisitor``, implementing them all so that they error. Derived classes
-can then override the ones they want to handle. 
+can then override the ones they want to handle.

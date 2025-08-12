@@ -112,14 +112,16 @@ $(function() {
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  std::is_base_of_v&lt;wavefunction::VectorSpace, T&gt;;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> BraType, <span class="keyword">typename</span> OperatorType, <span class="keyword">typename</span> KetType&gt;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keyword">static</span> constexpr <span class="keyword">auto</span> is_tensor_element_v = is_wavefunction_v&lt;BraType&gt;&amp;&amp;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  is_operator_v&lt;OperatorType&gt;&amp;&amp; is_wavefunction_v&lt;KetType&gt;;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> BraType, <span class="keyword">typename</span> OperatorType, <span class="keyword">typename</span> KetType&gt;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="keyword">static</span> constexpr <span class="keyword">auto</span> is_tensor_representation_v = is_vector_space_v&lt;BraType&gt;&amp;&amp;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  is_operator_v&lt;OperatorType&gt;&amp;&amp; is_vector_space_v&lt;KetType&gt;;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;} <span class="comment">// namespace chemist</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keyword">static</span> constexpr <span class="keyword">auto</span> is_tensor_element_v =</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  is_wavefunction_v&lt;BraType&gt; &amp;&amp; is_operator_v&lt;OperatorType&gt; &amp;&amp;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  is_wavefunction_v&lt;KetType&gt;;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> BraType, <span class="keyword">typename</span> OperatorType, <span class="keyword">typename</span> KetType&gt;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keyword">static</span> constexpr <span class="keyword">auto</span> is_tensor_representation_v =</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  is_vector_space_v&lt;BraType&gt; &amp;&amp; is_operator_v&lt;OperatorType&gt; &amp;&amp;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  is_vector_space_v&lt;KetType&gt;;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;} <span class="comment">// namespace chemist</span></div>
 <div class="ttc" id="anamespacechemist_html"><div class="ttname"><a href="namespacechemist.html">chemist</a></div><div class="ttdoc">The primary namespace for the chemist library.</div><div class="ttdef"><b>Definition:</b> ao_basis_set.cpp:22</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
