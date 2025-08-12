@@ -65,13 +65,13 @@ protected:
     /// Protected to avoid slicing, but to make sure it's usable by derived
     /// class
     ///@{
-    ContainerPIMPL(const ContainerPIMPL& rhs) = default;
+    ContainerPIMPL(const ContainerPIMPL& rhs)            = default;
     ContainerPIMPL& operator=(const ContainerPIMPL& rhs) = default;
     ///@}
 
     /// Deleted to avoid slicing
     ///@{
-    ContainerPIMPL(ContainerPIMPL&& rhs) = delete;
+    ContainerPIMPL(ContainerPIMPL&& rhs)            = delete;
     ContainerPIMPL& operator=(ContainerPIMPL&& rhs) = delete;
     ///@}
 private:

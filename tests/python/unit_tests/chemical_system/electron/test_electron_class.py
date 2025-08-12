@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import chemist
 import unittest
+
+import chemist
 
 
 class TestElectronClass(unittest.TestCase):
-
     def test_value_equal(self):
         self.assertEqual(self.e, chemist.Electron())
 

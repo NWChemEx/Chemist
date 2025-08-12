@@ -61,9 +61,9 @@ public:
 
     /// All are implemented by OperatorImpl. This exposes them to the user.
     ///@{
-    Kinetic(const Kinetic&)         = default;
-    Kinetic(Kinetic&& rhs) noexcept = default;
-    Kinetic& operator=(const Kinetic&) = default;
+    Kinetic(const Kinetic&)                    = default;
+    Kinetic(Kinetic&& rhs) noexcept            = default;
+    Kinetic& operator=(const Kinetic&)         = default;
     Kinetic& operator=(Kinetic&& rhs) noexcept = default;
     ///@}
 

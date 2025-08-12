@@ -12,15 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist import PointF, PointD, PointSetF, PointSetD, PointSetViewF, \
-                    PointSetViewD
 import unittest
+
+from chemist import (
+    PointD,
+    PointF,
+    PointSetD,
+    PointSetF,
+    PointSetViewD,
+    PointSetViewF,
+)
 
 
 def make_test_point_set_view(point_type, point_set_type, point_set_view_type):
-
     class TestPointSetView(unittest.TestCase):
-
         def test_empty(self):
             self.assertTrue(self.defaulted.empty())
             self.assertFalse(self.has_value.empty())
@@ -84,10 +89,12 @@ def make_test_point_set_view(point_type, point_set_type, point_set_view_type):
 
 
 class TestPointSetViewF(
-        make_test_point_set_view(PointF, PointSetF, PointSetViewF)):
+    make_test_point_set_view(PointF, PointSetF, PointSetViewF)
+):
     pass
 
 
 class TestPointSetViewD(
-        make_test_point_set_view(PointD, PointSetD, PointSetViewD)):
+    make_test_point_set_view(PointD, PointSetD, PointSetViewD)
+):
     pass

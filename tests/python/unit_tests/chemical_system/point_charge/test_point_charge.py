@@ -12,14 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist import PointF, PointD, PointChargeF, PointChargeD
 import unittest
+
+from chemist import PointChargeD, PointChargeF, PointD, PointF
 
 
 def make_point_charge_test(charge_type, point_type):
-
     class TestPointCharge(unittest.TestCase):
-
         def test_base(self):
             """
             This test makes sure we can access the base class's member

@@ -127,7 +127,7 @@ public:
      */
     template<typename Archive>
     void save(Archive& ar) const {
-        ar& m_mol_;
+        ar & m_mol_;
     }
 
     /** @brief Deserializes the ChemicalSystemPIMPL
@@ -138,7 +138,7 @@ public:
      */
     template<typename Archive>
     void load(Archive& ar) {
-        ar& m_mol_;
+        ar & m_mol_;
     }
 
 protected:

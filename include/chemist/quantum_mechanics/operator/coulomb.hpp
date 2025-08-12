@@ -47,9 +47,9 @@ public:
 
     /// All implemented by OperatorImpl. This exposes them to the user.
     ///@{
-    Coulomb(const Coulomb&)         = default;
-    Coulomb(Coulomb&& rhs) noexcept = default;
-    Coulomb& operator=(const Coulomb&) = default;
+    Coulomb(const Coulomb&)                    = default;
+    Coulomb(Coulomb&& rhs) noexcept            = default;
+    Coulomb& operator=(const Coulomb&)         = default;
     Coulomb& operator=(Coulomb&& rhs) noexcept = default;
     ///@}
 

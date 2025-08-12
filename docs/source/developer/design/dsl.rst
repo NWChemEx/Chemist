@@ -18,7 +18,7 @@ DSL Component
 
 These are notes on designing the DSL component.
 
-- We'll need DSLs for combining wavefunctions, operators, and potentially 
+- We'll need DSLs for combining wavefunctions, operators, and potentially
   BraKets and chemical systems.
 - This component is an attempt to create a reusable DSL framework. It stops
   shy of evaluating the expression that is created.

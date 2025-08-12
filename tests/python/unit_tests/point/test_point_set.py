@@ -12,14 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist import PointF, PointD, PointSetF, PointSetD
 import unittest
+
+from chemist import PointD, PointF, PointSetD, PointSetF
 
 
 def make_test_point_set(point_type, point_set_type):
-
     class TestPointSet(unittest.TestCase):
-
         def test_empty(self):
             self.assertTrue(self.defaulted.empty())
             self.assertFalse(self.has_value.empty())

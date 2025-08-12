@@ -12,26 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist.basis_set import ShellViewF, ShellViewD
-from chemist.basis_set import ShellF, ShellD
-from chemist.basis_set import ContractedGaussianF, ContractedGaussianD
-from chemist.basis_set import PrimitiveF, PrimitiveD
-from chemist import PointF, PointD
-from chemist import ShellType
 import unittest
+
+from chemist import PointD, PointF, ShellType
+from chemist.basis_set import (
+    ContractedGaussianD,
+    ContractedGaussianF,
+    PrimitiveD,
+    PrimitiveF,
+    ShellD,
+    ShellF,
+    ShellViewD,
+    ShellViewF,
+)
 
 
 def make_shell_view_test_case(shell_view_type):
     """
-    The test cases for ShellViewF and ShellViewD are basically the same aside 
-    from the types of the class. This function essentially templates the test 
+    The test cases for ShellViewF and ShellViewD are basically the same aside
+    from the types of the class. This function essentially templates the test
     case on the type of the point.
 
     :param point_type: Either ``ShellViewF`` or ``ShellViewD``
     """
 
     class TestShellView(unittest.TestCase):
-
         def test_ctor(self):
             self.assertTrue(self.defaulted.is_null())
             self.assertEqual(self.defaulted.size(), 0)
@@ -42,10 +47,14 @@ def make_shell_view_test_case(shell_view_type):
             self.assertEqual(self.from_shell.n_primitives(), 1)
             self.assertEqual(self.from_shell.pure, ShellType.pure)
             self.assertEqual(self.from_shell.l, 0)
-            self.assertEqual(self.from_shell.contracted_gaussian,
-                             self.cg_type([0.0], [1.0], 2.0, 3.0, 4.0))
-            self.assertEqual(self.from_shell.primitive(0),
-                             self.prim_type(0.0, 1.0, 2.0, 3.0, 4.0))
+            self.assertEqual(
+                self.from_shell.contracted_gaussian,
+                self.cg_type([0.0], [1.0], 2.0, 3.0, 4.0),
+            )
+            self.assertEqual(
+                self.from_shell.primitive(0),
+                self.prim_type(0.0, 1.0, 2.0, 3.0, 4.0),
+            )
 
         def test_pure(self):
             self.assertEqual(self.from_shell.pure, self.pure)
@@ -60,18 +69,26 @@ def make_shell_view_test_case(shell_view_type):
             self.assertEqual(self.shell.l, 1)
 
         def test_contracted_gaussian(self):
-            self.assertEqual(self.from_shell.contracted_gaussian,
-                             self.cg_type([0.0], [1.0], 2.0, 3.0, 4.0))
-            self.from_shell.contracted_gaussian = self.cg_type([1.0], [1.0],
-                                                               2.0, 3.0, 4.0)
-            self.assertEqual(self.from_shell.contracted_gaussian,
-                             self.cg_type([1.0], [1.0], 2.0, 3.0, 4.0))
-            self.assertEqual(self.shell.contracted_gaussian,
-                             self.cg_type([1.0], [1.0], 2.0, 3.0, 4.0))
+            self.assertEqual(
+                self.from_shell.contracted_gaussian,
+                self.cg_type([0.0], [1.0], 2.0, 3.0, 4.0),
+            )
+            self.from_shell.contracted_gaussian = self.cg_type(
+                [1.0], [1.0], 2.0, 3.0, 4.0
+            )
+            self.assertEqual(
+                self.from_shell.contracted_gaussian,
+                self.cg_type([1.0], [1.0], 2.0, 3.0, 4.0),
+            )
+            self.assertEqual(
+                self.shell.contracted_gaussian,
+                self.cg_type([1.0], [1.0], 2.0, 3.0, 4.0),
+            )
 
         def test_center(self):
-            self.assertEqual(self.from_shell.center,
-                             self.center_type(2.0, 3.0, 4.0))
+            self.assertEqual(
+                self.from_shell.center, self.center_type(2.0, 3.0, 4.0)
+            )
             self.from_shell.center = self.center_type(7.0, 8.0, 9.0)
             self.assertEqual(self.from_shell.center, self.center)
             self.assertEqual(self.shell.center, self.center)
@@ -81,8 +98,10 @@ def make_shell_view_test_case(shell_view_type):
             self.assertEqual(self.from_shell.n_primitives(), 1)
 
         def test_primitive(self):
-            self.assertEqual(self.from_shell.primitive(0),
-                             self.prim_type(0.0, 1.0, 2.0, 3.0, 4.0))
+            self.assertEqual(
+                self.from_shell.primitive(0),
+                self.prim_type(0.0, 1.0, 2.0, 3.0, 4.0),
+            )
 
         def test_size(self):
             self.assertEqual(self.defaulted.size(), 0)
@@ -105,8 +124,9 @@ def make_shell_view_test_case(shell_view_type):
 
             # Compare with viewed type
             default_viewed = self.shell_type()
-            other_viewed = self.shell_type(self.pure, 0, [0.0], [1.0], 2.0,
-                                           3.0, 4.0)
+            other_viewed = self.shell_type(
+                self.pure, 0, [0.0], [1.0], 2.0, 3.0, 4.0
+            )
 
             self.assertEqual(self.defaulted, default_viewed)
             self.assertFalse(self.defaulted != default_viewed)
@@ -154,8 +174,9 @@ def make_shell_view_test_case(shell_view_type):
             self.cart = ShellType.cartesian
             self.center = self.center_type(7.0, 8.0, 9.0)
             self.cg = self.cg_type([10.0], [11.0], self.center)
-            self.shell = self.shell_type(self.pure, 0, [0.0], [1.0], 2.0, 3.0,
-                                         4.0)
+            self.shell = self.shell_type(
+                self.pure, 0, [0.0], [1.0], 2.0, 3.0, 4.0
+            )
 
             # The instances being tested
             self.defaulted = shell_view_type()

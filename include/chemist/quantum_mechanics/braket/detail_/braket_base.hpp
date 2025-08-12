@@ -110,10 +110,10 @@ public:
 protected:
     /// Protected so derived class can use them, but users can't (avoid slicing)
     ///@{
-    BraKetBase() noexcept             = default;
-    BraKetBase(const BraKetBase&)     = default;
-    BraKetBase(BraKetBase&&) noexcept = default;
-    BraKetBase& operator=(const BraKetBase&) = default;
+    BraKetBase() noexcept                        = default;
+    BraKetBase(const BraKetBase&)                = default;
+    BraKetBase(BraKetBase&&) noexcept            = default;
+    BraKetBase& operator=(const BraKetBase&)     = default;
     BraKetBase& operator=(BraKetBase&&) noexcept = default;
     ///@}
 

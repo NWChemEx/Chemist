@@ -12,8 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist import PointF, PointD
 import unittest
+
+from chemist import PointD, PointF
 
 
 def make_point_test_case(point_type):
@@ -26,7 +27,6 @@ def make_point_test_case(point_type):
     """
 
     class TestPoint(unittest.TestCase):
-
         def test_ctor(self):
             self.assertEqual(self.defaulted.x, 0.0)
             self.assertEqual(self.defaulted.y, 0.0)

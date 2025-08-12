@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import chemist
 import unittest
+
+import chemist
 
 
 class TestStringMethods(unittest.TestCase):
-
     def testAtom(self):
         # Creating Nucleus objects using different constructors
         n0 = chemist.Nucleus()

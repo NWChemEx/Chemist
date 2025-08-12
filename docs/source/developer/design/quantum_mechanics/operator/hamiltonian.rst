@@ -22,8 +22,8 @@ These are musings on the design of the Hamiltonian class and should be turned
 into full documentation at some point.
 
 - The Hamiltonian will always be an indefinite operator.
-    
-    - This is necessary because, in general, it will contain a mix of one- and 
+
+    - This is necessary because, in general, it will contain a mix of one- and
       two-particle operators. Bra-kets of such an operator only makes sense with
       many-particle wavefunctions.
 
@@ -35,18 +35,18 @@ into full documentation at some point.
     Hamiltonian has. On the other this will complicate interfaces.
   - Order of parameters can be managed by convention.
   - Is it templated on operators present or particles present?
-  - If on particles, how do we know that it say contains not just single 
+  - If on particles, how do we know that it say contains not just single
     ``Electron`` terms, but also terms that depend on pairs of ``Electron``
     objects?
 
 .. code-block:: c++
-   
+
    // These are the proposed templating schemes
 
    // Templated on operators ("easily" deduced from ctor)
    Hamiltonian<T_e_type, V_en_type, V_ee_type, V_nn_type> H0;
 
-   // Templated on particle types (no distinction of what definite terms appear) 
+   // Templated on particle types (no distinction of what definite terms appear)
    Hamiltonian<ManyElectrons, Nuclei> H1
 
    // Templated on definite sizes
@@ -59,10 +59,10 @@ Creation, usage APIs:
 .. code-block:: c++
 
    auto [T_e, V_en, V_ee, V_en, V_nn] = get_operators();
-   
+
    // Works with C++17, could deduce any of the above types
    Hamiltonian H(T_e + V_en + V_ee + V_en + V_nn);
-  
+
    // If templated, SFINAE could be used to enable/disable these functions
    T_e = H.T_e(); // Takes an optional offset in case there's more than one
 
@@ -93,7 +93,7 @@ example:
     using pt0 = EvaluateBraKet<BraKet<Determinant, H_type0, Determinant>>;
     using pt1 = EvaluateBraKet<BraKet<Determinant, H_type1, Determinant>>;
 
-Here Hamiltonians of ``H_type0`` could only be passed to ``pt0`` and 
+Here Hamiltonians of ``H_type0`` could only be passed to ``pt0`` and
 Hamiltonians of ``H_type1`` could only be passed to ``pt1``. More than likely
 ``pt0`` could handle Hamiltonians of ``H_type1`` (though it is unlikely that
 ``pt1`` could handle Hamiltonians of ``H_type0``).

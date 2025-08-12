@@ -92,8 +92,8 @@ public:
 
     /// All implemented by OperatorImpl. This exposes them to the user.
     ///@{
-    ExchangeCorrelation(const ExchangeCorrelation&)         = default;
-    ExchangeCorrelation(ExchangeCorrelation&& rhs) noexcept = default;
+    ExchangeCorrelation(const ExchangeCorrelation&)            = default;
+    ExchangeCorrelation(ExchangeCorrelation&& rhs) noexcept    = default;
     ExchangeCorrelation& operator=(const ExchangeCorrelation&) = default;
     ExchangeCorrelation& operator=(ExchangeCorrelation&& rhs) noexcept =
       default;

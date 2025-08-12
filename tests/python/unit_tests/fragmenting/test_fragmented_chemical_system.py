@@ -12,14 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist import Atom, Molecule, ChemicalSystem
-from chemist.fragmenting import FragmentedNuclei, FragmentedMolecule, \
-    FragmentedChemicalSystem
 import unittest
+
+from chemist import Atom, ChemicalSystem, Molecule
+from chemist.fragmenting import (
+    FragmentedChemicalSystem,
+    FragmentedMolecule,
+    FragmentedNuclei,
+)
 
 
 class TestFragmentedChemicalSystem(unittest.TestCase):
-
     def test_ctors(self):
         self.assertEqual(self.defaulted.supersystem(), self.empty_ss)
         self.assertEqual(self.defaulted.size(), 0)
@@ -81,8 +84,8 @@ class TestFragmentedChemicalSystem(unittest.TestCase):
 
     def setUp(self):
         # Supersystems
-        self.h = Atom('H', 1, 1.0, 2.0, 3.0, 4.0)
-        self.he = Atom('He', 2, 4.0, 5.0, 6.0, 7.0)
+        self.h = Atom("H", 1, 1.0, 2.0, 3.0, 4.0)
+        self.he = Atom("He", 2, 4.0, 5.0, 6.0, 7.0)
         self.ss = ChemicalSystem(Molecule(0, 2, [self.h, self.he]))
         self.empty_ss = ChemicalSystem()
 

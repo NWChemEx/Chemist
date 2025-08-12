@@ -12,8 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist import PointF, PointD, PointViewF, PointViewD
 import unittest
+
+from chemist import PointD, PointF, PointViewD, PointViewF
 
 
 def make_point_view_test_case(point_type, point_view_type):
@@ -29,7 +30,6 @@ def make_point_view_test_case(point_type, point_view_type):
     """
 
     class TestPointView(unittest.TestCase):
-
         def test_ctor(self):
             self.assertEqual(self.defaulted_view.x, 0.0)
             self.assertEqual(self.defaulted_view.y, 0.0)

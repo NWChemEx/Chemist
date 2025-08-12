@@ -12,14 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import chemist
 import unittest
+
+import chemist
 
 
 def make_test_charges_view(charges_view_type):
-
     class TestCharges(unittest.TestCase):
-
         def test_empty(self):
             self.assertTrue(self.defaulted.empty())
             self.assertFalse(self.has_value.empty())

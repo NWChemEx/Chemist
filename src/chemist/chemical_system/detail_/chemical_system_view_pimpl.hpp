@@ -64,9 +64,9 @@ public:
 
     /// Will be implemented generically by the main class
     ///@{
-    ChemicalSystemViewPIMPL(ChemicalSystemViewPIMPL&&) noexcept = delete;
+    ChemicalSystemViewPIMPL(ChemicalSystemViewPIMPL&&) noexcept        = delete;
     ChemicalSystemViewPIMPL& operator=(const ChemicalSystemViewPIMPL&) = delete;
-    ChemicalSystemViewPIMPL& operator=(ChemicalSystemViewPIMPL&&) = delete;
+    ChemicalSystemViewPIMPL& operator=(ChemicalSystemViewPIMPL&&)      = delete;
     ///@}
 
     /// Mutable reference to the Molecule stored in *this

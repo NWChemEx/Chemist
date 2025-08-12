@@ -12,14 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import chemist
 import unittest
+
+import chemist
 
 
 def make_charge_view_test(charge_type):
-
     class TestChargeView(unittest.TestCase):
-
         def test_base(self):
             """
             This test makes sure we can access the base class's member
@@ -50,7 +49,9 @@ def make_charge_view_test(charge_type):
             # N.B. For charge_type == PointChargeF the underlying data type
             #      only has about six decimal places of precision.
             p = 6 if charge_type == chemist.PointChargeF else 10
-            self.assertAlmostEqual(self.q1_view.magnitude(), 29**0.5, places=p)
+            self.assertAlmostEqual(
+                self.q1_view.magnitude(), 29**0.5, places=p
+            )
 
         def test_charge(self):
             # Test original values

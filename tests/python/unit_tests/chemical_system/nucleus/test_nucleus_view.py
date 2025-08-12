@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import chemist
 import unittest
+
+import chemist
 
 
 class TestNucleus(unittest.TestCase):
-
     def test_base(self):
         """
         This test makes sure we can access the base class's member
@@ -53,15 +53,15 @@ class TestNucleus(unittest.TestCase):
 
     def test_name(self):
         # Test original values
-        self.assertEqual(self.defaulted_view.name, '')
-        self.assertEqual(self.u_view.name, 'U')
+        self.assertEqual(self.defaulted_view.name, "")
+        self.assertEqual(self.u_view.name, "U")
 
         # Can change it
-        self.defaulted_view.name = 'Ez'
-        self.assertEqual(self.defaulted_view.name, 'Ez')
+        self.defaulted_view.name = "Ez"
+        self.assertEqual(self.defaulted_view.name, "Ez")
 
         # Changes object it's a view of
-        self.assertEqual(self.defaulted.name, 'Ez')
+        self.assertEqual(self.defaulted.name, "Ez")
 
     def test_Z(self):
         # Test original values
@@ -190,12 +190,14 @@ class TestNucleus(unittest.TestCase):
         # Default
         self.assertEqual(
             str(self.defaulted_view),
-            ' 0.000000000000000 0.000000000000000 0.000000000000000')
+            " 0.000000000000000 0.000000000000000 0.000000000000000",
+        )
 
         # Has value
         self.assertEqual(
             str(self.u_view),
-            'U 2.000000000000000 3.000000000000000 4.000000000000000')
+            "U 2.000000000000000 3.000000000000000 4.000000000000000",
+        )
 
     def setUp(self):
         self.defaulted = chemist.Nucleus()

@@ -12,40 +12,47 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist.basis_set import PrimitiveViewF, PrimitiveViewD
-from chemist.basis_set import PrimitiveF, PrimitiveD
-from chemist import PointF, PointD
 import unittest
+
+from chemist import PointD, PointF
+from chemist.basis_set import (
+    PrimitiveD,
+    PrimitiveF,
+    PrimitiveViewD,
+    PrimitiveViewF,
+)
 
 
 def make_primitive_view_test_case(view_type):
     """
-    The test cases for PrimitiveViewF and PrimitiveViewD are basically the same 
-    aside from the types of the class. This function essentially templates the 
+    The test cases for PrimitiveViewF and PrimitiveViewD are basically the same
+    aside from the types of the class. This function essentially templates the
     test case on the type of the point.
 
     :param point_type: Either ``PrimitiveViewF`` or ``PrimitiveViewD``
     """
 
     class TestPrimitive(unittest.TestCase):
-
         def test_ctor(self):
             self.assertTrue(self.defaulted.is_null())
 
             self.assertEqual(self.from_prim.coefficient, 0.0)
             self.assertEqual(self.from_prim.exponent, 1.0)
-            self.assertEqual(self.from_prim.center,
-                             self.center_type(2.0, 3.0, 4.0))
+            self.assertEqual(
+                self.from_prim.center, self.center_type(2.0, 3.0, 4.0)
+            )
             self.assertFalse(self.from_prim.is_null())
 
         def test_center(self):
-            self.assertEqual(self.from_prim.center,
-                             self.center_type(2.0, 3.0, 4.0))
+            self.assertEqual(
+                self.from_prim.center, self.center_type(2.0, 3.0, 4.0)
+            )
 
             self.from_prim.center = self.center_type(7.0, 8.0, 9.0)
 
-            self.assertEqual(self.from_prim.center,
-                             self.center_type(7.0, 8.0, 9.0))
+            self.assertEqual(
+                self.from_prim.center, self.center_type(7.0, 8.0, 9.0)
+            )
 
         def test_coefficient(self):
             self.assertEqual(self.from_prim.coefficient, 0.0)

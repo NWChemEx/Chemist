@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from chemist import Nucleus, Nuclei
-from chemist.fragmenting import Cap, CapSet, FragmentedNuclei
 import unittest
+
+from chemist import Nuclei, Nucleus
+from chemist.fragmenting import Cap, CapSet, FragmentedNuclei
 
 
 class TestFragmentedNuclei(unittest.TestCase):
-
     def test_ctors(self):
         self.assertEqual(self.defaulted.supersystem(), self.empty_ss)
         self.assertEqual(self.defaulted.size(), 0)
@@ -152,9 +152,9 @@ class TestFragmentedNuclei(unittest.TestCase):
         self.assertNotEqual(self.disjoint, self.disjoint_caps)
 
     def setUp(self):
-        self.h0 = Nucleus('H', 1, 1.0, 2.0, 3.0, 4.0)
-        self.h1 = Nucleus('H', 1, 1.0, 5.0, 6.0, 7.0)
-        self.h2 = Nucleus('H', 1, 1.0, 8.0, 9.0, 0.0)
+        self.h0 = Nucleus("H", 1, 1.0, 2.0, 3.0, 4.0)
+        self.h1 = Nucleus("H", 1, 1.0, 5.0, 6.0, 7.0)
+        self.h2 = Nucleus("H", 1, 1.0, 8.0, 9.0, 0.0)
         self.ss = Nuclei([self.h0, self.h1, self.h2])
         self.empty_ss = Nuclei()
 

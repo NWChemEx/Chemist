@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import chemist
 import unittest
+
+import chemist
 
 
 class TestNucleus(unittest.TestCase):
-
     def test_base(self):
         """
         This test makes sure we can access the base class's member
@@ -80,14 +80,14 @@ class TestNucleus(unittest.TestCase):
 
     def test_name(self):
         # Test original values
-        self.assertEqual(self.defaulted.name, '')
-        self.assertEqual(self.h.name, 'H')
-        self.assertEqual(self.he.name, 'He')
-        self.assertEqual(self.u.name, 'U')
+        self.assertEqual(self.defaulted.name, "")
+        self.assertEqual(self.h.name, "H")
+        self.assertEqual(self.he.name, "He")
+        self.assertEqual(self.u.name, "U")
 
         # Can change it
-        self.defaulted.name = 'Ez'
-        self.assertEqual(self.defaulted.name, 'Ez')
+        self.defaulted.name = "Ez"
+        self.assertEqual(self.defaulted.name, "Ez")
 
     def test_Z(self):
         # Test original values
@@ -122,17 +122,17 @@ class TestNucleus(unittest.TestCase):
         self.assertFalse(self.defaulted == self.h)
 
         # Different name
-        h2 = chemist.Nucleus('D', 1, 1.0)
+        h2 = chemist.Nucleus("D", 1, 1.0)
         self.assertNotEqual(self.h, h2)
         self.assertFalse(self.h == h2)
 
         # Different atomic number
-        h2 = chemist.Nucleus('H', 2, 1.0)
+        h2 = chemist.Nucleus("H", 2, 1.0)
         self.assertNotEqual(self.h, h2)
         self.assertFalse(self.h == h2)
 
         # Different mass
-        h2 = chemist.Nucleus('H', 1, 2.0)
+        h2 = chemist.Nucleus("H", 1, 2.0)
         self.assertNotEqual(self.h, h2)
         self.assertFalse(self.h == h2)
 
@@ -168,22 +168,26 @@ class TestNucleus(unittest.TestCase):
         # Default
         self.assertEqual(
             str(self.defaulted),
-            'name : ,\natomic number : 0,\nmass : 0,\ncharge : 0,\n'
-            'x : 0,\ny : 0,\nz : 0')
+            "name : ,\natomic number : 0,\nmass : 0,\ncharge : 0,\n"
+            "x : 0,\ny : 0,\nz : 0",
+        )
 
         # Has value
         self.assertEqual(
             str(self.h),
-            'name : H,\natomic number : 1,\nmass : 1,\ncharge : 1,\n'
-            'x : 0,\ny : 0,\nz : 0')
+            "name : H,\natomic number : 1,\nmass : 1,\ncharge : 1,\n"
+            "x : 0,\ny : 0,\nz : 0",
+        )
         self.assertEqual(
             str(self.he),
-            'name : He,\natomic number : 2,\nmass : 4,\ncharge : 2,\n'
-            'x : 1,\ny : 2,\nz : 3')
+            "name : He,\natomic number : 2,\nmass : 4,\ncharge : 2,\n"
+            "x : 1,\ny : 2,\nz : 3",
+        )
         self.assertEqual(
             str(self.u),
-            'name : U,\natomic number : 92,\nmass : 238,\ncharge : 91,\n'
-            'x : 2,\ny : 3,\nz : 4')
+            "name : U,\natomic number : 92,\nmass : 238,\ncharge : 91,\n"
+            "x : 2,\ny : 3,\nz : 4",
+        )
 
     def setUp(self):
         self.defaulted = chemist.Nucleus()
