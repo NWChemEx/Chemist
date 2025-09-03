@@ -32,6 +32,7 @@
 #include <chemist/electron/electron.hpp>
 #include <chemist/enums.hpp>
 #include <chemist/fragmenting/fragmenting.hpp>
+#include <chemist/grid/grid.hpp>
 #include <chemist/molecule/molecule.hpp>
 #include <chemist/nucleus/nucleus.hpp>
 #include <chemist/point/point.hpp>
