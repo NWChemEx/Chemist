@@ -29,6 +29,8 @@ class GridView;
 template<>
 struct ChemistClassTraits<GridPoint> {
     using value_type             = GridPoint;
+    using reference              = value_type&;
+    using const_reference        = const value_type&;
     using view_type              = GridPointView<value_type>;
     using const_view_type        = GridPointView<const value_type>;
     using weight_type            = double;
@@ -43,6 +45,8 @@ struct ChemistClassTraits<GridPoint> {
 template<>
 struct ChemistClassTraits<const GridPoint> {
     using value_type             = GridPoint;
+    using reference              = const value_type&;
+    using const_reference        = const value_type&;
     using view_type              = GridPointView<const value_type>;
     using const_view_type        = GridPointView<const value_type>;
     using weight_type            = double;
