@@ -68,7 +68,8 @@ struct ChemistClassTraits<Grid> {
     using grid_point_type   = GridPoint;
     using grid_point_traits = ChemistClassTraits<grid_point_type>;
     using point_type        = typename grid_point_traits::point_type;
-    using point_set_type    = PointSet<point_type>;
+    using coord_type        = typename point_type::coord_type;
+    using point_set_type    = PointSet<coord_type>;
     using point_set_traits  = ChemistClassTraits<point_set_type>;
 };
 
@@ -82,7 +83,8 @@ struct ChemistClassTraits<const Grid> {
     using grid_point_type   = GridPoint;
     using grid_point_traits = ChemistClassTraits<const grid_point_type>;
     using point_type        = typename grid_point_traits::point_type;
-    using point_set_type    = PointSet<const point_type>;
+    using coord_type        = typename point_type::coord_type;
+    using point_set_type    = PointSet<coord_type>;
     using point_set_traits  = ChemistClassTraits<const point_set_type>;
 };
 
