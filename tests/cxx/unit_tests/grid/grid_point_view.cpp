@@ -91,7 +91,8 @@ TEMPLATE_LIST_TEST_CASE("GridPointView", "", types2test) {
 
         SECTION("move assignment") {
             view_type copy(origin_view);
-            auto pnon_origin = &(non_origin_view = std::move(copy));
+            auto pnon_origin_view = &(non_origin_view = std::move(copy));
+            REQUIRE(pnon_origin_view == &non_origin_view);
             REQUIRE(non_origin_view.weight() == 1.2);
             REQUIRE(non_origin_view.point() == porigin);
             check_addresses(non_origin_view, origin_view);
