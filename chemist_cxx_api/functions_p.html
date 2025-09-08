@@ -91,7 +91,7 @@ $(function() {
 : <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1LinearCombinationImpl.html#a8fe21acffa62fdb600fe2850b17e7f0d">chemist::qm_operator::detail_::LinearCombinationImpl&lt; DerivedType &gt;</a>
 </li>
 <li>particle()
-: <a class="el" href="classchemist_1_1qm__operator_1_1Kinetic.html#ae03552b9741e2df93c7d59f6de6862b4">chemist::qm_operator::Kinetic&lt; ParticleType &gt;</a>
+: <a class="el" href="classchemist_1_1qm__operator_1_1Kinetic.html#a5b54bd6c7dc0a8370daa1ed1dc8e8891">chemist::qm_operator::Kinetic&lt; ParticleType &gt;</a>
 </li>
 <li>particle_reference
 : <a class="el" href="classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html#addf044092e6ef1bae3ed893c20d8d09c">chemist::qm_operator::detail_::OperatorImpl&lt; DerivedType, Particles &gt;</a>
@@ -169,8 +169,12 @@ $(function() {
 , <a class="el" href="classchemist_1_1PointSetView.html#a442995c4fbb23fd3a5b47b58e0c639b5">chemist::PointSetView&lt; PointSetType &gt;</a>
 , <a class="el" href="classchemist_1_1topology_1_1ConnectivityTable.html#a2eadf9c72dc64049a3e34cff2499bf08">chemist::topology::ConnectivityTable</a>
 </li>
+<li>point()
+: <a class="el" href="classchemist_1_1GridPoint.html#a66d95a0e1f7efd93994975ac9b5fa32a">chemist::GridPoint</a>
+, <a class="el" href="classchemist_1_1GridPointView.html#a2a29a4048a62cbde640af73a0905798c">chemist::GridPointView&lt; GridPointType &gt;</a>
+</li>
 <li>Point()
-: <a class="el" href="classchemist_1_1Point.html#a9d4a9b04de3c472fb141ca7f2119ac25">chemist::Point&lt; T &gt;</a>
+: <a class="el" href="classchemist_1_1Point.html#aacbf5458cdadad2db510ebba812fd248">chemist::Point&lt; T &gt;</a>
 </li>
 <li>point_alias()
 : <a class="el" href="classchemist_1_1Point.html#a73bdde68c0fe9d08c9d73e8b0913c9a9">chemist::Point&lt; T &gt;</a>
@@ -190,7 +194,8 @@ $(function() {
 , <a class="el" href="classchemist_1_1PointChargeView.html#a2d045e287c1932f1a722b7d28610879b">chemist::PointChargeView&lt; ChargeType &gt;</a>
 </li>
 <li>point_reference
-: <a class="el" href="classchemist_1_1PointView.html#a005965e2d0ded5048a400092db876534">chemist::PointView&lt; PointType &gt;</a>
+: <a class="el" href="classchemist_1_1GridPoint.html#a8ab0ebf4537994ec3b2007e47b3d1575">chemist::GridPoint</a>
+, <a class="el" href="classchemist_1_1PointView.html#a005965e2d0ded5048a400092db876534">chemist::PointView&lt; PointType &gt;</a>
 </li>
 <li>point_set()
 : <a class="el" href="classchemist_1_1Charges.html#a272f1865ad69d1f895c125cbb1583eb0">chemist::Charges&lt; T &gt;</a>
@@ -216,6 +221,7 @@ $(function() {
 </li>
 <li>point_set_type
 : <a class="el" href="classchemist_1_1ChargesView.html#aa1e7f3ce4a47779d70eeb54465cd2657">chemist::ChargesView&lt; ChargesType &gt;</a>
+, <a class="el" href="classchemist_1_1Grid.html#a7964410cfbc889b4795506b3229c228e">chemist::Grid</a>
 , <a class="el" href="classchemist_1_1PointSetView.html#aa405c9199dc7bf504a5c659065aefb7d">chemist::PointSetView&lt; PointSetType &gt;</a>
 </li>
 <li>point_traits
@@ -227,9 +233,13 @@ $(function() {
 </li>
 <li>point_type
 : <a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#a1b8fd22295f8c61f7ba150190cfc3f68">chemist::detail_::PointPIMPL&lt; T &gt;</a>
+, <a class="el" href="classchemist_1_1GridPoint.html#a1b71e4f3a99c5213050ff15880aae7f8">chemist::GridPoint</a>
 , <a class="el" href="classchemist_1_1PointCharge.html#af987b6ec68b7ae070b92c4f680ea8c60">chemist::PointCharge&lt; ScalarType &gt;</a>
 , <a class="el" href="classchemist_1_1PointChargeView.html#a27af0b44972107d4f1a186742586cd93">chemist::PointChargeView&lt; ChargeType &gt;</a>
 , <a class="el" href="classchemist_1_1PointView.html#a2d841182fee6db57154d8ffd9c01cd53">chemist::PointView&lt; PointType &gt;</a>
+</li>
+<li>point_view
+: <a class="el" href="classchemist_1_1GridPointView.html#a24d0ceb4953b609afd71a07a1764e68c">chemist::GridPointView&lt; GridPointType &gt;</a>
 </li>
 <li>point_view_type
 : <a class="el" href="classchemist_1_1PointChargeView.html#a9f9c5e51b7d114d5ef9b7faf2721b7e4">chemist::PointChargeView&lt; ChargeType &gt;</a>
@@ -241,16 +251,16 @@ $(function() {
 : <a class="el" href="classchemist_1_1PointChargeView.html#ae4f86d68a0e25ab01911a05ec8a6c981">chemist::PointChargeView&lt; ChargeType &gt;</a>
 </li>
 <li>PointPIMPL()
-: <a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#a77c75ab2d1bbb95a99b127b8dee0a707">chemist::detail_::PointPIMPL&lt; T &gt;</a>
+: <a class="el" href="classchemist_1_1detail___1_1PointPIMPL.html#a64a592affdfde166a105476e8dd4029f">chemist::detail_::PointPIMPL&lt; T &gt;</a>
 </li>
 <li>PointSet()
-: <a class="el" href="classchemist_1_1PointSet.html#a6feb8eb6e2803b44259bcc892765ddfe">chemist::PointSet&lt; T &gt;</a>
+: <a class="el" href="classchemist_1_1PointSet.html#a97ecfa219bc8d2b028fc6d55c76bfa78">chemist::PointSet&lt; T &gt;</a>
 </li>
 <li>PointSetContiguous()
 : <a class="el" href="classchemist_1_1detail___1_1PointSetContiguous.html#a678cece5a532003a4f628bdd89cc1ac9">chemist::detail_::PointSetContiguous&lt; PointSetType &gt;</a>
 </li>
 <li>PointSetView()
-: <a class="el" href="classchemist_1_1PointSetView.html#ad6d9c7c74d724679ef8aa39362651384">chemist::PointSetView&lt; PointSetType &gt;</a>
+: <a class="el" href="classchemist_1_1PointSetView.html#a661ef9225b1f78eb0c8c28777670a722">chemist::PointSetView&lt; PointSetType &gt;</a>
 </li>
 <li>PointSetViewPIMPL()
 : <a class="el" href="classchemist_1_1detail___1_1PointSetViewPIMPL.html#ae6945059ae123eadfda9cfe06ca7439b">chemist::detail_::PointSetViewPIMPL&lt; PointSetType &gt;</a>
@@ -262,16 +272,16 @@ $(function() {
 : <a class="el" href="structchemist_1_1basis__set_1_1detail___1_1PrimitivePIMPL.html#a62b3754856358c66e5bfbb1d7a97390b">chemist::basis_set::detail_::PrimitivePIMPL&lt; T &gt;</a>
 </li>
 <li>primitive()
-: <a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a9dab958573c8ededc354f55f8f531448">chemist::basis_set::AOBasisSet&lt; AtomicBasisSetType &gt;</a>
-, <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSet.html#ae7dbb20b513c89a90ced47ff04a057ac">chemist::basis_set::AtomicBasisSet&lt; ShellType &gt;</a>
-, <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSetView.html#a8cec3a838ab63086e3fd063936da7cc7">chemist::basis_set::AtomicBasisSetView&lt; AtomicBasisSetType &gt;</a>
+: <a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#aeb761434556fa44fa4a8d1ebe78dea61">chemist::basis_set::AOBasisSet&lt; AtomicBasisSetType &gt;</a>
+, <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSet.html#a53bc06436e8c59f3f2cc7eeac6a01bfc">chemist::basis_set::AtomicBasisSet&lt; ShellType &gt;</a>
+, <a class="el" href="classchemist_1_1basis__set_1_1AtomicBasisSetView.html#a130340776419dd926398fb8f01414bdb">chemist::basis_set::AtomicBasisSetView&lt; AtomicBasisSetType &gt;</a>
 </li>
 <li>Primitive()
-: <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#a1ec14c0dfb83592487b6c429c42d9448">chemist::basis_set::Primitive&lt; T &gt;</a>
+: <a class="el" href="classchemist_1_1basis__set_1_1Primitive.html#ae80828b96c41d10ca34ccd7438f88268">chemist::basis_set::Primitive&lt; T &gt;</a>
 </li>
 <li>primitive()
-: <a class="el" href="classchemist_1_1basis__set_1_1Shell.html#abe7a57ad49596601cedb940e584ba622">chemist::basis_set::Shell&lt; CGType &gt;</a>
-, <a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#af8eecf022804e485af7e02d72ebd1cb3">chemist::basis_set::ShellView&lt; ShellType &gt;</a>
+: <a class="el" href="classchemist_1_1basis__set_1_1Shell.html#a7bc9ac91e76d947d8419475f6dfe0897">chemist::basis_set::Shell&lt; CGType &gt;</a>
+, <a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#ad04a8bac161bee36be97b564bfdda1d8">chemist::basis_set::ShellView&lt; ShellType &gt;</a>
 </li>
 <li>primitive_range()
 : <a class="el" href="classchemist_1_1basis__set_1_1AOBasisSet.html#a8b5ee63445754ad1b17a57e76015aaea">chemist::basis_set::AOBasisSet&lt; AtomicBasisSetType &gt;</a>
@@ -298,7 +308,7 @@ $(function() {
 </li>
 <li>pure()
 : <a class="el" href="classchemist_1_1basis__set_1_1Shell.html#aa2949b471af9bf9097a27f93da62d0e9">chemist::basis_set::Shell&lt; CGType &gt;</a>
-, <a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#a2df3e25a2eba89ad0b02a7972175d880">chemist::basis_set::ShellView&lt; ShellType &gt;</a>
+, <a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#a70ab4d73719791ac39d488ad332eba79">chemist::basis_set::ShellView&lt; ShellType &gt;</a>
 </li>
 <li>pure_pointer
 : <a class="el" href="classchemist_1_1basis__set_1_1ShellView.html#adceafb25692b941c79bc37104a2f1911">chemist::basis_set::ShellView&lt; ShellType &gt;</a>
