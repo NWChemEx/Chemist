@@ -100,6 +100,23 @@ typename PRIM_TYPE::const_exponent_reference PRIM_TYPE::exponent() const {
     return m_pimpl_->m_exponent;
 }
 
+template<typename T>
+T PRIM_TYPE::evaluate(const_center_reference r) const {
+    auto dr  = r - const_center_reference(center());
+    auto dr2 = dr.inner_product(dr);
+    return coefficient() * std::exp(-exponent() * dr2);
+}
+
+template<typename T>
+std::vector<T> PRIM_TYPE::evaluate(const_point_set_view points) const {
+    std::vector<T> results;
+    results.reserve(points.size());
+    for(std::size_t i = 0; i < points.size(); ++i) {
+        results.push_back(evaluate(points[i]));
+    }
+    return results;
+}
+
 // -----------------------------------------------------------------------------
 // -- Utility Functions
 // -----------------------------------------------------------------------------

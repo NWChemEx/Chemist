@@ -105,6 +105,9 @@ public:
     /// Type of a pointer to a read-only exponent
     using const_exponent_pointer = const exponent_type*;
 
+    /// Type of a read-only view of a set of points
+    using const_point_set_view = PointSetView<const PointSet<T>>;
+
     // -------------------------------------------------------------------------
     // -- Ctors, assignment, and dtor
     // -------------------------------------------------------------------------
@@ -299,6 +302,10 @@ public:
      *         guarantee.
      */
     const_exponent_reference exponent() const;
+
+    T evaluate(const_center_reference r) const;
+
+    std::vector<T> evaluate(const_point_set_view points) const;
 
     // -------------------------------------------------------------------------
     // -- Utility Functions

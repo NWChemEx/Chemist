@@ -269,7 +269,28 @@ public:
      *  @throw None No throw guarantee.
      */
     coord_type magnitude() const noexcept {
-        return std::sqrt(x() * x() + y() * y() + z() * z());
+        return std::sqrt(inner_product(*this));
+    }
+
+    /** @brief Returns the inner product of *this with @p rhs.
+     *
+     * The inner product of two points is defined as:
+     *
+     * @f[
+     *  \vec{a} \cdot \vec{b} = a_x b_x + a_y b_y + a_z b_z
+     * @f]
+     *
+     * and is the scalar projection of point @f$\vec{a}@f$ onto the
+     * point @f$\vec{b}@f$.
+     *
+     * @param[in] rhs The Point to take the inner product with.
+     *
+     * @return The inner product of *this with @p rhs.
+     *
+     * @throw None No throw guarantee.
+     */
+    coord_type inner_product(const Point<T>& rhs) const noexcept {
+        return x() * rhs.x() + y() * rhs.y() + z() * rhs.z();
     }
 
     /** @brief Serialize Point instance
