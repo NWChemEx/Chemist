@@ -174,6 +174,23 @@ TEMPLATE_TEST_CASE("Primitive", "", float, double) {
         REQUIRE(std::as_const(values).exponent() == 5.0);
     }
 
+    SECTION("evaluate(point)") {
+        REQUIRE_THROWS_AS(defaulted.evaluate(origin) == 0.0,
+                          std::runtime_error);
+        REQUIRE(values.evaluate(origin) ==
+                Catch::Approx(4.0 * std::exp(-70.0)).epsilon(1e-6));
+
+        REQUIRE(values.evaluate(r0) == Catch::Approx(4.0).epsilon(1e-6));
+    }
+
+    SECTION("evalutate(PointSet)") {
+        chemist::PointSet<TestType> pts{origin, r0};
+        using const_point_set_view = typename prim_type::const_point_set_view;
+        auto rv                    = values.evaluate(const_point_set_view(pts));
+        REQUIRE(rv[0] == Catch::Approx(4.0 * std::exp(-70.0)).epsilon(1e-6));
+        REQUIRE(rv[1] == Catch::Approx(4.0).epsilon(1e-6));
+    }
+
     SECTION("is_null") {
         REQUIRE(defaulted.is_null());
 

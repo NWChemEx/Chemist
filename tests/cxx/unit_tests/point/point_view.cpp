@@ -182,10 +182,14 @@ TEMPLATE_TEST_CASE("PointView", "", Point<double>, Point<float>) {
     }
 
     SECTION("operator-") {
-        // REQUIRE((r1 - r0) == (pr1 - pr0));
-        // REQUIRE((r0 - r1) == (pr0 - pr1));
-        // REQUIRE((r0 - r0) == (pr0 - pr0));
-        // REQUIRE((r1 - r1) == (pr1 - pr1));
+        TestType r1(3.0, 4.0, 5.0);
+        TestType r01(-3.0, -3.0, -3.0);
+        TestType r10(3.0, 3.0, 3.0);
+        TestType r00(0.0, 0.0, 0.0);
+        REQUIRE((pr1 - pr0) == r10);
+        REQUIRE((pr0 - pr1) == r01);
+        REQUIRE((pr0 - pr0) == r00);
+        REQUIRE((pr1 - pr1) == r00);
     }
 
     SECTION("Comparisons") {

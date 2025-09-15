@@ -313,10 +313,10 @@ private:
 };
 
 /// Computes the vector difference of between two aliased Points
-template<typename T>
-Point<T> operator-(PointView<const Point<T>> lhs,
-                   PointView<const Point<T>> rhs) noexcept {
-    return Point<T>(lhs.x() - rhs.x(), lhs.y() - rhs.y(), lhs.z() - rhs.z());
+template<typename LHSType, typename RHSType>
+auto operator-(PointView<LHSType> lhs, PointView<RHSType> rhs) noexcept {
+    using point_type = std::decay_t<LHSType>;
+    return point_type(lhs.x() - rhs.x(), lhs.y() - rhs.y(), lhs.z() - rhs.z());
 }
 
 /// Same as PointView::operator==, but when a Point is the LHS

@@ -38,6 +38,7 @@ TEMPLATE_TEST_CASE("PrimitiveView", "", float, double) {
     using view_type   = PrimitiveView<prim_type>;
     using const_view  = PrimitiveView<const prim_type>;
 
+    center_type origin;
     center_type r0(1.0, 2.0, 3.0);
     prim_type defaulted;
     prim_type values(4.0, 5.0, r0);
@@ -302,6 +303,23 @@ TEMPLATE_TEST_CASE("PrimitiveView", "", float, double) {
             REQUIRE(std::as_const(values_view).exponent() == 5.0);
             REQUIRE(std::as_const(const_values_view).exponent() == 5.0);
         }
+    }
+
+    SECTION("evaluate(point)") {
+        REQUIRE_THROWS_AS(defaulted_view.evaluate(origin) == 0.0,
+                          std::runtime_error);
+        REQUIRE(values_view.evaluate(origin) ==
+                Catch::Approx(4.0 * std::exp(-70.0)).epsilon(1e-6));
+
+        REQUIRE(values.evaluate(r0) == Catch::Approx(4.0).epsilon(1e-6));
+    }
+
+    SECTION("evalutate(PointSet)") {
+        chemist::PointSet<TestType> pts{origin, r0};
+        using const_point_set_view = typename prim_type::const_point_set_view;
+        auto rv = values_view.evaluate(const_point_set_view(pts));
+        REQUIRE(rv[0] == Catch::Approx(4.0 * std::exp(-70.0)).epsilon(1e-6));
+        REQUIRE(rv[1] == Catch::Approx(4.0).epsilon(1e-6));
     }
 
     SECTION("utility functions") {
