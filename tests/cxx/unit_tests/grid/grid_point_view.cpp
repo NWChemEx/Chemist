@@ -16,6 +16,7 @@
 
 #include "../test_helpers.hpp"
 #include <chemist/grid/grid_point_view.hpp>
+#include <utility>
 
 using namespace chemist;
 using point_type = GridPoint::point_type;
