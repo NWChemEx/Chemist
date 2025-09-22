@@ -182,6 +182,32 @@ TEMPLATE_TEST_CASE("ContractedGaussian", "", float, double) {
         }
     }
 
+    SECTION("evaluate(point)") {
+        center_type origin;
+
+        REQUIRE(cg0.evaluate(r0) == 0.0);
+        REQUIRE(cg0.evaluate(origin) == 0.0);
+        REQUIRE(cg1.evaluate(r0) == Catch::Approx(6.0).epsilon(1e-6));
+
+        auto corr = 6.0 * std::exp(-2046.0);
+        REQUIRE(cg1.evaluate(origin) == Catch::Approx(corr).epsilon(1e-6));
+    }
+
+    SECTION("evaluate(PointSet)") {
+        center_type origin;
+        chemist::PointSet<TestType> pts{origin, r0};
+        using const_point_set_view = typename cg_type::const_point_set_view;
+        auto rv                    = cg1.evaluate(const_point_set_view(pts));
+        REQUIRE(rv.size() == 2);
+        REQUIRE(rv[0] == Catch::Approx(6.0 * std::exp(-2046.0)).epsilon(1e-6));
+        REQUIRE(rv[1] == Catch::Approx(6.0).epsilon(1e-6));
+
+        rv = cg0.evaluate(const_point_set_view(pts));
+        REQUIRE(rv.size() == 2);
+        REQUIRE(rv[0] == 0.0);
+        REQUIRE(rv[1] == 0.0);
+    }
+
     SECTION("utility") {
         SECTION("swap") {
             cg_type cg0_copy(cg0);
