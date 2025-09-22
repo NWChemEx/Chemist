@@ -154,6 +154,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abc265138ddcc59cb18385751ef03a64f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">coord_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#abc265138ddcc59cb18385751ef03a64f">magnitude</a> () const noexcept</td></tr>
 <tr class="memdesc:abc265138ddcc59cb18385751ef03a64f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the magnitude of the point.  <a href="classchemist_1_1Point.html#abc265138ddcc59cb18385751ef03a64f">More...</a><br /></td></tr>
 <tr class="separator:abc265138ddcc59cb18385751ef03a64f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0afb78d61090bf0f8b1ddbe95eb38015"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">coord_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a0afb78d61090bf0f8b1ddbe95eb38015">inner_product</a> (const <a class="el" href="classchemist_1_1Point.html">Point</a>&lt; T &gt; &amp;rhs) const noexcept</td></tr>
+<tr class="memdesc:a0afb78d61090bf0f8b1ddbe95eb38015"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the inner product of *this with <code>rhs</code>.  <a href="classchemist_1_1Point.html#a0afb78d61090bf0f8b1ddbe95eb38015">More...</a><br /></td></tr>
+<tr class="separator:a0afb78d61090bf0f8b1ddbe95eb38015"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a458633db6bf69efd8589cc7c6a046233"><td class="memTemplParams" colspan="2">template&lt;typename Archive &gt; </td></tr>
 <tr class="memitem:a458633db6bf69efd8589cc7c6a046233"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1Point.html#a458633db6bf69efd8589cc7c6a046233">save</a> (Archive &amp;ar) const</td></tr>
 <tr class="memdesc:a458633db6bf69efd8589cc7c6a046233"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialize <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> instance.  <a href="classchemist_1_1Point.html#a458633db6bf69efd8589cc7c6a046233">More...</a><br /></td></tr>
@@ -506,6 +509,54 @@ template&lt;typename T &gt; </div>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if <code>q</code> is not in the range [0, 3). Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0afb78d61090bf0f8b1ddbe95eb38015"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0afb78d61090bf0f8b1ddbe95eb38015">&#9670;&nbsp;</a></span>inner_product()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1Point.html#ad75bc3af8f6f563215adddb267330bf7">coord_type</a> <a class="el" href="classchemist_1_1Point.html">chemist::Point</a>&lt; T &gt;::inner_product </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1Point.html">Point</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the inner product of *this with <code>rhs</code>. </p>
+<p>The inner product of two points is defined as:</p>
+<p class="formulaDsp">
+<img class="formulaDsp" alt="\[ \vec{a} \cdot \vec{b} = a_x b_x + a_y b_y + a_z b_z \]" src="form_37.png"/>
+</p>
+<p>and is the scalar projection of point <img class="formulaInl" alt="$\vec{a}$" src="form_34.png"/> onto the point <img class="formulaInl" alt="$\vec{b}$" src="form_35.png"/>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> to take the inner product with.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The inner product of *this with <code>rhs</code>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>

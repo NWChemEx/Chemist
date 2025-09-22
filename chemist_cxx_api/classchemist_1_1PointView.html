@@ -137,9 +137,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4c7132d88708c13eb7de6cc5762c0fad"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointView.html">PointView</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointView.html#a4c7132d88708c13eb7de6cc5762c0fad">operator=</a> (PointType2 &amp;&amp;point)</td></tr>
 <tr class="memdesc:a4c7132d88708c13eb7de6cc5762c0fad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes the aliased <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> a copy of <code>point</code>.  <a href="classchemist_1_1PointView.html#a4c7132d88708c13eb7de6cc5762c0fad">More...</a><br /></td></tr>
 <tr class="separator:a4c7132d88708c13eb7de6cc5762c0fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f71c3c2199d2ce177ba700c4583f54b"><td class="memItemLeft" align="right" valign="top"><a id="a1f71c3c2199d2ce177ba700c4583f54b"></a>
-<a class="el" href="classchemist_1_1PointView.html#a89883e4deb0f69b1c24627a3eef60530">coord_type</a>&#160;</td><td class="memItemRight" valign="bottom"><b>magnitude</b> () const noexcept</td></tr>
+<tr class="memitem:a1f71c3c2199d2ce177ba700c4583f54b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointView.html#a89883e4deb0f69b1c24627a3eef60530">coord_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointView.html#a1f71c3c2199d2ce177ba700c4583f54b">magnitude</a> () const noexcept</td></tr>
+<tr class="memdesc:a1f71c3c2199d2ce177ba700c4583f54b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the magnitude of the point.  <a href="classchemist_1_1PointView.html#a1f71c3c2199d2ce177ba700c4583f54b">More...</a><br /></td></tr>
 <tr class="separator:a1f71c3c2199d2ce177ba700c4583f54b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ea455f6f3a42e8f33e8ab5cbb0de1b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointView.html#a89883e4deb0f69b1c24627a3eef60530">coord_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointView.html#a6ea455f6f3a42e8f33e8ab5cbb0de1b8">inner_product</a> (<a class="el" href="classchemist_1_1PointView.html#aa497bb31e38fcc03699f2e9affc314c7">const_point_view</a> rhs) const noexcept</td></tr>
+<tr class="memdesc:a6ea455f6f3a42e8f33e8ab5cbb0de1b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the inner product of *this with <code>rhs</code>.  <a href="classchemist_1_1PointView.html#a6ea455f6f3a42e8f33e8ab5cbb0de1b8">More...</a><br /></td></tr>
+<tr class="separator:a6ea455f6f3a42e8f33e8ab5cbb0de1b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7c97ea15ba9d82a9599f4fb0e2975ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1PointView.html#a2d841182fee6db57154d8ffd9c01cd53">point_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1PointView.html#af7c97ea15ba9d82a9599f4fb0e2975ff">as_point</a> () const</td></tr>
 <tr class="memdesc:af7c97ea15ba9d82a9599f4fb0e2975ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion to a <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> object.  <a href="classchemist_1_1PointView.html#af7c97ea15ba9d82a9599f4fb0e2975ff">More...</a><br /></td></tr>
 <tr class="separator:af7c97ea15ba9d82a9599f4fb0e2975ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -399,6 +402,87 @@ template&lt;typename PointType &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A reference to the requested coordinate. If *this is const, the returned reference will be read-only, otherwise whether or not the reference is read-only or read/write respectively depends on whether or not PointType is const-qualified.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6ea455f6f3a42e8f33e8ab5cbb0de1b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ea455f6f3a42e8f33e8ab5cbb0de1b8">&#9670;&nbsp;</a></span>inner_product()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename PointType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1PointView.html#a89883e4deb0f69b1c24627a3eef60530">coord_type</a> <a class="el" href="classchemist_1_1PointView.html">chemist::PointView</a>&lt; PointType &gt;::inner_product </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1PointView.html#aa497bb31e38fcc03699f2e9affc314c7">const_point_view</a>&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the inner product of *this with <code>rhs</code>. </p>
+<p>This method returns the inner product of the <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> aliased by *this with the <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> aliased by <code>rhs</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The Point-like object we are taking the inner product with.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The inner product of the <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> aliased by *this with <code>rhs</code>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1f71c3c2199d2ce177ba700c4583f54b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f71c3c2199d2ce177ba700c4583f54b">&#9670;&nbsp;</a></span>magnitude()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename PointType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1PointView.html#a89883e4deb0f69b1c24627a3eef60530">coord_type</a> <a class="el" href="classchemist_1_1PointView.html">chemist::PointView</a>&lt; PointType &gt;::magnitude </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the magnitude of the point. </p>
+<p>This function returns the magnitude of the current point, <em>i.e.</em>, the distance from the origin.</p>
+<dl class="section return"><dt>Returns</dt><dd>The magnitude of the current point.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>

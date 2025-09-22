@@ -504,6 +504,11 @@ template&lt;typename NucleusType &gt; </td></tr>
 <tr class="memitem:a03ea5abc68cee5830224d48549835fea"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacechemist.html#a03ea5abc68cee5830224d48549835fea">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classchemist_1_1Point.html">Point</a>&lt; T &gt; &amp;p)</td></tr>
 <tr class="memdesc:a03ea5abc68cee5830224d48549835fea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a string representation of <code>p</code> to <code>os</code>.  <a href="namespacechemist.html#a03ea5abc68cee5830224d48549835fea">More...</a><br /></td></tr>
 <tr class="separator:a03ea5abc68cee5830224d48549835fea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9aa0a333a724babc4dd1a20782e9e6f"><td class="memTemplParams" colspan="2"><a id="ad9aa0a333a724babc4dd1a20782e9e6f"></a>
+template&lt;typename LHSType , typename RHSType &gt; </td></tr>
+<tr class="memitem:ad9aa0a333a724babc4dd1a20782e9e6f"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacechemist.html#ad9aa0a333a724babc4dd1a20782e9e6f">operator-</a> (<a class="el" href="classchemist_1_1PointView.html">PointView</a>&lt; LHSType &gt; lhs, <a class="el" href="classchemist_1_1PointView.html">PointView</a>&lt; RHSType &gt; rhs) noexcept</td></tr>
+<tr class="memdesc:ad9aa0a333a724babc4dd1a20782e9e6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the vector difference of between two aliased Points. <br /></td></tr>
+<tr class="separator:ad9aa0a333a724babc4dd1a20782e9e6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a721bf40f6c760285694cfc03d272eaaf"><td class="memTemplParams" colspan="2"><a id="a721bf40f6c760285694cfc03d272eaaf"></a>
 template&lt;typename CoordType , typename PointType &gt; </td></tr>
 <tr class="memitem:a721bf40f6c760285694cfc03d272eaaf"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacechemist.html#a721bf40f6c760285694cfc03d272eaaf">operator==</a> (const <a class="el" href="classchemist_1_1Point.html">Point</a>&lt; CoordType &gt; &amp;lhs, const <a class="el" href="classchemist_1_1PointView.html">PointView</a>&lt; PointType &gt; &amp;rhs)</td></tr>
@@ -727,7 +732,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Vector difference of two points. </p>
-<p>This function returns the vector difference of two points, <em>i.e.</em>, for points <img class="formulaInl" alt="$\vec{a}$" src="form_32.png"/> and <img class="formulaInl" alt="$\vec{b}$" src="form_33.png"/>, this function returns a point <img class="formulaInl" alt="$\vec{c}$" src="form_34.png"/> such that the <img class="formulaInl" alt="$i$" src="form_11.png"/>-th component of <img class="formulaInl" alt="$\vec{c}$" src="form_34.png"/> is given by: @f{ c_i = a_i - b_i @f}</p>
+<p>This function returns the vector difference of two points, <em>i.e.</em>, for points <img class="formulaInl" alt="$\vec{a}$" src="form_34.png"/> and <img class="formulaInl" alt="$\vec{b}$" src="form_35.png"/>, this function returns a point <img class="formulaInl" alt="$\vec{c}$" src="form_36.png"/> such that the <img class="formulaInl" alt="$i$" src="form_11.png"/>-th component of <img class="formulaInl" alt="$\vec{c}$" src="form_36.png"/> is given by: @f{ c_i = a_i - b_i @f}</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The scalar type used to hold the components of the point.</td></tr>

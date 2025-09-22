@@ -124,6 +124,22 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a60cd04ff6fb456f770e99ff9800be2c6">size_type</a> = typename container_base::size_type</td></tr>
 <tr class="memdesc:a60cd04ff6fb456f770e99ff9800be2c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsigned integral type of an index/offset. <br /></td></tr>
 <tr class="separator:a60cd04ff6fb456f770e99ff9800be2c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ae8f1f036aa5584c89ac58d1f93e680"><td class="memItemLeft" align="right" valign="top"><a id="a8ae8f1f036aa5584c89ac58d1f93e680"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a8ae8f1f036aa5584c89ac58d1f93e680">numerical_value</a> = typename <a class="el" href="structchemist_1_1basis__set_1_1PrimitiveTraits.html#a03a947b48c865443c4210644343f1e99">primitive_traits::coord_type</a></td></tr>
+<tr class="memdesc:a8ae8f1f036aa5584c89ac58d1f93e680"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type resulting from evaluating *this at a point. <br /></td></tr>
+<tr class="separator:a8ae8f1f036aa5584c89ac58d1f93e680"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28449efa7968d16a3f915827351a539d"><td class="memItemLeft" align="right" valign="top"><a id="a28449efa7968d16a3f915827351a539d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a28449efa7968d16a3f915827351a539d">numerical_vector</a> = std::vector&lt; <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a8ae8f1f036aa5584c89ac58d1f93e680">numerical_value</a> &gt;</td></tr>
+<tr class="memdesc:a28449efa7968d16a3f915827351a539d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type resulting from evaluating *this at a set of points. <br /></td></tr>
+<tr class="separator:a28449efa7968d16a3f915827351a539d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0d851e174a60a82d74ee602a5ec1bc7"><td class="memItemLeft" align="right" valign="top"><a id="aa0d851e174a60a82d74ee602a5ec1bc7"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#aa0d851e174a60a82d74ee602a5ec1bc7">const_point_view</a> = typename <a class="el" href="structchemist_1_1basis__set_1_1PrimitiveTraits.html#a89614447826891853fcd4986eb2e41b7">primitive_traits::const_center_reference</a></td></tr>
+<tr class="memdesc:aa0d851e174a60a82d74ee602a5ec1bc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only view of a point. <br /></td></tr>
+<tr class="separator:aa0d851e174a60a82d74ee602a5ec1bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a654c1faa2f1196020cf978ae366f8485"><td class="memItemLeft" align="right" valign="top"><a id="a654c1faa2f1196020cf978ae366f8485"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a654c1faa2f1196020cf978ae366f8485">const_point_set_view</a> = typename <a class="el" href="structchemist_1_1basis__set_1_1PrimitiveTraits.html#a0266def7def1a22d910d5060727eaaee">primitive_traits::const_point_set_view</a></td></tr>
+<tr class="memdesc:a654c1faa2f1196020cf978ae366f8485"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only view of a set of points. <br /></td></tr>
+<tr class="separator:a654c1faa2f1196020cf978ae366f8485"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -160,6 +176,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a679dc8c76433cfc7bd3a098f01bc47af"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structchemist_1_1basis__set_1_1PrimitiveTraits.html#a89614447826891853fcd4986eb2e41b7">primitive_traits::const_center_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a679dc8c76433cfc7bd3a098f01bc47af">center</a> () const</td></tr>
 <tr class="memdesc:a679dc8c76433cfc7bd3a098f01bc47af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the location where *this is centered.  <a href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a679dc8c76433cfc7bd3a098f01bc47af">More...</a><br /></td></tr>
 <tr class="separator:a679dc8c76433cfc7bd3a098f01bc47af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d587ce847647fff8490d4cdfacbbb5a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a8ae8f1f036aa5584c89ac58d1f93e680">numerical_value</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a7d587ce847647fff8490d4cdfacbbb5a">evaluate</a> (<a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#aa0d851e174a60a82d74ee602a5ec1bc7">const_point_view</a> r) const</td></tr>
+<tr class="memdesc:a7d587ce847647fff8490d4cdfacbbb5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the value of *this at the point <code>r</code>.  <a href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a7d587ce847647fff8490d4cdfacbbb5a">More...</a><br /></td></tr>
+<tr class="separator:a7d587ce847647fff8490d4cdfacbbb5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abac01f28befc99d8e3a99dec3ed5bc1f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a28449efa7968d16a3f915827351a539d">numerical_vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#abac01f28befc99d8e3a99dec3ed5bc1f">evaluate</a> (<a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a654c1faa2f1196020cf978ae366f8485">const_point_set_view</a> points) const</td></tr>
+<tr class="memdesc:abac01f28befc99d8e3a99dec3ed5bc1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the value of *this at a series of points <code>points</code>.  <a href="classchemist_1_1basis__set_1_1ContractedGaussian.html#abac01f28befc99d8e3a99dec3ed5bc1f">More...</a><br /></td></tr>
+<tr class="separator:abac01f28befc99d8e3a99dec3ed5bc1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fe8051b183e16d7747fcec71621f933"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a6fe8051b183e16d7747fcec71621f933">swap</a> (<a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html">my_type</a> &amp;rhs) noexcept</td></tr>
 <tr class="memdesc:a6fe8051b183e16d7747fcec71621f933"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchanges the state in *this with that in <code>rhs</code>.  <a href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a6fe8051b183e16d7747fcec71621f933">More...</a><br /></td></tr>
 <tr class="separator:a6fe8051b183e16d7747fcec71621f933"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -512,6 +534,66 @@ template&lt;typename PrimitiveType &gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="abac01f28befc99d8e3a99dec3ed5bc1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abac01f28befc99d8e3a99dec3ed5bc1f">&#9670;&nbsp;</a></span>evaluate() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename PrimitiveType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a28449efa7968d16a3f915827351a539d">numerical_vector</a> <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html">chemist::basis_set::ContractedGaussian</a>&lt; PrimitiveType &gt;::evaluate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a654c1faa2f1196020cf978ae366f8485">const_point_set_view</a>&#160;</td>
+          <td class="paramname"><em>points</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the value of *this at a series of points <code>points</code>. </p>
+<p>This function is the same as the other overload of evaluate except that it computes the value of the contracted Gaussian at a series of points and returns a vector of the values.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">points</td><td>The points where the contracted Gaussian should be evaluated.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The value of the contracted Gaussian at the requested points. </dd></dl>
+
+</div>
+</div>
+<a id="a7d587ce847647fff8490d4cdfacbbb5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d587ce847647fff8490d4cdfacbbb5a">&#9670;&nbsp;</a></span>evaluate() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename PrimitiveType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#a8ae8f1f036aa5584c89ac58d1f93e680">numerical_value</a> <a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html">chemist::basis_set::ContractedGaussian</a>&lt; PrimitiveType &gt;::evaluate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1basis__set_1_1ContractedGaussian.html#aa0d851e174a60a82d74ee602a5ec1bc7">const_point_view</a>&#160;</td>
+          <td class="paramname"><em>r</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the value of *this at the point <code>r</code>. </p>
+<p>The value of a contracted Gaussian at the vector <img class="formulaInl" alt="$r$" src="form_13.png"/> is the sum of the primitive gaussians forming the contraction evaluated at <img class="formulaInl" alt="$r$" src="form_13.png"/>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">r</td><td>The point where the contracted Gaussian should be evaluated.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The value of the contracted Gaussian at the point <code>r</code>. </dd></dl>
 
 </div>
 </div>
