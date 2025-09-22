@@ -29,13 +29,15 @@
 namespace chemist {
 
 void export_chemist_enums(python_module_reference m) {
-    python_enum_type<ShellType>(m, "ShellType")
+    python_enum_type<ShellType>(m, "ShellType", "enum.Enum")
       .value("cartesian", ShellType::cartesian)
-      .value("pure", ShellType::pure);
+      .value("pure", ShellType::pure)
+      .finalize();
 
-    python_enum_type<GaugeType>(m, "GaugeType")
+    python_enum_type<GaugeType>(m, "GaugeType", "enum.Enum")
       .value("length", GaugeType::length)
-      .value("velocity", GaugeType::velocity);
+      .value("velocity", GaugeType::velocity)
+      .finalize();
 }
 
 PYBIND11_MODULE(chemist, m) {

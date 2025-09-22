@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 NWChemEx-Project
+ * Copyright 2025 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,16 @@
  */
 
 #pragma once
-#include "operator/export_operator.hpp"
-#include "wavefunction/export_wavefunction.hpp"
+#include "../../pychemist.hpp"
 
-namespace chemist {
+namespace chemist::qm_operator {
 
-inline void export_quantum_mechanics(python_module_reference m) {
-    qm_operator::export_qm_operator(m);
-    wavefunction::export_wavefunction(m);
+void export_xc_functionals(python_module_reference m);
+
+inline void export_qm_operator(python_module_reference m) {
+    auto m_op = m.def_submodule("qm_operator");
+
+    export_xc_functionals(m_op);
 }
 
-} // namespace chemist
+} // namespace chemist::qm_operator

@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <pybind11/native_enum.h>
 #include <pybind11/pybind11.h>
 
 namespace chemist {
@@ -27,7 +28,7 @@ template<typename... Args>
 using python_class_type = pybind11::class_<Args...>;
 
 template<typename... Args>
-using python_enum_type = pybind11::enum_<Args...>;
+using python_enum_type = pybind11::native_enum<Args...>;
 
 /** @brief Convenience function for checking if a pybind11 object can be
  *         cast to  type T
