@@ -90,7 +90,7 @@ typename CG_VIEW::numerical_value CG_VIEW::evaluate(const_point_view r) const {
 }
 
 template<typename CGType>
-std::vector<typename CG_VIEW::numerical_value> CG_VIEW::evaluate(
+typename CG_VIEW::numerical_vector CG_VIEW::evaluate(
   const_point_set_view points) const {
     std::vector<numerical_value> results(points.size(), 0.0);
     for(const auto& prim : *this) {

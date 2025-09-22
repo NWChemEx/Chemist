@@ -71,8 +71,7 @@ typename CG::numerical_value CG::evaluate(const_point_view r) const {
 }
 
 template<typename PrimitiveType>
-std::vector<typename CG::numerical_value> CG::evaluate(
-  const_point_set_view points) const {
+typename CG::numerical_vector CG::evaluate(const_point_set_view points) const {
     std::vector<numerical_value> results(points.size(), 0.0);
     for(const auto& prim : *this) {
         auto prim_results = prim.evaluate(points);

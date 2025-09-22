@@ -18,6 +18,7 @@
 #include <chemist/point/point.hpp>
 #include <chemist/point/point_view.hpp>
 #include <memory>
+#include <vector>
 
 namespace chemist::basis_set {
 namespace detail_ {
@@ -104,6 +105,15 @@ public:
 
     /// Type of a pointer to a read-only exponent
     using const_exponent_pointer = const exponent_type*;
+
+    /// Type resulting from evaluating the primitive at a point
+    using numerical_value = T;
+
+    /// Type resulting from evaluating the primitive at a set of points
+    using numerical_vector = std::vector<numerical_value>;
+
+    /// Type of a read-only view of a point
+    using const_point_view = PointView<const center_type>;
 
     /// Type of a read-only view of a set of points
     using const_point_set_view = PointSetView<const PointSet<T>>;
@@ -320,7 +330,7 @@ public:
      *  @throw std::runtime_error if *this is in a null state. Strong throw
      *         guarantee.
      */
-    T evaluate(const_center_reference r) const;
+    numerical_value evaluate(const_point_view r) const;
 
     /** @brief Computes the value of the current primitive at a series of
      *         points.
@@ -338,7 +348,7 @@ public:
      *         std::bad_alloc if there is insufficient memory to allocate the
      *         return. Strong throw guarantee.
      */
-    std::vector<T> evaluate(const_point_set_view points) const;
+    numerical_vector evaluate(const_point_set_view points) const;
 
     // -------------------------------------------------------------------------
     // -- Utility Functions

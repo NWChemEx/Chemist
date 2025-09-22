@@ -114,6 +114,10 @@ public:
     /// Type used to represent the value of *this at a point
     using numerical_value = typename contracted_gaussian_type::numerical_value;
 
+    /// Type used to represent the value of *this at a set of points
+    using numerical_vector =
+      typename contracted_gaussian_type::numerical_vector;
+
     /// Type used to represent a view of a point
     using const_point_view =
       typename contracted_gaussian_type::const_point_view;
@@ -339,7 +343,7 @@ public:
      *
      *  @return The value of the contracted Gaussian at the requested points.
      */
-    std::vector<numerical_value> evaluate(const_point_set_view points) const;
+    numerical_vector evaluate(const_point_set_view points) const;
 
     // -------------------------------------------------------------------------
     // -- Utility functions

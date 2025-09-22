@@ -138,6 +138,16 @@ public:
     using const_exponent_pointer =
       typename primitive_type::const_exponent_pointer;
 
+    /// Type resulting from evaluating the primitive at a point
+    using numerical_value = typename primitive_type::numerical_value;
+
+    /// Type resulting from evaluating the primitive at a set of points
+    using numerical_vector = typename primitive_type::numerical_vector;
+
+    /// Type of a read-only view of a point
+    using const_point_view = typename primitive_type::const_center_reference;
+
+    /// Type of a read-only view of a set of points
     using const_point_set_view = typename primitive_type::const_point_set_view;
 
     // -------------------------------------------------------------------------
@@ -343,7 +353,7 @@ public:
      *  @throw std::runtime_error if *this is in a null state. Strong throw
      *         guarantee.
      */
-    coord_type evaluate(const_center_reference r) const;
+    numerical_value evaluate(const_point_view r) const;
 
     /** @brief Computes the value of the current primitive at a series of
      *         points.
@@ -361,7 +371,7 @@ public:
      *         std::bad_alloc if there is insufficient memory to allocate the
      *         return. Strong throw guarantee.
      */
-    std::vector<coord_type> evaluate(const_point_set_view points) const;
+    numerical_vector evaluate(const_point_set_view points) const;
 
     // -------------------------------------------------------------------------
     // -- Utility functions

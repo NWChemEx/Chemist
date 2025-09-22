@@ -83,8 +83,13 @@ public:
     /// Type resulting from evaluating *this at a point
     using numerical_value = typename primitive_traits::coord_type;
 
+    /// Type resulting from evaluating *this at a set of points
+    using numerical_vector = std::vector<numerical_value>;
+
+    /// Type of a read-only view of a point
     using const_point_view = typename primitive_traits::const_center_reference;
 
+    /// Type of a read-only view of a set of points
     using const_point_set_view =
       typename primitive_traits::const_point_set_view;
 
@@ -277,7 +282,7 @@ public:
      *
      *  @return The value of the contracted Gaussian at the requested points.
      */
-    std::vector<numerical_value> evaluate(const_point_set_view points) const;
+    numerical_vector evaluate(const_point_set_view points) const;
 
     // -------------------------------------------------------------------------
     // -- Utility functions
