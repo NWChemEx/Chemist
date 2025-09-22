@@ -72,6 +72,9 @@ struct PrimitiveTraits {
 
     /// Type of a reference to a read-only coordinate
     using const_coord_reference = typename PrimitiveType::const_coord_reference;
+
+    /// Type of a read-only view of a set of points
+    using const_point_set_view = typename PrimitiveType::const_point_set_view;
 };
 
 } // namespace chemist::basis_set

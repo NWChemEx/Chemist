@@ -197,8 +197,33 @@ public:
     const_coord_reference z() const noexcept { return coord(2); }
     ///@}
 
+    /** @brief Returns the magnitude of the point
+     *
+     *  This function returns the magnitude of the current point, *i.e.*, the
+     *  distance from the origin.
+     *
+     *  @return The magnitude of the current point.
+     *
+     *  @throw None No throw guarantee.
+     */
     coord_type magnitude() const noexcept {
-        return std::sqrt(x() * x() + y() * y() + z() * z());
+        return std::sqrt(inner_product(*this));
+    }
+
+    /** @brief Returns the inner product of *this with @p rhs.
+     *
+     *  This method returns the inner product of the Point aliased by *this
+     *  with the Point aliased by @p rhs.
+     *
+     *  @param[in] rhs The Point-like object we are taking the inner product
+     *                 with.
+     *
+     *  @return The inner product of the Point aliased by *this with @p rhs.
+     *
+     *  @throw None No throw guarantee.
+     */
+    coord_type inner_product(const_point_view rhs) const noexcept {
+        return x() * rhs.x() + y() * rhs.y() + z() * rhs.z();
     }
 
     /** @brief Value comparison.
@@ -286,6 +311,13 @@ private:
     /// Pointers to the x, y, and z coordinates (respectively)
     std::array<internal_pointer, 3> m_pr_;
 };
+
+/// Computes the vector difference of between two aliased Points
+template<typename LHSType, typename RHSType>
+auto operator-(PointView<LHSType> lhs, PointView<RHSType> rhs) noexcept {
+    using point_type = std::decay_t<LHSType>;
+    return point_type(lhs.x() - rhs.x(), lhs.y() - rhs.y(), lhs.z() - rhs.z());
+}
 
 /// Same as PointView::operator==, but when a Point is the LHS
 template<typename CoordType, typename PointType>

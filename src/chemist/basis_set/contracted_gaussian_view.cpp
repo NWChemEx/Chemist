@@ -82,6 +82,26 @@ typename CG_VIEW::primitive_traits::const_center_reference CG_VIEW::center()
     return m_pimpl_->center();
 }
 
+template<typename CGType>
+typename CG_VIEW::numerical_value CG_VIEW::evaluate(const_point_view r) const {
+    numerical_value rv = 0.0;
+    for(const auto& prim : *this) { rv += prim.evaluate(r); }
+    return rv;
+}
+
+template<typename CGType>
+typename CG_VIEW::numerical_vector CG_VIEW::evaluate(
+  const_point_set_view points) const {
+    std::vector<numerical_value> results(points.size(), 0.0);
+    for(const auto& prim : *this) {
+        auto prim_results = prim.evaluate(points);
+        for(std::size_t i = 0; i < points.size(); ++i) {
+            results[i] += prim_results[i];
+        }
+    }
+    return results;
+}
+
 // -----------------------------------------------------------------------------
 // -- Utility functions
 // -----------------------------------------------------------------------------

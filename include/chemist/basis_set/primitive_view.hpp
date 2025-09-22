@@ -138,6 +138,18 @@ public:
     using const_exponent_pointer =
       typename primitive_type::const_exponent_pointer;
 
+    /// Type resulting from evaluating the primitive at a point
+    using numerical_value = typename primitive_type::numerical_value;
+
+    /// Type resulting from evaluating the primitive at a set of points
+    using numerical_vector = typename primitive_type::numerical_vector;
+
+    /// Type of a read-only view of a point
+    using const_point_view = typename primitive_type::const_center_reference;
+
+    /// Type of a read-only view of a set of points
+    using const_point_set_view = typename primitive_type::const_point_set_view;
+
     // -------------------------------------------------------------------------
     // -- Ctors, assignment, and dtor
     // -------------------------------------------------------------------------
@@ -323,6 +335,43 @@ public:
      *                            Strong throw guarantee.
      */
     const_exponent_reference exponent() const;
+
+    /** @brief Computes the value of the current primitive at the point @p r.
+     *
+     *  The value of a Gaussian primitive at the vector @f$r@f$ is given by:
+     *  @f[
+     *    g(\vec{r}) = c e^{-\alpha \left(\vec{r}-\vec{r_0}\right)^2},
+     *  @f]
+     *
+     *  where @f$c@f$ is the coefficient, @f$\alpha@f$ is the exponent, and
+     *  @f$\vec{r_0}@f$ is the point where the primitive is centered.
+     *
+     *  @param[in] r The point where the primitive should be evaluated.
+     *
+     *  @return The value of the primitive at the point @p r.
+     *
+     *  @throw std::runtime_error if *this is in a null state. Strong throw
+     *         guarantee.
+     */
+    numerical_value evaluate(const_point_view r) const;
+
+    /** @brief Computes the value of the current primitive at a series of
+     *         points.
+     *
+     *  This function is the same as the other overload of evaluate except that
+     *  it computes the value of the primitive at a series of points and returns
+     *  a vector of the values.
+     *
+     *  @param[in] points The points where the primitive should be evaluated.
+     *
+     *  @return The value of the primitive at the requested points.
+     *
+     *  @throw std::runtime_error if *this is in a null state. Strong throw
+     *         guarantee.
+     *         std::bad_alloc if there is insufficient memory to allocate the
+     *         return. Strong throw guarantee.
+     */
+    numerical_vector evaluate(const_point_set_view points) const;
 
     // -------------------------------------------------------------------------
     // -- Utility functions

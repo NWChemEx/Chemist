@@ -74,6 +74,25 @@ typename PRIMITIVE_VIEW::const_exponent_reference PRIMITIVE_VIEW::exponent()
     return *m_exp_;
 }
 
+PRIMITIVE_TPARAMS
+typename PRIMITIVE_VIEW::numerical_value PRIMITIVE_VIEW::evaluate(
+  const_point_view r) const {
+    auto dr  = r - const_center_reference(center());
+    auto dr2 = dr.inner_product(dr);
+    return coefficient() * std::exp(-exponent() * dr2);
+}
+
+PRIMITIVE_TPARAMS
+typename PRIMITIVE_VIEW::numerical_vector PRIMITIVE_VIEW::evaluate(
+  const_point_set_view points) const {
+    std::vector<coord_type> results;
+    results.reserve(points.size());
+    for(std::size_t i = 0; i < points.size(); ++i) {
+        results.push_back(evaluate(points[i]));
+    }
+    return results;
+}
+
 // -----------------------------------------------------------------------------
 // -- Utility functions
 // -----------------------------------------------------------------------------

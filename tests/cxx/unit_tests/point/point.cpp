@@ -216,6 +216,13 @@ TEST_CASE("Point<double> : magnitude") {
     REQUIRE(p0.magnitude() == Catch::Approx(corr));
 }
 
+TEST_CASE("Point<double> : inner_product") {
+    Point<double> p0{1.0, 2.0, 3.0};
+    Point<double> p1(4.0, 5.0, 6.0);
+    double corr = 32.0;
+    REQUIRE(p0.inner_product(p1) == Catch::Approx(corr));
+}
+
 TEST_CASE("operator<<(ostream, Point)") {
     SECTION("float") {
         Point<float> p0{1.023456789, 9.102345678, 8.910234567};

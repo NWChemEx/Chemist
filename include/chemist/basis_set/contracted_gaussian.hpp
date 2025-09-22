@@ -80,6 +80,19 @@ public:
     /// Unsigned integral type of an index/offset
     using size_type = typename container_base::size_type;
 
+    /// Type resulting from evaluating *this at a point
+    using numerical_value = typename primitive_traits::coord_type;
+
+    /// Type resulting from evaluating *this at a set of points
+    using numerical_vector = std::vector<numerical_value>;
+
+    /// Type of a read-only view of a point
+    using const_point_view = typename primitive_traits::const_center_reference;
+
+    /// Type of a read-only view of a set of points
+    using const_point_set_view =
+      typename primitive_traits::const_point_set_view;
+
     /** @brief Makes a null ContractedGaussian.
      *
      *  The default ctor makes a null ContractedGaussian instance which means
@@ -245,6 +258,31 @@ public:
      *  @throw std::runtime_error if *this is null. Strong throw guarantee.
      */
     typename primitive_traits::const_center_reference center() const;
+
+    /** @brief Computes the value of *this at the point @p r.
+     *
+     *  The value of a contracted Gaussian at the vector @f$r@f$ is the sum of
+     *  the primitive gaussians forming the contraction evaluated at @f$r@f$.
+     *
+     *  @param[in] r The point where the contracted Gaussian should be
+     *             evaluated.
+     *
+     *  @return The value of the contracted Gaussian at the point @p r.
+     */
+    numerical_value evaluate(const_point_view r) const;
+
+    /** @brief Computes the value of *this at a series of points @p points.
+     *
+     *  This function is the same as the other overload of evaluate except that
+     *  it computes the value of the contracted Gaussian at a series of points
+     *  and returns a vector of the values.
+     *
+     *  @param[in] points The points where the contracted Gaussian should be
+     *                    evaluated.
+     *
+     *  @return The value of the contracted Gaussian at the requested points.
+     */
+    numerical_vector evaluate(const_point_set_view points) const;
 
     // -------------------------------------------------------------------------
     // -- Utility functions

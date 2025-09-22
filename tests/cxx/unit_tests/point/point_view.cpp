@@ -175,6 +175,23 @@ TEMPLATE_TEST_CASE("PointView", "", Point<double>, Point<float>) {
         REQUIRE(pr1.magnitude() == r1.magnitude());
     }
 
+    SECTION("inner_product") {
+        REQUIRE(pr0.inner_product(r0) == r0.inner_product(r0));
+        REQUIRE(pr1.inner_product(r1) == r1.inner_product(r1));
+        REQUIRE(pr0.inner_product(r1) == r0.inner_product(r1));
+    }
+
+    SECTION("operator-") {
+        TestType r1(3.0, 4.0, 5.0);
+        TestType r01(-3.0, -3.0, -3.0);
+        TestType r10(3.0, 3.0, 3.0);
+        TestType r00(0.0, 0.0, 0.0);
+        REQUIRE((pr1 - pr0) == r10);
+        REQUIRE((pr0 - pr1) == r01);
+        REQUIRE((pr0 - pr0) == r00);
+        REQUIRE((pr1 - pr1) == r00);
+    }
+
     SECTION("Comparisons") {
         // N.B. We test the symmetry of the operator to ensure the view works
         //      seamlessly with Point
