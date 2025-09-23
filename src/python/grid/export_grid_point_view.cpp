@@ -25,7 +25,6 @@ void export_grid_point_view(python_module_reference m) {
     using gridp_view       = GridPointView<GridPoint>;
     using gridp_reference  = typename gridp_view::grid_point_reference;
     using weight_reference = typename gridp_view::weight_reference;
-    using point_type       = typename gridp_type::point_type;
     using point_view       = typename gridp_view::point_view;
 
     python_class_type<gridp_view>(m, "GridPointView")
