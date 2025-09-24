@@ -19,6 +19,7 @@
 #include "electron/export_electron.hpp"
 #include "enums.hpp"
 #include "fragmenting/export_fragmenting.hpp"
+#include "grid/export_grid.hpp"
 #include "molecule/export_molecule.hpp"
 #include "nucleus/export_nucleus.hpp"
 #include "point/export_point.hpp"
@@ -55,6 +56,8 @@ PYBIND11_MODULE(chemist, m) {
     export_chemist_enums(m);
     export_basis_set(m);
     export_quantum_mechanics(m);
+
+    export_grid(m);
 
     fragmenting::export_fragmenting(m);
 }
