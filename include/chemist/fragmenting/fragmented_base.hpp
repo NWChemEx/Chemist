@@ -18,6 +18,7 @@
 #include <chemist/traits/fragmenting_traits.hpp>
 #include <optional>
 #include <utilities/containers/indexable_container_base.hpp>
+#include <vector>
 
 namespace chemist::fragmenting {
 
@@ -56,6 +57,12 @@ public:
     /// Type of a read-only reference to the supersystem
     using const_supersystem_reference =
       typename supersystem_traits::const_view_type;
+
+    /// Type of a read-only reference to a fragment
+    using const_reference = typename traits_type::const_fragment_reference;
+
+    /// Type used for indexing and offsets
+    using size_type = typename base_type::size_type;
 
     /** @brief Fragments an empty object.
      *
@@ -96,6 +103,25 @@ public:
      *  @throw None No throw guarantee
      */
     const_supersystem_reference supersystem() const { return supersystem_(); }
+
+    /** @brief Returns the specified union.
+     *
+     *  This method is provided a list of fragment offsets. The method will
+     *  take the union of the corresponding fragments and return a read-only
+     *  view of the resulting fragment.
+     *
+     *  @note The function is called "concatenate" because "union" is a reserved
+     *        keyword in C++.
+     *
+     *  @param[in] fragment_indices The offsets of the fragments to union.
+     *
+     *  @throw std::out_of_range if any index in @p fragment_indices is not in
+     *                           the range [0, size()). Strong throw guarantee.
+     *
+     */
+    const_reference concatenate(std::vector<size_type> fragment_indices) const {
+        return concatenate_(std::move(fragment_indices));
+    }
 
     /** @brief Exchanges the state of *this with that of @p other.
      *
@@ -147,6 +173,9 @@ protected:
 
     /// Derived class should override to implement supersystem() const
     virtual const_supersystem_reference supersystem_() const = 0;
+
+    virtual const_reference concatenate_(
+      std::vector<size_type> fragment_indices) const = 0;
 };
 
 } // namespace chemist::fragmenting

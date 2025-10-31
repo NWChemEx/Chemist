@@ -94,6 +94,13 @@ TEMPLATE_LIST_TEST_CASE("FragmentedChemicalSystem", "", types2check) {
         REQUIRE(std::as_const(value).supersystem() == value_cs);
     }
 
+    SECTION("concatenate()") {
+        REQUIRE_THROWS_AS(defaulted.concatenate({0}), std::runtime_error);
+
+        auto concatenated = value.concatenate({0});
+        REQUIRE(concatenated == frag0);
+    }
+
     SECTION("operator[]()") {
         REQUIRE(value[0] == frag0);
         REQUIRE(value[1] == frag1);

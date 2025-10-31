@@ -299,6 +299,10 @@ protected:
     /// Implements supersystem() const
     virtual const_supersystem_reference supersystem_() const override;
 
+    /// Implements concatenate()
+    const_reference concatenate_(
+      std::vector<size_type> fragment_indices) const override;
+
 private:
     /// Code factorization for determining if *this has a PIMPL or not
     bool has_pimpl_() const noexcept;

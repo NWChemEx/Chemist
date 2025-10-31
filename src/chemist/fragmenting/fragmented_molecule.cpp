@@ -96,6 +96,12 @@ public:
 
     const auto& frags() const { return m_frags_; }
 
+    auto& charges() { return m_charges_; }
+    const auto& charges() const { return m_charges_; }
+
+    auto& multiplicities() { return m_multiplicities_; }
+    const auto& multiplicities() const { return m_multiplicities_; }
+
 private:
     fragmented_nuclei_type m_frags_;
 
@@ -271,6 +277,37 @@ typename FRAGMENTED_MOLECULE::const_supersystem_reference
 FRAGMENTED_MOLECULE::supersystem_() const {
     return has_pimpl_() ? std::as_const(*m_pimpl_).supersystem() :
                           const_supersystem_reference{};
+}
+
+TPARAMS
+typename FRAGMENTED_MOLECULE::const_reference FRAGMENTED_MOLECULE::concatenate_(
+  std::vector<size_type> fragment_indices) const {
+    assert_pimpl_();
+    auto nuclei = m_pimpl_->frags().concatenate(fragment_indices);
+
+    // TODO: MoleculeView will only alias state. This means that the integers
+    // for holding charge & multiplicity must reside in the pimpl_. We should
+    // modify MoleculeView<const Molecule> to own the state, then we can compute
+    // the charge and multiplicity here. For now we enforce that everything is
+    // neutral singlet and alias the charge/multiplicity from
+    // fragment_indices[0]
+
+    // Compute charge/multiplicity
+    for(const auto& fi : fragment_indices) {
+        auto fragi = this->at(fi);
+        if(fragi.charge() != 0)
+            throw std::runtime_error("Only neutral fragments are supported");
+        if(fragi.multiplicity() != 1)
+            throw std::runtime_error("Only singlets are supported");
+    }
+
+    // For now we only support charge and multiplicity being the same as
+    // fragment 0
+    auto pcharge = &(m_pimpl_->charges()[fragment_indices[0]]);
+    auto pmult   = &(m_pimpl_->multiplicities()[fragment_indices[0]]);
+
+    // Create the new fragment
+    return const_reference(nuclei, pcharge, pmult);
 }
 
 // -----------------------------------------------------------------------------
