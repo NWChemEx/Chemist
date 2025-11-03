@@ -168,6 +168,24 @@ TEMPLATE_LIST_TEST_CASE("FragmentedMolecule", "", types2test) {
         REQUIRE(std::as_const(value).supersystem() == cation);
     }
 
+    SECTION("concatenate") {
+        REQUIRE_THROWS_AS(defaulted.concatenate({0}), std::runtime_error);
+        REQUIRE_THROWS_AS(empty.concatenate({0}), std::out_of_range);
+        REQUIRE_THROWS_AS(value_no_frags.concatenate({0}), std::out_of_range);
+
+        SECTION("Neutral singlet") {
+            auto frag1_ref = value.concatenate({1});
+            REQUIRE(frag1_ref == frag1);
+        }
+
+        SECTION("Charged") {
+            REQUIRE_THROWS_AS(value.concatenate({0}), std::runtime_error);
+        }
+        SECTION("Multiplet") {
+            REQUIRE_THROWS_AS(value_frags.concatenate({0}), std::runtime_error);
+        }
+    }
+
     SECTION("swap") {
         class_type lhs_copy(defaulted);
         class_type rhs_copy(value);

@@ -280,6 +280,25 @@ FRAGMENTED_NUCLEI::supersystem_() const {
                           const_supersystem_reference{};
 }
 
+TPARAMS
+typename FRAGMENTED_NUCLEI::const_reference FRAGMENTED_NUCLEI::concatenate_(
+  nucleus_index_set fragment_indices) const {
+    // List of nuclei in the union
+    std::vector<std::size_t> nuclei;
+    for(const auto& fi : fragment_indices) {
+        for(const auto& ni : nuclear_indices(fi)) { nuclei.push_back(ni); }
+    }
+
+    const_reference real(this->supersystem(), nuclei);
+    auto caps =
+      m_pimpl_->cap_set().get_cap_nuclei(nuclei.begin(), nuclei.end());
+
+    if(caps.size() == 0) return real;
+
+    std::vector<const_reference> capped_frag{std::move(real), std::move(caps)};
+    return const_reference(std::move(capped_frag));
+}
+
 // -- Private members
 
 TPARAMS

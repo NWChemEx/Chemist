@@ -57,7 +57,7 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
 
     supersystem_type ss{h0, h1, h2};
     const_supersystem_reference ss_ref(ss);
-    index_set_type i0{0}, i1{1}, i2{2}, i01{0, 1}, i12{1, 2};
+    index_set_type i0{0}, i1{1}, i2{2}, i01{0, 1}, i02{0, 2}, i12{1, 2};
 
     fragment_map_type disjoint;
     disjoint.push_back(i0);
@@ -351,6 +351,44 @@ TEMPLATE_LIST_TEST_CASE("FragmentedNuclei", "", types2test) {
         nondisjoint_caps.swap(no_frags);
         REQUIRE(nondisjoint_caps == rhs_copy);
         REQUIRE(no_frags == lhs_copy);
+    }
+
+    SECTION("concatenate") {
+        // No supersystem
+        REQUIRE_THROWS_AS(empty_set.concatenate({0}), std::out_of_range);
+
+        // Fragment index out of range
+        REQUIRE_THROWS_AS(no_frags.concatenate({0}), std::out_of_range);
+
+        SECTION("disjoint nocaps") {
+            auto f01 = disjoint_no_caps.concatenate(i01);
+            REQUIRE(f01 == fragment_reference(std::vector{corr0, corr1}));
+
+            auto f02 = disjoint_no_caps.concatenate(i02);
+            REQUIRE(f02 == fragment_reference(std::vector{corr0, corr2}));
+
+            auto f12 = disjoint_no_caps.concatenate(i12);
+            REQUIRE(f12 == fragment_reference(std::vector{corr1, corr2}));
+        }
+
+        SECTION("disjoint caps") {
+            // Pretending 0 and 1 are bonded, so caps not needed for 01
+            auto f01 = disjoint_caps.concatenate(i01);
+            REQUIRE(f01 == fragment_reference(std::vector{corr0, corr1}));
+
+            auto f02 = disjoint_caps.concatenate(i02);
+            REQUIRE(f02 ==
+                    fragment_reference(std::vector{corr0, corr2, caps0}));
+
+            auto f12 = disjoint_caps.concatenate(i12);
+            REQUIRE(f12 ==
+                    fragment_reference(std::vector{corr1, corr2, caps1}));
+        }
+
+        SECTION("Non-disjoint nocaps") {
+            auto f01 = nondisjoint_no_caps.concatenate(i01);
+            REQUIRE(f01 == fragment_reference(std::vector{corr01, corr12}));
+        }
     }
 
     SECTION("at_()") {

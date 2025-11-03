@@ -186,6 +186,15 @@ FRAGMENTED_CHEMICAL_SYSTEM::supersystem_() const {
                           const_supersystem_reference{};
 }
 
+TPARAMS
+typename FRAGMENTED_CHEMICAL_SYSTEM::const_reference
+FRAGMENTED_CHEMICAL_SYSTEM::concatenate_(
+  std::vector<size_type> fragment_indices) const {
+    assert_pimpl_();
+    auto frags = m_pimpl_->frags().concatenate(std::move(fragment_indices));
+    return const_reference(std::move(frags));
+}
+
 // -----------------------------------------------------------------------------
 // -- Private methods
 // -----------------------------------------------------------------------------
