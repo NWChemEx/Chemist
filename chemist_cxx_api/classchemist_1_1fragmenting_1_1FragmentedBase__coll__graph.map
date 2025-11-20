@@ -1,4 +1,5 @@
 <map id="chemist::fragmenting::FragmentedBase&lt; DerivedClass &gt;" name="chemist::fragmenting::FragmentedBase&lt; DerivedClass &gt;">
-<area shape="rect" id="node1" title="Code factorization for classes containing fragments." alt="" coords="5,95,261,136"/>
-<area shape="rect" id="node2" title=" " alt="" coords="30,5,237,47"/>
+<area shape="rect" id="Node000001" title="Code factorization for classes containing fragments." alt="" coords="5,93,261,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="30,5,237,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="136,59,136,93,131,93,131,59"/>
 </map>

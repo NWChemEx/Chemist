@@ -1,0 +1,170 @@
+\documentclass{article}
+\usepackage{ifthen}
+\usepackage{epsfig}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\color{white}
+\pagecolor{black}
+% Packages requested by user
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\usepackage{newunicodechar}
+  \makeatletter
+    \def\doxynewunicodechar#1#2{%
+    \@tempswafalse
+    \edef\nuc@tempa{\detokenize{#1}}%
+    \if\relax\nuc@tempa\relax
+      \nuc@emptyargerr
+    \else
+      \edef\@tempb{\expandafter\@car\nuc@tempa\@nil}%
+      \nuc@check
+      \if@tempswa
+        \@namedef{u8:\nuc@tempa}{#2}%
+      \fi
+    \fi
+  }
+  \makeatother
+  \doxynewunicodechar{⁻}{${}^{-}$}% Superscript minus
+  \doxynewunicodechar{²}{${}^{2}$}% Superscript two
+  \doxynewunicodechar{³}{${}^{3}$}% Superscript three
+
+\pagestyle{empty}
+\begin{document}
+$n_0$
+\pagebreak
+
+$n_0 -1$
+\pagebreak
+
+$n_1$
+\pagebreak
+
+$n_0 + n_1 - 1$
+\pagebreak
+
+$n_{0}$
+\pagebreak
+
+$n_{0} -1$
+\pagebreak
+
+$n_{1}$
+\pagebreak
+
+$n_0 + n_1 -1$
+\pagebreak
+
+$N$
+\pagebreak
+
+$\vec{r_0}$
+\pagebreak
+
+$c_i$
+\pagebreak
+
+$i$
+\pagebreak
+
+$\alpha_i$
+\pagebreak
+
+$r$
+\pagebreak
+
+$g$
+\pagebreak
+
+$c$
+\pagebreak
+
+$\alpha$
+\pagebreak
+
+\[
+  g(\vec{r}) = c e^{-\alpha \left(\vec{r}-\vec{r_0}\right)^2},
+\]
+\pagebreak
+
+$x^ay^bz^c$
+\pagebreak
+
+$a+b+c = \ell$
+\pagebreak
+
+$\ell$
+\pagebreak
+
+$\ket{\psi}\bra{\psi}$
+\pagebreak
+
+${\phi}$
+\pagebreak
+
+$\braket{\phi'\mid\psi}\braket{\psi\mid\phi}=CC^\dagger$
+\pagebreak
+
+$C_{\phi\psi}=\braket{\phi'\mid\psi}$
+\pagebreak
+
+${\phi}\rightarrow{\psi}$
+\pagebreak
+
+${\psi}$
+\pagebreak
+
+$n$
+\pagebreak
+
+$n + 1$
+\pagebreak
+
+$(*this)[n]$
+\pagebreak
+
+$N+1$
+\pagebreak
+
+$2S+1$
+\pagebreak
+
+$S$
+\pagebreak
+
+$n + 1 $
+\pagebreak
+
+$\vec{a}$
+\pagebreak
+
+$\vec{b}$
+\pagebreak
+
+$\vec{c}$
+\pagebreak
+
+\[
+ \vec{a} \cdot \vec{b} = a_x b_x + a_y b_y + a_z b_z
+\]
+\pagebreak
+
+$\bra{u}$
+\pagebreak
+
+$|\phi_0 \phi_1 \cdots \phi_i \cdots \rangle$.
+  
+    @throw None No throw guarantee
+ */
+orbital_index_set_reference orbital_indices() { return m_occupied_; }
+
+/** @brief The indices for the orbitals comprising *this.
+  
+    This method is conceptually the same as the non-const version except
+    that the resulting reference is immutable.
+  
+    @return A set such that the i-th element is the offset of orbital i in
+            the determinant $
+\pagebreak
+
+\end{document}

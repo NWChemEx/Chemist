@@ -1,4 +1,5 @@
 <map id="chemist::detail_::NucleiUnion&lt; NucleiType &gt;" name="chemist::detail_::NucleiUnion&lt; NucleiType &gt;">
-<area shape="rect" id="node1" title="Implements a NucleiView that is a union of NucleiView objects." alt="" coords="15,95,190,136"/>
-<area shape="rect" id="node2" href="$classchemist_1_1detail___1_1NucleiViewPIMPL.html" title="Defines the API all NucleiView PIMPLs must implement." alt="" coords="5,5,200,47"/>
+<area shape="rect" id="Node000001" title="Implements a NucleiView that is a union of NucleiView objects." alt="" coords="15,93,190,133"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1detail___1_1NucleiViewPIMPL.html" title="Defines the API all NucleiView PIMPLs must implement." alt="" coords="5,5,200,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,59,105,93,100,93,100,59"/>
 </map>

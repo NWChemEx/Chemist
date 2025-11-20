@@ -1,4 +1,5 @@
 <map id="chemist::PointSetView&lt; PointSetType &gt;" name="chemist::PointSetView&lt; PointSetType &gt;">
-<area shape="rect" id="node1" title="Acts like a reference to a PointSet object." alt="" coords="63,95,231,136"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,289,47"/>
+<area shape="rect" id="Node000001" title="Acts like a reference to a PointSet object." alt="" coords="63,93,231,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,289,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,59,150,93,145,93,145,59"/>
 </map>

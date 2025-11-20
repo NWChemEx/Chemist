@@ -1,4 +1,5 @@
 <map id="chemist::basis_set::AtomicBasisSet&lt; ShellType &gt;" name="chemist::basis_set::AtomicBasisSet&lt; ShellType &gt;">
-<area shape="rect" id="node1" title="Models a set of shells associated with a specific atomic center." alt="" coords="33,95,257,136"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,284,47"/>
+<area shape="rect" id="Node000001" title="Models a set of shells associated with a specific atomic center." alt="" coords="33,93,257,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,284,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,59,147,93,142,93,142,59"/>
 </map>

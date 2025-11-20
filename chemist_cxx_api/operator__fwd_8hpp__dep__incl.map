@@ -1,16 +1,36 @@
 <map id="include/chemist/quantum_mechanics/operator/operator_fwd.hpp" name="include/chemist/quantum_mechanics/operator/operator_fwd.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="1239,5,1456,61"/>
-<area shape="rect" id="node2" href="$operator__visitor_8hpp_source.html" title=" " alt="" coords="1111,109,1328,165"/>
-<area shape="rect" id="node14" href="$typedefs_8hpp.html" title=" " alt="" coords="1468,117,1715,158"/>
-<area shape="rect" id="node3" href="$get__terms_8hpp_source.html" title=" " alt="" coords="694,213,862,269"/>
-<area shape="rect" id="node4" href="$operator__impl_8hpp_source.html" title=" " alt="" coords="887,213,1085,269"/>
-<area shape="rect" id="node6" href="$operator_8hpp_source.html" title=" " alt="" coords="933,421,1177,463"/>
-<area shape="rect" id="node5" href="$coulomb_8hpp_source.html" title=" " alt="" coords="5,325,252,366"/>
-<area shape="rect" id="node9" href="$quantum__mechanics_2operator_2density_8hpp_source.html" title=" " alt="" coords="276,325,512,366"/>
-<area shape="rect" id="node10" href="$exchange_8hpp_source.html" title=" " alt="" coords="537,325,790,366"/>
-<area shape="rect" id="node11" href="$exchange__correlation_8hpp_source.html" title=" " alt="" coords="815,317,1040,373"/>
-<area shape="rect" id="node12" href="$identity_8hpp_source.html" title=" " alt="" coords="1064,325,1303,366"/>
-<area shape="rect" id="node13" href="$kinetic_8hpp_source.html" title=" " alt="" coords="1327,325,1562,366"/>
-<area shape="rect" id="node7" href="$quantum__mechanics_8hpp.html" title=" " alt="" coords="922,511,1189,552"/>
-<area shape="rect" id="node8" href="$chemist_8hpp.html" title=" " alt="" coords="951,600,1160,627"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="1615,5,1832,60"/>
+<area shape="rect" id="Node000002" href="$operator__visitor_8hpp_source.html" title=" " alt="" coords="1487,108,1704,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1681,70,1631,110,1627,106,1678,66"/>
+<area shape="rect" id="Node000014" href="$typedefs_8hpp.html" title=" " alt="" coords="1728,115,1975,155"/>
+<area shape="poly" id="edge19_Node000001_Node000014" title=" " alt="" coords="1769,66,1829,113,1825,117,1766,71"/>
+<area shape="rect" id="Node000003" href="$operator__impl_8hpp_source.html" title=" " alt="" coords="828,211,1027,265"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1474,158,1027,224,1026,219,1473,152"/>
+<area shape="rect" id="Node000005" href="$operator_8hpp_source.html" title=" " alt="" coords="933,416,1177,456"/>
+<area shape="poly" id="edge17_Node000002_Node000005" title=" " alt="" coords="1608,176,1614,221,1614,273,1603,325,1592,349,1576,370,1556,381,1522,390,1420,407,1178,430,1177,424,1419,401,1520,385,1554,376,1572,366,1588,346,1598,323,1609,272,1609,221,1602,177"/>
+<area shape="rect" id="Node000013" href="$get__terms_8hpp_source.html" title=" " alt="" coords="1637,211,1805,265"/>
+<area shape="poly" id="edge18_Node000002_Node000013" title=" " alt="" coords="1641,169,1690,208,1686,213,1637,174"/>
+<area shape="rect" id="Node000004" href="$coulomb_8hpp_source.html" title=" " alt="" coords="5,321,252,361"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="814,252,562,277,264,316,221,323,220,318,263,311,561,272,814,247"/>
+<area shape="rect" id="Node000008" href="$quantum__mechanics_2operator_2density_8hpp_source.html" title=" " alt="" coords="276,321,512,361"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="815,262,525,316,488,323,487,318,524,311,814,257"/>
+<area shape="rect" id="Node000009" href="$exchange_8hpp_source.html" title=" " alt="" coords="537,321,790,361"/>
+<area shape="poly" id="edge9_Node000003_Node000009" title=" " alt="" coords="847,273,714,323,712,318,845,268"/>
+<area shape="rect" id="Node000010" href="$exchange__correlation_8hpp_source.html" title=" " alt="" coords="815,313,1040,368"/>
+<area shape="poly" id="edge11_Node000003_Node000010" title=" " alt="" coords="930,279,930,313,925,313,925,279"/>
+<area shape="rect" id="Node000011" href="$identity_8hpp_source.html" title=" " alt="" coords="1064,321,1303,361"/>
+<area shape="poly" id="edge13_Node000003_Node000011" title=" " alt="" coords="1008,268,1136,318,1134,323,1006,273"/>
+<area shape="rect" id="Node000012" href="$kinetic_8hpp_source.html" title=" " alt="" coords="1327,321,1562,361"/>
+<area shape="poly" id="edge15_Node000003_Node000012" title=" " alt="" coords="1040,258,1315,311,1352,318,1351,323,1313,316,1039,263"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="232,360,264,365,446,387,628,404,933,426,933,431,628,410,445,393,263,371,231,366"/>
+<area shape="rect" id="Node000006" href="$quantum__mechanics_8hpp.html" title=" " alt="" coords="922,504,1189,544"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1058,470,1058,504,1053,504,1053,470"/>
+<area shape="rect" id="Node000007" href="$chemist_8hpp.html" title=" " alt="" coords="951,592,1160,617"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="1058,558,1058,592,1053,592,1053,558"/>
+<area shape="poly" id="edge8_Node000008_Node000005" title=" " alt="" coords="498,361,525,365,741,396,934,419,933,424,741,402,524,371,497,366"/>
+<area shape="poly" id="edge10_Node000009_Node000005" title=" " alt="" coords="756,361,977,413,976,419,755,366"/>
+<area shape="poly" id="edge12_Node000010_Node000005" title=" " alt="" coords="976,374,1031,414,1028,418,973,378"/>
+<area shape="poly" id="edge14_Node000011_Node000005" title=" " alt="" coords="1148,371,1083,418,1080,414,1145,367"/>
+<area shape="poly" id="edge16_Node000012_Node000005" title=" " alt="" coords="1354,366,1135,419,1133,413,1352,361"/>
+<area shape="poly" id="edge20_Node000014_Node000005" title=" " alt="" coords="1853,169,1843,218,1833,244,1819,267,1795,293,1772,313,1726,338,1674,353,1609,371,1497,398,1382,417,1273,428,1178,434,1177,429,1272,423,1381,411,1496,393,1608,365,1673,348,1724,333,1769,309,1791,289,1815,264,1829,241,1838,217,1847,168"/>
 </map>

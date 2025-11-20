@@ -1,5 +1,7 @@
 <map id="chemist::qm_operator::ExchangeCorrelation&lt; LHSParticle, RHSParticle &gt;" name="chemist::qm_operator::ExchangeCorrelation&lt; LHSParticle, RHSParticle &gt;">
-<area shape="rect" id="node1" title="Operator defining the exchange&#45;correlation (XC) interaction." alt="" coords="483,20,691,76"/>
-<area shape="rect" id="node2" href="$classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="219,5,435,91"/>
-<area shape="rect" id="node3" href="$classchemist_1_1qm__operator_1_1OperatorBase.html" title="Class defining the common API for all operators." alt="" coords="5,27,171,69"/>
+<area shape="rect" id="Node000001" title="Operator defining the exchange&#45;correlation (XC) interaction." alt="" coords="483,20,691,75"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="219,5,435,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="448,45,482,45,482,50,448,50"/>
+<area shape="rect" id="Node000003" href="$classchemist_1_1qm__operator_1_1OperatorBase.html" title="Class defining the common API for all operators." alt="" coords="5,27,171,67"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="185,45,219,45,219,50,185,50"/>
 </map>

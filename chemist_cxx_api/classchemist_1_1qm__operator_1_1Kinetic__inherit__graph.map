@@ -1,5 +1,7 @@
 <map id="chemist::qm_operator::Kinetic&lt; ParticleType &gt;" name="chemist::qm_operator::Kinetic&lt; ParticleType &gt;">
-<area shape="rect" id="node1" title="Describes the kinetic energy of a particle of type ParticleType." alt="" coords="441,20,624,61"/>
-<area shape="rect" id="node2" href="$classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="219,5,393,76"/>
-<area shape="rect" id="node3" href="$classchemist_1_1qm__operator_1_1OperatorBase.html" title="Class defining the common API for all operators." alt="" coords="5,20,171,61"/>
+<area shape="rect" id="Node000001" title="Describes the kinetic energy of a particle of type ParticleType." alt="" coords="441,20,624,60"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1qm__operator_1_1detail___1_1OperatorImpl.html" title=" " alt="" coords="219,5,393,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="408,37,441,37,441,43,408,43"/>
+<area shape="rect" id="Node000003" href="$classchemist_1_1qm__operator_1_1OperatorBase.html" title="Class defining the common API for all operators." alt="" coords="5,20,171,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="184,37,218,37,218,43,184,43"/>
 </map>

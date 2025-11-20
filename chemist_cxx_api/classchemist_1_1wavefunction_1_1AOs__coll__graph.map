@@ -1,4 +1,5 @@
 <map id="chemist::wavefunction::AOs" name="chemist::wavefunction::AOs">
-<area shape="rect" id="node1" title="Attempts to span the problem space using atomic orbitals (AOs)" alt="" coords="5,95,209,121"/>
-<area shape="rect" id="node2" href="$classchemist_1_1wavefunction_1_1VectorSpace.html" title="Base class for all vector spaces in the wavefunction component." alt="" coords="22,5,193,47"/>
+<area shape="rect" id="Node000001" title="Attempts to span the problem space using atomic orbitals (AOs)" alt="" coords="5,93,209,119"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1wavefunction_1_1VectorSpace.html" title="Base class for all vector spaces in the wavefunction component." alt="" coords="22,5,193,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,59,110,93,105,93,105,59"/>
 </map>

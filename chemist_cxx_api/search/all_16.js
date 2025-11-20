@@ -1,10 +1,5 @@
 var searchData=
 [
-  ['wavefunction_576',['Wavefunction',['../classchemist_1_1wavefunction_1_1Wavefunction.html',1,'chemist::wavefunction']]],
-  ['wavefunction_5ffwd_2ehpp_577',['wavefunction_fwd.hpp',['../wavefunction__fwd_8hpp.html',1,'']]],
-  ['wavefunctionimpl_578',['WavefunctionImpl',['../classchemist_1_1wavefunction_1_1detail___1_1WavefunctionImpl.html',1,'chemist::wavefunction::detail_']]],
-  ['wavefunctionimpl_3c_20determinant_3c_20oneparticlebasis_20_3e_20_3e_579',['WavefunctionImpl&lt; Determinant&lt; OneParticleBasis &gt; &gt;',['../classchemist_1_1wavefunction_1_1detail___1_1WavefunctionImpl.html',1,'chemist::wavefunction::detail_']]],
-  ['weight_580',['weight',['../classchemist_1_1GridPoint.html#a1a25cbb21d0ec7951873432c4d7d6aa4',1,'chemist::GridPoint::weight()'],['../classchemist_1_1GridPoint.html#ac6e9119ccdcd31b81e9d19e4db8abe22',1,'chemist::GridPoint::weight() const'],['../classchemist_1_1GridPointView.html#a2249397f89294500f685d735bd780e94',1,'chemist::GridPointView::weight()'],['../classchemist_1_1GridPointView.html#ae8fae7719698f7e864a4ae9069c17b89',1,'chemist::GridPointView::weight() const']]],
-  ['weight_5freference_581',['weight_reference',['../classchemist_1_1GridPoint.html#a58c59d5844d184913163a8241637b4a0',1,'chemist::GridPoint::weight_reference()'],['../classchemist_1_1GridPointView.html#aef0e09f9afaf78c50027b3b75869572e',1,'chemist::GridPointView::weight_reference()']]],
-  ['weight_5ftype_582',['weight_type',['../classchemist_1_1GridPoint.html#a027a1f197359834f3b4b3456bd4677eb',1,'chemist::GridPoint']]]
+  ['x_0',['x',['../classchemist_1_1Point.html#a04335db0a2cf4e3a24f908d83007cd2f',1,'chemist::Point::x() noexcept'],['../classchemist_1_1Point.html#ac2f13868de3593e94d219e2a7a32166d',1,'chemist::Point::x() const noexcept'],['../classchemist_1_1PointView.html#ae886171d2d5ec97eaec8e7ad8c473b02',1,'chemist::PointView::x()']]],
+  ['x_5fdata_1',['x_data',['../classchemist_1_1PointSet.html#a1b924ee2630e41fd55700000c316154e',1,'chemist::PointSet::x_data() noexcept'],['../classchemist_1_1PointSet.html#a7096311a2a3c157797f8972be8fe6db0',1,'chemist::PointSet::x_data() const noexcept']]]
 ];

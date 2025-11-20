@@ -1,4 +1,5 @@
 <map id="chemist::detail_::PointSetContiguous&lt; PointSetType &gt;" name="chemist::detail_::PointSetContiguous&lt; PointSetType &gt;">
-<area shape="rect" id="node1" title="Implements a PointSetView by holding pointers to contiguous memory." alt="" coords="5,95,215,136"/>
-<area shape="rect" id="node2" href="$classchemist_1_1detail___1_1PointSetViewPIMPL.html" title="Establishes the common API for all PIMPLs implementing PointSetView." alt="" coords="7,5,213,47"/>
+<area shape="rect" id="Node000001" title="Implements a PointSetView by holding pointers to contiguous memory." alt="" coords="5,93,215,133"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1detail___1_1PointSetViewPIMPL.html" title="Establishes the common API for all PIMPLs implementing PointSetView." alt="" coords="7,5,213,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,59,113,93,107,93,107,59"/>
 </map>

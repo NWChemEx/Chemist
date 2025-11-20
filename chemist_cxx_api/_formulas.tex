@@ -2,14 +2,30 @@
 \usepackage{ifthen}
 \usepackage{epsfig}
 \usepackage[utf8]{inputenc}
+\usepackage{xcolor}
 % Packages requested by user
 \usepackage{amsmath}
 \usepackage{amsfonts}
 
 \usepackage{newunicodechar}
-  \newunicodechar{⁻}{${}^{-}$}% Superscript minus
-  \newunicodechar{²}{${}^{2}$}% Superscript two
-  \newunicodechar{³}{${}^{3}$}% Superscript three
+  \makeatletter
+    \def\doxynewunicodechar#1#2{%
+    \@tempswafalse
+    \edef\nuc@tempa{\detokenize{#1}}%
+    \if\relax\nuc@tempa\relax
+      \nuc@emptyargerr
+    \else
+      \edef\@tempb{\expandafter\@car\nuc@tempa\@nil}%
+      \nuc@check
+      \if@tempswa
+        \@namedef{u8:\nuc@tempa}{#2}%
+      \fi
+    \fi
+  }
+  \makeatother
+  \doxynewunicodechar{⁻}{${}^{-}$}% Superscript minus
+  \doxynewunicodechar{²}{${}^{2}$}% Superscript two
+  \doxynewunicodechar{³}{${}^{3}$}% Superscript three
 
 \pagestyle{empty}
 \begin{document}
@@ -64,7 +80,9 @@ $c$
 $\alpha$
 \pagebreak
 
-\[ g(\vec{r}) = c e^{-\alpha \left(\vec{r}-\vec{r_0}\right)^2}, \]
+\[
+  g(\vec{r}) = c e^{-\alpha \left(\vec{r}-\vec{r_0}\right)^2},
+\]
 \pagebreak
 
 $x^ay^bz^c$
@@ -124,13 +142,27 @@ $\vec{b}$
 $\vec{c}$
 \pagebreak
 
-\[ \vec{a} \cdot \vec{b} = a_x b_x + a_y b_y + a_z b_z \]
+\[
+ \vec{a} \cdot \vec{b} = a_x b_x + a_y b_y + a_z b_z
+\]
 \pagebreak
 
 $\bra{u}$
 \pagebreak
 
-$|\phi_0 \phi_1 \cdots \phi_i \cdots \rangle$. @throw None No throw guarantee */ orbital_index_set_reference orbital_indices() { return m_occupied_; } /** @brief The indices for the orbitals comprising *this. This method is conceptually the same as the non-const version except that the resulting reference is immutable. @return A set such that the i-th element is the offset of orbital i in the determinant $
+$|\phi_0 \phi_1 \cdots \phi_i \cdots \rangle$.
+  
+    @throw None No throw guarantee
+ */
+orbital_index_set_reference orbital_indices() { return m_occupied_; }
+
+/** @brief The indices for the orbitals comprising *this.
+  
+    This method is conceptually the same as the non-const version except
+    that the resulting reference is immutable.
+  
+    @return A set such that the i-th element is the offset of orbital i in
+            the determinant $
 \pagebreak
 
 \end{document}

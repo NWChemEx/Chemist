@@ -1,4 +1,5 @@
 <map id="chemist::ChargesView&lt; ChargesType &gt;" name="chemist::ChargesView&lt; ChargesType &gt;">
-<area shape="rect" id="node1" title="Enables treating state like it&#39;s a reference to a Charges object." alt="" coords="63,95,230,136"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,288,47"/>
+<area shape="rect" id="Node000001" title="Enables treating state like it&#39;s a reference to a Charges object." alt="" coords="63,93,230,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,288,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,59,149,93,144,93,144,59"/>
 </map>

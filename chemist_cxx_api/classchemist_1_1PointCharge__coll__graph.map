@@ -1,4 +1,5 @@
 <map id="chemist::PointCharge&lt; ScalarType &gt;" name="chemist::PointCharge&lt; ScalarType &gt;">
-<area shape="rect" id="node1" title="Models a point charge." alt="" coords="19,80,181,121"/>
-<area shape="rect" id="node2" href="$classchemist_1_1Point.html" title=" " alt="" coords="5,5,195,32"/>
+<area shape="rect" id="Node000001" title="Models a point charge." alt="" coords="5,79,167,119"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1Point.html" title="An object that is associated with a point in 3&#45;D Cartesian space." alt="" coords="9,5,163,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,44,89,79,83,79,83,44"/>
 </map>

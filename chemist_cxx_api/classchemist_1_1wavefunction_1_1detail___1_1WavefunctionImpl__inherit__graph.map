@@ -1,4 +1,5 @@
 <map id="chemist::wavefunction::detail_::WavefunctionImpl&lt; DerivedType &gt;" name="chemist::wavefunction::detail_::WavefunctionImpl&lt; DerivedType &gt;">
-<area shape="rect" id="node1" title="Code factorization for implementing Wavefunction&#39;s virtual methods." alt="" coords="5,95,205,151"/>
-<area shape="rect" id="node2" href="$classchemist_1_1wavefunction_1_1Wavefunction.html" title="Represents a wavefunction from a VectorSpace." alt="" coords="20,5,191,47"/>
+<area shape="rect" id="Node000001" title="Code factorization for implementing Wavefunction&#39;s virtual methods." alt="" coords="5,93,205,148"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1wavefunction_1_1Wavefunction.html" title="Represents a wavefunction from a VectorSpace." alt="" coords="20,5,191,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,59,108,93,103,93,103,59"/>
 </map>

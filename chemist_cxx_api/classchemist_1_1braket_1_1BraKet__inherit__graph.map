@@ -1,4 +1,5 @@
 <map id="chemist::braket::BraKet&lt; BraType, OperatorType, KetType &gt;" name="chemist::braket::BraKet&lt; BraType, OperatorType, KetType &gt;">
-<area shape="rect" id="node1" title="Specifies the calculation (or a piece of it) that the user wants." alt="" coords="23,109,211,165"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,229,61"/>
+<area shape="rect" id="Node000001" title="Specifies the calculation (or a piece of it) that the user wants." alt="" coords="23,108,211,163"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,229,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,74,120,108,115,108,115,74"/>
 </map>

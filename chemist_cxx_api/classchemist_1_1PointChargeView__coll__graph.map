@@ -1,4 +1,5 @@
 <map id="chemist::PointChargeView&lt; ChargeType &gt;" name="chemist::PointChargeView&lt; ChargeType &gt;">
-<area shape="rect" id="node1" title="Allows viewing data as if it was a PointCharge object." alt="" coords="248,27,441,69"/>
-<area shape="rect" id="node2" href="$classchemist_1_1PointView.html" title=" " alt="" coords="5,5,200,91"/>
+<area shape="rect" id="Node000001" title="Allows viewing data as if it was a PointCharge object." alt="" coords="248,27,441,67"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1PointView.html" title=" " alt="" coords="5,5,200,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,45,248,45,248,50,214,50"/>
 </map>

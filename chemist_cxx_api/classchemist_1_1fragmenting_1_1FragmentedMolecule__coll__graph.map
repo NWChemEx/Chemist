@@ -1,5 +1,7 @@
 <map id="chemist::fragmenting::FragmentedMolecule&lt; MoleculeType &gt;" name="chemist::fragmenting::FragmentedMolecule&lt; MoleculeType &gt;">
-<area shape="rect" id="node1" title="Stores pieces of a Molecule object." alt="" coords="39,213,205,269"/>
-<area shape="rect" id="node2" href="$classchemist_1_1fragmenting_1_1FragmentedBase.html" title=" " alt="" coords="5,109,239,165"/>
-<area shape="rect" id="node3" title=" " alt="" coords="19,5,225,61"/>
+<area shape="rect" id="Node000001" title="Stores pieces of a Molecule object." alt="" coords="39,211,205,265"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1fragmenting_1_1FragmentedBase.html" title=" " alt="" coords="5,108,239,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,176,125,211,119,211,119,176"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="19,5,225,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="125,74,125,108,119,108,119,74"/>
 </map>

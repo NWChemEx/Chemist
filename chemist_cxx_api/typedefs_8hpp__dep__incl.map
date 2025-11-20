@@ -1,6 +1,9 @@
 <map id="include/chemist/quantum_mechanics/operator/typedefs.hpp" name="include/chemist/quantum_mechanics/operator/typedefs.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="15,5,262,47"/>
-<area shape="rect" id="node2" href="$operator_8hpp_source.html" title=" " alt="" coords="17,95,261,136"/>
-<area shape="rect" id="node3" href="$quantum__mechanics_8hpp.html" title=" " alt="" coords="5,184,272,225"/>
-<area shape="rect" id="node4" href="$chemist_8hpp.html" title=" " alt="" coords="34,273,243,300"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="15,5,262,45"/>
+<area shape="rect" id="Node000002" href="$operator_8hpp_source.html" title=" " alt="" coords="17,93,261,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,59,141,93,136,93,136,59"/>
+<area shape="rect" id="Node000003" href="$quantum__mechanics_8hpp.html" title=" " alt="" coords="5,181,272,221"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="141,147,141,181,136,181,136,147"/>
+<area shape="rect" id="Node000004" href="$chemist_8hpp.html" title=" " alt="" coords="34,269,243,295"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="141,235,141,269,136,269,136,235"/>
 </map>

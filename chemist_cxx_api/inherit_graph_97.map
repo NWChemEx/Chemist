@@ -1,0 +1,49 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,599,244,624"/>
+<area shape="rect" id="Node000001" href="$classchemist_1_1fragmenting_1_1FragmentedBase.html" title=" " alt="" coords="292,5,609,60"/>
+<area shape="poly" id="edge61_Node000000_Node000001" title=" " alt="" coords="123,585,128,488,135,422,149,349,170,273,199,199,239,130,263,98,290,69,305,58,308,62,294,73,267,102,243,133,204,201,175,275,154,350,141,423,133,488,128,585"/>
+<area shape="rect" id="Node000003" href="$classchemist_1_1fragmenting_1_1FragmentedBase.html" title=" " alt="" coords="334,84,567,139"/>
+<area shape="poly" id="edge63_Node000000_Node000003" title=" " alt="" coords="125,584,134,500,144,444,159,383,181,320,209,257,245,200,290,149,310,135,333,124,335,129,313,139,294,153,249,203,213,260,185,322,164,384,149,445,139,501,130,585"/>
+<area shape="rect" id="Node000005" href="$classchemist_1_1fragmenting_1_1FragmentedBase.html" title=" " alt="" coords="334,163,567,217"/>
+<area shape="poly" id="edge65_Node000000_Node000005" title=" " alt="" coords="127,585,141,514,169,417,191,366,218,315,251,268,290,228,310,214,333,204,335,209,313,219,294,232,255,272,222,318,196,368,175,419,146,515,132,586"/>
+<area shape="rect" id="Node000007" href="$classchemist_1_1Charges.html" title="Represents a container of PointCharge objects." alt="" coords="364,241,537,267"/>
+<area shape="poly" id="edge67_Node000000_Node000007" title=" " alt="" coords="128,584,144,521,174,436,196,392,222,349,253,310,290,277,325,259,363,251,364,256,327,264,294,282,257,314,226,352,200,395,179,438,149,522,133,586"/>
+<area shape="rect" id="Node000008" href="$classchemist_1_1ChargesView.html" title="Enables treating state like it&#39;s a reference to a Charges object." alt="" coords="367,291,534,331"/>
+<area shape="poly" id="edge68_Node000000_Node000008" title=" " alt="" coords="132,585,152,533,185,467,231,399,259,369,291,342,327,324,366,314,368,319,329,329,293,347,263,372,235,402,189,469,157,535,137,586"/>
+<area shape="rect" id="Node000009" href="$classchemist_1_1Grid.html" title="Models an ordered list of GridPoint objects." alt="" coords="396,356,505,381"/>
+<area shape="poly" id="edge69_Node000000_Node000009" title=" " alt="" coords="135,585,158,542,191,489,236,435,262,412,291,392,316,380,343,372,395,365,396,370,344,377,318,385,293,396,265,416,240,439,196,492,162,544,140,587"/>
+<area shape="rect" id="Node000010" href="$classchemist_1_1ManyElectrons.html" title="A container filled with Electron objects." alt="" coords="361,405,540,431"/>
+<area shape="poly" id="edge70_Node000000_Node000010" title=" " alt="" coords="140,586,165,552,200,512,242,473,291,441,325,428,361,420,362,425,327,433,293,446,246,477,204,516,169,555,144,589"/>
+<area shape="rect" id="Node000011" href="$classchemist_1_1Molecule.html" title="Represents a set of atoms." alt="" coords="380,455,521,480"/>
+<area shape="poly" id="edge71_Node000000_Node000011" title=" " alt="" coords="148,587,209,537,249,511,291,490,335,477,379,469,380,474,336,482,293,495,251,516,212,542,151,591"/>
+<area shape="rect" id="Node000012" href="$classchemist_1_1MoleculeView.html" title="Allows existing molecular state to be used as if it were a Molecule object." alt="" coords="364,505,537,545"/>
+<area shape="poly" id="edge72_Node000000_Node000012" title=" " alt="" coords="174,592,291,555,363,539,364,544,293,561,176,597"/>
+<area shape="rect" id="Node000013" href="$classchemist_1_1Nuclei.html" title="Represents a container of Nucleus objects." alt="" coords="389,569,512,595"/>
+<area shape="poly" id="edge73_Node000000_Node000013" title=" " alt="" coords="257,597,389,585,389,590,258,602"/>
+<area shape="rect" id="Node000014" href="$classchemist_1_1NucleiView.html" title="Allows existing state to be used as if it were a Nuclei object." alt="" coords="373,619,528,659"/>
+<area shape="poly" id="edge74_Node000000_Node000014" title=" " alt="" coords="258,620,374,630,373,635,258,625"/>
+<area shape="rect" id="Node000015" href="$classchemist_1_1PointSet.html" title="A container filled with Point objects." alt="" coords="363,684,538,709"/>
+<area shape="poly" id="edge75_Node000000_Node000015" title=" " alt="" coords="169,627,227,649,293,669,364,683,362,688,291,674,226,654,168,632"/>
+<area shape="rect" id="Node000016" href="$classchemist_1_1PointSetView.html" title="Acts like a reference to a PointSet object." alt="" coords="367,734,535,774"/>
+<area shape="poly" id="edge76_Node000000_Node000016" title=" " alt="" coords="153,631,214,676,253,700,293,720,329,732,367,741,366,746,328,737,291,724,250,704,211,681,150,635"/>
+<area shape="rect" id="Node000017" href="$classchemist_1_1basis__set_1_1AOBasisSet.html" title="Models a set of atomic basis sets." alt="" coords="339,799,562,853"/>
+<area shape="poly" id="edge77_Node000000_Node000017" title=" " alt="" coords="144,634,170,668,204,709,246,749,293,784,340,804,338,809,291,788,243,753,200,712,165,671,140,637"/>
+<area shape="rect" id="Node000018" href="$classchemist_1_1basis__set_1_1AtomicBasisSet.html" title="Models a set of shells associated with a specific atomic center." alt="" coords="339,878,563,918"/>
+<area shape="poly" id="edge78_Node000000_Node000018" title=" " alt="" coords="137,636,158,686,191,748,236,811,263,840,293,864,315,876,340,885,338,890,313,881,291,868,260,844,232,815,186,751,153,688,133,638"/>
+<area shape="rect" id="Node000019" href="$classchemist_1_1basis__set_1_1AtomicBasisSetView.html" title="Behaves like a reference to an AtomicBasisSet." alt="" coords="359,943,543,997"/>
+<area shape="poly" id="edge79_Node000000_Node000019" title=" " alt="" coords="134,636,152,697,183,776,204,818,230,858,259,896,294,928,325,946,359,958,358,963,322,951,290,932,255,899,225,861,199,820,178,778,147,698,129,638"/>
+<area shape="rect" id="Node000020" href="$classchemist_1_1basis__set_1_1ContractedGaussian.html" title="Represents a (segmented) contracted Gaussian function." alt="" coords="370,1021,531,1076"/>
+<area shape="poly" id="edge80_Node000000_Node000020" title=" " alt="" coords="131,637,144,711,172,812,193,865,220,918,253,966,294,1008,330,1029,371,1041,369,1046,328,1034,290,1012,249,970,216,920,188,868,167,814,139,712,126,638"/>
+<area shape="rect" id="Node000021" href="$classchemist_1_1basis__set_1_1ContractedGaussianView.html" title="Models a reference to a ContractedGaussian." alt="" coords="354,1100,547,1155"/>
+<area shape="poly" id="edge81_Node000000_Node000021" title=" " alt="" coords="130,638,138,724,147,782,162,846,183,911,211,976,248,1035,294,1087,322,1105,355,1117,353,1122,320,1110,290,1091,243,1038,206,978,178,913,157,847,142,784,132,725,124,638"/>
+<area shape="rect" id="Node000022" href="$classchemist_1_1fragmenting_1_1CapSet.html" title="The set of caps associated with a fragment." alt="" coords="369,1179,532,1219"/>
+<area shape="poly" id="edge82_Node000000_Node000022" title=" " alt="" coords="128,638,131,737,138,805,151,880,171,958,201,1034,241,1105,266,1136,294,1165,310,1177,329,1186,370,1197,368,1202,327,1191,308,1182,290,1169,262,1140,237,1108,196,1036,166,960,145,882,132,806,125,738,122,638"/>
+<area shape="rect" id="Node000023" href="$classchemist_1_1fragmenting_1_1FragmentedBase.html" title="Code factorization for classes containing fragments." alt="" coords="323,1243,579,1283"/>
+<area shape="poly" id="edge83_Node000000_Node000023" title=" " alt="" coords="132,638,151,764,185,943,207,1034,233,1117,262,1185,278,1210,294,1229,324,1249,321,1253,290,1233,273,1214,257,1187,228,1119,202,1036,180,944,146,765,127,638"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1fragmenting_1_1FragmentedChemicalSystem.html" title="Stores fragments of a ChemicalSystem object." alt="" coords="673,5,892,60"/>
+<area shape="poly" id="edge62_Node000001_Node000002" title=" " alt="" coords="623,30,673,30,673,35,623,35"/>
+<area shape="rect" id="Node000004" href="$classchemist_1_1fragmenting_1_1FragmentedMolecule.html" title="Stores pieces of a Molecule object." alt="" coords="699,84,866,139"/>
+<area shape="poly" id="edge64_Node000003_Node000004" title=" " alt="" coords="581,109,699,109,699,114,581,114"/>
+<area shape="rect" id="Node000006" href="$classchemist_1_1fragmenting_1_1FragmentedNuclei.html" title="Represents a set of fragments derived from a Nuclei object." alt="" coords="657,170,908,210"/>
+<area shape="poly" id="edge66_Node000005_Node000006" title=" " alt="" coords="581,187,657,187,657,193,581,193"/>
+</map>

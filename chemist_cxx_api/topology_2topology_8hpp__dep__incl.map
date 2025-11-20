@@ -1,4 +1,5 @@
 <map id="include/chemist/topology/topology.hpp" name="include/chemist/topology/topology.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="17,5,203,47"/>
-<area shape="rect" id="node2" href="$chemist_8hpp.html" title=" " alt="" coords="5,95,215,121"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="17,5,203,45"/>
+<area shape="rect" id="Node000002" href="$chemist_8hpp.html" title=" " alt="" coords="5,93,215,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,59,113,93,107,93,107,59"/>
 </map>

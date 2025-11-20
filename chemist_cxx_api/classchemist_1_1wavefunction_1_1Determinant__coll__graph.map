@@ -1,5 +1,7 @@
 <map id="chemist::wavefunction::Determinant&lt; OneParticleBasis &gt;" name="chemist::wavefunction::Determinant&lt; OneParticleBasis &gt;">
-<area shape="rect" id="node1" title="A fermionic multi&#45;particle wavefunction." alt="" coords="545,13,796,54"/>
-<area shape="rect" id="node2" href="$classchemist_1_1wavefunction_1_1detail___1_1WavefunctionImpl.html" title=" " alt="" coords="224,5,497,61"/>
-<area shape="rect" id="node3" href="$classchemist_1_1wavefunction_1_1Wavefunction.html" title="Represents a wavefunction from a VectorSpace." alt="" coords="5,13,176,54"/>
+<area shape="rect" id="Node000001" title="A fermionic multi&#45;particle wavefunction." alt="" coords="545,13,796,53"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1wavefunction_1_1detail___1_1WavefunctionImpl.html" title=" " alt="" coords="224,5,497,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="511,30,545,30,545,35,511,35"/>
+<area shape="rect" id="Node000003" href="$classchemist_1_1wavefunction_1_1Wavefunction.html" title="Represents a wavefunction from a VectorSpace." alt="" coords="5,13,176,53"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="190,30,224,30,224,35,190,35"/>
 </map>

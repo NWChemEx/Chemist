@@ -1,4 +1,5 @@
 <map id="chemist::basis_set::AOBasisSet&lt; AtomicBasisSetType &gt;" name="chemist::basis_set::AOBasisSet&lt; AtomicBasisSetType &gt;">
-<area shape="rect" id="node1" title="Models a set of atomic basis sets." alt="" coords="25,109,247,165"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,267,61"/>
+<area shape="rect" id="Node000001" title="Models a set of atomic basis sets." alt="" coords="25,108,247,163"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,267,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="139,74,139,108,133,108,133,74"/>
 </map>
