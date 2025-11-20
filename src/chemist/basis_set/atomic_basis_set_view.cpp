@@ -57,9 +57,8 @@ ATOMIC_BS_VIEW::AtomicBasisSetView(name_reference name,
 
 ATOMIC_BS_TPARAMS
 ATOMIC_BS_VIEW::AtomicBasisSetView(atomic_basis_set_reference bs) :
-  AtomicBasisSetView(bs.basis_set_name(), bs.atomic_number(),
-                     std::move(bs.center()),
-                     std::move(std::vector<reference>{bs.begin(), bs.end()})) {}
+  AtomicBasisSetView(bs.basis_set_name(), bs.atomic_number(), bs.center(),
+                     std::vector<reference>{bs.begin(), bs.end()}) {}
 
 ATOMIC_BS_TPARAMS
 ATOMIC_BS_VIEW::~AtomicBasisSetView() noexcept = default;

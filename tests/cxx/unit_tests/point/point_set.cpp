@@ -154,9 +154,7 @@ TEMPLATE_TEST_CASE("PointSet", "", float, double) {
         for(std::size_t point_i = 0; point_i < 3; ++point_i) {
             const auto corr = point_i == 0 ? p0 : p1;
             for(std::size_t coord_i = 0; coord_i < 3; ++coord_i) {
-                auto& coord = points[point_i].coord(coord_i);
-
-                REQUIRE(coord == corr.coord(coord_i));
+                REQUIRE(points[point_i].coord(coord_i) == corr.coord(coord_i));
             }
         }
     }
@@ -169,9 +167,8 @@ TEMPLATE_TEST_CASE("PointSet", "", float, double) {
         for(std::size_t point_i = 0; point_i < 3; ++point_i) {
             const auto corr = point_i == 0 ? p0 : p1;
             for(std::size_t coord_i = 0; coord_i < 3; ++coord_i) {
-                auto& coord = std::as_const(points)[point_i].coord(coord_i);
-
-                REQUIRE(coord == corr.coord(coord_i));
+                REQUIRE(std::as_const(points)[point_i].coord(coord_i) ==
+                        corr.coord(coord_i));
             }
         }
     }

@@ -648,10 +648,9 @@ AtomicBasisSetView<AtomicBasisSetType>::AtomicBasisSetView(
   const OtherType& other) :
   AtomicBasisSetView(
     !other.is_null() ?
-      AtomicBasisSetView(
-        other.basis_set_name(), other.atomic_number(),
-        std::move(other.center()),
-        std::move(std::vector<reference>{other.begin(), other.end()})) :
+      AtomicBasisSetView(other.basis_set_name(), other.atomic_number(),
+                         other.center(),
+                         std::vector<reference>{other.begin(), other.end()}) :
       AtomicBasisSetView()) {}
 
 template<typename AtomicBasisSetType>
