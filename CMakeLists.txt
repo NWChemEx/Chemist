@@ -22,6 +22,7 @@ include(cmake/get_nwx_cmake.cmake)
 #get_version_from_git(pluginplay_version "${CMAKE_CURRENT_LIST_DIR}")
 set(chemist_version 1.0.0)
 project(chemist VERSION "${chemist_version}" LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 20)
 
 include(nwx_versions)
 include(get_cmaize)

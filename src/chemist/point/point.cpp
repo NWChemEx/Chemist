@@ -41,7 +41,7 @@ template<typename T>
 Point<T>::Point(T x, T y, T z) : Point(std::make_unique<pimpl_type>(x, y, z)) {}
 
 template<typename T>
-Point<T>::~Point<T>() noexcept = default;
+Point<T>::~Point() noexcept = default;
 
 template<typename T>
 typename Point<T>::coord_reference Point<T>::coord(size_type i) {

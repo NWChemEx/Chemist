@@ -53,7 +53,7 @@ ATOMIC_BASIS_SET::AtomicBasisSet(name_type name, atomic_number_type atomic_n,
                                  typename shell_traits::coord_type y,
                                  typename shell_traits::coord_type z) :
   AtomicBasisSet(std::move(name), std::move(atomic_n),
-                 std::move(typename shell_traits::center_type(x, y, z))) {}
+                 typename shell_traits::center_type(x, y, z)) {}
 
 template<typename ShellType>
 ATOMIC_BASIS_SET::AtomicBasisSet(name_type name, atomic_number_type atomic_n,
@@ -65,7 +65,7 @@ template<typename ShellType>
 ATOMIC_BASIS_SET::AtomicBasisSet(typename shell_traits::coord_type x,
                                  typename shell_traits::coord_type y,
                                  typename shell_traits::coord_type z) :
-  AtomicBasisSet(std::move(typename shell_traits::center_type(x, y, z))) {}
+  AtomicBasisSet(typename shell_traits::center_type(x, y, z)) {}
 
 template<typename ShellType>
 ATOMIC_BASIS_SET::AtomicBasisSet(typename shell_traits::center_type center) :
