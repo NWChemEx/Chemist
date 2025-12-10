@@ -16,6 +16,8 @@
 
 ![Chemist Logo](docs/source/assets/logo.png)
 
+[![Nightly Workflow](https://github.com/NWChemEx/Chemist/actions/workflows/nightly.yaml/badge.svg)](https://github.com/NWChemEx/Chemist/actions/workflows/nightly.yaml)
+
 [Documentation](https://nwchemex.github.io/Chemist)
 
 Chemist provides chemistry-related data structures. This includes data
