@@ -24,7 +24,6 @@ set(chemist_version 1.0.0)
 project(chemist VERSION "${chemist_version}" LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 
-include(nwx_versions)
 include(get_cmaize)
 include(nwx_cxx_api_docs)
 
