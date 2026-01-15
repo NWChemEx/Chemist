@@ -74,6 +74,15 @@ public:
     Density(value_type rho, basis_type orbs) :
       m_density_(std::move(rho)), m_orbs_(std::move(orbs)) {}
 
+    /** @brief Standard defaulted dtor
+     *
+     *  This dtor will free up the memory associated with the PIMPL. As a
+     *  result, all references to the Point's coordinates will be invalidated.
+     *
+     *  @throw none No throw guarantee.
+     */
+    virtual ~Density() noexcept = default;
+
     /** @brief Returns a mutable reference to the density matrix.
      *
      *  @return A mutable reference to the tensor representation of the density.
