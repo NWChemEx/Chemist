@@ -15,44 +15,48 @@
 import unittest
 
 import numpy as np
-from chemist.wavefunction import AOs
+from chemist.wavefunction import AOs, TransformedAOs
 from tensorwrapper import Tensor
 
-from chemist import Density
+from chemist.basis_set import AOBasisSetD
 
-from .test_density import h2_basis
+from ..test_qm import h2_basis
 
 
-class TestDensityClass(unittest.TestCase):
+class TestAOs(unittest.TestCase):
     def test_default_ctor(self):
-        self.assertEqual(self.defaulted.basis_set.size(), 0)
-        self.assertEqual(self.defaulted.value, Tensor())
+        self.assertEqual(self.defaulted.from_space.size(), 0)
+        self.assertEqual(self.defaulted.from_space.ao_basis_set, AOBasisSetD())
+        self.assertEqual(self.defaulted.transform, Tensor())
 
     def test_value_ctor(self):
-        self.assertEqual(self.has_value.value, self.value)
-        self.assertEqual(self.has_value.basis_set, self.aos)
+        self.assertEqual(self.has_value.from_space, self.aos)
+        self.assertEqual(self.has_value.transform, self.transform)
 
-    def test_value(self):
+    def test_from_space(self):
         # Basic access tested in ctor tests
         # Now we need to test if we can write to it
-        self.defaulted.value = self.value
-        self.assertEqual(self.defaulted.value, self.value)
+        self.defaulted.from_space = self.aos
+        self.assertEqual(self.defaulted.from_space, self.aos)
 
-    def test_basis_set(self):
+    def test_transform(self):
         # Basic access tested in ctor tests
         # Now we need to test if we can write to it
-        self.defaulted.basis_set = self.aos
-        self.assertEqual(self.defaulted.basis_set, self.aos)
+        self.defaulted.transform = self.transform
+        self.assertEqual(self.defaulted.transform, self.transform)
 
     def test_comparisons(self):
-        self.assertEqual(self.defaulted, Density())
+        self.assertEqual(self.defaulted, TransformedAOs())
         self.assertNotEqual(self.defaulted, self.has_value)
-        self.assertEqual(self.has_value, Density(self.value, self.aos))
+        self.assertEqual(
+            self.has_value, TransformedAOs(self.aos, self.transform)
+        )
 
     def setUp(self):
-        self.defaulted = Density()
+        self.defaulted = TransformedAOs()
+        self.empty_aos = AOs()
         self.np_value = np.array([[1.0, 2.0], [3.0, 4.0]])
-        self.value = Tensor(self.np_value)
+        self.transform = Tensor(self.np_value)
         self.basis = h2_basis()
         self.aos = AOs(self.basis)
-        self.has_value = Density(self.value, self.aos)
+        self.has_value = TransformedAOs(self.aos, self.transform)

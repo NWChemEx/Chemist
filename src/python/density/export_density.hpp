@@ -20,11 +20,11 @@
 namespace chemist {
 
 void export_density_class(python_module_reference m);
-// void export_decomposable_density(python_module_reference m);
+void export_decomposable_density(python_module_reference m);
 
 inline void export_density(python_module_reference m) {
     export_density_class(m);
-    // export_decomposable_density(m);
+    export_decomposable_density(m);
 }
 
 } // namespace chemist
