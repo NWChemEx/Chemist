@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 NWChemEx-Project
+ * Copyright 2026 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,20 +15,16 @@
  */
 
 #pragma once
-#include "../../pychemist.hpp"
+#include "../pychemist.hpp"
 
-namespace chemist::wavefunction {
+namespace chemist {
 
-void export_vector_space(python_module_reference m);
-void export_aos(python_module_reference m);
-void export_transformed(python_module_reference m);
+void export_density_class(python_module_reference m);
+void export_decomposable_density(python_module_reference m);
 
-inline void export_wavefunction(python_module_reference m) {
-    auto m_wf = m.def_submodule("wavefunction");
-
-    export_vector_space(m_wf);
-    export_aos(m_wf);
-    export_transformed(m_wf);
+inline void export_density(python_module_reference m) {
+    export_density_class(m);
+    export_decomposable_density(m);
 }
 
-} // namespace chemist::wavefunction
+} // namespace chemist

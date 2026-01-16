@@ -16,6 +16,7 @@
 
 #include "basis_set/export_basis_set.hpp"
 #include "chemical_system/export_chemical_system.hpp"
+#include "density/export_density.hpp"
 #include "electron/export_electron.hpp"
 #include "enums.hpp"
 #include "fragmenting/export_fragmenting.hpp"
@@ -56,6 +57,8 @@ PYBIND11_MODULE(chemist, m) {
     export_chemist_enums(m);
     export_basis_set(m);
     export_quantum_mechanics(m);
+
+    export_density(m);
 
     export_grid(m);
 
