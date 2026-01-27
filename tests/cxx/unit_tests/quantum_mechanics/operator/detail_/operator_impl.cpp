@@ -44,7 +44,7 @@ TEST_CASE("OperatorImpl") {
 
     SECTION("n_electrons") {
         STATIC_REQUIRE(t.n_electrons() == 1);
-        STATIC_REQUIRE(t.n_electrons() == 1);
+        STATIC_REQUIRE(T.n_electrons() == 1);
     }
 
     SECTION("at()") {
