@@ -44,17 +44,17 @@ TEST_CASE("OperatorImpl") {
 
     SECTION("n_electrons") {
         STATIC_REQUIRE(t.n_electrons() == 1);
-        STATIC_REQUIRE(t.n_electrons() == 1);
+        STATIC_REQUIRE(T.n_electrons() == 1);
     }
 
-    SECTION("at()") {
-        REQUIRE(t.at<0>() == Electron{});
-        REQUIRE(T.at<0>() == ManyElectrons{2});
+    SECTION("get()") {
+        REQUIRE(t.get<0>() == Electron{});
+        REQUIRE(T.get<0>() == ManyElectrons{2});
     }
 
-    SECTION("at() const") {
-        REQUIRE(std::as_const(t).at<0>() == Electron{});
-        REQUIRE(std::as_const(T).at<0>() == ManyElectrons{2});
+    SECTION("set()") {
+        T.set<0>(ManyElectrons{3});
+        REQUIRE(T.get<0>() == ManyElectrons{3});
     }
 
     SECTION("operator==") {

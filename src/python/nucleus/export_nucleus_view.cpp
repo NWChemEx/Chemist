@@ -21,7 +21,9 @@
 
 namespace chemist {
 
-void export_nucleus_view(python_module_reference m) {
+namespace detail_ {
+
+void export_mutable_view(python_module_reference m) {
     using nucleus_type       = Nucleus;
     using view_type          = NucleusView<nucleus_type>;
     using view_reference     = view_type&;
@@ -56,6 +58,41 @@ void export_nucleus_view(python_module_reference m) {
       .def(pybind11::self != pybind11::self)
       .def(pybind11::self != nucleus_type())
       .def(nucleus_type() != pybind11::self);
+}
+
+void export_immutable_view(python_module_reference m) {
+    using nucleus_type      = Nucleus;
+    using view_type         = NucleusView<const nucleus_type>;
+    using view_reference    = view_type&;
+    using nucleus_reference = typename view_type::nucleus_reference;
+    using charge_view_type  = typename view_type::charge_view_type;
+
+    python_class_type<view_type, charge_view_type>(m, "ImmutableNucleusView")
+      .def(pybind11::init<nucleus_reference>())
+      .def_property_readonly("name",
+                             [](view_reference self) { return self.name(); })
+      .def_property_readonly("Z", [](view_reference self) { return self.Z(); })
+      .def_property_readonly("mass",
+                             [](view_reference self) { return self.mass(); })
+      .def("__str__",
+           [](const view_type& nv) {
+               std::ostringstream stream;
+               stream << nv;
+               return stream.str();
+           })
+      .def(pybind11::self == pybind11::self)
+      .def(pybind11::self == nucleus_type())
+      .def(nucleus_type() == pybind11::self)
+      .def(pybind11::self != pybind11::self)
+      .def(pybind11::self != nucleus_type())
+      .def(nucleus_type() != pybind11::self);
+}
+
+} // namespace detail_
+
+void export_nucleus_view(python_module_reference m) {
+    detail_::export_mutable_view(m);
+    detail_::export_immutable_view(m);
 }
 
 } // namespace chemist

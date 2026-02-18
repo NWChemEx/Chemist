@@ -17,7 +17,7 @@ import unittest
 import chemist
 
 
-def make_charge_view_test(charge_type):
+def make_charge_view_test(view_type):
     class TestChargeView(unittest.TestCase):
         def test_base(self):
             """
@@ -48,7 +48,7 @@ def make_charge_view_test(charge_type):
 
             # N.B. For charge_type == PointChargeF the underlying data type
             #      only has about six decimal places of precision.
-            p = 6 if charge_type == chemist.PointChargeF else 10
+            p = 6 if self.charge_type == chemist.PointChargeF else 10
             self.assertAlmostEqual(
                 self.q1_view.magnitude(), 29**0.5, places=p
             )
@@ -58,17 +58,18 @@ def make_charge_view_test(charge_type):
             self.assertEqual(self.q0_view.charge, 0.0)
             self.assertEqual(self.q1_view.charge, 1.0)
 
-            # Can change it
-            self.q0_view.charge = -42.0
-            self.assertEqual(self.q0_view.charge, -42.0)
+            if self.readonly is False:
+                # Can change it
+                self.q0_view.charge = -42.0
+                self.assertEqual(self.q0_view.charge, -42.0)
 
-            # Changes the actual charge
-            self.assertEqual(self.q0.charge, -42.0)
+                # Changes the actual charge
+                self.assertEqual(self.q0.charge, -42.0)
 
         def test_comparisons(self):
             # Default view vs. default view
-            other_default = charge_type()
-            other_view = self.charge_view_type(other_default)
+            other_default = self.charge_type()
+            other_view = view_type(other_default)
             self.assertEqual(self.q0_view, other_view)
             self.assertFalse(self.q0_view != other_view)
 
@@ -85,26 +86,26 @@ def make_charge_view_test(charge_type):
             self.assertFalse(self.q0_view == self.q1)
 
             # Different charge
-            q1 = charge_type(42.0, 2.0, 3.0, 4.0)
-            q1_view = self.charge_view_type(q1)
+            q1 = self.charge_type(42.0, 2.0, 3.0, 4.0)
+            q1_view = view_type(q1)
             self.assertNotEqual(self.q1_view, q1_view)
             self.assertFalse(self.q1_view == q1_view)
 
             # Different x-coordinate
-            q1 = charge_type(1.0, 42.0, 3.0, 4.0)
-            q1_view = self.charge_view_type(q1)
+            q1 = self.charge_type(1.0, 42.0, 3.0, 4.0)
+            q1_view = view_type(q1)
             self.assertNotEqual(self.q1_view, q1_view)
             self.assertFalse(self.q1_view == q1_view)
 
             # Different y-coordinate
-            q1 = charge_type(1.0, 2.0, 42.0, 4.0)
-            q1_view = self.charge_view_type(q1)
+            q1 = self.charge_type(1.0, 2.0, 42.0, 4.0)
+            q1_view = view_type(q1)
             self.assertNotEqual(self.q1_view, q1_view)
             self.assertFalse(self.q1_view == q1_view)
 
             # Different z-coordinate
-            q1 = charge_type(1.0, 2.0, 3.0, 42.0)
-            q1_view = self.charge_view_type(q1)
+            q1 = self.charge_type(1.0, 2.0, 3.0, 42.0)
+            q1_view = view_type(q1)
             self.assertNotEqual(self.q1_view, q1_view)
             self.assertFalse(self.q1_view == q1_view)
 
@@ -119,26 +120,52 @@ def make_charge_view_test(charge_type):
             self.assertNotEqual(r0_view, self.q1)
 
         def setUp(self):
-            if charge_type == chemist.PointChargeF:
-                self.charge_view_type = chemist.PointChargeViewF
+            if view_type == chemist.PointChargeViewF:
+                self.charge_type = chemist.PointChargeF
                 self.point_type = chemist.PointF
                 self.point_view = chemist.PointViewF
-            else:
-                self.charge_view_type = chemist.PointChargeViewD
+                self.readonly = False
+            elif view_type == chemist.PointChargeViewD:
+                self.charge_type = chemist.PointChargeD
                 self.point_type = chemist.PointD
                 self.point_view = chemist.PointViewD
+                self.readonly = False
+            elif view_type == chemist.ImmutablePointChargeViewF:
+                self.charge_type = chemist.PointChargeF
+                self.point_type = chemist.PointF
+                self.point_view = chemist.ImmutablePointViewF
+                self.readonly = True
+            elif view_type == chemist.ImmutablePointChargeViewD:
+                self.charge_type = chemist.PointChargeD
+                self.point_type = chemist.PointD
+                self.point_view = chemist.ImmutablePointViewD
+                self.readonly = True
+            else:
+                raise ValueError("Invalid charge type")
 
-            self.q0 = charge_type()
-            self.q0_view = self.charge_view_type(self.q0)
-            self.q1 = charge_type(1.0, 2.0, 3.0, 4.0)
-            self.q1_view = self.charge_view_type(self.q1)
+            self.q0 = self.charge_type()
+            self.q0_view = view_type(self.q0)
+            self.q1 = self.charge_type(1.0, 2.0, 3.0, 4.0)
+            self.q1_view = view_type(self.q1)
 
     return TestChargeView
 
 
-class TestChargeViewF(make_charge_view_test(chemist.PointChargeF)):
+class TestChargeViewF(make_charge_view_test(chemist.PointChargeViewF)):
     pass
 
 
-class TestChargeViewD(make_charge_view_test(chemist.PointChargeD)):
+class TestChargeViewD(make_charge_view_test(chemist.PointChargeViewD)):
+    pass
+
+
+class TestImmutableChargeViewF(
+    make_charge_view_test(chemist.ImmutablePointChargeViewF)
+):
+    pass
+
+
+class TestImmutableChargeViewD(
+    make_charge_view_test(chemist.ImmutablePointChargeViewD)
+):
     pass

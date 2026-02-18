@@ -28,33 +28,37 @@ class TestNucleus(unittest.TestCase):
 
         # Test the default instance
 
-        # -- PointCharge Base ----------------------
-        self.assertEqual(self.defaulted_view.charge, 0.0)
+        for defaulted in [self.defaulted_view, self.immutable_defaulted_view]:
+            # -- PointCharge Base ----------------------
+            self.assertEqual(defaulted.charge, 0.0)
 
-        # -- Point Base ----------------------------
-        self.assertEqual(self.defaulted_view.x, 0.0)
-        self.assertEqual(self.defaulted_view.y, 0.0)
-        self.assertEqual(self.defaulted_view.z, 0.0)
+            # -- Point Base ----------------------------
+            self.assertEqual(defaulted.x, 0.0)
+            self.assertEqual(defaulted.y, 0.0)
+            self.assertEqual(defaulted.z, 0.0)
 
-        for i in range(3):
-            self.assertEqual(self.defaulted_view.coord(i), 0.0)
+            for i in range(3):
+                self.assertEqual(defaulted.coord(i), 0.0)
 
-        self.assertEqual(self.defaulted_view.magnitude(), 0.0)
+            self.assertEqual(defaulted.magnitude(), 0.0)
 
         # Repeat, this time with u_view
-        self.assertEqual(self.u_view.charge, 91.0)
-        self.assertEqual(self.u_view.x, 2.0)
-        self.assertEqual(self.u_view.y, 3.0)
-        self.assertEqual(self.u_view.z, 4.0)
-        self.assertEqual(self.u_view.coord(0), 2.0)
-        self.assertEqual(self.u_view.coord(1), 3.0)
-        self.assertEqual(self.u_view.coord(2), 4.0)
-        self.assertAlmostEqual(self.u_view.magnitude(), 29.0**0.5)
+        for u_view in [self.u_view, self.immutable_u_view]:
+            self.assertEqual(u_view.charge, 91.0)
+            self.assertEqual(u_view.x, 2.0)
+            self.assertEqual(u_view.y, 3.0)
+            self.assertEqual(u_view.z, 4.0)
+            self.assertEqual(u_view.coord(0), 2.0)
+            self.assertEqual(u_view.coord(1), 3.0)
+            self.assertEqual(u_view.coord(2), 4.0)
+            self.assertAlmostEqual(u_view.magnitude(), 29.0**0.5)
 
     def test_name(self):
         # Test original values
         self.assertEqual(self.defaulted_view.name, "")
+        self.assertEqual(self.immutable_defaulted_view.name, "")
         self.assertEqual(self.u_view.name, "U")
+        self.assertEqual(self.immutable_u_view.name, "U")
 
         # Can change it
         self.defaulted_view.name = "Ez"
@@ -62,6 +66,10 @@ class TestNucleus(unittest.TestCase):
 
         # Changes object it's a view of
         self.assertEqual(self.defaulted.name, "Ez")
+
+        # Can't change it on the immutable view
+        with self.assertRaises(AttributeError):
+            self.immutable_defaulted_view.name = "Ez"
 
     def test_Z(self):
         # Test original values
@@ -75,6 +83,10 @@ class TestNucleus(unittest.TestCase):
         # Changes object it's a view of
         self.assertEqual(self.defaulted.Z, 6)
 
+        # Can't change it on the immutable view
+        with self.assertRaises(AttributeError):
+            self.immutable_defaulted_view.Z = 6
+
     def test_mass(self):
         # Test original values
         self.assertEqual(self.defaulted_view.mass, 0.0)
@@ -86,6 +98,10 @@ class TestNucleus(unittest.TestCase):
 
         # Changes object it's a view of
         self.assertEqual(self.defaulted.mass, 1.234)
+
+        # Can't change it on the immutable view
+        with self.assertRaises(AttributeError):
+            self.immutable_defaulted_view.mass = 1.234
 
     def test_comparisons(self):
         # Default view vs. default view
@@ -188,19 +204,25 @@ class TestNucleus(unittest.TestCase):
 
     def test_str(self):
         # Default
-        self.assertEqual(
-            str(self.defaulted_view),
-            " 0.000000000000000 0.000000000000000 0.000000000000000",
-        )
+        for defaulted in [self.defaulted_view, self.immutable_defaulted_view]:
+            self.assertEqual(
+                str(defaulted),
+                " 0.000000000000000 0.000000000000000 0.000000000000000",
+            )
 
         # Has value
-        self.assertEqual(
-            str(self.u_view),
-            "U 2.000000000000000 3.000000000000000 4.000000000000000",
-        )
+        for u_view in [self.u_view, self.immutable_u_view]:
+            self.assertEqual(
+                str(u_view),
+                "U 2.000000000000000 3.000000000000000 4.000000000000000",
+            )
 
     def setUp(self):
         self.defaulted = chemist.Nucleus()
         self.defaulted_view = chemist.NucleusView(self.defaulted)
         self.u = chemist.Nucleus("U", 92, 238.0, 2.0, 3.0, 4.0, 91.0)
         self.u_view = chemist.NucleusView(self.u)
+        self.immutable_defaulted_view = chemist.ImmutableNucleusView(
+            self.defaulted
+        )
+        self.immutable_u_view = chemist.ImmutableNucleusView(self.u)

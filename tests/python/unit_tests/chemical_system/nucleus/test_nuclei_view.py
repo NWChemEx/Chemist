@@ -21,6 +21,8 @@ class TestNucleiView(unittest.TestCase):
     def test_empty(self):
         self.assertTrue(self.defaulted.empty())
         self.assertFalse(self.has_value.empty())
+        self.assertTrue(self.immutable_defaulted.empty())
+        self.assertFalse(self.immutable_has_value.empty())
 
     def test_at(self):
         # Check values
@@ -29,13 +31,22 @@ class TestNucleiView(unittest.TestCase):
         self.assertEqual(n0, self.n0)
         self.assertEqual(n1, self.n1)
 
+        n2 = self.immutable_has_value.at(0)
+        self.assertEqual(n2, self.n0)
+
         # Are views
         n0.x = 42.0
         self.assertEqual(self.value_set.at(0).x, 42.0)
 
+        # Can't change it on the immutable view
+        with self.assertRaises(AttributeError):
+            n2.x = 42.0
+
     def test_size(self):
         self.assertEqual(self.defaulted.size(), 0)
         self.assertEqual(self.has_value.size(), 2)
+        self.assertEqual(self.immutable_defaulted.size(), 0)
+        self.assertEqual(self.immutable_has_value.size(), 2)
 
     def test_comparisons(self):
         # Default vs default
@@ -56,6 +67,12 @@ class TestNucleiView(unittest.TestCase):
         self.assertEqual(self.has_value, other_value)
         self.assertFalse(self.has_value != other_value)
 
+        # Mutable vs immutable
+        self.assertEqual(self.immutable_defaulted, other_default)
+        self.assertEqual(self.immutable_has_value, other_value)
+        self.assertFalse(self.immutable_defaulted != other_default)
+        self.assertFalse(self.immutable_has_value != other_value)
+
         # Different order
         diff_order_set = chemist.Nuclei()
         diff_order_set.push_back(self.n1)
@@ -66,15 +83,18 @@ class TestNucleiView(unittest.TestCase):
 
     def test_iter(self):
         # Empty
-        for n in self.defaulted:
-            self.fail("Empty Nuclei should not iterate")
+        for view in [self.defaulted, self.immutable_defaulted]:
+            for n in view:
+                self.fail("Empty Nuclei should not iterate")
 
         # Non-empty
-        for n in self.has_value:
-            self.assertTrue(n == self.n0 or n == self.n1)
+        for view in [self.has_value, self.immutable_has_value]:
+            for n in view:
+                self.assertTrue(n == self.n0 or n == self.n1)
 
     def test_str(self):
         self.assertEqual(str(self.defaulted), "")
+        self.assertEqual(str(self.immutable_defaulted), "")
 
         corr_string = " 0.000000000000000 0.000000000000000 0.000000000000000"
         corr_string += "\n"
@@ -83,6 +103,7 @@ class TestNucleiView(unittest.TestCase):
         )
         corr_string += "\n"
         self.assertEqual(str(self.has_value), corr_string)
+        self.assertEqual(str(self.immutable_has_value), corr_string)
 
     def setUp(self):
         self.defaulted = chemist.NucleiView()
@@ -92,3 +113,5 @@ class TestNucleiView(unittest.TestCase):
         self.value_set.push_back(self.n0)
         self.value_set.push_back(self.n1)
         self.has_value = chemist.NucleiView(self.value_set)
+        self.immutable_defaulted = chemist.ImmutableNucleiView()
+        self.immutable_has_value = chemist.ImmutableNucleiView(self.value_set)

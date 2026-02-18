@@ -22,7 +22,7 @@ namespace chemist {
 namespace detail_ {
 
 template<typename T>
-void export_charge_view_(const char* name, python_module_reference m) {
+void export_mutable_view_(const char* name, python_module_reference m) {
     using point_charge_type = PointCharge<T>;
     using charge_view_type  = PointChargeView<point_charge_type>;
     using charge_type       = typename charge_view_type::charge_type;
@@ -35,7 +35,26 @@ void export_charge_view_(const char* name, python_module_reference m) {
       .def_property(
         "charge", [](charge_view_type& self) { return self.charge(); },
         [](charge_view_type& self, charge_type q) { self.charge() = q; })
+      .def(pybind11::self == pybind11::self)
+      .def(pybind11::self == point_charge_type())
+      .def(point_charge_type() == pybind11::self)
+      .def(pybind11::self != pybind11::self)
+      .def(pybind11::self != point_charge_type())
+      .def(point_charge_type() != pybind11::self);
+}
 
+template<typename T>
+void export_immutable_view_(const char* name, python_module_reference m) {
+    using point_charge_type = PointCharge<T>;
+    using charge_view_type  = PointChargeView<const point_charge_type>;
+    using point_charge_reference =
+      typename charge_view_type::point_charge_reference;
+    using point_view_type = typename charge_view_type::point_view_type;
+
+    python_class_type<charge_view_type, point_view_type>(m, name)
+      .def(pybind11::init<point_charge_reference>())
+      .def_property_readonly(
+        "charge", [](charge_view_type& self) { return self.charge(); })
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self == point_charge_type())
       .def(point_charge_type() == pybind11::self)
@@ -47,8 +66,10 @@ void export_charge_view_(const char* name, python_module_reference m) {
 } // namespace detail_
 
 void export_charge_view(python_module_reference m) {
-    detail_::export_charge_view_<float>("PointChargeViewF", m);
-    detail_::export_charge_view_<double>("PointChargeViewD", m);
+    detail_::export_mutable_view_<float>("PointChargeViewF", m);
+    detail_::export_mutable_view_<double>("PointChargeViewD", m);
+    detail_::export_immutable_view_<float>("ImmutablePointChargeViewF", m);
+    detail_::export_immutable_view_<double>("ImmutablePointChargeViewD", m);
 }
 
 } // namespace chemist

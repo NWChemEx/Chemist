@@ -45,35 +45,34 @@ TEMPLATE_LIST_TEST_CASE("Exchange", "", types2test) {
 
     SECTION("Ctors and assignment") {
         SECTION("Defaulted") {
-            REQUIRE(defaulted.lhs_particle() == corr_lhs_defaulted);
-            REQUIRE(defaulted.rhs_particle() == corr_rhs_defaulted);
+            REQUIRE(defaulted.get_lhs_particle() == corr_lhs_defaulted);
+            REQUIRE(defaulted.get_rhs_particle() == corr_rhs_defaulted);
         }
 
         SECTION("Value") {
-            REQUIRE(value.lhs_particle() == corr_lhs_value);
-            REQUIRE(value.rhs_particle() == corr_rhs_value);
+            REQUIRE(value.get_lhs_particle() == corr_lhs_value);
+            REQUIRE(value.get_rhs_particle() == corr_rhs_value);
         }
 
         test_chemist::test_copy_and_move(defaulted, value);
     }
 
     SECTION("lhs_particle()") {
-        REQUIRE(defaulted.lhs_particle() == corr_lhs_defaulted);
-        REQUIRE(value.lhs_particle() == corr_lhs_value);
+        REQUIRE(defaulted.get_lhs_particle() == corr_lhs_defaulted);
+        REQUIRE(value.get_lhs_particle() == corr_lhs_value);
+
+        // Test writing
+        defaulted.set_lhs_particle(corr_lhs_value);
+        REQUIRE(defaulted.get_lhs_particle() == corr_lhs_value);
     }
 
-    SECTION("lhs_particle() const") {
-        REQUIRE(std::as_const(defaulted).lhs_particle() == corr_lhs_defaulted);
-        REQUIRE(std::as_const(value).lhs_particle() == corr_lhs_value);
+    SECTION("get_rhs_particle()") {
+        REQUIRE(defaulted.get_rhs_particle() == corr_rhs_defaulted);
+        REQUIRE(value.get_rhs_particle() == corr_rhs_value);
     }
 
-    SECTION("rhs_particle()") {
-        REQUIRE(defaulted.rhs_particle() == corr_rhs_defaulted);
-        REQUIRE(value.rhs_particle() == corr_rhs_value);
-    }
-
-    SECTION("rhs_particle() const") {
-        REQUIRE(std::as_const(defaulted).rhs_particle() == corr_rhs_defaulted);
-        REQUIRE(std::as_const(value).rhs_particle() == corr_rhs_value);
+    SECTION("set_rhs_particle()") {
+        defaulted.set_rhs_particle(corr_rhs_value);
+        REQUIRE(defaulted.get_rhs_particle() == corr_rhs_value);
     }
 }

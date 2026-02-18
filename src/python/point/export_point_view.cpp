@@ -22,7 +22,7 @@ namespace chemist {
 namespace detail_ {
 
 template<typename T>
-inline void export_point_view_(const char* name, python_module_reference m) {
+inline void export_mutable_(const char* name, python_module_reference m) {
     using point_type      = Point<T>;
     using point_view_type = PointView<point_type>;
     using coord_type      = typename point_view_type::coord_type;
@@ -51,11 +51,36 @@ inline void export_point_view_(const char* name, python_module_reference m) {
       .def(pybind11::self != point_type());
 }
 
+template<typename T>
+inline void export_immutable_(const char* name, python_module_reference m) {
+    using point_type      = Point<T>;
+    using point_view_type = PointView<const point_type>;
+    using coord_reference = typename point_view_type::coord_reference;
+    using size_type       = typename point_view_type::size_type;
+
+    using coord_fxn = coord_reference (point_view_type::*)(size_type);
+
+    python_class_type<point_view_type>(m, name)
+      .def(pybind11::init<point_type&>())
+      .def("coord", static_cast<coord_fxn>(&point_view_type::coord))
+      .def_property_readonly("x", [](point_view_type& p) { return p.x(); })
+      .def_property_readonly("y", [](point_view_type& p) { return p.y(); })
+      .def_property_readonly("z", [](point_view_type& p) { return p.z(); })
+      .def("magnitude", &point_view_type::magnitude)
+      .def(pybind11::self == pybind11::self)
+      .def(pybind11::self == point_type())
+      .def(point_type() == pybind11::self)
+      .def(pybind11::self != pybind11::self)
+      .def(pybind11::self != point_type());
+}
+
 } // namespace detail_
 
 void export_point_view(python_module_reference m) {
-    detail_::export_point_view_<float>("PointViewF", m);
-    detail_::export_point_view_<double>("PointViewD", m);
+    detail_::export_mutable_<float>("PointViewF", m);
+    detail_::export_mutable_<double>("PointViewD", m);
+    detail_::export_immutable_<float>("ImmutablePointViewF", m);
+    detail_::export_immutable_<double>("ImmutablePointViewD", m);
 }
 
 } // namespace chemist
