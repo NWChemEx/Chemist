@@ -36,21 +36,21 @@ TEMPLATE_LIST_TEST_CASE("Kinetic", "", types2test) {
 
     SECTION("Ctors and assignment") {
         SECTION("Defaulted") {
-            REQUIRE(defaulted.particle() == corr_defaulted);
+            REQUIRE(defaulted.get_particle() == corr_defaulted);
         }
 
-        SECTION("Value") { REQUIRE(value.particle() == corr_value); }
+        SECTION("Value") { REQUIRE(value.get_particle() == corr_value); }
 
         test_chemist::test_copy_and_move(defaulted, value);
     }
 
-    SECTION("particle()") {
-        REQUIRE(defaulted.particle() == corr_defaulted);
-        REQUIRE(value.particle() == corr_value);
+    SECTION("get_particle()") {
+        REQUIRE(defaulted.get_particle() == corr_defaulted);
+        REQUIRE(value.get_particle() == corr_value);
     }
 
-    SECTION("particle() const") {
-        REQUIRE(std::as_const(defaulted).particle() == corr_defaulted);
-        REQUIRE(std::as_const(value).particle() == corr_value);
+    SECTION("set_particle()") {
+        defaulted.set_particle(corr_value);
+        REQUIRE(defaulted.get_particle() == corr_value);
     }
 }

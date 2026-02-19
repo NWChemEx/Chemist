@@ -14,10 +14,17 @@
 
 import unittest
 
-from chemist import PointD, PointF, PointViewD, PointViewF
+from chemist import (
+    ImmutablePointViewD,
+    ImmutablePointViewF,
+    PointD,
+    PointF,
+    PointViewD,
+    PointViewF,
+)
 
 
-def make_point_view_test_case(point_type, point_view_type):
+def make_point_view_test_case(point_type, point_view_type, readonly=False):
     """
     The test cases for PointViewF vs PointViewD are basically the same aside
     from the types of the class. This function essentially templates the test
@@ -25,7 +32,8 @@ def make_point_view_test_case(point_type, point_view_type):
 
     :param point_type: Either ``PointF`` or ``PointD``
     :param point_view_type: ``PointViewF`` if ``point_type`` is ``PointF`` and
-                            ``PointViewD`` if ``point_type`` is ``PointD``.
+                            ``PointViewD`` if ``point_type`` is ``PointD``
+    :param readonly: True if the view should be readonly, otherwise False.
 
     """
 
@@ -48,49 +56,52 @@ def make_point_view_test_case(point_type, point_view_type):
             # Test the initial value
             self.assertEqual(self.r0_view.x, 1.0)
 
-            # Test we can write to it
-            self.r0_view.x = 2.0
+            if self.readonly is False:
+                # Test we can write to it
+                self.r0_view.x = 2.0
 
-            # Test that our change took
-            self.assertEqual(self.r0.x, 2.0)
-            self.assertEqual(self.r0_view.x, 2.0)
+                # Test that our change took
+                self.assertEqual(self.r0.x, 2.0)
+                self.assertEqual(self.r0_view.x, 2.0)
 
-            # Test that changes to r0 are reflected
-            self.r0.x = 3.0
-            self.assertEqual(self.r0.x, 3.0)
-            self.assertEqual(self.r0_view.x, 3.0)
+                # Test that changes to r0 are reflected
+                self.r0.x = 3.0
+                self.assertEqual(self.r0.x, 3.0)
+                self.assertEqual(self.r0_view.x, 3.0)
 
         def test_y(self):
             # Test the initial value
             self.assertEqual(self.r0_view.y, 2.0)
 
-            # Test we can write to it
-            self.r0_view.y = 3.0
+            if self.readonly is False:
+                # Test we can write to it
+                self.r0_view.y = 3.0
 
-            # Test that our change took
-            self.assertEqual(self.r0.y, 3.0)
-            self.assertEqual(self.r0_view.y, 3.0)
+                # Test that our change took
+                self.assertEqual(self.r0.y, 3.0)
+                self.assertEqual(self.r0_view.y, 3.0)
 
-            # Test that changes to r0 are reflected
-            self.r0.y = 4.0
-            self.assertEqual(self.r0.y, 4.0)
-            self.assertEqual(self.r0_view.y, 4.0)
+                # Test that changes to r0 are reflected
+                self.r0.y = 4.0
+                self.assertEqual(self.r0.y, 4.0)
+                self.assertEqual(self.r0_view.y, 4.0)
 
         def test_z(self):
             # Test the initial value
             self.assertEqual(self.r0_view.z, 3.0)
 
-            # Test we can write to it
-            self.r0_view.z = 4.0
+            if self.readonly is False:
+                # Test we can write to it
+                self.r0_view.z = 4.0
 
-            # Test that our change took
-            self.assertEqual(self.r0.z, 4.0)
-            self.assertEqual(self.r0_view.z, 4.0)
+                # Test that our change took
+                self.assertEqual(self.r0.z, 4.0)
+                self.assertEqual(self.r0_view.z, 4.0)
 
-            # Test that changes to r0 are reflected
-            self.r0.z = 5.0
-            self.assertEqual(self.r0.z, 5.0)
-            self.assertEqual(self.r0_view.z, 5.0)
+                # Test that changes to r0 are reflected
+                self.r0.z = 5.0
+                self.assertEqual(self.r0.z, 5.0)
+                self.assertEqual(self.r0_view.z, 5.0)
 
         def test_magnitude(self):
             self.assertEqual(self.defaulted_view.magnitude(), 0.0)
@@ -138,6 +149,7 @@ def make_point_view_test_case(point_type, point_view_type):
             self.defaulted_view = point_view_type(self.defaulted)
             self.r0 = point_type(1.0, 2.0, 3.0)
             self.r0_view = point_view_type(self.r0)
+            self.readonly = readonly
 
     return TestPointView
 
@@ -147,4 +159,16 @@ class TestPointViewF(make_point_view_test_case(PointF, PointViewF)):
 
 
 class TestPointViewD(make_point_view_test_case(PointD, PointViewD)):
+    pass
+
+
+class TestImmutablePointViewF(
+    make_point_view_test_case(PointF, ImmutablePointViewF, True)
+):
+    pass
+
+
+class TestImmutablePointViewD(
+    make_point_view_test_case(PointD, ImmutablePointViewD, True)
+):
     pass

@@ -20,17 +20,23 @@
 #include <sstream>
 
 namespace chemist {
+namespace detail_ {
 
-void export_nuclei_view(python_module_reference m) {
+template<typename NucleiType>
+void export_nuclei_view_(const char* name, python_module_reference m) {
     // N.B. We don't want to export the base class so we use lambdas to
     //      call the methods.
 
-    using nuclei_type = Nuclei;
+    using nuclei_type = NucleiType;
     using view_type   = NucleiView<nuclei_type>;
     using reference   = view_type&;
     using size_type   = typename nuclei_type::size_type;
+    using other_nuclei_type =
+      std::conditional_t<std::is_const_v<nuclei_type>, nuclei_type,
+                         const nuclei_type>;
+    using other_view_type = NucleiView<other_nuclei_type>;
 
-    python_class_type<view_type>(m, "NucleiView")
+    python_class_type<view_type>(m, name)
       .def(pybind11::init<>())
       .def(pybind11::init<nuclei_type&>())
       .def("empty", [](reference self) { return self.empty(); })
@@ -51,8 +57,19 @@ void export_nuclei_view(python_module_reference m) {
         pybind11::keep_alive<0, 1>())
       .def(pybind11::self == pybind11::self)
       .def(pybind11::self == nuclei_type{})
+      .def(nuclei_type{} == pybind11::self)
+      .def(pybind11::self == other_view_type{})
       .def(pybind11::self != pybind11::self)
-      .def(pybind11::self != nuclei_type{});
+      .def(pybind11::self != nuclei_type{})
+      .def(nuclei_type{} != pybind11::self)
+      .def(pybind11::self != other_view_type{});
+}
+
+} // namespace detail_
+
+void export_nuclei_view(python_module_reference m) {
+    detail_::export_nuclei_view_<Nuclei>("NucleiView", m);
+    detail_::export_nuclei_view_<const Nuclei>("ImmutableNucleiView", m);
 }
 
 } // namespace chemist

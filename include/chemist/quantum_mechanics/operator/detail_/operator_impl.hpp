@@ -115,8 +115,8 @@ public:
 
     /** @brief Returns the @p i-th particle in *this.
      *
-     *  This method returns a mutable reference to the @p i-th particle involved
-     *  in this operator.
+     *  This method returns a read-only reference to the @p i-th particle
+     *  involved in this operator.
      *
      *  @tparam i The offset of the particle. @p i should be in the range 0 to
      *          sizeof...(Particles).
@@ -124,24 +124,25 @@ public:
      *  @throw None No throw guarantee.
      */
     template<std::size_t i>
-    particle_reference<i> at() {
+    const_particle_reference<i> get() const {
         return std::get<i>(m_particles_);
     }
 
-    /** @brief REturns the @p i-th particle in *this.
+    /** @brief Updates the value of the @p i-th particle in *this.
      *
-     *  This method is the same as the non-const version except that the
-     *  resulting particle is read-only. See the documentation for the non-const
-     *  version for more details.
+     *  This method updates the value of the @p i-th particle involved in this
+     *  operator.
      *
      *  @tparam i The offset of the particle. @p i should be in the range 0 to
      *          sizeof...(Particles).
      *
+     *  @param[in] p The new value of the @p i-th particle.
+     *
      *  @throw None No throw guarantee.
      */
     template<std::size_t i>
-    const_particle_reference<i> at() const {
-        return std::get<i>(m_particles_);
+    void set(particle_type<i> p) {
+        std::get<i>(m_particles_) = std::move(p);
     }
 
     /** @brief Non-polymorphically determines if *this is value equal to @p rhs.

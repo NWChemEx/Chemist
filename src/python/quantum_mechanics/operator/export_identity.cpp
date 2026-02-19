@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NWChemEx-Project
+ * Copyright 2026 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,17 @@
  * limitations under the License.
  */
 
-#pragma once
-#include "../../pychemist.hpp"
+#include "export_operator.hpp"
+#include <chemist/quantum_mechanics/operator/identity.hpp>
+#include <pybind11/operators.h>
 
 namespace chemist::qm_operator {
 
-void export_identity(python_module_reference m);
-void export_kinetic(python_module_reference m);
-void export_coulomb(python_module_reference m);
-void export_exchange(python_module_reference m);
-void export_exchange_correlation(python_module_reference m);
-
-inline void export_qm_operator(python_module_reference m) {
-    auto m_op = m.def_submodule("qm_operator");
-
-    export_identity(m_op);
-    export_kinetic(m_op);
-    export_coulomb(m_op);
-    export_exchange(m_op);
-    export_exchange_correlation(m_op);
+void export_identity(python_module_reference m) {
+    python_class_type<Identity>(m, "Identity")
+      .def(pybind11::init<>())
+      .def(pybind11::self == pybind11::self)
+      .def(pybind11::self != pybind11::self);
 }
 
 } // namespace chemist::qm_operator

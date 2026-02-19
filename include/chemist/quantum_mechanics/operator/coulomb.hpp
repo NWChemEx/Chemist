@@ -56,58 +56,44 @@ public:
     /// Defaulted, nothrow dtor
     ~Coulomb() noexcept = default;
 
-    /** @brief Returns the lhs particle
-     *
-     *  The Coulomb energy is a two particle operator. We term the first
-     *  particle the lhs particle (short for left hand side). This method can be
-     *  used to retrieve the lhs particle.
-     *
-     *  This is a convenience function for calling the base class's at member.
-     *
-     *  @return A mutable reference to the lhs particle.
-     *
-     *  @throw None No throw guarantee.
-     */
-    lhs_reference lhs_particle() { return base_type::template at<0>(); }
-
     /** @brief Returns a read-only reference to the lhs particle.
-     *
-     *  This method is the same as the non-const version except that the result
-     *  is read-only.
      *
      *  @return A read-only reference to the lhs particle.
      *
      *  @throw None No throw guarantee.
      */
-    const_lhs_reference lhs_particle() const {
-        return base_type::template at<0>();
+    const_lhs_reference get_lhs_particle() const {
+        return base_type::template get<0>();
     }
 
-    /** @brief Returns the rhs particle
+    /** @brief Update the value of the lhs particle
      *
-     *  The Coulomb energy is a two particle operator. We term the second
-     *  particle the rhs particle (short for right hand side). This method can
-     *  be used to retrieve the rhs particle.
-     *
-     *  This is a convenience function for calling the base class's at member.
-     *
-     *  @return A mutable reference to the rhs particle.
+     *  @param[in] p The new value of the lhs particle.
      *
      *  @throw None No throw guarantee.
      */
-    rhs_reference rhs_particle() { return base_type::template at<1>(); }
+    void set_lhs_particle(lhs_value_type p) {
+        base_type::template set<0>(std::move(p));
+    }
 
     /** @brief Returns a read-only reference to the rhs particle.
-     *
-     *  This method is the same as the non-const version except that the result
-     *  is read-only.
      *
      *  @return A read-only reference to the rhs particle.
      *
      *  @throw None No throw guarantee.
      */
-    const_rhs_reference rhs_particle() const {
-        return base_type::template at<1>();
+    const_rhs_reference get_rhs_particle() const {
+        return base_type::template get<1>();
+    }
+
+    /** @brief Update the value of the rhs particle
+     *
+     *  @param[in] p The new value of the rhs particle.
+     *
+     *  @throw None No throw guarantee.
+     */
+    void set_rhs_particle(rhs_value_type p) {
+        base_type::template set<1>(std::move(p));
     }
 };
 
