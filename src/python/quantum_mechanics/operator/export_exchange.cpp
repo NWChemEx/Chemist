@@ -23,6 +23,7 @@ namespace chemist::qm_operator {
 template<typename T, typename U>
 void export_exchange_(const char* name, python_module_reference m) {
     using exchange_t = Exchange<T, U>;
+    using op_base_t  = OperatorBase;
 
     auto get_lhs_particle = [](const exchange_t& o) {
         return o.get_lhs_particle();
@@ -33,7 +34,7 @@ void export_exchange_(const char* name, python_module_reference m) {
     };
     auto set_rhs_particle = [](exchange_t& o, U& p) { o.set_rhs_particle(p); };
 
-    python_class_type<exchange_t>(m, name)
+    python_class_type<exchange_t, op_base_t, pybind11::smart_holder>(m, name)
       .def(pybind11::init<>())
       .def(pybind11::init<T, U>())
       .def(pybind11::self == pybind11::self)

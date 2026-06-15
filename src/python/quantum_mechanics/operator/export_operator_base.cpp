@@ -15,18 +15,17 @@
  */
 
 #include "export_operator.hpp"
-#include <chemist/quantum_mechanics/operator/identity.hpp>
+#include <chemist/quantum_mechanics/operator/operator_base.hpp>
 #include <pybind11/operators.h>
 
 namespace chemist::qm_operator {
 
-void export_identity(python_module_reference m) {
-    using op_base_t = OperatorBase;
-    python_class_type<Identity, op_base_t, pybind11::smart_holder>(m,
-                                                                   "Identity")
-      .def(pybind11::init<>())
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+void export_operator_base(python_module_reference m) {
+    using base_t = OperatorBase;
+    python_class_type<base_t, pybind11::smart_holder>(m, "OperatorBase")
+      .def("clone", &base_t::clone)
+      .def("are_equal", &base_t::are_equal)
+      .def("are_different", &base_t::are_different);
 }
 
 } // namespace chemist::qm_operator

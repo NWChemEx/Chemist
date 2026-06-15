@@ -19,20 +19,24 @@
 
 namespace chemist::qm_operator {
 
+void export_operator_base(python_module_reference m);
 void export_identity(python_module_reference m);
 void export_kinetic(python_module_reference m);
 void export_coulomb(python_module_reference m);
 void export_exchange(python_module_reference m);
 void export_exchange_correlation(python_module_reference m);
+void export_core_hamiltonian(python_module_reference m);
 
 inline void export_qm_operator(python_module_reference m) {
     auto m_op = m.def_submodule("qm_operator");
 
+    export_operator_base(m_op);
     export_identity(m_op);
     export_kinetic(m_op);
     export_coulomb(m_op);
     export_exchange(m_op);
     export_exchange_correlation(m_op);
+    export_core_hamiltonian(m_op);
 }
 
 } // namespace chemist::qm_operator

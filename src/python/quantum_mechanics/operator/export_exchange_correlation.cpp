@@ -37,7 +37,8 @@ void export_xc_functionals_(python_module_reference m) {
 
 template<typename T, typename U>
 void export_exchange_correlation_(const char* name, python_module_reference m) {
-    using xc_t = ExchangeCorrelation<T, U>;
+    using xc_t      = ExchangeCorrelation<T, U>;
+    using op_base_t = OperatorBase;
 
     auto get_lhs_particle = [](const xc_t& o) { return o.get_lhs_particle(); };
     auto set_lhs_particle = [](xc_t& o, T& p) { o.set_lhs_particle(p); };
@@ -50,7 +51,7 @@ void export_exchange_correlation_(const char* name, python_module_reference m) {
         o.set_functional_name(p);
     };
 
-    python_class_type<xc_t>(m, name)
+    python_class_type<xc_t, op_base_t, pybind11::smart_holder>(m, name)
       .def(pybind11::init<>())
       .def(pybind11::init<xc_functional, T, U>())
       .def(pybind11::self == pybind11::self)
