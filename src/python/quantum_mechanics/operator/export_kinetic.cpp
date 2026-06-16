@@ -23,11 +23,12 @@ namespace chemist::qm_operator {
 template<typename T>
 void export_kinetic_(const char* name, python_module_reference m) {
     using kinetic_t = Kinetic<T>;
+    using op_base_t = OperatorBase;
 
     auto get_particle = [](const kinetic_t& k) { return k.get_particle(); };
     auto set_particle = [](kinetic_t& k, T& p) { k.set_particle(p); };
 
-    python_class_type<kinetic_t>(m, name)
+    python_class_type<kinetic_t, op_base_t, pybind11::smart_holder>(m, name)
       .def(pybind11::init<>())
       .def(pybind11::init<T>())
       .def(pybind11::self == pybind11::self)
