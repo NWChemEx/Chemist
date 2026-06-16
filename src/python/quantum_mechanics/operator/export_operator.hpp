@@ -26,6 +26,8 @@ void export_coulomb(python_module_reference m);
 void export_exchange(python_module_reference m);
 void export_exchange_correlation(python_module_reference m);
 void export_core_hamiltonian(python_module_reference m);
+void export_electronic_hamiltonian(python_module_reference m);
+void export_hamiltonian(python_module_reference m);
 
 inline void export_qm_operator(python_module_reference m) {
     auto m_op = m.def_submodule("qm_operator");
@@ -37,6 +39,8 @@ inline void export_qm_operator(python_module_reference m) {
     export_exchange(m_op);
     export_exchange_correlation(m_op);
     export_core_hamiltonian(m_op);
+    export_electronic_hamiltonian(m_op);
+    export_hamiltonian(m_op);
 }
 
 } // namespace chemist::qm_operator

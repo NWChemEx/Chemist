@@ -16,33 +16,43 @@ import unittest
 
 from chemist.qm_operator import (
     CoreHamiltonian,
+    CoulombManyElectronsManyElectrons,
     CoulombManyElectronsNuclei,
+    ElectronicHamiltonian,
     KineticManyElectrons,
 )
 
 
-class TestCoreHamiltonian(unittest.TestCase):
+class TestElectronicHamiltonian(unittest.TestCase):
     def setUp(self):
         self.kinetic = KineticManyElectrons()
-        self.coulomb = CoulombManyElectronsNuclei()
-        self.defaulted = CoreHamiltonian()
-        self.with_operators = CoreHamiltonian()
+        self.coulomb1 = CoulombManyElectronsNuclei()
+        self.coulomb2 = CoulombManyElectronsManyElectrons()
+        self.defaulted = ElectronicHamiltonian()
+        self.with_operators = ElectronicHamiltonian()
         self.with_operators.emplace_back(1.0, self.kinetic.clone())
-        self.with_operators.emplace_back(2.0, self.coulomb.clone())
+        self.with_operators.emplace_back(2.0, self.coulomb1.clone())
+        self.with_operators.emplace_back(3.0, self.coulomb2.clone())
+        self.core = CoreHamiltonian()
+        self.core.emplace_back(1.0, self.kinetic.clone())
+        self.core.emplace_back(2.0, self.coulomb1.clone())
 
     def test_size(self):
         self.assertEqual(self.defaulted.size(), 0)
-        self.assertEqual(self.with_operators.size(), 2)
+        self.assertEqual(self.with_operators.size(), 3)
 
     def test_coefficient(self):
         self.assertEqual(self.with_operators.coefficient(0), 1.0)
         self.assertEqual(self.with_operators.coefficient(1), 2.0)
+        self.assertEqual(self.with_operators.coefficient(2), 3.0)
 
     def test_get_operator(self):
         got_kinetic = self.with_operators.get_operator(0)
-        got_coulomb = self.with_operators.get_operator(1)
+        got_coulomb1 = self.with_operators.get_operator(1)
+        got_coulomb2 = self.with_operators.get_operator(2)
         self.assertTrue(got_kinetic.are_equal(self.kinetic))
-        self.assertTrue(got_coulomb.are_equal(self.coulomb))
+        self.assertTrue(got_coulomb1.are_equal(self.coulomb1))
+        self.assertTrue(got_coulomb2.are_equal(self.coulomb2))
 
     def test_emplace_back(self):
         self.defaulted.emplace_back(3.0, self.kinetic.clone())
@@ -52,12 +62,16 @@ class TestCoreHamiltonian(unittest.TestCase):
             self.with_operators.get_operator(0).are_equal(self.kinetic)
         )
 
+    def test_core_hamiltonian(self):
+        self.assertEqual(self.with_operators.core_hamiltonian(), self.core)
+
     def test_equality(self):
-        other = CoreHamiltonian()
+        other = ElectronicHamiltonian()
         self.assertEqual(self.defaulted, other)
 
         other.emplace_back(1.0, self.kinetic.clone())
-        other.emplace_back(2.0, self.coulomb.clone())
+        other.emplace_back(2.0, self.coulomb1.clone())
+        other.emplace_back(3.0, self.coulomb2.clone())
         self.assertEqual(self.with_operators, other)
 
         self.assertNotEqual(self.defaulted, self.with_operators)

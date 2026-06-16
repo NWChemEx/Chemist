@@ -17,6 +17,7 @@
 #pragma once
 #include <chemist/quantum_mechanics/operator/detail_/unpack_linear_combination.hpp>
 #include <chemist/quantum_mechanics/operator/operator_base.hpp>
+
 namespace chemist::qm_operator::detail_ {
 
 /** @brief Implements operators which are linear combinations of operators.
