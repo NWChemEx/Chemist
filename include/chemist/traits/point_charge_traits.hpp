@@ -19,6 +19,7 @@
 #include <chemist/traits/point_traits.hpp>
 
 namespace chemist {
+
 template<typename T>
 class PointCharge;
 template<typename T>

@@ -21,10 +21,11 @@
 #include <vector>
 
 namespace chemist::basis_set {
+
 namespace detail_ {
 template<typename T>
 struct PrimitivePIMPL;
-}
+} // namespace detail_
 
 /** @brief Models a Gaussian Primitive by value.
  *

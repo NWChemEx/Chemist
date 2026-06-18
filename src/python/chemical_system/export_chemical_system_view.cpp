@@ -15,7 +15,6 @@
  */
 #include "export_chemical_system.hpp"
 #include <chemist/chemical_system/chemical_system_view.hpp>
-#include <pybind11/operators.h>
 
 namespace chemist {
 
@@ -26,15 +25,15 @@ void export_chemical_system_view(python_module_reference m) {
     using molecule_type        = typename chemical_system_type::molecule_t;
 
     python_class_type<view_type>(m, "ChemicalSystemView")
-      .def(pybind11::init<>())
-      .def(pybind11::init<chemical_system_type&>())
+      .def(py::init<>())
+      .def(py::init<chemical_system_type&>())
       .def_property(
         "molecule", [](reference self) { return self.molecule(); },
         [](reference self, molecule_type mol) { self.molecule() = mol; })
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self == chemical_system_type{})
-      .def(pybind11::self != pybind11::self)
-      .def(pybind11::self != chemical_system_type{});
+      .def(py::self == py::self)
+      .def(py::self == chemical_system_type{})
+      .def(py::self != py::self)
+      .def(py::self != chemical_system_type{});
 }
 
 } // namespace chemist

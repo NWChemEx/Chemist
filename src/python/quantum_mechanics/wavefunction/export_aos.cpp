@@ -16,7 +16,6 @@
 
 #include "export_wavefunction.hpp"
 #include <chemist/quantum_mechanics/wavefunction/aos.hpp>
-#include <pybind11/operators.h>
 
 namespace chemist::wavefunction {
 
@@ -30,11 +29,11 @@ void export_aos(python_module_reference m) {
     };
 
     python_class_type<AOs, VectorSpace>(m, "AOs")
-      .def(pybind11::init<>())
-      .def(pybind11::init<ao_basis_set>())
+      .def(py::init<>())
+      .def(py::init<ao_basis_set>())
       .def_property("ao_basis_set", get_aos, set_aos)
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace chemist::wavefunction

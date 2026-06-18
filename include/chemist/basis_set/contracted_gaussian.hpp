@@ -21,6 +21,7 @@
 #include <vector>
 
 namespace chemist::basis_set {
+
 namespace detail_ {
 template<typename PrimitiveType>
 class ContractedGaussianPIMPL;

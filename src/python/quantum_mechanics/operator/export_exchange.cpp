@@ -16,9 +16,10 @@
 
 #include "export_operator.hpp"
 #include <chemist/quantum_mechanics/operator/exchange.hpp>
-#include <pybind11/operators.h>
 
 namespace chemist::qm_operator {
+
+namespace detail_ {
 
 template<typename T, typename U>
 void export_exchange_(const char* name, python_module_reference m) {
@@ -34,23 +35,25 @@ void export_exchange_(const char* name, python_module_reference m) {
     };
     auto set_rhs_particle = [](exchange_t& o, U& p) { o.set_rhs_particle(p); };
 
-    python_class_type<exchange_t, op_base_t, pybind11::smart_holder>(m, name)
-      .def(pybind11::init<>())
-      .def(pybind11::init<T, U>())
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self)
+    python_class_type<exchange_t, op_base_t, py::smart_holder>(m, name)
+      .def(py::init<>())
+      .def(py::init<T, U>())
+      .def(py::self == py::self)
+      .def(py::self != py::self)
       .def_property("lhs_particle", get_lhs_particle, set_lhs_particle)
       .def_property("rhs_particle", get_rhs_particle, set_rhs_particle);
 }
 
+} // namespace detail_
+
 void export_exchange(python_module_reference m) {
-    export_exchange_<Electron, chemist::Density<Electron>>(
+    detail_::export_exchange_<Electron, chemist::Density<Electron>>(
       "ExchangeElectronDensityElectron", m);
-    export_exchange_<ManyElectrons, chemist::Density<Electron>>(
+    detail_::export_exchange_<ManyElectrons, chemist::Density<Electron>>(
       "ExchangeManyElectronsDensityElectron", m);
-    export_exchange_<Electron, DecomposableDensity<Electron>>(
+    detail_::export_exchange_<Electron, DecomposableDensity<Electron>>(
       "ExchangeElectronDecomposableDensityElectron", m);
-    export_exchange_<ManyElectrons, DecomposableDensity<Electron>>(
+    detail_::export_exchange_<ManyElectrons, DecomposableDensity<Electron>>(
       "ExchangeManyElectronsDecomposableDensityElectron", m);
 }
 

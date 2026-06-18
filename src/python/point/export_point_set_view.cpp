@@ -18,7 +18,9 @@
 #include <chemist/point/point_set_view.hpp>
 
 namespace chemist {
+
 namespace detail_ {
+
 template<typename T>
 void export_point_set_view_(const char* name, python_module_reference m) {
     using point_set_view_type = PointSetView<PointSet<T>>;
@@ -27,14 +29,14 @@ void export_point_set_view_(const char* name, python_module_reference m) {
     using size_type           = typename point_set_view_type::size_type;
 
     python_class_type<point_set_view_type>(m, name)
-      .def(pybind11::init<>())
-      .def(pybind11::init<point_set_type&>())
+      .def(py::init<>())
+      .def(py::init<point_set_type&>())
       .def("empty", [](reference self) { return self.empty(); })
       .def("at", [](reference self, size_type i) { return self[i]; })
       .def("size", [](reference self) { return self.size(); })
       .def("as_point_set", [](reference self) { return self.as_point_set(); })
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace detail_

@@ -21,6 +21,7 @@
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
+
 namespace detail_ {
 class NucleiPIMPL;
 } // namespace detail_

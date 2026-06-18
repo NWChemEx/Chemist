@@ -20,10 +20,11 @@
 #include <chemist/nucleus/nucleus.hpp>
 
 namespace chemist::fragmenting {
+
 namespace detail_ {
 template<typename NucleiType>
 class FragmentedNucleiPIMPL;
-}
+} // namespace detail_
 
 /** @brief Represents a set of fragments derived from a Nuclei object.
  *

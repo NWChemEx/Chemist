@@ -23,6 +23,7 @@
 // #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist::basis_set {
+
 namespace detail_ {
 template<typename CGType>
 class ShellPIMPL;

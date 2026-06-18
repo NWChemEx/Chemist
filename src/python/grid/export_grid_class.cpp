@@ -16,8 +16,6 @@
 
 #include "export_grid.hpp"
 #include <chemist/grid/grid_class.hpp>
-#include <pybind11/operators.h>
-#include <pybind11/stl.h>
 
 namespace chemist {
 
@@ -28,15 +26,15 @@ void export_grid_class(python_module_reference m) {
     using vector_type = std::vector<value_type>;
 
     python_class_type<grid_type>(m, "Grid")
-      .def(pybind11::init<>())
-      .def(pybind11::init([](vector_type& grid_points) {
+      .def(py::init<>())
+      .def(py::init([](vector_type& grid_points) {
           return grid_type(grid_points.begin(), grid_points.end());
       }))
       .def("empty", [](grid_type& self) { return self.empty(); })
       .def("at", [](grid_type& self, size_type i) { return self[i]; })
       .def("size", [](grid_type& self) { return self.size(); })
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace chemist

@@ -21,11 +21,11 @@
 #include <chemist/traits/fragmenting_traits.hpp>
 
 namespace chemist::fragmenting {
+
 namespace detail_ {
 template<typename MoleculeType>
 class FragmentedMoleculePIMPL;
-
-}
+} // namespace detail_
 
 /** @brief Stores pieces of a Molecule object.
  *

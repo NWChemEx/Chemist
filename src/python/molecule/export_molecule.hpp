@@ -20,7 +20,13 @@
 namespace chemist {
 
 void export_atom(python_module_reference m);
-void export_molecule(python_module_reference m);
+void export_molecule_class(python_module_reference m);
 void export_molecule_view(python_module_reference m);
+
+inline void export_molecule(python_module_reference m) {
+    export_atom(m);
+    export_molecule_class(m);
+    export_molecule_view(m);
+}
 
 } // namespace chemist

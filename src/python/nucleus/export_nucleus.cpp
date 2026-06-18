@@ -16,12 +16,11 @@
 
 #include "export_nucleus.hpp"
 #include <chemist/nucleus/nucleus.hpp>
-#include <pybind11/operators.h>
 #include <sstream>
 
 namespace chemist {
 
-void export_nucleus(python_module_reference m) {
+void export_nucleus_class(python_module_reference m) {
     using nucleus_type       = Nucleus;
     using nucleus_reference  = nucleus_type&;
     using point_charge_type  = typename Nucleus::point_charge_type;
@@ -32,12 +31,12 @@ void export_nucleus(python_module_reference m) {
     using charge_type        = typename Nucleus::charge_type;
 
     python_class_type<nucleus_type, point_charge_type>(m, "Nucleus")
-      .def(pybind11::init<>())
-      .def(pybind11::init<name_type, atomic_number_type, mass_type>())
-      .def(pybind11::init<name_type, atomic_number_type, mass_type, coord_type,
-                          coord_type, coord_type>())
-      .def(pybind11::init<name_type, atomic_number_type, mass_type, coord_type,
-                          coord_type, coord_type, charge_type>())
+      .def(py::init<>())
+      .def(py::init<name_type, atomic_number_type, mass_type>())
+      .def(py::init<name_type, atomic_number_type, mass_type, coord_type,
+                    coord_type, coord_type>())
+      .def(py::init<name_type, atomic_number_type, mass_type, coord_type,
+                    coord_type, coord_type, charge_type>())
       .def_property(
         "name", [](nucleus_reference self) { return self.name(); },
         [](nucleus_reference self, name_type name) {
@@ -55,12 +54,8 @@ void export_nucleus(python_module_reference m) {
                stream << nuc;
                return stream.str();
            })
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
-
-    export_nucleus_view(m);
-    export_nuclei(m);
-    export_nuclei_view(m);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace chemist

@@ -22,6 +22,7 @@
 #include <set>
 #include <vector>
 namespace chemist {
+
 namespace topology {
 class ConnectivityTable;
 } // namespace topology

@@ -18,6 +18,7 @@
 #include <chemist/basis_set/shell_view.hpp>
 
 namespace chemist {
+
 namespace detail_ {
 
 template<typename T>
@@ -32,8 +33,8 @@ void export_shell_view_(const char* name, python_module_reference m) {
     using center_type           = typename primitive_type::center_type;
 
     python_class_type<shell_view_type>(m, name)
-      .def(pybind11::init<>())
-      .def(pybind11::init<shell_type&>())
+      .def(py::init<>())
+      .def(py::init<shell_type&>())
       .def_property(
         "pure", [](shell_view_type& s) { return s.pure(); },
         [](shell_view_type& s, pure_type p) { s.pure() = p; })
@@ -52,12 +53,12 @@ void export_shell_view_(const char* name, python_module_reference m) {
            [](shell_view_type& s, size_type i) { return s.primitive(i); })
       .def("size", [](shell_view_type& s) { return s.size(); })
       .def("is_null", [](shell_view_type& s) { return s.is_null(); })
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self == shell_type())
-      .def(shell_type() == pybind11::self)
-      .def(pybind11::self != pybind11::self)
-      .def(pybind11::self != shell_type())
-      .def(shell_type() != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self == shell_type())
+      .def(shell_type() == py::self)
+      .def(py::self != py::self)
+      .def(py::self != shell_type())
+      .def(shell_type() != py::self);
 }
 
 } // namespace detail_

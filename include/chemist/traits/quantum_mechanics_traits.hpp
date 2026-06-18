@@ -18,9 +18,10 @@
 #include <type_traits>
 
 namespace chemist {
+
 namespace qm_operator {
 class OperatorBase;
-}
+} // namespace qm_operator
 
 namespace wavefunction {
 class Wavefunction;

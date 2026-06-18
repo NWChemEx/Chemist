@@ -18,6 +18,7 @@
 #include <chemist/basis_set/primitive.hpp>
 
 namespace chemist {
+
 namespace detail_ {
 
 template<typename T>
@@ -29,10 +30,10 @@ void export_primitive_(const char* name, python_module_reference m) {
     using coord_type     = typename primitive_type::coord_type;
 
     python_class_type<primitive_type>(m, name)
-      .def(pybind11::init<>())
-      .def(pybind11::init<coeff_type, expo_type, coord_type, coord_type,
-                          coord_type>())
-      .def(pybind11::init<coeff_type, expo_type, center_type>())
+      .def(py::init<>())
+      .def(
+        py::init<coeff_type, expo_type, coord_type, coord_type, coord_type>())
+      .def(py::init<coeff_type, expo_type, center_type>())
       .def_property(
         "center", [](primitive_type& p) { return p.center(); },
         [](primitive_type& p, center_type c) { p.center() = c; })
@@ -43,8 +44,8 @@ void export_primitive_(const char* name, python_module_reference m) {
         "exponent", [](primitive_type& p) { return p.exponent(); },
         [](primitive_type& p, expo_type e) { p.exponent() = e; })
       .def("is_null", [](primitive_type& p) { return p.is_null(); })
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace detail_

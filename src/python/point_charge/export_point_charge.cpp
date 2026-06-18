@@ -15,9 +15,9 @@
  */
 
 #include "export_point_charge.hpp"
-#include <pybind11/operators.h>
 
 namespace chemist {
+
 namespace detail_ {
 
 template<typename T>
@@ -28,24 +28,20 @@ void export_point_charge_(const char* name, python_module_reference m) {
     using coord_type        = typename point_charge_type::coord_type;
 
     python_class_type<point_charge_type, point_type>(m, name)
-      .def(pybind11::init<>())
-      .def(pybind11::init<charge_type, coord_type, coord_type, coord_type>())
+      .def(py::init<>())
+      .def(py::init<charge_type, coord_type, coord_type, coord_type>())
       .def_property(
         "charge", [](point_charge_type& self) { return self.charge(); },
         [](point_charge_type& self, charge_type q) { self.charge() = q; })
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace detail_
 
-void export_point_charge(python_module_reference m) {
+void export_point_charge_class(python_module_reference m) {
     detail_::export_point_charge_<float>("PointChargeF", m);
     detail_::export_point_charge_<double>("PointChargeD", m);
-
-    export_charge_view(m);
-    export_charges(m);
-    export_charges_view(m);
 }
 
 } // namespace chemist

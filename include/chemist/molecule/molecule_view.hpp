@@ -21,11 +21,11 @@
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
+
 namespace detail_ {
 template<typename MoleculeType>
 class MoleculeViewPIMPL;
-
-}
+} // namespace detail_
 
 /** @brief Allows existing molecular state to be used as if it were a Molecule
  *         object.

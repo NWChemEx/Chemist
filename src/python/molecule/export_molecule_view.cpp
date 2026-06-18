@@ -17,7 +17,6 @@
 #include "export_molecule.hpp"
 #include <chemist/molecule/molecule_view.hpp>
 #include <chemist/nucleus/nuclei.hpp>
-#include <pybind11/operators.h>
 #include <sstream>
 #include <vector>
 
@@ -37,13 +36,13 @@ void export_molecule_view(python_module_reference m) {
     };
 
     python_class_type<view_type>(m, "MoleculeView")
-      .def(pybind11::init<>())
-      .def(pybind11::init<molecule_type&>())
+      .def(py::init<>())
+      .def(py::init<molecule_type&>())
       .def("empty", [](reference self) { return self.empty(); })
       .def_property("nuclei", get_nuclei_fxn, set_nuclei_fxn)
       .def(
         "at", [](reference self, size_type i) { return self[i]; },
-        pybind11::keep_alive<0, 1>())
+        py::keep_alive<0, 1>())
       .def("size", [](reference self) { return self.size(); })
       .def("charge", &view_type::charge)
       .def("n_electrons", &view_type::n_electrons)
@@ -55,12 +54,12 @@ void export_molecule_view(python_module_reference m) {
       .def(
         "__iter__",
         [](reference self) {
-            return pybind11::make_iterator(self.begin(), self.end());
+            return py::make_iterator(self.begin(), self.end());
         },
-        pybind11::keep_alive<0, 1>())
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self == molecule_type{})
-      .def(pybind11::self != pybind11::self);
+        py::keep_alive<0, 1>())
+      .def(py::self == py::self)
+      .def(py::self == molecule_type{})
+      .def(py::self != py::self);
 }
 
 } // namespace chemist

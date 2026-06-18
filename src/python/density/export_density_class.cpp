@@ -16,7 +16,6 @@
 
 #include "export_density.hpp"
 #include <chemist/density/density_class.hpp>
-#include <pybind11/operators.h>
 
 namespace chemist {
 
@@ -35,12 +34,12 @@ void export_density_class(python_module_reference m) {
     python_module_type::import("tensorwrapper");
 
     python_class_type<density_t>(m, "Density")
-      .def(pybind11::init<>())
-      .def(pybind11::init<value_t, basis_t>())
+      .def(py::init<>())
+      .def(py::init<value_t, basis_t>())
       .def_property("value", get_value, set_value)
       .def_property("basis_set", get_basis, set_basis)
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace chemist

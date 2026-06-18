@@ -16,7 +16,6 @@
 
 #include "export_nucleus.hpp"
 #include <chemist/nucleus/nuclei_view.hpp>
-#include <pybind11/operators.h>
 #include <sstream>
 
 namespace chemist {
@@ -37,8 +36,8 @@ void export_nuclei_view_(const char* name, python_module_reference m) {
     using other_view_type = NucleiView<other_nuclei_type>;
 
     python_class_type<view_type>(m, name)
-      .def(pybind11::init<>())
-      .def(pybind11::init<nuclei_type&>())
+      .def(py::init<>())
+      .def(py::init<nuclei_type&>())
       .def("empty", [](reference self) { return self.empty(); })
       .def("at", [](reference self, size_type i) { return self[i]; })
       .def("size", [](reference self) { return self.size(); })
@@ -52,17 +51,17 @@ void export_nuclei_view_(const char* name, python_module_reference m) {
       .def(
         "__iter__",
         [](reference self) {
-            return pybind11::make_iterator(self.begin(), self.end());
+            return py::make_iterator(self.begin(), self.end());
         },
-        pybind11::keep_alive<0, 1>())
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self == nuclei_type{})
-      .def(nuclei_type{} == pybind11::self)
-      .def(pybind11::self == other_view_type{})
-      .def(pybind11::self != pybind11::self)
-      .def(pybind11::self != nuclei_type{})
-      .def(nuclei_type{} != pybind11::self)
-      .def(pybind11::self != other_view_type{});
+        py::keep_alive<0, 1>())
+      .def(py::self == py::self)
+      .def(py::self == nuclei_type{})
+      .def(nuclei_type{} == py::self)
+      .def(py::self == other_view_type{})
+      .def(py::self != py::self)
+      .def(py::self != nuclei_type{})
+      .def(nuclei_type{} != py::self)
+      .def(py::self != other_view_type{});
 }
 
 } // namespace detail_

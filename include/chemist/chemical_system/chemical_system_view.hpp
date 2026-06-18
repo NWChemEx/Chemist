@@ -16,11 +16,13 @@
 
 #pragma once
 #include <chemist/chemical_system/chemical_system_class.hpp>
+
 namespace chemist {
+
 namespace detail_ {
 template<typename ChemicalSystemType>
 class ChemicalSystemViewPIMPL;
-}
+} // namespace detail_
 
 /** @brief Enables using existing state as if it were a ChemicalSystem.
  *

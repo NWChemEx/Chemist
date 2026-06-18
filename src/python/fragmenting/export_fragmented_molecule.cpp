@@ -16,7 +16,6 @@
 
 #include "export_fragmenting.hpp"
 #include <chemist/fragmenting/fragmented_molecule.hpp>
-#include <pybind11/operators.h>
 
 namespace chemist::fragmenting {
 
@@ -32,12 +31,11 @@ void export_fragmented_molecule(python_module_reference m) {
     using multiplicity_type =
       typename fragmented_molecule_type::multiplicity_type;
 
-    pybind11::keep_alive<0, 1> ka;
+    py::keep_alive<0, 1> ka;
 
     auto value_ctor = [](fragmented_nuclei_type nuclear_frags,
                          charge_type charge, multiplicity_type multiplicity,
-                         pybind11::list py_charges,
-                         pybind11::list py_multiplicities) {
+                         py::list py_charges, py::list py_multiplicities) {
         auto charges = pybind_to_buffer<charge_type>(py_charges);
         auto multiplicities =
           pybind_to_buffer<multiplicity_type>(py_multiplicities);
@@ -49,22 +47,21 @@ void export_fragmented_molecule(python_module_reference m) {
     auto supersystem = [](reference self) { return self.supersystem(); };
     auto at_fxn      = [](reference self, size_type i) { return self.at(i); };
     auto iter_fxn    = [](reference self) {
-        return pybind11::make_iterator(self.begin(), self.end());
+        return py::make_iterator(self.begin(), self.end());
     };
 
     python_class_type<fragmented_molecule_type>(m, "FragmentedMolecule")
-      .def(pybind11::init<>())
-      .def(pybind11::init<supersystem_type>())
-      .def(pybind11::init<fragmented_nuclei_type, charge_type,
-                          multiplicity_type>())
-      .def(pybind11::init(value_ctor))
+      .def(py::init<>())
+      .def(py::init<supersystem_type>())
+      .def(py::init<fragmented_nuclei_type, charge_type, multiplicity_type>())
+      .def(py::init(value_ctor))
       .def("supersystem", supersystem, ka)
       .def("empty", [](reference self) { return self.empty(); })
       .def("at", at_fxn, ka)
       .def("size", [](reference self) { return self.size(); })
       .def("__iter__", iter_fxn, ka)
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace chemist::fragmenting

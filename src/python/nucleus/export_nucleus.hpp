@@ -19,9 +19,16 @@
 
 namespace chemist {
 
-void export_nucleus(python_module_reference m);
+void export_nucleus_class(python_module_reference m);
 void export_nucleus_view(python_module_reference m);
 void export_nuclei(python_module_reference m);
 void export_nuclei_view(python_module_reference m);
+
+inline void export_nucleus(python_module_reference m) {
+    export_nucleus_class(m);
+    export_nucleus_view(m);
+    export_nuclei(m);
+    export_nuclei_view(m);
+}
 
 } // namespace chemist

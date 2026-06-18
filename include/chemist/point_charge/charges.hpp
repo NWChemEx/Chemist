@@ -22,10 +22,11 @@
 #include <vector>
 
 namespace chemist {
+
 namespace detail_ {
 template<typename T>
 class ChargesPIMPL;
-}
+} // namespace detail_
 
 /** @brief Represents a container of PointCharge objects.
  *

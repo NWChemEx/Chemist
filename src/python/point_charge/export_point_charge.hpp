@@ -23,6 +23,13 @@ namespace chemist {
 void export_charge_view(python_module_reference m);
 void export_charges(python_module_reference m);
 void export_charges_view(python_module_reference m);
-void export_point_charge(python_module_reference m);
+void export_point_charge_class(python_module_reference m);
+
+inline void export_point_charge(python_module_reference m) {
+    export_point_charge_class(m);
+    export_charge_view(m);
+    export_charges(m);
+    export_charges_view(m);
+}
 
 } // namespace chemist

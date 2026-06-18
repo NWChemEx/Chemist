@@ -20,10 +20,11 @@
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist::basis_set {
+
 namespace detail_ {
 template<typename AtomicBasisSetType>
 class AtomicBasisSetViewPIMPL;
-}
+} // namespace detail_
 
 /** @brief Behaves like a reference to an AtomicBasisSet.
  *

@@ -16,9 +16,9 @@
 
 #include "export_wavefunction.hpp"
 #include <chemist/quantum_mechanics/wavefunction/wavefunction.hpp>
-#include <pybind11/operators.h>
 
 namespace chemist::wavefunction {
+
 namespace detail_ {
 
 template<typename T>
@@ -41,13 +41,14 @@ void export_transformed_(const char* name, python_module_reference m) {
     python_module_type::import("tensorwrapper");
 
     python_class_type<transformed_t, VectorSpace>(m, name)
-      .def(pybind11::init<>())
-      .def(pybind11::init<from_space_t, transform_t>())
+      .def(py::init<>())
+      .def(py::init<from_space_t, transform_t>())
       .def_property("from_space", get_from_space, set_from_space)
       .def_property("transform", get_transform, set_transform)
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
+
 } // namespace detail_
 
 void export_transformed(python_module_reference m) {

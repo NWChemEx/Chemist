@@ -21,10 +21,10 @@
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
+
 namespace detail_ {
 template<typename NucleiType>
 class NucleiViewPIMPL;
-
 } // namespace detail_
 
 /** @brief Allows existing state to be used as if it were a Nuclei object.
