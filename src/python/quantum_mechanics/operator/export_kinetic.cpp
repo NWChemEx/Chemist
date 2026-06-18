@@ -16,9 +16,10 @@
 
 #include "export_operator.hpp"
 #include <chemist/quantum_mechanics/operator/kinetic.hpp>
-#include <pybind11/operators.h>
 
 namespace chemist::qm_operator {
+
+namespace detail_ {
 
 template<typename T>
 void export_kinetic_(const char* name, python_module_reference m) {
@@ -28,19 +29,21 @@ void export_kinetic_(const char* name, python_module_reference m) {
     auto get_particle = [](const kinetic_t& k) { return k.get_particle(); };
     auto set_particle = [](kinetic_t& k, T& p) { k.set_particle(p); };
 
-    python_class_type<kinetic_t, op_base_t, pybind11::smart_holder>(m, name)
-      .def(pybind11::init<>())
-      .def(pybind11::init<T>())
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self)
+    python_class_type<kinetic_t, op_base_t, py::smart_holder>(m, name)
+      .def(py::init<>())
+      .def(py::init<T>())
+      .def(py::self == py::self)
+      .def(py::self != py::self)
       .def_property("particle", get_particle, set_particle);
 }
 
+} // namespace detail_
+
 void export_kinetic(python_module_reference m) {
-    export_kinetic_<Electron>("KineticElectron", m);
-    export_kinetic_<ManyElectrons>("KineticManyElectrons", m);
-    export_kinetic_<Nucleus>("KineticNuclues", m);
-    export_kinetic_<Nuclei>("KineticNuclei", m);
+    detail_::export_kinetic_<Electron>("KineticElectron", m);
+    detail_::export_kinetic_<ManyElectrons>("KineticManyElectrons", m);
+    detail_::export_kinetic_<Nucleus>("KineticNuclues", m);
+    detail_::export_kinetic_<Nuclei>("KineticNuclei", m);
 }
 
 } // namespace chemist::qm_operator

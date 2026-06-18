@@ -18,6 +18,7 @@
 #include <chemist/basis_set/primitive_view.hpp>
 
 namespace chemist {
+
 namespace detail_ {
 
 template<typename T>
@@ -30,8 +31,8 @@ void export_primitive_view_(const char* name, python_module_reference m) {
     using center_type = typename primitive_view_type::center_type;
 
     python_class_type<primitive_view_type>(m, name)
-      .def(pybind11::init<>())
-      .def(pybind11::init<primitive_type&>())
+      .def(py::init<>())
+      .def(py::init<primitive_type&>())
       .def_property(
         "center", [](primitive_view_type& p) { return p.center(); },
         [](primitive_view_type& p, center_type c) { p.center() = c; })
@@ -42,12 +43,12 @@ void export_primitive_view_(const char* name, python_module_reference m) {
         "exponent", [](primitive_view_type& p) { return p.exponent(); },
         [](primitive_view_type& p, expo_type e) { p.exponent() = e; })
       .def("is_null", [](primitive_view_type& p) { return p.is_null(); })
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self == primitive_type())
-      .def(primitive_type() == pybind11::self)
-      .def(pybind11::self != pybind11::self)
-      .def(pybind11::self != primitive_type())
-      .def(primitive_type() != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self == primitive_type())
+      .def(primitive_type() == py::self)
+      .def(py::self != py::self)
+      .def(py::self != primitive_type())
+      .def(primitive_type() != py::self);
 }
 
 } // namespace detail_

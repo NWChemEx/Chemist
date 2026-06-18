@@ -20,6 +20,7 @@
 #include <string>
 
 namespace chemist {
+
 class Nucleus;
 template<typename T>
 class NucleusView;

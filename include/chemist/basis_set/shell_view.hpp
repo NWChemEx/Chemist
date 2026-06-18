@@ -20,6 +20,7 @@
 #include <chemist/detail_/view_traits.hpp>
 
 namespace chemist::basis_set {
+
 namespace detail_ {
 template<typename ShellType>
 class ShellViewPIMPL;

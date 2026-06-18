@@ -16,8 +16,7 @@
 
 #include "export_fragmenting.hpp"
 #include <chemist/fragmenting/fragmented_nuclei.hpp>
-#include <pybind11/operators.h>
-#include <pybind11/stl.h>
+
 namespace chemist::fragmenting {
 
 void export_fragmented_nuclei(python_module_reference m) {
@@ -32,9 +31,9 @@ void export_fragmented_nuclei(python_module_reference m) {
     using nucleus_type      = typename supersystem_type::value_type;
     using nucleus_reference = typename supersystem_type::reference;
 
-    pybind11::keep_alive<0, 1> ka;
+    py::keep_alive<0, 1> ka;
 
-    auto value_ctor = [](supersystem_type ss, pybind11::list frags,
+    auto value_ctor = [](supersystem_type ss, py::list frags,
                          cap_set_type caps) {
         nucleus_map_type indices;
         for(auto& frag_indices : frags) {
@@ -44,7 +43,7 @@ void export_fragmented_nuclei(python_module_reference m) {
                                       std::move(caps));
     };
 
-    auto insert_index = [](reference self, pybind11::list indices_py) {
+    auto insert_index = [](reference self, py::list indices_py) {
         if(indices_py.size() == 0) {
             self.insert(nucleus_index_set{});
             return;
@@ -66,15 +65,14 @@ void export_fragmented_nuclei(python_module_reference m) {
     auto supersystem = [](reference self) { return self.supersystem(); };
     auto at_fxn      = [](reference self, size_type i) { return self.at(i); };
     auto iter_fxn    = [](reference self) {
-        return pybind11::make_iterator(self.begin(), self.end());
+        return py::make_iterator(self.begin(), self.end());
     };
 
     python_class_type<fragmented_nuclei_type>(m, "FragmentedNuclei")
-      .def(pybind11::init<>())
-      .def(pybind11::init<supersystem_type>())
-      .def(pybind11::init(value_ctor), pybind11::arg("supersystem"),
-           pybind11::arg("nucleus_to_fragment"),
-           pybind11::arg("caps") = cap_set_type{})
+      .def(py::init<>())
+      .def(py::init<supersystem_type>())
+      .def(py::init(value_ctor), py::arg("supersystem"),
+           py::arg("nucleus_to_fragment"), py::arg("caps") = cap_set_type{})
       .def("insert", insert_index)
       .def("nuclear_indices", &fragmented_nuclei_type::nuclear_indices)
       .def("cap_set", cap_set, ka)
@@ -84,8 +82,8 @@ void export_fragmented_nuclei(python_module_reference m) {
       .def("at", at_fxn, ka)
       .def("size", [](reference self) { return self.size(); })
       .def("__iter__", iter_fxn, ka)
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace chemist::fragmenting

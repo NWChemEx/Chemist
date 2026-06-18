@@ -20,6 +20,7 @@
 #include <chemist/traits/quantum_mechanics_traits.hpp>
 
 namespace chemist::braket {
+
 namespace detail_ {
 
 /** @brief Works out the base class for a given instantiation of BraKet.

@@ -16,10 +16,10 @@
 
 #include "export_operator.hpp"
 #include <chemist/quantum_mechanics/operator/exchange_correlation.hpp>
-#include <pybind11/native_enum.h>
-#include <pybind11/operators.h>
 
 namespace chemist::qm_operator {
+
+namespace detail_ {
 
 void export_xc_functionals_(python_module_reference m) {
     python_enum_type<xc_functional>(m, "xc_functional", "enum.Enum")
@@ -51,27 +51,32 @@ void export_exchange_correlation_(const char* name, python_module_reference m) {
         o.set_functional_name(p);
     };
 
-    python_class_type<xc_t, op_base_t, pybind11::smart_holder>(m, name)
-      .def(pybind11::init<>())
-      .def(pybind11::init<xc_functional, T, U>())
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self)
+    python_class_type<xc_t, op_base_t, py::smart_holder>(m, name)
+      .def(py::init<>())
+      .def(py::init<xc_functional, T, U>())
+      .def(py::self == py::self)
+      .def(py::self != py::self)
       .def_property("lhs_particle", get_lhs_particle, set_lhs_particle)
       .def_property("rhs_particle", get_rhs_particle, set_rhs_particle)
       .def_property("functional_name", get_functional_name,
                     set_functional_name);
 }
 
-void export_exchange_correlation(python_module_reference m) {
-    export_xc_functionals_(m);
+} // namespace detail_
 
-    export_exchange_correlation_<Electron, chemist::Density<Electron>>(
+void export_exchange_correlation(python_module_reference m) {
+    detail_::export_xc_functionals_(m);
+
+    detail_::export_exchange_correlation_<Electron, chemist::Density<Electron>>(
       "ExchangeCorrelationElectronDensityElectron", m);
-    export_exchange_correlation_<ManyElectrons, chemist::Density<Electron>>(
+    detail_::export_exchange_correlation_<ManyElectrons,
+                                          chemist::Density<Electron>>(
       "ExchangeCorrelationManyElectronsDensityElectrons", m);
-    export_exchange_correlation_<Electron, DecomposableDensity<Electron>>(
+    detail_::export_exchange_correlation_<Electron,
+                                          DecomposableDensity<Electron>>(
       "ExchangeCorrelationElectronDecomposableDensityElectron", m);
-    export_exchange_correlation_<ManyElectrons, DecomposableDensity<Electron>>(
+    detail_::export_exchange_correlation_<ManyElectrons,
+                                          DecomposableDensity<Electron>>(
       "ExchangeCorrelationManyElectronsDecomposableDensityElectron", m);
 }
 

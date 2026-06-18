@@ -18,9 +18,10 @@
 #include <chemist/traits/topology.hpp>
 
 namespace chemist::topology {
+
 namespace detail_ {
 class ConnectivityTablePIMPL;
-}
+} // namespace detail_
 
 /** @brief Stores the a list of bonds in a molecule.
  *

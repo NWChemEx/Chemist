@@ -16,7 +16,6 @@
 
 #pragma once
 #include "../pychemist.hpp"
-#include <pybind11/operators.h>
 
 namespace chemist {
 

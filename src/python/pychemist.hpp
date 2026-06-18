@@ -16,19 +16,23 @@
 
 #pragma once
 #include <pybind11/native_enum.h>
+#include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 namespace chemist {
 
-using python_module_type = pybind11::module_;
+namespace py = pybind11;
+
+using python_module_type = py::module_;
 
 using python_module_reference = python_module_type&;
 
 template<typename... Args>
-using python_class_type = pybind11::class_<Args...>;
+using python_class_type = py::class_<Args...>;
 
 template<typename... Args>
-using python_enum_type = pybind11::native_enum<Args...>;
+using python_enum_type = py::native_enum<Args...>;
 
 /** @brief Convenience function for checking if a pybind11 object can be
  *         cast to  type T
@@ -99,7 +103,7 @@ auto pybind_to_buffer(U container) {
  *                        throw guarantee.
  */
 template<typename T>
-auto args_to_buffer(pybind11::args args) {
+auto args_to_buffer(py::args args) {
     return pybind_to_buffer<T>(args);
 }
 

@@ -21,11 +21,11 @@
 #include <chemist/traits/fragmenting_traits.hpp>
 
 namespace chemist::fragmenting {
+
 namespace detail_ {
 template<typename ChemicalSystemType>
 class FragmentedChemicalSystemPIMPL;
-
-}
+} // namespace detail_
 
 /** @brief Stores fragments of a ChemicalSystem object.
  *

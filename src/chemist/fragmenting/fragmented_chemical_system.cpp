@@ -17,6 +17,7 @@
 #include <chemist/fragmenting/fragmented_chemical_system.hpp>
 
 namespace chemist::fragmenting {
+
 namespace detail_ {
 
 template<typename ChemicalSystemType>

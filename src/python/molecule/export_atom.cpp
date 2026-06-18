@@ -16,7 +16,6 @@
 
 #include "export_molecule.hpp"
 #include <chemist/molecule/atom.hpp>
-#include <pybind11/operators.h>
 #include <sstream>
 
 namespace chemist {
@@ -36,13 +35,13 @@ void export_atom(python_module_reference m) {
     using coord_fxn = coord_reference (atom_type::*)(size_type);
 
     python_class_type<atom_type>(m, "Atom")
-      .def(pybind11::init<>())
-      .def(pybind11::init<name_type, atomic_number_type, mass_type, coord_type,
-                          coord_type, coord_type>())
-      .def(pybind11::init<name_type, atomic_number_type, mass_type, coord_type,
-                          coord_type, coord_type, charge_type>())
-      .def(pybind11::init<name_type, atomic_number_type, mass_type, coord_type,
-                          coord_type, coord_type, charge_type, size_type>())
+      .def(py::init<>())
+      .def(py::init<name_type, atomic_number_type, mass_type, coord_type,
+                    coord_type, coord_type>())
+      .def(py::init<name_type, atomic_number_type, mass_type, coord_type,
+                    coord_type, coord_type, charge_type>())
+      .def(py::init<name_type, atomic_number_type, mass_type, coord_type,
+                    coord_type, coord_type, charge_type, size_type>())
       .def_property(
         "name", [](atom_reference self) { return self.name(); },
         [](atom_reference self, name_type name) { self.name() = name; })
@@ -81,8 +80,8 @@ void export_atom(python_module_reference m) {
                stream << atom;
                return stream.str();
            })
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace chemist

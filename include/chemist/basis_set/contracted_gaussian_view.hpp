@@ -19,10 +19,11 @@
 #include <chemist/detail_/view_traits.hpp>
 
 namespace chemist::basis_set {
+
 namespace detail_ {
 template<typename CGType>
 class ContractedGaussianViewPIMPL;
-}
+} // namespace detail_
 
 /** @brief Models a reference to a ContractedGaussian
  *

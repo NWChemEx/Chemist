@@ -16,7 +16,6 @@
 
 #include "export_nucleus.hpp"
 #include <chemist/nucleus/nuclei.hpp>
-#include <pybind11/operators.h>
 #include <sstream>
 
 namespace chemist {
@@ -33,7 +32,7 @@ void export_nuclei(python_module_reference m) {
 
     // Factor long functions out for readability
     //{
-    auto list_ctor = [](pybind11::list nuclei) {
+    auto list_ctor = [](py::list nuclei) {
         std::vector<value_type> values;
         for(auto& nucleus_py : nuclei) {
             auto nucleus_i = nucleus_py.cast<value_type>();
@@ -56,20 +55,20 @@ void export_nuclei(python_module_reference m) {
         return stream.str();
     };
     auto iter_fxn = [](nuclei_reference self) {
-        return pybind11::make_iterator(self.begin(), self.end());
+        return py::make_iterator(self.begin(), self.end());
     };
     //}
 
-    pybind11::keep_alive<0, 1> ka;
+    py::keep_alive<0, 1> ka;
 
     python_class_type<nuclei_type>(m, "Nuclei")
-      .def(pybind11::init<>())
-      .def(pybind11::init(list_ctor))
-      .def_property(
-        "charges",
-        pybind11::cpp_function(
-          get_charges_fxn, pybind11::return_value_policy::take_ownership, ka),
-        pybind11::cpp_function(set_charges_fxn))
+      .def(py::init<>())
+      .def(py::init(list_ctor))
+      .def_property("charges",
+                    py::cpp_function(get_charges_fxn,
+                                     py::return_value_policy::take_ownership,
+                                     ka),
+                    py::cpp_function(set_charges_fxn))
       .def("empty", [](nuclei_reference self) { return self.empty(); })
       .def("push_back", push_back)
       .def("at", [](nuclei_reference self, size_type i) { return self[i]; })
@@ -77,8 +76,8 @@ void export_nuclei(python_module_reference m) {
       .def("__repr__", str_fxn)
       .def("__str__", str_fxn)
       .def("__iter__", iter_fxn, ka)
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace chemist

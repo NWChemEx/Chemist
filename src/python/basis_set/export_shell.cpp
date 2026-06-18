@@ -16,9 +16,9 @@
 
 #include "export_basis_set.hpp"
 #include <chemist/basis_set/shell.hpp>
-#include <pybind11/stl.h>
 
 namespace chemist {
+
 namespace detail_ {
 
 template<typename T>
@@ -34,19 +34,19 @@ void export_shell_(const char* name, python_module_reference m) {
     using vector_type           = std::vector<T>;
 
     python_class_type<shell_type>(m, name)
-      .def(pybind11::init<>())
-      .def(pybind11::init([](pure_type pure, angular_momentum_type l,
-                             vector_type& cs, vector_type& es, center_type r) {
+      .def(py::init<>())
+      .def(py::init([](pure_type pure, angular_momentum_type l, vector_type& cs,
+                       vector_type& es, center_type r) {
           return shell_type(pure, l, cs.begin(), cs.end(), es.begin(), es.end(),
                             r);
       }))
-      .def(pybind11::init([](pure_type pure, angular_momentum_type l,
-                             vector_type& cs, vector_type& es, coord_type x,
-                             coord_type y, coord_type z) {
-          return shell_type(pure, l, cs.begin(), cs.end(), es.begin(), es.end(),
-                            x, y, z);
-      }))
-      .def(pybind11::init<pure_type, angular_momentum_type, cg_type>())
+      .def(
+        py::init([](pure_type pure, angular_momentum_type l, vector_type& cs,
+                    vector_type& es, coord_type x, coord_type y, coord_type z) {
+            return shell_type(pure, l, cs.begin(), cs.end(), es.begin(),
+                              es.end(), x, y, z);
+        }))
+      .def(py::init<pure_type, angular_momentum_type, cg_type>())
       .def_property(
         "pure", [](shell_type& s) { return s.pure(); },
         [](shell_type& s, pure_type p) { s.pure() = p; })
@@ -65,8 +65,8 @@ void export_shell_(const char* name, python_module_reference m) {
            [](shell_type& s, size_type i) { return s.primitive(i); })
       .def("size", [](shell_type& s) { return s.size(); })
       .def("is_null", [](shell_type& s) { return s.is_null(); })
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace detail_

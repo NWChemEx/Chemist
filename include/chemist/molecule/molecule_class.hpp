@@ -22,6 +22,7 @@
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
+
 namespace detail_ {
 /// Forward declaration of class that holds the molecule's implementation
 class MoleculePIMPL;

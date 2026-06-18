@@ -17,6 +17,7 @@
 #include <chemist/fragmenting/fragmented_molecule.hpp>
 
 namespace chemist::fragmenting {
+
 namespace detail_ {
 
 template<typename MoleculeType>

@@ -18,9 +18,10 @@
 #include <chemist/quantum_mechanics/operator/core_hamiltonian.hpp>
 #include <chemist/quantum_mechanics/operator/electronic_hamiltonian.hpp>
 #include <chemist/quantum_mechanics/operator/hamiltonian.hpp>
-#include <pybind11/operators.h>
 
 namespace chemist::qm_operator {
+
+namespace detail_ {
 
 template<typename HamiltonianType>
 void export_hamiltonian_(const char* name, python_module_reference m) {
@@ -40,16 +41,16 @@ void export_hamiltonian_(const char* name, python_module_reference m) {
         self.emplace_back(c, std::move(op));
     };
 
-    pybind11::keep_alive<0, 1> ka;
+    py::keep_alive<0, 1> ka;
 
-    auto c = python_class_type<h_t, op_base_t, pybind11::smart_holder>(m, name)
-               .def(pybind11::init<>())
+    auto c = python_class_type<h_t, op_base_t, py::smart_holder>(m, name)
+               .def(py::init<>())
                .def("size", size_fn)
                .def("coefficient", coeff_fn)
                .def("get_operator", get_op_fn, ka)
                .def("emplace_back", emplace_back_fn)
-               .def(pybind11::self == pybind11::self)
-               .def(pybind11::self != pybind11::self);
+               .def(py::self == py::self)
+               .def(py::self != py::self);
 
     if constexpr(!std::is_same_v<h_t, CoreHamiltonian>) {
         auto core_hamiltonian_fn = [](const h_t& self) {
@@ -66,16 +67,19 @@ void export_hamiltonian_(const char* name, python_module_reference m) {
     }
 }
 
+} // namespace detail_
+
 void export_core_hamiltonian(python_module_reference m) {
-    export_hamiltonian_<CoreHamiltonian>("CoreHamiltonian", m);
+    detail_::export_hamiltonian_<CoreHamiltonian>("CoreHamiltonian", m);
 }
 
 void export_electronic_hamiltonian(python_module_reference m) {
-    export_hamiltonian_<ElectronicHamiltonian>("ElectronicHamiltonian", m);
+    detail_::export_hamiltonian_<ElectronicHamiltonian>("ElectronicHamiltonian",
+                                                        m);
 }
 
 void export_hamiltonian(python_module_reference m) {
-    export_hamiltonian_<Hamiltonian>("Hamiltonian", m);
+    detail_::export_hamiltonian_<Hamiltonian>("Hamiltonian", m);
 }
 
 } // namespace chemist::qm_operator

@@ -16,9 +16,9 @@
 
 #include "export_basis_set.hpp"
 #include <chemist/basis_set/atomic_basis_set_view.hpp>
-#include <pybind11/stl.h>
 
 namespace chemist {
+
 namespace detail_ {
 
 template<typename T>
@@ -34,8 +34,8 @@ void export_abs_view_(const char* name, python_module_reference m) {
     using atomic_number_type = typename abs_type::atomic_number_type;
 
     python_class_type<abs_view_type>(m, name)
-      .def(pybind11::init<>())
-      .def(pybind11::init<abs_type&>())
+      .def(py::init<>())
+      .def(py::init<abs_type&>())
       .def_property(
         "basis_set_name", [](abs_view_type& s) { return s.basis_set_name(); },
         [](abs_view_type& s, name_type n) { s.basis_set_name() = n; })
@@ -58,12 +58,12 @@ void export_abs_view_(const char* name, python_module_reference m) {
       .def("at", [](abs_view_type& s, size_type i) { return s[i]; })
       .def("size", [](abs_view_type& s) { return s.size(); })
       .def("is_null", [](abs_view_type& s) { return s.is_null(); })
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self == abs_type())
-      .def(abs_type() == pybind11::self)
-      .def(pybind11::self != pybind11::self)
-      .def(pybind11::self != abs_type())
-      .def(abs_type() != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self == abs_type())
+      .def(abs_type() == py::self)
+      .def(py::self != py::self)
+      .def(py::self != abs_type())
+      .def(abs_type() != py::self);
 }
 
 } // namespace detail_

@@ -16,7 +16,6 @@
 
 #include "export_capping.hpp"
 #include <chemist/fragmenting/capping/cap.hpp>
-#include <pybind11/operators.h>
 
 namespace chemist::fragmenting {
 
@@ -26,15 +25,14 @@ using reference    = Cap::reference;
 using at_fxn       = reference (Cap::*)(size_type);
 
 void export_cap(python_module_reference m) {
-    auto rvp = pybind11::return_value_policy::reference_internal;
+    auto rvp = py::return_value_policy::reference_internal;
 
     python_class_type<Cap>(m, "Cap")
-      .def(pybind11::init<>())
-      .def(pybind11::init(
-        [](size_type anchor, size_type replaced, pybind11::args args) {
-            auto buffer = args_to_buffer<nucleus_type>(std::move(args));
-            return Cap(anchor, replaced, buffer.begin(), buffer.end());
-        }))
+      .def(py::init<>())
+      .def(py::init([](size_type anchor, size_type replaced, py::args args) {
+          auto buffer = args_to_buffer<nucleus_type>(std::move(args));
+          return Cap(anchor, replaced, buffer.begin(), buffer.end());
+      }))
       .def("insert", &Cap::insert)
       .def("at", static_cast<at_fxn>(&Cap::at), rvp)
       .def("__getitem__", static_cast<at_fxn>(&Cap::at), rvp)
@@ -60,8 +58,8 @@ void export_cap(python_module_reference m) {
                    throw std::runtime_error("No Replacement Set");
                }
            })
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace chemist::fragmenting

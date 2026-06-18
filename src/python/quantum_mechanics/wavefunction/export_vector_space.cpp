@@ -41,7 +41,7 @@ protected:
 
 void export_vector_space(python_module_reference m) {
     python_class_type<VectorSpace, PyVectorSpace>(m, "VectorSpace")
-      .def(pybind11::init<>())
+      .def(py::init<>())
       .def("clone", &VectorSpace::clone)
       .def("size", &VectorSpace::size)
       .def("are_equal", &VectorSpace::are_equal)

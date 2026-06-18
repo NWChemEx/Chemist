@@ -17,8 +17,8 @@
 #include <chemist/fragmenting/fragmented_nuclei.hpp>
 
 namespace chemist::fragmenting {
+
 namespace detail_ {
-namespace {} // namespace
 
 template<typename NucleiType>
 class FragmentedNucleiPIMPL {

@@ -22,10 +22,11 @@
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
+
 namespace detail_ {
 template<typename PointSetType>
 class PointSetViewPIMPL;
-}
+} // namespace detail_
 
 /** @brief Acts like a reference to a PointSet object.
  *

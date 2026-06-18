@@ -16,9 +16,9 @@
 
 #include "export_basis_set.hpp"
 #include <chemist/basis_set/ao_basis_set.hpp>
-#include <pybind11/stl.h>
 
 namespace chemist {
+
 namespace detail_ {
 
 template<typename T>
@@ -31,7 +31,7 @@ void export_ao_basis_set_(const char* name, python_module_reference m) {
     using size_type      = typename abs_type::size_type;
 
     python_class_type<aobs_type>(m, name)
-      .def(pybind11::init<>())
+      .def(py::init<>())
       .def("add_center", [](aobs_type& s, abs_type b) { s.add_center(b); })
       .def("shell_range",
            [](aobs_type& s, size_type i) { return s.shell_range(i); })
@@ -47,10 +47,10 @@ void export_ao_basis_set_(const char* name, python_module_reference m) {
       .def("empty", [](aobs_type& s) { return s.empty(); })
       .def("at", [](aobs_type& s, size_type i) { return s[i]; })
       .def("size", [](aobs_type& s) { return s.size(); })
-      .def(pybind11::self + pybind11::self)
-      .def(pybind11::self += pybind11::self)
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self + py::self)
+      .def(py::self += py::self)
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace detail_

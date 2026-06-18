@@ -21,6 +21,7 @@
 #include <chemist/traits/nucleus_traits.hpp>
 
 namespace chemist {
+
 namespace fragmenting {
 class CapSet;
 template<typename DerivedType>

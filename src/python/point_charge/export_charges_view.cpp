@@ -16,10 +16,10 @@
 
 #include "export_point_charge.hpp"
 #include <chemist/point_charge/charges_view.hpp>
-#include <pybind11/operators.h>
 #include <sstream>
 
 namespace chemist {
+
 namespace detail_ {
 
 template<typename T>
@@ -41,23 +41,23 @@ void export_charges_view_(const char* name, python_module_reference m) {
         return stream.str();
     };
 
-    pybind11::keep_alive<0, 1> ka;
+    py::keep_alive<0, 1> ka;
 
     python_class_type<view_type>(m, name)
-      .def(pybind11::init<>())
-      .def(pybind11::init<charges_type&>())
-      .def_property(
-        "point_set",
-        pybind11::cpp_function(
-          get_point_set_fxn, pybind11::return_value_policy::take_ownership, ka),
-        pybind11::cpp_function(set_point_set_fxn))
+      .def(py::init<>())
+      .def(py::init<charges_type&>())
+      .def_property("point_set",
+                    py::cpp_function(get_point_set_fxn,
+                                     py::return_value_policy::take_ownership,
+                                     ka),
+                    py::cpp_function(set_point_set_fxn))
       .def("empty", [](reference self) { return self.empty(); })
       .def("at", [](reference self, size_type i) { return self[i]; })
       .def("size", [](reference self) { return self.size(); })
       .def("__str__", str_fxn)
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self == charges_type())
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self == charges_type())
+      .def(py::self != py::self);
 }
 
 } // namespace detail_

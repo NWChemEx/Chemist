@@ -19,6 +19,7 @@
 #include <chemist/traits/point_traits.hpp>
 
 namespace chemist {
+
 class GridPoint;
 template<typename GridPointType>
 class GridPointView;

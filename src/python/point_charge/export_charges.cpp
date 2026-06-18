@@ -16,10 +16,10 @@
 
 #include "export_point_charge.hpp"
 #include <chemist/point_charge/charges.hpp>
-#include <pybind11/operators.h>
 #include <sstream>
 
 namespace chemist {
+
 namespace detail_ {
 
 template<typename T>
@@ -39,7 +39,7 @@ void export_charges_(const char* name, python_module_reference m) {
     };
 
     python_class_type<charges_type>(m, name)
-      .def(pybind11::init<>())
+      .def(py::init<>())
       .def("empty", [](charges_reference self) { return self.empty(); })
       .def("push_back",
            [](charges_reference self, value_type v) {
@@ -48,8 +48,8 @@ void export_charges_(const char* name, python_module_reference m) {
       .def("at", [](charges_reference self, size_type i) { return self[i]; })
       .def("size", [](charges_reference self) { return self.size(); })
       .def("__str__", str_fxn)
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace detail_

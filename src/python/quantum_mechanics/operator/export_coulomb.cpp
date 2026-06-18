@@ -16,9 +16,10 @@
 
 #include "export_operator.hpp"
 #include <chemist/quantum_mechanics/operator/coulomb.hpp>
-#include <pybind11/operators.h>
 
 namespace chemist::qm_operator {
+
+namespace detail_ {
 
 template<typename T, typename U>
 void export_coulomb_(const char* name, python_module_reference m) {
@@ -34,30 +35,33 @@ void export_coulomb_(const char* name, python_module_reference m) {
     };
     auto set_rhs_particle = [](coulomb_t& o, U& p) { o.set_rhs_particle(p); };
 
-    python_class_type<coulomb_t, op_base_t, pybind11::smart_holder>(m, name)
-      .def(pybind11::init<>())
-      .def(pybind11::init<T, U>())
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self)
+    python_class_type<coulomb_t, op_base_t, py::smart_holder>(m, name)
+      .def(py::init<>())
+      .def(py::init<T, U>())
+      .def(py::self == py::self)
+      .def(py::self != py::self)
       .def_property("lhs_particle", get_lhs_particle, set_lhs_particle)
       .def_property("rhs_particle", get_rhs_particle, set_rhs_particle);
 }
 
+} // namespace detail_
+
 void export_coulomb(python_module_reference m) {
-    export_coulomb_<Electron, Electron>("CoulombElectronElectron", m);
-    export_coulomb_<ManyElectrons, ManyElectrons>(
+    detail_::export_coulomb_<Electron, Electron>("CoulombElectronElectron", m);
+    detail_::export_coulomb_<ManyElectrons, ManyElectrons>(
       "CoulombManyElectronsManyElectrons", m);
-    export_coulomb_<Electron, chemist::Density<Electron>>(
+    detail_::export_coulomb_<Electron, chemist::Density<Electron>>(
       "CoulombElectronDensityElectron", m);
-    export_coulomb_<ManyElectrons, chemist::Density<Electron>>(
+    detail_::export_coulomb_<ManyElectrons, chemist::Density<Electron>>(
       "CoulombManyElectronsDensityElectrons", m);
-    export_coulomb_<Electron, DecomposableDensity<Electron>>(
+    detail_::export_coulomb_<Electron, DecomposableDensity<Electron>>(
       "CoulombElectronDecomposableDensityElectron", m);
-    export_coulomb_<ManyElectrons, DecomposableDensity<Electron>>(
+    detail_::export_coulomb_<ManyElectrons, DecomposableDensity<Electron>>(
       "CoulombManyElectronsDecomposableDensityElectron", m);
-    export_coulomb_<Electron, Nuclei>("CoulombElectronNuclei", m);
-    export_coulomb_<ManyElectrons, Nuclei>("CoulombManyElectronsNuclei", m);
-    export_coulomb_<Nuclei, Nuclei>("CoulombNucleiNuclei", m);
+    detail_::export_coulomb_<Electron, Nuclei>("CoulombElectronNuclei", m);
+    detail_::export_coulomb_<ManyElectrons, Nuclei>(
+      "CoulombManyElectronsNuclei", m);
+    detail_::export_coulomb_<Nuclei, Nuclei>("CoulombNucleiNuclei", m);
 }
 
 } // namespace chemist::qm_operator

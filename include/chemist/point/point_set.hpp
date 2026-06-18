@@ -21,10 +21,11 @@
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
+
 namespace detail_ {
 template<typename T>
 class PointSetPIMPL;
-}
+} // namespace detail_
 
 /** @brief A container filled with Point objects
  *

@@ -16,6 +16,7 @@
 
 #pragma once
 #include <chemist/molecule/molecule_view.hpp>
+
 namespace chemist::detail_ {
 
 template<typename MoleculeType>

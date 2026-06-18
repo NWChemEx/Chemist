@@ -20,9 +20,10 @@
 #include <memory>
 
 namespace chemist {
+
 namespace detail_ {
 class ChemicalSystemPIMPL;
-}
+} // namespace detail_
 
 /** @brief Class describing the entire chemical system to be modeled.
  *

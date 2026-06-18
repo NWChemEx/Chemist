@@ -17,13 +17,12 @@
 #include "export_molecule.hpp"
 #include <chemist/molecule/molecule.hpp>
 #include <chemist/nucleus/nuclei.hpp>
-#include <pybind11/operators.h>
 #include <sstream>
 #include <vector>
 
 namespace chemist {
-namespace detail_ {
-void export_molecule_(python_module_reference m) {
+
+void export_molecule_class(python_module_reference m) {
     using molecule_type      = Molecule;
     using molecule_reference = molecule_type&;
     using atom_type          = typename Molecule::atom_type;
@@ -36,7 +35,7 @@ void export_molecule_(python_module_reference m) {
     // easier to read
     //@{
     auto value_ctor = [](charge_type q, multiplicity_type m,
-                         pybind11::list py_atoms) {
+                         py::list py_atoms) {
         auto atoms = pybind_to_buffer<atom_type>(py_atoms);
         nuclei_type nuclei;
         for(auto& atom_i : atoms) nuclei.push_back(atom_i.nucleus());
@@ -68,25 +67,25 @@ void export_molecule_(python_module_reference m) {
     };
 
     auto iter_fxn = [](molecule_reference self) {
-        return pybind11::make_iterator(self.begin(), self.end());
+        return py::make_iterator(self.begin(), self.end());
     };
     //@}
 
-    pybind11::keep_alive<0, 1> ka;
+    py::keep_alive<0, 1> ka;
 
     python_class_type<Molecule>(m, "Molecule")
-      .def(pybind11::init<>())
-      .def(pybind11::init<charge_type, size_type, nuclei_type>())
-      .def(pybind11::init(value_ctor))
+      .def(py::init<>())
+      .def(py::init<charge_type, size_type, nuclei_type>())
+      .def(py::init(value_ctor))
       .def("empty", [](molecule_reference self) { return self.empty(); })
       .def("push_back", push_back)
       .def("get_nuclei", get_nuclei_fxn, ka)
       .def("set_nuclei", set_nuclei_fxn)
-      .def_property(
-        "nuclei",
-        pybind11::cpp_function(
-          get_nuclei_fxn, pybind11::return_value_policy::take_ownership, ka),
-        pybind11::cpp_function(set_nuclei_fxn))
+      .def_property("nuclei",
+                    py::cpp_function(get_nuclei_fxn,
+                                     py::return_value_policy::take_ownership,
+                                     ka),
+                    py::cpp_function(set_nuclei_fxn))
       .def("at", at_fxn, ka)
       .def("size", [](molecule_reference self) { return self.size(); })
       .def("charge", &Molecule::charge)
@@ -96,15 +95,8 @@ void export_molecule_(python_module_reference m) {
       .def("set_multiplicity", set_mult)
       .def("__str__", str_fxn)
       .def("__iter__", iter_fxn, ka)
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
-}
-} // namespace detail_
-
-void export_molecule(python_module_reference m) {
-    export_atom(m);
-    detail_::export_molecule_(m);
-    export_molecule_view(m);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace chemist

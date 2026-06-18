@@ -20,10 +20,11 @@
 #include <memory>
 
 namespace chemist {
+
 namespace detail_ {
 template<typename T>
 class PointPIMPL;
-}
+} // namespace detail_
 
 /** @brief An object that is associated with a point in 3-D Cartesian space.
  *

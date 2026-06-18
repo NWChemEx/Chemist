@@ -16,9 +16,9 @@
 
 #include "export_basis_set.hpp"
 #include <chemist/basis_set/atomic_basis_set.hpp>
-#include <pybind11/stl.h>
 
 namespace chemist {
+
 namespace detail_ {
 
 template<typename T>
@@ -36,18 +36,18 @@ void export_atomic_basis_set_(const char* name, python_module_reference m) {
     using atomic_number_type    = typename abs_type::atomic_number_type;
 
     python_class_type<abs_type>(m, name)
-      .def(pybind11::init<>())
-      .def(pybind11::init<name_type, atomic_number_type, coord_type, coord_type,
-                          coord_type>())
-      .def(pybind11::init<name_type, atomic_number_type, center_type>())
-      .def(pybind11::init<coord_type, coord_type, coord_type>())
-      .def(pybind11::init<center_type>())
-      .def(pybind11::init<name_type, atomic_number_type>())
-      .def(pybind11::init([](center_type r, std::vector<shell_type> ss) {
+      .def(py::init<>())
+      .def(py::init<name_type, atomic_number_type, coord_type, coord_type,
+                    coord_type>())
+      .def(py::init<name_type, atomic_number_type, center_type>())
+      .def(py::init<coord_type, coord_type, coord_type>())
+      .def(py::init<center_type>())
+      .def(py::init<name_type, atomic_number_type>())
+      .def(py::init([](center_type r, std::vector<shell_type> ss) {
           return abs_type(r, ss.begin(), ss.end());
       }))
-      .def(pybind11::init([](name_type n, atomic_number_type z, center_type r,
-                             std::vector<shell_type> ss) {
+      .def(py::init([](name_type n, atomic_number_type z, center_type r,
+                       std::vector<shell_type> ss) {
           return abs_type(n, z, r, ss.begin(), ss.end());
       }))
       .def_property(
@@ -72,8 +72,8 @@ void export_atomic_basis_set_(const char* name, python_module_reference m) {
       .def("at", [](abs_type& s, size_type i) { return s[i]; })
       .def("size", [](abs_type& s) { return s.size(); })
       .def("is_null", [](abs_type& s) { return s.is_null(); })
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace detail_

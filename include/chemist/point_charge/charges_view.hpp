@@ -20,10 +20,11 @@
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
+
 namespace detail_ {
 template<typename ChargesType>
 class ChargesViewPIMPL;
-}
+} // namespace detail_
 
 /** @brief Enables treating state like it's a reference to a Charges object.
  *

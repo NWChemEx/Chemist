@@ -16,9 +16,9 @@
 
 #include "export_point.hpp"
 #include <chemist/point/point_view.hpp>
-#include <pybind11/operators.h>
 
 namespace chemist {
+
 namespace detail_ {
 
 template<typename T>
@@ -32,7 +32,7 @@ inline void export_mutable_(const char* name, python_module_reference m) {
     using coord_fxn = coord_reference (point_view_type::*)(size_type);
 
     python_class_type<point_view_type>(m, name)
-      .def(pybind11::init<point_type&>())
+      .def(py::init<point_type&>())
       .def("coord", static_cast<coord_fxn>(&point_view_type::coord))
       .def_property(
         "x", [](point_view_type& p) { return p.x(); },
@@ -44,11 +44,11 @@ inline void export_mutable_(const char* name, python_module_reference m) {
         "z", [](point_view_type& p) { return p.z(); },
         [](point_view_type& p, coord_type z) { p.z() = z; })
       .def("magnitude", &point_view_type::magnitude)
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self == point_type())
-      .def(point_type() == pybind11::self)
-      .def(pybind11::self != pybind11::self)
-      .def(pybind11::self != point_type());
+      .def(py::self == py::self)
+      .def(py::self == point_type())
+      .def(point_type() == py::self)
+      .def(py::self != py::self)
+      .def(py::self != point_type());
 }
 
 template<typename T>
@@ -61,17 +61,17 @@ inline void export_immutable_(const char* name, python_module_reference m) {
     using coord_fxn = coord_reference (point_view_type::*)(size_type);
 
     python_class_type<point_view_type>(m, name)
-      .def(pybind11::init<point_type&>())
+      .def(py::init<point_type&>())
       .def("coord", static_cast<coord_fxn>(&point_view_type::coord))
       .def_property_readonly("x", [](point_view_type& p) { return p.x(); })
       .def_property_readonly("y", [](point_view_type& p) { return p.y(); })
       .def_property_readonly("z", [](point_view_type& p) { return p.z(); })
       .def("magnitude", &point_view_type::magnitude)
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self == point_type())
-      .def(point_type() == pybind11::self)
-      .def(pybind11::self != pybind11::self)
-      .def(pybind11::self != point_type());
+      .def(py::self == py::self)
+      .def(py::self == point_type())
+      .def(point_type() == py::self)
+      .def(py::self != py::self)
+      .def(py::self != point_type());
 }
 
 } // namespace detail_

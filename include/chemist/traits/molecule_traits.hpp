@@ -21,6 +21,7 @@
 #include <chemist/traits/nucleus_traits.hpp>
 
 namespace chemist {
+
 class Atom;
 template<typename AtomType>
 class AtomView;

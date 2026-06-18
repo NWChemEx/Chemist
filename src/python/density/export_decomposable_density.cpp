@@ -16,7 +16,6 @@
 
 #include "export_density.hpp"
 #include <chemist/density/decomposable_density.hpp>
-#include <pybind11/operators.h>
 
 namespace chemist {
 
@@ -30,14 +29,14 @@ void export_decomposable_density(python_module_reference m) {
 
     python_class_type<decomposable_density_t, density_t>(m,
                                                          "DecomposableDensity")
-      .def(pybind11::init<>())
-      .def(pybind11::init<value_t, transformed_basis_t>())
-      .def(pybind11::init<value_t, basis_t, value_t>())
+      .def(py::init<>())
+      .def(py::init<value_t, transformed_basis_t>())
+      .def(py::init<value_t, basis_t, value_t>())
       .def_property_readonly(
         "left_factor",
         [](decomposable_density_t& d) { return d.left_factor(); })
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace chemist

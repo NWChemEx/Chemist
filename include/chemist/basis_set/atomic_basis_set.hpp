@@ -20,10 +20,11 @@
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist::basis_set {
+
 namespace detail_ {
 template<typename ShellType>
 class AtomicBasisSetPIMPL;
-}
+} // namespace detail_
 
 /** @brief Models a set of shells associated with a specific atomic center.
  *

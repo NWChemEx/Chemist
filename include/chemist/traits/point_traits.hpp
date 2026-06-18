@@ -18,6 +18,7 @@
 #include <chemist/traits/chemist_class_traits.hpp>
 
 namespace chemist {
+
 template<typename T>
 class Point;
 template<typename PointType>

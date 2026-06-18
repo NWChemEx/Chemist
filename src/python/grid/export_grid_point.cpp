@@ -16,7 +16,6 @@
 
 #include "export_grid.hpp"
 #include <chemist/grid/grid_point.hpp>
-#include <pybind11/operators.h>
 
 namespace chemist {
 
@@ -29,19 +28,19 @@ void export_grid_point(python_module_reference m) {
     using point_reference  = typename gridp_type::point_reference;
 
     python_class_type<gridp_type>(m, "GridPoint")
-      .def(pybind11::init<>())
-      .def(pybind11::init<weight_type, coord_type, coord_type, coord_type>())
-      .def(pybind11::init<weight_type, point_type>())
+      .def(py::init<>())
+      .def(py::init<weight_type, coord_type, coord_type, coord_type>())
+      .def(py::init<weight_type, point_type>())
       .def_property(
         "weight", [](gridp_type& g) -> weight_reference { return g.weight(); },
         [](gridp_type& g, weight_type w) { g.weight() = w; },
-        pybind11::return_value_policy::reference_internal)
+        py::return_value_policy::reference_internal)
       .def_property(
         "point", [](gridp_type& g) -> point_reference { return g.point(); },
         [](gridp_type& g, point_type p) { g.point() = p; },
-        pybind11::return_value_policy::reference_internal)
-      .def(pybind11::self == pybind11::self)
-      .def(pybind11::self != pybind11::self);
+        py::return_value_policy::reference_internal)
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace chemist
