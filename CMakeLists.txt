@@ -1,4 +1,4 @@
-# Copyright 2022 NWChemEx-Project
+# Copyright 2026 NWChemEx-Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,102 +14,53 @@
 
 cmake_minimum_required(VERSION 3.14)
 
-# Downloads common CMake modules used throughout NWChemEx
+# Downloads common CMake modules used throughout NWChemEx. Included before
+# project() so nwx_set_version() is available to compute the version.
 include(cmake/get_nwx_cmake.cmake)
 
-#Sets the version to whatever git thinks it is
-#include(get_version_from_git)
-#get_version_from_git(pluginplay_version "${CMAKE_CURRENT_LIST_DIR}")
-set(chemist_version 1.0.0)
+# Version from scikit-build-core (wheels/sdists) or the latest git tag.
+include(nwx_set_version)
+nwx_set_version(chemist_version "${CMAKE_CURRENT_LIST_DIR}")
 project(chemist VERSION "${chemist_version}" LANGUAGES CXX)
+
+include(disable_in_source_builds)
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 
-include(get_cmaize)
+option(BUILD_TESTING           "Whether to build the unit tests"    OFF)
+option(BUILD_PYBIND11_BINDINGS "Build Python bindings via pybind11" ON)
+
+# Documentation target
 include(nwx_cxx_api_docs)
+nwx_cxx_api_docs("cxx/include" "cxx/src")
 
-### Paths ###
-set(CHEMIST_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
-set(CHEMIST_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
-set(CHEMIST_TESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests")
-set(CHEMIST_EXP_DIR "${CMAKE_CURRENT_SOURCE_DIR}/experimental")
+# Dependencies
+include(get_dependencies)
+get_dependencies(utilities parallelzone tensorwrapper boost)
 
+# Build the library
+include(nwx_library)
+nwx_library(${PROJECT_NAME} "cxx/include" "cxx/src"
+    utilities parallelzone tensorwrapper
+    PUBLIC boost)
 
-nwx_cxx_api_docs("${CHEMIST_SOURCE_DIR}" "${CHEMIST_INCLUDE_DIR}")
+# Python module
+include(nwx_python_module)
+nwx_python_module(${PROJECT_NAME} "cxx/src")
 
-### Options ###
-cmaize_option_List(
-    BUILD_TESTING OFF "Should we build the tests?"
-    BUILD_PYBIND11_PYBINDINGS ON "Build Python bindings with pybind11?"
-    ENABLE_SIGMA OFF "Should we enable Sigma for uncertainty tracking?"
-)
-
-### Dependencies ###
-include(get_utilities)
-
-include(get_parallelzone)
-
-include(get_tensorwrapper)
-
-find_package(Boost REQUIRED)
-
-cmaize_add_library(
-    ${PROJECT_NAME}
-    SOURCE_DIR "${CHEMIST_SOURCE_DIR}/chemist"
-    INCLUDE_DIRS "${CHEMIST_INCLUDE_DIR}/chemist"
-    DEPENDS tensorwrapper parallelzone utilities Boost::boost
-)
-
-# N.B. this is a no-op if BUILD_PYBIND11_PYBINDINGS is not turned on
-include(nwx_pybind11)
-nwx_add_pybind11_module(
-    ${PROJECT_NAME}
-    SOURCE_DIR "${CHEMIST_SOURCE_DIR}/python"
-    DEPENDS "${PROJECT_NAME}"
-)
-
-if("${BUILD_TESTING}")
-    set(CXX_TEST_DIR "${CHEMIST_TESTS_DIR}/cxx")
-    set(PYTHON_TEST_DIR "${CHEMIST_TESTS_DIR}/python")
-    set(EXAMPLES_SRC_DIR "${CXX_TEST_DIR}/doc_snippets")
-
-    include(get_catch2)
-
-    cmaize_add_library(
-        ${PROJECT_NAME}_examples
-        SOURCE_DIR ${EXAMPLES_SRC_DIR}
-        INCLUDE_DIRS ${EXAMPLES_SRC_DIR}
-        DEPENDS Catch2::Catch2 ${PROJECT_NAME}
+# C++ tests
+if(BUILD_TESTING)
+    include(catch2_tests_from_dir)
+    catch2_tests_from_dir(
+        "unit_test_${PROJECT_NAME}"
+        "tests/cxx/unit_tests"
+        ${PROJECT_NAME}
+        PRIVATE_INCLUDES cxx/src
     )
-
-    cmaize_add_tests(
-        test_unit_chemist
-        SOURCE_DIR "${CXX_TEST_DIR}/unit_tests"
-        INCLUDE_DIRS "${CHEMIST_SOURCE_DIR}/chemist"
-        DEPENDS Catch2 chemist
-    )
-
-    cmaize_add_tests(
-        test_${PROJECT_NAME}_docs
-        SOURCE_DIR ${EXAMPLES_SRC_DIR}
-        INCLUDE_DIRS ${CHEMIST_SOURCE_DIR}/${PROJECT_NAME}
-        DEPENDS Catch2::Catch2 ${PROJECT_NAME}
-    )
-
-    # N.B. these are no-ops if BUILD_PYBIND11_PYBINDINGS is not turned on
-    nwx_pybind11_tests(
-        py_chemist
-        "${PYTHON_TEST_DIR}/unit_tests/test_chemist.py"
-        SUBMODULES tensorwrapper parallelzone
-    )
-
-    nwx_pybind11_tests(
-        py_${PROJECT_NAME}_docs
-        "${PYTHON_TEST_DIR}/doc_snippets/test_doc_snippets.py"
-        SUBMODULES tensorwrapper parallelzone
+    catch2_tests_from_dir(
+        "test_${PROJECT_NAME}_docs"
+        "tests/cxx/doc_snippets"
+        ${PROJECT_NAME}
+        PRIVATE_INCLUDES cxx/src
     )
 endif()
-
-
-cmaize_add_package(
-    ${PROJECT_NAME} NAMESPACE nwx::
-)
