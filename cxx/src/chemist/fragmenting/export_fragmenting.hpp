@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#include "../pychemist.hpp"
-#include "capping/export_capping.hpp"
+#include "capping/capping/export_capping.hpp"
+#include "chemist/pychemist.hpp"
 
 namespace chemist::fragmenting {
 

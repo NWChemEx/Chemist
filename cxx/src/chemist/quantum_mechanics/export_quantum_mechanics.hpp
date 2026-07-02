@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include "operator/export_operator.hpp"
+#include "operator/operator/export_operator.hpp"
 #include "wavefunction/export_wavefunction.hpp"
 
 namespace chemist {

@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include "../../pychemist.hpp"
+#include "chemist/pychemist.hpp"
 
 namespace chemist::wavefunction {
 

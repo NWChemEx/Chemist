@@ -18,7 +18,6 @@
 #include "chemical_system/export_chemical_system.hpp"
 #include "density/export_density.hpp"
 #include "electron/export_electron.hpp"
-#include "enums.hpp"
 #include "fragmenting/export_fragmenting.hpp"
 #include "grid/export_grid.hpp"
 #include "molecule/export_molecule.hpp"
@@ -27,6 +26,7 @@
 #include "point_charge/export_point_charge.hpp"
 #include "pychemist.hpp"
 #include "quantum_mechanics/export_quantum_mechanics.hpp"
+#include <chemist/enums.hpp>
 
 namespace chemist {
 

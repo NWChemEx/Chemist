@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include "../pychemist.hpp"
+#include "chemist/pychemist.hpp"
 #include <chemist/point_charge/point_charge.hpp>
 
 namespace chemist {
