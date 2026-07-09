@@ -27,12 +27,17 @@ void export_chemical_system_class(python_module_reference m) {
     python_class_type<ChemicalSystem>(m, "ChemicalSystem")
       .def(py::init<>())
       .def(py::init<molecule_type>())
+      .def(py::init<const chemical_system_type&>())
       .def_property(
         "molecule",
-        [](chemical_system_reference self) { return self.molecule(); },
+        [](chemical_system_reference self)
+          -> typename chemical_system_type::molecule_reference {
+            return self.molecule();
+        },
         [](chemical_system_reference self, molecule_type mol) {
             self.molecule() = mol;
-        })
+        },
+        py::return_value_policy::reference_internal)
       .def(py::self == py::self)
       .def(py::self != py::self);
 }
