@@ -15,14 +15,6 @@
 import unittest
 
 import numpy as np
-from chemist.qm_operator import (
-    CoulombElectronDensityElectron,
-    CoulombManyElectronsDecomposableDensityElectron,
-    CoulombNucleiNuclei,
-)
-from chemist.wavefunction import AOs
-from tensorwrapper import Tensor
-
 from chemist import (
     DecomposableDensity,
     Density,
@@ -32,6 +24,13 @@ from chemist import (
     Nucleus,
 )
 from chemist.basis_set import AOBasisSetD
+from chemist.qm_operator import (
+    CoulombElectronDensityElectron,
+    CoulombManyElectronsDecomposableDensityElectron,
+    CoulombNucleiNuclei,
+)
+from chemist.wavefunction import AOs
+from tensorwrapper import Tensor
 
 
 class TestCoulomb(unittest.TestCase):

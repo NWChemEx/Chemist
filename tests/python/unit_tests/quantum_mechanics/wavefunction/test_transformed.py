@@ -15,10 +15,9 @@
 import unittest
 
 import numpy as np
+from chemist.basis_set import AOBasisSetD
 from chemist.wavefunction import AOs, TransformedAOs
 from tensorwrapper import Tensor
-
-from chemist.basis_set import AOBasisSetD
 
 from ..test_qm import h2_basis
 

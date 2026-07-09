@@ -14,9 +14,8 @@
 
 import unittest
 
-from chemist.wavefunction import AOs
-
 from chemist.basis_set import AOBasisSetD
+from chemist.wavefunction import AOs
 
 from ..test_qm import h2_basis
 

@@ -15,10 +15,9 @@
 import unittest
 
 import numpy as np
+from chemist import Density
 from chemist.wavefunction import AOs
 from tensorwrapper import Tensor
-
-from chemist import Density
 
 from .test_density import h2_basis
 
