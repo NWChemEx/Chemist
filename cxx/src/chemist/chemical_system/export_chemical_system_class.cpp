@@ -30,8 +30,8 @@ void export_chemical_system_class(python_module_reference m) {
       .def(py::init<const chemical_system_type&>())
       .def_property(
         "molecule",
-        [](chemical_system_reference self)
-          -> typename chemical_system_type::molecule_reference {
+        [](chemical_system_reference self) ->
+        typename chemical_system_type::molecule_reference {
             return self.molecule();
         },
         [](chemical_system_reference self, molecule_type mol) {
