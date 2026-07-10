@@ -28,29 +28,22 @@ public:
     /** @brief Determines if *this is value equal to another object.
      *
      *  At present all Electron objects are value equal. This is because
-     *  electrons are indistinguishable particles.
+     *  electrons are indistinguishable particles. Electron has no members,
+     *  so the defaulted comparison (always true) already gives exactly this
+     *  behavior.
      *
-     *  @param[in] rhs The object to compare to (at present not actually used).
-     *
-     *  @return True if *this is value equal to @p rhs and false otherwise.
-     *
-     *  @throw None No throw guarantee.
+     *  Declared as a hidden friend rather than a member: GCC (at least
+     *  through 10.2.1, the compiler manylinux2014 ships) has a bug where a
+     *  same-type *member* operator== -- defaulted or hand-written -- is
+     *  treated as two equally-viable C++20 rewritten-candidate overloads
+     *  (the direct call and its reversed-argument synthesis) for the exact
+     *  same signature, so `a == b` fails with "request for member
+     *  'operator==' is ambiguous". A hidden-friend (non-member) defaulted
+     *  operator== isn't affected. operator!= is synthesized automatically
+     *  from this under C++20 rewritten-candidate rules, so it needs no
+     *  separate declaration.
      */
-    bool operator==(const Electron&) const noexcept { return true; }
-
-    /** @brief Is *this different from @p rhs?
-     *
-     *  Two Electron objects are different if they are not equal.
-     *
-     *  @param[in] rhs The object to compare to.
-     *
-     *  @return False if *this and @p rhs are value equal and true otherwise.
-     *
-     *  @throw None No throw guarantee.
-     */
-    bool operator!=(const Electron& rhs) const noexcept {
-        return !(*this == rhs);
-    }
+    friend bool operator==(const Electron&, const Electron&) noexcept = default;
 };
 
 } // namespace chemist

@@ -23,10 +23,18 @@ using cap_type     = CapSet::value_type;
 using nucleus_type = typename cap_type::value_type;
 using size_type    = CapSet::size_type;
 using reference    = CapSet::reference;
-using at_fxn       = reference (CapSet::*)(size_type);
 
 void export_cap_set(python_module_reference m) {
     auto rvp = py::return_value_policy::reference_internal;
+    // A lambda, rather than static_cast<reference (CapSet::*)(size_type)>(&CapSet::at),
+    // to pick the non-const overload: GCC (at least through 10.2.1, the
+    // compiler manylinux2014 ships) can't resolve that cast when the
+    // underlying method's return type comes from decltype(auto) (as
+    // IndexableContainerBase::at's does), erroring "no matches converting
+    // function 'at'".
+    auto at_fxn = [](CapSet& self, size_type i) -> reference {
+        return self.at(i);
+    };
 
     python_class_type<CapSet>(m, "CapSet")
       .def(py::init<>())
@@ -42,8 +50,8 @@ void export_cap_set(python_module_reference m) {
             self.push_back(
               cap_type(anchor, replaced, buffer.begin(), buffer.end()));
         })
-      .def("at", static_cast<at_fxn>(&CapSet::at), rvp)
-      .def("__getitem__", static_cast<at_fxn>(&CapSet::at), rvp)
+      .def("at", at_fxn, rvp)
+      .def("__getitem__", at_fxn, rvp)
       .def("__setitem__",
            [](CapSet& self, size_type i, cap_type cap) { self.at(i) = cap; })
       .def("size", [](CapSet& self) { return self.size(); })

@@ -22,10 +22,16 @@ namespace chemist::fragmenting {
 using nucleus_type = Cap::value_type;
 using size_type    = Cap::size_type;
 using reference    = Cap::reference;
-using at_fxn       = reference (Cap::*)(size_type);
 
 void export_cap(python_module_reference m) {
     auto rvp = py::return_value_policy::reference_internal;
+    // A lambda, rather than static_cast<reference (Cap::*)(size_type)>(&Cap::at),
+    // to pick the non-const overload: GCC (at least through 10.2.1, the
+    // compiler manylinux2014 ships) can't resolve that cast when the
+    // underlying method's return type comes from decltype(auto) (as
+    // IndexableContainerBase::at's does), erroring "no matches converting
+    // function 'at'".
+    auto at_fxn = [](Cap& self, size_type i) -> reference { return self.at(i); };
 
     python_class_type<Cap>(m, "Cap")
       .def(py::init<>())
@@ -34,8 +40,8 @@ void export_cap(python_module_reference m) {
           return Cap(anchor, replaced, buffer.begin(), buffer.end());
       }))
       .def("insert", &Cap::insert)
-      .def("at", static_cast<at_fxn>(&Cap::at), rvp)
-      .def("__getitem__", static_cast<at_fxn>(&Cap::at), rvp)
+      .def("at", at_fxn, rvp)
+      .def("__getitem__", at_fxn, rvp)
       .def("__setitem__",
            [](Cap& self, size_type i, nucleus_type atom) { self.at(i) = atom; })
       .def("size", &Cap::size)
