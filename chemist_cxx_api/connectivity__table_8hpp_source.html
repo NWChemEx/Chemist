@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>chemist: include/chemist/topology/connectivity_table.hpp Source File</title>
+<title>chemist: cxx/include/chemist/topology/connectivity_table.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">chemist<span id="projectnumber">&#160;1.0.0</span>
+   <div id="projectname">chemist<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
  </tr>
@@ -74,7 +74,7 @@ $(document).ready(function() { init_codefold(0); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_40200ac6b74f7d1507a33db5931c41e1.html">chemist</a></li><li class="navelem"><a class="el" href="dir_71076c37775fefb48c7a99ef0e40e6e4.html">topology</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_8fb20675bc3e1682e6cd2ca1ed0f7deb.html">cxx</a></li><li class="navelem"><a class="el" href="dir_00901edb2c5fc9ff9a99effabe26e19f.html">include</a></li><li class="navelem"><a class="el" href="dir_491608fa4d9ab5f02990c6e49d9d1bf8.html">chemist</a></li><li class="navelem"><a class="el" href="dir_ee536b649859c3de1ed2888dcdd65860.html">topology</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -100,7 +100,8 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;chemist/traits/topology.hpp&gt;</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacechemist_1_1topology.html">chemist::topology</a> {</div>
+<div class="foldopen" id="foldopen00020" data-start="{" data-end="}">
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="namespacechemist_1_1topology.html">   20</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacechemist_1_1topology.html">chemist::topology</a> {</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">namespace </span>detail_ {</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">class </span>ConnectivityTablePIMPL;</div>
@@ -180,6 +181,7 @@ $(document).ready(function() { init_codefold(0); });
 </div>
 <div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>} <span class="comment">// namespace chemist::topology</span></div>
+</div>
 <div class="ttc" id="aclasschemist_1_1topology_1_1ConnectivityTable_html"><div class="ttname"><a href="classchemist_1_1topology_1_1ConnectivityTable.html">chemist::topology::ConnectivityTable</a></div><div class="ttdoc">Stores the a list of bonds in a molecule.</div><div class="ttdef"><b>Definition</b> connectivity_table.hpp:34</div></div>
 <div class="ttc" id="aclasschemist_1_1topology_1_1ConnectivityTable_html_a22949f7412b7a6cb3a50395b3c39af24"><div class="ttname"><a href="classchemist_1_1topology_1_1ConnectivityTable.html#a22949f7412b7a6cb3a50395b3c39af24">chemist::topology::ConnectivityTable::pimpl_ptr</a></div><div class="ttdeci">std::unique_ptr&lt; pimpl_type &gt; pimpl_ptr</div><div class="ttdoc">A pointer to a PIMPL instance.</div><div class="ttdef"><b>Definition</b> connectivity_table.hpp:44</div></div>
 <div class="ttc" id="aclasschemist_1_1topology_1_1ConnectivityTable_html_a294800e6e578ef1e3ca102e60f37a346"><div class="ttname"><a href="classchemist_1_1topology_1_1ConnectivityTable.html#a294800e6e578ef1e3ca102e60f37a346">chemist::topology::ConnectivityTable::set_n_atoms</a></div><div class="ttdeci">void set_n_atoms(size_type natoms)</div><div class="ttdoc">Sets the number of atoms the connectivity table is for.</div><div class="ttdef"><b>Definition</b> connectivity_table.cpp:54</div></div>
@@ -196,7 +198,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="ttc" id="aclasschemist_1_1topology_1_1ConnectivityTable_html_aab89359eaf97f02cbb14858fc451cbb5"><div class="ttname"><a href="classchemist_1_1topology_1_1ConnectivityTable.html#aab89359eaf97f02cbb14858fc451cbb5">chemist::topology::ConnectivityTable::natoms</a></div><div class="ttdeci">size_type natoms() const noexcept</div><div class="ttdoc">The number of atoms in this table.</div><div class="ttdef"><b>Definition</b> connectivity_table.cpp:62</div></div>
 <div class="ttc" id="aclasschemist_1_1topology_1_1ConnectivityTable_html_aed9824c2a030ef58904d8dfe7dd4e0b5"><div class="ttname"><a href="classchemist_1_1topology_1_1ConnectivityTable.html#aed9824c2a030ef58904d8dfe7dd4e0b5">chemist::topology::ConnectivityTable::atom_indices_set</a></div><div class="ttdeci">typename type_traits::atom_indices_set atom_indices_set</div><div class="ttdoc">Type used to return a set of atom indices.</div><div class="ttdef"><b>Definition</b> connectivity_table.hpp:59</div></div>
 <div class="ttc" id="aclasschemist_1_1topology_1_1detail___1_1ConnectivityTablePIMPL_html"><div class="ttname"><a href="classchemist_1_1topology_1_1detail___1_1ConnectivityTablePIMPL.html">chemist::topology::detail_::ConnectivityTablePIMPL</a></div><div class="ttdoc">PIMPL which stores the bonds in an adjacency matrix.</div><div class="ttdef"><b>Definition</b> connectivity_table_pimpl.hpp:28</div></div>
-<div class="ttc" id="anamespacechemist_1_1topology_html"><div class="ttname"><a href="namespacechemist_1_1topology.html">chemist::topology</a></div><div class="ttdoc">Namespace for classes and functions describing the topology of chemical systems.</div><div class="ttdef"><b>Definition</b> connectivity_table.cpp:20</div></div>
+<div class="ttc" id="anamespacechemist_1_1topology_html"><div class="ttname"><a href="namespacechemist_1_1topology.html">chemist::topology</a></div><div class="ttdoc">Namespace for classes and functions describing the topology of chemical systems.</div><div class="ttdef"><b>Definition</b> connectivity_table.hpp:20</div></div>
 <div class="ttc" id="astructchemist_1_1ChemistClassTraits_html"><div class="ttname"><a href="structchemist_1_1ChemistClassTraits.html">chemist::ChemistClassTraits</a></div><div class="ttdoc">Used to set the member types for a chemist object of type T.</div><div class="ttdef"><b>Definition</b> chemist_class_traits.hpp:30</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

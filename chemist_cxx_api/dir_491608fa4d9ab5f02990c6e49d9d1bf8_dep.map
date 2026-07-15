@@ -1,0 +1,24 @@
+<map id="cxx/include/chemist" name="cxx/include/chemist">
+<area shape="rect" id="node13" href="dir_4394f00a1d1df530b2d3043eba968fb2.html" title="quantum_mechanics" alt="" coords="1004,136,1161,161"/>
+<area shape="poly" id="edge1" href="dir_000008_000044.html" alt="" coords="1206,90,1120,132,1117,128,1203,86"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000008_000044.html" title="2" alt="" coords="1122,128,1131,143"/>
+<area shape="rect" id="node14" href="dir_ee536b649859c3de1ed2888dcdd65860.html" title="topology" alt="" coords="1186,136,1265,161"/>
+<area shape="poly" id="edge2" href="dir_000008_000047.html" alt="" coords="1230,88,1229,123,1224,122,1225,88"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000008_000047.html" title="1" alt="" coords="1230,111,1240,125"/>
+<area shape="rect" id="node2" href="dir_961ffac171a0aeacd4be183dbafcdc54.html" title="basis_set" alt="" coords="1084,63,1167,88"/>
+<area shape="rect" id="node3" href="dir_148ae42aa903c9198501e9d6ddc32310.html" title="chemical_system" alt="" coords="924,63,1060,88"/>
+<area shape="rect" id="node4" href="dir_23ad4195ad907638bf4e4aae30e9878b.html" title="density" alt="" coords="829,63,899,88"/>
+<area shape="rect" id="node5" href="dir_5289dc06e6371fcf5f5a9d9acbadcc02.html" title="detail_" alt="" coords="243,136,309,161"/>
+<area shape="rect" id="node6" href="dir_c21bb720f5e9b8ac61c82d6792d1a337.html" title="electron" alt="" coords="729,63,804,88"/>
+<area shape="rect" id="node7" href="dir_e4c3620237a0e8ca6e8edc6d3adfa14d.html" title="fragmenting" alt="" coords="602,63,705,88"/>
+<area shape="rect" id="node8" href="dir_b899a4fb0c0ec871ee6fd6c4407d1fbd.html" title="grid" alt="" coords="531,63,578,88"/>
+<area shape="rect" id="node9" href="dir_9ad79e8c1f2f9a38304cfe3c935dcc45.html" title="molecule" alt="" coords="424,63,507,88"/>
+<area shape="rect" id="node10" href="dir_3dd7f5bdb1cbc985a690378bc43bebf2.html" title="nucleus" alt="" coords="328,63,400,88"/>
+<area shape="rect" id="node11" href="dir_3e5fc37d85e320e52651dbd8e2137274.html" title="point" alt="" coords="249,63,303,88"/>
+<area shape="poly" id="edge3" href="dir_000040_000014.html" alt="" coords="279,88,279,122,273,122,273,88"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000040_000014.html" title="1" alt="" coords="280,110,289,125"/>
+<area shape="rect" id="node12" href="dir_ab4983f03e524a5237c69aa49f80237d.html" title="point_charge" alt="" coords="117,63,224,88"/>
+<area shape="rect" id="node15" href="dir_d8a868983d5ede8aa2e6c96a64fcec8e.html" title="traits" alt="" coords="37,63,93,88"/>
+<area shape="rect" id="clust2" href="dir_491608fa4d9ab5f02990c6e49d9d1bf8.html" alt="" coords="27,52,1276,172"/>
+<area shape="rect" id="clust1" href="dir_00901edb2c5fc9ff9a99effabe26e19f.html" title="include" alt="" coords="16,16,1287,183"/>
+</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>chemist: include/chemist/molecule/molecule_view.hpp Source File</title>
+<title>chemist: cxx/include/chemist/molecule/molecule_view.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">chemist<span id="projectnumber">&#160;1.0.0</span>
+   <div id="projectname">chemist<span id="projectnumber">&#160;0.1.0</span>
    </div>
   </td>
  </tr>
@@ -74,7 +74,7 @@ $(document).ready(function() { init_codefold(0); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_40200ac6b74f7d1507a33db5931c41e1.html">chemist</a></li><li class="navelem"><a class="el" href="dir_b66970bb7545ae17d22a48f6840e5d9b.html">molecule</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_8fb20675bc3e1682e6cd2ca1ed0f7deb.html">cxx</a></li><li class="navelem"><a class="el" href="dir_00901edb2c5fc9ff9a99effabe26e19f.html">include</a></li><li class="navelem"><a class="el" href="dir_491608fa4d9ab5f02990c6e49d9d1bf8.html">chemist</a></li><li class="navelem"><a class="el" href="dir_9ad79e8c1f2f9a38304cfe3c935dcc45.html">molecule</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -298,7 +298,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span>}</div>
 <div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span> </div>
 <div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> MoleculeType&gt;</div>
-<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span><span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> std::remove_cv_t&lt;MoleculeType&gt;&amp; lhs,</div>
+<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespacechemist_1_1basis__set.html#a01787497a9151ac54ac422c286706e92">operator==</a>(<span class="keyword">const</span> std::remove_cv_t&lt;MoleculeType&gt;&amp; lhs,</div>
 <div class="line"><a id="l00525" name="l00525"></a><span class="lineno">  525</span>                <span class="keyword">const</span> MoleculeView&lt;MoleculeType&gt;&amp; rhs) {</div>
 <div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span>    <span class="keywordflow">return</span> rhs == lhs;</div>
 <div class="line"><a id="l00527" name="l00527"></a><span class="lineno">  527</span>}</div>
@@ -310,7 +310,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span>}</div>
 <div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span> </div>
 <div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> MoleculeType1, <span class="keyword">typename</span> MoleculeType2&gt;</div>
-<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span><span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> MoleculeView&lt;MoleculeType1&gt;&amp; lhs,</div>
+<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespacechemist_1_1basis__set.html#a01787497a9151ac54ac422c286706e92">operator==</a>(<span class="keyword">const</span> MoleculeView&lt;MoleculeType1&gt;&amp; lhs,</div>
 <div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span>                <span class="keyword">const</span> MoleculeView&lt;MoleculeType2&gt;&amp; rhs) {</div>
 <div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span>    <span class="keywordflow">return</span> MoleculeView&lt;const MoleculeType1&gt;(lhs) ==</div>
 <div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span>           MoleculeView&lt;const MoleculeType2&gt;(rhs);</div>
@@ -358,8 +358,9 @@ $(document).ready(function() { init_codefold(0); });
 <div class="ttc" id="aclasschemist_1_1MoleculeView_html_af45d79de78ff8001103d1b5d6bbf8715"><div class="ttname"><a href="classchemist_1_1MoleculeView.html#af45d79de78ff8001103d1b5d6bbf8715">chemist::MoleculeView::atom_traits</a></div><div class="ttdeci">typename traits_type::atom_traits atom_traits</div><div class="ttdoc">Type of the struct which defines the types for Atom objects in *this.</div><div class="ttdef"><b>Definition</b> molecule_view.hpp:83</div></div>
 <div class="ttc" id="aclasschemist_1_1MoleculeView_html_afaafed27e8df1f66d0d53d23afe0b194"><div class="ttname"><a href="classchemist_1_1MoleculeView.html#afaafed27e8df1f66d0d53d23afe0b194">chemist::MoleculeView::pimpl_pointer</a></div><div class="ttdeci">std::unique_ptr&lt; pimpl_type &gt; pimpl_pointer</div><div class="ttdoc">Type of a pointer to the object implementing *this.</div><div class="ttdef"><b>Definition</b> molecule_view.hpp:77</div></div>
 <div class="ttc" id="aclasschemist_1_1detail___1_1MoleculeViewPIMPL_html"><div class="ttname"><a href="classchemist_1_1detail___1_1MoleculeViewPIMPL.html">chemist::detail_::MoleculeViewPIMPL</a></div><div class="ttdef"><b>Definition</b> molecule_view_pimpl.hpp:23</div></div>
+<div class="ttc" id="anamespacechemist_1_1basis__set_html_a01787497a9151ac54ac422c286706e92"><div class="ttname"><a href="namespacechemist_1_1basis__set.html#a01787497a9151ac54ac422c286706e92">chemist::basis_set::operator==</a></div><div class="ttdeci">bool operator==(const AtomicBasisSetType &amp;lhs, const AtomicBasisSetView&lt; AtomicBasisSetType &gt; &amp;rhs) noexcept</div><div class="ttdoc">Ensures operator== is symmetric for when AtomicBasisSet is on the left.</div><div class="ttdef"><b>Definition</b> atomic_basis_set_view.hpp:683</div></div>
 <div class="ttc" id="anamespacechemist_1_1basis__set_html_a534d35712a160687e333e7382221a1f8"><div class="ttname"><a href="namespacechemist_1_1basis__set.html#a534d35712a160687e333e7382221a1f8">chemist::basis_set::operator!=</a></div><div class="ttdeci">bool operator!=(const AtomicBasisSetType &amp;lhs, const AtomicBasisSetView&lt; AtomicBasisSetType &gt; &amp;rhs) noexcept</div><div class="ttdoc">Ensures operator!= is symmetric for when AtomicBasisSet is on the left.</div><div class="ttdef"><b>Definition</b> atomic_basis_set_view.hpp:697</div></div>
-<div class="ttc" id="anamespacechemist_html"><div class="ttname"><a href="namespacechemist.html">chemist</a></div><div class="ttdoc">The primary namespace for the chemist library.</div><div class="ttdef"><b>Definition</b> ao_basis_set.cpp:22</div></div>
+<div class="ttc" id="anamespacechemist_html"><div class="ttname"><a href="namespacechemist.html">chemist</a></div><div class="ttdoc">The primary namespace for the chemist library.</div><div class="ttdef"><b>Definition</b> ao_basis_set.hpp:23</div></div>
 <div class="ttc" id="astructchemist_1_1ChemistClassTraits_html"><div class="ttname"><a href="structchemist_1_1ChemistClassTraits.html">chemist::ChemistClassTraits</a></div><div class="ttdoc">Used to set the member types for a chemist object of type T.</div><div class="ttdef"><b>Definition</b> chemist_class_traits.hpp:30</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
