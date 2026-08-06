@@ -15,6 +15,8 @@
 import unittest
 
 import numpy as np
+from chemist import DecomposableDensity, Density, Electron, ManyElectrons
+from chemist.basis_set import AOBasisSetD
 from chemist.qm_operator import (
     ExchangeCorrelationElectronDensityElectron,
     ExchangeCorrelationManyElectronsDecomposableDensityElectron,
@@ -22,9 +24,6 @@ from chemist.qm_operator import (
 )
 from chemist.wavefunction import AOs
 from tensorwrapper import Tensor
-
-from chemist import DecomposableDensity, Density, Electron, ManyElectrons
-from chemist.basis_set import AOBasisSetD
 
 
 class TestXCFunctional(unittest.TestCase):

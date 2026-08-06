@@ -14,9 +14,8 @@
 
 import unittest
 
-from chemist.qm_operator import KineticElectron, KineticManyElectrons
-
 from chemist import Electron, ManyElectrons
+from chemist.qm_operator import KineticElectron, KineticManyElectrons
 
 
 class TestKinetic(unittest.TestCase):

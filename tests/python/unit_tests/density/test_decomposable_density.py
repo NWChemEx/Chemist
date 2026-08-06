@@ -15,10 +15,9 @@
 import unittest
 
 import numpy as np
+from chemist import DecomposableDensity
 from chemist.wavefunction import AOs, TransformedAOs
 from tensorwrapper import Tensor
-
-from chemist import DecomposableDensity
 
 from .test_density import h2_basis
 
