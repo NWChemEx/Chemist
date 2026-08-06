@@ -26,12 +26,12 @@ using reference    = CapSet::reference;
 
 void export_cap_set(python_module_reference m) {
     auto rvp = py::return_value_policy::reference_internal;
-    // A lambda, rather than static_cast<reference (CapSet::*)(size_type)>(&CapSet::at),
-    // to pick the non-const overload: GCC (at least through 10.2.1, the
-    // compiler manylinux2014 ships) can't resolve that cast when the
-    // underlying method's return type comes from decltype(auto) (as
-    // IndexableContainerBase::at's does), erroring "no matches converting
-    // function 'at'".
+    // A lambda, rather than static_cast<reference
+    // (CapSet::*)(size_type)>(&CapSet::at), to pick the non-const overload: GCC
+    // (at least through 10.2.1, the compiler manylinux2014 ships) can't resolve
+    // that cast when the underlying method's return type comes from
+    // decltype(auto) (as IndexableContainerBase::at's does), erroring "no
+    // matches converting function 'at'".
     auto at_fxn = [](CapSet& self, size_type i) -> reference {
         return self.at(i);
     };
