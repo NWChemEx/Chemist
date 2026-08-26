@@ -15,35 +15,51 @@
  */
 
 #include "export_operator.hpp"
+#include "py_operator_dispatch.hpp"
 #include <chemist/quantum_mechanics/operator/kinetic.hpp>
 
 namespace chemist::qm_operator {
 
-namespace detail_ {
-
-template<typename T>
-void export_kinetic_(const char* name, python_module_reference m) {
-    using kinetic_t = Kinetic<T>;
-    using op_base_t = OperatorBase;
-
-    auto get_particle = [](const kinetic_t& k) { return k.get_particle(); };
-    auto set_particle = [](kinetic_t& k, T& p) { k.set_particle(p); };
-
-    python_class_type<kinetic_t, op_base_t, py::smart_holder>(m, name)
-      .def(py::init<>())
-      .def(py::init<T>())
-      .def(py::self == py::self)
-      .def(py::self != py::self)
-      .def_property("particle", get_particle, set_particle);
-}
-
-} // namespace detail_
-
 void export_kinetic(python_module_reference m) {
-    detail_::export_kinetic_<Electron>("KineticElectron", m);
-    detail_::export_kinetic_<ManyElectrons>("KineticManyElectrons", m);
-    detail_::export_kinetic_<Nucleus>("KineticNuclues", m);
-    detail_::export_kinetic_<Nuclei>("KineticNuclei", m);
+    using namespace detail_;
+    using table = one_particle_types;
+
+    auto impls = export_instantiations<Kinetic, table>(m, "Kinetic");
+
+    // N.B. The leading parameter is the class CPython passes to __new__. It is
+    //      always Kinetic itself, so it is ignored.
+    auto dispatch = [](py::object, py::args args,
+                       py::kwargs kwargs) -> py::object {
+        assert_no_kwargs("Kinetic", kwargs);
+
+        // No particle gives the same object as Kinetic<Electron>'s default
+        // ctor.
+        if(args.size() == 0) return py::cast(Kinetic<Electron>{});
+
+        if(args.size() != 1)
+            throw py::type_error("Kinetic takes at most one particle.");
+
+        auto particle = py::reinterpret_borrow<py::object>(args[0]);
+
+        auto make = [&](auto tag) {
+            using T = typename decltype(tag)::type;
+            return py::cast(Kinetic<T>(particle.cast<T>()));
+        };
+
+        auto result = select_type<table>(particle, make);
+        if(!result.is_none()) return result;
+
+        throw py::type_error(
+          "Kinetic can not describe the kinetic energy of a " +
+          python_type_name(particle) +
+          ". Supported particles are: " + supported_particles<table>() + ".");
+    };
+
+    export_dispatching_class(
+      m, "Kinetic", impls, py::cpp_function(dispatch),
+      "Describes the kinetic energy of a particle.\n\n"
+      "Kinetic(particle) selects the instantiation the particle implies. "
+      "Kinetic() is the same as Kinetic(Electron()).");
 }
 
 } // namespace chemist::qm_operator

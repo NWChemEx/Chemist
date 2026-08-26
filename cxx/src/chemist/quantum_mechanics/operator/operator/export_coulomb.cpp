@@ -15,53 +15,28 @@
  */
 
 #include "export_operator.hpp"
+#include "py_operator_dispatch.hpp"
 #include <chemist/quantum_mechanics/operator/coulomb.hpp>
 
 namespace chemist::qm_operator {
 
-namespace detail_ {
-
-template<typename T, typename U>
-void export_coulomb_(const char* name, python_module_reference m) {
-    using coulomb_t = Coulomb<T, U>;
-    using op_base_t = OperatorBase;
-
-    auto get_lhs_particle = [](const coulomb_t& o) {
-        return o.get_lhs_particle();
-    };
-    auto set_lhs_particle = [](coulomb_t& o, T& p) { o.set_lhs_particle(p); };
-    auto get_rhs_particle = [](const coulomb_t& o) {
-        return o.get_rhs_particle();
-    };
-    auto set_rhs_particle = [](coulomb_t& o, U& p) { o.set_rhs_particle(p); };
-
-    python_class_type<coulomb_t, op_base_t, py::smart_holder>(m, name)
-      .def(py::init<>())
-      .def(py::init<T, U>())
-      .def(py::self == py::self)
-      .def(py::self != py::self)
-      .def_property("lhs_particle", get_lhs_particle, set_lhs_particle)
-      .def_property("rhs_particle", get_rhs_particle, set_rhs_particle);
-}
-
-} // namespace detail_
-
 void export_coulomb(python_module_reference m) {
-    detail_::export_coulomb_<Electron, Electron>("CoulombElectronElectron", m);
-    detail_::export_coulomb_<ManyElectrons, ManyElectrons>(
-      "CoulombManyElectronsManyElectrons", m);
-    detail_::export_coulomb_<Electron, chemist::Density<Electron>>(
-      "CoulombElectronDensityElectron", m);
-    detail_::export_coulomb_<ManyElectrons, chemist::Density<Electron>>(
-      "CoulombManyElectronsDensityElectrons", m);
-    detail_::export_coulomb_<Electron, DecomposableDensity<Electron>>(
-      "CoulombElectronDecomposableDensityElectron", m);
-    detail_::export_coulomb_<ManyElectrons, DecomposableDensity<Electron>>(
-      "CoulombManyElectronsDecomposableDensityElectron", m);
-    detail_::export_coulomb_<Electron, Nuclei>("CoulombElectronNuclei", m);
-    detail_::export_coulomb_<ManyElectrons, Nuclei>(
-      "CoulombManyElectronsNuclei", m);
-    detail_::export_coulomb_<Nuclei, Nuclei>("CoulombNucleiNuclei", m);
+    using namespace detail_;
+
+    // Coulomb is the one operator registered with two of OperatorVisitor's
+    // macros: TWO_PARTICLE_OVERLOADS and DENSITY_OVERLOADS.
+    using table        = join_tables<two_particle_pairs, density_pairs>;
+    using default_pair = type_pair<Electron, Electron>;
+
+    auto impls    = export_instantiations<Coulomb, table>(m, "Coulomb");
+    auto dispatch = make_two_particle_dispatch<Coulomb, table, default_pair>(
+      "Coulomb", "takes two particles");
+
+    export_dispatching_class(
+      m, "Coulomb", impls, dispatch,
+      "Describes the Coulomb interaction between two particles.\n\n"
+      "Coulomb(lhs, rhs) selects the instantiation the particles imply. "
+      "Coulomb() is the same as Coulomb(Electron(), Electron()).");
 }
 
 } // namespace chemist::qm_operator

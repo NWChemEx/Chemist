@@ -1,4 +1,4 @@
-# Copyright 2021 NWChemEx-Project
+# Copyright 2026 NWChemEx-Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,22 +11,3 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-header:
-  license:
-    spdx-id: Apache-2.0
-    copyright-owner: NWChemEx-Project
-
-  paths-ignore:
-    - .github/
-    - docs/Makefile
-    - LICENSE
-    - docs/requirements.txt
-    - docs/source/bibliography/*.bib
-    - version.txt
-    - build/
-    - .flake8
-    - .pytest_cache/
-    - "**/*.excalidraw"
-
-  comment: never

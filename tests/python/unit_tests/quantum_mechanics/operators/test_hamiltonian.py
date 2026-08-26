@@ -14,23 +14,22 @@
 
 import unittest
 
+from chemist import ManyElectrons, Nuclei
 from chemist.qm_operator import (
     CoreHamiltonian,
-    CoulombManyElectronsManyElectrons,
-    CoulombManyElectronsNuclei,
-    CoulombNucleiNuclei,
+    Coulomb,
     ElectronicHamiltonian,
     Hamiltonian,
-    KineticManyElectrons,
+    Kinetic,
 )
 
 
 class TestHamiltonian(unittest.TestCase):
     def setUp(self):
-        self.kinetic = KineticManyElectrons()
-        self.coulomb1 = CoulombManyElectronsNuclei()
-        self.coulomb2 = CoulombManyElectronsManyElectrons()
-        self.coulomb3 = CoulombNucleiNuclei()
+        self.kinetic = Kinetic(ManyElectrons())
+        self.coulomb1 = Coulomb(ManyElectrons(), Nuclei())
+        self.coulomb2 = Coulomb(ManyElectrons(), ManyElectrons())
+        self.coulomb3 = Coulomb(Nuclei(), Nuclei())
         self.defaulted = Hamiltonian()
         self.with_operators = Hamiltonian()
         self.with_operators.emplace_back(1.0, self.kinetic.clone())

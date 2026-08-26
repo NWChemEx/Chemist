@@ -14,12 +14,12 @@
 
 import unittest
 
-from chemist.qm_operator import CoreHamiltonian, KineticElectron
+from chemist.qm_operator import CoreHamiltonian, Kinetic
 
 
 class TestOperatorBase(unittest.TestCase):
     def setUp(self):
-        self.kinetic = KineticElectron()
+        self.kinetic = Kinetic()
         self.defaulted = CoreHamiltonian()
         self.with_operators = CoreHamiltonian()
         self.with_operators.emplace_back(1.0, self.kinetic.clone())
