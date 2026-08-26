@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exposing Operators to Python &mdash; Chemist 0.0.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=7026087e"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chemist Tutorials" href="../tutorials/index.html" />
+    <link rel="prev" title="Notes on Adding an Operator" href="adding_an_operator.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installing Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Chemist Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="design/index.html">Design Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_views.html">Creating a New View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_traits_component.html">Understanding the Traits Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adding_an_operator.html">Notes on Adding an Operator</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Exposing Operators to Python</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-problem">The Problem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#solution">Solution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#how-construction-is-redirected">How Construction Is Redirected</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#selecting-the-instantiation">Selecting the Instantiation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#the-tables-and-keeping-them-honest">The Tables, and Keeping Them Honest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-you-have-to-write">What You Have to Write</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#customizing-an-operator">Customizing an Operator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#adding-an-instantiation">Adding an Instantiation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#editing-the-figures">Editing the Figures</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Chemist Tutorials</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Chemist</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Documentation</a></li>
+      <li class="breadcrumb-item active">Exposing Operators to Python</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/developer/exposing_operators.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="exposing-operators-to-python">
+<span id="exposing-operators"></span><h1>Exposing Operators to Python<a class="headerlink" href="#exposing-operators-to-python" title="Link to this heading"></a></h1>
+<p>Most of Chemist’s operators are class templates, e.g.,
+<code class="docutils literal notranslate"><span class="pre">Kinetic&lt;ParticleType&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">Coulomb&lt;LHSParticle,</span> <span class="pre">RHSParticle&gt;</span></code>, and so on.
+The APIs are designed so that C++ callers never think about this because the
+template arguments are deduced by the compiler, e.g.,</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">Kinetic</span><span class="w"> </span><span class="nf">t_e</span><span class="p">(</span><span class="n">Electron</span><span class="p">());</span><span class="w">       </span><span class="c1">// -&gt; Kinetic&lt;Electron&gt;</span>
+<span class="n">Kinetic</span><span class="w"> </span><span class="nf">T_e</span><span class="p">(</span><span class="n">ManyElectrons</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span><span class="w"> </span><span class="c1">// -&gt; Kinetic&lt;ManyElectrons&gt;</span>
+</pre></div>
+</div>
+<p>Python has no such luxury because pybind11 can only export a concrete class
+(i.e., the fully specified type), so a templated operator has to be exported
+once per instantiation. This page explains the workaround we use, to get an
+API that mirrors the C++ and how the bindings in
+<code class="docutils literal notranslate"><span class="pre">src/chemist/quantum_mechanics/operator/operator/</span></code> work.</p>
+<section id="the-problem">
+<h2>The Problem<a class="headerlink" href="#the-problem" title="Link to this heading"></a></h2>
+<p>Exporting one Python class per instantiation means the instantiation’s template
+arguments end up in its Python name. The naive approach looks like:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">py</span><span class="o">::</span><span class="n">class_</span><span class="o">&lt;</span><span class="n">Kinetic</span><span class="o">&lt;</span><span class="n">Electron</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;KineticElectron&quot;</span><span class="p">);</span>
+<span class="n">py</span><span class="o">::</span><span class="n">class_</span><span class="o">&lt;</span><span class="n">Kinetic</span><span class="o">&lt;</span><span class="n">ManyElectrons</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;KineticManyElectrons&quot;</span><span class="p">);</span>
+<span class="n">py</span><span class="o">::</span><span class="n">class_</span><span class="o">&lt;</span><span class="n">Coulomb</span><span class="o">&lt;</span><span class="n">Electron</span><span class="p">,</span><span class="w"> </span><span class="n">Electron</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;CoulombElectronElectron&quot;</span><span class="p">);</span>
+<span class="n">py</span><span class="o">::</span><span class="n">class_</span><span class="o">&lt;</span><span class="n">Coulomb</span><span class="o">&lt;</span><span class="n">ManyElectrons</span><span class="p">,</span><span class="w"> </span><span class="n">Nuclei</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;CoulombManyElectronsNuclei&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>which produces a Python API that looks like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">chemist</span><span class="w"> </span><span class="kn">import</span> <span class="n">Electron</span><span class="p">,</span> <span class="n">ManyElectrons</span><span class="p">,</span> <span class="n">Nuclei</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">chemist.qm_operator</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">t_e</span> <span class="o">=</span> <span class="n">KineticElectron</span><span class="p">()</span>
+<span class="n">T_e</span> <span class="o">=</span> <span class="n">KineticManyElect</span><span class="p">(</span><span class="n">ManyElectrons</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+<figure class="align-center" id="id1">
+<span id="fig-operator-dispatch-names"></span><img alt="../_images/operator_dispatch_names.svg" src="../_images/operator_dispatch_names.svg" /><figcaption>
+<p><span class="caption-number">Fig. 18 </span><span class="caption-text">Naively, every C++ instantiation surfaces as its own Python name. Now the
+instantiations are still exported, under underscore-prefixed names, that the
+Python user never sees. Python users only see the name of the operator.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The problems with this API are:</p>
+<ol class="arabic simple">
+<li><p>Ergonomics. A type like <code class="docutils literal notranslate"><span class="pre">CoulombManyElectronsDecomposableDensityElectron</span></code>
+is not user-friendly.</p></li>
+<li><p>Maintenance. The list grows grows combinatorially with the number of
+particles and relies on developers maintaining consistency between several
+source files.</p></li>
+</ol>
+</section>
+<section id="solution">
+<h2>Solution<a class="headerlink" href="#solution" title="Link to this heading"></a></h2>
+<figure class="align-center" id="id2">
+<span id="fig-operator-dispatch-flow"></span><img alt="../_images/operator_dispatch_flow.svg" src="../_images/operator_dispatch_flow.svg" /><figcaption>
+<p><span class="caption-number">Fig. 19 </span><span class="caption-text">One construction call, from Python syntax to a concrete C++ object.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Our solution uses two pieces of standard Python machinery, <code class="docutils literal notranslate"><span class="pre">__new__</span></code> and
+abstract base class registration. The basic idea is:</p>
+<ol class="arabic simple">
+<li><p>The operator “classes” that the users see, e.g., <code class="docutils literal notranslate"><span class="pre">Kinetic</span></code>, <code class="docutils literal notranslate"><span class="pre">Coulomb</span></code>,
+and so on, are built from C++ using <code class="docutils literal notranslate"><span class="pre">abc.ABCMeta</span></code>. Their <code class="docutils literal notranslate"><span class="pre">__new__</span></code> is
+the dispatch function, so calling one returns an instance of a <em>different</em>
+class.</p></li>
+<li><p>The dispatch logic is simply a lookup table that maps the particle types to
+the exposed C++ type. For example, <code class="docutils literal notranslate"><span class="pre">Kinetic(Electron())</span></code> causes the
+dispatch to return an instance of the Python type corresponding to the C++
+type <code class="docutils literal notranslate"><span class="pre">Kinetic&lt;Electron&gt;</span></code>.</p></li>
+<li><p>Each instantiation is registered as a virtual subclass of the operator
+class. That is what keeps <code class="docutils literal notranslate"><span class="pre">isinstance(Kinetic(Electron()),</span> <span class="pre">Kinetic)</span></code>
+true, even though the object’s actual type is <code class="docutils literal notranslate"><span class="pre">_KineticElectron</span></code>.</p></li>
+</ol>
+<p>The key pieces of the implementation are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">export_instantiations</span></code> automates the process of exposing names like
+<code class="docutils literal notranslate"><span class="pre">_KineticElectron</span></code> and <code class="docutils literal notranslate"><span class="pre">_CoulombElectronElectron</span></code> to Python.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">make_two_particle_dispatch</span></code> builds a function which maps the two particles
+it is given to the correct instantiation. That function is what becomes
+<code class="docutils literal notranslate"><span class="pre">__new__</span></code>. <code class="docutils literal notranslate"><span class="pre">Kinetic</span></code>, being the only one-particle operator, spells the
+equivalent out inline rather than through a helper used once.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Kinetic</span></code>, <code class="docutils literal notranslate"><span class="pre">Coulomb</span></code>, etc. are created, given their <code class="docutils literal notranslate"><span class="pre">__new__</span></code>, and
+registered in the <code class="docutils literal notranslate"><span class="pre">export_dispatching_class</span></code> function.</p></li>
+</ul>
+<section id="how-construction-is-redirected">
+<h3>How Construction Is Redirected<a class="headerlink" href="#how-construction-is-redirected" title="Link to this heading"></a></h3>
+<p>Ultimately, each C++ instantiation must be exported to Python as a separate
+class, so <code class="docutils literal notranslate"><span class="pre">Kinetic(Electron())</span></code> has to hand back an object whose type is
+<em>not</em> <code class="docutils literal notranslate"><span class="pre">Kinetic</span></code>. Python lets a class do exactly that: <code class="docutils literal notranslate"><span class="pre">__new__</span></code> may return
+anything at all.</p>
+<p>The part worth knowing is what happens next. <code class="docutils literal notranslate"><span class="pre">type.__call__</span></code> is, in essence:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">type</span><span class="o">-&gt;</span><span class="n">tp_new</span><span class="p">(</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">,</span><span class="w"> </span><span class="n">kwds</span><span class="p">);</span><span class="w">           </span><span class="cm">/* i.e. cls.__new__ */</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">PyObject_TypeCheck</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">))</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">obj</span><span class="p">;</span><span class="w">                                 </span><span class="cm">/* __init__ is skipped */</span>
+<span class="n">Py_TYPE</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">tp_init</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">,</span><span class="w"> </span><span class="n">kwds</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">PyObject_TypeCheck</span></code> is <code class="docutils literal notranslate"><span class="pre">Py_IS_TYPE(...)</span> <span class="pre">||</span> <span class="pre">PyType_IsSubtype(...)</span></code>, a real
+subtype test against the MRO. It is <strong>not</strong> <code class="docutils literal notranslate"><span class="pre">isinstance()</span></code>, and it never
+consults <code class="docutils literal notranslate"><span class="pre">__instancecheck__</span></code>. Since <code class="docutils literal notranslate"><span class="pre">_KineticElectron</span></code> is not a subclass of
+<code class="docutils literal notranslate"><span class="pre">Kinetic</span></code>, the check fails and <code class="docutils literal notranslate"><span class="pre">__init__</span></code> is skipped. This matters: the
+object <code class="docutils literal notranslate"><span class="pre">__new__</span></code> returned is already fully constructed, and running
+pybind11’s <code class="docutils literal notranslate"><span class="pre">__init__</span></code> on it a second time would re-run the C++ constructor
+over a live object.</p>
+<p>That the check ignores <code class="docutils literal notranslate"><span class="pre">isinstance</span></code> is also what lets us have both halves at
+once. Registering the instantiations with <code class="docutils literal notranslate"><span class="pre">ABCMeta.register</span></code> changes what
+<code class="docutils literal notranslate"><span class="pre">isinstance</span></code> and <code class="docutils literal notranslate"><span class="pre">issubclass</span></code> answer without touching the MRO, so we get:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">op</span> <span class="o">=</span> <span class="n">Kinetic</span><span class="p">(</span><span class="n">Electron</span><span class="p">())</span>
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">Kinetic</span><span class="p">)</span>       <span class="c1"># True   (registered)</span>
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">OperatorBase</span><span class="p">)</span>  <span class="c1"># True   (real base class)</span>
+<span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">op</span><span class="p">),</span> <span class="n">Kinetic</span><span class="p">)</span> <span class="c1"># True   (registered)</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">op</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>             <span class="c1"># &#39;_KineticElectron&#39;</span>
+</pre></div>
+</div>
+<p>Note the last line. <code class="docutils literal notranslate"><span class="pre">isinstance</span></code> works, but the object’s <em>type</em> is the
+private class, because it is a real <code class="docutils literal notranslate"><span class="pre">Kinetic&lt;Electron&gt;</span></code>. Code that compares
+types exactly rather than using <code class="docutils literal notranslate"><span class="pre">isinstance</span></code> will see the private name.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The instantiations must stay <em>virtual</em> subclasses. If one is ever made a
+real subclass of its operator class, <code class="docutils literal notranslate"><span class="pre">PyObject_TypeCheck</span></code> starts
+succeeding and pybind11’s <code class="docutils literal notranslate"><span class="pre">__init__</span></code> runs a second time on an
+already-constructed object.
+<code class="docutils literal notranslate"><span class="pre">test_instantiations_are_registered_not_derived</span></code>
+pins this down by asserting <code class="docutils literal notranslate"><span class="pre">Kinetic</span> <span class="pre">not</span> <span class="pre">in</span> <span class="pre">type(Kinetic()).__mro__</span></code>.</p>
+</div>
+<section id="the-alternative-we-did-not-take">
+<h4>The Alternative We Did Not Take<a class="headerlink" href="#the-alternative-we-did-not-take" title="Link to this heading"></a></h4>
+<p>A custom metaclass overriding <code class="docutils literal notranslate"><span class="pre">__call__</span></code> also works, and was what this code
+did originally. <code class="docutils literal notranslate"><span class="pre">__call__</span></code> on the metaclass replaces the construction
+protocol outright, so nothing depends on the subtype rule above, and
+<code class="docutils literal notranslate"><span class="pre">__instancecheck__</span></code> can read the same table the dispatch uses instead of a
+separate registration step.</p>
+<p>It is the more explicit of the two, and if the <code class="docutils literal notranslate"><span class="pre">__init__</span></code>-skipping rule ever
+feels too subtle to rely on, it is the thing to go back to. We chose
+<code class="docutils literal notranslate"><span class="pre">__new__</span></code> because it reaches the same place using machinery the standard
+library already provides, rather than hand-building a metaclass from C++.</p>
+<p>Be careful reasoning about the metaclass version, though. It is tempting to
+justify it by claiming <code class="docutils literal notranslate"><span class="pre">__new__</span></code> <em>cannot</em> work here, on the grounds that
+making <code class="docutils literal notranslate"><span class="pre">isinstance</span></code> succeed would drag <code class="docutils literal notranslate"><span class="pre">__init__</span></code> back in. That is wrong,
+for the reason above: the construction path checks the MRO, not <code class="docutils literal notranslate"><span class="pre">isinstance</span></code>.</p>
+</section>
+</section>
+<section id="selecting-the-instantiation">
+<h3>Selecting the Instantiation<a class="headerlink" href="#selecting-the-instantiation" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">select_pair</span></code> walks the operator’s table of instantiations and builds the
+first one whose particle types match. It walks the table <strong>twice</strong>: once
+requiring an exact type match, and only then once allowing derived types.</p>
+<p>The two passes exist because <code class="docutils literal notranslate"><span class="pre">DecomposableDensity&lt;Electron&gt;</span></code> derives from
+<code class="docutils literal notranslate"><span class="pre">Density&lt;Electron&gt;</span></code>, in C++ and in the bindings. A single <code class="docutils literal notranslate"><span class="pre">isinstance</span></code>
+pass would match whichever of the two is listed first, so a decomposable
+density handed to <code class="docutils literal notranslate"><span class="pre">Coulomb</span></code> could silently produce the plain-density
+instantiation, and the mistake would not surface until something looked at the
+operator’s type. The exact pass removes the ordering dependence entirely; the
+second pass is what still lets a Python subclass of a particle work.</p>
+</section>
+</section>
+<section id="the-tables-and-keeping-them-honest">
+<h2>The Tables, and Keeping Them Honest<a class="headerlink" href="#the-tables-and-keeping-them-honest" title="Link to this heading"></a></h2>
+<p>The instantiations an operator is exported for live in one place,
+<code class="docutils literal notranslate"><span class="pre">py_operator_dispatch.hpp</span></code>, as tables named after the <code class="docutils literal notranslate"><span class="pre">OperatorVisitor</span></code>
+macros they mirror:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">one_particle_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* Electron, ManyElectrons, Nucleus, Nuclei */</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="n">two_particle_pairs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* mirrors TWO_PARTICLE_OVERLOADS */</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="n">density_pairs</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="cm">/* mirrors DENSITY_OVERLOADS */</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>An operator covered by more than one macro joins them. <code class="docutils literal notranslate"><span class="pre">Coulomb</span></code> is the only
+one today:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">join_tables</span><span class="o">&lt;</span><span class="n">two_particle_pairs</span><span class="p">,</span><span class="w"> </span><span class="n">density_pairs</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>These tables are the third of three lists that describe the same set of
+instantiations, and all three have to agree.</p>
+<figure class="align-center" id="id3">
+<span id="fig-operator-dispatch-tables"></span><img alt="../_images/operator_dispatch_tables.svg" src="../_images/operator_dispatch_tables.svg" /><figcaption>
+<p><span class="caption-number">Fig. 20 </span><span class="caption-text">The same set of instantiations is written down three times. Each omission
+fails in a different way, and only one of them fails at build time.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The failure modes are worth internalising, because only the first is loud:</p>
+<ul class="simple">
+<li><p>Missing from the operator’s <code class="docutils literal notranslate"><span class="pre">.cpp</span></code>: the extension module does not link.</p></li>
+<li><p>Missing from <code class="docutils literal notranslate"><span class="pre">operator_visitor.hpp</span></code>: everything builds, and the operator
+throws the first time a visitor sees it.</p></li>
+<li><p>Missing from the table here: the instantiation exists in C++ and links fine,
+but no Python code can construct it.</p></li>
+</ul>
+</section>
+<section id="what-you-have-to-write">
+<h2>What You Have to Write<a class="headerlink" href="#what-you-have-to-write" title="Link to this heading"></a></h2>
+<p>Because the naming, registration, matching, and error messages are all derived
+from the table, exporting a two-particle operator is now three lines plus a
+docstring. The whole body of <code class="docutils literal notranslate"><span class="pre">export_exchange.cpp</span></code> is:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">table</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">density_pairs</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="n">default_pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">type_pair</span><span class="o">&lt;</span><span class="n">Electron</span><span class="p">,</span><span class="w"> </span><span class="n">chemist</span><span class="o">::</span><span class="n">Density</span><span class="o">&lt;</span><span class="n">Electron</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">impls</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">export_instantiations</span><span class="o">&lt;</span><span class="n">Exchange</span><span class="p">,</span><span class="w"> </span><span class="n">table</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Exchange&quot;</span><span class="p">);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">dispatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_two_particle_dispatch</span><span class="o">&lt;</span><span class="n">Exchange</span><span class="p">,</span><span class="w"> </span><span class="n">table</span><span class="p">,</span><span class="w"> </span><span class="n">default_pair</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="w">  </span><span class="s">&quot;Exchange&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;takes two particles&quot;</span><span class="p">);</span>
+
+<span class="n">export_dispatching_class</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Exchange&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">impls</span><span class="p">,</span><span class="w"> </span><span class="n">dispatch</span><span class="p">,</span><span class="w"> </span><span class="cm">/* docstring */</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">export_instantiations</span></code> exports one class per table entry, naming each by
+appending the particles’ suffixes to the operator’s name, so <code class="docutils literal notranslate"><span class="pre">Exchange</span></code> plus
+<code class="docutils literal notranslate"><span class="pre">Electron</span></code> plus <code class="docutils literal notranslate"><span class="pre">DensityElectron</span></code> gives
+<code class="docutils literal notranslate"><span class="pre">_ExchangeElectronDensityElectron</span></code>. The suffixes come from
+<code class="docutils literal notranslate"><span class="pre">particle_traits</span></code>, which also carries the particle’s Python class name for
+use in error messages; the two differ only for the densities, whose Python
+classes are not templated.</p>
+<p><code class="docutils literal notranslate"><span class="pre">make_two_particle_dispatch</span></code> builds the dispatch function. Its template
+parameters are the only things that vary between operators: the table, the
+instantiation a no-argument call builds, and, optionally, the ctor arguments
+that precede the particles. <code class="docutils literal notranslate"><span class="pre">ExchangeCorrelation</span></code> is the only operator that
+needs the last one, because its functional comes first:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">leading_args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="n">xc_functional</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">dispatch</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">make_two_particle_dispatch</span><span class="o">&lt;</span><span class="n">ExchangeCorrelation</span><span class="p">,</span><span class="w"> </span><span class="n">table</span><span class="p">,</span><span class="w"> </span><span class="n">default_pair</span><span class="p">,</span>
+<span class="w">                             </span><span class="n">leading_args</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;ExchangeCorrelation&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;takes a functional and two particles&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The error messages are generated from the table too, so they cannot drift from
+what the operator actually supports:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; Exchange(Electron(), Nuclei())
+TypeError: Exchange can not describe the interaction of a Electron with a
+Nuclei. Supported combinations are: (Electron, Density),
+(ManyElectrons, Density), (Electron, DecomposableDensity),
+(ManyElectrons, DecomposableDensity).
+</pre></div>
+</div>
+<section id="customizing-an-operator">
+<h3>Customizing an Operator<a class="headerlink" href="#customizing-an-operator" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">export_instantiations</span></code> adds what every operator has: a default ctor,
+comparisons, and a property per particle. Anything else is the job of the
+customization object, which defaults to <code class="docutils literal notranslate"><span class="pre">default_customize</span></code> and just adds the
+ctor taking the particles by value. <code class="docutils literal notranslate"><span class="pre">ExchangeCorrelation</span></code> supplies its own
+because it has a different value ctor and a <code class="docutils literal notranslate"><span class="pre">functional_name</span></code> property. If
+you add an operator that is shaped like the others, you do not write one at
+all.</p>
+</section>
+<section id="adding-an-instantiation">
+<h3>Adding an Instantiation<a class="headerlink" href="#adding-an-instantiation" title="Link to this heading"></a></h3>
+<p>Add it to the table, to <code class="docutils literal notranslate"><span class="pre">operator_visitor.hpp</span></code>, and to the operator’s
+<code class="docutils literal notranslate"><span class="pre">.cpp</span></code>. Nothing else, and no new name string. Then add a Python test that
+asserts the dispatch picks it, following the <code class="docutils literal notranslate"><span class="pre">TestKineticDispatch</span></code> pattern in
+<code class="docutils literal notranslate"><span class="pre">tests/python/unit_tests/quantum_mechanics/operators/</span></code>.</p>
+<p>If the new instantiation’s particle type derives from one already in the table,
+also add a test that it selects its own instantiation rather than its base’s.
+That is the <code class="docutils literal notranslate"><span class="pre">DecomposableDensity</span></code> case above, and it is the one bug in this
+machinery that a passing build will happily hide.</p>
+</section>
+</section>
+<section id="editing-the-figures">
+<h2>Editing the Figures<a class="headerlink" href="#editing-the-figures" title="Link to this heading"></a></h2>
+<p>The figures on this page are Excalidraw scenes. Each <code class="docutils literal notranslate"><span class="pre">.svg</span></code> in <code class="docutils literal notranslate"><span class="pre">assets/</span></code>
+has an <code class="docutils literal notranslate"><span class="pre">.excalidraw</span></code> file beside it holding the same drawing; open that file
+at <a class="reference external" href="https://excalidraw.com">https://excalidraw.com</a> to edit it, then export the result over the
+<code class="docutils literal notranslate"><span class="pre">.svg</span></code>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="adding_an_operator.html" class="btn btn-neutral float-left" title="Notes on Adding an Operator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorials/index.html" class="btn btn-neutral float-right" title="Chemist Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

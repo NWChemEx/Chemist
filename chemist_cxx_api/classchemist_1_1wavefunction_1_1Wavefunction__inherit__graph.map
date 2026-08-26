@@ -1,9 +1,11 @@
 <map id="chemist::wavefunction::Wavefunction" name="chemist::wavefunction::Wavefunction">
-<area shape="rect" id="Node000001" title="Represents a wavefunction from a VectorSpace." alt="" coords="5,53,176,93"/>
+<area shape="rect" id="Node000001" title="Represents a wavefunction from a VectorSpace." alt="" coords="5,85,176,125"/>
 <area shape="rect" id="Node000002" href="$classchemist_1_1wavefunction_1_1detail___1_1WavefunctionImpl.html" title=" " alt="" coords="224,5,497,60"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,55,223,50,224,56,190,61"/>
-<area shape="rect" id="Node000004" href="$classchemist_1_1wavefunction_1_1detail___1_1WavefunctionImpl.html" title="Code factorization for implementing Wavefunction&#39;s virtual methods." alt="" coords="261,84,461,139"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="190,84,261,94,260,100,189,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,78,257,57,258,63,180,84"/>
+<area shape="rect" id="Node000004" href="$classchemist_1_1wavefunction_1_1PyWavefunction.html" title=" " alt="" coords="275,85,446,125"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="190,102,275,102,275,107,190,107"/>
+<area shape="rect" id="Node000005" href="$classchemist_1_1wavefunction_1_1detail___1_1WavefunctionImpl.html" title="Code factorization for implementing Wavefunction&#39;s virtual methods." alt="" coords="261,149,461,204"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="180,126,261,147,260,153,179,131"/>
 <area shape="rect" id="Node000003" href="$classchemist_1_1wavefunction_1_1Determinant.html" title="A fermionic multi&#45;particle wavefunction." alt="" coords="545,13,796,53"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="511,30,545,30,545,35,511,35"/>
 </map>

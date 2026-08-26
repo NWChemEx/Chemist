@@ -2,4 +2,6 @@
 <area shape="rect" id="Node000000" href="$classchemist_1_1braket_1_1detail___1_1BraKetBase.html" title=" " alt="" coords="5,5,288,45"/>
 <area shape="rect" id="Node000001" href="$classchemist_1_1braket_1_1TensorRepresentation.html" title="Denotes that a BraKet is a tensor representation of an operator." alt="" coords="336,13,608,38"/>
 <area shape="poly" id="edge7_Node000000_Node000001" title=" " alt="" coords="302,23,336,23,336,28,302,28"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1braket_1_1detail___1_1PyBraKet.html" title="The single, erased BraKet class seen by Python." alt="" coords="656,5,824,45"/>
+<area shape="poly" id="edge8_Node000001_Node000002" title=" " alt="" coords="622,23,656,23,656,28,622,28"/>
 </map>

@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Chemist Tutorials" href="../tutorials/index.html" />
+    <link rel="next" title="Exposing Operators to Python" href="exposing_operators.html" />
     <link rel="prev" title="Understanding the Traits Component" href="the_traits_component.html" /> 
 </head>
 
@@ -56,6 +56,7 @@
 <li class="toctree-l2"><a class="reference internal" href="writing_views.html">Creating a New View</a></li>
 <li class="toctree-l2"><a class="reference internal" href="the_traits_component.html">Understanding the Traits Component</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Notes on Adding an Operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exposing_operators.html">Exposing Operators to Python</a></li>
 <li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
 </ul>
 </li>
@@ -89,7 +90,7 @@
            <div itemprop="articleBody">
              
   <section id="notes-on-adding-an-operator">
-<h1>Notes on Adding an Operator<a class="headerlink" href="#notes-on-adding-an-operator" title="Link to this heading"></a></h1>
+<span id="adding-an-operator"></span><h1>Notes on Adding an Operator<a class="headerlink" href="#notes-on-adding-an-operator" title="Link to this heading"></a></h1>
 <p>To add a new operator to Chemist requires modifications in several places. They
 are collected here for convenience.</p>
 <ul class="simple">
@@ -104,9 +105,21 @@ include/chemist/quantum_mechanics/operator/operator_visitor.hpp</p></li>
 src/chemist/quantum_mechanics/operator/operator_visitor.cpp</p></li>
 <li><p>Add unit tests to
 tests/cxx/unit_tests/quantum_mechanics/operator/&lt;operator_name&gt;.cpp</p></li>
+<li><p>Export it in
+src/chemist/quantum_mechanics/operator/operator/export_&lt;operator_name&gt;.cpp</p></li>
 <li><p>Add unit tests to
 tests/python/unit_tests/quantum_mechanics/operator/&lt;operator_name&gt;.py</p></li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Operators templated on their particles are exported once per instantiation,
+under underscore-prefixed names, plus a single class Python actually uses
+that dispatches to them. Adding an instantiation therefore means adding it
+to that operator’s dispatch function as well; if you do not, the
+instantiation exists but nothing in Python can construct it. See
+<code class="docutils literal notranslate"><span class="pre">export_dispatching_class</span></code> in
+src/chemist/quantum_mechanics/operator/operator/py_operator_dispatch.hpp.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>“&lt;operator_name&gt;” in the above file names should be replaced with your
@@ -122,7 +135,7 @@ operators and then find/replace the name.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="the_traits_component.html" class="btn btn-neutral float-left" title="Understanding the Traits Component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../tutorials/index.html" class="btn btn-neutral float-right" title="Chemist Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="exposing_operators.html" class="btn btn-neutral float-right" title="Exposing Operators to Python" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
