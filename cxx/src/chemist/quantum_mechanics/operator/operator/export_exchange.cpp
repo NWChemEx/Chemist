@@ -15,46 +15,27 @@
  */
 
 #include "export_operator.hpp"
+#include "py_operator_dispatch.hpp"
 #include <chemist/quantum_mechanics/operator/exchange.hpp>
 
 namespace chemist::qm_operator {
 
-namespace detail_ {
-
-template<typename T, typename U>
-void export_exchange_(const char* name, python_module_reference m) {
-    using exchange_t = Exchange<T, U>;
-    using op_base_t  = OperatorBase;
-
-    auto get_lhs_particle = [](const exchange_t& o) {
-        return o.get_lhs_particle();
-    };
-    auto set_lhs_particle = [](exchange_t& o, T& p) { o.set_lhs_particle(p); };
-    auto get_rhs_particle = [](const exchange_t& o) {
-        return o.get_rhs_particle();
-    };
-    auto set_rhs_particle = [](exchange_t& o, U& p) { o.set_rhs_particle(p); };
-
-    python_class_type<exchange_t, op_base_t, py::smart_holder>(m, name)
-      .def(py::init<>())
-      .def(py::init<T, U>())
-      .def(py::self == py::self)
-      .def(py::self != py::self)
-      .def_property("lhs_particle", get_lhs_particle, set_lhs_particle)
-      .def_property("rhs_particle", get_rhs_particle, set_rhs_particle);
-}
-
-} // namespace detail_
-
 void export_exchange(python_module_reference m) {
-    detail_::export_exchange_<Electron, chemist::Density<Electron>>(
-      "ExchangeElectronDensityElectron", m);
-    detail_::export_exchange_<ManyElectrons, chemist::Density<Electron>>(
-      "ExchangeManyElectronsDensityElectron", m);
-    detail_::export_exchange_<Electron, DecomposableDensity<Electron>>(
-      "ExchangeElectronDecomposableDensityElectron", m);
-    detail_::export_exchange_<ManyElectrons, DecomposableDensity<Electron>>(
-      "ExchangeManyElectronsDecomposableDensityElectron", m);
+    using namespace detail_;
+
+    using table        = density_pairs;
+    using default_pair = type_pair<Electron, chemist::Density<Electron>>;
+
+    auto impls    = export_instantiations<Exchange, table>(m, "Exchange");
+    auto dispatch = make_two_particle_dispatch<Exchange, table, default_pair>(
+      "Exchange", "takes two particles");
+
+    export_dispatching_class(
+      m, "Exchange", impls, dispatch,
+      "Describes the exchange interaction between a particle and a "
+      "density.\n\n"
+      "Exchange(lhs, rhs) selects the instantiation the particles imply. "
+      "Exchange() is the same as Exchange(Electron(), Density()).");
 }
 
 } // namespace chemist::qm_operator

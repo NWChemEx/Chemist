@@ -25,6 +25,8 @@ void export_kinetic(python_module_reference m);
 void export_coulomb(python_module_reference m);
 void export_exchange(python_module_reference m);
 void export_exchange_correlation(python_module_reference m);
+void export_density(python_module_reference m);
+void export_fock(python_module_reference m);
 void export_core_hamiltonian(python_module_reference m);
 void export_electronic_hamiltonian(python_module_reference m);
 void export_hamiltonian(python_module_reference m);
@@ -38,6 +40,8 @@ inline void export_qm_operator(python_module_reference m) {
     export_coulomb(m_op);
     export_exchange(m_op);
     export_exchange_correlation(m_op);
+    export_density(m_op);
+    export_fock(m_op);
     export_core_hamiltonian(m_op);
     export_electronic_hamiltonian(m_op);
     export_hamiltonian(m_op);

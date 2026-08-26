@@ -18,8 +18,9 @@ import numpy as np
 from chemist import DecomposableDensity, Density, Electron, ManyElectrons
 from chemist.basis_set import AOBasisSetD
 from chemist.qm_operator import (
-    ExchangeCorrelationElectronDensityElectron,
-    ExchangeCorrelationManyElectronsDecomposableDensityElectron,
+    ExchangeCorrelation,
+    Kinetic,
+    OperatorBase,
     xc_functional,
 )
 from chemist.wavefunction import AOs
@@ -40,6 +41,91 @@ class TestXCFunctional(unittest.TestCase):
         self.assertEqual(self.custom.value, 1)
 
 
+class TestExchangeCorrelationDispatch(unittest.TestCase):
+    """Tests the single ExchangeCorrelation class Python sees.
+
+    See TestKineticDispatch. Unlike the other operators the first argument is
+    the functional, so dispatch is on the second and third arguments.
+    """
+
+    def setUp(self):
+        self.tensor = Tensor(np.array([[1.0, 2.0], [3.0, 4.0]]))
+        self.aos = AOs(AOBasisSetD())
+        self.density = Density(self.tensor, self.aos)
+        self.decomp_density = DecomposableDensity(
+            self.tensor, self.aos, self.tensor
+        )
+        self.xc = xc_functional.PBE
+
+    def test_dispatches_on_particles(self):
+        cases = [
+            (
+                Electron(),
+                self.density,
+                "_ExchangeCorrelationElectronDensityElectron",
+            ),
+            (
+                ManyElectrons(4),
+                self.density,
+                "_ExchangeCorrelationManyElectronsDensityElectron",
+            ),
+        ]
+        for lhs, rhs, name in cases:
+            with self.subTest(name=name):
+                op = ExchangeCorrelation(self.xc, lhs, rhs)
+                self.assertEqual(type(op).__name__, name)
+                self.assertEqual(op.functional_name, self.xc)
+
+    def test_decomposable_density_beats_density(self):
+        # N.B. DecomposableDensity derives from Density, so a dispatcher that
+        #      checked Density first would silently build the plain-density
+        #      instantiation here.
+        self.assertEqual(
+            type(
+                ExchangeCorrelation(self.xc, Electron(), self.decomp_density)
+            ).__name__,
+            "_ExchangeCorrelationElectronDecomposableDensityElectron",
+        )
+        self.assertEqual(
+            type(
+                ExchangeCorrelation(
+                    self.xc, ManyElectrons(4), self.decomp_density
+                )
+            ).__name__,
+            "_ExchangeCorrelationManyElectronsDecomposableDensityElectron",
+        )
+
+    def test_default_is_electron_density(self):
+        self.assertEqual(
+            type(ExchangeCorrelation()).__name__,
+            "_ExchangeCorrelationElectronDensityElectron",
+        )
+        self.assertEqual(
+            ExchangeCorrelation(),
+            ExchangeCorrelation(xc_functional.NONE, Electron(), Density()),
+        )
+
+    def test_isinstance(self):
+        xc_e = ExchangeCorrelation(self.xc, Electron(), self.density)
+        self.assertIsInstance(xc_e, ExchangeCorrelation)
+        self.assertIsInstance(xc_e, OperatorBase)
+
+        self.assertNotIsInstance(Kinetic(), ExchangeCorrelation)
+        self.assertNotIsInstance(Electron(), ExchangeCorrelation)
+
+    def test_unsupported_combination_throws(self):
+        with self.assertRaisesRegex(
+            TypeError, "a Electron with a ManyElectrons"
+        ):
+            ExchangeCorrelation(self.xc, Electron(), ManyElectrons(4))
+
+    def test_wrong_number_of_arguments_throws(self):
+        with self.assertRaisesRegex(
+            TypeError, "a functional and two particles"
+        ):
+            ExchangeCorrelation(self.xc, Electron())
+
+
 class TestExchangeCorrelation(unittest.TestCase):
     def setUp(self):
         # Input Values
@@ -52,19 +138,18 @@ class TestExchangeCorrelation(unittest.TestCase):
             self.tensor, self.aos, self.tensor
         )
         self.xc = xc_functional.PBE
+        self.none = xc_functional.NONE
 
         # Test objects
-        self.default1 = ExchangeCorrelationElectronDensityElectron()
-        self.default2 = (
-            ExchangeCorrelationManyElectronsDecomposableDensityElectron()
+        self.default1 = ExchangeCorrelation(self.none, Electron(), Density())
+        self.default2 = ExchangeCorrelation(
+            self.none, ManyElectrons(), DecomposableDensity()
         )
-        self.has_value1 = ExchangeCorrelationElectronDensityElectron(
+        self.has_value1 = ExchangeCorrelation(
             self.xc, Electron(), self.density
         )
-        self.has_value2 = (
-            ExchangeCorrelationManyElectronsDecomposableDensityElectron(
-                self.xc, self.many_elec, self.decomp_density
-            )
+        self.has_value2 = ExchangeCorrelation(
+            self.xc, self.many_elec, self.decomp_density
         )
 
     def test_functional_name(self):
@@ -99,22 +184,23 @@ class TestExchangeCorrelation(unittest.TestCase):
 
     def test_comparison(self):
         self.assertTrue(
-            self.default1 == ExchangeCorrelationElectronDensityElectron()
+            self.default1
+            == ExchangeCorrelation(self.none, Electron(), Density())
         )
         self.assertTrue(
             self.default2
-            == ExchangeCorrelationManyElectronsDecomposableDensityElectron()
+            == ExchangeCorrelation(
+                self.none, ManyElectrons(), DecomposableDensity()
+            )
         )
 
         self.assertTrue(
             self.has_value1
-            == ExchangeCorrelationElectronDensityElectron(
-                self.xc, Electron(), self.density
-            )
+            == ExchangeCorrelation(self.xc, Electron(), self.density)
         )
         self.assertTrue(
             self.has_value2
-            == ExchangeCorrelationManyElectronsDecomposableDensityElectron(
+            == ExchangeCorrelation(
                 self.xc, self.many_elec, self.decomp_density
             )
         )

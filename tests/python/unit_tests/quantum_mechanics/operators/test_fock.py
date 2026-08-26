@@ -14,16 +14,16 @@
 
 import unittest
 
-from chemist import ManyElectrons, Nuclei
-from chemist.qm_operator import CoreHamiltonian, Coulomb, Kinetic
+from chemist import DecomposableDensity, Electron
+from chemist.qm_operator import Coulomb, Fock, Kinetic
 
 
-class TestCoreHamiltonian(unittest.TestCase):
+class TestFock(unittest.TestCase):
     def setUp(self):
-        self.kinetic = Kinetic(ManyElectrons())
-        self.coulomb = Coulomb(ManyElectrons(), Nuclei())
-        self.defaulted = CoreHamiltonian()
-        self.with_operators = CoreHamiltonian()
+        self.kinetic = Kinetic()
+        self.coulomb = Coulomb(Electron(), DecomposableDensity())
+        self.defaulted = Fock()
+        self.with_operators = Fock()
         self.with_operators.emplace_back(1.0, self.kinetic.clone())
         self.with_operators.emplace_back(2.0, self.coulomb.clone())
 
@@ -36,21 +36,20 @@ class TestCoreHamiltonian(unittest.TestCase):
         self.assertEqual(self.with_operators.coefficient(1), 2.0)
 
     def test_get_operator(self):
-        got_kinetic = self.with_operators.get_operator(0)
-        got_coulomb = self.with_operators.get_operator(1)
-        self.assertTrue(got_kinetic.are_equal(self.kinetic))
-        self.assertTrue(got_coulomb.are_equal(self.coulomb))
+        self.assertTrue(
+            self.with_operators.get_operator(0).are_equal(self.kinetic)
+        )
+        self.assertTrue(
+            self.with_operators.get_operator(1).are_equal(self.coulomb)
+        )
 
     def test_emplace_back(self):
         self.defaulted.emplace_back(3.0, self.kinetic.clone())
         self.assertEqual(self.defaulted.size(), 1)
         self.assertEqual(self.defaulted.coefficient(0), 3.0)
-        self.assertTrue(
-            self.with_operators.get_operator(0).are_equal(self.kinetic)
-        )
 
-    def test_equality(self):
-        other = CoreHamiltonian()
+    def test_comparisons(self):
+        other = Fock()
         self.assertEqual(self.defaulted, other)
 
         other.emplace_back(1.0, self.kinetic.clone())

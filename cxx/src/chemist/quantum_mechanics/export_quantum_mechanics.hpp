@@ -15,14 +15,19 @@
  */
 
 #pragma once
+#include "braket/export_braket.hpp"
 #include "operator/operator/export_operator.hpp"
 #include "wavefunction/export_wavefunction.hpp"
 
 namespace chemist {
 
 inline void export_quantum_mechanics(python_module_reference m) {
+    // Need to be exported in hierarchical order. BraKet comes last: its
+    // instantiations name operator and wavefunction types, so those classes
+    // have to be registered with pybind11 first.
     qm_operator::export_qm_operator(m);
     wavefunction::export_wavefunction(m);
+    braket::export_braket(m);
 }
 
 } // namespace chemist

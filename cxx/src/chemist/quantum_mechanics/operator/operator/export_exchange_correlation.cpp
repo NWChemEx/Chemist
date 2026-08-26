@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NWChemEx-Project
+ * Copyright 2026 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,13 @@
  */
 
 #include "export_operator.hpp"
+#include "py_operator_dispatch.hpp"
 #include <chemist/quantum_mechanics/operator/exchange_correlation.hpp>
 
 namespace chemist::qm_operator {
 
 namespace detail_ {
+namespace {
 
 void export_xc_functionals_(python_module_reference m) {
     python_enum_type<xc_functional>(m, "xc_functional", "enum.Enum")
@@ -35,49 +37,58 @@ void export_xc_functionals_(python_module_reference m) {
       .finalize();
 }
 
-template<typename T, typename U>
-void export_exchange_correlation_(const char* name, python_module_reference m) {
-    using xc_t      = ExchangeCorrelation<T, U>;
-    using op_base_t = OperatorBase;
+/** @brief Adds what ExchangeCorrelation has and the other operators do not.
+ *
+ *  Its value ctor takes the functional before the particles, and it has a
+ *  property for the functional. Everything else is the common part
+ *  export_instantiations already did.
+ */
+struct customize_xc {
+    template<typename Class, typename T, typename U>
+    void operator()(Class& cls, type_pair<T, U>) const {
+        using xc_t = ExchangeCorrelation<T, U>;
 
-    auto get_lhs_particle = [](const xc_t& o) { return o.get_lhs_particle(); };
-    auto set_lhs_particle = [](xc_t& o, T& p) { o.set_lhs_particle(p); };
-    auto get_rhs_particle = [](const xc_t& o) { return o.get_rhs_particle(); };
-    auto set_rhs_particle = [](xc_t& o, U& p) { o.set_rhs_particle(p); };
-    auto get_functional_name = [](const xc_t& o) {
-        return o.get_functional_name();
-    };
-    auto set_functional_name = [](xc_t& o, xc_functional& p) {
-        o.set_functional_name(p);
-    };
+        auto get_functional_name = [](const xc_t& o) {
+            return o.get_functional_name();
+        };
+        auto set_functional_name = [](xc_t& o, xc_functional& p) {
+            o.set_functional_name(p);
+        };
 
-    python_class_type<xc_t, op_base_t, py::smart_holder>(m, name)
-      .def(py::init<>())
-      .def(py::init<xc_functional, T, U>())
-      .def(py::self == py::self)
-      .def(py::self != py::self)
-      .def_property("lhs_particle", get_lhs_particle, set_lhs_particle)
-      .def_property("rhs_particle", get_rhs_particle, set_rhs_particle)
-      .def_property("functional_name", get_functional_name,
-                    set_functional_name);
-}
+        cls.def(py::init<xc_functional, T, U>())
+          .def_property("functional_name", get_functional_name,
+                        set_functional_name);
+    }
+};
 
+} // namespace
 } // namespace detail_
 
 void export_exchange_correlation(python_module_reference m) {
-    detail_::export_xc_functionals_(m);
+    using namespace detail_;
 
-    detail_::export_exchange_correlation_<Electron, chemist::Density<Electron>>(
-      "ExchangeCorrelationElectronDensityElectron", m);
-    detail_::export_exchange_correlation_<ManyElectrons,
-                                          chemist::Density<Electron>>(
-      "ExchangeCorrelationManyElectronsDensityElectrons", m);
-    detail_::export_exchange_correlation_<Electron,
-                                          DecomposableDensity<Electron>>(
-      "ExchangeCorrelationElectronDecomposableDensityElectron", m);
-    detail_::export_exchange_correlation_<ManyElectrons,
-                                          DecomposableDensity<Electron>>(
-      "ExchangeCorrelationManyElectronsDecomposableDensityElectron", m);
+    using table        = density_pairs;
+    using default_pair = type_pair<Electron, chemist::Density<Electron>>;
+
+    // The functional the ctor takes ahead of the two particles.
+    using leading_args = std::tuple<xc_functional>;
+
+    export_xc_functionals_(m);
+
+    auto impls = export_instantiations<ExchangeCorrelation, table>(
+      m, "ExchangeCorrelation", customize_xc{});
+
+    auto dispatch = make_two_particle_dispatch<ExchangeCorrelation, table,
+                                               default_pair, leading_args>(
+      "ExchangeCorrelation", "takes a functional and two particles");
+
+    export_dispatching_class(
+      m, "ExchangeCorrelation", impls, dispatch,
+      "Describes the exchange-correlation interaction between a particle and "
+      "a density.\n\n"
+      "ExchangeCorrelation(functional, lhs, rhs) selects the instantiation the "
+      "particles imply. ExchangeCorrelation() is the same as "
+      "ExchangeCorrelation(xc_functional.NONE, Electron(), Density()).");
 }
 
 } // namespace chemist::qm_operator

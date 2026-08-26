@@ -22,13 +22,24 @@ namespace chemist::wavefunction {
 void export_vector_space(python_module_reference m);
 void export_aos(python_module_reference m);
 void export_transformed(python_module_reference m);
+void export_natural(python_module_reference m);
+void export_mos(python_module_reference m);
+void export_cmos(python_module_reference m);
+void export_wavefunction_class(python_module_reference m);
+void export_determinant(python_module_reference m);
 
 inline void export_wavefunction(python_module_reference m) {
     auto m_wf = m.def_submodule("wavefunction");
 
+    // Need to be exported in hierarchical order
     export_vector_space(m_wf);
     export_aos(m_wf);
     export_transformed(m_wf);
+    export_natural(m_wf);
+    export_mos(m_wf);
+    export_cmos(m_wf);
+    export_wavefunction_class(m_wf);
+    export_determinant(m_wf);
 }
 
 } // namespace chemist::wavefunction

@@ -12,8 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import numpy as np
 from chemist import PointD, ShellType
 from chemist.basis_set import AOBasisSetD, AtomicBasisSetD, ContractedGaussianD
+from chemist.wavefunction import AOs, CMOs, DeterminantCMOs, MOs
+from tensorwrapper import Tensor
 
 
 def h2_coords():
@@ -41,3 +44,26 @@ def h2_basis():
     rv.add_center(h1)
 
     return rv
+
+
+def h2_aos():
+    return AOs(h2_basis())
+
+
+def h2_transform():
+    """The AO to MO transformation. h2_basis has two AOs, so this is 2 by 2."""
+    return Tensor(np.array([[1.0, 1.0], [1.0, -1.0]]))
+
+
+def h2_mos():
+    return MOs(h2_aos(), h2_transform())
+
+
+def h2_cmos():
+    """CMOs additionally carry the diagonal of the matrix they diagonalize."""
+    return CMOs(Tensor(np.array([-0.5, 0.5])), h2_aos(), h2_transform())
+
+
+def h2_determinant():
+    """The RSCF wavefunction for H2: the lowest CMO is doubly occupied."""
+    return DeterminantCMOs([0], h2_cmos())

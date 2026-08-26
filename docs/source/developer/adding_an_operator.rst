@@ -12,6 +12,8 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
+.. _adding_an_operator:
+
 ###########################
 Notes on Adding an Operator
 ###########################
@@ -30,8 +32,20 @@ are collected here for convenience.
   src/chemist/quantum_mechanics/operator/operator_visitor.cpp
 - Add unit tests to
   tests/cxx/unit_tests/quantum_mechanics/operator/<operator_name>.cpp
+- Export it in
+  src/chemist/quantum_mechanics/operator/operator/export_<operator_name>.cpp
 - Add unit tests to
   tests/python/unit_tests/quantum_mechanics/operator/<operator_name>.py
+
+.. note::
+
+   Operators templated on their particles are exported once per instantiation,
+   under underscore-prefixed names, plus a single class Python actually uses
+   that dispatches to them. Adding an instantiation therefore means adding it
+   to that operator's dispatch function as well; if you do not, the
+   instantiation exists but nothing in Python can construct it. See
+   ``export_dispatching_class`` in
+   src/chemist/quantum_mechanics/operator/operator/py_operator_dispatch.hpp.
 
 .. note::
 

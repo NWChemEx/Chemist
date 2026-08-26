@@ -29,4 +29,5 @@ is assumed that the reader is already familiar with :ref:`chemist_background`.
    writing_views
    the_traits_component
    adding_an_operator
+   exposing_operators
    NWChemEx author documentation <https://nwchemex.github.io/.github/>
