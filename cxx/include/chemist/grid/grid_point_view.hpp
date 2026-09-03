@@ -15,8 +15,8 @@
  */
 
 #pragma once
+#include <chemist/concepts.hpp>
 #include <chemist/grid/grid_point.hpp>
-#include <chemist/point/point_view.hpp>
 #include <chemist/traits/grid_traits.hpp>
 
 namespace chemist {
@@ -27,16 +27,16 @@ namespace chemist {
  *                        behaves like.
  *
  *  The GridPointView class enables aliased data to be used as if it were
- *  stored in a GridPoint object.
+ *  stored in a GridPoint object. The weight and each coordinate are aliased
+ *  via wtf::fp::FloatView objects, which means *this can alias state owned by
+ *  a GridPoint object directly, or state owned by a type-erased buffer (e.g.,
+ *  the buffers backing a Grid object).
  */
 template<typename GridPointType>
 class GridPointView {
 private:
     /// Struct defining the types for the GridPoint *this will act like.
     using grid_point_traits = ChemistClassTraits<GridPointType>;
-
-    /// Struct defining the types for the point_type piece of *this.
-    using point_traits = typename grid_point_traits::point_traits;
 
     /** @brief Determines if @p T is the same as GridPointType
      *
@@ -68,18 +68,19 @@ public:
     using const_grid_point_reference =
       typename grid_point_traits::const_reference;
 
-    /// Type of a reference to a possibly cv-qualified grid point's weight
+    /// Type of a possibly mutable, aliasing view of the weight
     using weight_reference = typename grid_point_traits::weight_reference;
 
-    /// Type of a read-only reference to a grid point's weight
+    /// Type of a read-only, aliasing view of the weight
     using const_weight_reference =
       typename grid_point_traits::const_weight_reference;
 
-    /// Type of a view to a possibly cv-qualified point_type object
-    using point_view = typename point_traits::view_type;
+    /// Type of a possibly mutable, aliasing view of a coordinate
+    using coord_reference = typename grid_point_traits::coord_reference;
 
-    /// Type of a read-only view to a point_type object
-    using const_point_view = typename point_traits::const_view_type;
+    /// Type of a read-only, aliasing view of a coordinate
+    using const_coord_reference =
+      typename grid_point_traits::const_coord_reference;
 
     // -------------------------------------------------------------------------
     // -- Ctors and assignment
@@ -91,30 +92,36 @@ public:
      *
      *  @param[in] other The object to alias.
      *
-     *  @throw std::bad_alloc if allocating state for a PointView object fails.
-     *                        Strong throw guarantee.
+     *  @throw std::bad_alloc if allocating state for *this fails. Strong
+     *                        throw guarantee.
      */
     GridPointView(grid_point_reference other) :
-      GridPointView(other.weight(), other.point()) {}
+      GridPointView(other.m_weight_, other.m_x_, other.m_y_, other.m_z_) {}
 
     /** @brief Creates a view that aliases existing state.
      *
      *  This ctor is used to create a view that aliases state, regardless of
      *  whether that state is owned by a GridPoint object or not.
      *
-     *  @param[in] weight A reference to the weight of the grid point.
-     *  @param[in] point A view of the Cartesian coordinates.
+     *  @param[in] weight A view aliasing the weight of the grid point.
+     *  @param[in] x A view aliasing the x-coordinate of the grid point.
+     *  @param[in] y A view aliasing the y-coordinate of the grid point.
+     *  @param[in] z A view aliasing the z-coordinate of the grid point.
      *
      *  @throw None No throw guarantee.
      */
-    GridPointView(weight_reference weight, point_view point) :
-      m_pweight_(&weight), m_point_(std::move(point)) {}
+    GridPointView(weight_reference weight, coord_reference x, coord_reference y,
+                  coord_reference z) :
+      m_weight_(std::move(weight)),
+      m_x_(std::move(x)),
+      m_y_(std::move(y)),
+      m_z_(std::move(z)) {}
 
     /** @brief Copies an existing view.
      *
-     *  This ctor creates a new view which aliases the same GridPoint as
+     *  This ctor creates a new view which aliases the same state as
      *  @p other, i.e., the resulting view is a shallow copy of the aliased
-     *  GridPoint.
+     *  state.
      *
      *  @param[in] other The view to copy.
      *
@@ -125,11 +132,8 @@ public:
 
     /** @brief Takes the state from another view.
      *
-     *  This ctor moves the state from @p other into *this. After this operation
-     *  *this will alias the GridPoint that @p other used to.
-     *
      *  @param[in,out] other The view to take the state from. After this
-     *                       operation @p other is in a valid, but otherwise
+     *                       operation @p other is in a valid but otherwise
      *                       undefined state.
      *
      *  @throw None No throw guarantee.
@@ -138,20 +142,22 @@ public:
 
     /** @brief Assigns a copy of a view to *this.
      *
+     *  After this operation *this aliases the same state that @p rhs aliases.
+     *
      *  @param[in] rhs The view to copy.
      *
      *  @return A mutable reference to *this after replacing the state with a
      *          copy of @p rhs's state.
      *
-     *  @throw std::bad_alloc if there is a problem allocating the state for the
-     *                        copy. Strong throw guarantee.
+     *  @throw std::bad_alloc if there is a problem allocating the state for
+     *                        the copy. Strong throw guarantee.
      */
     GridPointView& operator=(const GridPointView& rhs) = default;
 
     /** @brief Transfers the state of @p rhs to *this.
      *
      *  @param[in,out] rhs The object to take the state from. After this
-     *                     operation @p rhs will be in a valid, but otherwise
+     *                     operation @p rhs will be in a valid but otherwise
      *                     undefined state.
      *
      *  @return *this after taking ownership of the state in @p rhs.
@@ -160,27 +166,34 @@ public:
      */
     GridPointView& operator=(GridPointView&& rhs) noexcept = default;
 
-    /** @brief Causes *this to alias a different GridPoint object.
+    /** @brief Sets the aliased state to the state of @p rhs.
      *
-     *  @tparam RHSType The cv-qualified type of the GridPoint to be aliased.
-     *  @tparam <anonymous> Type used to disable this method via SFINAE when
-     *                      either *this is a read-only view or when @p RHSType
-     *                      is not a GridPoint type.
+     *  @tparam RHSType The cv-qualified type of the GridPoint whose value is
+     *                  being assigned. @p RHSType must not be cv-qualified
+     *                  for this method to participate in overload
+     *                  resolution.
      *
-     *  This method will overwrite the state in *this (if any) so that it
-     *  instead aliases the state of @p rhs.
+     *  Unlike copy assignment (which causes *this to alias the same state
+     *  that @p rhs aliases), this method writes @p rhs's weight/coordinates
+     *  into the state currently aliased by *this.
      *
-     *  @param[in] rhs The GridPoint object to alias.
+     *  @param[in] rhs The GridPoint object whose value should be written into
+     *                 the state aliased by *this.
      *
-     *  @return The current instance after it has been made to alias @p rhs.
+     *  @return The current instance after writing @p rhs's value into the
+     *          aliased state.
      *
-     *  @throw std::bad_alloc if allocating the new state throws. Strong throw
-     *                        guarantee.
+     *  @throw std::runtime_error if the concrete floating-point type of
+     *                            @p rhs's weight/coordinates does not match
+     *                            that of the state aliased by *this. Strong
+     *                            throw guarantee.
      */
     template<typename RHSType, typename = enable_if_assign_from_point<RHSType>>
     GridPointView& operator=(RHSType&& rhs) {
-        m_pweight_ = &rhs.weight();
-        m_point_   = rhs.point();
+        m_weight_ = rhs.m_weight_;
+        m_x_      = rhs.m_x_;
+        m_y_      = rhs.m_y_;
+        m_z_      = rhs.m_z_;
         return *this;
     }
 
@@ -190,44 +203,57 @@ public:
 
     /** @brief Returns the weight aliased by *this.
      *
-     *  @return A possibly mutable reference to the weight of *this.
+     *  @return A read-only view of the aliased weight.
      *
      *  @throw None No throw guarantee.
      */
-    weight_reference weight() { return *m_pweight_; }
+    const_weight_reference get_weight() const { return m_weight_; }
 
-    /** @brief Returns the weight aliased by *this.
+    /** @brief Sets the weight aliased by *this to @p value.
      *
-     *  This method is the same as the non-const version except that it returns
-     *  a read-only reference. See the documentation for the non-const version
-     *  for more details.
+     *  @tparam T The concrete floating-point type of @p value. Must satisfy
+     *            the chemist::concepts::FloatingPoint concept.
      *
-     *  @return A read-only reference to the aliased weight.
+     *  Unlike assigning through a reference, this method mutates the aliased
+     *  weight in place (i.e., it does not disturb what *this aliases).
      *
-     *  @throw None No throw guarantee.
+     *  @param[in] value The new value for the aliased weight.
+     *
+     *  @throw std::runtime_error if @p T does not match the concrete
+     *                            floating-point type currently aliased by
+     *                            *this. Strong throw guarantee.
      */
-    const_weight_reference weight() const { return *m_pweight_; }
+    template<concepts::FloatingPoint T>
+    void set_weight(T value) {
+        m_weight_ = value;
+    }
 
-    /** @brief Returns a view of the Cartesian coordinates of *this.
-     *
-     *  @return A possibly mutable view of the coordinates.
-     *
-     *  @throw None No throw guarantee.
-     */
-    point_view& point() { return m_point_; }
+    /** @brief Returns the x-coordinate aliased by *this (read-only). */
+    const_coord_reference get_x() const { return m_x_; }
 
-    /** @brief Returns a view of the Cartesian coordinates of *this.
-     *
-     *  This method is the same as the non-const version except that it returns
-     *  a read-only view. See the documentation for the non-const version for
-     *  more details.
-     *
-     *  @return A read-only reference to the aliased Cartesian coordinates.
-     *
-     *  @throw std::bad_alloc if allocating the return throws. Strong throw
-     *                        guarantee.
-     */
-    const_point_view point() const { return m_point_; }
+    /** @brief Sets the x-coordinate aliased by *this to @p value. */
+    template<concepts::FloatingPoint T>
+    void set_x(T value) {
+        m_x_ = value;
+    }
+
+    /** @brief Returns the y-coordinate aliased by *this (read-only). */
+    const_coord_reference get_y() const { return m_y_; }
+
+    /** @brief Sets the y-coordinate aliased by *this to @p value. */
+    template<concepts::FloatingPoint T>
+    void set_y(T value) {
+        m_y_ = value;
+    }
+
+    /** @brief Returns the z-coordinate aliased by *this (read-only). */
+    const_coord_reference get_z() const { return m_z_; }
+
+    /** @brief Sets the z-coordinate aliased by *this to @p value. */
+    template<concepts::FloatingPoint T>
+    void set_z(T value) {
+        m_z_ = value;
+    }
 
     // -------------------------------------------------------------------------
     // -- Utility
@@ -235,10 +261,9 @@ public:
 
     /** @brief Determines if the aliased GridPoint is value equal to @p rhs.
      *
-     *  *this is value equal to @p rhs if the:
-     *  - aliased weight of *this is value equal to the weight owned by @p rhs
-     *  - aliased coordinates in *this are value equal to the coordinates owned
-     *    by @p rhs.
+     *  *this is value equal to @p rhs if the aliased weight and coordinates
+     *  of *this are value equal to the weight and coordinates owned by
+     *  @p rhs.
      *
      *  Of note, the addresses of the aliased state do NOT need to be the same,
      *  i.e., *this does NOT need to be aliasing @p rhs.
@@ -249,8 +274,10 @@ public:
      *          and false otherwise.
      */
     bool operator==(const_grid_point_reference rhs) const noexcept {
-        if(weight() != rhs.weight()) return false;
-        if(point() != rhs.point()) return false;
+        if(get_weight() != rhs.get_weight()) return false;
+        if(get_x() != rhs.get_x()) return false;
+        if(get_y() != rhs.get_y()) return false;
+        if(get_z() != rhs.get_z()) return false;
         return true;
     }
 
@@ -260,13 +287,9 @@ public:
      *                  like.
      *
      *  This method compares the GridPoint aliased by *this to the GridPoint
-     *  aliased by @p rhs. The aliased GridPoint objects are considered value
-     *  equal if the:
-     *  - weights are value equal
-     *  - Cartesian coordinates are value equal.
-     *
-     *  Of note this comparison does not compare the addresses, i.e., it does
-     *  NOT check if *this and @p rhs alias the same GridPoint.
+     *  aliased by @p rhs. Of note this comparison does not compare the
+     *  addresses, i.e., it does NOT check if *this and @p rhs alias the same
+     *  GridPoint.
      *
      *  @param[in] rhs The object being compared to *this.
      *
@@ -277,56 +300,36 @@ public:
      */
     template<typename RHSType>
     bool operator==(const GridPointView<RHSType>& rhs) const noexcept {
-        if(weight() != rhs.weight()) return false;
-        if(point() != rhs.point()) return false;
+        if(get_weight() != rhs.get_weight()) return false;
+        if(get_x() != rhs.get_x()) return false;
+        if(get_y() != rhs.get_y()) return false;
+        if(get_z() != rhs.get_z()) return false;
         return true;
     }
 
-    /** @brief Determines if the aliased GridPoint differs from @p rhs.
-     *
-     *  This method simply negates the result of operator==(GridPoint). See the
-     *  description of operator==(GridPoint) for more details.
-     *
-     *  @param[in] rhs The object being compared to *this.
-     *
-     *  @return False if *this aliases a GridPoint that is value equal to @p rhs
-     *          and true otherwise.
-     *
-     *  @throw None No throw guarantee.
-     */
+    /** @brief Determines if the aliased GridPoint differs from @p rhs. */
     bool operator!=(const_grid_point_reference rhs) const noexcept {
         return !(*this == rhs);
     }
 
-    /** @brief Determines if the aliased GridPoints differ.
-     *
-     *  @tparam RHSType The cv-qualified type of the GridPoint @p rhs is acting
-     *                  like.
-     *
-     *  This method simply negates the result of operator==(GridPointView). See
-     *  the description of operator==(GridPointView) for more details.
-     *
-     *  @param[in] rhs The object being compared to *this.
-     *
-     *  @return False if *this aliases a GridPoint that is value equal to the
-     *          GridPoint aliased by @p rhs and true otherwise.
-     *
-     *  @throw None No throw guarantee.
-     */
+    /** @brief Determines if the aliased GridPoints differ. */
     template<typename RHSType>
     bool operator!=(const GridPointView<RHSType>& rhs) const noexcept {
         return !(*this == rhs);
     }
 
 private:
-    /// Type used to alias a GridPoint's weight
-    using weight_pointer = typename grid_point_traits::weight_pointer;
+    /// The aliased weight of *this
+    weight_reference m_weight_;
 
-    /// The aliased piece of *this storing the weight
-    weight_pointer m_pweight_;
+    /// The aliased x-coordinate of *this
+    coord_reference m_x_;
 
-    /// The state of *this acting like a point_type
-    point_view m_point_;
+    /// The aliased y-coordinate of *this
+    coord_reference m_y_;
+
+    /// The aliased z-coordinate of *this
+    coord_reference m_z_;
 };
 
 /** @brief Determines if a GridPoint is equal to a view of a GridPoint.
