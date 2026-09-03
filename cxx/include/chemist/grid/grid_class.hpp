@@ -18,6 +18,7 @@
 #include <chemist/grid/grid_point.hpp>
 #include <chemist/grid/grid_point_view.hpp>
 #include <chemist/traits/grid_traits.hpp>
+#include <chemist/types/floating_point.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
@@ -133,13 +134,22 @@ private:
      */
     template<typename BeginItr, typename EndItr>
     static Grid from_range_(BeginItr begin, EndItr end) {
+        // push_back's TupleType (the types tried when the buffer isn't
+        // holding a concrete element type yet) defaults to
+        // wtf::default_fp_types (float/double/long double only), which
+        // would silently exclude every WTF-registered type this class's own
+        // docstring promises to support (e.g. Sigma's UQ types). Widen it
+        // explicitly to tensorwrapper's full floating_point_types list,
+        // which is exactly {float, double} plus, when compiled with
+        // ENABLE_SIGMA, every Sigma UQ type.
+        using tuple_type = chemist::types::floating_point_types;
         wtf::buffer::FloatBuffer weights;
         wtf::buffer::FloatBuffer coords;
         for(; begin != end; ++begin) {
-            weights.push_back(begin->get_weight());
-            coords.push_back(begin->get_x());
-            coords.push_back(begin->get_y());
-            coords.push_back(begin->get_z());
+            weights.template push_back<tuple_type>(begin->get_weight());
+            coords.template push_back<tuple_type>(begin->get_x());
+            coords.template push_back<tuple_type>(begin->get_y());
+            coords.template push_back<tuple_type>(begin->get_z());
         }
         return Grid(std::move(weights), std::move(coords));
     }
