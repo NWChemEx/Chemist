@@ -17,111 +17,135 @@
 #include "../test_helpers.hpp"
 #include <chemist/grid/grid_point_view.hpp>
 #include <utility>
+#include <wtf/wtf.hpp>
 
 using namespace chemist;
-using point_type = GridPoint::point_type;
 using types2test = std::pair<GridPoint, const GridPoint>;
 
 namespace {
-template<typename LHSType, typename RHSType>
-void check_addresses(LHSType&& lhs, RHSType&& rhs) {
-    REQUIRE(&lhs.weight() == &rhs.weight());
-    REQUIRE(&lhs.point().x() == &rhs.point().x());
-    REQUIRE(&lhs.point().y() == &rhs.point().y());
-    REQUIRE(&lhs.point().z() == &rhs.point().z());
+
+/// Verifies that @p view is a live alias of @p aliased (i.e., NOT a copy) by
+/// mutating @p aliased directly and confirming the change is visible through
+/// @p view.
+template<typename ViewType>
+void check_aliases(ViewType&& view, GridPoint& aliased) {
+    // N.b. GridPoint::set_weight/set_x/set_y/set_z mutate in place (via a
+    // FloatView) rather than assigning a new wtf::fp::Float outright, so
+    // they do not invalidate `view`'s alias into `aliased`.
+    aliased.set_weight(99.0);
+    aliased.set_x(98.0);
+    aliased.set_y(97.0);
+    aliased.set_z(96.0);
+    REQUIRE(wtf::fp::float_cast<double>(view.get_weight()) == 99.0);
+    REQUIRE(wtf::fp::float_cast<double>(view.get_x()) == 98.0);
+    REQUIRE(wtf::fp::float_cast<double>(view.get_y()) == 97.0);
+    REQUIRE(wtf::fp::float_cast<double>(view.get_z()) == 96.0);
 }
 
 } // namespace
-TEMPLATE_LIST_TEST_CASE("GridPointView", "", types2test) {
-    point_type pdefaulted;
-    point_type porigin(0.0, 0.0, 0.0);
-    point_type pnon_origin(3.4, 4.5, 5.6);
 
+TEMPLATE_LIST_TEST_CASE("GridPointView", "", types2test) {
     GridPoint defaulted;
     GridPoint origin(1.2, 0.0, 0.0, 0.0);
-    GridPoint non_origin(2.3, pnon_origin);
+    GridPoint non_origin(2.3, 3.4, 4.5, 5.6);
 
     using view_type = GridPointView<TestType>;
     view_type defaulted_view(defaulted);
-    view_type origin_view(origin.weight(), origin.point());
+    view_type origin_view(origin);
     view_type non_origin_view(non_origin);
 
     constexpr bool is_const = std::is_same_v<TestType, const GridPoint>;
 
     SECTION("Ctors and assignment") {
         SECTION("Alias GridPoint object") {
-            REQUIRE(defaulted_view.weight() == 0.0);
-            REQUIRE(defaulted_view.point() == pdefaulted);
+            REQUIRE(defaulted_view.get_weight() == 0.0);
+            REQUIRE(defaulted_view.get_x() == 0.0);
+            REQUIRE(defaulted_view.get_y() == 0.0);
+            REQUIRE(defaulted_view.get_z() == 0.0);
         }
 
         SECTION("Alias state") {
-            REQUIRE(origin_view.weight() == 1.2);
-            REQUIRE(origin_view.point() == porigin);
+            REQUIRE(origin_view.get_weight() == 1.2);
+            REQUIRE(origin_view.get_x() == 0.0);
+            REQUIRE(origin_view.get_y() == 0.0);
+            REQUIRE(origin_view.get_z() == 0.0);
         }
 
         SECTION("Assign from value") {
             if constexpr(!is_const) {
                 non_origin_view = origin;
-                REQUIRE(non_origin_view.weight() == 1.2);
-                REQUIRE(non_origin_view.point() == porigin);
+                REQUIRE(non_origin_view.get_weight() == 1.2);
+                REQUIRE(non_origin_view.get_x() == 0.0);
+                REQUIRE(non_origin_view.get_y() == 0.0);
+                REQUIRE(non_origin_view.get_z() == 0.0);
+                // Assignment writes through to the aliased state
+                REQUIRE(non_origin.get_weight() == 1.2);
             }
         }
 
         SECTION("copy") {
             view_type other(origin_view);
-            REQUIRE(other.weight() == 1.2);
-            REQUIRE(other.point() == porigin);
-            check_addresses(other, origin_view);
+            REQUIRE(other.get_weight() == 1.2);
+            check_aliases(other, origin);
         }
 
         SECTION("copy assignment") {
             auto pnon_origin = &(non_origin_view = origin_view);
             REQUIRE(pnon_origin == &non_origin_view);
-            REQUIRE(non_origin_view.weight() == 1.2);
-            REQUIRE(non_origin_view.point() == porigin);
-            check_addresses(non_origin_view, origin_view);
+            REQUIRE(non_origin_view.get_weight() == 1.2);
+            check_aliases(non_origin_view, origin);
         }
 
         SECTION("move") {
             view_type copy(origin_view);
             view_type other(std::move(copy));
-            REQUIRE(other.weight() == 1.2);
-            REQUIRE(other.point() == porigin);
-            check_addresses(other, origin_view);
+            REQUIRE(other.get_weight() == 1.2);
+            check_aliases(other, origin);
         }
 
         SECTION("move assignment") {
             view_type copy(origin_view);
             auto pnon_origin_view = &(non_origin_view = std::move(copy));
             REQUIRE(pnon_origin_view == &non_origin_view);
-            REQUIRE(non_origin_view.weight() == 1.2);
-            REQUIRE(non_origin_view.point() == porigin);
-            check_addresses(non_origin_view, origin_view);
+            REQUIRE(non_origin_view.get_weight() == 1.2);
+            check_aliases(non_origin_view, origin);
         }
     }
 
-    SECTION("weight()") {
-        REQUIRE(defaulted_view.weight() == 0.0);
-        REQUIRE(origin_view.weight() == 1.2);
-        REQUIRE(non_origin_view.weight() == 2.3);
+    SECTION("get_weight()") {
+        REQUIRE(defaulted_view.get_weight() == 0.0);
+        REQUIRE(origin_view.get_weight() == 1.2);
+        REQUIRE(non_origin_view.get_weight() == 2.3);
     }
 
-    SECTION("weight() const") {
-        REQUIRE(std::as_const(defaulted_view).weight() == 0.0);
-        REQUIRE(std::as_const(origin_view).weight() == 1.2);
-        REQUIRE(std::as_const(non_origin_view).weight() == 2.3);
+    SECTION("get_x()/get_y()/get_z()") {
+        REQUIRE(defaulted_view.get_x() == 0.0);
+        REQUIRE(defaulted_view.get_y() == 0.0);
+        REQUIRE(defaulted_view.get_z() == 0.0);
+
+        REQUIRE(non_origin_view.get_x() == 3.4);
+        REQUIRE(non_origin_view.get_y() == 4.5);
+        REQUIRE(non_origin_view.get_z() == 5.6);
     }
 
-    SECTION("point()") {
-        REQUIRE(defaulted_view.point() == pdefaulted);
-        REQUIRE(origin_view.point() == porigin);
-        REQUIRE(non_origin_view.point() == pnon_origin);
-    }
+    SECTION("set_weight()/set_x()/set_y()/set_z()") {
+        if constexpr(!is_const) {
+            non_origin_view.set_weight(10.0);
+            non_origin_view.set_x(11.0);
+            non_origin_view.set_y(12.0);
+            non_origin_view.set_z(13.0);
+            REQUIRE(non_origin_view.get_weight() == 10.0);
+            REQUIRE(non_origin_view.get_x() == 11.0);
+            REQUIRE(non_origin_view.get_y() == 12.0);
+            REQUIRE(non_origin_view.get_z() == 13.0);
 
-    SECTION("point() const") {
-        REQUIRE(std::as_const(defaulted_view).point() == pdefaulted);
-        REQUIRE(std::as_const(origin_view).point() == porigin);
-        REQUIRE(std::as_const(non_origin_view).point() == pnon_origin);
+            // Setting writes through to the aliased GridPoint
+            REQUIRE(wtf::fp::float_cast<double>(non_origin.get_weight()) ==
+                    10.0);
+            REQUIRE(wtf::fp::float_cast<double>(non_origin.get_x()) == 11.0);
+            REQUIRE(wtf::fp::float_cast<double>(non_origin.get_y()) == 12.0);
+            REQUIRE(wtf::fp::float_cast<double>(non_origin.get_z()) == 13.0);
+        }
     }
 
     SECTION("operator==") {
@@ -132,10 +156,10 @@ TEMPLATE_LIST_TEST_CASE("GridPointView", "", types2test) {
         REQUIRE(defaulted_view == GridPoint(0.0, 0.0, 0.0, 0.0));
 
         // Different weights
-        REQUIRE_FALSE(GridPoint(2.3, pdefaulted) == origin_view);
+        REQUIRE_FALSE(GridPoint(2.3, 0.0, 0.0, 0.0) == origin_view);
 
         // Different points
-        REQUIRE_FALSE(non_origin_view == GridPoint(2.3, porigin));
+        REQUIRE_FALSE(non_origin_view == GridPoint(2.3, 0.0, 0.0, 0.0));
     }
 
     SECTION("operator!=") {

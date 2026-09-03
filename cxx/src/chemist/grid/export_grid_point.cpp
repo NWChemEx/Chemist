@@ -16,29 +16,37 @@
 
 #include "export_grid.hpp"
 #include <chemist/grid/grid_point.hpp>
+#include <wtf/wtf.hpp>
 
 namespace chemist {
 
 void export_grid_point(python_module_reference m) {
-    using gridp_type       = GridPoint;
-    using weight_type      = typename gridp_type::weight_type;
-    using weight_reference = typename gridp_type::weight_reference;
-    using coord_type       = typename gridp_type::coord_type;
-    using point_type       = typename gridp_type::point_type;
-    using point_reference  = typename gridp_type::point_reference;
+    using gridp_type = GridPoint;
+    using py_fp_type = double;
 
     python_class_type<gridp_type>(m, "GridPoint")
       .def(py::init<>())
-      .def(py::init<weight_type, coord_type, coord_type, coord_type>())
-      .def(py::init<weight_type, point_type>())
-      .def_property(
-        "weight", [](gridp_type& g) -> weight_reference { return g.weight(); },
-        [](gridp_type& g, weight_type w) { g.weight() = w; },
-        py::return_value_policy::reference_internal)
-      .def_property(
-        "point", [](gridp_type& g) -> point_reference { return g.point(); },
-        [](gridp_type& g, point_type p) { g.point() = p; },
-        py::return_value_policy::reference_internal)
+      .def(py::init<py_fp_type, py_fp_type, py_fp_type, py_fp_type>())
+      .def("get_weight",
+           [](gridp_type& g) {
+               return wtf::fp::float_cast<py_fp_type>(g.get_weight());
+           })
+      .def("set_weight", [](gridp_type& g, py_fp_type w) { g.set_weight(w); })
+      .def("get_x",
+           [](gridp_type& g) {
+               return wtf::fp::float_cast<py_fp_type>(g.get_x());
+           })
+      .def("set_x", [](gridp_type& g, py_fp_type x) { g.set_x(x); })
+      .def("get_y",
+           [](gridp_type& g) {
+               return wtf::fp::float_cast<py_fp_type>(g.get_y());
+           })
+      .def("set_y", [](gridp_type& g, py_fp_type y) { g.set_y(y); })
+      .def("get_z",
+           [](gridp_type& g) {
+               return wtf::fp::float_cast<py_fp_type>(g.get_z());
+           })
+      .def("set_z", [](gridp_type& g, py_fp_type z) { g.set_z(z); })
       .def(py::self == py::self)
       .def(py::self != py::self);
 }

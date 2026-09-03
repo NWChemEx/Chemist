@@ -14,37 +14,34 @@
 
 import unittest
 
-from chemist import GridPoint, GridPointView, PointD, PointViewD
+from chemist import GridPoint, GridPointView
 
 
 class TestGridPointView(unittest.TestCase):
     def test_ctor(self):
-        self.assertEqual(self.from_point.weight, 1.0)
-        self.assertEqual(self.from_point.point, PointD(2.0, 3.0, 4.0))
+        self.assertEqual(self.from_point.get_weight(), 1.0)
+        self.assertEqual(self.from_point.get_x(), 2.0)
+        self.assertEqual(self.from_point.get_y(), 3.0)
+        self.assertEqual(self.from_point.get_z(), 4.0)
 
     def test_weight(self):
-        self.assertEqual(self.from_point.weight, 1.0)
-        self.from_point.weight = 42.0
-        self.assertEqual(self.from_point.weight, 42.0)
-        self.assertEqual(self.grid_point.weight, 42.0)
+        self.assertEqual(self.from_point.get_weight(), 1.0)
+        self.from_point.set_weight(42.0)
+        self.assertEqual(self.from_point.get_weight(), 42.0)
+        # View writes through to the aliased GridPoint
+        self.assertEqual(self.grid_point.get_weight(), 42.0)
 
-    def test_point(self):
-        self.assertEqual(self.from_point.point, PointD(2.0, 3.0, 4.0))
-
-        # Change the view to a different point
-        other_point = PointD(42.0, 42.0, 42.0)
-        self.from_point.point = PointViewD(other_point)
-        self.assertEqual(self.from_point.point, PointD(42.0, 42.0, 42.0))
-        self.assertNotEqual(self.grid_point.point, other_point)
+    def test_coords(self):
+        self.assertEqual(self.from_point.get_x(), 2.0)
 
         # View can alter the value of the point being viewed
-        self.from_point.point.x = -1.0
-        self.assertEqual(self.from_point.point, PointD(-1.0, 42.0, 42.0))
-        self.assertEqual(other_point, PointD(-1.0, 42.0, 42.0))
+        self.from_point.set_x(-1.0)
+        self.assertEqual(self.from_point.get_x(), -1.0)
+        self.assertEqual(self.grid_point.get_x(), -1.0)
 
         # View reflects changes to the value of the point
-        other_point.x = 42.0
-        self.assertEqual(self.from_point.point, PointD(42.0, 42.0, 42.0))
+        self.grid_point.set_x(42.0)
+        self.assertEqual(self.from_point.get_x(), 42.0)
 
     def test_comparisons(self):
         # From GridPoint

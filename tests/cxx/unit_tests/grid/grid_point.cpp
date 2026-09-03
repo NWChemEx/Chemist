@@ -19,54 +19,75 @@
 #include <utility>
 
 using namespace chemist;
-using point_type = GridPoint::point_type;
 
 TEST_CASE("GridPoint") {
     GridPoint defaulted;
     GridPoint origin(1.2, 0.0, 0.0, 0.0);
-    GridPoint non_origin(2.3, point_type(3.4, 4.5, 5.6));
+    GridPoint non_origin(2.3, 3.4, 4.5, 5.6);
 
     SECTION("Ctors and assignment") {
         SECTION("Default Ctor") {
-            REQUIRE(defaulted.weight() == 0.0);
-            REQUIRE(defaulted.point() == point_type());
+            REQUIRE(defaulted.get_weight() == 0.0);
+            REQUIRE(defaulted.get_x() == 0.0);
+            REQUIRE(defaulted.get_y() == 0.0);
+            REQUIRE(defaulted.get_z() == 0.0);
         }
 
         SECTION("weight, x, y, and z") {
-            REQUIRE(origin.weight() == 1.2);
-            REQUIRE(origin.point() == point_type(0.0, 0.0, 0.0));
-        }
+            REQUIRE(origin.get_weight() == 1.2);
+            REQUIRE(origin.get_x() == 0.0);
+            REQUIRE(origin.get_y() == 0.0);
+            REQUIRE(origin.get_z() == 0.0);
 
-        SECTION("weight, point") {
-            REQUIRE(non_origin.weight() == 2.3);
-            REQUIRE(non_origin.point() == point_type(3.4, 4.5, 5.6));
+            REQUIRE(non_origin.get_weight() == 2.3);
+            REQUIRE(non_origin.get_x() == 3.4);
+            REQUIRE(non_origin.get_y() == 4.5);
+            REQUIRE(non_origin.get_z() == 5.6);
         }
 
         test_chemist::test_copy_and_move(defaulted, origin, non_origin);
     }
 
     SECTION("weight()") {
-        REQUIRE(defaulted.weight() == 0.0);
-        REQUIRE(origin.weight() == 1.2);
-        REQUIRE(non_origin.weight() == 2.3);
+        REQUIRE(defaulted.get_weight() == 0.0);
+        REQUIRE(origin.get_weight() == 1.2);
+        REQUIRE(non_origin.get_weight() == 2.3);
+
+        defaulted.set_weight(42.0);
+        REQUIRE(defaulted.get_weight() == 42.0);
     }
 
     SECTION("weight() const") {
-        REQUIRE(std::as_const(defaulted).weight() == 0.0);
-        REQUIRE(std::as_const(origin).weight() == 1.2);
-        REQUIRE(std::as_const(non_origin).weight() == 2.3);
+        REQUIRE(std::as_const(defaulted).get_weight() == 0.0);
+        REQUIRE(std::as_const(origin).get_weight() == 1.2);
+        REQUIRE(std::as_const(non_origin).get_weight() == 2.3);
     }
 
-    SECTION("point()") {
-        REQUIRE(defaulted.point() == point_type());
-        REQUIRE(origin.point() == point_type(0.0, 0.0, 0.0));
-        REQUIRE(non_origin.point() == point_type(3.4, 4.5, 5.6));
+    SECTION("x()/y()/z()") {
+        REQUIRE(defaulted.get_x() == 0.0);
+        REQUIRE(defaulted.get_y() == 0.0);
+        REQUIRE(defaulted.get_z() == 0.0);
+
+        REQUIRE(non_origin.get_x() == 3.4);
+        REQUIRE(non_origin.get_y() == 4.5);
+        REQUIRE(non_origin.get_z() == 5.6);
+
+        defaulted.set_x(1.0);
+        defaulted.set_y(2.0);
+        defaulted.set_z(3.0);
+        REQUIRE(defaulted.get_x() == 1.0);
+        REQUIRE(defaulted.get_y() == 2.0);
+        REQUIRE(defaulted.get_z() == 3.0);
     }
 
-    SECTION("point() const") {
-        REQUIRE(std::as_const(defaulted).point() == point_type());
-        REQUIRE(std::as_const(origin).point() == point_type(0.0, 0.0, 0.0));
-        REQUIRE(std::as_const(non_origin).point() == point_type(3.4, 4.5, 5.6));
+    SECTION("x()/y()/z() const") {
+        REQUIRE(std::as_const(defaulted).get_x() == 0.0);
+        REQUIRE(std::as_const(defaulted).get_y() == 0.0);
+        REQUIRE(std::as_const(defaulted).get_z() == 0.0);
+
+        REQUIRE(std::as_const(non_origin).get_x() == 3.4);
+        REQUIRE(std::as_const(non_origin).get_y() == 4.5);
+        REQUIRE(std::as_const(non_origin).get_z() == 5.6);
     }
 
     SECTION("operator==") {
@@ -77,10 +98,10 @@ TEST_CASE("GridPoint") {
         REQUIRE(defaulted == GridPoint(0.0, 0.0, 0.0, 0.0));
 
         // Different weights
-        REQUIRE_FALSE(origin == GridPoint(2.3, point_type()));
+        REQUIRE_FALSE(origin == GridPoint(2.3, 0.0, 0.0, 0.0));
 
         // Different points
-        REQUIRE_FALSE(non_origin == GridPoint(2.3, point_type(0.0, 0.0, 0.0)));
+        REQUIRE_FALSE(non_origin == GridPoint(2.3, 0.0, 0.0, 0.0));
     }
 
     SECTION("operator!=") {

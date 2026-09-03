@@ -16,7 +16,8 @@
 
 #pragma once
 #include <chemist/traits/chemist_class_traits.hpp>
-#include <chemist/traits/point_traits.hpp>
+#include <tensorwrapper/tensorwrapper.hpp>
+#include <wtf/wtf.hpp>
 
 namespace chemist {
 
@@ -34,13 +35,12 @@ struct ChemistClassTraits<GridPoint> {
     using const_reference        = const value_type&;
     using view_type              = GridPointView<value_type>;
     using const_view_type        = GridPointView<const value_type>;
-    using weight_type            = double;
-    using weight_reference       = weight_type&;
-    using const_weight_reference = const weight_type&;
-    using weight_pointer         = weight_type*;
-    using const_weight_pointer   = const weight_type*;
-    using point_type             = Point<weight_type>;
-    using point_traits           = ChemistClassTraits<point_type>;
+    using weight_type            = wtf::fp::Float;
+    using weight_reference       = wtf::fp::FloatView<weight_type>;
+    using const_weight_reference = wtf::fp::FloatView<const weight_type>;
+    using coord_type             = wtf::fp::Float;
+    using coord_reference        = wtf::fp::FloatView<coord_type>;
+    using const_coord_reference  = wtf::fp::FloatView<const coord_type>;
 };
 
 template<>
@@ -50,13 +50,12 @@ struct ChemistClassTraits<const GridPoint> {
     using const_reference        = const value_type&;
     using view_type              = GridPointView<const value_type>;
     using const_view_type        = GridPointView<const value_type>;
-    using weight_type            = double;
-    using weight_reference       = const weight_type&;
-    using const_weight_reference = const weight_type&;
-    using weight_pointer         = const weight_type*;
-    using const_weight_pointer   = const weight_type*;
-    using point_type             = Point<weight_type>;
-    using point_traits           = ChemistClassTraits<const point_type>;
+    using weight_type            = wtf::fp::Float;
+    using weight_reference       = wtf::fp::FloatView<const weight_type>;
+    using const_weight_reference = wtf::fp::FloatView<const weight_type>;
+    using coord_type             = wtf::fp::Float;
+    using coord_reference        = wtf::fp::FloatView<const coord_type>;
+    using const_coord_reference  = wtf::fp::FloatView<const coord_type>;
 };
 
 template<>
@@ -68,10 +67,7 @@ struct ChemistClassTraits<Grid> {
     using const_view_type   = GridView<const value_type>;
     using grid_point_type   = GridPoint;
     using grid_point_traits = ChemistClassTraits<grid_point_type>;
-    using point_type        = typename grid_point_traits::point_type;
-    using coord_type        = typename point_type::coord_type;
-    using point_set_type    = PointSet<coord_type>;
-    using point_set_traits  = ChemistClassTraits<point_set_type>;
+    using buffer_type       = tensorwrapper::Tensor;
 };
 
 template<>
@@ -83,10 +79,7 @@ struct ChemistClassTraits<const Grid> {
     using const_view_type   = GridView<const value_type>;
     using grid_point_type   = GridPoint;
     using grid_point_traits = ChemistClassTraits<const grid_point_type>;
-    using point_type        = typename grid_point_traits::point_type;
-    using coord_type        = typename point_type::coord_type;
-    using point_set_type    = PointSet<coord_type>;
-    using point_set_traits  = ChemistClassTraits<const point_set_type>;
+    using buffer_type       = tensorwrapper::Tensor;
 };
 
 } // namespace chemist

@@ -17,7 +17,7 @@
 #pragma once
 #include <chemist/grid/grid_point.hpp>
 #include <chemist/grid/grid_point_view.hpp>
-#include <chemist/point/point_set.hpp>
+#include <chemist/traits/grid_traits.hpp>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
@@ -26,6 +26,12 @@ namespace chemist {
  *
  *  A grid is an ordered set of grid points, where each grid point has
  *  coordinates (presently described in Cartesian coordinates) and a weight.
+ *
+ *  Internally the weights and coordinates of the grid points are stored in
+ *  two tensorwrapper::Tensor objects (one of shape (N) for the weights, one
+ *  of shape (N, 3) for the coordinates). Since Tensor type-erases its scalar
+ *  type (via WeaklyTypedFloat), a Grid can hold values of any WTF-registered
+ *  floating-point type.
  *
  *  @note This class does not attempt to enforce the set-like nature of the
  *  grid (i.e., it will allow duplicate grid points).
@@ -42,12 +48,9 @@ private:
     /// Struct defining the types for a GridPoint
     using grid_point_traits = typename traits_type::grid_point_traits;
 
-    /// Struct defining the types for a PointSet
-    using point_set_traits = typename traits_type::point_set_traits;
-
 public:
-    /// Type storing the Cartesian coordinates of each grid point
-    using point_set_type = typename traits_type::point_set_type;
+    /// Type used to store the weights/coordinates of the grid points
+    using buffer_type = typename traits_type::buffer_type;
 
     /// Type of a grid point
     using value_type = typename traits_type::grid_point_type;
@@ -64,12 +67,32 @@ public:
 
     /** @brief Creates and empty grid object.
      *
-     * This ctor creates an empty Grid object. GridPoints can be added using
-     * push_back.
+     * This ctor creates an empty Grid object.
      *
      * @throw None no throw guarantee
      */
     Grid() = default;
+
+    /** @brief Creates a Grid by wrapping already-populated weight and
+     *         coordinate buffers.
+     *
+     *  This is the ctor that all other (non-default) ctors ultimately
+     *  dispatch to; it is the only ctor whose implementation is not
+     *  templated on the caller's iterator/range types.
+     *
+     *  @param[in] weights A buffer holding the weight of each grid point
+     *                     (size N).
+     *  @param[in] coords A buffer holding the flattened Cartesian
+     *                    coordinates of each grid point (size 3N, i.e.,
+     *                    x0, y0, z0, x1, y1, z1, ...).
+     *
+     *  @throw std::invalid_argument if the size of @p coords is not exactly
+     *                               three times the size of @p weights.
+     *                               Strong throw guarantee.
+     *  @throw std::bad_alloc if there is a problem allocating the state of
+     *                        *this. Strong throw guarantee.
+     */
+    Grid(wtf::buffer::FloatBuffer weights, wtf::buffer::FloatBuffer coords);
 
     /** @brief Creates a Grid from a range of GridPoint objects.
      *
@@ -79,7 +102,9 @@ public:
      *                 grid point.
      *
      *  This ctor will create a new Grid by copying the grid points in the
-     *  range [begin, end).
+     *  range [begin, end). It simply flattens the range into a pair of
+     *  buffers and then dispatches to the (non-templated) buffer ctor to do
+     *  the actual work.
      *
      *  @param[in,out] begin An iterator pointing to the first grid point that
      *                       should be in the Grid. If @p begin was passed by
@@ -92,39 +117,50 @@ public:
      *                        *this. Strong throw guarantee.
      */
     template<typename BeginItr, typename EndItr>
-    Grid(BeginItr&& begin, EndItr&& end) {
-        while(begin != end) {
-            m_weights_.push_back(begin->weight());
-            m_points_.push_back(begin->point());
-            ++begin;
-        }
-    }
+    Grid(BeginItr&& begin, EndItr&& end) :
+      Grid(from_range_(std::forward<BeginItr>(begin),
+                       std::forward<EndItr>(end))) {}
 
 private:
-    /// Type used to store the weight of a grid point
-    using weight_type = typename value_type::weight_type;
-
     /// Allows the base to access the implementations of at_ and size_
     friend base_type;
 
-    /// Implements getting a mutable reference to the i-th grid point
-    reference at_(size_type i) {
-        return reference(m_weights_[i], m_points_[i]);
+    /** @brief Flattens a range of GridPoint objects into a Grid.
+     *
+     *  This is the only piece of *this's logic which must remain templated
+     *  (it needs to work with arbitrary iterator types). As soon as the two
+     *  buffers are populated it hands off to the non-templated buffer ctor.
+     */
+    template<typename BeginItr, typename EndItr>
+    static Grid from_range_(BeginItr begin, EndItr end) {
+        wtf::buffer::FloatBuffer weights;
+        wtf::buffer::FloatBuffer coords;
+        for(; begin != end; ++begin) {
+            weights.push_back(begin->get_weight());
+            coords.push_back(begin->get_x());
+            coords.push_back(begin->get_y());
+            coords.push_back(begin->get_z());
+        }
+        return Grid(std::move(weights), std::move(coords));
     }
+
+    /// Implements getting a mutable reference to the i-th grid point
+    reference at_(size_type i);
 
     /// Implements getting a read-only reference to the i-th grid point
-    const_reference at_(size_type i) const {
-        return const_reference(m_weights_[i], m_points_[i]);
-    }
+    const_reference at_(size_type i) const;
 
     /// Implements determining the number of grid points in *this
-    size_type size_() const noexcept { return m_weights_.size(); }
+    size_type size_() const noexcept;
 
-    /// Holds the weights of the grid points
-    std::vector<weight_type> m_weights_;
+    /// The number of grid points in *this
+    size_type m_size_ = 0;
 
-    /// Holds the Cartesian coordinates of the grid points.
-    point_set_type m_points_;
+    /// Holds the weights of the grid points (shape (N))
+    buffer_type m_weights_;
+
+    /// Holds the Cartesian coordinates of the grid points (shape (N, 3))
+    buffer_type m_points_;
 };
 
 } // namespace chemist

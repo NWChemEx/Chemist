@@ -14,31 +14,32 @@
 
 import unittest
 
-from chemist import GridPoint, PointD
+from chemist import GridPoint
 
 
 class TestGridPoint(unittest.TestCase):
     def test_ctor(self):
-        self.assertEqual(self.defaulted.weight, 0.0)
-        self.assertEqual(self.defaulted.point, PointD())
+        self.assertEqual(self.defaulted.get_weight(), 0.0)
+        self.assertEqual(self.defaulted.get_x(), 0.0)
+        self.assertEqual(self.defaulted.get_y(), 0.0)
+        self.assertEqual(self.defaulted.get_z(), 0.0)
 
-        self.assertEqual(self.from_coords.weight, 1.0)
-        self.assertEqual(self.from_coords.point, PointD(2.0, 3.0, 4.0))
-
-        self.assertEqual(self.from_point.weight, 5.0)
-        self.assertEqual(self.from_point.point, PointD(6.0, 7.0, 8.0))
+        self.assertEqual(self.from_coords.get_weight(), 1.0)
+        self.assertEqual(self.from_coords.get_x(), 2.0)
+        self.assertEqual(self.from_coords.get_y(), 3.0)
+        self.assertEqual(self.from_coords.get_z(), 4.0)
 
     def test_weight(self):
-        self.assertEqual(self.from_coords.weight, 1.0)
-        self.from_coords.weight = 42.0
-        self.assertEqual(self.from_coords.weight, 42.0)
+        self.assertEqual(self.from_coords.get_weight(), 1.0)
+        self.from_coords.set_weight(42.0)
+        self.assertEqual(self.from_coords.get_weight(), 42.0)
 
-    def test_point(self):
-        self.assertEqual(self.from_coords.point, PointD(2.0, 3.0, 4.0))
-        self.from_coords.point = PointD(42.0, 42.0, 42.0)
-        self.assertEqual(self.from_coords.point, PointD(42.0, 42.0, 42.0))
-        self.from_coords.point.x = -1.0
-        self.assertEqual(self.from_coords.point, PointD(-1.0, 42.0, 42.0))
+    def test_coords(self):
+        self.assertEqual(self.from_coords.get_x(), 2.0)
+        self.assertEqual(self.from_coords.get_y(), 3.0)
+        self.assertEqual(self.from_coords.get_z(), 4.0)
+        self.from_coords.set_x(-1.0)
+        self.assertEqual(self.from_coords.get_x(), -1.0)
 
     def test_comparisons(self):
         # Default
@@ -64,4 +65,3 @@ class TestGridPoint(unittest.TestCase):
     def setUp(self):
         self.defaulted = GridPoint()
         self.from_coords = GridPoint(1.0, 2.0, 3.0, 4.0)
-        self.from_point = GridPoint(5.0, PointD(6.0, 7.0, 8.0))

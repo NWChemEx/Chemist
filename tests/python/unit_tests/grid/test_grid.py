@@ -33,8 +33,8 @@ class TestContractedGaussian(unittest.TestCase):
 
         # Returning views?
         view = self.with_inputs.at(1)
-        view.weight = 42.0
-        view.point.z = 42.0
+        view.set_weight(42.0)
+        view.set_z(42.0)
         self.assertEqual(
             self.with_inputs.at(1), GridPoint(42.0, 6.0, 7.0, 42.0)
         )
