@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['operator_3d_3d_0',['operator==',['../classchemist_1_1Electron.html#ae95c75d14876333e38eb76e1f9aa2044',1,'chemist::Electron']]]
+  ['gridpointview_0',['GridPointView',['../classchemist_1_1GridPoint.html#abc67f2d378ad22efc8d08795161ed146',1,'chemist::GridPoint']]]
 ];

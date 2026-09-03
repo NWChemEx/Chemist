@@ -76,6 +76,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="classchemist_1_1GridPoint-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">chemist::GridPoint Class Reference</div></div>
 </div><!--header-->
@@ -88,33 +89,29 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a1b71e4f3a99c5213050ff15880aae7f8" id="r_a1b71e4f3a99c5213050ff15880aae7f8"><td class="memItemLeft" align="right" valign="top"><a id="a1b71e4f3a99c5213050ff15880aae7f8" name="a1b71e4f3a99c5213050ff15880aae7f8"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>point_type</b> = typename <a class="el" href="classchemist_1_1Point.html">traits_type::point_type</a></td></tr>
-<tr class="memdesc:a1b71e4f3a99c5213050ff15880aae7f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type modeling the "point" piece of *this. <br /></td></tr>
-<tr class="separator:a1b71e4f3a99c5213050ff15880aae7f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ab0ebf4537994ec3b2007e47b3d1575" id="r_a8ab0ebf4537994ec3b2007e47b3d1575"><td class="memItemLeft" align="right" valign="top"><a id="a8ab0ebf4537994ec3b2007e47b3d1575" name="a8ab0ebf4537994ec3b2007e47b3d1575"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>point_reference</b> = typename point_traits::reference</td></tr>
-<tr class="memdesc:a8ab0ebf4537994ec3b2007e47b3d1575"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a mutable reference to a point_type object. <br /></td></tr>
-<tr class="separator:a8ab0ebf4537994ec3b2007e47b3d1575"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad999820f34cdea337dde7402bd24bf67" id="r_ad999820f34cdea337dde7402bd24bf67"><td class="memItemLeft" align="right" valign="top"><a id="ad999820f34cdea337dde7402bd24bf67" name="ad999820f34cdea337dde7402bd24bf67"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>const_point_reference</b> = typename point_traits::const_reference</td></tr>
-<tr class="memdesc:ad999820f34cdea337dde7402bd24bf67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to a point_type object. <br /></td></tr>
-<tr class="separator:ad999820f34cdea337dde7402bd24bf67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af79acc8b55ecf2018eb49607c1b888c2" id="r_af79acc8b55ecf2018eb49607c1b888c2"><td class="memItemLeft" align="right" valign="top"><a id="af79acc8b55ecf2018eb49607c1b888c2" name="af79acc8b55ecf2018eb49607c1b888c2"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>coord_type</b> = typename point_traits::coord_type</td></tr>
-<tr class="memdesc:af79acc8b55ecf2018eb49607c1b888c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type *this uses to model each coordinate. <br /></td></tr>
-<tr class="separator:af79acc8b55ecf2018eb49607c1b888c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08eb1e0e5b1aa756149a3180163c4b38" id="r_a08eb1e0e5b1aa756149a3180163c4b38"><td class="memItemLeft" align="right" valign="top"><a id="a08eb1e0e5b1aa756149a3180163c4b38" name="a08eb1e0e5b1aa756149a3180163c4b38"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>coord_type</b> = typename traits_type::coord_type</td></tr>
+<tr class="memdesc:a08eb1e0e5b1aa756149a3180163c4b38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type *this uses to model each coordinate. <br /></td></tr>
+<tr class="separator:a08eb1e0e5b1aa756149a3180163c4b38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84269f6caaba32ee6f7d130155d71340" id="r_a84269f6caaba32ee6f7d130155d71340"><td class="memItemLeft" align="right" valign="top"><a id="a84269f6caaba32ee6f7d130155d71340" name="a84269f6caaba32ee6f7d130155d71340"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>coord_reference</b> = typename traits_type::coord_reference</td></tr>
+<tr class="memdesc:a84269f6caaba32ee6f7d130155d71340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a mutable, aliasing view of a coordinate. <br /></td></tr>
+<tr class="separator:a84269f6caaba32ee6f7d130155d71340"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abce03e3ac27f3fda5e34fc0bb09989e8" id="r_abce03e3ac27f3fda5e34fc0bb09989e8"><td class="memItemLeft" align="right" valign="top"><a id="abce03e3ac27f3fda5e34fc0bb09989e8" name="abce03e3ac27f3fda5e34fc0bb09989e8"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_coord_reference</b> = typename traits_type::const_coord_reference</td></tr>
+<tr class="memdesc:abce03e3ac27f3fda5e34fc0bb09989e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only, aliasing view of a coordinate. <br /></td></tr>
+<tr class="separator:abce03e3ac27f3fda5e34fc0bb09989e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a027a1f197359834f3b4b3456bd4677eb" id="r_a027a1f197359834f3b4b3456bd4677eb"><td class="memItemLeft" align="right" valign="top"><a id="a027a1f197359834f3b4b3456bd4677eb" name="a027a1f197359834f3b4b3456bd4677eb"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>weight_type</b> = typename traits_type::weight_type</td></tr>
 <tr class="memdesc:a027a1f197359834f3b4b3456bd4677eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type *this uses to model the grid point's weight. <br /></td></tr>
 <tr class="separator:a027a1f197359834f3b4b3456bd4677eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58c59d5844d184913163a8241637b4a0" id="r_a58c59d5844d184913163a8241637b4a0"><td class="memItemLeft" align="right" valign="top"><a id="a58c59d5844d184913163a8241637b4a0" name="a58c59d5844d184913163a8241637b4a0"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>weight_reference</b> = typename traits_type::weight_reference</td></tr>
-<tr class="memdesc:a58c59d5844d184913163a8241637b4a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a mutable reference to a weight_type object. <br /></td></tr>
+<tr class="memdesc:a58c59d5844d184913163a8241637b4a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a mutable, aliasing view of the weight. <br /></td></tr>
 <tr class="separator:a58c59d5844d184913163a8241637b4a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd07b555280c83cda2ff6083d5e48160" id="r_acd07b555280c83cda2ff6083d5e48160"><td class="memItemLeft" align="right" valign="top"><a id="acd07b555280c83cda2ff6083d5e48160" name="acd07b555280c83cda2ff6083d5e48160"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>const_weight_reference</b> = typename traits_type::const_weight_reference</td></tr>
-<tr class="memdesc:acd07b555280c83cda2ff6083d5e48160"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to a weight_type object. <br /></td></tr>
+<tr class="memdesc:acd07b555280c83cda2ff6083d5e48160"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only, aliasing view of the weight. <br /></td></tr>
 <tr class="separator:acd07b555280c83cda2ff6083d5e48160"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -122,30 +119,59 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af1acc609f501fceac3f5a0c494835d93" id="r_af1acc609f501fceac3f5a0c494835d93"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1GridPoint.html#af1acc609f501fceac3f5a0c494835d93">GridPoint</a> ()=default</td></tr>
 <tr class="memdesc:af1acc609f501fceac3f5a0c494835d93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a grid point at the origin with a weight of zero.  <br /></td></tr>
 <tr class="separator:af1acc609f501fceac3f5a0c494835d93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37af315e3361a10823d265cf3e22c53b" id="r_a37af315e3361a10823d265cf3e22c53b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1GridPoint.html#a37af315e3361a10823d265cf3e22c53b">GridPoint</a> (<a class="el" href="classchemist_1_1GridPoint.html#a027a1f197359834f3b4b3456bd4677eb">weight_type</a> <a class="el" href="classchemist_1_1GridPoint.html#a1a25cbb21d0ec7951873432c4d7d6aa4">weight</a>, <a class="el" href="classchemist_1_1GridPoint.html#af79acc8b55ecf2018eb49607c1b888c2">coord_type</a> x, <a class="el" href="classchemist_1_1GridPoint.html#af79acc8b55ecf2018eb49607c1b888c2">coord_type</a> y, <a class="el" href="classchemist_1_1GridPoint.html#af79acc8b55ecf2018eb49607c1b888c2">coord_type</a> z)</td></tr>
-<tr class="memdesc:a37af315e3361a10823d265cf3e22c53b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a point from coordinates and a weight.  <br /></td></tr>
+<tr class="memitem:a94611f86bd3a9798faadabc8a399dfd7" id="r_a94611f86bd3a9798faadabc8a399dfd7"><td class="memTemplParams" colspan="2">template&lt;concepts::FloatingPoint T&gt; </td></tr>
+<tr class="memitem:a94611f86bd3a9798faadabc8a399dfd7"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1GridPoint.html#a94611f86bd3a9798faadabc8a399dfd7">GridPoint</a> (T weight, T x, T y, T z)</td></tr>
+<tr class="memdesc:a94611f86bd3a9798faadabc8a399dfd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a point from coordinates and a weight, all of the same concrete floating-point type.  <br /></td></tr>
+<tr class="separator:a94611f86bd3a9798faadabc8a399dfd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37af315e3361a10823d265cf3e22c53b" id="r_a37af315e3361a10823d265cf3e22c53b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1GridPoint.html#a37af315e3361a10823d265cf3e22c53b">GridPoint</a> (<a class="el" href="classchemist_1_1GridPoint.html#a027a1f197359834f3b4b3456bd4677eb">weight_type</a> weight, <a class="el" href="classchemist_1_1GridPoint.html#a08eb1e0e5b1aa756149a3180163c4b38">coord_type</a> x, <a class="el" href="classchemist_1_1GridPoint.html#a08eb1e0e5b1aa756149a3180163c4b38">coord_type</a> y, <a class="el" href="classchemist_1_1GridPoint.html#a08eb1e0e5b1aa756149a3180163c4b38">coord_type</a> z)</td></tr>
+<tr class="memdesc:a37af315e3361a10823d265cf3e22c53b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a point from already type-erased coordinates/weight.  <br /></td></tr>
 <tr class="separator:a37af315e3361a10823d265cf3e22c53b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92f0e231b7416b80c1842773b052a2e9" id="r_a92f0e231b7416b80c1842773b052a2e9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1GridPoint.html#a92f0e231b7416b80c1842773b052a2e9">GridPoint</a> (<a class="el" href="classchemist_1_1GridPoint.html#a027a1f197359834f3b4b3456bd4677eb">weight_type</a> <a class="el" href="classchemist_1_1GridPoint.html#a1a25cbb21d0ec7951873432c4d7d6aa4">weight</a>, <a class="el" href="classchemist_1_1GridPoint.html#a1b71e4f3a99c5213050ff15880aae7f8">point_type</a> <a class="el" href="classchemist_1_1GridPoint.html#ae02ac8dc60e3ad15ac0bf5e4e9f21f81">point</a>)</td></tr>
-<tr class="memdesc:a92f0e231b7416b80c1842773b052a2e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a point from a weight and a <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> object.  <br /></td></tr>
-<tr class="separator:a92f0e231b7416b80c1842773b052a2e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a25cbb21d0ec7951873432c4d7d6aa4" id="r_a1a25cbb21d0ec7951873432c4d7d6aa4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1GridPoint.html#a58c59d5844d184913163a8241637b4a0">weight_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1GridPoint.html#a1a25cbb21d0ec7951873432c4d7d6aa4">weight</a> ()</td></tr>
-<tr class="memdesc:a1a25cbb21d0ec7951873432c4d7d6aa4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the weight of this grid point.  <br /></td></tr>
-<tr class="separator:a1a25cbb21d0ec7951873432c4d7d6aa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6e9119ccdcd31b81e9d19e4db8abe22" id="r_ac6e9119ccdcd31b81e9d19e4db8abe22"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1GridPoint.html#acd07b555280c83cda2ff6083d5e48160">const_weight_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1GridPoint.html#ac6e9119ccdcd31b81e9d19e4db8abe22">weight</a> () const</td></tr>
-<tr class="memdesc:ac6e9119ccdcd31b81e9d19e4db8abe22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the weight of this grid point.  <br /></td></tr>
-<tr class="separator:ac6e9119ccdcd31b81e9d19e4db8abe22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae02ac8dc60e3ad15ac0bf5e4e9f21f81" id="r_ae02ac8dc60e3ad15ac0bf5e4e9f21f81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1GridPoint.html#a8ab0ebf4537994ec3b2007e47b3d1575">point_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1GridPoint.html#ae02ac8dc60e3ad15ac0bf5e4e9f21f81">point</a> ()</td></tr>
-<tr class="memdesc:ae02ac8dc60e3ad15ac0bf5e4e9f21f81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Cartesian coordinates of *this.  <br /></td></tr>
-<tr class="separator:ae02ac8dc60e3ad15ac0bf5e4e9f21f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66d95a0e1f7efd93994975ac9b5fa32a" id="r_a66d95a0e1f7efd93994975ac9b5fa32a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1GridPoint.html#ad999820f34cdea337dde7402bd24bf67">const_point_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1GridPoint.html#a66d95a0e1f7efd93994975ac9b5fa32a">point</a> () const</td></tr>
-<tr class="memdesc:a66d95a0e1f7efd93994975ac9b5fa32a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Cartesian coordinates of *this.  <br /></td></tr>
-<tr class="separator:a66d95a0e1f7efd93994975ac9b5fa32a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ad5f91f624594eeadaf30bf649eb460" id="r_a1ad5f91f624594eeadaf30bf649eb460"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1GridPoint.html#acd07b555280c83cda2ff6083d5e48160">const_weight_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1GridPoint.html#a1ad5f91f624594eeadaf30bf649eb460">get_weight</a> () const</td></tr>
+<tr class="memdesc:a1ad5f91f624594eeadaf30bf649eb460"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the weight of this grid point (read-only).  <br /></td></tr>
+<tr class="separator:a1ad5f91f624594eeadaf30bf649eb460"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8460ef6be9c314defab76f389f0ea3bc" id="r_a8460ef6be9c314defab76f389f0ea3bc"><td class="memTemplParams" colspan="2">template&lt;concepts::FloatingPoint T&gt; </td></tr>
+<tr class="memitem:a8460ef6be9c314defab76f389f0ea3bc"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1GridPoint.html#a8460ef6be9c314defab76f389f0ea3bc">set_weight</a> (T value)</td></tr>
+<tr class="memdesc:a8460ef6be9c314defab76f389f0ea3bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the weight of this grid point to <code>value</code>.  <br /></td></tr>
+<tr class="separator:a8460ef6be9c314defab76f389f0ea3bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac53b9e195a43ae55ae505c906eb9b7e9" id="r_ac53b9e195a43ae55ae505c906eb9b7e9"><td class="memItemLeft" align="right" valign="top"><a id="ac53b9e195a43ae55ae505c906eb9b7e9" name="ac53b9e195a43ae55ae505c906eb9b7e9"></a>
+<a class="el" href="classchemist_1_1GridPoint.html#abce03e3ac27f3fda5e34fc0bb09989e8">const_coord_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_x</b> () const</td></tr>
+<tr class="memdesc:ac53b9e195a43ae55ae505c906eb9b7e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Cartesian x-coordinate of *this (read-only). <br /></td></tr>
+<tr class="separator:ac53b9e195a43ae55ae505c906eb9b7e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a237253d6536e48fae46c4a31301c37bd" id="r_a237253d6536e48fae46c4a31301c37bd"><td class="memTemplParams" colspan="2"><a id="a237253d6536e48fae46c4a31301c37bd" name="a237253d6536e48fae46c4a31301c37bd"></a>
+template&lt;concepts::FloatingPoint T&gt; </td></tr>
+<tr class="memitem:a237253d6536e48fae46c4a31301c37bd"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>set_x</b> (T value)</td></tr>
+<tr class="memdesc:a237253d6536e48fae46c4a31301c37bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the Cartesian x-coordinate of *this to <code>value</code>. <br /></td></tr>
+<tr class="separator:a237253d6536e48fae46c4a31301c37bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a973015bb0dbba3cf8e5553a9b99d6003" id="r_a973015bb0dbba3cf8e5553a9b99d6003"><td class="memItemLeft" align="right" valign="top"><a id="a973015bb0dbba3cf8e5553a9b99d6003" name="a973015bb0dbba3cf8e5553a9b99d6003"></a>
+<a class="el" href="classchemist_1_1GridPoint.html#abce03e3ac27f3fda5e34fc0bb09989e8">const_coord_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_y</b> () const</td></tr>
+<tr class="memdesc:a973015bb0dbba3cf8e5553a9b99d6003"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Cartesian y-coordinate of *this (read-only). <br /></td></tr>
+<tr class="separator:a973015bb0dbba3cf8e5553a9b99d6003"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb7740a92056609a9897a1a23f97eb29" id="r_abb7740a92056609a9897a1a23f97eb29"><td class="memTemplParams" colspan="2"><a id="abb7740a92056609a9897a1a23f97eb29" name="abb7740a92056609a9897a1a23f97eb29"></a>
+template&lt;concepts::FloatingPoint T&gt; </td></tr>
+<tr class="memitem:abb7740a92056609a9897a1a23f97eb29"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>set_y</b> (T value)</td></tr>
+<tr class="memdesc:abb7740a92056609a9897a1a23f97eb29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the Cartesian y-coordinate of *this to <code>value</code>. <br /></td></tr>
+<tr class="separator:abb7740a92056609a9897a1a23f97eb29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bd41411a50102fd8a43498c24f61be2" id="r_a7bd41411a50102fd8a43498c24f61be2"><td class="memItemLeft" align="right" valign="top"><a id="a7bd41411a50102fd8a43498c24f61be2" name="a7bd41411a50102fd8a43498c24f61be2"></a>
+<a class="el" href="classchemist_1_1GridPoint.html#abce03e3ac27f3fda5e34fc0bb09989e8">const_coord_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_z</b> () const</td></tr>
+<tr class="memdesc:a7bd41411a50102fd8a43498c24f61be2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Cartesian z-coordinate of *this (read-only). <br /></td></tr>
+<tr class="separator:a7bd41411a50102fd8a43498c24f61be2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01402a09f75e01d6c211a3c5a5d86f3d" id="r_a01402a09f75e01d6c211a3c5a5d86f3d"><td class="memTemplParams" colspan="2"><a id="a01402a09f75e01d6c211a3c5a5d86f3d" name="a01402a09f75e01d6c211a3c5a5d86f3d"></a>
+template&lt;concepts::FloatingPoint T&gt; </td></tr>
+<tr class="memitem:a01402a09f75e01d6c211a3c5a5d86f3d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>set_z</b> (T value)</td></tr>
+<tr class="memdesc:a01402a09f75e01d6c211a3c5a5d86f3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the Cartesian z-coordinate of *this to <code>value</code>. <br /></td></tr>
+<tr class="separator:a01402a09f75e01d6c211a3c5a5d86f3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af62cf9bebbb83f28ac792026146d2948" id="r_af62cf9bebbb83f28ac792026146d2948"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1GridPoint.html#af62cf9bebbb83f28ac792026146d2948">operator==</a> (const <a class="el" href="classchemist_1_1GridPoint.html">GridPoint</a> &amp;rhs) const noexcept</td></tr>
 <tr class="memdesc:af62cf9bebbb83f28ac792026146d2948"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if <code>rhs</code> and *this are value equal.  <br /></td></tr>
 <tr class="separator:af62cf9bebbb83f28ac792026146d2948"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefece655546c86e4ab687886835d0637" id="r_aefece655546c86e4ab687886835d0637"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1GridPoint.html#aefece655546c86e4ab687886835d0637">operator!=</a> (const <a class="el" href="classchemist_1_1GridPoint.html">GridPoint</a> &amp;rhs) const noexcept</td></tr>
 <tr class="memdesc:aefece655546c86e4ab687886835d0637"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if *this is different from <code>rhs</code>.  <br /></td></tr>
 <tr class="separator:aefece655546c86e4ab687886835d0637"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:abc67f2d378ad22efc8d08795161ed146" id="r_abc67f2d378ad22efc8d08795161ed146"><td class="memTemplParams" colspan="2">template&lt;typename GridPointType &gt; </td></tr>
+<tr class="memitem:abc67f2d378ad22efc8d08795161ed146"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1GridPoint.html#abc67f2d378ad22efc8d08795161ed146">GridPointView</a></td></tr>
+<tr class="separator:abc67f2d378ad22efc8d08795161ed146"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class describing a weighted grid point. </p>
@@ -153,8 +179,10 @@ Public Member Functions</h2></td></tr>
 <li>A weight.</li>
 <li>A x coordinate</li>
 <li>A y coordinate</li>
-<li>A z coordinate </li>
+<li>A z coordinate</li>
 </ul>
+<p>The weight and each coordinate are stored as type-erased WeaklyTypedFloat (WTF) floating-point values (wtf::fp::Float), so a <a class="el" href="classchemist_1_1GridPoint.html" title="Class describing a weighted grid point.">GridPoint</a> may be built from any WTF-registered floating-point type (e.g., float, double, or an interval type), not just double.</p>
+<p>The accessors follow a get/set pattern: <code><a class="el" href="classchemist_1_1GridPoint.html#a1ad5f91f624594eeadaf30bf649eb460" title="Returns the weight of this grid point (read-only).">get_weight()</a></code>/<code><a class="el" href="classchemist_1_1GridPoint.html#ac53b9e195a43ae55ae505c906eb9b7e9" title="Returns the Cartesian x-coordinate of *this (read-only).">get_x()</a></code>/ <code><a class="el" href="classchemist_1_1GridPoint.html#a973015bb0dbba3cf8e5553a9b99d6003" title="Returns the Cartesian y-coordinate of *this (read-only).">get_y()</a></code>/<code><a class="el" href="classchemist_1_1GridPoint.html#a7bd41411a50102fd8a43498c24f61be2" title="Returns the Cartesian z-coordinate of *this (read-only).">get_z()</a></code> are read-only, and <code><a class="el" href="classchemist_1_1GridPoint.html#a8460ef6be9c314defab76f389f0ea3bc" title="Sets the weight of this grid point to value.">set_weight()</a></code>/<code><a class="el" href="classchemist_1_1GridPoint.html#a237253d6536e48fae46c4a31301c37bd" title="Sets the Cartesian x-coordinate of *this to value.">set_x()</a></code>/ <code><a class="el" href="classchemist_1_1GridPoint.html#abb7740a92056609a9897a1a23f97eb29" title="Sets the Cartesian y-coordinate of *this to value.">set_y()</a></code>/<code><a class="el" href="classchemist_1_1GridPoint.html#a01402a09f75e01d6c211a3c5a5d86f3d" title="Sets the Cartesian z-coordinate of *this to value.">set_z()</a></code> mutate the corresponding value in place (via a FloatView, not by assigning a new wtf::fp::Float outright). This matters because wtf::fp::Float's own assignment operator replaces its type-erased holder wholesale, which would invalidate any <a class="el" href="classchemist_1_1GridPointView.html" title="Aliases existing state so it can be used like a GridPoint object.">GridPointView</a> currently aliasing *this; mutating through a FloatView does not. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af1acc609f501fceac3f5a0c494835d93" name="af1acc609f501fceac3f5a0c494835d93"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af1acc609f501fceac3f5a0c494835d93">&#9670;&#160;</a></span>GridPoint() <span class="overload">[1/3]</span></h2>
@@ -182,18 +210,20 @@ Public Member Functions</h2></td></tr>
 <p>Creates a grid point at the origin with a weight of zero. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the state of *this. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a37af315e3361a10823d265cf3e22c53b" name="a37af315e3361a10823d265cf3e22c53b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37af315e3361a10823d265cf3e22c53b">&#9670;&#160;</a></span>GridPoint() <span class="overload">[2/3]</span></h2>
+<a id="a94611f86bd3a9798faadabc8a399dfd7" name="a94611f86bd3a9798faadabc8a399dfd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94611f86bd3a9798faadabc8a399dfd7">&#9670;&#160;</a></span>GridPoint() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;concepts::FloatingPoint T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -201,25 +231,25 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">chemist::GridPoint::GridPoint </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classchemist_1_1GridPoint.html#a027a1f197359834f3b4b3456bd4677eb">weight_type</a>&#160;</td>
+          <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>weight</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classchemist_1_1GridPoint.html#af79acc8b55ecf2018eb49607c1b888c2">coord_type</a>&#160;</td>
+          <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classchemist_1_1GridPoint.html#af79acc8b55ecf2018eb49607c1b888c2">coord_type</a>&#160;</td>
+          <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>y</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classchemist_1_1GridPoint.html#af79acc8b55ecf2018eb49607c1b888c2">coord_type</a>&#160;</td>
+          <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>z</em>&#160;</td>
         </tr>
         <tr>
@@ -235,7 +265,13 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a point from coordinates and a weight. </p>
+<p>Creates a point from coordinates and a weight, all of the same concrete floating-point type. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The concrete floating-point type of <code>weight</code>, <code>x</code>, <code>y</code>, and <code>z</code>. Must satisfy the chemist::concepts::FloatingPoint concept.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">weight</td><td>The weight of the grid point. </td></tr>
@@ -247,15 +283,15 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to allocate the state of the point_type piece of *this. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to allocate the state of *this. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a92f0e231b7416b80c1842773b052a2e9" name="a92f0e231b7416b80c1842773b052a2e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92f0e231b7416b80c1842773b052a2e9">&#9670;&#160;</a></span>GridPoint() <span class="overload">[3/3]</span></h2>
+<a id="a37af315e3361a10823d265cf3e22c53b" name="a37af315e3361a10823d265cf3e22c53b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37af315e3361a10823d265cf3e22c53b">&#9670;&#160;</a></span>GridPoint() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -272,8 +308,20 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classchemist_1_1GridPoint.html#a1b71e4f3a99c5213050ff15880aae7f8">point_type</a>&#160;</td>
-          <td class="paramname"><em>point</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1GridPoint.html#a08eb1e0e5b1aa756149a3180163c4b38">coord_type</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1GridPoint.html#a08eb1e0e5b1aa756149a3180163c4b38">coord_type</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1GridPoint.html#a08eb1e0e5b1aa756149a3180163c4b38">coord_type</a>&#160;</td>
+          <td class="paramname"><em>z</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -288,14 +336,52 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a point from a weight and a <a class="el" href="classchemist_1_1Point.html" title="An object that is associated with a point in 3-D Cartesian space.">Point</a> object. </p>
+<p>Creates a point from already type-erased coordinates/weight. </p>
+<p>This ctor is primarily intended for internal/generic code which has already type-erased the weight/coordinates (e.g., because it received them from another type-erased source) and thus does not know their concrete floating-point type.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">weight</td><td>The weight of the grid point. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">point</td><td>The Cartesian coordinates of the grid point.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The Cartesian x-coordinate of the grid point. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The Cartesian y-coordinate of the grid point. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">z</td><td>The Cartesian z-coordinate of the grid point.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is insufficient memory to allocate the state of *this. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a1ad5f91f624594eeadaf30bf649eb460" name="a1ad5f91f624594eeadaf30bf649eb460"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ad5f91f624594eeadaf30bf649eb460">&#9670;&#160;</a></span>get_weight()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1GridPoint.html#acd07b555280c83cda2ff6083d5e48160">const_weight_reference</a> chemist::GridPoint::get_weight </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the weight of this grid point (read-only). </p>
+<dl class="section return"><dt>Returns</dt><dd>A read-only view of the weight of *this.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
@@ -305,7 +391,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
 <a id="aefece655546c86e4ab687886835d0637" name="aefece655546c86e4ab687886835d0637"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aefece655546c86e4ab687886835d0637">&#9670;&#160;</a></span>operator!=()</h2>
 
@@ -373,7 +458,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Determines if <code>rhs</code> and *this are value equal. </p>
-<p>Two <a class="el" href="classchemist_1_1GridPoint.html" title="Class describing a weighted grid point.">GridPoint</a> objects are value equal if their weights are value equal and if their Cartesian coordinates are value equal. Note that this is a check for exact equality (i.e., to machine epsilon).</p>
+<p>Two <a class="el" href="classchemist_1_1GridPoint.html" title="Class describing a weighted grid point.">GridPoint</a> objects are value equal if their weights are value equal and if their Cartesian coordinates are value equal. Note that this is a check for exact equality (i.e., to machine epsilon), and that two values wrapping different concrete floating-point types are never value equal (see wtf::fp::Float::operator== for more details).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The object to compare to.</td></tr>
@@ -390,19 +475,22 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae02ac8dc60e3ad15ac0bf5e4e9f21f81" name="ae02ac8dc60e3ad15ac0bf5e4e9f21f81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae02ac8dc60e3ad15ac0bf5e4e9f21f81">&#9670;&#160;</a></span>point() <span class="overload">[1/2]</span></h2>
+<a id="a8460ef6be9c314defab76f389f0ea3bc" name="a8460ef6be9c314defab76f389f0ea3bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8460ef6be9c314defab76f389f0ea3bc">&#9670;&#160;</a></span>set_weight()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;concepts::FloatingPoint T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1GridPoint.html#a8ab0ebf4537994ec3b2007e47b3d1575">point_reference</a> chemist::GridPoint::point </td>
+          <td class="memname">void chemist::GridPoint::set_weight </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -413,118 +501,52 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the Cartesian coordinates of *this. </p>
-<dl class="section return"><dt>Returns</dt><dd>A mutable reference to the Cartesian coordinates of *this.</dd></dl>
+<p>Sets the weight of this grid point to <code>value</code>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The concrete floating-point type of <code>value</code>. Must satisfy the chemist::concepts::FloatingPoint concept.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This method mutates the weight of *this in place (via a FloatView), so it does not invalidate any <a class="el" href="classchemist_1_1GridPointView.html" title="Aliases existing state so it can be used like a GridPoint object.">GridPointView</a> that may currently be aliasing *this.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The new value for the weight of *this.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+    <tr><td class="paramname">std::runtime_error</td><td>if <code>T</code> does not match the concrete floating-point type currently held by the weight of *this. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a66d95a0e1f7efd93994975ac9b5fa32a" name="a66d95a0e1f7efd93994975ac9b5fa32a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a66d95a0e1f7efd93994975ac9b5fa32a">&#9670;&#160;</a></span>point() <span class="overload">[2/2]</span></h2>
+<h2 class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="abc67f2d378ad22efc8d08795161ed146" name="abc67f2d378ad22efc8d08795161ed146"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc67f2d378ad22efc8d08795161ed146">&#9670;&#160;</a></span>GridPointView</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename GridPointType &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1GridPoint.html#ad999820f34cdea337dde7402bd24bf67">const_point_reference</a> chemist::GridPoint::point </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td class="memname">friend class <a class="el" href="classchemist_1_1GridPointView.html">GridPointView</a></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Returns the Cartesian coordinates of *this. </p>
-<p>This method is the same as the non-const version except that the result is read-only.</p>
-<dl class="section return"><dt>Returns</dt><dd>A read-only reference to the Cartesian coordinates of *this.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a1a25cbb21d0ec7951873432c4d7d6aa4" name="a1a25cbb21d0ec7951873432c4d7d6aa4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a25cbb21d0ec7951873432c4d7d6aa4">&#9670;&#160;</a></span>weight() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1GridPoint.html#a58c59d5844d184913163a8241637b4a0">weight_reference</a> chemist::GridPoint::weight </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the weight of this grid point. </p>
-<dl class="section return"><dt>Returns</dt><dd>A mutable reference to the weight of *this.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ac6e9119ccdcd31b81e9d19e4db8abe22" name="ac6e9119ccdcd31b81e9d19e4db8abe22"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac6e9119ccdcd31b81e9d19e4db8abe22">&#9670;&#160;</a></span>weight() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1GridPoint.html#acd07b555280c83cda2ff6083d5e48160">const_weight_reference</a> chemist::GridPoint::weight </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the weight of this grid point. </p>
-<p>This method is the same as the non-const version except that the resulting reference is read-only.</p>
-<dl class="section return"><dt>Returns</dt><dd>A read-only reference to the weight of *this.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Grants <a class="el" href="classchemist_1_1GridPointView.html" title="Aliases existing state so it can be used like a GridPoint object.">GridPointView</a> direct access to *this's private state so it can alias it. A public mutable accessor is deliberately not provided (see the class-level note on get/set above). </p>
 
 </div>
 </div>
