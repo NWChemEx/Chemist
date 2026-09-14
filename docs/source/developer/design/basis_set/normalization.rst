@@ -171,7 +171,7 @@ One source of truth
 
    - Each factor should be implemented once.
    - Both :math:`N^{\chi} N^{G}`, which integral libraries expect, and the full
-     product including :math:`A_{ijk}`, which real-space evaluation requires,
+     product including :math:`N^{AO}_{ijk}`, which real-space evaluation requires,
      should come from that one implementation, so that the two cannot drift
      apart.
 
@@ -182,10 +182,10 @@ Consumers stop at different layers
    want different numbers.
 
    - Code evaluating an AO at a point in space needs the full product,
-     :math:`A_{ijk}` included.
+     :math:`N^{AO}_{ijk}` included.
    - Code interfacing with integral libraries needs the product stopped after
      :math:`N^{G}`, since those libraries apply one scalar per shell and their
-     Cartesian-to-spherical coefficients already carry :math:`A_{ijk}`.
+     Cartesian-to-spherical coefficients already carry :math:`N^{AO}_{ijk}`.
    - Both must be available, and it must be unambiguous which is which.
 
 Out of Scope
@@ -220,7 +220,7 @@ Summary
    between conventions produces a new object rather than mutating an existing
    one.
 
-:ref:`n_angular_momentum_in_primitive`:
+:ref:`angular_momentum_in_primitive`
    The primitive normalization factor depends on :math:`\ell` therefore the
    primitive must store it.
 
@@ -230,7 +230,7 @@ Summary
 
 :ref:`n_component_vs_shell`
    ``AOShell`` reports :math:`N^{\chi} N^{G}`; ``AO`` completes the product
-   with :math:`A_{ijk}`. The two consumers want the same product truncated at
+   with :math:`N^{AO}_{ijk}`. The two consumers want the same product truncated at
    different points, not two different calculations.
 
 ***************
