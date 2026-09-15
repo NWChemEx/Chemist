@@ -22,4 +22,5 @@ TEST_CASE("Doc snippets") {
     REQUIRE(nucleus_example() == 0);
     REQUIRE(atom_example() == 0);
     REQUIRE(molecule_example() == 0);
+    REQUIRE(experimental_point_example() == 0);
 }
