@@ -1,0 +1,64 @@
+<!--
+  ~ Copyright 2026 NWChemEx-Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="580" viewBox="0 0 900 580" role="img" aria-label="How the basis set classes participate in Dirac notation">
+  <title>How the basis set classes participate in Dirac notation</title>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1e1e1e"/></marker>
+    <marker id="ahh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#ffffff" stroke="#1e1e1e" stroke-width="1"/></marker>
+  </defs>
+  <rect width="900" height="580" fill="#ffffff"/>
+  <rect x="70" y="50" width="320" height="56" rx="8" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="230" y="74" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#1e1e1e"><tspan x="230" dy="0">Wavefunction</tspan></text>
+  <text x="230" y="93" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="230" dy="0">a single basis function</tspan></text>
+  <rect x="510" y="50" width="320" height="56" rx="8" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="670" y="74" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#1e1e1e"><tspan x="670" dy="0">VectorSpace</tspan></text>
+  <text x="670" y="93" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="670" dy="0">a set of them; adds size()</tspan></text>
+  <rect x="70" y="156" width="320" height="58" rx="8" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="230" y="180" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#1e1e1e"><tspan x="230" dy="0">AO</tspan></text>
+  <text x="230" y="199" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="230" dy="0">CartesianAO, SphericalAO inherit it</tspan></text>
+  <line x1="230" y1="154" x2="230" y2="108" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ahh)"/>
+  <rect x="510" y="156" width="320" height="48" rx="8" fill="#d0bfff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="670" y="185" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="670" dy="0">AOShell</tspan></text>
+  <line x1="488" y1="180" x2="510" y2="180" stroke="#1e1e1e" stroke-width="1.5"/>
+  <rect x="510" y="218" width="320" height="48" rx="8" fill="#d0bfff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="670" y="247" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="670" dy="0">AtomicBasisSet</tspan></text>
+  <line x1="488" y1="242" x2="510" y2="242" stroke="#1e1e1e" stroke-width="1.5"/>
+  <rect x="510" y="280" width="320" height="48" rx="8" fill="#d0bfff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="670" y="309" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="670" dy="0">MolecularBasisSet</tspan></text>
+  <line x1="488" y1="304" x2="510" y2="304" stroke="#1e1e1e" stroke-width="1.5"/>
+  <line x1="488" y1="304" x2="488" y2="108" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ahh)"/>
+  <line x1="508" y1="180" x2="392" y2="180" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+  <text x="450" y="170" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="450" dy="0">elements</tspan></text>
+  <rect x="70" y="258" width="320" height="84" rx="8" fill="#f1f3f5" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="230" y="282" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#5c5f66"><tspan x="230" dy="0">ContractedGaussian</tspan></text>
+  <text x="230" y="303" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#5c5f66"><tspan x="230" dy="0">Primitive</tspan></text>
+  <text x="230" y="326" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#868e96"><tspan x="230" dy="0">ingredients of an AO; derive from neither</tspan></text>
+  <rect x="70" y="392" width="320" height="62" rx="8" fill="#fff9db" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="230" y="416" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="230" dy="0">&lt;AO|O|AO&gt;  -&gt;  one element</tspan></text>
+  <text x="230" y="436" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="230" dy="0">of the tensor</tspan></text>
+  <rect x="510" y="392" width="320" height="62" rx="8" fill="#fff9db" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="670" y="416" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="670" dy="0">&lt;S|O|S&gt;  -&gt;  the tensor</tspan></text>
+  <text x="670" y="436" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="670" dy="0">one index per AO on each side</tspan></text>
+  <line x1="410" y1="400" x2="410" y2="370" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+  <line x1="410" y1="370" x2="230" y2="370" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <line x1="410" y1="400" x2="410" y2="392" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <line x1="670" y1="390" x2="670" y2="334" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+  <text x="450" y="424" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#c92a2a"><tspan x="450" dy="0">x</tspan></text>
+  <text x="450" y="482" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#c92a2a"><tspan x="450" dy="0">mixing the two categories is not expressible today</tspan></text>
+  <text x="70" y="524" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="70" dy="0">Hollow arrow: derives from.   Only the value classes derive; views are materialized before use as a bra or ket.</tspan></text>
+  <text x="70" y="544" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="70" dy="0">Single-function bra-kets do not yet yield a scalar; the alias selecting the result type is still a stub.</tspan></text>
+</svg>
