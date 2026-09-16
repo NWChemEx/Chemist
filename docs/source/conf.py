@@ -146,6 +146,9 @@ htmlhelp_basename = project + "doc"
 
 # -- Options for bibtex ------------------------------------------------------
 
-bibtex_bibfiles = ["bibliography/background.bib"]
+bibtex_bibfiles = [
+    "bibliography/background.bib",
+    "bibliography/basis_set.bib",
+]
 bibtex_reference_style = "super"
 bibtex_default_style = "plain"
