@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chemical System Design &mdash; Chemist 0.0.0 documentation</title>
+  <title>AO Basis Set Background &mdash; Chemist 0.0.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -16,11 +16,12 @@
         <script src="../../../_static/documentation_options.js?v=7026087e"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Design of the AO Basis Set Component" href="../ao_basis_set/index.html" />
-    <link rel="prev" title="Molecule Design" href="molecule.html" /> 
+    <link rel="next" title="Designing Basis Set Normalization" href="normalization.html" />
+    <link rel="prev" title="Design of the Basis Set Component" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -54,15 +55,15 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../point/index.html">Design of the Point Component</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="index.html">Design of the Chemical System Component</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="architecture.html">Architecture of Chemical System Component</a></li>
-<li class="toctree-l4"><a class="reference internal" href="nucleus.html">Designing the Nucleus Component</a></li>
-<li class="toctree-l4"><a class="reference internal" href="molecule.html">Molecule Design</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Chemical System Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Design of the Basis Set Component</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">AO Basis Set Background</a></li>
+<li class="toctree-l4"><a class="reference internal" href="normalization.html">Designing Basis Set Normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ao_hierarchy.html">Designing the AO Class Hierarchy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="matrix_elements.html">Designing Matrix Elements over the Basis Set</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../basis_set/index.html">Design of the Basis Set Component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../topology/index.html">Design of the Topology Component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../fragmenting/index.html">Design of the Fragmenting Component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../quantum_mechanics/index.html">Design of the Quantum Mechanics (QM) Component</a></li>
@@ -97,10 +98,10 @@
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Developer Documentation</a></li>
           <li class="breadcrumb-item"><a href="../index.html">Design Documentation</a></li>
-          <li class="breadcrumb-item"><a href="index.html">Design of the Chemical System Component</a></li>
-      <li class="breadcrumb-item active">Chemical System Design</li>
+          <li class="breadcrumb-item"><a href="index.html">Design of the Basis Set Component</a></li>
+      <li class="breadcrumb-item active">AO Basis Set Background</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../../_sources/developer/design/chemical_system/system.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../../_sources/developer/design/basis_set/background.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -108,57 +109,47 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="chemical-system-design">
-<span id="csd-chemical-system-design"></span><h1>Chemical System Design<a class="headerlink" href="#chemical-system-design" title="Link to this heading"></a></h1>
-<p>The purpose of this page is to collect notes pertaining to the design of the
-<code class="docutils literal notranslate"><span class="pre">ChemicalSystem</span></code> class and its affiliated classes.</p>
-<section id="what-is-a-chemical-system">
-<span id="csd-what-is-a-chemical-system"></span><h2>What is a Chemical System?<a class="headerlink" href="#what-is-a-chemical-system" title="Link to this heading"></a></h2>
-<p>Many quantum chemistry codes talk about the “molecule” as being the input to
-the code; however, in chemistry, molecules are simply sets of atoms. Even with
-the general definition adopted in <a class="reference internal" href="molecule.html#md-what-is-a-molecule"><span class="std std-ref">What is a Molecule?</span></a> there are often
-additional parts to the system being studied – for example external fields –
-that are not captured by the “molecule” concept. We define the chemical system
-to be the entire system we are trying to model. This will almost always
-include a molecule.</p>
+  <section id="ao-basis-set-background">
+<span id="id1"></span><h1>AO Basis Set Background<a class="headerlink" href="#ao-basis-set-background" title="Link to this heading"></a></h1>
+<p>The purpose of this page is to provide a brief introduction to Gaussian-based
+atomic orbital (AO) basis sets. This is primarily intended to establish a
+common vocabulary and notation, rather than to provide a comprehensive review
+of the topic.</p>
+<section id="pieces-of-and-types-of-aos">
+<h2>Pieces of and Types of AOs<a class="headerlink" href="#pieces-of-and-types-of-aos" title="Link to this heading"></a></h2>
+<p>A Cartesian AO, <span class="math notranslate nohighlight">\(\mu_{ijk}(r; d, \zeta)\)</span> is given by:</p>
+<div class="math notranslate nohighlight">
+\[\mu_{ijk}(r; d, \zeta) = N_{ijk}(d, \zeta) x^iy^jz^k G(r; d, \zeta),\]</div>
+<p>where <span class="math notranslate nohighlight">\(N_{ijk}(d, \zeta)\)</span> is a normalization constant,
+<span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(z\)</span> are the Cartesian coordinates,
+<span class="math notranslate nohighlight">\(i+j+k = \ell\)</span> is the orbital quantum number, and <span class="math notranslate nohighlight">\(G(r; d, \zeta)\)</span>
+is a contracted Gaussian function with contraction coefficients <span class="math notranslate nohighlight">\(d\)</span> and
+exponents <span class="math notranslate nohighlight">\(\zeta\)</span>. The contracted Gaussian function is given by:</p>
+<div class="math notranslate nohighlight">
+\[G(r; d, \zeta) = \sum_p d_p \chi_p(r; \zeta_p),\]</div>
+<p>where <span class="math notranslate nohighlight">\(\chi_p\)</span> is the primitive Gaussian function with exponent
+<span class="math notranslate nohighlight">\(\zeta_p\)</span>. The primitive Gaussian function is given by:</p>
+<div class="math notranslate nohighlight">
+\[\chi_p(r; \zeta_p) = e^{-\zeta_p r^2}.\]</div>
+<p>A spherical AO, <span class="math notranslate nohighlight">\(\mu_{\ell m}(r; d, \zeta)\)</span> is usually written as a
+linear combination of Cartesian AOs with the same orbital quantum number:</p>
+<div class="math notranslate nohighlight">
+\[\mu_{\ell m}(r; d,\zeta_p) = \sum_{i+j+k=\ell}
+    c^{(ijk)}_{\ell m} \mu_{ijk}(r; d, \zeta_p),\]</div>
+<p>where the sum is over all possible combinations of <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(j\)</span>, and
+<span class="math notranslate nohighlight">\(k\)</span> such that <span class="math notranslate nohighlight">\(i+j+k = \ell\)</span>. The <span class="math notranslate nohighlight">\(c\)</span> coefficients are the
+transformation coefficients from Cartesian to spherical AOs and include a
+normalization constant.</p>
 </section>
-<section id="chemical-system-design-considerations">
-<span id="csd-considerations"></span><h2>Chemical System Design Considerations<a class="headerlink" href="#chemical-system-design-considerations" title="Link to this heading"></a></h2>
-<dl class="simple" id="cs-molecule">
-<dt>Molecule</dt><dd><p>Following usual quantum chemistry conventions we define the molecule as all
-the atoms in the system, whether they are covalently bonded or not. In this
-sense a molecule is just a set of atoms. The molecule should describe the
-properties of the nuclei and the electrons comprising it.</p>
-</dd>
-</dl>
-<dl class="simple" id="cs-periodic">
-<dt>Periodicity</dt><dd><p>Periodic molecules (in the <a class="reference internal" href="#cs-molecule"><span class="std std-ref">Molecule</span></a> sense of the word) require
-one to specify the molecule (again in the <a class="reference internal" href="#cs-molecule"><span class="std std-ref">Molecule</span></a> sense) which
-forms the unit cell’s contents, as well as the shape of the unit cell.</p>
-</dd>
-</dl>
-<dl class="simple" id="cs-fields">
-<dt>Fields</dt><dd><p>Rather than explicitly model the environment a molecular system is embedded
-in, we often treat that environment via a field. Important examples include:</p>
-<ul class="simple">
-<li><p>Electric field, from say point charges</p></li>
-<li><p>Magnetic field, from say an NMR experiment</p></li>
-<li><p>Polarizable continuum, from PCM</p></li>
-</ul>
-</dd>
-</dl>
-<section id="out-of-scope-considerations">
-<h3>Out of Scope Considerations<a class="headerlink" href="#out-of-scope-considerations" title="Link to this heading"></a></h3>
-<p>The considerations in this section were considered in the design, but ultimately
-ignored or thought to be better addressed by another component.</p>
-<dl class="simple">
-<dt>Model parameters</dt><dd><p>In many cases it is a fine-line between model parameters and the system
-being modeled. Generally speaking we prefer to treat model parameters
-separate from the chemical system when they can be clearly distinguished.
-Of note the AO basis set is considered separately.</p>
-</dd>
-</dl>
-</section>
+<section id="how-are-basis-sets-stored">
+<span id="id2"></span><h2>How are Basis Sets Stored?<a class="headerlink" href="#how-are-basis-sets-stored" title="Link to this heading"></a></h2>
+<p>Computers didn’t use to be as powerful as they are today and as a result
+chemists had to be clever about how they represented data. Long story short,
+they decided to implicitly store as much of the AO as possible. In practice,
+this means that only the parameters for the <span class="math notranslate nohighlight">\(G\)</span> piece are stored
+explicitly. For a given atomic basis set, e.g. cc-pVDZ, it is the explicit
+state of <span class="math notranslate nohighlight">\(G`which is stored, for example on the Basis Set Exchange (BSE)
+website :cite:`pritchard2019new\)</span>.</p>
 </section>
 </section>
 
@@ -166,8 +157,8 @@ Of note the AO basis set is considered separately.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="molecule.html" class="btn btn-neutral float-left" title="Molecule Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../ao_basis_set/index.html" class="btn btn-neutral float-right" title="Design of the AO Basis Set Component" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Design of the Basis Set Component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="normalization.html" class="btn btn-neutral float-right" title="Designing Basis Set Normalization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

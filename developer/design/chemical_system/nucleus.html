@@ -54,6 +54,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../point/index.html">Design of the Point Component</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="index.html">Design of the Chemical System Component</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="architecture.html">Architecture of Chemical System Component</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Designing the Nucleus Component</a></li>
@@ -62,6 +63,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basis_set/index.html">Design of the Basis Set Component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../topology/index.html">Design of the Topology Component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../fragmenting/index.html">Design of the Fragmenting Component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../quantum_mechanics/index.html">Design of the Quantum Mechanics (QM) Component</a></li>
@@ -187,11 +189,11 @@ added to the hierarchy to handle more realistic approximations.</p>
 <figure class="align-center" id="id2">
 <span id="fig-nucleus-component"></span><img alt="../../../_images/nucleus.png" src="../../../_images/nucleus.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Classes comprising the Nucleus component of Chemist.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Classes comprising the Nucleus component of Chemist.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>The classes of the Nucleus component are shown in
-<a class="reference internal" href="#fig-nucleus-component"><span class="std std-numref">Fig. 4</span></a>. The figure divides the classes into two
+<a class="reference internal" href="#fig-nucleus-component"><span class="std std-numref">Fig. 5</span></a>. The figure divides the classes into two
 categories those which are part of the public API and those which are needed to
 implement the public API. The following subsections contain more details about
 the various classes.</p>
@@ -209,7 +211,7 @@ to wrap existing data in objects and have those objects be used as if they are
 <figure class="align-center" id="id3">
 <span id="fig-nuclei-view-pimpls"></span><img alt="../../../_images/nuclei_view_pimpls.png" src="../../../_images/nuclei_view_pimpls.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Class hierarchy implementing NucleiView.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Class hierarchy implementing NucleiView.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>Generally speaking we do not usually deal with a single nucleus, we deal with a

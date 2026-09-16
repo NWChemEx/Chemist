@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designing Matrix Elements over the Basis Set &mdash; Chemist 0.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=7026087e"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Design of the Topology Component" href="../topology/index.html" />
+    <link rel="prev" title="Designing the AO Class Hierarchy" href="ao_hierarchy.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installing Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../point/index.html">Design of the Point Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Design of the Basis Set Component</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="background.html">AO Basis Set Background</a></li>
+<li class="toctree-l4"><a class="reference internal" href="normalization.html">Designing Basis Set Normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ao_hierarchy.html">Designing the AO Class Hierarchy</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Designing Matrix Elements over the Basis Set</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../topology/index.html">Design of the Topology Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fragmenting/index.html">Design of the Fragmenting Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quantum_mechanics/index.html">Design of the Quantum Mechanics (QM) Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dsl.html">DSL Component</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../writing_views.html">Creating a New View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../the_traits_component.html">Understanding the Traits Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../adding_an_operator.html">Notes on Adding an Operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exposing_operators.html">Exposing Operators to Python</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Chemist Tutorials</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Chemist</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Developer Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Design Documentation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Design of the Basis Set Component</a></li>
+      <li class="breadcrumb-item active">Designing Matrix Elements over the Basis Set</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/developer/design/basis_set/matrix_elements.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="designing-matrix-elements-over-the-basis-set">
+<span id="designing-basis-set-matrix-elements"></span><h1>Designing Matrix Elements over the Basis Set<a class="headerlink" href="#designing-matrix-elements-over-the-basis-set" title="Link to this heading"></a></h1>
+<p>This section contains notes on how the classes of
+<a class="reference internal" href="ao_hierarchy.html#designing-the-ao-class-hierarchy"><span class="std std-ref">Designing the AO Class Hierarchy</span></a> participate in Chemist’s
+<code class="docutils literal notranslate"><span class="pre">quantum_mechanics</span></code> component, so that matrix elements can be requested over
+them.</p>
+<section id="what-are-we-trying-to-enable">
+<h2>What are we trying to enable?<a class="headerlink" href="#what-are-we-trying-to-enable" title="Link to this heading"></a></h2>
+<p>Chemist expresses a requested quantity in Dirac notation, as a <code class="docutils literal notranslate"><span class="pre">BraKet</span></code>
+object templated on the types of the bra, the operator, and the ket. Evaluating
+such an object is somebody else’s job; constructing one is a way of <em>saying</em>
+what is wanted.</p>
+<p>What we want is to be able to say it at every level at which it is meaningful.
+The overlap of two AOs, of two shells, of two centers, or of two whole basis
+sets are all things a caller might reasonably ask for, and they should all be
+expressible the same way, without the caller first having to wrap anything.</p>
+</section>
+<section id="previous-solution-the-adapter">
+<h2>Previous Solution: the Adapter<a class="headerlink" href="#previous-solution-the-adapter" title="Link to this heading"></a></h2>
+<p>Historically the AO basis set classes were introduced before the
+<code class="docutils literal notranslate"><span class="pre">quantum_mechanics</span></code> component was designed, and the two were connected by
+an adapter class, <code class="docutils literal notranslate"><span class="pre">wavefunction::AOs</span></code>. In refactoring the AO basis set classes
+we want to avoid the need for an adapter.</p>
+</section>
+<section id="matrix-element-considerations">
+<span id="id1"></span><h2>Matrix Element Considerations<a class="headerlink" href="#matrix-element-considerations" title="Link to this heading"></a></h2>
+<p>Topics in this section were considered and ultimately were addressed by the
+design.</p>
+<dl class="simple" id="me-one-or-many">
+<dt>One function or a set of them</dt><dd><p>A class participates by being either a single basis function or a set of
+them, and which it is determines which base class it derives from.</p>
+<ul class="simple">
+<li><p>An AO is a single basis function.</p></li>
+<li><p>A shell, an atomic basis set, and a molecular basis set are each a set of
+functions.</p></li>
+<li><p>The split is a property of the class, not a choice, so it should not be
+configurable.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="me-ao-is-the-floor">
+<dt>The AO is the smallest unit</dt><dd><p>Not everything in the hierarchy is a basis function. A primitive and a
+contracted Gaussian are ingredients of one.</p>
+<ul class="simple">
+<li><p>Neither has an angular part, so neither denotes a particular function
+until it is paired with one. Admitting them as bras and kets would mean
+inventing a rule for which function they stand for, and that rule would be
+an artifact of the notation rather than anything physical.</p></li>
+<li><p>The AO is also the smallest thing the rest of the library indexes by, as
+<a class="reference internal" href="ao_hierarchy.html#designing-the-ao-class-hierarchy"><span class="std std-ref">Designing the AO Class Hierarchy</span></a> argues, so it is the natural floor
+for a notation whose purpose is to name tensor elements.</p></li>
+<li><p>So the radial classes take part in building AOs and nothing more.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="me-no-adapter">
+<dt>No adapter class</dt><dd><p>Following from <a class="reference internal" href="#me-one-or-many"><span class="std std-ref">One function or a set of them</span></a>, the classes should derive from the
+base classes themselves.</p>
+<ul class="simple">
+<li><p>A caller should be able to hand a shell, or an AO, straight to the
+notation.</p></li>
+<li><p>Introducing a parallel set of wrapper types would double the number of
+classes and reintroduce the problem the adapter already has: the wrapper
+participates and the thing it wraps does not.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="me-ownership">
+<dt>A bra-ket owns its state</dt><dd><p>A <code class="docutils literal notranslate"><span class="pre">BraKet</span></code> is a value which can outlive the expression that produced it.</p>
+<ul class="simple">
+<li><p>Whatever occupies the bra or ket slot must own what it describes.</p></li>
+<li><p>Per <a class="reference internal" href="ao_hierarchy.html#aoh-value-view"><span class="std std-ref">Value and view semantics</span></a> most of the hierarchy also has aliasing forms,
+and those are exactly the wrong thing to store in a long-lived object.</p></li>
+</ul>
+</dd>
+</dl>
+<section id="out-of-scope">
+<h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Link to this heading"></a></h3>
+<p>Topics in this section were considered, but do not play a role in the current
+design.</p>
+<dl class="simple">
+<dt>Matrix elements over the radial classes</dt><dd><p>Per <a class="reference internal" href="#me-ao-is-the-floor"><span class="std std-ref">The AO is the smallest unit</span></a>, <code class="docutils literal notranslate"><span class="pre">Primitive</span></code> and <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> do
+not participate. Should a use case appear which genuinely wants a bra-ket
+over one of them, the mechanism is the same as for <code class="docutils literal notranslate"><span class="pre">AO</span></code> — derive from
+<code class="docutils literal notranslate"><span class="pre">Wavefunction</span></code> and supply the two hooks — but it would also have to
+settle what function the object denotes, which is the reason it is excluded
+now rather than any technical obstacle.</p>
+</dd>
+<dt>Evaluating the matrix elements</dt><dd><p>Constructing a <code class="docutils literal notranslate"><span class="pre">BraKet</span></code> states what is wanted. Producing a number is the
+business of whichever module claims the resulting property type, and is not
+designed here.</p>
+</dd>
+<dt>Mixing the two categories</dt><dd><p>Chemist’s existing traits admit a bra-ket only when the bra and the ket are
+both single functions or both sets. Asking for one AO against a whole basis
+set — a row of a matrix — is not expressible today, and making it so
+would mean changing the <code class="docutils literal notranslate"><span class="pre">quantum_mechanics</span></code> component rather than the
+basis set component.</p>
+</dd>
+<dt>The scalar result type</dt><dd><p>As noted below, single-function bra-kets do not presently produce a scalar.
+Fixing that is a change to <code class="docutils literal notranslate"><span class="pre">quantum_mechanics</span></code>.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="matrix-element-design">
+<h2>Matrix Element Design<a class="headerlink" href="#matrix-element-design" title="Link to this heading"></a></h2>
+<figure class="align-center" id="id2">
+<span id="fig-matrix-element-design"></span><img alt="../../../_images/matrix_elements.svg" src="../../../_images/matrix_elements.svg" /><figcaption>
+<p><span class="caption-number">Fig. 10 </span><span class="caption-text">Which base class each level of the hierarchy derives from, and what the
+resulting bra-kets denote.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#fig-matrix-element-design"><span class="std std-numref">Fig. 10</span></a> summarizes the design.</p>
+<section id="which-class-derives-from-which-base">
+<h3>Which class derives from which base<a class="headerlink" href="#which-class-derives-from-which-base" title="Link to this heading"></a></h3>
+<p>Per <a class="reference internal" href="#me-one-or-many"><span class="std std-ref">One function or a set of them</span></a> and <a class="reference internal" href="#me-ao-is-the-floor"><span class="std std-ref">The AO is the smallest unit</span></a>, the classes fall into
+three groups rather than two.</p>
+<p><code class="docutils literal notranslate"><span class="pre">AO</span></code> derives from <code class="docutils literal notranslate"><span class="pre">Wavefunction</span></code>, and is the only class which does.</p>
+<p>The sets derive from <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">AOShell</span></code>, and hence <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> and its siblings</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">Primitive</span></code> and <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> derive from neither. They remain what
+<a class="reference internal" href="ao_hierarchy.html#designing-the-ao-class-hierarchy"><span class="std std-ref">Designing the AO Class Hierarchy</span></a> makes them: the parts an <code class="docutils literal notranslate"><span class="pre">AO</span></code> is
+built from.</p>
+<p><code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code> requires a <code class="docutils literal notranslate"><span class="pre">size</span></code>, which is the number of AOs: the AOs in the
+shell, the AOs on the center, or the AOs in the basis set respectively. This is
+the same quantity the existing adapter forwards, now supplied by the object
+itself.</p>
+</section>
+<section id="what-the-base-classes-ask-for">
+<h3>What the base classes ask for<a class="headerlink" href="#what-the-base-classes-ask-for" title="Link to this heading"></a></h3>
+<p>Both base classes ask their derived classes for the same two things: a way to
+copy themselves polymorphically, and a way to compare themselves to another
+object of the same type. <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code> adds <code class="docutils literal notranslate"><span class="pre">size</span></code>.</p>
+<p>Chemist already factors those first two out. <code class="docutils literal notranslate"><span class="pre">detail_::WavefunctionImpl</span></code> is a
+CRTP helper which implements both in terms of the derived class’s copy
+constructor and <code class="docutils literal notranslate"><span class="pre">operator==</span></code>, and <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code> offers an equivalent
+comparison helper. The basis set classes already have both a copy constructor
+and an <code class="docutils literal notranslate"><span class="pre">operator==</span></code>, so deriving through those helpers costs nothing beyond
+the declaration.</p>
+</section>
+<section id="values-not-views">
+<h3>Values, not views<a class="headerlink" href="#values-not-views" title="Link to this heading"></a></h3>
+<p>Per <a class="reference internal" href="#me-ownership"><span class="std std-ref">A bra-ket owns its state</span></a>, only the value classes derive from the base classes.
+The view classes do not.</p>
+<p>This is deliberate. A <code class="docutils literal notranslate"><span class="pre">BraKet</span></code> stores its bra and ket, and a view is a
+handle to storage owned by something else; a bra-ket holding a view would be
+valid only as long as whatever it aliases. Requiring a value in the bra and ket
+slots makes that lifetime question disappear.</p>
+<p>The cost is that using a view as a bra or ket means materializing it first,
+which copies. That is the right default: the copy is explicit, it is local to
+constructing the bra-ket, and the alternative is a dangling reference that
+nothing would catch.</p>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><a class="reference internal" href="#me-one-or-many"><span class="std std-ref">One function or a set of them</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">AO</span></code> derives from <code class="docutils literal notranslate"><span class="pre">Wavefunction</span></code>; <code class="docutils literal notranslate"><span class="pre">AOShell</span></code>, <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code> derive from <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code>, whose <code class="docutils literal notranslate"><span class="pre">size</span></code> is the
+number of AOs. An <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> is therefore a <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code> whose elements
+are <code class="docutils literal notranslate"><span class="pre">Wavefunction</span></code> objects.</p>
+</dd>
+<dt><a class="reference internal" href="#me-ao-is-the-floor"><span class="std std-ref">The AO is the smallest unit</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">Primitive</span></code> and <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> derive from neither. They are
+ingredients of a basis function rather than basis functions, and admitting
+them would require stipulating which function they stand for.</p>
+</dd>
+<dt><a class="reference internal" href="#me-no-adapter"><span class="std std-ref">No adapter class</span></a></dt><dd><p>The classes derive from the base classes directly, so the
+<code class="docutils literal notranslate"><span class="pre">wavefunction::AOs</span></code> adapter is removed rather than replaced, and a shell
+or an AO can be handed to the notation as-is.</p>
+</dd>
+<dt><a class="reference internal" href="#me-ownership"><span class="std std-ref">A bra-ket owns its state</span></a></dt><dd><p>Only the value classes derive; views are materialized before being used as a
+bra or a ket, so a bra-ket never outlives what it describes.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ao_hierarchy.html" class="btn btn-neutral float-left" title="Designing the AO Class Hierarchy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../topology/index.html" class="btn btn-neutral float-right" title="Design of the Topology Component" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

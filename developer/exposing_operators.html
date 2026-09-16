@@ -139,7 +139,7 @@ arguments end up in its Python name. The naive approach looks like:</p>
 </div>
 <figure class="align-center" id="id1">
 <span id="fig-operator-dispatch-names"></span><img alt="../_images/operator_dispatch_names.svg" src="../_images/operator_dispatch_names.svg" /><figcaption>
-<p><span class="caption-number">Fig. 18 </span><span class="caption-text">Naively, every C++ instantiation surfaces as its own Python name. Now the
+<p><span class="caption-number">Fig. 21 </span><span class="caption-text">Naively, every C++ instantiation surfaces as its own Python name. Now the
 instantiations are still exported, under underscore-prefixed names, that the
 Python user never sees. Python users only see the name of the operator.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
@@ -157,7 +157,7 @@ source files.</p></li>
 <h2>Solution<a class="headerlink" href="#solution" title="Link to this heading"></a></h2>
 <figure class="align-center" id="id2">
 <span id="fig-operator-dispatch-flow"></span><img alt="../_images/operator_dispatch_flow.svg" src="../_images/operator_dispatch_flow.svg" /><figcaption>
-<p><span class="caption-number">Fig. 19 </span><span class="caption-text">One construction call, from Python syntax to a concrete C++ object.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+<p><span class="caption-number">Fig. 22 </span><span class="caption-text">One construction call, from Python syntax to a concrete C++ object.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>Our solution uses two pieces of standard Python machinery, <code class="docutils literal notranslate"><span class="pre">__new__</span></code> and
@@ -278,7 +278,7 @@ one today:</p>
 instantiations, and all three have to agree.</p>
 <figure class="align-center" id="id3">
 <span id="fig-operator-dispatch-tables"></span><img alt="../_images/operator_dispatch_tables.svg" src="../_images/operator_dispatch_tables.svg" /><figcaption>
-<p><span class="caption-number">Fig. 20 </span><span class="caption-text">The same set of instantiations is written down three times. Each omission
+<p><span class="caption-number">Fig. 23 </span><span class="caption-text">The same set of instantiations is written down three times. Each omission
 fails in a different way, and only one of them fails at build time.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
 </figcaption>
 </figure>

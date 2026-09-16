@@ -1,0 +1,78 @@
+<!--
+  ~ Copyright 2026 NWChemEx-Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700" role="img" aria-label="Classes comprising the AO basis set component">
+  <title>Classes comprising the AO basis set component</title>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1e1e1e"/></marker>
+    <marker id="ahh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#ffffff" stroke="#1e1e1e" stroke-width="1"/></marker>
+  </defs>
+  <rect width="900" height="700" fill="#ffffff"/>
+  <rect x="45" y="52" width="240" height="58" rx="8" fill="#d0bfff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="165" y="76" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="165" dy="0">MolecularBasisSet</tspan></text>
+  <text x="165" y="95" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="165" dy="0">atomic basis sets</tspan></text>
+  <rect x="45" y="130" width="240" height="58" rx="8" fill="#d0bfff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="165" y="154" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="165" dy="0">AtomicBasisSet</tspan></text>
+  <text x="165" y="173" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="165" dy="0">shells; owns the Point</tspan></text>
+  <rect x="45" y="208" width="240" height="58" rx="8" fill="#d0bfff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="165" y="232" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="165" dy="0">AOShell</tspan></text>
+  <text x="165" y="251" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="165" dy="0">l, purity, convention</tspan></text>
+  <line x1="165" y1="110" x2="165" y2="128" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ah)"/>
+  <line x1="165" y1="188" x2="165" y2="206" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ah)"/>
+  <rect x="45" y="294" width="240" height="56" rx="8" fill="#d0bfff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="165" y="317" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="165" dy="0">CCAShell</tspan></text>
+  <text x="165" y="336" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="165" dy="0">offset -&gt; (i,j,k) or m_l</tspan></text>
+  <line x1="165" y1="292" x2="165" y2="268" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ahh)"/>
+  <text x="295" y="320" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="295" dy="0">one derived class per ordering;</tspan></text>
+  <text x="295" y="338" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="295" dy="0">the order becomes part of the type</tspan></text>
+  <rect x="360" y="214" width="220" height="62" rx="8" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="470" y="238" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#1e1e1e"><tspan x="470" dy="0">AO</tspan></text>
+  <text x="470" y="258" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="470" dy="0">l, center, N, evaluate</tspan></text>
+  <line x1="287" y1="240" x2="358" y2="245" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text x="313" y="230" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" fill="#5c5f66"><tspan x="313" dy="0">n</tspan></text>
+  <rect x="330" y="360" width="250" height="76" rx="8" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="455" y="385" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="455" dy="0">CartesianAO</tspan></text>
+  <text x="455" y="405" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="455" dy="0">(i, j, k)</tspan></text>
+  <text x="455" y="425" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#1864ab"><tspan x="455" dy="0">N_AO_ijk</tspan></text>
+  <rect x="640" y="360" width="232" height="76" rx="8" fill="#ffe3e3" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="756" y="385" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="756" dy="0">SphericalAO</tspan></text>
+  <text x="756" y="405" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="756" dy="0">m_l</tspan></text>
+  <text x="756" y="425" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="756" dy="0">applies the transform</tspan></text>
+  <line x1="455" y1="358" x2="432" y2="280" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ahh)"/>
+  <line x1="700" y1="358" x2="520" y2="280" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ahh)"/>
+  <rect x="330" y="486" width="250" height="68" rx="8" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="455" y="513" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="455" dy="0">ContractedGaussian</tspan></text>
+  <text x="455" y="533" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#1864ab"><tspan x="455" dy="0">owns l;  N_G</tspan></text>
+  <rect x="330" y="590" width="250" height="64" rx="8" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="455" y="615" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="455" dy="0">Primitive</tspan></text>
+  <text x="455" y="635" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#1864ab"><tspan x="455" dy="0">d_p, zeta_p;  N_chi</tspan></text>
+  <line x1="455" y1="588" x2="455" y2="556" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text x="464" y="576" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" fill="#5c5f66"><tspan x="464" dy="0">p</tspan></text>
+  <line x1="455" y1="484" x2="455" y2="438" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+  <text x="464" y="466" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="464" dy="0">pairs with (i,j,k)</tspan></text>
+  <line x1="756" y1="358" x2="756" y2="196" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <line x1="756" y1="196" x2="205" y2="196" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <line x1="205" y1="196" x2="205" y2="206" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+  <text x="360" y="188" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="360" dy="0">pairs a Cartesian AOShell with m_l</tspan></text>
+  <rect x="620" y="486" width="252" height="100" rx="8" fill="#fff9db" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="746" y="510" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#1e1e1e"><tspan x="746" dy="0">The transform coefficients</tspan></text>
+  <text x="746" y="529" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#1e1e1e"><tspan x="746" dy="0">already carry N_AO_ijk, so the</tspan></text>
+  <text x="746" y="548" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#1e1e1e"><tspan x="746" dy="0">Cartesian shell beneath must be</tspan></text>
+  <text x="746" y="567" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#1e1e1e"><tspan x="746" dy="0">in the 'contracted' convention.</tspan></text>
+  <line x1="746" y1="484" x2="746" y2="440" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+  <text x="45" y="668" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="45" dy="0">Solid arrow: contains / inherits.   Dashed arrow: is built on.   n = one per AO in the shell, p = one per primitive.</tspan></text>
+  <text x="45" y="688" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="45" dy="0">Not shown: every class also has a View form sharing a CRTP Common base. Blue marks the normalization factor each class owns.</tspan></text>
+</svg>

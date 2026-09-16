@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designing the AO Class Hierarchy &mdash; Chemist 0.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=7026087e"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Designing Matrix Elements over the Basis Set" href="matrix_elements.html" />
+    <link rel="prev" title="Designing Basis Set Normalization" href="normalization.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installing Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../point/index.html">Design of the Point Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Design of the Basis Set Component</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="background.html">AO Basis Set Background</a></li>
+<li class="toctree-l4"><a class="reference internal" href="normalization.html">Designing Basis Set Normalization</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Designing the AO Class Hierarchy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="matrix_elements.html">Designing Matrix Elements over the Basis Set</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../topology/index.html">Design of the Topology Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fragmenting/index.html">Design of the Fragmenting Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quantum_mechanics/index.html">Design of the Quantum Mechanics (QM) Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dsl.html">DSL Component</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../writing_views.html">Creating a New View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../the_traits_component.html">Understanding the Traits Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../adding_an_operator.html">Notes on Adding an Operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exposing_operators.html">Exposing Operators to Python</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Chemist Tutorials</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Chemist</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Developer Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Design Documentation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Design of the Basis Set Component</a></li>
+      <li class="breadcrumb-item active">Designing the AO Class Hierarchy</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/developer/design/basis_set/ao_hierarchy.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="designing-the-ao-class-hierarchy">
+<span id="id1"></span><h1>Designing the AO Class Hierarchy<a class="headerlink" href="#designing-the-ao-class-hierarchy" title="Link to this heading"></a></h1>
+<p>This section contains notes on the classes which represent an AO basis set.</p>
+<section id="what-are-we-representing">
+<h2>What are we representing?<a class="headerlink" href="#what-are-we-representing" title="Link to this heading"></a></h2>
+<p><a class="reference internal" href="background.html#ao-basis-set-background"><span class="std std-ref">AO Basis Set Background</span></a> describes an AO as a layered object: primitive
+Gaussians <span class="math notranslate nohighlight">\(\chi_p\)</span> combine into a contracted Gaussian <span class="math notranslate nohighlight">\(G\)</span>, which is
+combined with a Cartesian polynomial to give a Cartesian AO. Optionally, a
+spherical AO can be formed by taking a linear combination of Cartesian AOs.
+AOs (Cartesian or spherical) sharing a contracted Gaussian and a total angular
+momentum form a shell, shells sharing a center are an atomic basis set, and the
+collection of all atomic basis sets is the molecular basis set.</p>
+<p>The classes in this component mirror that structure one-for-one, so that each
+concept in the background page has a class and each relationship between
+concepts is a relationship between classes.</p>
+</section>
+<section id="why-make-the-aos-explicit">
+<h2>Why make the AOs explicit?<a class="headerlink" href="#why-make-the-aos-explicit" title="Link to this heading"></a></h2>
+<p>Historically the AOs in a shell have been stored implicitly. A shell records a
+total angular momentum, a purity flag, and the parameters for the contracted
+Gaussian.</p>
+<p>This leads to several problems:</p>
+<p>First, it leaves the count of AOs and the identity of AOs in two different
+places. A shell can say how many AOs it has, but not what the third one <em>is</em>.
+Every consumer which cares about individual AOs — and real-space evaluation,
+property calculations, and anything reporting per-orbital quantities all care
+— ends up reimplementing the mapping from offset to angular momentum, and
+each implementation is an opportunity to order them differently.</p>
+<p>Second, it makes normalization inexpressible. As
+<a class="reference internal" href="normalization.html#designing-basis-set-normalization"><span class="std std-ref">Designing Basis Set Normalization</span></a> shows, one of the three factors
+depends on the individual Cartesian powers, so it differs between the AOs of a
+single shell. With no object per AO there is nowhere to put that factor, which
+is precisely why the prevailing convention drops it.</p>
+</section>
+<section id="ao-class-hierarchy-considerations">
+<span id="ao-hierarchy-considerations"></span><h2>AO Class Hierarchy Considerations<a class="headerlink" href="#ao-class-hierarchy-considerations" title="Link to this heading"></a></h2>
+<p>Topics in this section were considered in designing the class hierarchy and
+ultimately were addressed by the design.</p>
+<dl class="simple" id="aoh-explicit-aos">
+<dt>Explicit AOs</dt><dd><p>An AO should be an object, not an offset.</p>
+<ul class="simple">
+<li><p>It should be possible to obtain the <span class="math notranslate nohighlight">\(n\)</span>-th AO of a shell, of an
+atomic basis set, or of a molecular basis set, and to ask that object
+about itself.</p></li>
+<li><p>An AO should be able to report its own angular momentum: the Cartesian
+powers <span class="math notranslate nohighlight">\((i,j,k)\)</span> if it is Cartesian, the component <span class="math notranslate nohighlight">\(m_\ell\)</span>
+if it is spherical.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="aoh-two-kinds-of-ao">
+<dt>Two kinds of AO, one interface</dt><dd><p>Following from <a class="reference internal" href="#aoh-explicit-aos"><span class="std std-ref">Explicit AOs</span></a>, Cartesian and spherical AOs are not
+the same kind of object, but most code does not care which it has.</p>
+<ul class="simple">
+<li><p>A Cartesian AO is a contracted Gaussian paired with a monomial. A
+spherical AO is a linear combination of the Cartesian AOs of its shell.
+They are built differently and carry different state.</p></li>
+<li><p>Nevertheless both are AOs: both have a center, a total angular momentum, a
+normalization constant, and a value at a point. Code wanting only those
+should not have to know which kind it holds.</p></li>
+<li><p>So the two need a common base, with the differences confined to the
+derived types.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="aoh-composition">
+<dt>An AO is built by composition</dt><dd><p>Following from <a class="reference internal" href="#aoh-two-kinds-of-ao"><span class="std std-ref">Two kinds of AO, one interface</span></a>, each kind of AO is built by
+pairing something shared with an index that selects one function out of it.</p>
+<ul class="simple">
+<li><p>A Cartesian AO pairs a contracted Gaussian with the powers
+<span class="math notranslate nohighlight">\((i,j,k)\)</span>.</p></li>
+<li><p>A spherical AO pairs the Cartesian shell of its angular momentum with the
+component <span class="math notranslate nohighlight">\(m_\ell\)</span>.</p></li>
+<li><p>Both pairings are constrained to agree on <span class="math notranslate nohighlight">\(\ell\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="aoh-shared-radial">
+<dt>The shared part is shared, not copied</dt><dd><p>Following from <a class="reference internal" href="#aoh-composition"><span class="std std-ref">An AO is built by composition</span></a>, the first half of each pairing is
+common to a whole shell of AOs.</p>
+<ul class="simple">
+<li><p>Materializing the AOs must not copy it once per AO. A shell of <span class="math notranslate nohighlight">\(f\)</span>
+functions would otherwise hold ten copies of the same exponents, and a
+spherical shell would hold seven copies of the same Cartesian shell.</p></li>
+<li><p>More importantly, the copies could drift. Editing a shell’s exponents must
+change every AO built on it, because physically they are one function.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="aoh-transform-coupling">
+<dt>The spherical transform assumes a convention</dt><dd><p>Following from <a class="reference internal" href="#aoh-composition"><span class="std std-ref">An AO is built by composition</span></a>, a spherical AO is defined by
+coefficients multiplying Cartesian AOs, and those coefficients are not
+convention-free.</p>
+<ul class="simple">
+<li><p>The standard transformation coefficients <span id="id2"><sup><a class="reference internal" href="normalization.html#id10" title="H. B. Schlegel and M. J. Frisch. Transformation between Cartesian and pure spherical harmonic Gaussians. International Journal of Quantum Chemistry, 54:83–87, 1995. doi:10.1002/qua.560540202.">4</a></sup></span>
+have <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span> built into them, so they assume the Cartesian AOs
+they multiply are normalized only up to <span class="math notranslate nohighlight">\(N^{G}\)</span>.</p></li>
+<li><p>Handing them Cartesian AOs which are individually normalized applies
+<span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span> twice, which is silent and wrong.</p></li>
+<li><p>Whatever owns the transform must therefore also know, and be able to
+guarantee, the convention of the Cartesian AOs it is transforming.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="aoh-angular-momentum-storage">
+<dt>Angular momentum is stored once</dt><dd><p><a class="reference internal" href="normalization.html#angular-momentum-in-primitive"><span class="std std-ref">Angular momentum in primitive</span></a> establishes that a primitive needs
+<span class="math notranslate nohighlight">\(\ell\)</span> in order to normalize itself. Every primitive in a contraction
+shares that <span class="math notranslate nohighlight">\(\ell\)</span>.</p>
+<ul class="simple">
+<li><p>Storing <span class="math notranslate nohighlight">\(\ell\)</span> in each primitive would duplicate it, with the usual
+risk of the copies disagreeing.</p></li>
+<li><p>It should be stored once per contraction, with primitives reaching it
+rather than owning it. A primitive which is not part of a contraction has
+nothing to reach, and must own its own.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="aoh-center-ownership">
+<dt>The center is stored once</dt><dd><p>All the AOs on a center are centered on the same point, and that point
+moves when the atom does.</p>
+<ul class="simple">
+<li><p>The center should be stored once per center, not once per primitive.</p></li>
+<li><p>Lower levels of the hierarchy should see it rather than own it, so that
+moving the center moves everything built on it.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="aoh-ordering">
+<dt>AO ordering is part of the design</dt><dd><p>Tensors in an AO basis inherit their index ordering from the basis set, so
+two tensors are only compatible if their bases agree on the order of the
+AOs.</p>
+<ul class="simple">
+<li><p>The order in which a shell enumerates its AOs must be defined, documented,
+and stable.</p></li>
+<li><p>It must match what the integral libraries expect, since a reordering
+applied to only one of the two would be silent.</p></li>
+<li><p>There is no single right answer. Codes disagree, and libint alone can be
+built against several mutually incompatible choices, so the design must
+accommodate more than one rather than picking one and hard-coding it.</p></li>
+<li><p>Because a mismatch is silent, the ordering is worth making visible to the
+type system rather than leaving it as a runtime property to be checked, or
+not checked, by each consumer.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="aoh-normalization-placement">
+<dt>Each level owns its normalization factor</dt><dd><p><a class="reference internal" href="normalization.html#designing-basis-set-normalization"><span class="std std-ref">Designing Basis Set Normalization</span></a> factors the normalization constant
+into one term per layer of the hierarchy.</p>
+<ul class="simple">
+<li><p>Each class should own the factor its layer introduces, so that the
+factorization and the class structure agree.</p></li>
+<li><p>The convention in force is a property of a shell, since a shell is the
+smallest object owning a complete set of AOs sharing a radial part.</p></li>
+</ul>
+</dd>
+</dl>
+<dl id="aoh-value-view">
+<dt>Value and view semantics</dt><dd><p>Following from <a class="reference internal" href="#aoh-shared-radial"><span class="std std-ref">The shared part is shared, not copied</span></a>, most of what a caller handles will
+be an alias into something larger rather than an independent object.</p>
+<ul class="simple">
+<li><p>Every class in the hierarchy needs both an owning form and an aliasing
+form, with the same API.</p></li>
+<li><p>The shared API should be written once rather than once per form, and
+should not cost a virtual call, since which form a caller holds is always
+known at compile time.</p></li>
+</ul>
+<p>This is the same pattern, and the same reasoning, as
+<a class="reference internal" href="../point/point.html#designing-the-point-component"><span class="std std-ref">Designing the Point Component</span></a>.</p>
+</dd>
+</dl>
+<dl class="simple" id="aoh-flattening">
+<dt>Flattening</dt><dd><p>Much of the infrastructure which consumes basis sets is function-based and
+operates on flat arrays of primitives.</p>
+<ul class="simple">
+<li><p>Each level of the hierarchy should be able to present the primitives
+beneath it as a flat sequence, regardless of the nesting.</p></li>
+</ul>
+</dd>
+</dl>
+<section id="out-of-scope">
+<h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Link to this heading"></a></h3>
+<p>Topics in this section were considered, but do not play a role in the current
+design.</p>
+<dl class="simple">
+<dt>General contractions</dt><dd><p>The design assumes segmented contractions: each contracted Gaussian owns its
+primitives, and shells do not share them. General contractions would need a
+class parallel to <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> which is keyed into the sharing.</p>
+</dd>
+<dt>Mixed purity within a shell</dt><dd><p>A shell is either Cartesian or spherical. Shells which mix the two are not
+represented.</p>
+</dd>
+<dt>Effective core potentials</dt><dd><p>ECPs are basis-set-specific state which would most naturally attach to
+<code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>, but are not represented.</p>
+</dd>
+<dt>Non-Gaussian AOs</dt><dd><p>The hierarchy is specific to Gaussians. Slater or numerical orbitals would
+need their own radial types, though the radial/angular split and the AO
+layer above it would carry over.</p>
+</dd>
+<dt>Vector space behavior</dt><dd><p>These classes will also participate in the <code class="docutils literal notranslate"><span class="pre">quantum_mechanics</span></code> component,
+so that matrix elements can be requested over them. That is the subject of a
+separate page and is not designed here.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="ao-class-hierarchy-design">
+<h2>AO Class Hierarchy Design<a class="headerlink" href="#ao-class-hierarchy-design" title="Link to this heading"></a></h2>
+<figure class="align-center" id="id3">
+<span id="fig-ao-hierarchy-design"></span><img alt="../../../_images/ao_hierarchy.svg" src="../../../_images/ao_hierarchy.svg" /><figcaption>
+<p><span class="caption-number">Fig. 9 </span><span class="caption-text">Classes comprising the AO basis set component, and how a shell shares one
+contracted Gaussian across its AOs.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#fig-ao-hierarchy-design"><span class="std std-numref">Fig. 9</span></a> shows the classes and their relationships.</p>
+<section id="the-radial-classes">
+<h3>The radial classes<a class="headerlink" href="#the-radial-classes" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Primitive</span></code> holds a contraction coefficient <span class="math notranslate nohighlight">\(d_p\)</span>, an exponent
+<span class="math notranslate nohighlight">\(\zeta_p\)</span>, a center, and the angular momentum <span class="math notranslate nohighlight">\(\ell\)</span> it is to be
+paired with. It owns the factor <span class="math notranslate nohighlight">\(N^{\chi}(\zeta_p; \ell)\)</span>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> is a container of <code class="docutils literal notranslate"><span class="pre">Primitive</span></code> objects sharing a center
+and an <span class="math notranslate nohighlight">\(\ell\)</span>. It owns the factor <span class="math notranslate nohighlight">\(N^{G}(d, \zeta; \ell)\)</span>, which
+per <a class="reference internal" href="normalization.html#designing-basis-set-normalization"><span class="std std-ref">Designing Basis Set Normalization</span></a> depends on the whole contraction
+at once and so could not belong to any one primitive.</p>
+<p>Per <a class="reference internal" href="#aoh-angular-momentum-storage"><span class="std std-ref">Angular momentum is stored once</span></a>, <span class="math notranslate nohighlight">\(\ell\)</span> is stored by the
+contracted Gaussian, and the <code class="docutils literal notranslate"><span class="pre">Primitive</span></code> objects a contracted Gaussian hands
+out are views which reach it. A standalone <code class="docutils literal notranslate"><span class="pre">Primitive</span></code> value owns its own
+<span class="math notranslate nohighlight">\(\ell\)</span>. The same applies to the center, per
+<a class="reference internal" href="#aoh-center-ownership"><span class="std std-ref">The center is stored once</span></a>: it is owned at the <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code> level and
+seen by everything below.</p>
+</section>
+<section id="the-ao-classes">
+<h3>The AO classes<a class="headerlink" href="#the-ao-classes" title="Link to this heading"></a></h3>
+<p>Per <a class="reference internal" href="#aoh-two-kinds-of-ao"><span class="std std-ref">Two kinds of AO, one interface</span></a>, <code class="docutils literal notranslate"><span class="pre">AO</span></code> is an abstract base with two concrete
+derived classes. The base provides what every AO has regardless of kind:</p>
+<ul class="simple">
+<li><p>the total angular momentum <span class="math notranslate nohighlight">\(\ell\)</span>,</p></li>
+<li><p>the center,</p></li>
+<li><p>the contracted Gaussian it is ultimately built on,</p></li>
+<li><p>its normalization constant,</p></li>
+<li><p>its value at a point,</p></li>
+</ul>
+<p>together with the usual <code class="docutils literal notranslate"><span class="pre">clone</span></code> and comparison, matching the idiom already
+used by <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code> and <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code> elsewhere in Chemist. Code which
+only needs those never learns which kind it holds.</p>
+<p><code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> pairs a <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> with the powers
+<span class="math notranslate nohighlight">\((i,j,k)\)</span>, which is the pairing of <a class="reference internal" href="#aoh-composition"><span class="std std-ref">An AO is built by composition</span></a>. It reports
+those powers, and it owns the factor <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span>, which per
+<a class="reference internal" href="normalization.html#designing-basis-set-normalization"><span class="std std-ref">Designing Basis Set Normalization</span></a> is the only factor distinguishing the
+members of a shell.</p>
+<p><code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> pairs a Cartesian <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> with a component
+<span class="math notranslate nohighlight">\(m_\ell\)</span>. It reports <span class="math notranslate nohighlight">\(m_\ell\)</span>, and its value is the linear
+combination</p>
+<div class="math notranslate nohighlight">
+\[\mu_{\ell m}(r; d,\zeta) = \sum_{i+j+k=\ell}
+    c^{(ijk)}_{\ell m}\, \mu_{ijk}(r; d, \zeta)\]</div>
+<p>from <a class="reference internal" href="background.html#ao-basis-set-background"><span class="std std-ref">AO Basis Set Background</span></a>, taken over the Cartesian AOs of that
+shell. The coefficients <span class="math notranslate nohighlight">\(c^{(ijk)}_{\ell m}\)</span> are a fixed function of
+<span class="math notranslate nohighlight">\((\ell, m_\ell, i, j, k)\)</span> and are computed rather than stored, so a
+<code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> adds only <span class="math notranslate nohighlight">\(m_\ell\)</span> to the shell it references.</p>
+<p>The two derived classes are therefore the same shape: something shared, plus an
+index selecting one function out of it. What differs is what is shared — a
+contracted Gaussian in one case, a Cartesian shell in the other.</p>
+<p>Per <a class="reference internal" href="#aoh-transform-coupling"><span class="std std-ref">The spherical transform assumes a convention</span></a>, a <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> is only meaningful if the
+Cartesian shell beneath it is in the <code class="docutils literal notranslate"><span class="pre">contracted</span></code> convention, since the
+coefficients it applies already carry <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span>. Because
+<code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> holds that shell and the shell records its convention, this is
+checkable rather than assumed, and is checked on construction.</p>
+<p>Note this also means a <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> reaches its contracted Gaussian through
+its Cartesian shell, all of whose AOs share one. The base class accessor is
+therefore well defined for both kinds.</p>
+</section>
+<section id="the-container-classes">
+<h3>The container classes<a class="headerlink" href="#the-container-classes" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">AOShell</span></code> is a container of <code class="docutils literal notranslate"><span class="pre">AO</span></code> sharing a total angular momentum and a
+purity. The purity determines both what it contains and what it is built on:</p>
+<ul class="simple">
+<li><p>A Cartesian shell holds one <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> and contains the
+<span class="math notranslate nohighlight">\((\ell+1)(\ell+2)/2\)</span> <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> objects built from it.</p></li>
+<li><p>A spherical shell holds one Cartesian <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> and contains the
+<span class="math notranslate nohighlight">\(2\ell+1\)</span> <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> objects built from it.</p></li>
+</ul>
+<p>The second case nests: a spherical shell owns the Cartesian shell its AOs
+transform, and that Cartesian shell owns the contracted Gaussian. So there is
+still exactly one contracted Gaussian per shell however deep it sits.</p>
+<p>Per <a class="reference internal" href="#aoh-shared-radial"><span class="std std-ref">The shared part is shared, not copied</span></a>, neither level copies what it shares. Indexing a
+Cartesian shell returns a <code class="docutils literal notranslate"><span class="pre">CartesianAOView</span></code> whose contracted Gaussian is a
+<code class="docutils literal notranslate"><span class="pre">ContractedGaussianView</span></code> aliasing the shell’s one copy; indexing a spherical
+shell returns a <code class="docutils literal notranslate"><span class="pre">SphericalAOView</span></code> aliasing the one Cartesian shell. Editing
+the exponents once is visible through every AO above them.</p>
+<p><code class="docutils literal notranslate"><span class="pre">AOShell</span></code> also carries the normalization convention in force, per
+<a class="reference internal" href="#aoh-normalization-placement"><span class="std std-ref">Each level owns its normalization factor</span></a>, and can report the product
+<span class="math notranslate nohighlight">\(N^{\chi} N^{G}\)</span> which integral libraries expect. For a spherical shell
+this is also what <a class="reference internal" href="#aoh-transform-coupling"><span class="std std-ref">The spherical transform assumes a convention</span></a> requires of the Cartesian shell
+underneath it.</p>
+</section>
+<section id="ordering-as-a-type">
+<h3>Ordering as a type<a class="headerlink" href="#ordering-as-a-type" title="Link to this heading"></a></h3>
+<p>Per <a class="reference internal" href="#aoh-ordering"><span class="std std-ref">AO ordering is part of the design</span></a>, <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> is itself abstract, and its derived
+classes are the orderings. The base owns all of the state described above and
+all of the behavior which does not depend on the order; what a derived class
+supplies is one thing only: the map from an offset within the shell to the
+angular index at that offset. For a Cartesian shell that is the powers
+<span class="math notranslate nohighlight">\((i,j,k)\)</span>; for a spherical shell it is the component <span class="math notranslate nohighlight">\(m_\ell\)</span>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> implements the Common Component Architecture ordering, which is
+what libint calls its <em>standard</em> ordering. Its Cartesian order is generated by
+letting <span class="math notranslate nohighlight">\(i\)</span> run from <span class="math notranslate nohighlight">\(\ell\)</span> down to zero and, within each
+<span class="math notranslate nohighlight">\(i\)</span>, letting <span class="math notranslate nohighlight">\(j\)</span> run from <span class="math notranslate nohighlight">\(\ell - i\)</span> down to zero:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\ell = 1:&amp;\quad x,\; y,\; z \\
+\ell = 2:&amp;\quad xx,\; xy,\; xz,\; yy,\; yz,\; zz \\
+\ell = 3:&amp;\quad xxx,\; xxy,\; xxz,\; xyy,\; xyz,\; xzz,\;
+                yyy,\; yyz,\; yzz,\; zzz\end{split}\]</div>
+<p>and its spherical order runs <span class="math notranslate nohighlight">\(m_\ell\)</span> from <span class="math notranslate nohighlight">\(-\ell\)</span> to
+<span class="math notranslate nohighlight">\(+\ell\)</span>.</p>
+<p>Other orderings become other derived classes. Libint alone can be built against
+several — its GAMESS, ORCA, and BAGEL Cartesian orderings, and its Gaussian
+solid harmonic ordering, which runs <span class="math notranslate nohighlight">\(m_\ell\)</span> as <span class="math notranslate nohighlight">\(0, +1, -1, +2,
+-2, \ldots\)</span> rather than monotonically — and each is a candidate for a class
+alongside <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code>.</p>
+<p>Making the ordering a type rather than a stored enumerator is deliberate. Per
+<a class="reference internal" href="#aoh-ordering"><span class="std std-ref">AO ordering is part of the design</span></a> a disagreement about order is silent, and the whole point
+of encoding it in the type is that a function which requires one ordering
+cannot be handed another. A tensor built over a <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> basis and one
+built over a GAMESS-ordered basis are not interchangeable, and that is
+something the compiler can enforce rather than something each consumer must
+remember to check.</p>
+<p>The cost is that a container of <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> can, in principle, hold shells of
+different orderings. That is not meaningful, and <code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code> treats
+it the same way it treats a mixture of normalization conventions: it can be
+asked whether all of its shells agree, and the answer is part of what makes a
+basis set usable with a given integral library.</p>
+<p><code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code> is a container of <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> sharing one center, and owns
+the <code class="docutils literal notranslate"><span class="pre">Point</span></code> per <a class="reference internal" href="#aoh-center-ownership"><span class="std std-ref">The center is stored once</span></a>. It also carries the basis set
+name and atomic number, which are per-center rather than per-shell because
+mixing basis sets across centers is not unusual.</p>
+<p><code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code> is a container of <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>. It reports totals
+— numbers of AOs, shells, and primitives — and can be asked whether all of
+its shells agree on a normalization convention.</p>
+<p>Every container also offers a flattened view of the primitives beneath it, per
+<a class="reference internal" href="#aoh-flattening"><span class="std std-ref">Flattening</span></a>.</p>
+</section>
+<section id="factoring-the-api">
+<h3>Factoring the API<a class="headerlink" href="#factoring-the-api" title="Link to this heading"></a></h3>
+<p>Per <a class="reference internal" href="#aoh-value-view"><span class="std std-ref">Value and view semantics</span></a>, every class above comes as a value/view pair whose
+shared API is written once in a CRTP base, exactly as described in
+<a class="reference internal" href="../point/point.html#designing-the-point-component"><span class="std std-ref">Designing the Point Component</span></a>. <code class="docutils literal notranslate"><span class="pre">PrimitiveCommon&lt;DerivedType&gt;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ContractedGaussianCommon&lt;DerivedType&gt;</span></code>, and so on implement the API in terms
+of whatever the derived class provides for reaching its state; the value class
+reaches into storage it owns and the view class into storage it does not.</p>
+<p>Two kinds of polymorphism are therefore in play, and it is worth being explicit
+that they are orthogonal.</p>
+<p>The value/view distinction is resolved at compile time through the CRTP bases,
+because which of the two a caller holds is always known statically and a
+virtual call there would be pure overhead.</p>
+<p>The kind distinctions — Cartesian versus spherical at the AO layer, and which
+ordering at the shell layer — are resolved through abstract bases. So
+<code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> and <code class="docutils literal notranslate"><span class="pre">CartesianAOView</span></code> share one
+<code class="docutils literal notranslate"><span class="pre">CartesianAOCommon&lt;DerivedType&gt;</span></code> and both derive from <code class="docutils literal notranslate"><span class="pre">AO</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> and <code class="docutils literal notranslate"><span class="pre">CCAShellView</span></code> share one <code class="docutils literal notranslate"><span class="pre">CCAShellCommon&lt;DerivedType&gt;</span></code> and
+both derive from <code class="docutils literal notranslate"><span class="pre">AOShell</span></code>. In each case the CRTP base carries the API and
+the abstract base carries the kind.</p>
+<p>The two abstract bases are there for different reasons, though. <code class="docutils literal notranslate"><span class="pre">AO</span></code> is
+polymorphic because a shell genuinely does not know which kind of AO it holds
+until it is built. <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> is polymorphic so that the ordering reaches the
+type system, per <a class="reference internal" href="#aoh-ordering"><span class="std std-ref">AO ordering is part of the design</span></a>; code which knows statically that it wants
+CCA ordering can say <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> and never pay for dispatch at all.</p>
+<p>The views compose. A <code class="docutils literal notranslate"><span class="pre">ContractedGaussianView</span></code> obtained from a
+<code class="docutils literal notranslate"><span class="pre">CartesianAOView</span></code> obtained from an <code class="docutils literal notranslate"><span class="pre">AOShellView</span></code> still aliases the one
+contracted Gaussian in the original shell, and for a spherical shell the chain
+simply has one more link in it.</p>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><a class="reference internal" href="#aoh-explicit-aos"><span class="std std-ref">Explicit AOs</span></a></dt><dd><p>AOs are real objects, obtainable by indexing a shell, an atomic basis set,
+or a molecular basis set, and able to report their own angular momentum:
+<code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> reports <span class="math notranslate nohighlight">\((i,j,k)\)</span> and <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> reports
+<span class="math notranslate nohighlight">\(m_\ell\)</span>.</p>
+</dd>
+<dt><a class="reference internal" href="#aoh-two-kinds-of-ao"><span class="std std-ref">Two kinds of AO, one interface</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">AO</span></code> is an abstract base providing <span class="math notranslate nohighlight">\(\ell\)</span>, the center, the
+contracted Gaussian, the normalization constant, and the value at a point.
+<code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> and <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> derive from it, so code needing only the
+common interface never learns which kind it holds.</p>
+</dd>
+<dt><a class="reference internal" href="#aoh-composition"><span class="std std-ref">An AO is built by composition</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> pairs a <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> with <span class="math notranslate nohighlight">\((i,j,k)\)</span>;
+<code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> pairs a Cartesian <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> with <span class="math notranslate nohighlight">\(m_\ell\)</span>. Both
+check that the two halves agree on <span class="math notranslate nohighlight">\(\ell\)</span>.</p>
+</dd>
+<dt><a class="reference internal" href="#aoh-shared-radial"><span class="std std-ref">The shared part is shared, not copied</span></a></dt><dd><p>A Cartesian shell stores one <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> and a spherical shell
+stores one Cartesian shell; the AOs above them hold views, so no copies
+exist to drift.</p>
+</dd>
+<dt><a class="reference internal" href="#aoh-transform-coupling"><span class="std std-ref">The spherical transform assumes a convention</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> holds the Cartesian shell it transforms, and that shell
+records its normalization convention, so the requirement that it be
+<code class="docutils literal notranslate"><span class="pre">contracted</span></code> is checked on construction rather than assumed.</p>
+</dd>
+<dt><a class="reference internal" href="#aoh-angular-momentum-storage"><span class="std std-ref">Angular momentum is stored once</span></a></dt><dd><p><span class="math notranslate nohighlight">\(\ell\)</span> is stored once per contracted Gaussian; the primitives it
+contains reach it rather than owning it.</p>
+</dd>
+<dt><a class="reference internal" href="#aoh-center-ownership"><span class="std std-ref">The center is stored once</span></a></dt><dd><p>The center is owned by <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>; everything below sees it as a view.</p>
+</dd>
+<dt><a class="reference internal" href="#aoh-ordering"><span class="std std-ref">AO ordering is part of the design</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">AOShell</span></code> is abstract and its derived classes are the orderings, so the
+order a shell enumerates its AOs in is part of its type. <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code>
+implements the Common Component Architecture ordering; other conventions
+become sibling classes. <code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code> can be asked whether all of
+its shells agree.</p>
+</dd>
+<dt><a class="reference internal" href="#aoh-normalization-placement"><span class="std std-ref">Each level owns its normalization factor</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">Primitive</span></code> owns <span class="math notranslate nohighlight">\(N^{\chi}\)</span>, <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> owns
+<span class="math notranslate nohighlight">\(N^{G}\)</span>, <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> owns <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span>, and every <code class="docutils literal notranslate"><span class="pre">AO</span></code>
+reports its full constant. <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> carries the convention.</p>
+</dd>
+<dt><a class="reference internal" href="#aoh-value-view"><span class="std std-ref">Value and view semantics</span></a></dt><dd><p>Every class is a value/view pair sharing one CRTP-implemented API, following
+<a class="reference internal" href="../point/point.html#designing-the-point-component"><span class="std std-ref">Designing the Point Component</span></a>.</p>
+</dd>
+<dt><a class="reference internal" href="#aoh-flattening"><span class="std std-ref">Flattening</span></a></dt><dd><p>Every container can present the primitives beneath it as a flat sequence.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="normalization.html" class="btn btn-neutral float-left" title="Designing Basis Set Normalization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="matrix_elements.html" class="btn btn-neutral float-right" title="Designing Matrix Elements over the Basis Set" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

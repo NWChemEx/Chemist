@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designing Basis Set Normalization &mdash; Chemist 0.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=7026087e"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Designing the AO Class Hierarchy" href="ao_hierarchy.html" />
+    <link rel="prev" title="AO Basis Set Background" href="background.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installing Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Chemist Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Design Documentation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html">Architecture of Chemist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../point/index.html">Design of the Point Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chemical_system/index.html">Design of the Chemical System Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ao_basis_set/index.html">Design of the AO Basis Set Component</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Design of the Basis Set Component</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="background.html">AO Basis Set Background</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Designing Basis Set Normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ao_hierarchy.html">Designing the AO Class Hierarchy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="matrix_elements.html">Designing Matrix Elements over the Basis Set</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../topology/index.html">Design of the Topology Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fragmenting/index.html">Design of the Fragmenting Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quantum_mechanics/index.html">Design of the Quantum Mechanics (QM) Component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dsl.html">DSL Component</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing_the_chemical_system_component.html">Developing the Chemical System Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../writing_views.html">Creating a New View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../the_traits_component.html">Understanding the Traits Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../adding_an_operator.html">Notes on Adding an Operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exposing_operators.html">Exposing Operators to Python</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://nwchemex.github.io/.github/">NWChemEx author documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Chemist Tutorials</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Chemist</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Developer Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Design Documentation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Design of the Basis Set Component</a></li>
+      <li class="breadcrumb-item active">Designing Basis Set Normalization</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/developer/design/basis_set/normalization.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="designing-basis-set-normalization">
+<span id="id1"></span><h1>Designing Basis Set Normalization<a class="headerlink" href="#designing-basis-set-normalization" title="Link to this heading"></a></h1>
+<p>This section contains notes on how normalization is represented in Chemist’s
+basis set component.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>References were added by AI and have not been human verified. Please
+report errors.</p>
+</div>
+<section id="what-is-normalization">
+<h2>What is Normalization?<a class="headerlink" href="#what-is-normalization" title="Link to this heading"></a></h2>
+<p>An atomic orbital (AO), <span class="math notranslate nohighlight">\(\mu\)</span>, is said to be normalized if:</p>
+<div class="math notranslate nohighlight">
+\[\langle \mu | \mu \rangle = 1.\]</div>
+<p><a class="reference internal" href="background.html#ao-basis-set-background"><span class="std std-ref">AO Basis Set Background</span></a> builds a Cartesian AO in three layers: primitive
+Gaussians <span class="math notranslate nohighlight">\(\chi_p\)</span> combine into a contracted Gaussian <span class="math notranslate nohighlight">\(G\)</span>, which is
+then paired with a Cartesian polynomial to give <span class="math notranslate nohighlight">\(\mu_{ijk}\)</span>. Each layer
+introduces something which is not normalized, and correspondingly each layer
+contributes one factor to the overall constant. Writing those factors
+separately,</p>
+<div class="math notranslate nohighlight">
+\[\mu_{ijk}(\vec{r}) = \underbrace{N^{AO}_{ijk}}_{\text{AO}}\;
+  \underbrace{N^{G}(d, \zeta; \ell)}_{\text{contracted Gaussian}}\;
+  x^i y^j z^k \sum_p d_p\,
+  \underbrace{N^{\chi}(\zeta_p; \ell)}_{\text{primitive}}\,
+  \chi_p(\vec{r}; \zeta_p),\]</div>
+<p>where <span class="math notranslate nohighlight">\(\ell = i + j + k\)</span>. The three factors are developed below
+<span id="id2"><sup><a class="reference internal" href="#id12" title="Justin T. Fermann and Edward F. Valeev. Fundamentals of molecular integrals evaluation. 2020. URL: https://arxiv.org/abs/2007.12057, arXiv:2007.12057.">1</a>,<a class="reference internal" href="#id11" title="Peter M. W. Gill. Molecular integrals over Gaussian basis functions. Advances in Quantum Chemistry, 25:141–205, 1994.">2</a></sup></span>.</p>
+<section id="primitive-normalization">
+<h3>Primitive normalization<a class="headerlink" href="#primitive-normalization" title="Link to this heading"></a></h3>
+<p>The innermost factor scales a single primitive so that, paired with the
+polynomial, it has unit norm:</p>
+<div class="math notranslate nohighlight">
+\[N^{\chi}(\zeta_p; \ell) =
+  \sqrt{\frac{2^{\ell}\left(2\zeta_p\right)^{\ell + 3/2}}
+             {\sqrt{\pi^3}\,(2\ell-1)!!}}
+\;=\;
+  \left(\frac{2\zeta_p}{\pi}\right)^{3/4}
+  \sqrt{\frac{(4\zeta_p)^{\ell}}{(2\ell-1)!!}}.\]</div>
+<p>Note this factor sits <em>inside</em> the sum, because it differs from primitive to
+primitive. It is therefore not something which can be pulled out in front of
+the contraction; folding it in to the contraction coefficients changes the
+weights of the primitives. The coefficients are said to be “weight
+normalized.”</p>
+</section>
+<section id="contracted-gaussian-normalization">
+<h3>Contracted Gaussian normalization<a class="headerlink" href="#contracted-gaussian-normalization" title="Link to this heading"></a></h3>
+<p>Normalizing each primitive does not normalize their sum, because distinct
+primitives are not orthogonal. The contracted Gaussian therefore needs its own
+factor,</p>
+<div class="math notranslate nohighlight">
+\[N^{G}(d, \zeta; \ell) =
+  \left[\sum_{pq} d_p d_q\, S_{pq}\right]^{-1/2},
+\qquad
+S_{pq} = \left(\frac{2\sqrt{\zeta_p \zeta_q}}
+                    {\zeta_p + \zeta_q}\right)^{\ell + 3/2},\]</div>
+<p>where <span class="math notranslate nohighlight">\(S_{pq}\)</span> is the overlap of the two <em>already normalized</em> primitives.
+Because they are normalized, <span class="math notranslate nohighlight">\(S_{pp} = 1\)</span>, so this factor measures
+nothing but the non-orthogonality between distinct primitives. It is a single
+scalar in front of the sum, and it depends on the whole contraction at once.</p>
+</section>
+<section id="cartesian-ao-normalization">
+<h3>Cartesian AO normalization<a class="headerlink" href="#cartesian-ao-normalization" title="Link to this heading"></a></h3>
+<p>The two factors so far depend on <span class="math notranslate nohighlight">\(\ell\)</span> but not on how the angular
+momentum is distributed among the axes. That distribution matters, and the
+remaining factor accounts for it:</p>
+<div class="math notranslate nohighlight">
+\[N^{AO}_{ijk} = \sqrt{\frac{(2\ell-1)!!}
+                     {(2i-1)!!\,(2j-1)!!\,(2k-1)!!}}.\]</div>
+<p>By construction <span class="math notranslate nohighlight">\(N^{AO}_{ijk} = 1\)</span> when all the angular momentum sits on
+one axis, <em>i.e.</em>, for <span class="math notranslate nohighlight">\(z^\ell\)</span> and its permutations, and it is larger
+otherwise. For a <span class="math notranslate nohighlight">\(d\)</span> shell it is <span class="math notranslate nohighlight">\(\sqrt{3}\)</span> for <span class="math notranslate nohighlight">\(d_{xy}\)</span>
+against <span class="math notranslate nohighlight">\(1\)</span> for <span class="math notranslate nohighlight">\(d_{zz}\)</span>, which is not a difference one can
+neglect.</p>
+<p>This is the only one of the three factors which distinguishes the components of
+a shell, and it is the one which is usually dropped. Since the components of a
+shell are typically stored implicitly, there is nowhere natural to put a
+per-component constant, so the common practice is to stop after
+<span class="math notranslate nohighlight">\(N^{\chi}\)</span> and <span class="math notranslate nohighlight">\(N^{G}\)</span> and let the single-axis component stand in
+for the whole shell. Doing so leaves every other component short by a factor of
+<span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span>.</p>
+<p>Spherical shells do not have this problem because the Cartesian-to-spherical
+transformation coefficients
+<span id="id3"><sup><a class="reference internal" href="#id10" title="H. B. Schlegel and M. J. Frisch. Transformation between Cartesian and pure spherical harmonic Gaussians. International Journal of Quantum Chemistry, 54:83–87, 1995. doi:10.1002/qua.560540202.">4</a></sup></span> have <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span> built into them,
+and so they assume they are being handed Cartesian AOs that are only
+normalized up to  <span class="math notranslate nohighlight">\(N^{G}\)</span>.</p>
+</section>
+</section>
+<section id="why-does-chemist-need-to-own-this">
+<h2>Why does Chemist need to own this?<a class="headerlink" href="#why-does-chemist-need-to-own-this" title="Link to this heading"></a></h2>
+<p>Chemist’s philosophy is to be self-describing. Since the parameters will enter
+chemist without a description, Chemist must be the one that establishes the
+convention and records it.</p>
+</section>
+<section id="normalization-considerations">
+<span id="id4"></span><h2>Normalization Considerations<a class="headerlink" href="#normalization-considerations" title="Link to this heading"></a></h2>
+<p>Topics in this section were considered in designing how normalization is
+represented and ultimately were addressed by the design.</p>
+<dl class="simple" id="n-raw-parameters-preserved">
+<dt>Raw parameters are preserved</dt><dd><p>Normalizing by rewriting the stored coefficients destroys what the user
+supplied.</p>
+<ul class="simple">
+<li><p>The parameters a user provided should be recoverable unchanged.</p></li>
+<li><p>Normalization constants should be computed from those parameters on
+demand rather than folded into them at construction.</p></li>
+<li><p>Folding normalization in is still useful for handing data to an external
+library, but that should produce a new object rather than mutating the
+original.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="angular-momentum-in-primitive">
+<dt>Angular momentum in primitive</dt><dd><p>The primitive normalization factor depends on <span class="math notranslate nohighlight">\(\ell\)</span> therefore the
+primitive must store it.</p>
+</dd>
+</dl>
+<dl class="simple" id="n-single-source">
+<dt>One source of truth</dt><dd><p>Consumers should not each re-derive the normalization mathematics.</p>
+<ul class="simple">
+<li><p>Each factor should be implemented once.</p></li>
+<li><p>Both <span class="math notranslate nohighlight">\(N^{\chi} N^{G}\)</span>, which integral libraries expect, and the full
+product including <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span>, which real-space evaluation requires,
+should come from that one implementation, so that the two cannot drift
+apart.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple" id="n-component-vs-shell">
+<dt>Consumers stop at different layers</dt><dd><p>Following from <a class="reference internal" href="#n-single-source"><span class="std std-ref">One source of truth</span></a>, the two consumers of normalization
+want different numbers.</p>
+<ul class="simple">
+<li><p>Code evaluating an AO at a point in space needs the full product,
+<span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span> included.</p></li>
+<li><p>Code interfacing with integral libraries needs the product stopped after
+<span class="math notranslate nohighlight">\(N^{G}\)</span>, since those libraries apply one scalar per shell and their
+Cartesian-to-spherical coefficients already carry <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span>.</p></li>
+<li><p>Both must be available, and it must be unambiguous which is which.</p></li>
+</ul>
+</dd>
+</dl>
+<section id="out-of-scope">
+<h3>Out of Scope<a class="headerlink" href="#out-of-scope" title="Link to this heading"></a></h3>
+<p>Topics in this section were considered, but do not play a role in the current
+design.</p>
+<dl class="simple">
+<dt>General contractions</dt><dd><p>The design assumes segmented contractions, in which each contracted
+Gaussian has its own primitives. Normalization of general contractions,
+where several contractions share a primitive set, is deferred along with
+general contractions themselves.</p>
+</dd>
+<dt>Effective core potentials</dt><dd><p>ECPs carry their own conventions and are not represented.</p>
+</dd>
+<dt>Non-Gaussian basis functions</dt><dd><p>The normalization constants above are specific to Gaussians. Slater
+orbitals and numerical orbitals would need their own.</p>
+</dd>
+<dt>Orthonormalization</dt><dd><p>AOs are non-orthonormal by default and most code assumes this. We’re not
+going to worry about orthonormalizing the basis set.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><a class="reference internal" href="#n-raw-parameters-preserved"><span class="std std-ref">Raw parameters are preserved</span></a></dt><dd><p>Constants are computed on demand from the stored parameters. Converting
+between conventions produces a new object rather than mutating an existing
+one.</p>
+</dd>
+<dt><a class="reference internal" href="#angular-momentum-in-primitive"><span class="std std-ref">Angular momentum in primitive</span></a></dt><dd><p>The primitive normalization factor depends on <span class="math notranslate nohighlight">\(\ell\)</span> therefore the
+primitive must store it.</p>
+</dd>
+<dt><a class="reference internal" href="#n-single-source"><span class="std std-ref">One source of truth</span></a></dt><dd><p>The formulas are implemented once as free functions over the parameters
+they depend on, and every class-level accessor delegates to them.</p>
+</dd>
+<dt><a class="reference internal" href="#n-component-vs-shell"><span class="std std-ref">Consumers stop at different layers</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">AOShell</span></code> reports <span class="math notranslate nohighlight">\(N^{\chi} N^{G}\)</span>; <code class="docutils literal notranslate"><span class="pre">AO</span></code> completes the product
+with <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span>. The two consumers want the same product truncated at
+different points, not two different calculations.</p>
+</dd>
+</dl>
+</section>
+<section id="further-reading">
+<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>
+<p>The closed-form normalization constants, and the integral machinery they
+belong to, are derived in Gill’s review <span id="id5"><sup><a class="reference internal" href="#id11" title="Peter M. W. Gill. Molecular integrals over Gaussian basis functions. Advances in Quantum Chemistry, 25:141–205, 1994.">2</a></sup></span> and, in a
+more recent and freely available treatment, by Fermann and Valeev
+<span id="id6"><sup><a class="reference internal" href="#id12" title="Justin T. Fermann and Edward F. Valeev. Fundamentals of molecular integrals evaluation. 2020. URL: https://arxiv.org/abs/2007.12057, arXiv:2007.12057.">1</a></sup></span>. Helgaker, Jørgensen, and Olsen
+<span id="id7"><sup><a class="reference internal" href="#id13" title="Trygve Helgaker, Poul Jørgensen, and Jeppe Olsen. Molecular Electronic-Structure Theory. Wiley, 2000.">3</a></sup></span> cover the same ground at textbook length,
+including the solid harmonics. For the Cartesian-to-spherical transformation
+specifically, and the normalization convention embedded in its coefficients,
+see Schlegel and Frisch <span id="id8"><sup><a class="reference internal" href="#id10" title="H. B. Schlegel and M. J. Frisch. Transformation between Cartesian and pure spherical harmonic Gaussians. International Journal of Quantum Chemistry, 54:83–87, 1995. doi:10.1002/qua.560540202.">4</a></sup></span>.</p>
+<div class="docutils container" id="id9">
+<div class="citation" id="id12" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id6">2</a>)</span>
+<p>Justin T. Fermann and Edward F. Valeev. Fundamentals of molecular integrals evaluation. 2020. URL: <a class="reference external" href="https://arxiv.org/abs/2007.12057">https://arxiv.org/abs/2007.12057</a>, <a class="reference external" href="https://arxiv.org/abs/2007.12057">arXiv:2007.12057</a>.</p>
+</div>
+<div class="citation" id="id11" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id5">2</a>)</span>
+<p>Peter M. W. Gill. Molecular integrals over Gaussian basis functions. <em>Advances in Quantum Chemistry</em>, 25:141–205, 1994.</p>
+</div>
+<div class="citation" id="id13" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">3</a><span class="fn-bracket">]</span></span>
+<p>Trygve Helgaker, Poul Jørgensen, and Jeppe Olsen. <em>Molecular Electronic-Structure Theory</em>. Wiley, 2000.</p>
+</div>
+<div class="citation" id="id10" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id8">2</a>)</span>
+<p>H. B. Schlegel and M. J. Frisch. Transformation between Cartesian and pure spherical harmonic Gaussians. <em>International Journal of Quantum Chemistry</em>, 54:83–87, 1995. <a class="reference external" href="https://doi.org/10.1002/qua.560540202">doi:10.1002/qua.560540202</a>.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="background.html" class="btn btn-neutral float-left" title="AO Basis Set Background" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ao_hierarchy.html" class="btn btn-neutral float-right" title="Designing the AO Class Hierarchy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

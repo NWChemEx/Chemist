@@ -1,0 +1,71 @@
+<!--
+  ~ Copyright 2026 NWChemEx-Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540" role="img" aria-label="Classes comprising the point component of Chemist">
+  <title>Classes comprising the point component of Chemist</title>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1e1e1e"/></marker>
+    <marker id="ahh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#ffffff" stroke="#1e1e1e" stroke-width="1"/></marker>
+  </defs>
+  <rect width="900" height="540" fill="#ffffff"/>
+  <text x="215" y="28" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="14" font-weight="bold" fill="#1e1e1e"><tspan x="215" dy="0">A single point</tspan></text>
+  <text x="685" y="28" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="14" font-weight="bold" fill="#1e1e1e"><tspan x="685" dy="0">A set of points</tspan></text>
+  <rect x="45" y="44" width="340" height="56" rx="8" fill="#d0bfff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="215" y="68" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#1e1e1e"><tspan x="215" dy="0">PointCommon&lt;DerivedType&gt;</tspan></text>
+  <text x="215" y="86" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="215" dy="0">coord/x/y/z, magnitude, inner_product, ==</tspan></text>
+  <rect x="515" y="44" width="340" height="56" rx="8" fill="#d0bfff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="685" y="68" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#1e1e1e"><tspan x="685" dy="0">PointSetCommon&lt;DerivedType&gt;</tspan></text>
+  <text x="685" y="86" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="685" dy="0">size, operator[], at, begin/end</tspan></text>
+  <rect x="45" y="170" width="160" height="56" rx="8" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="125" y="195" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#1e1e1e"><tspan x="125" dy="0">Point</tspan></text>
+  <text x="125" y="213" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="125" dy="0">owns</tspan></text>
+  <rect x="225" y="170" width="160" height="56" rx="8" fill="#ffe3e3" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="305" y="195" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#1e1e1e"><tspan x="305" dy="0">PointView&lt;T&gt;</tspan></text>
+  <text x="305" y="213" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="305" dy="0">aliases</tspan></text>
+  <rect x="515" y="170" width="160" height="56" rx="8" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="595" y="195" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#1e1e1e"><tspan x="595" dy="0">PointSet</tspan></text>
+  <text x="595" y="213" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="595" dy="0">owns</tspan></text>
+  <rect x="695" y="170" width="160" height="56" rx="8" fill="#ffe3e3" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="775" y="195" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="775" dy="0">PointSetView&lt;T&gt;</tspan></text>
+  <text x="775" y="213" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="775" dy="0">aliases</tspan></text>
+  <line x1="125" y1="170" x2="160" y2="102" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ahh)"/>
+  <line x1="305" y1="170" x2="270" y2="102" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ahh)"/>
+  <line x1="595" y1="170" x2="630" y2="102" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ahh)"/>
+  <line x1="775" y1="170" x2="740" y2="102" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ahh)"/>
+  <rect x="45" y="300" width="160" height="52" rx="8" fill="#f1f3f5" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="125" y="322" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="125" dy="0">Tensor</tspan></text>
+  <text x="125" y="340" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" fill="#5c5f66"><tspan x="125" dy="0">shape (3)</tspan></text>
+  <rect x="515" y="300" width="340" height="70" rx="8" fill="#f1f3f5" stroke="#1e1e1e" stroke-width="1.5"/>
+  <text x="685" y="322" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="685" dy="0">Tensor x   Tensor y   Tensor z</tspan></text>
+  <text x="685" y="342" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" fill="#5c5f66"><tspan x="685" dy="0">shape (N)  shape (N)  shape (N)</tspan></text>
+  <text x="685" y="360" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="685" dy="0">structure of arrays</tspan></text>
+  <rect x="515" y="396" width="340" height="46" rx="8" fill="#fff9db" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="685" y="415" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="685" dy="0">wtf::FloatBuffer  (per coordinate)</tspan></text>
+  <text x="685" y="432" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="685" dy="0">type-erased; consumer names the element type</tspan></text>
+  <line x1="685" y1="372" x2="685" y2="394" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+  <line x1="125" y1="226" x2="125" y2="298" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+  <text x="133" y="268" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" fill="#5c5f66"><tspan x="133" dy="0">holds</tspan></text>
+  <line x1="595" y1="226" x2="595" y2="298" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+  <text x="603" y="268" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" fill="#5c5f66"><tspan x="603" dy="0">holds</tspan></text>
+  <line x1="513" y1="198" x2="389" y2="198" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+  <text x="451" y="190" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" fill="#5c5f66"><tspan x="451" dy="0">operator[]</tspan></text>
+  <line x1="305" y1="300" x2="305" y2="232" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text x="313" y="272" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="313" dy="0">aliases one element</tspan></text>
+  <text x="313" y="288" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="313" dy="0">of each coordinate tensor</tspan></text>
+  <line x1="513" y1="326" x2="210" y2="326" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+  <text x="45" y="490" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" fill="#5c5f66"><tspan x="45" dy="0">Solid arrow: inherits from.   Dashed arrow: implemented in terms of.</tspan></text>
+  <text x="45" y="510" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" fill="#5c5f66"><tspan x="45" dy="0">T is a possibly const-qualified value type, which fixes whether the view is read-only.</tspan></text>
+</svg>
