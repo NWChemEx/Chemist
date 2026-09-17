@@ -18,6 +18,7 @@
 #include "chemical_system/export_chemical_system.hpp"
 #include "density/export_density.hpp"
 #include "electron/export_electron.hpp"
+#include "experimental/export_experimental.hpp"
 #include "fragmenting/export_fragmenting.hpp"
 #include "grid/export_grid.hpp"
 #include "molecule/export_molecule.hpp"
@@ -63,6 +64,7 @@ PYBIND11_MODULE(chemist, m) {
     export_grid(m);
 
     fragmenting::export_fragmenting(m);
+    experimental::export_experimental(m);
 }
 
 } // namespace chemist

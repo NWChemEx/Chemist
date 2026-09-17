@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 NWChemEx-Project
+ * Copyright 2026 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-namespace chemist_examples {
-int nucleus_example();
-int atom_example();
-int molecule_example();
-int system_example();
-int experimental_point_example();
-} // namespace chemist_examples
+#include <chemist/experimental/point/point_view.hpp>
+
+namespace chemist::experimental {
+
+// See the note in point_view.hpp for why only the mutable instantiation is
+// listed here.
+template class PointView<Point>;
+
+} // namespace chemist::experimental
