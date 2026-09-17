@@ -1,0 +1,5 @@
+<map id="chemist::experimental::Point" name="chemist::experimental::Point">
+<area shape="rect" id="Node000001" title="A location in three&#45;dimensional Cartesian space." alt="" coords="8,108,177,148"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1PointCommon.html" title=" " alt="" coords="5,5,180,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,74,95,108,90,108,90,74"/>
+</map>

@@ -1,6 +1,6 @@
 <map id="cxx/src/chemist/point/detail_/point_pimpl.hpp" name="cxx/src/chemist/point/detail_/point_pimpl.hpp">
 <area shape="rect" id="Node000001" title=" " alt="" coords="1201,5,1380,45"/>
-<area shape="rect" id="Node000002" href="$point_8hpp_source.html" title=" " alt="" coords="628,101,804,126"/>
+<area shape="rect" id="Node000002" href="$point_2point_8hpp_source.html" title=" " alt="" coords="628,101,804,126"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1201,43,807,101,806,96,1201,37"/>
 <area shape="rect" id="Node000009" title=" " alt="" coords="1172,467,1228,493"/>
 <area shape="poly" id="edge30_Node000001_Node000009" title=" " alt="" coords="1275,47,1253,75,1229,112,1210,155,1203,200,1203,291,1203,453,1197,453,1197,291,1197,200,1205,153,1224,110,1248,72,1271,44"/>
@@ -12,13 +12,13 @@
 <area shape="poly" id="edge33_Node000001_Node000021" title=" " alt="" coords="1333,43,1424,85,1422,90,1330,48"/>
 <area shape="rect" id="Node000022" title=" " alt="" coords="1577,101,1637,126"/>
 <area shape="poly" id="edge34_Node000001_Node000022" title=" " alt="" coords="1381,42,1471,63,1565,91,1571,93,1569,98,1563,96,1469,68,1380,47"/>
-<area shape="rect" id="Node000003" href="$point__class_8hpp_source.html" title=" " alt="" coords="429,460,577,500"/>
+<area shape="rect" id="Node000003" href="$point_2point__class_8hpp_source.html" title=" " alt="" coords="429,460,577,500"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="719,126,715,206,704,259,684,311,654,355,617,395,579,428,545,454,542,450,576,424,614,391,650,352,679,308,699,258,709,205,714,126"/>
 <area shape="rect" id="Node000007" href="$point__set_8hpp_source.html" title=" " alt="" coords="326,269,474,309"/>
 <area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="697,128,447,265,445,260,694,124"/>
-<area shape="rect" id="Node000008" href="$point__view_8hpp_source.html" title=" " alt="" coords="754,365,902,405"/>
+<area shape="rect" id="Node000008" href="$point_2point__view_8hpp_source.html" title=" " alt="" coords="754,365,902,405"/>
 <area shape="poly" id="edge29_Node000002_Node000008" title=" " alt="" coords="723,125,817,351,813,353,719,127"/>
-<area shape="rect" id="Node000018" href="$point__set__view_8hpp_source.html" title=" " alt="" coords="270,181,418,221"/>
+<area shape="rect" id="Node000018" href="$point_2point__set__view_8hpp_source.html" title=" " alt="" coords="270,181,418,221"/>
 <area shape="poly" id="edge22_Node000002_Node000018" title=" " alt="" coords="667,129,432,183,431,177,666,123"/>
 <area shape="rect" id="Node000004" title=" " alt="" coords="487,548,550,573"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="509,500,516,534,511,535,504,501"/>
@@ -28,7 +28,7 @@
 <area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="477,502,420,542,417,538,474,498"/>
 <area shape="poly" id="edge20_Node000007_Node000006" title=" " alt="" coords="402,310,394,534,389,534,397,309"/>
 <area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="475,304,741,362,740,367,474,309"/>
-<area shape="rect" id="Node000015" href="$point__traits_8hpp_source.html" title=" " alt="" coords="213,365,363,405"/>
+<area shape="rect" id="Node000015" href="$traits_2point__traits_8hpp_source.html" title=" " alt="" coords="213,365,363,405"/>
 <area shape="poly" id="edge18_Node000007_Node000015" title=" " alt="" coords="379,311,323,358,320,354,376,307"/>
 <area shape="rect" id="Node000017" title=" " alt="" coords="30,357,189,412"/>
 <area shape="poly" id="edge21_Node000007_Node000017" title=" " alt="" coords="342,312,203,356,202,351,341,307"/>

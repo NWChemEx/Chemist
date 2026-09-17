@@ -1,0 +1,27 @@
+<map id="cxx/include/chemist/experimental/detail_/float_arithmetic.hpp" name="cxx/include/chemist/experimental/detail_/float_arithmetic.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="75,5,239,60"/>
+<area shape="rect" id="Node000002" href="$float__serialization_8hpp.html" title=" " alt="" coords="5,108,183,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,73,113,109,108,106,131,70"/>
+<area shape="rect" id="Node000003" href="$point__common_8hpp_source.html" title=" " alt="" coords="81,211,233,265"/>
+<area shape="poly" id="edge15_Node000001_Node000003" title=" " alt="" coords="183,71,197,107,201,135,197,163,188,189,176,212,171,209,183,187,191,162,196,135,191,109,178,73"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="120,173,143,209,138,212,115,176"/>
+<area shape="rect" id="Node000004" href="$experimental_2point_2point_8hpp.html" title=" " alt="" coords="151,827,303,881"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="142,279,116,354,107,398,103,442,103,650,106,676,113,702,137,751,168,792,199,825,195,828,164,796,133,753,108,704,101,677,98,650,98,442,102,397,111,352,137,277"/>
+<area shape="rect" id="Node000006" href="$experimental_2point_2point__class_8hpp_source.html" title=" " alt="" coords="138,313,290,368"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="181,276,201,312,197,315,176,279"/>
+<area shape="rect" id="Node000005" href="$export__experimental_8hpp_source.html" title=" " alt="" coords="120,929,335,969"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="230,895,230,929,225,929,225,895"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="195,381,179,417,160,480,154,545,154,650,160,700,175,748,194,791,213,825,208,828,189,794,170,750,155,701,149,650,149,545,154,479,174,415,190,379"/>
+<area shape="rect" id="Node000007" href="$experimental_2point_2point__view_8hpp_source.html" title=" " alt="" coords="189,416,341,471"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="236,379,254,415,249,417,231,381"/>
+<area shape="poly" id="edge8_Node000007_Node000004" title=" " alt="" coords="244,484,230,519,217,606,215,693,219,770,226,826,221,827,214,771,210,693,212,606,225,518,239,482"/>
+<area shape="rect" id="Node000008" href="$point__set__common_8hpp_source.html" title=" " alt="" coords="239,519,418,573"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="291,481,314,517,310,520,287,484"/>
+<area shape="poly" id="edge10_Node000008_Node000004" title=" " alt="" coords="301,586,280,622,261,678,247,734,232,827,227,826,242,733,256,676,276,620,297,583"/>
+<area shape="rect" id="Node000009" href="$point__set__class_8hpp_source.html" title=" " alt="" coords="290,621,445,676"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="346,585,360,620,355,622,341,587"/>
+<area shape="poly" id="edge12_Node000009_Node000004" title=" " alt="" coords="344,689,248,828,244,825,339,686"/>
+<area shape="rect" id="Node000010" href="$experimental_2point_2point__set__view_8hpp_source.html" title=" " alt="" coords="341,724,493,779"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="389,687,406,723,401,725,384,690"/>
+<area shape="poly" id="edge14_Node000010_Node000004" title=" " alt="" coords="357,787,278,829,276,824,354,783"/>
+</map>

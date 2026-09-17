@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Points: Measuring a Water Molecule &mdash; Chemist 0.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=7026087e"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/tabs.js?v=3030b3cb"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Molecule" href="../molecule/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installing Chemist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Chemist Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer/index.html">Developer Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Chemist Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../nucleus/index.html">Nucleus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../atom/index.html">Atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecule/index.html">Molecule</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Points: Measuring a Water Molecule</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#getting-a-number-back-out">Getting a Number Back Out</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#one-api-two-ownership-models">One API, Two Ownership Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-the-molecule">Building the Molecule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#centering-the-molecule">Centering the Molecule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#measuring-the-molecule">Measuring the Molecule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#handing-the-coordinates-out">Handing the Coordinates Out</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#passing-sets-around">Passing Sets Around</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#recap">Recap</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/Chemist/chemist_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Chemist</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Chemist Tutorials</a></li>
+      <li class="breadcrumb-item active">Points: Measuring a Water Molecule</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tutorials/experimental_point/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="points-measuring-a-water-molecule">
+<span id="experimental-point-tutorial"></span><h1>Points: Measuring a Water Molecule<a class="headerlink" href="#points-measuring-a-water-molecule" title="Link to this heading"></a></h1>
+<p>This tutorial introduces the experimental point component — <code class="docutils literal notranslate"><span class="pre">Point</span></code>,
+<code class="docutils literal notranslate"><span class="pre">PointView</span></code>, <code class="docutils literal notranslate"><span class="pre">PointSet</span></code>, and <code class="docutils literal notranslate"><span class="pre">PointSetView</span></code>, all in the
+<code class="docutils literal notranslate"><span class="pre">chemist::experimental</span></code> namespace — by working through a single problem:</p>
+<blockquote>
+<div><p>Given the three nuclear positions of a water molecule, move the molecule
+so that its geometric center sits at the origin, measure its bond lengths
+and bond angle, and then hand its coordinates to an external library which
+knows nothing about Chemist.</p>
+</div></blockquote>
+<p>Every code block below is compiled and run as part of Chemist’s test suite;
+see <code class="docutils literal notranslate"><span class="pre">tests/cxx/doc_snippets/experimental_point_example.cpp</span></code> and
+<code class="docutils literal notranslate"><span class="pre">tests/python/doc_snippets/test_experimental_point_example.py</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These classes live in <code class="docutils literal notranslate"><span class="pre">chemist::experimental</span></code> and are being developed
+alongside the existing <code class="docutils literal notranslate"><span class="pre">chemist::Point&lt;T&gt;</span></code>. Nothing in <code class="docutils literal notranslate"><span class="pre">chemist::</span></code> has
+changed. The reasoning behind the design is written up in
+<code class="docutils literal notranslate"><span class="pre">docs/source/developer/design/point/point.rst</span></code>.</p>
+</div>
+<section id="getting-a-number-back-out">
+<h2>Getting a Number Back Out<a class="headerlink" href="#getting-a-number-back-out" title="Link to this heading"></a></h2>
+<p>Coordinates are stored type-erased, which means a point never has to expose
+whether it uses <code class="docutils literal notranslate"><span class="pre">float</span></code> or <code class="docutils literal notranslate"><span class="pre">double</span></code>, and code which takes a point never has
+to be templated on that choice. Similarly, asking a point for its <code class="docutils literal notranslate"><span class="pre">x</span></code>-
+coordinate gives you back a type-erased value. If you want an actual <code class="docutils literal notranslate"><span class="pre">double</span></code>
+you have to ask for it.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// The point classes deliberately keep the concrete floating-point type out of</span>
+<span class="c1">// their API; a coordinate comes back as a type-erased value. Whichever type</span>
+<span class="c1">// you actually want is yours to name, which is what this helper does.</span>
+<span class="kt">double</span><span class="w"> </span><span class="nf">as_double</span><span class="p">(</span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">FloatView</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">Float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">value</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Users of points are encouraged to avoid unwrapping the type-erased value unless
+they have to. Chemist is designed to work with Point objects directly to
+facilitate this.</p>
+</section>
+<section id="one-api-two-ownership-models">
+<h2>One API, Two Ownership Models<a class="headerlink" href="#one-api-two-ownership-models" title="Link to this heading"></a></h2>
+<p>A point can either own its coordinates or alias coordinates owned by something
+else. <code class="docutils literal notranslate"><span class="pre">Point</span></code> does the former and <code class="docutils literal notranslate"><span class="pre">PointView</span></code> does the latter, but they
+share a single API, so a function which computes a distance does not have to
+care which one it was handed:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Because Point and PointView share one API, a function which takes a</span>
+<span class="c1">// read-only view works on both. A Point converts to one implicitly, so</span>
+<span class="c1">// callers never write the conversion out.</span>
+<span class="kt">double</span><span class="w"> </span><span class="nf">distance</span><span class="p">(</span><span class="n">const_point_view</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">const_point_view</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">as_double</span><span class="p">((</span><span class="n">a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">b</span><span class="p">).</span><span class="n">magnitude</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Point and PointView share one API, so a function which measures a distance</span>
+<span class="c1"># works on either.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">distance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">()</span>
+
+
+</pre></div>
+</div>
+</div></div>
+<p><code class="docutils literal notranslate"><span class="pre">const_point_view</span></code> is an alias for <code class="docutils literal notranslate"><span class="pre">PointView&lt;const</span> <span class="pre">Point&gt;</span></code>, a view of a
+point you may read from, but not write to. Python has <code class="docutils literal notranslate"><span class="pre">ImmutablePointView</span></code> to
+serve the same purpose as <code class="docutils literal notranslate"><span class="pre">const_point_view</span></code>. <code class="docutils literal notranslate"><span class="pre">Point</span></code> converts to
+<code class="docutils literal notranslate"><span class="pre">const_point_view</span></code> (or in Python <code class="docutils literal notranslate"><span class="pre">ImmutablePointView</span></code>)  implicitly, so
+callers pass a <code class="docutils literal notranslate"><span class="pre">Point</span></code> into functions expecting a <code class="docutils literal notranslate"><span class="pre">const_point_view</span></code> and
+the conversion happens on its own.</p>
+<p>The same relationship holds one level up, between <code class="docutils literal notranslate"><span class="pre">PointSet</span></code> and
+<code class="docutils literal notranslate"><span class="pre">PointSetView</span></code>:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// The same trick one level up: this takes a read-only view of a set, so it</span>
+<span class="c1">// can be called with a PointSet, with a mutable view of one, or with a view</span>
+<span class="c1">// over coordinates chemist does not own.</span>
+<span class="n">Point</span><span class="w"> </span><span class="nf">centroid_of</span><span class="p">(</span><span class="n">const_point_set_view</span><span class="w"> </span><span class="n">points</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">points</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">as_double</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">get_x</span><span class="p">());</span>
+<span class="w">        </span><span class="n">y</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">as_double</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">get_y</span><span class="p">());</span>
+<span class="w">        </span><span class="n">z</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">as_double</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">get_z</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">points</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The same one level up: this works on a PointSet, on a view of one, or on</span>
+<span class="c1"># anything else which behaves like an ordered collection of points.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">centroid_of</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">z</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">+=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">+=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
+        <span class="n">z</span> <span class="o">+=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_z</span><span class="p">()</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="n">y</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="n">z</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
+
+
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="building-the-molecule">
+<h2>Building the Molecule<a class="headerlink" href="#building-the-molecule" title="Link to this heading"></a></h2>
+<p>With those two helpers in hand, the molecule itself is unremarkable:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-2-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-2-2-0" name="2-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-2-2-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-2-2-1" name="2-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-2-2-0" class="sphinx-tabs-panel" id="panel-2-2-0" name="2-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1">// A water molecule, in atomic units --- the same geometry the AO basis</span>
+<span class="w">    </span><span class="c1">// set tutorial uses. The oxygen is first, then the two hydrogens.</span>
+<span class="w">    </span><span class="n">PointSet</span><span class="w"> </span><span class="n">water</span><span class="p">{</span><span class="n">Point</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.1432223429807816</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">),</span>
+<span class="w">                   </span><span class="n">Point</span><span class="p">(</span><span class="mf">1.6380335020342418</span><span class="p">,</span><span class="w"> </span><span class="mf">1.1365568803584036</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">),</span>
+<span class="w">                   </span><span class="n">Point</span><span class="p">(</span><span class="mf">-1.6380335020342418</span><span class="p">,</span><span class="w"> </span><span class="mf">1.1365568803584036</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)};</span>
+
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">water</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-2-1" class="sphinx-tabs-panel" hidden="true" id="panel-2-2-1" name="2-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="c1"># A water molecule, in atomic units -- the same geometry the AO basis</span>
+        <span class="c1"># set tutorial uses. The oxygen is first, then the two hydrogens.</span>
+        <span class="n">water</span> <span class="o">=</span> <span class="n">PointSet</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">Point</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1432223429807816</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                <span class="n">Point</span><span class="p">(</span><span class="mf">1.6380335020342418</span><span class="p">,</span> <span class="mf">1.1365568803584036</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                <span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mf">1.6380335020342418</span><span class="p">,</span> <span class="mf">1.1365568803584036</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">water</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>Internally, however, <code class="docutils literal notranslate"><span class="pre">water</span></code> is <em>not</em> a container of three <code class="docutils literal notranslate"><span class="pre">Point</span></code>
+objects. It holds three arrays — one for every point’s <code class="docutils literal notranslate"><span class="pre">x</span></code>-coordinate, one
+for every <code class="docutils literal notranslate"><span class="pre">y</span></code>, one for every <code class="docutils literal notranslate"><span class="pre">z</span></code>. That layout is what many HPC libraries
+expect because it vectorizes, and we will take advantage of it at the end of
+this tutorial.</p>
+<p>That leaves the set with no <code class="docutils literal notranslate"><span class="pre">Point</span></code> objects inside it to hand out. Indexing
+into a <code class="docutils literal notranslate"><span class="pre">PointSet</span></code> gives you a <code class="docutils literal notranslate"><span class="pre">PointView</span></code> instead:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-3-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-3-3-0" name="3-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-3-3-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-3-3-1" name="3-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-3-3-0" class="sphinx-tabs-panel" id="panel-3-3-0" name="3-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1">// The set stores each Cartesian direction in its own contiguous array,</span>
+<span class="w">    </span><span class="c1">// but it behaves like a container of points. Indexing it gives you</span>
+<span class="w">    </span><span class="c1">// something which acts exactly like a Point.</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">oxygen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">as_double</span><span class="p">(</span><span class="n">oxygen</span><span class="p">.</span><span class="n">get_y</span><span class="p">())</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">-0.1432223429807816</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// What you got back is not a copy. It aliases the set, so writing through</span>
+<span class="w">    </span><span class="c1">// it writes into the set.</span>
+<span class="w">    </span><span class="n">oxygen</span><span class="p">.</span><span class="n">set_z</span><span class="p">(</span><span class="mf">1.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">as_double</span><span class="p">(</span><span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">get_z</span><span class="p">())</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">oxygen</span><span class="p">.</span><span class="n">set_z</span><span class="p">(</span><span class="mf">0.0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-3-3-1" class="sphinx-tabs-panel" hidden="true" id="panel-3-3-1" name="3-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="c1"># The set stores each Cartesian direction in its own array, but it</span>
+        <span class="c1"># behaves like a container of points. Indexing it gives you something</span>
+        <span class="c1"># which acts exactly like a Point.</span>
+        <span class="n">oxygen</span> <span class="o">=</span> <span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">oxygen</span><span class="o">.</span><span class="n">get_y</span><span class="p">(),</span> <span class="o">-</span><span class="mf">0.1432223429807816</span><span class="p">)</span>
+
+        <span class="c1"># What you got back is not a copy. It aliases the set, so writing</span>
+        <span class="c1"># through it writes into the set.</span>
+        <span class="n">oxygen</span><span class="o">.</span><span class="n">set_z</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_z</span><span class="p">(),</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">oxygen</span><span class="o">.</span><span class="n">set_z</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>The important part is the second half. Indexing the set does not copy a point
+out of it. You get a handle onto the set’s own storage, and writing through
+that handle writes into the set.</p>
+</section>
+<section id="centering-the-molecule">
+<h2>Centering the Molecule<a class="headerlink" href="#centering-the-molecule" title="Link to this heading"></a></h2>
+<p>That property is what makes translating the molecule a three-line loop. Each
+<code class="docutils literal notranslate"><span class="pre">p</span></code> is a view of the set, so each <code class="docutils literal notranslate"><span class="pre">set_*</span></code> call lands in the set’s
+coordinate arrays directly:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-4-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-4-4-0" name="4-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-4-4-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-4-4-1" name="4-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-4-4-0" class="sphinx-tabs-panel" id="panel-4-4-0" name="4-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1">// Move the molecule so that its geometric center sits at the origin.</span>
+<span class="w">    </span><span class="c1">// Every write goes straight into the set, because every `p` is a view of</span>
+<span class="w">    </span><span class="c1">// it rather than a copy of one of its points.</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">center</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">centroid_of</span><span class="p">(</span><span class="n">water</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">water</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">p</span><span class="p">.</span><span class="n">set_x</span><span class="p">(</span><span class="n">as_double</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">get_x</span><span class="p">())</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">as_double</span><span class="p">(</span><span class="n">center</span><span class="p">.</span><span class="n">get_x</span><span class="p">()));</span>
+<span class="w">        </span><span class="n">p</span><span class="p">.</span><span class="n">set_y</span><span class="p">(</span><span class="n">as_double</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">get_y</span><span class="p">())</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">as_double</span><span class="p">(</span><span class="n">center</span><span class="p">.</span><span class="n">get_y</span><span class="p">()));</span>
+<span class="w">        </span><span class="n">p</span><span class="p">.</span><span class="n">set_z</span><span class="p">(</span><span class="n">as_double</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">get_z</span><span class="p">())</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">as_double</span><span class="p">(</span><span class="n">center</span><span class="p">.</span><span class="n">get_z</span><span class="p">()));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// The centroid of the moved molecule is the origin.</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">off_center</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as_double</span><span class="p">(</span><span class="n">centroid_of</span><span class="p">(</span><span class="n">water</span><span class="p">).</span><span class="n">magnitude</span><span class="p">());</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">off_center</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Catch</span><span class="o">::</span><span class="n">Approx</span><span class="p">(</span><span class="mf">0.0</span><span class="p">).</span><span class="n">margin</span><span class="p">(</span><span class="mf">1.0e-15</span><span class="p">));</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-4-4-1" class="sphinx-tabs-panel" hidden="true" id="panel-4-4-1" name="4-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="c1"># Move the molecule so that its geometric center sits at the origin.</span>
+        <span class="c1"># Every write goes straight into the set, because every `p` is a view</span>
+        <span class="c1"># of it rather than a copy of one of its points.</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="n">centroid_of</span><span class="p">(</span><span class="n">water</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">water</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">set_x</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">-</span> <span class="n">center</span><span class="o">.</span><span class="n">get_x</span><span class="p">())</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">set_y</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span> <span class="o">-</span> <span class="n">center</span><span class="o">.</span><span class="n">get_y</span><span class="p">())</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">set_z</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_z</span><span class="p">()</span> <span class="o">-</span> <span class="n">center</span><span class="o">.</span><span class="n">get_z</span><span class="p">())</span>
+
+        <span class="c1"># The centroid of the moved molecule is the origin.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">centroid_of</span><span class="p">(</span><span class="n">water</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">(),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">places</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">centroid_of</span></code> was written to take a read-only view of a set, and
+is being called here with a <code class="docutils literal notranslate"><span class="pre">PointSet</span></code>. As with <code class="docutils literal notranslate"><span class="pre">distance</span></code>, the conversion
+is implicit.</p>
+</section>
+<section id="measuring-the-molecule">
+<h2>Measuring the Molecule<a class="headerlink" href="#measuring-the-molecule" title="Link to this heading"></a></h2>
+<p>Bond lengths and bond angles come out of the same shared API. Subtracting two
+points gives the vector between them, and that vector is an owning <code class="docutils literal notranslate"><span class="pre">Point</span></code>
+even when both operands were views — so it stays valid after the expression
+which produced it:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-5-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-5-5-0" name="5-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-5-5-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-5-5-1" name="5-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-5-5-0" class="sphinx-tabs-panel" id="panel-5-5-0" name="5-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1">// The two O-H bond lengths. distance() was written against a view, and</span>
+<span class="w">    </span><span class="c1">// water[i] is one, so it can be called directly.</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">r1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">distance</span><span class="p">(</span><span class="n">water</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">r2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">distance</span><span class="p">(</span><span class="n">water</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">r1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Catch</span><span class="o">::</span><span class="n">Approx</span><span class="p">(</span><span class="n">r2</span><span class="p">));</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">r1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Catch</span><span class="o">::</span><span class="n">Approx</span><span class="p">(</span><span class="mf">2.0786987791109155</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// The H-O-H angle, from the inner product of the two bond vectors.</span>
+<span class="w">    </span><span class="c1">// Subtracting two views gives an owning Point, so the vectors outlive the</span>
+<span class="w">    </span><span class="c1">// expression which made them.</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">v1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">water</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">v2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">water</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">cos_theta</span><span class="w"> </span><span class="o">=</span>
+<span class="w">      </span><span class="n">as_double</span><span class="p">(</span><span class="n">v1</span><span class="p">.</span><span class="n">inner_product</span><span class="p">(</span><span class="n">v2</span><span class="p">))</span><span class="w"> </span><span class="o">/</span>
+<span class="w">      </span><span class="p">(</span><span class="n">as_double</span><span class="p">(</span><span class="n">v1</span><span class="p">.</span><span class="n">magnitude</span><span class="p">())</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">as_double</span><span class="p">(</span><span class="n">v2</span><span class="p">.</span><span class="n">magnitude</span><span class="p">()));</span>
+<span class="w">    </span><span class="c1">// Water&#39;s H-O-H angle, a little under 104 degrees for this geometry.</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">degrees</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">acos</span><span class="p">(</span><span class="n">cos_theta</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">180.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">acos</span><span class="p">(</span><span class="mf">-1.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">degrees</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Catch</span><span class="o">::</span><span class="n">Approx</span><span class="p">(</span><span class="mf">103.99968755694901</span><span class="p">));</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-5-5-1" class="sphinx-tabs-panel" hidden="true" id="panel-5-5-1" name="5-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="c1"># The two O-H bond lengths. distance() was written against points, and</span>
+        <span class="c1"># water[i] behaves like one, so it can be called directly.</span>
+        <span class="n">r1</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">water</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">r2</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">water</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="mf">2.0786987791109155</span><span class="p">)</span>
+
+        <span class="c1"># The H-O-H angle, from the inner product of the two bond vectors.</span>
+        <span class="c1"># Subtracting two views gives an owning Point, so the vectors outlive</span>
+        <span class="c1"># the expression which made them.</span>
+        <span class="n">v1</span> <span class="o">=</span> <span class="n">water</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">v2</span> <span class="o">=</span> <span class="n">water</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">cos_theta</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">inner_product</span><span class="p">(</span><span class="n">v2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">v1</span><span class="o">.</span><span class="n">magnitude</span><span class="p">()</span> <span class="o">*</span> <span class="n">v2</span><span class="o">.</span><span class="n">magnitude</span><span class="p">())</span>
+        <span class="c1"># Water&#39;s H-O-H angle, a little under 104 degrees for this geometry.</span>
+        <span class="n">degrees</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">cos_theta</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">degrees</span><span class="p">,</span> <span class="mf">103.99968755694901</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="handing-the-coordinates-out">
+<h2>Handing the Coordinates Out<a class="headerlink" href="#handing-the-coordinates-out" title="Link to this heading"></a></h2>
+<p>Finally, the reason the set is laid out the way it is. Suppose an external
+library wants the coordinates as three bare arrays:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-6-6-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-6-6-0" name="6-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-6-6-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-6-6-1" name="6-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-6-6-0" class="sphinx-tabs-panel" id="panel-6-6-0" name="6-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Stands in for an external library: it takes bare arrays of coordinates, one</span>
+<span class="c1">// per Cartesian direction, and knows nothing about chemist.</span>
+<span class="kt">double</span><span class="w"> </span><span class="nf">nuclear_repulsion</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="w"> </span><span class="n">xs</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="w"> </span><span class="n">ys</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="w"> </span><span class="n">zs</span><span class="p">,</span>
+<span class="w">                         </span><span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="w"> </span><span class="n">qs</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">rv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">xs</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+<span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ys</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+<span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">dz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">zs</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+<span class="w">            </span><span class="n">rv</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">qs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">qs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dx</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dz</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dz</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">rv</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-6-6-1" class="sphinx-tabs-panel" hidden="true" id="panel-6-6-1" name="6-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Stands in for an external library: it takes plain lists of coordinates, one</span>
+<span class="c1"># per Cartesian direction, and knows nothing about chemist.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">nuclear_repulsion</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">qs</span><span class="p">):</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)):</span>
+            <span class="n">dx</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">xs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">dy</span> <span class="o">=</span> <span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">ys</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">dz</span> <span class="o">=</span> <span class="n">zs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">zs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">rv</span> <span class="o">+=</span> <span class="n">qs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">qs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dx</span> <span class="o">*</span> <span class="n">dx</span> <span class="o">+</span> <span class="n">dy</span> <span class="o">*</span> <span class="n">dy</span> <span class="o">+</span> <span class="n">dz</span> <span class="o">*</span> <span class="n">dz</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rv</span>
+
+
+</pre></div>
+</div>
+</div></div>
+<p>Because the set already stores one array per Cartesian direction, satisfying
+that request costs nothing. There is no repacking step; you ask the set for
+the array you want and take a pointer to it:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-7-7-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-7-7-0" name="7-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-7-7-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-7-7-1" name="7-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-7-7-0" class="sphinx-tabs-panel" id="panel-7-7-0" name="7-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1">// An external library wants bare arrays. Because the set is stored as one</span>
+<span class="w">    </span><span class="c1">// array per Cartesian direction, there is nothing to repack: ask it for</span>
+<span class="w">    </span><span class="c1">// the array you want and hand over the pointer.</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">water</span><span class="p">.</span><span class="n">get_x_buffer</span><span class="p">();</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">ys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">water</span><span class="p">.</span><span class="n">get_y_buffer</span><span class="p">();</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">zs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">water</span><span class="p">.</span><span class="n">get_z_buffer</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// The buffers are type-erased. Naming `double` here is the consumer&#39;s</span>
+<span class="w">    </span><span class="c1">// obligation, not chemist&#39;s, and the buffer will say no if it is holding</span>
+<span class="w">    </span><span class="c1">// something else. Contiguity is worth checking before taking a pointer.</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">xs</span><span class="p">.</span><span class="n">is_contiguous</span><span class="p">());</span>
+
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">x_span</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xs</span><span class="p">.</span><span class="n">value</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">y_span</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ys</span><span class="p">.</span><span class="n">value</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">z_span</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zs</span><span class="p">.</span><span class="n">value</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Nuclear charges, in the same order as the points.</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">charges</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">8.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">};</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">v_nn</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">nuclear_repulsion</span><span class="p">(</span><span class="n">x_span</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">y_span</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span>
+<span class="w">                                               </span><span class="n">z_span</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">charges</span><span class="p">,</span><span class="w"> </span><span class="n">water</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+
+<span class="w">    </span><span class="c1">// The nuclear repulsion energy of this geometry, in Hartree. Note that it</span>
+<span class="w">    </span><span class="c1">// did not change when the molecule was translated.</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">v_nn</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Catch</span><span class="o">::</span><span class="n">Approx</span><span class="p">(</span><span class="mf">8.0023669741662</span><span class="p">));</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-7-7-1" class="sphinx-tabs-panel" hidden="true" id="panel-7-7-1" name="7-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="c1"># Hand the coordinates to something which wants plain arrays. Because</span>
+        <span class="c1"># the set already stores one array per Cartesian direction, there is</span>
+        <span class="c1"># nothing to repack.</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="n">water</span><span class="o">.</span><span class="n">get_x_coordinates</span><span class="p">()</span>
+        <span class="n">ys</span> <span class="o">=</span> <span class="n">water</span><span class="o">.</span><span class="n">get_y_coordinates</span><span class="p">()</span>
+        <span class="n">zs</span> <span class="o">=</span> <span class="n">water</span><span class="o">.</span><span class="n">get_z_coordinates</span><span class="p">()</span>
+
+        <span class="c1"># Nuclear charges, in the same order as the points.</span>
+        <span class="n">charges</span> <span class="o">=</span> <span class="p">[</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+        <span class="n">v_nn</span> <span class="o">=</span> <span class="n">nuclear_repulsion</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">charges</span><span class="p">)</span>
+
+        <span class="c1"># The nuclear repulsion energy of this geometry, in Hartree. Note that</span>
+        <span class="c1"># it did not change when the molecule was translated.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">v_nn</span><span class="p">,</span> <span class="mf">8.0023669741662</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>A pointer obtained this way is only valid while the set’s storage is
+unchanged. Anything which grows the set — <code class="docutils literal notranslate"><span class="pre">push_back</span></code>, for instance —
+may reallocate and invalidate both the pointer and every <code class="docutils literal notranslate"><span class="pre">PointView</span></code> you
+are holding.</p>
+</div>
+</section>
+<section id="passing-sets-around">
+<h2>Passing Sets Around<a class="headerlink" href="#passing-sets-around" title="Link to this heading"></a></h2>
+<p>The set-level views close the loop. A <code class="docutils literal notranslate"><span class="pre">PointSetView</span></code> is a handle onto
+somebody else’s points: it can read and write them, but it cannot grow or
+shrink the set, which makes it the right thing to hand to code that has no
+business resizing your molecule. The read-only flavor cannot even write:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-8-8-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-8-8-0" name="8-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-8-8-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-8-8-1" name="8-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-8-8-0" class="sphinx-tabs-panel" id="panel-8-8-0" name="8-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1">// A view of the set is a handle, not a copy. Handing one out lets a caller</span>
+<span class="w">    </span><span class="c1">// read or write the original without being able to grow or shrink it.</span>
+<span class="w">    </span><span class="n">point_set_view</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="n">water</span><span class="p">);</span>
+<span class="w">    </span><span class="n">handle</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_z</span><span class="p">(</span><span class="mf">0.5</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">as_double</span><span class="p">(</span><span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">get_z</span><span class="p">())</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.5</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// A read-only view can not be written through at all; `set_z` does not</span>
+<span class="w">    </span><span class="c1">// exist on the points it hands out, so the line below would not compile:</span>
+<span class="w">    </span><span class="c1">//</span>
+<span class="w">    </span><span class="c1">//     const_point_set_view(water)[0].set_z(0.5);</span>
+<span class="w">    </span><span class="n">const_point_set_view</span><span class="w"> </span><span class="nf">read_only</span><span class="p">(</span><span class="n">water</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">read_only</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">water</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+
+<span class="w">    </span><span class="c1">// When you really do want a copy, ask for one.</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_only</span><span class="p">.</span><span class="n">as_point_set</span><span class="p">();</span>
+<span class="w">    </span><span class="n">copy</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_z</span><span class="p">(</span><span class="mf">99.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">as_double</span><span class="p">(</span><span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">get_z</span><span class="p">())</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-8-8-1" class="sphinx-tabs-panel" hidden="true" id="panel-8-8-1" name="8-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="c1"># A view of the set is a handle, not a copy. Handing one out lets a</span>
+        <span class="c1"># caller read or write the original without being able to grow or</span>
+        <span class="c1"># shrink it.</span>
+        <span class="n">handle</span> <span class="o">=</span> <span class="n">PointSetView</span><span class="p">(</span><span class="n">water</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_z</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_z</span><span class="p">(),</span> <span class="mf">0.5</span><span class="p">)</span>
+
+        <span class="c1"># A read-only view can not be written through at all; the points it</span>
+        <span class="c1"># hands out have no setters.</span>
+        <span class="n">read_only</span> <span class="o">=</span> <span class="n">ImmutablePointSetView</span><span class="p">(</span><span class="n">water</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">read_only</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">water</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">read_only</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;set_z&quot;</span><span class="p">))</span>
+
+        <span class="c1"># When you really do want a copy, ask for one.</span>
+        <span class="n">copy</span> <span class="o">=</span> <span class="n">read_only</span><span class="o">.</span><span class="n">as_point_set</span><span class="p">()</span>
+        <span class="n">copy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_z</span><span class="p">(</span><span class="mf">99.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">water</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_z</span><span class="p">(),</span> <span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="recap">
+<h2>Recap<a class="headerlink" href="#recap" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Point</span></code> owns three coordinates; <code class="docutils literal notranslate"><span class="pre">PointView</span></code> aliases three coordinates
+owned by something else. They share one API.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PointSet</span></code> owns three <em>arrays</em> of coordinates, one per Cartesian
+direction; <code class="docutils literal notranslate"><span class="pre">PointSetView</span></code> aliases them. They share one API.</p></li>
+<li><p>Indexing a set gives a view into it, not a copy out of it.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Point</span></code> converts implicitly to <code class="docutils literal notranslate"><span class="pre">PointView</span></code>, <code class="docutils literal notranslate"><span class="pre">PointSet</span></code> converts
+implicitly to <code class="docutils literal notranslate"><span class="pre">PointSetView</span></code>, and a mutable view converts implicitly to a
+read-only one. The reverse conversions do not exist.</p></li>
+<li><p>The concrete floating-point type is never part of the API. Consumers which
+need one name it themselves.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../molecule/index.html" class="btn btn-neutral float-left" title="Molecule" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, NWChemEx Community.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

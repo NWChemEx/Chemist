@@ -334,7 +334,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Table, std::size_t... I&gt;</div>
 <div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>std::string supported_pairs_(std::index_sequence&lt;I...&gt;) {</div>
 <div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>    std::string out;</div>
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>    <span class="keyword">auto</span> add = [&amp;](<span class="keyword">auto</span> tag) {</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>    <span class="keyword">auto</span> <a class="code hl_function" href="float__arithmetic_8hpp.html#a0010c5b30011550c1bb283a09b960997">add</a> = [&amp;](<span class="keyword">auto</span> tag) {</div>
 <div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>        <span class="keyword">using </span>T = <span class="keyword">typename</span> <span class="keyword">decltype</span>(tag)::lhs_type;</div>
 <div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>        <span class="keyword">using </span>U = <span class="keyword">typename</span> <span class="keyword">decltype</span>(tag)::rhs_type;</div>
 <div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>        <span class="keywordflow">if</span>(!out.empty()) out += <span class="stringliteral">&quot;, &quot;</span>;</div>
@@ -344,7 +344,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>        out += particle_traits&lt;U&gt;::py_name;</div>
 <div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>        out += <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>    };</div>
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>    (add(std::tuple_element_t&lt;I, Table&gt;{}), ...);</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>    (<a class="code hl_function" href="float__arithmetic_8hpp.html#a0010c5b30011550c1bb283a09b960997">add</a>(std::tuple_element_t&lt;I, Table&gt;{}), ...);</div>
 <div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>    <span class="keywordflow">return</span> out;</div>
 <div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>}</div>
 <div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span> </div>
@@ -357,12 +357,12 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Table, std::size_t... I&gt;</div>
 <div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>std::string supported_types_(std::index_sequence&lt;I...&gt;) {</div>
 <div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>    std::string out;</div>
-<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>    <span class="keyword">auto</span> add = [&amp;](<span class="keyword">auto</span> tag) {</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>    <span class="keyword">auto</span> <a class="code hl_function" href="float__arithmetic_8hpp.html#a0010c5b30011550c1bb283a09b960997">add</a> = [&amp;](<span class="keyword">auto</span> tag) {</div>
 <div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>        <span class="keyword">using </span>T = <span class="keyword">typename</span> <span class="keyword">decltype</span>(tag)::type;</div>
 <div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>        <span class="keywordflow">if</span>(!out.empty()) out += <span class="stringliteral">&quot;, &quot;</span>;</div>
 <div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>        out += particle_traits&lt;T&gt;::py_name;</div>
 <div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>    };</div>
-<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>    (add(std::tuple_element_t&lt;I, Table&gt;{}), ...);</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>    (<a class="code hl_function" href="float__arithmetic_8hpp.html#a0010c5b30011550c1bb283a09b960997">add</a>(std::tuple_element_t&lt;I, Table&gt;{}), ...);</div>
 <div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>    <span class="keywordflow">return</span> out;</div>
 <div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>}</div>
 <div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span> </div>
@@ -447,6 +447,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="ttc" id="aclasschemist_1_1ManyElectrons_html"><div class="ttname"><a href="classchemist_1_1ManyElectrons.html">chemist::ManyElectrons</a></div><div class="ttdoc">A container filled with Electron objects.</div><div class="ttdef"><b>Definition</b> many_electrons.hpp:28</div></div>
 <div class="ttc" id="aclasschemist_1_1Nuclei_html"><div class="ttname"><a href="classchemist_1_1Nuclei.html">chemist::Nuclei</a></div><div class="ttdoc">Represents a container of Nucleus objects.</div><div class="ttdef"><b>Definition</b> nuclei.hpp:35</div></div>
 <div class="ttc" id="aclasschemist_1_1Nucleus_html"><div class="ttname"><a href="classchemist_1_1Nucleus.html">chemist::Nucleus</a></div><div class="ttdoc">Class representing the (point) nucleus of an atom.</div><div class="ttdef"><b>Definition</b> nucleus_class.hpp:34</div></div>
+<div class="ttc" id="afloat__arithmetic_8hpp_html_a0010c5b30011550c1bb283a09b960997"><div class="ttname"><a href="float__arithmetic_8hpp.html#a0010c5b30011550c1bb283a09b960997">chemist::experimental::detail_::add</a></div><div class="ttdeci">float_type add(const_float_reference lhs, const_float_reference rhs)</div><div class="ttdoc">Computes lhs + rhs.</div><div class="ttdef"><b>Definition</b> float_arithmetic.cpp:62</div></div>
 <div class="ttc" id="astructchemist_1_1qm__operator_1_1detail___1_1default__customize_html"><div class="ttname"><a href="structchemist_1_1qm__operator_1_1detail___1_1default__customize.html">chemist::qm_operator::detail_::default_customize</a></div><div class="ttdoc">The customization every operator but ExchangeCorrelation needs.</div><div class="ttdef"><b>Definition</b> py_operator_dispatch.hpp:267</div></div>
 <div class="ttc" id="astructchemist_1_1qm__operator_1_1detail___1_1particle__traits_html"><div class="ttname"><a href="structchemist_1_1qm__operator_1_1detail___1_1particle__traits.html">chemist::qm_operator::detail_::particle_traits</a></div><div class="ttdoc">How a particle type is named in Python.</div><div class="ttdef"><b>Definition</b> py_operator_dispatch.hpp:43</div></div>
 <div class="ttc" id="astructchemist_1_1qm__operator_1_1detail___1_1type__pair_html"><div class="ttname"><a href="structchemist_1_1qm__operator_1_1detail___1_1type__pair.html">chemist::qm_operator::detail_::type_pair</a></div><div class="ttdoc">Compile-time tag naming the two particles a two-particle operator relates.</div><div class="ttdef"><b>Definition</b> py_operator_dispatch.hpp:75</div></div>

@@ -30,14 +30,15 @@ var searchData=
   ['_7enucleiview_27',['~NucleiView',['../classchemist_1_1NucleiView.html#aa145e8ae42794a03c70865117d39a0ba',1,'chemist::NucleiView']]],
   ['_7enucleiviewpimpl_28',['~NucleiViewPIMPL',['../classchemist_1_1detail___1_1NucleiViewPIMPL.html#a65a71d4b41916bf8535b22f06ac4ba5d',1,'chemist::detail_::NucleiViewPIMPL']]],
   ['_7eoperatorbase_29',['~OperatorBase',['../classchemist_1_1qm__operator_1_1OperatorBase.html#aaf09663607e09b3cbfe74c7d1b5435e2',1,'chemist::qm_operator::OperatorBase']]],
-  ['_7epoint_30',['~Point',['../classchemist_1_1Point.html#ad55d3f56cbf16113800ee74ca328b5b6',1,'chemist::Point']]],
-  ['_7epointset_31',['~PointSet',['../classchemist_1_1PointSet.html#af314f22b048de6471829252198f0e64f',1,'chemist::PointSet']]],
+  ['_7epoint_30',['~point',['../classchemist_1_1experimental_1_1Point.html#a5d57e884221519ae0dfce3578035e8cf',1,'chemist::experimental::Point::~Point()'],['../classchemist_1_1Point.html#ad55d3f56cbf16113800ee74ca328b5b6',1,'chemist::Point::~Point()']]],
+  ['_7epointset_31',['~pointset',['../classchemist_1_1PointSet.html#af314f22b048de6471829252198f0e64f',1,'chemist::PointSet::~PointSet()'],['../classchemist_1_1experimental_1_1PointSet.html#a1d975425cc5ebe101ec7b2c3b884c02f',1,'chemist::experimental::PointSet::~PointSet()']]],
   ['_7epointsetcontiguous_32',['~PointSetContiguous',['../classchemist_1_1detail___1_1PointSetContiguous.html#a21a49521a1d271da51c72e79bc98653b',1,'chemist::detail_::PointSetContiguous']]],
-  ['_7epointsetview_33',['~PointSetView',['../classchemist_1_1PointSetView.html#a03a14197dd904be046e4da821b4f6040',1,'chemist::PointSetView']]],
+  ['_7epointsetview_33',['~pointsetview',['../classchemist_1_1experimental_1_1PointSetView.html#a40a93ed6f9a5d95bdff86ca4c2c349e6',1,'chemist::experimental::PointSetView::~PointSetView()'],['../classchemist_1_1PointSetView.html#a03a14197dd904be046e4da821b4f6040',1,'chemist::PointSetView::~PointSetView()']]],
   ['_7epointsetviewpimpl_34',['~PointSetViewPIMPL',['../classchemist_1_1detail___1_1PointSetViewPIMPL.html#ae7858c29a08006cd002be717240a3de9',1,'chemist::detail_::PointSetViewPIMPL']]],
-  ['_7eprimitive_35',['~Primitive',['../classchemist_1_1basis__set_1_1Primitive.html#a162db24a66b24e2c158a81d65a5efb33',1,'chemist::basis_set::Primitive']]],
-  ['_7eshell_36',['~Shell',['../classchemist_1_1basis__set_1_1Shell.html#a10eb1887d9bb45bb61537442086d874a',1,'chemist::basis_set::Shell']]],
-  ['_7eshellview_37',['~ShellView',['../classchemist_1_1basis__set_1_1ShellView.html#a23826c5bbd2cf17a65e17e52f702eede',1,'chemist::basis_set::ShellView']]],
-  ['_7evectorspace_38',['~VectorSpace',['../classchemist_1_1wavefunction_1_1VectorSpace.html#ab2aa17c467bb6e191ee39465744ef6b1',1,'chemist::wavefunction::VectorSpace']]],
-  ['_7ewavefunction_39',['~Wavefunction',['../classchemist_1_1wavefunction_1_1Wavefunction.html#a7e69630dec02d8af40cbef5fb79dc0be',1,'chemist::wavefunction::Wavefunction']]]
+  ['_7epointview_35',['~PointView',['../classchemist_1_1experimental_1_1PointView.html#af8a67382a551c6dcb16a024007e00d50',1,'chemist::experimental::PointView']]],
+  ['_7eprimitive_36',['~Primitive',['../classchemist_1_1basis__set_1_1Primitive.html#a162db24a66b24e2c158a81d65a5efb33',1,'chemist::basis_set::Primitive']]],
+  ['_7eshell_37',['~Shell',['../classchemist_1_1basis__set_1_1Shell.html#a10eb1887d9bb45bb61537442086d874a',1,'chemist::basis_set::Shell']]],
+  ['_7eshellview_38',['~ShellView',['../classchemist_1_1basis__set_1_1ShellView.html#a23826c5bbd2cf17a65e17e52f702eede',1,'chemist::basis_set::ShellView']]],
+  ['_7evectorspace_39',['~VectorSpace',['../classchemist_1_1wavefunction_1_1VectorSpace.html#ab2aa17c467bb6e191ee39465744ef6b1',1,'chemist::wavefunction::VectorSpace']]],
+  ['_7ewavefunction_40',['~Wavefunction',['../classchemist_1_1wavefunction_1_1Wavefunction.html#a7e69630dec02d8af40cbef5fb79dc0be',1,'chemist::wavefunction::Wavefunction']]]
 ];

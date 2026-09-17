@@ -1,0 +1,5 @@
+<map id="chemist::experimental::PointView&lt; PointType &gt;" name="chemist::experimental::PointView&lt; PointType &gt;">
+<area shape="rect" id="Node000001" title="An object which behaves like a Point, but aliases its coordinates." alt="" coords="13,108,201,148"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1PointCommon.html" title=" " alt="" coords="5,5,208,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,74,109,108,104,108,104,74"/>
+</map>
