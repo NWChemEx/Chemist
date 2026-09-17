@@ -48,7 +48,7 @@ void export_molecule_view(python_module_reference m) {
       .def("n_electrons", &view_type::n_electrons)
       .def("set_charge",
            [](reference self, charge_type c) { self.set_charge(c); })
-      .def("multiplicity", &molecule_type::multiplicity)
+      .def("multiplicity", &view_type::multiplicity)
       .def("set_multiplicity",
            [](reference self, size_type m) { self.set_multiplicity(m); })
       .def(
