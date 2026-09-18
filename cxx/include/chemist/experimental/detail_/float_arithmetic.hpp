@@ -141,6 +141,34 @@ float_type multiply(const_float_reference lhs, const_float_reference rhs);
  */
 float_type sqrt(const_float_reference value);
 
+/** @brief Computes the additive inverse of @p value.
+ *
+ *  @param[in] value The value to negate.
+ *
+ *  @return A new Float holding @f$-@f$@p value, in the same concrete type as
+ *          @p value.
+ *
+ *  @throw std::runtime_error if @p value is not holding a floating-point type
+ *                            chemist knows about. Strong throw guarantee.
+ */
+float_type negate(const_float_reference value);
+
+/** @brief Computes @f$e^{\text{value}}@f$.
+ *
+ *  For the uncertainty-quantification types this dispatches to
+ *  tensorwrapper::types::exp, which knows how to propagate uncertainty
+ *  through the operation; for the built-in types it is std::exp.
+ *
+ *  @param[in] value The exponent to raise @f$e@f$ to.
+ *
+ *  @return A new Float holding the result, in the same concrete type as
+ *          @p value.
+ *
+ *  @throw std::runtime_error if @p value is not holding a floating-point type
+ *                            chemist knows about. Strong throw guarantee.
+ */
+float_type exp(const_float_reference value);
+
 /** @brief Converts @p value to a string without losing precision.
  *
  *  wtf::fp::FloatView::to_string uses the default stream precision, which is

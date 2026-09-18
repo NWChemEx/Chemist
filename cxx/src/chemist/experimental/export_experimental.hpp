@@ -16,6 +16,7 @@
 
 #pragma once
 #include "chemist/pychemist.hpp"
+#include <chemist/experimental/basis_set/primitive.hpp>
 #include <chemist/experimental/point/point.hpp>
 #include <sstream>
 #include <stdexcept>
@@ -27,6 +28,8 @@ void export_point_class(python_module_reference m);
 void export_point_view(python_module_reference m);
 void export_point_set_class(python_module_reference m);
 void export_point_set_view(python_module_reference m);
+void export_primitive_class(python_module_reference m);
+void export_primitive_view(python_module_reference m);
 
 /** @brief Exports the whole experimental component into its own submodule.
  *
@@ -42,6 +45,8 @@ inline void export_experimental(python_module_reference m) {
     export_point_view(sub);
     export_point_set_class(sub);
     export_point_set_view(sub);
+    export_primitive_class(sub);
+    export_primitive_view(sub);
 }
 
 namespace detail_ {
@@ -128,6 +133,46 @@ void add_point_writers(PyClass& c) {
       .def("set_x", [](class_type& p, double v) { p.set_x(v); })
       .def("set_y", [](class_type& p, double v) { p.set_y(v); })
       .def("set_z", [](class_type& p, double v) { p.set_z(v); });
+}
+
+/** @brief Adds the read-only half of the primitive API to @p c.
+ *
+ *  Factored out for the same reason as add_point_readers: Primitive,
+ *  PrimitiveView, and the read-only PrimitiveView all expose exactly the
+ *  same accessors.
+ */
+template<typename PyClass>
+void add_primitive_readers(PyClass& c) {
+    using class_type = typename PyClass::type;
+    c.def("get_coefficient",
+          [](const class_type& p) { return to_py_float(p.get_coefficient()); })
+      .def("get_exponent",
+           [](const class_type& p) { return to_py_float(p.get_exponent()); })
+      .def("get_l", [](const class_type& p) { return p.get_l(); })
+      .def("get_center", [](const class_type& p) { return p.get_center(); })
+      .def("evaluate",
+           [](const class_type& p, const Point& r) {
+               return to_py_float(p.evaluate(r));
+           })
+      .def("normalized_evaluate",
+           [](const class_type& p, const Point& r) {
+               return to_py_float(p.normalized_evaluate(r));
+           })
+      .def("normalization_constant", [](const class_type& p) {
+          return to_py_float(p.normalization_constant());
+      });
+}
+
+/// Adds the writable half of the primitive API to @p c
+template<typename PyClass>
+void add_primitive_writers(PyClass& c) {
+    using class_type = typename PyClass::type;
+    c.def("set_coefficient",
+          [](class_type& p, double v) { p.set_coefficient(v); })
+      .def("set_exponent", [](class_type& p, double v) { p.set_exponent(v); })
+      .def("set_l", [](class_type& p, std::size_t v) { p.set_l(v); })
+      .def("set_center",
+           [](class_type& p, const Point& r0) { p.set_center(r0); });
 }
 
 /** @brief Adds the container API shared by PointSet and its views to @p c.

@@ -85,6 +85,22 @@ float_type sqrt(const_float_reference value) {
     return wtf::fp::visit_float_view<fp_types>(visitor, value);
 }
 
+float_type negate(const_float_reference value) {
+    auto visitor = [](const auto& v) -> float_type {
+        using value_type = std::decay_t<decltype(v)>;
+        return float_type(value_type(-v));
+    };
+    return wtf::fp::visit_float_view<fp_types>(visitor, value);
+}
+
+float_type exp(const_float_reference value) {
+    auto visitor = [](const auto& v) -> float_type {
+        using value_type = std::decay_t<decltype(v)>;
+        return float_type(value_type(tensorwrapper::types::exp(value_type(v))));
+    };
+    return wtf::fp::visit_float_view<fp_types>(visitor, value);
+}
+
 void assign(float_reference lhs, const_float_reference rhs) {
     auto visitor = [](auto& a, const auto& b) {
         using lhs_type = std::decay_t<decltype(a)>;
