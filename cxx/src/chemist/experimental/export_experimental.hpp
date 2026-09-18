@@ -59,8 +59,8 @@ namespace detail_ {
 /** @brief Unwraps a type-erased coordinate into a Python float.
  *
  *  WTF's own Python bindings (wtf.fp.Float, wtf.fp.FloatView) expose the
- *  type-erased classes as opaque objects, not through a caster, and only for
- *  the mutable FloatView --- there is no Python binding for
+ *  type-erased classes as opaque objects, not through a caster, and only
+ * for the mutable FloatView --- there is no Python binding for
  *  FloatView<const Float> at all, which is exactly what get_coord/get_x/
  *  get_y/get_z/magnitude return. So a coordinate can not simply be returned
  *  from a chemist binding and left to pybind11; it has to be unwrapped to a
@@ -77,8 +77,8 @@ namespace detail_ {
  *  @throw pybind11::type_error if @p value is not holding a double. Mirrors
  *                              the error wtf's own bindings raise for the
  *                              same situation, rather than letting
- *                              std::runtime_error surface as pybind11's less
- *                              actionable default RuntimeError.
+ *                              std::runtime_error surface as pybind11's
+ * less actionable default RuntimeError.
  */
 template<typename FloatViewType>
 double to_py_float(const FloatViewType& value) {
@@ -144,8 +144,8 @@ void add_point_writers(PyClass& c) {
  *         ContractedGaussian to @p c.
  *
  *  Both model a Gaussian function parameterized by a (possibly shared, in
- *  the contracted-Gaussian case) total angular momentum and center, and both
- *  expose evaluate/normalized_evaluate/normalization_constant with
+ *  the contracted-Gaussian case) total angular momentum and center, and
+ * both expose evaluate/normalized_evaluate/normalization_constant with
  *  identical signatures. Factored out for the same reason add_point_readers
  *  is: so that Primitive/PrimitiveView, and ContractedGaussian/
  *  ContractedGaussianView, are not each declaring these bindings twice.
@@ -235,19 +235,19 @@ void add_contracted_gaussian_writers(PyClass& c) {
 /** @brief Adds the container API shared by PointSet and its views to @p c.
  *
  *  Note that the coordinate accessors are named `get_x_coordinates` rather
- *  than `get_x_buffer`. On the C++ side that method exists to hand a pointer
- *  to contiguous storage to code which can not accept an abstraction; Python
- *  has no use for such a pointer, so the binding returns a copy as a list and
- *  is named so as not to imply otherwise.
+ *  than `get_x_buffer`. On the C++ side that method exists to hand a
+ * pointer to contiguous storage to code which can not accept an
+ * abstraction; Python has no use for such a pointer, so the binding returns
+ * a copy as a list and is named so as not to imply otherwise.
  */
 template<typename PyClass>
 void add_set_readers(PyClass& c) {
     using class_type = typename PyClass::type;
     c.def("__len__", [](const class_type& s) { return s.size(); })
       // Note that this takes a mutable reference: iterating a mutable set
-      // must yield mutable views of its points, exactly as the C++ range-for
-      // does. When class_type is itself read-only, its iterators hand out
-      // read-only views anyway.
+      // must yield mutable views of its points, exactly as the C++
+      // range-for does. When class_type is itself read-only, its iterators
+      // hand out read-only views anyway.
       .def(
         "__iter__",
         [](class_type& s) { return py::make_iterator(s.begin(), s.end()); },
