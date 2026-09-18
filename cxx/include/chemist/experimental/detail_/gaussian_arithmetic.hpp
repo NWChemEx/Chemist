@@ -17,6 +17,7 @@
 #pragma once
 #include <chemist/experimental/detail_/float_arithmetic.hpp>
 #include <cstddef>
+#include <wtf/wtf.hpp>
 
 /** @file gaussian_arithmetic.hpp
  *
@@ -56,5 +57,40 @@ namespace chemist::experimental::detail_ {
  */
 float_type primitive_normalization(const_float_reference exponent,
                                    std::size_t l);
+
+/** @brief Computes the contracted-Gaussian normalization constant, N^G.
+ *
+ *  @f[
+ *    N^{G}(\vec{d}, \vec{\zeta}; \ell) =
+ *      \left[\sum_{p,q} d_p d_q\, S_{pq}\right]^{-1/2},
+ *    \qquad
+ *    S_{pq} = \left(\frac{2\sqrt{\zeta_p \zeta_q}}
+ *                        {\zeta_p + \zeta_q}\right)^{\ell + 3/2}
+ *  @f]
+ *
+ *  @p S_pq is the overlap of the @f$p@f$-th and @f$q@f$-th primitives, each
+ *  already scaled by its own primitive_normalization; this does not need to
+ *  call primitive_normalization itself since the @f$\ell + 3/2@f$ exponent
+ *  already encodes it. See
+ *  docs/source/developer/design/basis_set/normalization.rst for the
+ *  derivation.
+ *
+ *  @param[in] coefficients The contraction coefficients, @f$\vec{d}@f$.
+ *  @param[in] exponents The primitive exponents, @f$\vec{\zeta}@f$. Must be
+ *                        the same length as @p coefficients and hold the
+ *                        same concrete floating-point type.
+ *  @param[in] l The (shared) total angular momentum of the contraction.
+ *
+ *  @return The normalization constant, in the same concrete floating-point
+ *          type as @p coefficients and @p exponents.
+ *
+ *  @throw std::runtime_error if @p coefficients and @p exponents are not the
+ *                            same length, do not hold the same concrete
+ *                            floating-point type, or hold a type chemist
+ *                            does not know about. Strong throw guarantee.
+ */
+float_type contracted_gaussian_normalization(
+  wtf::buffer::BufferView<const wtf::fp::Float> coefficients,
+  wtf::buffer::BufferView<const wtf::fp::Float> exponents, std::size_t l);
 
 } // namespace chemist::experimental::detail_
