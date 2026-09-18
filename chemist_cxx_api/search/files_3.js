@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['point_2ehpp_0',['point.hpp',['../experimental_2point_2point_8hpp.html',1,'']]],
-  ['point_5fpimpl_2ehpp_1',['point_pimpl.hpp',['../point__pimpl_8hpp.html',1,'']]]
+  ['operator_5ffwd_2ehpp_0',['operator_fwd.hpp',['../operator__fwd_8hpp.html',1,'']]]
 ];

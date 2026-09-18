@@ -1,0 +1,7 @@
+<map id="chemist::experimental::detail_::PrimitiveTraitsCommon" name="chemist::experimental::detail_::PrimitiveTraitsCommon">
+<area shape="rect" id="Node000001" title="Types shared by both ChemistClassTraits&lt;Primitive&gt; specializations." alt="" coords="5,37,240,77"/>
+<area shape="rect" id="Node000002" href="$structchemist_1_1ChemistClassTraits_3_01const_01experimental_1_1Primitive_01_4.html" title="Traits for a read&#45;only experimental::Primitive." alt="" coords="288,5,533,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,40,288,36,288,42,254,45"/>
+<area shape="rect" id="Node000003" href="$structchemist_1_1ChemistClassTraits_3_01experimental_1_1Primitive_01_4.html" title="Traits for a mutable experimental::Primitive." alt="" coords="307,69,514,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="254,69,307,75,307,81,253,75"/>
+</map>

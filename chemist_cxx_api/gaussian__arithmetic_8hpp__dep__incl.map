@@ -1,0 +1,15 @@
+<map id="cxx/include/chemist/experimental/detail_/gaussian_arithmetic.hpp" name="cxx/include/chemist/experimental/detail_/gaussian_arithmetic.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="29,5,223,60"/>
+<area shape="rect" id="Node000002" href="$primitive__common_8hpp_source.html" title=" " alt="" coords="24,108,228,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,74,129,108,123,108,123,74"/>
+<area shape="rect" id="Node000003" href="$experimental_2basis__set_2primitive_8hpp.html" title=" " alt="" coords="37,416,189,471"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="104,176,90,211,83,268,87,324,96,375,107,415,101,417,91,376,81,325,78,267,85,210,99,174"/>
+<area shape="rect" id="Node000005" href="$primitive__class_8hpp_source.html" title=" " alt="" coords="100,211,280,265"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="152,173,176,209,171,212,148,176"/>
+<area shape="rect" id="Node000004" href="$export__experimental_8hpp_source.html" title=" " alt="" coords="5,519,220,559"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="115,484,115,519,110,519,110,484"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="162,278,140,314,125,368,117,416,112,416,119,367,136,312,157,275"/>
+<area shape="rect" id="Node000006" href="$experimental_2basis__set_2primitive__view_8hpp_source.html" title=" " alt="" coords="151,313,328,368"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="211,277,229,312,224,314,207,279"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="197,379,147,418,144,414,194,375"/>
+</map>
