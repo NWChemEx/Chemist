@@ -16,6 +16,8 @@
 
 #include <chemist/experimental/detail_/gaussian_arithmetic.hpp>
 #include <chemist/types/floating_point.hpp>
+#include <span>
+#include <stdexcept>
 
 namespace chemist::experimental::detail_ {
 namespace {
@@ -70,6 +72,59 @@ float_type primitive_normalization(const_float_reference exponent,
         return float_type(value_type(lead * tail));
     };
     return wtf::fp::visit_float_view<fp_types>(visitor, exponent);
+}
+
+float_type contracted_gaussian_normalization(
+  wtf::buffer::BufferView<const wtf::fp::Float> coefficients,
+  wtf::buffer::BufferView<const wtf::fp::Float> exponents, std::size_t l) {
+    if(coefficients.size() != exponents.size())
+        throw std::runtime_error(
+          "chemist::experimental: contracted_gaussian_normalization requires "
+          "the coefficient and exponent buffers to be the same length.");
+
+    // wtf::buffer::visit_contiguous_buffer_view visits the cross product of
+    // concrete types the two buffers could each be holding, so this visitor
+    // has to be instantiable for every mixed pair even though only the
+    // matched pairs are reachable T1/T2 themselves may already come
+    // back const-qualified, and requiring an explicit `const` in the
+    // parameter would fail to deduce against a non-const alternative.
+    auto visitor = [l]<typename T1, typename T2>(
+                     std::span<T1> d, std::span<T2> zeta) -> float_type {
+        using d_type = std::remove_const_t<T1>;
+        using z_type = std::remove_const_t<T2>;
+        if constexpr(!std::is_same_v<d_type, z_type>) {
+            throw std::runtime_error(
+              "chemist::experimental: contracted_gaussian_normalization "
+              "requires the coefficient and exponent buffers to hold the "
+              "same concrete floating-point type.");
+        } else {
+            using value_type = d_type;
+
+            const auto n = d.size();
+            // The (l + 3/2) exponent is a plain scalar power, not a
+            // value_type-typed operand, exactly like the 0.75/0.5 exponents
+            // in primitive_normalization above.
+            const double l_exponent = static_cast<double>(l) + 1.5;
+
+            auto sum = value_type(0.0);
+            for(std::size_t p = 0; p < n; ++p) {
+                for(std::size_t q = 0; q < n; ++q) {
+                    auto two_sqrt_zp_zq =
+                      value_type(2.0) * tensorwrapper::types::pow(
+                                          value_type(zeta[p] * zeta[q]), 0.5);
+                    auto ratio = two_sqrt_zp_zq / (zeta[p] + zeta[q]);
+                    auto s_pq =
+                      tensorwrapper::types::pow(value_type(ratio), l_exponent);
+                    sum = sum + value_type(d[p] * d[q] * s_pq);
+                }
+            }
+
+            auto n_g = tensorwrapper::types::pow(value_type(sum), -0.5);
+            return float_type(value_type(n_g));
+        }
+    };
+    return wtf::buffer::visit_contiguous_buffer_view<fp_types>(
+      visitor, coefficients, exponents);
 }
 
 } // namespace chemist::experimental::detail_
