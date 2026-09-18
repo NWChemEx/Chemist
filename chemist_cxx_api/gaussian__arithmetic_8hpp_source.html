@@ -100,16 +100,22 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;<a class="code" href="float__arithmetic_8hpp.html">chemist/experimental/detail_/float_arithmetic.hpp</a>&gt;</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &lt;cstddef&gt;</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">namespace </span>chemist::experimental::detail_ {</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><a class="code hl_typedef" href="float__arithmetic_8hpp.html#a315b24004522a0deece930e7dd155c1d">float_type</a> <a class="code hl_function" href="gaussian__arithmetic_8hpp.html#ad21eed1832baa2f448b8847158eb4c99">primitive_normalization</a>(const_float_reference exponent,</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                                   std::size_t l);</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>} <span class="comment">// namespace chemist::experimental::detail_</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &lt;wtf/wtf.hpp&gt;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">namespace </span>chemist::experimental::detail_ {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><a class="code hl_typedef" href="float__arithmetic_8hpp.html#a315b24004522a0deece930e7dd155c1d">float_type</a> <a class="code hl_function" href="gaussian__arithmetic_8hpp.html#ad21eed1832baa2f448b8847158eb4c99">primitive_normalization</a>(const_float_reference exponent,</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                                   std::size_t l);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><a class="code hl_typedef" href="float__arithmetic_8hpp.html#a315b24004522a0deece930e7dd155c1d">float_type</a> <a class="code hl_function" href="gaussian__arithmetic_8hpp.html#aaaa0cd01c6166b421ad4622dc00e38f7">contracted_gaussian_normalization</a>(</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>  wtf::buffer::BufferView&lt;const wtf::fp::Float&gt; coefficients,</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>  wtf::buffer::BufferView&lt;const wtf::fp::Float&gt; exponents, std::size_t l);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>} <span class="comment">// namespace chemist::experimental::detail_</span></div>
 <div class="ttc" id="afloat__arithmetic_8hpp_html"><div class="ttname"><a href="float__arithmetic_8hpp.html">float_arithmetic.hpp</a></div></div>
 <div class="ttc" id="afloat__arithmetic_8hpp_html_a315b24004522a0deece930e7dd155c1d"><div class="ttname"><a href="float__arithmetic_8hpp.html#a315b24004522a0deece930e7dd155c1d">chemist::experimental::detail_::float_type</a></div><div class="ttdeci">wtf::fp::Float float_type</div><div class="ttdoc">Type used to model a type-erased floating-point value.</div><div class="ttdef"><b>Definition</b> float_arithmetic.hpp:44</div></div>
-<div class="ttc" id="agaussian__arithmetic_8hpp_html_ad21eed1832baa2f448b8847158eb4c99"><div class="ttname"><a href="gaussian__arithmetic_8hpp.html#ad21eed1832baa2f448b8847158eb4c99">chemist::experimental::detail_::primitive_normalization</a></div><div class="ttdeci">float_type primitive_normalization(const_float_reference exponent, std::size_t l)</div><div class="ttdoc">Computes the primitive normalization constant, .</div><div class="ttdef"><b>Definition</b> gaussian_arithmetic.cpp:43</div></div>
+<div class="ttc" id="agaussian__arithmetic_8hpp_html_aaaa0cd01c6166b421ad4622dc00e38f7"><div class="ttname"><a href="gaussian__arithmetic_8hpp.html#aaaa0cd01c6166b421ad4622dc00e38f7">chemist::experimental::detail_::contracted_gaussian_normalization</a></div><div class="ttdeci">float_type contracted_gaussian_normalization(wtf::buffer::BufferView&lt; const wtf::fp::Float &gt; coefficients, wtf::buffer::BufferView&lt; const wtf::fp::Float &gt; exponents, std::size_t l)</div><div class="ttdoc">Computes the contracted-Gaussian normalization constant, N^G.</div><div class="ttdef"><b>Definition</b> gaussian_arithmetic.cpp:77</div></div>
+<div class="ttc" id="agaussian__arithmetic_8hpp_html_ad21eed1832baa2f448b8847158eb4c99"><div class="ttname"><a href="gaussian__arithmetic_8hpp.html#ad21eed1832baa2f448b8847158eb4c99">chemist::experimental::detail_::primitive_normalization</a></div><div class="ttdeci">float_type primitive_normalization(const_float_reference exponent, std::size_t l)</div><div class="ttdoc">Computes the primitive normalization constant, .</div><div class="ttdef"><b>Definition</b> gaussian_arithmetic.cpp:45</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

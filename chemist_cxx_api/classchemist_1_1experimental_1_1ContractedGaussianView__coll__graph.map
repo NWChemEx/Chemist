@@ -1,0 +1,7 @@
+<map id="chemist::experimental::ContractedGaussianView&lt; CGType &gt;" name="chemist::experimental::ContractedGaussianView&lt; CGType &gt;">
+<area shape="rect" id="Node000001" title="An object which behaves like a ContractedGaussian, but aliases its buffers." alt="" coords="553,13,747,67"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1ContractedGaussianCommon.html" title=" " alt="" coords="285,5,505,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="519,37,553,37,553,43,519,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,13,237,67"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="251,37,285,37,285,43,251,43"/>
+</map>

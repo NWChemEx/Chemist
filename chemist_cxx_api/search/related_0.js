@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gridpointview_0',['GridPointView',['../classchemist_1_1GridPoint.html#abc67f2d378ad22efc8d08795161ed146',1,'chemist::GridPoint']]]
+  ['contractedgaussianview_0',['contractedgaussianview',['../classchemist_1_1experimental_1_1ContractedGaussian.html#a93b30c932156f3a7165ca25e8cf9a67e',1,'chemist::experimental::ContractedGaussian::ContractedGaussianView'],['../classchemist_1_1experimental_1_1ContractedGaussianView.html#a93b30c932156f3a7165ca25e8cf9a67e',1,'chemist::experimental::ContractedGaussianView::ContractedGaussianView()']]]
 ];

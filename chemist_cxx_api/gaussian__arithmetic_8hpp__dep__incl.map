@@ -1,15 +1,27 @@
 <map id="cxx/include/chemist/experimental/detail_/gaussian_arithmetic.hpp" name="cxx/include/chemist/experimental/detail_/gaussian_arithmetic.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="29,5,223,60"/>
-<area shape="rect" id="Node000002" href="$primitive__common_8hpp_source.html" title=" " alt="" coords="24,108,228,163"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,74,129,108,123,108,123,74"/>
-<area shape="rect" id="Node000003" href="$experimental_2basis__set_2primitive_8hpp.html" title=" " alt="" coords="37,416,189,471"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="104,176,90,211,83,268,87,324,96,375,107,415,101,417,91,376,81,325,78,267,85,210,99,174"/>
-<area shape="rect" id="Node000005" href="$primitive__class_8hpp_source.html" title=" " alt="" coords="100,211,280,265"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="152,173,176,209,171,212,148,176"/>
-<area shape="rect" id="Node000004" href="$export__experimental_8hpp_source.html" title=" " alt="" coords="5,519,220,559"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="115,484,115,519,110,519,110,484"/>
-<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="162,278,140,314,125,368,117,416,112,416,119,367,136,312,157,275"/>
-<area shape="rect" id="Node000006" href="$experimental_2basis__set_2primitive__view_8hpp_source.html" title=" " alt="" coords="151,313,328,368"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="211,277,229,312,224,314,207,279"/>
-<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="197,379,147,418,144,414,194,375"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="113,5,306,60"/>
+<area shape="rect" id="Node000002" href="$contracted__gaussian__common_8hpp_source.html" title=" " alt="" coords="72,416,259,485"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,73,168,109,148,179,140,236,142,294,149,368,159,415,153,416,144,368,136,294,135,236,143,178,163,107,180,70"/>
+<area shape="rect" id="Node000007" href="$primitive__common_8hpp_source.html" title=" " alt="" coords="178,108,382,163"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="238,70,264,106,259,109,234,73"/>
+<area shape="rect" id="Node000003" href="$experimental_2basis__set_2contracted__gaussian_8hpp.html" title=" " alt="" coords="122,768,337,823"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="229,493,245,511,257,532,267,564,272,597,270,663,258,723,243,769,238,767,252,721,265,662,267,597,262,565,252,534,240,514,225,497"/>
+<area shape="rect" id="Node000005" href="$contracted__gaussian__class_8hpp_source.html" title=" " alt="" coords="56,533,243,603"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="161,500,157,533,151,533,156,499"/>
+<area shape="rect" id="Node000004" href="$export__experimental_8hpp_source.html" title=" " alt="" coords="194,871,409,911"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="260,832,289,869,285,872,256,835"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="186,613,206,650,224,712,231,767,225,768,218,713,202,652,182,615"/>
+<area shape="rect" id="Node000006" href="$experimental_2basis__set_2contracted__gaussian__view_8hpp_source.html" title=" " alt="" coords="5,651,192,720"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="131,617,116,652,111,649,127,614"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="151,726,199,766,196,770,148,731"/>
+<area shape="rect" id="Node000008" href="$experimental_2basis__set_2primitive_8hpp.html" title=" " alt="" coords="299,423,451,478"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="348,168,369,187,385,209,396,237,402,267,404,326,397,381,386,424,381,423,391,380,399,326,397,267,391,239,380,212,365,190,345,172"/>
+<area shape="rect" id="Node000009" href="$primitive__class_8hpp_source.html" title=" " alt="" coords="190,211,370,265"/>
+<area shape="poly" id="edge11_Node000007_Node000009" title=" " alt="" coords="283,176,283,211,277,211,277,176"/>
+<area shape="poly" id="edge10_Node000008_Node000004" title=" " alt="" coords="382,492,385,557,384,641,375,733,365,779,352,824,338,850,321,872,317,869,334,847,347,822,360,778,370,732,379,640,380,557,376,492"/>
+<area shape="poly" id="edge12_Node000009_Node000008" title=" " alt="" coords="323,274,352,312,363,340,370,370,377,423,371,423,365,371,358,342,347,315,319,277"/>
+<area shape="rect" id="Node000010" href="$experimental_2basis__set_2primitive__view_8hpp_source.html" title=" " alt="" coords="159,313,337,368"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="270,279,259,314,254,312,265,278"/>
+<area shape="poly" id="edge14_Node000010_Node000002" title=" " alt="" coords="221,381,193,417,189,414,217,378"/>
+<area shape="poly" id="edge15_Node000010_Node000008" title=" " alt="" coords="292,375,345,421,342,425,288,380"/>
 </map>

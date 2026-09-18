@@ -1,0 +1,7 @@
+<map id="chemist::experimental::ContractedGaussian" name="chemist::experimental::ContractedGaussian">
+<area shape="rect" id="Node000001" title="Models a (segmented) contracted Gaussian by value." alt="" coords="567,20,736,60"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1ContractedGaussianCommon.html" title=" " alt="" coords="272,5,519,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="532,37,566,37,566,43,532,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,20,224,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="238,37,272,37,272,43,238,43"/>
+</map>
