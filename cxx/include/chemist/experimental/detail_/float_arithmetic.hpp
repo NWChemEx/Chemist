@@ -124,6 +124,27 @@ float_type subtract(const_float_reference lhs, const_float_reference rhs);
  */
 float_type multiply(const_float_reference lhs, const_float_reference rhs);
 
+/** @brief Computes @p value * @p factor, where @p factor is exact.
+ *
+ *  @p factor is a plain double rather than a type-erased value because the
+ *  scalars which need this are exact by construction --- combinatorial
+ *  normalization factors and transformation coefficients, which carry no
+ *  uncertainty of their own. @p factor is embedded into the concrete type of
+ *  @p value (via that type's single-value ctor) and the two are then
+ *  multiplied with multiply, which keeps the arithmetic same-type, as the UQ
+ *  types require.
+ *
+ *  @param[in] value The value being scaled.
+ *  @param[in] factor The exact scalar to scale @p value by.
+ *
+ *  @return A new Float holding the product, in the same concrete type as
+ *          @p value.
+ *
+ *  @throw std::runtime_error if @p value is not holding a floating-point type
+ *                            chemist knows about. Strong throw guarantee.
+ */
+float_type scale(const_float_reference value, double factor);
+
 /** @brief Computes the square root of @p value.
  *
  *  For the uncertainty-quantification types this dispatches to

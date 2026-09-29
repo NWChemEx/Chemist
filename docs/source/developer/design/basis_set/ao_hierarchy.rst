@@ -427,16 +427,36 @@ virtual call there would be pure overhead.
 The kind distinctions --- Cartesian versus spherical at the AO layer, and which
 ordering at the shell layer --- are resolved through abstract bases. So
 ``CartesianAO`` and ``CartesianAOView`` share one
-``CartesianAOCommon<DerivedType>`` and both derive from ``AO``, and
-``CCAShell`` and ``CCAShellView`` share one ``CCAShellCommon<DerivedType>`` and
-both derive from ``AOShell``. In each case the CRTP base carries the API and
-the abstract base carries the kind.
+``CartesianAOCommon<DerivedType>`` carrying their API, and ``CCAShell`` and
+``CCAShellView`` share one ``CCAShellCommon<DerivedType>`` carrying theirs. In
+each case the CRTP base carries the API and an abstract base carries the kind.
 
-The two abstract bases are there for different reasons, though. ``AO`` is
-polymorphic because a shell genuinely does not know which kind of AO it holds
-until it is built. ``AOShell`` is polymorphic so that the ordering reaches the
-type system, per :ref:`aoh_ordering`; code which knows statically that it wants
-CCA ordering can say ``CCAShell`` and never pay for dispatch at all.
+Which abstract base, though, is itself a value/view distinction. There are two
+of them at the AO layer: ``CartesianAO`` derives from ``AO`` and
+``CartesianAOView`` derives from ``AOView``, and the questions the two bases
+answer are identical --- both get them from a shared
+``AOCommon<DerivedType>``, which ``AO`` and ``AOView`` each instantiate with
+themselves.
+
+Keeping them separate, rather than having both concrete classes derive from
+``AO``, is so that not owning the underlying state stays visible in the type
+system. An ``AOView`` is cheap to copy and observes writes made through
+whatever does own its contracted Gaussian; a function which requires those
+properties can say ``AOView`` and get them. Only two members differ as a
+result:
+
+- ``clone`` returns the same kind of thing it was called on, so ``AO::clone``
+  is a deep copy and ``AOView::clone`` returns another view of the same state.
+- ``AOView::as_ao`` materializes the aliased state into an owning ``AO``,
+  exactly as ``ContractedGaussianView::as_contracted_gaussian`` does one level
+  down.
+
+The abstract bases are there for different reasons at the two layers, though.
+``AO`` and ``AOView`` are polymorphic because a shell genuinely does not know
+which kind of AO it holds until it is built. ``AOShell`` is polymorphic so that
+the ordering reaches the type system, per :ref:`aoh_ordering`; code which knows
+statically that it wants CCA ordering can say ``CCAShell`` and never pay for
+dispatch at all.
 
 The views compose. A ``ContractedGaussianView`` obtained from a
 ``CartesianAOView`` obtained from an ``AOShellView`` still aliases the one
@@ -490,12 +510,19 @@ Summary
 
 :ref:`aoh_normalization_placement`
    ``Primitive`` owns :math:`N^{\chi}`, ``ContractedGaussian`` owns
-   :math:`N^{G}`, ``CartesianAO`` owns :math:`N^{AO}_{ijk}`, and every ``AO``
-   reports its full constant. ``AOShell`` carries the convention.
+   :math:`N^{G}`, and ``CartesianAO`` owns :math:`N^{AO}_{ijk}`. Each class's
+   ``normalization_constant`` reports the product of the factors which sit in
+   front of the contraction sum, so ``CartesianAO`` reports
+   :math:`N^{AO}_{ijk} N^{G}`; :math:`N^{\chi}` differs from primitive to
+   primitive and so is applied inside the sum, by ``normalized_evaluate``.
+   ``AOShell`` carries the convention.
 
 :ref:`aoh_value_view`
    Every class is a value/view pair sharing one CRTP-implemented API, following
-   :ref:`designing_the_point_component`.
+   :ref:`designing_the_point_component`. At the AO layer the split reaches the
+   abstract bases too: ``CartesianAO`` derives from ``AO`` and
+   ``CartesianAOView`` from ``AOView``, with the two bases sharing one
+   ``AOCommon``, so that a non-owning AO is one the type system can require.
 
 :ref:`aoh_flattening`
    Every container can present the primitives beneath it as a flat sequence.

@@ -16,6 +16,7 @@
 
 #include <chemist/experimental/detail_/gaussian_arithmetic.hpp>
 #include <chemist/types/floating_point.hpp>
+#include <cmath>
 #include <span>
 #include <stdexcept>
 
@@ -125,6 +126,15 @@ float_type contracted_gaussian_normalization(
     };
     return wtf::buffer::visit_contiguous_buffer_view<fp_types>(
       visitor, coefficients, exponents);
+}
+
+double cartesian_ao_normalization(std::size_t i, std::size_t j,
+                                  std::size_t k) noexcept {
+    const auto numerator   = double_factorial_2l_minus_1_(i + j + k);
+    const auto denominator = double_factorial_2l_minus_1_(i) *
+                             double_factorial_2l_minus_1_(j) *
+                             double_factorial_2l_minus_1_(k);
+    return std::sqrt(numerator / denominator);
 }
 
 } // namespace chemist::experimental::detail_

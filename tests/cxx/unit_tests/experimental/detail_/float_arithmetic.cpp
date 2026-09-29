@@ -84,6 +84,19 @@ TEST_CASE("experimental::detail_ float arithmetic") {
         REQUIRE_THROWS_AS(multiply(two, three_f), std::runtime_error);
     }
 
+    SECTION("scale") {
+        REQUIRE(as_double(scale(two, 3.0)) == 6.0);
+
+        // The result is held in the value's concrete type, not widened
+        REQUIRE(as_float(scale(two_f, 3.0)) == 6.0f);
+        REQUIRE_THROWS_AS(scale(two_f, 3.0).as_view().value<double>(),
+                          std::runtime_error);
+    }
+
+    SECTION("scale rejects a type chemist does not know about") {
+        REQUIRE_THROWS_AS(scale(unknown, 3.0), std::runtime_error);
+    }
+
     SECTION("sqrt") {
         REQUIRE(as_double(sqrt(twenty_five)) == 5.0);
         REQUIRE(as_double(sqrt(float_type(0.0))) == 0.0);
@@ -188,6 +201,14 @@ TEST_CASE("experimental::detail_ float arithmetic") {
         SECTION("multiply") {
             auto product = multiply(u1, u2);
             REQUIRE(product.as_view().value<udouble>().mean() == 6.0);
+        }
+
+        SECTION("scale") {
+            // The exact factor is embedded, so the result stays in the UQ type
+            auto scaled = scale(u1, 3.0);
+            auto value  = scaled.as_view().value<udouble>();
+            REQUIRE(value.mean() == 6.0);
+            REQUIRE(value.sd() > 0.0);
         }
 
         SECTION("sqrt") {

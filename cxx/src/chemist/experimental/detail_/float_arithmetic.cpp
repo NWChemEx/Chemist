@@ -74,6 +74,19 @@ float_type multiply(const_float_reference lhs, const_float_reference rhs) {
                       [](const auto& a, const auto& b) { return a * b; });
 }
 
+float_type scale(const_float_reference value, double factor) {
+    auto visitor = [factor](const auto& v) -> float_type {
+        using value_type = std::decay_t<decltype(v)>;
+        // factor is embedded as a value_type, rather than multiplied in as a
+        // bare double, because the UQ types' operators require an exact
+        // value_t match; each type's single-value ctor is what narrows
+        // correctly.
+        return float_type(value_type(factor));
+    };
+    const auto embedded = wtf::fp::visit_float_view<fp_types>(visitor, value);
+    return multiply(value, embedded.as_view());
+}
+
 float_type sqrt(const_float_reference value) {
     auto visitor = [](const auto& v) -> float_type {
         using value_type = std::decay_t<decltype(v)>;
