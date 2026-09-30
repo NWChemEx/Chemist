@@ -125,4 +125,45 @@ float_type contracted_gaussian_normalization(
 double cartesian_ao_normalization(std::size_t i, std::size_t j,
                                   std::size_t k) noexcept;
 
+/** @brief Computes the Cartesian-to-spherical transformation coefficient,
+ *         @f$c^{(ijk)}_{\ell m}@f$.
+ *
+ *  A spherical AO is a linear combination of the Cartesian AOs of its shell:
+ *
+ *  @f[
+ *    \mu_{\ell m}(\vec{r}) = \sum_{i+j+k=\ell}
+ *                            c^{(ijk)}_{\ell m}\, \mu_{ijk}(\vec{r})
+ *  @f]
+ *
+ *  This function returns the coefficients of that sum, following Schlegel and
+ *  Frisch (the same closed form libint2 implements). The spherical AOs are
+ *  real solid harmonics: @f$m < 0@f$ selects the sine-like function and
+ *  @f$m > 0@f$ the cosine-like one.
+ *
+ *  Per docs/source/developer/design/basis_set/normalization.rst, these
+ *  coefficients have @f$N^{AO}_{ijk}@f$ built into them. They therefore
+ *  assume the Cartesian AOs they multiply are normalized only up to
+ *  @f$N^{G}@f$; applying them to Cartesian AOs which already include
+ *  @f$N^{AO}_{ijk}@f$ requires dividing that factor back out first.
+ *
+ *  Like cartesian_ao_normalization, this returns a plain double: the
+ *  coefficient depends only on integers and is exact by construction. Use
+ *  detail_::scale to apply it to a type-erased value.
+ *
+ *  @param[in] l The total angular momentum, @f$\ell@f$.
+ *  @param[in] m The component, @f$m_\ell@f$. Should satisfy
+ *               @f$|m| \le \ell@f$.
+ *  @param[in] i The power of @f$x@f$ in the Cartesian polynomial.
+ *  @param[in] j The power of @f$y@f$ in the Cartesian polynomial.
+ *  @param[in] k The power of @f$z@f$ in the Cartesian polynomial.
+ *
+ *  @return The coefficient. It is zero if @f$i + j + k \ne \ell@f$, if
+ *          @f$|m| > \ell@f$, or if the Cartesian polynomial does not
+ *          contribute to the requested component.
+ *
+ *  @throw None No throw guarantee.
+ */
+double spherical_transform_coefficient(std::size_t l, long m, std::size_t i,
+                                       std::size_t j, std::size_t k) noexcept;
+
 } // namespace chemist::experimental::detail_
