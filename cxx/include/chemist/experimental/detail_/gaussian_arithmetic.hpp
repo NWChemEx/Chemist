@@ -93,4 +93,36 @@ float_type contracted_gaussian_normalization(
   wtf::buffer::BufferView<const wtf::fp::Float> coefficients,
   wtf::buffer::BufferView<const wtf::fp::Float> exponents, std::size_t l);
 
+/** @brief Computes the Cartesian-AO normalization constant,
+ *         @f$N^{AO}_{ijk}@f$.
+ *
+ *  @f[
+ *    N^{AO}_{ijk} = \sqrt{\frac{(2\ell-1)!!}
+ *                        {(2i-1)!!\,(2j-1)!!\,(2k-1)!!}},
+ *    \qquad \ell = i + j + k
+ *  @f]
+ *
+ *  This is the only one of the three normalization factors which
+ *  distinguishes the members of a shell: it is 1 when all of the angular
+ *  momentum sits on a single axis (@f$z^{\ell}@f$ and its permutations) and
+ *  larger otherwise. See
+ *  docs/source/developer/design/basis_set/normalization.rst.
+ *
+ *  Unlike primitive_normalization and contracted_gaussian_normalization this
+ *  returns a plain double rather than a float_type. The factor is a ratio of
+ *  double factorials of the Cartesian powers, so it is exact by construction
+ *  and depends on no floating-point parameter; use detail_::scale to apply it
+ *  to a type-erased value.
+ *
+ *  @param[in] i The power of @f$x@f$ in the Cartesian polynomial.
+ *  @param[in] j The power of @f$y@f$ in the Cartesian polynomial.
+ *  @param[in] k The power of @f$z@f$ in the Cartesian polynomial.
+ *
+ *  @return The normalization constant.
+ *
+ *  @throw None No throw guarantee.
+ */
+double cartesian_ao_normalization(std::size_t i, std::size_t j,
+                                  std::size_t k) noexcept;
+
 } // namespace chemist::experimental::detail_
