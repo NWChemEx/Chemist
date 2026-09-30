@@ -466,15 +466,34 @@ virtual call there would be pure overhead.</p>
 <p>The kind distinctions — Cartesian versus spherical at the AO layer, and which
 ordering at the shell layer — are resolved through abstract bases. So
 <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> and <code class="docutils literal notranslate"><span class="pre">CartesianAOView</span></code> share one
-<code class="docutils literal notranslate"><span class="pre">CartesianAOCommon&lt;DerivedType&gt;</span></code> and both derive from <code class="docutils literal notranslate"><span class="pre">AO</span></code>, and
-<code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> and <code class="docutils literal notranslate"><span class="pre">CCAShellView</span></code> share one <code class="docutils literal notranslate"><span class="pre">CCAShellCommon&lt;DerivedType&gt;</span></code> and
-both derive from <code class="docutils literal notranslate"><span class="pre">AOShell</span></code>. In each case the CRTP base carries the API and
-the abstract base carries the kind.</p>
-<p>The two abstract bases are there for different reasons, though. <code class="docutils literal notranslate"><span class="pre">AO</span></code> is
-polymorphic because a shell genuinely does not know which kind of AO it holds
-until it is built. <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> is polymorphic so that the ordering reaches the
-type system, per <a class="reference internal" href="#aoh-ordering"><span class="std std-ref">AO ordering is part of the design</span></a>; code which knows statically that it wants
-CCA ordering can say <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> and never pay for dispatch at all.</p>
+<code class="docutils literal notranslate"><span class="pre">CartesianAOCommon&lt;DerivedType&gt;</span></code> carrying their API, and <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> and
+<code class="docutils literal notranslate"><span class="pre">CCAShellView</span></code> share one <code class="docutils literal notranslate"><span class="pre">CCAShellCommon&lt;DerivedType&gt;</span></code> carrying theirs. In
+each case the CRTP base carries the API and an abstract base carries the kind.</p>
+<p>Which abstract base, though, is itself a value/view distinction. There are two
+of them at the AO layer: <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> derives from <code class="docutils literal notranslate"><span class="pre">AO</span></code> and
+<code class="docutils literal notranslate"><span class="pre">CartesianAOView</span></code> derives from <code class="docutils literal notranslate"><span class="pre">AOView</span></code>, and the questions the two bases
+answer are identical — both get them from a shared
+<code class="docutils literal notranslate"><span class="pre">AOCommon&lt;DerivedType&gt;</span></code>, which <code class="docutils literal notranslate"><span class="pre">AO</span></code> and <code class="docutils literal notranslate"><span class="pre">AOView</span></code> each instantiate with
+themselves.</p>
+<p>Keeping them separate, rather than having both concrete classes derive from
+<code class="docutils literal notranslate"><span class="pre">AO</span></code>, is so that not owning the underlying state stays visible in the type
+system. An <code class="docutils literal notranslate"><span class="pre">AOView</span></code> is cheap to copy and observes writes made through
+whatever does own its contracted Gaussian; a function which requires those
+properties can say <code class="docutils literal notranslate"><span class="pre">AOView</span></code> and get them. Only two members differ as a
+result:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">clone</span></code> returns the same kind of thing it was called on, so <code class="docutils literal notranslate"><span class="pre">AO::clone</span></code>
+is a deep copy and <code class="docutils literal notranslate"><span class="pre">AOView::clone</span></code> returns another view of the same state.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AOView::as_ao</span></code> materializes the aliased state into an owning <code class="docutils literal notranslate"><span class="pre">AO</span></code>,
+exactly as <code class="docutils literal notranslate"><span class="pre">ContractedGaussianView::as_contracted_gaussian</span></code> does one level
+down.</p></li>
+</ul>
+<p>The abstract bases are there for different reasons at the two layers, though.
+<code class="docutils literal notranslate"><span class="pre">AO</span></code> and <code class="docutils literal notranslate"><span class="pre">AOView</span></code> are polymorphic because a shell genuinely does not know
+which kind of AO it holds until it is built. <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> is polymorphic so that
+the ordering reaches the type system, per <a class="reference internal" href="#aoh-ordering"><span class="std std-ref">AO ordering is part of the design</span></a>; code which knows
+statically that it wants CCA ordering can say <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> and never pay for
+dispatch at all.</p>
 <p>The views compose. A <code class="docutils literal notranslate"><span class="pre">ContractedGaussianView</span></code> obtained from a
 <code class="docutils literal notranslate"><span class="pre">CartesianAOView</span></code> obtained from an <code class="docutils literal notranslate"><span class="pre">AOShellView</span></code> still aliases the one
 contracted Gaussian in the original shell, and for a spherical shell the chain
@@ -518,11 +537,18 @@ become sibling classes. <code class="docutils literal notranslate"><span class="
 its shells agree.</p>
 </dd>
 <dt><a class="reference internal" href="#aoh-normalization-placement"><span class="std std-ref">Each level owns its normalization factor</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">Primitive</span></code> owns <span class="math notranslate nohighlight">\(N^{\chi}\)</span>, <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> owns
-<span class="math notranslate nohighlight">\(N^{G}\)</span>, <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> owns <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span>, and every <code class="docutils literal notranslate"><span class="pre">AO</span></code>
-reports its full constant. <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> carries the convention.</p>
+<span class="math notranslate nohighlight">\(N^{G}\)</span>, and <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> owns <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span>. Each class’s
+<code class="docutils literal notranslate"><span class="pre">normalization_constant</span></code> reports the product of the factors which sit in
+front of the contraction sum, so <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> reports
+<span class="math notranslate nohighlight">\(N^{AO}_{ijk} N^{G}\)</span>; <span class="math notranslate nohighlight">\(N^{\chi}\)</span> differs from primitive to
+primitive and so is applied inside the sum, by <code class="docutils literal notranslate"><span class="pre">normalized_evaluate</span></code>.
+<code class="docutils literal notranslate"><span class="pre">AOShell</span></code> carries the convention.</p>
 </dd>
 <dt><a class="reference internal" href="#aoh-value-view"><span class="std std-ref">Value and view semantics</span></a></dt><dd><p>Every class is a value/view pair sharing one CRTP-implemented API, following
-<a class="reference internal" href="../point/point.html#designing-the-point-component"><span class="std std-ref">Designing the Point Component</span></a>.</p>
+<a class="reference internal" href="../point/point.html#designing-the-point-component"><span class="std std-ref">Designing the Point Component</span></a>. At the AO layer the split reaches the
+abstract bases too: <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> derives from <code class="docutils literal notranslate"><span class="pre">AO</span></code> and
+<code class="docutils literal notranslate"><span class="pre">CartesianAOView</span></code> from <code class="docutils literal notranslate"><span class="pre">AOView</span></code>, with the two bases sharing one
+<code class="docutils literal notranslate"><span class="pre">AOCommon</span></code>, so that a non-owning AO is one the type system can require.</p>
 </dd>
 <dt><a class="reference internal" href="#aoh-flattening"><span class="std std-ref">Flattening</span></a></dt><dd><p>Every container can present the primitives beneath it as a flat sequence.</p>
 </dd>
