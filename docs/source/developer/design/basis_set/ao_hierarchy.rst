@@ -313,11 +313,29 @@ The two derived classes are therefore the same shape: something shared, plus an
 index selecting one function out of it. What differs is what is shared --- a
 contracted Gaussian in one case, a Cartesian shell in the other.
 
-Per :ref:`aoh_transform_coupling`, a ``SphericalAO`` is only meaningful if the
-Cartesian shell beneath it is in the ``contracted`` convention, since the
-coefficients it applies already carry :math:`N^{AO}_{ijk}`. Because
-``SphericalAO`` holds that shell and the shell records its convention, this is
-checkable rather than assumed, and is checked on construction.
+Per :ref:`aoh_transform_coupling`, the coefficients carry
+:math:`N^{AO}_{ijk}`, so they assume Cartesian AOs normalized only up to
+:math:`N^{G}`. However, ``CartesianAO`` applies :math:`N^{AO}_{ijk}` itself,
+``SphericalAO`` reconciles this by dividing :math:`N^{AO}_{ijk}` out of each
+coefficient before applying it to a normalized Cartesian AO. Its
+normalized value is
+
+.. math::
+
+    \mu_{\ell m}(r; d,\zeta) = \sum_{i+j+k=\ell}
+        \frac{c^{(ijk)}_{\ell m}}{N^{AO}_{ijk}}\, \mu_{ijk}(r; d, \zeta),
+
+with :math:`\mu_{ijk}` the fully normalized Cartesian AO. Its unnormalized
+value applies :math:`c^{(ijk)}_{\ell m}` as-is, since the unnormalized
+Cartesian AO does not apply :math:`N^{AO}_{ijk}` either. Its
+``normalization_constant`` is :math:`N^{G}`: the coefficients normalize the
+solid harmonic, but they are part of the angular function rather than a
+constant in front of it. Should a second Cartesian convention ever be
+introduced, this is where it would have to be checked.
+
+The sum runs over every AO in the shell, so its value does not depend on the
+order the shell enumerates them in. ``SphericalAO`` therefore holds its shell
+polymorphically, as an ``AOShell``, and accepts a shell of any ordering.
 
 Note this also means a ``SphericalAO`` reaches its contracted Gaussian through
 its Cartesian shell, all of whose AOs share one. The base class accessor is
@@ -350,6 +368,49 @@ the exponents once is visible through every AO above them.
 this is also what :ref:`aoh_transform_coupling` requires of the Cartesian shell
 underneath it.
 
+``AOShell`` and ``AOShellView`` are the abstract bases, sharing an
+``AOShellCommon`` exactly as ``AO`` and ``AOView`` share ``AOCommon``. The
+purity is reported by ``is_pure`` (with ``is_cartesian`` as its negation), and
+``size`` follows from it: :math:`2\ell+1` for a pure shell and
+:math:`(\ell+1)(\ell+2)/2` for a Cartesian one.
+
+A shell stores the views of its AOs and hands them out by reference. Because
+the kind of AO is only known to the derived class, indexing a shell through a
+base returns a reference to a polymorphic ``AOView``. Indexing a concrete shell
+returns a reference to the concrete view, since the caller then knows which
+kind it holds. Either way it is the same stored object. The views alias the
+shell's contracted Gaussian, so they are derived state rather than part of the
+shell's value:
+
+- They are built the first time the shell is indexed.
+- They are rebuilt whenever :math:`\ell` has changed since they were built,
+  including a change made directly through the contracted Gaussian.
+- Copying, moving, assigning, swapping, or deserializing a shell discards
+  them, so a copy never hands out views of its source.
+
+A reference obtained by indexing is therefore invalidated by those same
+operations, much as a reference into a ``std::vector`` is.
+
+The purity is a template parameter of the concrete shell: ``CCAShell`` is
+``CCAShell<CartesianAO>`` or ``CCAShell<SphericalAO>``. The two have the same
+state, namely one ``ContractedGaussian``. A pure shell does not store the
+Cartesian shell its AOs transform. Instead it presents one as a
+``CCAShellView<const CCAShell<CartesianAO>>`` over that same contracted
+Gaussian. This satisfies the nesting described above with exactly one
+contracted Gaussian, and it means a spherical shell and a Cartesian shell built
+from the same parameters can share every line of code except the ordering. The
+``SphericalAOView`` objects a pure shell hands out alias that view.
+
+``normalization_constant`` reports :math:`N^{G}` for either purity, with
+:math:`N^{\chi}` applied per primitive, following ``CartesianAO``. There is no
+convention enumerator yet, since there is only one convention.
+
+In addition to the value/view members described below, ``AOShell::as_view``
+returns a polymorphic view of a shell. This is what lets a ``SphericalAOView``
+alias a Cartesian shell without knowing its ordering. ``SphericalAO`` and
+``SphericalAOView`` check on construction that the shell they are given is
+Cartesian.
+
 Ordering as a type
 ==================
 
@@ -358,7 +419,16 @@ classes are the orderings. The base owns all of the state described above and
 all of the behavior which does not depend on the order; what a derived class
 supplies is one thing only: the map from an offset within the shell to the
 angular index at that offset. For a Cartesian shell that is the powers
-:math:`(i,j,k)`; for a spherical shell it is the component :math:`m_\ell`.
+:math:`(i,j,k)`, reported by ``cartesian_powers``; for a spherical shell it is
+the component :math:`m_\ell`, reported by ``magnetic_index``. Which of the two a
+shell has depends on its purity, so neither is part of ``AOShell``, where
+asking for the wrong one could only fail at runtime. The concrete shells know
+their purity statically: ``CCAShell<CartesianAO>`` has only
+``cartesian_powers`` and ``CCAShell<SphericalAO>`` has only
+``magnetic_index``. Code holding an ``AOShell`` can still ask each AO it
+indexes about itself. ``SphericalAO``, the one consumer which needs the powers
+of a shell it holds polymorphically, needs them for every :math:`(i,j,k)`
+rather than in any particular order, so it enumerates them itself.
 
 ``CCAShell`` implements the Common Component Architecture ordering, which is
 what libint calls its *standard* ordering. Its Cartesian order is generated by
@@ -490,9 +560,10 @@ Summary
    exist to drift.
 
 :ref:`aoh_transform_coupling`
-   ``SphericalAO`` holds the Cartesian shell it transforms, and that shell
-   records its normalization convention, so the requirement that it be
-   ``contracted`` is checked on construction rather than assumed.
+   Chemist's Cartesian AOs have one convention, which includes
+   :math:`N^{AO}_{ijk}`, so ``SphericalAO`` divides :math:`N^{AO}_{ijk}` back
+   out of each coefficient before applying it to a normalized Cartesian AO. Its
+   ``normalization_constant`` is :math:`N^{G}`.
 
 :ref:`aoh_angular_momentum_storage`
    :math:`\ell` is stored once per contracted Gaussian; the primitives it

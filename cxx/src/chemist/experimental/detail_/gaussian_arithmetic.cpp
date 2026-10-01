@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include <algorithm>
 #include <chemist/experimental/detail_/gaussian_arithmetic.hpp>
 #include <chemist/types/floating_point.hpp>
 #include <cmath>
@@ -40,6 +41,22 @@ double double_factorial_2l_minus_1_(std::size_t l) {
         result *= static_cast<double>(2 * k - 1);
     return result;
 }
+
+/// Computes @f$n!@f$ for a small, non-negative @p n
+double factorial_(long n) {
+    double result = 1.0;
+    for(long k = 2; k <= n; ++k) result *= static_cast<double>(k);
+    return result;
+}
+
+/// Computes the binomial coefficient @f$\binom{n}{k}@f$ for small @p n, @p k
+double binomial_(long n, long k) {
+    if(k < 0 || k > n) return 0.0;
+    return factorial_(n) / (factorial_(k) * factorial_(n - k));
+}
+
+/// Returns @f$(-1)^{n}@f$, with C++'s truncating @p n % 2 for negative @p n
+double parity_(long n) { return n % 2 ? -1.0 : 1.0; }
 
 } // namespace
 
@@ -135,6 +152,67 @@ double cartesian_ao_normalization(std::size_t i, std::size_t j,
                              double_factorial_2l_minus_1_(j) *
                              double_factorial_2l_minus_1_(k);
     return std::sqrt(numerator / denominator);
+}
+
+double spherical_transform_coefficient(std::size_t l_in, long m,
+                                       std::size_t i_in, std::size_t j_in,
+                                       std::size_t k_in) noexcept {
+    // This implementation was written by Claude and appears to be correct
+    // based on numerical tests, but the equations have not been human-verified.
+
+    // Signed copies, since the formula takes differences which can go
+    // negative. The integer divisions below deliberately truncate toward zero,
+    // exactly as in the reference implementation; the signs of the sine-like
+    // components depend on it.
+    const auto l  = static_cast<long>(l_in);
+    const auto lx = static_cast<long>(i_in);
+    const auto ly = static_cast<long>(j_in);
+    const auto lz = static_cast<long>(k_in);
+
+    const long abs_m = m < 0 ? -m : m;
+    if(lx + ly + lz != l || abs_m > l) return 0.0;
+    if((lx + ly - abs_m) % 2) return 0.0;
+
+    const long j = (lx + ly - abs_m) / 2;
+    if(j < 0) return 0.0;
+
+    // Whether x^lx contributes to the cosine-like (m >= 0) or the sine-like
+    // (m < 0) component.
+    const double comp = (m >= 0) ? 1.0 : -1.0;
+    const long i      = abs_m - lx;
+    if(comp != parity_(i < 0 ? -i : i)) return 0.0;
+
+    double pfac = std::sqrt((factorial_(2 * lx) * factorial_(2 * ly) *
+                             factorial_(2 * lz) / factorial_(2 * l)) *
+                            (factorial_(l - abs_m) / factorial_(l)) /
+                            factorial_(l + abs_m) /
+                            (factorial_(lx) * factorial_(ly) * factorial_(lz)));
+    pfac /= static_cast<double>(1L << l);
+    pfac *= (m < 0) ? parity_((i - 1) / 2) : parity_(i / 2);
+
+    const long i_max = (l - abs_m) / 2;
+    double sum       = 0.0;
+    for(long ii = j; ii <= i_max; ++ii) {
+        const double pfac1 = binomial_(l, ii) * binomial_(ii, j) * parity_(ii) *
+                             factorial_(2 * (l - ii)) /
+                             factorial_(l - abs_m - 2 * ii);
+        double sum1      = 0.0;
+        const long k_min = std::max((lx - abs_m) / 2, 0L);
+        const long k_max = std::min(j, lx / 2);
+        for(long kk = k_min; kk <= k_max; ++kk) {
+            if(lx - 2 * kk <= abs_m)
+                sum1 += binomial_(j, kk) * binomial_(abs_m, lx - 2 * kk) *
+                        parity_(kk);
+        }
+        sum += pfac1 * sum1;
+    }
+
+    // This is N^AO_ijk; it is what makes the coefficients assume Cartesian
+    // AOs normalized only up to N^G.
+    sum *= cartesian_ao_normalization(i_in, j_in, k_in);
+
+    constexpr double sqrt2 = 1.41421356237309504880;
+    return (m == 0) ? pfac * sum : sqrt2 * pfac * sum;
 }
 
 } // namespace chemist::experimental::detail_
