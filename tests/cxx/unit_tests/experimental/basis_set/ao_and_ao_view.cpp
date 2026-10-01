@@ -26,6 +26,8 @@
 #include "../../test_helpers.hpp"
 #include "../experimental_test_helpers.hpp"
 #include <chemist/experimental/basis_set/cartesian_ao_view.hpp>
+#include <chemist/experimental/basis_set/cca_shell_class.hpp>
+#include <chemist/experimental/basis_set/spherical_ao_view.hpp>
 #include <chemist/experimental/point/point_class.hpp>
 #include <chemist/experimental/point/point_set_class.hpp>
 #include <utility>
@@ -103,6 +105,88 @@ TEST_CASE("experimental::AO") {
         const AO& diff_base = diff;
         REQUIRE(const_base.are_different(diff_base));
         REQUIRE_FALSE(const_base.are_equal(diff_base));
+    }
+
+    SECTION("A Cartesian and a spherical AO are never equal") {
+        // Even for s functions, which are the same function: they are
+        // different kinds of AO, and are_equal compares kinds first.
+        CartesianAO s_cart(cs.begin(), cs.end(), es.begin(), es.end(),
+                           std::size_t(0), std::size_t(0), std::size_t(0), 1.0,
+                           2.0, 3.0);
+        SphericalAO s_sph(cs.begin(), cs.end(), es.begin(), es.end(),
+                          std::size_t(0), 0, 1.0, 2.0, 3.0);
+        const AO& cart_base = s_cart;
+        const AO& sph_base  = s_sph;
+        REQUIRE(as_double(cart_base.normalized_evaluate(r)) ==
+                Catch::Approx(as_double(sph_base.normalized_evaluate(r))));
+        REQUIRE(cart_base.are_different(sph_base));
+        REQUIRE(sph_base.are_different(cart_base));
+    }
+}
+
+TEST_CASE("experimental::AO (spherical)") {
+    Point r(0.3, -0.4, 0.5);
+
+    std::vector<double> cs{2.0, 3.0};
+    std::vector<double> es{1.0, 2.0};
+    SphericalAO d1(cs.begin(), cs.end(), es.begin(), es.end(), std::size_t(2),
+                   1, 1.0, 2.0, 3.0);
+    const AO& base = d1;
+
+    SECTION("The shared API agrees with the derived class") {
+        REQUIRE(base.get_l() == d1.get_l());
+        REQUIRE(base.get_center() == d1.get_center());
+        REQUIRE(base.get_contracted_gaussian() == d1.get_contracted_gaussian());
+        REQUIRE(as_double(base.normalization_constant()) ==
+                as_double(d1.normalization_constant()));
+        REQUIRE(as_double(base.evaluate(r)) == as_double(d1.evaluate(r)));
+        REQUIRE(as_double(base.normalized_evaluate(r)) ==
+                as_double(d1.normalized_evaluate(r)));
+    }
+
+    SECTION("clone is a deep copy of the same kind") {
+        auto cloned = base.clone();
+        REQUIRE(dynamic_cast<SphericalAO*>(cloned.get()) != nullptr);
+        REQUIRE(cloned->are_equal(base));
+    }
+}
+
+TEST_CASE("experimental::AOView (spherical)") {
+    Point r(0.3, -0.4, 0.5);
+
+    std::vector<double> cs{2.0, 3.0};
+    std::vector<double> es{1.0, 2.0};
+    CCAShell<CartesianAO> shell(cs.begin(), cs.end(), es.begin(), es.end(),
+                                std::size_t(2), 1.0, 2.0, 3.0);
+    SphericalAO d1(shell, 1);
+    const_spherical_ao_view v(shell, 1);
+    const AOView& base = v;
+
+    SECTION("The shared API agrees with the AO it aliases") {
+        REQUIRE(base.get_l() == d1.get_l());
+        REQUIRE(as_double(base.normalized_evaluate(r)) ==
+                as_double(d1.normalized_evaluate(r)));
+    }
+
+    SECTION("clone is a shallow copy") {
+        auto cloned = base.clone();
+        REQUIRE(cloned->are_equal(base));
+        shell.get_contracted_gaussian().set_center(Point(0.0, 0.0, 0.0));
+        REQUIRE(cloned->get_center() == Point(0.0, 0.0, 0.0));
+    }
+
+    SECTION("as_ao materializes a SphericalAO") {
+        auto materialized = base.as_ao();
+        REQUIRE(dynamic_cast<SphericalAO*>(materialized.get()) != nullptr);
+        REQUIRE(materialized->are_equal(d1));
+    }
+
+    SECTION("Views of different kinds of AO are never equal") {
+        CartesianAO dxz(cs.begin(), cs.end(), es.begin(), es.end(),
+                        std::size_t(1), std::size_t(0), std::size_t(1), 1.0,
+                        2.0, 3.0);
+        cartesian_ao_view cart_view(dxz);
+        REQUIRE(base.are_different(cart_view));
     }
 }
 
