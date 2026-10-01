@@ -1,3 +1,19 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classchemist_1_1experimental_1_1AOCommon.html" title="Implements the API shared by AO and AOView." alt="" coords="5,5,224,45"/>
+<area shape="rect" id="Node000000" href="$classchemist_1_1experimental_1_1AOCommon.html" title=" " alt="" coords="5,91,195,131"/>
+<area shape="rect" id="Node000001" href="$classchemist_1_1experimental_1_1AOView.html" title="Abstract base class of the atomic orbitals which alias their state." alt="" coords="243,91,412,131"/>
+<area shape="poly" id="edge30_Node000000_Node000001" title=" " alt="" coords="209,109,242,109,242,114,209,114"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html" title=" " alt="" coords="460,257,713,312"/>
+<area shape="poly" id="edge31_Node000001_Node000002" title=" " alt="" coords="354,140,400,193,429,219,461,242,485,255,483,260,459,247,426,224,396,196,350,144"/>
+<area shape="rect" id="Node000005" href="$classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html" title=" " alt="" coords="461,5,712,60"/>
+<area shape="poly" id="edge33_Node000001_Node000005" title=" " alt="" coords="406,85,495,58,497,63,408,90"/>
+<area shape="rect" id="Node000008" href="$classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html" title="Code factorization for implementing AOView&#39;s virtual methods." alt="" coords="502,84,671,139"/>
+<area shape="poly" id="edge35_Node000001_Node000008" title=" " alt="" coords="426,109,502,109,502,114,426,114"/>
+<area shape="rect" id="Node000003" href="$classchemist_1_1experimental_1_1CartesianAOView.html" title="An object which behaves like a CartesianAO, but aliases the contracted Gaussian it is built on." alt="" coords="761,307,992,347"/>
+<area shape="poly" id="edge32_Node000002_Node000003" title=" " alt="" coords="727,303,762,308,761,313,727,308"/>
+<area shape="rect" id="Node000006" href="$classchemist_1_1experimental_1_1SphericalAOView.html" title="An object which behaves like a SphericalAO, but aliases the Cartesian shell it is built on." alt="" coords="762,95,991,135"/>
+<area shape="poly" id="edge34_Node000005_Node000006" title=" " alt="" coords="697,61,807,93,805,98,695,66"/>
+<area shape="rect" id="Node000004" href="$classchemist_1_1experimental_1_1CartesianAOCommon.html" title=" " alt="" coords="481,337,693,406"/>
+<area shape="poly" id="edge36_Node000004_Node000003" title=" " alt="" coords="706,351,761,342,761,347,707,356"/>
+<area shape="rect" id="Node000007" href="$classchemist_1_1experimental_1_1SphericalAOCommon.html" title=" " alt="" coords="481,163,692,233"/>
+<area shape="poly" id="edge37_Node000007_Node000006" title=" " alt="" coords="704,162,805,133,806,138,706,167"/>
 </map>

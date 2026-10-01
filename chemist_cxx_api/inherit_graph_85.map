@@ -1,7 +1,13 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$structchemist_1_1experimental_1_1detail___1_1CartesianAOTraitsCommon.html" title="Types shared by both ChemistClassTraits&lt;CartesianAO&gt; specializations." alt="" coords="5,30,204,85"/>
-<area shape="rect" id="Node000001" href="$structchemist_1_1ChemistClassTraits_3_01const_01experimental_1_1CartesianAO_01_4.html" title="Traits for a read&#45;only experimental::CartesianAO." alt="" coords="252,5,519,45"/>
-<area shape="poly" id="edge32_Node000000_Node000001" title=" " alt="" coords="217,42,252,38,252,43,218,47"/>
-<area shape="rect" id="Node000002" href="$structchemist_1_1ChemistClassTraits_3_01experimental_1_1CartesianAO_01_4.html" title="Traits for a mutable experimental::CartesianAO." alt="" coords="271,69,499,109"/>
-<area shape="poly" id="edge33_Node000000_Node000002" title=" " alt="" coords="218,68,272,74,271,79,217,73"/>
+<area shape="rect" id="Node000000" href="$classchemist_1_1experimental_1_1AOShellCommon.html" title=" " alt="" coords="5,53,227,93"/>
+<area shape="rect" id="Node000001" href="$classchemist_1_1experimental_1_1AOShell.html" title="Abstract base class of the shells which own their state." alt="" coords="275,53,444,93"/>
+<area shape="poly" id="edge38_Node000000_Node000001" title=" " alt="" coords="240,70,274,70,274,75,240,75"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1detail___1_1AOShellImpl.html" title=" " alt="" coords="528,5,719,60"/>
+<area shape="poly" id="edge39_Node000001_Node000002" title=" " alt="" coords="457,55,527,44,528,50,458,60"/>
+<area shape="rect" id="Node000005" href="$classchemist_1_1experimental_1_1detail___1_1AOShellImpl.html" title="Code factorization for implementing AOShell&#39;s virtual methods." alt="" coords="539,84,708,139"/>
+<area shape="poly" id="edge41_Node000001_Node000005" title=" " alt="" coords="458,84,539,96,538,102,457,90"/>
+<area shape="rect" id="Node000003" href="$classchemist_1_1experimental_1_1CCAShell.html" title="Models a shell, in CCA order, by value." alt="" coords="803,91,972,131"/>
+<area shape="poly" id="edge40_Node000002_Node000003" title=" " alt="" coords="731,61,755,69,821,89,820,94,754,74,729,67"/>
+<area shape="rect" id="Node000004" href="$classchemist_1_1experimental_1_1CCAShellCommon.html" title=" " alt="" coords="492,163,755,217"/>
+<area shape="poly" id="edge42_Node000004_Node000003" title=" " alt="" coords="729,156,754,149,820,129,821,134,755,154,731,161"/>
 </map>

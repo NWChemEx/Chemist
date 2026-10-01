@@ -91,15 +91,19 @@ Inheritance diagram for chemist::experimental::AOView:</div>
 <div class="dyncontent">
 <div class="center"><img src="classchemist_1_1experimental_1_1AOView__inherit__graph.png" border="0" usemap="#achemist_1_1experimental_1_1AOView_inherit__map" alt="Inheritance graph"/></div>
 <map name="achemist_1_1experimental_1_1AOView_inherit__map" id="achemist_1_1experimental_1_1AOView_inherit__map">
-<area shape="rect" title="Abstract base class of the atomic orbitals which alias their state." alt="" coords="243,53,412,93"/>
+<area shape="rect" title="Abstract base class of the atomic orbitals which alias their state." alt="" coords="243,91,412,131"/>
 <area shape="rect" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html" title=" " alt="" coords="460,5,713,60"/>
-<area shape="poly" title=" " alt="" coords="425,55,459,50,460,55,426,60"/>
-<area shape="rect" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html" title="Code factorization for implementing AOView&#39;s virtual methods." alt="" coords="502,84,671,139"/>
-<area shape="poly" title=" " alt="" coords="426,85,502,96,501,101,425,90"/>
-<area shape="rect" href="classchemist_1_1experimental_1_1AOCommon.html" title=" " alt="" coords="5,53,195,93"/>
-<area shape="poly" title=" " alt="" coords="209,70,242,70,242,75,209,75"/>
+<area shape="poly" title=" " alt="" coords="406,85,495,58,497,63,408,90"/>
+<area shape="rect" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html" title=" " alt="" coords="461,84,712,139"/>
+<area shape="poly" title=" " alt="" coords="426,109,461,109,461,114,426,114"/>
+<area shape="rect" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html" title="Code factorization for implementing AOView&#39;s virtual methods." alt="" coords="502,163,671,217"/>
+<area shape="poly" title=" " alt="" coords="408,133,502,162,501,167,406,138"/>
+<area shape="rect" href="classchemist_1_1experimental_1_1AOCommon.html" title=" " alt="" coords="5,91,195,131"/>
+<area shape="poly" title=" " alt="" coords="209,109,242,109,242,114,209,114"/>
 <area shape="rect" href="classchemist_1_1experimental_1_1CartesianAOView.html" title="An object which behaves like a CartesianAO, but aliases the contracted Gaussian it is built on." alt="" coords="761,13,992,53"/>
 <area shape="poly" title=" " alt="" coords="727,30,761,30,761,35,727,35"/>
+<area shape="rect" href="classchemist_1_1experimental_1_1SphericalAOView.html" title="An object which behaves like a SphericalAO, but aliases the Cartesian shell it is built on." alt="" coords="762,91,991,131"/>
+<area shape="poly" title=" " alt="" coords="726,109,762,109,762,114,726,114"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -286,7 +290,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract base class of the atomic orbitals which alias their state. </p>
-<p>*this is to <a class="el" href="classchemist_1_1experimental_1_1CartesianAOView.html" title="An object which behaves like a CartesianAO, but aliases the contracted Gaussian it is built on.">CartesianAOView</a> and SphericalAOView what <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> is to <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html" title="Models a Cartesian atomic orbital by value.">CartesianAO</a> and SphericalAO: the base which lets code ask an atomic orbital about itself without knowing which kind it is. The shared API is in <a class="el" href="classchemist_1_1experimental_1_1AOCommon.html" title="Implements the API shared by AO and AOView.">AOCommon</a>, which *this and <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> both derive from, so the two bases answer the same questions the same way.</p>
+<p>*this is to <a class="el" href="classchemist_1_1experimental_1_1CartesianAOView.html" title="An object which behaves like a CartesianAO, but aliases the contracted Gaussian it is built on.">CartesianAOView</a> and <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html" title="An object which behaves like a SphericalAO, but aliases the Cartesian shell it is built on.">SphericalAOView</a> what <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> is to <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html" title="Models a Cartesian atomic orbital by value.">CartesianAO</a> and <a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html" title="Models a spherical atomic orbital by value.">SphericalAO</a>: the base which lets code ask an atomic orbital about itself without knowing which kind it is. The shared API is in <a class="el" href="classchemist_1_1experimental_1_1AOCommon.html" title="Implements the API shared by AO and AOView.">AOCommon</a>, which *this and <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> both derive from, so the two bases answer the same questions the same way.</p>
 <p>The hierarchies are deliberately separate rather than *this deriving from <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>. What an <a class="el" href="classchemist_1_1experimental_1_1AOView.html" title="Abstract base class of the atomic orbitals which alias their state.">AOView</a> adds is a guarantee &mdash; that it does not own what it describes, and so is cheap to copy and observes writes made through whatever does own it &mdash; and a function which requires that guarantee should be able to say so in its signature. Two consequences follow, and are the only places the two bases differ:</p>
 <ul>
 <li><a class="el" href="classchemist_1_1experimental_1_1AOView.html#a17b84cc1f7bba520658ec6dfd8a919df" title="Returns a new view aliasing the same state as *this.">clone()</a> returns another <a class="el" href="classchemist_1_1experimental_1_1AOView.html" title="Abstract base class of the atomic orbitals which alias their state.">AOView</a> aliasing the same state, because a shallow copy is what copying a view means.</li>
@@ -433,7 +437,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements are_equal. </p>
 
-<p>Implemented in <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html#abad7627b7881dee0465e889d9fb2b771">chemist::experimental::detail_::AOViewImpl&lt; DerivedType &gt;</a>, and <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html#abad7627b7881dee0465e889d9fb2b771">chemist::experimental::detail_::AOViewImpl&lt; CartesianAOView&lt; CAOType &gt; &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html#abad7627b7881dee0465e889d9fb2b771">chemist::experimental::detail_::AOViewImpl&lt; DerivedType &gt;</a>, <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html#abad7627b7881dee0465e889d9fb2b771">chemist::experimental::detail_::AOViewImpl&lt; CartesianAOView&lt; CAOType &gt; &gt;</a>, and <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html#abad7627b7881dee0465e889d9fb2b771">chemist::experimental::detail_::AOViewImpl&lt; SphericalAOView&lt; SAOType &gt; &gt;</a>.</p>
 
 </div>
 </div>
@@ -497,7 +501,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements as_ao. </p>
 
-<p>Implemented in <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html#a1810c73ba09afcb236c0e1a3e490e13c">chemist::experimental::detail_::AOViewImpl&lt; DerivedType &gt;</a>, and <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html#a1810c73ba09afcb236c0e1a3e490e13c">chemist::experimental::detail_::AOViewImpl&lt; CartesianAOView&lt; CAOType &gt; &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html#a1810c73ba09afcb236c0e1a3e490e13c">chemist::experimental::detail_::AOViewImpl&lt; DerivedType &gt;</a>, <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html#a1810c73ba09afcb236c0e1a3e490e13c">chemist::experimental::detail_::AOViewImpl&lt; CartesianAOView&lt; CAOType &gt; &gt;</a>, and <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html#a1810c73ba09afcb236c0e1a3e490e13c">chemist::experimental::detail_::AOViewImpl&lt; SphericalAOView&lt; SAOType &gt; &gt;</a>.</p>
 
 </div>
 </div>
@@ -561,7 +565,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements clone. </p>
 
-<p>Implemented in <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html#a16d79bc1ada51f6cdc2ac4c702770dec">chemist::experimental::detail_::AOViewImpl&lt; DerivedType &gt;</a>, and <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html#a16d79bc1ada51f6cdc2ac4c702770dec">chemist::experimental::detail_::AOViewImpl&lt; CartesianAOView&lt; CAOType &gt; &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html#a16d79bc1ada51f6cdc2ac4c702770dec">chemist::experimental::detail_::AOViewImpl&lt; DerivedType &gt;</a>, <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html#a16d79bc1ada51f6cdc2ac4c702770dec">chemist::experimental::detail_::AOViewImpl&lt; CartesianAOView&lt; CAOType &gt; &gt;</a>, and <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOViewImpl.html#a16d79bc1ada51f6cdc2ac4c702770dec">chemist::experimental::detail_::AOViewImpl&lt; SphericalAOView&lt; SAOType &gt; &gt;</a>.</p>
 
 </div>
 </div>

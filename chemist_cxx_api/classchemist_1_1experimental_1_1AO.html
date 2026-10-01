@@ -91,15 +91,19 @@ Inheritance diagram for chemist::experimental::AO:</div>
 <div class="dyncontent">
 <div class="center"><img src="classchemist_1_1experimental_1_1AO__inherit__graph.png" border="0" usemap="#achemist_1_1experimental_1_1AO_inherit__map" alt="Inheritance graph"/></div>
 <map name="achemist_1_1experimental_1_1AO_inherit__map" id="achemist_1_1experimental_1_1AO_inherit__map">
-<area shape="rect" title="Abstract base class of the atomic orbitals which own their state." alt="" coords="223,45,419,70"/>
+<area shape="rect" title="Abstract base class of the atomic orbitals which own their state." alt="" coords="223,77,419,102"/>
 <area shape="rect" href="classchemist_1_1experimental_1_1detail___1_1AOImpl.html" title=" " alt="" coords="467,5,708,45"/>
-<area shape="poly" title=" " alt="" coords="432,41,466,37,467,42,433,47"/>
-<area shape="rect" href="classchemist_1_1experimental_1_1detail___1_1AOImpl.html" title="Code factorization for implementing AO&#39;s virtual methods." alt="" coords="467,69,708,109"/>
-<area shape="poly" title=" " alt="" coords="433,68,467,72,466,77,432,73"/>
-<area shape="rect" href="classchemist_1_1experimental_1_1AOCommon.html" title=" " alt="" coords="5,37,175,77"/>
-<area shape="poly" title=" " alt="" coords="189,55,223,55,223,60,189,60"/>
+<area shape="poly" title=" " alt="" coords="388,71,503,43,504,48,389,76"/>
+<area shape="rect" href="classchemist_1_1experimental_1_1detail___1_1AOImpl.html" title=" " alt="" coords="468,69,707,109"/>
+<area shape="poly" title=" " alt="" coords="432,87,468,87,468,92,432,92"/>
+<area shape="rect" href="classchemist_1_1experimental_1_1detail___1_1AOImpl.html" title="Code factorization for implementing AO&#39;s virtual methods." alt="" coords="467,133,708,173"/>
+<area shape="poly" title=" " alt="" coords="389,103,504,131,503,136,388,108"/>
+<area shape="rect" href="classchemist_1_1experimental_1_1AOCommon.html" title=" " alt="" coords="5,69,175,109"/>
+<area shape="poly" title=" " alt="" coords="189,87,223,87,223,92,189,92"/>
 <area shape="rect" href="classchemist_1_1experimental_1_1CartesianAO.html" title="Models a Cartesian atomic orbital by value." alt="" coords="756,5,925,45"/>
 <area shape="poly" title=" " alt="" coords="722,23,756,23,756,28,722,28"/>
+<area shape="rect" href="classchemist_1_1experimental_1_1SphericalAO.html" title="Models a spherical atomic orbital by value." alt="" coords="756,69,925,109"/>
+<area shape="poly" title=" " alt="" coords="721,87,756,87,756,92,721,92"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -276,7 +280,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract base class of the atomic orbitals which own their state. </p>
-<p>An atomic orbital comes in two kinds: a <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html" title="Models a Cartesian atomic orbital by value.">CartesianAO</a>, which pairs a contracted Gaussian with a monomial <picture><source srcset="form_27_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$x^i y^j z^k$" src="form_27.png"/></picture>, and a SphericalAO, which is a linear combination of the Cartesian AOs of its shell. They are built differently and carry different state, but most code does not care which it has &mdash; it wants the angular momentum, the center, the contracted Gaussian, the normalization constant, or the value at a point, all of which both kinds have. *this is the common base which lets such code be written once, following the same idiom as VectorSpace and OperatorBase.</p>
+<p>An atomic orbital comes in two kinds: a <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html" title="Models a Cartesian atomic orbital by value.">CartesianAO</a>, which pairs a contracted Gaussian with a monomial <picture><source srcset="form_27_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$x^i y^j z^k$" src="form_27.png"/></picture>, and a <a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html" title="Models a spherical atomic orbital by value.">SphericalAO</a>, which is a linear combination of the Cartesian AOs of its shell. They are built differently and carry different state, but most code does not care which it has &mdash; it wants the angular momentum, the center, the contracted Gaussian, the normalization constant, or the value at a point, all of which both kinds have. *this is the common base which lets such code be written once, following the same idiom as VectorSpace and OperatorBase.</p>
 <p>The shared API itself lives in <a class="el" href="classchemist_1_1experimental_1_1AOCommon.html" title="Implements the API shared by AO and AOView.">AOCommon</a>, which *this and <a class="el" href="classchemist_1_1experimental_1_1AOView.html" title="Abstract base class of the atomic orbitals which alias their state.">AOView</a> both derive from; what *this adds is the polymorphism: the pure virtual methods <a class="el" href="classchemist_1_1experimental_1_1AOCommon.html" title="Implements the API shared by AO and AOView.">AOCommon</a> forwards to, plus clone and comparison.</p>
 <p>Note *this can not be instantiated, and a caller therefore always holds an <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> by reference or through a base_pointer. See <a class="el" href="classchemist_1_1experimental_1_1AOView.html" title="Abstract base class of the atomic orbitals which alias their state.">AOView</a> for the counterpart hierarchy whose members alias state owned by something else. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
@@ -377,7 +381,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Determines if *this is value equal to <code>rhs</code>. </p>
-<p>Two AOs are value equal if they are the same kind of <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> and if the state of that kind is value equal. An <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> is never value equal to an <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> of a different kind, even if the two happen to describe the same function, e.g., a <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html" title="Models a Cartesian atomic orbital by value.">CartesianAO</a> s-orbital and a SphericalAO s-orbital are not value equal even though they are mathematically identical.</p>
+<p>Two AOs are value equal if they are the same kind of <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> and if the state of that kind is value equal. An <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> is never value equal to an <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> of a different kind, even if the two happen to describe the same function, e.g., a <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html" title="Models a Cartesian atomic orbital by value.">CartesianAO</a> s-orbital and a <a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html" title="Models a spherical atomic orbital by value.">SphericalAO</a> s-orbital are not value equal even though they are mathematically identical.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> to compare to *this.</td></tr>
@@ -420,7 +424,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements are_equal. </p>
 
-<p>Implemented in <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOImpl.html#ab544f17a4cf06b580bb094c7269c77ea">chemist::experimental::detail_::AOImpl&lt; DerivedType &gt;</a>, and <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOImpl.html#ab544f17a4cf06b580bb094c7269c77ea">chemist::experimental::detail_::AOImpl&lt; CartesianAO &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOImpl.html#ab544f17a4cf06b580bb094c7269c77ea">chemist::experimental::detail_::AOImpl&lt; DerivedType &gt;</a>, <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOImpl.html#ab544f17a4cf06b580bb094c7269c77ea">chemist::experimental::detail_::AOImpl&lt; CartesianAO &gt;</a>, and <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOImpl.html#ab544f17a4cf06b580bb094c7269c77ea">chemist::experimental::detail_::AOImpl&lt; SphericalAO &gt;</a>.</p>
 
 </div>
 </div>
@@ -484,7 +488,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements clone. </p>
 
-<p>Implemented in <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOImpl.html#a209be850d0357ef762c30576cb778d84">chemist::experimental::detail_::AOImpl&lt; DerivedType &gt;</a>, and <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOImpl.html#a209be850d0357ef762c30576cb778d84">chemist::experimental::detail_::AOImpl&lt; CartesianAO &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOImpl.html#a209be850d0357ef762c30576cb778d84">chemist::experimental::detail_::AOImpl&lt; DerivedType &gt;</a>, <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOImpl.html#a209be850d0357ef762c30576cb778d84">chemist::experimental::detail_::AOImpl&lt; CartesianAO &gt;</a>, and <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AOImpl.html#a209be850d0357ef762c30576cb778d84">chemist::experimental::detail_::AOImpl&lt; SphericalAO &gt;</a>.</p>
 
 </div>
 </div>

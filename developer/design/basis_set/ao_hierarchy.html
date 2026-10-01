@@ -371,11 +371,25 @@ shell. The coefficients <span class="math notranslate nohighlight">\(c^{(ijk)}_{
 <p>The two derived classes are therefore the same shape: something shared, plus an
 index selecting one function out of it. What differs is what is shared — a
 contracted Gaussian in one case, a Cartesian shell in the other.</p>
-<p>Per <a class="reference internal" href="#aoh-transform-coupling"><span class="std std-ref">The spherical transform assumes a convention</span></a>, a <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> is only meaningful if the
-Cartesian shell beneath it is in the <code class="docutils literal notranslate"><span class="pre">contracted</span></code> convention, since the
-coefficients it applies already carry <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span>. Because
-<code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> holds that shell and the shell records its convention, this is
-checkable rather than assumed, and is checked on construction.</p>
+<p>Per <a class="reference internal" href="#aoh-transform-coupling"><span class="std std-ref">The spherical transform assumes a convention</span></a>, the coefficients carry
+<span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span>, so they assume Cartesian AOs normalized only up to
+<span class="math notranslate nohighlight">\(N^{G}\)</span>. However, <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> applies <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span> itself,
+<code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> reconciles this by dividing <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span> out of each
+coefficient before applying it to a normalized Cartesian AO. Its
+normalized value is</p>
+<div class="math notranslate nohighlight">
+\[\mu_{\ell m}(r; d,\zeta) = \sum_{i+j+k=\ell}
+    \frac{c^{(ijk)}_{\ell m}}{N^{AO}_{ijk}}\, \mu_{ijk}(r; d, \zeta),\]</div>
+<p>with <span class="math notranslate nohighlight">\(\mu_{ijk}\)</span> the fully normalized Cartesian AO. Its unnormalized
+value applies <span class="math notranslate nohighlight">\(c^{(ijk)}_{\ell m}\)</span> as-is, since the unnormalized
+Cartesian AO does not apply <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span> either. Its
+<code class="docutils literal notranslate"><span class="pre">normalization_constant</span></code> is <span class="math notranslate nohighlight">\(N^{G}\)</span>: the coefficients normalize the
+solid harmonic, but they are part of the angular function rather than a
+constant in front of it. Should a second Cartesian convention ever be
+introduced, this is where it would have to be checked.</p>
+<p>The sum runs over every AO in the shell, so its value does not depend on the
+order the shell enumerates them in. <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> therefore holds its shell
+polymorphically, as an <code class="docutils literal notranslate"><span class="pre">AOShell</span></code>, and accepts a shell of any ordering.</p>
 <p>Note this also means a <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> reaches its contracted Gaussian through
 its Cartesian shell, all of whose AOs share one. The base class accessor is
 therefore well defined for both kinds.</p>
@@ -403,6 +417,44 @@ the exponents once is visible through every AO above them.</p>
 <span class="math notranslate nohighlight">\(N^{\chi} N^{G}\)</span> which integral libraries expect. For a spherical shell
 this is also what <a class="reference internal" href="#aoh-transform-coupling"><span class="std std-ref">The spherical transform assumes a convention</span></a> requires of the Cartesian shell
 underneath it.</p>
+<p><code class="docutils literal notranslate"><span class="pre">AOShell</span></code> and <code class="docutils literal notranslate"><span class="pre">AOShellView</span></code> are the abstract bases, sharing an
+<code class="docutils literal notranslate"><span class="pre">AOShellCommon</span></code> exactly as <code class="docutils literal notranslate"><span class="pre">AO</span></code> and <code class="docutils literal notranslate"><span class="pre">AOView</span></code> share <code class="docutils literal notranslate"><span class="pre">AOCommon</span></code>. The
+purity is reported by <code class="docutils literal notranslate"><span class="pre">is_pure</span></code> (with <code class="docutils literal notranslate"><span class="pre">is_cartesian</span></code> as its negation), and
+<code class="docutils literal notranslate"><span class="pre">size</span></code> follows from it: <span class="math notranslate nohighlight">\(2\ell+1\)</span> for a pure shell and
+<span class="math notranslate nohighlight">\((\ell+1)(\ell+2)/2\)</span> for a Cartesian one.</p>
+<p>A shell stores the views of its AOs and hands them out by reference. Because
+the kind of AO is only known to the derived class, indexing a shell through a
+base returns a reference to a polymorphic <code class="docutils literal notranslate"><span class="pre">AOView</span></code>. Indexing a concrete shell
+returns a reference to the concrete view, since the caller then knows which
+kind it holds. Either way it is the same stored object. The views alias the
+shell’s contracted Gaussian, so they are derived state rather than part of the
+shell’s value:</p>
+<ul class="simple">
+<li><p>They are built the first time the shell is indexed.</p></li>
+<li><p>They are rebuilt whenever <span class="math notranslate nohighlight">\(\ell\)</span> has changed since they were built,
+including a change made directly through the contracted Gaussian.</p></li>
+<li><p>Copying, moving, assigning, swapping, or deserializing a shell discards
+them, so a copy never hands out views of its source.</p></li>
+</ul>
+<p>A reference obtained by indexing is therefore invalidated by those same
+operations, much as a reference into a <code class="docutils literal notranslate"><span class="pre">std::vector</span></code> is.</p>
+<p>The purity is a template parameter of the concrete shell: <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> is
+<code class="docutils literal notranslate"><span class="pre">CCAShell&lt;CartesianAO&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">CCAShell&lt;SphericalAO&gt;</span></code>. The two have the same
+state, namely one <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code>. A pure shell does not store the
+Cartesian shell its AOs transform. Instead it presents one as a
+<code class="docutils literal notranslate"><span class="pre">CCAShellView&lt;const</span> <span class="pre">CCAShell&lt;CartesianAO&gt;&gt;</span></code> over that same contracted
+Gaussian. This satisfies the nesting described above with exactly one
+contracted Gaussian, and it means a spherical shell and a Cartesian shell built
+from the same parameters can share every line of code except the ordering. The
+<code class="docutils literal notranslate"><span class="pre">SphericalAOView</span></code> objects a pure shell hands out alias that view.</p>
+<p><code class="docutils literal notranslate"><span class="pre">normalization_constant</span></code> reports <span class="math notranslate nohighlight">\(N^{G}\)</span> for either purity, with
+<span class="math notranslate nohighlight">\(N^{\chi}\)</span> applied per primitive, following <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code>. There is no
+convention enumerator yet, since there is only one convention.</p>
+<p>In addition to the value/view members described below, <code class="docutils literal notranslate"><span class="pre">AOShell::as_view</span></code>
+returns a polymorphic view of a shell. This is what lets a <code class="docutils literal notranslate"><span class="pre">SphericalAOView</span></code>
+alias a Cartesian shell without knowing its ordering. <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> and
+<code class="docutils literal notranslate"><span class="pre">SphericalAOView</span></code> check on construction that the shell they are given is
+Cartesian.</p>
 </section>
 <section id="ordering-as-a-type">
 <h3>Ordering as a type<a class="headerlink" href="#ordering-as-a-type" title="Link to this heading"></a></h3>
@@ -411,7 +463,16 @@ classes are the orderings. The base owns all of the state described above and
 all of the behavior which does not depend on the order; what a derived class
 supplies is one thing only: the map from an offset within the shell to the
 angular index at that offset. For a Cartesian shell that is the powers
-<span class="math notranslate nohighlight">\((i,j,k)\)</span>; for a spherical shell it is the component <span class="math notranslate nohighlight">\(m_\ell\)</span>.</p>
+<span class="math notranslate nohighlight">\((i,j,k)\)</span>, reported by <code class="docutils literal notranslate"><span class="pre">cartesian_powers</span></code>; for a spherical shell it is
+the component <span class="math notranslate nohighlight">\(m_\ell\)</span>, reported by <code class="docutils literal notranslate"><span class="pre">magnetic_index</span></code>. Which of the two a
+shell has depends on its purity, so neither is part of <code class="docutils literal notranslate"><span class="pre">AOShell</span></code>, where
+asking for the wrong one could only fail at runtime. The concrete shells know
+their purity statically: <code class="docutils literal notranslate"><span class="pre">CCAShell&lt;CartesianAO&gt;</span></code> has only
+<code class="docutils literal notranslate"><span class="pre">cartesian_powers</span></code> and <code class="docutils literal notranslate"><span class="pre">CCAShell&lt;SphericalAO&gt;</span></code> has only
+<code class="docutils literal notranslate"><span class="pre">magnetic_index</span></code>. Code holding an <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> can still ask each AO it
+indexes about itself. <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code>, the one consumer which needs the powers
+of a shell it holds polymorphically, needs them for every <span class="math notranslate nohighlight">\((i,j,k)\)</span>
+rather than in any particular order, so it enumerates them itself.</p>
 <p><code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> implements the Common Component Architecture ordering, which is
 what libint calls its <em>standard</em> ordering. Its Cartesian order is generated by
 letting <span class="math notranslate nohighlight">\(i\)</span> run from <span class="math notranslate nohighlight">\(\ell\)</span> down to zero and, within each
@@ -521,9 +582,10 @@ check that the two halves agree on <span class="math notranslate nohighlight">\(
 stores one Cartesian shell; the AOs above them hold views, so no copies
 exist to drift.</p>
 </dd>
-<dt><a class="reference internal" href="#aoh-transform-coupling"><span class="std std-ref">The spherical transform assumes a convention</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> holds the Cartesian shell it transforms, and that shell
-records its normalization convention, so the requirement that it be
-<code class="docutils literal notranslate"><span class="pre">contracted</span></code> is checked on construction rather than assumed.</p>
+<dt><a class="reference internal" href="#aoh-transform-coupling"><span class="std std-ref">The spherical transform assumes a convention</span></a></dt><dd><p>Chemist’s Cartesian AOs have one convention, which includes
+<span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span>, so <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> divides <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span> back
+out of each coefficient before applying it to a normalized Cartesian AO. Its
+<code class="docutils literal notranslate"><span class="pre">normalization_constant</span></code> is <span class="math notranslate nohighlight">\(N^{G}\)</span>.</p>
 </dd>
 <dt><a class="reference internal" href="#aoh-angular-momentum-storage"><span class="std std-ref">Angular momentum is stored once</span></a></dt><dd><p><span class="math notranslate nohighlight">\(\ell\)</span> is stored once per contracted Gaussian; the primitives it
 contains reach it rather than owning it.</p>
