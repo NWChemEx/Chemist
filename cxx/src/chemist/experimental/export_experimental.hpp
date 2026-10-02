@@ -20,6 +20,7 @@
 #include <chemist/experimental/basis_set/ao_shell.hpp>
 #include <chemist/experimental/basis_set/ao_shell_view.hpp>
 #include <chemist/experimental/basis_set/ao_view.hpp>
+#include <chemist/experimental/basis_set/atomic_basis_set.hpp>
 #include <chemist/experimental/basis_set/cartesian_ao.hpp>
 #include <chemist/experimental/basis_set/cca_shell.hpp>
 #include <chemist/experimental/basis_set/contracted_gaussian.hpp>
@@ -28,6 +29,9 @@
 #include <chemist/experimental/point/point.hpp>
 #include <sstream>
 #include <stdexcept>
+#include <string>
+#include <utility>
+#include <vector>
 #include <wtf/wtf.hpp>
 
 namespace chemist::experimental {
@@ -48,6 +52,8 @@ void export_spherical_ao_class(python_module_reference m);
 void export_spherical_ao_view(python_module_reference m);
 void export_cca_shell_class(python_module_reference m);
 void export_cca_shell_view(python_module_reference m);
+void export_atomic_basis_set_class(python_module_reference m);
+void export_atomic_basis_set_view(python_module_reference m);
 
 /** @brief Exports the whole experimental component into its own submodule.
  *
@@ -77,6 +83,8 @@ inline void export_experimental(python_module_reference m) {
     export_spherical_ao_view(sub);
     export_cca_shell_class(sub);
     export_cca_shell_view(sub);
+    export_atomic_basis_set_class(sub);
+    export_atomic_basis_set_view(sub);
 }
 
 namespace detail_ {
@@ -485,6 +493,92 @@ template<typename PyClass>
 void add_cca_shell_writers(PyClass& c) {
     using class_type = typename PyClass::type;
     c.def("set_l", [](class_type& s, std::size_t l) { s.set_l(l); });
+}
+
+/** @brief Adds the read-only half of the AtomicBasisSet API to @p c.
+ *
+ *  This is the Python counterpart of AtomicBasisSetCommon, minus the
+ *  comparisons, which each exporter binds against the types it can be
+ *  compared to. Everything which aliases the set (shells, primitives, and
+ *  the center) keeps the set alive for as long as the returned object is
+ *  alive. at throws std::out_of_range, which pybind11 turns into IndexError,
+ *  so binding __getitem__ also makes every set iterable.
+ *
+ *  As with PointSet, the parameter arrays are returned as lists of floats,
+ *  named get_coefficients/get_exponents, rather than as buffers.
+ */
+template<typename PyClass>
+void add_atomic_basis_set_readers(PyClass& c) {
+    using class_type = typename PyClass::type;
+    using size_type  = std::size_t;
+
+    auto at = [](const class_type& abs, size_type i) { return abs.at(i); };
+    c.def("get_name", [](const class_type& abs) { return abs.get_name(); })
+      .def("get_atomic_number",
+           [](const class_type& abs) { return abs.get_atomic_number(); })
+      // Mutable for the same reason as add_ao_readers's
+      .def(
+        "get_center", [](class_type& abs) { return abs.get_center(); },
+        py::keep_alive<0, 1>())
+      .def("purity", [](const class_type& abs) { return abs.purity(); })
+      .def("ordering", [](const class_type& abs) { return abs.ordering(); })
+      .def("is_pure", [](const class_type& abs) { return abs.is_pure(); })
+      .def("is_cartesian",
+           [](const class_type& abs) { return abs.is_cartesian(); })
+      .def("__len__", [](const class_type& abs) { return abs.size(); })
+      .def("empty", [](const class_type& abs) { return abs.empty(); })
+      .def("at", at, py::keep_alive<0, 1>())
+      .def("__getitem__", at, py::keep_alive<0, 1>())
+      .def("get_l",
+           [](const class_type& abs, size_type i) { return abs.get_l(i); })
+      .def("n_aos", [](const class_type& abs) { return abs.n_aos(); })
+      .def("n_primitives",
+           [](const class_type& abs) { return abs.n_primitives(); })
+      .def("primitive_range",
+           [](const class_type& abs, size_type i) {
+               const auto [first, second] = abs.primitive_range(i);
+               return py::make_tuple(first, second);
+           })
+      .def("primitive_to_shell",
+           [](const class_type& abs, size_type i) {
+               return abs.primitive_to_shell(i);
+           })
+      // Mutable, so that a mutable set hands out mutable primitives
+      .def(
+        "primitive",
+        [](class_type& abs, size_type i) { return abs.primitive(i); },
+        py::keep_alive<0, 1>())
+      .def("get_coefficients",
+           [](const class_type& abs) {
+               const auto buffer = abs.get_coefficient_buffer();
+               std::vector<double> rv;
+               for(size_type i = 0; i < buffer.size(); ++i)
+                   rv.push_back(to_py_float(buffer.at(i)));
+               return rv;
+           })
+      .def("get_exponents", [](const class_type& abs) {
+          const auto buffer = abs.get_exponent_buffer();
+          std::vector<double> rv;
+          for(size_type i = 0; i < buffer.size(); ++i)
+              rv.push_back(to_py_float(buffer.at(i)));
+          return rv;
+      });
+}
+
+/// Adds the writable half of the AtomicBasisSet API to @p c
+template<typename PyClass>
+void add_atomic_basis_set_writers(PyClass& c) {
+    using class_type = typename PyClass::type;
+    using size_type  = std::size_t;
+    c.def("set_name", [](class_type& abs,
+                         std::string name) { abs.set_name(std::move(name)); })
+      .def("set_atomic_number",
+           [](class_type& abs, size_type z) { abs.set_atomic_number(z); })
+      // Point and PointView both convert to the read-only view
+      .def("set_center", [](class_type& abs,
+                            const const_point_view& r0) { abs.set_center(r0); })
+      .def("set_l",
+           [](class_type& abs, size_type i, size_type l) { abs.set_l(i, l); });
 }
 
 /** @brief Adds __eq__/__ne__ against @p OtherType to @p c.

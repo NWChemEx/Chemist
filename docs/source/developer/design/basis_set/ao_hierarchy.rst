@@ -466,6 +466,33 @@ the ``Point`` per :ref:`aoh_center_ownership`. It also carries the basis set
 name and atomic number, which are per-center rather than per-shell because
 mixing basis sets across centers is not unusual.
 
+No shell exists as an object inside an ``AtomicBasisSet``. Per
+:ref:`aoh_shared_radial` and :ref:`aoh_flattening`, the set stores the
+coefficients of all of its shells in one contiguous array and the exponents in
+another, together with the :math:`\ell` of each shell and the offset of each
+shell into those arrays. Indexing the set builds a view of the requested shell
+from that state --- a ``ContractedGaussianView`` over a slice of each array,
+the shell's :math:`\ell`, and the set's center --- and returns an owning
+pointer to it, exactly as indexing a shell does for its AOs. The flattened
+state is equally available as the set's primitives or as the raw parameter
+arrays. A shell can be added from its parameters or copied in from an existing
+shell; the latter is rejected if the shell's center is not the set's. This is
+motivated by the fact that this is how many legacy codes handle basis sets,
+so having an internal representation mirroring this makes the basis set easier
+to interface with those codes.
+
+Every shell in a set has the same type, i.e. the same purity and ordering, but
+``AtomicBasisSet`` is not templated on it. Instead the type is chosen at runtime
+from two enumerations, ``ShellPurity`` and ``AOOrdering``, which select the
+implementation the set holds (a PIMPL templated on the shell type), and the
+set hands its shells out polymorphically, as ``AOShellView``. The
+implementations come in an owning and an aliasing form sharing one CRTP base,
+and ``AtomicBasisSetView`` holds the aliasing one. Because that form aliases
+each piece of the state separately, rather than aliasing an
+``AtomicBasisSet``, a view can be built over any storage with the same layout,
+which is how ``MolecularBasisSet`` will be able to hand out atomic basis sets
+over slices of its own arrays.
+
 ``MolecularBasisSet`` is a container of ``AtomicBasisSet``. It reports totals
 --- numbers of AOs, shells, and primitives --- and can be asked whether all of
 its shells agree on a normalization convention.

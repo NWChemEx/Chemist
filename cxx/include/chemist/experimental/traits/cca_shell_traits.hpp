@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <chemist/experimental/basis_set/ao_shell_enums.hpp>
 #include <chemist/experimental/traits/ao_shell_traits.hpp>
 #include <chemist/experimental/traits/cartesian_ao_traits.hpp>
 #include <chemist/experimental/traits/contracted_gaussian_traits.hpp>
@@ -65,6 +66,15 @@ struct CCAShellTraitsCommon {
     /// True if the shell holds spherical AOs, false if it holds Cartesian ones
     static constexpr bool is_pure =
       std::is_same_v<AOType, experimental::SphericalAO>;
+
+    /// The purity of the shell, as the enumerator naming it
+    static constexpr experimental::ShellPurity purity =
+      is_pure ? experimental::ShellPurity::pure :
+                experimental::ShellPurity::cartesian;
+
+    /// The order the shell enumerates its AOs in, as the enumerator naming it
+    static constexpr experimental::AOOrdering ordering =
+      experimental::AOOrdering::cca;
 
     /** @brief Type of a read-only view of one of the AOs in the shell.
      *
