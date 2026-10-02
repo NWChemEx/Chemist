@@ -374,22 +374,18 @@ purity is reported by ``is_pure`` (with ``is_cartesian`` as its negation), and
 ``size`` follows from it: :math:`2\ell+1` for a pure shell and
 :math:`(\ell+1)(\ell+2)/2` for a Cartesian one.
 
-A shell stores the views of its AOs and hands them out by reference. Because
-the kind of AO is only known to the derived class, indexing a shell through a
-base returns a reference to a polymorphic ``AOView``. Indexing a concrete shell
-returns a reference to the concrete view, since the caller then knows which
-kind it holds. Either way it is the same stored object. The views alias the
-shell's contracted Gaussian, so they are derived state rather than part of the
-shell's value:
-
-- They are built the first time the shell is indexed.
-- They are rebuilt whenever :math:`\ell` has changed since they were built,
-  including a change made directly through the contracted Gaussian.
-- Copying, moving, assigning, swapping, or deserializing a shell discards
-  them, so a copy never hands out views of its source.
-
-A reference obtained by indexing is therefore invalidated by those same
-operations, much as a reference into a ``std::vector`` is.
+A shell does not store the views of its AOs. Indexing builds the requested
+view on demand and returns an owning pointer to it. Because the kind of AO is
+only known to the derived class, indexing a shell through a base returns a
+pointer to a polymorphic ``AOView``. Indexing a concrete shell returns a
+pointer to the concrete view, since the caller then knows which kind it holds.
+Either way the view aliases the shell's contracted Gaussian, so it must not
+outlive the shell, and writes made through the shell are visible through it.
+With nothing stored, there is nothing for copying, assigning, swapping, or
+deserializing a shell to invalidate, and a copy can never hand out views of
+its source. The one thing a view fixes when it is built is its angular index,
+so a view obtained before :math:`\ell` changes no longer describes an AO of
+the shell; index the shell again instead.
 
 The purity is a template parameter of the concrete shell: ``CCAShell`` is
 ``CCAShell<CartesianAO>`` or ``CCAShell<SphericalAO>``. The two have the same
@@ -469,6 +465,33 @@ basis set usable with a given integral library.
 the ``Point`` per :ref:`aoh_center_ownership`. It also carries the basis set
 name and atomic number, which are per-center rather than per-shell because
 mixing basis sets across centers is not unusual.
+
+No shell exists as an object inside an ``AtomicBasisSet``. Per
+:ref:`aoh_shared_radial` and :ref:`aoh_flattening`, the set stores the
+coefficients of all of its shells in one contiguous array and the exponents in
+another, together with the :math:`\ell` of each shell and the offset of each
+shell into those arrays. Indexing the set builds a view of the requested shell
+from that state --- a ``ContractedGaussianView`` over a slice of each array,
+the shell's :math:`\ell`, and the set's center --- and returns an owning
+pointer to it, exactly as indexing a shell does for its AOs. The flattened
+state is equally available as the set's primitives or as the raw parameter
+arrays. A shell can be added from its parameters or copied in from an existing
+shell; the latter is rejected if the shell's center is not the set's. This is
+motivated by the fact that this is how many legacy codes handle basis sets,
+so having an internal representation mirroring this makes the basis set easier
+to interface with those codes.
+
+Every shell in a set has the same type, i.e. the same purity and ordering, but
+``AtomicBasisSet`` is not templated on it. Instead the type is chosen at runtime
+from two enumerations, ``ShellPurity`` and ``AOOrdering``, which select the
+implementation the set holds (a PIMPL templated on the shell type), and the
+set hands its shells out polymorphically, as ``AOShellView``. The
+implementations come in an owning and an aliasing form sharing one CRTP base,
+and ``AtomicBasisSetView`` holds the aliasing one. Because that form aliases
+each piece of the state separately, rather than aliasing an
+``AtomicBasisSet``, a view can be built over any storage with the same layout,
+which is how ``MolecularBasisSet`` will be able to hand out atomic basis sets
+over slices of its own arrays.
 
 ``MolecularBasisSet`` is a container of ``AtomicBasisSet``. It reports totals
 --- numbers of AOs, shells, and primitives --- and can be asked whether all of

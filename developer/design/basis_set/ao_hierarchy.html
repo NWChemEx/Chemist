@@ -422,22 +422,18 @@ underneath it.</p>
 purity is reported by <code class="docutils literal notranslate"><span class="pre">is_pure</span></code> (with <code class="docutils literal notranslate"><span class="pre">is_cartesian</span></code> as its negation), and
 <code class="docutils literal notranslate"><span class="pre">size</span></code> follows from it: <span class="math notranslate nohighlight">\(2\ell+1\)</span> for a pure shell and
 <span class="math notranslate nohighlight">\((\ell+1)(\ell+2)/2\)</span> for a Cartesian one.</p>
-<p>A shell stores the views of its AOs and hands them out by reference. Because
-the kind of AO is only known to the derived class, indexing a shell through a
-base returns a reference to a polymorphic <code class="docutils literal notranslate"><span class="pre">AOView</span></code>. Indexing a concrete shell
-returns a reference to the concrete view, since the caller then knows which
-kind it holds. Either way it is the same stored object. The views alias the
-shell’s contracted Gaussian, so they are derived state rather than part of the
-shell’s value:</p>
-<ul class="simple">
-<li><p>They are built the first time the shell is indexed.</p></li>
-<li><p>They are rebuilt whenever <span class="math notranslate nohighlight">\(\ell\)</span> has changed since they were built,
-including a change made directly through the contracted Gaussian.</p></li>
-<li><p>Copying, moving, assigning, swapping, or deserializing a shell discards
-them, so a copy never hands out views of its source.</p></li>
-</ul>
-<p>A reference obtained by indexing is therefore invalidated by those same
-operations, much as a reference into a <code class="docutils literal notranslate"><span class="pre">std::vector</span></code> is.</p>
+<p>A shell does not store the views of its AOs. Indexing builds the requested
+view on demand and returns an owning pointer to it. Because the kind of AO is
+only known to the derived class, indexing a shell through a base returns a
+pointer to a polymorphic <code class="docutils literal notranslate"><span class="pre">AOView</span></code>. Indexing a concrete shell returns a
+pointer to the concrete view, since the caller then knows which kind it holds.
+Either way the view aliases the shell’s contracted Gaussian, so it must not
+outlive the shell, and writes made through the shell are visible through it.
+With nothing stored, there is nothing for copying, assigning, swapping, or
+deserializing a shell to invalidate, and a copy can never hand out views of
+its source. The one thing a view fixes when it is built is its angular index,
+so a view obtained before <span class="math notranslate nohighlight">\(\ell\)</span> changes no longer describes an AO of
+the shell; index the shell again instead.</p>
 <p>The purity is a template parameter of the concrete shell: <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> is
 <code class="docutils literal notranslate"><span class="pre">CCAShell&lt;CartesianAO&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">CCAShell&lt;SphericalAO&gt;</span></code>. The two have the same
 state, namely one <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code>. A pure shell does not store the
@@ -505,6 +501,31 @@ basis set usable with a given integral library.</p>
 the <code class="docutils literal notranslate"><span class="pre">Point</span></code> per <a class="reference internal" href="#aoh-center-ownership"><span class="std std-ref">The center is stored once</span></a>. It also carries the basis set
 name and atomic number, which are per-center rather than per-shell because
 mixing basis sets across centers is not unusual.</p>
+<p>No shell exists as an object inside an <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>. Per
+<a class="reference internal" href="#aoh-shared-radial"><span class="std std-ref">The shared part is shared, not copied</span></a> and <a class="reference internal" href="#aoh-flattening"><span class="std std-ref">Flattening</span></a>, the set stores the
+coefficients of all of its shells in one contiguous array and the exponents in
+another, together with the <span class="math notranslate nohighlight">\(\ell\)</span> of each shell and the offset of each
+shell into those arrays. Indexing the set builds a view of the requested shell
+from that state — a <code class="docutils literal notranslate"><span class="pre">ContractedGaussianView</span></code> over a slice of each array,
+the shell’s <span class="math notranslate nohighlight">\(\ell\)</span>, and the set’s center — and returns an owning
+pointer to it, exactly as indexing a shell does for its AOs. The flattened
+state is equally available as the set’s primitives or as the raw parameter
+arrays. A shell can be added from its parameters or copied in from an existing
+shell; the latter is rejected if the shell’s center is not the set’s. This is
+motivated by the fact that this is how many legacy codes handle basis sets,
+so having an internal representation mirroring this makes the basis set easier
+to interface with those codes.</p>
+<p>Every shell in a set has the same type, i.e. the same purity and ordering, but
+<code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code> is not templated on it. Instead the type is chosen at runtime
+from two enumerations, <code class="docutils literal notranslate"><span class="pre">ShellPurity</span></code> and <code class="docutils literal notranslate"><span class="pre">AOOrdering</span></code>, which select the
+implementation the set holds (a PIMPL templated on the shell type), and the
+set hands its shells out polymorphically, as <code class="docutils literal notranslate"><span class="pre">AOShellView</span></code>. The
+implementations come in an owning and an aliasing form sharing one CRTP base,
+and <code class="docutils literal notranslate"><span class="pre">AtomicBasisSetView</span></code> holds the aliasing one. Because that form aliases
+each piece of the state separately, rather than aliasing an
+<code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>, a view can be built over any storage with the same layout,
+which is how <code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code> will be able to hand out atomic basis sets
+over slices of its own arrays.</p>
 <p><code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code> is a container of <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>. It reports totals
 — numbers of AOs, shells, and primitives — and can be asked whether all of
 its shells agree on a normalization convention.</p>

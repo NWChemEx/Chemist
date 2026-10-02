@@ -1,0 +1,7 @@
+<map id="chemist::experimental::detail_::AtomicBasisSetViewPIMPL&lt; ShellType &gt;" name="chemist::experimental::detail_::AtomicBasisSetViewPIMPL&lt; ShellType &gt;">
+<area shape="rect" id="Node000001" title="Implements an atomic basis set by aliasing state owned elsewhere." alt="" coords="643,13,859,67"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLCommon.html" title=" " alt="" coords="308,5,595,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="608,37,643,37,643,43,608,43"/>
+<area shape="rect" id="Node000003" href="$classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLBase.html" title="The interface every implementation of AtomicBasisSet satisfies." alt="" coords="5,20,260,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="274,37,308,37,308,43,274,43"/>
+</map>

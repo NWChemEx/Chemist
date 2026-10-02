@@ -119,6 +119,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>ao_type</b> = AOType
 <tr class="memitem:aa52b970ff45981d4cb9390b2d2f57d20" id="r_aa52b970ff45981d4cb9390b2d2f57d20"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1experimental_1_1detail___1_1CCAShellTraitsCommon.html#aa52b970ff45981d4cb9390b2d2f57d20">const_ao_reference</a> = typename <a class="el" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt; const AOType &gt;::const_view_type</td></tr>
 <tr class="memdesc:aa52b970ff45981d4cb9390b2d2f57d20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only view of one of the AOs in the shell.  <br /></td></tr>
 <tr class="separator:aa52b970ff45981d4cb9390b2d2f57d20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1774abda00a9ac8844ba67e92aa07a3" id="r_af1774abda00a9ac8844ba67e92aa07a3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1experimental_1_1detail___1_1CCAShellTraitsCommon.html#af1774abda00a9ac8844ba67e92aa07a3">const_ao_pointer</a> = std::unique_ptr&lt; <a class="el" href="structchemist_1_1experimental_1_1detail___1_1CCAShellTraitsCommon.html#aa52b970ff45981d4cb9390b2d2f57d20">const_ao_reference</a> &gt;</td></tr>
+<tr class="memdesc:af1774abda00a9ac8844ba67e92aa07a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a pointer to a read-only view of one of the AOs in the shell.  <br /></td></tr>
+<tr class="separator:af1774abda00a9ac8844ba67e92aa07a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89dea6289a4f5e4e95150a61823324fa" id="r_a89dea6289a4f5e4e95150a61823324fa"><td class="memItemLeft" align="right" valign="top"><a id="a89dea6289a4f5e4e95150a61823324fa" name="a89dea6289a4f5e4e95150a61823324fa"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>cartesian_shell_type</b> = <a class="el" href="classchemist_1_1experimental_1_1CCAShell.html">experimental::CCAShell</a>&lt; <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html">experimental::CartesianAO</a> &gt;</td></tr>
 <tr class="memdesc:a89dea6289a4f5e4e95150a61823324fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the Cartesian shell, in CCA order, underneath a shell. <br /></td></tr>
@@ -167,6 +170,12 @@ Static Public Attributes</h2></td></tr>
 <tr class="memitem:a0114e1046cb273b480fc1018e4e715e5" id="r_a0114e1046cb273b480fc1018e4e715e5"><td class="memItemLeft" align="right" valign="top">static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1experimental_1_1detail___1_1CCAShellTraitsCommon.html#a0114e1046cb273b480fc1018e4e715e5">is_pure</a></td></tr>
 <tr class="memdesc:a0114e1046cb273b480fc1018e4e715e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the shell holds spherical AOs, false if it holds Cartesian ones.  <br /></td></tr>
 <tr class="separator:a0114e1046cb273b480fc1018e4e715e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c3cf193b4d74fe547e141ece8641854" id="r_a2c3cf193b4d74fe547e141ece8641854"><td class="memItemLeft" align="right" valign="top">static constexpr experimental::ShellPurity&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1experimental_1_1detail___1_1CCAShellTraitsCommon.html#a2c3cf193b4d74fe547e141ece8641854">purity</a></td></tr>
+<tr class="memdesc:a2c3cf193b4d74fe547e141ece8641854"><td class="mdescLeft">&#160;</td><td class="mdescRight">The purity of the shell, as the enumerator naming it.  <br /></td></tr>
+<tr class="separator:a2c3cf193b4d74fe547e141ece8641854"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac86ffd2380c46c86b041e0f2d5892601" id="r_ac86ffd2380c46c86b041e0f2d5892601"><td class="memItemLeft" align="right" valign="top">static constexpr experimental::AOOrdering&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1experimental_1_1detail___1_1CCAShellTraitsCommon.html#ac86ffd2380c46c86b041e0f2d5892601">ordering</a></td></tr>
+<tr class="memdesc:ac86ffd2380c46c86b041e0f2d5892601"><td class="mdescLeft">&#160;</td><td class="mdescRight">The order the shell enumerates its AOs in, as the enumerator naming it.  <br /></td></tr>
+<tr class="separator:ac86ffd2380c46c86b041e0f2d5892601"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename AOType&gt;<br />
@@ -179,6 +188,25 @@ struct chemist::experimental::detail_::CCAShellTraitsCommon&lt; AOType &gt;</div
   </dd>
 </dl>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="af1774abda00a9ac8844ba67e92aa07a3" name="af1774abda00a9ac8844ba67e92aa07a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1774abda00a9ac8844ba67e92aa07a3">&#9670;&#160;</a></span>const_ao_pointer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename AOType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="structchemist_1_1experimental_1_1detail___1_1CCAShellTraitsCommon.html">chemist::experimental::detail_::CCAShellTraitsCommon</a>&lt; AOType &gt;::const_ao_pointer =  std::unique_ptr&lt;<a class="el" href="structchemist_1_1experimental_1_1detail___1_1CCAShellTraitsCommon.html#aa52b970ff45981d4cb9390b2d2f57d20">const_ao_reference</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Type of a pointer to a read-only view of one of the AOs in the shell. </p>
+<p>This is what indexing the concrete shell yields. The views are built on demand, so the caller owns the pointer; the view it points to aliases the shell's state. </p>
+
+</div>
+</div>
 <a id="aa52b970ff45981d4cb9390b2d2f57d20" name="aa52b970ff45981d4cb9390b2d2f57d20"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa52b970ff45981d4cb9390b2d2f57d20">&#9670;&#160;</a></span>const_ao_reference</h2>
 
@@ -241,6 +269,64 @@ template&lt;typename AOType &gt; </div>
 <div class="line">      std::is_same_v&lt;AOType, experimental::SphericalAO&gt;</div>
 </div><!-- fragment -->
 <p>True if the shell holds spherical AOs, false if it holds Cartesian ones. </p>
+
+</div>
+</div>
+<a id="ac86ffd2380c46c86b041e0f2d5892601" name="ac86ffd2380c46c86b041e0f2d5892601"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac86ffd2380c46c86b041e0f2d5892601">&#9670;&#160;</a></span>ordering</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename AOType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr experimental::AOOrdering <a class="el" href="structchemist_1_1experimental_1_1detail___1_1CCAShellTraitsCommon.html">chemist::experimental::detail_::CCAShellTraitsCommon</a>&lt; AOType &gt;::ordering</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div>
+<div class="line">      experimental::AOOrdering::cca</div>
+</div><!-- fragment -->
+<p>The order the shell enumerates its AOs in, as the enumerator naming it. </p>
+
+</div>
+</div>
+<a id="a2c3cf193b4d74fe547e141ece8641854" name="a2c3cf193b4d74fe547e141ece8641854"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c3cf193b4d74fe547e141ece8641854">&#9670;&#160;</a></span>purity</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename AOType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr experimental::ShellPurity <a class="el" href="structchemist_1_1experimental_1_1detail___1_1CCAShellTraitsCommon.html">chemist::experimental::detail_::CCAShellTraitsCommon</a>&lt; AOType &gt;::purity</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div>
+<div class="line">      <a class="code hl_variable" href="structchemist_1_1experimental_1_1detail___1_1CCAShellTraitsCommon.html#a0114e1046cb273b480fc1018e4e715e5">is_pure</a> ? experimental::ShellPurity::pure :</div>
+<div class="line">                experimental::ShellPurity::cartesian</div>
+<div class="ttc" id="astructchemist_1_1experimental_1_1detail___1_1CCAShellTraitsCommon_html_a0114e1046cb273b480fc1018e4e715e5"><div class="ttname"><a href="structchemist_1_1experimental_1_1detail___1_1CCAShellTraitsCommon.html#a0114e1046cb273b480fc1018e4e715e5">chemist::experimental::detail_::CCAShellTraitsCommon::is_pure</a></div><div class="ttdeci">static constexpr bool is_pure</div><div class="ttdoc">True if the shell holds spherical AOs, false if it holds Cartesian ones.</div><div class="ttdef"><b>Definition</b> cca_shell_traits.hpp:67</div></div>
+</div><!-- fragment -->
+<p>The purity of the shell, as the enumerator naming it. </p>
 
 </div>
 </div>

@@ -133,9 +133,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>const_contracted_gau
 <tr class="memitem:a418f093fde0d9407d9f736f736c696d3" id="r_a418f093fde0d9407d9f736f736c696d3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1ChemistClassTraits_3_01experimental_1_1AOShell_01_4.html#a418f093fde0d9407d9f736f736c696d3">const_cartesian_ao_reference</a> = typename <a class="el" href="structchemist_1_1ChemistClassTraits_3_01const_01experimental_1_1CartesianAO_01_4.html#ae26a088b3aa7137bca4b2b089ab2551d">cartesian_ao_traits::const_view_type</a></td></tr>
 <tr class="memdesc:a418f093fde0d9407d9f736f736c696d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only view of a Cartesian AO built on a shell's contracted Gaussian.  <br /></td></tr>
 <tr class="separator:a418f093fde0d9407d9f736f736c696d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadc4f992688a2f9163351e6c24576074" id="r_aadc4f992688a2f9163351e6c24576074"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1ChemistClassTraits_3_01experimental_1_1AOShell_01_4.html#aadc4f992688a2f9163351e6c24576074">const_ao_view_reference</a> = const <a class="el" href="classchemist_1_1experimental_1_1AOView.html">experimental::AOView</a> &amp;</td></tr>
-<tr class="memdesc:aadc4f992688a2f9163351e6c24576074"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to a polymorphic view of one AO in a shell.  <br /></td></tr>
-<tr class="separator:aadc4f992688a2f9163351e6c24576074"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02e256984155ab10166fc603ea2ccb59" id="r_a02e256984155ab10166fc603ea2ccb59"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1ChemistClassTraits_3_01experimental_1_1AOShell_01_4.html#a02e256984155ab10166fc603ea2ccb59">ao_view_pointer</a> = std::unique_ptr&lt; <a class="el" href="classchemist_1_1experimental_1_1AOView.html">experimental::AOView</a> &gt;</td></tr>
+<tr class="memdesc:a02e256984155ab10166fc603ea2ccb59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a pointer to a polymorphic view of one AO in a shell.  <br /></td></tr>
+<tr class="separator:a02e256984155ab10166fc603ea2ccb59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a1aa969a59db6ab9209688f316c42d6" id="r_a4a1aa969a59db6ab9209688f316c42d6"><td class="memItemLeft" align="right" valign="top"><a id="a4a1aa969a59db6ab9209688f316c42d6" name="a4a1aa969a59db6ab9209688f316c42d6"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>center_type</b> = typename <a class="el" href="structchemist_1_1experimental_1_1detail___1_1ContractedGaussianTraitsCommon.html#af03a7bfff7c81298ce4881ee2f714d05">contracted_gaussian_traits::center_type</a></td></tr>
 <tr class="memdesc:a4a1aa969a59db6ab9209688f316c42d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to model the point a shell is centered on. <br /></td></tr>
@@ -154,20 +154,20 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>coord_type</b> = typ
 <p>A shell is one contracted Gaussian together with every AO of one kind (Cartesian or spherical) which can be built on it, so the types describing its state are pulled out of <a class="el" href="structchemist_1_1ChemistClassTraits_3_01experimental_1_1ContractedGaussian_01_4.html" title="Traits for a mutable experimental::ContractedGaussian.">ChemistClassTraits&lt;experimental::ContractedGaussian&gt;</a> and <a class="el" href="structchemist_1_1ChemistClassTraits_3_01experimental_1_1CartesianAO_01_4.html" title="Traits for a mutable experimental::CartesianAO.">ChemistClassTraits&lt;experimental::CartesianAO&gt;</a> rather than being redeclared.</p>
 <p>Like <a class="el" href="structchemist_1_1ChemistClassTraits_3_01experimental_1_1AO_01_4.html" title="Traits for experimental::AO.">ChemistClassTraits&lt;experimental::AO&gt;</a>, there is no const specialization: the API a shell shares with a shell view (AOShellCommon) is read-only, so only the read-only reference types are needed. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="aadc4f992688a2f9163351e6c24576074" name="aadc4f992688a2f9163351e6c24576074"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadc4f992688a2f9163351e6c24576074">&#9670;&#160;</a></span>const_ao_view_reference</h2>
+<a id="a02e256984155ab10166fc603ea2ccb59" name="a02e256984155ab10166fc603ea2ccb59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02e256984155ab10166fc603ea2ccb59">&#9670;&#160;</a></span>ao_view_pointer</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structchemist_1_1ChemistClassTraits.html">chemist::ChemistClassTraits</a>&lt; <a class="el" href="classchemist_1_1experimental_1_1AOShell.html">experimental::AOShell</a> &gt;::const_ao_view_reference =  const <a class="el" href="classchemist_1_1experimental_1_1AOView.html">experimental::AOView</a>&amp;</td>
+          <td class="memname">using <a class="el" href="structchemist_1_1ChemistClassTraits.html">chemist::ChemistClassTraits</a>&lt; <a class="el" href="classchemist_1_1experimental_1_1AOShell.html">experimental::AOShell</a> &gt;::ao_view_pointer =  std::unique_ptr&lt;<a class="el" href="classchemist_1_1experimental_1_1AOView.html">experimental::AOView</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Type of a read-only reference to a polymorphic view of one AO in a shell. </p>
-<p>Which kind of AO a shell holds is only known to the derived class, so the base hands its AOs out polymorphically. The shell owns the views, so they can be handed out by reference. </p>
+<p>Type of a pointer to a polymorphic view of one AO in a shell. </p>
+<p>Which kind of AO a shell holds is only known to the derived class, so the base hands its AOs out polymorphically. The views are built on demand, so the caller owns the pointer; the view it points to aliases the shell's state. </p>
 
 </div>
 </div>

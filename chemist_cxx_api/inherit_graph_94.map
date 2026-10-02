@@ -1,7 +1,13 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$structchemist_1_1experimental_1_1detail___1_1ContractedGaussianTraitsCommon.html" title="Types shared by both ChemistClassTraits&lt;ContractedGaussian&gt; specializations." alt="" coords="5,41,219,96"/>
-<area shape="rect" id="Node000001" href="$structchemist_1_1ChemistClassTraits_3_01const_01experimental_1_1ContractedGaussian_01_4.html" title="Traits for a read&#45;only experimental::ContractedGaussian." alt="" coords="285,5,527,60"/>
-<area shape="poly" id="edge52_Node000000_Node000001" title=" " alt="" coords="232,51,284,45,285,50,233,57"/>
-<area shape="rect" id="Node000002" href="$structchemist_1_1ChemistClassTraits_3_01experimental_1_1ContractedGaussian_01_4.html" title="Traits for a mutable experimental::ContractedGaussian." alt="" coords="267,85,545,125"/>
-<area shape="poly" id="edge53_Node000000_Node000002" title=" " alt="" coords="233,81,267,85,266,90,232,86"/>
+<area shape="rect" id="Node000000" href="$classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLBase.html" title="The interface every implementation of AtomicBasisSet satisfies." alt="" coords="5,113,260,153"/>
+<area shape="rect" id="Node000001" href="$classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLCommon.html" title=" " alt="" coords="310,5,593,75"/>
+<area shape="poly" id="edge50_Node000000_Node000001" title=" " alt="" coords="214,107,332,72,333,77,215,112"/>
+<area shape="rect" id="Node000003" href="$classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLCommon.html" title=" " alt="" coords="308,99,595,168"/>
+<area shape="poly" id="edge52_Node000000_Node000003" title=" " alt="" coords="274,131,308,131,308,136,274,136"/>
+<area shape="rect" id="Node000005" href="$classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLCommon.html" title="Implements AtomicBasisSetPIMPLBase for one type of shell." alt="" coords="310,193,593,247"/>
+<area shape="poly" id="edge54_Node000000_Node000005" title=" " alt="" coords="221,155,351,190,349,195,220,160"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPL.html" title="Implements an atomic basis set which owns its state." alt="" coords="643,13,865,67"/>
+<area shape="poly" id="edge51_Node000001_Node000002" title=" " alt="" coords="607,37,643,37,643,43,607,43"/>
+<area shape="rect" id="Node000004" href="$classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetViewPIMPL.html" title="Implements an atomic basis set by aliasing state owned elsewhere." alt="" coords="646,106,862,161"/>
+<area shape="poly" id="edge53_Node000003_Node000004" title=" " alt="" coords="608,131,646,131,646,136,608,136"/>
 </map>
