@@ -418,9 +418,9 @@ void add_spherical_ao_writers(PyClass& c) {
  *         view, to @p c.
  *
  *  This is the Python counterpart of AOShellCommon, minus indexing. The C++
- *  at returns a reference to an AO view the shell stores, and the type of
- *  that view differs between the abstract and the concrete shells, so each
- *  exporter binds indexing itself. at throws std::out_of_range, which pybind11
+ *  at returns a pointer to a newly built AO view, and the type of that view
+ *  differs between the abstract and the concrete shells, so each exporter
+ *  binds indexing itself. at throws std::out_of_range, which pybind11
  *  turns into IndexError, so binding __getitem__ also makes every shell
  *  iterable.
  */
@@ -446,11 +446,9 @@ void add_ao_shell_readers(PyClass& c) {
 
 /** @brief Adds the read-only half of the CCAShell API to @p c.
  *
- *  Indexing returns a copy of the AO view the shell stores, not a reference
- *  to it. The stored views are rebuilt whenever the shell's angular momentum
- *  changes, so a reference handed to Python could dangle; the copy aliases
- *  the shell's contracted Gaussian directly, rather than the stored view, so
- *  it can not.
+ *  Indexing hands Python ownership of a newly built AO view. The view aliases
+ *  the shell's contracted Gaussian, so the shell is kept alive for as long as
+ *  the view is.
  *
  *  Only the angular index for the shell's purity is bound (cartesian_powers
  *  for a Cartesian shell, magnetic_index for a pure one), mirroring the C++,

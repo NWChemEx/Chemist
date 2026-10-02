@@ -20,6 +20,7 @@
 #include <chemist/experimental/traits/contracted_gaussian_traits.hpp>
 #include <chemist/experimental/traits/spherical_ao_traits.hpp>
 #include <chemist/traits/chemist_class_traits.hpp>
+#include <memory>
 #include <type_traits>
 
 namespace chemist::experimental {
@@ -72,6 +73,15 @@ struct CCAShellTraitsCommon {
      */
     using const_ao_reference =
       typename ChemistClassTraits<const AOType>::const_view_type;
+
+    /** @brief Type of a pointer to a read-only view of one of the AOs in the
+     *         shell.
+     *
+     *  This is what indexing the concrete shell yields. The views are built on
+     *  demand, so the caller owns the pointer; the view it points to aliases
+     *  the shell's state.
+     */
+    using const_ao_pointer = std::unique_ptr<const_ao_reference>;
 
     /// Type of the Cartesian shell, in CCA order, underneath a shell
     using cartesian_shell_type =

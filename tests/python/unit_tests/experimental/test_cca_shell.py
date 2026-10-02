@@ -162,9 +162,9 @@ class TestCCAShell(unittest.TestCase):
         self.assertEqual(cart_ao.get_center(), Point(4.0, 5.0, 6.0))
         self.assertEqual(pure_ao.get_center(), Point(4.0, 5.0, 6.0))
 
-    def test_aos_survive_the_shell_rebuilding_its_views(self):
-        # The shell rebuilds its stored AO views when l changes. What Python
-        # got from indexing must not have been one of those stored views.
+    def test_aos_still_alias_the_shell_after_set_l(self):
+        # Each AO is built when the shell is indexed, and aliases the shell's
+        # contracted Gaussian, so it keeps doing so after l changes.
         cart_ao = self.d[0]
         pure_ao = self.pd[0]
         self.d.set_l(3)
@@ -175,19 +175,16 @@ class TestCCAShell(unittest.TestCase):
         self.assertEqual(pure_ao.get_center(), Point(4.0, 5.0, 6.0))
 
     def test_the_aos_follow_set_l(self):
-        self.d[0]
         self.d.set_l(3)
         self.assertEqual(
             self.d[9], CartesianAO(CS, ES, 0, 0, 3, 1.0, 2.0, 3.0)
         )
 
-        self.pd[0]
         self.pd.set_l(3)
         self.assertEqual(self.pd[6].get_m(), 3)
         self.assertEqual(self.pd[6].get_l(), 3)
 
     def test_the_aos_follow_l_changed_through_the_contracted_gaussian(self):
-        self.d[0]
         self.d.get_contracted_gaussian().set_l(1)
         self.assertEqual(len(self.d), 3)
         self.assertEqual(self.d[2].get_k(), 1)

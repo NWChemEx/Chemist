@@ -56,8 +56,8 @@ public:
     /// Pull the shared API's types into *this's API
     ///@{
     using typename base_type::angular_momentum_type;
+    using typename base_type::ao_view_pointer;
     using typename base_type::center_type;
-    using typename base_type::const_ao_view_reference;
     using typename base_type::const_center_reference;
     using typename base_type::const_contracted_gaussian_reference;
     using typename base_type::contracted_gaussian_type;
@@ -148,7 +148,7 @@ protected:
     virtual bool is_pure_() const noexcept = 0;
 
     /// Implements at. The offset has already been checked.
-    virtual const_ao_view_reference at_(size_type i) const = 0;
+    virtual ao_view_pointer at_(size_type i) const = 0;
 
     /// Implements clone
     virtual base_pointer clone_() const = 0;

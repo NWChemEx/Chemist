@@ -64,6 +64,7 @@ public:
     using typename common_type::ao_type;
     using typename common_type::cartesian_powers_type;
     using typename common_type::center_type;
+    using typename common_type::const_ao_pointer;
     using typename common_type::const_ao_reference;
     using typename common_type::const_cartesian_ao_reference;
     using typename common_type::const_cartesian_shell_reference;
@@ -80,8 +81,8 @@ public:
 
     /// Pull the AOShell interface's types into *this's API
     ///@{
+    using typename AOShell::ao_view_pointer;
     using typename AOShell::base_pointer;
-    using typename AOShell::const_ao_view_reference;
     using typename AOShell::const_base_reference;
     using typename AOShell::view_pointer;
     ///@}
@@ -96,9 +97,9 @@ public:
      *  these from both CCAShellCommon and AOShell, and these declarations pick
      *  the non-virtual implementations for a caller holding a CCAShell. Note
      *  that for at/operator[] the two differ in return type: the AOShell
-     *  versions return a reference to a polymorphic AOView, while these return
-     *  a reference to the concrete view, since a caller holding a CCAShell
-     *  knows which it is. Either way it is the same, stored, view.
+     *  versions return a pointer to a polymorphic AOView, while these return
+     *  a pointer to the concrete view, since a caller holding a CCAShell
+     *  knows which it is. Either way it is a newly built view of the same AO.
      */
     ///@{
     using common_type::at;
@@ -231,15 +232,9 @@ public:
 
     /** @brief Exchanges the state of *this with that of @p other.
      *
-     *  Invalidates every AO reference previously obtained from either shell.
-     *
      *  @throw None No throw guarantee.
      */
-    void swap(CCAShell& other) noexcept {
-        m_cg_.swap(other.m_cg_);
-        this->invalidate_aos_();
-        other.invalidate_aos_();
-    }
+    void swap(CCAShell& other) noexcept { m_cg_.swap(other.m_cg_); }
 
     /** @brief Serializes *this into @p ar.
      *
@@ -274,7 +269,6 @@ public:
     template<typename Archive>
     void load(Archive& ar) {
         m_cg_.load(ar);
-        this->invalidate_aos_();
     }
 
 private:
@@ -309,7 +303,7 @@ private:
     get_contracted_gaussian_() const override {
         return common_type::get_contracted_gaussian();
     }
-    const_ao_view_reference at_(size_type i) const override {
+    ao_view_pointer at_(size_type i) const override {
         return common_type::at(i);
     }
     view_pointer as_view_() const override {

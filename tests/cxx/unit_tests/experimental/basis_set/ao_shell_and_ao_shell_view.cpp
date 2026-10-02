@@ -102,52 +102,51 @@ TEST_CASE("experimental::AOShell") {
         // What the base gives up is only asking an offset for its angular
         // index; asking the AO at that offset still works.
         for(std::size_t a = 0; a < d.size(); ++a) {
-            const auto& ao =
-              dynamic_cast<const const_cartesian_ao_view&>(base.at(a));
+            auto pao       = base.at(a);
+            const auto& ao = dynamic_cast<const const_cartesian_ao_view&>(*pao);
             const auto [i, j, k] = d.cartesian_powers(a);
             REQUIRE(ao.get_i() == i);
             REQUIRE(ao.get_j() == j);
             REQUIRE(ao.get_k() == k);
         }
         for(std::size_t a = 0; a < pd.size(); ++a) {
-            const auto& ao =
-              dynamic_cast<const const_spherical_ao_view&>(pure_base.at(a));
+            auto pao       = pure_base.at(a);
+            const auto& ao = dynamic_cast<const const_spherical_ao_view&>(*pao);
             REQUIRE(ao.get_m() == pd.magnetic_index(a));
         }
     }
 
     SECTION("at of a Cartesian shell hands out Cartesian AO views") {
         for(std::size_t a = 0; a < d.size(); ++a) {
-            const AOView& ao = base.at(a);
-            REQUIRE(dynamic_cast<const const_cartesian_ao_view*>(&ao) !=
+            auto pao = base.at(a);
+            REQUIRE(dynamic_cast<const const_cartesian_ao_view*>(pao.get()) !=
                     nullptr);
-            REQUIRE(ao.are_equal(d.at(a)));
+            REQUIRE(pao->are_equal(*d.at(a)));
+            REQUIRE(base[a]->are_equal(*pao));
 
-            // It is the very view the concrete shell stores, not a copy of it
-            REQUIRE(&ao == &d.at(a));
-            REQUIRE(&base[a] == &ao);
+            // Each call builds a new view
+            REQUIRE(base.at(a).get() != pao.get());
         }
         REQUIRE_THROWS_AS(base.at(6), std::out_of_range);
     }
 
     SECTION("at of a pure shell hands out spherical AO views") {
         for(std::size_t a = 0; a < pd.size(); ++a) {
-            const AOView& ao = pure_base.at(a);
-            REQUIRE(dynamic_cast<const const_spherical_ao_view*>(&ao) !=
+            auto pao = pure_base.at(a);
+            REQUIRE(dynamic_cast<const const_spherical_ao_view*>(pao.get()) !=
                     nullptr);
-            REQUIRE(ao.are_equal(pd.at(a)));
-            REQUIRE(&ao == &pd.at(a));
+            REQUIRE(pao->are_equal(*pd.at(a)));
         }
         REQUIRE_THROWS_AS(pure_base.at(5), std::out_of_range);
     }
 
     SECTION("The AOs from at alias the shell") {
-        const AOView& ao      = base.at(1);
-        const AOView& pure_ao = pure_base.at(1);
+        auto ao      = base.at(1);
+        auto pure_ao = pure_base.at(1);
         d.get_contracted_gaussian().set_center(Point(0.0, 0.0, 0.0));
         pd.get_contracted_gaussian().set_center(Point(0.0, 0.0, 0.0));
-        REQUIRE(ao.get_center() == Point(0.0, 0.0, 0.0));
-        REQUIRE(pure_ao.get_center() == Point(0.0, 0.0, 0.0));
+        REQUIRE(ao->get_center() == Point(0.0, 0.0, 0.0));
+        REQUIRE(pure_ao->get_center() == Point(0.0, 0.0, 0.0));
     }
 
     SECTION("clone is a deep copy of the same kind") {
@@ -214,9 +213,8 @@ TEST_CASE("experimental::AOShellView") {
         REQUIRE(base.is_cartesian());
         REQUIRE(pure_base.is_pure());
         REQUIRE(base.get_center() == v.get_center());
-        REQUIRE(base.at(3).are_equal(v.at(3)));
-        REQUIRE(&base.at(3) == &v.at(3));
-        REQUIRE(pure_base.at(3).are_equal(pv.at(3)));
+        REQUIRE(base.at(3)->are_equal(*v.at(3)));
+        REQUIRE(pure_base.at(3)->are_equal(*pv.at(3)));
     }
 
     SECTION("clone is a shallow copy") {

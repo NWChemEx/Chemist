@@ -374,22 +374,18 @@ purity is reported by ``is_pure`` (with ``is_cartesian`` as its negation), and
 ``size`` follows from it: :math:`2\ell+1` for a pure shell and
 :math:`(\ell+1)(\ell+2)/2` for a Cartesian one.
 
-A shell stores the views of its AOs and hands them out by reference. Because
-the kind of AO is only known to the derived class, indexing a shell through a
-base returns a reference to a polymorphic ``AOView``. Indexing a concrete shell
-returns a reference to the concrete view, since the caller then knows which
-kind it holds. Either way it is the same stored object. The views alias the
-shell's contracted Gaussian, so they are derived state rather than part of the
-shell's value:
-
-- They are built the first time the shell is indexed.
-- They are rebuilt whenever :math:`\ell` has changed since they were built,
-  including a change made directly through the contracted Gaussian.
-- Copying, moving, assigning, swapping, or deserializing a shell discards
-  them, so a copy never hands out views of its source.
-
-A reference obtained by indexing is therefore invalidated by those same
-operations, much as a reference into a ``std::vector`` is.
+A shell does not store the views of its AOs. Indexing builds the requested
+view on demand and returns an owning pointer to it. Because the kind of AO is
+only known to the derived class, indexing a shell through a base returns a
+pointer to a polymorphic ``AOView``. Indexing a concrete shell returns a
+pointer to the concrete view, since the caller then knows which kind it holds.
+Either way the view aliases the shell's contracted Gaussian, so it must not
+outlive the shell, and writes made through the shell are visible through it.
+With nothing stored, there is nothing for copying, assigning, swapping, or
+deserializing a shell to invalidate, and a copy can never hand out views of
+its source. The one thing a view fixes when it is built is its angular index,
+so a view obtained before :math:`\ell` changes no longer describes an AO of
+the shell; index the shell again instead.
 
 The purity is a template parameter of the concrete shell: ``CCAShell`` is
 ``CCAShell<CartesianAO>`` or ``CCAShell<SphericalAO>``. The two have the same

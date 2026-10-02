@@ -27,6 +27,7 @@
 #include <chemist/experimental/basis_set/cca_shell_view.hpp>
 #include <chemist/experimental/point/point_class.hpp>
 #include <cstddef>
+#include <memory>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -169,9 +170,10 @@ TEST_CASE("experimental::CCAShellCommon") {
                         std::size_t(1), std::size_t(0), std::size_t(1), 1.0,
                         2.0, 3.0);
         STATIC_REQUIRE(
-          std::is_same_v<decltype(d.at(2)), const const_cartesian_ao_view&>);
-        REQUIRE(d.at(2) == dxz);
-        REQUIRE(d[2] == dxz);
+          std::is_same_v<decltype(d.at(2)),
+                         std::unique_ptr<const_cartesian_ao_view>>);
+        REQUIRE(*d.at(2) == dxz);
+        REQUIRE(*d[2] == dxz);
         REQUIRE_THROWS_AS(d.at(6), std::out_of_range);
     }
 
@@ -179,98 +181,98 @@ TEST_CASE("experimental::CCAShellCommon") {
         SphericalAO d_m1(cs.begin(), cs.end(), es.begin(), es.end(),
                          std::size_t(2), -1, 1.0, 2.0, 3.0);
         STATIC_REQUIRE(
-          std::is_same_v<decltype(pd.at(1)), const const_spherical_ao_view&>);
-        REQUIRE(pd.at(1) == d_m1);
-        REQUIRE(pd[1] == d_m1);
-        REQUIRE(pd.at(1).get_m() == -1);
+          std::is_same_v<decltype(pd.at(1)),
+                         std::unique_ptr<const_spherical_ao_view>>);
+        REQUIRE(*pd.at(1) == d_m1);
+        REQUIRE(*pd[1] == d_m1);
+        REQUIRE(pd.at(1)->get_m() == -1);
         REQUIRE_THROWS_AS(pd.at(5), std::out_of_range);
     }
 
     SECTION("The AOs alias the shell's contracted Gaussian") {
-        const auto& cart_ao = d.at(1);
-        const auto& pure_ao = pd.at(1);
+        auto cart_ao = d.at(1);
+        auto pure_ao = pd.at(1);
         d.get_contracted_gaussian().set_center(Point(4.0, 5.0, 6.0));
         pd.get_contracted_gaussian().set_center(Point(4.0, 5.0, 6.0));
-        REQUIRE(cart_ao.get_center() == Point(4.0, 5.0, 6.0));
-        REQUIRE(pure_ao.get_center() == Point(4.0, 5.0, 6.0));
+        REQUIRE(cart_ao->get_center() == Point(4.0, 5.0, 6.0));
+        REQUIRE(pure_ao->get_center() == Point(4.0, 5.0, 6.0));
     }
 
-    SECTION("The stored views are reused") {
-        // Indexing twice gives the same object, for either purity ...
-        REQUIRE(&d.at(1) == &d.at(1));
-        REQUIRE(&d[1] == &d.at(1));
-        REQUIRE(&pd.at(1) == &pd.at(1));
+    SECTION("Each call builds a new view") {
+        // Indexing twice gives two different, but equal, objects, for either
+        // purity ...
+        auto a0 = d.at(1);
+        auto a1 = d.at(1);
+        REQUIRE(a0.get() != a1.get());
+        REQUIRE(*a0 == *a1);
+        auto p0 = pd.at(1);
+        auto p1 = pd.at(1);
+        REQUIRE(p0.get() != p1.get());
+        REQUIRE(*p0 == *p1);
 
-        // ... and indexing through a read-only view of the shell gives a view
-        // of its own, which aliases the same state.
+        // ... and indexing through a read-only view of the shell gives an
+        // equal view, aliasing the same state.
         const_cartesian_cca_shell_view v(d);
-        REQUIRE(&v.at(1) != &d.at(1));
-        REQUIRE(v.at(1) == d.at(1));
+        REQUIRE(*v.at(1) == *d.at(1));
     }
 
-    SECTION("The views follow set_l") {
-        // Populate the views first, so there is something to go stale
-        (void)d.at(0);
-        (void)pd.at(0);
-
+    SECTION("Indexing follows set_l") {
         d.set_l(3);
-        REQUIRE(d.at(9) == CartesianAO(cs.begin(), cs.end(), es.begin(),
-                                       es.end(), std::size_t(0), std::size_t(0),
-                                       std::size_t(3), 1.0, 2.0, 3.0));
+        REQUIRE(*d.at(9) == CartesianAO(cs.begin(), cs.end(), es.begin(),
+                                        es.end(), std::size_t(0),
+                                        std::size_t(0), std::size_t(3), 1.0,
+                                        2.0, 3.0));
 
         pd.set_l(3);
-        REQUIRE(pd.at(6).get_m() == 3);
-        REQUIRE(pd.at(6).get_l() == 3);
+        REQUIRE(pd.at(6)->get_m() == 3);
+        REQUIRE(pd.at(6)->get_l() == 3);
     }
 
-    SECTION("The views follow l changed through the contracted Gaussian") {
-        // The shell can not observe this write, so the views have to notice
-        // on their own that they were built for a different l.
-        (void)d.at(0);
+    SECTION("Indexing follows l changed through the contracted Gaussian") {
         d.get_contracted_gaussian().set_l(1);
         REQUIRE(d.size() == 3);
-        REQUIRE(d.at(2).get_k() == 1);
-        REQUIRE(d.at(2).get_l() == 1);
+        REQUIRE(d.at(2)->get_k() == 1);
+        REQUIRE(d.at(2)->get_l() == 1);
     }
 
-    SECTION("A copy's views alias the copy, not the original") {
-        (void)d.at(0); // Populate the original's views before copying
+    SECTION("An AO obtained before set_l still aliases the shell") {
+        auto ao = d.at(2);
+        d.set_l(3);
+        REQUIRE(ao->get_contracted_gaussian().get_l() == 3);
+    }
+
+    SECTION("A copy's AOs alias the copy, not the original") {
         auto copy = d;
         copy.get_contracted_gaussian().set_center(Point(9.0, 9.0, 9.0));
-        REQUIRE(copy.at(0).get_center() == Point(9.0, 9.0, 9.0));
-        REQUIRE(d.at(0).get_center() == Point(1.0, 2.0, 3.0));
+        REQUIRE(copy.at(0)->get_center() == Point(9.0, 9.0, 9.0));
+        REQUIRE(d.at(0)->get_center() == Point(1.0, 2.0, 3.0));
 
-        (void)pd.at(0);
         auto pure_copy = pd;
         pure_copy.get_contracted_gaussian().set_center(Point(9.0, 9.0, 9.0));
-        REQUIRE(pure_copy.at(0).get_center() == Point(9.0, 9.0, 9.0));
-        REQUIRE(pd.at(0).get_center() == Point(1.0, 2.0, 3.0));
+        REQUIRE(pure_copy.at(0)->get_center() == Point(9.0, 9.0, 9.0));
+        REQUIRE(pd.at(0)->get_center() == Point(1.0, 2.0, 3.0));
     }
 
-    SECTION("A moved-to shell's views alias the moved-to shell") {
-        (void)d.at(0);
+    SECTION("A moved-to shell's AOs alias the moved-to shell") {
         auto moved = std::move(d);
         moved.get_contracted_gaussian().set_center(Point(9.0, 9.0, 9.0));
-        REQUIRE(moved.at(0).get_center() == Point(9.0, 9.0, 9.0));
+        REQUIRE(moved.at(0)->get_center() == Point(9.0, 9.0, 9.0));
     }
 
-    SECTION("Assignment and swap rebuild the views") {
+    SECTION("After assignment and swap the AOs alias the right shell") {
         auto p = make_cart(1);
-        (void)d.at(0);
-        (void)p.at(0);
 
         d.swap(p);
         REQUIRE(d.size() == 3);
         d.get_contracted_gaussian().set_center(Point(9.0, 9.0, 9.0));
-        REQUIRE(d.at(2).get_center() == Point(9.0, 9.0, 9.0));
-        REQUIRE(p.at(5).get_center() == Point(1.0, 2.0, 3.0));
+        REQUIRE(d.at(2)->get_center() == Point(9.0, 9.0, 9.0));
+        REQUIRE(p.at(5)->get_center() == Point(1.0, 2.0, 3.0));
 
         auto q = make_cart(1);
-        (void)q.at(0);
-        q = p;
+        q      = p;
         q.get_contracted_gaussian().set_center(Point(8.0, 8.0, 8.0));
-        REQUIRE(q.at(5).get_center() == Point(8.0, 8.0, 8.0));
-        REQUIRE(p.at(5).get_center() == Point(1.0, 2.0, 3.0));
+        REQUIRE(q.at(5)->get_center() == Point(8.0, 8.0, 8.0));
+        REQUIRE(p.at(5)->get_center() == Point(1.0, 2.0, 3.0));
     }
 
     SECTION("get_cartesian_shell") {
