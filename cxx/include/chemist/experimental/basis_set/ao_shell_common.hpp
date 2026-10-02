@@ -71,9 +71,8 @@ public:
     using const_contracted_gaussian_reference =
       typename traits_type::const_contracted_gaussian_reference;
 
-    /// Type of a read-only reference to a polymorphic view of one AO in *this
-    using const_ao_view_reference =
-      typename traits_type::const_ao_view_reference;
+    /// Type of a pointer to a polymorphic view of one AO in *this
+    using ao_view_pointer = typename traits_type::ao_view_pointer;
 
     /// Type used to model the point *this is centered on
     using center_type = typename traits_type::center_type;
@@ -157,32 +156,29 @@ public:
      *
      *  Which kind of AO a shell holds is only known to its derived class, so
      *  the result is a polymorphic, read-only view: a CartesianAOView for a
-     *  Cartesian shell and a SphericalAOView for a pure one. The view is owned
-     *  by *this and aliases the state of *this; it is not a copy. Code which
-     *  knows the concrete shell type can index it directly instead, and get a
-     *  reference to the concrete view.
-     *
-     *  The returned reference is invalidated, much like a reference into a
-     *  std::vector, by anything which changes the angular momentum of *this or
-     *  rebinds its contracted Gaussian (assignment, swap, deserialization), and
-     *  by the destruction of *this.
+     *  Cartesian shell and a SphericalAOView for a pure one. The view is built
+     *  on demand and the caller owns the returned pointer, but the view aliases
+     *  the state of *this; it is not a copy, and so must not outlive *this.
+     *  Code which knows the concrete shell type can index it directly instead,
+     *  and get a pointer to the concrete view.
      *
      *  @param[in] i The offset of the AO. Must be in [0, size()).
      *
-     *  @return A read-only reference to the requested AO.
+     *  @return A pointer to a newly allocated, read-only view of the requested
+     *          AO.
      *
      *  @throw std::out_of_range if @p i is not in [0, size()). Strong throw
      *                           guarantee.
-     *  @throw std::bad_alloc if the views need to be (re)built and there is a
-     *                        problem allocating them. Strong throw guarantee.
+     *  @throw std::bad_alloc if there is a problem allocating the view. Strong
+     *                        throw guarantee.
      */
-    const_ao_view_reference at(size_type i) const {
+    ao_view_pointer at(size_type i) const {
         check_offset_(i);
         return downcast_().at_(i);
     }
 
     /// Same as at()
-    const_ao_view_reference operator[](size_type i) const { return at(i); }
+    ao_view_pointer operator[](size_type i) const { return at(i); }
 
     // -------------------------------------------------------------------------
     // -- Normalization

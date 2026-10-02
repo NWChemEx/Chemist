@@ -17,10 +17,10 @@
 #pragma once
 #include <chemist/experimental/basis_set/cartesian_ao_view.hpp>
 #include <chemist/experimental/basis_set/contracted_gaussian_view.hpp>
-#include <chemist/experimental/basis_set/detail_/ao_view_cache.hpp>
 #include <chemist/experimental/basis_set/spherical_ao_view.hpp>
 #include <chemist/experimental/traits/cca_shell_traits.hpp>
 #include <cstddef>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
@@ -86,6 +86,9 @@ public:
 
     /// Type of a read-only view of one of the AOs in *this
     using const_ao_reference = typename traits_type::const_ao_reference;
+
+    /// Type of a pointer to a read-only view of one of the AOs in *this
+    using const_ao_pointer = typename traits_type::const_ao_pointer;
 
     /// Type of a read-only view of the Cartesian shell underneath *this
     using const_cartesian_shell_reference =
@@ -275,36 +278,33 @@ public:
 
     /** @brief Returns the AO at offset @p i.
      *
-     *  The result is a read-only view, owned by *this, which aliases the state
-     *  of *this: a CartesianAOView whose contracted Gaussian is *this's for a
-     *  Cartesian shell, and a SphericalAOView of get_cartesian_shell() for a
-     *  pure one.
+     *  The result is a read-only view which aliases the state of *this: a
+     *  CartesianAOView whose contracted Gaussian is *this's for a Cartesian
+     *  shell, and a SphericalAOView of get_cartesian_shell() for a pure one.
+     *  The view is built on demand and the caller owns the returned pointer,
+     *  but since the view aliases *this it must not outlive *this.
      *
-     *  The views are built the first time *this is indexed and rebuilt
-     *  whenever the angular momentum has changed since, including a change
-     *  made through get_contracted_gaussian(). The returned reference is
-     *  invalidated, much like a reference into a std::vector, by anything
-     *  which changes the angular momentum of *this or rebinds its contracted
-     *  Gaussian (assignment, swap, deserialization), and by the destruction of
-     *  *this. See detail_::AOViewCache.
+     *  The angular index of the view is fixed when it is built, so a view
+     *  obtained before the angular momentum of *this changes no longer agrees
+     *  with the contracted Gaussian it aliases; re-index *this instead.
      *
      *  @param[in] i The offset of the AO. Must be in [0, size()).
      *
-     *  @return A read-only reference to the requested AO.
+     *  @return A pointer to a newly allocated, read-only view of the requested
+     *          AO.
      *
      *  @throw std::out_of_range if @p i is not in [0, size()). Strong throw
      *                           guarantee.
-     *  @throw std::bad_alloc if the views need to be (re)built and there is a
-     *                        problem allocating them. Strong throw guarantee.
+     *  @throw std::bad_alloc if there is a problem allocating the view. Strong
+     *                        throw guarantee.
      */
-    const const_ao_reference& at(size_type i) const {
+    const_ao_pointer at(size_type i) const {
         check_offset_(i);
-        return m_aos_.get(get_l(), size(),
-                          [this](size_type j) { return make_ao_(j); })[i];
+        return std::make_unique<const_ao_reference>(make_ao_(i));
     }
 
     /// Same as at()
-    const const_ao_reference& operator[](size_type i) const { return at(i); }
+    const_ao_pointer operator[](size_type i) const { return at(i); }
 
     /** @brief Returns the normalization constant of *this, @f$N^{G}@f$.
      *
@@ -391,16 +391,6 @@ protected:
     ~CCAShellCommon() noexcept                                = default;
     ///@}
 
-    /** @brief Forgets the stored AO views.
-     *
-     *  The derived class must call this whenever it rebinds its contracted
-     *  Gaussian other than through copy/move construction or assignment,
-     *  which already do so. Changes to the angular momentum do not need it.
-     *
-     *  @throw None No throw guarantee.
-     */
-    void invalidate_aos_() noexcept { m_aos_.clear(); }
-
 private:
     /// Builds the view of the AO at offset @p i. The offset is not checked.
     const_ao_reference make_ao_(size_type i) const {
@@ -430,9 +420,6 @@ private:
     const DerivedType& downcast_() const noexcept {
         return static_cast<const DerivedType&>(*this);
     }
-
-    /// The views of the AOs in *this, built on demand
-    detail_::AOViewCache<const_ao_reference> m_aos_;
 };
 
 } // namespace chemist::experimental

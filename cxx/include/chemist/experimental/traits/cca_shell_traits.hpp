@@ -15,11 +15,13 @@
  */
 
 #pragma once
+#include <chemist/experimental/basis_set/ao_shell_enums.hpp>
 #include <chemist/experimental/traits/ao_shell_traits.hpp>
 #include <chemist/experimental/traits/cartesian_ao_traits.hpp>
 #include <chemist/experimental/traits/contracted_gaussian_traits.hpp>
 #include <chemist/experimental/traits/spherical_ao_traits.hpp>
 #include <chemist/traits/chemist_class_traits.hpp>
+#include <memory>
 #include <type_traits>
 
 namespace chemist::experimental {
@@ -65,6 +67,15 @@ struct CCAShellTraitsCommon {
     static constexpr bool is_pure =
       std::is_same_v<AOType, experimental::SphericalAO>;
 
+    /// The purity of the shell, as the enumerator naming it
+    static constexpr experimental::ShellPurity purity =
+      is_pure ? experimental::ShellPurity::pure :
+                experimental::ShellPurity::cartesian;
+
+    /// The order the shell enumerates its AOs in, as the enumerator naming it
+    static constexpr experimental::AOOrdering ordering =
+      experimental::AOOrdering::cca;
+
     /** @brief Type of a read-only view of one of the AOs in the shell.
      *
      *  This is what indexing the concrete shell yields: a CartesianAOView for
@@ -72,6 +83,15 @@ struct CCAShellTraitsCommon {
      */
     using const_ao_reference =
       typename ChemistClassTraits<const AOType>::const_view_type;
+
+    /** @brief Type of a pointer to a read-only view of one of the AOs in the
+     *         shell.
+     *
+     *  This is what indexing the concrete shell yields. The views are built on
+     *  demand, so the caller owns the pointer; the view it points to aliases
+     *  the shell's state.
+     */
+    using const_ao_pointer = std::unique_ptr<const_ao_reference>;
 
     /// Type of the Cartesian shell, in CCA order, underneath a shell
     using cartesian_shell_type =

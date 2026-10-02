@@ -74,6 +74,7 @@ public:
     using typename common_type::ao_type;
     using typename common_type::cartesian_powers_type;
     using typename common_type::center_type;
+    using typename common_type::const_ao_pointer;
     using typename common_type::const_ao_reference;
     using typename common_type::const_cartesian_ao_reference;
     using typename common_type::const_cartesian_shell_reference;
@@ -90,8 +91,8 @@ public:
 
     /// Pull the AOShellView interface's types into *this's API
     ///@{
+    using typename AOShellView::ao_view_pointer;
     using typename AOShellView::base_pointer;
-    using typename AOShellView::const_ao_view_reference;
     using typename AOShellView::const_base_reference;
     using typename AOShellView::shell_pointer;
     ///@}
@@ -276,16 +277,11 @@ public:
     /** @brief Makes *this alias what @p other aliases, and vice versa.
      *
      *  Unlike assignment, this rebinds the views; it does not touch the
-     *  aliased values. It invalidates every AO reference previously obtained
-     *  from either view.
+     *  aliased values.
      *
      *  @throw None No throw guarantee.
      */
-    void swap(CCAShellView& other) noexcept {
-        m_cg_.swap(other.m_cg_);
-        this->invalidate_aos_();
-        other.invalidate_aos_();
-    }
+    void swap(CCAShellView& other) noexcept { m_cg_.swap(other.m_cg_); }
 
 private:
     /// Implements AOShellViewImpl::as_shell_
@@ -318,7 +314,7 @@ private:
     get_contracted_gaussian_() const override {
         return common_type::get_contracted_gaussian();
     }
-    const_ao_view_reference at_(size_type i) const override {
+    ao_view_pointer at_(size_type i) const override {
         return common_type::at(i);
     }
     ///@}

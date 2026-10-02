@@ -21,16 +21,14 @@ namespace {
 
 /** @brief Binds indexing for the abstract shells.
  *
- *  AOShell::at returns a reference to an AOView the shell stores. For the
- *  same reason add_cca_shell_readers copies the stored view, this hands
- *  Python a clone of it, which pybind11 downcasts to the concrete view type.
+ *  AOShell::at returns a pointer to a newly built AOView, which pybind11 takes
+ *  ownership of and downcasts to the concrete view type. The view aliases the
+ *  shell, so the shell is kept alive for as long as the view is.
  */
 template<typename PyClass>
 void add_base_indexing(PyClass& c) {
     using class_type = typename PyClass::type;
-    auto at          = [](const class_type& s, std::size_t i) {
-        return s.at(i).clone();
-    };
+    auto at = [](const class_type& s, std::size_t i) { return s.at(i); };
     c.def("at", at, py::keep_alive<0, 1>())
       .def("__getitem__", at, py::keep_alive<0, 1>());
 }

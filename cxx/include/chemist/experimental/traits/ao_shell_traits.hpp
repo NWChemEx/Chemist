@@ -20,6 +20,7 @@
 #include <chemist/experimental/traits/cartesian_ao_traits.hpp>
 #include <chemist/experimental/traits/contracted_gaussian_traits.hpp>
 #include <chemist/traits/chemist_class_traits.hpp>
+#include <memory>
 #include <type_traits>
 
 namespace chemist::experimental {
@@ -98,14 +99,14 @@ struct ChemistClassTraits<experimental::AOShell> {
     using const_cartesian_ao_reference =
       typename cartesian_ao_traits::const_view_type;
 
-    /** @brief Type of a read-only reference to a polymorphic view of one AO
-     *         in a shell.
+    /** @brief Type of a pointer to a polymorphic view of one AO in a shell.
      *
      *  Which kind of AO a shell holds is only known to the derived class, so
-     *  the base hands its AOs out polymorphically. The shell owns the views,
-     *  so they can be handed out by reference.
+     *  the base hands its AOs out polymorphically. The views are built on
+     *  demand, so the caller owns the pointer; the view it points to aliases
+     *  the shell's state.
      */
-    using const_ao_view_reference = const experimental::AOView&;
+    using ao_view_pointer = std::unique_ptr<experimental::AOView>;
 
     /// Type used to model the point a shell is centered on
     using center_type = typename contracted_gaussian_traits::center_type;
