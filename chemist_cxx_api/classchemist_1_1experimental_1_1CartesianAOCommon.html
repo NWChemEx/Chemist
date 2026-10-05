@@ -178,6 +178,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a507afb2f8d8d8203e8cf99919b1bdf88" id="r_a507afb2f8d8d8203e8cf99919b1bdf88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html#ab018416f6318855c40f004564f3e5ff9">numerical_value</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html#a507afb2f8d8d8203e8cf99919b1bdf88">normalization_constant</a> () const</td></tr>
 <tr class="memdesc:a507afb2f8d8d8203e8cf99919b1bdf88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the normalization constant of *this.  <br /></td></tr>
 <tr class="separator:a507afb2f8d8d8203e8cf99919b1bdf88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6feee694dd4d9105a8bb68a2c108cd5f" id="r_a6feee694dd4d9105a8bb68a2c108cd5f"><td class="memTemplParams" colspan="2">template&lt;typename OtherDerived , typename OtherPoint &gt; </td></tr>
+<tr class="memitem:a6feee694dd4d9105a8bb68a2c108cd5f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html#ab018416f6318855c40f004564f3e5ff9">numerical_value</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html#a6feee694dd4d9105a8bb68a2c108cd5f">cg_normalized_evaluate</a> (const <a class="el" href="classchemist_1_1experimental_1_1PointCommon.html">PointCommon</a>&lt; OtherDerived, OtherPoint &gt; &amp;r) const</td></tr>
+<tr class="memdesc:a6feee694dd4d9105a8bb68a2c108cd5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the value of *this at the point <code>r</code>, normalized only up to the contracted Gaussian.  <br /></td></tr>
+<tr class="separator:a6feee694dd4d9105a8bb68a2c108cd5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bb15c06908459d02ec80e8f5a4c8589" id="r_a6bb15c06908459d02ec80e8f5a4c8589"><td class="memTemplParams" colspan="2">template&lt;typename OtherDerived , typename OtherPointSet &gt; </td></tr>
+<tr class="memitem:a6bb15c06908459d02ec80e8f5a4c8589"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html#a523ef769875f34a90478a354a80c7219">numerical_vector</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html#a6bb15c06908459d02ec80e8f5a4c8589">cg_normalized_evaluate</a> (const <a class="el" href="classchemist_1_1experimental_1_1PointSetCommon.html">PointSetCommon</a>&lt; OtherDerived, OtherPointSet &gt; &amp;points) const</td></tr>
+<tr class="memdesc:a6bb15c06908459d02ec80e8f5a4c8589"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the value of *this at a series of points, normalized only up to the contracted Gaussian.  <br /></td></tr>
+<tr class="separator:a6bb15c06908459d02ec80e8f5a4c8589"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab31500f3413329ea8ac05e9e933b91a7" id="r_ab31500f3413329ea8ac05e9e933b91a7"><td class="memTemplParams" colspan="2">template&lt;typename OtherDerived , typename OtherPoint &gt; </td></tr>
 <tr class="memitem:ab31500f3413329ea8ac05e9e933b91a7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html#ab018416f6318855c40f004564f3e5ff9">numerical_value</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html#ab31500f3413329ea8ac05e9e933b91a7">normalized_evaluate</a> (const <a class="el" href="classchemist_1_1experimental_1_1PointCommon.html">PointCommon</a>&lt; OtherDerived, OtherPoint &gt; &amp;r) const</td></tr>
 <tr class="memdesc:ab31500f3413329ea8ac05e9e933b91a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the normalized value of *this at the point <code>r</code>.  <br /></td></tr>
@@ -272,6 +280,97 @@ template&lt;typename DerivedType , typename CAOType &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a6feee694dd4d9105a8bb68a2c108cd5f" name="a6feee694dd4d9105a8bb68a2c108cd5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6feee694dd4d9105a8bb68a2c108cd5f">&#9670;&#160;</a></span>cg_normalized_evaluate() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename DerivedType , typename CAOType &gt; </div>
+<div class="memtemplate">
+template&lt;typename OtherDerived , typename OtherPoint &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html#ab018416f6318855c40f004564f3e5ff9">numerical_value</a> <a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html">chemist::experimental::CartesianAOCommon</a>&lt; DerivedType, CAOType &gt;::cg_normalized_evaluate </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1experimental_1_1PointCommon.html">PointCommon</a>&lt; OtherDerived, OtherPoint &gt; &amp;&#160;</td>
+          <td class="paramname"><em>r</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Computes the value of *this at the point <code>r</code>, normalized only up to the contracted Gaussian. </p>
+<p class="formulaDsp">
+<picture><source srcset="form_45_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
+  x^i y^j z^k\, N^{G} \sum_p d_p\, N^{\chi}_p\, \chi_p(\vec{r})
+\]" src="form_45.png"/></picture>
+</p>
+<p>i.e. the contracted Gaussian's own normalized value times the monomial, without the Cartesian-AO factor <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture>. Per docs/source/developer/design/basis_set/normalization.rst this is the convention integral libraries use, and it is what the Cartesian-to-spherical transformation coefficients assume, since those coefficients already carry <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture>. Use normalized_evaluate for the fully normalized value.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">OtherDerived</td><td>The derived type of <code>r</code>. </td></tr>
+    <tr><td class="paramname">OtherPoint</td><td>The point type <code>r</code> models.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">r</td><td>The point where *this should be evaluated.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The value of *this at <code>r</code>, normalized up to <picture><source srcset="form_35_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{G}$" src="form_35.png"/></picture>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>under the same conditions as evaluate. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6bb15c06908459d02ec80e8f5a4c8589" name="a6bb15c06908459d02ec80e8f5a4c8589"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bb15c06908459d02ec80e8f5a4c8589">&#9670;&#160;</a></span>cg_normalized_evaluate() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename DerivedType , typename CAOType &gt; </div>
+<div class="memtemplate">
+template&lt;typename OtherDerived , typename OtherPointSet &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html#a523ef769875f34a90478a354a80c7219">numerical_vector</a> <a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html">chemist::experimental::CartesianAOCommon</a>&lt; DerivedType, CAOType &gt;::cg_normalized_evaluate </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1experimental_1_1PointSetCommon.html">PointSetCommon</a>&lt; OtherDerived, OtherPointSet &gt; &amp;&#160;</td>
+          <td class="paramname"><em>points</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Computes the value of *this at a series of points, normalized only up to the contracted Gaussian. </p>
+<p>Equivalent to calling cg_normalized_evaluate on each of <code>points</code>. See the single-point overload and evaluate(point_set). </p>
+
+</div>
+</div>
 <a id="a639dfbaf361347f30ca882d93b8ada0a" name="a639dfbaf361347f30ca882d93b8ada0a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a639dfbaf361347f30ca882d93b8ada0a">&#9670;&#160;</a></span>evaluate() <span class="overload">[1/2]</span></h2>
 
@@ -658,12 +757,12 @@ template&lt;typename OtherDerived , typename OtherPoint &gt; </div>
 
 <p>Computes the normalized value of *this at the point <code>r</code>. </p>
 <p class="formulaDsp">
-<picture><source srcset="form_45_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
+<picture><source srcset="form_46_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
   \mu_{ijk}(\vec{r}) = N^{AO}_{ijk}\, x^i y^j z^k\, N^{G}
                        \sum_p d_p\, N^{\chi}_p\, \chi_p(\vec{r})
-\]" src="form_45.png"/></picture>
+\]" src="form_46.png"/></picture>
 </p>
-<p>i.e. the contracted Gaussian's own normalized value, times the monomial, times the Cartesian-AO factor. Note this is NOT <code><a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html#a507afb2f8d8d8203e8cf99919b1bdf88" title="Returns the normalization constant of *this.">normalization_constant()</a> * evaluate(r)</code>, for the reason given on normalization_constant: each primitive's <picture><source srcset="form_36_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{\chi}$" src="form_36.png"/></picture> has to be applied before the contraction is summed.</p>
+<p>i.e. cg_normalized_evaluate times the Cartesian-AO factor. Note this is NOT <code><a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html#a507afb2f8d8d8203e8cf99919b1bdf88" title="Returns the normalization constant of *this.">normalization_constant()</a> * evaluate(r)</code>, for the reason given on normalization_constant: each primitive's <picture><source srcset="form_36_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{\chi}$" src="form_36.png"/></picture> has to be applied before the contraction is summed.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">OtherDerived</td><td>The derived type of <code>r</code>. </td></tr>

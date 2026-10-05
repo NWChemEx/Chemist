@@ -211,13 +211,13 @@ Protected Member Functions</h2></td></tr>
 class chemist::experimental::SphericalAOCommon&lt; DerivedType, SAOType &gt;</div><p>Implements the API shared by <a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html" title="Models a spherical atomic orbital by value.">SphericalAO</a> and <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html" title="An object which behaves like a SphericalAO, but aliases the Cartesian shell it is built on.">SphericalAOView</a>. </p>
 <p>Per docs/source/developer/design/basis_set/ao_hierarchy.rst, a spherical <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> pairs a Cartesian shell with a component <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture>, and is the linear combination</p>
 <p class="formulaDsp">
-<picture><source srcset="form_64_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
+<picture><source srcset="form_65_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
   \mu_{\ell m}(\vec{r}) = \sum_{i+j+k=\ell}
                           c^{(ijk)}_{\ell m}\, \mu_{ijk}(\vec{r})
-\]" src="form_64.png"/></picture>
+\]" src="form_65.png"/></picture>
 </p>
 <p>of that shell's AOs, with the coefficients computed by <a class="el" href="gaussian__arithmetic_8hpp.html#a849e1de0dd93eb9a4bc4c3cb7aa87c30" title="Computes the Cartesian-to-spherical transformation coefficient, .">detail_::spherical_transform_coefficient</a> rather than stored. The sum runs over every <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> in the shell, so the result does not depend on the order the shell enumerates them in, and *this accepts a shell of any ordering.</p>
-<p>The coefficients carry <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture> (see docs/source/developer/design/basis_set/normalization.rst), i.e. they assume Cartesian AOs normalized only up to <picture><source srcset="form_35_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{G}$" src="form_35.png"/></picture>. chemist's Cartesian AOs apply <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture> themselves in normalized_evaluate, so *this divides it back out of each coefficient before applying it there. evaluate needs no such correction, since the Cartesian evaluate does not apply <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture> in the first place.</p>
+<p>The coefficients carry <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture> (see docs/source/developer/design/basis_set/normalization.rst), i.e. they assume Cartesian AOs normalized only up to <picture><source srcset="form_35_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{G}$" src="form_35.png"/></picture>. chemist's Cartesian AOs apply <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture> themselves in normalized_evaluate, so *this combines their cg_normalized_evaluate instead, which stops at <picture><source srcset="form_35_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{G}$" src="form_35.png"/></picture>. evaluate needs no such care, since the Cartesian evaluate does not apply <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture> in the first place.</p>
 <p>Exactly as with <a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html" title="Implements the API shared by CartesianAO and CartesianAOView.">CartesianAOCommon</a>, *this is a plain CRTP mixin, and it is the concrete classes which pick up <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> or <a class="el" href="classchemist_1_1experimental_1_1AOView.html" title="Abstract base class of the atomic orbitals which alias their state.">AOView</a>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -303,7 +303,7 @@ template&lt;typename DerivedType , typename SAOType &gt; </div>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::invalid_argument</td><td>if <picture><source srcset="form_68_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| &gt; \ell$" src="form_68.png"/></picture>. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::invalid_argument</td><td>if <picture><source srcset="form_69_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| &gt; \ell$" src="form_69.png"/></picture>. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
@@ -365,7 +365,7 @@ template&lt;typename ShellType &gt; </div>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::invalid_argument</td><td>if <code>shell</code> is pure, or if <picture><source srcset="form_68_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| &gt; \ell$" src="form_68.png"/></picture>. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::invalid_argument</td><td>if <code>shell</code> is pure, or if <picture><source srcset="form_69_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| &gt; \ell$" src="form_69.png"/></picture>. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
@@ -401,7 +401,7 @@ template&lt;typename OtherDerived , typename OtherPoint &gt; </div>
 </div><div class="memdoc">
 
 <p>Computes the unnormalized value of *this at the point <code>r</code>. </p>
-<p>This is <picture><source srcset="form_65_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\sum_{ijk} c^{(ijk)}_{\ell m}$" src="form_65.png"/></picture> times the unnormalized value of the Cartesian <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> <picture><source srcset="form_33_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$(i,j,k)$" src="form_33.png"/></picture>. The transformation coefficients are part of the angular function, not a normalization factor, so they are applied here; what is left out is exactly what the Cartesian <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>'s evaluate leaves out, the factors belonging to the contraction.</p>
+<p>This is <picture><source srcset="form_66_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\sum_{ijk} c^{(ijk)}_{\ell m}$" src="form_66.png"/></picture> times the unnormalized value of the Cartesian <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> <picture><source srcset="form_33_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$(i,j,k)$" src="form_33.png"/></picture>. The transformation coefficients are part of the angular function, not a normalization factor, so they are applied here; what is left out is exactly what the Cartesian <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>'s evaluate leaves out, the factors belonging to the contraction.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">OtherDerived</td><td>The derived type of <code>r</code>. </td></tr>
@@ -674,12 +674,12 @@ template&lt;typename OtherDerived , typename OtherPoint &gt; </div>
 
 <p>Computes the normalized value of *this at the point <code>r</code>. </p>
 <p class="formulaDsp">
-<picture><source srcset="form_66_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
+<picture><source srcset="form_67_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
   \mu_{\ell m}(\vec{r}) = \sum_{ijk}
-    \frac{c^{(ijk)}_{\ell m}}{N^{AO}_{ijk}}\, \mu_{ijk}(\vec{r})
-\]" src="form_66.png"/></picture>
+    c^{(ijk)}_{\ell m}\, \frac{\mu_{ijk}(\vec{r})}{N^{AO}_{ijk}}
+\]" src="form_67.png"/></picture>
 </p>
-<p>where <picture><source srcset="form_67_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\mu_{ijk}$" src="form_67.png"/></picture> is the Cartesian <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>'s normalized value. See the description of *this for why <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture> is divided out.</p>
+<p>where <picture><source srcset="form_68_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\mu_{ijk}/N^{AO}_{ijk}$" src="form_68.png"/></picture> is the Cartesian <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>'s cg_normalized_evaluate. See the description of *this for why <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture> is left out.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">OtherDerived</td><td>The derived type of <code>r</code>. </td></tr>
@@ -854,7 +854,7 @@ template&lt;typename U  = SAOType&gt; </div>
 <p>When *this models a read-only spherical <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> this method does not participate in overload resolution.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The new component. Must satisfy <picture><source srcset="form_61_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| \le \ell$" src="form_61.png"/></picture>.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The new component. Must satisfy <picture><source srcset="form_62_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| \le \ell$" src="form_62.png"/></picture>.</td></tr>
   </table>
   </dd>
 </dl>

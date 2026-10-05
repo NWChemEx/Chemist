@@ -277,7 +277,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a7a6527e58654f421747bfd888a929f97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the Cartesian-AO normalization constant, <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture>.  <br /></td></tr>
 <tr class="separator:a7a6527e58654f421747bfd888a929f97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a849e1de0dd93eb9a4bc4c3cb7aa87c30" id="r_a849e1de0dd93eb9a4bc4c3cb7aa87c30"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gaussian__arithmetic_8hpp.html#a849e1de0dd93eb9a4bc4c3cb7aa87c30">chemist::experimental::detail_::spherical_transform_coefficient</a> (std::size_t l, long m, std::size_t i, std::size_t j, std::size_t k) noexcept</td></tr>
-<tr class="memdesc:a849e1de0dd93eb9a4bc4c3cb7aa87c30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the Cartesian-to-spherical transformation coefficient, <picture><source srcset="form_80_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$c^{(ijk)}_{\ell m}$" src="form_80.png"/></picture>.  <br /></td></tr>
+<tr class="memdesc:a849e1de0dd93eb9a4bc4c3cb7aa87c30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the Cartesian-to-spherical transformation coefficient, <picture><source srcset="form_81_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$c^{(ijk)}_{\ell m}$" src="form_81.png"/></picture>.  <br /></td></tr>
 <tr class="separator:a849e1de0dd93eb9a4bc4c3cb7aa87c30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -325,13 +325,13 @@ Functions</h2></td></tr>
 
 <p>Computes the Cartesian-AO normalization constant, <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture>. </p>
 <p class="formulaDsp">
-<picture><source srcset="form_78_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
+<picture><source srcset="form_79_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
   N^{AO}_{ijk} = \sqrt{\frac{(2\ell-1)!!}
                       {(2i-1)!!\,(2j-1)!!\,(2k-1)!!}},
   \qquad \ell = i + j + k
-\]" src="form_78.png"/></picture>
+\]" src="form_79.png"/></picture>
 </p>
-<p>This is the only one of the three normalization factors which distinguishes the members of a shell: it is 1 when all of the angular momentum sits on a single axis ( <picture><source srcset="form_79_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$z^{\ell}$" src="form_79.png"/></picture> and its permutations) and larger otherwise. See docs/source/developer/design/basis_set/normalization.rst.</p>
+<p>This is the only one of the three normalization factors which distinguishes the members of a shell: it is 1 when all of the angular momentum sits on a single axis ( <picture><source srcset="form_80_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$z^{\ell}$" src="form_80.png"/></picture> and its permutations) and larger otherwise. See docs/source/developer/design/basis_set/normalization.rst.</p>
 <p>Unlike primitive_normalization and contracted_gaussian_normalization this returns a plain double rather than a float_type. The factor is a ratio of double factorials of the Cartesian powers, so it is exact by construction and depends on no floating-point parameter; use detail_::scale to apply it to a type-erased value.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -385,19 +385,19 @@ Functions</h2></td></tr>
 
 <p>Computes the contracted-Gaussian normalization constant, N^G. </p>
 <p class="formulaDsp">
-<picture><source srcset="form_73_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
+<picture><source srcset="form_74_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
   N^{G}(\vec{d}, \vec{\zeta}; \ell) =
     \left[\sum_{p,q} d_p d_q\, S_{pq}\right]^{-1/2},
   \qquad
   S_{pq} = \left(\frac{2\sqrt{\zeta_p \zeta_q}}
                       {\zeta_p + \zeta_q}\right)^{\ell + 3/2}
-\]" src="form_73.png"/></picture>
+\]" src="form_74.png"/></picture>
 </p>
-<p><code>S_pq</code> is the overlap of the <picture><source srcset="form_55_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$p$" src="form_55.png"/></picture>-th and <picture><source srcset="form_74_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$q$" src="form_74.png"/></picture>-th primitives, each already scaled by its own primitive_normalization; this does not need to call primitive_normalization itself since the <picture><source srcset="form_75_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\ell + 3/2$" src="form_75.png"/></picture> exponent already encodes it. See docs/source/developer/design/basis_set/normalization.rst for the derivation.</p>
+<p><code>S_pq</code> is the overlap of the <picture><source srcset="form_56_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$p$" src="form_56.png"/></picture>-th and <picture><source srcset="form_75_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$q$" src="form_75.png"/></picture>-th primitives, each already scaled by its own primitive_normalization; this does not need to call primitive_normalization itself since the <picture><source srcset="form_76_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\ell + 3/2$" src="form_76.png"/></picture> exponent already encodes it. See docs/source/developer/design/basis_set/normalization.rst for the derivation.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">coefficients</td><td>The contraction coefficients, <picture><source srcset="form_76_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\vec{d}$" src="form_76.png"/></picture>. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">exponents</td><td>The primitive exponents, <picture><source srcset="form_77_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\vec{\zeta}$" src="form_77.png"/></picture>. Must be the same length as <code>coefficients</code> and hold the same concrete floating-point type. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">coefficients</td><td>The contraction coefficients, <picture><source srcset="form_77_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\vec{d}$" src="form_77.png"/></picture>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">exponents</td><td>The primitive exponents, <picture><source srcset="form_78_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\vec{\zeta}$" src="form_78.png"/></picture>. Must be the same length as <code>coefficients</code> and hold the same concrete floating-point type. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>The (shared) total angular momentum of the contraction.</td></tr>
   </table>
   </dd>
@@ -440,16 +440,16 @@ Functions</h2></td></tr>
 
 <p>Computes the primitive normalization constant, <picture><source srcset="form_36_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{\chi}$" src="form_36.png"/></picture>. </p>
 <p class="formulaDsp">
-<picture><source srcset="form_72_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
+<picture><source srcset="form_73_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
   N^{\chi}(\zeta; \ell) =
     \left(\frac{2\zeta}{\pi}\right)^{3/4}
     \sqrt{\frac{(4\zeta)^{\ell}}{(2\ell-1)!!}}
-\]" src="form_72.png"/></picture>
+\]" src="form_73.png"/></picture>
 </p>
 <p>This is the factor which scales a single Gaussian primitive, paired with its Cartesian polynomial, to unit norm. It does not include the contracted-Gaussian factor <picture><source srcset="form_35_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{G}$" src="form_35.png"/></picture> or the Cartesian-AO factor <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture>; those belong to the contraction and to the shell, respectively, and are not computable from a single primitive's parameters alone.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">exponent</td><td>The primitive's exponent, <picture><source srcset="form_58_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\zeta$" src="form_58.png"/></picture>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">exponent</td><td>The primitive's exponent, <picture><source srcset="form_59_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\zeta$" src="form_59.png"/></picture>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>The total angular momentum, <picture><source srcset="form_20_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\ell$" src="form_20.png"/></picture>, of the primitive.</td></tr>
   </table>
   </dd>
@@ -516,28 +516,28 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Computes the Cartesian-to-spherical transformation coefficient, <picture><source srcset="form_80_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$c^{(ijk)}_{\ell m}$" src="form_80.png"/></picture>. </p>
+<p>Computes the Cartesian-to-spherical transformation coefficient, <picture><source srcset="form_81_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$c^{(ijk)}_{\ell m}$" src="form_81.png"/></picture>. </p>
 <p>A spherical AO is a linear combination of the Cartesian AOs of its shell:</p>
 <p class="formulaDsp">
-<picture><source srcset="form_64_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
+<picture><source srcset="form_65_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
   \mu_{\ell m}(\vec{r}) = \sum_{i+j+k=\ell}
                           c^{(ijk)}_{\ell m}\, \mu_{ijk}(\vec{r})
-\]" src="form_64.png"/></picture>
+\]" src="form_65.png"/></picture>
 </p>
-<p>This function returns the coefficients of that sum, following Schlegel and Frisch (the same closed form libint2 implements). The spherical AOs are real solid harmonics: <picture><source srcset="form_81_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m &lt; 0$" src="form_81.png"/></picture> selects the sine-like function and <picture><source srcset="form_82_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m &gt; 0$" src="form_82.png"/></picture> the cosine-like one.</p>
+<p>This function returns the coefficients of that sum, following Schlegel and Frisch (the same closed form libint2 implements). The spherical AOs are real solid harmonics: <picture><source srcset="form_82_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m &lt; 0$" src="form_82.png"/></picture> selects the sine-like function and <picture><source srcset="form_83_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m &gt; 0$" src="form_83.png"/></picture> the cosine-like one.</p>
 <p>Per docs/source/developer/design/basis_set/normalization.rst, these coefficients have <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture> built into them. They therefore assume the Cartesian AOs they multiply are normalized only up to <picture><source srcset="form_35_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{G}$" src="form_35.png"/></picture>; applying them to Cartesian AOs which already include <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture> requires dividing that factor back out first.</p>
 <p>Like cartesian_ao_normalization, this returns a plain double: the coefficient depends only on integers and is exact by construction. Use detail_::scale to apply it to a type-erased value.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>The total angular momentum, <picture><source srcset="form_20_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\ell$" src="form_20.png"/></picture>. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The component, <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture>. Should satisfy <picture><source srcset="form_61_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| \le \ell$" src="form_61.png"/></picture>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The component, <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture>. Should satisfy <picture><source srcset="form_62_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| \le \ell$" src="form_62.png"/></picture>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The power of <picture><source srcset="form_39_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$x$" src="form_39.png"/></picture> in the Cartesian polynomial. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">j</td><td>The power of <picture><source srcset="form_40_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$y$" src="form_40.png"/></picture> in the Cartesian polynomial. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">k</td><td>The power of <picture><source srcset="form_41_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$z$" src="form_41.png"/></picture> in the Cartesian polynomial.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The coefficient. It is zero if <picture><source srcset="form_83_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$i + j + k \ne \ell$" src="form_83.png"/></picture>, if <picture><source srcset="form_68_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| &gt; \ell$" src="form_68.png"/></picture>, or if the Cartesian polynomial does not contribute to the requested component.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The coefficient. It is zero if <picture><source srcset="form_84_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$i + j + k \ne \ell$" src="form_84.png"/></picture>, if <picture><source srcset="form_69_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| &gt; \ell$" src="form_69.png"/></picture>, or if the Cartesian polynomial does not contribute to the requested component.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>

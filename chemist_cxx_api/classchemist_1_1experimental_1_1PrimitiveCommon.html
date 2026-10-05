@@ -233,12 +233,12 @@ Protected Member Functions</h2></td></tr>
 class chemist::experimental::PrimitiveCommon&lt; DerivedType, PrimitiveType &gt;</div><p>Implements the API shared by <a class="el" href="classchemist_1_1experimental_1_1Primitive.html" title="Models a Gaussian primitive by value.">Primitive</a> and <a class="el" href="classchemist_1_1experimental_1_1PrimitiveView.html" title="An object which behaves like a Primitive, but aliases its state.">PrimitiveView</a>. </p>
 <p>A Gaussian primitive is the function</p>
 <p class="formulaDsp">
-<picture><source srcset="form_57_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
+<picture><source srcset="form_58_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
   \chi(\vec{r}; \vec{r_0}, c, \zeta, \ell) =
     c\, e^{-\zeta \left(\vec{r}-\vec{r_0}\right)^2},
-\]" src="form_57.png"/></picture>
+\]" src="form_58.png"/></picture>
 </p>
-<p>parameterized by a coefficient <picture><source srcset="form_15_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$c$" src="form_15.png"/></picture>, an exponent <picture><source srcset="form_58_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\zeta$" src="form_58.png"/></picture>, the point <picture><source srcset="form_9_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\vec{r_0}$" src="form_9.png"/></picture> it is centered on, and its total angular momentum <picture><source srcset="form_20_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\ell$" src="form_20.png"/></picture>. <picture><source srcset="form_20_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\ell$" src="form_20.png"/></picture> does not appear in the function above &mdash; it is not needed to <em>evaluate</em> the primitive &mdash; but it is needed to <em>normalize</em> it (see normalized_evaluate), and per docs/source/developer/design/basis_set/normalization.rst that is reason enough for the primitive to store it.</p>
+<p>parameterized by a coefficient <picture><source srcset="form_15_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$c$" src="form_15.png"/></picture>, an exponent <picture><source srcset="form_59_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\zeta$" src="form_59.png"/></picture>, the point <picture><source srcset="form_9_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\vec{r_0}$" src="form_9.png"/></picture> it is centered on, and its total angular momentum <picture><source srcset="form_20_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\ell$" src="form_20.png"/></picture>. <picture><source srcset="form_20_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\ell$" src="form_20.png"/></picture> does not appear in the function above &mdash; it is not needed to <em>evaluate</em> the primitive &mdash; but it is needed to <em>normalize</em> it (see normalized_evaluate), and per docs/source/developer/design/basis_set/normalization.rst that is reason enough for the primitive to store it.</p>
 <p>A primitive can either own its parameters (<a class="el" href="classchemist_1_1experimental_1_1Primitive.html" title="Models a Gaussian primitive by value.">Primitive</a>) or alias parameters owned by something else (<a class="el" href="classchemist_1_1experimental_1_1PrimitiveView.html" title="An object which behaves like a Primitive, but aliases its state.">PrimitiveView</a>). This class, exactly like <a class="el" href="classchemist_1_1experimental_1_1PointCommon.html" title="Implements the API shared by Point and PointView.">PointCommon</a> for Point/PointView, implements the API shared by both exactly once. The derived class supplies only the six accessors named below and is passed to *this as a template parameter (the curiously recurring template pattern), so none of this costs a virtual call.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -307,9 +307,9 @@ template&lt;typename OtherDerived , typename OtherPoint &gt; </div>
 
 <p>Computes the unnormalized value of *this at the point <code>r</code>. </p>
 <p class="formulaDsp">
-<picture><source srcset="form_59_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
+<picture><source srcset="form_60_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaDsp" alt="\[
   \chi(\vec{r}) = c\, e^{-\zeta \left(\vec{r}-\vec{r_0}\right)^2}
-\]" src="form_59.png"/></picture>
+\]" src="form_60.png"/></picture>
 </p>
 <p>This is the raw Gaussian: it does not include the normalization constant. Use normalized_evaluate for that.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>

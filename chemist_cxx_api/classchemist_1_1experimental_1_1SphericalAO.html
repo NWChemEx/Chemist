@@ -412,7 +412,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>Models a spherical atomic orbital by value. </p>
 <p>See <a class="el" href="classchemist_1_1experimental_1_1SphericalAOCommon.html" title="Implements the API shared by SphericalAO and SphericalAOView.">SphericalAOCommon</a> for the function *this models and for the shared API, and <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> for the interface *this satisfies as one of the two kinds of atomic orbital.</p>
 <p>*this owns the Cartesian shell it is built on, and with it that shell's contracted Gaussian, center, and angular momentum; the only state *this adds is <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture>. The shell must be a Cartesian shell, but is held polymorphically, as an <a class="el" href="classchemist_1_1experimental_1_1AOShell.html" title="Abstract base class of the shells which own their state.">AOShell</a>, because the value of a spherical <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> does not depend on the shell's ordering. The ctors which have no shell to copy build a CCAShell&lt;CartesianAO&gt;. See <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html" title="An object which behaves like a SphericalAO, but aliases the Cartesian shell it is built on.">SphericalAOView</a> for a class with the same API which aliases a shell owned by something else.</p>
-<p>A default-constructed instance is an s function ( <picture><source srcset="form_60_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell = 0$" src="form_60.png"/></picture>) built on an empty CCAShell&lt;CartesianAO&gt;.</p>
+<p>A default-constructed instance is an s function ( <picture><source srcset="form_61_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell = 0$" src="form_61.png"/></picture>) built on an empty CCAShell&lt;CartesianAO&gt;.</p>
 <dl class="section note"><dt>Note</dt><dd>Every ctor which has to build a shell does so in the source file. CCAShell&lt;SphericalAO&gt; hands out <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html" title="An object which behaves like a SphericalAO, but aliases the Cartesian shell it is built on.">SphericalAOView</a> objects, so the shell headers include this one, and this one can not include them.</dd>
 <dd>
 Unlike <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html" title="Models a Cartesian atomic orbital by value.">CartesianAO</a>, *this is not (yet) serializable. Serializing it requires serializing a polymorphic shell, which needs a registration scheme that does not exist yet. </dd></dl>
@@ -473,7 +473,7 @@ Unlike <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html" tit
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">cg</td><td>The contracted Gaussian to build *this on. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The component. Must satisfy <picture><source srcset="form_61_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| \le \ell$" src="form_61.png"/></picture>, where <picture><source srcset="form_20_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\ell$" src="form_20.png"/></picture> is <code>cg's</code> angular momentum.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The component. Must satisfy <picture><source srcset="form_62_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| \le \ell$" src="form_62.png"/></picture>, where <picture><source srcset="form_20_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\ell$" src="form_20.png"/></picture> is <code>cg's</code> angular momentum.</td></tr>
   </table>
   </dd>
 </dl>
@@ -526,7 +526,7 @@ Unlike <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html" tit
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">shell</td><td>The Cartesian shell to build *this from. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The component. Must satisfy <picture><source srcset="form_61_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| \le \ell$" src="form_61.png"/></picture>, where <picture><source srcset="form_20_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\ell$" src="form_20.png"/></picture> is <code>shell's</code> angular momentum.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The component. Must satisfy <picture><source srcset="form_62_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| \le \ell$" src="form_62.png"/></picture>, where <picture><source srcset="form_20_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\ell$" src="form_20.png"/></picture> is <code>shell's</code> angular momentum.</td></tr>
   </table>
   </dd>
 </dl>
@@ -619,7 +619,7 @@ template&lt;typename CoefBeginItr , typename CoefEndItr , typename ExpBeginItr ,
 </div><div class="memdoc">
 
 <p>Constructs a <a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html" title="Models a spherical atomic orbital by value.">SphericalAO</a> from the provided parameters. </p>
-<p>The argument order follows <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html" title="Models a Cartesian atomic orbital by value.">CartesianAO</a>'s ctor, with <picture><source srcset="form_62_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$(\ell, m)$" src="form_62.png"/></picture> in the place of <picture><source srcset="form_63_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$(i, j, k)$" src="form_63.png"/></picture>. The Cartesian shell is built as a CCAShell&lt;CartesianAO&gt;.</p>
+<p>The argument order follows <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html" title="Models a Cartesian atomic orbital by value.">CartesianAO</a>'s ctor, with <picture><source srcset="form_63_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$(\ell, m)$" src="form_63.png"/></picture> in the place of <picture><source srcset="form_64_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$(i, j, k)$" src="form_64.png"/></picture>. The Cartesian shell is built as a CCAShell&lt;CartesianAO&gt;.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">cbegin</td><td>Iterator to the beginning of the container holding the coefficients. </td></tr>
@@ -627,7 +627,7 @@ template&lt;typename CoefBeginItr , typename CoefEndItr , typename ExpBeginItr ,
     <tr><td class="paramdir">[in]</td><td class="paramname">ebegin</td><td>Iterator to the beginning of the container holding the exponents. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">eend</td><td>Iterator to the end of the container holding the exponents. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>The total angular momentum. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The component. Must satisfy <picture><source srcset="form_61_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| \le \ell$" src="form_61.png"/></picture>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The component. Must satisfy <picture><source srcset="form_62_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| \le \ell$" src="form_62.png"/></picture>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The x-coordinate where *this will be centered. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The y-coordinate where *this will be centered. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">z</td><td>The z-coordinate where *this will be centered.</td></tr>
@@ -719,7 +719,7 @@ template&lt;typename CoefBeginItr , typename CoefEndItr , typename ExpBeginItr ,
     <tr><td class="paramdir">[in]</td><td class="paramname">ebegin</td><td>Iterator to the beginning of the container holding the exponents. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">eend</td><td>Iterator to the end of the container holding the exponents. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>The total angular momentum. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The component. Must satisfy <picture><source srcset="form_61_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| \le \ell$" src="form_61.png"/></picture>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The component. Must satisfy <picture><source srcset="form_62_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| \le \ell$" src="form_62.png"/></picture>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">center</td><td>Where *this is centered in Cartesian space.</td></tr>
   </table>
   </dd>

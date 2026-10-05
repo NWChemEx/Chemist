@@ -346,7 +346,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:af6cd0a5a0fcee5731894a2637df06124"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the additive inverse of <code>value</code>.  <br /></td></tr>
 <tr class="separator:af6cd0a5a0fcee5731894a2637df06124"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3ab7acdb9668f6d64d8ccc4e3d16f05" id="r_ac3ab7acdb9668f6d64d8ccc4e3d16f05"><td class="memItemLeft" align="right" valign="top"><a class="el" href="float__arithmetic_8hpp.html#a315b24004522a0deece930e7dd155c1d">float_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="float__arithmetic_8hpp.html#ac3ab7acdb9668f6d64d8ccc4e3d16f05">chemist::experimental::detail_::exp</a> (<a class="el" href="float__arithmetic_8hpp.html#a4684a8dc58a879b2246f222e68be3a0d">const_float_reference</a> value)</td></tr>
-<tr class="memdesc:ac3ab7acdb9668f6d64d8ccc4e3d16f05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes <picture><source srcset="form_70_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$e^{\text{value}}$" src="form_70.png"/></picture>.  <br /></td></tr>
+<tr class="memdesc:ac3ab7acdb9668f6d64d8ccc4e3d16f05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes <picture><source srcset="form_71_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$e^{\text{value}}$" src="form_71.png"/></picture>.  <br /></td></tr>
 <tr class="separator:ac3ab7acdb9668f6d64d8ccc4e3d16f05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19abedbbf7dde4d5428b6cfb6e28f195" id="r_a19abedbbf7dde4d5428b6cfb6e28f195"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="float__arithmetic_8hpp.html#a19abedbbf7dde4d5428b6cfb6e28f195">chemist::experimental::detail_::to_string</a> (<a class="el" href="float__arithmetic_8hpp.html#a4684a8dc58a879b2246f222e68be3a0d">const_float_reference</a> value)</td></tr>
 <tr class="memdesc:a19abedbbf7dde4d5428b6cfb6e28f195"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts <code>value</code> to a string without losing precision.  <br /></td></tr>
@@ -495,11 +495,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Computes <picture><source srcset="form_70_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$e^{\text{value}}$" src="form_70.png"/></picture>. </p>
+<p>Computes <picture><source srcset="form_71_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$e^{\text{value}}$" src="form_71.png"/></picture>. </p>
 <p>For the uncertainty-quantification types this dispatches to tensorwrapper::types::exp, which knows how to propagate uncertainty through the operation; for the built-in types it is std::exp.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The exponent to raise <picture><source srcset="form_71_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$e$" src="form_71.png"/></picture> to.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The exponent to raise <picture><source srcset="form_72_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$e$" src="form_72.png"/></picture> to.</td></tr>
   </table>
   </dd>
 </dl>
@@ -580,7 +580,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A new Float holding <picture><source srcset="form_69_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$-$" src="form_69.png"/></picture><code>value</code>, in the same concrete type as <code>value</code>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A new Float holding <picture><source srcset="form_70_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$-$" src="form_70.png"/></picture><code>value</code>, in the same concrete type as <code>value</code>.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::runtime_error</td><td>if <code>value</code> is not holding a floating-point type chemist knows about. Strong throw guarantee. </td></tr>
