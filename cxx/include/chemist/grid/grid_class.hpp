@@ -147,7 +147,8 @@ public:
      *
      *  @return A view of the points in *this.
      *
-     *  @throw None No throw guarantee.
+     *  @throw std::bad_alloc if constructing the view's state fails. Strong
+     *                        throw guarantee.
      */
     ///@{
     point_set_reference get_points();
