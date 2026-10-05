@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <chemist/experimental/point/point_set_view.hpp>
 #include <chemist/grid/grid_point.hpp>
 #include <chemist/grid/grid_point_view.hpp>
 #include <chemist/traits/grid_traits.hpp>
@@ -28,11 +29,11 @@ namespace chemist {
  *  A grid is an ordered set of grid points, where each grid point has
  *  coordinates (presently described in Cartesian coordinates) and a weight.
  *
- *  Internally the weights and coordinates of the grid points are stored in
- *  two tensorwrapper::Tensor objects (one of shape (N) for the weights, one
- *  of shape (N, 3) for the coordinates). Since Tensor type-erases its scalar
- *  type (via WeaklyTypedFloat), a Grid can hold values of any WTF-registered
- *  floating-point type.
+ *  Internally the weights of the grid points are stored in a
+ *  tensorwrapper::Tensor of shape (N) and the coordinates of the grid points
+ *  are stored in an experimental::PointSet. Since both type-erase their
+ *  scalar type (via WeaklyTypedFloat), a Grid can hold values of any
+ *  WTF-registered floating-point type.
  *
  *  @note This class does not attempt to enforce the set-like nature of the
  *  grid (i.e., it will allow duplicate grid points).
@@ -62,6 +63,16 @@ public:
     /// Type acting like a read-only reference to a grid point
     using const_reference = typename grid_point_traits::const_view_type;
 
+    /// Type used to store the coordinates of the grid points
+    using point_set_type = typename traits_type::point_set_type;
+
+    /// Type acting like a mutable reference to the coordinates
+    using point_set_reference = typename traits_type::point_set_reference;
+
+    /// Type acting like a read-only reference to the coordinates
+    using const_point_set_reference =
+      typename traits_type::const_point_set_reference;
+
     // -------------------------------------------------------------------------
     // -- Ctors
     // -------------------------------------------------------------------------
@@ -74,8 +85,7 @@ public:
      */
     Grid() = default;
 
-    /** @brief Creates a Grid by wrapping already-populated weight and
-     *         coordinate buffers.
+    /** @brief Creates a Grid from already-populated weights and points.
      *
      *  This is the ctor that all other (non-default) ctors ultimately
      *  dispatch to; it is the only ctor whose implementation is not
@@ -83,17 +93,15 @@ public:
      *
      *  @param[in] weights A buffer holding the weight of each grid point
      *                     (size N).
-     *  @param[in] coords A buffer holding the flattened Cartesian
-     *                    coordinates of each grid point (size 3N, i.e.,
-     *                    x0, y0, z0, x1, y1, z1, ...).
+     *  @param[in] points The Cartesian coordinates of each grid point (size
+     *                    N). The i-th point is paired with the i-th weight.
      *
-     *  @throw std::invalid_argument if the size of @p coords is not exactly
-     *                               three times the size of @p weights.
-     *                               Strong throw guarantee.
+     *  @throw std::invalid_argument if @p weights and @p points are not the
+     *                               same size. Strong throw guarantee.
      *  @throw std::bad_alloc if there is a problem allocating the state of
      *                        *this. Strong throw guarantee.
      */
-    Grid(wtf::buffer::FloatBuffer weights, wtf::buffer::FloatBuffer coords);
+    Grid(wtf::buffer::FloatBuffer weights, point_set_type points);
 
     /** @brief Creates a Grid from a range of GridPoint objects.
      *
@@ -103,9 +111,9 @@ public:
      *                 grid point.
      *
      *  This ctor will create a new Grid by copying the grid points in the
-     *  range [begin, end). It simply flattens the range into a pair of
-     *  buffers and then dispatches to the (non-templated) buffer ctor to do
-     *  the actual work.
+     *  range [begin, end). It simply splits the range into a buffer of
+     *  weights and a set of points and then dispatches to the
+     *  (non-templated) weights/points ctor to do the actual work.
      *
      *  @param[in,out] begin An iterator pointing to the first grid point that
      *                       should be in the Grid. If @p begin was passed by
@@ -122,15 +130,40 @@ public:
       Grid(from_range_(std::forward<BeginItr>(begin),
                        std::forward<EndItr>(end))) {}
 
+    // -------------------------------------------------------------------------
+    // -- Accessors
+    // -------------------------------------------------------------------------
+
+    /** @brief Returns the coordinates of every grid point, as a point set.
+     *
+     *  The returned view aliases the coordinates stored in *this; nothing is
+     *  copied. Writing through the view returned by the mutable overload
+     *  therefore moves the corresponding grid points of *this (their weights
+     *  are unaffected). The const overload returns a read-only view.
+     *
+     *  @warning The returned view is invalidated by anything which causes
+     *           *this to reallocate its coordinates (e.g., assigning to
+     *           *this).
+     *
+     *  @return A view of the points in *this.
+     *
+     *  @throw None No throw guarantee.
+     */
+    ///@{
+    point_set_reference get_points();
+    const_point_set_reference get_points() const;
+    ///@}
+
 private:
     /// Allows the base to access the implementations of at_ and size_
     friend base_type;
 
-    /** @brief Flattens a range of GridPoint objects into a Grid.
+    /** @brief Splits a range of GridPoint objects into a Grid.
      *
      *  This is the only piece of *this's logic which must remain templated
-     *  (it needs to work with arbitrary iterator types). As soon as the two
-     *  buffers are populated it hands off to the non-templated buffer ctor.
+     *  (it needs to work with arbitrary iterator types). As soon as the
+     *  weights and points are populated it hands off to the non-templated
+     *  weights/points ctor.
      */
     template<typename BeginItr, typename EndItr>
     static Grid from_range_(BeginItr begin, EndItr end) {
@@ -144,14 +177,12 @@ private:
         // ENABLE_SIGMA, every Sigma UQ type.
         using tuple_type = chemist::types::floating_point_types;
         wtf::buffer::FloatBuffer weights;
-        wtf::buffer::FloatBuffer coords;
+        point_set_type points;
         for(; begin != end; ++begin) {
             weights.template push_back<tuple_type>(begin->get_weight());
-            coords.template push_back<tuple_type>(begin->get_x());
-            coords.template push_back<tuple_type>(begin->get_y());
-            coords.template push_back<tuple_type>(begin->get_z());
+            points.push_back(*begin);
         }
-        return Grid(std::move(weights), std::move(coords));
+        return Grid(std::move(weights), std::move(points));
     }
 
     /// Implements getting a mutable reference to the i-th grid point
@@ -163,14 +194,11 @@ private:
     /// Implements determining the number of grid points in *this
     size_type size_() const noexcept;
 
-    /// The number of grid points in *this
-    size_type m_size_ = 0;
-
     /// Holds the weights of the grid points (shape (N))
     buffer_type m_weights_;
 
-    /// Holds the Cartesian coordinates of the grid points (shape (N, 3))
-    buffer_type m_points_;
+    /// Holds the Cartesian coordinates of the grid points
+    point_set_type m_points_;
 };
 
 } // namespace chemist

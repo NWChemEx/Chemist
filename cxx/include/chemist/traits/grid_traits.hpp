@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <chemist/experimental/traits/point_traits.hpp>
 #include <chemist/traits/chemist_class_traits.hpp>
 #include <tensorwrapper/tensorwrapper.hpp>
 #include <wtf/wtf.hpp>
@@ -60,26 +61,36 @@ struct ChemistClassTraits<const GridPoint> {
 
 template<>
 struct ChemistClassTraits<Grid> {
-    using value_type        = Grid;
-    using reference         = value_type&;
-    using const_reference   = const value_type&;
-    using view_type         = GridView<value_type>;
-    using const_view_type   = GridView<const value_type>;
-    using grid_point_type   = GridPoint;
-    using grid_point_traits = ChemistClassTraits<grid_point_type>;
-    using buffer_type       = tensorwrapper::Tensor;
+    using value_type          = Grid;
+    using reference           = value_type&;
+    using const_reference     = const value_type&;
+    using view_type           = GridView<value_type>;
+    using const_view_type     = GridView<const value_type>;
+    using grid_point_type     = GridPoint;
+    using grid_point_traits   = ChemistClassTraits<grid_point_type>;
+    using buffer_type         = tensorwrapper::Tensor;
+    using point_set_type      = experimental::PointSet;
+    using point_set_traits    = ChemistClassTraits<point_set_type>;
+    using point_set_reference = typename point_set_traits::view_type;
+    using const_point_set_reference =
+      typename point_set_traits::const_view_type;
 };
 
 template<>
 struct ChemistClassTraits<const Grid> {
-    using value_type        = Grid;
-    using reference         = const value_type&;
-    using const_reference   = const value_type&;
-    using view_type         = GridView<const value_type>;
-    using const_view_type   = GridView<const value_type>;
-    using grid_point_type   = GridPoint;
-    using grid_point_traits = ChemistClassTraits<const grid_point_type>;
-    using buffer_type       = tensorwrapper::Tensor;
+    using value_type          = Grid;
+    using reference           = const value_type&;
+    using const_reference     = const value_type&;
+    using view_type           = GridView<const value_type>;
+    using const_view_type     = GridView<const value_type>;
+    using grid_point_type     = GridPoint;
+    using grid_point_traits   = ChemistClassTraits<const grid_point_type>;
+    using buffer_type         = tensorwrapper::Tensor;
+    using point_set_type      = experimental::PointSet;
+    using point_set_traits    = ChemistClassTraits<point_set_type>;
+    using point_set_reference = typename point_set_traits::const_view_type;
+    using const_point_set_reference =
+      typename point_set_traits::const_view_type;
 };
 
 } // namespace chemist

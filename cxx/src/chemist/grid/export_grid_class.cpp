@@ -33,6 +33,10 @@ void export_grid_class(python_module_reference m) {
       .def("empty", [](grid_type& self) { return self.empty(); })
       .def("at", [](grid_type& self, size_type i) { return self[i]; })
       .def("size", [](grid_type& self) { return self.size(); })
+      // The returned view aliases the grid, so it must not outlive it.
+      .def(
+        "get_points", [](grid_type& self) { return self.get_points(); },
+        py::keep_alive<0, 1>())
       .def(py::self == py::self)
       .def(py::self != py::self);
 }
