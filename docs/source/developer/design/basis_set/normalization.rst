@@ -187,6 +187,8 @@ Consumers stop at different layers
      :math:`N^{G}`, since those libraries apply one scalar per shell and their
      Cartesian-to-spherical coefficients already carry :math:`N^{AO}_{ijk}`.
    - Both must be available, and it must be unambiguous which is which.
+   - For Cartesian AOs the former is ``normalized_evaluate`` and the latter is
+     ``cg_normalized_evaluate``.
 
 Out of Scope
 ============

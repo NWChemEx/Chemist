@@ -301,6 +301,55 @@ public:
         return detail_::scale(as_view_(n_g), n_ao_());
     }
 
+    /** @brief Computes the value of *this at the point @p r, normalized only
+     *         up to the contracted Gaussian.
+     *
+     *  @f[
+     *    x^i y^j z^k\, N^{G} \sum_p d_p\, N^{\chi}_p\, \chi_p(\vec{r})
+     *  @f]
+     *
+     *  i.e. the contracted Gaussian's own normalized value times the
+     *  monomial, without the Cartesian-AO factor @f$N^{AO}_{ijk}@f$. Per
+     *  docs/source/developer/design/basis_set/normalization.rst this is the
+     *  convention integral libraries use, and it is what the
+     *  Cartesian-to-spherical transformation coefficients assume, since those
+     *  coefficients already carry @f$N^{AO}_{ijk}@f$. Use normalized_evaluate
+     *  for the fully normalized value.
+     *
+     *  @tparam OtherDerived The derived type of @p r.
+     *  @tparam OtherPoint The point type @p r models.
+     *
+     *  @param[in] r The point where *this should be evaluated.
+     *
+     *  @return The value of *this at @p r, normalized up to @f$N^{G}@f$.
+     *
+     *  @throw std::runtime_error under the same conditions as evaluate.
+     *                            Strong throw guarantee.
+     */
+    template<typename OtherDerived, typename OtherPoint>
+    numerical_value cg_normalized_evaluate(
+      const PointCommon<OtherDerived, OtherPoint>& r) const {
+        return apply_monomial_(get_contracted_gaussian().normalized_evaluate(r),
+                               r);
+    }
+
+    /** @brief Computes the value of *this at a series of points, normalized
+     *         only up to the contracted Gaussian.
+     *
+     *  Equivalent to calling cg_normalized_evaluate on each of @p points. See
+     *  the single-point overload and evaluate(point_set).
+     */
+    template<typename OtherDerived, typename OtherPointSet>
+    numerical_vector cg_normalized_evaluate(
+      const PointSetCommon<OtherDerived, OtherPointSet>& points) const {
+        numerical_vector rv;
+        const auto n = points.size();
+        rv.reserve(n);
+        for(size_type i = 0; i < n; ++i)
+            rv.push_back(cg_normalized_evaluate(points[i]));
+        return rv;
+    }
+
     /** @brief Computes the normalized value of *this at the point @p r.
      *
      *  @f[
@@ -308,9 +357,8 @@ public:
      *                         \sum_p d_p\, N^{\chi}_p\, \chi_p(\vec{r})
      *  @f]
      *
-     *  i.e. the contracted Gaussian's own normalized value, times the
-     *  monomial, times the Cartesian-AO factor. Note this is NOT
-     *  `normalization_constant() * evaluate(r)`, for the reason given on
+     *  i.e. cg_normalized_evaluate times the Cartesian-AO factor. Note this is
+     *  NOT `normalization_constant() * evaluate(r)`, for the reason given on
      *  normalization_constant: each primitive's @f$N^{\chi}@f$ has to be
      *  applied before the contraction is summed.
      *
@@ -327,9 +375,7 @@ public:
     template<typename OtherDerived, typename OtherPoint>
     numerical_value normalized_evaluate(
       const PointCommon<OtherDerived, OtherPoint>& r) const {
-        auto value =
-          apply_monomial_(get_contracted_gaussian().normalized_evaluate(r), r);
-        return detail_::scale(as_view_(value), n_ao_());
+        return detail_::scale(as_view_(cg_normalized_evaluate(r)), n_ao_());
     }
 
     /** @brief Computes the normalized value of *this at a series of points.

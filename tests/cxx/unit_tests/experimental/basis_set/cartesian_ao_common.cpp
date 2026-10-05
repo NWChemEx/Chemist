@@ -204,6 +204,42 @@ TEST_CASE("experimental::CartesianAOCommon") {
         REQUIRE(as_double(rv[1]) == as_double(dxy.evaluate(r)));
     }
 
+    SECTION("cg_normalized_evaluate(point)") {
+        // monomial * (the contraction's own normalized value), no N^AO_ijk
+        auto corr =
+          0.3 * -0.4 *
+          as_double(dxy.get_contracted_gaussian().normalized_evaluate(r));
+        REQUIRE(as_double(dxy.cg_normalized_evaluate(r)) ==
+                Catch::Approx(corr).epsilon(1e-12));
+    }
+
+    SECTION(
+      "cg_normalized_evaluate(point) interoperates across derived types") {
+        const_cartesian_ao_view v(dxy);
+        REQUIRE(as_double(dxy.cg_normalized_evaluate(r)) ==
+                as_double(v.cg_normalized_evaluate(r)));
+    }
+
+    SECTION("cg_normalized_evaluate(point set)") {
+        PointSet pts{origin, r};
+        auto rv = dxy.cg_normalized_evaluate(pts);
+        REQUIRE(rv.size() == 2);
+        REQUIRE(as_double(rv[0]) ==
+                as_double(dxy.cg_normalized_evaluate(origin)));
+        REQUIRE(as_double(rv[1]) == as_double(dxy.cg_normalized_evaluate(r)));
+    }
+
+    SECTION("normalized_evaluate is N^AO_ijk times cg_normalized_evaluate") {
+        // N^AO_110 = sqrt(3), but N^AO is 1 when all of l is on one axis.
+        REQUIRE(as_double(dxy.normalized_evaluate(r)) ==
+                Catch::Approx(std::sqrt(3.0) *
+                              as_double(dxy.cg_normalized_evaluate(r)))
+                  .epsilon(1e-12));
+        REQUIRE(as_double(dzz.normalized_evaluate(r)) ==
+                Catch::Approx(as_double(dzz.cg_normalized_evaluate(r)))
+                  .epsilon(1e-12));
+    }
+
     SECTION("normalized_evaluate(point)") {
         // N^AO_ijk * monomial * (the contraction's own normalized value)
         auto corr =

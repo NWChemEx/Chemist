@@ -106,11 +106,14 @@ TEST_CASE("experimental::SphericalAOCommon") {
     }
 
     SECTION("d(m=-2) is the normalized Cartesian d_xy") {
-        // The coefficient is sqrt(3) = N^AO_110, so once N^AO is divided back
-        // out of it, it multiplies the fully normalized d_xy by exactly 1.
+        // The coefficient is sqrt(3) = N^AO_110, so applied to the d_xy which
+        // is normalized only up to N^G it gives the fully normalized d_xy.
         auto dxy = cartesian(1, 1, 0);
         REQUIRE(as_double(spherical(2, -2).normalized_evaluate(r)) ==
                 Catch::Approx(as_double(dxy.normalized_evaluate(r))));
+        REQUIRE(as_double(spherical(2, -2).normalized_evaluate(r)) ==
+                Catch::Approx(std::sqrt(3.0) *
+                              as_double(dxy.cg_normalized_evaluate(r))));
 
         // evaluate applies the coefficient as-is to the unnormalized d_xy.
         REQUIRE(as_double(spherical(2, -2).evaluate(r)) ==
