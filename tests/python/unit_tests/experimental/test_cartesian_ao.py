@@ -158,6 +158,33 @@ class TestCartesianAO(unittest.TestCase):
         ]
         self.assertEqual(rv, corr)
 
+    def test_cg_normalized_evaluate(self):
+        cg = self.dxy.get_contracted_gaussian()
+        corr = 0.3 * -0.4 * cg.normalized_evaluate(self.r)
+        self.assertAlmostEqual(
+            self.dxy.cg_normalized_evaluate(self.r), corr, places=12
+        )
+
+    def test_normalized_evaluate_is_n_ao_times_cg_normalized(self):
+        self.assertAlmostEqual(
+            self.dxy.normalized_evaluate(self.r),
+            math.sqrt(3.0) * self.dxy.cg_normalized_evaluate(self.r),
+            places=12,
+        )
+        self.assertAlmostEqual(
+            self.dzz.normalized_evaluate(self.r),
+            self.dzz.cg_normalized_evaluate(self.r),
+            places=12,
+        )
+
+    def test_cg_normalized_evaluate_point_set(self):
+        rv = self.dxy.cg_normalized_evaluate(PointSet([self.origin, self.r]))
+        corr = [
+            self.dxy.cg_normalized_evaluate(self.origin),
+            self.dxy.cg_normalized_evaluate(self.r),
+        ]
+        self.assertEqual(rv, corr)
+
     def test_comparisons(self):
         same = CartesianAO([1.0], [1.2], 1, 1, 0, 0.0, 0.0, 0.0)
         self.assertEqual(self.dxy, same)

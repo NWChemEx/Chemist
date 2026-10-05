@@ -51,9 +51,9 @@ namespace chemist::experimental {
  *  docs/source/developer/design/basis_set/normalization.rst), i.e. they assume
  *  Cartesian AOs normalized only up to @f$N^{G}@f$. chemist's Cartesian AOs
  *  apply @f$N^{AO}_{ijk}@f$ themselves in normalized_evaluate, so *this
- *  divides it back out of each coefficient before applying it there. evaluate
- *  needs no such correction, since the Cartesian evaluate does not apply
- *  @f$N^{AO}_{ijk}@f$ in the first place.
+ *  combines their cg_normalized_evaluate instead, which stops at
+ *  @f$N^{G}@f$. evaluate needs no such care, since the Cartesian evaluate does
+ *  not apply @f$N^{AO}_{ijk}@f$ in the first place.
  *
  *  Exactly as with CartesianAOCommon, *this is a plain CRTP mixin, and it is
  *  the concrete classes which pick up AO or AOView.
@@ -201,8 +201,7 @@ public:
     template<typename OtherDerived, typename OtherPoint>
     numerical_value evaluate(
       const PointCommon<OtherDerived, OtherPoint>& r) const {
-        return transform_([&r](const auto& ao) { return ao.evaluate(r); },
-                          false);
+        return transform_([&r](const auto& ao) { return ao.evaluate(r); });
     }
 
     /** @brief Computes the unnormalized value of *this at a series of points.
@@ -244,11 +243,12 @@ public:
      *
      *  @f[
      *    \mu_{\ell m}(\vec{r}) = \sum_{ijk}
-     *      \frac{c^{(ijk)}_{\ell m}}{N^{AO}_{ijk}}\, \mu_{ijk}(\vec{r})
+     *      c^{(ijk)}_{\ell m}\, \frac{\mu_{ijk}(\vec{r})}{N^{AO}_{ijk}}
      *  @f]
      *
-     *  where @f$\mu_{ijk}@f$ is the Cartesian AO's normalized value. See the
-     *  description of *this for why @f$N^{AO}_{ijk}@f$ is divided out.
+     *  where @f$\mu_{ijk}/N^{AO}_{ijk}@f$ is the Cartesian AO's
+     *  cg_normalized_evaluate. See the description of *this for why
+     *  @f$N^{AO}_{ijk}@f$ is left out.
      *
      *  @tparam OtherDerived The derived type of @p r.
      *  @tparam OtherPoint The point type @p r models.
@@ -264,7 +264,7 @@ public:
     numerical_value normalized_evaluate(
       const PointCommon<OtherDerived, OtherPoint>& r) const {
         return transform_(
-          [&r](const auto& ao) { return ao.normalized_evaluate(r); }, true);
+          [&r](const auto& ao) { return ao.cg_normalized_evaluate(r); });
     }
 
     /** @brief Computes the normalized value of *this at a series of points.
@@ -393,11 +393,8 @@ private:
      *         coefficients.
      *
      *  @param[in] value_of Returns the value (normalized or not) of one
-     *                      Cartesian AO.
-     *  @param[in] divide_out_n_ao True if the values returned by @p value_of
-     *                             already include @f$N^{AO}_{ijk}@f$, which
-     *                             must then be divided back out of the
-     *                             coefficient.
+     *                      Cartesian AO. Since the coefficients carry
+     *                      @f$N^{AO}_{ijk}@f$, that value must not.
      *
      *  Terms with a zero coefficient are skipped, and the sum starts from the
      *  first term which is not, rather than from a literal zero, so that the
@@ -405,8 +402,7 @@ private:
      *  holds. Every @f$(\ell, m)@f$ has at least one non-zero coefficient.
      */
     template<typename ValueFxn>
-    numerical_value transform_(ValueFxn&& value_of,
-                               bool divide_out_n_ao) const {
+    numerical_value transform_(ValueFxn&& value_of) const {
         const auto& shell = downcast_().shell_();
         const auto l      = shell.get_l();
         const auto m      = get_m();
@@ -420,11 +416,9 @@ private:
         for(size_type i = 0; i <= l; ++i) {
             for(size_type j = 0; i + j <= l; ++j) {
                 const size_type k = l - i - j;
-                auto c =
+                const auto c =
                   detail_::spherical_transform_coefficient(l, m, i, j, k);
                 if(c == 0.0) continue;
-                if(divide_out_n_ao)
-                    c /= detail_::cartesian_ao_normalization(i, j, k);
 
                 const const_cartesian_ao_reference ao(
                   shell.get_contracted_gaussian(), i, j, k);

@@ -15,43 +15,53 @@
  */
 
 #include <chemist/grid/grid_class.hpp>
+#include <stdexcept>
+#include <string>
+#include <utility>
 
 namespace chemist {
 
-Grid::Grid(wtf::buffer::FloatBuffer weights, wtf::buffer::FloatBuffer coords) :
-  m_size_(weights.size()) {
-    tensorwrapper::shape::Smooth weights_shape{m_size_};
-    tensorwrapper::shape::Smooth points_shape{m_size_, size_type(3)};
+Grid::Grid(wtf::buffer::FloatBuffer weights, point_set_type points) {
+    const auto n_points = points.size();
+    if(weights.size() != n_points)
+        throw std::invalid_argument("chemist::Grid: number of weights (" +
+                                    std::to_string(weights.size()) +
+                                    ") does not match the number of points (" +
+                                    std::to_string(n_points) + ").");
 
+    tensorwrapper::shape::Smooth weights_shape{n_points};
     tensorwrapper::buffer::Contiguous weights_buffer(std::move(weights),
                                                      weights_shape);
-    tensorwrapper::buffer::Contiguous points_buffer(std::move(coords),
-                                                    points_shape);
 
     m_weights_ = buffer_type(weights_shape, std::move(weights_buffer));
-    m_points_  = buffer_type(points_shape, std::move(points_buffer));
+    m_points_  = std::move(points);
+}
+
+Grid::point_set_reference Grid::get_points() {
+    return point_set_reference(m_points_);
+}
+
+Grid::const_point_set_reference Grid::get_points() const {
+    return const_point_set_reference(m_points_);
 }
 
 Grid::reference Grid::at_(size_type i) {
     auto& wbuf = tensorwrapper::buffer::make_contiguous(m_weights_.buffer());
-    auto& pbuf = tensorwrapper::buffer::make_contiguous(m_points_.buffer());
     auto wview = wbuf.get_mutable_data();
-    auto pview = pbuf.get_mutable_data();
-    return reference(wview.at(i), pview.at(3 * i), pview.at(3 * i + 1),
-                     pview.at(3 * i + 2));
+    return reference(wview.at(i), m_points_.get_x_buffer().at(i),
+                     m_points_.get_y_buffer().at(i),
+                     m_points_.get_z_buffer().at(i));
 }
 
 Grid::const_reference Grid::at_(size_type i) const {
     const auto& wbuf =
       tensorwrapper::buffer::make_contiguous(m_weights_.buffer());
-    const auto& pbuf =
-      tensorwrapper::buffer::make_contiguous(m_points_.buffer());
     auto wview = wbuf.get_immutable_data();
-    auto pview = pbuf.get_immutable_data();
-    return const_reference(wview.at(i), pview.at(3 * i), pview.at(3 * i + 1),
-                           pview.at(3 * i + 2));
+    return const_reference(wview.at(i), m_points_.get_x_buffer().at(i),
+                           m_points_.get_y_buffer().at(i),
+                           m_points_.get_z_buffer().at(i));
 }
 
-Grid::size_type Grid::size_() const noexcept { return m_size_; }
+Grid::size_type Grid::size_() const noexcept { return m_points_.size(); }
 
 } // namespace chemist

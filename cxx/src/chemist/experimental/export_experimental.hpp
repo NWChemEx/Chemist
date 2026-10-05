@@ -395,7 +395,15 @@ void add_cartesian_ao_readers(PyClass& c) {
     add_ao_readers(c);
     c.def("get_i", [](const class_type& ao) { return ao.get_i(); })
       .def("get_j", [](const class_type& ao) { return ao.get_j(); })
-      .def("get_k", [](const class_type& ao) { return ao.get_k(); });
+      .def("get_k", [](const class_type& ao) { return ao.get_k(); })
+      .def("cg_normalized_evaluate",
+           [](const class_type& ao, const const_point_view& r) {
+               return to_py_float(ao.cg_normalized_evaluate(r));
+           })
+      .def("cg_normalized_evaluate",
+           [](const class_type& ao, const const_point_set_view& points) {
+               return to_py_floats(ao.cg_normalized_evaluate(points));
+           });
 }
 
 /// Adds the writable half of the Cartesian-AO API to @p c

@@ -15,6 +15,7 @@
 import unittest
 
 from chemist import Grid, GridPoint
+from chemist.experimental import Point
 
 
 class TestContractedGaussian(unittest.TestCase):
@@ -37,6 +38,20 @@ class TestContractedGaussian(unittest.TestCase):
         view.set_z(42.0)
         self.assertEqual(
             self.with_inputs.at(1), GridPoint(42.0, 6.0, 7.0, 42.0)
+        )
+
+    def test_get_points(self):
+        self.assertEqual(len(self.defaulted.get_points()), 0)
+
+        points = self.with_inputs.get_points()
+        self.assertEqual(len(points), 2)
+        self.assertEqual(points[0], Point(2.0, 3.0, 4.0))
+        self.assertEqual(points[1], Point(6.0, 7.0, 8.0))
+
+        # Aliases the grid
+        points[1] = Point(42.0, 43.0, 44.0)
+        self.assertEqual(
+            self.with_inputs.at(1), GridPoint(5.0, 42.0, 43.0, 44.0)
         )
 
     def test_size(self):

@@ -95,6 +95,10 @@ class TestCartesianAOView(unittest.TestCase):
                 self.dxy.normalized_evaluate(self.r),
             )
             self.assertEqual(
+                view.cg_normalized_evaluate(self.r),
+                self.dxy.cg_normalized_evaluate(self.r),
+            )
+            self.assertEqual(
                 view.normalization_constant(),
                 self.dxy.normalization_constant(),
             )
