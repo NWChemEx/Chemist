@@ -24,6 +24,7 @@
 #include <chemist/experimental/basis_set/cartesian_ao.hpp>
 #include <chemist/experimental/basis_set/cca_shell.hpp>
 #include <chemist/experimental/basis_set/contracted_gaussian.hpp>
+#include <chemist/experimental/basis_set/molecular_basis_set.hpp>
 #include <chemist/experimental/basis_set/primitive.hpp>
 #include <chemist/experimental/basis_set/spherical_ao.hpp>
 #include <chemist/experimental/point/point.hpp>
@@ -54,6 +55,8 @@ void export_cca_shell_class(python_module_reference m);
 void export_cca_shell_view(python_module_reference m);
 void export_atomic_basis_set_class(python_module_reference m);
 void export_atomic_basis_set_view(python_module_reference m);
+void export_molecular_basis_set_class(python_module_reference m);
+void export_molecular_basis_set_view(python_module_reference m);
 
 /** @brief Exports the whole experimental component into its own submodule.
  *
@@ -85,6 +88,8 @@ inline void export_experimental(python_module_reference m) {
     export_cca_shell_view(sub);
     export_atomic_basis_set_class(sub);
     export_atomic_basis_set_view(sub);
+    export_molecular_basis_set_class(sub);
+    export_molecular_basis_set_view(sub);
 }
 
 namespace detail_ {
@@ -579,6 +584,112 @@ void add_atomic_basis_set_writers(PyClass& c) {
                             const const_point_view& r0) { abs.set_center(r0); })
       .def("set_l",
            [](class_type& abs, size_type i, size_type l) { abs.set_l(i, l); });
+}
+
+/** @brief Unwraps every element of @p buffer into a list of Python floats.
+ *
+ *  Used to return the parameter arrays of the basis sets, which, as with
+ *  PointSet's coordinates, Python receives as copies rather than buffers.
+ */
+template<typename BufferType>
+std::vector<double> buffer_to_py_floats(const BufferType& buffer) {
+    std::vector<double> rv;
+    rv.reserve(buffer.size());
+    for(std::size_t i = 0; i < buffer.size(); ++i)
+        rv.push_back(to_py_float(buffer.at(i)));
+    return rv;
+}
+
+/** @brief Adds the read-only half of the MolecularBasisSet API to @p c.
+ *
+ *  This is the Python counterpart of MolecularBasisSetCommon, minus the
+ *  comparisons, which each exporter binds against the types it can be
+ *  compared to. Indexing hands out an AtomicBasisSetView (an
+ *  ImmutableAtomicBasisSetView for a read-only set) of the requested atom.
+ *  Everything which aliases the set (atomic basis sets, shells, primitives,
+ *  and the centers) keeps the set alive for as long as the returned object
+ *  is alive. at throws std::out_of_range, which pybind11 turns into
+ *  IndexError.
+ */
+template<typename PyClass>
+void add_molecular_basis_set_readers(PyClass& c) {
+    using class_type = typename PyClass::type;
+    using size_type  = std::size_t;
+
+    // Mutable, so that a mutable set hands out mutable views
+    auto at = [](class_type& mbs, size_type a) { return mbs.at(a); };
+    c.def("__len__", [](const class_type& mbs) { return mbs.size(); })
+      .def("empty", [](const class_type& mbs) { return mbs.empty(); })
+      .def("at", at, py::keep_alive<0, 1>())
+      .def("__getitem__", at, py::keep_alive<0, 1>())
+      .def(
+        "__iter__",
+        [](class_type& mbs) {
+            return py::make_iterator(mbs.begin(), mbs.end());
+        },
+        py::keep_alive<0, 1>())
+      // Mutable for the same reason as add_ao_readers's
+      .def(
+        "get_centers", [](class_type& mbs) { return mbs.get_centers(); },
+        py::keep_alive<0, 1>())
+      .def("purity",
+           [](const class_type& mbs, size_type a) { return mbs.purity(a); })
+      .def("ordering",
+           [](const class_type& mbs, size_type a) { return mbs.ordering(a); })
+      .def("has_uniform_purity",
+           [](const class_type& mbs) { return mbs.has_uniform_purity(); })
+      .def("has_uniform_ordering",
+           [](const class_type& mbs) { return mbs.has_uniform_ordering(); })
+      .def("is_pure", [](const class_type& mbs) { return mbs.is_pure(); })
+      .def("is_cartesian",
+           [](const class_type& mbs) { return mbs.is_cartesian(); })
+      .def("n_shells", [](const class_type& mbs) { return mbs.n_shells(); })
+      .def("shell_range",
+           [](const class_type& mbs, size_type a) {
+               const auto [first, second] = mbs.shell_range(a);
+               return py::make_tuple(first, second);
+           })
+      .def("shell_to_atom", [](const class_type& mbs,
+                               size_type s) { return mbs.shell_to_atom(s); })
+      .def(
+        "shell",
+        [](const class_type& mbs, size_type s) { return mbs.shell(s); },
+        py::keep_alive<0, 1>())
+      .def("get_l",
+           [](const class_type& mbs, size_type s) { return mbs.get_l(s); })
+      .def("n_aos", [](const class_type& mbs) { return mbs.n_aos(); })
+      .def("n_primitives",
+           [](const class_type& mbs) { return mbs.n_primitives(); })
+      .def("primitive_range",
+           [](const class_type& mbs, size_type s) {
+               const auto [first, second] = mbs.primitive_range(s);
+               return py::make_tuple(first, second);
+           })
+      .def("primitive_to_shell",
+           [](const class_type& mbs, size_type p) {
+               return mbs.primitive_to_shell(p);
+           })
+      // Mutable, so that a mutable set hands out mutable primitives
+      .def(
+        "primitive",
+        [](class_type& mbs, size_type p) { return mbs.primitive(p); },
+        py::keep_alive<0, 1>())
+      .def("get_coefficients",
+           [](const class_type& mbs) {
+               return buffer_to_py_floats(mbs.get_coefficient_buffer());
+           })
+      .def("get_exponents", [](const class_type& mbs) {
+          return buffer_to_py_floats(mbs.get_exponent_buffer());
+      });
+}
+
+/// Adds the writable half of the MolecularBasisSet API to @p c
+template<typename PyClass>
+void add_molecular_basis_set_writers(PyClass& c) {
+    using class_type = typename PyClass::type;
+    using size_type  = std::size_t;
+    c.def("set_l",
+          [](class_type& mbs, size_type s, size_type l) { mbs.set_l(s, l); });
 }
 
 /** @brief Adds __eq__/__ne__ against @p OtherType to @p c.
