@@ -490,12 +490,29 @@ implementations come in an owning and an aliasing form sharing one CRTP base,
 and ``AtomicBasisSetView`` holds the aliasing one. Because that form aliases
 each piece of the state separately, rather than aliasing an
 ``AtomicBasisSet``, a view can be built over any storage with the same layout,
-which is how ``MolecularBasisSet`` will be able to hand out atomic basis sets
-over slices of its own arrays.
+which is how ``MolecularBasisSet`` hands out atomic basis sets over slices of
+its own arrays.
 
 ``MolecularBasisSet`` is a container of ``AtomicBasisSet``. It reports totals
 --- numbers of AOs, shells, and primitives --- and can be asked whether all of
 its shells agree on a normalization convention.
+
+As with the shells of an ``AtomicBasisSet``, no atomic basis set exists as an
+object inside a ``MolecularBasisSet``. The set stores the state of all of its
+atoms back to back: one coefficient array and one exponent array for every
+primitive in the molecule, the :math:`\ell` of each shell, the offset of each
+shell into the parameter arrays, the offset of each atom into the shells, and,
+per atom, the center, basis set name, atomic number, purity, and ordering. The
+centers are stored as a ``PointSet``, so they too are contiguous. Indexing the
+set builds an ``AtomicBasisSetView`` over the requested atom's slice of that
+state. Since the purity and ordering are stored per atom, different atoms may
+hold different types of shell; the set can be asked whether its atoms agree on
+purity and on ordering. The value/view split is the same as for ``PointSet``:
+the molecular level has no runtime type of its own, so ``MolecularBasisSet``
+and ``MolecularBasisSetView`` share a CRTP base written in terms of the state
+each reaches, with no PIMPL. The one runtime dispatch, from an atom's purity
+and ordering to the implementation of its view, happens when the view is
+built.
 
 Every container also offers a flattened view of the primitives beneath it, per
 :ref:`aoh_flattening`.

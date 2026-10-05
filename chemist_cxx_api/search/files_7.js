@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['spherical_5fao_2ehpp_0',['spherical_ao.hpp',['../spherical__ao_8hpp.html',1,'']]]
+  ['quantum_5fmechanics_2ehpp_0',['quantum_mechanics.hpp',['../quantum__mechanics_8hpp.html',1,'']]]
 ];

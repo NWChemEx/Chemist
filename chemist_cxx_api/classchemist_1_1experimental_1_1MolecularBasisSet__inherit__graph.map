@@ -1,0 +1,5 @@
+<map id="chemist::experimental::MolecularBasisSet" name="chemist::experimental::MolecularBasisSet">
+<area shape="rect" id="Node000001" title="Models the basis set of a molecule by value." alt="" coords="353,13,523,53"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1MolecularBasisSetCommon.html" title=" " alt="" coords="5,5,305,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="319,30,353,30,353,35,319,35"/>
+</map>

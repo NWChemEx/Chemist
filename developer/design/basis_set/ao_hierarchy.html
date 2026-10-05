@@ -524,11 +524,27 @@ implementations come in an owning and an aliasing form sharing one CRTP base,
 and <code class="docutils literal notranslate"><span class="pre">AtomicBasisSetView</span></code> holds the aliasing one. Because that form aliases
 each piece of the state separately, rather than aliasing an
 <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>, a view can be built over any storage with the same layout,
-which is how <code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code> will be able to hand out atomic basis sets
-over slices of its own arrays.</p>
+which is how <code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code> hands out atomic basis sets over slices of
+its own arrays.</p>
 <p><code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code> is a container of <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>. It reports totals
 — numbers of AOs, shells, and primitives — and can be asked whether all of
 its shells agree on a normalization convention.</p>
+<p>As with the shells of an <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>, no atomic basis set exists as an
+object inside a <code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code>. The set stores the state of all of its
+atoms back to back: one coefficient array and one exponent array for every
+primitive in the molecule, the <span class="math notranslate nohighlight">\(\ell\)</span> of each shell, the offset of each
+shell into the parameter arrays, the offset of each atom into the shells, and,
+per atom, the center, basis set name, atomic number, purity, and ordering. The
+centers are stored as a <code class="docutils literal notranslate"><span class="pre">PointSet</span></code>, so they too are contiguous. Indexing the
+set builds an <code class="docutils literal notranslate"><span class="pre">AtomicBasisSetView</span></code> over the requested atom’s slice of that
+state. Since the purity and ordering are stored per atom, different atoms may
+hold different types of shell; the set can be asked whether its atoms agree on
+purity and on ordering. The value/view split is the same as for <code class="docutils literal notranslate"><span class="pre">PointSet</span></code>:
+the molecular level has no runtime type of its own, so <code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code>
+and <code class="docutils literal notranslate"><span class="pre">MolecularBasisSetView</span></code> share a CRTP base written in terms of the state
+each reaches, with no PIMPL. The one runtime dispatch, from an atom’s purity
+and ordering to the implementation of its view, happens when the view is
+built.</p>
 <p>Every container also offers a flattened view of the primitives beneath it, per
 <a class="reference internal" href="#aoh-flattening"><span class="std std-ref">Flattening</span></a>.</p>
 </section>

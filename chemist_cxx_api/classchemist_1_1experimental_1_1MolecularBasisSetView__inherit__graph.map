@@ -1,0 +1,5 @@
+<map id="chemist::experimental::MolecularBasisSetView&lt; MolecularBasisSetType &gt;" name="chemist::experimental::MolecularBasisSetView&lt; MolecularBasisSetType &gt;">
+<area shape="rect" id="Node000001" title="An object which behaves like a MolecularBasisSet, but aliases its state." alt="" coords="263,20,465,75"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1MolecularBasisSetCommon.html" title=" " alt="" coords="5,5,215,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="229,45,262,45,262,50,229,50"/>
+</map>
