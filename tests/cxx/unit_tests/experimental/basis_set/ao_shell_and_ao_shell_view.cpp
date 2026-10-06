@@ -123,6 +123,25 @@ TEST_CASE("experimental::AOShell") {
         REQUIRE_THROWS_AS(pure.at(5), std::out_of_range);
     }
 
+    SECTION("at of a pure shell builds its AOs on a view of the shell") {
+        for(std::size_t a = 0; a < pd.size(); ++a) {
+            auto pao         = pure.at(a);
+            const auto& cart = pao->get_cartesian_shell();
+            // The AO's Cartesian shell keeps the ordering of the pure shell
+            REQUIRE(dynamic_cast<const const_cartesian_cca_shell_view*>(
+                      &cart) != nullptr);
+            REQUIRE(cart.get_contracted_gaussian() ==
+                    pd.get_contracted_gaussian());
+            REQUIRE(pao->get_m() == pd.magnetic_index(a));
+        }
+
+        // ... and that view aliases the shell, not a copy of it
+        auto pao = pure.at(0);
+        pd.get_contracted_gaussian().set_center(Point(0.0, 0.0, 0.0));
+        REQUIRE(pao->get_cartesian_shell().get_center() ==
+                Point(0.0, 0.0, 0.0));
+    }
+
     SECTION("at through the base agrees with the typed at") {
         const AOShellBase& base = pure;
         for(std::size_t a = 0; a < pd.size(); ++a)

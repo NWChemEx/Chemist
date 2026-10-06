@@ -30,7 +30,9 @@ auto AOShellCommon<BaseType, AOType>::at(size_type i) const
   -> const_ao_pointer {
     this->check_offset_(i);
     if constexpr(traits_type::is_pure) {
-        return std::make_unique<const_ao_reference>(*get_cartesian_shell(),
+        // Hands the new shell view to the AO, rather than letting the AO
+        // clone it, so that indexing allocates one shell view, not two.
+        return std::make_unique<const_ao_reference>(get_cartesian_shell(),
                                                     ao_index_(i));
     } else {
         const auto [x, y, z] = ao_index_(i);

@@ -87,6 +87,30 @@ TEST_CASE("experimental::SphericalAOView") {
             REQUIRE(v.get_center() == Point(4.0, 5.0, 6.0));
         }
 
+        SECTION("From an owned shell view keeps that view") {
+            auto pshell     = shell.as_view();
+            const auto* raw = pshell.get();
+            const_spherical_ao_view v(std::move(pshell), 1);
+            REQUIRE(v == d1);
+
+            // The view is kept, not cloned
+            REQUIRE(&v.get_cartesian_shell() == raw);
+
+            shell.get_contracted_gaussian().set_center(Point(4.0, 5.0, 6.0));
+            REQUIRE(v.get_center() == Point(4.0, 5.0, 6.0));
+        }
+
+        SECTION("From an owned shell view throws if it is null") {
+            using pointer = const_spherical_ao_view::shell_view_pointer;
+            REQUIRE_THROWS_AS(const_spherical_ao_view(pointer{}, 1),
+                              std::invalid_argument);
+        }
+
+        SECTION("From an owned shell view throws if |m| > l") {
+            REQUIRE_THROWS_AS(const_spherical_ao_view(shell.as_view(), 3),
+                              std::invalid_argument);
+        }
+
         SECTION("Can not be built on a pure shell") {
             // The shell's purity is part of its type, so this is a
             // compile-time property; see the same section for SphericalAO.
